@@ -1,0 +1,89 @@
+.ProductActions {
+    @include mobile {
+        text-align: center;
+        padding-bottom: 2rem;
+        padding-top: 1rem;
+    }
+
+    li {
+        padding: 0;
+        margin: 0;
+
+        &::before {
+            content: ''
+        }
+    }
+
+    &-ConfigurableOptions {
+        display: flex;
+
+        @include mobile {
+            text-align: left;
+        }
+
+        > li {
+            margin-right: 3rem;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+
+            @include mobile {
+                margin-right: 1rem;
+            }
+        }
+    }
+
+    &-Placeholder {
+        span {
+            display: block;
+            margin-bottom: .5rem;
+        }
+    }
+
+    &-AddToCartPlaceholder {
+        font-size: 3rem;
+        margin-top: .2rem;
+    }
+
+    &-PricePlaceholder {
+        margin-top: 1rem;
+    }
+
+    &-SwatchesConfigurable {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        margin: .5rem 0 2rem;
+
+        li,
+        li:last-child {
+            margin-right: .5rem;
+            margin-bottom: .5rem;
+        }
+    }
+
+    &-SwatchesSimple {
+        display: flex;
+        margin: .5rem 0 2rem;
+
+        > li {
+            margin-right: 3rem;
+        }
+
+        h4 {
+            margin-bottom: .5rem;
+        }
+    }
+    
+    .Field {
+        display: inline-block;
+        margin-right: 1rem;
+
+        input {
+            --border-color: var(--color-neutral-light);
+            
+            border-color: var(--border-color);
+        }
+    }
+}

@@ -1,0 +1,53 @@
+{
+    "name": "scandipwa/source",
+    "type": "magento2-theme",
+    "description": "ScandiPWA",
+    "keywords": [
+        "magento2",
+        "source",
+        "scandipwa",
+        "pwa"
+    ],
+    "license": [
+        "OSL-3.0"
+    ],
+    "require": {
+        "scandipwa/menu-organizer": "^1.0",
+        "scandipwa/persisted-query": "^1.0",
+        "scandipwa/slider-graphql": "^1.0",
+        "scandipwa/cms-graphql": "^1.0",
+        "scandipwa/catalog-graphql": "^1.0",
+        "scandipwa/graphql": "^1.0"
+    },
+    "support": {
+        "source": "https://bitbucket.org/scandiweb/scandipwa-base-theme",
+        "email": "info@scandiweb.com"
+    },
+    "authors": [
+        {
+            "name": "Ilja Lapkovskis",
+            "email": "ilja@scandiweb.com"
+        },
+        {
+            "name": "Alfreds Genkins",
+            "email": "alfreds@scandiweb.com"
+        },
+        {
+            "name": "Vyacheslav Hlutkov",
+            "email": "vjaceslavsh@scandiweb.com"
+        },
+        {
+            "name": "Eduards Mukans",
+            "email": "eduards@scandiweb.com"
+        },
+        {
+            "name": "Yefim Butrameev",
+            "email": "yefim.butrameev@scandiweb.com"
+        }
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ]
+    }
+}

@@ -1,0 +1,116 @@
+.ProductCard {
+    --card-highlight-color: transparent;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid var(--card-highlight-color);
+    text-align: center;
+    padding-left: 0;
+
+    &:hover {
+        --card-highlight-color: var(--color-neutral-light);
+    }
+    
+    &:focus,
+    &:focus-within {
+        --card-highlight-color: var(--color-primary-base);
+    }
+
+    &::before {
+        content: none;
+    }
+
+    &:last-child {
+        margin-bottom: .6rem;
+    }
+
+    a,
+    div {
+        color: inherit;
+        display: block;
+        padding: 1rem;
+        max-width: 100%;
+
+        @include mobile {
+            padding: 0 0 1rem 0;
+        }
+        
+        &:hover,
+        &:focus,
+        &:active {
+            text-decoration: none;
+        }
+    }
+
+    &-Brand {
+        display: block;
+        margin: auto;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 1rem;
+        text-transform: uppercase;
+        color: var(--color-neutral-base);
+        
+        @include mobile {
+            max-width: 9.5rem;
+            font-size: .8rem;
+        }
+    }
+
+    h4 {
+        margin: auto;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        @include mobile {
+            max-width: 9.5rem;
+            font-size: 1rem;
+        }
+    }
+    
+    .Image {
+        margin-bottom: 1rem;
+
+        &_isReal {
+            mask: radial-gradient(ellipse, black 30%, transparent 61%, transparent 100%), radial-gradient(circle, black 24%, transparent 60%, transparent 100%);
+        }
+
+        &_isLoaded.Image_isReal {
+            @keyframes maskAnimation {
+                0% {
+                  mask-size: 100%;
+                  mask-position: center;
+                  animation-timing-function: ease-in-out;
+                }
+            
+                50% {
+                    mask-position: center;
+                    mask-size: 300%;
+                    animation-timing-function: ease-in-out;
+                }
+                
+                100% {
+                    mask: radial-gradient(ellipse, black 100%, transparent 100%, transparent 100%), radial-gradient(circle, black 100%, transparent 100%, transparent 100%);
+                }
+              }
+
+              animation: maskAnimation .5s forwards;
+        }
+    }
+
+    &-Actions {
+        .TextPlaceholder {
+            width: 100%;
+            display: block;
+
+            &::after {
+                font-size: 2.5rem;
+                content: 'a';
+                width: 100%;
+                display: block;
+            }
+        }
+    }
+}

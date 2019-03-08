@@ -1,0 +1,9 @@
+@keyframes placeholderAnimation {
+    from { background-position: -1200px 0 }
+    to { background-position: 1200px 0 }
+}
+
+@keyframes appear {
+    from { opacity: 0 }
+    to { opacity: 1 }
+}

@@ -1,0 +1,76 @@
+.CategoryPage {
+    &-Wrapper {
+        display: grid;
+        grid-template-columns: 22rem auto;
+        grid-column-gap: 2rem;
+        padding-top: 1rem;
+
+        @include mobile {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    &-Options {
+        @include after-mobile {
+            grid-row: 1/5;
+            height: calc(100vh - 80px);
+            position: sticky;
+            top: 40px;
+            overflow-y: scroll;
+            padding-right: 2rem;
+        }
+    
+        h3 {
+            margin-top: 0;
+    
+            @include mobile {
+                margin-bottom: 1rem;
+            }
+        }
+    
+        li {
+            padding-left: 0;
+    
+            &::before {
+                content: '';
+            }
+    
+            &:last-child {
+                @include mobile {
+                    margin-bottom: .6rem;
+                }
+            }
+        }
+    }
+
+    &-ItemsCount {
+        color: var(--color-neutral-base);
+
+        @include mobile {
+            order: 1;
+            font-size: 1.1rem;
+            margin-top: .5rem;
+            padding-bottom: 1rem;
+        }
+
+        span {
+            color: var(--color-primary-base);
+            font-weight: bold;
+            padding-right: .2rem;
+        }
+    }
+
+    &-Miscellaneous {
+        display: flex;
+
+        @include mobile {
+            flex-direction: column;
+        }
+
+        @include after-mobile {
+            justify-content: space-between;
+            align-items: center;
+            margin-top: .5rem;
+        }
+    }
+}

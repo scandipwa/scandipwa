@@ -1,0 +1,31 @@
+.RelatedProducts {
+    padding-bottom: 3rem;
+
+    &-Wrapper {
+        display: grid;
+        margin-top: 3rem;
+    }
+
+    &-Title {
+        justify-self: center;
+        margin-bottom: 0;
+        margin-top: 0;
+        text-align: center;
+        font-size: 1.6rem;
+    }
+
+    &-List {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        padding-top: 2rem;
+
+        @include mobile {
+            grid-template-columns: 1fr 1fr;
+            grid-gap: .5rem;
+        }
+    }
+
+    .ProductPrice {
+        font-size: 1.4rem;
+    }
+}

@@ -1,0 +1,180 @@
+/* eslint-disable consistent-return */
+// Disabled due `domToReact` internal logic
+import React, { Component } from 'react';
+import Parser from 'html-react-parser';
+import domToReact from 'html-react-parser/lib/dom-to-react';
+import attributesToProps from 'html-react-parser/lib/attributes-to-props';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import Image from 'Component/Image';
+import Figure from 'Component/Figure';
+
+/**
+ * Html content parser
+ * Component converts HTML strings to React components
+ * @class Html
+ */
+class Html extends Component {
+    constructor(props) {
+        super(props);
+
+        this.rules = [
+            {
+                query: { name: ['a'] },
+                replace: this.replaceLinks
+            },
+            {
+                query: { name: ['figure'] },
+                replace: this.replaceFigure
+            },
+            {
+                query: { name: ['img'] },
+                replace: this.replaceImages
+            },
+            {
+                query: { name: ['input'] },
+                replace: this.replaceInput
+            }
+        ];
+
+        this.parserOptions = {
+            replace: (domNode) => {
+                for (let i = 0; i < this.rules.length; i++) {
+                    const { query, replace } = this.rules[i];
+
+                    if (query.name && domNode.name && query.name.indexOf(domNode.name) !== -1) {
+                        return replace.call(this, domNode);
+                    } if (query.attribs && domNode.attribs) {
+                        query.attribs.forEach((attrib) => {
+                            if (typeof attrib === 'object') {
+                                const queryAttrib = Object.keys(attrib)[0];
+                                if (Object.prototype.hasOwnProperty.call(domNode.attribs, queryAttrib)) {
+                                    const match = domNode.attribs[queryAttrib].match(Object.values(attrib)[0]);
+                                    if (match) return replace.call(this, domNode);
+                                }
+                            } else if (Object.prototype.hasOwnProperty.call(domNode.attribs, attrib)) {
+                                return replace.call(this, domNode);
+                            }
+                        });
+                    }
+                }
+            }
+        };
+    }
+
+    /**
+     * Replace links to native React Router links
+     * @param  {{ attribs: Object, children: Array }}
+     * @return {void|JSX} Return JSX if link is allowed to be replaced
+     * @memberof Html
+     */
+    replaceLinks({ attribs, children }) {
+        const { href } = attribs;
+        if (href) {
+            const isAbsoluteUrl = value => new RegExp('^(?:[a-z]+:)?//', 'i').test(value);
+            if (!isAbsoluteUrl(attribs.href)) {
+                /* eslint no-param-reassign: 0 */
+                // Allowed, because param is not a direct reference
+                attribs.to = attribs.href;
+                delete attribs.href;
+
+                return (
+                    <Link { ...attributesToProps(attribs) }>
+                        { domToReact(children, this.parserOptions) }
+                    </Link>
+                );
+            }
+        }
+    }
+
+    /**
+     * Replace img to React Images
+     * @param  {{ attribs: Object }}
+     * @return {void|JSX} Return JSX with image
+     * @memberof Html
+     */
+    replaceImages({ attribs }) {
+        if (Object.prototype.hasOwnProperty.call(attribs, 'src')) {
+            const { src } = attribs;
+            let placeHolderSource;
+
+            // TODO temporary solution
+            if (src.includes('scandipwa.local')) {
+                attribs.src = src.replace('scandipwa.local', 'scandipwa.indvp.com');
+                placeHolderSource = attribs.src.replace(/\.jpg/g, '.svg');
+            } else if (src.includes('scandipwa.indvp.com')) {
+                attribs.src = src.replace('demo.scandipwa.com', 'scandipwa.indvp.com');
+                placeHolderSource = attribs.src.replace(/\.jpg/g, '.svg');
+            } else {
+                placeHolderSource = `/media/placeholder/wysiwyg/cms${ src.replace(/\.jpg/g, '.svg') }`;
+                attribs.src = `/media/wysiwyg/cms${ src }`;
+            }
+
+            return (
+                <Image { ...attributesToProps(attribs) } placeholderSrc={ placeHolderSource } />
+            );
+        }
+    }
+
+    /**
+     * Replace figure to Figure component
+     * @param  {{ children: Array }}
+     * @return {void|JSX} Return JSX with image
+     * @memberof Html
+     */
+    replaceFigure({ children }) {
+        const newChildren = [];
+        let imageSource;
+        let placeHolderSource;
+        let imageAlt;
+
+        children.forEach((element) => {
+            if (element.name === 'img') {
+                imageSource = element.attribs.src.charAt(0) === '/' ? element.attribs.src : `/${ element.attribs.src }`;
+                placeHolderSource = imageSource.replace(/\.jpg/g, '.svg');
+                imageAlt = element.attribs.alt;
+            } else {
+                newChildren.push(element);
+            }
+        });
+
+        if (imageSource) {
+            return (
+                // TODO temporary solution
+                <Figure
+                  placeholderSrc={ `/media/svg/wysiwyg/cms${ placeHolderSource }` }
+                  src={ `/media/wysiwyg/cms${ imageSource }` }
+                  alt={ imageAlt }
+                >
+                    { domToReact(newChildren, this.parserOptions) }
+                </Figure>
+            );
+        }
+    }
+
+    /**
+     * Replace input.
+     * @param  {{ attribs: Object }}
+     * @return {void|JSX} Return JSX with image
+     * @memberof Html
+     */
+    replaceInput({ attribs }) {
+        return <input { ...attributesToProps(attribs) } />;
+    }
+
+    render() {
+        const { content } = this.props;
+
+        return (
+            <>
+                { Parser(content, this.parserOptions) }
+            </>
+        );
+    }
+}
+
+Html.propTypes = {
+    content: PropTypes.string.isRequired
+};
+
+export default Html;

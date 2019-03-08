@@ -1,0 +1,25 @@
+.ProductPrice {
+    --price-color: var(--color-primary-base);
+
+    color: var(--price-color);
+    font-weight: 700;
+    font-size: 2rem;
+    margin-top: 1rem;
+    line-height: 1;
+
+    &_type {
+        &_regular {
+            font-size: 1.2rem;
+        }
+    }
+
+    ins {
+        text-decoration: none;
+    }
+
+    del {
+        padding-left: .3em;
+        color: var(--color-neutral-base);
+        font-size: .7em;
+    }
+}

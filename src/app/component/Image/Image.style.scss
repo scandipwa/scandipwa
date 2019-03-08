@@ -1,0 +1,40 @@
+.Image {
+    display: inline-block;
+    overflow: hidden;
+    height: 0;
+    width: 100%;
+
+    /* TODO: move those styles into separate helper */
+    background-image: var(--placeholder-image);
+    background-size: var(--placeholder-size);
+    animation: var(--placeholder-animation);
+    
+    &_ratio {
+        &_16x9 {
+            padding-bottom: 56.25%;
+        }
+
+        &_4x3 {
+            padding-bottom: 75%;
+        }
+
+        &_square {
+            padding-bottom: 100%;
+        }
+    }
+
+    &_isReal {
+        animation: none;
+        background: transparent;
+    }
+
+    > * {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        object-position: center;
+    }
+}

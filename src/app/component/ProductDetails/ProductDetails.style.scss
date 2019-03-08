@@ -1,0 +1,73 @@
+.ProductDetails {
+    --manufacturer-color: var(--color-neutral-base);
+
+    margin-bottom: 2rem;
+
+    @include mobile {
+        grid-row: 1;
+        text-align: center;
+    }
+
+    &-Brand {
+        font-size: 1rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: var(--manufacturer-color);
+        margin-bottom: 0;
+    }
+
+    &-Title {
+        font-size: 2rem;
+
+        @include mobile {
+            font-size: 1.6rem;
+        }
+    }
+
+    &-Sku {
+        --sku-color: var(--color-neutral-dark);
+        --sku-value-color: var(--color-neutral-base);
+
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--sku-color);
+        margin-top: .2rem;
+        
+        span {
+            color: var(--sku-value-color);
+        }
+    }
+
+    &-StockAvailable {
+        &::before {
+            content: '.';
+            position: relative;
+            margin: 0 1rem;
+            top: -.2rem;
+        }
+    }
+
+    &-ShortDescription {
+        --description-color: var(--color-neutral-base);
+
+        color: var(--description-color);
+        font-size: 1.1rem;
+        font-weight: 600;
+        line-height: 1.5;
+        margin-bottom: 1.2rem;
+        margin-top: 2rem;
+    }
+
+    .TextPlaceholder {
+        display: block;
+    }
+
+    .Field {
+        display: inline-block;
+        margin-right: 1rem;
+
+        input {            
+            border-color: var(--color-neutral-light);
+        }
+    }
+}

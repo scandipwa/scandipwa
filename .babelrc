@@ -1,0 +1,20 @@
+{
+  "presets": ["airbnb"],
+  "plugins": [
+    ["transform-replace-object-assign", { "moduleSpecifier": "object.assign" }],
+    [
+      "module-resolver", {
+      "root": "./",
+      "alias": {
+        "Style": "./src/app/style/",
+        "Component": "./src/app/component/",
+        "Route": "./src/app/route/",
+        "Store": "./src/app/store/",
+        "Util": "./src/app/util/",
+        "Query": "./src/app/query/",
+        "Type": "./src/app/type/"
+      }
+    }
+    ]
+  ]
+}

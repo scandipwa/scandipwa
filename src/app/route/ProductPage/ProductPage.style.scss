@@ -1,0 +1,15 @@
+.ProductPage {
+    padding-top: 1rem;
+    
+    &-Wrapper {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-column-gap: 2rem;
+        grid-template-rows: min-content min-content;
+        margin-bottom: 2rem;
+
+        @include mobile {
+            grid-template-columns: 100%;
+        }
+    }
+}

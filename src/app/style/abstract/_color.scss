@@ -1,0 +1,23 @@
+@function color($color-name, $color-variant:null, $true-val:false) {
+    // we need to return the color value
+    @if $true-val == true {
+        // color variant is optional
+        @if ($color-variant != null) {
+            // map inception, need two deep
+            @return map-get(map-get($colors,$color-name),$color-variant);
+        } @else {
+            // single-level color, one deep
+            @return map-get($colors,$color-name);
+        }
+    // if we're only returning the CSS4 variable
+    } @else {
+        // color variant is optional
+        @if ($color-variant != null) {
+            // map inception, need two names
+            @return var(#{$color-prefix}#{$color-name}-#{$color-variant});
+        } @else {
+            // single-level color, one name
+            @return var(#{$color-prefix}#{$color-name});
+        }
+    }
+}

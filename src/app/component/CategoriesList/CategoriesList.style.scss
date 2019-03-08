@@ -1,0 +1,42 @@
+.CategoriesList {
+    margin-top: 2rem;
+
+    @include mobile {
+        display: none;
+    }
+
+    a {
+        color: var(--color-text-black);
+        text-decoration: none;
+
+        &:hover,
+        &:focus {
+            color: var(--color-primary-base);
+            text-decoration: none;
+        }
+    }
+
+    & &-Category {
+        border-radius: 3px;
+        display: inline-block;
+        background-color: var(--color-primary-light);
+        text-transform: lowercase;
+        margin-right: .5rem;
+        transition: background-color 150ms ease-in;
+
+        &:hover {
+            background-color: var(--color-primary-base);
+        }
+
+        a {
+            padding: .3rem .6rem;
+            transition: color 150ms ease-in;
+            display: block;
+
+            &:hover,
+            &:focus {
+                color: var(--color-text-white);
+            }
+        }
+    }
+}

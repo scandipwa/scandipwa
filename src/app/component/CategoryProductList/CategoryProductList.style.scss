@@ -1,0 +1,33 @@
+.CategoryProductList { 
+    display: grid;
+    grid-template-columns: repeat(3, 33.33%);
+    grid-auto-rows: max-content;
+    padding-bottom: 2rem;
+
+    @include mobile {
+        grid-template-columns: 1fr 1fr;
+        grid-column-gap: 0.5rem;
+    }
+
+    @include after-mobile {
+        grid-column: 2;
+        min-height: 200vh;
+    }
+
+    &_isLoading {
+        opacity: 0;
+        animation: appear 100ms 200ms ease-in forwards;
+    }
+
+    .ProductCard_isLoading {
+        &:last-of-type {
+            @include mobile {
+                display: none;
+            }
+        }
+    }
+
+    &-More {
+        min-height: 3rem;
+    }
+}

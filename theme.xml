@@ -1,0 +1,12 @@
+<!--
+/**
+ * @author Raivis Dejus <info@scandiweb.com>
+ * @copyright Copyright (c) 2018 Scandiweb, Ltd (https://scandiweb.com)
+ */
+-->
+<theme xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Config/etc/theme.xsd">
+    <title>ScandiPWA</title>
+    <media>
+        <preview_image>media/preview.png</preview_image>
+    </media>
+</theme>

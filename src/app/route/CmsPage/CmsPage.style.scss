@@ -1,0 +1,16 @@
+.CmsPage {
+    &-Wrapper {
+        margin-top: 1.8rem;
+        margin-bottom: 1.8rem;
+        grid-template-columns: auto;
+    }
+
+    &-Heading {
+        margin-bottom: 1.5rem;
+    }
+
+    .TextPlaceholder {
+        margin-bottom: 1.8rem;
+        display: block;
+    }
+}

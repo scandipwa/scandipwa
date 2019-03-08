@@ -1,0 +1,85 @@
+.Subscription {
+    height: 250px;
+
+    &::before {
+        content: none;
+    }
+
+    @include mobile {
+        height: 300px;
+        text-align: center;
+    }
+
+    figure {
+        padding-bottom: 0;
+        height: 100%;
+
+        figcaption {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            p {
+                font-size: 1rem;
+                color: var(--color-subscription-background);
+                font-weight: 700;
+                margin-bottom: 1rem;
+
+                @include mobile {
+                    margin-bottom: 0;
+                }
+            }
+
+            h3 {
+                @include mobile {
+                    padding: 1rem;
+                    font-size: 1.4rem;
+                    margin: 0;
+                }
+            }
+
+            form {
+                width: 50%;
+                display: flex;
+
+                @include mobile {
+                    padding: 1rem;
+                    width: 100%;
+                    flex-direction: column;
+                }
+
+                input {
+                    flex-grow: 1;
+                    border-color: var(--color-subscription-border);
+                    color: var(--color-subscription-text);
+                    background: transparent;
+                    
+                    &:focus {
+                        border: 1px solid var(--color-subscription-hover);
+                        background-color: var(--color-subscription-light);
+                        transition: border-color .25s ease-in-out;
+                    }
+                }
+
+                button {
+                    padding: 0 4rem;
+
+                    @include mobile {
+                        margin-top: 1rem;
+                        padding: 1.1rem 1.9rem;
+                        width: 100%;
+                    }
+                }
+            }
+        }
+
+        picture {
+            padding-bottom: 0;
+        }
+
+        img {
+            object-fit: cover;
+        }
+    }
+}

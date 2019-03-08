@@ -1,0 +1,22 @@
+.NoMatch {
+    h1 {
+        font-size: 12rem;
+        font-weight: 400;
+        color: var(--color-primary-base);
+    }
+    
+    button {
+        margin-top: 2rem;
+    }
+
+    &-Subtitle {
+        font-size: 3rem;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    &-Wrapper {
+        padding-top: 5rem;
+        text-align: center;
+    }
+}

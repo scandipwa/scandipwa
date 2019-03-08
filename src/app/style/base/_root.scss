@@ -1,0 +1,33 @@
+:root {
+    --input-type-number-width: 80px;
+    --button-padding: 1.1rem 1.9rem;
+    --button-color: var(--color-text-white);
+    --button-background: var(--color-primary-base);
+    --button-border: var(--color-primary-base);
+    --button-hover-background: var(--color-primary-dark);
+    --button-hover-color: var(--color-text-white);
+    --button-hover-border: var(--color-primary-base);
+    --button-border-width: 1px;
+
+    --placeholder-image: linear-gradient(to right,rgba(0,0,0,.08) 0,rgba(0,0,0,.15) 15%,rgba(0,0,0,.08) 30%);
+    --placeholder-size: 1200px 100%;
+    --placeholder-animation: placeholderAnimation 2s linear infinite, appear 200ms 100ms forwards;
+
+    --field-valid: #{color(state, valid, true)};
+    --field-error: #{color(state, error, true)};
+    --field-note: #{color(neutral, base, true)};
+
+    // each item in color map
+    @each $name, $color in $colors {
+        @if type-of($color) == "map" {
+            // each item in sub map
+            @each $subname, $subcolor in $color {
+                // --color-primary-base
+                #{$color-prefix}#{$name}-#{$subname}: $subcolor;
+            }
+        } @else if type-of($color) == "color" {
+            // --color-background
+            #{$color-prefix}#{$name}: $color;
+        }
+    }
+}

@@ -1,0 +1,17 @@
+a {
+    --link-color: #{color(primary, base, true)};
+    --link-hover: #{color(primary, dark, true)};
+    color: var(--link-color);
+     
+    &:hover {
+        text-decoration: underline;
+    }
+
+    &:focus {
+        text-decoration: underline;
+    }
+
+    + a {
+        margin-left: 1rem;
+    }
+}

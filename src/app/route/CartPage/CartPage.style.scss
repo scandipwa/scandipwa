@@ -1,0 +1,99 @@
+.CartPage {
+    padding-top: 1rem;
+
+    &-Wrapper {
+        display: grid;
+        grid-template-columns: 60rem auto;
+        grid-column-gap: 2rem;
+        margin-bottom: 2rem;
+
+        @include mobile {
+            display: flex;
+            flex-direction: column;
+        }
+
+        > :first-child {
+            grid-column: span 2;
+            margin-bottom: 1rem;
+        }
+    }
+
+    &-ItemsList {
+        @include mobile {
+            order: 3;
+        }
+    }
+
+    &-TableTitles {
+        display: grid;
+        align-items: center;
+        text-align: center;
+        grid-template-columns: 3fr 2fr 2fr;
+        padding: 1rem 0;
+        text-transform: uppercase;
+        font-weight: 700;
+        font-size: 0.8rem;
+        background: var(--color-breadcrumbs-background);
+
+        @include mobile {
+            display: none;
+        }
+
+        span {
+            padding-left: 1.4rem;
+        }
+    }
+
+    .CartItem {
+        @include after-mobile {
+            display: grid;
+            grid-template-columns: 9rem 11fr 1fr;
+            border: 0;
+        }
+
+        a {
+            color: var(--color-text-dark);
+        }
+        
+        &:first-child {
+            border-top: 1px solid var(--color-neutral-light);
+        }
+
+        &:nth-last-child(2) {
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--color-neutral-light);
+        }
+
+        &-Info {
+            @include after-mobile {
+                display: grid;
+                grid-template-columns: 22rem 1fr;
+                margin: 0;
+                grid-auto-rows: min-content;
+                align-self: center;
+            }
+        }
+
+        &-RemoveButton {
+            @include after-mobile {
+                position: relative;
+                top: 0;
+                right: 0;
+                vertical-align: middle;
+            }
+        }
+
+        &-Thumbnail {
+            @include after-mobile {
+                padding-right: 1rem;
+            }
+        }
+    }
+
+    h1 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0;
+        text-transform: uppercase;
+    }
+}

@@ -1,0 +1,159 @@
+input,
+textarea {
+    --input-color: #{color(primary, base, true)};
+    --input-border-color: #{color(neutral, base, true)};
+
+    border: 1px solid var(--input-border-color);
+    padding: 1.1rem 1.9rem;
+    appearance: none;
+
+    &:focus {
+        border: 1px solid var(--input-color);
+    }
+
+    &:not(:first) {
+        margin-top: 1rem;
+    }
+}
+
+textarea {
+    width: 25rem;
+}
+
+[type="number"] {
+    width: var(--input-type-number-width);
+    font-weight: 700;
+    padding-right: 0;
+    
+    &:focus {
+        border: 1px solid var(--input-border-color);
+    }
+
+    &::-webkit-inner-spin-button, 
+    &::-webkit-outer-spin-button { 
+      appearance: none; 
+      margin: 0; 
+    }
+
+    ~ button {
+        position: absolute;
+        left: calc(var(--input-type-number-width) - 1.5rem);
+        padding: 0;
+        margin: 0;
+        height: 50%;
+        width: 1.5rem;
+        font-size: 1.5rem;
+        line-height: 0;
+
+        &:last-child {
+            bottom: 0;
+        }
+    }
+}
+
+[type="checkbox"],
+[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    padding: 0;
+    min-width: 0;
+    min-height: 0;
+
+    + label {
+        --box-color: #{white};
+
+        display: inline-block;
+        position: relative;
+        cursor: pointer;
+        padding: 0;
+        width: 1.5rem;
+        height: 1.5rem;
+        background-color: var(--box-color);
+        border: 1px solid color(neutral, base);
+        transition-property: background-color, border-color;
+        transition-duration: .25s;
+        transition-timing-function: ease-in;
+
+        &::after {
+            --checkmark-color: transparent;
+
+            content: '';
+            position: absolute;
+            pointer-events: none;
+            background: var(--checkmark-color);
+            transition-duration: .25s;
+            transition-timing-function: ease-in;
+            transition-property: background-color;
+        }
+
+        &:hover {
+            --box-color: #{transparentize(color(neutral, light, true), .4)};
+            border-color: color(primary, base);
+
+            &::after {
+                --checkmark-color: #{color(neutral, base, true)};
+            }
+        }
+    }
+
+    &:focus + label {
+        --box-color: #{transparentize(color(neutral, light, true), .4)};
+        border-color: color(primary, base);
+
+        &::after {
+            --checkmark-color: #{color(neutral, base, true)};
+        }
+    }
+
+    &:disabled + label {
+        color: #b8b8b8;
+        cursor: auto;
+    }
+
+    &:checked + label {
+        background-color: color(primary, base, true);
+        border-color: color(primary, base, true);
+            
+        &::after {
+            --checkmark-color: #{color(neutral, light, true)};
+        }
+    }
+}
+
+[type="checkbox"] {
+    + label {
+        &::after {
+            left: .25rem;
+            top: .6rem;
+            width: .2rem;
+            height: .2rem;
+            box-shadow: 
+                2px 0 0 var(--checkmark-color),
+                4px 0 0 var(--checkmark-color),
+                4px -2px 0 var(--checkmark-color),
+                4px -4px 0 var(--checkmark-color),
+                4px -6px 0 var(--checkmark-color),
+                4px -8px 0 var(--checkmark-color);
+            transform: rotate(45deg);
+            transition-property: background-color, box-shadow;
+        }
+    }
+}
+
+[type="radio"] {
+    + label {
+        border-radius: 50%;
+
+        &::after {
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+            width: .5rem;
+            height: .5rem;
+            border-radius: 50%;
+            transition-property: background-color, box-shadow;
+        }
+    }
+}

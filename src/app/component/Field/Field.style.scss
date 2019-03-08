@@ -1,0 +1,44 @@
+.Field {
+    margin-top: 1rem;
+
+    label {
+        padding-bottom: .3rem;
+        font-weight: 700;
+        font-size: 1.05rem;
+    }
+
+    &-Message {
+        margin-bottom: -.1em;
+        font-size: 1.05rem;
+        font-weight: 600;
+    }
+
+    &-Note {
+        margin-bottom: .2rem;
+        font-size: 1.0rem;
+        font-weight: 600;
+        color: var(--field-note);
+    }
+
+    &-Note::before {
+        content: '* ';
+    }
+
+    &_valid {
+        input {
+            border: 1px solid var(--field-valid);
+            box-shadow: none;
+        }
+    }
+
+    &_error {
+        input {
+            border: 1px solid var(--field-error);
+            box-shadow: none;
+        }
+
+        .Field-Message {
+            color: var(--field-error);
+        }
+    }
+}

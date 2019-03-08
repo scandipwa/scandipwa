@@ -1,0 +1,44 @@
+.ProductSort {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    min-height: 55px;
+
+    @include mobile {
+        justify-content: center;
+    }
+
+    &-Label {
+        margin-right: .75rem;
+        font-size: 1.1rem;
+        color: var(--color-neutral-base);
+
+        @include mobile {
+            font-size: .9rem;
+        }
+    }
+
+    &-Select {
+        @include mobile {
+            font-size: 1rem;
+        }
+    }
+
+    &-Switch {
+        margin-left: .75rem;
+        color: var(--color-breadcrumbs-current);
+        background-color: var(--color-breadcrumbs-background);
+        border: 0;
+
+        &:hover {
+            background-color: var(--color-breadcrumbs-background);
+        }
+    }
+
+    &-Select,
+    &-Switch { 
+        height: 35px;
+        padding: 0 15px;
+        line-height: 35px;
+    }
+}

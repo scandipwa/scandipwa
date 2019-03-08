@@ -1,0 +1,68 @@
+import React, { Component } from 'react';
+import Html from 'Component/Html';
+import Image from 'Component/Image';
+import TextPlaceholder from 'Component/TextPlaceholder';
+import ContentWrapper from 'Component/ContentWrapper';
+import { ProductType, MediaType } from 'Type/ProductList';
+import PropTypes from 'prop-types';
+import './ProductDescription.style';
+
+const PRODUCT_IMAGE_PATH = '/media/jpg/catalog/product';
+
+/**
+ * Product description
+ * @class ProductDescription
+ */
+class ProductDescription extends Component {
+    render() {
+        const {
+            product: { description },
+            mediaGallery,
+            areDetailsLoaded
+        } = this.props;
+
+        const image = areDetailsLoaded && mediaGallery.length > 0
+            ? `${PRODUCT_IMAGE_PATH}${mediaGallery[0].file}`
+            : '';
+
+        if (!description && areDetailsLoaded) return null;
+
+        return (
+            <ContentWrapper
+              mix={ { block: 'ProductDescription' } }
+              wrapperMix={ { block: 'ProductDescription', elem: 'Wrapper' } }
+              label="Product description"
+            >
+                <div block="ProductDescription" elem="Image">
+                    <Image ratio="4x3" src={ image } alt="Description image" />
+                </div>
+                <div block="ProductDescription" elem="DescriptionBlock">
+                    <h3><TextPlaceholder content={ areDetailsLoaded ? 'About the product' : '' } /></h3>
+                    <div block="ProductDescription" elem="Text">
+                        { !areDetailsLoaded ? (
+                            <p block="ProductDescription" elem="PlaceholderBlock">
+                                <TextPlaceholder length="long" />
+                                <TextPlaceholder length="medium" />
+                                <TextPlaceholder length="medium" />
+                                <TextPlaceholder length="long" />
+                                <TextPlaceholder length="short" />
+                            </p>
+                        ) : <Html content={ description } />}
+                    </div>
+                </div>
+            </ContentWrapper>
+        );
+    }
+}
+
+ProductDescription.propTypes = {
+    product: ProductType.isRequired,
+    areDetailsLoaded: PropTypes.bool.isRequired,
+    mediaGallery: MediaType
+};
+
+ProductDescription.defaultProps = {
+    mediaGallery: []
+};
+
+export default ProductDescription;
