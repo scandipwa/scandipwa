@@ -18,3 +18,7 @@ The documentation for [application utilities](./11-Utilities.md)
 ## 4. Learn the common components
 
 The documentation for [application components](./12-Components.md)
+
+## 5. Learn our styling methodology
+
+The documentation for [styling methodology](./06-Styles.md)
