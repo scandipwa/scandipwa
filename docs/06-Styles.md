@@ -201,5 +201,3 @@ It is also possible to get the hex color or variable using custom SASS function:
     background-color: color(breadcrumbs, background, true); // will give you HEX color
 }
 ```
-
-[< Back to project description](./Project.md)
