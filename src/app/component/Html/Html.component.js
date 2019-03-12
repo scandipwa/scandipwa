@@ -95,23 +95,8 @@ class Html extends Component {
      */
     replaceImages({ attribs }) {
         if (Object.prototype.hasOwnProperty.call(attribs, 'src')) {
-            const { src } = attribs;
-            let placeHolderSource;
-
-            // TODO temporary solution
-            if (src.includes('scandipwa.local')) {
-                attribs.src = src.replace('scandipwa.local', 'scandipwa.indvp.com');
-                placeHolderSource = attribs.src.replace(/\.jpg/g, '.svg');
-            } else if (src.includes('scandipwa.indvp.com')) {
-                attribs.src = src.replace('demo.scandipwa.com', 'scandipwa.indvp.com');
-                placeHolderSource = attribs.src.replace(/\.jpg/g, '.svg');
-            } else {
-                placeHolderSource = `/media/placeholder/wysiwyg/cms${ src.replace(/\.jpg/g, '.svg') }`;
-                attribs.src = `/media/wysiwyg/cms${ src }`;
-            }
-
             return (
-                <Image { ...attributesToProps(attribs) } placeholderSrc={ placeHolderSource } />
+                <Image { ...attributesToProps(attribs) } />
             );
         }
     }
