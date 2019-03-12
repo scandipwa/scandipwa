@@ -51,4 +51,11 @@ workbox.routing.registerRoute(new RegExp(/\/assets/), event => cacheFirst(60 * 6
 workbox.routing.registerRoute(new RegExp(/\.css/), cacheFirstOneDay);
 workbox.routing.registerRoute(new RegExp(/\.js/), cacheFirstOneDay);
 
-if (self.__precacheManifest) workbox.precaching.precacheAndRoute(self.__precacheManifest);
+if (self.__precacheManifest) {
+    self.__precacheManifest.push({
+        revision: new Date().getTime(),
+        url: '/',
+    });
+
+    workbox.precaching.precacheAndRoute(self.__precacheManifest);
+}
