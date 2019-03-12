@@ -14,6 +14,12 @@
         min-height: 200vh;
     }
 
+    &-Placeholder {
+        display: grid;
+        grid-template-columns: inherit;
+        grid-column: span 3;
+    }
+
     &_isLoading {
         opacity: 0;
         animation: appear 100ms 200ms ease-in forwards;

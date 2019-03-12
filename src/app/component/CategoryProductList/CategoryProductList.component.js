@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import VisibilitySensor from 'react-visibility-sensor';
 import ProductCard from 'Component/ProductCard';
-import TextPlaceholder from 'Component/TextPlaceholder';
 import { ItemsType } from 'Type/ProductList';
 import './CategoryProductList.style';
-
-// TODO: known bug – when switching catgories rapidly & <VisibilitySensor> is left in viewport it breaks
 
 /**
  * List of category products
@@ -20,17 +16,67 @@ class CategoryProductList extends Component {
         };
     }
 
+    /**
+     * Properly returng prevItemsLength even if category is switched
+     * @param {*} props
+     * @param {*} state
+     */
     static getDerivedStateFromProps(props, state) {
-        const { items } = props;
+        const { items, isLoading } = props;
         const { prevItemsLength } = state;
 
-        if (items.length !== prevItemsLength) return { prevItemsLength: 0 };
+        if (isLoading) return { prevItemsLength: 0 };
+        if (items.length !== prevItemsLength) return { prevItemsLength };
         return null;
     }
 
     /**
      * Show loading placeholders while products are fetching
      * @return {void}
+     */
+    componentDidUpdate() {
+        const { prevItemsLength } = this.state;
+        const { items, totalItems } = this.props;
+        const shouldUpdateList = this.node && prevItemsLength !== items.length
+         && items.length !== 0 && items.length <= totalItems;
+
+        if (shouldUpdateList) {
+            if ('IntersectionObserver' in window) {
+                const options = {
+                    rootMargin: '0px',
+                    threshold: 0.1
+                };
+
+                this.observer = new IntersectionObserver((entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.intersectionRatio > 0) {
+                            this.stopObserving();
+                            this.showLoading();
+                        }
+                    });
+                }, options);
+
+                this.observer.observe(this.node);
+            } else {
+                this.showLoading();
+            }
+        }
+    }
+
+    stopObserving() {
+        if (this.observer) {
+            if (this.observer.unobserve) {
+                this.observer.unobserve(this.node);
+            }
+            if (this.observer.disconnect) {
+                this.observer.disconnect();
+            }
+            this.observer = null;
+        }
+    }
+
+    /**
+     * Increase page count and update previous items length
      */
     showLoading() {
         const { items, increasePage } = this.props;
@@ -50,34 +96,16 @@ class CategoryProductList extends Component {
         ));
     }
 
-    renderVisibiltySensor() {
-        const { prevItemsLength } = this.state;
-        const { items } = this.props;
-
+    /**
+     * render placeholders beneath the product list
+     */
+    renderPlaceholder() {
         return (
-            <VisibilitySensor
-              partialVisibility
-              offset={ { top: 600 } }
-              onChange={ (isVisible) => {
-                  const canShowLoading = isVisible
-                    && prevItemsLength !== items.length
-                    && items.length !== 0;
-
-                  if (canShowLoading) this.showLoading();
-              } }
-            >
-                { this.renderPlaceholders() }
-            </VisibilitySensor>
-        );
-    }
-
-    renderPlaceholders() {
-        return (
-            <>
+            <div block="CategoryProductList" elem="Placeholder" ref={ (node) => { this.node = node; } }>
                 <ProductCard product={ {} } />
                 <ProductCard product={ {} } />
                 <ProductCard product={ {} } />
-            </>
+            </div>
         );
     }
 
@@ -88,8 +116,7 @@ class CategoryProductList extends Component {
         return (
             <ul block="CategoryProductList" mods={ { isLoading } }>
                 { !isLoading && this.renderProducts() }
-                { showLoadMore && this.renderVisibiltySensor() }
-                { isLoading && this.renderPlaceholders() }
+                { showLoadMore && this.renderPlaceholder() }
             </ul>
         );
     }

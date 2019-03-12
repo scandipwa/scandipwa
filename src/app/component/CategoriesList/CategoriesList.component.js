@@ -12,7 +12,7 @@ import './CategoriesList.style';
 class CategoriesList extends Component {
     renderCategoryLabel(label, link) {
         return (
-            <Link to={ `/category/${link}` }>
+            <Link to={ `/category/${link}` } onClick={ () => window.scrollTo(0, 0) }>
                 { label }
             </Link>
         );
