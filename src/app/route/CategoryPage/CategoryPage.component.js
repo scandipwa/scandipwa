@@ -25,7 +25,8 @@ class CategoryPage extends Component {
             defaultPriceRange: { min: 0, max: 300 },
             minPriceRange: 0,
             maxPriceRange: 300,
-            previousPage: 0
+            previousPage: 0,
+            pageSize: 12
         };
     }
 
@@ -143,7 +144,12 @@ class CategoryPage extends Component {
      */
     requestCategory() {
         const { requestCategory, location, items } = this.props;
-        const { sortKey, sortDirection, previousPage } = this.state;
+        const {
+            sortKey,
+            sortDirection,
+            previousPage,
+            pageSize
+        } = this.state;
         const categoryUrlPath = this.getCategoryUrlPath();
         const currentPage = getQueryParam('page', location) || 1;
         const priceRange = this.getPriceRangeFromUrl();
@@ -154,7 +160,7 @@ class CategoryPage extends Component {
             categoryUrlPath,
             currentPage,
             previousPage,
-            pageSize: 12,
+            pageSize,
             priceRange,
             customFilters,
             sortKey: querySortKey || sortKey,
@@ -252,12 +258,20 @@ class CategoryPage extends Component {
     }
 
     /**
-     * Increace page number
+     * Increase page number, cannot exceed calculated page amount.
      * @return {void}
      */
     increasePage() {
-        const { location, history, isLoading } = this.props;
-        const currentPage = getQueryParam('page', location) || 1;
+        const {
+            location,
+            history,
+            isLoading,
+            totalItems
+        } = this.props;
+        const { pageSize } = this.state;
+        const pageFromUrl = getQueryParam('page', location) || 1;
+        const totalPages = Math.floor(totalItems / pageSize);
+        const currentPage = totalPages < pageFromUrl ? totalPages : pageFromUrl;
 
         if (!isLoading) {
             setQueryParams({ page: parseInt(currentPage, 10) + 1 }, location, history);
