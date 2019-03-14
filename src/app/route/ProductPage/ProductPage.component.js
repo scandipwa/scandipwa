@@ -98,7 +98,9 @@ class ProductPage extends Component {
      */
     getThumbnail(currentVariantIndex, dataSource) {
         const { thumbnail, variants } = dataSource;
-        const variantThumbnail = variants ? variants[ currentVariantIndex ].product.thumbnail : null;
+        const variantThumbnail = (variants && variants[ currentVariantIndex ])
+            ? variants[ currentVariantIndex ].product.thumbnail
+            : null;
         return variantThumbnail || thumbnail;
     }
 
@@ -174,6 +176,7 @@ class ProductPage extends Component {
                           product={ dataSource }
                           availableFilters={ filters }
                           configurableVariantIndex={ configurableVariantIndex }
+                          areDetailsLoaded={ areDetailsLoaded }
                           updateConfigurableVariantIndex={ index => this.setState({ configurableVariantIndex: index }) }
                         />
                     </ContentWrapper>
