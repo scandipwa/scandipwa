@@ -9,8 +9,9 @@ import './CmsPage.style';
 
 class CmsPage extends Component {
     componentDidMount() {
-        const { requestPage, match: { params: { id } } } = this.props;
+        const { requestPage, match: { params: { id } }, enableBreadcrumbs } = this.props;
         requestPage({ id });
+        enableBreadcrumbs();
     }
 
     componentDidUpdate(prevProps) {
@@ -74,7 +75,8 @@ CmsPage.propTypes = {
     }).isRequired,
     page: BlockListType.isRequired,
     updateBreadcrumbs: PropTypes.func.isRequired,
-    location: PropTypes.shape().isRequired
+    location: PropTypes.shape().isRequired,
+    enableBreadcrumbs: PropTypes.func.isRequired
 };
 
 export default CmsPage;
