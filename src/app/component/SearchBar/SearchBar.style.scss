@@ -123,11 +123,11 @@
     }
 
     &-Icon {
-        min-width: 1.6rem;
+        width: 1.6rem;
         display: none;
 
         &_isVisible {
-            width: 1.4rem;
+            width: 1.6rem;
         }
 
         @include mobile {

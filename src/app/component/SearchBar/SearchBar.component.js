@@ -162,8 +162,12 @@ class SearchBar extends Component {
                             </svg>
                         )
                         : (
-                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21.9 21.9" xmlnsXlink="http://www.w3.org/1999/xlink" enableBackground="new 0 0 21.9 21.9">
-                                <path d="M14.1,11.3c-0.2-0.2-0.2-0.5,0-0.7l7.5-7.5c0.2-0.2,0.3-0.5,0.3-0.7s-0.1-0.5-0.3-0.7l-1.4-1.4C20,0.1,19.7,0,19.5,0  c-0.3,0-0.5,0.1-0.7,0.3l-7.5,7.5c-0.2,0.2-0.5,0.2-0.7,0L3.1,0.3C2.9,0.1,2.6,0,2.4,0S1.9,0.1,1.7,0.3L0.3,1.7C0.1,1.9,0,2.2,0,2.4  s0.1,0.5,0.3,0.7l7.5,7.5c0.2,0.2,0.2,0.5,0,0.7l-7.5,7.5C0.1,19,0,19.3,0,19.5s0.1,0.5,0.3,0.7l1.4,1.4c0.2,0.2,0.5,0.3,0.7,0.3  s0.5-0.1,0.7-0.3l7.5-7.5c0.2-0.2,0.5-0.2,0.7,0l7.5,7.5c0.2,0.2,0.5,0.3,0.7,0.3s0.5-0.1,0.7-0.3l1.4-1.4c0.2-0.2,0.3-0.5,0.3-0.7  s-0.1-0.5-0.3-0.7L14.1,11.3z" />
+                            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 47.971 47.971" xmlSpace="preserve">
+                                <g>
+                                    <path d="M28.228,23.986L47.092,5.122c1.172-1.171,1.172-3.071,0-4.242c-1.172-1.172-3.07-1.172-4.242,0L23.986,19.744L5.121,0.88
+                                        c-1.172-1.172-3.07-1.172-4.242,0c-1.172,1.171-1.172,3.071,0,4.242l18.865,18.864L0.879,42.85c-1.172,1.171-1.172,3.071,0,4.242
+                                        C1.465,47.677,2.233,47.97,3,47.97s1.535-0.293,2.121-0.879l18.865-18.864L42.85,47.091c0.586,0.586,1.354,0.879,2.121,0.879 s1.535-0.293,2.121-0.879c1.172-1.171,1.172-3.071,0-4.242L28.228,23.986z" />
+                                </g>
                             </svg>
                         )
                 }
@@ -204,15 +208,15 @@ class SearchBar extends Component {
                           elem="Dropdown"
                           mods={ { hidden: !isSearchBarActive } }
                         >
-                            { !isLoading && items && searchInput === previousSearchInput && searchInput && this.renderHeader() }
-                            { isLoading && previousSearchInput && this.renderLoading() }
+                            { !isLoading && items && this.renderHeader() }
+                            { isLoading && this.renderLoading() }
                             <div
                               block="SearchBar"
                               elem="Results"
                               mods={ { results_loaded: !isLoading && items && (searchInput && previousSearchInput) && (searchInput === previousSearchInput) && items.length > 0 } }
                             >
-                                { !isLoading && items && searchInput === previousSearchInput && searchInput && this.renderResults(items) }
-                                { !isLoading && items && (searchInput && previousSearchInput) && (searchInput === previousSearchInput) && items.length === 0 && this.renderNoResults() }
+                                { !isLoading && items && this.renderResults(items) }
+                                { !isLoading && items && items.length === 0 && this.renderNoResults() }
                             </div>
                         </article>
                     </form>
