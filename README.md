@@ -1,4 +1,6 @@
 # ScandiPWA Theme
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fscandipwa%2Fbase-theme.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fscandipwa%2Fbase-theme?ref=badge_shield)
+
 
 This repository contains ScandiPWA Theme sources. 
 
@@ -19,3 +21,7 @@ For better performance Varnish cache is required. You must ensure Varnish is cac
 ## ScandiPWA docs
 
 Read [full application documentation](./docs/01-Project.md)
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fscandipwa%2Fbase-theme.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fscandipwa%2Fbase-theme?ref=badge_large)
