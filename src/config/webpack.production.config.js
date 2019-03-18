@@ -10,11 +10,14 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const MinifyPlugin = require('babel-minify-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const WebpackPwaManifest = require('webpack-pwa-manifest');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 
 const { InjectManifest } = require('workbox-webpack-plugin');
 
+const MetaConfig = require('./meta.config');
+const WebmanifestConfig = require('./webmanifest.config');
 const BabelConfig = require('./babel.config');
 const FallbackPlugin = require('./FallbackPlugin');
 
@@ -109,8 +112,21 @@ module.exports = {
             filename: '../templates/root.phtml',
             inject: false,
             hash: true,
-            publicPath
+            publicPath,
+            minify: {
+                collapseWhitespace: true,
+                removeComments: true,
+                removeRedundantAttributes: true,
+                removeScriptTypeAttributes: true,
+                removeStyleLinkTypeAttributes: true,
+                useShortDoctype: true,
+                minifyCSS: true,
+                minifyJS: true
+            },
+            meta: MetaConfig
         }),
+
+        new WebpackPwaManifest(WebmanifestConfig(projectRoot)),
 
         new webpack.DefinePlugin({
             'process.env': {

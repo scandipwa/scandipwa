@@ -2,7 +2,6 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
         <script>
             if ('serviceWorker' in navigator) {
@@ -11,15 +10,6 @@
                 });
             }
         </script>
-
-        <link rel="apple-touch-icon" sizes="180x180" href="<%= htmlWebpackPlugin.options.publicPath %>assets/favicon/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="<%= htmlWebpackPlugin.options.publicPath %>assets/favicon/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="<%= htmlWebpackPlugin.options.publicPath %>assets/favicon/favicon-16x16.png">
-        <link rel="shortcut icon" href="<%= htmlWebpackPlugin.options.publicPath %>assets/favicon/favicon.ico">
-        <link rel="manifest" href="<%= htmlWebpackPlugin.options.publicPath %>assets/site.webmanifest">
-        <meta name="theme-color" content="#ffffff">
-        <meta name="msapplication-config" content="<%= htmlWebpackPlugin.options.publicPath %>assets/browserconfig.xml">
-        <meta name="msapplication-TileColor" content="#323232">
 
         <!-- TODO: Find or implement helper to generate fonts related code -->
         <link rel="preload" href="<%= htmlWebpackPlugin.options.publicPath %>assets/font/MuliLight.woff2" as="font" type="font/woff2" crossorigin="">
@@ -73,6 +63,8 @@
         <title>SandiPWA | Home</title>
         
         <link rel="stylesheet" href="<%= htmlWebpackPlugin.files.css[0] %>">
+
+        <link rel="shortcut icon" href="<%= htmlWebpackPlugin.options.publicPath %>assets/favicon/favicon.ico">
     </head>
 
     <body>
