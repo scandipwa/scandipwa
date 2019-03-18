@@ -16,7 +16,6 @@ const autoprefixer = require('autoprefixer');
 
 const { InjectManifest } = require('workbox-webpack-plugin');
 
-const MetaConfig = require('./meta.config');
 const WebmanifestConfig = require('./webmanifest.config');
 const BabelConfig = require('./babel.config');
 const FallbackPlugin = require('./FallbackPlugin');
@@ -122,8 +121,7 @@ module.exports = {
                 useShortDoctype: true,
                 minifyCSS: true,
                 minifyJS: true
-            },
-            meta: MetaConfig
+            }
         }),
 
         new WebpackPwaManifest(WebmanifestConfig(projectRoot)),
