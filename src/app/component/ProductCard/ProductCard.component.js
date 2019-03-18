@@ -45,13 +45,56 @@ class ProductCard extends Component {
         return variantThumbnail || thumbnail;
     }
 
+    addOrConfigureProduct(variantIndex, linkTo) {
+        const { customFilters, product: { url_key, variants, type_id } } = this.props;
+
+        if (variants && type_id === 'configurable') {
+            const correctVariants = variants.reduce((correctVariants, { product }) => {
+                const isCorrectVariant = Object.keys(customFilters).every(filterKey => (
+                    customFilters[ filterKey ].find(value => +value === product[ filterKey ])
+                ));
+
+                if (isCorrectVariant) correctVariants.push(product);
+
+                return correctVariants;
+            }, []);
+
+            const hasNoMoreOptions = correctVariants.length === 1;
+
+            if (!hasNoMoreOptions) {
+                return (
+                    <Link to={ linkTo } tabIndex={ url_key ? '0' : '-1' }>
+                        <span>Configure Product</span>
+                    </Link>
+                );
+            }
+        }
+
+        return <AddToCart onClick={ () => this.addProduct(variantIndex) } fullWidth />;
+    }
+
     /**
      * Dispatch add product to cart
      * @return {void}
      */
-    addProduct() {
-        const { addProduct, product } = this.props;
-        addProduct({ product, quantity: 1 });
+    addProduct(configurableVariantIndex) {
+        const {
+            addProduct,
+            product,
+            product: { variants }
+        } = this.props;
+
+        if (variants) {
+            const configurableProduct = {
+                ...product,
+                configurableVariantIndex
+            };
+
+            addProduct({ product: configurableProduct, quantity: 1 });
+        } else {
+            addProduct({ product, quantity: 1 });
+        }
+        return null;
     }
 
     render() {
@@ -89,7 +132,7 @@ class ProductCard extends Component {
                 </TagName>
                 <div block="ProductCard" elem="Actions">
                     { price
-                        ? <AddToCart onClick={ () => this.addProduct() } fullWidth />
+                        ? this.addOrConfigureProduct(variantIndex, linkTo)
                         : <TextPlaceholder length="medium" />
                     }
                 </div>
