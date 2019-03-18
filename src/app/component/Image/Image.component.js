@@ -24,7 +24,7 @@ class Image extends Component {
 
     componentDidMount() {
         if ('requestIdleCallback' in window) {
-            window.requestIdleCallback(() => this.showImage());
+            window.requestIdleCallback(() => this.showImage(), { timeout: 1000 });
         } else {
             setTimeout(this.showImage(), 1);
         }
