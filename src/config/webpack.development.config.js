@@ -22,7 +22,6 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const autoprefixer = require('autoprefixer');
 
-const MetaConfig = require('./meta.config');
 const WebmanifestConfig = require('./webmanifest.config');
 const BabelConfig = require('./babel.config');
 const FallbackPlugin = require('./FallbackPlugin');
@@ -157,8 +156,7 @@ module.exports = {
             template: path.resolve(projectRoot, 'src', 'public', 'index.html'),
             filename: 'index.html',
             inject: false,
-            publicPath: '/',
-            meta: MetaConfig
+            publicPath: '/'
         }),
 
         new WebpackPwaManifest(WebmanifestConfig(projectRoot)),
