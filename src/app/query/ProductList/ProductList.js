@@ -66,6 +66,7 @@ class ProductListQuery {
             || productsSkuArray
             || productUrlPath
             || areCustomFiltersPresent
+            || search
         ) {
             // TODO: rewrite when argument will be allowed not to be Strings only
             const filterList = [];

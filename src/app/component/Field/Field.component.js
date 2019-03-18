@@ -71,6 +71,18 @@ class Field extends Component {
         this.handleChange(event.target.value);
     }
 
+    onFocus(event) {
+        const { onFocus } = this.props;
+
+        if (onFocus) onFocus(event);
+    }
+
+    onClick(event) {
+        const { onClick } = this.props;
+
+        if (onClick) onClick(event);
+    }
+
     handleChange(value) {
         const { onChange, type, min } = this.props;
 
@@ -83,7 +95,7 @@ class Field extends Component {
     }
 
     renderTextarea() {
-        const { id, rows } = this.props;
+        const { id, rows, isAutocompleteAllowed } = this.props;
         const { value } = this.state;
 
         return (
@@ -92,13 +104,16 @@ class Field extends Component {
               rows={ rows }
               value={ value }
               onChange={ this.onChange }
+              onFocus={ event => this.onFocus(event) }
+              onClick={ event => this.onClick(event) }
+              autoComplete={ !isAutocompleteAllowed ? 'off' : undefined }
             />
         );
     }
 
     renderCheckboxInput() {
         const {
-            id, name, type, value, checked
+            id, name, type, value, checked, isAutocompleteAllowed
         } = this.props;
 
         const checkedBool = type === RADIO_TYPE
@@ -113,7 +128,10 @@ class Field extends Component {
                   name={ name }
                   value={ value }
                   onChange={ () => this.handleChange(value) }
+                  onFocus={ event => this.onFocus(event) }
+                  onClick={ event => this.onClick(event) }
                   id={ id }
+                  autoComplete={ !isAutocompleteAllowed ? 'off' : undefined }
                 />
                 <label htmlFor={ id } />
             </>
@@ -121,7 +139,7 @@ class Field extends Component {
     }
 
     renderTypeText() {
-        const { placeholder, id } = this.props;
+        const { placeholder, id, isAutocompleteAllowed } = this.props;
         const { value } = this.state;
 
         return (
@@ -130,13 +148,16 @@ class Field extends Component {
               id={ id }
               value={ value }
               onChange={ this.onChange }
+              onFocus={ event => this.onFocus(event) }
+              onClick={ event => this.onClick(event) }
               placeholder={ placeholder }
+              autoComplete={ !isAutocompleteAllowed ? 'off' : undefined }
             />
         );
     }
 
     renderTypeNumber() {
-        const { id } = this.props;
+        const { id, isAutocompleteAllowed } = this.props;
         const { value } = this.state;
 
         return (
@@ -146,6 +167,9 @@ class Field extends Component {
                   id={ id }
                   value={ value }
                   onChange={ this.onChange }
+                  onFocus={ event => this.onFocus(event) }
+                  onClick={ event => this.onClick(event) }
+                  autoComplete={ !isAutocompleteAllowed ? 'off' : undefined }
                 />
                 <button onClick={ () => this.handleChange(parseFloat(value) + 1) }>
                     <span>+</span>
@@ -216,9 +240,12 @@ Field.propTypes = {
         PropTypes.string
     ]),
     onChange: PropTypes.func,
+    onFocus: PropTypes.func,
+    onClick: PropTypes.func,
     min: PropTypes.number,
     block: PropTypes.string,
-    elem: PropTypes.string
+    elem: PropTypes.string,
+    isAutocompleteAllowed: PropTypes.bool
 };
 
 Field.defaultProps = {
