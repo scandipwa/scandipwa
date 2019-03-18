@@ -80,9 +80,9 @@
         &_isLoaded.Image_isReal {
             @keyframes maskAnimation {
                 0% {
-                  mask-size: 100%;
-                  mask-position: center;
-                  animation-timing-function: ease-in-out;
+                    mask-size: 100%;
+                    mask-position: center;
+                    animation-timing-function: ease-in-out;
                 }
             
                 50% {
@@ -92,7 +92,9 @@
                 }
                 
                 100% {
-                    mask: radial-gradient(ellipse, black 100%, transparent 100%, transparent 100%), radial-gradient(circle, black 100%, transparent 100%, transparent 100%);
+                    mask-position: center;
+                    mask-size: 1000%;
+                    animation-timing-function: ease-in-out;
                 }
               }
 
