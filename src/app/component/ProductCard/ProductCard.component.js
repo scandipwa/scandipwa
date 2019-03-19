@@ -62,7 +62,8 @@ class ProductCard extends Component {
                 url_key,
                 brand
             },
-            product
+            product,
+            arePlaceholdersShown
         } = this.props;
 
         const variantIndex = this.getCurrentVariantIndex();
@@ -80,6 +81,7 @@ class ProductCard extends Component {
                     <Image
                       src={ thumbnail ? `/media/jpg/catalog/product${ thumbnail }` : null }
                       alt="Product Thumbnail"
+                      arePlaceholdersShown={ arePlaceholdersShown }
                     />
                     <span block="ProductCard" elem="Brand">
                         <TextPlaceholder content={ brand } />
@@ -101,11 +103,13 @@ class ProductCard extends Component {
 ProductCard.propTypes = {
     product: ProductType.isRequired,
     addProduct: PropTypes.func.isRequired,
-    customFilters: PropTypes.objectOf(PropTypes.array)
+    customFilters: PropTypes.objectOf(PropTypes.array),
+    arePlaceholdersShown: PropTypes.bool
 };
 
 ProductCard.defaultProps = {
-    customFilters: {}
+    customFilters: {},
+    arePlaceholdersShown: false
 };
 
 export default ProductCard;

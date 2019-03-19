@@ -119,7 +119,7 @@ class Image extends Component {
         } = this.state;
 
         const {
-            src, alt, ratio
+            src, alt, ratio, arePlaceholdersShown
         } = this.props;
 
         const isIcon = src && src.includes('.svg');
@@ -135,7 +135,7 @@ class Image extends Component {
               ref={ (node) => { this.node = node; } }
               onLoad={ img => this.onImageLoad(img) }
             >
-                { showImage && src && !isIcon
+                { (!arePlaceholdersShown || showImage) && src && !isIcon
                     && <>
                         <source srcSet={ this.getUrlWithExtension(src, 'webp') } type="image/webp" />
                         <source srcSet={ src } type="image/jpeg" />
@@ -155,13 +155,16 @@ Image.propTypes = {
         '4x3',
         '16x9',
         'square'
-    ])
+    ]),
+    arePlaceholdersShown: PropTypes.bool
 };
 
 Image.defaultProps = {
     src: '',
     alt: '',
-    ratio: 'square'
+    ratio: 'square',
+    arePlaceholdersShown: false
+
 };
 
 export default Image;
