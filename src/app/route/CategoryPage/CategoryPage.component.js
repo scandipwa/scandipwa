@@ -143,7 +143,12 @@ class CategoryPage extends Component {
      * @return {void}
      */
     requestCategory() {
-        const { requestCategory, location, items } = this.props;
+        const {
+            requestCategory,
+            location,
+            items,
+            category
+        } = this.props;
         const {
             sortKey,
             sortDirection,
@@ -167,7 +172,8 @@ class CategoryPage extends Component {
             sortDirection: querySortDirection || sortDirection,
             productsLoaded: items.length,
             // TODO: adding configurable data request (as in PDP) to query, should make a seperate/more specific query
-            getConfigurableData: true
+            getConfigurableData: true,
+            isCategoryLoaded: Object.entries(category).length !== 0
         };
 
         const stateUpdate = {
@@ -310,11 +316,13 @@ class CategoryPage extends Component {
     render() {
         const {
             category,
+            categoryList,
             items,
             totalItems,
             sortFields,
             filters,
             location,
+            match,
             history,
             isLoading
         } = this.props;
@@ -353,7 +361,9 @@ class CategoryPage extends Component {
                         />
                         <CategoriesList
                           availableFilters={ filters }
-                          category={ category }
+                          category={ categoryList }
+                          location={ location }
+                          match={ match }
                         />
                     </aside>
                     <CategoryDetails
@@ -388,6 +398,7 @@ CategoryPage.propTypes = {
         push: PropTypes.func.isRequired
     }).isRequired,
     category: CategoryTreeType.isRequired,
+    categoryList: CategoryTreeType.isRequired,
     items: ItemsType.isRequired,
     totalItems: PropTypes.number.isRequired,
     location: PropTypes.shape({

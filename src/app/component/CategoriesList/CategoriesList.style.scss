@@ -17,25 +17,32 @@
     }
 
     & &-Category {
-        border-radius: 3px;
-        display: inline-block;
-        background-color: var(--color-primary-light);
-        text-transform: lowercase;
-        margin-right: .5rem;
-        transition: background-color 150ms ease-in;
+        list-style-type: initial;
 
-        &:hover {
-            background-color: var(--color-primary-base);
+        li {
+            list-style-type: circle;
+            padding-left: 2em;
+
         }
 
         a {
-            padding: .3rem .6rem;
             transition: color 150ms ease-in;
-            display: block;
 
             &:hover,
             &:focus {
-                color: var(--color-text-white);
+                color: var(--color-primary-base);
+            }
+        }
+
+        &_isSelected {
+            > a {
+                color: var(--color-primary-base);
+            }
+        }
+
+        &_isParent {
+            > a {
+                line-height: 2.5;
             }
         }
     }

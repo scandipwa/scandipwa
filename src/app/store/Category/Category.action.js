@@ -1,5 +1,6 @@
 export const UPDATE_CATEGORY_PRODUCT_LIST = 'UPDATE_CATEGORY_PRODUCT_LIST';
-export const UPDATE_CATEGORY_DETAILS = 'UPDATE_CATEGORY_DETAILS';
+export const UPDATE_CATEGORY_LIST = 'UPDATE_CATEGORY_LIST';
+export const UPDATE_CURRENT_CATEGORY = 'UPDATE_CURRENT_CATEGORY';
 export const APPEND_CATEGORY_PRODUCT_LIST = 'APPEND_CATEGORY_PRODUCT_LIST';
 export const UPDATE_LOAD_STATUS = 'UPDATE_LOAD_STATUS';
 
@@ -33,9 +34,19 @@ const appendCategoryProductList = items => ({
  * @param {Array<Object>} subCategories List subcategories
  * @return {void}
  */
-const updateCategoryDetails = category => ({
-    type: UPDATE_CATEGORY_DETAILS,
-    category
+const updateCategoryList = categoryList => ({
+    type: UPDATE_CATEGORY_LIST,
+    categoryList
+});
+
+/**
+ * Update Current Category
+ * @param {String} categoryUrlPath url path Main Category object
+ * @return {void}
+ */
+const updateCurrentCategory = categoryUrlPath => ({
+    type: UPDATE_CURRENT_CATEGORY,
+    categoryUrlPath
 });
 
 /**
@@ -49,5 +60,5 @@ const updateLoadStatus = status => ({
 });
 
 export {
-    updateCategoryProductList, updateCategoryDetails, appendCategoryProductList, updateLoadStatus
+    updateCategoryProductList, updateCategoryList, updateCurrentCategory, appendCategoryProductList, updateLoadStatus
 };

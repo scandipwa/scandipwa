@@ -3,6 +3,7 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { CategoryTreeType } from 'Type/Category';
+import { getUrlParam } from 'Util/Url';
 import './CategoriesList.style';
 
 /**
@@ -18,10 +19,19 @@ class CategoriesList extends Component {
         );
     }
 
-    renderSubCategory({ id, name, url_path }) {
+    renderSubCategory({
+        id,
+        name,
+        url_path,
+        children
+    }, isParent) {
+        const { location, match } = this.props;
+        const isSelected = getUrlParam(match, location) === url_path;
+
         return (
-            <li block="CategoriesList" elem="Category" key={ id }>
+            <li block="CategoriesList" elem="Category" key={ id } mods={ { isSelected, isParent } }>
                 { this.renderCategoryLabel(name, url_path) }
+                { children && <ul>{ children.map(child => this.renderSubCategory(child)) }</ul> }
             </li>
         );
     }
@@ -33,7 +43,7 @@ class CategoriesList extends Component {
             if (children.length) {
                 return (
                     <ul>
-                        { children.map(child => this.renderSubCategory(child)) }
+                        { children.map(child => this.renderSubCategory(child, true)) }
                     </ul>
                 );
             }
@@ -61,7 +71,13 @@ class CategoriesList extends Component {
 
 CategoriesList.propTypes = {
     availableFilters: PropTypes.arrayOf(PropTypes.object).isRequired,
-    category: CategoryTreeType.isRequired
+    category: CategoryTreeType.isRequired,
+    location: PropTypes.shape({
+        pathname: PropTypes.string.isRequired
+    }).isRequired,
+    match: PropTypes.shape({
+        path: PropTypes.string.isRequired
+    }).isRequired
 };
 
 export default CategoriesList;
