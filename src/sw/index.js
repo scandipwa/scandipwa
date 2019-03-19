@@ -1,10 +1,20 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
 /* eslint-disable no-undef */
 /* eslint-disable no-restricted-globals */
 
 import workbox from './util/Workbox';
 import { flushCache } from './handler/FlushCache';
 import cacheFirstOneDay, { cacheFirst } from './handler/CacheFirstOneDay';
-import GraphqlPostHanlder from './handler/GraphqlPostHanlder';
 import StaleWhileRevalidateHandler from './handler/StaleWhileRevalidateHandler';
 
 // ====== Register routes ======
@@ -46,7 +56,6 @@ self.addEventListener('install', () => {
     flushCacheByHeader('Cache-purge', precache);
 });
 
-workbox.routing.registerRoute(new RegExp(/\/graphql/), event => GraphqlPostHanlder.staleWhileRevalidate(event), 'POST');
 workbox.routing.registerRoute(new RegExp(/\/assets/), event => cacheFirst(60 * 60 * 24 * 30).handle(event));
 workbox.routing.registerRoute(new RegExp(/\.css/), cacheFirstOneDay);
 workbox.routing.registerRoute(new RegExp(/\.js/), cacheFirstOneDay);
@@ -54,7 +63,7 @@ workbox.routing.registerRoute(new RegExp(/\.js/), cacheFirstOneDay);
 if (self.__precacheManifest) {
     self.__precacheManifest.push({
         revision: new Date().getTime(),
-        url: '/',
+        url: '/'
     });
 
     workbox.precaching.precacheAndRoute(self.__precacheManifest);
