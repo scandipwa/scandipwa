@@ -26,12 +26,15 @@ class CategoriesList extends Component {
         children
     }, isParent) {
         const { location, match } = this.props;
-        const isSelected = getUrlParam(match, location) === url_path;
+        const currentPath = getUrlParam(match, location);
+        const isSelected = currentPath === url_path;
+        const isParentExpanded = currentPath.substring(0, currentPath.lastIndexOf('/')) === url_path
+        || (isParent && isSelected);
 
         return (
             <li block="CategoriesList" elem="Category" key={ id } mods={ { isSelected, isParent } }>
                 { this.renderCategoryLabel(name, url_path) }
-                { children && <ul>{ children.map(child => this.renderSubCategory(child)) }</ul> }
+                { isParentExpanded && children && <ul>{ children.map(child => this.renderSubCategory(child)) }</ul> }
             </li>
         );
     }
