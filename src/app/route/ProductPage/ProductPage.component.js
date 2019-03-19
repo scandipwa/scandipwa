@@ -98,9 +98,9 @@ class ProductPage extends Component {
      */
     getThumbnail(currentVariantIndex, dataSource) {
         const { thumbnail, variants } = dataSource;
-        const variantThumbnail = (variants && variants[ currentVariantIndex ])
-            ? variants[ currentVariantIndex ].product.thumbnail
-            : null;
+        const variantThumbnail = variants
+            && variants[ currentVariantIndex ]
+            && variants[ currentVariantIndex ].product.thumbnail;
         return variantThumbnail || thumbnail;
     }
 
