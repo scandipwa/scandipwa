@@ -18,11 +18,9 @@ class SearchBarDispatcher extends RequestDispatcher {
 
     onError(error, dispatch) {
         dispatch(updateLoadStatus(false));
-        // what to do?
     }
 
     clearSearchResults(dispatch) {
-        console.log('clear')
         dispatch(clearSearchResults());
     }
 

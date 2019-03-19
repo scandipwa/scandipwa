@@ -27,7 +27,7 @@
         max-width: 1200px;
 
         @include mobile {
-            grid-template-columns: .8fr .2fr 2fr 1fr;
+            grid-template-columns: 1.1fr 0.7fr 2.7fr 1.8fr;
             min-height: 5rem;
         }
     }

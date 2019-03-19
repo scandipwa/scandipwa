@@ -5,18 +5,18 @@ import {
 } from './SearchBar.action';
 
 const initialState = {
-    products: {},
+    products: [],
     isLoading: false
 };
 
 const SearchBarReducer = (state = initialState, action) => {
     switch (action.type) {
     case UPDATE_SEARCH_BAR:
-        const { result: { products } } = action;
+        const { result: { products: { items } } } = action;
 
         return {
             ...state,
-            products
+            products: items
         };
 
     case UPDATE_SEARCH_LOAD_STATUS:
@@ -30,7 +30,7 @@ const SearchBarReducer = (state = initialState, action) => {
     case CLEAR_SEARCH_RESULTS:
         return {
             ...state,
-            products: {}
+            products: initialState.products
         };
 
     default:

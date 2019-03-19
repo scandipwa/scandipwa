@@ -1,10 +1,17 @@
 .SearchBar {
     --border-color: var(--header-color);
+    --search-translate-percentage: 0; /* to sync CSS animation and JS callback */
+    --search-results-max-height: 0; /* to sync CSS animation and JS callback */
 
     border: 1px solid var(--border-color);
 
     @include mobile {
         display: none;
+        // transform: translate3d(var(--search-translate-percentage), 0, 0);
+        // transition: transform .15s ease-in;
+        transform: scaleY(var(--search-translate-percentage));
+        transition-duration: 150ms;
+        transform-origin: 0 0;
     }
 
     &_isActive {
@@ -32,6 +39,20 @@
             margin: 0;
             line-height: 5rem;
             min-height: 5rem;
+            display: flex;
+        }
+
+        span {
+            display: inline-block;
+            width: 9rem;
+
+            &:last-child {
+                color: var(--color-primary-base);
+                width: calc(100% - 9rem);
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
         }
     }
 
@@ -97,17 +118,19 @@
 
     &-Results {
         overflow-y: scroll;
-        max-height: 42vh;
+        max-height: var(--search-results-max-height);
+        transition: max-height 150ms ease-in;
 
-        &_results_loaded {
+        &_isLoaded {
             @include mobile {
                 min-height: calc(100% - 13.5rem);
                 width: 100%;
                 left: 0;
                 position: fixed;
-                top: 13.5rem;
                 z-index: 5;
                 background-color: var(--color-text-white);
+                transition: max-height 150ms ease-in;
+                --search-results-max-height: 42vh;
             }
         }
     }
@@ -132,6 +155,7 @@
 
         @include mobile {
             display: block;
+            padding-top: .1rem;
         }
 
         svg {
