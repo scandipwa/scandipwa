@@ -10,10 +10,13 @@ import './ProductDetails.style';
  * @class ProductDetails
  */
 class ProductDetails extends Component {
+    /**
+     * Render product SKU only when it's loaded
+     */
     renderSku() {
-        const { configurableVariantIndex, product: { variants } } = this.props;
+        const { product: { variants }, areDetailsLoaded, configurableVariantIndex } = this.props;
 
-        if (variants) {
+        if (variants && variants[configurableVariantIndex] && areDetailsLoaded) {
             const { product } = variants[configurableVariantIndex];
 
             return (
@@ -73,7 +76,8 @@ class ProductDetails extends Component {
 
 ProductDetails.propTypes = {
     product: ProductType.isRequired,
-    configurableVariantIndex: PropTypes.number.isRequired
+    configurableVariantIndex: PropTypes.number.isRequired,
+    areDetailsLoaded: PropTypes.bool.isRequired
 };
 
 export default ProductDetails;
