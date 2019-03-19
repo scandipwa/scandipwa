@@ -503,7 +503,7 @@ class Slider extends Component {
         );
     }
 
-    renderSlide(block, item, id, listItemWidth) {
+    renderSlide(block, item, id, listItemWidth, arePlaceholdersShown) {
         return (
             <li
               block="Slider"
@@ -516,6 +516,7 @@ class Slider extends Component {
                   src={ `/media/${item.image}` }
                   alt="SliderItem"
                   htmlContent={ item.extraHtml && item.extraHtml }
+                  arePlaceholdersShown={ arePlaceholdersShown }
                 />
             </li>
         );
@@ -529,7 +530,8 @@ class Slider extends Component {
             areThumbnailsShown,
             areArrowButtonsShown,
             areBreadcrumbsShown,
-            isInfiniteScrollEnabled
+            isInfiniteScrollEnabled,
+            arePlaceholdersShown
         } = this.props;
 
         if (items.length === 1 && !Object.keys(items[0]).length) items[0] = { image: '' };
@@ -596,7 +598,9 @@ class Slider extends Component {
                           style={ listWidth }
                           ref={ this.carousel }
                         >
-                            { items.map((item, id) => this.renderSlide(block, item, id, listItemWidth)) }
+                            { items.map(
+                                (item, id) => this.renderSlide(block, item, id, listItemWidth, arePlaceholdersShown)
+                            ) }
                         </ul>
                     </div>
                     { areArrowButtonsShown && this.renderArrowButtons(items, currentIndex, block) }
@@ -640,7 +644,7 @@ Slider.propTypes = {
 };
 
 Slider.defaultProps = {
-    arePlaceholdersShown: false,
+    arePlaceholdersShown: true,
     areArrowButtonsShown: false,
     areThumbnailsShown: false,
     areBreadcrumbsShown: false,
