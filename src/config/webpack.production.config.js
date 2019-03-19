@@ -1,3 +1,14 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
 /* eslint-disable import/no-extraneous-dependencies */
 // Disabled due webpack plugins being dev dependencies
 
@@ -16,7 +27,6 @@ const autoprefixer = require('autoprefixer');
 
 const { InjectManifest } = require('workbox-webpack-plugin');
 
-const MetaConfig = require('./meta.config');
 const WebmanifestConfig = require('./webmanifest.config');
 const BabelConfig = require('./babel.config');
 const FallbackPlugin = require('./FallbackPlugin');
@@ -122,8 +132,7 @@ module.exports = {
                 useShortDoctype: true,
                 minifyCSS: true,
                 minifyJS: true
-            },
-            meta: MetaConfig
+            }
         }),
 
         new WebpackPwaManifest(WebmanifestConfig(projectRoot)),

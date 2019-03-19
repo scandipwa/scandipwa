@@ -1,3 +1,14 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
 import React, { Component } from 'react';
 import Html from 'Component/Html';
 import TextPlaceholder from 'Component/TextPlaceholder';
@@ -10,10 +21,13 @@ import './ProductDetails.style';
  * @class ProductDetails
  */
 class ProductDetails extends Component {
+    /**
+     * Render product SKU only when it's loaded
+     */
     renderSku() {
-        const { configurableVariantIndex, product: { variants } } = this.props;
+        const { product: { variants }, areDetailsLoaded, configurableVariantIndex } = this.props;
 
-        if (variants) {
+        if (variants && variants[configurableVariantIndex] && areDetailsLoaded) {
             const { product } = variants[configurableVariantIndex];
 
             return (
@@ -73,7 +87,8 @@ class ProductDetails extends Component {
 
 ProductDetails.propTypes = {
     product: ProductType.isRequired,
-    configurableVariantIndex: PropTypes.number.isRequired
+    configurableVariantIndex: PropTypes.number.isRequired,
+    areDetailsLoaded: PropTypes.bool.isRequired
 };
 
 export default ProductDetails;

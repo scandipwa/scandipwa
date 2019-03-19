@@ -1,3 +1,14 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable react/no-array-index-key */
 // Disabled due placeholder needs
@@ -76,7 +87,7 @@ class ProductActions extends Component {
     addProduct() {
         const {
             addProduct, product, product: {
-                variants,
+                variants
             }, configurableVariantIndex
         } = this.props;
         const { itemCount } = this.state;
@@ -85,7 +96,7 @@ class ProductActions extends Component {
             // mixing product data with variant to work properly in cart
             const configurableProduct = {
                 ...product,
-                configurableVariantIndex,
+                configurableVariantIndex
             };
 
             addProduct({ product: configurableProduct, quantity: itemCount });
@@ -163,8 +174,17 @@ class ProductActions extends Component {
         );
     }
 
+    /**
+     * Render configurable swatch, return null if configurable does not exist by variant or not yet loaded
+     */
     renderConfigurableSwatches() {
-        const { product: { configurable_options, variants }, configurableVariantIndex } = this.props;
+        const { product: { configurable_options, variants }, configurableVariantIndex, areDetailsLoaded } = this.props;
+        const configurableExists = variants[configurableVariantIndex] && areDetailsLoaded;
+
+        if (!configurableExists) {
+            return null;
+        }
+
         const { product: currentConfigurableVariant } = variants[configurableVariantIndex];
 
         const renderAvailableValues = (configurableOption) => {
@@ -293,7 +313,8 @@ ProductActions.propTypes = {
     addProduct: PropTypes.func.isRequired,
     availableFilters: PropTypes.arrayOf(PropTypes.shape).isRequired,
     configurableVariantIndex: PropTypes.number.isRequired,
-    updateConfigurableVariantIndex: PropTypes.func.isRequired
+    updateConfigurableVariantIndex: PropTypes.func.isRequired,
+    areDetailsLoaded: PropTypes.bool.isRequired
 };
 
 export default ProductActions;
