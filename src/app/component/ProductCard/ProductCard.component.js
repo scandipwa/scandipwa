@@ -1,3 +1,14 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -5,7 +16,7 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import ProductPrice from 'Component/ProductPrice';
 import Image from 'Component/Image';
 import AddToCart from 'Component/AddToCart';
-import { ProductType } from 'Type/ProductList';
+import { ProductType, FilterType } from 'Type/ProductList';
 import './ProductCard.style';
 
 /**
@@ -45,13 +56,55 @@ class ProductCard extends Component {
         return variantThumbnail || thumbnail;
     }
 
+    addOrConfigureProduct(variantIndex, linkTo) {
+        const { customFilters, product: { url_key, variants, type_id } } = this.props;
+
+        if (variants && type_id === 'configurable') {
+            const correctVariants = variants.reduce((correctVariants, { product }) => {
+                const isCorrectVariant = Object.keys(customFilters).every(filterKey => (
+                    customFilters[ filterKey ].find(value => +value === product[ filterKey ])
+                ));
+
+                if (isCorrectVariant) correctVariants.push(product);
+
+                return correctVariants;
+            }, []);
+
+            if (correctVariants.length !== 1) {
+                return (
+                    <Link to={ linkTo } tabIndex={ url_key ? '0' : '-1' }>
+                        <span>Configure Product</span>
+                    </Link>
+                );
+            }
+        }
+
+        return <AddToCart onClick={ () => this.addProduct(variantIndex) } fullWidth />;
+    }
+
     /**
      * Dispatch add product to cart
      * @return {void}
      */
-    addProduct() {
-        const { addProduct, product } = this.props;
-        addProduct({ product, quantity: 1 });
+    addProduct(configurableVariantIndex) {
+        const {
+            addProduct,
+            product,
+            product: { variants }
+        } = this.props;
+
+        if (variants) {
+            const configurableProduct = {
+                ...product,
+                configurableVariantIndex
+            };
+
+            addProduct({ product: configurableProduct, quantity: 1 });
+        } else {
+            addProduct({ product, quantity: 1 });
+        }
+
+        return null;
     }
 
     render() {
@@ -91,7 +144,7 @@ class ProductCard extends Component {
                 </TagName>
                 <div block="ProductCard" elem="Actions">
                     { price
-                        ? <AddToCart onClick={ () => this.addProduct() } fullWidth />
+                        ? this.addOrConfigureProduct(variantIndex, linkTo)
                         : <TextPlaceholder length="medium" />
                     }
                 </div>
@@ -103,7 +156,7 @@ class ProductCard extends Component {
 ProductCard.propTypes = {
     product: ProductType.isRequired,
     addProduct: PropTypes.func.isRequired,
-    customFilters: PropTypes.objectOf(PropTypes.array),
+    customFilters: FilterType,
     arePlaceholdersShown: PropTypes.bool
 };
 

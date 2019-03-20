@@ -1,3 +1,14 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
 // This is Webpack plugin, which fallbacks files which does not exist. Bellow is the fallback sequence:
 // 1. The file is checked in app/design (later referenced as `custom`) folder
 // 2. The file is checked in vendor (later referenced as `core`) folder

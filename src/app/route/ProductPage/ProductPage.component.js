@@ -1,3 +1,14 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ProductDetails from 'Component/ProductDetails';
@@ -98,7 +109,9 @@ class ProductPage extends Component {
      */
     getThumbnail(currentVariantIndex, dataSource) {
         const { thumbnail, variants } = dataSource;
-        const variantThumbnail = variants ? variants[ currentVariantIndex ].product.thumbnail : null;
+        const variantThumbnail = variants
+            && variants[ currentVariantIndex ]
+            && variants[ currentVariantIndex ].product.thumbnail;
         return variantThumbnail || thumbnail;
     }
 
@@ -174,6 +187,7 @@ class ProductPage extends Component {
                           product={ dataSource }
                           availableFilters={ filters }
                           configurableVariantIndex={ configurableVariantIndex }
+                          areDetailsLoaded={ areDetailsLoaded }
                           updateConfigurableVariantIndex={ index => this.setState({ configurableVariantIndex: index }) }
                         />
                     </ContentWrapper>

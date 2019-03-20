@@ -1,3 +1,14 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
 import PropTypes from 'prop-types';
 
 export const BreadcrumbsType = PropTypes.arrayOf(
@@ -77,5 +88,9 @@ export const ProductType = PropTypes.shape({
     url_key: PropTypes.string,
     quantity: PropTypes.number
 });
+
+export const FilterType = PropTypes.objectOf(
+    PropTypes.arrayOf(PropTypes.string)
+);
 
 export const ItemsType = PropTypes.arrayOf(ProductType);
