@@ -38,7 +38,7 @@
         max-width: 1200px;
 
         @include mobile {
-            grid-template-columns: 4rem 4rem 9rem 8rem;
+            grid-template-columns: 4rem 3rem auto 3rem;
             min-height: 5rem;
         }
     }
@@ -56,11 +56,18 @@
             margin-top: 1rem;
 
             @include mobile {
-                margin-top: .6rem;
+                margin-top: 0;
             }
         }
 
         a {
+            position: fixed;
+            top: 2rem;
+            left: 0;
+            width: max-content;
+            height: max-content;
+            right: 0;
+            margin: auto;
             display: inline-block;
             transition: opacity 150ms ease-in-out;
         }
