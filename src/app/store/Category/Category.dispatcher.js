@@ -27,11 +27,12 @@ class CategoryDispatcher extends RequestDispatcher {
                 filters
             }
         } = data;
+        const { categoryUrlPath } = options;
 
         if (category) { // If category details are updated, reset all data
             dispatch(updateCategoryProductList(items, total_count, sort_fields, filters));
             dispatch(updateCategoryList(category));
-            dispatch(updateCurrentCategory(options.categoryUrlPath));
+            dispatch(updateCurrentCategory(categoryUrlPath));
         } else if (filters || sort_fields) {
             dispatch(updateCategoryProductList(items, total_count, sort_fields, filters));
         } else {

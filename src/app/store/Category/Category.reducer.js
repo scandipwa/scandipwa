@@ -53,7 +53,7 @@ const CategoryReducer = (state = initialState, action) => {
         };
 
     case UPDATE_CURRENT_CATEGORY:
-        const { categoryList: test } = state;
+        const { categoryList: stateCategoryList } = state;
         const flattendCategories = {};
 
         const deleteProperty = (key, { [key]: _, ...newObj }) => newObj;
@@ -67,7 +67,7 @@ const CategoryReducer = (state = initialState, action) => {
                 });
             }
         };
-        flattenCategory(test);
+        flattenCategory(stateCategoryList);
 
         return {
             ...state,
