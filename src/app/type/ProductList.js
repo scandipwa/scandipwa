@@ -78,4 +78,8 @@ export const ProductType = PropTypes.shape({
     quantity: PropTypes.number
 });
 
+export const FilterType = PropTypes.objectOf(
+    PropTypes.arrayOf(PropTypes.string)
+);
+
 export const ItemsType = PropTypes.arrayOf(ProductType);

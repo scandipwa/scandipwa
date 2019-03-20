@@ -5,7 +5,7 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import ProductPrice from 'Component/ProductPrice';
 import Image from 'Component/Image';
 import AddToCart from 'Component/AddToCart';
-import { ProductType } from 'Type/ProductList';
+import { ProductType, FilterType } from 'Type/ProductList';
 import './ProductCard.style';
 
 /**
@@ -103,7 +103,7 @@ class ProductCard extends Component {
 ProductCard.propTypes = {
     product: ProductType.isRequired,
     addProduct: PropTypes.func.isRequired,
-    customFilters: PropTypes.objectOf(PropTypes.array),
+    customFilters: FilterType,
     arePlaceholdersShown: PropTypes.bool
 };
 
