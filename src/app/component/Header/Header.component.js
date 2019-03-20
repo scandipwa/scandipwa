@@ -29,7 +29,7 @@ class Header extends Component {
                     <div block="Header" elem="Logo" aria-label="Header logo">
                         <Link to="/" tabIndex="0">
                             <img
-                              src="/static/frontend/Scandiweb/pwa/en_US/Magento_Theme/assets/images/global/logo.svg"
+                              src="https://demo.scandipwa.com/static/frontend/Scandiweb/pwa/en_US/Magento_Theme/assets/images/global/logo.svg"
                               alt="HeaderLogo"
                             />
                         </Link>

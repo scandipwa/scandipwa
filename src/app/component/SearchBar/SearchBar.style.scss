@@ -10,16 +10,14 @@
  */
 
 .SearchBar {
-    --border-color: var(--header-color);
+    --border-color: var(--color-breadcrumbs-background);
     --search-translate-percentage: 0; /* to sync CSS animation and JS callback */
     --search-results-max-height: 0; /* to sync CSS animation and JS callback */
 
     border: 1px solid var(--border-color);
 
     @include mobile {
-        display: none;
-        // transform: translate3d(var(--search-translate-percentage), 0, 0);
-        // transition: transform .15s ease-in;
+        position: fixed;
         transform: scaleY(var(--search-translate-percentage));
         transition-duration: 150ms;
         transform-origin: 0 0;
@@ -38,7 +36,6 @@
         top: 0;
 
         @include mobile {
-            position: fixed;
             top: 70px;
         }
     }
@@ -73,7 +70,7 @@
         display: block;
         transform: rotate(45deg);
 
-        &:after {
+        &::after {
             content: "";
             background-color: var(--color-text-black);
             width: 25px;
@@ -85,7 +82,7 @@
         }
 
         &_visible {
-            &:after {
+            &::after {
                 transform-origin: center center;
                 transform: rotate(90deg);
             }
@@ -97,8 +94,8 @@
 
         h3 {
             margin: 0;
-            line-height: 3rem;
-            min-height: 3rem;
+            line-height: 3.5rem;
+            min-height: 3.5rem;
             display: flex;
         }
 

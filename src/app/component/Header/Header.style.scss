@@ -34,11 +34,11 @@
         padding: 1rem;
         display: grid;
         margin:auto;
-        grid-template-columns: 1fr 1.3fr 1fr;
+        grid-template-columns: 1fr 40rem 1fr;
         max-width: 1200px;
 
         @include mobile {
-            grid-template-columns: 1.1fr 0.7fr 2.7fr 1.8fr;
+            grid-template-columns: 4rem 4rem 9rem 8rem;
             min-height: 5rem;
         }
     }
