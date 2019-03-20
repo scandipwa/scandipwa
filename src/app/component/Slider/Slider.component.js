@@ -504,6 +504,8 @@ class Slider extends Component {
     }
 
     renderSlide(block, item, id, listItemWidth, arePlaceholdersShown, showGreyPlaceholder) {
+        const { image, extraHtml } = item;
+
         return (
             <li
               block="Slider"
@@ -513,9 +515,9 @@ class Slider extends Component {
               style={ listItemWidth }
             >
                 <Figure
-                  src={ item.image && `/media/${item.image}` }
+                  src={ image && `/media/${image}` }
                   alt="SliderItem"
-                  htmlContent={ item.extraHtml && item.extraHtml }
+                  htmlContent={ extraHtml && extraHtml }
                   arePlaceholdersShown={ arePlaceholdersShown }
                   showGreyPlaceholder={ showGreyPlaceholder }
                 />
