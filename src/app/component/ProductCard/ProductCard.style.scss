@@ -114,6 +114,14 @@
     }
 
     &-Actions {
+        a {
+            @extend %button;
+
+            span {
+                color: var(--color-text-white);
+            }
+        }
+
         .TextPlaceholder {
             width: 100%;
             display: block;
