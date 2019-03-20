@@ -23,7 +23,8 @@ class HomeSlider extends Component {
         const { slider } = this.props;
 
         const gallery = Object.keys(slider).length > 0
-            && slider.slides.map(media => ({ image: media.image, extraHtml: media.slide_text }));
+            ? slider.slides.map(media => ({ image: media.image, extraHtml: media.slide_text }))
+            : [{ image: '' }];
 
         if (gallery) {
             return (
@@ -33,6 +34,8 @@ class HomeSlider extends Component {
                   areBreadcrumbsShown
                   animationInterval={ 4000 }
                   slideSpeed={ 1000 }
+                  arePlaceholdersShown
+                  showGreyPlaceholder
                 />
             );
         }

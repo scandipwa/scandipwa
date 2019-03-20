@@ -514,7 +514,9 @@ class Slider extends Component {
         );
     }
 
-    renderSlide(block, item, id, listItemWidth, arePlaceholdersShown) {
+    renderSlide(block, item, id, listItemWidth, arePlaceholdersShown, showGreyPlaceholder) {
+        const { image, extraHtml } = item;
+
         return (
             <li
               block="Slider"
@@ -524,10 +526,11 @@ class Slider extends Component {
               style={ listItemWidth }
             >
                 <Figure
-                  src={ `/media/${item.image}` }
+                  src={ image && `/media/${image}` }
                   alt="SliderItem"
-                  htmlContent={ item.extraHtml && item.extraHtml }
+                  htmlContent={ extraHtml && extraHtml }
                   arePlaceholdersShown={ arePlaceholdersShown }
+                  showGreyPlaceholder={ showGreyPlaceholder }
                 />
             </li>
         );
@@ -542,7 +545,8 @@ class Slider extends Component {
             areArrowButtonsShown,
             areBreadcrumbsShown,
             isInfiniteScrollEnabled,
-            arePlaceholdersShown
+            arePlaceholdersShown,
+            showGreyPlaceholder
         } = this.props;
 
         if (items.length === 1 && !Object.keys(items[0]).length) items[0] = { image: '' };
@@ -610,7 +614,14 @@ class Slider extends Component {
                           ref={ this.carousel }
                         >
                             { items.map(
-                                (item, id) => this.renderSlide(block, item, id, listItemWidth, arePlaceholdersShown)
+                                (item, id) => this.renderSlide(
+                                    block,
+                                    item,
+                                    id,
+                                    listItemWidth,
+                                    arePlaceholdersShown,
+                                    showGreyPlaceholder
+                                )
                             ) }
                         </ul>
                     </div>
@@ -651,7 +662,8 @@ Slider.propTypes = {
     isDirectionForward: PropTypes.bool,
     isInfiniteScrollEnabled: PropTypes.bool,
     animationInterval: PropTypes.number,
-    slideSpeed: PropTypes.number
+    slideSpeed: PropTypes.number,
+    showGreyPlaceholder: PropTypes.bool
 };
 
 Slider.defaultProps = {
@@ -663,7 +675,8 @@ Slider.defaultProps = {
     isDirectionForward: true,
     isInfiniteScrollEnabled: true,
     animationInterval: 0,
-    slideSpeed: 750
+    slideSpeed: 750,
+    showGreyPlaceholder: false
 };
 
 export default Slider;

@@ -35,7 +35,7 @@ class Image extends Component {
 
     componentDidMount() {
         if ('requestIdleCallback' in window) {
-            window.requestIdleCallback(() => this.showImage(), { timeout: 1000 });
+            window.requestIdleCallback(() => this.showImage(), { timeout: 200 });
         } else {
             setTimeout(this.showImage(), 1);
         }
@@ -130,7 +130,11 @@ class Image extends Component {
         } = this.state;
 
         const {
-            src, alt, ratio, arePlaceholdersShown
+            src,
+            alt,
+            ratio,
+            arePlaceholdersShown,
+            showGreyPlaceholder
         } = this.props;
 
         const isIcon = src && src.includes('.svg');
@@ -141,7 +145,7 @@ class Image extends Component {
               mods={ {
                   ratio,
                   isLoaded: isImageLoaded,
-                  isReal: !!src
+                  isReal: !!src && !showGreyPlaceholder
               } }
               ref={ (node) => { this.node = node; } }
               onLoad={ img => this.onImageLoad(img) }
@@ -167,15 +171,16 @@ Image.propTypes = {
         '16x9',
         'square'
     ]),
-    arePlaceholdersShown: PropTypes.bool
+    arePlaceholdersShown: PropTypes.bool,
+    showGreyPlaceholder: PropTypes.bool
 };
 
 Image.defaultProps = {
     src: '',
     alt: '',
     ratio: 'square',
-    arePlaceholdersShown: false
-
+    arePlaceholdersShown: false,
+    showGreyPlaceholder: false
 };
 
 export default Image;

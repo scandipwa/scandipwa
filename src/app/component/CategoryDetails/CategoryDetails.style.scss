@@ -25,9 +25,9 @@
     }
 
     picture {
-        opacity: 0;
-        background: transparent;
-        animation: appear 100ms 300ms ease-in forwards;
+        &:not(.Image_isReal) {
+            background: none;
+        }
         
         @include mobile {
             display: none;

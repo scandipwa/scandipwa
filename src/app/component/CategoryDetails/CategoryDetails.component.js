@@ -59,7 +59,7 @@ class CategoryDetails extends Component {
                 <div block="CategoryDetails" elem="Promo">
                     { items && items['category-promo'] && <Html content={ items['category-promo'].content } /> }
                 </div>
-                <Image src={ image && `/media/catalog/category/${image}` } ratio="16x9" />
+                <Image src={ image && `/media/catalog/category/${image}` } ratio="16x9" arePlaceholdersShown />
                 <div block="CategoryDetails" elem="Description">
                     <h1 block="CategoryDetails" elem="Heading">
                         <TextPlaceholder content={ name } length="medium" />

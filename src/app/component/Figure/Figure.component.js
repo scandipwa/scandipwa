@@ -22,7 +22,14 @@ import './Figure.style';
 class Figure extends Component {
     render() {
         const {
-            src, alt, placeholderSrc, ratio, htmlContent, children, arePlaceholdersShown
+            src,
+            alt,
+            placeholderSrc,
+            ratio,
+            htmlContent,
+            children,
+            arePlaceholdersShown,
+            showGreyPlaceholder
         } = this.props;
 
         return (
@@ -33,6 +40,7 @@ class Figure extends Component {
                   placeholderSrc={ placeholderSrc }
                   ratio={ ratio }
                   arePlaceholdersShown={ arePlaceholdersShown }
+                  showGreyPlaceholder={ showGreyPlaceholder }
                 />
                 { htmlContent && (
                     <figcaption>
@@ -63,7 +71,8 @@ Figure.propTypes = {
         '16x9',
         'square'
     ]),
-    arePlaceholdersShown: PropTypes.bool
+    arePlaceholdersShown: PropTypes.bool,
+    showGreyPlaceholder: PropTypes.bool
 };
 
 Figure.defaultProps = {
@@ -73,7 +82,8 @@ Figure.defaultProps = {
     htmlContent: '',
     ratio: '16x9',
     children: null,
-    arePlaceholdersShown: false
+    arePlaceholdersShown: false,
+    showGreyPlaceholder: false
 };
 
 export default Figure;
