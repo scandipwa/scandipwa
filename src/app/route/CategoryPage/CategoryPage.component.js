@@ -173,7 +173,7 @@ class CategoryPage extends Component {
             productsLoaded: items.length,
             // TODO: adding configurable data request (as in PDP) to query, should make a seperate/more specific query
             getConfigurableData: true,
-            isCategoryLoaded: Object.entries(category).length !== 0
+            isCategoryLoaded: (Object.entries(category).length)
         };
 
         const stateUpdate = {

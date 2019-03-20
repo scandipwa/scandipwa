@@ -32,7 +32,7 @@ class CategoriesList extends Component {
         || (isParent && isSelected);
 
         return (
-            <li block="CategoriesList" elem="Category" key={ id } mods={ { isSelected, isParent } }>
+            <li block="CategoriesList" elem="Category" key={ id } mods={ { isSelected } }>
                 { this.renderCategoryLabel(name, url_path) }
                 { isParentExpanded && children && <ul>{ children.map(child => this.renderSubCategory(child)) }</ul> }
             </li>
@@ -65,7 +65,7 @@ class CategoriesList extends Component {
 
         return (
             <div block="CategoriesList">
-                <h3><TextPlaceholder content={ isLoadedOnce ? 'Available categories' : '' } /></h3>
+                <h3><TextPlaceholder content={ isLoadedOnce ? 'Categories' : '' } /></h3>
                 { this.renderCategories(isLoadedOnce) }
             </div>
         );

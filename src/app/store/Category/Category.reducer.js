@@ -67,6 +67,7 @@ const CategoryReducer = (state = initialState, action) => {
                 });
             }
         };
+
         flattenCategory(stateCategoryList);
 
         return {

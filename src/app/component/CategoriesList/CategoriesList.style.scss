@@ -18,11 +18,16 @@
 
     & &-Category {
         li {
-            padding-left: 2em;
+            padding-left: 1.5em;
+        }
+
+        li:last-child {
+            margin: 0;
         }
 
         a {
             transition: color 150ms ease-in;
+            line-height: 1.5;
 
             &:hover,
             &:focus {
@@ -33,12 +38,6 @@
         &_isSelected {
             > a {
                 color: var(--color-primary-base);
-            }
-        }
-
-        &_isParent {
-            > a {
-                line-height: 2.5;
             }
         }
     }
