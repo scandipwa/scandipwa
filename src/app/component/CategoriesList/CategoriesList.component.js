@@ -14,6 +14,7 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { CategoryTreeType } from 'Type/Category';
+import { getUrlParam } from 'Util/Url';
 import './CategoriesList.style';
 
 /**
@@ -29,10 +30,22 @@ class CategoriesList extends Component {
         );
     }
 
-    renderSubCategory({ id, name, url_path }) {
+    renderSubCategory({
+        id,
+        name,
+        url_path,
+        children
+    }, isParent) {
+        const { location, match } = this.props;
+        const currentPath = getUrlParam(match, location);
+        const isSelected = currentPath === url_path;
+        const isParentExpanded = currentPath.substring(0, currentPath.lastIndexOf('/')) === url_path
+        || (isParent && isSelected);
+
         return (
-            <li block="CategoriesList" elem="Category" key={ id }>
+            <li block="CategoriesList" elem="Category" key={ id } mods={ { isSelected } }>
                 { this.renderCategoryLabel(name, url_path) }
+                { isParentExpanded && children && <ul>{ children.map(child => this.renderSubCategory(child)) }</ul> }
             </li>
         );
     }
@@ -44,7 +57,7 @@ class CategoriesList extends Component {
             if (children.length) {
                 return (
                     <ul>
-                        { children.map(child => this.renderSubCategory(child)) }
+                        { children.map(child => this.renderSubCategory(child, true)) }
                     </ul>
                 );
             }
@@ -63,7 +76,7 @@ class CategoriesList extends Component {
 
         return (
             <div block="CategoriesList">
-                <h3><TextPlaceholder content={ isLoadedOnce ? 'Available categories' : '' } /></h3>
+                <h3><TextPlaceholder content={ isLoadedOnce ? 'Categories' : '' } /></h3>
                 { this.renderCategories(isLoadedOnce) }
             </div>
         );
@@ -72,7 +85,13 @@ class CategoriesList extends Component {
 
 CategoriesList.propTypes = {
     availableFilters: PropTypes.arrayOf(PropTypes.object).isRequired,
-    category: CategoryTreeType.isRequired
+    category: CategoryTreeType.isRequired,
+    location: PropTypes.shape({
+        pathname: PropTypes.string.isRequired
+    }).isRequired,
+    match: PropTypes.shape({
+        path: PropTypes.string.isRequired
+    }).isRequired
 };
 
 export default CategoriesList;
