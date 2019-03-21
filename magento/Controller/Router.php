@@ -12,7 +12,8 @@ namespace ScandiPWA\Source\Controller;
 use Magento\Framework\App\ActionFactory;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\RouterInterface;
-use Magento\Framework\App\ObjectManager;
+use Magento\Framework\ObjectManager\ObjectManager;
+use Magento\Framework\ObjectManagerInterface;
 use ScandiPWA\Source\Controller\Category\Search;
 
 class Router implements RouterInterface
@@ -21,20 +22,19 @@ class Router implements RouterInterface
      * @var ActionFactory
      */
     protected $actionFactory;
-    
+
     /**
      * Router constructor.
      * @param ActionFactory $actionFactory
      */
     public function __construct(
         ActionFactory $actionFactory,
-        ObjectManager $om
+        ObjectManagerInterface $om
     )
     {
         $this->actionFactory = $actionFactory;
-        $this->om = $om;
     }
-    
+
     /**
      * @param RequestInterface $request
      * @return \Magento\Framework\App\ActionInterface
@@ -42,7 +42,6 @@ class Router implements RouterInterface
     public function match(RequestInterface $request)
     {
         $t = 't';
-        die;
 //        $action = $this->om->get('pffff');
 //        return $action;
 //        return $this->actionFactory->create(Index::class);
