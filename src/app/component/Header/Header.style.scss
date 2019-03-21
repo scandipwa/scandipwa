@@ -61,15 +61,18 @@
         }
 
         a {
-            position: fixed;
-            top: 2rem;
-            left: 0;
             width: max-content;
             height: max-content;
             right: 0;
             margin: auto;
             display: inline-block;
             transition: opacity 150ms ease-in-out;
+
+            @include mobile {
+                position: fixed;
+                top: 2rem;
+                left: 0;
+            }
         }
 
         a:hover,
