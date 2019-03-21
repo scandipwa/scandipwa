@@ -182,7 +182,7 @@ class ProductActions extends Component {
         const configurableExists = variants[configurableVariantIndex] && areDetailsLoaded;
 
         if (!configurableExists) {
-            return null;
+            return this.renderSwatchPlaceholder();
         }
 
         const { product: currentConfigurableVariant } = variants[configurableVariantIndex];

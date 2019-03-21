@@ -135,6 +135,7 @@ class ProductCard extends Component {
                       src={ thumbnail ? `/media/jpg/catalog/product${ thumbnail }` : null }
                       alt="Product Thumbnail"
                       arePlaceholdersShown={ arePlaceholdersShown }
+                      showGreyPlaceholder={ !url_key }
                     />
                     <span block="ProductCard" elem="Brand">
                         <TextPlaceholder content={ brand } />

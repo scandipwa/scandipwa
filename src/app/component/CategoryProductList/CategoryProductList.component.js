@@ -111,14 +111,32 @@ class CategoryProductList extends Component {
     /**
      * render placeholders beneath the product list
      */
-    renderPlaceholder() {
-        return (
-            <div block="CategoryProductList" elem="Placeholder" ref={ (node) => { this.node = node; } }>
+    renderPlaceholder(showLoadMore, isLoading) {
+        const renderPlaceholders = () => (
+            <>
                 <ProductCard product={ {} } />
                 <ProductCard product={ {} } />
                 <ProductCard product={ {} } />
-            </div>
+            </>
         );
+
+        if (isLoading) {
+            return renderPlaceholders();
+        }
+
+        if (showLoadMore) {
+            return (
+                <div
+                  block="CategoryProductList"
+                  elem="Placeholder"
+                  ref={ (node) => { this.node = node; } }
+                >
+                    { renderPlaceholders() }
+                </div>
+            );
+        }
+
+        return null;
     }
 
     render() {
@@ -128,7 +146,7 @@ class CategoryProductList extends Component {
         return (
             <ul block="CategoryProductList" mods={ { isLoading } }>
                 { !isLoading && this.renderProducts() }
-                { showLoadMore && this.renderPlaceholder() }
+                { this.renderPlaceholder(showLoadMore, isLoading) }
             </ul>
         );
     }

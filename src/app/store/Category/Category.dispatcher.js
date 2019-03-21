@@ -38,6 +38,7 @@ class CategoryDispatcher extends RequestDispatcher {
                 filters
             }
         } = data;
+
         const { categoryUrlPath } = options;
 
         if (category) { // If category details are updated, reset all data
@@ -68,7 +69,7 @@ class CategoryDispatcher extends RequestDispatcher {
         const {
             currentPage, previousPage, pageSize, productsLoaded, isCategoryLoaded, categoryUrlPath
         } = options;
-        const query = [ProductListQuery.getQuery(options)];
+        const query = [];
 
         if (!isCategoryLoaded) {
             query.push(CategoryQuery.getQuery(options));
@@ -91,9 +92,11 @@ class CategoryDispatcher extends RequestDispatcher {
             // Both will be requested
         } else if (this._areCustomFiltersPresent(options) || this._isOneOfSortFiltersPresent(options)) {
             dispatch(updateLoadStatus(true));
-
+            query.push(ProductListQuery.getQuery(options));
             return query;
         }
+
+        query.push(ProductListQuery.getQuery(options));
 
         // TODO: default pagesize should be taken from some global config
         // this fixes paginated loading while working as expected when changing categories
