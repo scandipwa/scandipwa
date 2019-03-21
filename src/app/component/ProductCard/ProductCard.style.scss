@@ -92,6 +92,11 @@
             span {
                 color: var(--color-text-white);
             }
+
+            @include mobile {
+                padding: 0.8rem;
+                font-size: 0.8rem;
+            }
         }
 
         .TextPlaceholder {
