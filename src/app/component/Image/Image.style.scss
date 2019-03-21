@@ -37,6 +37,31 @@
     &_isReal {
         animation: none;
         background: transparent;
+        mask: radial-gradient(ellipse, black 30%, transparent 61%, transparent 100%), radial-gradient(circle, black 24%, transparent 60%, transparent 100%);
+    }
+
+    &_isLoaded.Image_isReal {
+        @keyframes maskAnimation {
+            0% {
+                mask-size: 100%;
+                mask-position: center;
+                animation-timing-function: ease-in-out;
+            }
+        
+            50% {
+                mask-position: center;
+                mask-size: 300%;
+                animation-timing-function: ease-in-out;
+            }
+            
+            100% {
+                mask-position: center;
+                mask-size: 1000%;
+                animation-timing-function: ease-in-out;
+            }
+          }
+
+          animation: maskAnimation .5s forwards;
     }
 
     > * {

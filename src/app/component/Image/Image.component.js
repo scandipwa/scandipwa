@@ -35,7 +35,7 @@ class Image extends Component {
 
     componentDidMount() {
         if ('requestIdleCallback' in window) {
-            window.requestIdleCallback(() => this.showImage(), { timeout: 1000 });
+            window.requestIdleCallback(() => this.showImage(), { timeout: 200 });
         } else {
             setTimeout(this.showImage(), 1);
         }
@@ -130,7 +130,11 @@ class Image extends Component {
         } = this.state;
 
         const {
-            src, alt, ratio
+            src,
+            alt,
+            ratio,
+            arePlaceholdersShown,
+            showGreyPlaceholder
         } = this.props;
 
         const isIcon = src && src.includes('.svg');
@@ -141,12 +145,12 @@ class Image extends Component {
               mods={ {
                   ratio,
                   isLoaded: isImageLoaded,
-                  isReal: !!src
+                  isReal: !!src && !showGreyPlaceholder
               } }
               ref={ (node) => { this.node = node; } }
               onLoad={ img => this.onImageLoad(img) }
             >
-                { showImage && src && !isIcon
+                { (!arePlaceholdersShown || showImage) && src && !isIcon
                     && <>
                         <source srcSet={ this.getUrlWithExtension(src, 'webp') } type="image/webp" />
                         <source srcSet={ src } type="image/jpeg" />
@@ -166,13 +170,17 @@ Image.propTypes = {
         '4x3',
         '16x9',
         'square'
-    ])
+    ]),
+    arePlaceholdersShown: PropTypes.bool,
+    showGreyPlaceholder: PropTypes.bool
 };
 
 Image.defaultProps = {
     src: '',
     alt: '',
-    ratio: 'square'
+    ratio: 'square',
+    arePlaceholdersShown: false,
+    showGreyPlaceholder: false
 };
 
 export default Image;

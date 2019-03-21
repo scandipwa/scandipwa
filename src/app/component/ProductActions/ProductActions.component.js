@@ -209,6 +209,7 @@ class ProductActions extends Component {
                       isSelected={ isSelected(value.value_index) }
                       backgroundColor={ backgroundColor(value.value_index) }
                       handler={ () => this.changeConfigurableVariant(attribute_code, value.value_index) }
+                      arePlaceholdersShown
                     />
                 </li>
             ));
@@ -246,6 +247,7 @@ class ProductActions extends Component {
                       title={ isColor ? '' : this.getCustomFilterLabel(product[request_var], request_var) }
                       round={ isColor }
                       backgroundColor={ backgroundColor }
+                      arePlaceholdersShown
                     />
                 </li>
             );

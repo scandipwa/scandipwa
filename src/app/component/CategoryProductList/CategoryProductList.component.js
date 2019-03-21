@@ -103,6 +103,7 @@ class CategoryProductList extends Component {
               product={ product }
               key={ product.id }
               customFilters={ customFilters }
+              arePlaceholdersShown
             />
         ));
     }

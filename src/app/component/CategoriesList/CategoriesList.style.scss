@@ -28,25 +28,27 @@
     }
 
     & &-Category {
-        border-radius: 3px;
-        display: inline-block;
-        background-color: var(--color-primary-light);
-        text-transform: lowercase;
-        margin-right: .5rem;
-        transition: background-color 150ms ease-in;
+        li {
+            padding-left: 1.5em;
+        }
 
-        &:hover {
-            background-color: var(--color-primary-base);
+        li:last-child {
+            margin: 0;
         }
 
         a {
-            padding: .3rem .6rem;
             transition: color 150ms ease-in;
-            display: block;
+            line-height: 1.5;
 
             &:hover,
             &:focus {
-                color: var(--color-text-white);
+                color: var(--color-primary-base);
+            }
+        }
+
+        &_isSelected {
+            > a {
+                color: var(--color-primary-base);
             }
         }
     }
