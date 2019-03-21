@@ -23,6 +23,7 @@ import { HeaderAndFooterReducer } from 'Store/HeaderAndFooter';
 import { CartReducer } from 'Store/Cart';
 import { NoMatchReducer } from 'Store/NoMatch';
 import { RelatedProductsReducer } from 'Store/RelatedProducts';
+import { SearchBarReducer } from 'Store/SearchBar';
 
 const reducers = combineReducers({
     CmsBlocksAndSliderReducer,
@@ -34,7 +35,8 @@ const reducers = combineReducers({
     HeaderAndFooterReducer,
     CartReducer,
     NoMatchReducer,
-    RelatedProductsReducer
+    RelatedProductsReducer,
+    SearchBarReducer
 });
 
 const store = createStore(

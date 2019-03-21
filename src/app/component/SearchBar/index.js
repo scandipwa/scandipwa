@@ -9,18 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-@keyframes placeholderAnimation {
-    from { background-position: -1200px 0 }
-    to { background-position: 1200px 0 }
-}
+import SearchBar from './SearchBar.container';
 
-@keyframes appear {
-    from { opacity: 0 }
-    to { opacity: 1 }
-}
-
-@keyframes ellipsis-dot {
-    0% { opacity: 0; }
-    50% { opacity: 1; }
-    100% { opacity: 0; }
-}
+export default SearchBar;

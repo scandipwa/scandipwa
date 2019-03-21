@@ -10,6 +10,7 @@
  */
 
 import React, { Component } from 'react';
+import SearchBar from 'Component/SearchBar';
 import MiniCart from 'Component/MiniCart';
 import { Link } from 'react-router-dom';
 import ContentWrapper from 'Component/ContentWrapper';
@@ -33,14 +34,9 @@ class Header extends Component {
                             />
                         </Link>
                     </div>
-                    {/* TODO: Bring back search when functionality will be implemented */}
-                    {/* <div block="Header" elem="Search" aria-label="Header search bar">
-                        <Field
-                          type="text"
-                          id="HeaderInput"
-                          placeholder="Type a new search"
-                        />
-                    </div> */}
+                    <div block="Header" elem="Search" aria-label="Header search bar">
+                        <SearchBar />
+                    </div>
                     <div block="Header" elem="Info" aria-label="Header additional info">
                         <p>Delivery as soon as:</p>
                         <span>Next Day</span>

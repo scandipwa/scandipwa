@@ -1,0 +1,289 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+.SearchBar {
+    --border-color: var(--color-breadcrumbs-background);
+    --search-translate-percentage: 0; /* to sync CSS animation and JS callback */
+    --search-results-max-height: 0; /* to sync CSS animation and JS callback */
+
+    border: 1px solid var(--border-color);
+
+    @include mobile {
+        position: fixed;
+        transform: scaleY(var(--search-translate-percentage));
+        transition-duration: 150ms;
+        transform-origin: 0 0;
+    }
+
+    &_isActive {
+        @include after-mobile {
+            --border-color: var(--color-primary-light);
+        }
+    }
+
+    &_isVisible {
+        display: block;
+        width: 100%;
+        left: 0;
+        top: 0;
+
+        @include mobile {
+            top: 70px;
+        }
+    }
+
+    &-Circle {
+        pointer-events: none;
+        position: relative;
+        display: block;
+        height: 18px;
+        width: 18px;
+        background-color: var(--header-color);
+        border-radius: 50%;
+        z-index: 0;
+        border: 3px solid var(--color-text-black);
+        transition: all 350ms cubic-bezier(0.25, 1.7, 0.35, 0.8);
+        z-index: 1;
+
+        &_notVisible {
+            transform: scale(.02);
+            transform-origin: 30% 40%;
+        }
+    }
+
+    &-Handle {
+        pointer-events: none;
+        position: absolute;
+        background-color: var(--color-text-black);
+        top: 12px;
+        left: 0px;
+        width: 25px;
+        height: 4px;
+        display: block;
+        transform: rotate(45deg);
+
+        &::after {
+            content: "";
+            background-color: var(--color-text-black);
+            width: 25px;
+            height: 4px;
+            display: block;
+            float: right;
+            transition: all 350ms cubic-bezier(0.25, 1.7, 0.35, 0.8);
+            z-index: -1;            
+        }
+
+        &_visible {
+            &::after {
+                transform-origin: center center;
+                transform: rotate(90deg);
+            }
+        }
+    }
+
+    &-Heading {
+        padding: 0 1rem;
+
+        h3 {
+            margin: 0;
+            line-height: 3.5rem;
+            min-height: 3.5rem;
+            display: flex;
+        }
+
+        span {
+            display: inline-block;
+            width: 9rem;
+
+            &:last-child {
+                color: var(--color-primary-base);
+                width: calc(100% - 9rem);
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+    }
+
+    &-Dropdown {
+        border: 1px solid var(--border-color);
+        position: absolute;
+        top: 100%;
+        width: calc(100% + 2px);
+        left: -1px;
+        z-index: 20;
+        background-color: var(--color-breadcrumbs-background);
+        border-top: 0;
+
+        @include after-mobile {
+            border-radius: 0 0 1rem 1rem;
+            overflow: hidden;
+        }
+
+        @include mobile {
+            margin-top: -1px;
+        }
+
+        &_hidden {
+            display: none;
+        }
+
+        ul {
+            background-color: var(--color-text-white);
+        }
+    }
+
+    &-AnimationBlock {
+        display: flex;
+        align-items: center;
+        justify-items: center;
+        height: 5rem;
+        width: 4rem;
+        margin: 0 auto;
+
+        div {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--color-primary-base);
+            animation: ellipsis-dot 1s infinite;
+
+            &:first-child {
+                animation-delay: 0.0s;
+            }
+
+            &:nth-child(2) {
+                left: 1.5rem;
+                animation-delay: 0.1s;
+            }
+
+            &:nth-child(3) {
+                left: 3rem;
+                animation-delay: 0.2s;
+            }
+        }
+    }
+
+    &-Results {
+        overflow-y: scroll;
+        max-height: 0;
+        transition: max-height 150ms ease-in;
+
+        @include mobile {
+            max-height: var(--search-results-max-height);
+        }
+
+        &_isLoaded {
+            max-height: 42rem;
+
+            @include mobile {
+                min-height: calc(100% - 13.5rem);
+                width: 100%;
+                left: 0;
+                position: fixed;
+                z-index: 5;
+                background-color: var(--color-text-white);
+                transition: max-height 150ms ease-in;
+                --search-results-max-height: 42vh;
+            }
+        }
+    }
+
+    &-NoResults {
+        padding: .5rem;
+        text-align: center;
+        border-top: 1px solid var(--header-color);
+        font-size: 1.25rem;
+        color: var(--color-neutral-base);
+        background-color: var(--color-text-white);
+        font-weight: 600;
+    }
+
+    &-Icon {
+        width: 1.6rem;
+        display: none;
+
+        &_isVisible {
+            width: 1.6rem;
+        }
+
+        @include mobile {
+            display: block;
+            margin-top: -0.8rem;
+        }
+
+        svg {
+            z-index: -1;
+        }
+    }
+
+    input {
+        padding: 1rem 1.9rem;
+
+        @include mobile {
+            font-size: 1.3rem;
+        }
+
+        &:focus {
+            border-color: transparent;
+        }
+
+        &:not(:focus) {
+            border-color: var(--color-breadcrumbs-background);
+        }
+    }
+
+    .CartItem {
+        --link-color: var(--color-text-black);
+
+        grid-template-columns: 5rem 1fr;
+        grid-column-gap: 1rem;
+        padding: .5rem;
+        border-top: 1px solid var(--header-color);
+        border-bottom: 0;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+
+        &-RemoveButton {
+            display: none;
+        }
+
+        &-Price {
+            grid-column: 1/3;
+        }
+
+        &-Info {
+            margin-top: 0;
+        }
+
+        &-Details {
+            grid-column: 2;
+            align-items: center;
+        }
+
+        &-Title {
+            font-size: 1.2rem;
+            align-self: center;
+
+            span {
+                margin-bottom: .3rem;
+            }
+        }
+
+        .ProductPrice {
+            line-height: 1rem;
+            margin-top: 0;
+        }
+    }
+}
