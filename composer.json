@@ -2,6 +2,7 @@
     "name": "scandipwa/source",
     "type": "magento2-theme",
     "description": "ScandiPWA",
+    "version": "1.9",
     "keywords": [
         "magento2",
         "source",
@@ -48,6 +49,9 @@
     "autoload": {
         "files": [
             "registration.php"
-        ]
+        ],
+        "psr-4": {
+            "ScandiPWA\\Source\\": "magento"
+        }
     }
 }
