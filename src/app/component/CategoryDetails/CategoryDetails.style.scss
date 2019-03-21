@@ -13,11 +13,13 @@
     display: grid;
     grid-template-columns: 15rem auto;
     grid-gap: 1rem;
+    border-left: 1px solid var(--color-neutral-light);
 
     @include mobile {
         grid-row: 1;
         margin-bottom: 1.5rem;
         grid-template-columns: 1fr;
+        border: none;
     }
 
     >:first-child {

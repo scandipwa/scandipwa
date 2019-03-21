@@ -14,10 +14,12 @@
     grid-template-columns: repeat(3, 33.33%);
     grid-auto-rows: max-content;
     padding-bottom: 2rem;
+    border-left: 1px solid var(--color-neutral-light);
 
     @include mobile {
         grid-template-columns: 1fr 1fr;
         grid-column-gap: 0.5rem;
+        border: none;
     }
 
     @include after-mobile {
