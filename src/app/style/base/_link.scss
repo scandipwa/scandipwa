@@ -26,3 +26,9 @@ a {
         margin-left: 1rem;
     }
 }
+
+.ProductCard-Actions {
+    a {
+        @extend %button;
+    }
+}
