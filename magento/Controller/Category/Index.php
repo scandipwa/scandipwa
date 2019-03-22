@@ -32,6 +32,7 @@ class Index extends Action implements HttpGetActionInterface, HttpPostActionInte
     private $resultPageFactory;
     protected $categoryResourceCollection;
     protected $productFactory;
+    protected $om;
 
     public function __construct(
         Context $context,
