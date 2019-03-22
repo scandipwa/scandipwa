@@ -123,7 +123,13 @@ class ProductCard extends Component {
         const thumbnail = this.getThumbnail(variantIndex);
         const TagName = url_key ? Link : 'div';
         const isLoading = !url_key;
-        const linkTo = url_key ? { pathname: `/product/${ url_key }`, state: { product, variantIndex } } : undefined;
+        const linkTo = url_key
+            ? {
+                pathname: `/product/${ url_key }`,
+                state: { product, variantIndex },
+                search: `?variant=${ variantIndex }`
+            }
+            : undefined;
 
         return (
             <li block="ProductCard" mods={ { isLoading } }>
