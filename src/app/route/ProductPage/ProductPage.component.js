@@ -16,6 +16,7 @@ import ProductGallery from 'Component/ProductGallery';
 import ProductDescription from 'Component/ProductDescription';
 import ContentWrapper from 'Component/ContentWrapper';
 import ProductActions from 'Component/ProductActions';
+import GroupedProductsList from 'Component/GroupedProductsList';
 import Meta from 'Component/Meta';
 import { ProductType } from 'Type/ProductList';
 import { getUrlParam } from 'Util/Url';
@@ -154,7 +155,7 @@ class ProductPage extends Component {
 
 
     render() {
-        const { product, product: { variants }, filters } = this.props;
+        const { product, product: { variants, type_id }, filters } = this.props;
         const { configurableVariantIndex } = this.state;
         const dataSource = this.getDataSource();
         const { media_gallery_entries } = dataSource;
@@ -183,6 +184,7 @@ class ProductPage extends Component {
                           areDetailsLoaded={ areDetailsLoaded }
                           configurableVariantIndex={ configurableVariantIndex }
                         />
+                        { type_id === 'grouped' && <GroupedProductsList product={ dataSource } /> }
                         <ProductActions
                           product={ dataSource }
                           availableFilters={ filters }

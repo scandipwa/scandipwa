@@ -87,7 +87,7 @@
 
     &-Actions {
         a {
-            @extend %button;
+            @extend %button !optional;
 
             span {
                 color: var(--color-text-white);
