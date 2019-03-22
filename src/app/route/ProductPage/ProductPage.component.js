@@ -156,7 +156,7 @@ class ProductPage extends Component {
 
     /**
      * Update query params without adding to history, set configurableVariantIndex
-     * @param {*} variant
+     * @param {Number} variant
      */
     updateUrl(variant) {
         const { configurableVariantIndex } = this.state;

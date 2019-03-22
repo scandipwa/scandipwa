@@ -11,8 +11,8 @@
 
 /**
  * Update query params without adding to history
- * @param {*} name
- * @param {*} value
+ * @param {String} name
+ * @param {Number} value
  */
 const updateQueryParamWithoutHistory = (name, value) => {
     const params = new URLSearchParams(window.location.search);
