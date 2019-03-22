@@ -18,7 +18,6 @@ use Magento\Framework\View\Result\PageFactory;
 use Magento\Catalog\Model\ResourceModel\Category\Collection as CategoryResourceCollection;
 use Magento\Catalog\Model\ProductFactory;
 use Magento\Cms\Model\GetPageByIdentifier;
-use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 
 class Index extends Action implements HttpGetActionInterface, HttpPostActionInterface
@@ -37,13 +36,11 @@ class Index extends Action implements HttpGetActionInterface, HttpPostActionInte
         Context $context,
         PageFactory $resultPageFactory,
         CategoryResourceCollection $categoryResourceCollection,
-        ProductFactory $productFactory,
-        ObjectManagerInterface $om
+        ProductFactory $productFactory
     ) {
         $this->resultPageFactory = $resultPageFactory;
         $this->categoryResourceCollection = $categoryResourceCollection;
         $this->productFactory = $productFactory;
-        $this->om = $om;
         parent::__construct($context);
     }
 
