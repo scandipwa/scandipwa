@@ -12,7 +12,7 @@
 .CategoryPage {
     &-Wrapper {
         display: grid;
-        grid-template-columns: 22rem auto;
+        grid-template-columns: 22rem calc(100% - 24rem);
         grid-column-gap: 2rem;
         padding-top: 1rem;
 
@@ -24,7 +24,7 @@
     &-Options {
         @include after-mobile {
             grid-row: 1/5;
-            height: calc(100vh - 80px);
+            height: 100vh;
             position: sticky;
             top: 40px;
             overflow-y: hidden;
@@ -75,11 +75,10 @@
 
     &-Miscellaneous {
         display: flex;
-        border-left: 1px solid var(--color-neutral-light);
 
         @include mobile {
             flex-direction: column;
-            border: none;
+            border: 0;
         }
 
         @include after-mobile {

@@ -14,12 +14,11 @@
     grid-template-columns: repeat(3, 33.33%);
     grid-auto-rows: max-content;
     padding-bottom: 2rem;
-    border-left: 1px solid var(--color-neutral-light);
 
     @include mobile {
         grid-template-columns: 1fr 1fr;
         grid-column-gap: 0.5rem;
-        border: none;
+        border: 0;
     }
 
     @include after-mobile {
@@ -30,7 +29,7 @@
     &-Placeholder {
         display: grid;
         grid-template-columns: inherit;
-        grid-column: span 3;
+        grid-column: 1/4;
 
         @include mobile {
             grid-column: span 2;
