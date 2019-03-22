@@ -78,8 +78,10 @@
 	}
 
 	&-Empty {
-		padding: 1rem 2rem;
-		background-color: var(--minicart-border-color);
+		height: 2.9rem;
+		padding: 0 2rem;
+		background-color: var(--color-primary-light);
+		line-height: 2.9rem;
 
 		&::before {
 			content: none;

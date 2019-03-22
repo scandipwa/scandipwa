@@ -33,6 +33,10 @@
         @include mobile {
             order: 3;
         }
+
+        .MiniCart-Empty {
+            background-color: transparent;
+        }
     }
 
     &-TableTitles {
