@@ -26,6 +26,7 @@ const NUMBER_TYPE = 'number';
 const CHECKBOX_TYPE = 'checkbox';
 const RADIO_TYPE = 'radio';
 const TEXTAREA_TYPE = 'textarea';
+const PASSWORD_TYPE = 'password';
 
 /**
  * Input fields component
@@ -166,6 +167,23 @@ class Field extends Component {
         );
     }
 
+    renderTypePassword() {
+        const { placeholder, id } = this.props;
+        const { value } = this.state;
+
+        return (
+            <input
+              type="password"
+              id={ id }
+              value={ value }
+              onChange={ this.onChange }
+              onFocus={ event => this.onFocus(event) }
+              onClick={ event => this.onClick(event) }
+              placeholder={ placeholder }
+            />
+        );
+    }
+
     renderTypeNumber() {
         const { id } = this.props;
         const { value } = this.state;
@@ -200,6 +218,8 @@ class Field extends Component {
             return this.renderTypeNumber();
         case TEXTAREA_TYPE:
             return this.renderTextarea();
+        case PASSWORD_TYPE:
+            return this.renderTypePassword();
         default:
             return this.renderTypeText();
         }
@@ -230,7 +250,8 @@ Field.propTypes = {
         NUMBER_TYPE,
         CHECKBOX_TYPE,
         TEXTAREA_TYPE,
-        RADIO_TYPE
+        RADIO_TYPE,
+        PASSWORD_TYPE
     ]).isRequired,
     name: PropTypes.string,
     label: PropTypes.string,
