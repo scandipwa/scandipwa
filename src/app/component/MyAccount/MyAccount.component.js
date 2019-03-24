@@ -38,7 +38,7 @@ class MyAccount extends Component {
             [STATE_LOGGED_IN]: () => this.renderAccountActions()
         };
 
-        this.createSteps = [            
+        this.createSteps = [
             () => this.renderCreateAccountFirstStep(),
             () => this.renderCreateAccountSecondStep()
         ];
@@ -54,18 +54,30 @@ class MyAccount extends Component {
         this.setState({ createStep });
     }
 
+    goBackToDefault() {
+        const { state, isOpen } = this.state;
+
+        if (state !== STATE_LOGGED_IN) {
+            this.setState({ state: STATE_SIGN_IN });
+        }
+
+        this.setState({ isOpen: !isOpen });
+    }
+
     renderButton() {
-        const { state } = this.state;
+        const { state, isOpen } = this.state;
         const actionText = state === STATE_LOGGED_IN
-            ? 'Hello, User!'
+            ? 'Hello, User'
             : 'My Account';
 
         return (
             <button
               block="MyAccount"
               elem="Button"
+              mods={ { isOpen } }
+              onClick={ () => this.goBackToDefault() }
             >
-                <span
+                <i
                   block="MyAccount"
                   elem="Icon"
                 />
@@ -106,7 +118,7 @@ class MyAccount extends Component {
                     <h3>Get password reset link</h3>
                     <Field type="text" label="Email" id="forgot-email" />
                     <div block="MyAccount" elem="Buttons">
-                        <button>Send reset link!</button>
+                        <button>Send reset link</button>
                     </div>
                 </form>
                 <article block="MyAccount" elem="Additional">
@@ -161,7 +173,7 @@ class MyAccount extends Component {
             <div block="MyAccount" elem="Buttons">
                 { showPrev && <button onClick={ () => this.changeCreateAccountStep(createStep - 1) }>Previous step</button> }
                 { showNext && <button onClick={ () => this.changeCreateAccountStep(createStep + 1) }>Next step</button> }
-                { showSubmit && <button>Sign up!</button> }
+                { showSubmit && <button>Sign up</button> }
             </div>
         );
     }
@@ -195,7 +207,7 @@ class MyAccount extends Component {
                     <Field type="text" label="Login or Email" id="sign-in-email" />
                     <Field type="password" label="Password" id="sign-in-password" />
                     <div block="MyAccount" elem="Buttons">
-                        <button>Sign in!</button>
+                        <button>Sign in</button>
                     </div>
                 </form>
                 <article block="MyAccount" elem="Additional">
