@@ -105,6 +105,9 @@ class MyAccount extends Component {
                 <form>
                     <h3>Get password reset link</h3>
                     <Field type="text" label="Email" id="forgot-email" />
+                    <div block="MyAccount" elem="Buttons">
+                        <button>Send reset link!</button>
+                    </div>
                 </form>
                 <article block="MyAccount" elem="Additional">
                     <section aria-labelledby="forgot-password-labe">
