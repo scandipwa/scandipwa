@@ -70,7 +70,7 @@ class ProductSort extends Component {
                         </span>
                         <Select
                           block="ProductSort"
-                          elem="Select2"
+                          elem="Select"
                           options={ selectableOptions }
                           selectedOption={ value }
                           onGetSortKey={ onGetSortKey }
