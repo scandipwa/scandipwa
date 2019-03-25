@@ -184,14 +184,16 @@ class ProductPage extends Component {
                           areDetailsLoaded={ areDetailsLoaded }
                           configurableVariantIndex={ configurableVariantIndex }
                         />
-                        { type_id === 'grouped' && <GroupedProductsList product={ dataSource } /> }
-                        <ProductActions
-                          product={ dataSource }
-                          availableFilters={ filters }
-                          configurableVariantIndex={ configurableVariantIndex }
-                          areDetailsLoaded={ areDetailsLoaded }
-                          updateConfigurableVariantIndex={ index => this.setState({ configurableVariantIndex: index }) }
-                        />
+                        <div>
+                            { type_id === 'grouped' && <GroupedProductsList product={ dataSource } /> }
+                            <ProductActions
+                              product={ dataSource }
+                              availableFilters={ filters }
+                              configurableVariantIndex={ configurableVariantIndex }
+                              areDetailsLoaded={ areDetailsLoaded }
+                              updateConfigurableVariantIndex={ index => this.setState({ configurableVariantIndex: index }) }
+                            />
+                        </div>
                     </ContentWrapper>
                     <ProductDescription
                       product={ dataSource }

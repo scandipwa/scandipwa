@@ -73,11 +73,8 @@ class GroupedProductsItem extends Component {
         const {
             product: {
                 thumbnail,
-                url_key,
                 name,
-                quantity,
                 price,
-                brand,
                 id
             }
         } = this.props;

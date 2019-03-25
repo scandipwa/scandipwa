@@ -30,7 +30,10 @@ import './ProductActions.style';
 class ProductActions extends Component {
     constructor(props) {
         super(props);
-        this.state = { itemCount: 1 };
+        this.state = {
+            itemCount: 1,
+            groupedProductsCount: {}
+        };
     }
 
     /**
@@ -87,10 +90,15 @@ class ProductActions extends Component {
     addProduct() {
         const {
             addProduct, product, product: {
-                variants
+                variants, type_id
             }, configurableVariantIndex
         } = this.props;
         const { itemCount } = this.state;
+
+        if (type_id === 'grouped') {
+            console.log('------>', product)
+            this.addGroupedProducts(product);
+        }
 
         if (variants) {
             // mixing product data with variant to work properly in cart
@@ -103,6 +111,16 @@ class ProductActions extends Component {
         } else {
             addProduct({ product, quantity: itemCount });
         }
+    }
+
+    /**
+     * Dispatch add product to cart for a grouped product
+     * @return {void}
+     */
+    addGroupedProducts({ items }) {
+        items.map((product) => {
+            console.log('product:::::', product)
+        })
     }
 
     /**
@@ -154,7 +172,7 @@ class ProductActions extends Component {
         }
     }
 
-    renderProductActions() {
+    renderConfigurableSimpleProduct() {
         const { product: { price, type_id } } = this.props;
         const { itemCount } = this.state;
         const isConfigurable = type_id === 'configurable';
@@ -169,6 +187,17 @@ class ProductActions extends Component {
                   onChange={ itemCount => this.setState({ itemCount }) }
                   value={ itemCount }
                 />
+            </>
+        );
+    }
+
+    renderProductActions() {
+        const { product: { type_id } } = this.props;
+        const isGrouped = type_id === 'grouped';
+
+        return (
+            <>
+                { !isGrouped && this.renderConfigurableSimpleProduct() }
                 <AddToCart onClick={ () => this.addProduct() } />
             </>
         );
