@@ -11,7 +11,7 @@
 
 import { RequestDispatcher } from 'Util/Request';
 import { ProductListQuery } from 'Query';
-import { updateProductDetails } from 'Store/Product';
+import { updateProductDetails, updateGroupedProductQuantity, clearGroupedProductQuantity } from 'Store/Product';
 import { updateNoMatch } from 'Store/NoMatch';
 import { RelatedProductsDispatcher } from 'Store/RelatedProducts';
 
@@ -28,7 +28,7 @@ class ProductDispatcher extends RequestDispatcher {
     onSuccess(data, dispatch) {
         const { products: { items, filters } } = data;
         const productItem = items[0];
-
+        const product = productItem.type_id === 'grouped' ? this._prepareGroupedProduct(productItem) : productItem;
         // TODO: make one request per description & related in this.prepareRequest
         if (productItem.product_links && Object.keys(productItem.product_links).length > 0) {
             const { product_links } = productItem;
@@ -40,7 +40,7 @@ class ProductDispatcher extends RequestDispatcher {
         }
 
         return (items && items.length > 0)
-            ? dispatch(updateProductDetails(productItem, filters))
+            ? dispatch(updateProductDetails(product, filters))
             : dispatch(updateNoMatch(true));
     }
 
@@ -56,6 +56,31 @@ class ProductDispatcher extends RequestDispatcher {
      */
     prepareRequest(options) {
         return ProductListQuery.getQuery(options);
+    }
+
+    updateGroupedProductQuantity(dispatch, options) {
+        const { product, quantity } = options;
+
+        return dispatch(updateGroupedProductQuantity(product, quantity));
+    }
+
+    clearGroupedProductQuantity(dispatch) {
+        return dispatch(clearGroupedProductQuantity());
+    }
+
+    _prepareGroupedProduct(groupProduct) {
+        const { items } = groupProduct;
+        const newItems = items.map(item => ({
+            product: {
+                ...item.product,
+                url_key: groupProduct.url_key
+            }
+        }));
+
+        return {
+            ...groupProduct,
+            items: newItems
+        };
     }
 }
 

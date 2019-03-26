@@ -9,6 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import GroupedProductsItem from './GroupedProductsItem.component';
+import GroupedProductsItem from './GroupedProductsItem.container';
 
 export default GroupedProductsItem;

@@ -10,7 +10,6 @@
  */
 
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import Image from 'Component/Image';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import ProductPrice from 'Component/ProductPrice';
@@ -28,45 +27,25 @@ class GroupedProductsItem extends Component {
         super();
 
         this.state = {
-            itemCount: 1,
             // eslint-disable-next-line react/no-unused-state
             isConfigurationInitilized: false
         };
     }
 
-    renderItemTitle(url_key, name, manufacturer) {
-        return (
-            <div block="CartItem" elem="Title">
-                <Link
-                  onClick={ () => this.handleItemClick() }
-                    // TODO: replace from configuration file
-                  to={ this.getProductLinkTo(url_key) }
-                >
-                    {manufacturer && <span>{manufacturer}</span>}
-                    <p><TextPlaceholder content={ name } /></p>
-                </Link>
-            </div>
-        );
+    componentWillMount() {
+        const { updateGroupedProductQuantity, product } = this.props;
+
+        updateGroupedProductQuantity({ product, quantity: 1 });
     }
 
-    renderItemDetails(price) {
-        const { itemCount } = this.state;
-        return (
-            <div
-              block="CartItem"
-              elem="Details"
-            >
-                <Field
-                  type="number"
-                  id="HeaderInput"
-                  onChange={ itemCount => this.setState({ itemCount }) }
-                  value={ itemCount }
-                />
-                <div block="CartItem" elem="Price">
-                    <ProductPrice price={ price } mods={ { type: 'regular' } } />
-                </div>
-            </div>
-        );
+    getCurrentQuantity(id, groupedProductQuantity) {
+        return groupedProductQuantity[id] || 0;
+    }
+
+    changeCount(itemCount) {
+        const { updateGroupedProductQuantity, product } = this.props;
+
+        updateGroupedProductQuantity({ product, quantity: itemCount });
     }
 
     render() {
@@ -76,19 +55,14 @@ class GroupedProductsItem extends Component {
                 name,
                 price,
                 id
-            }
+            },
+            groupedProductQuantity
         } = this.props;
-        const { itemCount } = this.state;
+        const itemCount = this.getCurrentQuantity(id, groupedProductQuantity);
 
         return (
-            <li block="GroupedProductsItem" aria-label="Cart Item" key={ id }>
-                <div
-                  block="GroupedProductsItem"
-                  elem="Thumbnail"
-                  aria-label="Cart Thumbnail"
-                >
-                    <Image src={ `/media/catalog/product${thumbnail}` } alt="Cart Thumbnail" />
-                </div>
+            <li block="GroupedProductsItem" aria-label="Product Item">
+                <Image src={ `/media/catalog/product${thumbnail}` } alt="Product Thumbnail" />
                 <div block="GroupedProductsItem" elem="Title">
                     <TextPlaceholder content={ name } />
                     <ProductPrice price={ price } mods={ { type: 'regular' } } />
@@ -97,7 +71,7 @@ class GroupedProductsItem extends Component {
                     <Field
                       type="number"
                       id="HeaderInput"
-                      onChange={ itemCount => this.setState({ itemCount }) }
+                      onChange={ itemCount => this.changeCount(itemCount) }
                       value={ itemCount }
                     />
                 </div>
@@ -107,7 +81,9 @@ class GroupedProductsItem extends Component {
 }
 
 GroupedProductsItem.propTypes = {
-    product: ProductType.isRequired
+    product: ProductType.isRequired,
+    updateGroupedProductQuantity: PropTypes.func.isRequired,
+    groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired
 };
 
 export default GroupedProductsItem;

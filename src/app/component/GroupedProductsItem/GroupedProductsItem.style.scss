@@ -13,7 +13,7 @@
     grid-column: 1 / 3;
     display: grid;
     padding: 0;
-    grid-template-columns: 8rem 3fr 1fr;
+    grid-template-columns: 6rem 3fr 1fr;
 
     &::before {
         content: none;

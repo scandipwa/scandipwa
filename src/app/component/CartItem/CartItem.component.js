@@ -35,7 +35,10 @@ class CartItem extends Component {
         const { product: { configurableVariantIndex }, product } = this.props;
         const variantIndex = configurableVariantIndex;
 
-        return { pathname: `/product/${ url_key }`, state: { product, variantIndex } };
+        return {
+            pathname: `/product/${ url_key }`,
+            state: { product: product.parent ? product.parent : product, variantIndex } 
+        };
     }
 
     /**

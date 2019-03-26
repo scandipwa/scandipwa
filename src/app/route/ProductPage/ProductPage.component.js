@@ -30,7 +30,8 @@ class ProductPage extends Component {
         this.state = {
             configurableVariantIndex: 0,
             // eslint-disable-next-line react/no-unused-state
-            isConfigurationInitilized: false
+            isConfigurationInitilized: false,
+            groupedProductsQuantity: {}
         };
     }
 
@@ -57,6 +58,14 @@ class ProductPage extends Component {
         if (location !== prevProps.location) this.requestProduct();
         if (this.variantIndexInPropsChanged(this.props, prevProps)) this.setState({ isConfigurationInitilized: false });
         this.updateBreadcrumbs();
+    }
+
+    componentWillUnmount() {
+        const { product: { type_id }, clearGroupedProductQuantity } = this.props;
+
+        if (type_id === 'grouped') return clearGroupedProductQuantity();
+
+        return null;
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -153,6 +162,9 @@ class ProductPage extends Component {
         if (Object.keys(dataSource).length) updateBreadcrumbs(dataSource);
     }
 
+    changeGroupedProductQuantity() {
+
+    }
 
     render() {
         const { product, product: { variants, type_id }, filters } = this.props;
@@ -185,13 +197,21 @@ class ProductPage extends Component {
                           configurableVariantIndex={ configurableVariantIndex }
                         />
                         <div>
-                            { type_id === 'grouped' && <GroupedProductsList product={ dataSource } /> }
+                            { type_id === 'grouped'
+                            && (
+                                <GroupedProductsList
+                                  product={ dataSource }
+                                  handleGroupedQuantityChange={ this.changeGroupedProductQuantity }
+                                />
+                            ) }
                             <ProductActions
                               product={ dataSource }
                               availableFilters={ filters }
                               configurableVariantIndex={ configurableVariantIndex }
                               areDetailsLoaded={ areDetailsLoaded }
-                              updateConfigurableVariantIndex={ index => this.setState({ configurableVariantIndex: index }) }
+                              updateConfigurableVariantIndex={ index => this.setState({
+                                  configurableVariantIndex: index
+                              }) }
                             />
                         </div>
                     </ContentWrapper>
@@ -222,6 +242,7 @@ ProductPage.propTypes = {
     }).isRequired,
     requestProduct: PropTypes.func.isRequired,
     updateBreadcrumbs: PropTypes.func.isRequired,
+    clearGroupedProductQuantity: PropTypes.func.isRequired,
     product: ProductType.isRequired,
     filters: PropTypes.arrayOf(PropTypes.shape)
 };

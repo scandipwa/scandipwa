@@ -74,6 +74,7 @@ class ProductListQuery {
             .addField('name')
             .addField('color')
             .addField('size')
+            .addField('brand')
             .addField('shoes_size')
             .addField('short_description')
             .addField('image')

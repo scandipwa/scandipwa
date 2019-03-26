@@ -31,8 +31,7 @@ class ProductActions extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            itemCount: 1,
-            groupedProductsCount: {}
+            itemCount: 1
         };
     }
 
@@ -96,8 +95,7 @@ class ProductActions extends Component {
         const { itemCount } = this.state;
 
         if (type_id === 'grouped') {
-            console.log('------>', product)
-            this.addGroupedProducts(product);
+            return this.addGroupedProducts(product);
         }
 
         if (variants) {
@@ -107,20 +105,30 @@ class ProductActions extends Component {
                 configurableVariantIndex
             };
 
-            addProduct({ product: configurableProduct, quantity: itemCount });
-        } else {
-            addProduct({ product, quantity: itemCount });
+            return addProduct({ product: configurableProduct, quantity: itemCount });
         }
+
+        return addProduct({ product, quantity: itemCount });
     }
 
     /**
      * Dispatch add product to cart for a grouped product
      * @return {void}
      */
-    addGroupedProducts({ items }) {
-        items.map((product) => {
-            console.log('product:::::', product)
-        })
+    addGroupedProducts(groupedProduct) {
+        const { items } = groupedProduct;
+        const { groupedProductQuantity, addProduct } = this.props;
+
+        items.forEach((item) => {
+            const { product } = item;
+            const {
+                items: deletedItems,
+                ...parentProduct
+            } = groupedProduct;
+
+            product.parent = parentProduct;
+            addProduct({ product, quantity: groupedProductQuantity[item.product.id] });
+        });
     }
 
     /**
@@ -345,6 +353,7 @@ ProductActions.propTypes = {
     availableFilters: PropTypes.arrayOf(PropTypes.shape).isRequired,
     configurableVariantIndex: PropTypes.number.isRequired,
     updateConfigurableVariantIndex: PropTypes.func.isRequired,
+    groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired,
     areDetailsLoaded: PropTypes.bool.isRequired
 };
 
