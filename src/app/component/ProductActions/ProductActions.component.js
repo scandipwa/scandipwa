@@ -30,9 +30,7 @@ import './ProductActions.style';
 class ProductActions extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            itemCount: 1
-        };
+        this.state = { itemCount: 1 };
     }
 
     /**

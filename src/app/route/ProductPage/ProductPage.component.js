@@ -30,8 +30,7 @@ class ProductPage extends Component {
         this.state = {
             configurableVariantIndex: 0,
             // eslint-disable-next-line react/no-unused-state
-            isConfigurationInitilized: false,
-            groupedProductsQuantity: {}
+            isConfigurationInitilized: false
         };
     }
 
@@ -160,10 +159,6 @@ class ProductPage extends Component {
         const dataSource = this.getDataSource();
 
         if (Object.keys(dataSource).length) updateBreadcrumbs(dataSource);
-    }
-
-    changeGroupedProductQuantity() {
-
     }
 
     render() {

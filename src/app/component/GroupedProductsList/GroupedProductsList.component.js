@@ -10,16 +10,14 @@
  */
 
 import React, { Component } from 'react';
-import ContentWrapper from 'Component/ContentWrapper';
 import GroupedProductsItem from 'Component/GroupedProductsItem';
 import { ProductType } from 'Type/ProductList';
-import './GroupedProductsList.style';
 
 /**
  * Product description
- * @class GroupedProduct
+ * @class GroupedProductList
  */
-class GroupedProduct extends Component {
+class GroupedProductList extends Component {
     renderProductList(items) {
         return (
             <ul>
@@ -35,19 +33,15 @@ class GroupedProduct extends Component {
         } = this.props;
 
         return (
-            <ContentWrapper
-              mix={ { block: 'GroupedProduct' } }
-              wrapperMix={ { block: 'GroupedProduct', elem: 'Wrapper' } }
-              label="Product description"
-            >
+            <>
                 { items && this.renderProductList(items)}
-            </ContentWrapper>
+            </>
         );
     }
 }
 
-GroupedProduct.propTypes = {
+GroupedProductList.propTypes = {
     product: ProductType.isRequired
 };
 
-export default GroupedProduct;
+export default GroupedProductList;

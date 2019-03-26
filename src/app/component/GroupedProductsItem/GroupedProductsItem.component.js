@@ -19,7 +19,7 @@ import PropTypes from 'prop-types';
 import './GroupedProductsItem.style';
 
 /**
- * Product description
+ * Grouped Product Item
  * @class GroupedProduct
  */
 class GroupedProductsItem extends Component {
@@ -38,6 +38,12 @@ class GroupedProductsItem extends Component {
         updateGroupedProductQuantity({ product, quantity: 1 });
     }
 
+    /**
+     * Get quantity of grouped product
+     * @param {Number} id Product id
+     * @param {Object} groupedProductQuantity list of grouped products with quantities
+     * @return {Number} product quantity
+     */
     getCurrentQuantity(id, groupedProductQuantity) {
         return groupedProductQuantity[id] || 0;
     }
@@ -62,9 +68,9 @@ class GroupedProductsItem extends Component {
 
         return (
             <li block="GroupedProductsItem" aria-label="Product Item">
-                <Image src={ `/media/catalog/product${thumbnail}` } alt="Product Thumbnail" />
+                <Image src={ thumbnail && `/media/catalog/product${thumbnail}` } alt="Product Thumbnail" />
                 <div block="GroupedProductsItem" elem="Title">
-                    <TextPlaceholder content={ name } />
+                    <p><TextPlaceholder content={ name } /></p>
                     <ProductPrice price={ price } mods={ { type: 'regular' } } />
                 </div>
                 <div block="GroupedProductsItem" elem="Quantity">

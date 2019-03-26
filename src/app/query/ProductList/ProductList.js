@@ -46,7 +46,6 @@ class ProductListQuery {
         return field;
     }
 
-
     /**
      * Prepare grouped product data
      * @private
