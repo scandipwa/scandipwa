@@ -16,7 +16,7 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import ProductPrice from 'Component/ProductPrice';
 import Image from 'Component/Image';
 import AddToCart from 'Component/AddToCart';
-import { ProductType } from 'Type/ProductList';
+import { ProductType, FilterType } from 'Type/ProductList';
 import './ProductCard.style';
 
 /**
@@ -115,14 +115,21 @@ class ProductCard extends Component {
                 url_key,
                 brand
             },
-            product
+            product,
+            arePlaceholdersShown
         } = this.props;
 
         const variantIndex = this.getCurrentVariantIndex();
         const thumbnail = this.getThumbnail(variantIndex);
         const TagName = url_key ? Link : 'div';
         const isLoading = !url_key;
-        const linkTo = url_key ? { pathname: `/product/${ url_key }`, state: { product, variantIndex } } : undefined;
+        const linkTo = url_key
+            ? {
+                pathname: `/product/${ url_key }`,
+                state: { product, variantIndex },
+                search: `?variant=${ variantIndex }`
+            }
+            : undefined;
 
         return (
             <li block="ProductCard" mods={ { isLoading } }>
@@ -133,6 +140,8 @@ class ProductCard extends Component {
                     <Image
                       src={ thumbnail ? `/media/jpg/catalog/product${ thumbnail }` : null }
                       alt="Product Thumbnail"
+                      arePlaceholdersShown={ arePlaceholdersShown }
+                      showGreyPlaceholder={ !url_key }
                     />
                     <span block="ProductCard" elem="Brand">
                         <TextPlaceholder content={ brand } />
@@ -154,11 +163,13 @@ class ProductCard extends Component {
 ProductCard.propTypes = {
     product: ProductType.isRequired,
     addProduct: PropTypes.func.isRequired,
-    customFilters: PropTypes.objectOf(PropTypes.array)
+    customFilters: FilterType,
+    arePlaceholdersShown: PropTypes.bool
 };
 
 ProductCard.defaultProps = {
-    customFilters: {}
+    customFilters: {},
+    arePlaceholdersShown: false
 };
 
 export default ProductCard;

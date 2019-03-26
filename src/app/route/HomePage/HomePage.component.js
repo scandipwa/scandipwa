@@ -72,9 +72,20 @@ class HomePage extends Component {
                   wrapperMix={ { block: 'HomePage', elem: 'Wrapper' } }
                   label="Home Page"
                 >
-                    { items && identifiers.map(block => (
-                        <Html key={ block } content={ items[block] ? items[block].content : '' } />
-                    )) }
+                    { items
+                        ? identifiers.map(block => (
+                            <Html key={ block } content={ items[block] ? items[block].content : '' } />
+                        ))
+                        : (
+                            <div
+                              block="HomePage"
+                              elem="PromoCategories"
+                              mods={ { isLoading: true } }
+                            >
+                                { new Array(5).fill().map((_, i) => <figure key={ i } />) }
+                            </div>
+                        )
+                    }
                 </ContentWrapper>
                 <NewsletterSubscribe />
             </main>

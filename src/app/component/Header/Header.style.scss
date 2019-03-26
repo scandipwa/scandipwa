@@ -34,11 +34,11 @@
         padding: 1rem;
         display: grid;
         margin:auto;
-        grid-template-columns: 1fr 1.3fr 1fr;
+        grid-template-columns: 1fr 40rem 1fr;
         max-width: 1200px;
 
         @include mobile {
-            grid-template-columns: 1.1fr 0.7fr 2.7fr 1.8fr;
+            grid-template-columns: 4rem 3rem auto 3rem;
             min-height: 5rem;
         }
     }
@@ -56,13 +56,23 @@
             margin-top: 1rem;
 
             @include mobile {
-                margin-top: .6rem;
+                margin-top: 0;
             }
         }
 
         a {
+            width: max-content;
+            height: max-content;
+            right: 0;
+            margin: auto;
             display: inline-block;
             transition: opacity 150ms ease-in-out;
+
+            @include mobile {
+                position: fixed;
+                top: 2rem;
+                left: 0;
+            }
         }
 
         a:hover,

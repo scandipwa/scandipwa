@@ -107,7 +107,11 @@ class Html extends Component {
     replaceImages({ attribs }) {
         if (Object.prototype.hasOwnProperty.call(attribs, 'src')) {
             return (
-                <Image { ...attributesToProps(attribs) } />
+                <Image
+                  { ...attributesToProps(attribs) }
+                  showGreyPlaceholder
+                  arePlaceholdersShown
+                />
             );
         }
     }
@@ -141,6 +145,8 @@ class Html extends Component {
                   placeholderSrc={ `/media/svg/wysiwyg/cms${ placeHolderSource }` }
                   src={ `/media/wysiwyg/cms${ imageSource }` }
                   alt={ imageAlt }
+                  arePlaceholdersShown
+                  showGreyPlaceholder
                 >
                     { domToReact(newChildren, this.parserOptions) }
                 </Figure>

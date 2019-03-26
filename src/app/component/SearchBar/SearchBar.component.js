@@ -1,3 +1,14 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Field from 'Component/Field';
@@ -6,6 +17,10 @@ import CSS from 'Util/CSS';
 import { ItemsType } from 'Type/ProductList';
 import './SearchBar.style';
 
+/**
+ * Search Bar
+ * @class SearchBar
+ */
 class SearchBar extends Component {
     constructor(props) {
         super(props);
@@ -23,6 +38,7 @@ class SearchBar extends Component {
     }
 
     onSearchItemClick() {
+        document.removeEventListener('click', this.handleOutsideClick, false);
         this.setTranslatePercentage(0);
 
         this.setState({
@@ -48,17 +64,15 @@ class SearchBar extends Component {
 
         if (!isMobileSearchBarVisible) {
             document.addEventListener('click', this.handleOutsideClick, false);
-
             this.setState({ isMobileSearchBarVisible: true });
 
-            this.timeout = setTimeout(() => {
-                this.clearSearchResults();
-                this.setTranslatePercentage(1);
-            }, 0);
+            this.clearSearchResults();
+            this.setTranslatePercentage(1);
         } else {
+            document.removeEventListener('click', this.handleOutsideClick, false);
             this.setTranslatePercentage(0);
 
-            this.timeout = setTimeout(() => {
+            setTimeout(() => {
                 this.clearSearchResults();
                 this.setState({ isMobileSearchBarVisible: false });
             }, 150);
@@ -77,14 +91,10 @@ class SearchBar extends Component {
     requestSearchBar() {
         const { requestSearchBar } = this.props;
         const { searchInput } = this.state;
-        const options = {
-            search: searchInput
-        };
 
         if (searchInput) {
             this.clearSearchResults();
-
-            requestSearchBar(options);
+            requestSearchBar({ search: searchInput });
             this.setState({ previousSearchInput: searchInput });
         }
     }
@@ -94,11 +104,12 @@ class SearchBar extends Component {
         document.activeElement.blur();
     }
 
-    handleOutsideClick(event) {
-        if (this.node.contains(event.target)) {
+    handleOutsideClick({ target }) {
+        if (this.node.contains(target)) {
             return;
         }
 
+        document.removeEventListener('click', this.handleOutsideClick, false);
         this.setTranslatePercentage(0);
 
         setTimeout(() => {
@@ -144,7 +155,7 @@ class SearchBar extends Component {
               onClick={ () => this.handleSearchIconClick() }
               onKeyDown={ () => this.handleKeyDown() }
               role="button"
-              tabIndex="-1"
+              tabIndex="0"
             >
                 <>
                     <span block="SearchBar" elem="Circle" mods={ { notVisible: isMobileSearchBarVisible } } />
@@ -177,14 +188,12 @@ class SearchBar extends Component {
         return (
             <ul>
                 {
-                    items && items.map((product, key) => (
-                        key < 20 && (
-                            <CartItem
-                              onItemClick={ () => this.onSearchItemClick() }
-                              product={ product }
-                              key={ product.id }
-                            />
-                        )
+                    items && items.map(product => (
+                        <CartItem
+                          onItemClick={ () => this.onSearchItemClick() }
+                          product={ product }
+                          key={ product.id }
+                        />
                     ))
                 }
             </ul>

@@ -67,7 +67,10 @@ $colors: (
         hover: #8a8a8a,
         light: #ffffff
     ),
-    blur: #0a0a0a
+    blur: #0a0a0a,
+    border: (
+        base: #404040
+    )
 );
 
 $font-muli: 'Muli', sans-serif;

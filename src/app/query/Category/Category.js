@@ -22,13 +22,12 @@ class CategoryQuery {
      * @return {Field} Category query
      * @memberof CategoryQuery
      */
-    getQuery(options) {
-        const { categoryUrlPath } = options;
+    getQuery() {
         const categoryFields = this._prepareChildrenFields();
         const children = new Field('children').addFieldList(categoryFields);
 
         const field = new Field('category')
-            .addArgument('url_path', 'String!', categoryUrlPath)
+            .addArgument('id', 'Int!', '2') // TODO: When config is available get value from config
             .addFieldList(categoryFields)
             .addField(children);
 
@@ -44,10 +43,15 @@ class CategoryQuery {
         const breadcrumbs = new Field('breadcrumbs')
             .addFieldList(['category_name', 'category_url_key', 'category_level']);
 
+        const children = new Field('children')
+            .addFieldList(['id', 'name', 'description', 'url_path',
+                'image', 'url_key', 'product_count',
+                'meta_title', 'meta_description', breadcrumbs]);
+
         return [
             'id', 'name', 'description', 'url_path',
             'image', 'url_key', 'product_count',
-            'meta_title', 'meta_description', breadcrumbs
+            'meta_title', 'meta_description', breadcrumbs, children
         ];
     }
 }

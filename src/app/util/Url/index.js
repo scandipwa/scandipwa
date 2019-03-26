@@ -13,12 +13,14 @@ import {
     getUrlParam,
     getQueryParam,
     setQueryParams,
-    clearQueriesFromUrl
+    clearQueriesFromUrl,
+    updateQueryParamWithoutHistory
 } from './Url';
 
 export {
     getUrlParam,
     getQueryParam,
     setQueryParams,
-    clearQueriesFromUrl
+    clearQueriesFromUrl,
+    updateQueryParamWithoutHistory
 };

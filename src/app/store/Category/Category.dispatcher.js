@@ -14,7 +14,7 @@
 import { RequestDispatcher } from 'Util/Request';
 import { CategoryQuery, ProductListQuery } from 'Query';
 import {
-    updateCategoryProductList, updateCategoryDetails, appendCategoryProductList, updateLoadStatus
+    updateCategoryProductList, updateCategoryList, appendCategoryProductList, updateLoadStatus, updateCurrentCategory
 } from 'Store/Category';
 import { updateNoMatch } from 'Store/NoMatch';
 
@@ -28,7 +28,7 @@ class CategoryDispatcher extends RequestDispatcher {
         super('ProductList', 86400);
     }
 
-    onSuccess(data, dispatch) {
+    onSuccess(data, dispatch, options) {
         const {
             category,
             products: {
@@ -39,9 +39,12 @@ class CategoryDispatcher extends RequestDispatcher {
             }
         } = data;
 
+        const { categoryUrlPath } = options;
+
         if (category) { // If category details are updated, reset all data
             dispatch(updateCategoryProductList(items, total_count, sort_fields, filters));
-            dispatch(updateCategoryDetails(category));
+            dispatch(updateCategoryList(category));
+            dispatch(updateCurrentCategory(categoryUrlPath));
         } else if (filters || sort_fields) {
             dispatch(updateCategoryProductList(items, total_count, sort_fields, filters));
         } else {
@@ -64,8 +67,15 @@ class CategoryDispatcher extends RequestDispatcher {
      */
     prepareRequest(options, dispatch) {
         const {
-            currentPage, previousPage, pageSize, productsLoaded
+            currentPage, previousPage, pageSize, productsLoaded, isCategoryLoaded, categoryUrlPath
         } = options;
+        const query = [];
+
+        if (!isCategoryLoaded) {
+            query.push(CategoryQuery.getQuery(options));
+        } else {
+            dispatch(updateCurrentCategory(categoryUrlPath));
+        }
 
         if (currentPage > 1) {
             if (previousPage === currentPage) {
@@ -82,12 +92,11 @@ class CategoryDispatcher extends RequestDispatcher {
             // Both will be requested
         } else if (this._areCustomFiltersPresent(options) || this._isOneOfSortFiltersPresent(options)) {
             dispatch(updateLoadStatus(true));
-
-            return [
-                ProductListQuery.getQuery(options),
-                CategoryQuery.getQuery(options)
-            ];
+            query.push(ProductListQuery.getQuery(options));
+            return query;
         }
+
+        query.push(ProductListQuery.getQuery(options));
 
         // TODO: default pagesize should be taken from some global config
         // this fixes paginated loading while working as expected when changing categories
@@ -95,10 +104,7 @@ class CategoryDispatcher extends RequestDispatcher {
             dispatch(updateLoadStatus(true));
         }
 
-        return [
-            ProductListQuery.getQuery(options),
-            CategoryQuery.getQuery(options)
-        ];
+        return query;
     }
 
     /**

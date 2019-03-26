@@ -29,6 +29,10 @@
         display: grid;
         grid-template-columns: inherit;
         grid-column: span 3;
+
+        @include mobile {
+            grid-column: span 2;
+        }
     }
 
     &_isLoading {

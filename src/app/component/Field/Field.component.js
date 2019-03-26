@@ -124,7 +124,7 @@ class Field extends Component {
 
     renderCheckboxInput() {
         const {
-            id, name, type, value, checked, isAutocompleteAllowed
+            id, name, type, value, checked
         } = this.props;
 
         const checkedBool = type === RADIO_TYPE
@@ -142,7 +142,6 @@ class Field extends Component {
                   onFocus={ event => this.onFocus(event) }
                   onClick={ event => this.onClick(event) }
                   id={ id }
-                  autoComplete={ !isAutocompleteAllowed ? 'off' : undefined }
                 />
                 <label htmlFor={ id } />
             </>
@@ -168,7 +167,7 @@ class Field extends Component {
     }
 
     renderTypeNumber() {
-        const { id, isAutocompleteAllowed } = this.props;
+        const { id } = this.props;
         const { value } = this.state;
 
         return (
@@ -180,7 +179,6 @@ class Field extends Component {
                   onChange={ this.onChange }
                   onFocus={ event => this.onFocus(event) }
                   onClick={ event => this.onClick(event) }
-                  autoComplete={ !isAutocompleteAllowed ? 'off' : undefined }
                 />
                 <button onClick={ () => this.handleChange(parseFloat(value) + 1) }>
                     <span>+</span>
