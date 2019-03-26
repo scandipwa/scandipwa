@@ -19,7 +19,7 @@ import ProductActions from 'Component/ProductActions';
 import GroupedProductsList from 'Component/GroupedProductsList';
 import Meta from 'Component/Meta';
 import { ProductType } from 'Type/ProductList';
-import { getUrlParam } from 'Util/Url';
+import { getUrlParam, getQueryParam, updateQueryParamWithoutHistory } from 'Util/Url';
 import './ProductPage.style';
 import RelatedProducts from 'Component/RelatedProducts';
 
@@ -46,6 +46,7 @@ class ProductPage extends Component {
      */
     static getVariantIndexFromProps(props) {
         const { location: { state: locationState } } = props;
+
         return (locationState && Object.hasOwnProperty.call(locationState, 'variantIndex'))
             ? locationState.variantIndex
             : null;
@@ -69,7 +70,8 @@ class ProductPage extends Component {
 
     static getDerivedStateFromProps(props, state) {
         const { isConfigurationInitilized } = state;
-        const variantIndex = ProductPage.getVariantIndexFromProps(props);
+        const { location } = props;
+        const variantIndex = parseInt(getQueryParam('variant', location), 10);
         const shouldConfigurableOptionBeInitilized = !isConfigurationInitilized
             && typeof variantIndex === 'number';
 
@@ -161,6 +163,18 @@ class ProductPage extends Component {
         if (Object.keys(dataSource).length) updateBreadcrumbs(dataSource);
     }
 
+    /**
+     * Update query params without adding to history, set configurableVariantIndex
+     * @param {Number} variant
+     */
+    updateUrl(variant) {
+        const { configurableVariantIndex } = this.state;
+
+        if (configurableVariantIndex !== variant) updateQueryParamWithoutHistory('variant', variant);
+
+        return this.setState({ configurableVariantIndex: variant });
+    }
+
     render() {
         const { product, product: { variants, type_id }, filters } = this.props;
         const { configurableVariantIndex } = this.state;
@@ -168,7 +182,7 @@ class ProductPage extends Component {
         const { media_gallery_entries } = dataSource;
         const areDetailsLoaded = dataSource === product;
         const thumbnail = this.getThumbnail(configurableVariantIndex, dataSource);
-        const mediaGallery = variants && areDetailsLoaded
+        const mediaGallery = variants && variants[configurableVariantIndex] && areDetailsLoaded
             ? this.getConfigurableVariantMediaLibrary()
             : media_gallery_entries;
 
@@ -204,9 +218,7 @@ class ProductPage extends Component {
                               availableFilters={ filters }
                               configurableVariantIndex={ configurableVariantIndex }
                               areDetailsLoaded={ areDetailsLoaded }
-                              updateConfigurableVariantIndex={ index => this.setState({
-                                  configurableVariantIndex: index
-                              }) }
+                              updateConfigurableVariantIndex={ index => this.updateUrl(index) }
                             />
                         </div>
                     </ContentWrapper>

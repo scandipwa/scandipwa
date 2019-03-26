@@ -37,7 +37,8 @@ class CartItem extends Component {
 
         return {
             pathname: `/product/${ url_key }`,
-            state: { product: product.parent || product, variantIndex }
+            state: { product: product.parent || product, variantIndex },
+            search: `?variant=${ variantIndex }`
         };
     }
 
