@@ -30,7 +30,7 @@ class ProductDispatcher extends RequestDispatcher {
         const productItem = items[0];
 
         // TODO: make one request per description & related in this.prepareRequest
-        if (productItem.product_links && Object.keys(productItem.product_links).length > 0) {
+        if (productItem && productItem.product_links && Object.keys(productItem.product_links).length > 0) {
             const { product_links } = productItem;
             const productsSkuArray = product_links.map(item => `"${item.linked_product_sku}"`);
 
