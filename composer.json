@@ -2,6 +2,7 @@
     "name": "scandipwa/source",
     "type": "magento2-theme",
     "description": "ScandiPWA",
+    "version": "1.2.0",
     "keywords": [
         "magento2",
         "source",
@@ -17,8 +18,6 @@
         "scandipwa/slider-graphql": "^1.0",
         "scandipwa/cms-graphql": "^1.0",
         "scandipwa/catalog-graphql": "^1.0",
-        "scandipwa/customer-graph-ql": "^1.0",
-        "scandipwa/graphql": "^1.0",
         "scandipwa/route717": "^1.0"
     },
     "support": {
