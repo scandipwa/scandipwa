@@ -33,6 +33,13 @@ const formatURI = (query, variables, url) => {
 };
 
 /**
+ * Checks if the given query is a GraphQL mutation
+ * @param  {String} query
+ * @return {Promise<Object>}
+ */
+const isMutation = query => query.substring(0, query.indexOf('(')) === 'mutation';
+
+/**
  *
  * @param {String} uri
  * @param {String} name
@@ -45,6 +52,23 @@ const getFetch = (uri, name) => fetch(uri,
             'Content-Type': 'application/json',
             'Application-Model': name,
             Accept: 'application/json'
+        }
+    });
+
+/**
+ *
+ * @param {String} graphQlURI
+ * @param {String} queryObject
+ * @param {String} name
+ * @returns {Promise<Response>}
+ */
+const postFetch = (graphQlURI, queryObject, name) => fetch(graphQlURI,
+    {
+        method: 'POST',
+        body: JSON.stringify(queryObject),
+        headers: {
+            'Content-Type': 'application/json',
+            'Application-Model': name
         }
     });
 
@@ -75,6 +99,12 @@ const executeFetch = (queryObject, name, cacheTTL) => {
     const graphQlURI = '/graphql';
     const { query, variables } = queryObject;
     const uri = formatURI(query, variables, graphQlURI);
+
+    if (isMutation(query)) {
+        return new Promise((resolve) => {
+            postFetch(graphQlURI, queryObject, name).then(res => resolve(res));
+        });
+    }
 
     return new Promise((resolve) => {
         getFetch(uri, name).then((res) => {

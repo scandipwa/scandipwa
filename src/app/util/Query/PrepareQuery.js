@@ -20,6 +20,7 @@ const prepareQuery = (queries) => {
     const querySelections = [];
     const variableDefinitions = [];
     let variableAssignments = {};
+    let queryType = '';
     queries.forEach((querySelection) => {
         if (!(querySelection instanceof Field)) {
             console.warn('Query can only be prepared from other queries!',
@@ -32,10 +33,11 @@ const prepareQuery = (queries) => {
         querySelections.push(query.toString());
         variableDefinitions.push(query.variableDefinitions);
         variableAssignments = Object.assign(variableAssignments, query.variableValues);
+        queryType = query._component;
     });
 
     return {
-        query: `query (${ variableDefinitions.join(', ') }) {${ querySelections.join(', ') }}`,
+        query: `${queryType}(${ variableDefinitions.join(', ') }) {${ querySelections.join(', ') }}`,
         variables: variableAssignments
     };
 };
