@@ -63,58 +63,106 @@ class MyAccount extends Component {
         this.handleToUpdate = this.handleToUpdate.bind(this);
     }
 
+    /**
+     * Customer data saving in state
+     * @param {Object} inputData
+     */
     handleToUpdate(inputData) {
-        const { fieldsToValidate, customerData, state } = this.state;
-        const result = inputData.id.replace('sign-up-', '').replace(/-/g, '');
+        const { customerData } = this.state;
+        // For the moment state updated only for login/acc creation
+        const stateField = inputData.id.replace('sign-up-', '').replace('sign-in-', '').replace(/-/g, '');
 
-        if (state === 'createAccount' && inputData.value !== customerData[result]) {
+        if (inputData.value !== null && inputData.value !== customerData[stateField]) {
             this.setState({
                 customerData: {
                     ...customerData,
-                    [result]: inputData.value
+                    [stateField]: inputData.value
                 }
             });
         }
 
-        if (inputData.valid === false && fieldsToValidate.indexOf(inputData.id) === -1) {
+        this.updateValidation(inputData, stateField);
+    }
+
+    /**
+     * Field validation for next step/login/send reset link
+     * @param {Object} inputData
+     * @param {String} stateField
+     */
+    updateValidation(inputData, stateField) {
+        const { fieldsToValidate, customerData } = this.state;
+
+        if (!customerData[stateField] && fieldsToValidate.indexOf(inputData.id) === -1) {
             this.setState({ fieldsToValidate: [...fieldsToValidate, inputData.id] });
         }
 
-        if (inputData.valid === true && fieldsToValidate.indexOf(inputData.id) !== -1) {
+        if (inputData.value && fieldsToValidate.indexOf(inputData.id) !== -1) {
             const array = [...fieldsToValidate];
             array.splice(array.indexOf(inputData.id), 1);
             this.setState({ fieldsToValidate: array });
         }
     }
 
-
+    /**
+     * Update state when changing between account functionality, delete password from state
+     * Reset field validation
+     * @param {String} state
+     */
     changeState(state) {
+        const { customerData } = this.state;
+
         this.setState({
             state,
-            fieldsToValidate: []
+            fieldsToValidate: [],
+            customerData: {
+                ...customerData,
+                confirmpassword: '',
+                password: ''
+            }
         });
 
         this.button.current.focus();
     }
 
+    /**
+     * Switch between account creation steps, pass first and last name to shipping if first time
+     * @param {Number} createStep
+     */
     changeCreateAccountStep(createStep) {
+        const { customerData } = this.state;
+
         this.setState({
             createStep,
-            fieldsToValidate: []
+            fieldsToValidate: [],
+            customerData: {
+                ...customerData,
+                confirmpassword: '',
+                addressfirstname: customerData.addressfirstname || customerData.firstname,
+                addresslastname: customerData.addresslastname || customerData.lastname
+            }
         });
         this.button.current.focus();
     }
 
+    /**
+     * Go back to login page when clicking on account button
+     */
     goBackToDefault() {
         const { state, isOpen } = this.state;
 
         if (state !== STATE_LOGGED_IN) {
-            this.setState({ state: STATE_SIGN_IN });
+            this.setState({
+                state: STATE_SIGN_IN,
+                fieldsToValidate: []
+            });
         }
 
         this.setState({ isOpen: !isOpen });
     }
 
+    /**
+     * Render Button
+     */
     renderButton() {
         const { state, isOpen } = this.state;
         const actionText = state === STATE_LOGGED_IN
@@ -138,6 +186,9 @@ class MyAccount extends Component {
         );
     }
 
+    /**
+     * Render Dropdown
+     */
     renderDropdown() {
         const { state } = this.state;
         const renderFunction = this.renderMap[state];
@@ -151,6 +202,9 @@ class MyAccount extends Component {
         );
     }
 
+    /**
+     * Render Account Actions
+     */
     renderAccountActions() {
         return (
             <nav block="MyAccount" elem="Navigation">
@@ -163,14 +217,24 @@ class MyAccount extends Component {
         );
     }
 
+    /**
+     * Render Forgot Password page
+     */
     renderForgotPassword() {
-        const { fieldsToValidate } = this.state;
+        const { fieldsToValidate, customerData } = this.state;
 
         return (
             <>
                 <form>
                     <h3>Get password reset link</h3>
-                    <Field type="text" label="Email" id="forgot-email" handleToUpdate={ this.handleToUpdate } />
+                    <Field
+                      type="text"
+                      label="Email"
+                      id="forgot-email"
+                      key="email"
+                      handleToUpdate={ this.handleToUpdate }
+                      originalValue={ customerData.email }
+                    />
                     <div block="MyAccount" elem="Buttons">
                         <button disabled={ fieldsToValidate.length !== 0 }>Send reset link</button>
                     </div>
@@ -194,10 +258,11 @@ class MyAccount extends Component {
         );
     }
 
+    /**
+     * Render First step in Account Creation
+     */
     renderCreateAccountFirstStep() {
         const { customerData } = this.state;
-        // TODO update all fields with keys and original values
-
 
         return (
             <>
@@ -206,13 +271,15 @@ class MyAccount extends Component {
                   type="text"
                   label="Email"
                   id="sign-up-email"
+                  key="email"
                   handleToUpdate={ this.handleToUpdate }
+                  originalValue={ customerData.email }
                 />
                 <Field
                   type="text"
                   label="First name"
                   id="sign-up-first-name"
-                  key="first-name"
+                  key="firstname"
                   handleToUpdate={ this.handleToUpdate }
                   originalValue={ customerData.firstname }
                 />
@@ -220,90 +287,109 @@ class MyAccount extends Component {
                   type="text"
                   label="Last name"
                   id="sign-up-last-name"
+                  key="lastname"
                   handleToUpdate={ this.handleToUpdate }
+                  originalValue={ customerData.lastname }
                 />
                 <Field
                   type="password"
                   label="Password"
                   id="sign-up-password"
+                  key="password"
                   handleToUpdate={ this.handleToUpdate }
+                  originalValue={ customerData.password }
                 />
                 <Field
                   type="password"
                   label="Confirm password"
                   id="sign-up-confirm-password"
+                  key="confirmpassword"
                   handleToUpdate={ this.handleToUpdate }
+                  originalValue={ customerData.confirmpassword }
                 />
             </>
         );
     }
 
+    /**
+     * Render Second step in Account Creation
+     */
     renderCreateAccountSecondStep() {
         const { customerData } = this.state;
-
-        const result = (customerData.addressfirstname.length !== 0
-            && customerData.addressfirstname !== customerData.firstname)
-            ? customerData.addressfirstname
-            : customerData.firstname;
-
-        // TODO update all fields with keys and original values
 
         return (
             <>
                 <h4>Specify shipping address</h4>
                 <Field
-                  key="first-name"
                   type="text"
                   label="First name"
                   id="sign-up-address-first-name"
+                  key="addressfirstname"
                   handleToUpdate={ this.handleToUpdate }
-                  originalValue={ result }
+                  originalValue={ customerData.addressfirstname }
                 />
                 <Field
                   type="text"
                   label="Last name"
                   id="sign-up-address-last-name"
+                  key="addresslastname"
                   handleToUpdate={ this.handleToUpdate }
+                  originalValue={ customerData.addresslastname }
                 />
                 <Field
                   type="text"
                   label="Telephone"
                   id="sign-up-address-telephone"
+                  key="telephone"
                   handleToUpdate={ this.handleToUpdate }
+                  originalValue={ customerData.addresstelephone }
                 />
                 <Field
                   type="text"
                   label="Country"
                   id="sign-up-address-country"
+                  key="country"
                   handleToUpdate={ this.handleToUpdate }
+                  originalValue={ customerData.addresscountry }
                 />
                 <Field
                   type="text"
                   label="City"
                   id="sign-up-address-city"
+                  key="city"
                   handleToUpdate={ this.handleToUpdate }
+                  originalValue={ customerData.addresscity }
                 />
                 <Field
                   type="text"
                   label="Street"
                   id="sign-up-address-street"
+                  key="street"
                   handleToUpdate={ this.handleToUpdate }
+                  originalValue={ customerData.addressstreet }
                 />
                 <Field
                   type="text"
                   label="Postal code"
                   id="sign-up-address-postcode"
+                  key="postcode"
                   handleToUpdate={ this.handleToUpdate }
+                  originalValue={ customerData.addresspostcode }
                 />
             </>
         );
     }
 
+    /**
+     * Render Previous/Next/Sign Up buttons
+     * Can proceed only when all fields are valid and passwords match
+     */
     renderCreateAccountStepAction() {
-        const { createStep, fieldsToValidate } = this.state;
+        const { createStep, fieldsToValidate, customerData } = this.state;
         const showPrev = createStep > 0;
         const showNext = createStep < this.createSteps.length - 1;
         const showSubmit = createStep === this.createSteps.length - 1;
+        const isPasswordCorrect = (customerData.password === customerData.confirmpassword);
 
         return (
             <div block="MyAccount" elem="Buttons">
@@ -311,7 +397,7 @@ class MyAccount extends Component {
                     && <button onClick={ () => this.changeCreateAccountStep(createStep - 1) }>Previous step</button> }
                 { showNext && (
                     <button
-                      disabled={ fieldsToValidate.length !== 0 }
+                      disabled={ !(fieldsToValidate.length === 0 && isPasswordCorrect) }
                       onClick={ () => this.changeCreateAccountStep(createStep + 1) }
                     >
                     Next step
@@ -323,6 +409,9 @@ class MyAccount extends Component {
         );
     }
 
+    /**
+     * Render Account Creation
+     */
     renderCreateAccount() {
         const { createStep } = this.state;
         const renderFunction = this.createSteps[createStep];
@@ -344,8 +433,11 @@ class MyAccount extends Component {
         );
     }
 
+    /**
+     * Render Login
+     */
     renderSignIn() {
-        const { fieldsToValidate } = this.state;
+        const { fieldsToValidate, customerData } = this.state;
 
         return (
             <>
@@ -355,13 +447,17 @@ class MyAccount extends Component {
                       type="text"
                       label="Login or Email"
                       id="sign-in-email"
+                      key="email"
                       handleToUpdate={ this.handleToUpdate }
+                      originalValue={ customerData.email }
                     />
                     <Field
                       type="password"
                       label="Password"
                       id="sign-in-password"
+                      key="password"
                       handleToUpdate={ this.handleToUpdate }
+                      originalValue={ customerData.password }
                     />
                     <div block="MyAccount" elem="Buttons">
                         <button disabled={ fieldsToValidate.length !== 0 }>Sign in</button>

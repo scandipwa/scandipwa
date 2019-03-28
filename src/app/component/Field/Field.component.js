@@ -55,7 +55,7 @@ class Field extends Component {
                 value = false;
                 break;
             default:
-                value = '';
+                value = null;
                 break;
             }
         }
@@ -153,6 +153,10 @@ class Field extends Component {
         );
     }
 
+    /**
+     * Render Type Text, default value is passed from parent
+     * handleToUpdate used to pass child data to parent
+     */
     renderTypeText() {
         const {
             placeholder,
@@ -162,15 +166,14 @@ class Field extends Component {
             originalValue
         } = this.props;
         const { value } = this.state;
-        const inputData = value.length !== 0 ? { id, value, valid: true } : { id, value, valid: false };
 
         return (
             <input
               type="text"
               id={ id }
-              value={ originalValue || value }
+              defaultValue={ originalValue }
               onChange={ (
-                  (typeof handleToUpdate === 'function') ? handleToUpdate(inputData) : null,
+                  (typeof handleToUpdate === 'function') ? handleToUpdate({ id, value }) : null,
                   this.onChange
                ) }
               onFocus={ event => this.onFocus(event) }
@@ -181,18 +184,25 @@ class Field extends Component {
         );
     }
 
+    /**
+     * Render Type Password, default value is passed from parent
+     */
     renderTypePassword() {
-        const { placeholder, id, handleToUpdate } = this.props;
+        const {
+            placeholder,
+            id,
+            handleToUpdate,
+            originalValue
+        } = this.props;
         const { value } = this.state;
-        const inputData = value.length !== 0 ? { id, value, valid: true } : { id, value, valid: false };
 
         return (
             <input
               type="password"
               id={ id }
-              value={ value }
+              defaultValue={ originalValue }
               onChange={ (
-                (typeof handleToUpdate === 'function') ? handleToUpdate(inputData) : null,
+                (typeof handleToUpdate === 'function') ? handleToUpdate({ id, value }) : null,
                 this.onChange
               ) }
               onFocus={ event => this.onFocus(event) }
