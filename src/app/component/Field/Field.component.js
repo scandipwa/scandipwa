@@ -73,7 +73,7 @@ class Field extends Component {
         const { value: stateValue } = state;
 
         if (value !== stateValue) {
-            return { value };
+            return { stateValue };
         }
 
         return null;
@@ -96,7 +96,11 @@ class Field extends Component {
     }
 
     handleChange(value) {
-        const { onChange, type, min } = this.props;
+        const {
+            onChange,
+            type,
+            min
+        } = this.props;
 
         if (type === NUMBER_TYPE && value < min) {
             return;
@@ -150,15 +154,25 @@ class Field extends Component {
     }
 
     renderTypeText() {
-        const { placeholder, id, isAutocompleteAllowed } = this.props;
+        const {
+            placeholder,
+            id,
+            isAutocompleteAllowed,
+            handleToUpdate,
+            originalValue
+        } = this.props;
         const { value } = this.state;
+        const inputData = value.length !== 0 ? { id, value, valid: true } : { id, value, valid: false };
 
         return (
             <input
               type="text"
               id={ id }
-              value={ value }
-              onChange={ this.onChange }
+              value={ originalValue || value }
+              onChange={ (
+                  (typeof handleToUpdate === 'function') ? handleToUpdate(inputData) : null,
+                  this.onChange
+               ) }
               onFocus={ event => this.onFocus(event) }
               onClick={ event => this.onClick(event) }
               placeholder={ placeholder }
@@ -168,15 +182,19 @@ class Field extends Component {
     }
 
     renderTypePassword() {
-        const { placeholder, id } = this.props;
+        const { placeholder, id, handleToUpdate } = this.props;
         const { value } = this.state;
+        const inputData = value.length !== 0 ? { id, value, valid: true } : { id, value, valid: false };
 
         return (
             <input
               type="password"
               id={ id }
               value={ value }
-              onChange={ this.onChange }
+              onChange={ (
+                (typeof handleToUpdate === 'function') ? handleToUpdate(inputData) : null,
+                this.onChange
+              ) }
               onFocus={ event => this.onFocus(event) }
               onClick={ event => this.onClick(event) }
               placeholder={ placeholder }
@@ -275,7 +293,9 @@ Field.propTypes = {
     min: PropTypes.number,
     block: PropTypes.string,
     elem: PropTypes.string,
-    isAutocompleteAllowed: PropTypes.bool
+    isAutocompleteAllowed: PropTypes.bool,
+    handleToUpdate: PropTypes.func,
+    originalValue: PropTypes.string
 };
 
 Field.defaultProps = {

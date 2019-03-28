@@ -13,6 +13,17 @@
     justify-self: flex-end;
     grid-column: 3;
 
+    &:focus,
+    &:focus-within,
+    &:hover {
+        > .MyAccount-Dropdown {
+            @include after-mobile {
+                transform: scaleY(1);
+                pointer-events: all;
+            }
+        }
+    }
+
     &-Button {
         display: flex;
         justify-content: center;
