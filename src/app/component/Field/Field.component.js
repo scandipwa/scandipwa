@@ -26,6 +26,7 @@ const NUMBER_TYPE = 'number';
 const CHECKBOX_TYPE = 'checkbox';
 const RADIO_TYPE = 'radio';
 const TEXTAREA_TYPE = 'textarea';
+const PASSWORD_TYPE = 'password';
 
 /**
  * Input fields component
@@ -54,7 +55,7 @@ class Field extends Component {
                 value = false;
                 break;
             default:
-                value = '';
+                value = null;
                 break;
             }
         }
@@ -72,7 +73,7 @@ class Field extends Component {
         const { value: stateValue } = state;
 
         if (value !== stateValue) {
-            return { value };
+            return { stateValue };
         }
 
         return null;
@@ -95,7 +96,11 @@ class Field extends Component {
     }
 
     handleChange(value) {
-        const { onChange, type, min } = this.props;
+        const {
+            onChange,
+            type,
+            min
+        } = this.props;
 
         if (type === NUMBER_TYPE && value < min) {
             return;
@@ -148,20 +153,61 @@ class Field extends Component {
         );
     }
 
+    /**
+     * Render Type Text, default value is passed from parent
+     * handleToUpdate used to pass child data to parent
+     */
     renderTypeText() {
-        const { placeholder, id, isAutocompleteAllowed } = this.props;
+        const {
+            placeholder,
+            id,
+            isAutocompleteAllowed,
+            handleToUpdate,
+            originalValue
+        } = this.props;
         const { value } = this.state;
 
         return (
             <input
               type="text"
               id={ id }
-              value={ value }
-              onChange={ this.onChange }
+              defaultValue={ originalValue }
+              onChange={ (
+                  (typeof handleToUpdate === 'function') ? handleToUpdate({ id, value }) : null,
+                  this.onChange
+               ) }
               onFocus={ event => this.onFocus(event) }
               onClick={ event => this.onClick(event) }
               placeholder={ placeholder }
               autoComplete={ !isAutocompleteAllowed ? 'off' : undefined }
+            />
+        );
+    }
+
+    /**
+     * Render Type Password, default value is passed from parent
+     */
+    renderTypePassword() {
+        const {
+            placeholder,
+            id,
+            handleToUpdate,
+            originalValue
+        } = this.props;
+        const { value } = this.state;
+
+        return (
+            <input
+              type="password"
+              id={ id }
+              defaultValue={ originalValue }
+              onChange={ (
+                (typeof handleToUpdate === 'function') ? handleToUpdate({ id, value }) : null,
+                this.onChange
+              ) }
+              onFocus={ event => this.onFocus(event) }
+              onClick={ event => this.onClick(event) }
+              placeholder={ placeholder }
             />
         );
     }
@@ -200,6 +246,8 @@ class Field extends Component {
             return this.renderTypeNumber();
         case TEXTAREA_TYPE:
             return this.renderTextarea();
+        case PASSWORD_TYPE:
+            return this.renderTypePassword();
         default:
             return this.renderTypeText();
         }
@@ -230,7 +278,8 @@ Field.propTypes = {
         NUMBER_TYPE,
         CHECKBOX_TYPE,
         TEXTAREA_TYPE,
-        RADIO_TYPE
+        RADIO_TYPE,
+        PASSWORD_TYPE
     ]).isRequired,
     name: PropTypes.string,
     label: PropTypes.string,
@@ -254,7 +303,9 @@ Field.propTypes = {
     min: PropTypes.number,
     block: PropTypes.string,
     elem: PropTypes.string,
-    isAutocompleteAllowed: PropTypes.bool
+    isAutocompleteAllowed: PropTypes.bool,
+    handleToUpdate: PropTypes.func,
+    originalValue: PropTypes.string
 };
 
 Field.defaultProps = {
