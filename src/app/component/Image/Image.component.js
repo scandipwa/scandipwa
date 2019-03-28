@@ -61,6 +61,7 @@ class Image extends Component {
      * @return {void}
      */
     getUrlWithExtension(url, extension) {
+        return url;
         if (url) {
             const path = url.includes('/media/jpg')
                 ? url.replace('/media/jpg', `/media/${ extension }`)

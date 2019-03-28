@@ -92,21 +92,21 @@ class ProductListQuery {
                 }
             };
 
-            pushToList(categoryIds, `category_id: { eq: ${ categoryIds } }`);
-            pushToList(categoryUrlPath, `category_url_path: { eq: ${ categoryUrlPath } }`);
-            if (priceRange) pushToList(priceRange.min, `min_price: { gteq: ${ priceRange.min } }`);
-            if (priceRange) pushToList(priceRange.max, `max_price: { lteq: ${ priceRange.max } }`);
-            pushToList(productsSkuArray, `sku: { in: [${ productsSkuArray }] }`);
-            pushToList(productUrlPath, `url_key: { eq: ${ productUrlPath }}`);
+            pushToList(categoryIds, `category_id: { eq: ${categoryIds} }`);
+            pushToList(categoryUrlPath, `category_url_path: { eq: ${categoryUrlPath} }`);
+            if (priceRange) pushToList(priceRange.min, `min_price: { gteq: ${priceRange.min} }`);
+            if (priceRange) pushToList(priceRange.max, `max_price: { lteq: ${priceRange.max} }`);
+            pushToList(productsSkuArray, `sku: { in: [${productsSkuArray}] }`);
+            pushToList(productUrlPath, `url_key: { eq: ${productUrlPath}}`);
             pushToList(customFilters, this._getCustomAttributeFilters(customFilters));
 
-            argumentMap.filter = `{${ filterList.join(',') }}`;
+            argumentMap.filter = `{${filterList.join(',')}}`;
         }
 
         argumentMap.pageSize = pageSize || 12; // TODO: move this hard-coded value to config
         argumentMap.currentPage = currentPage || 1;
         if (search) argumentMap.search = search;
-        if (sortKey) argumentMap.sort = `{${ sortKey }: ${ sortDirection || 'ASC' }}`;
+        if (sortKey) argumentMap.sort = `{${sortKey}: ${sortDirection || 'ASC'}}`;
 
         return argumentMap;
     }
@@ -118,8 +118,8 @@ class ProductListQuery {
      */
     _getCustomAttributeFilters(customFilters = {}) {
         return Object.keys(customFilters).map((key) => {
-            const attribute = customFilters[ key ];
-            if (attribute.length) return `${ key }: { in: [ ${ attribute.join(',') } ] } `;
+            const attribute = customFilters[key];
+            if (attribute.length) return `${key}: { in: [ ${attribute.join(',')} ] } `;
         }).join(',');
     }
 
@@ -178,8 +178,11 @@ class ProductListQuery {
      * @memberof ProductListQuery
      */
     _prepareImageFields(options) {
-        const images = ['thumbnail', 'thumbnail_label', 'small_image', 'small_image_label'];
-        if (options.isSingleProduct) images.push('image', 'image_label');
+        const images = [
+            new Field('thumbnail').addField('url').addField('label'),
+            new Field('small_image').addField('url').addField('label')
+        ];
+        if (options.isSingleProduct) images.push(new Field('image').addField('url').addField('label'));
         return images;
     }
 
@@ -229,9 +232,17 @@ class ProductListQuery {
                 .addField('color')
                 .addField('size')
                 .addField('shoes_size')
-                .addField('short_description')
-                .addField('image')
-                .addField('thumbnail')
+                .addField(
+                    new Field('short_description').addField('html')
+                )
+                .addField(
+                    new Field('image').addField('url')
+                )
+                .addField(
+                    new Field('thumbnail')
+                        .addField('url')
+                        .addField('label')
+                )
                 .addField(mediaGallery)
                 .addField(price);
 
@@ -368,7 +379,15 @@ class ProductListQuery {
         const images = this._prepareImageFields(options); // images related to product (based on `isSingleProduct` option)
         const additionalInformation = this._prepareAdditionalInformation(options); // additional options related to SINGLE product request
         const configurableData = this._prepareConfigurableData(options);
-        const defaultFields = ['id', 'name', 'short_description', 'url_key', 'special_price', 'sku']; // default fields for all queries
+        // default fields for all queries
+        const defaultFields = [
+            'id',
+            'name',
+            (new Field('short_description').addField('html')),
+            'url_key',
+            'special_price',
+            'sku'
+        ];
 
         return new Field('items')
             .addFieldList(defaultFields) // Important fields, default for all Products

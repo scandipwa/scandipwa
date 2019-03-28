@@ -52,8 +52,8 @@ class ProductCard extends Component {
      */
     getThumbnail(currentVariantIndex) {
         const { product: { thumbnail, variants } } = this.props;
-        const variantThumbnail = variants ? variants[ currentVariantIndex ].product.thumbnail : null;
-        return variantThumbnail || thumbnail;
+        const variantThumbnail = variants ? variants[ currentVariantIndex ].product.thumbnail.url : null;
+        return variantThumbnail || (thumbnail && thumbnail.url);
     }
 
     addOrConfigureProduct(variantIndex, linkTo) {
