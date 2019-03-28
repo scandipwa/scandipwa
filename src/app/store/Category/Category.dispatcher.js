@@ -41,7 +41,7 @@ class CategoryDispatcher extends RequestDispatcher {
 
         const { categoryUrlPath } = options;
 
-        if (!this._isCategoryExists(category, categoryUrlPath)) return dispatch(updateNoMatch(true));
+        if (category && !this._isCategoryExists(category, categoryUrlPath)) return dispatch(updateNoMatch(true));
 
         if (category) { // If category details are updated, reset all data
             dispatch(updateCategoryProductList(items, total_count, sort_fields, filters));
