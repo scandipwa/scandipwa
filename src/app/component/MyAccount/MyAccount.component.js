@@ -13,9 +13,12 @@ import React, { Component } from 'react';
 import Field from 'Component/Field';
 import './MyAccount.style';
 
+// const variables = { customer: { firstname: 'andy', lastname: 'kek', email: 'bmw1234@mail.ru' }, password: 'Reactkek123' };
+
 const STATE_SIGN_IN = 'signIn';
 const STATE_FORGOT_PASSWORD = 'forgotPassword';
 const STATE_CREATE_ACCOUNT = 'createAccount';
+const STATE_VALIDATE_SIGN_UP = 'validateSignUp';
 const STATE_LOGGED_IN = 'loggedIn';
 
 /**
@@ -42,13 +45,15 @@ class MyAccount extends Component {
                 addresscity: '',
                 addressstreet: '',
                 addresspostcode: ''
-            }
+            },
+            isLoggedIn: false
         };
 
         this.renderMap = {
             [STATE_SIGN_IN]: () => this.renderSignIn(),
             [STATE_FORGOT_PASSWORD]: () => this.renderForgotPassword(),
             [STATE_CREATE_ACCOUNT]: () => this.renderCreateAccount(),
+            [STATE_VALIDATE_SIGN_UP]: () => this.renderValidateSignUp(),
             [STATE_LOGGED_IN]: () => this.renderAccountActions()
         };
 
@@ -74,7 +79,7 @@ class MyAccount extends Component {
         const stateField = inputData.id.replace('sign-up-', '').replace('sign-in-', '').replace(/-/g, '');
 
         if (inputData.value !== null && inputData.value !== customerData[stateField]) {
-            if (this.error.current.style && this.error.current.style.display === 'block') {
+            if (this.error.current && this.error.current.style.display === 'block') {
                 this.error.current.style.display = 'none';
             }
 
@@ -108,11 +113,21 @@ class MyAccount extends Component {
         }
     }
 
-    /**
-     * Update state when changing between account functionality, delete password from state
-     * Reset field validation
-     * @param {String} state
-     */
+    handleSignUp() {
+        const {
+            customerData: {
+                email,
+                firstname,
+                lastname,
+                password
+            }
+        } = this.state;
+        const { signUp } = this.props;
+        const formattedData = { customer: { email, firstname, lastname }, password };
+
+        signUp(formattedData);
+    }
+
     changeState(state) {
         const { customerData } = this.state;
 
@@ -160,11 +175,8 @@ class MyAccount extends Component {
     goBackToDefault() {
         const { state, isOpen } = this.state;
 
-        if (state !== STATE_LOGGED_IN) {
-            this.setState({
-                state: STATE_SIGN_IN,
-                fieldsToValidate: []
-            });
+        if (state !== STATE_LOGGED_IN && state !== STATE_VALIDATE_SIGN_UP) {
+            this.setState({ state: STATE_SIGN_IN, fieldsToValidate: [] });
         }
 
         this.setState({ isOpen: !isOpen });
@@ -397,24 +409,40 @@ class MyAccount extends Component {
      */
     renderCreateAccountStepAction() {
         const { createStep, fieldsToValidate } = this.state;
+        const { isLoading } = this.props;
         const showPrev = createStep > 0;
         const showNext = createStep < this.createSteps.length - 1;
         const showSubmit = createStep === this.createSteps.length - 1;
 
         return (
             <div block="MyAccount" elem="Buttons">
-                { showPrev
-                    && <button onClick={ () => this.changeCreateAccountStep(createStep - 1) }>Previous step</button> }
+                { showPrev && (
+                    <button
+                      disabled={ isLoading }
+                      onClick={ () => this.changeCreateAccountStep(createStep - 1) }
+                    >
+                        Previous step
+                    </button>
+                )}
                 { showNext && (
                     <button
                       disabled={ fieldsToValidate.length !== 0 }
                       onClick={ () => this.changeCreateAccountStep(createStep + 1) }
                     >
-                    Next step
+                        Next step
                     </button>
                 )}
-
-                { showSubmit && <button disabled={ fieldsToValidate.length !== 0 }>Sign up</button> }
+                { showSubmit && (
+                    <button
+                      onClick={ () => {
+                          this.handleSignUp();
+                          window.scrollTo(0, 0);
+                          this.changeState(STATE_VALIDATE_SIGN_UP);
+                      } }
+                    >
+                        Sign up
+                    </button>
+                )}
             </div>
         );
     }
@@ -443,9 +471,35 @@ class MyAccount extends Component {
         );
     }
 
-    /**
-     * Render Login
-     */
+    renderValidateSignUp() {
+        const { data: { status }, isLoading } = this.props;
+        const { isLoggedIn } = this.state;
+
+        if (status === 'account_registered' && !isLoggedIn) {
+            this.setState({ isLoggedIn: true });
+            this.changeState(STATE_LOGGED_IN);
+        } else if (!isLoading) {
+            return (
+                <div>
+                    <p>Something went wrong :(</p>
+                    <a
+                      href="#create-account"
+                      onClick={ () => {
+                          this.changeCreateAccountStep(0);
+                          this.changeState(STATE_CREATE_ACCOUNT);
+                      } }
+                    >
+                        Retry here
+                    </a>
+                </div>
+            );
+        }
+
+        return (
+            isLoading && <p>Loading...</p>
+        );
+    }
+
     renderSignIn() {
         const { fieldsToValidate, customerData } = this.state;
 
