@@ -52,4 +52,9 @@
             color: var(--field-error);
         }
     }
+
+    ::placeholder {
+        color: var(--field-note);
+        font-size: 0.9rem;
+    }
 }
