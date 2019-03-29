@@ -179,6 +179,10 @@
                 background-color: var(--color-cart-light);
                 text-decoration: none;
             }
+
+            &:focus {
+                text-decoration: none;
+            }
         }
     }
 
@@ -238,5 +242,10 @@
 
     &-Buttons {
         margin-top: 2rem;
+    }
+
+    &-Error {
+        display: none;
+        padding-top: 0.5rem;
     }
 }

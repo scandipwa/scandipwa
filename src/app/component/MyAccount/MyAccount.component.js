@@ -58,6 +58,7 @@ class MyAccount extends Component {
         ];
 
         this.button = React.createRef();
+        this.error = React.createRef();
 
         this.changeState = this.changeState.bind(this);
         this.handleToUpdate = this.handleToUpdate.bind(this);
@@ -73,6 +74,10 @@ class MyAccount extends Component {
         const stateField = inputData.id.replace('sign-up-', '').replace('sign-in-', '').replace(/-/g, '');
 
         if (inputData.value !== null && inputData.value !== customerData[stateField]) {
+            if (this.error.current.style && this.error.current.style.display === 'block') {
+                this.error.current.style.display = 'none';
+            }
+
             this.setState({
                 customerData: {
                     ...customerData,
@@ -130,6 +135,11 @@ class MyAccount extends Component {
      */
     changeCreateAccountStep(createStep) {
         const { customerData } = this.state;
+
+        if (customerData.password !== customerData.confirmpassword && this.error.current) {
+            this.error.current.style.display = 'block';
+            return;
+        }
 
         this.setState({
             createStep,
@@ -307,6 +317,7 @@ class MyAccount extends Component {
                   handleToUpdate={ this.handleToUpdate }
                   originalValue={ customerData.confirmpassword }
                 />
+                <div block="MyAccount" elem="Error" ref={ this.error }>Passwords do not match!</div>
             </>
         );
     }
@@ -385,11 +396,10 @@ class MyAccount extends Component {
      * Can proceed only when all fields are valid and passwords match
      */
     renderCreateAccountStepAction() {
-        const { createStep, fieldsToValidate, customerData } = this.state;
+        const { createStep, fieldsToValidate } = this.state;
         const showPrev = createStep > 0;
         const showNext = createStep < this.createSteps.length - 1;
         const showSubmit = createStep === this.createSteps.length - 1;
-        const isPasswordCorrect = (customerData.password === customerData.confirmpassword);
 
         return (
             <div block="MyAccount" elem="Buttons">
@@ -397,7 +407,7 @@ class MyAccount extends Component {
                     && <button onClick={ () => this.changeCreateAccountStep(createStep - 1) }>Previous step</button> }
                 { showNext && (
                     <button
-                      disabled={ !(fieldsToValidate.length === 0 && isPasswordCorrect) }
+                      disabled={ fieldsToValidate.length !== 0 }
                       onClick={ () => this.changeCreateAccountStep(createStep + 1) }
                     >
                     Next step
