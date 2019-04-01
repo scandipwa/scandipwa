@@ -12,7 +12,7 @@
 .CategoryPage {
     &-Wrapper {
         display: grid;
-        grid-template-columns: 22rem auto;
+        grid-template-columns: 22rem calc(100% - 24rem);
         grid-column-gap: 2rem;
         padding-top: 1rem;
 
@@ -29,6 +29,7 @@
             top: 40px;
             overflow-y: scroll;
             padding-right: 2rem;
+            width: 100%;
         }
     
         h3 {

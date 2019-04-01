@@ -16,6 +16,7 @@
         padding-bottom: .3rem;
         font-weight: 700;
         font-size: 1.05rem;
+        pointer-events: none;
     }
 
     &-Message {
@@ -29,6 +30,9 @@
         font-size: 1.0rem;
         font-weight: 600;
         color: var(--field-note);
+        opacity: 0;
+        height: 0;
+        transition: height 0.1s ease-in, opacity 0.1s linear;
     }
 
     &-Note::before {
@@ -56,5 +60,10 @@
     ::placeholder {
         color: var(--field-note);
         font-size: 0.9rem;
+    }
+
+    input:focus + .Field-Note{
+        opacity: 1;
+        height: 100%;
     }
 }

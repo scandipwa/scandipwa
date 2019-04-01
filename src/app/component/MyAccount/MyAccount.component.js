@@ -32,7 +32,6 @@ class MyAccount extends Component {
         this.state = {
             state: STATE_SIGN_IN,
             createStep: 0,
-            fieldsToValidate: [],
             customerData: {
                 email: '',
                 firstname: '',
@@ -64,7 +63,6 @@ class MyAccount extends Component {
         ];
 
         this.button = React.createRef();
-        this.error = React.createRef();
 
         this.changeState = this.changeState.bind(this);
         this.handleToUpdate = this.handleToUpdate.bind(this);
@@ -76,15 +74,10 @@ class MyAccount extends Component {
      */
     handleToUpdate(inputData) {
         const { customerData } = this.state;
-        // For the moment state updated only for login/acc creation
-        const stateField = inputData.id.replace(/-/g, '');
-        const stateValue = inputData.value;
+        const stateField = inputData && inputData.id.replace(/-/g, '');
+        const stateValue = inputData && inputData.value;
 
         if (stateValue !== null && stateValue !== customerData[stateField]) {
-            if (this.error.current && this.error.current.style.display === 'block') {
-                this.error.current.style.display = 'none';
-            }
-
             this.setState({
                 customerData: {
                     ...customerData,
@@ -104,7 +97,7 @@ class MyAccount extends Component {
     validateField(fieldName, value) {
         const { customerData, errors } = this.state;
 
-        if (value) {
+        if (value || value === '') {
             if (fieldName.includes('name')) {
                 errors[fieldName] = value.length >= 2 && value.match(/^[a-zA-Z]*$/);
                 return;
@@ -115,13 +108,13 @@ class MyAccount extends Component {
                 errors.email = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
                 break;
             case 'password':
-                errors.password = value.length >= 8 && value.match(/^[a-zA-Z0-9]/);
+                errors.password = value.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/);
                 break;
             case 'confirmpassword':
                 errors.confirmpassword = value === customerData.password && value.match(/^[a-zA-Z0-9]/);
                 break;
             case 'addresstelephone':
-                errors.addresstelephone = value.match(/^\+(?:[0-9] ?){6,14}[0-9]$/);
+                errors.addresstelephone = value.length > 0 && value.match(/^\+(?:[0-9-] ?){6,14}[0-9]$/);
                 break;
             default:
                 errors[fieldName] = value.length > 0 && value.match(/^[a-zA-Z0-9 ]/);
@@ -154,7 +147,6 @@ class MyAccount extends Component {
 
         this.setState({
             state,
-            fieldsToValidate: [],
             customerData: {
                 ...customerData,
                 confirmpassword: '',
@@ -177,31 +169,23 @@ class MyAccount extends Component {
     changeCreateAccountStep(createStep) {
         const { customerData, errors } = this.state;
 
-        if (createStep === 0) {
-            this.setState({
-                errors: {
-                    ...errors,
-                    confirmpassword: false
-                }
-            });
-        } else {
-            this.setState({
-                errors: {
-                    ...errors,
-                    addressfirstname: true,
-                    addresslastname: true
-                }
-            });
-        }
-
         this.setState({
             createStep,
-            fieldsToValidate: [],
             customerData: {
                 ...customerData,
                 confirmpassword: '',
-                addressfirstname: customerData.addressfirstname || customerData.firstname,
-                addresslastname: customerData.addresslastname || customerData.lastname
+                addressfirstname: !customerData.addressfirstname && customerData.firstname !== ''
+                    ? customerData.firstname
+                    : customerData.addressfirstname,
+                addresslastname: !customerData.addresslastname && customerData.lastname !== ''
+                    ? customerData.lastname
+                    : customerData.addresslastname
+            },
+            errors: {
+                ...errors,
+                confirmpassword: false,
+                addressfirstname: true,
+                addresslastname: true
             }
         });
         this.button.current.focus();
@@ -214,7 +198,7 @@ class MyAccount extends Component {
         const { state, isOpen } = this.state;
 
         if (state !== STATE_LOGGED_IN && state !== STATE_VALIDATE_SIGN_UP) {
-            this.setState({ state: STATE_SIGN_IN, fieldsToValidate: [] });
+            this.setState({ state: STATE_SIGN_IN });
         }
 
         this.setState({ isOpen: !isOpen });
@@ -281,7 +265,7 @@ class MyAccount extends Component {
      * Render Forgot Password page
      */
     renderForgotPassword() {
-        const { fieldsToValidate, customerData } = this.state;
+        const { customerData: { email } } = this.state;
 
         return (
             <>
@@ -292,14 +276,13 @@ class MyAccount extends Component {
                       label="Email"
                       id="email"
                       key="email"
-                      handleToUpdate={ this.handleToUpdate }
-                      originalValue={ customerData.email }
+                      originalValue={ email }
                     />
                     <div block="MyAccount" elem="Buttons">
-                        <button disabled={ fieldsToValidate.length !== 0 }>Send reset link</button>
+                        <button>Send reset link</button>
                     </div>
                 </form>
-                <article block="MyAccount" elem="Additional">
+                <div block="MyAccount" elem="Additional">
                     <section aria-labelledby="forgot-password-labe">
                         <h4 id="forgot-password-label">Already have an account?</h4>
                         <a href="#sign-in" onClick={ () => this.changeState(STATE_SIGN_IN) }>Sign in here</a>
@@ -313,7 +296,7 @@ class MyAccount extends Component {
                         Create an account
                         </a>
                     </section>
-                </article>
+                </div>
             </>
         );
     }
@@ -322,7 +305,15 @@ class MyAccount extends Component {
      * Render First step in Account Creation
      */
     renderCreateAccountFirstStep() {
-        const { customerData } = this.state;
+        const {
+            customerData: {
+                email,
+                firstname,
+                lastname,
+                password,
+                confirmpassword
+            }
+        } = this.state;
 
         return (
             <>
@@ -333,7 +324,7 @@ class MyAccount extends Component {
                   id="email"
                   key="email"
                   handleToUpdate={ this.handleToUpdate }
-                  originalValue={ customerData.email }
+                  originalValue={ email }
                   placeholder="JohnTitor@scandiweb.com"
                 />
                 <Field
@@ -342,7 +333,8 @@ class MyAccount extends Component {
                   id="first-name"
                   key="firstname"
                   handleToUpdate={ this.handleToUpdate }
-                  originalValue={ customerData.firstname }
+                  originalValue={ firstname }
+                  note="Must be at least two characters long."
                 />
                 <Field
                   type="text"
@@ -350,7 +342,8 @@ class MyAccount extends Component {
                   id="last-name"
                   key="lastname"
                   handleToUpdate={ this.handleToUpdate }
-                  originalValue={ customerData.lastname }
+                  originalValue={ lastname }
+                  note="Must be at least two characters long."
                 />
                 <Field
                   type="password"
@@ -358,8 +351,8 @@ class MyAccount extends Component {
                   id="password"
                   key="password"
                   handleToUpdate={ this.handleToUpdate }
-                  originalValue={ customerData.password }
-                  placeholder="Must be at least 8 characters long.)"
+                  originalValue={ password }
+                  note="Min. eight characters, at least one uppercase letter, one lowercase letter and one number."
                 />
                 <Field
                   type="password"
@@ -367,9 +360,8 @@ class MyAccount extends Component {
                   id="confirm-password"
                   key="confirmpassword"
                   handleToUpdate={ this.handleToUpdate }
-                  originalValue={ customerData.confirmpassword }
+                  originalValue={ confirmpassword }
                 />
-                <div block="MyAccount" elem="Error" ref={ this.error }>Passwords do not match!</div>
             </>
         );
     }
@@ -378,7 +370,17 @@ class MyAccount extends Component {
      * Render Second step in Account Creation
      */
     renderCreateAccountSecondStep() {
-        const { customerData } = this.state;
+        const {
+            customerData: {
+                addressfirstname,
+                addresslastname,
+                addresstelephone,
+                addresscountry,
+                addresscity,
+                addressstreet,
+                addresspostcode
+            }
+        } = this.state;
 
         return (
             <>
@@ -389,7 +391,8 @@ class MyAccount extends Component {
                   id="addressfirst-name"
                   key="address-firstname"
                   handleToUpdate={ this.handleToUpdate }
-                  originalValue={ customerData.addressfirstname }
+                  originalValue={ addressfirstname }
+                  note="Must be at least two characters long."
                 />
                 <Field
                   type="text"
@@ -397,7 +400,8 @@ class MyAccount extends Component {
                   id="address-last-name"
                   key="addresslastname"
                   handleToUpdate={ this.handleToUpdate }
-                  originalValue={ customerData.addresslastname }
+                  originalValue={ addresslastname }
+                  note="Must be at least two characters long."
                 />
                 <Field
                   type="text"
@@ -405,7 +409,8 @@ class MyAccount extends Component {
                   id="address-telephone"
                   key="telephone"
                   handleToUpdate={ this.handleToUpdate }
-                  originalValue={ customerData.addresstelephone }
+                  originalValue={ addresstelephone }
+                  note="Number must contain country code e.g. +371"
                 />
                 <Field
                   type="text"
@@ -413,7 +418,7 @@ class MyAccount extends Component {
                   id="address-country"
                   key="country"
                   handleToUpdate={ this.handleToUpdate }
-                  originalValue={ customerData.addresscountry }
+                  originalValue={ addresscountry }
                 />
                 <Field
                   type="text"
@@ -421,7 +426,7 @@ class MyAccount extends Component {
                   id="address-city"
                   key="city"
                   handleToUpdate={ this.handleToUpdate }
-                  originalValue={ customerData.addresscity }
+                  originalValue={ addresscity }
                 />
                 <Field
                   type="text"
@@ -429,7 +434,7 @@ class MyAccount extends Component {
                   id="address-street"
                   key="street"
                   handleToUpdate={ this.handleToUpdate }
-                  originalValue={ customerData.addressstreet }
+                  originalValue={ addressstreet }
                 />
                 <Field
                   type="text"
@@ -437,7 +442,7 @@ class MyAccount extends Component {
                   id="address-postcode"
                   key="postcode"
                   handleToUpdate={ this.handleToUpdate }
-                  originalValue={ customerData.addresspostcode }
+                  originalValue={ addresspostcode }
                 />
             </>
         );
@@ -506,12 +511,12 @@ class MyAccount extends Component {
                     { renderFunction() }
                     { this.renderCreateAccountStepAction() }
                 </form>
-                <article block="MyAccount" elem="Additional">
+                <div block="MyAccount" elem="Additional">
                     <section aria-labelledby="create-account-label">
                         <h4 id="create-account-label">Already have an account?</h4>
                         <a href="#create-account" onClick={ () => this.changeState(STATE_SIGN_IN) }>Sign in here</a>
                     </section>
-                </article>
+                </div>
             </>
         );
     }
@@ -546,7 +551,7 @@ class MyAccount extends Component {
     }
 
     renderSignIn() {
-        const { fieldsToValidate, customerData } = this.state;
+        const { customerData: { email, password } } = this.state;
 
         return (
             <>
@@ -557,22 +562,20 @@ class MyAccount extends Component {
                       label="Login or Email"
                       id="email"
                       key="email"
-                      handleToUpdate={ this.handleToUpdate }
-                      originalValue={ customerData.email }
+                      originalValue={ email }
                     />
                     <Field
                       type="password"
                       label="Password"
                       id="password"
                       key="password"
-                      handleToUpdate={ this.handleToUpdate }
-                      originalValue={ customerData.password }
+                      originalValue={ password }
                     />
                     <div block="MyAccount" elem="Buttons">
-                        <button disabled={ fieldsToValidate.length !== 0 }>Sign in</button>
+                        <button>Sign in</button>
                     </div>
                 </form>
-                <article block="MyAccount" elem="Additional">
+                <div block="MyAccount" elem="Additional">
                     <section aria-labelledby="forgot-password-labe">
                         <h4 id="forgot-password-label">Forgot password?</h4>
                         <a
@@ -591,7 +594,7 @@ class MyAccount extends Component {
                         Create an account
                         </a>
                     </section>
-                </article>
+                </div>
             </>
         );
     }

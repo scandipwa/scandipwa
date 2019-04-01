@@ -28,7 +28,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100%;
+        height: calc( 100% - 1px);
         width: 13rem;
         padding: 0;
 
@@ -56,7 +56,6 @@
         &:hover {
             + .MyAccount-Dropdown {
                 @include after-mobile {
-                    transform: scaleY(1);
                     pointer-events: all;
                 }
             }
@@ -128,7 +127,6 @@
         transform: scaleY(0);
         transform-origin: 0 0;
         transition: transform 150ms ease-in;
-        max-height: 80vh;
         overflow: auto;
 
         @include mobile {
@@ -212,6 +210,11 @@
             }
 
             &_createAccount {
+                h4 {
+                    padding-right: 1rem;
+                    display: inline;
+                }
+
                 h3 {
                     margin-bottom: 1rem;
                 }

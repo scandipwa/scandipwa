@@ -173,7 +173,7 @@ class Field extends Component {
               id={ id }
               defaultValue={ originalValue }
               onChange={ (
-                  (typeof handleToUpdate === 'function') ? handleToUpdate({ id, value }) : null,
+                  handleToUpdate && handleToUpdate({ id, value }),
                   this.onChange
                ) }
               onFocus={ event => this.onFocus(event) }
@@ -202,7 +202,7 @@ class Field extends Component {
               id={ id }
               defaultValue={ originalValue }
               onChange={ (
-                (typeof handleToUpdate === 'function') ? handleToUpdate({ id, value }) : null,
+                handleToUpdate && handleToUpdate({ id, value }),
                 this.onChange
               ) }
               onFocus={ event => this.onFocus(event) }
