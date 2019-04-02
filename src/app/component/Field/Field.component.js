@@ -107,11 +107,12 @@ class Field extends Component {
     }
 
     renderTextarea() {
-        const { id, rows, isAutocompleteAllowed } = this.props;
+        const { id, rows, isAutocompleteAllowed, formRef } = this.props;
         const { value } = this.state;
 
         return (
             <textarea
+              ref={ formRef }
               id={ id }
               rows={ rows }
               value={ value }
@@ -125,7 +126,7 @@ class Field extends Component {
 
     renderCheckboxInput() {
         const {
-            id, name, type, value, checked
+            id, name, type, value, checked, formRef
         } = this.props;
 
         const checkedBool = type === RADIO_TYPE
@@ -135,6 +136,7 @@ class Field extends Component {
         return (
             <>
                 <input
+                  ref={ formRef }
                   type={ type }
                   checked={ checkedBool }
                   name={ name }
@@ -150,11 +152,14 @@ class Field extends Component {
     }
 
     renderTypeText() {
-        const { placeholder, id, isAutocompleteAllowed } = this.props;
+        const { 
+            placeholder, id, isAutocompleteAllowed, formRef 
+        } = this.props;
         const { value } = this.state;
 
         return (
             <input
+              ref={ formRef }
               type="text"
               id={ id }
               value={ value }
@@ -185,12 +190,13 @@ class Field extends Component {
     }
 
     renderTypeNumber() {
-        const { id } = this.props;
+        const { id, formRef } = this.props;
         const { value } = this.state;
 
         return (
             <>
                 <input
+                  ref={ formRef }
                   type="number"
                   id={ id }
                   value={ value }
@@ -275,6 +281,10 @@ Field.propTypes = {
     min: PropTypes.number,
     block: PropTypes.string,
     elem: PropTypes.string,
+    formRef: PropTypes.oneOfType([
+        PropTypes.func, 
+        PropTypes.shape({ current: PropTypes.instanceOf(Element) })
+    ]),
     isAutocompleteAllowed: PropTypes.bool
 };
 
