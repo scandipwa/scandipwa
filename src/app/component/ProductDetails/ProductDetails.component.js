@@ -47,9 +47,9 @@ class ProductDetails extends Component {
 
         if (product) {
             if (product.short_description) {
-                return (
-                    <Html content={ product.short_description } />
-                );
+                // return (
+                //     <Html content={ product.short_description } />
+                // );
             }
 
             return null;

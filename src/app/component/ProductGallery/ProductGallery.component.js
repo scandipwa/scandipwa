@@ -27,8 +27,8 @@ class ProductGallery extends Component {
 
         // use images from gallery or fallback to thumbnail
         const gallery = mediaGallery.length
-            ? mediaGallery.map(media => ({ id: media.id, image: `jpg/${PRODUCT_IMAGE_PATH}${media.file}` }))
-            : [{ image: thumbnail && `jpg/${PRODUCT_IMAGE_PATH}${thumbnail}`, id: 'thumbnail' }];
+            ? mediaGallery.map(media => ({ id: media.id, image: `/media/jpg/${PRODUCT_IMAGE_PATH}${media.file}` }))
+            : [{ image: thumbnail && thumbnail.url, id: 'thumbnail' }];
 
         return (
             <Slider
@@ -46,13 +46,13 @@ class ProductGallery extends Component {
 
 ProductGallery.propTypes = {
     mediaGallery: MediaType,
-    thumbnail: PropTypes.string,
+    thumbnail: PropTypes.shape({ url: PropTypes.string }),
     areDetailsLoaded: PropTypes.bool.isRequired
 };
 
 ProductGallery.defaultProps = {
     mediaGallery: [],
-    thumbnail: ''
+    thumbnail: {}
 };
 
 export default ProductGallery;

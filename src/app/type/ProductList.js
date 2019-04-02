@@ -69,7 +69,7 @@ export const ProductType = PropTypes.shape({
     categories: CategoriesType,
     description: PropTypes.string,
     id: PropTypes.number,
-    image: PropTypes.string,
+    image: PropTypes.shape({ url: PropTypes.string }),
     image_label: PropTypes.string,
     media_gallery_entries: MediaType,
     meta_description: PropTypes.string,

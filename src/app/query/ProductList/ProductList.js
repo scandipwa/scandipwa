@@ -93,7 +93,7 @@ class ProductListQuery {
             };
 
             pushToList(categoryIds, `category_id: { eq: ${categoryIds} }`);
-            pushToList(categoryUrlPath, `category_url_path: { eq: ${categoryUrlPath} }`);
+            // pushToList(categoryUrlPath, `category_url_path: { eq: ${categoryUrlPath} }`);
             if (priceRange) pushToList(priceRange.min, `min_price: { gteq: ${priceRange.min} }`);
             if (priceRange) pushToList(priceRange.max, `max_price: { lteq: ${priceRange.max} }`);
             pushToList(productsSkuArray, `sku: { in: [${productsSkuArray}] }`);
@@ -275,7 +275,7 @@ class ProductListQuery {
             const productLinks = this._prepareAdditionalProductLinks();
 
             additionalInformation.push(...[
-                'description', 'meta_title', 'meta_keyword',
+                'meta_title', 'meta_keyword',
                 'meta_description', 'canonical_url',
                 mediaGallery, tierPrices, productLinks
             ]);
@@ -323,7 +323,7 @@ class ProductListQuery {
         ];
 
         return new Field('media_gallery_entries')
-            .addField(thumbnail)
+            // .addField(thumbnail)
             .addField(content)
             .addField(videoContent)
             .addFieldList(additionalFields);
