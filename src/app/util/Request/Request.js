@@ -147,8 +147,6 @@ export const makeGraphqlRequest = (query, name, cacheTTL) => {
     const { areArgumentsPresent, queryType } = query;
     let fetchType;
 
-    console.log(areArgumentsPresent, queryType)
-
     if (!areArgumentsPresent || queryType === 'mutation') {
         fetchType = executePostFetch(query, name);
     } else {
