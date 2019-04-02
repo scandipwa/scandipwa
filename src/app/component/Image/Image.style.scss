@@ -40,6 +40,10 @@
         mask: radial-gradient(ellipse, black 30%, transparent 61%, transparent 100%), radial-gradient(circle, black 24%, transparent 60%, transparent 100%);
     }
 
+    &_isLoaded {
+        background: transparent;
+    }
+
     &_isLoaded.Image_isReal {
         @keyframes maskAnimation {
             0% {

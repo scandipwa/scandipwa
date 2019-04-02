@@ -53,6 +53,7 @@ class Image extends Component {
     onImageLoad(img) {
         if (img.target.currentSrc.includes('.webp')
         || img.target.currentSrc.includes('.jpg')) this.setState({ isImageLoaded: true });
+        if (img.target.currentSrc.includes('.svg')) this.setState({ isPlacehodlerLoaded: true });
     }
 
     /**
@@ -126,7 +127,8 @@ class Image extends Component {
     render() {
         const {
             isImageLoaded,
-            showImage
+            showImage,
+            isPlacehodlerLoaded
         } = this.state;
 
         const {
@@ -144,7 +146,7 @@ class Image extends Component {
               block="Image"
               mods={ {
                   ratio,
-                  isLoaded: isImageLoaded,
+                  isLoaded: isImageLoaded || (isIcon && isPlacehodlerLoaded),
                   isReal: !!src && !showGreyPlaceholder
               } }
               ref={ (node) => { this.node = node; } }
