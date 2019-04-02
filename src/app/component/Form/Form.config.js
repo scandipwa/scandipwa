@@ -1,10 +1,12 @@
+/* eslint-disable max-len */
+
 export default {
     email: {
         validate: ({ value }) => value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i),
         message: 'Email is invalid.'
     },
     password: {
-        validate: ({ value }) => value.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/),
+        validate: ({ value }) => value.match(/^((?=.*[A-Z])(?=.*[a-z])(?=.*\d)|(?=.*[a-z])(?=.*\d)(?=.*[\$\%\&])|(?=.*[A-Z])(?=.*\d)(?=.*[\$\%\&])|(?=.*[A-Z])(?=.*[a-z])(?=.*[\$\%\&])).{8,16}$/),
         message: 'Password should be at least 8 characters long, include at least on upper case letter, number and symbol!'
     },
     telephone: {

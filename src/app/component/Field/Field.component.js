@@ -26,6 +26,7 @@ const NUMBER_TYPE = 'number';
 const CHECKBOX_TYPE = 'checkbox';
 const RADIO_TYPE = 'radio';
 const TEXTAREA_TYPE = 'textarea';
+const PASSWORD_TYPE = 'password';
 
 /**
  * Input fields component
@@ -72,7 +73,7 @@ class Field extends Component {
         const { value: stateValue } = state;
 
         if (value !== stateValue) {
-            return { value };
+            return { stateValue };
         }
 
         return null;
@@ -95,7 +96,11 @@ class Field extends Component {
     }
 
     handleChange(value) {
-        const { onChange, type, min } = this.props;
+        const {
+            onChange,
+            type,
+            min
+        } = this.props;
 
         if (type === NUMBER_TYPE && value < min) {
             return;
@@ -106,7 +111,12 @@ class Field extends Component {
     }
 
     renderTextarea() {
-        const { id, rows, isAutocompleteAllowed, formRef } = this.props;
+        const {
+            id,
+            rows,
+            isAutocompleteAllowed,
+            formRef
+        } = this.props;
         const { value } = this.state;
 
         return (
@@ -150,9 +160,16 @@ class Field extends Component {
         );
     }
 
+    /**
+     * Render Type Text, default value is passed from parent
+     * handleToUpdate used to pass child data to parent
+     */
     renderTypeText() {
-        const { 
-            placeholder, id, isAutocompleteAllowed, formRef 
+        const {
+            placeholder,
+            id,
+            isAutocompleteAllowed,
+            formRef
         } = this.props;
         const { value } = this.state;
 
@@ -162,11 +179,29 @@ class Field extends Component {
               type="text"
               id={ id }
               value={ value }
-              onChange={ this.onChange }
+              onChange={ (this.onChange) }
               onFocus={ event => this.onFocus(event) }
               onClick={ event => this.onClick(event) }
               placeholder={ placeholder }
               autoComplete={ !isAutocompleteAllowed ? 'off' : undefined }
+            />
+        );
+    }
+
+    renderTypePassword() {
+        const { placeholder, id, formRef } = this.props;
+        const { value } = this.state;
+
+        return (
+            <input
+              ref={ formRef }
+              type="password"
+              id={ id }
+              value={ value }
+              onChange={ this.onChange }
+              onFocus={ event => this.onFocus(event) }
+              onClick={ event => this.onClick(event) }
+              placeholder={ placeholder }
             />
         );
     }
@@ -206,6 +241,8 @@ class Field extends Component {
             return this.renderTypeNumber();
         case TEXTAREA_TYPE:
             return this.renderTextarea();
+        case PASSWORD_TYPE:
+            return this.renderTypePassword();
         default:
             return this.renderTypeText();
         }
@@ -216,10 +253,11 @@ class Field extends Component {
             id, type, label, note, message, state, block, elem
         } = this.props;
 
-        const mods = state ? { [state]: true } : {};
+        const mods = state ? { [state]: true } : undefined;
+        const mix = (block && elem) ? { block, elem } : undefined;
 
         return (
-            <div block="Field" mods={ mods } mix={ { block, elem } }>
+            <div block="Field" mods={ mods } mix={ mix }>
                 { message && <p block="Field" elem="Message">{ message }</p> }
                 { label && <label htmlFor={ id }>{ label }</label> }
                 { this.renderInputOfType(type) }
@@ -236,7 +274,8 @@ Field.propTypes = {
         NUMBER_TYPE,
         CHECKBOX_TYPE,
         TEXTAREA_TYPE,
-        RADIO_TYPE
+        RADIO_TYPE,
+        PASSWORD_TYPE
     ]).isRequired,
     name: PropTypes.string,
     label: PropTypes.string,
@@ -261,7 +300,7 @@ Field.propTypes = {
     block: PropTypes.string,
     elem: PropTypes.string,
     formRef: PropTypes.oneOfType([
-        PropTypes.func, 
+        PropTypes.func,
         PropTypes.shape({ current: PropTypes.instanceOf(Element) })
     ]),
     isAutocompleteAllowed: PropTypes.bool
