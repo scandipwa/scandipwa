@@ -111,11 +111,17 @@ class Field extends Component {
     }
 
     renderTextarea() {
-        const { id, rows, isAutocompleteAllowed } = this.props;
+        const {
+            id,
+            rows,
+            isAutocompleteAllowed,
+            formRef
+        } = this.props;
         const { value } = this.state;
 
         return (
             <textarea
+              ref={ formRef }
               id={ id }
               rows={ rows }
               value={ value }
@@ -129,7 +135,7 @@ class Field extends Component {
 
     renderCheckboxInput() {
         const {
-            id, name, type, value, checked
+            id, name, type, value, checked, formRef
         } = this.props;
 
         const checkedBool = type === RADIO_TYPE
@@ -139,6 +145,7 @@ class Field extends Component {
         return (
             <>
                 <input
+                  ref={ formRef }
                   type={ type }
                   checked={ checkedBool }
                   name={ name }
@@ -162,20 +169,17 @@ class Field extends Component {
             placeholder,
             id,
             isAutocompleteAllowed,
-            handleToUpdate,
-            originalValue
+            formRef
         } = this.props;
         const { value } = this.state;
 
         return (
             <input
+              ref={ formRef }
               type="text"
               id={ id }
-              defaultValue={ originalValue }
-              onChange={ (
-                  (typeof handleToUpdate === 'function') ? handleToUpdate({ id, value }) : null,
-                  this.onChange
-               ) }
+              value={ value }
+              onChange={ (this.onChange) }
               onFocus={ event => this.onFocus(event) }
               onClick={ event => this.onClick(event) }
               placeholder={ placeholder }
@@ -184,27 +188,17 @@ class Field extends Component {
         );
     }
 
-    /**
-     * Render Type Password, default value is passed from parent
-     */
     renderTypePassword() {
-        const {
-            placeholder,
-            id,
-            handleToUpdate,
-            originalValue
-        } = this.props;
+        const { placeholder, id, formRef } = this.props;
         const { value } = this.state;
 
         return (
             <input
+              ref={ formRef }
               type="password"
               id={ id }
-              defaultValue={ originalValue }
-              onChange={ (
-                (typeof handleToUpdate === 'function') ? handleToUpdate({ id, value }) : null,
-                this.onChange
-              ) }
+              value={ value }
+              onChange={ this.onChange }
               onFocus={ event => this.onFocus(event) }
               onClick={ event => this.onClick(event) }
               placeholder={ placeholder }
@@ -213,12 +207,13 @@ class Field extends Component {
     }
 
     renderTypeNumber() {
-        const { id } = this.props;
+        const { id, formRef } = this.props;
         const { value } = this.state;
 
         return (
             <>
                 <input
+                  ref={ formRef }
                   type="number"
                   id={ id }
                   value={ value }
@@ -258,10 +253,11 @@ class Field extends Component {
             id, type, label, note, message, state, block, elem
         } = this.props;
 
-        const mods = state ? { [state]: true } : {};
+        const mods = state ? { [state]: true } : undefined;
+        const mix = (block && elem) ? { block, elem } : undefined;
 
         return (
-            <div block="Field" mods={ mods } mix={ { block, elem } }>
+            <div block="Field" mods={ mods } mix={ mix }>
                 { message && <p block="Field" elem="Message">{ message }</p> }
                 { label && <label htmlFor={ id }>{ label }</label> }
                 { this.renderInputOfType(type) }
@@ -303,9 +299,11 @@ Field.propTypes = {
     min: PropTypes.number,
     block: PropTypes.string,
     elem: PropTypes.string,
-    isAutocompleteAllowed: PropTypes.bool,
-    handleToUpdate: PropTypes.func,
-    originalValue: PropTypes.string
+    formRef: PropTypes.oneOfType([
+        PropTypes.func,
+        PropTypes.shape({ current: PropTypes.instanceOf(Element) })
+    ]),
+    isAutocompleteAllowed: PropTypes.bool
 };
 
 Field.defaultProps = {

@@ -33,7 +33,7 @@ class CartItem extends Component {
         if (!url_key) return undefined;
 
         const { product: { configurableVariantIndex }, product } = this.props;
-        const variantIndex = configurableVariantIndex;
+        const variantIndex = configurableVariantIndex || 0;
 
         return {
             pathname: `/product/${ url_key }`,
