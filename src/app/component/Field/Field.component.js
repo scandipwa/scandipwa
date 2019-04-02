@@ -111,7 +111,12 @@ class Field extends Component {
     }
 
     renderTextarea() {
-        const { id, rows, isAutocompleteAllowed, formRef } = this.props;
+        const {
+            id,
+            rows,
+            isAutocompleteAllowed,
+            formRef
+        } = this.props;
         const { value } = this.state;
 
         return (
@@ -160,8 +165,11 @@ class Field extends Component {
      * handleToUpdate used to pass child data to parent
      */
     renderTypeText() {
-        const { 
-            placeholder, id, isAutocompleteAllowed, formRef 
+        const {
+            placeholder,
+            id,
+            isAutocompleteAllowed,
+            formRef
         } = this.props;
         const { value } = this.state;
 
@@ -170,11 +178,8 @@ class Field extends Component {
               ref={ formRef }
               type="text"
               id={ id }
-              defaultValue={ originalValue }
-              onChange={ (
-                  handleToUpdate && handleToUpdate({ id, value }),
-                  this.onChange
-               ) }
+              value={ value }
+              onChange={ (this.onChange) }
               onFocus={ event => this.onFocus(event) }
               onClick={ event => this.onClick(event) }
               placeholder={ placeholder }
@@ -184,11 +189,12 @@ class Field extends Component {
     }
 
     renderTypePassword() {
-        const { placeholder, id } = this.props;
+        const { placeholder, id, formRef } = this.props;
         const { value } = this.state;
 
         return (
             <input
+              ref={ formRef }
               type="password"
               id={ id }
               value={ value }
@@ -247,10 +253,11 @@ class Field extends Component {
             id, type, label, note, message, state, block, elem
         } = this.props;
 
-        const mods = state ? { [state]: true } : {};
+        const mods = state ? { [state]: true } : undefined;
+        const mix = (block && elem) ? { block, elem } : undefined;
 
         return (
-            <div block="Field" mods={ mods } mix={ { block, elem } }>
+            <div block="Field" mods={ mods } mix={ mix }>
                 { message && <p block="Field" elem="Message">{ message }</p> }
                 { label && <label htmlFor={ id }>{ label }</label> }
                 { this.renderInputOfType(type) }
@@ -293,7 +300,7 @@ Field.propTypes = {
     block: PropTypes.string,
     elem: PropTypes.string,
     formRef: PropTypes.oneOfType([
-        PropTypes.func, 
+        PropTypes.func,
         PropTypes.shape({ current: PropTypes.instanceOf(Element) })
     ]),
     isAutocompleteAllowed: PropTypes.bool
