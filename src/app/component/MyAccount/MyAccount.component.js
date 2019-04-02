@@ -11,6 +11,7 @@
 
 import React, { Component } from 'react';
 import Field from 'Component/Field';
+import Form from 'Component/Form';
 import './MyAccount.style';
 
 const STATE_SIGN_IN = 'signIn';
@@ -72,6 +73,7 @@ class MyAccount extends Component {
 
         return (
             <button
+              type="submit"
               block="MyAccount"
               elem="Button"
               mods={ { isOpen } }
@@ -114,13 +116,13 @@ class MyAccount extends Component {
     renderForgotPassword() {
         return (
             <>
-                <form>
+                <Form>
                     <h3>Get password reset link</h3>
                     <Field type="text" label="Email" id="forgot-email" />
                     <div block="MyAccount" elem="Buttons">
-                        <button>Send reset link</button>
+                        <button type="submit">Send reset link</button>
                     </div>
-                </form>
+                </Form>
                 <article block="MyAccount" elem="Additional">
                     <section aria-labelledby="forgot-password-labe">
                         <h4 id="forgot-password-label">Already have an account?</h4>
@@ -171,9 +173,9 @@ class MyAccount extends Component {
 
         return (
             <div block="MyAccount" elem="Buttons">
-                { showPrev && <button onClick={ () => this.changeCreateAccountStep(createStep - 1) }>Previous step</button> }
-                { showNext && <button onClick={ () => this.changeCreateAccountStep(createStep + 1) }>Next step</button> }
-                { showSubmit && <button>Sign up</button> }
+                { showPrev && <button type="submit" onClick={ () => this.changeCreateAccountStep(createStep - 1) }>Previous step</button> }
+                { showNext && <button type="submit" onClick={ () => this.changeCreateAccountStep(createStep + 1) }>Next step</button> }
+                { showSubmit && <button type="submit">Sign up</button> }
             </div>
         );
     }
@@ -184,11 +186,11 @@ class MyAccount extends Component {
 
         return (
             <>
-                <form>
+                <Form>
                     <h3>Create your account</h3>
                     { renderFunction() }
                     { this.renderCreateAccountStepAction() }
-                </form>
+                </Form>
                 <article block="MyAccount" elem="Additional">
                     <section aria-labelledby="create-account-label">
                         <h4 id="create-account-label">Already have an account?</h4>
@@ -202,14 +204,14 @@ class MyAccount extends Component {
     renderSignIn() {
         return (
             <>
-                <form>
+                <Form>
                     <h3>Sign in to your account</h3>
                     <Field type="text" label="Login or Email" id="sign-in-email" />
                     <Field type="password" label="Password" id="sign-in-password" />
                     <div block="MyAccount" elem="Buttons">
                         <button>Sign in</button>
                     </div>
-                </form>
+                </Form>
                 <article block="MyAccount" elem="Additional">
                     <section aria-labelledby="forgot-password-labe">
                         <h4 id="forgot-password-label">Forgot password?</h4>

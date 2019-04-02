@@ -38,7 +38,9 @@
         }
 
         span {
-            display: none;
+            @include mobile {
+                display: none;
+            }
         }
 
         &:focus,
@@ -133,6 +135,7 @@
         &:focus-within {
             @include after-mobile {
                 transform: scaleY(1);
+                pointer-events: all;
             }
         }
 
