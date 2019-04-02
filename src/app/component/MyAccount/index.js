@@ -1,3 +1,3 @@
-import MyAccount from './MyAccount.container';
+import MyAccount from './MyAccount.component';
 
 export default MyAccount;
