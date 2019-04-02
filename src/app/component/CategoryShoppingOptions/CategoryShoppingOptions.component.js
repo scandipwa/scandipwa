@@ -157,7 +157,7 @@ class CategoryShoppingOptions extends Component {
                   elem="ClearButton"
                   onClick={ () => clearFilters() }
                 >
-                    Clear
+                    Clear Filters
                 </button>
             );
         }
@@ -187,9 +187,9 @@ class CategoryShoppingOptions extends Component {
                 { isLoaded
                     ? (
                         <>
+                            { this.renderClearFiltersButton() }
                             { this.renderCustomFilters() }
                             { this.renderPriceFilter() }
-                            { this.renderClearFiltersButton() }
                         </>
                     )
                     : (
