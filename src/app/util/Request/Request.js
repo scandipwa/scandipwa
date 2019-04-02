@@ -51,6 +51,23 @@ const getFetch = (uri, name) => fetch(uri,
 /**
  *
  * @param {String} graphQlURI
+ * @param {String} queryObject
+ * @param {String} name
+ * @returns {Promise<Response>}
+ */
+const postFetch = (graphQlURI, query, variables, name) => fetch(graphQlURI,
+    {
+        method: 'POST',
+        body: JSON.stringify({ query, variables }),
+        headers: {
+            'Content-Type': 'application/json',
+            'Application-Model': name
+        }
+    });
+
+/**
+ *
+ * @param {String} graphQlURI
  * @param {{}} query Request body
  * @param {Int} cacheTTL
  */
@@ -91,6 +108,15 @@ const executeFetch = (queryObject, name, cacheTTL) => {
     });
 };
 
+const executePostFetch = (queryObject, name) => {
+    const graphQlURI = '/graphql';
+    const { query, variables } = queryObject;
+
+    return new Promise((resolve) => {
+        postFetch(graphQlURI, query, variables, name).then(res => resolve(res));
+    });
+};
+
 /**
  * Checks for errors in response, if they exist, rejects promise
  * @param  {Object} res Response from GraphQL endpoint
@@ -111,17 +137,30 @@ const handleConnectionError = err => console.error(err); // TODO: Add to logs po
 /**
  * Make GraphQL request to endpoint (via ServiceWorker)
  * @param  {String} query prepared with `
- prepareQuery()` from `
+ prepareQuery()` or `prepareMutation()` from `
  Util / Query` request body string
  * @param  {String} name Name of model for ServiceWorker to send BroadCasts updates to
  * @param  {Number} cacheTTL Cache TTL (in seconds) for ServiceWorker to cache responses
  * @return {Promise<Object>} Handled GraphqlQL results promise
  */
-export const makeGraphqlRequest = (query, name, cacheTTL) => executeFetch(query, name, cacheTTL)
-    .then(
-        res => res.json().then(checkForErrors, () => handleConnectionError('Can not transform JSON!')),
-        () => handleConnectionError('Can not establish connection!')
-    );
+export const makeGraphqlRequest = (query, name, cacheTTL) => {
+    const { areArgumentsPresent, queryType } = query;
+    let fetchType;
+
+    console.log(areArgumentsPresent, queryType)
+
+    if (!areArgumentsPresent || queryType === 'mutation') {
+        fetchType = executePostFetch(query, name);
+    } else {
+        fetchType = executeFetch(query, name, cacheTTL);
+    }
+
+    return fetchType
+        .then(
+            res => res.json().then(checkForErrors, () => handleConnectionError('Can not transform JSON!')),
+            () => handleConnectionError('Can not establish connection!')
+        );
+};
 
 /**
  * Listen to the BroadCast connection

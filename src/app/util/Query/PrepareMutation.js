@@ -16,21 +16,21 @@ import { prepareHelper } from 'Util/Query/PrepareHelper';
  * @param  {Array<Field>} queries
  * @return {String} JSON String, format: `{"query":"{alias: queryName (attr:key) { field1, field2 }}"}`
  */
-const prepareQuery = (queries) => {
+const prepareMutation = (queries) => {
     const queryValues = prepareHelper(queries);
     const {
         variableDefinitions,
         variableAssignments,
-        querySelections,
         queryType,
+        querySelections,
         areArgumentsPresent
     } = queryValues;
     let query;
 
     if (areArgumentsPresent) {
-        query = `query(${ variableDefinitions.join(', ') }) {${ querySelections.join(', ') }}`;
+        query = `mutation(${ variableDefinitions.join(', ') }) {${ querySelections.join(', ') }}`;
     } else {
-        query = `query {${ querySelections.join(', ') }}`;
+        query = `mutation {${ querySelections.join(', ') }}`;
     }
 
     return {
@@ -41,4 +41,4 @@ const prepareQuery = (queries) => {
     };
 };
 
-export { prepareQuery };
+export { prepareMutation };

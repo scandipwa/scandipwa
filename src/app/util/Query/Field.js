@@ -30,6 +30,7 @@ class Field {
         this._variableDefinitions = '';
         this._variableValues = {};
         this._argumentDefinitions = [];
+        this._componentType = 'query';
     }
 
 
@@ -92,6 +93,17 @@ class Field {
             value,
             type
         };
+        return this;
+    }
+
+    /**
+     * Sets GraphQL component type: query, mutation, etc.
+     * @param {String} component
+     * @return {Field}
+     * @memberof Query
+     */
+    setComponentType(component) {
+        this._componentType = component;
         return this;
     }
 
@@ -165,6 +177,15 @@ class Field {
      */
     _getVariableName(field) {
         return `${ this._alias }_${ field }`;
+    }
+
+    /**
+     * Returns GraphQL component type - query, mutation, etc.
+     *
+     * @returns {string}
+     */
+    getComponentType() {
+        return this._componentType;
     }
 
     /**

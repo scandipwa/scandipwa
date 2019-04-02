@@ -12,9 +12,11 @@
 import Field from './Field';
 import Fragment from './Fragment';
 import { prepareQuery } from './PrepareQuery';
+import { prepareMutation } from './PrepareMutation';
 
 export {
     Field,
     Fragment,
-    prepareQuery
+    prepareQuery,
+    prepareMutation
 };

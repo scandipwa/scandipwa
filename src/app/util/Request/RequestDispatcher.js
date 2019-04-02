@@ -10,7 +10,7 @@
  */
 
 import { makeGraphqlRequest, listenForBroadCast } from 'Util/Request/Request';
-import { prepareQuery, Field } from 'Util/Query';
+import { prepareQuery, Field, prepareMutation } from 'Util/Query';
 import { makeCancelable } from 'Util/Promise';
 
 /**
@@ -41,12 +41,19 @@ class RequestDispatcher {
         const { name, cacheTTL } = this;
         const rawQueries = this.prepareRequest(options, dispatch);
         const queries = rawQueries instanceof Field ? [rawQueries] : rawQueries;
+        let prepareType;
 
         if (this.promise) this.promise.cancel();
 
+        if (queries[0].getComponentType() === 'query') {
+            prepareType = prepareQuery(queries);
+        } else if (queries[0].getComponentType() === 'mutation') {
+            prepareType = prepareMutation(queries);
+        }
+
         this.promise = makeCancelable(
             new Promise((resolve, reject) => {
-                makeGraphqlRequest(prepareQuery(queries), name, cacheTTL)
+                makeGraphqlRequest(prepareType, name, cacheTTL)
                     .then(data => resolve(data), error => reject(error));
             })
         );
