@@ -12,22 +12,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-
-import HomePage from 'Route/HomePage';
-import CategoryPage from 'Route/CategoryPage';
-import ProductPage from 'Route/ProductPage';
-import CmsPage from 'Route/CmsPage';
-import CartPage from 'Route/CartPage';
-import NoMatch from 'Route/NoMatch';
-import NoMatchHandler from 'Route/NoMatchHandler';
+import { BrowserRouter as Router, Switch } from 'react-router-dom';
+import { Route } from 'react-router';
 
 import Header from 'Component/Header';
 import Footer from 'Component/Footer';
 import Breadcrumbs from 'Component/Breadcrumbs';
 import NotificationList from 'Component/NotificationList';
+import NoMatchHandler from 'Route/NoMatchHandler';
 
 import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
+
+import Routes from 'Config/Routes';
 
 class AppRouter extends Component {
     componentWillMount() {
@@ -52,6 +48,41 @@ class AppRouter extends Component {
         updateHeaderAndFooter({ menu: { menuId: 1 }, footer: footerOptions });
     }
 
+    loadRoutes() {
+        const cache = [];
+
+        // compare existing route with route from json and format it
+        const getMatchingRoute = (item, realComponent) => {
+            const componentName = item.split('/')[1];
+            const matchingRoute = Routes.routes.filter(route => (route.component === componentName))[0];
+
+            if (matchingRoute) {
+                if (matchingRoute.path === '') matchingRoute.path = null;
+                if (matchingRoute.path === '/') matchingRoute.exact = true;
+                matchingRoute.realComponent = realComponent.default;
+                return matchingRoute;
+            }
+
+            return null;
+        };
+
+        const parseRoutes = route => route.keys().forEach(key => cache.push(getMatchingRoute(key, route(key))));
+
+        parseRoutes(require.context('./../route', true, /container\.js$/));
+
+        // move NoMatch to the end
+        cache.push(cache.splice(cache.findIndex(v => v.path === null), 1)[0]);
+
+        return cache.map(item => item && (
+            <Route
+              key={ item.path + item.component }
+              exact={ item.exact }
+              path={ item.path }
+              component={ item.realComponent }
+            />
+        ));
+    }
+
     render() {
         return (
             <Router>
@@ -61,12 +92,7 @@ class AppRouter extends Component {
                     <Breadcrumbs />
                     <NoMatchHandler>
                         <Switch>
-                            <Route path="/" exact component={ HomePage } />
-                            <Route path="/category" component={ CategoryPage } />
-                            <Route path="/product" component={ ProductPage } />
-                            <Route path="/page/:id" component={ CmsPage } />
-                            <Route path="/cart" exact component={ CartPage } />
-                            <Route component={ NoMatch } />
+                            { this.loadRoutes() }
                         </Switch>
                     </NoMatchHandler>
                     <Footer />

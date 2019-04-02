@@ -35,7 +35,8 @@ const plugins = [
                 Store: './src/app/store/',
                 Util: './src/app/util/',
                 Query: './src/app/query/',
-                Type: './src/app/type/'
+                Type: './src/app/type/',
+                Config: './src/app/config/'
             }
         }
     ],
