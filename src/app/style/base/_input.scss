@@ -15,6 +15,7 @@ textarea {
     --input-border-color: #{color(neutral, base, true)};
 
     border: 1px solid var(--input-border-color);
+    background-color: var(--color-footer-light);
     padding: 1.1rem 1.9rem;
     appearance: none;
 
