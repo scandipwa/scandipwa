@@ -31,6 +31,7 @@ class Select extends Component {
      */
     onGetSortKey(key) {
         const { onGetSortKey } = this.props;
+        console.log(key);
 
         onGetSortKey(key);
     }
@@ -40,12 +41,14 @@ class Select extends Component {
      * @param {Object} option
      */
     renderSortOption(option) {
+        // TODO add onkeypress for options
         return (
                 <option
                   block="Select"
                   elem="Option"
                   key={ option.value }
                   value={ option.value }
+                  tabIndex={ 0 }
                 >
                 { option.label }
                 </option>
@@ -53,7 +56,8 @@ class Select extends Component {
     }
 
     render() {
-        const { options, selectedOption } = this.props;
+        // TODO add select as possible child type name in form component
+        const { options, selectedOption, formRef } = this.props;
         const tempData = [];
         const selectedFilter = options.reduce((selectedFilter, option) => {
             if (option && option.value === selectedOption) {
@@ -64,14 +68,19 @@ class Select extends Component {
         }, 0);
 
         const listItems = options.map(option => (
-            <li key={ option.value } onClick={ () => this.onGetSortKey(option.value) }>
+            <li
+              key={ option.value }
+              onClick={ () => this.onGetSortKey(option.value) }
+              tabIndex={ 0 }
+              onKeyPress={ () => this.onGetSortKey(option.value) }
+            >
             {option.label}
             </li>
         ));
 
         return (
             <div block="Select" elem="Container">
-                <div block="Select" elem="Wrapper">
+                <div block="Select" elem="Wrapper" tabIndex="0">
                     <div block="Select" elem="Current">
                         <span>{ selectedFilter }</span>
                         <div block="Select" elem="Arrow" />
@@ -85,7 +94,7 @@ class Select extends Component {
                 <select
                   block="Select"
                   elem="Original"
-                  ref={ this.select }
+                  ref={ formRef }
                   value={ selectedOption }
                   readOnly
                 >
@@ -104,7 +113,11 @@ Select.propTypes = {
             value: PropTypes.string,
             label: PropTypes.string
         })
-    ).isRequired
+    ).isRequired,
+    formRef: PropTypes.oneOfType([
+        PropTypes.func, 
+        PropTypes.shape({ current: PropTypes.instanceOf(Element) })
+    ])
 };
 
 export default Select;

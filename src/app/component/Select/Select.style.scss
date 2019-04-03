@@ -30,17 +30,18 @@
             background-color: var(--color-text-white);
             line-height: 3rem;
             text-align: center;
-            font-size: 1.05rem;
-            font-weight: 700;
+            font-weight: normal;
+            font-size: 1.15rem;
         }
 
         li {
-            border: 2px solid var(--color-primary-light);
+            color: var(--color-neutral-dark);
+            background-color: var(--color-breadcrumbs-background);
         }
 
         span {
             cursor: default;
-            transition: background-color 0.1s ease;
+            transition: background-color 150ms ease;
             background-color: var(--color-breadcrumbs-background);
 
             @include mobile {
@@ -48,62 +49,66 @@
             }
         }
         
-        li:hover { 
-            background-color: var(--color-primary-base);
-            color: var(--color-text-white);
-            text-decoration: none;
-        }
-        
         /* Hide Dropdowns by Default */
         ul {
             display:inherit;
-            opacity: 0;
-            visibility: hidden;
-            transition: 0.2s ease;
+            overflow: hidden;
 
             li {
                 padding: 0;
                 margin: 0;
                 border-top: 0;
+                max-height: 0px;
+                transition: max-height 100ms ease-out;
+
+                &:hover,
+                &:focus {
+                    background-color: var(--color-primary-light);
+                    color: var(--color-text-white);
+                    text-decoration: none;
+                }
             }
         }
     }
 
     &-Wrapper {
         height: inherit;
-        transition: background-color 0.1s ease;
+        transition: background-color 150ms ease;
         background-color: var(--color-breadcrumbs-background);
 
         /* Display Dropdowns on Hover */
-        &:hover {
-            > div > span {
-                color: var(--color-text-white);
-                background-color: var(--color-primary-light);
-                border-color: var(--color-primary-light);
-            }
-
+        &:hover,
+        &:focus,
+        &:focus-within {
             > ul {
-                visibility: visible;
                 z-index: 1;
                 opacity: 1;
+
+                li {
+                    z-index: 1;
+                    max-height: 36px;
+                    transition: max-height 150ms ease-in;
+                }
             }
 
-            > div > .Select-Arrow {
-                color: var(--color-text-white);
-                background-color: var(--color-primary-light);
-                border-color: var(--color-primary-light);
-            }
-
-            > div > .Select-Arrow:after {
-                content: '△';
+            > div > .Select-Arrow::after {
+                margin-top: 0;
+                margin-bottom: 0.4rem;
+                border: {
+                    top: 0;
+                    right: 1px solid var(--color-neutral-base);
+                    bottom: 1px solid var(--color-neutral-base);
+                    left: 0;
+                };
             }
         }
     }
 
     &-Current {
         display: grid;
-        grid-template-columns: 1fr 30px;
+        grid-template-columns: 1fr 20px;
         height: inherit;
+        color: var(--color-neutral-dark);
     }
 
     &-Arrow {
@@ -112,14 +117,29 @@
         justify-content: center;
         text-align: center;
         cursor: default;
-        transition: background-color 0.1s ease;
+        transition: background-color 150ms ease;
 
         &::after {
-            content:  '▽';
+            content: '';
+            margin-top: 0.8rem;
+            width: 0.7rem;
+            height: 0.7rem;
+            border: {
+                left: 1px solid var(--color-neutral-base);
+                top: 1px solid var(--color-neutral-base);
+            };
+            transform: rotate(45deg);
         }
     }
 
     &-Original {
-        visibility: hidden; 
+        position: absolute; 
+        overflow: hidden;
+        clip: rect(0 0 0 0); 
+        height: 1px; 
+        width: 1px; 
+        margin: -1px;
+        padding: 0;
+        border: 0; 
     }
 }
