@@ -30,12 +30,10 @@
             pointer-events: all;
         }
     }
-
     &-Button {
         display: flex;
         justify-content: center;
         align-items: center;
-
         height: calc( 100% - 1px);
         width: 13rem;
         padding: 0;
