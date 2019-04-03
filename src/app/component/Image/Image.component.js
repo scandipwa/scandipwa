@@ -62,14 +62,14 @@ class Image extends Component {
      */
     getUrlWithExtension(url, extension) {
         return url;
-        if (url) {
-            const path = url.includes('/media/jpg')
-                ? url.replace('/media/jpg', `/media/${ extension }`)
-                : url.replace('/media', `/media/${ extension }`);
-            return path.replace(/\.[^/.]+$/, `.${ extension }`);
-        }
+        // if (url) {
+        //     const path = url.includes('/media/jpg')
+        //         ? url.replace('/media/jpg', `/media/${ extension }`)
+        //         : url.replace('/media', `/media/${ extension }`);
+        //     return path.replace(/\.[^/.]+$/, `.${ extension }`);
+        // }
 
-        return null;
+        // return null;
     }
 
     stopObserving() {
@@ -153,9 +153,9 @@ class Image extends Component {
             >
                 { (!arePlaceholdersShown || showImage) && src && !isIcon
                     && <>
-                        <source srcSet={ this.getUrlWithExtension(src, 'webp') } type="image/webp" />
+                        <source srcSet={ src && this.getUrlWithExtension(src, 'webp') } type="image/webp" />
                         <source srcSet={ src } type="image/jpeg" />
-                        <source srcSet={ src.replace('/media/jpg', '/media') } />
+                        <source srcSet={ src && src.replace('/media/jpg', '/media') } />
                     </>
                 }
                 { src && <img src={ this.getUrlWithExtension(src, 'svg') } alt={ alt } /> }

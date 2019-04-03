@@ -93,7 +93,8 @@ class ProductListQuery {
             };
 
             pushToList(categoryIds, `category_id: { eq: ${categoryIds} }`);
-            pushToList(categoryUrlPath, `category_url_path: { eq: ${categoryUrlPath} }`);
+            // TODO: Bring back when backend will be fixed
+            // pushToList(categoryUrlPath, `category_url_path: { eq: ${categoryUrlPath} }`);
             if (priceRange) pushToList(priceRange.min, `min_price: { gteq: ${priceRange.min} }`);
             if (priceRange) pushToList(priceRange.max, `max_price: { lteq: ${priceRange.max} }`);
             pushToList(productsSkuArray, `sku: { in: [${productsSkuArray}] }`);
@@ -273,11 +274,12 @@ class ProductListQuery {
             const mediaGallery = this._prepareAdditionalGallery();
             const tierPrices = this._prepareTierPrice();
             const productLinks = this._prepareAdditionalProductLinks();
+            const description = new Field('description').addField('html');
 
             additionalInformation.push(...[
-                'description', 'meta_title', 'meta_keyword',
+                'meta_title', 'meta_keyword',
                 'meta_description', 'canonical_url',
-                mediaGallery, tierPrices, productLinks
+                description, mediaGallery, tierPrices, productLinks
             ]);
         }
 
@@ -305,9 +307,6 @@ class ProductListQuery {
      * @memberof ProductListQuery
      */
     _prepareAdditionalGallery() {
-        const thumbnail = new Field('thumbnail')
-            .addFieldList(['url', 'type', 'width', 'height']);
-
         const content = new Field('content')
             .addFieldList(['base64_encoded_data', 'type', 'name']);
 
@@ -323,7 +322,6 @@ class ProductListQuery {
         ];
 
         return new Field('media_gallery_entries')
-            .addField(thumbnail)
             .addField(content)
             .addField(videoContent)
             .addFieldList(additionalFields);
