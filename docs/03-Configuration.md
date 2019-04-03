@@ -12,10 +12,13 @@
 ## Babel
 
 This project uses [Babel](https://babeljs.io/docs/en/). By default folder aliases for `module-resolver` plugin are:
+- Style: `./src/app/style/`
 - Component: `./src/app/component/`
 - Route: `./src/app/route/`
 - Store: `./src/app/store/`
 - Util: `./src/app/util/`
+- Query: `./src/app/query/`
+- Type: `./src/app/type`
 
 Other default, pre-installed plugins are:
 - [@babel/plugin-proposal-object-rest-spread](https://babeljs.io/docs/en/next/babel-plugin-proposal-object-rest-spread.html)

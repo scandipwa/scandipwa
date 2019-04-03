@@ -9,11 +9,18 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { makeGraphqlRequest, listenForBroadCast } from './Request';
-import RequestDispatcher from './RequestDispatcher';
+import {
+    listenForBroadCast,
+    executePost,
+    executeGet
+} from './Request';
+import QueryDispatcher from './QueryDispatcher';
+import ActionDispatcher from './ActionDispatcher';
 
 export {
-    makeGraphqlRequest,
     listenForBroadCast,
-    RequestDispatcher
+    QueryDispatcher,
+    ActionDispatcher,
+    executePost,
+    executeGet
 };
