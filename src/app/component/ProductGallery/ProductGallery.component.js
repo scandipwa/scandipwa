@@ -23,12 +23,17 @@ const PRODUCT_IMAGE_PATH = 'catalog/product';
  */
 class ProductGallery extends Component {
     render() {
-        const { mediaGallery, thumbnail, areDetailsLoaded } = this.props;
+        const {
+            mediaGallery,
+            thumbnail: { url },
+            thumbnail,
+            areDetailsLoaded
+        } = this.props;
 
         // use images from gallery or fallback to thumbnail
         const gallery = mediaGallery.length
             ? mediaGallery.map(media => ({ id: media.id, image: `/media/jpg/${PRODUCT_IMAGE_PATH}${media.file}` }))
-            : [{ image: thumbnail && thumbnail.url, id: 'thumbnail' }];
+            : [{ image: thumbnail && url, id: 'thumbnail' }];
 
         return (
             <Slider

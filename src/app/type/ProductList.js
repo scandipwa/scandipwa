@@ -67,7 +67,7 @@ export const ProductLinksType = PropTypes.arrayOf(
 export const ProductType = PropTypes.shape({
     canonical_url: PropTypes.string,
     categories: CategoriesType,
-    description: PropTypes.string,
+    description: PropTypes.shape({ html: PropTypes.string }),
     id: PropTypes.number,
     image: PropTypes.shape({ url: PropTypes.string }),
     image_label: PropTypes.string,

@@ -43,13 +43,15 @@ class ProductDetails extends Component {
     }
 
     renderShortDescription() {
-        const { product } = this.props;
+        const { product: { short_description }, product } = this.props;
 
         if (product) {
-            if (product.short_description) {
-                // return (
-                //     <Html content={ product.short_description } />
-                // );
+            if (short_description) {
+                const { html } = short_description;
+
+                return (
+                    <Html content={ html } />
+                );
             }
 
             return null;
