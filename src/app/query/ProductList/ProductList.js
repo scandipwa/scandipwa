@@ -94,7 +94,7 @@ class ProductListQuery {
 
             pushToList(categoryIds, `category_id: { eq: ${categoryIds} }`);
             // TODO: Bring back when backend will be fixed
-            // pushToList(categoryUrlPath, `category_url_path: { eq: ${categoryUrlPath} }`);
+            pushToList(categoryUrlPath, `category_url_path: { eq: ${categoryUrlPath} }`);
             if (priceRange) pushToList(priceRange.min, `min_price: { gteq: ${priceRange.min} }`);
             if (priceRange) pushToList(priceRange.max, `max_price: { lteq: ${priceRange.max} }`);
             pushToList(productsSkuArray, `sku: { in: [${productsSkuArray}] }`);
