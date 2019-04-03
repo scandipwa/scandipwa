@@ -15,7 +15,7 @@
     grid-auto-rows: max-content;
     padding-bottom: 2rem;
 
-    @include mobile {
+    @include tablet {
         grid-template-columns: 1fr 1fr;
         grid-column-gap: 0.5rem;
     }
@@ -30,7 +30,7 @@
         grid-template-columns: inherit;
         grid-column: span 3;
 
-        @include mobile {
+        @include tablet {
             grid-column: span 2;
         }
     }
