@@ -55,7 +55,7 @@ class Field extends Component {
                 value = false;
                 break;
             default:
-                value = null;
+                value = '';
                 break;
             }
         }
@@ -134,6 +134,7 @@ class Field extends Component {
     }
 
     renderCheckboxInput() {
+        // TODO Need to fix checkbox styling
         const {
             id, name, type, value, checked, formRef
         } = this.props;
@@ -150,7 +151,7 @@ class Field extends Component {
                   checked={ checkedBool }
                   name={ name }
                   value={ value }
-                  onChange={ () => this.handleChange(value) }
+                  onChange={ this.onChange }
                   onFocus={ event => this.onFocus(event) }
                   onClick={ event => this.onClick(event) }
                   id={ id }

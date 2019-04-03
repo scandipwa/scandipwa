@@ -28,8 +28,7 @@ class MyAccount extends Component {
         super(props);
 
         this.state = {
-            state: STATE_SIGN_IN,
-            createStep: 0
+            state: STATE_SIGN_IN
         };
 
         this.renderMap = {
@@ -39,20 +38,11 @@ class MyAccount extends Component {
             [STATE_LOGGED_IN]: () => this.renderAccountActions()
         };
 
-        this.createSteps = [
-            () => this.renderCreateAccountFirstStep(),
-            () => this.renderCreateAccountSecondStep()
-        ];
-
         this.changeState = this.changeState.bind(this);
     }
 
     changeState(state) {
         this.setState({ state });
-    }
-
-    changeCreateAccountStep(createStep) {
-        this.setState({ createStep });
     }
 
     goBackToDefault() {
@@ -116,9 +106,9 @@ class MyAccount extends Component {
     renderForgotPassword() {
         return (
             <>
-                <Form>
+                <Form key="forgot-password">
                     <h3>Get password reset link</h3>
-                    <Field type="text" label="Email" id="forgot-email" />
+                    <Field type="text" label="Email" id="email" validation={ ['notEmpty', 'email'] } />
                     <div block="MyAccount" elem="Buttons">
                         <button type="submit">Send reset link</button>
                     </div>
@@ -129,67 +119,46 @@ class MyAccount extends Component {
                         <a href="#sign-in" onClick={ () => this.changeState(STATE_SIGN_IN) }>Sign in here</a>
                     </section>
                     <section aria-labelledby="create-account-label">
-                        <h4 id="create-account-label">Don't have an account?</h4>
-                        <a href="#create-account" onClick={ () => this.changeState(STATE_CREATE_ACCOUNT) }>Create an account</a>
+                        <h4 id="create-account-label">Don&apos;t have an account?</h4>
+                        <a href="#create-account" onClick={ () => this.changeState(STATE_CREATE_ACCOUNT) }>
+                            Create an account
+                        </a>
                     </section>
                 </article>
             </>
         );
     }
 
-    renderCreateAccountFirstStep() {
-        return (
-            <>
-                <h4>Specify customer details</h4>
-                <Field type="text" label="Email" id="sign-up-email" />
-                <Field type="text" label="First name" id="sign-up-first-name" />
-                <Field type="text" label="Last name" id="sign-up-last-name" />
-                <Field type="password" label="Password" id="sign-up-password" />
-                <Field type="password" label="Confirm password" id="sign-up-confirm-password" />
-            </>
-        );
-    }
-
-    renderCreateAccountSecondStep() {
-        return (
-            <>
-                <h4>Specify shipping address</h4>
-                <Field type="text" label="First name" id="sign-up-address-first-name" />
-                <Field type="text" label="Last name" id="sign-up-address-last-name" />
-                <Field type="text" label="Telephone" id="sign-up-address-telephone" />
-                <Field type="text" label="Country" id="sign-up-address-country" />
-                <Field type="text" label="City" id="sign-up-address-city" />
-                <Field type="text" label="Street" id="sign-up-address-stree" />
-                <Field type="text" label="Postal code" id="sign-up-address-postcode" />
-            </>
-        );
-    }
-
-    renderCreateAccountStepAction() {
-        const { createStep } = this.state;
-        const showPrev = createStep > 0;
-        const showNext = createStep < this.createSteps.length - 1;
-        const showSubmit = createStep === this.createSteps.length - 1;
-
-        return (
-            <div block="MyAccount" elem="Buttons">
-                { showPrev && <button type="submit" onClick={ () => this.changeCreateAccountStep(createStep - 1) }>Previous step</button> }
-                { showNext && <button type="submit" onClick={ () => this.changeCreateAccountStep(createStep + 1) }>Next step</button> }
-                { showSubmit && <button type="submit">Sign up</button> }
-            </div>
-        );
-    }
-
     renderCreateAccount() {
-        const { createStep } = this.state;
-        const renderFunction = this.createSteps[createStep];
-
         return (
             <>
-                <Form>
+                <Form key="create-account">
                     <h3>Create your account</h3>
-                    { renderFunction() }
-                    { this.renderCreateAccountStepAction() }
+                    <div block="MyAccount" elem="Legend">Personal Information</div>
+                    <Field type="text" label="First name" id="firstname" validation={ ['notEmpty'] } />
+                    <Field type="text" label="Last name" id="lastname" validation={ ['notEmpty'] } />
+                    <Field
+                      block="MyAccount"
+                      elem="Checkbox"
+                      type="checkbox"
+                      label="Subscribe to ScandiPWA newsletter"
+                      id="is_subscribed"
+                    />
+                    <div block="MyAccount" elem="Legend">Sign-Up Information</div>
+                    <Field type="text" label="Email" id="email" validation={ ['notEmpty', 'email'] } />
+                    <Field
+                      type="password"
+                      label="Password"
+                      id="password"
+                      validation={ ['notEmpty', 'password'] }
+                    />
+                    <Field
+                      type="password"
+                      label="Confirm password"
+                      id="confirm_password"
+                      validation={ ['notEmpty', 'password'] }
+                    />
+                    <div block="MyAccount" elem="Buttons">{ <button type="submit">Sign up</button> }</div>
                 </Form>
                 <article block="MyAccount" elem="Additional">
                     <section aria-labelledby="create-account-label">
@@ -204,10 +173,20 @@ class MyAccount extends Component {
     renderSignIn() {
         return (
             <>
-                <Form>
+                <Form key="sign-in">
                     <h3>Sign in to your account</h3>
-                    <Field type="text" label="Login or Email" id="sign-in-email" />
-                    <Field type="password" label="Password" id="sign-in-password" />
+                    <Field
+                      type="text"
+                      label="Login or Email"
+                      id="email"
+                      validation={ ['notEmpty', 'email'] }
+                    />
+                    <Field
+                      type="password"
+                      label="Password"
+                      id="password"
+                      validation={ ['notEmpty', 'password'] }
+                    />
                     <div block="MyAccount" elem="Buttons">
                         <button>Sign in</button>
                     </div>
@@ -215,15 +194,19 @@ class MyAccount extends Component {
                 <article block="MyAccount" elem="Additional">
                     <section aria-labelledby="forgot-password-labe">
                         <h4 id="forgot-password-label">Forgot password?</h4>
-                        <a href="#password-reset" onClick={ () => this.changeState(STATE_FORGOT_PASSWORD) }>Get a password reset link</a>
+                        <a href="#password-reset" onClick={ () => this.changeState(STATE_FORGOT_PASSWORD) }>
+                            Get a password reset link
+                        </a>
                     </section>
                     <section aria-labelledby="create-account-label">
-                        <h4 id="create-account-label">Don't have an account?</h4>
-                        <a href="#create-account" onClick={ () => this.changeState(STATE_CREATE_ACCOUNT) }>Create an account</a>
+                        <h4 id="create-account-label">Don&apos;t have an account?</h4>
+                        <a href="#create-account" onClick={ () => this.changeState(STATE_CREATE_ACCOUNT) }>
+                            Create an account
+                        </a>
                     </section>
                 </article>
             </>
-        )
+        );
     }
 
     render() {
