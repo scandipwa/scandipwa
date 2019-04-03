@@ -32,12 +32,12 @@ class CartItem extends Component {
     getProductLinkTo(url_key) {
         if (!url_key) return undefined;
 
-        const { product: { configurableVariantIndex }, product } = this.props;
+        const { product: { configurableVariantIndex, parent }, product } = this.props;
         const variantIndex = configurableVariantIndex;
 
         return {
             pathname: `/product/${ url_key }`,
-            state: { product: product.parent || product, variantIndex },
+            state: { product: parent || product, variantIndex },
             search: `?variant=${ variantIndex }`
         };
     }

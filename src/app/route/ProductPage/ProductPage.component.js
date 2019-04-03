@@ -205,7 +205,7 @@ class ProductPage extends Component {
                           areDetailsLoaded={ areDetailsLoaded }
                           configurableVariantIndex={ configurableVariantIndex }
                         />
-                        <div>
+                        <div aria-label="Product Actions">
                             { type_id === 'grouped'
                             && (
                                 <GroupedProductsList

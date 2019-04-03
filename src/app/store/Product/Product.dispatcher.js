@@ -27,8 +27,10 @@ class ProductDispatcher extends RequestDispatcher {
 
     onSuccess(data, dispatch) {
         const { products: { items, filters } } = data;
-        const productItem = items[0];
-        const product = productItem.type_id === 'grouped' ? this._prepareGroupedProduct(productItem) : productItem;
+        const [productItem] = items;
+        const product = productItem.type_id === 'grouped'
+            ? this._prepareGroupedProduct(productItem) : productItem;
+
         // TODO: make one request per description & related in this.prepareRequest
         if (productItem.product_links && Object.keys(productItem.product_links).length > 0) {
             const { product_links } = productItem;
@@ -58,16 +60,33 @@ class ProductDispatcher extends RequestDispatcher {
         return ProductListQuery.getQuery(options);
     }
 
+    /**
+     * Update Grouped Products quantity list
+     * @param {Function} dispatch
+     * @param {{product: Object, quantity: Number}} options A object containing different aspects of query, each item can be omitted
+     * @memberof ProductDispatcher
+     */
     updateGroupedProductQuantity(dispatch, options) {
         const { product, quantity } = options;
 
         return dispatch(updateGroupedProductQuantity(product, quantity));
     }
 
+    /**
+     * Clear Grouped Products quantity list
+     * @param {Function} dispatch
+     * @memberof ProductDispatcher
+     */
     clearGroupedProductQuantity(dispatch) {
         return dispatch(clearGroupedProductQuantity());
     }
 
+    /**
+     * Prepare Grouped Product for dispatch
+     * @param {Object} groupProduct
+     * @return {Object} prepared product
+     * @memberof ProductDispatcher
+     */
     _prepareGroupedProduct(groupProduct) {
         const { items } = groupProduct;
         const newItems = items.map(item => ({

@@ -21,8 +21,12 @@ class GroupedProductList extends Component {
     renderProductList(items) {
         return (
             <ul>
-                { items
-                    .map(item => <GroupedProductsItem key={ item.product.id } product={ item.product } />) }
+                { items.map(item => (
+                    <GroupedProductsItem
+                      key={ item.product.id }
+                      product={ item.product }
+                    />
+                )) }
             </ul>
         );
     }

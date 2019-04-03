@@ -95,18 +95,23 @@ class ProductActions extends Component {
         if (type_id === 'grouped') {
             return this.addGroupedProducts(product);
         }
+        switch (type_id) {
+        case 'grouped':
+            return this.addGroupedProducts(product);
+        case 'configurable':
+            if (variants) {
+                // mixing product data with variant to work properly in cart
+                const configurableProduct = {
+                    ...product,
+                    configurableVariantIndex
+                };
 
-        if (variants) {
-            // mixing product data with variant to work properly in cart
-            const configurableProduct = {
-                ...product,
-                configurableVariantIndex
-            };
-
-            return addProduct({ product: configurableProduct, quantity: itemCount });
+                return addProduct({ product: configurableProduct, quantity: itemCount });
+            }
+            return addProduct({ product, quantity: itemCount });
+        default:
+            return addProduct({ product, quantity: itemCount });
         }
-
-        return addProduct({ product, quantity: itemCount });
     }
 
     /**
