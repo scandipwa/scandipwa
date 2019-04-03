@@ -9,13 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { RequestDispatcher } from 'Util/Request';
+import { QueryDispatcher } from 'Util/Request';
 import { MenuQuery, CmsBlockQuery } from 'Query';
 import { showNotification } from 'Store/Notification';
 import { updateMenu } from 'Store/HeaderAndFooter';
 import { updateCmsBlocks } from 'Store/CmsBlocksAndSlider';
 
-class HeaderAndFooterDispatcher extends RequestDispatcher {
+class HeaderAndFooterDispatcher extends QueryDispatcher {
     constructor() {
         super('HeaderAndFooter', 86400);
     }

@@ -42,3 +42,14 @@ class App extends Component {
 }
 
 ReactDOM.render(<App />, document.getElementById('root'));
+
+import MyAccount from 'Store/MyAccount/MyAccount.dispatcher';
+
+MyAccount.createAccount({
+    customer: {
+        firstname: 'Alfred',
+        lastname: 'Genkin',
+        email: `alfreds+${ Math.random().toString(36).substring(7) }@scandiweb.com`
+    },
+    password: 'Alfredo123+'
+});

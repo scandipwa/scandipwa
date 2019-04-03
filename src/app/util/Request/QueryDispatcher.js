@@ -9,21 +9,21 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { makeGraphqlRequest, listenForBroadCast } from 'Util/Request/Request';
+import { listenForBroadCast, executeGet } from 'Util/Request/Request';
 import { prepareQuery, Field } from 'Util/Query';
 import { makeCancelable } from 'Util/Promise';
 
 /**
  * Abstract request dispatcher.
  * IMPORTANT: it is required to implement `prepareRequest(options)` before using!
- * @class RequestDispatcher
+ * @class QueryDispatcher
  */
-class RequestDispatcher {
+class QueryDispatcher {
     /**
-     * Creates an instance of RequestDispatcher.
+     * Creates an instance of QueryDispatcher.
      * @param  {String} name Name of model for ServiceWorker to send BroadCasts updates to
      * @param  {Number} cacheTTL Cache TTL (in seconds) for ServiceWorker to cache responses
-     * @memberof RequestDispatcher
+     * @memberof QueryDispatcher
      */
     constructor(name, cacheTTL) {
         this.name = name;
@@ -35,7 +35,7 @@ class RequestDispatcher {
      * Is responsible for request routing and manages `onError`, `onSuccess`, `onUpdate` functions triggers.
      * @param  {Function} dispatch Store changing function from Redux (dispatches actions)
      * @param  {any} options Any options received from Container
-     * @return {void}@memberof RequestDispatcher
+     * @return {void}@memberof QueryDispatcher
      */
     handleData(dispatch, options) {
         const { name, cacheTTL } = this;
@@ -46,7 +46,7 @@ class RequestDispatcher {
 
         this.promise = makeCancelable(
             new Promise((resolve, reject) => {
-                makeGraphqlRequest(prepareQuery(queries), name, cacheTTL)
+                executeGet(prepareQuery(queries), name, cacheTTL)
                     .then(data => resolve(data), error => reject(error));
             })
         );
@@ -67,7 +67,7 @@ class RequestDispatcher {
      * @param  {any} data Data received from fetch of GraphQL endpoint
      * @param  {Function} dispatch Store changing function from Redux (dispatches actions)
      * @return {void}
-     * @memberof RequestDispatcher
+     * @memberof QueryDispatcher
      */
     onUpdate(data, dispatch) {
         this.onSuccess(data, dispatch);
@@ -78,7 +78,7 @@ class RequestDispatcher {
      * @param  {any} options Any options received from Container
      * @param {Function} dispatch
      * @return {Array<Field>|Field} Array or single item of Field instances
-     * @memberof RequestDispatcher
+     * @memberof QueryDispatcher
      */
     prepareRequest(options, dispatch) {}
 
@@ -88,7 +88,7 @@ class RequestDispatcher {
      * Should dispatch some action.
      * @param  {any} data
      * @param  {any} dispatch
-     * @return {void}@memberof RequestDispatcher
+     * @return {void}@memberof QueryDispatcher
      */
     onSuccess(data, dispatch) {}
 
@@ -98,9 +98,9 @@ class RequestDispatcher {
      * Should dispatch some action.
      * @param  {any} error
      * @param  {any} dispatch
-     * @return {void}@memberof RequestDispatcher
+     * @return {void}@memberof QueryDispatcher
      */
     onError(error, dispatch) {}
 }
 
-export default RequestDispatcher;
+export default QueryDispatcher;
