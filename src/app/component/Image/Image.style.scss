@@ -19,7 +19,7 @@
     background-image: var(--placeholder-image);
     background-size: var(--placeholder-size);
     animation: var(--placeholder-animation);
-    
+
     &_ratio {
         &_16x9 {
             padding-bottom: 56.25%;
@@ -41,6 +41,7 @@
     }
 
     &_isLoaded {
+        animation: none;
         background: transparent;
     }
 
