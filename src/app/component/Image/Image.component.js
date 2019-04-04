@@ -35,7 +35,7 @@ class Image extends Component {
 
     componentDidMount() {
         if ('requestIdleCallback' in window) {
-            window.requestIdleCallback(() => this.showImage(), { timeout: 200 });
+            window.requestIdleCallback(() => this.showImage(), { timeout: 50 });
         } else {
             setTimeout(this.showImage(), 1);
         }
@@ -51,8 +51,11 @@ class Image extends Component {
      * @return {void}
      */
     onImageLoad(img) {
-        if (img.target.currentSrc.includes('.webp')
-        || img.target.currentSrc.includes('.jpg')) this.setState({ isImageLoaded: true });
+        const isPlacehodlerLoaded = (img.target.currentSrc.includes('.svg'));
+        const isImageLoaded = (img.target.currentSrc.includes('.webp')
+            || img.target.currentSrc.includes('.jpg'));
+
+        this.setState({ isImageLoaded, isPlacehodlerLoaded });
     }
 
     /**
@@ -126,7 +129,8 @@ class Image extends Component {
     render() {
         const {
             isImageLoaded,
-            showImage
+            showImage,
+            isPlacehodlerLoaded
         } = this.state;
 
         const {
@@ -144,7 +148,7 @@ class Image extends Component {
               block="Image"
               mods={ {
                   ratio,
-                  isLoaded: isImageLoaded,
+                  isLoaded: isImageLoaded || (isIcon && isPlacehodlerLoaded),
                   isReal: !!src && !showGreyPlaceholder
               } }
               ref={ (node) => { this.node = node; } }

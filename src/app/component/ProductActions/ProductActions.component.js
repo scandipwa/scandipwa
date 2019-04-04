@@ -87,22 +87,51 @@ class ProductActions extends Component {
     addProduct() {
         const {
             addProduct, product, product: {
-                variants
+                variants, type_id
             }, configurableVariantIndex
         } = this.props;
         const { itemCount } = this.state;
 
-        if (variants) {
-            // mixing product data with variant to work properly in cart
-            const configurableProduct = {
-                ...product,
-                configurableVariantIndex
-            };
-
-            addProduct({ product: configurableProduct, quantity: itemCount });
-        } else {
-            addProduct({ product, quantity: itemCount });
+        if (type_id === 'grouped') {
+            return this.addGroupedProducts(product);
         }
+        switch (type_id) {
+        case 'grouped':
+            return this.addGroupedProducts(product);
+        case 'configurable':
+            if (variants) {
+                // mixing product data with variant to work properly in cart
+                const configurableProduct = {
+                    ...product,
+                    configurableVariantIndex
+                };
+
+                return addProduct({ product: configurableProduct, quantity: itemCount });
+            }
+            return addProduct({ product, quantity: itemCount });
+        default:
+            return addProduct({ product, quantity: itemCount });
+        }
+    }
+
+    /**
+     * Dispatch add product to cart for a grouped product
+     * @return {void}
+     */
+    addGroupedProducts(groupedProduct) {
+        const { items } = groupedProduct;
+        const { groupedProductQuantity, addProduct } = this.props;
+
+        items.forEach((item) => {
+            const { product } = item;
+            const {
+                items: deletedItems,
+                ...parentProduct
+            } = groupedProduct;
+
+            product.parent = parentProduct;
+            addProduct({ product, quantity: groupedProductQuantity[item.product.id] });
+        });
     }
 
     /**
@@ -154,7 +183,7 @@ class ProductActions extends Component {
         }
     }
 
-    renderProductActions() {
+    renderConfigurableSimpleProduct() {
         const { product: { price, type_id } } = this.props;
         const { itemCount } = this.state;
         const isConfigurable = type_id === 'configurable';
@@ -169,6 +198,17 @@ class ProductActions extends Component {
                   onChange={ itemCount => this.setState({ itemCount }) }
                   value={ itemCount }
                 />
+            </>
+        );
+    }
+
+    renderProductActions() {
+        const { product: { type_id } } = this.props;
+        const isGrouped = type_id === 'grouped';
+
+        return (
+            <>
+                { !isGrouped && this.renderConfigurableSimpleProduct() }
                 <AddToCart onClick={ () => this.addProduct() } />
             </>
         );
@@ -316,6 +356,7 @@ ProductActions.propTypes = {
     availableFilters: PropTypes.arrayOf(PropTypes.shape).isRequired,
     configurableVariantIndex: PropTypes.number.isRequired,
     updateConfigurableVariantIndex: PropTypes.func.isRequired,
+    groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired,
     areDetailsLoaded: PropTypes.bool.isRequired
 };
 
