@@ -134,7 +134,6 @@ class Field extends Component {
     }
 
     renderCheckboxInput() {
-        // TODO Need to fix checkbox styling
         const {
             id, name, type, value, checked, formRef
         } = this.props;

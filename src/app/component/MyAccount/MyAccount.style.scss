@@ -24,12 +24,6 @@
         }
     }
 
-    > .MyAccount-Dropdown {
-        @include after-mobile {
-            transform: scaleY(1);
-            pointer-events: all;
-        }
-    }
     &-Button {
         display: flex;
         justify-content: center;

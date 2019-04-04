@@ -68,7 +68,6 @@ class MyAccount extends Component {
               type="submit"
               block="MyAccount"
               elem="Button"
-              ref={ this.button }
               mods={ { isOpen, isHovered } }
               onClick={ () => this.goBackToDefault() }
             >
