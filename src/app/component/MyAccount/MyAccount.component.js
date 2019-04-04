@@ -68,6 +68,22 @@ class MyAccount extends Component {
         this.setState({ isLoading: true });
     }
 
+    onCreateAccountAttempt() {
+        this.setState({ isLoading: true });
+    }
+
+    onCreateAccountSuccess(fields) {
+        const { createAccount } = this.props;
+        const {
+            password,
+            email,
+            firstname,
+            lastname
+        } = fields;
+        const object = { customer: { firstname, lastname, email }, password };
+        createAccount(object);
+    }
+
     changeState(state) {
         this.setState({ state });
     }
@@ -163,7 +179,11 @@ class MyAccount extends Component {
     renderCreateAccount() {
         return (
             <>
-                <Form key="create-account">
+                <Form
+                  key="create-account"
+                  onSubmit={ () => this.onCreateAccountAttempt() }
+                  onSubmitSuccess={ fields => this.onCreateAccountSuccess(fields) }
+                >
                     <h3>Create your account</h3>
                     <fieldset block="MyAccount" elem="Legend">
                         <legend>Personal Information</legend>

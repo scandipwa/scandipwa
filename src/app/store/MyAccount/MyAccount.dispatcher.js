@@ -68,11 +68,12 @@ class MyAccountDispatcher extends QueryDispatcher {
      * @memberof MyAccountDispatcher
      */
     createAccount(options = {}, dispatch) {
+        const { customer: { email }, password } = options;
         const mutation = MyAccount.getCreateAccountMutation(options);
 
         fetchMutation(mutation).then(
             ({ customer }) => {
-                this.signIn(options, dispatch);
+                this.signIn({ email, password }, dispatch);
                 dispatch(updateCustomerDetails(customer));
             },
             error => console.log(error)
