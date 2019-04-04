@@ -1,0 +1,145 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+ .Select {
+    &-Container {
+        min-width: 130px;
+        height: 35px;
+        font-weight: 700;
+        font-size: 1.05rem;
+
+        ul, li {
+            list-style: none;
+            cursor: pointer;
+
+            &::before {
+                content: '';
+            }
+        }
+
+        span, li {
+            display: block;
+            height: inherit;
+            background-color: var(--color-text-white);
+            line-height: 3rem;
+            text-align: center;
+            font-weight: normal;
+            font-size: 1.15rem;
+        }
+
+        li {
+            color: var(--color-neutral-dark);
+            background-color: var(--color-breadcrumbs-background);
+        }
+
+        span {
+            cursor: default;
+            transition: background-color 150ms ease;
+            background-color: var(--color-breadcrumbs-background);
+
+            @include mobile {
+                line-height: 2.7rem;
+            }
+        }
+        
+        /* Hide Dropdowns by Default */
+        ul {
+            display:inherit;
+            overflow: hidden;
+
+            li {
+                padding: 0;
+                margin: 0;
+                border-top: 0;
+                max-height: 0px;
+                transition: max-height 100ms ease-out;
+
+                &:hover,
+                &:focus {
+                    background-color: var(--color-primary-light);
+                    color: var(--color-text-white);
+                    text-decoration: none;
+                }
+            }
+        }
+    }
+
+    &-Wrapper {
+        height: inherit;
+        transition: background-color 150ms ease;
+        background-color: var(--color-breadcrumbs-background);
+
+        /* Display Dropdowns on Hover */
+        &:hover,
+        &:focus,
+        &:focus-within {
+            > ul {
+                z-index: 1;
+                opacity: 1;
+
+                li {
+                    z-index: 1;
+                    max-height: 36px;
+                    transition: max-height 150ms ease-in;
+                }
+            }
+
+            > div > .Select-Arrow::after {
+                margin-top: 0;
+                margin-bottom: 0.4rem;
+                border: {
+                    top: 0;
+                    right: 1px solid var(--color-neutral-base);
+                    bottom: 1px solid var(--color-neutral-base);
+                    left: 0;
+                };
+            }
+        }
+    }
+
+    &-Current {
+        display: grid;
+        grid-template-columns: 1fr 20px;
+        height: inherit;
+        color: var(--color-neutral-dark);
+    }
+
+    &-Arrow {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        cursor: default;
+        transition: background-color 150ms ease;
+
+        &::after {
+            content: '';
+            margin-top: 0.8rem;
+            width: 0.7rem;
+            height: 0.7rem;
+            border: {
+                left: 1px solid var(--color-neutral-base);
+                top: 1px solid var(--color-neutral-base);
+            };
+            transform: rotate(45deg);
+        }
+    }
+
+    &-Original {
+        position: absolute; 
+        overflow: hidden;
+        clip: rect(0 0 0 0); 
+        height: 1px; 
+        width: 1px; 
+        margin: -1px;
+        padding: 0;
+        border: 0; 
+    }
+}
