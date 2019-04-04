@@ -16,6 +16,7 @@ import ProductGallery from 'Component/ProductGallery';
 import ProductDescription from 'Component/ProductDescription';
 import ContentWrapper from 'Component/ContentWrapper';
 import ProductActions from 'Component/ProductActions';
+import GroupedProductsList from 'Component/GroupedProductsList';
 import Meta from 'Component/Meta';
 import { ProductType } from 'Type/ProductList';
 import { getUrlParam, getQueryParam, updateQueryParamWithoutHistory } from 'Util/Url';
@@ -57,6 +58,14 @@ class ProductPage extends Component {
         if (location !== prevProps.location) this.requestProduct();
         if (this.variantIndexInPropsChanged(this.props, prevProps)) this.setState({ isConfigurationInitilized: false });
         this.updateBreadcrumbs();
+    }
+
+    componentWillUnmount() {
+        const { product: { type_id }, clearGroupedProductQuantity } = this.props;
+
+        if (type_id === 'grouped') return clearGroupedProductQuantity();
+
+        return null;
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -167,7 +176,7 @@ class ProductPage extends Component {
     }
 
     render() {
-        const { product, product: { variants }, filters } = this.props;
+        const { product, product: { variants, type_id }, filters } = this.props;
         const { configurableVariantIndex } = this.state;
         const dataSource = this.getDataSource();
         const { media_gallery_entries } = dataSource;
@@ -196,13 +205,22 @@ class ProductPage extends Component {
                           areDetailsLoaded={ areDetailsLoaded }
                           configurableVariantIndex={ configurableVariantIndex }
                         />
-                        <ProductActions
-                          product={ dataSource }
-                          availableFilters={ filters }
-                          configurableVariantIndex={ configurableVariantIndex }
-                          areDetailsLoaded={ areDetailsLoaded }
-                          updateConfigurableVariantIndex={ index => this.updateUrl(index) }
-                        />
+                        <div aria-label="Product Actions">
+                            { type_id === 'grouped'
+                            && (
+                                <GroupedProductsList
+                                  product={ dataSource }
+                                  handleGroupedQuantityChange={ this.changeGroupedProductQuantity }
+                                />
+                            ) }
+                            <ProductActions
+                              product={ dataSource }
+                              availableFilters={ filters }
+                              configurableVariantIndex={ configurableVariantIndex }
+                              areDetailsLoaded={ areDetailsLoaded }
+                              updateConfigurableVariantIndex={ index => this.updateUrl(index) }
+                            />
+                        </div>
                     </ContentWrapper>
                     <ProductDescription
                       product={ dataSource }
@@ -231,6 +249,7 @@ ProductPage.propTypes = {
     }).isRequired,
     requestProduct: PropTypes.func.isRequired,
     updateBreadcrumbs: PropTypes.func.isRequired,
+    clearGroupedProductQuantity: PropTypes.func.isRequired,
     product: ProductType.isRequired,
     filters: PropTypes.arrayOf(PropTypes.shape)
 };
