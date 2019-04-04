@@ -18,12 +18,6 @@ import './Select.style';
  * @class Select
  */
 class Select extends Component {
-    constructor(props) {
-        super(props);
-
-        this.select = React.createRef();
-    }
-
     /**
      * Handle Sort key change
      * @param {Object} option
@@ -31,7 +25,6 @@ class Select extends Component {
      */
     onGetSortKey(key) {
         const { onGetSortKey } = this.props;
-        console.log(key);
 
         onGetSortKey(key);
     }
@@ -48,7 +41,6 @@ class Select extends Component {
                   elem="Option"
                   key={ option.value }
                   value={ option.value }
-                  tabIndex={ 0 }
                 >
                 { option.label }
                 </option>
@@ -97,6 +89,7 @@ class Select extends Component {
                   ref={ formRef }
                   value={ selectedOption }
                   readOnly
+                  onChange={ e => this.onGetSortKey(e.target.value) }
                 >
                 { options && options.map(option => this.renderSortOption(option)) }
                 </select>
