@@ -28,7 +28,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100%;
+        height: calc( 100% - 1px);
         width: 13rem;
         padding: 0;
 
@@ -56,12 +56,9 @@
 
         &:focus,
         &:hover {
-            ~ .MyAccount {
-                &-Dropdown {
-                    @include after-mobile {
-                        transform: scaleY(1);
-                        pointer-events: all;
-                    }
+            + .MyAccount-Dropdown {
+                @include after-mobile {
+                    pointer-events: all;
                 }
             }
         }
@@ -138,7 +135,6 @@
         transform: scaleY(0);
         transform-origin: 0 0;
         transition: transform 150ms ease-in;
-        max-height: 80vh;
         overflow: auto;
 
         @include mobile {
@@ -154,7 +150,6 @@
         &:focus-within {
             @include after-mobile {
                 transform: scaleY(1);
-                pointer-events: all;
             }
         }
 
@@ -164,6 +159,7 @@
 
         input {
             width: 100%;
+            height: 100%;
         }
     }
 
@@ -188,6 +184,10 @@
 
             &:hover {
                 background-color: var(--color-cart-light);
+                text-decoration: none;
+            }
+
+            &:focus {
                 text-decoration: none;
             }
         }
@@ -219,6 +219,11 @@
             }
 
             &_createAccount {
+                h4 {
+                    padding-right: 1rem;
+                    display: inline;
+                }
+
                 h3 {
                     margin-bottom: 1rem;
                 }
@@ -249,5 +254,40 @@
 
     &-Buttons {
         margin-top: 2rem;
+    }
+
+    &-Checkbox {
+        display: flex;
+        margin-bottom: 1rem;
+
+        label {
+            display: inline;
+        }
+
+        input {
+            position: relative;
+            width: 20px;
+            height: 20px;
+            left: 20px;
+        }
+    }
+
+    &-LoaderWrapper {
+        background-color: rgba(255, 255, 255, .6);
+        z-index: 5;
+    }
+
+    &-Loader {
+        @extend %loader;
+    }
+
+    &-Loader,
+    &-LoaderWrapper {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
     }
 }

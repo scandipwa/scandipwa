@@ -10,6 +10,7 @@
  */
 
 import React, { Component } from 'react';
+import { isSignedIn } from 'Util/Auth';
 import Field from 'Component/Field';
 import Form from 'Component/Form';
 import './MyAccount.style';
@@ -28,10 +29,10 @@ class MyAccount extends Component {
         super(props);
 
         this.state = {
-            state: STATE_SIGN_IN,
+            state: isSignedIn() ? STATE_LOGGED_IN : STATE_SIGN_IN,
             isHovered: false,
-            createStep: 0,
-            isOpen: false
+            isOpen: false,
+            isLoading: false
         };
 
         this.renderMap = {
@@ -41,129 +42,54 @@ class MyAccount extends Component {
             [STATE_LOGGED_IN]: () => this.renderAccountActions()
         };
 
-        this.createSteps = [
-            () => this.renderCreateAccountFirstStep(),
-            () => this.renderCreateAccountSecondStep()
-        ];
-
-        this.button = React.createRef();
-
         this.changeState = this.changeState.bind(this);
-        this.handleToUpdate = this.handleToUpdate.bind(this);
     }
 
-    /**
-     * Customer data saving in state
-     * @param {Object} inputData
-     */
-    handleToUpdate(inputData) {
-        const { customerData } = this.state;
-        // For the moment state updated only for login/acc creation
-        const stateField = inputData.id.replace('sign-up-', '').replace('sign-in-', '').replace(/-/g, '');
+    static getDerivedStateFromProps(props) {
+        const { isSignedIn } = props;
+        const stateToBeUpdated = {};
 
-        if (inputData.value !== null && inputData.value !== customerData[stateField]) {
-            this.setState({
-                customerData: {
-                    ...customerData,
-                    [stateField]: inputData.value
-                }
-            });
+        console.log(isSignedIn);
+
+        if (isSignedIn) {
+            stateToBeUpdated.isLoading = false;
+            stateToBeUpdated.state = STATE_LOGGED_IN;
         }
 
-        this.updateValidation(inputData, stateField);
+        return Object.keys(stateToBeUpdated).length ? stateToBeUpdated : null;
     }
 
-    /**
-     * Field validation for next step/login/send reset link
-     * @param {Object} inputData
-     * @param {String} stateField
-     */
-    updateValidation(inputData, stateField) {
-        const { fieldsToValidate, customerData } = this.state;
-
-        if (!customerData[stateField] && fieldsToValidate.indexOf(inputData.id) === -1) {
-            this.setState({ fieldsToValidate: [...fieldsToValidate, inputData.id] });
-        }
-
-        if (inputData.value && fieldsToValidate.indexOf(inputData.id) !== -1) {
-            const array = [...fieldsToValidate];
-            array.splice(array.indexOf(inputData.id), 1);
-            this.setState({ fieldsToValidate: array });
-        }
+    onSignInSuccess(fields) {
+        const { signIn } = this.props;
+        signIn(fields);
     }
 
-    /**
-     * Update state when changing between account functionality, delete password from state
-     * Reset field validation
-     * @param {String} state
-     */
+    onSignInAttempt() {
+        this.setState({ isLoading: true });
+    }
+
     changeState(state) {
-        const { customerData } = this.state;
-
-        this.setState({
-            state,
-            fieldsToValidate: [],
-            customerData: {
-                ...customerData,
-                confirmpassword: '',
-                password: ''
-            }
-        });
-
-        this.button.current.focus();
+        this.setState({ state });
     }
 
-    /**
-     * Switch between account creation steps, pass first and last name to shipping if first time
-     * @param {Number} createStep
-     */
-    changeCreateAccountStep(createStep) {
-        const { customerData } = this.state;
-
-        this.setState({
-            createStep,
-            fieldsToValidate: [],
-            customerData: {
-                ...customerData,
-                confirmpassword: '',
-                addressfirstname: customerData.addressfirstname || customerData.firstname,
-                addresslastname: customerData.addresslastname || customerData.lastname
-            }
-        });
-        this.button.current.focus();
-    }
-
-    /**
-     * Go back to login page when clicking on account button
-     */
     goBackToDefault() {
         const { state, isOpen } = this.state;
 
         if (state !== STATE_LOGGED_IN) {
-            this.setState({
-                state: STATE_SIGN_IN,
-                fieldsToValidate: []
-            });
+            this.setState({ state: STATE_SIGN_IN });
         }
 
         this.setState({ isOpen: !isOpen });
     }
 
-    /**
-     * Render Button
-     */
     renderButton() {
         const { state, isOpen, isHovered } = this.state;
-        const actionText = state === STATE_LOGGED_IN
-            ? 'Hello, User'
-            : 'My Account';
 
         return (
             <button
               type="submit"
               block="MyAccount"
               elem="Button"
-              ref={ this.button }
               mods={ { isOpen, isHovered } }
               onClick={ () => this.goBackToDefault() }
             >
@@ -171,14 +97,11 @@ class MyAccount extends Component {
                   block="MyAccount"
                   elem="Icon"
                 />
-                <span>{ actionText }</span>
+                <span>My Account</span>
             </button>
         );
     }
 
-    /**
-     * Render Dropdown
-     */
     renderDropdown() {
         const { state } = this.state;
         const renderFunction = this.renderMap[state];
@@ -191,6 +114,7 @@ class MyAccount extends Component {
               onMouseEnter={ () => this.setState({ isHovered: true }) }
               onMouseLeave={ () => this.setState({ isHovered: false }) }
             >
+                { this.renderLoader() }
                 <div block="MyAccount" elem="Action" mods={ { state } }>
                     { renderFunction() }
                 </div>
@@ -198,9 +122,6 @@ class MyAccount extends Component {
         );
     }
 
-    /**
-     * Render Account Actions
-     */
     renderAccountActions() {
         return (
             <nav block="MyAccount" elem="Navigation">
@@ -213,24 +134,12 @@ class MyAccount extends Component {
         );
     }
 
-    /**
-     * Render Forgot Password page
-     */
     renderForgotPassword() {
-        const { fieldsToValidate, customerData } = this.state;
-
         return (
             <>
-                <Form>
+                <Form key="forgot-password">
                     <h3>Get password reset link</h3>
-                    <Field
-                      type="text"
-                      label="Email"
-                      id="forgot-email"
-                      key="email"
-                      handleToUpdate={ this.handleToUpdate }
-                      originalValue={ customerData.email }
-                    />
+                    <Field type="text" label="Email" id="email" validation={ ['notEmpty', 'email'] } />
                     <div block="MyAccount" elem="Buttons">
                         <button type="submit">Send reset link</button>
                     </div>
@@ -241,12 +150,9 @@ class MyAccount extends Component {
                         <a href="#sign-in" onClick={ () => this.changeState(STATE_SIGN_IN) }>Sign in here</a>
                     </section>
                     <section aria-labelledby="create-account-label">
-                        <h4 id="create-account-label">Don`t have an account?</h4>
-                        <a
-                          href="#create-account"
-                          onClick={ () => this.changeState(STATE_CREATE_ACCOUNT) }
-                        >
-                        Create an account
+                        <h4 id="create-account-label">Don&apos;t have an account?</h4>
+                        <a href="#create-account" onClick={ () => this.changeState(STATE_CREATE_ACCOUNT) }>
+                            Create an account
                         </a>
                     </section>
                 </article>
@@ -254,160 +160,42 @@ class MyAccount extends Component {
         );
     }
 
-    /**
-     * Render First step in Account Creation
-     */
-    renderCreateAccountFirstStep() {
-        const { customerData } = this.state;
-
-        return (
-            <>
-                <h4>Specify customer details</h4>
-                <Field
-                  type="text"
-                  label="Email"
-                  id="sign-up-email"
-                  key="email"
-                  handleToUpdate={ this.handleToUpdate }
-                  originalValue={ customerData.email }
-                />
-                <Field
-                  type="text"
-                  label="First name"
-                  id="sign-up-first-name"
-                  key="firstname"
-                  handleToUpdate={ this.handleToUpdate }
-                  originalValue={ customerData.firstname }
-                />
-                <Field
-                  type="text"
-                  label="Last name"
-                  id="sign-up-last-name"
-                  key="lastname"
-                  handleToUpdate={ this.handleToUpdate }
-                  originalValue={ customerData.lastname }
-                />
-                <Field
-                  type="password"
-                  label="Password"
-                  id="sign-up-password"
-                  key="password"
-                  handleToUpdate={ this.handleToUpdate }
-                  originalValue={ customerData.password }
-                />
-                <Field
-                  type="password"
-                  label="Confirm password"
-                  id="sign-up-confirm-password"
-                  key="confirmpassword"
-                  handleToUpdate={ this.handleToUpdate }
-                  originalValue={ customerData.confirmpassword }
-                />
-            </>
-        );
-    }
-
-    /**
-     * Render Second step in Account Creation
-     */
-    renderCreateAccountSecondStep() {
-        const { customerData } = this.state;
-
-        return (
-            <>
-                <h4>Specify shipping address</h4>
-                <Field
-                  type="text"
-                  label="First name"
-                  id="sign-up-address-first-name"
-                  key="addressfirstname"
-                  handleToUpdate={ this.handleToUpdate }
-                  originalValue={ customerData.addressfirstname }
-                />
-                <Field
-                  type="text"
-                  label="Last name"
-                  id="sign-up-address-last-name"
-                  key="addresslastname"
-                  handleToUpdate={ this.handleToUpdate }
-                  originalValue={ customerData.addresslastname }
-                />
-                <Field
-                  type="text"
-                  label="Telephone"
-                  id="sign-up-address-telephone"
-                  key="telephone"
-                  handleToUpdate={ this.handleToUpdate }
-                  originalValue={ customerData.addresstelephone }
-                />
-                <Field
-                  type="text"
-                  label="Country"
-                  id="sign-up-address-country"
-                  key="country"
-                  handleToUpdate={ this.handleToUpdate }
-                  originalValue={ customerData.addresscountry }
-                />
-                <Field
-                  type="text"
-                  label="City"
-                  id="sign-up-address-city"
-                  key="city"
-                  handleToUpdate={ this.handleToUpdate }
-                  originalValue={ customerData.addresscity }
-                />
-                <Field
-                  type="text"
-                  label="Street"
-                  id="sign-up-address-street"
-                  key="street"
-                  handleToUpdate={ this.handleToUpdate }
-                  originalValue={ customerData.addressstreet }
-                />
-                <Field
-                  type="text"
-                  label="Postal code"
-                  id="sign-up-address-postcode"
-                  key="postcode"
-                  handleToUpdate={ this.handleToUpdate }
-                  originalValue={ customerData.addresspostcode }
-                />
-            </>
-        );
-    }
-
-    /**
-     * Render Previous/Next/Sign Up buttons
-     * Can proceed only when all fields are valid and passwords match
-     */
-    renderCreateAccountStepAction() {
-        const { createStep, fieldsToValidate, customerData } = this.state;
-        const showPrev = createStep > 0;
-        const showNext = createStep < this.createSteps.length - 1;
-        const showSubmit = createStep === this.createSteps.length - 1;
-
-        return (
-            <div block="MyAccount" elem="Buttons">
-                { showPrev && <button type="submit" onClick={ () => this.changeCreateAccountStep(createStep - 1) }>Previous step</button> }
-                { showNext && <button type="submit" onClick={ () => this.changeCreateAccountStep(createStep + 1) }>Next step</button> }
-                { showSubmit && <button type="submit">Sign up</button> }
-            </div>
-        );
-    }
-
-    /**
-     * Render Account Creation
-     */
     renderCreateAccount() {
-        const { createStep } = this.state;
-        const renderFunction = this.createSteps[createStep];
-
         return (
             <>
-                <Form>
+                <Form key="create-account">
                     <h3>Create your account</h3>
-                    { renderFunction() }
-                    { this.renderCreateAccountStepAction() }
+                    <fieldset block="MyAccount" elem="Legend">
+                        <legend>Personal Information</legend>
+                        <Field type="text" label="First name" id="firstname" validation={ ['notEmpty'] } />
+                        <Field type="text" label="Last name" id="lastname" validation={ ['notEmpty'] } />
+                        <Field
+                          block="MyAccount"
+                          elem="Checkbox"
+                          type="checkbox"
+                          label="Subscribe to ScandiPWA newsletter"
+                          id="is_subscribed"
+                        />
+                    </fieldset>
+                    <fieldset block="MyAccount" elem="Legend">
+                        <legend>Sign-Up Information</legend>
+                        <Field type="text" label="Email" id="email" validation={ ['notEmpty', 'email'] } />
+                        <Field
+                          type="password"
+                          label="Password"
+                          id="password"
+                          validation={ ['notEmpty', 'password'] }
+                        />
+                        <Field
+                          type="password"
+                          label="Confirm password"
+                          id="confirm_password"
+                          validation={ ['notEmpty', 'password'] }
+                        />
+                    </fieldset>
+                    <div block="MyAccount" elem="Buttons">
+                        <button type="submit">Sign up</button>
+                    </div>
                 </Form>
                 <article block="MyAccount" elem="Additional">
                     <section aria-labelledby="create-account-label">
@@ -419,57 +207,62 @@ class MyAccount extends Component {
         );
     }
 
-    /**
-     * Render Login
-     */
     renderSignIn() {
-        const { fieldsToValidate, customerData } = this.state;
-
         return (
             <>
-                <Form>
+                <Form
+                  key="sign-in"
+                  onSubmit={ () => this.onSignInAttempt() }
+                  onSubmitSuccess={ fields => this.onSignInSuccess(fields) }
+                >
                     <h3>Sign in to your account</h3>
                     <Field
                       type="text"
                       label="Login or Email"
-                      id="sign-in-email"
-                      key="email"
-                      handleToUpdate={ this.handleToUpdate }
-                      originalValue={ customerData.email }
+                      id="email"
+                      validation={ ['notEmpty', 'email'] }
                     />
                     <Field
                       type="password"
                       label="Password"
-                      id="sign-in-password"
-                      key="password"
-                      handleToUpdate={ this.handleToUpdate }
-                      originalValue={ customerData.password }
+                      id="password"
+                      validation={ ['notEmpty', 'password'] }
                     />
                     <div block="MyAccount" elem="Buttons">
-                        <button disabled={ fieldsToValidate.length !== 0 }>Sign in</button>
+                        <button>Sign in</button>
                     </div>
                 </Form>
                 <article block="MyAccount" elem="Additional">
                     <section aria-labelledby="forgot-password-labe">
                         <h4 id="forgot-password-label">Forgot password?</h4>
-                        <a
-                          href="#password-reset"
-                          onClick={ () => this.changeState(STATE_FORGOT_PASSWORD) }
-                        >
-                        Get a password reset link
+                        <a href="#password-reset" onClick={ () => this.changeState(STATE_FORGOT_PASSWORD) }>
+                            Get a password reset link
                         </a>
                     </section>
                     <section aria-labelledby="create-account-label">
-                        <h4 id="create-account-label">Don`t have an account?</h4>
-                        <a
-                          href="#create-account"
-                          onClick={ () => this.changeState(STATE_CREATE_ACCOUNT) }
-                        >
-                        Create an account
+                        <h4 id="create-account-label">Don&apos;t have an account?</h4>
+                        <a href="#create-account" onClick={ () => this.changeState(STATE_CREATE_ACCOUNT) }>
+                            Create an account
                         </a>
                     </section>
                 </article>
             </>
+        );
+    }
+
+    renderLoader() {
+        const { isLoading } = this.state;
+
+        if (!isLoading) return null;
+
+        return (
+            <div block="MyAccount" elem="LoaderWrapper">
+                <div block="MyAccount" elem="Loader">
+                    <div />
+                    <div />
+                    <div />
+                </div>
+            </div>
         );
     }
 

@@ -31,20 +31,20 @@ const MyAccountReducer = (state = initialState, action) => {
     switch (action.type) {
     case UPDATE_CUSTOMER_SIGN_IN_STATUS:
         return {
-            isSignedIn: status,
-            ...state
+            ...state,
+            isSignedIn: status
         };
 
     case UPDATE_CUSTOMER_PASSWORD_RESET_STATUS:
         return {
-            isPasswordReset: status,
-            ...state
+            ...state,
+            isPasswordReset: status
         };
 
     case UPDATE_CUSTOMER_DETAILS:
         return {
-            customer,
-            ...state
+            ...state,
+            customer
         };
 
     default:

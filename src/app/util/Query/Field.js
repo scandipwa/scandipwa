@@ -30,6 +30,7 @@ class Field {
         this._variableDefinitions = '';
         this._variableValues = {};
         this._argumentDefinitions = [];
+        this._component = 'query';
     }
 
 
@@ -116,6 +117,17 @@ class Field {
      */
     setAlias(alias) {
         this.alias = alias;
+        return this;
+    }
+
+    /**
+     * Sets GraphQL component type: query, mutation, etc.
+     * @param {String} component
+     * @return {Field}
+     * @memberof Query
+     */
+    setComponentType(component) {
+        this._component = component;
         return this;
     }
 

@@ -50,6 +50,13 @@ const formatURI = (query, variables, url) => {
 };
 
 /**
+ * Checks if the given query is a GraphQL mutation
+ * @param  {String} query
+ * @return {Promise<Object>}
+ */
+const isMutation = query => query.substring(0, query.indexOf('(')) === 'mutation';
+
+/**
  *
  * @param {String} uri
  * @param {String} name

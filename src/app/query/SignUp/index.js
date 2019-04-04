@@ -9,8 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-@import "./variables";
-@import "./color";
-@import "./media";
-@import "./button";
-@import "./loader";
+import SignUp from './SignUp';
+
+export default SignUp;
