@@ -11,6 +11,7 @@
 
 import { connect } from 'react-redux';
 import { MyAccountDispatcher } from 'Store/MyAccount';
+import { showNotification } from 'Store/Notification';
 import MyAccount from './MyAccount.component';
 
 const mapStateToProps = state => ({
@@ -33,6 +34,10 @@ const mapDispatchToProps = dispatch => ({
 
     requestCustomerData(options) {
         MyAccountDispatcher.handleData(dispatch, options);
+    },
+
+    showNotification(type, message) {
+        dispatch(showNotification(type, message));
     }
 });
 

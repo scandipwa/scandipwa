@@ -253,14 +253,17 @@ class Field extends Component {
             id, type, label, note, message, state, block, elem
         } = this.props;
 
-        const mods = state ? { [state]: true } : undefined;
         const mix = (block && elem) ? { block, elem } : undefined;
+        const mods = {
+            hasError: !!message,
+            ...(state ? { [state]: true } : {})
+        };
 
         return (
             <div block="Field" mods={ mods } mix={ mix }>
-                { message && <p block="Field" elem="Message">{ message }</p> }
                 { label && <label htmlFor={ id }>{ label }</label> }
                 { this.renderInputOfType(type) }
+                { message && <p block="Field" elem="Message">{ message }</p> }
                 { note && <p block="Field" elem="Note">{ note }</p> }
             </div>
         );

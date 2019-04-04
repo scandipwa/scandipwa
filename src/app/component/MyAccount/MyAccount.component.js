@@ -10,6 +10,7 @@
  */
 
 import React, { Component } from 'react';
+import { isSignedIn } from 'Util/Auth';
 import Field from 'Component/Field';
 import Form from 'Component/Form';
 import './MyAccount.style';
@@ -28,9 +29,10 @@ class MyAccount extends Component {
         super(props);
 
         this.state = {
-            state: STATE_SIGN_IN,
+            state: isSignedIn() ? STATE_LOGGED_IN : STATE_SIGN_IN,
             isHovered: false,
-            isOpen: false
+            isOpen: false,
+            isLoading: false
         };
 
         this.renderMap = {
@@ -41,6 +43,29 @@ class MyAccount extends Component {
         };
 
         this.changeState = this.changeState.bind(this);
+    }
+
+    static getDerivedStateFromProps(props) {
+        const { isSignedIn } = props;
+        const stateToBeUpdated = {};
+
+        console.log(isSignedIn);
+
+        if (isSignedIn) {
+            stateToBeUpdated.isLoading = false;
+            stateToBeUpdated.state = STATE_LOGGED_IN;
+        }
+
+        return Object.keys(stateToBeUpdated).length ? stateToBeUpdated : null;
+    }
+
+    onSignInSuccess(fields) {
+        const { signIn } = this.props;
+        signIn(fields);
+    }
+
+    onSignInAttempt() {
+        this.setState({ isLoading: true });
     }
 
     changeState(state) {
@@ -59,9 +84,6 @@ class MyAccount extends Component {
 
     renderButton() {
         const { state, isOpen, isHovered } = this.state;
-        const actionText = state === STATE_LOGGED_IN
-            ? 'Hello, User'
-            : 'My Account';
 
         return (
             <button
@@ -75,7 +97,7 @@ class MyAccount extends Component {
                   block="MyAccount"
                   elem="Icon"
                 />
-                <span>{ actionText }</span>
+                <span>My Account</span>
             </button>
         );
     }
@@ -92,6 +114,7 @@ class MyAccount extends Component {
               onMouseEnter={ () => this.setState({ isHovered: true }) }
               onMouseLeave={ () => this.setState({ isHovered: false }) }
             >
+                { this.renderLoader() }
                 <div block="MyAccount" elem="Action" mods={ { state } }>
                     { renderFunction() }
                 </div>
@@ -142,31 +165,37 @@ class MyAccount extends Component {
             <>
                 <Form key="create-account">
                     <h3>Create your account</h3>
-                    <div block="MyAccount" elem="Legend">Personal Information</div>
-                    <Field type="text" label="First name" id="firstname" validation={ ['notEmpty'] } />
-                    <Field type="text" label="Last name" id="lastname" validation={ ['notEmpty'] } />
-                    <Field
-                      block="MyAccount"
-                      elem="Checkbox"
-                      type="checkbox"
-                      label="Subscribe to ScandiPWA newsletter"
-                      id="is_subscribed"
-                    />
-                    <div block="MyAccount" elem="Legend">Sign-Up Information</div>
-                    <Field type="text" label="Email" id="email" validation={ ['notEmpty', 'email'] } />
-                    <Field
-                      type="password"
-                      label="Password"
-                      id="password"
-                      validation={ ['notEmpty', 'password'] }
-                    />
-                    <Field
-                      type="password"
-                      label="Confirm password"
-                      id="confirm_password"
-                      validation={ ['notEmpty', 'password'] }
-                    />
-                    <div block="MyAccount" elem="Buttons">{ <button type="submit">Sign up</button> }</div>
+                    <fieldset block="MyAccount" elem="Legend">
+                        <legend>Personal Information</legend>
+                        <Field type="text" label="First name" id="firstname" validation={ ['notEmpty'] } />
+                        <Field type="text" label="Last name" id="lastname" validation={ ['notEmpty'] } />
+                        <Field
+                          block="MyAccount"
+                          elem="Checkbox"
+                          type="checkbox"
+                          label="Subscribe to ScandiPWA newsletter"
+                          id="is_subscribed"
+                        />
+                    </fieldset>
+                    <fieldset block="MyAccount" elem="Legend">
+                        <legend>Sign-Up Information</legend>
+                        <Field type="text" label="Email" id="email" validation={ ['notEmpty', 'email'] } />
+                        <Field
+                          type="password"
+                          label="Password"
+                          id="password"
+                          validation={ ['notEmpty', 'password'] }
+                        />
+                        <Field
+                          type="password"
+                          label="Confirm password"
+                          id="confirm_password"
+                          validation={ ['notEmpty', 'password'] }
+                        />
+                    </fieldset>
+                    <div block="MyAccount" elem="Buttons">
+                        <button type="submit">Sign up</button>
+                    </div>
                 </Form>
                 <article block="MyAccount" elem="Additional">
                     <section aria-labelledby="create-account-label">
@@ -181,7 +210,11 @@ class MyAccount extends Component {
     renderSignIn() {
         return (
             <>
-                <Form key="sign-in">
+                <Form
+                  key="sign-in"
+                  onSubmit={ () => this.onSignInAttempt() }
+                  onSubmitSuccess={ fields => this.onSignInSuccess(fields) }
+                >
                     <h3>Sign in to your account</h3>
                     <Field
                       type="text"
@@ -214,6 +247,22 @@ class MyAccount extends Component {
                     </section>
                 </article>
             </>
+        );
+    }
+
+    renderLoader() {
+        const { isLoading } = this.state;
+
+        if (!isLoading) return null;
+
+        return (
+            <div block="MyAccount" elem="LoaderWrapper">
+                <div block="MyAccount" elem="Loader">
+                    <div />
+                    <div />
+                    <div />
+                </div>
+            </div>
         );
     }
 

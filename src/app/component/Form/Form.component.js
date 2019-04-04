@@ -86,10 +86,16 @@ class Form extends Component {
 
     handleFormSubmit(e) {
         const { refMap } = this.state;
-        const { children: propsChildren, onSubmit, onError } = this.props;
+        const {
+            children: propsChildren,
+            onSubmitSuccess,
+            onSubmitError,
+            onSubmit
+        } = this.props;
         const invalidFields = [];
 
         e.preventDefault();
+        onSubmit();
 
         const children = Form.cloneChildren(
             propsChildren,
@@ -118,8 +124,8 @@ class Form extends Component {
         }, {});
 
         return !invalidFields.length
-            ? onSubmit(inputValues)
-            : onError(inputValues, invalidFields);
+            ? onSubmitSuccess(inputValues)
+            : onSubmitError(inputValues, invalidFields);
     }
 
     render() {
@@ -139,8 +145,9 @@ class Form extends Component {
 }
 
 Form.propTypes = {
+    onSubmitSuccess: PropTypes.func,
+    onSubmitError: PropTypes.func,
     onSubmit: PropTypes.func,
-    onError: PropTypes.func,
     children: PropTypes.oneOfType([
         PropTypes.arrayOf(PropTypes.node),
         PropTypes.node
@@ -148,8 +155,9 @@ Form.propTypes = {
 };
 
 Form.defaultProps = {
-    onSubmit: () => {},
-    onError: () => {}
+    onSubmitSuccess: () => {},
+    onSubmitError: () => {},
+    onSubmit: () => {}
 };
 
 export default Form;

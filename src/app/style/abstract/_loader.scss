@@ -1,0 +1,31 @@
+%loader {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    height: 5rem;
+    width: 4rem;
+    margin: 0 auto;
+
+    div {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--color-primary-base);
+        animation: ellipsis-dot 1s infinite;
+
+        &:first-child {
+            animation-delay: 0.0s;
+        }
+
+        &:nth-child(2) {
+            left: 1.5rem;
+            animation-delay: 0.1s;
+        }
+
+        &:nth-child(3) {
+            left: 3rem;
+            animation-delay: 0.2s;
+        }
+    }
+}

@@ -88,10 +88,10 @@ class MyAccountDispatcher extends QueryDispatcher {
         const mutation = MyAccount.getSignInMutation(options);
 
         fetchMutation(mutation).then(
-            ({ token }) => {
+            ({ generateCustomerToken: { token } }) => {
                 // TODO: TEST
                 setAuthorizationToken(token);
-                dispatch(updateCustomerSignInStatus(isSignedIn()));
+                dispatch(updateCustomerSignInStatus(true));
             },
             error => console.log(error)
         );

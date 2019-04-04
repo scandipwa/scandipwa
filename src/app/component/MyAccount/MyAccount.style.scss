@@ -256,12 +256,6 @@
         margin-top: 2rem;
     }
 
-    &-Legend {
-        border-bottom: 1px solid var(--color-primary-dark);
-        font-weight: 700;
-        font-size: 1.2rem;
-    }
-
     &-Checkbox {
         display: flex;
         margin-bottom: 1rem;
@@ -276,5 +270,24 @@
             height: 20px;
             left: 20px;
         }
+    }
+
+    &-LoaderWrapper {
+        background-color: rgba(255, 255, 255, .6);
+        z-index: 5;
+    }
+
+    &-Loader {
+        @extend %loader;
+    }
+
+    &-Loader,
+    &-LoaderWrapper {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
     }
 }
