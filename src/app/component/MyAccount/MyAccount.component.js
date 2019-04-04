@@ -11,6 +11,7 @@
 
 import React, { Component } from 'react';
 import Field from 'Component/Field';
+import Form from 'Component/Form';
 import './MyAccount.style';
 
 const STATE_SIGN_IN = 'signIn';
@@ -28,21 +29,9 @@ class MyAccount extends Component {
 
         this.state = {
             state: STATE_SIGN_IN,
+            isHovered: false,
             createStep: 0,
-            fieldsToValidate: [],
-            customerData: {
-                email: '',
-                firstname: '',
-                lastname: '',
-                password: '',
-                addressfirstname: '',
-                addresslastname: '',
-                addresstelephone: '',
-                addresscountry: '',
-                addresscity: '',
-                addressstreet: '',
-                addresspostcode: ''
-            }
+            isOpen: false
         };
 
         this.renderMap = {
@@ -164,17 +153,18 @@ class MyAccount extends Component {
      * Render Button
      */
     renderButton() {
-        const { state, isOpen } = this.state;
+        const { state, isOpen, isHovered } = this.state;
         const actionText = state === STATE_LOGGED_IN
             ? 'Hello, User'
             : 'My Account';
 
         return (
             <button
+              type="submit"
               block="MyAccount"
               elem="Button"
               ref={ this.button }
-              mods={ { isOpen } }
+              mods={ { isOpen, isHovered } }
               onClick={ () => this.goBackToDefault() }
             >
                 <i
@@ -194,7 +184,13 @@ class MyAccount extends Component {
         const renderFunction = this.renderMap[state];
 
         return (
-            <div block="MyAccount" elem="Dropdown" mods={ { state } }>
+            <div
+              block="MyAccount"
+              elem="Dropdown"
+              mods={ { state } }
+              onMouseEnter={ () => this.setState({ isHovered: true }) }
+              onMouseLeave={ () => this.setState({ isHovered: false }) }
+            >
                 <div block="MyAccount" elem="Action" mods={ { state } }>
                     { renderFunction() }
                 </div>
@@ -225,7 +221,7 @@ class MyAccount extends Component {
 
         return (
             <>
-                <form>
+                <Form>
                     <h3>Get password reset link</h3>
                     <Field
                       type="text"
@@ -236,9 +232,9 @@ class MyAccount extends Component {
                       originalValue={ customerData.email }
                     />
                     <div block="MyAccount" elem="Buttons">
-                        <button disabled={ fieldsToValidate.length !== 0 }>Send reset link</button>
+                        <button type="submit">Send reset link</button>
                     </div>
-                </form>
+                </Form>
                 <article block="MyAccount" elem="Additional">
                     <section aria-labelledby="forgot-password-labe">
                         <h4 id="forgot-password-label">Already have an account?</h4>
@@ -389,22 +385,12 @@ class MyAccount extends Component {
         const showPrev = createStep > 0;
         const showNext = createStep < this.createSteps.length - 1;
         const showSubmit = createStep === this.createSteps.length - 1;
-        const isPasswordCorrect = (customerData.password === customerData.confirmpassword);
 
         return (
             <div block="MyAccount" elem="Buttons">
-                { showPrev
-                    && <button onClick={ () => this.changeCreateAccountStep(createStep - 1) }>Previous step</button> }
-                { showNext && (
-                    <button
-                      disabled={ !(fieldsToValidate.length === 0 && isPasswordCorrect) }
-                      onClick={ () => this.changeCreateAccountStep(createStep + 1) }
-                    >
-                    Next step
-                    </button>
-                )}
-
-                { showSubmit && <button disabled={ fieldsToValidate.length !== 0 }>Sign up</button> }
+                { showPrev && <button type="submit" onClick={ () => this.changeCreateAccountStep(createStep - 1) }>Previous step</button> }
+                { showNext && <button type="submit" onClick={ () => this.changeCreateAccountStep(createStep + 1) }>Next step</button> }
+                { showSubmit && <button type="submit">Sign up</button> }
             </div>
         );
     }
@@ -418,11 +404,11 @@ class MyAccount extends Component {
 
         return (
             <>
-                <form>
+                <Form>
                     <h3>Create your account</h3>
                     { renderFunction() }
                     { this.renderCreateAccountStepAction() }
-                </form>
+                </Form>
                 <article block="MyAccount" elem="Additional">
                     <section aria-labelledby="create-account-label">
                         <h4 id="create-account-label">Already have an account?</h4>
@@ -441,7 +427,7 @@ class MyAccount extends Component {
 
         return (
             <>
-                <form>
+                <Form>
                     <h3>Sign in to your account</h3>
                     <Field
                       type="text"
@@ -462,7 +448,7 @@ class MyAccount extends Component {
                     <div block="MyAccount" elem="Buttons">
                         <button disabled={ fieldsToValidate.length !== 0 }>Sign in</button>
                     </div>
-                </form>
+                </Form>
                 <article block="MyAccount" elem="Additional">
                     <section aria-labelledby="forgot-password-labe">
                         <h4 id="forgot-password-label">Forgot password?</h4>

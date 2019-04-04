@@ -14,23 +14,23 @@ In this file the `process.env.NODE_ENV` based tools are configured:
 
 The application router (located in `src/app/route/index.js`) is responsible for application routing. It is implemented using `react-router-dom`. Routes are declared inside of the `Switch` which means there is only one route visible at any point of the time.
 
-Router controls the mounting of following components: 
+Router controls the mounting of following components:
 
-- `HomePage`, 
+- `HomePage`,
 
-- `TestPage`, 
+- `TestPage`,
 
-- `CategoryPage`, 
+- `CategoryPage`,
 
-- `ProductPage`, 
+- `ProductPage`,
 
-- `CmsPage`, 
+- `CmsPage`,
 
-- `CartPage`, 
+- `CartPage`,
 
-- `NoMatch`. 
+- `NoMatch`.
 
-At the same time it contains initialization of `Header`, `Footer`, `Breadcrumbs` and `NotificationList` components 
+At the same time it contains initialization of `Header`, `Footer`, `Breadcrumbs` and `NotificationList` components
 regardless the requested URL path. Those components are always visible during navigation within the application.
 
 From the data perspective, the application common data is also requested: the CMS blocks for Footer and complete Menu.
@@ -49,11 +49,11 @@ Below is the routing map:
 | ProductPage       | `/product`  | no        |
 | CmsPage           | `/page/:id` | no        |
 | CartPage          | `/cart`     | yes       |
-| NoMatch           | –           | no        | 
+| NoMatch           | –           | no        |
 
 > Notice the URL parameter is not set for the `/category` and `/product` – which means **there will be no URL params directly available in URL for `CategoryPage` and `ProductPage` components**. This is done because we would not like to limit the possible category nesting (for example: `/category/main/sub/sub`). We are using `Url` module from `src/app/util/Url` in order to resolve the path.
 
-> The URL param is present in `CmsPage`. We have left it, because it allowed for more "transparent" implementation of CMS page functional. 
+> The URL param is present in `CmsPage`. We have left it, because it allowed for more "transparent" implementation of CMS page functional.
 
 This part of the application might be a topic of changes in the future.
 
@@ -61,28 +61,28 @@ This part of the application might be a topic of changes in the future.
 
 The application main store combines all of the available reducers. Additionally, it makes sure that the ReduxDevTools will be disabled in production.
 
-> Please, **keep action names and global state properties unique to every store**. This is important, because we are 
+> Please, **keep action names and global state properties unique to every store**. This is important, because we are
 using only one provider for the application. This means all actions will be combined along with all global state properties.
 
-The included reducers are: 
+The included reducers are:
 
-- `CmsBlocksAndSliderReducer`, 
+- `CmsBlocksAndSliderReducer`,
 
-- `CmsPageReducer`, 
+- `CmsPageReducer`,
 
-- `CategoryReducer`, 
+- `CategoryReducer`,
 
-- `NotificationReducer`, 
+- `NotificationReducer`,
 
-- `BreadcrumbsReducer`, 
+- `BreadcrumbsReducer`,
 
-- `ProductReducer`, 
+- `ProductReducer`,
 
-- `HeaderAndFooterReducer`, 
+- `HeaderAndFooterReducer`,
 
-- `CartReducer`, 
+- `CartReducer`,
 
-- `NoMatchReducer`, 
+- `NoMatchReducer`,
 
 - `RelatedProductsReducer`.
 

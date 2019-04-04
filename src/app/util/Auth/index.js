@@ -9,6 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import ProductList from './ProductList';
+import {
+    setAuthorizationToken,
+    getAuthorizationToken,
+    isSignedIn
+} from './Token';
 
-export default ProductList;
+export {
+    setAuthorizationToken,
+    getAuthorizationToken,
+    isSignedIn
+};

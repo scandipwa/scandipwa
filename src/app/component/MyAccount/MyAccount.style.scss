@@ -32,6 +32,13 @@
         width: 13rem;
         padding: 0;
 
+        --button-color: var(--color-text-black);
+        --button-background: transparent;
+        --button-border: transparent;
+        --button-hover-background: var(--color-primary-light);
+        --button-hover-color: var(--color-text-black);
+        --button-hover-border: transparent;
+
         @include mobile {
             position: fixed;
             width: 3rem;
@@ -39,30 +46,37 @@
             top: 15px;
             transform: scale(1.1);
             right: 4rem;
-
-            --button-color: transparent;
-            --button-background: transparent;
-            --button-border: transparent;
-            --button-hover-background: transparent;
-            --button-hover-color: transparent;
-            --button-hover-border: transparent;
         }
 
         span {
-            display: none;
+            @include mobile {
+                display: none;
+            }
         }
 
         &:focus,
         &:hover {
-            + .MyAccount-Dropdown {
-                @include after-mobile {
-                    transform: scaleY(1);
-                    pointer-events: all;
+            ~ .MyAccount {
+                &-Dropdown {
+                    @include after-mobile {
+                        transform: scaleY(1);
+                        pointer-events: all;
+                    }
                 }
             }
         }
 
+        &_isHovered {
+            @include after-mobile {
+                --button-background: var(--color-primary-light);
+            }
+        }
+
         &_isOpen {
+            @include after-mobile {
+                --button-background: var(--color-primary-light);
+            }
+
             + .MyAccount-Dropdown {
                 @include mobile {
                     transform: scaleY(1);
@@ -78,7 +92,7 @@
         height: 35px;
         overflow: hidden;
         display: inline-block;
-        margin-right: 5px;
+        margin-right: .5rem;
 
         @include mobile {
             display: block;
@@ -94,11 +108,7 @@
             right: 0; 
             bottom: 0;
             margin: auto;
-            background: var(--color-text-white);
-
-            @include mobile {
-                background: var(--color-text-black);
-            }
+            background: var(--button-color);
         }
 
         &::before {
@@ -124,7 +134,7 @@
         right: 0;
         margin: auto;
         width: 45rem;
-        border: 1px solid var(--color-primary-base);
+        border: 1px solid var(--color-primary-light);
         transform: scaleY(0);
         transform-origin: 0 0;
         transition: transform 150ms ease-in;
@@ -144,6 +154,7 @@
         &:focus-within {
             @include after-mobile {
                 transform: scaleY(1);
+                pointer-events: all;
             }
         }
 
