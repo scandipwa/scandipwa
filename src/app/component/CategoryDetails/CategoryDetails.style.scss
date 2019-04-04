@@ -18,17 +18,10 @@
         grid-row: 1;
         margin-bottom: 1.5rem;
         grid-template-columns: 1fr;
-    }
-
-    >:first-child {
-        grid-column: 1/3;
+        border: 0;
     }
 
     picture {
-        &:not(.Image_isReal) {
-            background: none;
-        }
-        
         @include mobile {
             display: none;
         }
@@ -42,45 +35,5 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-    }
-
-    &-Promo {
-        height: 125px;
-        background-image: var(--placeholder-image);
-        background-size: var(--placeholder-size);
-        animation: var(--placeholder-animation);
-    
-        &::before {
-            content: none;
-        }
-
-        @include mobile {
-            display: none;
-        }
-    
-        figure {
-            figcaption {
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-    
-                p {
-                    font-size: 1rem;
-                    color: var(--color-subscription-background);
-                    font-weight: 700;
-                }
-            }
-    
-            picture {
-                padding-bottom: 0;
-                opacity: 1;
-                animation: none;
-            }
-    
-            img {
-                object-fit: cover;
-            }
-        }
     }
 }

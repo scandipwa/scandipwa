@@ -79,6 +79,14 @@ class ProductCard extends Component {
             }
         }
 
+        if (type_id === 'grouped') {
+            return (
+                <Link to={ linkTo } tabIndex={ url_key ? '0' : '-1' }>
+                    <span>Add to Cart</span>
+                </Link>
+            );
+        }
+
         return <AddToCart onClick={ () => this.addProduct(variantIndex) } fullWidth />;
     }
 

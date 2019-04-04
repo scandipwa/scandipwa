@@ -80,22 +80,22 @@
 
     &-ClearButton {
         --button-background: transparent;
-        --button-hover-background: transparent;
-        --button-hover-color: var(--color-neutral-dark);
+        --button-hover-background: var(--color-primary-base);
+        --button-hover-color: var(--color-text-white);
+        --button-color: var(--color-primary-base);
+        --button-border-width: 2px;
+        --button-padding: 0.5rem 0rem;
+
+        width: 100%;
+        border-radius: 2px;
+        margin-bottom: 2.5rem;
 
         @include after-mobile {
-            --button-color: var(--color-neutral-dark);
-
-            border: 0;
-            padding: 0;
-            margin: 0;
             text-transform: none;
         }
 
         @include mobile {
-            --button-color: var(--color-primary-base);
-
-            width: 100%;
+            margin-bottom: 1.5rem;
         }
 
         &::before {

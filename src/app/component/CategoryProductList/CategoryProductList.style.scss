@@ -18,6 +18,7 @@
     @include tablet {
         grid-template-columns: 1fr 1fr;
         grid-column-gap: 0.5rem;
+        border: 0;
     }
 
     @include after-mobile {
@@ -28,7 +29,7 @@
     &-Placeholder {
         display: grid;
         grid-template-columns: inherit;
-        grid-column: span 3;
+        grid-column: 1/4;
 
         @include tablet {
             grid-column: span 2;

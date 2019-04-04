@@ -1,0 +1,51 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+import React, { Component } from 'react';
+import GroupedProductsItem from 'Component/GroupedProductsItem';
+import { ProductType } from 'Type/ProductList';
+
+/**
+ * Product description
+ * @class GroupedProductList
+ */
+class GroupedProductList extends Component {
+    renderProductList(items) {
+        return (
+            <ul>
+                { items.map(item => (
+                    <GroupedProductsItem
+                      key={ item.product.id }
+                      product={ item.product }
+                    />
+                )) }
+            </ul>
+        );
+    }
+
+    render() {
+        const {
+            product: { items }
+        } = this.props;
+
+        return (
+            <>
+                { items && this.renderProductList(items)}
+            </>
+        );
+    }
+}
+
+GroupedProductList.propTypes = {
+    product: ProductType.isRequired
+};
+
+export default GroupedProductList;

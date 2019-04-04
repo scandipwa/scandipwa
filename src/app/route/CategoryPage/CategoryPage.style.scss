@@ -12,7 +12,7 @@
 .CategoryPage {
     &-Wrapper {
         display: grid;
-        grid-template-columns: 22rem auto;
+        grid-template-columns: 22rem calc(100% - 24rem);
         grid-column-gap: 2rem;
         padding-top: 1rem;
 
@@ -34,10 +34,10 @@
 
         @include after-mobile {
             grid-row: 1/5;
-            height: calc(100vh - 80px);
+            height: 100vh;
             position: sticky;
             top: 40px;
-            overflow-y: scroll;
+            overflow-y: hidden;
             padding-right: 2rem;
         }
     
@@ -66,11 +66,13 @@
 
     &-ItemsCount {
         color: var(--color-neutral-base);
+        padding-left: 1rem;
 
         @include mobile {
             order: 1;
             font-size: 1.1rem;
             margin-top: .5rem;
+            padding-left: 0;
             padding-bottom: 1rem;
         }
 
@@ -86,12 +88,12 @@
 
         @include mobile {
             flex-direction: column;
+            border: 0;
         }
 
         @include after-mobile {
             justify-content: space-between;
             align-items: center;
-            margin-top: .5rem;
         }
     }
 }

@@ -41,6 +41,8 @@ class CategoryDispatcher extends RequestDispatcher {
 
         const { categoryUrlPath } = options;
 
+        if (category && !this._isCategoryExists(category, categoryUrlPath)) return dispatch(updateNoMatch(true));
+
         if (category) { // If category details are updated, reset all data
             dispatch(updateCategoryProductList(items, total_count, sort_fields, filters));
             dispatch(updateCategoryList(category));
@@ -123,6 +125,31 @@ class CategoryDispatcher extends RequestDispatcher {
      */
     _isOneOfSortFiltersPresent({ sortKey, sortDirection }) {
         return !!sortKey || !!sortDirection;
+    }
+
+    /**
+     * Check if category exists in master category
+     * @param {Object} masterCategory
+     * @param {String} categoryUrlPath current category url path
+     * @return {Boolean}
+     */
+    _isCategoryExists(masterCategory, categoryUrlPath) {
+        const flattendCategories = [];
+
+        const flattenCategory = (category) => {
+            const { children } = category;
+
+            if (children) {
+                children.forEach((element) => {
+                    flattenCategory(element);
+                    flattendCategories.push(element.url_path);
+                });
+            }
+        };
+
+        flattenCategory(masterCategory);
+
+        return flattendCategories.includes(categoryUrlPath);
     }
 }
 
