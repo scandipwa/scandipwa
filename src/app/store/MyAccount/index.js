@@ -4,9 +4,11 @@ import {
     UPDATE_CUSTOMER_SIGN_IN_STATUS,
     UPDATE_CUSTOMER_DETAILS,
     UPDATE_CUSTOMER_PASSWORD_RESET_STATUS,
+    UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS,
     updateCustomerSignInStatus,
     updateCustomerDetails,
-    updateCustomerPasswordResetStatus
+    updateCustomerPasswordResetStatus,
+    updateCustomerPasswordForgotStatus
 } from './MyAccount.action';
 
 export {
@@ -15,7 +17,9 @@ export {
     UPDATE_CUSTOMER_SIGN_IN_STATUS,
     UPDATE_CUSTOMER_DETAILS,
     UPDATE_CUSTOMER_PASSWORD_RESET_STATUS,
+    UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS,
     updateCustomerSignInStatus,
     updateCustomerDetails,
-    updateCustomerPasswordResetStatus
+    updateCustomerPasswordResetStatus,
+    updateCustomerPasswordForgotStatus
 };
