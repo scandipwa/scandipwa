@@ -9,31 +9,92 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { RequestDispatcher } from 'Util/Request';
-import { SignUpQuery } from 'Query';
-import { updateLoadStatus, updateSignUpInfo } from './MyAccount.action';
+import {
+    updateCustomerSignInStatus,
+    updateCustomerDetails,
+    updateCustomerPasswordResetStatus
+} from 'Store/MyAccount';
+import { QueryDispatcher, fetchMutation } from 'Util/Request';
+import { setAuthorizationToken, isSignedIn } from 'Util/Auth';
+import { MyAccount } from 'Query';
+
 /**
- * Search Bar Dispatcher
- * @class SearchBarDispatcher
- * @extends RequestDispatcher
+ * My account actions
+ * @class MyAccount
+ * @extends {QueryDispatcher}
  */
-class MyAccountDispatcher extends RequestDispatcher {
+class MyAccountDispatcher extends QueryDispatcher {
     constructor() {
-        super('SearchBar', 86400);
+        super('MyAccount', 86400);
     }
 
-    onSuccess(data, dispatch) {
-        dispatch(updateLoadStatus(false));
-        dispatch(updateSignUpInfo(data));
+    prepareRequest(options) {
+        return MyAccount.getCustomer(options);
     }
 
-    onError(error, dispatch) {
-        dispatch(updateLoadStatus(false));
+    onSuccess({ customer }, dispatch) {
+        dispatch(updateCustomerDetails(customer));
     }
 
-    prepareRequest(options, dispatch) {
-        dispatch(updateLoadStatus(true));
-        return SignUpQuery.getQuery(options);
+    /**
+     * Forgot password action
+     * @param {{email: String}} [options={}]
+     * @returns {Promise<{status: String}>} Reset password token
+     * @memberof MyAccountDispatcher
+     */
+    forgotPassword(options = {}) {
+        const mutation = MyAccount.getForgotPasswordMutation(options);
+        // TODO: WHEN IMPLEMENTING ALWAYS RETURN THAT EMAIL WAS SENT!!!
+        fetchMutation(mutation);
+    }
+
+    /**
+     * Reset password action
+     * @param {{token: String, password: String, password_confirmation: String}} [options={}]
+     * @returns {Promise<{status: String}>} Reset password token
+     * @memberof MyAccountDispatcher
+     */
+    resetPassword(options = {}, dispatch) {
+        const mutation = MyAccount.getResetPasswordMutation(options);
+        fetchMutation(mutation).then(
+            ({ status }) => dispatch(updateCustomerPasswordResetStatus(status)),
+            error => console.log(error)
+        );
+    }
+
+    /**
+     * Create account action
+     * @param {{customer: Object, password: String}} [options={}]
+     * @memberof MyAccountDispatcher
+     */
+    createAccount(options = {}, dispatch) {
+        const mutation = MyAccount.getCreateAccountMutation(options);
+
+        fetchMutation(mutation).then(
+            ({ customer }) => {
+                this.signIn(options, dispatch);
+                dispatch(updateCustomerDetails(customer));
+            },
+            error => console.log(error)
+        );
+    }
+
+    /**
+     * Sign in action
+     * @param {{email: String, password: String}} [options={}]
+     * @memberof MyAccountDispatcher
+     */
+    signIn(options = {}, dispatch) {
+        const mutation = MyAccount.getSignInMutation(options);
+
+        fetchMutation(mutation).then(
+            ({ token }) => {
+                // TODO: TEST
+                setAuthorizationToken(token);
+                dispatch(updateCustomerSignInStatus(isSignedIn()));
+            },
+            error => console.log(error)
+        );
     }
 }
 

@@ -14,12 +14,24 @@ import { MyAccountDispatcher } from 'Store/MyAccount';
 import MyAccount from './MyAccount.component';
 
 const mapStateToProps = state => ({
-    isLoading: state.MyAccountReducer.isLoading,
-    data: state.MyAccountReducer.data
+    isSignedIn: state.MyAccountReducer.isSignedIn,
+    customer: state.MyAccountReducer.customer
 });
 
 const mapDispatchToProps = dispatch => ({
-    signUp: (options) => {
+    forgotPassword(options) {
+        MyAccountDispatcher.forgotPassword(options);
+    },
+
+    createAccount(options) {
+        MyAccountDispatcher.createAccount(options, dispatch);
+    },
+
+    signIn(options) {
+        MyAccountDispatcher.signIn(options, dispatch);
+    },
+
+    requestCustomerData(options) {
         MyAccountDispatcher.handleData(dispatch, options);
     }
 });

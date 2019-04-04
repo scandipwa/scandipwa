@@ -25,18 +25,18 @@ Sometimes the data will already be present on user device. If SW has cached it, 
 For this functional we have created a helper utility.
 
 ## Public API
+    
+Request exports object with 5 helpers: `ActionDispatcher`, `fetchMutation`, `executePost`, `executeGet`, `listenForBroadCast`. The `executePost`, `executeGet`, `listenForBroadCast`, `fetchMutation` are for communicating with BE. The `QueryDispatcher` is an abstract dispatcher with a build in interface to communicate with BE.
 
-Request exports object with 3 helpers: `makeGraphqlRequest`, `listenForBroadCast`, `RequestDispatcher`. The `makeGraphqlRequest`, `listenForBroadCast` are for communicating with BE and SW. The `RequestDispatcher` is an abstract dispatcher with a build in interface to prepare queries for fetch and handle successfull and failed requests.
+### `executeGet(queryObject, name, TTL)`
 
-### `makeGraphqlRequest(query, name, cacheTTL)`
+Implements the GET request logic described in [motivation section](#Motivation) of this article. For example:
 
-Implements the request logic described in [motivation section](#Motivation) of this article. For example:
-
-#### query:
+#### queryObject:
     
 - **value**: `{ query: "query ($selectedUser_id:ID!) {selectedUser:user(id:$selectedUser_id){ firstName }}", variables: {selectedUser_id: "56778"} }`
 
-- **description**: raw request body object, must include `query` and `variables` keys. Can be prepared from [PrepareQuery util]('./02-Query.md').
+- **description**: raw request body object, must include `query` and `variables` keys. Can be prepared from [prepareQuery util]('./02-Query.md').
 
 #### name
 
@@ -44,14 +44,39 @@ Implements the request logic described in [motivation section](#Motivation) of t
 
 - **description**: the name for broadcast channel to listen to.
 
-#### keyValueObject
+#### cacheTTL
 
 - **value**: `86400`
 
 - **description**: the time for both Varnish and SW to cache the response.
 
 ```js
-import { Field, prepareQuery } from 'Util/Query';
+import { Field, prepareDocument } from 'Util/Query';
+import { executeGet } from 'Util/Request';
+
+const query = new Field('user')
+    .setAlias('selectedUser')
+    .addField('firstName')
+    .addArgument('id', 'ID!', '56778');
+
+const rawRequestBody = prepareQuery([query]);
+
+executeGet(rawRequestBody, 'userDispatcher', 86400)
+    .then(data => console.log(data))
+```
+
+### `executePost(queryObject)`
+
+Implements the raw POST request logic. For example:
+
+#### queryObject:
+    
+- **value**: `{ query: "query ($selectedUser_id:ID!) {selectedUser:user(id:$selectedUser_id){ firstName }}", variables: {selectedUser_id: "56778"} }`
+
+- **description**: raw request body object, must include `query` and `variables` keys. Can be prepared from [prepareQuery util]('./02-Query.md').
+
+```js
+import { Field, prepareDocument } from 'Util/Query';
 import { makeGraphqlRequest } from 'Util/Request';
 
 const query = new Field('user')
@@ -61,7 +86,7 @@ const query = new Field('user')
 
 const rawRequestBody = prepareQuery([query]);
 
-makeGraphqlRequest(rawRequestBody, 'userDispatcher', 86400)
+makeGraphqlRequest(rawRequestBody)
     .then(data => console.log(data))
 ```
 
@@ -78,7 +103,7 @@ Implements the broadcast listening logic described in [motivation section](#Moti
 - **description**: the name for broadcast channel to listen to.
 
 ```js
-import { Field, prepareQuery } from 'Util/Query';
+import { Field, prepareDocument } from 'Util/Query';
 import { makeGraphqlRequest, listenForBroadCast } from 'Util/Request';
 
 const query = new Field('user')
@@ -86,7 +111,7 @@ const query = new Field('user')
     .addField('firstName')
     .addArgument('id', 'ID!', '56778');
 
-const rawRequestBody = prepareQuery([query]);
+const rawRequestBody = prepareDocument([query]);
 const handlerName = 'userDispatcher';
 
 makeGraphqlRequest(rawRequestBody, handlerName, 86400)
@@ -98,21 +123,23 @@ listenForBroadCast(handlerName)
 
 <hr />
 
-### `RequestDispatcher.handleData(dispatch, options)`
+## `QueryDispatcher`
+
+This abstraction is helpful when requesting a GraphQL queries from BE. The `QueryDispatcher` has following functions to be implemented in extending dispatcher:
+
+> Any request dispatcher which extends `QueryDispatcher` abstract utility class, should return a new object of self in exports. They must follow the "singleton" pattern within the application. There must be no dynamic initialization of `QueryDispatcher`.
+
+### `handleData(dispatch, options)`
 
 #### dispatch:
 
-- **description**: The Redux dispatch object. May be used in `onSuccess`, `onUpdate` or `onError` methods of `RequestDispatcher`.
+- **description**: The Redux dispatch object. May be used in `onSuccess`, `onUpdate` or `onError` methods of `QueryDispatcher`.
 
 #### options
 
-- **description**: Any option you wish to pass to `prepareQuery` method of `RequestDispatcher`.
+- **description**: Any option you wish to pass to `prepareDocument` method of `QueryDispatcher`.
 
-## Enclosed API
-
-The `RequestDispatcher` has following functions to be implemented in extending dispatcher:
-
-> Any request dispatcher which extends `RequestDispatcher` abstract utility class, should return a new object of self in exports. They must follow the "singleton" pattern within the application. There must be no dynamic initialization of `RequestDispatcher`.
+### Enclosed API (internal functions)
 
 - `constructor` – call `super(name, cacheTTL)` in extended class to set handler name for `BroadcastChannel` and cache TTL for SW and Varnish.
 
@@ -123,3 +150,13 @@ The `RequestDispatcher` has following functions to be implemented in extending d
 - `onSuccess` – handle successful data fetch (response code 200 & no `error` in response body object). You may dispatch a Redux action from here.
 
 - `onError` – handle unsuccessful data fetch. You may dispatch a Redux action from here.
+
+<hr />
+
+### `fetchMutation(rawMutations)`
+
+Helpful when fetching mutations
+
+#### rawMutations:
+
+- **description**: instance of Field or an array of instances of Field

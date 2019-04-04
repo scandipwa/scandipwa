@@ -9,17 +9,30 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const UPDATE_SIGN_UP_LOAD_STATUS = 'UPDATE_SIGN_UP_LOAD_STATUS';
-export const UPDATE_SIGN_UP_INFO = 'UPDATE_SIGN_UP_INFO';
+const UPDATE_CUSTOMER_SIGN_IN_STATUS = 'UPDATE_CUSTOMER_SIGN_IN_STATUS';
+const UPDATE_CUSTOMER_DETAILS = 'UPDATE_CUSTOMER_DETAILS';
+const UPDATE_CUSTOMER_PASSWORD_RESET_STATUS = 'UPDATE_CUSTOMER_PASSWORD_RESET_STATUS';
 
-const updateLoadStatus = status => ({
-    type: UPDATE_SIGN_UP_LOAD_STATUS,
-    isLoading: status
+const updateCustomerSignInStatus = status => ({
+    type: UPDATE_CUSTOMER_SIGN_IN_STATUS,
+    status
 });
 
-const updateSignUpInfo = data => ({
-    type: UPDATE_SIGN_UP_INFO,
-    data
+const updateCustomerDetails = customer => ({
+    type: UPDATE_CUSTOMER_DETAILS,
+    customer
 });
 
-export { updateLoadStatus, updateSignUpInfo };
+const updateCustomerPasswordResetStatus = status => ({
+    type: UPDATE_CUSTOMER_PASSWORD_RESET_STATUS,
+    status
+});
+
+export {
+    UPDATE_CUSTOMER_SIGN_IN_STATUS,
+    UPDATE_CUSTOMER_DETAILS,
+    UPDATE_CUSTOMER_PASSWORD_RESET_STATUS,
+    updateCustomerSignInStatus,
+    updateCustomerDetails,
+    updateCustomerPasswordResetStatus
+};

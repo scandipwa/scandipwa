@@ -28,7 +28,9 @@ class MyAccount extends Component {
         super(props);
 
         this.state = {
-            state: STATE_SIGN_IN
+            state: STATE_SIGN_IN,
+            isHovered: false,
+            isOpen: false
         };
 
         this.renderMap = {
@@ -56,7 +58,7 @@ class MyAccount extends Component {
     }
 
     renderButton() {
-        const { state, isOpen } = this.state;
+        const { state, isOpen, isHovered } = this.state;
         const actionText = state === STATE_LOGGED_IN
             ? 'Hello, User'
             : 'My Account';
@@ -66,7 +68,8 @@ class MyAccount extends Component {
               type="submit"
               block="MyAccount"
               elem="Button"
-              mods={ { isOpen } }
+              ref={ this.button }
+              mods={ { isOpen, isHovered } }
               onClick={ () => this.goBackToDefault() }
             >
                 <i
@@ -83,7 +86,13 @@ class MyAccount extends Component {
         const renderFunction = this.renderMap[state];
 
         return (
-            <div block="MyAccount" elem="Dropdown" mods={ { state } }>
+            <div
+              block="MyAccount"
+              elem="Dropdown"
+              mods={ { state } }
+              onMouseEnter={ () => this.setState({ isHovered: true }) }
+              onMouseLeave={ () => this.setState({ isHovered: false }) }
+            >
                 <div block="MyAccount" elem="Action" mods={ { state } }>
                     { renderFunction() }
                 </div>

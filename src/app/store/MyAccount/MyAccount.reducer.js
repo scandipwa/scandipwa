@@ -10,31 +10,41 @@
  */
 
 import {
-    UPDATE_SIGN_UP_LOAD_STATUS,
-    UPDATE_SIGN_UP_INFO
+    isSignedIn as isInitiallySignedIn
+} from 'Util/Auth';
+
+import {
+    UPDATE_CUSTOMER_SIGN_IN_STATUS,
+    UPDATE_CUSTOMER_DETAILS,
+    UPDATE_CUSTOMER_PASSWORD_RESET_STATUS
 } from './MyAccount.action';
 
 const initialState = {
-    isLoading: false,
-    data: {}
+    isSignedIn: isInitiallySignedIn(),
+    isPasswordReset: false,
+    customer: {}
 };
 
 const MyAccountReducer = (state = initialState, action) => {
-    switch (action.type) {
-    case UPDATE_SIGN_UP_INFO:
-        const { data: { createCustomer } } = action;
+    const { status, customer } = action;
 
+    switch (action.type) {
+    case UPDATE_CUSTOMER_SIGN_IN_STATUS:
         return {
-            ...state,
-            data: createCustomer
+            isSignedIn: status,
+            ...state
         };
 
-    case UPDATE_SIGN_UP_LOAD_STATUS:
-        const { isLoading } = action;
-
+    case UPDATE_CUSTOMER_PASSWORD_RESET_STATUS:
         return {
-            ...state,
-            isLoading
+            isPasswordReset: status,
+            ...state
+        };
+
+    case UPDATE_CUSTOMER_DETAILS:
+        return {
+            customer,
+            ...state
         };
 
     default:
