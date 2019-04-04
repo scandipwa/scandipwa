@@ -47,6 +47,46 @@ class ProductListQuery {
     }
 
     /**
+     * Prepare grouped product data
+     * @private
+     * @return {Fragment}
+     * @memberof ProductListQuery
+     */
+    _prepareGroupedData() {
+        const amount = new Field('amount')
+            .addField('value')
+            .addField('currency');
+
+        const regularPrice = new Field('regularPrice')
+            .addField(amount);
+
+        const minimalPrice = new Field('minimalPrice')
+            .addField(amount);
+
+        const price = new Field('price')
+            .addField(regularPrice)
+            .addField(minimalPrice);
+
+        const product = new Field('product')
+            .addField('id')
+            .addField('sku')
+            .addField('name')
+            .addField('color')
+            .addField('size')
+            .addField('brand')
+            .addField('shoes_size')
+            .addField('short_description')
+            .addField('image')
+            .addField('thumbnail')
+            .addField(price);
+
+        const itemsGrouped = new Field('items').addField(product);
+
+        return new Fragment('GroupedProduct')
+            .addField(itemsGrouped);
+    }
+
+    /**
      * Prepare argument map
      * @param  {{isSingleProduct: Boolean, search: String, productUrlPath: String, categoryIds: Array<String|Number>, categoryUrlPath: String, activePage: Number, priceRange: {min: Number, max: Number}, sortKey: String, sortDirection: String, productPageSize: Number, customFilters: Object}} options A object containing different aspects of query, each item can be omitted
      * @return {Object}
@@ -262,11 +302,12 @@ class ProductListQuery {
             const mediaGallery = this._prepareAdditionalGallery();
             const tierPrices = this._prepareTierPrice();
             const productLinks = this._prepareAdditionalProductLinks();
+            const groupedProductItems = this._prepareGroupedData();
 
             additionalInformation.push(...[
                 'description', 'meta_title', 'meta_keyword',
                 'meta_description', 'canonical_url',
-                mediaGallery, tierPrices, productLinks
+                mediaGallery, tierPrices, productLinks, groupedProductItems
             ]);
         }
 

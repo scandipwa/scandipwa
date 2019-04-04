@@ -25,6 +25,9 @@ const mapDispatchToProps = dispatch => ({
     },
     updateBreadcrumbs: (breadcrumbs) => {
         BreadcrumbsDispatcher.updateWithProduct(breadcrumbs, dispatch);
+    },
+    clearGroupedProductQuantity: () => {
+        ProductDispatcher.clearGroupedProductQuantity(dispatch);
     }
 });
 
