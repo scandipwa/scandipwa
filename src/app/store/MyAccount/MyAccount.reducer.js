@@ -15,27 +15,33 @@ import {
 
 import {
     UPDATE_CUSTOMER_SIGN_IN_STATUS,
-    UPDATE_CUSTOMER_DETAILS
-} from './MyAccount.dispatcher';
+    UPDATE_CUSTOMER_DETAILS,
+    UPDATE_CUSTOMER_PASSWORD_RESET_STATUS
+} from './MyAccount.action';
 
 const initialState = {
     isSignedIn: isInitiallySignedIn(),
+    isPasswordReset: false,
     customer: {}
 };
 
 const MyAccountReducer = (state = initialState, action) => {
+    const { status, customer } = action;
+
     switch (action.type) {
     case UPDATE_CUSTOMER_SIGN_IN_STATUS:
-        const { status } = action;
-
         return {
             isSignedIn: status,
             ...state
         };
 
-    case UPDATE_CUSTOMER_DETAILS:
-        const { customer } = action;
+    case UPDATE_CUSTOMER_PASSWORD_RESET_STATUS:
+        return {
+            isPasswordReset: status,
+            ...state
+        };
 
+    case UPDATE_CUSTOMER_DETAILS:
         return {
             customer,
             ...state

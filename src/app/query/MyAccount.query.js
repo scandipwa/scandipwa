@@ -17,6 +17,36 @@ import { Field } from 'Util/Query';
  */
 class MyAccount {
     /**
+     * Get Customer query
+     * @param {boolean} withAddress
+     * @returns {Field}
+     * @memberof MyAccount
+     */
+    getCustomer(withAddress) {
+        const customer = new Field('customer')
+            .addField('created_at')
+            .addField('group_id')
+            .addField('prefix')
+            .addField('firstname')
+            .addField('middlename')
+            .addField('lastname')
+            .addField('suffix')
+            .addField('email')
+            .addField('default_billing')
+            .addField('default_shipping')
+            .addField('dob')
+            .addField('taxvat')
+            .addField('id')
+            .addField('is_subscribed');
+
+        this._getAdditionalCustomerFields(customer);
+
+        if (withAddress) customer.addField(this._getAddresses());
+
+        return customer;
+    }
+
+    /**
      * Get ForgotPassword mutation
      * @param {{email: String}} options
      * @returns {Field}
@@ -74,14 +104,14 @@ class MyAccount {
             // For M2 v. 2.3.1
             ? new Field('createCustomer')
                 .addArgument('input', 'CustomerInput!', { input: options })
-                .addField(this._getCustomer(true))
+                .addField(this.getCustomer(true))
             // For M2 v. 2.3.0
             : new Field('createCustomer')
                 .addArgument('customer', 'CreateCustomerInput!', customer)
                 .addArgument('password', 'String!', password)
                 .addField('status')
                 .addField('token')
-                .addField(this._getCustomer(true));
+                .addField(this.getCustomer(true));
     }
 
     /**
@@ -129,36 +159,6 @@ class MyAccount {
      */
     _getAdditionalAddressesFields(addresses) {
         return addresses;
-    }
-
-    /**
-     * Get Customer query
-     * @param {boolean} withAddress
-     * @returns {Field}
-     * @memberof MyAccount
-     */
-    _getCustomer(withAddress) {
-        const customer = new Field('customer')
-            .addField('created_at')
-            .addField('group_id')
-            .addField('prefix')
-            .addField('firstname')
-            .addField('middlename')
-            .addField('lastname')
-            .addField('suffix')
-            .addField('email')
-            .addField('default_billing')
-            .addField('default_shipping')
-            .addField('dob')
-            .addField('taxvat')
-            .addField('id')
-            .addField('is_subscribed');
-
-        this._getAdditionalCustomerFields(customer);
-
-        if (withAddress) customer.addField(this._getAddresses());
-
-        return customer;
     }
 
     /**

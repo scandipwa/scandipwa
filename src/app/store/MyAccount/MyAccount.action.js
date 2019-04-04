@@ -11,6 +11,7 @@
 
 const UPDATE_CUSTOMER_SIGN_IN_STATUS = 'UPDATE_CUSTOMER_SIGN_IN_STATUS';
 const UPDATE_CUSTOMER_DETAILS = 'UPDATE_CUSTOMER_DETAILS';
+const UPDATE_CUSTOMER_PASSWORD_RESET_STATUS = 'UPDATE_CUSTOMER_PASSWORD_RESET_STATUS';
 
 const updateCustomerSignInStatus = status => ({
     type: UPDATE_CUSTOMER_SIGN_IN_STATUS,
@@ -22,9 +23,16 @@ const updateCustomerDetails = customer => ({
     customer
 });
 
+const updateCustomerPasswordResetStatus = status => ({
+    type: UPDATE_CUSTOMER_PASSWORD_RESET_STATUS,
+    status
+});
+
 export {
     UPDATE_CUSTOMER_SIGN_IN_STATUS,
     UPDATE_CUSTOMER_DETAILS,
+    UPDATE_CUSTOMER_PASSWORD_RESET_STATUS,
     updateCustomerSignInStatus,
-    updateCustomerDetails
+    updateCustomerDetails,
+    updateCustomerPasswordResetStatus
 };

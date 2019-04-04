@@ -9,10 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { updateCustomerSignInStatus, updateCustomerDetails, isSignedIn } from 'Store/MyAccount';
+import {
+    updateCustomerSignInStatus,
+    updateCustomerDetails,
+    updateCustomerPasswordResetStatus
+} from 'Store/MyAccount';
 import { QueryDispatcher, fetchMutation } from 'Util/Request';
-import { setAuthorizationToken } from 'Util/Auth';
-import { MyAccount as MyAccountMutations } from 'Query';
+import { setAuthorizationToken, isSignedIn } from 'Util/Auth';
+import { MyAccount } from 'Query';
 
 /**
  * My account actions
@@ -24,6 +28,14 @@ class MyAccountDispatcher extends QueryDispatcher {
         super('MyAccount', 86400);
     }
 
+    prepareRequest(options) {
+        return MyAccount.getCustomer(options);
+    }
+
+    onSuccess({ customer }, dispatch) {
+        dispatch(updateCustomerDetails(customer));
+    }
+
     /**
      * Forgot password action
      * @param {{email: String}} [options={}]
@@ -31,9 +43,9 @@ class MyAccountDispatcher extends QueryDispatcher {
      * @memberof MyAccountDispatcher
      */
     forgotPassword(options = {}) {
-        const mutation = MyAccountMutations.getForgotPasswordMutation(options);
+        const mutation = MyAccount.getForgotPasswordMutation(options);
         // TODO: WHEN IMPLEMENTING ALWAYS RETURN THAT EMAIL WAS SENT!!!
-        return fetchMutation(mutation);
+        fetchMutation(mutation);
     }
 
     /**
@@ -42,9 +54,12 @@ class MyAccountDispatcher extends QueryDispatcher {
      * @returns {Promise<{status: String}>} Reset password token
      * @memberof MyAccountDispatcher
      */
-    resetPassword(options = {}) {
-        const mutation = MyAccountMutations.getResetPasswordMutation(options);
-        return fetchMutation(mutation);
+    resetPassword(options = {}, dispatch) {
+        const mutation = MyAccount.getResetPasswordMutation(options);
+        fetchMutation(mutation).then(
+            ({ status }) => dispatch(updateCustomerPasswordResetStatus(status)),
+            error => console.log(error)
+        );
     }
 
     /**
@@ -53,7 +68,7 @@ class MyAccountDispatcher extends QueryDispatcher {
      * @memberof MyAccountDispatcher
      */
     createAccount(options = {}, dispatch) {
-        const mutation = MyAccountMutations.getCreateAccountMutation(options);
+        const mutation = MyAccount.getCreateAccountMutation(options);
 
         fetchMutation(mutation).then(
             ({ customer }) => {
@@ -70,7 +85,7 @@ class MyAccountDispatcher extends QueryDispatcher {
      * @memberof MyAccountDispatcher
      */
     signIn(options = {}, dispatch) {
-        const mutation = MyAccountMutations.getSignInMutation(options);
+        const mutation = MyAccount.getSignInMutation(options);
 
         fetchMutation(mutation).then(
             ({ token }) => {
