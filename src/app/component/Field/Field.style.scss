@@ -16,12 +16,14 @@
         padding-bottom: .3rem;
         font-weight: 700;
         font-size: 1.05rem;
+        pointer-events: none;
     }
 
     &-Message {
         margin-bottom: -.1em;
         font-size: 1.05rem;
         font-weight: 600;
+        color: var(--color-primary-dark);
     }
 
     &-Note {
@@ -29,6 +31,9 @@
         font-size: 1.0rem;
         font-weight: 600;
         color: var(--field-note);
+        opacity: 0;
+        height: 0;
+        transition: height 0.1s ease-in, opacity 0.1s linear;
     }
 
     &-Note::before {
@@ -51,5 +56,15 @@
         .Field-Message {
             color: var(--field-error);
         }
+    }
+
+    ::placeholder {
+        color: var(--field-note);
+        font-size: 0.9rem;
+    }
+
+    input:focus + .Field-Note{
+        opacity: 1;
+        height: 100%;
     }
 }

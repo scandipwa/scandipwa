@@ -17,18 +17,40 @@ class Form extends Component {
     static updateChildrenRefs(props) {
         const { children: propsChildren } = props;
         const refMap = {};
-        const children = Children.map(propsChildren, (child) => {
-            const { type: { name }, props: { id } } = child;
 
-            if (name === 'Field') {
+        const children = Form.cloneChildren(
+            propsChildren,
+            (child) => {
+                const { props: { id } } = child;
                 refMap[id] = React.createRef();
                 return React.cloneElement(child, { formRef: refMap[id] });
+            }
+        );
+
+        return { children, refMap };
+    }
+
+    // Note: fields at the moment cannot be inside html tag (e.g. fieldset)
+    static cloneChildren(originChildren, fieldCallback) {
+        const executeClone = originChildren => Children.map(originChildren, (child) => {
+            if (child && typeof child === 'object' && child.type && child.props) {
+                const { type: { name }, props: { children } } = child;
+
+                if (name === 'Field') {
+                    return fieldCallback(child);
+                }
+
+                if (typeof children === 'object') {
+                    return React.cloneElement(child, { children: executeClone(children) });
+                }
+
+                return child;
             }
 
             return child;
         });
 
-        return { children, refMap };
+        return executeClone(originChildren);
     }
 
     constructor(props) {
@@ -38,16 +60,6 @@ class Form extends Component {
             ...Form.updateChildrenRefs(props),
             fieldsAreValid: true
         };
-    }
-
-    static getDerivedStateFromProps(props, state) {
-        const { fieldsAreValid } = state;
-        if (fieldsAreValid) return Form.updateChildrenRefs(props);
-        return null;
-    }
-
-    addExtraProps(component, extraProps) {
-        return React.cloneElement(component, { ...extraProps });
     }
 
     validateField(field) {
@@ -79,22 +91,20 @@ class Form extends Component {
 
         e.preventDefault();
 
-        const children = Children.map(propsChildren, (child) => {
-            const { type: { name }, props: { id } } = child;
-
-            if (name === 'Field') {
+        const children = Form.cloneChildren(
+            propsChildren,
+            (child) => {
+                const { props: { id } } = child;
                 const { message } = this.validateField(child);
 
                 if (message) {
                     invalidFields.push(id);
-                    return this.addExtraProps(child, { message, formRef: refMap[id] });
+                    return React.cloneElement(child, { message, formRef: refMap[id] });
                 }
 
-                return this.addExtraProps(child, { formRef: refMap[id] });
+                return React.cloneElement(child, { formRef: refMap[id] });
             }
-
-            return child;
-        });
+        );
 
         this.setState({ children, fieldsAreValid: !invalidFields.length });
 
