@@ -10,11 +10,13 @@
  */
 
 import {
-    UPDATE_PRODUCT_DETAILS
+    UPDATE_PRODUCT_DETAILS,
+    UPDATE_GROUPED_PRODUCT_QUANTITY
 } from './Product.action';
 
 const initialState = {
-    product: {}
+    product: {},
+    groupedProductQuantity: {}
 };
 
 const ProductReducer = (state = initialState, action) => {
@@ -26,6 +28,20 @@ const ProductReducer = (state = initialState, action) => {
             ...state,
             product,
             filters
+        };
+
+    case UPDATE_GROUPED_PRODUCT_QUANTITY:
+        const newQuantity = {};
+        const { product: { id }, quantity } = action;
+
+        newQuantity[id] = quantity;
+
+        return {
+            ...state,
+            groupedProductQuantity: {
+                ...state.groupedProductQuantity,
+                ...newQuantity
+            }
         };
 
     default:

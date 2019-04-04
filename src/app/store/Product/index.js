@@ -13,12 +13,20 @@ import ProductReducer from './Product.reducer';
 import ProductDispatcher from './Product.dispatcher';
 import {
     UPDATE_PRODUCT_DETAILS,
-    updateProductDetails
+    UPDATE_GROUPED_PRODUCT_QUANTITY,
+    CLEAR_GROUPED_PRODUCT_QUANTITY,
+    updateProductDetails,
+    updateGroupedProductQuantity,
+    clearGroupedProductQuantity
 } from './Product.action';
 
 export {
     ProductReducer,
     ProductDispatcher,
     UPDATE_PRODUCT_DETAILS,
-    updateProductDetails
+    UPDATE_GROUPED_PRODUCT_QUANTITY,
+    CLEAR_GROUPED_PRODUCT_QUANTITY,
+    updateProductDetails,
+    updateGroupedProductQuantity,
+    clearGroupedProductQuantity
 };
