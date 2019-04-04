@@ -9,9 +9,24 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { getAuthorizationToken } from 'Util/Auth';
 import { hash } from './Hash';
 
 const GRAPHQL_URI = '/graphql';
+
+/**
+ * Append authorization token to header object
+ * @param {Object} headers
+ * @returns {Object} Headers with appended authorization
+ */
+const appendTokenToHeaders = (headers) => {
+    const token = getAuthorizationToken();
+
+    return {
+        ...headers,
+        Authorization: token ? `Bearer ${token}` : ''
+    };
+};
 
 /**
  *
@@ -43,11 +58,11 @@ const formatURI = (query, variables, url) => {
 const getFetch = (uri, name) => fetch(uri,
     {
         method: 'GET',
-        headers: {
+        headers: appendTokenToHeaders({
             'Content-Type': 'application/json',
             'Application-Model': name,
             Accept: 'application/json'
-        }
+        })
     });
 
 /**
@@ -77,9 +92,10 @@ const postFetch = (graphQlURI, query, variables) => fetch(graphQlURI,
     {
         method: 'POST',
         body: JSON.stringify({ query, variables }),
-        headers: {
-            'Content-Type': 'application/json'
-        }
+        headers: appendTokenToHeaders({
+            'Content-Type': 'application/json',
+            Accept: 'application/json'
+        })
     });
 
 /**

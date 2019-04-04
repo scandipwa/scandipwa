@@ -26,7 +26,7 @@ For this functional we have created a helper utility.
 
 ## Public API
     
-Request exports object with 5 helpers: `ActionDispatcher`, `QueryDispatcher`, `executePost`, `executeGet`, `listenForBroadCast`. The `executePost`, `executeGet`, `listenForBroadCast` are for communicating with BE. The `QueryDispatcher` and `ActionDispatcher` is an abstract dispatcher with a build in interface to communicate with BE.
+Request exports object with 5 helpers: `ActionDispatcher`, `fetchMutation`, `executePost`, `executeGet`, `listenForBroadCast`. The `executePost`, `executeGet`, `listenForBroadCast`, `fetchMutation` are for communicating with BE. The `QueryDispatcher` is an abstract dispatcher with a build in interface to communicate with BE.
 
 ### `executeGet(queryObject, name, TTL)`
 
@@ -153,8 +153,10 @@ This abstraction is helpful when requesting a GraphQL queries from BE. The `Quer
 
 <hr />
 
-## `MutationDispatcher`
+### `fetchMutation(rawMutations)`
 
-### Enclosed API (internal functions)
+Helpful when fetching mutations
 
-- `executeFetch` – execute POST based on passed mutation.
+#### rawMutations:
+
+- **description**: instance of Field or an array of instances of Field

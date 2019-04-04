@@ -1,12 +1,17 @@
-import { ActionDispatcher } from 'Util/Request';
+import { QueryDispatcher, fetchMutation } from 'Util/Request';
+import { setAuthorizationToken } from 'Util/Auth';
 import { MyAccount as MyAccountMutations } from 'Query';
 
 /**
  * My account actions
  * @class MyAccount
- * @extends {ActionDispatcher}
+ * @extends {QueryDispatcher}
  */
-class MyAccount extends ActionDispatcher {
+class MyAccount extends QueryDispatcher {
+    constructor() {
+        super('MyAccount', 86400);
+    }
+
     /**
      * Forgot password action
      * @param {{email: String}} [options={}]
@@ -15,7 +20,7 @@ class MyAccount extends ActionDispatcher {
     forgotPassword(options = {}) {
         const mutation = MyAccountMutations.getForgotPasswordMutation(options);
 
-        this.executeFetch(mutation).then(
+        fetchMutation(mutation).then(
             data => console.log(data),
             error => console.log(error)
         );
@@ -29,7 +34,7 @@ class MyAccount extends ActionDispatcher {
     resetPassword(options = {}) {
         const mutation = MyAccountMutations.getResetPasswordMutation(options);
 
-        this.executeFetch(mutation).then(
+        fetchMutation(mutation).then(
             data => console.log(data),
             error => console.log(error)
         );
@@ -43,7 +48,7 @@ class MyAccount extends ActionDispatcher {
     createAccount(options = {}) {
         const mutation = MyAccountMutations.getCreateAccountMutation(options);
 
-        this.executeFetch(mutation).then(
+        fetchMutation(mutation).then(
             data => console.log(data),
             error => console.log(error)
         );
@@ -57,8 +62,12 @@ class MyAccount extends ActionDispatcher {
     signIn(options = {}) {
         const mutation = MyAccountMutations.getSignInMutation(options);
 
-        this.executeFetch(mutation).then(
-            data => console.log(data),
+        fetchMutation(mutation).then(
+            ({ token }) => {
+                // TODO: TEST
+                setAuthorizationToken(token);
+                // dispatch user authorized action
+            },
             error => console.log(error)
         );
     }

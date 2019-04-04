@@ -15,12 +15,12 @@ import {
     executeGet
 } from './Request';
 import QueryDispatcher from './QueryDispatcher';
-import ActionDispatcher from './ActionDispatcher';
+import { fetchMutation } from './Mutation';
 
 export {
     listenForBroadCast,
     QueryDispatcher,
-    ActionDispatcher,
+    fetchMutation,
     executePost,
     executeGet
 };

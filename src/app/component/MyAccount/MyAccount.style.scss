@@ -56,10 +56,16 @@
         }
 
         &_isHovered {
-            --button-background: var(--color-primary-light);;
+            @include after-mobile {
+                --button-background: var(--color-primary-light);
+            }
         }
 
         &_isOpen {
+            @include after-mobile {
+                --button-background: var(--color-primary-light);
+            }
+
             + .MyAccount-Dropdown {
                 @include mobile {
                     transform: scaleY(1);
