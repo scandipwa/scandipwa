@@ -17,6 +17,7 @@
     border: 1px solid var(--card-highlight-color);
     text-align: center;
     padding-left: 0;
+    min-width: 0;
 
     &:hover {
         --card-highlight-color: var(--color-neutral-light);
@@ -74,9 +75,9 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        max-width: 100%;
 
         @include mobile {
-            max-width: 9.5rem;
             font-size: 1rem;
         }
     }

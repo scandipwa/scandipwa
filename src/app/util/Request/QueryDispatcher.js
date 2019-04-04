@@ -57,7 +57,7 @@ class QueryDispatcher {
         );
 
         listenForBroadCast(name).then(
-            data => this.onUpdate(data, dispatch),
+            data => this.onUpdate(data, dispatch, options),
         );
     }
 
@@ -69,8 +69,8 @@ class QueryDispatcher {
      * @return {void}
      * @memberof QueryDispatcher
      */
-    onUpdate(data, dispatch) {
-        this.onSuccess(data, dispatch);
+    onUpdate(data, dispatch, options) {
+        this.onSuccess(data, dispatch, options);
     }
 
     /**
