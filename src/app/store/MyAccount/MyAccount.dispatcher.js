@@ -1,3 +1,15 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+import { updateCustomerSignInStatus, updateCustomerDetails, isSignedIn } from 'Store/MyAccount';
 import { QueryDispatcher, fetchMutation } from 'Util/Request';
 import { setAuthorizationToken } from 'Util/Auth';
 import { MyAccount as MyAccountMutations } from 'Query';
@@ -7,7 +19,7 @@ import { MyAccount as MyAccountMutations } from 'Query';
  * @class MyAccount
  * @extends {QueryDispatcher}
  */
-class MyAccount extends QueryDispatcher {
+class MyAccountDispatcher extends QueryDispatcher {
     constructor() {
         super('MyAccount', 86400);
     }
@@ -15,41 +27,39 @@ class MyAccount extends QueryDispatcher {
     /**
      * Forgot password action
      * @param {{email: String}} [options={}]
-     * @memberof MyAccount
+     * @returns {Promise<{status: String}>} Reset password token
+     * @memberof MyAccountDispatcher
      */
     forgotPassword(options = {}) {
         const mutation = MyAccountMutations.getForgotPasswordMutation(options);
-
-        fetchMutation(mutation).then(
-            data => console.log(data),
-            error => console.log(error)
-        );
+        // TODO: WHEN IMPLEMENTING ALWAYS RETURN THAT EMAIL WAS SENT!!!
+        return fetchMutation(mutation);
     }
 
     /**
      * Reset password action
      * @param {{token: String, password: String, password_confirmation: String}} [options={}]
-     * @memberof MyAccount
+     * @returns {Promise<{status: String}>} Reset password token
+     * @memberof MyAccountDispatcher
      */
     resetPassword(options = {}) {
         const mutation = MyAccountMutations.getResetPasswordMutation(options);
-
-        fetchMutation(mutation).then(
-            data => console.log(data),
-            error => console.log(error)
-        );
+        return fetchMutation(mutation);
     }
 
     /**
      * Create account action
      * @param {{customer: Object, password: String}} [options={}]
-     * @memberof MyAccount
+     * @memberof MyAccountDispatcher
      */
-    createAccount(options = {}) {
+    createAccount(options = {}, dispatch) {
         const mutation = MyAccountMutations.getCreateAccountMutation(options);
 
         fetchMutation(mutation).then(
-            data => console.log(data),
+            ({ customer }) => {
+                this.signIn(options, dispatch);
+                dispatch(updateCustomerDetails(customer));
+            },
             error => console.log(error)
         );
     }
@@ -57,20 +67,20 @@ class MyAccount extends QueryDispatcher {
     /**
      * Sign in action
      * @param {{email: String, password: String}} [options={}]
-     * @memberof MyAccount
+     * @memberof MyAccountDispatcher
      */
-    signIn(options = {}) {
+    signIn(options = {}, dispatch) {
         const mutation = MyAccountMutations.getSignInMutation(options);
 
         fetchMutation(mutation).then(
             ({ token }) => {
                 // TODO: TEST
                 setAuthorizationToken(token);
-                // dispatch user authorized action
+                dispatch(updateCustomerSignInStatus(isSignedIn()));
             },
             error => console.log(error)
         );
     }
 }
 
-export default new MyAccount();
+export default new MyAccountDispatcher();
