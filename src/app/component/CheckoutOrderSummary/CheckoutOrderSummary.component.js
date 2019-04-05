@@ -86,7 +86,7 @@ class CheckoutOrderSummary extends Component {
      * @returns {*}
      */
     render() {
-        const { isItemListOpen } = this.state;
+        const { isItemListOpen } = this.state; //@TODO implement open close
         const {
             totals: { grandTotalPrice },
             products,

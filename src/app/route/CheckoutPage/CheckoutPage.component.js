@@ -176,7 +176,6 @@ class CheckoutPage extends Component {
                     wrapperMix={ { block: 'CheckoutPage', elem: 'Wrapper' } }
                     label="Checkout page"
                 >
-
                     <div
                      block="CheckoutPage"
                      elem="CheckoutSteps"
@@ -198,8 +197,8 @@ class CheckoutPage extends Component {
                                         label="Email Address"
                                         note="You can create an account after checkout."
                                         value={ email }
-                                        onChange={ email => this.setState({ email: email }) }
                                         validation={ ['notEmpty', 'email'] }
+                                        onChange={ email => this.setState({ email: email }) }
                                     />
                                 </fieldset>
 
@@ -213,6 +212,7 @@ class CheckoutPage extends Component {
                                         placeholder=""
                                         label="First Name"
                                         value={ shippingAddress.firstname }
+                                        validation={ ['notEmpty'] }
                                         onChange={ firstname => this.setState({
                                             shippingAddress: {
                                                 ...this.state.shippingAddress,
@@ -229,6 +229,7 @@ class CheckoutPage extends Component {
                                         placeholder=""
                                         label="Last Name"
                                         value={ shippingAddress.lastname }
+                                        validation={ ['notEmpty'] }
                                         onChange={ lastname => this.setState({
                                             shippingAddress: {
                                                 ...this.state.shippingAddress,
@@ -261,6 +262,7 @@ class CheckoutPage extends Component {
                                         placeholder=""
                                         label="Street Address"
                                         value={ shippingAddress.street[0] }
+                                        validation={ ['notEmpty'] }
                                         onChange={ street => this.setState({
                                             shippingAddress: {
                                                 ...this.state.shippingAddress,
@@ -292,6 +294,7 @@ class CheckoutPage extends Component {
                                         placeholder=""
                                         label="City"
                                         value={ shippingAddress.city }
+                                        validation={ ['notEmpty'] }
                                         onChange={ city => this.setState({
                                             shippingAddress: {
                                                 ...this.state.shippingAddress,
@@ -308,6 +311,7 @@ class CheckoutPage extends Component {
                                         placeholder=""
                                         label="State"
                                         value={ shippingAddress.state }
+                                        validation={ ['notEmpty'] }
                                         onChange={ state => this.setState({
                                             shippingAddress: {
                                                 ...this.state.shippingAddress,
@@ -324,6 +328,7 @@ class CheckoutPage extends Component {
                                         placeholder=""
                                         label="Postal Code"
                                         value={ shippingAddress.zip }
+                                        validation={ ['notEmpty'] }
                                         onChange={ zip => this.setState({
                                             shippingAddress: {
                                                 ...this.state.shippingAddress,
@@ -340,6 +345,7 @@ class CheckoutPage extends Component {
                                         placeholder=""
                                         value={ shippingAddress.country }
                                         label="Country"
+                                        validation={ ['notEmpty'] }
                                         onChange={ country => this.setState({
                                             shippingAddress: {
                                                 ...this.state.shippingAddress,
@@ -356,6 +362,7 @@ class CheckoutPage extends Component {
                                         placeholder=""
                                         label="Phone Number"
                                         value={ shippingAddress.phone }
+                                        validation={ ['notEmpty', 'telephone'] }
                                         onChange={ phone => this.setState({
                                             shippingAddress: {
                                                 ...this.state.shippingAddress,
@@ -434,6 +441,7 @@ class CheckoutPage extends Component {
                                                     placeholder=""
                                                     label="First Name"
                                                     value={ billingAddress.firstname }
+                                                    validation={ ['notEmpty'] }
                                                     onChange={ firstname => this.setState({
                                                         billingAddress: {
                                                             ...this.state.billingAddress,
@@ -450,6 +458,7 @@ class CheckoutPage extends Component {
                                                     placeholder=""
                                                     label="Last Name"
                                                     value={ billingAddress.lastname }
+                                                    validation={ ['notEmpty'] }
                                                     onChange={ lastname => this.setState({
                                                         billingAddress: {
                                                             ...this.state.billingAddress,
@@ -482,6 +491,7 @@ class CheckoutPage extends Component {
                                                     placeholder=""
                                                     label="Street Address"
                                                     value={ billingAddress.street[0] }
+                                                    validation={ ['notEmpty'] }
                                                     onChange={ street => this.setState({
                                                         billingAddress: {
                                                             ...this.state.billingAddress,
@@ -513,6 +523,7 @@ class CheckoutPage extends Component {
                                                     placeholder=""
                                                     label="City"
                                                     value={ billingAddress.city }
+                                                    validation={ ['notEmpty'] }
                                                     onChange={ city => this.setState({
                                                         billingAddress: {
                                                             ...this.state.billingAddress,
@@ -529,6 +540,7 @@ class CheckoutPage extends Component {
                                                     placeholder=""
                                                     label="State"
                                                     value={ billingAddress.state }
+                                                    validation={ ['notEmpty'] }
                                                     onChange={ state => this.setState({
                                                         billingAddress: {
                                                             ...this.state.billingAddress,
@@ -545,6 +557,7 @@ class CheckoutPage extends Component {
                                                     placeholder=""
                                                     label="Postal Code"
                                                     value={ billingAddress.zip }
+                                                    validation={ ['notEmpty'] }
                                                     onChange={ zip => this.setState({
                                                         billingAddress: {
                                                             ...this.state.billingAddress,
@@ -561,6 +574,7 @@ class CheckoutPage extends Component {
                                                     placeholder=""
                                                     label="Country"
                                                     value={ billingAddress.country }
+                                                    validation={ ['notEmpty'] }
                                                     onChange={ country => this.setState({
                                                         billingAddress: {
                                                             ...this.state.billingAddress,
@@ -577,6 +591,7 @@ class CheckoutPage extends Component {
                                                     placeholder=""
                                                     label="Phone Number"
                                                     value={ billingAddress.phone }
+                                                    validation={ ['notEmpty', 'telephone'] }
                                                     onChange={ phone => this.setState({
                                                         billingAddress: {
                                                             ...this.state.billingAddress,
