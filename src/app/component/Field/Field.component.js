@@ -101,8 +101,9 @@ class Field extends Component {
             type,
             min
         } = this.props;
+        const isValueNaN = Number.isNaN(parseInt(value, 10));
 
-        if (type === NUMBER_TYPE && value < min) {
+        if (type === NUMBER_TYPE && (value < min || isValueNaN)) {
             return;
         }
 
