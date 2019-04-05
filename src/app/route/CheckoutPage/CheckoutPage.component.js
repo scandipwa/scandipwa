@@ -13,6 +13,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ContentWrapper from 'Component/ContentWrapper';
 import Field from 'Component/Field';
+import Form from 'Component/Form';
 import ProductPrice from 'Component/ProductPrice';
 import Image from 'Component/Image';
 import CheckoutOrderSummary from 'Component/CheckoutOrderSummary';
@@ -107,7 +108,7 @@ class CheckoutPage extends Component {
         const { shippingMethod } = this.state;
 
         return (
-            <tr key={ identifier }>
+            <tr key={ identifier } onClick={ () => this.setState({ shippingMethod: identifier }) }>
                 <td>
                     <Field
                         id={ identifier }
@@ -130,7 +131,7 @@ class CheckoutPage extends Component {
     renderPaymentMethod(index, data) {
         const { paymentMethod } = this.state;
         return (
-            <tr key={ index }>
+            <tr key={ index } onClick={ () => this.setState({ paymentMethod: index }) }>
                 <td>
                     <Field
                         id={ index }
@@ -186,8 +187,8 @@ class CheckoutPage extends Component {
 
                         { checkoutStep === CHECKOUT_STEP_SHIPPING ? (
                             <div block="checkoutStep" elem="shippingStep">
-                                <h3>Email Address</h3>
-                                <div block="checkoutFieldset" elem="email">
+                                <fieldset block="CheckoutStep" elem="legend">
+                                    <legend>Email Address</legend>
                                     <Field
                                         id="email"
                                         type="text"
@@ -198,11 +199,12 @@ class CheckoutPage extends Component {
                                         note="You can create an account after checkout."
                                         value={ email }
                                         onChange={ email => this.setState({ email: email }) }
+                                        validation={ ['notEmpty', 'email'] }
                                     />
-                                </div>
+                                </fieldset>
 
-                                <h3>Shipping Address</h3>
-                                <div block="checkoutFieldset" elem="shippingAddress">
+                                <fieldset block="CheckoutStep" elem="legend">
+                                    <legend>Shipping Address</legend>
                                     <Field
                                         id="firstname"
                                         type="text"
@@ -361,17 +363,18 @@ class CheckoutPage extends Component {
                                             }
                                         }) }
                                     />
-                                </div>
+                                </fieldset>
 
-
-                                <h3>Shipping Method</h3>
-                                <table>
-                                    <tbody>
-                                    { Object.keys(shippingMethods).map((index) => {
-                                        return this.renderShippingMethod(index, shippingMethods[index]);
-                                    }) }
-                                    </tbody>
-                                </table>
+                                <fieldset block="CheckoutStep" elem="legend">
+                                    <legend>Shipping Method</legend>
+                                    <table block="CheckoutStep" elem="OptionsTable">
+                                        <tbody>
+                                        { Object.keys(shippingMethods).map((index) => {
+                                            return this.renderShippingMethod(index, shippingMethods[index]);
+                                        }) }
+                                        </tbody>
+                                    </table>
+                                </fieldset>
 
                                 <button
                                     onClick={ () => this.setState({ checkoutStep: CHECKOUT_STEP_REVIEW_AND_PAYMENTS }) }>
@@ -382,210 +385,212 @@ class CheckoutPage extends Component {
 
                         ) : (
                             <div block="checkoutStep" elem="reviewAndPayments">
-                                <h3>Payment Method</h3>
-                                <table>
-                                    <tbody>
-                                    { Object.keys(paymentMethods).map((index) => {
-                                        return this.renderPaymentMethod(index, paymentMethods[index]);
-                                    }) }
-                                    </tbody>
-                                </table>
+                                <fieldset block="CheckoutStep" elem="legend">
+                                    <legend>Payment Method</legend>
+                                    <table block="CheckoutStep" elem="OptionsTable">
+                                        <tbody>
+                                        { Object.keys(paymentMethods).map((index) => {
+                                            return this.renderPaymentMethod(index, paymentMethods[index]);
+                                        }) }
+                                        </tbody>
+                                    </table>
+                                </fieldset>
 
-                                <h3>Billing Address</h3>
+                                <fieldset block="CheckoutStep" elem="legend">
+                                    <legend>Billing Address</legend>
 
-                                <Field
-                                    id="sameAsShippingAddress"
-                                    type="checkbox"
-                                    block="billingAddress"
-                                    elem="sameAsShippingAddressCheckbox"
-                                    label="My billing and shipping address are the same"
-                                    value={ billingIsSame }
-                                    checked={ billingIsSame }
-                                    onChange={ () => this.setState({ billingIsSame: !billingIsSame }) }
-                                />
+                                    <Field
+                                        id="sameAsShippingAddress"
+                                        type="checkbox"
+                                        block="billingAddress"
+                                        elem="sameAsShippingAddressCheckbox"
+                                        label="My billing and shipping address are the same"
+                                        value={ billingIsSame }
+                                        checked={ billingIsSame }
+                                        onChange={ () => this.setState({ billingIsSame: !billingIsSame }) }
+                                    />
+                                </fieldset>
 
-                                { billingIsSame ? (
-                                    <address>
-                                        { `${ shippingAddress.firstname } ${ shippingAddress.lastname }` }<br/>
-                                        { shippingAddress.company }<br/>
-                                        { shippingAddress.street[0] }<br/>
-                                        { shippingAddress.street[1] }<br/>
-                                        { shippingAddress.city }<br/>
-                                        { shippingAddress.state }<br/>
-                                        { shippingAddress.zip }<br/>
-                                        { shippingAddress.country }<br/>
-                                        { shippingAddress.phone }<br/>
-                                    </address>
-                                ) : (
-                                    <div>
-                                        <h3>Billing Address</h3>
-                                        <div block="checkoutFieldset" elem="billingAddress">
-                                            <Field
-                                                id="firstname"
-                                                type="text"
-                                                block="checkoutFieldset"
-                                                elem="firstname"
-                                                placeholder=""
-                                                label="First Name"
-                                                value={ billingAddress.firstname }
-                                                onChange={ firstname => this.setState({
-                                                    billingAddress: {
-                                                        ...this.state.billingAddress,
-                                                        firstname: firstname
-                                                    }
-                                                }) }
-                                            />
+                                    { billingIsSame ? (
+                                        <address>
+                                            { `${ shippingAddress.firstname } ${ shippingAddress.lastname }` }<br/>
+                                            { shippingAddress.company }<br/>
+                                            { shippingAddress.street[0] }<br/>
+                                            { shippingAddress.street[1] }<br/>
+                                            { shippingAddress.city }<br/>
+                                            { shippingAddress.state }<br/>
+                                            { shippingAddress.zip }<br/>
+                                            { shippingAddress.country }<br/>
+                                            { shippingAddress.phone }<br/>
+                                        </address>
+                                    ) : (
+                                        <div>
+                                            <fieldset block="CheckoutStep" elem="legend">
+                                                <Field
+                                                    id="firstname"
+                                                    type="text"
+                                                    block="checkoutFieldset"
+                                                    elem="firstname"
+                                                    placeholder=""
+                                                    label="First Name"
+                                                    value={ billingAddress.firstname }
+                                                    onChange={ firstname => this.setState({
+                                                        billingAddress: {
+                                                            ...this.state.billingAddress,
+                                                            firstname: firstname
+                                                        }
+                                                    }) }
+                                                />
 
-                                            <Field
-                                                id="lastname"
-                                                type="text"
-                                                block="checkoutFieldset"
-                                                elem="lastname"
-                                                placeholder=""
-                                                label="Last Name"
-                                                value={ billingAddress.lastname }
-                                                onChange={ lastname => this.setState({
-                                                    billingAddress: {
-                                                        ...this.state.billingAddress,
-                                                        lastname: lastname
-                                                    }
-                                                }) }
-                                            />
+                                                <Field
+                                                    id="lastname"
+                                                    type="text"
+                                                    block="checkoutFieldset"
+                                                    elem="lastname"
+                                                    placeholder=""
+                                                    label="Last Name"
+                                                    value={ billingAddress.lastname }
+                                                    onChange={ lastname => this.setState({
+                                                        billingAddress: {
+                                                            ...this.state.billingAddress,
+                                                            lastname: lastname
+                                                        }
+                                                    }) }
+                                                />
 
-                                            <Field
-                                                id="company"
-                                                type="text"
-                                                block="checkoutFieldset"
-                                                elem="company"
-                                                placeholder=""
-                                                label="Company"
-                                                value={ billingAddress.company }
-                                                onChange={ company => this.setState({
-                                                    billingAddress: {
-                                                        ...this.state.billingAddress,
-                                                        company: company
-                                                    }
-                                                }) }
-                                            />
+                                                <Field
+                                                    id="company"
+                                                    type="text"
+                                                    block="checkoutFieldset"
+                                                    elem="company"
+                                                    placeholder=""
+                                                    label="Company"
+                                                    value={ billingAddress.company }
+                                                    onChange={ company => this.setState({
+                                                        billingAddress: {
+                                                            ...this.state.billingAddress,
+                                                            company: company
+                                                        }
+                                                    }) }
+                                                />
 
-                                            <Field
-                                                id="street0"
-                                                type="text"
-                                                block="checkoutFieldset"
-                                                elem="street0"
-                                                placeholder=""
-                                                label="Street Address"
-                                                value={ billingAddress.street[0] }
-                                                onChange={ street => this.setState({
-                                                    billingAddress: {
-                                                        ...this.state.billingAddress,
-                                                        street: { ...this.state.billingAddress.street, 0: street }
-                                                    }
-                                                }) }
-                                            />
+                                                <Field
+                                                    id="street0"
+                                                    type="text"
+                                                    block="checkoutFieldset"
+                                                    elem="street0"
+                                                    placeholder=""
+                                                    label="Street Address"
+                                                    value={ billingAddress.street[0] }
+                                                    onChange={ street => this.setState({
+                                                        billingAddress: {
+                                                            ...this.state.billingAddress,
+                                                            street: { ...this.state.billingAddress.street, 0: street }
+                                                        }
+                                                    }) }
+                                                />
 
-                                            <Field
-                                                id="street1"
-                                                type="text"
-                                                block="checkoutFieldset"
-                                                elem="street1"
-                                                placeholder=""
-                                                value={ billingAddress.street[1] }
-                                                onChange={ street => this.setState({
-                                                    billingAddress: {
-                                                        ...this.state.billingAddress,
-                                                        street: { ...this.state.billingAddress.street, 1: street }
-                                                    }
-                                                }) }
-                                            />
+                                                <Field
+                                                    id="street1"
+                                                    type="text"
+                                                    block="checkoutFieldset"
+                                                    elem="street1"
+                                                    placeholder=""
+                                                    value={ billingAddress.street[1] }
+                                                    onChange={ street => this.setState({
+                                                        billingAddress: {
+                                                            ...this.state.billingAddress,
+                                                            street: { ...this.state.billingAddress.street, 1: street }
+                                                        }
+                                                    }) }
+                                                />
 
-                                            <Field
-                                                id="city"
-                                                type="text"
-                                                block="checkoutFieldset"
-                                                elem="city"
-                                                placeholder=""
-                                                label="City"
-                                                value={ billingAddress.city }
-                                                onChange={ city => this.setState({
-                                                    billingAddress: {
-                                                        ...this.state.billingAddress,
-                                                        city: city
-                                                    }
-                                                }) }
-                                            />
+                                                <Field
+                                                    id="city"
+                                                    type="text"
+                                                    block="checkoutFieldset"
+                                                    elem="city"
+                                                    placeholder=""
+                                                    label="City"
+                                                    value={ billingAddress.city }
+                                                    onChange={ city => this.setState({
+                                                        billingAddress: {
+                                                            ...this.state.billingAddress,
+                                                            city: city
+                                                        }
+                                                    }) }
+                                                />
 
-                                            <Field
-                                                id="state"
-                                                type="text"
-                                                block="checkoutFieldset"
-                                                elem="state"
-                                                placeholder=""
-                                                label="State"
-                                                value={ billingAddress.state }
-                                                onChange={ state => this.setState({
-                                                    billingAddress: {
-                                                        ...this.state.billingAddress,
-                                                        state: state
-                                                    }
-                                                }) }
-                                            />
+                                                <Field
+                                                    id="state"
+                                                    type="text"
+                                                    block="checkoutFieldset"
+                                                    elem="state"
+                                                    placeholder=""
+                                                    label="State"
+                                                    value={ billingAddress.state }
+                                                    onChange={ state => this.setState({
+                                                        billingAddress: {
+                                                            ...this.state.billingAddress,
+                                                            state: state
+                                                        }
+                                                    }) }
+                                                />
 
-                                            <Field
-                                                id="zip"
-                                                type="text"
-                                                block="checkoutFieldset"
-                                                elem="zip"
-                                                placeholder=""
-                                                label="Postal Code"
-                                                value={ billingAddress.zip }
-                                                onChange={ zip => this.setState({
-                                                    billingAddress: {
-                                                        ...this.state.billingAddress,
-                                                        zip: zip
-                                                    }
-                                                }) }
-                                            />
+                                                <Field
+                                                    id="zip"
+                                                    type="text"
+                                                    block="checkoutFieldset"
+                                                    elem="zip"
+                                                    placeholder=""
+                                                    label="Postal Code"
+                                                    value={ billingAddress.zip }
+                                                    onChange={ zip => this.setState({
+                                                        billingAddress: {
+                                                            ...this.state.billingAddress,
+                                                            zip: zip
+                                                        }
+                                                    }) }
+                                                />
 
-                                            <Field
-                                                id="country"
-                                                type="text"
-                                                block="checkoutFieldset"
-                                                elem="country"
-                                                placeholder=""
-                                                label="Country"
-                                                value={ billingAddress.country }
-                                                onChange={ country => this.setState({
-                                                    billingAddress: {
-                                                        ...this.state.billingAddress,
-                                                        country: country
-                                                    }
-                                                }) }
-                                            />
+                                                <Field
+                                                    id="country"
+                                                    type="text"
+                                                    block="checkoutFieldset"
+                                                    elem="country"
+                                                    placeholder=""
+                                                    label="Country"
+                                                    value={ billingAddress.country }
+                                                    onChange={ country => this.setState({
+                                                        billingAddress: {
+                                                            ...this.state.billingAddress,
+                                                            country: country
+                                                        }
+                                                    }) }
+                                                />
 
-                                            <Field
-                                                id="phone"
-                                                type="text"
-                                                block="checkoutFieldset"
-                                                elem="phone"
-                                                placeholder=""
-                                                label="Phone Number"
-                                                value={ billingAddress.phone }
-                                                onChange={ phone => this.setState({
-                                                    billingAddress: {
-                                                        ...this.state.billingAddress,
-                                                        phone: phone
-                                                    }
-                                                }) }
-                                            />
+                                                <Field
+                                                    id="phone"
+                                                    type="text"
+                                                    block="checkoutFieldset"
+                                                    elem="phone"
+                                                    placeholder=""
+                                                    label="Phone Number"
+                                                    value={ billingAddress.phone }
+                                                    onChange={ phone => this.setState({
+                                                        billingAddress: {
+                                                            ...this.state.billingAddress,
+                                                            phone: phone
+                                                        }
+                                                    }) }
+                                                />
+                                            </fieldset>
                                         </div>
-                                    </div>
-                                ) }
-
+                                    ) }
+                                
                                 <button onClick={ this.placeOrder() }>
                                     Place Order
                                 </button>
-
                             </div>
 
                         ) }
@@ -596,7 +601,6 @@ class CheckoutPage extends Component {
                         products={ products }
                         shippingMethod={ (shippingMethod) ? shippingMethods[shippingMethod] : {} }
                     />
-
                 </ContentWrapper>
             </main>
         );

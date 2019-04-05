@@ -28,6 +28,8 @@ Router controls the mounting of following components:
 
 - `CartPage`, 
 
+- `CheckoutPage`, 
+
 - `NoMatch`. 
 
 At the same time it contains initialization of `Header`, `Footer`, `Breadcrumbs` and `NotificationList` components 
@@ -49,11 +51,12 @@ Below is the routing map:
 | ProductPage       | `/product`  | no        |
 | CmsPage           | `/page/:id` | no        |
 | CartPage          | `/cart`     | yes       |
+| CheckoutPage      | `/checkout` | yes       |
 | NoMatch           | –           | no        | 
 
 > Notice the URL parameter is not set for the `/category` and `/product` – which means **there will be no URL params directly available in URL for `CategoryPage` and `ProductPage` components**. This is done because we would not like to limit the possible category nesting (for example: `/category/main/sub/sub`). We are using `Url` module from `src/app/util/Url` in order to resolve the path.
 
-> The URL param is present in `CmsPage`. We have left it, because it allowed for more "transparent" implementation of CMS page functional. 
+> The URL param is present in `CmsPage`. We have left it, because it allowed for more "transparent" implementation of CMS page functionality. 
 
 This part of the application might be a topic of changes in the future.
 

@@ -12,10 +12,62 @@
 .CheckoutPage {
     &-Wrapper {
         display: grid;
-        grid-template-columns: 60rem auto;
+        grid-template-columns: 2fr 1fr;
         grid-column-gap: 2rem;
         padding-top: 1rem;
+
+        @include mobile {
+            grid-template-columns: 1fr;
+        }
     }
 
+    &-CheckoutSteps {
+        @include mobile {
+            order: 2;
+        }
+    }
 
+    &-Heading {
+        margin: 0 0 2rem;
+    }
+
+    .CheckoutStep {
+        &-legend {
+            margin-bottom: 3rem;
+
+            legend {
+                font-size: 1.7rem;
+                padding: 0 0 1rem;
+                margin: 0 0 1rem;
+                display: block;
+                width: 100%;
+                border-bottom: 1px solid var(--color-summary-divider);
+            }
+
+            input[type=text] {
+                width: 70%;
+
+                @include mobile {
+                    width: 100%;
+                }
+            }
+
+            table {
+                border: none;
+
+                @include mobile {
+                    width: 100%;
+                }
+
+                tr {
+                    background-color: #{color(text, white, true)};
+                    border-bottom: 1px solid var(--color-summary-divider);
+
+                    &:last-of-type {
+                        border-bottom: none;
+                    }
+                }
+            }
+        }
+    }
 }
