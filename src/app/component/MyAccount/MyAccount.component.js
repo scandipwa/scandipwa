@@ -35,8 +35,7 @@ class MyAccount extends Component {
             isOpen: false,
             isLoading: false,
             // eslint-disable-next-line react/no-unused-state
-            isPasswordForgotSend: props.isPasswordForgotSend,
-            notification: ''
+            isPasswordForgotSend: props.isPasswordForgotSend
         };
 
         this.renderMap = {
@@ -50,7 +49,7 @@ class MyAccount extends Component {
     }
 
     static getDerivedStateFromProps(props, state) {
-        const { isSignedIn, isPasswordForgotSend } = props;
+        const { isSignedIn, isPasswordForgotSend, showNotification } = props;
         const { isPasswordForgotSend: currentIsPasswordForgotSend } = state;
         const stateToBeUpdated = {};
 
@@ -62,8 +61,8 @@ class MyAccount extends Component {
         if (isPasswordForgotSend !== currentIsPasswordForgotSend) {
             stateToBeUpdated.isLoading = false;
             stateToBeUpdated.isPasswordForgotSend = isPasswordForgotSend;
-            stateToBeUpdated.notification = `If there is an account associated with the
-            provided address you will receive an email with a link to reset your password.`;
+            showNotification('success', `If there is an account associated with the
+            provided address you will receive an email with a link to reset your password.`);
             stateToBeUpdated.state = STATE_SIGN_IN;
         }
 
@@ -93,12 +92,7 @@ class MyAccount extends Component {
     }
 
     changeState(state) {
-        this.clearNotification();
         this.setState({ state });
-    }
-
-    clearNotification() {
-        this.setState({ notification: '' });
     }
 
     goBackToDefault() {
@@ -132,7 +126,7 @@ class MyAccount extends Component {
     }
 
     renderDropdown() {
-        const { state, notification } = this.state;
+        const { state } = this.state;
         const renderFunction = this.renderMap[state];
 
         return (
@@ -144,12 +138,6 @@ class MyAccount extends Component {
               onMouseLeave={ () => this.setState({ isHovered: false }) }
             >
                 { this.renderLoader() }
-                { notification
-                && (
-                    <div block="MyAccount" elem="Notification">
-                        <p>{ notification }</p>
-                    </div>
-                ) }
                 <div block="MyAccount" elem="Action" mods={ { state } }>
                     { renderFunction() }
                 </div>
