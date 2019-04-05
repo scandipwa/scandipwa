@@ -19,7 +19,7 @@ import { getQueryParam } from 'Util/Url';
 import './PasswordChangePage.style';
 
 const STATUS_PASSOWORD_UPDATED = 'password_updated';
-const STATUS_PASSOWORD_ERROR = 'error';
+const STATUS_PASSOWORD_MISSMATCH = 'passwords_miss_match';
 
 class PasswordChangePage extends Component {
     constructor(props) {
@@ -42,10 +42,16 @@ class PasswordChangePage extends Component {
         if (passwordResetStatus) {
             stateToBeUpdated.isLoading = false;
             stateToBeUpdated.passwordResetStatus = passwordResetStatus;
-            if (passwordResetStatus === 'password_updated') {
+
+            switch (passwordResetStatus) {
+            case STATUS_PASSOWORD_UPDATED:
                 showNotification('success', 'Password has been successfully updated!');
-            } else {
-                showNotification('error', 'Error!');
+                break;
+            case STATUS_PASSOWORD_MISSMATCH:
+                showNotification('error', 'Your password and confirmation password do not match.');
+                break;
+            default:
+                showNotification('error', 'Error! Something went wrong');
             }
         }
 
