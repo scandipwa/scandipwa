@@ -69,6 +69,10 @@ class MyAccount extends Component {
     }
 
     onCreateAccountAttempt(fields, invalidFields) {
+        const { showNotification } = this.props;
+        if (invalidFields) {
+            showNotification('error', 'Incorrect data! Please resolve all field validation errors.');
+        }
         this.setState({ isLoading: !invalidFields });
     }
 
@@ -81,7 +85,7 @@ class MyAccount extends Component {
             lastname,
             is_subscribed
         } = fields;
-        const object = {
+        const customerData = {
             customer: {
                 firstname,
                 lastname,
@@ -90,7 +94,8 @@ class MyAccount extends Component {
             },
             password
         };
-        createAccount(object);
+
+        createAccount(customerData);
     }
 
     changeState(state) {
