@@ -16,12 +16,13 @@ import MyAccount from './MyAccount.component';
 
 const mapStateToProps = state => ({
     isSignedIn: state.MyAccountReducer.isSignedIn,
-    customer: state.MyAccountReducer.customer
+    customer: state.MyAccountReducer.customer,
+    isPasswordForgotSend: state.MyAccountReducer.isPasswordForgotSend
 });
 
 const mapDispatchToProps = dispatch => ({
     forgotPassword(options) {
-        MyAccountDispatcher.forgotPassword(options);
+        MyAccountDispatcher.forgotPassword(options, dispatch);
     },
 
     createAccount(options) {

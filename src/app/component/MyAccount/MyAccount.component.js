@@ -10,6 +10,7 @@
  */
 
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { isSignedIn } from 'Util/Auth';
 import Field from 'Component/Field';
 import Form from 'Component/Form';
@@ -32,7 +33,9 @@ class MyAccount extends Component {
             state: isSignedIn() ? STATE_LOGGED_IN : STATE_SIGN_IN,
             isHovered: false,
             isOpen: false,
-            isLoading: false
+            isLoading: false,
+            // eslint-disable-next-line react/no-unused-state
+            isPasswordForgotSend: props.isPasswordForgotSend
         };
 
         this.renderMap = {
@@ -45,15 +48,22 @@ class MyAccount extends Component {
         this.changeState = this.changeState.bind(this);
     }
 
-    static getDerivedStateFromProps(props) {
-        const { isSignedIn } = props;
+    static getDerivedStateFromProps(props, state) {
+        const { isSignedIn, isPasswordForgotSend, showNotification } = props;
+        const { isPasswordForgotSend: currentIsPasswordForgotSend } = state;
         const stateToBeUpdated = {};
-
-        console.log(isSignedIn);
 
         if (isSignedIn) {
             stateToBeUpdated.isLoading = false;
             stateToBeUpdated.state = STATE_LOGGED_IN;
+        }
+
+        if (isPasswordForgotSend !== currentIsPasswordForgotSend) {
+            stateToBeUpdated.isLoading = false;
+            stateToBeUpdated.isPasswordForgotSend = isPasswordForgotSend;
+            showNotification('success', `If there is an account associated with the
+            provided address you will receive an email with a link to reset your password.`);
+            stateToBeUpdated.state = STATE_SIGN_IN;
         }
 
         return Object.keys(stateToBeUpdated).length ? stateToBeUpdated : null;
@@ -66,6 +76,19 @@ class MyAccount extends Component {
 
     onSignInAttempt() {
         this.setState({ isLoading: true });
+    }
+
+    onForgotPasswordSuccess(fields) {
+        const { forgotPassword } = this.props;
+        forgotPassword(fields);
+    }
+
+    onForgotPasswordAttempt() {
+        this.setState({ isLoading: true });
+    }
+
+    onFormError() {
+        this.setState({ isLoading: false });
     }
 
     changeState(state) {
@@ -137,7 +160,12 @@ class MyAccount extends Component {
     renderForgotPassword() {
         return (
             <>
-                <Form key="forgot-password">
+                <Form
+                  key="forgot-password"
+                  onSubmit={ () => this.onForgotPasswordAttempt() }
+                  onSubmitSuccess={ fields => this.onForgotPasswordSuccess(fields) }
+                  onSubmitError={ () => this.onFormError() }
+                >
                     <h3>Get password reset link</h3>
                     <Field type="text" label="Email" id="email" validation={ ['notEmpty', 'email'] } />
                     <div block="MyAccount" elem="Buttons">
@@ -214,6 +242,7 @@ class MyAccount extends Component {
                   key="sign-in"
                   onSubmit={ () => this.onSignInAttempt() }
                   onSubmitSuccess={ fields => this.onSignInSuccess(fields) }
+                  onSubmitError={ () => this.onFormError() }
                 >
                     <h3>Sign in to your account</h3>
                     <Field
@@ -235,7 +264,7 @@ class MyAccount extends Component {
                 <article block="MyAccount" elem="Additional">
                     <section aria-labelledby="forgot-password-labe">
                         <h4 id="forgot-password-label">Forgot password?</h4>
-                        <a href="#password-reset" onClick={ () => this.changeState(STATE_FORGOT_PASSWORD) }>
+                        <a href="#forgot-password" onClick={ () => this.changeState(STATE_FORGOT_PASSWORD) }>
                             Get a password reset link
                         </a>
                     </section>
@@ -275,5 +304,11 @@ class MyAccount extends Component {
         );
     }
 }
+
+MyAccount.propTypes = {
+    forgotPassword: PropTypes.func.isRequired,
+    signIn: PropTypes.func.isRequired,
+    isPasswordForgotSend: PropTypes.bool.isRequired
+};
 
 export default MyAccount;
