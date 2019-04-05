@@ -68,8 +68,8 @@ class MyAccount extends Component {
         this.setState({ isLoading: true });
     }
 
-    onCreateAccountAttempt() {
-        this.setState({ isLoading: true });
+    onCreateAccountAttempt(fields, invalidFields) {
+        this.setState({ isLoading: !invalidFields });
     }
 
     onCreateAccountSuccess(fields) {
@@ -78,9 +78,18 @@ class MyAccount extends Component {
             password,
             email,
             firstname,
-            lastname
+            lastname,
+            is_subscribed
         } = fields;
-        const object = { customer: { firstname, lastname, email }, password };
+        const object = {
+            customer: {
+                firstname,
+                lastname,
+                email,
+                is_subscribed
+            },
+            password
+        };
         createAccount(object);
     }
 
@@ -99,7 +108,7 @@ class MyAccount extends Component {
     }
 
     renderButton() {
-        const { state, isOpen, isHovered } = this.state;
+        const { isOpen, isHovered } = this.state;
 
         return (
             <button
@@ -183,6 +192,7 @@ class MyAccount extends Component {
                   key="create-account"
                   onSubmit={ () => this.onCreateAccountAttempt() }
                   onSubmitSuccess={ fields => this.onCreateAccountSuccess(fields) }
+                  onSubmitError={ (fields, invalidFields) => this.onCreateAccountAttempt(fields, invalidFields) }
                 >
                     <h3>Create your account</h3>
                     <fieldset block="MyAccount" elem="Legend">

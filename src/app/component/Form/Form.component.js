@@ -118,6 +118,10 @@ class Form extends Component {
             const { current } = input;
             if (current && current.id && current.value) {
                 const { id, value } = current;
+                if (id === 'is_subscribed') {
+                    const boolValue = value === 'true';
+                    return { ...inputValues, [id]: boolValue };
+                }
                 return { ...inputValues, [id]: value };
             }
             return inputValues;
