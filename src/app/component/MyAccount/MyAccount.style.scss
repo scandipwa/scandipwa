@@ -24,6 +24,11 @@
         }
     }
 
+    &-Notification {
+        background-color: var(--color-primary-light);
+        padding: 2rem;
+    }
+
     &-Button {
         display: flex;
         justify-content: center;
