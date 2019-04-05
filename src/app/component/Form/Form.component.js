@@ -118,6 +118,10 @@ class Form extends Component {
             const { current } = input;
             if (current && current.id && current.value) {
                 const { id, value } = current;
+                if (current.type === 'checkbox' || current.type === 'radio') {
+                    const boolValue = value === 'true';
+                    return { ...inputValues, [id]: boolValue };
+                }
                 return { ...inputValues, [id]: value };
             }
             return inputValues;
