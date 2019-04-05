@@ -111,8 +111,9 @@ class Field extends Component {
         if (onChange) onChange(value);
     }
 
-    toggleCheckbox() {
+    toggleCheckbox(event) {
         const { isChecked } = this.state;
+        event.preventDefault();
 
         this.setState({ isChecked: !isChecked, value: !isChecked });
     }
@@ -159,6 +160,7 @@ class Field extends Component {
                   name={ name }
                   value={ isChecked }
                   onChange={ this.toggleCheckbox }
+                  onKeyPress={ e => this.toggleCheckbox(e) }
                   onFocus={ event => this.onFocus(event) }
                   onClick={ event => this.onClick(event) }
                   id={ id }
