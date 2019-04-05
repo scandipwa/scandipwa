@@ -66,6 +66,7 @@ class AppRouter extends Component {
                             <Route path="/product" component={ ProductPage } />
                             <Route path="/page/:id" component={ CmsPage } />
                             <Route path="/cart" exact component={ CartPage } />
+                            { this.getAdditionalRoutes() }
                             <Route component={ NoMatch } />
                         </Switch>
                     </NoMatchHandler>

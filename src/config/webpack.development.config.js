@@ -148,10 +148,6 @@ module.exports = {
             }
         }),
 
-        new FallbackPlugin({
-            fallbackRoot
-        }),
-
         new HtmlWebpackPlugin({
             template: path.resolve(projectRoot, 'src', 'public', 'index.html'),
             filename: 'index.html',
@@ -162,8 +158,16 @@ module.exports = {
         new WebpackPwaManifest(WebmanifestConfig(projectRoot)),
 
         new CopyWebpackPlugin([
-            { from: path.resolve(projectRoot, 'src', 'public', 'assets'), to: './assets' }
+            { from: path.resolve(projectRoot, 'src', 'public', 'assets'), to: './assets' },
+            {
+                from: path.resolve(fallbackRoot, 'src', 'app', 'route', 'RouterTemplate', 'index.js'),
+                to: path.resolve(projectRoot, 'src', 'app', 'route')
+            }
         ]),
+
+        new FallbackPlugin({
+            fallbackRoot
+        }),
 
         new MiniCssExtractPlugin()
     ]
