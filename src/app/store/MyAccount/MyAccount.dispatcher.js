@@ -60,8 +60,8 @@ class MyAccountDispatcher extends QueryDispatcher {
     resetPassword(options = {}, dispatch) {
         const mutation = MyAccount.getResetPasswordMutation(options);
         fetchMutation(mutation).then(
-            ({ status }) => dispatch(updateCustomerPasswordResetStatus(status)),
-            error => console.log(error)
+            ({ resetPassword: { status } }) => dispatch(updateCustomerPasswordResetStatus(status)),
+            () => dispatch(updateCustomerPasswordResetStatus('error'))
         );
     }
 

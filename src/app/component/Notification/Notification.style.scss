@@ -80,6 +80,11 @@
             border-color: red;
             background: rgba(255, 0, 0, .2);
         }
+
+        &_success {
+            border-color: green;
+            background: rgba(0, 255, 0, 0.2);
+        }
     }
 
     &_is {
