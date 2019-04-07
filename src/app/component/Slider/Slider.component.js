@@ -454,7 +454,7 @@ class Slider extends Component {
                   onClick={ () => this.onThumbnailClick(id) }
                   disabled={ !item.image } // if images are not loaded yet
                 >
-                    <Image src={ item.image } alt="Thumnail of product image" />
+                    <Image src={ item.image && `/media/${item.image}` } alt="Thumnail of product image" />
                 </button>
             );
         }

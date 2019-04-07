@@ -220,10 +220,10 @@ class ProductListQuery {
      */
     _prepareImageFields(options) {
         const images = [
-            new Field('thumbnail').addField('url').addField('label'),
-            new Field('small_image').addField('url').addField('label')
+            new Field('thumbnail').addField('url').addField('label').addField('path'),
+            new Field('small_image').addField('url').addField('label').addField('path')
         ];
-        if (options.isSingleProduct) images.push(new Field('image').addField('url').addField('label'));
+        if (options.isSingleProduct) images.push(new Field('image').addField('url').addField('label').addField('path'));
         return images;
     }
 

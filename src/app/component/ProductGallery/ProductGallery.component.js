@@ -32,7 +32,7 @@ class ProductGallery extends Component {
 
         // use images from gallery or fallback to thumbnail
         const gallery = mediaGallery.length
-            ? mediaGallery.map(media => ({ id: media.id, image: `/media/jpg/${PRODUCT_IMAGE_PATH}${media.file}` }))
+            ? mediaGallery.map(media => ({ id: media.id, image: `jpg/${PRODUCT_IMAGE_PATH}${media.file}` }))
             : [{ image: thumbnail && url, id: 'thumbnail' }];
 
         return (

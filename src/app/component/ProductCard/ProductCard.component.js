@@ -52,8 +52,8 @@ class ProductCard extends Component {
      */
     getThumbnail(currentVariantIndex) {
         const { product: { thumbnail, variants } } = this.props;
-        const variantThumbnail = variants ? variants[ currentVariantIndex ].product.thumbnail.url : null;
-        return variantThumbnail || (thumbnail && thumbnail.url);
+        const variantThumbnail = variants ? variants[ currentVariantIndex ].product.thumbnail.path : null;
+        return variantThumbnail || (thumbnail && thumbnail.path);
     }
 
     addOrConfigureProduct(variantIndex, linkTo) {
@@ -146,7 +146,7 @@ class ProductCard extends Component {
                   tabIndex={ url_key ? '0' : '-1' }
                 >
                     <Image
-                      src={ thumbnail }
+                      src={ thumbnail ? `/media/jpg/catalog/product${ thumbnail }` : null  }
                       alt="Product Thumbnail"
                       arePlaceholdersShown={ arePlaceholdersShown }
                       showGreyPlaceholder={ !url_key }

@@ -150,7 +150,7 @@ class CartItem extends Component {
                   aria-label="Cart Thumbnail"
                 >
                     <Link to={ this.getProductLinkTo(url_key) } onClick={ () => this.handleItemClick }>
-                        <Image src={ thumbnail } alt="Cart Thumbnail" />
+                        <Image src={ `/media/catalog/product${thumbnail}` } alt="Cart Thumbnail" />
                     </Link>
                 </div>
                 <div
