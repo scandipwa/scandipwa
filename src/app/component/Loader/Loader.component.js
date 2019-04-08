@@ -9,8 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-/* eslint-disable prefer-promise-reject-errors */
-// Disabled due promise being reject with custom error (isCanceled)
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './Loader.style';

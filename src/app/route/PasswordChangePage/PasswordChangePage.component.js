@@ -13,6 +13,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router';
 import PropTypes from 'prop-types';
 import ContentWrapper from 'Component/ContentWrapper';
+import Loader from 'Component/Loader';
 import Field from 'Component/Field';
 import Form from 'Component/Form';
 import { getQueryParam } from 'Util/Url';
@@ -90,24 +91,8 @@ class PasswordChangePage extends Component {
         updateBreadcrumbs(breadcrumbs);
     }
 
-    renderLoader() {
-        const { isLoading } = this.state;
-
-        if (!isLoading) return null;
-
-        return (
-            <div block="PasswordChangePage" elem="LoaderWrapper">
-                <div block="PasswordChangePage" elem="Loader">
-                    <div />
-                    <div />
-                    <div />
-                </div>
-            </div>
-        );
-    }
-
     render() {
-        const { passwordResetStatus } = this.state;
+        const { passwordResetStatus, isLoading } = this.state;
 
         if (passwordResetStatus === STATUS_PASSOWORD_UPDATED) {
             return <Redirect to="/" />;
@@ -121,7 +106,7 @@ class PasswordChangePage extends Component {
                       wrapperMix={ { block: 'PasswordChangePage', elem: 'Wrapper' } }
                       label="Password Change Actions"
                     >
-                        { this.renderLoader() }
+                        <Loader isLoading={ isLoading } />
                         <h1>Change My Password</h1>
                         <Form
                           key="reset-password"
