@@ -40,9 +40,7 @@ Because this application is compiled to a valid Magento 2 theme, it must follow 
         - `type` – React PropTypes declaration 
             - `PropTypeGroup.js` – React PropType declaration grouped by source
         - `query` – Queries for GraphQL requests
-            - `QueryName` – Name of the Query
-                - `QueryName.js` – Query source file
-                - `index.js` – Webpack *alias* file
+            - `QueryName.query.js` – Query source file
             - `index.js` – Webpack *alias* file – contains collection of queries
         - `component` – ReactJS components
             - `ComponentName` – Component root

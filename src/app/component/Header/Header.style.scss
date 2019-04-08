@@ -26,14 +26,14 @@
     &-MenuWrapper {
         @include after-mobile {
             display: grid;
-            grid-template-columns: 5fr 2fr;
+            grid-template-columns: 5fr 13rem 7rem 5rem;
         }
     }
 
     &-Wrapper {
         padding: 1rem;
         display: grid;
-        margin:auto;
+        margin: auto;
         grid-template-columns: 1fr 40rem 1fr;
         max-width: 1200px;
 

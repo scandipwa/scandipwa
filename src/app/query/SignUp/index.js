@@ -9,6 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import Menu from './Menu';
+import SignUp from './SignUp';
 
-export default Menu;
+export default SignUp;

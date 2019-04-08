@@ -36,7 +36,7 @@ Using this method allows for more dynamic control over the query. We can add fie
 
 ## Public API
 
-Query util exports object of 3 helpers: `Field`, `Fragment` and the `prepareQuery`. The `Field`, `Fragment` are for building a query. The `prepareQuery` is for converting the `Field` or `Fragment` object into another object containing the auto-generated variables map and the query string.
+Query util exports object of 4 helpers: `Field`, `Fragment`, `prepareQuery` and `prepareMutation`. The `Field`, `Fragment` are for building a query. The `prepareQuery` and `prepareMutation` are for converting the `Field` or `Fragment` object into another object containing the auto-generated variables map and the GraphQL document string.
 
 ### `new Field(name)`
 
@@ -217,7 +217,7 @@ Results into:
 
 <hr />
 
-### `prepareQuery(queries)`
+### `prepareQuery(queries)` and `prepareMutation(mutation)`
 
 Prepares the query request body (raw, no JSON). It takes the array of `Field` objects inside and combines them in them. For example:
 
@@ -243,11 +243,21 @@ Results into:
 }
 ```
 
+#### The difference for mutation is that instead of:
+
+```js
+// prepareQuery
+query: "query ($selectedUser_id:ID!) {selectedUser:user(id:$selectedUser_id){ firstName }}"
+
+// prepareMutation
+query: "mutation ($selectedUser_id:ID!) {selectedUser:user(id:$selectedUser_id){ firstName }}"
+```
+
 ## Enclosed API
 
 You may use these functions, but most probably this won't be necessary. They are made to transform Field object to string. These functions are made to work together.
 
-These functions is used internally in `PrepareQuery` utility.
+These functions is used internally in `prepareQuery` and `prepareMutation` utility.
 
 ### `Field.toString()`
 
