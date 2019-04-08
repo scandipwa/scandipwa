@@ -36,8 +36,7 @@ class MyAccount extends Component {
             isOpen: false,
             isLoading: false,
             // eslint-disable-next-line react/no-unused-state
-            isPasswordForgotSend: props.isPasswordForgotSend,
-            notification: ''
+            isPasswordForgotSend: props.isPasswordForgotSend
         };
 
         this.renderMap = {
@@ -51,7 +50,7 @@ class MyAccount extends Component {
     }
 
     static getDerivedStateFromProps(props, state) {
-        const { isSignedIn, isPasswordForgotSend } = props;
+        const { isSignedIn, isPasswordForgotSend, showNotification } = props;
         const { isPasswordForgotSend: currentIsPasswordForgotSend } = state;
         const stateToBeUpdated = {};
 
@@ -63,8 +62,8 @@ class MyAccount extends Component {
         if (isPasswordForgotSend !== currentIsPasswordForgotSend) {
             stateToBeUpdated.isLoading = false;
             stateToBeUpdated.isPasswordForgotSend = isPasswordForgotSend;
-            stateToBeUpdated.notification = `If there is an account associated with the
-            provided address you will receive an email with a link to reset your password.`;
+            showNotification('success', `If there is an account associated with the
+            provided address you will receive an email with a link to reset your password.`);
             stateToBeUpdated.state = STATE_SIGN_IN;
         }
 
@@ -80,6 +79,36 @@ class MyAccount extends Component {
         this.setState({ isLoading: true });
     }
 
+    onCreateAccountAttempt(fields, invalidFields) {
+        const { showNotification } = this.props;
+        if (invalidFields) {
+            showNotification('error', 'Incorrect data! Please resolve all field validation errors.');
+        }
+        this.setState({ isLoading: !invalidFields });
+    }
+
+    onCreateAccountSuccess(fields) {
+        const { createAccount } = this.props;
+        const {
+            password,
+            email,
+            firstname,
+            lastname,
+            is_subscribed
+        } = fields;
+        const customerData = {
+            customer: {
+                firstname,
+                lastname,
+                email,
+                is_subscribed
+            },
+            password
+        };
+
+        createAccount(customerData);
+    }
+      
     onForgotPasswordSuccess(fields) {
         const { forgotPassword } = this.props;
         forgotPassword(fields);
@@ -94,12 +123,7 @@ class MyAccount extends Component {
     }
 
     changeState(state) {
-        this.clearNotification();
         this.setState({ state });
-    }
-
-    clearNotification() {
-        this.setState({ notification: '' });
     }
 
     goBackToDefault() {
@@ -133,7 +157,7 @@ class MyAccount extends Component {
     }
 
     renderDropdown() {
-        const { state, notification, isLoading } = this.state;
+        const { state, isLoading } = this.state;
         const renderFunction = this.renderMap[state];
 
         return (
@@ -145,12 +169,6 @@ class MyAccount extends Component {
               onMouseLeave={ () => this.setState({ isHovered: false }) }
             >
                 <Loader isLoading={ isLoading } />
-                { notification
-                && (
-                    <div block="MyAccount" elem="Notification">
-                        <p>{ notification }</p>
-                    </div>
-                ) }
                 <div block="MyAccount" elem="Action" mods={ { state } }>
                     { renderFunction() }
                 </div>
@@ -204,7 +222,12 @@ class MyAccount extends Component {
     renderCreateAccount() {
         return (
             <>
-                <Form key="create-account">
+                <Form
+                  key="create-account"
+                  onSubmit={ () => this.onCreateAccountAttempt() }
+                  onSubmitSuccess={ fields => this.onCreateAccountSuccess(fields) }
+                  onSubmitError={ (fields, invalidFields) => this.onCreateAccountAttempt(fields, invalidFields) }
+                >
                     <h3>Create your account</h3>
                     <fieldset block="MyAccount" elem="Legend">
                         <legend>Personal Information</legend>
