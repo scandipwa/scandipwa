@@ -51,6 +51,12 @@
         &:not(:last-child) {
             margin: 0;
 
+            &:not(:first-child) {
+                a {
+                    color: var(--color-breadcrumbs-base);
+                }
+            }
+
             &::after {
                 content: '';
                 position: relative;

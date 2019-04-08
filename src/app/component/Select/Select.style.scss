@@ -10,7 +10,7 @@
  */
  .Select {
     &-Container {
-        min-width: 130px;
+        min-width: 160px;
         height: 35px;
         font-weight: 700;
         font-size: 1.05rem;
@@ -48,7 +48,7 @@
                 line-height: 2.7rem;
             }
         }
-        
+
         /* Hide Dropdowns by Default */
         ul {
             display:inherit;
@@ -133,13 +133,13 @@
     }
 
     &-Original {
-        position: absolute; 
+        position: absolute;
         overflow: hidden;
-        clip: rect(0 0 0 0); 
-        height: 1px; 
-        width: 1px; 
+        clip: rect(0 0 0 0);
+        height: 1px;
+        width: 1px;
         margin: -1px;
         padding: 0;
-        border: 0; 
+        border: 0;
     }
 }

@@ -22,6 +22,9 @@ For better performance Varnish cache is required. You must ensure Varnish is cac
 
 Read [full application documentation](./docs/01-Project.md)
 
+## Docker for local development
+
+The docker environment is prepared to deploy and develop theme - [scandipwa-base](https://github.com/scandipwa/scandipwa-base)
 
 ## License
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fscandipwa%2Fbase-theme.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fscandipwa%2Fbase-theme?ref=badge_large)

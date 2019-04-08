@@ -55,7 +55,13 @@ class Image extends Component {
         const isImageLoaded = (img.target.currentSrc.includes('.webp')
             || img.target.currentSrc.includes('.jpg'));
 
-        this.setState({ isImageLoaded, isPlacehodlerLoaded });
+        if (isImageLoaded) {
+            this.setState({ isImageLoaded });
+        }
+
+        if (isPlacehodlerLoaded) {
+            this.setState({ isPlacehodlerLoaded });
+        }
     }
 
     /**
