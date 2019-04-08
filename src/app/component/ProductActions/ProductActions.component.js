@@ -31,6 +31,8 @@ class ProductActions extends Component {
     constructor(props) {
         super(props);
         this.state = { itemCount: 1 };
+
+        this.handleKeyPress = this.handleKeyPress.bind(this);
     }
 
     /**
@@ -183,6 +185,20 @@ class ProductActions extends Component {
         }
     }
 
+    /**
+     * Handle onKeyDown event
+     * @param {Object} event onKeyDown event
+     * @returns {void}
+     */
+    handleKeyPress(event) {
+        const key = event.key || event.keyCode;
+
+        // Ignore comma (",")
+        if (key === ',' || key === 188) {
+            event.preventDefault();
+        }
+    }
+
     renderConfigurableSimpleProduct() {
         const { product: { price, type_id } } = this.props;
         const { itemCount } = this.state;
@@ -196,6 +212,7 @@ class ProductActions extends Component {
                   type="number"
                   id="HeaderInput"
                   onChange={ itemCount => this.setState({ itemCount }) }
+                  onKeyPress={ event => this.handleKeyPress(event) }
                   value={ itemCount }
                 />
             </>
