@@ -31,8 +31,6 @@ class Select extends Component {
      */
     onGetSortKey(key) {
         const { onGetSortKey } = this.props;
-        console.log(key);
-
         onGetSortKey(key);
     }
 
