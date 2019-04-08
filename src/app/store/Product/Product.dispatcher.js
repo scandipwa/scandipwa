@@ -57,6 +57,7 @@ class ProductDispatcher extends RequestDispatcher {
      * @memberof ProductDispatcher
      */
     prepareRequest(options) {
+        console.log(options,'________-----', ProductListQuery.getQuery(options))
         return ProductListQuery.getQuery(options);
     }
 
