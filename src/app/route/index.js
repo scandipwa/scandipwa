@@ -29,9 +29,9 @@ import NotificationList from 'Component/NotificationList';
 
 import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
 
-export const BEFORE_ITEMS_TYPE = 'BEFORE_ITEMS_TYPE';
-export const SWITCH_ITEMS_TYPE = 'SWITCH_ITEMS_TYPE';
-export const AFTER_ITEMS_TYPE = 'AFTER_ITEMS_TYPE';
+const BEFORE_ITEMS_TYPE = 'BEFORE_ITEMS_TYPE';
+const SWITCH_ITEMS_TYPE = 'SWITCH_ITEMS_TYPE';
+const AFTER_ITEMS_TYPE = 'AFTER_ITEMS_TYPE';
 
 export class AppRouter extends Component {
     constructor() {
@@ -152,7 +152,7 @@ export class AppRouter extends Component {
     }
 
     applyKeyToReactElement(element, key) {
-        return React.cloneElement(element, { ...element.props, key })
+        return React.cloneElement(element, { ...element.props, key });
     }
 
     render() {
@@ -166,7 +166,7 @@ export class AppRouter extends Component {
             <Router>
                 <>
                     {
-                        this.prepareContent(beforeItems, BEFORE_ITEMS_TYPE)                                    
+                        this.prepareContent(beforeItems, BEFORE_ITEMS_TYPE)
                             .map((item, key) => item && this.applyKeyToReactElement(item.component, key))
                     }
                     <NoMatchHandler>
@@ -178,7 +178,7 @@ export class AppRouter extends Component {
                         </Switch>
                     </NoMatchHandler>
                     {
-                        this.prepareContent(afterItems, AFTER_ITEMS_TYPE)                                    
+                        this.prepareContent(afterItems, AFTER_ITEMS_TYPE)
                             .map((item, key) => item && this.applyKeyToReactElement(item.component, key))
                     }
                 </>
