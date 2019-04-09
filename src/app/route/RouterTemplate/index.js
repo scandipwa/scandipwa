@@ -25,10 +25,11 @@ class AppRouter extends BaseRouter {
             beforeItems: [
             ],
             switchItems: [
-                {
-                    component: <Route path="/myroute" exact component={ CartPage } />,
-                    position: 23
-                }
+                // Example
+                // {
+                //     component: <Route path="/myroute" exact component={ CartPage } />,
+                //     position: 23
+                // }
             ],
             afterItems: [
             ]
