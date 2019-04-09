@@ -152,6 +152,7 @@ export class AppRouter extends Component {
 
                 return current;
             }
+
             if (prev[position]) {
                 throw new Error(`Router item has occupied position ${
                     prevPosition
