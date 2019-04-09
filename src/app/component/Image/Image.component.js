@@ -55,7 +55,13 @@ class Image extends Component {
         const isImageLoaded = (img.target.currentSrc.includes('.webp')
             || img.target.currentSrc.includes('.jpg'));
 
-        this.setState({ isImageLoaded, isPlacehodlerLoaded });
+        if (isImageLoaded) {
+            this.setState({ isImageLoaded });
+        }
+
+        if (isPlacehodlerLoaded) {
+            this.setState({ isPlacehodlerLoaded });
+        }
     }
 
     /**
@@ -64,6 +70,7 @@ class Image extends Component {
      * @return {void}
      */
     getUrlWithExtension(url, extension) {
+        // return url;
         if (url) {
             const path = url.includes('/media/jpg')
                 ? url.replace('/media/jpg', `/media/${ extension }`)
@@ -156,9 +163,9 @@ class Image extends Component {
             >
                 { (!arePlaceholdersShown || showImage) && src && !isIcon
                     && <>
-                        <source srcSet={ this.getUrlWithExtension(src, 'webp') } type="image/webp" />
+                        <source srcSet={ src && this.getUrlWithExtension(src, 'webp') } type="image/webp" />
                         <source srcSet={ src } type="image/jpeg" />
-                        <source srcSet={ src.replace('/media/jpg', '/media') } />
+                        <source srcSet={ src && src.replace('/media/jpg', '/media') } />
                     </>
                 }
                 { src && <img src={ this.getUrlWithExtension(src, 'svg') } alt={ alt } /> }

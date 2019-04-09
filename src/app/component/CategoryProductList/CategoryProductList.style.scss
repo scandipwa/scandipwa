@@ -9,13 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-.CategoryProductList { 
+.CategoryProductList {
     display: grid;
     grid-template-columns: repeat(3, 33.33%);
     grid-auto-rows: max-content;
     padding-bottom: 2rem;
 
-    @include tablet {
+    @include mobile {
         grid-template-columns: 1fr 1fr;
         grid-column-gap: 0.5rem;
         border: 0;
@@ -31,7 +31,7 @@
         grid-template-columns: inherit;
         grid-column: 1/4;
 
-        @include tablet {
+        @include mobile {
             grid-column: span 2;
         }
     }
