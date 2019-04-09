@@ -134,7 +134,7 @@ export class AppRouter extends Component {
      * @param {Array} items
      * @param {string} contentType
      */
-    repareContent(items, contentType) {
+    prepareContent(items, contentType) {
         const customItems = this.getItemsByContentType(contentType);
         const mergedItems = items.concat(customItems);
         if (!customItems) throw Error('Please provide at least one content block');
