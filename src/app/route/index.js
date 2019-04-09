@@ -130,25 +130,26 @@ export class AppRouter extends Component {
         const mergedItems = items.concat(customItems);
         if (!customItems) throw Error('Please provide at least one content block');
 
-        const data = Object.values(mergedItems.reduce((prev, current) => {
-            if (current.position < 0) {
+        return Object.values(mergedItems.reduce((prev, current) => {
+            const currentPosition = current.position;
+
+            if (currentPosition < 0) {
                 console.warn(
                     `Router item has negative position ${
                         current.position
                     }! Use positive values only.`
                 );
+
                 return current;
             }
             if (prev[current.position]) {
-                throw Error(`Router item has occupied position ${
+                throw new Error(`Router item has occupied position ${
                     prev.position
                 }! Choose another position.`);
             }
 
-            return { [current.position]: current, ...prev };
+            return { [current.position]: current.component, ...prev };
         }, {}));
-
-        return data;
     }
 
     applyKeyToReactElement(element, key) {
@@ -167,19 +168,19 @@ export class AppRouter extends Component {
                 <>
                     {
                         this.prepareContent(beforeItems, BEFORE_ITEMS_TYPE)
-                            .map((item, key) => item && this.applyKeyToReactElement(item.component, key))
+                            .map((item, key) => item && this.applyKeyToReactElement(item, key))
                     }
                     <NoMatchHandler>
                         <Switch>
                             {
                                 this.prepareContent(switchItems, SWITCH_ITEMS_TYPE)
-                                    .map((item, key) => item && this.applyKeyToReactElement(item.component, key))
+                                    .map((item, key) => item && this.applyKeyToReactElement(item, key))
                             }
                         </Switch>
                     </NoMatchHandler>
                     {
                         this.prepareContent(afterItems, AFTER_ITEMS_TYPE)
-                            .map((item, key) => item && this.applyKeyToReactElement(item.component, key))
+                            .map((item, key) => item && this.applyKeyToReactElement(item, key))
                     }
                 </>
             </Router>

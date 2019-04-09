@@ -11,8 +11,6 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { Route } from 'react-router-dom';
-import CartPage from 'Route/CartPage';
 
 import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
 
@@ -23,13 +21,16 @@ class AppRouter extends BaseRouter {
         super();
         this.customItems = {
             beforeItems: [
+                {
+                    component: <p>Test1</p>,
+                    position: 1
+                },
+                {
+                    component: <p>Test2</p>,
+                    position: 11
+                }
             ],
             switchItems: [
-                // Example
-                // {
-                //     component: <Route path="/myroute" exact component={ CartPage } />,
-                //     position: 23
-                // }
             ],
             afterItems: [
             ]
