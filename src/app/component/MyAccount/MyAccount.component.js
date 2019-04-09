@@ -206,13 +206,13 @@ class MyAccount extends Component {
                 <article block="MyAccount" elem="Additional">
                     <section aria-labelledby="forgot-password-labe">
                         <h4 id="forgot-password-label">Already have an account?</h4>
-                        <a href="#sign-in" onClick={ () => this.changeState(STATE_SIGN_IN) }>Sign in here</a>
+                        <button onClick={ () => this.changeState(STATE_SIGN_IN) }>Sign in here</button>
                     </section>
                     <section aria-labelledby="create-account-label">
                         <h4 id="create-account-label">Don&apos;t have an account?</h4>
-                        <a href="#create-account" onClick={ () => this.changeState(STATE_CREATE_ACCOUNT) }>
+                        <button onClick={ () => this.changeState(STATE_CREATE_ACCOUNT) }>
                             Create an account
-                        </a>
+                        </button>
                     </section>
                 </article>
             </>
@@ -264,7 +264,7 @@ class MyAccount extends Component {
                 <article block="MyAccount" elem="Additional">
                     <section aria-labelledby="create-account-label">
                         <h4 id="create-account-label">Already have an account?</h4>
-                        <a href="#create-account" onClick={ () => this.changeState(STATE_SIGN_IN) }>Sign in here</a>
+                        <button onClick={ () => this.changeState(STATE_SIGN_IN) }>Sign in here</button>
                     </section>
                 </article>
             </>
@@ -300,15 +300,15 @@ class MyAccount extends Component {
                 <article block="MyAccount" elem="Additional">
                     <section aria-labelledby="forgot-password-labe">
                         <h4 id="forgot-password-label">Forgot password?</h4>
-                        <a href="#forgot-password" onClick={ () => this.changeState(STATE_FORGOT_PASSWORD) }>
+                        <button onClick={ () => this.changeState(STATE_FORGOT_PASSWORD) }>
                             Get a password reset link
-                        </a>
+                        </button>
                     </section>
                     <section aria-labelledby="create-account-label">
                         <h4 id="create-account-label">Don&apos;t have an account?</h4>
-                        <a href="#create-account" onClick={ () => this.changeState(STATE_CREATE_ACCOUNT) }>
+                        <button onClick={ () => this.changeState(STATE_CREATE_ACCOUNT) }>
                             Create an account
-                        </a>
+                        </button>
                     </section>
                 </article>
             </>
