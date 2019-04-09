@@ -32,6 +32,7 @@ class ProductDescription extends Component {
             areDetailsLoaded
         } = this.props;
 
+        const { html } = { ...description };
         const image = areDetailsLoaded && mediaGallery.length > 0
             ? `${PRODUCT_IMAGE_PATH}${mediaGallery[0].file}`
             : '';
@@ -58,7 +59,7 @@ class ProductDescription extends Component {
                                 <TextPlaceholder length="long" />
                                 <TextPlaceholder length="short" />
                             </p>
-                        ) : <Html content={ description } />}
+                        ) : <Html content={ html } />}
                     </div>
                 </div>
             </ContentWrapper>

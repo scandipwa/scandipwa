@@ -89,6 +89,12 @@ class Field extends Component {
         if (onFocus) onFocus(event);
     }
 
+    onKeyPress(event) {
+        const { onKeyPress } = this.props;
+
+        if (onKeyPress) onKeyPress(event);
+    }
+
     onClick(event) {
         const { onClick } = this.props;
 
@@ -101,8 +107,9 @@ class Field extends Component {
             type,
             min
         } = this.props;
+        const isValueNaN = Number.isNaN(parseInt(value, 10));
 
-        if (type === NUMBER_TYPE && value < min) {
+        if (type === NUMBER_TYPE && (value < min || isValueNaN)) {
             return;
         }
 
@@ -218,6 +225,7 @@ class Field extends Component {
                   id={ id }
                   value={ value }
                   onChange={ this.onChange }
+                  onKeyPress={ event => this.onKeyPress(event) }
                   onFocus={ event => this.onFocus(event) }
                   onClick={ event => this.onClick(event) }
                 />
@@ -299,6 +307,7 @@ Field.propTypes = {
     onChange: PropTypes.func,
     onFocus: PropTypes.func,
     onClick: PropTypes.func,
+    onKeyPress: PropTypes.func,
     min: PropTypes.number,
     block: PropTypes.string,
     elem: PropTypes.string,

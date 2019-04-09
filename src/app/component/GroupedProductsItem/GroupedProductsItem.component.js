@@ -57,7 +57,7 @@ class GroupedProductsItem extends Component {
     render() {
         const {
             product: {
-                thumbnail,
+                thumbnail : { url: thumb_url },
                 name,
                 price,
                 id
@@ -68,7 +68,7 @@ class GroupedProductsItem extends Component {
 
         return (
             <li block="GroupedProductsItem" aria-label="Product Item">
-                <Image src={ thumbnail && `/media/catalog/product${thumbnail}` } alt="Product Thumbnail" />
+                <Image src={ thumb_url && `/media/catalog/product${thumb_url}` } alt="Product Thumbnail" />
                 <div block="GroupedProductsItem" elem="Title">
                     <p><TextPlaceholder content={ name } /></p>
                     <ProductPrice price={ price } mods={ { type: 'regular' } } />
