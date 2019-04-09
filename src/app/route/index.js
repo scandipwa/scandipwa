@@ -121,10 +121,19 @@ export class AppRouter extends Component {
         updateHeaderAndFooter({ menu: { menuId: 1 }, footer: footerOptions });
     }
 
+    /**
+     * Returns custom items by contentType
+     * @param {*} contentType
+     */
     getItemsByContentType(contentType) {
         return this.itemsMap[contentType];
     }
 
+    /**
+     * Merges core items and custom items. Returns sorted array by position.
+     * @param {Array} items
+     * @param {*} contentType
+     */
     prepareContent(items, contentType) {
         const customItems = this.getItemsByContentType(contentType);
         const mergedItems = items.concat(customItems);
@@ -152,6 +161,11 @@ export class AppRouter extends Component {
         }, {}));
     }
 
+    /**
+     * Applies given key to the given element
+     * @param {Object} element
+     * @param {*} key
+     */
     applyKeyToReactElement(element, key) {
         return React.cloneElement(element, { ...element.props, key });
     }
