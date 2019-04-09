@@ -526,7 +526,7 @@ class Slider extends Component {
               style={ listItemWidth }
             >
                 <Figure
-                  src={ image && `/media/${image}` }
+                  src={ image }
                   alt="SliderItem"
                   htmlContent={ extraHtml && extraHtml }
                   arePlaceholdersShown={ arePlaceholdersShown }
