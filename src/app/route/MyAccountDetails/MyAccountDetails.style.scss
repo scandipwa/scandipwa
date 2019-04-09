@@ -1,0 +1,126 @@
+.MyAccountDetails {
+    &-Wrapper {
+        max-width: 1200px;
+        display: grid;
+        grid-template-columns: 20% 78%;
+        grid-column-gap: 2%;
+        padding: {
+            left: 1rem;
+            right: 1rem;
+        };
+        margin: {
+            top: 2rem;
+            left: auto;
+            right: auto;
+        }
+    }
+
+    &-Sidebar {
+        background-color: var(--color-breadcrumbs-background);
+    }
+
+    &-AddressWrapper {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-column-gap: 10%;
+    }
+
+    &-Field {
+        padding: .5rem 0 0 .5rem;
+        font-size: 1.15rem;
+    }
+
+    &-AddButton {
+        height: 1rem;
+        margin-left: 1rem;
+    }
+
+    &-EditButton {
+        height: 2rem;
+        margin-top: 1rem;
+    }
+
+    &-Checkbox {
+        display: flex;
+
+        label {
+            display: inline;
+        }
+
+        input {
+            position: relative;
+            width: 20px;
+            height: 20px;
+            left: 20px;
+        }
+    }
+
+    &-Submit {
+        margin: 0;
+        font-size: 1.15rem;
+        height: 3rem;
+    }
+
+    &-AddButton {
+        margin: {
+            top: 1rem;
+            left: 0;
+        }
+    }
+
+    span {
+        top: .2rem;
+    }
+
+    button {
+        line-height: 0;
+        font-size: 1rem;
+    }
+
+    h4 {
+        padding: .5rem 0;
+    }
+
+    fieldset {
+        padding-bottom: 2rem;
+
+        legend {
+            font-size: 1.50rem;
+            font-weight: 700;
+        }
+    }
+
+    li {
+        font-size: 1.35rem;
+        cursor: pointer;
+        margin: 0;
+        height: 2rem;
+        line-height: 2rem;
+
+        &:hover {
+            background-color: var(--color-breadcrumbs-current);
+        }
+
+        &::before {
+            content: '';
+        }   
+    }
+
+    input {
+        &:not([type="checkbox"]) {
+            width: 100%;
+        }
+    }
+
+    form {
+        display: grid;
+        grid-template-columns: 45% 45%;
+        grid-column-gap: 10%;
+        padding-bottom: 2rem;
+
+        button {
+            margin-top: 2rem;
+            width: 50%;
+        } 
+    }
+}

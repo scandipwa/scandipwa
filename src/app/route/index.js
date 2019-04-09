@@ -19,6 +19,7 @@ import CategoryPage from 'Route/CategoryPage';
 import ProductPage from 'Route/ProductPage';
 import CmsPage from 'Route/CmsPage';
 import CartPage from 'Route/CartPage';
+import MyAccountDetails from 'Route/MyAccountDetails';
 import NoMatch from 'Route/NoMatch';
 import NoMatchHandler from 'Route/NoMatchHandler';
 
@@ -66,6 +67,7 @@ class AppRouter extends Component {
                             <Route path="/product" component={ ProductPage } />
                             <Route path="/page/:id" component={ CmsPage } />
                             <Route path="/cart" exact component={ CartPage } />
+                            <Route path="/my-account" exact component={ MyAccountDetails } />
                             <Route component={ NoMatch } />
                         </Switch>
                     </NoMatchHandler>

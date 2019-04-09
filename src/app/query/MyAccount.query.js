@@ -91,6 +91,12 @@ class MyAccount {
             .addField('token');
     }
 
+    getUpdateInformationMutation(options) {
+        return new Field('updateCustomer')
+            .addArgument('input', 'UpdateCustomerInput!', options)
+            .addField(this.getCustomer(true));
+    }
+
     /**
      * Get CreateAccount mutation
      * @param  {{customer: Object, password: String}} options A object containing different aspects of query, each item can be omitted

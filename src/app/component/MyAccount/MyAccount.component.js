@@ -14,6 +14,7 @@ import PropTypes from 'prop-types';
 import { isSignedIn } from 'Util/Auth';
 import Field from 'Component/Field';
 import Form from 'Component/Form';
+import { Link } from 'react-router-dom';
 import './MyAccount.style';
 
 const STATE_SIGN_IN = 'signIn';
@@ -107,7 +108,7 @@ class MyAccount extends Component {
 
         createAccount(customerData);
     }
-      
+
     onForgotPasswordSuccess(fields) {
         const { forgotPassword } = this.props;
         forgotPassword(fields);
@@ -179,7 +180,7 @@ class MyAccount extends Component {
         return (
             <nav block="MyAccount" elem="Navigation">
                 <ul>
-                    <li><a>My Account</a></li>
+                    <li><Link to="/my-account">My Account</Link></li>
                     <li><a>My Orders</a></li>
                     <li><a>Logout</a></li>
                 </ul>

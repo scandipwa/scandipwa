@@ -15,9 +15,10 @@ import {
     updateCustomerPasswordResetStatus,
     updateCustomerPasswordForgotStatus
 } from 'Store/MyAccount';
-import { QueryDispatcher, fetchMutation } from 'Util/Request';
+import { QueryDispatcher, fetchMutation, executePost } from 'Util/Request';
 import { setAuthorizationToken, isSignedIn } from 'Util/Auth';
 import { MyAccount } from 'Query';
+import { prepareQuery } from 'Util/Query';
 
 /**
  * My account actions
@@ -35,6 +36,22 @@ class MyAccountDispatcher extends QueryDispatcher {
 
     onSuccess({ customer }, dispatch) {
         dispatch(updateCustomerDetails(customer));
+    }
+
+    requestCustomerData(options, dispatch) {
+        const { withAddresses } = options;
+        const query = MyAccount.getCustomer(withAddresses);
+
+        executePost(prepareQuery([query]))
+            .then(({ customer }) => dispatch(updateCustomerDetails(customer)));
+    }
+
+    updateCustomerData(options, dispatch) {
+        const mutation = MyAccount.getUpdateInformationMutation(options);
+        fetchMutation(mutation).then(
+            ({ customer }) => dispatch(updateCustomerDetails(customer)),
+            error => console.log(error)
+        );
     }
 
     /**
