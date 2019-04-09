@@ -84,7 +84,7 @@ export class AppRouter extends Component {
                 }
             ]
         };
-        this.customItems = {}
+        this.customItems = {};
     }
 
     componentWillMount() {
@@ -127,10 +127,8 @@ export class AppRouter extends Component {
 
     prepareContent(items, contentType) {
         const customItems = this.getItemsByContentType(contentType);
-
-        if (!customItems) throw Error('Please provide at least one content block');
-
         const mergedItems = items.concat(customItems);
+        if (!customItems) throw Error('Please provide at least one content block');
 
         const data = Object.values(mergedItems.reduce((prev, current) => {
             if (current.position < 0) {
