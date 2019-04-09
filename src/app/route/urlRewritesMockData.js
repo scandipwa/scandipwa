@@ -3,8 +3,6 @@ export default {
         products: {
             items: [
                 {
-                    name: 'Joust Duffle Bag',
-                    sku: '24-MB01',
                     url_key: 'n-black-chino',
                     url_rewrites: [
                         {
@@ -41,6 +39,18 @@ export default {
                                     value: '4'
                                 }
                             ]
+                        }
+                    ]
+                }
+            ]
+        },
+        categories: {
+            items: [
+                {
+                    url_key: 'women/women-trousers',
+                    url_rewrites: [
+                        {
+                            url: '/very-cool-category'
                         }
                     ]
                 }

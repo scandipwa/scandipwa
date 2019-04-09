@@ -27,48 +27,7 @@ import Footer from 'Component/Footer';
 import Breadcrumbs from 'Component/Breadcrumbs';
 import NotificationList from 'Component/NotificationList';
 import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
-import UrlRewrites from './urlRewrites';
-
-const Testing = (test) => {
-    const testing = findUrlRewrites(test.location.pathname);
-
-    return (
-        <p>Test is working</p>
-    );
-};
-const Switcher = ({ match }, id) => {
-    switch (id) {
-    case 'category':
-        return <CategoryPage />;
-    case 'cms':
-        return <CmsPage />;
-    case 'product':
-        return <ProductPage />;
-    default:
-        return <NoMatch />;
-    }
-};
-
-const findUrlRewrites = (urlInput) => {
-    const { data: { products, cms, categories } } = UrlRewrites;
-
-    const getOriginalKey = ({ items }) => {
-        let original_url_key;
-        items.forEach((item) => {
-            const { url_key, url_rewrites } = item;
-            url_rewrites.forEach((url_rewrite) => {
-                const { url } = url_rewrite;
-                if (url === urlInput) { original_url_key = url_key; }
-            });
-        });
-
-        return original_url_key;
-    };
-
-    const productsRewrites = [products, cms, categories].forEach(element => getOriginalKey(element));
-
-    return productsRewrites;
-};
+import UrlRewrites from 'Route/UrlRewrites';
 
 class AppRouter extends Component {
     componentWillMount() {
@@ -91,8 +50,6 @@ class AppRouter extends Component {
         };
 
         updateHeaderAndFooter({ menu: { menuId: 1 }, footer: footerOptions });
-
-        console.log('000----->', UrlRewrites);
     }
 
     render() {
@@ -109,7 +66,7 @@ class AppRouter extends Component {
                             <Route path="/product" component={ ProductPage } />
                             <Route path="/page/:id" component={ CmsPage } />
                             <Route path="/cart" exact component={ CartPage } />
-                            <Route component={ Testing } />
+                            <Route component={ UrlRewrites } />
                         </Switch>
                     </NoMatchHandler>
                     <Footer />
