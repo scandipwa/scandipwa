@@ -276,44 +276,4 @@
             left: 20px;
         }
     }
-
-    &-LoaderWrapper {
-        background-color: rgba(255, 255, 255, .6);
-        z-index: 5;
-    }
-
-    &-Loader {
-        @extend %loader;
-    }
-
-    &-Loader,
-    &-LoaderWrapper {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        margin: auto;
-    }
-
-    section {
-        button {
-            --button-border: transparent;
-            --button-background: transparent;
-            text-transform: none;
-            margin: 0;
-            padding: 0;
-            color: #{color(primary, base, true)};
-
-            &:not([disabled]) {
-                &:hover,
-                &:active,
-                &:focus {
-                    border-color: transparent;
-                    background-color: transparent;
-                    color: #{color(primary, base, true)};
-                }
-            }
-        }
-    }
 }

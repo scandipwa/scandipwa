@@ -85,6 +85,11 @@
             border-color: var(--color-cart-light);
             background: var(--color-cart-light);
         }
+
+        &_success {
+            border-color: green;
+            background: rgba(0, 255, 0, 0.2);
+        }
     }
 
     &_is {

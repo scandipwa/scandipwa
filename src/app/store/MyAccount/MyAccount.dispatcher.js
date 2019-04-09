@@ -60,8 +60,8 @@ class MyAccountDispatcher extends QueryDispatcher {
     resetPassword(options = {}, dispatch) {
         const mutation = MyAccount.getResetPasswordMutation(options);
         fetchMutation(mutation).then(
-            ({ status }) => dispatch(updateCustomerPasswordResetStatus(status)),
-            error => console.log(error)
+            ({ resetPassword: { status } }) => dispatch(updateCustomerPasswordResetStatus(status)),
+            () => dispatch(updateCustomerPasswordResetStatus('error'))
         );
     }
 
@@ -71,11 +71,12 @@ class MyAccountDispatcher extends QueryDispatcher {
      * @memberof MyAccountDispatcher
      */
     createAccount(options = {}, dispatch) {
+        const { customer: { email }, password } = options;
         const mutation = MyAccount.getCreateAccountMutation(options);
 
         fetchMutation(mutation).then(
             ({ customer }) => {
-                this.signIn(options, dispatch);
+                this.signIn({ email, password }, dispatch);
                 dispatch(updateCustomerDetails(customer));
             },
             error => console.log(error)

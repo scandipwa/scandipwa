@@ -14,6 +14,7 @@ import PropTypes from 'prop-types';
 import { isSignedIn } from 'Util/Auth';
 import Field from 'Component/Field';
 import Form from 'Component/Form';
+import Loader from 'Component/Loader';
 import './MyAccount.style';
 
 const STATE_SIGN_IN = 'signIn';
@@ -78,6 +79,36 @@ class MyAccount extends Component {
         this.setState({ isLoading: true });
     }
 
+    onCreateAccountAttempt(fields, invalidFields) {
+        const { showNotification } = this.props;
+        if (invalidFields) {
+            showNotification('error', 'Incorrect data! Please resolve all field validation errors.');
+        }
+        this.setState({ isLoading: !invalidFields });
+    }
+
+    onCreateAccountSuccess(fields) {
+        const { createAccount } = this.props;
+        const {
+            password,
+            email,
+            firstname,
+            lastname,
+            is_subscribed
+        } = fields;
+        const customerData = {
+            customer: {
+                firstname,
+                lastname,
+                email,
+                is_subscribed
+            },
+            password
+        };
+
+        createAccount(customerData);
+    }
+      
     onForgotPasswordSuccess(fields) {
         const { forgotPassword } = this.props;
         forgotPassword(fields);
@@ -126,7 +157,7 @@ class MyAccount extends Component {
     }
 
     renderDropdown() {
-        const { state } = this.state;
+        const { state, isLoading } = this.state;
         const renderFunction = this.renderMap[state];
 
         return (
@@ -137,7 +168,7 @@ class MyAccount extends Component {
               onMouseEnter={ () => this.setState({ isHovered: true }) }
               onMouseLeave={ () => this.setState({ isHovered: false }) }
             >
-                { this.renderLoader() }
+                <Loader isLoading={ isLoading } />
                 <div block="MyAccount" elem="Action" mods={ { state } }>
                     { renderFunction() }
                 </div>
@@ -191,7 +222,12 @@ class MyAccount extends Component {
     renderCreateAccount() {
         return (
             <>
-                <Form key="create-account">
+                <Form
+                  key="create-account"
+                  onSubmit={ () => this.onCreateAccountAttempt() }
+                  onSubmitSuccess={ fields => this.onCreateAccountSuccess(fields) }
+                  onSubmitError={ (fields, invalidFields) => this.onCreateAccountAttempt(fields, invalidFields) }
+                >
                     <h3>Create your account</h3>
                     <fieldset block="MyAccount" elem="Legend">
                         <legend>Personal Information</legend>
@@ -276,22 +312,6 @@ class MyAccount extends Component {
                     </section>
                 </article>
             </>
-        );
-    }
-
-    renderLoader() {
-        const { isLoading } = this.state;
-
-        if (!isLoading) return null;
-
-        return (
-            <div block="MyAccount" elem="LoaderWrapper">
-                <div block="MyAccount" elem="Loader">
-                    <div />
-                    <div />
-                    <div />
-                </div>
-            </div>
         );
     }
 
