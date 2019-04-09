@@ -51,12 +51,16 @@ class MyAccount extends Component {
 
     static getDerivedStateFromProps(props, state) {
         const { isSignedIn, isPasswordForgotSend, showNotification } = props;
-        const { isPasswordForgotSend: currentIsPasswordForgotSend } = state;
+        const { isPasswordForgotSend: currentIsPasswordForgotSend, state: myAccountState } = state;
         const stateToBeUpdated = {};
 
         if (isSignedIn) {
             stateToBeUpdated.isLoading = false;
             stateToBeUpdated.state = STATE_LOGGED_IN;
+        }
+
+        if (myAccountState === STATE_LOGGED_IN && !isSignedIn) {
+            stateToBeUpdated.state = STATE_SIGN_IN;
         }
 
         if (isPasswordForgotSend !== currentIsPasswordForgotSend) {
@@ -108,7 +112,7 @@ class MyAccount extends Component {
 
         createAccount(customerData);
     }
-      
+
     onForgotPasswordSuccess(fields) {
         const { forgotPassword } = this.props;
         forgotPassword(fields);
@@ -177,12 +181,37 @@ class MyAccount extends Component {
     }
 
     renderAccountActions() {
+        const { logout } = this.props;
+
         return (
             <nav block="MyAccount" elem="Navigation">
                 <ul>
-                    <li><a>My Account</a></li>
-                    <li><a>My Orders</a></li>
-                    <li><a>Logout</a></li>
+                    <li>
+                        <button
+                          block="Button"
+                          mods={ { likeLink: true } }
+                        >
+                            My Account
+                        </button>
+                    </li>
+                    <li>
+                        <button
+                          block="Button"
+                          mods={ { likeLink: true } }
+                          onClick={ () => logout() }
+                        >
+                            My Orders
+                        </button>
+                    </li>
+                    <li>
+                        <button
+                          block="Button"
+                          mods={ { likeLink: true } }
+                          onClick={ () => logout() }
+                        >
+                            Logout
+                        </button>
+                    </li>
                 </ul>
             </nav>
         );
@@ -206,11 +235,21 @@ class MyAccount extends Component {
                 <article block="MyAccount" elem="Additional">
                     <section aria-labelledby="forgot-password-labe">
                         <h4 id="forgot-password-label">Already have an account?</h4>
-                        <button onClick={ () => this.changeState(STATE_SIGN_IN) }>Sign in here</button>
+                        <button
+                          block="Button"
+                          mods={ { likeLink: true } }
+                          onClick={ () => this.changeState(STATE_SIGN_IN) }
+                        >
+                            Sign in here
+                        </button>
                     </section>
                     <section aria-labelledby="create-account-label">
                         <h4 id="create-account-label">Don&apos;t have an account?</h4>
-                        <button onClick={ () => this.changeState(STATE_CREATE_ACCOUNT) }>
+                        <button
+                          block="Button"
+                          mods={ { likeLink: true } }
+                          onClick={ () => this.changeState(STATE_CREATE_ACCOUNT) }
+                        >
                             Create an account
                         </button>
                     </section>
@@ -264,7 +303,13 @@ class MyAccount extends Component {
                 <article block="MyAccount" elem="Additional">
                     <section aria-labelledby="create-account-label">
                         <h4 id="create-account-label">Already have an account?</h4>
-                        <button onClick={ () => this.changeState(STATE_SIGN_IN) }>Sign in here</button>
+                        <button
+                          block="Button"
+                          mods={ { likeLink: true } }
+                          onClick={ () => this.changeState(STATE_SIGN_IN) }
+                        >
+                            Sign in here
+                        </button>
                     </section>
                 </article>
             </>
@@ -300,13 +345,21 @@ class MyAccount extends Component {
                 <article block="MyAccount" elem="Additional">
                     <section aria-labelledby="forgot-password-labe">
                         <h4 id="forgot-password-label">Forgot password?</h4>
-                        <button onClick={ () => this.changeState(STATE_FORGOT_PASSWORD) }>
+                        <button
+                          block="Button"
+                          mods={ { likeLink: true } }
+                          onClick={ () => this.changeState(STATE_FORGOT_PASSWORD) }
+                        >
                             Get a password reset link
                         </button>
                     </section>
                     <section aria-labelledby="create-account-label">
                         <h4 id="create-account-label">Don&apos;t have an account?</h4>
-                        <button onClick={ () => this.changeState(STATE_CREATE_ACCOUNT) }>
+                        <button
+                          block="Button"
+                          mods={ { likeLink: true } }
+                          onClick={ () => this.changeState(STATE_CREATE_ACCOUNT) }
+                        >
                             Create an account
                         </button>
                     </section>
@@ -328,7 +381,8 @@ class MyAccount extends Component {
 MyAccount.propTypes = {
     forgotPassword: PropTypes.func.isRequired,
     signIn: PropTypes.func.isRequired,
-    isPasswordForgotSend: PropTypes.bool.isRequired
+    isPasswordForgotSend: PropTypes.bool.isRequired,
+    logout: PropTypes.func.isRequired
 };
 
 export default MyAccount;

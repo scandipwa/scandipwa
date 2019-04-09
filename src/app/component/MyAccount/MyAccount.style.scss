@@ -105,9 +105,9 @@
             box-sizing: border-box;
             content: '';
             position: absolute;
-            top: 0; 
-            left: 0; 
-            right: 0; 
+            top: 0;
+            left: 0;
+            right: 0;
             bottom: 0;
             margin: auto;
             background: var(--button-color);
@@ -115,7 +115,7 @@
 
         &::before {
             top: -10px;
-            width: 9px; 
+            width: 9px;
             height: 9px;
             border-radius: 100%;
         }
@@ -159,7 +159,7 @@
         }
 
         &_state_loggedIn {
-            width: 13rem; 
+            width: 13rem;
         }
 
         input {
@@ -182,10 +182,12 @@
             }
         }
 
-        a {
-            height: 100%;
+        a,
+        button {
+            width: 100%;
+            text-align: left;
             padding: 1rem 2rem;
-            display: block;
+            font-size: 1.2rem;
 
             &:hover {
                 background-color: var(--color-cart-light);

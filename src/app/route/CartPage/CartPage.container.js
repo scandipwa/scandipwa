@@ -15,8 +15,8 @@ import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import CartPage from './CartPage.component';
 
 const mapStateToProps = state => ({
-    products: state.CartReducer.products,
-    totals: state.CartReducer.totals
+    products: state.CartReducer.productsInCart,
+    totals: state.CartReducer.cartTotals
 });
 
 const mapDispatchToProps = dispatch => ({

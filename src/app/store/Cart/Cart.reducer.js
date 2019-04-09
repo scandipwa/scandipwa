@@ -16,64 +16,85 @@ import {
     REMOVE_PRODUCT_FROM_CART
 } from './Cart.action';
 
-const initialState = {
-    products: BrowserDatabase.getItem('cart') || {},
-    totals: {}
+const PRODUCTS_IN_CART = 'cart_products';
+
+const getProductId = ({ id, variants, configurableVariantIndex }) => (
+    typeof configurableVariantIndex === 'number'
+        ? variants[configurableVariantIndex].product.id
+        : id
+);
+
+const addProductToCart = (action, state) => {
+    const { newProduct, quantity } = action;
+    const { productsInCart } = state;
+    const id = getProductId(newProduct);
+
+    const newProductsInCart = (productsInCart[id])
+        ? {
+            ...productsInCart,
+            [id]: {
+                ...productsInCart[id],
+                quantity: productsInCart[id].quantity + quantity
+            }
+        }
+        : {
+            ...productsInCart,
+            [id]: {
+                ...newProduct,
+                quantity
+            }
+        };
+
+    BrowserDatabase.setItem(newProductsInCart, PRODUCTS_IN_CART);
+
+    return { productsInCart: newProductsInCart };
 };
 
-const getProductId = ({ id, variants, configurableVariantIndex }) => (typeof configurableVariantIndex === 'number'
-    ? variants[configurableVariantIndex].product.id
-    : id);
+const removeProductFromCart = (action, state) => {
+    const { product } = action;
+    const { productsInCart } = state;
+    const deleteProperty = (key, { [key]: _, ...newObj }) => newObj;
+    const newProductsInCart = deleteProperty(getProductId(product), productsInCart) || {};
 
+    BrowserDatabase.setItem(
+        newProductsInCart,
+        PRODUCTS_IN_CART
+    );
+
+    return { productsInCart: newProductsInCart };
+};
+
+const updateCartTotals = (action) => {
+    const { totals } = action;
+    return { cartTotals: totals };
+};
+
+const initialState = {
+    productsInCart: BrowserDatabase.getItem(PRODUCTS_IN_CART) || {},
+    cartTotals: {}
+};
 
 const CartReducer = (state = initialState, action) => {
-    let newState;
-    let products;
+    const { type } = action;
 
-    switch (action.type) {
+    switch (type) {
     case ADD_PRODUCT_TO_CART:
-        const { newProduct, quantity } = action;
-        const id = getProductId(newProduct);
-
-        products = (state.products[id])
-            ? {
-                ...state.products,
-                [id]: {
-                    ...state.products[id],
-                    quantity: state.products[id].quantity + quantity
-                }
-            }
-            : {
-                ...state.products,
-                [id]: {
-                    ...newProduct,
-                    quantity
-                }
-            };
-        BrowserDatabase.setItem(products, 'cart');
-
         return {
             ...state,
-            products
+            ...addProductToCart(action, state)
         };
 
     case REMOVE_PRODUCT_FROM_CART:
-        const { product } = action;
-        const deleteProperty = (key, { [key]: _, ...newObj }) => newObj; // it is requred since delete newState.propery will still mutate the original state and redux will not update props
-
-        products = deleteProperty(getProductId(product), state.products);
-        BrowserDatabase.setItem(products || {}, 'cart');
-
-        return { ...state, products };
-
-    case UPDATE_TOTALS:
-        const { totals } = action;
-        newState = {
+        return {
             ...state,
-            totals
+            ...removeProductFromCart(action, state)
         };
 
-        return newState;
+    case UPDATE_TOTALS:
+        return {
+            ...state,
+            ...updateCartTotals(action, state)
+        };
 
     default:
         return state;

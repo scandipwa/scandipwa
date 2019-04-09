@@ -1,5 +1,5 @@
-%button {
-    text-decoration: none !important; // because we never need underlines in buttons
+@mixin button {
+    text-decoration: none; // because we never need underlines in buttons
 
     border-radius: 0;
     font-size: 1.1rem;
@@ -13,31 +13,57 @@
     transition-duration: .25s;
     cursor: pointer;
     border: {
-      width: var(--button-border-width);
-      style: solid;
-      color: var(--button-border);
+        width: var(--button-border-width);
+        style: solid;
+        color: var(--button-border);
     }
 
-    &:not([disabled]) {
-        &:hover,
-        &:focus {
-            @include after-mobile {
-                border-color: var(--button-hover-border);
-                background-color: var(--button-hover-background);
-                color: var(--button-hover-color);
-            }
+    &:hover,
+    &:focus {
+        @include after-mobile {
+            border-color: var(--button-hover-border);
+            background-color: var(--button-hover-background);
+            color: var(--button-hover-color);
         }
     }
 
     &[disabled] {
         opacity: .25;
         cursor: not-allowed;
+
+        &:hover,
+        &:focus {
+            @include after-mobile {
+                color: var(--button-color);
+                background-color: var(--button-background);
+                border-color: var(--button-border);
+            }
+        }
     }
 
     &_hollow {
         border-color: var(--button-background);
         color: var(--button-background);
         background: transparent;
+    }
+
+    &_likeLink {
+        --button-border: transparent;
+        --button-background: transparent;
+        --button-color: var(--color-primary-base);
+        --button-hover-border: transparent;
+        --button-hover-background: transparent;
+        --button-hover-color: var(--color-primary-base);
+
+        text-transform: none;
+        margin: 0;
+        padding: 0;
+        font-weight: normal;
+
+        &:hover,
+        &:focus {
+            text-decoration: underline;
+        }
     }
 
     + button,

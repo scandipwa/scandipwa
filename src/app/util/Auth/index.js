@@ -12,11 +12,13 @@
 import {
     setAuthorizationToken,
     getAuthorizationToken,
+    deleteAuthorizationToken,
     isSignedIn
 } from './Token';
 
 export {
     setAuthorizationToken,
     getAuthorizationToken,
+    deleteAuthorizationToken,
     isSignedIn
 };

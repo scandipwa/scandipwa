@@ -29,10 +29,14 @@ import Breadcrumbs from 'Component/Breadcrumbs';
 import NotificationList from 'Component/NotificationList';
 
 import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
+import { CartDispatcher } from 'Store/Cart';
 
 class AppRouter extends Component {
     componentWillMount() {
-        const { updateHeaderAndFooter } = this.props;
+        const {
+            updateHeaderAndFooter,
+            updateInitialCartData
+        } = this.props;
         const footerOptions = {
             identifiers: [
                 'footer-free-shipping',
@@ -51,6 +55,7 @@ class AppRouter extends Component {
         };
 
         updateHeaderAndFooter({ menu: { menuId: 1 }, footer: footerOptions });
+        updateInitialCartData();
     }
 
     render() {
@@ -79,12 +84,17 @@ class AppRouter extends Component {
 }
 
 AppRouter.propTypes = {
-    updateHeaderAndFooter: PropTypes.func.isRequired
+    updateHeaderAndFooter: PropTypes.func.isRequired,
+    updateInitialCartData: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = dispatch => ({
     updateHeaderAndFooter: (options) => {
         HeaderAndFooterDispatcher.handleData(dispatch, options);
+    },
+
+    updateInitialCartData: () => {
+        CartDispatcher.updateInitialCartData(dispatch);
     }
 });
 
