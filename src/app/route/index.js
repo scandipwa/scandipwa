@@ -84,9 +84,22 @@ export class AppRouter extends Component {
                 }
             ]
         };
+        this.customItems = {}
     }
 
     componentWillMount() {
+        const {
+            beforeItems,
+            switchItems,
+            afterItems
+        } = this.customItems;
+
+        this.itemsMap = {
+            [BEFORE_ITEMS_TYPE]: beforeItems,
+            [SWITCH_ITEMS_TYPE]: switchItems,
+            [AFTER_ITEMS_TYPE]: afterItems
+        };
+
         const { updateHeaderAndFooter } = this.props;
         const footerOptions = {
             identifiers: [
@@ -108,12 +121,40 @@ export class AppRouter extends Component {
         updateHeaderAndFooter({ menu: { menuId: 1 }, footer: footerOptions });
     }
 
-    prepareContent(items) {
-        return items;
+    getItemsByContentType(contentType) {
+        return this.itemsMap[contentType];
+    }
+
+    prepareContent(items, contentType) {
+        const customItems = this.getItemsByContentType(contentType);
+
+        if (!customItems) throw Error('Please provide at least one content block');
+
+        const mergedItems = items.concat(customItems);
+
+        const data = Object.values(mergedItems.reduce((prev, current) => {
+            if (current.position < 0) {
+                console.warn(
+                    `Router item has negative position ${
+                        current.position
+                    }! Use positive values only.`
+                );
+                return current;
+            }
+            if (prev[current.position]) {
+                throw Error(`Router item has occupied position ${
+                    prev.position
+                }! Choose another position.`);
+            }
+
+            return { [current.position]: current, ...prev };
+        }, {}));
+
+        return data;
     }
 
     applyKeyToReactElement(element, key) {
-        return React.cloneElement(element, { ...element.props, key });
+        return React.cloneElement(element, { ...element.props, key })
     }
 
     render() {
@@ -127,7 +168,7 @@ export class AppRouter extends Component {
             <Router>
                 <>
                     {
-                        this.prepareContent(beforeItems, BEFORE_ITEMS_TYPE)
+                        this.prepareContent(beforeItems, BEFORE_ITEMS_TYPE)                                    
                             .map((item, key) => item && this.applyKeyToReactElement(item.component, key))
                     }
                     <NoMatchHandler>
@@ -139,7 +180,7 @@ export class AppRouter extends Component {
                         </Switch>
                     </NoMatchHandler>
                     {
-                        this.prepareContent(afterItems, AFTER_ITEMS_TYPE)
+                        this.prepareContent(afterItems, AFTER_ITEMS_TYPE)                                    
                             .map((item, key) => item && this.applyKeyToReactElement(item.component, key))
                     }
                 </>
