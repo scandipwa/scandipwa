@@ -132,40 +132,40 @@ export class AppRouter extends Component {
     /**
      * Merges core items and custom items. Returns sorted array by position.
      * @param {Array} items
-     * @param {*} contentType
+     * @param {string} contentType
      */
-    prepareContent(items, contentType) {
+    repareContent(items, contentType) {
         const customItems = this.getItemsByContentType(contentType);
         const mergedItems = items.concat(customItems);
         if (!customItems) throw Error('Please provide at least one content block');
 
         return Object.values(mergedItems.reduce((prev, current) => {
-            const currentPosition = current.position;
+            const { position, component } = current;
+            const { position: prevPosition } = prev;
 
-            if (currentPosition < 0) {
+            if (position < 0) {
                 console.warn(
                     `Router item has negative position ${
-                        current.position
+                        position
                     }! Use positive values only.`
                 );
 
                 return current;
             }
-
-            if (prev[current.position]) {
+            if (prev[position]) {
                 throw new Error(`Router item has occupied position ${
-                    prev.position
+                    prevPosition
                 }! Choose another position.`);
             }
 
-            return { [current.position]: current.component, ...prev };
+            return { [position]: component, ...prev };
         }, {}));
     }
 
     /**
      * Applies given key to the given element
      * @param {Object} element
-     * @param {*} key
+     * @param {string|number} key
      */
     applyKeyToReactElement(element, key) {
         return React.cloneElement(element, { ...element.props, key });
