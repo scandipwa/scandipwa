@@ -115,7 +115,7 @@ class FallbackPlugin {
                 };
 
                 const customPath = path.resolve(compiler.context, expected);
-                const customExists = this.fileOrFolderExists(customPath) && this.fileOrFolderExists(`${customPath}/index.js`);
+                const customExists = this.fileOrFolderExists(customPath);
 
                 // If custom exists and initial path is core - replace path, else return as is.
                 if (customExists) {

@@ -29,7 +29,63 @@ import NotificationList from 'Component/NotificationList';
 
 import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
 
-class AppRouter extends Component {
+export const BEFORE_ITEMS_TYPE = 'BEFORE_ITEMS_TYPE';
+export const SWITCH_ITEMS_TYPE = 'SWITCH_ITEMS_TYPE';
+export const AFTER_ITEMS_TYPE = 'AFTER_ITEMS_TYPE';
+
+export class AppRouter extends Component {
+    constructor() {
+        super();
+        this.items = {
+            beforeItems: [
+                {
+                    component: <NotificationList />,
+                    position: 10
+                },
+                {
+                    component: <Header />,
+                    position: 20
+                },
+                {
+                    component: <Breadcrumbs />,
+                    position: 30
+                }
+            ],
+            switchItems: [
+                {
+                    component: <Route path="/" exact component={ HomePage } />,
+                    position: 10
+                },
+                {
+                    component: <Route path="/category" component={ CategoryPage } />,
+                    position: 20
+                },
+                {
+                    component: <Route path="/product" component={ ProductPage } />,
+                    position: 30
+                },
+                {
+                    component: <Route path="/page/:id" component={ CmsPage } />,
+                    position: 40
+                },
+                {
+                    component: <Route path="/cart" exact component={ CartPage } />,
+                    position: 50
+                },
+                {
+                    component: <Route component={ NoMatch } />,
+                    position: 100
+                }
+            ],
+            afterItems: [
+                {
+                    component: <Footer />,
+                    position: 10
+                }
+            ]
+        };
+    }
+
     componentWillMount() {
         const { updateHeaderAndFooter } = this.props;
         const footerOptions = {
@@ -52,25 +108,40 @@ class AppRouter extends Component {
         updateHeaderAndFooter({ menu: { menuId: 1 }, footer: footerOptions });
     }
 
+    prepareContent(items) {
+        return items;
+    }
+
+    applyKeyToReactElement(element, key) {
+        return React.cloneElement(element, { ...element.props, key });
+    }
+
     render() {
+        const {
+            beforeItems,
+            switchItems,
+            afterItems
+        } = this.items;
+
         return (
             <Router>
                 <>
-                    <NotificationList />
-                    <Header />
-                    <Breadcrumbs />
+                    {
+                        this.prepareContent(beforeItems, BEFORE_ITEMS_TYPE)
+                            .map((item, key) => item && this.applyKeyToReactElement(item.component, key))
+                    }
                     <NoMatchHandler>
                         <Switch>
-                            <Route path="/" exact component={ HomePage } />
-                            <Route path="/category" component={ CategoryPage } />
-                            <Route path="/product" component={ ProductPage } />
-                            <Route path="/page/:id" component={ CmsPage } />
-                            <Route path="/cart" exact component={ CartPage } />
-                            { this.getAdditionalRoutes() }
-                            <Route component={ NoMatch } />
+                            {
+                                this.prepareContent(switchItems, SWITCH_ITEMS_TYPE)
+                                    .map((item, key) => item && this.applyKeyToReactElement(item.component, key))
+                            }
                         </Switch>
                     </NoMatchHandler>
-                    <Footer />
+                    {
+                        this.prepareContent(afterItems, AFTER_ITEMS_TYPE)
+                            .map((item, key) => item && this.applyKeyToReactElement(item.component, key))
+                    }
                 </>
             </Router>
         );

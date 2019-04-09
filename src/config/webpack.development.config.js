@@ -158,11 +158,7 @@ module.exports = {
         new WebpackPwaManifest(WebmanifestConfig(projectRoot)),
 
         new CopyWebpackPlugin([
-            { from: path.resolve(projectRoot, 'src', 'public', 'assets'), to: './assets' },
-            {
-                from: path.resolve(fallbackRoot, 'src', 'app', 'route', 'RouterTemplate', 'index.js'),
-                to: path.resolve(projectRoot, 'src', 'app', 'route')
-            }
+            { from: path.resolve(projectRoot, 'src', 'public', 'assets'), to: './assets' }
         ]),
 
         new FallbackPlugin({
