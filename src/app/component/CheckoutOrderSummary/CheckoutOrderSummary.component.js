@@ -15,8 +15,8 @@ import ProductPrice from 'Component/ProductPrice';
 import Image from 'Component/Image';
 import { TotalsType } from 'Type/MiniCart';
 import { ProductType } from 'Type/ProductList';
-import './CheckoutOrderSummary.style';
 import PropTypes from "prop-types";
+import './CheckoutOrderSummary.style';
 
 /**
  *
