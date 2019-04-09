@@ -16,12 +16,14 @@ import {
 import {
     UPDATE_CUSTOMER_SIGN_IN_STATUS,
     UPDATE_CUSTOMER_DETAILS,
-    UPDATE_CUSTOMER_PASSWORD_RESET_STATUS
+    UPDATE_CUSTOMER_PASSWORD_RESET_STATUS,
+    UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS
 } from './MyAccount.action';
 
 const initialState = {
     isSignedIn: isInitiallySignedIn(),
-    isPasswordReset: false,
+    passwordResetStatus: false,
+    isPasswordForgotSend: false,
     customer: {}
 };
 
@@ -38,7 +40,13 @@ const MyAccountReducer = (state = initialState, action) => {
     case UPDATE_CUSTOMER_PASSWORD_RESET_STATUS:
         return {
             ...state,
-            isPasswordReset: status
+            passwordResetStatus: status
+        };
+
+    case UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS:
+        return {
+            ...state,
+            isPasswordForgotSend: !state.isPasswordForgotSend
         };
 
     case UPDATE_CUSTOMER_DETAILS:

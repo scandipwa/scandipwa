@@ -10,9 +10,11 @@
  */
 
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { isSignedIn } from 'Util/Auth';
 import Field from 'Component/Field';
 import Form from 'Component/Form';
+import Loader from 'Component/Loader';
 import './MyAccount.style';
 
 const STATE_SIGN_IN = 'signIn';
@@ -32,7 +34,9 @@ class MyAccount extends Component {
             state: isSignedIn() ? STATE_LOGGED_IN : STATE_SIGN_IN,
             isHovered: false,
             isOpen: false,
-            isLoading: false
+            isLoading: false,
+            // eslint-disable-next-line react/no-unused-state
+            isPasswordForgotSend: props.isPasswordForgotSend
         };
 
         this.renderMap = {
@@ -45,15 +49,22 @@ class MyAccount extends Component {
         this.changeState = this.changeState.bind(this);
     }
 
-    static getDerivedStateFromProps(props) {
-        const { isSignedIn } = props;
+    static getDerivedStateFromProps(props, state) {
+        const { isSignedIn, isPasswordForgotSend, showNotification } = props;
+        const { isPasswordForgotSend: currentIsPasswordForgotSend } = state;
         const stateToBeUpdated = {};
-
-        console.log(isSignedIn);
 
         if (isSignedIn) {
             stateToBeUpdated.isLoading = false;
             stateToBeUpdated.state = STATE_LOGGED_IN;
+        }
+
+        if (isPasswordForgotSend !== currentIsPasswordForgotSend) {
+            stateToBeUpdated.isLoading = false;
+            stateToBeUpdated.isPasswordForgotSend = isPasswordForgotSend;
+            showNotification('success', `If there is an account associated with the
+            provided address you will receive an email with a link to reset your password.`);
+            stateToBeUpdated.state = STATE_SIGN_IN;
         }
 
         return Object.keys(stateToBeUpdated).length ? stateToBeUpdated : null;
@@ -66,6 +77,49 @@ class MyAccount extends Component {
 
     onSignInAttempt() {
         this.setState({ isLoading: true });
+    }
+
+    onCreateAccountAttempt(fields, invalidFields) {
+        const { showNotification } = this.props;
+        if (invalidFields) {
+            showNotification('error', 'Incorrect data! Please resolve all field validation errors.');
+        }
+        this.setState({ isLoading: !invalidFields });
+    }
+
+    onCreateAccountSuccess(fields) {
+        const { createAccount } = this.props;
+        const {
+            password,
+            email,
+            firstname,
+            lastname,
+            is_subscribed
+        } = fields;
+        const customerData = {
+            customer: {
+                firstname,
+                lastname,
+                email,
+                is_subscribed
+            },
+            password
+        };
+
+        createAccount(customerData);
+    }
+      
+    onForgotPasswordSuccess(fields) {
+        const { forgotPassword } = this.props;
+        forgotPassword(fields);
+    }
+
+    onForgotPasswordAttempt() {
+        this.setState({ isLoading: true });
+    }
+
+    onFormError() {
+        this.setState({ isLoading: false });
     }
 
     changeState(state) {
@@ -103,7 +157,7 @@ class MyAccount extends Component {
     }
 
     renderDropdown() {
-        const { state } = this.state;
+        const { state, isLoading } = this.state;
         const renderFunction = this.renderMap[state];
 
         return (
@@ -114,7 +168,7 @@ class MyAccount extends Component {
               onMouseEnter={ () => this.setState({ isHovered: true }) }
               onMouseLeave={ () => this.setState({ isHovered: false }) }
             >
-                { this.renderLoader() }
+                <Loader isLoading={ isLoading } />
                 <div block="MyAccount" elem="Action" mods={ { state } }>
                     { renderFunction() }
                 </div>
@@ -137,7 +191,12 @@ class MyAccount extends Component {
     renderForgotPassword() {
         return (
             <>
-                <Form key="forgot-password">
+                <Form
+                  key="forgot-password"
+                  onSubmit={ () => this.onForgotPasswordAttempt() }
+                  onSubmitSuccess={ fields => this.onForgotPasswordSuccess(fields) }
+                  onSubmitError={ () => this.onFormError() }
+                >
                     <h3>Get password reset link</h3>
                     <Field type="text" label="Email" id="email" validation={ ['notEmpty', 'email'] } />
                     <div block="MyAccount" elem="Buttons">
@@ -147,13 +206,13 @@ class MyAccount extends Component {
                 <article block="MyAccount" elem="Additional">
                     <section aria-labelledby="forgot-password-labe">
                         <h4 id="forgot-password-label">Already have an account?</h4>
-                        <a href="#sign-in" onClick={ () => this.changeState(STATE_SIGN_IN) }>Sign in here</a>
+                        <button onClick={ () => this.changeState(STATE_SIGN_IN) }>Sign in here</button>
                     </section>
                     <section aria-labelledby="create-account-label">
                         <h4 id="create-account-label">Don&apos;t have an account?</h4>
-                        <a href="#create-account" onClick={ () => this.changeState(STATE_CREATE_ACCOUNT) }>
+                        <button onClick={ () => this.changeState(STATE_CREATE_ACCOUNT) }>
                             Create an account
-                        </a>
+                        </button>
                     </section>
                 </article>
             </>
@@ -163,7 +222,12 @@ class MyAccount extends Component {
     renderCreateAccount() {
         return (
             <>
-                <Form key="create-account">
+                <Form
+                  key="create-account"
+                  onSubmit={ () => this.onCreateAccountAttempt() }
+                  onSubmitSuccess={ fields => this.onCreateAccountSuccess(fields) }
+                  onSubmitError={ (fields, invalidFields) => this.onCreateAccountAttempt(fields, invalidFields) }
+                >
                     <h3>Create your account</h3>
                     <fieldset block="MyAccount" elem="Legend">
                         <legend>Personal Information</legend>
@@ -200,7 +264,7 @@ class MyAccount extends Component {
                 <article block="MyAccount" elem="Additional">
                     <section aria-labelledby="create-account-label">
                         <h4 id="create-account-label">Already have an account?</h4>
-                        <a href="#create-account" onClick={ () => this.changeState(STATE_SIGN_IN) }>Sign in here</a>
+                        <button onClick={ () => this.changeState(STATE_SIGN_IN) }>Sign in here</button>
                     </section>
                 </article>
             </>
@@ -214,6 +278,7 @@ class MyAccount extends Component {
                   key="sign-in"
                   onSubmit={ () => this.onSignInAttempt() }
                   onSubmitSuccess={ fields => this.onSignInSuccess(fields) }
+                  onSubmitError={ () => this.onFormError() }
                 >
                     <h3>Sign in to your account</h3>
                     <Field
@@ -235,34 +300,18 @@ class MyAccount extends Component {
                 <article block="MyAccount" elem="Additional">
                     <section aria-labelledby="forgot-password-labe">
                         <h4 id="forgot-password-label">Forgot password?</h4>
-                        <a href="#password-reset" onClick={ () => this.changeState(STATE_FORGOT_PASSWORD) }>
+                        <button onClick={ () => this.changeState(STATE_FORGOT_PASSWORD) }>
                             Get a password reset link
-                        </a>
+                        </button>
                     </section>
                     <section aria-labelledby="create-account-label">
                         <h4 id="create-account-label">Don&apos;t have an account?</h4>
-                        <a href="#create-account" onClick={ () => this.changeState(STATE_CREATE_ACCOUNT) }>
+                        <button onClick={ () => this.changeState(STATE_CREATE_ACCOUNT) }>
                             Create an account
-                        </a>
+                        </button>
                     </section>
                 </article>
             </>
-        );
-    }
-
-    renderLoader() {
-        const { isLoading } = this.state;
-
-        if (!isLoading) return null;
-
-        return (
-            <div block="MyAccount" elem="LoaderWrapper">
-                <div block="MyAccount" elem="Loader">
-                    <div />
-                    <div />
-                    <div />
-                </div>
-            </div>
         );
     }
 
@@ -275,5 +324,11 @@ class MyAccount extends Component {
         );
     }
 }
+
+MyAccount.propTypes = {
+    forgotPassword: PropTypes.func.isRequired,
+    signIn: PropTypes.func.isRequired,
+    isPasswordForgotSend: PropTypes.bool.isRequired
+};
 
 export default MyAccount;

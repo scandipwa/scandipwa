@@ -9,11 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-.NotificationList {
-    position: fixed;
-    z-index: 100;
-    top: 30px;
-    right: 30px;
-    max-width: 550px;
-    list-style: none;
-}
+import Loader from './Loader.component';
+
+export default Loader;

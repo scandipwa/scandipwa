@@ -12,7 +12,8 @@
 import {
     updateCustomerSignInStatus,
     updateCustomerDetails,
-    updateCustomerPasswordResetStatus
+    updateCustomerPasswordResetStatus,
+    updateCustomerPasswordForgotStatus
 } from 'Store/MyAccount';
 import { QueryDispatcher, fetchMutation } from 'Util/Request';
 import { setAuthorizationToken, isSignedIn } from 'Util/Auth';
@@ -42,10 +43,12 @@ class MyAccountDispatcher extends QueryDispatcher {
      * @returns {Promise<{status: String}>} Reset password token
      * @memberof MyAccountDispatcher
      */
-    forgotPassword(options = {}) {
+    forgotPassword(options = {}, dispatch) {
         const mutation = MyAccount.getForgotPasswordMutation(options);
-        // TODO: WHEN IMPLEMENTING ALWAYS RETURN THAT EMAIL WAS SENT!!!
-        fetchMutation(mutation);
+        fetchMutation(mutation).then(
+            () => dispatch(updateCustomerPasswordForgotStatus()),
+            error => console.log(error)
+        );
     }
 
     /**
@@ -57,8 +60,8 @@ class MyAccountDispatcher extends QueryDispatcher {
     resetPassword(options = {}, dispatch) {
         const mutation = MyAccount.getResetPasswordMutation(options);
         fetchMutation(mutation).then(
-            ({ status }) => dispatch(updateCustomerPasswordResetStatus(status)),
-            error => console.log(error)
+            ({ resetPassword: { status } }) => dispatch(updateCustomerPasswordResetStatus(status)),
+            () => dispatch(updateCustomerPasswordResetStatus('error'))
         );
     }
 
@@ -68,11 +71,12 @@ class MyAccountDispatcher extends QueryDispatcher {
      * @memberof MyAccountDispatcher
      */
     createAccount(options = {}, dispatch) {
+        const { customer: { email }, password } = options;
         const mutation = MyAccount.getCreateAccountMutation(options);
 
         fetchMutation(mutation).then(
             ({ customer }) => {
-                this.signIn(options, dispatch);
+                this.signIn({ email, password }, dispatch);
                 dispatch(updateCustomerDetails(customer));
             },
             error => console.log(error)

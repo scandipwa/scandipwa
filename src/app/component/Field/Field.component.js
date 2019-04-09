@@ -37,6 +37,7 @@ class Field extends Component {
         super(props);
 
         this.onChange = this.onChange.bind(this);
+        this.toggleCheckbox = this.toggleCheckbox.bind(this);
 
         const { type, min } = this.props;
         let { value } = this.props;
@@ -60,7 +61,7 @@ class Field extends Component {
             }
         }
 
-        this.state = { value };
+        this.state = { value, isChecked: false };
     }
 
     /**
@@ -117,6 +118,13 @@ class Field extends Component {
         if (onChange) onChange(value);
     }
 
+    toggleCheckbox(event) {
+        const { isChecked } = this.state;
+        event.preventDefault();
+
+        this.setState({ isChecked: !isChecked, value: !isChecked });
+    }
+
     renderTextarea() {
         const {
             id,
@@ -144,10 +152,11 @@ class Field extends Component {
         const {
             id, name, type, value, checked, formRef
         } = this.props;
+        const { isChecked } = this.state;
 
         const checkedBool = type === RADIO_TYPE
             ? checked === value
-            : checked;
+            : isChecked;
 
         return (
             <>
@@ -156,8 +165,9 @@ class Field extends Component {
                   type={ type }
                   checked={ checkedBool }
                   name={ name }
-                  value={ value }
-                  onChange={ this.onChange }
+                  value={ isChecked }
+                  onChange={ this.toggleCheckbox }
+                  onKeyPress={ e => this.toggleCheckbox(e) }
                   onFocus={ event => this.onFocus(event) }
                   onClick={ event => this.onClick(event) }
                   id={ id }
