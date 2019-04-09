@@ -123,7 +123,7 @@ export class AppRouter extends Component {
 
     /**
      * Returns custom items by contentType
-     * @param {*} contentType
+     * @param {string} contentType
      */
     getItemsByContentType(contentType) {
         return this.itemsMap[contentType];
