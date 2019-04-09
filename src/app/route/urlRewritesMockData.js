@@ -55,6 +55,18 @@ export default {
                     ]
                 }
             ]
+        },
+        cms: {
+            items: [
+                {
+                    url_key: 'privacy-policy-cookie-restriction-mode',
+                    url_rewrites: [
+                        {
+                            url: '/mock-cms'
+                        }
+                    ]
+                }
+            ]
         }
     }
 };

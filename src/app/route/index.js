@@ -19,7 +19,6 @@ import CategoryPage from 'Route/CategoryPage';
 import ProductPage from 'Route/ProductPage';
 import CmsPage from 'Route/CmsPage';
 import CartPage from 'Route/CartPage';
-import NoMatch from 'Route/NoMatch';
 import NoMatchHandler from 'Route/NoMatchHandler';
 
 import Header from 'Component/Header';

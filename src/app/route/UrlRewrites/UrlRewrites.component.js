@@ -20,15 +20,12 @@ import UrlRewritesMockData from '../urlRewritesMockData';
 
 class UrlRewrites extends Component {
     switcher({ originalKey, i }, route) {
-        // removeProductFromCart.
-    
         const newRoute = {
             ...route,
             location: {
                 ...route.location,
                 pathname: `/${ originalKey }`
             }
-            
         };
 
         switch (i) {
@@ -82,22 +79,20 @@ class UrlRewrites extends Component {
             }
         } = this;
         const urlRewrites = this.findUrlRewrites(pathname);
-        const switcher = this.switcher(urlRewrites[0], props);
 
-        return switcher;
+        if (urlRewrites.length) return this.switcher(urlRewrites[0], props);
+
+        return <NoMatch { ...props } />;
     }
 }
 
-// UrlRewrites.propTypes = {
-//     updateHeaderAndFooter: PropTypes.func.isRequired
-// };
-
-// const mapDispatchToProps = dispatch => ({
-//     updateHeaderAndFooter: (options) => {
-//         HeaderAndFooterDispatcher.handleData(dispatch, options);
-//     }
-// });
-
-// const UrlRewritesContainer = connect(() => ({}), mapDispatchToProps)(UrlRewrites);
+UrlRewrites.propTypes = {
+    location: PropTypes.shape({
+        pathname: PropTypes.string.isRequired
+    }).isRequired,
+    match: PropTypes.shape({
+        path: PropTypes.string.isRequired
+    }).isRequired
+};
 
 export default UrlRewrites;
