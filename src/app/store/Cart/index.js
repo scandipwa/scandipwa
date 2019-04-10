@@ -10,24 +10,28 @@
  */
 
 import CartReducer from './Cart.reducer';
-import CartDispatcher, { QUOTE_ID } from './Cart.dispatcher';
+import CartDispatcher, { GUEST_QUOTE_ID } from './Cart.dispatcher';
 import {
     ADD_PRODUCT_TO_CART,
     REMOVE_PRODUCT_FROM_CART,
+    UPDATE_ALL_PRODUCTS_IN_CART,
     UPDATE_TOTALS,
     addProductToCart,
     removeProductFromCart,
-    updateTotals
+    updateTotals,
+    updateAllProductsInCart
 } from './Cart.action';
 
 export {
     CartReducer,
     CartDispatcher,
-    QUOTE_ID,
+    GUEST_QUOTE_ID,
     ADD_PRODUCT_TO_CART,
     REMOVE_PRODUCT_FROM_CART,
+    UPDATE_ALL_PRODUCTS_IN_CART,
     UPDATE_TOTALS,
     addProductToCart,
     removeProductFromCart,
+    updateAllProductsInCart,
     updateTotals
 };

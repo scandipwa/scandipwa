@@ -54,13 +54,15 @@ class MyAccount extends Component {
         const { isPasswordForgotSend: currentIsPasswordForgotSend, state: myAccountState } = state;
         const stateToBeUpdated = {};
 
-        if (isSignedIn) {
+        if (myAccountState !== STATE_LOGGED_IN && isSignedIn) {
             stateToBeUpdated.isLoading = false;
+            showNotification('success', 'You are successfully logged in!');
             stateToBeUpdated.state = STATE_LOGGED_IN;
         }
 
         if (myAccountState === STATE_LOGGED_IN && !isSignedIn) {
             stateToBeUpdated.state = STATE_SIGN_IN;
+            showNotification('success', 'You are successfully logged out!');
         }
 
         if (isPasswordForgotSend !== currentIsPasswordForgotSend) {
@@ -382,6 +384,8 @@ MyAccount.propTypes = {
     forgotPassword: PropTypes.func.isRequired,
     signIn: PropTypes.func.isRequired,
     isPasswordForgotSend: PropTypes.bool.isRequired,
+    showNotification: PropTypes.func.isRequired,
+    createAccount: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired
 };
 

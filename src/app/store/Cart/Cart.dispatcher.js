@@ -10,7 +10,12 @@
  */
 
 import { fetchMutation } from 'Util/Request';
-import { addProductToCart, removeProductFromCart, updateTotals } from 'Store/Cart';
+import {
+    addProductToCart,
+    removeProductFromCart,
+    updateTotals,
+    updateAllProductsInCart
+} from 'Store/Cart';
 import { getProductPrice } from 'Util/Price';
 import { isSignedIn } from 'Util/Auth';
 import { Cart } from 'Query';
@@ -49,6 +54,7 @@ class CartDispatcher {
 
     _syncCartWithBE(dispatch, quoteId) {
         // Need to get current cart from BE, update cart
+        // updateAllProductsInCart()
         console.log('SYNCING');
     }
 

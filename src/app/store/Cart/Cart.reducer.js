@@ -13,7 +13,8 @@ import BrowserDatabase from 'Util/BrowserDatabase';
 import {
     ADD_PRODUCT_TO_CART,
     UPDATE_TOTALS,
-    REMOVE_PRODUCT_FROM_CART
+    REMOVE_PRODUCT_FROM_CART,
+    UPDATE_ALL_PRODUCTS_IN_CART
 } from './Cart.action';
 
 const PRODUCTS_IN_CART = 'cart_products';
@@ -69,6 +70,11 @@ const updateCartTotals = (action) => {
     return { cartTotals: totals };
 };
 
+const updateAllProductsInCart = (action) => {
+    const { products } = action;
+    return { productsInCart: products };
+}
+
 const initialState = {
     productsInCart: BrowserDatabase.getItem(PRODUCTS_IN_CART) || {},
     cartTotals: {}
@@ -88,6 +94,12 @@ const CartReducer = (state = initialState, action) => {
         return {
             ...state,
             ...removeProductFromCart(action, state)
+        };
+
+    case UPDATE_ALL_PRODUCTS_IN_CART:
+        return {
+            ...state,
+            ...updateAllProductsInCart(action)
         };
 
     case UPDATE_TOTALS:
