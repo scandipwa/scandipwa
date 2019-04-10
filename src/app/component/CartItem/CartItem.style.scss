@@ -18,7 +18,7 @@
     display: grid;
     grid-template-columns: 10rem auto;
     grid-column-gap: .5rem;
-    padding-right: 2rem;
+    padding-right: 2.5rem;
     border-bottom: 1px solid var(--color-neutral-light);
 
     border: {
@@ -111,8 +111,8 @@
     
     &-RemoveButton {
         position: absolute;
-        top: 2.4rem;
-        right: 2rem;
+        top: 1.6rem;
+        right: 2.4rem;
         padding: 0;
         background-color: transparent; 
         border: 0;

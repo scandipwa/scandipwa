@@ -15,7 +15,7 @@
     $crumb-padding: 10px;
     $arrow-size: 4px;
 
-    @include tablet {
+    @include mobile {
         --color-breadcrumbs-background: #fff;
     }
 
@@ -50,6 +50,12 @@
 
         &:not(:last-child) {
             margin: 0;
+
+            &:not(:first-child) {
+                a {
+                    color: var(--color-breadcrumbs-base);
+                }
+            }
 
             &::after {
                 content: '';
