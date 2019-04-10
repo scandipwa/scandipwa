@@ -11,11 +11,13 @@
 
 /* eslint-disable no-param-reassign */
 import {
-    UPDATE_MENU
+    UPDATE_MENU,
+    TOGGLE_HEADER_AND_FOOTER
 } from './HeaderAndFooter.action';
 
 const initialState = {
-    menu: {}
+    menu: {},
+    isHeaderAndFooterVisible: true
 };
 
 const HeaderAndFooterReducer = (state = initialState, action) => {
@@ -61,6 +63,14 @@ const HeaderAndFooterReducer = (state = initialState, action) => {
         return {
             ...state,
             menu
+        };
+
+    case TOGGLE_HEADER_AND_FOOTER:
+        const { isHeaderAndFooterVisible } = action;
+
+        return {
+            ...state,
+            isHeaderAndFooterVisible
         };
 
     default:

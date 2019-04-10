@@ -10,14 +10,19 @@
  */
 
 import { connect } from 'react-redux';
+import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
 import CheckoutPage from './CheckoutPage.component';
 
 const mapStateToProps = state => ({
     products: state.CartReducer.products,
-    totals: state.CartReducer.totals
+    totals: state.CartReducer.totals,
+    toggleHeaderAndFooter: state.HeaderAndFooterReducer.toggleHeaderAndFooter
 });
 
 const mapDispatchToProps = dispatch => ({
+    updateToggleHeaderAndFooter: (options) => {
+        HeaderAndFooterDispatcher.toggleHeaderAndFooter(dispatch, options);
+    }
 });
 
 const CheckoutPageContainer = connect(mapStateToProps, mapDispatchToProps)(CheckoutPage);

@@ -96,6 +96,8 @@ class CheckoutPage extends Component {
     }
 
     componentDidMount() {
+        const { updateToggleHeaderAndFooter } = this.props;
+        updateToggleHeaderAndFooter({ status: false });
     }
 
     componentDidUpdate(prevProps) {
@@ -599,5 +601,7 @@ class CheckoutPage extends Component {
         );
     }
 }
+
+CheckoutPage.propT
 
 export default CheckoutPage;

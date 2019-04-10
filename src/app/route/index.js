@@ -74,6 +74,10 @@ export class AppRouter extends Component {
                     position: 50
                 },
                 {
+                    component: <Route path="/checkout" exact component={ CheckoutPage } />,
+                    position: 60
+                },
+                {
                     component: <Route component={ NoMatch } />,
                     position: 100
                 }
