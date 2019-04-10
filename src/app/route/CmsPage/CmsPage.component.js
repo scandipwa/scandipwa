@@ -21,7 +21,12 @@ import './CmsPage.style';
 
 class CmsPage extends Component {
     componentDidMount() {
-        const { requestPage, location, match, enableBreadcrumbs } = this.props;
+        const {
+            requestPage,
+            location,
+            match,
+            enableBreadcrumbs
+        } = this.props;
         const urlParam = getUrlParam(match, location);
 
         requestPage({ id: urlParam });
