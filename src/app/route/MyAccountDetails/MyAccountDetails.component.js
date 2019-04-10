@@ -18,7 +18,7 @@ import './MyAccountDetails.style';
 const STATE_ACCOUNT_OVERVIEW = 'accountOverview';
 const STATE_EDIT_INFORMATION = 'editInformation';
 const STATE_EDIT_PASSWORD = 'editPassword';
-const STATE_UPDATE_ADDRESS = 'addAddress';
+const STATE_UPDATE_ADDRESS = 'updateAddress';
 
 class MyAccountDetails extends Component {
     constructor(props) {
@@ -26,6 +26,7 @@ class MyAccountDetails extends Component {
 
         this.state = {
             state: STATE_ACCOUNT_OVERVIEW,
+            addressType: '',
             isLoading: false
         };
 
@@ -45,19 +46,17 @@ class MyAccountDetails extends Component {
     }
 
     componentDidUpdate() {
-        const { customer } = this.props;
+        const { customer, customer: { addresses }, showNotification } = this.props;
+        const { state } = this.state;
 
-        // if (!customer) {
-        //     TODO fix these two funcitons to be callback for updateCustomerData
-        //     console.log('start');
-        //     this.requestCustomerData(() => {
-        //         console.log('callback');
-        //         this.changeState(STATE_ACCOUNT_OVERVIEW);
-        //     });
-        // }
+        if (!customer && state !== STATE_ACCOUNT_OVERVIEW) {
+            this.requestCustomerData();
+            this.changeState(STATE_ACCOUNT_OVERVIEW);
+            showNotification('success', 'Changes have been saved to your account!');
+        }
     }
 
-    onUpdateAccountAttempt(fields, invalidFields) {
+    onUpdateAttempt(fields, invalidFields) {
         const { showNotification } = this.props;
 
         if (invalidFields) {
@@ -82,12 +81,52 @@ class MyAccountDetails extends Component {
         updateCustomerData(customer);
     }
 
+    onUpdateAddressSuccess(fields, isAddressCreation, addressType) {
+        const { updateCustomerAddress, createCustomerAddress } = this.props;
+        const {
+            city,
+            company,
+            country_id,
+            firstname,
+            lastname,
+            postcode,
+            region: { region },
+            street,
+            telephone
+        } = fields;
+        const addresses = {
+            city,
+            company,
+            country_id,
+            firstname,
+            lastname,
+            postcode,
+            region,
+            street,
+            telephone,
+            default_shipping: addressType === 'shipping',
+            default_billing: addressType === 'billing'
+        };
+        // TODO change to actaul address id, dynamic default choose
+        const id = 1;
+        const default_shipping = addressType === 'shipping';
+        const default_billing = addressType === 'billing';
+        console.log(default_shipping);
+        console.log(default_billing);
+
+        if (isAddressCreation) {
+            createCustomerAddress(addresses);
+        } else {
+            updateCustomerAddress(id, { default_billing, default_shipping, ...addresses });
+        }
+    }
+
     onFormError() {
         this.setState({ isLoading: false });
     }
 
-    changeState(state) {
-        this.setState({ state });
+    changeState(state, addressType) {
+        this.setState({ state, addressType });
     }
 
     requestCustomerData() {
@@ -125,13 +164,18 @@ class MyAccountDetails extends Component {
     }
 
     renderUpdateAddress() {
+        const { customer: { addresses } } = this.props;
+        const { addressType } = this.state;
+        const selectedAddress = addressType === 'billing' ? 0 : 1;
+        const isAddressCreation = !addresses[selectedAddress];
+
         return (
             <>
                 <Form
                   key="add-address"
-                //   onSubmit={ () => this.onUpdateAddressAttempt() }
-                //   onSubmitSuccess={ fields => this.onUpdateAddressSuccess(fields) }
-                //   onSubmitError={ (fields, invalidFields) => this.onUpdateAddressAttempt(fields, invalidFields) }
+                  onSubmit={ () => this.onUpdateAttempt() }
+                  onSubmitSuccess={ fields => this.onUpdateAddressSuccess(fields, isAddressCreation, addressType) }
+                  onSubmitError={ (fields, invalidFields) => this.onUpdateAttempt(fields, invalidFields) }
                 >
                 <fieldset block="MyAccountDetails" elem="AccountInfo">
                     <legend>Contact Information</legend>
@@ -144,6 +188,7 @@ class MyAccountDetails extends Component {
                     <legend>Address</legend>
                     <Field type="text" label="Street Address" id="street" validation={ ['notEmpty'] } />
                     <Field type="text" label="City" id="city" validation={ ['notEmpty'] } />
+                    <Field type="text" label="Postcode" id="postcode" validation={ ['notEmpty'] } />
                     <Field type="text" label="State/Province" id="region" validation={ ['notEmpty'] } />
                     <Field type="text" label="Country" id="country_id" validation={ ['notEmpty'] } />
                 </fieldset>
@@ -157,9 +202,9 @@ class MyAccountDetails extends Component {
         return (
             <>
                 <Form
-                  onSubmit={ () => this.onUpdateAccountAttempt() }
+                  onSubmit={ () => this.onUpdateAttempt() }
                   onSubmitSuccess={ fields => this.onUpdateAccountSuccess(fields) }
-                  onSubmitError={ (fields, invalidFields) => this.onUpdateAccountAttempt(fields, invalidFields) }
+                  onSubmitError={ (fields, invalidFields) => this.onUpdateAttempt(fields, invalidFields) }
                 >
                     <fieldset block="MyAccountDetails" elem="AccountInfo">
                         <legend>Edit Account Information</legend>
@@ -257,7 +302,11 @@ class MyAccountDetails extends Component {
     }
 
     renderAddress(addresses, addressType) {
-        if (addresses && addresses.length) {
+        const selectedAddress = addressType === 'billing' ? 0 : 1;
+
+        if (addresses && addresses[selectedAddress]) {
+            console.log(addressType);
+        console.log(addresses[selectedAddress]);
             const {
                 firstname,
                 lastname,
@@ -265,7 +314,7 @@ class MyAccountDetails extends Component {
                 city,
                 country,
                 telephone
-            } = addresses;
+            } = addresses[selectedAddress];
 
             return (
                 <>
@@ -277,7 +326,13 @@ class MyAccountDetails extends Component {
                     <div block="MyAccountDetails" elem="Field">{ city }</div>
                     <div block="MyAccountDetails" elem="Field">{ country }</div>
                     <div block="MyAccountDetails" elem="Field">{ telephone }</div>
-                    <button block="MyAccountDetails" elem="EditButton">Edit Address</button>
+                    <button
+                      block="MyAccountDetails"
+                      elem="EditButton"
+                      onClick={ () => this.changeState(STATE_UPDATE_ADDRESS, addressType) }
+                    >
+                        Edit Address
+                    </button>
                 </>
             );
         }
@@ -292,7 +347,7 @@ class MyAccountDetails extends Component {
                 <button
                   block="MyAccountDetails"
                   elem="AddButton"
-                  onClick={ () => this.changeState(STATE_UPDATE_ADDRESS) }
+                  onClick={ () => this.changeState(STATE_UPDATE_ADDRESS, addressType) }
                 >
                     Add New Address
                 </button>

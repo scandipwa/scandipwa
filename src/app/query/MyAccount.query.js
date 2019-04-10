@@ -97,6 +97,67 @@ class MyAccount {
             .addField(this.getCustomer(true));
     }
 
+    getCreateAddressMutation(options) {
+        const region = new Field('region')
+            .addField('region_code')
+            .addField('region')
+            .addField('region_id');
+
+            console.log(options);
+
+        return new Field('createCustomerAddress')
+            .addArgument('input', 'CustomerAddressInput!', options)
+            .addField('id')
+            .addField('customer_id')
+            .addField(region)
+            .addField('country_id')
+            .addField('street')
+            .addField('company')
+            .addField('telephone')
+            .addField('fax')
+            .addField('postcode')
+            .addField('city')
+            .addField('firstname')
+            .addField('lastname')
+            .addField('middlename')
+            .addField('prefix')
+            .addField('suffix')
+            .addField('vat_id')
+            .addField('default_shipping')
+            .addField('default_billing')
+            .addField('commercial');
+    }
+
+    getUpdateAddressMutation(id, options) {
+        const region = new Field('region')
+            .addField('region_code')
+            .addField('region')
+            .addField('region_id');
+
+        return new Field('updateCustomerAddress')
+            .addArgument('id', 'Int!', id)
+            .addArgument('input', 'CustomerAddressInput!', options)
+            .addField('id')
+            .addField('customer_id')
+            .addField(region)
+            .addField('country_id')
+            .addField('street')
+            .addField('company')
+            .addField('telephone')
+            .addField('fax')
+            .addField('postcode')
+            .addField('city')
+            .addField('firstname')
+            .addField('lastname')
+            .addField('middlename')
+            .addField('prefix')
+            .addField('suffix')
+            .addField('vat_id')
+            .addField('default_shipping')
+            .addField('default_billing')
+            .addField('commercial');
+    }
+
     /**
      * Get CreateAccount mutation
      * @param  {{customer: Object, password: String}} options A object containing different aspects of query, each item can be omitted

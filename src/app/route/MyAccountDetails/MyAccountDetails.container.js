@@ -27,6 +27,12 @@ const mapDispatchToProps = dispatch => ({
     updateCustomerData(options) {
         MyAccountDispatcher.updateCustomerData(options, dispatch);
     },
+    updateCustomerAddress(id, options) {
+        MyAccountDispatcher.updateCustomerAddress(id, options, dispatch);
+    },
+    createCustomerAddress(options) {
+        MyAccountDispatcher.createCustomerAddress(options, dispatch);
+    },
     updateBreadcrumbs: (breadcrumbs) => {
         BreadcrumbsDispatcher.update(breadcrumbs, dispatch);
     },

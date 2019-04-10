@@ -47,13 +47,15 @@ class MyAccountDispatcher extends QueryDispatcher {
         const { withAddresses } = options;
         const query = MyAccount.getCustomer(withAddresses);
 
-        executePost(prepareQuery([query]))
-            .then(({ customer }) => dispatch(updateCustomerDetails(customer)));
+        return executePost(prepareQuery([query])).then(
+            ({ customer }) => dispatch(updateCustomerDetails(customer)),
+            error => console.log(error)
+        );
     }
 
     updateCustomerData(options, dispatch) {
         const mutation = MyAccount.getUpdateInformationMutation(options);
-        fetchMutation(mutation).then(
+        return fetchMutation(mutation).then(
             ({ customer }) => dispatch(updateCustomerDetails(customer)),
             error => console.log(error)
         );
@@ -64,6 +66,24 @@ class MyAccountDispatcher extends QueryDispatcher {
         deleteAuthorizationToken();
         CartDispatcher.updateInitialCartData(dispatch);
         // TODO: logout in BE
+    }
+
+    createCustomerAddress(options, dispatch) {
+        const mutation = MyAccount.getCreateAddressMutation(options);
+
+        return fetchMutation(mutation).then(
+            ({ addresses }) => dispatch(updateCustomerDetails(addresses)),
+            error => console.log(error)
+        );
+    }
+
+    updateCustomerAddress(id, options, dispatch) {
+        const mutation = MyAccount.getUpdateAddressMutation(id, options);
+
+        return fetchMutation(mutation).then(
+            ({ addresses }) => dispatch(updateCustomerDetails(addresses)),
+            error => console.log(error)
+        );
     }
 
     /**
