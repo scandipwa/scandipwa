@@ -27,7 +27,7 @@
 
     &-List {
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-template-columns: 25% 25% 25% 25%;
         padding-top: 2rem;
 
         @include mobile {
