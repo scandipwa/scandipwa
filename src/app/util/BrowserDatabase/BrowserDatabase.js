@@ -53,6 +53,15 @@ class BrowserDatabase {
             createdAt: Date.now()
         }));
     }
+
+    /**
+     * Delete item from local storage
+     * @param {String} location
+     * @memberof BrowserDatabase
+     */
+    deleteItem(location) {
+        localStorage.removeItem(location);
+    }
 }
 
 export default new BrowserDatabase();

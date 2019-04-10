@@ -30,7 +30,7 @@ const prepareDocument = (queries) => {
 
         const query = querySelection.build();
         querySelections.push(query.toString());
-        variableDefinitions.push(query.variableDefinitions);
+        variableDefinitions.push(...query.variableDefinitions);
 
         return {
             ...variableAssignmentMap,
@@ -59,8 +59,10 @@ const prepareRequest = (document, type) => {
 
     if (!variableDefinitions || !querySelections || !variableAssignments) return null;
 
+    const variables = variableDefinitions.length ? `(${ variableDefinitions.join(', ') })` : '';
+
     return {
-        query: `${type} (${ variableDefinitions.join(', ') }) {${ querySelections.join(', ') }}`,
+        query: `${type} ${variables} {${ querySelections.join(', ') }}`,
         variables: variableAssignments
     };
 };

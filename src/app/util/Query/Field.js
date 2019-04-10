@@ -27,7 +27,7 @@ class Field {
         this._fieldList = {};
         this._argumentList = {};
         this._alias = '';
-        this._variableDefinitions = '';
+        this._variableDefinitions = [];
         this._variableValues = {};
         this._argumentDefinitions = [];
         this._component = 'query';
@@ -138,8 +138,10 @@ class Field {
      */
     build() {
         Object.keys(this._argumentList).forEach((argument) => {
-            if (this._variableDefinitions.length > 0) this._variableDefinitions += ', ';
-            this._variableDefinitions += `$${this._getVariableName(argument)}:${this._argumentList[ argument ].type}`;
+            this._variableDefinitions.push(
+                `$${this._getVariableName(argument)}:${this._argumentList[ argument ].type}`
+            );
+
             this._variableValues[ this._getVariableName(argument) ] = this._argumentList[ argument ].value;
             this._argumentDefinitions.push(`${argument}:$${this._getVariableName(argument)}`);
         });

@@ -15,6 +15,8 @@ const AUTH_TOKEN = 'auth_token';
 
 const setAuthorizationToken = token => BrowserDatabase.setItem(token, AUTH_TOKEN, 3600);
 
+const deleteAuthorizationToken = () => BrowserDatabase.deleteItem(AUTH_TOKEN);
+
 const getAuthorizationToken = () => BrowserDatabase.getItem(AUTH_TOKEN);
 
 const isSignedIn = () => !!getAuthorizationToken();
@@ -22,5 +24,6 @@ const isSignedIn = () => !!getAuthorizationToken();
 export {
     setAuthorizationToken,
     getAuthorizationToken,
+    deleteAuthorizationToken,
     isSignedIn
 };

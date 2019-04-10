@@ -22,7 +22,7 @@ import {
 
 const initialState = {
     isSignedIn: isInitiallySignedIn(),
-    isPasswordReset: false,
+    passwordResetStatus: false,
     isPasswordForgotSend: false,
     customer: {}
 };
@@ -40,7 +40,7 @@ const MyAccountReducer = (state = initialState, action) => {
     case UPDATE_CUSTOMER_PASSWORD_RESET_STATUS:
         return {
             ...state,
-            isPasswordReset: status
+            passwordResetStatus: status
         };
 
     case UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS:
