@@ -607,7 +607,6 @@ class Slider extends Component {
                   onMouseLeave={ event => this.handleMouseLeave(event) }
                   onKeyDown={ event => this.onKeyDown(event) }
                   role="toolbar"
-                  tabIndex="0"
                   ref={ this.touchArea }
                 >
                     <div
