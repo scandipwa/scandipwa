@@ -63,7 +63,7 @@ class AppRouter extends Component {
                             <Route path="/" exact component={ HomePage } />
                             <Route path="/category" component={ CategoryPage } />
                             <Route path="/product" component={ ProductPage } />
-                            <Route path="/page/:id" component={ CmsPage } />
+                            <Route path="/page" component={ CmsPage } />
                             <Route path="/cart" exact component={ CartPage } />
                             <Route component={ UrlRewrites } />
                         </Switch>

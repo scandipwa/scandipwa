@@ -142,7 +142,6 @@ class ProductPage extends Component {
      */
     requestProduct() {
         const { requestProduct, location, match } = this.props;
-        console.log('requestiong product from', location, match, getUrlParam(match, location))
         const options = {
             productUrlPath: getUrlParam(match, location),
             isSingleProduct: true,

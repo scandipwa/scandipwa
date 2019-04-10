@@ -13,15 +13,18 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ContentWrapper from 'Component/ContentWrapper';
 import Html from 'Component/Html';
-import { BlockListType } from 'Type/CMS';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import Meta from 'Component/Meta';
+import { getUrlParam } from 'Util/Url';
+import { BlockListType } from 'Type/CMS';
 import './CmsPage.style';
 
 class CmsPage extends Component {
     componentDidMount() {
-        const { requestPage, match: { params: { id } }, enableBreadcrumbs } = this.props;
-        requestPage({ id });
+        const { requestPage, location, match, enableBreadcrumbs } = this.props;
+        const urlParam = getUrlParam(match, location);
+
+        requestPage({ id: urlParam });
         enableBreadcrumbs();
     }
 
@@ -30,17 +33,14 @@ class CmsPage extends Component {
             updateBreadcrumbs,
             page,
             requestPage,
-            match: {
-                params: {
-                    id
-                }
-            },
+            match,
             location
         } = this.props;
 
         updateBreadcrumbs(page);
         if (location.pathname !== prevProps.location.pathname) {
-            requestPage({ id });
+            const urlParam = getUrlParam(match, location);
+            requestPage({ id: urlParam });
         }
     }
 
