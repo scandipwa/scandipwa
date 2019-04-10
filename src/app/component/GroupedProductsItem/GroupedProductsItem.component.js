@@ -68,7 +68,7 @@ class GroupedProductsItem extends Component {
 
         return (
             <li block="GroupedProductsItem" aria-label="Product Item">
-                <Image src={ thumb_url ? `/media/jpg/catalog/product${ thumb_url }` : null } alt="Product Thumbnail" />
+                <Image src={ thumb_url && `/media/jpg/catalog/product${ thumb_url }` } alt="Product Thumbnail" />
                 <div block="GroupedProductsItem" elem="Title">
                     <p><TextPlaceholder content={ name } /></p>
                     <ProductPrice price={ price } mods={ { type: 'regular' } } />
