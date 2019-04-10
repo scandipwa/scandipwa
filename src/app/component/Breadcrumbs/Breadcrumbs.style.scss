@@ -15,7 +15,7 @@
     $crumb-padding: 10px;
     $arrow-size: 4px;
 
-    @include tablet {
+    @include mobile {
         --color-breadcrumbs-background: #fff;
     }
 
