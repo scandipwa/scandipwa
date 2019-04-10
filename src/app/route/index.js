@@ -135,7 +135,7 @@ export class AppRouter extends Component {
      * @param {string} contentType
      */
     prepareContent(items, contentType) {
-        const customItems = this.getItemsByContentType(contentType);
+        const customItems = this.getItemsByContentType(contentType) || {};
         const mergedItems = items.concat(customItems);
 
         return Object.values(mergedItems.reduce((prev, current) => {
