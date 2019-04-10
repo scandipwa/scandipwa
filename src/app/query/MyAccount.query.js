@@ -103,8 +103,6 @@ class MyAccount {
             .addField('region')
             .addField('region_id');
 
-            console.log(options);
-
         return new Field('createCustomerAddress')
             .addArgument('input', 'CustomerAddressInput!', options)
             .addField('id')

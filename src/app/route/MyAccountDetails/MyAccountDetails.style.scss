@@ -30,16 +30,6 @@
         font-size: 1.15rem;
     }
 
-    &-AddButton {
-        height: 1rem;
-        margin-left: 1rem;
-    }
-
-    &-EditButton {
-        height: 2rem;
-        margin-top: 1rem;
-    }
-
     &-Checkbox {
         display: flex;
 
@@ -70,11 +60,6 @@
 
     span {
         top: .2rem;
-    }
-
-    button {
-        line-height: 0;
-        font-size: 1rem;
     }
 
     h4 {

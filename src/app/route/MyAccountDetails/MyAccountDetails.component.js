@@ -46,13 +46,11 @@ class MyAccountDetails extends Component {
     }
 
     componentDidUpdate() {
-        const { customer, customer: { addresses }, showNotification } = this.props;
-        const { state } = this.state;
+        const { history, location: { state } } = this.props;
 
-        if (!customer && state !== STATE_ACCOUNT_OVERVIEW) {
-            this.requestCustomerData();
-            this.changeState(STATE_ACCOUNT_OVERVIEW);
-            showNotification('success', 'Changes have been saved to your account!');
+        if (state.length) {
+            this.changeState(state);
+            history.replace({ state: {} });
         }
     }
 
@@ -78,11 +76,14 @@ class MyAccountDetails extends Component {
             is_subscribed
         };
 
-        updateCustomerData(customer);
+        updateCustomerData(customer).then(() => this.redirectBackToOverview());
     }
 
-    onUpdateAddressSuccess(fields, isAddressCreation, addressType) {
+    onUpdateAddressSuccess(fields, additionalInfo) {
         const { updateCustomerAddress, createCustomerAddress } = this.props;
+        const { id, isAddressCreation, addressType } = additionalInfo;
+        const default_shipping = addressType === 'shipping';
+        const default_billing = addressType === 'billing';
         const {
             city,
             company,
@@ -104,25 +105,29 @@ class MyAccountDetails extends Component {
             region,
             street,
             telephone,
-            default_shipping: addressType === 'shipping',
-            default_billing: addressType === 'billing'
+            default_shipping,
+            default_billing
         };
-        // TODO change to actaul address id, dynamic default choose
-        const id = 1;
-        const default_shipping = addressType === 'shipping';
-        const default_billing = addressType === 'billing';
-        console.log(default_shipping);
-        console.log(default_billing);
 
         if (isAddressCreation) {
-            createCustomerAddress(addresses);
+            createCustomerAddress(addresses).then(() => this.redirectBackToOverview());
         } else {
-            updateCustomerAddress(id, { default_billing, default_shipping, ...addresses });
+            updateCustomerAddress(id, { default_billing, default_shipping, ...addresses }).then(() => {
+                this.redirectBackToOverview();
+            });
         }
     }
 
     onFormError() {
         this.setState({ isLoading: false });
+    }
+
+    redirectBackToOverview() {
+        const { showNotification } = this.props;
+        this.requestCustomerData().then(() => {
+            this.changeState(STATE_ACCOUNT_OVERVIEW);
+            showNotification('success', 'Changes have been saved to your account!');
+        });
     }
 
     changeState(state, addressType) {
@@ -135,7 +140,7 @@ class MyAccountDetails extends Component {
             withAddresses: true
         };
 
-        requestCustomerData(options);
+        return requestCustomerData(options);
     }
 
     updateBreadcrumbs() {
@@ -167,14 +172,19 @@ class MyAccountDetails extends Component {
         const { customer: { addresses } } = this.props;
         const { addressType } = this.state;
         const selectedAddress = addressType === 'billing' ? 0 : 1;
-        const isAddressCreation = !addresses[selectedAddress];
+
+        const additionalInfo = {
+            id: addresses[selectedAddress] && addresses[selectedAddress].id,
+            isAddressCreation: !addresses[selectedAddress],
+            addressType
+        };
 
         return (
             <>
                 <Form
                   key="add-address"
                   onSubmit={ () => this.onUpdateAttempt() }
-                  onSubmitSuccess={ fields => this.onUpdateAddressSuccess(fields, isAddressCreation, addressType) }
+                  onSubmitSuccess={ fields => this.onUpdateAddressSuccess(fields, additionalInfo) }
                   onSubmitError={ (fields, invalidFields) => this.onUpdateAttempt(fields, invalidFields) }
                 >
                 <fieldset block="MyAccountDetails" elem="AccountInfo">
@@ -257,84 +267,83 @@ class MyAccountDetails extends Component {
 
     renderAccountInformation() {
         const { customer } = this.props;
-        if (customer) {
-            const {
-                firstname,
-                lastname,
-                email,
-                is_subscribed
-            } = customer;
+        const {
+            firstname,
+            lastname,
+            email,
+            is_subscribed
+        } = customer;
 
-            return (
-                <fieldset block="MyAccountDetails" elem="AccountInfo">
-                    <legend>Account Information</legend>
-                    <div block="MyAccountDetails" elem="FieldWrapper">
+        return (
+            <fieldset block="MyAccountDetails" elem="AccountInfo">
+                <legend>Account Information</legend>
+                <div block="MyAccountDetails" elem="FieldWrapper">
+                    <div block="MyAccountDetails" elem="Field">
+                        { firstname }
+                        &nbsp;
+                        { lastname }
+                    </div>
+                    <div block="MyAccountDetails" elem="Field">{ email }</div>
+                    <div block="MyAccountDetails" elem="Field">
+                        Subscribed to newsletter:
+                        { is_subscribed ? ' Yes' : ' No' }
+                    </div>
+                    <button
+                      block="Button"
+                      mods={ { likeLink: true } }
+                      onClick={ () => this.changeState(STATE_EDIT_INFORMATION) }
+                    >
+                        Edit
+                    </button>
+                    <button
+                      block="Button"
+                      mods={ { likeLink: true } }
+                      onClick={ () => this.changeState(STATE_EDIT_PASSWORD) }
+                    >
+                        Change Password
+                    </button>
+                </div>
+            </fieldset>
+        );
+    }
+
+    renderAddress(addressType) {
+        const { customer, customer: { addresses } } = this.props;
+
+        if (addresses) {
+            const correctAddress = addresses.filter(address => address[`default_${addressType}`])[0];
+
+            if (correctAddress) {
+                const {
+                    firstname,
+                    lastname,
+                    street,
+                    city,
+                    country,
+                    telephone
+                } = correctAddress;
+
+                return (
+                    <>
                         <div block="MyAccountDetails" elem="Field">
                             { firstname }
                             &nbsp;
                             { lastname }
                         </div>
-                        <div block="MyAccountDetails" elem="Field">{ email }</div>
-                        <div block="MyAccountDetails" elem="Field">
-                            Subscribed to newsletter:
-                            { is_subscribed ? ' Yes' : ' No' }
-                        </div>
+                        <div block="MyAccountDetails" elem="Field">{ street }</div>
+                        <div block="MyAccountDetails" elem="Field">{ city }</div>
+                        <div block="MyAccountDetails" elem="Field">{ country }</div>
+                        <div block="MyAccountDetails" elem="Field">{ telephone }</div>
                         <button
-                          block="MyAccountDetails"
-                          elem="EditButton"
-                          onClick={ () => this.changeState(STATE_EDIT_INFORMATION) }
+                          block="Button"
+                          mods={ { likeLink: true } }
+                          onClick={ () => this.changeState(STATE_UPDATE_ADDRESS, addressType) }
                         >
-                            Edit
+                            Edit Address
                         </button>
-                        <button
-                          block="MyAccountDetails"
-                          elem="EditButton"
-                          onClick={ () => this.changeState(STATE_EDIT_PASSWORD) }
-                        >
-                            Change Password
-                        </button>
-                    </div>
-                </fieldset>
-            );
-        }
-
-        return null;
-    }
-
-    renderAddress(addresses, addressType) {
-        const selectedAddress = addressType === 'billing' ? 0 : 1;
-
-        if (addresses && addresses[selectedAddress]) {
-            console.log(addressType);
-        console.log(addresses[selectedAddress]);
-            const {
-                firstname,
-                lastname,
-                street,
-                city,
-                country,
-                telephone
-            } = addresses[selectedAddress];
-
-            return (
-                <>
-                    <div block="MyAccountDetails" elem="Field">
-                        { firstname }
-                        { lastname }
-                    </div>
-                    <div block="MyAccountDetails" elem="Field">{ street }</div>
-                    <div block="MyAccountDetails" elem="Field">{ city }</div>
-                    <div block="MyAccountDetails" elem="Field">{ country }</div>
-                    <div block="MyAccountDetails" elem="Field">{ telephone }</div>
-                    <button
-                      block="MyAccountDetails"
-                      elem="EditButton"
-                      onClick={ () => this.changeState(STATE_UPDATE_ADDRESS, addressType) }
-                    >
-                        Edit Address
-                    </button>
-                </>
-            );
+                    </>
+                );
+            }
         }
 
         return (
@@ -345,8 +354,8 @@ class MyAccountDetails extends Component {
                     &nbsp;address has been set.
                 </div>
                 <button
-                  block="MyAccountDetails"
-                  elem="AddButton"
+                  block="Button"
+                  mods={ { likeLink: true } }
                   onClick={ () => this.changeState(STATE_UPDATE_ADDRESS, addressType) }
                 >
                     Add New Address
@@ -356,53 +365,52 @@ class MyAccountDetails extends Component {
     }
 
     renderAddressBook() {
-        const { customer } = this.props;
+        const { customer: { addresses } } = this.props;
 
-        if (customer) {
-            const { addresses } = customer;
-
-            return (
-                <fieldset block="MyAccountDetails" elem="AddressBook">
-                    <legend>
-                        <span>Address Book</span>
-                        { !addresses && <button block="MyAccountDetails" elem="AddButton">Add New Address</button> }
-                    </legend>
-                    <div block="MyAccountDetails" elem="FieldWrapper">
-                        <div block="MyAccountDetails" elem="AddressWrapper">
-                            <div block="MyAccountDetails" elem="FieldWrapper">
-                                <h4>Default Billing Address</h4>
-                                { this.renderAddress(addresses, 'billing') }
-                            </div>
-                            <div block="MyAccountDetails" elem="FieldWrapper">
-                                <h4>Default Shipping Address</h4>
-                                { this.renderAddress(addresses, 'shipping') }
-                            </div>
+        return (
+            <fieldset block="MyAccountDetails" elem="AddressBook">
+                <legend>
+                    <span>Address Book</span>
+                    { !addresses && <button block="Button" mods={ { likeLink: true } }>Add New Address</button> }
+                </legend>
+                <div block="MyAccountDetails" elem="FieldWrapper">
+                    <div block="MyAccountDetails" elem="AddressWrapper">
+                        <div block="MyAccountDetails" elem="FieldWrapper">
+                            <h4>Default Billing Address</h4>
+                            { this.renderAddress('billing') }
+                        </div>
+                        <div block="MyAccountDetails" elem="FieldWrapper">
+                            <h4>Default Shipping Address</h4>
+                            { this.renderAddress('shipping') }
                         </div>
                     </div>
-                </fieldset>
-            );
-        }
-
-        return null;
+                </div>
+            </fieldset>
+        );
     }
 
     render() {
         const { state } = this.state;
         const renderFunction = this.renderMap[state];
+        const { customer } = this.props;
 
-        return (
-            <main block="MyAccountDetails" aria-label="My Account Details">
-                <div block="MyAccountDetails" elem="Wrapper">
-                    <ul block="MyAccountDetails" elem="Sidebar">
-                        <li>My Account</li>
-                        <li>My Orders</li>
-                    </ul>
-                    <div block="MyAccountDetails" elem="Content">
-                        { renderFunction() }
+        if (customer) {
+            return (
+                <main block="MyAccountDetails" aria-label="My Account Details">
+                    <div block="MyAccountDetails" elem="Wrapper">
+                        <ul block="MyAccountDetails" elem="Sidebar">
+                            <li>My Account</li>
+                            <li>My Orders</li>
+                        </ul>
+                        <div block="MyAccountDetails" elem="Content">
+                            { renderFunction() }
+                        </div>
                     </div>
-                </div>
-            </main>
-        );
+                </main>
+            );
+        }
+
+        return null;
     }
 }
 

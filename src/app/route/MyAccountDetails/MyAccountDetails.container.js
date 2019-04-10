@@ -22,16 +22,16 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     requestCustomerData(options) {
-        MyAccountDispatcher.requestCustomerData(options, dispatch);
+        return MyAccountDispatcher.requestCustomerData(options, dispatch);
     },
     updateCustomerData(options) {
-        MyAccountDispatcher.updateCustomerData(options, dispatch);
+        return MyAccountDispatcher.updateCustomerData(options, dispatch);
     },
     updateCustomerAddress(id, options) {
-        MyAccountDispatcher.updateCustomerAddress(id, options, dispatch);
+        return MyAccountDispatcher.updateCustomerAddress(id, options, dispatch);
     },
     createCustomerAddress(options) {
-        MyAccountDispatcher.createCustomerAddress(options, dispatch);
+        return MyAccountDispatcher.createCustomerAddress(options, dispatch);
     },
     updateBreadcrumbs: (breadcrumbs) => {
         BreadcrumbsDispatcher.update(breadcrumbs, dispatch);
