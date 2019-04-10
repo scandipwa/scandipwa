@@ -16,7 +16,7 @@ import {
 } from './SearchBar.action';
 
 const initialState = {
-    products: [],
+    productsInSearch: [],
     isLoading: false
 };
 
@@ -27,7 +27,7 @@ const SearchBarReducer = (state = initialState, action) => {
 
         return {
             ...state,
-            products: items
+            productsInSearch: items
         };
 
     case UPDATE_SEARCH_LOAD_STATUS:
@@ -41,7 +41,7 @@ const SearchBarReducer = (state = initialState, action) => {
     case CLEAR_SEARCH_RESULTS:
         return {
             ...state,
-            products: initialState.products
+            productsInSearch: initialState.products
         };
 
     default:

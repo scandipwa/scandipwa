@@ -37,6 +37,10 @@ const mapDispatchToProps = dispatch => ({
         MyAccountDispatcher.handleData(dispatch, options);
     },
 
+    logout() {
+        MyAccountDispatcher.logout(null, dispatch);
+    },
+
     showNotification(type, message) {
         dispatch(showNotification(type, message));
     }

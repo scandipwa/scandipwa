@@ -9,6 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import SignUp from './SignUp';
+import { Field } from 'Util/Query';
 
-export default SignUp;
+class Cart {
+    getCreateEmptyCartMutation() {
+        return new Field('createEmptyCart');
+    }
+}
+
+export default new Cart();

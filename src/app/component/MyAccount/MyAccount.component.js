@@ -15,6 +15,7 @@ import { isSignedIn } from 'Util/Auth';
 import Field from 'Component/Field';
 import Form from 'Component/Form';
 import { Link } from 'react-router-dom';
+import Loader from 'Component/Loader';
 import './MyAccount.style';
 
 const STATE_SIGN_IN = 'signIn';
@@ -51,12 +52,18 @@ class MyAccount extends Component {
 
     static getDerivedStateFromProps(props, state) {
         const { isSignedIn, isPasswordForgotSend, showNotification } = props;
-        const { isPasswordForgotSend: currentIsPasswordForgotSend } = state;
+        const { isPasswordForgotSend: currentIsPasswordForgotSend, state: myAccountState } = state;
         const stateToBeUpdated = {};
 
-        if (isSignedIn) {
+        if (myAccountState !== STATE_LOGGED_IN && isSignedIn) {
             stateToBeUpdated.isLoading = false;
+            showNotification('success', 'You are successfully logged in!');
             stateToBeUpdated.state = STATE_LOGGED_IN;
+        }
+
+        if (myAccountState === STATE_LOGGED_IN && !isSignedIn) {
+            stateToBeUpdated.state = STATE_SIGN_IN;
+            showNotification('success', 'You are successfully logged out!');
         }
 
         if (isPasswordForgotSend !== currentIsPasswordForgotSend) {
@@ -157,7 +164,7 @@ class MyAccount extends Component {
     }
 
     renderDropdown() {
-        const { state } = this.state;
+        const { state, isLoading } = this.state;
         const renderFunction = this.renderMap[state];
 
         return (
@@ -168,7 +175,7 @@ class MyAccount extends Component {
               onMouseEnter={ () => this.setState({ isHovered: true }) }
               onMouseLeave={ () => this.setState({ isHovered: false }) }
             >
-                { this.renderLoader() }
+                <Loader isLoading={ isLoading } />
                 <div block="MyAccount" elem="Action" mods={ { state } }>
                     { renderFunction() }
                 </div>
@@ -177,12 +184,37 @@ class MyAccount extends Component {
     }
 
     renderAccountActions() {
+        const { logout } = this.props;
+
         return (
             <nav block="MyAccount" elem="Navigation">
                 <ul>
-                    <li><Link to="/my-account">My Account</Link></li>
-                    <li><a>My Orders</a></li>
-                    <li><a>Logout</a></li>
+                    <li>
+                        <button
+                          block="Button"
+                          mods={ { likeLink: true } }
+                        >
+                            My Account
+                        </button>
+                    </li>
+                    <li>
+                        <button
+                          block="Button"
+                          mods={ { likeLink: true } }
+                          onClick={ () => logout() }
+                        >
+                            My Orders
+                        </button>
+                    </li>
+                    <li>
+                        <button
+                          block="Button"
+                          mods={ { likeLink: true } }
+                          onClick={ () => logout() }
+                        >
+                            Logout
+                        </button>
+                    </li>
                 </ul>
             </nav>
         );
@@ -206,13 +238,23 @@ class MyAccount extends Component {
                 <article block="MyAccount" elem="Additional">
                     <section aria-labelledby="forgot-password-labe">
                         <h4 id="forgot-password-label">Already have an account?</h4>
-                        <a href="#sign-in" onClick={ () => this.changeState(STATE_SIGN_IN) }>Sign in here</a>
+                        <button
+                          block="Button"
+                          mods={ { likeLink: true } }
+                          onClick={ () => this.changeState(STATE_SIGN_IN) }
+                        >
+                            Sign in here
+                        </button>
                     </section>
                     <section aria-labelledby="create-account-label">
                         <h4 id="create-account-label">Don&apos;t have an account?</h4>
-                        <a href="#create-account" onClick={ () => this.changeState(STATE_CREATE_ACCOUNT) }>
+                        <button
+                          block="Button"
+                          mods={ { likeLink: true } }
+                          onClick={ () => this.changeState(STATE_CREATE_ACCOUNT) }
+                        >
                             Create an account
-                        </a>
+                        </button>
                     </section>
                 </article>
             </>
@@ -264,7 +306,13 @@ class MyAccount extends Component {
                 <article block="MyAccount" elem="Additional">
                     <section aria-labelledby="create-account-label">
                         <h4 id="create-account-label">Already have an account?</h4>
-                        <a href="#create-account" onClick={ () => this.changeState(STATE_SIGN_IN) }>Sign in here</a>
+                        <button
+                          block="Button"
+                          mods={ { likeLink: true } }
+                          onClick={ () => this.changeState(STATE_SIGN_IN) }
+                        >
+                            Sign in here
+                        </button>
                     </section>
                 </article>
             </>
@@ -300,34 +348,26 @@ class MyAccount extends Component {
                 <article block="MyAccount" elem="Additional">
                     <section aria-labelledby="forgot-password-labe">
                         <h4 id="forgot-password-label">Forgot password?</h4>
-                        <a href="#forgot-password" onClick={ () => this.changeState(STATE_FORGOT_PASSWORD) }>
+                        <button
+                          block="Button"
+                          mods={ { likeLink: true } }
+                          onClick={ () => this.changeState(STATE_FORGOT_PASSWORD) }
+                        >
                             Get a password reset link
-                        </a>
+                        </button>
                     </section>
                     <section aria-labelledby="create-account-label">
                         <h4 id="create-account-label">Don&apos;t have an account?</h4>
-                        <a href="#create-account" onClick={ () => this.changeState(STATE_CREATE_ACCOUNT) }>
+                        <button
+                          block="Button"
+                          mods={ { likeLink: true } }
+                          onClick={ () => this.changeState(STATE_CREATE_ACCOUNT) }
+                        >
                             Create an account
-                        </a>
+                        </button>
                     </section>
                 </article>
             </>
-        );
-    }
-
-    renderLoader() {
-        const { isLoading } = this.state;
-
-        if (!isLoading) return null;
-
-        return (
-            <div block="MyAccount" elem="LoaderWrapper">
-                <div block="MyAccount" elem="Loader">
-                    <div />
-                    <div />
-                    <div />
-                </div>
-            </div>
         );
     }
 
@@ -344,7 +384,10 @@ class MyAccount extends Component {
 MyAccount.propTypes = {
     forgotPassword: PropTypes.func.isRequired,
     signIn: PropTypes.func.isRequired,
-    isPasswordForgotSend: PropTypes.bool.isRequired
+    isPasswordForgotSend: PropTypes.bool.isRequired,
+    showNotification: PropTypes.func.isRequired,
+    createAccount: PropTypes.func.isRequired,
+    logout: PropTypes.func.isRequired
 };
 
 export default MyAccount;

@@ -16,7 +16,12 @@ import {
     updateCustomerPasswordForgotStatus
 } from 'Store/MyAccount';
 import { QueryDispatcher, fetchMutation, executePost } from 'Util/Request';
-import { setAuthorizationToken, isSignedIn } from 'Util/Auth';
+import {
+    setAuthorizationToken,
+    deleteAuthorizationToken,
+    isSignedIn
+} from 'Util/Auth';
+import { CartDispatcher } from 'Store/Cart';
 import { MyAccount } from 'Query';
 import { prepareQuery } from 'Util/Query';
 
@@ -54,6 +59,13 @@ class MyAccountDispatcher extends QueryDispatcher {
         );
     }
 
+    logout(_, dispatch) {
+        dispatch(updateCustomerSignInStatus(false));
+        deleteAuthorizationToken();
+        CartDispatcher.updateInitialCartData(dispatch);
+        // TODO: logout in BE
+    }
+
     /**
      * Forgot password action
      * @param {{email: String}} [options={}]
@@ -77,8 +89,8 @@ class MyAccountDispatcher extends QueryDispatcher {
     resetPassword(options = {}, dispatch) {
         const mutation = MyAccount.getResetPasswordMutation(options);
         fetchMutation(mutation).then(
-            ({ status }) => dispatch(updateCustomerPasswordResetStatus(status)),
-            error => console.log(error)
+            ({ resetPassword: { status } }) => dispatch(updateCustomerPasswordResetStatus(status)),
+            () => dispatch(updateCustomerPasswordResetStatus('error'))
         );
     }
 
@@ -113,6 +125,7 @@ class MyAccountDispatcher extends QueryDispatcher {
                 // TODO: TEST
                 setAuthorizationToken(token);
                 dispatch(updateCustomerSignInStatus(true));
+                CartDispatcher.updateInitialCartData(dispatch);
             },
             error => console.log(error)
         );

@@ -134,7 +134,7 @@ class CartItem extends Component {
 
     render() {
         const {
-            thumbnail,
+            thumbnail: { url: thumbnail },
             url_key,
             name,
             quantity,

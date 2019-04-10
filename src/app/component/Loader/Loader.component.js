@@ -1,0 +1,43 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import './Loader.style';
+
+/**
+ * Loader component
+ * Loaders overlay to identify loading
+ * @class Loader
+ */
+class Loader extends Component {
+    render() {
+        const { isLoading } = this.props;
+
+        if (!isLoading) return null;
+
+        return (
+            <div block="Loader" elem="LoaderWrapper">
+                <div block="Loader" elem="Main">
+                    <div />
+                    <div />
+                    <div />
+                </div>
+            </div>
+        );
+    }
+}
+
+Loader.propTypes = {
+    isLoading: PropTypes.bool.isRequired
+};
+
+export default Loader;

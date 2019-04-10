@@ -54,7 +54,7 @@ class CategoriesList extends Component {
         const { category: { children } } = this.props;
 
         if (isLoadedOnce) {
-            if (children.length) {
+            if (children && children.length) {
                 return (
                     <ul>
                         { children.map(child => this.renderSubCategory(child, true)) }

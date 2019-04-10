@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-.Button,
-button {
-    @include button;
-}
+import PasswordChangePage from './PasswordChangePage.container';
+
+export default PasswordChangePage;
