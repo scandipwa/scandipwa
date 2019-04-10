@@ -146,7 +146,7 @@ class ProductCard extends Component {
                   tabIndex={ url_key ? '0' : '-1' }
                 >
                     <Image
-                      src={ thumbnail ? `/media/jpg/catalog/product${ thumbnail }` : null  }
+                      src={ thumbnail ? `/media/jpg/catalog/product${ thumbnail }` : null }
                       alt="Product Thumbnail"
                       arePlaceholdersShown={ arePlaceholdersShown }
                       showGreyPlaceholder={ !url_key }
