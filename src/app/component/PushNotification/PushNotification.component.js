@@ -109,9 +109,7 @@ class PushNotification extends Component {
             }
         }
 
-        return (
-            <div style={ { display: 'none' } } />
-        );
+        return (null);
     }
 }
 
