@@ -10,6 +10,7 @@
  */
 
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import GroupedProductsItem from 'Component/GroupedProductsItem';
 import { ProductType } from 'Type/ProductList';
 
@@ -18,6 +19,11 @@ import { ProductType } from 'Type/ProductList';
  * @class GroupedProductList
  */
 class GroupedProductList extends Component {
+    componentWillUnmount() {
+        const { clearGroupedProductQuantity } = this.props;
+        clearGroupedProductQuantity();
+    }
+
     renderProductList(items) {
         return (
             <ul>
@@ -45,7 +51,8 @@ class GroupedProductList extends Component {
 }
 
 GroupedProductList.propTypes = {
-    product: ProductType.isRequired
+    product: ProductType.isRequired,
+    clearGroupedProductQuantity: PropTypes.func.isRequired
 };
 
 export default GroupedProductList;
