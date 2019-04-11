@@ -10,12 +10,13 @@
  */
 
 import { connect } from 'react-redux';
-import ProductActions from './ProductActions.component';
+import { CartDispatcher } from 'Store/Cart';
+import AddToCart from './AddToCart.component';
 
-const mapStateToProps = state => ({
-    groupedProductQuantity: state.ProductReducer.groupedProductQuantity
+const mapDispatchToProps = dispatch => ({
+    addProduct: options => CartDispatcher.addProductToCart(dispatch, options)
 });
 
-const ProductActionsContainer = connect(mapStateToProps)(ProductActions);
+const AddToCartContainer = connect(null, mapDispatchToProps)(AddToCart);
 
-export default ProductActionsContainer;
+export default AddToCartContainer;

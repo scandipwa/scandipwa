@@ -10,54 +10,54 @@
  */
 
 .AddToCart {
-  &-Button {
-      padding: 1rem;
-      
-      &_fullWidth {
-          width: 100%;
+    &-Button {
+        padding: 1rem;
 
-          @include mobile {
-              padding: 0.8rem;
-              font-size: 0.8rem;
-          }
-      }
+        &_fullWidth {
+            width: 100%;
 
-      span {
-          display: block;
-          opacity: 1;
-          transform: translateY(0);
-          transition: all .25s;
+            @include mobile {
+                padding: 0.8rem;
+                font-size: 0.8rem;
+            }
+        }
 
-          &:last-child {
-              width: 100%;
-              left: 0;
-              opacity: 0;
-              position: absolute;
-              transform: translateY(0);
-          }
-      }
+        span {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+            transition: all .25s;
 
-      &_animated {
-          span {
-              &:first-child {
-                  opacity: 0;
-                  transform: translateY(-50%);
-              }
+            &:last-child {
+                width: 100%;
+                left: 0;
+                opacity: 0;
+                position: absolute;
+                transform: translateY(0);
+            }
+        }
 
-              &:last-child {
-                  opacity: 1;
-                  transform: translateY(-100%);
-              }
-          }
+        &_isLoading {
+            span {
+                &:first-child {
+                    opacity: 0;
+                    transform: translateY(-50%);
+                }
 
-          &:active {
-              span {
-                  &:last-child {
-                      opacity: 0.9;
-                      transform: translateY(-120%);
-                  }
-              }
-          }
-      }
-  }
+                &:last-child {
+                    opacity: 1;
+                    transform: translateY(-100%);
+                }
+            }
+
+            &:active {
+                span {
+                    &:last-child {
+                        opacity: 0.9;
+                        transform: translateY(-120%);
+                    }
+                }
+            }
+        }
+    }
 }

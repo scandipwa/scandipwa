@@ -57,7 +57,7 @@ class ProductCard extends Component {
     }
 
     addOrConfigureProduct(variantIndex, linkTo) {
-        const { customFilters, product: { url_key, variants, type_id } } = this.props;
+        const { customFilters, product, product: { url_key, variants, type_id } } = this.props;
 
         if (variants && type_id === 'configurable') {
             const correctVariants = variants.reduce((correctVariants, { product }) => {
@@ -87,32 +87,13 @@ class ProductCard extends Component {
             );
         }
 
-        return <AddToCart onClick={ () => this.addProduct(variantIndex) } fullWidth />;
-    }
-
-    /**
-     * Dispatch add product to cart
-     * @return {void}
-     */
-    addProduct(configurableVariantIndex) {
-        const {
-            addProduct,
-            product,
-            product: { variants }
-        } = this.props;
-
-        if (variants) {
-            const configurableProduct = {
-                ...product,
-                configurableVariantIndex
-            };
-
-            addProduct({ product: configurableProduct, quantity: 1 });
-        } else {
-            addProduct({ product, quantity: 1 });
-        }
-
-        return null;
+        return (
+            <AddToCart
+              product={ product }
+              configurableVariantIndex={ variantIndex }
+              fullWidth
+            />
+        );
     }
 
     render() {
@@ -170,7 +151,6 @@ class ProductCard extends Component {
 
 ProductCard.propTypes = {
     product: ProductType.isRequired,
-    addProduct: PropTypes.func.isRequired,
     customFilters: FilterType,
     arePlaceholdersShown: PropTypes.bool
 };
