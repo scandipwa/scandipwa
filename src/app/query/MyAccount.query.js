@@ -103,7 +103,7 @@ class MyAccount {
         return (process.env.MAGENTO_VERSION === '2.3.1')
             // For M2 v. 2.3.1
             ? new Field('createCustomer')
-                .addArgument('input', 'CustomerInput!', { input: options })
+                .addArgument('input', 'CustomerInput!', customer)
                 .addField(this.getCustomer(true))
             // For M2 v. 2.3.0
             : new Field('createCustomer')
@@ -143,8 +143,7 @@ class MyAccount {
             .addField('suffix')
             .addField('vat_id')
             .addField('default_shipping')
-            .addField('default_billing')
-            .addField('commercial');
+            .addField('default_billing');
 
         this._getAdditionalAddressesFields(addresses);
 
