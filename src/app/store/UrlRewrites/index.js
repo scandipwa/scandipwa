@@ -13,13 +13,17 @@ import UrlRewritesReducer from './UrlRewrites.reducer';
 import UrlRewritesDispatcher from './UrlRewrites.dispatcher';
 
 import {
-    UPDATE_MENU,
-    updateMenu
+    UPDATE_URL_REWRITE,
+    CLEAR_URL_REWRITE,
+    updateUrlRewrite,
+    clearUrlRewrite
 } from './UrlRewrites.action';
 
 export {
     UrlRewritesReducer,
     UrlRewritesDispatcher,
-    UPDATE_MENU,
-    updateMenu
+    UPDATE_URL_REWRITE,
+    CLEAR_URL_REWRITE,
+    updateUrlRewrite,
+    clearUrlRewrite
 };

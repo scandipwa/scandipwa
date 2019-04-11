@@ -9,60 +9,29 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-/* eslint-disable no-param-reassign */
 import {
-    UPDATE_MENU
+    UPDATE_URL_REWRITE,
+    CLEAR_URL_REWRITE
 } from './UrlRewrites.action';
 
 const initialState = {
-    menu: {}
+    urlRewrite: {}
 };
 
 const UrlRewritesReducer = (state = initialState, action) => {
     switch (action.type) {
-    case UPDATE_MENU:
-        const { menu: { items } } = action;
-
-        const menu = {};
-        const menuPositionReference = {};
-
-        const setToValue = (obj, path, value) => {
-            let i;
-            path = path.split('.');
-            for (i = 0; i < path.length - 1; i++) obj = obj[path[i]];
-            obj[path[i]] = value;
-        };
-
-        const createItem = (data) => {
-            const { parent_id, item_id } = data;
-
-            if (parent_id === 0) {
-                menuPositionReference[item_id] = [];
-                menu[item_id] = {
-                    ...data,
-                    children: {}
-                };
-            } else {
-                menuPositionReference[item_id] = [...menuPositionReference[parent_id], parent_id];
-                const position = menuPositionReference[item_id];
-                const dotSeparatedPath = `${position.join('.children.')}.children.${item_id}`;
-
-                setToValue(menu, dotSeparatedPath, {
-                    ...data,
-                    children: {}
-                });
-            }
-        };
-
-        items.forEach((realMenuItem) => {
-            createItem(realMenuItem);
-        });
+    case UPDATE_URL_REWRITE:
+        const { urlRewrite } = action;
 
         return {
             ...state,
-            menu
+            urlRewrite
         };
-
+    case CLEAR_URL_REWRITE:
+        return {
+            ...state,
+            urlRewrite: {}
+        };
     default:
         return state;
     }

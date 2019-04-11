@@ -9,11 +9,16 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const UPDATE_MENU = 'UPDATE_MENU';
+export const UPDATE_URL_REWRITE = 'UPDATE_URL_REWRITE';
+export const CLEAR_URL_REWRITE = 'CLEAR_URL_REWRITE';
 
-const updateMenu = menu => ({
-    type: UPDATE_MENU,
-    menu
+const updateUrlRewrite = urlRewrite => ({
+    type: UPDATE_URL_REWRITE,
+    urlRewrite
 });
 
-export { updateMenu };
+const clearUrlRewrite = () => ({
+    type: CLEAR_URL_REWRITE
+});
+
+export { updateUrlRewrite, clearUrlRewrite };

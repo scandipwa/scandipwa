@@ -10,19 +10,17 @@
  */
 
 import { RequestDispatcher } from 'Util/Request';
-import { UrlRewritesQuery, CmsBlockQuery } from 'Query';
+import { UrlRewritesQuery } from 'Query';
 import { showNotification } from 'Store/Notification';
-import { updateMenu } from 'Store/UrlRewrites';
-import { updateCmsBlocks } from 'Store/CmsBlocksAndSlider';
+import { updateUrlRewrite, clearUrlRewrite } from 'Store/UrlRewrites';
 
 class UrlRewritesDispatcher extends RequestDispatcher {
     constructor() {
         super('UrlRewrites', 86400);
     }
 
-    onSuccess({ menu, cmsBlocks }, dispatch) {
-        // dispatch(updateMenu(menu));
-        // dispatch(updateCmsBlocks(cmsBlocks));
+    onSuccess({ urlResolver }, dispatch) {
+        dispatch(updateUrlRewrite(urlResolver || { notFound: true }));
     }
 
     onError(error, dispatch) {
@@ -36,8 +34,16 @@ class UrlRewritesDispatcher extends RequestDispatcher {
      * @memberof UrlRewritesDispatcher
      */
     prepareRequest(options) {
-        console.log('PREPARING REQUEST: ', options);
         return [UrlRewritesQuery.getQuery(options)];
+    }
+
+    /**
+     * Clear url rewrites
+     * @param {Function} dispatch
+     * @memberof UrlRewritesDispatcher
+     */
+    clearUrlRewrites(dispatch) {
+        dispatch(clearUrlRewrite());
     }
 }
 

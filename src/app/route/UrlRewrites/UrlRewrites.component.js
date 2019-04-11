@@ -25,26 +25,24 @@ class UrlRewrites extends Component {
         requestUrlRewrite(urlParam);
     }
 
-    switcher({ originalKey, i }, route) {
-        const newRoute = {
-            ...route,
-            location: {
-                ...route.location,
-                pathname: `/${ originalKey }`
-            }
-        };
+    componentWillUnmount() {
+        const { clearUrlRewrites } = this.props;
+        clearUrlRewrites();
+    }
 
-        return <CategoryPage { ...route } categoryIds="23" />;
-        // switch (i) {
-        // case 0:
-        //     return <ProductPage { ...newRoute } />;
-        // case 1:
-        //     return <CmsPage { ...newRoute } />;
-        // case 2:
-        //     return <CategoryPage { ...newRoute } />;
-        // default:
-        //     return <NoMatch { ...newRoute } />;
-        // }
+    switcher({ type, id }) {
+        const { props } = this;
+
+        switch (type) {
+        case 'PRODUCT':
+            return <ProductPage { ...props } />;
+        case 'CMS':
+            return <CmsPage { ...props } />;
+        case 'CATEGORY':
+            return <CategoryPage { ...props } categoryIds={ id } />;
+        default:
+            return <NoMatch { ...props } />;
+        }
     }
 
     findUrlRewrites(urlInput) {
@@ -77,19 +75,13 @@ class UrlRewrites extends Component {
     }
 
     render() {
-        const {
-            props,
-            props: {
-                location: {
-                    pathname
-                }
-            }
-        } = this;
-        const urlRewrites = this.findUrlRewrites(pathname);
+        const { urlRewrite } = this.props;
 
-        if (urlRewrites.length) return this.switcher(urlRewrites[0], props);
+        if (urlRewrite && Object.entries(urlRewrite).length) {
+            return this.switcher(urlRewrite);
+        }
 
-        // return <NoMatch { ...props } />;
+        return null;
     }
 }
 
