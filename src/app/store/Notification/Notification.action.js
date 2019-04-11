@@ -20,11 +20,12 @@ export const SET_BROWSER_PERMISSION = 'SET_BROWSER_PERMISSION';
  * @param  {any} msgDebug
  * @return {void}
  */
-const showNotification = (msgType, msgText, msgDebug) => ({
+const showNotification = (msgType, msgText, msgDebug, options) => ({
     type: SHOW_NOTIFICATION,
     msgType,
     msgText,
-    msgDebug
+    msgDebug,
+    options
 });
 
 /**

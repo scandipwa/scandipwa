@@ -29,11 +29,12 @@ class NotificationList extends Component {
             grantType,
             supported
         } = this.props;
+        const sw = Boolean(navigator.serviceWorker);
 
         return (
             <div className="NotificationList">
                 { Object.keys(notifications).map((id) => {
-                    return supported && grantType !== DENIED ? (
+                    return supported && grantType !== DENIED && sw ? (
                         <PushNotification
                           key={ id }
                           notification={ notifications[id] }

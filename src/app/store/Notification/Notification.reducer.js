@@ -59,11 +59,11 @@ const NotificationReducer = (state = initialState, action) => {
         };
 
     case SET_BROWSER_PERMISSION:
-        const { value: nativeGranted } = action;
+        const { value: nativeGrantType } = action;
 
         return {
             ...state,
-            nativeGranted
+            nativeGrantType
         };
 
     default:

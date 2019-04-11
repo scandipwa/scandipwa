@@ -9,45 +9,40 @@ class PushNotification extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            supported: 'Notification' in window && window.Notification,
-            granted: false
-        };
+        this.granted = props.grantType === GRANTED;
     }
 
     componentDidMount() {
         const {
-            handleNotSupported,
-            handleDenied,
-            handleGranted,
-            forceAsk
+            forceAsk,
+            supported,
+            grantType
         } = this.props;
-        const { supported } = this.state;
-
 
         if (supported === false) {
-            handleNotSupported();
             return;
         }
 
-
-        switch (Notification.permission) {
-        case GRANTED:
-            this.setState({ granted: true }, () => {
-                handleGranted();
-            });
-            break;
-        case DENIED:
-            this.setState({ granted: false }, () => {
-                handleDenied();
-            });
-            break;
-        case DEFAULT:
-            if (forceAsk) this.askPermission();
-            break;
-        default:
-            break;
+        if (grantType === DEFAULT && forceAsk) {
+            this.askPermission();
         }
+    }
+
+    componentDidUpdate(prevProps) {
+        const { grantType: oldGrant } = prevProps;
+        const {
+            grantType: newGrant,
+            handleDenied, handleGranted,
+            grantType
+        } = this.props;
+
+        if (oldGrant !== newGrant && newGrant === DENIED) {
+            handleDenied();
+        } else if (oldGrant !== newGrant && newGrant === GRANTED) {
+            handleGranted();
+        }
+
+        this.granted = grantType === GRANTED;
     }
 
     showNotification() {
@@ -56,7 +51,8 @@ class PushNotification extends Component {
             options,
             serviceWorkerRegistration
         } = this.props;
-        // use deafult service worker if not provided in props
+
+        if (!serviceWorkerRegistration) return;
 
         serviceWorkerRegistration.then((registration) => {
             registration.showNotification(title, options);
@@ -65,24 +61,16 @@ class PushNotification extends Component {
 
     askPermission() {
         window.Notification.requestPermission().then((res) => {
-            const granted = res === GRANTED;
-            const { handleGranted, handleDenied } = this.props;
+            const { setPermissions } = this.props;
 
-            this.setState({ granted }, () => {
-                if (granted) {
-                    handleGranted();
-                } else {
-                    handleDenied();
-                }
-            });
+            setPermissions(res);
         });
     }
 
     render() {
-        const { title } = this.props;
-        const { granted, supported } = this.state;
+        const { title, supported } = this.props;
 
-        if (granted && supported && title) {
+        if (this.granted && supported && title) {
             this.showNotification();
         }
 
@@ -93,9 +81,11 @@ class PushNotification extends Component {
 }
 
 PushNotification.propTypes = {
+    supported: PropTypes.bool.isRequired,
+    grantType: PropTypes.string.isRequired,
+    setPermissions: PropTypes.func.isRequired,
     handleGranted: PropTypes.func,
     handleDenied: PropTypes.func,
-    handleNotSupported: PropTypes.func,
     serviceWorkerRegistration: PropTypes.shape({
         // Promise
         then: PropTypes.func,
@@ -120,10 +110,11 @@ PushNotification.propTypes = {
 };
 
 PushNotification.defaultProps = {
-    serviceWorkerRegistration: navigator.serviceWorker.getRegistration(),
+    serviceWorkerRegistration: navigator.serviceWorker
+        ? navigator.serviceWorker.getRegistration()
+        : null,
     handleGranted: () => {},
     handleDenied: () => {},
-    handleNotSupported: () => {},
     forceAsk: true,
     options: {}
 };

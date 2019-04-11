@@ -1,19 +1,41 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { NotificationType } from 'Type/NotificationList';
+import { setBrowserPermission } from 'Store/Notification';
 import PushNotification from './PushNotification.component';
+import defaultImage from '../../../../media/preview.png';
+
+const mapStateToProps = state => ({
+    supported: state.NotificationReducer.nativeSupported,
+    grantType: state.NotificationReducer.nativeGrantType
+});
+
+const mapDispatchToProps = dispatch => ({
+    setPermissions: (value) => {
+        dispatch(setBrowserPermission(value));
+    }
+});
+
+const MappedPushNotification = connect(mapStateToProps, mapDispatchToProps)(PushNotification);
 
 const PushNotificationContainer = (props) => {
+    const defaultOptions = {
+        badge: defaultImage,
+        image: defaultImage,
+        icon: defaultImage
+    };
+
     const { notification } = props;
     const title = notification.msgText;
     const body = notification.msgDebug;
     const params = {
+        ...defaultOptions,
         ...notification.options,
         body
     };
 
     return (
-      <PushNotification
+      <MappedPushNotification
         title={ title }
         options={ params }
       />
@@ -21,25 +43,7 @@ const PushNotificationContainer = (props) => {
 };
 
 PushNotificationContainer.propTypes = {
-    notification: NotificationType.isRequired,
-    options: PropTypes.shape({
-        actions: PropTypes.arrayOf(PropTypes.object),
-        badge: PropTypes.string,
-        body: PropTypes.string,
-        dir: PropTypes.string,
-        icon: PropTypes.string,
-        image: PropTypes.string,
-        lang: PropTypes.string,
-        renotify: PropTypes.bool,
-        requireInteraction: PropTypes.bool,
-        tag: PropTypes.string,
-        vibrate: PropTypes.arrayOf(PropTypes.number),
-        data: PropTypes.any
-    })
-};
-
-PushNotificationContainer.defaultProps = {
-    options: {}
+    notification: NotificationType.isRequired
 };
 
 export default PushNotificationContainer;
