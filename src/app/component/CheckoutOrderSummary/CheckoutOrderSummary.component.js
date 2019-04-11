@@ -10,37 +10,29 @@
  */
 
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { TotalsType } from 'Type/MiniCart';
+import { ProductType } from 'Type/ProductList';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import ProductPrice from 'Component/ProductPrice';
 import Image from 'Component/Image';
-import { TotalsType } from 'Type/MiniCart';
-import { ProductType } from 'Type/ProductList';
-import PropTypes from "prop-types";
 import './CheckoutOrderSummary.style';
 
 /**
  *
  */
 class CheckoutOrderSummary extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            isItemListOpen: false,
-        }
-    }
-
     /**
      * Render price line
      */
     renderPriceLine(price, name, mods) {
         return (
             <li block="CheckoutOrderSummary" elem="SummaryItem" mods={ mods }>
-                <strong block="CheckoutOrderSummary" elem="Text" mods={ { align: 'left' } }>{ name }</strong>
-                <strong block="CheckoutOrderSummary" elem="Text" mods={ { align: 'right' } }>
+                <strong block="CheckoutOrderSummary" elem="Text">{ name }</strong>
+                <strong block="CheckoutOrderSummary" elem="Text">
                     {/* TODO: Use value from configuration file */ }
                     $
-                    <TextPlaceholder content={ price }/>
+                    <TextPlaceholder content={ price } />
                 </strong>
             </li>
         );
@@ -53,28 +45,35 @@ class CheckoutOrderSummary extends Component {
      * @returns {*}
      */
     renderItem(key, item) {
+        const {
+            thumbnail,
+            manufacturer,
+            name,
+            quantity,
+            price
+        } = item;
         return (
             <li key={ key } block="CheckoutOrderSummary" elem="CartItem">
                 <div
-                    block="CheckoutOrderSummary"
-                    elem="Thumbnail"
-                    aria-label="Cart Thumbnail"
+                  block="CheckoutOrderSummary"
+                  elem="Thumbnail"
+                  aria-label="Cart Thumbnail"
                 >
-                    <Image src={ `/media/catalog/product${ item.thumbnail }` } alt="Cart Thumbnail"/>
+                    <Image src={ `/media/catalog/product${ thumbnail }` } alt="Cart Thumbnail" />
                 </div>
 
                 <div block="CheckoutOrderSummary" elem="Title">
-                    { item.manufacturer && <span>{ item.manufacturer }</span> }
-                    <p><TextPlaceholder content={ item.name }/></p>
-                    <p><TextPlaceholder content={ `Qty: ${ item.quantity }` }/></p>
+                    { manufacturer && <span>{ manufacturer }</span> }
+                    <p>{ name }</p>
+                    <p>{`Qty: ${ quantity }`}</p>
                 </div>
 
                 <div
-                    block="CheckoutOrderSummary"
-                    elem="Details"
+                  block="CheckoutOrderSummary"
+                  elem="Details"
                 >
                     <div block="CheckoutOrderSummary" elem="Price">
-                        <ProductPrice price={ item.price } mods={ { type: 'regular' } }/>
+                        <ProductPrice price={ price } mods={ { type: 'regular' } } />
                     </div>
                 </div>
             </li>
@@ -86,15 +85,14 @@ class CheckoutOrderSummary extends Component {
      * @returns {*}
      */
     render() {
-        const { isItemListOpen } = this.state; //@TODO implement open close
         const {
             totals: { grandTotalPrice },
             products,
-            shippingMethod,
+            shippingMethod: { price, title }
         } = this.props;
 
         // calculate grand totals including shipping price
-        const grandTotalWithShipping = (shippingMethod.price) ? parseFloat(grandTotalPrice) + parseFloat(shippingMethod.price) : grandTotalPrice;
+        const grandTotalWithShipping = (price) ? parseFloat(grandTotalPrice) + parseFloat(price) : grandTotalPrice;
 
         return (
             <div block="CheckoutOrderSummary" aria-label="Order Summary">
@@ -102,17 +100,15 @@ class CheckoutOrderSummary extends Component {
                     <h3>Order Summary</h3>
                     <ul>
                         { this.renderPriceLine(grandTotalPrice, 'Cart Subtotal') }
-                        { shippingMethod.price && this.renderPriceLine(String(shippingMethod.price), `Shipping (${ shippingMethod.title })`, { divider: true }) }
+                        { price && this.renderPriceLine(String(price), `Shipping (${ title })`, { divider: true }) }
                         { this.renderPriceLine(String(grandTotalWithShipping), 'Order Total') }
                     </ul>
                 </div>
 
                 <div block="CheckoutOrderSummary" elem="OrderItems">
-                    <h3 onClick={ () => this.setState({ isItemListOpen: !isItemListOpen }) }>{ `${ Object.keys(products).length } Items In Cart` }</h3>
+                    <h3>{ `${ Object.keys(products).length } Items In Cart` }</h3>
                     <ul block="CheckoutOrderSummary" elem="CartItemList">
-                        { Object.keys(products).map(key => {
-                            return this.renderItem(key, products[key]);
-                        }) }
+                        { Object.keys(products).map(key => this.renderItem(key, products[key])) }
                     </ul>
                 </div>
             </div>
@@ -123,7 +119,7 @@ class CheckoutOrderSummary extends Component {
 CheckoutOrderSummary.propTypes = {
     totals: TotalsType,
     products: PropTypes.objectOf(ProductType),
-    shippingMethod: PropTypes.object,
+    shippingMethod: PropTypes.object
 };
 
 CheckoutOrderSummary.defaultProps = {

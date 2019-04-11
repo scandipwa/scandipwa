@@ -17,22 +17,11 @@ import Field from 'Component/Field';
 import CheckoutOrderSummary from 'Component/CheckoutOrderSummary';
 import CheckoutShippingMethods from 'Component/CheckoutShippingMethods';
 import './CheckoutPage.style';
+import CheckoutPaymentMethods from '../../component/CheckoutPaymentMethods';
 
 const CHECKOUT_STEP_SHIPPING = 'shipping';
 const CHECKOUT_STEP_REVIEW_AND_PAYMENTS = 'review-and-payments';
 const CHECKOUT_STEP_SUCCESS = 'success';
-
-const paymentMethods = {
-    checkmo: {
-        title: 'Check Money order'
-    },
-    paypal: {
-        title: 'PayPal Express checkout'
-    },
-    klarna: {
-        title: 'Klarna smooth payments'
-    }
-};
 
 // TODO move to somewhere
 const shippingMethods = {
@@ -50,6 +39,18 @@ const shippingMethods = {
         title: 'UPS Standard',
         carrier_title: 'United Parcel Service',
         price: 15.00
+    }
+};
+
+const paymentMethods = {
+    checkmo: {
+        title: 'Check Money order'
+    },
+    paypal: {
+        title: 'PayPal Express checkout'
+    },
+    klarna: {
+        title: 'Klarna smooth payments'
     }
 };
 
@@ -104,26 +105,6 @@ class CheckoutPage extends Component {
     componentDidUpdate(prevProps) {
     }
 
-    renderPaymentMethod(index, data) {
-        const { paymentMethod } = this.state;
-        return (
-            <tr key={ index } onClick={ () => this.setState({ paymentMethod: index }) }>
-                <td>
-                    <Field
-                        id={ index }
-                        type="radio"
-                        block="paymentMethodTable"
-                        elem={ index }
-                        value={ index }
-                        checked={ paymentMethod }
-                        onChange={ index => this.setState({ paymentMethod: index }) }
-                    />
-                </td>
-                <td>{ data.title }</td>
-            </tr>
-        );
-    }
-
     placeOrder() {
         //todo
     }
@@ -133,7 +114,11 @@ class CheckoutPage extends Component {
      * @param method
      */
     handleSelectShippingMethod = (method) => {
-        this.setState({ shippingMethod: method })
+        this.setState({ shippingMethod: method });
+    };
+
+    handleSelectPaymentMethod = (method) => {
+        this.setState({ paymentMethod: method });
     };
 
     render() {
@@ -142,9 +127,8 @@ class CheckoutPage extends Component {
             email,
             shippingAddress,
             shippingMethod,
-            paymentMethods,
             billingIsSame,
-            billingAddress,
+            billingAddress
         } = this.state;
 
         const {
@@ -155,12 +139,12 @@ class CheckoutPage extends Component {
         return (
             <main block="CheckoutPage">
                 <ContentWrapper
-                    wrapperMix={ { block: 'CheckoutPage', elem: 'Wrapper' } }
-                    label="Checkout page"
+                  wrapperMix={ { block: 'CheckoutPage', elem: 'Wrapper' } }
+                  label="Checkout page"
                 >
                     <div
-                        block="CheckoutPage"
-                        elem="CheckoutSteps"
+                      block="CheckoutPage"
+                      elem="CheckoutSteps"
                     >
                         <h1 block="CheckoutPage" elem="Heading">
                             Checkout
@@ -355,26 +339,22 @@ class CheckoutPage extends Component {
                                 </fieldset>
 
                                 <CheckoutShippingMethods
-                                    onSelectShippingMethod={ this.handleSelectShippingMethod }
+                                  shippingMethods={ shippingMethods }
+                                  onSelectShippingMethod={ this.handleSelectShippingMethod }
                                 />
 
                                 <button
-                                    onClick={ () => this.setState({ checkoutStep: CHECKOUT_STEP_REVIEW_AND_PAYMENTS }) }>
-                                    Next step
+                                  onClick={ () => this.setState({ checkoutStep: CHECKOUT_STEP_REVIEW_AND_PAYMENTS }) }
+                                >
+                                  Next step
                                 </button>
                             </div>
                         ) : checkoutStep === CHECKOUT_STEP_REVIEW_AND_PAYMENTS ? (
                             <div block="checkoutStep" elem="reviewAndPayments">
-                                <fieldset block="CheckoutStep" elem="legend">
-                                    <legend>Payment Method</legend>
-                                    <table block="CheckoutStep" elem="OptionsTable">
-                                        <tbody>
-                                        { Object.keys(paymentMethods).map((index) => {
-                                            return this.renderPaymentMethod(index, paymentMethods[index]);
-                                        }) }
-                                        </tbody>
-                                    </table>
-                                </fieldset>
+                                <CheckoutPaymentMethods
+                                  paymentMethods={ paymentMethods }
+                                  onSelectPaymentMethod={ this.handleSelectPaymentMethod }
+                                />
 
                                 <fieldset block="CheckoutStep" elem="legend">
                                     <legend>Billing Address</legend>
@@ -593,9 +573,9 @@ class CheckoutPage extends Component {
                     </div>
 
                     <CheckoutOrderSummary
-                        totals={ totals }
-                        products={ products }
-                        shippingMethod={ (shippingMethod) ? shippingMethods[shippingMethod] : {} }
+                      totals={ totals }
+                      products={ products }
+                      shippingMethod={ (shippingMethod) ? shippingMethods[shippingMethod] : {} }
                     />
                 </ContentWrapper>
             </main>

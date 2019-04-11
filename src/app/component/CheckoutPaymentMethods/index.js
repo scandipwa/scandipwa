@@ -9,6 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import CheckoutShippingMethods from './CheckoutShippingMethods.component';
+import CheckoutPaymentMethods from './CheckoutPaymentMethods.component';
 
-export default CheckoutShippingMethods;
+export default CheckoutPaymentMethods;

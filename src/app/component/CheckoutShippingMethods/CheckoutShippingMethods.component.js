@@ -10,25 +10,9 @@
  */
 
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Field from 'Component/Field';
-
-const shippingMethods = {
-    freeshipping_freeshipping: {
-        title: "Economy",
-        carrier_title: "Free Ground Shipping",
-        price: "0.00",
-    },
-    flatrate_flatrate: {
-        title: "Flatrate",
-        carrier_title: "Flatrate shipping",
-        price: "10.00",
-    },
-    ups_11: {
-        title: "UPS Standard",
-        carrier_title: "United Parcel Service",
-        price: "15.00",
-    }
-};
+import CheckoutOrderSummary from '../CheckoutOrderSummary';
 
 /**
  * Checkout shipping method selector component
@@ -43,8 +27,9 @@ class CheckoutShippingMethods extends Component {
     }
 
     handleShippingMethodChange = (method) => {
-        this.props.onSelectShippingMethod(method);
-        this.setState({shippingMethod: method});
+        const { onSelectShippingMethod } = this.props;
+        onSelectShippingMethod(method);
+        this.setState({ shippingMethod: method });
     };
 
     /**
@@ -55,24 +40,28 @@ class CheckoutShippingMethods extends Component {
      */
     renderShippingMethod(identifier, value) {
         const { shippingMethod } = this.state;
+        const {
+            price,
+            title,
+            carrier_title
+        } = value;
 
         return (
-            <tr key={ identifier } onClick={ e => this.handleShippingMethodChange(identifier) }>
+            <tr key={ identifier } onClick={ () => this.handleShippingMethodChange(identifier) }>
                 <td>
                     <Field
-                        id={ identifier }
-                        type="radio"
-                        block="shippingMethodTable"
-                        elem={ identifier }
-                        value={ identifier }
-                        checked={ shippingMethod }
-                        onChange={ identifier => this.handleShippingMethodChange(identifier) }
-
+                      id={ identifier }
+                      type="radio"
+                      block="shippingMethodTable"
+                      elem={ identifier }
+                      value={ identifier }
+                      checked={ shippingMethod }
+                      onChange={ identifier => this.handleShippingMethodChange(identifier) }
                     />
                 </td>
-                <td>{ value.price }</td>
-                <td>{ value.title }</td>
-                <td>{ value.carrier_title }</td>
+                <td>{ price }</td>
+                <td>{ title }</td>
+                <td>{ carrier_title }</td>
             </tr>
         );
     }
@@ -82,19 +71,26 @@ class CheckoutShippingMethods extends Component {
      * @returns {*}
      */
     render() {
+        const { shippingMethods } = this.props;
+
         return (
             <fieldset block="CheckoutStep" elem="legend">
                 <legend>Shipping Method</legend>
                 <table block="CheckoutStep" elem="OptionsTable">
                     <tbody>
-                    { Object.keys(shippingMethods).map((index) => {
-                        return this.renderShippingMethod(index, shippingMethods[index]);
-                    }) }
+                        { Object
+                            .keys(shippingMethods)
+                            .map(code => this.renderShippingMethod(code, shippingMethods[code])) }
                     </tbody>
                 </table>
             </fieldset>
         );
     }
 }
+
+CheckoutShippingMethods.propTypes = {
+    shippingMethods: PropTypes.object.isRequired,
+    onSelectShippingMethod: PropTypes.func.isRequired
+};
 
 export default CheckoutShippingMethods;
