@@ -31,7 +31,7 @@ export const GUEST_QUOTE_ID = 'guest_quote_id';
  */
 class CartDispatcher {
     updateInitialCartData(dispatch) {
-        const guestQuoteId = BrowserDatabase.getItem(GUEST_QUOTE_ID);
+        const guestQuoteId = this._getGuestQuoteId();
 
         if (isSignedIn()) {
             // This is logged in customer, no need for quote id
@@ -61,7 +61,6 @@ class CartDispatcher {
     }
 
     addProductToCart(dispatch, options) {
-        const guestQuoteId = BrowserDatabase.getItem(GUEST_QUOTE_ID);
         const { product, quantity } = options;
         const { item_id, quantity: originalQuantity } = this._getProductInCart(product);
 
@@ -74,7 +73,7 @@ class CartDispatcher {
         if (this._isAllowed(options)) {
             return fetchMutation(Cart.getSaveCartItemMutation(
                 productToAdd,
-                !isSignedIn() && guestQuoteId
+                !isSignedIn() && this._getGuestQuoteId()
             )).then(
                 ({ saveCartItem: { item_id, qty } }) => {
                     dispatch(addProductToCart(
@@ -92,13 +91,23 @@ class CartDispatcher {
         return Promise.reject();
     }
 
-    removeProductFromCart(dispatch, options) {
-        return dispatch(removeProductFromCart(options.product));
+    removeProductFromCart(dispatch, { product }) {
+        return fetchMutation(Cart.getRemoveCartItemMutation(
+            product,
+            !isSignedIn() && this._getGuestQuoteId()
+        )).then(
+            ({ removeCartItem }) => removeCartItem && dispatch(removeProductFromCart(product)),
+            error => console.log(error)
+        );
     }
 
     updateTotals(dispatch, options) {
         const totals = this._calculateTotals(options.products);
         return dispatch(updateTotals(totals));
+    }
+
+    _getGuestQuoteId() {
+        return BrowserDatabase.getItem(GUEST_QUOTE_ID);
     }
 
     _getProductInCart(product) {

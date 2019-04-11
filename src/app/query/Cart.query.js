@@ -36,6 +36,17 @@ class Cart {
         return mutation;
     }
 
+    getRemoveCartItemMutation(product, quoteId = null) {
+        const { item_id } = product;
+
+        const mutation = new Field('removeCartItem')
+            .addArgument('item_id', 'Int!', item_id);
+
+        if (quoteId) mutation.addArgument('quoteId', 'String', quoteId);
+
+        return mutation;
+    }
+
     _getCartItemField(field) {
         field
             .addField('item_id')
