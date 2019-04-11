@@ -20,6 +20,8 @@ import { getProductPrice } from 'Util/Price';
 import { isSignedIn } from 'Util/Auth';
 import { Cart } from 'Query';
 import BrowserDatabase from 'Util/BrowserDatabase';
+import { PRODUCTS_IN_CART } from 'Store/Cart';
+import { Promise } from 'q';
 
 export const GUEST_QUOTE_ID = 'guest_quote_id';
 
@@ -59,11 +61,35 @@ class CartDispatcher {
     }
 
     addProductToCart(dispatch, options) {
+        const guestQuoteId = BrowserDatabase.getItem(GUEST_QUOTE_ID);
+        const { product, quantity } = options;
+        const { item_id, quantity: originalQuantity } = this._getProductInCart(product);
+
+        const productToAdd = {
+            item_id,
+            sku: this._getProductAttribute('sku', product),
+            qty: (parseInt(originalQuantity, 10) || 0) + parseInt(quantity, 10)
+        };
+
         if (this._isAllowed(options)) {
-            return dispatch(addProductToCart(options.product, options.quantity));
+            return fetchMutation(Cart.getSaveCartItemMutation(
+                productToAdd,
+                !isSignedIn() && guestQuoteId
+            )).then(
+                ({ saveCartItem: { item_id, qty } }) => {
+                    dispatch(addProductToCart(
+                        {
+                            ...product,
+                            item_id,
+                            quantity: qty
+                        }
+                    ));
+                },
+                error => console.log(error)
+            );
         }
 
-        return null;
+        return Promise.reject();
     }
 
     removeProductFromCart(dispatch, options) {
@@ -73,6 +99,20 @@ class CartDispatcher {
     updateTotals(dispatch, options) {
         const totals = this._calculateTotals(options.products);
         return dispatch(updateTotals(totals));
+    }
+
+    _getProductInCart(product) {
+        const id = this._getProductAttribute('id', product);
+        const productsInCart = BrowserDatabase.getItem(PRODUCTS_IN_CART) || {};
+
+        if (!productsInCart[id]) return {};
+        return productsInCart[id];
+    }
+
+    _getProductAttribute(attribute, { variants, configurableVariantIndex, [attribute]: attributeValue }) {
+        return typeof configurableVariantIndex === 'number'
+            ? variants[configurableVariantIndex].product[attribute]
+            : attributeValue;
     }
 
     /**

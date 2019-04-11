@@ -15,7 +15,7 @@ import CartItem from './CartItem.component';
 
 const mapDispatchToProps = dispatch => ({
     addProduct: (options) => {
-        CartDispatcher.addProductToCart(dispatch, options);
+        return CartDispatcher.addProductToCart(dispatch, options);
     },
     removeProduct: (options) => {
         CartDispatcher.removeProductFromCart(dispatch, options);

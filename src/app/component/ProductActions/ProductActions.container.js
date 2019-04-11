@@ -19,7 +19,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     addProduct: (options) => {
-        CartDispatcher.addProductToCart(dispatch, options);
+        return CartDispatcher.addProductToCart(dispatch, options);
     }
 });
 

@@ -15,6 +15,37 @@ class Cart {
     getCreateEmptyCartMutation() {
         return new Field('createEmptyCart');
     }
+
+    getSaveCartItemMutation(product, quoteId = null) {
+        const {
+            sku,
+            qty,
+            item_id
+        } = product;
+
+        const mutation = new Field('saveCartItem')
+            .addArgument('sku', 'String!', sku)
+            .addArgument('qty', 'Int!', qty);
+
+        this._getCartItemField(mutation);
+
+        if (quoteId) mutation.addArgument('quoteId', 'String', quoteId)
+
+        if (item_id) mutation.addArgument('item_id', 'Int!', item_id);
+
+        return mutation;
+    }
+
+    _getCartItemField(field) {
+        field
+            .addField('item_id')
+            .addField('name')
+            .addField('price')
+            .addField('product_type')
+            .addField('qty')
+            .addField('quote_id')
+            .addField('sku');
+    }
 }
 
 export default new Cart();
