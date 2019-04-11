@@ -61,6 +61,15 @@ class MyAccountDispatcher extends QueryDispatcher {
         );
     }
 
+    changeCustomerPassword(options, customer, dispatch) {
+        const mutation = MyAccount.getChangeCustomerPasswordMutation(options, customer);
+
+        return fetchMutation(mutation).then(
+            ({ password }) => dispatch(updateCustomerDetails(password)),
+            error => console.log(error)
+        );
+    }
+
     logout(_, dispatch) {
         dispatch(updateCustomerSignInStatus(false));
         deleteAuthorizationToken();

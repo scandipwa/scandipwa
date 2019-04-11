@@ -27,6 +27,9 @@ const mapDispatchToProps = dispatch => ({
     updateCustomerData(options) {
         return MyAccountDispatcher.updateCustomerData(options, dispatch);
     },
+    changeCustomerPassword(options, customer) {
+        return MyAccountDispatcher.changeCustomerPassword(options, customer, dispatch);
+    },
     updateCustomerAddress(id, options) {
         return MyAccountDispatcher.updateCustomerAddress(id, options, dispatch);
     },

@@ -13,6 +13,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Field from 'Component/Field';
 import Form from 'Component/Form';
+import TextPlaceholder from 'Component/TextPlaceholder';
 import './MyAccountDetails.style';
 
 const STATE_ACCOUNT_OVERVIEW = 'accountOverview';
@@ -26,7 +27,7 @@ class MyAccountDetails extends Component {
 
         this.state = {
             state: STATE_ACCOUNT_OVERVIEW,
-            addressType: '',
+            correctAddress: {},
             isLoading: false
         };
 
@@ -45,6 +46,9 @@ class MyAccountDetails extends Component {
         this.updateBreadcrumbs();
     }
 
+    /**
+     * Redirect back to account overview
+     */
     componentDidUpdate() {
         const { history, location: { state } } = this.props;
 
@@ -54,6 +58,11 @@ class MyAccountDetails extends Component {
         }
     }
 
+    /**
+     * Check if all fields are valid before sending changes
+     * @param {Object} fields
+     * @param {Object} invalidFields
+     */
     onUpdateAttempt(fields, invalidFields) {
         const { showNotification } = this.props;
 
@@ -63,6 +72,10 @@ class MyAccountDetails extends Component {
         this.setState({ isLoading: !invalidFields });
     }
 
+    /**
+     * Update Customer Account information and redirect to overview page
+     * @param {Object} fields
+     */
     onUpdateAccountSuccess(fields) {
         const { updateCustomerData } = this.props;
         const {
@@ -79,11 +92,30 @@ class MyAccountDetails extends Component {
         updateCustomerData(customer).then(() => this.redirectBackToOverview());
     }
 
-    onUpdateAddressSuccess(fields, additionalInfo) {
+    /**
+     * Change Custoemr Password and redirect to overview page
+     * @param {Object} fields
+     */
+    onChangePasswordSuccess(fields) {
+        const { changeCustomerPassword, customer } = this.props;
+        const {
+            id,
+            email
+        } = customer;
+
+        changeCustomerPassword(fields, { id, email }).then(() => this.redirectBackToOverview());
+    }
+
+    /**
+     * Update default Shipping/Billing address for customer and redirect to overview page
+     * @param {Object} fields
+     * @param {Object} correctAddress
+     */
+    onUpdateAddressSuccess(fields, correctAddress) {
         const { updateCustomerAddress, createCustomerAddress } = this.props;
-        const { id, isAddressCreation, addressType } = additionalInfo;
-        const default_shipping = addressType === 'shipping';
-        const default_billing = addressType === 'billing';
+        const isAddressCreation = typeof correctAddress === 'string';
+        const default_shipping = correctAddress === 'shipping';
+        const default_billing = correctAddress === 'billing';
         const {
             city,
             company,
@@ -91,7 +123,7 @@ class MyAccountDetails extends Component {
             firstname,
             lastname,
             postcode,
-            region: { region },
+            region,
             street,
             telephone
         } = fields;
@@ -102,7 +134,7 @@ class MyAccountDetails extends Component {
             firstname,
             lastname,
             postcode,
-            region,
+            region: { region },
             street,
             telephone,
             default_shipping,
@@ -112,16 +144,23 @@ class MyAccountDetails extends Component {
         if (isAddressCreation) {
             createCustomerAddress(addresses).then(() => this.redirectBackToOverview());
         } else {
+            const { id } = correctAddress;
             updateCustomerAddress(id, { default_billing, default_shipping, ...addresses }).then(() => {
                 this.redirectBackToOverview();
             });
         }
     }
 
+    /**
+     * Form fields are invalid
+     */
     onFormError() {
         this.setState({ isLoading: false });
     }
 
+    /**
+     * Request all customer data, redirect to overview page and show a notification
+     */
     redirectBackToOverview() {
         const { showNotification } = this.props;
         this.requestCustomerData().then(() => {
@@ -130,10 +169,18 @@ class MyAccountDetails extends Component {
         });
     }
 
-    changeState(state, addressType) {
-        this.setState({ state, addressType });
+    /**
+     * Change state, change correctAddress if updating address
+     * @param {String} state
+     * @param {Object} correctAddress
+     */
+    changeState(state, correctAddress) {
+        this.setState({ state, correctAddress });
     }
 
+    /**
+     * Get Customer Data from DB
+     */
     requestCustomerData() {
         const { requestCustomerData } = this.props;
         const options = {
@@ -159,6 +206,9 @@ class MyAccountDetails extends Component {
         updateBreadcrumbs(breadcrumbs);
     }
 
+    /**
+     * Render main account overview page
+     */
     renderAccountOverview() {
         return (
             <>
@@ -168,39 +218,75 @@ class MyAccountDetails extends Component {
         );
     }
 
+    /**
+     * Render Customer Address Update page
+     */
     renderUpdateAddress() {
-        const { customer: { addresses } } = this.props;
-        const { addressType } = this.state;
-        const selectedAddress = addressType === 'billing' ? 0 : 1;
-
-        const additionalInfo = {
-            id: addresses[selectedAddress] && addresses[selectedAddress].id,
-            isAddressCreation: !addresses[selectedAddress],
-            addressType
-        };
+        const { correctAddress } = this.state;
+        const {
+            firstname,
+            lastname,
+            company,
+            telephone,
+            street,
+            city,
+            postcode,
+            region,
+            country_id
+        } = correctAddress;
 
         return (
             <>
                 <Form
                   key="add-address"
                   onSubmit={ () => this.onUpdateAttempt() }
-                  onSubmitSuccess={ fields => this.onUpdateAddressSuccess(fields, additionalInfo) }
+                  onSubmitSuccess={ fields => this.onUpdateAddressSuccess(fields, correctAddress) }
                   onSubmitError={ (fields, invalidFields) => this.onUpdateAttempt(fields, invalidFields) }
                 >
                 <fieldset block="MyAccountDetails" elem="AccountInfo">
                     <legend>Contact Information</legend>
-                    <Field type="text" label="First name" id="firstname" validation={ ['notEmpty'] } />
-                    <Field type="text" label="Last name" id="lastname" validation={ ['notEmpty'] } />
-                    <Field type="text" label="Company" id="company" />
-                    <Field type="text" label="Phone Number" id="telephone" validation={ ['notEmpty'] } />
+                    <Field
+                      type="text"
+                      label="First name"
+                      id="firstname"
+                      validation={ ['notEmpty'] }
+                      value={ firstname }
+                    />
+                    <Field type="text" label="Last name" id="lastname" validation={ ['notEmpty'] } value={ lastname } />
+                    <Field type="text" label="Company" id="company" value={ company } />
+                    <Field
+                      type="text"
+                      label="Phone Number"
+                      id="telephone"
+                      validation={ ['notEmpty'] }
+                      value={ telephone }
+                    />
                 </fieldset>
                 <fieldset block="MyAccountDetails" elem="AddressInfo">
                     <legend>Address</legend>
-                    <Field type="text" label="Street Address" id="street" validation={ ['notEmpty'] } />
-                    <Field type="text" label="City" id="city" validation={ ['notEmpty'] } />
-                    <Field type="text" label="Postcode" id="postcode" validation={ ['notEmpty'] } />
-                    <Field type="text" label="State/Province" id="region" validation={ ['notEmpty'] } />
-                    <Field type="text" label="Country" id="country_id" validation={ ['notEmpty'] } />
+                    <Field
+                      type="text"
+                      label="Street Address"
+                      id="street"
+                      validation={ ['notEmpty'] }
+                      value={ street && street[0] }
+                    />
+                    <Field type="text" label="City" id="city" validation={ ['notEmpty'] } value={ city } />
+                    <Field type="text" label="Postcode" id="postcode" validation={ ['notEmpty'] } value={ postcode } />
+                    <Field
+                      type="text"
+                      label="State/Province"
+                      id="region"
+                      validation={ ['notEmpty'] }
+                      value={ region && region.region }
+                    />
+                    <Field
+                      type="text"
+                      label="Country"
+                      id="country_id"
+                      validation={ ['notEmpty'] }
+                      value={ country_id }
+                    />
                 </fieldset>
                 <button block="MyAccountDetails" elem="Submit" type="submit">Add Address</button>
                 </Form>
@@ -208,7 +294,13 @@ class MyAccountDetails extends Component {
         );
     }
 
+    /**
+     * Render Account Information edit page
+     */
     renderEditInformation() {
+        const { customer } = this.props;
+        const { firstname, lastname, is_subscribed } = customer;
+
         return (
             <>
                 <Form
@@ -218,14 +310,27 @@ class MyAccountDetails extends Component {
                 >
                     <fieldset block="MyAccountDetails" elem="AccountInfo">
                         <legend>Edit Account Information</legend>
-                        <Field type="text" label="First name" id="firstname" validation={ ['notEmpty'] } />
-                        <Field type="text" label="Last name" id="lastname" validation={ ['notEmpty'] } />
+                        <Field
+                          type="text"
+                          label="First name"
+                          id="firstname"
+                          validation={ ['notEmpty'] }
+                          value={ firstname }
+                        />
+                        <Field
+                          type="text"
+                          label="Last name"
+                          id="lastname"
+                          validation={ ['notEmpty'] }
+                          value={ lastname }
+                        />
                         <Field
                           block="MyAccountDetails"
                           elem="Checkbox"
                           type="checkbox"
                           label="Subscribe to ScandiPWA newsletter"
                           id="is_subscribed"
+                          checked={ is_subscribed }
                         />
                         <button block="MyAccountDetails" elem="Submit" type="submit">Save Changes</button>
                     </fieldset>
@@ -234,28 +339,35 @@ class MyAccountDetails extends Component {
         );
     }
 
+    /**
+     * Render Customer Password edit page
+     */
     renderEditPassword() {
         return (
             <>
-                <Form>
+                <Form
+                  onSubmit={ () => this.onUpdateAttempt() }
+                  onSubmitSuccess={ fields => this.onChangePasswordSuccess(fields) }
+                  onSubmitError={ (fields, invalidFields) => this.onUpdateAttempt(fields, invalidFields) }
+                >
                     <fieldset block="MyAccountDetails" elem="AccountInfo">
                         <legend>Edit Password</legend>
                         <Field
                           type="password"
                           label="Current Password"
-                          id="old_password"
+                          id="currentPassword"
                           validation={ ['notEmpty', 'password'] }
                         />
                         <Field
                           type="password"
                           label="New Password"
-                          id="password"
+                          id="newPassword"
                           validation={ ['notEmpty', 'password'] }
                         />
                         <Field
                           type="password"
                           label="Confirm New Password"
-                          id="confirm_password"
+                          id="confirmPassword"
                           validation={ ['notEmpty', 'password'] }
                         />
                         <button block="MyAccountDetails" elem="Submit" type="submit">Save New Password</button>
@@ -265,6 +377,9 @@ class MyAccountDetails extends Component {
         );
     }
 
+    /**
+     * Render Account Information block
+     */
     renderAccountInformation() {
         const { customer } = this.props;
         const {
@@ -288,27 +403,33 @@ class MyAccountDetails extends Component {
                         Subscribed to newsletter:
                         { is_subscribed ? ' Yes' : ' No' }
                     </div>
-                    <button
-                      block="Button"
-                      mods={ { likeLink: true } }
-                      onClick={ () => this.changeState(STATE_EDIT_INFORMATION) }
-                    >
-                        Edit
-                    </button>
-                    <button
-                      block="Button"
-                      mods={ { likeLink: true } }
-                      onClick={ () => this.changeState(STATE_EDIT_PASSWORD) }
-                    >
-                        Change Password
-                    </button>
+                    <div block="MyAccountDetails" elem="Actions">
+                        <button
+                          block="Button"
+                          mods={ { likeLink: true } }
+                          onClick={ () => this.changeState(STATE_EDIT_INFORMATION) }
+                        >
+                            Edit
+                        </button>
+                        <button
+                          block="Button"
+                          mods={ { likeLink: true } }
+                          onClick={ () => this.changeState(STATE_EDIT_PASSWORD) }
+                        >
+                            Change Password
+                        </button>
+                    </div>
                 </div>
             </fieldset>
         );
     }
 
+    /**
+     * Render Customer Address block
+     * @param {String} addressType
+     */
     renderAddress(addressType) {
-        const { customer, customer: { addresses } } = this.props;
+        const { customer: { addresses } } = this.props;
 
         if (addresses) {
             const correctAddress = addresses.filter(address => address[`default_${addressType}`])[0];
@@ -319,7 +440,7 @@ class MyAccountDetails extends Component {
                     lastname,
                     street,
                     city,
-                    country,
+                    country_id,
                     telephone
                 } = correctAddress;
 
@@ -331,16 +452,21 @@ class MyAccountDetails extends Component {
                             { lastname }
                         </div>
                         <div block="MyAccountDetails" elem="Field">{ street }</div>
-                        <div block="MyAccountDetails" elem="Field">{ city }</div>
-                        <div block="MyAccountDetails" elem="Field">{ country }</div>
+                        <div block="MyAccountDetails" elem="Field">
+                            { city }
+                            ,&nbsp;
+                            { country_id }
+                        </div>
                         <div block="MyAccountDetails" elem="Field">{ telephone }</div>
-                        <button
-                          block="Button"
-                          mods={ { likeLink: true } }
-                          onClick={ () => this.changeState(STATE_UPDATE_ADDRESS, addressType) }
-                        >
-                            Edit Address
-                        </button>
+                        <div block="MyAccountDetails" elem="Actions">
+                            <button
+                              block="Button"
+                              mods={ { likeLink: true } }
+                              onClick={ () => this.changeState(STATE_UPDATE_ADDRESS, correctAddress) }
+                            >
+                                Edit Address
+                            </button>
+                        </div>
                     </>
                 );
             }
@@ -353,25 +479,27 @@ class MyAccountDetails extends Component {
                     { addressType }
                     &nbsp;address has been set.
                 </div>
-                <button
-                  block="Button"
-                  mods={ { likeLink: true } }
-                  onClick={ () => this.changeState(STATE_UPDATE_ADDRESS, addressType) }
-                >
-                    Add New Address
-                </button>
+                <div block="MyAccountDetails" elem="Actions">
+                    <button
+                      block="Button"
+                      mods={ { likeLink: true } }
+                      onClick={ () => this.changeState(STATE_UPDATE_ADDRESS, addressType) }
+                    >
+                        Add New Address
+                    </button>
+                </div>
             </>
         );
     }
 
+    /**
+     * Render Custoenr Address Book block
+     */
     renderAddressBook() {
-        const { customer: { addresses } } = this.props;
-
         return (
             <fieldset block="MyAccountDetails" elem="AddressBook">
                 <legend>
                     <span>Address Book</span>
-                    { !addresses && <button block="Button" mods={ { likeLink: true } }>Add New Address</button> }
                 </legend>
                 <div block="MyAccountDetails" elem="FieldWrapper">
                     <div block="MyAccountDetails" elem="AddressWrapper">
@@ -394,12 +522,17 @@ class MyAccountDetails extends Component {
         const renderFunction = this.renderMap[state];
         const { customer } = this.props;
 
-        if (customer) {
+        if (customer && Object.keys(customer).length) {
             return (
                 <main block="MyAccountDetails" aria-label="My Account Details">
                     <div block="MyAccountDetails" elem="Wrapper">
                         <ul block="MyAccountDetails" elem="Sidebar">
-                            <li>My Account</li>
+                            <li
+                              onClick={ () => this.changeState(STATE_ACCOUNT_OVERVIEW) }
+                              onKeyPress={ () => this.changeState(STATE_ACCOUNT_OVERVIEW)}
+                            >
+                                My Account
+                            </li>
                             <li>My Orders</li>
                         </ul>
                         <div block="MyAccountDetails" elem="Content">
@@ -410,8 +543,88 @@ class MyAccountDetails extends Component {
             );
         }
 
-        return null;
+        return (
+            <main block="MyAccountDetails" aria-label="My Account Details">
+                <div block="MyAccountDetails" elem="Wrapper">
+                    <ul block="MyAccountDetails" elem="Sidebar">
+                        <li>My Account</li>
+                        <li>My Orders</li>
+                    </ul>
+                    <div block="MyAccountDetails" elem="Content">
+                    <fieldset block="MyAccountDetails" elem="AccountInfo">
+                        <legend>Account Information</legend>
+                        <div block="MyAccountDetails" elem="FieldWrapper">
+                            <div block="MyAccountDetails" elem="Field">
+                                <TextPlaceholder length="medium" />
+                            </div>
+                            <div block="MyAccountDetails" elem="Field"><TextPlaceholder length="short" /></div>
+                            <div block="MyAccountDetails" elem="Field">
+                                <TextPlaceholder length="short" />
+                            </div>
+                            <div block="MyAccountDetails" elem="Actions">
+                                <TextPlaceholder length="medium" />
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset block="MyAccountDetails" elem="AddressBook">
+                        <legend>
+                            <span>Address Book</span>
+                        </legend>
+                        <div block="MyAccountDetails" elem="FieldWrapper">
+                            <div block="MyAccountDetails" elem="AddressWrapper">
+                                <div block="MyAccountDetails" elem="FieldWrapper">
+                                    <h4>Default Billing Address</h4>
+                                    <div block="MyAccountDetails" elem="Field">
+                                        <TextPlaceholder length="medium" />
+                                    </div>
+                                    <div block="MyAccountDetails" elem="Field"><TextPlaceholder length="short" /></div>
+                                    <div block="MyAccountDetails" elem="Field">
+                                        <TextPlaceholder length="medium" />
+                                    </div>
+                                    <div block="MyAccountDetails" elem="Field"><TextPlaceholder length="short" /></div>
+                                    <div block="MyAccountDetails" elem="Actions">
+                                        <TextPlaceholder length="short" />
+                                    </div>
+                                </div>
+                                <div block="MyAccountDetails" elem="FieldWrapper">
+                                    <h4>Default Shipping Address</h4>
+                                    <div block="MyAccountDetails" elem="Field">
+                                        <TextPlaceholder length="medium" />
+                                    </div>
+                                    <div block="MyAccountDetails" elem="Field"><TextPlaceholder length="short" /></div>
+                                    <div block="MyAccountDetails" elem="Field">
+                                        <TextPlaceholder length="medium" />
+                                    </div>
+                                    <div block="MyAccountDetails" elem="Field"><TextPlaceholder length="short" /></div>
+                                    <div block="MyAccountDetails" elem="Actions">
+                                        <TextPlaceholder length="short" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    </div>
+                </div>
+            </main>
+        );
     }
 }
+
+MyAccountDetails.propTypes = {
+    history: PropTypes.shape({
+        location: PropTypes.object.isRequired,
+        push: PropTypes.func.isRequired
+    }).isRequired,
+    location: PropTypes.shape({
+        pathname: PropTypes.string.isRequired
+    }).isRequired,
+    showNotification: PropTypes.func.isRequired,
+    requestCustomerData: PropTypes.func.isRequired,
+    updateCustomerData: PropTypes.func.isRequired,
+    createCustomerAddress: PropTypes.func.isRequired,
+    updateCustomerAddress: PropTypes.func.isRequired,
+    changeCustomerPassword: PropTypes.func.isRequired,
+    updateBreadcrumbs: PropTypes.func.isRequired
+};
 
 export default MyAccountDetails;

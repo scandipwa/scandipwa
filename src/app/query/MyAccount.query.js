@@ -97,6 +97,16 @@ class MyAccount {
             .addField(this.getCustomer(true));
     }
 
+    getChangeCustomerPasswordMutation(options) {
+        const { currentPassword, newPassword } = options;
+
+        return new Field('changeCustomerPassword')
+            .addArgument('currentPassword', 'String!', currentPassword)
+            .addArgument('newPassword', 'String!', newPassword)
+            .addField('id')
+            .addField('email');
+    }
+
     getCreateAddressMutation(options) {
         const region = new Field('region')
             .addField('region_code')
