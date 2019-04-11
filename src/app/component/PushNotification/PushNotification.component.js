@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-const GRANTED = 'granted';
-const DENIED = 'denied';
-const DEFAULT = 'default';
+import { GRANTED, DENIED, DEFAULT } from '../../store/Notification/Notification.reducer';
 
 class PushNotification extends Component {
     constructor(props) {
