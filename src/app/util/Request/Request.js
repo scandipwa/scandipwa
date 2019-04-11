@@ -9,7 +9,24 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { getAuthorizationToken } from 'Util/Auth';
 import { hash } from './Hash';
+
+const GRAPHQL_URI = '/graphql';
+
+/**
+ * Append authorization token to header object
+ * @param {Object} headers
+ * @returns {Object} Headers with appended authorization
+ */
+const appendTokenToHeaders = (headers) => {
+    const token = getAuthorizationToken();
+
+    return {
+        ...headers,
+        Authorization: token ? `Bearer ${token}` : ''
+    };
+};
 
 /**
  *
@@ -33,6 +50,13 @@ const formatURI = (query, variables, url) => {
 };
 
 /**
+ * Checks if the given query is a GraphQL mutation
+ * @param  {String} query
+ * @return {Promise<Object>}
+ */
+const isMutation = query => query.substring(0, query.indexOf('(')) === 'mutation';
+
+/**
  *
  * @param {String} uri
  * @param {String} name
@@ -41,11 +65,11 @@ const formatURI = (query, variables, url) => {
 const getFetch = (uri, name) => fetch(uri,
     {
         method: 'GET',
-        headers: {
+        headers: appendTokenToHeaders({
             'Content-Type': 'application/json',
             'Application-Model': name,
             Accept: 'application/json'
-        }
+        })
     });
 
 /**
@@ -65,31 +89,21 @@ const putPersistedQuery = (graphQlURI, query, cacheTTL) => fetch(`${ graphQlURI 
     });
 
 /**
- * Make fetch request to endpoint (via ServiceWorker)
- * @param  {{}} queryObject prepared with `prepareQuery()` from `Util/Query` request body object
- * @param  {String} name Name of model for ServiceWorker to send BroadCasts updates to
- * @param  {Number} cacheTTL Cache TTL (in seconds) for ServiceWorker to cache responses
- * @return {Promise<Request>} Fetch promise to GraphQL endpoint
+ *
+ * @param {String} graphQlURI
+ * @param {String} queryObject
+ * @param {String} name
+ * @returns {Promise<Response>}
  */
-const executeFetch = (queryObject, name, cacheTTL) => {
-    const graphQlURI = '/graphql';
-    const { query, variables } = queryObject;
-    const uri = formatURI(query, variables, graphQlURI);
-
-    return new Promise((resolve) => {
-        getFetch(uri, name).then((res) => {
-            if (res.status === 410) {
-                putPersistedQuery(graphQlURI, query, cacheTTL).then((putResponse) => {
-                    if (putResponse.status === 201) {
-                        getFetch(uri, name).then(res => resolve(res));
-                    }
-                });
-            } else {
-                resolve(res);
-            }
-        });
+const postFetch = (graphQlURI, query, variables) => fetch(graphQlURI,
+    {
+        method: 'POST',
+        body: JSON.stringify({ query, variables }),
+        headers: appendTokenToHeaders({
+            'Content-Type': 'application/json',
+            Accept: 'application/json'
+        })
     });
-};
 
 /**
  * Checks for errors in response, if they exist, rejects promise
@@ -109,19 +123,50 @@ const checkForErrors = res => new Promise((resolve, reject) => {
 const handleConnectionError = err => console.error(err); // TODO: Add to logs pool
 
 /**
- * Make GraphQL request to endpoint (via ServiceWorker)
- * @param  {String} query prepared with `
- prepareQuery()` from `
- Util / Query` request body string
+ * Parse response and check wether it contains errors
+ * @param  {{}} queryObject prepared with `prepareDocument()` from `Util/Query` request body object
+ * @return {Promise<Request>} Fetch promise to GraphQL endpoint
+ */
+const parseResponse = promise => promise.then(
+    res => res.json().then(checkForErrors, () => handleConnectionError('Can not transform JSON!')),
+    () => handleConnectionError('Can not establish connection!')
+);
+
+/**
+ * Make GET request to endpoint (via ServiceWorker)
+ * @param  {{}} queryObject prepared with `prepareDocument()` from `Util/Query` request body object
  * @param  {String} name Name of model for ServiceWorker to send BroadCasts updates to
  * @param  {Number} cacheTTL Cache TTL (in seconds) for ServiceWorker to cache responses
- * @return {Promise<Object>} Handled GraphqlQL results promise
+ * @return {Promise<Request>} Fetch promise to GraphQL endpoint
  */
-export const makeGraphqlRequest = (query, name, cacheTTL) => executeFetch(query, name, cacheTTL)
-    .then(
-        res => res.json().then(checkForErrors, () => handleConnectionError('Can not transform JSON!')),
-        () => handleConnectionError('Can not establish connection!')
-    );
+export const executeGet = (queryObject, name, cacheTTL) => {
+    const { query, variables } = queryObject;
+    const uri = formatURI(query, variables, GRAPHQL_URI);
+
+    return parseResponse(new Promise((resolve) => {
+        getFetch(uri, name).then((res) => {
+            if (res.status === 410) {
+                putPersistedQuery(GRAPHQL_URI, query, cacheTTL).then((putResponse) => {
+                    if (putResponse.status === 201) {
+                        getFetch(uri, name).then(res => resolve(res));
+                    }
+                });
+            } else {
+                resolve(res);
+            }
+        });
+    }));
+};
+
+/**
+ * Make POST request to endpoint
+ * @param  {{}} queryObject prepared with `prepareDocument()` from `Util/Query` request body object
+ * @return {Promise<Request>} Fetch promise to GraphQL endpoint
+ */
+export const executePost = (queryObject) => {
+    const { query, variables } = queryObject;
+    return parseResponse(postFetch(GRAPHQL_URI, query, variables));
+};
 
 /**
  * Listen to the BroadCast connection

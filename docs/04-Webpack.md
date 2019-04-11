@@ -37,8 +37,7 @@ Theme consists of 2 virtual code parts:
 - core (`/vendor/scandipwa/source`) - comes from scandipwa/source package.
 - custom - any file from core can be replaced with the file with the same name in the theme specific directory.
 
-First of all such approach allows "as-is" approach - install PWA theme with zero-coding, at the same time - customization is unlimited at any time. On the 
-other hand - it enables you to receive bug fixes and new features. Remember, it is still on you to adapt them once customized.
+First of all such approach allows "as-is" approach - install PWA theme with zero-coding, at the same time - customization is unlimited at any time. On the other hand - it enables you to receive bug fixes and new features. Remember, it is still on you to adapt them once customized.
 
 ### Fallback implementation
 Fallback is implemented as a Webpack plugin. Included in `plugins` section of Webpack config file. 
@@ -55,9 +54,9 @@ Fallback uses multiple fallback sources, those are (sequencially):
 ### Application compilation:
 
 - `Magento_Theme` – Compiled assets
-    - `templates` 
+    - `templates`
         - `root.phtml` – Compiled from `src/public/index.html`
-    - `web`  
+    - `web`
         - `assets` – Compiled from `src/public/assets`
         - `*.(js|css)` – Compiled JS and CSS assets
 

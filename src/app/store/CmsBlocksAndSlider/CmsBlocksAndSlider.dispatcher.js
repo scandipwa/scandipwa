@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { RequestDispatcher } from 'Util/Request';
+import { QueryDispatcher } from 'Util/Request';
 import { CmsBlockQuery, HomeSlider } from 'Query';
 import { showNotification } from 'Store/Notification';
 import { updateCmsBlocks, updateSlider } from 'Store/CmsBlocksAndSlider';
@@ -17,9 +17,9 @@ import { updateCmsBlocks, updateSlider } from 'Store/CmsBlocksAndSlider';
 /**
  * CMS Blocks And Slider Dispatcher
  * @class CmsBlocksAndSliderDispatcher
- * @extends RequestDispatcher
+ * @extends QueryDispatcher
  */
-class CmsBlocksAndSliderDispatcher extends RequestDispatcher {
+class CmsBlocksAndSliderDispatcher extends QueryDispatcher {
     constructor() {
         super('CmsBlocksAndSlider', 86400);
     }

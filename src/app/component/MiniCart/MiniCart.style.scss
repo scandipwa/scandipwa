@@ -112,12 +112,23 @@
 		position: absolute;
 		right: 0;
 		padding-top: 14px;
-		background: var(--color-cart-background) none;
 		box-sizing: content-box;
+		background-color: none;
 		min-width: max-content;
 		width: 100%;
 		z-index: 1;
 		transition: transform 150ms 200ms ease-in, opacity 150ms 150ms ease-in;
+
+		&::after {
+			content: '';
+			z-index: -1;
+			position: absolute;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			height: calc(100% - 14px);
+			background: var(--color-cart-background);
+		}
 
 		&::before {
 			content: '';

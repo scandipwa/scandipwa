@@ -9,6 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import Menu from './Menu';
+import MyAccountContainer from './MyAccount.container';
 
-export default Menu;
+export default MyAccountContainer;

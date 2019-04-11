@@ -13,7 +13,7 @@
     --animation-duration: 0; /* to sync CSS animation and JS callback */
 
     border: 1px solid black;
-    max-width: 250px;
+    max-width: 550px;
     position: relative;
     margin-bottom: 20px;
     padding: 10px;
@@ -77,8 +77,18 @@
 
     &_type {
         &_error {
-            border-color: red;
-            background: rgba(255, 0, 0, .2);
+            border-color: rgba(255, 0, 0, 1);
+            color: white;
+            background: rgba(255, 0, 0, 1);
+        }
+        &_success {
+            border-color: var(--color-cart-light);
+            background: var(--color-cart-light);
+        }
+
+        &_success {
+            border-color: green;
+            background: rgba(0, 255, 0, 0.2);
         }
     }
 

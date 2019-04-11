@@ -108,15 +108,6 @@ textarea {
         }
     }
 
-    &:focus + label {
-        --box-color: #{transparentize(color(neutral, light, true), .4)};
-        border-color: color(primary, base);
-
-        &::after {
-            --checkmark-color: #{color(neutral, base, true)};
-        }
-    }
-
     &:disabled + label {
         color: #b8b8b8;
         cursor: auto;
@@ -133,21 +124,35 @@ textarea {
 }
 
 [type="checkbox"] {
-    + label {
-        &::after {
-            left: .25rem;
-            top: .6rem;
-            width: .2rem;
-            height: .2rem;
-            box-shadow: 
-                2px 0 0 var(--checkmark-color),
-                4px 0 0 var(--checkmark-color),
-                4px -2px 0 var(--checkmark-color),
-                4px -4px 0 var(--checkmark-color),
-                4px -6px 0 var(--checkmark-color),
-                4px -8px 0 var(--checkmark-color);
-            transform: rotate(45deg);
-            transition-property: background-color, box-shadow;
+    &:hover {
+        + label {
+            background-color: var(--color-primary-light);
+        }
+    }
+
+    &:checked {
+        &:hover {
+            + label {
+                background-color: var(--color-primary-base);
+            }
+        }
+
+        + label {
+            &::after {
+                left: .25rem;
+                top: .6rem;
+                width: .2rem;
+                height: .2rem;
+                box-shadow: 
+                    2px 0 0 var(--checkmark-color),
+                    4px 0 0 var(--checkmark-color),
+                    4px -2px 0 var(--checkmark-color),
+                    4px -4px 0 var(--checkmark-color),
+                    4px -6px 0 var(--checkmark-color),
+                    4px -8px 0 var(--checkmark-color);
+                transform: rotate(45deg);
+                transition-property: background-color, box-shadow;
+            }
         }
     }
 }
@@ -166,6 +171,15 @@ textarea {
             height: .5rem;
             border-radius: 50%;
             transition-property: background-color, box-shadow;
+        }
+    }
+
+    &:focus + label {
+        --box-color: #{transparentize(color(neutral, light, true), .4)};
+        border-color: color(primary, base);
+
+        &::after {
+            --checkmark-color: #{color(neutral, base, true)};
         }
     }
 }
