@@ -9,6 +9,17 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import UrlRewrites from './UrlRewrites.container';
+import UrlRewritesReducer from './UrlRewrites.reducer';
+import UrlRewritesDispatcher from './UrlRewrites.dispatcher';
 
-export default UrlRewrites;
+import {
+    UPDATE_MENU,
+    updateMenu
+} from './UrlRewrites.action';
+
+export {
+    UrlRewritesReducer,
+    UrlRewritesDispatcher,
+    UPDATE_MENU,
+    updateMenu
+};

@@ -158,7 +158,8 @@ class CategoryPage extends Component {
             requestCategory,
             location,
             items,
-            category
+            category,
+            categoryIds
         } = this.props;
         const {
             sortKey,
@@ -166,7 +167,7 @@ class CategoryPage extends Component {
             previousPage,
             pageSize
         } = this.state;
-        const categoryUrlPath = this.getCategoryUrlPath();
+        const categoryUrlPath = !categoryIds ? this.getCategoryUrlPath() : null;
         const currentPage = getQueryParam('page', location) || 1;
         const priceRange = this.getPriceRangeFromUrl();
         const customFilters = this.getCustomFiltersFromUrl();
@@ -179,6 +180,7 @@ class CategoryPage extends Component {
             pageSize,
             priceRange,
             customFilters,
+            categoryIds,
             sortKey: querySortKey || sortKey,
             sortDirection: querySortDirection || sortDirection,
             productsLoaded: items.length,
@@ -373,12 +375,13 @@ class CategoryPage extends Component {
                         <CategoriesList
                           availableFilters={ filters }
                           category={ categoryList }
+                          currentCategory={ category }
                           location={ location }
                           match={ match }
                         />
                     </aside>
                     <CategoryDetails
-                      category={ isNewCategory ? {} : category }
+                      category={ category }
                     />
                     <aside block="CategoryPage" elem="Miscellaneous">
                         { this.renderItemCount() }

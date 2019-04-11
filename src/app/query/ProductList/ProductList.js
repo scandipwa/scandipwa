@@ -124,7 +124,7 @@ class ProductListQuery {
 
             const pushToList = (value, formatted) => {
                 if (typeof value === 'object') {
-                    if (Object.keys(value).length) {
+                    if (value && Object.keys(value).length) {
                         filterList.push(formatted);
                     }
                 } else if (value) {

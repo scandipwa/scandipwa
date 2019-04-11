@@ -9,6 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import UrlRewrites from './UrlRewrites.container';
+export const UPDATE_MENU = 'UPDATE_MENU';
 
-export default UrlRewrites;
+const updateMenu = menu => ({
+    type: UPDATE_MENU,
+    menu
+});
+
+export { updateMenu };

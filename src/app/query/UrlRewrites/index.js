@@ -9,6 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import UrlRewrites from './UrlRewrites.container';
+import UrlRewrites from './UrlRewrites';
 
 export default UrlRewrites;

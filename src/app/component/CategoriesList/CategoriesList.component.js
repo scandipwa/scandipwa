@@ -36,10 +36,12 @@ class CategoriesList extends Component {
         url_path,
         children
     }, isParent) {
-        const { location, match } = this.props;
-        const currentPath = getUrlParam(match, location);
-        const isSelected = currentPath === url_path;
-        const isParentExpanded = currentPath.substring(0, currentPath.lastIndexOf('/')) === url_path
+        const {
+            currentCategory: {
+                url_path: current_url_path 
+            } } = this.props;
+        const isSelected = current_url_path === url_path;
+        const isParentExpanded = current_url_path.substring(0, current_url_path.lastIndexOf('/')) === url_path
         || (isParent && isSelected);
 
         return (
@@ -71,8 +73,10 @@ class CategoriesList extends Component {
     }
 
     render() {
-        const { availableFilters, category } = this.props;
-        const isLoadedOnce = availableFilters.length && Object.keys(category).length;
+        const { availableFilters, category, currentCategory } = this.props;
+        const isLoadedOnce = availableFilters.length
+        && Object.keys(category).length
+        && Object.keys(currentCategory).length;
 
         return (
             <div block="CategoriesList">

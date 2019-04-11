@@ -14,11 +14,17 @@ import PropTypes from 'prop-types';
 import CategoryPage from 'Route/CategoryPage';
 import ProductPage from 'Route/ProductPage';
 import CmsPage from 'Route/CmsPage';
-
 import NoMatch from 'Route/NoMatch';
+import { getUrlParam } from 'Util/Url';
 import UrlRewritesMockData from '../urlRewritesMockData';
 
 class UrlRewrites extends Component {
+    componentWillMount() {
+        const { requestUrlRewrite, match, location } = this.props;
+        const urlParam = getUrlParam(match, location);
+        requestUrlRewrite(urlParam);
+    }
+
     switcher({ originalKey, i }, route) {
         const newRoute = {
             ...route,
@@ -28,16 +34,17 @@ class UrlRewrites extends Component {
             }
         };
 
-        switch (i) {
-        case 0:
-            return <ProductPage { ...newRoute } />;
-        case 1:
-            return <CmsPage { ...newRoute } />;
-        case 2:
-            return <CategoryPage { ...newRoute } />;
-        default:
-            return <NoMatch { ...newRoute } />;
-        }
+        return <CategoryPage { ...route } categoryIds="23" />;
+        // switch (i) {
+        // case 0:
+        //     return <ProductPage { ...newRoute } />;
+        // case 1:
+        //     return <CmsPage { ...newRoute } />;
+        // case 2:
+        //     return <CategoryPage { ...newRoute } />;
+        // default:
+        //     return <NoMatch { ...newRoute } />;
+        // }
     }
 
     findUrlRewrites(urlInput) {
@@ -82,7 +89,7 @@ class UrlRewrites extends Component {
 
         if (urlRewrites.length) return this.switcher(urlRewrites[0], props);
 
-        return <NoMatch { ...props } />;
+        // return <NoMatch { ...props } />;
     }
 }
 
