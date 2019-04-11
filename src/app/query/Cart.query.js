@@ -26,11 +26,13 @@ class Cart {
         return new Field('createEmptyCart');
     }
 
-    getSaveCartItemMutation(product, quoteId = null) {
+    getSaveCartItemMutation(product) {
         const {
             sku,
             qty,
-            item_id
+            item_id,
+            quote_id,
+            product_option
         } = product;
 
         const mutation = new Field('saveCartItem')
@@ -39,9 +41,9 @@ class Cart {
 
         this._getCartItemField(mutation);
 
-        if (quoteId) mutation.addArgument('quoteId', 'String', quoteId);
-
+        if (quote_id) mutation.addArgument('quoteId', 'String', quote_id);
         if (item_id) mutation.addArgument('item_id', 'Int!', item_id);
+        if (product_option) mutation.addArgument('product_option', 'ProductOptionInput', product_option);
 
         return mutation;
     }

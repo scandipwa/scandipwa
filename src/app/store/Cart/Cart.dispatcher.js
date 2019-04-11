@@ -70,22 +70,28 @@ class CartDispatcher {
         const productToAdd = {
             item_id,
             sku: this._getProductAttribute('sku', product),
-            qty: (parseInt(originalQuantity, 10) || 0) + parseInt(quantity, 10)
+            qty: (parseInt(originalQuantity, 10) || 0) + parseInt(quantity, 10),
+            product_option: { extension_attributes: this._getExtensionAttributes(product) }
         };
+
+        if (!isSignedIn()) {
+            productToAdd.quote_id = this._getGuestQuoteId();
+        }
 
         if (this._isAllowed(options)) {
             return fetchMutation(Cart.getSaveCartItemMutation(
-                productToAdd,
-                !isSignedIn() && this._getGuestQuoteId()
+                productToAdd
             )).then(
-                ({ saveCartItem: { item_id, qty } }) => {
-                    dispatch(addProductToCart(
-                        {
-                            ...product,
-                            item_id,
-                            quantity: qty
-                        }
-                    ));
+                ({ saveCartItem }) => {
+                    // dispatch(addProductToCart(
+                    //     {
+                    //         ...product,
+                    //         item_id,
+                    //         quantity: qty
+                    //     }
+                    // ));
+
+                    return new Promise();
                 },
                 error => console.log(error)
             );
@@ -96,8 +102,7 @@ class CartDispatcher {
 
     removeProductFromCart(dispatch, { product }) {
         return fetchMutation(Cart.getRemoveCartItemMutation(
-            product,
-            !isSignedIn() && this._getGuestQuoteId()
+            product
         )).then(
             ({ removeCartItem }) => removeCartItem && dispatch(removeProductFromCart(product)),
             error => console.log(error)
@@ -107,6 +112,35 @@ class CartDispatcher {
     updateTotals(dispatch, options) {
         const totals = this._calculateTotals(options.products);
         return dispatch(updateTotals(totals));
+    }
+
+    _getExtensionAttributes(product) {
+        const {
+            configurable_options,
+            configurableVariantIndex,
+            variants,
+            type_id
+        } = product;
+
+        if (type_id === 'configurable') {
+            const { product: currentVariant } = variants[configurableVariantIndex];
+
+            const configurable_item_options = configurable_options.reduce((prev, curr) => {
+                const { attribute_id, attribute_code } = curr;
+                const attribute_value = currentVariant[attribute_code];
+
+                if (attribute_value) {
+                    return [
+                        ...prev,
+                        { attribute_id, attribute_value }
+                    ];
+                }
+            }, []);
+
+            return { configurable_item_options };
+        }
+
+        return {};
     }
 
     _getGuestQuoteId() {

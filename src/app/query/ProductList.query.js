@@ -246,6 +246,7 @@ class ProductListQuery {
                 .addField('id')
                 .addField('label')
                 .addField('attribute_code')
+                .addField('attribute_id')
                 .addField(values);
 
             const amount = new Field('amount')
