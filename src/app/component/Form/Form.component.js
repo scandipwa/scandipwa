@@ -30,19 +30,14 @@ class Form extends Component {
         return { children, refMap };
     }
 
-    // Note: fields at the moment cannot be inside html tag (e.g. fieldset)
     static cloneChildren(originChildren, fieldCallback) {
         const executeClone = originChildren => Children.map(originChildren, (child) => {
             if (child && typeof child === 'object' && child.type && child.props) {
                 const { type: { name }, props: { children } } = child;
 
-                if (name === 'Field') {
-                    return fieldCallback(child);
-                }
+                if (typeof name === 'string') return fieldCallback(child);
 
-                if (typeof children === 'object') {
-                    return React.cloneElement(child, { children: executeClone(children) });
-                }
+                if (typeof children === 'object') return executeClone(children);
 
                 return child;
             }
