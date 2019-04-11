@@ -9,19 +9,18 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { fetchMutation } from 'Util/Request';
+import { fetchMutation, fetchQuery } from 'Util/Request';
 import {
     addProductToCart,
     removeProductFromCart,
     updateTotals,
-    updateAllProductsInCart
+    updateAllProductsInCart,
+    PRODUCTS_IN_CART
 } from 'Store/Cart';
 import { getProductPrice } from 'Util/Price';
 import { isSignedIn } from 'Util/Auth';
 import { Cart } from 'Query';
 import BrowserDatabase from 'Util/BrowserDatabase';
-import { PRODUCTS_IN_CART } from 'Store/Cart';
-import { Promise } from 'q';
 
 export const GUEST_QUOTE_ID = 'guest_quote_id';
 
@@ -54,10 +53,14 @@ class CartDispatcher {
         );
     }
 
-    _syncCartWithBE(dispatch, quoteId) {
+    _syncCartWithBE(dispatch) {
         // Need to get current cart from BE, update cart
-        // updateAllProductsInCart()
-        console.log('SYNCING');
+        fetchQuery(Cart.getCartItemsQuery(
+            !isSignedIn() && this._getGuestQuoteId()
+        )).then(({ getCartItems }) => {
+            console.log(getCartItems);
+            // dispatch(updateAllProductsInCart(getCartItems));
+        });
     }
 
     addProductToCart(dispatch, options) {

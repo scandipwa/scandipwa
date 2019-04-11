@@ -12,6 +12,16 @@
 import { Field } from 'Util/Query';
 
 class Cart {
+    getCartItemsQuery(quoteId) {
+        const query = new Field('getCartItems');
+
+        if (quoteId) query.addArgument('quoteId', 'String!', quoteId);
+
+        this._getCartItemField(query);
+
+        return query;
+    }
+
     getCreateEmptyCartMutation() {
         return new Field('createEmptyCart');
     }
@@ -29,7 +39,7 @@ class Cart {
 
         this._getCartItemField(mutation);
 
-        if (quoteId) mutation.addArgument('quoteId', 'String', quoteId)
+        if (quoteId) mutation.addArgument('quoteId', 'String', quoteId);
 
         if (item_id) mutation.addArgument('item_id', 'Int!', item_id);
 

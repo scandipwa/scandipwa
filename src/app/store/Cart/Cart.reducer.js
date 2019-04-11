@@ -61,8 +61,12 @@ const updateCartTotals = (action) => {
 
 const updateAllProductsInCart = (action) => {
     const { products } = action;
-    return { productsInCart: products };
-}
+    const newProducts = products.reduce((prev, curr) => {
+        const { id } = curr;
+        return { ...prev, [id]: curr };
+    }, {});
+    return { productsInCart: newProducts };
+};
 
 const initialState = {
     productsInCart: BrowserDatabase.getItem(PRODUCTS_IN_CART) || {},

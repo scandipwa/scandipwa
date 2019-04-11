@@ -16,11 +16,13 @@ import {
 } from './Request';
 import QueryDispatcher from './QueryDispatcher';
 import { fetchMutation } from './Mutation';
+import { fetchQuery } from './Query';
 
 export {
     listenForBroadCast,
     QueryDispatcher,
     fetchMutation,
+    fetchQuery,
     executePost,
     executeGet
 };
