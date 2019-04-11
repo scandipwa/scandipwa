@@ -94,7 +94,12 @@ CmsPage.propTypes = {
     page: BlockListType.isRequired,
     updateBreadcrumbs: PropTypes.func.isRequired,
     location: PropTypes.shape().isRequired,
-    enableBreadcrumbs: PropTypes.func.isRequired
+    enableBreadcrumbs: PropTypes.func.isRequired,
+    cmsId: PropTypes.number
+};
+
+CmsPage.defaultProps = {
+    cmsId: 0
 };
 
 export default CmsPage;

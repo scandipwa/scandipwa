@@ -347,7 +347,6 @@ class CategoryPage extends Component {
             maxPriceRange
         } = this.state;
 
-        const isNewCategory = this.isNewCategory();
         const customFilters = this.getCustomFiltersFromUrl();
 
         return (
@@ -427,7 +426,12 @@ CategoryPage.propTypes = {
     sortFields: PropTypes.shape({
         options: PropTypes.array
     }).isRequired,
-    isLoading: PropTypes.bool.isRequired
+    isLoading: PropTypes.bool.isRequired,
+    categoryIds: PropTypes.number
+};
+
+CategoryPage.defaultProps = {
+    categoryIds: 0
 };
 
 export default CategoryPage;
