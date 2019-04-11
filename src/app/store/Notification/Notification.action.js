@@ -11,6 +11,7 @@
 
 export const SHOW_NOTIFICATION = 'SHOW_NOTIFICATION';
 export const HIDE_NOTIFICATION = 'HIDE_NOTIFICATION';
+export const SET_BROWSER_PERMISSION = 'SET_BROWSER_PERMISSION';
 
 /**
  * Show notification (append to notification to global notification map).
@@ -36,7 +37,13 @@ const hideNotification = id => ({
     id
 });
 
+const setBrowserPermission = value => ({
+    type: SET_BROWSER_PERMISSION,
+    value
+});
+
 export {
     showNotification,
-    hideNotification
+    hideNotification,
+    setBrowserPermission
 };

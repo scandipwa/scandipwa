@@ -124,7 +124,7 @@ PushNotification.defaultProps = {
     handleGranted: () => {},
     handleDenied: () => {},
     handleNotSupported: () => {},
-    forceAsk: false,
+    forceAsk: true,
     options: {}
 };
 

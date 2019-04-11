@@ -14,7 +14,9 @@ import { hideNotification } from 'Store/Notification';
 import NotificationList from './NotificationList.component';
 
 const mapStateToProps = state => ({
-    notifications: state.NotificationReducer.notifications
+    notifications: state.NotificationReducer.notifications,
+    grantType: state.NotificationReducer.nativeGrantType,
+    supported: state.NotificationReducer.nativeSupported
 });
 
 const mapDispatchToProps = dispatch => ({

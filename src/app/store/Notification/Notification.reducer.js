@@ -9,11 +9,21 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { SHOW_NOTIFICATION, HIDE_NOTIFICATION } from './Notification.action';
+import {
+    SHOW_NOTIFICATION,
+    HIDE_NOTIFICATION,
+    SET_BROWSER_PERMISSION
+} from './Notification.action';
+
+export const DEFAULT = 'default';
+export const DENIED = 'denied';
+export const GRANTED = 'granted';
 
 let notificationId = 0;
 
 const initialState = {
+    nativeSupported: Boolean('Notification' in window && window.Notification),
+    nativeGrantType: Notification.permission,
     notifications: {}
 };
 
@@ -22,8 +32,18 @@ const NotificationReducer = (state = initialState, action) => {
 
     switch (action.type) {
     case SHOW_NOTIFICATION:
-        const { msgType, msgText, msgDebug } = action;
-        notifications[notificationId++] = { msgType, msgText, msgDebug };
+        const {
+            msgType,
+            msgText,
+            msgDebug,
+            options
+        } = action;
+        notifications[notificationId++] = {
+            msgType,
+            msgText,
+            msgDebug,
+            options
+        };
 
         return {
             ...state,
@@ -36,6 +56,14 @@ const NotificationReducer = (state = initialState, action) => {
         return {
             ...state,
             notifications
+        };
+
+    case SET_BROWSER_PERMISSION:
+        const { value: nativeGranted } = action;
+
+        return {
+            ...state,
+            nativeGranted
         };
 
     default:

@@ -13,12 +13,16 @@ import NotificationReducer from './Notification.reducer';
 import {
     SHOW_NOTIFICATION,
     HIDE_NOTIFICATION,
+    SET_BROWSER_PERMISSION,
     showNotification,
-    hideNotification
+    hideNotification,
+    setBrowserPermission
 } from './Notification.action';
 
 export {
     showNotification,
+    SET_BROWSER_PERMISSION,
+    setBrowserPermission,
     SHOW_NOTIFICATION,
     HIDE_NOTIFICATION,
     hideNotification,
