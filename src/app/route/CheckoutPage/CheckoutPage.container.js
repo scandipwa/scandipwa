@@ -16,7 +16,8 @@ import CheckoutPage from './CheckoutPage.component';
 const mapStateToProps = state => ({
     products: state.CartReducer.products,
     totals: state.CartReducer.totals,
-    toggleHeaderAndFooter: state.HeaderAndFooterReducer.toggleHeaderAndFooter
+    toggleHeaderAndFooter: state.HeaderAndFooterReducer.toggleHeaderAndFooter,
+    isHeaderAndFooterVisible: state.HeaderAndFooterReducer.isHeaderAndFooterVisible
 });
 
 const mapDispatchToProps = dispatch => ({

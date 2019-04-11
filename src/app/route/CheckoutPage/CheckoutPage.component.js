@@ -10,6 +10,7 @@
  */
 
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import ContentWrapper from 'Component/ContentWrapper';
 import Field from 'Component/Field';
@@ -97,7 +98,7 @@ class CheckoutPage extends Component {
 
     componentDidMount() {
         const { updateToggleHeaderAndFooter } = this.props;
-        updateToggleHeaderAndFooter({ status: false });
+        updateToggleHeaderAndFooter({ isHeaderAndFooterVisible: false });
     }
 
     componentDidUpdate(prevProps) {
@@ -602,6 +603,9 @@ class CheckoutPage extends Component {
     }
 }
 
-CheckoutPage.propT
+CheckoutPage.propTypes = {
+    isHeaderAndFooterVisible: PropTypes.bool.isRequired,
+    updateToggleHeaderAndFooter: PropTypes.func.isRequired,
+};
 
 export default CheckoutPage;

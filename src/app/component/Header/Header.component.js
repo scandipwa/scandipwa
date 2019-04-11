@@ -10,6 +10,7 @@
  */
 
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import SearchBar from 'Component/SearchBar';
 import MiniCart from 'Component/MiniCart';
 import { Link } from 'react-router-dom';
@@ -23,8 +24,10 @@ import './Header.style';
  */
 class Header extends Component {
     render() {
+        const { isHeaderAndFooterVisible } = this.props;
+
         return (
-            <header block="Header" aria-label="Header">
+            <header block="Header" aria-label="Header" mods={ { isVisible: isHeaderAndFooterVisible } }>
                 <div block="Header" elem="Wrapper">
                     <div block="Header" elem="Logo" aria-label="Header logo">
                         <Link to="/" tabIndex="0">
@@ -54,5 +57,9 @@ class Header extends Component {
         );
     }
 }
+
+Header.propTypes = {
+    isHeaderAndFooterVisible: PropTypes.bool.isRequired
+};
 
 export default Header;

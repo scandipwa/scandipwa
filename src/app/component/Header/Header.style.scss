@@ -12,8 +12,9 @@
 .Header {
     --header-color: var(--color-breadcrumbs-background);
     --add-info-color: var(--color-primary-base);
-
     background-color: var(--header-color);
+
+    display: none;
 
     @include mobile {
         position: fixed;
@@ -28,6 +29,10 @@
             display: grid;
             grid-template-columns: 5fr 2fr;
         }
+    }
+
+    &_isVisible {
+        display: block;
     }
 
     &-Wrapper {
@@ -108,7 +113,7 @@
 
     &-Info {
         margin-top: .2rem;
-        margin-left: auto; 
+        margin-left: auto;
         text-align: right;
 
         p {

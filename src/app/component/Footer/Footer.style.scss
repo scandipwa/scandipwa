@@ -17,6 +17,14 @@
     padding-top: 3rem;
     background: var(--color-footer-background);
 
+    &-Content {
+        display: none;
+
+        &_isVisible {
+            display: block;
+        }
+    }
+
     &-Promo {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -33,7 +41,7 @@
             padding: 0;
         }
 
-        
+
         div {
             display: grid;
             grid-template-columns: 6rem 1fr;
