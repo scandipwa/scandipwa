@@ -45,7 +45,7 @@ class GroupedProductsItem extends Component {
      * @return {Number} product quantity
      */
     getCurrentQuantity(id, groupedProductQuantity) {
-        return groupedProductQuantity[id] || 0;
+        return groupedProductQuantity[id] || 1;
     }
 
     changeCount(itemCount) {
