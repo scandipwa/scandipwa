@@ -73,6 +73,7 @@ class PushNotification extends Component {
         window.Notification.requestPermission().then((res) => {
             const { setPermissions } = this.props;
 
+            this.granted = res === GRANTED;
             setPermissions(res);
         });
     }
