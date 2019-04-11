@@ -36,8 +36,8 @@ class UrlRewrites extends Component {
         switch (type) {
         case 'PRODUCT':
             return <ProductPage { ...props } />;
-        case 'CMS':
-            return <CmsPage { ...props } />;
+        case 'CMS_PAGE':
+            return <CmsPage { ...props } cmsId={ id } />;
         case 'CATEGORY':
             return <CategoryPage { ...props } categoryIds={ id } />;
         default:

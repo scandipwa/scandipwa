@@ -25,11 +25,12 @@ class CmsPage extends Component {
             requestPage,
             location,
             match,
-            enableBreadcrumbs
+            enableBreadcrumbs,
+            cmsId
         } = this.props;
         const urlParam = getUrlParam(match, location);
 
-        requestPage({ id: urlParam });
+        requestPage({ id: cmsId || urlParam });
         enableBreadcrumbs();
     }
 
@@ -39,13 +40,14 @@ class CmsPage extends Component {
             page,
             requestPage,
             match,
-            location
+            location,
+            cmsId
         } = this.props;
 
         updateBreadcrumbs(page);
         if (location.pathname !== prevProps.location.pathname) {
             const urlParam = getUrlParam(match, location);
-            requestPage({ id: urlParam });
+            requestPage({ id: cmsId || urlParam });
         }
     }
 
@@ -86,7 +88,7 @@ CmsPage.propTypes = {
     requestPage: PropTypes.func.isRequired,
     match: PropTypes.shape({
         params: PropTypes.shape({
-            id: PropTypes.string.isRequired
+            id: PropTypes.string
         }).isRequired
     }).isRequired,
     page: BlockListType.isRequired,
