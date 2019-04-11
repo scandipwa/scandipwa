@@ -8,9 +8,13 @@ class PushNotification extends Component {
         super(props);
 
         this.granted = props.grantType === GRANTED;
+        this.windowFocus = document.visibilityState === 'visible';
     }
 
     componentDidMount() {
+        window.addEventListener('blur', this.onWindowBlur);
+        window.addEventListener('focus', this.onWindowFocus);
+
         const {
             forceAsk,
             supported,
@@ -43,6 +47,14 @@ class PushNotification extends Component {
         this.granted = grantType === GRANTED;
     }
 
+    onWindowFocus() {
+        this.windowFocus = true;
+    }
+
+    onWindowBlur() {
+        this.windowFocus = false;
+    }
+
     showNotification() {
         const {
             title,
@@ -66,10 +78,20 @@ class PushNotification extends Component {
     }
 
     render() {
-        const { title, supported } = this.props;
+        const {
+            title,
+            supported,
+            onFocus,
+            onBlur
+        } = this.props;
 
         if (this.granted && supported && title) {
-            this.showNotification();
+            const focused = this.windowFocus && onFocus;
+            const blurred = !this.windowFocus && onBlur;
+
+            if (focused || blurred) {
+                this.showNotification();
+            }
         }
 
         return (
@@ -104,7 +126,9 @@ PushNotification.propTypes = {
         tag: PropTypes.string,
         vibrate: PropTypes.arrayOf(PropTypes.number),
         data: PropTypes.any
-    })
+    }),
+    onFocus: PropTypes.bool,
+    onBlur: PropTypes.bool
 };
 
 PushNotification.defaultProps = {
@@ -114,7 +138,9 @@ PushNotification.defaultProps = {
     handleGranted: () => {},
     handleDenied: () => {},
     forceAsk: true,
-    options: {}
+    options: {},
+    onFocus: true,
+    onBlur: true
 };
 
 export default PushNotification;

@@ -18,14 +18,17 @@ export const SET_BROWSER_PERMISSION = 'SET_BROWSER_PERMISSION';
  * @param  {String} msgType
  * @param  {String} msgText
  * @param  {any} msgDebug
+ * @param  {Object} options Web notification options
+ * @param  {Object} handlers Handler functions for notification permissions
  * @return {void}
  */
-const showNotification = (msgType, msgText, msgDebug, options) => ({
+const showNotification = (msgType, msgText, msgDebug, options = {}, handlers = {}) => ({
     type: SHOW_NOTIFICATION,
     msgType,
     msgText,
     msgDebug,
-    options
+    options,
+    handlers
 });
 
 /**

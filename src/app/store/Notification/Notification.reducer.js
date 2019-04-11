@@ -36,13 +36,15 @@ const NotificationReducer = (state = initialState, action) => {
             msgType,
             msgText,
             msgDebug,
-            options
+            options,
+            handlers
         } = action;
         notifications[notificationId++] = {
             msgType,
             msgText,
             msgDebug,
-            options
+            options,
+            handlers
         };
 
         return {

@@ -18,14 +18,14 @@ const mapDispatchToProps = dispatch => ({
 
 const MappedPushNotification = connect(mapStateToProps, mapDispatchToProps)(PushNotification);
 
-const PushNotificationContainer = (props) => {
+const PushNotificationContainer = ({ notification }) => {
     const defaultOptions = {
         badge: defaultImage,
         image: defaultImage,
         icon: defaultImage
     };
 
-    const { notification } = props;
+    const { handleGranted, handleDenied } = notification.handlers;
     const title = notification.msgText;
     const body = notification.msgDebug;
     const params = {
@@ -38,6 +38,10 @@ const PushNotificationContainer = (props) => {
       <MappedPushNotification
         title={ title }
         options={ params }
+        handleGranted={ handleGranted }
+        handleDenied={ handleDenied }
+        onBlur={ notification.options.onBlur }
+        onFocus={ notification.options.onFocus }
       />
     );
 };
