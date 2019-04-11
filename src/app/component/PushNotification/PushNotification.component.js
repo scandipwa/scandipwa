@@ -30,12 +30,12 @@ class PushNotification extends Component {
         }
     }
 
+    // Handle permission updates
     componentDidUpdate(prevProps) {
         const { grantType: oldGrant } = prevProps;
         const {
             grantType: newGrant,
-            handleDenied, handleGranted,
-            grantType
+            handleDenied, handleGranted
         } = this.props;
 
         if (oldGrant !== newGrant && newGrant === DENIED) {
@@ -43,18 +43,28 @@ class PushNotification extends Component {
         } else if (oldGrant !== newGrant && newGrant === GRANTED) {
             handleGranted();
         }
-
-        this.granted = grantType === GRANTED;
     }
 
+    /**
+     * Triggers when tab is focused
+     * @returns {void}
+     */
     onWindowFocus() {
         this.windowFocus = true;
     }
 
+    /**
+     * Triggers when tab is not focused
+     * @returns {void}
+     */
     onWindowBlur() {
         this.windowFocus = false;
     }
 
+    /**
+     * Push a notification using service worker
+     * @returns {void}
+     */
     showNotification() {
         const {
             title,
@@ -69,6 +79,10 @@ class PushNotification extends Component {
         });
     }
 
+    /**
+     * Ask user to grant web notifications permissions
+     * @returns {void}
+     */
     askPermission() {
         window.Notification.requestPermission().then((res) => {
             const { setPermissions } = this.props;
@@ -112,7 +126,7 @@ PushNotification.propTypes = {
         then: PropTypes.func,
         catch: PropTypes.func
     }),
-    forceAsk: PropTypes.bool,
+    forceAsk: PropTypes.bool, // Ask for web notification permissions
     title: PropTypes.string.isRequired,
     options: PropTypes.shape({
         actions: PropTypes.arrayOf(PropTypes.object),

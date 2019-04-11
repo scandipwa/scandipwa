@@ -41,6 +41,10 @@ const hideNotification = id => ({
     id
 });
 
+/**
+ * Set browser permissions for web notifications
+ * @param {String} value web notifications permission
+ */
 const setBrowserPermission = value => ({
     type: SET_BROWSER_PERMISSION,
     value
