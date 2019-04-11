@@ -26,7 +26,10 @@ class TextPlaceholder extends Component {
 }
 
 TextPlaceholder.propTypes = {
-    content: PropTypes.string,
+    content: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number
+    ]),
     length: PropTypes.oneOf([
         'short',
         'medium',
