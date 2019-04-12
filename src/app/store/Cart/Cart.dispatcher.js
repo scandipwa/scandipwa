@@ -141,7 +141,8 @@ class CartDispatcher {
 
     removeProductFromCart(dispatch, { product }) {
         return fetchMutation(Cart.getRemoveCartItemMutation(
-            product
+            product,
+            !isSignedIn() && this._getGuestQuoteId()
         )).then(
             ({ removeCartItem }) => removeCartItem && dispatch(removeProductFromCart(product)),
             error => console.log(error)
