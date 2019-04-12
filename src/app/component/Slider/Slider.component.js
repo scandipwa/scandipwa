@@ -109,16 +109,6 @@ class Slider extends Component {
         if (isInfiniteScrollEnabled && items.length > 1 && !isTouching) {
             const { currentIndex } = this.state;
 
-            if (currentIndex === 1) {
-                this.timeout = setTimeout(() => {
-                    CSS.setVariable(
-                        this.carousel,
-                        'transition-duration',
-                        `${slideSpeed}ms`
-                    );
-                }, slideSpeed);
-            }
-
             if (currentIndex === items.length - 1) {
                 this.timeout = setTimeout(() => {
                     CSS.setVariable(
