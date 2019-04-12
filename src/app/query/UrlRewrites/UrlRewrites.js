@@ -22,13 +22,14 @@ class UrlRewritesQuery {
      * @memberof UrlRewritesQuery
      */
     getQuery(options) {
-        const { url } = options;
+        const { urlParam } = options;
 
         return new Field('urlResolver')
-            .addArgument('url', 'String!', options)
+            .addArgument('url', 'String!', urlParam)
             .addField('id')
             .addField('type')
-            .addField('canonical_url');
+            .addField('canonical_url')
+            .addField('url_key');
     }
 }
 

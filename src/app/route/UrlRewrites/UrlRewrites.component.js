@@ -16,13 +16,12 @@ import ProductPage from 'Route/ProductPage';
 import CmsPage from 'Route/CmsPage';
 import NoMatch from 'Route/NoMatch';
 import { getUrlParam } from 'Util/Url';
-import UrlRewritesMockData from '../urlRewritesMockData';
 
 class UrlRewrites extends Component {
     componentWillMount() {
         const { requestUrlRewrite, match, location } = this.props;
         const urlParam = getUrlParam(match, location);
-        requestUrlRewrite(urlParam);
+        requestUrlRewrite({ urlParam });
     }
 
     componentWillUnmount() {
@@ -30,12 +29,20 @@ class UrlRewrites extends Component {
         clearUrlRewrites();
     }
 
-    switcher({ type, id }) {
+    switcher({ type, id, url_key }) {
         const { props } = this;
 
         switch (type) {
         case 'PRODUCT':
-            return <ProductPage { ...props } />;
+            const newRoute = {
+                ...props,
+                location: {
+                    ...props.location,
+                    pathname: `/${ url_key }`
+                }
+
+            };
+            return <ProductPage { ...newRoute } />;
         case 'CMS_PAGE':
             return <CmsPage { ...props } cmsId={ id } />;
         case 'CATEGORY':
@@ -43,35 +50,6 @@ class UrlRewrites extends Component {
         default:
             return <NoMatch { ...props } />;
         }
-    }
-
-    findUrlRewrites(urlInput) {
-        const { data: { products, cms, categories } } = UrlRewritesMockData;
-        const getOriginalKey = (element) => {
-            if (element) {
-                const { items } = element;
-                let original_url_key;
-                items.forEach((item) => {
-                    const { url_key, url_rewrites } = item;
-                    url_rewrites.forEach((url_rewrite) => {
-                        const { url } = url_rewrite;
-                        if (url === urlInput) { original_url_key = url_key; }
-                    });
-                });
-
-                return original_url_key;
-            }
-
-            return null;
-        };
-
-        const productsRewrites = [products, cms, categories].map((element, i) => {
-            const originalKey = getOriginalKey(element);
-
-            if (originalKey) return { originalKey, i };
-            return null;
-        });
-        return productsRewrites && productsRewrites.filter(Boolean);
     }
 
     render() {
