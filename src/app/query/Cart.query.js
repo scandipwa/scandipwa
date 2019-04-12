@@ -59,7 +59,7 @@ class Cart {
 
         if (requestProduct) {
             field.addField(ProductListQuery._prepareItemsField(
-                { getConfigurableData: true },
+                { getConfigurableData: true, isSingleProduct: true },
                 new Field('product')
             ));
         }
