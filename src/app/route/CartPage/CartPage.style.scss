@@ -14,7 +14,6 @@
 
     &-Wrapper {
         display: grid;
-        grid-template-columns: 60rem auto;
         grid-column-gap: 2rem;
         margin-bottom: 2rem;
 
@@ -43,12 +42,16 @@
         display: grid;
         align-items: center;
         text-align: center;
-        grid-template-columns: 3fr 2fr 2fr;
+        grid-template-columns: 3fr 2fr 1fr;
         padding: 1rem 0;
         text-transform: uppercase;
         font-weight: 700;
         font-size: 0.8rem;
         background: var(--color-breadcrumbs-background);
+
+        @include tablet {
+            grid-template-columns: 3fr 1fr 1fr;
+        }
 
         @include mobile {
             display: none;
@@ -56,13 +59,31 @@
 
         span {
             padding-left: 1.4rem;
+
+            @include tablet {
+                padding: 0;
+            }
+
+            &:last-child {
+                padding: {
+                    left: 0;
+                    right: 0.6rem;
+                }
+
+                @include tablet {
+                    padding-right: 0;
+                }
+            }
         }
+
     }
 
     .CartItem {
+        padding-right: 0;
+
         @include after-mobile {
             display: grid;
-            grid-template-columns: 9rem 11fr 1fr;
+            grid-template-columns: 9rem 15fr 1fr;
             border: 0;
         }
 
@@ -82,7 +103,7 @@
         &-Info {
             @include after-mobile {
                 display: grid;
-                grid-template-columns: 22rem 1fr;
+                grid-template-columns: 3fr 2fr;
                 margin: 0;
                 grid-auto-rows: min-content;
                 align-self: center;
@@ -90,10 +111,16 @@
         }
 
         &-RemoveButton {
+            right: 0;
+
+            @include mobile {
+                left: calc(100% - 1rem);
+                top: 1.9rem;
+            }
+
             @include after-mobile {
                 position: relative;
                 top: 0;
-                right: 0;
                 vertical-align: middle;
             }
         }
