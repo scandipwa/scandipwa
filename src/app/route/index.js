@@ -75,6 +75,10 @@ export class AppRouter extends Component {
                     position: 50
                 },
                 {
+                    component: <Route path="/:account*/createPassword/" component={ PasswordChangePage } />,
+                    position: 60
+                },
+                {
                     component: <Route component={ NoMatch } />,
                     position: 100
                 }
