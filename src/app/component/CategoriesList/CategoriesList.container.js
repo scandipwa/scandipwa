@@ -10,13 +10,11 @@
  */
 
 import { connect } from 'react-redux';
-import { CategoryDispatcher } from 'Store/CmsBlocksAndSlider';
 import CategoriesList from './CategoriesList.component';
 
 const mapStateToProps = state => ({
     blocks: state.CategoryReducer.blocks
 });
-
 
 const CategoriesListContainer = connect(mapStateToProps, null)(CategoriesList);
 

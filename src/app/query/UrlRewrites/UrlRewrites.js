@@ -17,7 +17,7 @@ import { Field } from 'Util/Query';
 class UrlRewritesQuery {
     /**
      * get UrlRewrites query
-     * @param  {{url: String}} options A object containing different aspects of query, each item can be omitted
+     * @param  {{urlParam: String}} options A object containing different aspects of query, each item can be omitted
      * @return {Field} UrlRewrites query
      * @memberof UrlRewritesQuery
      */

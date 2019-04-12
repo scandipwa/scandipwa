@@ -14,6 +14,11 @@ import { UrlRewritesQuery } from 'Query';
 import { showNotification } from 'Store/Notification';
 import { updateUrlRewrite, clearUrlRewrite } from 'Store/UrlRewrites';
 
+/**
+ * Url Rewrite Dispathcer
+ * @class UrlRewritesDispatcher
+ * @extends RequestDispatcher
+ */
 class UrlRewritesDispatcher extends RequestDispatcher {
     constructor() {
         super('UrlRewrites', 86400);
@@ -28,9 +33,9 @@ class UrlRewritesDispatcher extends RequestDispatcher {
     }
 
     /**
-     * Prepare Header and Footer requests
-     * @param {{ menuId: String }} options A object containing different aspects of query, each item can be omitted
-     * @return {Query} Menu query
+     * Prepare UrlRewrite requests
+     * @param {Object} options A object containing different aspects of query, each item can be omitted
+     * @return {Query} UrlRewrite query
      * @memberof UrlRewritesDispatcher
      */
     prepareRequest(options) {

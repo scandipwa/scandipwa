@@ -14,7 +14,6 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { CategoryTreeType } from 'Type/Category';
-import { getUrlParam } from 'Util/Url';
 import './CategoriesList.style';
 
 /**
@@ -38,8 +37,9 @@ class CategoriesList extends Component {
     }, isParent) {
         const {
             currentCategory: {
-                url_path: current_url_path 
-            } } = this.props;
+                url_path: current_url_path
+            }
+        } = this.props;
         const isSelected = current_url_path === url_path;
         const isParentExpanded = current_url_path.substring(0, current_url_path.lastIndexOf('/')) === url_path
         || (isParent && isSelected);
@@ -75,8 +75,8 @@ class CategoriesList extends Component {
     render() {
         const { availableFilters, category, currentCategory } = this.props;
         const isLoadedOnce = availableFilters.length
-        && Object.keys(category).length
-        && Object.keys(currentCategory).length;
+            && Object.keys(category).length
+            && Object.keys(currentCategory).length;
 
         return (
             <div block="CategoriesList">
@@ -90,6 +90,7 @@ class CategoriesList extends Component {
 CategoriesList.propTypes = {
     availableFilters: PropTypes.arrayOf(PropTypes.object).isRequired,
     category: CategoryTreeType.isRequired,
+    currentCategory: CategoryTreeType.isRequired,
     location: PropTypes.shape({
         pathname: PropTypes.string.isRequired
     }).isRequired,

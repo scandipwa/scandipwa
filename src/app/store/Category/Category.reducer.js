@@ -67,7 +67,6 @@ const CategoryReducer = (state = initialState, action) => {
     case UPDATE_CURRENT_CATEGORY:
         const { categoryList: stateCategoryList } = state;
         const flattendCategories = {};
-        const flattendCategoriesIds = {};
 
         const deleteProperty = (key, { [key]: _, ...newObj }) => newObj;
         const flattenCategory = (category) => {
@@ -76,8 +75,8 @@ const CategoryReducer = (state = initialState, action) => {
             if (children) {
                 children.forEach((element) => {
                     flattenCategory(element);
-                    flattendCategories[element.url_path] = deleteProperty('children', element);
-                    flattendCategoriesIds[element.id] = deleteProperty('children', element);
+                    flattendCategories[categoryUrlPath
+                        ? element.url_path : element.id] = deleteProperty('children', element);
                 });
             }
         };
@@ -86,7 +85,7 @@ const CategoryReducer = (state = initialState, action) => {
 
         return {
             ...state,
-            category: categoryUrlPath ? flattendCategories[categoryUrlPath] : flattendCategoriesIds[categoryIds]
+            category: flattendCategories[categoryUrlPath || categoryIds]
         };
 
     case UPDATE_LOAD_STATUS:
