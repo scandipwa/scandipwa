@@ -15,7 +15,7 @@ import { MediaType } from 'Type/ProductList';
 import Slider from 'Component/Slider';
 import './ProductGallery.style';
 
-const PRODUCT_IMAGE_PATH = 'catalog/product';
+const PRODUCT_IMAGE_PATH = '/media/catalog/product';
 
 /**
  * Product gallery
