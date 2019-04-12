@@ -166,11 +166,11 @@ class MyAccountDetails extends Component {
     /**
      * Request all customer data, redirect to overview page and show a notification
      */
-    redirectBackToOverview() {
+    redirectBackToOverview(hideNotification) {
         const { showNotification } = this.props;
         this.requestCustomerData().then(() => {
             this.changeState(STATE_ACCOUNT_OVERVIEW);
-            showNotification('success', 'Changes have been saved to your account!');
+            if (!hideNotification) showNotification('success', 'Changes have been saved to your account!');
         });
     }
 
@@ -217,8 +217,8 @@ class MyAccountDetails extends Component {
     renderAccountOverview() {
         return (
             <>
-            { this.renderAccountInformation() }
-            { this.renderAddressBook() }
+                { this.renderAccountInformation() }
+                { this.renderAddressBook() }
             </>
         );
     }
@@ -263,7 +263,7 @@ class MyAccountDetails extends Component {
                       type="text"
                       label="Phone Number"
                       id="telephone"
-                      validation={ ['notEmpty'] }
+                      validation={ ['notEmpty', 'telephone'] }
                       value={ telephone }
                     />
                 </fieldset>
@@ -304,6 +304,11 @@ class MyAccountDetails extends Component {
      */
     renderEditInformation() {
         const { customer } = this.props;
+
+        if (!customer) {
+            return this.redirectBackToOverview(true);
+        }
+
         const { firstname, lastname, is_subscribed } = customer;
 
         return (
@@ -391,22 +396,26 @@ class MyAccountDetails extends Component {
             firstname,
             lastname,
             email,
-            is_subscribed
+            is_subscribed,
+            id
         } = customer;
+        const fullName = (firstname && lastname) ? `${firstname} ${lastname}` : <TextPlaceholder length="medium" />;
+        const showNewsletter = id
+            ? `Subscribed to newsletter: ${is_subscribed ? ' Yes' : ' No'}`
+            : <TextPlaceholder length="medium" />;
+        const editButtonMessage = id ? 'Edit' : <TextPlaceholder length="short" />;
+        const editPasswordButtonMessage = id ? 'Change Password' : <TextPlaceholder length="short" />;
 
         return (
             <fieldset block="MyAccountDetails" elem="AccountInfo">
                 <legend>Account Information</legend>
                 <div block="MyAccountDetails" elem="FieldWrapper">
                     <div block="MyAccountDetails" elem="Field">
-                        { firstname }
-                        &nbsp;
-                        { lastname }
+                        { fullName }
                     </div>
                     <div block="MyAccountDetails" elem="Field">{ email }</div>
                     <div block="MyAccountDetails" elem="Field">
-                        Subscribed to newsletter:
-                        { is_subscribed ? ' Yes' : ' No' }
+                        { showNewsletter }
                     </div>
                     <div block="MyAccountDetails" elem="Actions">
                         <button
@@ -414,18 +423,59 @@ class MyAccountDetails extends Component {
                           mods={ { likeLink: true } }
                           onClick={ () => this.changeState(STATE_EDIT_INFORMATION) }
                         >
-                            Edit
+                            { editButtonMessage }
                         </button>
                         <button
                           block="Button"
                           mods={ { likeLink: true } }
                           onClick={ () => this.changeState(STATE_EDIT_PASSWORD) }
                         >
-                            Change Password
+                            { editPasswordButtonMessage }
                         </button>
                     </div>
                 </div>
             </fieldset>
+        );
+    }
+
+    renderAddressFields(correctAddress = { region: {} }) {
+        const {
+            firstname,
+            lastname,
+            street,
+            region: { region },
+            city,
+            country_id,
+            telephone,
+            id
+        } = correctAddress;
+        const location = (city && region && country_id)
+            ? `${city}, ${region}, ${country_id}`
+            : <TextPlaceholder length="medium" />;
+        const buttonMessage = id ? 'Edit Address' : <TextPlaceholder length="short" />;
+        const fullName = (firstname && lastname) ? `${firstname} ${lastname}` : <TextPlaceholder length="medium" />;
+
+
+        return (
+            <>
+                <div block="MyAccountDetails" elem="Field">
+                    { fullName }
+                </div>
+                <div block="MyAccountDetails" elem="Field">{ street || <TextPlaceholder length="short" /> }</div>
+                <div block="MyAccountDetails" elem="Field">
+                    { location }
+                </div>
+                <div block="MyAccountDetails" elem="Field">{ telephone || <TextPlaceholder length="short" /> }</div>
+                <div block="MyAccountDetails" elem="Actions">
+                    <button
+                      block="Button"
+                      mods={ { likeLink: true } }
+                      onClick={ () => this.changeState(STATE_UPDATE_ADDRESS, correctAddress) }
+                    >
+                        { buttonMessage }
+                    </button>
+                </div>
+            </>
         );
     }
 
@@ -434,58 +484,24 @@ class MyAccountDetails extends Component {
      * @param {String} addressType
      */
     renderAddress(addressType) {
-        const { customer: { addresses } } = this.props;
+        const { customer, customer: { addresses } } = this.props;
+
+        if (!Object.keys(customer).length) {
+            return this.renderAddressFields();
+        }
 
         if (addresses) {
             const correctAddress = addresses.filter(address => address[`default_${addressType}`])[0];
 
             if (correctAddress) {
-                const {
-                    firstname,
-                    lastname,
-                    street,
-                    region: { region },
-                    city,
-                    country_id,
-                    telephone
-                } = correctAddress;
-
-                return (
-                    <>
-                        <div block="MyAccountDetails" elem="Field">
-                            { firstname }
-                            &nbsp;
-                            { lastname }
-                        </div>
-                        <div block="MyAccountDetails" elem="Field">{ street }</div>
-                        <div block="MyAccountDetails" elem="Field">
-                            { city }
-                            ,&nbsp;
-                            { region }
-                            ,&nbsp;
-                            { country_id }
-                        </div>
-                        <div block="MyAccountDetails" elem="Field">{ telephone }</div>
-                        <div block="MyAccountDetails" elem="Actions">
-                            <button
-                              block="Button"
-                              mods={ { likeLink: true } }
-                              onClick={ () => this.changeState(STATE_UPDATE_ADDRESS, correctAddress) }
-                            >
-                                Edit Address
-                            </button>
-                        </div>
-                    </>
-                );
+                return this.renderAddressFields(correctAddress);
             }
         }
 
         return (
             <>
                 <div>
-                    No default&nbsp;
-                    { addressType }
-                    &nbsp;address has been set.
+                    { `No default ${addressType} address has been set.` }
                 </div>
                 <div block="MyAccountDetails" elem="Actions">
                     <button
@@ -528,93 +544,27 @@ class MyAccountDetails extends Component {
     render() {
         const { state } = this.state;
         const renderFunction = this.renderMap[state];
-        const { customer, isSignedIn } = this.props;
+        const { isSignedIn } = this.props;
 
         if (!isSignedIn) {
             return <Redirect to="/" />;
-        }
-
-        if (customer && Object.keys(customer).length) {
-            return (
-                <main block="MyAccountDetails" aria-label="My Account Details">
-                    <div block="MyAccountDetails" elem="Wrapper">
-                        <ul block="MyAccountDetails" elem="Sidebar">
-                            <li
-                              onClick={ () => this.changeState(STATE_ACCOUNT_OVERVIEW) }
-                              onKeyPress={ () => this.changeState(STATE_ACCOUNT_OVERVIEW)}
-                            >
-                                My Account
-                            </li>
-                            <li>My Orders</li>
-                        </ul>
-                        <div block="MyAccountDetails" elem="Content">
-                            { renderFunction() }
-                        </div>
-                    </div>
-                </main>
-            );
         }
 
         return (
             <main block="MyAccountDetails" aria-label="My Account Details">
                 <div block="MyAccountDetails" elem="Wrapper">
                     <ul block="MyAccountDetails" elem="Sidebar">
-                        <li>My Account</li>
+                        <li
+                            onClick={ () => this.changeState(STATE_ACCOUNT_OVERVIEW) }
+                            onKeyPress={ () => this.changeState(STATE_ACCOUNT_OVERVIEW)}
+                        >
+                            My Account
+                        </li>
                         <li>My Orders</li>
                     </ul>
                     <div block="MyAccountDetails" elem="Content">
-                    <fieldset block="MyAccountDetails" elem="AccountInfo">
-                        <legend>Account Information</legend>
-                        <div block="MyAccountDetails" elem="FieldWrapper">
-                            <div block="MyAccountDetails" elem="Field">
-                                <TextPlaceholder length="medium" />
-                            </div>
-                            <div block="MyAccountDetails" elem="Field"><TextPlaceholder length="short" /></div>
-                            <div block="MyAccountDetails" elem="Field">
-                                <TextPlaceholder length="short" />
-                            </div>
-                            <div block="MyAccountDetails" elem="Actions">
-                                <TextPlaceholder length="medium" />
-                            </div>
-                        </div>
-                    </fieldset>
-                    <fieldset block="MyAccountDetails" elem="AddressBook">
-                        <legend>
-                            <span>Address Book</span>
-                        </legend>
-                        <div block="MyAccountDetails" elem="FieldWrapper">
-                            <div block="MyAccountDetails" elem="AddressWrapper">
-                                <div block="MyAccountDetails" elem="FieldWrapper">
-                                    <h4>Default Billing Address</h4>
-                                    <div block="MyAccountDetails" elem="Field">
-                                        <TextPlaceholder length="medium" />
-                                    </div>
-                                    <div block="MyAccountDetails" elem="Field"><TextPlaceholder length="short" /></div>
-                                    <div block="MyAccountDetails" elem="Field">
-                                        <TextPlaceholder length="medium" />
-                                    </div>
-                                    <div block="MyAccountDetails" elem="Field"><TextPlaceholder length="short" /></div>
-                                    <div block="MyAccountDetails" elem="Actions">
-                                        <TextPlaceholder length="short" />
-                                    </div>
-                                </div>
-                                <div block="MyAccountDetails" elem="FieldWrapper">
-                                    <h4>Default Shipping Address</h4>
-                                    <div block="MyAccountDetails" elem="Field">
-                                        <TextPlaceholder length="medium" />
-                                    </div>
-                                    <div block="MyAccountDetails" elem="Field"><TextPlaceholder length="short" /></div>
-                                    <div block="MyAccountDetails" elem="Field">
-                                        <TextPlaceholder length="medium" />
-                                    </div>
-                                    <div block="MyAccountDetails" elem="Field"><TextPlaceholder length="short" /></div>
-                                    <div block="MyAccountDetails" elem="Actions">
-                                        <TextPlaceholder length="short" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </fieldset>
+                        <h1>My Account</h1>
+                        { renderFunction() }
                     </div>
                 </div>
             </main>
