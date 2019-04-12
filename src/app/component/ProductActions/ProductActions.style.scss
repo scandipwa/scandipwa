@@ -90,11 +90,18 @@
     .Field {
         display: inline-block;
         margin-right: 1rem;
+        height: 4rem;
 
         input {
+            height: inherit;
             --border-color: var(--color-neutral-light);
-            
             border-color: var(--border-color);
+        }
+    }
+
+    .AddToCart {
+        &-Button {
+            height: 4rem;
         }
     }
 }
