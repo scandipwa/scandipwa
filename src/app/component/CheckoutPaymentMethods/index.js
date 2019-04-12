@@ -9,6 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import Header from './Header.container';
+import CheckoutPaymentMethods from './CheckoutPaymentMethods.component';
 
-export default Header;
+export default CheckoutPaymentMethods;

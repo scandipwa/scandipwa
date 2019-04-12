@@ -1,0 +1,77 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+.CheckoutPage {
+    &-Wrapper {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        grid-column-gap: 2rem;
+        padding-top: 1rem;
+
+        @include mobile {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    &-CheckoutSteps {
+        @include mobile {
+            order: 2;
+        }
+    }
+
+    &-Heading {
+        margin: 0 0 2rem;
+    }
+
+    .CheckoutStep {
+        &-legend {
+            margin-bottom: 3rem;
+
+            // TODO check if default legend styles suits design needs after my account is merged
+            legend {
+                font-size: 1.7rem;
+                padding: 0 0 1rem;
+                margin: 0 0 1rem;
+                display: block;
+                width: 100%;
+                border-bottom: 1px solid var(--color-summary-divider);
+            }
+
+            input[type=text] {
+                width: 100%;
+                max-width: 40rem;
+            }
+
+            table {
+                border: 0;
+
+                @include mobile {
+                    width: 100%;
+                }
+
+                tr {
+                    background-color: var(--color-text-white);
+                    border-bottom: 1px solid var(--color-summary-divider);
+
+                    &:last-of-type {
+                        border-bottom: 0;
+                    }
+                }
+            }
+        }
+
+        &-ShippingAddressPreview {
+            span {
+                display: block
+            }
+        }
+    }
+}

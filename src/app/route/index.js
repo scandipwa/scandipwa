@@ -19,6 +19,7 @@ import CategoryPage from 'Route/CategoryPage';
 import ProductPage from 'Route/ProductPage';
 import CmsPage from 'Route/CmsPage';
 import CartPage from 'Route/CartPage';
+import CheckoutPage from 'Route/CheckoutPage';
 import MyAccountDetails from 'Route/MyAccountDetails';
 import PasswordChangePage from 'Route/PasswordChangePage';
 import NoMatch from 'Route/NoMatch';
@@ -74,6 +75,10 @@ export class AppRouter extends Component {
                 {
                     component: <Route path="/cart" exact component={ CartPage } />,
                     position: 50
+                },
+                {
+                    component: <Route path="/checkout" exact component={ CheckoutPage } />,
+                    position: 60
                 },
                 {
                     component: <Route path="/:account*/createPassword/" component={ PasswordChangePage } />,

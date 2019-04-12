@@ -10,11 +10,11 @@
  */
 
 import { connect } from 'react-redux';
-import { CmsBlocksAndSliderDispatcher } from 'Store/CmsBlocksAndSlider';
 import Footer from './Footer.component';
 
 const mapStateToProps = state => ({
-    blocks: state.CmsBlocksAndSliderReducer.blocks
+    blocks: state.CmsBlocksAndSliderReducer.blocks,
+    isHeaderAndFooterVisible: state.HeaderAndFooterReducer.isHeaderAndFooterVisible
 });
 
 const FooterContainer = connect(mapStateToProps)(Footer);

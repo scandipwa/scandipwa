@@ -10,14 +10,12 @@
  */
 
 import { connect } from 'react-redux';
-import Breadcrumbs from './Breadcrumbs.component';
+import Header from './Header.component';
 
 const mapStateToProps = state => ({
-    breadcrumbs: state.BreadcrumbsReducer.breadcrumbs,
-    areBreadcrumbsVisible: state.BreadcrumbsReducer.areBreadcrumbsVisible,
     isHeaderAndFooterVisible: state.HeaderAndFooterReducer.isHeaderAndFooterVisible
 });
 
-const BreadcrumbsContainer = connect(mapStateToProps)(Breadcrumbs);
+const HeaderContainer = connect(mapStateToProps)(Header);
 
-export default BreadcrumbsContainer;
+export default HeaderContainer;

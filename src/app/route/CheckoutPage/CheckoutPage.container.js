@@ -10,25 +10,22 @@
  */
 
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import { NoMatchDispatcher } from 'Store/NoMatch';
 import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
-import NoMatchHandler from './NoMatchHandler.component';
+import CheckoutPage from './CheckoutPage.component';
 
 const mapStateToProps = state => ({
-    noMatch: state.NoMatchReducer.noMatch
+    products: state.CartReducer.products,
+    totals: state.CartReducer.totals,
+    toggleHeaderAndFooter: state.HeaderAndFooterReducer.toggleHeaderAndFooter,
+    isHeaderAndFooterVisible: state.HeaderAndFooterReducer.isHeaderAndFooterVisible
 });
 
 const mapDispatchToProps = dispatch => ({
-    updateNoMatch: (options) => {
-        NoMatchDispatcher.updateNoMatch(dispatch, options);
-    },
-
     updateToggleHeaderAndFooter: (options) => {
         HeaderAndFooterDispatcher.toggleHeaderAndFooter(dispatch, options);
     }
 });
 
-const NoMatchHandlerContainer = withRouter(connect(mapStateToProps, mapDispatchToProps)(NoMatchHandler));
+const CheckoutPageContainer = connect(mapStateToProps, mapDispatchToProps)(CheckoutPage);
 
-export default NoMatchHandlerContainer;
+export default CheckoutPageContainer;
