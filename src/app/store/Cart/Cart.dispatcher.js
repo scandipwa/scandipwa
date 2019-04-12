@@ -58,8 +58,38 @@ class CartDispatcher {
         fetchQuery(Cart.getCartItemsQuery(
             !isSignedIn() && this._getGuestQuoteId()
         )).then(({ getCartItems }) => {
-            console.log(getCartItems);
-            // dispatch(updateAllProductsInCart(getCartItems));
+            const productsToAdd = getCartItems.reduce((prev, cartProduct) => {
+                const {
+                    product, item_id, sku, qty: quantity
+                } = cartProduct;
+                const { variants, id, type_id } = product;
+
+                if (type_id === 'configurable') {
+                    const { product: { id: variantId } } = variants.filter(
+                        ({ product: { sku: productSku } }) => productSku === sku
+                    )[0];
+
+                    return {
+                        ...prev,
+                        [variantId]: {
+                            ...product,
+                            item_id,
+                            quantity
+                        }
+                    };
+                }
+
+                return {
+                    ...prev,
+                    [id]: {
+                        ...product,
+                        item_id,
+                        quantity
+                    }
+                };
+            }, {});
+
+            dispatch(updateAllProductsInCart(productsToAdd));
         });
     }
 

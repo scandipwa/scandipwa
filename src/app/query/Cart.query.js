@@ -10,6 +10,7 @@
  */
 
 import { Field } from 'Util/Query';
+import { ProductListQuery } from 'Query';
 
 class Cart {
     getCartItemsQuery(quoteId) {
@@ -17,7 +18,7 @@ class Cart {
 
         if (quoteId) query.addArgument('quoteId', 'String!', quoteId);
 
-        this._getCartItemField(query);
+        this._getCartItemField(query, true);
 
         return query;
     }
@@ -46,7 +47,7 @@ class Cart {
         return mutation;
     }
 
-    _getCartItemField(field) {
+    _getCartItemField(field, requestProduct) {
         field
             .addField('item_id')
             .addField('name')
@@ -55,6 +56,13 @@ class Cart {
             .addField('qty')
             .addField('quote_id')
             .addField('sku');
+
+        if (requestProduct) {
+            field.addField(ProductListQuery._prepareItemsField(
+                { getConfigurableData: true },
+                new Field('product')
+            ));
+        }
     }
 }
 
