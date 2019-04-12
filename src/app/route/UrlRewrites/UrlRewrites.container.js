@@ -24,7 +24,6 @@ const mapDispatchToProps = dispatch => ({
     clearUrlRewrites: () => {
         UrlRewritesDispatcher.clearUrlRewrites(dispatch);
     }
-
 });
 
 const UrlRewritesContainer = connect(mapStateToProps, mapDispatchToProps)(UrlRewrites);

@@ -42,7 +42,7 @@ class CategoryDispatcher extends RequestDispatcher {
         const { categoryUrlPath, categoryIds } = options;
 
         if (category
-        && !this._isCategoryExists(category, categoryUrlPath, categoryIds)) return dispatch(updateNoMatch(true));
+            && !this._isCategoryExists(category, categoryUrlPath, categoryIds)) return dispatch(updateNoMatch(true));
 
         if (category) { // If category details are updated, reset all data
             dispatch(updateCategoryProductList(items, total_count, sort_fields, filters));
@@ -136,7 +136,6 @@ class CategoryDispatcher extends RequestDispatcher {
      */
     _isCategoryExists(masterCategory, categoryUrlPath, categoryIds) {
         const flattendCategories = [];
-        const flattenIds = [];
 
         const flattenCategory = (category) => {
             const { children } = category;
@@ -145,15 +144,14 @@ class CategoryDispatcher extends RequestDispatcher {
                 children.forEach((element) => {
                     const { id, url_path } = element;
                     flattenCategory(element);
-                    flattendCategories.push(url_path);
-                    flattenIds.push(id);
+                    flattendCategories.push(categoryUrlPath ? url_path : id);
                 });
             }
         };
 
         flattenCategory(masterCategory);
 
-        return flattendCategories.includes(categoryUrlPath) || flattenIds.includes(parseInt(categoryIds, 10));
+        return flattendCategories.includes(categoryUrlPath || parseInt(categoryIds, 10));
     }
 }
 

@@ -20,13 +20,13 @@ import ProductPage from 'Route/ProductPage';
 import CmsPage from 'Route/CmsPage';
 import CartPage from 'Route/CartPage';
 import NoMatchHandler from 'Route/NoMatchHandler';
+import UrlRewrites from 'Route/UrlRewrites';
 
 import Header from 'Component/Header';
 import Footer from 'Component/Footer';
 import Breadcrumbs from 'Component/Breadcrumbs';
 import NotificationList from 'Component/NotificationList';
 import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
-import UrlRewrites from 'Route/UrlRewrites';
 
 const BEFORE_ITEMS_TYPE = 'BEFORE_ITEMS_TYPE';
 const SWITCH_ITEMS_TYPE = 'SWITCH_ITEMS_TYPE';
