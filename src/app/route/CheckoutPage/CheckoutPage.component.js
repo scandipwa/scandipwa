@@ -16,8 +16,8 @@ import ContentWrapper from 'Component/ContentWrapper';
 import Field from 'Component/Field';
 import CheckoutOrderSummary from 'Component/CheckoutOrderSummary';
 import CheckoutShippingMethods from 'Component/CheckoutShippingMethods';
+import CheckoutPaymentMethods from 'Component/CheckoutPaymentMethods';
 import './CheckoutPage.style';
-import CheckoutPaymentMethods from '../../component/CheckoutPaymentMethods';
 
 const CHECKOUT_STEP_SHIPPING = 'shipping';
 const CHECKOUT_STEP_REVIEW_AND_PAYMENTS = 'review-and-payments';
@@ -380,16 +380,18 @@ class CheckoutPage extends Component {
                 </fieldset>
 
                 {billingIsSame ? (
-                    <address>
-                        {`${shippingAddress.firstname} ${shippingAddress.lastname}`}
-                        {shippingAddress.company}
-                        {shippingAddress.street[0]}
-                        {shippingAddress.street[1]}
-                        {shippingAddress.city}
-                        {shippingAddress.state}
-                        {shippingAddress.zip}
-                        {shippingAddress.country}
-                        {shippingAddress.phone}
+                    <address block="CheckoutStep" elem="ShippingAddressPreview">
+                        <span>
+                            {`${shippingAddress.firstname} ${shippingAddress.lastname}`}
+                        </span>
+                        <span>{shippingAddress.company}</span>
+                        <span>{shippingAddress.street[0]}</span>
+                        <span>{shippingAddress.street[1]}</span>
+                        <span>{shippingAddress.city}</span>
+                        <span>{shippingAddress.state}</span>
+                        <span>{shippingAddress.zip}</span>
+                        <span>{shippingAddress.country}</span>
+                        <span>{shippingAddress.phone}</span>
                     </address>
                 ) : (
                     <div>
@@ -572,7 +574,7 @@ class CheckoutPage extends Component {
             <div>
                 <h1>Thank you for your purchase!</h1>
                 <p>Your order # is: 000000003.</p>
-                <p>We'll email you an order confirmation with details and tracking info.</p>
+                <p>We&#39;ll email you an order confirmation with details and tracking info.</p>
                 <Link to="/">Continue Shopping</Link>
             </div>
         );
