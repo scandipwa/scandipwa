@@ -66,10 +66,11 @@ class CartDispatcher {
     addProductToCart(dispatch, options) {
         const { product, quantity } = options;
         const { item_id, quantity: originalQuantity } = this._getProductInCart(product);
+        const { sku } = product;
 
         const productToAdd = {
             item_id,
-            sku: this._getProductAttribute('sku', product),
+            sku,
             qty: (parseInt(originalQuantity, 10) || 0) + parseInt(quantity, 10),
             product_option: { extension_attributes: this._getExtensionAttributes(product) }
         };
