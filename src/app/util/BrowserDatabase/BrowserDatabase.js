@@ -24,7 +24,15 @@ class BrowserDatabase {
      */
     getItem(location) {
         try {
-            return JSON.parse(localStorage.getItem(location));
+            const entryObject = JSON.parse(localStorage.getItem(location));
+            const { data, expiration, createdAt } = entryObject;
+
+            if (expiration && Date.now() - createdAt > expiration * 1000) {
+                localStorage.removeItem(location);
+                return null;
+            }
+
+            return data;
         } catch {
             return null;
         }
@@ -34,11 +42,25 @@ class BrowserDatabase {
      * Save data to local storage
      * @param {Any} data The value to save to local storage
      * @param {String} location Name of the local storage
+     * @param {Number} expiration Time to store entry (in seconds)
      * @return {Void}
      * @memberof BrowserDatabase
      */
-    setItem(data, location) {
-        localStorage.setItem(location, JSON.stringify(data));
+    setItem(data, location, expiration) {
+        localStorage.setItem(location, JSON.stringify({
+            data,
+            expiration,
+            createdAt: Date.now()
+        }));
+    }
+
+    /**
+     * Delete item from local storage
+     * @param {String} location
+     * @memberof BrowserDatabase
+     */
+    deleteItem(location) {
+        localStorage.removeItem(location);
     }
 }
 

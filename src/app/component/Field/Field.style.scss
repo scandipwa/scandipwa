@@ -16,12 +16,14 @@
         padding-bottom: .3rem;
         font-weight: 700;
         font-size: 1.05rem;
+        pointer-events: none;
     }
 
     &-Message {
         margin-bottom: -.1em;
         font-size: 1.05rem;
         font-weight: 600;
+        color: var(--color-primary-dark);
     }
 
     &-Note {
@@ -29,27 +31,28 @@
         font-size: 1.0rem;
         font-weight: 600;
         color: var(--field-note);
+        opacity: 0;
+        height: 0;
+        transition: height 0.1s ease-in, opacity 0.1s linear;
     }
 
     &-Note::before {
         content: '* ';
     }
 
-    &_valid {
+    &_hasError {
         input {
-            border: 1px solid var(--field-valid);
-            box-shadow: none;
+            border: 1px solid var(--color-primary-dark);
         }
     }
 
-    &_error {
-        input {
-            border: 1px solid var(--field-error);
-            box-shadow: none;
-        }
+    &::placeholder {
+        color: var(--field-note);
+        font-size: 0.9rem;
+    }
 
-        .Field-Message {
-            color: var(--field-error);
-        }
+    input:focus + .Field-Note{
+        opacity: 1;
+        height: 100%;
     }
 }

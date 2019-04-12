@@ -11,24 +11,46 @@
 
 import React, { Component, Children } from 'react';
 import PropTypes from 'prop-types';
+import Field from 'Component/Field';
 import valdationConfig from './Form.config';
 
 class Form extends Component {
     static updateChildrenRefs(props) {
         const { children: propsChildren } = props;
         const refMap = {};
-        const children = Children.map(propsChildren, (child) => {
-            const { type: { name }, props: { id } } = child;
 
-            if (name === 'Field') {
+        const children = Form.cloneChildren(
+            propsChildren,
+            (child) => {
+                const { props: { id } } = child;
                 refMap[id] = React.createRef();
                 return React.cloneElement(child, { formRef: refMap[id] });
+            }
+        );
+
+        return { children, refMap };
+    }
+
+    static cloneChildren(originChildren, fieldCallback) {
+        const executeClone = originChildren => Children.map(originChildren, (child) => {
+            if (child && typeof child === 'object' && child.type && child.props) {
+                const { type: { name }, props: { children } } = child;
+
+                if (name === Field.prototype.constructor.name) {
+                    return fieldCallback(child);
+                }
+
+                if (typeof children === 'object') {
+                    return React.cloneElement(child, { children: executeClone(children) });
+                }
+
+                return child;
             }
 
             return child;
         });
 
-        return { children, refMap };
+        return executeClone(originChildren);
     }
 
     constructor(props) {
@@ -38,16 +60,6 @@ class Form extends Component {
             ...Form.updateChildrenRefs(props),
             fieldsAreValid: true
         };
-    }
-
-    static getDerivedStateFromProps(props, state) {
-        const { fieldsAreValid } = state;
-        if (fieldsAreValid) return Form.updateChildrenRefs(props);
-        return null;
-    }
-
-    addExtraProps(component, extraProps) {
-        return React.cloneElement(component, { ...extraProps });
     }
 
     validateField(field) {
@@ -74,27 +86,31 @@ class Form extends Component {
 
     handleFormSubmit(e) {
         const { refMap } = this.state;
-        const { children: propsChildren, onSubmit, onError } = this.props;
+        const {
+            children: propsChildren,
+            onSubmitSuccess,
+            onSubmitError,
+            onSubmit
+        } = this.props;
         const invalidFields = [];
 
         e.preventDefault();
+        onSubmit();
 
-        const children = Children.map(propsChildren, (child) => {
-            const { type: { name }, props: { id } } = child;
-
-            if (name === 'Field') {
+        const children = Form.cloneChildren(
+            propsChildren,
+            (child) => {
+                const { props: { id } } = child;
                 const { message } = this.validateField(child);
 
                 if (message) {
                     invalidFields.push(id);
-                    return this.addExtraProps(child, { message, formRef: refMap[id] });
+                    return React.cloneElement(child, { message, formRef: refMap[id] });
                 }
 
-                return this.addExtraProps(child, { formRef: refMap[id] });
+                return React.cloneElement(child, { formRef: refMap[id] });
             }
-
-            return child;
-        });
+        );
 
         this.setState({ children, fieldsAreValid: !invalidFields.length });
 
@@ -102,14 +118,18 @@ class Form extends Component {
             const { current } = input;
             if (current && current.id && current.value) {
                 const { id, value } = current;
+                if (current.type === 'checkbox' || current.type === 'radio') {
+                    const boolValue = value === 'true';
+                    return { ...inputValues, [id]: boolValue };
+                }
                 return { ...inputValues, [id]: value };
             }
             return inputValues;
         }, {});
 
         return !invalidFields.length
-            ? onSubmit(inputValues)
-            : onError(inputValues, invalidFields);
+            ? onSubmitSuccess(inputValues)
+            : onSubmitError(inputValues, invalidFields);
     }
 
     render() {
@@ -129,8 +149,9 @@ class Form extends Component {
 }
 
 Form.propTypes = {
+    onSubmitSuccess: PropTypes.func,
+    onSubmitError: PropTypes.func,
     onSubmit: PropTypes.func,
-    onError: PropTypes.func,
     children: PropTypes.oneOfType([
         PropTypes.arrayOf(PropTypes.node),
         PropTypes.node
@@ -138,8 +159,9 @@ Form.propTypes = {
 };
 
 Form.defaultProps = {
-    onSubmit: () => {},
-    onError: () => {}
+    onSubmitSuccess: () => {},
+    onSubmitError: () => {},
+    onSubmit: () => {}
 };
 
 export default Form;

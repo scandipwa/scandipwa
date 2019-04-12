@@ -9,6 +9,16 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import HomeSlider from './HomeSlider';
+import {
+    setAuthorizationToken,
+    getAuthorizationToken,
+    deleteAuthorizationToken,
+    isSignedIn
+} from './Token';
 
-export default HomeSlider;
+export {
+    setAuthorizationToken,
+    getAuthorizationToken,
+    deleteAuthorizationToken,
+    isSignedIn
+};

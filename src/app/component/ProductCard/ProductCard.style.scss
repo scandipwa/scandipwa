@@ -81,14 +81,14 @@
             font-size: 1rem;
         }
     }
-    
+
     .Image {
         margin-bottom: 1rem;
     }
 
     &-Actions {
         a {
-            @extend %button;
+            @include button;
 
             span {
                 color: var(--color-text-white);

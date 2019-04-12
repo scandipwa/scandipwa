@@ -3,7 +3,7 @@ import { SearchBarDispatcher } from 'Store/SearchBar';
 import SearchBar from './SearchBar.component';
 
 const mapStateToProps = state => ({
-    products: state.SearchBarReducer.products,
+    products: state.SearchBarReducer.productsInSearch,
     isLoading: state.SearchBarReducer.isLoading
 });
 

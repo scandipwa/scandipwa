@@ -9,6 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import CmsBlock from './CmsBlock';
+import Loader from './Loader.component';
 
-export default CmsBlock;
+export default Loader;
