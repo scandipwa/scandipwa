@@ -411,7 +411,7 @@ class MyAccountDetails extends Component {
             email,
             is_subscribed,
             id
-        } = customer;
+        } = customer || {};
         const fullName = (firstname && lastname) ? `${firstname} ${lastname}` : <TextPlaceholder length="medium" />;
         const showNewsletter = id
             ? `Subscribed to newsletter: ${is_subscribed ? ' Yes' : ' No'}`
@@ -497,9 +497,10 @@ class MyAccountDetails extends Component {
      * @param {String} addressType
      */
     renderAddress(addressType) {
-        const { customer, customer: { addresses } } = this.props;
+        const { customer } = this.props;
+        const { addresses } = customer || {};
 
-        if (!Object.keys(customer).length) {
+        if (customer && !Object.keys(customer).length) {
             return this.renderAddressFields();
         }
 
