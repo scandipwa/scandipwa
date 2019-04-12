@@ -141,6 +141,10 @@ class CheckoutPage extends Component {
      * Place order and hide summary
      */
     placeOrder = () => {
+        // show header and footer
+        const { updateToggleHeaderAndFooter } = this.props;
+        updateToggleHeaderAndFooter({ isHeaderAndFooterVisible: true });
+
         this.setState({
             checkoutStep: CHECKOUT_STEP_SUCCESS,
             showSummary: false
@@ -382,17 +386,15 @@ class CheckoutPage extends Component {
 
                 {billingIsSame ? (
                     <address block="CheckoutStep" elem="ShippingAddressPreview">
-                        <span>
-                            {`${shippingAddress.firstname} ${shippingAddress.lastname}`}
-                        </span>
-                        <span>{shippingAddress.company}</span>
-                        <span>{shippingAddress.street[0]}</span>
-                        <span>{shippingAddress.street[1]}</span>
-                        <span>{shippingAddress.city}</span>
-                        <span>{shippingAddress.state}</span>
-                        <span>{shippingAddress.zip}</span>
-                        <span>{shippingAddress.country}</span>
-                        <span>{shippingAddress.phone}</span>
+                        <span>{ `${ shippingAddress.firstname } ${ shippingAddress.lastname }` }</span>
+                        <span>{ shippingAddress.company }</span>
+                        <span>{ shippingAddress.street[0] }</span>
+                        <span>{ shippingAddress.street[1] }</span>
+                        <span>{ shippingAddress.city }</span>
+                        <span>{ shippingAddress.state }</span>
+                        <span>{ shippingAddress.zip }</span>
+                        <span>{ shippingAddress.country }</span>
+                        <span>{ shippingAddress.phone }</span>
                     </address>
                 ) : (
                     <div>
@@ -568,10 +570,6 @@ class CheckoutPage extends Component {
      * @returns {*}
      */
     renderCheckoutSuccessStep() {
-        // show header and footer
-        const { updateToggleHeaderAndFooter } = this.props;
-        updateToggleHeaderAndFooter({ isHeaderAndFooterVisible: true });
-
         return (
             <div>
                 <h1>Thank you for your purchase!</h1>
