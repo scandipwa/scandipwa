@@ -133,7 +133,7 @@
         }
 
         &_hidden {
-            display: none;
+            @include accessible-display-none;
         }
 
         ul {
@@ -256,7 +256,7 @@
         }
 
         &-RemoveButton {
-            display: none;
+            @include accessible-display-none;
         }
 
         &-Price {

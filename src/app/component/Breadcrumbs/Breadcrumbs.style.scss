@@ -17,9 +17,6 @@
 
     @include mobile {
         --color-breadcrumbs-background: #fff;
-    }
-
-    @include mobile {
         display: none;
     }
 

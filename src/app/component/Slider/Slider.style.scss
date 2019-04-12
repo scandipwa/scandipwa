@@ -24,7 +24,7 @@
         position: absolute;
 
         @include mobile {
-            display: none;
+            @include accessible-display-none;
         }
 
         &::after {
