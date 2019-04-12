@@ -148,6 +148,14 @@ class Image extends Component {
             showGreyPlaceholder
         } = this.props;
 
+        const isPathRelative = (path) => {
+            const isFullPath = path.match(new RegExp('^(http|https)://'));
+
+            return path.charAt(0) === '/' || isFullPath;
+        };
+
+        if (src && !isPathRelative(src)) throw new Error(`${src} is not an absolute path!`);
+
         const isIcon = src && src.includes('.svg');
 
         return (
