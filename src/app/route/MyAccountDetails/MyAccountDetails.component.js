@@ -14,6 +14,7 @@ import PropTypes from 'prop-types';
 import Field from 'Component/Field';
 import Form from 'Component/Form';
 import TextPlaceholder from 'Component/TextPlaceholder';
+import { Redirect } from 'react-router';
 import './MyAccountDetails.style';
 
 const STATE_ACCOUNT_OVERVIEW = 'accountOverview';
@@ -114,8 +115,12 @@ class MyAccountDetails extends Component {
     onUpdateAddressSuccess(fields, correctAddress) {
         const { updateCustomerAddress, createCustomerAddress } = this.props;
         const isAddressCreation = typeof correctAddress === 'string';
-        const default_shipping = correctAddress === 'shipping';
-        const default_billing = correctAddress === 'billing';
+        const default_shipping = typeof correctAddress === 'string'
+            ? correctAddress === 'shipping'
+            : correctAddress.default_shipping;
+        const default_billing = typeof correctAddress === 'string'
+            ? correctAddress === 'billing'
+            : correctAddress.default_billing;
         const {
             city,
             company,
@@ -439,6 +444,7 @@ class MyAccountDetails extends Component {
                     firstname,
                     lastname,
                     street,
+                    region: { region },
                     city,
                     country_id,
                     telephone
@@ -454,6 +460,8 @@ class MyAccountDetails extends Component {
                         <div block="MyAccountDetails" elem="Field">{ street }</div>
                         <div block="MyAccountDetails" elem="Field">
                             { city }
+                            ,&nbsp;
+                            { region }
                             ,&nbsp;
                             { country_id }
                         </div>
@@ -520,7 +528,11 @@ class MyAccountDetails extends Component {
     render() {
         const { state } = this.state;
         const renderFunction = this.renderMap[state];
-        const { customer } = this.props;
+        const { customer, isSignedIn } = this.props;
+
+        if (!isSignedIn) {
+            return <Redirect to="/" />;
+        }
 
         if (customer && Object.keys(customer).length) {
             return (
@@ -624,7 +636,8 @@ MyAccountDetails.propTypes = {
     createCustomerAddress: PropTypes.func.isRequired,
     updateCustomerAddress: PropTypes.func.isRequired,
     changeCustomerPassword: PropTypes.func.isRequired,
-    updateBreadcrumbs: PropTypes.func.isRequired
+    updateBreadcrumbs: PropTypes.func.isRequired,
+    isSignedIn: PropTypes.bool.isRequired
 };
 
 export default MyAccountDetails;
