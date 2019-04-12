@@ -9,13 +9,55 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { addProductToCart, removeProductFromCart, updateTotals } from 'Store/Cart';
+import { fetchMutation } from 'Util/Request';
+import {
+    addProductToCart,
+    removeProductFromCart,
+    updateTotals,
+    updateAllProductsInCart
+} from 'Store/Cart';
 import { getProductPrice } from 'Util/Price';
+import { isSignedIn } from 'Util/Auth';
+import { Cart } from 'Query';
+import BrowserDatabase from 'Util/BrowserDatabase';
+
+export const GUEST_QUOTE_ID = 'guest_quote_id';
+
 /**
  * Product Cart Dispatcher
  * @class CartDispatcher
  */
 class CartDispatcher {
+    updateInitialCartData(dispatch) {
+        const guestQuoteId = BrowserDatabase.getItem(GUEST_QUOTE_ID);
+
+        if (isSignedIn()) {
+            // This is logged in customer, no need for quote id
+            this._syncCartWithBE(dispatch);
+        } else if (guestQuoteId) {
+            // This is guest
+            this._syncCartWithBE(dispatch, guestQuoteId);
+        } else {
+            // This is guest, cart is empty
+            // Need to create empty cart and save quote
+            this._createEmptyCart()
+                .then(data => BrowserDatabase.setItem(data, GUEST_QUOTE_ID));
+        }
+    }
+
+    _createEmptyCart() {
+        return fetchMutation(Cart.getCreateEmptyCartMutation()).then(
+            ({ createEmptyCart }) => createEmptyCart,
+            error => console.log(error)
+        );
+    }
+
+    _syncCartWithBE(dispatch, quoteId) {
+        // Need to get current cart from BE, update cart
+        // updateAllProductsInCart()
+        console.log('SYNCING');
+    }
+
     addProductToCart(dispatch, options) {
         if (this._isAllowed(options)) {
             return dispatch(addProductToCart(options.product, options.quantity));

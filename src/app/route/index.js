@@ -19,6 +19,8 @@ import CategoryPage from 'Route/CategoryPage';
 import ProductPage from 'Route/ProductPage';
 import CmsPage from 'Route/CmsPage';
 import CartPage from 'Route/CartPage';
+import MyAccountDetails from 'Route/MyAccountDetails';
+import PasswordChangePage from 'Route/PasswordChangePage';
 import NoMatch from 'Route/NoMatch';
 import NoMatchHandler from 'Route/NoMatchHandler';
 
@@ -28,6 +30,7 @@ import Breadcrumbs from 'Component/Breadcrumbs';
 import NotificationList from 'Component/NotificationList';
 
 import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
+import { CartDispatcher } from 'Store/Cart';
 
 const BEFORE_ITEMS_TYPE = 'BEFORE_ITEMS_TYPE';
 const SWITCH_ITEMS_TYPE = 'SWITCH_ITEMS_TYPE';
@@ -73,6 +76,14 @@ export class AppRouter extends Component {
                     position: 50
                 },
                 {
+                    component: <Route path="/:account*/createPassword/" component={ PasswordChangePage } />,
+                    position: 60
+                },
+                {
+                    component: <Route path="/my-account/" exact component={ MyAccountDetails } />,
+                    position: 70
+                },
+                {
                     component: <Route component={ NoMatch } />,
                     position: 100
                 }
@@ -89,6 +100,10 @@ export class AppRouter extends Component {
 
     componentWillMount() {
         const {
+            updateHeaderAndFooter,
+            updateInitialCartData
+        } = this.props;
+        const {
             beforeItems,
             switchItems,
             afterItems
@@ -100,7 +115,6 @@ export class AppRouter extends Component {
             [AFTER_ITEMS_TYPE]: afterItems
         };
 
-        const { updateHeaderAndFooter } = this.props;
         const footerOptions = {
             identifiers: [
                 'footer-free-shipping',
@@ -119,6 +133,7 @@ export class AppRouter extends Component {
         };
 
         updateHeaderAndFooter({ menu: { menuId: 1 }, footer: footerOptions });
+        updateInitialCartData();
     }
 
     /**
@@ -204,12 +219,17 @@ export class AppRouter extends Component {
 }
 
 AppRouter.propTypes = {
-    updateHeaderAndFooter: PropTypes.func.isRequired
+    updateHeaderAndFooter: PropTypes.func.isRequired,
+    updateInitialCartData: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = dispatch => ({
     updateHeaderAndFooter: (options) => {
         HeaderAndFooterDispatcher.handleData(dispatch, options);
+    },
+
+    updateInitialCartData: () => {
+        CartDispatcher.updateInitialCartData(dispatch);
     }
 });
 

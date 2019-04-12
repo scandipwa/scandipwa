@@ -9,6 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import ProductList from './ProductList';
+import { Field } from 'Util/Query';
 
-export default ProductList;
+class Cart {
+    getCreateEmptyCartMutation() {
+        return new Field('createEmptyCart');
+    }
+}
+
+export default new Cart();

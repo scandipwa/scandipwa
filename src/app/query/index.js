@@ -9,12 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import CategoryQuery from 'Query/Category';
-import ProductListQuery from 'Query/ProductList';
-import CmsPageQuery from 'Query/CmsPage';
-import CmsBlockQuery from 'Query/CmsBlock';
-import HomeSlider from 'Query/HomeSlider';
-import MenuQuery from 'Query/Menu';
+import CategoryQuery from 'Query/Category.query';
+import ProductListQuery from 'Query/ProductList.query';
+import CmsPageQuery from 'Query/CmsPage.query';
+import CmsBlockQuery from 'Query/CmsBlock.query';
+import HomeSlider from 'Query/HomeSlider.query';
+import MenuQuery from 'Query/Menu.query';
+import MyAccount from 'Query/MyAccount.query';
+import Cart from 'Query/Cart.query';
 
 export {
     CategoryQuery,
@@ -22,5 +24,7 @@ export {
     CmsPageQuery,
     CmsBlockQuery,
     HomeSlider,
-    MenuQuery
+    MenuQuery,
+    MyAccount,
+    Cart
 };
