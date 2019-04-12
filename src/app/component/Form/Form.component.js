@@ -11,6 +11,7 @@
 
 import React, { Component, Children } from 'react';
 import PropTypes from 'prop-types';
+import Field from 'Component/Field';
 import valdationConfig from './Form.config';
 
 class Form extends Component {
@@ -30,13 +31,12 @@ class Form extends Component {
         return { children, refMap };
     }
 
-    // Note: fields at the moment cannot be inside html tag (e.g. fieldset)
     static cloneChildren(originChildren, fieldCallback) {
         const executeClone = originChildren => Children.map(originChildren, (child) => {
             if (child && typeof child === 'object' && child.type && child.props) {
                 const { type: { name }, props: { children } } = child;
 
-                if (name === 'Field') {
+                if (name === Field.prototype.constructor.name) {
                     return fieldCallback(child);
                 }
 

@@ -91,6 +91,35 @@ class MyAccount {
             .addField('token');
     }
 
+    getUpdateInformationMutation(options) {
+        return new Field('updateCustomer')
+            .addArgument('input', 'CustomerInput!', options)
+            .addField(this.getCustomer(true));
+    }
+
+    getChangeCustomerPasswordMutation(options) {
+        const { currentPassword, newPassword } = options;
+
+        return new Field('changeCustomerPassword')
+            .addArgument('currentPassword', 'String!', currentPassword)
+            .addArgument('newPassword', 'String!', newPassword)
+            .addField('id')
+            .addField('email');
+    }
+
+    getCreateAddressMutation(options) {
+        return new Field('createCustomerAddress')
+            .addArgument('input', 'CustomerAddressInput!', options)
+            .addFieldList(this._getAddressFieldList());
+    }
+
+    getUpdateAddressMutation(id, options) {
+        return new Field('updateCustomerAddress')
+            .addArgument('id', 'Int!', id)
+            .addArgument('input', 'CustomerAddressInput!', options)
+            .addFieldList(this._getAddressFieldList());
+    }
+
     /**
      * Get CreateAccount mutation
      * @param  {{customer: Object, password: String}} options A object containing different aspects of query, each item can be omitted
@@ -103,7 +132,7 @@ class MyAccount {
         return (process.env.MAGENTO_VERSION === '2.3.1')
             // For M2 v. 2.3.1
             ? new Field('createCustomer')
-                .addArgument('input', 'CustomerInput!', customer)
+                .addArgument('input', 'CustomerInput!', { ...customer, password })
                 .addField(this.getCustomer(true))
             // For M2 v. 2.3.0
             : new Field('createCustomer')
@@ -148,6 +177,17 @@ class MyAccount {
         this._getAdditionalAddressesFields(addresses);
 
         return addresses;
+    }
+
+    _getAddressFieldList() {
+        const region = new Field('region')
+            .addField('region_code')
+            .addField('region')
+            .addField('region_id');
+
+        return ['id', 'customer_id', region, 'country_id', 'street', 'company', 'telephone', 'fax', 'postcode',
+            'city', 'firstname', 'lastname', 'middlename', 'prefix', 'suffix', 'vat_id',
+            'default_shipping', 'default_billing'];
     }
 
     /**

@@ -15,13 +15,15 @@ import {
     updateCustomerPasswordResetStatus,
     updateCustomerPasswordForgotStatus
 } from 'Store/MyAccount';
-import { QueryDispatcher, fetchMutation } from 'Util/Request';
+import { QueryDispatcher, fetchMutation, executePost } from 'Util/Request';
 import {
     setAuthorizationToken,
-    deleteAuthorizationToken
+    deleteAuthorizationToken,
+    isSignedIn
 } from 'Util/Auth';
 import { CartDispatcher } from 'Store/Cart';
 import { MyAccount } from 'Query';
+import { prepareQuery } from 'Util/Query';
 
 /**
  * My account actions
@@ -41,11 +43,56 @@ class MyAccountDispatcher extends QueryDispatcher {
         dispatch(updateCustomerDetails(customer));
     }
 
+    requestCustomerData(options, dispatch) {
+        const { withAddresses } = options;
+        const query = MyAccount.getCustomer(withAddresses);
+
+        return executePost(prepareQuery([query])).then(
+            ({ customer }) => dispatch(updateCustomerDetails(customer)),
+            error => console.log(error)
+        );
+    }
+
+    updateCustomerData(options, dispatch) {
+        const mutation = MyAccount.getUpdateInformationMutation(options);
+        return fetchMutation(mutation).then(
+            ({ customer }) => dispatch(updateCustomerDetails(customer)),
+            error => console.log(error)
+        );
+    }
+
+    changeCustomerPassword(options, customer, dispatch) {
+        const mutation = MyAccount.getChangeCustomerPasswordMutation(options, customer);
+
+        return fetchMutation(mutation).then(
+            ({ password }) => dispatch(updateCustomerDetails(password)),
+            error => console.log(error)
+        );
+    }
+
     logout(_, dispatch) {
         dispatch(updateCustomerSignInStatus(false));
         deleteAuthorizationToken();
         CartDispatcher.updateInitialCartData(dispatch);
         // TODO: logout in BE
+    }
+
+    createCustomerAddress(options, dispatch) {
+        const mutation = MyAccount.getCreateAddressMutation(options);
+
+        return fetchMutation(mutation).then(
+            ({ addresses }) => dispatch(updateCustomerDetails(addresses)),
+            error => console.log(error)
+        );
+    }
+
+    updateCustomerAddress(id, options, dispatch) {
+        const mutation = MyAccount.getUpdateAddressMutation(id, options);
+
+        return fetchMutation(mutation).then(
+            ({ addresses }) => dispatch(updateCustomerDetails(addresses)),
+            error => console.log(error)
+        );
     }
 
     /**

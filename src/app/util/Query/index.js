@@ -16,6 +16,6 @@ import { prepareQuery, prepareMutation } from './PrepareDocument';
 export {
     Field,
     Fragment,
-    prepareQuery, 
+    prepareQuery,
     prepareMutation
 };

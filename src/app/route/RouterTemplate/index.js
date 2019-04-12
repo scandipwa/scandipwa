@@ -12,6 +12,7 @@
 import { connect } from 'react-redux';
 import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
 import { AppRouter as BaseRouter } from 'SourceRoute';
+import { CartDispatcher } from 'Store/Cart';
 
 /**
  * Extends core router.
@@ -52,6 +53,10 @@ class AppRouter extends BaseRouter {
 const mapDispatchToProps = dispatch => ({
     updateHeaderAndFooter: (options) => {
         HeaderAndFooterDispatcher.handleData(dispatch, options);
+    },
+
+    updateInitialCartData: () => {
+        CartDispatcher.updateInitialCartData(dispatch);
     }
 });
 
