@@ -28,22 +28,25 @@ class CheckoutPaymentMethods extends Component {
         this.setState({ paymentMethod: method });
     };
 
-    renderPaymentMethod(index, data) {
+    renderPaymentMethod(title) {
         const { paymentMethod } = this.state;
+        const { paymentMethods } = this.props;
+        const currentMethod = paymentMethods[title];
+
         return (
-            <tr key={ index } onClick={ () => this.handlePaymentMethodChange(index) }>
+            <tr key={ title } onClick={ () => this.handlePaymentMethodChange(title) }>
                 <td>
                     <Field
-                      id={ index }
+                      id={ title }
                       type="radio"
                       block="paymentMethodTable"
-                      elem={ index }
-                      value={ index }
+                      elem={ title }
+                      value={ title }
                       checked={ paymentMethod }
-                      onChange={ index => this.handlePaymentMethodChange(index) }
+                      onChange={ title => this.handlePaymentMethodChange(title) }
                     />
                 </td>
-                <td>{ data.title }</td>
+                <td>{ currentMethod.title }</td>
             </tr>
         );
     }
@@ -58,7 +61,7 @@ class CheckoutPaymentMethods extends Component {
                     <tbody>
                         { Object
                             .keys(paymentMethods)
-                            .map(index => this.renderPaymentMethod(index, paymentMethods[index])) }
+                            .map(title => this.renderPaymentMethod(title)) }
                     </tbody>
                 </table>
             </fieldset>
