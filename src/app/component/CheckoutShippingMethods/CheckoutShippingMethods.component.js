@@ -12,7 +12,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Field from 'Component/Field';
-import CheckoutOrderSummary from '../CheckoutOrderSummary';
 
 /**
  * Checkout shipping method selector component

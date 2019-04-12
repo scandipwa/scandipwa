@@ -17,6 +17,7 @@ import Field from 'Component/Field';
 import CheckoutOrderSummary from 'Component/CheckoutOrderSummary';
 import CheckoutShippingMethods from 'Component/CheckoutShippingMethods';
 import CheckoutPaymentMethods from 'Component/CheckoutPaymentMethods';
+import DiscountCoupons from 'Component/DiscountCoupons';
 import './CheckoutPage.style';
 
 const CHECKOUT_STEP_SHIPPING = 'shipping';
@@ -557,6 +558,7 @@ class CheckoutPage extends Component {
                 )}
 
                 <button onClick={ this.placeOrder }>Place Order</button>
+                <DiscountCoupons />
             </div>
         );
     }

@@ -103,7 +103,7 @@ class CheckoutOrderSummary extends Component {
                     <h3>Order Summary</h3>
                     <ul>
                         { this.renderPriceLine(grandTotalPrice, 'Cart Subtotal') }
-                        { price && this.renderPriceLine(String(price), `Shipping (${ title })`, { divider: true }) }
+                        { title && this.renderPriceLine(String(price), `Shipping (${ title })`, { divider: true }) }
                         { this.renderPriceLine(String(grandTotalWithShipping), 'Order Total') }
                     </ul>
                 </div>
