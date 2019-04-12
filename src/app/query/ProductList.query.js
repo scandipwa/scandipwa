@@ -76,8 +76,8 @@ class ProductListQuery {
             .addField('brand')
             .addField('shoes_size')
             .addField(new Field('short_description').addField('html'))
-            .addField(new Field('image').addField('url'))
-            .addField(new Field('thumbnail').addField('url'))
+            .addField(new Field('image').addField('url').addField('label').addField('path'))
+            .addField(new Field('thumbnail').addField('url').addField('label').addField('path'))
             .addField(price);
 
         const itemsGrouped = new Field('items').addField(product);
@@ -278,12 +278,13 @@ class ProductListQuery {
                     new Field('short_description').addField('html')
                 )
                 .addField(
-                    new Field('image').addField('url')
+                    new Field('image').addField('url').addField('label').addField('path')
                 )
                 .addField(
                     new Field('thumbnail')
                         .addField('url')
                         .addField('label')
+                        .addField('path')
                 )
                 .addField(mediaGallery)
                 .addField(price);

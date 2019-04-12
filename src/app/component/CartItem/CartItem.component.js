@@ -143,7 +143,7 @@ class CartItem extends Component {
     render() {
         const { isLoading } = this.state;
         const {
-            thumbnail: { url: thumbnail },
+            thumbnail: { path: thumbnail },
             url_key,
             name,
             quantity,
