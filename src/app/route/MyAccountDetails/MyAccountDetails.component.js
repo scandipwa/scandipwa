@@ -217,6 +217,7 @@ class MyAccountDetails extends Component {
     renderAccountOverview() {
         return (
             <>
+                <h1>My Account</h1>
                 { this.renderAccountInformation() }
                 { this.renderAddressBook() }
             </>
@@ -248,52 +249,64 @@ class MyAccountDetails extends Component {
                   onSubmitSuccess={ fields => this.onUpdateAddressSuccess(fields, correctAddress) }
                   onSubmitError={ (fields, invalidFields) => this.onUpdateAttempt(fields, invalidFields) }
                 >
-                <fieldset block="MyAccountDetails" elem="AccountInfo">
-                    <legend>Contact Information</legend>
-                    <Field
-                      type="text"
-                      label="First name"
-                      id="firstname"
-                      validation={ ['notEmpty'] }
-                      value={ firstname }
-                    />
-                    <Field type="text" label="Last name" id="lastname" validation={ ['notEmpty'] } value={ lastname } />
-                    <Field type="text" label="Company" id="company" value={ company } />
-                    <Field
-                      type="text"
-                      label="Phone Number"
-                      id="telephone"
-                      validation={ ['notEmpty', 'telephone'] }
-                      value={ telephone }
-                    />
-                </fieldset>
-                <fieldset block="MyAccountDetails" elem="AddressInfo">
-                    <legend>Address</legend>
-                    <Field
-                      type="text"
-                      label="Street Address"
-                      id="street"
-                      validation={ ['notEmpty'] }
-                      value={ street && street[0] }
-                    />
-                    <Field type="text" label="City" id="city" validation={ ['notEmpty'] } value={ city } />
-                    <Field type="text" label="Postcode" id="postcode" validation={ ['notEmpty'] } value={ postcode } />
-                    <Field
-                      type="text"
-                      label="State/Province"
-                      id="region"
-                      validation={ ['notEmpty'] }
-                      value={ region && region.region }
-                    />
-                    <Field
-                      type="text"
-                      label="Country"
-                      id="country_id"
-                      validation={ ['notEmpty'] }
-                      value={ country_id }
-                    />
-                </fieldset>
-                <button block="MyAccountDetails" elem="Submit" type="submit">Add Address</button>
+                    <fieldset block="MyAccountDetails" elem="AccountInfo">
+                        <legend>Contact Information</legend>
+                        <Field
+                          type="text"
+                          label="First name"
+                          id="firstname"
+                          validation={ ['notEmpty'] }
+                          value={ firstname }
+                        />
+                        <Field
+                          type="text"
+                          label="Last name"
+                          id="lastname"
+                          validation={ ['notEmpty'] }
+                          value={ lastname }
+                        />
+                        <Field type="text" label="Company" id="company" value={ company } />
+                        <Field
+                          type="text"
+                          label="Phone Number"
+                          id="telephone"
+                          validation={ ['notEmpty', 'telephone'] }
+                          value={ telephone }
+                        />
+                    </fieldset>
+                    <fieldset block="MyAccountDetails" elem="AddressInfo">
+                        <legend>Address</legend>
+                        <Field
+                          type="text"
+                          label="Street Address"
+                          id="street"
+                          validation={ ['notEmpty'] }
+                          value={ street && street[0] }
+                        />
+                        <Field type="text" label="City" id="city" validation={ ['notEmpty'] } value={ city } />
+                        <Field
+                          type="text"
+                          label="Postcode"
+                          id="postcode"
+                          validation={ ['notEmpty'] }
+                          value={ postcode }
+                        />
+                        <Field
+                          type="text"
+                          label="State/Province"
+                          id="region"
+                          validation={ ['notEmpty'] }
+                          value={ region && region.region }
+                        />
+                        <Field
+                          type="text"
+                          label="Country"
+                          id="country_id"
+                          validation={ ['notEmpty'] }
+                          value={ country_id }
+                        />
+                    </fieldset>
+                    <button block="MyAccountDetails" elem="Submit" type="submit">Add Address</button>
                 </Form>
             </>
         );
@@ -563,7 +576,6 @@ class MyAccountDetails extends Component {
                         <li>My Orders</li>
                     </ul>
                     <div block="MyAccountDetails" elem="Content">
-                        <h1>My Account</h1>
                         { renderFunction() }
                     </div>
                 </div>

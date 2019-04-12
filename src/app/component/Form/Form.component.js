@@ -11,6 +11,7 @@
 
 import React, { Component, Children } from 'react';
 import PropTypes from 'prop-types';
+import Field from 'Component/Field';
 import valdationConfig from './Form.config';
 
 class Form extends Component {
@@ -35,9 +36,13 @@ class Form extends Component {
             if (child && typeof child === 'object' && child.type && child.props) {
                 const { type: { name }, props: { children } } = child;
 
-                if (typeof name === 'string') return fieldCallback(child);
+                if (name === Field.prototype.constructor.name) {
+                    return fieldCallback(child);
+                }
 
-                if (typeof children === 'object') return executeClone(children);
+                if (typeof children === 'object') {
+                    return React.cloneElement(child, { children: executeClone(children) });
+                }
 
                 return child;
             }
