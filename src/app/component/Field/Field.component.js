@@ -74,7 +74,7 @@ class Field extends Component {
         const { value: stateValue } = state;
 
         if (value !== stateValue) {
-            return { stateValue };
+            return { value };
         }
 
         return null;
