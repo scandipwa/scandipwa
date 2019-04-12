@@ -11,7 +11,7 @@
 
 /* eslint-disable no-param-reassign */
 
-import { RequestDispatcher } from 'Util/Request';
+import { QueryDispatcher } from 'Util/Request';
 import { CategoryQuery, ProductListQuery } from 'Query';
 import {
     updateCategoryProductList, updateCategoryList, appendCategoryProductList, updateLoadStatus, updateCurrentCategory
@@ -21,9 +21,9 @@ import { updateNoMatch } from 'Store/NoMatch';
 /**
  * Product List Dispatcher
  * @class CategoryDispatcher
- * @extends RequestDispatcher
+ * @extends QueryDispatcher
  */
-class CategoryDispatcher extends RequestDispatcher {
+class CategoryDispatcher extends QueryDispatcher {
     constructor() {
         super('ProductList', 86400);
     }

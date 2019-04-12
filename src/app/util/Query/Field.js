@@ -27,9 +27,10 @@ class Field {
         this._fieldList = {};
         this._argumentList = {};
         this._alias = '';
-        this._variableDefinitions = '';
+        this._variableDefinitions = [];
         this._variableValues = {};
         this._argumentDefinitions = [];
+        this._component = 'query';
     }
 
 
@@ -120,14 +121,27 @@ class Field {
     }
 
     /**
+     * Sets GraphQL component type: query, mutation, etc.
+     * @param {String} component
+     * @return {Field}
+     * @memberof Query
+     */
+    setComponentType(component) {
+        this._component = component;
+        return this;
+    }
+
+    /**
      * Build the maps for fast access, before using withing a query
      *
      * @returns {Field}
      */
     build() {
         Object.keys(this._argumentList).forEach((argument) => {
-            if (this._variableDefinitions.length > 0) this._variableDefinitions += ', ';
-            this._variableDefinitions += `$${this._getVariableName(argument)}:${this._argumentList[ argument ].type}`;
+            this._variableDefinitions.push(
+                `$${this._getVariableName(argument)}:${this._argumentList[ argument ].type}`
+            );
+
             this._variableValues[ this._getVariableName(argument) ] = this._argumentList[ argument ].value;
             this._argumentDefinitions.push(`${argument}:$${this._getVariableName(argument)}`);
         });

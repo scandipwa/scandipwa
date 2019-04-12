@@ -140,7 +140,8 @@ module.exports = {
         new webpack.DefinePlugin({
             'process.env': {
                 REBEM_MOD_DELIM: JSON.stringify('_'),
-                REBEM_ELEM_DELIM: JSON.stringify('-')
+                REBEM_ELEM_DELIM: JSON.stringify('-'),
+                MAGENTO_VERSION: JSON.stringify('2.3.0')
             }
         }),
 

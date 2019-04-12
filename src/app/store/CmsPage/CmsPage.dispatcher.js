@@ -9,16 +9,16 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { RequestDispatcher } from 'Util/Request';
+import { QueryDispatcher } from 'Util/Request';
 import { CmsPageQuery } from 'Query';
 import { updateNoMatch } from 'Store/NoMatch';
 import { updateCmsPage } from 'Store/CmsPage';
 /**
  * CMS Page Dispatcher
  * @class CmsPageDispatcher
- * @extends RequestDispatcher
+ * @extends QueryDispatcher
  */
-class CmsPageDispatcher extends RequestDispatcher {
+class CmsPageDispatcher extends QueryDispatcher {
     constructor() {
         super('CmsPage', 86400);
     }

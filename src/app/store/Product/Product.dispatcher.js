@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { RequestDispatcher } from 'Util/Request';
+import { QueryDispatcher } from 'Util/Request';
 import { ProductListQuery } from 'Query';
 import { updateProductDetails, updateGroupedProductQuantity, clearGroupedProductQuantity } from 'Store/Product';
 import { updateNoMatch } from 'Store/NoMatch';
@@ -20,7 +20,7 @@ import { RelatedProductsDispatcher } from 'Store/RelatedProducts';
  * @class ProductDispatcher
  * @extends ProductDispatcher
  */
-class ProductDispatcher extends RequestDispatcher {
+class ProductDispatcher extends QueryDispatcher {
     constructor() {
         super('ProductList', 86400);
     }

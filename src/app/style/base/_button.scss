@@ -11,5 +11,5 @@
 
 .Button,
 button {
-    @extend %button;
+    @include button;
 }

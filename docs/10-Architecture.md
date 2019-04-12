@@ -14,25 +14,25 @@ In this file the `process.env.NODE_ENV` based tools are configured:
 
 The application router (located in `src/app/route/index.js`) is responsible for application routing. It is implemented using `react-router-dom`. Routes are declared inside of the `Switch` which means there is only one route visible at any point of the time.
 
-Router controls the mounting of following components: 
+Router controls the mounting of following components:
 
-- `HomePage`, 
+- `HomePage`,
 
-- `TestPage`, 
+- `TestPage`,
 
-- `CategoryPage`, 
+- `CategoryPage`,
 
-- `ProductPage`, 
+- `ProductPage`,
 
-- `CmsPage`, 
+- `CmsPage`,
 
-- `CartPage`, 
+- `CartPage`,
 
 - `CheckoutPage`, 
 
 - `NoMatch`. 
 
-At the same time it contains initialization of `Header`, `Footer`, `Breadcrumbs` and `NotificationList` components 
+At the same time it contains initialization of `Header`, `Footer`, `Breadcrumbs` and `NotificationList` components
 regardless the requested URL path. Those components are always visible during navigation within the application.
 
 From the data perspective, the application common data is also requested: the CMS blocks for Footer and complete Menu.
@@ -64,28 +64,28 @@ This part of the application might be a topic of changes in the future.
 
 The application main store combines all of the available reducers. Additionally, it makes sure that the ReduxDevTools will be disabled in production.
 
-> Please, **keep action names and global state properties unique to every store**. This is important, because we are 
+> Please, **keep action names and global state properties unique to every store**. This is important, because we are
 using only one provider for the application. This means all actions will be combined along with all global state properties.
 
-The included reducers are: 
+The included reducers are:
 
-- `CmsBlocksAndSliderReducer`, 
+- `CmsBlocksAndSliderReducer`,
 
-- `CmsPageReducer`, 
+- `CmsPageReducer`,
 
-- `CategoryReducer`, 
+- `CategoryReducer`,
 
-- `NotificationReducer`, 
+- `NotificationReducer`,
 
-- `BreadcrumbsReducer`, 
+- `BreadcrumbsReducer`,
 
-- `ProductReducer`, 
+- `ProductReducer`,
 
-- `HeaderAndFooterReducer`, 
+- `HeaderAndFooterReducer`,
 
-- `CartReducer`, 
+- `CartReducer`,
 
-- `NoMatchReducer`, 
+- `NoMatchReducer`,
 
 - `RelatedProductsReducer`.
 

@@ -9,15 +9,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { RequestDispatcher } from 'Util/Request';
+import { QueryDispatcher } from 'Util/Request';
 import { ProductListQuery } from 'Query';
 import { updateSearchBar, updateLoadStatus, clearSearchResults } from './SearchBar.action';
 /**
  * Search Bar Dispatcher
  * @class SearchBarDispatcher
- * @extends RequestDispatcher
+ * @extends QueryDispatcher
  */
-class SearchBarDispatcher extends RequestDispatcher {
+class SearchBarDispatcher extends QueryDispatcher {
     constructor() {
         super('SearchBar', 86400);
     }

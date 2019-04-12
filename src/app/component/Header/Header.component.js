@@ -13,6 +13,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import SearchBar from 'Component/SearchBar';
 import MiniCart from 'Component/MiniCart';
+import MyAccount from 'Component/MyAccount';
 import { Link } from 'react-router-dom';
 import ContentWrapper from 'Component/ContentWrapper';
 import Menu from 'Component/Menu';
@@ -51,6 +52,7 @@ class Header extends Component {
                   label="Main website navigation"
                 >
                     <Menu />
+                    <MyAccount />
                     <MiniCart />
                 </ContentWrapper>
             </header>

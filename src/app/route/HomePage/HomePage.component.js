@@ -73,9 +73,10 @@ class HomePage extends Component {
                   label="Home Page"
                 >
                     { items
-                        ? identifiers.map(block => (
-                            <Html key={ block } content={ items[block] ? items[block].content : '' } />
-                        ))
+                        ? identifiers.map((blockId) => {
+                            const { content } = items[blockId] || {};
+                            return <Html key={ blockId } content={ content || '' } />;
+                        })
                         : (
                             <div
                               block="HomePage"
