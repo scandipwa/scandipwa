@@ -132,7 +132,7 @@ class MyAccount {
         return (process.env.MAGENTO_VERSION === '2.3.1')
             // For M2 v. 2.3.1
             ? new Field('createCustomer')
-                .addArgument('input', 'CustomerInput!', { input: options })
+                .addArgument('input', 'CustomerInput!', { ...customer, password })
                 .addField(this.getCustomer(true))
             // For M2 v. 2.3.0
             : new Field('createCustomer')

@@ -32,12 +32,85 @@ import NotificationList from 'Component/NotificationList';
 import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
 import { CartDispatcher } from 'Store/Cart';
 
-class AppRouter extends Component {
+const BEFORE_ITEMS_TYPE = 'BEFORE_ITEMS_TYPE';
+const SWITCH_ITEMS_TYPE = 'SWITCH_ITEMS_TYPE';
+const AFTER_ITEMS_TYPE = 'AFTER_ITEMS_TYPE';
+
+export class AppRouter extends Component {
+    constructor() {
+        super();
+        this.items = {
+            beforeItems: [
+                {
+                    component: <NotificationList />,
+                    position: 10
+                },
+                {
+                    component: <Header />,
+                    position: 20
+                },
+                {
+                    component: <Breadcrumbs />,
+                    position: 30
+                }
+            ],
+            switchItems: [
+                {
+                    component: <Route path="/" exact component={ HomePage } />,
+                    position: 10
+                },
+                {
+                    component: <Route path="/category" component={ CategoryPage } />,
+                    position: 20
+                },
+                {
+                    component: <Route path="/product" component={ ProductPage } />,
+                    position: 30
+                },
+                {
+                    component: <Route path="/page/:id" component={ CmsPage } />,
+                    position: 40
+                },
+                {
+                    component: <Route path="/cart" exact component={ CartPage } />,
+                    position: 50
+                },
+                {
+                    component: <Route path="/:account*/createPassword/" component={ PasswordChangePage } />,
+                    position: 60
+                },
+                {
+                    component: <Route component={ NoMatch } />,
+                    position: 100
+                }
+            ],
+            afterItems: [
+                {
+                    component: <Footer />,
+                    position: 10
+                }
+            ]
+        };
+        this.customItems = {};
+    }
+
     componentWillMount() {
         const {
             updateHeaderAndFooter,
             updateInitialCartData
         } = this.props;
+        const {
+            beforeItems,
+            switchItems,
+            afterItems
+        } = this.customItems;
+
+        this.itemsMap = {
+            [BEFORE_ITEMS_TYPE]: beforeItems,
+            [SWITCH_ITEMS_TYPE]: switchItems,
+            [AFTER_ITEMS_TYPE]: afterItems
+        };
+
         const footerOptions = {
             identifiers: [
                 'footer-free-shipping',
@@ -59,26 +132,82 @@ class AppRouter extends Component {
         updateInitialCartData();
     }
 
+    /**
+     * Returns custom items by contentType
+     * @param {string} contentType
+     */
+    getItemsByContentType(contentType) {
+        return this.itemsMap[contentType];
+    }
+
+    /**
+     * Merges core items and custom items. Returns sorted array by position.
+     * @param {Array} items
+     * @param {string} contentType
+     */
+    prepareContent(items, contentType) {
+        const customItems = this.getItemsByContentType(contentType) || [];
+        const mergedItems = items.concat(customItems);
+
+        return Object.values(mergedItems.reduce((prev, current) => {
+            const { position, component } = current;
+            const { position: prevPosition } = prev;
+
+            if (position < 0) {
+                console.warn(
+                    `Router item has negative position ${
+                        position
+                    }! Use positive values only.`
+                );
+
+                return current;
+            }
+
+            if (prev[position]) {
+                throw new Error(`Router item has occupied position ${
+                    prevPosition
+                }! Choose another position.`);
+            }
+
+            return { [position]: component, ...prev };
+        }, {}));
+    }
+
+    /**
+     * Applies given key to the given element
+     * @param {Object} element
+     * @param {string|number} key
+     */
+    applyKeyToReactElement(element, key) {
+        return React.cloneElement(element, { ...element.props, key });
+    }
+
     render() {
+        const {
+            beforeItems,
+            switchItems,
+            afterItems
+        } = this.items;
+
         return (
             <Router>
                 <>
-                    <NotificationList />
-                    <Header />
-                    <Breadcrumbs />
+                    {
+                        this.prepareContent(beforeItems, BEFORE_ITEMS_TYPE)
+                            .map((item, key) => item && this.applyKeyToReactElement(item, key))
+                    }
                     <NoMatchHandler>
                         <Switch>
-                            <Route path="/" exact component={ HomePage } />
-                            <Route path="/category" component={ CategoryPage } />
-                            <Route path="/product" component={ ProductPage } />
-                            <Route path="/page/:id" component={ CmsPage } />
-                            <Route path="/cart" exact component={ CartPage } />
-                            <Route path="/my-account" exact component={ MyAccountDetails } />
-                            <Route path="/:account*/createPassword/" component={ PasswordChangePage } />
-                            <Route component={ NoMatch } />
+                            {
+                                this.prepareContent(switchItems, SWITCH_ITEMS_TYPE)
+                                    .map((item, key) => item && this.applyKeyToReactElement(item, key))
+                            }
                         </Switch>
                     </NoMatchHandler>
-                    <Footer />
+                    {
+                        this.prepareContent(afterItems, AFTER_ITEMS_TYPE)
+                            .map((item, key) => item && this.applyKeyToReactElement(item, key))
+                    }
                 </>
             </Router>
         );
