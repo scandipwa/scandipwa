@@ -95,6 +95,10 @@ export class AppRouter extends Component {
 
     componentWillMount() {
         const {
+            updateHeaderAndFooter,
+            updateInitialCartData
+        } = this.props;
+        const {
             beforeItems,
             switchItems,
             afterItems
@@ -105,11 +109,6 @@ export class AppRouter extends Component {
             [SWITCH_ITEMS_TYPE]: switchItems,
             [AFTER_ITEMS_TYPE]: afterItems
         };
-
-        const {
-            updateHeaderAndFooter,
-            updateInitialCartData
-        } = this.props;
 
         const footerOptions = {
             identifiers: [
