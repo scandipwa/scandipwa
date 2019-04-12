@@ -132,8 +132,7 @@ class MyAccount {
             .addField('suffix')
             .addField('vat_id')
             .addField('default_shipping')
-            .addField('default_billing')
-            .addField('commercial');
+            .addField('default_billing');
     }
 
     getUpdateAddressMutation(id, options) {
@@ -162,8 +161,7 @@ class MyAccount {
             .addField('suffix')
             .addField('vat_id')
             .addField('default_shipping')
-            .addField('default_billing')
-            .addField('commercial');
+            .addField('default_billing');
     }
 
     /**
@@ -218,8 +216,7 @@ class MyAccount {
             .addField('suffix')
             .addField('vat_id')
             .addField('default_shipping')
-            .addField('default_billing')
-            .addField('commercial');
+            .addField('default_billing');
 
         this._getAdditionalAddressesFields(addresses);
 
