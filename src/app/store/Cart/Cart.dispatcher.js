@@ -65,14 +65,21 @@ class CartDispatcher {
                 const { variants, id, type_id } = product;
 
                 if (type_id === 'configurable') {
+                    let configurableVariantIndex = 0;
                     const { product: { id: variantId } } = variants.filter(
-                        ({ product: { sku: productSku } }) => productSku === sku
+                        (variant, index) => {
+                            const { product: { sku: productSku } } = variant;
+                            const isChosenProduct = productSku === sku;
+                            if (isChosenProduct) configurableVariantIndex = index;
+                            return isChosenProduct;
+                        }
                     )[0];
 
                     return {
                         ...prev,
                         [variantId]: {
                             ...product,
+                            configurableVariantIndex,
                             item_id,
                             quantity
                         }
