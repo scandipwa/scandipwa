@@ -45,7 +45,7 @@ class GroupedProductsItem extends Component {
      * @return {Number} product quantity
      */
     getCurrentQuantity(id, groupedProductQuantity) {
-        return groupedProductQuantity[id] || 0;
+        return groupedProductQuantity[id] || 1;
     }
 
     changeCount(itemCount) {
@@ -57,7 +57,7 @@ class GroupedProductsItem extends Component {
     render() {
         const {
             product: {
-                thumbnail : { url: thumb_url },
+                thumbnail: { path: thumb_url },
                 name,
                 price,
                 id
@@ -68,7 +68,7 @@ class GroupedProductsItem extends Component {
 
         return (
             <li block="GroupedProductsItem" aria-label="Product Item">
-                <Image src={ thumb_url && `/media/catalog/product${thumb_url}` } alt="Product Thumbnail" />
+                <Image src={ thumb_url && `/media/jpg/catalog/product${ thumb_url }` } alt="Product Thumbnail" />
                 <div block="GroupedProductsItem" elem="Title">
                     <p><TextPlaceholder content={ name } /></p>
                     <ProductPrice price={ price } mods={ { type: 'regular' } } />

@@ -11,7 +11,8 @@
 
 import {
     UPDATE_PRODUCT_DETAILS,
-    UPDATE_GROUPED_PRODUCT_QUANTITY
+    UPDATE_GROUPED_PRODUCT_QUANTITY,
+    CLEAR_GROUPED_PRODUCT_QUANTITY
 } from './Product.action';
 
 const initialState = {
@@ -42,6 +43,12 @@ const ProductReducer = (state = initialState, action) => {
                 ...state.groupedProductQuantity,
                 ...newQuantity
             }
+        };
+
+    case CLEAR_GROUPED_PRODUCT_QUANTITY:
+        return {
+            ...state,
+            groupedProductQuantity: {}
         };
 
     default:
