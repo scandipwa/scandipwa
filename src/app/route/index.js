@@ -80,6 +80,10 @@ export class AppRouter extends Component {
                     position: 60
                 },
                 {
+                    component: <Route path="/my-account/" exact component={ MyAccountDetails } />,
+                    position: 70
+                },
+                {
                     component: <Route component={ NoMatch } />,
                     position: 100
                 }
