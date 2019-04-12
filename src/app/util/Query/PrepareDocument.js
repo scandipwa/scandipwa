@@ -57,7 +57,9 @@ const prepareRequest = (document, type) => {
         variableAssignments
     } = prepareDocument(document);
 
-    if (!variableDefinitions || !querySelections || !variableAssignments) return null;
+    if (!querySelections || !variableAssignments) {
+        return null;
+    }
 
     const variables = variableDefinitions.length ? `(${ variableDefinitions.join(', ') })` : '';
 

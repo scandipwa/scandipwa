@@ -93,7 +93,7 @@ class MyAccount {
 
     getUpdateInformationMutation(options) {
         return new Field('updateCustomer')
-            .addArgument('input', 'UpdateCustomerInput!', options)
+            .addArgument('input', 'CustomerInput!', options)
             .addField(this.getCustomer(true));
     }
 
@@ -108,60 +108,16 @@ class MyAccount {
     }
 
     getCreateAddressMutation(options) {
-        const region = new Field('region')
-            .addField('region_code')
-            .addField('region')
-            .addField('region_id');
-
         return new Field('createCustomerAddress')
             .addArgument('input', 'CustomerAddressInput!', options)
-            .addField('id')
-            .addField('customer_id')
-            .addField(region)
-            .addField('country_id')
-            .addField('street')
-            .addField('company')
-            .addField('telephone')
-            .addField('fax')
-            .addField('postcode')
-            .addField('city')
-            .addField('firstname')
-            .addField('lastname')
-            .addField('middlename')
-            .addField('prefix')
-            .addField('suffix')
-            .addField('vat_id')
-            .addField('default_shipping')
-            .addField('default_billing');
+            .addFieldList(this._getAddressFieldList());
     }
 
     getUpdateAddressMutation(id, options) {
-        const region = new Field('region')
-            .addField('region_code')
-            .addField('region')
-            .addField('region_id');
-
         return new Field('updateCustomerAddress')
             .addArgument('id', 'Int!', id)
             .addArgument('input', 'CustomerAddressInput!', options)
-            .addField('id')
-            .addField('customer_id')
-            .addField(region)
-            .addField('country_id')
-            .addField('street')
-            .addField('company')
-            .addField('telephone')
-            .addField('fax')
-            .addField('postcode')
-            .addField('city')
-            .addField('firstname')
-            .addField('lastname')
-            .addField('middlename')
-            .addField('prefix')
-            .addField('suffix')
-            .addField('vat_id')
-            .addField('default_shipping')
-            .addField('default_billing');
+            .addFieldList(this._getAddressFieldList());
     }
 
     /**
@@ -221,6 +177,17 @@ class MyAccount {
         this._getAdditionalAddressesFields(addresses);
 
         return addresses;
+    }
+
+    _getAddressFieldList() {
+        const region = new Field('region')
+            .addField('region_code')
+            .addField('region')
+            .addField('region_id');
+
+        return ['id', 'customer_id', region, 'country_id', 'street', 'company', 'telephone', 'fax', 'postcode',
+            'city', 'firstname', 'lastname', 'middlename', 'prefix', 'suffix', 'vat_id',
+            'default_shipping', 'default_billing'];
     }
 
     /**

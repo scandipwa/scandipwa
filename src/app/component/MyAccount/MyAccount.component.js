@@ -14,6 +14,7 @@ import PropTypes from 'prop-types';
 import { isSignedIn } from 'Util/Auth';
 import Field from 'Component/Field';
 import Form from 'Component/Form';
+import { Link } from 'react-router-dom';
 import Loader from 'Component/Loader';
 import './MyAccount.style';
 
@@ -185,17 +186,15 @@ class MyAccount extends Component {
     renderAccountActions() {
         const { logout } = this.props;
 
+        const linkTo = {
+            pathname: '/my-account',
+            state: 'accountOverview'
+        };
+
         return (
             <nav block="MyAccount" elem="Navigation">
                 <ul>
-                    <li>
-                        <button
-                          block="Button"
-                          mods={ { likeLink: true } }
-                        >
-                            My Account
-                        </button>
-                    </li>
+                    <li><Link to={ linkTo }>My Account</Link></li>
                     <li>
                         <button
                           block="Button"

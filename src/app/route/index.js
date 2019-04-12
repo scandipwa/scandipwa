@@ -19,6 +19,7 @@ import CategoryPage from 'Route/CategoryPage';
 import ProductPage from 'Route/ProductPage';
 import CmsPage from 'Route/CmsPage';
 import CartPage from 'Route/CartPage';
+import MyAccountDetails from 'Route/MyAccountDetails';
 import PasswordChangePage from 'Route/PasswordChangePage';
 import NoMatch from 'Route/NoMatch';
 import NoMatchHandler from 'Route/NoMatchHandler';
