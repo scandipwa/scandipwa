@@ -52,6 +52,7 @@ class CheckoutOrderSummary extends Component {
             quantity,
             price
         } = item;
+
         return (
             <li key={ key } block="CheckoutOrderSummary" elem="CartItem">
                 <div
@@ -65,7 +66,7 @@ class CheckoutOrderSummary extends Component {
                 <div block="CheckoutOrderSummary" elem="Title">
                     { manufacturer && <span>{ manufacturer }</span> }
                     <p>{ name }</p>
-                    <p>{`Qty: ${ quantity }`}</p>
+                    <p>{ `Qty: ${ quantity }` }</p>
                 </div>
 
                 <div
@@ -91,6 +92,8 @@ class CheckoutOrderSummary extends Component {
             shippingMethod: { price, title }
         } = this.props;
 
+        const productCount = Object.keys(products).length;
+
         // calculate grand totals including shipping price
         const grandTotalWithShipping = (price) ? parseFloat(grandTotalPrice) + parseFloat(price) : grandTotalPrice;
 
@@ -106,9 +109,10 @@ class CheckoutOrderSummary extends Component {
                 </div>
 
                 <div block="CheckoutOrderSummary" elem="OrderItems">
-                    <h3>{ `${ Object.keys(products).length } Items In Cart` }</h3>
+                    <h3>{ `${ productCount } Items In Cart` }</h3>
                     <ul block="CheckoutOrderSummary" elem="CartItemList">
-                        { Object.keys(products).map(key => this.renderItem(key, products[key])) }
+                        { Object.keys(products)
+                            .map(key => this.renderItem(key, products[key])) }
                     </ul>
                 </div>
             </div>
