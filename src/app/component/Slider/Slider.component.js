@@ -164,8 +164,6 @@ class Slider extends Component {
                 );
             }
         }
-
-        this.touchArea.current.focus();
     }
 
     componentWillUnmount() {
