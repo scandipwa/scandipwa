@@ -19,6 +19,7 @@
     font-family: inherit;
     outline: 0;
     text-shadow: 1px 1px 1px rgba(0,0,0,0.004);
+    backface-visibility: hidden;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
