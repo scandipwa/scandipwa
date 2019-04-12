@@ -42,6 +42,11 @@ class PushNotification extends Component {
         if (newGrant === GRANTED) handleGranted();
     }
 
+    componentWillUnmount() {
+        window.removeEventListener('blur', this.onWindowBlur);
+        window.removeEventListener('focus', this.onWindowFocus);
+    }
+
     /**
      * Triggers when tab is focused
      * @returns {void}
