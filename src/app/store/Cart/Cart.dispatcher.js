@@ -82,16 +82,16 @@ class CartDispatcher {
             return fetchMutation(Cart.getSaveCartItemMutation(
                 productToAdd
             )).then(
-                ({ saveCartItem }) => {
-                    // dispatch(addProductToCart(
-                    //     {
-                    //         ...product,
-                    //         item_id,
-                    //         quantity: qty
-                    //     }
-                    // ));
+                ({ saveCartItem: { item_id, qty } }) => {
+                    dispatch(addProductToCart(
+                        {
+                            ...product,
+                            item_id,
+                            quantity: qty
+                        }
+                    ));
 
-                    return new Promise();
+                    return Promise.resolve();
                 },
                 error => console.log(error)
             );
@@ -132,7 +132,10 @@ class CartDispatcher {
                 if (attribute_value) {
                     return [
                         ...prev,
-                        { attribute_id, attribute_value }
+                        {
+                            option_id: attribute_id,
+                            option_value: attribute_value
+                        }
                     ];
                 }
             }, []);
