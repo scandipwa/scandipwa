@@ -42,7 +42,7 @@ const CmsBlocksAndSliderReducer = (state = initialState, action) => {
     case UPDATE_SLIDER:
         const { slider } = action;
 
-        const transformPath = (path) => {
+        const castToAbsolutePath = (path) => {
             if (path.charAt(0) !== '/') {
                 return `/${path}`;
             }
@@ -52,7 +52,7 @@ const CmsBlocksAndSliderReducer = (state = initialState, action) => {
 
         slider.slides = slider.slides.map(item => ({
             slide_id: item.slide_id,
-            image: transformPath(item.image),
+            image: castToAbsolutePath(item.image),
             slide_text: item.slide_text
         }));
 

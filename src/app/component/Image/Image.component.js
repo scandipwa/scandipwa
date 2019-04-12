@@ -149,7 +149,7 @@ class Image extends Component {
         } = this.props;
 
         const isPathRelative = (path) => {
-            const isFullPath = path.match(new RegExp('^((?:https?://)?[^./]+(?:.[^./]+)+(?:/.*)?)$'));
+            const isFullPath = path.match(new RegExp('^(http|https)://'));
 
             return path.charAt(0) === '/' || isFullPath;
         };
