@@ -19,6 +19,10 @@ import {
     setBrowserPermission
 } from './Notification.action';
 
+export const DEFAULT = 'default';
+export const DENIED = 'denied';
+export const GRANTED = 'granted';
+
 export {
     showNotification,
     SET_BROWSER_PERMISSION,

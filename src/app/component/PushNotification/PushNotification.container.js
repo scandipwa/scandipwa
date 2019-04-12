@@ -24,13 +24,21 @@ const PushNotificationContainer = ({ notification }) => {
         image: defaultImage,
         icon: defaultImage
     };
+    const {
+        msgText,
+        msgDebug,
+        options,
+        handlers
+    } = notification;
 
-    const { handleGranted, handleDenied } = notification.handlers;
-    const title = notification.msgText;
-    const body = notification.msgDebug;
+    const { handleGranted, handleDenied } = handlers;
+    const { onBlur, onFocus } = options;
+
+    const title = msgText;
+    const body = msgDebug;
     const params = {
         ...defaultOptions,
-        ...notification.options,
+        ...options,
         body
     };
 
@@ -40,8 +48,8 @@ const PushNotificationContainer = ({ notification }) => {
         options={ params }
         handleGranted={ handleGranted }
         handleDenied={ handleDenied }
-        onBlur={ notification.options.onBlur }
-        onFocus={ notification.options.onFocus }
+        onBlur={ onBlur }
+        onFocus={ onFocus }
       />
     );
 };

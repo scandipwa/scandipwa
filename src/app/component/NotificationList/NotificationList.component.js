@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import Notification from 'Component/Notification';
 import { NotificationListType } from 'Type/NotificationList';
 import './NotificationList.style';
-import { DENIED } from 'Store/Notification/Notification.reducer';
+import { DENIED } from 'Store/Notification';
 import PushNotification from 'Component/PushNotification';
 
 /**
@@ -29,12 +29,12 @@ class NotificationList extends Component {
             grantType,
             supported
         } = this.props;
-        const sw = Boolean(navigator.serviceWorker);
+        const sw = !!navigator.serviceWorker;
 
         return (
             <div className="NotificationList">
                 { Object.keys(notifications).map((id) => {
-                    return supported && grantType !== DENIED && sw ? (
+                    return (supported && sw && grantType !== DENIED) ? (
                         <PushNotification
                           key={ id }
                           notification={ notifications[id] }

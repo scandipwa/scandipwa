@@ -15,14 +15,10 @@ import {
     SET_BROWSER_PERMISSION
 } from './Notification.action';
 
-export const DEFAULT = 'default';
-export const DENIED = 'denied';
-export const GRANTED = 'granted';
-
 let notificationId = 0;
 
 const initialState = {
-    nativeSupported: Boolean('Notification' in window && window.Notification),
+    nativeSupported: !!('Notification' in window && window.Notification),
     nativeGrantType: Notification.permission,
     notifications: {}
 };
@@ -39,6 +35,7 @@ const NotificationReducer = (state = initialState, action) => {
             options,
             handlers
         } = action;
+
         notifications[notificationId++] = {
             msgType,
             msgText,
