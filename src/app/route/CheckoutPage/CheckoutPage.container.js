@@ -14,8 +14,8 @@ import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
 import CheckoutPage from './CheckoutPage.component';
 
 const mapStateToProps = state => ({
-    products: state.CartReducer.products,
-    totals: state.CartReducer.totals,
+    products: state.CartReducer.productsInCart,
+    totals: state.CartReducer.cartTotals,
     toggleHeaderAndFooter: state.HeaderAndFooterReducer.toggleHeaderAndFooter,
     isHeaderAndFooterVisible: state.HeaderAndFooterReducer.isHeaderAndFooterVisible
 });

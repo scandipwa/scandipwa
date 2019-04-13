@@ -78,7 +78,7 @@ export class AppRouter extends Component {
                 },
                 {
                     component: <Route path="/checkout" exact component={ CheckoutPage } />,
-                    position: 60
+                    position: 55
                 },
                 {
                     component: <Route path="/:account*/createPassword/" component={ PasswordChangePage } />,
