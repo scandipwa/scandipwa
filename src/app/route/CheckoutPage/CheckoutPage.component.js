@@ -15,7 +15,7 @@ import { Link } from 'react-router-dom';
 import ContentWrapper from 'Component/ContentWrapper';
 import Field from 'Component/Field';
 import CheckoutOrderSummary from 'Component/CheckoutOrderSummary';
-import CheckoutShippingMethods from 'Component/CheckoutShippingMethods';
+import CheckoutShippingStep from 'Component/CheckoutShippingStep';
 import CheckoutPaymentMethods from 'Component/CheckoutPaymentMethods';
 import DiscountCoupons from 'Component/DiscountCoupons';
 import './CheckoutPage.style';
@@ -102,6 +102,12 @@ class CheckoutPage extends Component {
             [CHECKOUT_STEP_REVIEW_AND_PAYMENTS]: () => this.renderReviewAndPaymentsStep(),
             [CHECKOUT_STEP_SUCCESS]: () => this.renderCheckoutSuccessStep()
         };
+
+        this.subHeadingMap = {
+            [CHECKOUT_STEP_SHIPPING]: 'Shipping information',
+            [CHECKOUT_STEP_REVIEW_AND_PAYMENTS]: 'Review and payment information',
+            [CHECKOUT_STEP_SUCCESS]: 'Order information'
+        };
     }
 
     componentDidMount() {
@@ -156,198 +162,7 @@ class CheckoutPage extends Component {
      * @returns {*}
      */
     renderShippingStep() {
-        const {
-            email,
-            shippingAddress: {
-                firstname, lastname, company, street, city, state, zip, country, phone
-            }
-        } = this.state;
-
-        return (
-            <div block="checkoutStep" elem="shippingStep">
-                <fieldset block="CheckoutStep" elem="legend">
-                    <legend>Email Address</legend>
-                    <Field
-                      id="email"
-                      type="text"
-                      block="checkoutFieldset"
-                      elem="email"
-                      label="Email Address"
-                      note="You can create an account after checkout."
-                      value={ email }
-                      validation={ ['notEmpty', 'email'] }
-                      onChange={ email => this.setState({ email }) }
-                    />
-                </fieldset>
-
-                <fieldset block="CheckoutStep" elem="legend">
-                    <legend>Shipping Address</legend>
-                    <Field
-                      id="firstname"
-                      type="text"
-                      block="checkoutFieldset"
-                      elem="firstname"
-                      label="First Name"
-                      value={ firstname }
-                      validation={ ['notEmpty'] }
-                      onChange={ firstname => this.setState({
-                          shippingAddress: {
-                              ...this.state.shippingAddress,
-                              firstname
-                          }
-                      }) }
-                    />
-
-                    <Field
-                      id="lastname"
-                      type="text"
-                      block="checkoutFieldset"
-                      elem="lastname"
-                      label="Last Name"
-                      value={ lastname }
-                      validation={ ['notEmpty'] }
-                      onChange={ lastname => this.setState({
-                          shippingAddress: {
-                              ...this.state.shippingAddress,
-                              lastname
-                          }
-                      }) }
-                    />
-
-                    <Field
-                      id="company"
-                      type="text"
-                      block="checkoutFieldset"
-                      elem="company"
-                      label="Company"
-                      value={ company }
-                      onChange={ company => this.setState({
-                          shippingAddress: {
-                              ...this.state.shippingAddress,
-                              company
-                          }
-                      }) }
-                    />
-
-                    <Field
-                      id="street0"
-                      type="text"
-                      block="checkoutFieldset"
-                      elem="street0"
-                      label="Street Address"
-                      value={ street[0] }
-                      validation={ ['notEmpty'] }
-                      onChange={ street => this.setState({
-                          shippingAddress: {
-                              ...this.state.shippingAddress,
-                              street: { ...this.state.shippingAddress.street, 0: street }
-                          }
-                      }) }
-                    />
-
-                    <Field
-                      id="street1"
-                      type="text"
-                      block="checkoutFieldset"
-                      elem="street1"
-                      value={ street[1] }
-                      onChange={ street => this.setState({
-                          shippingAddress: {
-                              ...this.state.shippingAddress,
-                              street: { ...this.state.shippingAddress.street, 1: street }
-                          }
-                      }) }
-                    />
-
-                    <Field
-                      id="city"
-                      type="text"
-                      block="checkoutFieldset"
-                      elem="city"
-                      label="City"
-                      value={ city }
-                      validation={ ['notEmpty'] }
-                      onChange={ city => this.setState({
-                          shippingAddress: {
-                              ...this.state.shippingAddress,
-                              city
-                          }
-                      }) }
-                    />
-
-                    <Field
-                      id="state"
-                      type="text"
-                      block="checkoutFieldset"
-                      elem="state"
-                      label="State"
-                      value={ state }
-                      validation={ ['notEmpty'] }
-                      onChange={ state => this.setState({
-                          shippingAddress: {
-                              ...this.state.shippingAddress,
-                              state
-                          }
-                      }) }
-                    />
-
-                    <Field
-                      id="zip"
-                      type="text"
-                      block="checkoutFieldset"
-                      elem="zip"
-                      label="Postal Code"
-                      value={ zip }
-                      validation={ ['notEmpty'] }
-                      onChange={ zip => this.setState({
-                          shippingAddress: {
-                              ...this.state.shippingAddress,
-                              zip
-                          }
-                      }) }
-                    />
-
-                    <Field
-                      id="country"
-                      type="text"
-                      block="checkoutFieldset"
-                      elem="country"
-                      value={ country }
-                      label="Country"
-                      validation={ ['notEmpty'] }
-                      onChange={ country => this.setState({
-                          shippingAddress: {
-                              ...this.state.shippingAddress,
-                              country
-                          }
-                      }) }
-                    />
-
-                    <Field
-                      id="phone"
-                      type="text"
-                      block="checkoutFieldset"
-                      elem="phone"
-                      label="Phone Number"
-                      value={ phone }
-                      validation={ ['notEmpty', 'telephone'] }
-                      onChange={ phone => this.setState({
-                          shippingAddress: {
-                              ...this.state.shippingAddress,
-                              phone
-                          }
-                      }) }
-                    />
-                </fieldset>
-
-                <CheckoutShippingMethods
-                  shippingMethods={ shippingMethods }
-                  onSelectShippingMethod={ this.handleSelectShippingMethod }
-                />
-
-                <button onClick={ this.goToReviewAndPaymentsStep }>Next step</button>
-            </div>
-        );
+        return <CheckoutShippingStep />;
     }
 
     /**
@@ -588,9 +403,40 @@ class CheckoutPage extends Component {
         const { checkoutStep, shippingMethod, showSummary } = this.state;
         const { products, totals } = this.props;
         const renderFunction = this.renderMap[checkoutStep];
+        const subHeading = this.subHeadingMap[checkoutStep];
+        const renderStepArray = Object.keys(this.renderMap);
 
         return (
             <main block="CheckoutPage">
+                <header block="CheckoutPage" elem="Header">
+                    <ContentWrapper
+                      label="Checkout heading"
+                    >
+                        <h1>Checkout</h1>
+                        <h3>{ subHeading }</h3>
+                        <div
+                          block="CheckoutPage"
+                          elem="StepIndicatorWrapper"
+                          aria-label="Step indicator"
+                        >
+                            { renderStepArray.reverse().map((key, i) => (
+                                <div
+                                  block="CheckoutPage"
+                                  elem="StepIndicator"
+                                  mods={ { isActive: key === checkoutStep } }
+                                  // eslint-disable-next-line react/no-array-index-key
+                                  key={ i }
+                                >
+                                    <span>
+                                        <strong>{ `Step ${ renderStepArray.length - i }` }</strong>
+                                        { this.subHeadingMap[key] }
+                                    </span>
+                                </div>
+                            )) }
+                        </div>
+                    </ContentWrapper>
+                </header>
+
                 <ContentWrapper
                   wrapperMix={ {
                       block: 'CheckoutPage',
@@ -599,20 +445,16 @@ class CheckoutPage extends Component {
                   label="Checkout page"
                 >
                     <div block="CheckoutPage" elem="CheckoutSteps">
-                        <h1 block="CheckoutPage" elem="Heading">
-                            Checkout
-                        </h1>
-
-                        {renderFunction()}
+                        { renderFunction() }
                     </div>
 
-                    {showSummary && (
+                    { showSummary && (
                         <CheckoutOrderSummary
                           totals={ totals }
                           products={ products }
                           shippingMethod={ shippingMethod ? shippingMethods[shippingMethod] : {} }
                         />
-                    )}
+                    ) }
                 </ContentWrapper>
             </main>
         );

@@ -10,11 +10,15 @@
  */
 
 .CheckoutPage {
+    @include mobile {
+        margin-top: 0;
+    }
+
     &-Wrapper {
         display: grid;
         grid-template-columns: 2fr 1fr;
         grid-column-gap: 2rem;
-        padding-top: 1rem;
+        margin-top: 2rem;
 
         @include mobile {
             grid-template-columns: 1fr;
@@ -27,50 +31,112 @@
         }
     }
 
-    &-Heading {
-        margin: 0 0 2rem;
+    &-StepIndicatorWrapper {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: space-between;
+        padding: 1rem 0 2rem;
     }
 
-    .CheckoutStep {
-        &-legend {
-            margin-bottom: 3rem;
+    &-StepIndicator {
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        width: 33.33%;
+        text-align: center;
 
-            // TODO check if default legend styles suits design needs after my account is merged
-            legend {
-                font-size: 1.7rem;
-                padding: 0 0 1rem;
-                margin: 0 0 1rem;
-                display: block;
-                width: 100%;
-                border-bottom: 1px solid var(--color-summary-divider);
+        &::after {
+            order: 0;
+            content: '';
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: var(--color-neutral-light);
+            display: block;
+            margin: 0 auto 5px;
+            z-index: 3;
+        }
+
+        &::before {
+            content: '';
+            position: absolute;
+            height: 4px;
+            width: 100%;
+            top: 8px;
+            left: -50%;
+            background-color: var(--color-neutral-light);
+            z-index: 1;
+        }
+
+        &:last-of-type {
+            &::before {
+                width: 0;
+            }
+        }
+
+        &_isActive {
+            &::after {
+                background-color: var(--color-primary-base);
             }
 
-            input[type=text] {
-                width: 100%;
-                max-width: 40rem;
+            &::before {
+                background-color: var(--color-primary-base);
             }
 
-            table {
-                border: 0;
-
-                @include mobile {
-                    width: 100%;
+            ~ * {
+                &::after {
+                    background-color: var(--color-primary-base);
                 }
 
-                tr {
-                    background-color: var(--color-text-white);
-                    border-bottom: 1px solid var(--color-summary-divider);
-
-                    &:last-of-type {
-                        border-bottom: 0;
-                    }
+                &::before {
+                    background-color: var(--color-primary-base);
                 }
             }
         }
 
-        &-ShippingAddressPreview {
-            span {
-                display: block
+        span {
+            order: 1;
+        }
+
+        strong {
+            display: block;
+
+            @include mobile {
+                margin-bottom: 5px;
+            }
+        }
+    }
+
+    &-Header {
+        padding: 1rem 0;
+        text-align: center;
+        background: var(--color-footer-background);
+    }
+
+    fieldset {
+        margin-bottom: 3rem;
+    }
+
+    input {
+        &:not([type="checkbox"]) {
+            width: 100%;
+            max-width: 40rem;
+        }
+    }
+
+    table {
+        border: 0;
+
+        @include mobile {
+            width: 100%;
+        }
+
+        tr {
+            background-color: var(--color-text-white);
+            border-bottom: 1px solid var(--color-summary-divider);
+
+            &:last-of-type {
+                border-bottom: 0;
             }
         }
     }

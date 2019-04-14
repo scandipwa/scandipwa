@@ -48,7 +48,7 @@ class CartSummary extends Component {
                     { this.renderPriceLine(saveVsRetail, 'Saved vs Retail', { highlited: true }) }
                     { this.renderPriceLine(grandTotalPrice, 'Order Total') }
                 </ul>
-                <button block="CartSummary" elem="Button" disabled>Proceed to checkout</button>
+                <Link to="/checkout">Proceed to checkout</Link>
                 <Link to="/">Continue shopping</Link>
             </div>
         );

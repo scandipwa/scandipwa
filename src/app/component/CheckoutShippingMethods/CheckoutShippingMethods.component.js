@@ -27,8 +27,9 @@ class CheckoutShippingMethods extends Component {
 
     handleShippingMethodChange = (method) => {
         const { onSelectShippingMethod } = this.props;
+        const { code } = method;
         onSelectShippingMethod(method);
-        this.setState({ shippingMethod: method });
+        this.setState({ shippingMethod: code });
     };
 
     /**
@@ -37,29 +38,30 @@ class CheckoutShippingMethods extends Component {
      * @param value
      * @returns {*}
      */
-    renderShippingMethod(identifier, value) {
-        const { shippingMethod } = this.state;
+    renderShippingMethod(method) {
         const {
-            price,
-            title,
-            carrier_title
-        } = value;
+            price_incl_tax,
+            method_title,
+            carrier_title,
+            method_code
+        } = method;
 
         return (
-            <tr key={ identifier } onClick={ () => this.handleShippingMethodChange(identifier) }>
+            <tr key={ method_code } onClick={ () => this.handleShippingMethodChange(method) }>
                 <td>
                     <Field
-                      id={ identifier }
+                      id={ method_code }
                       type="radio"
                       block="shippingMethodTable"
-                      elem={ identifier }
-                      value={ identifier }
-                      checked={ shippingMethod }
-                      onChange={ identifier => this.handleShippingMethodChange(identifier) }
+                      name="shipping_method"
+                      elem={ method_code }
+                      value={ method_code }
+                      checked={ method_code }
+                      onChange={ () => this.handleShippingMethodChange(method) }
                     />
                 </td>
-                <td>{ price }</td>
-                <td>{ title }</td>
+                <td>{ price_incl_tax }</td>
+                <td>{ method_title }</td>
                 <td>{ carrier_title }</td>
             </tr>
         );
@@ -72,14 +74,14 @@ class CheckoutShippingMethods extends Component {
     render() {
         const { shippingMethods } = this.props;
 
+        console.log(shippingMethods);
+
         return (
             <fieldset block="CheckoutStep" elem="legend">
                 <legend>Shipping Method</legend>
                 <table block="CheckoutStep" elem="OptionsTable">
                     <tbody>
-                        { Object
-                            .keys(shippingMethods)
-                            .map(code => this.renderShippingMethod(code, shippingMethods[code])) }
+                        { shippingMethods.map(method => this.renderShippingMethod(method)) }
                     </tbody>
                 </table>
             </fieldset>
@@ -88,7 +90,7 @@ class CheckoutShippingMethods extends Component {
 }
 
 CheckoutShippingMethods.propTypes = {
-    shippingMethods: PropTypes.object.isRequired,
+    shippingMethods: PropTypes.arrayOf(PropTypes.object).isRequired,
     onSelectShippingMethod: PropTypes.func.isRequired
 };
 
