@@ -86,23 +86,34 @@ class MyAccount extends Component {
         this.setState({ isLoading: true });
     }
 
-    onCreateAccountAttempt(fields, invalidFields) {
+    onCreateAccountAttempt(invalidFields) {
         const { showNotification } = this.props;
+
         if (invalidFields) {
             showNotification('error', 'Incorrect data! Please resolve all field validation errors.');
         }
+
         this.setState({ isLoading: !invalidFields });
     }
 
     onCreateAccountSuccess(fields) {
-        const { createAccount } = this.props;
+        const { createAccount, showNotification } = this.props;
         const {
             password,
+            confirm_password,
             email,
             firstname,
             lastname,
             is_subscribed
         } = fields;
+
+        if (password !== confirm_password) {
+            return (
+                showNotification('error', 'Passwords do not match!'),
+                this.setState({ isLoading: false })
+            );
+        }
+
         const customerData = {
             customer: {
                 firstname,
@@ -113,7 +124,7 @@ class MyAccount extends Component {
             password
         };
 
-        createAccount(customerData);
+        return createAccount(customerData);
     }
 
     onForgotPasswordSuccess(fields) {
@@ -144,7 +155,7 @@ class MyAccount extends Component {
     }
 
     renderButton() {
-        const { state, isOpen, isHovered } = this.state;
+        const { isOpen, isHovered } = this.state;
 
         return (
             <button
@@ -266,7 +277,7 @@ class MyAccount extends Component {
                   key="create-account"
                   onSubmit={ () => this.onCreateAccountAttempt() }
                   onSubmitSuccess={ fields => this.onCreateAccountSuccess(fields) }
-                  onSubmitError={ (fields, invalidFields) => this.onCreateAccountAttempt(fields, invalidFields) }
+                  onSubmitError={ invalidFields => this.onCreateAccountAttempt(invalidFields) }
                 >
                     <h3>Create your account</h3>
                     <fieldset block="MyAccount" elem="Legend">
