@@ -109,6 +109,16 @@ class Slider extends Component {
         if (isInfiniteScrollEnabled && items.length > 1 && !isTouching) {
             const { currentIndex } = this.state;
 
+            if (currentIndex === 1) {
+                this.timeout = setTimeout(() => {
+                    CSS.setVariable(
+                        this.carousel,
+                        'transition-duration',
+                        `${slideSpeed}ms`
+                    );
+                }, slideSpeed);
+            }
+
             if (currentIndex === items.length - 1) {
                 this.timeout = setTimeout(() => {
                     CSS.setVariable(
@@ -154,8 +164,6 @@ class Slider extends Component {
                 );
             }
         }
-
-        this.touchArea.current.focus();
     }
 
     componentWillUnmount() {
@@ -454,7 +462,7 @@ class Slider extends Component {
                   onClick={ () => this.onThumbnailClick(id) }
                   disabled={ !item.image } // if images are not loaded yet
                 >
-                    <Image src={ item.image && `/media/${item.image}` } alt="Thumnail of product image" />
+                    <Image src={ item.image } alt="Thumnail of product image" />
                 </button>
             );
         }
@@ -526,7 +534,7 @@ class Slider extends Component {
               style={ listItemWidth }
             >
                 <Figure
-                  src={ image && `/media/${image}` }
+                  src={ image }
                   alt="SliderItem"
                   htmlContent={ extraHtml && extraHtml }
                   arePlaceholdersShown={ arePlaceholdersShown }
@@ -597,7 +605,6 @@ class Slider extends Component {
                   onMouseLeave={ event => this.handleMouseLeave(event) }
                   onKeyDown={ event => this.onKeyDown(event) }
                   role="toolbar"
-                  tabIndex="0"
                   ref={ this.touchArea }
                 >
                     <div

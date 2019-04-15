@@ -18,14 +18,9 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
-const MinifyPlugin = require('babel-minify-webpack-plugin');
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const WebpackPwaManifest = require('webpack-pwa-manifest');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const WebpackPwaManifest = require('webpack-pwa-manifest');
 const autoprefixer = require('autoprefixer');
-
-const { InjectManifest } = require('workbox-webpack-plugin');
 
 const WebmanifestConfig = require('./webmanifest.config');
 const BabelConfig = require('./babel.config');
@@ -33,10 +28,7 @@ const FallbackPlugin = require('./FallbackPlugin');
 
 const projectRoot = path.resolve(__dirname, '..', '..');
 const magentoRoot = path.resolve(projectRoot, '..', '..', '..', '..', '..');
-const publicRoot = path.resolve(magentoRoot, 'pub');
 const fallbackRoot = path.resolve(magentoRoot, 'vendor', 'scandipwa', 'source');
-
-const publicPath = '/static/frontend/Scandiweb/pwa/en_US/Magento_Theme/';
 
 module.exports = {
     resolve: {
@@ -48,15 +40,18 @@ module.exports = {
         ]
     },
 
-    cache: false,
+    mode: 'development',
+
+    devtool: 'source-map',
 
     stats: {
         warnings: false
     },
 
-    entry: [
-        path.resolve(projectRoot, 'src', 'app', 'index.js')
-    ],
+    entry: {
+        bundle: path.resolve(projectRoot, 'src', 'app', 'index.js'),
+        sw: path.resolve(projectRoot, 'src', 'sw', 'index.js')
+    },
 
     module: {
         rules: [
@@ -75,18 +70,29 @@ module.exports = {
                 use: [
                     'css-hot-loader',
                     MiniCssExtractPlugin.loader,
-                    'css-loader',
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            sourceMap: true
+                        }
+                    },
                     {
                         loader: 'postcss-loader',
                         options: {
+                            sourceMap: true,
                             plugins: () => [autoprefixer]
                         }
                     },
-                    'sass-loader',
+                    {
+                        loader: 'sass-loader',
+                        options: {
+                            sourceMap: true
+                        }
+                    },
                     {
                         loader: 'sass-resources-loader',
                         options: {
-                            resources: path.resolve(fallbackRoot, 'src', 'app', 'style', 'abstract', '_abstract.scss')
+                            resources: path.resolve(projectRoot, 'src', 'app', 'style', 'abstract', '_abstract.scss')
                         }
                     }
                 ]
@@ -103,39 +109,37 @@ module.exports = {
     },
 
     output: {
-        filename: '[hash:6].bundle.js',
-        chunkFilename: '[name].[hash:6].chunk.js',
-        path: path.resolve(projectRoot, 'Magento_Theme', 'web'),
+        filename: '[name].js',
+        publicPath: '/',
         pathinfo: true,
-        publicPath
+        globalObject: 'this', // fix for https://github.com/webpack/webpack/issues/6642
+        path: path.resolve(projectRoot, 'Magento_Theme', 'web')
+    },
+
+    devServer: {
+        watchContentBase: true,
+        publicPath: '/',
+        historyApiFallback: true,
+        port: 3003,
+        https: false,
+        overlay: true,
+        compress: true,
+        inline: true,
+        hot: true,
+        host: '0.0.0.0',
+        public: 'scandipwa.local',
+        allowedHosts: [
+            '.local'
+        ]
+    },
+
+    watchOptions: {
+        aggregateTimeout: 300,
+        poll: 1000
     },
 
     plugins: [
-        new InjectManifest({
-            swSrc: path.resolve(publicRoot, 'sw-compiled.js'),
-            swDest: path.resolve(publicRoot, 'sw.js'),
-            exclude: [/\.phtml/]
-        }),
-
-        new HtmlWebpackPlugin({
-            template: path.resolve(projectRoot, 'src', 'public', 'index.html'),
-            filename: '../templates/root.phtml',
-            inject: false,
-            hash: true,
-            publicPath,
-            minify: {
-                collapseWhitespace: true,
-                removeComments: true,
-                removeRedundantAttributes: true,
-                removeScriptTypeAttributes: true,
-                removeStyleLinkTypeAttributes: true,
-                useShortDoctype: true,
-                minifyCSS: true,
-                minifyJS: true
-            }
-        }),
-
-        new WebpackPwaManifest(WebmanifestConfig(projectRoot)),
+        new webpack.HotModuleReplacementPlugin(),
 
         new webpack.DefinePlugin({
             'process.env': {
@@ -145,28 +149,23 @@ module.exports = {
             }
         }),
 
-        new CleanWebpackPlugin([
-            path.resolve('Magento_Theme', 'templates'),
-            path.resolve('Magento_Theme', 'web')
-        ], { root: projectRoot }),
+        new FallbackPlugin({
+            fallbackRoot
+        }),
 
-        new MiniCssExtractPlugin(),
+        new HtmlWebpackPlugin({
+            template: path.resolve(projectRoot, 'src', 'public', 'index.html'),
+            filename: 'index.html',
+            inject: false,
+            publicPath: '/'
+        }),
 
-        new OptimizeCssAssetsPlugin(),
+        new WebpackPwaManifest(WebmanifestConfig(projectRoot)),
 
         new CopyWebpackPlugin([
             { from: path.resolve(projectRoot, 'src', 'public', 'assets'), to: './assets' }
         ]),
 
-        new FallbackPlugin({
-            fallbackRoot
-        }),
-
-        new MinifyPlugin({
-            removeConsole: true,
-            removeDebugger: true
-        }, {
-            comments: false
-        })
+        new MiniCssExtractPlugin()
     ]
 };
