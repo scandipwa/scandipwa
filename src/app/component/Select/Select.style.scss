@@ -8,22 +8,35 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
- .Select {
+
+ @mixin arrow {
+    content: '';
+    margin-top: 0.8rem;
+    width: 0.7rem;
+    height: 0.7rem;
+    border: {
+        left: 1px solid var(--color-neutral-base);
+        top: 1px solid var(--color-neutral-base);
+    };
+    transform: rotate(45deg);
+  }
+  
+  .Select {
     &-Container {
         min-width: 160px;
         height: 35px;
         font-weight: 700;
         font-size: 1.05rem;
-
+  
         ul, li {
             list-style: none;
             cursor: pointer;
-
+  
             &::before {
                 content: '';
             }
         }
-
+  
         span, li {
             display: block;
             height: inherit;
@@ -33,34 +46,34 @@
             font-weight: normal;
             font-size: 1.15rem;
         }
-
+  
         li {
             color: var(--color-neutral-dark);
             background-color: var(--color-breadcrumbs-background);
         }
-
+  
         span {
             cursor: default;
             transition: background-color 150ms ease;
             background-color: var(--color-breadcrumbs-background);
-
+  
             @include mobile {
                 line-height: 2.7rem;
             }
         }
-
+  
         /* Hide Dropdowns by Default */
         ul {
             display:inherit;
             overflow: hidden;
-
+  
             li {
                 padding: 0;
                 margin: 0;
                 border-top: 0;
                 max-height: 0px;
                 transition: max-height 100ms ease-out;
-
+  
                 &:hover,
                 &:focus {
                     background-color: var(--color-primary-light);
@@ -70,12 +83,12 @@
             }
         }
     }
-
+  
     &-Wrapper {
         height: inherit;
         transition: background-color 150ms ease;
         background-color: var(--color-breadcrumbs-background);
-
+  
         /* Display Dropdowns on Hover */
         &:hover,
         &:focus,
@@ -83,14 +96,14 @@
             > ul {
                 z-index: 1;
                 opacity: 1;
-
+  
                 li {
                     z-index: 1;
                     max-height: 36px;
                     transition: max-height 150ms ease-in;
                 }
             }
-
+  
             > div > .Select-Arrow::after {
                 margin-top: 0;
                 margin-bottom: 0.4rem;
@@ -103,35 +116,44 @@
             }
         }
     }
-
+  
     &-Current {
-        display: grid;
-        grid-template-columns: 1fr 20px;
+        display: flex;
+        justify-content: space-between;
         height: inherit;
         color: var(--color-neutral-dark);
     }
-
+  
+    &-Mobile {
+        font-weight: initial;
+        padding: 0;
+        margin-left: 10%;
+        width: 100%;
+        font-size: 1.15rem;
+    }
+  
     &-Arrow {
+        width: 20px;
         display: flex;
         flex-direction: column;
         justify-content: center;
         text-align: center;
         cursor: default;
         transition: background-color 150ms ease;
-
+  
         &::after {
-            content: '';
-            margin-top: 0.8rem;
-            width: 0.7rem;
-            height: 0.7rem;
-            border: {
-                left: 1px solid var(--color-neutral-base);
-                top: 1px solid var(--color-neutral-base);
-            };
-            transform: rotate(45deg);
+            @include arrow;
         }
     }
-
+  
+    &-Mobile-arrow {
+        @include arrow;
+        position: absolute;
+        left: 85%;
+        top: 15%;
+        pointer-events: none;
+    }
+  
     &-Original {
         position: absolute;
         overflow: hidden;
@@ -142,4 +164,4 @@
         padding: 0;
         border: 0;
     }
-}
+  }

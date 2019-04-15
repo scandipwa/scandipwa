@@ -18,6 +18,12 @@ import './Select.style';
  * @class Select
  */
 class Select extends Component {
+    constructor(props) {
+        super(props);
+
+        this.isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    }
+
     /**
      * Handle Sort key change
      * @param {Object} option
@@ -70,17 +76,43 @@ class Select extends Component {
             </li>
         ));
 
+        const mobileListItems = options.map(option => (
+            <option
+              key={ option.value }
+              value={ option.value }
+              tabIndex={ 0 }
+            >
+                { option.label }
+            </option>
+        ));
+
         return (
             <div block="Select" elem="Container">
                 <div block="Select" elem="Wrapper" tabIndex="0">
                     <div block="Select" elem="Current">
-                        <span>{ selectedFilter }</span>
-                        <div block="Select" elem="Arrow" />
+                    { this.isMobile
+                        ? (
+                            <>
+                                <select
+                                  block="Select"
+                                  elem="Mobile"
+                                  value={ selectedOption }
+                                  onChange={ e => this.onGetSortKey(e.target.value) }
+                                >
+                                    { mobileListItems }
+                                </select>
+                                <div block="Select" elem="Mobile-arrow" />
+                            </>
+                        )
+                        : (
+                            <>
+                                <span style={ { margin: 'auto' } } >{ selectedFilter }</span>
+                                <div block="Select" elem="Arrow" />
+                            </>
+                        ) }
                     </div>
-                    <ul
-                      role="presentation"
-                    >
-                    { listItems }
+                    <ul role="presentation">
+                        { this.isMobile === false ? listItems : null }
                     </ul>
                 </div>
                 <select
@@ -91,7 +123,7 @@ class Select extends Component {
                   readOnly
                   onChange={ e => this.onGetSortKey(e.target.value) }
                 >
-                { options && options.map(option => this.renderSortOption(option)) }
+                    { options && options.map(option => this.renderSortOption(option)) }
                 </select>
             </div>
         );
@@ -111,6 +143,10 @@ Select.propTypes = {
         PropTypes.func, 
         PropTypes.shape({ current: PropTypes.instanceOf(Element) })
     ])
+};
+
+Select.defaultProps = {
+    formRef: null
 };
 
 export default Select;
