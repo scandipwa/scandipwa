@@ -12,6 +12,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Field from 'Component/Field';
+import Loader from 'Component/Loader';
+import './CheckoutShippingMethods.style';
 
 /**
  * Checkout shipping method selector component
@@ -21,16 +23,16 @@ class CheckoutShippingMethods extends Component {
         super(props);
 
         this.state = {
-            shippingMethod: ''
+            activeMethod: ''
         };
     }
 
-    handleShippingMethodChange = (method) => {
+    handleShippingMethodChange(method) {
+        const { method_code } = method;
         const { onSelectShippingMethod } = this.props;
-        const { code } = method;
+        this.setState({ activeMethod: method_code });
         onSelectShippingMethod(method);
-        this.setState({ shippingMethod: code });
-    };
+    }
 
     /**
      * Render single row with shipping method
@@ -39,6 +41,7 @@ class CheckoutShippingMethods extends Component {
      * @returns {*}
      */
     renderShippingMethod(method) {
+        const { activeMethod } = this.state;
         const {
             price_incl_tax,
             method_title,
@@ -51,11 +54,10 @@ class CheckoutShippingMethods extends Component {
                 <td>
                     <Field
                       id={ method_code }
-                      type="radio"
-                      block="shippingMethodTable"
                       name="shipping_method"
+                      type="radio"
                       elem={ method_code }
-                      value={ method_code }
+                      value={ activeMethod }
                       checked={ method_code }
                       onChange={ () => this.handleShippingMethodChange(method) }
                     />
@@ -72,18 +74,25 @@ class CheckoutShippingMethods extends Component {
      * @returns {*}
      */
     render() {
-        const { shippingMethods } = this.props;
-
-        console.log(shippingMethods);
+        const { shippingMethods, loadingShippingMethods } = this.props;
+        const areShippingMethodsAvailable = Object.keys(shippingMethods).length;
 
         return (
-            <fieldset block="CheckoutStep" elem="legend">
+            <fieldset block="CheckoutShippingMethods">
                 <legend>Shipping Method</legend>
-                <table block="CheckoutStep" elem="OptionsTable">
-                    <tbody>
-                        { shippingMethods.map(method => this.renderShippingMethod(method)) }
-                    </tbody>
-                </table>
+                <Loader isLoading={ loadingShippingMethods } />
+                { areShippingMethodsAvailable
+                    ? (
+                        <table>
+                            <tbody>
+                                { shippingMethods.map(method => this.renderShippingMethod(method)) }
+                            </tbody>
+                        </table>
+                    )
+                    : (
+                        <p>Please enter shipping address information first!</p>
+                    )
+                }
             </fieldset>
         );
     }
@@ -91,7 +100,8 @@ class CheckoutShippingMethods extends Component {
 
 CheckoutShippingMethods.propTypes = {
     shippingMethods: PropTypes.arrayOf(PropTypes.object).isRequired,
-    onSelectShippingMethod: PropTypes.func.isRequired
+    onSelectShippingMethod: PropTypes.func.isRequired,
+    loadingShippingMethods: PropTypes.bool.isRequired
 };
 
 export default CheckoutShippingMethods;

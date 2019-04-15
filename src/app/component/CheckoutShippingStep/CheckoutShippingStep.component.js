@@ -1,4 +1,6 @@
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable react/no-unused-state */
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Form from 'Component/Form';
@@ -34,7 +36,9 @@ class CheckoutShippingStep extends Component {
             postcode: '',
             country_id: '',
             telephone: '',
-            shippingMethods: []
+            shippingMethods: [],
+            activeShippingMethod: {},
+            loadingShippingMethods: false
         };
 
         this.fieldMap = {
@@ -68,7 +72,38 @@ class CheckoutShippingStep extends Component {
         };
     }
 
+    onSelectShippingMethod(method) {
+        this.setState({ activeShippingMethod: method });
+    }
+
+    onFormSuccess() {
+        const { showNotification, saveAddressInformation } = this.props;
+        const { activeShippingMethod: { method_code, carrier_code } } = this.state;
+
+        const address = { ...this.state };
+        delete address.shippingMethods;
+        delete address.activeShippingMethod;
+        delete address.loadingShippingMethods;
+
+        if (!method_code || !carrier_code) {
+            showNotification('error', 'No shipping method specified');
+        } else {
+            const addressInformation = {
+                shipping_address: address,
+                billing_address: address,
+                shipping_carrier_code: carrier_code,
+                shipping_method_code: method_code
+            };
+
+            saveAddressInformation(addressInformation).then(
+                data => console.log(data),
+                err => console.log(err)
+            );
+        }
+    }
+
     handleFieldChange() {
+        this.setState({ loadingShippingMethods: true });
         if (this.shippingMethodEstimationTimeout) clearTimeout(this.shippingMethodEstimationTimeout);
         this.shippingMethodEstimationTimeout = setTimeout(() => {
             const { estimateShippingCost } = this.props;
@@ -90,14 +125,14 @@ class CheckoutShippingStep extends Component {
             };
 
             estimateShippingCost(addressToEstimate).then(
-                ({ estimateShippingCosts: shippingMethods }) => this.setState({ shippingMethods }),
+                ({ estimateShippingCosts: shippingMethods }) => this.setState({
+                    shippingMethods,
+                    loadingShippingMethods: false,
+                    activeShippingMethod: {}
+                }),
                 err => console.log(err)
             );
         }, 1000);
-    }
-
-    handleSelectShippingMethod(method) {
-        console.log(method);
     }
 
     renderField(id, overrideStateValue) {
@@ -124,12 +159,13 @@ class CheckoutShippingStep extends Component {
     }
 
     render() {
-        const { street, shippingMethods } = this.state;
-
-        console.log(shippingMethods);
+        const { street, shippingMethods, loadingShippingMethods } = this.state;
 
         return (
-            <Form>
+            <Form
+              onSubmitSuccess={ validFields => this.onFormSuccess(validFields) }
+              key="shipping_step"
+            >
                 <fieldset>
                     <legend>Email Address</legend>
                     { this.renderField(EMAIL_FIELD_ID) }
@@ -151,7 +187,8 @@ class CheckoutShippingStep extends Component {
 
                 <CheckoutShippingMethods
                   shippingMethods={ shippingMethods }
-                  onSelectShippingMethod={ () => this.handleSelectShippingMethod }
+                  loadingShippingMethods={ loadingShippingMethods }
+                  onSelectShippingMethod={ method => this.onSelectShippingMethod(method) }
                 />
 
                 <button type="submit">Next step</button>
@@ -161,7 +198,9 @@ class CheckoutShippingStep extends Component {
 }
 
 CheckoutShippingStep.propTypes = {
-    estimateShippingCost: PropTypes.func.isRequired
+    estimateShippingCost: PropTypes.func.isRequired,
+    saveAddressInformation: PropTypes.func.isRequired,
+    showNotification: PropTypes.func.isRequired
 };
 
 export default CheckoutShippingStep;

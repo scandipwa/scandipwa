@@ -37,16 +37,19 @@ class Field extends Component {
         super(props);
 
         this.onChange = this.onChange.bind(this);
-        this.toggleCheckbox = this.toggleCheckbox.bind(this);
 
-        const { type, min } = this.props;
-        let { value } = this.props;
+        const {
+            type,
+            min,
+            value: propsValue
+        } = this.props;
 
-        if (value < min) value = min;
+        let value = propsValue;
 
-        if (!value) {
+        if (!propsValue) {
             switch (type) {
             case NUMBER_TYPE:
+                if (value < min) value = min;
                 value = 0;
                 break;
             case CHECKBOX_TYPE:
@@ -61,7 +64,7 @@ class Field extends Component {
             }
         }
 
-        this.state = { value, isChecked: false };
+        this.state = { value };
     }
 
     /**
@@ -118,13 +121,6 @@ class Field extends Component {
         if (onChange) onChange(value);
     }
 
-    toggleCheckbox(event) {
-        const { isChecked } = this.state;
-        event.preventDefault();
-
-        this.setState({ isChecked: !isChecked, value: !isChecked });
-    }
-
     renderTextarea() {
         const {
             id,
@@ -150,13 +146,10 @@ class Field extends Component {
 
     renderCheckboxInput() {
         const {
-            id, name, type, value, checked, formRef
+            id, name, type, value, formRef, checked
         } = this.props;
-        const { isChecked } = this.state;
 
-        const checkedBool = type === RADIO_TYPE
-            ? checked === value
-            : isChecked;
+        const checkedBool = checked === value;
 
         return (
             <>
@@ -165,9 +158,9 @@ class Field extends Component {
                   type={ type }
                   checked={ checkedBool }
                   name={ name }
-                  value={ isChecked }
-                  onChange={ this.toggleCheckbox }
-                  onKeyPress={ e => this.toggleCheckbox(e) }
+                  value={ value }
+                  onChange={ this.onChange }
+                  onKeyPress={this.onChange }
                   onFocus={ event => this.onFocus(event) }
                   onClick={ event => this.onClick(event) }
                   id={ id }
