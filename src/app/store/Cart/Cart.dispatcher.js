@@ -41,8 +41,10 @@ class CartDispatcher {
         } else {
             // This is guest, cart is empty
             // Need to create empty cart and save quote
-            this._createEmptyCart()
-                .then(data => BrowserDatabase.setItem(data, GUEST_QUOTE_ID));
+            this._createEmptyCart().then((data) => {
+                BrowserDatabase.setItem(data, GUEST_QUOTE_ID);
+                dispatch(updateAllProductsInCart([]));
+            });
         }
     }
 
@@ -55,49 +57,49 @@ class CartDispatcher {
 
     _syncCartWithBE(dispatch) {
         // Need to get current cart from BE, update cart
-        // fetchQuery(Cart.getCartItemsQuery(
-        //     !isSignedIn() && this._getGuestQuoteId()
-        // )).then(({ getCartItems }) => {
-        //     const productsToAdd = getCartItems.reduce((prev, cartProduct) => {
-        //         const {
-        //             product, item_id, sku, qty: quantity
-        //         } = cartProduct;
-        //         const { variants, id, type_id } = product;
+        fetchQuery(Cart.getCartItemsQuery(
+            !isSignedIn() && this._getGuestQuoteId()
+        )).then(({ getCartItems }) => {
+            const productsToAdd = getCartItems.reduce((prev, cartProduct) => {
+                const {
+                    product, item_id, sku, qty: quantity
+                } = cartProduct;
+                const { variants, id, type_id } = product;
 
-        //         if (type_id === 'configurable') {
-        //             let configurableVariantIndex = 0;
-        //             const { product: { id: variantId } } = variants.filter(
-        //                 (variant, index) => {
-        //                     const { product: { sku: productSku } } = variant;
-        //                     const isChosenProduct = productSku === sku;
-        //                     if (isChosenProduct) configurableVariantIndex = index;
-        //                     return isChosenProduct;
-        //                 }
-        //             )[0];
+                if (type_id === 'configurable') {
+                    let configurableVariantIndex = 0;
+                    const { product: { id: variantId } } = variants.filter(
+                        (variant, index) => {
+                            const { product: { sku: productSku } } = variant;
+                            const isChosenProduct = productSku === sku;
+                            if (isChosenProduct) configurableVariantIndex = index;
+                            return isChosenProduct;
+                        }
+                    )[0];
 
-        //             return {
-        //                 ...prev,
-        //                 [variantId]: {
-        //                     ...product,
-        //                     configurableVariantIndex,
-        //                     item_id,
-        //                     quantity
-        //                 }
-        //             };
-        //         }
+                    return {
+                        ...prev,
+                        [variantId]: {
+                            ...product,
+                            configurableVariantIndex,
+                            item_id,
+                            quantity
+                        }
+                    };
+                }
 
-        //         return {
-        //             ...prev,
-        //             [id]: {
-        //                 ...product,
-        //                 item_id,
-        //                 quantity
-        //             }
-        //         };
-        //     }, {});
+                return {
+                    ...prev,
+                    [id]: {
+                        ...product,
+                        item_id,
+                        quantity
+                    }
+                };
+            }, {});
 
-        //     dispatch(updateAllProductsInCart(productsToAdd));
-        // });
+            dispatch(updateAllProductsInCart(productsToAdd));
+        });
     }
 
     addProductToCart(dispatch, options) {

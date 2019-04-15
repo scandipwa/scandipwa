@@ -12,7 +12,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
-import { GUEST_QUOTE_ID } from 'Store/Cart';
+import { GUEST_QUOTE_ID, CartDispatcher } from 'Store/Cart';
 import { fetchMutation } from 'Util/Request';
 import CheckoutQuery from 'Query/Checkout.query';
 import BrowserDatabase from 'Util/BrowserDatabase';
@@ -28,6 +28,11 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     updateToggleHeaderAndFooter: (options) => {
         HeaderAndFooterDispatcher.toggleHeaderAndFooter(dispatch, options);
+    },
+
+    removeCartAndObtainNewGuest: () => {
+        BrowserDatabase.deleteItem(GUEST_QUOTE_ID);
+        CartDispatcher.updateInitialCartData(dispatch);
     }
 });
 

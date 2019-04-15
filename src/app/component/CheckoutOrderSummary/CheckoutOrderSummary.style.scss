@@ -46,7 +46,19 @@
         list-style: none;
         margin: 0;
         padding: 0;
+    }
 
+    &-CartItemDescription {
+        margin-top: 5px;
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+    }
+
+    &-Qty {
+        // margin-top: 1rem;
     }
 
     &-CartItem {
@@ -58,6 +70,12 @@
 
         &::before {
             content: none;
+        }
+
+        > * {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
     }
 
@@ -76,5 +94,9 @@
 
     &-Details {
         justify-self: end;
+    }
+
+    .ProductPrice {
+        margin-top: 0;
     }
 }

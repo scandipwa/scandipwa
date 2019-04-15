@@ -134,12 +134,18 @@ class CheckoutPage extends Component {
     }
 
     savePaymentInformationAndPlaceOrder(paymentInformation) {
-        const { savePaymentInformationAndPlaceOrder } = this.props;
+        const {
+            savePaymentInformationAndPlaceOrder,
+            removeCartAndObtainNewGuest
+        } = this.props;
 
         return savePaymentInformationAndPlaceOrder(paymentInformation).then(
             ({ savePaymentInformationAndPlaceOrder: { orderID } }) => {
                 const { updateToggleHeaderAndFooter } = this.props;
+
                 updateToggleHeaderAndFooter({ isHeaderAndFooterVisible: true });
+                removeCartAndObtainNewGuest();
+
                 this.setState({
                     orderID,
                     checkoutStep: CHECKOUT_STEP_SUCCESS,
@@ -271,6 +277,7 @@ CheckoutPage.propTypes = {
     updateToggleHeaderAndFooter: PropTypes.func.isRequired,
     savePaymentInformationAndPlaceOrder: PropTypes.func.isRequired,
     saveAddressInformation: PropTypes.func.isRequired,
+    removeCartAndObtainNewGuest: PropTypes.func.isRequired,
     history: PropTypes.shape({
         location: PropTypes.object.isRequired,
         push: PropTypes.func.isRequired

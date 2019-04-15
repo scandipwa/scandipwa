@@ -11,6 +11,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Html from 'Component/Html';
 import { TotalsType } from 'Type/MiniCart';
 import { ProductType } from 'Type/ProductList';
 import TextPlaceholder from 'Component/TextPlaceholder';
@@ -46,7 +47,8 @@ class CheckoutOrderSummary extends Component {
      */
     renderItem(key, item) {
         const {
-            thumbnail,
+            thumbnail: { path },
+            short_description: { html },
             manufacturer,
             name,
             quantity,
@@ -60,13 +62,15 @@ class CheckoutOrderSummary extends Component {
                   elem="Thumbnail"
                   aria-label="Cart Thumbnail"
                 >
-                    <Image src={ `/media/catalog/product${ thumbnail }` } alt="Cart Thumbnail" />
+                    <Image src={ `/media/catalog/product${ path }` } alt="Cart Thumbnail" />
                 </div>
 
                 <div block="CheckoutOrderSummary" elem="Title">
                     { manufacturer && <span>{ manufacturer }</span> }
-                    <p>{ name }</p>
-                    <p>{ `Qty: ${ quantity }` }</p>
+                    <p><strong>{ name }</strong></p>
+                    <div block="CheckoutOrderSummary" elem="CartItemDescription">
+                        <Html content={ html } />
+                    </div>
                 </div>
 
                 <div
@@ -76,6 +80,10 @@ class CheckoutOrderSummary extends Component {
                     <div block="CheckoutOrderSummary" elem="Price">
                         <ProductPrice price={ price } mods={ { type: 'regular' } } />
                     </div>
+                    <p block="CheckoutOrderSummary" elem="Qty">
+                        <strong>Qty: </strong>
+                        <span>{ quantity }</span>
+                    </p>
                 </div>
             </li>
         );
