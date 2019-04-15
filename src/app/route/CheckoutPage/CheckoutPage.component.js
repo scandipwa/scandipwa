@@ -51,6 +51,7 @@ class CheckoutPage extends Component {
             methodCode: '',
             paymentMethods: [],
             paymentTotals: {},
+            orderID: '',
             ...state
         };
 
@@ -74,35 +75,34 @@ class CheckoutPage extends Component {
 
     static getDerivedStateFromProps(props, state) {
         const { prevCheckoutStep, checkoutStep } = state;
-        const { updateToggleHeaderAndFooter } = props;
+        const {
+            updateToggleHeaderAndFooter
+            // match,
+            // location,
+            // location: { state: locationState }
+        } = props;
+        const stateToBeUpdated = {};
+
         updateToggleHeaderAndFooter({ isHeaderAndFooterVisible: false });
+
+        // if (getUrlParam(match, location) !== checkoutStep && locationState) {
+        //     const { locationState: { checkoutStep: locationCheckoutStep } } = location;
+        //     stateToBeUpdated.checkoutStep = locationCheckoutStep;
+        //     stateToBeUpdated.prevCheckoutStep = locationCheckoutStep;
+        // }
 
         if (prevCheckoutStep !== checkoutStep) {
             CheckoutPage.changeUrlByCheckoutStep(props, state);
-            return { prevCheckoutStep: checkoutStep };
+            stateToBeUpdated.prevCheckoutStep = checkoutStep;
         }
 
-        return null;
+        return stateToBeUpdated;
     }
 
     componentDidMount() {
         const { updateToggleHeaderAndFooter } = this.props;
         updateToggleHeaderAndFooter({ isHeaderAndFooterVisible: false });
     }
-
-    // /**
-    //  * Place order and hide summary
-    //  */
-    // placeOrder = () => {
-    //     // show header and footer
-    //     const { updateToggleHeaderAndFooter } = this.props;
-    //     updateToggleHeaderAndFooter({ isHeaderAndFooterVisible: true });
-
-    //     this.setState({
-    //         checkoutStep: CHECKOUT_STEP_SUCCESS,
-    //         showSummary: false
-    //     });
-    // };
 
     saveAddressInformation(addressInformation) {
         const { saveAddressInformation } = this.props;
@@ -137,8 +137,14 @@ class CheckoutPage extends Component {
         const { savePaymentInformationAndPlaceOrder } = this.props;
 
         return savePaymentInformationAndPlaceOrder(paymentInformation).then(
-            ({ savePaymentInformationAndPlaceOrder }) => {
-                console.log(savePaymentInformationAndPlaceOrder);
+            ({ savePaymentInformationAndPlaceOrder: { orderID } }) => {
+                const { updateToggleHeaderAndFooter } = this.props;
+                updateToggleHeaderAndFooter({ isHeaderAndFooterVisible: true });
+                this.setState({
+                    orderID,
+                    checkoutStep: CHECKOUT_STEP_SUCCESS,
+                    showSummary: false
+                });
             },
             err => console.log(err)
         );
@@ -180,11 +186,13 @@ class CheckoutPage extends Component {
      * @returns {*}
      */
     renderCheckoutSuccessStep() {
+        const { orderID } = this.state;
+
         return (
             <div>
                 <h1>Thank you for your purchase!</h1>
-                <p>Your order # is: 000000003.</p>
-                <p>We&#39;ll email you an order confirmation with details and tracking info.</p>
+                <p>{ `Your order # is: ${orderID}.`}</p>
+                <p>We'll email you an order confirmation with details and tracking info.</p>
                 <Link to="/">Continue Shopping</Link>
             </div>
         );

@@ -29,7 +29,7 @@ class Cart {
 
     getSaveCartItemMutation(product) {
         const mutation = new Field('saveCartItem')
-            .addArgument('cartItem', 'CartItemInput', product);
+            .addArgument('cartItem', 'CartItemInput!', product);
 
         this._getCartItemField(mutation);
 

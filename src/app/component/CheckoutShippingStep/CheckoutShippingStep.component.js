@@ -16,7 +16,7 @@ const COMPANY_FIELD_ID = 'company';
 const STREET_0_FIELD_ID = 'street_0';
 const STREET_1_FIELD_ID = 'street_1';
 const CITY_FIELD_ID = 'city';
-const STATE_FIELD_ID = 'region_code';
+const STATE_FIELD_ID = 'region_id';
 const ZIP_FIELD_ID = 'postcode';
 const PHONE_FIELD_ID = 'telephone';
 const COUNTRY_FIELD_ID = 'country_id';
@@ -34,7 +34,7 @@ class CheckoutShippingStep extends Component {
             company: '',
             street: {},
             city: '',
-            region_code: '',
+            region_id: '',
             postcode: '',
             country_id: '',
             telephone: '',
@@ -81,9 +81,9 @@ class CheckoutShippingStep extends Component {
 
     onFormSuccess() {
         const { showNotification, saveAddressInformation } = this.props;
-        const { activeShippingMethod: { method_code, carrier_code } } = this.state;
+        const { activeShippingMethod: { method_code, carrier_code }, region_id } = this.state;
 
-        const address = { ...this.state };
+        const address = { ...this.state, region_id: parseInt(region_id, 10) };
         delete address.shippingMethods;
         delete address.activeShippingMethod;
         delete address.loadingShippingMethods;
@@ -118,14 +118,14 @@ class CheckoutShippingStep extends Component {
             const {
                 street,
                 city,
-                region_code,
+                region_id,
                 postcode,
                 country_id
             } = this.state;
 
             const addressToEstimate = {
                 city,
-                region_code,
+                region_id: parseInt(region_id, 10),
                 postcode,
                 country_id,
                 street: Object.values(street)

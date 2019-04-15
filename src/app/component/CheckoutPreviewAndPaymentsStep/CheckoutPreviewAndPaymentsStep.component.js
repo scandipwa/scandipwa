@@ -15,7 +15,7 @@ const COMPANY_FIELD_ID = 'company';
 const STREET_0_FIELD_ID = 'street_0';
 const STREET_1_FIELD_ID = 'street_1';
 const CITY_FIELD_ID = 'city';
-const STATE_FIELD_ID = 'region';
+const STATE_FIELD_ID = 'region_id';
 const ZIP_FIELD_ID = 'postcode';
 const PHONE_FIELD_ID = 'telephone';
 const COUNTRY_FIELD_ID = 'country_id';
@@ -73,10 +73,11 @@ class CheckoutPreviewAndPaymentsStep extends Component {
 
     onFormSuccess() {
         const { savePaymentInformationAndPlaceOrder } = this.props;
-        const { activePaymentMethod: { code: method }, street } = this.state;
+        const { activePaymentMethod: { code: method }, street, region_id } = this.state;
 
         const address = {
             ...this.state,
+            region_id: parseInt(region_id, 10),
             street: Object.values(street)
         };
         delete address.paymentMethods;
@@ -134,7 +135,7 @@ class CheckoutPreviewAndPaymentsStep extends Component {
                 company,
                 street,
                 city,
-                region_code,
+                region_id,
                 postalcode,
                 country_id,
                 telephone
@@ -155,7 +156,7 @@ class CheckoutPreviewAndPaymentsStep extends Component {
                     </>)}
                     <dd>{ telephone }</dd>
                     <dt>Billing address:</dt>
-                    <dd>{ `${country_id}, ${region_code}, ${city}` }</dd>
+                    <dd>{ `${country_id}, ${region_id}, ${city}` }</dd>
                     <dd>{ street[0] }</dd>
                     <dd>{ street[1] }</dd>
                     <dd>{ postalcode }</dd>
