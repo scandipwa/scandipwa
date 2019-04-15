@@ -103,6 +103,7 @@ class CheckoutShippingStep extends Component {
     }
 
     handleFieldChange() {
+        // TODO: wrap into cancelable promise
         this.setState({ loadingShippingMethods: true });
         if (this.shippingMethodEstimationTimeout) clearTimeout(this.shippingMethodEstimationTimeout);
         this.shippingMethodEstimationTimeout = setTimeout(() => {
