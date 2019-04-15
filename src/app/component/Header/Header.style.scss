@@ -14,8 +14,6 @@
     --add-info-color: var(--color-primary-base);
     background-color: var(--header-color);
 
-    display: none;
-
     @include mobile {
         position: fixed;
         z-index: 8;
@@ -29,10 +27,6 @@
             display: grid;
             grid-template-columns: 5fr 13rem 7rem 5rem;
         }
-    }
-
-    &_isVisible {
-        display: block;
     }
 
     &-Wrapper {

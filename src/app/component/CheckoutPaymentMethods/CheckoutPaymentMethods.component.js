@@ -22,31 +22,29 @@ class CheckoutPaymentMethods extends Component {
         };
     }
 
-    handlePaymentMethodChange = (method) => {
+    handlePaymentMethodChange(method) {
         const { onSelectPaymentMethod } = this.props;
         onSelectPaymentMethod(method);
         this.setState({ paymentMethod: method });
-    };
+    }
 
-    renderPaymentMethod(title) {
-        const { paymentMethod } = this.state;
-        const { paymentMethods } = this.props;
-        const currentMethod = paymentMethods[title];
+    renderPaymentMethod(method) {
+        const { title, code } = method;
+        const { paymentMethod: { code: paymentMethodCode } } = this.state;
 
         return (
-            <tr key={ title } onClick={ () => this.handlePaymentMethodChange(title) }>
+            <tr key={ code } onClick={ () => this.handlePaymentMethodChange(method) }>
                 <td>
                     <Field
-                      id={ title }
+                      id={ code }
                       type="radio"
-                      block="paymentMethodTable"
-                      elem={ title }
-                      value={ title }
-                      checked={ paymentMethod }
-                      onChange={ title => this.handlePaymentMethodChange(title) }
+                      name={ code }
+                      value={ code }
+                      checked={ paymentMethodCode }
+                      onChange={ () => this.handlePaymentMethodChange(method) }
                     />
                 </td>
-                <td>{ currentMethod.title }</td>
+                <td>{ title }</td>
             </tr>
         );
     }
@@ -59,9 +57,7 @@ class CheckoutPaymentMethods extends Component {
                 <legend>Payment Method</legend>
                 <table block="CheckoutStep" elem="OptionsTable">
                     <tbody>
-                        { Object
-                            .keys(paymentMethods)
-                            .map(title => this.renderPaymentMethod(title)) }
+                        { paymentMethods.map(method => this.renderPaymentMethod(method)) }
                     </tbody>
                 </table>
             </fieldset>
@@ -70,7 +66,7 @@ class CheckoutPaymentMethods extends Component {
 }
 
 CheckoutPaymentMethods.propTypes = {
-    paymentMethods: PropTypes.object.isRequired,
+    paymentMethods: PropTypes.arrayOf(PropTypes.object).isRequired,
     onSelectPaymentMethod: PropTypes.func.isRequired
 };
 

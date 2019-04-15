@@ -25,17 +25,9 @@ const CheckoutShippingStepContainer = (props) => {
         )
     );
 
-    const saveAddressInformation = addressInformation => fetchMutation(
-        CheckoutQuery.getSaveAddressInformation(
-            addressInformation,
-            getGuestCartId()
-        )
-    );
-
     return (
         <MappedCheckoutShippingStep
           estimateShippingCost={ estimateShippingCost }
-          saveAddressInformation={ saveAddressInformation }
           { ...props }
         />
     );

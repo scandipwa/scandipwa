@@ -41,6 +41,7 @@ class Field extends Component {
         const {
             type,
             min,
+            checked,
             value: propsValue
         } = this.props;
 
@@ -64,7 +65,7 @@ class Field extends Component {
             }
         }
 
-        this.state = { value };
+        this.state = { value, isChecked: checked };
     }
 
     /**
@@ -111,14 +112,23 @@ class Field extends Component {
             type,
             min
         } = this.props;
-        const isValueNaN = Number.isNaN(parseInt(value, 10));
 
-        if (type === NUMBER_TYPE && (value < min || isValueNaN)) {
-            return;
+        switch (type) {
+        case NUMBER_TYPE:
+            const isValueNaN = Number.isNaN(parseInt(value, 10));
+            if ((value < min || isValueNaN)) return;
+            if (onChange) onChange(value);
+            this.setState({ value });
+            break;
+        case CHECKBOX_TYPE:
+            const { isChecked } = this.state;
+            if (onChange) onChange(!isChecked);
+            this.setState({ isChecked: !isChecked });
+            break;
+        default:
+            if (onChange) onChange(value);
+            this.setState({ value });
         }
-
-        this.setState({ value });
-        if (onChange) onChange(value);
     }
 
     renderTextarea() {
@@ -145,11 +155,14 @@ class Field extends Component {
     }
 
     renderCheckboxInput() {
+        const { isChecked } = this.state;
         const {
             id, name, type, value, formRef, checked
         } = this.props;
 
-        const checkedBool = checked === value;
+        const checkedBool = type === RADIO_TYPE
+            ? checked === value
+            : isChecked;
 
         return (
             <>
@@ -160,7 +173,7 @@ class Field extends Component {
                   name={ name }
                   value={ value }
                   onChange={ this.onChange }
-                  onKeyPress={this.onChange }
+                  onKeyPress={ this.onChange }
                   onFocus={ event => this.onFocus(event) }
                   onClick={ event => this.onClick(event) }
                   id={ id }
@@ -266,6 +279,7 @@ class Field extends Component {
 
         const mix = (block && elem) ? { block, elem } : undefined;
         const mods = {
+            type,
             hasError: !!message,
             ...(state ? { [state]: true } : {})
         };

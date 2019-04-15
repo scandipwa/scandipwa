@@ -36,10 +36,6 @@ const MappedCheckoutPage = connect(mapStateToProps, mapDispatchToProps)(Checkout
 const CheckoutPageContainer = (props) => {
     const getGuestCartId = () => BrowserDatabase.getItem(GUEST_QUOTE_ID);
 
-    const estimateShippingCost = address => fetchMutation(
-        CheckoutQuery.getEstimateShippingCosts(address, getGuestCartId())
-    );
-
     const saveAddressInformation = addressInformation => fetchMutation(
         CheckoutQuery.getSaveAddressInformation(addressInformation, getGuestCartId())
     );
@@ -50,12 +46,11 @@ const CheckoutPageContainer = (props) => {
 
     return (
         <MappedCheckoutPage
-          estimateShippingCost={ estimateShippingCost }
           saveAddressInformation={ saveAddressInformation }
           savePaymentInformationAndPlaceOrder={ savePaymentInformationAndPlaceOrder }
           { ...props }
         />
-    )
+    );
 };
 
 export default CheckoutPageContainer;

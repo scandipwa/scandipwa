@@ -80,19 +80,21 @@ class CheckoutShippingMethods extends Component {
         return (
             <fieldset block="CheckoutShippingMethods">
                 <legend>Shipping Method</legend>
-                <Loader isLoading={ loadingShippingMethods } />
-                { areShippingMethodsAvailable
-                    ? (
-                        <table>
-                            <tbody>
-                                { shippingMethods.map(method => this.renderShippingMethod(method)) }
-                            </tbody>
-                        </table>
-                    )
-                    : (
-                        <p>Please enter shipping address information first!</p>
-                    )
-                }
+                <div>
+                    <Loader isLoading={ loadingShippingMethods } />
+                    { areShippingMethodsAvailable
+                        ? (
+                            <table>
+                                <tbody>
+                                    { shippingMethods.map(method => this.renderShippingMethod(method)) }
+                                </tbody>
+                            </table>
+                        )
+                        : (
+                            <p>Please enter shipping address information first!</p>
+                        )
+                    }
+                </div>
             </fieldset>
         );
     }

@@ -27,8 +27,8 @@ class Header extends Component {
     render() {
         const { isHeaderAndFooterVisible } = this.props;
 
-        return (
-            <header block="Header" aria-label="Header" mods={ { isVisible: isHeaderAndFooterVisible } }>
+        return isHeaderAndFooterVisible && (
+            <header block="Header" aria-label="Header">
                 <div block="Header" elem="Wrapper">
                     <div block="Header" elem="Logo" aria-label="Header logo">
                         <Link to="/" tabIndex="0">

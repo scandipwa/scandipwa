@@ -97,7 +97,7 @@ class MiniCart extends Component {
                     >
                         <button block="MiniCart" elem="Button">View Cart</button>
                     </Link>
-                    <Link to="/checkout">
+                    <Link to="/checkout/shipping">
                         <button block="MiniCart" elem="Button">Proceed to checkout</button>
                     </Link>
                 </li>

@@ -10,6 +10,8 @@
  */
 
 .CheckoutPage {
+    min-height: calc(100vh - 90px);
+
     @include mobile {
         margin-top: 0;
     }
@@ -131,13 +133,12 @@
             width: 100%;
         }
 
-        tr {
-            background-color: var(--color-text-white);
-            border-bottom: 1px solid var(--color-summary-divider);
+        td {
+            padding: 1rem 0;
+        }
 
-            &:last-of-type {
-                border-bottom: 0;
-            }
+        .Field {
+            margin-top: 0;
         }
     }
 }

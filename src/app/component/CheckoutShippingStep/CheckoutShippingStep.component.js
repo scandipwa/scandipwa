@@ -6,6 +6,8 @@ import PropTypes from 'prop-types';
 import Form from 'Component/Form';
 import Field from 'Component/Field';
 import CheckoutShippingMethods from 'Component/CheckoutShippingMethods';
+import Loader from 'Component/Loader';
+import { makeCancelable } from 'Util/Promise';
 
 const EMAIL_FIELD_ID = 'email';
 const FIRSTNAME_FIELD_ID = 'firstname';
@@ -38,7 +40,8 @@ class CheckoutShippingStep extends Component {
             telephone: '',
             shippingMethods: [],
             activeShippingMethod: {},
-            loadingShippingMethods: false
+            loadingShippingMethods: false,
+            loadingShippingInformationSave: false
         };
 
         this.fieldMap = {
@@ -84,6 +87,7 @@ class CheckoutShippingStep extends Component {
         delete address.shippingMethods;
         delete address.activeShippingMethod;
         delete address.loadingShippingMethods;
+        delete address.loadingShippingInformationSave;
 
         if (!method_code || !carrier_code) {
             showNotification('error', 'No shipping method specified');
@@ -95,17 +99,19 @@ class CheckoutShippingStep extends Component {
                 shipping_method_code: method_code
             };
 
-            saveAddressInformation(addressInformation).then(
-                data => console.log(data),
-                err => console.log(err)
-            );
+            this.setState({ loadingShippingInformationSave: true });
+            saveAddressInformation(addressInformation);
         }
     }
 
     handleFieldChange() {
-        // TODO: wrap into cancelable promise
         this.setState({ loadingShippingMethods: true });
-        if (this.shippingMethodEstimationTimeout) clearTimeout(this.shippingMethodEstimationTimeout);
+
+        if (this.shippingMethodEstimationTimeout) {
+            clearTimeout(this.shippingMethodEstimationTimeout);
+            if (this.estimatePromise) this.estimatePromise.cancel();
+        }
+
         this.shippingMethodEstimationTimeout = setTimeout(() => {
             const { estimateShippingCost } = this.props;
 
@@ -125,11 +131,11 @@ class CheckoutShippingStep extends Component {
                 street: Object.values(street)
             };
 
-            estimateShippingCost(addressToEstimate).then(
+            this.estimatePromise = makeCancelable(estimateShippingCost(addressToEstimate))
+            this.estimatePromise.promise.then(
                 ({ estimateShippingCosts: shippingMethods }) => this.setState({
                     shippingMethods,
-                    loadingShippingMethods: false,
-                    activeShippingMethod: {}
+                    loadingShippingMethods: false
                 }),
                 err => console.log(err)
             );
@@ -160,13 +166,21 @@ class CheckoutShippingStep extends Component {
     }
 
     render() {
-        const { street, shippingMethods, loadingShippingMethods } = this.state;
+        const {
+            street,
+            shippingMethods,
+            loadingShippingMethods,
+            activeShippingMethod,
+            loadingShippingInformationSave
+        } = this.state;
+        const { method_code } = activeShippingMethod;
 
         return (
             <Form
               onSubmitSuccess={ validFields => this.onFormSuccess(validFields) }
               key="shipping_step"
             >
+                <Loader isLoading={ loadingShippingInformationSave } />
                 <fieldset>
                     <legend>Email Address</legend>
                     { this.renderField(EMAIL_FIELD_ID) }
@@ -192,7 +206,7 @@ class CheckoutShippingStep extends Component {
                   onSelectShippingMethod={ method => this.onSelectShippingMethod(method) }
                 />
 
-                <button type="submit">Next step</button>
+                <button type="submit" disabled={ !method_code }>Next step</button>
             </Form>
         );
     }
