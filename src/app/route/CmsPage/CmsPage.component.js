@@ -26,11 +26,14 @@ class CmsPage extends Component {
             location,
             match,
             enableBreadcrumbs,
-            cmsId
+            cmsId,
+            isOnlyPlaceholder,
+            updateCmsPage
         } = this.props;
         const urlParam = getUrlParam(match, location);
 
-        requestPage({ id: cmsId || urlParam });
+        updateCmsPage({});
+        if (!isOnlyPlaceholder) requestPage({ id: cmsId || urlParam });
         enableBreadcrumbs();
     }
 
@@ -54,7 +57,7 @@ class CmsPage extends Component {
     render() {
         const { page } = this.props;
         const { page: { content, content_heading } } = this.props;
-
+        console.log("NEW RENDER: ", this.props)
         return (
             <main block="CmsPage">
                 <ContentWrapper
@@ -95,11 +98,13 @@ CmsPage.propTypes = {
     updateBreadcrumbs: PropTypes.func.isRequired,
     location: PropTypes.shape().isRequired,
     enableBreadcrumbs: PropTypes.func.isRequired,
-    cmsId: PropTypes.number
+    cmsId: PropTypes.number,
+    isOnlyPlaceholder: PropTypes.bool
 };
 
 CmsPage.defaultProps = {
-    cmsId: 0
+    cmsId: 0,
+    isOnlyPlaceholder: false
 };
 
 export default CmsPage;

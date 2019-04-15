@@ -9,6 +9,15 @@
                     navigator.serviceWorker.register('/sw.js');
                 });
             }
+            const response = {
+                status: 200
+            };
+            const object = {
+                type: 'CMS_PAGE'
+            }
+            console.log('test2')
+            localStorage.setItem('response_status', JSON.stringify(response));
+            localStorage.setItem('response_type', JSON.stringify(object));
         </script>
 
         <!-- TODO: Find or implement helper to generate fonts related code -->

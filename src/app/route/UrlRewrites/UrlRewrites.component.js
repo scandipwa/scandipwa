@@ -16,12 +16,29 @@ import ProductPage from 'Route/ProductPage';
 import CmsPage from 'Route/CmsPage';
 import NoMatch from 'Route/NoMatch';
 import { getUrlParam } from 'Util/Url';
+import BrowserDatabase from 'Util/BrowserDatabase';
 
 class UrlRewrites extends Component {
+    constructor() {
+        super();
+
+        this.state = {
+            isNotFound: false,
+            placeholderType: ''
+        };
+    }
+
     componentWillMount() {
-        const { requestUrlRewrite, match, location } = this.props;
-        const urlParam = getUrlParam(match, location);
-        requestUrlRewrite({ urlParam });
+        const { status } = BrowserDatabase.getItem('response_status');
+        if (status === 200) {
+            const { type } = BrowserDatabase.getItem('response_type');
+            this.setState({ placeholderType: type });
+            const { requestUrlRewrite, match, location } = this.props;
+            const urlParam = getUrlParam(match, location);
+            requestUrlRewrite({ urlParam });
+        } else {
+            this.setState({ isNotFound: true });
+        }
     }
 
     componentWillUnmount() {
@@ -31,7 +48,7 @@ class UrlRewrites extends Component {
 
     switcher({ type, id, url_key }) {
         const { props } = this;
-
+        console.log('RENDERING SWITCHER')
         switch (type) {
         case 'PRODUCT':
             const newRoute = {
@@ -52,14 +69,31 @@ class UrlRewrites extends Component {
         }
     }
 
+    renderPlaceholders() {
+        const { props } = this;
+        const { placeholderType } = this.state;
+
+        switch (placeholderType) {
+        case 'PRODUCT':
+            return <ProductPage { ...props } isOnlyPlaceholder />;
+        case 'CMS_PAGE':
+            return <CmsPage { ...props } cmsId={ 0 } isOnlyPlaceholder />;
+        case 'CATEGORY':
+            return <CategoryPage { ...props } isOnlyPlaceholder />;
+        default:
+            return <NoMatch { ...props } />;
+        }
+    }
+
     render() {
         const { urlRewrite } = this.props;
+        const { isNotFound } = this.state;
 
-        if (urlRewrite && Object.entries(urlRewrite).length) {
+        if ((urlRewrite && Object.entries(urlRewrite).length) || isNotFound) {
             return this.switcher(urlRewrite);
         }
 
-        return null;
+        return this.renderPlaceholders();
     }
 }
 
