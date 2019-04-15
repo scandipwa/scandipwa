@@ -92,13 +92,12 @@
             }
 
             > div > .Select-Arrow::after {
-                margin-top: 0;
-                margin-bottom: 0.4rem;
+                margin-top: 0.8rem;
                 border: {
-                    top: 0;
-                    right: 1px solid var(--color-neutral-base);
-                    bottom: 1px solid var(--color-neutral-base);
-                    left: 0;
+                    top: 1px solid var(--color-neutral-base);
+                    right: 0;
+                    bottom: 0;
+                    left: 1px solid var(--color-neutral-base);
                 };
             }
         }
@@ -121,12 +120,12 @@
 
         &::after {
             content: '';
-            margin-top: 0.8rem;
             width: 0.7rem;
             height: 0.7rem;
+            margin-bottom: 0.4rem;
             border: {
-                left: 1px solid var(--color-neutral-base);
-                top: 1px solid var(--color-neutral-base);
+                right: 1px solid var(--color-neutral-base);
+                bottom: 1px solid var(--color-neutral-base);
             };
             transform: rotate(45deg);
         }

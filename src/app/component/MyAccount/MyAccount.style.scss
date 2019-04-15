@@ -145,8 +145,9 @@
         @include mobile {
             width: 100%;
             position: fixed;
-            border: 0;
-            height: calc(100% - 70px);
+            border-top: 0;
+            background-color: var(--color-cart-light);
+            height: auto;
             top: 70px;
             max-height: 100vh;
         }

@@ -46,7 +46,7 @@ class ProductSort extends Component {
             value,
             sortFields,
             sortDirection,
-            onGetSortKey
+            onGetKey
         } = this.props;
 
         const tempData = [];
@@ -71,9 +71,10 @@ class ProductSort extends Component {
                         <Select
                           block="ProductSort"
                           elem="Select"
+                          id="sort"
                           options={ selectableOptions }
                           selectedOption={ value }
-                          onGetSortKey={ onGetSortKey }
+                          onGetKey={ onGetKey }
                         />
                         <button
                           block="ProductSort"
@@ -92,7 +93,7 @@ class ProductSort extends Component {
 }
 
 ProductSort.propTypes = {
-    onGetSortKey: PropTypes.func.isRequired,
+    onGetKey: PropTypes.func.isRequired,
     onGetSortDirection: PropTypes.func.isRequired,
     value: PropTypes.string.isRequired,
     sortDirection: PropTypes.string.isRequired,
