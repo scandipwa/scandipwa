@@ -12,6 +12,7 @@
 import React, { Component, Children } from 'react';
 import PropTypes from 'prop-types';
 import Field from 'Component/Field';
+import Select from 'Component/Select';
 import valdationConfig from './Form.config';
 
 class Form extends Component {
@@ -39,7 +40,7 @@ class Form extends Component {
             if (child && typeof child === 'object' && child.type && child.props) {
                 const { type: { name }, props, props: { children } } = child;
 
-                if (name === Field.prototype.constructor.name) {
+                if (name === Field.prototype.constructor.name || name === Select.prototype.constructor.name) {
                     return fieldCallback(child);
                 }
 

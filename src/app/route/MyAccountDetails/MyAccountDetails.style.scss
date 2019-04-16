@@ -17,6 +17,10 @@
             left: auto;
             right: auto;
         }
+
+        @include mobile {
+            display: block;
+        }
     }
 
     &-Sidebar {
@@ -25,6 +29,10 @@
         padding-top: 1.8rem;
         margin-bottom: 1.9rem;
         border-right: 2px solid var(--color-breadcrumbs-background);
+
+        @include mobile {
+            display: none;
+        }
 
     }
 
@@ -70,6 +78,15 @@
         margin-top: 1rem;
     }
 
+    &-Country {
+        display: block;
+        margin-bottom: .3rem;
+        font-weight: 700;
+        font-size: 1.05rem;
+        line-height: 1.65rem;
+        pointer-events: none;
+    }
+
     span {
         top: .2rem;
     }
@@ -101,6 +118,10 @@
 
         &:hover {
             background-color: var(--color-cart-light);
+
+            @include mobile {
+                background-color: transparent;
+            }
         }
 
         &::before {
@@ -120,9 +141,29 @@
         grid-column-gap: 10%;
         padding-bottom: 2rem;
 
+        @include mobile {
+            display: block;
+            padding-top: 2rem;
+        }
+
         button {
             margin-top: 2rem;
             width: 60%;
-        } 
+
+            @include mobile {
+                width: 100%;
+            }
+        }
+
+        .Select-Wrapper {
+            span {
+                top: 0;
+            }
+
+            ul {
+                max-height: 15rem;
+                overflow-y: scroll;
+            }
+        }
     }
 }

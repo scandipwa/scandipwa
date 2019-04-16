@@ -65,7 +65,7 @@ class CategoryPage extends Component {
      * @param {String} key sort by key
      * @return {void}
      */
-    onGetSortKey(key) {
+    onGetKey(key) {
         const { location, history } = this.props;
 
         setQueryParams({ sortKey: key }, location, history);
@@ -383,7 +383,7 @@ class CategoryPage extends Component {
                     <aside block="CategoryPage" elem="Miscellaneous">
                         { this.renderItemCount() }
                         <ProductSort
-                          onGetSortKey={ key => this.onGetSortKey(key) }
+                          onGetKey={ key => this.onGetKey(key) }
                           onGetSortDirection={ direction => this.onGetSortDirection(direction) }
                           sortFields={ !isLoading && sortFields }
                           value={ sortKey }
