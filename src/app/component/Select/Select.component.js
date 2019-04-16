@@ -73,7 +73,7 @@ class Select extends Component {
     }
 
     render() {
-        const { options, formRef, id } = this.props;
+        const { options, reference, id } = this.props;
         const { selectValue } = this.state;
         const tempData = [];
         const selectedFilter = options.reduce((selectedFilter, option) => {
@@ -111,7 +111,7 @@ class Select extends Component {
                 <select
                   block="Select"
                   elem="Original"
-                  ref={ formRef }
+                  ref={ reference }
                   id={ id }
                   value={ selectValue }
                   readOnly
@@ -134,7 +134,7 @@ Select.propTypes = {
         })
     ).isRequired,
     id: PropTypes.string.isRequired,
-    formRef: PropTypes.oneOfType([
+    reference: PropTypes.oneOfType([
         PropTypes.func, 
         PropTypes.shape({ current: PropTypes.instanceOf(Element) })
     ])

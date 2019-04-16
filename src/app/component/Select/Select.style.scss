@@ -53,6 +53,7 @@
         ul {
             display:inherit;
             overflow: hidden;
+            max-height: 15rem;
 
             li {
                 padding: 0;
@@ -91,7 +92,7 @@
                 }
             }
 
-            > div > .Select-Arrow::after {
+            .Select-Arrow::after {
                 margin-top: 0.8rem;
                 border: {
                     top: 1px solid var(--color-neutral-base);
