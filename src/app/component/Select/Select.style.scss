@@ -111,12 +111,18 @@ $arrow-margin: 0.8rem;
 
     &-Form {
         pointer-events: none;
+        font-weight: 400;
+        font-size: 1.15rem;
+        color: inherit;
+        width: 100%;
+        line-height: 1.2;
+        padding-left: 15%;
 
         @include before-desktop {
             pointer-events: initial;
             font-weight: initial;
             padding: 0;
-            padding-left: 6%;
+            padding-left: 9%;
             width: 100%;
             font-size: 1.15rem;
         }
