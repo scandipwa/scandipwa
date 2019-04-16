@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import CartReducer from './Cart.reducer';
+import CartReducer, { PRODUCTS_IN_CART } from './Cart.reducer';
 import CartDispatcher, { GUEST_QUOTE_ID } from './Cart.dispatcher';
 import {
     ADD_PRODUCT_TO_CART,
@@ -24,6 +24,7 @@ import {
 
 export {
     CartReducer,
+    PRODUCTS_IN_CART,
     CartDispatcher,
     GUEST_QUOTE_ID,
     ADD_PRODUCT_TO_CART,

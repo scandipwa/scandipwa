@@ -16,6 +16,7 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import Image from 'Component/Image';
 import ProductPrice from 'Component/ProductPrice';
 import Field from 'Component/Field';
+import Loader from 'Component/Loader';
 import { ProductType } from 'Type/ProductList';
 import './CartItem.style';
 
@@ -24,6 +25,14 @@ import './CartItem.style';
  * @class CartItem
  */
 class CartItem extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            isLoading: false
+        };
+    }
+
     /**
      * Get link to product page
      * @param url_key Url to product
@@ -65,15 +74,11 @@ class CartItem extends Component {
      */
     handleChangeQuantity(value) {
         const { addProduct, product, product: { quantity } } = this.props;
-        let newQuantity;
-
-        if (quantity < value) {
-            newQuantity = 1;
-        } else {
-            newQuantity = -1;
-        }
-
-        addProduct({ product, quantity: newQuantity });
+        const newQuantity = quantity < value ? 1 : -1;
+        this.setState({ isLoading: true });
+        addProduct({ product, quantity: newQuantity }).then(
+            () => this.setState({ isLoading: false })
+        );
     }
 
     /**
@@ -82,7 +87,10 @@ class CartItem extends Component {
      */
     handleRemoveItem() {
         const { removeProduct, product } = this.props;
-        removeProduct({ product });
+        this.setState({ isLoading: true });
+        removeProduct({ product }).then(
+            () => this.setState({ isLoading: false })
+        );
     }
 
     /**
@@ -118,10 +126,10 @@ class CartItem extends Component {
               elem="Details"
             >
                 <Field
-                  id="QtySelector"
-                  type="number"
                   block="CartItem"
                   elem="QtySelector"
+                  id="QtySelector"
+                  type="number"
                   value={ quantity }
                   onChange={ quantity => this.handleChangeQuantity(quantity) }
                 />
@@ -133,6 +141,7 @@ class CartItem extends Component {
     }
 
     render() {
+        const { isLoading } = this.state;
         const {
             thumbnail: { path: thumbnail },
             url_key,
@@ -144,6 +153,7 @@ class CartItem extends Component {
 
         return (
             <li block="CartItem" aria-label="Cart Item">
+                <Loader isLoading={ isLoading } />
                 <div
                   block="CartItem"
                   elem="Thumbnail"

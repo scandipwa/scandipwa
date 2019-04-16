@@ -26,7 +26,7 @@ class ProductListQuery {
         if (!options) throw new Error('Missing argument `options`');
 
         const args = this._prepareArgumentList(options);
-        const items = this._prepareItemsField(options);
+        const items = this._prepareItemsField(options, new Field('items'));
         const sortFields = this._prepareSortFields();
         const filters = this._prepeareFiltersField();
 
@@ -246,6 +246,7 @@ class ProductListQuery {
                 .addField('id')
                 .addField('label')
                 .addField('attribute_code')
+                .addField('attribute_id')
                 .addField(values);
 
             const amount = new Field('amount')
@@ -410,10 +411,11 @@ class ProductListQuery {
      * Prepare `items` field
      * @private
      * @param  {{isSingleProduct: Boolean, search: String, categoryIds: Array<String|Number>, categoryUrlPath: String, activePage: Number, priceRange: {min: Number, max: Number}, sortKey: String, sortDirection: String, productPageSize: Number}} options A object containing different aspects of query, each item can be omitted
+     * @param {Field}
      * @return {Field} Prepared items field
      * @memberof ProductListQuery
      */
-    _prepareItemsField(options) {
+    _prepareItemsField(options, items) {
         const categories = this._prepareItemsCategoriesField(); // same for ProductList and single product
         const price = this._prepareItemsPriceField(); // same for ProductList and single product
         const images = this._prepareImageFields(options); // images related to product (based on `isSingleProduct` option)
@@ -429,7 +431,7 @@ class ProductListQuery {
             'sku'
         ];
 
-        return new Field('items')
+        return items
             .addFieldList(defaultFields) // Important fields, default for all Products
             .addField(categories) // Categories & Breadcrumbs
             .addField(price) // Minimal & Regular Price (Minimal – for Customizable products)

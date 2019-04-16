@@ -83,60 +83,6 @@ class ProductActions extends Component {
     }
 
     /**
-     * Dispatch add product to cart
-     * @return {void}
-     */
-    addProduct() {
-        const {
-            addProduct, product, product: {
-                variants, type_id
-            }, configurableVariantIndex
-        } = this.props;
-        const { itemCount } = this.state;
-
-        if (type_id === 'grouped') {
-            return this.addGroupedProducts(product);
-        }
-        switch (type_id) {
-        case 'grouped':
-            return this.addGroupedProducts(product);
-        case 'configurable':
-            if (variants) {
-                // mixing product data with variant to work properly in cart
-                const configurableProduct = {
-                    ...product,
-                    configurableVariantIndex
-                };
-
-                return addProduct({ product: configurableProduct, quantity: itemCount });
-            }
-            return addProduct({ product, quantity: itemCount });
-        default:
-            return addProduct({ product, quantity: itemCount });
-        }
-    }
-
-    /**
-     * Dispatch add product to cart for a grouped product
-     * @return {void}
-     */
-    addGroupedProducts(groupedProduct) {
-        const { items } = groupedProduct;
-        const { groupedProductQuantity, addProduct } = this.props;
-
-        items.forEach((item) => {
-            const { product } = item;
-            const {
-                items: deletedItems,
-                ...parentProduct
-            } = groupedProduct;
-
-            product.parent = parentProduct;
-            addProduct({ product, quantity: groupedProductQuantity[item.product.id] });
-        });
-    }
-
-    /**
      * Check that all page data is loaded
      * @return {Boolean}
      */
@@ -220,13 +166,24 @@ class ProductActions extends Component {
     }
 
     renderProductActions() {
-        const { product: { type_id } } = this.props;
+        const {
+            product: { type_id },
+            product,
+            configurableVariantIndex,
+            groupedProductQuantity
+        } = this.props;
+        const { itemCount } = this.state;
         const isGrouped = type_id === 'grouped';
 
         return (
             <>
                 { !isGrouped && this.renderConfigurableSimpleProduct() }
-                <AddToCart onClick={ () => this.addProduct() } />
+                <AddToCart
+                  quantity={ itemCount }
+                  product={ product }
+                  configurableVariantIndex={ configurableVariantIndex }
+                  groupedProductQuantity={ groupedProductQuantity }
+                />
             </>
         );
     }
@@ -369,7 +326,6 @@ class ProductActions extends Component {
 
 ProductActions.propTypes = {
     product: ProductType.isRequired,
-    addProduct: PropTypes.func.isRequired,
     availableFilters: PropTypes.arrayOf(PropTypes.shape).isRequired,
     configurableVariantIndex: PropTypes.number.isRequired,
     updateConfigurableVariantIndex: PropTypes.func.isRequired,

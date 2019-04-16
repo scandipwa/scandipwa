@@ -12,6 +12,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { NoMatchDispatcher } from 'Store/NoMatch';
+import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
 import NoMatchHandler from './NoMatchHandler.component';
 
 const mapStateToProps = state => ({
@@ -21,6 +22,10 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     updateNoMatch: (options) => {
         NoMatchDispatcher.updateNoMatch(dispatch, options);
+    },
+
+    updateToggleHeaderAndFooter: (options) => {
+        HeaderAndFooterDispatcher.toggleHeaderAndFooter(dispatch, options);
     }
 });
 

@@ -14,7 +14,8 @@ import Breadcrumbs from './Breadcrumbs.component';
 
 const mapStateToProps = state => ({
     breadcrumbs: state.BreadcrumbsReducer.breadcrumbs,
-    areBreadcrumbsVisible: state.BreadcrumbsReducer.areBreadcrumbsVisible
+    areBreadcrumbsVisible: state.BreadcrumbsReducer.areBreadcrumbsVisible,
+    isHeaderAndFooterVisible: state.HeaderAndFooterReducer.isHeaderAndFooterVisible
 });
 
 const BreadcrumbsContainer = connect(mapStateToProps)(Breadcrumbs);

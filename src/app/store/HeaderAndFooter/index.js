@@ -14,12 +14,16 @@ import HeaderAndFooterDispatcher from './HeaderAndFooter.dispatcher';
 
 import {
     UPDATE_MENU,
-    updateMenu
+    TOGGLE_HEADER_AND_FOOTER,
+    updateMenu,
+    toggleHeaderAndFooter
 } from './HeaderAndFooter.action';
 
 export {
     HeaderAndFooterReducer,
     HeaderAndFooterDispatcher,
     UPDATE_MENU,
-    updateMenu
+    TOGGLE_HEADER_AND_FOOTER,
+    updateMenu,
+    toggleHeaderAndFooter
 };

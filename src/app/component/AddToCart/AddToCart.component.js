@@ -11,6 +11,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { ProductType } from 'Type/ProductList';
 import './AddToCart.style';
 
 /**
@@ -20,7 +21,7 @@ import './AddToCart.style';
 class AddToCart extends Component {
     constructor(props) {
         super(props);
-        this.state = { transition: false };
+        this.state = { isLoading: false };
         this.timeOut = null;
     }
 
@@ -44,21 +45,51 @@ class AddToCart extends Component {
      * @return {void}
      */
     buttonClick() {
-        const { onClick } = this.props;
+        const {
+            product,
+            configurableVariantIndex,
+            groupedProductQuantity,
+            quantity,
+            addProduct
+        } = this.props;
+        const { variants, type_id } = product;
 
-        if (this.timeOut) {
-            clearTimeout(this.timeOut);
-            this.timeOut = this.setAnimationTimeout();
-        } else {
-            this.timeOut = this.setAnimationTimeout();
-            this.setState(({ transition }) => ({ transition: !transition }));
+        this.setState({ isLoading: true });
+
+        if (type_id === 'grouped') {
+            const { items } = product;
+            Promise.all(items.map((item) => {
+                // TODO: TEST
+                const { product: groupedProductItem } = item;
+                const {
+                    items: deletedItems,
+                    ...parentProduct
+                } = product;
+
+                groupedProductItem.parent = parentProduct;
+
+                return addProduct({
+                    product: groupedProductItem,
+                    quantity: groupedProductQuantity[groupedProductItem.id]
+                });
+            })).then(() => this.setState({ isLoading: false }));
         }
 
-        onClick();
+        const productToAdd = variants
+            ? {
+                ...product,
+                configurableVariantIndex
+            }
+            : product;
+
+        return addProduct({
+            product: productToAdd,
+            quantity
+        }).then(() => this.setState({ isLoading: false }));
     }
 
     render() {
-        const { transition } = this.state;
+        const { isLoading } = this.state;
         const { fullWidth } = this.props;
 
         return (
@@ -66,8 +97,8 @@ class AddToCart extends Component {
               onClick={ () => this.buttonClick() }
               block="AddToCart"
               elem="Button"
-              mods={ { animated: transition, fullWidth } }
-              disabled={ transition }
+              mods={ { isLoading, fullWidth } }
+              disabled={ isLoading }
             >
                 <span>Add to cart</span>
                 <span>Adding...</span>
@@ -77,12 +108,19 @@ class AddToCart extends Component {
 }
 
 AddToCart.propTypes = {
-    onClick: PropTypes.func.isRequired,
+    product: ProductType.isRequired,
+    quantity: PropTypes.number,
+    configurableVariantIndex: PropTypes.number,
+    groupedProductQuantity: PropTypes.objectOf(PropTypes.number),
+    addProduct: PropTypes.func.isRequired,
     fullWidth: PropTypes.bool
 };
 
 AddToCart.defaultProps = {
-    fullWidth: false
+    fullWidth: false,
+    quantity: 1,
+    configurableVariantIndex: 0,
+    groupedProductQuantity: {}
 };
 
 export default AddToCart;
