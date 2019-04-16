@@ -18,12 +18,6 @@ import './Select.style';
  * @class Select
  */
 class Select extends Component {
-    constructor(props) {
-        super(props);
-
-        this.isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    }
-
     /**
      * Handle Sort key change
      * @param {Object} option
@@ -36,40 +30,32 @@ class Select extends Component {
     }
 
     /**
-     * Render all available sort options
-     * @param {Object} option
+     * Render items for desktop dropdown
+     * @returns {void}
      */
-    renderSortOption(option) {
-        // TODO add onkeypress for options
-        return (
-                <option
-                  block="Select"
-                  elem="Option"
-                  key={ option.value }
-                  value={ option.value }
-                >
-                { option.label }
-                </option>
-        );
-    }
+    renderItems() {
+        const { options } = this.props;
 
-    render() {
-        // TODO add select as possible child type name in form component
-        const { options, selectedOption, formRef } = this.props;
-
-        const listItems = options.map(option => (
+        return options.map(option => (
             <li
               key={ option.value }
               role="presentation"
               onClick={ () => this.onGetSortKey(option.value) }
-              tabIndex={ 0 }
               onKeyPress={ () => this.onGetSortKey(option.value) }
             >
             {option.label}
             </li>
         ));
+    }
 
-        const listOptions = options.map(option => (
+    /**
+     * Render select options
+     * @returns {void}
+     */
+    renderOptions() {
+        const { options } = this.props;
+
+        return options.map(option => (
             <option
               key={ option.value }
               value={ option.value }
@@ -78,10 +64,15 @@ class Select extends Component {
                 { option.label }
             </option>
         ));
+    }
+
+    render() {
+        // TODO add select as possible child type name in form component
+        const { selectedOption, formRef } = this.props;
 
         return (
             <div block="Select" elem="Container">
-                <div block="Select" elem="Wrapper" tabIndex="0">
+                <div block="Select" elem="Wrapper">
                     <div block="Select" elem="Current">
                         <select
                           block="Select"
@@ -90,12 +81,12 @@ class Select extends Component {
                           value={ selectedOption }
                           onChange={ e => this.onGetSortKey(e.target.value) }
                         >
-                            { listOptions }
+                            { this.renderOptions() }
                         </select>
                         <div block="Select" elem="Arrow" />
                     </div>
                     <ul block="Select" elem="Elements" role="presentation">
-                        { listItems }
+                        { this.renderItems() }
                     </ul>
                 </div>
             </div>
