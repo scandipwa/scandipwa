@@ -130,6 +130,7 @@ $arrow-margin: 0.8rem;
 
     &-Elements {
         @include before-desktop {
+            // TODO: change to accesible-display-none mixin once it's merged
             position: absolute; 
             overflow: hidden;
             clip: rect(0 0 0 0); 
@@ -159,6 +160,7 @@ $arrow-margin: 0.8rem;
     }
 
     &-Original {
+        // TODO: change to accesible-display-none mixin once it's merged
         position: absolute;
         overflow: hidden;
         clip: rect(0 0 0 0);
