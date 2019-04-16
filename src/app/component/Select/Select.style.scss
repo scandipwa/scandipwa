@@ -8,20 +8,9 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+$arrow-margin: 0.8rem;
 
- @mixin arrow {
-    content: '';
-    margin-top: 0.8rem;
-    width: 0.7rem;
-    height: 0.7rem;
-    border: {
-        left: 1px solid var(--color-neutral-base);
-        top: 1px solid var(--color-neutral-base);
-    };
-    transform: rotate(45deg);
-  }
-
-  .Select {
+.Select {
     &-Container {
         min-width: 160px;
         height: 35px;
@@ -104,15 +93,11 @@
                 }
             }
 
-            > div > .Select-Arrow::after {
-                margin-top: 0;
-                margin-bottom: 0.4rem;
-                border: {
-                    top: 0;
-                    right: 1px solid var(--color-neutral-base);
-                    bottom: 1px solid var(--color-neutral-base);
-                    left: 0;
-                };
+            > div > .Select-Arrow {
+                @include desktop {
+                    margin-top: $arrow-margin / 2;
+                    transform: rotate(-135deg);
+                }
             }
         }
     }
@@ -124,30 +109,43 @@
         color: var(--color-neutral-dark);
     }
 
-    &-Mobile {
-        font-weight: initial;
-        padding: 0;
-        padding-left: 6%;
-        width: 100%;
-        font-size: 1.15rem;
-    }
+    &-Form {
+        pointer-events: none;
 
-    &-Arrow {
-        width: 20px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        text-align: center;
-        cursor: default;
-        transition: background-color 150ms ease;
-
-        &::after {
-            @include arrow;
+        @include before-desktop {
+            pointer-events: initial;
+            font-weight: initial;
+            padding: 0;
+            padding-left: 6%;
+            width: 100%;
+            font-size: 1.15rem;
         }
     }
 
-    &-Mobile-arrow {
-        @include arrow;
+    &-Elements {
+        @include before-desktop {
+            position: absolute; 
+            overflow: hidden;
+            clip: rect(0 0 0 0); 
+            height: 1px; 
+            width: 1px; 
+            margin: -1px;
+            padding: 0;
+            border: 0;
+        }
+    }
+
+    &-Arrow {
+        content: '';
+        margin-top: $arrow-margin;
+        width: 0.7rem;
+        height: 0.7rem;
+        border: {
+            left: 1px solid var(--color-neutral-base);
+            top: 1px solid var(--color-neutral-base);
+        };
+        transform: rotate(45deg);
+
         position: absolute;
         left: 85%;
         top: 15%;

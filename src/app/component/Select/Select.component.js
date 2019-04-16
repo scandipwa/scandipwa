@@ -56,18 +56,11 @@ class Select extends Component {
     render() {
         // TODO add select as possible child type name in form component
         const { options, selectedOption, formRef } = this.props;
-        const tempData = [];
-        const selectedFilter = options.reduce((selectedFilter, option) => {
-            if (option && option.value === selectedOption) {
-                tempData.push(option.label);
-            }
-
-            return tempData;
-        }, 0);
 
         const listItems = options.map(option => (
             <li
               key={ option.value }
+              role="presentation"
               onClick={ () => this.onGetSortKey(option.value) }
               tabIndex={ 0 }
               onKeyPress={ () => this.onGetSortKey(option.value) }
@@ -76,7 +69,7 @@ class Select extends Component {
             </li>
         ));
 
-        const mobileListItems = options.map(option => (
+        const listOptions = options.map(option => (
             <option
               key={ option.value }
               value={ option.value }
@@ -90,41 +83,21 @@ class Select extends Component {
             <div block="Select" elem="Container">
                 <div block="Select" elem="Wrapper" tabIndex="0">
                     <div block="Select" elem="Current">
-                    { this.isMobile
-                        ? (
-                            <>
-                                <select
-                                  block="Select"
-                                  elem="Mobile"
-                                  value={ selectedOption }
-                                  onChange={ e => this.onGetSortKey(e.target.value) }
-                                >
-                                    { mobileListItems }
-                                </select>
-                                <div block="Select" elem="Mobile-arrow" />
-                            </>
-                        )
-                        : (
-                            <>
-                                <span style={ { margin: 'auto' } } >{ selectedFilter }</span>
-                                <div block="Select" elem="Arrow" />
-                            </>
-                        ) }
+                        <select
+                          block="Select"
+                          elem="Form"
+                          ref={ formRef }
+                          value={ selectedOption }
+                          onChange={ e => this.onGetSortKey(e.target.value) }
+                        >
+                            { listOptions }
+                        </select>
+                        <div block="Select" elem="Arrow" />
                     </div>
-                    <ul role="presentation">
-                        { this.isMobile === false ? listItems : null }
+                    <ul block="Select" elem="Elements" role="presentation">
+                        { listItems }
                     </ul>
                 </div>
-                <select
-                  block="Select"
-                  elem="Original"
-                  ref={ formRef }
-                  value={ selectedOption }
-                  readOnly
-                  onChange={ e => this.onGetSortKey(e.target.value) }
-                >
-                    { options && options.map(option => this.renderSortOption(option)) }
-                </select>
             </div>
         );
     }
@@ -140,7 +113,7 @@ Select.propTypes = {
         })
     ).isRequired,
     formRef: PropTypes.oneOfType([
-        PropTypes.func, 
+        PropTypes.func,
         PropTypes.shape({ current: PropTypes.instanceOf(Element) })
     ])
 };
