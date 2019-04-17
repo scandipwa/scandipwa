@@ -17,6 +17,9 @@ import CmsPage from 'Route/CmsPage';
 import NoMatch from 'Route/NoMatch';
 import { getUrlParam } from 'Util/Url';
 
+const type_product = 'PRODUCT';
+const type_cms_page = 'CMS_PAGE';
+const type_category = 'CATEGORY';
 class UrlRewrites extends Component {
     componentWillMount() {
         const { requestUrlRewrite, match, location } = this.props;
@@ -33,7 +36,7 @@ class UrlRewrites extends Component {
         const { props } = this;
 
         switch (type) {
-        case 'PRODUCT':
+        case type_product:
             const newRoute = {
                 ...props,
                 location: {
@@ -43,9 +46,9 @@ class UrlRewrites extends Component {
 
             };
             return <ProductPage { ...newRoute } />;
-        case 'CMS_PAGE':
+        case type_cms_page:
             return <CmsPage { ...props } cmsId={ id } />;
-        case 'CATEGORY':
+        case type_category:
             return <CategoryPage { ...props } categoryIds={ id } />;
         default:
             return <NoMatch { ...props } />;
