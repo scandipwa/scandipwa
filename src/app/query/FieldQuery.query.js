@@ -16,12 +16,10 @@ import { Field } from 'Util/Query';
  * @class FieldQuery
  */
 class FieldQuery {
-    getCountryList() {
+    getCountriesList() {
         const countries = new Field('countries')
             .addField('id')
-            .addField('two_letter_abbreviation')
-            .addField('full_name_locale')
-            .addField('available_regions');
+            .addField('full_name_locale');
 
         return countries;
     }

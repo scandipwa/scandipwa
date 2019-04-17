@@ -14,12 +14,12 @@ import { FieldDispatcher } from 'Store/Field';
 import Field from './Field.component';
 
 const mapStateToProps = state => ({
-    test: state
+    countries: state.FieldReducer.countries
 });
 
 const mapDispatchToProps = dispatch => ({
-    getCountryList() {
-        return FieldDispatcher.getCountryList(dispatch);
+    getCountriesList() {
+        return FieldDispatcher.getCountriesList(dispatch);
     }
 });
 

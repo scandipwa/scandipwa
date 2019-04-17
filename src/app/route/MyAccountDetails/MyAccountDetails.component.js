@@ -312,7 +312,7 @@ class MyAccountDetails extends Component {
                           type="select"
                           label="Country"
                           id="country_id"
-                          value={ country_id || DEFAULT_COUNTRY }
+                          value={ selectValue || country_id || DEFAULT_COUNTRY }
                         />
                     </fieldset>
                     <button block="MyAccountDetails" elem="Submit" type="submit">Add Address</button>

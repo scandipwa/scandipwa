@@ -345,6 +345,13 @@ class CategoryPage extends Component {
             maxPriceRange
         } = this.state;
 
+        const { options } = sortFields;
+
+        const updatedSortFields = options && Object.values(options).map(option => ({
+            id: option.value,
+            label: option.label
+        }));
+
         const isNewCategory = this.isNewCategory();
         const customFilters = this.getCustomFiltersFromUrl();
 
@@ -385,7 +392,7 @@ class CategoryPage extends Component {
                         <ProductSort
                           onGetKey={ key => this.onGetKey(key) }
                           onGetSortDirection={ direction => this.onGetSortDirection(direction) }
-                          sortFields={ !isLoading && sortFields }
+                          sortFields={ !isLoading && updatedSortFields }
                           value={ sortKey }
                           sortDirection={ sortDirection }
                         />

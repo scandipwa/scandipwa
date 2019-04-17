@@ -20,7 +20,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Select from 'Component/Select';
-import CountryConfig from 'Util/Config/config';
 import './Field.style';
 
 const TEXT_TYPE = 'text';
@@ -82,6 +81,12 @@ class Field extends Component {
         }
 
         return null;
+    }
+
+    componentDidMount() {
+        const { getCountriesList, id } = this.props;
+
+        if (id === 'country_id') getCountriesList();
     }
 
     onChange(event) {
@@ -258,7 +263,7 @@ class Field extends Component {
     }
 
     renderTypeSelect() {
-        const { id, formRef, getCountryList } = this.props;
+        const { id, formRef, countries } = this.props;
         const { value } = this.state;
 
         return (
@@ -267,8 +272,7 @@ class Field extends Component {
               elem="Select"
               id={ id }
               reference={ formRef }
-              options={ CountryConfig }
-            //   options={ getCountryList() }
+              options={ countries }
               selectedOption={ value }
               onGetKey={ this.onChange }
             />
@@ -355,7 +359,13 @@ Field.propTypes = {
         PropTypes.shape({ current: PropTypes.instanceOf(Element) })
     ]),
     isAutocompleteAllowed: PropTypes.bool,
-    getCountryList: PropTypes.func.isRequired
+    countries: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.string,
+            label: PropTypes.string
+        })
+    ).isRequired,
+    getCountriesList: PropTypes.func.isRequired
 };
 
 Field.defaultProps = {
