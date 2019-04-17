@@ -29,9 +29,9 @@ class UrlRewrites extends Component {
     }
 
     componentWillMount() {
-        const { status } = BrowserDatabase.getItem('response_status');
-        if (status === 200) {
-            const { type } = BrowserDatabase.getItem('response_type');
+        const { type } = BrowserDatabase.getItem('actionName');
+
+        if (type !== 'NOT_FOUND') {
             this.setState({ placeholderType: type });
             const { requestUrlRewrite, match, location } = this.props;
             const urlParam = getUrlParam(match, location);
@@ -48,7 +48,7 @@ class UrlRewrites extends Component {
 
     switcher({ type, id, url_key }) {
         const { props } = this;
-        console.log('RENDERING SWITCHER')
+
         switch (type) {
         case 'PRODUCT':
             const newRoute = {

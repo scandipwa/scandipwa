@@ -54,9 +54,6 @@ class ProductPage extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        const { product } = this.props;
-
-        if (product !== prevProps.product) this.requestProduct();
         if (this.variantIndexInPropsChanged(this.props, prevProps)) this.setState({ isConfigurationInitilized: false });
         this.updateBreadcrumbs();
     }

@@ -9,15 +9,10 @@
                     navigator.serviceWorker.register('/sw.js');
                 });
             }
-            const response = {
-                status: 200
-            };
-            const object = {
-                type: 'CMS_PAGE'
-            }
-            console.log('test2')
-            localStorage.setItem('response_status', JSON.stringify(response));
-            localStorage.setItem('response_type', JSON.stringify(object));
+            const actionName = {
+                    type: `<?php echo $this->action; ?>`
+                };
+            localStorage.setItem('actionName', JSON.stringify(actionName));
         </script>
 
         <!-- TODO: Find or implement helper to generate fonts related code -->
