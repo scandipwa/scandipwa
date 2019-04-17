@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { RequestDispatcher } from 'Util/Request';
+import { QueryDispatcher } from 'Util/Request';
 import { UrlRewritesQuery } from 'Query';
 import { showNotification } from 'Store/Notification';
 import { updateUrlRewrite, clearUrlRewrite } from 'Store/UrlRewrites';
@@ -19,7 +19,7 @@ import { updateUrlRewrite, clearUrlRewrite } from 'Store/UrlRewrites';
  * @class UrlRewritesDispatcher
  * @extends RequestDispatcher
  */
-class UrlRewritesDispatcher extends RequestDispatcher {
+class UrlRewritesDispatcher extends QueryDispatcher {
     constructor() {
         super('UrlRewrites', 86400);
     }
