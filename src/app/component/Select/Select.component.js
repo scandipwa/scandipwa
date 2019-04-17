@@ -31,8 +31,8 @@ class Select extends Component {
         const { selectedOption, options } = props;
         const tempData = [];
         const selectedFilter = options.reduce((selectedFilter, option) => {
-            if (option && option.value === selectedOption) {
-                tempData.push(option.value);
+            if (option && option.id === selectedOption) {
+                tempData.push(option.id);
             }
 
             return tempData;
@@ -64,8 +64,8 @@ class Select extends Component {
                 <option
                   block="Select"
                   elem="Option"
-                  key={ option.value }
-                  value={ option.value }
+                  key={ option.id }
+                  value={ option.id }
                 >
                 { option.label }
                 </option>
@@ -73,11 +73,11 @@ class Select extends Component {
     }
 
     render() {
-        const { options, formRef, id } = this.props;
+        const { options, reference, id } = this.props;
         const { selectValue } = this.state;
         const tempData = [];
         const selectedFilter = options.reduce((selectedFilter, option) => {
-            if (option && option.value === selectValue) {
+            if (option && option.id === selectValue) {
                 tempData.push(option.label);
             }
 
@@ -85,21 +85,24 @@ class Select extends Component {
         }, 0);
 
         const listItems = options.map(option => (
-            <li
-              key={ option.value }
-              onClick={ () => this.onGetKey(option.value) }
-              tabIndex={ 0 }
-              onKeyPress={ () => this.onGetKey(option.value) }
-            >
-            {option.label}
-            </li>
+            option.label
+            && (
+                <li
+                  key={ option.id }
+                  onClick={ () => this.onGetKey(option.id) }
+                  tabIndex={ 0 }
+                  onKeyPress={ () => this.onGetKey(option.id) }
+                >
+                {option.label}
+                </li>
+            )
         ));
 
         return (
             <div block="Select" elem="Container">
                 <div block="Select" elem="Wrapper" tabIndex="0">
                     <div block="Select" elem="Current">
-                        <span>{ selectedFilter }</span>
+                        <span>{ selectedFilter || '' }</span>
                         <div block="Select" elem="Arrow" />
                     </div>
                     <ul
@@ -111,13 +114,13 @@ class Select extends Component {
                 <select
                   block="Select"
                   elem="Original"
-                  ref={ formRef }
+                  ref={ reference }
                   id={ id }
                   value={ selectValue }
                   readOnly
                   onChange={ e => this.onGetKey(e.target.value) }
                 >
-                { options && options.map(option => this.renderSortOption(option)) }
+                { options && options.map(option => option.label && this.renderSortOption(option)) }
                 </select>
             </div>
         );
@@ -126,7 +129,6 @@ class Select extends Component {
 
 Select.propTypes = {
     onGetKey: PropTypes.func.isRequired,
-    selectedOption: PropTypes.string.isRequired,
     options: PropTypes.arrayOf(
         PropTypes.shape({
             value: PropTypes.string,
@@ -134,10 +136,10 @@ Select.propTypes = {
         })
     ).isRequired,
     id: PropTypes.string.isRequired,
-    formRef: PropTypes.oneOfType([
-        PropTypes.func, 
+    reference: PropTypes.oneOfType([
+        PropTypes.func,
         PropTypes.shape({ current: PropTypes.instanceOf(Element) })
-    ])
+    ]).isRequired
 };
 
 export default Select;

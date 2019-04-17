@@ -13,9 +13,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Field from 'Component/Field';
 import Form from 'Component/Form';
-import Select from 'Component/Select';
 import TextPlaceholder from 'Component/TextPlaceholder';
-import CountryConfig from 'Util/Config/config';
 import { Redirect } from 'react-router';
 import './MyAccountDetails.style';
 
@@ -23,7 +21,7 @@ const STATE_ACCOUNT_OVERVIEW = 'accountOverview';
 const STATE_EDIT_INFORMATION = 'editInformation';
 const STATE_EDIT_PASSWORD = 'editPassword';
 const STATE_UPDATE_ADDRESS = 'updateAddress';
-const DEFAULT_COUNTRY = 'LV';
+const DEFAULT_COUNTRY = 'US';
 
 class MyAccountDetails extends Component {
     constructor(props) {
@@ -310,17 +308,12 @@ class MyAccountDetails extends Component {
                           validation={ ['notEmpty'] }
                           value={ region && region.region }
                         />
-                        <div block="Field">
-                            <span block="MyAccountDetails" elem="Country">Country</span>
-                            <Select
-                              block="ProductSort"
-                              elem="Select"
-                              id="country_id"
-                              options={ CountryConfig }
-                              selectedOption={ selectValue || country_id || DEFAULT_COUNTRY }
-                              onGetKey={ (value) => { this.changeSelectValue(value); } }
-                            />
-                        </div>
+                        <Field
+                          type="select"
+                          label="Country"
+                          id="country_id"
+                          value={ selectValue || country_id || DEFAULT_COUNTRY }
+                        />
                     </fieldset>
                     <button block="MyAccountDetails" elem="Submit" type="submit">Add Address</button>
                 </Form>

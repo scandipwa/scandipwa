@@ -50,8 +50,8 @@ class ProductSort extends Component {
         } = this.props;
 
         const tempData = [];
-        const selectableOptions = sortFields.options && sortFields.options.reduce((selectableOptions, option) => {
-            if (option && option.value !== 'size' && option.value !== 'position') {
+        const selectableOptions = sortFields && sortFields.reduce((selectableOptions, option) => {
+            if (option && option.id !== 'size' && option.id !== 'position') {
                 tempData.push(option);
             }
 
@@ -99,7 +99,12 @@ ProductSort.propTypes = {
     sortDirection: PropTypes.string.isRequired,
     sortFields: PropTypes.oneOfType([
         PropTypes.bool,
-        PropTypes.objectOf(PropTypes.array)
+        PropTypes.arrayOf(
+            PropTypes.shape({
+                id: PropTypes.string,
+                label: PropTypes.string
+            })
+        )
     ]).isRequired
 };
 

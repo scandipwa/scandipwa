@@ -9,6 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import FieldContainer from './Field.container';
+const GET_COUNTRY_LIST = 'GET_COUNTRY_LIST';
 
-export default FieldContainer;
+const getCountryList = countries => ({
+    type: GET_COUNTRY_LIST,
+    countries
+});
+
+export {
+    getCountryList,
+    GET_COUNTRY_LIST
+};
