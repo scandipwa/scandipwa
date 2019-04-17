@@ -20,6 +20,7 @@ const STATE_FIELD_ID = 'region_id';
 const ZIP_FIELD_ID = 'postcode';
 const PHONE_FIELD_ID = 'telephone';
 const COUNTRY_FIELD_ID = 'country_id';
+const DEFAULT_COUNTRY = 'US';
 
 class CheckoutShippingStep extends Component {
     constructor(props) {
@@ -144,8 +145,9 @@ class CheckoutShippingStep extends Component {
 
     renderField(id, overrideStateValue) {
         const { [id]: stateValue } = this.state;
+        const isSelect = id === 'country_id';
         const {
-            type = 'text',
+            type = isSelect ? 'select' : 'text',
             label,
             note,
             validation = ['notEmpty'],
@@ -158,7 +160,7 @@ class CheckoutShippingStep extends Component {
               type={ type }
               label={ label }
               note={ note }
-              value={ overrideStateValue || stateValue }
+              value={ overrideStateValue || stateValue || (isSelect && DEFAULT_COUNTRY) }
               validation={ validation }
               onChange={ onChange }
             />
