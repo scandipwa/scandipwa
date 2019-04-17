@@ -9,6 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import CmsPage from './CmsPage';
+import PasswordChangePage from './PasswordChangePage.container';
 
-export default CmsPage;
+export default PasswordChangePage;
