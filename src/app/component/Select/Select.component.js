@@ -137,6 +137,7 @@ Select.propTypes = {
     ).isRequired,
     id: PropTypes.string.isRequired,
     reference: PropTypes.oneOfType([
+        PropTypes.bool,
         PropTypes.func,
         PropTypes.shape({ current: PropTypes.instanceOf(Element) })
     ]).isRequired

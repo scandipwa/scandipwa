@@ -75,6 +75,7 @@ class ProductSort extends Component {
                           options={ selectableOptions }
                           selectedOption={ value }
                           onGetKey={ onGetKey }
+                          reference={ false }
                         />
                         <button
                           block="ProductSort"
