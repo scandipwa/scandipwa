@@ -125,12 +125,6 @@ textarea {
 
 [type="checkbox"] {
     + label {
-        &:hover {
-
-        }
-    }
-
-    + label {
         &::after {
             left: .25rem;
             top: .6rem;

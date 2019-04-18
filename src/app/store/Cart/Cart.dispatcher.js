@@ -43,7 +43,7 @@ class CartDispatcher {
             // Need to create empty cart and save quote
             this._createEmptyCart().then((data) => {
                 BrowserDatabase.setItem(data, GUEST_QUOTE_ID);
-                dispatch(updateAllProductsInCart([]));
+                dispatch(updateAllProductsInCart({}));
             });
         }
     }
