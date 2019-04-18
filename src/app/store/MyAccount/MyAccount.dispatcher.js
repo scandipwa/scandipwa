@@ -18,8 +18,7 @@ import {
 import { QueryDispatcher, fetchMutation, executePost } from 'Util/Request';
 import {
     setAuthorizationToken,
-    deleteAuthorizationToken,
-    isSignedIn
+    deleteAuthorizationToken
 } from 'Util/Auth';
 import { CartDispatcher } from 'Store/Cart';
 import { showNotification } from 'Store/Notification';
@@ -150,7 +149,7 @@ class MyAccountDispatcher extends QueryDispatcher {
     signIn(options = {}, dispatch) {
         const mutation = MyAccount.getSignInMutation(options);
 
-        fetchMutation(mutation).then(
+        return fetchMutation(mutation).then(
             ({ generateCustomerToken: { token } }) => {
                 // TODO: TEST
                 setAuthorizationToken(token);

@@ -12,7 +12,6 @@
 .Header {
     --header-color: var(--color-breadcrumbs-background);
     --add-info-color: var(--color-primary-base);
-
     background-color: var(--header-color);
 
     @include mobile {
@@ -108,7 +107,7 @@
 
     &-Info {
         margin-top: .2rem;
-        margin-left: auto; 
+        margin-left: auto;
         text-align: right;
 
         p {

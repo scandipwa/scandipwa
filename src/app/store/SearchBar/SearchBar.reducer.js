@@ -41,7 +41,7 @@ const SearchBarReducer = (state = initialState, action) => {
     case CLEAR_SEARCH_RESULTS:
         return {
             ...state,
-            productsInSearch: initialState.products
+            productsInSearch: initialState.productsInSearch
         };
 
     default:

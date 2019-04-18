@@ -10,6 +10,7 @@
  */
 
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import SearchBar from 'Component/SearchBar';
 import MiniCart from 'Component/MiniCart';
 import MyAccount from 'Component/MyAccount';
@@ -24,7 +25,9 @@ import './Header.style';
  */
 class Header extends Component {
     render() {
-        return (
+        const { isHeaderAndFooterVisible } = this.props;
+
+        return isHeaderAndFooterVisible && (
             <header block="Header" aria-label="Header">
                 <div block="Header" elem="Wrapper">
                     <div block="Header" elem="Logo" aria-label="Header logo">
@@ -56,5 +59,9 @@ class Header extends Component {
         );
     }
 }
+
+Header.propTypes = {
+    isHeaderAndFooterVisible: PropTypes.bool.isRequired
+};
 
 export default Header;
