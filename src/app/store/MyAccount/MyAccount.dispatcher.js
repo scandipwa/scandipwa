@@ -22,6 +22,7 @@ import {
     isSignedIn
 } from 'Util/Auth';
 import { CartDispatcher } from 'Store/Cart';
+import { showNotification } from 'Store/Notification';
 import { MyAccount } from 'Query';
 import { prepareQuery } from 'Util/Query';
 
@@ -66,7 +67,7 @@ class MyAccountDispatcher extends QueryDispatcher {
 
         return fetchMutation(mutation).then(
             ({ password }) => dispatch(updateCustomerDetails(password)),
-            error => console.log(error)
+            error => dispatch(showNotification('error', error[0].message))
         );
     }
 
