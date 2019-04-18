@@ -30,69 +30,65 @@ class Select extends Component {
     }
 
     /**
-     * Render all available sort options
-     * @param {Object} option
+     * Render items for desktop dropdown
+     * @returns {void}
      */
-    renderSortOption(option) {
-        // TODO add onkeypress for options
-        return (
-                <option
-                  block="Select"
-                  elem="Option"
-                  key={ option.value }
-                  value={ option.value }
-                >
-                { option.label }
-                </option>
-        );
-    }
+    renderItems() {
+        const { options } = this.props;
 
-    render() {
-        // TODO add select as possible child type name in form component
-        const { options, selectedOption, formRef } = this.props;
-        const tempData = [];
-        const selectedFilter = options.reduce((selectedFilter, option) => {
-            if (option && option.value === selectedOption) {
-                tempData.push(option.label);
-            }
-
-            return tempData;
-        }, 0);
-
-        const listItems = options.map(option => (
+        return options.map(option => (
             <li
               key={ option.value }
+              role="presentation"
               onClick={ () => this.onGetSortKey(option.value) }
-              tabIndex={ 0 }
               onKeyPress={ () => this.onGetSortKey(option.value) }
             >
             {option.label}
             </li>
         ));
+    }
+
+    /**
+     * Render select options
+     * @returns {void}
+     */
+    renderOptions() {
+        const { options } = this.props;
+
+        return options.map(option => (
+            <option
+              key={ option.value }
+              value={ option.value }
+              tabIndex={ 0 }
+            >
+                { option.label }
+            </option>
+        ));
+    }
+
+    render() {
+        // TODO add select as possible child type name in form component
+        const { selectedOption, formRef } = this.props;
 
         return (
             <div block="Select" elem="Container">
-                <div block="Select" elem="Wrapper" tabIndex="0">
+                <div block="Select" elem="Wrapper">
                     <div block="Select" elem="Current">
-                        <span>{ selectedFilter }</span>
+                        <select
+                          block="Select"
+                          elem="Form"
+                          ref={ formRef }
+                          value={ selectedOption }
+                          onChange={ e => this.onGetSortKey(e.target.value) }
+                        >
+                            { this.renderOptions() }
+                        </select>
                         <div block="Select" elem="Arrow" />
                     </div>
-                    <ul
-                      role="presentation"
-                    >
-                    { listItems }
+                    <ul block="Select" elem="Elements" role="presentation">
+                        { this.renderItems() }
                     </ul>
                 </div>
-                <select
-                  block="Select"
-                  elem="Original"
-                  ref={ formRef }
-                  value={ selectedOption }
-                  readOnly
-                  onChange={ e => this.onGetSortKey(e.target.value) }
-                >
-                { options && options.map(option => this.renderSortOption(option)) }
-                </select>
             </div>
         );
     }
@@ -108,9 +104,13 @@ Select.propTypes = {
         })
     ).isRequired,
     formRef: PropTypes.oneOfType([
-        PropTypes.func, 
+        PropTypes.func,
         PropTypes.shape({ current: PropTypes.instanceOf(Element) })
     ])
+};
+
+Select.defaultProps = {
+    formRef: null
 };
 
 export default Select;
