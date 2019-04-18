@@ -11,6 +11,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import TextPlaceholder from 'Component/TextPlaceholder';
 import './Select.style';
 
 /**
@@ -102,7 +103,7 @@ class Select extends Component {
             <div block="Select" elem="Container">
                 <div block="Select" elem="Wrapper" tabIndex="0">
                     <div block="Select" elem="Current">
-                        <span>{ selectedFilter || '' }</span>
+                        <span>{ selectedFilter || <TextPlaceholder length="short" /> }</span>
                         <div block="Select" elem="Arrow" />
                     </div>
                     <ul

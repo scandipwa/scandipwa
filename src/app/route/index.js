@@ -227,6 +227,7 @@ AppRouter.propTypes = {
     updateInitialCartData: PropTypes.func.isRequired
 };
 
+// TODO add countries list
 const mapDispatchToProps = dispatch => ({
     updateHeaderAndFooter: (options) => {
         HeaderAndFooterDispatcher.handleData(dispatch, options);

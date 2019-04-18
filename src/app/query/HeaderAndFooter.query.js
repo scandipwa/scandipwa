@@ -12,10 +12,10 @@
 import { Field } from 'Util/Query';
 
 /**
- * FieldQuery Mutations
- * @class FieldQuery
+ * HeaderAndFooter Mutations
+ * @class HeaderAndFooter
  */
-class FieldQuery {
+class HeaderAndFooter {
     getCountriesList() {
         const countries = new Field('countries')
             .addField('id')
@@ -25,4 +25,4 @@ class FieldQuery {
     }
 }
 
-export default new FieldQuery();
+export default new HeaderAndFooter();

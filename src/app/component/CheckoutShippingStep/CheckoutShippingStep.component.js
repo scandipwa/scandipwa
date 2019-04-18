@@ -37,7 +37,7 @@ class CheckoutShippingStep extends Component {
             city: '',
             region_id: '',
             postcode: '',
-            country_id: '',
+            country_id: DEFAULT_COUNTRY,
             telephone: '',
             shippingMethods: [],
             activeShippingMethod: {},
@@ -71,7 +71,7 @@ class CheckoutShippingStep extends Component {
             [CITY_FIELD_ID]: { label: 'City' },
             [STATE_FIELD_ID]: { label: 'State', validation: [] },
             [ZIP_FIELD_ID]: { label: 'Postal Code' },
-            [COUNTRY_FIELD_ID]: { label: 'Country' },
+            [COUNTRY_FIELD_ID]: { label: 'Country', type: 'select' },
             [PHONE_FIELD_ID]: { label: 'Phone Number' }
         };
     }
@@ -145,9 +145,8 @@ class CheckoutShippingStep extends Component {
 
     renderField(id, overrideStateValue) {
         const { [id]: stateValue } = this.state;
-        const isSelect = id === 'country_id';
         const {
-            type = isSelect ? 'select' : 'text',
+            type = 'text',
             label,
             note,
             validation = ['notEmpty'],
@@ -160,7 +159,7 @@ class CheckoutShippingStep extends Component {
               type={ type }
               label={ label }
               note={ note }
-              value={ overrideStateValue || stateValue || (isSelect && DEFAULT_COUNTRY) }
+              value={ overrideStateValue || stateValue }
               validation={ validation }
               onChange={ onChange }
             />

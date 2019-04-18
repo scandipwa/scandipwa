@@ -4,7 +4,8 @@
     &-Wrapper {
         max-width: 1200px;
         display: grid;
-        grid-template-columns: 20% 78%;
+        // Use only with sidebar
+        // grid-template-columns: 20% 78%;
         grid-column-gap: 2%;
 
         padding: {
@@ -29,11 +30,7 @@
         padding-top: 1.8rem;
         margin-bottom: 1.9rem;
         border-right: 2px solid var(--color-breadcrumbs-background);
-
-        @include mobile {
-            display: none;
-        }
-
+        display: none;
     }
 
     &-AddressWrapper {

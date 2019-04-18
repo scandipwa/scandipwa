@@ -87,12 +87,6 @@ class Field extends Component {
         return null;
     }
 
-    componentDidMount() {
-        const { getCountriesList, id } = this.props;
-
-        if (id === 'country_id') getCountriesList();
-    }
-
     onChange(event) {
         if (typeof event === 'string') {
             return this.setState({ value: event });
@@ -269,7 +263,7 @@ class Field extends Component {
     }
 
     renderTypeSelect() {
-        const { id, formRef, countries } = this.props;
+        const { id, formRef, selectOptions } = this.props;
         const { value } = this.state;
 
         return (
@@ -278,7 +272,7 @@ class Field extends Component {
               elem="Select"
               id={ id }
               reference={ formRef }
-              options={ countries }
+              options={ selectOptions }
               selectedOption={ value }
               onGetKey={ this.onChange }
             />
@@ -366,20 +360,20 @@ Field.propTypes = {
         PropTypes.shape({ current: PropTypes.instanceOf(Element) })
     ]),
     isAutocompleteAllowed: PropTypes.bool,
-    countries: PropTypes.arrayOf(
+    selectOptions: PropTypes.arrayOf(
         PropTypes.shape({
             id: PropTypes.string,
             label: PropTypes.string
         })
-    ).isRequired,
-    getCountriesList: PropTypes.func.isRequired
+    )
 };
 
 Field.defaultProps = {
     rows: 4,
     min: 0,
     block: null,
-    elem: null
+    elem: null,
+    selectOptions: []
 };
 
 export default Field;

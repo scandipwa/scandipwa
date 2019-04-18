@@ -142,11 +142,7 @@
         }
     }
 
-    .Select-Container {
-            max-width: 40rem;
-
-        ul {
-            overflow-y: scroll;
-        }
+    ul {
+        overflow-y: auto;
     }
 }
