@@ -9,10 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-.Button {
-    @include button;
-}
+import { connect } from 'react-redux';
+import MenuOverlay from './MenuOverlay.component';
 
-button {
-    background-color: transparent;
-}
+const mapStateToProps = state => ({
+    menu: state.HeaderAndFooterReducer.menu
+});
+
+export default connect(mapStateToProps)(MenuOverlay);

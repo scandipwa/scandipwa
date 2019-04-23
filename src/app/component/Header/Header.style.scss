@@ -1,130 +1,301 @@
-/**
- * ScandiPWA - Progressive Web App for Magento
- *
- * Copyright © Scandiweb, Inc. All rights reserved.
- * See LICENSE for license details.
- *
- * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
- */
+:root {
+	--header-background: #fff;
+	--header-color: #000;
+	--header-search-field-background: #f3f3f3;
+	--header-search-field-color: #6e6e6e;
+}
+
+@mixin close-button {
+	&::before,
+	&::after {
+		content: '';
+		position: absolute;
+		width: 1px;
+		height: 20px;
+		transform-origin: 50% 50%;
+		top: 7px;
+		transform: rotate(-45deg);
+		background-color: var(--header-color);
+	}
+
+	&::after {
+		transform: rotate(45deg);
+	}
+}
+
+@mixin back-button {
+	&::before,
+	&::after {
+		content: '';
+		position: absolute;
+	}
+
+	&::before {
+		width: 18px;
+		height: 1px;
+		top: 16px;
+		right: 8px;
+		background-color: var(--header-color);
+	}
+
+	&::after {
+		width: 8px;
+		height: 8px;
+		top: 12px;
+		left: 10px;
+		transform: rotate(-45deg);
+
+		border: {
+			top: 1px solid var(--header-color);
+			left: 1px solid var(--header-color);
+		}
+	}
+}
+
+@mixin menu-button {
+	&::before,
+	&::after {
+		content: '';
+		position: absolute;
+	}
+
+	&::after {
+		width: 7px;
+		height: 1px;
+		top: 10px;
+		left: 8px;
+		background-color: var(--header-color);
+		box-shadow:
+			3px 0 0 0 var(--header-color),
+			0 6px 0 0 var(--header-color),
+			2px 6px 0 0 var(--header-color),
+			0 12px 0 0 var(--header-color),
+			6px 12px 0 0 var(--header-color),
+			10px 12px 0 0 var(--header-color);
+	}
+
+	&::before {
+		width: 10px;
+		height: 10px;
+		border: 1px solid var(--header-color);
+		border-radius: 50%;
+		top: 8px;
+		right: 4px;
+		box-shadow:
+			4px 4px 0 -5px var(--header-color),
+			5px 5px 0 -5px var(--header-color),
+			6px 6px 0 -5px var(--header-color),
+			7px 7px 0 -5px var(--header-color),
+			8px 8px 0 -5px var(--header-color);
+	}
+}
+
+@mixin account-button {
+	&::before,
+	&::after {
+		content: '';
+		position: absolute;
+	}
+
+	&::before {
+		width: 7px;
+		height: 7px;
+		border: 1px solid var(--header-color);
+		border-radius: 50%;
+		top: 9px;
+		right: 0;
+		left: 0;
+		margin: auto;
+		box-shadow:
+			0 14px 0 3px var(--header-background),
+			0 14px 0 4px var(--header-color);
+	}
+
+	&::after {
+		background-color: var(--header-background);
+		bottom: -1px;
+		left: 0;
+		height: 10px;
+		width: 100%;
+	}
+}
+
+@mixin minicart-button {
+	&::before,
+	&::after {
+		content: '';
+		position: absolute;
+	}
+
+	&::before {
+		border: 1px solid var(--header-color);
+		border-radius: 1px;
+		width: 10px;
+		height: 12px;
+		top: 12px;
+		right: 10px;
+	}
+
+	&::after {
+		border: {
+			top: 1px solid var(--header-color);
+			left: 1px solid var(--header-color);
+			right: 1px solid var(--header-color);
+			top-right-radius: 2px;
+			top-left-radius: 2px;
+		};
+		width: 6px;
+		height: 5px;
+		right: 12px;
+		top: 9px;
+	}
+
+	span {
+		left: -12px;
+	}
+}
+
+@mixin clear-search-button {
+	@include close-button;
+
+	border-radius: 50%;
+	background-color: var(--header-search-field-background);
+	box-shadow: inset 0 0 0 6px var(--header-background);
+
+	&::before,
+	&::after {
+		height: 11px;
+		width: 1px;
+		top: 12px;
+		left: 17px;
+		background-color: var(--header-search-field-color);
+	}
+}
 
 .Header {
-    --header-color: var(--color-breadcrumbs-background);
-    --add-info-color: var(--color-primary-base);
-    background-color: var(--header-color);
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: 100;
 
-    @include mobile {
-        position: fixed;
-        z-index: 8;
-        width: 100%;
-        left: 0;
-        top: 0;
-    }
+    &-Nav {
+        height: 50px;
+        display: flex;
+        align-items: center;
+		background-color: var(--header-background);
+		padding: 0 1rem;
+		z-index: 20;
+	}
 
-    &-MenuWrapper {
-        @include after-mobile {
-            display: grid;
-            grid-template-columns: 5fr 13rem 7rem 5rem;
-        }
-    }
+	&-Button {
+		overflow: hidden;
+		pointer-events: none;
+		height: 35px;
+		width: 0;
+		margin: 0;
 
-    &-Wrapper {
-        padding: 1rem;
-        display: grid;
-        margin: auto;
-        grid-template-columns: 1fr 40rem 1fr;
-        max-width: 1200px;
+		// animation
+		transition: opacity 200ms;
+		opacity: 0;
 
-        @include mobile {
-            grid-template-columns: 4rem 3rem auto 3rem;
-            min-height: 5rem;
-        }
-    }
+		&_isVisible {
+			opacity: 1;
+			padding: 7.5px;
+			width: 35px;
+			pointer-events: all;
 
-    &-Logo {
-        grid-column: 1/2;
+			&::before,
+			&::after {
+				width: 0;
+			}
+		}
 
-        @include mobile {
-            margin: 0 auto;
-            align-self: center;
-            grid-column: 3/4;
-        }
+		&_type {
+			&_close {
+				@include close-button;
+			}
 
-        img {
-            margin-top: 1rem;
+			&_back {
+				@include back-button;
+			}
 
-            @include mobile {
-                margin-top: 0;
-            }
-        }
+			&_menu {
+				@include menu-button;
+			}
 
-        a {
-            width: max-content;
-            height: max-content;
-            right: 0;
-            margin: auto;
-            display: inline-block;
-            transition: opacity 150ms ease-in-out;
+			&_account {
+				@include account-button;
+			}
 
-            @include mobile {
-                position: fixed;
-                top: 2rem;
-                left: 0;
-            }
-        }
+			&_minicart {
+				@include minicart-button;
+			}
 
-        a:hover,
-        a:focus {
-            @include after-mobile {
-                opacity: 0.75;
-            }
-        }
-    }
+			&_searchClear {
+				@include clear-search-button;
+			}
+		}
+	}
 
-    &-Search {
-        @include mobile {
-            grid-column: 2/3;
-            grid-row: 1;
-            align-self: center;
-            justify-self: center;
-            padding-top: .4rem;
-        }
+	&-SearchWrapper {
+		flex-grow: 1;
+		margin: 0 5px;
+	}
 
-        .Field {
-            width: 100%;
-            margin: 0 auto;
+	&-SearchField {
+		background-color: var(--header-search-field-background);
+		font-size: 16px;
+		border-radius: 4px;
 
-            input {
-                width: 100%;
+		border-width: 0;
+		width: 100%;
+		max-width: 0;
+		min-width: 0;
+		opacity: 0;
+		padding: 0;
+		transition-property: opacity;
+		transition-duration: 200ms;
+		will-change: max-width, opacity, padding;
 
-                &:not(:focus) {
-                    border-color: transparent;
-                }
-            }
-        }
-    }
+		&_isVisible {
+			opacity: 1;
+			max-width: 100%;
+			border-color: transparent;
+			border-width: 1px;
+			padding: {
+				top: 4px;
+				bottom: 5px;
+				left: 10px;
+			};
+		}
+	}
 
-    &-Info {
-        margin-top: .2rem;
-        margin-left: auto;
-        text-align: right;
+	&-Title {
+		opacity: 0;
+		max-width: 0;
+		transition-property: width, opacity;
+		transition-duration: 200ms;
 
-        p {
-            font-size: 1rem;
-        }
+		text-align: center;
+		font-size: 1.3rem;
+		color: var(--header-color);
 
-        span {
-            color: var(--add-info-color);
-            font-weight: 700;
-        }
+		overflow: hidden;
+		pointer-events: none;
 
-        @include mobile {
-            display: none;
-        }
-    }
+		position: absolute;
+		margin: auto;
+		width: 100%;
+		height: 1.4rem;
+		line-height: 1.5rem;
+		top: 0;
+		bottom: 0;
+		left: 0;
 
-    &-Menu {
-        background-color: var(--color-menu-background);
-    }
+		&_isVisible {
+			opacity: 1;
+			max-width: 100%;
+		}
+	}
 }

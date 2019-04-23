@@ -1,14 +1,22 @@
-/**
- * ScandiPWA - Progressive Web App for Magento
- *
- * Copyright © Scandiweb, Inc. All rights reserved.
- * See LICENSE for license details.
- *
- * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
- */
+import HeaderConnect from './Header.connect';
+import HeaderComponent, {
+    PDP,
+    CATEGORY,
+    CUSTOMER_ACCOUNT,
+    HOME_PAGE,
+    MENU_SUBCATEGORY,
+    MENU,
+    SEARCH
+} from './Header.component';
 
-import Header from './Header.container';
-
-export default Header;
+export default HeaderConnect;
+export {
+    PDP,
+    CATEGORY,
+    CUSTOMER_ACCOUNT,
+    HOME_PAGE,
+    MENU_SUBCATEGORY,
+    MENU,
+    SEARCH,
+    HeaderComponent
+};

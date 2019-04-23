@@ -1,0 +1,33 @@
+:root {
+    --overlay-background: #fff;
+    --overlay-divider-color: #000;
+}
+
+.Overlay {
+    pointer-events: none;
+    z-index: -1;
+
+    opacity: 0;
+    border-top: 1px solid var(--overlay-divider-color);
+    background-color: var(--overlay-background);
+    position: fixed;
+    top: 50px;
+    left: 0;
+    width: 100%;
+    height: calc(100% - 50px);
+    overflow: scroll;
+    max-width: 100%;
+    overflow-x: hidden;
+    transition: opacity 200ms ease-in;
+    will-change: opacity;
+
+    &_isInstant {
+        transition: none;
+    }
+
+    &_isVisible {
+        pointer-events: all;
+        touch-action: pan-y;
+        opacity: 1;
+    }
+}
