@@ -16,13 +16,16 @@ import { GUEST_QUOTE_ID, CartDispatcher } from 'Store/Cart';
 import { fetchMutation } from 'Util/Request';
 import CheckoutQuery from 'Query/Checkout.query';
 import BrowserDatabase from 'Util/BrowserDatabase';
+import { MyAccountDispatcher } from 'Store/MyAccount';
 import CheckoutPage from './CheckoutPage.component';
 
 const mapStateToProps = state => ({
     products: state.CartReducer.productsInCart,
     totals: state.CartReducer.cartTotals,
     toggleHeaderAndFooter: state.HeaderAndFooterReducer.toggleHeaderAndFooter,
-    isHeaderAndFooterVisible: state.HeaderAndFooterReducer.isHeaderAndFooterVisible
+    isHeaderAndFooterVisible: state.HeaderAndFooterReducer.isHeaderAndFooterVisible,
+    isSignedIn: state.MyAccountReducer.isSignedIn,
+    customer: state.MyAccountReducer.customer
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -33,6 +36,10 @@ const mapDispatchToProps = dispatch => ({
     removeCartAndObtainNewGuest: () => {
         BrowserDatabase.deleteItem(GUEST_QUOTE_ID);
         CartDispatcher.updateInitialCartData(dispatch);
+    },
+
+    requestCustomerData(options) {
+        return MyAccountDispatcher.requestCustomerData(options, dispatch);
     }
 });
 

@@ -135,7 +135,7 @@ class CheckoutPreviewAndPaymentsStep extends Component {
                 company,
                 street,
                 city,
-                region_id,
+                region,
                 postalcode,
                 country_id,
                 telephone
@@ -156,7 +156,7 @@ class CheckoutPreviewAndPaymentsStep extends Component {
                     </>)}
                     <dd>{ telephone }</dd>
                     <dt>Billing address:</dt>
-                    <dd>{ `${country_id}, ${region_id}, ${city}` }</dd>
+                    <dd>{ `${country_id}, ${region}, ${city}` }</dd>
                     <dd>{ street[0] }</dd>
                     <dd>{ street[1] }</dd>
                     <dd>{ postalcode }</dd>

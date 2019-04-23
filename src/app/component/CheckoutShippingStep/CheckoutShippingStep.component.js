@@ -16,7 +16,7 @@ const COMPANY_FIELD_ID = 'company';
 const STREET_0_FIELD_ID = 'street_0';
 const STREET_1_FIELD_ID = 'street_1';
 const CITY_FIELD_ID = 'city';
-const STATE_FIELD_ID = 'region_id';
+const STATE_FIELD_ID = 'region_code';
 const ZIP_FIELD_ID = 'postcode';
 const PHONE_FIELD_ID = 'telephone';
 const COUNTRY_FIELD_ID = 'country_id';
@@ -34,6 +34,7 @@ class CheckoutShippingStep extends Component {
             company: '',
             street: {},
             city: '',
+            region_code: '',
             region_id: '',
             postcode: '',
             country_id: '',
@@ -41,7 +42,8 @@ class CheckoutShippingStep extends Component {
             shippingMethods: [],
             activeShippingMethod: {},
             loadingShippingMethods: false,
-            loadingShippingInformationSave: false
+            loadingShippingInformationSave: false,
+            fieldsArePopulated: false
         };
 
         this.fieldMap = {
@@ -75,15 +77,84 @@ class CheckoutShippingStep extends Component {
         };
     }
 
+    static getDerivedStateFromProps(props, state) {
+        const { shippingAddress, isSignedIn, email } = props;
+        const { fieldsArePopulated } = state;
+
+        if (isSignedIn && Object.entries(shippingAddress).length && !fieldsArePopulated) {
+            const {
+                city,
+                company,
+                country_id,
+                firstname,
+                lastname,
+                postcode,
+                region,
+                street,
+                telephone
+            } = shippingAddress;
+
+            const { region_code, region_id } = region;
+
+            return {
+                city,
+                company,
+                country_id,
+                email,
+                firstname,
+                lastname,
+                postcode,
+                region_code,
+                region_id,
+                street,
+                telephone,
+                fieldsArePopulated: true
+            };
+        }
+
+        return { email };
+    }
+
+    componentDidUpdate(props, prevProps) {
+        const { fieldsArePopulated } = this.state;
+
+        if (!prevProps.email && props.email && fieldsArePopulated) this.handleFieldChange();
+    }
+
     onSelectShippingMethod(method) {
         this.setState({ activeShippingMethod: method });
     }
 
     onFormSuccess() {
         const { showNotification, saveAddressInformation } = this.props;
-        const { activeShippingMethod: { method_code, carrier_code }, region_id } = this.state;
+        const {
+            activeShippingMethod: { method_code, carrier_code },
+            city,
+            compoany,
+            country_id,
+            email,
+            firstname,
+            lastname,
+            postcode,
+            region_id,
+            region_code,
+            street,
+            telephone
+        } = this.state;
 
-        const address = { ...this.state, region_id: parseInt(region_id, 10) };
+        const address = {
+            city,
+            compoany,
+            country_id,
+            email,
+            firstname,
+            lastname,
+            postcode,
+            region: region_code,
+            region_id: parseInt(region_id, 10),
+            street,
+            telephone
+        };
         delete address.shippingMethods;
         delete address.activeShippingMethod;
         delete address.loadingShippingMethods;
@@ -131,7 +202,7 @@ class CheckoutShippingStep extends Component {
                 street: Object.values(street)
             };
 
-            this.estimatePromise = makeCancelable(estimateShippingCost(addressToEstimate))
+            this.estimatePromise = makeCancelable(estimateShippingCost(addressToEstimate));
             this.estimatePromise.promise.then(
                 ({ estimateShippingCosts: shippingMethods }) => this.setState({
                     shippingMethods,

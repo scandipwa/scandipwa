@@ -34,7 +34,7 @@ const mapDispatchToProps = dispatch => ({
     },
 
     requestCustomerData(options) {
-        MyAccountDispatcher.handleData(dispatch, options);
+        MyAccountDispatcher.requestCustomerData(dispatch, options);
     },
 
     logout() {

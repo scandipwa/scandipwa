@@ -102,6 +102,32 @@ class CheckoutPage extends Component {
     componentDidMount() {
         const { updateToggleHeaderAndFooter } = this.props;
         updateToggleHeaderAndFooter({ isHeaderAndFooterVisible: false });
+        this.requestCustomerData();
+    }
+
+    componentDidUpdate() {
+        const { customer } = this.props;
+        const { shippingAddress, billingAddress } = this.state;
+
+        if (Object.entries(customer).length) {
+            if (!Object.entries(shippingAddress).length || !Object.entries(billingAddress).length) {
+                const { addresses } = customer;
+                Object.values(addresses).map((address) => {
+                    const { default_shipping, default_billing } = address;
+                    if (default_shipping) this.setState({ shippingAddress: address });
+                    if (default_billing) this.setState({ billingAddress: address });
+                });
+            }
+        }
+    }
+
+    requestCustomerData() {
+        const { requestCustomerData } = this.props;
+        const options = {
+            withAddresses: true
+        };
+
+        return requestCustomerData(options);
     }
 
     saveAddressInformation(addressInformation) {
@@ -161,9 +187,15 @@ class CheckoutPage extends Component {
      * @returns {*}
      */
     renderShippingStep() {
+        const { shippingAddress } = this.state;
+        const { isSignedIn, customer: { email } } = this.props;
+
         return (
             <CheckoutShippingStep
               saveAddressInformation={ addressInformation => this.saveAddressInformation(addressInformation) }
+              shippingAddress={ shippingAddress }
+              isSignedIn={ isSignedIn }
+              email={ email }
             />
         );
     }
@@ -229,7 +261,7 @@ class CheckoutPage extends Component {
                     </div>
                 )) }
             </div>
-        )
+        );
     }
 
     /**
