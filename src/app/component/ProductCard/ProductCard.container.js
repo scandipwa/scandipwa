@@ -15,7 +15,7 @@ import ProductCard from './ProductCard.component';
 
 const mapDispatchToProps = dispatch => ({
     addProduct: (options) => {
-        CartDispatcher.addProductToCart(dispatch, options);
+        return CartDispatcher.addProductToCart(dispatch, options);
     }
 });
 

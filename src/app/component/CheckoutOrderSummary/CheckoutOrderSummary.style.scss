@@ -1,0 +1,102 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+.CheckoutOrderSummary {
+    padding: 2rem;
+    background-color: var(--color-summary-background);
+    display: table;
+
+    @include mobile {
+        order: 1;
+    }
+
+    h3 {
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--color-summary-divider);
+        text-transform: uppercase;
+        text-align: center;
+    }
+
+    &-SummaryItem {
+        justify-content: space-between;
+        display: flex;
+        padding-left: 0;
+        margin-bottom: 1.5rem;
+
+        &::before {
+            content: none;
+        }
+    }
+
+    &-OrderItems {
+        h3 {
+            text-align: left;
+        }
+    }
+
+    &-CartItemList {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    &-CartItemDescription {
+        margin-top: 5px;
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+    }
+
+    &-Qty {
+        // margin-top: 1rem;
+    }
+
+    &-CartItem {
+        display: grid;
+        grid-template-columns: 8rem auto auto;
+        grid-column-gap: .5rem;
+        margin: 0 0 .5rem;
+        padding: 0;
+
+        &::before {
+            content: none;
+        }
+
+        > * {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+    }
+
+    &-Thumbnail {
+        width: 8rem;
+        height: 8rem;
+    }
+
+    &-Title {
+        p {
+            margin: 0;
+            padding: 0;
+            text-align: left;
+        }
+    }
+
+    &-Details {
+        justify-self: end;
+    }
+
+    .ProductPrice {
+        margin-top: 0;
+    }
+}

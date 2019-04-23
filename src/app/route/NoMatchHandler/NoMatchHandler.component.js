@@ -34,7 +34,18 @@ class NoMatchHandler extends Component {
      * @return {void}
      */
     onRouteChanged() {
-        const { noMatch, updateNoMatch } = this.props;
+        const {
+            noMatch,
+            updateNoMatch,
+            updateToggleHeaderAndFooter,
+            location: { pathname }
+        } = this.props;
+
+        // by default enable header and footer on all views,
+        // if necessary hide them in lower level components (checkout route for example)
+        if (!pathname.includes('checkout')) {
+            updateToggleHeaderAndFooter({ isHeaderAndFooterVisible: true });
+        }
 
         if (noMatch) {
             updateNoMatch({ noMatch: false });
@@ -63,6 +74,7 @@ NoMatchHandler.propTypes = {
     ]).isRequired,
     noMatch: PropTypes.bool.isRequired,
     updateNoMatch: PropTypes.func.isRequired,
+    updateToggleHeaderAndFooter: PropTypes.func.isRequired,
     location: LocationType.isRequired
 };
 

@@ -15,7 +15,15 @@
     $circle-size: 60px;
 
     padding-top: 3rem;
-    background: var(--color-footer-background);
+
+    &-Content {
+        display: none;
+
+        &_isVisible {
+            display: block;
+            background: var(--color-footer-background);
+        }
+    }
 
     &-Promo {
         display: grid;
@@ -33,7 +41,7 @@
             padding: 0;
         }
 
-        
+
         div {
             display: grid;
             grid-template-columns: 6rem 1fr;

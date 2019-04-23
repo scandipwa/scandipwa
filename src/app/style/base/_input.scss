@@ -36,15 +36,15 @@ textarea {
     width: var(--input-type-number-width);
     font-weight: 700;
     padding-right: 0;
-    
+
     &:focus {
         border: 1px solid var(--input-border-color);
     }
 
-    &::-webkit-inner-spin-button, 
-    &::-webkit-outer-spin-button { 
-      appearance: none; 
-      margin: 0; 
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      appearance: none;
+      margin: 0;
     }
 
     ~ button {
@@ -116,17 +116,29 @@ textarea {
     &:checked + label {
         background-color: color(primary, base, true);
         border-color: color(primary, base, true);
-            
+
         &::after {
-            --checkmark-color: #{color(neutral, light, true)};
+            --checkmark-color: #{color(text, white, true)};
         }
     }
 }
 
 [type="checkbox"] {
-    &:hover {
-        + label {
-            background-color: var(--color-primary-light);
+    + label {
+        &::after {
+            left: .25rem;
+            top: .6rem;
+            width: .2rem;
+            height: .2rem;
+            box-shadow:
+                2px 0 0 var(--checkmark-color),
+                4px 0 0 var(--checkmark-color),
+                4px -2px 0 var(--checkmark-color),
+                4px -4px 0 var(--checkmark-color),
+                4px -6px 0 var(--checkmark-color),
+                4px -8px 0 var(--checkmark-color);
+            transform: rotate(45deg);
+            transition-property: background-color, box-shadow;
         }
     }
 
@@ -134,24 +146,6 @@ textarea {
         &:hover {
             + label {
                 background-color: var(--color-primary-base);
-            }
-        }
-
-        + label {
-            &::after {
-                left: .25rem;
-                top: .6rem;
-                width: .2rem;
-                height: .2rem;
-                box-shadow: 
-                    2px 0 0 var(--checkmark-color),
-                    4px 0 0 var(--checkmark-color),
-                    4px -2px 0 var(--checkmark-color),
-                    4px -4px 0 var(--checkmark-color),
-                    4px -6px 0 var(--checkmark-color),
-                    4px -8px 0 var(--checkmark-color);
-                transform: rotate(45deg);
-                transition-property: background-color, box-shadow;
             }
         }
     }
@@ -179,7 +173,7 @@ textarea {
         border-color: color(primary, base);
 
         &::after {
-            --checkmark-color: #{color(neutral, base, true)};
+            --checkmark-color: #{color(text, white, true)};
         }
     }
 }

@@ -19,11 +19,14 @@ class Form extends Component {
     static updateChildrenRefs(props) {
         const { children: propsChildren } = props;
         const refMap = {};
-
         const children = Form.cloneChildren(
             propsChildren,
             (child) => {
-                const { props: { id } } = child;
+                const { props: { id, onChange: originalOnChange } } = child;
+                // const onChange = (v) => {
+                //     Form.handleInputChange(v);
+                //     if (originalOnChange) originalOnChange(v);
+                // };
                 refMap[id] = React.createRef();
                 return React.cloneElement(child, { formRef: refMap[id] });
             }
@@ -35,14 +38,17 @@ class Form extends Component {
     static cloneChildren(originChildren, fieldCallback) {
         const executeClone = originChildren => Children.map(originChildren, (child) => {
             if (child && typeof child === 'object' && child.type && child.props) {
-                const { type: { name }, props: { children } } = child;
+                const { type: { name }, props, props: { children } } = child;
 
                 if (name === Field.prototype.constructor.name || name === Select.prototype.constructor.name) {
                     return fieldCallback(child);
                 }
 
                 if (typeof children === 'object') {
-                    return React.cloneElement(child, { children: executeClone(children) });
+                    return React.cloneElement(child, {
+                        ...props,
+                        children: executeClone(children)
+                    });
                 }
 
                 return child;
@@ -54,17 +60,27 @@ class Form extends Component {
         return executeClone(originChildren);
     }
 
-    constructor(props) {
-        super(props);
+    static cloneAndValidateChildren(propsChildren, refMap) {
+        const invalidFields = [];
+        const children = Form.cloneChildren(
+            propsChildren,
+            (child) => {
+                const { props: { id } } = child;
+                const { message } = Form.validateField(child, refMap);
 
-        this.state = {
-            ...Form.updateChildrenRefs(props),
-            fieldsAreValid: true
-        };
+                if (message) {
+                    invalidFields.push(id);
+                    return React.cloneElement(child, { message, formRef: refMap[id] });
+                }
+
+                return React.cloneElement(child, { formRef: refMap[id] });
+            }
+        );
+
+        return { children, fieldsAreValid: !invalidFields.length, invalidFields };
     }
 
-    validateField(field) {
-        const { refMap } = this.state;
+    static validateField(field, refMap) {
         const { validation, id } = field.props;
 
         if (validation && id && refMap[id] && refMap[id].current) {
@@ -85,6 +101,26 @@ class Form extends Component {
         return {};
     }
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            ...Form.updateChildrenRefs(props),
+            fieldsAreValid: true
+        };
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        const { refMap, fieldsAreValid } = state;
+        const { children } = props;
+        if (fieldsAreValid) return Form.updateChildrenRefs(props);
+        return Form.cloneAndValidateChildren(children, refMap);
+    }
+
+    handleInputChange() {
+        // console.log('THIS INPUT WAS CHANGED!');
+    }
+
     handleFormSubmit(e) {
         const { refMap } = this.state;
         const {
@@ -93,27 +129,16 @@ class Form extends Component {
             onSubmitError,
             onSubmit
         } = this.props;
-        const invalidFields = [];
 
         e.preventDefault();
         onSubmit();
 
-        const children = Form.cloneChildren(
-            propsChildren,
-            (child) => {
-                const { props: { id } } = child;
-                const { message } = this.validateField(child);
-
-                if (message) {
-                    invalidFields.push(id);
-                    return React.cloneElement(child, { message, formRef: refMap[id] });
-                }
-
-                return React.cloneElement(child, { formRef: refMap[id] });
-            }
-        );
-
-        this.setState({ children, fieldsAreValid: !invalidFields.length });
+        const {
+            children,
+            fieldsAreValid,
+            invalidFields
+        } = Form.cloneAndValidateChildren(propsChildren, refMap);
+        this.setState({ children, fieldsAreValid });
 
         const inputValues = Object.values(refMap).reduce((inputValues, input) => {
             const { current } = input;

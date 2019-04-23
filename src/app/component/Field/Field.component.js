@@ -39,16 +39,20 @@ class Field extends Component {
         super(props);
 
         this.onChange = this.onChange.bind(this);
-        this.toggleCheckbox = this.toggleCheckbox.bind(this);
 
-        const { type, min } = this.props;
-        let { value } = this.props;
+        const {
+            type,
+            min,
+            checked,
+            value: propsValue
+        } = this.props;
 
-        if (value < min) value = min;
+        let value = propsValue;
 
-        if (!value) {
+        if (!propsValue) {
             switch (type) {
             case NUMBER_TYPE:
+                if (value < min) value = min;
                 value = 0;
                 break;
             case CHECKBOX_TYPE:
@@ -77,7 +81,7 @@ class Field extends Component {
         const { value: stateValue } = state;
 
         if (value !== stateValue) {
-            return { stateValue };
+            return { value };
         }
 
         return null;
@@ -121,21 +125,23 @@ class Field extends Component {
             type,
             min
         } = this.props;
-        const isValueNaN = Number.isNaN(parseInt(value, 10));
 
-        if (type === NUMBER_TYPE && (value < min || isValueNaN)) {
-            return;
+        switch (type) {
+        case NUMBER_TYPE:
+            const isValueNaN = Number.isNaN(parseInt(value, 10));
+            if ((value < min || isValueNaN)) return;
+            if (onChange) onChange(value);
+            this.setState({ value });
+            break;
+        case CHECKBOX_TYPE:
+            const { isChecked } = this.state;
+            if (onChange) onChange(!isChecked);
+            this.setState({ isChecked: !isChecked });
+            break;
+        default:
+            if (onChange) onChange(value);
+            this.setState({ value });
         }
-
-        this.setState({ value });
-        if (onChange) onChange(value);
-    }
-
-    toggleCheckbox(event) {
-        const { isChecked } = this.state;
-        event.preventDefault();
-
-        this.setState({ isChecked: !isChecked, value: !isChecked });
     }
 
     renderTextarea() {
@@ -162,10 +168,10 @@ class Field extends Component {
     }
 
     renderCheckboxInput() {
-        const {
-            id, name, type, value, checked, formRef
-        } = this.props;
         const { isChecked } = this.state;
+        const {
+            id, name, type, value, formRef, checked
+        } = this.props;
 
         const checkedBool = type === RADIO_TYPE
             ? checked === value
@@ -178,9 +184,9 @@ class Field extends Component {
                   type={ type }
                   checked={ checkedBool }
                   name={ name }
-                  value={ isChecked }
-                  onChange={ this.toggleCheckbox }
-                  onKeyPress={ e => this.toggleCheckbox(e) }
+                  value={ value }
+                  onChange={ this.onChange }
+                  onKeyPress={ this.onChange }
                   onFocus={ event => this.onFocus(event) }
                   onClick={ event => this.onClick(event) }
                   id={ id }
@@ -305,6 +311,7 @@ class Field extends Component {
 
         const mix = (block && elem) ? { block, elem } : undefined;
         const mods = {
+            type,
             hasError: !!message,
             ...(state ? { [state]: true } : {})
         };

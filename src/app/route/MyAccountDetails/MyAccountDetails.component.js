@@ -100,13 +100,20 @@ class MyAccountDetails extends Component {
      * @param {Object} fields
      */
     onChangePasswordSuccess(fields) {
-        const { changeCustomerPassword, customer } = this.props;
+        const { changeCustomerPassword, customer, showNotification } = this.props;
         const {
             id,
             email
         } = customer;
 
-        changeCustomerPassword(fields, { id, email }).then(() => this.redirectBackToOverview());
+        const { confirmPassword, newPassword } = fields;
+        if (newPassword !== confirmPassword) return showNotification('error', 'Passwords do not match!');
+
+        return changeCustomerPassword(fields, { id, email }).then(
+            (value) => {
+                if (value.type !== 'SHOW_NOTIFICATION') this.redirectBackToOverview();
+            }
+        );
     }
 
     /**

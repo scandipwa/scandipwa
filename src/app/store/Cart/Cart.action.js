@@ -20,10 +20,9 @@ export const UPDATE_ALL_PRODUCTS_IN_CART = 'UPDATE_ALL_PRODUCTS_IN_CART';
  * @param  {Number} totalItems Total number of products in this filter
  * @return {void}
  */
-const addProductToCart = (newProduct, quantity) => ({
+const addProductToCart = newProduct => ({
     type: ADD_PRODUCT_TO_CART,
-    newProduct,
-    quantity
+    newProduct
 });
 
 /**

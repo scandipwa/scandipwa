@@ -17,7 +17,7 @@ import {
     UPDATE_ALL_PRODUCTS_IN_CART
 } from './Cart.action';
 
-const PRODUCTS_IN_CART = 'cart_products';
+export const PRODUCTS_IN_CART = 'cart_products';
 
 const getProductId = ({ id, variants, configurableVariantIndex }) => (
     typeof configurableVariantIndex === 'number'
@@ -26,25 +26,14 @@ const getProductId = ({ id, variants, configurableVariantIndex }) => (
 );
 
 const addProductToCart = (action, state) => {
-    const { newProduct, quantity } = action;
+    const { newProduct } = action;
     const { productsInCart } = state;
     const id = getProductId(newProduct);
 
-    const newProductsInCart = (productsInCart[id])
-        ? {
-            ...productsInCart,
-            [id]: {
-                ...productsInCart[id],
-                quantity: productsInCart[id].quantity + quantity
-            }
-        }
-        : {
-            ...productsInCart,
-            [id]: {
-                ...newProduct,
-                quantity
-            }
-        };
+    const newProductsInCart = {
+        ...productsInCart,
+        [id]: newProduct
+    };
 
     BrowserDatabase.setItem(newProductsInCart, PRODUCTS_IN_CART);
 
@@ -72,8 +61,14 @@ const updateCartTotals = (action) => {
 
 const updateAllProductsInCart = (action) => {
     const { products } = action;
+
+    BrowserDatabase.setItem(
+        products,
+        PRODUCTS_IN_CART
+    );
+
     return { productsInCart: products };
-}
+};
 
 const initialState = {
     productsInCart: BrowserDatabase.getItem(PRODUCTS_IN_CART) || {},

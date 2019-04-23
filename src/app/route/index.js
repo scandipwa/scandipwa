@@ -19,6 +19,7 @@ import CategoryPage from 'Route/CategoryPage';
 import ProductPage from 'Route/ProductPage';
 import CmsPage from 'Route/CmsPage';
 import CartPage from 'Route/CartPage';
+import CheckoutPage from 'Route/CheckoutPage';
 import MyAccountDetails from 'Route/MyAccountDetails';
 import PasswordChangePage from 'Route/PasswordChangePage';
 import NoMatch from 'Route/NoMatch';
@@ -76,6 +77,10 @@ export class AppRouter extends Component {
                     position: 50
                 },
                 {
+                    component: <Route path="/checkout" component={ CheckoutPage } />,
+                    position: 55
+                },
+                {
                     component: <Route path="/:account*/createPassword/" component={ PasswordChangePage } />,
                     position: 60
                 },
@@ -114,7 +119,6 @@ export class AppRouter extends Component {
             [SWITCH_ITEMS_TYPE]: switchItems,
             [AFTER_ITEMS_TYPE]: afterItems
         };
-
         const footerOptions = {
             identifiers: [
                 'footer-free-shipping',
