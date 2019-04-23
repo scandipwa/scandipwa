@@ -239,6 +239,7 @@ class MyAccountDetails extends Component {
      */
     renderUpdateAddress() {
         const { correctAddress, selectValue } = this.state;
+        const { countryList } = this.props;
         const {
             firstname,
             lastname,
@@ -312,6 +313,7 @@ class MyAccountDetails extends Component {
                           type="select"
                           label="Country"
                           id="country_id"
+                          selectOptions={ countryList }
                           value={ selectValue || country_id || DEFAULT_COUNTRY }
                         />
                     </fieldset>
@@ -609,7 +611,8 @@ MyAccountDetails.propTypes = {
     updateCustomerAddress: PropTypes.func.isRequired,
     changeCustomerPassword: PropTypes.func.isRequired,
     updateBreadcrumbs: PropTypes.func.isRequired,
-    isSignedIn: PropTypes.bool.isRequired
+    isSignedIn: PropTypes.bool.isRequired,
+    countryList: PropTypes.arrayOf(PropTypes.shape).isRequired
 };
 
 export default MyAccountDetails;
