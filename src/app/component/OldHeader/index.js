@@ -9,10 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-.Button {
-    @include button;
-}
+import Header from './Header.container';
 
-button {
-    background-color: transparent;
-}
+export default Header;

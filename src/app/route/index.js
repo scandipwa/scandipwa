@@ -136,7 +136,7 @@ export class AppRouter extends Component {
             fields: ['identifier']
         };
 
-        updateHeaderAndFooter({ menu: { menuId: 1 }, footer: footerOptions });
+        updateHeaderAndFooter({ menu: { menuId: 2 }, footer: footerOptions });
         updateInitialCartData();
     }
 

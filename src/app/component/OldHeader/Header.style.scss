@@ -1,0 +1,130 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+.Header {
+    --header-color: var(--color-breadcrumbs-background);
+    --add-info-color: var(--color-primary-base);
+    background-color: var(--header-color);
+
+    @include mobile {
+        position: fixed;
+        z-index: 8;
+        width: 100%;
+        left: 0;
+        top: 0;
+    }
+
+    &-MenuWrapper {
+        @include after-mobile {
+            display: grid;
+            grid-template-columns: 5fr 13rem 7rem 5rem;
+        }
+    }
+
+    &-Wrapper {
+        padding: 1rem;
+        display: grid;
+        margin: auto;
+        grid-template-columns: 1fr 40rem 1fr;
+        max-width: 1200px;
+
+        @include mobile {
+            grid-template-columns: 4rem 3rem auto 3rem;
+            min-height: 5rem;
+        }
+    }
+
+    &-Logo {
+        grid-column: 1/2;
+
+        @include mobile {
+            margin: 0 auto;
+            align-self: center;
+            grid-column: 3/4;
+        }
+
+        img {
+            margin-top: 1rem;
+
+            @include mobile {
+                margin-top: 0;
+            }
+        }
+
+        a {
+            width: max-content;
+            height: max-content;
+            right: 0;
+            margin: auto;
+            display: inline-block;
+            transition: opacity 150ms ease-in-out;
+
+            @include mobile {
+                position: fixed;
+                top: 2rem;
+                left: 0;
+            }
+        }
+
+        a:hover,
+        a:focus {
+            @include after-mobile {
+                opacity: 0.75;
+            }
+        }
+    }
+
+    &-Search {
+        @include mobile {
+            grid-column: 2/3;
+            grid-row: 1;
+            align-self: center;
+            justify-self: center;
+            padding-top: .4rem;
+        }
+
+        .Field {
+            width: 100%;
+            margin: 0 auto;
+
+            input {
+                width: 100%;
+
+                &:not(:focus) {
+                    border-color: transparent;
+                }
+            }
+        }
+    }
+
+    &-Info {
+        margin-top: .2rem;
+        margin-left: auto;
+        text-align: right;
+
+        p {
+            font-size: 1rem;
+        }
+
+        span {
+            color: var(--add-info-color);
+            font-weight: 700;
+        }
+
+        @include mobile {
+            display: none;
+        }
+    }
+
+    &-Menu {
+        background-color: var(--color-menu-background);
+    }
+}

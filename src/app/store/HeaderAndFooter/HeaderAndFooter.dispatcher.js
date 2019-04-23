@@ -36,8 +36,10 @@ class HeaderAndFooterDispatcher extends QueryDispatcher {
      * @memberof HeaderAndFooterDispatcher
      */
     prepareRequest(options) {
-        return [MenuQuery.getQuery(options.menu),
-            CmsBlockQuery.getQuery(options.footer)];
+        return [
+            MenuQuery.getQuery(options.menu),
+            CmsBlockQuery.getQuery(options.footer)
+        ];
     }
 
     toggleHeaderAndFooter(dispatch, options) {

@@ -25,6 +25,8 @@ import { NoMatchReducer } from 'Store/NoMatch';
 import { RelatedProductsReducer } from 'Store/RelatedProducts';
 import { SearchBarReducer } from 'Store/SearchBar';
 import { MyAccountReducer } from 'Store/MyAccount';
+import { HeaderReducer } from 'Store/Header';
+import { OverlayReducer } from 'Store/Overlay';
 
 const reducers = combineReducers({
     CmsBlocksAndSliderReducer,
@@ -38,7 +40,9 @@ const reducers = combineReducers({
     NoMatchReducer,
     RelatedProductsReducer,
     SearchBarReducer,
-    MyAccountReducer
+    MyAccountReducer,
+    HeaderReducer,
+    OverlayReducer
 });
 
 const store = createStore(
