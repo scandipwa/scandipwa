@@ -15,7 +15,7 @@ import {
     updateCustomerPasswordResetStatus,
     updateCustomerPasswordForgotStatus
 } from 'Store/MyAccount';
-import { QueryDispatcher, fetchMutation, executePost } from 'Util/Request';
+import { fetchMutation, executePost } from 'Util/Request';
 import {
     setAuthorizationToken,
     deleteAuthorizationToken
@@ -28,21 +28,8 @@ import { prepareQuery } from 'Util/Query';
 /**
  * My account actions
  * @class MyAccount
- * @extends {QueryDispatcher}
  */
-class MyAccountDispatcher extends QueryDispatcher {
-    constructor() {
-        super('MyAccount', 86400);
-    }
-
-    prepareRequest(options) {
-        return MyAccount.getCustomer(options);
-    }
-
-    onSuccess({ customer }, dispatch) {
-        dispatch(updateCustomerDetails(customer));
-    }
-
+class MyAccountDispatcher {
     requestCustomerData(options, dispatch) {
         const { withAddresses } = options;
         const query = MyAccount.getCustomer(withAddresses);
