@@ -14,7 +14,7 @@ import Field from './Field.component';
 
 const mapStateToProps = state => ({
     customer: state.MyAccountReducer.customer,
-    options: state.HeaderAndFooterReducer.countries
+    countryList: state.HeaderAndFooterReducer.countries
 });
 
 const FieldContainer = connect(mapStateToProps, null)(Field);
