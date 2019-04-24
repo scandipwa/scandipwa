@@ -16,12 +16,14 @@ class SearchOverlay extends Component {
 
     componentDidUpdate(prevProps) {
         const { searchCriteria: prevSearchCriteria } = prevProps;
-        const { searchCriteria } = this.props;
+        const { searchCriteria, clearSearchResults } = this.props;
 
         if (this.timeout) clearTimeout(this.timeout);
 
         if (searchCriteria !== prevSearchCriteria) {
+            clearSearchResults();
             this.timeout = setTimeout(() => {
+                this.timeout = null;
                 this.makeSearchRequest();
             }, 500);
         }
@@ -61,7 +63,7 @@ class SearchOverlay extends Component {
             brand
         } = product;
 
-        const imageSrc = thumbnail ? `/media/catalog/product${ thumbnail.path }` : '';
+        const imageSrc = thumbnail ? `/media/catalog/product${ thumbnail.path }` : null;
 
         return (
             <li
@@ -112,11 +114,11 @@ class SearchOverlay extends Component {
             return (<p>Start typing to see search results!</p>);
         }
 
-        if (!searchResults.length && !isLoading) {
+        if (!searchResults.length && !isLoading && !this.timeout) {
             return (<p>No results found!</p>);
         }
 
-        const resultsToRender = isLoading ? Array(5).fill({}) : searchResults;
+        const resultsToRender = isLoading || this.timeout ? Array(5).fill({}) : searchResults;
 
         return (
             <ul>

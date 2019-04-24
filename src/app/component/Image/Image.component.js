@@ -41,6 +41,21 @@ class Image extends Component {
         }
     }
 
+    componentDidUpdate(prevProps) {
+        const { src } = this.props;
+        const { src: prevSrc } = prevProps;
+
+        if (src !== prevSrc) {
+            // eslint-disable-next-line react/no-did-update-set-state
+            this.setState({
+                isImageLoaded: false,
+                showImage: false
+            });
+
+            this.showImage();
+        }
+    }
+
     componentWillUnmount() {
         this.stopObserving();
     }
