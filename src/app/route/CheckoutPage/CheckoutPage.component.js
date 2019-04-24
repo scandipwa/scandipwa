@@ -110,14 +110,16 @@ class CheckoutPage extends Component {
         const { shippingAddress, billingAddress } = this.state;
 
         if (Object.entries(customer).length) {
-            if (!Object.entries(shippingAddress).length || !Object.entries(billingAddress).length) {
-                const { addresses } = customer;
-                Object.values(addresses).map((address) => {
-                    const { default_shipping, default_billing } = address;
-                    if (default_shipping) this.setState({ shippingAddress: address });
-                    if (default_billing) this.setState({ billingAddress: address });
-                });
-            }
+            const { addresses } = customer;
+            Object.values(addresses).map((address) => {
+                const { default_shipping, default_billing } = address;
+                if (default_shipping && !Object.entries(shippingAddress).length) {
+                    this.setState({ shippingAddress: address });
+                }
+                if (default_billing && !Object.entries(billingAddress).length) {
+                    this.setState({ billingAddress: address });
+                }
+            });
         }
     }
 
