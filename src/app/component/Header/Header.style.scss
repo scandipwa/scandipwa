@@ -3,6 +3,7 @@
 	--header-color: #000;
 	--header-search-field-background: #f3f3f3;
 	--header-search-field-color: #6e6e6e;
+	--header-search-clear-background: #838383;
 }
 
 @mixin close-button {
@@ -159,16 +160,20 @@
 	@include close-button;
 
 	border-radius: 50%;
-	background-color: var(--header-search-field-background);
-	box-shadow: inset 0 0 0 6px var(--header-background);
+	background-color: var(--header-search-clear-background);
+
+	height: 15px;
+    width: 15px;
+	position: absolute;
+	right: 1.8rem;
 
 	&::before,
 	&::after {
-		height: 11px;
+		height: 9px;
 		width: 1px;
-		top: 12px;
-		left: 17px;
-		background-color: var(--header-search-field-color);
+		top: 3px;
+		left: 7px;
+		background-color: var(--header-background);
 	}
 }
 
@@ -240,7 +245,7 @@
 
 	&-SearchWrapper {
 		flex-grow: 1;
-		margin: 0 5px;
+		margin-left: 5px;
 	}
 
 	&-SearchField {

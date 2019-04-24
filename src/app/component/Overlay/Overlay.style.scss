@@ -21,6 +21,8 @@
     transition: opacity 200ms ease-in;
     will-change: opacity;
 
+    -webkit-overflow-scrolling: touch;
+
     &_isInstant {
         transition: none;
     }
