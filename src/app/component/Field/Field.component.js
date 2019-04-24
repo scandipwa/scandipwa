@@ -87,19 +87,6 @@ class Field extends Component {
         return { value };
     }
 
-    componentDidMount() {
-        const { getCountriesList, id } = this.props;
-
-        if (id === 'country_id') getCountriesList();
-    }
-
-    componentDidUpdate() {
-        const { type, checked } = this.props;
-        const { isChecked } = this.state;
-
-        if (type === 'checkbox' && checked !== isChecked) this.setState({ isChecked: !isChecked });
-    }
-
     onChange(event) {
         if (typeof event === 'string') {
             return this.handleChange(event);
@@ -302,7 +289,7 @@ class Field extends Component {
     }
 
     renderTypeSelect() {
-        const { id, formRef, countries } = this.props;
+        const { id, formRef, countryList } = this.props;
         const { value } = this.state;
 
         return (
@@ -311,7 +298,7 @@ class Field extends Component {
               elem="Select"
               id={ id }
               reference={ formRef }
-              options={ countries }
+              options={ countryList }
               selectedOption={ value }
               onGetKey={ this.onChange }
             />
@@ -399,13 +386,12 @@ Field.propTypes = {
         PropTypes.shape({ current: PropTypes.instanceOf(Element) })
     ]),
     isAutocompleteAllowed: PropTypes.bool,
-    countries: PropTypes.arrayOf(
+    countryList: PropTypes.arrayOf(
         PropTypes.shape({
             id: PropTypes.string,
             label: PropTypes.string
         })
-    ).isRequired,
-    getCountriesList: PropTypes.func.isRequired
+    )
 };
 
 Field.defaultProps = {

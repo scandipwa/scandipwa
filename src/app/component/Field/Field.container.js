@@ -10,19 +10,13 @@
  */
 
 import { connect } from 'react-redux';
-import { CountryDispatcher } from 'Store/Country';
 import Field from './Field.component';
 
 const mapStateToProps = state => ({
-    countries: state.CountryReducer.countries
+    customer: state.MyAccountReducer.customer,
+    countryList: state.HeaderAndFooterReducer.countries
 });
 
-const mapDispatchToProps = dispatch => ({
-    getCountriesList() {
-        return CountryDispatcher.getCountriesList(dispatch);
-    }
-});
-
-const FieldContainer = connect(mapStateToProps, mapDispatchToProps)(Field);
+const FieldContainer = connect(mapStateToProps, null)(Field);
 
 export default FieldContainer;
