@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import './MyAccountOverlay.style';
+import { isSignedIn } from 'Util/Auth';
 import Overlay from 'Component/Overlay';
 import Form from 'Component/Form';
 import Field from 'Component/Field';
-import { CUSTOMER_ACCOUNT } from '../Header/Header.component';
+import Loader from 'Component/Loader';
+import { CUSTOMER_ACCOUNT } from 'Component/Header';
+import './MyAccountOverlay.style';
 
 const STATE_SIGN_IN = 'signIn';
 const STATE_FORGOT_PASSWORD = 'forgotPassword';
@@ -17,8 +19,13 @@ class MyAccountOverlay extends Component {
     constructor(props) {
         super(props);
 
+        const { isPasswordForgotSend } = props;
+
         this.state = {
-            state: STATE_SIGN_IN
+            state: isSignedIn() ? STATE_LOGGED_IN : STATE_SIGN_IN,
+            // eslint-disable-next-line react/no-unused-state
+            isPasswordForgotSend,
+            isLoading: false
         };
 
         this.renderMap = {
@@ -36,16 +43,46 @@ class MyAccountOverlay extends Component {
     }
 
     static getDerivedStateFromProps(props, state) {
-        const { isOverlayVisible } = props;
+        const {
+            isSignedIn,
+            isPasswordForgotSend,
+            showNotification,
+            isOverlayVisible
+        } = props;
 
-        if (isOverlayVisible === false) {
-            return {
-                ...state,
-                state: STATE_SIGN_IN
-            };
+        const {
+            isPasswordForgotSend: currentIsPasswordForgotSend,
+            state: myAccountState
+        } = state;
+
+        const stateToBeUpdated = {};
+
+        if (!isOverlayVisible && !isSignedIn) {
+            stateToBeUpdated.state = STATE_SIGN_IN;
+        } else if (!isOverlayVisible && isSignedIn) {
+            stateToBeUpdated.state = STATE_LOGGED_IN;
         }
 
-        return { ...state };
+        if (myAccountState !== STATE_LOGGED_IN && isSignedIn) {
+            stateToBeUpdated.isLoading = false;
+            showNotification('success', 'You are successfully logged in!');
+            stateToBeUpdated.state = STATE_LOGGED_IN;
+        }
+
+        if (myAccountState === STATE_LOGGED_IN && !isSignedIn) {
+            stateToBeUpdated.state = STATE_SIGN_IN;
+            showNotification('success', 'You are successfully logged out!');
+        }
+
+        if (isPasswordForgotSend !== currentIsPasswordForgotSend) {
+            stateToBeUpdated.isLoading = false;
+            stateToBeUpdated.isPasswordForgotSend = isPasswordForgotSend;
+            showNotification('success', `If there is an account associated with the
+            provided address you will receive an email with a link to reset your password.`);
+            stateToBeUpdated.state = STATE_SIGN_IN;
+        }
+
+        return Object.keys(stateToBeUpdated).length ? stateToBeUpdated : null;
     }
 
     /* eslint-disable-next-line */
@@ -60,15 +97,67 @@ class MyAccountOverlay extends Component {
             case STATE_CREATE_ACCOUNT:
                 return setHeaderState({ name: CUSTOMER_ACCOUNT, title: 'Create account' });
             case STATE_FORGOT_PASSWORD:
-                return setHeaderState({ name: CUSTOMER_ACCOUNT, title: 'Get password link' });
+                return setHeaderState({ name: CUSTOMER_ACCOUNT, title: 'Forgot password' });
             case STATE_FORGOT_PASSWORD_SUCCESS:
-                return setHeaderState({ name: CUSTOMER_ACCOUNT, title: 'Get password link' });
+                return setHeaderState({ name: CUSTOMER_ACCOUNT, title: 'Reset password' });
             case STATE_LOGGED_IN:
                 return setHeaderState({ name: CUSTOMER_ACCOUNT });
             default:
                 break;
             }
         }
+    }
+
+    onSignInSuccess(fields) {
+        const { signIn } = this.props;
+        signIn(fields);
+    }
+
+    onSignInAttempt() {
+        this.setState({ isLoading: true });
+    }
+
+    onCreateAccountAttempt(fields, invalidFields) {
+        const { showNotification } = this.props;
+        if (invalidFields) {
+            showNotification('error', 'Incorrect data! Please resolve all field validation errors.');
+        }
+        this.setState({ isLoading: !invalidFields });
+    }
+
+    onCreateAccountSuccess(fields) {
+        const { createAccount } = this.props;
+        const {
+            password,
+            email,
+            firstname,
+            lastname,
+            is_subscribed
+        } = fields;
+        const customerData = {
+            customer: {
+                firstname,
+                lastname,
+                email,
+                is_subscribed
+            },
+            password
+        };
+
+        createAccount(customerData);
+    }
+
+    onForgotPasswordSuccess(fields) {
+        const { forgotPassword } = this.props;
+        forgotPassword(fields);
+    }
+
+    onForgotPasswordAttempt() {
+        this.setState({ isLoading: true });
+    }
+
+    onFormError() {
+        this.setState({ isLoading: false });
     }
 
     handleForgotPassword() {
@@ -181,7 +270,8 @@ class MyAccountOverlay extends Component {
               mods={ { state } }
             >
                 <h4 id="forgot-password-success">
-                    If there is an account associated with the provided address you will receive an email with a link to reset your password
+                    If there is an account associated with the provided address you will
+                    receive an email with a link to reset your password
                 </h4>
                 <button
                   block="Button"
@@ -194,6 +284,8 @@ class MyAccountOverlay extends Component {
     }
 
     renderCreateAccount() {
+        const { state } = this.state;
+
         return (
             <>
                 <Form
@@ -215,9 +307,7 @@ class MyAccountOverlay extends Component {
                         />
                     </fieldset>
                     <fieldset block="MyAccountOverlay" elem="Legend">
-                        <legend block="MyAccountOverlay" elem="Legend" mods={ { type: 'signUp' } }>
-                            Sign-Up Information
-                        </legend>
+                        <legend>Sign-Up Information</legend>
                         <Field type="text" label="Email" id="email" validation={ ['notEmpty', 'email'] } />
                         <Field
                           type="password"
@@ -236,6 +326,18 @@ class MyAccountOverlay extends Component {
                         <button block="Button" type="submit">Sign up</button>
                     </div>
                 </Form>
+                <article block="MyAccountOverlay" elem="Additional" mods={ { state } }>
+                    <section>
+                        <h4>Already have an account?</h4>
+                        <button
+                          block="Button"
+                          mods={ { likeLink: true } }
+                          onClick={ this.handleSignIn }
+                        >
+                            Sign in here
+                        </button>
+                    </section>
+                </article>
             </>
         );
     }
@@ -275,7 +377,7 @@ class MyAccountOverlay extends Component {
                     </button>
                 </Form>
                 <article block="MyAccountOverlay" elem="Additional" mods={ { state } }>
-                    <section aria-label="new to ScandiPWA?">
+                    <section>
                         <h4 id="forgot-password-label">New to ScandiPWA?</h4>
                         <button
                           block="Button"
@@ -290,11 +392,14 @@ class MyAccountOverlay extends Component {
     }
 
     render() {
+        const { isLoading } = this.state;
+
         return (
             <Overlay
               id="customer_account"
               mix={ { block: 'MyAccountOverlay' } }
             >
+                <Loader isLoading={ isLoading } />
                 { this.renderMyAccount() }
             </Overlay>
         );
@@ -302,6 +407,11 @@ class MyAccountOverlay extends Component {
 }
 
 MyAccountOverlay.propTypes = {
+    forgotPassword: PropTypes.func.isRequired,
+    signIn: PropTypes.func.isRequired,
+    isPasswordForgotSend: PropTypes.bool.isRequired,
+    showNotification: PropTypes.func.isRequired,
+    createAccount: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
     isOverlayVisible: PropTypes.bool.isRequired,
     setHeaderState: PropTypes.func.isRequired
