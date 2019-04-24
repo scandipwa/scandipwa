@@ -1,0 +1,226 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+:root {
+    --checkbox-label-color: #0a0a0a;
+}
+
+.MyAccountOverlay {
+    justify-self: flex-end;
+    grid-column: 3;
+    right: 0;
+
+    button {
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+
+    input {
+        width: 100%;
+    }
+
+    &-Legend {
+        &_type {
+            &_signUp {
+                text-transform: uppercase;
+            }
+        }
+    }
+
+    &-Notification {
+        background-color: var(--color-primary-light);
+        padding: 2rem;
+    }
+
+    &_isVisible {
+        padding-top: 1rem;
+    }
+
+    &-Navigation {
+        li {
+            margin: 0;
+            padding: 0;
+
+            &::before {
+                content: none;
+            }
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+
+            a {
+                display: block;
+            }
+        }
+
+        a,
+        button {
+            width: 100%;
+            text-align: left;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+
+            &:hover {
+                background-color: var(--color-cart-light);
+                text-decoration: none;
+            }
+
+            &:focus {
+                text-decoration: none;
+            }
+        }
+    }
+
+    &-Action form,
+    &-Additional {
+        padding: {
+            top: 0;
+            left: 2rem;
+            right: 2rem;
+        };
+    }
+
+    &-Action {
+        display: grid;
+
+        @include after-mobile {
+            grid-template-columns: auto max-content;
+        }
+
+        @include mobile {
+            height: 100%;
+            grid-template-rows: max-content 1fr;
+        }
+
+        &_state {
+            &_forgotPassword,
+            &_createAccount {
+                @include after-mobile {
+                    display: block;
+                }
+            }
+
+            &_createAccount {
+                h4 {
+                    padding-right: 1rem;
+                    display: inline;
+                }
+
+                h3 {
+                    margin-bottom: 1rem;
+                }
+            }
+
+            &_forgotPassword {
+                h4 {
+                    font-size: 0.95rem;
+                    width: initial;
+                }
+
+                button {
+                    font-weight: bold;
+                }
+            }
+
+            &_signIn {
+                h4 {
+                    text-align: center;
+                }
+            }
+        }
+
+        h4 {
+            font-weight: normal;
+            margin-bottom: .5rem;
+        }
+
+        h3 {
+            margin-top: 0;
+        }
+    }
+
+    &-Additional {
+        padding-top: 5rem;
+
+        &_state {
+            section {
+                display: flex;
+
+                &:first-of-type {
+                    padding-top: 0;
+                }
+
+                padding-top: 20px;
+            }
+
+            &_signIn {
+                section {
+                    flex-direction: column;
+                }
+            }
+
+            &_forgotPassword {
+                section {
+                    display: flex;
+
+                    button {
+                        width: initial;
+                        margin-top: 0;
+                        padding-left: 5px;
+                        font-weight: 600;
+                    }
+
+                    h4 {
+                        margin-bottom: 0;
+                        align-self: center;
+                    }
+                }
+            }
+
+            &_forgotPasswordSuccess {
+                h4 {
+                    font-size: 1rem;
+                    line-height: 1.5;
+                    padding-bottom: 2rem;
+                }
+            }
+        }
+
+  }
+
+  &-Buttons {
+      margin-top: 0.5rem;
+  }
+
+  &-Checkbox {
+      display: flex;
+      flex-direction: row-reverse;
+      right: 14px;
+      justify-content: flex-end;
+      align-items: center;
+      margin-bottom: 2rem;
+
+      > label:first-of-type {
+          color: var(--checkbox-label-color);
+          font-size: 0.8rem;
+          font-weight: 500;
+          padding-bottom: 0;
+      }
+
+      input {
+          position: relative;
+          width: 20px;
+          height: 20px;
+          left: 20px;
+      }
+  }
+}

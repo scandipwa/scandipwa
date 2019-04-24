@@ -50,12 +50,18 @@
 
                 background-color: var(--overlay-background);
                 position: fixed;
-                top: 50px;
+                top: 0;
                 left: 0;
                 width: 100%;
-                height: calc(100% - 50px);
+                height: 100%;
                 opacity: 0;
-                padding: 1rem;
+                padding: 50px 1rem 1rem;
+                box-shadow:
+                    inset 0 50px var(--overlay-background),
+                    inset 0 51px var(--overlay-divider-color);
+
+                overflow: scroll;
+                touch-action: pan-y;
 
                 pointer-events: none;
             }

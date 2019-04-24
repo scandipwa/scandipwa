@@ -19,6 +19,19 @@ const HeaderReducer = (state = initialState, action) => {
 
     switch (action.type) {
     case CHANGE_HEADER_STATE:
+        const { name: nextName, title } = headerState;
+        const { headerState: { name: prevName } } = state;
+
+        if (nextName === prevName) {
+            return {
+                ...state,
+                headerState: {
+                    ...headerState,
+                    title
+                }
+            };
+        }
+
         headerStateHistory.push(headerState);
 
         return {

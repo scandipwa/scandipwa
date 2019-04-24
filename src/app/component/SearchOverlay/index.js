@@ -1,3 +1,3 @@
-import SearchOverlay from './SearchOverlay.component';
+import SearchOverlay from './SearchOverlay.connect';
 
 export default SearchOverlay;
