@@ -27,14 +27,6 @@
         width: 100%;
     }
 
-    &-Legend {
-        &_type {
-            &_signUp {
-                text-transform: uppercase;
-            }
-        }
-    }
-
     &-Notification {
         background-color: var(--color-primary-light);
         padding: 2rem;
@@ -151,15 +143,19 @@
     &-Additional {
         padding-top: 5rem;
 
+        section {
+            display: flex;
+
+            &:first-of-type {
+                padding-top: 0;
+            }
+
+            padding-top: 20px;
+        }
+
         &_state {
-            section {
-                display: flex;
-
-                &:first-of-type {
-                    padding-top: 0;
-                }
-
-                padding-top: 20px;
+            &_createAccount {
+                padding-top: 2rem;
             }
 
             &_signIn {
@@ -168,7 +164,8 @@
                 }
             }
 
-            &_forgotPassword {
+            &_forgotPassword,
+            &_createAccount {
                 section {
                     display: flex;
 
