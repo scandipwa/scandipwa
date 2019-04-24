@@ -1,3 +1,99 @@
+:root {
+    --search-criteria-background: #f3f3f3;
+    --search-criteria-label-color: rgba(10, 10, 10, 0.44);
+    --search-criteria-search-term-color: #0a0a0a;
+    --search-item-divider-color: #eeeeee;
+    --search-item-title-color: #f26323;
+}
+
 .SearchOverlay {
-    
+    --placeholder-animation: placeholderAnimation 2s linear infinite, appear 200ms forwards;
+
+    &-Criteria {
+        margin-bottom: 0;
+        background-color: var(--search-criteria-background);
+        color: var(--search-criteria-label-color);
+        padding: 0;
+        max-height: 0;
+
+        opacity: 0;
+        transition: opacity 200ms;
+        will-change: max-height, padding, opacity;
+        overflow: hidden;
+
+        &_isVisible {
+            opacity: 1;
+            padding: .7rem 1rem .5rem;
+            max-height: 100px;
+        }
+
+        strong {
+            color: var(--search-criteria-search-term-color);
+            margin-left: 5px;
+        }
+    }
+
+    &-Results {
+        padding: 1rem;
+    }
+
+    &-Item {
+        padding: .5rem 0;
+        margin-bottom: 0;
+
+        &::before {
+            content: none;
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 1rem;
+            right: 1rem;
+            height: 1px;
+            background-color: var(--search-item-divider-color);
+        }
+
+        &:last-child {
+            margin-bottom: 0;
+
+            &::after {
+                content: none;
+            }
+        }
+    }
+
+    &-Wrapper {
+        display: grid;
+        grid-template-columns: 4rem auto;
+        grid-column-gap: 1rem;
+    }
+
+    &-Content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    &-Brand {
+        text-transform: uppercase;
+        font-weight: 200;
+        font-size: .8rem;
+        line-height: 1rem;
+    }
+
+    &-Title {
+        color: var(--search-item-title-color);
+        font-size: 1.2rem;
+
+        max-width: calc(100vw - 7rem);
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    a {
+        color: inherit;
+    }
 }
