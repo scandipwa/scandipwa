@@ -21,11 +21,15 @@ const ZIP_FIELD_ID = 'postcode';
 const PHONE_FIELD_ID = 'telephone';
 const COUNTRY_FIELD_ID = 'country_id';
 
+const STATE_NEW_ADDRESS = 'newAddress';
+const STATE_DEFAULT_ADDRESS = 'defaultAddress';
+
 class CheckoutShippingStep extends Component {
     constructor(props) {
         super(props);
 
         this.handleFieldChange = this.handleFieldChange.bind(this);
+        this.changeState = this.changeState.bind(this);
 
         this.state = {
             email: '',
@@ -43,7 +47,9 @@ class CheckoutShippingStep extends Component {
             activeShippingMethod: {},
             loadingShippingMethods: false,
             loadingShippingInformationSave: false,
-            fieldsArePopulated: false
+            fieldsArePopulated: false,
+            defaultShippingAddress: false,
+            state: STATE_NEW_ADDRESS
         };
 
         this.fieldMap = {
@@ -72,8 +78,13 @@ class CheckoutShippingStep extends Component {
             [CITY_FIELD_ID]: { label: 'City' },
             [STATE_FIELD_ID]: { label: 'State', validation: [] },
             [ZIP_FIELD_ID]: { label: 'Postal Code' },
-            [COUNTRY_FIELD_ID]: { label: 'Country' },
+            [COUNTRY_FIELD_ID]: { label: 'Country', type: 'select' },
             [PHONE_FIELD_ID]: { label: 'Phone Number' }
+        };
+
+        this.renderMap = {
+            [STATE_NEW_ADDRESS]: () => (this.renderNewAddress()),
+            [STATE_DEFAULT_ADDRESS]: () => (this.renderDefaultShippingAddress())
         };
     }
 
@@ -108,17 +119,21 @@ class CheckoutShippingStep extends Component {
                 region_id,
                 street,
                 telephone,
-                fieldsArePopulated: true
+                fieldsArePopulated: true,
+                defaultShippingAddress: true,
+                state: STATE_DEFAULT_ADDRESS
             };
         }
 
         return { email };
     }
 
-    componentDidUpdate(props, prevProps) {
-        const { fieldsArePopulated } = this.state;
+    componentDidUpdate(prevProps) {
+        const { email } = this.state;
 
-        if (!prevProps.email && props.email && fieldsArePopulated) this.handleFieldChange();
+        if (!prevProps.email && email) {
+            this.handleFieldChange();
+        }
     }
 
     onSelectShippingMethod(method) {
@@ -173,6 +188,10 @@ class CheckoutShippingStep extends Component {
             this.setState({ loadingShippingInformationSave: true });
             saveAddressInformation(addressInformation);
         }
+    }
+
+    changeState(state) {
+        this.setState({ state });
     }
 
     handleFieldChange() {
@@ -236,27 +255,16 @@ class CheckoutShippingStep extends Component {
         );
     }
 
-    render() {
-        const {
-            street,
-            shippingMethods,
-            loadingShippingMethods,
-            activeShippingMethod,
-            loadingShippingInformationSave
-        } = this.state;
-        const { method_code } = activeShippingMethod;
+    renderNewAddress() {
+        const { street, defaultShippingAddress } = this.state;
 
         return (
-            <Form
-              onSubmitSuccess={ validFields => this.onFormSuccess(validFields) }
-              key="shipping_step"
-            >
-                <Loader isLoading={ loadingShippingInformationSave } />
+            <>
+                {defaultShippingAddress && <button  onClick={ () => this.changeState(STATE_DEFAULT_ADDRESS) }>I'd like to use default shipping address</button>}
                 <fieldset>
                     <legend>Email Address</legend>
                     { this.renderField(EMAIL_FIELD_ID) }
                 </fieldset>
-
                 <fieldset>
                     <legend>Shipping Address</legend>
                     { this.renderField(FIRSTNAME_FIELD_ID) }
@@ -270,6 +278,67 @@ class CheckoutShippingStep extends Component {
                     { this.renderField(COUNTRY_FIELD_ID) }
                     { this.renderField(PHONE_FIELD_ID) }
                 </fieldset>
+            </>
+        );
+    }
+
+    renderDefaultShippingAddress() {
+        const {
+            firstname,
+            lastname,
+            company,
+            telephone,
+            country_id,
+            region_code,
+            city,
+            street,
+            postalcode
+        } = this.state;
+
+        return (
+            <>
+                <address
+                  block="CheckoutPreviewAndPaymentsStep"
+                  elem="ShippingAddressPreview"
+                >
+                    <dl>
+                        <dt>Contact details:</dt>
+                        <dd>{ `${ firstname } ${ lastname }` }</dd>
+                        { company && (<>
+                            <dt>Company name</dt>
+                            <dd>{ company }</dd>
+                        </>)}
+                        <dt>Billing address:</dt>
+                        <dd>{ `${country_id }, ${region_code}, ${city}` }</dd>
+                        <dd>{ street[0] }</dd>
+                        <dd>{ street[1] }</dd>
+                        <dd>{ postalcode }</dd>
+                        <dd>{ telephone }</dd>
+                    </dl>
+                </address>
+                <button onClick={ () => this.changeState(STATE_NEW_ADDRESS) }>I'd like to use other address</button>
+            </>
+        );
+    }
+
+    render() {
+        const {
+            shippingMethods,
+            loadingShippingMethods,
+            activeShippingMethod,
+            loadingShippingInformationSave,
+            state
+        } = this.state;
+        const renderFunction = this.renderMap[state];
+        const { method_code } = activeShippingMethod;
+
+        return (
+            <Form
+              onSubmitSuccess={ validFields => this.onFormSuccess(validFields) }
+              key="shipping_step"
+            >
+                <Loader isLoading={ loadingShippingInformationSave } />
+                { renderFunction() }
 
                 <CheckoutShippingMethods
                   shippingMethods={ shippingMethods }
