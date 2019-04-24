@@ -10,16 +10,16 @@
  */
 
 import { connect } from 'react-redux';
-import { FieldDispatcher } from 'Store/Field';
+import { CountryDispatcher } from 'Store/Country';
 import Field from './Field.component';
 
 const mapStateToProps = state => ({
-    countries: state.FieldReducer.countries
+    countries: state.CountryReducer.countries
 });
 
 const mapDispatchToProps = dispatch => ({
     getCountriesList() {
-        return FieldDispatcher.getCountriesList(dispatch);
+        return CountryDispatcher.getCountriesList(dispatch);
     }
 });
 

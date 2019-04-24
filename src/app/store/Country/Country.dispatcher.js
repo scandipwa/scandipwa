@@ -1,11 +1,11 @@
 import { QueryDispatcher, executePost } from 'Util/Request';
 import { prepareQuery } from 'Util/Query';
-import { getCountryList } from 'Store/Field';
-import FieldQuery from 'Query/FieldQuery.query';
+import { getCountryList } from 'Store/Country';
+import Country from 'Query/Country.query';
 
-class FieldDispatcher extends QueryDispatcher {
+class CountryDispatcher extends QueryDispatcher {
     getCountriesList(dispatch) {
-        const query = FieldQuery.getCountriesList();
+        const query = Country.getCountriesList();
 
         return executePost(prepareQuery([query])).then(
             ({ countries }) => dispatch(getCountryList(countries)),
@@ -14,4 +14,4 @@ class FieldDispatcher extends QueryDispatcher {
     }
 }
 
-export default new FieldDispatcher();
+export default new CountryDispatcher();

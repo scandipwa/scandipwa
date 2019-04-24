@@ -11,13 +11,13 @@
 
 import {
     GET_COUNTRY_LIST
-} from './Field.action';
+} from './Country.action';
 
 const initialState = {
     countries: []
 };
 
-const FieldReducer = (state = initialState, action) => {
+const CountryReducer = (state = initialState, action) => {
     const { countries } = action;
 
     const resultingCountries = countries && countries.map(country => ({
@@ -37,4 +37,4 @@ const FieldReducer = (state = initialState, action) => {
     }
 };
 
-export default FieldReducer;
+export default CountryReducer;
