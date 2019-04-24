@@ -12,17 +12,27 @@
 import { Field } from 'Util/Query';
 
 /**
- * FieldQuery Mutations
- * @class FieldQuery
+ * CountryQuery Mutations
+ * @class CountryQuery
  */
-class FieldQuery {
+class CountryQuery {
     getCountriesList() {
         const countries = new Field('countries')
+            .addField(this.getAvalaibleRegions())
             .addField('id')
             .addField('full_name_locale');
 
         return countries;
     }
+
+    getAvalaibleRegions() {
+        const available_regions = new Field('available_regions')
+            .addField('code')
+            .addField('name')
+            .addField('id');
+
+        return available_regions;
+    }
 }
 
-export default new FieldQuery();
+export default new CountryQuery();
