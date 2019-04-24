@@ -40,7 +40,7 @@ class Form extends Component {
             if (child && typeof child === 'object' && child.type && child.props) {
                 const { type: { name }, props, props: { children } } = child;
 
-                if (name === Field.prototype.constructor.name || name === Select.prototype.constructor.name) {
+                if (name === Field.prototype.constructor.name) {
                     return fieldCallback(child);
                 }
 
