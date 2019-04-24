@@ -320,6 +320,7 @@ class MyAccountDetails extends Component {
                           label="Country"
                           id="country_id"
                           value={ selectValue || country_id || DEFAULT_COUNTRY }
+                          onChange={ (value) => { this.changeSelectValue(value); } }
                         />
                     </fieldset>
                     <button block="MyAccountDetails" elem="Submit" type="submit">Add Address</button>

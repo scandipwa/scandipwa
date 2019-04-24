@@ -64,10 +64,10 @@ class Select extends Component {
 
         return options.map(option => (
             <li
-              key={ option.value }
+              key={ option.id }
               role="presentation"
-              onClick={ () => this.onGetSortKey(option.value) }
-              onKeyPress={ () => this.onGetSortKey(option.value) }
+              onClick={ () => this.onGetKey(option.id) }
+              onKeyPress={ () => this.onGetKey(option.id) }
             >
             {option.label}
             </li>
@@ -83,8 +83,8 @@ class Select extends Component {
 
         return options.map(option => (
             <option
-              key={ option.value }
-              value={ option.value }
+              key={ option.id }
+              value={ option.id }
               tabIndex={ 0 }
             >
                 { option.label }
@@ -93,8 +93,7 @@ class Select extends Component {
     }
 
     render() {
-        // TODO add select as possible child type name in form component
-        const { selectedOption, formRef } = this.props;
+        const { selectedOption, reference, id } = this.props;
 
         return (
             <div block="Select" elem="Container">
@@ -103,9 +102,10 @@ class Select extends Component {
                         <select
                           block="Select"
                           elem="Form"
-                          ref={ formRef }
+                          id={ id }
+                          ref={ reference }
                           value={ selectedOption }
-                          onChange={ e => this.onGetSortKey(e.target.value) }
+                          onChange={ e => this.onGetKey(e.target.value) }
                         >
                             { this.renderOptions() }
                         </select>
@@ -128,14 +128,16 @@ Select.propTypes = {
             label: PropTypes.string
         })
     ).isRequired,
-    formRef: PropTypes.oneOfType([
+    reference: PropTypes.oneOfType([
         PropTypes.func,
         PropTypes.shape({ current: PropTypes.instanceOf(Element) })
-    ]).isRequired
+    ]),
+    id: PropTypes.string
 };
 
 Select.defaultProps = {
-    formRef: null
+    reference: '',
+    id: 'select'
 };
 
 export default Select;

@@ -95,7 +95,7 @@ class Field extends Component {
 
     onChange(event) {
         if (typeof event === 'string') {
-            return this.setState({ value: event });
+            return this.handleChange(event);
         }
 
         return this.handleChange(event.target.value);
