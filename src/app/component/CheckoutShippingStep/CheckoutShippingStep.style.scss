@@ -1,0 +1,26 @@
+.CheckoutShippingStep {
+    &-ShippingAddressPreview {
+        display: inline-block;
+        background-color: var(--color-summary-background);
+        padding: 1rem;
+        margin: 1rem 0;
+        min-width: 40rem;
+        columns: 2;
+
+        dt {
+            margin-top: 1rem;
+            margin-bottom: .5rem;
+            font-weight: bold;
+
+            &:first-of-type {
+                margin-top: 0;
+            }
+        }
+
+        dd {
+            font-size: 1.2rem;
+            font-style: normal;
+            padding-left: 2rem;
+        }
+    }
+}

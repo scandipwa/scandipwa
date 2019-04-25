@@ -47,6 +47,7 @@ class CheckoutPage extends Component {
             showSummary: true,
             shippingAddress: {},
             billingAddress: {},
+            addressesAreChecked: false,
             carrierCode: '',
             methodCode: '',
             paymentMethods: [],
@@ -101,11 +102,13 @@ class CheckoutPage extends Component {
 
     componentDidMount() {
         const { updateToggleHeaderAndFooter } = this.props;
+        const { isSignedIn } = this.props;
+
         updateToggleHeaderAndFooter({ isHeaderAndFooterVisible: false });
-        this.requestCustomerData();
+        if (isSignedIn) this.requestCustomerData().then(() => this.getDefaultAddresses());
     }
 
-    componentDidUpdate() {
+    getDefaultAddresses() {
         const { customer } = this.props;
         const { shippingAddress, billingAddress } = this.state;
 
@@ -121,6 +124,7 @@ class CheckoutPage extends Component {
                 }
             });
         }
+        this.setState({ addressesAreChecked: true });
     }
 
     requestCustomerData() {
@@ -189,15 +193,17 @@ class CheckoutPage extends Component {
      * @returns {*}
      */
     renderShippingStep() {
-        const { shippingAddress } = this.state;
+        const { shippingAddress, billingAddress, addressesAreChecked } = this.state;
         const { isSignedIn, customer: { email } } = this.props;
 
         return (
             <CheckoutShippingStep
               saveAddressInformation={ addressInformation => this.saveAddressInformation(addressInformation) }
               shippingAddress={ shippingAddress }
+              billingAddress={ billingAddress }
               isSignedIn={ isSignedIn }
               email={ email }
+              finishedLoading={ addressesAreChecked }
             />
         );
     }
@@ -209,11 +215,13 @@ class CheckoutPage extends Component {
     renderReviewAndPaymentsStep() {
         const {
             shippingAddress,
+            billingAddress,
             paymentMethods
         } = this.state;
 
         return (
             <CheckoutPreviewAndPaymentsStep
+              billingAddress={ billingAddress }
               shippingAddress={ shippingAddress }
               paymentMethods={ paymentMethods }
               savePaymentInformationAndPlaceOrder={ paymentInformation => this.savePaymentInformationAndPlaceOrder(paymentInformation) }
@@ -312,6 +320,7 @@ CheckoutPage.propTypes = {
     savePaymentInformationAndPlaceOrder: PropTypes.func.isRequired,
     saveAddressInformation: PropTypes.func.isRequired,
     removeCartAndObtainNewGuest: PropTypes.func.isRequired,
+    requestCustomerData: PropTypes.func.isRequired,
     history: PropTypes.shape({
         location: PropTypes.object.isRequired,
         push: PropTypes.func.isRequired

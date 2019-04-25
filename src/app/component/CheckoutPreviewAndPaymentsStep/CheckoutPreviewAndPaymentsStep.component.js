@@ -26,15 +26,17 @@ class CheckoutPreviewAndPaymentsStep extends Component {
 
         const {
             shippingAddress,
+            billingAddress,
             paymentMethods
         } = props;
 
-        const { street } = shippingAddress;
+        const { street } = billingAddress;
 
         this.state = {
-            ...shippingAddress,
+            shippingAddress,
+            billingAddress,
             street: { ...street },
-            billingIsSame: true,
+            billingIsSame: false,
             paymentMethods,
             activePaymentMethod: {},
             loadingPaymentInformationSave: false
@@ -73,17 +75,21 @@ class CheckoutPreviewAndPaymentsStep extends Component {
 
     onFormSuccess() {
         const { savePaymentInformationAndPlaceOrder } = this.props;
-        const { activePaymentMethod: { code: method }, street, region_id } = this.state;
+        const {
+            activePaymentMethod: { code: method },
+            street,
+            region_id,
+            billingIsSame,
+            shippingAddress,
+            billingAddress
+        } = this.state;
 
+        const correctAddress = billingIsSame ? shippingAddress : billingAddress;
         const address = {
-            ...this.state,
+            ...correctAddress,
             region_id: parseInt(region_id, 10),
             street: Object.values(street)
         };
-        delete address.paymentMethods;
-        delete address.activePaymentMethod;
-        delete address.loadingPaymentInformationSave;
-        delete address.billingIsSame;
 
         const paymentInformation = {
             paymentMethod: { method },
@@ -140,7 +146,7 @@ class CheckoutPreviewAndPaymentsStep extends Component {
                 country_id,
                 telephone
             }
-        } = this.props;
+        } = this.state;
 
         return (
             <address
@@ -171,7 +177,8 @@ class CheckoutPreviewAndPaymentsStep extends Component {
             billingIsSame,
             street,
             activePaymentMethod,
-            loadingPaymentInformationSave
+            loadingPaymentInformationSave,
+            shippingAddress
         } = this.state;
         const { code } = activePaymentMethod;
 
@@ -190,14 +197,16 @@ class CheckoutPreviewAndPaymentsStep extends Component {
                 <fieldset>
                     <legend>Billing Address</legend>
 
-                    <Field
-                      id="sameAsShippingAddress"
-                      type="checkbox"
-                      label="My billing and shipping address are the same"
-                      value={ billingIsSame }
-                      checked={ billingIsSame }
-                      onChange={ value => this.setState({ billingIsSame: value }) }
-                    />
+                    { shippingAddress && !!Object.entries(shippingAddress).length && (
+                        <Field
+                          id="sameAsShippingAddress"
+                          type="checkbox"
+                          label="My billing and shipping address are the same"
+                          value={ billingIsSame }
+                          checked={ billingIsSame }
+                          onChange={ value => this.setState({ billingIsSame: value }) }
+                        />)
+                     }
 
                     { billingIsSame
                         ? this.renderShippingAddressPreview()
@@ -225,7 +234,30 @@ class CheckoutPreviewAndPaymentsStep extends Component {
 }
 
 CheckoutPreviewAndPaymentsStep.propTypes = {
-    shippingAddress: PropTypes.object.isRequired,
+    shippingAddress: PropTypes.shape({
+        city: PropTypes.string,
+        company: PropTypes.string,
+        country_id: PropTypes.string,
+        email: PropTypes.string,
+        firstname: PropTypes.string,
+        lastname: PropTypes.string,
+        postcode: PropTypes.string,
+        region_id: PropTypes.number,
+        street: PropTypes.array,
+        telephone: PropTypes.string
+    }).isRequired,
+    billingAddress: PropTypes.shape({
+        city: PropTypes.string,
+        company: PropTypes.string,
+        country_id: PropTypes.string,
+        email: PropTypes.string,
+        firstname: PropTypes.string,
+        lastname: PropTypes.string,
+        postcode: PropTypes.string,
+        region_id: PropTypes.number,
+        street: PropTypes.array,
+        telephone: PropTypes.string
+    }).isRequired,
     savePaymentInformationAndPlaceOrder: PropTypes.func.isRequired,
     paymentMethods: PropTypes.arrayOf(PropTypes.object).isRequired
 };
