@@ -263,7 +263,7 @@ class Field extends Component {
     }
 
     renderTypeSelect() {
-        const { id, formRef, countryList } = this.props;
+        const { id, formRef, options } = this.props;
         const { value } = this.state;
 
         return (
@@ -272,7 +272,7 @@ class Field extends Component {
               elem="Select"
               id={ id }
               reference={ formRef }
-              options={ countryList }
+              options={ options }
               selectedOption={ value }
               onGetKey={ this.onChange }
             />
@@ -360,7 +360,7 @@ Field.propTypes = {
         PropTypes.shape({ current: PropTypes.instanceOf(Element) })
     ]),
     isAutocompleteAllowed: PropTypes.bool,
-    countryList: PropTypes.arrayOf(
+    options: PropTypes.arrayOf(
         PropTypes.shape({
             id: PropTypes.string,
             label: PropTypes.string
