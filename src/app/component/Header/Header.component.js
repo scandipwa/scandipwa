@@ -7,6 +7,7 @@ import { history } from 'Route';
 import MenuOverlay from 'Component/MenuOverlay';
 import SearchOverlay from 'Component/SearchOverlay';
 import MyAccountOverlay from 'Component/MyAccountOverlay';
+import { setQueryParams } from 'Util/Url';
 import './Header.style';
 
 export const PDP = 'pdp';
@@ -16,6 +17,7 @@ export const HOME_PAGE = 'home';
 export const MENU = 'menu';
 export const MENU_SUBCATEGORY = 'menu_subcategory';
 export const SEARCH = 'search';
+export const FILTER = 'filter';
 
 export const NAVIGATION_BACK = 'back';
 export const NAVIGATION_CLOSE = 'close';
@@ -67,10 +69,18 @@ class Header extends Component {
                 back: true,
                 search: true,
                 searchClear: true
+            },
+            [FILTER]: {
+                close: true,
+                clear: true,
+                title: true
             }
         };
 
-        this.state = { searchCriteria: '' };
+        this.state = {
+            searchCriteria: '',
+            prevPathname: ''
+        };
 
         this.searchBarRef = React.createRef();
 
@@ -82,13 +92,17 @@ class Header extends Component {
         this.onClearSearchButtonClick = this.onClearSearchButtonClick.bind(this);
         this.onMyAccountButtonClick = this.onMyAccountButtonClick.bind(this);
         this.onSearchBarChange = this.onSearchBarChange.bind(this);
+        this.onClearButtonClick = this.onClearButtonClick.bind(this);
     }
 
     componentDidMount() {
+        this.onRouteChanged(history.location, true);
         history.listen(history => this.onRouteChanged(history));
     }
 
-    onRouteChanged(history) {
+    onRouteChanged(history, isPrevPathnameNotRelevant = false) {
+        const { prevPathname } = this.state;
+
         const {
             hideActiveOverlay,
             setHeaderState,
@@ -97,18 +111,22 @@ class Header extends Component {
 
         const { pathname } = history;
 
-        const newHeaderState = Object.keys(this.routeMap).reduce(
-            (state, route) => ((pathname.includes(route))
-                ? this.routeMap[route]
-                : state
-            ), { name: HOME_PAGE }
-        );
+        if (isPrevPathnameNotRelevant || prevPathname !== pathname) {
+            const newHeaderState = Object.keys(this.routeMap).reduce(
+                (state, route) => ((pathname.includes(route))
+                    ? this.routeMap[route]
+                    : state
+                ), { name: HOME_PAGE }
+            );
 
-        if (name !== newHeaderState.name) {
-            setHeaderState(newHeaderState);
+            if (name !== newHeaderState.name) {
+                setHeaderState(newHeaderState);
+            }
+
+            hideActiveOverlay();
+
+            this.setState({ prevPathname: pathname });
         }
-
-        hideActiveOverlay();
     }
 
     onBackButtonClick() {
@@ -172,6 +190,10 @@ class Header extends Component {
 
         showOverlay(CUSTOMER_ACCOUNT);
         setHeaderState({ name: CUSTOMER_ACCOUNT, title: 'Sign in' });
+    }
+
+    onClearButtonClick() {
+        setQueryParams({ customFilters: '' }, history.location, history);
     }
 
     renderBackButton(isVisible = false) {
@@ -302,6 +324,18 @@ class Header extends Component {
         );
     }
 
+    renderClearButton(isVisible = false) {
+        return (
+            <button
+              block="Header"
+              elem="Button"
+              mods={ { type: 'clear', isVisible } }
+              onClick={ this.onClearButtonClick }
+              aria-label="Clear"
+            />
+        );
+    }
+
     renderHeaderState(state) {
         const source = this.stateMap[state]
             ? this.stateMap[state]
@@ -316,7 +350,8 @@ class Header extends Component {
             menu,
             logo,
             search,
-            searchClear
+            searchClear,
+            clear
         } = source;
 
         return (
@@ -329,6 +364,7 @@ class Header extends Component {
                 { this.renderLogo(logo) }
                 { this.renderAccountButton(account) }
                 { this.renderMinicartButton(minicart) }
+                { this.renderClearButton(clear) }
             </>
         );
     }
@@ -359,7 +395,8 @@ Header.propTypes = {
             HOME_PAGE,
             MENU,
             MENU_SUBCATEGORY,
-            SEARCH
+            SEARCH,
+            FILTER
         ]),
         title: PropTypes.string,
         onBackClick: PropTypes.func,

@@ -1,0 +1,97 @@
+:root {
+    --expandable-content-color: #000;
+}
+
+.ExpandableContent {
+    border-top: 1px solid var(--expandable-content-color);
+
+    &:first-of-type {
+        border-top: 0;
+    }
+
+    &:last-of-type {
+        border-bottom: 1px solid var(--expandable-content-color);
+    }
+
+    &-Button {
+        padding: .5rem 1rem;
+        text-align: left;
+        width: 100%;
+        border-bottom: 1px solid transparent;
+        will-change: border-color;
+
+        min-height: 50px;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+
+        &::after,
+        &::before {
+            content: '';
+            position: absolute;
+            height: 7px;
+            width: 1px;
+            background-color: var(--expandable-content-color);
+            right: 1rem;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+        }
+
+        &::before {
+            transform-origin: 50% 50%;
+            transform: scale(1);
+            transition: 200ms transform;
+            will-change: transform;
+        }
+
+        &::after {
+            transform-origin: 50% 50%;
+            transform: rotate(90deg);
+        }
+
+        &_isContentExpanded {
+            border-color: var(--expandable-content-color);
+
+            &::before {
+                transform: scale(0);
+            }
+        }
+    }
+
+    &-Heading,
+    &-SubHeading {
+        display: block;
+        color: var(--expandable-content-color);
+    }
+
+    &-Heading {
+        font-size: 1rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        line-height: 1.4;
+    }
+
+    &-SubHeading {
+        font-weight: 300;
+        font-size: .8rem;
+        line-height: 1.1;
+    }
+
+    &-Content {
+        padding: 0 1rem;
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+
+        will-change: max-height, padding, opacity;
+        transition-property: opacity;
+        transition-duration: 200ms;
+
+        &_isContentExpanded {
+            padding: 1rem;
+            opacity: 1;
+            max-height: 100vh;
+        }
+    }
+}

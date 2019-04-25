@@ -15,10 +15,7 @@
     grid-gap: 1rem;
 
     @include mobile {
-        grid-row: 1;
-        margin-bottom: 1.5rem;
-        grid-template-columns: 1fr;
-        border: 0;
+        display: none;
     }
 
     picture {

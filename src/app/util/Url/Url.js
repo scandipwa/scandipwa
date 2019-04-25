@@ -117,7 +117,6 @@ const convertKeyValuesToQueryString = (keyValuePairs) => {
  * @param {Object} variable Object with key value pairs to be added to url
  * @param {Object} variable location object from react-router
  * @param {Object} variable react router history object
- * @param {Object} variable is url flush required
  */
 const setQueryParams = (keyValueObject, location, history) => {
     let query = history.location.search;

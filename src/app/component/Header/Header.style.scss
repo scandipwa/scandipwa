@@ -6,6 +6,48 @@
 	--header-search-clear-background: #838383;
 }
 
+@mixin clear-button {
+	&::before,
+	&::after {
+		content: '';
+		position: absolute;
+	}
+
+	&::before {
+		top: 12px;
+		left: 12px;
+		width: 10px;
+		height: 14px;
+		transform: perspective(10px) rotateX(-10deg);
+		border: {
+			left: 1px solid var(--header-color);
+			right: 1px solid var(--header-color);
+			bottom: 1px solid var(--header-color);
+			bottom-left-radius: 3px;
+			bottom-right-radius: 3px;
+		}
+	}
+
+	&::after {
+		left: 14px;
+		top: 7px;
+		width: 6px;
+		height: 2px;
+		border: {
+			left: 1px solid var(--header-color);
+			right: 1px solid var(--header-color);
+			top: 1px solid var(--header-color);
+			top-left-radius: 2px;
+			top-right-radius: 2px;
+		};
+		box-shadow:
+			6px 2px 0 -1px var(--header-color),
+			-6px 2px 0 -1px var(--header-color),
+			-2px 2px 0 -1px var(--header-color),
+			2px 2px 0 -1px var(--header-color);
+	}
+}
+
 @mixin close-button {
 	&::before,
 	&::after {
@@ -132,8 +174,8 @@
 		border: 1px solid var(--header-color);
 		border-radius: 1px;
 		width: 10px;
-		height: 12px;
-		top: 12px;
+		height: 14px;
+		top: 11px;
 		right: 10px;
 	}
 
@@ -148,7 +190,7 @@
 		width: 6px;
 		height: 5px;
 		right: 12px;
-		top: 9px;
+		top: 8px;
 	}
 
 	span {
@@ -239,6 +281,10 @@
 
 			&_searchClear {
 				@include clear-search-button;
+			}
+
+			&_clear {
+				@include clear-button;
 			}
 		}
 	}

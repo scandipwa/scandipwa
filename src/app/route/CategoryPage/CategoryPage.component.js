@@ -18,6 +18,7 @@ import CategoriesList from 'Component/CategoriesList';
 import ProductSort from 'Component/ProductSort';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import CategoryShoppingOptions from 'Component/CategoryShoppingOptions';
+import CategoryFilterOverlay from 'Component/CategoryFilterOverlay';
 import Meta from 'Component/Meta';
 import { CATEGORY } from 'Component/Header';
 import {
@@ -26,6 +27,11 @@ import {
 import { CategoryTreeType } from 'Type/Category';
 import { ItemsType } from 'Type/ProductList';
 import './CategoryPage.style';
+
+import Store from 'Store';
+import { FILTER } from 'Component/Header';
+import { toggleOverlayByKey } from 'Store/Overlay';
+import { changeHeaderState } from 'Store/Header';
 
 class CategoryPage extends Component {
     constructor(props) {
@@ -349,14 +355,10 @@ class CategoryPage extends Component {
     render() {
         const {
             category,
-            categoryList,
             items,
             totalItems,
             sortFields,
             filters,
-            location,
-            match,
-            history,
             isLoading
         } = this.props;
 
@@ -377,28 +379,15 @@ class CategoryPage extends Component {
                   label="Category page"
                 >
                     <Meta metaObject={ category } />
-                    <aside block="CategoryPage" elem="Options">
-                        <CategoryShoppingOptions
-                          availableFilters={ filters }
-                          minPriceValue={ minPriceRange }
-                          maxPriceValue={ maxPriceRange }
-                          priceValue={ this.getPriceRangeFromUrl() }
-                          customFiltersValues={ customFilters }
-                          updatePriceRange={ priceRange => this.updatePriceRange(priceRange) }
-                          updateFilter={ (filterName, filterArray) => this.updateFilter(filterName, filterArray) }
-                          clearFilters={ () => this.clearFilters(location, history) }
-                          sortKey={ sortKey }
-                          sortDirection={ sortDirection }
-                          location={ location }
-                          history={ history }
-                        />
-                        <CategoriesList
-                          availableFilters={ filters }
-                          category={ categoryList }
-                          location={ location }
-                          match={ match }
-                        />
-                    </aside>
+                    <CategoryFilterOverlay
+                      availableFilters={ filters }
+                      customFiltersValues={ customFilters }
+                      updateFilter={ (filterName, filterArray) => this.updateFilter(filterName, filterArray) }
+                      updatePriceRange={ priceRange => this.updatePriceRange(priceRange) }
+                      priceValue={ this.getPriceRangeFromUrl() }
+                      minPriceValue={ minPriceRange }
+                      maxPriceValue={ maxPriceRange }
+                    />
                     <CategoryDetails
                       category={ isNewCategory ? {} : category }
                     />
@@ -411,6 +400,16 @@ class CategoryPage extends Component {
                           value={ sortKey }
                           sortDirection={ sortDirection }
                         />
+                        <button
+                          block="CategoryPage"
+                          elem="Filter"
+                          onClick={ () => {
+                              Store.dispatch(toggleOverlayByKey('category-filter'));
+                              Store.dispatch(changeHeaderState({ name: 'filter', title: 'Filters' }));
+                          } }
+                        >
+                            Filter
+                        </button>
                     </aside>
                     <CategoryProductList
                       items={ items }
