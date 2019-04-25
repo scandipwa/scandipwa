@@ -13,10 +13,9 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    min-height: 55px;
 
     @include mobile {
-        justify-content: center;
+        justify-content: flex-start;
     }
 
     &-Label {
@@ -25,13 +24,7 @@
         color: var(--color-neutral-base);
 
         @include mobile {
-            font-size: .9rem;
-        }
-    }
-
-    &-Select {
-        @include mobile {
-            font-size: 1rem;
+            display: none;
         }
     }
 
@@ -41,13 +34,17 @@
         background-color: var(--color-breadcrumbs-background);
         border: 0;
 
+        @include mobile {
+            display: none;
+        }
+
         &:hover {
             background-color: var(--color-breadcrumbs-background);
         }
     }
 
     &-Select,
-    &-Switch { 
+    &-Switch {
         height: 35px;
         padding: 0 15px;
         line-height: 35px;

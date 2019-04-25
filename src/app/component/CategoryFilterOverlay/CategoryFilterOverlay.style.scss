@@ -1,0 +1,49 @@
+.CategoryFilterOverlay {
+    @include after-mobile {
+        grid-row: 1/5;
+        height: 100vh;
+        position: sticky;
+        top: 40px;
+        overflow-y: hidden;
+        padding-right: 2rem;
+        width: 100%;
+    }
+
+    &-ItemList {
+        display: grid;
+        grid-template-columns: repeat(3, 33.33%);
+        text-align: center;
+
+        &_type {
+            &_cat {
+                grid-template-columns: 50% 50%;
+            }
+
+            &_color {
+                grid-template-columns: repeat(5, 20%);
+            }
+
+            &_size {
+                grid-template-columns: 50% 50%;
+            }
+        }
+    }
+
+    &-Placeholder {
+        padding: 1rem;
+    }
+
+    li {
+        padding-left: 0;
+
+        &::before {
+            content: '';
+        }
+
+        &:last-child {
+            @include mobile {
+                margin-bottom: .6rem;
+            }
+        }
+    }
+}

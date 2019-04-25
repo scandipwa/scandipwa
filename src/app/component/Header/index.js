@@ -6,6 +6,7 @@ import HeaderComponent, {
     HOME_PAGE,
     MENU_SUBCATEGORY,
     MENU,
+    FILTER,
     SEARCH
 } from './Header.component';
 
@@ -17,6 +18,7 @@ export {
     HOME_PAGE,
     MENU_SUBCATEGORY,
     MENU,
+    FILTER,
     SEARCH,
     HeaderComponent
 };

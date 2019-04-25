@@ -11,6 +11,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import CSS from 'Util/CSS';
 import './Swatch.style';
 
 /**
@@ -18,53 +19,62 @@ import './Swatch.style';
  * @class Swatch
  */
 class Swatch extends Component {
+    constructor(props) {
+        super(props);
+
+        this.swatchRef = React.createRef();
+    }
+
+    componentDidMount() {
+        const { requestVar } = this.props;
+        if (requestVar === 'color') this.applyColorVariables();
+    }
+
+    applyColorVariables() {
+        const { filterItem: { swatch_data: { value: baseColor } } } = this.props;
+
+        const color = (baseColor.charAt(0) === '#') ? baseColor.substring(1, 7) : baseColor;
+        const r = parseInt(color.substring(0, 2), 16); // hexToR
+        const g = parseInt(color.substring(2, 4), 16); // hexToG
+        const b = parseInt(color.substring(4, 6), 16); // hexToB
+        const isLight = (((r * 0.299) + (g * 0.587) + (b * 0.114)) > 186);
+
+        CSS.setVariable(this.swatchRef, 'swatch-background', baseColor);
+        CSS.setVariable(this.swatchRef, 'swatch-check-mark-background', isLight ? '#000' : '#fff');
+        CSS.setVariable(this.swatchRef, 'swatch-border-color', isLight ? '#000' : baseColor);
+    }
+
     render() {
         const {
-            isSelected, title, isRound, backgroundColor, handler
+            filterItem: { label },
+            requestVar,
+            isSelected,
+            onClick
         } = this.props;
-        const style = backgroundColor ? { backgroundColor } : {};
-        const isReady = !!(handler && (title || backgroundColor));
-        const mods = isReady ? { isSelected, isRound } : { isLoading: true };
 
         return (
-            isReady
-                ? (
-                    <button
-                      block="Swatch"
-                      style={ style }
-                      mods={ mods }
-                      onClick={ () => handler() }
-                    >
-                        { title }
-                    </button>
-                )
-                : (
-                    <div
-                      block="Swatch"
-                      mods={ mods }
-                    />
-                )
+            <button
+              ref={ this.swatchRef }
+              block="Swatch"
+              mods={ { type: requestVar, isSelected } }
+              onClick={ () => onClick() }
+            >
+                { label }
+            </button>
         );
     }
 }
 
 Swatch.propTypes = {
-    handler: PropTypes.func,
+    onClick: PropTypes.func,
     isSelected: PropTypes.bool,
-    isRound: PropTypes.bool,
-    title: PropTypes.string,
-    backgroundColor: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.bool
-    ])
+    filterItem: PropTypes.objectOf(PropTypes.shape).isRequired,
+    requestVar: PropTypes.string.isRequired
 };
 
 Swatch.defaultProps = {
-    handler: undefined,
     isSelected: false,
-    isRound: false,
-    title: null,
-    backgroundColor: false
+    onClick: () => {}
 };
 
 export default Swatch;
