@@ -141,4 +141,13 @@
             margin-top: 0;
         }
     }
+
+    .Select-Container {
+        max-width: 40rem;
+
+        ul {
+            overflow-y: scroll;
+            z-index: 10;
+        }
+    }
 }

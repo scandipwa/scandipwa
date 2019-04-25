@@ -7,6 +7,11 @@
         min-width: 40rem;
         columns: 2;
 
+        @include mobile {
+            width: 100%;
+            min-width: 0;
+        }
+
         dt {
             margin-top: 1rem;
             margin-bottom: .5rem;

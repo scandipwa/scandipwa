@@ -21,6 +21,7 @@ const STATE_FIELD_ID = 'region_code';
 const ZIP_FIELD_ID = 'postcode';
 const PHONE_FIELD_ID = 'telephone';
 const COUNTRY_FIELD_ID = 'country_id';
+const DEFAULT_COUNTRY = 'US';
 
 const STATE_NEW_ADDRESS = 'newAddress';
 const STATE_DEFAULT_ADDRESS = 'defaultAddress';
@@ -37,10 +38,11 @@ class CheckoutShippingStep extends Component {
             firstname: '',
             lastname: '',
             company: '',
-            street: {},
+            street: [],
             city: '',
             region_code: '',
-            region_id: '',
+            // TODO: remove zero as default value when region select is created
+            region_id: 0,
             postcode: '',
             country_id: '',
             telephone: '',
@@ -79,7 +81,7 @@ class CheckoutShippingStep extends Component {
             [CITY_FIELD_ID]: { label: 'City' },
             [STATE_FIELD_ID]: { label: 'State', validation: [] },
             [ZIP_FIELD_ID]: { label: 'Postal Code' },
-            [COUNTRY_FIELD_ID]: { label: 'Country', type: 'select' },
+            [COUNTRY_FIELD_ID]: { label: 'Country', type: 'select', defaultValue: DEFAULT_COUNTRY },
             [PHONE_FIELD_ID]: { label: 'Phone Number' }
         };
 
@@ -101,12 +103,11 @@ class CheckoutShippingStep extends Component {
                 firstname,
                 lastname,
                 postcode,
-                region,
+                region_code,
+                region_id,
                 street,
                 telephone
             } = shippingAddress;
-
-            const { region_code, region_id } = region;
 
             return {
                 city,
@@ -187,7 +188,7 @@ class CheckoutShippingStep extends Component {
             postcode,
             region_id,
             region_code,
-            street,
+            street: Object.values(street),
             telephone
         };
     }
@@ -240,6 +241,7 @@ class CheckoutShippingStep extends Component {
             type = 'text',
             label,
             note,
+            defaultValue,
             validation = ['notEmpty'],
             onChange = value => this.setState({ [id]: value }, this.handleFieldChange)
         } = this.fieldMap[id];
@@ -250,7 +252,7 @@ class CheckoutShippingStep extends Component {
               type={ type }
               label={ label }
               note={ note }
-              value={ overrideStateValue || stateValue }
+              value={ overrideStateValue || stateValue || defaultValue }
               validation={ validation }
               onChange={ onChange }
             />
@@ -262,7 +264,18 @@ class CheckoutShippingStep extends Component {
 
         return (
             <>
-                {defaultShippingAddress && <button  onClick={ () => this.changeState(STATE_DEFAULT_ADDRESS) }>I'd like to use default shipping address</button>}
+                {defaultShippingAddress
+                    && (
+                    <div block="CheckoutShippingStep" elem="ButtonWrapper">
+                        <button
+                          onClick={ () => this.changeState(STATE_DEFAULT_ADDRESS) }
+                          block="CheckoutShippingStep"
+                          elem="ButtonDefault"
+                        >
+                            {"I'd like to use the default shipping address"}
+                        </button>
+                    </div>)
+                }
                 <fieldset>
                     <legend>Email Address</legend>
                     { this.renderField(EMAIL_FIELD_ID) }
@@ -318,7 +331,13 @@ class CheckoutShippingStep extends Component {
                         <dd>{ telephone }</dd>
                     </dl>
                 </address>
-                <button onClick={ () => this.changeState(STATE_NEW_ADDRESS) }>I'd like to use other address</button>
+                <button
+                  block="CheckoutShippingStep"
+                  elem="ButtonNew"
+                  onClick={ () => this.changeState(STATE_NEW_ADDRESS) }
+                >
+                    {"I'd like to use a different address"}
+                </button>
             </>
         );
     }
