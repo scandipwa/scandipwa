@@ -8,6 +8,7 @@ import Field from 'Component/Field';
 import CheckoutShippingMethods from 'Component/CheckoutShippingMethods';
 import Loader from 'Component/Loader';
 import { makeCancelable } from 'Util/Promise';
+import './CheckoutShippingStep.style';
 
 const EMAIL_FIELD_ID = 'email';
 const FIRSTNAME_FIELD_ID = 'firstname';
@@ -131,9 +132,7 @@ class CheckoutShippingStep extends Component {
     componentDidUpdate(prevProps) {
         const { email } = this.state;
 
-        if (!prevProps.email && email) {
-            this.handleFieldChange();
-        }
+        if (!prevProps.email && email) this.handleFieldChange();
     }
 
     onSelectShippingMethod(method) {
@@ -141,11 +140,46 @@ class CheckoutShippingStep extends Component {
     }
 
     onFormSuccess() {
-        const { showNotification, saveAddressInformation } = this.props;
+        const { showNotification, saveAddressInformation, billingAddress } = this.props;
+        const { activeShippingMethod: { method_code, carrier_code } } = this.state;
+
+        const trimmedBillingAddress = Object.entries(billingAddress).length ? this.trimAddress(billingAddress) : {};
+        const trimmedShippingAddress = this.trimAddress(this.state);
+
+        if (!method_code || !carrier_code) {
+            showNotification('error', 'No shipping method specified');
+        } else {
+            const addressInformation = {
+                shipping_address: trimmedShippingAddress,
+                billing_address: trimmedBillingAddress,
+                shipping_carrier_code: carrier_code,
+                shipping_method_code: method_code
+            };
+
+            this.setState({ loadingShippingInformationSave: true });
+            saveAddressInformation(addressInformation);
+        }
+    }
+
+    trimAddress(address) {
         const {
-            activeShippingMethod: { method_code, carrier_code },
             city,
-            compoany,
+            company,
+            country_id,
+            email,
+            firstname,
+            lastname,
+            postcode,
+            region,
+            street,
+            telephone
+        } = address;
+
+        const { region_id, region_code } = region || address;
+
+        return {
+            city,
+            company,
             country_id,
             email,
             firstname,
@@ -155,39 +189,7 @@ class CheckoutShippingStep extends Component {
             region_code,
             street,
             telephone
-        } = this.state;
-
-        const address = {
-            city,
-            compoany,
-            country_id,
-            email,
-            firstname,
-            lastname,
-            postcode,
-            region: region_code,
-            region_id: parseInt(region_id, 10),
-            street,
-            telephone
         };
-        delete address.shippingMethods;
-        delete address.activeShippingMethod;
-        delete address.loadingShippingMethods;
-        delete address.loadingShippingInformationSave;
-
-        if (!method_code || !carrier_code) {
-            showNotification('error', 'No shipping method specified');
-        } else {
-            const addressInformation = {
-                shipping_address: address,
-                billing_address: address,
-                shipping_carrier_code: carrier_code,
-                shipping_method_code: method_code
-            };
-
-            this.setState({ loadingShippingInformationSave: true });
-            saveAddressInformation(addressInformation);
-        }
     }
 
     changeState(state) {
@@ -298,7 +300,7 @@ class CheckoutShippingStep extends Component {
         return (
             <>
                 <address
-                  block="CheckoutPreviewAndPaymentsStep"
+                  block="CheckoutShippingStep"
                   elem="ShippingAddressPreview"
                 >
                     <dl>
@@ -308,7 +310,7 @@ class CheckoutShippingStep extends Component {
                             <dt>Company name</dt>
                             <dd>{ company }</dd>
                         </>)}
-                        <dt>Billing address:</dt>
+                        <dt>Shipping address:</dt>
                         <dd>{ `${country_id }, ${region_code}, ${city}` }</dd>
                         <dd>{ street[0] }</dd>
                         <dd>{ street[1] }</dd>
@@ -322,11 +324,11 @@ class CheckoutShippingStep extends Component {
     }
 
     render() {
+        const { isSignedIn, finishedLoading } = this.props;
         const {
             shippingMethods,
             loadingShippingMethods,
             activeShippingMethod,
-            loadingShippingInformationSave,
             state
         } = this.state;
         const renderFunction = this.renderMap[state];
@@ -337,7 +339,8 @@ class CheckoutShippingStep extends Component {
               onSubmitSuccess={ validFields => this.onFormSuccess(validFields) }
               key="shipping_step"
             >
-                <Loader isLoading={ loadingShippingInformationSave } />
+                <Loader isLoading={ isSignedIn && !finishedLoading } />
+
                 { renderFunction() }
 
                 <CheckoutShippingMethods
@@ -355,7 +358,21 @@ class CheckoutShippingStep extends Component {
 CheckoutShippingStep.propTypes = {
     estimateShippingCost: PropTypes.func.isRequired,
     saveAddressInformation: PropTypes.func.isRequired,
-    showNotification: PropTypes.func.isRequired
+    showNotification: PropTypes.func.isRequired,
+    isSignedIn: PropTypes.bool.isRequired,
+    finishedLoading: PropTypes.bool.isRequired,
+    billingAddress: PropTypes.shape({
+        city: PropTypes.string,
+        company: PropTypes.string,
+        country_id: PropTypes.string,
+        email: PropTypes.string,
+        firstname: PropTypes.string,
+        lastname: PropTypes.string,
+        postcode: PropTypes.string,
+        region_id: PropTypes.number,
+        street: PropTypes.array,
+        telephone: PropTypes.string
+    }).isRequired
 };
 
 export default CheckoutShippingStep;
