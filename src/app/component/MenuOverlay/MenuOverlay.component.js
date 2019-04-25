@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import Store from 'Store';
 import Overlay from 'Component/Overlay';
-import { MENU_SUBCATEGORY, HOME_PAGE } from 'Component/Header';
-import { changeHeaderState } from 'Store/Header';
-import { hideActiveOverlay } from 'Store/Overlay';
+import { MENU_SUBCATEGORY } from 'Component/Header';
 import { MenuType } from 'Type/Menu';
 import './MenuOverlay.style';
 
@@ -18,22 +16,28 @@ class MenuOverlay extends Component {
     }
 
     showSubCategory(activeSubcategory) {
+        const { changeHeaderState, goToPreviousHeaderState } = this.props;
         const { item_id, title } = activeSubcategory;
 
-        Store.dispatch(changeHeaderState({
+        changeHeaderState({
             name: MENU_SUBCATEGORY,
             title,
             onBackClick: () => {
                 this.setState({ activeSubcategory: '' });
+                goToPreviousHeaderState();
             }
-        }));
+        });
 
         this.setState({ activeSubcategory: item_id });
     }
 
-    closeMenuOverlay() {
-        Store.dispatch(hideActiveOverlay());
-        Store.dispatch(changeHeaderState({ name: HOME_PAGE }));
+    closeMenuOverlay(e) {
+        const { hideActiveOverlay } = this.props;
+
+        e.stopPropagation();
+
+        this.setState({ activeSubcategory: '' });
+        hideActiveOverlay();
     }
 
     renderItemContent(item, itemMods = {}) {
@@ -67,7 +71,7 @@ class MenuOverlay extends Component {
                     {
                         childrenArray.length
                             ? (
-                                <button onClick={ () => this.showSubCategory(item) }>
+                                <button onClick={ this.showSubCategory.bind(this, item) }>
                                     { this.renderItemContent(item, itemMods) }
                                     { this.renderSubCategory(item) }
                                 </button>
@@ -175,7 +179,10 @@ class MenuOverlay extends Component {
 }
 
 MenuOverlay.propTypes = {
-    menu: MenuType.isRequired
+    menu: MenuType.isRequired,
+    hideActiveOverlay: PropTypes.func.isRequired,
+    goToPreviousHeaderState: PropTypes.func.isRequired,
+    changeHeaderState: PropTypes.func.isRequired
 };
 
 export default MenuOverlay;

@@ -10,10 +10,18 @@
  */
 
 import { connect } from 'react-redux';
+import { changeHeaderState, goToPreviousHeaderState } from 'Store/Header';
+import { hideActiveOverlay } from 'Store/Overlay';
 import MenuOverlay from './MenuOverlay.component';
 
 const mapStateToProps = state => ({
     menu: state.HeaderAndFooterReducer.menu
 });
 
-export default connect(mapStateToProps)(MenuOverlay);
+const mapDispatchToProps = dispatch => ({
+    hideActiveOverlay: () => dispatch(hideActiveOverlay()),
+    goToPreviousHeaderState: () => dispatch(goToPreviousHeaderState()),
+    changeHeaderState: state => dispatch(changeHeaderState(state))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(MenuOverlay);

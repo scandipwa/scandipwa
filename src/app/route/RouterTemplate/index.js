@@ -9,10 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { connect } from 'react-redux';
-import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
-import { AppRouter as BaseRouter } from 'SourceRoute';
-import { CartDispatcher } from 'Store/Cart';
+import BaseRouter from 'SourceRoute';
 
 /**
  * Extends core router.
@@ -50,16 +47,4 @@ class AppRouter extends BaseRouter {
     }
 }
 
-const mapDispatchToProps = dispatch => ({
-    updateHeaderAndFooter: (options) => {
-        HeaderAndFooterDispatcher.handleData(dispatch, options);
-    },
-
-    updateInitialCartData: () => {
-        CartDispatcher.updateInitialCartData(dispatch);
-    }
-});
-
-const AppRouterContainer = connect(() => ({}), mapDispatchToProps)(AppRouter);
-
-export default AppRouterContainer;
+export default AppRouter;
