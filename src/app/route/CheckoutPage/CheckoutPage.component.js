@@ -240,7 +240,9 @@ class CheckoutPage extends Component {
             <div>
                 <h1>Thank you for your purchase!</h1>
                 <p>{ `Your order # is: ${orderID}.`}</p>
-                <p>We'll email you an order confirmation with details and tracking info.</p>
+                <p>
+                    {"We'll email you an order confirmation with details and tracking info."}
+                </p>
                 <Link to="/">Continue Shopping</Link>
             </div>
         );
@@ -327,7 +329,8 @@ CheckoutPage.propTypes = {
     }).isRequired,
     location: PropTypes.shape({
         pathname: PropTypes.string.isRequired
-    }).isRequired
+    }).isRequired,
+    isSignedIn: PropTypes.bool.isRequired
 };
 
 export default CheckoutPage;

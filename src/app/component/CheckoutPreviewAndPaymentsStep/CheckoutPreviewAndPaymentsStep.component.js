@@ -19,6 +19,7 @@ const STATE_FIELD_ID = 'region_id';
 const ZIP_FIELD_ID = 'postcode';
 const PHONE_FIELD_ID = 'telephone';
 const COUNTRY_FIELD_ID = 'country_id';
+const DEFAULT_COUNTRY = 'US';
 
 class CheckoutPreviewAndPaymentsStep extends Component {
     constructor(props) {
@@ -68,7 +69,7 @@ class CheckoutPreviewAndPaymentsStep extends Component {
             [CITY_FIELD_ID]: { label: 'City' },
             [STATE_FIELD_ID]: { label: 'State', validation: [] },
             [ZIP_FIELD_ID]: { label: 'Postal Code' },
-            [COUNTRY_FIELD_ID]: { label: 'Country' },
+            [COUNTRY_FIELD_ID]: { label: 'Country', type: 'select', value: DEFAULT_COUNTRY },
             [PHONE_FIELD_ID]: { label: 'Phone Number' }
         };
     }
