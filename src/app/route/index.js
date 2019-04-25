@@ -10,9 +10,10 @@
  */
 
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
+import { Router } from 'react-router';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { createBrowserHistory } from 'history';
 
 import HomePage from 'Route/HomePage';
 import CategoryPage from 'Route/CategoryPage';
@@ -30,6 +31,7 @@ import Footer from 'Component/Footer';
 import Breadcrumbs from 'Component/Breadcrumbs';
 import NotificationList from 'Component/NotificationList';
 
+import Store from 'Store';
 import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
 import { CartDispatcher } from 'Store/Cart';
 import { WishlistDispatcher } from 'Store/Wishlist';
@@ -38,7 +40,9 @@ const BEFORE_ITEMS_TYPE = 'BEFORE_ITEMS_TYPE';
 const SWITCH_ITEMS_TYPE = 'SWITCH_ITEMS_TYPE';
 const AFTER_ITEMS_TYPE = 'AFTER_ITEMS_TYPE';
 
-export class AppRouter extends Component {
+export const history = createBrowserHistory({ basename: '/' });
+
+class AppRouter extends Component {
     constructor() {
         super();
         this.items = {
@@ -106,12 +110,6 @@ export class AppRouter extends Component {
 
     componentWillMount() {
         const {
-            updateHeaderAndFooter,
-            updateInitialCartData,
-            updateInitialWishlistData,
-            getCountriesList
-        } = this.props;
-        const {
             beforeItems,
             switchItems,
             afterItems
@@ -139,10 +137,10 @@ export class AppRouter extends Component {
             fields: ['identifier']
         };
 
-        updateHeaderAndFooter({ menu: { menuId: 2 }, footer: footerOptions });
-        updateInitialCartData();
-        updateInitialWishlistData();
-        getCountriesList();
+        WishlistDispatcher.updateInitialWishlistData(Store.dispatch);
+        HeaderAndFooterDispatcher.getCountriesList(Store.dispatch);
+        HeaderAndFooterDispatcher.handleData(Store.dispatch, { menu: { menuId: 2 }, footer: footerOptions });
+        CartDispatcher.updateInitialCartData(Store.dispatch);
     }
 
     /**
@@ -203,7 +201,7 @@ export class AppRouter extends Component {
         } = this.items;
 
         return (
-            <Router>
+            <Router history={ history }>
                 <>
                     {
                         this.prepareContent(beforeItems, BEFORE_ITEMS_TYPE)
@@ -227,31 +225,4 @@ export class AppRouter extends Component {
     }
 }
 
-AppRouter.propTypes = {
-    updateHeaderAndFooter: PropTypes.func.isRequired,
-    updateInitialCartData: PropTypes.func.isRequired,
-    updateInitialWishlistData: PropTypes.func.isRequired,
-    getCountriesList: PropTypes.func.isRequired
-};
-
-const mapDispatchToProps = dispatch => ({
-    updateHeaderAndFooter: (options) => {
-        HeaderAndFooterDispatcher.handleData(dispatch, options);
-    },
-
-    updateInitialCartData: () => {
-        CartDispatcher.updateInitialCartData(dispatch);
-    },
-
-    updateInitialWishlistData: () => {
-        WishlistDispatcher.updateInitialWishlistData(dispatch);
-    },
-
-    getCountriesList: () => {
-        HeaderAndFooterDispatcher.getCountriesList(dispatch);
-    }
-});
-
-const AppRouterContainer = connect(() => ({}), mapDispatchToProps)(AppRouter);
-
-export default AppRouterContainer;
+export default AppRouter;

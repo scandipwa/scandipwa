@@ -12,6 +12,7 @@
 import { connect } from 'react-redux';
 import { CategoryDispatcher } from 'Store/Category';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
+import { changeHeaderState } from 'Store/Header';
 import CategoryPage from './CategoryPage.component';
 
 const mapStateToProps = state => ({
@@ -25,14 +26,11 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    requestCategory: (options) => {
-        CategoryDispatcher.handleData(dispatch, options);
-    },
-
-    updateBreadcrumbs: (breadcrumbs) => {
-        if (Object.keys(breadcrumbs).length) BreadcrumbsDispatcher.updateWithCategory(breadcrumbs, dispatch);
-        else BreadcrumbsDispatcher.update([], dispatch);
-    }
+    changeHeaderState: state => dispatch(changeHeaderState(state)),
+    requestCategory: options => CategoryDispatcher.handleData(dispatch, options),
+    updateBreadcrumbs: breadcrumbs => ((Object.keys(breadcrumbs).length)
+        ? BreadcrumbsDispatcher.updateWithCategory(breadcrumbs, dispatch)
+        : BreadcrumbsDispatcher.update([], dispatch))
 });
 
 const CategoryPageContainer = connect(mapStateToProps, mapDispatchToProps)(CategoryPage);

@@ -8,12 +8,6 @@ import './SearchOverlay.style';
 import TextPlaceholder from 'Component/TextPlaceholder';
 
 class SearchOverlay extends Component {
-    constructor(props) {
-        super(props);
-
-        this.handleItemClick = this.handleItemClick.bind(this);
-    }
-
     componentDidUpdate(prevProps) {
         const { searchCriteria: prevSearchCriteria } = prevProps;
         const { searchCriteria, clearSearchResults } = this.props;
@@ -42,11 +36,6 @@ class SearchOverlay extends Component {
         };
     }
 
-    handleItemClick() {
-        const { hideActiveOverlay } = this.props;
-        hideActiveOverlay();
-    }
-
     makeSearchRequest() {
         const { makeSearchRequest, clearSearchResults, searchCriteria } = this.props;
 
@@ -71,7 +60,7 @@ class SearchOverlay extends Component {
               elem="Item"
               key={ i }
             >
-                <Link to={ this.getProductLinkTo(product) } onClick={ this.handleItemClick }>
+                <Link to={ this.getProductLinkTo(product) }>
                     <figure
                       block="SearchOverlay"
                       elem="Wrapper"
@@ -147,7 +136,6 @@ class SearchOverlay extends Component {
 }
 
 SearchOverlay.propTypes = {
-    hideActiveOverlay: PropTypes.func.isRequired,
     makeSearchRequest: PropTypes.func.isRequired,
     clearSearchResults: PropTypes.func.isRequired,
     searchCriteria: PropTypes.string,

@@ -19,6 +19,7 @@ import ProductSort from 'Component/ProductSort';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import CategoryShoppingOptions from 'Component/CategoryShoppingOptions';
 import Meta from 'Component/Meta';
+import { CATEGORY } from 'Component/Header';
 import {
     getUrlParam, getQueryParam, setQueryParams, clearQueriesFromUrl
 } from 'Util/Url';
@@ -45,7 +46,7 @@ class CategoryPage extends Component {
         const { updateBreadcrumbs } = this.props;
 
         if (this.isNewCategory()) updateBreadcrumbs({});
-        else this.updateBreadcrumbs();
+        else this.onCategoryUpdate();
 
         this.requestCategory();
     }
@@ -54,7 +55,7 @@ class CategoryPage extends Component {
         const { location, category } = this.props;
 
         // update breadcrumbs only if category has changed
-        if (category.id !== prevProps.category.id) this.updateBreadcrumbs();
+        if (category.id !== prevProps.category.id) this.onCategoryUpdate();
 
         // update category only if route or search query has been changed
         if (this.urlHasChanged(location, prevProps)) this.requestCategory();
@@ -82,6 +83,11 @@ class CategoryPage extends Component {
 
         setQueryParams({ sortKey }, location, history);
         setQueryParams({ sortDirection: direction }, location, history);
+    }
+
+    onCategoryUpdate() {
+        this.updateBreadcrumbs();
+        this.updateHeaderState();
     }
 
     /**
@@ -160,12 +166,14 @@ class CategoryPage extends Component {
             items,
             category
         } = this.props;
+
         const {
             sortKey,
             sortDirection,
             previousPage,
             pageSize
         } = this.state;
+
         const categoryUrlPath = this.getCategoryUrlPath();
         const currentPage = getQueryParam('page', location) || 1;
         const priceRange = this.getPriceRangeFromUrl();
@@ -211,6 +219,20 @@ class CategoryPage extends Component {
     isNewCategory() {
         const { category } = this.props;
         return category.url_path !== this.getCategoryUrlPath();
+    }
+
+    updateHeaderState() {
+        const {
+            changeHeaderState,
+            category: { name },
+            history
+        } = this.props;
+
+        changeHeaderState({
+            name: CATEGORY,
+            title: name,
+            onBackClick: () => history.push('/')
+        });
     }
 
     /**
@@ -426,6 +448,7 @@ CategoryPage.propTypes = {
         path: PropTypes.string.isRequired
     }).isRequired,
     requestCategory: PropTypes.func.isRequired,
+    changeHeaderState: PropTypes.func.isRequired,
     updateBreadcrumbs: PropTypes.func.isRequired,
     filters: PropTypes.arrayOf(PropTypes.shape).isRequired,
     sortFields: PropTypes.shape({

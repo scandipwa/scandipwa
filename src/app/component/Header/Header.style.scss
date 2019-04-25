@@ -34,7 +34,7 @@
 	&::before {
 		width: 18px;
 		height: 1px;
-		top: 16px;
+		top: 17px;
 		right: 8px;
 		background-color: var(--header-color);
 	}
@@ -42,7 +42,7 @@
 	&::after {
 		width: 8px;
 		height: 8px;
-		top: 12px;
+		top: 13px;
 		left: 10px;
 		transform: rotate(-45deg);
 
@@ -63,7 +63,7 @@
 	&::after {
 		width: 7px;
 		height: 1px;
-		top: 10px;
+		top: 12px;
 		left: 8px;
 		background-color: var(--header-color);
 		box-shadow:
@@ -80,7 +80,7 @@
 		height: 10px;
 		border: 1px solid var(--header-color);
 		border-radius: 50%;
-		top: 8px;
+		top: 10px;
 		right: 4px;
 		box-shadow:
 			4px 4px 0 -5px var(--header-color),
@@ -276,10 +276,31 @@
 		}
 	}
 
+	&-Logo {
+		position: absolute;
+		max-width: 0;
+		width: 116px;
+		height: 17px;
+		left: 0;
+		right: 0;
+		margin: auto;
+		top: 18px;
+		opacity: 0;
+		overflow: hidden;
+
+		transition-property: opacity;
+		transition-duration: 200ms;
+
+		&_isVisible {
+			opacity: 1;
+			max-width: 100%;
+		}
+	}
+
 	&-Title {
 		opacity: 0;
 		max-width: 0;
-		transition-property: width, opacity;
+		transition-property: opacity;
 		transition-duration: 200ms;
 
 		text-align: center;
@@ -292,7 +313,7 @@
 		position: absolute;
 		margin: auto;
 		width: 100%;
-		height: 1.4rem;
+		height: 1.5rem;
 		line-height: 1.5rem;
 		top: 0;
 		bottom: 0;

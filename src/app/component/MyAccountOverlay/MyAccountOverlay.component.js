@@ -85,29 +85,6 @@ class MyAccountOverlay extends Component {
         return Object.keys(stateToBeUpdated).length ? stateToBeUpdated : null;
     }
 
-    /* eslint-disable-next-line */
-    componentDidUpdate() {
-        const { isOverlayVisible, setHeaderState } = this.props;
-        const { state } = this.state;
-
-        if (isOverlayVisible) {
-            switch (state) {
-            case STATE_SIGN_IN:
-                return setHeaderState({ name: CUSTOMER_ACCOUNT, title: 'Sign in' });
-            case STATE_CREATE_ACCOUNT:
-                return setHeaderState({ name: CUSTOMER_ACCOUNT, title: 'Create account' });
-            case STATE_FORGOT_PASSWORD:
-                return setHeaderState({ name: CUSTOMER_ACCOUNT, title: 'Forgot password' });
-            case STATE_FORGOT_PASSWORD_SUCCESS:
-                return setHeaderState({ name: CUSTOMER_ACCOUNT, title: 'Reset password' });
-            case STATE_LOGGED_IN:
-                return setHeaderState({ name: CUSTOMER_ACCOUNT });
-            default:
-                break;
-            }
-        }
-    }
-
     onSignInSuccess(fields) {
         const { signIn } = this.props;
         signIn(fields);
@@ -161,7 +138,10 @@ class MyAccountOverlay extends Component {
     }
 
     handleForgotPassword() {
+        const { setHeaderState } = this.props;
+
         this.setState({ state: STATE_FORGOT_PASSWORD });
+        setHeaderState({ name: CUSTOMER_ACCOUNT, title: 'Forgot password' });
     }
 
     handleForgotPasswordSuccess() {
@@ -169,11 +149,17 @@ class MyAccountOverlay extends Component {
     }
 
     handleSignIn() {
+        const { setHeaderState } = this.props;
+
         this.setState({ state: STATE_SIGN_IN });
+        setHeaderState({ name: CUSTOMER_ACCOUNT, title: 'Sign in' });
     }
 
     handleCreateAccount() {
+        const { setHeaderState } = this.props;
+
         this.setState({ state: STATE_CREATE_ACCOUNT });
+        setHeaderState({ name: CUSTOMER_ACCOUNT, title: 'Create account' });
     }
 
     renderMyAccount() {
