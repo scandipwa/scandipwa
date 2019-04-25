@@ -3,6 +3,8 @@
 }
 
 .MenuOverlay {
+    z-index: -1;
+
     &-Wrapper {
         display: grid;
         grid-template-columns: 100% 100%;
