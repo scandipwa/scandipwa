@@ -15,7 +15,7 @@ const COMPANY_FIELD_ID = 'company';
 const STREET_0_FIELD_ID = 'street_0';
 const STREET_1_FIELD_ID = 'street_1';
 const CITY_FIELD_ID = 'city';
-const STATE_FIELD_ID = 'region_code';
+const STATE_FIELD_ID = 'region';
 const ZIP_FIELD_ID = 'postcode';
 const PHONE_FIELD_ID = 'telephone';
 const COUNTRY_FIELD_ID = 'country_id';
@@ -113,8 +113,14 @@ class CheckoutPreviewAndPaymentsStep extends Component {
         const correctAddress = this.getAddressFromState();
 
         const {
-            activePaymentMethod: { code: method }
+            activePaymentMethod: { code: method },
+            region_id
         } = this.state;
+
+        const address = {
+            ...correctAddress,
+            region_id: parseInt(region_id, 10)
+        };
 
         const paymentInformation = {
             paymentMethod: { method },
