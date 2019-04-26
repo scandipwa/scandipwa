@@ -87,6 +87,19 @@ class Field extends Component {
         return { value };
     }
 
+    componentDidMount() {
+        const { getCountriesList, id } = this.props;
+
+        if (id === 'country_id') getCountriesList();
+    }
+
+    componentDidUpdate() {
+        const { type, checked } = this.props;
+        const { isChecked } = this.state;
+
+        if (type === 'checkbox' && checked !== isChecked) this.setState({ isChecked: !isChecked });
+    }
+
     onChange(event) {
         if (typeof event === 'string') {
             return this.handleChange(event);
