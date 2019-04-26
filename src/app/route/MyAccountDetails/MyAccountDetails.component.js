@@ -31,7 +31,8 @@ class MyAccountDetails extends Component {
             state: STATE_ACCOUNT_OVERVIEW,
             correctAddress: {},
             isLoading: false,
-            selectValue: ''
+            selectValue: '',
+            isSubscribed: null
         };
 
         this.renderMap = {
@@ -53,7 +54,13 @@ class MyAccountDetails extends Component {
      * Redirect back to account overview
      */
     componentDidUpdate() {
-        const { history, location: { state } } = this.props;
+        const { history, location: { state }, customer } = this.props;
+        const { isSubscribed } = this.state;
+
+        if (isSubscribed === null) {
+            const is_subscribed = customer ? customer.is_subscribed : null;
+            this.setState({ isSubscribed: is_subscribed });
+        }
 
         if (state.length) {
             this.changeState(state);
@@ -334,12 +341,13 @@ class MyAccountDetails extends Component {
      */
     renderEditInformation() {
         const { customer } = this.props;
+        const { isSubscribed } = this.state;
 
         if (!customer) {
             return this.redirectBackToOverview(true);
         }
 
-        const { firstname, lastname, is_subscribed } = customer;
+        const { firstname, lastname } = customer;
 
         return (
             <>
@@ -370,7 +378,9 @@ class MyAccountDetails extends Component {
                           type="checkbox"
                           label="Subscribe to ScandiPWA newsletter"
                           id="is_subscribed"
-                          checked={ is_subscribed }
+                          checked={ isSubscribed }
+                          value={ isSubscribed }
+                          onChange={ value => this.setState({ isSubscribed: value }) }
                         />
                         <button block="MyAccountDetails" elem="Submit" type="submit">Save Changes</button>
                     </fieldset>

@@ -213,6 +213,7 @@ class CheckoutPage extends Component {
      * @returns {*}
      */
     renderReviewAndPaymentsStep() {
+        const { isSignedIn, customer: { email } } = this.props;
         const {
             shippingAddress,
             billingAddress,
@@ -225,6 +226,8 @@ class CheckoutPage extends Component {
               shippingAddress={ shippingAddress }
               paymentMethods={ paymentMethods }
               savePaymentInformationAndPlaceOrder={ paymentInformation => this.savePaymentInformationAndPlaceOrder(paymentInformation) }
+              email={ email }
+              isSignedIn={ isSignedIn }
             />
         );
     }
