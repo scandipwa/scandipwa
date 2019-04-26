@@ -16,6 +16,7 @@
 
     @include mobile {
         justify-content: flex-start;
+        opacity: 0;
     }
 
     &-Label {

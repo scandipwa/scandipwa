@@ -22,9 +22,9 @@ import './CategoryProductList.style';
 class CategoryProductList extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            prevItemsLength: 0
-        };
+
+        this.state = { prevItemsLength: 0 };
+        this.scrollListener = React.createRef();
     }
 
     /**
@@ -48,8 +48,11 @@ class CategoryProductList extends Component {
     componentDidUpdate() {
         const { prevItemsLength } = this.state;
         const { items, totalItems } = this.props;
-        const shouldUpdateList = this.node && prevItemsLength !== items.length
-         && items.length !== 0 && items.length <= totalItems;
+
+        const shouldUpdateList = this.scrollListener.current
+            && prevItemsLength !== items.length
+            && items.length !== 0
+            && items.length <= totalItems;
 
         if (shouldUpdateList) {
             if ('IntersectionObserver' in window) {
@@ -67,7 +70,7 @@ class CategoryProductList extends Component {
                     });
                 }, options);
 
-                this.observer.observe(this.node);
+                this.observer.observe(this.scrollListener.current);
             } else {
                 this.showLoading();
             }
@@ -77,7 +80,7 @@ class CategoryProductList extends Component {
     stopObserving() {
         if (this.observer) {
             if (this.observer.unobserve) {
-                this.observer.unobserve(this.node);
+                this.observer.unobserve(this.scrollListener.current);
             }
             if (this.observer.disconnect) {
                 this.observer.disconnect();
@@ -96,13 +99,14 @@ class CategoryProductList extends Component {
     }
 
     renderProducts() {
-        const { items, customFilters } = this.props;
+        const { items, customFilters, availableFilters } = this.props;
 
         return items.map(product => (
             <ProductCard
               product={ product }
               key={ product.id }
               customFilters={ customFilters }
+              availableFilters={ availableFilters }
               arePlaceholdersShown
             />
         ));
@@ -111,28 +115,18 @@ class CategoryProductList extends Component {
     /**
      * render placeholders beneath the product list
      */
-    renderPlaceholder(showLoadMore, isLoading) {
-        const renderPlaceholders = () => (
-            <>
-                <ProductCard product={ {} } />
-                <ProductCard product={ {} } />
-                <ProductCard product={ {} } />
-            </>
-        );
+    renderPlaceholder() {
+        const { items, totalItems, isLoading } = this.props;
+        const showLoadMore = items.length < totalItems && !isLoading;
 
-        if (isLoading) {
-            return renderPlaceholders();
-        }
-
-        if (showLoadMore) {
+        if (showLoadMore || isLoading) {
             return (
-                <div
-                  block="CategoryProductList"
-                  elem="Placeholder"
-                  ref={ (node) => { this.node = node; } }
-                >
-                    { renderPlaceholders() }
-                </div>
+                <>
+                    <ProductCard product={ {} } cardRef={ !isLoading && this.scrollListener } />
+                    <ProductCard product={ {} } />
+                    <ProductCard product={ {} } />
+                    <ProductCard product={ {} } />
+                </>
             );
         }
 
@@ -140,13 +134,12 @@ class CategoryProductList extends Component {
     }
 
     render() {
-        const { items, totalItems, isLoading } = this.props;
-        const showLoadMore = items.length < totalItems && !isLoading;
+        const { isLoading } = this.props;
 
         return (
             <ul block="CategoryProductList" mods={ { isLoading } }>
                 { !isLoading && this.renderProducts() }
-                { this.renderPlaceholder(showLoadMore, isLoading) }
+                { this.renderPlaceholder() }
             </ul>
         );
     }
@@ -157,11 +150,13 @@ CategoryProductList.propTypes = {
     totalItems: PropTypes.number.isRequired,
     increasePage: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
-    customFilters: PropTypes.objectOf(PropTypes.array)
+    customFilters: PropTypes.objectOf(PropTypes.array),
+    availableFilters: PropTypes.arrayOf(PropTypes.shape)
 };
 
 CategoryProductList.defaultProps = {
-    customFilters: {}
+    customFilters: {},
+    availableFilters: []
 };
 
 export default CategoryProductList;

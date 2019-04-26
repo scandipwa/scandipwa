@@ -9,24 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+:root {
+    --product-card-picture-mask-color: #f5f5f5;
+    --product-card-color-border-color: #efefef;
+}
+
 .ProductCard {
-    --card-highlight-color: transparent;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    border: 1px solid var(--card-highlight-color);
-    text-align: center;
     padding-left: 0;
     min-width: 0;
-
-    &:hover {
-        --card-highlight-color: var(--color-neutral-light);
-    }
-    
-    &:focus,
-    &:focus-within {
-        --card-highlight-color: var(--color-primary-base);
-    }
 
     &::before {
         content: none;
@@ -36,80 +26,69 @@
         margin-bottom: .6rem;
     }
 
-    a,
-    div {
-        color: inherit;
-        display: block;
+    &-Content {
         padding: 1rem;
-        max-width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+    }
 
-        @include mobile {
-            padding: 0 1rem 1rem 1rem;
+    &-Name {
+        width: 100%;
+        font-size: .9rem;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    &-Brand {
+        display: none;
+    }
+
+    &-Picture {
+        --placeholder-image: linear-gradient(to right,rgba(0,0,0,.04) 0,rgba(0,0,0,.08) 15%,rgba(0,0,0,.04) 30%);
+
+        padding-bottom: 120%;
+
+        &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            background-color: var(--product-card-picture-mask-color);
+            mix-blend-mode: multiply;
         }
-        
+    }
+
+    &-Colors {
+        flex-grow: 1;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    &-Color {
+        display: inline-block;
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-left: 3px;
+        border: 1px solid var(--product-card-color-border-color);
+    }
+
+    a {
+        color: inherit;
+
         &:hover,
-        &:focus,
-        &:active {
+        &:focus {
             text-decoration: none;
         }
     }
 
-    &-Brand {
-        display: block;
-        margin: auto;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        font-size: 1rem;
-        text-transform: uppercase;
-        color: var(--color-neutral-base);
-        
-        @include mobile {
-            max-width: 9.5rem;
-            font-size: .8rem;
-        }
-    }
-
-    h4 {
-        margin: auto;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 100%;
-
-        @include mobile {
-            font-size: 1rem;
-        }
-    }
-
-    .Image {
-        margin-bottom: 1rem;
-    }
-
-    &-Actions {
-        a {
-            @include button;
-
-            span {
-                color: var(--color-text-white);
-            }
-
-            @include mobile {
-                padding: 0.8rem;
-                font-size: 0.8rem;
-            }
-        }
-
-        .TextPlaceholder {
-            width: 100%;
-            display: block;
-
-            &::after {
-                font-size: 2.5rem;
-                content: 'a';
-                width: 100%;
-                display: block;
-            }
-        }
+    p {
+        margin-bottom: 0;
     }
 }

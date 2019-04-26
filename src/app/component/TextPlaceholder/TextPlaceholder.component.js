@@ -28,6 +28,7 @@ class TextPlaceholder extends Component {
 TextPlaceholder.propTypes = {
     content: PropTypes.oneOfType([
         PropTypes.string,
+        PropTypes.bool,
         PropTypes.number
     ]),
     length: PropTypes.oneOf([

@@ -16,6 +16,10 @@
 
     padding-top: 3rem;
 
+    @include mobile {
+        display: none;
+    }
+
     &-Content {
         display: none;
 

@@ -25,20 +25,15 @@
 
     &-ItemsCount {
         border-top: 1px solid var(--overlay-divider-color);
-        color: var(--color-neutral-base);
         padding-left: 1rem;
-        padding-top: 1rem;
+        padding-top: .3rem;
+        padding-bottom: 1rem;
+        font-size: .9rem;
 
         @include mobile {
             text-align: center;
             grid-column: span 2;
             order: 1;
-        }
-
-        span {
-            color: var(--color-primary-base);
-            font-weight: bold;
-            padding-right: .2rem;
         }
     }
 

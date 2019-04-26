@@ -50,7 +50,7 @@ class ProductPrice extends Component {
     }
 
     render() {
-        const { price: { minimalPrice, regularPrice }, mods } = this.props;
+        const { price: { minimalPrice, regularPrice }, mix } = this.props;
         const minimalPriceValue = minimalPrice.amount.value;
         const regularPriceValue = regularPrice.amount.value;
         const discountPercentage = this.calculateDiscountPercentage(minimalPriceValue, regularPriceValue);
@@ -63,7 +63,7 @@ class ProductPrice extends Component {
         const PriceSemanticElementName = discountPercentage > 0 ? 'ins' : 'span';
 
         return (
-            <p block="ProductPrice" aria-label="Product Price" mods={ mods || {} }>
+            <p block="ProductPrice" aria-label="Product Price" mix={ mix }>
                 <PriceSemanticElementName aria-label="Current product price">
                     <data value={ this.roundPrice(finalPrice) }>
                         { currency }
@@ -83,14 +83,15 @@ class ProductPrice extends Component {
 
 ProductPrice.propTypes = {
     price: PriceType.isRequired,
-    mods: PropTypes.shape({
-        type: PropTypes.string,
-        color: PropTypes.string
+    mix: PropTypes.shape({
+        block: PropTypes.string,
+        elem: PropTypes.string,
+        mods: PropTypes.objectOf(PropTypes.string)
     })
 };
 
 ProductPrice.defaultProps = {
-    mods: {}
+    mix: {}
 };
 
 export default ProductPrice;

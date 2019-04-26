@@ -56,43 +56,58 @@ class ProductCard extends Component {
         return variantThumbnail || (thumbnail && thumbnail.path);
     }
 
-    addOrConfigureProduct(variantIndex, linkTo) {
-        const { customFilters, product, product: { url_key, variants, type_id } } = this.props;
+    renderProductPrice() {
+        const { product: { price } } = this.props;
 
-        if (variants && type_id === 'configurable') {
-            const correctVariants = variants.reduce((correctVariants, { product }) => {
-                const isCorrectVariant = Object.keys(customFilters).every(filterKey => (
-                    customFilters[ filterKey ].find(value => +value === product[ filterKey ])
-                ));
-
-                if (isCorrectVariant) correctVariants.push(product);
-
-                return correctVariants;
-            }, []);
-
-            if (correctVariants.length !== 1) {
-                return (
-                    <Link to={ linkTo } tabIndex={ url_key ? '0' : '-1' }>
-                        <span>Configure Product</span>
-                    </Link>
-                );
-            }
-        }
-
-        if (type_id === 'grouped') {
+        if (price) {
             return (
-                <Link to={ linkTo } tabIndex={ url_key ? '0' : '-1' }>
-                    <span>View details</span>
-                </Link>
+                <ProductPrice
+                  price={ price }
+                  mix={ { block: 'ProductCard', elem: 'Price' } }
+                />
             );
         }
 
+        return <TextPlaceholder />;
+    }
+
+    renderColorOptions() {
+        const { product: { variants }, availableFilters } = this.props;
+
+        if (!availableFilters.length || !variants) return null;
+
+        // Collects only COLOR filter items from available filter object
+        const { filter_items: filterItems } = availableFilters.reduce(
+            (prev, curr) => ((curr.request_var === 'color') ? curr : prev),
+            {}
+        );
+
+        if (!filterItems) return null;
+
+        // Maps every color attribute value to corresponding string
+        const colorMap = filterItems.reduce(
+            (prev, { value_string, label, swatch_data: { value } }) => ({ ...prev, [value_string]: { value, label } }),
+            {}
+        );
+
+        // Collects color object from product variants
+        const colors = variants.reduce(
+            (prev, { product: { color } }) => ((!color) ? prev : ({ ...prev, [color]: colorMap[color] })),
+            {}
+        );
+
         return (
-            <AddToCart
-              product={ product }
-              configurableVariantIndex={ variantIndex }
-              fullWidth
-            />
+            <div block="ProductCard" elem="Colors">
+                { Object.values(colors).map(({ value: backgroundColor, label }) => (
+                    <span
+                      block="ProductCard"
+                      elem="Color"
+                      key={ label }
+                      style={ { backgroundColor } }
+                      aria-label={ label }
+                    />
+                )) }
+            </div>
         );
     }
 
@@ -100,12 +115,11 @@ class ProductCard extends Component {
         const {
             product: {
                 name,
-                price,
                 url_key,
                 brand
             },
             product,
-            arePlaceholdersShown
+            cardRef
         } = this.props;
 
         const variantIndex = this.getCurrentVariantIndex();
@@ -121,7 +135,11 @@ class ProductCard extends Component {
             : undefined;
 
         return (
-            <li block="ProductCard" mods={ { isLoading } }>
+            <li
+              block="ProductCard"
+              mods={ { isLoading } }
+              ref={ cardRef }
+            >
                 <TagName
                   to={ linkTo }
                   tabIndex={ url_key ? '0' : '-1' }
@@ -129,21 +147,20 @@ class ProductCard extends Component {
                     <Image
                       src={ thumbnail && `/media/jpg/catalog/product${ thumbnail }` }
                       alt="Product Thumbnail"
-                      arePlaceholdersShown={ arePlaceholdersShown }
-                      showGreyPlaceholder={ !url_key }
+                      ratio="custom"
+                      mix={ { block: 'ProductCard', elem: 'Picture' } }
                     />
-                    <span block="ProductCard" elem="Brand">
-                        <TextPlaceholder content={ brand } />
-                    </span>
-                    <h4><TextPlaceholder content={ name } /></h4>
-                    { price && <ProductPrice price={ price } /> }
+                    <div block="ProductCard" elem="Content">
+                        { this.renderProductPrice() }
+                        { this.renderColorOptions() }
+                        <p block="ProductCard" elem="Name">
+                            <TextPlaceholder content={ name } length="medium" />
+                        </p>
+                        <p block="ProductCard" elem="Brand">
+                            <TextPlaceholder content={ brand } />
+                        </p>
+                    </div>
                 </TagName>
-                <div block="ProductCard" elem="Actions">
-                    { price
-                        ? this.addOrConfigureProduct(variantIndex, linkTo)
-                        : <TextPlaceholder length="medium" />
-                    }
-                </div>
             </li>
         );
     }
@@ -152,12 +169,18 @@ class ProductCard extends Component {
 ProductCard.propTypes = {
     product: ProductType.isRequired,
     customFilters: FilterType,
-    arePlaceholdersShown: PropTypes.bool
+    availableFilters: PropTypes.arrayOf(PropTypes.shape),
+    cardRef: PropTypes.oneOfType([
+        PropTypes.func,
+        PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
+        PropTypes.bool
+    ])
 };
 
 ProductCard.defaultProps = {
     customFilters: {},
-    arePlaceholdersShown: false
+    availableFilters: [],
+    cardRef: null
 };
 
 export default ProductCard;
