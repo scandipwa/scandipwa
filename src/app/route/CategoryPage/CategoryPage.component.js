@@ -42,12 +42,16 @@ class CategoryPage extends Component {
     }
 
     componentDidMount() {
-        const { updateBreadcrumbs } = this.props;
+        const { updateBreadcrumbs, isOnlyPlaceholder, updateLoadStatus } = this.props;
 
-        if (this.isNewCategory()) updateBreadcrumbs({});
-        else this.updateBreadcrumbs();
+        if (!isOnlyPlaceholder) {
+            if (this.isNewCategory()) updateBreadcrumbs({});
+            else this.updateBreadcrumbs();
 
-        this.requestCategory();
+            this.requestCategory();
+        } else {
+            updateLoadStatus(true);
+        }
     }
 
     componentDidUpdate(prevProps) {
@@ -427,11 +431,13 @@ CategoryPage.propTypes = {
         options: PropTypes.array
     }).isRequired,
     isLoading: PropTypes.bool.isRequired,
-    categoryIds: PropTypes.number
+    categoryIds: PropTypes.number,
+    isOnlyPlaceholder: PropTypes.bool
 };
 
 CategoryPage.defaultProps = {
-    categoryIds: 0
+    categoryIds: 0,
+    isOnlyPlaceholder: false
 };
 
 export default CategoryPage;
