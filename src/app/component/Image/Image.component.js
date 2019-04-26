@@ -160,7 +160,8 @@ class Image extends Component {
             alt,
             ratio,
             arePlaceholdersShown,
-            showGreyPlaceholder
+            showGreyPlaceholder,
+            mix
         } = this.props;
 
         const isPathRelative = (path) => {
@@ -173,14 +174,17 @@ class Image extends Component {
 
         const isIcon = src && src.includes('.svg');
 
+        const mods = {
+            ratio,
+            isLoaded: isImageLoaded || (isIcon && isPlacehodlerLoaded),
+            isReal: !!src && !showGreyPlaceholder
+        };
+
         return (
             <picture
               block="Image"
-              mods={ {
-                  ratio,
-                  isLoaded: isImageLoaded || (isIcon && isPlacehodlerLoaded),
-                  isReal: !!src && !showGreyPlaceholder
-              } }
+              mods={ mods }
+              mix={ mix }
               ref={ (node) => { this.node = node; } }
               onLoad={ img => this.onImageLoad(img) }
             >
@@ -203,16 +207,23 @@ Image.propTypes = {
     ratio: PropTypes.oneOf([
         '4x3',
         '16x9',
-        'square'
+        'square',
+        'custom'
     ]),
     arePlaceholdersShown: PropTypes.bool,
-    showGreyPlaceholder: PropTypes.bool
+    showGreyPlaceholder: PropTypes.bool,
+    mix: PropTypes.shape({
+        block: PropTypes.string,
+        elem: PropTypes.string,
+        mods: PropTypes.objectOf(PropTypes.string)
+    })
 };
 
 Image.defaultProps = {
     src: '',
     alt: '',
     ratio: 'square',
+    mix: {},
     arePlaceholdersShown: false,
     showGreyPlaceholder: false
 };

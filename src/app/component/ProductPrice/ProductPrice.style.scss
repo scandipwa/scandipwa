@@ -9,20 +9,16 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-.ProductPrice {
-    --price-color: var(--color-primary-base);
+:root {
+    --price-color: #000;
+    --price-discount-color: #000;
+}
 
+.ProductPrice {
     color: var(--price-color);
     font-weight: 700;
-    font-size: 2rem;
-    margin-top: 1rem;
     line-height: 1;
-
-    &_type {
-        &_regular {
-            font-size: 1.2rem;
-        }
-    }
+    margin-bottom: 0;
 
     ins {
         text-decoration: none;
@@ -30,7 +26,6 @@
 
     del {
         padding-left: .3em;
-        color: var(--color-neutral-base);
-        font-size: .7em;
+        color: var(---price-discount-color);
     }
 }

@@ -13,7 +13,6 @@
     pointer-events: none;
 
     &::after {
-        opacity: 0;
         font-family: 'Courier New', Courier, monospace;
         color: transparent;
         background-image: var(--placeholder-image);

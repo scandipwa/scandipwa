@@ -335,19 +335,15 @@ class CategoryPage extends Component {
     }
 
     renderItemCount() {
-        const { items, totalItems, isLoading } = this.props;
+        const { totalItems, isLoading } = this.props;
+
+        const content = isLoading
+            ? 'Products are loading...'
+            : `${ totalItems } items found`;
 
         return (
             <p block="CategoryPage" elem="ItemsCount">
-                { isLoading
-                    ? <TextPlaceholder length="short" />
-                    : (
-                        <>
-                            <span>{ items.length }</span>
-                            { `/${ totalItems } items showing` }
-                        </>
-                    )
-                }
+                <TextPlaceholder content={ content } />
             </p>
         );
     }
@@ -421,6 +417,7 @@ class CategoryPage extends Component {
                     <CategoryProductList
                       items={ items }
                       customFilters={ customFilters }
+                      availableFilters={ filters }
                       totalItems={ totalItems }
                       increasePage={ () => this.increasePage() }
                       isLoading={ isLoading }
