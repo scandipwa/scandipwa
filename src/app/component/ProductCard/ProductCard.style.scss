@@ -59,6 +59,7 @@
             bottom: 0;
             background-color: var(--product-card-picture-mask-color);
             mix-blend-mode: multiply;
+            pointer-events: none;
         }
     }
 

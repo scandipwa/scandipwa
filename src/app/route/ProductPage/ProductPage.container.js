@@ -16,7 +16,8 @@ import ProductPage from './ProductPage.component';
 
 const mapStateToProps = state => ({
     product: state.ProductReducer.product,
-    filters: state.ProductReducer.filters
+    // filters: state.ProductReducer.filters,
+    filters: state.ProductReducer.formattedConfigurableOptions
 });
 
 const mapDispatchToProps = dispatch => ({

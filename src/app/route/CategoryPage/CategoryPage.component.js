@@ -14,24 +14,25 @@ import PropTypes from 'prop-types';
 import CategoryProductList from 'Component/CategoryProductList';
 import ContentWrapper from 'Component/ContentWrapper';
 import CategoryDetails from 'Component/CategoryDetails';
-import CategoriesList from 'Component/CategoriesList';
 import ProductSort from 'Component/ProductSort';
 import TextPlaceholder from 'Component/TextPlaceholder';
-import CategoryShoppingOptions from 'Component/CategoryShoppingOptions';
 import CategoryFilterOverlay from 'Component/CategoryFilterOverlay';
 import Meta from 'Component/Meta';
-import { CATEGORY } from 'Component/Header';
-import {
-    getUrlParam, getQueryParam, setQueryParams, clearQueriesFromUrl
-} from 'Util/Url';
 import { CategoryTreeType } from 'Type/Category';
 import { ItemsType } from 'Type/ProductList';
-import './CategoryPage.style';
+import {
+    getUrlParam,
+    getQueryParam,
+    setQueryParams,
+    clearQueriesFromUrl
+} from 'Util/Url';
 
 import Store from 'Store';
-import { FILTER } from 'Component/Header';
+import { CATEGORY, FILTER } from 'Component/Header';
 import { toggleOverlayByKey } from 'Store/Overlay';
 import { changeHeaderState } from 'Store/Header';
+
+import './CategoryPage.style';
 
 class CategoryPage extends Component {
     constructor(props) {

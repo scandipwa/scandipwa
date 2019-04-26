@@ -9,6 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import CategoryShoppingOptions from './CategoryShoppingOptions.component';
+import Slider from './Slider.component';
 
-export default CategoryShoppingOptions;
+export default Slider;

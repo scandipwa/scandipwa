@@ -13,38 +13,54 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { MediaType } from 'Type/ProductList';
 import Slider from 'Component/Slider';
+import Image from 'Component/Image';
 import './ProductGallery.style';
 
 const PRODUCT_IMAGE_PATH = '/media/catalog/product';
+const THUMBNAIL_KEY = 'thumbnail';
 
 /**
  * Product gallery
  * @class ProductGallery
  */
 class ProductGallery extends Component {
-    render() {
+    getGalleryPictures() {
         const {
             mediaGallery,
             thumbnail: { path },
-            thumbnail,
-            areDetailsLoaded
+            thumbnail
         } = this.props;
 
         // use images from gallery or fallback to thumbnail
-        const gallery = mediaGallery.length
-            ? mediaGallery.map(media => ({ id: media.id, image: `${PRODUCT_IMAGE_PATH}${media.file}` }))
-            : [{ image: thumbnail && path && `${PRODUCT_IMAGE_PATH}${path}`, id: 'thumbnail' }];
+        return mediaGallery.length
+            ? (
+                mediaGallery.map((media, index) => ({
+                    id: index ? media.id : THUMBNAIL_KEY,
+                    image: `${PRODUCT_IMAGE_PATH}${media.file}`
+                }))
+            )
+            : [{
+                image: thumbnail && path && `${PRODUCT_IMAGE_PATH}${path}`,
+                id: THUMBNAIL_KEY
+            }];
+
+    }
+
+    render() {
+        const gallery = this.getGalleryPictures();
 
         return (
             <Slider
-              block="ProductGallery"
-              items={ gallery }
-              areArrowButtonsShown={ areDetailsLoaded }
-              arePlaceholdersShown={ !areDetailsLoaded }
-              areThumbnailsShown
-              isKeyboardAllowed
-              slideSpeed={ 600 }
-            />
+              mix={ { block: 'ProductGallery' } }
+              showCrumbs
+            >
+                { gallery.map(({ image, id }) => (
+                    <Image
+                      src={ image }
+                      key={ id }
+                    />
+                )) }
+            </Slider>
         );
     }
 }
@@ -52,7 +68,6 @@ class ProductGallery extends Component {
 ProductGallery.propTypes = {
     mediaGallery: MediaType,
     thumbnail: PropTypes.shape({ path: PropTypes.string }),
-    areDetailsLoaded: PropTypes.bool.isRequired
 };
 
 ProductGallery.defaultProps = {
