@@ -32,9 +32,9 @@ class UrlRewrites extends Component {
     }
 
     componentWillMount() {
-        const { type } = BrowserDatabase.getItem('actionName');
+        const { type } = BrowserDatabase.getItem('actionName') || '';
 
-        if (type !== 'NOT_FOUND') {
+        if (type && type !== 'NOT_FOUND') {
             this.setState({ placeholderType: type });
             const { requestUrlRewrite, match, location } = this.props;
             const urlParam = getUrlParam(match, location);
