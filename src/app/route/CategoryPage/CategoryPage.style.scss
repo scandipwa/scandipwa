@@ -11,16 +11,8 @@
 
 .CategoryPage {
     &-Wrapper {
-        display: grid;
-        grid-template-columns: 22rem calc(100% - 24rem);
-        grid-column-gap: 2rem;
-        padding-top: 1rem;
         border-top: 1px solid var(--overlay-divider-color);
-
-        @include mobile {
-            grid-template-columns: 1fr;
-            padding: 0;
-        }
+        padding: 0;
     }
 
     &-ItemsCount {

@@ -9,141 +9,78 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+:root {
+    --slider-crumb-color: #fff;
+}
+
 .Slider {
-    --arrow-color: var(--color-neutral-base);
-    --transition-duration: 750ms; /* to sync CSS animation and JS callback */
-    --translate-percentage: 0%; /* to sync CSS animation and JS callback */
+    --translateX: 0;
+    --translateY: 0;
+    --animation-speed: 0;
+    --slider-height: 0;
 
-    &-Button {
-        padding: 0;
-        margin: 0;
-        width: 3rem;
-        height: 100%;
-        left: 0;
-        top: 0;
-        position: absolute;
+    max-width: 100%;
+    overflow: hidden;
+    touch-action: pan-y;
 
-        @include mobile {
-            display: none;
-        }
+    height: var(--slider-height);
+    transition: height 300ms;
 
-        &::after {
-            content: '';
-            transform: rotate(135deg);
-            border: solid var(--arrow-color);
-            border-width: 0 3px 3px 0;
-            display: inline-block;
-            padding: 8px;
-        }
-
-        &_forward {
-            right: 0;
-            left: initial;
-
-            &::after {
-                transform: rotate(-45deg);
-            }
-        }
-
-        &:disabled {
-            visibility: hidden;
-        }
+    &_isVertical {
+        touch-action: pan-x;
     }
 
-    &-SlideArea {
-        height: 100%;
-    }
-    
     &-Wrapper {
-        height: 100%;
-        overflow: hidden;
-    }
-
-    &-Carousel {
         display: flex;
-        top: 0;
-        height: 100%;
-        transform: translate3d(var(--translate-percentage), 0, 0);
+        align-items: flex-start;
+
         will-change: transform;
-        transition: transform var(--transition-duration);
-    }
+        transition: transform var(--animation-speed);
+        transform: translate3d(var(--translateX), var(--translateY), 0);
 
-    &-Slide {
-        padding: 0;
-        height: 100%;
-
-        &::before {
-            content: none;
+        &_isVertical {
+            flex-direction: column;
         }
 
-        figure {
-            padding-bottom: 0;
-            height: 100%;
-
-            figcaption {
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                margin-left: 10%;
-
-                & > div {
-                    font-size: 2rem;
-                    margin-bottom: 2rem;
-
-                    & > span:first-child {
-                        font-size: 4.5rem;
-                    }
-
-                    span {
-                        display: block;
-            
-                        &:last-child {
-                            display: inline;
-                        }
-                    }
-                }
-
-                button {
-                    width: 18rem;
-                    z-index: 1;
-                }
-            }
-
-            img {
-                object-fit: contain;
-            }
+        > * {
+            flex-grow: 1;
+            flex-shrink: 0;
         }
     }
 
-    &-Breadcrumbs {
-        display: flex;
+    &-Crumbs {
         position: absolute;
-        z-index: 1;
-        bottom: 0;
-        width: 100%;
-        align-items: flex-end;
-        justify-content: center;
-    }
+        margin: auto;
+        display: grid;
+        grid-gap: 10px;
 
-    &-Breadcrumb {
-        --breadcrumb-color: var(--color-neutral-dark);
-        --breadcrumb-color-active: var(--color-primary-base);
-
-        width: 9px;
-        height: 9px;
-        padding: 0;
-        border-radius: 50%;
-        border: none;
-        margin-bottom: 1rem;
-        background-color: var(--breadcrumb-color);
-
-        &_active {
-            background-color: var(--breadcrumb-color-active);
+        &_isHorizontal {
+            width: 100%;
+            grid-template-columns: repeat(auto-fit, 7px);
+            justify-content: center;
+            bottom: 1rem;
         }
 
-        &:not([disabled]):hover,
-        &:not([disabled]):focus {
-            background-color: var(--breadcrumb-color-active);
+        &_isVertical {
+            height: min-content;
+            grid-template-columns: 1fr;
+            grid-auto-rows: min-content;
+            right: 1rem;
+            top: 0;
+            bottom: 0;
+        }
+    }
+
+    &-Crumb {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background-color: var(--slider-crumb-color);
+        border: 1px solid var(--slider-crumb-color);
+        transition: background-color 300ms;
+
+        &_isActive {
+            background-color: transparent;
         }
     }
 }

@@ -49,14 +49,18 @@ class Swatch extends Component {
             filterItem: { label },
             requestVar,
             isSelected,
-            onClick
+            onClick,
+            mix
         } = this.props;
+
+        const mods = { type: requestVar, isSelected };
 
         return (
             <button
               ref={ this.swatchRef }
               block="Swatch"
-              mods={ { type: requestVar, isSelected } }
+              mods={ mods }
+              mix={ { ...mix, mods } }
               onClick={ () => onClick() }
             >
                 { label }
@@ -69,12 +73,18 @@ Swatch.propTypes = {
     onClick: PropTypes.func,
     isSelected: PropTypes.bool,
     filterItem: PropTypes.objectOf(PropTypes.shape).isRequired,
-    requestVar: PropTypes.string.isRequired
+    requestVar: PropTypes.string.isRequired,
+    mix: PropTypes.shape({
+        block: PropTypes.string,
+        elem: PropTypes.string,
+        mods: PropTypes.objectOf(PropTypes.string)
+    })
 };
 
 Swatch.defaultProps = {
     isSelected: false,
-    onClick: () => {}
+    onClick: () => {},
+    mix: {}
 };
 
 export default Swatch;

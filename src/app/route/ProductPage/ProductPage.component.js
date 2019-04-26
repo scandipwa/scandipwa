@@ -20,8 +20,8 @@ import GroupedProductsList from 'Component/GroupedProductsList';
 import Meta from 'Component/Meta';
 import { ProductType } from 'Type/ProductList';
 import { getUrlParam, getQueryParam, updateQueryParamWithoutHistory } from 'Util/Url';
-import './ProductPage.style';
 import RelatedProducts from 'Component/RelatedProducts';
+import './ProductPage.style';
 
 class ProductPage extends Component {
     constructor() {
@@ -32,6 +32,8 @@ class ProductPage extends Component {
             // eslint-disable-next-line react/no-unused-state
             isConfigurationInitilized: false
         };
+
+        this.updateUrl = this.updateUrl.bind(this);
     }
 
     componentDidMount() {
@@ -198,31 +200,29 @@ class ProductPage extends Component {
                         <ProductGallery
                           thumbnail={ thumbnail }
                           mediaGallery={ mediaGallery }
-                          areDetailsLoaded={ areDetailsLoaded }
                         />
-                        <ProductDetails
+                        <ProductActions
+                          product={ dataSource }
+                          availableFilters={ filters }
+                          areDetailsLoaded={ areDetailsLoaded }
+                          configurableVariantIndex={ configurableVariantIndex }
+                          updateConfigurableVariantIndex={ this.updateUrl }
+                        />
+                        {/* <ProductDetails
                           product={ dataSource }
                           areDetailsLoaded={ areDetailsLoaded }
                           configurableVariantIndex={ configurableVariantIndex }
-                        />
-                        <div aria-label="Product Actions">
-                            { type_id === 'grouped'
-                            && (
+                        /> */}
+                        {/* <div aria-label="Product Actions">
+                            { type_id === 'grouped' && (
                                 <GroupedProductsList
                                   product={ dataSource }
                                   handleGroupedQuantityChange={ this.changeGroupedProductQuantity }
                                 />
                             ) }
-                            <ProductActions
-                              product={ dataSource }
-                              availableFilters={ filters }
-                              configurableVariantIndex={ configurableVariantIndex }
-                              areDetailsLoaded={ areDetailsLoaded }
-                              updateConfigurableVariantIndex={ index => this.updateUrl(index) }
-                            />
-                        </div>
+                        </div> */}
                     </ContentWrapper>
-                    <ProductDescription
+                    {/* <ProductDescription
                       product={ dataSource }
                       mediaGallery={ media_gallery_entries }
                       areDetailsLoaded={ areDetailsLoaded }
@@ -230,7 +230,7 @@ class ProductPage extends Component {
                     <RelatedProducts
                       areDetailsLoaded={ areDetailsLoaded }
                       product={ product }
-                    />
+                    /> */}
                 </main>
             </>
         );
@@ -251,7 +251,7 @@ ProductPage.propTypes = {
     updateBreadcrumbs: PropTypes.func.isRequired,
     clearGroupedProductQuantity: PropTypes.func.isRequired,
     product: ProductType.isRequired,
-    filters: PropTypes.arrayOf(PropTypes.shape)
+    filters: PropTypes.objectOf(PropTypes.shape)
 };
 
 ProductPage.defaultProps = {

@@ -90,14 +90,14 @@ class AddToCart extends Component {
 
     render() {
         const { isLoading } = this.state;
-        const { fullWidth } = this.props;
+        const { mix } = this.props;
 
         return (
             <button
               onClick={ () => this.buttonClick() }
-              block="AddToCart"
-              elem="Button"
-              mods={ { isLoading, fullWidth } }
+              block="Button AddToCart"
+              mix={ mix }
+              mods={ { isLoading } }
               disabled={ isLoading }
             >
                 <span>Add to cart</span>
@@ -113,14 +113,18 @@ AddToCart.propTypes = {
     configurableVariantIndex: PropTypes.number,
     groupedProductQuantity: PropTypes.objectOf(PropTypes.number),
     addProduct: PropTypes.func.isRequired,
-    fullWidth: PropTypes.bool
+    mix: PropTypes.shape({
+        block: PropTypes.string,
+        elem: PropTypes.string,
+        mods: PropTypes.objectOf(PropTypes.string)
+    })
 };
 
 AddToCart.defaultProps = {
-    fullWidth: false,
     quantity: 1,
     configurableVariantIndex: 0,
-    groupedProductQuantity: {}
+    groupedProductQuantity: {},
+    mix: {}
 };
 
 export default AddToCart;
