@@ -15,11 +15,15 @@ const COMPANY_FIELD_ID = 'company';
 const STREET_0_FIELD_ID = 'street_0';
 const STREET_1_FIELD_ID = 'street_1';
 const CITY_FIELD_ID = 'city';
-const STATE_FIELD_ID = 'region_id';
+const STATE_FIELD_ID = 'region';
 const ZIP_FIELD_ID = 'postcode';
 const PHONE_FIELD_ID = 'telephone';
 const COUNTRY_FIELD_ID = 'country_id';
 const DEFAULT_COUNTRY = 'US';
+
+const STATE_NEW_ADDRESS = 'newAddress';
+const STATE_DEFAULT_ADDRESS = 'defaultAddress';
+const STATE_SAME_ADDRESS = 'sameAddress';
 
 class CheckoutPreviewAndPaymentsStep extends Component {
     constructor(props) {
@@ -34,13 +38,16 @@ class CheckoutPreviewAndPaymentsStep extends Component {
         const { street } = billingAddress;
 
         this.state = {
+            email: '',
             shippingAddress,
             billingAddress,
             street: { ...street },
             billingIsSame: false,
             paymentMethods,
             activePaymentMethod: {},
-            loadingPaymentInformationSave: false
+            loadingPaymentInformationSave: false,
+            defaultBillingAddress: false,
+            state: STATE_NEW_ADDRESS
         };
 
         this.fieldMap = {
@@ -72,24 +79,47 @@ class CheckoutPreviewAndPaymentsStep extends Component {
             [COUNTRY_FIELD_ID]: { label: 'Country', type: 'select', value: DEFAULT_COUNTRY },
             [PHONE_FIELD_ID]: { label: 'Phone Number' }
         };
+
+        this.renderMap = {
+            [STATE_NEW_ADDRESS]: () => (this.renderNewAddress()),
+            [STATE_DEFAULT_ADDRESS]: () => (this.renderAddressPreview(STATE_DEFAULT_ADDRESS)),
+            [STATE_SAME_ADDRESS]: () => (this.renderAddressPreview(STATE_SAME_ADDRESS))
+        };
+    }
+
+    static getDerivedStateFromProps(state, props) {
+        const { billingAddress, email, isSignedIn } = state;
+        const { defaultBillingAddress } = props;
+
+        if (Object.entries(billingAddress).length && !defaultBillingAddress) {
+            return { billingAddress, defaultBillingAddress: true, state: STATE_DEFAULT_ADDRESS };
+        }
+
+        if (isSignedIn && email) return email;
+
+        return null;
+    }
+
+    componentDidUpdate(props, state) {
+        const { defaultBillingAddress } = state;
+
+        if (defaultBillingAddress) return this.handleFieldChange;
+
+        return null;
     }
 
     onFormSuccess() {
         const { savePaymentInformationAndPlaceOrder } = this.props;
+        const correctAddress = this.getAddressFromState();
+
         const {
             activePaymentMethod: { code: method },
-            street,
-            region_id,
-            billingIsSame,
-            shippingAddress,
-            billingAddress
+            region_id
         } = this.state;
 
-        const correctAddress = billingIsSame ? shippingAddress : billingAddress;
         const address = {
             ...correctAddress,
-            region_id: parseInt(region_id, 10),
-            street: Object.values(street)
+            region_id: parseInt(region_id, 10)
         };
 
         const paymentInformation = {
@@ -103,8 +133,57 @@ class CheckoutPreviewAndPaymentsStep extends Component {
         );
     }
 
+    getAddressFromState() {
+        const { state, billingAddress, shippingAddress } = this.state;
+
+        switch (state) {
+        case STATE_DEFAULT_ADDRESS:
+            return this.trimAddress(billingAddress);
+        case STATE_SAME_ADDRESS:
+            return this.trimAddress(shippingAddress);
+        default:
+            return this.trimAddress(this.state);
+        }
+    }
+
+    trimAddress(address) {
+        const { email } = this.state;
+        const {
+            city,
+            company,
+            country_id,
+            firstname,
+            lastname,
+            postcode,
+            region,
+            region_code,
+            region_id,
+            street,
+            telephone
+        } = address;
+
+        return {
+            city,
+            company,
+            country_id,
+            email,
+            firstname,
+            lastname,
+            postcode,
+            // TODO: change to actual region id when reigon select is introduced
+            region_id: region_id || 0,
+            region_code: region_code || region,
+            street: Object.values(street),
+            telephone
+        };
+    }
+
     handleSelectPaymentMethod(method) {
         this.setState({ activePaymentMethod: method });
+    }
+
+    changeState(state) {
+        this.setState({ state });
     }
 
     renderField(id, overrideStateValue) {
@@ -134,41 +213,83 @@ class CheckoutPreviewAndPaymentsStep extends Component {
         );
     }
 
-    renderShippingAddressPreview() {
+    renderAddressPreview(addressType) {
+        // TODO: data for not signed in
+        const { shippingAddress, billingAddress } = this.state;
+        const correctAddress = (addressType === 'sameAddress') ? shippingAddress : billingAddress;
         const {
-            shippingAddress: {
-                firstname,
-                lastname,
-                company,
-                street,
-                city,
-                region,
-                postalcode,
-                country_id,
-                telephone
-            }
-        } = this.state;
+            firstname,
+            lastname,
+            company,
+            street,
+            city,
+            region_code,
+            postalcode,
+            country_id,
+            telephone
+        } = correctAddress;
 
         return (
-            <address
-              block="CheckoutPreviewAndPaymentsStep"
-              elem="ShippingAddressPreview"
+            <>
+                <address
+                  block="CheckoutPreviewAndPaymentsStep"
+                  elem="ShippingAddressPreview"
+                >
+                    <dl>
+                        <dt>Contact details:</dt>
+                        <dd>{ `${ firstname } ${ lastname }` }</dd>
+                        { company && (<>
+                            <dt>Company name</dt>
+                            <dd>{ company }</dd>
+                        </>)}
+                        <dd>{ telephone }</dd>
+                        <dt>Billing address:</dt>
+                        <dd>{ `${country_id}, ${region_code}, ${city}` }</dd>
+                        <dd>{ street[0] }</dd>
+                        <dd>{ street[1] }</dd>
+                        <dd>{ postalcode }</dd>
+                    </dl>
+                </address>
+            </>
+        );
+    }
+
+    renderNewAddress() {
+        const { street } = this.state;
+        return (
+            <>
+                { this.renderField(FIRSTNAME_FIELD_ID) }
+                { this.renderField(LASTNAME_FIELD_ID) }
+                { this.renderField(COMPANY_FIELD_ID) }
+                { this.renderField(STREET_0_FIELD_ID, street[0]) }
+                { this.renderField(STREET_1_FIELD_ID, street[1]) }
+                { this.renderField(CITY_FIELD_ID) }
+                { this.renderField(STATE_FIELD_ID) }
+                { this.renderField(ZIP_FIELD_ID) }
+                { this.renderField(COUNTRY_FIELD_ID) }
+                { this.renderField(PHONE_FIELD_ID) }
+            </>
+        );
+    }
+
+    renderStateButton() {
+        // TODO: remove button when user is in newAddress without default billing address
+        const { state, defaultBillingAddress } = this.state;
+        const isDefaultButton = defaultBillingAddress && state === 'newAddress';
+        const buttomMessage = isDefaultButton
+            ? ("I'd like to use the default address")
+            : ("I'd like to use a different address");
+        const stateType = isDefaultButton
+            ? STATE_DEFAULT_ADDRESS
+            : STATE_NEW_ADDRESS;
+
+        return (
+            <button
+              type="button"
+              onClick={ () => { this.changeState(stateType); this.setState({ billingIsSame: false }); } }
             >
-                <dl>
-                    <dt>Contact details:</dt>
-                    <dd>{ `${ firstname } ${ lastname }` }</dd>
-                    { company && (<>
-                        <dt>Company name</dt>
-                        <dd>{ company }</dd>
-                    </>)}
-                    <dd>{ telephone }</dd>
-                    <dt>Billing address:</dt>
-                    <dd>{ `${country_id}, ${region}, ${city}` }</dd>
-                    <dd>{ street[0] }</dd>
-                    <dd>{ street[1] }</dd>
-                    <dd>{ postalcode }</dd>
-                </dl>
-            </address>
+                {buttomMessage}
+            </button>
         );
     }
 
@@ -176,11 +297,12 @@ class CheckoutPreviewAndPaymentsStep extends Component {
         const {
             paymentMethods,
             billingIsSame,
-            street,
             activePaymentMethod,
             loadingPaymentInformationSave,
-            shippingAddress
+            shippingAddress,
+            state
         } = this.state;
+        const renderFunction = this.renderMap[state];
         const { code } = activePaymentMethod;
 
         return (
@@ -198,6 +320,8 @@ class CheckoutPreviewAndPaymentsStep extends Component {
                 <fieldset>
                     <legend>Billing Address</legend>
 
+                    { this.renderStateButton() }
+
                     { shippingAddress && !!Object.entries(shippingAddress).length && (
                         <Field
                           id="sameAsShippingAddress"
@@ -205,27 +329,15 @@ class CheckoutPreviewAndPaymentsStep extends Component {
                           label="My billing and shipping address are the same"
                           value={ billingIsSame }
                           checked={ billingIsSame }
-                          onChange={ value => this.setState({ billingIsSame: value }) }
+                          onChange={ (value) => {
+                              this.setState({ billingIsSame: value });
+                              this.changeState(value ? STATE_SAME_ADDRESS : STATE_DEFAULT_ADDRESS);
+                          } }
                         />)
                      }
 
-                    { billingIsSame
-                        ? this.renderShippingAddressPreview()
-                        : (
-                           <>
-                                { this.renderField(FIRSTNAME_FIELD_ID) }
-                                { this.renderField(LASTNAME_FIELD_ID) }
-                                { this.renderField(COMPANY_FIELD_ID) }
-                                { this.renderField(STREET_0_FIELD_ID, street[0]) }
-                                { this.renderField(STREET_1_FIELD_ID, street[1]) }
-                                { this.renderField(CITY_FIELD_ID) }
-                                { this.renderField(STATE_FIELD_ID) }
-                                { this.renderField(ZIP_FIELD_ID) }
-                                { this.renderField(COUNTRY_FIELD_ID) }
-                                { this.renderField(PHONE_FIELD_ID) }
-                            </>
-                        )
-                }
+                    { renderFunction() }
+
                 </fieldset>
 
                 <button type="submit" disabled={ !code }>Place Order</button>

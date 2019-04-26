@@ -67,7 +67,7 @@ class Field extends Component {
             }
         }
 
-        this.state = { value, isChecked: false };
+        this.state = { value, isChecked: value };
         this.onChange = this.onChange.bind(this);
     }
 
@@ -81,16 +81,23 @@ class Field extends Component {
         const { value: stateValue } = state;
 
         if (value !== stateValue) {
-            return { value };
+            return { stateValue };
         }
 
-        return null;
+        return { value };
     }
 
     componentDidMount() {
         const { getCountriesList, id } = this.props;
 
         if (id === 'country_id') getCountriesList();
+    }
+
+    componentDidUpdate() {
+        const { type, checked } = this.props;
+        const { isChecked } = this.state;
+
+        if (type === 'checkbox' && checked !== isChecked) this.setState({ isChecked: !isChecked });
     }
 
     onChange(event) {
@@ -120,6 +127,7 @@ class Field extends Component {
     }
 
     handleChange(value) {
+        const { isChecked } = this.state;
         const {
             onChange,
             type,
@@ -133,8 +141,11 @@ class Field extends Component {
             if (onChange) onChange(value);
             this.setState({ value });
             break;
+        case RADIO_TYPE:
+            if (onChange) onChange(!isChecked);
+            this.setState({ isChecked: !isChecked });
+            break;
         case CHECKBOX_TYPE:
-            const { isChecked } = this.state;
             if (onChange) onChange(!isChecked);
             this.setState({ isChecked: !isChecked });
             break;
@@ -167,15 +178,12 @@ class Field extends Component {
         );
     }
 
-    renderCheckboxInput() {
-        const { isChecked } = this.state;
+    renderRadioInput() {
         const {
             id, name, type, value, formRef, checked
         } = this.props;
 
-        const checkedBool = type === RADIO_TYPE
-            ? checked === value
-            : isChecked;
+        const checkedBool = checked === value;
 
         return (
             <>
@@ -183,6 +191,31 @@ class Field extends Component {
                   ref={ formRef }
                   type={ type }
                   checked={ checkedBool }
+                  name={ name }
+                  value={ value }
+                  onChange={ this.onChange }
+                  onKeyPress={ this.onChange }
+                  onFocus={ event => this.onFocus(event) }
+                  onClick={ event => this.onClick(event) }
+                  id={ id }
+                />
+                <label htmlFor={ id } />
+            </>
+        );
+    }
+
+    renderCheckboxInput() {
+        const { isChecked } = this.state;
+        const {
+            id, name, type, value, formRef
+        } = this.props;
+
+        return (
+            <>
+                <input
+                  ref={ formRef }
+                  type={ type }
+                  checked={ isChecked }
                   name={ name }
                   value={ value }
                   onChange={ this.onChange }
@@ -290,7 +323,7 @@ class Field extends Component {
         case CHECKBOX_TYPE:
             return this.renderCheckboxInput();
         case RADIO_TYPE:
-            return this.renderCheckboxInput();
+            return this.renderRadioInput();
         case NUMBER_TYPE:
             return this.renderTypeNumber();
         case TEXTAREA_TYPE:

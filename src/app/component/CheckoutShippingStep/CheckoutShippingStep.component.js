@@ -92,7 +92,11 @@ class CheckoutShippingStep extends Component {
     }
 
     static getDerivedStateFromProps(props, state) {
-        const { shippingAddress, isSignedIn, email } = props;
+        const {
+            shippingAddress,
+            isSignedIn,
+            email
+        } = props;
         const { fieldsArePopulated } = state;
 
         if (isSignedIn && Object.entries(shippingAddress).length && !fieldsArePopulated) {
@@ -127,13 +131,15 @@ class CheckoutShippingStep extends Component {
             };
         }
 
-        return { email };
+        return null;
     }
 
     componentDidUpdate(prevProps) {
-        const { email } = this.state;
+        const { finishedLoading, shippingAddress } = this.props;
 
-        if (!prevProps.email && email) this.handleFieldChange();
+        if (!prevProps.finishedLoading && finishedLoading && Object.entries(shippingAddress).length) {
+            this.handleFieldChange();
+        }
     }
 
     onSelectShippingMethod(method) {
@@ -261,6 +267,7 @@ class CheckoutShippingStep extends Component {
 
     renderNewAddress() {
         const { street, defaultShippingAddress } = this.state;
+        const { isSignedIn } = this.props;
 
         return (
             <>
@@ -276,10 +283,12 @@ class CheckoutShippingStep extends Component {
                         </button>
                     </div>)
                 }
-                <fieldset>
-                    <legend>Email Address</legend>
-                    { this.renderField(EMAIL_FIELD_ID) }
-                </fieldset>
+                { !isSignedIn && (
+                    <fieldset>
+                        <legend>Email Address</legend>
+                        { this.renderField(EMAIL_FIELD_ID) }
+                    </fieldset>)
+                }
                 <fieldset>
                     <legend>Shipping Address</legend>
                     { this.renderField(FIRSTNAME_FIELD_ID) }
@@ -381,6 +390,18 @@ CheckoutShippingStep.propTypes = {
     isSignedIn: PropTypes.bool.isRequired,
     finishedLoading: PropTypes.bool.isRequired,
     billingAddress: PropTypes.shape({
+        city: PropTypes.string,
+        company: PropTypes.string,
+        country_id: PropTypes.string,
+        email: PropTypes.string,
+        firstname: PropTypes.string,
+        lastname: PropTypes.string,
+        postcode: PropTypes.string,
+        region_id: PropTypes.number,
+        street: PropTypes.array,
+        telephone: PropTypes.string
+    }).isRequired,
+    shippingAddress: PropTypes.shape({
         city: PropTypes.string,
         company: PropTypes.string,
         country_id: PropTypes.string,
