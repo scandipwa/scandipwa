@@ -354,6 +354,9 @@
 		color: var(--header-color);
 
 		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+
 		pointer-events: none;
 
 		position: absolute;
@@ -364,10 +367,11 @@
 		top: 0;
 		bottom: 0;
 		left: 0;
+		right: 0;
 
 		&_isVisible {
 			opacity: 1;
-			max-width: 100%;
+			max-width: calc(100% - 120px);
 		}
 	}
 }
