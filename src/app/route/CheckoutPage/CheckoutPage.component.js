@@ -105,7 +105,9 @@ class CheckoutPage extends Component {
         const { isSignedIn } = this.props;
 
         updateToggleHeaderAndFooter({ isHeaderAndFooterVisible: false });
-        if (isSignedIn) this.requestCustomerData().then(() => this.getDefaultAddresses());
+        if (isSignedIn) return this.requestCustomerData().then(() => this.getDefaultAddresses());
+
+        return this.getDefaultAddresses();
     }
 
     getDefaultAddresses() {
@@ -114,16 +116,20 @@ class CheckoutPage extends Component {
 
         if (Object.entries(customer).length) {
             const { addresses } = customer;
+
             Object.values(addresses).map((address) => {
                 const { default_shipping, default_billing } = address;
+
                 if (default_shipping && !Object.entries(shippingAddress).length) {
                     this.setState({ shippingAddress: address });
                 }
+
                 if (default_billing && !Object.entries(billingAddress).length) {
                     this.setState({ billingAddress: address });
                 }
             });
         }
+
         this.setState({ addressesAreChecked: true });
     }
 
@@ -132,6 +138,8 @@ class CheckoutPage extends Component {
         const options = {
             withAddresses: true
         };
+
+        this.setState({ addressesAreChecked: false });
 
         return requestCustomerData(options);
     }
@@ -149,7 +157,8 @@ class CheckoutPage extends Component {
             shippingAddress: shipping_address,
             billingAddress: billing_address,
             carrierCode: shipping_carrier_code,
-            methodCode: shipping_method_code
+            methodCode: shipping_method_code,
+            addressesAreChecked: false
         });
 
         return saveAddressInformation(addressInformation).then(
@@ -158,7 +167,8 @@ class CheckoutPage extends Component {
                 this.setState({
                     checkoutStep: CHECKOUT_STEP_REVIEW_AND_PAYMENTS,
                     paymentMethods: payment_methods,
-                    paymentTotals: totals
+                    paymentTotals: totals,
+                    addressesAreChecked: true
                 });
             },
             err => console.log(err)
@@ -217,7 +227,8 @@ class CheckoutPage extends Component {
         const {
             shippingAddress,
             billingAddress,
-            paymentMethods
+            paymentMethods,
+            addressesAreChecked
         } = this.state;
 
         return (
@@ -228,6 +239,7 @@ class CheckoutPage extends Component {
               savePaymentInformationAndPlaceOrder={ paymentInformation => this.savePaymentInformationAndPlaceOrder(paymentInformation) }
               email={ email }
               isSignedIn={ isSignedIn }
+              finishedLoading={ addressesAreChecked }
             />
         );
     }

@@ -76,7 +76,7 @@ class CheckoutPreviewAndPaymentsStep extends Component {
             [CITY_FIELD_ID]: { label: 'City' },
             [STATE_FIELD_ID]: { label: 'State', validation: [] },
             [ZIP_FIELD_ID]: { label: 'Postal Code' },
-            [COUNTRY_FIELD_ID]: { label: 'Country', type: 'select', value: DEFAULT_COUNTRY },
+            [COUNTRY_FIELD_ID]: { label: 'Country', type: 'select', defaultValue: DEFAULT_COUNTRY },
             [PHONE_FIELD_ID]: { label: 'Phone Number' }
         };
 
@@ -141,13 +141,13 @@ class CheckoutPreviewAndPaymentsStep extends Component {
     }
 
     getButtonParams() {
-        const { state, defaultBillingAddress } = this.state;
+        const { state, defaultBillingAddress, isSignedIn } = this.state;
 
         if (defaultBillingAddress && state === 'newAddress') {
             return { message: ("I'd like to use the default address"), type: STATE_DEFAULT_ADDRESS };
         }
 
-        if (state !== 'newAddress') {
+        if (state !== 'newAddress' && isSignedIn) {
             return { message: ("I'd like to use a different address"), type: STATE_NEW_ADDRESS };
         }
 
@@ -216,6 +216,7 @@ class CheckoutPreviewAndPaymentsStep extends Component {
             type = 'text',
             label,
             note,
+            defaultValue,
             checked,
             name,
             validation = ['notEmpty'],
@@ -230,7 +231,7 @@ class CheckoutPreviewAndPaymentsStep extends Component {
               note={ note }
               name={ name }
               checked={ checked }
-              value={ overrideStateValue || stateValue }
+              value={ overrideStateValue || stateValue || defaultValue }
               validation={ validation }
               onChange={ onChange }
             />
@@ -310,11 +311,11 @@ class CheckoutPreviewAndPaymentsStep extends Component {
     }
 
     render() {
+        const { finishedLoading } = this.props;
         const {
             paymentMethods,
             billingIsSame,
             activePaymentMethod,
-            loadingPaymentInformationSave,
             shippingAddress,
             state
         } = this.state;
@@ -326,7 +327,7 @@ class CheckoutPreviewAndPaymentsStep extends Component {
               onSubmitSuccess={ validFields => this.onFormSuccess(validFields) }
               key="review_and_payment_step"
             >
-                <Loader isLoading={ loadingPaymentInformationSave } />
+                <Loader isLoading={ !finishedLoading } />
 
                 <CheckoutPaymentMethods
                   paymentMethods={ paymentMethods }
@@ -387,7 +388,8 @@ CheckoutPreviewAndPaymentsStep.propTypes = {
         telephone: PropTypes.string
     }).isRequired,
     savePaymentInformationAndPlaceOrder: PropTypes.func.isRequired,
-    paymentMethods: PropTypes.arrayOf(PropTypes.object).isRequired
+    paymentMethods: PropTypes.arrayOf(PropTypes.object).isRequired,
+    finishedLoading: PropTypes.bool.isRequired
 };
 
 export default CheckoutPreviewAndPaymentsStep;
