@@ -292,7 +292,7 @@ class Field extends Component {
 
     static renderMultipleRadioButtons(radioOptions, fieldSetId, fieldSetName = null) {
         return (
-            <fieldset id={ fieldSetId } name={ fieldSetName && fieldSetId }>
+            <fieldset id={ fieldSetId } name={ fieldSetName || fieldSetId }>
                 { radioOptions.map((radioButton) => {
                     const {
                         id, name, value, disabled, checked, label
