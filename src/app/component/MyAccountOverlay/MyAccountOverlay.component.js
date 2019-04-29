@@ -290,6 +290,7 @@ class MyAccountOverlay extends Component {
                           type="checkbox"
                           label="Subscribe to ScandiPWA newsletter"
                           id="is_subscribed"
+                          name="is_subscribed"
                         />
                     </fieldset>
                     <fieldset block="MyAccountOverlay" elem="Legend">

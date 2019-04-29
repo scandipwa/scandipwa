@@ -40,7 +40,8 @@ class Field extends Component {
         const {
             type,
             min,
-            value: propsValue
+            value: propsValue,
+            checked: isChecked
         } = this.props;
 
         let value = propsValue;
@@ -57,7 +58,7 @@ class Field extends Component {
             }
         }
 
-        this.state = { value };
+        this.state = { value, isChecked };
 
         this.onChange = this.onChange.bind(this);
         this.onFocus = this.onFocus.bind(this);
@@ -129,6 +130,9 @@ class Field extends Component {
             if ((value < min || isValueNaN)) return;
             if (onChange) onChange(value);
             this.setState({ value });
+            break;
+        case CHECKBOX_TYPE:
+            this.setState(state => ({ isChecked: !state.isChecked }));
             break;
         default:
             if (onChange) onChange(value);
@@ -233,8 +237,9 @@ class Field extends Component {
 
     renderCheckbox() {
         const {
-            id, formRef, value, checked, disabled, name
+            id, formRef, disabled, name
         } = this.props;
+        const { isChecked } = this.state;
 
         return (
             <>
@@ -242,10 +247,10 @@ class Field extends Component {
                   ref={ formRef }
                   id={ id }
                   type="checkbox"
-                  checked={ checked }
+                  defaultChecked={ isChecked }
                   disabled={ disabled }
                   name={ name }
-                  value={ value }
+                  value={ isChecked }
                   onChange={ this.onChange }
                   onFocus={ this.onFocus }
                   onClick={ this.onClick }
@@ -392,7 +397,8 @@ Field.defaultProps = {
     min: 0,
     block: null,
     elem: null,
-    disabled: false
+    disabled: false,
+    checked: false
 };
 
 export default Field;
