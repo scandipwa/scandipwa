@@ -12,12 +12,6 @@
 .HomeSlider {
     --arrow-color: var(--color-neutral-base);
     --text-color: var(--color-text-white);
-    
-    height: 370px;
-
-    @include mobile {
-        height: 240px;
-    }
 
     &-SlideArea {
         height: 100%;

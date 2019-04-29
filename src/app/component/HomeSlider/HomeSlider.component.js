@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -12,6 +13,7 @@
 import React, { Component } from 'react';
 import Slider from 'Component/Slider';
 import { SliderType } from 'Type/Slider';
+import Image from 'Component/Image';
 import './HomeSlider.style';
 
 /**
@@ -19,28 +21,32 @@ import './HomeSlider.style';
  * @class HomeSlider
  */
 class HomeSlider extends Component {
-    render() {
+    getGalleryPictures() {
         const { slider } = this.props;
 
-        const gallery = Object.keys(slider).length > 0
+        return Object.keys(slider).length > 0
             ? slider.slides.map(media => ({ image: media.image, extraHtml: media.slide_text }))
             : [{ image: '' }];
+    }
 
-        if (gallery) {
-            return (
-                <Slider
-                  block="HomeSlider"
-                  items={ gallery }
-                  areBreadcrumbsShown
-                  animationInterval={ 4000 }
-                  slideSpeed={ 1000 }
-                  arePlaceholdersShown
-                  showGreyPlaceholder
-                />
-            );
-        }
+    render() {
+        const gallery = this.getGalleryPictures();
 
-        return null;
+        return (
+            <Slider
+              mix={ { block: 'HomeSlider' } }
+              showCrumbs
+            >
+                { gallery.map((({ image }, i) => (
+                    <Image
+                      objectFit="cover"
+                      ratio="16x9"
+                      src={ image }
+                      key={ i }
+                    />
+                ))) }
+            </Slider>
+        );
     }
 }
 
