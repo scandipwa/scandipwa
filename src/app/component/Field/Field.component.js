@@ -23,8 +23,8 @@ import './Field.style';
 
 const TEXT_TYPE = 'text';
 const NUMBER_TYPE = 'number';
-const CHECKBOX_TYPE = 'checkbox';
 const RADIO_TYPE = 'radio';
+const CHECKBOX_TYPE = 'checkbox';
 const TEXTAREA_TYPE = 'textarea';
 const PASSWORD_TYPE = 'password';
 
@@ -36,12 +36,9 @@ class Field extends Component {
     constructor(props) {
         super(props);
 
-        this.onChange = this.onChange.bind(this);
-
         const {
             type,
             min,
-            checked,
             value: propsValue
         } = this.props;
 
@@ -53,19 +50,18 @@ class Field extends Component {
                 if (value < min) value = min;
                 value = 0;
                 break;
-            case CHECKBOX_TYPE:
-                value = false;
-                break;
-            case RADIO_TYPE:
-                value = false;
-                break;
             default:
                 value = '';
                 break;
             }
         }
 
-        this.state = { value, isChecked: checked };
+        this.state = { value };
+
+        this.onChange = this.onChange.bind(this);
+        this.onFocus = this.onFocus.bind(this);
+        this.onKeyPress = this.onKeyPress.bind(this);
+        this.onClick = this.onClick.bind(this);
     }
 
     /**
@@ -120,11 +116,6 @@ class Field extends Component {
             if (onChange) onChange(value);
             this.setState({ value });
             break;
-        case CHECKBOX_TYPE:
-            const { isChecked } = this.state;
-            if (onChange) onChange(!isChecked);
-            this.setState({ isChecked: !isChecked });
-            break;
         default:
             if (onChange) onChange(value);
             this.setState({ value });
@@ -147,39 +138,10 @@ class Field extends Component {
               rows={ rows }
               value={ value }
               onChange={ this.onChange }
-              onFocus={ event => this.onFocus(event) }
-              onClick={ event => this.onClick(event) }
+              onFocus={ this.onFocus }
+              onClick={ this.onClick }
               autoComplete={ !isAutocompleteAllowed ? 'off' : undefined }
             />
-        );
-    }
-
-    renderCheckboxInput() {
-        const { isChecked } = this.state;
-        const {
-            id, name, type, value, formRef, checked
-        } = this.props;
-
-        const checkedBool = type === RADIO_TYPE
-            ? checked === value
-            : isChecked;
-
-        return (
-            <>
-                <input
-                  ref={ formRef }
-                  type={ type }
-                  checked={ checkedBool }
-                  name={ name }
-                  value={ value }
-                  onChange={ this.onChange }
-                  onKeyPress={ this.onChange }
-                  onFocus={ event => this.onFocus(event) }
-                  onClick={ event => this.onClick(event) }
-                  id={ id }
-                />
-                <label htmlFor={ id } />
-            </>
         );
     }
 
@@ -203,8 +165,8 @@ class Field extends Component {
               id={ id }
               value={ value }
               onChange={ (this.onChange) }
-              onFocus={ event => this.onFocus(event) }
-              onClick={ event => this.onClick(event) }
+              onFocus={ this.onFocus }
+              onClick={ this.onClick }
               placeholder={ placeholder }
               autoComplete={ !isAutocompleteAllowed ? 'off' : undefined }
             />
@@ -222,8 +184,8 @@ class Field extends Component {
               id={ id }
               value={ value }
               onChange={ this.onChange }
-              onFocus={ event => this.onFocus(event) }
-              onClick={ event => this.onClick(event) }
+              onFocus={ this.onFocus }
+              onClick={ this.onClick }
               placeholder={ placeholder }
             />
         );
@@ -241,9 +203,9 @@ class Field extends Component {
                   id={ id }
                   value={ value }
                   onChange={ this.onChange }
-                  onKeyPress={ event => this.onKeyPress(event) }
-                  onFocus={ event => this.onFocus(event) }
-                  onClick={ event => this.onClick(event) }
+                  onKeyPress={ this.onKeyPress }
+                  onFocus={ this.onFocus }
+                  onClick={ this.onClick }
                 />
                 <button onClick={ () => this.handleChange(parseFloat(value) + 1) }>
                     <span>+</span>
@@ -255,12 +217,72 @@ class Field extends Component {
         );
     }
 
+    renderCheckbox() {
+        const {
+            id, formRef, value, checked, disabled, name
+        } = this.props;
+
+        return (
+            <>
+                <input
+                  ref={ formRef }
+                  id={ id }
+                  type="checkbox"
+                  checked={ checked }
+                  disabled={ disabled }
+                  name={ name }
+                  value={ value }
+                  onChange={ this.onChange }
+                  onFocus={ this.onFocus }
+                  onClick={ this.onClick }
+                  onKeyPress={ this.onKeyPress }
+                />
+                <label htmlFor={ id } />
+            </>
+        );
+    }
+
+    renderRadioButtons() {
+        const { formRef, radioOptions, id } = this.props;
+
+        return (
+            <fieldset onChange={ this.onChange } id={ id }>
+                { radioOptions.map((radio) => {
+                    const {
+                        id: radioId, name, value, disabled, checked, label
+                    } = radio;
+
+                    return (
+                        <React.Fragment key={ radioId }>
+                            <label htmlFor={ radioId }>
+                                <input
+                                  ref={ formRef }
+                                  type="radio"
+                                  id={ radioId }
+                                  name={ name }
+                                  value={ value }
+                                  disabled={ disabled }
+                                  checked={ checked }
+                                  onFocus={ this.onFocus }
+                                  onClick={ this.onClick }
+                                  onKeyPress={ this.onKeyPress }
+                                />
+                                <label htmlFor={ radioId } />
+                                { label }
+                            </label>
+                        </React.Fragment>
+                    );
+                }) }
+            </fieldset>
+        );
+    }
+
     renderInputOfType(type) {
         switch (type) {
         case CHECKBOX_TYPE:
-            return this.renderCheckboxInput();
+            return this.renderCheckbox();
         case RADIO_TYPE:
-            return this.renderCheckboxInput();
+            return this.renderRadioButtons();
         case NUMBER_TYPE:
             return this.renderTypeNumber();
         case TEXTAREA_TYPE:
@@ -300,12 +322,11 @@ Field.propTypes = {
     type: PropTypes.oneOf([
         TEXT_TYPE,
         NUMBER_TYPE,
-        CHECKBOX_TYPE,
         TEXTAREA_TYPE,
+        PASSWORD_TYPE,
         RADIO_TYPE,
-        PASSWORD_TYPE
+        CHECKBOX_TYPE
     ]).isRequired,
-    name: PropTypes.string,
     label: PropTypes.string,
     note: PropTypes.string,
     message: PropTypes.string,
@@ -317,10 +338,25 @@ Field.propTypes = {
     ]),
     state: PropTypes.string,
     rows: PropTypes.number,
+    name: PropTypes.string,
     checked: PropTypes.oneOfType([
         PropTypes.bool,
         PropTypes.string
     ]),
+    disabled: PropTypes.bool,
+    radioOptions: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.string.isRequired,
+            name: PropTypes.string.isRequired,
+            checked: PropTypes.bool,
+            disabled: PropTypes.bool,
+            value: PropTypes.oneOfType([
+                PropTypes.string,
+                PropTypes.number
+            ]).isRequired,
+            label: PropTypes.string
+        })
+    ),
     onChange: PropTypes.func,
     onFocus: PropTypes.func,
     onClick: PropTypes.func,
@@ -339,7 +375,8 @@ Field.defaultProps = {
     rows: 4,
     min: 0,
     block: null,
-    elem: null
+    elem: null,
+    disabled: false
 };
 
 export default Field;
