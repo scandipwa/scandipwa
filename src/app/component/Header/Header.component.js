@@ -31,7 +31,7 @@ class Header extends Component {
         this.routeMap = {
             '/': { name: HOME_PAGE },
             '/category': { name: CATEGORY, onBackClick: () => window.history.pushState({}, '', '/') },
-            '/product': { name: PDP }
+            '/product': { name: PDP, onBackClick: () => window.history.back() }
         };
 
         this.stateMap = {

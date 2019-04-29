@@ -12,16 +12,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { PDP } from 'Component/Header';
-import ProductDetails from 'Component/ProductDetails';
 import ProductGallery from 'Component/ProductGallery';
-import ProductDescription from 'Component/ProductDescription';
 import ContentWrapper from 'Component/ContentWrapper';
 import ProductActions from 'Component/ProductActions';
-import GroupedProductsList from 'Component/GroupedProductsList';
+// import GroupedProductsList from 'Component/GroupedProductsList';
 import Meta from 'Component/Meta';
 import { ProductType } from 'Type/ProductList';
 import { getUrlParam, getQueryParam, updateQueryParamWithoutHistory } from 'Util/Url';
-import RelatedProducts from 'Component/RelatedProducts';
 import './ProductPage.style';
 
 class ProductPage extends Component {
@@ -139,9 +136,11 @@ class ProductPage extends Component {
      */
     getThumbnail(currentVariantIndex, dataSource) {
         const { thumbnail, variants } = dataSource;
+
         const variantThumbnail = variants
             && variants[ currentVariantIndex ]
             && variants[ currentVariantIndex ].product.thumbnail;
+
         return variantThumbnail || thumbnail;
     }
 
@@ -167,6 +166,7 @@ class ProductPage extends Component {
             getConfigurableData: true
         };
 
+        // eslint-disable-next-line react/no-unused-state
         this.setState({ isConfigurationInitialized: false });
         requestProduct(options);
     }
@@ -197,7 +197,9 @@ class ProductPage extends Component {
     updateUrl(variant) {
         const { configurableVariantIndex } = this.state;
 
-        if (configurableVariantIndex !== variant) updateQueryParamWithoutHistory('variant', variant);
+        if (configurableVariantIndex !== variant) {
+            updateQueryParamWithoutHistory('variant', variant);
+        }
 
         return this.setState({ configurableVariantIndex: variant });
     }
