@@ -271,6 +271,19 @@ class MyAccountOverlay extends Component {
 
     renderCreateAccount() {
         const { state } = this.state;
+        const radioOptions = [
+            {
+                id: '4',
+                name: 'radio-buttons',
+                value: '42'
+            },
+            {
+                id: '5',
+                name: 'radio-buttons',
+                value: '24',
+                checked: true
+            }
+        ];
 
         return (
             <>
@@ -282,8 +295,8 @@ class MyAccountOverlay extends Component {
                 >
                     <fieldset block="MyAccountOverlay" elem="Legend">
                         <legend>Personal Information</legend>
-                        <Field type="text" label="First Name" id="firstname" validation={ ['notEmpty'] } />
-                        <Field type="text" label="Last Name" id="lastname" validation={ ['notEmpty'] } />
+                        <Field type="text" label="First Name" id="firstname" name="firstname" validation={ ['notEmpty'] } />
+                        <Field type="text" label="Last Name" id="lastname" name="lastname" validation={ ['notEmpty'] } />
                         <Field
                           block="MyAccountOverlay"
                           elem="Checkbox"
@@ -295,17 +308,19 @@ class MyAccountOverlay extends Component {
                     </fieldset>
                     <fieldset block="MyAccountOverlay" elem="Legend">
                         <legend>Sign-Up Information</legend>
-                        <Field type="text" label="Email" id="email" validation={ ['notEmpty', 'email'] } />
+                        <Field type="text" label="Email" id="email" name="email" validation={ ['notEmpty', 'email'] } />
                         <Field
                           type="password"
                           label="Password"
                           id="password"
+                          name="password"
                           validation={ ['notEmpty', 'password'] }
                         />
                         <Field
                           type="password"
                           label="Confirm password"
                           id="confirm_password"
+                          name="confirm_password"
                           validation={ ['notEmpty', 'password'] }
                         />
                     </fieldset>

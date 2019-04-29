@@ -22,13 +22,13 @@ class Form extends Component {
         const children = Form.cloneChildren(
             propsChildren,
             (child) => {
-                const { props: { id, onChange: originalOnChange } } = child;
+                const { props: { onChange: originalOnChange, name } } = child;
                 // const onChange = (v) => {
                 //     Form.handleInputChange(v);
                 //     if (originalOnChange) originalOnChange(v);
                 // };
-                refMap[id] = React.createRef();
-                return React.cloneElement(child, { formRef: refMap[id] });
+                refMap[name] = React.createRef();
+                return React.cloneElement(child, { formRef: refMap[name] });
             }
         );
 
@@ -65,15 +65,15 @@ class Form extends Component {
         const children = Form.cloneChildren(
             propsChildren,
             (child) => {
-                const { props: { id } } = child;
+                const { props: { id, name } } = child;
                 const { message } = Form.validateField(child, refMap);
 
                 if (message) {
                     invalidFields.push(id);
-                    return React.cloneElement(child, { message, formRef: refMap[id] });
+                    return React.cloneElement(child, { message, formRef: refMap[name] });
                 }
 
-                return React.cloneElement(child, { formRef: refMap[id] });
+                return React.cloneElement(child, { formRef: refMap[name] });
             }
         );
 
@@ -81,10 +81,10 @@ class Form extends Component {
     }
 
     static validateField(field, refMap) {
-        const { validation, id } = field.props;
+        const { validation, id, name } = field.props;
 
-        if (validation && id && refMap[id] && refMap[id].current) {
-            const { current: inputNode } = refMap[id];
+        if (validation && id && refMap[name] && refMap[name].current) {
+            const { current: inputNode } = refMap[name];
 
             for (let i = 0; i < validation.length; i++) {
                 const rule = validation[i];
@@ -143,12 +143,12 @@ class Form extends Component {
         const inputValues = Object.values(refMap).reduce((inputValues, input) => {
             const { current } = input;
             if (current && current.id && current.value) {
-                const { id, value } = current;
-                if (current.type === 'checkbox' || current.type === 'radio') {
-                    const boolValue = value === 'true';
-                    return { ...inputValues, [id]: boolValue };
+                const { name, value, checked } = current;
+                if (current.type === 'checkbox') {
+                    const boolValue = checked;
+                    return { ...inputValues, [name]: boolValue };
                 }
-                return { ...inputValues, [id]: value };
+                return { ...inputValues, [name]: value };
             }
             return inputValues;
         }, {});

@@ -143,6 +143,7 @@ class Field extends Component {
     renderTextarea() {
         const {
             id,
+            name,
             rows,
             isAutocompleteAllowed,
             formRef
@@ -153,6 +154,7 @@ class Field extends Component {
             <textarea
               ref={ formRef }
               id={ id }
+              name={ name }
               rows={ rows }
               value={ value }
               onChange={ this.onChange }
@@ -169,8 +171,9 @@ class Field extends Component {
      */
     renderTypeText() {
         const {
-            placeholder,
             id,
+            name,
+            placeholder,
             isAutocompleteAllowed,
             formRef
         } = this.props;
@@ -181,6 +184,7 @@ class Field extends Component {
               ref={ formRef }
               type="text"
               id={ id }
+              name={ name }
               value={ value }
               onChange={ (this.onChange) }
               onFocus={ this.onFocus }
@@ -192,7 +196,9 @@ class Field extends Component {
     }
 
     renderTypePassword() {
-        const { placeholder, id, formRef } = this.props;
+        const {
+            id, name, placeholder, formRef
+        } = this.props;
         const { value } = this.state;
 
         return (
@@ -200,6 +206,7 @@ class Field extends Component {
               ref={ formRef }
               type="password"
               id={ id }
+              name={ name }
               value={ value }
               onChange={ this.onChange }
               onFocus={ this.onFocus }
@@ -210,7 +217,7 @@ class Field extends Component {
     }
 
     renderTypeNumber() {
-        const { id, formRef } = this.props;
+        const { id, name, formRef } = this.props;
         const { value } = this.state;
 
         return (
@@ -219,6 +226,7 @@ class Field extends Component {
                   ref={ formRef }
                   type="number"
                   id={ id }
+                  name={ name }
                   value={ value }
                   onChange={ this.onChange }
                   onKeyPress={ this.onKeyPress }
@@ -237,21 +245,18 @@ class Field extends Component {
 
     renderCheckbox() {
         const {
-            id, formRef, disabled, name
+            id, name, formRef, disabled, checked
         } = this.props;
-        const { isChecked } = this.state;
 
         return (
             <>
                 <input
                   ref={ formRef }
                   id={ id }
-                  type="checkbox"
-                  defaultChecked={ isChecked }
-                  disabled={ disabled }
                   name={ name }
-                  value={ isChecked }
-                  onChange={ this.onChange }
+                  type="checkbox"
+                  defaultChecked={ checked }
+                  disabled={ disabled }
                   onFocus={ this.onFocus }
                   onClick={ this.onClick }
                   onKeyPress={ this.onKeyPress }
@@ -261,35 +266,50 @@ class Field extends Component {
         );
     }
 
-    renderRadioButtons() {
-        const { formRef, radioOptions, id } = this.props;
+    renderRadioButton() {
+        const {
+            formRef, id, name, value, disabled, checked, label
+        } = this.props;
 
         return (
-            <fieldset onChange={ this.onChange } id={ id }>
-                { radioOptions.map((radio) => {
+            <label htmlFor={ id }>
+                <input
+                  ref={ formRef }
+                  type="radio"
+                  id={ id }
+                  name={ name }
+                  defaultChecked={ checked }
+                  value={ value }
+                  disabled={ disabled }
+                  onFocus={ this.onFocus }
+                  onClick={ this.onClick }
+                  onKeyPress={ this.onKeyPress }
+                />
+                <label htmlFor={ id } />
+                { label }
+            </label>
+        );
+    }
+
+    static renderMultipleRadioButtons(radioOptions, fieldSetId, fieldSetName = null) {
+        return (
+            <fieldset id={ fieldSetId } name={ fieldSetName && fieldSetId }>
+                { radioOptions.map((radioButton) => {
                     const {
-                        id: radioId, name, value, disabled, checked, label
-                    } = radio;
+                        id, name, value, disabled, checked, label
+                    } = radioButton;
 
                     return (
-                        <React.Fragment key={ radioId }>
-                            <label htmlFor={ radioId }>
-                                <input
-                                  ref={ formRef }
-                                  type="radio"
-                                  id={ radioId }
-                                  name={ name }
-                                  value={ value }
-                                  disabled={ disabled }
-                                  checked={ checked }
-                                  onFocus={ this.onFocus }
-                                  onClick={ this.onClick }
-                                  onKeyPress={ this.onKeyPress }
-                                />
-                                <label htmlFor={ radioId } />
-                                { label }
-                            </label>
-                        </React.Fragment>
+                        <Field
+                          key={ id }
+                          type={ RADIO_TYPE }
+                          id={ id }
+                          name={ name }
+                          value={ value }
+                          disabled={ disabled }
+                          checked={ checked }
+                          label={ label }
+                        />
                     );
                 }) }
             </fieldset>
@@ -301,7 +321,7 @@ class Field extends Component {
         case CHECKBOX_TYPE:
             return this.renderCheckbox();
         case RADIO_TYPE:
-            return this.renderRadioButtons();
+            return this.renderRadioButton();
         case NUMBER_TYPE:
             return this.renderTypeNumber();
         case TEXTAREA_TYPE:
@@ -340,6 +360,7 @@ class Field extends Component {
 
 Field.propTypes = {
     id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
     type: PropTypes.oneOf([
         TEXT_TYPE,
         NUMBER_TYPE,
@@ -359,25 +380,11 @@ Field.propTypes = {
     ]),
     state: PropTypes.string,
     rows: PropTypes.number,
-    name: PropTypes.string,
     checked: PropTypes.oneOfType([
         PropTypes.bool,
         PropTypes.string
     ]),
     disabled: PropTypes.bool,
-    radioOptions: PropTypes.arrayOf(
-        PropTypes.shape({
-            id: PropTypes.string.isRequired,
-            name: PropTypes.string.isRequired,
-            checked: PropTypes.bool,
-            disabled: PropTypes.bool,
-            value: PropTypes.oneOfType([
-                PropTypes.string,
-                PropTypes.number
-            ]).isRequired,
-            label: PropTypes.string
-        })
-    ),
     onChange: PropTypes.func,
     onFocus: PropTypes.func,
     onClick: PropTypes.func,
