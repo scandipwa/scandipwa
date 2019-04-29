@@ -79,8 +79,10 @@
     &_isSelected {
         --swatch-is-selected: 1;
 
-        font-weight: bold;
         color: var(--swatch-active-color);
+
+        // Simulate bold, to prevent buttons shrinking and growing
+        text-shadow: 0 0 1px currentColor;
     }
 
     &_isLoading {

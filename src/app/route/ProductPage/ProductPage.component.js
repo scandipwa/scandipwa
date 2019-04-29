@@ -81,14 +81,14 @@ class ProductPage extends Component {
     static getDerivedStateFromProps(props, state) {
         const { isConfigurationInitialized } = state;
         const { location } = props;
-        const variantIndex = parseInt(getQueryParam('variant', location), 10);
+        const variantIndex = parseInt(getQueryParam('variant', location), 10) || 0;
         const shouldConfigurableOptionBeInitialized = !isConfigurationInitialized
             && typeof variantIndex === 'number';
 
         if (shouldConfigurableOptionBeInitialized) {
             return {
                 configurableVariantIndex: variantIndex,
-                isConfigurationInitilized: true
+                isConfigurationInitialized: true
             };
         }
 
@@ -203,7 +203,7 @@ class ProductPage extends Component {
     }
 
     render() {
-        const { product, product: { variants, type_id }, filters } = this.props;
+        const { product, product: { variants }, filters } = this.props;
         const { configurableVariantIndex } = this.state;
         const dataSource = this.getDataSource();
         const { media_gallery_entries } = dataSource;
@@ -233,29 +233,7 @@ class ProductPage extends Component {
                           configurableVariantIndex={ configurableVariantIndex }
                           updateConfigurableVariantIndex={ this.updateUrl }
                         />
-                        {/* <ProductDetails
-                          product={ dataSource }
-                          areDetailsLoaded={ areDetailsLoaded }
-                          configurableVariantIndex={ configurableVariantIndex }
-                        /> */}
-                        {/* <div aria-label="Product Actions">
-                            { type_id === 'grouped' && (
-                                <GroupedProductsList
-                                  product={ dataSource }
-                                  handleGroupedQuantityChange={ this.changeGroupedProductQuantity }
-                                />
-                            ) }
-                        </div> */}
                     </ContentWrapper>
-                    {/* <ProductDescription
-                      product={ dataSource }
-                      mediaGallery={ media_gallery_entries }
-                      areDetailsLoaded={ areDetailsLoaded }
-                    />
-                    <RelatedProducts
-                      areDetailsLoaded={ areDetailsLoaded }
-                      product={ product }
-                    /> */}
                 </main>
             </>
         );
@@ -274,16 +252,16 @@ ProductPage.propTypes = {
     }).isRequired,
     requestProduct: PropTypes.func.isRequired,
     updateBreadcrumbs: PropTypes.func.isRequired,
+    changeHeaderState: PropTypes.func.isRequired,
     clearGroupedProductQuantity: PropTypes.func.isRequired,
     product: ProductType.isRequired,
-    filters: PropTypes.objectOf(PropTypes.shape)
+    filters: PropTypes.objectOf(PropTypes.shape).isRequired
 };
 
 ProductPage.defaultProps = {
     location: {
         state: {}
-    },
-    filters: []
+    }
 };
 
 export default ProductPage;
