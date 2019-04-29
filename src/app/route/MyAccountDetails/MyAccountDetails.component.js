@@ -262,6 +262,7 @@ class MyAccountDetails extends Component {
                           type="text"
                           label="First name"
                           id="firstname"
+                          name="firstname"
                           validation={ ['notEmpty'] }
                           value={ firstname }
                         />
@@ -269,14 +270,16 @@ class MyAccountDetails extends Component {
                           type="text"
                           label="Last name"
                           id="lastname"
+                          name="lastname"
                           validation={ ['notEmpty'] }
                           value={ lastname }
                         />
-                        <Field type="text" label="Company" id="company" value={ company } />
+                        <Field type="text" label="Company" id="company" name="company" value={ company } />
                         <Field
                           type="text"
                           label="Phone Number"
                           id="telephone"
+                          name="telephone"
                           validation={ ['notEmpty', 'telephone'] }
                           value={ telephone }
                         />
@@ -287,14 +290,23 @@ class MyAccountDetails extends Component {
                           type="text"
                           label="Street Address"
                           id="street"
+                          name="street"
                           validation={ ['notEmpty'] }
                           value={ street && street[0] }
                         />
-                        <Field type="text" label="City" id="city" validation={ ['notEmpty'] } value={ city } />
+                        <Field
+                          type="text"
+                          label="City"
+                          id="city"
+                          name="city"
+                          validation={ ['notEmpty'] }
+                          value={ city }
+                        />
                         <Field
                           type="text"
                           label="Postcode"
                           id="postcode"
+                          name="postcode"
                           validation={ ['notEmpty'] }
                           value={ postcode }
                         />
@@ -302,6 +314,7 @@ class MyAccountDetails extends Component {
                           type="text"
                           label="State/Province"
                           id="region"
+                          name="region"
                           validation={ ['notEmpty'] }
                           value={ region && region.region }
                         />
@@ -309,6 +322,7 @@ class MyAccountDetails extends Component {
                           type="text"
                           label="Country"
                           id="country_id"
+                          name="country_id"
                           validation={ ['notEmpty'] }
                           value={ country_id }
                         />
@@ -344,6 +358,7 @@ class MyAccountDetails extends Component {
                           type="text"
                           label="First name"
                           id="firstname"
+                          name="firstname"
                           validation={ ['notEmpty'] }
                           value={ firstname }
                         />
@@ -351,6 +366,7 @@ class MyAccountDetails extends Component {
                           type="text"
                           label="Last name"
                           id="lastname"
+                          name="lastname"
                           validation={ ['notEmpty'] }
                           value={ lastname }
                         />
@@ -360,6 +376,7 @@ class MyAccountDetails extends Component {
                           type="checkbox"
                           label="Subscribe to ScandiPWA newsletter"
                           id="is_subscribed"
+                          name="is_subscribed"
                           checked={ is_subscribed }
                         />
                         <button block="MyAccountDetails" elem="Submit" type="submit">Save Changes</button>
@@ -386,18 +403,21 @@ class MyAccountDetails extends Component {
                           type="password"
                           label="Current Password"
                           id="currentPassword"
+                          name="currentPassword"
                           validation={ ['notEmpty', 'password'] }
                         />
                         <Field
                           type="password"
                           label="New Password"
                           id="newPassword"
+                          name="newPassword"
                           validation={ ['notEmpty', 'password'] }
                         />
                         <Field
                           type="password"
                           label="Confirm New Password"
                           id="confirmPassword"
+                          name="confirmPassword"
                           validation={ ['notEmpty', 'password'] }
                         />
                         <button block="MyAccountDetails" elem="Submit" type="submit">Save New Password</button>
@@ -576,8 +596,8 @@ class MyAccountDetails extends Component {
                 <div block="MyAccountDetails" elem="Wrapper">
                     <ul block="MyAccountDetails" elem="Sidebar">
                         <li
-                            onClick={ () => this.changeState(STATE_ACCOUNT_OVERVIEW) }
-                            onKeyPress={ () => this.changeState(STATE_ACCOUNT_OVERVIEW)}
+                          onClick={ () => this.changeState(STATE_ACCOUNT_OVERVIEW) }
+                          onKeyPress={ () => this.changeState(STATE_ACCOUNT_OVERVIEW) }
                         >
                             My Account
                         </li>
