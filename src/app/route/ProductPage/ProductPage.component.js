@@ -11,6 +11,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { PDP } from 'Component/Header';
 import ProductDetails from 'Component/ProductDetails';
 import ProductGallery from 'Component/ProductGallery';
 import ProductDescription from 'Component/ProductDescription';
@@ -30,7 +31,7 @@ class ProductPage extends Component {
         this.state = {
             configurableVariantIndex: 0,
             // eslint-disable-next-line react/no-unused-state
-            isConfigurationInitilized: false
+            isConfigurationInitialized: false
         };
 
         this.updateUrl = this.updateUrl.bind(this);
@@ -38,7 +39,7 @@ class ProductPage extends Component {
 
     componentDidMount() {
         this.requestProduct();
-        this.updateBreadcrumbs();
+        this.onProductUpdate();
     }
 
     /**
@@ -57,9 +58,16 @@ class ProductPage extends Component {
     componentDidUpdate(prevProps) {
         const { location } = this.props;
 
-        if (location !== prevProps.location) this.requestProduct();
-        if (this.variantIndexInPropsChanged(this.props, prevProps)) this.setState({ isConfigurationInitilized: false });
-        this.updateBreadcrumbs();
+        if (location !== prevProps.location) {
+            this.requestProduct();
+        }
+
+        if (this.variantIndexInPropsChanged(this.props, prevProps)) {
+            // eslint-disable-next-line react/no-unused-state, react/no-did-update-set-state
+            this.setState({ isConfigurationInitialized: false });
+        }
+
+        this.onProductUpdate();
     }
 
     componentWillUnmount() {
@@ -71,13 +79,13 @@ class ProductPage extends Component {
     }
 
     static getDerivedStateFromProps(props, state) {
-        const { isConfigurationInitilized } = state;
+        const { isConfigurationInitialized } = state;
         const { location } = props;
         const variantIndex = parseInt(getQueryParam('variant', location), 10);
-        const shouldConfigurableOptionBeInitilized = !isConfigurationInitilized
+        const shouldConfigurableOptionBeInitialized = !isConfigurationInitialized
             && typeof variantIndex === 'number';
 
-        if (shouldConfigurableOptionBeInitilized) {
+        if (shouldConfigurableOptionBeInitialized) {
             return {
                 configurableVariantIndex: variantIndex,
                 isConfigurationInitilized: true
@@ -85,6 +93,15 @@ class ProductPage extends Component {
         }
 
         return null;
+    }
+
+    onProductUpdate() {
+        const dataSource = this.getDataSource();
+
+        if (Object.keys(dataSource).length) {
+            this.updateBreadcrumbs(dataSource);
+            this.updateHeaderState(dataSource);
+        }
     }
 
     getDataSource() {
@@ -150,19 +167,27 @@ class ProductPage extends Component {
             getConfigurableData: true
         };
 
-        this.setState({ isConfigurationInitilized: false });
+        this.setState({ isConfigurationInitialized: false });
         requestProduct(options);
+    }
+
+    updateHeaderState({ name: title }) {
+        const { changeHeaderState } = this.props;
+
+        changeHeaderState({
+            name: PDP,
+            title,
+            onBackClick: () => window.history.back()
+        });
     }
 
     /**
      * Dispatch breadcrumbs update
      * @return {void}
      */
-    updateBreadcrumbs() {
+    updateBreadcrumbs(product) {
         const { updateBreadcrumbs } = this.props;
-        const dataSource = this.getDataSource();
-
-        if (Object.keys(dataSource).length) updateBreadcrumbs(dataSource);
+        updateBreadcrumbs(product);
     }
 
     /**
