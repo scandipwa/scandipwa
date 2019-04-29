@@ -21,6 +21,9 @@ import Swatch from 'Component/Swatch';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import ProductPrice from 'Component/ProductPrice';
 import AddToCart from 'Component/AddToCart';
+import ExpandableContent from 'Component/ExpandableContent';
+import RelatedProducts from 'Component/RelatedProducts';
+import Html from 'Component/Html';
 import './ProductActions.style';
 
 /**
@@ -34,10 +37,65 @@ class ProductActions extends Component {
         return variants[configurableVariantIndex].product[attribute] === value;
     }
 
-    renderShortProductInformation() {
-        const { product } = this.props;
+    renderRelatedProducts() {
+        const { product, areDetailsLoaded } = this.props;
 
-        console.log(product);
+        return (
+            <section
+              block="ProductActions"
+              elem="Section"
+              mods={ { type: 'related' } }
+              aria-label="Related products"
+            >
+                <h4
+                  block="ProductActions"
+                  elem="SectionHeading"
+                  mods={ { type: 'related' } }
+                >
+                    Scandipwa recommends
+                </h4>
+                <RelatedProducts
+                  product={ product }
+                  areDetailsLoaded={ areDetailsLoaded }
+                />
+            </section>
+        );
+    }
+
+    renderAdditionalInformation() {
+        const { product: { description } } = this.props;
+
+        if (!description) return null;
+
+        const { html } = description;
+
+        return (
+            <ExpandableContent heading="Product Information">
+                <Html content={ html } />
+            </ExpandableContent>
+        );
+    }
+
+    renderShortProductInformation() {
+        const { product: { brand, short_description } } = this.props;
+
+        if (!short_description) return null;
+
+        const { html } = short_description;
+
+        return (
+            <section
+              block="ProductActions"
+              elem="Section"
+              mods={ { type: 'short' } }
+              aria-label="Product short description"
+            >
+                <h4 block="ProductActions" elem="SectionHeading">{ brand }</h4>
+                <div block="ProductActions" elem="SectionContent">
+                    <Html content={ html } />
+                </div>
+            </section>
+        );
     }
 
     renderAddToCart() {
@@ -102,7 +160,18 @@ class ProductActions extends Component {
     renderColorOptions() {
         const { availableFilters: { color } } = this.props;
 
-        if (!color) return null;
+        if (!color) {
+            return (
+                <section block="ProductActions" elem="Colors" aria-label="Color options">
+                    { new Array(4).fill().map((_, i) => (
+                        <Swatch
+                          key={ i }
+                          requestVar="color"
+                        />
+                    )) }
+                </section>
+            );
+        };
 
         const { values: colorOptions } = color;
 
@@ -128,6 +197,8 @@ class ProductActions extends Component {
                 { this.renderAddToCart() }
                 { this.renderOtherOptions() }
                 { this.renderShortProductInformation() }
+                { this.renderAdditionalInformation() }
+                { this.renderRelatedProducts() }
             </article>
         );
     }
@@ -137,9 +208,9 @@ ProductActions.propTypes = {
     product: ProductType.isRequired,
     availableFilters: PropTypes.objectOf(PropTypes.shape).isRequired,
     configurableVariantIndex: PropTypes.number.isRequired,
+    areDetailsLoaded: PropTypes.bool.isRequired,
     updateConfigurableVariantIndex: PropTypes.func.isRequired,
-    groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired,
-    areDetailsLoaded: PropTypes.bool.isRequired
+    groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired
 };
 
 export default ProductActions;

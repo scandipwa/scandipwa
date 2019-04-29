@@ -12,6 +12,7 @@
 import React, { Component } from 'react';
 import { PriceType } from 'Type/ProductList';
 import PropTypes from 'prop-types';
+import TextPlaceholder from 'Component/TextPlaceholder';
 import './ProductPrice.style';
 
 /**
@@ -51,6 +52,15 @@ class ProductPrice extends Component {
 
     render() {
         const { price: { minimalPrice, regularPrice }, mix } = this.props;
+
+        if (!minimalPrice || !regularPrice) {
+            return (
+                <p block="ProductPrice" aria-label="Product Price" mix={ mix }>
+                    <TextPlaceholder />
+                </p>
+            );
+        }
+
         const minimalPriceValue = minimalPrice.amount.value;
         const regularPriceValue = regularPrice.amount.value;
         const discountPercentage = this.calculateDiscountPercentage(minimalPriceValue, regularPriceValue);
@@ -82,7 +92,7 @@ class ProductPrice extends Component {
 }
 
 ProductPrice.propTypes = {
-    price: PriceType.isRequired,
+    price: PriceType,
     mix: PropTypes.shape({
         block: PropTypes.string,
         elem: PropTypes.string,
@@ -91,7 +101,8 @@ ProductPrice.propTypes = {
 };
 
 ProductPrice.defaultProps = {
-    mix: {}
+    mix: {},
+    price: {}
 };
 
 export default ProductPrice;

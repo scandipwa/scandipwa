@@ -26,8 +26,8 @@ class Swatch extends Component {
     }
 
     componentDidMount() {
-        const { requestVar } = this.props;
-        if (requestVar === 'color') this.applyColorVariables();
+        const { requestVar, filterItem: { swatch_data } } = this.props;
+        if (swatch_data && requestVar === 'color') this.applyColorVariables();
     }
 
     applyColorVariables() {
@@ -55,6 +55,16 @@ class Swatch extends Component {
 
         const mods = { type: requestVar, isSelected };
 
+        if (!label) {
+            return (
+                <div
+                  block="Swatch"
+                  mods={ { ...mods, isPlaceholder: true } }
+                  mix={ { ...mix, mods } }
+                />
+            );
+        }
+
         return (
             <button
               ref={ this.swatchRef }
@@ -72,8 +82,8 @@ class Swatch extends Component {
 Swatch.propTypes = {
     onClick: PropTypes.func,
     isSelected: PropTypes.bool,
-    filterItem: PropTypes.objectOf(PropTypes.shape).isRequired,
-    requestVar: PropTypes.string.isRequired,
+    filterItem: PropTypes.objectOf(PropTypes.shape),
+    requestVar: PropTypes.string,
     mix: PropTypes.shape({
         block: PropTypes.string,
         elem: PropTypes.string,
@@ -84,7 +94,9 @@ Swatch.propTypes = {
 Swatch.defaultProps = {
     isSelected: false,
     onClick: () => {},
-    mix: {}
+    mix: {},
+    filterItem: {},
+    requestVar: 'default'
 };
 
 export default Swatch;
