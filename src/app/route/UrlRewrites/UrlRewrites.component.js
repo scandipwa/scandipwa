@@ -16,11 +16,10 @@ import ProductPage from 'Route/ProductPage';
 import CmsPage from 'Route/CmsPage';
 import NoMatch from 'Route/NoMatch';
 import { getUrlParam } from 'Util/Url';
-import BrowserDatabase from 'Util/BrowserDatabase';
 
-const type_product = 'PRODUCT';
-const type_cms_page = 'CMS_PAGE';
-const type_category = 'CATEGORY';
+const TYPE_PRODUCT = 'PRODUCT';
+const TYPE_CMS_PAGE = 'CMS_PAGE';
+const TYPE_CATEGORY = 'CATEGORY';
 class UrlRewrites extends Component {
     constructor() {
         super();
@@ -32,7 +31,7 @@ class UrlRewrites extends Component {
     }
 
     componentWillMount() {
-        const { type } = BrowserDatabase.getItem('actionName') || '';
+        const { type } = window.actionName || '';
 
         if (type && type !== 'NOT_FOUND') {
             this.setState({ placeholderType: type });
@@ -53,7 +52,7 @@ class UrlRewrites extends Component {
         const { props } = this;
 
         switch (type) {
-        case type_product:
+        case TYPE_PRODUCT:
             const newRoute = {
                 ...props,
                 location: {
@@ -63,9 +62,9 @@ class UrlRewrites extends Component {
 
             };
             return <ProductPage { ...newRoute } />;
-        case type_cms_page:
+        case TYPE_CMS_PAGE:
             return <CmsPage { ...props } cmsId={ id } />;
-        case type_category:
+        case TYPE_CATEGORY:
             return <CategoryPage { ...props } categoryIds={ id } />;
         default:
             return <NoMatch { ...props } />;

@@ -12,7 +12,7 @@
             const actionName = {
                     type: `<?php echo $this->action; ?>`
                 };
-            localStorage.setItem('actionName', JSON.stringify(actionName));
+            window.actionName = actionName;
         </script>
 
         <!-- TODO: Find or implement helper to generate fonts related code -->
