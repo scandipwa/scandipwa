@@ -107,11 +107,12 @@ class CheckoutShippingStep extends Component {
                 firstname,
                 lastname,
                 postcode,
-                region_code,
-                region_id,
+                region,
                 street,
                 telephone
             } = shippingAddress;
+
+            const { region_code, region_id } = region || shippingAddress;
 
             return {
                 city,
