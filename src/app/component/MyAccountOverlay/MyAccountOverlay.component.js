@@ -212,7 +212,7 @@ class MyAccountOverlay extends Component {
                   onSubmitSuccess={ fields => this.onForgotPasswordSuccess(fields) }
                   onSubmitError={ () => this.onFormError() }
                 >
-                    <Field type="text" id="email" label="Email" validation={ ['notEmpty', 'email'] } />
+                    <Field type="text" id="email" name="email" label="Email" validation={ ['notEmpty', 'email'] } />
                     <div block="MyAccountOverlay" elem="Buttons">
                         <button block="Button" type="submit" onClick={ this.handleForgotPasswordSuccess }>
                             Reset password
@@ -271,19 +271,6 @@ class MyAccountOverlay extends Component {
 
     renderCreateAccount() {
         const { state } = this.state;
-        const radioOptions = [
-            {
-                id: '4',
-                name: 'radio-buttons',
-                value: '42'
-            },
-            {
-                id: '5',
-                name: 'radio-buttons',
-                value: '24',
-                checked: true
-            }
-        ];
 
         return (
             <>
@@ -295,8 +282,20 @@ class MyAccountOverlay extends Component {
                 >
                     <fieldset block="MyAccountOverlay" elem="Legend">
                         <legend>Personal Information</legend>
-                        <Field type="text" label="First Name" id="firstname" name="firstname" validation={ ['notEmpty'] } />
-                        <Field type="text" label="Last Name" id="lastname" name="lastname" validation={ ['notEmpty'] } />
+                        <Field
+                          type="text"
+                          label="First Name"
+                          id="firstname"
+                          name="firstname"
+                          validation={ ['notEmpty'] }
+                        />
+                        <Field
+                          type="text"
+                          label="Last Name"
+                          id="lastname"
+                          name="lastname"
+                          validation={ ['notEmpty'] }
+                        />
                         <Field
                           block="MyAccountOverlay"
                           elem="Checkbox"
@@ -359,12 +358,14 @@ class MyAccountOverlay extends Component {
                       type="text"
                       label="Email or login"
                       id="email"
+                      name="email"
                       validation={ ['notEmpty', 'email'] }
                     />
                     <Field
                       type="password"
                       label="Password"
                       id="password"
+                      name="password"
                       validation={ ['notEmpty', 'password'] }
                     />
                     <div block="MyAccountOverlay" elem="Buttons">

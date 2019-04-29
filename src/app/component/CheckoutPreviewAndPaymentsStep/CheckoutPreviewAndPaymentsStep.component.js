@@ -314,7 +314,7 @@ class CheckoutPreviewAndPaymentsStep extends Component {
               type={ type }
               label={ label }
               note={ note }
-              name={ name }
+              name={ name || id }
               checked={ checked }
               options={ countryList }
               value={ overrideStateValue || stateValue || defaultValue }
@@ -448,24 +448,21 @@ class CheckoutPreviewAndPaymentsStep extends Component {
 
                 <fieldset>
                     <legend>Billing Address</legend>
-
                     { this.renderStateButton() }
 
                     { shippingAddress && !!Object.entries(shippingAddress).length && (
                         <Field
                           id="sameAsShippingAddress"
+                          name="sameAsShippingAddress"
                           type="checkbox"
                           label="My billing and shipping address are the same"
                           value={ billingIsSame }
                           checked={ billingIsSame }
-                          onChange={ (value) => {
-                              this.changeState(value ? STATE_SAME_ADDRESS : STATE_DEFAULT_ADDRESS, value);
-                          } }
-                        />)
-                     }
+                          onChange={ value => this.setState({ billingIsSame: value }) }
+                        />
+                    )}
 
                     { renderFunction() }
-
                 </fieldset>
 
                 <button type="submit" disabled={ !code }>Place Order</button>

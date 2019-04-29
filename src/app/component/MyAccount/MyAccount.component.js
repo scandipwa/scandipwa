@@ -229,7 +229,7 @@ class MyAccount extends Component {
                   onSubmitError={ () => this.onFormError() }
                 >
                     <h3>Get password reset link</h3>
-                    <Field type="text" label="Email" id="email" validation={ ['notEmpty', 'email'] } />
+                    <Field type="text" label="Email" id="email" name="email" validation={ ['notEmpty', 'email'] } />
                     <div block="MyAccount" elem="Buttons">
                         <button type="submit">Send reset link</button>
                     </div>
@@ -274,8 +274,20 @@ class MyAccount extends Component {
                     <h3>Create your account</h3>
                     <fieldset block="MyAccount" elem="Legend">
                         <legend>Personal Information</legend>
-                        <Field type="text" label="First name" id="firstname" validation={ ['notEmpty'] } />
-                        <Field type="text" label="Last name" id="lastname" validation={ ['notEmpty'] } />
+                        <Field
+                          type="text"
+                          label="First name"
+                          id="firstname"
+                          name="firstname"
+                          validation={ ['notEmpty'] }
+                        />
+                        <Field
+                          type="text"
+                          label="Last name"
+                          id="lastname"
+                          name="firstname"
+                          validation={ ['notEmpty'] }
+                        />
                         <Field
                           block="MyAccount"
                           elem="Checkbox"
@@ -285,21 +297,24 @@ class MyAccount extends Component {
                           checked={ isSubscribed }
                           value={ isSubscribed }
                           onChange={ value => this.setState({ isSubscribed: value }) }
+                          name="is_subscribed"
                         />
                     </fieldset>
                     <fieldset block="MyAccount" elem="Legend">
                         <legend>Sign-Up Information</legend>
-                        <Field type="text" label="Email" id="email" validation={ ['notEmpty', 'email'] } />
+                        <Field type="text" label="Email" id="email" name="email" validation={ ['notEmpty', 'email'] } />
                         <Field
                           type="password"
                           label="Password"
                           id="password"
+                          name="password"
                           validation={ ['notEmpty', 'password'] }
                         />
                         <Field
                           type="password"
                           label="Confirm password"
                           id="confirm_password"
+                          name="confirm_password"
                           validation={ ['notEmpty', 'password'] }
                         />
                     </fieldset>
@@ -337,12 +352,14 @@ class MyAccount extends Component {
                       type="text"
                       label="Login or Email"
                       id="email"
+                      name="email"
                       validation={ ['notEmpty', 'email'] }
                     />
                     <Field
                       type="password"
                       label="Password"
                       id="password"
+                      name="password"
                       validation={ ['notEmpty', 'password'] }
                     />
                     <div block="MyAccount" elem="Buttons">

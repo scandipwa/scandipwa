@@ -129,6 +129,7 @@ class CartItem extends Component {
                   block="CartItem"
                   elem="QtySelector"
                   id="QtySelector"
+                  name="QtySelector"
                   type="number"
                   value={ quantity }
                   onChange={ quantity => this.handleChangeQuantity(quantity) }

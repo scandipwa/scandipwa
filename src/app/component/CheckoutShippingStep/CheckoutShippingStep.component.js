@@ -325,6 +325,7 @@ class CheckoutShippingStep extends Component {
             label,
             note,
             defaultValue,
+            name,
             validation = ['notEmpty'],
             onChange = value => this.setState({ [id]: value }, this.handleFieldChange)
         } = this.fieldMap[id];
@@ -332,6 +333,7 @@ class CheckoutShippingStep extends Component {
         return (
             <Field
               id={ id }
+              name={ name || id }
               type={ type }
               label={ label }
               note={ note }

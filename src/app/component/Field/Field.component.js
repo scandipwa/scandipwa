@@ -40,8 +40,7 @@ class Field extends Component {
         const {
             type,
             min,
-            value: propsValue,
-            checked: isChecked
+            value: propsValue
         } = this.props;
 
         let value = propsValue;
@@ -58,7 +57,7 @@ class Field extends Component {
             }
         }
 
-        this.state = { value, isChecked };
+        this.state = { value };
 
         this.onChange = this.onChange.bind(this);
         this.onFocus = this.onFocus.bind(this);
