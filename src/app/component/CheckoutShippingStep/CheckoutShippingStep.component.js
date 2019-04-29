@@ -131,6 +131,8 @@ class CheckoutShippingStep extends Component {
             };
         }
 
+        if (isSignedIn) return { email };
+
         return null;
     }
 
