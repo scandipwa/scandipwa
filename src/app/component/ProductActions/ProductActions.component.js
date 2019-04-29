@@ -31,10 +31,49 @@ import './ProductActions.style';
  * @class ProductActions
  */
 class ProductActions extends Component {
+    constructor(props) {
+        super(props);
+
+        this.optionsInCurrentVariant = {};
+    }
+
     // TODO: make key=>value based
     getIsOptionInCurrentVariant(attribute, value) {
         const { configurableVariantIndex, product: { variants } } = this.props;
+        if (!variants) return false;
         return variants[configurableVariantIndex].product[attribute] === value;
+    }
+
+    changeConfigurableVariant(attributeCode, value) {
+        const {
+            product: {
+                variants,
+                configurable_options
+            },
+            updateConfigurableVariantIndex,
+            configurableVariantIndex
+        } = this.props;
+
+        const {
+            product: currentConfigurableVariant
+        } = variants[configurableVariantIndex];
+
+        const currentVariant = {
+            ...currentConfigurableVariant,
+            [attributeCode]: value
+        };
+
+        for (let i = 0; i < variants.length; i++) {
+            const { product } = variants[i];
+
+            const isCorrectVariant = configurable_options.every(({ attribute_code }) => (
+                product[attribute_code] === currentVariant[attribute_code]
+            ));
+
+            if (isCorrectVariant) return updateConfigurableVariantIndex(i);
+        }
+
+        return null;
     }
 
     renderRelatedProducts() {
@@ -130,9 +169,9 @@ class ProductActions extends Component {
     renderOtherOptions() {
         const { availableFilters } = this.props;
 
-        delete availableFilters.color;
-
         return Object.entries(availableFilters).map(([code, option]) => {
+            if (code === 'color') return null;
+
             const { label: optionLabel, values } = option;
 
             return (
@@ -146,6 +185,7 @@ class ProductActions extends Component {
                     { values.map(({ value, label, id }) => (
                         <Swatch
                           key={ id }
+                          onClick={ () => this.changeConfigurableVariant(code, id) }
                           mix={ { block: 'ProductActions', elem: 'TextOption' } }
                           isSelected={ this.getIsOptionInCurrentVariant(code, id) }
                           filterItem={ { label, swatch_data: { value } } }
@@ -171,7 +211,7 @@ class ProductActions extends Component {
                     )) }
                 </section>
             );
-        };
+        }
 
         const { values: colorOptions } = color;
 
@@ -180,6 +220,7 @@ class ProductActions extends Component {
                 { colorOptions.map(({ value, label, id }) => (
                     <Swatch
                       key={ id }
+                      onClick={ () => this.changeConfigurableVariant('color', id) }
                       isSelected={ this.getIsOptionInCurrentVariant('color', id) }
                       filterItem={ { label, swatch_data: { value } } }
                       requestVar="color"
@@ -207,10 +248,14 @@ class ProductActions extends Component {
 ProductActions.propTypes = {
     product: ProductType.isRequired,
     availableFilters: PropTypes.objectOf(PropTypes.shape).isRequired,
-    configurableVariantIndex: PropTypes.number.isRequired,
+    configurableVariantIndex: PropTypes.number,
     areDetailsLoaded: PropTypes.bool.isRequired,
-    updateConfigurableVariantIndex: PropTypes.func.isRequired,
-    groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired
+    updateConfigurableVariantIndex: PropTypes.func.isRequired
+    // groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired
+};
+
+ProductActions.defaultProps = {
+    configurableVariantIndex: 0
 };
 
 export default ProductActions;
