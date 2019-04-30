@@ -73,5 +73,61 @@
                 }
             }
         }
+
+        &_select {
+            select {
+                @include desktop {
+                    pointer-events: none;
+                }
+            }
+
+            .Select-OptionList {
+                display: none;
+
+                li {
+                    padding-left: 0;
+
+                    &::before {
+                        content: none;
+                    }
+                }
+
+                &_isExpanded {
+                    display: block;
+                }
+            }
+
+            label:last-of-type {
+                width: 0;
+                height: 0;
+                padding: 0;
+                font-weight: initial;
+                font-size: initial;
+        
+                &::after {
+                    content: '';
+                    display: block;
+                    width: 10px;
+                    height: 10px;
+                    transform: rotate(45deg);
+                    pointer-events: none;
+
+                    position: relative;
+                    left: 5.5rem;
+                    bottom: 2.1rem;
+        
+                    border-style: solid;
+                    border-color: red;
+                    border-width: 0 1px 1px 0;
+                }
+            }
+
+            select:active {
+                label:last-of-type::after {
+                    transform: rotate(-135deg);
+                    margin-top: 5px;
+                }
+            }
+        }
     }
 }

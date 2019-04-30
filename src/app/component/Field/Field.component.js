@@ -27,6 +27,7 @@ const RADIO_TYPE = 'radio';
 const CHECKBOX_TYPE = 'checkbox';
 const TEXTAREA_TYPE = 'textarea';
 const PASSWORD_TYPE = 'password';
+const SELECT_TYPE = 'select';
 
 /**
  * Input fields component
@@ -56,12 +57,16 @@ class Field extends Component {
             }
         }
 
-        this.state = { value };
+        this.state = {
+            value,
+            isSelectExpanded: false
+        };
 
         this.onChange = this.onChange.bind(this);
         this.onFocus = this.onFocus.bind(this);
         this.onKeyPress = this.onKeyPress.bind(this);
         this.onClick = this.onClick.bind(this);
+        this.handleSelectExpand = this.handleSelectExpand.bind(this);
     }
 
     /**
@@ -277,8 +282,10 @@ class Field extends Component {
     }
 
     static renderMultipleRadioButtons(radioOptions, fieldSetId, fieldSetName = null) {
+        const name = fieldSetName || fieldSetId;
+
         return (
-            <fieldset id={ fieldSetId } name={ fieldSetName || fieldSetId }>
+            <fieldset id={ fieldSetId } name={ name }>
                 { radioOptions.map((radioButton) => {
                     const {
                         id, name, value, disabled, checked, label
@@ -301,6 +308,61 @@ class Field extends Component {
         );
     }
 
+    renderSelectWithOptions() {
+        const {
+            name, id, selectOptions, formRef
+        } = this.props;
+        const { isSelectExpanded: isExpanded } = this.state;
+        const defaultValue = selectOptions.reduce((acc, option) => {
+            const { selected, value } = option;
+
+            if (selected) {
+                return value;
+            }
+            return null;
+        }, null);
+
+        return (
+            <>
+                <select
+                  ref={ formRef }
+                  name={ name }
+                  id={ id }
+                  defaultValue={ defaultValue }
+                  onClick={ this.handleSelectExpand }
+                >
+                    { selectOptions.map((option) => {
+                        const {
+                            id, value, disabled, label
+                        } = option;
+
+                        return (
+                            <option
+                              key={ id }
+                              id={ id }
+                              value={ value }
+                              disabled={ disabled }
+                              label={ label }
+                            />
+                        );
+                    }) }
+                </select>
+                <label htmlFor={ id } />
+                <ul block="Select" elem="OptionList" mods={ { isExpanded } }>
+                    { selectOptions.map((option) => {
+                        const {
+                            id, label
+                        } = option;
+
+                        return (
+                            <li key={ id }>{ label }</li>
+                        );
+                    }) }
+                </ul>
+            </>
+        );
+    }
+
     renderInputOfType(type) {
         switch (type) {
         case CHECKBOX_TYPE:
@@ -313,6 +375,8 @@ class Field extends Component {
             return this.renderTextarea();
         case PASSWORD_TYPE:
             return this.renderTypePassword();
+        case SELECT_TYPE:
+            return this.renderSelectWithOptions();
         default:
             return this.renderTypeText();
         }
@@ -350,7 +414,8 @@ Field.propTypes = {
         TEXTAREA_TYPE,
         PASSWORD_TYPE,
         RADIO_TYPE,
-        CHECKBOX_TYPE
+        CHECKBOX_TYPE,
+        SELECT_TYPE
     ]).isRequired,
     label: PropTypes.string,
     note: PropTypes.string,
@@ -367,6 +432,15 @@ Field.propTypes = {
         PropTypes.bool,
         PropTypes.string
     ]),
+    selectOptions: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.string,
+        value: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number
+        ]),
+        disabled: PropTypes.bool,
+        label: PropTypes.string
+    })),
     disabled: PropTypes.bool,
     onChange: PropTypes.func,
     onFocus: PropTypes.func,
