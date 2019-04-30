@@ -134,7 +134,8 @@ class AppRouter extends Component {
                 'footer-download-our-apps',
                 'footer-payment-options',
                 'footer-copyright-text',
-                'newsletter-signup'
+                'newsletter-signup',
+                'imagine-banner'
             ],
             fields: ['identifier']
         };

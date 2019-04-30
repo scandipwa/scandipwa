@@ -15,7 +15,8 @@ import { hideActiveOverlay } from 'Store/Overlay';
 import MenuOverlay from './MenuOverlay.component';
 
 const mapStateToProps = state => ({
-    menu: state.HeaderAndFooterReducer.menu
+    menu: state.HeaderAndFooterReducer.menu,
+    blocks: state.CmsBlocksAndSliderReducer.blocks
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -18,6 +18,7 @@ export const MenuItemType = PropTypes.shape({
     position: PropTypes.number,
     title: PropTypes.string,
     item_class: PropTypes.string,
+    icon: PropTypes.string,
     url: PropTypes.string,
     url_type: PropTypes.number,
     cms_page_identifier: PropTypes.string,
