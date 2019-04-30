@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import Image from 'Component/Image';
 import Overlay from 'Component/Overlay';
+import Html from 'Component/Html';
 import { MENU_SUBCATEGORY } from 'Component/Header';
+import { BlockListType } from 'Type/CMS';
 import { MenuType } from 'Type/Menu';
 import './MenuOverlay.style';
 
@@ -41,7 +44,7 @@ class MenuOverlay extends Component {
     }
 
     renderItemContent(item, itemMods = {}) {
-        const { title, item_id } = item;
+        const { title, item_id, icon } = item;
 
         return (
             <figure
@@ -49,13 +52,20 @@ class MenuOverlay extends Component {
               elem="ItemFigure"
               mods={ itemMods }
             >
+                <Image
+                  block="MenuOverlay"
+                  elem="Image"
+                  src={ `/media/${icon}` }
+                  ratio="16x9"
+                  mods={ itemMods }
+                />
                 <figcaption
                   id={ item_id }
                   block="MenuOverlay"
                   elem="ItemCaption"
                   mods={ itemMods }
                 >
-                  { title }
+                    { title }
                 </figcaption>
             </figure>
         );
@@ -92,6 +102,7 @@ class MenuOverlay extends Component {
         const childrenArray = Object.values(children);
         const isVisible = activeSubcategory === item_id;
         const subcategoryMods = { type: 'subcategory' };
+        const bannerMods = { type: 'banner' };
 
         return (
             <div
@@ -101,11 +112,14 @@ class MenuOverlay extends Component {
               mods={ { ...subcategoryMods, isVisible } }
             >
                 { childrenArray.map((item) => {
-                    const { url, item_id } = item;
+                    const { url, item_id, item_class } = item;
+                    const itemMods = item_class === 'MenuOverlay-Item_type_banner'
+                        ? bannerMods
+                        : subcategoryMods;
 
                     return (
                         <Link key={ item_id } to={ `/category${url}` } onClick={ this.closeMenuOverlay }>
-                            { this.renderItemContent(item, subcategoryMods) }
+                            { this.renderItemContent(item, itemMods) }
                         </Link>
                     );
                 }) }
@@ -126,18 +140,18 @@ class MenuOverlay extends Component {
 
         const mainMods = { type: 'main' };
         const trendingMods = { type: 'trending' };
+        const { blocks: { items } } = this.props;
+        const getContent = id => ((items && items[id]) ? items[id].content : '');
 
         return (
             <ul block="MenuOverlay" elem="Menu">
                 <li>
-                    <p
+                    <div
                       block="MenuOverlay"
                       elem="Banner"
                     >
-                        {/* TODO: remove hard-code */}
-                        Imagine 2019
-                        <strong>up to 20% off sale</strong>
-                    </p>
+                        <Html content={ getContent('imagine-banner') } />
+                    </div>
                     <ul
                       block="MenuOverlay"
                       elem="ItemList"
@@ -161,6 +175,26 @@ class MenuOverlay extends Component {
 
                         { this.renderItemList(trendingCategories, trendingMods) }
                     </ul>
+                    <div
+                      block="MenuOverlay"
+                      elem="HorizontalRule"
+                    />
+                    <h3>
+                        <Link to="/page/about-us" onClick={ this.closeMenuOverlay }>
+                            ABOUT US
+                        </Link>
+                    </h3>
+                    <h3>
+                        <Link to="/page/about-us" onClick={ this.closeMenuOverlay }>
+                            CONTACTS
+                        </Link>
+                    </h3>
+                    <div
+                      block="MenuOverlay"
+                      elem="Social"
+                    >
+                        <Html content={ getContent('footer-social-links') } />
+                    </div>
                 </li>
             </ul>
         );
@@ -179,6 +213,7 @@ class MenuOverlay extends Component {
 }
 
 MenuOverlay.propTypes = {
+    blocks: BlockListType.isRequired,
     menu: MenuType.isRequired,
     hideActiveOverlay: PropTypes.func.isRequired,
     goToPreviousHeaderState: PropTypes.func.isRequired,

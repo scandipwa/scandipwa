@@ -28,7 +28,7 @@ class MenuQuery {
             .addFieldList([
                 'item_id', 'is_active',
                 'parent_id', 'position', 'title',
-                'item_class', 'url', 'url_type',
+                'item_class', 'icon', 'url', 'url_type',
                 'cms_page_identifier', 'category_id'
             ]);
 
