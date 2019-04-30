@@ -6,8 +6,10 @@ import PropTypes from 'prop-types';
 import { history } from 'Route';
 import MenuOverlay from 'Component/MenuOverlay';
 import SearchOverlay from 'Component/SearchOverlay';
+import CartOverlay from 'Component/CartOverlay';
 import MyAccountOverlay from 'Component/MyAccountOverlay';
 import { setQueryParams } from 'Util/Url';
+import { TotalsType } from 'Type/MiniCart';
 import './Header.style';
 
 export const PDP = 'pdp';
@@ -18,6 +20,8 @@ export const MENU = 'menu';
 export const MENU_SUBCATEGORY = 'menu_subcategory';
 export const SEARCH = 'search';
 export const FILTER = 'filter';
+export const CART = 'cart';
+export const CART_EDITING = 'cart_editing';
 
 export const NAVIGATION_BACK = 'back';
 export const NAVIGATION_CLOSE = 'close';
@@ -31,7 +35,8 @@ class Header extends Component {
         this.routeMap = {
             '/': { name: HOME_PAGE },
             '/category': { name: CATEGORY, onBackClick: () => window.history.pushState({}, '', '/') },
-            '/product': { name: PDP, onBackClick: () => window.history.back() }
+            '/product': { name: PDP, onBackClick: () => window.history.back() },
+            '/cart': { name: CART }
         };
 
         this.stateMap = {
@@ -70,6 +75,16 @@ class Header extends Component {
                 search: true,
                 searchClear: true
             },
+            [CART]: {
+                close: true,
+                title: true,
+                edit: true
+            },
+            [CART_EDITING]: {
+                ok: true,
+                title: true,
+                cancel: true
+            },
             [FILTER]: {
                 close: true,
                 clear: true,
@@ -93,6 +108,10 @@ class Header extends Component {
         this.onMyAccountButtonClick = this.onMyAccountButtonClick.bind(this);
         this.onSearchBarChange = this.onSearchBarChange.bind(this);
         this.onClearButtonClick = this.onClearButtonClick.bind(this);
+        this.onEditButtonClick = this.onEditButtonClick.bind(this);
+        this.onMinicartButtonClick = this.onMinicartButtonClick.bind(this);
+        this.onOkButtonClick = this.onOkButtonClick.bind(this);
+        this.onCancelButtonClick = this.onCancelButtonClick.bind(this);
     }
 
     componentDidMount() {
@@ -194,6 +213,32 @@ class Header extends Component {
 
     onClearButtonClick() {
         setQueryParams({ customFilters: '' }, history.location, history);
+    }
+
+    onMinicartButtonClick() {
+        const { showOverlay } = this.props;
+
+        showOverlay(CART);
+    }
+
+    onEditButtonClick() {
+        const { headerState: { onEditClick } } = this.props;
+
+        if (onEditClick) onEditClick();
+    }
+
+    onOkButtonClick() {
+        const { headerState: { onOkClick }, goToPreviousHeaderState } = this.props;
+
+        if (onOkClick) onOkClick();
+        goToPreviousHeaderState();
+    }
+
+    onCancelButtonClick() {
+        const { headerState: { onCancelClick }, goToPreviousHeaderState } = this.props;
+
+        if (onCancelClick) onCancelClick();
+        goToPreviousHeaderState();
     }
 
     renderBackButton(isVisible = false) {
@@ -310,17 +355,21 @@ class Header extends Component {
     }
 
     renderMinicartButton(isVisible = false) {
-        const { cartItemQuantity } = this.props;
+        const { cartTotals: { count } } = this.props;
 
         return (
-            <button
-              block="Header"
-              elem="Button"
-              mods={ { isVisible, type: 'minicart' } }
-              aria-label="Minicart"
-            >
-                <span>{ cartItemQuantity }</span>
-            </button>
+            <>
+                <button
+                  block="Header"
+                  elem="Button"
+                  mods={ { isVisible, type: 'minicart' } }
+                  onClick={ this.onMinicartButtonClick }
+                  aria-label="Minicart"
+                >
+                    <span aria-label="Items in cart">{ count }</span>
+                </button>
+                <CartOverlay />
+            </>
         );
     }
 
@@ -336,26 +385,61 @@ class Header extends Component {
         );
     }
 
+    renderEditButton(isVisible = false) {
+        return (
+            <button
+              block="Header"
+              elem="Button"
+              mods={ { type: 'edit', isVisible } }
+              onClick={ this.onEditButtonClick }
+              aria-label="Clear"
+            />
+        );
+    }
+
+    renderOkButton(isVisible = false) {
+        return (
+            <button
+              block="Header"
+              elem="Button"
+              mods={ { type: 'ok', isVisible } }
+              onClick={ this.onOkButtonClick }
+              aria-label="Save changes"
+            >
+                OK
+            </button>
+        );
+    }
+
+    renderCancelButton(isVisible = false) {
+        return (
+            <button
+              block="Header"
+              elem="Button"
+              mods={ { type: 'cancel', isVisible } }
+              onClick={ this.onCancelButtonClick }
+              aria-label="Cancel changes"
+            >
+                Cancel
+            </button>
+        );
+    }
+
     renderHeaderState(state) {
         const source = this.stateMap[state]
             ? this.stateMap[state]
             : this.stateMap[HOME_PAGE];
 
         const {
-            back,
-            close,
-            title,
-            minicart,
-            account,
-            menu,
-            logo,
-            search,
-            searchClear,
-            clear
+            back, close, title, minicart,
+            account, menu, logo, search,
+            searchClear, clear, edit,
+            ok, cancel
         } = source;
 
         return (
             <>
+                { this.renderCancelButton(cancel) }
                 { this.renderBackButton(back) }
                 { this.renderCloseButton(close) }
                 { this.renderMenuButton(menu) }
@@ -365,6 +449,8 @@ class Header extends Component {
                 { this.renderAccountButton(account) }
                 { this.renderMinicartButton(minicart) }
                 { this.renderClearButton(clear) }
+                { this.renderEditButton(edit) }
+                { this.renderOkButton(ok) }
             </>
         );
     }
@@ -396,17 +482,18 @@ Header.propTypes = {
             MENU,
             MENU_SUBCATEGORY,
             SEARCH,
-            FILTER
+            FILTER,
+            CART,
+            CART_EDITING
         ]),
         title: PropTypes.string,
         onBackClick: PropTypes.func,
-        onCloseClick: PropTypes.func
+        onCloseClick: PropTypes.func,
+        onEditClick: PropTypes.func,
+        onOkClick: PropTypes.func,
+        onCancelClick: PropTypes.func
     }).isRequired,
-    cartItemQuantity: PropTypes.number
-};
-
-Header.defaultProps = {
-    cartItemQuantity: 0
+    cartTotals: TotalsType.isRequired
 };
 
 export default Header;
