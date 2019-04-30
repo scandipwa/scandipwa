@@ -164,7 +164,8 @@ class Image extends Component {
             ratio,
             arePlaceholdersShown,
             showGreyPlaceholder,
-            objectFit
+            objectFit,
+            mix
         } = this.props;
 
         const isPathRelative = (path) => {
@@ -186,7 +187,7 @@ class Image extends Component {
                   isLoaded: isImageLoaded || (isIcon && isPlacehodlerLoaded),
                   isReal: !!src && !showGreyPlaceholder
               } }
-              mix={ { block, elem, mods } }
+              mix={ mix }
               ref={ (node) => { this.node = node; } }
               onLoad={ img => this.onImageLoad(img) }
             >

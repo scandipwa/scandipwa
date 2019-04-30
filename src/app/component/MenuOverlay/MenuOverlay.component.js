@@ -53,11 +53,9 @@ class MenuOverlay extends Component {
               mods={ itemMods }
             >
                 <Image
-                  block="MenuOverlay"
-                  elem="Image"
+                  mix={ { block: 'MenuOverlay', elem: 'Image', mods: itemMods } }
                   src={ `/media/${icon}` }
                   ratio="16x9"
-                  mods={ itemMods }
                 />
                 <figcaption
                   id={ item_id }
