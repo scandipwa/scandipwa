@@ -10,6 +10,7 @@
  */
 
 import BrowserDatabase from 'Util/BrowserDatabase';
+import { getProductPrice } from 'Util/Price';
 import {
     ADD_PRODUCT_TO_CART,
     UPDATE_TOTALS,
@@ -18,6 +19,35 @@ import {
 } from './Cart.action';
 
 export const PRODUCTS_IN_CART = 'cart_products';
+
+const calculateTotals = (products) => {
+    // TODO: Override to get product prices from server (in case price have changed)
+    let subTotalPrice = 0;
+    let taxPrice = 0;
+    let count = 0;
+    let grandTotalPrice = 0;
+
+    if (products) {
+        Object.keys(products).forEach((key) => {
+            const prices = getProductPrice(products[key]);
+            const { quantity } = products[key];
+
+            count += quantity;
+            subTotalPrice += (prices.subTotalPrice * quantity);
+            taxPrice += (prices.taxPrice * quantity);
+        });
+    }
+    grandTotalPrice = (subTotalPrice + taxPrice).toFixed(2);
+    subTotalPrice = subTotalPrice.toFixed(2);
+    taxPrice = taxPrice.toFixed(2);
+
+    return {
+        subTotalPrice,
+        count,
+        grandTotalPrice,
+        taxPrice
+    };
+};
 
 const getProductId = ({ id, variants, configurableVariantIndex }) => (
     typeof configurableVariantIndex === 'number'
@@ -37,7 +67,7 @@ const addProductToCart = (action, state) => {
 
     BrowserDatabase.setItem(newProductsInCart, PRODUCTS_IN_CART);
 
-    return { productsInCart: newProductsInCart };
+    return { productsInCart: newProductsInCart, cartTotals: calculateTotals(newProductsInCart) };
 };
 
 const removeProductFromCart = (action, state) => {
@@ -51,7 +81,7 @@ const removeProductFromCart = (action, state) => {
         PRODUCTS_IN_CART
     );
 
-    return { productsInCart: newProductsInCart };
+    return { productsInCart: newProductsInCart, cartTotals: calculateTotals(newProductsInCart) };
 };
 
 const updateCartTotals = (action) => {
@@ -67,12 +97,12 @@ const updateAllProductsInCart = (action) => {
         PRODUCTS_IN_CART
     );
 
-    return { productsInCart: products };
+    return { productsInCart: products, cartTotals: calculateTotals(products) };
 };
 
 const initialState = {
     productsInCart: BrowserDatabase.getItem(PRODUCTS_IN_CART) || {},
-    cartTotals: {}
+    cartTotals: calculateTotals(BrowserDatabase.getItem(PRODUCTS_IN_CART)) || {}
 };
 
 const CartReducer = (state = initialState, action) => {

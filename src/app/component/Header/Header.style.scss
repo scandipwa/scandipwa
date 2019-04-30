@@ -6,219 +6,6 @@
 	--header-search-clear-background: #838383;
 }
 
-@mixin clear-button {
-	&::before,
-	&::after {
-		content: '';
-		position: absolute;
-	}
-
-	&::before {
-		top: 12px;
-		left: 12px;
-		width: 10px;
-		height: 14px;
-		transform: perspective(10px) rotateX(-10deg);
-		border: {
-			left: 1px solid var(--header-color);
-			right: 1px solid var(--header-color);
-			bottom: 1px solid var(--header-color);
-			bottom-left-radius: 3px;
-			bottom-right-radius: 3px;
-		}
-	}
-
-	&::after {
-		left: 14px;
-		top: 7px;
-		width: 6px;
-		height: 2px;
-		border: {
-			left: 1px solid var(--header-color);
-			right: 1px solid var(--header-color);
-			top: 1px solid var(--header-color);
-			top-left-radius: 2px;
-			top-right-radius: 2px;
-		};
-		box-shadow:
-			6px 2px 0 -1px var(--header-color),
-			-6px 2px 0 -1px var(--header-color),
-			-2px 2px 0 -1px var(--header-color),
-			2px 2px 0 -1px var(--header-color);
-	}
-}
-
-@mixin close-button {
-	&::before,
-	&::after {
-		content: '';
-		position: absolute;
-		width: 1px;
-		height: 20px;
-		transform-origin: 50% 50%;
-		top: 7px;
-		transform: rotate(-45deg);
-		background-color: var(--header-color);
-	}
-
-	&::after {
-		transform: rotate(45deg);
-	}
-}
-
-@mixin back-button {
-	&::before,
-	&::after {
-		content: '';
-		position: absolute;
-	}
-
-	&::before {
-		width: 18px;
-		height: 1px;
-		top: 17px;
-		right: 8px;
-		background-color: var(--header-color);
-	}
-
-	&::after {
-		width: 8px;
-		height: 8px;
-		top: 13px;
-		left: 10px;
-		transform: rotate(-45deg);
-
-		border: {
-			top: 1px solid var(--header-color);
-			left: 1px solid var(--header-color);
-		}
-	}
-}
-
-@mixin menu-button {
-	&::before,
-	&::after {
-		content: '';
-		position: absolute;
-	}
-
-	&::after {
-		width: 7px;
-		height: 1px;
-		top: 12px;
-		left: 8px;
-		background-color: var(--header-color);
-		box-shadow:
-			3px 0 0 0 var(--header-color),
-			0 6px 0 0 var(--header-color),
-			2px 6px 0 0 var(--header-color),
-			0 12px 0 0 var(--header-color),
-			6px 12px 0 0 var(--header-color),
-			10px 12px 0 0 var(--header-color);
-	}
-
-	&::before {
-		width: 10px;
-		height: 10px;
-		border: 1px solid var(--header-color);
-		border-radius: 50%;
-		top: 10px;
-		right: 4px;
-		box-shadow:
-			4px 4px 0 -5px var(--header-color),
-			5px 5px 0 -5px var(--header-color),
-			6px 6px 0 -5px var(--header-color),
-			7px 7px 0 -5px var(--header-color),
-			8px 8px 0 -5px var(--header-color);
-	}
-}
-
-@mixin account-button {
-	&::before,
-	&::after {
-		content: '';
-		position: absolute;
-	}
-
-	&::before {
-		width: 7px;
-		height: 7px;
-		border: 1px solid var(--header-color);
-		border-radius: 50%;
-		top: 9px;
-		right: 0;
-		left: 0;
-		margin: auto;
-		box-shadow:
-			0 14px 0 3px var(--header-background),
-			0 14px 0 4px var(--header-color);
-	}
-
-	&::after {
-		background-color: var(--header-background);
-		bottom: -1px;
-		left: 0;
-		height: 10px;
-		width: 100%;
-	}
-}
-
-@mixin minicart-button {
-	&::before,
-	&::after {
-		content: '';
-		position: absolute;
-	}
-
-	&::before {
-		border: 1px solid var(--header-color);
-		border-radius: 1px;
-		width: 10px;
-		height: 14px;
-		top: 11px;
-		right: 10px;
-	}
-
-	&::after {
-		border: {
-			top: 1px solid var(--header-color);
-			left: 1px solid var(--header-color);
-			right: 1px solid var(--header-color);
-			top-right-radius: 2px;
-			top-left-radius: 2px;
-		};
-		width: 6px;
-		height: 5px;
-		right: 12px;
-		top: 8px;
-	}
-
-	span {
-		left: -12px;
-	}
-}
-
-@mixin clear-search-button {
-	@include close-button;
-
-	border-radius: 50%;
-	background-color: var(--header-search-clear-background);
-
-	height: 15px;
-    width: 15px;
-	position: absolute;
-	right: 1.8rem;
-
-	&::before,
-	&::after {
-		height: 9px;
-		width: 1px;
-		top: 3px;
-		left: 7px;
-		background-color: var(--header-background);
-	}
-}
-
 .Header {
 	position: fixed;
 	top: 0;
@@ -251,6 +38,7 @@
 			padding: 7.5px;
 			width: 35px;
 			pointer-events: all;
+			overflow: visible;
 
 			&::before,
 			&::after {
@@ -285,6 +73,16 @@
 
 			&_clear {
 				@include clear-button;
+			}
+
+			&_edit {
+				@include edit-button;
+			}
+
+			&_ok,
+			&_cancel {
+				font-size: 14px;
+				opacity: .5;
 			}
 		}
 	}

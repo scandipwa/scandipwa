@@ -4,7 +4,8 @@ import { changeHeaderState, goToPreviousHeaderState } from 'Store/Header';
 import HeaderComponent from './Header.component';
 
 const mapStateToProps = state => ({
-    headerState: state.HeaderReducer.headerState
+    headerState: state.HeaderReducer.headerState,
+    cartTotals: state.CartReducer.cartTotals
 });
 
 const mapDispatchToProps = dispatch => ({
