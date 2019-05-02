@@ -366,6 +366,7 @@ class Field extends Component {
                   id={ id }
                   tabIndex="0"
                   defaultValue={ defaultValue }
+                  onChange={ this.onChange }
                 >
                     { selectOptions.map((option) => {
                         const {
