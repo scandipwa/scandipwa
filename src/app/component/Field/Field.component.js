@@ -337,17 +337,20 @@ class Field extends Component {
 
     renderSelectWithOptions() {
         const {
-            name, id, selectOptions, formRef
+            name, id, selectOptions, formRef, placeholder
         } = this.props;
         const { isSelectExpanded: isExpanded } = this.state;
-        const defaultValue = selectOptions.reduce((acc, option) => {
+        let defaultValue = '';
+
+        selectOptions.map((option) => {
             const { selected, value } = option;
 
             if (selected) {
-                return value;
+                defaultValue = value;
             }
+
             return null;
-        }, null);
+        });
 
         return (
             <>
@@ -368,6 +371,7 @@ class Field extends Component {
                   defaultValue={ defaultValue }
                   onChange={ this.onChange }
                 >
+                    <option value="" label={ placeholder } disabled />
                     { selectOptions.map((option) => {
                         const {
                             id, value, disabled, label

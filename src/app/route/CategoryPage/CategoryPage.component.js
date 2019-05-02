@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import CategoryProductList from 'Component/CategoryProductList';
 import ContentWrapper from 'Component/ContentWrapper';
 import CategoryDetails from 'Component/CategoryDetails';
-import ProductSort from 'Component/ProductSort';
+import CategorySort from 'Component/CategorySort';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import CategoryFilterOverlay from 'Component/CategoryFilterOverlay';
 import Meta from 'Component/Meta';
@@ -397,8 +397,8 @@ class CategoryPage extends Component {
                     />
                     <aside block="CategoryPage" elem="Miscellaneous">
                         { this.renderItemCount() }
-                        <ProductSort
-                          onGetKey={ key => this.onGetKey(key) }
+                        <CategorySort
+                          onGetSortKey={ key => this.onGetSortKey(key) }
                           onGetSortDirection={ direction => this.onGetSortDirection(direction) }
                           sortFields={ !isLoading && updatedSortFields }
                           value={ sortKey }
