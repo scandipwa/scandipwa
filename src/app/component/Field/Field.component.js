@@ -67,6 +67,7 @@ class Field extends Component {
         this.onKeyPress = this.onKeyPress.bind(this);
         this.onClick = this.onClick.bind(this);
         this.handleSelectExpand = this.handleSelectExpand.bind(this);
+        this.handleSelectListOptionClick = this.handleSelectListOptionClick.bind(this);
     }
 
     /**
@@ -128,6 +129,19 @@ class Field extends Component {
             if (onChange) onChange(value);
             this.setState({ value });
         }
+    }
+
+    handleSelectExpand() {
+        this.setState(state => ({ isSelectExpanded: !state.isSelectExpanded }));
+    }
+
+    handleSelectListOptionClick(event) {
+        const { target: { value } } = event;
+        const { formRef } = this.props;
+
+        formRef.current.value = value;
+
+        this.handleSelectExpand();
     }
 
     renderTextarea() {
@@ -324,12 +338,21 @@ class Field extends Component {
 
         return (
             <>
+            <div
+              block="Select"
+              elem="Wrapper"
+              onClick={ this.handleSelectExpand }
+              onKeyPress={ this.handleSelectExpand }
+              role="menu"
+              tabIndex="0"
+              aria-expanded={ isExpanded }
+            >
                 <select
                   ref={ formRef }
                   name={ name }
                   id={ id }
+                  tabIndex="0"
                   defaultValue={ defaultValue }
-                  onClick={ this.handleSelectExpand }
                 >
                     { selectOptions.map((option) => {
                         const {
@@ -347,18 +370,40 @@ class Field extends Component {
                         );
                     }) }
                 </select>
-                <label htmlFor={ id } />
-                <ul block="Select" elem="OptionList" mods={ { isExpanded } }>
-                    { selectOptions.map((option) => {
-                        const {
-                            id, label
-                        } = option;
+            </div>
+            <label
+              htmlFor={ id }
+              block="Select"
+              mods={ { isExpanded } }
+            />
+            <ul
+              id="optionlist"
+              block="Select"
+              elem="OptionList"
+              mods={ { isExpanded } }
+            >
+                { selectOptions.map((option) => {
+                    const {
+                        id, label, value
+                    } = option;
 
-                        return (
-                            <li key={ id }>{ label }</li>
-                        );
-                    }) }
-                </ul>
+                    return (
+                        <li
+                          block="Select"
+                          elem="OptionList-Item"
+                          mods={ { isExpanded } }
+                          key={ id }
+                          value={ value }
+                          role="menuitem"
+                          onClick={ this.handleSelectListOptionClick }
+                          onKeyPress={ this.handleSelectListOptionClick }
+                          tabIndex={ isExpanded ? '0' : '-1' }
+                        >
+                            { label }
+                        </li>
+                    );
+                }) }
+            </ul>
             </>
         );
     }
