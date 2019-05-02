@@ -9,6 +9,39 @@
 .SearchOverlay {
     --placeholder-animation: placeholderAnimation 2s linear infinite, appear 200ms forwards;
 
+    @include after-mobile {
+        transition-property: width, opacity, transform, border-color;
+        transition-duration: 200ms;
+        transform-origin: 0 0;
+        transform: scaleY(0);
+        will-change: width, transform, border;
+        width: var(--header-desktop-search-bar-width);
+        max-width: var(--header-desktop-search-bar-max-width);
+        text-align: left;
+        top: calc(100% - 1px);
+        right: 0;
+        border-width: 0 1px 1px;
+        border-style: solid;
+        border-color: transparent;
+    }
+
+    &_isVisible {
+        @include after-mobile {
+            transform: scaleY(1);
+            border-color: var(--header-search-field-border-color);
+        }
+    }
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 1px;
+        width: calc(100% - 2px);
+        height: 1px;
+        background-color: var(--search-criteria-background);
+    }
+
     &-Criteria {
         margin-bottom: 0;
         background-color: var(--search-criteria-background);
@@ -86,14 +119,21 @@
     &-Title {
         color: var(--search-item-title-color);
         font-size: 1.2rem;
-
         max-width: calc(100vw - 7rem);
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: nowrap;
+
+        @include after-mobile {
+            max-width: calc(100% - 7rem);
+        }
     }
 
     a {
         color: inherit;
+
+        &:hover {
+            text-decoration: none;
+        }
     }
 }

@@ -23,10 +23,10 @@
     overflow: hidden;
     touch-action: pan-y;
 
-    height: var(--slider-height);
     transition: height 300ms;
 
     &_isVertical {
+        height: var(--slider-height);
         touch-action: pan-x;
     }
 

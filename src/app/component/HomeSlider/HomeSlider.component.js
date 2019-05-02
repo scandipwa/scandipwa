@@ -39,6 +39,7 @@ class HomeSlider extends Component {
             >
                 { gallery.map((({ image }, i) => (
                     <Image
+                      mix={ { block: 'HomeSlider', elem: 'Image' } }
                       objectFit="cover"
                       ratio="16x9"
                       src={ image }

@@ -72,8 +72,12 @@ class SearchOverlay extends Component {
                           alt={ `Product ${name} thumbnail.` }
                         />
                         <figcaption block="SearchOverlay" elem="Content">
-                            <p block="SearchOverlay" elem="Brand"><TextPlaceholder content={ brand } /></p>
-                            <h4 block="SearchOverlay" elem="Title"><TextPlaceholder content={ name } length="long" /></h4>
+                            <p block="SearchOverlay" elem="Brand">
+                                <TextPlaceholder content={ brand } />
+                            </p>
+                            <h4 block="SearchOverlay" elem="Title">
+                                <TextPlaceholder content={ name } length="long" />
+                            </h4>
                         </figcaption>
                     </figure>
                 </Link>

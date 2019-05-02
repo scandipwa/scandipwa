@@ -8,8 +8,10 @@ import MenuOverlay from 'Component/MenuOverlay';
 import SearchOverlay from 'Component/SearchOverlay';
 import CartOverlay from 'Component/CartOverlay';
 import MyAccountOverlay from 'Component/MyAccountOverlay';
-import { setQueryParams } from 'Util/Url';
+import ClickOutside from 'Component/ClickOutside';
 import { TotalsType } from 'Type/MiniCart';
+import { setQueryParams } from 'Util/Url';
+import isMobile from 'Util/Mobile';
 import './Header.style';
 
 export const PDP = 'pdp';
@@ -112,6 +114,10 @@ class Header extends Component {
         this.onMinicartButtonClick = this.onMinicartButtonClick.bind(this);
         this.onOkButtonClick = this.onOkButtonClick.bind(this);
         this.onCancelButtonClick = this.onCancelButtonClick.bind(this);
+        this.onSearchOutsideClick = this.onSearchOutsideClick.bind(this);
+        this.onMenuOutsideClick = this.onMenuOutsideClick.bind(this);
+        this.onMyAccountOutsideClick = this.onMyAccountOutsideClick.bind(this);
+        this.onMinicartOutsideClick = this.onMinicartOutsideClick.bind(this);
     }
 
     componentDidMount() {
@@ -168,6 +174,17 @@ class Header extends Component {
         goToPreviousHeaderState();
     }
 
+    onSearchOutsideClick() {
+        const { goToPreviousHeaderState, hideActiveOverlay, headerState: { name } } = this.props;
+
+        if (name !== SEARCH || isMobile.any()) return;
+
+        this.setState({ searchCriteria: '' });
+
+        hideActiveOverlay();
+        goToPreviousHeaderState();
+    }
+
     onSearchBarClick() {
         const {
             setHeaderState,
@@ -198,17 +215,42 @@ class Header extends Component {
     }
 
     onMenuButtonClick() {
-        const { showOverlay, setHeaderState } = this.props;
+        const { showOverlay, setHeaderState, headerState: { name } } = this.props;
 
-        showOverlay(MENU);
-        setHeaderState({ name: MENU });
+        if (name !== MENU) {
+            showOverlay(MENU);
+            setHeaderState({ name: MENU });
+        }
+    }
+
+    onMenuOutsideClick() {
+        const { goToPreviousHeaderState, hideActiveOverlay, headerState: { name } } = this.props;
+
+        if (isMobile.any()) return;
+
+        if (name === MENU || name === MENU_SUBCATEGORY) {
+            if (name === MENU_SUBCATEGORY) goToPreviousHeaderState();
+            goToPreviousHeaderState();
+            hideActiveOverlay();
+        }
     }
 
     onMyAccountButtonClick() {
-        const { showOverlay, setHeaderState } = this.props;
+        const { showOverlay, setHeaderState, headerState: { name } } = this.props;
 
-        showOverlay(CUSTOMER_ACCOUNT);
-        setHeaderState({ name: CUSTOMER_ACCOUNT, title: 'Sign in' });
+        if (name !== CUSTOMER_ACCOUNT) {
+            showOverlay(CUSTOMER_ACCOUNT);
+            setHeaderState({ name: CUSTOMER_ACCOUNT, title: 'Sign in' });
+        }
+    }
+
+    onMyAccountOutsideClick() {
+        const { goToPreviousHeaderState, hideActiveOverlay, headerState: { name } } = this.props;
+
+        if (isMobile.any() || name !== CUSTOMER_ACCOUNT) return;
+
+        goToPreviousHeaderState();
+        hideActiveOverlay();
     }
 
     onClearButtonClick() {
@@ -219,6 +261,15 @@ class Header extends Component {
         const { showOverlay } = this.props;
 
         showOverlay(CART);
+    }
+
+    onMinicartOutsideClick() {
+        const { goToPreviousHeaderState, hideActiveOverlay, headerState: { name } } = this.props;
+
+        if (isMobile.any() || name !== CART) return;
+
+        goToPreviousHeaderState();
+        hideActiveOverlay();
     }
 
     onEditButtonClick() {
@@ -267,16 +318,18 @@ class Header extends Component {
 
     renderMenuButton(isVisible = false) {
         return (
-            <>
-                <button
-                  block="Header"
-                  elem="Button"
-                  mods={ { isVisible, type: 'menu' } }
-                  aria-label="Go to menu and search"
-                  onClick={ this.onMenuButtonClick }
-                />
-                <MenuOverlay />
-            </>
+            <ClickOutside onClick={ this.onMenuOutsideClick }>
+                <div>
+                    <button
+                      block="Header"
+                      elem="Button"
+                      mods={ { isVisible, type: 'menu' } }
+                      aria-label="Go to menu and search"
+                      onClick={ this.onMenuButtonClick }
+                    />
+                    <MenuOverlay />
+                </div>
+            </ClickOutside>
         );
     }
 
@@ -285,22 +338,24 @@ class Header extends Component {
 
         return (
             <>
-                <div block="Header" elem="SearchWrapper">
-                    <input
-                      ref={ this.searchBarRef }
-                      placeholder="Search"
-                      aria-label="Search field"
-                      block="Header"
-                      elem="SearchField"
-                      onClick={ this.onSearchBarClick }
-                      onChange={ this.onSearchBarChange }
-                      value={ searchCriteria }
-                      mods={ {
-                          isVisible: isSearchVisible,
-                          type: 'searchField'
-                      } }
-                    />
-                </div>
+                <ClickOutside onClick={ this.onSearchOutsideClick }>
+                    <div block="Header" elem="SearchWrapper" aria-label="Product Search">
+                            <input
+                              ref={ this.searchBarRef }
+                              placeholder="Type a new search"
+                              block="Header"
+                              elem="SearchField"
+                              onClick={ this.onSearchBarClick }
+                              onChange={ this.onSearchBarChange }
+                              value={ searchCriteria }
+                              mods={ {
+                                  isVisible: isSearchVisible,
+                                  type: 'searchField'
+                              } }
+                            />
+                            <SearchOverlay searchCriteria={ searchCriteria } />
+                    </div>
+                </ClickOutside>
                 <button
                   block="Header"
                   elem="Button"
@@ -311,7 +366,6 @@ class Header extends Component {
                   } }
                   aria-label="Clear search"
                 />
-                <SearchOverlay searchCriteria={ searchCriteria } />
             </>
         );
     }
@@ -341,16 +395,17 @@ class Header extends Component {
 
     renderAccountButton(isVisible = false) {
         return (
-            <>
-                <button
-                  block="Header"
-                  elem="Button"
-                  mods={ { isVisible, type: 'account' } }
-                  onClick={ this.onMyAccountButtonClick }
-                  aria-label="My account"
-                />
-                <MyAccountOverlay />
-            </>
+            <ClickOutside onClick={ this.onMyAccountOutsideClick }>
+                <div aria-label="My account">
+                    <button
+                      block="Header"
+                      elem="Button"
+                      mods={ { isVisible, type: 'account' } }
+                      onClick={ this.onMyAccountButtonClick }
+                    />
+                    <MyAccountOverlay />
+                </div>
+            </ClickOutside>
         );
     }
 
@@ -358,18 +413,20 @@ class Header extends Component {
         const { cartTotals: { count } } = this.props;
 
         return (
-            <>
-                <button
-                  block="Header"
-                  elem="Button"
-                  mods={ { isVisible, type: 'minicart' } }
-                  onClick={ this.onMinicartButtonClick }
-                  aria-label="Minicart"
-                >
-                    <span aria-label="Items in cart">{ count }</span>
-                </button>
-                <CartOverlay />
-            </>
+            <ClickOutside onClick={ this.onMinicartOutsideClick }>
+                <div>
+                    <button
+                    block="Header"
+                    elem="Button"
+                    mods={ { isVisible, type: 'minicart' } }
+                    onClick={ this.onMinicartButtonClick }
+                    aria-label="Minicart"
+                    >
+                        <span aria-label="Items in cart">{ count }</span>
+                    </button>
+                    <CartOverlay />
+                </div>
+            </ClickOutside>
         );
     }
 
@@ -459,7 +516,7 @@ class Header extends Component {
         const { headerState: { name } } = this.props;
 
         return (
-            <header block="Header">
+            <header block="Header" mods={ { name } }>
                 <nav block="Header" elem="Nav">
                     { this.renderHeaderState(name) }
                 </nav>

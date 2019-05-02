@@ -5,26 +5,29 @@
 
 .Overlay {
     pointer-events: none;
-    z-index: 10;
-
-    opacity: 0;
-    border-top: 1px solid var(--overlay-divider-color);
-    background-color: var(--overlay-background);
-    position: fixed;
-    top: 50px;
-    left: 0;
-    width: 100%;
-    height: calc(100% - 50px);
-    overflow: scroll;
-    max-width: 100%;
-    overflow-x: hidden;
-    // transition: opacity 200ms ease-in;
     will-change: opacity;
+    z-index: 10;
+    opacity: 0;
 
-    -webkit-overflow-scrolling: touch;
+    background-color: var(--overlay-background);
 
-    &_isInstant {
-        transition: none;
+    @include mobile {
+        -webkit-overflow-scrolling: touch;
+
+        border-top: 1px solid var(--overlay-divider-color);
+        position: fixed;
+        top: 50px;
+        left: 0;
+        width: 100%;
+        height: calc(100% - 50px);
+        overflow: scroll;
+        overflow-x: hidden;
+        max-width: 100%;
+    }
+
+    @include after-mobile {
+        position: absolute;
+        transition: opacity 200ms;
     }
 
     &_isVisible {

@@ -9,8 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+:root {
+    --content-wrapper-width: 1400px;
+}
+
 .ContentWrapper {
-    max-width: 1200px;
+    max-width: var(--content-wrapper-width);
     padding: {
         left: 1rem;
         right: 1rem;

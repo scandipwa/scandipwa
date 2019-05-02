@@ -2,8 +2,69 @@
 	--header-background: #fff;
 	--header-color: #000;
 	--header-search-field-background: #f3f3f3;
+	--header-search-field-visible-background: #fff;
 	--header-search-field-color: #6e6e6e;
 	--header-search-clear-background: #838383;
+	--header-search-field-border-color: #f26323;
+	--header-desktop-search-bar-width: 270px;
+	--header-desktop-search-bar-max-width: 450px;
+	--header-desktop-button-color: #f26323;
+}
+
+@mixin button-invisible {
+	opacity: 0;
+	padding: 0;
+	width: 0;
+	pointer-events: none;
+	overflow: hidden;
+}
+
+@mixin button-visible {
+	opacity: 1;
+	padding: 7.5px;
+	width: 35px;
+	pointer-events: all;
+	overflow: visible;
+}
+
+@mixin search-bar-visible {
+	opacity: 1;
+	border-color: transparent;
+	border-width: 1px;
+	padding: {
+		top: 4px;
+		bottom: 5px;
+		left: 10px;
+	};
+
+	@include mobile {
+		max-width: 100%;
+	}
+}
+
+@mixin logo-visible {
+	opacity: 1;
+	max-width: 100%;
+}
+
+@mixin search-icon-input {
+	&::before {
+		content: '';
+		position: absolute;
+		z-index: 1;
+		width: 10px;
+		height: 10px;
+		border: 1px solid var(--header-search-field-color);
+		border-radius: 50%;
+		top: 7px;
+		right: 17px;
+		box-shadow:
+			4px 4px 0 -5px var(--header-search-field-color),
+			5px 5px 0 -5px var(--header-search-field-color),
+			6px 6px 0 -5px var(--header-search-field-color),
+			7px 7px 0 -5px var(--header-search-field-color),
+			8px 8px 0 -5px var(--header-search-field-color);
+	}
 }
 
 .Header {
@@ -12,40 +73,89 @@
 	left: 0;
 	width: 100%;
 	z-index: 100;
+	background-color: var(--header-background);
+
+	&_name {
+		&_cart {
+			.Header-Button_type_minicart {
+				@include after-mobile {
+					--header-color: var(--header-desktop-button-color);
+				}
+			}
+		}
+
+		&_search {
+			@include after-mobile {
+				--header-desktop-search-bar-width: calc(50% - 100px);
+			}
+
+			.Header-SearchBar {
+				@include after-mobile {
+					border: 1px solid var(--header-search-field-border-color);
+					background-color: var(--header-search-field-visible-background);
+				}
+			}
+		}
+
+		&_menu,
+		&_menu_subcategory {
+			.Header-Button_type {
+				&_close {
+					@include after-mobile {
+						@include button-visible;
+					}
+				}
+
+				&_menu {
+					@include after-mobile {
+						@include button-invisible;
+					}
+				}
+			}
+		}
+
+		&_customer_account {
+			.Header-Button_type_account {
+				@include after-mobile {
+					--header-color: var(--header-desktop-button-color);
+				}
+			}
+		}
+	}
 
     &-Nav {
         height: 50px;
         display: flex;
         align-items: center;
-		background-color: var(--header-background);
 		padding: 0 1rem;
+		z-index: 20;
+		max-width: var(--content-wrapper-width);
+		margin: auto;
 	}
 
 	&-Button {
-		overflow: hidden;
-		pointer-events: none;
-		height: 35px;
-		width: 0;
-		margin: 0;
+		@include button-invisible;
 
-		// animation
+		cursor: pointer;
+		margin: 0;
+		height: 35px;
 		transition: opacity 200ms;
-		opacity: 0;
 
 		&_isVisible {
-			opacity: 1;
-			padding: 7.5px;
-			width: 35px;
-			pointer-events: all;
-			overflow: visible;
-
-			&::before,
-			&::after {
-				width: 0;
+			@include mobile {
+				@include button-visible;
 			}
 		}
 
 		&_type {
+			&_menu,
+			&_account,
+			&_minicart {
+				@include after-mobile {
+					@include button-visible;
+				}
+			}
+
 			&_close {
 				@include close-button;
 			}
@@ -56,6 +166,10 @@
 
 			&_menu {
 				@include menu-button;
+
+				@include after-mobile {
+					width: 100px;
+				}
 			}
 
 			&_account {
@@ -89,6 +203,13 @@
 	&-SearchWrapper {
 		flex-grow: 1;
 		margin-left: 5px;
+
+		@include after-mobile {
+			@include search-icon-input;
+
+			text-align: right;
+			margin-right: 1rem;
+		}
 	}
 
 	&-SearchField {
@@ -102,20 +223,22 @@
 		min-width: 0;
 		opacity: 0;
 		padding: 0;
-		transition-property: opacity;
+		transition-property: opacity, background-color;
 		transition-duration: 200ms;
-		will-change: max-width, opacity, padding;
+		will-change: max-width, width, opacity, padding, border, background-color;
+
+		@include after-mobile {
+			@include search-bar-visible;
+
+			transition-property: opacity, width, border;
+			width: var(--header-desktop-search-bar-width);
+			max-width: var(--header-desktop-search-bar-max-width);
+			font-size: 14px;
+			border-radius: 0;
+		}
 
 		&_isVisible {
-			opacity: 1;
-			max-width: 100%;
-			border-color: transparent;
-			border-width: 1px;
-			padding: {
-				top: 4px;
-				bottom: 5px;
-				left: 10px;
-			};
+			@include search-bar-visible;
 		}
 	}
 
@@ -134,9 +257,12 @@
 		transition-property: opacity;
 		transition-duration: 200ms;
 
+		@include after-mobile {
+			@include logo-visible;
+		}
+
 		&_isVisible {
-			opacity: 1;
-			max-width: 100%;
+			@include logo-visible;
 		}
 	}
 
@@ -167,8 +293,10 @@
 		right: 0;
 
 		&_isVisible {
-			opacity: 1;
-			max-width: calc(100% - 120px);
+			@include mobile {
+				opacity: 1;
+				max-width: calc(100% - 120px);
+			}
 		}
 	}
 }
