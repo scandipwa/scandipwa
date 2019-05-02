@@ -48,6 +48,26 @@ class RelatedProducts extends Component {
         }
     }
 
+    renderProducts(products) {
+        return products.map(product => (
+            <ProductCard
+              product={ product }
+              key={ product.id }
+            />
+        ));
+    }
+
+    renderPlaceholder() {
+        return (
+            <>
+                <ProductCard product={ {} } />
+                <ProductCard product={ {} } />
+                <ProductCard product={ {} } />
+                <ProductCard product={ {} } />
+            </>
+        );
+    }
+
     render() {
         const {
             relatedProducts: { items, total_count },
@@ -61,31 +81,9 @@ class RelatedProducts extends Component {
         if (productIsLoaded && (!hasRelatedProducts || (relatedProductsLoaded && total_count === 0))) return null;
 
         return (
-            <ContentWrapper
-              mix={ { block: 'RelatedProducts' } }
-              wrapperMix={ { block: 'RelatedProducts', elem: 'Wrapper' } }
-              label="Related products"
-            >
-                <h3 block="RelatedProducts" elem="Title">
-                    <TextPlaceholder
-                      content={ relatedProductsLoaded ? 'Members Who Bought This Item Also Bought' : '' }
-                    />
-                </h3>
-                <ul block="RelatedProducts" elem="List">
-                    {
-                        items
-                            ? items.map(product => <ProductCard product={ product } key={ product.id } />)
-                            : (
-                                <>
-                                    <ProductCard product={ {} } />
-                                    <ProductCard product={ {} } />
-                                    <ProductCard product={ {} } />
-                                    <ProductCard product={ {} } />
-                                </>
-                            )
-                    }
-                </ul>
-            </ContentWrapper>
+            <ul block="RelatedProducts">
+                { items ? this.renderProducts(items) : this.renderPlaceholder() }
+            </ul>
         );
     }
 }

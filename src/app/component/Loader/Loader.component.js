@@ -27,9 +27,7 @@ class Loader extends Component {
         return (
             <div block="Loader" elem="LoaderWrapper">
                 <div block="Loader" elem="Main">
-                    <div />
-                    <div />
-                    <div />
+                    <span />
                 </div>
             </div>
         );

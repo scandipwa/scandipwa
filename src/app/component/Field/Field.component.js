@@ -429,10 +429,9 @@ class Field extends Component {
 
     render() {
         const {
-            id, type, label, note, message, state, block, elem
+            id, type, label, note, message, state, mix
         } = this.props;
 
-        const mix = (block && elem) ? { block, elem } : undefined;
         const mods = {
             type,
             hasError: !!message,
@@ -492,8 +491,11 @@ Field.propTypes = {
     onClick: PropTypes.func,
     onKeyPress: PropTypes.func,
     min: PropTypes.number,
-    block: PropTypes.string,
-    elem: PropTypes.string,
+    mix: PropTypes.shape({
+        block: PropTypes.string,
+        elem: PropTypes.string,
+        mods: PropTypes.objectOf(PropTypes.string)
+    }),
     formRef: PropTypes.oneOfType([
         PropTypes.func,
         PropTypes.shape({ current: PropTypes.instanceOf(Element) })
@@ -507,7 +509,8 @@ Field.defaultProps = {
     block: null,
     elem: null,
     disabled: false,
-    checked: false
+    checked: false,
+    mix: {}
 };
 
 export default Field;

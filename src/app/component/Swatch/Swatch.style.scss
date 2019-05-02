@@ -31,7 +31,7 @@
             font-size: 0;
 
             box-shadow: inset 0 0 0 1px var(--swatch-border-color);
-            background-color: var(--swatch-background);
+            background: var(--swatch-background);
             will-change: box-shadow, background-color;
 
             &::before,
@@ -67,11 +67,22 @@
         }
     }
 
+    &_isPlaceholder {
+        --swatch-background: var(--placeholder-image);
+        --swatch-border-color: transparent;
+        --swatch-check-mark-background: transparent;
+
+        background-size: var(--placeholder-size);
+        animation: var(--placeholder-animation);
+    }
+
     &_isSelected {
         --swatch-is-selected: 1;
 
-        font-weight: bold;
         color: var(--swatch-active-color);
+
+        // Simulate bold, to prevent buttons shrinking and growing
+        text-shadow: 0 0 1px currentColor;
     }
 
     &_isLoading {

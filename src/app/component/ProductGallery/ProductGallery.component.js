@@ -58,6 +58,7 @@ class ProductGallery extends Component {
                     <Image
                       src={ image }
                       key={ id }
+                      arePlaceholdersShown
                     />
                 )) }
             </Slider>

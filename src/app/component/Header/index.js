@@ -7,7 +7,9 @@ import HeaderComponent, {
     MENU_SUBCATEGORY,
     MENU,
     FILTER,
-    SEARCH
+    SEARCH,
+    CART,
+    CART_EDITING
 } from './Header.component';
 
 export default HeaderConnect;
@@ -20,5 +22,7 @@ export {
     MENU,
     FILTER,
     SEARCH,
+    CART,
+    CART_EDITING,
     HeaderComponent
 };

@@ -25,6 +25,14 @@
         }
     }
 
+    &_isPlaceholder {
+        height: 4rem;
+        padding: var(--button-padding);
+        background-image: var(--placeholder-image);
+        background-size: var(--placeholder-size);
+        animation: var(--placeholder-animation);
+    }
+
     &_isLoading {
         span {
             &:first-child {

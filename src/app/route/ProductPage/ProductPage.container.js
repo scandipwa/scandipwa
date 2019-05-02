@@ -11,6 +11,7 @@
 
 import { connect } from 'react-redux';
 import { ProductDispatcher } from 'Store/Product';
+import { changeHeaderState } from 'Store/Header';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import ProductPage from './ProductPage.component';
 
@@ -21,15 +22,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    requestProduct: (options) => {
-        ProductDispatcher.handleData(dispatch, options);
-    },
-    updateBreadcrumbs: (breadcrumbs) => {
-        BreadcrumbsDispatcher.updateWithProduct(breadcrumbs, dispatch);
-    },
-    clearGroupedProductQuantity: () => {
-        ProductDispatcher.clearGroupedProductQuantity(dispatch);
-    }
+    changeHeaderState: state => dispatch(changeHeaderState(state)),
+    requestProduct: options => ProductDispatcher.handleData(dispatch, options),
+    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.updateWithProduct(breadcrumbs, dispatch),
+    clearGroupedProductQuantity: () => ProductDispatcher.clearGroupedProductQuantity(dispatch)
 });
 
 const ProductPageContainer = connect(mapStateToProps, mapDispatchToProps)(ProductPage);
