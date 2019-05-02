@@ -43,11 +43,15 @@ const ProductReducer = (state = initialState, action) => {
                     label
                 };
 
-                const { filter_items: filterItems } = filters.find(({ request_var }) => request_var === attribute_code) || {};
+                const { filter_items: filterItems } = filters.find(
+                    ({ request_var }) => request_var === attribute_code
+                ) || {};
 
                 if (!filterItems) return quickData;
 
-                const { swatch_data: swatchData } = filterItems.find(({ value_string }) => value_index == value_string) || {};
+                const { swatch_data: swatchData } = filterItems.find(
+                    ({ value_string }) => value_index == value_string
+                ) || {};
 
                 const typemap = {
                     0: 'text',

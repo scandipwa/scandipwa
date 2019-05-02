@@ -1,3 +1,5 @@
+/* eslint-disable import/no-extraneous-dependencies */
+
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,7 +11,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import BaseRouter from 'SourceRoute';
+import BaseRouter, { history } from 'SourceRoute';
 
 /**
  * Extends core router.
@@ -18,6 +20,7 @@ import BaseRouter from 'SourceRoute';
 class AppRouter extends BaseRouter {
     constructor() {
         super();
+
         this.customItems = {
             beforeItems: [
                 /**
@@ -41,10 +44,10 @@ class AppRouter extends BaseRouter {
                     }
                  */
             ],
-            afterItems: [
-            ]
+            afterItems: []
         };
     }
 }
 
+export { history };
 export default AppRouter;

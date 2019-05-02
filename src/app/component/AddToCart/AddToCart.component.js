@@ -90,14 +90,24 @@ class AddToCart extends Component {
 
     render() {
         const { isLoading } = this.state;
-        const { mix } = this.props;
+        const { mix, product: { id } } = this.props;
+
+        if (!id) {
+            return (
+                <div
+                  block="AddToCart"
+                  mods={ { isLoading, isPlaceholder: true } }
+                  mix={ mix }
+                />
+            );
+        }
 
         return (
             <button
               onClick={ () => this.buttonClick() }
               block="Button AddToCart"
-              mix={ mix }
               mods={ { isLoading } }
+              mix={ mix }
               disabled={ isLoading }
             >
                 <span>Add to cart</span>
@@ -108,11 +118,11 @@ class AddToCart extends Component {
 }
 
 AddToCart.propTypes = {
-    product: ProductType.isRequired,
+    product: ProductType,
     quantity: PropTypes.number,
     configurableVariantIndex: PropTypes.number,
     groupedProductQuantity: PropTypes.objectOf(PropTypes.number),
-    addProduct: PropTypes.func.isRequired,
+    addProduct: PropTypes.func,
     mix: PropTypes.shape({
         block: PropTypes.string,
         elem: PropTypes.string,
@@ -124,6 +134,8 @@ AddToCart.defaultProps = {
     quantity: 1,
     configurableVariantIndex: 0,
     groupedProductQuantity: {},
+    addProduct: () => {},
+    product: {},
     mix: {}
 };
 

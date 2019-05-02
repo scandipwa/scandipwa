@@ -11,16 +11,14 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import ProductDetails from 'Component/ProductDetails';
+import { PDP } from 'Component/Header';
 import ProductGallery from 'Component/ProductGallery';
-import ProductDescription from 'Component/ProductDescription';
 import ContentWrapper from 'Component/ContentWrapper';
 import ProductActions from 'Component/ProductActions';
-import GroupedProductsList from 'Component/GroupedProductsList';
+// import GroupedProductsList from 'Component/GroupedProductsList';
 import Meta from 'Component/Meta';
 import { ProductType } from 'Type/ProductList';
 import { getUrlParam, getQueryParam, updateQueryParamWithoutHistory } from 'Util/Url';
-import RelatedProducts from 'Component/RelatedProducts';
 import './ProductPage.style';
 
 class ProductPage extends Component {
@@ -30,7 +28,7 @@ class ProductPage extends Component {
         this.state = {
             configurableVariantIndex: 0,
             // eslint-disable-next-line react/no-unused-state
-            isConfigurationInitilized: false
+            isConfigurationInitialized: false
         };
 
         this.updateUrl = this.updateUrl.bind(this);
@@ -38,7 +36,7 @@ class ProductPage extends Component {
 
     componentDidMount() {
         this.requestProduct();
-        this.updateBreadcrumbs();
+        this.onProductUpdate();
     }
 
     /**
@@ -57,9 +55,16 @@ class ProductPage extends Component {
     componentDidUpdate(prevProps) {
         const { location } = this.props;
 
-        if (location !== prevProps.location) this.requestProduct();
-        if (this.variantIndexInPropsChanged(this.props, prevProps)) this.setState({ isConfigurationInitilized: false });
-        this.updateBreadcrumbs();
+        if (location !== prevProps.location) {
+            this.requestProduct();
+        }
+
+        if (this.variantIndexInPropsChanged(this.props, prevProps)) {
+            // eslint-disable-next-line react/no-unused-state, react/no-did-update-set-state
+            this.setState({ isConfigurationInitialized: false });
+        }
+
+        this.onProductUpdate();
     }
 
     componentWillUnmount() {
@@ -71,20 +76,29 @@ class ProductPage extends Component {
     }
 
     static getDerivedStateFromProps(props, state) {
-        const { isConfigurationInitilized } = state;
+        const { isConfigurationInitialized } = state;
         const { location } = props;
-        const variantIndex = parseInt(getQueryParam('variant', location), 10);
-        const shouldConfigurableOptionBeInitilized = !isConfigurationInitilized
+        const variantIndex = parseInt(getQueryParam('variant', location), 10) || 0;
+        const shouldConfigurableOptionBeInitialized = !isConfigurationInitialized
             && typeof variantIndex === 'number';
 
-        if (shouldConfigurableOptionBeInitilized) {
+        if (shouldConfigurableOptionBeInitialized) {
             return {
                 configurableVariantIndex: variantIndex,
-                isConfigurationInitilized: true
+                isConfigurationInitialized: true
             };
         }
 
         return null;
+    }
+
+    onProductUpdate() {
+        const dataSource = this.getDataSource();
+
+        if (Object.keys(dataSource).length) {
+            this.updateBreadcrumbs(dataSource);
+            this.updateHeaderState(dataSource);
+        }
     }
 
     getDataSource() {
@@ -122,9 +136,11 @@ class ProductPage extends Component {
      */
     getThumbnail(currentVariantIndex, dataSource) {
         const { thumbnail, variants } = dataSource;
+
         const variantThumbnail = variants
             && variants[ currentVariantIndex ]
             && variants[ currentVariantIndex ].product.thumbnail;
+
         return variantThumbnail || thumbnail;
     }
 
@@ -150,19 +166,28 @@ class ProductPage extends Component {
             getConfigurableData: true
         };
 
-        this.setState({ isConfigurationInitilized: false });
+        // eslint-disable-next-line react/no-unused-state
+        this.setState({ isConfigurationInitialized: false });
         requestProduct(options);
+    }
+
+    updateHeaderState({ name: title }) {
+        const { changeHeaderState } = this.props;
+
+        changeHeaderState({
+            name: PDP,
+            title,
+            onBackClick: () => window.history.back()
+        });
     }
 
     /**
      * Dispatch breadcrumbs update
      * @return {void}
      */
-    updateBreadcrumbs() {
+    updateBreadcrumbs(product) {
         const { updateBreadcrumbs } = this.props;
-        const dataSource = this.getDataSource();
-
-        if (Object.keys(dataSource).length) updateBreadcrumbs(dataSource);
+        updateBreadcrumbs(product);
     }
 
     /**
@@ -172,13 +197,15 @@ class ProductPage extends Component {
     updateUrl(variant) {
         const { configurableVariantIndex } = this.state;
 
-        if (configurableVariantIndex !== variant) updateQueryParamWithoutHistory('variant', variant);
+        if (configurableVariantIndex !== variant) {
+            updateQueryParamWithoutHistory('variant', variant);
+        }
 
         return this.setState({ configurableVariantIndex: variant });
     }
 
     render() {
-        const { product, product: { variants, type_id }, filters } = this.props;
+        const { product, product: { variants }, filters } = this.props;
         const { configurableVariantIndex } = this.state;
         const dataSource = this.getDataSource();
         const { media_gallery_entries } = dataSource;
@@ -208,29 +235,7 @@ class ProductPage extends Component {
                           configurableVariantIndex={ configurableVariantIndex }
                           updateConfigurableVariantIndex={ this.updateUrl }
                         />
-                        {/* <ProductDetails
-                          product={ dataSource }
-                          areDetailsLoaded={ areDetailsLoaded }
-                          configurableVariantIndex={ configurableVariantIndex }
-                        /> */}
-                        {/* <div aria-label="Product Actions">
-                            { type_id === 'grouped' && (
-                                <GroupedProductsList
-                                  product={ dataSource }
-                                  handleGroupedQuantityChange={ this.changeGroupedProductQuantity }
-                                />
-                            ) }
-                        </div> */}
                     </ContentWrapper>
-                    {/* <ProductDescription
-                      product={ dataSource }
-                      mediaGallery={ media_gallery_entries }
-                      areDetailsLoaded={ areDetailsLoaded }
-                    />
-                    <RelatedProducts
-                      areDetailsLoaded={ areDetailsLoaded }
-                      product={ product }
-                    /> */}
                 </main>
             </>
         );
@@ -249,16 +254,16 @@ ProductPage.propTypes = {
     }).isRequired,
     requestProduct: PropTypes.func.isRequired,
     updateBreadcrumbs: PropTypes.func.isRequired,
+    changeHeaderState: PropTypes.func.isRequired,
     clearGroupedProductQuantity: PropTypes.func.isRequired,
     product: ProductType.isRequired,
-    filters: PropTypes.objectOf(PropTypes.shape)
+    filters: PropTypes.objectOf(PropTypes.shape).isRequired
 };
 
 ProductPage.defaultProps = {
     location: {
         state: {}
-    },
-    filters: []
+    }
 };
 
 export default ProductPage;

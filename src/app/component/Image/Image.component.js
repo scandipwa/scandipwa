@@ -161,6 +161,7 @@ class Image extends Component {
             ratio,
             arePlaceholdersShown,
             showGreyPlaceholder,
+            objectFit,
             mix
         } = this.props;
 
@@ -176,6 +177,7 @@ class Image extends Component {
 
         const mods = {
             ratio,
+            objectFit,
             isLoaded: isImageLoaded || (isIcon && isPlacehodlerLoaded),
             isReal: !!src && !showGreyPlaceholder
         };
@@ -210,6 +212,10 @@ Image.propTypes = {
         'square',
         'custom'
     ]),
+    objectFit: PropTypes.oneOf([
+        'cover',
+        'contain'
+    ]),
     arePlaceholdersShown: PropTypes.bool,
     showGreyPlaceholder: PropTypes.bool,
     mix: PropTypes.shape({
@@ -225,7 +231,8 @@ Image.defaultProps = {
     ratio: 'square',
     mix: {},
     arePlaceholdersShown: false,
-    showGreyPlaceholder: false
+    showGreyPlaceholder: false,
+    objectFit: 'contain'
 };
 
 export default Image;

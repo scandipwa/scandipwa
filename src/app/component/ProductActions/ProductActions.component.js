@@ -21,6 +21,9 @@ import Swatch from 'Component/Swatch';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import ProductPrice from 'Component/ProductPrice';
 import AddToCart from 'Component/AddToCart';
+import ExpandableContent from 'Component/ExpandableContent';
+import RelatedProducts from 'Component/RelatedProducts';
+import Html from 'Component/Html';
 import './ProductActions.style';
 
 /**
@@ -28,16 +31,110 @@ import './ProductActions.style';
  * @class ProductActions
  */
 class ProductActions extends Component {
+    constructor(props) {
+        super(props);
+
+        this.optionsInCurrentVariant = {};
+    }
+
     // TODO: make key=>value based
     getIsOptionInCurrentVariant(attribute, value) {
         const { configurableVariantIndex, product: { variants } } = this.props;
+        if (!variants) return false;
         return variants[configurableVariantIndex].product[attribute] === value;
     }
 
-    renderShortProductInformation() {
-        const { product } = this.props;
+    changeConfigurableVariant(attributeCode, value) {
+        const {
+            product: {
+                variants,
+                configurable_options
+            },
+            updateConfigurableVariantIndex,
+            configurableVariantIndex
+        } = this.props;
 
-        console.log(product);
+        const {
+            product: currentConfigurableVariant
+        } = variants[configurableVariantIndex];
+
+        const currentVariant = {
+            ...currentConfigurableVariant,
+            [attributeCode]: value
+        };
+
+        for (let i = 0; i < variants.length; i++) {
+            const { product } = variants[i];
+
+            const isCorrectVariant = configurable_options.every(({ attribute_code }) => (
+                product[attribute_code] === currentVariant[attribute_code]
+            ));
+
+            if (isCorrectVariant) return updateConfigurableVariantIndex(i);
+        }
+
+        return null;
+    }
+
+    renderRelatedProducts() {
+        const { product, areDetailsLoaded } = this.props;
+
+        return (
+            <section
+              block="ProductActions"
+              elem="Section"
+              mods={ { type: 'related' } }
+              aria-label="Related products"
+            >
+                <h4
+                  block="ProductActions"
+                  elem="SectionHeading"
+                  mods={ { type: 'related' } }
+                >
+                    Scandipwa recommends
+                </h4>
+                <RelatedProducts
+                  product={ product }
+                  areDetailsLoaded={ areDetailsLoaded }
+                />
+            </section>
+        );
+    }
+
+    renderAdditionalInformation() {
+        const { product: { description } } = this.props;
+
+        if (!description) return null;
+
+        const { html } = description;
+
+        return (
+            <ExpandableContent heading="Product Information">
+                <Html content={ html } />
+            </ExpandableContent>
+        );
+    }
+
+    renderShortProductInformation() {
+        const { product: { brand, short_description } } = this.props;
+
+        if (!short_description) return null;
+
+        const { html } = short_description;
+
+        return (
+            <section
+              block="ProductActions"
+              elem="Section"
+              mods={ { type: 'short' } }
+              aria-label="Product short description"
+            >
+                <h4 block="ProductActions" elem="SectionHeading">{ brand }</h4>
+                <div block="ProductActions" elem="SectionContent">
+                    <Html content={ html } />
+                </div>
+            </section>
+        );
     }
 
     renderAddToCart() {
@@ -72,9 +169,9 @@ class ProductActions extends Component {
     renderOtherOptions() {
         const { availableFilters } = this.props;
 
-        delete availableFilters.color;
-
         return Object.entries(availableFilters).map(([code, option]) => {
+            if (code === 'color') return null;
+
             const { label: optionLabel, values } = option;
 
             return (
@@ -88,6 +185,7 @@ class ProductActions extends Component {
                     { values.map(({ value, label, id }) => (
                         <Swatch
                           key={ id }
+                          onClick={ () => this.changeConfigurableVariant(code, id) }
                           mix={ { block: 'ProductActions', elem: 'TextOption' } }
                           isSelected={ this.getIsOptionInCurrentVariant(code, id) }
                           filterItem={ { label, swatch_data: { value } } }
@@ -102,7 +200,18 @@ class ProductActions extends Component {
     renderColorOptions() {
         const { availableFilters: { color } } = this.props;
 
-        if (!color) return null;
+        if (!color) {
+            return (
+                <section block="ProductActions" elem="Colors" aria-label="Color options">
+                    { new Array(4).fill().map((_, i) => (
+                        <Swatch
+                          key={ i }
+                          requestVar="color"
+                        />
+                    )) }
+                </section>
+            );
+        }
 
         const { values: colorOptions } = color;
 
@@ -111,6 +220,7 @@ class ProductActions extends Component {
                 { colorOptions.map(({ value, label, id }) => (
                     <Swatch
                       key={ id }
+                      onClick={ () => this.changeConfigurableVariant('color', id) }
                       isSelected={ this.getIsOptionInCurrentVariant('color', id) }
                       filterItem={ { label, swatch_data: { value } } }
                       requestVar="color"
@@ -128,6 +238,8 @@ class ProductActions extends Component {
                 { this.renderAddToCart() }
                 { this.renderOtherOptions() }
                 { this.renderShortProductInformation() }
+                { this.renderAdditionalInformation() }
+                { this.renderRelatedProducts() }
             </article>
         );
     }
@@ -136,10 +248,14 @@ class ProductActions extends Component {
 ProductActions.propTypes = {
     product: ProductType.isRequired,
     availableFilters: PropTypes.objectOf(PropTypes.shape).isRequired,
-    configurableVariantIndex: PropTypes.number.isRequired,
-    updateConfigurableVariantIndex: PropTypes.func.isRequired,
-    groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired,
-    areDetailsLoaded: PropTypes.bool.isRequired
+    configurableVariantIndex: PropTypes.number,
+    areDetailsLoaded: PropTypes.bool.isRequired,
+    updateConfigurableVariantIndex: PropTypes.func.isRequired
+    // groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired
+};
+
+ProductActions.defaultProps = {
+    configurableVariantIndex: 0
 };
 
 export default ProductActions;

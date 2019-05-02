@@ -42,6 +42,17 @@
         border-top: 1px solid var(--overlay-divider-color);
         display: flex;
         flex-wrap: wrap;
+
+        &_type {
+            &_related {
+                border-top: 0;
+                padding: 1.5rem 0;
+            }
+
+            &_short {
+                border-bottom: 1px solid var(--overlay-divider-color);
+            }
+        }
     }
 
     &-SectionHeading {
@@ -49,6 +60,16 @@
         flex-grow: 1;
         text-transform: uppercase;
         margin: 0 5px 1rem;
+
+        &_type {
+            &_related {
+                margin-left: 1rem;
+            }
+        }
+    }
+
+    &-SectionContent {
+        margin: 0 5px;
     }
 
     &-TextOption {

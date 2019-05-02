@@ -40,13 +40,26 @@
         background: transparent;
     }
 
+    &_objectFit {
+        &_contain {
+            img {
+                object-fit: contain;
+            }
+        }
+
+        &_cover {
+            img {
+                object-fit: cover;
+            }
+        }
+    }
+
     img {
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        object-fit: contain;
         object-position: center;
     }
 }
