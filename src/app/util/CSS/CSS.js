@@ -24,7 +24,7 @@ class CSS {
      * @memberof CSS
      */
     static setVariable(ref, name, value) {
-        ref.current.style.setProperty(`--${name}`, value);
+        if (ref.current) ref.current.style.setProperty(`--${name}`, value);
     }
 }
 

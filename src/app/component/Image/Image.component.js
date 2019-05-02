@@ -175,17 +175,15 @@ class Image extends Component {
 
         const isIcon = src && src.includes('.svg');
 
-        const mods = {
-            ratio,
-            objectFit,
-            isLoaded: isImageLoaded || (isIcon && isPlacehodlerLoaded),
-            isReal: !!src && !showGreyPlaceholder
-        };
-
         return (
             <picture
               block="Image"
-              mods={ mods }
+              mods={ {
+                  ratio,
+                  objectFit,
+                  isLoaded: isImageLoaded || (isIcon && isPlacehodlerLoaded),
+                  isReal: !!src && !showGreyPlaceholder
+              } }
               mix={ mix }
               ref={ (node) => { this.node = node; } }
               onLoad={ img => this.onImageLoad(img) }
@@ -204,6 +202,9 @@ class Image extends Component {
 }
 
 Image.propTypes = {
+    block: PropTypes.string,
+    elem: PropTypes.string,
+    mods: PropTypes.instanceOf(Object),
     src: PropTypes.string,
     alt: PropTypes.string,
     ratio: PropTypes.oneOf([
@@ -226,6 +227,9 @@ Image.propTypes = {
 };
 
 Image.defaultProps = {
+    block: 'Image',
+    elem: undefined,
+    mods: {},
     src: '',
     alt: '',
     ratio: 'square',

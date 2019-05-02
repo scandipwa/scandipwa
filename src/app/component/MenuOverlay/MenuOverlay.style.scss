@@ -1,5 +1,6 @@
 :root {
-    --menu-overlay-item-figure-background: #f3f3f3;
+    --menu-overlay-item-figure-background: #f5f5f5;
+    --menu-overlay-horizontal-rule-background: #dedede;
 }
 
 .MenuOverlay {
@@ -19,19 +20,36 @@
     }
 
     &-Menu {
-        padding: 1rem;
+        padding: .8rem;
+        
+        li:last-child {
+            margin-bottom: 0;
+        }
     }
 
     &-Banner {
-        padding: 2rem 1rem;
-        text-align: center;
-        background-color: rgb(243, 137, 79);
-        font-size: 1.8rem;
-        color: white;
-        line-height: 1.3;
+        height: 120px;
+        display: flex;
+        justify-content: center;
+        margin-bottom: .8rem;
 
-        &:last-of-type {
-            margin-bottom: .5rem;
+        picture {
+            padding-bottom: 0;
+            height: 100%;
+        }
+
+        img {
+            object-fit: cover;
+        }
+
+        figcaption {
+            position: absolute;
+            top: 0;
+            padding: 2rem 1rem;
+            text-align: center;
+            font-size: 1.8rem;
+            color: white;
+            line-height: 1.3;
         }
 
         strong {
@@ -44,7 +62,11 @@
 
         &_type {
             &_trending {
-                grid-template-columns: 50% 50%;
+                column-gap: 10px;
+
+                .MenuOverlay-Item {
+                    margin: 0;
+                }
             }
 
             &_subcategory {
@@ -66,6 +88,15 @@
                 touch-action: pan-y;
 
                 pointer-events: none;
+                
+                a {
+                    padding: 1.7rem;
+                    padding-right: 0;
+
+                    &:last-of-type {
+                        padding: 0;
+                    }
+                }
             }
         }
 
@@ -79,6 +110,8 @@
     &-ItemListHeading {
         grid-column: span 2;
         text-align: center;
+        margin-top: 4rem;
+        margin-bottom: 1rem;
     }
 
     &-Item {
@@ -95,32 +128,115 @@
         font-weight: bold;
         text-transform: uppercase;
         text-align: left;
-
-        &_type_subcategory {
-            font-size: 1rem;
-            font-weight: normal;
-            text-transform: none;
-        }
     }
 
     &-ItemFigure {
-        display: flex;
+        display: grid;
         align-items: center;
 
         &_type {
             &_main {
+                grid-auto-flow: column;
+                grid-template-columns: 50% 50%;
                 height: 100px;
                 padding-left: 30px;
                 background-color: var(--menu-overlay-item-figure-background);
+
+                .MenuOverlay-Image {
+                    grid-column: 2;
+                    height: 100%;
+                    padding-bottom: 0;
+                    justify-self: end;
+                }
             }
 
             &_trending {
-                justify-content: center;
+                .MenuOverlay-Image {
+                    // square
+                    padding-bottom: 100%;
+
+                    img {
+                        object-fit: cover;
+                    }
+                }
+
+                .MenuOverlay-ItemCaption {
+                    padding-top: .8rem;
+                    justify-self: center;
+                }
             }
 
             &_subcategory {
-                height: 44px;
+                display: flex;
+                height: 3.2rem;
+
+                .MenuOverlay-Image {
+                    width: 3.2rem;
+                    height: 3.2rem;
+                    padding-bottom: 0;
+                    border-radius: 50%;
+                }
+
+                .MenuOverlay-ItemCaption {
+                    font-size: 1rem;
+                    font-weight: normal;
+                    text-transform: none;
+                    padding-left: 1.5rem;
+                }
             }
+
+            &_banner {
+                .MenuOverlay-Image {
+                    padding-bottom: 56.25%;
+                }
+
+                .MenuOverlay-ItemCaption {
+                    position: absolute;
+                    justify-self: center;
+                    color: white;
+                }
+            }
+        }
+    }
+
+    &-HorizontalRule {
+        background-color: var(--menu-overlay-horizontal-rule-background);
+        height: 1px;
+        width: 100%;
+        padding: 0 .8rem 0 .8rem;
+        margin-top: 1.5rem;
+    }
+
+    &-PageLink {
+        text-align: center;
+        margin-top: 2.2rem;
+        margin-bottom: 2.2rem;
+    }
+
+    &-Social {
+        display: flex;
+        justify-content: center;
+
+        h3 {
+            position: absolute; 
+            overflow: hidden;
+            clip: rect(0 0 0 0); 
+            height: 1px; 
+            width: 1px; 
+            margin: -1px;
+            padding: 0;
+            border: 0;
+        }
+
+        ul {
+            display: grid;
+            grid-auto-flow: column;
+            width: 14rem;
+            justify-items: center;
+        }
+
+        li {
+            width: 1.9rem;
         }
     }
 
