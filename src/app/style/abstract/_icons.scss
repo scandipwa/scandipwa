@@ -107,21 +107,39 @@
 			0 12px 0 0 var(--header-color),
 			6px 12px 0 0 var(--header-color),
 			10px 12px 0 0 var(--header-color);
+
+		@include after-mobile {
+			width: 20px;
+			box-shadow:
+				0 6px 0 0 var(--header-color),
+				0 12px 0 0 var(--header-color);
+		}
 	}
 
 	&::before {
-		width: 10px;
-		height: 10px;
-		border: 1px solid var(--header-color);
-		border-radius: 50%;
-		top: 10px;
-		right: 4px;
-		box-shadow:
-			4px 4px 0 -5px var(--header-color),
-			5px 5px 0 -5px var(--header-color),
-			6px 6px 0 -5px var(--header-color),
-			7px 7px 0 -5px var(--header-color),
-			8px 8px 0 -5px var(--header-color);
+		@include mobile {
+			width: 10px;
+			height: 10px;
+			border: 1px solid var(--header-color);
+			border-radius: 50%;
+			top: 10px;
+			right: 4px;
+			box-shadow:
+				4px 4px 0 -5px var(--header-color),
+				5px 5px 0 -5px var(--header-color),
+				6px 6px 0 -5px var(--header-color),
+				7px 7px 0 -5px var(--header-color),
+				8px 8px 0 -5px var(--header-color);
+		}
+
+		@include after-mobile {
+			content: 'menu';
+			color: var(--header-color);
+			text-transform: uppercase;
+			left: 35px;
+			top: 11px;
+			font-size: 12px;
+		}
 	}
 }
 
@@ -187,6 +205,7 @@
 
 	span {
 		left: -12px;
+		color: var(--header-color);
 	}
 }
 

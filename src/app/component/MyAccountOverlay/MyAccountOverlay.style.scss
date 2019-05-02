@@ -11,12 +11,40 @@
 
 :root {
     --checkbox-label-color: #0a0a0a;
+    --my-account-border-color: #f26323;
 }
 
 .MyAccountOverlay {
     justify-self: flex-end;
     grid-column: 3;
     right: 0;
+    padding-top: 1rem;
+
+    @include after-mobile {
+        position: absolute;
+        top: 50px;
+        right: -40px;
+        padding: 2rem 0;
+        width: 400px;
+        border: 1px solid var(--my-account-border-color);
+    }
+
+    &::before {
+        @include after-mobile {
+            content: '';
+            position: absolute;
+            top: -9px;
+            right: 49px;
+            height: 15px;
+            width: 15px;
+            transform: rotate(45deg);
+            background-color: var(--overlay-background);
+            border: {
+                top: 1px solid var(--my-account-border-color);
+                left: 1px solid var(--my-account-border-color);
+            }
+        }
+    }
 
     button {
         width: 100%;
@@ -30,10 +58,6 @@
     &-Notification {
         background-color: var(--color-primary-light);
         padding: 2rem;
-    }
-
-    &_isVisible {
-        padding-top: 1rem;
     }
 
     &-Navigation {
@@ -83,24 +107,10 @@
 
     &-Action {
         display: grid;
-
-        @include after-mobile {
-            grid-template-columns: auto max-content;
-        }
-
-        @include mobile {
-            height: 100%;
-            grid-template-rows: max-content 1fr;
-        }
+        height: 100%;
+        grid-template-rows: max-content 1fr;
 
         &_state {
-            &_forgotPassword,
-            &_createAccount {
-                @include after-mobile {
-                    display: block;
-                }
-            }
-
             &_createAccount {
                 h4 {
                     padding-right: 1rem;

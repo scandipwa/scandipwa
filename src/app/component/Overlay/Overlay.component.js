@@ -1,25 +1,26 @@
+/* eslint-disable react/no-unused-prop-types */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './Overlay.style';
 
 class Overlay extends Component {
     componentDidUpdate(prevProps) {
-        const { activeOverlay, id, onVisible } = this.props;
-        const { activeOverlay: prevActiveOverlay } = prevProps;
+        const { onVisible } = this.props;
 
-        const prevWasVisible = id === prevActiveOverlay;
-        const isVisible = id === activeOverlay;
+        const prevWasVisible = this.getIsVisible(prevProps);
+        const isVisible = this.getIsVisible();
 
         if (isVisible && !prevWasVisible) onVisible();
     }
 
-    render() {
-        const {
-            children, mix, activeOverlay,
-            id, areOtherOverlaysOpen
-        } = this.props;
+    getIsVisible(props = this.props) {
+        const { id, activeOverlay } = props;
+        return id === activeOverlay;
+    }
 
-        const isVisible = id === activeOverlay;
+    render() {
+        const { children, mix, areOtherOverlaysOpen } = this.props;
+        const isVisible = this.getIsVisible();
 
         return (
             <div

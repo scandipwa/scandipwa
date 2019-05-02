@@ -163,15 +163,12 @@ class MyAccountOverlay extends Component {
     }
 
     renderMyAccount() {
-        const { isOverlayVisible: isVisible } = this.props;
         const { state } = this.state;
         const renderFunction = this.renderMap[state];
 
         return (
-            <div block="MyAccountOverlay" mods={ { isVisible } }>
-                <div block="MyAccountOverlay" elem="Action" mods={ { state } }>
-                    { renderFunction() }
-                </div>
+            <div block="MyAccountOverlay" elem="Action" mods={ { state } }>
+                { renderFunction() }
             </div>
         );
     }

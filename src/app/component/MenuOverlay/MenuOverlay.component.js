@@ -18,6 +18,11 @@ class MenuOverlay extends Component {
         this.closeMenuOverlay = this.closeMenuOverlay.bind(this);
     }
 
+    getItemContent(id) {
+        const { blocks: { items } } = this.props;
+        return (items && items[id]) ? items[id].content : '';
+    }
+
     showSubCategory(activeSubcategory) {
         const { changeHeaderState, goToPreviousHeaderState } = this.props;
         const { item_id, title } = activeSubcategory;
@@ -50,25 +55,23 @@ class MenuOverlay extends Component {
             icon,
             item_class
         } = item;
-        const figureProps = { block: 'MenuOverlay', elem: 'ItemFigure' };
 
-        if (item_class) {
-            figureProps.className = item_class;
-        } else {
-            figureProps.mods = itemMods;
+        if (item_class === 'MenuOverlay-ItemFigure_type_banner') {
+            // eslint-disable-next-line no-param-reassign
+            itemMods = { type: 'banner' };
         }
 
         return (
-            <figure { ...figureProps }>
+            <figure block="MenuOverlay" elem="ItemFigure" mods={ itemMods }>
                 <Image
-                  mix={ { block: 'MenuOverlay', elem: 'Image' } }
+                  mix={ { block: 'MenuOverlay', elem: 'Image', mods: itemMods } }
                   src={ `/media/${icon}` }
                   ratio="16x9"
                 />
                 <figcaption
-                  id={ item_id }
                   block="MenuOverlay"
                   elem="ItemCaption"
+                  mods={ itemMods }
                 >
                     { title }
                 </figcaption>
@@ -82,7 +85,7 @@ class MenuOverlay extends Component {
             const childrenArray = Object.values(children);
 
             return (
-                <li key={ item_id } block="MenuOverlay" elem="Item" aria-labelledby={ item_id }>
+                <li key={ item_id } block="MenuOverlay" elem="Item">
                     {
                         childrenArray.length
                             ? (
@@ -110,7 +113,6 @@ class MenuOverlay extends Component {
 
         return (
             <div
-              id={ item_id }
               block="MenuOverlay"
               elem="ItemList"
               mods={ { ...subcategoryMods, isVisible } }
@@ -128,8 +130,28 @@ class MenuOverlay extends Component {
         );
     }
 
+    renderAdditionalInformation() {
+        return (
+            <aside block="MenuOverlay" elem="AdditionalInformation">
+                <h3 block="MenuOverlay" elem="PageLink">
+                    <Link to="/page/about-us" onClick={ this.closeMenuOverlay }>
+                        ABOUT US
+                    </Link>
+                </h3>
+                <h3 block="MenuOverlay" elem="PageLink">
+                    <Link to="/page/about-us" onClick={ this.closeMenuOverlay }>
+                        CONTACTS
+                    </Link>
+                </h3>
+                <div block="MenuOverlay" elem="Social">
+                    <Html content={ this.getItemContent('footer-social-links') } />
+                </div>
+            </aside>
+        );
+    }
+
     renderMainCategory() {
-        const { menu, blocks: { items } } = this.props;
+        const { menu } = this.props;
         const categoryArray = Object.values(menu);
 
         if (!categoryArray.length) return null;
@@ -141,68 +163,36 @@ class MenuOverlay extends Component {
 
         const mainMods = { type: 'main' };
         const trendingMods = { type: 'trending' };
-        const getContent = id => ((items && items[id]) ? items[id].content : '');
 
         return (
-            <ul block="MenuOverlay" elem="Menu">
-                <li>
-                    <div
-                      block="MenuOverlay"
-                      elem="Banner"
-                    >
-                        <Html content={ getContent('imagine-banner') } />
-                    </div>
-                    <ul
-                      block="MenuOverlay"
-                      elem="ItemList"
-                      mods={ mainMods }
-                      aria-label={ mainCategoriesTitle }
-                    >
-                        { this.renderItemList(mainCategories, mainMods) }
-                    </ul>
-                    <ul
-                      block="MenuOverlay"
-                      elem="ItemList"
-                      mods={ trendingMods }
-                      aria-label={ trendingCategoriesTitle }
-                    >
-                        <h2
-                          block="MenuOverlay"
-                          elem="ItemListHeading"
-                        >
-                            { trendingCategoriesTitle }
-                        </h2>
-
-                        { this.renderItemList(trendingCategories, trendingMods) }
-                    </ul>
-                    <hr
-                      block="MenuOverlay"
-                      elem="HorizontalRule"
-                    />
-                    <h3
-                      block="MenuOverlay"
-                      elem="PageLink"
-                    >
-                        <Link to="/page/about-us" onClick={ this.closeMenuOverlay }>
-                            ABOUT US
-                        </Link>
-                    </h3>
-                    <h3
-                      block="MenuOverlay"
-                      elem="PageLink"
-                    >
-                        <Link to="/page/about-us" onClick={ this.closeMenuOverlay }>
-                            CONTACTS
-                        </Link>
-                    </h3>
-                    <div
-                      block="MenuOverlay"
-                      elem="Social"
-                    >
-                        <Html content={ getContent('footer-social-links') } />
-                    </div>
-                </li>
-            </ul>
+            <div block="MenuOverlay" elem="Menu">
+                <div
+                  block="MenuOverlay"
+                  elem="Banner"
+                >
+                    <Html content={ this.getItemContent('imagine-banner') } />
+                </div>
+                <ul
+                  block="MenuOverlay"
+                  elem="ItemList"
+                  mods={ mainMods }
+                  aria-label={ mainCategoriesTitle }
+                >
+                    { this.renderItemList(mainCategories, mainMods) }
+                </ul>
+                <ul
+                  block="MenuOverlay"
+                  elem="ItemList"
+                  mods={ trendingMods }
+                  aria-label={ trendingCategoriesTitle }
+                >
+                    <h2 block="MenuOverlay" elem="ItemListHeading">
+                        { trendingCategoriesTitle }
+                    </h2>
+                    { this.renderItemList(trendingCategories, trendingMods) }
+                </ul>
+                { this.renderAdditionalInformation() }
+            </div>
         );
     }
 

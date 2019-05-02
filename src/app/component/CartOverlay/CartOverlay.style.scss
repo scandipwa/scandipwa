@@ -5,6 +5,32 @@
 }
 
 .CartOverlay {
+    @include after-mobile {
+        position: absolute;
+        top: 50px;
+        right: 0;
+        padding: 0;
+        width: 400px;
+        border: 1px solid var(--my-account-border-color);
+    }
+
+    &::before {
+        @include after-mobile {
+            content: '';
+            position: absolute;
+            top: -9px;
+            right: 9px;
+            height: 15px;
+            width: 15px;
+            transform: rotate(45deg);
+            background-color: var(--overlay-background);
+            border: {
+                top: 1px solid var(--my-account-border-color);
+                left: 1px solid var(--my-account-border-color);
+            }
+        }
+    }
+
     &-Empty {
         padding: 1rem;
         border-bottom: 1px solid var(--expandable-content-color);
@@ -15,7 +41,10 @@
         bottom: 0;
         left: 0;
         width: 100%;
-        // padding-bottom: 4rem;
+
+        @include after-mobile {
+            position: relative;
+        }
     }
 
     &-CheckoutButton {
@@ -32,9 +61,12 @@
     &-Promo {
         padding: 1rem;
         text-align: center;
-        border-top: 1px solid var(--expandable-content-color);
         border-bottom: 1px solid var(--cart-overlay-divider-background);
         background: var(--cart-overlay-promo-background);
+
+        @include mobile {
+            border-top: 1px solid var(--expandable-content-color);
+        }
 
         strong {
             margin: 0 5px;

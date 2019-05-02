@@ -11,9 +11,6 @@
 
 .HomePage {
     &-Wrapper {
-        max-width: 1200px;
-        min-height: 100vh;
-        
         @include mobile {
             padding: 0;
         }
