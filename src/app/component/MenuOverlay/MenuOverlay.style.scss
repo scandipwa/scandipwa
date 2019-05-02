@@ -20,7 +20,7 @@
     }
 
     &-Menu {
-        padding: 1rem;
+        padding: .8rem;
         
         li:last-child {
             margin-bottom: 0;
@@ -31,7 +31,7 @@
         height: 120px;
         display: flex;
         justify-content: center;
-        margin-bottom: 12px;
+        margin-bottom: .8rem;
 
         picture {
             padding-bottom: 0;
@@ -90,12 +90,11 @@
                 pointer-events: none;
                 
                 a {
-                    padding-top: 20px;
-                    padding-bottom: 20px;
-                    padding-left: 22px;
+                    padding: 1.7rem;
+                    padding-right: 0;
 
                     &:last-of-type {
-                        padding: 0 2px 0 2px;
+                        padding: 0;
                     }
                 }
             }
@@ -111,8 +110,8 @@
     &-ItemListHeading {
         grid-column: span 2;
         text-align: center;
-        margin-top: 50px;
-        margin-bottom: 12px;
+        margin-top: 4rem;
+        margin-bottom: 1rem;
     }
 
     &-Item {
@@ -129,24 +128,6 @@
         font-weight: bold;
         text-transform: uppercase;
         text-align: left;
-
-        &_type_subcategory {
-            font-size: 1rem;
-            font-weight: normal;
-            text-transform: none;
-            padding-left: 20px;
-        }
-
-        &_type_trending {
-            padding-top: 12px;
-            justify-self: center;
-        }
-
-        &_type_banner {
-            position: absolute;
-            justify-self: center;
-            color: white;
-        }
     }
 
     &-ItemFigure {
@@ -160,11 +141,59 @@
                 height: 100px;
                 padding-left: 30px;
                 background-color: var(--menu-overlay-item-figure-background);
+
+                .MenuOverlay-Image {
+                    grid-column: 2;
+                    height: 100%;
+                    padding-bottom: 0;
+                    justify-self: end;
+                }
+            }
+
+            &_trending {
+                .MenuOverlay-Image {
+                    // square
+                    padding-bottom: 100%;
+
+                    img {
+                        object-fit: cover;
+                    }
+                }
+
+                .MenuOverlay-ItemCaption {
+                    padding-top: .8rem;
+                    justify-self: center;
+                }
             }
 
             &_subcategory {
                 display: flex;
-                height: 44px;
+                height: 3.2rem;
+
+                .MenuOverlay-Image {
+                    width: 3.2rem;
+                    height: 3.2rem;
+                    padding-bottom: 0;
+                }
+
+                .MenuOverlay-ItemCaption {
+                    font-size: 1rem;
+                    font-weight: normal;
+                    text-transform: none;
+                    padding-left: 1.5rem;
+                }
+            }
+
+            &_banner {
+                .MenuOverlay-Image {
+                    padding-bottom: 56.25%;
+                }
+
+                .MenuOverlay-ItemCaption {
+                    position: absolute;
+                    justify-self: center;
+                    color: white;
+                }
             }
         }
     }
@@ -173,39 +202,14 @@
         background-color: var(--menu-overlay-horizontal-rule-background);
         height: 1px;
         width: 100%;
-        padding: 0 10px 0 10px;
-        margin-top: 20px;
+        padding: 0 .8rem 0 .8rem;
+        margin-top: 1.5rem;
     }
 
-    &-Image {
-        &_type {
-            &_main {
-                grid-column: 2;
-                height: 100%;
-                padding-bottom: 0;
-                justify-self: end;
-            }
-
-            &_trending {
-                // square
-                padding-bottom: 100%;
-
-                img {
-                    object-fit: cover;
-                }
-            }
-
-            &_subcategory {
-                width: 44px;
-                height: 44px;
-                padding-bottom: 0;
-            }
-
-            &_banner {
-                // 16:9
-                padding-bottom: 56.25%;
-            }
-        }
+    &-PageLink {
+        text-align: center;
+        margin-top: 2.2rem;
+        margin-bottom: 2.2rem;
     }
 
     &-Social {
@@ -226,12 +230,12 @@
         ul {
             display: grid;
             grid-auto-flow: column;
-            width: 170px;
+            width: 14rem;
             justify-items: center;
         }
 
         li {
-            width: 26px;
+            width: 1.9rem;
         }
     }
 
@@ -249,11 +253,5 @@
         + a {
             margin-left: 0;
         }
-    }
-    
-    h3 {
-        text-align: center;
-        margin-top: 30px;
-        margin-bottom: 30px;
     }
 }

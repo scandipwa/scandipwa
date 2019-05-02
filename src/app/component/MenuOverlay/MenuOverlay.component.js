@@ -44,16 +44,24 @@ class MenuOverlay extends Component {
     }
 
     renderItemContent(item, itemMods = {}) {
-        const { title, item_id, icon } = item;
+        const {
+            title,
+            item_id,
+            icon,
+            item_class
+        } = item;
+        const figureProps = { block: 'MenuOverlay', elem: 'ItemFigure' };
+
+        if (item_class) {
+            figureProps.className = item_class;
+        } else {
+            figureProps.mods = itemMods;
+        }
 
         return (
-            <figure
-              block="MenuOverlay"
-              elem="ItemFigure"
-              mods={ itemMods }
-            >
+            <figure { ...figureProps }>
                 <Image
-                  mix={ { block: 'MenuOverlay', elem: 'Image', mods: itemMods } }
+                  mix={ { block: 'MenuOverlay', elem: 'Image' } }
                   src={ `/media/${icon}` }
                   ratio="16x9"
                 />
@@ -61,7 +69,6 @@ class MenuOverlay extends Component {
                   id={ item_id }
                   block="MenuOverlay"
                   elem="ItemCaption"
-                  mods={ itemMods }
                 >
                     { title }
                 </figcaption>
@@ -100,7 +107,6 @@ class MenuOverlay extends Component {
         const childrenArray = Object.values(children);
         const isVisible = activeSubcategory === item_id;
         const subcategoryMods = { type: 'subcategory' };
-        const bannerMods = { type: 'banner' };
 
         return (
             <div
@@ -110,14 +116,11 @@ class MenuOverlay extends Component {
               mods={ { ...subcategoryMods, isVisible } }
             >
                 { childrenArray.map((item) => {
-                    const { url, item_id, item_class } = item;
-                    const itemMods = item_class === 'MenuOverlay-Item_type_banner'
-                        ? bannerMods
-                        : subcategoryMods;
+                    const { url, item_id } = item;
 
                     return (
                         <Link key={ item_id } to={ `/category${url}` } onClick={ this.closeMenuOverlay }>
-                            { this.renderItemContent(item, itemMods) }
+                            { this.renderItemContent(item, subcategoryMods) }
                         </Link>
                     );
                 }) }
@@ -126,7 +129,7 @@ class MenuOverlay extends Component {
     }
 
     renderMainCategory() {
-        const { menu } = this.props;
+        const { menu, blocks: { items } } = this.props;
         const categoryArray = Object.values(menu);
 
         if (!categoryArray.length) return null;
@@ -138,7 +141,6 @@ class MenuOverlay extends Component {
 
         const mainMods = { type: 'main' };
         const trendingMods = { type: 'trending' };
-        const { blocks: { items } } = this.props;
         const getContent = id => ((items && items[id]) ? items[id].content : '');
 
         return (
@@ -173,16 +175,22 @@ class MenuOverlay extends Component {
 
                         { this.renderItemList(trendingCategories, trendingMods) }
                     </ul>
-                    <div
+                    <hr
                       block="MenuOverlay"
                       elem="HorizontalRule"
                     />
-                    <h3>
+                    <h3
+                      block="MenuOverlay"
+                      elem="PageLink"
+                    >
                         <Link to="/page/about-us" onClick={ this.closeMenuOverlay }>
                             ABOUT US
                         </Link>
                     </h3>
-                    <h3>
+                    <h3
+                      block="MenuOverlay"
+                      elem="PageLink"
+                    >
                         <Link to="/page/about-us" onClick={ this.closeMenuOverlay }>
                             CONTACTS
                         </Link>

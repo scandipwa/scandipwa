@@ -156,9 +156,6 @@ class Image extends Component {
         } = this.state;
 
         const {
-            block,
-            elem,
-            mods,
             src,
             alt,
             ratio,
