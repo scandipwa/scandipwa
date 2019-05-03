@@ -15,26 +15,49 @@
 }
 
 .ProductActions {
+    display: flex;
+    flex-direction: column;
+
+    @include desktop {
+        padding-top: 6rem;
+    }
+
     &-Colors,
     &-Price {
         display: grid;
         justify-content: center;
         align-items: center;
         margin: 1.5rem 1rem;
+
+        @include desktop {
+            margin: 0;
+        }
     }
 
     &-Colors {
         grid-column-gap: 1.5rem;
         grid-template-columns: repeat(auto-fit, minmax(min-content, 0));
+
+        @include desktop {
+            order: 2;
+        }
     }
 
     &-Price {
         font-size: 25px;
+
+        @include desktop {
+            order: 1;
+        }
     }
 
     &-AddToCart {
         margin: 1.8rem 1rem 1.5rem;
         width: calc(100% - 2rem);
+
+        @include desktop {
+            order: 5;
+        }
     }
 
     &-Section {
@@ -43,14 +66,31 @@
         display: flex;
         flex-wrap: wrap;
 
+        @include desktop {
+            order: 4;
+            border-top: 0;
+        }
+
         &_type {
             &_related {
                 border-top: 0;
                 padding: 1.5rem 0;
+
+                @include desktop {
+                    order: 6;
+                }
             }
 
             &_short {
                 border-bottom: 1px solid var(--overlay-divider-color);
+
+                @include desktop {
+                    order: 0;
+                    border-bottom: 0;
+                    text-align: center;
+                    display: flex;
+                    flex-direction: column;
+                }
             }
         }
     }
@@ -81,5 +121,11 @@
         &_isSelected {
             --product-actions-option-border-color: var(--product-actions-selected-option-border-color);
         }
+    }
+}
+
+.ExpandableContent {
+    @include desktop {
+        display: none;
     }
 }
