@@ -1,0 +1,16 @@
+:root {
+    --product-information-background: #f3f3f3;
+}
+
+.ProductInformation {
+    grid-column: 1 / span 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 120px;
+    background-color: var(--product-information-background);
+
+    &-Image {
+        padding-bottom: 40%;
+    }
+}

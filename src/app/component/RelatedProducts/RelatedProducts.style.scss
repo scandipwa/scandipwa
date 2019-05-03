@@ -10,12 +10,24 @@
  */
 
 .RelatedProducts {
-    display: grid;
-    grid-template-columns: 25% 25% 25% 25%;
-    padding-top: .5rem;
+    @include desktop {
+        grid-column: 1 / span 2;
+    }
 
-    @include mobile {
-        grid-template-columns: 1fr 1fr;
-        grid-gap: 1rem;
+    &-Label {
+        font-size: 1.8rem;
+        text-align: center;
+        padding-bottom: 4rem;
+    }
+
+    &-List {
+        display: grid;
+        grid-template-columns: 25% 25% 25% 25%;
+        padding-top: .5rem;
+    
+        @include mobile {
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 1rem;
+        }
     }
 }
