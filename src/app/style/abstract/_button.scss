@@ -2,10 +2,11 @@
     text-decoration: none; // because we never need underlines in buttons
 
     border-radius: 0;
-    font-size: 1.1rem;
+    font-size: 0.85rem;
     font-weight: 700;
     text-transform: uppercase;
-    padding: var(--button-padding);
+    padding: 0;
+    height: 3rem;
     color: var(--button-color);
     background-color: var(--button-background);
     transition-property: background-color, color;
@@ -59,6 +60,8 @@
         margin: 0;
         padding: 0;
         font-weight: normal;
+        text-align: left;
+        font-size: 0.95rem;
 
         &:hover,
         &:focus {

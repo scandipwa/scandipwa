@@ -12,6 +12,7 @@
 :root {
     --checkbox-label-color: #0a0a0a;
     --my-account-border-color: #f26323;
+    --my-account-input-label-color: rgba(10, 10, 10, 0.59);
 }
 
 .MyAccountOverlay {
@@ -48,7 +49,7 @@
 
     button {
         width: 100%;
-        margin-top: 0.5rem;
+        margin-top: .5rem;
     }
 
     input {
@@ -112,6 +113,8 @@
 
         &_state {
             &_createAccount {
+                padding-top: 1rem;
+
                 h4 {
                     padding-right: 1rem;
                     display: inline;
@@ -120,11 +123,30 @@
                 h3 {
                     margin-bottom: 1rem;
                 }
+
+                fieldset {
+                    legend {
+                        font-size: .95rem;
+                        border: 0;
+                        padding-bottom: 1rem;
+                    }
+
+                    &:last-of-type {
+                        legend {
+                            text-transform: uppercase;
+                            padding-bottom: .75rem;
+                        }
+                    }
+                }
+
+                .Field {
+                    margin-top: .7rem;
+                }
             }
 
             &_forgotPassword {
                 h4 {
-                    font-size: 0.95rem;
+                    font-size: .95rem;
                     width: initial;
                 }
 
@@ -141,7 +163,8 @@
         }
 
         h4 {
-            font-weight: normal;
+            font-size: 1.15rem;
+            font-weight: bold;
             margin-bottom: .5rem;
         }
 
@@ -151,7 +174,7 @@
     }
 
     &-Additional {
-        padding-top: 5rem;
+        padding-top: 5.5rem;
 
         section {
             display: flex;
@@ -166,6 +189,19 @@
         &_state {
             &_createAccount {
                 padding-top: 2rem;
+
+                h4 {
+                    font-size: .95rem;
+                    margin: 0;
+                    padding-right: 0;
+                }
+
+                button {
+                    width: initial;
+                    height: initial;
+                    margin: 0;
+                    padding-left: 0.4rem;
+                }
             }
 
             &_signIn {
@@ -174,8 +210,10 @@
                 }
             }
 
-            &_forgotPassword,
-            &_createAccount {
+            &_forgotPassword {
+                padding-top: 2.8rem;
+                padding-left: 2.1rem;
+
                 section {
                     display: flex;
 
@@ -187,47 +225,101 @@
                     }
 
                     h4 {
+                        font-size: .95rem;
                         margin-bottom: 0;
                         align-self: center;
+                    }
+
+                    &:last-of-type {
+                        padding-top: .1rem;
                     }
                 }
             }
 
             &_forgotPasswordSuccess {
+                padding-top: 4.3rem;
+
                 h4 {
                     font-size: 1rem;
                     line-height: 1.5;
-                    padding-bottom: 2rem;
+                    padding-bottom: 1.4rem;
+                    font-weight: normal;
+                    letter-spacing: normal;
                 }
             }
         }
 
-  }
+    }
 
-  &-Buttons {
-      margin-top: 0.5rem;
-  }
+    &-Buttons {
+        margin-top: .5rem;
 
-  &-Checkbox {
-      display: flex;
-      flex-direction: row-reverse;
-      right: 14px;
-      justify-content: flex-end;
-      align-items: center;
-      margin-bottom: 2rem;
+        button {
+            padding: 0;
+            height: 3rem;
+        }
+    }
 
-      > label:first-of-type {
-          color: var(--checkbox-label-color);
-          font-size: 0.8rem;
-          font-weight: 500;
-          padding-bottom: 0;
-      }
+    &-Button {
+        &_likeLink {
+            font-size: .95rem;
+            margin-top: 1.2rem;
+        }
+    }
 
-      input {
-          position: relative;
-          width: 20px;
-          height: 20px;
-          left: 20px;
-      }
-  }
+    &-Checkbox {
+        display: flex;
+        flex-direction: row-reverse;
+        right: 14px;
+        justify-content: flex-end;
+        align-items: center;
+        margin-bottom: 2rem;
+        margin-top: .9rem;
+
+        > label:first-of-type {
+            color: var(--checkbox-label-color);
+            font-size: .8rem;
+            font-weight: 500;
+            padding-bottom: 0;
+            margin-left: -.8rem;
+        }
+
+        > label:last-of-type {
+            width: 1.1rem;
+            height: 1.1rem;
+
+            &::after {
+                left: .1rem;
+                top: .4rem;
+                width: .15rem;
+                height: .15rem;
+            }
+        }
+
+        input {
+            position: relative;
+            width: 20px;
+            height: 20px;
+            left: 20px;
+        }
+    }
+}
+
+.Field {
+    margin-top: 1.6rem;
+
+    &:first-of-type {
+        margin-top: 0.5rem;
+    }
+
+    label {
+        color: var(--my-account-input-label-color);
+        font-size: .75rem;
+        font-weight: 300;
+
+    }
+
+    input {
+        max-height: 3rem;
+    }
 }
