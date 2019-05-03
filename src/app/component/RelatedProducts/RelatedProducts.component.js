@@ -71,7 +71,8 @@ class RelatedProducts extends Component {
     render() {
         const {
             relatedProducts: { items, total_count },
-            product
+            product,
+            label
         } = this.props;
 
         const productIsLoaded = Object.keys(product).length !== 0;
@@ -81,9 +82,12 @@ class RelatedProducts extends Component {
         if (productIsLoaded && (!hasRelatedProducts || (relatedProductsLoaded && total_count === 0))) return null;
 
         return (
-            <ul block="RelatedProducts">
+            <section block="RelatedProducts">
+            <h5 block="RelatedProducts" elem="Label">{ label }</h5>
+            <ul block="RelatedProducts" elem="List">
                 { items ? this.renderProducts(items) : this.renderPlaceholder() }
             </ul>
+            </section>
         );
     }
 }
@@ -98,7 +102,12 @@ RelatedProducts.propTypes = {
         total_count: PropTypes.number
     }).isRequired,
     clearRelatedProducts: PropTypes.func.isRequired,
-    areDetailsLoaded: PropTypes.bool.isRequired
+    areDetailsLoaded: PropTypes.bool.isRequired,
+    label: PropTypes.string
+};
+
+RelatedProducts.defaultProps = {
+    label: 'ScandiPWA recommends'
 };
 
 export default RelatedProducts;

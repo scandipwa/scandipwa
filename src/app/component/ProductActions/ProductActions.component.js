@@ -23,6 +23,7 @@ import ExpandableContent from 'Component/ExpandableContent';
 import RelatedProducts from 'Component/RelatedProducts';
 import Html from 'Component/Html';
 import './ProductActions.style';
+import ProductInformation from 'Component/ProductInformation';
 
 /**
  * Product actions
@@ -100,17 +101,9 @@ class ProductActions extends Component {
     }
 
     renderAdditionalInformation() {
-        const { product: { description } } = this.props;
+        const { product } = this.props;
 
-        if (!description) return null;
-
-        const { html } = description;
-
-        return (
-            <ExpandableContent heading="Product Information">
-                <Html content={ html } />
-            </ExpandableContent>
-        );
+        return <ProductInformation product={ product } type="expandable" />;
     }
 
     renderSkuAndStock() {
@@ -289,8 +282,6 @@ class ProductActions extends Component {
     }
 
     render() {
-        console.log(this.props.product);
-
         return (
             <article block="ProductActions">
                 { this.renderColorOptions() }
