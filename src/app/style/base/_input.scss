@@ -9,10 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+:root {
+    --input-border-color: #e0e0e0;
+}
+
 input,
 textarea {
     --input-color: #{color(primary, base, true)};
-    --input-border-color: #{color(neutral, base, true)};
 
     border: 1px solid var(--input-border-color);
     background-color: var(--color-footer-light);
@@ -81,7 +84,7 @@ textarea {
         width: 1.5rem;
         height: 1.5rem;
         background-color: var(--box-color);
-        border: 1px solid color(neutral, base);
+        border: 1px solid var(--input-border-color);
         transition-property: background-color, border-color;
         transition-duration: .25s;
         transition-timing-function: ease-in;
