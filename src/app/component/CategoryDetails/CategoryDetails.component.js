@@ -25,19 +25,23 @@ class CategoryDetails extends Component {
         const { category: { name, description, image } } = this.props;
 
         return (
-            <div block="CategoryDetails">
-                <Image src={ image && `/media/catalog/category/${image}` } ratio="16x9" arePlaceholdersShown />
+            <article block="CategoryDetails">
                 <div block="CategoryDetails" elem="Description">
                     <h1 block="CategoryDetails" elem="Heading">
-                        <TextPlaceholder content={ name } length="medium" />
+                        <TextPlaceholder content={ name } />
                     </h1>
                     { description
                         ? <Html content={ description } />
                         : <p><TextPlaceholder content={ description } length="long" /></p>
                     }
                 </div>
-
-            </div>
+                <Image
+                  mix={ { block: 'CategoryDetails', elem: 'Picture' } }
+                  src={ image && `/media/catalog/category/${image}` }
+                  ratio="custom"
+                  objectFit="cover"
+                />
+            </article>
         );
     }
 }

@@ -131,7 +131,7 @@ class CheckoutShippingStep extends Component {
                 street: Object.values(street)
             };
 
-            this.estimatePromise = makeCancelable(estimateShippingCost(addressToEstimate))
+            this.estimatePromise = makeCancelable(estimateShippingCost(addressToEstimate));
             this.estimatePromise.promise.then(
                 ({ estimateShippingCosts: shippingMethods }) => this.setState({
                     shippingMethods,
@@ -148,6 +148,7 @@ class CheckoutShippingStep extends Component {
             type = 'text',
             label,
             note,
+            name,
             validation = ['notEmpty'],
             onChange = value => this.setState({ [id]: value }, this.handleFieldChange)
         } = this.fieldMap[id];
@@ -155,6 +156,7 @@ class CheckoutShippingStep extends Component {
         return (
             <Field
               id={ id }
+              name={ name || id }
               type={ type }
               label={ label }
               note={ note }

@@ -107,6 +107,8 @@ class CartItem extends Component {
             <div block="CartItem" elem="Actions" mods={ { isEditing } }>
                 <button
                   block="CartItem"
+                  id="RemoveItem"
+                  name="RemoveItem"
                   elem="Delete"
                   aria-label="Remove item from cart"
                   onClick={ this.handleRemoveItem }
@@ -115,6 +117,7 @@ class CartItem extends Component {
                 </button>
                 <Field
                   id="item_qty"
+                  name="item_qty"
                   type="number"
                   mix={ { block: 'CartItem', elem: 'Qty' } }
                   value={ quantity }

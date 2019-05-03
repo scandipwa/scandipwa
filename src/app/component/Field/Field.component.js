@@ -23,10 +23,11 @@ import './Field.style';
 
 const TEXT_TYPE = 'text';
 const NUMBER_TYPE = 'number';
-const CHECKBOX_TYPE = 'checkbox';
 const RADIO_TYPE = 'radio';
+const CHECKBOX_TYPE = 'checkbox';
 const TEXTAREA_TYPE = 'textarea';
 const PASSWORD_TYPE = 'password';
+const SELECT_TYPE = 'select';
 
 /**
  * Input fields component
@@ -36,12 +37,9 @@ class Field extends Component {
     constructor(props) {
         super(props);
 
-        this.onChange = this.onChange.bind(this);
-
         const {
             type,
             min,
-            checked,
             value: propsValue
         } = this.props;
 
@@ -53,19 +51,23 @@ class Field extends Component {
                 if (value < min) value = min;
                 value = 0;
                 break;
-            case CHECKBOX_TYPE:
-                value = false;
-                break;
-            case RADIO_TYPE:
-                value = false;
-                break;
             default:
                 value = '';
                 break;
             }
         }
 
-        this.state = { value, isChecked: checked };
+        this.state = {
+            value,
+            isSelectExpanded: false
+        };
+
+        this.onChange = this.onChange.bind(this);
+        this.onFocus = this.onFocus.bind(this);
+        this.onKeyPress = this.onKeyPress.bind(this);
+        this.onClick = this.onClick.bind(this);
+        this.handleSelectExpand = this.handleSelectExpand.bind(this);
+        this.handleSelectListOptionClick = this.handleSelectListOptionClick.bind(this);
     }
 
     /**
@@ -121,9 +123,7 @@ class Field extends Component {
             this.setState({ value });
             break;
         case CHECKBOX_TYPE:
-            const { isChecked } = this.state;
-            if (onChange) onChange(!isChecked);
-            this.setState({ isChecked: !isChecked });
+            this.setState(state => ({ isChecked: !state.isChecked }));
             break;
         default:
             if (onChange) onChange(value);
@@ -131,9 +131,23 @@ class Field extends Component {
         }
     }
 
+    handleSelectExpand() {
+        this.setState(state => ({ isSelectExpanded: !state.isSelectExpanded }));
+    }
+
+    handleSelectListOptionClick(event) {
+        const { target: { value } } = event;
+        const { formRef } = this.props;
+
+        formRef.current.value = value;
+
+        this.handleSelectExpand();
+    }
+
     renderTextarea() {
         const {
             id,
+            name,
             rows,
             isAutocompleteAllowed,
             formRef
@@ -144,42 +158,14 @@ class Field extends Component {
             <textarea
               ref={ formRef }
               id={ id }
+              name={ name }
               rows={ rows }
               value={ value }
               onChange={ this.onChange }
-              onFocus={ event => this.onFocus(event) }
-              onClick={ event => this.onClick(event) }
+              onFocus={ this.onFocus }
+              onClick={ this.onClick }
               autoComplete={ !isAutocompleteAllowed ? 'off' : undefined }
             />
-        );
-    }
-
-    renderCheckboxInput() {
-        const { isChecked } = this.state;
-        const {
-            id, name, type, value, formRef, checked
-        } = this.props;
-
-        const checkedBool = type === RADIO_TYPE
-            ? checked === value
-            : isChecked;
-
-        return (
-            <>
-                <input
-                  ref={ formRef }
-                  type={ type }
-                  checked={ checkedBool }
-                  name={ name }
-                  value={ value }
-                  onChange={ this.onChange }
-                  onKeyPress={ this.onChange }
-                  onFocus={ event => this.onFocus(event) }
-                  onClick={ event => this.onClick(event) }
-                  id={ id }
-                />
-                <label htmlFor={ id } />
-            </>
         );
     }
 
@@ -189,8 +175,9 @@ class Field extends Component {
      */
     renderTypeText() {
         const {
-            placeholder,
             id,
+            name,
+            placeholder,
             isAutocompleteAllowed,
             formRef
         } = this.props;
@@ -201,10 +188,11 @@ class Field extends Component {
               ref={ formRef }
               type="text"
               id={ id }
+              name={ name }
               value={ value }
               onChange={ (this.onChange) }
-              onFocus={ event => this.onFocus(event) }
-              onClick={ event => this.onClick(event) }
+              onFocus={ this.onFocus }
+              onClick={ this.onClick }
               placeholder={ placeholder }
               autoComplete={ !isAutocompleteAllowed ? 'off' : undefined }
             />
@@ -212,7 +200,9 @@ class Field extends Component {
     }
 
     renderTypePassword() {
-        const { placeholder, id, formRef } = this.props;
+        const {
+            id, name, placeholder, formRef
+        } = this.props;
         const { value } = this.state;
 
         return (
@@ -220,17 +210,18 @@ class Field extends Component {
               ref={ formRef }
               type="password"
               id={ id }
+              name={ name }
               value={ value }
               onChange={ this.onChange }
-              onFocus={ event => this.onFocus(event) }
-              onClick={ event => this.onClick(event) }
+              onFocus={ this.onFocus }
+              onClick={ this.onClick }
               placeholder={ placeholder }
             />
         );
     }
 
     renderTypeNumber() {
-        const { id, formRef } = this.props;
+        const { id, name, formRef } = this.props;
         const { value } = this.state;
 
         return (
@@ -239,11 +230,12 @@ class Field extends Component {
                   ref={ formRef }
                   type="number"
                   id={ id }
+                  name={ name }
                   value={ value }
                   onChange={ this.onChange }
-                  onKeyPress={ event => this.onKeyPress(event) }
-                  onFocus={ event => this.onFocus(event) }
-                  onClick={ event => this.onClick(event) }
+                  onKeyPress={ this.onKeyPress }
+                  onFocus={ this.onFocus }
+                  onClick={ this.onClick }
                 />
                 <button onClick={ () => this.handleChange(parseFloat(value) + 1) }>
                     <span>+</span>
@@ -255,18 +247,186 @@ class Field extends Component {
         );
     }
 
+    renderCheckbox() {
+        const {
+            id, name, formRef, disabled, checked
+        } = this.props;
+
+        return (
+            <>
+                <input
+                  ref={ formRef }
+                  id={ id }
+                  name={ name }
+                  type="checkbox"
+                  defaultChecked={ checked }
+                  disabled={ disabled }
+                  onFocus={ this.onFocus }
+                  onClick={ this.onClick }
+                  onKeyPress={ this.onKeyPress }
+                />
+                <label htmlFor={ id } />
+            </>
+        );
+    }
+
+    renderRadioButton() {
+        const {
+            formRef, id, name, value, disabled, checked, label
+        } = this.props;
+
+        return (
+            <label htmlFor={ id }>
+                <input
+                  ref={ formRef }
+                  type="radio"
+                  id={ id }
+                  name={ name }
+                  defaultChecked={ checked }
+                  value={ value }
+                  disabled={ disabled }
+                  onFocus={ this.onFocus }
+                  onClick={ this.onClick }
+                  onKeyPress={ this.onKeyPress }
+                />
+                <label htmlFor={ id } />
+                { label }
+            </label>
+        );
+    }
+
+    static renderMultipleRadioButtons(radioOptions, fieldSetId, fieldSetName = null) {
+        const name = fieldSetName || fieldSetId;
+
+        return (
+            <fieldset id={ fieldSetId } name={ name }>
+                { radioOptions.map((radioButton) => {
+                    const {
+                        id, name, value, disabled, checked, label
+                    } = radioButton;
+
+                    return (
+                        <Field
+                          key={ id }
+                          type={ RADIO_TYPE }
+                          id={ id }
+                          name={ name }
+                          value={ value }
+                          disabled={ disabled }
+                          checked={ checked }
+                          label={ label }
+                        />
+                    );
+                }) }
+            </fieldset>
+        );
+    }
+
+    renderSelectWithOptions() {
+        const {
+            name, id, selectOptions, formRef, placeholder
+        } = this.props;
+        const { isSelectExpanded: isExpanded } = this.state;
+        let defaultValue = '';
+
+        selectOptions.map((option) => {
+            const { selected, value } = option;
+
+            if (selected) {
+                defaultValue = value;
+            }
+
+            return null;
+        });
+
+        return (
+            <>
+            <div
+              block="Select"
+              elem="Wrapper"
+              onClick={ this.handleSelectExpand }
+              onKeyPress={ this.handleSelectExpand }
+              role="menu"
+              tabIndex="0"
+              aria-expanded={ isExpanded }
+            >
+                <select
+                  ref={ formRef }
+                  name={ name }
+                  id={ id }
+                  tabIndex="0"
+                  defaultValue={ defaultValue }
+                  onChange={ this.onChange }
+                >
+                    <option value="" label={ placeholder } disabled />
+                    { selectOptions.map((option) => {
+                        const {
+                            id, value, disabled, label
+                        } = option;
+
+                        return (
+                            <option
+                              key={ id }
+                              id={ id }
+                              value={ value }
+                              disabled={ disabled }
+                              label={ label }
+                            />
+                        );
+                    }) }
+                </select>
+            </div>
+            <label
+              htmlFor={ id }
+              block="Select"
+              mods={ { isExpanded } }
+            />
+            <ul
+              id="optionlist"
+              block="Select"
+              elem="OptionList"
+              mods={ { isExpanded } }
+            >
+                { selectOptions.map((option) => {
+                    const {
+                        id, label, value
+                    } = option;
+
+                    return (
+                        <li
+                          block="Select"
+                          elem="OptionList-Item"
+                          mods={ { isExpanded } }
+                          key={ id }
+                          value={ value }
+                          role="menuitem"
+                          onClick={ this.handleSelectListOptionClick }
+                          onKeyPress={ this.handleSelectListOptionClick }
+                          tabIndex={ isExpanded ? '0' : '-1' }
+                        >
+                            { label }
+                        </li>
+                    );
+                }) }
+            </ul>
+            </>
+        );
+    }
+
     renderInputOfType(type) {
         switch (type) {
         case CHECKBOX_TYPE:
-            return this.renderCheckboxInput();
+            return this.renderCheckbox();
         case RADIO_TYPE:
-            return this.renderCheckboxInput();
+            return this.renderRadioButton();
         case NUMBER_TYPE:
             return this.renderTypeNumber();
         case TEXTAREA_TYPE:
             return this.renderTextarea();
         case PASSWORD_TYPE:
             return this.renderTypePassword();
+        case SELECT_TYPE:
+            return this.renderSelectWithOptions();
         default:
             return this.renderTypeText();
         }
@@ -296,15 +456,16 @@ class Field extends Component {
 
 Field.propTypes = {
     id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
     type: PropTypes.oneOf([
         TEXT_TYPE,
         NUMBER_TYPE,
-        CHECKBOX_TYPE,
         TEXTAREA_TYPE,
+        PASSWORD_TYPE,
         RADIO_TYPE,
-        PASSWORD_TYPE
+        CHECKBOX_TYPE,
+        SELECT_TYPE
     ]).isRequired,
-    name: PropTypes.string,
     label: PropTypes.string,
     note: PropTypes.string,
     message: PropTypes.string,
@@ -320,6 +481,16 @@ Field.propTypes = {
         PropTypes.bool,
         PropTypes.string
     ]),
+    selectOptions: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.string,
+        value: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number
+        ]),
+        disabled: PropTypes.bool,
+        label: PropTypes.string
+    })),
+    disabled: PropTypes.bool,
     onChange: PropTypes.func,
     onFocus: PropTypes.func,
     onClick: PropTypes.func,
@@ -340,6 +511,8 @@ Field.propTypes = {
 Field.defaultProps = {
     rows: 4,
     min: 0,
+    disabled: false,
+    checked: false,
     mix: {}
 };
 

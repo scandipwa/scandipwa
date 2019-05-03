@@ -9,22 +9,31 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+:root {
+    --category-details-background: #f8f8f8;
+}
+
 .CategoryDetails {
     display: grid;
-    grid-template-columns: 15rem auto;
+    grid-template-columns: auto 15rem;
     grid-gap: 1rem;
+    background-color: var(--category-details-background);
+    margin-bottom: 1rem;
 
     @include mobile {
         display: none;
     }
 
-    picture {
-        @include mobile {
-            display: none;
-        }
+    &-Picture {
+        mix-blend-mode: multiply;
+        height: 100%;
+        background: none;
     }
 
     &-Heading {
+        font-size: 20px;
+        font-weight: bold;
+        text-transform: uppercase;
         margin-bottom: .5rem;
     }
 
@@ -32,5 +41,17 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
+        font-size: 14px;
+        font-weight: 300;
+        padding: 2rem;
+        height: 9rem;
+    }
+
+    p {
+        max-width: 500px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        height: 2rem;
     }
 }

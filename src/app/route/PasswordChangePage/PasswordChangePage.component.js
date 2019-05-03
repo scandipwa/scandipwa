@@ -118,12 +118,14 @@ class PasswordChangePage extends Component {
                               type="password"
                               label="New password"
                               id="passwordReset"
+                              name="passwordReset"
                               validation={ ['notEmpty', 'password'] }
                             />
                             <Field
                               type="password"
                               label="Confirm password"
                               id="passwordResetConfirm"
+                              name="passwordResetConfirm"
                               validation={ ['notEmpty', 'password'] }
                             />
                             <div block="MyAccount" elem="Buttons">

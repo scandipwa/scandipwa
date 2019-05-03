@@ -149,7 +149,6 @@ class ProductCard extends Component {
                       alt="Product Thumbnail"
                       ratio="custom"
                       mix={ { block: 'ProductCard', elem: 'Picture' } }
-                      arePlaceholdersShown
                     />
                     <div block="ProductCard" elem="Content">
                         { this.renderProductPrice() }
@@ -158,7 +157,7 @@ class ProductCard extends Component {
                             <TextPlaceholder content={ name } length="medium" />
                         </p>
                         <p block="ProductCard" elem="Brand">
-                            <TextPlaceholder content={ brand } />
+                            { brand }
                         </p>
                     </div>
                 </TagName>
