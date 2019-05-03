@@ -129,6 +129,8 @@
             }
 
             &_short-description {
+                display: none;
+
                 @include desktop {
                     order: 3;
                     flex-basis: 100%;

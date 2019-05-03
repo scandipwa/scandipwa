@@ -20,5 +20,13 @@
             grid-template-columns: 100%;
             padding: 0;
         }
+
+        > .RelatedProducts {
+            display: none;
+
+            @include desktop {
+                display: block;
+            }
+        }
     }
 }
