@@ -29,7 +29,15 @@ class CategoryFilterOverlay extends Component {
         const { min, max } = priceValue;
 
         return (
-            <ExpandableContent heading="Price" subHeading={ `From: ${min} to ${max}` }>
+            <ExpandableContent
+              heading="Price"
+              subHeading={ `From: ${min} to ${max}` }
+              mix={ {
+                  block: 'CategoryFilterOverlay',
+                  elem: 'Filter',
+                  mods: { type: 'price' }
+              } }
+            >
                 <RangeSelector
                   value={ priceValue }
                   minValue={ minPriceValue }
@@ -45,8 +53,9 @@ class CategoryFilterOverlay extends Component {
             const { value_string } = filterItem;
 
             return (
-                <li key={ value_string } block="CategoryFilterOverlay" elem="Item">
+                <li key={ value_string }>
                     <Swatch
+                      mix={ { block: 'CategoryFilterOverlay', elem: 'Item' } }
                       filterItem={ filterItem }
                       requestVar={ requestVar }
                       isSelected={ appliedFilters.indexOf(value_string) !== -1 }
@@ -69,7 +78,16 @@ class CategoryFilterOverlay extends Component {
         ).join(', ');
 
         return (
-            <ExpandableContent key={ requestVar } heading={ name } subHeading={ appliedFilterItemsString }>
+            <ExpandableContent
+              key={ requestVar }
+              heading={ name }
+              subHeading={ appliedFilterItemsString }
+              mix={ {
+                  block: 'CategoryFilterOverlay',
+                  elem: 'Filter',
+                  mods: { type: requestVar }
+              } }
+            >
                 <ul block="CategoryFilterOverlay" elem="ItemList" mods={ { type: requestVar } }>
                     { this.renderFilterItems(requestVar, filterItems, appliedFilterItems) }
                 </ul>
@@ -82,6 +100,7 @@ class CategoryFilterOverlay extends Component {
 
         return (
             <Overlay mix={ { block: 'CategoryFilterOverlay' } } id="category-filter">
+                <h2 block="CategoryFilterOverlay" elem="Heading">Shopping Options</h2>
                 { availableFilters.map(filter => this.renderFilter(filter)) }
                 { this.renderPriceRange() }
             </Overlay>

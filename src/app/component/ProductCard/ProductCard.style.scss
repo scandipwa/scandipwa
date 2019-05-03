@@ -32,17 +32,34 @@
         flex-wrap: wrap;
     }
 
-    &-Name {
+    &-Name,
+    &-Brand {
         width: 100%;
         font-size: .9rem;
         max-width: 100%;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+
+        @include after-mobile {
+            font-size: 14px;
+            line-height: 1.3;
+        }
+    }
+
+    &-Name {
+        @include after-mobile {
+            margin-top: .5rem;
+        }
     }
 
     &-Brand {
-        display: none;
+        font-weight: 300;
+        opacity: .5;
+
+        @include mobile {
+            display: none;
+        }
     }
 
     &-Picture {
@@ -71,13 +88,25 @@
     }
 
     &-Color {
+        --product-card-color-size: 9px;
+
+        @include after-mobile {
+            --product-card-color-size: 10px;
+        }
+
         display: inline-block;
-        width: 9px;
-        height: 9px;
+        width: var(--product-card-color-size);
+        height: var(--product-card-color-size);
         border-radius: 50%;
         overflow: hidden;
-        margin-left: 3px;
+        margin-left: calc(var(--product-card-color-size) / 3);
         border: 1px solid var(--product-card-color-border-color);
+    }
+
+    &-Price {
+        @include after-mobile {
+            font-size: 20px;
+        }
     }
 
     a {

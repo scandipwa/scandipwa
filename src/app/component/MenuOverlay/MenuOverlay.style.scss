@@ -22,11 +22,11 @@
     z-index: -1;
 
     @include after-mobile {
-        top: 50px;
+        top: var(--header-height);
         left: 0;
         position: fixed;
         width: 400px;
-        height: calc(100% - 50px);
+        height: calc(100% - var(--header-height));
         transition-property: opacity, transform;
         transform: translateX(-100%);
         will-change: transform;

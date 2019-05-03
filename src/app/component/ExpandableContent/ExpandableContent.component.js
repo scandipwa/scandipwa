@@ -18,10 +18,13 @@ class ExpandableContent extends Component {
 
     render() {
         const { isContentExpanded } = this.state;
-        const { heading, subHeading, children } = this.props;
+        const {
+            heading, subHeading,
+            children, mix
+        } = this.props;
 
         return (
-            <article block="ExpandableContent">
+            <article block="ExpandableContent" mix={ mix }>
                 <button
                   block="ExpandableContent"
                   elem="Button"
@@ -45,13 +48,19 @@ ExpandableContent.propTypes = {
     children: PropTypes.oneOfType([
         PropTypes.arrayOf(PropTypes.node),
         PropTypes.node
-    ])
+    ]),
+    mix: PropTypes.shape({
+        block: PropTypes.string,
+        elem: PropTypes.string,
+        mods: PropTypes.objectOf(PropTypes.string)
+    })
 };
 
 ExpandableContent.defaultProps = {
     heading: '',
     subHeading: '',
-    children: []
+    children: [],
+    mix: {}
 };
 
 export default ExpandableContent;

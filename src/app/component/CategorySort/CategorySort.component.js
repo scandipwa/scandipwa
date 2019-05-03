@@ -102,15 +102,17 @@ class CategorySort extends Component {
         return (
             sortFields && Object.keys(sortFields).length > 0
                 ? (
-                    <Field
-                      id="category-sort"
-                      name="category-sort"
-                      type="select"
-                      label="SORT"
-                      mix={ { block: 'CategorySort', elem: 'Select' } }
-                      selectOptions={ selectableOptions }
-                      onChange={ this.onChange }
-                    />
+                    <div block="CategorySort">
+                        <Field
+                          id="category-sort"
+                          name="category-sort"
+                          type="select"
+                          label="SORT"
+                          mix={ { block: 'CategorySort', elem: 'Select' } }
+                          selectOptions={ selectableOptions }
+                          onChange={ this.onChange }
+                        />
+                    </div>
                 )
                 : this.renderPlaceholder()
         );

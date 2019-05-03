@@ -11,21 +11,30 @@
 
 .CategoryPage {
     &-Wrapper {
-        border-top: 1px solid var(--overlay-divider-color);
-        padding: 0;
+        @include after-mobile {
+            display: grid;
+            grid-template-columns: 300px auto;
+            grid-column-gap: 4rem;
+            padding-top: 2rem;
+        }
+
+        @include mobile {
+            padding: 0;
+            border-top: 1px solid var(--overlay-divider-color);
+        }
     }
 
     &-ItemsCount {
-        border-top: 1px solid var(--overlay-divider-color);
-        padding-left: 1rem;
         padding-top: .3rem;
         padding-bottom: 1rem;
-        font-size: .9rem;
 
         @include mobile {
+            order: 1;
+            font-size: .9rem;
+            padding-left: 1rem;
             text-align: center;
             grid-column: span 2;
-            order: 1;
+            border-top: 1px solid var(--overlay-divider-color);
         }
     }
 
@@ -35,6 +44,10 @@
         font-weight: 600;
         font-size: 16px;
         min-height: 50px;
+
+        @include after-mobile {
+            display: none;
+        }
 
         &::before,
         &::after {
@@ -70,8 +83,10 @@
         grid-template-columns: 50% 50%;
 
         > * {
-            padding-left: 1rem;
-            padding-right: 1rem;
+            @include mobile {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
         }
     }
 }
