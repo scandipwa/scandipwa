@@ -129,6 +129,25 @@ class ProductActions extends Component {
         );
     }
 
+    renderShortDescription() {
+        const { product: { short_description } } = this.props;
+
+        if (!short_description) return null;
+
+        const { html } = short_description;
+
+        return (
+            <section
+              block="ProductActions"
+              elem="Section"
+              mods={ { type: 'short-description' } }
+              aria-label="Product short description"
+            >
+                <Html content={ html } />
+            </section>
+        );
+    }
+
     renderShortProductInformation() {
         const { product: { brand, short_description, name } } = this.props;
 
@@ -280,6 +299,7 @@ class ProductActions extends Component {
                 { this.renderOtherOptions() }
                 { this.renderShortProductInformation() }
                 { this.renderSkuAndStock() }
+                { this.renderShortDescription() }
                 { this.renderAdditionalInformation() }
                 { this.renderRelatedProducts() }
             </article>
