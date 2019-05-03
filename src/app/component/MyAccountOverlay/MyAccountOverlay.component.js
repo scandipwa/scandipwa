@@ -294,11 +294,10 @@ class MyAccountOverlay extends Component {
                           validation={ ['notEmpty'] }
                         />
                         <Field
-                          block="MyAccountOverlay"
-                          elem="Checkbox"
                           type="checkbox"
                           label="Subscribe to ScandiPWA newsletter"
                           id="is_subscribed"
+                          mix={ { block: 'MyAccountOverlay', elem: 'Checkbox' } }
                           name="is_subscribed"
                         />
                     </fieldset>
