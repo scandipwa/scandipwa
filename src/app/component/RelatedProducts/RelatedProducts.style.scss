@@ -12,12 +12,7 @@
 .RelatedProducts {
     @include desktop {
         grid-column: 1 / span 2;
-    }
-
-    &-Label {
-        font-size: 1.8rem;
-        text-align: center;
-        padding-bottom: 4rem;
+        padding: 0 200px;
     }
 
     &-List {
@@ -28,6 +23,10 @@
         @include mobile {
             grid-template-columns: 1fr 1fr;
             grid-gap: 1rem;
+        }
+
+        @include desktop {
+            padding: 0;
         }
     }
 }
