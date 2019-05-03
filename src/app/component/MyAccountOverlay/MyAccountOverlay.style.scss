@@ -101,8 +101,8 @@
     &-Additional {
         padding: {
             top: 0;
-            left: 2rem;
-            right: 2rem;
+            left: 1rem;
+            right: 1rem;
         };
     }
 
@@ -126,16 +126,11 @@
 
                 fieldset {
                     legend {
-                        font-size: .95rem;
+                        text-transform: uppercase;
+                        font-size: 1rem;
+                        font-weight: 600;
                         border: 0;
-                        padding-bottom: 1rem;
-                    }
-
-                    &:last-of-type {
-                        legend {
-                            text-transform: uppercase;
-                            padding-bottom: .75rem;
-                        }
+                        padding-bottom: 0;
                     }
                 }
 
