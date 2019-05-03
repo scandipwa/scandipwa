@@ -1,12 +1,27 @@
+:root {
+    --category-filter-overlay-desktop-color: #979797;
+}
+
 .CategoryFilterOverlay {
     @include after-mobile {
+        position: relative;
         grid-row: 1/5;
-        height: 100vh;
-        position: sticky;
-        top: 40px;
-        overflow-y: hidden;
-        padding-right: 2rem;
         width: 100%;
+        opacity: 1;
+        pointer-events: all;
+        display: flex;
+        flex-direction: column;
+    }
+
+    &-Heading {
+        font-size: 18px;
+        font-weight: bold;
+        text-transform: none;
+        margin-top: 0;
+
+        @include mobile {
+            display: none;
+        }
     }
 
     &-ItemList {
@@ -14,23 +29,85 @@
         grid-template-columns: repeat(3, 33.33%);
         text-align: center;
 
-        &_type {
-            &_cat {
-                grid-template-columns: 50% 50%;
-            }
+        @include after-mobile {
+            --swatch-type-size: 33px;
 
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        &:not(.CategoryFilterOverlay-ItemList_type_color) {
+            grid-template-columns: 50% 50%;
+        }
+
+        &_type {
             &_color {
                 grid-template-columns: repeat(5, 20%);
             }
 
-            &_size {
-                grid-template-columns: 50% 50%;
+            &_cat {
+                @include after-mobile {
+                    --swatch-type-size: auto;
+
+                    flex-direction: column;
+                    align-items: flex-start;
+                }
+            }
+        }
+    }
+
+    &-Item {
+        @include after-mobile {
+            margin-right: 1rem;
+        }
+
+        &_isSelected {
+            &:not(.Swatch_type_color):not(.Swatch_type_cat) {
+                --category-filter-overlay-desktop-color: #000;
+            }
+        }
+
+        &:not(.Swatch_type_color):not(.Swatch_type_cat) {
+            @include after-mobile {
+                padding: 0 1rem;
+                border: 1px solid var(--category-filter-overlay-desktop-color);
+                color: var(--category-filter-overlay-desktop-color);
+                margin-right: .5rem;
+            }
+        }
+
+        &_type_cat {
+            &::before {
+                @include after-mobile {
+                    content: "\2022";
+
+                    margin-right: 1rem;
+                    margin-left: 2px;
+                }
             }
         }
     }
 
     &-Placeholder {
         padding: 1rem;
+    }
+
+    &-Filter {
+        order: 50;
+
+        &_type {
+            &_cat {
+                order: 100;
+            }
+
+            &_price {
+                order: 60;
+
+                @include after-mobile {
+                    margin-bottom: 1rem;
+                }
+            }
+        }
     }
 
     li {

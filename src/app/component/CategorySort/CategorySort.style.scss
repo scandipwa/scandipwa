@@ -10,7 +10,9 @@
  */
 
 .CategorySort {
-    margin-top: 0;
+    @include after-mobile {
+        display: none;
+    }
 
     &-Select {
         select[name="category-sort"] {
@@ -21,14 +23,13 @@
         }
 
         .Select::after {
-            left: 48.5px;
-            bottom: 11px;
+            left: 52px;
+            bottom: 12px;
         }
 
         label:first-of-type {
-            font-size: 0.85rem;
-            padding-left: 0.6rem;
-            padding-top: 0.2rem;
+            font-weight: 600;
+            font-size: 16px;
         }
     }
 }

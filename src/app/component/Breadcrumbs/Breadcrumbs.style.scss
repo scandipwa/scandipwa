@@ -11,33 +11,27 @@
 
 .Breadcrumbs {
     background-color: var(--color-breadcrumbs-background);
+    margin-top: var(--header-height);
 
-    $crumb-padding: 10px;
+    $crumb-padding: 20px;
     $arrow-size: 4px;
 
     @include mobile {
         --color-breadcrumbs-background: #fff;
-    }
 
-    @include mobile {
         display: none;
     }
 
     &-List {
         list-style: none;
-        padding: .8rem 0;
-        max-width: 1200px;
-        min-height: calc(2.7rem);
-        margin: {
-            left: auto;
-            right: auto;
-        };
+        padding: 10px 0;
+        min-height: 40px;
     }
 
     &-Crumb {
         display: inline-block;
         font-size: 1rem;
-        line-height: 1;
+        line-height: 20px;
         padding: 0 $crumb-padding 0 0;
 
         a {

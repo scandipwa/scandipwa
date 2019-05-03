@@ -11,6 +11,7 @@
 
 :root {
     --swatch-active-color: #f26323;
+    --swatch-type-size: 45px;
 }
 
 .Swatch {
@@ -19,14 +20,14 @@
     --swatch-border-color: #000;
     --swatch-is-selected: 0;
 
-    height: 45px;
+    height: var(--swatch-type-size);
     font-size: 1rem;
     text-transform: uppercase;
     font-weight: 600;
 
     &_type {
         &_color {
-            width: 45px;
+            width: var(--swatch-type-size);
             border-radius: 50%;
             font-size: 0;
 
@@ -45,8 +46,8 @@
             }
 
             &::before {
-                width: 51px;
-                height: 51px;
+                width: calc(var(--swatch-type-size) + 6px);
+                height: calc(var(--swatch-type-size) + 6px);
                 left: -3px;
                 top: -3px;
                 border-radius: inherit;
@@ -54,10 +55,10 @@
             }
 
             &::after {
-                width: 18px;
-                height: 9px;
-                top: 14px;
-                left: 13px;
+                width: calc(var(--swatch-type-size) / 2.5);
+                height: calc(var(--swatch-type-size) / 5);
+                top: calc(var(--swatch-type-size) / 3.3);
+                left: calc(var(--swatch-type-size) / 3.3);
                 transform: rotate(-45deg);
                 border: {
                     left: 2px solid var(--swatch-check-mark-background);

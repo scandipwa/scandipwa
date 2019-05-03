@@ -9,6 +9,11 @@
 	--header-desktop-search-bar-width: 270px;
 	--header-desktop-search-bar-max-width: 450px;
 	--header-desktop-button-color: #f26323;
+	--header-height: 50px;
+
+	@include after-mobile {
+		--header-height: 60px;
+	}
 }
 
 @mixin button-invisible {
@@ -124,7 +129,7 @@
 	}
 
     &-Nav {
-        height: 50px;
+        height: var(--header-height);
         display: flex;
         align-items: center;
 		padding: 0 1rem;
@@ -250,7 +255,7 @@
 		left: 0;
 		right: 0;
 		margin: auto;
-		top: 18px;
+		top: calc((var(--header-height) - 17px) / 2);
 		opacity: 0;
 		overflow: hidden;
 
