@@ -12,14 +12,15 @@
 :root {
     --product-actions-option-border-color: #979797;
     --product-actions-selected-option-border-color: #f26323;
+    --product-brand-heading-color: #adadad;
 }
 
 .ProductActions {
     display: flex;
-    flex-direction: column;
+    flex-flow: row wrap;
 
     @include desktop {
-        padding-top: 6rem;
+        padding-top: 4.7rem;
     }
 
     &-Colors,
@@ -28,6 +29,7 @@
         justify-content: center;
         align-items: center;
         margin: 1.5rem 1rem;
+        flex-basis: 100%;
 
         @include desktop {
             margin: 0;
@@ -39,7 +41,8 @@
         grid-template-columns: repeat(auto-fit, minmax(min-content, 0));
 
         @include desktop {
-            order: 2;
+            order: 4;
+            flex-basis: 50%;
         }
     }
 
@@ -57,6 +60,8 @@
 
         @include desktop {
             order: 5;
+            max-width: 170px;
+            flex-wrap: nowrap;
         }
     }
 
@@ -67,7 +72,6 @@
         flex-wrap: wrap;
 
         @include desktop {
-            order: 4;
             border-top: 0;
         }
 
@@ -77,7 +81,7 @@
                 padding: 1.5rem 0;
 
                 @include desktop {
-                    order: 6;
+                    display: none;
                 }
             }
 
@@ -90,6 +94,25 @@
                     text-align: center;
                     display: flex;
                     flex-direction: column;
+                    flex-basis: 100%;
+                    padding-top: 0;
+                }
+            }
+
+            &_sku {
+                display: none;
+
+                @include desktop {
+                    display: block;
+                    flex-basis: 100%;
+                    order: 2;
+                }
+            }
+
+            &_size {
+                @include desktop {
+                    order: 3;
+                    flex-basis: 50%;
                 }
             }
         }
@@ -97,7 +120,6 @@
 
     &-SectionHeading {
         width: 100%;
-        flex-grow: 1;
         text-transform: uppercase;
         margin: 0 5px 1rem;
 
@@ -105,11 +127,49 @@
             &_related {
                 margin-left: 1rem;
             }
+
+            &_color {
+                display: none;
+
+                @include desktop {
+                    display: block;
+                    position: absolute;
+                    top: 1.8rem;
+                }
+            }
+
+            &_short {
+                @include desktop {
+                    color: var(--product-brand-heading-color);
+                    font-size: 1rem;
+                    margin-bottom: 0;
+                }
+            }
         }
     }
 
     &-SectionContent {
         margin: 0 5px;
+
+        &_type {
+            &_short {
+                &-name {
+                    display: none;
+
+                    @include desktop {
+                        display: block;
+                        font-size: 1.7rem;
+                        font-weight: bold;
+                    }
+                }
+
+                &-desc {
+                    @include desktop {
+                        display: none;
+                    }
+                }
+            }
+        }
     }
 
     &-TextOption {

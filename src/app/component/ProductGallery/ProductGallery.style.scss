@@ -18,6 +18,10 @@
 
     min-height: 100vw;
 
+    @include desktop {
+        min-height: initial;
+    }
+
     &::after {
         content: '';
         position: absolute;
