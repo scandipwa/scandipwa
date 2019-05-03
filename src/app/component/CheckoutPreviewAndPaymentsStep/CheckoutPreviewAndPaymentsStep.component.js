@@ -118,7 +118,7 @@ class CheckoutPreviewAndPaymentsStep extends Component {
               type={ type }
               label={ label }
               note={ note }
-              name={ name }
+              name={ name || id }
               checked={ checked }
               value={ overrideStateValue || stateValue }
               validation={ validation }
@@ -192,6 +192,7 @@ class CheckoutPreviewAndPaymentsStep extends Component {
 
                     <Field
                       id="sameAsShippingAddress"
+                      name="sameAsShippingAddress"
                       type="checkbox"
                       label="My billing and shipping address are the same"
                       value={ billingIsSame }

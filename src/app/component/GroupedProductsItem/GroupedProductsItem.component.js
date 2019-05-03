@@ -77,6 +77,7 @@ class GroupedProductsItem extends Component {
                     <Field
                       type="number"
                       id="HeaderInput"
+                      name="HeaderInput"
                       onChange={ itemCount => this.changeCount(itemCount) }
                       value={ itemCount }
                     />

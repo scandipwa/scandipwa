@@ -9,6 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+ $select-width: 160px;
+ $select-height: 45px;
+ $select-option-height: 36px;
+ $select-arrow-height: 10px;
+
 .Field {
     margin-top: 1rem;
 
@@ -50,7 +55,7 @@
         font-size: 0.9rem;
     }
 
-    input:focus + .Field-Note{
+    input:focus + .Field-Note {
         opacity: 1;
         height: 100%;
     }
@@ -71,6 +76,94 @@
                     display: inline-block;
                     vertical-align: middle;
                 }
+            }
+        }
+
+        &_select {
+            select {
+                min-width: $select-width;
+                min-height: $select-height;
+
+                @include desktop {
+                    pointer-events: none;
+                }
+            }
+
+            label:last-of-type {
+                width: 0;
+                height: 0;
+                padding: 0;
+                font-weight: initial;
+                font-size: initial;
+            }
+        }
+    }
+}
+
+.Select {
+    &::after {
+        content: '';
+        display: block;
+        width: 10px;
+        height: $select-arrow-height;
+        transform: rotate(45deg);
+        pointer-events: none;
+
+        position: absolute;
+        left: $select-width - 20px;
+        bottom: 20px;
+
+        border-style: solid;
+        border-color: red;
+        border-width: 0 1px 1px 0;
+
+        transition: 100ms all ease;
+    }
+
+    &_isExpanded::after {
+        @include desktop {
+            bottom: $select-arrow-height * 3/2;
+            transform: rotate(-135deg);
+        }
+    }
+
+    &-Wrapper {
+        max-width: $select-width;
+    }
+
+    &-OptionList {
+        max-width: $select-width;
+        max-height: 0;
+        overflow: hidden;
+
+        &-Item {
+            padding: 0;
+            margin: 0;
+            max-height: 0;
+            z-index: 1;
+            transition: 100ms max-height ease-in;
+
+            &::before {
+                content: none;
+            }
+
+            &:last-of-type {
+                margin: 0;
+            }
+
+            &_isExpanded {
+                max-height: $select-option-height;
+                line-height: 3rem;
+                padding-left: 1.5rem;
+                color: var(--color-neutral-dark);
+                background-color: var(--color-breadcrumbs-background);          
+            }
+        }
+
+        &_isExpanded {
+            @include desktop {
+                display: block;
+                overflow: initial;
             }
         }
     }
