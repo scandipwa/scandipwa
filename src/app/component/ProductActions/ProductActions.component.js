@@ -113,8 +113,24 @@ class ProductActions extends Component {
         );
     }
 
+    renderSkuAndStock() {
+        const { product: { sku } } = this.props;
+
+        return (
+            <section
+              block="ProductActions"
+              elem="Section"
+              mods={ { type: 'sku' } }
+              aria-label="Product SKU and availability"
+            >
+                <span>SKU: { sku }</span>
+                <span>In Stock</span>
+            </section>
+        );
+    }
+
     renderShortProductInformation() {
-        const { product: { brand, short_description } } = this.props;
+        const { product: { brand, short_description, name } } = this.props;
 
         if (!short_description) return null;
 
@@ -127,10 +143,27 @@ class ProductActions extends Component {
               mods={ { type: 'short' } }
               aria-label="Product short description"
             >
-                <h4 block="ProductActions" elem="SectionHeading">{ brand }</h4>
-                <div block="ProductActions" elem="SectionContent">
+                <h4
+                  block="ProductActions"
+                  elem="SectionHeading"
+                  mods={ { type: 'short' } }
+                >
+                    { brand }
+                </h4>
+                <div
+                  block="ProductActions"
+                  elem="SectionContent"
+                  mods={ { type: 'short-desc' } }
+                >
                     <Html content={ html } />
                 </div>
+                <p
+                  block="ProductActions"
+                  elem="SectionContent"
+                  mods={ { type: 'short-name' } }
+                >
+                    { name }
+                </p>
             </section>
         );
     }
@@ -177,6 +210,7 @@ class ProductActions extends Component {
                   key={ code }
                   block="ProductActions"
                   elem="Section"
+                  mods={ { type: optionLabel.toLowerCase() } }
                   aria-label={ `${ optionLabel } options` }
                 >
                     <h4 block="ProductActions" elem="SectionHeading">{ optionLabel }</h4>
@@ -215,6 +249,13 @@ class ProductActions extends Component {
 
         return (
             <section block="ProductActions" elem="Colors" aria-label="Color options">
+                <h4
+                  block="ProductActions"
+                  elem="SectionHeading"
+                  mods={ { type: 'color' } }
+                >
+                    Color
+                </h4>
                 { colorOptions.map(({ value, label, id }) => (
                     <Swatch
                       key={ id }
@@ -229,6 +270,8 @@ class ProductActions extends Component {
     }
 
     render() {
+        console.log(this.props.product);
+
         return (
             <article block="ProductActions">
                 { this.renderColorOptions() }
@@ -236,6 +279,7 @@ class ProductActions extends Component {
                 { this.renderAddToCart() }
                 { this.renderOtherOptions() }
                 { this.renderShortProductInformation() }
+                { this.renderSkuAndStock() }
                 { this.renderAdditionalInformation() }
                 { this.renderRelatedProducts() }
             </article>
