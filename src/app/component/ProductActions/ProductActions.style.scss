@@ -21,6 +21,7 @@
 
     @include desktop {
         padding-top: 4.7rem;
+        padding-bottom: 3rem;
     }
 
     &-Colors,
@@ -41,8 +42,11 @@
         grid-template-columns: repeat(auto-fit, minmax(min-content, 0));
 
         @include desktop {
-            order: 4;
-            flex-basis: 50%;
+            order: 5;
+            flex-basis: 40%;
+            justify-content: start;
+            margin-left: auto;
+            padding-top: 1rem;
         }
     }
 
@@ -59,7 +63,7 @@
         width: calc(100% - 2rem);
 
         @include desktop {
-            order: 5;
+            order: 6;
             max-width: 170px;
             flex-wrap: nowrap;
         }
@@ -96,6 +100,7 @@
                     flex-direction: column;
                     flex-basis: 100%;
                     padding-top: 0;
+                    padding-bottom: 0;
                 }
             }
 
@@ -103,16 +108,31 @@
                 display: none;
 
                 @include desktop {
-                    display: block;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding-bottom: 0;
                     flex-basis: 100%;
                     order: 2;
+                    border-bottom: 1px solid black;
+                    padding: 0;
+                    margin: 0 1rem;
                 }
             }
 
             &_size {
                 @include desktop {
+                    order: 4;
+                    flex-basis: 40%;
+                }
+            }
+
+            &_short-description {
+                @include desktop {
                     order: 3;
-                    flex-basis: 50%;
+                    flex-basis: 100%;
+                    display: flex;
+                    justify-content: center;
                 }
             }
         }
