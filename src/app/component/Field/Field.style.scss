@@ -12,7 +12,8 @@
  $select-width: 160px;
  $select-height: 45px;
  $select-option-height: 36px;
- $select-arrow-height: 10px;
+ $select-arrow-height: 6px;
+ $select-arrow-width: 6px;
 
 .Field {
     margin-top: 1rem;
@@ -96,6 +97,10 @@
                 font-weight: initial;
                 font-size: initial;
             }
+
+            option[value=""][disabled] {
+                display: none;
+            }
         }
     }
 }
@@ -104,7 +109,7 @@
     &::after {
         content: '';
         display: block;
-        width: 10px;
+        width: $select-arrow-width;
         height: $select-arrow-height;
         transform: rotate(45deg);
         pointer-events: none;
@@ -114,7 +119,7 @@
         bottom: 20px;
 
         border-style: solid;
-        border-color: red;
+        border-color: #000;
         border-width: 0 1px 1px 0;
 
         transition: 100ms all ease;
