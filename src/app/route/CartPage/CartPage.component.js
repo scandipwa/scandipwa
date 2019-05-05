@@ -10,92 +10,153 @@
  */
 
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { history } from 'Route';
 import ContentWrapper from 'Component/ContentWrapper';
 import CartItem from 'Component/CartItem';
-import DiscountCoupons from 'Component/DiscountCoupons';
-import CartSummary from 'Component/CartSummary';
 import { ProductType } from 'Type/ProductList';
 import { TotalsType } from 'Type/MiniCart';
+import { CART, CART_EDITING } from 'Component/Header';
+import ExpandableContent from 'Component/ExpandableContent';
+
 import './CartPage.style';
 
 class CartPage extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = { isEditing: false };
+
+        this.changeHeaderState = this.changeHeaderState.bind(this);
+    }
+
     componentDidMount() {
         this.updateBreadcrumbs();
+        this.changeHeaderState();
     }
 
     updateBreadcrumbs() {
         const { updateBreadcrumbs } = this.props;
         const breadcrumbs = [
-            {
-                url: '/cart',
-                name: 'Shopping cart'
-            },
-            {
-                url: '/',
-                name: 'Home'
-            }
+            { url: '/cart', name: 'Shopping cart' },
+            { url: '/', name: 'Home' }
         ];
 
         updateBreadcrumbs(breadcrumbs);
     }
 
-    /**
-     * Render Cart Item
-     * @return {JSX}
-     */
-    renderItemsList(items) {
-        return Object.keys(items)
-            .map(key => <CartItem key={ key } product={ items[key] } />);
+    changeHeaderState() {
+        const { changeHeaderState, totals: { count } } = this.props;
+        const title = `${ count || 0 } Items`;
+
+        changeHeaderState({
+            name: CART,
+            title,
+            onEditClick: () => {
+                this.setState({ isEditing: true });
+                changeHeaderState({
+                    name: CART_EDITING,
+                    title,
+                    onOkClick: () => this.setState({ isEditing: false }),
+                    onCancelClick: () => this.setState({ isEditing: false })
+                });
+            },
+            onCloseClick: () => {
+                this.setState({ isEditing: false });
+                history.goBack();
+            }
+        });
     }
 
-    /**
-     * Render Empty message if there is no products in cart
-     * @param {Number} i List key
-     * @return {JSX}
-     */
-    renderEmptyMessage(i) {
+    renderCartItems() {
+        const { products } = this.props;
+        const { isEditing } = this.state;
+
+        if (!Object.keys(products).length) {
+            return (
+                <p block="CartPage" elem="Empty">There are no products in cart.</p>
+            );
+        }
+
         return (
-            <li block="MiniCart" elem="Empty" key={ i }>
-                You have no items in your shopping cart.
-            </li>
+            <ul block="CartPage" elem="Items" aria-label="List of items in cart">
+                { Object.entries(products).map(([id, product]) => (
+                    <CartItem key={ id } product={ product } isEditing={ isEditing } />
+                )) }
+            </ul>
+        );
+    }
+
+    renderDiscountCode() {
+        return (
+            <ExpandableContent
+              heading="Have a discount code?"
+              mix={ { block: 'CartPage', elem: 'Discount' } }
+            >
+                <p>Discount functionality coming soon!</p>
+            </ExpandableContent>
+        );
+    }
+
+    renderTotals() {
+        const { totals: { grandTotalPrice } } = this.props;
+
+        return (
+            <dl
+              block="CartPage"
+              elem="Total"
+            >
+                <dt>Order total:</dt>
+                <dd>{ `$${grandTotalPrice}` }</dd>
+            </dl>
+        );
+    }
+
+    renderCheckoutButton() {
+        return (
+            <Link
+              className="CartPage-CheckoutButton Button"
+              to="/checkout"
+            >
+                Secure checkout
+            </Link>
+        );
+    }
+
+    renderPromo() {
+        return (
+            <p
+              block="CartPage"
+              elem="Promo"
+            >
+                <strong>Free shipping</strong>
+                on orders
+                <strong>49$</strong>
+                and more.
+            </p>
         );
     }
 
     render() {
-        const { products, totals } = this.props;
-
         return (
-            <>
-                <main block="CartPage" aria-label="Cart Page">
-                    <ContentWrapper
-                      mix={ { block: 'CartPage' } }
-                      wrapperMix={ { block: 'CartPage', elem: 'Wrapper' } }
-                      label="Cart page details"
-                    >
-                        <h1>Shopping cart</h1>
-                        <div block="CartPage" elem="ItemsList" aria-label="Cart Items List">
-                            <div block="CartPage" elem="TableTitles">
-                                <span>Item</span>
-                                <span>Qty</span>
-                                <span>Subtotal</span>
-                            </div>
-                            <ul>
-                                { Object.entries(products).length
-                                    ? (
-                                        <>
-                                            { this.renderItemsList(products) }
-                                            <DiscountCoupons />
-                                        </>
-                                    )
-                                    : this.renderEmptyMessage(1)
-                                }
-                            </ul>
-                        </div>
-                        <CartSummary totals={ totals } />
-                    </ContentWrapper>
-                </main>
-            </>
+            <main block="CartPage" aria-label="Cart Page">
+                <ContentWrapper
+                  mix={ { block: 'CartPage' } }
+                  wrapperMix={ { block: 'CartPage', elem: 'Wrapper' } }
+                  label="Cart page details"
+                >
+                    <div block="CartPage" elem="Static">
+                        { this.renderCartItems() }
+                        { this.renderDiscountCode() }
+                    </div>
+                    <div block="CartPage" elem="Floating">
+                        { this.renderPromo() }
+                        { this.renderTotals() }
+                        { this.renderCheckoutButton() }
+                    </div>
+                </ContentWrapper>
+            </main>
         );
     }
 }
@@ -103,7 +164,8 @@ class CartPage extends Component {
 CartPage.propTypes = {
     products: PropTypes.objectOf(ProductType),
     totals: TotalsType,
-    updateBreadcrumbs: PropTypes.func.isRequired
+    updateBreadcrumbs: PropTypes.func.isRequired,
+    changeHeaderState: PropTypes.func.isRequired
 };
 
 CartPage.defaultProps = {

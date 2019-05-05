@@ -11,7 +11,6 @@
 
 :root {
     --checkbox-label-color: #0a0a0a;
-    --my-account-border-color: #f26323;
     --my-account-input-label-color: rgba(10, 10, 10, 0.59);
 }
 
@@ -27,7 +26,7 @@
         right: -40px;
         padding: 2rem 0;
         width: 400px;
-        border: 1px solid var(--my-account-border-color);
+        border: 1px solid var(--overlay-desktop-border-color);
     }
 
     &::before {
@@ -41,8 +40,8 @@
             transform: rotate(45deg);
             background-color: var(--overlay-background);
             border: {
-                top: 1px solid var(--my-account-border-color);
-                left: 1px solid var(--my-account-border-color);
+                top: 1px solid var(--overlay-desktop-border-color);
+                left: 1px solid var(--overlay-desktop-border-color);
             }
         }
     }
@@ -295,21 +294,21 @@
     }
 }
 
-.Field {
-    margin-top: 1.6rem;
+// .Field {
+//     margin-top: 1.6rem;
 
-    &:first-of-type {
-        margin-top: 0.5rem;
-    }
+//     &:first-of-type {
+//         margin-top: 0.5rem;
+//     }
 
-    label {
-        color: var(--my-account-input-label-color);
-        font-size: .75rem;
-        font-weight: 300;
+//     label {
+//         color: var(--my-account-input-label-color);
+//         font-size: .75rem;
+//         font-weight: 300;
 
-    }
+//     }
 
-    input {
-        max-height: 3rem;
-    }
-}
+//     input {
+//         max-height: 3rem;
+//     }
+// }

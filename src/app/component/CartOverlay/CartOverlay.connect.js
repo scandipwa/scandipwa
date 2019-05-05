@@ -16,7 +16,6 @@ import { hideActiveOverlay } from 'Store/Overlay';
 import CartOverlay from './CartOverlay.component';
 
 const mapStateToProps = state => ({
-    menu: state.HeaderAndFooterReducer.menu,
     products: state.CartReducer.productsInCart,
     totals: state.CartReducer.cartTotals
 });

@@ -9,6 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+// TODO: revrite using import { history } from 'Route';
+
 /**
  * Update query params without adding to history
  * @param {String} name
