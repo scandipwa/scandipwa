@@ -136,7 +136,12 @@ class Header extends Component {
 
         const { pathname } = history;
 
-        if (isPrevPathnameNotRelevant || prevPathname !== pathname) {
+        if (isMobile.any()) {
+            setHeaderState(this.routeMap['/']);
+            return;
+        }
+
+        if ((isPrevPathnameNotRelevant || prevPathname !== pathname)) {
             const newHeaderState = Object.keys(this.routeMap).reduce(
                 (state, route) => ((pathname.includes(route))
                     ? this.routeMap[route]

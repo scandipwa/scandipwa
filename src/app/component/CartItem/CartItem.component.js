@@ -78,14 +78,25 @@ class CartItem extends Component {
     }
 
     renderConfiguration() {
-        const { product: { configurable_options, configurableVariantIndex, variants } } = this.props;
+        const {
+            product: {
+                configurable_options,
+                configurableVariantIndex,
+                variants
+            },
+            isLikeTable
+        } = this.props;
 
         if (!variants || !configurable_options) return null;
 
         const { product: currentVariant } = variants[configurableVariantIndex];
 
         return (
-            <ul block="CartItem" elem="Options">
+            <ul
+              block="CartItem"
+              elem="Options"
+              mods={ { isLikeTable } }
+            >
                 { configurable_options.map(({ label, attribute_code, values }) => (
                     <li
                       key={ attribute_code }
@@ -101,10 +112,18 @@ class CartItem extends Component {
     }
 
     renderActions() {
-        const { isEditing, product: { quantity } } = this.props;
+        const {
+            isEditing,
+            isLikeTable,
+            product: { quantity }
+        } = this.props;
 
         return (
-            <div block="CartItem" elem="Actions" mods={ { isEditing } }>
+            <div
+              block="CartItem"
+              elem="Actions"
+              mods={ { isEditing, isLikeTable } }
+            >
                 <button
                   block="CartItem"
                   id="RemoveItem"
@@ -135,7 +154,8 @@ class CartItem extends Component {
                 name,
                 brand,
                 price
-            }
+            },
+            isLikeTable
         } = this.props;
 
         return (
@@ -154,14 +174,19 @@ class CartItem extends Component {
                           ratio="custom"
                           alt={ `Product ${name} thumbnail.` }
                         />
-                        <figcaption block="CartItem" elem="Content">
+                        <figcaption
+                          block="CartItem"
+                          elem="Content"
+                          mods={ { isLikeTable } }
+                        >
                             <p block="CartItem" elem="Heading">{ name }</p>
                             <p block="CartItem" elem="SubHeading">{ brand }</p>
                             { this.renderConfiguration() }
                             <ProductPrice
                               mix={ {
                                   block: 'CartItem',
-                                  elem: 'Price'
+                                  elem: 'Price',
+                                  mods: { isLikeTable }
                               } }
                               price={ price }
                             />
@@ -177,6 +202,7 @@ class CartItem extends Component {
 CartItem.propTypes = {
     product: ProductType.isRequired,
     isEditing: PropTypes.bool,
+    isLikeTable: PropTypes.bool,
     addProduct: PropTypes.func.isRequired,
     removeProduct: PropTypes.func.isRequired
 };

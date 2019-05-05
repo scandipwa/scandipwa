@@ -2,10 +2,17 @@
     --cart-page-totals-background: #f8f8f8;
     --cart-page-divider-background: #d8d8d8;
     --cart-page-promo-background: #fff;
+    --cart-page-table-head-background: #f8f8f8;
 }
 
 .CartPage {
     &-Wrapper {
+        @include after-mobile {
+            display: grid;
+            grid-template-columns: 1fr 30rem;
+            grid-column-gap: 4rem;
+        }
+
         @include mobile {
             padding: 0;
             border-top: 1px solid var(--overlay-divider-color);
@@ -17,14 +24,22 @@
         border-bottom: 1px solid var(--expandable-content-color);
     }
 
-    &-Floating {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
+    &-Summary {
+        background: var(--cart-page-totals-background);
 
         @include after-mobile {
-            position: relative;
+            padding: 2rem;
+        }
+    }
+
+    &-SummaryHeading {
+        text-align: center;
+        text-transform: uppercase;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+
+        @include mobile {
+            display: none;
         }
     }
 
@@ -32,6 +47,25 @@
         width: 100%;
         display: block;
         text-align: center;
+
+        @include after-mobile {
+            margin-top: 2rem;
+        }
+    }
+
+    &-ContinueShopping {
+        display: block;
+        color: inherit;
+        text-transform: uppercase;
+        text-decoration: underline;
+        text-align: center;
+        margin-left: 0;
+        font-size: 1.1rem;
+        margin-top: 1.5rem;
+
+        @include mobile {
+            display: none;
+        }
     }
 
     &-Promo,
@@ -42,10 +76,12 @@
     &-Promo {
         padding: 1rem;
         text-align: center;
-        border-bottom: 1px solid var(--cart-page-divider-background);
         background: var(--cart-page-promo-background);
+        margin-bottom: 0;
+        order: 1;
 
         @include mobile {
+            border-bottom: 1px solid var(--cart-page-divider-background);
             border-top: 1px solid var(--expandable-content-color);
         }
 
@@ -61,11 +97,92 @@
         padding: 1rem;
         font-size: 18px;
         font-weight: bold;
-        background: var(--cart-page-totals-background);
+    }
+
+    &-TotalDetails {
+        border-bottom: 1px solid var(--cart-page-divider-background);
+        border-top: 1px solid var(--cart-page-divider-background);
+        padding: 1.5rem 0;
+        display: grid;
+        grid-template-columns: 50% 50%;
+        grid-row-gap: 1.5rem;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 14px;
+        font-weight: 600;
+        margin-top: 1.5rem;
+
+        dd {
+            text-align: right;
+        }
+
+        @include mobile {
+            display: none;
+        }
+    }
+
+
+    &-TableHead {
+        display: grid;
+        grid-template-columns: 1fr 20rem 20rem;
+        border-bottom: 1px solid var(--cart-page-divider-background);
+        background-color: var(--cart-page-table-head-background);
+        text-transform: uppercase;
+        font-size: 12px;
+        font-weight: 600;
+        padding: .9rem 1rem;
+        margin-bottom: 0;
+
+        @include mobile {
+            display: none;
+        }
+
+        span {
+            text-align: center;
+
+            &:last-of-type {
+                text-align: right;
+            }
+
+            &:first-of-type {
+                text-align: left;
+            }
+        }
+    }
+
+    &-Discount {
+        @include after-mobile {
+            margin-top: 2rem;
+        }
     }
 
     &-Static {
-        overflow: scroll;
-        max-height: calc(100% - 12rem);
+        @include mobile {
+            overflow: scroll;
+            max-height: calc(100% - 12rem);
+        }
+    }
+
+    &-Floating {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+
+        @include after-mobile {
+            position: relative;
+            margin-top: 6.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+    }
+
+    &-Heading {
+        height: 3rem;
+        margin-top: 2rem;
+
+        @include mobile {
+            display: none;
+        }
     }
 }

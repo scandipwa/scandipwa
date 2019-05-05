@@ -27,10 +27,6 @@
 .CartItem {
     border-bottom: 1px solid var(--cart-item-divider-color);
 
-    p {
-        margin-bottom: 0;
-    }
-
     a {
         color: inherit;
 
@@ -62,6 +58,14 @@
         @include after-mobile {
             padding-bottom: 4rem;
         }
+
+        &_isLikeTable {
+            @include after-mobile {
+                padding-bottom: 0;
+                height: 5rem;
+                align-self: center;
+            }
+        }
     }
 
     &-Wrapper {
@@ -80,6 +84,12 @@
         display: flex;
         justify-content: flex-start;
         align-items: flex-start;
+
+        &_isLikeTable {
+            @include after-mobile {
+                flex-grow: 1;
+            }
+        }
     }
 
     &-Option {
@@ -97,6 +107,7 @@
         line-height: 1.2;
         flex-grow: 1;
         width: 100%;
+        margin-bottom: 0;
     }
 
     &-Heading {
@@ -126,9 +137,28 @@
     &-Price {
         flex-grow: 1;
         text-align: right;
+        margin-bottom: 0;
 
         @include after-mobile {
             font-size: 16px;
+        }
+
+        &_isLikeTable {
+            @include after-mobile {
+                width: 20rem;
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                margin: auto;
+                right: 0;
+                height: max-content;
+            }
+
+            &:last-of-type {
+                @include after-mobile {
+                    margin: auto;
+                }
+            }
         }
     }
 
@@ -157,6 +187,16 @@
             right: 0;
             width: calc(100% - 8rem);
             height: 3rem;
+        }
+
+        &_isLikeTable {
+            @include after-mobile {
+                width: 20rem;
+                bottom: 0;
+                right: 20rem;
+                top: 0;
+                margin: auto;
+            }
         }
 
         &_isEditing {

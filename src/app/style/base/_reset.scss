@@ -43,7 +43,7 @@ summary {
 }
 
 main {
-    min-height: calc(100vh - 640px);
+    min-height: calc(100vh - 300px);
     max-width: 100vw;
 
     @include mobile {
