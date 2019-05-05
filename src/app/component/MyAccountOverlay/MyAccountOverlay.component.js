@@ -29,11 +29,24 @@ class MyAccountOverlay extends Component {
         };
 
         this.renderMap = {
-            [STATE_SIGN_IN]: () => this.renderSignIn(),
-            [STATE_FORGOT_PASSWORD]: () => this.renderForgotPassword(),
-            [STATE_FORGOT_PASSWORD_SUCCESS]: () => this.renderForgotPasswordSuccess(),
-            [STATE_CREATE_ACCOUNT]: () => this.renderCreateAccount(),
-            [STATE_LOGGED_IN]: () => this.renderAccountActions()
+            [STATE_SIGN_IN]: {
+                render: () => this.renderSignIn(),
+                title: 'Sign in to your account'
+            },
+            [STATE_FORGOT_PASSWORD]: {
+                render: () => this.renderForgotPassword(),
+                title: 'Get password link'
+            },
+            [STATE_FORGOT_PASSWORD_SUCCESS]: {
+                render: () => this.renderForgotPasswordSuccess()
+            },
+            [STATE_CREATE_ACCOUNT]: {
+                render: () => this.renderCreateAccount(),
+                title: 'Create new account'
+            },
+            [STATE_LOGGED_IN]: {
+                render: () => this.renderAccountActions()
+            }
         };
 
         this.handleForgotPassword = this.handleForgotPassword.bind(this);
@@ -164,11 +177,12 @@ class MyAccountOverlay extends Component {
 
     renderMyAccount() {
         const { state } = this.state;
-        const renderFunction = this.renderMap[state];
+        const { render, title } = this.renderMap[state];
 
         return (
             <div block="MyAccountOverlay" elem="Action" mods={ { state } }>
-                { renderFunction() }
+                <p block="MyAccountOverlay" elem="Heading">{ title }</p>
+                { render() }
             </div>
         );
     }

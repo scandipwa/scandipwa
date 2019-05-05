@@ -24,7 +24,7 @@
         position: absolute;
         top: var(--header-height);
         right: -40px;
-        padding: 2rem 0;
+        padding: 1rem 2rem 2rem;
         width: 400px;
         border: 1px solid var(--overlay-desktop-border-color);
     }
@@ -53,6 +53,16 @@
 
     input {
         width: 100%;
+    }
+
+    &-Heading {
+        @include mobile {
+            display: none;
+        }
+
+        font-size: 18px;
+        font-weight: bold;
+        padding: 0 1rem 1rem;
     }
 
     &-Notification {
@@ -112,7 +122,9 @@
 
         &_state {
             &_createAccount {
-                padding-top: 1rem;
+                @include mobile {
+                    padding-top: 1rem;
+                }
 
                 h4 {
                     padding-right: 1rem;
@@ -124,13 +136,13 @@
                 }
 
                 fieldset {
-                    legend {
-                        text-transform: uppercase;
-                        font-size: 1rem;
-                        font-weight: 600;
-                        border: 0;
-                        padding-bottom: 0;
-                    }
+                    // legend {
+                    //     text-transform: uppercase;
+                    //     font-size: 1rem;
+                    //     font-weight: 600;
+                    //     border: 0;
+                    //     padding-bottom: 0;
+                    // }
                 }
 
                 .Field {
@@ -140,7 +152,6 @@
 
             &_forgotPassword {
                 h4 {
-                    font-size: .95rem;
                     width: initial;
                 }
 
@@ -185,7 +196,6 @@
                 padding-top: 2rem;
 
                 h4 {
-                    font-size: .95rem;
                     margin: 0;
                     padding-right: 0;
                 }
@@ -219,7 +229,6 @@
                     }
 
                     h4 {
-                        font-size: .95rem;
                         margin-bottom: 0;
                         align-self: center;
                     }
