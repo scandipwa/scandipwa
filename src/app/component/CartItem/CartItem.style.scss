@@ -156,7 +156,7 @@
 
             &:last-of-type {
                 @include after-mobile {
-                    margin: auto;
+                    margin: auto;;
                 }
             }
         }
