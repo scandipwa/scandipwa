@@ -512,7 +512,10 @@ Field.propTypes = {
     mix: PropTypes.shape({
         block: PropTypes.string,
         elem: PropTypes.string,
-        mods: PropTypes.objectOf(PropTypes.string)
+        mods: PropTypes.objectOf(PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.bool
+        ]))
     }),
     formRef: PropTypes.oneOfType([
         PropTypes.func,

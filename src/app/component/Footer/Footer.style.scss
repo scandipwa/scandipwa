@@ -14,6 +14,7 @@
     $small-icon-size: 20px;
     $circle-size: 60px;
 
+    background: var(--color-footer-background);
     padding-top: 3rem;
 
     @include mobile {
@@ -25,7 +26,6 @@
 
         &_isVisible {
             display: block;
-            background: var(--color-footer-background);
         }
     }
 
@@ -190,6 +190,7 @@
 
         p {
             color: var(--color-neutral-base);
+            margin-bottom: 0;
         }
     }
 }

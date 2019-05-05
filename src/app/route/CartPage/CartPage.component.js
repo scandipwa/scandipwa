@@ -18,6 +18,7 @@ import CartItem from 'Component/CartItem';
 import { ProductType } from 'Type/ProductList';
 import { TotalsType } from 'Type/MiniCart';
 import { CART, CART_EDITING } from 'Component/Header';
+import isMobile from 'Util/Mobile';
 import ExpandableContent from 'Component/ExpandableContent';
 
 import './CartPage.style';
@@ -80,11 +81,23 @@ class CartPage extends Component {
         }
 
         return (
-            <ul block="CartPage" elem="Items" aria-label="List of items in cart">
-                { Object.entries(products).map(([id, product]) => (
-                    <CartItem key={ id } product={ product } isEditing={ isEditing } />
-                )) }
-            </ul>
+            <>
+                <p block="CartPage" elem="TableHead" aria-hidden>
+                    <span>item</span>
+                    <span>qty</span>
+                    <span>subtotal</span>
+                </p>
+                <ul block="CartPage" elem="Items" aria-label="List of items in cart">
+                    { Object.entries(products).map(([id, product]) => (
+                        <CartItem
+                          key={ id }
+                          product={ product }
+                          isEditing={ !isMobile.any() || isEditing }
+                          isLikeTable
+                        />
+                    )) }
+                </ul>
+            </>
         );
     }
 
@@ -100,27 +113,40 @@ class CartPage extends Component {
     }
 
     renderTotals() {
-        const { totals: { grandTotalPrice } } = this.props;
+        const {
+            totals: {
+                grandTotalPrice,
+                subTotalPrice,
+                taxPrice
+            }
+        } = this.props;
 
         return (
-            <dl
-              block="CartPage"
-              elem="Total"
-            >
-                <dt>Order total:</dt>
-                <dd>{ `$${grandTotalPrice}` }</dd>
-            </dl>
-        );
-    }
-
-    renderCheckoutButton() {
-        return (
-            <Link
-              className="CartPage-CheckoutButton Button"
-              to="/checkout"
-            >
-                Secure checkout
-            </Link>
+            <article block="CartPage" elem="Summary">
+                <h4 block="CartPage" elem="SummaryHeading">Summary</h4>
+                <dl block="CartPage" elem="TotalDetails" aria-label="Order total details">
+                    <dt>Subtotal:</dt>
+                    <dd>{ `$${subTotalPrice}` }</dd>
+                    <dt>Tax:</dt>
+                    <dd>{ `$${taxPrice}` }</dd>
+                </dl>
+                <dl block="CartPage" elem="Total" aria-label="Complete order total">
+                    <dt>Order total:</dt>
+                    <dd>{ `$${grandTotalPrice}` }</dd>
+                </dl>
+                <Link
+                  className="CartPage-CheckoutButton Button"
+                  to="/checkout"
+                >
+                    Secure checkout
+                </Link>
+                <Link
+                  className="CartPage-ContinueShopping"
+                  to="/"
+                >
+                    Continue Shopping
+                </Link>
+            </article>
         );
     }
 
@@ -147,13 +173,13 @@ class CartPage extends Component {
                   label="Cart page details"
                 >
                     <div block="CartPage" elem="Static">
+                        <h2 block="CartPage" elem="Heading">Shopping cart</h2>
                         { this.renderCartItems() }
                         { this.renderDiscountCode() }
                     </div>
                     <div block="CartPage" elem="Floating">
                         { this.renderPromo() }
                         { this.renderTotals() }
-                        { this.renderCheckoutButton() }
                     </div>
                 </ContentWrapper>
             </main>
