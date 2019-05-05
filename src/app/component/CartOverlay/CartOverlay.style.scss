@@ -11,7 +11,7 @@
         right: 0;
         padding: 0;
         width: 400px;
-        border: 1px solid var(--my-account-border-color);
+        border: 1px solid var(--overlay-desktop-border-color);
     }
 
     &::before {
@@ -23,10 +23,10 @@
             height: 15px;
             width: 15px;
             transform: rotate(45deg);
-            background-color: var(--overlay-background);
+            background-color: var(--overlay-desktop-border-color);
             border: {
-                top: 1px solid var(--my-account-border-color);
-                left: 1px solid var(--my-account-border-color);
+                top: 1px solid var(--overlay-desktop-border-color);
+                left: 1px solid var(--overlay-desktop-border-color);
             }
         }
     }
@@ -36,36 +36,52 @@
         border-bottom: 1px solid var(--expandable-content-color);
     }
 
-    &-Floating {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-
-        @include after-mobile {
-            position: relative;
-        }
+    &-Actions {
+        display: flex;
+        padding: 1rem;
     }
 
     &-CheckoutButton {
-        width: 100%;
-        display: block;
-        text-align: center;
+        @include mobile {
+            width: 100%;
+            display: block;
+            text-align: center;
+        }
+
+        @include after-mobile {
+            flex-grow: 1;
+            text-align: center;
+        }
+    }
+
+    &-CartButton {
+        @include mobile {
+            display: none;
+        }
     }
 
     &-Promo,
     &-Total {
         min-height: 4rem;
+
+        @include after-mobile {
+            min-height: 3rem;
+        }
     }
 
     &-Promo {
         padding: 1rem;
         text-align: center;
-        border-bottom: 1px solid var(--cart-overlay-divider-background);
         background: var(--cart-overlay-promo-background);
 
         @include mobile {
+            border-bottom: 1px solid var(--cart-overlay-divider-background);
             border-top: 1px solid var(--expandable-content-color);
+        }
+
+        @include after-mobile {
+            padding: .7rem;
+            background: var(--color-primary-light);
         }
 
         strong {
@@ -81,10 +97,10 @@
         font-size: 18px;
         font-weight: bold;
         background: var(--cart-overlay-totals-background);
-    }
 
-    &-Static {
-        overflow: scroll;
-        max-height: calc(100% - 12rem);
+        @include after-mobile {
+            border-bottom: 1px solid var(--cart-item-divider-color);
+            font-size: 16px;
+        }
     }
 }

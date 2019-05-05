@@ -1,141 +1,71 @@
-/**
- * ScandiPWA - Progressive Web App for Magento
- *
- * Copyright © Scandiweb, Inc. All rights reserved.
- * See LICENSE for license details.
- *
- * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
- */
+:root {
+    --cart-page-totals-background: #f8f8f8;
+    --cart-page-divider-background: #d8d8d8;
+    --cart-page-promo-background: #fff;
+}
 
 .CartPage {
-    padding-top: 1rem;
-
     &-Wrapper {
-        display: grid;
-        grid-column-gap: 2rem;
-        margin-bottom: 2rem;
-
         @include mobile {
-            display: flex;
-            flex-direction: column;
-        }
-
-        > :first-child {
-            grid-column: span 2;
-            margin-bottom: 1rem;
+            padding: 0;
+            border-top: 1px solid var(--overlay-divider-color);
         }
     }
 
-    &-ItemsList {
-        @include mobile {
-            order: 3;
-        }
-
-        .MiniCart-Empty {
-            background-color: transparent;
-        }
+    &-Empty {
+        padding: 1rem;
+        border-bottom: 1px solid var(--expandable-content-color);
     }
 
-    &-TableTitles {
-        display: grid;
-        align-items: center;
-        text-align: center;
-        grid-template-columns: 3fr 2fr 1fr;
-        padding: 1rem 0;
-        text-transform: uppercase;
-        font-weight: 700;
-        font-size: 0.8rem;
-        background: var(--color-breadcrumbs-background);
-
-        @include tablet {
-            grid-template-columns: 3fr 1fr 1fr;
-        }
-
-        @include mobile {
-            display: none;
-        }
-
-        span {
-            padding-left: 1.4rem;
-
-            @include tablet {
-                padding: 0;
-            }
-
-            &:last-child {
-                padding: {
-                    left: 0;
-                    right: 0.6rem;
-                }
-
-                @include tablet {
-                    padding-right: 0;
-                }
-            }
-        }
-
-    }
-
-    .CartItem {
-        padding-right: 0;
+    &-Floating {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
 
         @include after-mobile {
-            display: grid;
-            grid-template-columns: 9rem 15fr 1fr;
-            border: 0;
-        }
-
-        a {
-            color: var(--color-text-dark);
-        }
-        
-        &:first-child {
-            border-top: 1px solid var(--color-neutral-light);
-        }
-
-        &:nth-last-child(2) {
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--color-neutral-light);
-        }
-
-        &-Info {
-            @include after-mobile {
-                display: grid;
-                grid-template-columns: 3fr 2fr;
-                margin: 0;
-                grid-auto-rows: min-content;
-                align-self: center;
-            }
-        }
-
-        &-RemoveButton {
-            right: 0;
-
-            @include mobile {
-                left: calc(100% - 1rem);
-                top: 1.9rem;
-            }
-
-            @include after-mobile {
-                position: relative;
-                top: 0;
-                vertical-align: middle;
-            }
-        }
-
-        &-Thumbnail {
-            @include after-mobile {
-                padding-right: 1rem;
-            }
+            position: relative;
         }
     }
 
-    h1 {
-        font-size: 1.25rem;
-        font-weight: 700;
-        margin-bottom: 0;
-        text-transform: uppercase;
+    &-CheckoutButton {
+        width: 100%;
+        display: block;
+        text-align: center;
+    }
+
+    &-Promo,
+    &-Total {
+        min-height: 4rem;
+    }
+
+    &-Promo {
+        padding: 1rem;
+        text-align: center;
+        border-bottom: 1px solid var(--cart-page-divider-background);
+        background: var(--cart-page-promo-background);
+
+        @include mobile {
+            border-top: 1px solid var(--expandable-content-color);
+        }
+
+        strong {
+            margin: 0 5px;
+        }
+    }
+
+    &-Total {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        font-size: 18px;
+        font-weight: bold;
+        background: var(--cart-page-totals-background);
+    }
+
+    &-Static {
+        overflow: scroll;
+        max-height: calc(100% - 12rem);
     }
 }

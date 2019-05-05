@@ -11,6 +11,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { history } from 'Route';
 import { PDP } from 'Component/Header';
 import ProductGallery from 'Component/ProductGallery';
 import ContentWrapper from 'Component/ContentWrapper';
@@ -177,7 +178,7 @@ class ProductPage extends Component {
         changeHeaderState({
             name: PDP,
             title,
-            onBackClick: () => window.history.back()
+            onBackClick: () => history.goBack()
         });
     }
 

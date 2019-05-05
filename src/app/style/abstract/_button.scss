@@ -1,6 +1,7 @@
 @mixin button {
     text-decoration: none; // because we never need underlines in buttons
 
+    display: inline-block;
     border-radius: 0;
     font-weight: 700;
     font-size: 1.1rem;
@@ -68,10 +69,5 @@
         &:focus {
             text-decoration: underline;
         }
-    }
-
-    + button,
-    + .Button {
-        margin-left: 1rem;
     }
 }

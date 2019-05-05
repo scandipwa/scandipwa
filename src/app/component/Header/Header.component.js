@@ -36,8 +36,8 @@ class Header extends Component {
 
         this.routeMap = {
             '/': { name: HOME_PAGE },
-            '/category': { name: CATEGORY, onBackClick: () => window.history.pushState({}, '', '/') },
-            '/product': { name: PDP, onBackClick: () => window.history.back() },
+            '/category': { name: CATEGORY, onBackClick: () => history.push('/') },
+            '/product': { name: PDP, onBackClick: () => history.goBack() },
             '/cart': { name: CART }
         };
 
@@ -260,7 +260,9 @@ class Header extends Component {
     onMinicartButtonClick() {
         const { showOverlay } = this.props;
 
-        showOverlay(CART);
+        if (!isMobile.any()) return showOverlay(CART);
+
+        return history.push('/cart');
     }
 
     onMinicartOutsideClick() {

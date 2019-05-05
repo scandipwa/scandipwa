@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+
+import isMobile from 'Util/Mobile';
 import Overlay from 'Component/Overlay';
 import { CART, CART_EDITING } from 'Component/Header';
 import { ProductType } from 'Type/ProductList';
 import { TotalsType } from 'Type/MiniCart';
 import CartItem from 'Component/CartItem';
-import './CartOverlay.style';
 import ExpandableContent from 'Component/ExpandableContent';
+import './CartOverlay.style';
 
 class CartOverlay extends Component {
     constructor(props) {
@@ -51,20 +53,9 @@ class CartOverlay extends Component {
         return (
             <ul block="CartOverlay" elem="Items" aria-label="List of items in cart">
                 { Object.entries(products).map(([id, product]) => (
-                    <CartItem key={ id } product={ product } isEditing={ isEditing } />
+                    <CartItem key={ id } product={ product } isEditing={ !isMobile.any() || isEditing } />
                 )) }
             </ul>
-        );
-    }
-
-    renderDiscountCode() {
-        return (
-            <ExpandableContent
-              heading="Have a discount code?"
-              mix={ { block: 'CartOverlay', elem: 'Discount' } }
-            >
-                <p>Discount functionality coming soon!</p>
-            </ExpandableContent>
         );
     }
 
@@ -82,14 +73,22 @@ class CartOverlay extends Component {
         );
     }
 
-    renderCheckoutButton() {
+    renderActions() {
         return (
-            <Link
-              className="CartOverlay-CheckoutButton Button"
-              to="/checkout"
-            >
-                Secure checkout
-            </Link>
+            <div block="CartOverlay" elem="Actions">
+                <Link
+                  className="CartOverlay-CartButton Button Button_hollow"
+                  to="/cart"
+                >
+                    View cart
+                </Link>
+                <Link
+                  className="CartOverlay-CheckoutButton Button"
+                  to="/checkout"
+                >
+                    Secure checkout
+                </Link>
+            </div>
         );
     }
 
@@ -114,15 +113,10 @@ class CartOverlay extends Component {
               onVisible={ this.changeHeaderState }
               mix={ { block: 'CartOverlay' } }
             >
-                <div block="CartOverlay" elem="Static">
-                    { this.renderCartItems() }
-                    { this.renderDiscountCode() }
-                </div>
-                <div block="CartOverlay" elem="Floating">
-                    { this.renderPromo() }
-                    { this.renderTotals() }
-                    { this.renderCheckoutButton() }
-                </div>
+                { this.renderPromo() }
+                { this.renderCartItems() }
+                { this.renderTotals() }
+                { this.renderActions() }
             </Overlay>
         );
     }
@@ -131,8 +125,6 @@ class CartOverlay extends Component {
 CartOverlay.propTypes = {
     products: PropTypes.objectOf(ProductType),
     totals: TotalsType.isRequired,
-    hideActiveOverlay: PropTypes.func.isRequired,
-    goToPreviousHeaderState: PropTypes.func.isRequired,
     changeHeaderState: PropTypes.func.isRequired
 };
 
