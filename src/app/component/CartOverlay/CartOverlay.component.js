@@ -8,7 +8,6 @@ import { CART, CART_EDITING } from 'Component/Header';
 import { ProductType } from 'Type/ProductList';
 import { TotalsType } from 'Type/MiniCart';
 import CartItem from 'Component/CartItem';
-import ExpandableContent from 'Component/ExpandableContent';
 import './CartOverlay.style';
 
 class CartOverlay extends Component {
