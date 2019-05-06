@@ -29,11 +29,18 @@
     @include after-mobile {
         position: absolute;
         transition: opacity 200ms;
+        height: 0;
+        overflow: hidden;
     }
 
     &_isVisible {
         pointer-events: all;
         touch-action: pan-y;
         opacity: 1;
+
+        @include after-mobile {
+            height: auto;
+            overflow: visible;
+        }
     }
 }
