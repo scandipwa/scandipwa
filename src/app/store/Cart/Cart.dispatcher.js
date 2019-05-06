@@ -115,13 +115,9 @@ class CartDispatcher {
             product_option: { extension_attributes: this._getExtensionAttributes(product) }
         };
 
-        if (!isSignedIn()) {
-            productToAdd.quote_id = this._getGuestQuoteId();
-        }
-
         if (this._isAllowed(options)) {
             return fetchMutation(Cart.getSaveCartItemMutation(
-                productToAdd
+                productToAdd, !isSignedIn() && this._getGuestQuoteId()
             )).then(
                 ({ saveCartItem: { item_id, qty } }) => {
                     dispatch(addProductToCart(
