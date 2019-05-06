@@ -69,6 +69,10 @@
         justify-content: center;
         margin-bottom: .8rem;
 
+        @include after-mobile {
+            display: none;
+        }
+
         picture {
             padding-bottom: 0;
             height: 100%;
@@ -273,6 +277,10 @@
 
         &_trending {
             padding-bottom: 100%;
+
+            @include after-mobile {
+                padding-bottom: 70%;
+            }
 
             img {
                 object-fit: cover;
