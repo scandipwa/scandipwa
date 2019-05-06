@@ -54,6 +54,7 @@ class Draggable extends Component {
         window.addEventListener('mousemove', this.handleMouseMove);
         window.addEventListener('mouseup', this.handleMouseUp);
 
+        event.preventDefault();
         this._handleDragStart(event);
     }
 

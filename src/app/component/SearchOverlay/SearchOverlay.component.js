@@ -46,6 +46,7 @@ class SearchOverlay extends Component {
     }
 
     renderSearchItem(product, i) {
+        const { hideActiveOverlay } = this.props;
         const {
             thumbnail,
             name,
@@ -60,7 +61,7 @@ class SearchOverlay extends Component {
               elem="Item"
               key={ i }
             >
-                <Link to={ this.getProductLinkTo(product) }>
+                <Link to={ this.getProductLinkTo(product) } onClick={ () => hideActiveOverlay() }>
                     <figure
                       block="SearchOverlay"
                       elem="Wrapper"
@@ -142,6 +143,7 @@ class SearchOverlay extends Component {
 SearchOverlay.propTypes = {
     makeSearchRequest: PropTypes.func.isRequired,
     clearSearchResults: PropTypes.func.isRequired,
+    hideActiveOverlay: PropTypes.func.isRequired,
     searchCriteria: PropTypes.string,
     searchResults: ItemsType.isRequired,
     isLoading: PropTypes.bool.isRequired

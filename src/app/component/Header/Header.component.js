@@ -136,8 +136,10 @@ class Header extends Component {
 
         const { pathname } = history;
 
-        if (isMobile.any()) {
+        if (!isMobile.any()) {
             setHeaderState(this.routeMap['/']);
+            hideActiveOverlay();
+
             return;
         }
 

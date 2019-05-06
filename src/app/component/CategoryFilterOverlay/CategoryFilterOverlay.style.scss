@@ -11,6 +11,8 @@
         pointer-events: all;
         display: flex;
         flex-direction: column;
+        height: auto;
+        overflow: visible;
     }
 
     &-Heading {
