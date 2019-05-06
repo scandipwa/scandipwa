@@ -116,8 +116,8 @@ class ProductActions extends Component {
               mods={ { type: 'sku' } }
               aria-label="Product SKU and availability"
             >
-                <span>SKU: { sku }</span>
-                <span>In Stock</span>
+                <span className="sku">SKU: { sku }</span>
+                <span className="stock">In Stock</span>
             </section>
         );
     }

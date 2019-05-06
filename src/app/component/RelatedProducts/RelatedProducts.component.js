@@ -70,8 +70,12 @@ class RelatedProducts extends Component {
 
     render() {
         const {
-            relatedProducts: { items, total_count },
+            relatedProducts: {
+                items,
+                total_count
+            },
             product,
+            label
         } = this.props;
 
         const productIsLoaded = Object.keys(product).length !== 0;
@@ -82,9 +86,10 @@ class RelatedProducts extends Component {
 
         return (
             <section block="RelatedProducts">
-            <ul block="RelatedProducts" elem="List">
-                { items ? this.renderProducts(items) : this.renderPlaceholder() }
-            </ul>
+                { label && <h4 block="RelatedProducts" elem="Label">{ label }</h4> }
+                <ul block="RelatedProducts" elem="List">
+                    { items ? this.renderProducts(items) : this.renderPlaceholder() }
+                </ul>
             </section>
         );
     }
@@ -100,7 +105,12 @@ RelatedProducts.propTypes = {
         total_count: PropTypes.number
     }).isRequired,
     clearRelatedProducts: PropTypes.func.isRequired,
-    areDetailsLoaded: PropTypes.bool.isRequired
+    areDetailsLoaded: PropTypes.bool.isRequired,
+    label: PropTypes.string
+};
+
+RelatedProducts.defaultProps = {
+    label: ''
 };
 
 

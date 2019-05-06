@@ -47,6 +47,7 @@
             justify-content: start;
             margin-left: auto;
             padding-top: 1rem;
+            grid-column-gap: 1rem;
         }
     }
 
@@ -64,7 +65,7 @@
 
         @include desktop {
             order: 6;
-            max-width: 170px;
+            max-width: 220px;
             flex-wrap: nowrap;
             margin: auto;
         }
@@ -115,9 +116,27 @@
                     padding-bottom: 0;
                     flex-basis: 100%;
                     order: 2;
-                    border-bottom: 1px solid black;
+                    color: var(--product-brand-heading-color);
+                    border-bottom: 1px solid var(--product-brand-heading-color);
                     padding: 0;
                     margin: 0 1rem;
+                    padding-top: 2rem;
+
+                    .sku {
+                        margin-right: 15px;
+
+                        &::after {
+                            position: absolute;
+                            content: '';
+                            display: block;
+                            width: 4px;
+                            height: 4px;
+                            border-radius: 50%;
+                            right: -10px;
+                            top: 6px;
+                            background-color: var(--product-brand-heading-color);
+                        }
+                    }
                 }
             }
 
@@ -158,6 +177,7 @@
                     display: block;
                     position: absolute;
                     top: 1.8rem;
+                    left: -6px;
                 }
             }
 
