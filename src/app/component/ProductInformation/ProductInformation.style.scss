@@ -6,16 +6,19 @@
     display: none;
 
     @include desktop {
+        margin-top: 3rem;
         grid-column: 1 / span 2;
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: 0 120px;
+        padding: 100px 120px;
         background-color: var(--product-information-background);
     }
 
     &-Image {
-        padding-bottom: 40%;
-        mix-blend-mode: multiply;
+        @include desktop {
+            padding-bottom: 40%;
+            mix-blend-mode: multiply;
+        }
     }
 }
