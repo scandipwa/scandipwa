@@ -21,6 +21,7 @@ import ProductPrice from 'Component/ProductPrice';
 import AddToCart from 'Component/AddToCart';
 import Html from 'Component/Html';
 import './ProductActions.style';
+import TextPlaceholder from 'Component/TextPlaceholder';
 
 /**
  * Product actions
@@ -82,18 +83,21 @@ class ProductActions extends Component {
               mods={ { type: 'sku' } }
               aria-label="Product SKU and availability"
             >
-                <span block="ProductActions" elem="Sku">{ `SKU: ${ sku }` }</span>
-                <span block="ProductActions" elem="Stock">In Stock</span>
+                { sku
+                    ? (
+                        <>
+                            <span block="ProductActions" elem="Sku">{ `SKU: ${ sku }` }</span>
+                            <span block="ProductActions" elem="Stock">In Stock</span>
+                        </>
+                    ) : <TextPlaceholder />
+                }
             </section>
         );
     }
 
     renderShortDescription() {
         const { product: { short_description, brand } } = this.props;
-
-        if (!short_description || !brand) return null;
-
-        const { html } = short_description;
+        const { html } = short_description || {};
 
         return (
             <section
@@ -107,10 +111,10 @@ class ProductActions extends Component {
                   elem="SectionHeading"
                   mods={ { type: 'brand' } }
                 >
-                    { brand }
+                    <TextPlaceholder content={ brand } />
                 </h4>
                 <div block="ProductActions" elem="ShortDescription">
-                    <Html content={ html } />
+                    { html ? <Html content={ html } /> : <TextPlaceholder length="long" /> }
                 </div>
             </section>
         );
@@ -119,8 +123,6 @@ class ProductActions extends Component {
     renderNameAndBrand() {
         const { product: { brand, name } } = this.props;
 
-        if (!name) return null;
-
         return (
             <section
               block="ProductActions"
@@ -128,8 +130,12 @@ class ProductActions extends Component {
               mods={ { type: 'name' } }
               aria-label="Product name information"
             >
-                <h4 block="ProductActions" elem="Brand">{ brand }</h4>
-                <p block="ProductActions" elem="Title">{ name }</p>
+                <h4 block="ProductActions" elem="Brand">
+                    <TextPlaceholder content={ brand } />
+                </h4>
+                <p block="ProductActions" elem="Title">
+                    <TextPlaceholder content={ name } length="medium" />
+                </p>
             </section>
         );
     }
@@ -161,6 +167,28 @@ class ProductActions extends Component {
 
     renderOtherOptions() {
         const { availableFilters } = this.props;
+
+        if (!Object.keys(availableFilters).length) {
+            return (
+                <section
+                  block="ProductActions"
+                  elem="Section"
+                  mix={ { block: 'ProductActions', elem: 'Option' } }
+                  aria-label="Loading other options"
+                >
+                    <h4 block="ProductActions" elem="SectionHeading">
+                        <TextPlaceholder />
+                    </h4>
+                    { new Array(4).fill().map((_, i) => (
+                        <Swatch
+                          key={ i }
+                          mix={ { block: 'ProductActions', elem: 'PlaceholderOption' } }
+                          requestVar="placeholder"
+                        />
+                    )) }
+                </section>
+            )
+        }
 
         return Object.entries(availableFilters).map(([code, option]) => {
             if (code === 'color') return null;
@@ -198,8 +226,15 @@ class ProductActions extends Component {
         if (!color) {
             return (
                 <section block="ProductActions" elem="Colors" aria-label="Color options">
+                    <h4 block="ProductActions" elem="SectionHeading" mods={ { type: 'color' } }>
+                        <TextPlaceholder />
+                    </h4>
                     { new Array(4).fill().map((_, i) => (
-                        <Swatch key={ i } requestVar="color" />
+                        <Swatch
+                          key={ i }
+                          requestVar="color"
+                          mix={ { block: 'ProductActions', elem: 'Color' } }
+                        />
                     )) }
                 </section>
             );

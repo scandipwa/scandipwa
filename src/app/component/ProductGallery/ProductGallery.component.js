@@ -45,20 +45,33 @@ class ProductGallery extends Component {
             }, ...Array(3).fill({})];
     }
 
+    renderAdditionalPicture({ image, type }, index = 0) {
+        return (
+            <Image
+              // eslint-disable-next-line react/no-array-index-key
+              key={ index }
+              src={ image }
+              ratio="custom"
+              objectFit="cover"
+              mix={ { block: 'ProductGallery', elem: 'Image', mods: { type } } }
+            />
+        );
+    }
+
+    renderAdditionalPictures(gallery) {
+        const galleryLength = gallery.length;
+
+        return galleryLength < 4
+            ? this.renderAdditionalPicture({ ...gallery[galleryLength - 1], type: 'single' })
+            : gallery.slice(0, 4).map(this.renderAdditionalPicture);
+    }
+
     render() {
         const gallery = this.getGalleryPictures();
 
         return (
             <div block="ProductGallery">
-                { gallery.slice(0, 4).map(({ image, id }, index) => (
-                    <Image
-                      src={ image }
-                      key={ id || index }
-                      ratio="custom"
-                      objectFit="cover"
-                      mix={ { block: 'ProductGallery', elem: 'Image' } }
-                    />
-                )) }
+                { this.renderAdditionalPictures(gallery) }
                 <Slider
                   mix={ { block: 'ProductGallery', elem: 'Slider' } }
                   showCrumbs

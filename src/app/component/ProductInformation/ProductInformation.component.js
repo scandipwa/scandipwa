@@ -5,17 +5,29 @@ import ContentWrapper from 'Component/ContentWrapper';
 import Image from 'Component/Image';
 import { ProductType } from 'Type/ProductList';
 import './ProductInformation.style';
+import TextPlaceholder from 'Component/TextPlaceholder';
 
 const PRODUCT_IMAGE_PATH = '/media/catalog/product';
 
 class ProductInformation extends Component {
+    renderContentPlaceholder() {
+        return (
+            <div block="ProductInformation" elem="Placeholder">
+              <TextPlaceholder length="medium" />
+              <TextPlaceholder length="long" />
+              <TextPlaceholder length="medium" />
+              <TextPlaceholder length="long" />
+              <TextPlaceholder />
+              <TextPlaceholder length="medium" />
+              <TextPlaceholder length="long" />
+            </div>
+        );
+    }
+
     render() {
         const { product: { description, image } } = this.props;
-
-        if (!description || !image) return null;
-
-        const { html } = description;
-        const { path } = image;
+        const { html } = description || {};
+        const { path } = image || {};
 
         return (
             <ContentWrapper
@@ -24,7 +36,7 @@ class ProductInformation extends Component {
               wrapperMix={ { block: 'ProductInformation', elem: 'Wrapper' } }
             >
                 <Image
-                  src={ `${PRODUCT_IMAGE_PATH}${path}` }
+                  src={ path ? `${PRODUCT_IMAGE_PATH}${path}` : '' }
                   alt="Product image"
                   mix={ { block: 'ProductInformation', elem: 'Image' } }
                 />
@@ -32,7 +44,7 @@ class ProductInformation extends Component {
                   heading="Product information"
                   mix={ { block: 'ProductInformation', elem: 'Content' } }
                 >
-                    <Html content={ html } />
+                    { html ? <Html content={ html } /> : this.renderContentPlaceholder() }
                 </ExpandableContent>
             </ContentWrapper>
         );
