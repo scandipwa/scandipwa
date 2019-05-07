@@ -40,7 +40,6 @@ const reducers = combineReducers({
     NoMatchReducer,
     RelatedProductsReducer,
     SearchBarReducer,
-    MyAccountReducer,
     CountryReducer,
     UrlRewritesReducer,
     MyAccountReducer
