@@ -246,6 +246,7 @@ class CheckoutShippingStep extends Component {
 
     renderField(id, overrideStateValue) {
         const { [id]: stateValue } = this.state;
+        const { countryList } = this.props;
         const {
             type = 'text',
             label,
@@ -261,6 +262,7 @@ class CheckoutShippingStep extends Component {
               type={ type }
               label={ label }
               note={ note }
+              options={ id === 'country_id' ? countryList : null }
               value={ overrideStateValue || stateValue || defaultValue }
               validation={ validation }
               onChange={ onChange }
@@ -415,7 +417,8 @@ CheckoutShippingStep.propTypes = {
         region_id: PropTypes.number,
         street: PropTypes.array,
         telephone: PropTypes.string
-    }).isRequired
+    }).isRequired,
+    countryList: PropTypes.arrayOf(PropTypes.shape).isRequired
 };
 
 export default CheckoutShippingStep;

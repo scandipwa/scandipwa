@@ -13,8 +13,7 @@ import { connect } from 'react-redux';
 import Field from './Field.component';
 
 const mapStateToProps = state => ({
-    customer: state.MyAccountReducer.customer,
-    countryList: state.HeaderAndFooterReducer.countries
+    customer: state.MyAccountReducer.customer
 });
 
 const FieldContainer = connect(mapStateToProps, null)(Field);
