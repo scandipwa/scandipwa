@@ -35,11 +35,6 @@
             background: var(--swatch-background);
             will-change: box-shadow, background-color;
 
-            @include desktop {
-                width: 25px;
-                height: 25px;
-            }
-
             &::before,
             &::after {
                 content: '';
@@ -57,11 +52,6 @@
                 top: -3px;
                 border-radius: inherit;
                 box-shadow: inherit;
-
-                @include desktop {
-                    width: 31px;
-                    height: 31px;
-                }
             }
 
             &::after {
@@ -73,13 +63,6 @@
                 border: {
                     left: 2px solid var(--swatch-check-mark-background);
                     bottom: 2px solid var(--swatch-check-mark-background);
-                }
-
-                @include desktop {
-                    width: 12px;
-                    height: 6px;
-                    top: 6px;
-                    left: 6px;
                 }
             }
         }

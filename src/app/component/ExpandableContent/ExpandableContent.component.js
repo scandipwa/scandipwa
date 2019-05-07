@@ -24,17 +24,36 @@ class ExpandableContent extends Component {
         } = this.props;
 
         return (
-            <article block="ExpandableContent" mix={ mix }>
+            <article
+              block="ExpandableContent"
+              mix={ mix }
+            >
                 <button
                   block="ExpandableContent"
                   elem="Button"
                   mods={ { isContentExpanded } }
                   onClick={ this.toggleExpand }
                 >
-                    <span block="ExpandableContent" elem="Heading">{ heading }</span>
-                    <span block="ExpandableContent" elem="SubHeading">{ subHeading }</span>
+                    <span
+                      block="ExpandableContent"
+                      elem="Heading"
+                      mix={ { ...mix, elem: 'Heading' } }
+                    >
+                        { heading }
+                    </span>
+                    <span
+                      block="ExpandableContent"
+                      elem="SubHeading"
+                      mix={ { ...mix, elem: 'SubHeading' } }
+                    >
+                        { subHeading }
+                    </span>
                 </button>
-                <div block="ExpandableContent" elem="Content" mods={ { isContentExpanded } }>
+                <div
+                  block="ExpandableContent"
+                  elem="Content"
+                  mods={ { isContentExpanded } }
+                >
                     { children }
                 </div>
             </article>

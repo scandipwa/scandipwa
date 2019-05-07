@@ -17,9 +17,7 @@
     background: var(--color-footer-background);
     padding-top: 3rem;
 
-    @include mobile {
-        display: none;
-    }
+    display: none;
 
     &-Content {
         display: none;

@@ -78,7 +78,7 @@ class CategoryProductList extends Component {
     }
 
     stopObserving() {
-        if (this.observer) {
+        if (this.observer && this.scrollListener.current) {
             if (this.observer.unobserve) {
                 this.observer.unobserve(this.scrollListener.current);
             }

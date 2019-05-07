@@ -19,11 +19,8 @@ import { ProductType } from 'Type/ProductList';
 import Swatch from 'Component/Swatch';
 import ProductPrice from 'Component/ProductPrice';
 import AddToCart from 'Component/AddToCart';
-import ExpandableContent from 'Component/ExpandableContent';
-import RelatedProducts from 'Component/RelatedProducts';
 import Html from 'Component/Html';
 import './ProductActions.style';
-import ProductInformation from 'Component/ProductInformation';
 
 /**
  * Product actions
@@ -75,37 +72,6 @@ class ProductActions extends Component {
         return null;
     }
 
-    renderRelatedProducts() {
-        const { product, areDetailsLoaded } = this.props;
-
-        return (
-            <section
-              block="ProductActions"
-              elem="Section"
-              mods={ { type: 'related' } }
-              aria-label="Related products"
-            >
-                <h4
-                  block="ProductActions"
-                  elem="SectionHeading"
-                  mods={ { type: 'related' } }
-                >
-                    Scandipwa recommends
-                </h4>
-                <RelatedProducts
-                  product={ product }
-                  areDetailsLoaded={ areDetailsLoaded }
-                />
-            </section>
-        );
-    }
-
-    renderAdditionalInformation() {
-        const { product } = this.props;
-
-        return <ProductInformation product={ product } type="expandable" />;
-    }
-
     renderSkuAndStock() {
         const { product: { sku } } = this.props;
 
@@ -116,35 +82,16 @@ class ProductActions extends Component {
               mods={ { type: 'sku' } }
               aria-label="Product SKU and availability"
             >
-                <span className="sku">SKU: { sku }</span>
-                <span className="stock">In Stock</span>
+                <span block="ProductActions" elem="Sku">{ `SKU: ${ sku }` }</span>
+                <span block="ProductActions" elem="Stock">In Stock</span>
             </section>
         );
     }
 
     renderShortDescription() {
-        const { product: { short_description } } = this.props;
+        const { product: { short_description, brand } } = this.props;
 
-        if (!short_description) return null;
-
-        const { html } = short_description;
-
-        return (
-            <section
-              block="ProductActions"
-              elem="Section"
-              mods={ { type: 'short-description' } }
-              aria-label="Product short description"
-            >
-                <Html content={ html } />
-            </section>
-        );
-    }
-
-    renderShortProductInformation() {
-        const { product: { brand, short_description, name } } = this.props;
-
-        if (!short_description) return null;
+        if (!short_description || !brand) return null;
 
         const { html } = short_description;
 
@@ -158,24 +105,31 @@ class ProductActions extends Component {
                 <h4
                   block="ProductActions"
                   elem="SectionHeading"
-                  mods={ { type: 'short' } }
+                  mods={ { type: 'brand' } }
                 >
                     { brand }
                 </h4>
-                <div
-                  block="ProductActions"
-                  elem="SectionContent"
-                  mods={ { type: 'short-desc' } }
-                >
+                <div block="ProductActions" elem="ShortDescription">
                     <Html content={ html } />
                 </div>
-                <p
-                  block="ProductActions"
-                  elem="SectionContent"
-                  mods={ { type: 'short-name' } }
-                >
-                    { name }
-                </p>
+            </section>
+        );
+    }
+
+    renderNameAndBrand() {
+        const { product: { brand, name } } = this.props;
+
+        if (!name) return null;
+
+        return (
+            <section
+              block="ProductActions"
+              elem="Section"
+              mods={ { type: 'name' } }
+              aria-label="Product name information"
+            >
+                <h4 block="ProductActions" elem="Brand">{ brand }</h4>
+                <p block="ProductActions" elem="Title">{ name }</p>
             </section>
         );
     }
@@ -184,14 +138,13 @@ class ProductActions extends Component {
         const { configurableVariantIndex, product } = this.props;
 
         return (
-            <AddToCart
-              product={ product }
-              configurableVariantIndex={ configurableVariantIndex }
-              mix={ {
-                  block: 'ProductActions',
-                  elem: 'AddToCart'
-              } }
-            />
+            <div block="ProductActions" elem="AddToCartWrapper">
+                <AddToCart
+                  product={ product }
+                  configurableVariantIndex={ configurableVariantIndex }
+                  mix={ { block: 'ProductActions', elem: 'AddToCart' } }
+                />
+            </div>
         );
     }
 
@@ -201,10 +154,7 @@ class ProductActions extends Component {
         return (
             <ProductPrice
               price={ price }
-              mix={ {
-                  block: 'ProductActions',
-                  elem: 'Price'
-              } }
+              mix={ { block: 'ProductActions', elem: 'Price' } }
             />
         );
     }
@@ -223,6 +173,7 @@ class ProductActions extends Component {
                   block="ProductActions"
                   elem="Section"
                   mods={ { type: optionLabel.toLowerCase() } }
+                  mix={ { block: 'ProductActions', elem: 'Option' } }
                   aria-label={ `${ optionLabel } options` }
                 >
                     <h4 block="ProductActions" elem="SectionHeading">{ optionLabel }</h4>
@@ -248,10 +199,7 @@ class ProductActions extends Component {
             return (
                 <section block="ProductActions" elem="Colors" aria-label="Color options">
                     { new Array(4).fill().map((_, i) => (
-                        <Swatch
-                          key={ i }
-                          requestVar="color"
-                        />
+                        <Swatch key={ i } requestVar="color" />
                     )) }
                 </section>
             );
@@ -260,7 +208,11 @@ class ProductActions extends Component {
         const { values: colorOptions } = color;
 
         return (
-            <section block="ProductActions" elem="Colors" aria-label="Color options">
+            <section
+              block="ProductActions"
+              elem="Colors"
+              aria-label="Color options"
+            >
                 <h4
                   block="ProductActions"
                   elem="SectionHeading"
@@ -271,6 +223,7 @@ class ProductActions extends Component {
                 { colorOptions.map(({ value, label, id }) => (
                     <Swatch
                       key={ id }
+                      mix={ { block: 'ProductActions', elem: 'Color' } }
                       onClick={ () => this.changeConfigurableVariant('color', id) }
                       isSelected={ this.getIsOptionInCurrentVariant('color', id) }
                       filterItem={ { label, swatch_data: { value } } }
@@ -288,11 +241,9 @@ class ProductActions extends Component {
                 { this.renderPrice() }
                 { this.renderAddToCart() }
                 { this.renderOtherOptions() }
-                { this.renderShortProductInformation() }
+                { this.renderNameAndBrand() }
                 { this.renderSkuAndStock() }
                 { this.renderShortDescription() }
-                { this.renderAdditionalInformation() }
-                { this.renderRelatedProducts() }
             </article>
         );
     }
@@ -302,7 +253,6 @@ ProductActions.propTypes = {
     product: ProductType.isRequired,
     availableFilters: PropTypes.objectOf(PropTypes.shape).isRequired,
     configurableVariantIndex: PropTypes.number,
-    areDetailsLoaded: PropTypes.bool.isRequired,
     updateConfigurableVariantIndex: PropTypes.func.isRequired
     // groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired
 };

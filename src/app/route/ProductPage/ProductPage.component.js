@@ -238,13 +238,13 @@ class ProductPage extends Component {
                           configurableVariantIndex={ configurableVariantIndex }
                           updateConfigurableVariantIndex={ this.updateUrl }
                         />
-                        <ProductInformation product={ dataSource } type="block" />
-                        <RelatedProducts
-                          product={ dataSource }
-                          areDetailsLoaded={ areDetailsLoaded }
-                          label="ScandiPWA recommends"
-                        />
                     </ContentWrapper>
+                    <ProductInformation product={ dataSource } type="block" />
+                    <RelatedProducts
+                      product={ dataSource }
+                      areDetailsLoaded={ areDetailsLoaded }
+                      label="ScandiPWA recommends"
+                    />
                 </main>
             </>
         );
