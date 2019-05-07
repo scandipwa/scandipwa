@@ -42,25 +42,37 @@ class ProductGallery extends Component {
             : [{
                 image: thumbnail && path && `${PRODUCT_IMAGE_PATH}${path}`,
                 id: THUMBNAIL_KEY
-            }];
-
+            }, ...Array(3).fill({})];
     }
 
     render() {
         const gallery = this.getGalleryPictures();
 
         return (
-            <Slider
-              mix={ { block: 'ProductGallery' } }
-              showCrumbs
-            >
-                { gallery.map(({ image, id }) => (
+            <div block="ProductGallery">
+                { gallery.slice(0, 4).map(({ image, id }, index) => (
                     <Image
                       src={ image }
-                      key={ id }
+                      key={ id || index }
+                      ratio="custom"
+                      objectFit="cover"
+                      mix={ { block: 'ProductGallery', elem: 'Image' } }
                     />
                 )) }
-            </Slider>
+                <Slider
+                  mix={ { block: 'ProductGallery', elem: 'Slider' } }
+                  showCrumbs
+                >
+                    { gallery.map(({ image, id }, index) => (
+                        <Image
+                          src={ image }
+                          key={ id || index }
+                          ratio="custom"
+                          mix={ { block: 'ProductGallery', elem: 'SliderImage' } }
+                        />
+                    )) }
+                </Slider>
+            </div>
         );
     }
 }

@@ -209,6 +209,7 @@ class Field extends Component {
             <input
               ref={ formRef }
               type="password"
+              autoComplete="current-password"
               id={ id }
               name={ name }
               value={ value }

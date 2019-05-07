@@ -3,22 +3,41 @@
 }
 
 .ProductInformation {
-    display: none;
-
-    @include desktop {
-        margin-top: 3rem;
-        grid-column: 1 / span 2;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 100px 120px;
+    @include after-mobile {
         background-color: var(--product-information-background);
     }
 
+    &-Heading {
+        @include after-mobile {
+            font-size: 20px;
+            text-transform: uppercase;
+        }
+    }
+
+    &-Wrapper {
+        max-width: 1000px;
+
+        @include mobile {
+            padding: 0;
+        }
+
+        @include after-mobile {
+            margin-top: 3rem;
+            padding: 3rem 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+
     &-Image {
-        @include desktop {
-            padding-bottom: 40%;
-            mix-blend-mode: multiply;
+        padding-bottom: 40%;
+        mix-blend-mode: multiply;
+        margin-right: 10rem;
+        min-width: 30rem;
+
+        @include mobile {
+            display: none;
         }
     }
 }

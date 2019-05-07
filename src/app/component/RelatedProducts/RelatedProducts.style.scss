@@ -10,35 +10,41 @@
  */
 
 .RelatedProducts {
-    @include desktop {
+    @include after-mobile {
         grid-column: 1 / span 2;
         padding: 0 200px;
     }
 
-    &-List {
-        display: grid;
-        grid-template-columns: 25% 25% 25% 25%;
-        padding-top: .5rem;
-    
-        @include mobile {
-            grid-template-columns: 1fr 1fr;
-            grid-gap: 1rem;
-        }
+    &-Wrapper {
+        padding-bottom: 5rem;
 
-        @include desktop {
+        @include mobile {
             padding: 0;
         }
     }
 
-    &-Label {
-        @include desktop {
-            text-align: center;
-            padding: 50px 0;
-            font-size: 1.5rem; 
+    &-List {
+        display: grid;
+        grid-gap: 1rem;
+        grid-template-columns: 1fr 1fr;
+
+        @include after-mobile {
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 3rem;
         }
     }
 
-    .ProductCard {
-        margin: 0 1rem;
+    &-Label {
+        text-transform: uppercase;
+
+        @include mobile {
+            padding: 1.5rem 1rem 1rem;
+        }
+
+        @include after-mobile {
+            text-align: center;
+            padding: 50px 0;
+            font-size: 20px;
+        }
     }
 }

@@ -12,7 +12,6 @@
 import React, { Component } from 'react';
 import ContentWrapper from 'Component/ContentWrapper';
 import ProductCard from 'Component/ProductCard';
-import TextPlaceholder from 'Component/TextPlaceholder';
 import PropTypes from 'prop-types';
 import { ItemsType } from 'Type/ProductList';
 import './RelatedProducts.style';
@@ -49,7 +48,7 @@ class RelatedProducts extends Component {
     }
 
     renderProducts(products) {
-        return products.map(product => (
+        return products.slice(0, 4).map(product => (
             <ProductCard
               product={ product }
               key={ product.id }
@@ -85,12 +84,16 @@ class RelatedProducts extends Component {
         if (productIsLoaded && (!hasRelatedProducts || (relatedProductsLoaded && total_count === 0))) return null;
 
         return (
-            <section block="RelatedProducts">
+            <ContentWrapper
+              label="Related products"
+              mix={ { block: 'RelatedProducts' } }
+              wrapperMix={ { block: 'RelatedProducts', elem: 'Wrapper' } }
+            >
                 { label && <h4 block="RelatedProducts" elem="Label">{ label }</h4> }
                 <ul block="RelatedProducts" elem="List">
                     { items ? this.renderProducts(items) : this.renderPlaceholder() }
                 </ul>
-            </section>
+            </ContentWrapper>
         );
     }
 }
