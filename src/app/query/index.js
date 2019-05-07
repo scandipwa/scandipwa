@@ -17,6 +17,7 @@ import HomeSlider from 'Query/HomeSlider.query';
 import MenuQuery from 'Query/Menu.query';
 import MyAccount from 'Query/MyAccount.query';
 import Cart from 'Query/Cart.query';
+import UrlRewritesQuery from 'Query/UrlRewrites';
 
 export {
     CategoryQuery,
@@ -25,6 +26,7 @@ export {
     CmsBlockQuery,
     HomeSlider,
     MenuQuery,
+    UrlRewritesQuery,
     MyAccount,
     Cart
 };

@@ -55,9 +55,10 @@ const updateCategoryList = categoryList => ({
  * @param {String} categoryUrlPath url path Main Category object
  * @return {void}
  */
-const updateCurrentCategory = categoryUrlPath => ({
+const updateCurrentCategory = (categoryUrlPath, categoryIds) => ({
     type: UPDATE_CURRENT_CATEGORY,
-    categoryUrlPath
+    categoryUrlPath,
+    categoryIds
 });
 
 /**

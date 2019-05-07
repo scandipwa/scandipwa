@@ -13,15 +13,27 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ContentWrapper from 'Component/ContentWrapper';
 import Html from 'Component/Html';
-import { BlockListType } from 'Type/CMS';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import Meta from 'Component/Meta';
+import { getUrlParam } from 'Util/Url';
+import { BlockListType } from 'Type/CMS';
 import './CmsPage.style';
 
 class CmsPage extends Component {
     componentDidMount() {
-        const { requestPage, match: { params: { id } }, enableBreadcrumbs } = this.props;
-        requestPage({ id });
+        const {
+            requestPage,
+            location,
+            match,
+            enableBreadcrumbs,
+            cmsId,
+            isOnlyPlaceholder,
+            updateCmsPage
+        } = this.props;
+        const urlParam = getUrlParam(match, location);
+
+        updateCmsPage({});
+        if (!isOnlyPlaceholder) requestPage({ id: cmsId || urlParam });
         enableBreadcrumbs();
     }
 
@@ -30,17 +42,24 @@ class CmsPage extends Component {
             updateBreadcrumbs,
             page,
             requestPage,
-            match: {
-                params: {
-                    id
-                }
+            match,
+            location,
+            location: {
+                pathname
             },
-            location
+            cmsId
         } = this.props;
+        const {
+            location: {
+                pathname: prevPathname
+            },
+            cmsId: prevCmsId
+        } = prevProps;
 
         updateBreadcrumbs(page);
-        if (location.pathname !== prevProps.location.pathname) {
-            requestPage({ id });
+        if (pathname !== prevPathname || cmsId !== prevCmsId) {
+            const urlParam = getUrlParam(match, location);
+            requestPage({ id: cmsId || urlParam });
         }
     }
 
@@ -81,13 +100,21 @@ CmsPage.propTypes = {
     requestPage: PropTypes.func.isRequired,
     match: PropTypes.shape({
         params: PropTypes.shape({
-            id: PropTypes.string.isRequired
+            id: PropTypes.string
         }).isRequired
     }).isRequired,
     page: BlockListType.isRequired,
     updateBreadcrumbs: PropTypes.func.isRequired,
     location: PropTypes.shape().isRequired,
-    enableBreadcrumbs: PropTypes.func.isRequired
+    enableBreadcrumbs: PropTypes.func.isRequired,
+    updateCmsPage: PropTypes.func.isRequired,
+    cmsId: PropTypes.number,
+    isOnlyPlaceholder: PropTypes.bool
+};
+
+CmsPage.defaultProps = {
+    cmsId: 0,
+    isOnlyPlaceholder: false
 };
 
 export default CmsPage;

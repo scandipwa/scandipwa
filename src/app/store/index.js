@@ -24,6 +24,7 @@ import { CartReducer } from 'Store/Cart';
 import { NoMatchReducer } from 'Store/NoMatch';
 import { RelatedProductsReducer } from 'Store/RelatedProducts';
 import { SearchBarReducer } from 'Store/SearchBar';
+import { UrlRewritesReducer } from 'Store/UrlRewrites';
 import { MyAccountReducer } from 'Store/MyAccount';
 import { CountryReducer } from 'Store/Country';
 
@@ -41,6 +42,8 @@ const reducers = combineReducers({
     SearchBarReducer,
     MyAccountReducer,
     CountryReducer
+    UrlRewritesReducer,
+    MyAccountReducer
 });
 
 const store = createStore(
