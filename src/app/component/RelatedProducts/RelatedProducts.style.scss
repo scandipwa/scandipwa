@@ -29,8 +29,9 @@
         grid-template-columns: 1fr 1fr;
 
         @include after-mobile {
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(auto-fit, calc(25% - 3rem));
             grid-gap: 3rem;
+            justify-content: center;
         }
     }
 

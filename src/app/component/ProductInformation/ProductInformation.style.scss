@@ -30,6 +30,15 @@
         }
     }
 
+    &-Placeholder {
+        margin-top: 2rem;
+
+        span {
+            display: block;
+            margin-bottom: 1rem;
+        }
+    }
+
     &-Image {
         padding-bottom: 40%;
         mix-blend-mode: multiply;

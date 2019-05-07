@@ -81,7 +81,7 @@ class RelatedProducts extends Component {
         const hasRelatedProducts = product.product_links && Object.keys(product.product_links).length > 0;
         const relatedProductsLoaded = typeof items === 'object';
 
-        if (productIsLoaded && (!hasRelatedProducts || (relatedProductsLoaded && total_count === 0))) return null;
+        // if (productIsLoaded && (!hasRelatedProducts || (relatedProductsLoaded && total_count === 0))) return null;
 
         return (
             <ContentWrapper
