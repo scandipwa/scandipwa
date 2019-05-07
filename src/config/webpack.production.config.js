@@ -155,7 +155,8 @@ module.exports = {
         new OptimizeCssAssetsPlugin(),
 
         new CopyWebpackPlugin([
-            { from: path.resolve(projectRoot, 'src', 'public', 'assets'), to: './assets' }
+            { from: path.resolve(projectRoot, 'src', 'public', 'assets'), to: './assets' },
+            { from: path.resolve(projectRoot, 'src', 'public', 'public'), to: './public' }
         ]),
 
         new FallbackPlugin({
