@@ -171,6 +171,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        flex-direction: row-reverse;
 
         will-change: max-height, opacity, padding;
         transition-property: padding, max-height;
@@ -236,6 +237,10 @@
     &-Delete {
         @include clear-button;
 
+        @include after-mobile {
+            top: 1px;
+        }
+
         height: 35px;
         padding-left: 35px;
         font-size: 14px;
@@ -271,13 +276,20 @@
             color: var(--cart-item-actions-color);
             background: transparent;
 
-            &:last-child {
+            &:first-of-type {
                 left: 0;
                 order: 3;
             }
 
+            &:last-of-type {
+                right: 0;
+                order: 1;
+            }
+
             span {
-                top: -2.2px;
+                @include mobile {
+                    top: -2.2px;
+                }
             }
         }
     }
