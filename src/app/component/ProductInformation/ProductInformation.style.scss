@@ -7,7 +7,7 @@
         background-color: var(--product-information-background);
     }
 
-    &-Heading {
+    &-ExpandableContentHeading {
         @include after-mobile {
             font-size: 20px;
             text-transform: uppercase;
