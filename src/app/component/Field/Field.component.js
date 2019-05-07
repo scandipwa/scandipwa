@@ -19,6 +19,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Select from 'Component/Select';
 import './Field.style';
 
 const TEXT_TYPE = 'text';
@@ -27,6 +28,7 @@ const CHECKBOX_TYPE = 'checkbox';
 const RADIO_TYPE = 'radio';
 const TEXTAREA_TYPE = 'textarea';
 const PASSWORD_TYPE = 'password';
+const SELECT_TYPE = 'select';
 
 /**
  * Input fields component
@@ -65,7 +67,8 @@ class Field extends Component {
             }
         }
 
-        this.state = { value, isChecked: checked };
+        this.state = { value, isChecked: false };
+        this.onChange = this.onChange.bind(this);
     }
 
     /**
@@ -85,7 +88,11 @@ class Field extends Component {
     }
 
     onChange(event) {
-        this.handleChange(event.target.value);
+        if (typeof event === 'string') {
+            return this.handleChange(event);
+        }
+
+        return this.handleChange(event.target.value);
     }
 
     onFocus(event) {
@@ -255,6 +262,23 @@ class Field extends Component {
         );
     }
 
+    renderTypeSelect() {
+        const { id, formRef, options } = this.props;
+        const { value } = this.state;
+
+        return (
+            <Select
+              block="Field"
+              elem="Select"
+              id={ id }
+              reference={ formRef }
+              options={ options }
+              selectedOption={ value }
+              onGetKey={ this.onChange }
+            />
+        );
+    }
+
     renderInputOfType(type) {
         switch (type) {
         case CHECKBOX_TYPE:
@@ -267,6 +291,8 @@ class Field extends Component {
             return this.renderTextarea();
         case PASSWORD_TYPE:
             return this.renderTypePassword();
+        case SELECT_TYPE:
+            return this.renderTypeSelect();
         default:
             return this.renderTypeText();
         }
@@ -303,7 +329,8 @@ Field.propTypes = {
         CHECKBOX_TYPE,
         TEXTAREA_TYPE,
         RADIO_TYPE,
-        PASSWORD_TYPE
+        PASSWORD_TYPE,
+        SELECT_TYPE
     ]).isRequired,
     name: PropTypes.string,
     label: PropTypes.string,
@@ -332,7 +359,13 @@ Field.propTypes = {
         PropTypes.func,
         PropTypes.shape({ current: PropTypes.instanceOf(Element) })
     ]),
-    isAutocompleteAllowed: PropTypes.bool
+    isAutocompleteAllowed: PropTypes.bool,
+    options: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.string,
+            label: PropTypes.string
+        })
+    )
 };
 
 Field.defaultProps = {

@@ -25,6 +25,7 @@ import { NoMatchReducer } from 'Store/NoMatch';
 import { RelatedProductsReducer } from 'Store/RelatedProducts';
 import { SearchBarReducer } from 'Store/SearchBar';
 import { MyAccountReducer } from 'Store/MyAccount';
+import { CountryReducer } from 'Store/Country';
 
 const reducers = combineReducers({
     CmsBlocksAndSliderReducer,
@@ -38,7 +39,8 @@ const reducers = combineReducers({
     NoMatchReducer,
     RelatedProductsReducer,
     SearchBarReducer,
-    MyAccountReducer
+    MyAccountReducer,
+    CountryReducer
 });
 
 const store = createStore(

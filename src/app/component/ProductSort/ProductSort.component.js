@@ -46,12 +46,12 @@ class ProductSort extends Component {
             value,
             sortFields,
             sortDirection,
-            onGetSortKey
+            onGetKey
         } = this.props;
 
         const tempData = [];
-        const selectableOptions = sortFields.options && sortFields.options.reduce((selectableOptions, option) => {
-            if (option && option.value !== 'size' && option.value !== 'position') {
+        const selectableOptions = sortFields && sortFields.reduce((selectableOptions, option) => {
+            if (option && option.id !== 'size' && option.id !== 'position') {
                 tempData.push(option);
             }
 
@@ -71,9 +71,11 @@ class ProductSort extends Component {
                         <Select
                           block="ProductSort"
                           elem="Select"
+                          id="sort"
                           options={ selectableOptions }
                           selectedOption={ value }
-                          onGetSortKey={ onGetSortKey }
+                          onGetKey={ onGetKey }
+                          reference={ false }
                         />
                         <button
                           block="ProductSort"
@@ -92,13 +94,18 @@ class ProductSort extends Component {
 }
 
 ProductSort.propTypes = {
-    onGetSortKey: PropTypes.func.isRequired,
+    onGetKey: PropTypes.func.isRequired,
     onGetSortDirection: PropTypes.func.isRequired,
     value: PropTypes.string.isRequired,
     sortDirection: PropTypes.string.isRequired,
     sortFields: PropTypes.oneOfType([
         PropTypes.bool,
-        PropTypes.objectOf(PropTypes.array)
+        PropTypes.arrayOf(
+            PropTypes.shape({
+                id: PropTypes.string,
+                label: PropTypes.string
+            })
+        )
     ]).isRequired
 };
 

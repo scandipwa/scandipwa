@@ -12,6 +12,7 @@
 import React, { Component, Children } from 'react';
 import PropTypes from 'prop-types';
 import Field from 'Component/Field';
+import Select from 'Component/Select';
 import valdationConfig from './Form.config';
 
 class Form extends Component {

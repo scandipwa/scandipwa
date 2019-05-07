@@ -65,7 +65,7 @@ class CategoryPage extends Component {
      * @param {String} key sort by key
      * @return {void}
      */
-    onGetSortKey(key) {
+    onGetKey(key) {
         const { location, history } = this.props;
 
         setQueryParams({ sortKey: key }, location, history);
@@ -345,6 +345,13 @@ class CategoryPage extends Component {
             maxPriceRange
         } = this.state;
 
+        const { options } = sortFields;
+
+        const updatedSortFields = options && Object.values(options).map(option => ({
+            id: option.value,
+            label: option.label
+        }));
+
         const isNewCategory = this.isNewCategory();
         const customFilters = this.getCustomFiltersFromUrl();
 
@@ -383,9 +390,9 @@ class CategoryPage extends Component {
                     <aside block="CategoryPage" elem="Miscellaneous">
                         { this.renderItemCount() }
                         <ProductSort
-                          onGetSortKey={ key => this.onGetSortKey(key) }
+                          onGetKey={ key => this.onGetKey(key) }
                           onGetSortDirection={ direction => this.onGetSortDirection(direction) }
-                          sortFields={ !isLoading && sortFields }
+                          sortFields={ !isLoading && updatedSortFields }
                           value={ sortKey }
                           sortDirection={ sortDirection }
                         />

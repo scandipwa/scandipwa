@@ -21,6 +21,7 @@ const STATE_ACCOUNT_OVERVIEW = 'accountOverview';
 const STATE_EDIT_INFORMATION = 'editInformation';
 const STATE_EDIT_PASSWORD = 'editPassword';
 const STATE_UPDATE_ADDRESS = 'updateAddress';
+const DEFAULT_COUNTRY = 'US';
 
 class MyAccountDetails extends Component {
     constructor(props) {
@@ -29,7 +30,8 @@ class MyAccountDetails extends Component {
         this.state = {
             state: STATE_ACCOUNT_OVERVIEW,
             correctAddress: {},
-            isLoading: false
+            isLoading: false,
+            selectValue: ''
         };
 
         this.renderMap = {
@@ -187,7 +189,7 @@ class MyAccountDetails extends Component {
      * @param {Object} correctAddress
      */
     changeState(state, correctAddress) {
-        this.setState({ state, correctAddress });
+        this.setState({ state, correctAddress, selectValue: '' });
     }
 
     /**
@@ -219,6 +221,14 @@ class MyAccountDetails extends Component {
     }
 
     /**
+     * Save country select state
+     * @param {String} value
+     */
+    changeSelectValue(value) {
+        this.setState({ selectValue: value });
+    }
+
+    /**
      * Render main account overview page
      */
     renderAccountOverview() {
@@ -235,7 +245,7 @@ class MyAccountDetails extends Component {
      * Render Customer Address Update page
      */
     renderUpdateAddress() {
-        const { correctAddress } = this.state;
+        const { correctAddress, selectValue } = this.state;
         const {
             firstname,
             lastname,
@@ -306,11 +316,11 @@ class MyAccountDetails extends Component {
                           value={ region && region.region }
                         />
                         <Field
-                          type="text"
+                          type="select"
                           label="Country"
                           id="country_id"
-                          validation={ ['notEmpty'] }
-                          value={ country_id }
+                          value={ selectValue || country_id || DEFAULT_COUNTRY }
+                          onChange={ (value) => { this.changeSelectValue(value); } }
                         />
                     </fieldset>
                     <button block="MyAccountDetails" elem="Submit" type="submit">Add Address</button>

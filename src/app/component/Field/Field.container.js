@@ -9,6 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import FieldContainer from './Field.container';
+import { connect } from 'react-redux';
+import Field from './Field.component';
+
+const mapStateToProps = state => ({
+    customer: state.MyAccountReducer.customer,
+    options: state.HeaderAndFooterReducer.countries
+});
+
+const FieldContainer = connect(mapStateToProps, null)(Field);
 
 export default FieldContainer;

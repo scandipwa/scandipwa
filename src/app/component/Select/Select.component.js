@@ -18,15 +18,41 @@ import './Select.style';
  * @class Select
  */
 class Select extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            selectValue: ''
+        };
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        const { selectValue } = state;
+        const { selectedOption, options } = props;
+        const tempData = [];
+        const selectedFilter = options.reduce((selectedFilter, option) => {
+            if (option && option.id === selectedOption) {
+                tempData.push(option.id);
+            }
+
+            return tempData;
+        }, 0);
+
+        if (!selectValue) return { selectValue: selectedFilter[0] };
+
+        return null;
+    }
+
     /**
      * Handle Sort key change
      * @param {Object} option
      * @return {void}
      */
-    onGetSortKey(key) {
-        const { onGetSortKey } = this.props;
+    onGetKey(key) {
+        const { onGetKey } = this.props;
 
-        onGetSortKey(key);
+        this.setState({ selectValue: key });
+        onGetKey(key);
     }
 
     /**
@@ -38,10 +64,10 @@ class Select extends Component {
 
         return options.map(option => (
             <li
-              key={ option.value }
+              key={ option.id }
               role="presentation"
-              onClick={ () => this.onGetSortKey(option.value) }
-              onKeyPress={ () => this.onGetSortKey(option.value) }
+              onClick={ () => this.onGetKey(option.id) }
+              onKeyPress={ () => this.onGetKey(option.id) }
             >
             {option.label}
             </li>
@@ -57,8 +83,8 @@ class Select extends Component {
 
         return options.map(option => (
             <option
-              key={ option.value }
-              value={ option.value }
+              key={ option.id }
+              value={ option.id }
               tabIndex={ 0 }
             >
                 { option.label }
@@ -67,8 +93,7 @@ class Select extends Component {
     }
 
     render() {
-        // TODO add select as possible child type name in form component
-        const { selectedOption, formRef } = this.props;
+        const { selectedOption, reference, id } = this.props;
 
         return (
             <div block="Select" elem="Container">
@@ -77,9 +102,10 @@ class Select extends Component {
                         <select
                           block="Select"
                           elem="Form"
-                          ref={ formRef }
+                          id={ id }
+                          ref={ reference }
                           value={ selectedOption }
-                          onChange={ e => this.onGetSortKey(e.target.value) }
+                          onChange={ e => this.onGetKey(e.target.value) }
                         >
                             { this.renderOptions() }
                         </select>
@@ -95,22 +121,23 @@ class Select extends Component {
 }
 
 Select.propTypes = {
-    onGetSortKey: PropTypes.func.isRequired,
-    selectedOption: PropTypes.string.isRequired,
+    onGetKey: PropTypes.func.isRequired,
     options: PropTypes.arrayOf(
         PropTypes.shape({
             value: PropTypes.string,
             label: PropTypes.string
         })
     ).isRequired,
-    formRef: PropTypes.oneOfType([
+    reference: PropTypes.oneOfType([
         PropTypes.func,
         PropTypes.shape({ current: PropTypes.instanceOf(Element) })
-    ])
+    ]),
+    id: PropTypes.string
 };
 
 Select.defaultProps = {
-    formRef: null
+    reference: '',
+    id: 'select'
 };
 
 export default Select;
