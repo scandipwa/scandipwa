@@ -41,7 +41,7 @@ const reducers = combineReducers({
     RelatedProductsReducer,
     SearchBarReducer,
     MyAccountReducer,
-    CountryReducer
+    CountryReducer,
     UrlRewritesReducer,
     MyAccountReducer
 });
