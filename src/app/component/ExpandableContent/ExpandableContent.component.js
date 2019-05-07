@@ -37,14 +37,14 @@ class ExpandableContent extends Component {
                     <span
                       block="ExpandableContent"
                       elem="Heading"
-                      mix={ { ...mix, elem: 'Heading' } }
+                      mix={ { ...mix, elem: 'ExpandableContentHeading' } }
                     >
                         { heading }
                     </span>
                     <span
                       block="ExpandableContent"
                       elem="SubHeading"
-                      mix={ { ...mix, elem: 'SubHeading' } }
+                      mix={ { ...mix, elem: 'ExpandableContentSubHeading' } }
                     >
                         { subHeading }
                     </span>
