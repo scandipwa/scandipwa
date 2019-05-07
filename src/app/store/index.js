@@ -26,7 +26,6 @@ import { NoMatchReducer } from 'Store/NoMatch';
 import { RelatedProductsReducer } from 'Store/RelatedProducts';
 import { SearchBarReducer } from 'Store/SearchBar';
 import { MyAccountReducer } from 'Store/MyAccount';
-import { CountryReducer } from 'Store/Country';
 
 const reducers = {
     CmsBlocksAndSliderReducer,
@@ -41,8 +40,7 @@ const reducers = {
     NoMatchReducer,
     RelatedProductsReducer,
     SearchBarReducer,
-    MyAccountReducer,
-    CountryReducer
+    MyAccountReducer
 };
 
 const combinedReducers = combineReducers(reducers);

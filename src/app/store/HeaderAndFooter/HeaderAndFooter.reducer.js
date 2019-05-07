@@ -21,6 +21,14 @@ const initialState = {
 };
 
 const HeaderAndFooterReducer = (state = initialState, action) => {
+    const { countries } = action;
+
+    const resultingCountries = countries && countries.map(country => ({
+        id: country.id,
+        label: country.full_name_locale,
+        available_regions: country.available_regions
+    }));
+
     switch (action.type) {
     case UPDATE_MENU:
         const { menu: { items } } = action;

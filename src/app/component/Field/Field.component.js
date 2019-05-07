@@ -87,12 +87,6 @@ class Field extends Component {
         return { value };
     }
 
-    componentDidMount() {
-        const { getCountriesList, id } = this.props;
-
-        if (id === 'country_id') getCountriesList();
-    }
-
     componentDidUpdate() {
         const { type, checked } = this.props;
         const { isChecked } = this.state;
@@ -101,7 +95,7 @@ class Field extends Component {
     }
 
     onChange(event) {
-        if (typeof event === 'string') {
+        if (typeof event === 'string' || typeof event === 'number') {
             return this.handleChange(event);
         }
 
@@ -399,11 +393,17 @@ Field.propTypes = {
         PropTypes.shape({ current: PropTypes.instanceOf(Element) })
     ]),
     isAutocompleteAllowed: PropTypes.bool,
-    countryList: PropTypes.arrayOf(
-        PropTypes.shape({
-            id: PropTypes.string,
-            label: PropTypes.string
-        })
+    options: PropTypes.arrayOf(
+        PropTypes.oneOfType([
+            PropTypes.shape({
+                id: PropTypes.string,
+                label: PropTypes.string
+            }),
+            PropTypes.shape({
+                code: PropTypes.string,
+                name: PropTypes.string
+            })
+        ]) 
     )
 };
 
