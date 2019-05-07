@@ -27,7 +27,7 @@ import { SearchBarReducer } from 'Store/SearchBar';
 import { MyAccountReducer } from 'Store/MyAccount';
 import { CountryReducer } from 'Store/Country';
 
-const reducers = combineReducers({
+const reducers = {
     CmsBlocksAndSliderReducer,
     CmsPageReducer,
     CategoryReducer,
@@ -41,10 +41,12 @@ const reducers = combineReducers({
     SearchBarReducer,
     MyAccountReducer,
     CountryReducer
-});
+};
+
+const combinedReducers = combineReducers(reducers);
 
 const store = createStore(
-    reducers,
+    combinedReducers,
     ( // enable Redux dev-tools only in development
         process.env.NODE_ENV === 'development'
         && window.__REDUX_DEVTOOLS_EXTENSION__
@@ -52,3 +54,5 @@ const store = createStore(
 );
 
 export default store;
+
+export { reducers };
