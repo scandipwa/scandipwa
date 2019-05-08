@@ -24,6 +24,14 @@ import './ProductCard.style';
  * @class ProductCard
  */
 class ProductCard extends Component {
+    getPictureLabel() {
+        const { product: { type_id } } = this.props;
+
+        if (type_id === 'grouped') return 'grouped product';
+
+        return null;
+    }
+
     getCurrentVariantIndex() {
         const { product: { variants }, customFilters } = this.props;
         const customFiltersExist = customFilters && Object.keys(customFilters).length;
@@ -112,6 +120,18 @@ class ProductCard extends Component {
         );
     }
 
+    renderPictureLabel() {
+        const label = this.getPictureLabel();
+
+        if (!label) return null;
+
+        return (
+            <figcaption block="ProductCard" elem="PictureLabel">
+                { label }
+            </figcaption>
+        );
+    }
+
     render() {
         const {
             product: {
@@ -145,12 +165,15 @@ class ProductCard extends Component {
                   to={ linkTo }
                   tabIndex={ url_key ? '0' : '-1' }
                 >
-                    <Image
-                      src={ thumbnail && `/media/jpg/catalog/product${ thumbnail }` }
-                      alt="Product Thumbnail"
-                      ratio="custom"
-                      mix={ { block: 'ProductCard', elem: 'Picture' } }
-                    />
+                    <figure>
+                        <Image
+                          src={ thumbnail && `/media/jpg/catalog/product${ thumbnail }` }
+                          alt="Product Thumbnail"
+                          ratio="custom"
+                          mix={ { block: 'ProductCard', elem: 'Picture' } }
+                        />
+                        { this.renderPictureLabel() }
+                    </figure>
                     <div block="ProductCard" elem="Content">
                         { this.renderProductPrice() }
                         { this.renderColorOptions() }
