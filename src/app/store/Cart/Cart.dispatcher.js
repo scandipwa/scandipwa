@@ -114,14 +114,18 @@ class CartDispatcher {
         const { product, quantity } = options;
         const { item_id, quantity: originalQuantity } = this._getProductInCart(product);
         const { sku, type_id: product_type } = product;
+        const extension_attributes = this._getExtensionAttributes(product);
 
         const productToAdd = {
             item_id,
             sku,
             product_type,
-            qty: (parseInt(originalQuantity, 10) || 0) + parseInt(quantity, 10),
-            product_option: { extension_attributes: this._getExtensionAttributes(product) }
+            qty: (parseInt(originalQuantity, 10) || 0) + parseInt(quantity, 10)
         };
+
+        if (Object.keys(extension_attributes).length) {
+            productToAdd.product_option = { extension_attributes };
+        }
 
         if (this._isAllowed(options)) {
             return fetchMutation(Cart.getSaveCartItemMutation(
