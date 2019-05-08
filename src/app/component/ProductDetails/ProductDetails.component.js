@@ -12,6 +12,7 @@
 import React, { Component } from 'react';
 import Html from 'Component/Html';
 import TextPlaceholder from 'Component/TextPlaceholder';
+import ProductReviewRating from 'Component/ProductReviewRating';
 import { ProductType } from 'Type/ProductList';
 import PropTypes from 'prop-types';
 import './ProductDetails.style';
@@ -65,9 +66,41 @@ class ProductDetails extends Component {
         );
     }
 
+    renderReviewSummary() {
+        const { product: { review_summary }, product } = this.props;
+
+
+        if (product) {
+            if (review_summary) {
+                if (review_summary.review_count) {
+                    const reviewText = review_summary.review_count === 1 ? "Review" : "Reviews";
+
+                    return (
+                        <>
+                            <ProductReviewRating content={review_summary.rating_summary}/>
+                            <TextPlaceholder content={review_summary.review_count + " " + reviewText} length="short"/>
+                        </>
+                    );
+                }
+
+                return (
+                    <TextPlaceholder content="Be the first to review this product" length="short"/>
+                );
+            }
+
+            return null;
+        }
+
+        return (
+            <>
+                <TextPlaceholder length="short" />
+                <TextPlaceholder length="short" />
+            </>
+        );
+    }
+
     render() {
         const { product: { name, brand } } = this.props;
-
         return (
             <article block="ProductDetails">
                 <p block="ProductDetails" elem="Brand">
@@ -78,6 +111,9 @@ class ProductDetails extends Component {
                 </h1>
                 <p block="ProductDetails" elem="Sku">
                     { this.renderSku() }
+                </p>
+                <p block="ProductDetails" elem="ReviewSummary">
+                    { this.renderReviewSummary() }
                 </p>
                 <div block="ProductDetails" elem="ShortDescription">
                     { this.renderShortDescription() }

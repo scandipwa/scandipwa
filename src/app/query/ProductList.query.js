@@ -408,6 +408,17 @@ class ProductListQuery {
     }
 
     /**
+     * Prepare review summary field
+     * @returns {Field}
+     * @private
+     */
+    _prepareReviewSummaryField() {
+        return new Field('review_summary')
+            .addField('rating_summary')
+            .addField('review_count');
+    }
+
+    /**
      * Prepare `items` field
      * @private
      * @param  {{isSingleProduct: Boolean, search: String, categoryIds: Array<String|Number>, categoryUrlPath: String, activePage: Number, priceRange: {min: Number, max: Number}, sortKey: String, sortDirection: String, productPageSize: Number}} options A object containing different aspects of query, each item can be omitted
@@ -421,6 +432,7 @@ class ProductListQuery {
         const images = this._prepareImageFields(options); // images related to product (based on `isSingleProduct` option)
         const additionalInformation = this._prepareAdditionalInformation(options); // additional options related to SINGLE product request
         const configurableData = this._prepareConfigurableData(options);
+        const reviewSummary = this._prepareReviewSummaryField();
         // default fields for all queries
         const defaultFields = [
             'id',
@@ -437,7 +449,8 @@ class ProductListQuery {
             .addField(price) // Minimal & Regular Price (Minimal – for Customizable products)
             .addFieldList(images) // Simple images: either `small_image` and `thumbnail`, either both previous + `image`
             .addFieldList(additionalInformation) // Single product related fields
-            .addFieldList(configurableData);
+            .addFieldList(configurableData)
+            .addField(reviewSummary);
     }
 
     /**
