@@ -20,7 +20,7 @@ For better performance Varnish cache is required. You must ensure Varnish is cac
 
 ## ScandiPWA docs
 
-Read [full application documentation](./docs/01-Project.md)
+Read [full application documentation](https://docs.scandipwa.com/#/theme/01-Project)
 
 ## Docker for local development
 
