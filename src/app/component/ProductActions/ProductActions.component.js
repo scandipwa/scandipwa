@@ -83,21 +83,23 @@ class ProductActions extends Component {
     }
 
     renderGroupedProductOptions() {
-        const { product, groupedProductQuantity } = this.props;
+        const { product, groupedProductQuantity, product: { type_id } } = this.props;
 
-        return (
-            <section
-              block="ProductActions"
-              elem="Section"
-              mods={ { type: 'grouped' } }
-              aria-label="Product short description"
-            >
-                <GroupedProductList
-                  product={ product }
-                  groupedProductQuantity={ groupedProductQuantity }
-                />
-            </section>
-        );
+        if (type_id === 'grouped') {
+            return (
+                <section
+                  block="ProductActions"
+                  elem="Section"
+                  mods={ { type: 'grouped' } }
+                  aria-label="Product short description"
+                >
+                    <GroupedProductList
+                      product={ product }
+                      groupedProductQuantity={ groupedProductQuantity }
+                    />
+                </section>
+            );
+        }
     }
 
     renderSkuAndStock() {
