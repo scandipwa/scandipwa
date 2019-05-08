@@ -11,12 +11,13 @@
 
 import { Field } from 'Util/Query';
 import { ProductListQuery } from 'Query';
+import { isSignedIn } from 'Util/Auth';
 
 class Cart {
     getCartItemsQuery(quoteId) {
         const query = new Field('getCartItems');
 
-        if (quoteId) query.addArgument('quoteId', 'String!', quoteId);
+        if (!isSignedIn()) query.addArgument('guestCartId', 'String', quoteId);
 
         this._getCartItemField(query, true);
 
@@ -27,22 +28,24 @@ class Cart {
         return new Field('createEmptyCart');
     }
 
-    getSaveCartItemMutation(product) {
+    getSaveCartItemMutation(product, quoteId) {
         const mutation = new Field('saveCartItem')
             .addArgument('cartItem', 'CartItemInput!', product);
+
+        if (!isSignedIn()) mutation.addArgument('guestCartId', 'String', quoteId);
 
         this._getCartItemField(mutation);
 
         return mutation;
     }
 
-    getRemoveCartItemMutation(product, quoteId = null) {
+    getRemoveCartItemMutation(product, quoteId) {
         const { item_id } = product;
 
         const mutation = new Field('removeCartItem')
             .addArgument('item_id', 'Int!', item_id);
 
-        if (quoteId) mutation.addArgument('quoteId', 'String', quoteId);
+        if (!isSignedIn()) mutation.addArgument('guestCartId', 'String', quoteId);
 
         return mutation;
     }

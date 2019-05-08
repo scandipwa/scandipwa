@@ -180,7 +180,6 @@ class CartItem extends Component {
                           mods={ { isLikeTable } }
                         >
                             <p block="CartItem" elem="Heading">{ name }</p>
-                            <p block="CartItem" elem="SubHeading">{ brand }</p>
                             { this.renderConfiguration() }
                             <ProductPrice
                               mix={ {

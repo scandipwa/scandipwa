@@ -20,8 +20,10 @@
     }
 
     &-Empty {
-        padding: 1rem;
-        border-bottom: 1px solid var(--expandable-content-color);
+        @include mobile {
+            padding: 1rem;
+            border-bottom: 1px solid var(--expandable-content-color);
+        }
     }
 
     &-Summary {
