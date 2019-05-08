@@ -12,6 +12,7 @@
 :root {
     --product-card-picture-mask-color: #f5f5f5;
     --product-card-color-border-color: #efefef;
+    --product-cart-picture-label-background: rgba(255, 255, 255, .7);
 }
 
 .ProductCard {
@@ -77,6 +78,23 @@
             background-color: var(--product-card-picture-mask-color);
             mix-blend-mode: multiply;
             pointer-events: none;
+        }
+    }
+
+    &-PictureLabel {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        font-size: 12px;
+        font-weight: bold;
+        text-align: center;
+        text-transform: uppercase;
+        line-height: 3rem;
+        background: var(--product-cart-picture-label-background);
+
+        @include mobile {
+            line-height: 2.5rem;
         }
     }
 
