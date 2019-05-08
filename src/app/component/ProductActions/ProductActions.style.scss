@@ -162,6 +162,12 @@
                     display: none;
                 }
             }
+
+            &_grouped {
+                @include after-mobile {
+                    margin-bottom: 1.5rem;
+                }
+            }
         }
     }
 

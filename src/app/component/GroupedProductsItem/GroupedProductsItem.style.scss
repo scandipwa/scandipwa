@@ -14,9 +14,28 @@
     padding: 0;
     margin-bottom: 1rem;
     grid-template-columns: 6rem 3fr 1fr;
+    grid-gap: 1rem;
 
     &::before {
         content: none;
+    }
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    &-Image {
+        &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            background-color: var(--product-card-picture-mask-color);
+            mix-blend-mode: multiply;
+            pointer-events: none;
+        }
     }
 
     &-Title {
