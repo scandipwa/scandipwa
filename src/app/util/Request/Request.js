@@ -127,10 +127,15 @@ const handleConnectionError = err => console.error(err); // TODO: Add to logs po
  * @param  {{}} queryObject prepared with `prepareDocument()` from `Util/Query` request body object
  * @return {Promise<Request>} Fetch promise to GraphQL endpoint
  */
-const parseResponse = promise => promise.then(
-    res => res.json().then(checkForErrors, () => handleConnectionError('Can not transform JSON!')),
-    () => handleConnectionError('Can not establish connection!')
-);
+const parseResponse = promise => new Promise((resolve, reject) => {
+    promise.then(
+        res => res.json().then(
+            res => resolve(checkForErrors(res)),
+            () => handleConnectionError('Can not transform JSON!') && reject()
+        ),
+        err => handleConnectionError('Can not establish connection!') && reject(err)
+    );
+});
 
 /**
  * Make GET request to endpoint (via ServiceWorker)

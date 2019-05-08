@@ -73,6 +73,14 @@ class ProductActions extends Component {
         return null;
     }
 
+    showOnlyIfLoaded(expression, content, placeholder = content) {
+        const { areDetailsLoaded } = this.props;
+
+        if (!areDetailsLoaded) return placeholder;
+        if (areDetailsLoaded && !expression) return null;
+        return content;
+    }
+
     renderSkuAndStock() {
         const { product: { sku } } = this.props;
 
@@ -83,14 +91,14 @@ class ProductActions extends Component {
               mods={ { type: 'sku' } }
               aria-label="Product SKU and availability"
             >
-                { sku
-                    ? (
-                        <>
-                            <span block="ProductActions" elem="Sku">{ `SKU: ${ sku }` }</span>
-                            <span block="ProductActions" elem="Stock">In Stock</span>
-                        </>
-                    ) : <TextPlaceholder />
-                }
+                { this.showOnlyIfLoaded(
+                    sku,
+                    (<>
+                        <span block="ProductActions" elem="Sku">{ `SKU: ${ sku }` }</span>
+                        <span block="ProductActions" elem="Stock">In Stock</span>
+                    </>),
+                    <TextPlaceholder />
+                ) }
             </section>
         );
     }
@@ -106,13 +114,18 @@ class ProductActions extends Component {
               mods={ { type: 'short' } }
               aria-label="Product short description"
             >
-                <h4
-                  block="ProductActions"
-                  elem="SectionHeading"
-                  mods={ { type: 'brand' } }
-                >
-                    <TextPlaceholder content={ brand } />
-                </h4>
+                { this.showOnlyIfLoaded(
+                    brand,
+                    (
+                        <h4
+                          block="ProductActions"
+                          elem="SectionHeading"
+                          mods={ { type: 'brand' } }
+                        >
+                            <TextPlaceholder content={ brand } />
+                        </h4>
+                    )
+                ) }
                 <div block="ProductActions" elem="ShortDescription">
                     { html ? <Html content={ html } /> : <TextPlaceholder length="long" /> }
                 </div>
@@ -130,9 +143,14 @@ class ProductActions extends Component {
               mods={ { type: 'name' } }
               aria-label="Product name information"
             >
-                <h4 block="ProductActions" elem="Brand">
-                    <TextPlaceholder content={ brand } />
-                </h4>
+                { this.showOnlyIfLoaded(
+                    brand,
+                    (
+                        <h4 block="ProductActions" elem="Brand">
+                            <TextPlaceholder content={ brand } />
+                        </h4>
+                    )
+                ) }
                 <p block="ProductActions" elem="Title">
                     <TextPlaceholder content={ name } length="medium" />
                 </p>
@@ -167,27 +185,31 @@ class ProductActions extends Component {
 
     renderOtherOptions() {
         const { availableFilters } = this.props;
+        const hasAvailableFilter = Object.keys(availableFilters).length;
 
-        if (!Object.keys(availableFilters).length) {
-            return (
-                <section
-                  block="ProductActions"
-                  elem="Section"
-                  mix={ { block: 'ProductActions', elem: 'Option' } }
-                  aria-label="Loading other options"
-                >
-                    <h4 block="ProductActions" elem="SectionHeading">
-                        <TextPlaceholder />
-                    </h4>
-                    { new Array(4).fill().map((_, i) => (
-                        <Swatch
-                          key={ i }
-                          mix={ { block: 'ProductActions', elem: 'PlaceholderOption' } }
-                          requestVar="placeholder"
-                        />
-                    )) }
-                </section>
-            )
+        if (!hasAvailableFilter) {
+            return this.showOnlyIfLoaded(
+                hasAvailableFilter,
+                (
+                    <section
+                      block="ProductActions"
+                      elem="Section"
+                      mix={ { block: 'ProductActions', elem: 'Option' } }
+                      aria-label="Loading other options"
+                    >
+                        <h4 block="ProductActions" elem="SectionHeading">
+                            <TextPlaceholder />
+                        </h4>
+                        { new Array(4).fill().map((_, i) => (
+                            <Swatch
+                              key={ i }
+                              mix={ { block: 'ProductActions', elem: 'PlaceholderOption' } }
+                              requestVar="placeholder"
+                            />
+                        )) }
+                    </section>
+                )
+            );
         }
 
         return Object.entries(availableFilters).map(([code, option]) => {
@@ -224,19 +246,22 @@ class ProductActions extends Component {
         const { availableFilters: { color } } = this.props;
 
         if (!color) {
-            return (
-                <section block="ProductActions" elem="Colors" aria-label="Color options">
-                    <h4 block="ProductActions" elem="SectionHeading" mods={ { type: 'color' } }>
-                        <TextPlaceholder />
-                    </h4>
-                    { new Array(4).fill().map((_, i) => (
-                        <Swatch
-                          key={ i }
-                          requestVar="color"
-                          mix={ { block: 'ProductActions', elem: 'Color' } }
-                        />
-                    )) }
-                </section>
+            return this.showOnlyIfLoaded(
+                color,
+                (
+                    <section block="ProductActions" elem="Colors" aria-label="Color options">
+                        <h4 block="ProductActions" elem="SectionHeading" mods={ { type: 'color' } }>
+                            <TextPlaceholder />
+                        </h4>
+                        { new Array(4).fill().map((_, i) => (
+                            <Swatch
+                              key={ i }
+                              requestVar="color"
+                              mix={ { block: 'ProductActions', elem: 'Color' } }
+                            />
+                        )) }
+                    </section>
+                )
             );
         }
 
@@ -288,7 +313,8 @@ ProductActions.propTypes = {
     product: ProductType.isRequired,
     availableFilters: PropTypes.objectOf(PropTypes.shape).isRequired,
     configurableVariantIndex: PropTypes.number,
-    updateConfigurableVariantIndex: PropTypes.func.isRequired
+    updateConfigurableVariantIndex: PropTypes.func.isRequired,
+    areDetailsLoaded: PropTypes.bool.isRequired
     // groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired
 };
 

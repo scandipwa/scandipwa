@@ -22,9 +22,12 @@ class HeaderAndFooterDispatcher extends QueryDispatcher {
         super('HeaderAndFooter', 86400);
     }
 
-    onSuccess({ menu, cmsBlocks }, dispatch) {
-        dispatch(updateMenu(menu));
-        dispatch(updateCmsBlocks(cmsBlocks));
+    onSuccess(options, dispatch) {
+        if (options) {
+            const { menu, cmsBlocks } = options;
+            dispatch(updateMenu(menu));
+            dispatch(updateCmsBlocks(cmsBlocks));
+        }
     }
 
     onError(error, dispatch) {

@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import ProductReducer from './Product.reducer';
+import ProductReducer, { formatConfigurableOptions } from './Product.reducer';
 import ProductDispatcher from './Product.dispatcher';
 import {
     UPDATE_PRODUCT_DETAILS,
@@ -28,5 +28,6 @@ export {
     CLEAR_GROUPED_PRODUCT_QUANTITY,
     updateProductDetails,
     updateGroupedProductQuantity,
-    clearGroupedProductQuantity
+    clearGroupedProductQuantity,
+    formatConfigurableOptions
 };

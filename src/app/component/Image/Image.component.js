@@ -27,7 +27,8 @@ class Image extends Component {
 
         this.state = {
             isImageLoaded: false,
-            showImage: false
+            showImage: false,
+            isCustomAvailable: true
         };
 
         this.observer = null;
@@ -151,6 +152,7 @@ class Image extends Component {
     render() {
         const {
             isImageLoaded,
+            isCustomAvailable,
             showImage,
             isPlacehodlerLoaded
         } = this.state;
@@ -174,6 +176,8 @@ class Image extends Component {
         if (src && !isPathRelative(src)) throw new Error(`${src} is not an absolute path!`);
 
         const isIcon = src && src.includes('.svg');
+        const canShowSources = (!arePlaceholdersShown || showImage) && src && !isIcon && isCustomAvailable;
+        const canShowCustomImage = src && isCustomAvailable;
 
         return (
             <picture
@@ -187,24 +191,24 @@ class Image extends Component {
               mix={ mix }
               ref={ (node) => { this.node = node; } }
               onLoad={ img => this.onImageLoad(img) }
+              onError={ () => this.setState({ isCustomAvailable: false }) }
             >
-                { (!arePlaceholdersShown || showImage) && src && !isIcon
-                    && <>
-                        <source srcSet={ src && this.getUrlWithExtension(src, 'webp') } type="image/webp" />
-                        <source srcSet={ src } type="image/jpeg" />
-                        <source srcSet={ src && src.replace('/media/jpg', '/media') } />
-                    </>
-                }
-                { src && <img src={ this.getUrlWithExtension(src, 'svg') } alt={ alt } /> }
+                { canShowSources && (<>
+                    <source srcSet={ src && this.getUrlWithExtension(src, 'webp') } type="image/webp" />
+                    <source srcSet={ src && src.replace('/media/jpg', '/media') } />
+                </>) }
+                { canShowCustomImage && (
+                    <img src={ this.getUrlWithExtension(src, 'svg') } alt={ alt } />
+                ) }
+                { !isCustomAvailable && (
+                    <img src={ src } alt={ alt } />
+                ) }
             </picture>
         );
     }
 }
 
 Image.propTypes = {
-    block: PropTypes.string,
-    elem: PropTypes.string,
-    mods: PropTypes.instanceOf(Object),
     src: PropTypes.string,
     alt: PropTypes.string,
     ratio: PropTypes.oneOf([
@@ -230,9 +234,6 @@ Image.propTypes = {
 };
 
 Image.defaultProps = {
-    block: 'Image',
-    elem: undefined,
-    mods: {},
     src: '',
     alt: '',
     ratio: 'square',

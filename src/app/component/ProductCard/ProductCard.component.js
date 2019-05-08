@@ -71,9 +71,9 @@ class ProductCard extends Component {
     }
 
     renderColorOptions() {
-        const { product: { variants }, availableFilters } = this.props;
+        const { product: { variants, color }, availableFilters } = this.props;
 
-        if (!availableFilters.length || !variants) return null;
+        if (!availableFilters.length || !(variants || color)) return null;
 
         // Collects only COLOR filter items from available filter object
         const { filter_items: filterItems } = availableFilters.reduce(
@@ -90,10 +90,11 @@ class ProductCard extends Component {
         );
 
         // Collects color object from product variants
-        const colors = variants.reduce(
-            (prev, { product: { color } }) => ((!color) ? prev : ({ ...prev, [color]: colorMap[color] })),
-            {}
-        );
+        const colors = variants
+            ? variants.reduce(
+                (prev, { product: { color } }) => ((!color) ? prev : ({ ...prev, [color]: colorMap[color] })),
+                {}
+            ) : { [color]: colorMap[color] };
 
         return (
             <div block="ProductCard" elem="Colors">
