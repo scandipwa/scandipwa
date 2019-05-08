@@ -16,6 +16,7 @@ import CmsBlockQuery from 'Query/CmsBlock.query';
 import HomeSlider from 'Query/HomeSlider.query';
 import MenuQuery from 'Query/Menu.query';
 import MyAccount from 'Query/MyAccount.query';
+import Wishlist from 'Query/Wishlist.query';
 import Cart from 'Query/Cart.query';
 
 export {
@@ -26,5 +27,6 @@ export {
     HomeSlider,
     MenuQuery,
     MyAccount,
+    Wishlist,
     Cart
 };

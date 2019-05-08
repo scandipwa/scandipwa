@@ -16,6 +16,7 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import ProductPrice from 'Component/ProductPrice';
 import Image from 'Component/Image';
 import AddToCart from 'Component/AddToCart';
+import ProductWishlistButton from 'Component/ProductWishlistButton';
 import { ProductType, FilterType } from 'Type/ProductList';
 import './ProductCard.style';
 
@@ -141,6 +142,15 @@ class ProductCard extends Component {
                 <div block="ProductCard" elem="Actions">
                     { price
                         ? this.addOrConfigureProduct(variantIndex, linkTo)
+                        : <TextPlaceholder length="medium" />
+                    }
+                    { price
+                        ? (
+                            <ProductWishlistButton
+                              product={ product }
+                              fullWidth
+                            />
+                        )
                         : <TextPlaceholder length="medium" />
                     }
                 </div>

@@ -21,6 +21,7 @@ import Swatch from 'Component/Swatch';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import ProductPrice from 'Component/ProductPrice';
 import AddToCart from 'Component/AddToCart';
+import ProductWishlistButton from 'Component/ProductWishlistButton';
 import './ProductActions.style';
 
 /**
@@ -183,6 +184,9 @@ class ProductActions extends Component {
                   product={ product }
                   configurableVariantIndex={ configurableVariantIndex }
                   groupedProductQuantity={ groupedProductQuantity }
+                />
+                <ProductWishlistButton
+                  product={ product }
                 />
             </>
         );

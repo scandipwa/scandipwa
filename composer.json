@@ -20,7 +20,8 @@
         "scandipwa/catalog-graphql": "^1.2",
         "scandipwa/route717": "^1.0",
         "scandipwa/customer-graph-ql": "^1.1",
-        "scandipwa/quote-graphql": "^1.0"
+        "scandipwa/quote-graphql": "^1.0",
+        "scandipwa/wishlist-graphql": "^1.0"
     },
     "support": {
         "source": "https://bitbucket.org/scandiweb/scandipwa-base-theme",

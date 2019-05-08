@@ -21,6 +21,7 @@ import { BreadcrumbsReducer } from 'Store/Breadcrumbs';
 import { ProductReducer } from 'Store/Product';
 import { HeaderAndFooterReducer } from 'Store/HeaderAndFooter';
 import { CartReducer } from 'Store/Cart';
+import { WishlistReducer } from 'Store/Wishlist';
 import { NoMatchReducer } from 'Store/NoMatch';
 import { RelatedProductsReducer } from 'Store/RelatedProducts';
 import { SearchBarReducer } from 'Store/SearchBar';
@@ -36,6 +37,7 @@ const reducers = {
     ProductReducer,
     HeaderAndFooterReducer,
     CartReducer,
+    WishlistReducer,
     NoMatchReducer,
     RelatedProductsReducer,
     SearchBarReducer,
