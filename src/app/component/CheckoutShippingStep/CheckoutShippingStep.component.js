@@ -22,6 +22,7 @@ const ZIP_FIELD_ID = 'postcode';
 const PHONE_FIELD_ID = 'telephone';
 const COUNTRY_FIELD_ID = 'country_id';
 const DEFAULT_COUNTRY = 'US';
+const DEFAULT_REGION = { region_code: 'AL', region: 'Alabama', region_id: 1 };
 
 const STATE_NEW_ADDRESS = 'newAddress';
 const STATE_DEFAULT_ADDRESS = 'defaultAddress';
@@ -40,7 +41,7 @@ class CheckoutShippingStep extends Component {
             company: '',
             street: [],
             city: '',
-            region: '',
+            region: DEFAULT_REGION,
             postcode: '',
             country_id: DEFAULT_COUNTRY,
             telephone: '',
@@ -77,9 +78,38 @@ class CheckoutShippingStep extends Component {
                 validation: []
             },
             [CITY_FIELD_ID]: { label: 'City' },
-            [STATE_FIELD_ID]: { label: 'State', validation: [] },
+            [STATE_FIELD_ID]: {
+                label: 'State',
+                validation: [],
+                onChange: (value) => {
+                    const { regionList } = this.state;
+                    if (typeof value === 'number') {
+                        const regionValue = regionList.reduce((regionValue, region) => {
+                            const { id: regionId } = region;
+
+                            if (value === regionId) regionValue.push(region);
+
+                            return regionValue;
+                        }, []);
+                        const { code: region_code, name: region, id: region_id } = regionValue[0];
+                        const correctRegion = { region_code, region, region_id };
+
+                        return this.setState({ region: correctRegion }, this.handleFieldChange);
+                    }
+
+                    const region = { region_code: value, region: value, region_id: 0 };
+                    return this.setState({ region }, this.handleFieldChange);
+                }
+            },
             [ZIP_FIELD_ID]: { label: 'Postal Code' },
-            [COUNTRY_FIELD_ID]: { label: 'Country', type: 'select', defaultValue: DEFAULT_COUNTRY },
+            [COUNTRY_FIELD_ID]: {
+                label: 'Country',
+                type: 'select',
+                defaultValue: DEFAULT_COUNTRY,
+                onChange: (countryId) => {
+                    this.getAvailableRegions(countryId);
+                }
+            },
             [PHONE_FIELD_ID]: { label: 'Phone Number' }
         };
 
@@ -106,11 +136,13 @@ class CheckoutShippingStep extends Component {
                 lastname,
                 postcode,
                 region,
+                region_id,
+                region_code,
                 street,
                 telephone
             } = shippingAddress;
 
-            const { region_code, region_id } = region || shippingAddress;
+            const regionObject = region || { region_code, region: region_code, region_id };
 
             return {
                 city,
@@ -120,8 +152,7 @@ class CheckoutShippingStep extends Component {
                 firstname,
                 lastname,
                 postcode,
-                region_code,
-                region_id,
+                region: regionObject,
                 street,
                 telephone,
                 fieldsArePopulated: true,
@@ -137,13 +168,13 @@ class CheckoutShippingStep extends Component {
 
     componentDidUpdate(prevProps) {
         const { finishedLoading, shippingAddress, countryList } = this.props;
+        const { country_id } = this.state;
 
-        // TODO does not always get regions
-        if (!prevProps.finishedLoading && finishedLoading && countryList.length) {
-            if (Object.entries(shippingAddress).length) this.handleFieldChange();
-
-            this.getAvailableRegions();
+        if (!prevProps.finishedLoading && finishedLoading && Object.entries(shippingAddress).length) {
+            this.handleFieldChange();
         }
+
+        if (!prevProps.countryList.length && countryList.length) this.getAvailableRegions(country_id);
     }
 
     onSelectShippingMethod(method) {
@@ -153,7 +184,6 @@ class CheckoutShippingStep extends Component {
     onFormSuccess() {
         const { showNotification, saveAddressInformation, billingAddress } = this.props;
         const { activeShippingMethod: { method_code, carrier_code } } = this.state;
-
         const trimmedBillingAddress = Object.entries(billingAddress).length ? this.trimAddress(billingAddress) : {};
         const trimmedShippingAddress = this.trimAddress(this.state);
 
@@ -172,20 +202,37 @@ class CheckoutShippingStep extends Component {
         }
     }
 
-    getAvailableRegions() {
+    getAvailableRegions(country_id) {
         const { countryList } = this.props;
-        const { country_id } = this.state;
-        const regionSelect = countryList.reduce((regionSelect, countryRegions) => {
+        const { region } = this.state;
+        const regionList = countryList.reduce((regionList, countryRegions) => {
             const { available_regions, id } = countryRegions;
 
             if (available_regions && country_id === id) {
-                regionSelect.push(...available_regions);
+                regionList.push(...available_regions);
             }
 
-            return regionSelect;
+            return regionList;
         }, []);
 
-        return this.setState({ regionSelect });
+        const {
+            code,
+            name,
+            region_code,
+            region: regionName,
+            id
+        } = region;
+        // } = regionList[0] || region;
+
+        // TODO inccorect data passed on different user journeys
+        return this.setState(
+            {
+                regionList,
+                region: { region_code: code || region_code, region: name || regionName, region_id: id }
+                // region: regionList[0]
+                //     || { region_code: code || region_code, region: name || regionName, region_id: 0 }
+            }
+        );
     }
 
     trimAddress(address) {
@@ -201,7 +248,6 @@ class CheckoutShippingStep extends Component {
             street,
             telephone
         } = address;
-
         const { region_id, region_code } = region || address;
 
         return {
@@ -221,10 +267,10 @@ class CheckoutShippingStep extends Component {
 
     changeState(state) {
         this.setState({ state });
+        this.getAvailableRegions();
     }
 
     handleFieldChange() {
-        this.getAvailableRegions();
         this.setState({ loadingShippingMethods: true });
 
         if (this.shippingMethodEstimationTimeout) {
@@ -235,12 +281,10 @@ class CheckoutShippingStep extends Component {
         this.shippingMethodEstimationTimeout = setTimeout(() => {
             const { estimateShippingCost } = this.props;
 
-            console.log(this.state);
-
             const {
                 street,
                 city,
-                region_id,
+                region: { region_id },
                 postcode,
                 country_id
             } = this.state;
@@ -265,7 +309,7 @@ class CheckoutShippingStep extends Component {
     }
 
     renderField(id, overrideStateValue) {
-        const { [id]: stateValue, regionSelect } = this.state;
+        const { [id]: stateValue, regionList } = this.state;
         const { countryList } = this.props;
         const {
             type = 'text',
@@ -275,17 +319,16 @@ class CheckoutShippingStep extends Component {
             validation = ['notEmpty'],
             onChange = value => this.setState({ [id]: value }, this.handleFieldChange)
         } = this.fieldMap[id];
-
-        const options = id === 'country_id' ? countryList : regionSelect;
+        const fieldValue = overrideStateValue || stateValue || defaultValue;
 
         return (
             <Field
               id={ id }
-              type={ (id === 'region' && regionSelect && regionSelect.length) ? 'select' : type }
+              type={ (id === 'region' && regionList && regionList.length) ? 'select' : type }
               label={ label }
               note={ note }
-              options={ options }
-              value={ overrideStateValue || stateValue || defaultValue }
+              options={ id === 'country_id' ? countryList : regionList }
+              value={ typeof fieldValue === 'object' ? fieldValue.region : fieldValue }
               validation={ validation }
               onChange={ onChange }
             />
@@ -340,11 +383,13 @@ class CheckoutShippingStep extends Component {
             company,
             telephone,
             country_id,
-            region_code,
+            region,
             city,
             street,
             postalcode
         } = this.state;
+
+        const { region: regionName } = region;
 
         return (
             <>
@@ -360,7 +405,7 @@ class CheckoutShippingStep extends Component {
                             <dd>{ company }</dd>
                         </>)}
                         <dt>Shipping address:</dt>
-                        <dd>{ `${country_id }, ${region_code}, ${city}` }</dd>
+                        <dd>{ `${country_id }, ${regionName}, ${city}` }</dd>
                         <dd>{ street[0] }</dd>
                         <dd>{ street[1] }</dd>
                         <dd>{ postalcode }</dd>

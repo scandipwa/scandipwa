@@ -13,11 +13,7 @@ const mapDispatchToProps = dispatch => ({
     }
 });
 
-const mapStateToProps = state => ({
-    countryList: state.HeaderAndFooterReducer.countries
-});
-
-const MappedCheckoutShippingStep = connect(mapStateToProps, mapDispatchToProps)(CheckoutShippingStep);
+const MappedCheckoutShippingStep = connect(null, mapDispatchToProps)(CheckoutShippingStep);
 
 const CheckoutShippingStepContainer = (props) => {
     const getGuestCartId = () => BrowserDatabase.getItem(GUEST_QUOTE_ID);

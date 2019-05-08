@@ -20,6 +20,7 @@ const ZIP_FIELD_ID = 'postcode';
 const PHONE_FIELD_ID = 'telephone';
 const COUNTRY_FIELD_ID = 'country_id';
 const DEFAULT_COUNTRY = 'US';
+const DEFAULT_REGION = 'AL';
 
 const STATE_NEW_ADDRESS = 'newAddress';
 const STATE_DEFAULT_ADDRESS = 'defaultAddress';
@@ -47,7 +48,8 @@ class CheckoutPreviewAndPaymentsStep extends Component {
             activePaymentMethod: {},
             loadingPaymentInformationSave: false,
             defaultBillingAddress: false,
-            state: STATE_NEW_ADDRESS
+            state: STATE_NEW_ADDRESS,
+            regionList: []
         };
 
         this.fieldMap = {
@@ -74,7 +76,11 @@ class CheckoutPreviewAndPaymentsStep extends Component {
                 validation: []
             },
             [CITY_FIELD_ID]: { label: 'City' },
-            [STATE_FIELD_ID]: { label: 'State', validation: [] },
+            [STATE_FIELD_ID]: {
+                label: 'State',
+                validation: [],
+                defaultValue: DEFAULT_REGION
+            },
             [ZIP_FIELD_ID]: { label: 'Postal Code' },
             [COUNTRY_FIELD_ID]: { label: 'Country', type: 'select', defaultValue: DEFAULT_COUNTRY },
             [PHONE_FIELD_ID]: { label: 'Phone Number' }
@@ -100,8 +106,19 @@ class CheckoutPreviewAndPaymentsStep extends Component {
         return null;
     }
 
-    componentDidUpdate(props, state) {
-        const { defaultBillingAddress } = state;
+    componentDidMount() {
+        const { countryList } = this.props;
+
+        if (countryList.length) {
+            this.getAvailableRegions();
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        const { defaultBillingAddress } = this.state;
+        const { countryList } = this.props;
+
+        if (!prevProps.countryList.length && countryList.length) this.getAvailableRegions(DEFAULT_COUNTRY);
 
         if (defaultBillingAddress) return this.handleFieldChange;
 
@@ -133,6 +150,21 @@ class CheckoutPreviewAndPaymentsStep extends Component {
         );
     }
 
+    getAvailableRegions(countryId) {
+        const { countryList } = this.props;
+        const regionList = countryList.reduce((regionList, country) => {
+            const { id, available_regions } = country;
+
+            if (id === countryId && available_regions) regionList.push(...available_regions);
+
+            return regionList;
+        }, []);
+
+        this.setState({ regionList });
+
+        return this.setState({ regionList });
+    }
+
     getAddressFromState() {
         const { state, billingAddress, shippingAddress } = this.state;
 
@@ -147,14 +179,17 @@ class CheckoutPreviewAndPaymentsStep extends Component {
     }
 
     getButtonParams() {
-        const { state, defaultBillingAddress, isSignedIn } = this.state;
+        const { state, defaultBillingAddress } = this.state;
+        const { isSignedIn } = this.props;
 
-        if (defaultBillingAddress && state === 'newAddress') {
-            return { message: ("I'd like to use the default address"), type: STATE_DEFAULT_ADDRESS };
-        }
+        if (defaultBillingAddress) {
+            if (state === 'newAddress') {
+                return { message: ("I'd like to use the default address"), type: STATE_DEFAULT_ADDRESS };
+            }
 
-        if (state !== 'newAddress' && isSignedIn) {
-            return { message: ("I'd like to use a different address"), type: STATE_NEW_ADDRESS };
+            if (isSignedIn) {
+                return { message: ("I'd like to use a different address"), type: STATE_NEW_ADDRESS };
+            }
         }
 
         return null;
@@ -216,8 +251,14 @@ class CheckoutPreviewAndPaymentsStep extends Component {
         return this.setState({ state, billingIsSame: billingValue });
     }
 
+    handleFieldChange() {
+        const { country_id } = this.state;
+        this.getAvailableRegions(country_id);
+    }
+
     renderField(id, overrideStateValue) {
-        const { [id]: stateValue } = this.state;
+        const { [id]: stateValue, regionList } = this.state;
+        const { countryList } = this.props;
         const {
             type = 'text',
             label,
@@ -232,11 +273,12 @@ class CheckoutPreviewAndPaymentsStep extends Component {
         return (
             <Field
               id={ id }
-              type={ type }
+              type={ (id === 'region' && regionList && regionList.length) ? 'select' : type }
               label={ label }
               note={ note }
               name={ name }
               checked={ checked }
+              options={ id === 'country_id' ? countryList : regionList }
               value={ overrideStateValue || stateValue || defaultValue }
               validation={ validation }
               onChange={ onChange }

@@ -25,7 +25,8 @@ const mapStateToProps = state => ({
     toggleHeaderAndFooter: state.HeaderAndFooterReducer.toggleHeaderAndFooter,
     isHeaderAndFooterVisible: state.HeaderAndFooterReducer.isHeaderAndFooterVisible,
     isSignedIn: state.MyAccountReducer.isSignedIn,
-    customer: state.MyAccountReducer.customer
+    customer: state.MyAccountReducer.customer,
+    countryList: state.HeaderAndFooterReducer.countries
 });
 
 const mapDispatchToProps = dispatch => ({

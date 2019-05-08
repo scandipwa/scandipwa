@@ -204,7 +204,7 @@ class CheckoutPage extends Component {
      */
     renderShippingStep() {
         const { shippingAddress, billingAddress, addressesAreChecked } = this.state;
-        const { isSignedIn, customer: { email } } = this.props;
+        const { isSignedIn, customer: { email }, countryList } = this.props;
 
         return (
             <CheckoutShippingStep
@@ -214,6 +214,7 @@ class CheckoutPage extends Component {
               isSignedIn={ isSignedIn }
               email={ email }
               finishedLoading={ addressesAreChecked }
+              countryList={ countryList }
             />
         );
     }
@@ -223,7 +224,7 @@ class CheckoutPage extends Component {
      * @returns {*}
      */
     renderReviewAndPaymentsStep() {
-        const { isSignedIn, customer: { email } } = this.props;
+        const { isSignedIn, customer: { email }, countryList } = this.props;
         const {
             shippingAddress,
             billingAddress,
@@ -240,6 +241,7 @@ class CheckoutPage extends Component {
               email={ email }
               isSignedIn={ isSignedIn }
               finishedLoading={ addressesAreChecked }
+              countryList={ countryList }
             />
         );
     }
