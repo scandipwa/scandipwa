@@ -36,11 +36,9 @@ const mapDispatchToProps = dispatch => ({
     createCustomerAddress(options) {
         return MyAccountDispatcher.createCustomerAddress(options, dispatch);
     },
-
     updateBreadcrumbs: (breadcrumbs) => {
         BreadcrumbsDispatcher.update(breadcrumbs, dispatch);
     },
-
     showNotification(type, message) {
         dispatch(showNotification(type, message));
     }

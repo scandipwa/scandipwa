@@ -17,21 +17,58 @@
             left: auto;
             right: auto;
         }
+
+        @include after-mobile {
+            display: block;
+            max-width: var(--content-wrapper-width);
+        }
+
+        @include mobile {
+            padding: 0 1.5rem;
+        }
     }
 
     &-Sidebar {
-        display: flex;
+        display: none;
         flex-direction: column;
         padding-top: 1.8rem;
         margin-bottom: 1.9rem;
         border-right: 2px solid var(--color-breadcrumbs-background);
+    }
 
+    &-Content {
+        grid-column: 1 / span 2;
+
+        @include mobile {
+            padding-top: 3rem;
+        }
+
+        h1 {
+            @include mobile {
+                display: none;
+            }
+        }
+    }
+
+    &-EditContactInfo,
+    &-EditAddressInfo {
+        @include mobile {
+            grid-column: 1 / span 2;
+        }
     }
 
     &-AddressWrapper {
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-column-gap: 10%;
+
+        @include mobile {
+            row-gap: 1.5rem;
+
+            & * {
+                grid-column: 1 / span 2;
+            }
+        }
     }
 
     &-Field {
@@ -68,6 +105,32 @@
 
     &-Actions {
         margin-top: 1rem;
+
+        .Button:first-child {
+            margin-right: 1rem;
+        }
+    }
+
+    &-EditAccountInfo {
+        grid-column: 1 / span 2;
+
+        @include after-mobile {
+            margin: 0 30%;
+        }
+    }
+
+    &-EditAccountPassword {
+        grid-column: 1 / span 2;
+
+        @include after-mobile {
+            margin: 0 30%;
+        }
+
+        .Button {
+            @include after-mobile {
+                width: 50%;
+            }
+        }
     }
 
     span {
@@ -108,21 +171,42 @@
         }
     }
 
-    input {
-        &:not([type="checkbox"]) {
-            width: 100%;
+    .Field {
+        input {
+            &:not([type="checkbox"]) {
+                width: 100%;
+            }
+        }
+
+        &_type {
+            &_checkbox {
+                label {
+                    @include mobile {
+                        font-size: .9rem;
+                    }
+                }
+            }
         }
     }
 
-    form {
+    .Form {
         display: grid;
         grid-template-columns: 45% 45%;
-        grid-column-gap: 10%;
+        grid-column-gap: 5%;
         padding-bottom: 2rem;
+
+        @include mobile {
+            grid-template-columns: 1fr 1fr;
+        }
 
         button {
             margin-top: 2rem;
-            width: 60%;
+            width: 40%;
+
+            @include mobile {
+                width: 100%;
+                grid-column: 1 / span 2;
+            }
         } 
     }
 }

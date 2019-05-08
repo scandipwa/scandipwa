@@ -256,7 +256,7 @@ class MyAccountDetails extends Component {
                   onSubmitSuccess={ fields => this.onUpdateAddressSuccess(fields, correctAddress) }
                   onSubmitError={ (fields, invalidFields) => this.onUpdateAttempt(fields, invalidFields) }
                 >
-                    <fieldset block="MyAccountDetails" elem="AccountInfo">
+                    <fieldset block="MyAccountDetails" elem="EditContactInfo">
                         <legend>Contact Information</legend>
                         <Field
                           type="text"
@@ -284,7 +284,7 @@ class MyAccountDetails extends Component {
                           value={ telephone }
                         />
                     </fieldset>
-                    <fieldset block="MyAccountDetails" elem="AddressInfo">
+                    <fieldset block="MyAccountDetails" elem="EditAddressInfo">
                         <legend>Address</legend>
                         <Field
                           type="text"
@@ -327,7 +327,7 @@ class MyAccountDetails extends Component {
                           value={ country_id }
                         />
                     </fieldset>
-                    <button block="MyAccountDetails" elem="Submit" type="submit">Add Address</button>
+                    <button block="Button" type="submit">Add Address</button>
                 </Form>
             </>
         );
@@ -352,7 +352,7 @@ class MyAccountDetails extends Component {
                   onSubmitSuccess={ fields => this.onUpdateAccountSuccess(fields) }
                   onSubmitError={ (fields, invalidFields) => this.onUpdateAttempt(fields, invalidFields) }
                 >
-                    <fieldset block="MyAccountDetails" elem="AccountInfo">
+                    <fieldset block="MyAccountDetails" elem="EditAccountInfo">
                         <legend>Edit Account Information</legend>
                         <Field
                           type="text"
@@ -379,7 +379,7 @@ class MyAccountDetails extends Component {
                           name="is_subscribed"
                           checked={ is_subscribed }
                         />
-                        <button block="MyAccountDetails" elem="Submit" type="submit">Save Changes</button>
+                        <button block="Button" type="submit">Save Changes</button>
                     </fieldset>
                 </Form>
             </>
@@ -397,7 +397,7 @@ class MyAccountDetails extends Component {
                   onSubmitSuccess={ fields => this.onChangePasswordSuccess(fields) }
                   onSubmitError={ (fields, invalidFields) => this.onUpdateAttempt(fields, invalidFields) }
                 >
-                    <fieldset block="MyAccountDetails" elem="AccountInfo">
+                    <fieldset block="MyAccountDetails" elem="EditAccountPassword">
                         <legend>Edit Password</legend>
                         <Field
                           type="password"
@@ -420,7 +420,7 @@ class MyAccountDetails extends Component {
                           name="confirmPassword"
                           validation={ ['notEmpty', 'password'] }
                         />
-                        <button block="MyAccountDetails" elem="Submit" type="submit">Save New Password</button>
+                        <button block="Button" type="submit">Save New Password</button>
                     </fieldset>
                 </Form>
             </>
