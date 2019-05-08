@@ -74,14 +74,14 @@ class RelatedProducts extends Component {
                 total_count
             },
             product,
-            label
+            label,
+            areDetailsLoaded
         } = this.props;
 
-        const productIsLoaded = Object.keys(product).length !== 0;
         const hasRelatedProducts = product.product_links && Object.keys(product.product_links).length > 0;
         const relatedProductsLoaded = typeof items === 'object';
 
-        if (productIsLoaded && (!hasRelatedProducts || (relatedProductsLoaded && total_count === 0))) return null;
+        if (areDetailsLoaded && (!hasRelatedProducts || (relatedProductsLoaded && total_count === 0))) return null;
 
         return (
             <ContentWrapper
