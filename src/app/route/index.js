@@ -108,8 +108,13 @@ export class AppRouter extends Component {
         const {
             updateHeaderAndFooter,
             updateInitialCartData,
+<<<<<<< HEAD
             updateInitialWishlistData,
             getCountriesList
+=======
+            getCountriesList,
+            updateInitialWishlistData
+>>>>>>> Added wishlist button functionality for PDP and PLP
         } = this.props;
         const {
             beforeItems,
@@ -143,6 +148,7 @@ export class AppRouter extends Component {
         updateInitialCartData();
         updateInitialWishlistData();
         getCountriesList();
+        updateInitialWishlistData();
     }
 
     /**
@@ -230,8 +236,13 @@ export class AppRouter extends Component {
 AppRouter.propTypes = {
     updateHeaderAndFooter: PropTypes.func.isRequired,
     updateInitialCartData: PropTypes.func.isRequired,
+<<<<<<< HEAD
     updateInitialWishlistData: PropTypes.func.isRequired,
     getCountriesList: PropTypes.func.isRequired
+=======
+    getCountriesList: PropTypes.func.isRequired,
+    updateInitialWishlistData: PropTypes.func.isRequired
+>>>>>>> Added wishlist button functionality for PDP and PLP
 };
 
 const mapDispatchToProps = dispatch => ({
@@ -249,6 +260,10 @@ const mapDispatchToProps = dispatch => ({
 
     getCountriesList: () => {
         HeaderAndFooterDispatcher.getCountriesList(dispatch);
+    },
+
+    updateInitialWishlistData: () => {
+        WishlistDispatcher.updateInitialWishlistData(dispatch);
     }
 });
 
