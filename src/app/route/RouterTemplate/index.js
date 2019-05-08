@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
 import { AppRouter as BaseRouter } from 'SourceRoute';
 import { CartDispatcher } from 'Store/Cart';
+import { WishlistDispatcher } from 'Store/Wishlist';
 
 /**
  * Extends core router.
@@ -57,6 +58,10 @@ const mapDispatchToProps = dispatch => ({
 
     updateInitialCartData: () => {
         CartDispatcher.updateInitialCartData(dispatch);
+    },
+
+    updateInitialWishlistData: () => {
+        WishlistDispatcher.updateInitialWishlistData(dispatch);
     }
 });
 

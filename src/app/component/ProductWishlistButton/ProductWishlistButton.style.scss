@@ -1,0 +1,69 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+.ProductWishlistButton {
+    &-Button {
+        --button-background: transparent;
+        --button-hover-background: var(--color-primary-base);
+        --button-hover-color: var(--color-text-white);
+        --button-color: var(--color-primary-base);
+        --button-border-width: 2px;
+        --button-padding: 1rem;
+
+        &_fullWidth {
+            width: 100%;
+            margin: 0.5rem 0 0;
+
+            @include mobile {
+                padding: 0.8rem;
+                font-size: 0.8rem;
+            }
+        }
+
+        span {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+            transition: all .25s;
+
+            &:last-child {
+                width: 100%;
+                left: 0;
+                opacity: 0;
+                position: absolute;
+                transform: translateY(0);
+            }
+        }
+
+        &_isLoading {
+            span {
+                &:first-child {
+                    opacity: 0;
+                    transform: translateY(-50%);
+                }
+
+                &:last-child {
+                    opacity: 1;
+                    transform: translateY(-100%);
+                }
+            }
+
+            &:active {
+                span {
+                    &:last-child {
+                        opacity: 0.9;
+                        transform: translateY(-120%);
+                    }
+                }
+            }
+        }
+    }
+}

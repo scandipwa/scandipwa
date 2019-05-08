@@ -21,6 +21,7 @@ import {
     deleteAuthorizationToken
 } from 'Util/Auth';
 import { CartDispatcher } from 'Store/Cart';
+import { WishlistDispatcher } from 'Store/Wishlist';
 import { showNotification } from 'Store/Notification';
 import { MyAccount } from 'Query';
 import { prepareQuery } from 'Util/Query';
@@ -74,6 +75,7 @@ class MyAccountDispatcher extends QueryDispatcher {
         dispatch(updateCustomerSignInStatus(false));
         deleteAuthorizationToken();
         CartDispatcher.updateInitialCartData(dispatch);
+        WishlistDispatcher.updateInitialWishlistData(dispatch);
         // TODO: logout in BE
     }
 
@@ -155,6 +157,7 @@ class MyAccountDispatcher extends QueryDispatcher {
                 setAuthorizationToken(token);
                 dispatch(updateCustomerSignInStatus(true));
                 CartDispatcher.updateInitialCartData(dispatch);
+                WishlistDispatcher.updateInitialWishlistData(dispatch);
             },
             error => console.log(error)
         );

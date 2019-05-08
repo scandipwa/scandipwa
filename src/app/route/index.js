@@ -32,6 +32,7 @@ import NotificationList from 'Component/NotificationList';
 
 import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
 import { CartDispatcher } from 'Store/Cart';
+import { WishlistDispatcher } from 'Store/Wishlist';
 
 const BEFORE_ITEMS_TYPE = 'BEFORE_ITEMS_TYPE';
 const SWITCH_ITEMS_TYPE = 'SWITCH_ITEMS_TYPE';
@@ -106,7 +107,8 @@ export class AppRouter extends Component {
     componentWillMount() {
         const {
             updateHeaderAndFooter,
-            updateInitialCartData
+            updateInitialCartData,
+            updateInitialWishlistData
         } = this.props;
         const {
             beforeItems,
@@ -138,6 +140,7 @@ export class AppRouter extends Component {
 
         updateHeaderAndFooter({ menu: { menuId: 1 }, footer: footerOptions });
         updateInitialCartData();
+        updateInitialWishlistData();
     }
 
     /**
@@ -224,7 +227,8 @@ export class AppRouter extends Component {
 
 AppRouter.propTypes = {
     updateHeaderAndFooter: PropTypes.func.isRequired,
-    updateInitialCartData: PropTypes.func.isRequired
+    updateInitialCartData: PropTypes.func.isRequired,
+    updateInitialWishlistData: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = dispatch => ({
@@ -234,6 +238,10 @@ const mapDispatchToProps = dispatch => ({
 
     updateInitialCartData: () => {
         CartDispatcher.updateInitialCartData(dispatch);
+    },
+
+    updateInitialWishlistData: () => {
+        WishlistDispatcher.updateInitialWishlistData(dispatch);
     }
 });
 

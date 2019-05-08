@@ -111,5 +111,11 @@
                 display: block;
             }
         }
+
+        .ProductWishlistButton {
+            &-Button {
+                margin-left: 0;
+            }
+        }
     }
 }
