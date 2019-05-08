@@ -187,110 +187,89 @@ class ProductActions extends Component {
         const { availableFilters } = this.props;
         const hasAvailableFilter = Object.keys(availableFilters).length;
 
-        if (!hasAvailableFilter) {
-            return this.showOnlyIfLoaded(
-                hasAvailableFilter,
-                (
+        return this.showOnlyIfLoaded(
+            hasAvailableFilter,
+            (Object.entries(availableFilters).map(([code, option]) => {
+                if (code === 'color') return null;
+                const { label: optionLabel, values } = option;
+
+                return (
                     <section
+                      key={ code }
                       block="ProductActions"
                       elem="Section"
+                      mods={ { type: optionLabel.toLowerCase() } }
                       mix={ { block: 'ProductActions', elem: 'Option' } }
-                      aria-label="Loading other options"
+                      aria-label={ `${ optionLabel } options` }
                     >
-                        <h4 block="ProductActions" elem="SectionHeading">
-                            <TextPlaceholder />
-                        </h4>
-                        { new Array(4).fill().map((_, i) => (
+                        <h4 block="ProductActions" elem="SectionHeading">{ optionLabel }</h4>
+                        { values.map(({ value, label, id }) => (
                             <Swatch
-                              key={ i }
-                              mix={ { block: 'ProductActions', elem: 'PlaceholderOption' } }
-                              requestVar="placeholder"
+                              key={ id }
+                              onClick={ () => this.changeConfigurableVariant(code, id) }
+                              mix={ { block: 'ProductActions', elem: 'TextOption' } }
+                              isSelected={ this.getIsOptionInCurrentVariant(code, id) }
+                              filterItem={ { label, swatch_data: { value } } }
+                              requestVar={ code }
                             />
                         )) }
                     </section>
-                )
-            );
-        }
-
-        return Object.entries(availableFilters).map(([code, option]) => {
-            if (code === 'color') return null;
-
-            const { label: optionLabel, values } = option;
-
-            return (
+                );
+            })),
+            (
                 <section
-                  key={ code }
                   block="ProductActions"
                   elem="Section"
-                  mods={ { type: optionLabel.toLowerCase() } }
                   mix={ { block: 'ProductActions', elem: 'Option' } }
-                  aria-label={ `${ optionLabel } options` }
+                  aria-label="Loading other options"
                 >
-                    <h4 block="ProductActions" elem="SectionHeading">{ optionLabel }</h4>
-                    { values.map(({ value, label, id }) => (
+                    <h4 block="ProductActions" elem="SectionHeading">
+                        <TextPlaceholder />
+                    </h4>
+                    { new Array(4).fill().map((_, i) => (
                         <Swatch
-                          key={ id }
-                          onClick={ () => this.changeConfigurableVariant(code, id) }
-                          mix={ { block: 'ProductActions', elem: 'TextOption' } }
-                          isSelected={ this.getIsOptionInCurrentVariant(code, id) }
-                          filterItem={ { label, swatch_data: { value } } }
-                          requestVar={ code }
+                          key={ i }
+                          mix={ { block: 'ProductActions', elem: 'PlaceholderOption' } }
+                          requestVar="placeholder"
                         />
                     )) }
                 </section>
-            );
-        });
+            )
+        );
     }
 
     renderColorOptions() {
-        const { availableFilters: { color } } = this.props;
+        const { availableFilters: { color }, areDetailsLoaded } = this.props;
+        const { values: colorOptions = [] } = color || {};
 
-        if (!color) {
-            return this.showOnlyIfLoaded(
-                color,
-                (
-                    <section block="ProductActions" elem="Colors" aria-label="Color options">
-                        <h4 block="ProductActions" elem="SectionHeading" mods={ { type: 'color' } }>
-                            <TextPlaceholder />
-                        </h4>
-                        { new Array(4).fill().map((_, i) => (
-                            <Swatch
-                              key={ i }
-                              requestVar="color"
-                              mix={ { block: 'ProductActions', elem: 'Color' } }
-                            />
-                        )) }
-                    </section>
-                )
-            );
-        }
-
-        const { values: colorOptions } = color;
-
-        return (
-            <section
-              block="ProductActions"
-              elem="Colors"
-              aria-label="Color options"
-            >
-                <h4
-                  block="ProductActions"
-                  elem="SectionHeading"
-                  mods={ { type: 'color' } }
-                >
-                    Color
+        const renderColor = content => (
+            <section block="ProductActions" elem="Colors" aria-label="Color options">
+                <h4 block="ProductActions" elem="SectionHeading" mods={ { type: 'color' } }>
+                    <TextPlaceholder content={ areDetailsLoaded && 'Color' } />
                 </h4>
-                { colorOptions.map(({ value, label, id }) => (
-                    <Swatch
-                      key={ id }
-                      mix={ { block: 'ProductActions', elem: 'Color' } }
-                      onClick={ () => this.changeConfigurableVariant('color', id) }
-                      isSelected={ this.getIsOptionInCurrentVariant('color', id) }
-                      filterItem={ { label, swatch_data: { value } } }
-                      requestVar="color"
-                    />
-                )) }
+                { content }
             </section>
+        );
+
+        return this.showOnlyIfLoaded(
+            color,
+            renderColor(colorOptions.map(({ value, label, id }) => (
+                <Swatch
+                  key={ id }
+                  mix={ { block: 'ProductActions', elem: 'Color' } }
+                  onClick={ () => this.changeConfigurableVariant('color', id) }
+                  isSelected={ this.getIsOptionInCurrentVariant('color', id) }
+                  filterItem={ { label, swatch_data: { value } } }
+                  requestVar="color"
+                />
+            ))),
+            renderColor(new Array(4).fill().map((_, i) => (
+                <Swatch
+                  key={ i }
+                  requestVar="color"
+                  mix={ { block: 'ProductActions', elem: 'Color' } }
+                />
+            )))
         );
     }
 
