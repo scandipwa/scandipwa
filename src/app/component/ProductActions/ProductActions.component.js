@@ -20,8 +20,9 @@ import Swatch from 'Component/Swatch';
 import ProductPrice from 'Component/ProductPrice';
 import AddToCart from 'Component/AddToCart';
 import Html from 'Component/Html';
-import './ProductActions.style';
 import TextPlaceholder from 'Component/TextPlaceholder';
+import GroupedProductList from 'Component/GroupedProductsList';
+import './ProductActions.style';
 
 /**
  * Product actions
@@ -79,6 +80,24 @@ class ProductActions extends Component {
         if (!areDetailsLoaded) return placeholder;
         if (areDetailsLoaded && !expression) return null;
         return content;
+    }
+
+    renderGroupedProductOptions() {
+        const { product, groupedProductQuantity } = this.props;
+
+        return (
+            <section
+              block="ProductActions"
+              elem="Section"
+              mods={ { type: 'grouped' } }
+              aria-label="Product short description"
+            >
+                <GroupedProductList
+                  product={ product }
+                  groupedProductQuantity={ groupedProductQuantity }
+                />
+            </section>
+        );
     }
 
     renderSkuAndStock() {
@@ -159,7 +178,7 @@ class ProductActions extends Component {
     }
 
     renderAddToCart() {
-        const { configurableVariantIndex, product } = this.props;
+        const { configurableVariantIndex, product, groupedProductQuantity } = this.props;
 
         return (
             <div block="ProductActions" elem="AddToCartWrapper">
@@ -167,6 +186,7 @@ class ProductActions extends Component {
                   product={ product }
                   configurableVariantIndex={ configurableVariantIndex }
                   mix={ { block: 'ProductActions', elem: 'AddToCart' } }
+                  groupedProductQuantity={ groupedProductQuantity }
                 />
             </div>
         );
@@ -282,6 +302,7 @@ class ProductActions extends Component {
                 { this.renderOtherOptions() }
                 { this.renderNameAndBrand() }
                 { this.renderSkuAndStock() }
+                { this.renderGroupedProductOptions() }
                 { this.renderShortDescription() }
             </article>
         );
@@ -293,8 +314,8 @@ ProductActions.propTypes = {
     availableFilters: PropTypes.objectOf(PropTypes.shape).isRequired,
     configurableVariantIndex: PropTypes.number,
     updateConfigurableVariantIndex: PropTypes.func.isRequired,
-    areDetailsLoaded: PropTypes.bool.isRequired
-    // groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired
+    areDetailsLoaded: PropTypes.bool.isRequired,
+    groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired
 };
 
 ProductActions.defaultProps = {

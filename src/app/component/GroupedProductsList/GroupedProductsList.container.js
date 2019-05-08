@@ -14,9 +14,7 @@ import { ProductDispatcher } from 'Store/Product';
 import GroupedProductsList from './GroupedProductsList.component';
 
 const mapDispatchToProps = dispatch => ({
-    clearGroupedProductQuantity: () => {
-        ProductDispatcher.clearGroupedProductQuantity(dispatch);
-    }
+    clearGroupedProductQuantity: () => ProductDispatcher.clearGroupedProductQuantity(dispatch)
 });
 
 const GroupedProductsListContainer = connect(null, mapDispatchToProps)(GroupedProductsList);

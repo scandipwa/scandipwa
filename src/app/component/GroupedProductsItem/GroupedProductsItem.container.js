@@ -18,9 +18,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    updateGroupedProductQuantity: (options) => {
-        ProductDispatcher.updateGroupedProductQuantity(dispatch, options);
-    }
+    updateGroupedProductQuantity: options => ProductDispatcher.updateGroupedProductQuantity(dispatch, options)
 });
 
 const GroupedProductsItemContainer = connect(mapStateToProps, mapDispatchToProps)(GroupedProductsItem);

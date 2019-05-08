@@ -64,11 +64,16 @@ class GroupedProductsItem extends Component {
             },
             groupedProductQuantity
         } = this.props;
+
         const itemCount = this.getCurrentQuantity(id, groupedProductQuantity);
 
         return (
             <li block="GroupedProductsItem" aria-label="Product Item">
-                <Image src={ thumb_url && `/media/jpg/catalog/product${ thumb_url }` } alt="Product Thumbnail" />
+                <Image
+                  mix={ { block: 'GroupedProductsItem', elem: 'Image' } }
+                  src={ thumb_url && `/media/jpg/catalog/product${ thumb_url }` }
+                  alt="Product Thumbnail"
+                />
                 <div block="GroupedProductsItem" elem="Title">
                     <p><TextPlaceholder content={ name } /></p>
                     <ProductPrice price={ price } mods={ { type: 'regular' } } />
