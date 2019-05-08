@@ -47,7 +47,10 @@ class QueryDispatcher {
         this.promise = makeCancelable(
             new Promise((resolve, reject) => {
                 executeGet(prepareQuery(queries), name, cacheTTL)
-                    .then(data => resolve(data), error => reject(error));
+                    .then(
+                        data => resolve(data),
+                        error => reject(error)
+                    );
             })
         );
 
