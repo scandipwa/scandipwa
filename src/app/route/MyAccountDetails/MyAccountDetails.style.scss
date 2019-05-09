@@ -1,39 +1,29 @@
 .MyAccountDetails {
     --placeholder-animation: placeholderAnimation 2s linear infinite, appear 200ms forwards;
-    
-    &-Wrapper {
-        max-width: 1200px;
-        display: grid;
-        grid-template-columns: 20% 78%;
-        grid-column-gap: 2%;
 
-        padding: {
-            left: 7rem;
-            right: 7rem;
-        };
+    max-width: 1200px;
+    display: grid;
+    grid-template-columns: 20% 78%;
+    grid-column-gap: 2%;
 
-        margin: {
-            top: 2rem;
-            left: auto;
-            right: auto;
-        }
+    padding: {
+        left: 7rem;
+        right: 7rem;
+    };
 
-        @include after-mobile {
-            display: block;
-            max-width: var(--content-wrapper-width);
-        }
-
-        @include mobile {
-            padding: 0 1.5rem;
-        }
+    margin: {
+        top: 2rem;
+        left: auto;
+        right: auto;
     }
 
-    &-Sidebar {
-        display: none;
-        flex-direction: column;
-        padding-top: 1.8rem;
-        margin-bottom: 1.9rem;
-        border-right: 2px solid var(--color-breadcrumbs-background);
+    @include after-mobile {
+        display: block;
+        max-width: var(--content-wrapper-width);
+    }
+
+    @include mobile {
+        padding: 0 1.5rem;
     }
 
     &-Content {
@@ -50,10 +40,33 @@
         }
     }
 
-    &-EditContactInfo,
-    &-EditAddressInfo {
-        @include mobile {
-            grid-column: 1 / span 2;
+    &-Fieldset {
+        padding-bottom: 2rem;
+
+        &_type {
+            &_EditContactInfo,
+            &_EditAddressInfo {
+                @include mobile {
+                    grid-column: 1 / span 2;
+                }
+            }
+
+            &_EditAccountInfo,
+            &_EditAccountPassword {
+                grid-column: 1 / span 2;
+
+                @include after-mobile {
+                    margin: 0 25%;
+                }
+            }
+
+            &_EditAccountPassword {
+                .Button {
+                    @include after-mobile {
+                        width: 50%;
+                    }
+                }
+            }
         }
     }
 
@@ -76,33 +89,6 @@
         font-size: 1.15rem;
     }
 
-    &-Checkbox {
-        display: flex;
-
-        label {
-            display: inline;
-        }
-
-        input {
-            position: relative;
-            width: 20px;
-            height: 20px;
-            left: 20px;
-        }
-    }
-
-    &-Submit {
-        margin: 0;
-        font-size: 1.15rem;
-    }
-
-    &-AddButton {
-        margin: {
-            top: 1rem;
-            left: 0;
-        }
-    }
-
     &-Actions {
         margin-top: 1rem;
 
@@ -111,64 +97,17 @@
         }
     }
 
-    &-EditAccountInfo {
-        grid-column: 1 / span 2;
-
-        @include after-mobile {
-            margin: 0 25%;
-        }
-    }
-
-    &-EditAccountPassword {
-        grid-column: 1 / span 2;
-
-        @include after-mobile {
-            margin: 0 25%;
-        }
-
-        .Button {
-            @include after-mobile {
-                width: 50%;
-            }
-        }
-    }
-
-    span {
-        top: .2rem;
-    }
-
-    h1 {
+    &-Heading {
         padding-bottom: 2rem;
     }
 
-    h4 {
+    &-Subheading {
         padding: .5rem 0;
     }
 
-    fieldset {
-        padding-bottom: 2rem;
-
-        legend {
-            font-size: 1.50rem;
-            font-weight: 700;
-        }
-    }
-
-    li {
-        font-size: 1.35rem;
-        cursor: pointer;
-        padding: 0;
-        height: 3rem;
-        line-height: 3rem;
-        text-align: center;
-
-        &:hover {
-            background-color: var(--color-cart-light);
-        }
-
-        &::before {
-            content: '';
-        }
+    &-Legend {
+        font-size: 1.5rem;
+        font-weight: 700;
     }
 
     .Field {
@@ -180,6 +119,8 @@
 
         &_type {
             &_checkbox {
+                display: flex;
+
                 label {
                     @include mobile {
                         font-size: .9rem;
@@ -199,7 +140,7 @@
             grid-template-columns: 1fr 1fr;
         }
 
-        button {
+        .Button {
             margin-top: 2rem;
             width: 40%;
 

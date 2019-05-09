@@ -53,7 +53,7 @@ class MyAccountDetails extends Component {
     componentDidUpdate() {
         const { history, location: { state } } = this.props;
 
-        if (state.length) {
+        if (state) {
             this.changeState(state);
             history.replace({ state: {} });
         }
@@ -224,7 +224,7 @@ class MyAccountDetails extends Component {
     renderAccountOverview() {
         return (
             <>
-                <h1>My Account</h1>
+                <h1 block="MyAccountDetails" elem="Heading">My Account</h1>
                 { this.renderAccountInformation() }
                 { this.renderAddressBook() }
             </>
@@ -256,8 +256,12 @@ class MyAccountDetails extends Component {
                   onSubmitSuccess={ fields => this.onUpdateAddressSuccess(fields, correctAddress) }
                   onSubmitError={ (fields, invalidFields) => this.onUpdateAttempt(fields, invalidFields) }
                 >
-                    <fieldset block="MyAccountDetails" elem="EditContactInfo">
-                        <legend>Contact Information</legend>
+                    <fieldset
+                      block="MyAccountDetails"
+                      elem="Fieldset"
+                      mods={ { type: 'EditContactInfo' } }
+                    >
+                        <legend block="MyAccountDetails" elem="Legend">Contact Information</legend>
                         <Field
                           type="text"
                           label="First name"
@@ -284,8 +288,12 @@ class MyAccountDetails extends Component {
                           value={ telephone }
                         />
                     </fieldset>
-                    <fieldset block="MyAccountDetails" elem="EditAddressInfo">
-                        <legend>Address</legend>
+                    <fieldset
+                      block="MyAccountDetails"
+                      elem="Fieldset"
+                      mods={ { type: 'EditAddressInfo' } }
+                    >
+                        <legend block="MyAccountDetails" elem="Legend">Address</legend>
                         <Field
                           type="text"
                           label="Street Address"
@@ -352,8 +360,12 @@ class MyAccountDetails extends Component {
                   onSubmitSuccess={ fields => this.onUpdateAccountSuccess(fields) }
                   onSubmitError={ (fields, invalidFields) => this.onUpdateAttempt(fields, invalidFields) }
                 >
-                    <fieldset block="MyAccountDetails" elem="EditAccountInfo">
-                        <legend>Edit Account Information</legend>
+                    <fieldset
+                      block="MyAccountDetails"
+                      elem="Fieldset"
+                      mods={ { type: 'EditAccountInfo' } }
+                    >
+                        <legend block="MyAccountDetails" elem="Legend">Edit Account Information</legend>
                         <Field
                           type="text"
                           label="First name"
@@ -371,8 +383,6 @@ class MyAccountDetails extends Component {
                           value={ lastname }
                         />
                         <Field
-                          block="MyAccountDetails"
-                          elem="Checkbox"
                           type="checkbox"
                           label="Subscribe to ScandiPWA newsletter"
                           id="is_subscribed"
@@ -397,8 +407,12 @@ class MyAccountDetails extends Component {
                   onSubmitSuccess={ fields => this.onChangePasswordSuccess(fields) }
                   onSubmitError={ (fields, invalidFields) => this.onUpdateAttempt(fields, invalidFields) }
                 >
-                    <fieldset block="MyAccountDetails" elem="EditAccountPassword">
-                        <legend>Edit Password</legend>
+                    <fieldset
+                      block="MyAccountDetails"
+                      elem="Fieldset"
+                      mods={ { type: 'EditAccountPassword' } }
+                    >
+                        <legend block="MyAccountDetails" elem="Legend">Edit Password</legend>
                         <Field
                           type="password"
                           label="Current Password"
@@ -447,8 +461,12 @@ class MyAccountDetails extends Component {
         const editPasswordButtonMessage = id ? 'Change Password' : <TextPlaceholder length="short" />;
 
         return (
-            <fieldset block="MyAccountDetails" elem="AccountInfo">
-                <legend>Account Information</legend>
+            <fieldset
+              block="MyAccountDetails"
+              elem="Fieldset"
+              mods={ { type: 'AccountInfo' } }
+            >
+                <legend block="MyAccountDetails" elem="Legend">Account Information</legend>
                 <div block="MyAccountDetails" elem="FieldWrapper">
                     <div block="MyAccountDetails" elem="Field">
                         { fullName }
@@ -562,18 +580,20 @@ class MyAccountDetails extends Component {
      */
     renderAddressBook() {
         return (
-            <fieldset block="MyAccountDetails" elem="AddressBook">
-                <legend>
-                    <span>Address Book</span>
-                </legend>
+            <fieldset
+              block="MyAccountDetails"
+              elem="Fieldset"
+              mods={ { type: 'AddressBook' } }
+            >
+                <legend block="MyAccountDetails" elem="Legend">Address Book</legend>
                 <div block="MyAccountDetails" elem="FieldWrapper">
                     <div block="MyAccountDetails" elem="AddressWrapper">
                         <div block="MyAccountDetails" elem="FieldWrapper">
-                            <h4>Default Billing Address</h4>
+                            <h4 block="MyAccountDetails" elem="Subheading">Default Billing Address</h4>
                             { this.renderAddress('billing') }
                         </div>
                         <div block="MyAccountDetails" elem="FieldWrapper">
-                            <h4>Default Shipping Address</h4>
+                            <h4 block="MyAccountDetails" elem="Subheading">Default Shipping Address</h4>
                             { this.renderAddress('shipping') }
                         </div>
                     </div>
@@ -593,19 +613,8 @@ class MyAccountDetails extends Component {
 
         return (
             <main block="MyAccountDetails" aria-label="My Account Details">
-                <div block="MyAccountDetails" elem="Wrapper">
-                    <ul block="MyAccountDetails" elem="Sidebar">
-                        <li
-                          onClick={ () => this.changeState(STATE_ACCOUNT_OVERVIEW) }
-                          onKeyPress={ () => this.changeState(STATE_ACCOUNT_OVERVIEW) }
-                        >
-                            My Account
-                        </li>
-                        <li>My Orders</li>
-                    </ul>
-                    <div block="MyAccountDetails" elem="Content">
-                        { renderFunction() }
-                    </div>
+                <div block="MyAccountDetails" elem="Content">
+                    { renderFunction() }
                 </div>
             </main>
         );
