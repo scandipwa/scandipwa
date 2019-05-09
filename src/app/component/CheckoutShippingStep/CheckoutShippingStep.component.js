@@ -215,24 +215,30 @@ class CheckoutShippingStep extends Component {
             return regionList;
         }, []);
 
-        const {
-            code,
-            name,
-            region_code,
-            region: regionName,
-            id
-        } = region;
-        // } = regionList[0] || region;
+        if (regionList.length) {
+            const { region_id } = region;
+            const correctRegion = regionList.reduce((correctRegion, listRegion) => {
+                const { id: listId } = listRegion;
+                if (region_id === listId) correctRegion.push(listRegion);
+                return correctRegion;
+            }, []);
 
-        // TODO inccorect data passed on different user journeys
-        return this.setState(
-            {
+            const { code: region_code, name: regionName, id: regionId } = correctRegion[0] || regionList[0];
+
+            return this.setState({
+                country_id,
                 regionList,
-                region: { region_code: code || region_code, region: name || regionName, region_id: id }
-                // region: regionList[0]
-                //     || { region_code: code || region_code, region: name || regionName, region_id: 0 }
-            }
-        );
+                region: { region_code, region: regionName, region_id: regionId }
+            });
+        }
+
+        const { region: regionName } = region;
+
+        return this.setState({
+            country_id,
+            regionList,
+            region: regionName
+        });
     }
 
     trimAddress(address) {
@@ -248,7 +254,8 @@ class CheckoutShippingStep extends Component {
             street,
             telephone
         } = address;
-        const { region_id, region_code } = region || address;
+
+        const { region_id, region_code } = region;
 
         return {
             city,
@@ -258,16 +265,18 @@ class CheckoutShippingStep extends Component {
             firstname,
             lastname,
             postcode,
-            region_id,
-            region_code,
+            region_id: region_id || 0,
+            region_code: region_code || region,
             street: Object.values(street),
             telephone
         };
     }
 
     changeState(state) {
+        const { country_id } = this.state;
+
         this.setState({ state });
-        this.getAvailableRegions();
+        this.getAvailableRegions(country_id);
     }
 
     handleFieldChange() {
@@ -309,8 +318,33 @@ class CheckoutShippingStep extends Component {
     }
 
     renderField(id, overrideStateValue) {
-        const { [id]: stateValue, regionList } = this.state;
+        const { [id]: stateValue } = this.state;
         const { countryList } = this.props;
+        const {
+            type = 'text',
+            label,
+            note,
+            defaultValue,
+            validation = ['notEmpty'],
+            onChange = value => this.setState({ [id]: value }, this.handleFieldChange)
+        } = this.fieldMap[id];
+
+        return (
+            <Field
+              id={ id }
+              type={ type }
+              label={ label }
+              note={ note }
+              options={ countryList }
+              value={ overrideStateValue || stateValue || defaultValue }
+              validation={ validation }
+              onChange={ onChange }
+            />
+        );
+    }
+
+    renderRegionField(id, overrideStateValue) {
+        const { [id]: stateValue, regionList } = this.state;
         const {
             type = 'text',
             label,
@@ -324,11 +358,11 @@ class CheckoutShippingStep extends Component {
         return (
             <Field
               id={ id }
-              type={ (id === 'region' && regionList && regionList.length) ? 'select' : type }
+              type={ (regionList && regionList.length) ? 'select' : type }
               label={ label }
               note={ note }
-              options={ id === 'country_id' ? countryList : regionList }
-              value={ typeof fieldValue === 'object' ? fieldValue.region : fieldValue }
+              options={ regionList }
+              value={ typeof fieldValue === 'object' ? fieldValue.region_id : fieldValue }
               validation={ validation }
               onChange={ onChange }
             />
@@ -367,7 +401,7 @@ class CheckoutShippingStep extends Component {
                     { this.renderField(STREET_0_FIELD_ID, street[0]) }
                     { this.renderField(STREET_1_FIELD_ID, street[1]) }
                     { this.renderField(CITY_FIELD_ID) }
-                    { this.renderField(STATE_FIELD_ID) }
+                    { this.renderRegionField(STATE_FIELD_ID) }
                     { this.renderField(ZIP_FIELD_ID) }
                     { this.renderField(COUNTRY_FIELD_ID) }
                     { this.renderField(PHONE_FIELD_ID) }
