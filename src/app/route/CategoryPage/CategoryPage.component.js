@@ -428,7 +428,6 @@ CategoryPage.propTypes = {
         push: PropTypes.func.isRequired
     }).isRequired,
     category: CategoryTreeType.isRequired,
-    categoryList: CategoryTreeType.isRequired,
     items: ItemsType.isRequired,
     totalItems: PropTypes.number.isRequired,
     location: PropTypes.shape({

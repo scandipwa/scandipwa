@@ -15,7 +15,6 @@ import PropTypes from 'prop-types';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import ProductPrice from 'Component/ProductPrice';
 import Image from 'Component/Image';
-import AddToCart from 'Component/AddToCart';
 import { ProductType, FilterType } from 'Type/ProductList';
 import './ProductCard.style';
 
