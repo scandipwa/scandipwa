@@ -43,6 +43,13 @@ class MyAccountDetails extends Component {
     }
 
     componentDidMount() {
+        const { changeHeaderState, history } = this.props;
+
+        changeHeaderState({
+            title: 'My account',
+            name: 'customer_account',
+            onCloseClick: history.goBack
+        });
         this.requestCustomerData();
         this.updateBreadcrumbs();
     }
@@ -636,7 +643,8 @@ MyAccountDetails.propTypes = {
     updateCustomerAddress: PropTypes.func.isRequired,
     changeCustomerPassword: PropTypes.func.isRequired,
     updateBreadcrumbs: PropTypes.func.isRequired,
-    isSignedIn: PropTypes.bool.isRequired
+    isSignedIn: PropTypes.bool.isRequired,
+    changeHeaderState: PropTypes.func.isRequired
 };
 
 export default MyAccountDetails;
