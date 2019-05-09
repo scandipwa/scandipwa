@@ -99,21 +99,39 @@
 
     &_is {
         &_opening {
-            animation: fadein var(--animation-duration) ease-in-out forwards;
+            animation: fadeinLeft var(--animation-duration) ease-in-out forwards;
 
-            @keyframes fadein {
-                from { opacity: 0; left: 100%; }
-                to { opacity: 1; left: 0; }
+            @include mobile {
+                animation-name: fadeinOpacity;
             }
         }
 
         &_closing {
-            animation: fadeout var(--animation-duration) ease-in-out forwards;
+            animation: fadeoutLeft var(--animation-duration) ease-in-out forwards;
 
-            @keyframes fadeout {
-                from { opacity: 1; left: 0; }
-                to { opacity: 0; left: 100%; }
+            @include mobile {
+                animation-name: fadeoutOpacity;
             }
         }
+    }
+
+    @keyframes fadeinLeft {
+        from { opacity: 0; left: 100%; }
+        to { opacity: 1; left: 0; }
+    }
+
+    @keyframes fadeoutLeft {
+        from { opacity: 1; left: 0; }
+        to { opacity: 0; left: 100%; }
+    }
+
+    @keyframes fadeinOpacity {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    @keyframes fadeoutOpacity {
+        from { opacity: 1; }
+        to { opacity: 0; }
     }
 }
