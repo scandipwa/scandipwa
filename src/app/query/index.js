@@ -19,6 +19,7 @@ import MyAccount from 'Query/MyAccount.query';
 import Wishlist from 'Query/Wishlist.query';
 import Cart from 'Query/Cart.query';
 import UrlRewritesQuery from 'Query/UrlRewrites';
+import Review from 'Query/Review.query';
 
 export {
     CategoryQuery,
@@ -30,5 +31,6 @@ export {
     UrlRewritesQuery,
     MyAccount,
     Wishlist,
+    Review,
     Cart
 };

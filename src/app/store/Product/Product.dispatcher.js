@@ -9,11 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { QueryDispatcher } from 'Util/Request';
-import { ProductListQuery } from 'Query';
+import { QueryDispatcher, fetchMutation } from 'Util/Request';
+import { ProductListQuery, Review } from 'Query';
 import { updateProductDetails, updateGroupedProductQuantity, clearGroupedProductQuantity } from 'Store/Product';
 import { updateNoMatch } from 'Store/NoMatch';
 import { RelatedProductsDispatcher } from 'Store/RelatedProducts';
+import { showNotification } from 'Store/Notification';
 
 /**
  * Product List Dispatcher
@@ -100,6 +101,17 @@ class ProductDispatcher extends QueryDispatcher {
             ...groupProduct,
             items: newItems
         };
+    }
+
+    submitProductReview(dispatch, options) {
+        const reviewItem = options;
+
+        return fetchMutation(Review.getAddProductReview(
+            reviewItem
+        )).then(
+            () => dispatch(showNotification('success', 'You submitted your review for moderation.')) && true,
+            error => dispatch(showNotification('error', 'Error submitting review!')) && console.log(error)
+        );
     }
 }
 

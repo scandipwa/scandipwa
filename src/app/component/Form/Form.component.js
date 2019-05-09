@@ -165,7 +165,7 @@ class Form extends Component {
             <form
               block="Form"
               mods={ { isInvalid: !fieldsAreValid } }
-              ref={ this.form }
+              ref={ (ref) => { this.form = ref; } }
               onSubmit={ e => this.handleFormSubmit(e) }
             >
                 { children }
