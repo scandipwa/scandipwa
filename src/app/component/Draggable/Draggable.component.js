@@ -81,7 +81,7 @@ class Draggable extends Component {
         clientX,
         clientY
     }) {
-        const { isDragging, translateX, translateY } = this.state;
+        const { isDragging } = this.state;
 
         if (!isDragging) return;
 

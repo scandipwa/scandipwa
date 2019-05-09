@@ -22,7 +22,7 @@ class Form extends Component {
         const children = Form.cloneChildren(
             propsChildren,
             (child) => {
-                const { props: { onChange: originalOnChange, name } } = child;
+                const { props: { name } } = child;
                 // const onChange = (v) => {
                 //     Form.handleInputChange(v);
                 //     if (originalOnChange) originalOnChange(v);

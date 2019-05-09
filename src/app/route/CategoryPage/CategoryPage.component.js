@@ -28,7 +28,7 @@ import {
 } from 'Util/Url';
 
 import Store from 'Store';
-import { CATEGORY, FILTER } from 'Component/Header';
+import { CATEGORY } from 'Component/Header';
 import { toggleOverlayByKey } from 'Store/Overlay';
 import { changeHeaderState } from 'Store/Header';
 

@@ -23,4 +23,4 @@ export {
     toggleOverlayByKey,
     hideActiveOverlay,
     OverlayReducer
-}
+};
