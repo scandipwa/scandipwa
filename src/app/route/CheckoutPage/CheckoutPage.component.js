@@ -18,6 +18,7 @@ import CheckoutOrderSummary from 'Component/CheckoutOrderSummary';
 import CheckoutShippingStep from 'Component/CheckoutShippingStep';
 import CheckoutPreviewAndPaymentsStep from 'Component/CheckoutPreviewAndPaymentsStep';
 import { getUrlParam } from 'Util/Url';
+import { customerType } from 'Type/Account';
 import './CheckoutPage.style';
 
 const CHECKOUT_BASE_URL = 'checkout';
@@ -259,9 +260,7 @@ class CheckoutPage extends Component {
             <div>
                 <h1>Thank you for your purchase!</h1>
                 <p>{ `Your order # is: ${orderID}.`}</p>
-                <p>
-                    {"We'll email you an order confirmation with details and tracking info."}
-                </p>
+                <p>We`ll email you an order confirmation with details and tracking info.</p>
                 <Link to="/">Continue Shopping</Link>
             </div>
         );
@@ -350,7 +349,8 @@ CheckoutPage.propTypes = {
         pathname: PropTypes.string.isRequired
     }).isRequired,
     isSignedIn: PropTypes.bool.isRequired,
-    countryList: PropTypes.arrayOf(PropTypes.shape).isRequired
+    countryList: PropTypes.arrayOf(PropTypes.shape).isRequired,
+    customer: customerType.isRequired
 };
 
 export default CheckoutPage;

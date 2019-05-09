@@ -15,6 +15,7 @@ import Field from 'Component/Field';
 import Form from 'Component/Form';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { Redirect } from 'react-router';
+import { customerType } from 'Type/Account';
 import './MyAccountDetails.style';
 
 const STATE_ACCOUNT_OVERVIEW = 'accountOverview';
@@ -86,6 +87,7 @@ class MyAccountDetails extends Component {
 
         if (isSubscribed === null) {
             const is_subscribed = customer ? customer.is_subscribed : null;
+            // eslint-disable-next-line react/no-did-update-set-state
             this.setState({ isSubscribed: is_subscribed });
         }
 
@@ -693,7 +695,8 @@ MyAccountDetails.propTypes = {
     changeCustomerPassword: PropTypes.func.isRequired,
     updateBreadcrumbs: PropTypes.func.isRequired,
     isSignedIn: PropTypes.bool.isRequired,
-    countryList: PropTypes.arrayOf(PropTypes.shape).isRequired
+    countryList: PropTypes.arrayOf(PropTypes.shape).isRequired,
+    customer: customerType.isRequired
 };
 
 export default MyAccountDetails;

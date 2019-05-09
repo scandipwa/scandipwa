@@ -145,7 +145,7 @@ class MyAccount extends Component {
     }
 
     renderButton() {
-        const { state, isOpen, isHovered } = this.state;
+        const { isOpen, isHovered } = this.state;
 
         return (
             <button
