@@ -501,7 +501,9 @@ CheckoutPreviewAndPaymentsStep.propTypes = {
     }).isRequired,
     savePaymentInformationAndPlaceOrder: PropTypes.func.isRequired,
     paymentMethods: PropTypes.arrayOf(PropTypes.object).isRequired,
-    finishedLoading: PropTypes.bool.isRequired
+    finishedLoading: PropTypes.bool.isRequired,
+    isSignedIn: PropTypes.bool.isRequired,
+    countryList: PropTypes.arrayOf(PropTypes.shape).isRequired
 };
 
 export default CheckoutPreviewAndPaymentsStep;

@@ -237,7 +237,9 @@ class CheckoutPage extends Component {
               billingAddress={ billingAddress }
               shippingAddress={ shippingAddress }
               paymentMethods={ paymentMethods }
-              savePaymentInformationAndPlaceOrder={ paymentInformation => this.savePaymentInformationAndPlaceOrder(paymentInformation) }
+              savePaymentInformationAndPlaceOrder={ (
+                  paymentInformation => this.savePaymentInformationAndPlaceOrder(paymentInformation)
+              ) }
               email={ email }
               isSignedIn={ isSignedIn }
               finishedLoading={ addressesAreChecked }
@@ -347,7 +349,8 @@ CheckoutPage.propTypes = {
     location: PropTypes.shape({
         pathname: PropTypes.string.isRequired
     }).isRequired,
-    isSignedIn: PropTypes.bool.isRequired
+    isSignedIn: PropTypes.bool.isRequired,
+    countryList: PropTypes.arrayOf(PropTypes.shape).isRequired
 };
 
 export default CheckoutPage;
