@@ -1,13 +1,4 @@
 {
-    "name": "Scandiweb",
-    "short_name": "Scandiweb",
-    "icons": [{
-        "src": "/logo_192_by_192.png",
-        "sizes": "192x192",
-        "type": "image/png"
-    }],
-    "start_url": "/",
-    "display": "standalone",
-    "gcm_sender_id": "597858669315",
-    "gcm_user_visible_only": true
+    "gcm_sender_id": "482941778795",
+    "gcm_sender_id_comment": "Do not change the GCM Sender ID"
 }
