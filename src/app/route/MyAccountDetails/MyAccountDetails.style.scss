@@ -150,6 +150,10 @@
                     @include tablet {
                         width: 70%;
                     }
+
+                    @include mobile {
+                        width: 100%;
+                    }
                 }
             }
         } 
