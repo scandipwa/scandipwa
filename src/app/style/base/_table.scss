@@ -18,7 +18,7 @@ table {
         min-width: 10rem;
         padding: .35rem;
     }
-    
+
     tr {
         &:nth-child(even) {
             background-color: var(--table-secondary-color);
@@ -28,7 +28,7 @@ table {
     td {
         font-size: 1.2rem;
     }
-    
+
     th {
         font-size: 1.35rem;
         color: color(text, white);

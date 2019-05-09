@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *

@@ -53,7 +53,7 @@ class CategoryDispatcher extends QueryDispatcher {
             dispatch(appendCategoryProductList(items, total_count));
         }
 
-        dispatch(updateLoadStatus(false));
+        return dispatch(updateLoadStatus(false));
     }
 
     onError(error, dispatch) {

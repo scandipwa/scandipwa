@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *

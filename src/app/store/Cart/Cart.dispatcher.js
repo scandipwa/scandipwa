@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -188,6 +189,8 @@ class CartDispatcher {
                         }
                     ];
                 }
+
+                return prev;
             }, []);
 
             return { configurable_item_options };
