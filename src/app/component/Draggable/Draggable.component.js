@@ -154,6 +154,7 @@ class Draggable extends Component {
               onFocus={ () => handleFocus() }
               tabIndex={ 0 }
               role="button"
+              aria-label="Draggable area"
             >
                 { children }
             </div>

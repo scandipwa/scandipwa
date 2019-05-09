@@ -186,9 +186,9 @@ class MenuOverlay extends Component {
                   mods={ trendingMods }
                   aria-label={ trendingCategoriesTitle }
                 >
-                    <h2 block="MenuOverlay" elem="ItemListHeading">
+                    <li block="MenuOverlay" elem="ItemListHeading">
                         { trendingCategoriesTitle }
-                    </h2>
+                    </li>
                     { this.renderItemList(trendingCategories, trendingMods) }
                 </ul>
                 { this.renderAdditionalInformation() }
