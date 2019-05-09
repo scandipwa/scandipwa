@@ -12,7 +12,7 @@
 import { connect } from 'react-redux';
 import { CartDispatcher } from 'Store/Cart';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
-import { changeHeaderState, goToPreviousHeaderState } from 'Store/Header';
+import { changeHeaderState } from 'Store/Header';
 import CartPage from './CartPage.component';
 
 const mapStateToProps = state => ({

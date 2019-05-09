@@ -60,12 +60,7 @@ class MenuOverlay extends Component {
     }
 
     renderItemContent(item, itemMods = {}) {
-        const {
-            title,
-            item_id,
-            icon,
-            item_class
-        } = item;
+        const { title, icon, item_class } = item;
 
         if (item_class === 'MenuOverlay-ItemFigure_type_banner') {
             // eslint-disable-next-line no-param-reassign

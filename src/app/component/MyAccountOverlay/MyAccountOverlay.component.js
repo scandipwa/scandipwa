@@ -437,7 +437,6 @@ MyAccountOverlay.propTypes = {
     showNotification: PropTypes.func.isRequired,
     createAccount: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
-    isOverlayVisible: PropTypes.bool.isRequired,
     setHeaderState: PropTypes.func.isRequired
 };
 
