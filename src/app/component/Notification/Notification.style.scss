@@ -17,6 +17,11 @@
     position: relative;
     margin-bottom: 20px;
     padding: 10px;
+    top: calc(var(--header-height) / 2);
+
+    @include mobile {
+        top: calc(var(--header-height) / 2 - 10px);
+    }
 
     &-Text {
         margin-top: 0;

@@ -16,4 +16,8 @@
     right: 30px;
     max-width: 550px;
     list-style: none;
+
+    @include mobile {
+        right: 0;
+    }
 }
