@@ -71,10 +71,10 @@
 
         &:not(.Swatch_type_color):not(.Swatch_type_cat) {
             @include after-mobile {
-                padding: 0 1rem;
+                padding: 0 12px;
                 border: 1px solid var(--category-filter-overlay-desktop-color);
                 color: var(--category-filter-overlay-desktop-color);
-                margin-right: .5rem;
+                margin-right: 6px;
             }
         }
 

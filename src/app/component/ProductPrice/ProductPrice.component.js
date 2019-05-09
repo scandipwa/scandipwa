@@ -73,8 +73,8 @@ class ProductPrice extends Component {
         const PriceSemanticElementName = discountPercentage > 0 ? 'ins' : 'span';
 
         return (
-            <p block="ProductPrice" aria-label="Product Price" mix={ mix }>
-                <PriceSemanticElementName aria-label="Current product price">
+            <p block="ProductPrice" mix={ mix } aria-label={ `Product price: ${ this.roundPrice(finalPrice) }${ currency }` }>
+                <PriceSemanticElementName>
                     <data value={ this.roundPrice(finalPrice) }>
                         { currency }
                         { this.roundPrice(finalPrice) }

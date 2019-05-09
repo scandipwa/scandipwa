@@ -309,6 +309,8 @@ class Header extends Component {
               mods={ { type: 'back', isVisible } }
               onClick={ this.onBackButtonClick }
               aria-label="Go back"
+              aria-hidden={ !isVisible }
+              tabIndex={ isVisible ? 0 : -1 }
             />
         );
     }
@@ -321,6 +323,8 @@ class Header extends Component {
               mods={ { type: 'close', isVisible } }
               onClick={ this.onCloseButtonClick }
               aria-label="Close"
+              aria-hidden={ !isVisible }
+              tabIndex={ isVisible ? 0 : -1 }
             />
         );
     }
@@ -334,6 +338,8 @@ class Header extends Component {
                       elem="Button"
                       mods={ { isVisible, type: 'menu' } }
                       aria-label="Go to menu and search"
+                      aria-hidden={ !isVisible }
+                      tabIndex={ isVisible ? 0 : -1 }
                       onClick={ this.onMenuButtonClick }
                     />
                     <MenuOverlay />
@@ -400,6 +406,8 @@ class Header extends Component {
             <Link
               to="/"
               aria-label="Go to homepage by clicking on ScandiPWA logo"
+              aria-hidden={ !isVisible }
+              tabIndex={ isVisible ? 0 : -1 }
               className={ `Header-Logo ${ isVisible && 'Header-Logo_isVisible' }` }
             >
                 <svg xmlns="http://www.w3.org/2000/svg" width="116" height="17">
@@ -458,6 +466,8 @@ class Header extends Component {
               mods={ { type: 'clear', isVisible } }
               onClick={ this.onClearButtonClick }
               aria-label="Clear"
+              aria-hidden={ !isVisible }
+              tabIndex={ isVisible ? 0 : -1 }
             />
         );
     }
@@ -470,6 +480,8 @@ class Header extends Component {
               mods={ { type: 'edit', isVisible } }
               onClick={ this.onEditButtonClick }
               aria-label="Clear"
+              aria-hidden={ !isVisible }
+              tabIndex={ isVisible ? 0 : -1 }
             />
         );
     }
@@ -482,6 +494,8 @@ class Header extends Component {
               mods={ { type: 'ok', isVisible } }
               onClick={ this.onOkButtonClick }
               aria-label="Save changes"
+              aria-hidden={ !isVisible }
+              tabIndex={ isVisible ? 0 : -1 }
             >
                 OK
             </button>
@@ -496,6 +510,8 @@ class Header extends Component {
               mods={ { type: 'cancel', isVisible } }
               onClick={ this.onCancelButtonClick }
               aria-label="Cancel changes"
+              aria-hidden={ !isVisible }
+              tabIndex={ isVisible ? 0 : -1 }
             >
                 Cancel
             </button>

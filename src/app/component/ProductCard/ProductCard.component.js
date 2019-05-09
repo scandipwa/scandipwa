@@ -104,8 +104,10 @@ class ProductCard extends Component {
                 {}
             ) : { [color]: colorMap[color] };
 
+        const colorsLabel = Object.values(colors).map(({ label }) => label);
+
         return (
-            <div block="ProductCard" elem="Colors">
+            <div block="ProductCard" elem="Colors" aria-label={ `Available colors: ${ colorsLabel.join(', ') }` }>
                 { Object.values(colors).map(({ value: backgroundColor, label }) => (
                     <span
                       block="ProductCard"
@@ -164,7 +166,7 @@ class ProductCard extends Component {
                   to={ linkTo }
                   tabIndex={ url_key ? '0' : '-1' }
                 >
-                    <figure>
+                    <figure aria-hidden="true">
                         <Image
                           src={ thumbnail && `/media/jpg/catalog/product${ thumbnail }` }
                           alt="Product Thumbnail"
@@ -179,7 +181,7 @@ class ProductCard extends Component {
                         <p block="ProductCard" elem="Name">
                             <TextPlaceholder content={ name } length="medium" />
                         </p>
-                        <p block="ProductCard" elem="Brand">
+                        <p block="ProductCard" elem="Brand" aria-hidden="true">
                             { brand }
                         </p>
                     </div>
