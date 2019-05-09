@@ -62,6 +62,14 @@ const mapDispatchToProps = dispatch => ({
 
     updateInitialWishlistData: () => {
         WishlistDispatcher.updateInitialWishlistData(dispatch);
+    },
+
+    getCountriesList: () => {
+        HeaderAndFooterDispatcher.getCountriesList(dispatch);
+    },
+
+    updateInitialWishlistData: () => {
+        WishlistDispatcher.updateInitialWishlistData(dispatch);
     }
 });
 

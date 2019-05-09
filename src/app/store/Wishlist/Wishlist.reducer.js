@@ -13,7 +13,7 @@ import BrowserDatabase from 'Util/BrowserDatabase';
 import {
     ADD_ITEM_TO_WISHLIST,
     REMOVE_ITEM_FROM_WISHLIST,
-    UPDATE_ALL_PRODUCTS_IN_WISHLIST,
+    UPDATE_ALL_PRODUCTS_IN_WISHLIST
 } from './Wishlist.action';
 
 export const PRODUCTS_IN_WISHLIST = 'wishlist_products';

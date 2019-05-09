@@ -18,6 +18,7 @@ import CheckoutOrderSummary from 'Component/CheckoutOrderSummary';
 import CheckoutShippingStep from 'Component/CheckoutShippingStep';
 import CheckoutPreviewAndPaymentsStep from 'Component/CheckoutPreviewAndPaymentsStep';
 import { getUrlParam } from 'Util/Url';
+import { customerType } from 'Type/Account';
 import './CheckoutPage.style';
 
 const CHECKOUT_BASE_URL = 'checkout';
@@ -47,6 +48,7 @@ class CheckoutPage extends Component {
             showSummary: true,
             shippingAddress: {},
             billingAddress: {},
+            addressesAreChecked: false,
             carrierCode: '',
             methodCode: '',
             paymentMethods: [],
@@ -101,7 +103,48 @@ class CheckoutPage extends Component {
 
     componentDidMount() {
         const { updateToggleHeaderAndFooter } = this.props;
+        const { isSignedIn } = this.props;
+
         updateToggleHeaderAndFooter({ isHeaderAndFooterVisible: false });
+        if (isSignedIn) return this.requestCustomerData().then(() => this.getDefaultAddresses());
+
+        return this.getDefaultAddresses();
+    }
+
+    getDefaultAddresses() {
+        const { customer } = this.props;
+        const { shippingAddress, billingAddress } = this.state;
+
+        if (Object.entries(customer).length) {
+            const { addresses } = customer;
+
+            Object.values(addresses).map((address) => {
+                const { default_shipping, default_billing } = address;
+
+                if (default_shipping && !Object.entries(shippingAddress).length) {
+                    this.setState({ shippingAddress: address });
+                }
+
+                if (default_billing && !Object.entries(billingAddress).length) {
+                    this.setState({ billingAddress: address });
+                }
+
+                return null;
+            });
+        }
+
+        this.setState({ addressesAreChecked: true });
+    }
+
+    requestCustomerData() {
+        const { requestCustomerData } = this.props;
+        const options = {
+            withAddresses: true
+        };
+
+        this.setState({ addressesAreChecked: false });
+
+        return requestCustomerData(options);
     }
 
     saveAddressInformation(addressInformation) {
@@ -117,7 +160,8 @@ class CheckoutPage extends Component {
             shippingAddress: shipping_address,
             billingAddress: billing_address,
             carrierCode: shipping_carrier_code,
-            methodCode: shipping_method_code
+            methodCode: shipping_method_code,
+            addressesAreChecked: false
         });
 
         return saveAddressInformation(addressInformation).then(
@@ -126,7 +170,8 @@ class CheckoutPage extends Component {
                 this.setState({
                     checkoutStep: CHECKOUT_STEP_REVIEW_AND_PAYMENTS,
                     paymentMethods: payment_methods,
-                    paymentTotals: totals
+                    paymentTotals: totals,
+                    addressesAreChecked: true
                 });
             },
             err => console.log(err)
@@ -161,9 +206,18 @@ class CheckoutPage extends Component {
      * @returns {*}
      */
     renderShippingStep() {
+        const { shippingAddress, billingAddress, addressesAreChecked } = this.state;
+        const { isSignedIn, customer: { email }, countryList } = this.props;
+
         return (
             <CheckoutShippingStep
               saveAddressInformation={ addressInformation => this.saveAddressInformation(addressInformation) }
+              shippingAddress={ shippingAddress }
+              billingAddress={ billingAddress }
+              isSignedIn={ isSignedIn }
+              email={ email }
+              finishedLoading={ addressesAreChecked }
+              countryList={ countryList }
             />
         );
     }
@@ -173,16 +227,26 @@ class CheckoutPage extends Component {
      * @returns {*}
      */
     renderReviewAndPaymentsStep() {
+        const { isSignedIn, customer: { email }, countryList } = this.props;
         const {
             shippingAddress,
-            paymentMethods
+            billingAddress,
+            paymentMethods,
+            addressesAreChecked
         } = this.state;
 
         return (
             <CheckoutPreviewAndPaymentsStep
+              billingAddress={ billingAddress }
               shippingAddress={ shippingAddress }
               paymentMethods={ paymentMethods }
-              savePaymentInformationAndPlaceOrder={ paymentInformation => this.savePaymentInformationAndPlaceOrder(paymentInformation) }
+              savePaymentInformationAndPlaceOrder={ (
+                  paymentInformation => this.savePaymentInformationAndPlaceOrder(paymentInformation)
+              ) }
+              email={ email }
+              isSignedIn={ isSignedIn }
+              finishedLoading={ addressesAreChecked }
+              countryList={ countryList }
             />
         );
     }
@@ -198,7 +262,7 @@ class CheckoutPage extends Component {
             <div>
                 <h1>Thank you for your purchase!</h1>
                 <p>{ `Your order # is: ${orderID}.`}</p>
-                <p>We'll email you an order confirmation with details and tracking info.</p>
+                <p>We`ll email you an order confirmation with details and tracking info.</p>
                 <Link to="/">Continue Shopping</Link>
             </div>
         );
@@ -229,7 +293,7 @@ class CheckoutPage extends Component {
                     </div>
                 )) }
             </div>
-        )
+        );
     }
 
     /**
@@ -278,13 +342,17 @@ CheckoutPage.propTypes = {
     savePaymentInformationAndPlaceOrder: PropTypes.func.isRequired,
     saveAddressInformation: PropTypes.func.isRequired,
     removeCartAndObtainNewGuest: PropTypes.func.isRequired,
+    requestCustomerData: PropTypes.func.isRequired,
     history: PropTypes.shape({
         location: PropTypes.object.isRequired,
         push: PropTypes.func.isRequired
     }).isRequired,
     location: PropTypes.shape({
         pathname: PropTypes.string.isRequired
-    }).isRequired
+    }).isRequired,
+    isSignedIn: PropTypes.bool.isRequired,
+    countryList: PropTypes.arrayOf(PropTypes.shape).isRequired,
+    customer: customerType.isRequired
 };
 
 export default CheckoutPage;

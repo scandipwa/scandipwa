@@ -9,11 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { QueryDispatcher } from 'Util/Request';
+import { QueryDispatcher, executePost } from 'Util/Request';
 import { MenuQuery, CmsBlockQuery } from 'Query';
 import { showNotification } from 'Store/Notification';
-import { updateMenu, toggleHeaderAndFooter } from 'Store/HeaderAndFooter';
+import { updateMenu, toggleHeaderAndFooter, getCountryList } from 'Store/HeaderAndFooter';
 import { updateCmsBlocks } from 'Store/CmsBlocksAndSlider';
+import { prepareQuery } from 'Util/Query';
+import HeaderAndFooter from 'Query/HeaderAndFooter.query';
 
 class HeaderAndFooterDispatcher extends QueryDispatcher {
     constructor() {
@@ -42,6 +44,16 @@ class HeaderAndFooterDispatcher extends QueryDispatcher {
 
     toggleHeaderAndFooter(dispatch, options) {
         return dispatch(toggleHeaderAndFooter(options.isHeaderAndFooterVisible));
+    }
+
+    getCountriesList(dispatch) {
+        const query = HeaderAndFooter.getCountriesList();
+
+        return executePost(prepareQuery([query])).then(
+            ({ countries }) => dispatch(getCountryList(countries)),
+            // eslint-disable-next-line no-console
+            error => console.log(error)
+        );
     }
 }
 

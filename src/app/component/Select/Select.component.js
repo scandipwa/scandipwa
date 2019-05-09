@@ -31,8 +31,8 @@ class Select extends Component {
         const { selectedOption, options } = props;
         const tempData = [];
         const selectedFilter = options.reduce((selectedFilter, option) => {
-            if (option && option.id === selectedOption) {
-                tempData.push(option.id);
+            if (option && (option.id === selectedOption || option.code === selectedOption)) {
+                tempData.push(option.id || option.code);
             }
 
             return tempData;
@@ -49,6 +49,7 @@ class Select extends Component {
      * @return {void}
      */
     onGetKey(key) {
+        // console.log(key);
         const { onGetKey } = this.props;
 
         this.setState({ selectValue: key });
@@ -64,12 +65,12 @@ class Select extends Component {
 
         return options.map(option => (
             <li
-              key={ option.id }
+              key={ option.id || option.code }
               role="presentation"
-              onClick={ () => this.onGetKey(option.id) }
-              onKeyPress={ () => this.onGetKey(option.id) }
+              onClick={ () => this.onGetKey(option.id || option.code) }
+              onKeyPress={ () => this.onGetKey(option.id || option.code) }
             >
-            {option.label}
+            {option.label || option.name}
             </li>
         ));
     }
@@ -83,11 +84,11 @@ class Select extends Component {
 
         return options.map(option => (
             <option
-              key={ option.id }
-              value={ option.id }
+              key={ option.id || option.code }
+              value={ option.id || option.code }
               tabIndex={ 0 }
             >
-                { option.label }
+                { option.label || option.name }
             </option>
         ));
     }

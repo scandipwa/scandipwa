@@ -15,6 +15,7 @@ import Field from 'Component/Field';
 import Form from 'Component/Form';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { Redirect } from 'react-router';
+import { customerType } from 'Type/Account';
 import './MyAccountDetails.style';
 
 const STATE_ACCOUNT_OVERVIEW = 'accountOverview';
@@ -22,6 +23,7 @@ const STATE_EDIT_INFORMATION = 'editInformation';
 const STATE_EDIT_PASSWORD = 'editPassword';
 const STATE_UPDATE_ADDRESS = 'updateAddress';
 const DEFAULT_COUNTRY = 'US';
+const DEFAULT_REGION = 'AL';
 
 class MyAccountDetails extends Component {
     constructor(props) {
@@ -31,7 +33,8 @@ class MyAccountDetails extends Component {
             state: STATE_ACCOUNT_OVERVIEW,
             correctAddress: {},
             isLoading: false,
-            selectValue: ''
+            selectValue: '',
+            isSubscribed: null
         };
 
         this.renderMap = {
@@ -44,6 +47,32 @@ class MyAccountDetails extends Component {
         this.changeState = this.changeState.bind(this);
     }
 
+    static getDerivedStateFromProps(props, state) {
+        const { state: pageState } = state;
+
+        if (pageState === STATE_UPDATE_ADDRESS) {
+            const { countryList } = props;
+            const { correctAddress, selectValue } = state;
+            const country_id = correctAddress && correctAddress.country_id;
+            const countryValue = selectValue || country_id || DEFAULT_COUNTRY;
+
+            const regionSelect = countryList.reduce((regionSelect, countryRegions) => {
+                const { available_regions, id } = countryRegions;
+
+                if (available_regions && countryValue === id) {
+                    regionSelect.push(...available_regions);
+                }
+
+                return regionSelect;
+            }, []);
+
+            const regionType = regionSelect.length ? 'select' : 'text';
+
+            return { regionSelect, regionType };
+        }
+        return null;
+    }
+
     componentDidMount() {
         this.requestCustomerData();
         this.updateBreadcrumbs();
@@ -53,7 +82,14 @@ class MyAccountDetails extends Component {
      * Redirect back to account overview
      */
     componentDidUpdate() {
-        const { history, location: { state } } = this.props;
+        const { history, location: { state }, customer } = this.props;
+        const { isSubscribed } = this.state;
+
+        if (isSubscribed === null) {
+            const is_subscribed = customer ? customer.is_subscribed : null;
+            // eslint-disable-next-line react/no-did-update-set-state
+            this.setState({ isSubscribed: is_subscribed });
+        }
 
         if (state.length) {
             this.changeState(state);
@@ -72,6 +108,7 @@ class MyAccountDetails extends Component {
         if (invalidFields) {
             showNotification('error', 'Incorrect data! Please resolve all field validation errors.');
         }
+
         this.setState({ isLoading: !invalidFields });
     }
 
@@ -122,6 +159,7 @@ class MyAccountDetails extends Component {
      * @param {Object} correctAddress
      */
     onUpdateAddressSuccess(fields, correctAddress) {
+        const { regionState, regionType } = this.state;
         const { updateCustomerAddress, createCustomerAddress } = this.props;
         const isAddressCreation = typeof correctAddress === 'string';
         const default_shipping = typeof correctAddress === 'string'
@@ -141,6 +179,7 @@ class MyAccountDetails extends Component {
             street,
             telephone
         } = fields;
+        const useSelectValues = regionType === 'select' && regionState;
         const addresses = {
             city,
             company,
@@ -148,7 +187,11 @@ class MyAccountDetails extends Component {
             firstname,
             lastname,
             postcode,
-            region: { region },
+            region: {
+                region_code: useSelectValues ? regionState.code : region,
+                region: useSelectValues ? regionState.region : region,
+                region_id: useSelectValues ? regionState.id : 0
+            },
             street,
             telephone,
             default_shipping,
@@ -224,8 +267,25 @@ class MyAccountDetails extends Component {
      * Save country select state
      * @param {String} value
      */
-    changeSelectValue(value) {
-        this.setState({ selectValue: value });
+    changeSelectValue(value, selectId) {
+        if (selectId === 'region' && typeof value === 'number') {
+            const { regionSelect } = this.state;
+            const regionValue = regionSelect.reduce((regionValue, region) => {
+                const { id } = region;
+
+                if (value === id) {
+                    regionValue.push(region);
+                }
+
+                return regionValue;
+            }, []);
+
+            return this.setState({ regionState: regionValue[0] });
+        }
+
+        if (selectId === 'country') return this.setState({ selectValue: value });
+
+        return null;
     }
 
     /**
@@ -245,7 +305,14 @@ class MyAccountDetails extends Component {
      * Render Customer Address Update page
      */
     renderUpdateAddress() {
-        const { correctAddress, selectValue } = this.state;
+        const {
+            correctAddress,
+            selectValue,
+            regionSelect,
+            regionState,
+            regionType
+        } = this.state;
+        const { countryList } = this.props;
         const {
             firstname,
             lastname,
@@ -257,6 +324,10 @@ class MyAccountDetails extends Component {
             region,
             country_id
         } = correctAddress;
+        const countryValue = selectValue || country_id || DEFAULT_COUNTRY;
+        const regionValue = (regionState && regionState.code)
+            || (region && region.region)
+            || (regionType === 'select' ? DEFAULT_REGION : '');
 
         return (
             <>
@@ -309,18 +380,21 @@ class MyAccountDetails extends Component {
                           value={ postcode }
                         />
                         <Field
-                          type="text"
+                          type={ regionType }
                           label="State/Province"
                           id="region"
+                          options={ regionSelect }
                           validation={ ['notEmpty'] }
-                          value={ region && region.region }
+                          value={ regionValue }
+                          onChange={ (value) => { this.changeSelectValue(value, 'region'); } }
                         />
                         <Field
                           type="select"
                           label="Country"
                           id="country_id"
-                          value={ selectValue || country_id || DEFAULT_COUNTRY }
-                          onChange={ (value) => { this.changeSelectValue(value); } }
+                          options={ countryList }
+                          value={ countryValue }
+                          onChange={ (value) => { this.changeSelectValue(value, 'country'); } }
                         />
                     </fieldset>
                     <button block="MyAccountDetails" elem="Submit" type="submit">Add Address</button>
@@ -334,12 +408,13 @@ class MyAccountDetails extends Component {
      */
     renderEditInformation() {
         const { customer } = this.props;
+        const { isSubscribed } = this.state;
 
         if (!customer) {
             return this.redirectBackToOverview(true);
         }
 
-        const { firstname, lastname, is_subscribed } = customer;
+        const { firstname, lastname } = customer;
 
         return (
             <>
@@ -370,7 +445,9 @@ class MyAccountDetails extends Component {
                           type="checkbox"
                           label="Subscribe to ScandiPWA newsletter"
                           id="is_subscribed"
-                          checked={ is_subscribed }
+                          checked={ isSubscribed }
+                          value={ isSubscribed }
+                          onChange={ value => this.setState({ isSubscribed: value }) }
                         />
                         <button block="MyAccountDetails" elem="Submit" type="submit">Save Changes</button>
                     </fieldset>
@@ -617,7 +694,9 @@ MyAccountDetails.propTypes = {
     updateCustomerAddress: PropTypes.func.isRequired,
     changeCustomerPassword: PropTypes.func.isRequired,
     updateBreadcrumbs: PropTypes.func.isRequired,
-    isSignedIn: PropTypes.bool.isRequired
+    isSignedIn: PropTypes.bool.isRequired,
+    countryList: PropTypes.arrayOf(PropTypes.shape).isRequired,
+    customer: customerType.isRequired
 };
 
 export default MyAccountDetails;

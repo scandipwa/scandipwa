@@ -37,7 +37,8 @@ class MyAccount extends Component {
             isOpen: false,
             isLoading: false,
             // eslint-disable-next-line react/no-unused-state
-            isPasswordForgotSend: props.isPasswordForgotSend
+            isPasswordForgotSend: props.isPasswordForgotSend,
+            isSubscribed: false
         };
 
         this.renderMap = {
@@ -144,7 +145,7 @@ class MyAccount extends Component {
     }
 
     renderButton() {
-        const { state, isOpen, isHovered } = this.state;
+        const { isOpen, isHovered } = this.state;
 
         return (
             <button
@@ -260,6 +261,8 @@ class MyAccount extends Component {
     }
 
     renderCreateAccount() {
+        const { isSubscribed } = this.state;
+
         return (
             <>
                 <Form
@@ -279,6 +282,9 @@ class MyAccount extends Component {
                           type="checkbox"
                           label="Subscribe to ScandiPWA newsletter"
                           id="is_subscribed"
+                          checked={ isSubscribed }
+                          value={ isSubscribed }
+                          onChange={ value => this.setState({ isSubscribed: value }) }
                         />
                     </fieldset>
                     <fieldset block="MyAccount" elem="Legend">

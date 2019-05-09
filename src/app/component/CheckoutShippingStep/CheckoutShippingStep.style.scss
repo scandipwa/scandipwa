@@ -1,4 +1,4 @@
-.CheckoutPreviewAndPaymentsStep {
+.CheckoutShippingStep {
     &-ShippingAddressPreview {
         display: inline-block;
         background-color: var(--color-summary-background);
@@ -26,6 +26,28 @@
             font-size: 1.2rem;
             font-style: normal;
             padding-left: 2rem;
+        }
+    }
+
+    &-ButtonWrapper {
+        max-width: 40rem;
+        margin-bottom: 2rem;
+    }
+
+    &-ButtonDefault {
+        width: 100%;
+        height: 100%;
+    }
+
+    &-ButtonNew {
+        width: 40rem;
+        margin: {
+            top: 1rem;
+            bottom: 1rem;
+        }
+
+        @include mobile {
+            width: 100%;
         }
     }
 }
