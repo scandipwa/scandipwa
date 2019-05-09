@@ -38,7 +38,7 @@ Cache data will be served in any case, whether available, however revalidation h
 Any cache item can be removed/entire cache storage flushed with a simple Request from an application:
 Create a Request and send it to `/flush-cache`, adding custom header `Cache-purge` with _Resource_ name.
 
-##### Resource can be any resource name (starting with `/`), or Cache storage name, without any prefix.
+#### Resource can be any resource name (starting with `/`), or Cache storage name, without any prefix
 
 An example: delete `/styles.css` from Cache storage:
 
