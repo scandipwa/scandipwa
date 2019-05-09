@@ -118,4 +118,52 @@
             }
         }
     }
+
+    &-ReviewSummary {
+        font-size: 1.1rem;
+        padding-top: 0;
+
+        @include mobile {
+            font-size: 1rem;
+        }
+
+        .ProductReviewRating,
+        a {
+            display: inline-block;
+            padding: 0;
+        }
+
+        .ProductReviewRating {
+            vertical-align: middle;
+
+            @include mobile {
+                margin: 0;
+            }
+
+            &-RatingStars {
+                padding: 0;
+
+                @include mobile {
+                    font-size: 1.4rem;
+                }
+            }
+        }
+
+        a {
+            color: var(--link-color);
+            vertical-align: sub;
+
+            @include mobile {
+                display: block;
+            }
+
+            &:hover {
+                text-decoration: underline;
+            }
+
+            &:focus {
+                text-decoration: underline;
+            }
+        }
+    }
 }

@@ -10,17 +10,33 @@
  */
 
 import React, { Component } from 'react';
-import TextPlaceholder from 'Component/TextPlaceholder';
+import './ProductReviewRating.style'
 
 /**
  * @class ProductReviewRating
  */
 class ProductReviewRating extends Component {
     render() {
-        const { content } = this.props;
+        const { summary } = this.props;
+        const clip = `polygon(0 0, 0 100%, ${ summary }% 100%, ${ summary }% 0)`;
 
         return (
-            <TextPlaceholder content={ content } length="short" />
+            <div block="ProductReviewRating" title={ summary + '%' }>
+                <div block="ProductReviewRating" elem="RatingStars">
+                    <i class="star"></i>
+                    <i class="star"></i>
+                    <i class="star"></i>
+                    <i class="star"></i>
+                    <i class="star"></i>
+                </div>
+                <div block="ProductReviewRating" elem="RatingStars" mods={{ filled: true }} style={{ clipPath: clip }}>
+                    <i class="star"></i>
+                    <i class="star"></i>
+                    <i class="star"></i>
+                    <i class="star"></i>
+                    <i class="star"></i>
+                </div>
+            </div>
         );
     }
 }

@@ -10,6 +10,7 @@
  */
 
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import Html from 'Component/Html';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import ProductReviewRating from 'Component/ProductReviewRating';
@@ -67,28 +68,36 @@ class ProductDetails extends Component {
     }
 
     renderReviewSummary() {
-        const { product: { review_summary }, product } = this.props;
+        const { product: { review_summary, url_key }, product, areDetailsLoaded, configurableVariantIndex} = this.props;
 
-
-        if (product) {
-            if (review_summary) {
-                if (review_summary.review_count) {
-                    const reviewText = review_summary.review_count === 1 ? "Review" : "Reviews";
-
-                    return (
-                        <>
-                            <ProductReviewRating content={review_summary.rating_summary}/>
-                            <TextPlaceholder content={review_summary.review_count + " " + reviewText} length="short"/>
-                        </>
-                    );
+        if (areDetailsLoaded) {
+            const linkTo = url_key
+                ? {
+                    pathname: `/product/${ url_key }`,
+                    state: { product, configurableVariantIndex },
+                    search: `?variant=${ configurableVariantIndex }`,
+                    hash: `#reviews`
                 }
+                : undefined;
+
+            if (review_summary.review_count) {
+                const reviewText = review_summary.review_count === 1 ? "Review" : "Reviews";
 
                 return (
-                    <TextPlaceholder content="Be the first to review this product" length="short"/>
+                    <>
+                        <ProductReviewRating summary={ review_summary.rating_summary }/>
+                        <Link to={ linkTo } tabIndex={ url_key ? '0' : '-1' }>
+                            <TextPlaceholder content={ review_summary.review_count + " " + reviewText } />
+                        </Link>
+                    </>
                 );
             }
 
-            return null;
+            return (
+                <Link to={ linkTo } tabIndex={ url_key ? '0' : '-1' }>
+                    <span>Be the first to review this product</span>
+                </Link>
+            );
         }
 
         return (
@@ -112,9 +121,9 @@ class ProductDetails extends Component {
                 <p block="ProductDetails" elem="Sku">
                     { this.renderSku() }
                 </p>
-                <p block="ProductDetails" elem="ReviewSummary">
+                <div block="ProductDetails" elem="ReviewSummary">
                     { this.renderReviewSummary() }
-                </p>
+                </div>
                 <div block="ProductDetails" elem="ShortDescription">
                     { this.renderShortDescription() }
                 </div>

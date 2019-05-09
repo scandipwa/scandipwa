@@ -59,6 +59,24 @@
         }
     }
 
+    &-ReviewSummary {
+        font-size: 1.1rem;
+        margin-top: .5rem;
+
+        .ProductReviewRating,
+        a {
+            display: inline-block;
+        }
+
+        a {
+            vertical-align: sub;
+        }
+
+        .ProductReviewRating {
+            vertical-align: middle;
+        }
+    }
+
     &-ShortDescription {
         --description-color: var(--color-neutral-base);
 

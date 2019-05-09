@@ -100,15 +100,17 @@ class ProductCard extends Component {
 
     renderReviewSummary(linkTo) {
         const { product: { review_summary, url_key } } = this.props;
+
         if (review_summary) {
             if (review_summary.review_count) {
+                const _linkTo = Object.assign({ hash: `#reviews` }, linkTo);
                 const reviewText = review_summary.review_count === 1 ? "Review" : "Reviews";
 
                 return (
                     <div block="ProductCard" elem="ReviewSummary">
-                        <ProductReviewRating content={review_summary.rating_summary} />
-                        <Link to={ linkTo } tabIndex={ url_key ? '0' : '-1' }>
-                            <TextPlaceholder content={review_summary.review_count + ' ' + reviewText} length="short" />
+                        <ProductReviewRating summary={ review_summary.rating_summary } />
+                        <Link to={ _linkTo } tabIndex={ url_key ? '0' : '-1' }>
+                            <TextPlaceholder content={ review_summary.review_count + ' ' + reviewText } />
                         </Link>
                     </div>
                 );
@@ -138,8 +140,7 @@ class ProductCard extends Component {
             ? {
                 pathname: `/product/${ url_key }`,
                 state: { product, variantIndex },
-                search: `?variant=${ variantIndex }`,
-                reviews: ``
+                search: `?variant=${ variantIndex }`
             }
             : undefined;
 
