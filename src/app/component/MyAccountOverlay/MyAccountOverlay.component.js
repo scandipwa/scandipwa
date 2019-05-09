@@ -188,7 +188,7 @@ class MyAccountOverlay extends Component {
     }
 
     renderAccountActions() {
-        const { logout } = this.props;
+        const { logout, hideActiveOverlay } = this.props;
         const linkTo = {
             pathname: '/my-account',
             state: 'accountOverview'
@@ -197,7 +197,7 @@ class MyAccountOverlay extends Component {
         return (
             <nav block="MyAccountOverlay" elem="Navigation">
                 <ul>
-                    <li><Link to={ linkTo }>My Account</Link></li>
+                    <li><Link to={ linkTo } onClick={ hideActiveOverlay }>My Account</Link></li>
                     <li>
                         <button
                           block="Button"
@@ -427,7 +427,8 @@ MyAccountOverlay.propTypes = {
     createAccount: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
     isOverlayVisible: PropTypes.bool.isRequired,
-    setHeaderState: PropTypes.func.isRequired
+    setHeaderState: PropTypes.func.isRequired,
+    hideActiveOverlay: PropTypes.func.isRequired
 };
 
 export default MyAccountOverlay;
