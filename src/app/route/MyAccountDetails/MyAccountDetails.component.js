@@ -334,7 +334,7 @@ class MyAccountDetails extends Component {
                           value={ country_id }
                         />
                     </fieldset>
-                    <button block="Button" type="submit">Add Address</button>
+                    <button block="Button" mods={ { type: 'updateAddress' } } type="submit">Add Address</button>
                 </Form>
             </>
         );
@@ -389,7 +389,7 @@ class MyAccountDetails extends Component {
                           name="is_subscribed"
                           checked={ is_subscribed }
                         />
-                        <button block="Button" type="submit">Save Changes</button>
+                        <button block="Button" mods={ { type: 'editAccountInfo' } } type="submit">Save Changes</button>
                     </fieldset>
                 </Form>
             </>
@@ -435,7 +435,13 @@ class MyAccountDetails extends Component {
                           name="confirmPassword"
                           validation={ ['notEmpty', 'password'] }
                         />
-                        <button block="Button" type="submit">Save New Password</button>
+                        <button
+                          block="Button"
+                          mods={ { type: 'savePassword' } }
+                          type="submit"
+                        >
+                            Save New Password
+                        </button>
                     </fieldset>
                 </Form>
             </>

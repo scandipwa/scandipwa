@@ -53,14 +53,6 @@
                     margin: 0 25%;
                 }
             }
-
-            &_EditAccountPassword {
-                .Button {
-                    @include after-mobile {
-                        width: 50%;
-                    }
-                }
-            }
         }
     }
 
@@ -131,7 +123,7 @@
     &-Form {
         display: grid;
         grid-template-columns: 45% 45%;
-        grid-column-gap: 5%;
+        grid-column-gap: 50px;
         padding-bottom: 2rem;
 
         @include mobile {
@@ -142,9 +134,23 @@
             margin-top: 2rem;
             width: 40%;
 
+            @include tablet {
+                width: 60%;
+            }
+
             @include mobile {
                 width: 100%;
                 grid-column: 1 / span 2;
+            }
+
+            &_type {
+                &_savePassword {
+                    width: 50%;
+
+                    @include tablet {
+                        width: 70%;
+                    }
+                }
             }
         } 
     }
