@@ -46,5 +46,5 @@ const updateAllProductsInWishlist = products => ({
 export {
     addItemToWishlist,
     removeItemFromWishlist,
-    updateAllProductsInWishlist,
+    updateAllProductsInWishlist
 };
