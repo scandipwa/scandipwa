@@ -51,6 +51,7 @@ class HeaderAndFooterDispatcher extends QueryDispatcher {
 
         return executePost(prepareQuery([query])).then(
             ({ countries }) => dispatch(getCountryList(countries)),
+            // eslint-disable-next-line no-console
             error => console.log(error)
         );
     }

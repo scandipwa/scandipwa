@@ -128,6 +128,8 @@ class CheckoutPage extends Component {
                 if (default_billing && !Object.entries(billingAddress).length) {
                     this.setState({ billingAddress: address });
                 }
+
+                return null;
             });
         }
 
