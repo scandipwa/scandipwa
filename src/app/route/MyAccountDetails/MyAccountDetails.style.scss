@@ -32,12 +32,6 @@
         @include mobile {
             padding-top: 3rem;
         }
-
-        h1 {
-            @include mobile {
-                display: none;
-            }
-        }
     }
 
     &-Fieldset {
@@ -99,6 +93,10 @@
 
     &-Heading {
         padding-bottom: 2rem;
+
+        @include mobile {
+            display: none;
+        }
     }
 
     &-Subheading {
