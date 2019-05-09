@@ -253,6 +253,7 @@ class MyAccountDetails extends Component {
                   onSubmit={ () => this.onUpdateAttempt() }
                   onSubmitSuccess={ fields => this.onUpdateAddressSuccess(fields, correctAddress) }
                   onSubmitError={ (fields, invalidFields) => this.onUpdateAttempt(fields, invalidFields) }
+                  mix={ { block: 'MyAccountDetails', elem: 'Form' } }
                 >
                     <fieldset
                       block="MyAccountDetails"
@@ -357,6 +358,7 @@ class MyAccountDetails extends Component {
                   onSubmit={ () => this.onUpdateAttempt() }
                   onSubmitSuccess={ fields => this.onUpdateAccountSuccess(fields) }
                   onSubmitError={ (fields, invalidFields) => this.onUpdateAttempt(fields, invalidFields) }
+                  mix={ { block: 'MyAccountDetails', elem: 'Form' } }
                 >
                     <fieldset
                       block="MyAccountDetails"
@@ -404,6 +406,7 @@ class MyAccountDetails extends Component {
                   onSubmit={ () => this.onUpdateAttempt() }
                   onSubmitSuccess={ fields => this.onChangePasswordSuccess(fields) }
                   onSubmitError={ (fields, invalidFields) => this.onUpdateAttempt(fields, invalidFields) }
+                  mix={ { block: 'MyAccountDetails', elem: 'Form' } }
                 >
                     <fieldset
                       block="MyAccountDetails"
