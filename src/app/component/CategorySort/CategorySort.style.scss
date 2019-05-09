@@ -10,9 +10,7 @@
  */
 
 .CategorySort {
-    @include after-mobile {
-        display: none;
-    }
+    display: none;
 
     &-Select {
         select[name="category-sort"] {

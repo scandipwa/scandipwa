@@ -57,7 +57,7 @@
 
     &-Color {
         @include after-mobile {
-            margin: 5px;
+            margin: 6px;
         }
     }
 
@@ -215,8 +215,8 @@
     }
 
     &-TextOption {
-        margin: 5px;
-        padding: 0 1rem;
+        margin: 6px;
+        padding: 0 12px;
         border: 1px solid var(--product-actions-option-border-color);
 
         &_isSelected {

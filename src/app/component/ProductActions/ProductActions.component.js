@@ -100,6 +100,8 @@ class ProductActions extends Component {
                 </section>
             );
         }
+
+        return null;
     }
 
     renderSkuAndStock() {
@@ -162,7 +164,6 @@ class ProductActions extends Component {
               block="ProductActions"
               elem="Section"
               mods={ { type: 'name' } }
-              aria-label="Product name information"
             >
                 { this.showOnlyIfLoaded(
                     brand,

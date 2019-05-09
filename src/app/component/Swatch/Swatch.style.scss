@@ -87,7 +87,7 @@
         color: var(--swatch-active-color);
 
         // Simulate bold, to prevent buttons shrinking and growing
-        text-shadow: 0 0 1px currentColor;
+        text-shadow: 0 0 0 currentColor;
     }
 
     &_isLoading {
