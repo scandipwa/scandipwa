@@ -28,8 +28,7 @@ class MyAccountDetails extends Component {
 
         this.state = {
             state: STATE_ACCOUNT_OVERVIEW,
-            correctAddress: {},
-            isLoading: false
+            correctAddress: {}
         };
 
         this.renderMap = {
@@ -77,7 +76,6 @@ class MyAccountDetails extends Component {
         if (invalidFields) {
             showNotification('error', 'Incorrect data! Please resolve all field validation errors.');
         }
-        this.setState({ isLoading: !invalidFields });
     }
 
     /**
@@ -168,13 +166,6 @@ class MyAccountDetails extends Component {
                 this.redirectBackToOverview();
             });
         }
-    }
-
-    /**
-     * Form fields are invalid
-     */
-    onFormError() {
-        this.setState({ isLoading: false });
     }
 
     /**
