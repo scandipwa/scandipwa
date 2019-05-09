@@ -403,7 +403,7 @@ Field.propTypes = {
                 code: PropTypes.string,
                 name: PropTypes.string
             })
-        ]) 
+        ])
     )
 };
 

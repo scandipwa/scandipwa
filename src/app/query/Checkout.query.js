@@ -10,6 +10,7 @@
  */
 
 import { Field } from 'Util/Query';
+import { isSignedIn } from 'Util/Auth';
 
 class Checkout {
     getEstimateShippingCosts(address, guestCartId) {
@@ -57,7 +58,7 @@ class Checkout {
     }
 
     _addGuestCartId(guestCartId, mutation) {
-        if (guestCartId) mutation.addArgument('guestCartId', 'String!', guestCartId);
+        if (guestCartId && !isSignedIn()) mutation.addArgument('guestCartId', 'String!', guestCartId);
     }
 
     _getTotalsField() {

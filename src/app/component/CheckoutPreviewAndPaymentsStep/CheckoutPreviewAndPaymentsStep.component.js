@@ -20,7 +20,7 @@ const ZIP_FIELD_ID = 'postcode';
 const PHONE_FIELD_ID = 'telephone';
 const COUNTRY_FIELD_ID = 'country_id';
 const DEFAULT_COUNTRY = 'US';
-const DEFAULT_REGION = 'AL';
+const DEFAULT_REGION = { region_code: 'AL', region: 'Alabama', region_id: 1 };
 
 const STATE_NEW_ADDRESS = 'newAddress';
 const STATE_DEFAULT_ADDRESS = 'defaultAddress';
@@ -79,10 +79,36 @@ class CheckoutPreviewAndPaymentsStep extends Component {
             [STATE_FIELD_ID]: {
                 label: 'State',
                 validation: [],
-                defaultValue: DEFAULT_REGION
+                defaultValue: DEFAULT_REGION,
+                onChange: (value) => {
+                    const { regionList } = this.state;
+                    if (typeof value === 'number') {
+                        const regionValue = regionList.reduce((regionValue, region) => {
+                            const { id: regionId } = region;
+
+                            if (value === regionId) regionValue.push(region);
+
+                            return regionValue;
+                        }, []);
+                        const { code: region_code, name: region, id: region_id } = regionValue[0];
+                        const correctRegion = { region_code, region, region_id };
+
+                        return this.setState({ region: correctRegion }, this.handleFieldChange);
+                    }
+
+                    const region = { region_code: value, region: value, region_id: 0 };
+                    return this.setState({ region }, this.handleFieldChange);
+                }
             },
             [ZIP_FIELD_ID]: { label: 'Postal Code' },
-            [COUNTRY_FIELD_ID]: { label: 'Country', type: 'select', defaultValue: DEFAULT_COUNTRY },
+            [COUNTRY_FIELD_ID]: {
+                label: 'Country',
+                type: 'select',
+                defaultValue: DEFAULT_COUNTRY,
+                onChange: (countryId) => {
+                    this.getAvailableRegions(countryId);
+                }
+            },
             [PHONE_FIELD_ID]: { label: 'Phone Number' }
         };
 
@@ -110,7 +136,7 @@ class CheckoutPreviewAndPaymentsStep extends Component {
         const { countryList } = this.props;
 
         if (countryList.length) {
-            this.getAvailableRegions();
+            this.getAvailableRegions(DEFAULT_COUNTRY);
         }
     }
 
@@ -129,15 +155,7 @@ class CheckoutPreviewAndPaymentsStep extends Component {
         const { savePaymentInformationAndPlaceOrder } = this.props;
         const correctAddress = this.getAddressFromState();
 
-        const {
-            activePaymentMethod: { code: method },
-            region_id
-        } = this.state;
-
-        const address = {
-            ...correctAddress,
-            region_id: parseInt(region_id, 10)
-        };
+        const { activePaymentMethod: { code: method } } = this.state;
 
         const paymentInformation = {
             paymentMethod: { method },
@@ -150,19 +168,43 @@ class CheckoutPreviewAndPaymentsStep extends Component {
         );
     }
 
-    getAvailableRegions(countryId) {
+    getAvailableRegions(country_id) {
         const { countryList } = this.props;
-        const regionList = countryList.reduce((regionList, country) => {
-            const { id, available_regions } = country;
+        const { region } = this.state;
+        const regionList = countryList.reduce((regionList, countryRegions) => {
+            const { available_regions, id } = countryRegions;
 
-            if (id === countryId && available_regions) regionList.push(...available_regions);
+            if (available_regions && country_id === id) {
+                regionList.push(...available_regions);
+            }
 
             return regionList;
         }, []);
 
-        this.setState({ regionList });
+        if (regionList.length) {
+            const { region_id } = region || DEFAULT_REGION;
+            const correctRegion = regionList.reduce((correctRegion, listRegion) => {
+                const { id: listId } = listRegion;
+                if (region_id === listId) correctRegion.push(listRegion);
+                return correctRegion;
+            }, []);
 
-        return this.setState({ regionList });
+            const { code: region_code, name: regionName, id: regionId } = correctRegion[0] || regionList[0];
+
+            return this.setState({
+                country_id,
+                regionList,
+                region: { region_code, region: regionName, region_id: regionId }
+            });
+        }
+
+        const { region: regionName } = region || DEFAULT_REGION;
+
+        return this.setState({
+            country_id,
+            regionList,
+            region: regionName
+        });
     }
 
     getAddressFromState() {
@@ -220,8 +262,7 @@ class CheckoutPreviewAndPaymentsStep extends Component {
             firstname,
             lastname,
             postcode,
-            // TODO: change to actual region id when reigon select is introduced
-            region_id: region_id || 0,
+            region_id,
             region_code,
             street: Object.values(street),
             telephone
@@ -233,8 +274,10 @@ class CheckoutPreviewAndPaymentsStep extends Component {
     }
 
     changeState(state, billingValue) {
-        const { shippingAddress, defaultBillingAddress } = this.state;
+        const { shippingAddress, defaultBillingAddress, country_id } = this.state;
         const { billingAddress } = this.props;
+
+        this.getAvailableRegions(country_id || DEFAULT_COUNTRY);
 
         if (state === STATE_SAME_ADDRESS) {
             return this.setState({ state, billingAddress: shippingAddress, billingIsSame: billingValue });
@@ -251,13 +294,8 @@ class CheckoutPreviewAndPaymentsStep extends Component {
         return this.setState({ state, billingIsSame: billingValue });
     }
 
-    handleFieldChange() {
-        const { country_id } = this.state;
-        this.getAvailableRegions(country_id);
-    }
-
     renderField(id, overrideStateValue) {
-        const { [id]: stateValue, regionList } = this.state;
+        const { [id]: stateValue } = this.state;
         const { countryList } = this.props;
         const {
             type = 'text',
@@ -273,13 +311,39 @@ class CheckoutPreviewAndPaymentsStep extends Component {
         return (
             <Field
               id={ id }
-              type={ (id === 'region' && regionList && regionList.length) ? 'select' : type }
+              type={ type }
               label={ label }
               note={ note }
               name={ name }
               checked={ checked }
-              options={ id === 'country_id' ? countryList : regionList }
+              options={ countryList }
               value={ overrideStateValue || stateValue || defaultValue }
+              validation={ validation }
+              onChange={ onChange }
+            />
+        );
+    }
+
+    renderRegionField(id, overrideStateValue) {
+        const { [id]: stateValue, regionList } = this.state;
+        const {
+            type = 'text',
+            label,
+            note,
+            defaultValue,
+            validation = ['notEmpty'],
+            onChange = value => this.setState({ [id]: value }, this.handleFieldChange)
+        } = this.fieldMap[id];
+        const fieldValue = overrideStateValue || stateValue || defaultValue;
+
+        return (
+            <Field
+              id={ id }
+              type={ (regionList && regionList.length) ? 'select' : type }
+              label={ label }
+              note={ note }
+              options={ regionList }
+              value={ typeof fieldValue === 'object' ? fieldValue.region_id : fieldValue }
               validation={ validation }
               onChange={ onChange }
             />
@@ -336,7 +400,7 @@ class CheckoutPreviewAndPaymentsStep extends Component {
                 { this.renderField(STREET_0_FIELD_ID, street[0]) }
                 { this.renderField(STREET_1_FIELD_ID, street[1]) }
                 { this.renderField(CITY_FIELD_ID) }
-                { this.renderField(STATE_FIELD_ID) }
+                { this.renderRegionField(STATE_FIELD_ID) }
                 { this.renderField(ZIP_FIELD_ID) }
                 { this.renderField(COUNTRY_FIELD_ID) }
                 { this.renderField(PHONE_FIELD_ID) }
