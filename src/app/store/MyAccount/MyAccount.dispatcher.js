@@ -146,7 +146,9 @@ class MyAccountDispatcher {
                 CartDispatcher.updateInitialCartData(dispatch);
                 WishlistDispatcher.updateInitialWishlistData(dispatch);
             },
-            error => console.log(error)
+            (error) => {
+                throw new Error(error[0].message);
+            }
         );
     }
 }
