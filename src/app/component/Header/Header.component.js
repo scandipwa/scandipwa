@@ -265,7 +265,7 @@ class Header extends Component {
             showOverlay, setHeaderState, headerState: { name }, history
         } = this.props;
 
-        if (isSignedIn && isMobile.any()) {
+        if (isSignedIn() && isMobile.any()) {
             history.push({ pathname: '/my-account', state: 'accountOverview' });
             return;
         }

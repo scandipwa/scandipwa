@@ -37,7 +37,7 @@ const mapDispatchToProps = dispatch => ({
     createCustomerAddress(options) {
         return MyAccountDispatcher.createCustomerAddress(options, dispatch);
     },
-
+    logout: () => MyAccountDispatcher.logout(null, dispatch),
     updateBreadcrumbs: (breadcrumbs) => {
         BreadcrumbsDispatcher.update(breadcrumbs, dispatch);
     },

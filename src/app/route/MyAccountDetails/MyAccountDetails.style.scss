@@ -1,6 +1,6 @@
 .MyAccountDetails {
     --placeholder-animation: placeholderAnimation 2s linear infinite, appear 200ms forwards;
-    
+
     &-Wrapper {
         max-width: 1200px;
         display: grid;
@@ -145,23 +145,60 @@
             display: block;
             padding-top: 2rem;
         }
+    }
 
-        button {
-            margin-top: 2rem;
-            width: 60%;
-
-            @include mobile {
-                width: 100%;
-            }
+    .Select-Wrapper {
+        span {
+            top: 0;
         }
 
-        .Select-Wrapper {
-            span {
-                top: 0;
+        ul {
+            overflow-y: scroll;
+        }
+    }
+
+    .Button {
+        margin-top: 2rem;
+        width: 40%;
+
+        @include tablet {
+            width: 60%;
+        }
+
+        @include mobile {
+            width: 100%;
+            grid-column: 1 / span 2;
+        }
+
+        &_likeLink {
+            width: initial;
+            margin: initial;
+        }
+
+        &_type {
+            &_savePassword {
+                width: 50%;
+
+                @include tablet {
+                    width: 70%;
+                }
+
+                @include mobile {
+                    width: 100%;
+                }
             }
 
-            ul {
-                overflow-y: scroll;
+            &_logout {
+                position: fixed;
+                bottom: 0;
+                left: 50%;
+                width: 40%;
+                margin-left: -20%;
+                margin-bottom: 1rem;
+
+                @include desktop {
+                    display: none;
+                }
             }
         }
     }
