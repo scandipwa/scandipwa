@@ -26,12 +26,11 @@ const COMPANY_FIELD_ID = 'company';
 const STREET_0_FIELD_ID = 'street_0';
 const STREET_1_FIELD_ID = 'street_1';
 const CITY_FIELD_ID = 'city';
-const STATE_FIELD_ID = 'region';
+const REGION_FIELD_ID = 'region';
+const REGION_ID_FIELD_ID = 'region_id';
 const ZIP_FIELD_ID = 'postcode';
 const PHONE_FIELD_ID = 'telephone';
 const COUNTRY_FIELD_ID = 'country_id';
-const DEFAULT_COUNTRY = 'US';
-const DEFAULT_REGION = { region_code: 'AL', region: 'Alabama', region_id: 1 };
 
 const STATE_NEW_ADDRESS = 'newAddress';
 const STATE_DEFAULT_ADDRESS = 'defaultAddress';
@@ -55,12 +54,13 @@ class CheckoutPreviewAndPaymentsStep extends Component {
             billingAddress,
             street: { ...street },
             billingIsSame: false,
+            selectedCountryIndex: null,
             paymentMethods,
             activePaymentMethod: {},
             loadingPaymentInformationSave: false,
             defaultBillingAddress: false,
-            state: STATE_NEW_ADDRESS,
-            regionList: []
+            regionList: [],
+            state: STATE_SAME_ADDRESS
         };
 
         this.fieldMap = {
@@ -87,39 +87,39 @@ class CheckoutPreviewAndPaymentsStep extends Component {
                 validation: []
             },
             [CITY_FIELD_ID]: { label: 'City' },
-            [STATE_FIELD_ID]: {
-                label: 'State',
-                validation: [],
-                defaultValue: DEFAULT_REGION,
-                onChange: (value) => {
-                    const { regionList } = this.state;
-                    if (typeof value === 'number') {
-                        const regionValue = regionList.reduce((regionValue, region) => {
-                            const { id: regionId } = region;
+            // [STATE_FIELD_ID]: {
+            //     label: 'State',
+            //     validation: [],
+            //     defaultValue: DEFAULT_REGION,
+            //     onChange: (value) => {
+            //         const { regionList } = this.state;
+            //         if (typeof value === 'number') {
+            //             const regionValue = regionList.reduce((regionValue, region) => {
+            //                 const { id: regionId } = region;
 
-                            if (value === regionId) regionValue.push(region);
+            //                 if (value === regionId) regionValue.push(region);
 
-                            return regionValue;
-                        }, []);
-                        const { code: region_code, name: region, id: region_id } = regionValue[0];
-                        const correctRegion = { region_code, region, region_id };
+            //                 return regionValue;
+            //             }, []);
+            //             const { code: region_code, name: region, id: region_id } = regionValue[0];
+            //             const correctRegion = { region_code, region, region_id };
 
-                        return this.setState({ region: correctRegion }, this.handleFieldChange);
-                    }
+            //             return this.setState({ region: correctRegion }, this.handleFieldChange);
+            //         }
 
-                    const region = { region_code: value, region: value, region_id: 0 };
-                    return this.setState({ region }, this.handleFieldChange);
-                }
-            },
+            //         const region = { region_code: value, region: value, region_id: 0 };
+            //         return this.setState({ region }, this.handleFieldChange);
+            //     }
+            // },
             [ZIP_FIELD_ID]: { label: 'Postal Code' },
-            [COUNTRY_FIELD_ID]: {
-                label: 'Country',
-                type: 'select',
-                defaultValue: DEFAULT_COUNTRY,
-                onChange: (countryId) => {
-                    this.getAvailableRegions(countryId);
-                }
-            },
+            // [COUNTRY_FIELD_ID]: {
+            //     label: 'Country',
+            //     type: 'select',
+            //     defaultValue: DEFAULT_COUNTRY,
+            //     onChange: (countryId) => {
+            //         this.getAvailableRegions(countryId);
+            //     }
+            // },
             [PHONE_FIELD_ID]: { label: 'Phone Number' }
         };
 
@@ -146,16 +146,16 @@ class CheckoutPreviewAndPaymentsStep extends Component {
     componentDidMount() {
         const { countryList } = this.props;
 
-        if (countryList.length) {
-            this.getAvailableRegions(DEFAULT_COUNTRY);
-        }
+        // if (countryList.length) {
+        //     this.getAvailableRegions(DEFAULT_COUNTRY);
+        // }
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate() {
         const { defaultBillingAddress } = this.state;
-        const { countryList } = this.props;
+        // const { countryList } = this.props;
 
-        if (!prevProps.countryList.length && countryList.length) this.getAvailableRegions(DEFAULT_COUNTRY);
+        // if (!prevProps.countryList.length && countryList.length) this.getAvailableRegions(DEFAULT_COUNTRY);
 
         if (defaultBillingAddress) return this.handleFieldChange;
 
@@ -179,44 +179,44 @@ class CheckoutPreviewAndPaymentsStep extends Component {
         );
     }
 
-    getAvailableRegions(country_id) {
-        const { countryList } = this.props;
-        const { region } = this.state;
-        const regionList = countryList.reduce((regionList, countryRegions) => {
-            const { available_regions, id } = countryRegions;
+    // getAvailableRegions(country_id) {
+    //     const { countryList } = this.props;
+    //     const { region } = this.state;
+    //     const regionList = countryList.reduce((regionList, countryRegions) => {
+    //         const { available_regions, id } = countryRegions;
 
-            if (available_regions && country_id === id) {
-                regionList.push(...available_regions);
-            }
+    //         if (available_regions && country_id === id) {
+    //             regionList.push(...available_regions);
+    //         }
 
-            return regionList;
-        }, []);
+    //         return regionList;
+    //     }, []);
 
-        if (regionList.length) {
-            const { region_id } = region || DEFAULT_REGION;
-            const correctRegion = regionList.reduce((correctRegion, listRegion) => {
-                const { id: listId } = listRegion;
-                if (region_id === listId) correctRegion.push(listRegion);
-                return correctRegion;
-            }, []);
+    //     if (regionList.length) {
+    //         const { region_id } = region || DEFAULT_REGION;
+    //         const correctRegion = regionList.reduce((correctRegion, listRegion) => {
+    //             const { id: listId } = listRegion;
+    //             if (region_id === listId) correctRegion.push(listRegion);
+    //             return correctRegion;
+    //         }, []);
 
-            const { code: region_code, name: regionName, id: regionId } = correctRegion[0] || regionList[0];
+    //         const { code: region_code, name: regionName, id: regionId } = correctRegion[0] || regionList[0];
 
-            return this.setState({
-                country_id,
-                regionList,
-                region: { region_code, region: regionName, region_id: regionId }
-            });
-        }
+    //         return this.setState({
+    //             country_id,
+    //             regionList,
+    //             region: { region_code, region: regionName, region_id: regionId }
+    //         });
+    //     }
 
-        const { region: regionName } = region || DEFAULT_REGION;
+    //     const { region: regionName } = region || DEFAULT_REGION;
 
-        return this.setState({
-            country_id,
-            regionList,
-            region: regionName
-        });
-    }
+    //     return this.setState({
+    //         country_id,
+    //         regionList,
+    //         region: regionName
+    //     });
+    // }
 
     getAddressFromState() {
         const { state, billingAddress, shippingAddress } = this.state;
@@ -285,10 +285,10 @@ class CheckoutPreviewAndPaymentsStep extends Component {
     }
 
     changeState(state, billingValue) {
-        const { shippingAddress, defaultBillingAddress, country_id } = this.state;
+        const { shippingAddress, defaultBillingAddress } = this.state;
         const { billingAddress } = this.props;
 
-        this.getAvailableRegions(country_id || DEFAULT_COUNTRY);
+        // this.getAvailableRegions(country_id || DEFAULT_COUNTRY);
 
         if (state === STATE_SAME_ADDRESS) {
             return this.setState({ state, billingAddress: shippingAddress, billingIsSame: billingValue });
@@ -307,13 +307,10 @@ class CheckoutPreviewAndPaymentsStep extends Component {
 
     renderField(id, overrideStateValue) {
         const { [id]: stateValue } = this.state;
-        const { countryList } = this.props;
         const {
             type = 'text',
             label,
             note,
-            defaultValue,
-            checked,
             name,
             validation = ['notEmpty'],
             onChange = value => this.setState({ [id]: value }, this.handleFieldChange)
@@ -326,40 +323,94 @@ class CheckoutPreviewAndPaymentsStep extends Component {
               label={ label }
               note={ note }
               name={ name || id }
-              checked={ checked }
-              options={ countryList }
-              value={ overrideStateValue || stateValue || defaultValue }
+              value={ overrideStateValue || stateValue }
               validation={ validation }
               onChange={ onChange }
             />
         );
     }
 
-    renderRegionField(id, overrideStateValue) {
-        const { [id]: stateValue, regionList } = this.state;
-        const {
-            type = 'text',
-            label,
-            note,
-            defaultValue,
-            validation = ['notEmpty'],
-            onChange = value => this.setState({ [id]: value }, this.handleFieldChange)
-        } = this.fieldMap[id];
-        const fieldValue = overrideStateValue || stateValue || defaultValue;
+    renderCountrySelect() {
+        const { countryList } = this.props;
+        const { country_id } = this.state;
 
         return (
             <Field
-              id={ id }
-              type={ (regionList && regionList.length) ? 'select' : type }
-              label={ label }
-              note={ note }
-              options={ regionList }
-              value={ typeof fieldValue === 'object' ? fieldValue.region_id : fieldValue }
-              validation={ validation }
-              onChange={ onChange }
+              id={ COUNTRY_FIELD_ID }
+              name={ COUNTRY_FIELD_ID }
+              type="select"
+              label="Country"
+              selectOptions={ countryList.map(({ id, label }, index) => ({ id, label, value: index })) }
+              validation={ ['notEmpty'] }
+              value={ country_id }
+              onChange={ index => this.setState({
+                  country_id: countryList[index].value,
+                  selectedCountryIndex: index
+              }, this.handleFieldChange) }
             />
         );
     }
+
+    renderRegionField() {
+        const { selectedCountryIndex, region, region_id } = this.state;
+        const { countryList } = this.props;
+        const regions = selectedCountryIndex ? countryList[selectedCountryIndex].available_regions : null;
+
+        if (regions) {
+            return (
+                <Field
+                  id={ REGION_ID_FIELD_ID }
+                  name={ REGION_ID_FIELD_ID }
+                  type="select"
+                  label="State"
+                  selectOptions={ regions.map(({ id, name }) => ({ id, label: name, value: id })) }
+                  validation={ ['notEmpty'] }
+                  value={ region_id }
+                  onChange={ region_id => this.setState({
+                      region_id: parseInt(region_id, 10),
+                      region: null
+                  }, this.handleFieldChange) }
+                />
+            );
+        }
+
+        return (
+            <Field
+              id={ REGION_FIELD_ID }
+              name={ REGION_FIELD_ID }
+              type="text"
+              label="Region"
+              onChange={ region => this.setState({ region, region_id: null }, this.handleFieldChange) }
+              value={ region }
+            />
+        );
+    }
+
+    // renderRegionField(id, overrideStateValue) {
+    //     const { [id]: stateValue, regionList } = this.state;
+    //     const {
+    //         type = 'text',
+    //         label,
+    //         note,
+    //         defaultValue,
+    //         validation = ['notEmpty'],
+    //         onChange = value => this.setState({ [id]: value }, this.handleFieldChange)
+    //     } = this.fieldMap[id];
+    //     const fieldValue = overrideStateValue || stateValue || defaultValue;
+
+    //     return (
+    //         <Field
+    //           id={ id }
+    //           type={ (regionList && regionList.length) ? 'select' : type }
+    //           label={ label }
+    //           note={ note }
+    //           options={ regionList }
+    //           value={ typeof fieldValue === 'object' ? fieldValue.region_id : fieldValue }
+    //           validation={ validation }
+    //           onChange={ onChange }
+    //         />
+    //     );
+    // }
 
     renderAddressPreview(addressType) {
         const { shippingAddress, billingAddress } = this.state;
@@ -411,9 +462,11 @@ class CheckoutPreviewAndPaymentsStep extends Component {
                 { this.renderField(STREET_0_FIELD_ID, street[0]) }
                 { this.renderField(STREET_1_FIELD_ID, street[1]) }
                 { this.renderField(CITY_FIELD_ID) }
-                { this.renderRegionField(STATE_FIELD_ID) }
+                {/* { this.renderRegionField(STATE_FIELD_ID) } */}
+                { this.renderRegionField() }
                 { this.renderField(ZIP_FIELD_ID) }
-                { this.renderField(COUNTRY_FIELD_ID) }
+                {/* { this.renderField(COUNTRY_FIELD_ID) } */}
+                { this.renderCountrySelect() }
                 { this.renderField(PHONE_FIELD_ID) }
             </>
         );
@@ -467,16 +520,29 @@ class CheckoutPreviewAndPaymentsStep extends Component {
                           name="sameAsShippingAddress"
                           type="checkbox"
                           label="My billing and shipping address are the same"
-                          value={ billingIsSame }
-                          checked={ billingIsSame }
-                          onChange={ value => this.setState({ billingIsSame: value }) }
+                          value="sameAsShippingAddress"
+                          checked={ !!billingIsSame }
+                          onChange={ () => this.setState(
+                              { billingIsSame: !billingIsSame },
+                              () => this.setState(({ billingIsSame }) => (
+                                  billingIsSame
+                                      ? { state: STATE_SAME_ADDRESS }
+                                      : { state: STATE_NEW_ADDRESS }
+                              ))
+                          ) }
                         />
                     )}
 
                     { renderFunction() }
                 </fieldset>
 
-                <button type="submit" disabled={ !code }>Place Order</button>
+                <button
+                  type="submit"
+                  block="Button"
+                  disabled={ !code }
+                >
+                    Place Order
+                </button>
             </Form>
         );
     }

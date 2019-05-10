@@ -377,7 +377,10 @@ class CheckoutShippingStep extends Component {
               name={ REGION_FIELD_ID }
               type="text"
               label="Region"
-              onChange={ region => this.setState({ region, region_id: null }, this.handleFieldChange) }
+              onChange={ region => this.setState({
+                  region,
+                  region_id: null
+              }, this.handleFieldChange) }
               value={ region }
             />
         );

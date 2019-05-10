@@ -17,14 +17,17 @@
     }
 
     &-Wrapper {
-        display: grid;
-        grid-template-columns: 2fr 1fr;
-        grid-column-gap: 2rem;
         margin-top: 2rem;
 
-        @include mobile {
-            grid-template-columns: 1fr;
+        @include after-mobile {
+            display: flex;
+            justify-content: space-between;
         }
+    }
+
+    &-Step {
+        flex-basis: 40rem;
+        flex-shrink: 1;
     }
 
     &-CheckoutSteps {

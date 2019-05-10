@@ -322,7 +322,9 @@ class CheckoutPage extends Component {
                   wrapperMix={ { block: 'CheckoutPage', elem: 'Wrapper' } }
                   label="Checkout page"
                 >
-                    { stepRenderFunction() }
+                    <div block="CheckoutPage" elem="Step">
+                        { stepRenderFunction() }
+                    </div>
                     { showSummary && (
                         <CheckoutOrderSummary
                           totals={ totals }

@@ -8,7 +8,7 @@
             "type": "chrome",
             "request": "launch",
             "name": "Launch Chrome against localhost",
-            "url": "https://scandipwa.local",
+            "url": "https://scandipwa.local/checkout",
             "webRoot": "${workspaceFolder}"
         }
     ]

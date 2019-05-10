@@ -17,6 +17,7 @@ import { ProductType } from 'Type/ProductList';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import ProductPrice from 'Component/ProductPrice';
 import Image from 'Component/Image';
+import CartItem from 'Component/CartItem';
 import './CheckoutOrderSummary.style';
 
 /**
@@ -46,46 +47,8 @@ class CheckoutOrderSummary extends Component {
      * @returns {*}
      */
     renderItem(key, item) {
-        const {
-            thumbnail: { path },
-            short_description: { html },
-            manufacturer,
-            name,
-            quantity,
-            price
-        } = item;
-
         return (
-            <li key={ key } block="CheckoutOrderSummary" elem="CartItem">
-                <div
-                  block="CheckoutOrderSummary"
-                  elem="Thumbnail"
-                  aria-label="Cart Thumbnail"
-                >
-                    <Image src={ `/media/catalog/product${ path }` } alt="Cart Thumbnail" />
-                </div>
-
-                <div block="CheckoutOrderSummary" elem="Title">
-                    { manufacturer && <span>{ manufacturer }</span> }
-                    <p><strong>{ name }</strong></p>
-                    <div block="CheckoutOrderSummary" elem="CartItemDescription">
-                        <Html content={ html } />
-                    </div>
-                </div>
-
-                <div
-                  block="CheckoutOrderSummary"
-                  elem="Details"
-                >
-                    <div block="CheckoutOrderSummary" elem="Price">
-                        <ProductPrice price={ price } mods={ { type: 'regular' } } />
-                    </div>
-                    <p block="CheckoutOrderSummary" elem="Qty">
-                        <strong>Qty: </strong>
-                        <span>{ quantity }</span>
-                    </p>
-                </div>
-            </li>
+            <CartItem key={ key } product={ item } />
         );
     }
 

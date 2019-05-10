@@ -71,12 +71,10 @@ class Field extends Component {
 
     componentDidUpdate(prevProps) {
         const { value: prevValue, checked: prevChecked } = prevProps;
-        const { type, checked, value } = this.props;
-        const { isChecked } = this.state;
+        const { checked, value } = this.props;
 
         if (value !== prevValue) this.setState({ value });
-        if (checked !== prevChecked) this.setState({ isChecked: checked });
-        if (type === 'checkbox' && checked !== isChecked) this.setState({ isChecked: !isChecked });
+        // if (type === 'checkbox' && checked !== isChecked) this.setState({ isChecked: !isChecked });
     }
 
     onChange(event) {
@@ -106,11 +104,7 @@ class Field extends Component {
     }
 
     handleChange(value) {
-        const {
-            onChange,
-            type,
-            min
-        } = this.props;
+        const { onChange, type, min } = this.props;
 
         switch (type) {
         case NUMBER_TYPE:
@@ -118,9 +112,6 @@ class Field extends Component {
             if ((value < min || isValueNaN)) return;
             if (onChange) onChange(value);
             this.setState({ value });
-            break;
-        case CHECKBOX_TYPE:
-            this.setState(state => ({ isChecked: !state.isChecked }));
             break;
         default:
             if (onChange) onChange(value);
@@ -232,8 +223,8 @@ class Field extends Component {
                   name={ name }
                   value={ value }
                   onChange={ this.onChange }
-                  onKeyPress={ this.onKeyPress }
-                  onFocus={ this.onFocus }
+                //   onKeyPress={ this.onKeyPress }
+                //   onFocus={ this.onFocus }
                   onClick={ this.onClick }
                 />
                 <button onClick={ () => this.handleChange(parseFloat(value) + 1) }>
@@ -261,8 +252,8 @@ class Field extends Component {
                   checked={ checked }
                   disabled={ disabled }
                 //   onFocus={ this.onFocus }
-                  onChange={ this.onClick }
-                  onKeyPress={ this.onKeyPress }
+                  onChange={ this.onChange }
+                //   onKeyPress={ this.onKeyPress }
                 />
                 <label htmlFor={ id } />
             </>
@@ -271,7 +262,7 @@ class Field extends Component {
 
     renderRadioButton() {
         const {
-            formRef, id, name, value, disabled, checked, label
+            formRef, id, name, value, disabled, label, checked
         } = this.props;
 
         return (
