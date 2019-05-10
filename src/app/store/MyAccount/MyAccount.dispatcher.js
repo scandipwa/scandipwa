@@ -156,7 +156,9 @@ class MyAccountDispatcher extends QueryDispatcher {
                 dispatch(updateCustomerSignInStatus(true));
                 CartDispatcher.updateInitialCartData(dispatch);
             },
-            error => console.log(error)
+            (error) => {
+                throw new Error(error[0].message);
+            }
         );
     }
 }

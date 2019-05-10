@@ -122,9 +122,15 @@ class MyAccountOverlay extends Component {
         }
     }
 
-    onSignInSuccess(fields) {
-        const { signIn } = this.props;
-        signIn(fields);
+    async onSignInSuccess(fields) {
+        const { signIn, showNotification } = this.props;
+
+        try {
+            await signIn(fields);
+        } catch (e) {
+            this.setState({ isLoading: false });
+            showNotification('error', e.message);
+        }
     }
 
     onSignInAttempt() {
