@@ -45,6 +45,7 @@ class UrlRewrites extends Component {
 
         // Type is not set
         if (!type) {
+            this.requestRewrite();
             return;
         }
 
@@ -64,9 +65,7 @@ class UrlRewrites extends Component {
         }
 
         // Try to resolve unknown rewrite
-        const { requestUrlRewrite, match, location } = this.props;
-        const urlParam = getUrlParam(match, location);
-        requestUrlRewrite({ urlParam });
+        this.requestRewrite();
     }
 
     componentWillUnmount() {
@@ -74,10 +73,19 @@ class UrlRewrites extends Component {
         clearUrlRewrites();
     }
 
+    requestRewrite() {
+        const { requestUrlRewrite, match, location } = this.props;
+        const urlParam = getUrlParam(match, location);
+        requestUrlRewrite({ urlParam });
+    }
+
     renderEmptyPage() {
-        return (
-            <main/>
-        );
+        const { isNotFound } = this.state;
+        const { urlRewrite: { notFound } } = this.props;
+
+        if (isNotFound || notFound) return <NoMatch { ...this.props } />;
+
+        return <main />;
     }
 
     renderPage({ type, id, url_key }) {
@@ -110,13 +118,13 @@ class UrlRewrites extends Component {
         const { placeholderType } = this.state;
 
         switch (placeholderType) {
-        case 'PRODUCT':
+        case TYPE_PRODUCT:
             return <ProductPage { ...props } isOnlyPlaceholder />;
-        case 'CMS_PAGE':
+        case TYPE_CMS_PAGE:
             return <CmsPage { ...props } cmsId={ 0 } isOnlyPlaceholder />;
-        case 'CATEGORY':
+        case TYPE_CATEGORY:
             return <CategoryPage { ...props } isOnlyPlaceholder />;
-        case 'NO_MATCH':
+        case TYPE_NOTFOUND:
             return <NoMatch { ...props } />;
         default:
             return this.renderEmptyPage();
