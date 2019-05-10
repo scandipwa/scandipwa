@@ -55,13 +55,14 @@ class CategoryPage extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        const { location, category } = this.props;
+        const { location, category: { id }, categoryIds } = this.props;
+        const { category: { id: prevId }, categoryIds: prevCategoryIds } = prevProps;
 
         // update breadcrumbs only if category has changed
-        if (category.id !== prevProps.category.id) this.updateBreadcrumbs();
+        if (id !== prevId) this.updateBreadcrumbs();
 
         // update category only if route or search query has been changed
-        if (this.urlHasChanged(location, prevProps)) this.requestCategory();
+        if (this.urlHasChanged(location, prevProps) || categoryIds !== prevCategoryIds) this.requestCategory();
     }
 
     /**
@@ -317,12 +318,12 @@ class CategoryPage extends Component {
 
         return (
             <p block="CategoryPage" elem="ItemsCount">
-                { isLoading
-                    ? <TextPlaceholder length="short" />
+                {isLoading
+                    ? <TextPlaceholder length="short"/>
                     : (
                         <>
-                            <span>{ items.length }</span>
-                            { `/${ totalItems } items showing` }
+                            <span>{items.length}</span>
+                            {`/${totalItems} items showing`}
                         </>
                     )
                 }
@@ -365,52 +366,52 @@ class CategoryPage extends Component {
         return (
             <main block="CategoryPage">
                 <ContentWrapper
-                  wrapperMix={ { block: 'CategoryPage', elem: 'Wrapper' } }
-                  label="Category page"
+                    wrapperMix={{ block: 'CategoryPage', elem: 'Wrapper' }}
+                    label="Category page"
                 >
-                    <Meta metaObject={ category } />
+                    <Meta metaObject={category}/>
                     <aside block="CategoryPage" elem="Options">
                         <CategoryShoppingOptions
-                          availableFilters={ filters }
-                          minPriceValue={ minPriceRange }
-                          maxPriceValue={ maxPriceRange }
-                          priceValue={ this.getPriceRangeFromUrl() }
-                          customFiltersValues={ customFilters }
-                          updatePriceRange={ priceRange => this.updatePriceRange(priceRange) }
-                          updateFilter={ (filterName, filterArray) => this.updateFilter(filterName, filterArray) }
-                          clearFilters={ () => this.clearFilters(location, history) }
-                          sortKey={ sortKey }
-                          sortDirection={ sortDirection }
-                          location={ location }
-                          history={ history }
+                            availableFilters={filters}
+                            minPriceValue={minPriceRange}
+                            maxPriceValue={maxPriceRange}
+                            priceValue={this.getPriceRangeFromUrl()}
+                            customFiltersValues={customFilters}
+                            updatePriceRange={priceRange => this.updatePriceRange(priceRange)}
+                            updateFilter={(filterName, filterArray) => this.updateFilter(filterName, filterArray)}
+                            clearFilters={() => this.clearFilters(location, history)}
+                            sortKey={sortKey}
+                            sortDirection={sortDirection}
+                            location={location}
+                            history={history}
                         />
                         <CategoriesList
-                          availableFilters={ filters }
-                          category={ categoryList }
-                          currentCategory={ category }
-                          location={ location }
-                          match={ match }
+                            availableFilters={filters}
+                            category={categoryList}
+                            currentCategory={category}
+                            location={location}
+                            match={match}
                         />
                     </aside>
                     <CategoryDetails
-                      category={ category }
+                        category={category}
                     />
                     <aside block="CategoryPage" elem="Miscellaneous">
-                        { this.renderItemCount() }
+                        {this.renderItemCount()}
                         <ProductSort
-                          onGetKey={ key => this.onGetKey(key) }
-                          onGetSortDirection={ direction => this.onGetSortDirection(direction) }
-                          sortFields={ !isLoading && updatedSortFields }
-                          value={ sortKey }
-                          sortDirection={ sortDirection }
+                            onGetKey={key => this.onGetKey(key)}
+                            onGetSortDirection={direction => this.onGetSortDirection(direction)}
+                            sortFields={!isLoading && updatedSortFields}
+                            value={sortKey}
+                            sortDirection={sortDirection}
                         />
                     </aside>
                     <CategoryProductList
-                      items={ items }
-                      customFilters={ customFilters }
-                      totalItems={ totalItems }
-                      increasePage={ () => this.increasePage() }
-                      isLoading={ isLoading }
+                        items={items}
+                        customFilters={customFilters}
+                        totalItems={totalItems}
+                        increasePage={() => this.increasePage()}
+                        isLoading={isLoading}
                     />
                 </ContentWrapper>
             </main>

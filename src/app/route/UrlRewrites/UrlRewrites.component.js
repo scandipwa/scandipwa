@@ -20,9 +20,19 @@ import { getUrlParam } from 'Util/Url';
 const TYPE_PRODUCT = 'PRODUCT';
 const TYPE_CMS_PAGE = 'CMS_PAGE';
 const TYPE_CATEGORY = 'CATEGORY';
+const TYPE_NOTFOUND = 'NOT_FOUND';
+
+/**
+ * Additional types possible:
+ * const TYPE_PWA = 'PWA_ROUTER';
+ * const TYPE_CUSTOM = 'CUSTOM';
+ */
+
+
 class UrlRewrites extends Component {
     constructor() {
         super();
+        this.knownTypes = [TYPE_CATEGORY, TYPE_CMS_PAGE, TYPE_PRODUCT];
 
         this.state = {
             isNotFound: false,
@@ -33,14 +43,30 @@ class UrlRewrites extends Component {
     componentWillMount() {
         const { type } = window.actionName || '';
 
-        if (type && type !== 'NOT_FOUND') {
+        // Type is not set
+        if (!type) {
+            return;
+        }
+
+        // Known components
+        if (this.knownTypes.indexOf(type) >= 0){
             this.setState({ placeholderType: type });
             const { requestUrlRewrite, match, location } = this.props;
             const urlParam = getUrlParam(match, location);
             requestUrlRewrite({ urlParam });
-        } else {
-            this.setState({ isNotFound: true });
+            return;
         }
+
+        // Not found
+        if (type === TYPE_NOTFOUND) {
+            this.setState({ isNotFound: true });
+            return;
+        }
+
+        // Try to resolve unknown rewrite
+        const { requestUrlRewrite, match, location } = this.props;
+        const urlParam = getUrlParam(match, location);
+        requestUrlRewrite({ urlParam });
     }
 
     componentWillUnmount() {
@@ -48,7 +74,13 @@ class UrlRewrites extends Component {
         clearUrlRewrites();
     }
 
-    switcher({ type, id, url_key }) {
+    renderEmptyPage() {
+        return (
+            <main/>
+        );
+    }
+
+    renderPage({ type, id, url_key }) {
         const { props } = this;
 
         switch (type) {
@@ -66,8 +98,10 @@ class UrlRewrites extends Component {
             return <CmsPage { ...props } cmsId={ id } />;
         case TYPE_CATEGORY:
             return <CategoryPage { ...props } categoryIds={ id } />;
-        default:
+        case TYPE_NOTFOUND:
             return <NoMatch { ...props } />;
+        default:
+            return this.renderEmptyPage();
         }
     }
 
@@ -82,8 +116,10 @@ class UrlRewrites extends Component {
             return <CmsPage { ...props } cmsId={ 0 } isOnlyPlaceholder />;
         case 'CATEGORY':
             return <CategoryPage { ...props } isOnlyPlaceholder />;
-        default:
+        case 'NO_MATCH':
             return <NoMatch { ...props } />;
+        default:
+            return this.renderEmptyPage();
         }
     }
 
@@ -92,7 +128,7 @@ class UrlRewrites extends Component {
         const { isNotFound } = this.state;
 
         if ((urlRewrite && Object.entries(urlRewrite).length) || isNotFound) {
-            return this.switcher(urlRewrite);
+            return this.renderPage(urlRewrite);
         }
 
         return this.renderPlaceholders();
