@@ -81,7 +81,7 @@ class Draggable extends Component {
         clientX,
         clientY
     }) {
-        const { isDragging, translateX, translateY } = this.state;
+        const { isDragging } = this.state;
 
         if (!isDragging) return;
 
@@ -154,6 +154,7 @@ class Draggable extends Component {
               onFocus={ () => handleFocus() }
               tabIndex={ 0 }
               role="button"
+              aria-label="Draggable area"
             >
                 { children }
             </div>

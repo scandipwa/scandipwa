@@ -92,7 +92,7 @@ class ProductGallery extends Component {
 
 ProductGallery.propTypes = {
     mediaGallery: MediaType,
-    thumbnail: PropTypes.shape({ path: PropTypes.string }),
+    thumbnail: PropTypes.shape({ path: PropTypes.string })
 };
 
 ProductGallery.defaultProps = {

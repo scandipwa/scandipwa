@@ -23,7 +23,7 @@ class CmsPageQuery {
      * @memberof CmsPageQuery
      */
     getQuery(options) {
-        if (!options) throw 'Missing argument `options`';
+        if (!options) throw new Error('Missing argument `options`');
         const items = this._prepareFields(options);
         const { id } = options;
 

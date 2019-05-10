@@ -347,8 +347,9 @@ class Field extends Component {
               elem="Wrapper"
               onClick={ this.handleSelectExpand }
               onKeyPress={ this.handleSelectExpand }
-              role="menu"
+              role="button"
               tabIndex="0"
+              aria-label="Select drop-down"
               aria-expanded={ isExpanded }
             >
                 <select
@@ -386,6 +387,7 @@ class Field extends Component {
               id="optionlist"
               block="Select"
               elem="OptionList"
+              role="menu"
               mods={ { isExpanded } }
             >
                 { selectOptions.map((option) => {

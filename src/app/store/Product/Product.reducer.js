@@ -44,6 +44,7 @@ export const formatConfigurableOptions = (configurable_options, filters) => conf
             if (!filterItems) return quickData;
 
             const { swatch_data: swatchData } = filterItems.find(
+                // eslint-disable-next-line eqeqeq
                 ({ value_string }) => value_index == value_string
             ) || {};
 

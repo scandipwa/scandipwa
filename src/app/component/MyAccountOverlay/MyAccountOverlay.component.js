@@ -1,3 +1,14 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link, withRouter } from 'react-router-dom';
@@ -445,7 +456,8 @@ MyAccountOverlay.propTypes = {
     history: PropTypes.shape({
         location: PropTypes.object.isRequired,
         push: PropTypes.func.isRequired
-    }).isRequired
+    }).isRequired,
+    setHeaderState: PropTypes.func.isRequired
 };
 
 export default withRouter(MyAccountOverlay);

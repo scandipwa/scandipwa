@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-// This is not https://babeljs.io/docs/en/configuration config. 
+// This is not https://babeljs.io/docs/en/configuration config.
 // This is custom file, which simply exports babel presets and plugins.
 // This file is later used by Webpack `babel-loader` directly.
 // This is a workaround for a babel issue https://github.com/babel/babel/issues/8309.

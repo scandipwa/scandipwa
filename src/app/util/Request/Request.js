@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -48,13 +49,6 @@ const formatURI = (query, variables, url) => {
 
     return requestUrl;
 };
-
-/**
- * Checks if the given query is a GraphQL mutation
- * @param  {String} query
- * @return {Promise<Object>}
- */
-const isMutation = query => query.substring(0, query.indexOf('(')) === 'mutation';
 
 /**
  *

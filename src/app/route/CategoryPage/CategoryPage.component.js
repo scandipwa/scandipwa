@@ -28,7 +28,7 @@ import {
 } from 'Util/Url';
 
 import Store from 'Store';
-import { CATEGORY, FILTER } from 'Component/Header';
+import { CATEGORY } from 'Component/Header';
 import { toggleOverlayByKey } from 'Store/Overlay';
 import { changeHeaderState } from 'Store/Header';
 
@@ -428,7 +428,6 @@ CategoryPage.propTypes = {
         push: PropTypes.func.isRequired
     }).isRequired,
     category: CategoryTreeType.isRequired,
-    categoryList: CategoryTreeType.isRequired,
     items: ItemsType.isRequired,
     totalItems: PropTypes.number.isRequired,
     location: PropTypes.shape({

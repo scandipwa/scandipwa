@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -64,7 +65,11 @@ class HomePage extends Component {
         return (
             <main block="HomePage">
                 <Meta
-                  metaObject={ { title: 'Home' } }
+                  metaObject={ {
+                      title: 'Home',
+                      meta_title: 'Home Page of ScandiPWA',
+                      meta_description: 'Progressive Web App for Magento'
+                  } }
                 />
                 <HomeSlider />
                 <ContentWrapper

@@ -158,10 +158,17 @@ class ProductListQuery {
      * @return {String}
      */
     _getCustomAttributeFilters(customFilters = {}) {
-        return Object.keys(customFilters).map((key) => {
+        return Object.keys(customFilters).reduce((prev, key) => {
             const attribute = customFilters[key];
-            if (attribute.length) return `${key}: { in: [ ${attribute.join(',')} ] } `;
-        }).join(',');
+            if (attribute.length) {
+                return [
+                    ...prev,
+                    `${key}: { in: [ ${attribute.join(',')} ] } `
+                ];
+            }
+
+            return prev;
+        }, []).join(',');
     }
 
     /**

@@ -1,3 +1,14 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
@@ -49,12 +60,7 @@ class MenuOverlay extends Component {
     }
 
     renderItemContent(item, itemMods = {}) {
-        const {
-            title,
-            item_id,
-            icon,
-            item_class
-        } = item;
+        const { title, icon, item_class } = item;
 
         if (item_class === 'MenuOverlay-ItemFigure_type_banner') {
             // eslint-disable-next-line no-param-reassign
@@ -186,9 +192,9 @@ class MenuOverlay extends Component {
                   mods={ trendingMods }
                   aria-label={ trendingCategoriesTitle }
                 >
-                    <h2 block="MenuOverlay" elem="ItemListHeading">
+                    <li block="MenuOverlay" elem="ItemListHeading">
                         { trendingCategoriesTitle }
-                    </h2>
+                    </li>
                     { this.renderItemList(trendingCategories, trendingMods) }
                 </ul>
                 { this.renderAdditionalInformation() }

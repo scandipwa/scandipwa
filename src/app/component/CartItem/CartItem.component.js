@@ -150,11 +150,7 @@ class CartItem extends Component {
         const { isLoading } = this.state;
 
         const {
-            product: {
-                name,
-                brand,
-                price
-            },
+            product: { name, price },
             isLikeTable
         } = this.props;
 
@@ -207,7 +203,8 @@ CartItem.propTypes = {
 };
 
 CartItem.defaultProps = {
-    isEditing: false
+    isEditing: false,
+    isLikeTable: false
 };
 
 export default CartItem;
