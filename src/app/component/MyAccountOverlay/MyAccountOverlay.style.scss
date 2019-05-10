@@ -24,8 +24,7 @@
         position: absolute;
         top: var(--header-height);
         right: -40px;
-        padding: 1rem 2rem 2rem;
-        width: 400px;
+        padding: 0;
         border: 1px solid var(--overlay-desktop-border-color);
     }
 
@@ -71,6 +70,10 @@
     }
 
     &-Navigation {
+        @include after-mobile {
+            padding: 0.5rem;
+        }
+
         li {
             margin: 0;
             padding: 0;
@@ -94,6 +97,10 @@
             text-align: left;
             padding: 1rem 2rem;
             font-size: 1.2rem;
+
+            @include after-mobile {
+                padding: 0.5rem;
+            }
 
             &:hover {
                 background-color: var(--color-cart-light);
@@ -119,6 +126,11 @@
         display: grid;
         height: 100%;
         grid-template-rows: max-content 1fr;
+
+        @include after-mobile {
+            width: 400px;
+            padding: 1rem 2rem 2rem;
+        }
 
         &_state {
             &_createAccount {
@@ -163,6 +175,19 @@
             &_signIn {
                 h4 {
                     text-align: center;
+                }
+            }
+
+            &_loggedIn {
+                @include after-mobile {
+                    width: 180px;
+                    padding: 0;
+                }
+
+                .MyAccountOverlay-Heading {
+                    @include after-mobile {
+                        display: none;
+                    }
                 }
             }
         }
