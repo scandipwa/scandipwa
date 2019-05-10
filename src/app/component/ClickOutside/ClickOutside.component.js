@@ -31,7 +31,7 @@ class ClickOutside extends Component {
         );
 
         if (isOutside) onClick();
-    };
+    }
 
     render() {
         const { children } = this.props;
