@@ -68,7 +68,12 @@ class ProductDetails extends Component {
     }
 
     renderReviewSummary() {
-        const { product: { review_summary, url_key }, product, areDetailsLoaded, configurableVariantIndex} = this.props;
+        const {
+            product: { review_summary, url_key },
+            product,
+            areDetailsLoaded,
+            configurableVariantIndex
+        } = this.props;
 
         if (areDetailsLoaded) {
             const linkTo = url_key
@@ -76,18 +81,18 @@ class ProductDetails extends Component {
                     pathname: `/product/${ url_key }`,
                     state: { product, configurableVariantIndex },
                     search: `?variant=${ configurableVariantIndex }`,
-                    hash: `#reviews`
+                    hash: '#reviews'
                 }
                 : undefined;
 
             if (review_summary.review_count) {
-                const reviewText = review_summary.review_count === 1 ? "Review" : "Reviews";
+                const reviewText = review_summary.review_count === 1 ? 'Review' : 'Reviews';
 
                 return (
                     <>
-                        <ProductReviewRating summary={ review_summary.rating_summary }/>
+                        <ProductReviewRating summary={ review_summary.rating_summary } />
                         <Link to={ linkTo } tabIndex={ url_key ? '0' : '-1' }>
-                            <TextPlaceholder content={ review_summary.review_count + " " + reviewText } />
+                            <TextPlaceholder content={ `${review_summary.review_count} ${reviewText}` } />
                         </Link>
                     </>
                 );

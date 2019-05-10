@@ -10,7 +10,8 @@
  */
 
 import React, { Component } from 'react';
-import './ProductReviewRating.style'
+import PropTypes from 'prop-types';
+import './ProductReviewRating.style';
 
 /**
  * @class ProductReviewRating
@@ -18,27 +19,36 @@ import './ProductReviewRating.style'
 class ProductReviewRating extends Component {
     render() {
         const { summary } = this.props;
-        const clip = `polygon(0 0, 0 100%, ${ summary }% 100%, ${ summary }% 0)`;
+        const clip = `polygon(0 0, 0 100%, ${summary}% 100%, ${summary}% 0)`;
 
         return (
-            <div block="ProductReviewRating" title={ summary + '%' }>
+            <div block="ProductReviewRating" title={ `${summary}%` }>
                 <div block="ProductReviewRating" elem="RatingStars">
-                    <i class="star"></i>
-                    <i class="star"></i>
-                    <i class="star"></i>
-                    <i class="star"></i>
-                    <i class="star"></i>
+                    <i className="star" />
+                    <i className="star" />
+                    <i className="star" />
+                    <i className="star" />
+                    <i className="star" />
                 </div>
-                <div block="ProductReviewRating" elem="RatingStars" mods={{ filled: true }} style={{ clipPath: clip }}>
-                    <i class="star"></i>
-                    <i class="star"></i>
-                    <i class="star"></i>
-                    <i class="star"></i>
-                    <i class="star"></i>
+                <div
+                  block="ProductReviewRating"
+                  elem="RatingStars"
+                  mods={ { filled: true } }
+                  style={ { clipPath: clip } }
+                >
+                    <i className="star" />
+                    <i className="star" />
+                    <i className="star" />
+                    <i className="star" />
+                    <i className="star" />
                 </div>
             </div>
         );
     }
 }
+
+ProductReviewRating.propTypes = {
+    summary: PropTypes.number.isRequired
+};
 
 export default ProductReviewRating;
