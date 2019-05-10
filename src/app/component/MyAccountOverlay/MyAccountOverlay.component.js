@@ -456,6 +456,7 @@ MyAccountOverlay.propTypes = {
     showNotification: PropTypes.func.isRequired,
     createAccount: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
     isOverlayVisible: PropTypes.bool.isRequired,
     setHeaderState: PropTypes.func.isRequired,
     hideActiveOverlay: PropTypes.func.isRequired,
