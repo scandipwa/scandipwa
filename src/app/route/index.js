@@ -22,14 +22,13 @@ import CartPage from 'Route/CartPage';
 import CheckoutPage from 'Route/CheckoutPage';
 import MyAccountDetails from 'Route/MyAccountDetails';
 import PasswordChangePage from 'Route/PasswordChangePage';
-import NoMatch from 'Route/NoMatch';
 import NoMatchHandler from 'Route/NoMatchHandler';
+import UrlRewrites from 'Route/UrlRewrites';
 
 import Header from 'Component/Header';
 import Footer from 'Component/Footer';
 import Breadcrumbs from 'Component/Breadcrumbs';
 import NotificationList from 'Component/NotificationList';
-
 import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
 import { CartDispatcher } from 'Store/Cart';
 import { WishlistDispatcher } from 'Store/Wishlist';
@@ -70,7 +69,7 @@ export class AppRouter extends Component {
                     position: 30
                 },
                 {
-                    component: <Route path="/page/:id" component={ CmsPage } />,
+                    component: <Route path="/page" component={ CmsPage } />,
                     position: 40
                 },
                 {
@@ -90,7 +89,7 @@ export class AppRouter extends Component {
                     position: 70
                 },
                 {
-                    component: <Route component={ NoMatch } />,
+                    component: <Route component={ UrlRewrites } />,
                     position: 100
                 }
             ],

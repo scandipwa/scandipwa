@@ -25,6 +25,7 @@ import { WishlistReducer } from 'Store/Wishlist';
 import { NoMatchReducer } from 'Store/NoMatch';
 import { RelatedProductsReducer } from 'Store/RelatedProducts';
 import { SearchBarReducer } from 'Store/SearchBar';
+import { UrlRewritesReducer } from 'Store/UrlRewrites';
 import { MyAccountReducer } from 'Store/MyAccount';
 
 const reducers = {
@@ -40,7 +41,8 @@ const reducers = {
     NoMatchReducer,
     RelatedProductsReducer,
     SearchBarReducer,
-    MyAccountReducer
+    MyAccountReducer,
+    UrlRewritesReducer
 };
 
 const combinedReducers = combineReducers(reducers);
