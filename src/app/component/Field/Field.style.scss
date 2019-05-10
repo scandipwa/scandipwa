@@ -9,11 +9,16 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
- $select-width: 160px;
- $select-height: 45px;
- $select-option-height: 36px;
- $select-arrow-height: 6px;
- $select-arrow-width: 6px;
+$select-width: 160px;
+$select-height: 45px;
+$select-option-height: 36px;
+$select-arrow-height: 6px;
+$select-arrow-width: 6px;
+
+:root {
+    --select-option-background: #fff;
+    --select-option-hover-background: #f0f0f0;
+}
 
 .Field {
     margin-top: 1rem;
@@ -39,10 +44,95 @@
         opacity: 0;
         height: 0;
         transition: height 0.1s ease-in, opacity 0.1s linear;
+
+        &::before {
+            content: '* ';
+        }
     }
 
-    &-Note::before {
-        content: '* ';
+    &-Select {
+        min-width: 100%;
+
+        @include after-mobile {
+            pointer-events: none;
+        }
+
+        &_isExpanded {
+            border-color: var(--input-color);
+        }
+
+        &Wrapper {
+            max-width: $select-width;
+            cursor: pointer;
+
+            &::after {
+                content: '';
+                display: block;
+                width: $select-arrow-width;
+                height: $select-arrow-height;
+                transform: rotate(45deg);
+                pointer-events: none;
+
+                position: absolute;
+                right: 20px;
+                bottom: 20px;
+
+                border-style: solid;
+                border-color: #000;
+                border-width: 0 1px 1px 0;
+            }
+
+            &_isExpanded::after {
+                @include after-mobile {
+                    bottom: $select-arrow-height * 3/2;
+                    transform: rotate(-135deg);
+                }
+            }
+        }
+
+        &Options {
+            position: absolute;
+            width: 100%;
+            top: 100%;
+            left: 0;
+            z-index: 1;
+            border-width: 0 1px 1px;
+            border-style: solid;
+            border-color: transparent;
+
+            overflow: scroll;
+            transition: 200ms max-height;
+            will-change: max-height;
+            max-height: 0;
+
+            &_isExpanded {
+                max-height: 200px;
+                border-color: var(--input-border-color);
+            }
+        }
+
+        &Option {
+            padding: 0;
+            margin: 0;
+            z-index: 1;
+            transition: 100ms max-height ease-in;
+            max-height: $select-option-height;
+            line-height: 3rem;
+            padding-left: 1.5rem;
+            background: var(--select-option-background);
+
+            &::before {
+                content: none;
+            }
+
+            &:last-of-type {
+                margin: 0;
+            }
+
+            &:hover {
+                background: var(--select-option-hover-background);
+            }
+        }
     }
 
     &_hasError {
@@ -77,98 +167,6 @@
                     display: inline-block;
                     vertical-align: middle;
                 }
-            }
-        }
-
-        &_select {
-            select {
-                min-width: $select-width;
-                min-height: $select-height;
-
-                @include desktop {
-                    pointer-events: none;
-                }
-            }
-
-            label:last-of-type {
-                width: 0;
-                height: 0;
-                padding: 0;
-                font-weight: initial;
-                font-size: initial;
-            }
-
-            option[value=""][disabled] {
-                display: none;
-            }
-        }
-    }
-}
-
-.Select {
-    &::after {
-        content: '';
-        display: block;
-        width: $select-arrow-width;
-        height: $select-arrow-height;
-        transform: rotate(45deg);
-        pointer-events: none;
-
-        position: absolute;
-        left: $select-width - 20px;
-        bottom: 20px;
-
-        border-style: solid;
-        border-color: #000;
-        border-width: 0 1px 1px 0;
-
-        transition: 100ms all ease;
-    }
-
-    &_isExpanded::after {
-        @include desktop {
-            bottom: $select-arrow-height * 3/2;
-            transform: rotate(-135deg);
-        }
-    }
-
-    &-Wrapper {
-        max-width: $select-width;
-    }
-
-    &-OptionList {
-        max-width: $select-width;
-        max-height: 0;
-        overflow: hidden;
-
-        &-Item {
-            padding: 0;
-            margin: 0;
-            max-height: 0;
-            z-index: 1;
-            transition: 100ms max-height ease-in;
-
-            &::before {
-                content: none;
-            }
-
-            &:last-of-type {
-                margin: 0;
-            }
-
-            &_isExpanded {
-                max-height: $select-option-height;
-                line-height: 3rem;
-                padding-left: 1.5rem;
-                color: var(--color-neutral-dark);
-                background-color: var(--color-breadcrumbs-background);          
-            }
-        }
-
-        &_isExpanded {
-            @include desktop {
-                display: block;
-                overflow: initial;
             }
         }
     }

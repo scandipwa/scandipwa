@@ -14,7 +14,8 @@
 }
 
 input,
-textarea {
+textarea,
+select {
     --input-color: #{color(primary, base, true)};
 
     border: 1px solid var(--input-border-color);

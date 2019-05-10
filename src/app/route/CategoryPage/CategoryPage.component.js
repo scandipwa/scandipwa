@@ -397,13 +397,13 @@ class CategoryPage extends Component {
                     />
                     <aside block="CategoryPage" elem="Miscellaneous">
                         { this.renderItemCount() }
-                        <CategorySort
+                        {/* <CategorySort
                           onGetSortKey={ key => this.onGetSortKey(key) }
                           onGetSortDirection={ direction => this.onGetSortDirection(direction) }
-                          sortFields={ !isLoading && updatedSortFields }
+                          sortFields={ !isLoading && (updatedSortFields) }
                           value={ sortKey }
                           sortDirection={ sortDirection }
-                        />
+                        /> */}
                         <button
                           block="CategoryPage"
                           elem="Filter"

@@ -45,10 +45,10 @@ const reducers = {
     MyAccountReducer,
     HeaderReducer,
     OverlayReducer
-});
+};
 
 const store = createStore(
-    combinedReducers,
+    combineReducers(reducers),
     ( // enable Redux dev-tools only in development
         process.env.NODE_ENV === 'development'
         && window.__REDUX_DEVTOOLS_EXTENSION__

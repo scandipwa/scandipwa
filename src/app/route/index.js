@@ -142,7 +142,6 @@ class AppRouter extends Component {
         };
 
         WishlistDispatcher.updateInitialWishlistData(Store.dispatch);
-        HeaderAndFooterDispatcher.getCountriesList(Store.dispatch);
         HeaderAndFooterDispatcher.handleData(Store.dispatch, { menu: { menuId: 2 }, footer: footerOptions });
         CartDispatcher.updateInitialCartData(Store.dispatch);
     }

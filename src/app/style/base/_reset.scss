@@ -154,10 +154,16 @@ p {
     }
 }
 
-input {
+input,
+select {
     min-height: 2rem;
     min-width: 4rem;
     font-size: 1.1rem;
+}
+
+select {
+    border-radius: 0;
+    appearance: none;
 }
 
 button {

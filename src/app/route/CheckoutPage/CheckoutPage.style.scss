@@ -119,11 +119,10 @@
         margin-bottom: 3rem;
     }
 
-    input {
-        &:not([type="checkbox"]) {
-            width: 100%;
-            max-width: 40rem;
-        }
+    input:not([type="checkbox"]),
+    .Field-SelectWrapper {
+        width: 100%;
+        max-width: 40rem;
     }
 
     table {

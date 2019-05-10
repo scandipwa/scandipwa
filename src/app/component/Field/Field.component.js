@@ -9,9 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-/* eslint-disable react/require-default-props */
-// Due complexity of propTypes, TODO: rearrange
-
 /* eslint jsx-a11y/label-has-associated-control: 0 */
 // Disabled due bug in `renderCheckboxInput` function
 
@@ -121,7 +118,6 @@ class Field extends Component {
     }
 
     handleChange(value) {
-        const { isChecked } = this.state;
         const {
             onChange,
             type,
@@ -145,16 +141,14 @@ class Field extends Component {
     }
 
     handleSelectExpand() {
-        this.setState(state => ({ isSelectExpanded: !state.isSelectExpanded }));
+        this.setState(({ isSelectExpanded }) => ({ isSelectExpanded: !isSelectExpanded }));
     }
 
-    handleSelectListOptionClick(event) {
-        const { target: { value } } = event;
+    handleSelectListOptionClick({ value }) {
         const { formRef } = this.props;
-
         formRef.current.value = value;
-
-        this.handleSelectExpand();
+        const event = new Event('input', { bubbles: true });
+        formRef.current.dispatchEvent(event);
     }
 
     renderTextarea() {
@@ -340,91 +334,77 @@ class Field extends Component {
         const {
             name, id, selectOptions, formRef, placeholder
         } = this.props;
+
         const { isSelectExpanded: isExpanded } = this.state;
-        let defaultValue = '';
 
-        selectOptions.map((option) => {
-            const { selected, value } = option;
+        if (!selectOptions) throw new Error('Prop `selectOptions` is required for Field type `select`');
+        const defaultValue = selectOptions.find(({ selected, value }) => (selected ? value : ''));
 
-            if (selected) {
-                defaultValue = value;
-            }
-
-            return null;
-        });
 
         return (
             <>
-            <div
-              block="Select"
-              elem="Wrapper"
-              onClick={ this.handleSelectExpand }
-              onKeyPress={ this.handleSelectExpand }
-              role="button"
-              tabIndex="0"
-              aria-label="Select drop-down"
-              aria-expanded={ isExpanded }
-            >
-                <select
-                  ref={ formRef }
-                  name={ name }
-                  id={ id }
+                <div
+                  block="Field"
+                  elem="SelectWrapper"
+                  onClick={ this.handleSelectExpand }
+                  onKeyPress={ this.handleSelectExpand }
+                  role="button"
                   tabIndex="0"
-                  defaultValue={ defaultValue }
-                  onChange={ this.onChange }
+                  aria-label="Select drop-down"
+                  aria-expanded={ isExpanded }
                 >
-                    <option value="" label={ placeholder } disabled />
-                    { selectOptions.map((option) => {
-                        const {
-                            id, value, disabled, label
-                        } = option;
+                    <select
+                      block="Field"
+                      elem="Select"
+                      mods={ { isExpanded } }
+                      ref={ formRef }
+                      name={ name }
+                      id={ id }
+                      tabIndex="0"
+                      defaultValue={ defaultValue }
+                      onChange={ this.onChange }
+                    >
+                        { placeholder && <option value="" label={ placeholder } /> }
+                        {
+                            selectOptions.map(({
+                                id, value, disabled, label
+                            }) => (
+                                <option
+                                  key={ id }
+                                  id={ id }
+                                  value={ value }
+                                  disabled={ disabled }
+                                  label={ label }
+                                />
+                            ))
+                        }
+                    </select>
+                    <ul
+                      block="Field"
+                      elem="SelectOptions"
+                      role="menu"
+                      mods={ { isExpanded } }
+                    >
+                        { selectOptions.map((options) => {
+                            const { id, label } = options;
 
-                        return (
-                            <option
-                              key={ id }
-                              id={ id }
-                              value={ value }
-                              disabled={ disabled }
-                              label={ label }
-                            />
-                        );
-                    }) }
-                </select>
-            </div>
-            <label
-              htmlFor={ id }
-              block="Select"
-              mods={ { isExpanded } }
-            />
-            <ul
-              id="optionlist"
-              block="Select"
-              elem="OptionList"
-              role="menu"
-              mods={ { isExpanded } }
-            >
-                { selectOptions.map((option) => {
-                    const {
-                        id, label, value
-                    } = option;
-
-                    return (
-                        <li
-                          block="Select"
-                          elem="OptionList-Item"
-                          mods={ { isExpanded } }
-                          key={ id }
-                          value={ value }
-                          role="menuitem"
-                          onClick={ this.handleSelectListOptionClick }
-                          onKeyPress={ this.handleSelectListOptionClick }
-                          tabIndex={ isExpanded ? '0' : '-1' }
-                        >
-                            { label }
-                        </li>
-                    );
-                }) }
-            </ul>
+                            return (
+                                <li
+                                  block="Field"
+                                  elem="SelectOption"
+                                  mods={ { isExpanded } }
+                                  key={ id }
+                                  role="menuitem"
+                                  onClick={ () => this.handleSelectListOptionClick(options) }
+                                  onKeyPress={ () => this.handleSelectListOptionClick(options) }
+                                  tabIndex={ isExpanded ? '0' : '-1' }
+                                >
+                                    { label }
+                                </li>
+                            );
+                        }) }
+                    </ul>
+                </div>
             </>
         );
     }
@@ -498,7 +478,10 @@ Field.propTypes = {
         PropTypes.string
     ]),
     selectOptions: PropTypes.arrayOf(PropTypes.shape({
-        id: PropTypes.string,
+        id: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number
+        ]),
         value: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.number
@@ -532,7 +515,20 @@ Field.defaultProps = {
     min: 0,
     disabled: false,
     checked: false,
-    mix: {}
+    mix: {},
+    selectOptions: [],
+    label: '',
+    formRef: () => {},
+    isAutocompleteAllowed: true,
+    onKeyPress: () => {},
+    onClick: () => {},
+    onFocus: () => {},
+    onChange: () => {},
+    value: null,
+    state: '',
+    note: '',
+    message: '',
+    placeholder: ''
 };
 
 export default Field;

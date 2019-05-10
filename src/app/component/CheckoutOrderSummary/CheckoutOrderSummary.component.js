@@ -130,14 +130,14 @@ class CheckoutOrderSummary extends Component {
 
 CheckoutOrderSummary.propTypes = {
     totals: TotalsType,
-    products: PropTypes.objectOf(ProductType),
-    shippingMethod: PropTypes.object
+    products: PropTypes.objectOf(ProductType)
+    // shippingMethod: PropTypes.object
 };
 
 CheckoutOrderSummary.defaultProps = {
     totals: {},
     products: {},
-    shippingMethod: {}
+    // shippingMethod: {}
 };
 
 export default CheckoutOrderSummary;

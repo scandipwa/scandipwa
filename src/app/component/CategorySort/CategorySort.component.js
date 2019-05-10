@@ -97,25 +97,23 @@ class CategorySort extends Component {
     render() {
         const { sortFields } = this.props;
 
-        const selectableOptions = this.prepareOptions();
+        if (sortFields && Object.keys(sortFields).length) {
+            return (
+                <div block="CategorySort">
+                    <Field
+                      id="category-sort"
+                      name="category-sort"
+                      type="select"
+                      label="SORT"
+                      mix={ { block: 'CategorySort', elem: 'Select' } }
+                      selectOptions={ this.prepareOptions() }
+                      onChange={ this.onChange }
+                    />
+                </div>
+            );
+        }
 
-        return (
-            sortFields && Object.keys(sortFields).length > 0
-                ? (
-                    <div block="CategorySort">
-                        <Field
-                          id="category-sort"
-                          name="category-sort"
-                          type="select"
-                          label="SORT"
-                          mix={ { block: 'CategorySort', elem: 'Select' } }
-                          selectOptions={ selectableOptions }
-                          onChange={ this.onChange }
-                        />
-                    </div>
-                )
-                : this.renderPlaceholder()
-        );
+        return this.renderPlaceholder();
     }
 }
 
