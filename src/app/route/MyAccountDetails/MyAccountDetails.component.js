@@ -54,18 +54,6 @@ class MyAccountDetails extends Component {
     }
 
     /**
-     * Redirect back to account overview
-     */
-    componentDidUpdate() {
-        const { history, location: { state } } = this.props;
-
-        if (state) {
-            this.changeState(state);
-            history.replace({ state: {} });
-        }
-    }
-
-    /**
      * Check if all fields are valid before sending changes
      * @param {Object} fields
      * @param {Object} invalidFields

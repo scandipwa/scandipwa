@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { history } from 'Route';
@@ -13,6 +13,7 @@ import { TotalsType } from 'Type/MiniCart';
 import { setQueryParams } from 'Util/Url';
 import isMobile from 'Util/Mobile';
 import './Header.style';
+import { isSignedIn } from 'Util/Auth';
 
 export const PDP = 'pdp';
 export const CATEGORY = 'category';
@@ -243,7 +244,14 @@ class Header extends Component {
     }
 
     onMyAccountButtonClick() {
-        const { showOverlay, setHeaderState, headerState: { name } } = this.props;
+        const {
+            showOverlay, setHeaderState, headerState: { name }, history
+        } = this.props;
+
+        if (isSignedIn && isMobile.any()) {
+            history.push({ pathname: '/my-account', state: 'accountOverview' });
+            return;
+        }
 
         if (name !== CUSTOMER_ACCOUNT) {
             showOverlay(CUSTOMER_ACCOUNT);
@@ -425,11 +433,11 @@ class Header extends Component {
             <ClickOutside onClick={ this.onMinicartOutsideClick }>
                 <div>
                     <button
-                    block="Header"
-                    elem="Button"
-                    mods={ { isVisible, type: 'minicart' } }
-                    onClick={ this.onMinicartButtonClick }
-                    aria-label="Minicart"
+                      block="Header"
+                      elem="Button"
+                      mods={ { isVisible, type: 'minicart' } }
+                      onClick={ this.onMinicartButtonClick }
+                      aria-label="Minicart"
                     >
                         <span aria-label="Items in cart">{ count }</span>
                     </button>
@@ -559,7 +567,11 @@ Header.propTypes = {
         onOkClick: PropTypes.func,
         onCancelClick: PropTypes.func
     }).isRequired,
-    cartTotals: TotalsType.isRequired
+    cartTotals: TotalsType.isRequired,
+    history: PropTypes.shape({
+        location: PropTypes.object.isRequired,
+        push: PropTypes.func.isRequired
+    }).isRequired
 };
 
-export default Header;
+export default withRouter(Header);
