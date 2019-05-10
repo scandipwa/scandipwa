@@ -208,11 +208,20 @@ class MyAccountDetails extends Component {
      * Render main account overview page
      */
     renderAccountOverview() {
+        const { logout } = this.props;
+
         return (
             <>
                 <h1 block="MyAccountDetails" elem="Heading">My Account</h1>
                 { this.renderAccountInformation() }
                 { this.renderAddressBook() }
+                <button
+                  block="Button"
+                  mods={ { type: 'logout' } }
+                  onClick={ logout }
+                >
+                    Logout
+                </button>
             </>
         );
     }
@@ -632,7 +641,8 @@ MyAccountDetails.propTypes = {
     changeCustomerPassword: PropTypes.func.isRequired,
     updateBreadcrumbs: PropTypes.func.isRequired,
     isSignedIn: PropTypes.bool.isRequired,
-    changeHeaderState: PropTypes.func.isRequired
+    changeHeaderState: PropTypes.func.isRequired,
+    logout: PropTypes.func.isRequired
 };
 
 export default MyAccountDetails;

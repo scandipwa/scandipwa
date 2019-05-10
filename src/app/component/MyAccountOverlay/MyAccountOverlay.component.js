@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { isSignedIn } from 'Util/Auth';
 import Overlay from 'Component/Overlay';
 import Form from 'Component/Form';
@@ -96,6 +96,18 @@ class MyAccountOverlay extends Component {
         }
 
         return Object.keys(stateToBeUpdated).length ? stateToBeUpdated : null;
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        const { state: oldMyAccountState } = prevState;
+        const { state: newMyAccountState } = this.state;
+        const { history } = this.props;
+
+        if (oldMyAccountState === newMyAccountState) return;
+
+        if (newMyAccountState === STATE_LOGGED_IN) {
+            history.push({ pathname: '/my-account', state: 'accountOverview' });
+        }
     }
 
     onSignInSuccess(fields) {
@@ -428,7 +440,11 @@ MyAccountOverlay.propTypes = {
     logout: PropTypes.func.isRequired,
     isOverlayVisible: PropTypes.bool.isRequired,
     setHeaderState: PropTypes.func.isRequired,
-    hideActiveOverlay: PropTypes.func.isRequired
+    hideActiveOverlay: PropTypes.func.isRequired,
+    history: PropTypes.shape({
+        location: PropTypes.object.isRequired,
+        push: PropTypes.func.isRequired
+    }).isRequired
 };
 
-export default MyAccountOverlay;
+export default withRouter(MyAccountOverlay);

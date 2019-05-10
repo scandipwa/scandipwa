@@ -129,33 +129,51 @@
         @include mobile {
             grid-template-columns: 1fr 1fr;
         }
+    }
 
-        .Button {
-            margin-top: 2rem;
-            width: 40%;
+    .Button {
+        margin-top: 2rem;
+        width: 40%;
 
-            @include tablet {
-                width: 60%;
-            }
+        @include tablet {
+            width: 60%;
+        }
 
-            @include mobile {
-                width: 100%;
-                grid-column: 1 / span 2;
-            }
+        @include mobile {
+            width: 100%;
+            grid-column: 1 / span 2;
+        }
 
-            &_type {
-                &_savePassword {
-                    width: 50%;
+        &_likeLink {
+            width: initial;
+            margin: initial;
+        }
 
-                    @include tablet {
-                        width: 70%;
-                    }
+        &_type {
+            &_savePassword {
+                width: 50%;
 
-                    @include mobile {
-                        width: 100%;
-                    }
+                @include tablet {
+                    width: 70%;
+                }
+
+                @include mobile {
+                    width: 100%;
                 }
             }
-        } 
+
+            &_logout {
+                position: fixed;
+                bottom: 0;
+                left: 50%;
+                width: 40%;
+                margin-left: -20%;
+                margin-bottom: 1rem;
+
+                @include desktop {
+                    display: none;
+                }
+            }
+        }
     }
 }
