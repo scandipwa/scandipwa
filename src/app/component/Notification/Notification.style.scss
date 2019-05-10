@@ -20,7 +20,7 @@
     top: calc(var(--header-height) / 2);
 
     @include mobile {
-        top: calc(var(--header-height) / 2 - 10px);
+        top: calc(var(--header-height) / 2 - 5px);
     }
 
     &-Text {

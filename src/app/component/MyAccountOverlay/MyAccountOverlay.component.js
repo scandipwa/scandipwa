@@ -8,6 +8,7 @@ import Field from 'Component/Field';
 import Loader from 'Component/Loader';
 import { CUSTOMER_ACCOUNT } from 'Component/Header';
 import './MyAccountOverlay.style';
+import isMobile from 'Util/Mobile';
 
 const STATE_SIGN_IN = 'signIn';
 const STATE_FORGOT_PASSWORD = 'forgotPassword';
@@ -105,7 +106,7 @@ class MyAccountOverlay extends Component {
 
         if (oldMyAccountState === newMyAccountState) return;
 
-        if (newMyAccountState === STATE_LOGGED_IN) {
+        if (newMyAccountState === STATE_LOGGED_IN && isMobile.any()) {
             history.push({ pathname: '/my-account', state: 'accountOverview' });
         }
     }
