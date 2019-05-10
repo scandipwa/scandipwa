@@ -56,9 +56,8 @@ class CheckoutShippingMethods extends Component {
                       id={ method_code }
                       name="shipping_method"
                       type="radio"
-                      elem={ method_code }
-                      value={ activeMethod }
-                      checked={ method_code }
+                      value={ method_code }
+                      checked={ method_code === activeMethod }
                       onChange={ () => this.handleShippingMethodChange(method) }
                     />
                 </td>

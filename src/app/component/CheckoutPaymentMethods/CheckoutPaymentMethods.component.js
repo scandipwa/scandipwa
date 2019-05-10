@@ -40,7 +40,7 @@ class CheckoutPaymentMethods extends Component {
                       type="radio"
                       name={ code }
                       value={ code }
-                      checked={ paymentMethodCode }
+                      checked={ paymentMethodCode === code }
                       onChange={ () => this.handlePaymentMethodChange(method) }
                     />
                 </td>

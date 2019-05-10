@@ -1,3 +1,4 @@
+/* eslint-disable react/no-did-update-set-state */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -17,6 +18,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './Field.style';
+import ClickOutside from 'Component/ClickOutside';
 
 const TEXT_TYPE = 'text';
 const NUMBER_TYPE = 'number';
@@ -67,27 +69,13 @@ class Field extends Component {
         this.handleSelectListOptionClick = this.handleSelectListOptionClick.bind(this);
     }
 
-    /**
-     * This allows to sync values if the component is controlled outside of the parent
-     * For e.g. when we have two controlable fields on the screen which both share same prop value
-     * @return {Object} state
-     */
-    static getDerivedStateFromProps(props, state) {
-        const { value } = props;
-        const { value: stateValue } = state;
-
-        if (value !== stateValue) {
-            return { stateValue };
-        }
-
-        return { value };
-    }
-
-    componentDidUpdate() {
-        const { type, checked } = this.props;
+    componentDidUpdate(prevProps) {
+        const { value: prevValue, checked: prevChecked } = prevProps;
+        const { type, checked, value } = this.props;
         const { isChecked } = this.state;
 
-        // eslint-disable-next-line react/no-did-update-set-state
+        if (value !== prevValue) this.setState({ value });
+        if (checked !== prevChecked) this.setState({ isChecked: checked });
         if (type === 'checkbox' && checked !== isChecked) this.setState({ isChecked: !isChecked });
     }
 
@@ -147,7 +135,9 @@ class Field extends Component {
     handleSelectListOptionClick({ value }) {
         const { formRef } = this.props;
         formRef.current.value = value;
-        const event = new Event('input', { bubbles: true });
+
+        // TODO: investigate why this is required
+        const event = new Event('change', { bubbles: true });
         formRef.current.dispatchEvent(event);
     }
 
@@ -188,6 +178,7 @@ class Field extends Component {
             isAutocompleteAllowed,
             formRef
         } = this.props;
+
         const { value } = this.state;
 
         return (
@@ -267,10 +258,10 @@ class Field extends Component {
                   id={ id }
                   name={ name }
                   type="checkbox"
-                  defaultChecked={ checked }
+                  checked={ checked }
                   disabled={ disabled }
-                  onFocus={ this.onFocus }
-                  onClick={ this.onClick }
+                //   onFocus={ this.onFocus }
+                  onChange={ this.onClick }
                   onKeyPress={ this.onKeyPress }
                 />
                 <label htmlFor={ id } />
@@ -290,11 +281,11 @@ class Field extends Component {
                   type="radio"
                   id={ id }
                   name={ name }
-                  defaultChecked={ checked }
+                  checked={ checked }
                   value={ value }
                   disabled={ disabled }
-                  onFocus={ this.onFocus }
-                  onClick={ this.onClick }
+                //   onFocus={ this.onFocus }
+                  onChange={ this.onClick }
                   onKeyPress={ this.onKeyPress }
                 />
                 <label htmlFor={ id } />
@@ -332,17 +323,15 @@ class Field extends Component {
 
     renderSelectWithOptions() {
         const {
-            name, id, selectOptions, formRef, placeholder
+            name, id, selectOptions, formRef, placeholder, value
         } = this.props;
 
         const { isSelectExpanded: isExpanded } = this.state;
 
         if (!selectOptions) throw new Error('Prop `selectOptions` is required for Field type `select`');
-        const defaultValue = selectOptions.find(({ selected, value }) => (selected ? value : ''));
-
 
         return (
-            <>
+            <ClickOutside onClick={ () => isExpanded && this.handleSelectExpand() }>
                 <div
                   block="Field"
                   elem="SelectWrapper"
@@ -361,7 +350,7 @@ class Field extends Component {
                       name={ name }
                       id={ id }
                       tabIndex="0"
-                      defaultValue={ defaultValue }
+                      defaultValue={ value }
                       onChange={ this.onChange }
                     >
                         { placeholder && <option value="" label={ placeholder } /> }
@@ -405,7 +394,7 @@ class Field extends Component {
                         }) }
                     </ul>
                 </div>
-            </>
+            </ClickOutside>
         );
     }
 
