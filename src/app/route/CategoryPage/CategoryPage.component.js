@@ -26,6 +26,9 @@ import { CategoryTreeType } from 'Type/Category';
 import { ItemsType } from 'Type/ProductList';
 import './CategoryPage.style';
 
+const DESKTOP_WIDTH = 768;
+const SCROLL_START_POS = 150;
+
 class CategoryPage extends Component {
     constructor(props) {
         super(props);
@@ -39,6 +42,8 @@ class CategoryPage extends Component {
             previousPage: 0,
             pageSize: 12
         };
+
+        this.handleScroll = this.handleScroll.bind(this);
     }
 
     componentDidMount() {
@@ -48,16 +53,24 @@ class CategoryPage extends Component {
         else this.updateBreadcrumbs();
 
         this.requestCategory();
+        window.addEventListener('scroll', this.handleScroll);
     }
 
     componentDidUpdate(prevProps) {
         const { location, category } = this.props;
+
+        // update category option scroll position on page reload
+        if (window.pageYOffset) this.handleScroll();
 
         // update breadcrumbs only if category has changed
         if (category.id !== prevProps.category.id) this.updateBreadcrumbs();
 
         // update category only if route or search query has been changed
         if (this.urlHasChanged(location, prevProps)) this.requestCategory();
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('scroll', this.handleScroll);
     }
 
     /**
@@ -147,6 +160,15 @@ class CategoryPage extends Component {
         const searcQueryHasChanged = location.search !== prevProps.location.search;
 
         return pathnameHasChanged || searcQueryHasChanged;
+    }
+
+    /**
+     * Scroll Category Options with component
+     */
+    handleScroll() {
+        if (window.outerWidth >= DESKTOP_WIDTH) {
+            document.getElementById('Category-Options').scrollTop = window.pageYOffset - SCROLL_START_POS;
+        }
     }
 
     /**
@@ -362,7 +384,7 @@ class CategoryPage extends Component {
                   label="Category page"
                 >
                     <Meta metaObject={ category } />
-                    <aside block="CategoryPage" elem="Options">
+                    <aside block="CategoryPage" elem="Options" id="Category-Options">
                         <CategoryShoppingOptions
                           availableFilters={ filters }
                           minPriceValue={ minPriceRange }

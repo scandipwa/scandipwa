@@ -22,7 +22,6 @@
     }
 
     &-Options {
-
         &::-webkit-scrollbar {
             width: 0;
             background: none;
@@ -34,29 +33,29 @@
 
         @include after-mobile {
             grid-row: 1/5;
-            height: 100vh;
+            height: calc(100vh - 40px);
             position: sticky;
             top: 40px;
             overflow-y: hidden;
             padding-right: 2rem;
             width: 100%;
         }
-    
+
         h3 {
             margin-top: 0;
-    
+
             @include mobile {
                 margin-bottom: 1rem;
             }
         }
-    
+
         li {
             padding-left: 0;
-    
+
             &::before {
                 content: '';
             }
-    
+
             &:last-child {
                 @include mobile {
                     margin-bottom: .6rem;
