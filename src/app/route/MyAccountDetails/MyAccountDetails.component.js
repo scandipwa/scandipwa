@@ -89,18 +89,13 @@ class MyAccountDetails extends Component {
      * Redirect back to account overview
      */
     componentDidUpdate() {
-        const { history, location: { state }, customer } = this.props;
+        const { customer } = this.props;
         const { isSubscribed } = this.state;
 
         if (isSubscribed === null) {
             const is_subscribed = customer ? customer.is_subscribed : null;
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({ isSubscribed: is_subscribed });
-        }
-
-        if (state.length) {
-            this.changeState(state);
-            history.replace({ state: {} });
         }
     }
 
