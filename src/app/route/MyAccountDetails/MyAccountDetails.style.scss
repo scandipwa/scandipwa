@@ -148,18 +148,6 @@
         margin-top: 2rem;
         width: 40%;
 
-        &:hover {
-            background-color: var(--color-cart-light);
-
-            @include mobile {
-                background-color: transparent;
-            }
-        }
-
-        &::before {
-            content: '';
-        }
-
         @include tablet {
             width: 60%;
         }
@@ -172,11 +160,6 @@
         &_likeLink {
             width: initial;
             margin: initial;
-        }
-
-        @include mobile {
-            display: block;
-            padding-top: 2rem;
         }
     }
 
@@ -228,10 +211,6 @@
                 width: 40%;
                 margin-left: -20%;
                 margin-bottom: 1rem;
-
-                @include mobile {
-                    padding-top: 1rem;
-                }
 
                 @include desktop {
                     display: none;
