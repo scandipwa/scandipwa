@@ -218,7 +218,7 @@ class MyAccountOverlay extends Component {
     }
 
     renderAccountActions() {
-        const { logout } = this.props;
+        const { logout, hideActiveOverlay } = this.props;
         const linkTo = {
             pathname: '/my-account',
             state: 'accountOverview'
@@ -227,7 +227,7 @@ class MyAccountOverlay extends Component {
         return (
             <nav block="MyAccountOverlay" elem="Navigation">
                 <ul>
-                    <li><Link to={ linkTo }>My Account</Link></li>
+                    <li><Link to={ linkTo } onClick={ hideActiveOverlay }>My Account</Link></li>
                     <li>
                         <button
                           block="Button"
@@ -253,14 +253,7 @@ class MyAccountOverlay extends Component {
                   onSubmitSuccess={ fields => this.onForgotPasswordSuccess(fields) }
                   onSubmitError={ () => this.onFormError() }
                 >
-                    <Field
-                      type="text"
-                      id="user_email"
-                      name="email"
-                      label="Email"
-                      autocomplete="email"
-                      validation={ ['notEmpty', 'email'] }
-                    />
+                    <Field type="text" id="email" name="email" label="Email" validation={ ['notEmpty', 'email'] } />
                     <div block="MyAccountOverlay" elem="Buttons">
                         <button block="Button" type="submit" onClick={ this.handleForgotPasswordSuccess }>
                             Reset password
@@ -348,20 +341,13 @@ class MyAccountOverlay extends Component {
                           type="checkbox"
                           label="Subscribe to ScandiPWA newsletter"
                           id="is_subscribed"
-                          name="is_subscribed"
                           mix={ { block: 'MyAccountOverlay', elem: 'Checkbox' } }
+                          name="is_subscribed"
                         />
                     </fieldset>
                     <fieldset block="MyAccountOverlay" elem="Legend">
                         <legend>Sign-Up Information</legend>
-                        <Field
-                          type="text"
-                          label="Email"
-                          id="user_email"
-                          name="email"
-                          autocomplete="email"
-                          validation={ ['notEmpty', 'email'] }
-                        />
+                        <Field type="text" label="Email" id="email" name="email" validation={ ['notEmpty', 'email'] } />
                         <Field
                           type="password"
                           label="Password"
@@ -411,9 +397,8 @@ class MyAccountOverlay extends Component {
                     <Field
                       type="text"
                       label="Email or login"
-                      id="user_email"
+                      id="email"
                       name="email"
-                      autocomplete="email"
                       validation={ ['notEmpty', 'email'] }
                     />
                     <Field
@@ -429,7 +414,6 @@ class MyAccountOverlay extends Component {
                     <button
                       block="Button"
                       mods={ { likeLink: true } }
-                      mix={ { block: 'MyAccountOverlay', elem: 'ForgotPasswordButton' } }
                       onClick={ this.handleForgotPassword }
                     >
                         Forgot password?
@@ -472,7 +456,6 @@ MyAccountOverlay.propTypes = {
     showNotification: PropTypes.func.isRequired,
     createAccount: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
-    setHeaderState: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     isOverlayVisible: PropTypes.bool.isRequired,
     setHeaderState: PropTypes.func.isRequired,
@@ -480,7 +463,8 @@ MyAccountOverlay.propTypes = {
     history: PropTypes.shape({
         location: PropTypes.object.isRequired,
         push: PropTypes.func.isRequired
-    }).isRequired
+    }).isRequired,
+    setHeaderState: PropTypes.func.isRequired
 };
 
 export default withRouter(MyAccountOverlay);

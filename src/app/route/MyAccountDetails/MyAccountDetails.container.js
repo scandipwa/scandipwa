@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import { MyAccountDispatcher } from 'Store/MyAccount';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import { showNotification } from 'Store/Notification';
+import { changeHeaderState } from 'Store/Header';
 import MyAccountDetails from './MyAccountDetails.component';
 
 const mapStateToProps = state => ({
@@ -37,11 +38,11 @@ const mapDispatchToProps = dispatch => ({
     createCustomerAddress(options) {
         return MyAccountDispatcher.createCustomerAddress(options, dispatch);
     },
+    changeHeaderState: state => dispatch(changeHeaderState(state)),
     logout: () => MyAccountDispatcher.logout(null, dispatch),
     updateBreadcrumbs: (breadcrumbs) => {
         BreadcrumbsDispatcher.update(breadcrumbs, dispatch);
     },
-
     showNotification(type, message) {
         dispatch(showNotification(type, message));
     }

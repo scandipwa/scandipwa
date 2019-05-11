@@ -160,11 +160,13 @@ class Form extends Component {
     render() {
         const { mix } = this.props;
         const { children, fieldsAreValid } = this.state;
+        const { mix: { block, elem, mods } } = this.props;
 
         return (
             <form
-              block="Form"
-              mods={ { isInvalid: !fieldsAreValid } }
+              block={ block || 'Form' }
+              elem={ elem || undefined }
+              mods={ { isInvalid: !fieldsAreValid, ...mods } }
               ref={ this.form }
               mix={ mix }
               onSubmit={ e => this.handleFormSubmit(e) }
