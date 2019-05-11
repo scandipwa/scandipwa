@@ -49,8 +49,6 @@ class CheckoutShippingMethods extends Component {
             method_code
         } = method;
 
-        console.log(method);
-
         return (
             <tr key={ method_code } onClick={ () => this.handleShippingMethodChange(method) }>
                 <td>

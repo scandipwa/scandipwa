@@ -426,8 +426,6 @@ class CheckoutPreviewAndPaymentsStep extends Component {
 
         const address = [country_id, city, street[0], postcode];
 
-        console.log(correctAddress);
-
         return (
             <>
                 <address
