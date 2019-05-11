@@ -22,7 +22,12 @@
         right: 0;
         padding: 0;
         width: 400px;
-        border: 1px solid var(--overlay-desktop-border-color);
+    }
+
+    &_isVisible {
+        @include after-mobile {
+            border: 1px solid var(--overlay-desktop-border-color);
+        }
     }
 
     &::before {

@@ -25,7 +25,12 @@
         top: var(--header-height);
         right: -40px;
         padding: 0;
-        border: 1px solid var(--overlay-desktop-border-color);
+    }
+
+    &_isVisible {
+        @include after-mobile {
+            border: 1px solid var(--overlay-desktop-border-color);
+        }
     }
 
     &::before {
@@ -276,7 +281,12 @@
                 }
             }
         }
+    }
 
+    &-ForgotPasswordButton {
+        @include after-mobile {
+            display: none;
+        }
     }
 
     &-Buttons {

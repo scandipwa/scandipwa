@@ -14,6 +14,7 @@ import { changeHeaderState } from 'Store/Header';
 import { MyAccountDispatcher } from 'Store/MyAccount';
 import { CUSTOMER_ACCOUNT } from 'Component/Header';
 import { showNotification } from 'Store/Notification';
+import { hideActiveOverlay } from 'Store/Overlay';
 import MyAccountOverlay from './MyAccountOverlay.component';
 
 const mapStateToProps = state => ({
@@ -28,6 +29,7 @@ const mapDispatchToProps = dispatch => ({
     createAccount: options => MyAccountDispatcher.createAccount(options, dispatch),
     signIn: options => MyAccountDispatcher.signIn(options, dispatch),
     requestCustomerData: options => MyAccountDispatcher.handleData(dispatch, options),
+    hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     logout: () => MyAccountDispatcher.logout(null, dispatch),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     setHeaderState: headerState => dispatch(changeHeaderState(headerState))

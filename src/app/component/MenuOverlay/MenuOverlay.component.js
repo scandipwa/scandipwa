@@ -172,12 +172,12 @@ class MenuOverlay extends Component {
 
         return (
             <div block="MenuOverlay" elem="Menu">
-                <div
-                  block="MenuOverlay"
-                  elem="Banner"
+                <Link
+                  className="MenuOverlay-Banner"
+                  to="/category/woman"
                 >
                     <Html content={ this.getItemContent('imagine-banner') } />
-                </div>
+                </Link>
                 <ul
                   block="MenuOverlay"
                   elem="ItemList"

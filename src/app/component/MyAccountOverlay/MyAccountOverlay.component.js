@@ -429,6 +429,7 @@ class MyAccountOverlay extends Component {
                     <button
                       block="Button"
                       mods={ { likeLink: true } }
+                      mix={ { block: 'MyAccountOverlay', elem: 'ForgotPasswordButton' } }
                       onClick={ this.handleForgotPassword }
                     >
                         Forgot password?

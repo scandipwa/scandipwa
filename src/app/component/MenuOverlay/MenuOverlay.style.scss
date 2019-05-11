@@ -81,10 +81,6 @@
         justify-content: center;
         margin-bottom: .8rem;
 
-        @include after-mobile {
-            display: none;
-        }
-
         picture {
             padding-bottom: 0;
             height: 100%;
