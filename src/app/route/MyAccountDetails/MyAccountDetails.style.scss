@@ -229,6 +229,10 @@
                 margin-left: -20%;
                 margin-bottom: 1rem;
 
+                @include mobile {
+                    padding-top: 1rem;
+                }
+
                 @include desktop {
                     display: none;
                 }
