@@ -13,4 +13,29 @@
     p {
         margin-top: 1rem;
     }
+
+    strong {
+        margin-left: 5px;
+    }
+
+    td {
+        vertical-align: middle;
+        min-width: 5rem;
+
+        @include mobile {
+            min-width: 1rem;
+        }
+    }
+
+    &-Price {
+        font-size: 16px;
+        font-weight: bold;
+        text-align: right;
+    }
+
+    &-Information {
+        @include mobile {
+            width: 70%;
+        }
+    }
 }

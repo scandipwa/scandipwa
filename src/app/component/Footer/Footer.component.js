@@ -22,13 +22,13 @@ import './Footer.style';
  */
 class Footer extends Component {
     render() {
-        const { blocks: { items }, isHeaderAndFooterVisible } = this.props;
+        const { blocks: { items } } = this.props;
         const getContent = id => ((items && items[id]) ? items[id].content : '');
 
         return (
             <footer block="Footer" aria-label="Footer">
                 <ContentWrapper
-                  mix={ { block: 'Footer', elem: 'Content', mods: { isVisible: isHeaderAndFooterVisible } } }
+                  mix={ { block: 'Footer', elem: 'Content' } }
                   label="Website footer content"
                 >
                     <div block="Footer" elem="Promo">
@@ -58,8 +58,7 @@ class Footer extends Component {
 }
 
 Footer.propTypes = {
-    blocks: BlockListType.isRequired,
-    isHeaderAndFooterVisible: PropTypes.bool.isRequired
+    blocks: BlockListType.isRequired
 };
 
 export default Footer;

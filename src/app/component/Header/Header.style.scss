@@ -137,6 +137,15 @@
 				}
 			}
 		}
+
+		&_checkout {
+			.Header-Button,
+			.Header-SearchWrapper {
+				@include after-mobile {
+					display: none;
+				}
+			}
+		}
 	}
 
     &-Nav {

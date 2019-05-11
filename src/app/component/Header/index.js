@@ -20,7 +20,8 @@ import HeaderComponent, {
     FILTER,
     SEARCH,
     CART,
-    CART_EDITING
+    CART_EDITING,
+    CHECKOUT
 } from './Header.component';
 
 export default HeaderConnect;
@@ -35,5 +36,6 @@ export {
     SEARCH,
     CART,
     CART_EDITING,
+    CHECKOUT,
     HeaderComponent
 };

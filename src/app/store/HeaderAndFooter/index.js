@@ -14,9 +14,7 @@ import HeaderAndFooterDispatcher from './HeaderAndFooter.dispatcher';
 
 import {
     UPDATE_MENU,
-    TOGGLE_HEADER_AND_FOOTER,
     updateMenu,
-    toggleHeaderAndFooter,
     getCountryList,
     GET_COUNTRY_LIST
 } from './HeaderAndFooter.action';
@@ -25,9 +23,7 @@ export {
     HeaderAndFooterReducer,
     HeaderAndFooterDispatcher,
     UPDATE_MENU,
-    TOGGLE_HEADER_AND_FOOTER,
     updateMenu,
-    toggleHeaderAndFooter,
     getCountryList,
     GET_COUNTRY_LIST
 };

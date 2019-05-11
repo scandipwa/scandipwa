@@ -11,12 +11,9 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Html from 'Component/Html';
 import { TotalsType } from 'Type/MiniCart';
 import { ProductType } from 'Type/ProductList';
 import TextPlaceholder from 'Component/TextPlaceholder';
-import ProductPrice from 'Component/ProductPrice';
-import Image from 'Component/Image';
 import CartItem from 'Component/CartItem';
 import './CheckoutOrderSummary.style';
 
@@ -60,7 +57,7 @@ class CheckoutOrderSummary extends Component {
         const {
             totals: { grandTotalPrice },
             products,
-            shippingMethod: { price, title }
+            shippingMethod: { price_incl_tax: price, carrier_title: title }
         } = this.props;
 
         const productCount = Object.keys(products).length;
@@ -69,38 +66,45 @@ class CheckoutOrderSummary extends Component {
         const grandTotalWithShipping = (price) ? parseFloat(grandTotalPrice) + parseFloat(price) : grandTotalPrice;
 
         return (
-            <div block="CheckoutOrderSummary" aria-label="Order Summary">
-                <div block="CheckoutOrderSummary" elem="OrderTotals">
-                    <h3>Order Summary</h3>
-                    <ul>
-                        { this.renderPriceLine(grandTotalPrice, 'Cart Subtotal') }
-                        { title && this.renderPriceLine(String(price), `Shipping (${ title })`, { divider: true }) }
-                        { this.renderPriceLine(String(grandTotalWithShipping), 'Order Total') }
-                    </ul>
-                </div>
-
+            <article block="CheckoutOrderSummary" aria-label="Order Summary">
+                <h3
+                  block="CheckoutOrderSummary"
+                  elem="Header"
+                  mix={ { block: 'CheckoutPage', elem: 'Heading', mods: { hasDivider: true } } }
+                >
+                    <span>Order Summary</span>
+                    <p block="CheckoutOrderSummary" elem="ItemsInCart">{ `${ productCount } Items In Cart` }</p>
+                </h3>
                 <div block="CheckoutOrderSummary" elem="OrderItems">
-                    <h3>{ `${ productCount } Items In Cart` }</h3>
                     <ul block="CheckoutOrderSummary" elem="CartItemList">
                         { Object.keys(products)
                             .map(key => this.renderItem(key, products[key])) }
                     </ul>
                 </div>
-            </div>
+                <div block="CheckoutOrderSummary" elem="OrderTotals">
+                    <ul>
+                        { title && this.renderPriceLine(String(price), `Shipping (${ title })`, { divider: true }) }
+                        { this.renderPriceLine(String(grandTotalWithShipping), 'Order Total') }
+                    </ul>
+                </div>
+            </article>
         );
     }
 }
 
 CheckoutOrderSummary.propTypes = {
     totals: TotalsType,
-    products: PropTypes.objectOf(ProductType)
-    // shippingMethod: PropTypes.object
+    products: PropTypes.objectOf(ProductType),
+    shippingMethod: PropTypes.shape({
+        price: PropTypes.number,
+        title: PropTypes.string
+    })
 };
 
 CheckoutOrderSummary.defaultProps = {
     totals: {},
     products: {},
-    // shippingMethod: {}
+    shippingMethod: {}
 };
 
 export default CheckoutOrderSummary;

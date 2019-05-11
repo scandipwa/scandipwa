@@ -42,9 +42,9 @@ class Breadcrumbs extends Component {
     }
 
     render() {
-        const { breadcrumbs, areBreadcrumbsVisible, isHeaderAndFooterVisible } = this.props;
+        const { breadcrumbs, areBreadcrumbsVisible } = this.props;
 
-        if (!areBreadcrumbsVisible || !isHeaderAndFooterVisible) return null;
+        if (!areBreadcrumbsVisible) return null;
 
         return (
             <ContentWrapper mix={ { block: 'Breadcrumbs' } } label="Breadcrumbs (current location)">
@@ -63,8 +63,7 @@ class Breadcrumbs extends Component {
 
 Breadcrumbs.propTypes = {
     breadcrumbs: BreadcrumbsType.isRequired,
-    areBreadcrumbsVisible: PropTypes.bool.isRequired,
-    isHeaderAndFooterVisible: PropTypes.bool.isRequired
+    areBreadcrumbsVisible: PropTypes.bool.isRequired
 };
 
 export default Breadcrumbs;

@@ -69,14 +69,6 @@ class Field extends Component {
         this.handleSelectListOptionClick = this.handleSelectListOptionClick.bind(this);
     }
 
-    componentDidUpdate(prevProps) {
-        const { value: prevValue, checked: prevChecked } = prevProps;
-        const { checked, value } = this.props;
-
-        if (value !== prevValue) this.setState({ value });
-        // if (type === 'checkbox' && checked !== isChecked) this.setState({ isChecked: !isChecked });
-    }
-
     onChange(event) {
         if (typeof event === 'string' || typeof event === 'number') {
             return this.handleChange(event);
@@ -137,7 +129,7 @@ class Field extends Component {
             id,
             name,
             rows,
-            isAutocompleteAllowed,
+            autocomplete,
             formRef
         } = this.props;
         const { value } = this.state;
@@ -152,7 +144,7 @@ class Field extends Component {
               onChange={ this.onChange }
               onFocus={ this.onFocus }
               onClick={ this.onClick }
-              autoComplete={ !isAutocompleteAllowed ? 'off' : undefined }
+              autoComplete={ autocomplete }
             />
         );
     }
@@ -166,7 +158,7 @@ class Field extends Component {
             id,
             name,
             placeholder,
-            isAutocompleteAllowed,
+            autocomplete,
             formRef
         } = this.props;
 
@@ -183,7 +175,7 @@ class Field extends Component {
               onFocus={ this.onFocus }
               onClick={ this.onClick }
               placeholder={ placeholder }
-              autoComplete={ !isAutocompleteAllowed ? 'off' : undefined }
+              autoComplete={ autocomplete }
             />
         );
     }
@@ -487,7 +479,10 @@ Field.propTypes = {
         PropTypes.func,
         PropTypes.shape({ current: PropTypes.instanceOf(Element) })
     ]),
-    isAutocompleteAllowed: PropTypes.bool
+    autocomplete: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.bool
+    ])
 };
 
 Field.defaultProps = {
@@ -499,7 +494,6 @@ Field.defaultProps = {
     selectOptions: [],
     label: '',
     formRef: () => {},
-    isAutocompleteAllowed: true,
     onKeyPress: () => {},
     onClick: () => {},
     onFocus: () => {},
@@ -508,7 +502,8 @@ Field.defaultProps = {
     state: '',
     note: '',
     message: '',
-    placeholder: ''
+    placeholder: '',
+    autocomplete: 'off'
 };
 
 export default Field;

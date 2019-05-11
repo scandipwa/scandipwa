@@ -9,11 +9,26 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+:root {
+    --checkout-heading-divider-color: #d8d8d8;
+    --checkout-max-width: 1100px;
+}
+
 .CheckoutPage {
     min-height: calc(100vh - 90px);
+    margin-bottom: 5rem;
 
-    @include mobile {
-        margin-top: 0;
+    @include after-mobile {
+        margin-top: var(--header-height);
+    }
+
+    &::before {
+        @include after-mobile {
+            content: '';
+            background: var(--color-breadcrumbs-background);
+            min-height: 40px;
+            display: block;
+        }
     }
 
     &-Wrapper {
@@ -22,6 +37,7 @@
         @include after-mobile {
             display: flex;
             justify-content: space-between;
+            max-width: var(--checkout-max-width);
         }
     }
 
@@ -30,92 +46,17 @@
         flex-shrink: 1;
     }
 
-    &-CheckoutSteps {
-        @include mobile {
-            order: 2;
+    &-Heading {
+        text-transform: uppercase;
+        font-size: 16px;
+        font-weight: bold;
+        margin-top: 0;
+        border-bottom: 0;
+
+        &_hasDivider {
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--checkout-heading-divider-color);
         }
-    }
-
-    &-StepIndicatorWrapper {
-        display: flex;
-        flex-direction: row-reverse;
-        justify-content: space-between;
-        padding: 1rem 0 2rem;
-    }
-
-    &-StepIndicator {
-        z-index: 2;
-        display: flex;
-        flex-direction: column;
-        width: 33.33%;
-        text-align: center;
-
-        &::after {
-            order: 0;
-            content: '';
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background-color: var(--color-neutral-light);
-            display: block;
-            margin: 0 auto 5px;
-            z-index: 3;
-        }
-
-        &::before {
-            content: '';
-            position: absolute;
-            height: 4px;
-            width: 100%;
-            top: 8px;
-            left: -50%;
-            background-color: var(--color-neutral-light);
-            z-index: 1;
-        }
-
-        &:last-of-type {
-            &::before {
-                width: 0;
-            }
-        }
-
-        &_isActive {
-            &::after {
-                background-color: var(--color-primary-base);
-            }
-
-            &::before {
-                background-color: var(--color-primary-base);
-            }
-
-            ~ * {
-                &::after {
-                    background-color: var(--color-primary-base);
-                }
-
-                &::before {
-                    background-color: var(--color-primary-base);
-                }
-            }
-        }
-
-        span {
-            order: 1;
-        }
-
-        strong {
-            display: block;
-
-            @include mobile {
-                margin-bottom: 5px;
-            }
-        }
-    }
-
-    &-Header {
-        padding: 1rem 0;
-        text-align: center;
-        background: var(--color-footer-background);
     }
 
     fieldset {
@@ -144,12 +85,9 @@
         }
     }
 
-    .Select-Container {
-        max-width: 40rem;
-
-        ul {
-            overflow-y: scroll;
-            z-index: 10;
+    button {
+        @include mobile {
+            width: 100%;
         }
     }
 }

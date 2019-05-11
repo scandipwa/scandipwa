@@ -9,14 +9,20 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+:root {
+    --checkout-preview-border-color: var(--checkout-heading-divider-color);
+}
+
 .CheckoutPreviewAndPaymentsStep {
     &-ShippingAddressPreview {
         display: inline-block;
-        background-color: var(--color-summary-background);
-        padding: 1rem;
+        border: {
+            top: 1px solid var(--checkout-preview-border-color);
+            bottom: 1px solid var(--checkout-preview-border-color);
+        }
+        padding: 1rem 0;
         margin: 1rem 0;
         min-width: 40rem;
-        columns: 2;
 
         @include mobile {
             width: 100%;
@@ -27,6 +33,7 @@
             margin-top: 1rem;
             margin-bottom: .5rem;
             font-weight: bold;
+            font-style: normal;
 
             &:first-of-type {
                 margin-top: 0;
@@ -34,9 +41,7 @@
         }
 
         dd {
-            font-size: 1.2rem;
             font-style: normal;
-            padding-left: 2rem;
         }
     }
 }

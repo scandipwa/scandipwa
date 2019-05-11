@@ -49,6 +49,8 @@ class CheckoutShippingMethods extends Component {
             method_code
         } = method;
 
+        console.log(method);
+
         return (
             <tr key={ method_code } onClick={ () => this.handleShippingMethodChange(method) }>
                 <td>
@@ -61,9 +63,21 @@ class CheckoutShippingMethods extends Component {
                       onChange={ () => this.handleShippingMethodChange(method) }
                     />
                 </td>
-                <td>{ price_incl_tax }</td>
-                <td>{ method_title }</td>
-                <td>{ carrier_title }</td>
+                <td
+                  block="CheckoutShippingMethods"
+                  elem="Information"
+                >
+                    Shipping carrier method:
+                    <strong>{ carrier_title }</strong>
+                    , price rate
+                    <strong>{ method_title }</strong>
+                </td>
+                <td
+                  block="CheckoutShippingMethods"
+                  elem="Price"
+                >
+                    { `${price_incl_tax}$` }
+                </td>
             </tr>
         );
     }
@@ -78,7 +92,13 @@ class CheckoutShippingMethods extends Component {
 
         return (
             <fieldset block="CheckoutShippingMethods">
-                <legend>Shipping Method</legend>
+                <legend
+                  block="CheckoutPage"
+                  elem="Heading"
+                  mods={ { hasDivider: true } }
+                >
+                    1. Shipping
+                </legend>
                 <div>
                     <Loader isLoading={ loadingShippingMethods } />
                     { areShippingMethodsAvailable

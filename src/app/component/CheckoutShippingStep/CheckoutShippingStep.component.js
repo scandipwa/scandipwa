@@ -70,15 +70,16 @@ class CheckoutShippingStep extends Component {
 
         this.fieldMap = {
             [EMAIL_FIELD_ID]: {
-                label: 'Email Address',
+                autocomplete: 'email',
+                placeholder: 'Email Address',
                 note: 'You can create an account after checkout.',
                 validation: ['notEmpty', 'email']
             },
-            [FIRSTNAME_FIELD_ID]: { label: 'First Name' },
-            [LASTNAME_FIELD_ID]: { label: 'Last Name' },
-            [COMPANY_FIELD_ID]: { label: 'Company', validation: [] },
+            [FIRSTNAME_FIELD_ID]: { placeholder: 'First Name' },
+            [LASTNAME_FIELD_ID]: { placeholder: 'Last Name' },
+            [COMPANY_FIELD_ID]: { placeholder: 'Company', validation: [] },
             [STREET_0_FIELD_ID]: {
-                label: 'Street Address',
+                placeholder: 'Street Address',
                 onChange: (street) => {
                     const { street: stateStreet } = this.state;
                     this.setState({ street: { ...stateStreet, 0: street } }, this.handleFieldChange);
@@ -91,7 +92,7 @@ class CheckoutShippingStep extends Component {
                 },
                 validation: []
             },
-            [CITY_FIELD_ID]: { label: 'City' },
+            [CITY_FIELD_ID]: { placeholder: 'City' },
             // [STATE_FIELD_ID]: {
             //     label: 'State',
             //     validation: [],
@@ -116,7 +117,7 @@ class CheckoutShippingStep extends Component {
             //         return this.setState({ region }, this.handleFieldChange);
             //     }
             // },
-            [ZIP_FIELD_ID]: { label: 'Postal Code' },
+            [ZIP_FIELD_ID]: { placeholder: 'Postal Code' },
             // [COUNTRY_FIELD_ID]: {
             //     label: 'Country',
             //     type: 'select',
@@ -127,7 +128,7 @@ class CheckoutShippingStep extends Component {
             //         this.getAvailableRegions(countryId);
             //     }
             // },
-            [PHONE_FIELD_ID]: { label: 'Phone Number' }
+            [PHONE_FIELD_ID]: { placeholder: 'Phone Number' }
         };
 
         this.renderMap = {
@@ -199,18 +200,24 @@ class CheckoutShippingStep extends Component {
 
     onFormSuccess() {
         const { showNotification, saveAddressInformation, billingAddress } = this.props;
-        const { activeShippingMethod: { method_code, carrier_code } } = this.state;
+        const { activeShippingMethod } = this.state;
+        const { method_code, carrier_code } = activeShippingMethod;
         const trimmedBillingAddress = Object.entries(billingAddress).length ? this.trimAddress(billingAddress) : {};
         const trimmedShippingAddress = this.trimAddress(this.state);
+
+        console.log(trimmedShippingAddress);
 
         if (!method_code || !carrier_code) {
             showNotification('error', 'No shipping method specified');
         } else {
             const addressInformation = {
-                shipping_address: trimmedShippingAddress,
-                billing_address: trimmedBillingAddress,
-                shipping_carrier_code: carrier_code,
-                shipping_method_code: method_code
+                addressInformation: {
+                    shipping_address: trimmedShippingAddress,
+                    billing_address: trimmedBillingAddress,
+                    shipping_carrier_code: carrier_code,
+                    shipping_method_code: method_code
+                },
+                shippingMethod: activeShippingMethod
             };
 
             this.setState({ loadingShippingInformationSave: true });
@@ -308,6 +315,7 @@ class CheckoutShippingStep extends Component {
             name,
             validation = ['notEmpty'],
             placeholder,
+            autocomplete,
             selectOptions,
             onChange = value => this.setState({ [id]: value }, this.handleFieldChange)
         } = this.fieldMap[id];
@@ -326,6 +334,7 @@ class CheckoutShippingStep extends Component {
               validation={ validation }
               placeholder={ placeholder }
               onChange={ onChange }
+              autocomplete={ autocomplete }
             />
         );
     }
@@ -334,17 +343,19 @@ class CheckoutShippingStep extends Component {
         const { countryList } = this.props;
         const { country_id } = this.state;
 
+        console.log(country_id);
+
         return (
             <Field
               id={ COUNTRY_FIELD_ID }
               name={ COUNTRY_FIELD_ID }
               type="select"
-              label="Country"
+              placeholder="Country"
               selectOptions={ countryList.map(({ id, label }, index) => ({ id, label, value: index })) }
               validation={ ['notEmpty'] }
               value={ country_id }
               onChange={ index => this.setState({
-                  country_id: countryList[index].value,
+                  country_id: countryList[index].id,
                   selectedCountryIndex: index
               }, this.handleFieldChange) }
             />
@@ -362,11 +373,14 @@ class CheckoutShippingStep extends Component {
                   id={ REGION_ID_FIELD_ID }
                   name={ REGION_ID_FIELD_ID }
                   type="select"
-                  label="State"
+                  placeholder="State"
                   selectOptions={ regions.map(({ id, name }) => ({ id, label: name, value: id })) }
                   validation={ ['notEmpty'] }
                   value={ region_id }
-                  onChange={ region_id => this.setState({ region_id: parseInt(region_id, 10), region: null }, this.handleFieldChange) }
+                  onChange={ region_id => this.setState({
+                      region_id: parseInt(region_id, 10),
+                      region: null
+                  }, this.handleFieldChange) }
                 />
             );
         }
@@ -376,7 +390,7 @@ class CheckoutShippingStep extends Component {
               id={ REGION_FIELD_ID }
               name={ REGION_FIELD_ID }
               type="text"
-              label="Region"
+              placeholder="Region"
               onChange={ region => this.setState({
                   region,
                   region_id: null
@@ -436,24 +450,25 @@ class CheckoutShippingStep extends Component {
                 }
                 { !isSignedIn && (
                     <fieldset>
-                        <legend>Email Address</legend>
+                        <legend block="CheckoutPage" elem="Heading">
+                            Contact details
+                        </legend>
                         { this.renderField(EMAIL_FIELD_ID) }
+                        { this.renderField(PHONE_FIELD_ID) }
                     </fieldset>)
                 }
                 <fieldset>
-                    <legend>Shipping Address</legend>
+                    <legend block="CheckoutPage" elem="Heading">Shipping Address</legend>
                     { this.renderField(FIRSTNAME_FIELD_ID) }
                     { this.renderField(LASTNAME_FIELD_ID) }
                     { this.renderField(COMPANY_FIELD_ID) }
                     { this.renderField(STREET_0_FIELD_ID, street[0]) }
-                    { this.renderField(STREET_1_FIELD_ID, street[1]) }
                     { this.renderField(CITY_FIELD_ID) }
                     {/* { this.renderRegionField(STATE_FIELD_ID) } */}
                     { this.renderRegionField() }
                     { this.renderField(ZIP_FIELD_ID) }
                     {/* { this.renderField(COUNTRY_FIELD_ID) } */}
                     { this.renderCountrySelect() }
-                    { this.renderField(PHONE_FIELD_ID) }
                 </fieldset>
             </>
         );
@@ -469,7 +484,7 @@ class CheckoutShippingStep extends Component {
             region,
             city,
             street,
-            postalcode
+            postcode
         } = this.state;
 
         const { region: regionName } = region;
@@ -491,7 +506,7 @@ class CheckoutShippingStep extends Component {
                         <dd>{ `${country_id }, ${regionName}, ${city}` }</dd>
                         <dd>{ street[0] }</dd>
                         <dd>{ street[1] }</dd>
-                        <dd>{ postalcode }</dd>
+                        <dd>{ postcode }</dd>
                         <dd>{ telephone }</dd>
                     </dl>
                 </address>
@@ -512,6 +527,7 @@ class CheckoutShippingStep extends Component {
             shippingMethods,
             loadingShippingMethods,
             activeShippingMethod,
+            loadingShippingInformationSave,
             state
         } = this.state;
         const renderFunction = this.renderMap[state];
@@ -519,12 +535,11 @@ class CheckoutShippingStep extends Component {
 
         return (
             <Form
+              mix={ { block: 'CheckoutShippingStep' } }
               onSubmitSuccess={ validFields => this.onFormSuccess(validFields) }
               key="shipping_step"
             >
-                <Loader isLoading={ isSignedIn && !finishedLoading } />
-
-                { renderFunction() }
+                <Loader isLoading={ (isSignedIn && !finishedLoading) || loadingShippingInformationSave } />
 
                 <CheckoutShippingMethods
                   shippingMethods={ shippingMethods }
@@ -532,12 +547,14 @@ class CheckoutShippingStep extends Component {
                   onSelectShippingMethod={ method => this.onSelectShippingMethod(method) }
                 />
 
+                { renderFunction() }
+
                 <button
                   block="Button"
                   type="submit"
                   disabled={ !method_code }
                 >
-                    Next step
+                    Choose payment type
                 </button>
             </Form>
         );

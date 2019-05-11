@@ -10,26 +10,35 @@
  */
 
 .CheckoutOrderSummary {
-    padding: 2rem;
-    // background-color: var(--color-summary-background);
-    display: table;
-
     @include mobile {
-        order: 1;
+        display: none;
     }
 
-    h3 {
-        padding-bottom: 1rem;
-        border-bottom: 1px solid var(--color-summary-divider);
-        text-transform: uppercase;
-        text-align: center;
+    &-Header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0;
+    }
+
+    &-ItemsInCart {
+        font-size: 12px;
+        opacity: .5;
+        text-transform: none;
+        top: 2px;
+        font-weight: 300;
     }
 
     &-SummaryItem {
         justify-content: space-between;
         display: flex;
         padding-left: 0;
-        margin-bottom: 1.5rem;
+        padding: 1rem 0;
+        margin-bottom: 0;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
 
         &::before {
             content: none;
@@ -98,5 +107,9 @@
 
     .ProductPrice {
         margin-top: 0;
+    }
+
+    .CartItem-Wrapper {
+        padding: 1rem 0;
     }
 }

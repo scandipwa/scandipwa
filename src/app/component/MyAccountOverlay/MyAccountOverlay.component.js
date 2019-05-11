@@ -234,7 +234,14 @@ class MyAccountOverlay extends Component {
                   onSubmitSuccess={ fields => this.onForgotPasswordSuccess(fields) }
                   onSubmitError={ () => this.onFormError() }
                 >
-                    <Field type="text" id="email" name="email" label="Email" validation={ ['notEmpty', 'email'] } />
+                    <Field
+                      type="text"
+                      id="user_email"
+                      name="email"
+                      label="Email"
+                      autocomplete="email"
+                      validation={ ['notEmpty', 'email'] }
+                    />
                     <div block="MyAccountOverlay" elem="Buttons">
                         <button block="Button" type="submit" onClick={ this.handleForgotPasswordSuccess }>
                             Reset password
@@ -328,7 +335,14 @@ class MyAccountOverlay extends Component {
                     </fieldset>
                     <fieldset block="MyAccountOverlay" elem="Legend">
                         <legend>Sign-Up Information</legend>
-                        <Field type="text" label="Email" id="email" name="email" validation={ ['notEmpty', 'email'] } />
+                        <Field
+                          type="text"
+                          label="Email"
+                          id="user_email"
+                          name="email"
+                          autocomplete="email"
+                          validation={ ['notEmpty', 'email'] }
+                        />
                         <Field
                           type="password"
                           label="Password"
@@ -378,8 +392,9 @@ class MyAccountOverlay extends Component {
                     <Field
                       type="text"
                       label="Email or login"
-                      id="email"
+                      id="user_email"
                       name="email"
+                      autocomplete="email"
                       validation={ ['notEmpty', 'email'] }
                     />
                     <Field

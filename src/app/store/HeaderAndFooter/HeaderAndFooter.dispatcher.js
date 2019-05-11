@@ -46,10 +46,6 @@ class HeaderAndFooterDispatcher extends QueryDispatcher {
             RegionQuery.getCountriesList()
         ];
     }
-
-    toggleHeaderAndFooter(dispatch, options) {
-        return dispatch(toggleHeaderAndFooter(options.isHeaderAndFooterVisible));
-    }
 }
 
 export default new HeaderAndFooterDispatcher();

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable react/no-unused-state */
 /**
  * ScandiPWA - Progressive Web App for Magento
@@ -13,12 +14,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { history } from 'Route';
+import { TotalsType } from 'Type/MiniCart';
+import { ProductType } from 'Type/ProductList';
 import ContentWrapper from 'Component/ContentWrapper';
 import CheckoutOrderSummary from 'Component/CheckoutOrderSummary';
 import CheckoutShippingStep from 'Component/CheckoutShippingStep';
 import CheckoutPreviewAndPaymentsStep from 'Component/CheckoutPreviewAndPaymentsStep';
 import { getUrlParam } from 'Util/Url';
 import { customerType } from 'Type/Account';
+import { CHECKOUT } from 'Component/Header';
 import './CheckoutPage.style';
 
 const CHECKOUT_BASE_URL = 'checkout';
@@ -53,6 +58,7 @@ class CheckoutPage extends Component {
             methodCode: '',
             paymentMethods: [],
             paymentTotals: {},
+            shippingMethod: {},
             orderID: '',
             ...state
         };
@@ -68,24 +74,21 @@ class CheckoutPage extends Component {
             [CHECKOUT_STEP_SUCCESS]: () => this.renderCheckoutSuccessStep()
         };
 
-        this.subHeadingMap = {
-            [CHECKOUT_STEP_SHIPPING]: 'Shipping information',
-            [CHECKOUT_STEP_REVIEW_AND_PAYMENTS]: 'Review and payment information',
+        this.headerTitleMap = {
+            [CHECKOUT_STEP_SHIPPING]: '1. Shipping',
+            [CHECKOUT_STEP_REVIEW_AND_PAYMENTS]: '2. Payment type',
             [CHECKOUT_STEP_SUCCESS]: 'Order information'
         };
     }
 
     static getDerivedStateFromProps(props, state) {
         const { prevCheckoutStep, checkoutStep } = state;
-        const {
-            updateToggleHeaderAndFooter
-            // match,
-            // location,
-            // location: { state: locationState }
-        } = props;
+        // const {
+        // match,
+        // location,
+        // location: { state: locationState }
+        // } = props;
         const stateToBeUpdated = {};
-
-        updateToggleHeaderAndFooter({ isHeaderAndFooterVisible: false });
 
         // if (getUrlParam(match, location) !== checkoutStep && locationState) {
         //     const { locationState: { checkoutStep: locationCheckoutStep } } = location;
@@ -102,13 +105,16 @@ class CheckoutPage extends Component {
     }
 
     componentDidMount() {
-        const { updateToggleHeaderAndFooter } = this.props;
-        const { isSignedIn } = this.props;
+        const { isSignedIn, toggleBreadcrumbs } = this.props;
 
-        updateToggleHeaderAndFooter({ isHeaderAndFooterVisible: false });
-        if (isSignedIn) return this.requestCustomerData().then(() => this.getDefaultAddresses());
+        toggleBreadcrumbs();
 
-        return this.getDefaultAddresses();
+        if (isSignedIn) {
+            this.requestCustomerData().then(() => this.getDefaultAddresses());
+        } else {
+            this.updateHeader();
+            this.getDefaultAddresses();
+        }
     }
 
     getDefaultAddresses() {
@@ -136,6 +142,17 @@ class CheckoutPage extends Component {
         this.setState({ addressesAreChecked: true });
     }
 
+    updateHeader() {
+        const { setHeaderState } = this.props;
+        const { checkoutStep } = this.state;
+
+        setHeaderState({
+            name: CHECKOUT,
+            title: this.headerTitleMap[checkoutStep],
+            onBackClick: () => history.push('/')
+        });
+    }
+
     requestCustomerData() {
         const { requestCustomerData } = this.props;
         const options = {
@@ -147,8 +164,9 @@ class CheckoutPage extends Component {
         return requestCustomerData(options);
     }
 
-    saveAddressInformation(addressInformation) {
+    saveAddressInformation(shippingInformation) {
         const { saveAddressInformation } = this.props;
+        const { addressInformation, shippingMethod } = shippingInformation;
         const {
             shipping_address,
             billing_address,
@@ -161,7 +179,8 @@ class CheckoutPage extends Component {
             billingAddress: billing_address,
             carrierCode: shipping_carrier_code,
             methodCode: shipping_method_code,
-            addressesAreChecked: false
+            addressesAreChecked: false,
+            shippingMethod
         });
 
         return saveAddressInformation(addressInformation).then(
@@ -172,7 +191,7 @@ class CheckoutPage extends Component {
                     paymentMethods: payment_methods,
                     paymentTotals: totals,
                     addressesAreChecked: true
-                });
+                }, this.updateHeader);
             },
             err => console.log(err)
         );
@@ -186,16 +205,13 @@ class CheckoutPage extends Component {
 
         return savePaymentInformationAndPlaceOrder(paymentInformation).then(
             ({ savePaymentInformationAndPlaceOrder: { orderID } }) => {
-                const { updateToggleHeaderAndFooter } = this.props;
-
-                updateToggleHeaderAndFooter({ isHeaderAndFooterVisible: true });
                 removeCartAndObtainNewGuest();
 
                 this.setState({
                     orderID,
                     checkoutStep: CHECKOUT_STEP_SUCCESS,
                     showSummary: false
-                });
+                }, this.updateHeader);
             },
             err => console.log(err)
         );
@@ -268,56 +284,17 @@ class CheckoutPage extends Component {
         );
     }
 
-    renderCheckoutStepsIndicator() {
-        const { checkoutStep } = this.state;
-        const renderStepArray = Object.keys(this.renderMap);
-
-        return (
-            <div
-              block="CheckoutPage"
-              elem="StepIndicatorWrapper"
-              aria-label="Step indicator"
-            >
-                { renderStepArray.reverse().map((key, i) => (
-                    <div
-                      block="CheckoutPage"
-                      elem="StepIndicator"
-                      mods={ { isActive: key === checkoutStep } }
-                      // eslint-disable-next-line react/no-array-index-key
-                      key={ i }
-                    >
-                        <span>
-                            <strong>{ `Step ${ renderStepArray.length - i }` }</strong>
-                            { this.subHeadingMap[key] }
-                        </span>
-                    </div>
-                )) }
-            </div>
-        );
-    }
-
     /**
      * render function calls approperiate renderer based on step
      * @returns {*}
      */
     render() {
-        const { checkoutStep, methodCode, showSummary } = this.state;
+        const { checkoutStep, shippingMethod, showSummary } = this.state;
         const { products, totals } = this.props;
         const stepRenderFunction = this.renderMap[checkoutStep];
-        const subHeading = this.subHeadingMap[checkoutStep];
 
         return (
             <main block="CheckoutPage">
-                <header block="CheckoutPage" elem="Header">
-                    <ContentWrapper
-                      label="Checkout heading"
-                    >
-                        <h1>Checkout</h1>
-                        <h3>{ subHeading }</h3>
-                        { this.renderCheckoutStepsIndicator() }
-                    </ContentWrapper>
-                </header>
-
                 <ContentWrapper
                   wrapperMix={ { block: 'CheckoutPage', elem: 'Wrapper' } }
                   label="Checkout page"
@@ -329,7 +306,7 @@ class CheckoutPage extends Component {
                         <CheckoutOrderSummary
                           totals={ totals }
                           products={ products }
-                          shippingMethod={ methodCode }
+                          shippingMethod={ shippingMethod }
                         />
                     ) }
                 </ContentWrapper>
@@ -339,12 +316,12 @@ class CheckoutPage extends Component {
 }
 
 CheckoutPage.propTypes = {
-    // isHeaderAndFooterVisible: PropTypes.bool.isRequired,
-    updateToggleHeaderAndFooter: PropTypes.func.isRequired,
     savePaymentInformationAndPlaceOrder: PropTypes.func.isRequired,
     saveAddressInformation: PropTypes.func.isRequired,
     removeCartAndObtainNewGuest: PropTypes.func.isRequired,
     requestCustomerData: PropTypes.func.isRequired,
+    toggleBreadcrumbs: PropTypes.func.isRequired,
+    setHeaderState: PropTypes.func.isRequired,
     history: PropTypes.shape({
         location: PropTypes.object.isRequired,
         push: PropTypes.func.isRequired
@@ -354,7 +331,13 @@ CheckoutPage.propTypes = {
     }).isRequired,
     isSignedIn: PropTypes.bool.isRequired,
     countryList: PropTypes.arrayOf(PropTypes.shape).isRequired,
-    customer: customerType.isRequired
+    customer: customerType.isRequired,
+    products: PropTypes.objectOf(ProductType),
+    totals: TotalsType.isRequired
+};
+
+CheckoutPage.defaultProps = {
+    products: {}
 };
 
 export default CheckoutPage;

@@ -60,20 +60,20 @@ class CheckoutPreviewAndPaymentsStep extends Component {
             loadingPaymentInformationSave: false,
             defaultBillingAddress: false,
             regionList: [],
-            state: STATE_SAME_ADDRESS
+            state: STATE_NEW_ADDRESS
         };
 
         this.fieldMap = {
             [EMAIL_FIELD_ID]: {
-                label: 'Email Address',
+                placeholder: 'Email Address',
                 note: 'You can create an account after checkout.',
                 validation: ['notEmpty', 'email']
             },
-            [FIRSTNAME_FIELD_ID]: { label: 'First Name' },
-            [LASTNAME_FIELD_ID]: { label: 'Last Name' },
-            [COMPANY_FIELD_ID]: { label: 'Company', validation: [] },
+            [FIRSTNAME_FIELD_ID]: { placeholder: 'First Name' },
+            [LASTNAME_FIELD_ID]: { placeholder: 'Last Name' },
+            [COMPANY_FIELD_ID]: { placeholder: 'Company', validation: [] },
             [STREET_0_FIELD_ID]: {
-                label: 'Street Address',
+                placeholder: 'Street Address',
                 onChange: (street) => {
                     const { street: stateStreet } = this.state;
                     this.setState({ street: { ...stateStreet, 0: street } }, this.handleFieldChange);
@@ -86,7 +86,7 @@ class CheckoutPreviewAndPaymentsStep extends Component {
                 },
                 validation: []
             },
-            [CITY_FIELD_ID]: { label: 'City' },
+            [CITY_FIELD_ID]: { placeholder: 'City' },
             // [STATE_FIELD_ID]: {
             //     label: 'State',
             //     validation: [],
@@ -111,7 +111,7 @@ class CheckoutPreviewAndPaymentsStep extends Component {
             //         return this.setState({ region }, this.handleFieldChange);
             //     }
             // },
-            [ZIP_FIELD_ID]: { label: 'Postal Code' },
+            [ZIP_FIELD_ID]: { placeholder: 'Postal Code' },
             // [COUNTRY_FIELD_ID]: {
             //     label: 'Country',
             //     type: 'select',
@@ -120,7 +120,7 @@ class CheckoutPreviewAndPaymentsStep extends Component {
             //         this.getAvailableRegions(countryId);
             //     }
             // },
-            [PHONE_FIELD_ID]: { label: 'Phone Number' }
+            [PHONE_FIELD_ID]: { placeholder: 'Phone Number' }
         };
 
         this.renderMap = {
@@ -310,6 +310,7 @@ class CheckoutPreviewAndPaymentsStep extends Component {
         const {
             type = 'text',
             label,
+            placeholder,
             note,
             name,
             validation = ['notEmpty'],
@@ -321,6 +322,7 @@ class CheckoutPreviewAndPaymentsStep extends Component {
               id={ id }
               type={ type }
               label={ label }
+              placeholder={ placeholder }
               note={ note }
               name={ name || id }
               value={ overrideStateValue || stateValue }
@@ -339,7 +341,7 @@ class CheckoutPreviewAndPaymentsStep extends Component {
               id={ COUNTRY_FIELD_ID }
               name={ COUNTRY_FIELD_ID }
               type="select"
-              label="Country"
+              placeholder="Country"
               selectOptions={ countryList.map(({ id, label }, index) => ({ id, label, value: index })) }
               validation={ ['notEmpty'] }
               value={ country_id }
@@ -362,7 +364,7 @@ class CheckoutPreviewAndPaymentsStep extends Component {
                   id={ REGION_ID_FIELD_ID }
                   name={ REGION_ID_FIELD_ID }
                   type="select"
-                  label="State"
+                  placeholder="State"
                   selectOptions={ regions.map(({ id, name }) => ({ id, label: name, value: id })) }
                   validation={ ['notEmpty'] }
                   value={ region_id }
@@ -379,7 +381,7 @@ class CheckoutPreviewAndPaymentsStep extends Component {
               id={ REGION_FIELD_ID }
               name={ REGION_FIELD_ID }
               type="text"
-              label="Region"
+              placeholder="Region"
               onChange={ region => this.setState({ region, region_id: null }, this.handleFieldChange) }
               value={ region }
             />
@@ -416,16 +418,15 @@ class CheckoutPreviewAndPaymentsStep extends Component {
         const { shippingAddress, billingAddress } = this.state;
         const correctAddress = (addressType === 'sameAddress') ? shippingAddress : billingAddress;
         const {
-            firstname,
-            lastname,
-            company,
             street,
             city,
-            region_code,
-            postalcode,
-            country_id,
-            telephone
+            postcode,
+            country_id
         } = correctAddress;
+
+        const address = [country_id, city, street[0], postcode];
+
+        console.log(correctAddress);
 
         return (
             <>
@@ -434,18 +435,8 @@ class CheckoutPreviewAndPaymentsStep extends Component {
                   elem="ShippingAddressPreview"
                 >
                     <dl>
-                        <dt>Contact details:</dt>
-                        <dd>{ `${ firstname } ${ lastname }` }</dd>
-                        { company && (<>
-                            <dt>Company name</dt>
-                            <dd>{ company }</dd>
-                        </>)}
-                        <dd>{ telephone }</dd>
                         <dt>Billing address:</dt>
-                        <dd>{ `${country_id}, ${region_code}, ${city}` }</dd>
-                        <dd>{ street[0] }</dd>
-                        <dd>{ street[1] }</dd>
-                        <dd>{ postalcode }</dd>
+                        <dd>{ address.filter(s => !!s).join(', ') }</dd>
                     </dl>
                 </address>
             </>
@@ -460,7 +451,6 @@ class CheckoutPreviewAndPaymentsStep extends Component {
                 { this.renderField(LASTNAME_FIELD_ID) }
                 { this.renderField(COMPANY_FIELD_ID) }
                 { this.renderField(STREET_0_FIELD_ID, street[0]) }
-                { this.renderField(STREET_1_FIELD_ID, street[1]) }
                 { this.renderField(CITY_FIELD_ID) }
                 {/* { this.renderRegionField(STATE_FIELD_ID) } */}
                 { this.renderRegionField() }
@@ -493,17 +483,19 @@ class CheckoutPreviewAndPaymentsStep extends Component {
             billingIsSame,
             activePaymentMethod,
             shippingAddress,
-            state
+            state,
+            loadingPaymentInformationSave
         } = this.state;
         const renderFunction = this.renderMap[state];
         const { code } = activePaymentMethod;
 
         return (
             <Form
+              mix={ { block: 'CheckoutPreviewAndPaymentsStep' } }
               onSubmitSuccess={ validFields => this.onFormSuccess(validFields) }
               key="review_and_payment_step"
             >
-                <Loader isLoading={ !finishedLoading } />
+                <Loader isLoading={ !finishedLoading || loadingPaymentInformationSave } />
 
                 <CheckoutPaymentMethods
                   paymentMethods={ paymentMethods }
@@ -511,7 +503,7 @@ class CheckoutPreviewAndPaymentsStep extends Component {
                 />
 
                 <fieldset>
-                    <legend>Billing Address</legend>
+                    <legend block="CheckoutPage" elem="Heading">Billing Address</legend>
                     { this.renderStateButton() }
 
                     { shippingAddress && !!Object.entries(shippingAddress).length && (
@@ -519,7 +511,7 @@ class CheckoutPreviewAndPaymentsStep extends Component {
                           id="sameAsShippingAddress"
                           name="sameAsShippingAddress"
                           type="checkbox"
-                          label="My billing and shipping address are the same"
+                          label="My billing and shipping are the same"
                           value="sameAsShippingAddress"
                           checked={ !!billingIsSame }
                           onChange={ () => this.setState(

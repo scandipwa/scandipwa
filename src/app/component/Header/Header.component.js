@@ -36,6 +36,7 @@ export const SEARCH = 'search';
 export const FILTER = 'filter';
 export const CART = 'cart';
 export const CART_EDITING = 'cart_editing';
+export const CHECKOUT = 'checkout';
 
 export const NAVIGATION_BACK = 'back';
 export const NAVIGATION_CLOSE = 'close';
@@ -102,6 +103,10 @@ class Header extends Component {
             [FILTER]: {
                 close: true,
                 clear: true,
+                title: true
+            },
+            [CHECKOUT]: {
+                back: true,
                 title: true
             }
         };
@@ -589,7 +594,8 @@ Header.propTypes = {
             SEARCH,
             FILTER,
             CART,
-            CART_EDITING
+            CART_EDITING,
+            CHECKOUT
         ]),
         title: PropTypes.string,
         onBackClick: PropTypes.func,
