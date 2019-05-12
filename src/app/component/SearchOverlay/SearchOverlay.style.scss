@@ -14,7 +14,7 @@
     --search-criteria-label-color: rgba(10, 10, 10, 0.44);
     --search-criteria-search-term-color: #0a0a0a;
     --search-item-divider-color: #eeeeee;
-    --search-item-title-color: #f26323;
+    --search-item-title-color: #000;
 }
 
 .SearchOverlay {
@@ -129,7 +129,8 @@
 
     &-Title {
         color: var(--search-item-title-color);
-        font-size: 1.2rem;
+        font-size: 1.1rem;
+        font-weight: 600;
         max-width: calc(100vw - 7rem);
         text-overflow: ellipsis;
         overflow: hidden;

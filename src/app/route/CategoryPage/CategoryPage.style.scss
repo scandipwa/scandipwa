@@ -40,7 +40,8 @@
 
     &-Filter {
         text-transform: uppercase;
-        text-align: left;
+        text-align: right;
+        grid-column: 2;
         font-weight: 600;
         font-size: 16px;
         min-height: 50px;
@@ -53,7 +54,7 @@
         &::after {
             content: '';
             position: absolute;
-            left: calc(75% - 68px);
+            left: calc(90% - 68px);
             top: calc(50% - 5px);
         }
 
