@@ -221,6 +221,10 @@
 			&_cancel {
 				font-size: 14px;
 				opacity: .5;
+
+				&.Header-Button_isVisible {
+					width: 70px;
+				}
 			}
 		}
 	}
