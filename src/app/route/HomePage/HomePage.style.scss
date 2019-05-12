@@ -9,238 +9,84 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+:root {
+    --homepage-button-background: #fff;
+    --homepage-button-color: #000;
+}
+
 .HomePage {
     &-Wrapper {
-        @include mobile {
+        @include after-mobile {
+            max-width: 100%;
             padding: 0;
         }
     }
 
-    &-PromoCategories {
-        margin-top: 5rem;
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        grid-column-gap: 1rem;
-        grid-row-gap: 3rem;
+    &-Figure {
+        margin-top: 1rem;
 
-        @include mobile {
-            grid-template-columns: 1fr 1fr;
-            grid-row-gap: 1rem;
-            grid-column-gap: 1rem;
-            margin-top: 1rem;
-            padding: 0 1rem;
-        }
-
-        &_isLoading {
-            figure {
-                background-image: var(--placeholder-image);
-                background-size: var(--placeholder-size);
-                animation: var(--placeholder-animation);
-            }
-        }
-
-        > :nth-child(2) {
-            grid-row: 1/3;
-            grid-column: 2;
-        }
-
-        img {
-            object-fit: cover;
-        }
-
-        figure {
-            height: auto;
-            min-height: 250px;
-            padding: 15px;
-            display: flex;
-
-            @include mobile {
-                min-height: 15rem;
-                padding: 0;
-            }
-        }
-
-        figcaption {
-            position: relative;
-            margin: auto;
-            height: auto;
-            padding: 2rem;
-
-            @include mobile {
-                padding: 15px;
-            }
-        }
-
-        a {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: var(--color-text-black);
-            background-color: var(--color-homepage-background);
-            padding: 1rem;
-            
-            &:hover {
-                color: var(--color-primary-base);
-                text-decoration: none;
-            }
-        }
-
-        span {
-            font-weight: 700;
-            font-size: 1.8rem;
-            text-transform: uppercase;
-            margin-bottom: 1rem;
-
-            @include mobile {
-                font-size: 1.2rem;
-                margin-bottom: .5rem;
-
-            }
-        }
-
-        span + span {
-            font-size: 1rem;
-            font-weight: 900;
-            text-transform: uppercase;
-
-            @include mobile {
-                font-size: .9rem;
-            }
-        }
-    }
-
-    &-TopItems {
-        margin-top: 5rem;
-        display: grid;
-        grid-template-columns: 1fr 10rem 1fr;
-        grid-gap: 1rem;
-
-        @include mobile {
-            margin-top: 1rem;
-            grid-template-columns: 1fr;
-        }
-
-        > :first-child {
-            @include after-mobile {
-                grid-column: 1/3;
-            }
-
-            figcaption {
-                align-items: flex-end;
-                padding-right: 8rem;
-
-                @include mobile {
-                    padding-right: 0;
-                }
-            }
-        }
-
-        > :last-child {
-            @include after-mobile {
-                grid-column: 2/4;
-            }
-        }
-
-        > :nth-child(3) {
-            figcaption {
-                align-items: flex-end;
-            }
-        }
-
-        figure {
-            display: flex;
-            flex-grow: 1; 
-            width: auto;
-            margin: 1rem 0;
-            padding: 2rem;
-            min-height: 250px;
-            align-items: center;
-
-            @include mobile {
-                margin: 0;
-            }
-        }
-
-        figcaption {
-            position: relative;
-            display: flex;
-            flex-wrap: wrap;
-            flex-direction: column;
-            justify-content: center;
-            align-items: flex-start;
-        }
-
-        source,
-        img {
-            object-fit: cover;
-        }
-
-        a {
-            font-weight: 900;
-            text-transform: uppercase;
-            color: var(--color-text-black);
-
-            &:hover {
-                color: var(--color-primary-base);
-                text-decoration: none;
-            }
-        }
-
-        span {
-            font-weight: 700;
-            font-size: 1.8rem;
-            text-transform: uppercase;
-            margin-bottom: 2rem;
-        }
-
-        span + span {
-            font-size: 1.3rem;
-            font-weight: 400;
-            text-transform: none;
-        }
-    }
-
-
-    &-AboutUs {
-        margin-top: 5rem;
-        margin-bottom: 10rem;
-        display: grid;
-        grid-template-columns: 4fr 3fr; 
-        grid-column-gap: 2rem;
-
-        @include mobile {
-            grid-template-columns: 1fr;
-            grid-row-gap: 2rem;
-            margin: 2rem 0;
-            padding: 0 1rem;
+        @include after-mobile {
+            margin-top: 5px;
+            height: 400px;
         }
 
         picture {
-            height: auto;
-            padding: 0;
-        }
-
-        p {
-            margin: 0 3rem;
-            font-size: 14px;
-            font-weight: 600;
-            font-style: italic;
+            height: 100%;
+            display: block;
+            padding-bottom: 0;
+            background-image: var(--placeholder-image);
+            background-size: var(--placeholder-size);
+            animation: var(--placeholder-animation);
 
             @include mobile {
-                margin: 0;
+                height: 0;
+                padding-bottom: 56.5%;
+            }
+
+            img {
+                object-fit: cover;
+                opacity: 0;
+                animation: appear .5s 250ms forwards;
             }
         }
+    }
 
-        img {  
-            position: relative;
-            height: auto;
-            border-radius: 1rem;
-            margin-bottom: 3rem;
+    &-Figcaption {
+        --button-background: var(--homepage-button-background);
+        --button-color: var(--homepage-button-color);
+        --button-border: transparent;
+        --button-hover-background: var(--homepage-button-color);
+        --button-hover-color: var(--homepage-button-background);
+        --button-hover-border: transparent;
+        --button-padding: 13px 40px;
 
-            @include mobile {
-                margin-bottom: 0;
-            }
+        @include mobile {
+            --button-padding: 5px 0;
         }
+
+        @include after-mobile {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, 0);
+            text-align: center;
+        }
+
+        &_isPlaceholder {
+            padding-bottom: 31px;
+        }
+    }
+
+    &-Button.Button {
+        font-weight: 300;
+
+        @include mobile {
+            text-align: left;
+            width: 100%;
+        }
+    }
+
+    a + a {
+        margin-left: 0;
     }
 }

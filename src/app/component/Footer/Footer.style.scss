@@ -9,186 +9,25 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+:root {
+    --footer-height: 50px;
+}
+
 .Footer {
-    $icon-size: 25px;
-    $small-icon-size: 20px;
-    $circle-size: 60px;
+    height: var(--footer-height);
+    text-align: center;
 
-    background: var(--color-footer-background);
-    padding-top: 3rem;
+    &-Link {
+        font-size: 11px;
+        line-height: var(--footer-height);
+        font-weight: 300;
+        color: inherit;
 
-    display: none;
-
-    &-Content {
-        display: none;
-
-        &_isVisible {
-            display: block;
-        }
-    }
-
-    &-Promo {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        grid-column-gap: 1rem;
-
-        @include before-desktop  {
-            grid-template-columns: 1fr;
-            grid-row-gap: 1rem;
-        }
-
-        picture {
-            height: $icon-size;
-            width: $icon-size;
-            padding: 0;
-        }
-
-
-        div {
-            display: grid;
-            grid-template-columns: 6rem 1fr;
-            justify-content: center;
-            align-items: center;
-            background: var(--color-footer-light);
-            padding: 2rem;
-
-            div {
-                display: flex;
-                padding: 0;
-                flex-direction: column;
+        &:not(:last-of-type) {
+            &::after {
+                content: '|';
+                margin-left: 1rem;
             }
-
-            div:first-of-type {
-                width: $circle-size;
-                height: $circle-size;
-                border-radius: 50%;
-                border: 1px solid var(--color-primary-base);
-            }
-        }
-
-        span {
-            line-height: 2;
-            font-size: 1.2rem;
-            width: 100%;
-            font-weight: 700;
-        }
-
-        span + span {
-            font-weight: 300;
-
-        }
-    }
-
-    &-Links {
-        margin: 3rem 0;
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        grid-column-gap: 1rem;
-
-        @include mobile  {
-            grid-template-columns: repeat(2, 1fr);
-        }
-
-        h3 {
-            text-transform: uppercase;
-            color: var(--color-primary-base);
-
-            @include mobile  {
-                font-size: 1.2rem;
-            }
-        }
-
-        ul {
-            list-style: none;
-        }
-
-        li {
-            padding: 0;
-            line-height: 2.6;
-
-            @include mobile  {
-                line-height: 2;
-            }
-
-            &::before {
-                content: none;
-            }
-
-            a {
-                color: var(--color-text-black);
-
-                @include mobile  {
-                    font-size: 1rem;
-                }
-            }
-        }
-
-        picture {
-            height: $small-icon-size;
-            width: $small-icon-size;
-            padding: 0;
-        }
-
-        > :nth-child(4) {
-            li {
-                display:inline;
-                margin-right: .5rem;
-            }
-
-            a {
-                text-decoration: none;
-            }
-        }
-
-    }
-
-    &-Copyright {
-        background: var(--color-footer-copyright);
-        padding: 1rem 0;
-    }
-
-    &-CopyrightContent {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-
-        @include mobile  {
-            grid-template-columns: 1fr;
-            grid-row-gap: 1rem;
-            text-align: center;
-        }
-
-        picture {
-            height: $icon-size;
-            width: $icon-size;
-        }
-
-        ul {
-            display: flex;
-            justify-content: flex-end;
-
-            @include mobile  {
-                justify-content: center;
-            }
-        }
-
-        li {
-            margin: 0;
-            padding: 0;
-            display:inline;
-            margin-right: 1rem;
-
-            &::before {
-                content: none;
-            }
-
-            &:last-child {
-                margin: 0;
-            }
-        }
-
-        p {
-            color: var(--color-neutral-base);
-            margin-bottom: 0;
         }
     }
 }

@@ -35,16 +35,8 @@ class Html extends Component {
                 replace: this.replaceLinks
             },
             {
-                query: { name: ['figure'] },
-                replace: this.replaceFigure
-            },
-            {
                 query: { name: ['img'] },
                 replace: this.replaceImages
-            },
-            {
-                query: { name: ['input'] },
-                replace: this.replaceInput
             }
         ];
 
@@ -114,54 +106,6 @@ class Html extends Component {
                 />
             );
         }
-    }
-
-    /**
-     * Replace figure to Figure component
-     * @param  {{ children: Array }}
-     * @return {void|JSX} Return JSX with image
-     * @memberof Html
-     */
-    replaceFigure({ children }) {
-        const newChildren = [];
-        let imageSource;
-        let placeHolderSource;
-        let imageAlt;
-
-        children.forEach((element) => {
-            if (element.name === 'img') {
-                imageSource = element.attribs.src.charAt(0) === '/' ? element.attribs.src : `/${ element.attribs.src }`;
-                placeHolderSource = imageSource.replace(/\.jpg/g, '.svg');
-                imageAlt = element.attribs.alt;
-            } else {
-                newChildren.push(element);
-            }
-        });
-
-        if (imageSource) {
-            return (
-                // TODO temporary solution
-                <Figure
-                  placeholderSrc={ `/media/svg/wysiwyg/cms${ placeHolderSource }` }
-                  src={ `/media/wysiwyg/cms${ imageSource }` }
-                  alt={ imageAlt }
-                  arePlaceholdersShown
-                  showGreyPlaceholder
-                >
-                    { domToReact(newChildren, this.parserOptions) }
-                </Figure>
-            );
-        }
-    }
-
-    /**
-     * Replace input.
-     * @param  {{ attribs: Object }}
-     * @return {void|JSX} Return JSX with image
-     * @memberof Html
-     */
-    replaceInput({ attribs }) {
-        return <input { ...attributesToProps(attribs) } />;
     }
 
     render() {

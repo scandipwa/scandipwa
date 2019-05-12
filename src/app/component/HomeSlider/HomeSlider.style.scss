@@ -10,5 +10,51 @@
  */
 
 .HomeSlider {
-    max-height: 60vh;
+    &-Heading {
+        font-size: 62px;
+        text-transform: uppercase;
+        color: var(--homepage-button-background);
+        margin-bottom: 2.5rem;
+
+        @include mobile {
+            font-size: 30px;
+            margin-bottom: 1rem;
+        }
+    }
+
+    &-Figcaption {
+        position: absolute;
+        bottom: 10%;
+        left: 0;
+        width: 100%;
+        text-align: center;
+    }
+
+    &-FigureImage {
+        padding-bottom: 40%;
+
+        @include mobile {
+            padding-bottom: 100%;
+        }
+
+        img {
+            @include mobile {
+                object-position: right;
+            }
+        }
+    }
+
+    &-Figure {
+        width: 100%;
+    }
+
+    .Button {
+        @include mobile {
+            display: none;
+        }
+    }
+
+    .Slider-Crumbs {
+        bottom: 2rem;
+    }
 }

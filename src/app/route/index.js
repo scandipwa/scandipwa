@@ -125,17 +125,7 @@ class AppRouter extends Component {
         };
         const footerOptions = {
             identifiers: [
-                'footer-free-shipping',
-                'footer-online-support',
-                'footer-payment-secure',
-                'footer-company-links',
-                'footer-resources-links',
-                'footer-quick-links',
-                'footer-social-links',
-                'footer-download-our-apps',
-                'footer-payment-options',
-                'footer-copyright-text',
-                'newsletter-signup',
+                'social-links',
                 'imagine-banner'
             ],
             fields: ['identifier']

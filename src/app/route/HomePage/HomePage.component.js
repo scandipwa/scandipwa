@@ -14,10 +14,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import HomeSlider from 'Component/HomeSlider';
 import Html from 'Component/Html';
-import ContentWrapper from 'Component/ContentWrapper';
-import NewsletterSubscribe from 'Component/NewsletterSubsribe';
+// import NewsletterSubscribe from 'Component/NewsletterSubsribe';
 import { BlockListType } from 'Type/CMS';
 import Meta from 'Component/Meta';
+import ContentWrapper from 'Component/ContentWrapper';
 import './HomePage.style';
 
 class HomePage extends Component {
@@ -25,13 +25,9 @@ class HomePage extends Component {
         super();
 
         this.options = {
-            identifiers: [
-                'homepage-promo-categories',
-                'homepage-top-items',
-                'homepage-about-us'
-            ],
+            identifiers: ['homepage-category-preview'],
             fields: ['identifier'],
-            sliderId: 1
+            sliderId: 4
         };
     }
 
@@ -72,28 +68,29 @@ class HomePage extends Component {
                   } }
                 />
                 <HomeSlider />
-                <ContentWrapper
-                  mix={ { block: 'HomePage' } }
-                  wrapperMix={ { block: 'HomePage', elem: 'Wrapper' } }
-                  label="Home Page"
-                >
+                <ContentWrapper wrapperMix={ { block: 'HomePage', elem: 'Wrapper' } } label="Homepage promo categories">
                     { items
                         ? identifiers.map((blockId) => {
                             const { content } = items[blockId] || {};
                             return <Html key={ blockId } content={ content || '' } />;
                         })
-                        : (
-                            <div
+                        : Array(2).fill().map((_, i) => (
+                            <figure
+                              key={ i }
                               block="HomePage"
-                              elem="PromoCategories"
-                              mods={ { isLoading: true } }
+                              elem="Figure"
+                              mods={ { isPlaceholder: true } }
                             >
-                                { new Array(5).fill().map((_, i) => <figure key={ i } />) }
-                            </div>
-                        )
+                                <picture />
+                                <figcaption
+                                  block="HomePage"
+                                  elem="Figcaption"
+                                  mods={ { isPlaceholder: true } }
+                                />
+                            </figure>
+                        ))
                     }
                 </ContentWrapper>
-                <NewsletterSubscribe />
             </main>
         );
     }

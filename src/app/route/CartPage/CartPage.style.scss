@@ -84,7 +84,6 @@
 
         @include mobile {
             border-bottom: 1px solid var(--cart-page-divider-background);
-            border-top: 1px solid var(--expandable-content-color);
         }
 
         strong {
@@ -166,13 +165,7 @@
     }
 
     &-Floating {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-
         @include after-mobile {
-            position: relative;
             margin-top: 6.5rem;
             display: flex;
             flex-direction: column;

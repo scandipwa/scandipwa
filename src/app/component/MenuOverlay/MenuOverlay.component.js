@@ -150,7 +150,7 @@ class MenuOverlay extends Component {
                     </Link>
                 </h3>
                 <div block="MenuOverlay" elem="Social">
-                    <Html content={ this.getItemContent('footer-social-links') } />
+                    <Html content={ this.getItemContent('social-links') } />
                 </div>
             </aside>
         );
@@ -174,7 +174,7 @@ class MenuOverlay extends Component {
             <div block="MenuOverlay" elem="Menu">
                 <Link
                   className="MenuOverlay-Banner"
-                  to="/category/woman"
+                  to="/category/women"
                 >
                     <Html content={ this.getItemContent('imagine-banner') } />
                 </Link>

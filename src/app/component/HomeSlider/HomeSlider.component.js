@@ -15,6 +15,7 @@ import Slider from 'Component/Slider';
 import { SliderType } from 'Type/Slider';
 import Image from 'Component/Image';
 import './HomeSlider.style';
+import Html from 'Component/Html';
 
 /**
  * Homepage slider
@@ -25,8 +26,8 @@ class HomeSlider extends Component {
         const { slider } = this.props;
 
         return Object.keys(slider).length > 0
-            ? slider.slides.map(media => ({ image: media.image, extraHtml: media.slide_text }))
-            : [{ image: '' }];
+            ? slider.slides.map(({ image, slide_text }) => ({ image, slide_text }))
+            : [{ image: '', slide_text: '' }];
     }
 
     render() {
@@ -37,14 +38,23 @@ class HomeSlider extends Component {
               mix={ { block: 'HomeSlider' } }
               showCrumbs
             >
-                { gallery.map((({ image }, i) => (
-                    <Image
-                      mix={ { block: 'HomeSlider', elem: 'Image' } }
-                      objectFit="cover"
-                      ratio="16x9"
-                      src={ image }
-                      key={ i }
-                    />
+                { gallery.map((({ image, slide_text }, i) => (
+                    <figure block="HomeSlider" elem="Figure" key={ i }>
+                        <Image
+                          mix={ { block: 'HomeSlider', elem: 'FigureImage' } }
+                          ratio="custom"
+                          objectFit="cover"
+                          src={ image }
+                          showGreyPlaceholder
+                        />
+                        <figcaption
+                          block="HomePage"
+                          elem="Figcaption"
+                          mix={ { block: 'HomeSlider', elem: 'Figcaption' } }
+                        >
+                            <Html content={ slide_text } />
+                        </figcaption>
+                    </figure>
                 ))) }
             </Slider>
         );
