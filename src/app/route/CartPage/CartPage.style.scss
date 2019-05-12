@@ -53,6 +53,10 @@
         @include after-mobile {
             margin-top: 2rem;
         }
+
+        span {
+            @include lock-button;
+        }
     }
 
     &-ContinueShopping {

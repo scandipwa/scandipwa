@@ -138,6 +138,7 @@ class CartPage extends Component {
                   className="CartPage-CheckoutButton Button"
                   to="/checkout"
                 >
+                    <span />
                     Secure checkout
                 </Link>
                 <Link

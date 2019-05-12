@@ -134,6 +134,13 @@
                 padding: 1.5rem 1rem;
             }
         }
+
+        &Button {
+            &::after,
+            &::before {
+                right: 30px;
+            }
+        }
     }
 
     &-SeeResults.Button {

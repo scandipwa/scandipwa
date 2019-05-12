@@ -58,6 +58,10 @@
     }
 
     &-CheckoutButton {
+        span {
+            @include lock-button;
+        }
+
         @include mobile {
             width: 100%;
             display: block;

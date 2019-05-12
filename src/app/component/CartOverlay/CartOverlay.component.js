@@ -110,6 +110,7 @@ class CartOverlay extends Component {
                   className="CartOverlay-CheckoutButton Button"
                   to="/checkout"
                 >
+                    <span />
                     Secure checkout
                 </Link>
             </div>

@@ -43,6 +43,7 @@ class ExpandableContent extends Component {
                   block="ExpandableContent"
                   elem="Button"
                   mods={ { isContentExpanded } }
+                  mix={ { ...mix, elem: 'ExpandableContentButton' } }
                   onClick={ this.toggleExpand }
                 >
                     <span
