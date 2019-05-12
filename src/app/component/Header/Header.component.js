@@ -38,6 +38,7 @@ export const FILTER = 'filter';
 export const CART = 'cart';
 export const CART_EDITING = 'cart_editing';
 export const CHECKOUT = 'checkout';
+export const CMS_PAGE = 'cms-page';
 
 export const NAVIGATION_BACK = 'back';
 export const NAVIGATION_CLOSE = 'close';
@@ -52,7 +53,8 @@ class Header extends Component {
             '/': { name: HOME_PAGE },
             '/category': { name: CATEGORY, onBackClick: () => history.push('/') },
             '/product': { name: PDP, onBackClick: () => history.goBack() },
-            '/cart': { name: CART }
+            '/cart': { name: CART },
+            '/page': { name: CMS_PAGE, onBackClick: () => history.goBack() }
         };
 
         this.stateMap = {
@@ -107,6 +109,10 @@ class Header extends Component {
                 title: true
             },
             [CHECKOUT]: {
+                back: true,
+                title: true
+            },
+            [CMS_PAGE]: {
                 back: true,
                 title: true
             }

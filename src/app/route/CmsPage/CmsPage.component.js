@@ -16,32 +16,38 @@ import Html from 'Component/Html';
 import { BlockListType } from 'Type/CMS';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import Meta from 'Component/Meta';
+import { CMS_PAGE } from 'Component/Header';
+import { history } from 'Route';
 import './CmsPage.style';
 
 class CmsPage extends Component {
     componentDidMount() {
-        const { requestPage, match: { params: { id } }, enableBreadcrumbs } = this.props;
-        requestPage({ id });
+        const { enableBreadcrumbs } = this.props;
+        this.requestPage();
         enableBreadcrumbs();
     }
 
     componentDidUpdate(prevProps) {
         const {
-            updateBreadcrumbs,
-            page,
-            requestPage,
-            match: {
-                params: {
-                    id
-                }
-            },
-            location
+            updateBreadcrumbs, page, location, setHeaderState,
+            page: { content_heading }
         } = this.props;
 
         updateBreadcrumbs(page);
+        setHeaderState({
+            name: CMS_PAGE,
+            title: content_heading,
+            onBackClick: () => history.goBack()
+        });
+
         if (location.pathname !== prevProps.location.pathname) {
-            requestPage({ id });
+            this.requestPage();
         }
+    }
+
+    requestPage() {
+        const { requestPage, match: { params: { id } } } = this.props;
+        requestPage({ id });
     }
 
     render() {
@@ -85,6 +91,7 @@ CmsPage.propTypes = {
         }).isRequired
     }).isRequired,
     page: BlockListType.isRequired,
+    setHeaderState: PropTypes.func.isRequired,
     updateBreadcrumbs: PropTypes.func.isRequired,
     location: PropTypes.shape().isRequired,
     enableBreadcrumbs: PropTypes.func.isRequired

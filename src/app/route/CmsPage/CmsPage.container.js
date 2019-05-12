@@ -12,6 +12,7 @@
 import { connect } from 'react-redux';
 import { CmsPageDispatcher } from 'Store/CmsPage';
 import { toggleBreadcrumbs, BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
+import { changeHeaderState } from 'Store/Header';
 import CmsPage from './CmsPage.component';
 
 const mapStateToProps = state => ({
@@ -20,17 +21,12 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    requestPage: (options) => {
-        CmsPageDispatcher.handleData(dispatch, options);
-    },
-
+    requestPage: options => CmsPageDispatcher.handleData(dispatch, options),
+    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.updateWithCmsPage(breadcrumbs, dispatch),
+    setHeaderState: stateName => dispatch(changeHeaderState(stateName)),
     enableBreadcrumbs: () => {
         BreadcrumbsDispatcher.update([], dispatch);
         dispatch(toggleBreadcrumbs(true));
-    },
-
-    updateBreadcrumbs: (breadcrumbs) => {
-        BreadcrumbsDispatcher.updateWithCmsPage(breadcrumbs, dispatch);
     }
 });
 

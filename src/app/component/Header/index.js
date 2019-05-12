@@ -21,7 +21,8 @@ import HeaderComponent, {
     SEARCH,
     CART,
     CART_EDITING,
-    CHECKOUT
+    CHECKOUT,
+    CMS_PAGE
 } from './Header.component';
 
 export default HeaderConnect;
@@ -37,5 +38,6 @@ export {
     CART,
     CART_EDITING,
     CHECKOUT,
+    CMS_PAGE,
     HeaderComponent
 };
