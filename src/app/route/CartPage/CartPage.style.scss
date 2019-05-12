@@ -80,18 +80,47 @@
     }
 
     &-Promo {
-        padding: 1rem;
+        padding: 2rem 1rem;
         text-align: center;
         background: var(--cart-page-promo-background);
-        margin-bottom: 0;
         order: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid var(--cart-page-divider-background);
 
         @include mobile {
-            border-bottom: 1px solid var(--cart-page-divider-background);
+            padding: 1rem;
+            border-left: 0;
+            border-right: 0;
+        }
+
+        @include after-mobile {
+            margin-top: 2rem;
+        }
+
+        &Image {
+            width: 46px;
+            margin-right: .5rem;
+
+            @include mobile {
+                width: 36px;
+            }
         }
 
         strong {
             margin: 0 5px;
+        }
+    }
+
+    &-PaymenyMethods {
+        order: 4;
+        display: block;
+        max-width: 60%;
+        margin: 1rem auto;
+
+        @include mobile {
+            margin: 3rem auto 1rem;
         }
     }
 

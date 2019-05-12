@@ -22,6 +22,7 @@ import isMobile from 'Util/Mobile';
 import ExpandableContent from 'Component/ExpandableContent';
 
 import './CartPage.style';
+import Image from 'Component/Image';
 
 class CartPage extends Component {
     constructor(props) {
@@ -151,17 +152,36 @@ class CartPage extends Component {
         );
     }
 
+    renderPaymentMethods() {
+        return (
+            <img
+              block="CartPage"
+              elem="PaymenyMethods"
+              src="/media/wysiwyg/etc/payment-methods.jpg"
+              alt="Shipping car icon"
+            />
+        );
+    }
+
     renderPromo() {
         return (
-            <p
+            <figure
               block="CartPage"
               elem="Promo"
             >
-                <strong>Free shipping</strong>
-                on orders
-                <strong>49$</strong>
-                and more.
-            </p>
+                <img
+                  block="CartPage"
+                  elem="PromoImage"
+                  src="/media/wysiwyg/etc/shipping-car.svg"
+                  alt="Shipping car icon"
+                />
+                <figcaption block="CartPage" elem="PromoText">
+                    <strong>Free shipping</strong>
+                    on orders
+                    <strong>49$</strong>
+                    and more.
+                </figcaption>
+            </figure>
         );
     }
 
@@ -179,6 +199,7 @@ class CartPage extends Component {
                         { this.renderDiscountCode() }
                     </div>
                     <div block="CartPage" elem="Floating">
+                        { this.renderPaymentMethods() }
                         { this.renderPromo() }
                         { this.renderTotals() }
                     </div>
