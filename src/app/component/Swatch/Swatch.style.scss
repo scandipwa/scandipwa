@@ -65,6 +65,12 @@
                     bottom: 2px solid var(--swatch-check-mark-background);
                 }
             }
+
+            &:hover {
+                @include after-mobile {
+                    --swatch-is-selected: .5;
+                }
+            }
         }
 
         &_placeholder {

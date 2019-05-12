@@ -11,6 +11,7 @@
 
 :root {
     --category-filter-overlay-desktop-color: #979797;
+    --category-filter-overlay-hover-color: #424242;
 }
 
 .CategoryFilterOverlay {
@@ -90,6 +91,12 @@
                 border: 1px solid var(--category-filter-overlay-desktop-color);
                 color: var(--category-filter-overlay-desktop-color);
                 margin-right: 6px;
+            }
+
+            &:hover {
+                @include after-mobile {
+                    --category-filter-overlay-desktop-color: var(--category-filter-overlay-hover-color);
+                }
             }
         }
 
