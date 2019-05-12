@@ -126,6 +126,8 @@ class CartItem extends Component {
             >
                 <button
                   block="CartItem"
+                  id="RemoveItem"
+                  name="RemoveItem"
                   elem="Delete"
                   aria-label="Remove item from cart"
                   onClick={ this.handleRemoveItem }
@@ -133,8 +135,8 @@ class CartItem extends Component {
                     <span>Delete</span>
                 </button>
                 <Field
-                  id="QtySelector"
-                  name="QtySelector"
+                  id="item_qty"
+                  name="item_qty"
                   type="number"
                   mix={ { block: 'CartItem', elem: 'Qty' } }
                   value={ quantity }

@@ -241,10 +241,10 @@ class Field extends Component {
                   id={ id }
                   name={ name }
                   type="checkbox"
-                  checked={ checked }
+                  defaultChecked={ checked }
                   disabled={ disabled }
                 //   onFocus={ this.onFocus }
-                  onChange={ this.onChange }
+                  onClick={ this.onClick }
                 //   onKeyPress={ this.onKeyPress }
                 />
                 <label htmlFor={ id } />
@@ -264,11 +264,11 @@ class Field extends Component {
                   type="radio"
                   id={ id }
                   name={ name }
-                  checked={ checked }
+                  defaultChecked={ checked }
                   value={ value }
                   disabled={ disabled }
                 //   onFocus={ this.onFocus }
-                  onChange={ this.onClick }
+                  onClick={ this.onClick }
                   onKeyPress={ this.onKeyPress }
                 />
                 <label htmlFor={ id } />
