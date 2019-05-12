@@ -136,12 +136,6 @@
     }
 
     &-ExpandableContent {
-        &Content_isContentExpanded {
-            @include mobile {
-                padding: 1.5rem 1rem;
-            }
-        }
-
         &Button {
             &::after,
             &::before {
@@ -156,6 +150,12 @@
 
         @include after-mobile {
             display: none;
+        }
+    }
+
+    .ExpandableContent-Content_isContentExpanded {
+        @include mobile {
+            padding: 2rem 1rem;
         }
     }
 

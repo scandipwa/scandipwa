@@ -46,7 +46,6 @@
             justify-content: center;
             flex-direction: column;
             padding: .5rem 1rem;
-            border-bottom: 1px solid transparent;
         }
 
         &::after,
@@ -78,8 +77,6 @@
         }
 
         &_isContentExpanded {
-            border-color: var(--expandable-content-divider-color);
-
             &::before {
                 transform: scale(0);
             }
