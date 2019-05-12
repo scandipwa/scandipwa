@@ -45,7 +45,7 @@ class HomeSlider extends Component {
                           ratio="custom"
                           objectFit="cover"
                           src={ image }
-                          showGreyPlaceholder
+                          hasNoPlaceholder
                         />
                         <figcaption
                           block="HomePage"

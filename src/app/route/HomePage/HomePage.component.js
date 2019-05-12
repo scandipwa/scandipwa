@@ -69,7 +69,7 @@ class HomePage extends Component {
                 />
                 <HomeSlider />
                 <ContentWrapper wrapperMix={ { block: 'HomePage', elem: 'Wrapper' } } label="Homepage promo categories">
-                    { items
+                    { items && items[identifiers[0]]
                         ? identifiers.map((blockId) => {
                             const { content } = items[blockId] || {};
                             return <Html key={ blockId } content={ content || '' } />;

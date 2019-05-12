@@ -162,6 +162,7 @@ class Image extends Component {
             alt,
             ratio,
             arePlaceholdersShown,
+            hasNoPlaceholder,
             showGreyPlaceholder,
             objectFit,
             mix
@@ -176,8 +177,8 @@ class Image extends Component {
         if (src && !isPathRelative(src)) throw new Error(`${src} is not an absolute path!`);
 
         const isIcon = src && src.includes('.svg');
-        const canShowSources = (!arePlaceholdersShown || showImage) && src && !isIcon && isCustomAvailable;
-        const canShowCustomImage = src && isCustomAvailable;
+        const canShowSources = !hasNoPlaceholder && (!arePlaceholdersShown || showImage) && src && !isIcon && isCustomAvailable;
+        const canShowCustomImage = !hasNoPlaceholder && src && isCustomAvailable;
 
         return (
             <picture
@@ -200,7 +201,7 @@ class Image extends Component {
                 { canShowCustomImage && (
                     <img src={ this.getUrlWithExtension(src, 'svg') } alt={ alt } />
                 ) }
-                { !isCustomAvailable && (
+                { (!isCustomAvailable || hasNoPlaceholder) && (
                     <img src={ src } alt={ alt } />
                 ) }
             </picture>
@@ -223,6 +224,7 @@ Image.propTypes = {
     ]),
     arePlaceholdersShown: PropTypes.bool,
     showGreyPlaceholder: PropTypes.bool,
+    hasNoPlaceholder: PropTypes.bool,
     mix: PropTypes.shape({
         block: PropTypes.string,
         elem: PropTypes.string,
@@ -240,6 +242,7 @@ Image.defaultProps = {
     mix: {},
     arePlaceholdersShown: false,
     showGreyPlaceholder: false,
+    hasNoPlaceholder: false,
     objectFit: 'contain'
 };
 
