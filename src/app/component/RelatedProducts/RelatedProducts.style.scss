@@ -37,6 +37,8 @@
 
     &-Label {
         text-transform: uppercase;
+        font-weight: 600;
+        line-height: 1;
 
         @include mobile {
             padding: 1.5rem 1rem 1rem;
