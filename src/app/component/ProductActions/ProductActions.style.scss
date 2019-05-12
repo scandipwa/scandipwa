@@ -119,7 +119,7 @@
         flex-basis: 100%;
 
         @include mobile {
-            border-top: 1px solid var(--overlay-divider-color);
+            border-top: 1px solid var(--expandable-content-divider-color);
         }
 
         @include after-mobile {
@@ -134,7 +134,7 @@
 
             &_short {
                 @include mobile {
-                    border-bottom: 1px solid var(--overlay-divider-color);
+                    border-bottom: 1px solid var(--expandable-content-divider-color);
                 }
 
                 @include after-mobile {

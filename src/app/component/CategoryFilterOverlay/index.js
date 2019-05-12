@@ -9,6 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import CategoryFilterOverlay from './CategoryFilterOverlay.component';
+import CategoryFilterOverlay from './CategoryFilterOverlay.container';
 
 export default CategoryFilterOverlay;

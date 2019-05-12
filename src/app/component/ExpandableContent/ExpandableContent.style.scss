@@ -11,6 +11,7 @@
 
 :root {
     --expandable-content-color: #000;
+    --expandable-content-divider-color: #0003;
 }
 
 @mixin expanded-content {
@@ -21,7 +22,7 @@
 
 .ExpandableContent {
     @include mobile {
-        border-top: 1px solid var(--expandable-content-color);
+        border-top: 1px solid var(--expandable-content-divider-color);
     }
 
     &:first-of-type {
@@ -30,7 +31,7 @@
 
     &:last-of-type {
         @include mobile {
-            border-bottom: 1px solid var(--expandable-content-color);
+            border-bottom: 1px solid var(--expandable-content-divider-color);
         }
     }
 
@@ -58,7 +59,7 @@
             height: 7px;
             width: 1px;
             background-color: var(--expandable-content-color);
-            right: 2rem;
+            right: 30px;
             top: 0;
             bottom: 0;
             margin: auto;
@@ -77,7 +78,7 @@
         }
 
         &_isContentExpanded {
-            border-color: var(--expandable-content-color);
+            border-color: var(--expandable-content-divider-color);
 
             &::before {
                 transform: scale(0);

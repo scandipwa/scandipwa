@@ -64,6 +64,7 @@ class ExpandableContent extends Component {
                   block="ExpandableContent"
                   elem="Content"
                   mods={ { isContentExpanded } }
+                  mix={ { ...mix, elem: 'ExpandableContentContent' } }
                 >
                     { children }
                 </div>

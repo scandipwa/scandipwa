@@ -18,6 +18,19 @@ import RangeSelector from 'Component/RangeSelector';
 import './CategoryFilterOverlay.style';
 
 class CategoryFilterOverlay extends Component {
+    constructor(props) {
+        super(props);
+
+        this.onSeeResultsClick = this.onSeeResultsClick.bind(this);
+    }
+
+    onSeeResultsClick() {
+        const { hideActiveOverlay, goToPreviousHeaderState } = this.props;
+
+        hideActiveOverlay();
+        goToPreviousHeaderState();
+    }
+
     toggleCustomFilter(requestVar, value) {
         const { updateFilter, customFiltersValues } = this.props;
         const newFilterArray = customFiltersValues[requestVar] ? customFiltersValues[requestVar] : [];
@@ -106,6 +119,19 @@ class CategoryFilterOverlay extends Component {
         );
     }
 
+    renderSeeResults() {
+        return (
+            <button
+              block="CategoryFilterOverlay"
+              elem="SeeResults"
+              mix={ { block: 'Button' } }
+              onClick={ this.onSeeResultsClick }
+            >
+                SEE RESULTS
+            </button>
+        );
+    }
+
     render() {
         const { availableFilters } = this.props;
 
@@ -114,6 +140,7 @@ class CategoryFilterOverlay extends Component {
                 <h2 block="CategoryFilterOverlay" elem="Heading">Shopping Options</h2>
                 { availableFilters.map(filter => this.renderFilter(filter)) }
                 { this.renderPriceRange() }
+                { this.renderSeeResults() }
             </Overlay>
         );
     }
@@ -123,6 +150,8 @@ CategoryFilterOverlay.propTypes = {
     availableFilters: PropTypes.arrayOf(PropTypes.shape).isRequired,
     customFiltersValues: PropTypes.objectOf(PropTypes.array).isRequired,
     updatePriceRange: PropTypes.func.isRequired,
+    hideActiveOverlay: PropTypes.func.isRequired,
+    goToPreviousHeaderState: PropTypes.func.isRequired,
     updateFilter: PropTypes.func.isRequired,
     priceValue: PropTypes.shape({
         min: PropTypes.number,

@@ -56,6 +56,10 @@
         &_type {
             &_color {
                 grid-template-columns: repeat(5, 20%);
+
+                @include mobile {
+                    grid-row-gap: 1rem;
+                }
             }
 
             &_cat {
@@ -111,6 +115,7 @@
         &_type {
             &_cat {
                 order: 100;
+                display: none;
             }
 
             &_price {
@@ -120,6 +125,23 @@
                     margin-bottom: 1rem;
                 }
             }
+        }
+    }
+
+    &-ExpandableContent {
+        &Content_isContentExpanded {
+            @include mobile {
+                padding: 1.5rem 1rem;
+            }
+        }
+    }
+
+    &-SeeResults {
+        margin: 2rem 1rem;
+        width: calc(100% - 2rem);
+
+        @include after-mobile {
+            display: none;
         }
     }
 

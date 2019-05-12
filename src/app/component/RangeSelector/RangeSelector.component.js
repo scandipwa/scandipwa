@@ -70,15 +70,20 @@ class RangeSelector extends Component {
 
     render() {
         const { minValue, maxValue } = this.props;
+        const { min, max } = this.getValue();
+
+        const isChanged = min !== minValue || max !== maxValue;
 
         return (
-          <InputRange
-            minValue={ minValue }
-            maxValue={ maxValue }
-            value={ this.getValue() }
-            onChangeComplete={ value => this.onChangeComplete(value) }
-            onChange={ value => this.setState({ value }) }
-          />
+            <div block="RangeSelector" mods={ { isChanged } }>
+                <InputRange
+                  minValue={ minValue }
+                  maxValue={ maxValue }
+                  value={ this.getValue() }
+                  onChangeComplete={ value => this.onChangeComplete(value) }
+                  onChange={ value => this.setState({ value }) }
+                />
+            </div>
         );
     }
 }

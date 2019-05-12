@@ -17,11 +17,7 @@
     --cart-item-actions-background: #f8f8f8;
     --cart-item-action-border: #d8d8d8;
     --cart-item-actions-color: #000;
-    --cart-item-divider-color: var(--expandable-content-color);
-
-    @include after-mobile {
-        --cart-item-divider-color: #d8d8d8;
-    }
+    --cart-item-divider-color: var(--expandable-content-divider-color);
 }
 
 .CartItem {
