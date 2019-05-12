@@ -10,7 +10,15 @@
  */
 
 .CategorySort {
-    // display: none;
+    @include after-mobile {
+        margin-left: auto;
+
+        &-Select {
+            margin-bottom: 1rem;
+            margin-top: 0;
+        }
+    }
+
     @include mobile {
         &-Select {
             select[name="category-sort"] {

@@ -116,12 +116,16 @@ class Field extends Component {
     }
 
     handleSelectListOptionClick({ value }) {
-        const { formRef } = this.props;
-        formRef.current.value = value;
+        const { formRef, onChange } = this.props;
+        if (typeof formRef !== 'function') {
+            formRef.current.value = value;
 
-        // TODO: investigate why this is required
-        const event = new Event('change', { bubbles: true });
-        formRef.current.dispatchEvent(event);
+            // TODO: investigate why this is required
+            const event = new Event('change', { bubbles: true });
+            formRef.current.dispatchEvent(event);
+        } else {
+            onChange(value);
+        }
     }
 
     renderTextarea() {

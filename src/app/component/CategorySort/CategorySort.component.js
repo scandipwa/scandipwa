@@ -95,7 +95,7 @@ class CategorySort extends Component {
     }
 
     render() {
-        const { sortFields } = this.props;
+        const { sortFields, value, sortDirection } = this.props;
 
         if (!sortFields) return this.renderPlaceholder();
 
@@ -108,6 +108,7 @@ class CategorySort extends Component {
                   label="SORT"
                   mix={ { block: 'CategorySort', elem: 'Select' } }
                   selectOptions={ this.prepareOptions() }
+                  value={ `${sortDirection} ${value}` }
                   onChange={ this.onChange }
                 />
             </div>
