@@ -450,8 +450,12 @@ class CheckoutShippingStep extends Component {
                 }
                 { !isSignedIn && (
                     <fieldset>
-                        <legend block="CheckoutPage" elem="Heading">
-                            Contact details
+                        <legend
+                          block="CheckoutPage"
+                          elem="Heading"
+                          mods={ { hasDivider: true } }
+                        >
+                            1. SHipping
                         </legend>
                         { this.renderField(EMAIL_FIELD_ID) }
                         { this.renderField(PHONE_FIELD_ID) }
@@ -541,13 +545,13 @@ class CheckoutShippingStep extends Component {
             >
                 <Loader isLoading={ (isSignedIn && !finishedLoading) || loadingShippingInformationSave } />
 
+                { renderFunction() }
+
                 <CheckoutShippingMethods
                   shippingMethods={ shippingMethods }
                   loadingShippingMethods={ loadingShippingMethods }
                   onSelectShippingMethod={ method => this.onSelectShippingMethod(method) }
                 />
-
-                { renderFunction() }
 
                 <button
                   block="Button"

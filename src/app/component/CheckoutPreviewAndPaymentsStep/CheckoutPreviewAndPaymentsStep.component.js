@@ -495,13 +495,8 @@ class CheckoutPreviewAndPaymentsStep extends Component {
             >
                 <Loader isLoading={ !finishedLoading || loadingPaymentInformationSave } />
 
-                <CheckoutPaymentMethods
-                  paymentMethods={ paymentMethods }
-                  onSelectPaymentMethod={ method => this.handleSelectPaymentMethod(method) }
-                />
-
                 <fieldset>
-                    <legend block="CheckoutPage" elem="Heading">Billing Address</legend>
+                    <legend block="CheckoutPage" elem="Heading" mods={ { hasDivider: true } }>1. Shipping</legend>
                     { this.renderStateButton() }
 
                     { shippingAddress && !!Object.entries(shippingAddress).length && (
@@ -525,6 +520,11 @@ class CheckoutPreviewAndPaymentsStep extends Component {
 
                     { renderFunction() }
                 </fieldset>
+
+                <CheckoutPaymentMethods
+                  paymentMethods={ paymentMethods }
+                  onSelectPaymentMethod={ method => this.handleSelectPaymentMethod(method) }
+                />
 
                 <button
                   type="submit"

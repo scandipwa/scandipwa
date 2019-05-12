@@ -93,9 +93,8 @@ class CheckoutShippingMethods extends Component {
                 <legend
                   block="CheckoutPage"
                   elem="Heading"
-                  mods={ { hasDivider: true } }
                 >
-                    1. Shipping
+                    Shipping method
                 </legend>
                 <div>
                     <Loader isLoading={ loadingShippingMethods } />
