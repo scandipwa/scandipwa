@@ -105,18 +105,26 @@
         }
     }
 
-    &-Total {
+    &-Total,
+    &-Tax {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 1rem;
+        padding: 1rem 1rem .5rem;
         font-size: 18px;
-        font-weight: bold;
         background: var(--cart-overlay-totals-background);
 
         @include after-mobile {
-            border-bottom: 1px solid var(--cart-item-divider-color);
             font-size: 16px;
+        }
+    }
+
+    &-Total {
+        font-weight: bold;
+        padding: .5rem 1rem 1rem;
+
+        @include after-mobile {
+            border-bottom: 1px solid var(--cart-item-divider-color);
         }
     }
 }

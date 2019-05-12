@@ -55,7 +55,7 @@ class CheckoutOrderSummary extends Component {
      */
     render() {
         const {
-            totals: { grandTotalPrice },
+            totals: { grandTotalPrice, taxPrice },
             products,
             shippingMethod: { price_incl_tax: price, carrier_title: title }
         } = this.props;
@@ -84,6 +84,7 @@ class CheckoutOrderSummary extends Component {
                 <div block="CheckoutOrderSummary" elem="OrderTotals">
                     <ul>
                         { title && this.renderPriceLine(String(price), `Shipping (${ title })`, { divider: true }) }
+                        { this.renderPriceLine(String(taxPrice), 'Tax total') }
                         { this.renderPriceLine(String(grandTotalWithShipping), 'Order Total') }
                     </ul>
                 </div>

@@ -83,6 +83,20 @@ class CartOverlay extends Component {
         );
     }
 
+    renderTax() {
+        const { totals: { taxPrice } } = this.props;
+
+        return (
+            <dl
+              block="CartOverlay"
+              elem="Tax"
+            >
+                <dt>Tax total:</dt>
+                <dd>{ `$${taxPrice}` }</dd>
+            </dl>
+        );
+    }
+
     renderActions() {
         return (
             <div block="CartOverlay" elem="Actions">
@@ -125,6 +139,7 @@ class CartOverlay extends Component {
             >
                 { this.renderPromo() }
                 { this.renderCartItems() }
+                { this.renderTax() }
                 { this.renderTotals() }
                 { this.renderActions() }
             </Overlay>
