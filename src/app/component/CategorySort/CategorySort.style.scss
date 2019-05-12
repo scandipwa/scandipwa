@@ -10,24 +10,26 @@
  */
 
 .CategorySort {
-    display: none;
+    // display: none;
+    @include mobile {
+        &-Select {
+            select[name="category-sort"] {
+                position: absolute;
+                top: -12px;
+                font-size: 0;
+                background-color: transparent;
+                border: 0;
+            }
 
-    &-Select {
-        select[name="category-sort"] {
-            position: absolute;
-            bottom: -10px;
-            font-size: 0;
-            background-color: transparent;
-        }
+            .Field-SelectWrapper::after {
+                left: 55px;
+                bottom: -12px;
+            }
 
-        .Select::after {
-            left: 52px;
-            bottom: 12px;
-        }
-
-        label:first-of-type {
-            font-weight: 600;
-            font-size: 16px;
+            label:first-of-type {
+                font-weight: 600;
+                font-size: 16px;
+            }
         }
     }
 }

@@ -40,12 +40,12 @@ class CategorySort extends Component {
 
         if (!sortFields) return null;
 
-        const selectOptions = sortFields.options.reduce((acc, option) => {
-            const { value, label } = option;
+        const selectOptions = sortFields.reduce((acc, option) => {
+            const { id, label } = option;
             let ascLabel = label.split(' ')[0];
             let descLabel = label.split(' ')[0];
 
-            switch (value) {
+            switch (id) {
             case 'size':
                 return acc;
             case 'position':
@@ -62,18 +62,18 @@ class CategorySort extends Component {
                 break;
             }
 
-            const isKeySelected = sortKey === value;
+            const isKeySelected = sortKey === id;
             const ascOption = {
-                id: `ASC ${value}`,
-                name: value,
-                value: `ASC ${value}`,
+                id: `ASC ${id}`,
+                name: id,
+                value: `ASC ${id}`,
                 label: ascLabel,
                 selected: isKeySelected && sortDirection === 'ASC'
             };
             const descOption = {
-                id: `DESC ${value}`,
-                name: value,
-                value: `DESC ${value}`,
+                id: `DESC ${id}`,
+                name: id,
+                value: `DESC ${id}`,
                 label: descLabel,
                 selected: isKeySelected && sortDirection === 'DESC'
             };
@@ -97,23 +97,21 @@ class CategorySort extends Component {
     render() {
         const { sortFields } = this.props;
 
-        if (sortFields && Object.keys(sortFields).length) {
-            return (
-                <div block="CategorySort">
-                    <Field
-                      id="category-sort"
-                      name="category-sort"
-                      type="select"
-                      label="SORT"
-                      mix={ { block: 'CategorySort', elem: 'Select' } }
-                      selectOptions={ this.prepareOptions() }
-                      onChange={ this.onChange }
-                    />
-                </div>
-            );
-        }
+        if (!sortFields) return this.renderPlaceholder();
 
-        return this.renderPlaceholder();
+        return (
+            <div block="CategorySort">
+                <Field
+                  id="category-sort"
+                  name="category-sort"
+                  type="select"
+                  label="SORT"
+                  mix={ { block: 'CategorySort', elem: 'Select' } }
+                  selectOptions={ this.prepareOptions() }
+                  onChange={ this.onChange }
+                />
+            </div>
+        );
     }
 }
 
@@ -124,7 +122,10 @@ CategorySort.propTypes = {
     sortDirection: PropTypes.string.isRequired,
     sortFields: PropTypes.oneOfType([
         PropTypes.bool,
-        PropTypes.objectOf(PropTypes.array)
+        PropTypes.arrayOf(PropTypes.shape({
+            id: PropTypes.string,
+            label: PropTypes.string
+        }))
     ]).isRequired
 };
 
