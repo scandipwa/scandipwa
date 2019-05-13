@@ -11,11 +11,12 @@
  */
 
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import Slider from 'Component/Slider';
 import { SliderType } from 'Type/Slider';
 import Image from 'Component/Image';
-import './HomeSlider.style';
 import Html from 'Component/Html';
+import './HomeSlider.style';
 
 /**
  * Homepage slider
@@ -34,30 +35,32 @@ class HomeSlider extends Component {
         const gallery = this.getGalleryPictures();
 
         return (
-            <Slider
-              mix={ { block: 'HomeSlider' } }
-              showCrumbs
-            >
-                { gallery.map((({ image, slide_text }, i) => (
-                    <figure block="HomeSlider" elem="Figure" key={ i }>
-                        <Image
-                          mix={ { block: 'HomeSlider', elem: 'FigureImage' } }
-                          ratio="custom"
-                          objectFit="cover"
-                          src={ image }
-                          hasNoPlaceholder
-                          showGreyPlaceholder
-                        />
-                        <figcaption
-                          block="HomePage"
-                          elem="Figcaption"
-                          mix={ { block: 'HomeSlider', elem: 'Figcaption' } }
-                        >
-                            <Html content={ slide_text } />
-                        </figcaption>
-                    </figure>
-                ))) }
-            </Slider>
+            <Link to="/category/women/women-dresses">
+                <Slider
+                  mix={ { block: 'HomeSlider' } }
+                  showCrumbs
+                >
+                    { gallery.map((({ image, slide_text }, i) => (
+                        <figure block="HomeSlider" elem="Figure" key={ i }>
+                            <Image
+                              mix={ { block: 'HomeSlider', elem: 'FigureImage' } }
+                              ratio="custom"
+                              objectFit="cover"
+                              src={ image }
+                              hasNoPlaceholder
+                              showGreyPlaceholder
+                            />
+                            <figcaption
+                              block="HomePage"
+                              elem="Figcaption"
+                              mix={ { block: 'HomeSlider', elem: 'Figcaption' } }
+                            >
+                                <Html content={ slide_text } />
+                            </figcaption>
+                        </figure>
+                    ))) }
+                </Slider>
+            </Link>
         );
     }
 }
