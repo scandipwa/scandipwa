@@ -54,6 +54,7 @@ class ProductGallery extends Component {
               ratio="custom"
               objectFit="cover"
               mix={ { block: 'ProductGallery', elem: 'Image', mods: { type } } }
+              arePlaceholdersShown
             />
         );
     }

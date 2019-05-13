@@ -35,8 +35,8 @@ class HomeSlider extends Component {
         const gallery = this.getGalleryPictures();
 
         return (
-            <Link to="/category/women/women-dresses">
-                <Slider
+            <Link to="/category/women/women-dresses" className="HomeSlider">
+                {/* <Slider
                   mix={ { block: 'HomeSlider' } }
                   showCrumbs
                 >
@@ -59,7 +59,26 @@ class HomeSlider extends Component {
                             </figcaption>
                         </figure>
                     ))) }
-                </Slider>
+                </Slider> */}
+
+                <figure block="HomeSlider" elem="Figure">
+                    <Image
+                      mix={ { block: 'HomeSlider', elem: 'FigureImage' } }
+                      ratio="custom"
+                      objectFit="cover"
+                      src="/media/scandiweb/slider/s/l/slider-woman-on-the-beach.jpg"
+                      arePlaceholdersShown
+                      showGreyPlaceholder
+                    />
+                    <figcaption
+                      block="HomePage"
+                      elem="Figcaption"
+                      mix={ { block: 'HomeSlider', elem: 'Figcaption' } }
+                    >
+                        <h1 block="HomeSlider" elem="Heading">SUMMER mood</h1>
+                        <button block="Button">SEE DRESS COLLECTION</button>
+                    </figcaption>
+                </figure>
             </Link>
         );
     }

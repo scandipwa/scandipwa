@@ -32,9 +32,11 @@
 
     &-FigureImage {
         padding-bottom: 40%;
+        min-height: 600px;
 
         @include mobile {
             padding-bottom: 100%;
+            min-height: auto;
         }
 
         img {
