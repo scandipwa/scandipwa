@@ -26,7 +26,6 @@
 
     &-ItemsCount {
         padding-top: .3rem;
-        padding-bottom: 1rem;
 
         @include mobile {
             order: 1;
@@ -82,6 +81,9 @@
     &-Miscellaneous {
         display: grid;
         grid-template-columns: 50% 50%;
+        align-items: center;
+        padding-bottom: 1rem;
+        min-height: 56px;
 
         > * {
             @include mobile {

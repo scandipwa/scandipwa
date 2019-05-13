@@ -69,6 +69,13 @@ class Field extends Component {
         this.handleSelectListOptionClick = this.handleSelectListOptionClick.bind(this);
     }
 
+    componentDidUpdate(prevProps) {
+        const { value: prevValue } = prevProps;
+        const { value: currentValue } = this.props;
+
+        if (prevValue !== currentValue) this.setState({ value: currentValue });
+    }
+
     onChange(event) {
         if (typeof event === 'string' || typeof event === 'number') {
             return this.handleChange(event);
@@ -337,7 +344,7 @@ class Field extends Component {
                       name={ name }
                       id={ id }
                       tabIndex="0"
-                      defaultValue={ value }
+                      value={ value || '' }
                       onChange={ this.onChange }
                     >
                         { placeholder && <option value="" label={ placeholder } /> }

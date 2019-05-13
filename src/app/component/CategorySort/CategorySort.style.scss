@@ -12,31 +12,43 @@
 .CategorySort {
     @include after-mobile {
         margin-left: auto;
+    }
 
-        &-Select {
-            margin-bottom: 1rem;
-            margin-top: 0;
+    &-Placeholder {
+        @include mobile {
+            top: 13px;
         }
     }
 
-    @include mobile {
+    &-Select {
+        margin-top: 0;
+    }
+
+    .Field {
         &-Select {
-            select[name="category-sort"] {
+            @include mobile {
                 position: absolute;
-                top: -12px;
-                font-size: 0;
-                background-color: transparent;
-                border: 0;
+                top: -35px;
+                opacity: 0;
             }
+        }
 
-            .Field-SelectWrapper::after {
+        &-SelectWrapper::after {
+            @include mobile {
                 left: 55px;
-                bottom: -12px;
+                bottom: 11px;
             }
+        }
 
-            label:first-of-type {
+        label:first-of-type {
+            @include mobile {
                 font-weight: 600;
                 font-size: 16px;
+                padding-bottom: 3px;
+            }
+
+            @include after-mobile {
+                display: none;
             }
         }
     }

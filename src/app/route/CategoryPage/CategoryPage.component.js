@@ -47,6 +47,10 @@ class CategoryPage extends Component {
             previousPage: 0,
             pageSize: 12
         };
+
+        this.onSortChange = this.onSortChange.bind(this);
+        this.updatePriceRange = this.updatePriceRange.bind(this);
+        this.updateFilter = this.updateFilter.bind(this);
     }
 
     componentDidMount() {
@@ -69,27 +73,15 @@ class CategoryPage extends Component {
     }
 
     /**
-     * Set request query parameters on sort by change
-     * @param {String} key sort by key
-     * @return {void}
-     */
-    onGetKey(key) {
-        const { location, history } = this.props;
-
-        setQueryParams({ sortKey: key }, location, history);
-    }
-
-    /**
      * Set request query parameters on sort direction change
      * @param {String} direction sort directions
      * @return {void}
      */
-    onGetSortDirection(direction) {
+    onSortChange(sortDirection, sortKey) {
         const { location, history } = this.props;
-        const { sortKey } = this.state;
 
         setQueryParams({ sortKey }, location, history);
-        setQueryParams({ sortDirection: direction }, location, history);
+        setQueryParams({ sortDirection }, location, history);
     }
 
     onCategoryUpdate() {
@@ -212,6 +204,11 @@ class CategoryPage extends Component {
 
         if (querySortDirection) {
             stateUpdate.sortDirection = querySortDirection;
+        }
+
+        if (priceRange) {
+            stateUpdate.minPriceRange = priceRange.min;
+            stateUpdate.maxPriceRange = priceRange.max;
         }
 
         this.setState(stateUpdate);
@@ -368,7 +365,7 @@ class CategoryPage extends Component {
 
         const { options } = sortFields;
 
-        const updatedSortFields = !isLoading && options && Object.values(options).map(option => ({
+        const updatedSortFields = options && Object.values(options).map(option => ({
             id: option.value,
             label: option.label
         }));
@@ -386,8 +383,8 @@ class CategoryPage extends Component {
                     <CategoryFilterOverlay
                       availableFilters={ filters }
                       customFiltersValues={ customFilters }
-                      updateFilter={ (filterName, filterArray) => this.updateFilter(filterName, filterArray) }
-                      updatePriceRange={ priceRange => this.updatePriceRange(priceRange) }
+                      updateFilter={ this.updateFilter }
+                      updatePriceRange={ this.updatePriceRange }
                       priceValue={ this.getPriceRangeFromUrl() }
                       minPriceValue={ minPriceRange }
                       maxPriceValue={ maxPriceRange }
@@ -398,10 +395,9 @@ class CategoryPage extends Component {
                     <aside block="CategoryPage" elem="Miscellaneous">
                         { this.renderItemCount() }
                         <CategorySort
-                          onGetSortKey={ key => this.onGetKey(key) }
-                          onGetSortDirection={ direction => this.onGetSortDirection(direction) }
+                          onSortChange={ this.onSortChange }
                           sortFields={ updatedSortFields }
-                          value={ sortKey }
+                          sortKey={ sortKey }
                           sortDirection={ sortDirection }
                         />
                         <button

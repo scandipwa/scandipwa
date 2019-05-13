@@ -27,16 +27,15 @@ class CategorySort extends Component {
     }
 
     onChange(value) {
-        const { onGetSortKey, onGetSortDirection } = this.props;
+        const { onSortChange } = this.props;
         const [direction, ...key] = value.split(' ');
 
-        onGetSortDirection(direction);
-        onGetSortKey(key);
+        onSortChange(direction, key);
     }
 
 
     prepareOptions() {
-        const { sortDirection, sortFields, value: sortKey } = this.props;
+        const { sortFields } = this.props;
 
         if (!sortFields) return null;
 
@@ -62,20 +61,18 @@ class CategorySort extends Component {
                 break;
             }
 
-            const isKeySelected = sortKey === id;
             const ascOption = {
                 id: `ASC ${id}`,
                 name: id,
                 value: `ASC ${id}`,
-                label: ascLabel,
-                selected: isKeySelected && sortDirection === 'ASC'
+                label: ascLabel
             };
+
             const descOption = {
                 id: `DESC ${id}`,
                 name: id,
                 value: `DESC ${id}`,
-                label: descLabel,
-                selected: isKeySelected && sortDirection === 'DESC'
+                label: descLabel
             };
 
             return [...acc, ascOption, descOption];
@@ -95,9 +92,9 @@ class CategorySort extends Component {
     }
 
     render() {
-        const { sortFields, value, sortDirection } = this.props;
+        const { sortKey, sortDirection, sortFields } = this.props;
 
-        if (!sortFields) return this.renderPlaceholder();
+        if (!sortFields.length) return this.renderPlaceholder();
 
         return (
             <div block="CategorySort">
@@ -108,7 +105,7 @@ class CategorySort extends Component {
                   label="SORT"
                   mix={ { block: 'CategorySort', elem: 'Select' } }
                   selectOptions={ this.prepareOptions() }
-                  value={ `${sortDirection} ${value}` }
+                  value={ `${sortDirection} ${sortKey}` }
                   onChange={ this.onChange }
                 />
             </div>
@@ -117,9 +114,8 @@ class CategorySort extends Component {
 }
 
 CategorySort.propTypes = {
-    onGetSortKey: PropTypes.func.isRequired,
-    onGetSortDirection: PropTypes.func.isRequired,
-    value: PropTypes.string.isRequired,
+    onSortChange: PropTypes.func.isRequired,
+    sortKey: PropTypes.string.isRequired,
     sortDirection: PropTypes.string.isRequired,
     sortFields: PropTypes.oneOfType([
         PropTypes.bool,
@@ -127,7 +123,11 @@ CategorySort.propTypes = {
             id: PropTypes.string,
             label: PropTypes.string
         }))
-    ]).isRequired
+    ])
+};
+
+CategorySort.defaultProps = {
+    sortFields: []
 };
 
 export default CategorySort;
