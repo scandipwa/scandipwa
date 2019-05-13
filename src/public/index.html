@@ -67,7 +67,10 @@
 
         <title>SandiPWA | Home</title>
 
-        <link rel="preload" href="<%= htmlWebpackPlugin.files.css[0] %>" as="style" onload="this.rel='stylesheet'">
+        <!-- TODO: when Firefox will support replace with onload -->
+        <link rel="preload" href="<%= htmlWebpackPlugin.files.css[0] %>" as="style">
+        <link rel="stylesheet" href="<%= htmlWebpackPlugin.files.css[0] %>">
+
         <link rel="shortcut icon" href="<%= htmlWebpackPlugin.options.publicPath %>assets/favicon/favicon.ico">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     </head>

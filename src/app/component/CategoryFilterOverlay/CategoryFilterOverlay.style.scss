@@ -147,9 +147,6 @@
     &-SeeResults.Button {
         margin: 2rem 1rem;
         width: calc(100% - 2rem);
-        position: absolute;
-        bottom: 1rem;
-        left: 0;
 
         @include after-mobile {
             display: none;
