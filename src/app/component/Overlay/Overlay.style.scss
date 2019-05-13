@@ -28,7 +28,7 @@
 
         border-top: 1px solid var(--overlay-divider-color);
         position: fixed;
-        top: 50px;
+        top: var(--header-height);
         left: 0;
         width: 100%;
         height: calc(100% - 50px);

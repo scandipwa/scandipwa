@@ -135,10 +135,10 @@
                     left: 0;
                     width: 100%;
                     height: 100%;
-                    padding: 70px 1rem 1rem;
+                    padding: calc(var(--header-height) + 20px) 1rem 1rem;
                     box-shadow:
-                        inset 0 50px var(--overlay-background),
-                        inset 0 51px var(--overlay-divider-color);
+                        inset 0 var(--header-height) var(--overlay-background),
+                        inset 0 calc(var(--header-height) + 1px) var(--overlay-divider-color);
                 }
 
                 @include after-mobile {

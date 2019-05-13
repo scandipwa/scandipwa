@@ -594,6 +594,9 @@ class Header extends Component {
 
         return (
             <header block="Header" mods={ { name } }>
+                <a block="Header" elem="Demo" href="mailto:pwa@scandipwa.com">
+                    Get PWA – email to pwa@scandipwa.com
+                </a>
                 <nav block="Header" elem="Nav">
                     { this.renderHeaderState(name) }
                 </nav>

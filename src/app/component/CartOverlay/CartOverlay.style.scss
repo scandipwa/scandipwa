@@ -18,7 +18,7 @@
 .CartOverlay {
     @include after-mobile {
         position: absolute;
-        top: var(--header-height);
+        top: var(--header-nav-height);
         right: 0;
         padding: 0;
         width: 400px;

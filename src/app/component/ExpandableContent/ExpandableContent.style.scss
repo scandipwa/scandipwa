@@ -41,7 +41,7 @@
         will-change: border-color;
 
         @include mobile {
-            min-height: var(--header-height);
+            min-height: var(--header-nav-height);
             display: flex;
             justify-content: center;
             flex-direction: column;

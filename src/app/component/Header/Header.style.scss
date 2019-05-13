@@ -20,10 +20,12 @@
 	--header-desktop-search-bar-width: 270px;
 	--header-desktop-search-bar-max-width: 450px;
 	--header-desktop-button-color: #f26323;
-	--header-height: 50px;
+	--header-height: 100px;
+	--header-nav-height: 50px;
 
 	@include after-mobile {
-		--header-height: 60px;
+		--header-height: 110px;
+		--header-nav-height: 60px;
 	}
 }
 
@@ -148,8 +150,18 @@
 		}
 	}
 
+	&-Demo {
+		background: var(--color-primary-base);
+		color: var(--color-text-white);
+		height: 50px;
+		line-height: 50px;
+		text-align: center;
+		display: block;
+		z-index: 100;
+	}
+
     &-Nav {
-        height: var(--header-height);
+        height: var(--header-nav-height);
         display: flex;
         align-items: center;
 		padding: 0 1rem;
@@ -284,7 +296,8 @@
 		left: 0;
 		right: 0;
 		margin: auto;
-		top: calc((var(--header-height) - 17px) / 2);
+		top: 0;
+		bottom: 0;
 		opacity: 0;
 		overflow: hidden;
 
@@ -330,6 +343,16 @@
 			@include mobile {
 				opacity: 1;
 				max-width: calc(100% - 120px);
+			}
+		}
+	}
+
+
+	a {
+		&:hover,
+		&:focus {
+			@include mobile {
+				text-decoration: none;
 			}
 		}
 	}

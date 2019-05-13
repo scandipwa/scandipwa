@@ -22,7 +22,7 @@
 
     @include after-mobile {
         position: absolute;
-        top: var(--header-height);
+        top: var(--header-nav-height);
         right: -40px;
         padding: 0;
     }
