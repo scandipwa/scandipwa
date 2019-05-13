@@ -158,6 +158,10 @@
 		text-align: center;
 		display: block;
 		z-index: 100;
+
+		strong {
+			margin-left: 3px;
+		}
 	}
 
     &-Nav {
