@@ -196,7 +196,7 @@ class Image extends Component {
             >
                 { canShowSources && (<>
                     <source srcSet={ src && this.getUrlWithExtension(src, 'webp') } type="image/webp" />
-                    <source srcSet={ src && src.replace('/media/jpg', '/media') } />
+                    <source srcSet={ src && src.replace('/media', '/media/jpg') } />
                 </>) }
                 { canShowCustomImage && (
                     <img src={ this.getUrlWithExtension(src, 'svg') } alt={ alt } />
