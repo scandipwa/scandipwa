@@ -31,7 +31,7 @@
         top: var(--header-height);
         left: 0;
         width: 100%;
-        height: calc(100% - 50px);
+        height: calc(100% - var(--header-height));
         overflow: scroll;
         overflow-x: hidden;
         max-width: 100%;
