@@ -124,6 +124,9 @@ class Field extends Component {
 
     handleSelectListOptionClick({ value }) {
         const { formRef, onChange } = this.props;
+
+        console.log(value);
+
         if (typeof formRef !== 'function') {
             formRef.current.value = value;
 

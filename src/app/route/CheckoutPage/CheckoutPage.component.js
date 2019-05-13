@@ -276,10 +276,32 @@ class CheckoutPage extends Component {
 
         return (
             <div>
-                <h1>Thank you for your purchase!</h1>
-                <p>{ `Your order # is: ${orderID}.`}</p>
-                <p>We`ll email you an order confirmation with details and tracking info.</p>
-                <Link to="/">Continue Shopping</Link>
+                <h1
+                  block="CheckoutPage"
+                  elem="Heading"
+                  mods={ { hasDivider: true } }
+                >
+                    Thank you for your purchase!
+                </h1>
+                <p
+                  block="CheckoutPage"
+                  elem="SuccessOrderNumber"
+                >
+                    Your order # is:
+                    <strong>{ orderID }</strong>
+                </p>
+                <p
+                  block="CheckoutPage"
+                  elem="SuccessOrderDetails"
+                >
+                    We`ll email you an order confirmation with details and tracking info.
+                </p>
+                <Link
+                  className="Button CheckoutPage-SuccessButton"
+                  to="/"
+                >
+                    Continue Shopping
+                </Link>
             </div>
         );
     }

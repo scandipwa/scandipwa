@@ -144,7 +144,7 @@ class CheckoutPreviewAndPaymentsStep extends Component {
     }
 
     componentDidMount() {
-        const { countryList } = this.props;
+        // const { countryList } = this.props;
 
         // if (countryList.length) {
         //     this.getAvailableRegions(DEFAULT_COUNTRY);
@@ -334,7 +334,7 @@ class CheckoutPreviewAndPaymentsStep extends Component {
 
     renderCountrySelect() {
         const { countryList } = this.props;
-        const { country_id } = this.state;
+        const { selectedCountryIndex } = this.state;
 
         return (
             <Field
@@ -344,7 +344,7 @@ class CheckoutPreviewAndPaymentsStep extends Component {
               placeholder="Country"
               selectOptions={ countryList.map(({ id, label }, index) => ({ id, label, value: index })) }
               validation={ ['notEmpty'] }
-              value={ country_id }
+              value={ selectedCountryIndex }
               onChange={ index => this.setState({
                   country_id: countryList[index].value,
                   selectedCountryIndex: index

@@ -22,6 +22,10 @@
         margin-top: var(--header-height);
     }
 
+    @include mobile {
+        border-top: 1px solid var(--overlay-divider-color);
+    }
+
     &::before {
         @include after-mobile {
             content: '';
@@ -39,6 +43,26 @@
             justify-content: space-between;
             max-width: var(--checkout-max-width);
         }
+    }
+
+    &-SuccessButton {
+        @include mobile {
+            width: 100%;
+            text-align: center;
+            margin-top: 1rem;
+        }
+    }
+
+    &-SuccessOrderNumber {
+        margin-top: 1rem;
+
+        strong {
+            margin-left: 5px;
+        }
+    }
+
+    &-SuccessOrderDetails:last-of-type {
+        margin-bottom: 2rem;
     }
 
     &-Step {

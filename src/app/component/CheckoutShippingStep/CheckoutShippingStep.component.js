@@ -341,9 +341,7 @@ class CheckoutShippingStep extends Component {
 
     renderCountrySelect() {
         const { countryList } = this.props;
-        const { country_id } = this.state;
-
-        console.log(country_id);
+        const { selectedCountryIndex } = this.state;
 
         return (
             <Field
@@ -353,7 +351,7 @@ class CheckoutShippingStep extends Component {
               placeholder="Country"
               selectOptions={ countryList.map(({ id, label }, index) => ({ id, label, value: index })) }
               validation={ ['notEmpty'] }
-              value={ country_id }
+              value={ selectedCountryIndex }
               onChange={ index => this.setState({
                   country_id: countryList[index].id,
                   selectedCountryIndex: index
