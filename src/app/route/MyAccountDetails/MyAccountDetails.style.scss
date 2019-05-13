@@ -5,36 +5,28 @@
     display: grid;
     grid-template-columns: 20% 78%;
     grid-column-gap: 2%;
-
-    padding: {
-        left: 7rem;
-        right: 7rem;
-    };
-
     margin: {
-        top: 2rem;
         left: auto;
         right: auto;
     }
 
     @include after-mobile {
-        display: block;
         max-width: var(--content-wrapper-width);
+        padding: {
+            left: 7rem;
+            right: 7rem;
+        };
     }
 
     @include mobile {
-        padding: 0 1.5rem;
+        border-top: 1px solid var(--overlay-divider-color);
     }
 
     &-Content {
         grid-column: 1 / span 2;
 
-        @include mobile {
-            padding-top: 3rem;
-        }
-
-        @include mobile {
-            display: block;
+        @include after-mobile {
+            margin-top: 2rem;
         }
     }
 
@@ -77,10 +69,22 @@
     &-Field {
         padding-top: .5rem;
         font-size: 1.15rem;
+
+        &:first-of-type {
+            @include mobile {
+                padding-top: 0;
+            }
+        }
+
+        strong {
+            margin-right: 5px;
+        }
     }
 
     &-Actions {
-        margin-top: 1rem;
+        @include mobile {
+            margin-top: 1rem;
+        }
 
         .Button:first-child {
             margin-right: 1rem;
@@ -88,8 +92,6 @@
     }
 
     &-Heading {
-        padding-bottom: 2rem;
-
         @include mobile {
             display: none;
         }
@@ -108,9 +110,12 @@
         pointer-events: none;
     }
 
-    &-Legend {
-        font-size: 1.5rem;
-        font-weight: 700;
+    &-ExpandableContentHeading {
+        @include after-mobile {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 2rem;
+        }
     }
 
     .Field {
@@ -141,25 +146,7 @@
 
         @include mobile {
             grid-template-columns: 1fr 1fr;
-        }
-    }
-
-    .Button {
-        margin-top: 2rem;
-        width: 40%;
-
-        @include tablet {
-            width: 60%;
-        }
-
-        @include mobile {
-            width: 100%;
-            grid-column: 1 / span 2;
-        }
-
-        &_likeLink {
-            width: initial;
-            margin: initial;
+            padding: 1rem;
         }
     }
 
@@ -174,21 +161,11 @@
     }
 
     .Button {
-        margin-top: 2rem;
-        width: 40%;
-
-        @include tablet {
-            width: 60%;
-        }
+        margin-top: 1rem;
 
         @include mobile {
             width: 100%;
             grid-column: 1 / span 2;
-        }
-
-        &_likeLink {
-            width: initial;
-            margin: initial;
         }
 
         &_type {
@@ -205,12 +182,8 @@
             }
 
             &_logout {
-                position: fixed;
-                bottom: 0;
-                left: 50%;
-                width: 40%;
-                margin-left: -20%;
-                margin-bottom: 1rem;
+                margin: 1rem;
+                width: calc(100% - 2rem);
 
                 @include desktop {
                     display: none;

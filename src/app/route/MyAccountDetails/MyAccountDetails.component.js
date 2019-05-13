@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -17,6 +18,8 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import { Redirect } from 'react-router';
 import { customerType } from 'Type/Account';
 import './MyAccountDetails.style';
+import ExpandableContent from 'Component/ExpandableContent';
+import Loader from 'Component/Loader';
 
 const STATE_ACCOUNT_OVERVIEW = 'accountOverview';
 const STATE_EDIT_INFORMATION = 'editInformation';
@@ -227,7 +230,7 @@ class MyAccountDetails extends Component {
      * @param {Object} correctAddress
      */
     changeState(state, correctAddress) {
-        this.setState({ state, correctAddress, selectValue: '' });
+        this.setState({ state, correctAddress, selectValue: '', isLoading: false });
     }
 
     /**
@@ -547,53 +550,58 @@ class MyAccountDetails extends Component {
     renderAccountInformation() {
         const { customer } = this.props;
         const {
-            firstname,
-            lastname,
-            email,
-            is_subscribed,
-            id
-        } = customer || {};
-        const fullName = (firstname && lastname) ? `${firstname} ${lastname}` : <TextPlaceholder length="medium" />;
-        const showNewsletter = id
-            ? `Subscribed to newsletter: ${is_subscribed ? ' Yes' : ' No'}`
-            : <TextPlaceholder length="medium" />;
-        const editButtonMessage = id ? 'Edit' : <TextPlaceholder length="short" />;
-        const editPasswordButtonMessage = id ? 'Change Password' : <TextPlaceholder length="short" />;
+            firstname, lastname,
+            email, is_subscribed, id
+        } = customer;
 
         return (
-            <fieldset
-              block="MyAccountDetails"
-              elem="Fieldset"
-              mods={ { type: 'AccountInfo' } }
-            >
-                <legend block="MyAccountDetails" elem="Legend">Account Information</legend>
-                <div block="MyAccountDetails" elem="FieldWrapper">
-                    <div block="MyAccountDetails" elem="Field">
-                        { fullName }
-                    </div>
-                    <div block="MyAccountDetails" elem="Field">{ email }</div>
-                    <div block="MyAccountDetails" elem="Field">
-                        { showNewsletter }
-                    </div>
-                    <div block="MyAccountDetails" elem="Actions">
-                        <button
-                          block="Button"
-                          mods={ { likeLink: true } }
-                          onClick={ () => this.changeState(STATE_EDIT_INFORMATION) }
-                        >
-                            { editButtonMessage }
-                        </button>
-                        <button
-                          block="Button"
-                          mods={ { likeLink: true } }
-                          onClick={ () => this.changeState(STATE_EDIT_PASSWORD) }
-                        >
-                            { editPasswordButtonMessage }
-                        </button>
-                    </div>
+            <ExpandableContent heading="Account Information" mix={ { block: 'MyAccountDetails', elem: 'AccountInformation' } }>
+                <div block="MyAccountDetails" elem="Field">
+                    <strong>Name:</strong>
+                    { (firstname && lastname)
+                        ? `${firstname} ${lastname}`
+                        : <TextPlaceholder length="medium" />
+                    }
                 </div>
-            </fieldset>
+                <div block="MyAccountDetails" elem="Field">
+                    <strong>Email:</strong>
+                    <TextPlaceholder length="medium" content={ email } />
+                </div>
+                <div block="MyAccountDetails" elem="Field">
+                    <strong>Subscribed to newsletter:</strong>
+                    { id
+                        ? is_subscribed ? 'Yes' : 'No'
+                        : <TextPlaceholder />
+                    }
+                </div>
+                <div block="MyAccountDetails" elem="Actions">
+                    <button
+                      block="Button"
+                      onClick={ () => this.changeState(STATE_EDIT_INFORMATION) }
+                    >
+                        Edit
+                    </button>
+                    <button
+                      block="Button"
+                      onClick={ () => this.changeState(STATE_EDIT_PASSWORD) }
+                    >
+                        Change Password
+                    </button>
+                </div>
+            </ExpandableContent>
         );
+
+        // return (
+        //     <div
+        //       block="MyAccountDetails"
+        //       elem="Fieldset"
+        //       mods={ { type: 'AccountInfo' } }
+        //     >
+        //         <legend block="MyAccountDetails" elem="Legend"></legend>
+        //         <div block="MyAccountDetails" elem="FieldWrapper">
+        //         </div>
+        //     </fieldset>
+        // );
     }
 
     renderAddressFields(correctAddress = { region: {} }) {
@@ -665,7 +673,6 @@ class MyAccountDetails extends Component {
                 <div block="MyAccountDetails" elem="Actions">
                     <button
                       block="Button"
-                      mods={ { likeLink: true } }
                       onClick={ () => this.changeState(STATE_UPDATE_ADDRESS, addressType) }
                     >
                         Add New Address
@@ -676,16 +683,11 @@ class MyAccountDetails extends Component {
     }
 
     /**
-     * Render Custoenr Address Book block
+     * Render Customer Address Book block
      */
     renderAddressBook() {
         return (
-            <fieldset
-              block="MyAccountDetails"
-              elem="Fieldset"
-              mods={ { type: 'AddressBook' } }
-            >
-                <legend block="MyAccountDetails" elem="Legend">Address Book</legend>
+            <ExpandableContent heading="Address Book" mix={ { block: 'MyAccountDetails', elem: 'AddressBook' } }>
                 <div block="MyAccountDetails" elem="FieldWrapper">
                     <div block="MyAccountDetails" elem="AddressWrapper">
                         <div block="MyAccountDetails" elem="FieldWrapper">
@@ -698,12 +700,22 @@ class MyAccountDetails extends Component {
                         </div>
                     </div>
                 </div>
-            </fieldset>
+            </ExpandableContent>
         );
+
+        // return (
+        //     <fieldset
+        //       block="MyAccountDetails"
+        //       elem="Fieldset"
+        //       mods={ { type: 'AddressBook' } }
+        //     >
+        //         <legend block="MyAccountDetails" elem="Legend">Address Book</legend>
+        //     </fieldset>
+        // );
     }
 
     render() {
-        const { state } = this.state;
+        const { state, isLoading } = this.state;
         const renderFunction = this.renderMap[state];
         const { isSignedIn } = this.props;
 
@@ -714,6 +726,7 @@ class MyAccountDetails extends Component {
         return (
             <main block="MyAccountDetails" aria-label="My Account Details">
                 <div block="MyAccountDetails" elem="Content">
+                    <Loader isLoading={ isLoading } />
                     { renderFunction() }
                 </div>
             </main>
