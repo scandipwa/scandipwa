@@ -172,7 +172,6 @@ class ProductCard extends Component {
                           alt="Product Thumbnail"
                           ratio="custom"
                           mix={ { block: 'ProductCard', elem: 'Picture' } }
-                          arePlaceholdersShown
                         />
                         { this.renderPictureLabel() }
                     </figure>

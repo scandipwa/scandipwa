@@ -102,7 +102,6 @@ class Html extends Component {
                 <Image
                   { ...attributesToProps(attribs) }
                   arePlaceholdersShown
-                  showGreyPlaceholder
                 />
             );
         }

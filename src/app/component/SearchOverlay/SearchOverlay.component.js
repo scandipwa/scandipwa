@@ -82,7 +82,6 @@ class SearchOverlay extends Component {
                           elem="Image"
                           src={ imageSrc }
                           alt={ `Product ${name} thumbnail.` }
-                          arePlaceholdersShown
                         />
                         <figcaption block="SearchOverlay" elem="Content">
                             <p block="SearchOverlay" elem="Brand">
