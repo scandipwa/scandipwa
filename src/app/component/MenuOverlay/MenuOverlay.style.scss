@@ -14,6 +14,7 @@
     --menu-desktop-subitem-arrow-color: #000;
     --menu-overlay-item-banner-color: #fff;
     --menu-overlay-additional-information-divider-color: #dedede;
+    --menu-overlay-item-hover-color: #f26323;
 }
 
 @mixin subcategory-visible {
@@ -236,6 +237,14 @@
         display: grid;
         align-items: center;
 
+        &:hover {
+            @include after-mobile {
+                --menu-overlay-item-banner-color: var(--menu-overlay-item-hover-color);
+
+                color: var(--menu-overlay-item-hover-color);
+            }
+        }
+
         &_type {
             &_main {
                 grid-auto-flow: column;
@@ -311,6 +320,13 @@
     &-PageLink {
         text-align: center;
         margin: 1.5rem 0;
+
+        &:hover {
+            @include after-mobile {
+                color: var(--menu-overlay-item-hover-color);
+            }
+        }
+
     }
 
     &-Social {

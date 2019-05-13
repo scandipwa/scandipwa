@@ -11,7 +11,8 @@
 
 :root {
     --category-filter-overlay-desktop-color: #979797;
-    --category-filter-overlay-hover-color: #424242;
+    --category-filter-overlay-selected-color: var(--color-primary-base);
+    --category-filter-overlay-hover-color: var(--color-primary-light);
 }
 
 .CategoryFilterOverlay {
@@ -81,7 +82,7 @@
 
         &_isSelected {
             &:not(.Swatch_type_color):not(.Swatch_type_cat) {
-                --category-filter-overlay-desktop-color: #000;
+                --category-filter-overlay-desktop-color: var(--category-filter-overlay-selected-color);
             }
         }
 
