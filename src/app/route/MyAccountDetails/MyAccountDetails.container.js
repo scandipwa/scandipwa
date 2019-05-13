@@ -23,29 +23,17 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    requestCustomerData(options) {
-        return MyAccountDispatcher.requestCustomerData(options, dispatch);
-    },
-    updateCustomerData(options) {
-        return MyAccountDispatcher.updateCustomerData(options, dispatch);
-    },
-    changeCustomerPassword(options, customer) {
-        return MyAccountDispatcher.changeCustomerPassword(options, customer, dispatch);
-    },
-    updateCustomerAddress(id, options) {
-        return MyAccountDispatcher.updateCustomerAddress(id, options, dispatch);
-    },
-    createCustomerAddress(options) {
-        return MyAccountDispatcher.createCustomerAddress(options, dispatch);
-    },
+    requestCustomerData: options => MyAccountDispatcher.requestCustomerData(options, dispatch),
+    updateCustomerData: options => MyAccountDispatcher.updateCustomerData(options, dispatch),
+    changeCustomerPassword: (options, customer) => MyAccountDispatcher.changeCustomerPassword(
+        options, customer, dispatch
+    ),
+    updateCustomerAddress: (id, options) => MyAccountDispatcher.updateCustomerAddress(id, options, dispatch),
+    createCustomerAddress: options => MyAccountDispatcher.createCustomerAddress(options, dispatch),
     changeHeaderState: state => dispatch(changeHeaderState(state)),
     logout: () => MyAccountDispatcher.logout(null, dispatch),
-    updateBreadcrumbs: (breadcrumbs) => {
-        BreadcrumbsDispatcher.update(breadcrumbs, dispatch);
-    },
-    showNotification(type, message) {
-        dispatch(showNotification(type, message));
-    }
+    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.update(breadcrumbs, dispatch),
+    showNotification: (type, message) => dispatch(showNotification(type, message))
 });
 
 const MyAccountDetailsContainer = connect(mapStateToProps, mapDispatchToProps)(MyAccountDetails);

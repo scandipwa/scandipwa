@@ -11,10 +11,12 @@
 
 import { connect } from 'react-redux';
 import { CartDispatcher } from 'Store/Cart';
+import { showNotification } from 'Store/Notification';
 import AddToCart from './AddToCart.component';
 
 const mapDispatchToProps = dispatch => ({
-    addProduct: options => CartDispatcher.addProductToCart(dispatch, options)
+    addProduct: options => CartDispatcher.addProductToCart(dispatch, options),
+    showNotification: (type, message) => dispatch(showNotification(type, message))
 });
 
 const AddToCartContainer = connect(null, mapDispatchToProps)(AddToCart);

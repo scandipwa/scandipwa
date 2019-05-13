@@ -50,7 +50,8 @@ class AddToCart extends Component {
             configurableVariantIndex,
             groupedProductQuantity,
             quantity,
-            addProduct
+            addProduct,
+            showNotification
         } = this.props;
         const { variants, type_id } = product;
 
@@ -85,7 +86,10 @@ class AddToCart extends Component {
         return addProduct({
             product: productToAdd,
             quantity
-        }).then(() => this.setState({ isLoading: false }));
+        }).then(() => {
+            showNotification('success', 'Product added to cart!');
+            this.setState({ isLoading: false })
+        });
     }
 
     render() {
@@ -122,6 +126,7 @@ AddToCart.propTypes = {
     quantity: PropTypes.number,
     configurableVariantIndex: PropTypes.number,
     groupedProductQuantity: PropTypes.objectOf(PropTypes.number),
+    showNotification: PropTypes.func.isRequired,
     addProduct: PropTypes.func,
     mix: PropTypes.shape({
         block: PropTypes.string,
