@@ -40,6 +40,12 @@ class AddToCart extends Component {
         }, 1500);
     }
 
+    afterAdded() {
+        const { showNotification } = this.props;
+        showNotification('success', 'Product added to cart!');
+        this.setState({ isLoading: false });
+    }
+
     /**
      * Button click listener
      * @return {void}
@@ -50,8 +56,7 @@ class AddToCart extends Component {
             configurableVariantIndex,
             groupedProductQuantity,
             quantity,
-            addProduct,
-            showNotification
+            addProduct
         } = this.props;
         const { variants, type_id } = product;
 
@@ -59,7 +64,7 @@ class AddToCart extends Component {
 
         if (type_id === 'grouped') {
             const { items } = product;
-            Promise.all(items.map((item) => {
+            return Promise.all(items.map((item) => {
                 // TODO: TEST
                 const { product: groupedProductItem } = item;
                 const {
@@ -73,9 +78,8 @@ class AddToCart extends Component {
                     product: groupedProductItem,
                     quantity: groupedProductQuantity[groupedProductItem.id]
                 });
-            })).then(() => this.setState({ isLoading: false }));
+            })).then(() => this.afterAdded());
         }
-
         const productToAdd = variants
             ? {
                 ...product,
@@ -86,10 +90,7 @@ class AddToCart extends Component {
         return addProduct({
             product: productToAdd,
             quantity
-        }).then(() => {
-            showNotification('success', 'Product added to cart!');
-            this.setState({ isLoading: false })
-        });
+        }).then(() => this.afterAdded());
     }
 
     render() {
