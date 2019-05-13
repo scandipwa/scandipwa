@@ -75,12 +75,12 @@
         width: 7px;
         height: 7px;
         border-radius: 50%;
-        background-color: var(--slider-crumb-color);
+        background-color: transparent;
         border: 1px solid var(--slider-crumb-color);
         transition: background-color 300ms;
 
         &_isActive {
-            background-color: transparent;
+            background-color: var(--slider-crumb-color);
         }
     }
 }

@@ -14,12 +14,6 @@
         margin-left: auto;
     }
 
-    &-Placeholder {
-        @include mobile {
-            top: 13px;
-        }
-    }
-
     &-Select {
         margin-top: 0;
     }

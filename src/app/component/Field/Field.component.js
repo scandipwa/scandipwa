@@ -357,8 +357,9 @@ class Field extends Component {
                                   id={ id }
                                   value={ value }
                                   disabled={ disabled }
-                                  label={ label }
-                                />
+                                >
+                                    { label }
+                                </option>
                             ))
                         }
                     </select>
