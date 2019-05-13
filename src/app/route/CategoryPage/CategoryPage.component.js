@@ -206,11 +206,6 @@ class CategoryPage extends Component {
             stateUpdate.sortDirection = querySortDirection;
         }
 
-        if (priceRange) {
-            stateUpdate.minPriceRange = priceRange.min;
-            stateUpdate.maxPriceRange = priceRange.max;
-        }
-
         this.setState(stateUpdate);
 
         requestCategory(options);

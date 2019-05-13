@@ -120,7 +120,8 @@ class Header extends Component {
 
         this.state = {
             searchCriteria: '',
-            prevPathname: ''
+            prevPathname: '',
+            isClearEnabled: false
         };
 
         this.searchBarRef = React.createRef();
@@ -158,7 +159,7 @@ class Header extends Component {
             headerState: { name }
         } = this.props;
 
-        const { pathname } = history;
+        const { pathname, search } = history;
 
         if (!isMobile.any()) {
             setHeaderState(this.routeMap['/']);
@@ -166,6 +167,10 @@ class Header extends Component {
 
             return;
         }
+
+        this.setState({
+            isClearEnabled: new RegExp(['customFilters', 'priceMax', 'priceMin'].join('|')).test(search)
+        });
 
         if ((isPrevPathnameNotRelevant || prevPathname !== pathname)) {
             const newHeaderState = Object.keys(this.routeMap).reduce(
@@ -181,7 +186,9 @@ class Header extends Component {
 
             hideActiveOverlay();
 
-            this.setState({ prevPathname: pathname });
+            this.setState({
+                prevPathname: pathname
+            });
         }
     }
 
@@ -292,7 +299,8 @@ class Header extends Component {
     }
 
     onClearButtonClick() {
-        setQueryParams({ customFilters: '' }, history.location, history);
+        setQueryParams({ customFilters: '', priceMax: '', priceMin: '' }, history.location, history);
+        this.setState({ isClearEnabled: false });
     }
 
     onMinicartButtonClick() {
@@ -490,11 +498,13 @@ class Header extends Component {
     }
 
     renderClearButton(isVisible = false) {
+        const { isClearEnabled } = this.state;
+
         return (
             <button
               block="Header"
               elem="Button"
-              mods={ { type: 'clear', isVisible } }
+              mods={ { type: 'clear', isVisible, isDisabled: !isClearEnabled } }
               onClick={ this.onClearButtonClick }
               aria-label="Clear"
               aria-hidden={ !isVisible }

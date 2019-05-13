@@ -172,6 +172,11 @@
 			}
 		}
 
+		&_isDisabled {
+			pointer-events: none;
+			opacity: .5;
+		}
+
 		&_type {
 			&_menu,
 			&_account,
