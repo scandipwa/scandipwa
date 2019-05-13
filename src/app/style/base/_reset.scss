@@ -164,6 +164,10 @@ select {
     min-height: 2rem;
     min-width: 4rem;
     font-size: 1.1rem;
+
+    @include mobile {
+        font-size: 16px;
+    }
 }
 
 select {
