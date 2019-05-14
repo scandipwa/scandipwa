@@ -1,0 +1,5 @@
+[{
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target" : { "namespace": "android_app", "package_name": "com.scandipwa",
+        "sha256_cert_fingerprints": ["CA:7A:FC:B9:57:43:33:CF:75:F3:78:DB:CD:fb:5A:60:B9:3A:37:84:C0:03:61:DB:3F:F8:66:0B:75:5B:BE:A9"] }
+}]

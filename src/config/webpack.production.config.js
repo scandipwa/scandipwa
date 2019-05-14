@@ -147,7 +147,8 @@ module.exports = {
 
         new CleanWebpackPlugin([
             path.resolve('Magento_Theme', 'templates'),
-            path.resolve('Magento_Theme', 'web')
+            path.resolve('Magento_Theme', 'web'),
+            path.resolve('Magento_Theme', 'public')
         ], { root: projectRoot }),
 
         new MiniCssExtractPlugin(),
@@ -155,7 +156,8 @@ module.exports = {
         new OptimizeCssAssetsPlugin(),
 
         new CopyWebpackPlugin([
-            { from: path.resolve(projectRoot, 'src', 'public', 'assets'), to: './assets' }
+            { from: path.resolve(projectRoot, 'src', 'public', 'assets'), to: './assets' },
+            { from: path.resolve(projectRoot, 'src', 'public', 'public'), to: './public' }
         ]),
 
         new FallbackPlugin({
