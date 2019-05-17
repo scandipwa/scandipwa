@@ -33,6 +33,11 @@ class HeaderAndFooter {
 
         return available_regions;
     }
+
+    requestStoreCurrency() {
+        return new Field('currency')
+            .addField('base_currency_symbol');
+    }
 }
 
 export default new HeaderAndFooter();

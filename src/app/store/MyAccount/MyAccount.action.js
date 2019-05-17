@@ -13,6 +13,7 @@ const UPDATE_CUSTOMER_SIGN_IN_STATUS = 'UPDATE_CUSTOMER_SIGN_IN_STATUS';
 const UPDATE_CUSTOMER_DETAILS = 'UPDATE_CUSTOMER_DETAILS';
 const UPDATE_CUSTOMER_PASSWORD_RESET_STATUS = 'UPDATE_CUSTOMER_PASSWORD_RESET_STATUS';
 const UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS = 'UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS';
+const UPDATE_CUSTOMER_ORDERS = 'UPDATE_CUSTOMER_ORDERS';
 
 const updateCustomerSignInStatus = status => ({
     type: UPDATE_CUSTOMER_SIGN_IN_STATUS,
@@ -33,13 +34,20 @@ const updateCustomerPasswordForgotStatus = () => ({
     type: UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS
 });
 
+const updateCustomerOrders = orders => ({
+    type: UPDATE_CUSTOMER_ORDERS,
+    orders
+});
+
 export {
     UPDATE_CUSTOMER_SIGN_IN_STATUS,
     UPDATE_CUSTOMER_DETAILS,
     UPDATE_CUSTOMER_PASSWORD_RESET_STATUS,
     UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS,
+    UPDATE_CUSTOMER_ORDERS,
     updateCustomerSignInStatus,
     updateCustomerDetails,
     updateCustomerPasswordResetStatus,
-    updateCustomerPasswordForgotStatus
+    updateCustomerPasswordForgotStatus,
+    updateCustomerOrders
 };

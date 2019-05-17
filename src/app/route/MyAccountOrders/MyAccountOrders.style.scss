@@ -1,0 +1,87 @@
+.MyAccountOrders{
+    &-Wrapper {
+        max-width: 1200px;
+        display: grid;
+        grid-template-columns: 20% 78%;
+        grid-column-gap: 2%;
+
+        padding: {
+            left: 1rem;
+            right: 1rem;
+        };
+
+        margin: {
+            top: 2rem;
+            left: auto;
+            right: auto;
+        }
+
+        @include mobile {
+            display: block;
+        }
+    }
+
+    &-Sidebar {
+        display: flex;
+        flex-direction: column;
+        padding-top: 1.8rem;
+        margin-bottom: 1.9rem;
+        border-right: 2px solid var(--color-breadcrumbs-background);
+
+        @include mobile {
+            display: none;
+        }
+
+    }
+
+    &-SideLink {
+        font-size: 1.35rem;
+        cursor: pointer;
+        padding: 0;
+        height: 3rem;
+        line-height: 3rem;
+        text-align: center;
+
+        &:hover {
+            background-color: var(--color-cart-light);
+
+            @include mobile {
+                background-color: transparent;
+            }
+        }
+
+        &::before {
+            content: '';
+        }
+    }
+
+    &-Heading {
+        padding-bottom: 2rem;
+    }
+
+    &-Table {
+        width: 100%;
+        display: none;
+
+        &_isVisible {
+            display: table;
+        }
+    }
+
+    &-Empty {
+        font-size: 1.5rem;
+    }
+
+    td {
+        overflow: hidden;
+        text-align: center;
+    }
+
+    a {
+        display: block;
+
+        &:link {
+            text-decoration: none;
+        }
+    }
+}

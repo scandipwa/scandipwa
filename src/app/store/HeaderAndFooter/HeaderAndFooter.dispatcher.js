@@ -12,7 +12,12 @@
 import { QueryDispatcher, executePost } from 'Util/Request';
 import { MenuQuery, CmsBlockQuery } from 'Query';
 import { showNotification } from 'Store/Notification';
-import { updateMenu, toggleHeaderAndFooter, getCountryList } from 'Store/HeaderAndFooter';
+import {
+    updateMenu,
+    toggleHeaderAndFooter,
+    getCountryList,
+    requestStoreCurrency
+} from 'Store/HeaderAndFooter';
 import { updateCmsBlocks } from 'Store/CmsBlocksAndSlider';
 import { prepareQuery } from 'Util/Query';
 import HeaderAndFooter from 'Query/HeaderAndFooter.query';
@@ -51,6 +56,19 @@ class HeaderAndFooterDispatcher extends QueryDispatcher {
 
         return executePost(prepareQuery([query])).then(
             ({ countries }) => dispatch(getCountryList(countries)),
+            // eslint-disable-next-line no-console
+            error => console.log(error)
+        );
+    }
+
+    requestStoreCurrency(dispatch) {
+        const query = HeaderAndFooter.requestStoreCurrency();
+
+        return executePost(prepareQuery([query])).then(
+            (result) => {
+                const { currency: { base_currency_symbol } } = result;
+                dispatch(requestStoreCurrency(base_currency_symbol));
+            },
             // eslint-disable-next-line no-console
             error => console.log(error)
         );

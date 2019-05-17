@@ -5,10 +5,12 @@ import {
     UPDATE_CUSTOMER_DETAILS,
     UPDATE_CUSTOMER_PASSWORD_RESET_STATUS,
     UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS,
+    UPDATE_CUSTOMER_ORDERS,
     updateCustomerSignInStatus,
     updateCustomerDetails,
     updateCustomerPasswordResetStatus,
-    updateCustomerPasswordForgotStatus
+    updateCustomerPasswordForgotStatus,
+    updateCustomerOrders
 } from './MyAccount.action';
 
 export {
@@ -18,8 +20,10 @@ export {
     UPDATE_CUSTOMER_DETAILS,
     UPDATE_CUSTOMER_PASSWORD_RESET_STATUS,
     UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS,
+    UPDATE_CUSTOMER_ORDERS,
     updateCustomerSignInStatus,
     updateCustomerDetails,
     updateCustomerPasswordResetStatus,
-    updateCustomerPasswordForgotStatus
+    updateCustomerPasswordForgotStatus,
+    updateCustomerOrders
 };

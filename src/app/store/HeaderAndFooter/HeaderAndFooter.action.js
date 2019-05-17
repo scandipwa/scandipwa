@@ -12,6 +12,7 @@
 export const UPDATE_MENU = 'UPDATE_MENU';
 export const TOGGLE_HEADER_AND_FOOTER = 'TOGGLE_HEADER_AND_FOOTER';
 export const GET_COUNTRY_LIST = 'GET_COUNTRY_LIST';
+export const REQUEST_STORE_CURRENCY = 'REQUEST_STORE_CURRENCY';
 
 const updateMenu = menu => ({
     type: UPDATE_MENU,
@@ -28,4 +29,14 @@ const getCountryList = countries => ({
     countries
 });
 
-export { updateMenu, toggleHeaderAndFooter, getCountryList };
+const requestStoreCurrency = currency => ({
+    type: REQUEST_STORE_CURRENCY,
+    currency
+});
+
+export {
+    updateMenu,
+    toggleHeaderAndFooter,
+    getCountryList,
+    requestStoreCurrency
+};

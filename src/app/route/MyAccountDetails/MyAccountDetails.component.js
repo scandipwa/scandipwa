@@ -91,7 +91,7 @@ class MyAccountDetails extends Component {
             this.setState({ isSubscribed: is_subscribed });
         }
 
-        if (state.length) {
+        if (state && state.length) {
             this.changeState(state);
             history.replace({ state: {} });
         }

@@ -187,24 +187,20 @@ class MyAccount extends Component {
     renderAccountActions() {
         const { logout } = this.props;
 
-        const linkTo = {
+        const linkToMyAccount = {
             pathname: '/my-account',
             state: 'accountOverview'
+        };
+
+        const linkToMyOrders = {
+            pathname: '/my-account-orders'
         };
 
         return (
             <nav block="MyAccount" elem="Navigation">
                 <ul>
-                    <li><Link to={ linkTo }>My Account</Link></li>
-                    <li>
-                        <button
-                          block="Button"
-                          mods={ { likeLink: true } }
-                          onClick={ () => logout() }
-                        >
-                            My Orders
-                        </button>
-                    </li>
+                    <li><Link to={ linkToMyAccount }>My Account</Link></li>
+                    <li><Link to={ linkToMyOrders }>My Orders</Link></li>
                     <li>
                         <button
                           block="Button"

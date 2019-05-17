@@ -17,14 +17,16 @@ import {
     UPDATE_CUSTOMER_SIGN_IN_STATUS,
     UPDATE_CUSTOMER_DETAILS,
     UPDATE_CUSTOMER_PASSWORD_RESET_STATUS,
-    UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS
+    UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS,
+    UPDATE_CUSTOMER_ORDERS
 } from './MyAccount.action';
 
 const initialState = {
     isSignedIn: isInitiallySignedIn(),
     passwordResetStatus: false,
     isPasswordForgotSend: false,
-    customer: {}
+    customer: {},
+    orders: []
 };
 
 const MyAccountReducer = (state = initialState, action) => {
@@ -53,6 +55,14 @@ const MyAccountReducer = (state = initialState, action) => {
         return {
             ...state,
             customer
+        };
+
+    case UPDATE_CUSTOMER_ORDERS:
+        const { orders } = action;
+
+        return {
+            ...state,
+            orders
         };
 
     default:

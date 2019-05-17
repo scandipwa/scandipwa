@@ -20,6 +20,7 @@ import CmsPage from 'Route/CmsPage';
 import CartPage from 'Route/CartPage';
 import CheckoutPage from 'Route/CheckoutPage';
 import MyAccountDetails from 'Route/MyAccountDetails';
+import MyAccountOrders from 'Route/MyAccountOrders';
 import PasswordChangePage from 'Route/PasswordChangePage';
 import NoMatchHandler from 'Route/NoMatchHandler';
 import UrlRewrites from 'Route/UrlRewrites';
@@ -88,6 +89,10 @@ export class AppRouter extends Component {
                     position: 70
                 },
                 {
+                    component: <Route path="/my-account-orders/" exact component={ MyAccountOrders } />,
+                    position: 80
+                },
+                {
                     component: <Route component={ UrlRewrites } />,
                     position: 100
                 }
@@ -131,6 +136,7 @@ export class AppRouter extends Component {
             fields: ['identifier']
         };
 
+        HeaderAndFooterDispatcher.requestStoreCurrency(Store.dispatch);
         WishlistDispatcher.updateInitialWishlistData(Store.dispatch);
         HeaderAndFooterDispatcher.handleData(Store.dispatch, { menu: { menuId: 1 }, footer: footerOptions });
         CartDispatcher.updateInitialCartData(Store.dispatch);

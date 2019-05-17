@@ -13,13 +13,15 @@
 import {
     UPDATE_MENU,
     TOGGLE_HEADER_AND_FOOTER,
-    GET_COUNTRY_LIST
+    GET_COUNTRY_LIST,
+    REQUEST_STORE_CURRENCY
 } from './HeaderAndFooter.action';
 
 const initialState = {
     menu: {},
     isHeaderAndFooterVisible: true,
-    countries: []
+    countries: [],
+    currency: ''
 };
 
 const HeaderAndFooterReducer = (state = initialState, action) => {
@@ -87,6 +89,13 @@ const HeaderAndFooterReducer = (state = initialState, action) => {
         return {
             ...state,
             countries: resultingCountries
+        };
+
+    case REQUEST_STORE_CURRENCY:
+        const { currency } = action;
+        return {
+            ...state,
+            currency
         };
 
 

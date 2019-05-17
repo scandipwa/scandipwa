@@ -18,7 +18,9 @@ import {
     updateMenu,
     toggleHeaderAndFooter,
     getCountryList,
-    GET_COUNTRY_LIST
+    GET_COUNTRY_LIST,
+    requestStoreCurrency,
+    REQUEST_STORE_CURRENCY
 } from './HeaderAndFooter.action';
 
 export {
@@ -29,5 +31,7 @@ export {
     updateMenu,
     toggleHeaderAndFooter,
     getCountryList,
-    GET_COUNTRY_LIST
+    GET_COUNTRY_LIST,
+    requestStoreCurrency,
+    REQUEST_STORE_CURRENCY
 };

@@ -13,7 +13,8 @@ import {
     updateCustomerSignInStatus,
     updateCustomerDetails,
     updateCustomerPasswordResetStatus,
-    updateCustomerPasswordForgotStatus
+    updateCustomerPasswordForgotStatus,
+    updateCustomerOrders
 } from 'Store/MyAccount';
 import { fetchMutation, executePost } from 'Util/Request';
 import {
@@ -45,6 +46,16 @@ class MyAccountDispatcher {
         const mutation = MyAccount.getUpdateInformationMutation(options);
         return fetchMutation(mutation).then(
             ({ customer }) => dispatch(updateCustomerDetails(customer)),
+            error => console.log(error)
+        );
+    }
+
+    requestCustomerOrders(dispatch) {
+        const query = MyAccount.getOrders();
+
+        return executePost(prepareQuery([query])).then(
+            ({ customerOrders }) => dispatch(updateCustomerOrders(customerOrders.items)),
+            // eslint-disable-next-line no-console
             error => console.log(error)
         );
     }

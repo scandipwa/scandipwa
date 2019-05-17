@@ -46,6 +46,13 @@ class MyAccount {
         return customer;
     }
 
+    getOrders() {
+        const orders = new Field('customerOrders')
+            .addField(this._getOrderItems());
+
+        return orders;
+    }
+
     /**
      * Get ForgotPassword mutation
      * @param {{email: String}} options
@@ -208,6 +215,15 @@ class MyAccount {
      */
     _getAdditionalCustomerFields(customer) {
         return customer;
+    }
+
+    _getOrderItems() {
+        return new Field('items')
+            .addField('increment_id')
+            .addField('id')
+            .addField('created_at')
+            .addField('grand_total')
+            .addField('status');
     }
 }
 
