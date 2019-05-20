@@ -14,6 +14,7 @@ import PropTypes from 'prop-types';
 import ProductDetails from 'Component/ProductDetails';
 import ProductGallery from 'Component/ProductGallery';
 import ProductDescription from 'Component/ProductDescription';
+import ProductReviewList from 'Component/ProductReviewList';
 import ContentWrapper from 'Component/ContentWrapper';
 import ProductActions from 'Component/ProductActions';
 import GroupedProductsList from 'Component/GroupedProductsList';
@@ -226,6 +227,10 @@ class ProductPage extends Component {
                     <ProductDescription
                       product={ dataSource }
                       mediaGallery={ media_gallery_entries }
+                      areDetailsLoaded={ areDetailsLoaded }
+                    />
+                    <ProductReviewList
+                      product={ dataSource }
                       areDetailsLoaded={ areDetailsLoaded }
                     />
                     <RelatedProducts
