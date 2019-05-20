@@ -32,7 +32,7 @@ class BrowserDatabase {
                 return null;
             }
 
-            return data;
+            return data || entryObject;
         } catch {
             return null;
         }

@@ -38,7 +38,8 @@ class ProductPage extends Component {
     }
 
     componentDidMount() {
-        this.requestProduct();
+        const { isOnlyPlaceholder } = this.props;
+        if (!isOnlyPlaceholder) this.requestProduct();
         this.onProductUpdate();
     }
 
@@ -266,13 +267,13 @@ ProductPage.propTypes = {
     changeHeaderState: PropTypes.func.isRequired,
     clearGroupedProductQuantity: PropTypes.func.isRequired,
     product: ProductType.isRequired,
-    filters: PropTypes.objectOf(PropTypes.shape).isRequired
+    filters: PropTypes.objectOf(PropTypes.shape).isRequired,
+    isOnlyPlaceholder: PropTypes.bool
 };
 
 ProductPage.defaultProps = {
-    location: {
-        state: {}
-    }
+    location: { state: {} },
+    isOnlyPlaceholder: false
 };
 
 export default ProductPage;

@@ -13,41 +13,57 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ContentWrapper from 'Component/ContentWrapper';
 import Html from 'Component/Html';
-import { BlockListType } from 'Type/CMS';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import Meta from 'Component/Meta';
 import { CMS_PAGE } from 'Component/Header';
 import { history } from 'Route';
+import { getUrlParam } from 'Util/Url';
+import { BlockListType } from 'Type/CMS';
 import './CmsPage.style';
 
 class CmsPage extends Component {
     componentDidMount() {
-        const { enableBreadcrumbs } = this.props;
-        this.requestPage();
+        const {
+            requestPage,
+            location,
+            match,
+            enableBreadcrumbs,
+            cmsId,
+            isOnlyPlaceholder,
+            updateCmsPage
+        } = this.props;
+        const urlParam = getUrlParam(match, location);
+
+        updateCmsPage({});
+        if (!isOnlyPlaceholder) requestPage({ id: cmsId || urlParam });
         enableBreadcrumbs();
     }
 
     componentDidUpdate(prevProps) {
         const {
             updateBreadcrumbs, page, location, setHeaderState,
-            page: { content_heading }
+            page: { content_heading }, requestPage, match,
+            location: { pathname }, cmsId
         } = this.props;
+        const {
+            location: {
+                pathname: prevPathname
+            },
+            cmsId: prevCmsId
+        } = prevProps;
 
         updateBreadcrumbs(page);
+
         setHeaderState({
             name: CMS_PAGE,
             title: content_heading,
             onBackClick: () => history.goBack()
         });
 
-        if (location.pathname !== prevProps.location.pathname) {
-            this.requestPage();
+        if (pathname !== prevPathname || cmsId !== prevCmsId) {
+            const urlParam = getUrlParam(match, location);
+            requestPage({ id: cmsId || urlParam });
         }
-    }
-
-    requestPage() {
-        const { requestPage, match: { params: { id } } } = this.props;
-        requestPage({ id });
     }
 
     render() {
@@ -87,14 +103,22 @@ CmsPage.propTypes = {
     requestPage: PropTypes.func.isRequired,
     match: PropTypes.shape({
         params: PropTypes.shape({
-            id: PropTypes.string.isRequired
+            id: PropTypes.string
         }).isRequired
     }).isRequired,
     page: BlockListType.isRequired,
     setHeaderState: PropTypes.func.isRequired,
     updateBreadcrumbs: PropTypes.func.isRequired,
     location: PropTypes.shape().isRequired,
-    enableBreadcrumbs: PropTypes.func.isRequired
+    enableBreadcrumbs: PropTypes.func.isRequired,
+    updateCmsPage: PropTypes.func.isRequired,
+    cmsId: PropTypes.number,
+    isOnlyPlaceholder: PropTypes.bool
+};
+
+CmsPage.defaultProps = {
+    cmsId: 0,
+    isOnlyPlaceholder: false
 };
 
 export default CmsPage;

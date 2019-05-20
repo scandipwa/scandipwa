@@ -35,7 +35,8 @@ const CategoryReducer = (state = initialState, action) => {
         sortFields,
         filters,
         isLoading,
-        categoryUrlPath
+        categoryUrlPath,
+        categoryIds
     } = action;
 
     switch (action.type) {
@@ -74,7 +75,8 @@ const CategoryReducer = (state = initialState, action) => {
             if (children) {
                 children.forEach((element) => {
                     flattenCategory(element);
-                    flattendCategories[element.url_path] = deleteProperty('children', element);
+                    flattendCategories[categoryUrlPath
+                        ? element.url_path : element.id] = deleteProperty('children', element);
                 });
             }
         };
@@ -83,7 +85,7 @@ const CategoryReducer = (state = initialState, action) => {
 
         return {
             ...state,
-            category: flattendCategories[categoryUrlPath]
+            category: flattendCategories[categoryUrlPath || categoryIds]
         };
 
     case UPDATE_LOAD_STATUS:

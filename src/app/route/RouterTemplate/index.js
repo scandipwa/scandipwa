@@ -25,11 +25,11 @@ class AppRouter extends BaseRouter {
             beforeItems: [
                 /**
                  * A shape of custom data passed to the BaseRouter
-                    {
+                 {
                         component: <p>Test1</p>,
                         position: 1
                     },
-                    {
+                 {
                         component: <p>Test2</p>,
                         position: 21
                     }
@@ -38,7 +38,7 @@ class AppRouter extends BaseRouter {
             switchItems: [
                 /**
                  * One more example
-                    {
+                 {
                         component: <Route path="/myroute" exact component={ MyComponent } />,
                         position: 11
                     }
@@ -50,4 +50,5 @@ class AppRouter extends BaseRouter {
 }
 
 export { history };
+
 export default AppRouter;

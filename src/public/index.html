@@ -9,6 +9,10 @@
                     navigator.serviceWorker.register('/sw.js');
                 });
             }
+            const actionName = {
+                    type: `<?php echo $this->getAction(); ?>`
+                };
+            window.actionName = actionName;
         </script>
 
         <script>

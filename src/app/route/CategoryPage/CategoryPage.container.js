@@ -10,7 +10,7 @@
  */
 
 import { connect } from 'react-redux';
-import { CategoryDispatcher } from 'Store/Category';
+import { CategoryDispatcher, updateLoadStatus } from 'Store/Category';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import { changeHeaderState } from 'Store/Header';
 import CategoryPage from './CategoryPage.component';
@@ -28,6 +28,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     changeHeaderState: state => dispatch(changeHeaderState(state)),
     requestCategory: options => CategoryDispatcher.handleData(dispatch, options),
+    updateLoadStatus: options => dispatch(updateLoadStatus(options)),
     updateBreadcrumbs: breadcrumbs => ((Object.keys(breadcrumbs).length)
         ? BreadcrumbsDispatcher.updateWithCategory(breadcrumbs, dispatch)
         : BreadcrumbsDispatcher.update([], dispatch))

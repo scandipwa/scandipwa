@@ -54,22 +54,27 @@ class CategoryPage extends Component {
     }
 
     componentDidMount() {
-        const { updateBreadcrumbs } = this.props;
+        const { updateBreadcrumbs, isOnlyPlaceholder, updateLoadStatus } = this.props;
 
-        if (this.isNewCategory()) updateBreadcrumbs({});
-        else this.onCategoryUpdate();
+        if (!isOnlyPlaceholder) {
+            if (this.isNewCategory()) updateBreadcrumbs({});
+            else this.onCategoryUpdate();
 
-        this.requestCategory();
+            this.requestCategory();
+        } else {
+            updateLoadStatus(true);
+        }
     }
 
     componentDidUpdate(prevProps) {
-        const { location, category } = this.props;
+        const { location, category: { id }, categoryIds } = this.props;
+        const { category: { id: prevId }, categoryIds: prevCategoryIds } = prevProps;
 
         // update breadcrumbs only if category has changed
-        if (category.id !== prevProps.category.id) this.onCategoryUpdate();
+        if (id !== prevId) this.onCategoryUpdate();
 
         // update category only if route or search query has been changed
-        if (this.urlHasChanged(location, prevProps)) this.requestCategory();
+        if (this.urlHasChanged(location, prevProps) || categoryIds !== prevCategoryIds) this.requestCategory();
     }
 
     /**
@@ -163,7 +168,8 @@ class CategoryPage extends Component {
             requestCategory,
             location,
             items,
-            category
+            category,
+            categoryIds
         } = this.props;
 
         const {
@@ -173,7 +179,7 @@ class CategoryPage extends Component {
             pageSize
         } = this.state;
 
-        const categoryUrlPath = this.getCategoryUrlPath();
+        const categoryUrlPath = !categoryIds ? this.getCategoryUrlPath() : null;
         const currentPage = getQueryParam('page', location) || 1;
         const priceRange = this.getPriceRangeFromUrl();
         const customFilters = this.getCustomFiltersFromUrl();
@@ -186,6 +192,7 @@ class CategoryPage extends Component {
             pageSize,
             priceRange,
             customFilters,
+            categoryIds,
             sortKey: querySortKey || sortKey,
             sortDirection: querySortDirection || sortDirection,
             productsLoaded: items.length,
@@ -365,7 +372,6 @@ class CategoryPage extends Component {
             label: option.label
         }));
 
-        const isNewCategory = this.isNewCategory();
         const customFilters = this.getCustomFiltersFromUrl();
 
         return (
@@ -385,7 +391,7 @@ class CategoryPage extends Component {
                       maxPriceValue={ maxPriceRange }
                     />
                     <CategoryDetails
-                      category={ isNewCategory ? {} : category }
+                      category={ category }
                     />
                     <aside block="CategoryPage" elem="Miscellaneous">
                         { this.renderItemCount() }
@@ -437,11 +443,19 @@ CategoryPage.propTypes = {
     requestCategory: PropTypes.func.isRequired,
     changeHeaderState: PropTypes.func.isRequired,
     updateBreadcrumbs: PropTypes.func.isRequired,
+    updateLoadStatus: PropTypes.func.isRequired,
     filters: PropTypes.arrayOf(PropTypes.shape).isRequired,
     sortFields: PropTypes.shape({
         options: PropTypes.array
     }).isRequired,
-    isLoading: PropTypes.bool.isRequired
+    isLoading: PropTypes.bool.isRequired,
+    categoryIds: PropTypes.number,
+    isOnlyPlaceholder: PropTypes.bool
+};
+
+CategoryPage.defaultProps = {
+    categoryIds: 0,
+    isOnlyPlaceholder: false
 };
 
 export default CategoryPage;

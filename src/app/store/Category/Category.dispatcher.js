@@ -39,14 +39,15 @@ class CategoryDispatcher extends QueryDispatcher {
             }
         } = data;
 
-        const { categoryUrlPath } = options;
+        const { categoryUrlPath, categoryIds } = options;
 
-        if (category && !this._isCategoryExists(category, categoryUrlPath)) return dispatch(updateNoMatch(true));
+        if (category
+            && !this._isCategoryExists(category, categoryUrlPath, categoryIds)) return dispatch(updateNoMatch(true));
 
         if (category) { // If category details are updated, reset all data
             dispatch(updateCategoryProductList(items, total_count, sort_fields, filters));
             dispatch(updateCategoryList(category));
-            dispatch(updateCurrentCategory(categoryUrlPath));
+            dispatch(updateCurrentCategory(categoryUrlPath, categoryIds));
         } else if (filters || sort_fields) {
             dispatch(updateCategoryProductList(items, total_count, sort_fields, filters));
         } else {
@@ -69,14 +70,14 @@ class CategoryDispatcher extends QueryDispatcher {
      */
     prepareRequest(options, dispatch) {
         const {
-            currentPage, previousPage, pageSize, productsLoaded, isCategoryLoaded, categoryUrlPath
+            currentPage, previousPage, pageSize, productsLoaded, isCategoryLoaded, categoryUrlPath, categoryIds
         } = options;
         const query = [];
 
         if (!isCategoryLoaded) {
             query.push(CategoryQuery.getQuery(options));
         } else {
-            dispatch(updateCurrentCategory(categoryUrlPath));
+            dispatch(updateCurrentCategory(categoryUrlPath, categoryIds));
         }
 
         if (currentPage > 1) {
@@ -133,7 +134,7 @@ class CategoryDispatcher extends QueryDispatcher {
      * @param {String} categoryUrlPath current category url path
      * @return {Boolean}
      */
-    _isCategoryExists(masterCategory, categoryUrlPath) {
+    _isCategoryExists(masterCategory, categoryUrlPath, categoryIds) {
         const flattendCategories = [];
 
         const flattenCategory = (category) => {
@@ -141,15 +142,16 @@ class CategoryDispatcher extends QueryDispatcher {
 
             if (children) {
                 children.forEach((element) => {
+                    const { id, url_path } = element;
                     flattenCategory(element);
-                    flattendCategories.push(element.url_path);
+                    flattendCategories.push(categoryUrlPath ? url_path : id);
                 });
             }
         };
 
         flattenCategory(masterCategory);
 
-        return flattendCategories.includes(categoryUrlPath);
+        return flattendCategories.includes(categoryUrlPath || parseInt(categoryIds, 10));
     }
 }
 

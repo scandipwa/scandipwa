@@ -31,6 +31,7 @@ const getUrlParam = (match, location) => {
     const baseUrl = match.path;
     const currentUrl = location.pathname;
 
+    if (baseUrl === '/') return currentUrl.replace(baseUrl, '');
     return currentUrl.replace(baseUrl, '').substring(1);
 };
 
