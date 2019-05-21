@@ -14,14 +14,33 @@ import PropTypes from 'prop-types';
 import { ProductType } from 'Type/ProductList';
 import ContentWrapper from 'Component/ContentWrapper';
 import TextPlaceholder from 'Component/TextPlaceholder';
+import ProductReviewRating from 'Component/ProductReviewRating';
 import './ProductReviewList.style';
 
 /**
  * @class ProductReviewList
  */
 class ProductReviewList extends Component {
-    renderReviewListItemRating(ratingVote) {
+    renderReviewListItemRating(ratingVoteItem) {
+        const {
+            vote_id, rating_code, percent
+        } = ratingVoteItem;
 
+        return (
+            <div
+              key={ vote_id }
+              block="ProductReviewList"
+              elem="RatingSummaryItem"
+            >
+                <span><TextPlaceholder content={ rating_code } /></span>
+                { percent
+                    ? (
+                        <ProductReviewRating summary={ percent } />
+                    )
+                    : <TextPlaceholder length="short" />
+                }
+            </div>
+        );
     }
 
     renderReviewListItem(reviewItem) {
@@ -35,10 +54,34 @@ class ProductReviewList extends Component {
               block="ProductReviewList"
               elem="Item"
             >
-                <span>{ nickname }</span>
-                <span>{ title }</span>
-                <span>{ detail }</span>
-                <span>{ created_at }</span>
+                <h4><TextPlaceholder content={ title } /></h4>
+                <div
+                  block="ProductReviewList"
+                  elem="RatingSummary"
+                >
+                    { rating_votes
+                        ? (
+                            Object.values(rating_votes).map(
+                                rating => this.renderReviewListItemRating(rating)
+                            )
+                        )
+                        : this.renderReviewListItemRating({ vote_id: null })
+                    }
+                </div>
+                <div
+                  block="ProductReviewList"
+                  elem="ReviewContent"
+                >
+                    <p><TextPlaceholder content={ detail } length="long" /></p>
+                    <span>
+                        { nickname && created_at
+                            ? (
+                                `Review by ${nickname} ${created_at}`
+                            )
+                            : <TextPlaceholder length="medium" />
+                        }
+                    </span>
+                </div>
             </li>
         );
     }
@@ -55,28 +98,22 @@ class ProductReviewList extends Component {
               wrapperMix={ { block: 'ProductReviewList', elem: 'Wrapper' } }
               label="Product Review List"
             >
-                { !areDetailsLoaded ? (
-                    <p block="ProductReviewList" elem="PlaceholderBlock">
-                        <TextPlaceholder length="short" />
-                        <TextPlaceholder length="short" />
-                        <TextPlaceholder length="short" />
-                        <TextPlaceholder length="short" />
-                    </p>
-                ) : (
-                    <>
-                        <h3 block="ProductReviewList" elem="Title">
-                            { 'Customer reviews' }
-                        </h3>
+                <>
+                    <h3 block="ProductReviewList" elem="Title">
+                        <TextPlaceholder content={ areDetailsLoaded ? 'Customer reviews' : '' } />
+                    </h3>
 
-                        <ul block="ProductReviewList" elem="List">
-                            {
+                    <ul block="ProductReviewList" elem="List">
+                        { areDetailsLoaded
+                            ? (
                                 Object.values(product.reviews).map(
                                     review => this.renderReviewListItem(review)
                                 )
-                            }
-                        </ul>
-                    </>
-                )}
+                            )
+                            : this.renderReviewListItem({ review_id: null })
+                        }
+                    </ul>
+                </>
             </ContentWrapper>
         );
     }
