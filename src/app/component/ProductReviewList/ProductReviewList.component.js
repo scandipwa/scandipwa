@@ -76,7 +76,7 @@ class ProductReviewList extends Component {
                     <span>
                         { nickname && created_at
                             ? (
-                                `Review by ${nickname} ${created_at}`
+                                `Review by ${nickname} ${new Date(created_at).toLocaleDateString()}`
                             )
                             : <TextPlaceholder length="medium" />
                         }
