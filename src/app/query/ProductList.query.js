@@ -419,6 +419,26 @@ class ProductListQuery {
     }
 
     /**
+     * Prepare review summary field
+     * @returns {Field}
+     * @private
+     */
+    _prepareReviewsField() {
+        const ratingVotes = new Field('rating_votes')
+            .addField('vote_id')
+            .addField('rating_code')
+            .addField('percent');
+
+        return new Field('reviews')
+            .addField('review_id')
+            .addField('nickname')
+            .addField('title')
+            .addField('detail')
+            .addField('created_at')
+            .addField(ratingVotes);
+    }
+
+    /**
      * Prepare `items` field
      * @private
      * @param  {{isSingleProduct: Boolean, search: String, categoryIds: Array<String|Number>, categoryUrlPath: String, activePage: Number, priceRange: {min: Number, max: Number}, sortKey: String, sortDirection: String, productPageSize: Number}} options A object containing different aspects of query, each item can be omitted
@@ -433,6 +453,7 @@ class ProductListQuery {
         const additionalInformation = this._prepareAdditionalInformation(options); // additional options related to SINGLE product request
         const configurableData = this._prepareConfigurableData(options);
         const reviewSummary = this._prepareReviewSummaryField();
+        const reviews = this._prepareReviewsField();
         // default fields for all queries
         const defaultFields = [
             'id',
@@ -450,7 +471,8 @@ class ProductListQuery {
             .addFieldList(images) // Simple images: either `small_image` and `thumbnail`, either both previous + `image`
             .addFieldList(additionalInformation) // Single product related fields
             .addFieldList(configurableData)
-            .addField(reviewSummary);
+            .addField(reviewSummary)
+            .addField(reviews);
     }
 
     /**
