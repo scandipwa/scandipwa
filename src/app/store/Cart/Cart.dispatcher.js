@@ -119,9 +119,12 @@ class CartDispatcher {
             item_id,
             sku,
             product_type,
-            qty: (parseInt(originalQuantity, 10) || 0) + parseInt(quantity, 10),
-            product_option: { extension_attributes: this._getExtensionAttributes(product) }
+            qty: (parseInt(originalQuantity, 10) || 0) + parseInt(quantity, 10)
         };
+
+        if (product_type === 'configurable') {
+            productToAdd.product_option = { extension_attributes: this._getExtensionAttributes(product) };
+        }
 
         if (this._isAllowed(options)) {
             return fetchMutation(Cart.getSaveCartItemMutation(
