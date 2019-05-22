@@ -64,11 +64,6 @@ export const ProductLinksType = PropTypes.arrayOf(
     })
 );
 
-export const ReviewSummaryType = PropTypes.shape({
-    rating_summary: PropTypes.number,
-    review_count: PropTypes.number
-});
-
 export const RatingVoteType = PropTypes.shape({
     vote_id: PropTypes.number,
     rating_code: PropTypes.string,
@@ -109,7 +104,6 @@ export const ProductType = PropTypes.shape({
     tier_prices: PropTypes.string,
     url_key: PropTypes.string,
     quantity: PropTypes.number,
-    review_summary: ReviewSummaryType,
     reviews: ReviewsType
 });
 
