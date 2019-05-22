@@ -1,11 +1,11 @@
 .MyAccountDetails {
     --placeholder-animation: placeholderAnimation 2s linear infinite, appear 200ms forwards;
-    
+
     &-Wrapper {
         max-width: 1200px;
         display: grid;
-        grid-template-columns: 20% 78%;
-        grid-column-gap: 2%;
+        grid-template-columns: 1fr 4fr;
+        grid-column-gap: 2rem;
 
         padding: {
             left: 1rem;
@@ -21,19 +21,6 @@
         @include mobile {
             display: block;
         }
-    }
-
-    &-Sidebar {
-        display: flex;
-        flex-direction: column;
-        padding-top: 1.8rem;
-        margin-bottom: 1.9rem;
-        border-right: 2px solid var(--color-breadcrumbs-background);
-
-        @include mobile {
-            display: none;
-        }
-
     }
 
     &-AddressWrapper {
@@ -105,27 +92,6 @@
         legend {
             font-size: 1.50rem;
             font-weight: 700;
-        }
-    }
-
-    li {
-        font-size: 1.35rem;
-        cursor: pointer;
-        padding: 0;
-        height: 3rem;
-        line-height: 3rem;
-        text-align: center;
-
-        &:hover {
-            background-color: var(--color-cart-light);
-
-            @include mobile {
-                background-color: transparent;
-            }
-        }
-
-        &::before {
-            content: '';
         }
     }
 

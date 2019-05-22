@@ -34,9 +34,9 @@ const updateCustomerPasswordForgotStatus = () => ({
     type: UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS
 });
 
-const updateCustomerOrders = orders => ({
+const updateCustomerOrders = customerOrders => ({
     type: UPDATE_CUSTOMER_ORDERS,
-    orders
+    customerOrders
 });
 
 export {

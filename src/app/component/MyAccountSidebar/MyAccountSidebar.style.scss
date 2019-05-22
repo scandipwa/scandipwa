@@ -1,0 +1,40 @@
+.Sidebar {
+    display: flex;
+    flex-direction: column;
+    padding-top: 2rem;
+    margin-bottom: 2rem;
+    border-right: 2px solid var(--color-breadcrumbs-background);
+
+    @include mobile {
+        display: none;
+    }
+
+    &-SideLink {
+        font-size: 1.35rem;
+        cursor: pointer;
+        padding: 0;
+        height: 3rem;
+        line-height: 3rem;
+        text-align: center;
+
+        &:hover {
+            background-color: var(--color-cart-light);
+
+            @include mobile {
+                background-color: transparent;
+            }
+        }
+
+        &::before {
+            content: '';
+        }
+    }
+
+    a {
+        display: block;
+
+        &:link {
+            text-decoration: none;
+        }
+    }
+}

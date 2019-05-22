@@ -17,14 +17,12 @@ import MyAccountOrders from './MyAccountOrders.component';
 
 const mapStateToProps = state => ({
     isSignedIn: state.MyAccountReducer.isSignedIn,
-    orders: state.MyAccountReducer.orders,
+    orders: state.MyAccountReducer.customerOrders,
     currency: state.HeaderAndFooterReducer.currency
 });
 
 const mapDispatchToProps = dispatch => ({
-    requestCustomerOrders() {
-        return MyAccountDispatcher.requestCustomerOrders(dispatch);
-    },
+    requestCustomerOrders() { return MyAccountDispatcher.requestCustomerOrders(dispatch); },
 
     updateBreadcrumbs: (breadcrumbs) => {
         BreadcrumbsDispatcher.update(breadcrumbs, dispatch);

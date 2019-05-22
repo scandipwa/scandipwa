@@ -89,7 +89,7 @@ export class AppRouter extends Component {
                     position: 70
                 },
                 {
-                    component: <Route path="/my-account-orders/" exact component={ MyAccountOrders } />,
+                    component: <Route path="/my-account/orders/" exact component={ MyAccountOrders } />,
                     position: 80
                 },
                 {

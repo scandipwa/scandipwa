@@ -11,12 +11,11 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import TextPlaceholder from 'Component/TextPlaceholder';
 import { Redirect } from 'react-router';
-import { Link } from 'react-router-dom';
+import TextPlaceholder from 'Component/TextPlaceholder';
+import MyAccountSidebar from 'Component/MyAccountSidebar';
+import OrdersType from 'Type/MyAccountOrders';
 import './MyAccountOrders.style';
-
-// TODO remove when BE functionality to get store currency symbol is created
 
 class MyAccountOrders extends Component {
     constructor(props) {
@@ -42,7 +41,7 @@ class MyAccountOrders extends Component {
         const { updateBreadcrumbs } = this.props;
         const breadcrumbs = [
             {
-                url: '/my-account-orders',
+                url: '/my-account/orders',
                 name: 'My Account Orders'
             },
             {
@@ -54,45 +53,58 @@ class MyAccountOrders extends Component {
         updateBreadcrumbs(breadcrumbs);
     }
 
+    showEmptyOrderMessage() {
+        const { orders } = this.props;
+        const { finishedLoading } = this.state;
+        const showMessage = finishedLoading && !orders.length;
+
+        return (showMessage && (
+            <div
+              block="MyAccountOrders"
+              elem="Empty"
+            >
+                You currently have no orders!
+            </div>
+        ));
+    }
+
     renderOrderRows() {
         const { orders, currency } = this.props;
         const { finishedLoading } = this.state;
+        const showRow = (finishedLoading && currency) ? true : undefined;
 
-        if (finishedLoading && currency) {
-            return orders.map(order => (
-                <tr key={ order.id }>
-                    <td>{ order.id }</td>
-                    <td>{ order.created_at }</td>
+        return orders.map((order) => {
+            const {
+                id,
+                created_at,
+                grand_total,
+                status
+            } = order;
+
+            return (
+                <tr key={ id || 0 }>
+                    <td>{ <TextPlaceholder length="medium" content={ showRow && id } /> }</td>
+                    <td>{ <TextPlaceholder length="medium" content={ showRow && created_at } /> }</td>
                     <td>
-                        { order.grand_total }
-                        { currency }
+                        { <TextPlaceholder length="medium" content={ showRow && grand_total } /> }
+                        { <TextPlaceholder length="short" content={ showRow && currency } /> }
                     </td>
-                    <td>{ order.status }</td>
-                    <td>View Order</td>
+                    <td>{ <TextPlaceholder length="medium" content={ showRow && status } /> }</td>
+                    <td>{ <TextPlaceholder length="medium" content={ showRow && 'View Order' } /> }</td>
                 </tr>
-            ));
-        }
-
-        return (
-            <tr>
-                <td>{ <TextPlaceholder length="medium" /> }</td>
-                <td>{ <TextPlaceholder length="medium" /> }</td>
-                <td>{ <TextPlaceholder length="medium" /> }</td>
-                <td>{ <TextPlaceholder length="medium" /> }</td>
-                <td><TextPlaceholder length="medium" /></td>
-            </tr>
-        );
+            );
+        });
     }
 
     renderOrderInformation() {
         const { orders } = this.props;
         const { finishedLoading } = this.state;
-        const showHeader = !finishedLoading || (finishedLoading && !!orders.length);
+        const hideHeader = finishedLoading && !orders.length;
 
         return (
             <>
                 <h1 block="MyAccountOrders" elem="Heading">My Orders</h1>
-                <table block="MyAccountOrders" elem="Table" mods={ { isVisible: showHeader } }>
+                <table block="MyAccountOrders" elem="Table" mods={ { isHidden: hideHeader } }>
                     <thead>
                         <tr>
                             <th>Order #</th>
@@ -106,9 +118,7 @@ class MyAccountOrders extends Component {
                         { this.renderOrderRows() }
                     </tbody>
                 </table>
-                { finishedLoading && !orders.length
-                    && <div block="MyAccountOrders" elem="Empty">You currently have no orders!</div>
-                }
+                { this.showEmptyOrderMessage() }
             </>
         );
     }
@@ -123,14 +133,7 @@ class MyAccountOrders extends Component {
         return (
             <main block="MyAccountOrders" aria-label="My Account Orders">
                 <div block="MyAccountOrders" elem="Wrapper">
-                    <div block="MyAccountOrders" elem="Sidebar">
-                        <div block="MyAccountOrders" elem="SideLink">
-                            <Link to="/my-account">My Account</Link>
-                        </div>
-                        <div block="MyAccountOrders" elem="SideLink">
-                            <Link to="/my-account-orders">My Orders</Link>
-                        </div>
-                    </div>
+                    <MyAccountSidebar />
                     <div block="MyAccountOrders" elem="Content">
                         { this.renderOrderInformation() }
                     </div>
@@ -151,15 +154,7 @@ MyAccountOrders.propTypes = {
     updateBreadcrumbs: PropTypes.func.isRequired,
     isSignedIn: PropTypes.bool.isRequired,
     currency: PropTypes.string.isRequired,
-    orders: PropTypes.oneOfType([
-        PropTypes.shape({
-            id: PropTypes.number,
-            created_at: PropTypes.instanceOf(Date),
-            grand_total: PropTypes.number,
-            status: PropTypes.string
-        }),
-        PropTypes.array
-    ]).isRequired,
+    orders: OrdersType.isRequired,
     requestCustomerOrders: PropTypes.func.isRequired
 };
 

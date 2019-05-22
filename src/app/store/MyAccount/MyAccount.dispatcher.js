@@ -54,7 +54,7 @@ class MyAccountDispatcher {
         const query = MyAccount.getOrders();
 
         return executePost(prepareQuery([query])).then(
-            ({ customerOrders }) => dispatch(updateCustomerOrders(customerOrders.items)),
+            ({ customerOrders: { items } }) => dispatch(updateCustomerOrders(items)),
             // eslint-disable-next-line no-console
             error => console.log(error)
         );

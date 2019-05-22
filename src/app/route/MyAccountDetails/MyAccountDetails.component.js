@@ -14,6 +14,7 @@ import PropTypes from 'prop-types';
 import Field from 'Component/Field';
 import Form from 'Component/Form';
 import TextPlaceholder from 'Component/TextPlaceholder';
+import MyAccountSidebar from 'Component/MyAccountSidebar';
 import { Redirect } from 'react-router';
 import { customerType } from 'Type/Account';
 import './MyAccountDetails.style';
@@ -661,15 +662,7 @@ class MyAccountDetails extends Component {
         return (
             <main block="MyAccountDetails" aria-label="My Account Details">
                 <div block="MyAccountDetails" elem="Wrapper">
-                    <ul block="MyAccountDetails" elem="Sidebar">
-                        <li
-                            onClick={ () => this.changeState(STATE_ACCOUNT_OVERVIEW) }
-                            onKeyPress={ () => this.changeState(STATE_ACCOUNT_OVERVIEW)}
-                        >
-                            My Account
-                        </li>
-                        <li>My Orders</li>
-                    </ul>
+                    <MyAccountSidebar />
                     <div block="MyAccountDetails" elem="Content">
                         { renderFunction() }
                     </div>

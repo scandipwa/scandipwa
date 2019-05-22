@@ -193,7 +193,7 @@ class MyAccount extends Component {
         };
 
         const linkToMyOrders = {
-            pathname: '/my-account-orders'
+            pathname: '/my-account/orders'
         };
 
         return (

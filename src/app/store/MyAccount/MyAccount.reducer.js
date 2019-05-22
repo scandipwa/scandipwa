@@ -26,7 +26,7 @@ const initialState = {
     passwordResetStatus: false,
     isPasswordForgotSend: false,
     customer: {},
-    orders: []
+    customerOrders: [{}]
 };
 
 const MyAccountReducer = (state = initialState, action) => {
@@ -58,11 +58,11 @@ const MyAccountReducer = (state = initialState, action) => {
         };
 
     case UPDATE_CUSTOMER_ORDERS:
-        const { orders } = action;
+        const { customerOrders } = action;
 
         return {
             ...state,
-            orders
+            customerOrders
         };
 
     default:
