@@ -14,6 +14,11 @@ import { ProductDispatcher } from 'Store/Product';
 import { showNotification } from 'Store/Notification';
 import ProductReviewForm from './ProductReviewForm.component';
 
+const mapStateToProps = state => ({
+    customer: state.MyAccountReducer.customer,
+    isSignedIn: state.MyAccountReducer.isSignedIn
+});
+
 const mapDispatchToProps = dispatch => ({
     addReview: options => ProductDispatcher.submitProductReview(dispatch, options),
 
@@ -22,6 +27,6 @@ const mapDispatchToProps = dispatch => ({
     }
 });
 
-const ProductReviewFormContainer = connect(null, mapDispatchToProps)(ProductReviewForm);
+const ProductReviewFormContainer = connect(mapStateToProps, mapDispatchToProps)(ProductReviewForm);
 
 export default ProductReviewFormContainer;

@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { QueryDispatcher, fetchMutation } from 'Util/Request';
+import { QueryDispatcher, fetchMutation, fetchQuery } from 'Util/Request';
 import { ProductListQuery, Review } from 'Query';
 import { updateProductDetails, updateGroupedProductQuantity, clearGroupedProductQuantity } from 'Store/Product';
 import { updateNoMatch } from 'Store/NoMatch';
@@ -41,6 +41,8 @@ class ProductDispatcher extends QueryDispatcher {
         } else {
             RelatedProductsDispatcher.clearRelatedProducts(dispatch);
         }
+
+        this.getReviewRatings(dispatch);
 
         return (items && items.length > 0)
             ? dispatch(updateProductDetails(product, filters))
@@ -111,6 +113,13 @@ class ProductDispatcher extends QueryDispatcher {
         )).then(
             () => dispatch(showNotification('success', 'You submitted your review for moderation.')) && true,
             error => dispatch(showNotification('error', 'Error submitting review!')) && console.log(error)
+        );
+    }
+
+    getReviewRatings(dispatch) {
+        return fetchQuery(Review.getRatingsQuery()).then(
+            ({ getRatings }) => console.log(getRatings),
+            error => dispatch(showNotification('error', 'Error fetching review ratings!')) && console.log(error)
         );
     }
 }

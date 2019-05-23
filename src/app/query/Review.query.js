@@ -19,6 +19,16 @@ class Review {
 
         return mutation;
     }
+
+    getRatingsQuery() {
+        const ratingOptions = new Field('rating_options')
+            .addFieldList(['option_id', 'value']);
+
+        const query = new Field('getRatings')
+            .addFieldList(['rating_id', 'rating_code', ratingOptions]);
+
+        return query;
+    }
 }
 
 export default new Review();

@@ -12,11 +12,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { ProductType } from 'Type/ProductList';
+// import { RatingItemsType } from 'Type/Rating';
 import Field from 'Component/Field';
 import Form from 'Component/Form';
 import ContentWrapper from 'Component/ContentWrapper';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import Loader from 'Component/Loader';
+import { customerType } from 'Type/Account';
 import './ProductReviewForm.style';
 
 /**
@@ -77,7 +79,9 @@ class ProductReviewForm extends Component {
     render() {
         const {
             product,
-            areDetailsLoaded
+            areDetailsLoaded,
+            customer,
+            isSignedIn
         } = this.props;
         const { isLoading } = this.state;
 
@@ -115,6 +119,7 @@ class ProductReviewForm extends Component {
                           label="Nickname"
                           id="nickname"
                           validation={ ['notEmpty', 'nickname'] }
+                          value={ isSignedIn ? customer.firstname : '' }
                         />
                         <Field
                           type="text"
@@ -143,7 +148,10 @@ ProductReviewForm.propTypes = {
     product: ProductType.isRequired,
     addReview: PropTypes.func.isRequired,
     showNotification: PropTypes.func.isRequired,
-    areDetailsLoaded: PropTypes.bool.isRequired
+    areDetailsLoaded: PropTypes.bool.isRequired,
+    customer: customerType.isRequired,
+    isSignedIn: PropTypes.bool.isRequired
+    // reviewRatings: RatingItemsType.isRequired
 };
 
 ProductReviewForm.defaultProps = {
