@@ -37,7 +37,7 @@ class ProductDescription extends Component {
             ? `${PRODUCT_IMAGE_PATH}${mediaGallery[0].file}`
             : '';
 
-        if (!description && areDetailsLoaded) return null;
+        if (!html && areDetailsLoaded) return null;
 
         return (
             <ContentWrapper
