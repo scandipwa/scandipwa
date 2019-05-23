@@ -8,6 +8,12 @@ This repository contains ScandiPWA Theme sources.
 
 > Unless you are trying to commit to "core" components - use `composer require scandipwa\installer` [package](https://bitbucket.org/scandiweb/scandipwa-theme-installer) instead.
 
+## Important note
+This branch contains experimental 2.x version, that requires different DB dump available on [2.0 branch](https://github.com/scandipwa/scandipwa-base/commits/2.0)
+ 
+v1.x is currently the main [master branch](https://github.com/scandipwa/base-theme) and has active support and 
+ development.  
+
 ## Environment
 
 ScandiPWA Theme is based on React and Redux. It is built with Webpack v4, therefore **you will need NodeJS environment support** on your CI/CD server or local machine in order to build it.
