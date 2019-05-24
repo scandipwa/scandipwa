@@ -37,7 +37,6 @@ class CartSummary extends Component {
         const {
             totals: { subTotalPrice, taxPrice, grandTotalPrice }
         } = this.props;
-        const saveVsRetail = grandTotalPrice === '0.00' ? '0.00' : '14.00'; // TODO: Hardcoded for now
 
         return (
             <div block="CartSummary" aria-label="Cart Summary">
@@ -45,7 +44,6 @@ class CartSummary extends Component {
                 <ul>
                     { this.renderPriceLine(subTotalPrice, 'Subtotal') }
                     { this.renderPriceLine(taxPrice, 'Tax', { divider: true }) }
-                    { this.renderPriceLine(saveVsRetail, 'Saved vs Retail', { highlited: true }) }
                     { this.renderPriceLine(grandTotalPrice, 'Order Total') }
                 </ul>
                 <Link to="/checkout/shipping">Proceed to checkout</Link>

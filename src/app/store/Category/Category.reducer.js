@@ -39,6 +39,24 @@ const CategoryReducer = (state = initialState, action) => {
         categoryIds
     } = action;
 
+    if (items) {
+        items.forEach(({ attributes, variants }, i) => {
+            attributes.forEach(({ attribute_code, attribute_value }) => {
+                items[i][attribute_code] = attribute_value;
+            });
+
+            if (variants) {
+                variants.forEach(({ product: { attributes } }, j) => {
+                    if (attributes) {
+                        attributes.forEach(({ attribute_code, attribute_value }) => {
+                            items[i].variants[j].product[attribute_code] = attribute_value;
+                        });
+                    }
+                });
+            }
+        });
+    }
+
     switch (action.type) {
     case UPDATE_CATEGORY_PRODUCT_LIST:
         return {

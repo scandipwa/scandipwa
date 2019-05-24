@@ -304,13 +304,15 @@ class ProductListQuery {
         const attributes = new Field('attributes')
             .addArgument('attributes', '[String!]', ['brand', 'color', 'size', 'shoes_size'])
             .addField('attribute_value')
-            .addField('attribute_code');
+            .addField('attribute_code')
+            .addField('attribute_label');
 
         if (isFullProduct) {
             attributes
                 .addField(
                     new Field('attribute_options')
                         .addField('label')
+                        .addField('value')
                         .addField(
                             new Field('swatch_data')
                                 .addField('value')
@@ -329,10 +331,9 @@ class ProductListQuery {
      * @memberof ProductListQuery
      */
     _prepareAdditionalInformation(options) {
-        const additionalInformation = [];
+        const additionalInformation = [ this._prepareAttributes(true) ];
 
         if (options.isSingleProduct) {
-            const attributes = this._prepareAttributes(true);
             const mediaGallery = this._prepareAdditionalGallery();
             const tierPrices = this._prepareTierPrice();
             const productLinks = this._prepareAdditionalProductLinks();
@@ -341,8 +342,7 @@ class ProductListQuery {
 
             additionalInformation.push(...[
                 'meta_title', 'meta_keyword', 'meta_description', 'canonical_url',
-                description, mediaGallery, tierPrices, productLinks,
-                groupedProductItems, attributes
+                description, mediaGallery, tierPrices, productLinks, groupedProductItems
             ]);
         }
 
@@ -441,6 +441,7 @@ class ProductListQuery {
         const images = this._prepareImageFields(options); // images related to product (based on `isSingleProduct` option)
         const additionalInformation = this._prepareAdditionalInformation(options); // additional options related to SINGLE product request
         const configurableData = this._prepareConfigurableData(options);
+        
         // default fields for all queries
         const defaultFields = [
             'id',
