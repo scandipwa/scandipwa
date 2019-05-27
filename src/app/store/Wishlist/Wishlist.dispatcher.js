@@ -56,7 +56,9 @@ class WishlistDispatcher {
                 dispatch(updateAllProductsInWishlist(productsToAdd));
                 dispatch(updateLoadStatus(false));
             }
-        }, error => console.log(error));
+        },
+        // eslint-disable-next-line no-console
+        error => console.log(error));
     }
 
     addItemToWishlist(dispatch, options) {
