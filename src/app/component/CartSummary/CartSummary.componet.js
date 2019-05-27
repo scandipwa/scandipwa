@@ -26,8 +26,7 @@ class CartSummary extends Component {
                 <strong block="CartSummary" elem="Text" mods={ { align: 'left' } }>{ name }</strong>
                 <strong block="CartSummary" elem="Text" mods={ { align: 'right' } }>
                     {/* TODO: Use value from configuration file */}
-                    $
-                    <TextPlaceholder content={ price } />
+                    { `$ ${ price || 0 }` }
                 </strong>
             </li>
         );
@@ -35,16 +34,16 @@ class CartSummary extends Component {
 
     render() {
         const {
-            totals: { subTotalPrice, taxPrice, grandTotalPrice }
+            totals: { subtotal, tax_amount, grand_total }
         } = this.props;
 
         return (
             <div block="CartSummary" aria-label="Cart Summary">
                 <h3>Summary</h3>
                 <ul>
-                    { this.renderPriceLine(subTotalPrice, 'Subtotal') }
-                    { this.renderPriceLine(taxPrice, 'Tax', { divider: true }) }
-                    { this.renderPriceLine(grandTotalPrice, 'Order Total') }
+                    { this.renderPriceLine(subtotal, 'Subtotal') }
+                    { this.renderPriceLine(tax_amount, 'Tax', { divider: true }) }
+                    { this.renderPriceLine(grand_total, 'Order Total') }
                 </ul>
                 <Link to="/checkout/shipping">Proceed to checkout</Link>
                 <Link to="/">Continue shopping</Link>

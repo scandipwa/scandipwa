@@ -11,52 +11,77 @@
 
 import BrowserDatabase from 'Util/BrowserDatabase';
 import {
-    ADD_PRODUCT_TO_CART,
+    // ADD_PRODUCT_TO_CART,
     UPDATE_TOTALS,
-    REMOVE_PRODUCT_FROM_CART,
+    // REMOVE_PRODUCT_FROM_CART,
     UPDATE_ALL_PRODUCTS_IN_CART
 } from './Cart.action';
 
 export const PRODUCTS_IN_CART = 'cart_products';
+export const CART_TOTALS = 'cart_totals';
 
-const getProductId = ({ id, variants, configurableVariantIndex }) => (
-    typeof configurableVariantIndex === 'number'
-        ? variants[configurableVariantIndex].product.id
-        : id
-);
+// const getProductId = ({ id, variants, configurableVariantIndex }) => (
+//     typeof configurableVariantIndex === 'number'
+//         ? variants[configurableVariantIndex].product.id
+//         : id
+// );
 
-const addProductToCart = (action, state) => {
-    const { newProduct } = action;
-    const { productsInCart } = state;
-    const id = getProductId(newProduct);
+// const addProductToCart = (action, state) => {
+//     const { newProduct } = action;
+//     const { productsInCart } = state;
+//     const id = getProductId(newProduct);
 
-    const newProductsInCart = {
-        ...productsInCart,
-        [id]: newProduct
-    };
+//     const newProductsInCart = {
+//         ...productsInCart,
+//         [id]: newProduct
+//     };
 
-    BrowserDatabase.setItem(newProductsInCart, PRODUCTS_IN_CART);
+//     BrowserDatabase.setItem(newProductsInCart, PRODUCTS_IN_CART);
 
-    return { productsInCart: newProductsInCart };
-};
+//     return { productsInCart: newProductsInCart };
+// };
 
-const removeProductFromCart = (action, state) => {
-    const { product } = action;
-    const { productsInCart } = state;
-    const deleteProperty = (key, { [key]: _, ...newObj }) => newObj;
-    const newProductsInCart = deleteProperty(getProductId(product), productsInCart) || {};
+// const removeProductFromCart = (action, state) => {
+//     const { product } = action;
+//     const { productsInCart } = state;
+//     const deleteProperty = (key, { [key]: _, ...newObj }) => newObj;
+//     const newProductsInCart = deleteProperty(getProductId(product), productsInCart) || {};
 
-    BrowserDatabase.setItem(
-        newProductsInCart,
-        PRODUCTS_IN_CART
-    );
+//     BrowserDatabase.setItem(
+//         newProductsInCart,
+//         PRODUCTS_IN_CART
+//     );
 
-    return { productsInCart: newProductsInCart };
-};
+//     return { productsInCart: newProductsInCart };
+// };
 
 const updateCartTotals = (action) => {
-    const { totals } = action;
-    return { cartTotals: totals };
+    const { cartData } = action;
+
+    const {
+        tax_amount,
+        subtotal,
+        discount_amount,
+        subtotal_with_discount,
+        grand_total,
+        items_qty
+    } = cartData;
+
+    const data = {
+        tax_amount,
+        subtotal,
+        discount_amount,
+        subtotal_with_discount,
+        grand_total,
+        items_qty
+    };
+
+    BrowserDatabase.setItem(
+        data,
+        CART_TOTALS
+    );
+
+    return { cartTotals: data };
 };
 
 const updateAllProductsInCart = (action) => {
@@ -72,24 +97,24 @@ const updateAllProductsInCart = (action) => {
 
 const initialState = {
     productsInCart: BrowserDatabase.getItem(PRODUCTS_IN_CART) || {},
-    cartTotals: {}
+    cartTotals: BrowserDatabase.getItem(CART_TOTALS) || {}
 };
 
 const CartReducer = (state = initialState, action) => {
     const { type } = action;
 
     switch (type) {
-    case ADD_PRODUCT_TO_CART:
-        return {
-            ...state,
-            ...addProductToCart(action, state)
-        };
+    // case ADD_PRODUCT_TO_CART:
+    //     return {
+    //         ...state,
+    //         ...addProductToCart(action, state)
+    //     };
 
-    case REMOVE_PRODUCT_FROM_CART:
-        return {
-            ...state,
-            ...removeProductFromCart(action, state)
-        };
+    // case REMOVE_PRODUCT_FROM_CART:
+    //     return {
+    //         ...state,
+    //         ...removeProductFromCart(action, state)
+    //     };
 
     case UPDATE_ALL_PRODUCTS_IN_CART:
         return {

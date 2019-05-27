@@ -10,7 +10,7 @@
  */
 
 import { connect } from 'react-redux';
-import { CartDispatcher } from 'Store/Cart';
+// import { CartDispatcher } from 'Store/Cart';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import CartPage from './CartPage.component';
 
@@ -20,9 +20,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    updateTotals: (options) => {
-        CartDispatcher.updateTotals(dispatch, options);
-    },
+    // updateTotals: (options) => {
+    //     CartDispatcher.updateTotals(dispatch, options);
+    // },
     updateBreadcrumbs: (breadcrumbs) => {
         BreadcrumbsDispatcher.update(breadcrumbs, dispatch);
     }

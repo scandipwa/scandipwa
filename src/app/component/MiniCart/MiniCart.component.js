@@ -37,20 +37,20 @@ class MiniCart extends Component {
         this.handleItemFocus = this.handleItemFocus.bind(this);
     }
 
-    static getDerivedStateFromProps(props, state) {
-        const { products, updateTotals } = props;
-        const { prevCartProducts } = state;
+    // static getDerivedStateFromProps(props, state) {
+    //     const { products, updateTotals } = props;
+    //     const { prevCartProducts } = state;
 
-        if (products && products !== prevCartProducts) {
-            updateTotals({ products });
+    //     if (products && products !== prevCartProducts) {
+    //         updateTotals({ products });
 
-            return {
-                prevCartProducts: products
-            };
-        }
+    //         return {
+    //             prevCartProducts: products
+    //         };
+    //     }
 
-        return null;
-    }
+    //     return null;
+    // }
 
     handleItemClick() {
         document.activeElement.blur();
@@ -122,7 +122,7 @@ class MiniCart extends Component {
     }
 
     render() {
-        const { products, totals: { subTotalPrice, count } } = this.props;
+        const { products, totals: { subtotal, items_qty } } = this.props;
         const { isActive } = this.state;
 
         return (
@@ -144,11 +144,11 @@ class MiniCart extends Component {
                             <path d="M18.687 2.374c-.16-.22-.38-.22-.46-.22H4.658L4.417.84A.586.586 0 0 0 3.837.4H1.38C1.04.4.8.638.8.93c0 .293.26.53.58.53h1.978l1.28 7.037c0 .055.02.11.04.147l.419 2.413c.06.255.3.42.58.42h10.512c.34 0 .58-.238.58-.53 0-.293-.26-.53-.58-.53H6.156l-.26-1.426H16.53c.12.018.24-.018.34-.073a.51.51 0 0 0 .24-.33l1.658-5.757a.437.437 0 0 0-.08-.457zM7.03 12.862c-1.134 0-2.076.92-2.076 2.076 0 1.157.92 2.077 2.077 2.077 1.156 0 2.077-.92 2.077-2.077 0-1.156-.921-2.076-2.077-2.076zm0 1.241c.45 0 .793.364.793.814 0 .45-.385.814-.814.814a.795.795 0 0 1-.792-.814c0-.428.364-.814.814-.814zM13.954 12.862c-1.135 0-2.077.92-2.077 2.076 0 1.157.92 2.077 2.077 2.077 1.156 0 2.077-.92 2.077-2.077 0-1.156-.92-2.076-2.077-2.076zm-.022 1.241a.8.8 0 0 1 .814.814.813.813 0 1 1-1.627 0c0-.428.364-.814.813-.814z" />
                         </svg>
                         <div block="MiniCart" elem="Badge" aria-label="Minicart Badge">
-                            { count }
+                            { items_qty || '0' }
                         </div>
                     </div>
                 </Link>
-                { isActive && this.renderCartDropdown(products, subTotalPrice) }
+                { isActive && this.renderCartDropdown(products, subtotal) }
             </div>
         );
     }
