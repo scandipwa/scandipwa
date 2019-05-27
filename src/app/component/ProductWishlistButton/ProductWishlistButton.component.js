@@ -11,6 +11,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Redirect } from 'react-router';
 import { ProductType } from 'Type/ProductList';
 import { isSignedIn } from 'Util/Auth';
 import './ProductWishlistButton.style';
@@ -22,7 +23,7 @@ import './ProductWishlistButton.style';
 class ProductWishlistButton extends Component {
     constructor(props) {
         super(props);
-        this.state = { isLoading: false };
+        this.state = { isLoading: false, redirectToWishlist: false };
         this.timeOut = null;
     }
 
@@ -80,7 +81,7 @@ class ProductWishlistButton extends Component {
         }
 
         return addProductToWishlist({ product }).then(
-            () => this.setState({ isLoading: false })
+            () => this.setState({ isLoading: false, redirectToWishlist: true })
         );
     }
 
@@ -103,11 +104,15 @@ class ProductWishlistButton extends Component {
     }
 
     render() {
-        const { isLoading } = this.state;
+        const { isLoading, redirectToWishlist } = this.state;
         const { fullWidth } = this.props;
         const wishlistItem = this.getProductInWishlist();
         const isProductInWishlist = !!wishlistItem;
         const isDisabled = isProductInWishlist && !wishlistItem.item_id;
+
+        if (redirectToWishlist) {
+            return <Redirect to="/wishlist" />;
+        }
 
         return (
             <button

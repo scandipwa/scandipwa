@@ -20,6 +20,7 @@ import CmsPage from 'Route/CmsPage';
 import CartPage from 'Route/CartPage';
 import CheckoutPage from 'Route/CheckoutPage';
 import MyAccountDetails from 'Route/MyAccountDetails';
+import MyAccountWishlist from 'Route/MyAccountWishlist';
 import PasswordChangePage from 'Route/PasswordChangePage';
 import NoMatchHandler from 'Route/NoMatchHandler';
 import UrlRewrites from 'Route/UrlRewrites';
@@ -86,6 +87,10 @@ export class AppRouter extends Component {
                 {
                     component: <Route path="/my-account/" exact component={ MyAccountDetails } />,
                     position: 70
+                },
+                {
+                    component: <Route path="/wishlist/" exact component={ MyAccountWishlist } />,
+                    position: 90
                 },
                 {
                     component: <Route component={ UrlRewrites } />,

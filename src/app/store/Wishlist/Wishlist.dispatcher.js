@@ -13,7 +13,9 @@ import { fetchMutation, fetchQuery } from 'Util/Request';
 import {
     addItemToWishlist,
     removeItemFromWishlist,
-    updateAllProductsInWishlist
+    updateAllProductsInWishlist,
+    updateLoadStatus,
+    productToBeRemovedAfterAdd
 } from 'Store/Wishlist';
 import { showNotification } from 'Store/Notification';
 import { isSignedIn } from 'Util/Auth';
@@ -26,6 +28,7 @@ import { Wishlist } from 'Query';
 class WishlistDispatcher {
     updateInitialWishlistData(dispatch) {
         if (isSignedIn()) {
+            dispatch(updateLoadStatus(true));
             this._syncWishlistWithBE(dispatch);
         } else {
             dispatch(updateAllProductsInWishlist({}));
@@ -51,6 +54,7 @@ class WishlistDispatcher {
                 }, {});
 
                 dispatch(updateAllProductsInWishlist(productsToAdd));
+                dispatch(updateLoadStatus(false));
             }
         });
     }
@@ -58,26 +62,40 @@ class WishlistDispatcher {
     addItemToWishlist(dispatch, options) {
         const { product } = options;
         const { sku } = product;
-
         const productToAdd = { sku };
 
-        /** TO-DO: remove _syncWishlistWithBE when redirect to wishlist page will be added after successful addItemToWishlist */
+        dispatch(updateLoadStatus(true));
+
         return fetchMutation(Wishlist.getAddProductToWishlistMutation(
             productToAdd
         )).then(
             () => dispatch(addItemToWishlist({ ...product }))
-                && dispatch(showNotification('success', 'Product has been added to your Wish List!'))
-                && this._syncWishlistWithBE(dispatch),
+                && dispatch(showNotification('success', 'Product has been added to your Wish List!')),
             error => dispatch(showNotification('error', 'Error updating wish list!')) && console.log(error)
         );
     }
 
-    removeItemFromWishlist(dispatch, { product }) {
+    removeItemFromWishlist(dispatch, { product, noMessages }) {
+        if (noMessages) {
+            return fetchMutation(Wishlist.getRemoveProductFromWishlistMutation(product)).then(
+                ({ removeProductFromWishlist }) => removeProductFromWishlist
+                    && dispatch(removeItemFromWishlist(product))
+                    && dispatch(productToBeRemovedAfterAdd(''))
+            );
+        }
+
         return fetchMutation(Wishlist.getRemoveProductFromWishlistMutation(product)).then(
             ({ removeProductFromWishlist }) => removeProductFromWishlist && dispatch(removeItemFromWishlist(product))
             && dispatch(showNotification('success', 'Product has been removed from your Wish List!')),
             error => dispatch(showNotification('error', 'Error updating wish list!')) && console.log(error)
         );
+    }
+
+    updateProductToBeRemovedAfterAdd(dispatch, options) {
+        const { product: { sku } } = options;
+        if (sku) return dispatch(productToBeRemovedAfterAdd(sku));
+
+        return dispatch(productToBeRemovedAfterAdd(''));
     }
 }
 

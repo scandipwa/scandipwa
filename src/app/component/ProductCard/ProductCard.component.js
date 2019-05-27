@@ -57,6 +57,18 @@ class ProductCard extends Component {
         return variantThumbnail || (thumbnail && thumbnail.path);
     }
 
+    handleConfigurableClick() {
+        const {
+            product,
+            updateProductToBeRemovedAfterAdd,
+            wishlistItem
+        } = this.props;
+
+        if (wishlistItem && updateProductToBeRemovedAfterAdd) return updateProductToBeRemovedAfterAdd({ product });
+
+        return null;
+    }
+
     addOrConfigureProduct(variantIndex, linkTo) {
         const { customFilters, product, product: { url_key, variants, type_id } } = this.props;
 
@@ -73,7 +85,11 @@ class ProductCard extends Component {
 
             if (correctVariants.length !== 1) {
                 return (
-                    <Link to={ linkTo } tabIndex={ url_key ? '0' : '-1' }>
+                    <Link
+                      to={ linkTo }
+                      tabIndex={ url_key ? '0' : '-1' }
+                      onClick={ () => this.handleConfigurableClick() }
+                    >
                         <span>Configure Product</span>
                     </Link>
                 );
@@ -93,6 +109,7 @@ class ProductCard extends Component {
               product={ product }
               configurableVariantIndex={ variantIndex }
               fullWidth
+              removeWishlistItem
             />
         );
     }
@@ -162,12 +179,15 @@ class ProductCard extends Component {
 ProductCard.propTypes = {
     product: ProductType.isRequired,
     customFilters: FilterType,
-    arePlaceholdersShown: PropTypes.bool
+    arePlaceholdersShown: PropTypes.bool,
+    wishlistItem: PropTypes.bool,
+    updateProductToBeRemovedAfterAdd: PropTypes.func.isRequired
 };
 
 ProductCard.defaultProps = {
     customFilters: {},
-    arePlaceholdersShown: false
+    arePlaceholdersShown: false,
+    wishlistItem: false
 };
 
 export default ProductCard;

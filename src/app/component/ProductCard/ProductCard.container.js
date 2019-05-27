@@ -11,12 +11,15 @@
 
 import { connect } from 'react-redux';
 import { CartDispatcher } from 'Store/Cart';
+import { WishlistDispatcher } from 'Store/Wishlist';
 import ProductCard from './ProductCard.component';
 
 const mapDispatchToProps = dispatch => ({
     addProduct: (options) => {
         return CartDispatcher.addProductToCart(dispatch, options);
-    }
+    },
+
+    updateProductToBeRemovedAfterAdd: options => WishlistDispatcher.updateProductToBeRemovedAfterAdd(dispatch, options)
 });
 
 const ProductCardContainer = connect(null, mapDispatchToProps)(ProductCard);

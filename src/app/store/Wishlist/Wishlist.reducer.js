@@ -13,13 +13,17 @@ import BrowserDatabase from 'Util/BrowserDatabase';
 import {
     ADD_ITEM_TO_WISHLIST,
     REMOVE_ITEM_FROM_WISHLIST,
-    UPDATE_ALL_PRODUCTS_IN_WISHLIST
+    UPDATE_ALL_PRODUCTS_IN_WISHLIST,
+    UPDATE_WISHLIST_LOAD_STATUS,
+    PRODUCT_TO_BE_REMOVED_AFTER_ADD
 } from './Wishlist.action';
 
 export const PRODUCTS_IN_WISHLIST = 'wishlist_products';
 
 const initialState = {
-    productsInWishlist: BrowserDatabase.getItem(PRODUCTS_IN_WISHLIST) || {}
+    productsInWishlist: BrowserDatabase.getItem(PRODUCTS_IN_WISHLIST) || {},
+    isUpdatingWishlist: false,
+    productToBeRemovedAfterAdd: ''
 };
 
 const addItemToWishlist = (action, state) => {
@@ -81,6 +85,22 @@ const WishlistReducer = (state = initialState, action) => {
         return {
             ...state,
             ...updateAllProductsInWishlist(action)
+        };
+
+    case UPDATE_WISHLIST_LOAD_STATUS:
+        const { isUpdatingWishlist } = action;
+
+        return {
+            ...state,
+            isUpdatingWishlist
+        };
+
+    case PRODUCT_TO_BE_REMOVED_AFTER_ADD:
+        const { productToBeRemovedAfterAdd } = action;
+
+        return {
+            ...state,
+            productToBeRemovedAfterAdd
         };
 
     default:
