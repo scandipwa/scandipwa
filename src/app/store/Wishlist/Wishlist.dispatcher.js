@@ -56,7 +56,7 @@ class WishlistDispatcher {
                 dispatch(updateAllProductsInWishlist(productsToAdd));
                 dispatch(updateLoadStatus(false));
             }
-        });
+        }, error => console.log(error));
     }
 
     addItemToWishlist(dispatch, options) {
