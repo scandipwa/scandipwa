@@ -50,7 +50,7 @@ class UrlRewrites extends Component {
         }
 
         // Known components
-        if (this.knownTypes.indexOf(type) >= 0){
+        if (this.knownTypes.indexOf(type) >= 0) {
             this.setState({ placeholderType: type });
             const { requestUrlRewrite, match, location } = this.props;
             const urlParam = getUrlParam(match, location);

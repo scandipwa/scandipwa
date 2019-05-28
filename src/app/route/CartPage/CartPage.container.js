@@ -20,9 +20,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    // updateTotals: (options) => {
-    //     CartDispatcher.updateTotals(dispatch, options);
-    // },
     updateBreadcrumbs: (breadcrumbs) => {
         BreadcrumbsDispatcher.update(breadcrumbs, dispatch);
     }

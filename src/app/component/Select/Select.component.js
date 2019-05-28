@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unused-state */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -49,7 +50,6 @@ class Select extends Component {
      * @return {void}
      */
     onGetKey(key) {
-        // console.log(key);
         const { onGetKey } = this.props;
 
         this.setState({ selectValue: key });
