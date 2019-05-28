@@ -21,10 +21,10 @@ import { getUrlParam } from 'Util/Url';
 import { customerType } from 'Type/Account';
 import './CheckoutPage.style';
 
-const CHECKOUT_BASE_URL = 'checkout';
-const CHECKOUT_STEP_SHIPPING = 'shipping';
-const CHECKOUT_STEP_REVIEW_AND_PAYMENTS = 'review-and-payments';
-const CHECKOUT_STEP_SUCCESS = 'success';
+export const CHECKOUT_BASE_URL = 'checkout';
+export const CHECKOUT_STEP_SHIPPING = 'shipping';
+export const CHECKOUT_STEP_REVIEW_AND_PAYMENTS = 'review-and-payments';
+export const CHECKOUT_STEP_SUCCESS = 'success';
 
 class CheckoutPage extends Component {
     static changeUrlByCheckoutStep(props, state) {

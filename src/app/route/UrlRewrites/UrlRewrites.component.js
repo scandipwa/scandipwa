@@ -17,10 +17,10 @@ import CmsPage from 'Route/CmsPage';
 import NoMatch from 'Route/NoMatch';
 import { getUrlParam } from 'Util/Url';
 
-const TYPE_PRODUCT = 'PRODUCT';
-const TYPE_CMS_PAGE = 'CMS_PAGE';
-const TYPE_CATEGORY = 'CATEGORY';
-const TYPE_NOTFOUND = 'NOT_FOUND';
+export const TYPE_PRODUCT = 'PRODUCT';
+export const TYPE_CMS_PAGE = 'CMS_PAGE';
+export const TYPE_CATEGORY = 'CATEGORY';
+export const TYPE_NOTFOUND = 'NOT_FOUND';
 
 /**
  * Additional types possible:
