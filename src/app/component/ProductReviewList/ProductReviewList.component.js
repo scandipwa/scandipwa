@@ -60,11 +60,7 @@ class ProductReviewList extends Component {
                   elem="RatingSummary"
                 >
                     { rating_votes
-                        ? (
-                            Object.values(rating_votes).map(
-                                rating => this.renderReviewListItemRating(rating)
-                            )
-                        )
+                        ? rating_votes.map(rating => this.renderReviewListItemRating(rating))
                         : this.renderReviewListItemRating({ vote_id: null })
                     }
                 </div>
@@ -75,9 +71,7 @@ class ProductReviewList extends Component {
                     <p><TextPlaceholder content={ detail } length="long" /></p>
                     <span>
                         { nickname && created_at
-                            ? (
-                                `Review by ${nickname} ${new Date(created_at).toLocaleDateString()}`
-                            )
+                            ? `Review by ${nickname} ${new Date(created_at).toLocaleDateString()}`
                             : <TextPlaceholder length="medium" />
                         }
                     </span>
@@ -105,11 +99,7 @@ class ProductReviewList extends Component {
 
                     <ul block="ProductReviewList" elem="List">
                         { areDetailsLoaded
-                            ? (
-                                Object.values(product.reviews).map(
-                                    review => this.renderReviewListItem(review)
-                                )
-                            )
+                            ? product.reviews.map(review => this.renderReviewListItem(review))
                             : this.renderReviewListItem({ review_id: null })
                         }
                     </ul>
