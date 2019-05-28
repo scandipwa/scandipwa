@@ -56,32 +56,14 @@ export const CART_TOTALS = 'cart_totals';
 // };
 
 const updateCartTotals = (action) => {
-    const { cartData } = action;
-
-    const {
-        tax_amount,
-        subtotal,
-        discount_amount,
-        subtotal_with_discount,
-        grand_total,
-        items_qty
-    } = cartData;
-
-    const data = {
-        tax_amount,
-        subtotal,
-        discount_amount,
-        subtotal_with_discount,
-        grand_total,
-        items_qty
-    };
+    const { cartData: cartTotals } = action;
 
     BrowserDatabase.setItem(
-        data,
+        cartTotals,
         CART_TOTALS
     );
 
-    return { cartTotals: data };
+    return { cartTotals };
 };
 
 const updateAllProductsInCart = (action) => {

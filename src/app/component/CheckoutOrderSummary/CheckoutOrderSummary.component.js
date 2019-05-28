@@ -23,17 +23,29 @@ import './CheckoutOrderSummary.style';
  *
  */
 class CheckoutOrderSummary extends Component {
+    getDataSource(item) {
+        const { configurableVariantIndex, variants } = item;
+
+        if (typeof configurableVariantIndex === 'number' && variants) {
+            return variants[configurableVariantIndex].product;
+        }
+
+        return item;
+    }
+
     /**
      * Render price line
      */
     renderPriceLine(price, name, mods) {
+        if (!price) return null;
+
         return (
             <li block="CheckoutOrderSummary" elem="SummaryItem" mods={ mods }>
                 <strong block="CheckoutOrderSummary" elem="Text">{ name }</strong>
                 <strong block="CheckoutOrderSummary" elem="Text">
                     {/* TODO: Use value from configuration file */ }
                     $
-                    <TextPlaceholder content={ price } />
+                    <TextPlaceholder content={ parseFloat(price).toFixed(2) } />
                 </strong>
             </li>
         );
@@ -53,7 +65,7 @@ class CheckoutOrderSummary extends Component {
             name,
             quantity,
             price
-        } = item;
+        } = this.getDataSource(item);
 
         return (
             <li key={ key } block="CheckoutOrderSummary" elem="CartItem">
@@ -95,24 +107,26 @@ class CheckoutOrderSummary extends Component {
      */
     render() {
         const {
-            totals: { grandTotalPrice },
-            products,
-            shippingMethod: { price, title }
+            totals: {
+                grand_total, subtotal, tax_amount, items, shipping_amount
+            },
+            products
         } = this.props;
 
-        const productCount = Object.keys(products).length;
+        // eslint-disable-next-line no-param-reassign, no-return-assign
+        const itemsTax = items.reduce((sum, { tax_amount }) => sum += tax_amount, tax_amount);
 
-        // calculate grand totals including shipping price
-        const grandTotalWithShipping = (price) ? parseFloat(grandTotalPrice) + parseFloat(price) : grandTotalPrice;
+        const productCount = Object.keys(products).length;
 
         return (
             <div block="CheckoutOrderSummary" aria-label="Order Summary">
                 <div block="CheckoutOrderSummary" elem="OrderTotals">
                     <h3>Order Summary</h3>
                     <ul>
-                        { this.renderPriceLine(grandTotalPrice, 'Cart Subtotal') }
-                        { title && this.renderPriceLine(String(price), `Shipping (${ title })`, { divider: true }) }
-                        { this.renderPriceLine(String(grandTotalWithShipping), 'Order Total') }
+                        { this.renderPriceLine(subtotal, 'Cart Subtotal') }
+                        { this.renderPriceLine(itemsTax, 'Tax') }
+                        { this.renderPriceLine(shipping_amount, 'Shipping', { divider: true }) }
+                        { this.renderPriceLine(grand_total, 'Order Total') }
                     </ul>
                 </div>
 
@@ -130,14 +144,12 @@ class CheckoutOrderSummary extends Component {
 
 CheckoutOrderSummary.propTypes = {
     totals: TotalsType,
-    products: PropTypes.objectOf(ProductType),
-    shippingMethod: PropTypes.object
+    products: PropTypes.objectOf(ProductType)
 };
 
 CheckoutOrderSummary.defaultProps = {
     totals: {},
-    products: {},
-    shippingMethod: {}
+    products: {}
 };
 
 export default CheckoutOrderSummary;

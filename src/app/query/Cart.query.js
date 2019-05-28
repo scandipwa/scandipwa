@@ -68,7 +68,8 @@ class Cart {
         return new Field('items')
             .addFieldList([
                 'price', 'tax_amount', 'row_total', 'tax_percent',
-                'discount_amount', 'discount_percent', 'item_id', 'qty'
+                'discount_amount', 'discount_percent',
+                'item_id', 'qty', 'sku'
             ])
             .addField(ProductListQuery._prepareItemsField(
                 { getConfigurableData: true, isSingleProduct: true },

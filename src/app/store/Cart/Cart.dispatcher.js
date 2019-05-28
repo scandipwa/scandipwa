@@ -117,30 +117,40 @@ class CartDispatcher {
 
         const productsToAdd = items.reduce((prev, cartProduct) => {
             const {
-                product, item_id, sku, qty: quantity
+                product: {
+                    variants, id, type_id
+                },
+                product,
+                item_id,
+                sku,
+                qty: quantity
             } = cartProduct;
-            const { variants, id, type_id } = product;
 
             if (type_id === 'configurable') {
                 let configurableVariantIndex = 0;
-                const { product: { id: variantId } } = variants.filter(
+
+                const variant = variants.find(
                     (variant, index) => {
                         const { product: { sku: productSku } } = variant;
                         const isChosenProduct = productSku === sku;
                         if (isChosenProduct) configurableVariantIndex = index;
                         return isChosenProduct;
                     }
-                )[0];
+                );
 
-                return {
-                    ...prev,
-                    [variantId]: {
-                        ...product,
-                        configurableVariantIndex,
-                        item_id,
-                        quantity
-                    }
-                };
+                if (variant) {
+                    const { product: { id: variantId } } = variant;
+
+                    return {
+                        ...prev,
+                        [variantId]: {
+                            ...product,
+                            configurableVariantIndex,
+                            item_id,
+                            quantity
+                        }
+                    };
+                }
             }
 
             return {
@@ -152,8 +162,6 @@ class CartDispatcher {
                 }
             };
         }, {});
-
-        console.log(cartData);
 
         dispatch(updateTotals(cartData));
         dispatch(updateAllProductsInCart(productsToAdd));
