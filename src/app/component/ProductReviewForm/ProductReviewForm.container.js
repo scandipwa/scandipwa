@@ -10,17 +10,18 @@
  */
 
 import { connect } from 'react-redux';
-import { ProductDispatcher } from 'Store/Product';
+import { ReviewDispatcher } from 'Store/Review';
 import { showNotification } from 'Store/Notification';
 import ProductReviewForm from './ProductReviewForm.component';
 
 const mapStateToProps = state => ({
     customer: state.MyAccountReducer.customer,
-    isSignedIn: state.MyAccountReducer.isSignedIn
+    isSignedIn: state.MyAccountReducer.isSignedIn,
+    reviewRatings: state.ReviewReducer.reviewRatings
 });
 
 const mapDispatchToProps = dispatch => ({
-    addReview: options => ProductDispatcher.submitProductReview(dispatch, options),
+    addReview: options => ReviewDispatcher.submitProductReview(dispatch, options),
 
     showNotification(type, message) {
         dispatch(showNotification(type, message));

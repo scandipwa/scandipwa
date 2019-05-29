@@ -9,12 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { QueryDispatcher, fetchMutation, fetchQuery } from 'Util/Request';
-import { ProductListQuery, Review } from 'Query';
+import { QueryDispatcher } from 'Util/Request';
+import { ProductListQuery } from 'Query';
 import { updateProductDetails, updateGroupedProductQuantity, clearGroupedProductQuantity } from 'Store/Product';
 import { updateNoMatch } from 'Store/NoMatch';
 import { RelatedProductsDispatcher } from 'Store/RelatedProducts';
-import { showNotification } from 'Store/Notification';
+import { ReviewDispatcher } from 'Store/Review';
 
 /**
  * Product List Dispatcher
@@ -42,7 +42,7 @@ class ProductDispatcher extends QueryDispatcher {
             RelatedProductsDispatcher.clearRelatedProducts(dispatch);
         }
 
-        this.getReviewRatings(dispatch);
+        ReviewDispatcher.updateReviewRatings(dispatch);
 
         return (items && items.length > 0)
             ? dispatch(updateProductDetails(product, filters))
@@ -103,24 +103,6 @@ class ProductDispatcher extends QueryDispatcher {
             ...groupProduct,
             items: newItems
         };
-    }
-
-    submitProductReview(dispatch, options) {
-        const reviewItem = options;
-
-        return fetchMutation(Review.getAddProductReview(
-            reviewItem
-        )).then(
-            () => dispatch(showNotification('success', 'You submitted your review for moderation.')) && true,
-            error => dispatch(showNotification('error', 'Error submitting review!')) && console.log(error)
-        );
-    }
-
-    getReviewRatings(dispatch) {
-        return fetchQuery(Review.getRatingsQuery()).then(
-            ({ getRatings }) => console.log(getRatings),
-            error => dispatch(showNotification('error', 'Error fetching review ratings!')) && console.log(error)
-        );
     }
 }
 

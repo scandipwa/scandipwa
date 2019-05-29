@@ -12,7 +12,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { ProductType } from 'Type/ProductList';
-// import { RatingItemsType } from 'Type/Rating';
+import { RatingItemsType } from 'Type/Rating';
 import Field from 'Component/Field';
 import Form from 'Component/Form';
 import ContentWrapper from 'Component/ContentWrapper';
@@ -28,7 +28,10 @@ import './ProductReviewForm.style';
 class ProductReviewForm extends Component {
     constructor(props) {
         super(props);
-        this.state = { isLoading: false };
+        this.state = {
+            isLoading: false,
+            ratingData: []
+        };
     }
 
     onReviewSubmitAttempt(fields, invalidFields) {
@@ -53,14 +56,8 @@ class ProductReviewForm extends Component {
         } = fields;
 
         const { sku } = product;
+        const { ratingData } = this.state;
 
-        /** To-do: replace with real rating data */
-        const ratingData = [
-            {
-                rating_id: 1,
-                option_id: 3
-            }
-        ];
         this.setState({ isLoading: true });
 
         return addReview({
@@ -76,14 +73,89 @@ class ProductReviewForm extends Component {
         });
     }
 
+    handleReviewRatingChange(ratingId, optionId) {
+        if (typeof ratingId === 'number' && typeof optionId === 'number') {
+            const { ratingData } = this.state;
+
+            if (ratingData.length > 0 && ratingData.some(rating => rating.rating_id === ratingId)) {
+                ratingData.map((rating) => {
+                    if (ratingId === rating.rating_id) {
+                        const newRating = rating;
+                        newRating.option_id = optionId;
+
+                        return newRating;
+                    }
+
+                    return rating;
+                });
+            } else {
+                ratingData.push({ rating_id: ratingId, option_id: optionId });
+            }
+
+            this.setState({ ratingData });
+        }
+    }
+
+    renderReviewRatingFields(ratingOption, reviewRating) {
+        const {
+            option_id,
+            value
+        } = ratingOption;
+        const {
+            rating_id,
+            rating_code
+        } = reviewRating;
+        const { ratingData } = this.state;
+        const isChecked = ratingData.some(rating => rating.rating_id === rating_id && rating.option_id === option_id);
+
+        return (
+            <Field
+              key={ option_id }
+              type="radio"
+              id={ `${rating_code}_${value}` }
+              value={ `${option_id}` }
+              checked={ isChecked ? `${option_id}` : '' }
+              name={ `ratings[${rating_id}]` }
+              onChange={ () => this.handleReviewRatingChange(rating_id, option_id, this) }
+            />
+        );
+    }
+
+    renderReviewRatings(reviewRating) {
+        const {
+            rating_id, rating_code, rating_options
+        } = reviewRating;
+
+        return (
+            <fieldset
+              key={ rating_id }
+              block="ProductReviewForm"
+              elem="ReviewRating"
+            >
+                <legend><TextPlaceholder content={ rating_code } /></legend>
+                <div
+                  block="ProductReviewForm"
+                  elem="RatingOptionGroup"
+                >
+                    { rating_options
+                        ? rating_options.map(ratingOption => this.renderReviewRatingFields(ratingOption, reviewRating))
+                        : <TextPlaceholder length="short" />
+                    }
+                </div>
+            </fieldset>
+        );
+    }
+
     render() {
         const {
             product,
             areDetailsLoaded,
             customer,
-            isSignedIn
+            isSignedIn,
+            reviewRatings
         } = this.props;
         const { isLoading } = this.state;
+        const reviewRatingsLoaded = reviewRatings.length;
 
         return (
             <ContentWrapper
@@ -91,54 +163,62 @@ class ProductReviewForm extends Component {
               wrapperMix={ { block: 'ProductReviewForm', elem: 'Wrapper' } }
               label="Product Review Form"
             >
-                { !areDetailsLoaded ? (
-                    <p block="ProductReviewForm" elem="PlaceholderBlock">
-                        <TextPlaceholder length="short" />
-                        <TextPlaceholder length="short" />
-                        <TextPlaceholder length="short" />
-                        <TextPlaceholder length="short" />
-                        <TextPlaceholder length="short" />
-                        <TextPlaceholder length="short" />
+                <Form
+                  key="product-review"
+                  ref={ (el) => { this.formRef = el; } }
+                  onSubmit={ () => this.onReviewSubmitAttempt() }
+                  onSubmitSuccess={ fields => this.onReviewSubmitSuccess(fields) }
+                  onSubmitError={ (fields, invalidFields) => this.onReviewSubmitAttempt(fields, invalidFields) }
+                >
+                    <h3>
+                        <TextPlaceholder
+                          content={ areDetailsLoaded && reviewRatingsLoaded ? 'You\'re reviewing:' : '' }
+                        />
+                    </h3>
+                    <p>
+                        <TextPlaceholder
+                          content={ areDetailsLoaded && reviewRatingsLoaded ? product.name : '' }
+                        />
                     </p>
-                ) : (
-                    <Form
-                      key="product-review"
-                      ref={ (el) => { this.formRef = el; } }
-                      onSubmit={ () => this.onReviewSubmitAttempt() }
-                      onSubmitSuccess={ fields => this.onReviewSubmitSuccess(fields) }
-                      onSubmitError={ (fields, invalidFields) => this.onReviewSubmitAttempt(fields, invalidFields) }
-                    >
-                        <h3>
-                            { 'You\'re reviewing: ' }
-                        </h3>
-                        <p>
-                            { product.name }
+                    { areDetailsLoaded && reviewRatingsLoaded
+                        ? reviewRatings.map(reviewRating => this.renderReviewRatings(reviewRating))
+                        : <TextPlaceholder length="short" />
+                    }
+                    { areDetailsLoaded && reviewRatingsLoaded ? (
+                        <>
+                            <Field
+                              type="text"
+                              label="Nickname"
+                              id="nickname"
+                              validation={ ['notEmpty'] }
+                              value={ isSignedIn ? customer.firstname : '' }
+                            />
+                            <Field
+                              type="text"
+                              label="Title"
+                              id="title"
+                              validation={ ['notEmpty'] }
+                            />
+                            <Field
+                              type="textarea"
+                              label="Details"
+                              id="detail"
+                              validation={ ['notEmpty'] }
+                            />
+                            <Loader isLoading={ isLoading } />
+                            <div block="ProductReviewForm" elem="Buttons">
+                                <button>Submit Review</button>
+                            </div>
+                        </>
+                    ) : (
+                        <p block="ProductReviewForm" elem="PlaceholderBlock">
+                            <TextPlaceholder length="short" />
+                            <TextPlaceholder length="short" />
+                            <TextPlaceholder length="short" />
+                            <TextPlaceholder length="short" />
                         </p>
-                        <Field
-                          type="text"
-                          label="Nickname"
-                          id="nickname"
-                          validation={ ['notEmpty', 'nickname'] }
-                          value={ isSignedIn ? customer.firstname : '' }
-                        />
-                        <Field
-                          type="text"
-                          label="Title"
-                          id="title"
-                          validation={ ['notEmpty', 'title'] }
-                        />
-                        <Field
-                          type="textarea"
-                          label="Details"
-                          id="detail"
-                          validation={ ['notEmpty', 'details'] }
-                        />
-                        <Loader isLoading={ isLoading } />
-                        <div block="ProductReviewForm" elem="Buttons">
-                            <button>Submit Review</button>
-                        </div>
-                    </Form>
-                )}
+                    )}
+                </Form>
             </ContentWrapper>
         );
     }
@@ -150,8 +230,8 @@ ProductReviewForm.propTypes = {
     showNotification: PropTypes.func.isRequired,
     areDetailsLoaded: PropTypes.bool.isRequired,
     customer: customerType.isRequired,
-    isSignedIn: PropTypes.bool.isRequired
-    // reviewRatings: RatingItemsType.isRequired
+    isSignedIn: PropTypes.bool.isRequired,
+    reviewRatings: RatingItemsType.isRequired
 };
 
 ProductReviewForm.defaultProps = {
