@@ -302,7 +302,6 @@ class ProductListQuery {
      */
     _prepareAttributes(isFullProduct = false) {
         const attributes = new Field('attributes')
-            .addArgument('attributes', '[String!]', ['brand', 'color', 'size', 'shoes_size'])
             .addField('attribute_value')
             .addField('attribute_code')
             .addField('attribute_label');
@@ -441,7 +440,7 @@ class ProductListQuery {
         const images = this._prepareImageFields(options); // images related to product (based on `isSingleProduct` option)
         const additionalInformation = this._prepareAdditionalInformation(options); // additional options related to SINGLE product request
         const configurableData = this._prepareConfigurableData(options);
-        
+
         // default fields for all queries
         const defaultFields = [
             'id',
