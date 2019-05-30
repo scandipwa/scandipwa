@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -36,21 +37,6 @@ class MiniCart extends Component {
         this.handleItemClick = this.handleItemClick.bind(this);
         this.handleItemFocus = this.handleItemFocus.bind(this);
     }
-
-    // static getDerivedStateFromProps(props, state) {
-    //     const { products, updateTotals } = props;
-    //     const { prevCartProducts } = state;
-
-    //     if (products && products !== prevCartProducts) {
-    //         updateTotals({ products });
-
-    //         return {
-    //             prevCartProducts: products
-    //         };
-    //     }
-
-    //     return null;
-    // }
 
     handleItemClick() {
         document.activeElement.blur();
@@ -117,8 +103,13 @@ class MiniCart extends Component {
     }
 
     renderItemsList(items) {
-        return Object.keys(items)
-            .map(key => <CartItem key={ key } product={ items[key] } onItemClick={ this.handleItemClick }/>);
+        return Object.keys(items).map(key => (
+            <CartItem
+              key={ key }
+              product={ items[key] }
+              onItemClick={ this.handleItemClick }
+            />
+        ));
     }
 
     render() {

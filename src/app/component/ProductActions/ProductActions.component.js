@@ -121,9 +121,9 @@ class ProductActions extends Component {
 
         for (let i = 0; i < variants.length; i++) {
             const { product } = variants[i];
-            const isCorrectVariant = configurable_options.every(({ attribute_code }) => {
-                return parseInt(product[attribute_code], 10) === parseInt(currentVariant[attribute_code], 10)
-            });
+            const isCorrectVariant = configurable_options.every(
+                ({ attribute_code: code }) => parseInt(product[code], 10) === parseInt(currentVariant[code], 10)
+            );
 
             if (isCorrectVariant) {
                 updateConfigurableVariantIndex(i);
@@ -257,14 +257,16 @@ class ProductActions extends Component {
         const { product, product: { attributes } } = this.props;
 
         const renderSwatch = (attribute) => {
-            const { attribute_code, attribute_label, attribute_value, attribute_options } = attribute;
+            const {
+                attribute_code, attribute_label, attribute_value, attribute_options
+            } = attribute;
             const isColor = attribute_code === 'color';
             const option = attribute_options ? attribute_options.find(({ value }) => value === attribute_value) : {};
             const label = option ? (() => {
                 if (!Object.keys(option)) return attribute_value;
                 if (!option.swatch_data) return option.label;
                 return option.swatch_data.value;
-            })(): null;
+            })() : null;
 
             if (label) {
                 return (
@@ -273,10 +275,10 @@ class ProductActions extends Component {
                         <Swatch
                           title={ isColor ? '' : label }
                           isRound={ isColor }
-                          isSelected={ true }
                           backgroundColor={ isColor ? label : '' }
                           arePlaceholdersShown
                           handler={ () => {} }
+                          isSelected
                         />
                     </li>
                 );

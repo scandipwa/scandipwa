@@ -330,7 +330,7 @@ class ProductListQuery {
      * @memberof ProductListQuery
      */
     _prepareAdditionalInformation(options) {
-        const additionalInformation = [ this._prepareAttributes(true) ];
+        const additionalInformation = [this._prepareAttributes(true)];
 
         if (options.isSingleProduct) {
             const mediaGallery = this._prepareAdditionalGallery();

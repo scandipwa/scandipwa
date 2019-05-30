@@ -28,7 +28,7 @@ const RelatedProductsReducer = (state = initialState, action) => {
             products.items.forEach(({ attributes }, i) => {
                 attributes.forEach(({ attribute_code, attribute_value }) => {
                     products.items[i][attribute_code] = attribute_value;
-                });    
+                });
             });
         }
 

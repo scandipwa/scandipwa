@@ -48,7 +48,7 @@ class ProductDescription extends Component {
                 <div block="ProductDescription" elem="Image">
                     { !image && areDetailsLoaded
                         ? null
-                        : <Image ratio="4x3" src={ image } alt="Description image" /> 
+                        : <Image ratio="4x3" src={ image } alt="Description image" />
                     }
                 </div>
                 <div block="ProductDescription" elem="DescriptionBlock">

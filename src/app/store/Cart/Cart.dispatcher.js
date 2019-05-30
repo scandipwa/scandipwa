@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -107,11 +108,6 @@ class CartDispatcher {
         );
     }
 
-    // updateTotals(dispatch, options) {
-    //     const totals = this._calculateTotals(options.products);
-    //     return dispatch(updateTotals(totals));
-    // }
-
     _updateCartData(cartData, dispatch) {
         const { items } = cartData;
 
@@ -191,6 +187,8 @@ class CartDispatcher {
                         }
                     ];
                 }
+
+                return prev;
             }, []);
 
             return { configurable_item_options };
@@ -234,41 +232,6 @@ class CartDispatcher {
 
         return true;
     }
-
-    // /**
-    //  * Calculate totals from product list
-    //  * @param {Object} products Object of products
-    //  * @return {Object} Totals
-    //  * @memberof CartDispatcher
-    //  */
-    // _calculateTotals(products) {
-    //     // TODO: Override to get product prices from server (in case price have changed)
-    //     let subTotalPrice = 0;
-    //     let taxPrice = 0;
-    //     let count = 0;
-    //     let grandTotalPrice = 0;
-
-    //     if (products) {
-    //         Object.keys(products).forEach((key) => {
-    //             const prices = getProductPrice(products[key]);
-    //             const { quantity } = products[key];
-
-    //             count += quantity;
-    //             subTotalPrice += (prices.subTotalPrice * quantity);
-    //             taxPrice += (prices.taxPrice * quantity);
-    //         });
-    //     }
-    //     grandTotalPrice = (subTotalPrice + taxPrice).toFixed(2);
-    //     subTotalPrice = subTotalPrice.toFixed(2);
-    //     taxPrice = taxPrice.toFixed(2);
-
-    //     return {
-    //         subTotalPrice,
-    //         count,
-    //         grandTotalPrice,
-    //         taxPrice
-    //     };
-    // }
 }
 
 export default new CartDispatcher();
