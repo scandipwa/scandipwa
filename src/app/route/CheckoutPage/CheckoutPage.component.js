@@ -21,10 +21,10 @@ import { getUrlParam } from 'Util/Url';
 import { customerType } from 'Type/Account';
 import './CheckoutPage.style';
 
-const CHECKOUT_BASE_URL = 'checkout';
-const CHECKOUT_STEP_SHIPPING = 'shipping';
-const CHECKOUT_STEP_REVIEW_AND_PAYMENTS = 'review-and-payments';
-const CHECKOUT_STEP_SUCCESS = 'success';
+export const CHECKOUT_BASE_URL = 'checkout';
+export const CHECKOUT_STEP_SHIPPING = 'shipping';
+export const CHECKOUT_STEP_REVIEW_AND_PAYMENTS = 'review-and-payments';
+export const CHECKOUT_STEP_SUCCESS = 'success';
 
 class CheckoutPage extends Component {
     static changeUrlByCheckoutStep(props, state) {
@@ -301,7 +301,9 @@ class CheckoutPage extends Component {
      * @returns {*}
      */
     render() {
-        const { checkoutStep, methodCode, showSummary } = this.state;
+        const {
+            checkoutStep, methodCode, showSummary, paymentTotals
+        } = this.state;
         const { products, totals } = this.props;
         const stepRenderFunction = this.renderMap[checkoutStep];
         const subHeading = this.subHeadingMap[checkoutStep];
@@ -325,7 +327,7 @@ class CheckoutPage extends Component {
                     { stepRenderFunction() }
                     { showSummary && (
                         <CheckoutOrderSummary
-                          totals={ totals }
+                          totals={ Object.keys(paymentTotals).length ? paymentTotals : totals }
                           products={ products }
                           shippingMethod={ methodCode }
                         />

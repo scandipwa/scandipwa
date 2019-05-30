@@ -121,9 +121,9 @@ class ProductActions extends Component {
 
         for (let i = 0; i < variants.length; i++) {
             const { product } = variants[i];
-            const isCorrectVariant = configurable_options.every(({ attribute_code }) => (
-                product[attribute_code] === currentVariant[attribute_code]
-            ));
+            const isCorrectVariant = configurable_options.every(
+                ({ attribute_code: code }) => parseInt(product[code], 10) === parseInt(currentVariant[code], 10)
+            );
 
             if (isCorrectVariant) {
                 updateConfigurableVariantIndex(i);
@@ -147,9 +147,11 @@ class ProductActions extends Component {
     }
 
     renderConfigurableSimpleProduct() {
-        const { product: { price, type_id } } = this.props;
+        const { product: { type_id, variants }, product, configurableVariantIndex } = this.props;
         const { itemCount } = this.state;
         const isConfigurable = type_id === 'configurable';
+
+        const { price } = isConfigurable && variants ? variants[configurableVariantIndex].product : product;
 
         return (
             <>
@@ -216,7 +218,7 @@ class ProductActions extends Component {
             );
 
             const isSelected = value => (
-                value === currentConfigurableVariant[attribute_code]
+                value === parseInt(currentConfigurableVariant[attribute_code], 10)
             );
 
             return values.map(value => (
@@ -252,30 +254,45 @@ class ProductActions extends Component {
     }
 
     renderSimpleSwatches() {
-        const { product, availableFilters } = this.props;
+        const { product, product: { attributes } } = this.props;
 
-        const renderSwatch = ({ name, request_var }) => {
-            const isColor = request_var === 'color';
-            const backgroundColor = isColor ? this.getBackgroundColorForColorFilter(product[request_var]) : false;
+        const renderSwatch = (attribute) => {
+            const {
+                attribute_code, attribute_label, attribute_value, attribute_options
+            } = attribute;
+            const isColor = attribute_code === 'color';
+            const option = attribute_options ? attribute_options.find(({ value }) => value === attribute_value) : {};
+            const label = option ? (() => {
+                if (!Object.keys(option)) return attribute_value;
+                if (!option.swatch_data) return option.label;
+                return option.swatch_data.value;
+            })() : null;
 
-            return (
-                <li key={ name }>
-                    <h4>{ name }</h4>
-                    <Swatch
-                      title={ isColor ? '' : this.getCustomFilterLabel(product[request_var], request_var) }
-                      round={ isColor }
-                      backgroundColor={ backgroundColor }
-                      arePlaceholdersShown
-                    />
-                </li>
-            );
+            if (label) {
+                return (
+                    <li key={ attribute_code }>
+                        <h4>{ attribute_label }</h4>
+                        <Swatch
+                          title={ isColor ? '' : label }
+                          isRound={ isColor }
+                          backgroundColor={ isColor ? label : '' }
+                          arePlaceholdersShown
+                          handler={ () => {} }
+                          isSelected
+                        />
+                    </li>
+                );
+            }
+
+            return null;
         };
 
         const renderAvailableAttributes = () => {
-            if (availableFilters.length) {
-                return availableFilters.map((filter) => {
-                    if (product[filter.request_var]) {
-                        return renderSwatch(filter);
+            if (attributes.length) {
+                return attributes.map((attribute) => {
+                    const { attribute_code } = attribute;
+                    if (product[attribute_code]) {
+                        return renderSwatch(attribute);
                     }
 
                     return null;

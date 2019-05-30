@@ -221,8 +221,8 @@ class Slider extends Component {
         );
     }
 
-    getKey(id, { image }) {
-        return this.isVisible(id) ? image : id;
+    getKey(id) {
+        return id;
     }
 
     getDragX(event, isTouch) {

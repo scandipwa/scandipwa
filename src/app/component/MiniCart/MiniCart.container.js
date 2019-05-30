@@ -18,12 +18,6 @@ const mapStateToProps = state => ({
     totals: state.CartReducer.cartTotals
 });
 
-const mapDispatchToProps = dispatch => ({
-    updateTotals: (options) => {
-        CartDispatcher.updateTotals(dispatch, options);
-    }
-});
-
-const MiniCartContainer = connect(mapStateToProps, mapDispatchToProps)(MiniCart);
+const MiniCartContainer = connect(mapStateToProps)(MiniCart);
 
 export default MiniCartContainer;
