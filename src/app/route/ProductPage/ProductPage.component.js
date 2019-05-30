@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unused-state */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -57,7 +58,10 @@ class ProductPage extends Component {
         const { location } = this.props;
 
         if (location !== prevProps.location) this.requestProduct();
-        if (this.variantIndexInPropsChanged(this.props, prevProps)) this.setState({ isConfigurationInitilized: false });
+        if (this.variantIndexInPropsChanged(this.props, prevProps)) {
+            // eslint-disable-next-line react/no-did-update-set-state
+            this.setState({ isConfigurationInitilized: false });
+        }
         this.updateBreadcrumbs();
     }
 
@@ -72,7 +76,7 @@ class ProductPage extends Component {
     static getDerivedStateFromProps(props, state) {
         const { isConfigurationInitilized } = state;
         const { location } = props;
-        const variantIndex = parseInt(getQueryParam('variant', location), 10);
+        const variantIndex = parseInt(getQueryParam('variant', location) || 0, 10);
         const shouldConfigurableOptionBeInitilized = !isConfigurationInitilized
             && typeof variantIndex === 'number';
 
