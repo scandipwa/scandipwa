@@ -114,7 +114,7 @@ class CheckoutOrderSummary extends Component {
         } = this.props;
 
         // eslint-disable-next-line no-param-reassign, no-return-assign
-        const itemsTax = items.reduce((sum, { tax_amount }) => sum += tax_amount, tax_amount);
+        const itemsTax = items ? items.reduce((sum, { tax_amount }) => sum += tax_amount, tax_amount) : 0;
 
         const productCount = Object.keys(products).length;
 

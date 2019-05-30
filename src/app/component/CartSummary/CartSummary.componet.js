@@ -39,7 +39,7 @@ class CartSummary extends Component {
         } = this.props;
 
         // eslint-disable-next-line no-param-reassign, no-return-assign
-        const itemsTax = items.reduce((sum, { tax_amount }) => sum += tax_amount, tax_amount);
+        const itemsTax = items ? items.reduce((sum, { tax_amount }) => sum += tax_amount, tax_amount) : 0;
 
         return (
             <div block="CartSummary" aria-label="Cart Summary">
