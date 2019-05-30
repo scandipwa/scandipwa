@@ -10,11 +10,11 @@
  */
 
 .ProductReviewForm {
-    h3 {
+    &-Title {
         margin-bottom: 0;
     }
 
-    p {
+    &-ProductName {
         font-weight: 700;
         font-size: 2rem;
 
@@ -38,13 +38,13 @@
 
     &-ReviewRating {
         margin-top: 1rem;
+    }
 
-        legend {
-            font-size: 1.05rem;
-            font-weight: 700;
-            border: 0;
-            padding: 0;
-        }
+    &-ReviewRatingCode {
+        font-size: 1.05rem;
+        font-weight: 700;
+        border: 0;
+        padding: 0;
     }
 
     &-RatingOptionGroup {
@@ -155,11 +155,13 @@
         margin-top: 1rem;
     }
 
-    .TextPlaceholder {
-        display: block;
+    &-PlaceholderBlock {
+        .TextPlaceholder {
+            display: block;
 
-        &::after {
-            font-size: 3rem;
+            &::after {
+                font-size: 3rem;
+            }
         }
     }
 }
