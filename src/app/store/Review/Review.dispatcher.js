@@ -32,7 +32,7 @@ class ReviewDispatcher {
         return fetchMutation(Review.getAddProductReview(
             reviewItem
         )).then(
-            () => dispatch(showNotification('success', 'You submitted your review for moderation.')) && true,
+            () => dispatch(showNotification('success', 'You submitted your review for moderation.')),
             error => dispatch(showNotification('error', 'Error submitting review!')) && console.log(error)
         );
     }

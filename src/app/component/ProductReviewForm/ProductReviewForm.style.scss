@@ -14,7 +14,7 @@
         margin-bottom: 0;
     }
 
-    p {
+    &-ProductName {
         font-weight: 700;
         font-size: 2rem;
 
@@ -155,11 +155,13 @@
         margin-top: 1rem;
     }
 
-    .TextPlaceholder {
-        display: block;
+    &-PlaceholderBlock {
+        .TextPlaceholder {
+            display: block;
 
-        &::after {
-            font-size: 3rem;
+            &::after {
+                font-size: 3rem;
+            }
         }
     }
 }
