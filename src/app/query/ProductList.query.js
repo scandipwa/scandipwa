@@ -71,10 +71,6 @@ class ProductListQuery {
             .addField('id')
             .addField('sku')
             .addField('name')
-            .addField('color')
-            .addField('size')
-            .addField('brand')
-            .addField('shoes_size')
             .addField(new Field('short_description').addField('html'))
             .addField(new Field('image').addField('url').addField('label').addField('path'))
             .addField(new Field('thumbnail').addField('url').addField('label').addField('path'))
@@ -158,10 +154,11 @@ class ProductListQuery {
      * @return {String}
      */
     _getCustomAttributeFilters(customFilters = {}) {
-        return Object.keys(customFilters).map((key) => {
+        return Object.keys(customFilters).reduce((prev, key) => {
             const attribute = customFilters[key];
-            if (attribute.length) return `${key}: { in: [ ${attribute.join(',')} ] } `;
-        }).join(',');
+            if (attribute.length) prev.push(`${key}: { in: [ ${attribute.join(',')} ] } `);
+            return prev;
+        }, []).join(',');
     }
 
     /**
@@ -271,9 +268,7 @@ class ProductListQuery {
                 .addField('id')
                 .addField('sku')
                 .addField('name')
-                .addField('color')
-                .addField('size')
-                .addField('shoes_size')
+                .addField(this._prepareAttributes())
                 .addField(
                     new Field('short_description').addField('html')
                 )
@@ -303,6 +298,31 @@ class ProductListQuery {
     }
 
     /**
+     * Prepare attributes
+     */
+    _prepareAttributes(isFullProduct = false) {
+        const attributes = new Field('attributes')
+            .addField('attribute_value')
+            .addField('attribute_code')
+            .addField('attribute_label');
+
+        if (isFullProduct) {
+            attributes
+                .addField(
+                    new Field('attribute_options')
+                        .addField('label')
+                        .addField('value')
+                        .addField(
+                            new Field('swatch_data')
+                                .addField('value')
+                        )
+                );
+        }
+
+        return attributes;
+    }
+
+    /**
      * Prepare single product specific fields, example: `meta_title`, `description`, etc.
      * @private
      * @param  {{isSingleProduct: Boolean, search: String, categoryIds: Array<String|Number>, categoryUrlPath: String, activePage: Number, priceRange: {min: Number, max: Number}, sortKey: String, sortDirection: String, productPageSize: Number}} options A object containing different aspects of query, each item can be omitted
@@ -310,7 +330,7 @@ class ProductListQuery {
      * @memberof ProductListQuery
      */
     _prepareAdditionalInformation(options) {
-        const additionalInformation = ['brand', 'color', 'size', 'shoes_size'];
+        const additionalInformation = [this._prepareAttributes(true)];
 
         if (options.isSingleProduct) {
             const mediaGallery = this._prepareAdditionalGallery();
@@ -320,8 +340,7 @@ class ProductListQuery {
             const groupedProductItems = this._prepareGroupedData();
 
             additionalInformation.push(...[
-                'meta_title', 'meta_keyword',
-                'meta_description', 'canonical_url',
+                'meta_title', 'meta_keyword', 'meta_description', 'canonical_url',
                 description, mediaGallery, tierPrices, productLinks, groupedProductItems
             ]);
         }
@@ -433,6 +452,7 @@ class ProductListQuery {
         const additionalInformation = this._prepareAdditionalInformation(options); // additional options related to SINGLE product request
         const configurableData = this._prepareConfigurableData(options);
         const reviewSummary = this._prepareReviewSummaryField();
+
         // default fields for all queries
         const defaultFields = [
             'id',

@@ -110,6 +110,10 @@
                 width: 100%;
                 display: block;
             }
+
+            &:first-of-type {
+                margin-bottom: 5px;
+            }
         }
 
         .ProductWishlistButton {

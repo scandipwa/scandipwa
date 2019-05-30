@@ -18,12 +18,12 @@ import { Redirect } from 'react-router';
 import { customerType } from 'Type/Account';
 import './MyAccountDetails.style';
 
-const STATE_ACCOUNT_OVERVIEW = 'accountOverview';
-const STATE_EDIT_INFORMATION = 'editInformation';
-const STATE_EDIT_PASSWORD = 'editPassword';
-const STATE_UPDATE_ADDRESS = 'updateAddress';
-const DEFAULT_COUNTRY = 'US';
-const DEFAULT_REGION = 'AL';
+export const STATE_ACCOUNT_OVERVIEW = 'accountOverview';
+export const STATE_EDIT_INFORMATION = 'editInformation';
+export const STATE_EDIT_PASSWORD = 'editPassword';
+export const STATE_UPDATE_ADDRESS = 'updateAddress';
+export const DEFAULT_COUNTRY = 'US';
+export const DEFAULT_REGION = 'AL';
 
 class MyAccountDetails extends Component {
     constructor(props) {
@@ -663,8 +663,8 @@ class MyAccountDetails extends Component {
                 <div block="MyAccountDetails" elem="Wrapper">
                     <ul block="MyAccountDetails" elem="Sidebar">
                         <li
-                            onClick={ () => this.changeState(STATE_ACCOUNT_OVERVIEW) }
-                            onKeyPress={ () => this.changeState(STATE_ACCOUNT_OVERVIEW)}
+                          onClick={ () => this.changeState(STATE_ACCOUNT_OVERVIEW) }
+                          onKeyPress={ () => this.changeState(STATE_ACCOUNT_OVERVIEW)}
                         >
                             My Account
                         </li>

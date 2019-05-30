@@ -18,10 +18,10 @@ import { Link } from 'react-router-dom';
 import Loader from 'Component/Loader';
 import './MyAccount.style';
 
-const STATE_SIGN_IN = 'signIn';
-const STATE_FORGOT_PASSWORD = 'forgotPassword';
-const STATE_CREATE_ACCOUNT = 'createAccount';
-const STATE_LOGGED_IN = 'loggedIn';
+export const STATE_SIGN_IN = 'signIn';
+export const STATE_FORGOT_PASSWORD = 'forgotPassword';
+export const STATE_CREATE_ACCOUNT = 'createAccount';
+export const STATE_LOGGED_IN = 'loggedIn';
 
 /**
  * My account popup

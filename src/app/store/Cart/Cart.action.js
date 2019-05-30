@@ -50,9 +50,9 @@ const updateAllProductsInCart = products => ({
  * @param  {Object} totals Object of calculated totals
  * @return {void}
  */
-const updateTotals = totals => ({
+const updateTotals = cartData => ({
     type: UPDATE_TOTALS,
-    totals
+    cartData
 });
 
 export {

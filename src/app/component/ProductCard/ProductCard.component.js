@@ -35,7 +35,7 @@ class ProductCard extends Component {
                 const { product } = variants[ i ];
 
                 const isCorrectVariant = Object.keys(customFilters).every(filterKey => (
-                    customFilters[ filterKey ].find(value => +value === product[ filterKey ])
+                    customFilters[ filterKey ].find(value => +value === +product[ filterKey ])
                 ));
 
                 if (isCorrectVariant) return i;
@@ -64,7 +64,7 @@ class ProductCard extends Component {
         if (variants && type_id === 'configurable') {
             const correctVariants = variants.reduce((correctVariants, { product }) => {
                 const isCorrectVariant = Object.keys(customFilters).every(filterKey => (
-                    customFilters[ filterKey ].find(value => +value === product[ filterKey ])
+                    customFilters[ filterKey ].find(value => +value === +product[ filterKey ])
                 ));
 
                 if (isCorrectVariant) correctVariants.push(product);
@@ -122,9 +122,10 @@ class ProductCard extends Component {
         const {
             product: {
                 name,
-                price,
                 url_key,
-                brand
+                brand,
+                type_id,
+                variants
             },
             product,
             arePlaceholdersShown
@@ -141,6 +142,10 @@ class ProductCard extends Component {
                 search: `?variant=${ variantIndex }`
             }
             : undefined;
+
+        const { price } = type_id === 'configurable' && variants
+            ? variants[this.getCurrentVariantIndex()].product
+            : product;
 
         return (
             <li block="ProductCard" mods={ { isLoading } }>

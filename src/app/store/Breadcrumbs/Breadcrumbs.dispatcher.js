@@ -108,7 +108,7 @@ class BreadcrumbsDispatcher {
         const { categories, url_key, name } = product;
         const breadcrumbsList = [];
 
-        if (categories) {
+        if (categories.length) {
             let breadcrumbsCategory = {};
             let longestBreadcrumbsLength = 0;
 

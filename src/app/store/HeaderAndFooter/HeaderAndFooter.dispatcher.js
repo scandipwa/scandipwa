@@ -9,22 +9,24 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { QueryDispatcher, executePost } from 'Util/Request';
-import { MenuQuery, CmsBlockQuery } from 'Query';
+import { QueryDispatcher } from 'Util/Request';
+import { MenuQuery, CmsBlockQuery, RegionQuery } from 'Query';
 import { showNotification } from 'Store/Notification';
 import { updateMenu, toggleHeaderAndFooter, getCountryList } from 'Store/HeaderAndFooter';
 import { updateCmsBlocks } from 'Store/CmsBlocksAndSlider';
-import { prepareQuery } from 'Util/Query';
-import HeaderAndFooter from 'Query/HeaderAndFooter.query';
 
 class HeaderAndFooterDispatcher extends QueryDispatcher {
     constructor() {
         super('HeaderAndFooter', 86400);
     }
 
-    onSuccess({ menu, cmsBlocks }, dispatch) {
-        dispatch(updateMenu(menu));
-        dispatch(updateCmsBlocks(cmsBlocks));
+    onSuccess(options, dispatch) {
+        if (options) {
+            const { menu, cmsBlocks, countries } = options;
+            dispatch(updateMenu(menu));
+            dispatch(updateCmsBlocks(cmsBlocks));
+            dispatch(getCountryList(countries));
+        }
     }
 
     onError(error, dispatch) {
@@ -38,22 +40,15 @@ class HeaderAndFooterDispatcher extends QueryDispatcher {
      * @memberof HeaderAndFooterDispatcher
      */
     prepareRequest(options) {
-        return [MenuQuery.getQuery(options.menu),
-            CmsBlockQuery.getQuery(options.footer)];
+        return [
+            MenuQuery.getQuery(options.menu),
+            CmsBlockQuery.getQuery(options.footer),
+            RegionQuery.getCountriesList()
+        ];
     }
 
     toggleHeaderAndFooter(dispatch, options) {
         return dispatch(toggleHeaderAndFooter(options.isHeaderAndFooterVisible));
-    }
-
-    getCountriesList(dispatch) {
-        const query = HeaderAndFooter.getCountriesList();
-
-        return executePost(prepareQuery([query])).then(
-            ({ countries }) => dispatch(getCountryList(countries)),
-            // eslint-disable-next-line no-console
-            error => console.log(error)
-        );
     }
 }
 
