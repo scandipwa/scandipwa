@@ -32,8 +32,16 @@ class ProductGallery extends Component {
 
         // use images from gallery or fallback to thumbnail
         const gallery = mediaGallery.length
-            ? mediaGallery.map(media => ({ id: media.id, image: `${PRODUCT_IMAGE_PATH}${media.file}` }))
-            : [{ image: thumbnail && path && `${PRODUCT_IMAGE_PATH}${path}`, id: 'thumbnail' }];
+            ? mediaGallery.map((media, i) => ({ id: `id_${i}`, image: `${PRODUCT_IMAGE_PATH}${media.file}` }))
+            : [{ image: thumbnail && path && `${PRODUCT_IMAGE_PATH}${path}`, id: 'id_0' }];
+
+        if (!mediaGallery.length && areDetailsLoaded) {
+            return (
+                <div block="ProductGallery" mods={ { isNotAvailable: true } }>
+                    <p>This product does not have image.</p>
+                </div>
+            );
+        }
 
         return (
             <Slider

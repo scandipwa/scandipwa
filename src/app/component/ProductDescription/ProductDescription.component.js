@@ -37,7 +37,7 @@ class ProductDescription extends Component {
             ? `${PRODUCT_IMAGE_PATH}${mediaGallery[0].file}`
             : '';
 
-        if (!description && areDetailsLoaded) return null;
+        if (!html && areDetailsLoaded) return null;
 
         return (
             <ContentWrapper
@@ -46,7 +46,10 @@ class ProductDescription extends Component {
               label="Product description"
             >
                 <div block="ProductDescription" elem="Image">
-                    <Image ratio="4x3" src={ image } alt="Description image" />
+                    { !image && areDetailsLoaded
+                        ? null
+                        : <Image ratio="4x3" src={ image } alt="Description image" />
+                    }
                 </div>
                 <div block="ProductDescription" elem="DescriptionBlock">
                     <h3><TextPlaceholder content={ areDetailsLoaded ? 'About the product' : '' } /></h3>

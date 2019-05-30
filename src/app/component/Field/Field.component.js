@@ -78,11 +78,11 @@ class Field extends Component {
      */
     static getDerivedStateFromProps(props, state) {
         const { value } = props;
-        const { value: stateValue } = state;
+        // const { value: stateValue } = state;
 
-        if (value !== stateValue) {
-            return { stateValue };
-        }
+        // if (value !== stateValue) {
+        //     return { value: stateValue };
+        // }
 
         return { value };
     }

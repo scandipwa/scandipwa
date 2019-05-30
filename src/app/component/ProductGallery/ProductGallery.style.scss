@@ -15,13 +15,20 @@
     display: grid;
     grid-template-columns: 6rem auto;
     min-height: 350px;
-    
+
     @include after-mobile {
         grid-row: 1 / 3;
     }
 
     @include mobile {
         height: 100%;
+    }
+
+    &_isNotAvailable {
+        display: flex;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
     }
 
     &_no_thumbnails {
@@ -34,7 +41,7 @@
         border-color: transparent;
         margin-bottom: 1rem;
         margin-left: 0;
-        
+
         &:not([disabled]) {
             &:hover,
             &:active,
@@ -43,7 +50,7 @@
                 background-color: transparent;
             }
 
-            &:hover {                   
+            &:hover {
                 --arrow-color: var(--color-neutral-dark);
             }
 
