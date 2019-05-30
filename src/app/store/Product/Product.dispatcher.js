@@ -27,7 +27,10 @@ class ProductDispatcher extends QueryDispatcher {
     }
 
     onSuccess(data, dispatch) {
-        const { products: { items, filters } } = data;
+        const { products: { items, filters, total_count } } = data;
+
+        if (!total_count) return dispatch(updateNoMatch(true));
+
         const [productItem] = items;
         const product = productItem.type_id === 'grouped'
             ? this._prepareGroupedProduct(productItem) : productItem;

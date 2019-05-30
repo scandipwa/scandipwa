@@ -66,13 +66,15 @@ class ProductDetails extends Component {
     }
 
     render() {
-        const { product: { name, brand } } = this.props;
+        const { product: { name, brand }, areDetailsLoaded } = this.props;
 
         return (
             <article block="ProductDetails">
-                <p block="ProductDetails" elem="Brand">
-                    <TextPlaceholder content={ brand } length="short" />
-                </p>
+                { !(!brand && areDetailsLoaded) && (
+                    <p block="ProductDetails" elem="Brand">
+                        <TextPlaceholder content={ brand } length="short" />
+                    </p>
+                ) }
                 <h1 block="ProductDetails" elem="Title">
                     <TextPlaceholder content={ name } length="medium" />
                 </h1>

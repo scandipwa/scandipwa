@@ -12,10 +12,10 @@
 import { Field } from 'Util/Query';
 
 /**
- * HeaderAndFooter Mutations
- * @class HeaderAndFooter
+ * RegionQuery Mutations
+ * @class RegionQuery
  */
-class HeaderAndFooter {
+class RegionQuery {
     getCountriesList() {
         const countries = new Field('countries')
             .addField(this.getAvalaibleRegions())
@@ -35,4 +35,4 @@ class HeaderAndFooter {
     }
 }
 
-export default new HeaderAndFooter();
+export default new RegionQuery();

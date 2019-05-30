@@ -12,7 +12,6 @@
 import React, { Component, Children } from 'react';
 import PropTypes from 'prop-types';
 import Field from 'Component/Field';
-import Select from 'Component/Select';
 import valdationConfig from './Form.config';
 
 class Form extends Component {
@@ -22,11 +21,7 @@ class Form extends Component {
         const children = Form.cloneChildren(
             propsChildren,
             (child) => {
-                const { props: { id, onChange: originalOnChange } } = child;
-                // const onChange = (v) => {
-                //     Form.handleInputChange(v);
-                //     if (originalOnChange) originalOnChange(v);
-                // };
+                const { props: { id } } = child;
                 refMap[id] = React.createRef();
                 return React.cloneElement(child, { formRef: refMap[id] });
             }
@@ -115,10 +110,6 @@ class Form extends Component {
         const { children } = props;
         if (fieldsAreValid) return Form.updateChildrenRefs(props);
         return Form.cloneAndValidateChildren(children, refMap);
-    }
-
-    handleInputChange() {
-        // console.log('THIS INPUT WAS CHANGED!');
     }
 
     handleFormSubmit(e) {

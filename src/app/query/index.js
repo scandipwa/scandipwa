@@ -18,7 +18,8 @@ import MenuQuery from 'Query/Menu.query';
 import MyAccount from 'Query/MyAccount.query';
 import Wishlist from 'Query/Wishlist.query';
 import Cart from 'Query/Cart.query';
-import UrlRewritesQuery from 'Query/UrlRewrites';
+import UrlRewritesQuery from 'Query/UrlRewrites.query';
+import RegionQuery from 'Query/Region.query';
 import Review from 'Query/Review.query';
 
 export {
@@ -31,6 +32,7 @@ export {
     UrlRewritesQuery,
     MyAccount,
     Wishlist,
-    Review,
-    Cart
+    Cart,
+    RegionQuery,
+    Review
 };

@@ -23,7 +23,21 @@ const initialState = {
 const ProductReducer = (state = initialState, action) => {
     switch (action.type) {
     case UPDATE_PRODUCT_DETAILS:
-        const { product, filters } = action;
+        const { product, product: { attributes, variants }, filters } = action;
+
+        attributes.forEach(({ attribute_code, attribute_value }) => {
+            product[attribute_code] = attribute_value;
+        });
+
+        if (variants) {
+            variants.forEach(({ product: { attributes } }, i) => {
+                if (attributes) {
+                    attributes.forEach(({ attribute_code, attribute_value }) => {
+                        product.variants[i].product[attribute_code] = attribute_value;
+                    });
+                }
+            });
+        }
 
         return {
             ...state,
