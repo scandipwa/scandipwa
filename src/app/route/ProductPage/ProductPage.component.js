@@ -16,6 +16,7 @@ import ProductDetails from 'Component/ProductDetails';
 import ProductGallery from 'Component/ProductGallery';
 import ProductDescription from 'Component/ProductDescription';
 import ProductReviewList from 'Component/ProductReviewList';
+import ProductReviewForm from 'Component/ProductReviewForm';
 import ContentWrapper from 'Component/ContentWrapper';
 import ProductActions from 'Component/ProductActions';
 import GroupedProductsList from 'Component/GroupedProductsList';
@@ -234,6 +235,10 @@ class ProductPage extends Component {
                       areDetailsLoaded={ areDetailsLoaded }
                     />
                     <ProductReviewList
+                      product={ dataSource }
+                      areDetailsLoaded={ areDetailsLoaded }
+                    />
+                    <ProductReviewForm
                       product={ dataSource }
                       areDetailsLoaded={ areDetailsLoaded }
                     />

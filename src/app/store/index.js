@@ -27,6 +27,7 @@ import { RelatedProductsReducer } from 'Store/RelatedProducts';
 import { SearchBarReducer } from 'Store/SearchBar';
 import { UrlRewritesReducer } from 'Store/UrlRewrites';
 import { MyAccountReducer } from 'Store/MyAccount';
+import { ReviewReducer } from 'Store/Review';
 
 const reducers = {
     CmsBlocksAndSliderReducer,
@@ -42,7 +43,8 @@ const reducers = {
     RelatedProductsReducer,
     SearchBarReducer,
     MyAccountReducer,
-    UrlRewritesReducer
+    UrlRewritesReducer,
+    ReviewReducer
 };
 
 const combinedReducers = combineReducers(reducers);

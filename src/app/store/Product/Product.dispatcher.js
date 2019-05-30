@@ -14,6 +14,7 @@ import { ProductListQuery } from 'Query';
 import { updateProductDetails, updateGroupedProductQuantity, clearGroupedProductQuantity } from 'Store/Product';
 import { updateNoMatch } from 'Store/NoMatch';
 import { RelatedProductsDispatcher } from 'Store/RelatedProducts';
+import { ReviewDispatcher } from 'Store/Review';
 
 /**
  * Product List Dispatcher
@@ -43,6 +44,8 @@ class ProductDispatcher extends QueryDispatcher {
         } else {
             RelatedProductsDispatcher.clearRelatedProducts(dispatch);
         }
+
+        ReviewDispatcher.updateReviewRatings(dispatch);
 
         return (items && items.length > 0)
             ? dispatch(updateProductDetails(product, filters))

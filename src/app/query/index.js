@@ -20,6 +20,7 @@ import Wishlist from 'Query/Wishlist.query';
 import Cart from 'Query/Cart.query';
 import UrlRewritesQuery from 'Query/UrlRewrites.query';
 import RegionQuery from 'Query/Region.query';
+import Review from 'Query/Review.query';
 
 export {
     CategoryQuery,
@@ -32,5 +33,6 @@ export {
     MyAccount,
     Wishlist,
     Cart,
-    RegionQuery
+    RegionQuery,
+    Review
 };
