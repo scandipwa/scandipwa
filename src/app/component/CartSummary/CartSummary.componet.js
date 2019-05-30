@@ -11,8 +11,10 @@
 
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { formatCurrency } from 'Util/Price';
 import { TotalsType } from 'Type/MiniCart';
 import './CartSummary.style';
+
 
 /**
  * Summary block with totals
@@ -20,12 +22,14 @@ import './CartSummary.style';
  */
 class CartSummary extends Component {
     renderPriceLine(price, name, mods) {
+        const { totals: { base_currency_code } } = this.props;
+
         return (
             <li block="CartSummary" elem="SummaryItem" mods={ mods }>
                 <strong block="CartSummary" elem="Text" mods={ { align: 'left' } }>{ name }</strong>
                 <strong block="CartSummary" elem="Text" mods={ { align: 'right' } }>
                     {/* TODO: Use value from configuration file */}
-                    { `$ ${ price ? parseFloat(price).toFixed(2) : 0 }` }
+                    { formatCurrency(price ? parseFloat(price).toFixed(2) : 0, base_currency_code) }
                 </strong>
             </li>
         );

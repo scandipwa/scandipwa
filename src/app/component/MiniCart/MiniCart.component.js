@@ -13,6 +13,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { formatCurrency } from 'Util/Price';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import CartItem from 'Component/CartItem';
 import { ProductType } from 'Type/ProductList';
@@ -57,6 +58,8 @@ class MiniCart extends Component {
     }
 
     renderCartData(products, subTotalPrice) {
+        const { totals: { base_currency_code } } = this.props;
+
         return (
             <>
                 <div block="MiniCart" elem="Promo" aria-label="Minicart Promo">
@@ -71,8 +74,7 @@ class MiniCart extends Component {
                     <div>
                         Subtotal:&nbsp;
                         <strong>
-                            $
-                            { subTotalPrice }
+                            { formatCurrency(subTotalPrice, base_currency_code) }
                         </strong>
                     </div>
                 </li>

@@ -10,8 +10,9 @@
  */
 
 import React, { Component } from 'react';
-import { PriceType } from 'Type/ProductList';
 import PropTypes from 'prop-types';
+import { PriceType } from 'Type/ProductList';
+import { formatCurrency } from 'Util/Price';
 import './ProductPrice.style';
 
 /**
@@ -53,21 +54,18 @@ class ProductPrice extends Component {
         const { price: { minimalPrice, regularPrice }, mods } = this.props;
         const minimalPriceValue = minimalPrice.amount.value;
         const regularPriceValue = regularPrice.amount.value;
+        const priceCurrency = regularPrice.amount.currency;
         const discountPercentage = this.calculateDiscountPercentage(minimalPriceValue, regularPriceValue);
         const finalPrice = this.calculateFinalPrice(discountPercentage, minimalPriceValue, regularPriceValue);
-
-        // TODO: implement dynamic when store-config will be injected
-        const currency = '$';
 
         // Use <ins></ins> <del></del> to represent new price and the old (deleted) one
         const PriceSemanticElementName = discountPercentage > 0 ? 'ins' : 'span';
 
-        return (
+        return ( 
             <p block="ProductPrice" aria-label="Product Price" mods={ mods || {} }>
                 <PriceSemanticElementName aria-label="Current product price">
                     <data value={ this.roundPrice(finalPrice) }>
-                        { currency }
-                        { this.roundPrice(finalPrice) }
+                        { formatCurrency(this.roundPrice(finalPrice), priceCurrency)}
                     </data>
                 </PriceSemanticElementName>
 
