@@ -134,7 +134,6 @@ export class AppRouter extends Component {
         WishlistDispatcher.updateInitialWishlistData(Store.dispatch);
         HeaderAndFooterDispatcher.handleData(Store.dispatch, { menu: { menuId: 1 }, footer: footerOptions });
         CartDispatcher.updateInitialCartData(Store.dispatch);
-        HeaderAndFooterDispatcher.getCountriesList(Store.dispatch);
     }
 
     /**

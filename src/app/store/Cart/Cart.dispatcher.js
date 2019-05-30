@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -11,13 +12,13 @@
 
 import { fetchMutation, fetchQuery } from 'Util/Request';
 import {
-    addProductToCart,
-    removeProductFromCart,
+    // addProductToCart,
+    // removeProductFromCart,
     updateTotals,
     updateAllProductsInCart,
     PRODUCTS_IN_CART
 } from 'Store/Cart';
-import { getProductPrice } from 'Util/Price';
+// import { getProductPrice } from 'Util/Price';
 import { isSignedIn } from 'Util/Auth';
 import { Cart } from 'Query';
 import BrowserDatabase from 'Util/BrowserDatabase';
@@ -44,6 +45,7 @@ class CartDispatcher {
             this._createEmptyCart().then((data) => {
                 BrowserDatabase.setItem(data, GUEST_QUOTE_ID);
                 dispatch(updateAllProductsInCart({}));
+                dispatch(updateTotals({}));
             });
         }
     }
@@ -57,54 +59,15 @@ class CartDispatcher {
 
     _syncCartWithBE(dispatch) {
         // Need to get current cart from BE, update cart
-        fetchQuery(Cart.getCartItemsQuery(
+        fetchQuery(Cart.getCartQuery(
             !isSignedIn() && this._getGuestQuoteId()
         )).then(
-            ({ getCartItems }) => {
-                const productsToAdd = getCartItems.reduce((prev, cartProduct) => {
-                    const {
-                        product, item_id, sku, qty: quantity
-                    } = cartProduct;
-                    const { variants, id, type_id } = product;
-
-                    if (type_id === 'configurable') {
-                        let configurableVariantIndex = 0;
-                        const { product: { id: variantId } } = variants.filter(
-                            (variant, index) => {
-                                const { product: { sku: productSku } } = variant;
-                                const isChosenProduct = productSku === sku;
-                                if (isChosenProduct) configurableVariantIndex = index;
-                                return isChosenProduct;
-                            }
-                        )[0];
-
-                        return {
-                            ...prev,
-                            [variantId]: {
-                                ...product,
-                                configurableVariantIndex,
-                                item_id,
-                                quantity
-                            }
-                        };
-                    }
-
-                    return {
-                        ...prev,
-                        [id]: {
-                            ...product,
-                            item_id,
-                            quantity
-                        }
-                    };
-                }, {});
-
-                dispatch(updateAllProductsInCart(productsToAdd));
-            },
+            ({ cartData }) => this._updateCartData(cartData, dispatch),
             () => {
                 this._createEmptyCart().then((data) => {
                     BrowserDatabase.setItem(data, GUEST_QUOTE_ID);
                     dispatch(updateAllProductsInCart({}));
+                    dispatch(updateTotals({}));
                 });
             }
         );
@@ -127,17 +90,7 @@ class CartDispatcher {
             return fetchMutation(Cart.getSaveCartItemMutation(
                 productToAdd, !isSignedIn() && this._getGuestQuoteId()
             )).then(
-                ({ saveCartItem: { item_id, qty } }) => {
-                    dispatch(addProductToCart(
-                        {
-                            ...product,
-                            item_id,
-                            quantity: qty
-                        }
-                    ));
-
-                    return Promise.resolve();
-                },
+                ({ saveCartItem: { cartData } }) => this._updateCartData(cartData, dispatch),
                 error => console.log(error)
             );
         }
@@ -150,14 +103,64 @@ class CartDispatcher {
             product,
             !isSignedIn() && this._getGuestQuoteId()
         )).then(
-            ({ removeCartItem }) => removeCartItem && dispatch(removeProductFromCart(product)),
+            ({ removeCartItem: { cartData } }) => this._updateCartData(cartData, dispatch),
             error => console.log(error)
         );
     }
 
-    updateTotals(dispatch, options) {
-        const totals = this._calculateTotals(options.products);
-        return dispatch(updateTotals(totals));
+    _updateCartData(cartData, dispatch) {
+        const { items } = cartData;
+
+        const productsToAdd = items.reduce((prev, cartProduct) => {
+            const {
+                product: {
+                    variants, id, type_id
+                },
+                product,
+                item_id,
+                sku,
+                qty: quantity
+            } = cartProduct;
+
+            if (type_id === 'configurable') {
+                let configurableVariantIndex = 0;
+
+                const variant = variants.find(
+                    (variant, index) => {
+                        const { product: { sku: productSku } } = variant;
+                        const isChosenProduct = productSku === sku;
+                        if (isChosenProduct) configurableVariantIndex = index;
+                        return isChosenProduct;
+                    }
+                );
+
+                if (variant) {
+                    const { product: { id: variantId } } = variant;
+
+                    return {
+                        ...prev,
+                        [variantId]: {
+                            ...product,
+                            configurableVariantIndex,
+                            item_id,
+                            quantity
+                        }
+                    };
+                }
+            }
+
+            return {
+                ...prev,
+                [id]: {
+                    ...product,
+                    item_id,
+                    quantity
+                }
+            };
+        }, {});
+
+        dispatch(updateTotals(cartData));
+        dispatch(updateAllProductsInCart(productsToAdd));
     }
 
     _getExtensionAttributes(product) {
@@ -184,6 +187,8 @@ class CartDispatcher {
                         }
                     ];
                 }
+
+                return prev;
             }, []);
 
             return { configurable_item_options };
@@ -226,41 +231,6 @@ class CartDispatcher {
         }
 
         return true;
-    }
-
-    /**
-     * Calculate totals from product list
-     * @param {Object} products Object of products
-     * @return {Object} Totals
-     * @memberof CartDispatcher
-     */
-    _calculateTotals(products) {
-        // TODO: Override to get product prices from server (in case price have changed)
-        let subTotalPrice = 0;
-        let taxPrice = 0;
-        let count = 0;
-        let grandTotalPrice = 0;
-
-        if (products) {
-            Object.keys(products).forEach((key) => {
-                const prices = getProductPrice(products[key]);
-                const { quantity } = products[key];
-
-                count += quantity;
-                subTotalPrice += (prices.subTotalPrice * quantity);
-                taxPrice += (prices.taxPrice * quantity);
-            });
-        }
-        grandTotalPrice = (subTotalPrice + taxPrice).toFixed(2);
-        subTotalPrice = subTotalPrice.toFixed(2);
-        taxPrice = taxPrice.toFixed(2);
-
-        return {
-            subTotalPrice,
-            count,
-            grandTotalPrice,
-            taxPrice
-        };
     }
 }
 
