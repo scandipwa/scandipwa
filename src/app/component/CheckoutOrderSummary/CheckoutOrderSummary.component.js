@@ -15,7 +15,6 @@ import Html from 'Component/Html';
 import { TotalsType } from 'Type/MiniCart';
 import { ProductType } from 'Type/ProductList';
 import { formatCurrency } from 'Util/Price';
-import TextPlaceholder from 'Component/TextPlaceholder';
 import ProductPrice from 'Component/ProductPrice';
 import Image from 'Component/Image';
 import './CheckoutOrderSummary.style';
@@ -41,14 +40,12 @@ class CheckoutOrderSummary extends Component {
         if (!price) return null;
 
         const { totals: { base_currency_code } } = this.props;
+        const priceString = formatCurrency(parseFloat(price).toFixed(2), base_currency_code);
 
         return (
             <li block="CheckoutOrderSummary" elem="SummaryItem" mods={ mods }>
                 <strong block="CheckoutOrderSummary" elem="Text">{ name }</strong>
-                <strong block="CheckoutOrderSummary" elem="Text">
-                    {/* TODO: Use value from configuration file */ }
-                    <TextPlaceholder content={ formatCurrency(parseFloat(price).toFixed(2), base_currency_code) } />
-                </strong>
+                <strong block="CheckoutOrderSummary" elem="Text">{ priceString }</strong>
             </li>
         );
     }
