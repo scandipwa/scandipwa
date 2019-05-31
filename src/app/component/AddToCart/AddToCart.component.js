@@ -54,8 +54,10 @@ class AddToCart extends Component {
         // for configurable products productToBeRemovedAfterAdd will be saved in state
         if (removeWishlistItem || (productToBeRemovedAfterAdd === sku && wishlistItems[id])) {
             const product = wishlistItems[id];
+
             removeProductFromWishlist({ product, noMessages: true });
         }
+
         this.setState({ isLoading: false });
     }
 

@@ -71,8 +71,11 @@ class WishlistDispatcher {
         return fetchMutation(Wishlist.getAddProductToWishlistMutation(
             productToAdd
         )).then(
-            () => dispatch(addItemToWishlist({ ...product }))
-                && dispatch(showNotification('success', 'Product has been added to your Wish List!')),
+            () => {
+                dispatch(addItemToWishlist({ ...product }));
+                dispatch(showNotification('success', 'Product has been added to your Wish List!'));
+            },
+            // eslint-disable-next-line no-console
             error => dispatch(showNotification('error', 'Error updating wish list!')) && console.log(error)
         );
     }
@@ -80,16 +83,23 @@ class WishlistDispatcher {
     removeItemFromWishlist(dispatch, { product, noMessages }) {
         if (noMessages) {
             return fetchMutation(Wishlist.getRemoveProductFromWishlistMutation(product)).then(
-                ({ removeProductFromWishlist }) => removeProductFromWishlist
-                    && dispatch(removeItemFromWishlist(product))
-                    && dispatch(productToBeRemovedAfterAdd(''))
+                () => {
+                    dispatch(removeItemFromWishlist(product));
+                    dispatch(productToBeRemovedAfterAdd(''));
+                }
             );
         }
 
         return fetchMutation(Wishlist.getRemoveProductFromWishlistMutation(product)).then(
-            ({ removeProductFromWishlist }) => removeProductFromWishlist && dispatch(removeItemFromWishlist(product))
-            && dispatch(showNotification('success', 'Product has been removed from your Wish List!')),
-            error => dispatch(showNotification('error', 'Error updating wish list!')) && console.log(error)
+            () => {
+                dispatch(removeItemFromWishlist(product));
+                dispatch(showNotification('success', 'Product has been removed from your Wish List!'));
+            },
+            (error) => {
+                dispatch(showNotification('error', 'Error updating wish list!'));
+                // eslint-disable-next-line no-console
+                console.log(error);
+            }
         );
     }
 

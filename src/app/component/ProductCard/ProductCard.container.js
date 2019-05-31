@@ -15,9 +15,7 @@ import { WishlistDispatcher } from 'Store/Wishlist';
 import ProductCard from './ProductCard.component';
 
 const mapDispatchToProps = dispatch => ({
-    addProduct: (options) => {
-        return CartDispatcher.addProductToCart(dispatch, options);
-    },
+    addProduct: options => CartDispatcher.addProductToCart(dispatch, options),
 
     updateProductToBeRemovedAfterAdd: options => WishlistDispatcher.updateProductToBeRemovedAfterAdd(dispatch, options)
 });

@@ -25,6 +25,12 @@ import './ProductCard.style';
  * @class ProductCard
  */
 class ProductCard extends Component {
+    constructor(props) {
+        super(props);
+
+        this.handleConfigurableClick = this.handleConfigurableClick.bind(this);
+    }
+
     getCurrentVariantIndex() {
         const { product: { variants }, customFilters } = this.props;
         const customFiltersExist = customFilters && Object.keys(customFilters).length;
@@ -64,7 +70,9 @@ class ProductCard extends Component {
             wishlistItem
         } = this.props;
 
-        if (wishlistItem && updateProductToBeRemovedAfterAdd) return updateProductToBeRemovedAfterAdd({ product });
+        if (wishlistItem && updateProductToBeRemovedAfterAdd) {
+            return updateProductToBeRemovedAfterAdd({ product });
+        }
 
         return null;
     }
@@ -88,7 +96,7 @@ class ProductCard extends Component {
                     <Link
                       to={ linkTo }
                       tabIndex={ url_key ? '0' : '-1' }
-                      onClick={ () => this.handleConfigurableClick() }
+                      onClick={ this.handleConfigurableClick }
                     >
                         <span>Configure Product</span>
                     </Link>

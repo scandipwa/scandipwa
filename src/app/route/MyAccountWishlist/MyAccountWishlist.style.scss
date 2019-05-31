@@ -1,11 +1,8 @@
 .MyAccountWishlist {
     --placeholder-animation: placeholderAnimation 2s linear infinite, appear 200ms forwards;
-    
+
     &-Wrapper {
         max-width: 1200px;
-        display: grid;
-        grid-template-columns: 20% 78%;
-        grid-column-gap: 2%;
 
         padding: {
             left: 1rem;
@@ -18,8 +15,10 @@
             right: auto;
         }
 
-        @include mobile {
-            display: block;
+        @include after-mobile {
+            display: grid;
+            grid-template-columns: 1fr 4fr;
+            grid-column-gap: 2rem;
         }
     }
 
@@ -66,7 +65,7 @@
 
     &-List {
         display: grid;
-        grid-template-columns: 25% 25% 25% 25%;
+        grid-template-columns: repeat(4, 1fr);
         padding-top: 2rem;
 
         @include mobile {

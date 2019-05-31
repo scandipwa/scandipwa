@@ -23,11 +23,13 @@ import './MyAccountWishlist.style';
 class MyAccountWishlist extends Component {
     constructor(props) {
         super(props);
+
         this.state = { isLoading: false };
     }
 
     componentDidMount() {
         const { requestWishlistData } = this.props;
+
         requestWishlistData();
         this.updateBreadcrumbs();
     }
@@ -55,12 +57,20 @@ class MyAccountWishlist extends Component {
     afterAdded(response) {
         const { showNotification } = this.props;
         const { errors, addedProducts } = response;
+
         errors.map(error => showNotification('error', error));
         this.setState({ isLoading: false });
+
         if (addedProducts.length > 0) {
             showNotification('success',
                 `${addedProducts.length} product(s) have been added to shopping cart: ${addedProducts.toString()}`);
         }
+    }
+
+    getWishlistItemsCount() {
+        const { wishlistItems } = this.props;
+
+        return Object.keys(wishlistItems).length;
     }
 
     addToCart() {
@@ -70,20 +80,24 @@ class MyAccountWishlist extends Component {
             addProduct,
             removeProductFromWishlist
         } = this.props;
+
         this.setState({ isLoading: true });
 
 
         if (!isSignedIn()) {
             showNotification('error', 'You must login or register to add all products to Cart.');
             this.setState({ isLoading: false });
+
             return null;
         }
 
         const data = [];
         data.errors = [];
         data.addedProducts = [];
+
         return Promise.all(Object.values(wishlistItems).map((product) => {
             const { type_id, configurableVariantIndex, name } = product;
+
             if (type_id === 'configurable' && !configurableVariantIndex) {
                 data.errors.push(`You need to choose options for your item for ${name}`);
                 return null;
@@ -92,15 +106,16 @@ class MyAccountWishlist extends Component {
             return addProduct({
                 product,
                 quantity: 1
-            }).then(() => data.addedProducts.push(name) && removeProductFromWishlist({ product, noMessages: true }));
+            }).then(() => {
+                data.addedProducts.push(name);
+                removeProductFromWishlist({ product, noMessages: true });
+            });
         })).then(() => this.afterAdded(data));
     }
 
     renderWishlistItem(product, isUpdatingWishlist) {
         if (isUpdatingWishlist) {
-            return (
-                <ProductCard product={ {} } key={ product.id } />
-            );
+            return <ProductCard product={ {} } key={ product.id } />;
         }
 
         return (
@@ -132,7 +147,7 @@ class MyAccountWishlist extends Component {
                         <h2>My Wish List</h2>
                         <Loader isLoading={ isLoading } />
                         {
-                            Object.keys(wishlistItems).length > 0
+                            this.getWishlistItemsCount() > 0
                                 ? (
                                     <>
                                         <button
@@ -145,11 +160,9 @@ class MyAccountWishlist extends Component {
                                             Add All To Cart
                                         </button>
                                         <ul block="MyAccountWishlist" elem="List">
-                                            {
-                                                Object.values(wishlistItems).map(
-                                                    product => this.renderWishlistItem(product, isUpdatingWishlist)
-                                                )
-                                            }
+                                            { Object.values(wishlistItems).map(
+                                                product => this.renderWishlistItem(product, isUpdatingWishlist)
+                                            )}
                                         </ul>
                                     </>
                                 ) : (

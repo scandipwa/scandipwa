@@ -24,19 +24,13 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    requestWishlistData() {
-        return WishlistDispatcher.updateInitialWishlistData(dispatch);
-    },
+    requestWishlistData: () => WishlistDispatcher.updateInitialWishlistData(dispatch),
 
     removeProductFromWishlist: options => WishlistDispatcher.removeItemFromWishlist(dispatch, options),
 
-    updateBreadcrumbs: (breadcrumbs) => {
-        BreadcrumbsDispatcher.update(breadcrumbs, dispatch);
-    },
+    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.update(breadcrumbs, dispatch),
 
-    showNotification(type, message) {
-        dispatch(showNotification(type, message));
-    },
+    showNotification: (type, message) => dispatch(showNotification(type, message)),
 
     addProduct: options => CartDispatcher.addProductToCart(dispatch, options)
 });
