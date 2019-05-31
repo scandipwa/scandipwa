@@ -125,8 +125,6 @@ class Field extends Component {
     handleSelectListOptionClick({ value }) {
         const { formRef, onChange } = this.props;
 
-        console.log(value);
-
         if (typeof formRef !== 'function') {
             formRef.current.value = value;
 
@@ -217,7 +215,9 @@ class Field extends Component {
     }
 
     renderTypeNumber() {
-        const { id, name, formRef } = this.props;
+        const {
+            id, name, formRef, min
+        } = this.props;
         const { value } = this.state;
 
         return (
@@ -236,7 +236,10 @@ class Field extends Component {
                 <button onClick={ () => this.handleChange(parseFloat(value) + 1) }>
                     <span>+</span>
                 </button>
-                <button onClick={ () => this.handleChange(parseFloat(value) - 1) }>
+                <button
+                  disabled={ value === min }
+                  onClick={ () => this.handleChange(parseFloat(value) - 1) }
+                >
                     <span>–</span>
                 </button>
             </>
@@ -502,7 +505,7 @@ Field.propTypes = {
 
 Field.defaultProps = {
     rows: 4,
-    min: 0,
+    min: 1,
     disabled: false,
     checked: false,
     mix: {},
