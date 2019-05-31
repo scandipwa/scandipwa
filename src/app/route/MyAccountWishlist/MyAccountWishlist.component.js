@@ -34,6 +34,26 @@ class MyAccountWishlist extends Component {
         this.updateBreadcrumbs();
     }
 
+    getWishlistItemsCount() {
+        const { wishlistItems } = this.props;
+
+        return Object.keys(wishlistItems).length;
+    }
+
+    afterAdded(response) {
+        const { showNotification } = this.props;
+        const { errors, addedProducts } = response;
+
+        this.setState({ isLoading: false });
+
+        errors.map(error => showNotification('error', error));
+
+        if (addedProducts.length > 0) {
+            showNotification('success',
+                `${addedProducts.length} product(s) have been added to shopping cart: ${addedProducts.toString()}`);
+        }
+    }
+
     updateBreadcrumbs() {
         const { updateBreadcrumbs } = this.props;
         const breadcrumbs = [
@@ -52,25 +72,6 @@ class MyAccountWishlist extends Component {
         ];
 
         updateBreadcrumbs(breadcrumbs);
-    }
-
-    afterAdded(response) {
-        const { showNotification } = this.props;
-        const { errors, addedProducts } = response;
-
-        errors.map(error => showNotification('error', error));
-        this.setState({ isLoading: false });
-
-        if (addedProducts.length > 0) {
-            showNotification('success',
-                `${addedProducts.length} product(s) have been added to shopping cart: ${addedProducts.toString()}`);
-        }
-    }
-
-    getWishlistItemsCount() {
-        const { wishlistItems } = this.props;
-
-        return Object.keys(wishlistItems).length;
     }
 
     addToCart() {
