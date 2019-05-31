@@ -41,9 +41,9 @@ export const getProductPrice = (product) => {
     };
 };
 
-export const formatCurrency = (price, currency = 'USD') => {   
-    const formatedPrice =
-        new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(price);
-        
-    return formatedPrice;
+export const formatCurrency = (price, currency = 'USD') => {
+    return new Intl.NumberFormat(
+        'en-US',
+        { style: 'currency', currency }
+    ).format(price);
 };

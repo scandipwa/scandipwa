@@ -57,16 +57,15 @@ class ProductPrice extends Component {
         const priceCurrency = regularPrice.amount.currency;
         const discountPercentage = this.calculateDiscountPercentage(minimalPriceValue, regularPriceValue);
         const finalPrice = this.calculateFinalPrice(discountPercentage, minimalPriceValue, regularPriceValue);
+        const priceString = formatCurrency(this.roundPrice(finalPrice), priceCurrency);
 
         // Use <ins></ins> <del></del> to represent new price and the old (deleted) one
         const PriceSemanticElementName = discountPercentage > 0 ? 'ins' : 'span';
 
-        return ( 
+        return (
             <p block="ProductPrice" aria-label="Product Price" mods={ mods || {} }>
                 <PriceSemanticElementName aria-label="Current product price">
-                    <data value={ this.roundPrice(finalPrice) }>
-                        { formatCurrency(this.roundPrice(finalPrice), priceCurrency)}
-                    </data>
+                    <data value={ this.roundPrice(finalPrice) }>{ priceString }</data>
                 </PriceSemanticElementName>
 
                 { discountPercentage > 0 && (

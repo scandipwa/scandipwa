@@ -57,8 +57,8 @@ class MiniCart extends Component {
         );
     }
 
-    renderCartData(products, subTotalPrice) {
-        const { totals: { base_currency_code } } = this.props;
+    renderCartData(products) {
+        const { totals: { base_currency_code, subTotalPrice } } = this.props;
 
         return (
             <>
@@ -93,11 +93,11 @@ class MiniCart extends Component {
         );
     }
 
-    renderCartDropdown(products, subTotalPrice) {
+    renderCartDropdown(products) {
         return (
             <ul block="MiniCart" elem="Dropdown" aria-label="MiniCart Dropdown">
                 { Object.entries(products).length !== 0
-                    ? this.renderCartData(products, subTotalPrice)
+                    ? this.renderCartData(products)
                     : this.renderEmptyMessage('You have no items in your shopping cart.', 1)
                 }
             </ul>
