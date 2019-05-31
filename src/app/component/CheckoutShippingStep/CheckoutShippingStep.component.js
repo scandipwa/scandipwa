@@ -10,22 +10,22 @@ import Loader from 'Component/Loader';
 import { makeCancelable } from 'Util/Promise';
 import './CheckoutShippingStep.style';
 
-const EMAIL_FIELD_ID = 'email';
-const FIRSTNAME_FIELD_ID = 'firstname';
-const LASTNAME_FIELD_ID = 'lastname';
-const COMPANY_FIELD_ID = 'company';
-const STREET_0_FIELD_ID = 'street_0';
-const STREET_1_FIELD_ID = 'street_1';
-const CITY_FIELD_ID = 'city';
-const STATE_FIELD_ID = 'region';
-const ZIP_FIELD_ID = 'postcode';
-const PHONE_FIELD_ID = 'telephone';
-const COUNTRY_FIELD_ID = 'country_id';
-const DEFAULT_COUNTRY = 'US';
-const DEFAULT_REGION = { region_code: 'AL', region: 'Alabama', region_id: 1 };
+export const EMAIL_FIELD_ID = 'email';
+export const FIRSTNAME_FIELD_ID = 'firstname';
+export const LASTNAME_FIELD_ID = 'lastname';
+export const COMPANY_FIELD_ID = 'company';
+export const STREET_0_FIELD_ID = 'street_0';
+export const STREET_1_FIELD_ID = 'street_1';
+export const CITY_FIELD_ID = 'city';
+export const STATE_FIELD_ID = 'region';
+export const ZIP_FIELD_ID = 'postcode';
+export const PHONE_FIELD_ID = 'telephone';
+export const COUNTRY_FIELD_ID = 'country_id';
+export const DEFAULT_COUNTRY = 'US';
+export const DEFAULT_REGION = { region_code: 'AL', region: 'Alabama', region_id: 1 };
 
-const STATE_NEW_ADDRESS = 'newAddress';
-const STATE_DEFAULT_ADDRESS = 'defaultAddress';
+export const STATE_NEW_ADDRESS = 'newAddress';
+export const STATE_DEFAULT_ADDRESS = 'defaultAddress';
 
 class CheckoutShippingStep extends Component {
     constructor(props) {

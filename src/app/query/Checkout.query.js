@@ -63,52 +63,26 @@ class Checkout {
 
     _getTotalsField() {
         const items = new Field('items')
-            .addField('item_id')
-            .addField('price')
-            .addField('base_price')
-            .addField('qty')
-            .addField('row_total')
-            .addField('base_row_total')
-            .addField('row_total_with_discount')
-            .addField('tax_amount')
-            .addField('base_tax_amount')
-            .addField('tax_percent')
-            .addField('discount_amount')
-            .addField('base_discount_amount')
-            .addField('discount_percent')
-            .addField('price_incl_tax')
-            .addField('base_price_incl_tax')
-            .addField('row_total_incl_tax')
-            .addField('base_row_total_incl_tax')
-            .addField('options')
-            .addField('weee_tax_applied_amount')
-            .addField('weee_tax_applied')
-            .addField('name');
+            .addFieldList([
+                'item_id', 'price', 'base_price', 'qty', 'row_total',
+                'base_row_total', 'row_total_with_discount', 'tax_amount',
+                'base_tax_amount', 'tax_percent', 'discount_amount',
+                'base_discount_amount', 'discount_percent', 'price_incl_tax',
+                'base_price_incl_tax', 'row_total_incl_tax', 'base_row_total_incl_tax',
+                'options', 'weee_tax_applied_amount', 'weee_tax_applied', 'name'
+            ]);
 
         return new Field('totals')
             .addField(items)
-            .addField('grand_total')
-            .addField('base_grand_total')
-            .addField('subtotal')
-            .addField('base_subtotal')
-            .addField('discount_amount')
-            .addField('base_discount_amount')
-            .addField('subtotal_with_discount')
-            .addField('base_subtotal_with_discount')
-            .addField('shipping_amount')
-            .addField('base_shipping_amount')
-            .addField('shipping_discount_amount')
-            .addField('base_shipping_discount_amount')
-            .addField('tax_amount')
-            .addField('base_tax_amount')
-            .addField('weee_tax_applied_amount')
-            .addField('shipping_tax_amount')
-            .addField('base_shipping_tax_amount')
-            .addField('subtotal_incl_tax')
-            .addField('shipping_incl_tax')
-            .addField('base_shipping_incl_tax')
-            .addField('base_currency_code')
-            .addField('quote_currency_code');
+            .addFieldList([
+                'grand_total', 'base_grand_total', 'subtotal', 'base_subtotal',
+                'discount_amount', 'base_discount_amount', 'subtotal_with_discount',
+                'base_subtotal_with_discount', 'shipping_amount', 'base_shipping_amount',
+                'shipping_discount_amount', 'base_shipping_discount_amount', 'tax_amount',
+                'base_tax_amount', 'weee_tax_applied_amount', 'shipping_tax_amount',
+                'base_shipping_tax_amount', 'subtotal_incl_tax', 'shipping_incl_tax',
+                'base_shipping_incl_tax', 'base_currency_code', 'quote_currency_code'
+            ]);
     }
 }
 

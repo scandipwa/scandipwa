@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unused-state */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -49,7 +50,6 @@ class Select extends Component {
      * @return {void}
      */
     onGetKey(key) {
-        // console.log(key);
         const { onGetKey } = this.props;
 
         this.setState({ selectValue: key });
@@ -131,7 +131,8 @@ Select.propTypes = {
     ).isRequired,
     reference: PropTypes.oneOfType([
         PropTypes.func,
-        PropTypes.shape({ current: PropTypes.instanceOf(Element) })
+        PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
+        PropTypes.bool
     ]),
     id: PropTypes.string
 };

@@ -41,7 +41,7 @@ class CategoriesList extends Component {
             }
         } = this.props;
         const isSelected = current_url_path === url_path;
-        const isParentExpanded = current_url_path.substring(0, current_url_path.lastIndexOf('/')) === url_path
+        const isParentExpanded = current_url_path.substring(0, current_url_path.indexOf('/')) === url_path
         || (isParent && isSelected);
 
         return (

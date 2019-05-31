@@ -85,7 +85,7 @@ class BreadcrumbsDispatcher {
         const breadcrumbsList = [];
 
         if (breadcrumbs) {
-            breadcrumbs.sort((a, b) => a.category_level - b.category_level)
+            breadcrumbs.sort((a, b) => b.category_level - a.category_level)
                 .map(({ category_name, category_url_key }) => breadcrumbsList.push({
                     url: `/category/${category_url_key}`,
                     name: category_name
@@ -108,7 +108,7 @@ class BreadcrumbsDispatcher {
         const { categories, url_key, name } = product;
         const breadcrumbsList = [];
 
-        if (categories) {
+        if (categories.length) {
             let breadcrumbsCategory = {};
             let longestBreadcrumbsLength = 0;
 

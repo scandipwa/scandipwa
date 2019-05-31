@@ -14,13 +14,12 @@
     $small-icon-size: 20px;
     $circle-size: 60px;
 
-    padding-top: 3rem;
-
     &-Content {
         display: none;
 
         &_isVisible {
             display: block;
+            padding-top: 3rem;
             background: var(--color-footer-background);
         }
     }
@@ -78,7 +77,7 @@
     }
 
     &-Links {
-        margin: 3rem 0;
+        padding: 3rem 0;
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         grid-column-gap: 1rem;

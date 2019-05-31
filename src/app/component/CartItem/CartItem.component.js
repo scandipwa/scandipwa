@@ -104,7 +104,7 @@ class CartItem extends Component {
         onItemClick();
     }
 
-    renderItemTitle(url_key, name, manufacturer) {
+    renderItemTitle(url_key, name, brand) {
         return (
             <div block="CartItem" elem="Title">
                 <Link
@@ -112,7 +112,7 @@ class CartItem extends Component {
                     // TODO: replace from configuration file
                   to={ this.getProductLinkTo(url_key) }
                 >
-                    { manufacturer && <span>{ manufacturer }</span> }
+                    { brand && <span>{ brand }</span> }
                     <p><TextPlaceholder content={ name } /></p>
                 </Link>
             </div>
