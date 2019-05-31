@@ -22,6 +22,7 @@ class ReviewDispatcher {
     updateReviewRatings(dispatch) {
         return fetchQuery(Review.getRatingsQuery()).then(
             ({ getRatings }) => dispatch(updateReviewRatings(getRatings)),
+            // eslint-disable-next-line no-console
             error => dispatch(showNotification('error', 'Error fetching review ratings!')) && console.log(error)
         );
     }
@@ -33,6 +34,7 @@ class ReviewDispatcher {
             reviewItem
         )).then(
             () => dispatch(showNotification('success', 'You submitted your review for moderation.')),
+            // eslint-disable-next-line no-console
             error => dispatch(showNotification('error', 'Error submitting review!')) && console.log(error)
         );
     }
