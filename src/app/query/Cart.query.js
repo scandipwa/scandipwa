@@ -60,7 +60,8 @@ class Cart {
             'discount_amount',
             'subtotal_with_discount',
             'grand_total',
-            'items_qty'
+            'items_qty',
+            'base_currency_code'
         ];
     }
 
