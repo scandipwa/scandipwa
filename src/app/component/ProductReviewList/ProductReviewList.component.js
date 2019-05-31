@@ -23,7 +23,9 @@ import './ProductReviewList.style';
 class ProductReviewList extends Component {
     renderReviewListItemRating(ratingVoteItem) {
         const {
-            vote_id, rating_code, percent
+            vote_id,
+            rating_code,
+            percent
         } = ratingVoteItem;
 
         return (
@@ -32,11 +34,9 @@ class ProductReviewList extends Component {
               block="ProductReviewList"
               elem="RatingSummaryItem"
             >
-                <span><TextPlaceholder content={ rating_code } /></span>
+                <p><TextPlaceholder content={ rating_code } /></p>
                 { percent
-                    ? (
-                        <ProductReviewRating summary={ percent } />
-                    )
+                    ? <ProductReviewRating summary={ percent } />
                     : <TextPlaceholder length="short" />
                 }
             </div>
@@ -45,7 +45,12 @@ class ProductReviewList extends Component {
 
     renderReviewListItem(reviewItem) {
         const {
-            review_id, nickname, title, detail, created_at, rating_votes
+            review_id,
+            nickname,
+            title,
+            detail,
+            created_at,
+            rating_votes
         } = reviewItem;
 
         return (
@@ -54,27 +59,27 @@ class ProductReviewList extends Component {
               block="ProductReviewList"
               elem="Item"
             >
-                <h4><TextPlaceholder content={ title } /></h4>
-                <div
-                  block="ProductReviewList"
-                  elem="RatingSummary"
-                >
+                <h4 block="ProductReviewList" elem="ReviewTitle">
+                    <TextPlaceholder content={ title } />
+                </h4>
+                <div block="ProductReviewList" elem="RatingSummary">
                     { rating_votes
                         ? rating_votes.map(rating => this.renderReviewListItemRating(rating))
                         : this.renderReviewListItemRating({ vote_id: null })
                     }
                 </div>
-                <div
-                  block="ProductReviewList"
-                  elem="ReviewContent"
-                >
-                    <p><TextPlaceholder content={ detail } length="long" /></p>
-                    <span>
-                        { nickname && created_at
-                            ? `Review by ${nickname} ${new Date(created_at).toLocaleDateString()}`
-                            : <TextPlaceholder length="medium" />
-                        }
-                    </span>
+                <div block="ProductReviewList" elem="ReviewContent">
+                    <p block="ProductReviewList" elem="ReviewDetails">
+                        <TextPlaceholder content={ detail } length="long" />
+                    </p>
+                    <p block="ProductReviewList" elem="ReviewAuthor">
+                        <TextPlaceholder
+                          content={ nickname && created_at
+                              ? `Review by ${nickname} ${new Date(created_at).toLocaleDateString()}`
+                              : '' }
+                          length="medium"
+                        />
+                    </p>
                 </div>
             </li>
         );

@@ -10,6 +10,7 @@
  */
 
 .ProductReviewRating {
+    --clip-percentage: 0%;
     margin-right: .5rem;
     display: inline-block;
 
@@ -22,13 +23,14 @@
             display: inline-block;
             font-style: normal;
 
-            &:after {
+            &::after {
                 color: var(--color-neutral-light);
                 content: '★';
             }
         }
 
         &_filled {
+            clip-path: polygon(0 0, 0 100%, var(--clip-percentage) 100%, var(--clip-percentage) 0);
             position: absolute;
             top: 0;
             left: 0;

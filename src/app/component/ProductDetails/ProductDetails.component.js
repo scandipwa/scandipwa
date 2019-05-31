@@ -16,6 +16,8 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import ProductReviewRating from 'Component/ProductReviewRating';
 import { ProductType } from 'Type/ProductList';
 import PropTypes from 'prop-types';
+import { getReviewText } from 'Util/Review';
+import { getTabIndex } from 'Util/Link';
 import './ProductDetails.style';
 
 /**
@@ -86,30 +88,30 @@ class ProductDetails extends Component {
                 : undefined;
 
             if (review_summary.review_count) {
-                const reviewText = review_summary.review_count === 1 ? 'Review' : 'Reviews';
-
                 return (
                     <>
                         <ProductReviewRating summary={ review_summary.rating_summary } />
-                        <Link to={ linkTo } tabIndex={ url_key ? '0' : '-1' }>
-                            <TextPlaceholder content={ `${review_summary.review_count} ${reviewText}` } />
+                        <Link to={ linkTo } tabIndex={ getTabIndex(url_key) }>
+                            <span>
+                                { `${review_summary.review_count} ${getReviewText(review_summary.review_count)}` }
+                            </span>
                         </Link>
                     </>
                 );
             }
 
             return (
-                <Link to={ linkTo } tabIndex={ url_key ? '0' : '-1' }>
+                <Link to={ linkTo } tabIndex={ getTabIndex(url_key) }>
                     <span>Be the first to review this product</span>
                 </Link>
             );
         }
 
         return (
-            <>
+            <p block="ProductDetails" elem="ReviewSummaryPlaceholder">
                 <TextPlaceholder length="short" />
                 <TextPlaceholder length="short" />
-            </>
+            </p>
         );
     }
 

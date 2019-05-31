@@ -19,6 +19,8 @@ import AddToCart from 'Component/AddToCart';
 import ProductWishlistButton from 'Component/ProductWishlistButton';
 import ProductReviewRating from 'Component/ProductReviewRating';
 import { ProductType, FilterType } from 'Type/ProductList';
+import { getReviewText } from 'Util/Review';
+import { getTabIndex } from 'Util/Link';
 import './ProductCard.style';
 
 /**
@@ -74,7 +76,7 @@ class ProductCard extends Component {
 
             if (correctVariants.length !== 1) {
                 return (
-                    <Link to={ linkTo } tabIndex={ url_key ? '0' : '-1' }>
+                    <Link to={ linkTo } tabIndex={ getTabIndex(url_key) }>
                         <span>Configure Product</span>
                     </Link>
                 );
@@ -83,7 +85,7 @@ class ProductCard extends Component {
 
         if (type_id === 'grouped') {
             return (
-                <Link to={ linkTo } tabIndex={ url_key ? '0' : '-1' }>
+                <Link to={ linkTo } tabIndex={ getTabIndex(url_key) }>
                     <span>View details</span>
                 </Link>
             );
@@ -101,21 +103,19 @@ class ProductCard extends Component {
     renderReviewSummary(linkTo) {
         const { product: { review_summary, url_key } } = this.props;
 
-        if (review_summary && review_summary.review_count) {
-            const _linkTo = Object.assign({ hash: '#reviews' }, linkTo);
-            const reviewText = review_summary.review_count === 1 ? 'Review' : 'Reviews';
+        if (!review_summary || !review_summary.review_count) return null;
 
-            return (
-                <div block="ProductCard" elem="ReviewSummary">
-                    <ProductReviewRating summary={ review_summary.rating_summary } />
-                    <Link to={ _linkTo } tabIndex={ url_key ? '0' : '-1' }>
-                        <TextPlaceholder content={ `${review_summary.review_count} ${reviewText}` } />
-                    </Link>
-                </div>
-            );
-        }
+        const _linkTo = { ...linkTo, hash: '#reviews' };
+        const reviewText = getReviewText(review_summary.review_count);
 
-        return null;
+        return (
+            <div block="ProductCard" elem="ReviewSummary">
+                <ProductReviewRating summary={ review_summary.rating_summary } />
+                <Link to={ _linkTo } tabIndex={ getTabIndex(url_key) }>
+                    <TextPlaceholder content={ `${review_summary.review_count} ${reviewText}` } />
+                </Link>
+            </div>
+        );
     }
 
     render() {
@@ -151,7 +151,7 @@ class ProductCard extends Component {
             <li block="ProductCard" mods={ { isLoading } }>
                 <TagName
                   to={ linkTo }
-                  tabIndex={ url_key ? '0' : '-1' }
+                  tabIndex={ getTabIndex(url_key) }
                 >
                     <Image
                       src={ thumbnail && `/media/jpg/catalog/product${ thumbnail }` }

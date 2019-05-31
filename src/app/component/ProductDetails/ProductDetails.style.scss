@@ -92,6 +92,12 @@
         display: block;
     }
 
+    &-ReviewSummaryPlaceholder {
+        .TextPlaceholder {
+            display: inline-block;
+        }
+    }
+
     .Field {
         display: inline-block;
         margin-right: 1rem;

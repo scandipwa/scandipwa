@@ -37,9 +37,11 @@ class ProductReviewForm extends Component {
     onReviewSubmitAttempt(fields, invalidFields) {
         this.setState({ isLoading: true });
         const { showNotification } = this.props;
+
         if (invalidFields) {
             showNotification('error', 'Incorrect data! Please resolve all field validation errors.');
         }
+
         this.setState({ isLoading: !invalidFields });
     }
 
@@ -157,16 +159,8 @@ class ProductReviewForm extends Component {
               block="ProductReviewForm"
               elem="ReviewRating"
             >
-                <legend
-                  block="ProductReviewForm"
-                  elem="ReviewRatingCode"
-                >
-                    { rating_code }
-                </legend>
-                <div
-                  block="ProductReviewForm"
-                  elem="RatingOptionGroup"
-                >
+                <legend block="ProductReviewForm" elem="ReviewRatingCode">{ rating_code }</legend>
+                <div block="ProductReviewForm" elem="RatingOptionGroup">
                     { rating_options.map(ratingOption => this.renderReviewRatingFields(ratingOption, reviewRating)) }
                 </div>
             </fieldset>
@@ -198,18 +192,8 @@ class ProductReviewForm extends Component {
                       onSubmitSuccess={ fields => this.onReviewSubmitSuccess(fields) }
                       onSubmitError={ (fields, invalidFields) => this.onReviewSubmitAttempt(fields, invalidFields) }
                     >
-                        <h3
-                          block="ProductReviewForm"
-                          elem="Title"
-                        >
-                            { 'You\'re reviewing:' }
-                        </h3>
-                        <p
-                          block="ProductReviewForm"
-                          elem="ProductName"
-                        >
-                            { product.name }
-                        </p>
+                        <h3 block="ProductReviewForm" elem="Title" id="reviews">{ 'You\'re reviewing:' }</h3>
+                        <p block="ProductReviewForm" elem="ProductName">{ product.name }</p>
                         { reviewRatings.map(reviewRating => this.renderReviewRatings(reviewRating)) }
                         <Field
                           type="text"

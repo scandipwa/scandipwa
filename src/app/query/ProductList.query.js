@@ -338,10 +338,11 @@ class ProductListQuery {
             const productLinks = this._prepareAdditionalProductLinks();
             const description = new Field('description').addField('html');
             const groupedProductItems = this._prepareGroupedData();
+            const reviews = this._prepareReviewsField();
 
             additionalInformation.push(...[
                 'meta_title', 'meta_keyword', 'meta_description', 'canonical_url',
-                description, mediaGallery, tierPrices, productLinks, groupedProductItems
+                description, mediaGallery, tierPrices, productLinks, groupedProductItems, reviews
             ]);
         }
 
@@ -472,7 +473,6 @@ class ProductListQuery {
         const additionalInformation = this._prepareAdditionalInformation(options); // additional options related to SINGLE product request
         const configurableData = this._prepareConfigurableData(options);
         const reviewSummary = this._prepareReviewSummaryField();
-        const reviews = this._prepareReviewsField();
 
         // default fields for all queries
         const defaultFields = [
@@ -491,8 +491,7 @@ class ProductListQuery {
             .addFieldList(images) // Simple images: either `small_image` and `thumbnail`, either both previous + `image`
             .addFieldList(additionalInformation) // Single product related fields
             .addFieldList(configurableData)
-            .addField(reviewSummary)
-            .addField(reviews);
+            .addField(reviewSummary);
     }
 
     /**

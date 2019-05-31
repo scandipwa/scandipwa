@@ -24,14 +24,16 @@
         &::before {
             content: none;
         }
+    }
 
-        h4 {
-            width: 100%;
-            margin-bottom: 1rem;
-        }
+    &-ReviewTitle {
+        width: 100%;
+        margin-bottom: 1rem;
     }
 
     &-RatingSummary {
+        line-height: 1;
+
         @include mobile {
             margin-bottom: 1rem;
         }
@@ -56,25 +58,17 @@
             margin-left: 0;
             width: 100%;
         }
+    }
 
-        p {
-            &:last-of-type {
-                margin-bottom: 2rem;
+    &-ReviewDetails {
+        margin-bottom: 2rem;
 
-                @include mobile {
-                    margin-bottom: 1rem;
-                }
-            }
-
-            .TextPlaceholder {
-                &::after {
-
-                }
-            }
+        @include mobile {
+            margin-bottom: 1rem;
         }
+    }
 
-        span {
-            font-size: 1rem;
-        }
+    &-ReviewAuthor {
+        font-size: 1rem;
     }
 }

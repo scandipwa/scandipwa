@@ -161,10 +161,7 @@
                 display: block;
             }
 
-            &:hover {
-                text-decoration: underline;
-            }
-
+            &:hover,
             &:focus {
                 text-decoration: underline;
             }
