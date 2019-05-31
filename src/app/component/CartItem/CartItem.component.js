@@ -138,6 +138,7 @@ class CartItem extends Component {
                   id="item_qty"
                   name="item_qty"
                   type="number"
+                  min={ 1 }
                   mix={ { block: 'CartItem', elem: 'Qty' } }
                   value={ quantity }
                   onChange={ this.handleQtyChange }
