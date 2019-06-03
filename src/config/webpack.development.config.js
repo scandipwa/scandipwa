@@ -149,6 +149,10 @@ module.exports = {
             }
         }),
 
+        new webpack.ProvidePlugin({
+            __: path.resolve(path.join(__dirname, 'ExtractTranslations'))
+        }),
+
         new FallbackPlugin({
             fallbackRoot
         }),

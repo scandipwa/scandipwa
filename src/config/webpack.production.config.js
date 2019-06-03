@@ -24,7 +24,6 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const autoprefixer = require('autoprefixer');
-const I18nPlugin = require('i18n-webpack-plugin');
 
 const { InjectManifest } = require('workbox-webpack-plugin');
 
@@ -144,6 +143,10 @@ module.exports = {
                 REBEM_ELEM_DELIM: JSON.stringify('-'),
                 MAGENTO_VERSION: JSON.stringify('2.3.1')
             }
+        }),
+
+        new webpack.ProvidePlugin({
+            __: path.resolve(path.join(__dirname, 'ExtractTranslations'))
         }),
 
         new CleanWebpackPlugin([
