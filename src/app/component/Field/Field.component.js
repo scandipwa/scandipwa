@@ -87,8 +87,6 @@ class Field extends Component {
     onFocus(event) {
         const { onFocus } = this.props;
 
-        console.log(123);
-
         if (onFocus) onFocus(event);
     }
 
