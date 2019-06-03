@@ -102,6 +102,10 @@ class SearchBar extends Component {
     handleSubmit(event) {
         event.preventDefault();
         document.activeElement.blur();
+        const { history } = this.props;
+        const { searchInput } = this.state;
+        history.push(`/search/${encodeURIComponent(searchInput)}`);
+        this.setState({ isSearchBarActive: false });
     }
 
     handleOutsideClick({ target }) {
@@ -269,6 +273,10 @@ class SearchBar extends Component {
 }
 
 SearchBar.propTypes = {
+    history: PropTypes.shape({
+        location: PropTypes.object.isRequired,
+        push: PropTypes.func.isRequired
+    }).isRequired,
     requestSearchBar: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
     clearSearchResults: PropTypes.func.isRequired,
