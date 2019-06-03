@@ -58,6 +58,7 @@ class CategoryDispatcher extends QueryDispatcher {
     }
 
     onError(error, dispatch) {
+        console.error(error);
         dispatch(updateNoMatch(true));
     }
 
