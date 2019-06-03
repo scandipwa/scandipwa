@@ -58,7 +58,7 @@ class CartItem extends Component {
 
     handleQtyChange(value) {
         const { addProduct, product, product: { quantity } } = this.props;
-        const newQuantity = quantity < value ? 1 : -1;
+        const newQuantity = value - quantity;
 
         this.setState({ isLoading: true });
 

@@ -44,7 +44,6 @@ textarea {
     width: var(--input-type-number-width);
     font-weight: 700;
     padding-right: 0;
-    pointer-events: none;
 
     &:focus {
         border: 1px solid var(--input-border-color);
