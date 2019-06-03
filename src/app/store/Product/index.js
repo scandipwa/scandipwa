@@ -10,7 +10,9 @@
  */
 
 import ProductReducer from './Product.reducer';
-import ProductDispatcher from './Product.dispatcher';
+import ProductDispatcher, {
+    ProductDispatcher as ProductDispatcherClass
+} from './Product.dispatcher';
 import {
     UPDATE_PRODUCT_DETAILS,
     UPDATE_GROUPED_PRODUCT_QUANTITY,
@@ -23,6 +25,7 @@ import {
 export {
     ProductReducer,
     ProductDispatcher,
+    ProductDispatcherClass,
     UPDATE_PRODUCT_DETAILS,
     UPDATE_GROUPED_PRODUCT_QUANTITY,
     CLEAR_GROUPED_PRODUCT_QUANTITY,

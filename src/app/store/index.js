@@ -28,7 +28,7 @@ import { SearchBarReducer } from 'Store/SearchBar';
 import { UrlRewritesReducer } from 'Store/UrlRewrites';
 import { MyAccountReducer } from 'Store/MyAccount';
 
-const reducers = {
+export const reducers = {
     CmsBlocksAndSliderReducer,
     CmsPageReducer,
     CategoryReducer,
@@ -56,5 +56,3 @@ const store = createStore(
 );
 
 export default store;
-
-export { reducers };

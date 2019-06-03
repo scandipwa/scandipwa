@@ -19,7 +19,7 @@ import { ProductListQuery } from 'Query';
  * @class RelatedProductsDispatcher
  * @extends QueryDispatcher
  */
-class RelatedProductsDispatcher extends QueryDispatcher {
+export class RelatedProductsDispatcher extends QueryDispatcher {
     constructor() {
         super('RelatedProducts', 86400);
     }

@@ -10,7 +10,7 @@
  */
 
 import WishlistReducer, { PRODUCTS_IN_WISHLIST } from './Wishlist.reducer';
-import WishlistDispatcher from './Wishlist.dispatcher';
+import WishlistDispatcher, { WishlistDispatcher as WishlistDispatcherClass } from './Wishlist.dispatcher';
 import {
     ADD_ITEM_TO_WISHLIST,
     REMOVE_ITEM_FROM_WISHLIST,
@@ -23,6 +23,7 @@ import {
 export {
     WishlistReducer,
     WishlistDispatcher,
+    WishlistDispatcherClass,
     PRODUCTS_IN_WISHLIST,
     ADD_ITEM_TO_WISHLIST,
     REMOVE_ITEM_FROM_WISHLIST,

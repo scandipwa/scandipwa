@@ -30,7 +30,7 @@ import { prepareQuery } from 'Util/Query';
  * My account actions
  * @class MyAccount
  */
-class MyAccountDispatcher {
+export class MyAccountDispatcher {
     requestCustomerData(options, dispatch) {
         const { withAddresses } = options;
         const query = MyAccount.getCustomer(withAddresses);
