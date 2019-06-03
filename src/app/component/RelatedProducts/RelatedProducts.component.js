@@ -64,11 +64,11 @@ class RelatedProducts extends Component {
             <ContentWrapper
               mix={ { block: 'RelatedProducts' } }
               wrapperMix={ { block: 'RelatedProducts', elem: 'Wrapper' } }
-              label="Related products"
+              label={ __('Related products') }
             >
                 <h3 block="RelatedProducts" elem="Title">
                     <TextPlaceholder
-                      content={ relatedProductsLoaded ? 'Members Who Bought This Item Also Bought' : '' }
+                      content={ relatedProductsLoaded ? __('Members Who Bought This Item Also Bought') : '' }
                     />
                 </h3>
                 <ul block="RelatedProducts" elem="List">

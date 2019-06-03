@@ -58,20 +58,20 @@ class MyAccount extends Component {
 
         if (myAccountState !== STATE_LOGGED_IN && isSignedIn) {
             stateToBeUpdated.isLoading = false;
-            showNotification('success', 'You are successfully logged in!');
+            showNotification('success', __('You are successfully logged in!'));
             stateToBeUpdated.state = STATE_LOGGED_IN;
         }
 
         if (myAccountState === STATE_LOGGED_IN && !isSignedIn) {
             stateToBeUpdated.state = STATE_SIGN_IN;
-            showNotification('success', 'You are successfully logged out!');
+            showNotification('success', __('You are successfully logged out!'));
         }
 
         if (isPasswordForgotSend !== currentIsPasswordForgotSend) {
             stateToBeUpdated.isLoading = false;
             stateToBeUpdated.isPasswordForgotSend = isPasswordForgotSend;
-            showNotification('success', `If there is an account associated with the
-            provided address you will receive an email with a link to reset your password.`);
+            showNotification('success', __(`If there is an account associated with the
+            provided address you will receive an email with a link to reset your password.`));
             stateToBeUpdated.state = STATE_SIGN_IN;
         }
 
@@ -90,7 +90,7 @@ class MyAccount extends Component {
     onCreateAccountAttempt(fields, invalidFields) {
         const { showNotification } = this.props;
         if (invalidFields) {
-            showNotification('error', 'Incorrect data! Please resolve all field validation errors.');
+            showNotification('error', __('Incorrect data! Please resolve all field validation errors.'));
         }
         this.setState({ isLoading: !invalidFields });
     }
@@ -159,7 +159,7 @@ class MyAccount extends Component {
                   block="MyAccount"
                   elem="Icon"
                 />
-                <span>My Account</span>
+                <span>{ __('My Account') }</span>
             </button>
         );
     }
@@ -195,14 +195,14 @@ class MyAccount extends Component {
         return (
             <nav block="MyAccount" elem="Navigation">
                 <ul>
-                    <li><Link to={ linkTo }>My Account</Link></li>
+                    <li><Link to={ linkTo }>{ __('My Account') }</Link></li>
                     <li>
                         <button
                           block="Button"
                           mods={ { likeLink: true } }
                           onClick={ () => logout() }
                         >
-                            My Orders
+                            { __('My Orders') }
                         </button>
                     </li>
                     <li>
@@ -211,7 +211,7 @@ class MyAccount extends Component {
                           mods={ { likeLink: true } }
                           onClick={ () => logout() }
                         >
-                            Logout
+                            { __('Logout') }
                         </button>
                     </li>
                 </ul>
@@ -228,31 +228,31 @@ class MyAccount extends Component {
                   onSubmitSuccess={ fields => this.onForgotPasswordSuccess(fields) }
                   onSubmitError={ () => this.onFormError() }
                 >
-                    <h3>Get password reset link</h3>
-                    <Field type="text" label="Email" id="email" validation={ ['notEmpty', 'email'] } />
+                    <h3>{ __('Get password reset link') }</h3>
+                    <Field type="text" label={ __('Email') } id="email" validation={ ['notEmpty', 'email'] } />
                     <div block="MyAccount" elem="Buttons">
-                        <button type="submit">Send reset link</button>
+                        <button type="submit">{ __('Send reset link') }</button>
                     </div>
                 </Form>
                 <article block="MyAccount" elem="Additional">
                     <section aria-labelledby="forgot-password-labe">
-                        <h4 id="forgot-password-label">Already have an account?</h4>
+                        <h4 id="forgot-password-label">{ __('Already have an account?') }</h4>
                         <button
                           block="Button"
                           mods={ { likeLink: true } }
                           onClick={ () => this.changeState(STATE_SIGN_IN) }
                         >
-                            Sign in here
+                            { __('Sign in here') }
                         </button>
                     </section>
                     <section aria-labelledby="create-account-label">
-                        <h4 id="create-account-label">Don&apos;t have an account?</h4>
+                        <h4 id="create-account-label">{ __('Don`t have an account?') }</h4>
                         <button
                           block="Button"
                           mods={ { likeLink: true } }
                           onClick={ () => this.changeState(STATE_CREATE_ACCOUNT) }
                         >
-                            Create an account
+                            { __('Create an account') }
                         </button>
                     </section>
                 </article>
@@ -271,16 +271,16 @@ class MyAccount extends Component {
                   onSubmitSuccess={ fields => this.onCreateAccountSuccess(fields) }
                   onSubmitError={ (fields, invalidFields) => this.onCreateAccountAttempt(fields, invalidFields) }
                 >
-                    <h3>Create your account</h3>
+                    <h3>{ __('Create your account') }</h3>
                     <fieldset block="MyAccount" elem="Legend">
-                        <legend>Personal Information</legend>
-                        <Field type="text" label="First name" id="firstname" validation={ ['notEmpty'] } />
-                        <Field type="text" label="Last name" id="lastname" validation={ ['notEmpty'] } />
+                        <legend>{ __('Personal Information') }</legend>
+                        <Field type="text" label={ __('First name') } id="firstname" validation={ ['notEmpty'] } />
+                        <Field type="text" label={ __('Last name') } id="lastname" validation={ ['notEmpty'] } />
                         <Field
                           block="MyAccount"
                           elem="Checkbox"
                           type="checkbox"
-                          label="Subscribe to ScandiPWA newsletter"
+                          label={ __('Subscribe to ScandiPWA newsletter') }
                           id="is_subscribed"
                           checked={ isSubscribed }
                           value={ isSubscribed }
@@ -288,34 +288,34 @@ class MyAccount extends Component {
                         />
                     </fieldset>
                     <fieldset block="MyAccount" elem="Legend">
-                        <legend>Sign-Up Information</legend>
-                        <Field type="text" label="Email" id="email" validation={ ['notEmpty', 'email'] } />
+                        <legend>{ __('Sign-Up Information') }</legend>
+                        <Field type="text" label={ __('Email') } id="email" validation={ ['notEmpty', 'email'] } />
                         <Field
                           type="password"
-                          label="Password"
+                          label={ __('Password') }
                           id="password"
                           validation={ ['notEmpty', 'password'] }
                         />
                         <Field
                           type="password"
-                          label="Confirm password"
+                          label={ __('Confirm password') }
                           id="confirm_password"
                           validation={ ['notEmpty', 'password'] }
                         />
                     </fieldset>
                     <div block="MyAccount" elem="Buttons">
-                        <button type="submit">Sign up</button>
+                        <button type="submit">{ __('Sign up') }</button>
                     </div>
                 </Form>
                 <article block="MyAccount" elem="Additional">
                     <section aria-labelledby="create-account-label">
-                        <h4 id="create-account-label">Already have an account?</h4>
+                        <h4 id="create-account-label">{ __('Already have an account?') }</h4>
                         <button
                           block="Button"
                           mods={ { likeLink: true } }
                           onClick={ () => this.changeState(STATE_SIGN_IN) }
                         >
-                            Sign in here
+                            { __('Sign in here') }
                         </button>
                     </section>
                 </article>
@@ -332,21 +332,21 @@ class MyAccount extends Component {
                   onSubmitSuccess={ fields => this.onSignInSuccess(fields) }
                   onSubmitError={ () => this.onFormError() }
                 >
-                    <h3>Sign in to your account</h3>
+                    <h3>{ __('Sign in to your account') }</h3>
                     <Field
                       type="text"
-                      label="Login or Email"
+                      label={ __('Login or Email') }
                       id="email"
                       validation={ ['notEmpty', 'email'] }
                     />
                     <Field
                       type="password"
-                      label="Password"
+                      label={ __('Password') }
                       id="password"
                       validation={ ['notEmpty', 'password'] }
                     />
                     <div block="MyAccount" elem="Buttons">
-                        <button>Sign in</button>
+                        <button>{ __('Sign in') }</button>
                     </div>
                 </Form>
                 <article block="MyAccount" elem="Additional">
@@ -357,17 +357,17 @@ class MyAccount extends Component {
                           mods={ { likeLink: true } }
                           onClick={ () => this.changeState(STATE_FORGOT_PASSWORD) }
                         >
-                            Get a password reset link
+                            { __('Get a password reset link') }
                         </button>
                     </section>
                     <section aria-labelledby="create-account-label">
-                        <h4 id="create-account-label">Don&apos;t have an account?</h4>
+                        <h4 id="create-account-label">{ __('Don`t have an account?') }</h4>
                         <button
                           block="Button"
                           mods={ { likeLink: true } }
                           onClick={ () => this.changeState(STATE_CREATE_ACCOUNT) }
                         >
-                            Create an account
+                            { __('Create an account') }
                         </button>
                     </section>
                 </article>

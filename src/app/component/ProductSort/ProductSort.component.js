@@ -66,7 +66,7 @@ class ProductSort extends Component {
                           block="ProductSort"
                           elem="Label"
                         >
-                            Sort By:
+                            { __('Sort By:') }
                         </span>
                         <Select
                           block="ProductSort"
@@ -82,9 +82,7 @@ class ProductSort extends Component {
                           elem="Switch"
                           onClick={ () => this.onGetSortDirection() }
                         >
-                            {
-                                sortDirection === 'ASC' ? '↑' : '↓'
-                            }
+                            { sortDirection === 'ASC' ? '↑' : '↓' }
                         </button>
                     </div>
                 )

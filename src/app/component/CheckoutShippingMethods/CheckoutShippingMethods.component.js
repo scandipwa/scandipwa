@@ -79,7 +79,7 @@ class CheckoutShippingMethods extends Component {
 
         return (
             <fieldset block="CheckoutShippingMethods">
-                <legend>Shipping Method</legend>
+                <legend>{ __('Shipping Method') }</legend>
                 <div>
                     <Loader isLoading={ loadingShippingMethods } />
                     { areShippingMethodsAvailable
@@ -91,7 +91,7 @@ class CheckoutShippingMethods extends Component {
                             </table>
                         )
                         : (
-                            <p>Please enter shipping address information first!</p>
+                            <p>{ __('Please enter shipping address information first!') }</p>
                         )
                     }
                 </div>

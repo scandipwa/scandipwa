@@ -52,7 +52,7 @@ class DiscountCoupons extends Component {
 
         return (
             <div block="DiscountCoupons">
-                <span>Have a discount code?</span>
+                <span>{ __('Have a discount code?') }</span>
                 { isExpanded
                     ? (
                         <form onSubmit={ this.handleApplyDiscount }>
@@ -60,12 +60,12 @@ class DiscountCoupons extends Component {
                               type="text"
                               value={ discountCode }
                               onChange={ e => this.handleChange(e) }
-                              placeholder="Enter your discount code"
+                              placeholder={ __('Enter your discount code') }
                             />
-                            <button>Apply discount</button>
+                            <button>{ __('Apply discount') }</button>
                         </form>
                     )
-                    : <button onClick={ () => this.handleExpand() }>Apply here</button>
+                    : <button onClick={ () => this.handleExpand() }>{ __('Apply here') }</button>
                 }
 
             </div>

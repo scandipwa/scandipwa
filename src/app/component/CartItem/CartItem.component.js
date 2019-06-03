@@ -157,16 +157,15 @@ class CartItem extends Component {
                 <div
                   block="CartItem"
                   elem="Thumbnail"
-                  aria-label="Cart Thumbnail"
                 >
                     <Link to={ this.getProductLinkTo(url_key) } onClick={ () => this.handleItemClick }>
-                        <Image src={ `/media/catalog/product${thumbnail}` } alt="Cart Thumbnail" />
+                        <Image src={ `/media/catalog/product${thumbnail}` } alt={ __('Cart Thumbnail') } />
                     </Link>
                 </div>
                 <div
                   block="CartItem"
                   elem="Info"
-                  aria-label="Cart Info"
+                  aria-label={ __('Cart Info') }
                 >
                     { url_key && this.renderItemTitle(url_key, name, brand || '') }
                     { quantity && this.renderItemDetails(quantity, price) }
@@ -174,10 +173,9 @@ class CartItem extends Component {
                 <button
                   block="CartItem"
                   elem="RemoveButton"
-                  aria-label="Remove Item"
                   onClick={ () => this.handleRemoveItem() }
                 >
-                    <span block="CartItem" elem="RemoveIcon" aria-hidden="true" aria-label="Remove Item" />
+                    <span block="CartItem" elem="RemoveIcon" aria-hidden="true" aria-label={ __('Remove item') } />
                 </button>
             </li>
         );

@@ -64,7 +64,7 @@ class CategoriesList extends Component {
                 );
             }
 
-            return (<p>All products relate to current category!</p>);
+            return (<p>{ __('All products relate to current category!') }</p>);
         }
 
         return (
@@ -80,7 +80,7 @@ class CategoriesList extends Component {
 
         return (
             <div block="CategoriesList">
-                <h3><TextPlaceholder content={ isLoadedOnce ? 'Categories' : '' } /></h3>
+                <h3><TextPlaceholder content={ isLoadedOnce ? __('Categories') : '' } /></h3>
                 { this.renderCategories(isLoadedOnce) }
             </div>
         );

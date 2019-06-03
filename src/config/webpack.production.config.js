@@ -24,6 +24,7 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const autoprefixer = require('autoprefixer');
+const I18nPlugin = require('i18n-webpack-plugin');
 
 const { InjectManifest } = require('workbox-webpack-plugin');
 
