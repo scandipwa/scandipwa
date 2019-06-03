@@ -64,6 +64,7 @@ class Field extends Component {
         this.onChange = this.onChange.bind(this);
         this.onFocus = this.onFocus.bind(this);
         this.onKeyPress = this.onKeyPress.bind(this);
+        this.onKeyEnterDown = this.onKeyEnterDown.bind(this);
         this.onClick = this.onClick.bind(this);
         this.handleSelectExpand = this.handleSelectExpand.bind(this);
         this.handleSelectListOptionClick = this.handleSelectListOptionClick.bind(this);
@@ -80,7 +81,6 @@ class Field extends Component {
         if (typeof event === 'string' || typeof event === 'number') {
             return this.handleChange(event);
         }
-
         return this.handleChange(event.target.value);
     }
 
@@ -96,20 +96,30 @@ class Field extends Component {
         if (onKeyPress) onKeyPress(event);
     }
 
-    onClick(event) {
+    onKeyEnterDown(event) {
+        if (event.keyCode === 13) {
+            const value = event.target.value || 1;
+            this.handleChange(value);
+        }
+    }
+
+    onClick(event, selectValue = false) {
         const { onClick } = this.props;
 
+        if (selectValue) event.target.select();
         if (onClick) onClick(event);
     }
 
-    handleChange(value) {
-        const { onChange, type, min } = this.props;
+    handleChange(value, shouldUpdate = true) {
+        const {
+            onChange, type, min, max
+        } = this.props;
 
         switch (type) {
         case NUMBER_TYPE:
             const isValueNaN = Number.isNaN(parseInt(value, 10));
-            if ((value < min || isValueNaN)) return;
-            if (onChange) onChange(value);
+            if (min > value || value > max || isValueNaN) break;
+            if (onChange && shouldUpdate) onChange(value);
             this.setState({ value });
             break;
         default:
@@ -124,8 +134,6 @@ class Field extends Component {
 
     handleSelectListOptionClick({ value }) {
         const { formRef, onChange } = this.props;
-
-        console.log(value);
 
         if (typeof formRef !== 'function') {
             formRef.current.value = value;
@@ -217,7 +225,9 @@ class Field extends Component {
     }
 
     renderTypeNumber() {
-        const { id, name, formRef } = this.props;
+        const {
+            id, name, formRef, min, max
+        } = this.props;
         const { value } = this.state;
 
         return (
@@ -228,15 +238,21 @@ class Field extends Component {
                   id={ id }
                   name={ name }
                   value={ value }
-                  onChange={ this.onChange }
-                //   onKeyPress={ this.onKeyPress }
-                //   onFocus={ this.onFocus }
-                  onClick={ this.onClick }
+                  onChange={ e => this.handleChange(e.target.value, false) }
+                  onKeyDown={ this.onKeyEnterDown }
+                  onBlur={ this.onChange }
+                  onClick={ e => this.onClick(e, true) }
                 />
-                <button onClick={ () => this.handleChange(parseFloat(value) + 1) }>
+                <button
+                  disabled={ +value === max }
+                  onClick={ () => this.handleChange(+value + 1) }
+                >
                     <span>+</span>
                 </button>
-                <button onClick={ () => this.handleChange(parseFloat(value) - 1) }>
+                <button
+                  disabled={ +value === min }
+                  onClick={ () => this.handleChange(+value - 1) }
+                >
                     <span>–</span>
                 </button>
             </>
@@ -482,6 +498,7 @@ Field.propTypes = {
     onClick: PropTypes.func,
     onKeyPress: PropTypes.func,
     min: PropTypes.number,
+    max: PropTypes.number,
     mix: PropTypes.shape({
         block: PropTypes.string,
         elem: PropTypes.string,
@@ -502,7 +519,8 @@ Field.propTypes = {
 
 Field.defaultProps = {
     rows: 4,
-    min: 0,
+    min: 1,
+    max: 99,
     disabled: false,
     checked: false,
     mix: {},

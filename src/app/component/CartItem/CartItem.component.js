@@ -58,7 +58,7 @@ class CartItem extends Component {
 
     handleQtyChange(value) {
         const { addProduct, product, product: { quantity } } = this.props;
-        const newQuantity = quantity < value ? 1 : -1;
+        const newQuantity = value - quantity;
 
         this.setState({ isLoading: true });
 
@@ -138,6 +138,7 @@ class CartItem extends Component {
                   id="item_qty"
                   name="item_qty"
                   type="number"
+                  min={ 1 }
                   mix={ { block: 'CartItem', elem: 'Qty' } }
                   value={ quantity }
                   onChange={ this.handleQtyChange }
