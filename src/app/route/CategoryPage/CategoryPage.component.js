@@ -140,7 +140,8 @@ class CategoryPage extends Component {
      */
     getCategoryUrlPath() {
         const { location, match } = this.props;
-        return getUrlParam(match, location);
+        const path = getUrlParam(match, location);
+        return path.indexOf('search') === 0 ? null : path;
     }
 
     /**
@@ -162,6 +163,7 @@ class CategoryPage extends Component {
         const {
             requestCategory,
             location,
+            isSearchPage,
             items,
             category,
             categoryIds
@@ -170,7 +172,8 @@ class CategoryPage extends Component {
             sortKey,
             sortDirection,
             previousPage,
-            pageSize
+            pageSize,
+            search
         } = this.state;
         const categoryUrlPath = !categoryIds ? this.getCategoryUrlPath() : null;
         const currentPage = getQueryParam('page', location) || 1;
@@ -179,6 +182,8 @@ class CategoryPage extends Component {
         const querySortKey = getQueryParam('sortKey', location);
         const querySortDirection = getQueryParam('sortDirection', location);
         const options = {
+            search: search || getQueryParam('search', location),
+            isSearchPage: isSearchPage || false,
             categoryUrlPath,
             currentPage,
             previousPage,
@@ -228,6 +233,19 @@ class CategoryPage extends Component {
         const { category, updateBreadcrumbs } = this.props;
         const shouldUpdate = Object.keys(category).length;
         if (shouldUpdate) updateBreadcrumbs(category);
+    }
+
+    /**
+     * Update Query search parameter
+     * @return {void}
+     */
+    updateSearch(value) {
+        const { location, history } = this.props;
+
+        setQueryParams({
+            search: value,
+            page: ''
+        }, location, history);
     }
 
     /**
@@ -309,8 +327,16 @@ class CategoryPage extends Component {
     clearFilters(location, history) {
         const { sortKey, sortDirection } = this.state;
         const page = getQueryParam('page', location) || 1;
+        const search = getQueryParam('search', location) || '';
         clearQueriesFromUrl(history);
-        setQueryParams({ sortKey, sortDirection, page }, location, history);
+        setQueryParams(
+            {
+                sortKey,
+                sortDirection,
+                search,
+                page
+            }, location, history
+        );
     }
 
     renderItemCount() {
@@ -349,7 +375,8 @@ class CategoryPage extends Component {
             sortKey,
             sortDirection,
             minPriceRange,
-            maxPriceRange
+            maxPriceRange,
+            search
         } = this.state;
 
         const { options } = sortFields;
@@ -376,9 +403,11 @@ class CategoryPage extends Component {
                             minPriceValue={minPriceRange}
                             maxPriceValue={maxPriceRange}
                             priceValue={this.getPriceRangeFromUrl()}
+                            searchValue={search || getQueryParam('search', location) || ''}
                             customFiltersValues={customFilters}
                             updatePriceRange={priceRange => this.updatePriceRange(priceRange)}
                             updateFilter={(filterName, filterArray) => this.updateFilter(filterName, filterArray)}
+                            updateSearch={value => this.updateSearch(value)}
                             clearFilters={() => this.clearFilters(location, history)}
                             sortKey={sortKey}
                             sortDirection={sortDirection}
@@ -442,12 +471,14 @@ CategoryPage.propTypes = {
     }).isRequired,
     isLoading: PropTypes.bool.isRequired,
     categoryIds: PropTypes.number,
-    isOnlyPlaceholder: PropTypes.bool
+    isOnlyPlaceholder: PropTypes.bool,
+    isSearchPage: PropTypes.bool
 };
 
 CategoryPage.defaultProps = {
     categoryIds: 0,
-    isOnlyPlaceholder: false
+    isOnlyPlaceholder: false,
+    isSearchPage: false
 };
 
 export default CategoryPage;

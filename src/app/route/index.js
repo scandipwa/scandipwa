@@ -15,6 +15,7 @@ import Store from 'Store';
 
 import HomePage from 'Route/HomePage';
 import CategoryPage from 'Route/CategoryPage';
+import SearchPage from 'Route/SearchPage';
 import ProductPage from 'Route/ProductPage';
 import CmsPage from 'Route/CmsPage';
 import CartPage from 'Route/CartPage';
@@ -62,6 +63,10 @@ export class AppRouter extends Component {
                 {
                     component: <Route path="/category" component={ CategoryPage } />,
                     position: 20
+                },
+                {
+                    component: <Route path="/search/:query/" component={ SearchPage } />,
+                    position: 25
                 },
                 {
                     component: <Route path="/product" component={ ProductPage } />,
