@@ -36,7 +36,7 @@ class ProductReviewList extends Component {
             >
                 <p><TextPlaceholder content={ rating_code } /></p>
                 { percent
-                    ? <ProductReviewRating summary={ percent } />
+                    ? <ProductReviewRating summary={ percent } code={ rating_code } />
                     : <TextPlaceholder length="short" />
                 }
             </div>
@@ -98,7 +98,11 @@ class ProductReviewList extends Component {
               label="Product Review List"
             >
                 <>
-                    <h3 block="ProductReviewList" elem="Title">
+                    <h3
+                      block="ProductReviewList"
+                      elem="Title"
+                      id="reviews"
+                    >
                         <TextPlaceholder content={ areDetailsLoaded ? 'Customer reviews' : '' } />
                     </h3>
 

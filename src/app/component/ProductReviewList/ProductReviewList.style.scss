@@ -43,6 +43,11 @@
         align-items: center;
         display: flex;
         justify-content: space-between;
+        margin-bottom: .5rem;
+
+        &:last-of-type {
+            margin-bottom: 0;
+        }
 
         .ProductReviewRating {
             margin: 0 0 .2rem 1rem;

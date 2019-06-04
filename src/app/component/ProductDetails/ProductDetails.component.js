@@ -18,6 +18,7 @@ import { ProductType } from 'Type/ProductList';
 import PropTypes from 'prop-types';
 import { getReviewText } from 'Util/Review';
 import { getTabIndex } from 'Util/Link';
+import { HashLink } from 'react-router-hash-link';
 import './ProductDetails.style';
 
 /**
@@ -83,27 +84,29 @@ class ProductDetails extends Component {
                     pathname: `/product/${ url_key }`,
                     state: { product, configurableVariantIndex },
                     search: `?variant=${ configurableVariantIndex }`,
-                    hash: '#reviews'
+                    hash: '#review-form'
                 }
                 : undefined;
 
             if (review_summary.review_count) {
+                const _linkTo = { ...linkTo, hash: '#reviews' };
+
                 return (
                     <>
                         <ProductReviewRating summary={ review_summary.rating_summary } />
-                        <Link to={ linkTo } tabIndex={ getTabIndex(url_key) }>
+                        <HashLink smooth to={ _linkTo } tabIndex={ getTabIndex(url_key) }>
                             <span>
                                 { `${review_summary.review_count} ${getReviewText(review_summary.review_count)}` }
                             </span>
-                        </Link>
+                        </HashLink>
                     </>
                 );
             }
 
             return (
-                <Link to={ linkTo } tabIndex={ getTabIndex(url_key) }>
+                <HashLink smooth to={ linkTo } tabIndex={ getTabIndex(url_key) }>
                     <span>Be the first to review this product</span>
-                </Link>
+                </HashLink>
             );
         }
 

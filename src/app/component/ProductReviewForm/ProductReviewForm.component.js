@@ -192,7 +192,13 @@ class ProductReviewForm extends Component {
                       onSubmitSuccess={ fields => this.onReviewSubmitSuccess(fields) }
                       onSubmitError={ (fields, invalidFields) => this.onReviewSubmitAttempt(fields, invalidFields) }
                     >
-                        <h3 block="ProductReviewForm" elem="Title" id="reviews">{ 'You\'re reviewing:' }</h3>
+                        <h3
+                          block="ProductReviewForm"
+                          elem="Title"
+                          id="review-form"
+                        >
+                            { 'You\'re reviewing:' }
+                        </h3>
                         <p block="ProductReviewForm" elem="ProductName">{ product.name }</p>
                         { reviewRatings.map(reviewRating => this.renderReviewRatings(reviewRating)) }
                         <Field

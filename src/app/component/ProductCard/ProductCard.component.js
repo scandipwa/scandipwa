@@ -21,6 +21,7 @@ import ProductReviewRating from 'Component/ProductReviewRating';
 import { ProductType, FilterType } from 'Type/ProductList';
 import { getReviewText } from 'Util/Review';
 import { getTabIndex } from 'Util/Link';
+import { HashLink } from 'react-router-hash-link';
 import './ProductCard.style';
 
 /**
@@ -111,9 +112,9 @@ class ProductCard extends Component {
         return (
             <div block="ProductCard" elem="ReviewSummary">
                 <ProductReviewRating summary={ review_summary.rating_summary } />
-                <Link to={ _linkTo } tabIndex={ getTabIndex(url_key) }>
-                    <TextPlaceholder content={ `${review_summary.review_count} ${reviewText}` } />
-                </Link>
+                <HashLink smooth to={ _linkTo } tabIndex={ getTabIndex(url_key) }>
+                    <span>{ `${review_summary.review_count} ${reviewText}` }</span>
+                </HashLink>
             </div>
         );
     }

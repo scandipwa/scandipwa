@@ -28,42 +28,41 @@ class ProductReviewRating extends Component {
 
         CSS.setVariable(
             this.reviewRating,
-            'clip-percentage',
+            'percentage',
             `${summary}%`
         );
     }
 
+    getAriaText(summary, code) {
+        const rating = Math.round((summary / 20) * 100) / 100;
+
+        return code
+            ? `Review's ${code} rating is ${rating} out of 5`
+            : `Product's rating is ${rating} out of 5`;
+    }
+
     render() {
-        const { summary } = this.props;
+        const { summary, code } = this.props;
+        const ariaText = this.getAriaText(summary, code);
 
         return (
-            <div block="ProductReviewRating" title={ `${summary}%` }>
-                <div block="ProductReviewRating" elem="RatingStars">
-                    <i className="star" />
-                    <i className="star" />
-                    <i className="star" />
-                    <i className="star" />
-                    <i className="star" />
-                </div>
-                <div
-                  block="ProductReviewRating"
-                  elem="RatingStars"
-                  mods={ { filled: true } }
-                  ref={ this.reviewRating }
-                >
-                    <i className="star" />
-                    <i className="star" />
-                    <i className="star" />
-                    <i className="star" />
-                    <i className="star" />
-                </div>
-            </div>
+            <div
+              block="ProductReviewRating"
+              title={ `${summary}%` }
+              ref={ this.reviewRating }
+              aria-label={ ariaText }
+            />
         );
     }
 }
 
 ProductReviewRating.propTypes = {
-    summary: PropTypes.number.isRequired
+    summary: PropTypes.number.isRequired,
+    code: PropTypes.string
+};
+
+ProductReviewRating.defaultProps = {
+    code: ''
 };
 
 export default ProductReviewRating;
