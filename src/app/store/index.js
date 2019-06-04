@@ -29,7 +29,7 @@ import { UrlRewritesReducer } from 'Store/UrlRewrites';
 import { MyAccountReducer } from 'Store/MyAccount';
 import { ReviewReducer } from 'Store/Review';
 
-const reducers = {
+export const reducers = {
     CmsBlocksAndSliderReducer,
     CmsPageReducer,
     CategoryReducer,
@@ -58,5 +58,3 @@ const store = createStore(
 );
 
 export default store;
-
-export { reducers };

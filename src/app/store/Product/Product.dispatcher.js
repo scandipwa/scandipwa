@@ -21,7 +21,7 @@ import { ReviewDispatcher } from 'Store/Review';
  * @class ProductDispatcher
  * @extends ProductDispatcher
  */
-class ProductDispatcher extends QueryDispatcher {
+export class ProductDispatcher extends QueryDispatcher {
     constructor() {
         super('ProductList', 86400);
     }

@@ -19,7 +19,7 @@ import { updateCmsBlocks, updateSlider } from 'Store/CmsBlocksAndSlider';
  * @class CmsBlocksAndSliderDispatcher
  * @extends QueryDispatcher
  */
-class CmsBlocksAndSliderDispatcher extends QueryDispatcher {
+export class CmsBlocksAndSliderDispatcher extends QueryDispatcher {
     constructor() {
         super('CmsBlocksAndSlider', 86400);
     }

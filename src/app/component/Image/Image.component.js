@@ -27,10 +27,12 @@ class Image extends Component {
 
         this.state = {
             isImageLoaded: false,
-            showImage: false
+            showImage: false,
+            isImageMissing: false
         };
 
         this.observer = null;
+        this.onLoadingError = this.onLoadingError.bind(this);
     }
 
     componentDidMount() {
@@ -43,6 +45,10 @@ class Image extends Component {
 
     componentWillUnmount() {
         this.stopObserving();
+    }
+
+    onLoadingError() {
+        this.setState({ isImageMissing: true })
     }
 
     /**
@@ -137,7 +143,8 @@ class Image extends Component {
         const {
             isImageLoaded,
             showImage,
-            isPlacehodlerLoaded
+            isPlacehodlerLoaded,
+            isImageMissing
         } = this.state;
 
         const {
@@ -164,10 +171,12 @@ class Image extends Component {
               mods={ {
                   ratio,
                   isLoaded: isImageLoaded || (isIcon && isPlacehodlerLoaded),
-                  isReal: !!src && !showGreyPlaceholder
+                  isReal: !!src && !showGreyPlaceholder,
+                  isImageMissing
               } }
               ref={ (node) => { this.node = node; } }
               onLoad={ img => this.onImageLoad(img) }
+              onError={ this.onLoadingError }
             >
                 { (!arePlaceholdersShown || showImage) && src && !isIcon
                     && <>

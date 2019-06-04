@@ -10,7 +10,9 @@
  */
 
 import CmsBlocksAndSliderReducer from './CmsBlocksAndSlider.reducer';
-import CmsBlocksAndSliderDispatcher from './CmsBlocksAndSlider.dispatcher';
+import CmsBlocksAndSliderDispatcher, {
+    CmsBlocksAndSliderDispatcher as CmsBlocksAndSliderDispatcherClass
+} from './CmsBlocksAndSlider.dispatcher';
 
 import {
     UPDATE_CMS_BLOCKS,
@@ -22,6 +24,7 @@ import {
 export {
     CmsBlocksAndSliderReducer,
     CmsBlocksAndSliderDispatcher,
+    CmsBlocksAndSliderDispatcherClass,
     UPDATE_CMS_BLOCKS,
     UPDATE_SLIDER,
     updateCmsBlocks,

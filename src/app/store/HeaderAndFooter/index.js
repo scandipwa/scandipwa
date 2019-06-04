@@ -10,7 +10,9 @@
  */
 
 import HeaderAndFooterReducer from './HeaderAndFooter.reducer';
-import HeaderAndFooterDispatcher from './HeaderAndFooter.dispatcher';
+import HeaderAndFooterDispatcher, {
+    HeaderAndFooterDispatcher as HeaderAndFooterDispatcherClass
+} from './HeaderAndFooter.dispatcher';
 
 import {
     UPDATE_MENU,
@@ -24,6 +26,7 @@ import {
 export {
     HeaderAndFooterReducer,
     HeaderAndFooterDispatcher,
+    HeaderAndFooterDispatcherClass,
     UPDATE_MENU,
     TOGGLE_HEADER_AND_FOOTER,
     updateMenu,

@@ -15,7 +15,7 @@ import { updateBreadcrumbs, toggleBreadcrumbs } from 'Store/Breadcrumbs';
  * Breadcrumbs Dispatcher
  * @class BreadcrumbsDispatcher
  */
-class BreadcrumbsDispatcher {
+export class BreadcrumbsDispatcher {
     /**
      * Set breadcrumbs
      * @param {Array<Object>} breadcrumbs Breadcrumbs array
@@ -85,7 +85,7 @@ class BreadcrumbsDispatcher {
         const breadcrumbsList = [];
 
         if (breadcrumbs) {
-            breadcrumbs.sort((a, b) => a.category_level - b.category_level)
+            breadcrumbs.sort((a, b) => b.category_level - a.category_level)
                 .map(({ category_name, category_url_key }) => breadcrumbsList.push({
                     url: `/category/${category_url_key}`,
                     name: category_name

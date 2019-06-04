@@ -10,7 +10,7 @@
  */
 
 import CmsPageReducer from './CmsPage.reducer';
-import CmsPageDispatcher from './CmsPage.dispatcher';
+import CmsPageDispatcher, { CmsPageDispatcher as CmsPageDispatcherClass } from './CmsPage.dispatcher';
 
 import {
     UPDATE_CMS_PAGE,
@@ -20,6 +20,7 @@ import {
 export {
     CmsPageReducer,
     CmsPageDispatcher,
+    CmsPageDispatcherClass,
     UPDATE_CMS_PAGE,
     updateCmsPage
 };
