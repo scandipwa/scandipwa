@@ -10,7 +10,6 @@
  */
 
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import Html from 'Component/Html';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import ProductReviewRating from 'Component/ProductReviewRating';
