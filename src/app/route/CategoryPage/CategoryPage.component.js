@@ -150,9 +150,9 @@ class CategoryPage extends Component {
      */
     urlHasChanged(location, prevProps) {
         const pathnameHasChanged = location.pathname !== prevProps.location.pathname;
-        const searcQueryHasChanged = location.search !== prevProps.location.search;
+        const searchQueryHasChanged = location.search !== prevProps.location.search;
 
-        return pathnameHasChanged || searcQueryHasChanged;
+        return pathnameHasChanged || searchQueryHasChanged;
     }
 
     /**
@@ -242,6 +242,7 @@ class CategoryPage extends Component {
     updateSearch(value) {
         const { location, history } = this.props;
 
+        this.setState({ search: value });
         setQueryParams({
             search: value,
             page: ''
@@ -345,7 +346,7 @@ class CategoryPage extends Component {
         return (
             <p block="CategoryPage" elem="ItemsCount">
                 {isLoading
-                    ? <TextPlaceholder length="short"/>
+                    ? <TextPlaceholder length="short" />
                     : (
                         <>
                             <span>{items.length}</span>
@@ -368,7 +369,8 @@ class CategoryPage extends Component {
             location,
             match,
             history,
-            isLoading
+            isLoading,
+            isSearchPage
         } = this.props;
 
         const {
@@ -386,61 +388,60 @@ class CategoryPage extends Component {
             label: option.label
         }));
 
-        const isNewCategory = this.isNewCategory();
-
         const customFilters = this.getCustomFiltersFromUrl();
 
         return (
             <main block="CategoryPage">
                 <ContentWrapper
-                    wrapperMix={{ block: 'CategoryPage', elem: 'Wrapper' }}
-                    label="Category page"
+                  wrapperMix={ { block: 'CategoryPage', elem: 'Wrapper' } }
+                  label="Category page"
                 >
-                    <Meta metaObject={category}/>
+                    <Meta metaObject={ category } />
                     <aside block="CategoryPage" elem="Options">
                         <CategoryShoppingOptions
-                            availableFilters={filters}
-                            minPriceValue={minPriceRange}
-                            maxPriceValue={maxPriceRange}
-                            priceValue={this.getPriceRangeFromUrl()}
-                            searchValue={search || getQueryParam('search', location) || ''}
-                            customFiltersValues={customFilters}
-                            updatePriceRange={priceRange => this.updatePriceRange(priceRange)}
-                            updateFilter={(filterName, filterArray) => this.updateFilter(filterName, filterArray)}
-                            updateSearch={value => this.updateSearch(value)}
-                            clearFilters={() => this.clearFilters(location, history)}
-                            sortKey={sortKey}
-                            sortDirection={sortDirection}
-                            location={location}
-                            history={history}
+                          availableFilters={ filters }
+                          minPriceValue={ minPriceRange }
+                          maxPriceValue={ maxPriceRange }
+                          priceValue={ this.getPriceRangeFromUrl() }
+                          showSearch={ !isSearchPage }
+                          searchValue={ search || getQueryParam('search', location) || '' }
+                          customFiltersValues={ customFilters }
+                          updatePriceRange={ priceRange => this.updatePriceRange(priceRange) }
+                          updateFilter={ (filterName, filterArray) => this.updateFilter(filterName, filterArray) }
+                          updateSearch={ value => this.updateSearch(value) }
+                          clearFilters={ () => this.clearFilters(location, history) }
+                          sortKey={ sortKey }
+                          sortDirection={ sortDirection }
+                          location={ location }
+                          history={ history }
                         />
                         <CategoriesList
-                            availableFilters={filters}
-                            category={categoryList}
-                            currentCategory={category}
-                            location={location}
-                            match={match}
+                          availableFilters={ filters }
+                          category={ categoryList }
+                          currentCategory={ category }
+                          location={ location }
+                          match={ match }
                         />
                     </aside>
                     <CategoryDetails
-                        category={category}
+                      category={ category }
                     />
                     <aside block="CategoryPage" elem="Miscellaneous">
                         {this.renderItemCount()}
                         <ProductSort
-                            onGetKey={key => this.onGetKey(key)}
-                            onGetSortDirection={direction => this.onGetSortDirection(direction)}
-                            sortFields={!isLoading && updatedSortFields}
-                            value={sortKey}
-                            sortDirection={sortDirection}
+                          onGetKey={ key => this.onGetKey(key) }
+                          onGetSortDirection={ direction => this.onGetSortDirection(direction) }
+                          sortFields={ !isLoading && updatedSortFields }
+                          value={ sortKey }
+                          sortDirection={ sortDirection }
                         />
                     </aside>
                     <CategoryProductList
-                        items={items}
-                        customFilters={customFilters}
-                        totalItems={totalItems}
-                        increasePage={() => this.increasePage()}
-                        isLoading={isLoading}
+                      items={ items }
+                      customFilters={ customFilters }
+                      totalItems={ totalItems }
+                      increasePage={ () => this.increasePage() }
+                      isLoading={ isLoading }
                     />
                 </ContentWrapper>
             </main>
