@@ -58,7 +58,7 @@ class MiniCart extends Component {
     }
 
     renderCartData(products) {
-        const { totals: { base_currency_code, subTotalPrice } } = this.props;
+        const { totals: { base_currency_code, subtotal } } = this.props;
 
         return (
             <>
@@ -74,7 +74,7 @@ class MiniCart extends Component {
                     <div>
                         Subtotal:&nbsp;
                         <strong>
-                            { formatCurrency(subTotalPrice, base_currency_code) }
+                            { formatCurrency(subtotal, base_currency_code) }
                         </strong>
                     </div>
                 </li>
@@ -96,10 +96,7 @@ class MiniCart extends Component {
     renderCartDropdown(products) {
         return (
             <ul block="MiniCart" elem="Dropdown" aria-label="MiniCart Dropdown">
-                { Object.entries(products).length !== 0
-                    ? this.renderCartData(products)
-                    : this.renderEmptyMessage('You have no items in your shopping cart.', 1)
-                }
+                { (Object.entries(products).length > 0) && this.renderCartData(products) }
             </ul>
         );
     }
@@ -117,9 +114,10 @@ class MiniCart extends Component {
     render() {
         const { products, totals: { subtotal, items_qty } } = this.props;
         const { isActive } = this.state;
+        const empty = !Object.keys(products).length;
 
         return (
-            <div block="MiniCart">
+            <div block="MiniCart" mods={ { empty } }>
                 <Link
                   onClick={ this.handleItemClick }
                   onMouseEnter={ () => this.setState({ isActive: true }) }

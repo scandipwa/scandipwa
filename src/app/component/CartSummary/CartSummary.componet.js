@@ -38,6 +38,7 @@ class CartSummary extends Component {
                 subtotal, tax_amount, grand_total, shipping_amount, items
             }
         } = this.props;
+        const cartIsEmpty = !Object.keys(items).length;
 
         // eslint-disable-next-line no-param-reassign, no-return-assign
         const itemsTax = items ? items.reduce((sum, { tax_amount }) => sum += tax_amount, tax_amount) : 0;
@@ -51,7 +52,7 @@ class CartSummary extends Component {
                     { shipping_amount && this.renderPriceLine(shipping_amount, 'Shipping', { divider: true }) }
                     { this.renderPriceLine(grand_total, 'Order Total') }
                 </ul>
-                <Link to="/checkout/shipping">Proceed to checkout</Link>
+                <Link to="/checkout/shipping" disabled={ cartIsEmpty }>Proceed to checkout</Link>
                 <Link to="/">Continue shopping</Link>
             </div>
         );
