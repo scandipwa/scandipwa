@@ -22,7 +22,6 @@ import isMobile from 'Util/Mobile';
 import ExpandableContent from 'Component/ExpandableContent';
 
 import './CartPage.style';
-import Image from 'Component/Image';
 
 class CartPage extends Component {
     constructor(props) {

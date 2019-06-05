@@ -41,8 +41,9 @@ class AddToCart extends Component {
     }
 
     afterAdded() {
-        const { showNotification } = this.props;
+        const { showNotification, setQuantityToDefault } = this.props;
         showNotification('success', 'Product added to cart!');
+        setQuantityToDefault();
         this.setState({ isLoading: false });
     }
 
@@ -129,6 +130,7 @@ AddToCart.propTypes = {
     groupedProductQuantity: PropTypes.objectOf(PropTypes.number),
     showNotification: PropTypes.func.isRequired,
     addProduct: PropTypes.func,
+    setQuantityToDefault: PropTypes.func,
     mix: PropTypes.shape({
         block: PropTypes.string,
         elem: PropTypes.string,
@@ -144,6 +146,7 @@ AddToCart.defaultProps = {
     configurableVariantIndex: 0,
     groupedProductQuantity: {},
     addProduct: () => {},
+    setQuantityToDefault: () => {},
     product: {},
     mix: {}
 };
