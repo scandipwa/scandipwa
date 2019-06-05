@@ -16,6 +16,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { ProductType } from 'Type/ProductList';
+import Field from 'Component/Field';
 import Swatch from 'Component/Swatch';
 import ProductPrice from 'Component/ProductPrice';
 import AddToCart from 'Component/AddToCart';
@@ -33,6 +34,10 @@ class ProductActions extends Component {
         super(props);
 
         this.optionsInCurrentVariant = {};
+        this.setQuantityToDefault = this.setQuantityToDefault.bind(this);
+        this.state = {
+            quantity: 1
+        };
     }
 
     // TODO: make key=>value based
@@ -40,6 +45,10 @@ class ProductActions extends Component {
         const { configurableVariantIndex, product: { variants } } = this.props;
         if (!variants) return false;
         return variants[configurableVariantIndex].product[attribute] === value;
+    }
+
+    setQuantityToDefault() {
+        this.setState({ quantity: 1 });
     }
 
     changeConfigurableVariant(attributeCode, value) {
@@ -180,18 +189,35 @@ class ProductActions extends Component {
         );
     }
 
-    renderAddToCart() {
-        const { configurableVariantIndex, product, groupedProductQuantity } = this.props;
+    renderQuantityInput() {
+        const { quantity } = this.state;
 
         return (
-            <div block="ProductActions" elem="AddToCartWrapper">
-                <AddToCart
-                  product={ product }
-                  configurableVariantIndex={ configurableVariantIndex }
-                  mix={ { block: 'ProductActions', elem: 'AddToCart' } }
-                  groupedProductQuantity={ groupedProductQuantity }
-                />
-            </div>
+            <Field
+              id="item_qty"
+              name="item_qty"
+              type="number"
+              min={ 1 }
+              value={ quantity }
+              mix={ { block: 'ProductActions', elem: 'Qty' } }
+              onChange={ value => this.setState({ quantity: value }) }
+            />
+        );
+    }
+
+    renderAddToCart() {
+        const { configurableVariantIndex, product, groupedProductQuantity } = this.props;
+        const { quantity } = this.state;
+
+        return (
+            <AddToCart
+              product={ product }
+              configurableVariantIndex={ configurableVariantIndex }
+              mix={ { block: 'ProductActions', elem: 'AddToCart' } }
+              groupedProductQuantity={ groupedProductQuantity }
+              quantity={ quantity }
+              setQuantityToDefault={ this.setQuantityToDefault }
+            />
         );
     }
 
@@ -301,7 +327,10 @@ class ProductActions extends Component {
             <article block="ProductActions">
                 { this.renderColorOptions() }
                 { this.renderPrice() }
-                { this.renderAddToCart() }
+                <div block="ProductActions" elem="AddToCartWrapper">
+                  { this.renderAddToCart() }
+                  { this.renderQuantityInput() }
+                </div>
                 { this.renderOtherOptions() }
                 { this.renderNameAndBrand() }
                 { this.renderSkuAndStock() }

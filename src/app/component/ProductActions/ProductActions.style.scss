@@ -73,7 +73,7 @@
 
         &:last-of-type {
             @include after-mobile {
-                padding: 1rem 5px;
+                padding: 1rem 15px 1rem 5px;
             }
         }
     }
@@ -107,7 +107,6 @@
         order: 22;
 
         @include after-mobile {
-            margin-left: 10px;
             margin-right: 1rem;
         }
     }
@@ -229,6 +228,17 @@
 
         &_isSelected {
             --product-actions-option-border-color: var(--product-actions-selected-option-border-color);
+        }
+    }
+
+    &-Qty {
+        order: 23;
+        margin-top: 0;
+        margin-left: 10px;
+        display: inline-block;
+
+        @include mobile {
+            display: none;
         }
     }
 }

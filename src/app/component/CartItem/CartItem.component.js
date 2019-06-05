@@ -60,11 +60,12 @@ class CartItem extends Component {
         const { addProduct, product, product: { quantity } } = this.props;
         const newQuantity = value - quantity;
 
-        this.setState({ isLoading: true });
-
-        addProduct({ product, quantity: newQuantity }).then(
-            () => this.setState({ isLoading: false })
-        );
+        if (newQuantity) {
+            this.setState({ isLoading: true });
+            addProduct({ product, quantity: newQuantity }).then(
+                () => this.setState({ isLoading: false })
+            );
+        }
     }
 
     handleRemoveItem() {
