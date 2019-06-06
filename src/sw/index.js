@@ -23,21 +23,26 @@ self.CACHE_NAME = 'app-runtime-static';
 
 self.addEventListener('fetch', (event) => {
     const { request: { url } } = event;
-    if (url.match(new RegExp(/(?=^.*[^.]{6}$)(?!^.*sockjs)(?!^.*graphql)(?!^.*admin).*/))) {
-        event.respondWith(caches.open(self.CACHE_NAME)
-            .then(cache => cache.match('/')
-                .then(r => (!r
-                    ? fetch('/').then((r) => {
-                        if (r.status === 200) cache.put('/', r.clone()); // if status 200 – cache
-                        return r; // return true response
-                    }) // if does not, fetch
-                    : r // if response exists, return
-                ))));
-    }
 
     if (url.match(new RegExp(/\/graphql/))) {
         StaleWhileRevalidateHandler(event);
+    } else {
+        event.respondWith(fetch(event.request).catch(() => {
+            if (url.match(new RegExp(/(?=^.*[^.]{6}$)(?!^.*sockjs)(?!^.*admin).*/))) {
+                caches.open(self.CACHE_NAME)
+                .then(cache => cache.match('/')
+                    .then(r => (!r
+                        ? fetch('/').then((r) => {
+                            if (r.status === 200) cache.put('/', r.clone()); // if status 200 – cache
+                            return r; // return true response
+                        }) // if does not, fetch
+                        : r // if response exists, return
+                    )))
+            }
+        }));
     }
+
+
 });
 
 self.addEventListener('install', () => {

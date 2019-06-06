@@ -40,9 +40,15 @@ class UrlRewrites extends Component {
         };
     }
 
-    componentWillMount() {
-        const { type } = window.actionName || '';
+    getCookieAction() {
+        var v = document.cookie.match('(^|;) ?actionCookie=([^;]*)(;|$)');
+        //Delete cookie
+        document.cookie = "actionCookie= ; expires = Thu, 01 Jan 1970 00:00:00 GMT;";
+        return v ? v[2] : '';
+    }
 
+    componentWillMount() {
+        const type = this.getCookieAction();
         // Type is not set
         if (!type) {
             this.requestRewrite();
