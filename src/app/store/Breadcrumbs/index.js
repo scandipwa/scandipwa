@@ -10,7 +10,7 @@
  */
 
 import BreadcrumbsReducer from './Breadcrumbs.reducer';
-import BreadcrumbsDispatcher from './Breadcrumbs.dispatcher';
+import BreadcrumbsDispatcher, { BreadcrumbsDispatcher as BreadcrumbsDispatcherClass } from './Breadcrumbs.dispatcher';
 import {
     UPDATE_BREADCRUMBS,
     TOGGLE_BREADCRUMBS,
@@ -21,6 +21,7 @@ import {
 export {
     BreadcrumbsReducer,
     BreadcrumbsDispatcher,
+    BreadcrumbsDispatcherClass,
     UPDATE_BREADCRUMBS,
     TOGGLE_BREADCRUMBS,
     toggleBreadcrumbs,

@@ -77,6 +77,40 @@
         animation: maskAnimation .5s forwards ease-in-out, maskFinishAnimation 0s .5s forwards ease-in-out;
     }
 
+    &_isImageMissing {
+        mask: none;
+        animation: none;
+        appearance: none;
+
+        &:-moz-broken{
+            opacity: 0;
+        }
+
+        &::after {
+            content: 'Missing image';
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            background: repeating-linear-gradient(
+                -55deg,
+                #efefef,
+                #efefef 10px,
+                #fff 10px,
+                #fff 20px
+            );
+            color: #000;
+            text-transform: none;
+            font-weight: normal;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            text-align: center;
+        }
+    }
+
     > * {
         position: absolute;
         top: 0;

@@ -10,7 +10,7 @@
  */
 
 import CartReducer, { PRODUCTS_IN_CART } from './Cart.reducer';
-import CartDispatcher, { GUEST_QUOTE_ID } from './Cart.dispatcher';
+import CartDispatcher, { GUEST_QUOTE_ID, CartDispatcher as CartDispatcherClass } from './Cart.dispatcher';
 import {
     ADD_PRODUCT_TO_CART,
     REMOVE_PRODUCT_FROM_CART,
@@ -26,6 +26,7 @@ export {
     CartReducer,
     PRODUCTS_IN_CART,
     CartDispatcher,
+    CartDispatcherClass,
     GUEST_QUOTE_ID,
     ADD_PRODUCT_TO_CART,
     REMOVE_PRODUCT_FROM_CART,

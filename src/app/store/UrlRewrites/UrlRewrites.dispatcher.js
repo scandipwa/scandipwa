@@ -19,7 +19,7 @@ import { updateUrlRewrite, clearUrlRewrite } from 'Store/UrlRewrites';
  * @class UrlRewritesDispatcher
  * @extends RequestDispatcher
  */
-class UrlRewritesDispatcher extends QueryDispatcher {
+export class UrlRewritesDispatcher extends QueryDispatcher {
     constructor() {
         super('UrlRewrites', 86400);
     }

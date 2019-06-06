@@ -13,6 +13,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { formatCurrency } from 'Util/Price';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import CartItem from 'Component/CartItem';
 import { ProductType } from 'Type/ProductList';
@@ -56,7 +57,9 @@ class MiniCart extends Component {
         );
     }
 
-    renderCartData(products, subTotalPrice) {
+    renderCartData(products) {
+        const { totals: { base_currency_code, subTotalPrice } } = this.props;
+
         return (
             <>
                 <div block="MiniCart" elem="Promo" aria-label="Minicart Promo">
@@ -71,8 +74,7 @@ class MiniCart extends Component {
                     <div>
                         Subtotal:&nbsp;
                         <strong>
-                            $
-                            { subTotalPrice }
+                            { formatCurrency(subTotalPrice, base_currency_code) }
                         </strong>
                     </div>
                 </li>
@@ -91,11 +93,11 @@ class MiniCart extends Component {
         );
     }
 
-    renderCartDropdown(products, subTotalPrice) {
+    renderCartDropdown(products) {
         return (
             <ul block="MiniCart" elem="Dropdown" aria-label="MiniCart Dropdown">
                 { Object.entries(products).length !== 0
-                    ? this.renderCartData(products, subTotalPrice)
+                    ? this.renderCartData(products)
                     : this.renderEmptyMessage('You have no items in your shopping cart.', 1)
                 }
             </ul>

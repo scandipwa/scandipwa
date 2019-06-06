@@ -25,7 +25,7 @@ import { Wishlist } from 'Query';
  * Product Wishlist Dispatcher
  * @class WishlistDispatcher
  */
-class WishlistDispatcher {
+export class WishlistDispatcher {
     updateInitialWishlistData(dispatch) {
         if (isSignedIn()) {
             dispatch(updateLoadStatus(true));
