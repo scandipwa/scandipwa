@@ -24,7 +24,9 @@ const initialState = {
     categoryList: {},
     sortFields: {},
     filters: [],
-    isLoading: true
+    isLoading: true,
+    minPriceRange: 0,
+    maxPriceRange: 300
 };
 
 const CategoryReducer = (state = initialState, action) => {
@@ -38,6 +40,31 @@ const CategoryReducer = (state = initialState, action) => {
         categoryUrlPath,
         categoryIds
     } = action;
+
+    const updatePriceRanges = (items) => {
+        const priceRange = {
+            minPriceRange: state.minPriceRange,
+            maxPriceRange: state.maxPriceRange
+        };
+
+        if (Object.keys(items).length > 0) {
+            if (Object.keys(state.items).length === 0) {
+                priceRange.minPriceRange = 1000;
+                priceRange.maxPriceRange = 0;
+            }
+
+            Object.values(items).forEach((item) => {
+                const itemPrice = item.price.regularPrice.amount.value;
+                if (itemPrice < priceRange.minPriceRange) priceRange.minPriceRange = itemPrice;
+                if (itemPrice > priceRange.maxPriceRange) priceRange.maxPriceRange = itemPrice;
+            });
+        }
+
+        if (priceRange.minPriceRange === priceRange.maxPriceRange) priceRange.minPriceRange = 0;
+        if (priceRange.maxPriceRange === 0) priceRange.maxPriceRange = 300;
+
+        return priceRange;
+    };
 
     if (items) {
         items.forEach(({ attributes, variants }, i) => {
@@ -64,7 +91,8 @@ const CategoryReducer = (state = initialState, action) => {
             totalItems,
             items,
             sortFields,
-            filters
+            filters,
+            ...updatePriceRanges(items)
         };
 
     case APPEND_CATEGORY_PRODUCT_LIST:
@@ -73,7 +101,8 @@ const CategoryReducer = (state = initialState, action) => {
             items: [
                 ...state.items,
                 ...items
-            ]
+            ],
+            ...updatePriceRanges(items)
         };
 
     case UPDATE_CATEGORY_LIST:

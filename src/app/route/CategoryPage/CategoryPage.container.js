@@ -21,7 +21,9 @@ const mapStateToProps = state => ({
     totalItems: state.CategoryReducer.totalItems,
     sortFields: state.CategoryReducer.sortFields,
     filters: state.CategoryReducer.filters,
-    isLoading: state.CategoryReducer.isLoading
+    isLoading: state.CategoryReducer.isLoading,
+    minPriceRange: state.CategoryReducer.minPriceRange,
+    maxPriceRange: state.CategoryReducer.maxPriceRange
 });
 
 const mapDispatchToProps = dispatch => ({
