@@ -29,7 +29,7 @@ export const GUEST_QUOTE_ID = 'guest_quote_id';
  * Product Cart Dispatcher
  * @class CartDispatcher
  */
-class CartDispatcher {
+export class CartDispatcher {
     updateInitialCartData(dispatch) {
         const guestQuoteId = this._getGuestQuoteId();
 

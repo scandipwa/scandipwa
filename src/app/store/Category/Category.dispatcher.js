@@ -23,7 +23,7 @@ import { updateNoMatch } from 'Store/NoMatch';
  * @class CategoryDispatcher
  * @extends QueryDispatcher
  */
-class CategoryDispatcher extends QueryDispatcher {
+export class CategoryDispatcher extends QueryDispatcher {
     constructor() {
         super('ProductList', 86400);
     }
@@ -58,6 +58,7 @@ class CategoryDispatcher extends QueryDispatcher {
     }
 
     onError(error, dispatch) {
+        console.error(error);
         dispatch(updateNoMatch(true));
     }
 

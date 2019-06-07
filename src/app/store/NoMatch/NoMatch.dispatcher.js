@@ -14,7 +14,7 @@ import { updateNoMatch } from 'Store/NoMatch';
  * NoMatch Dispatcher
  * @class NoMatchDispatcher
  */
-class NoMatchDispatcher {
+export class NoMatchDispatcher {
     updateNoMatch(dispatch, options) {
         const { noMatch } = options;
         dispatch(updateNoMatch(noMatch));

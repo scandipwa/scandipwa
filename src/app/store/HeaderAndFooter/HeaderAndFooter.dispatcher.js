@@ -15,7 +15,7 @@ import { showNotification } from 'Store/Notification';
 import { updateMenu, toggleHeaderAndFooter, getCountryList } from 'Store/HeaderAndFooter';
 import { updateCmsBlocks } from 'Store/CmsBlocksAndSlider';
 
-class HeaderAndFooterDispatcher extends QueryDispatcher {
+export class HeaderAndFooterDispatcher extends QueryDispatcher {
     constructor() {
         super('HeaderAndFooter', 86400);
     }
