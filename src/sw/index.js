@@ -30,14 +30,14 @@ self.addEventListener('fetch', (event) => {
         event.respondWith(fetch(event.request).catch(() => {
             if (url.match(new RegExp(/(?=^.*[^.]{6}$)(?!^.*sockjs)(?!^.*admin).*/))) {
                 caches.open(self.CACHE_NAME)
-                .then(cache => cache.match('/')
-                    .then(r => (!r
-                        ? fetch('/').then((r) => {
-                            if (r.status === 200) cache.put('/', r.clone()); // if status 200 – cache
-                            return r; // return true response
-                        }) // if does not, fetch
-                        : r // if response exists, return
-                    )))
+                    .then(cache => cache.match('/')
+                        .then(r => (!r
+                            ? fetch('/').then((r) => {
+                                if (r.status === 200) cache.put('/', r.clone()); // if status 200 – cache
+                                return r; // return true response
+                            }) // if does not, fetch
+                            : r // if response exists, return
+                        )))
             }
         }));
     }
