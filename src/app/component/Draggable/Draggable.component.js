@@ -25,7 +25,8 @@ class Draggable extends Component {
             translateX: 0,
             translateY: 0,
             lastTranslateX: 0,
-            lastTranslateY: 0
+            lastTranslateY: 0,
+            prevActiveSlider: 0
         };
 
         this.handleMouseDown = this.handleMouseDown.bind(this);
@@ -34,6 +35,22 @@ class Draggable extends Component {
         this.handleTouchStart = this.handleTouchStart.bind(this);
         this.handleTouchMove = this.handleTouchMove.bind(this);
         this.handleTouchEnd = this.handleTouchEnd.bind(this);
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        if (props.draggableRef.current !== null) {
+            const slideSize = props.draggableRef.current.clientWidth;
+            const { activeSlide } = props;
+            const { prevActiveSlider } = state;
+
+            if (prevActiveSlider !== activeSlide) {
+                return {
+                    prevActiveSlider: activeSlide,
+                    lastTranslateX: Math.round(slideSize * activeSlide)
+                };
+            }
+        }
+        return null;
     }
 
     componentWillUnmount() {

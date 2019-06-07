@@ -24,6 +24,13 @@ const THUMBNAIL_KEY = 'thumbnail';
  * @class ProductGallery
  */
 class ProductGallery extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { activeImage: 0 };
+
+        this.renderAdditionalPicture = this.renderAdditionalPicture.bind(this);
+    }
+
     getGalleryPictures() {
         const {
             mediaGallery,
@@ -45,16 +52,27 @@ class ProductGallery extends Component {
             }, ...Array(3).fill({})];
     }
 
+    changeActiveImage(activeImage) {
+        this.setState({ activeImage });
+    }
+
     renderAdditionalPicture({ image, type }, index = 0) {
         return (
-            <Image
-              // eslint-disable-next-line react/no-array-index-key
-              key={ index }
-              src={ image }
-              ratio="custom"
-              objectFit="cover"
-              mix={ { block: 'ProductGallery', elem: 'Image', mods: { type } } }
-            />
+            <button
+              block="ProductGallery"
+              elem="Image"
+              mods={ { type } }
+              onClick={ () => this.changeActiveImage(index) }
+            >
+                <Image
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={ index }
+                  src={ image }
+                  ratio="custom"
+                  objectFit="cover"
+                  mix={ { block: 'ProductGallery', elem: 'Image' } }
+                />
+            </button>
         );
     }
 
@@ -68,6 +86,7 @@ class ProductGallery extends Component {
 
     render() {
         const gallery = this.getGalleryPictures();
+        const { activeImage } = this.state;
 
         return (
             <div block="ProductGallery">
@@ -75,6 +94,7 @@ class ProductGallery extends Component {
                 <Slider
                   mix={ { block: 'ProductGallery', elem: 'Slider' } }
                   showCrumbs
+                  activeImage={ activeImage }
                 >
                     { gallery.map(({ image, id }, index) => (
                         <Image
