@@ -46,7 +46,14 @@ class MyAccountWishlist extends Component {
         errors.map(error => showNotification('error', error));
 
         if (addedProducts.length > 0) {
-            showNotification('success', __('%s product(s) have been added to shopping cart: %s', addedProducts.length, addedProducts.toString()));
+            showNotification(
+                'success',
+                __(
+                    '%s product(s) have been added to shopping cart: %s',
+                    addedProducts.length,
+                    addedProducts.toString()
+                )
+            );
         }
     }
 
