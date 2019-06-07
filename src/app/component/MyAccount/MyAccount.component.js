@@ -351,7 +351,7 @@ class MyAccount extends Component {
                 </Form>
                 <article block="MyAccount" elem="Additional">
                     <section aria-labelledby="forgot-password-labe">
-                        <h4 id="forgot-password-label">Forgot password?</h4>
+                        <h4 id="forgot-password-label">{ __('Forgot password?') }</h4>
                         <button
                           block="Button"
                           mods={ { likeLink: true } }
