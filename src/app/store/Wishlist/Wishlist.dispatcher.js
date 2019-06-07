@@ -11,9 +11,9 @@
 
 import { fetchMutation, fetchQuery } from 'Util/Request';
 import {
-    addItemToWishlist,
     removeItemFromWishlist,
-    updateAllProductsInWishlist
+    updateAllProductsInWishlist,
+    productToBeRemovedAfterAdd
 } from 'Store/Wishlist';
 import { showNotification } from 'Store/Notification';
 import { isSignedIn } from 'Util/Auth';
@@ -34,7 +34,7 @@ export class WishlistDispatcher {
 
     _syncWishlistWithBE(dispatch) {
         // Need to get current wishlist from BE, update wishlist
-        fetchQuery(Wishlist.getWishlistQuery()).then(({ wishlist }) => {
+        return fetchQuery(Wishlist.getWishlistQuery()).then(({ wishlist }) => {
             if (wishlist.items_count) {
                 const productsToAdd = wishlist.items.reduce((prev, wishlistItem) => {
                     const { product } = wishlistItem;
@@ -52,32 +52,55 @@ export class WishlistDispatcher {
 
                 dispatch(updateAllProductsInWishlist(productsToAdd));
             }
-        });
+        },
+        // eslint-disable-next-line no-console
+        error => console.log(error));
     }
 
     addItemToWishlist(dispatch, options) {
         const { product } = options;
         const { sku } = product;
-
         const productToAdd = { sku };
 
-        /** TO-DO: remove _syncWishlistWithBE when redirect to wishlist page will be added after successful addItemToWishlist */
         return fetchMutation(Wishlist.getAddProductToWishlistMutation(
             productToAdd
         )).then(
-            () => dispatch(addItemToWishlist({ ...product }))
-                && dispatch(showNotification('success', 'Product has been added to your Wish List!'))
-                && this._syncWishlistWithBE(dispatch),
+            () => this._syncWishlistWithBE(dispatch).then(
+                () => dispatch(showNotification('success', 'Product has been added to your Wish List!'))
+            ),
+            // eslint-disable-next-line no-console
             error => dispatch(showNotification('error', 'Error updating wish list!')) && console.log(error)
         );
     }
 
-    removeItemFromWishlist(dispatch, { product }) {
+    removeItemFromWishlist(dispatch, { product, noMessages }) {
+        if (noMessages) {
+            return fetchMutation(Wishlist.getRemoveProductFromWishlistMutation(product)).then(
+                () => {
+                    dispatch(removeItemFromWishlist(product));
+                    dispatch(productToBeRemovedAfterAdd(''));
+                }
+            );
+        }
+
         return fetchMutation(Wishlist.getRemoveProductFromWishlistMutation(product)).then(
-            ({ removeProductFromWishlist }) => removeProductFromWishlist && dispatch(removeItemFromWishlist(product))
-            && dispatch(showNotification('success', 'Product has been removed from your Wish List!')),
-            error => dispatch(showNotification('error', 'Error updating wish list!')) && console.log(error)
+            () => {
+                dispatch(removeItemFromWishlist(product));
+                dispatch(showNotification('success', 'Product has been removed from your Wish List!'));
+            },
+            (error) => {
+                dispatch(showNotification('error', 'Error updating wish list!'));
+                // eslint-disable-next-line no-console
+                console.log(error);
+            }
         );
+    }
+
+    updateProductToBeRemovedAfterAdd(dispatch, options) {
+        const { product: { sku } } = options;
+        if (sku) return dispatch(productToBeRemovedAfterAdd(sku));
+
+        return dispatch(productToBeRemovedAfterAdd(''));
     }
 }
 

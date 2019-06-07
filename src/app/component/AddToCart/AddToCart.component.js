@@ -40,6 +40,27 @@ class AddToCart extends Component {
         }, 1500);
     }
 
+    afterAdded() {
+        const {
+            productToBeRemovedAfterAdd,
+            removeProductFromWishlist,
+            wishlistItems,
+            product,
+            removeWishlistItem
+        } = this.props;
+
+        const { sku, id } = product;
+
+        // for configurable products productToBeRemovedAfterAdd will be saved in state
+        if (removeWishlistItem || (productToBeRemovedAfterAdd === sku && wishlistItems[id])) {
+            const product = wishlistItems[id];
+
+            removeProductFromWishlist({ product, noMessages: true });
+        }
+
+        this.setState({ isLoading: false });
+    }
+
     /**
      * Button click listener
      * @return {void}
@@ -72,7 +93,7 @@ class AddToCart extends Component {
                     product: groupedProductItem,
                     quantity: groupedProductQuantity[groupedProductItem.id]
                 });
-            })).then(() => this.setState({ isLoading: false }));
+            })).then(() => this.afterAdded());
         }
 
         const productToAdd = variants
@@ -85,7 +106,7 @@ class AddToCart extends Component {
         return addProduct({
             product: productToAdd,
             quantity
-        }).then(() => this.setState({ isLoading: false }));
+        }).then(() => this.afterAdded());
     }
 
     render() {
@@ -113,6 +134,10 @@ AddToCart.propTypes = {
     configurableVariantIndex: PropTypes.number,
     groupedProductQuantity: PropTypes.objectOf(PropTypes.number),
     addProduct: PropTypes.func.isRequired,
+    productToBeRemovedAfterAdd: PropTypes.string,
+    removeProductFromWishlist: PropTypes.func.isRequired,
+    wishlistItems: PropTypes.objectOf(ProductType).isRequired,
+    removeWishlistItem: PropTypes.bool,
     fullWidth: PropTypes.bool
 };
 
@@ -120,7 +145,9 @@ AddToCart.defaultProps = {
     fullWidth: false,
     quantity: 1,
     configurableVariantIndex: 0,
-    groupedProductQuantity: {}
+    groupedProductQuantity: {},
+    productToBeRemovedAfterAdd: '',
+    removeWishlistItem: false
 };
 
 export default AddToCart;
