@@ -67,16 +67,16 @@ class UrlRewrites extends Component {
         this.requestRewrite();
     }
 
+    componentWillUnmount() {
+        const { clearUrlRewrites } = this.props;
+        clearUrlRewrites();
+    }
+
     getCookieAction() {
         const v = document.cookie.match('(^|;) ?actionCookie=([^;]*)(;|$)');
         // Delete cookie
         document.cookie = 'actionCookie= ; expires = Thu, 01 Jan 1970 00:00:00 GMT;';
         return v ? v[2] : '';
-    }
-
-    componentWillUnmount() {
-        const { clearUrlRewrites } = this.props;
-        clearUrlRewrites();
     }
 
     requestRewrite() {

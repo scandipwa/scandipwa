@@ -37,7 +37,7 @@ self.addEventListener('fetch', (event) => {
                                 return r; // return true response
                             }) // if does not, fetch
                             : r // if response exists, return
-                        )))
+                        )));
             }
         }));
     }
