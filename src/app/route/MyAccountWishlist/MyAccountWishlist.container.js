@@ -17,15 +17,12 @@ import { CartDispatcher } from 'Store/Cart';
 import MyAccountWishlist from './MyAccountWishlist.component';
 
 const mapStateToProps = state => ({
-    isUpdatingWishlist: state.WishlistReducer.isUpdatingWishlist,
     isSignedIn: state.MyAccountReducer.isSignedIn,
     customer: state.MyAccountReducer.customer,
     wishlistItems: state.WishlistReducer.productsInWishlist
 });
 
 const mapDispatchToProps = dispatch => ({
-    requestWishlistData: () => WishlistDispatcher.updateInitialWishlistData(dispatch),
-
     removeProductFromWishlist: options => WishlistDispatcher.removeItemFromWishlist(dispatch, options),
 
     updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.update(breadcrumbs, dispatch),

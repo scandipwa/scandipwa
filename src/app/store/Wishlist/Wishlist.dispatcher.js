@@ -11,10 +11,8 @@
 
 import { fetchMutation, fetchQuery } from 'Util/Request';
 import {
-    addItemToWishlist,
     removeItemFromWishlist,
     updateAllProductsInWishlist,
-    updateLoadStatus,
     productToBeRemovedAfterAdd
 } from 'Store/Wishlist';
 import { showNotification } from 'Store/Notification';
@@ -28,7 +26,6 @@ import { Wishlist } from 'Query';
 export class WishlistDispatcher {
     updateInitialWishlistData(dispatch) {
         if (isSignedIn()) {
-            dispatch(updateLoadStatus(true));
             this._syncWishlistWithBE(dispatch);
         } else {
             dispatch(updateAllProductsInWishlist({}));
@@ -37,7 +34,7 @@ export class WishlistDispatcher {
 
     _syncWishlistWithBE(dispatch) {
         // Need to get current wishlist from BE, update wishlist
-        fetchQuery(Wishlist.getWishlistQuery()).then(({ wishlist }) => {
+        return fetchQuery(Wishlist.getWishlistQuery()).then(({ wishlist }) => {
             if (wishlist.items_count) {
                 const productsToAdd = wishlist.items.reduce((prev, wishlistItem) => {
                     const { product } = wishlistItem;
@@ -54,7 +51,6 @@ export class WishlistDispatcher {
                 }, {});
 
                 dispatch(updateAllProductsInWishlist(productsToAdd));
-                dispatch(updateLoadStatus(false));
             }
         },
         // eslint-disable-next-line no-console
@@ -66,15 +62,12 @@ export class WishlistDispatcher {
         const { sku } = product;
         const productToAdd = { sku };
 
-        dispatch(updateLoadStatus(true));
-
         return fetchMutation(Wishlist.getAddProductToWishlistMutation(
             productToAdd
         )).then(
-            () => {
-                dispatch(addItemToWishlist({ ...product }));
-                dispatch(showNotification('success', 'Product has been added to your Wish List!'));
-            },
+            () => this._syncWishlistWithBE(dispatch).then(
+                () => dispatch(showNotification('success', 'Product has been added to your Wish List!'))
+            ),
             // eslint-disable-next-line no-console
             error => dispatch(showNotification('error', 'Error updating wish list!')) && console.log(error)
         );

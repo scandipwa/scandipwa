@@ -28,9 +28,6 @@ class MyAccountWishlist extends Component {
     }
 
     componentDidMount() {
-        const { requestWishlistData } = this.props;
-
-        requestWishlistData();
         this.updateBreadcrumbs();
     }
 
@@ -114,11 +111,7 @@ class MyAccountWishlist extends Component {
         })).then(() => this.afterAdded(data));
     }
 
-    renderWishlistItem(product, isUpdatingWishlist) {
-        if (isUpdatingWishlist) {
-            return <ProductCard product={ {} } key={ product.id } />;
-        }
-
+    renderWishlistItem(product) {
         return (
             <ProductCard
               product={ product }
@@ -129,10 +122,7 @@ class MyAccountWishlist extends Component {
     }
 
     render() {
-        const {
-            wishlistItems,
-            isUpdatingWishlist
-        } = this.props;
+        const { wishlistItems } = this.props;
 
         const { isLoading } = this.state;
 
@@ -162,7 +152,7 @@ class MyAccountWishlist extends Component {
                                         </button>
                                         <ul block="MyAccountWishlist" elem="List">
                                             { Object.values(wishlistItems).map(
-                                                product => this.renderWishlistItem(product, isUpdatingWishlist)
+                                                product => this.renderWishlistItem(product)
                                             )}
                                         </ul>
                                     </>
@@ -179,8 +169,6 @@ class MyAccountWishlist extends Component {
 
 MyAccountWishlist.propTypes = {
     wishlistItems: PropTypes.objectOf(ProductType).isRequired,
-    isUpdatingWishlist: PropTypes.bool.isRequired,
-    requestWishlistData: PropTypes.func.isRequired,
     removeProductFromWishlist: PropTypes.func.isRequired,
     showNotification: PropTypes.func.isRequired,
     updateBreadcrumbs: PropTypes.func.isRequired,

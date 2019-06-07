@@ -11,10 +11,8 @@
 
 import BrowserDatabase from 'Util/BrowserDatabase';
 import {
-    ADD_ITEM_TO_WISHLIST,
     REMOVE_ITEM_FROM_WISHLIST,
     UPDATE_ALL_PRODUCTS_IN_WISHLIST,
-    UPDATE_WISHLIST_LOAD_STATUS,
     PRODUCT_TO_BE_REMOVED_AFTER_ADD
 } from './Wishlist.action';
 
@@ -22,22 +20,7 @@ export const PRODUCTS_IN_WISHLIST = 'wishlist_products';
 
 const initialState = {
     productsInWishlist: BrowserDatabase.getItem(PRODUCTS_IN_WISHLIST) || {},
-    isUpdatingWishlist: false,
     productToBeRemovedAfterAdd: ''
-};
-
-const addItemToWishlist = (action, state) => {
-    const { newProduct } = action;
-    const { productsInWishlist } = state;
-
-    const newProductsInWishlist = {
-        ...productsInWishlist,
-        [newProduct.id]: newProduct
-    };
-
-    BrowserDatabase.setItem(newProductsInWishlist, PRODUCTS_IN_WISHLIST);
-
-    return { productsInWishlist: newProductsInWishlist };
 };
 
 const removeItemFromWishlist = (action, state) => {
@@ -69,12 +52,6 @@ const WishlistReducer = (state = initialState, action) => {
     const { type } = action;
 
     switch (type) {
-    case ADD_ITEM_TO_WISHLIST:
-        return {
-            ...state,
-            ...addItemToWishlist(action, state)
-        };
-
     case REMOVE_ITEM_FROM_WISHLIST:
         return {
             ...state,
@@ -85,14 +62,6 @@ const WishlistReducer = (state = initialState, action) => {
         return {
             ...state,
             ...updateAllProductsInWishlist(action)
-        };
-
-    case UPDATE_WISHLIST_LOAD_STATUS:
-        const { isUpdatingWishlist } = action;
-
-        return {
-            ...state,
-            isUpdatingWishlist
         };
 
     case PRODUCT_TO_BE_REMOVED_AFTER_ADD:

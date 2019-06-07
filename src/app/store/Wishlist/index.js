@@ -12,15 +12,11 @@
 import WishlistReducer, { PRODUCTS_IN_WISHLIST } from './Wishlist.reducer';
 import WishlistDispatcher, { WishlistDispatcher as WishlistDispatcherClass } from './Wishlist.dispatcher';
 import {
-    ADD_ITEM_TO_WISHLIST,
     REMOVE_ITEM_FROM_WISHLIST,
     UPDATE_ALL_PRODUCTS_IN_WISHLIST,
-    UPDATE_WISHLIST_LOAD_STATUS,
     PRODUCT_TO_BE_REMOVED_AFTER_ADD,
-    addItemToWishlist,
     removeItemFromWishlist,
     updateAllProductsInWishlist,
-    updateLoadStatus,
     productToBeRemovedAfterAdd
 } from './Wishlist.action';
 
@@ -29,14 +25,10 @@ export {
     WishlistDispatcher,
     WishlistDispatcherClass,
     PRODUCTS_IN_WISHLIST,
-    ADD_ITEM_TO_WISHLIST,
     REMOVE_ITEM_FROM_WISHLIST,
     UPDATE_ALL_PRODUCTS_IN_WISHLIST,
-    UPDATE_WISHLIST_LOAD_STATUS,
     PRODUCT_TO_BE_REMOVED_AFTER_ADD,
-    addItemToWishlist,
     removeItemFromWishlist,
     updateAllProductsInWishlist,
-    updateLoadStatus,
     productToBeRemovedAfterAdd
 };
