@@ -158,7 +158,7 @@ module.exports = {
         }),
 
         new HtmlWebpackPlugin({
-            template: path.resolve(projectRoot, 'src', 'public', 'index.html'),
+            template: path.resolve(projectRoot, 'src', 'public', 'index.development.html'),
             filename: 'index.html',
             inject: false,
             publicPath: '/'
