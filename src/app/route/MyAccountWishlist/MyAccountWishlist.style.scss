@@ -1,0 +1,76 @@
+.MyAccountWishlist {
+    --placeholder-animation: placeholderAnimation 2s linear infinite, appear 200ms forwards;
+
+    &-Wrapper {
+        max-width: 1200px;
+
+        padding: {
+            left: 1rem;
+            right: 1rem;
+        };
+
+        margin: {
+            top: 2rem;
+            left: auto;
+            right: auto;
+        }
+
+        @include after-mobile {
+            display: grid;
+            grid-template-columns: 1fr 4fr;
+            grid-column-gap: 2rem;
+        }
+    }
+
+    &-Sidebar {
+        display: flex;
+        flex-direction: column;
+        padding-top: 1.8rem;
+        margin-bottom: 1.9rem;
+        border-right: 2px solid var(--color-breadcrumbs-background);
+
+        @include mobile {
+            display: none;
+        }
+
+        li {
+            font-size: 1.35rem;
+            cursor: pointer;
+            padding: 0;
+            height: 3rem;
+            line-height: 3rem;
+            text-align: center;
+
+            &:hover {
+                background-color: var(--color-cart-light);
+
+                @include mobile {
+                    background-color: transparent;
+                }
+            }
+
+            &::before {
+                content: '';
+            }
+        }
+    }
+
+    h1 {
+        padding-bottom: 2rem;
+    }
+
+    h4 {
+        padding: .5rem 0;
+    }
+
+    &-List {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        padding-top: 2rem;
+
+        @include mobile {
+            grid-template-columns: 1fr 1fr;
+            grid-gap: .5rem;
+        }
+    }
+}

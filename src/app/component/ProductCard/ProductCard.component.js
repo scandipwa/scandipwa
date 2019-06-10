@@ -29,6 +29,12 @@ import './ProductCard.style';
  * @class ProductCard
  */
 class ProductCard extends Component {
+    constructor(props) {
+        super(props);
+
+        this.handleConfigurableClick = this.handleConfigurableClick.bind(this);
+    }
+
     getCurrentVariantIndex() {
         const { product: { variants }, customFilters } = this.props;
         const customFiltersExist = customFilters && Object.keys(customFilters).length;
@@ -61,6 +67,20 @@ class ProductCard extends Component {
         return variantThumbnail || (thumbnail && thumbnail.path);
     }
 
+    handleConfigurableClick() {
+        const {
+            product,
+            updateProductToBeRemovedAfterAdd,
+            wishlistItem
+        } = this.props;
+
+        if (wishlistItem && updateProductToBeRemovedAfterAdd) {
+            return updateProductToBeRemovedAfterAdd({ product });
+        }
+
+        return null;
+    }
+
     addOrConfigureProduct(variantIndex, linkTo) {
         const { customFilters, product, product: { url_key, variants, type_id } } = this.props;
 
@@ -77,7 +97,11 @@ class ProductCard extends Component {
 
             if (correctVariants.length !== 1) {
                 return (
-                    <Link to={ linkTo } tabIndex={ getTabIndex(url_key) }>
+                    <Link
+                      to={ linkTo }
+                      tabIndex={ getTabIndex(url_key) }
+                      onClick={ this.handleConfigurableClick }
+                    >
                         <span>Configure Product</span>
                     </Link>
                 );
@@ -97,6 +121,7 @@ class ProductCard extends Component {
               product={ product }
               configurableVariantIndex={ variantIndex }
               fullWidth
+              removeWishlistItem
             />
         );
     }
@@ -190,12 +215,15 @@ class ProductCard extends Component {
 ProductCard.propTypes = {
     product: ProductType.isRequired,
     customFilters: FilterType,
-    arePlaceholdersShown: PropTypes.bool
+    arePlaceholdersShown: PropTypes.bool,
+    wishlistItem: PropTypes.bool,
+    updateProductToBeRemovedAfterAdd: PropTypes.func.isRequired
 };
 
 ProductCard.defaultProps = {
     customFilters: {},
-    arePlaceholdersShown: false
+    arePlaceholdersShown: false,
+    wishlistItem: false
 };
 
 export default ProductCard;

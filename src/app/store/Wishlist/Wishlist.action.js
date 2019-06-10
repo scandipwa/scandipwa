@@ -9,19 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const ADD_ITEM_TO_WISHLIST = 'ADD_ITEM_TO_WISHLIST';
 export const REMOVE_ITEM_FROM_WISHLIST = 'REMOVE_ITEM_FROM_WISHLIST';
 export const UPDATE_ALL_PRODUCTS_IN_WISHLIST = 'UPDATE_ALL_PRODUCTS_IN_WISHLIST';
-
-/**
- * Add specified product to wishlist
- * @param  {Object} newProduct Product which should be removed
- * @return {void}
- */
-const addItemToWishlist = newProduct => ({
-    type: ADD_ITEM_TO_WISHLIST,
-    newProduct
-});
+export const PRODUCT_TO_BE_REMOVED_AFTER_ADD = 'PRODUCT_TO_BE_REMOVED_AFTER_ADD';
 
 /**
  * Remove specified product from wishlist
@@ -34,7 +24,7 @@ const removeItemFromWishlist = product => ({
 });
 
 /**
- * Update all products in cart
+ * Update all products in wishlist
  * @param  {Array} products Products that should be updated in wishlist
  * @return {void}
  */
@@ -43,8 +33,13 @@ const updateAllProductsInWishlist = products => ({
     products
 });
 
+const productToBeRemovedAfterAdd = product => ({
+    type: PRODUCT_TO_BE_REMOVED_AFTER_ADD,
+    productToBeRemovedAfterAdd: product
+});
+
 export {
-    addItemToWishlist,
     removeItemFromWishlist,
-    updateAllProductsInWishlist
+    updateAllProductsInWishlist,
+    productToBeRemovedAfterAdd
 };
