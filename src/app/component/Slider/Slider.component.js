@@ -93,11 +93,16 @@ class Slider extends Component {
 
     onClickChangeSlide(state, slideSize, lastTranslate, fullSliderSize) {
         const { originalX, prevActiveSlider } = state;
+        const { isVertical } = this.props;
 
         const fullSliderPoss = Math.round(fullSliderSize / slideSize);
+        const elementPossitionInDOM = isVertical
+            ? this.draggableRef.current.getBoundingClientRect().y
+            : this.draggableRef.current.getBoundingClientRect().x;
+
         const sliderPossition = prevActiveSlider;
-        const elementPossitionInDOM = this.draggableRef.current.getBoundingClientRect().x - lastTranslate;
-        const mousePossitionInElement = originalX - elementPossitionInDOM;
+        const realElementPossitionInDOM = elementPossitionInDOM - lastTranslate;
+        const mousePossitionInElement = originalX - realElementPossitionInDOM;
 
         if (slideSize / 2 < mousePossitionInElement && -fullSliderPoss < sliderPossition) {
             const activeSlide = sliderPossition - 1;
@@ -157,13 +162,7 @@ class Slider extends Component {
         const activeSlidePercent = Math.abs(activeSlidePosition % 1);
         const isSlideBack = translate > lastTranslate;
 
-        if (!translate) {
-            const onClickActiveSlidePosition = this.onClickChangeSlide(
-                state, slideSize, lastTranslate, fullSliderSize
-            );
-
-            return onClickActiveSlidePosition;
-        }
+        if (!translate) return this.onClickChangeSlide(state, slideSize, lastTranslate, fullSliderSize);
 
         if (translate > 0) return 0;
 

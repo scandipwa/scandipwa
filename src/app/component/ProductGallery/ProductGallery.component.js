@@ -61,6 +61,7 @@ class ProductGallery extends Component {
             <button
               block="ProductGallery"
               elem="Image"
+              key={ index }
               mods={ { type } }
               onClick={ () => this.changeActiveImage(index) }
             >
