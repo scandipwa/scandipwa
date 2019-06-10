@@ -23,9 +23,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     addReview: options => ReviewDispatcher.submitProductReview(dispatch, options),
 
-    showNotification(type, message) {
-        dispatch(showNotification(type, message));
-    }
+    showNotification: (type, message) => dispatch(showNotification(type, message))
 });
 
 const ProductReviewFormContainer = connect(mapStateToProps, mapDispatchToProps)(ProductReviewForm);
