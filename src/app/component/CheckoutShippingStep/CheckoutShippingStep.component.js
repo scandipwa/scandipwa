@@ -110,7 +110,10 @@ class CheckoutShippingStep extends Component {
                     this.getAvailableRegions(countryId);
                 }
             },
-            [PHONE_FIELD_ID]: { label: 'Phone Number' }
+            [PHONE_FIELD_ID]: {
+                label: 'Phone Number',
+                validation: ['telephone']
+            }
         };
 
         this.renderMap = {
