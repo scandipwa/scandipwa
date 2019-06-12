@@ -1,13 +1,17 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/no-unused-state */
+/* eslint-disable no-console */
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Form from 'Component/Form';
 import Field from 'Component/Field';
+import validationConfig from 'Component/Form/Form.config';
 import CheckoutShippingMethods from 'Component/CheckoutShippingMethods';
 import Loader from 'Component/Loader';
 import { makeCancelable } from 'Util/Promise';
+import { fetchMutation } from 'Util/Request';
+import { CheckEmailQuery } from 'Query';
 import './CheckoutShippingStep.style';
 
 export const EMAIL_FIELD_ID = 'email';
@@ -54,11 +58,37 @@ class CheckoutShippingStep extends Component {
             state: STATE_NEW_ADDRESS
         };
 
+        this.emailNote = __('You can create an account after checkout.');
+        this.emailLoginNote = __('Looks like you already have account with us, please, log in!');
+
         this.fieldMap = {
             [EMAIL_FIELD_ID]: {
                 label: __('Email Address'),
-                note: __('You can create an account after checkout.'),
-                validation: ['notEmpty', 'email']
+                note: this.emailNote,
+                message: '',
+                validation: ['notEmpty', 'email'],
+                onBlur: (event) => {
+                    const email = event.currentTarget.value;
+
+                    if (validationConfig.email.validate({ value: email })) {
+                        fetchMutation(
+                            CheckEmailQuery.getCheckIsEmailAvailableMutation(email)
+                        ).then(
+                            ({ checkIsEmailAvailable: { isAvailable } }) => {
+                                const { email } = this.state;
+
+                                this.fieldMap[EMAIL_FIELD_ID].note = isAvailable
+                                    ? this.emailNote : this.emailLoginNote;
+                                this.fieldMap[EMAIL_FIELD_ID].noteDisplayMode = isAvailable
+                                    ? null : 'visibleAlways';
+
+                                // Will force re-render
+                                this.setState({ email });
+                            },
+                            error => console.log(error)
+                        );
+                    }
+                }
             },
             [FIRSTNAME_FIELD_ID]: { label: __('First Name') },
             [LASTNAME_FIELD_ID]: { label: __('Last Name') },
@@ -110,7 +140,10 @@ class CheckoutShippingStep extends Component {
                     this.getAvailableRegions(countryId);
                 }
             },
-            [PHONE_FIELD_ID]: { label: __('Phone Number') }
+            [PHONE_FIELD_ID]: {
+                label: 'Phone Number',
+                validation: ['telephone']
+            }
         };
 
         this.renderMap = {
@@ -324,9 +357,11 @@ class CheckoutShippingStep extends Component {
             type = 'text',
             label,
             note,
+            noteDisplayMode,
             defaultValue,
             validation = ['notEmpty'],
-            onChange = value => this.setState({ [id]: value }, this.handleFieldChange)
+            onChange = value => this.setState({ [id]: value }, this.handleFieldChange),
+            onBlur
         } = this.fieldMap[id];
 
         return (
@@ -335,10 +370,12 @@ class CheckoutShippingStep extends Component {
               type={ type }
               label={ label }
               note={ note }
+              noteDisplayMode={ noteDisplayMode }
               options={ countryList }
               value={ overrideStateValue || stateValue || defaultValue }
               validation={ validation }
               onChange={ onChange }
+              onBlur={ onBlur }
             />
         );
     }

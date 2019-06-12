@@ -8,7 +8,6 @@ import Form from 'Component/Form';
 import Loader from 'Component/Loader';
 import './CheckoutPreviewAndPaymentsStep.style';
 
-export const EMAIL_FIELD_ID = 'email';
 export const FIRSTNAME_FIELD_ID = 'firstname';
 export const LASTNAME_FIELD_ID = 'lastname';
 export const COMPANY_FIELD_ID = 'company';
@@ -53,11 +52,6 @@ class CheckoutPreviewAndPaymentsStep extends Component {
         };
 
         this.fieldMap = {
-            [EMAIL_FIELD_ID]: {
-                label: __('Email Address'),
-                note: __('You can create an account after checkout.'),
-                validation: ['notEmpty', 'email']
-            },
             [FIRSTNAME_FIELD_ID]: { label: __('First Name') },
             [LASTNAME_FIELD_ID]: { label: __('Last Name') },
             [COMPANY_FIELD_ID]: { label: __('Company'), validation: [] },
@@ -109,7 +103,10 @@ class CheckoutPreviewAndPaymentsStep extends Component {
                     this.getAvailableRegions(countryId);
                 }
             },
-            [PHONE_FIELD_ID]: { label: __('Phone Number') }
+            [PHONE_FIELD_ID]: {
+                label: __('Phone Number'),
+                validation: ['telephone']
+            }
         };
 
         this.renderMap = {
