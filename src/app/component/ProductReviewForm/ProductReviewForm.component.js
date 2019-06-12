@@ -30,7 +30,7 @@ class ProductReviewForm extends Component {
         super(props);
         this.state = {
             isLoading: false,
-            ratingData: []
+            ratingData: {}
         };
     }
 
@@ -89,35 +89,17 @@ class ProductReviewForm extends Component {
     validateRatings() {
         const { reviewRatings } = this.props;
         const { ratingData } = this.state;
-        let isValid = true;
 
-        reviewRatings.forEach((activeRating) => {
-            if (!ratingData.some(selectedRating => selectedRating.rating_id === activeRating.rating_id)) {
-                isValid = false;
-            }
-        });
-
-        return isValid;
+        return !reviewRatings.some(
+            activeRating => !Object.prototype.hasOwnProperty.call(ratingData, activeRating.rating_id)
+        );
     }
 
     handleReviewRatingChange(ratingId, optionId) {
         if (typeof ratingId === 'number' && typeof optionId === 'number') {
             const { ratingData } = this.state;
 
-            if (ratingData.length > 0 && ratingData.some(rating => rating.rating_id === ratingId)) {
-                ratingData.map((rating) => {
-                    if (ratingId === rating.rating_id) {
-                        const newRating = rating;
-                        newRating.option_id = optionId;
-
-                        return newRating;
-                    }
-
-                    return rating;
-                });
-            } else {
-                ratingData.push({ rating_id: ratingId, option_id: optionId });
-            }
+            ratingData[ratingId] = optionId;
 
             this.setState({ ratingData });
         }
@@ -133,7 +115,7 @@ class ProductReviewForm extends Component {
             rating_code
         } = reviewRating;
         const { ratingData } = this.state;
-        const isChecked = ratingData.some(rating => rating.rating_id === rating_id && rating.option_id === option_id);
+        const isChecked = ratingData[rating_id] === option_id;
 
         return (
             <Field

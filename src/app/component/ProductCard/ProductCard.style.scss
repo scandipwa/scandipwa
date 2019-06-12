@@ -141,15 +141,8 @@
             vertical-align: middle;
 
             @include mobile {
+                font-size: 1.4rem;
                 margin: 0;
-            }
-
-            &-RatingStars {
-                padding: 0;
-
-                @include mobile {
-                    font-size: 1.4rem;
-                }
             }
         }
 

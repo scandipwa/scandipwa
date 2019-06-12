@@ -19,6 +19,17 @@ import { Review } from 'Query';
  * @class WishlistDispatcher
  */
 class ReviewDispatcher {
+    prepareRatingData(reviewItem) {
+        const { rating_data } = reviewItem;
+        const ratingData = [];
+
+        Object.keys(rating_data).map(
+            key => ratingData.push({ rating_id: key, option_id: rating_data[key] })
+        );
+
+        return ratingData;
+    }
+
     updateReviewRatings(dispatch) {
         return fetchQuery(Review.getRatingsQuery()).then(
             ({ getRatings }) => dispatch(updateReviewRatings(getRatings)),
@@ -29,6 +40,8 @@ class ReviewDispatcher {
 
     submitProductReview(dispatch, options) {
         const reviewItem = options;
+
+        reviewItem.rating_data = this.prepareRatingData(reviewItem);
 
         return fetchMutation(Review.getAddProductReview(
             reviewItem
