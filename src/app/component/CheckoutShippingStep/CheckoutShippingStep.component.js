@@ -61,7 +61,7 @@ class CheckoutShippingStep extends Component {
         this.emailNote = 'You can create an account after checkout.';
         this.emailLoginNote = 'Looks like you already have account with us, please, log in!';
         
-        //initialize available regions
+        // initialize available regions
         this.getAvailableRegions(DEFAULT_COUNTRY);
 
         this.fieldMap = {
