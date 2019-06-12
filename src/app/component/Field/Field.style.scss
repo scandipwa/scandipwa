@@ -33,6 +33,11 @@
         opacity: 0;
         height: 0;
         transition: height 0.1s ease-in, opacity 0.1s linear;
+
+        &_visibleAlways {
+            opacity: 1;
+            height: 100%;
+        }
     }
 
     &-Note::before {

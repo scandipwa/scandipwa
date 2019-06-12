@@ -12,7 +12,7 @@
 import React, { Component, Children } from 'react';
 import PropTypes from 'prop-types';
 import Field from 'Component/Field';
-import valdationConfig from './Form.config';
+import validationConfig from './Form.config';
 
 class Form extends Component {
     static updateChildrenRefs(props) {
@@ -84,8 +84,8 @@ class Form extends Component {
             for (let i = 0; i < validation.length; i++) {
                 const rule = validation[i];
 
-                if (valdationConfig[rule]) {
-                    const validationRules = valdationConfig[rule];
+                if (validationConfig[rule]) {
+                    const validationRules = validationConfig[rule];
                     const isValid = validationRules.validate(inputNode);
 
                     if (!isValid) return { message: validationRules.message };
