@@ -28,7 +28,9 @@ class ProductDetails extends Component {
         const { product: { variants, sku }, areDetailsLoaded, configurableVariantIndex } = this.props;
 
         if (areDetailsLoaded) {
-            const { product } = variants && configurableVariantIndex ? variants[configurableVariantIndex] : '';
+            const { product } = configurableVariantIndex >= 0
+                    && Object.keys(variants).length >= configurableVariantIndex
+                ? variants[configurableVariantIndex] : '';
 
             return (
                 <>
