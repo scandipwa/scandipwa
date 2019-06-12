@@ -61,9 +61,6 @@ class CheckoutShippingStep extends Component {
         this.emailNote = 'You can create an account after checkout.';
         this.emailLoginNote = 'Looks like you already have account with us, please, log in!';
 
-        // initialize available regions
-        this.getAvailableRegions(DEFAULT_COUNTRY);
-
         this.fieldMap = {
             [EMAIL_FIELD_ID]: {
                 label: 'Email Address',
@@ -200,6 +197,11 @@ class CheckoutShippingStep extends Component {
         if (isSignedIn) return { email };
 
         return null;
+    }
+
+    // initialize available regions
+    componentDidMount() {
+        this.getAvailableRegions(DEFAULT_COUNTRY);
     }
 
     componentDidUpdate(prevProps) {
