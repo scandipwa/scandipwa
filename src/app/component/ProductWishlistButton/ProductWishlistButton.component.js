@@ -67,7 +67,7 @@ class ProductWishlistButton extends Component {
         this.setState({ isLoading: true });
 
         if (!isSignedIn()) {
-            showNotification('error', 'You must login or register to add items to your wishlist.');
+            showNotification('error', __('You must login or register to add items to your wishlist.'));
             this.setState({ isLoading: false });
             return null;
         }
@@ -89,16 +89,16 @@ class ProductWishlistButton extends Component {
         if (isProductInWishlist) {
             return (
                 <>
-                    <span>Remove from wishlist</span>
-                    <span>Removing...</span>
+                    <span>{ __('Remove from wishlist') }</span>
+                    <span>{ __('Removing...') }</span>
                 </>
             );
         }
 
         return (
             <>
-                <span>Add to wishlist</span>
-                <span>Adding...</span>
+                <span>{ __('Add to wishlist') }</span>
+                <span>{ __('Adding...') }</span>
             </>
         );
     }

@@ -157,7 +157,7 @@ class CategoryShoppingOptions extends Component {
                   elem="ClearButton"
                   onClick={ () => clearFilters() }
                 >
-                    Clear Filters
+                    { __('Clear Filters') }
                 </button>
             );
         }
@@ -217,7 +217,7 @@ class CategoryShoppingOptions extends Component {
                   mods={ { isLoaded } }
                   onClick={ () => this.toggleOptions() }
                 >
-                    <TextPlaceholder content={ isLoaded ? 'Shopping Options' : '' } />
+                    <TextPlaceholder content={ isLoaded ? __('Shopping Options') : '' } />
                 </h3>
                 { this.renderElements(isLoaded) }
             </div>

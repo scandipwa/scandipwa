@@ -71,9 +71,8 @@ class CheckoutOrderSummary extends Component {
                 <div
                   block="CheckoutOrderSummary"
                   elem="Thumbnail"
-                  aria-label="Cart Thumbnail"
                 >
-                    <Image src={ `/media/catalog/product${ path }` } alt="Cart Thumbnail" />
+                    <Image src={ `/media/catalog/product${ path }` } alt={ __('Cart Thumbnail') } />
                 </div>
 
                 <div block="CheckoutOrderSummary" elem="Title">
@@ -92,7 +91,7 @@ class CheckoutOrderSummary extends Component {
                         <ProductPrice price={ price } mods={ { type: 'regular' } } />
                     </div>
                     <p block="CheckoutOrderSummary" elem="Qty">
-                        <strong>Qty: </strong>
+                        <strong>{ __('Qty:') }</strong>
                         <span>{ quantity }</span>
                     </p>
                 </div>
@@ -120,17 +119,17 @@ class CheckoutOrderSummary extends Component {
         return (
             <div block="CheckoutOrderSummary" aria-label="Order Summary">
                 <div block="CheckoutOrderSummary" elem="OrderTotals">
-                    <h3>Order Summary</h3>
+                    <h3>{ __('Order Summary') }</h3>
                     <ul>
-                        { this.renderPriceLine(subtotal, 'Cart Subtotal') }
-                        { this.renderPriceLine(itemsTax, 'Tax') }
-                        { this.renderPriceLine(shipping_amount, 'Shipping', { divider: true }) }
-                        { this.renderPriceLine(grand_total, 'Order Total') }
+                        { this.renderPriceLine(subtotal, __('Cart Subtotal')) }
+                        { this.renderPriceLine(itemsTax, __('Tax')) }
+                        { this.renderPriceLine(shipping_amount, __('Shipping'), { divider: true }) }
+                        { this.renderPriceLine(grand_total, __('Order Total')) }
                     </ul>
                 </div>
 
                 <div block="CheckoutOrderSummary" elem="OrderItems">
-                    <h3>{ `${ productCount } Items In Cart` }</h3>
+                    <h3>{ __('%s Items In Cart', productCount) }</h3>
                     <ul block="CheckoutOrderSummary" elem="CartItemList">
                         { Object.keys(products)
                             .map(key => this.renderItem(key, products[key])) }

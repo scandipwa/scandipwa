@@ -35,9 +35,9 @@ class ProductDetails extends Component {
 
             return (
                 <>
-                    <span>SKU: </span>
+                    <span>{ __('SKU: ') }</span>
                     <Html content={ product ? product.sku : sku } />
-                    <span block="ProductDetails" elem="StockAvailable">In stock</span>
+                    <span block="ProductDetails" elem="StockAvailable">{ __('In stock') }</span>
                 </>
             );
         }

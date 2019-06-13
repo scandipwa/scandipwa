@@ -180,7 +180,7 @@ class SearchBar extends Component {
 
     renderNoResults() {
         return (
-            <p block="SearchBar" elem="NoResults">No products found!</p>
+            <p block="SearchBar" elem="NoResults">{ __('No products found!') }</p>
         );
     }
 
@@ -209,7 +209,7 @@ class SearchBar extends Component {
               elem="Heading"
             >
                 <h3>
-                    <span>Results for:</span>
+                    <span>{ __('Results for:') }</span>
                     <span>{ searchInput }</span>
                 </h3>
             </div>

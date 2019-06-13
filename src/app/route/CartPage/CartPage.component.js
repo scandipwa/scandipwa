@@ -29,11 +29,11 @@ class CartPage extends Component {
         const breadcrumbs = [
             {
                 url: '/cart',
-                name: 'Shopping cart'
+                name: __('Shopping cart')
             },
             {
                 url: '/',
-                name: 'Home'
+                name: __('Home')
             }
         ];
 
@@ -57,7 +57,7 @@ class CartPage extends Component {
     renderEmptyMessage(i) {
         return (
             <li block="MiniCart" elem="Empty" key={ i }>
-                You have no items in your shopping cart.
+                { __('You have no items in your shopping cart.') }
             </li>
         );
     }
@@ -71,14 +71,14 @@ class CartPage extends Component {
                     <ContentWrapper
                       mix={ { block: 'CartPage' } }
                       wrapperMix={ { block: 'CartPage', elem: 'Wrapper' } }
-                      label="Cart page details"
+                      label={ __('Cart page details') }
                     >
                         <h1>Shopping cart</h1>
-                        <div block="CartPage" elem="ItemsList" aria-label="Cart Items List">
+                        <div block="CartPage" elem="ItemsList" aria-label={ __('Cart Items List') }>
                             <div block="CartPage" elem="TableTitles">
-                                <span>Item</span>
-                                <span>Qty</span>
-                                <span>Subtotal</span>
+                                <span>{ __('Item') }</span>
+                                <span>{ __('Qty') }</span>
+                                <span>{ __('Subtotal') }</span>
                             </div>
                             <ul>
                                 { Object.entries(products).length

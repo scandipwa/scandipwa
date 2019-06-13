@@ -64,13 +64,13 @@ class HomePage extends Component {
         return (
             <main block="HomePage">
                 <Meta
-                  metaObject={ { title: 'Home' } }
+                  metaObject={ { title: __('Home') } }
                 />
                 <HomeSlider />
                 <ContentWrapper
                   mix={ { block: 'HomePage' } }
                   wrapperMix={ { block: 'HomePage', elem: 'Wrapper' } }
-                  label="Home Page"
+                  label={ __('Home Page') }
                 >
                     { items
                         ? identifiers.map((blockId) => {

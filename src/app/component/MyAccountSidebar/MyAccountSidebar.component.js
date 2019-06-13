@@ -22,13 +22,19 @@ class MyAccountSidebar extends Component {
         return (
             <div block="Sidebar">
                 <div block="Sidebar" elem="SideLink">
-                    <Link to="/my-account">My Account</Link>
+                    <Link to="/my-account">
+                        { __('My Account') }
+                    </Link>
                 </div>
                 <div block="Sidebar" elem="SideLink">
-                    <Link to="/my-account/orders">My Orders</Link>
+                    <Link to="/my-account/orders">
+                        { __('My Orders') }
+                    </Link>
                 </div>
                 <div block="Sidebar" elem="SideLink">
-                    <Link to="/wishlist">My Wish List</Link>
+                    <Link to="/wishlist">
+                        { __('My Wish List') }
+                    </Link>
                 </div>
             </div>
         );

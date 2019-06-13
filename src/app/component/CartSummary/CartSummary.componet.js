@@ -45,15 +45,15 @@ class CartSummary extends Component {
 
         return (
             <div block="CartSummary" aria-label="Cart Summary">
-                <h3>Summary</h3>
+                <h3>{ __('Summary') }</h3>
                 <ul>
-                    { this.renderPriceLine(subtotal, 'Subtotal') }
-                    { this.renderPriceLine(itemsTax, 'Tax', { divider: true }) }
-                    { shipping_amount && this.renderPriceLine(shipping_amount, 'Shipping', { divider: true }) }
-                    { this.renderPriceLine(grand_total, 'Order Total') }
+                    { this.renderPriceLine(subtotal, __('Subtotal')) }
+                    { this.renderPriceLine(itemsTax, __('Tax'), { divider: true }) }
+                    { shipping_amount && this.renderPriceLine(shipping_amount, __('Shipping'), { divider: true }) }
+                    { this.renderPriceLine(grand_total, __('Order Total')) }
                 </ul>
-                <Link to="/checkout/shipping" disabled={ cartIsEmpty }>Proceed to checkout</Link>
-                <Link to="/">Continue shopping</Link>
+                <Link to="/checkout/shipping" disabled={ cartIsEmpty }>{ __('Proceed to checkout') }</Link>
+                <Link to="/">{ __('Continue shopping') }</Link>
             </div>
         );
     }

@@ -43,16 +43,16 @@ class ProductDescription extends Component {
             <ContentWrapper
               mix={ { block: 'ProductDescription' } }
               wrapperMix={ { block: 'ProductDescription', elem: 'Wrapper' } }
-              label="Product description"
+              label={ __('Product description') }
             >
                 <div block="ProductDescription" elem="Image">
                     { !image && areDetailsLoaded
                         ? null
-                        : <Image ratio="4x3" src={ image } alt="Description image" />
+                        : <Image ratio="4x3" src={ image } alt={ __('Product description image') } />
                     }
                 </div>
                 <div block="ProductDescription" elem="DescriptionBlock">
-                    <h3><TextPlaceholder content={ areDetailsLoaded ? 'About the product' : '' } /></h3>
+                    <h3><TextPlaceholder content={ areDetailsLoaded ? __('About the product') : '' } /></h3>
                     <div block="ProductDescription" elem="Text">
                         { !areDetailsLoaded ? (
                             <p block="ProductDescription" elem="PlaceholderBlock">

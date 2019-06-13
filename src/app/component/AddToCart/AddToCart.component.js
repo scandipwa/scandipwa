@@ -122,8 +122,8 @@ class AddToCart extends Component {
               mods={ { isLoading, fullWidth } }
               disabled={ isLoading || isNotAvailable }
             >
-                <span>Add to cart</span>
-                <span>Adding...</span>
+                <span>{ __('Add to cart') }</span>
+                <span>{ __('Adding...') }</span>
             </button>
         );
     }

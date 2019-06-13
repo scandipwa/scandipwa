@@ -58,12 +58,12 @@ class CheckoutShippingStep extends Component {
             state: STATE_NEW_ADDRESS
         };
 
-        this.emailNote = 'You can create an account after checkout.';
-        this.emailLoginNote = 'Looks like you already have account with us, please, log in!';
+        this.emailNote = __('You can create an account after checkout.');
+        this.emailLoginNote = __('Looks like you already have account with us, please, log in!');
 
         this.fieldMap = {
             [EMAIL_FIELD_ID]: {
-                label: 'Email Address',
+                label: __('Email Address'),
                 note: this.emailNote,
                 message: '',
                 validation: ['notEmpty', 'email'],
@@ -90,11 +90,11 @@ class CheckoutShippingStep extends Component {
                     }
                 }
             },
-            [FIRSTNAME_FIELD_ID]: { label: 'First Name' },
-            [LASTNAME_FIELD_ID]: { label: 'Last Name' },
-            [COMPANY_FIELD_ID]: { label: 'Company', validation: [] },
+            [FIRSTNAME_FIELD_ID]: { label: __('First Name') },
+            [LASTNAME_FIELD_ID]: { label: __('Last Name') },
+            [COMPANY_FIELD_ID]: { label: __('Company'), validation: [] },
             [STREET_0_FIELD_ID]: {
-                label: 'Street Address',
+                label: __('Street Address'),
                 onChange: (street) => {
                     const { street: stateStreet } = this.state;
                     this.setState({ street: { ...stateStreet, 0: street } }, this.handleFieldChange);
@@ -107,9 +107,9 @@ class CheckoutShippingStep extends Component {
                 },
                 validation: []
             },
-            [CITY_FIELD_ID]: { label: 'City' },
+            [CITY_FIELD_ID]: { label: __('City') },
             [STATE_FIELD_ID]: {
-                label: 'State',
+                label: __('State'),
                 validation: [],
                 onChange: (value) => {
                     const { regionList } = this.state;
@@ -131,9 +131,9 @@ class CheckoutShippingStep extends Component {
                     return this.setState({ region }, this.handleFieldChange);
                 }
             },
-            [ZIP_FIELD_ID]: { label: 'Postal Code' },
+            [ZIP_FIELD_ID]: { label: __('Postal Code') },
             [COUNTRY_FIELD_ID]: {
-                label: 'Country',
+                label: __('Country'),
                 type: 'select',
                 defaultValue: DEFAULT_COUNTRY,
                 onChange: (countryId) => {
@@ -226,7 +226,7 @@ class CheckoutShippingStep extends Component {
         const trimmedShippingAddress = this.trimAddress(this.state);
 
         if (!method_code || !carrier_code) {
-            showNotification('error', 'No shipping method specified');
+            showNotification('error', __('No shipping method specified'));
         } else {
             const addressInformation = {
                 shipping_address: trimmedShippingAddress,
@@ -428,18 +428,18 @@ class CheckoutShippingStep extends Component {
                           block="CheckoutShippingStep"
                           elem="ButtonDefault"
                         >
-                            {"I'd like to use the default shipping address"}
+                            { __("I'd like to use the default shipping address") }
                         </button>
                     </div>)
                 }
                 { !isSignedIn && (
                     <fieldset>
-                        <legend>Email Address</legend>
+                        <legend>{ __('Email Address') }</legend>
                         { this.renderField(EMAIL_FIELD_ID) }
                     </fieldset>)
                 }
                 <fieldset>
-                    <legend>Shipping Address</legend>
+                    <legend>{ __('Shipping Address') }</legend>
                     { this.renderField(FIRSTNAME_FIELD_ID) }
                     { this.renderField(LASTNAME_FIELD_ID) }
                     { this.renderField(COMPANY_FIELD_ID) }
@@ -477,13 +477,13 @@ class CheckoutShippingStep extends Component {
                   elem="ShippingAddressPreview"
                 >
                     <dl>
-                        <dt>Contact details:</dt>
+                        <dt>{ __('Contact details:') }</dt>
                         <dd>{ `${ firstname } ${ lastname }` }</dd>
                         { company && (<>
-                            <dt>Company name</dt>
+                            <dt>{ __('Company name') }</dt>
                             <dd>{ company }</dd>
                         </>)}
-                        <dt>Shipping address:</dt>
+                        <dt>{ __('Shipping address:') }</dt>
                         <dd>{ `${country_id }, ${regionName}, ${city}` }</dd>
                         <dd>{ street[0] }</dd>
                         <dd>{ street[1] }</dd>
@@ -496,7 +496,7 @@ class CheckoutShippingStep extends Component {
                   elem="ButtonNew"
                   onClick={ () => this.changeState(STATE_NEW_ADDRESS) }
                 >
-                    {"I'd like to use a different address"}
+                    { __("I'd like to use a different address") }
                 </button>
             </>
         );
