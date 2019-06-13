@@ -17,6 +17,7 @@ import { fetchMutation } from 'Util/Request';
 import CheckoutQuery from 'Query/Checkout.query';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { MyAccountDispatcher } from 'Store/MyAccount';
+import { showNotification } from 'Store/Notification';
 import CheckoutPage from './CheckoutPage.component';
 
 const mapStateToProps = state => ({
@@ -41,6 +42,10 @@ const mapDispatchToProps = dispatch => ({
 
     requestCustomerData(options) {
         return MyAccountDispatcher.requestCustomerData(options, dispatch);
+    },
+
+    showNotification(type, message) {
+        dispatch(showNotification(type, message));
     }
 });
 

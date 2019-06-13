@@ -199,6 +199,11 @@ class CheckoutShippingStep extends Component {
         return null;
     }
 
+    // initialize available regions
+    componentDidMount() {
+        this.getAvailableRegions(DEFAULT_COUNTRY);
+    }
+
     componentDidUpdate(prevProps) {
         const { finishedLoading, shippingAddress, countryList } = this.props;
         const { country_id } = this.state;
@@ -230,7 +235,10 @@ class CheckoutShippingStep extends Component {
                 shipping_method_code: method_code
             };
 
-            this.setState({ loadingShippingInformationSave: true });
+            this.setState({
+                loadingShippingInformationSave: true
+            });
+
             saveAddressInformation(addressInformation);
         }
     }
@@ -500,7 +508,8 @@ class CheckoutShippingStep extends Component {
             shippingMethods,
             loadingShippingMethods,
             activeShippingMethod,
-            state
+            state,
+            loadingShippingInformationSave
         } = this.state;
         const renderFunction = this.renderMap[state];
         const { method_code } = activeShippingMethod;
@@ -510,7 +519,7 @@ class CheckoutShippingStep extends Component {
               onSubmitSuccess={ validFields => this.onFormSuccess(validFields) }
               key="shipping_step"
             >
-                <Loader isLoading={ isSignedIn && !finishedLoading } />
+                <Loader isLoading={ (isSignedIn && !finishedLoading) || loadingShippingInformationSave } />
 
                 { renderFunction() }
 

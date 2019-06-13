@@ -330,7 +330,11 @@ class ProductListQuery {
      * @memberof ProductListQuery
      */
     _prepareAdditionalInformation(options) {
-        const additionalInformation = [this._prepareAttributes(true)];
+        const additionalInformation = [
+            this._prepareAttributes(true),
+            'stock_status',
+            'only_x_left_in_stock'
+        ];
 
         if (options.isSingleProduct) {
             const mediaGallery = this._prepareAdditionalGallery();

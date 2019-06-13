@@ -13,7 +13,6 @@ $arrow-margin: 0.8rem;
 .Select {
     &-Container {
         min-width: 160px;
-        height: 35px;
         font-weight: 700;
         font-size: 1.05rem;
 
@@ -29,7 +28,7 @@ $arrow-margin: 0.8rem;
         span, li {
             display: block;
             height: inherit;
-            background-color: var(--color-text-white);
+            // background-color: var(--color-text-white);
             line-height: 3rem;
             text-align: center;
             font-weight: normal;
@@ -38,13 +37,10 @@ $arrow-margin: 0.8rem;
 
         li {
             color: var(--color-neutral-dark);
-            background-color: var(--color-breadcrumbs-background);
         }
 
         span {
-            cursor: default;
             transition: background-color 150ms ease;
-            background-color: var(--color-breadcrumbs-background);
 
             @include mobile {
                 line-height: 2.7rem;
@@ -56,6 +52,7 @@ $arrow-margin: 0.8rem;
             display:inherit;
             overflow: hidden;
             max-height: 15rem;
+            background: #fff;
 
             li {
                 padding: 0;
@@ -66,24 +63,35 @@ $arrow-margin: 0.8rem;
 
                 &:hover,
                 &:focus {
-                    background-color: var(--color-primary-light);
-                    color: var(--color-text-white);
+                    background-color: var(--color-cart-light);
                     text-decoration: none;
                 }
             }
         }
     }
 
+    select,
     &-Wrapper {
-        height: inherit;
-        transition: background-color 150ms ease;
-        background-color: var(--color-breadcrumbs-background);
+        background: none;
+        min-height: 2rem;
+        font-size: 1.1rem;
+    }
+
+    &-Wrapper {
+        border: 1px solid #{color(neutral, base, true)};
+
+        > ul {
+            position: absolute;
+            left: -1px;
+            width: calc(100% + 2px);
+        }
 
         /* Display Dropdowns on Hover */
         &:hover,
         &:focus,
         &:focus-within {
             > ul {
+                border: 1px solid #{color(neutral, base, true)};
                 z-index: 1;
                 opacity: 1;
 
@@ -107,7 +115,7 @@ $arrow-margin: 0.8rem;
         display: flex;
         justify-content: space-between;
         height: inherit;
-        color: var(--color-neutral-dark);
+        color: inherit;
     }
 
     &-Form {
@@ -117,13 +125,12 @@ $arrow-margin: 0.8rem;
         color: inherit;
         width: 100%;
         line-height: 1.2;
-        padding-left: 15%;
+        padding: 1.1rem 1.9rem;
+        background: none;
 
         @include before-desktop {
             pointer-events: initial;
             font-weight: initial;
-            padding: 0;
-            padding-left: 9%;
             width: 100%;
             font-size: 1.15rem;
         }
@@ -149,14 +156,13 @@ $arrow-margin: 0.8rem;
         width: 0.7rem;
         height: 0.7rem;
         border: {
-            left: 1px solid var(--color-neutral-base);
-            top: 1px solid var(--color-neutral-base);
+            left: 1px solid currentColor;
+            top: 1px solid currentColor;
         };
         transform: rotate(45deg);
-
         position: absolute;
-        left: 85%;
-        top: 15%;
+        right: 1.9rem;
+        top: 20%;
         pointer-events: none;
     }
 

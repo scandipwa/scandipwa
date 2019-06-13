@@ -45,6 +45,10 @@
 		margin: 0;
 	}
 
+	&_empty {
+		pointer-events: none;
+	}
+
 	&-Icon {
 		cursor: pointer;
 		background-color: var(--color-cart-light);
@@ -74,17 +78,6 @@
 			top: var(--border-standart);
 			left: var(--border-standart);
 			right: var(--border-standart);
-		}
-	}
-
-	&-Empty {
-		height: 2.9rem;
-		padding: 0 2rem;
-		background-color: var(--color-primary-light);
-		line-height: 2.9rem;
-
-		&::before {
-			content: none;
 		}
 	}
 

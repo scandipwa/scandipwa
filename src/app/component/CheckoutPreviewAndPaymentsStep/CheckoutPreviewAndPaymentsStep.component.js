@@ -159,10 +159,9 @@ class CheckoutPreviewAndPaymentsStep extends Component {
             billing_address: correctAddress
         };
 
-        this.setState({ loadingPaymentInformationSave: true });
-        savePaymentInformationAndPlaceOrder(paymentInformation).then(
-            () => this.setState({ loadingPaymentInformationSave: false })
-        );
+        this.setState({ loadingPaymentInformationSave: true, finishedLoading: false });
+
+        savePaymentInformationAndPlaceOrder(paymentInformation);
     }
 
     getAvailableRegions(country_id) {
@@ -426,7 +425,8 @@ class CheckoutPreviewAndPaymentsStep extends Component {
             billingIsSame,
             activePaymentMethod,
             shippingAddress,
-            state
+            state,
+            loadingPaymentInformationSave
         } = this.state;
         const renderFunction = this.renderMap[state];
         const { code } = activePaymentMethod;
@@ -436,7 +436,7 @@ class CheckoutPreviewAndPaymentsStep extends Component {
               onSubmitSuccess={ validFields => this.onFormSuccess(validFields) }
               key="review_and_payment_step"
             >
-                <Loader isLoading={ !finishedLoading } />
+                <Loader isLoading={ !finishedLoading || loadingPaymentInformationSave } />
 
                 <CheckoutPaymentMethods
                   paymentMethods={ paymentMethods }

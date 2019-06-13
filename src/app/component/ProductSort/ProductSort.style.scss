@@ -47,9 +47,42 @@
     }
 
     &-Select,
-    &-Switch { 
+    &-Switch {
         height: 35px;
         padding: 0 15px;
         line-height: 35px;
+    }
+
+    .Select {
+        &-Wrapper {
+            background-color: var(--color-breadcrumbs-background);
+            border: 0;
+
+            > ul {
+                left: 0;
+                width: 100%;
+            }
+
+            &:hover,
+            &:focus,
+            &:focus-within {
+                > ul {
+                    border: 0;
+                    background-color: var(--color-breadcrumbs-background);
+                }
+            }
+        }
+
+        &-Arrow {
+            top: 15%;
+        }
+
+        &-Form {
+            padding: 0.8rem 2rem;
+
+            @include mobile {
+                padding: 0.8rem 4rem 0.8rem 2rem;
+            }
+        }
     }
 }
