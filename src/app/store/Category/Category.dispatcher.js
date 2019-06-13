@@ -39,15 +39,20 @@ export class CategoryDispatcher extends QueryDispatcher {
             }
         } = data;
 
-        const { categoryUrlPath, categoryIds } = options;
+        const { categoryUrlPath, isSearchPage, categoryIds } = {
+            ...options,
+            ...{ categoryUrlPath: (options.isSearchPage ? 'all-products' : options.categoryUrlPath) }
+        };
+        if (category && !category.url_path && isSearchPage) category.url_path = 'all-products';
 
         if (category
-            && !this._isCategoryExists(category, categoryUrlPath, categoryIds)) return dispatch(updateNoMatch(true));
+            && !this._isCategoryExists(category, categoryUrlPath, categoryIds)
+            && !isSearchPage) dispatch(updateNoMatch(true));
 
         if (category) { // If category details are updated, reset all data
             dispatch(updateCategoryProductList(items, total_count, sort_fields, filters));
             dispatch(updateCategoryList(category));
-            dispatch(updateCurrentCategory(categoryUrlPath, categoryIds));
+            dispatch(updateCurrentCategory(categoryUrlPath, categoryIds, isSearchPage));
         } else if (filters || sort_fields) {
             dispatch(updateCategoryProductList(items, total_count, sort_fields, filters));
         } else {
@@ -71,14 +76,21 @@ export class CategoryDispatcher extends QueryDispatcher {
      */
     prepareRequest(options, dispatch) {
         const {
-            currentPage, previousPage, pageSize, productsLoaded, isCategoryLoaded, categoryUrlPath, categoryIds
+            currentPage,
+            previousPage,
+            pageSize,
+            productsLoaded,
+            isCategoryLoaded,
+            categoryUrlPath,
+            categoryIds,
+            isSearchPage
         } = options;
         const query = [];
 
         if (!isCategoryLoaded) {
             query.push(CategoryQuery.getQuery(options));
         } else {
-            dispatch(updateCurrentCategory(categoryUrlPath, categoryIds));
+            dispatch(updateCurrentCategory(categoryUrlPath, categoryIds, isSearchPage));
         }
 
         if (currentPage > 1) {

@@ -60,9 +60,13 @@
             margin-bottom: var(--options-wrapper-margin);
         }
     }
-    
+
     &-FilterTitle {
         margin-bottom: 1rem;
+    }
+
+    &-SearchBar {
+        margin: 0 0 2.5rem;
     }
 
     &-FilterBlock {
