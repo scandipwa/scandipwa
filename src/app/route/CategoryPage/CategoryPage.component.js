@@ -322,7 +322,8 @@ class CategoryPage extends Component {
                     ? <TextPlaceholder length="short" />
                     : (
                         <>
-                            { __('<span>%s</span> / %s items showing', items.length, totalItems) }
+                            <span>{ items.length }</span>
+                            { __(' / %s items showing', totalItems) }
                         </>
                     )
                 }
