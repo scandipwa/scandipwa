@@ -36,13 +36,18 @@
             content: none;
         }
     }
-    
+
     a {
         display: block;
         text-align: center;
         text-transform: uppercase;
         text-decoration: underline;
         margin-top: 1rem;
+
+        &[disabled] {
+            pointer-events: none;
+            opacity: .25;
+        }
     }
 
     &-Button {
