@@ -358,6 +358,11 @@ class CategoryPage extends Component {
         );
     }
 
+    renderCategoryDetails() {
+        const { category } = this.props;
+        return <CategoryDetails category={ category } />;
+    }
+
     render() {
         const {
             category,
@@ -398,23 +403,23 @@ class CategoryPage extends Component {
                 >
                     <Meta metaObject={ category } />
                     <aside block="CategoryPage" elem="Options">
-                            <CategoryShoppingOptions
-                              availableFilters={ filters }
-                              minPriceValue={ minPriceRange }
-                              maxPriceValue={ maxPriceRange }
-                              priceValue={ this.getPriceRangeFromUrl() }
-                              showSearch={ !isSearchPage }
-                              searchValue={ search || getQueryParam('search', location) || '' }
-                              updateSearch={ value => this.updateSearch(value) }
-                              customFiltersValues={ customFilters }
-                              updatePriceRange={ priceRange => this.updatePriceRange(priceRange) }
-                              updateFilter={ (filterName, filterArray) => this.updateFilter(filterName, filterArray) }
-                              clearFilters={ () => this.clearFilters(location, history) }
-                              sortKey={ sortKey }
-                              sortDirection={ sortDirection }
-                              location={ location }
-                              history={ history }
-                            />
+                        <CategoryShoppingOptions
+                          availableFilters={ filters }
+                          minPriceValue={ minPriceRange }
+                          maxPriceValue={ maxPriceRange }
+                          priceValue={ this.getPriceRangeFromUrl() }
+                          showSearch={ !isSearchPage }
+                          searchValue={ search || getQueryParam('search', location) || '' }
+                          customFiltersValues={ customFilters }
+                          updatePriceRange={ priceRange => this.updatePriceRange(priceRange) }
+                          updateFilter={ (filterName, filterArray) => this.updateFilter(filterName, filterArray) }
+                          updateSearch={ value => this.updateSearch(value) }
+                          clearFilters={ () => this.clearFilters(location, history) }
+                          sortKey={ sortKey }
+                          sortDirection={ sortDirection }
+                          location={ location }
+                          history={ history }
+                        />
                         <CategoriesList
                           availableFilters={ filters }
                           category={ categoryList }
@@ -423,9 +428,7 @@ class CategoryPage extends Component {
                           match={ match }
                         />
                     </aside>
-                    <CategoryDetails
-                      category={ category }
-                    />
+                    { this.renderCategoryDetails() }
                     <aside block="CategoryPage" elem="Miscellaneous">
                         { this.renderItemCount() }
                         <ProductSort

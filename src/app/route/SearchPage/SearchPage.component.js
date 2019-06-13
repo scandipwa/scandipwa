@@ -9,12 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import React from 'react';
 import PropTypes from 'prop-types';
 import CategoryPage from 'Route/CategoryPage/CategoryPage.component';
 import {
     getUrlParam, getQueryParam, setQueryParams, clearQueriesFromUrl
 } from 'Util/Url';
-
+import './SearchPage.style';
 
 class SearchPage extends CategoryPage {
     constructor(props) {
@@ -130,6 +131,19 @@ class SearchPage extends CategoryPage {
                 name: 'Search'
             }
         ]);
+    }
+
+    renderCategoryDetails() {
+        const search = getUrlParam({ path: 'search/' }, location);
+
+        return (
+            <div block="SearchPage" elem="Description">
+                <h1 block="SearchPage" elem="Heading">
+                    { __('Search results for: ') }
+                    <span>{ search }</span>
+                </h1>
+            </div>
+        )
     }
 
     /**

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import './CategorySearch.style';
 
 class CategorySearch extends Component {
     constructor(props) {
@@ -11,6 +12,7 @@ class CategorySearch extends Component {
         const { value: prevValue } = prevProps;
         const { value } = this.props;
 
+        // eslint-disable-next-line react/no-did-update-set-state
         if (prevValue !== value) this.setState({ value });
     }
 
@@ -27,9 +29,10 @@ class CategorySearch extends Component {
         const { value } = this.state;
         return (
             <input
+              block="CategorySearch"
               value={ value }
               onChange={ e => this.onChange(e) }
-              placeholder="I'm looking for..."
+              placeholder={ __('I`m looking for...') }
             />
         );
     }
