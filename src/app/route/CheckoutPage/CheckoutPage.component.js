@@ -148,7 +148,7 @@ class CheckoutPage extends Component {
     }
 
     saveAddressInformation(addressInformation) {
-        const { saveAddressInformation } = this.props;
+        const { saveAddressInformation, showNotification } = this.props;
         const {
             shipping_address,
             billing_address,
@@ -174,14 +174,20 @@ class CheckoutPage extends Component {
                     addressesAreChecked: true
                 });
             },
-            err => console.log(err)
+            (err) => {
+                showNotification('error', err[0].debugMessage);
+                this.setState({
+                    checkoutStep: CHECKOUT_STEP_SHIPPING
+                });
+            }
         );
     }
 
     savePaymentInformationAndPlaceOrder(paymentInformation) {
         const {
             savePaymentInformationAndPlaceOrder,
-            removeCartAndObtainNewGuest
+            removeCartAndObtainNewGuest,
+            showNotification
         } = this.props;
 
         return savePaymentInformationAndPlaceOrder(paymentInformation).then(
@@ -197,7 +203,12 @@ class CheckoutPage extends Component {
                     showSummary: false
                 });
             },
-            err => console.log(err)
+            (err) => {
+                showNotification('error', err[0].debugMessage);
+                this.setState({
+                    checkoutStep: CHECKOUT_STEP_SHIPPING
+                });
+            }
         );
     }
 
@@ -344,6 +355,7 @@ CheckoutPage.propTypes = {
     savePaymentInformationAndPlaceOrder: PropTypes.func.isRequired,
     saveAddressInformation: PropTypes.func.isRequired,
     removeCartAndObtainNewGuest: PropTypes.func.isRequired,
+    showNotification: PropTypes.func.isRequired,
     requestCustomerData: PropTypes.func.isRequired,
     history: PropTypes.shape({
         location: PropTypes.object.isRequired,
