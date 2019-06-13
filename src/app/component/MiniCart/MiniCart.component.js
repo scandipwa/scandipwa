@@ -58,7 +58,7 @@ class MiniCart extends Component {
     }
 
     renderCartData(products) {
-        const { totals: { base_currency_code, subTotalPrice } } = this.props;
+        const { totals: { base_currency_code, subtotal } } = this.props;
 
         return (
             <>
@@ -74,7 +74,7 @@ class MiniCart extends Component {
                     <div>
                         Subtotal:&nbsp;
                         <strong>
-                            { formatCurrency(subTotalPrice, base_currency_code) }
+                            { formatCurrency(subtotal, base_currency_code) }
                         </strong>
                     </div>
                 </li>
