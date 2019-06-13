@@ -199,6 +199,11 @@ class CheckoutShippingStep extends Component {
         return null;
     }
 
+    // initialize available regions
+    componentDidMount() {
+        this.getAvailableRegions(DEFAULT_COUNTRY);
+    }
+
     componentDidUpdate(prevProps) {
         const { finishedLoading, shippingAddress, countryList } = this.props;
         const { country_id } = this.state;
