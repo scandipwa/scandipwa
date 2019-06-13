@@ -34,22 +34,22 @@ class Header extends Component {
                         <Link to="/" tabIndex="0">
                             <img
                               src="/static/frontend/Scandiweb/pwa/en_US/Magento_Theme/assets/images/global/logo.svg"
-                              alt="HeaderLogo"
+                              alt={ __('Header Logo') }
                             />
                         </Link>
                     </div>
-                    <div block="Header" elem="Search" aria-label="Header search bar">
+                    <div block="Header" elem="Search" aria-label={ __('Header search bar') }>
                         <SearchBar />
                     </div>
-                    <div block="Header" elem="Info" aria-label="Header additional info">
-                        <p>Delivery as soon as:</p>
-                        <span>Next Day</span>
+                    <div block="Header" elem="Info" aria-label={ __('Header additional info') }>
+                        <p>{ __('Delivery as soon as:') }</p>
+                        <span>{ __('Next Day') }</span>
                     </div>
                 </div>
                 <ContentWrapper
                   wrapperMix={ { block: 'Header', elem: 'MenuWrapper' } }
                   mix={ { block: 'Header', elem: 'Menu' } }
-                  label="Main website navigation"
+                  label={ __('Main website navigation') }
                 >
                     <Menu />
                     <MyAccount />

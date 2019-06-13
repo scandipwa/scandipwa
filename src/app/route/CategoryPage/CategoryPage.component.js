@@ -349,8 +349,8 @@ class CategoryPage extends Component {
                     ? <TextPlaceholder length="short" />
                     : (
                         <>
-                            <span>{items.length}</span>
-                            {`/${totalItems} items showing`}
+                            <span>{ items.length }</span>
+                            { __(' / %s items showing', totalItems) }
                         </>
                     )
                 }
@@ -394,27 +394,27 @@ class CategoryPage extends Component {
             <main block="CategoryPage">
                 <ContentWrapper
                   wrapperMix={ { block: 'CategoryPage', elem: 'Wrapper' } }
-                  label="Category page"
+                  label={ __('Category page') }
                 >
                     <Meta metaObject={ category } />
                     <aside block="CategoryPage" elem="Options">
-                        <CategoryShoppingOptions
-                          availableFilters={ filters }
-                          minPriceValue={ minPriceRange }
-                          maxPriceValue={ maxPriceRange }
-                          priceValue={ this.getPriceRangeFromUrl() }
-                          showSearch={ !isSearchPage }
-                          searchValue={ search || getQueryParam('search', location) || '' }
-                          customFiltersValues={ customFilters }
-                          updatePriceRange={ priceRange => this.updatePriceRange(priceRange) }
-                          updateFilter={ (filterName, filterArray) => this.updateFilter(filterName, filterArray) }
-                          updateSearch={ value => this.updateSearch(value) }
-                          clearFilters={ () => this.clearFilters(location, history) }
-                          sortKey={ sortKey }
-                          sortDirection={ sortDirection }
-                          location={ location }
-                          history={ history }
-                        />
+                            <CategoryShoppingOptions
+                              availableFilters={ filters }
+                              minPriceValue={ minPriceRange }
+                              maxPriceValue={ maxPriceRange }
+                              priceValue={ this.getPriceRangeFromUrl() }
+                              showSearch={ !isSearchPage }
+                              searchValue={ search || getQueryParam('search', location) || '' }
+                              updateSearch={ value => this.updateSearch(value) }
+                              customFiltersValues={ customFilters }
+                              updatePriceRange={ priceRange => this.updatePriceRange(priceRange) }
+                              updateFilter={ (filterName, filterArray) => this.updateFilter(filterName, filterArray) }
+                              clearFilters={ () => this.clearFilters(location, history) }
+                              sortKey={ sortKey }
+                              sortDirection={ sortDirection }
+                              location={ location }
+                              history={ history }
+                            />
                         <CategoriesList
                           availableFilters={ filters }
                           category={ categoryList }
@@ -427,7 +427,7 @@ class CategoryPage extends Component {
                       category={ category }
                     />
                     <aside block="CategoryPage" elem="Miscellaneous">
-                        {this.renderItemCount()}
+                        { this.renderItemCount() }
                         <ProductSort
                           onGetKey={ key => this.onGetKey(key) }
                           onGetSortDirection={ direction => this.onGetSortDirection(direction) }

@@ -98,7 +98,7 @@ class ProductCard extends Component {
                       tabIndex={ url_key ? '0' : '-1' }
                       onClick={ this.handleConfigurableClick }
                     >
-                        <span>Configure Product</span>
+                        <span>{ __('Configure Product') }</span>
                     </Link>
                 );
             }
@@ -107,7 +107,7 @@ class ProductCard extends Component {
         if (type_id === 'grouped') {
             return (
                 <Link to={ linkTo } tabIndex={ url_key ? '0' : '-1' }>
-                    <span>View details</span>
+                    <span>{ __('View details') }</span>
                 </Link>
             );
         }
@@ -159,7 +159,7 @@ class ProductCard extends Component {
                 >
                     <Image
                       src={ thumbnail && `/media/jpg/catalog/product${ thumbnail }` }
-                      alt="Product Thumbnail"
+                      alt={ __('Product Thumbnail') }
                       arePlaceholdersShown={ arePlaceholdersShown }
                       showGreyPlaceholder={ !url_key }
                     />
