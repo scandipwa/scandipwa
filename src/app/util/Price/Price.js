@@ -17,7 +17,11 @@
  * @return {Object} Object of prices
  */
 export const getProductPrice = (product) => {
-    const { price: { minimalPrice, regularPrice: regPrice } } = product;
+    const { price, variants, configurableVariantIndex } = product;
+    const productPrice = typeof configurableVariantIndex === 'number'
+        ? variants[configurableVariantIndex].product.price
+        : price;
+    const { minimalPrice, regularPrice: regPrice } = productPrice;
     const tax = 1 - 0.12; // TODO: Hardcoded for now, need to get from configuration
     const minimalPriceValue = minimalPrice.amount.value;
     const regularPriceValue = regPrice.amount.value;
