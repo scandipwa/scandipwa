@@ -18,6 +18,12 @@
         --button-border-width: 2px;
         --button-padding: 1rem;
 
+        @include mobile {
+            margin-left: 0;
+            margin-top: 1rem;
+            width: 100%;
+        }
+
         &_fullWidth {
             width: 100%;
             margin: 0.5rem 0 0;

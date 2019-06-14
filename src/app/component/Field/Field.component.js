@@ -83,7 +83,7 @@ class Field extends Component {
         const { type, checked } = this.props;
         const { isChecked } = this.state;
 
-        // eslint-disable-next-line react/no-did-update-set-state
+        // eslint-disable-next-liqueraFieldne react/no-did-update-set-state
         if (type === 'checkbox' && checked !== isChecked) this.setState({ isChecked: !isChecked });
     }
 

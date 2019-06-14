@@ -13,6 +13,10 @@
     &-Button {
         padding: 1rem;
 
+        @include mobile {
+            width: calc(100% - 100px);
+        }
+
         &_fullWidth {
             width: 100%;
 

@@ -69,18 +69,21 @@ class SearchPage extends CategoryPage {
             category,
             categoryIds
         } = this.props;
+
         const {
             sortKey,
             sortDirection,
             previousPage,
-            pageSize,
+            pageSize
         } = this.state;
+
         const categoryUrlPath = !categoryIds ? this.getCategoryUrlPath() : null;
         const currentPage = getQueryParam('page', location) || 1;
         const priceRange = this.getPriceRangeFromUrl();
         const customFilters = this.getCustomFiltersFromUrl();
         const querySortKey = getQueryParam('sortKey', location);
         const querySortDirection = getQueryParam('sortDirection', location);
+
         const options = {
             search: getUrlParam({ path: 'search/' }, location),
             isSearchPage: isSearchPage || false,
@@ -134,7 +137,7 @@ class SearchPage extends CategoryPage {
     }
 
     renderCategoryDetails() {
-        const search = getUrlParam({ path: 'search/' }, location);
+        const search = decodeURIComponent(getUrlParam({ path: 'search/' }, location));
 
         return (
             <div block="SearchPage" elem="Description">

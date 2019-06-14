@@ -168,21 +168,24 @@ class CategoryPage extends Component {
             category,
             categoryIds
         } = this.props;
+
         const {
             sortKey,
             sortDirection,
             previousPage,
-            pageSize,
-            search
+            pageSize
         } = this.state;
+
         const categoryUrlPath = !categoryIds ? this.getCategoryUrlPath() : null;
         const currentPage = getQueryParam('page', location) || 1;
         const priceRange = this.getPriceRangeFromUrl();
         const customFilters = this.getCustomFiltersFromUrl();
         const querySortKey = getQueryParam('sortKey', location);
         const querySortDirection = getQueryParam('sortDirection', location);
+        const search = getQueryParam('search', location);
+
         const options = {
-            search: search || getQueryParam('search', location),
+            search: search ? decodeURIComponent(search) : '',
             isSearchPage: isSearchPage || false,
             categoryUrlPath,
             currentPage,
@@ -242,7 +245,6 @@ class CategoryPage extends Component {
     updateSearch(value) {
         const { location, history } = this.props;
 
-        this.setState({ search: value });
         setQueryParams({
             search: value,
             page: ''
@@ -328,13 +330,12 @@ class CategoryPage extends Component {
     clearFilters(location, history) {
         const { sortKey, sortDirection } = this.state;
         const page = getQueryParam('page', location) || 1;
-        const search = getQueryParam('search', location) || '';
+
         clearQueriesFromUrl(history);
         setQueryParams(
             {
                 sortKey,
                 sortDirection,
-                search,
                 page
             }, location, history
         );
@@ -382,8 +383,7 @@ class CategoryPage extends Component {
             sortKey,
             sortDirection,
             minPriceRange,
-            maxPriceRange,
-            search
+            maxPriceRange
         } = this.state;
 
         const { options } = sortFields;
@@ -394,6 +394,7 @@ class CategoryPage extends Component {
         }));
 
         const customFilters = this.getCustomFiltersFromUrl();
+        const search = getQueryParam('search', location) || '';
 
         return (
             <main block="CategoryPage">
@@ -409,7 +410,7 @@ class CategoryPage extends Component {
                           maxPriceValue={ maxPriceRange }
                           priceValue={ this.getPriceRangeFromUrl() }
                           showSearch={ !isSearchPage }
-                          searchValue={ search || getQueryParam('search', location) || '' }
+                          searchValue={ search }
                           customFiltersValues={ customFilters }
                           updatePriceRange={ priceRange => this.updatePriceRange(priceRange) }
                           updateFilter={ (filterName, filterArray) => this.updateFilter(filterName, filterArray) }

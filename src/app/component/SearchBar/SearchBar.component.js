@@ -100,12 +100,14 @@ class SearchBar extends Component {
     }
 
     handleSubmit(event) {
-        event.preventDefault();
-        document.activeElement.blur();
         const { history } = this.props;
         const { searchInput } = this.state;
+
+        event.preventDefault();
+        document.activeElement.blur();
         history.push(`/search/${encodeURIComponent(searchInput)}`);
-        this.setState({ isSearchBarActive: false });
+
+        this.handleSearchIconClick();
     }
 
     handleOutsideClick({ target }) {
@@ -227,6 +229,7 @@ class SearchBar extends Component {
             isMobileSearchBarVisible,
             previousSearchInput
         } = this.state;
+
         const { isLoading } = this.props;
         const { products: items } = this.props;
         const isCurrentResultRequested = !!searchInput && searchInput === previousSearchInput;

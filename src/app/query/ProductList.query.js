@@ -38,7 +38,7 @@ class ProductListQuery {
             .addField(items);
 
         if (args.sort) field.addArgument('sort', 'ProductSortInput', args.sort);
-        if (args.search) field.addArgument('search', 'String', args.search);
+        if (args.search) field.addArgument('search', 'String', encodeURIComponent(args.search));
 
         // do not load sort and filter fields if this is next page load
         if (!options.isNextPage) field.addField(sortFields).addField(filters);
