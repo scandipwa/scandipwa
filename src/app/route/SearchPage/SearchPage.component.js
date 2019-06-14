@@ -146,7 +146,7 @@ class SearchPage extends CategoryPage {
                     <span>{ search }</span>
                 </h1>
             </div>
-        )
+        );
     }
 
     /**
