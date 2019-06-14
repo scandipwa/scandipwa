@@ -21,6 +21,7 @@ import {
 // import { getProductPrice } from 'Util/Price';
 import { isSignedIn } from 'Util/Auth';
 import { Cart } from 'Query';
+import { showNotification } from 'Store/Notification';
 import BrowserDatabase from 'Util/BrowserDatabase';
 
 export const GUEST_QUOTE_ID = 'guest_quote_id';
@@ -42,7 +43,7 @@ export class CartDispatcher {
         } else {
             // This is guest, cart is empty
             // Need to create empty cart and save quote
-            this._createEmptyCart().then((data) => {
+            this._createEmptyCart(dispatch).then((data) => {
                 BrowserDatabase.setItem(data, GUEST_QUOTE_ID);
                 dispatch(updateAllProductsInCart({}));
                 dispatch(updateTotals({}));
@@ -50,10 +51,10 @@ export class CartDispatcher {
         }
     }
 
-    _createEmptyCart() {
+    _createEmptyCart(dispatch) {
         return fetchMutation(Cart.getCreateEmptyCartMutation()).then(
             ({ createEmptyCart }) => createEmptyCart,
-            error => console.log(error)
+            error => dispatch(showNotification('error', error[0].message))
         );
     }
 
@@ -64,7 +65,7 @@ export class CartDispatcher {
         )).then(
             ({ cartData }) => this._updateCartData(cartData, dispatch),
             () => {
-                this._createEmptyCart().then((data) => {
+                this._createEmptyCart(dispatch).then((data) => {
                     BrowserDatabase.setItem(data, GUEST_QUOTE_ID);
                     dispatch(updateAllProductsInCart({}));
                     dispatch(updateTotals({}));
@@ -91,7 +92,7 @@ export class CartDispatcher {
                 productToAdd, !isSignedIn() && this._getGuestQuoteId()
             )).then(
                 ({ saveCartItem: { cartData } }) => this._updateCartData(cartData, dispatch),
-                error => console.log(error)
+                error => dispatch(showNotification('error', error[0].message))
             );
         }
 
@@ -104,7 +105,7 @@ export class CartDispatcher {
             !isSignedIn() && this._getGuestQuoteId()
         )).then(
             ({ removeCartItem: { cartData } }) => this._updateCartData(cartData, dispatch),
-            error => console.log(error)
+            error => dispatch(showNotification('error', error[0].message))
         );
     }
 

@@ -37,7 +37,7 @@ export class MyAccountDispatcher {
 
         return executePost(prepareQuery([query])).then(
             ({ customer }) => dispatch(updateCustomerDetails(customer)),
-            error => console.log(error)
+            error => dispatch(showNotification('error', error[0].message))
         );
     }
 
@@ -45,7 +45,7 @@ export class MyAccountDispatcher {
         const mutation = MyAccount.getUpdateInformationMutation(options);
         return fetchMutation(mutation).then(
             ({ customer }) => dispatch(updateCustomerDetails(customer)),
-            error => console.log(error)
+            error => dispatch(showNotification('error', error[0].message))
         );
     }
 
@@ -71,7 +71,7 @@ export class MyAccountDispatcher {
 
         return fetchMutation(mutation).then(
             ({ addresses }) => dispatch(updateCustomerDetails(addresses)),
-            error => console.log(error)
+            error => dispatch(showNotification('error', error[0].message))
         );
     }
 
@@ -80,7 +80,7 @@ export class MyAccountDispatcher {
 
         return fetchMutation(mutation).then(
             ({ addresses }) => dispatch(updateCustomerDetails(addresses)),
-            error => console.log(error)
+            error => dispatch(showNotification('error', error[0].message))
         );
     }
 
@@ -94,7 +94,7 @@ export class MyAccountDispatcher {
         const mutation = MyAccount.getForgotPasswordMutation(options);
         fetchMutation(mutation).then(
             () => dispatch(updateCustomerPasswordForgotStatus()),
-            error => console.log(error)
+            error => dispatch(showNotification('error', error[0].message))
         );
     }
 
@@ -126,7 +126,7 @@ export class MyAccountDispatcher {
                 this.signIn({ email, password }, dispatch);
                 dispatch(updateCustomerDetails(customer));
             },
-            error => console.log(error)
+            error => dispatch(showNotification('error', error[0].message))
         );
     }
 
@@ -146,7 +146,7 @@ export class MyAccountDispatcher {
                 CartDispatcher.updateInitialCartData(dispatch);
                 WishlistDispatcher.updateInitialWishlistData(dispatch);
             },
-            error => console.log(error)
+            error => dispatch(showNotification('error', error[0].message))
         );
     }
 }

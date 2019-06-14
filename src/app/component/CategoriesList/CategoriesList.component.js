@@ -14,6 +14,7 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { CategoryTreeType } from 'Type/Category';
+import { getUrlParam } from 'Util/Url';
 import './CategoriesList.style';
 
 /**
@@ -34,20 +35,25 @@ class CategoriesList extends Component {
         name,
         url_path,
         children
-    }, isParent) {
-        const {
-            currentCategory: {
-                url_path: current_url_path
-            }
-        } = this.props;
-        const isSelected = current_url_path === url_path;
-        const isParentExpanded = current_url_path.substring(0, current_url_path.indexOf('/')) === url_path
-        || (isParent && isSelected);
+    }) {
+        const { location, match } = this.props;
+        const currentPath = getUrlParam(match, location);
+        const isSelected = currentPath === url_path;
+        const isParentExpanded = (currentPath.indexOf(url_path) === 0);
 
         return (
-            <li block="CategoriesList" elem="Category" key={ id } mods={ { isSelected } }>
-                { this.renderCategoryLabel(name, url_path) }
-                { isParentExpanded && children && <ul>{ children.map(child => this.renderSubCategory(child)) }</ul> }
+            <li
+              block="CategoriesList"
+              elem="Category"
+              key={ id }
+              mods={ { isSelected } }
+            >
+                {this.renderCategoryLabel(name, url_path)}
+                {isParentExpanded && children && (
+                    <ul>
+                        {children.map(child => this.renderSubCategory(child))}
+                    </ul>
+                )}
             </li>
         );
     }
@@ -59,7 +65,7 @@ class CategoriesList extends Component {
             if (children && children.length) {
                 return (
                     <ul>
-                        { children.map(child => this.renderSubCategory(child, true)) }
+                        { children.map(child => this.renderSubCategory(child)) }
                     </ul>
                 );
             }

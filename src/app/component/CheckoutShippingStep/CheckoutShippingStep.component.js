@@ -35,6 +35,8 @@ class CheckoutShippingStep extends Component {
     constructor(props) {
         super(props);
 
+        const { showNotification } = props;
+
         this.handleFieldChange = this.handleFieldChange.bind(this);
         this.changeState = this.changeState.bind(this);
 
@@ -85,7 +87,7 @@ class CheckoutShippingStep extends Component {
                                 // Will force re-render
                                 this.setState({ email });
                             },
-                            error => console.log(error)
+                            err => showNotification('error', err[0].debugMessage)
                         );
                     }
                 }
@@ -321,6 +323,8 @@ class CheckoutShippingStep extends Component {
     }
 
     handleFieldChange() {
+        const { showNotification } = this.props;
+
         this.setState({ loadingShippingMethods: true });
 
         if (this.shippingMethodEstimationTimeout) {
@@ -353,7 +357,7 @@ class CheckoutShippingStep extends Component {
                     shippingMethods,
                     loadingShippingMethods: false
                 }),
-                err => console.log(err)
+                err => showNotification('error', err[0].debugMessage)
             );
         }, 1000);
     }

@@ -36,7 +36,8 @@ const CategoryReducer = (state = initialState, action) => {
         filters,
         isLoading,
         categoryUrlPath,
-        categoryIds
+        categoryIds,
+        isSearchPage
     } = action;
 
     if (items) {
@@ -100,6 +101,8 @@ const CategoryReducer = (state = initialState, action) => {
         };
 
         flattenCategory(stateCategoryList);
+
+        if (isSearchPage) return { ...state, category: stateCategoryList };
 
         return {
             ...state,

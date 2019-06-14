@@ -95,8 +95,21 @@ class CategoryProductList extends Component {
         increasePage();
     }
 
+    renderNoProducts() {
+        return (
+            <div
+              block="CategoryProductList"
+              elem="NoProducts"
+            >
+                No products found
+            </div>
+        );
+    }
+
     renderProducts() {
         const { items, customFilters } = this.props;
+
+        if (items.length === 0) return this.renderNoProducts();
 
         return items.map(product => (
             <ProductCard
