@@ -21,10 +21,12 @@ export const UPDATE_LOAD_STATUS = 'UPDATE_LOAD_STATUS';
  * @param {Number} totalItems Total number of products in this filter
  * @return {void}
  */
-const updateCategoryProductList = (items, totalItems, sortFields, filters) => ({
+const updateCategoryProductList = (items, totalItems, minPrice, maxPrice, sortFields, filters) => ({
     type: UPDATE_CATEGORY_PRODUCT_LIST,
     items,
     totalItems,
+    minPrice,
+    maxPrice,
     sortFields,
     filters
 });
@@ -34,9 +36,11 @@ const updateCategoryProductList = (items, totalItems, sortFields, filters) => ({
  * @param {Array<Object>} items List of products returned from fetch
  * @return {void}
  */
-const appendCategoryProductList = items => ({
+const appendCategoryProductList = (items, minPrice, maxPrice) => ({
     type: APPEND_CATEGORY_PRODUCT_LIST,
-    items
+    items,
+    minPrice,
+    maxPrice
 });
 
 /**

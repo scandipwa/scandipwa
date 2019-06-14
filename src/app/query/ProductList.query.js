@@ -35,6 +35,8 @@ class ProductListQuery {
             .addArgument('pageSize', 'Int!', args.pageSize)
             .addArgument('filter', 'ProductFilterInput!', args.filter)
             .addField('total_count')
+            .addField('min_price')
+            .addField('max_price')
             .addField(items);
 
         if (args.sort) field.addArgument('sort', 'ProductSortInput', args.sort);
