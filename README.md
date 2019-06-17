@@ -12,7 +12,7 @@ It is important to ensure you are following the best practices and setting web-s
 
 ### Upgrading to version ^1.7
 
-When upgrading to theme version ^1.7, pay attention to `webpack.\*.config` files, new plugin was added there. Also, the index is now split in two parts: the `index.production.html` and `index.development.html`.
+When upgrading to theme version ^1.7, pay attention to `webpack.*.config` files, new plugin was added there. Also, the index is now split in two parts: the `index.production.html` and `index.development.html`.
 
 ## Environment
 
