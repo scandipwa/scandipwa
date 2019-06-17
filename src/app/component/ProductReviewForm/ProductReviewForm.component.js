@@ -152,7 +152,6 @@ class ProductReviewForm extends Component {
     render() {
         const {
             product,
-            areDetailsLoaded,
             customer,
             isSignedIn,
             reviewRatings
@@ -164,59 +163,51 @@ class ProductReviewForm extends Component {
             <ContentWrapper
               mix={ { block: 'ProductReviewForm' } }
               wrapperMix={ { block: 'ProductReviewForm', elem: 'Wrapper' } }
-              label="Product Review Form"
+              label={ __('Product Review Form') }
             >
-                { areDetailsLoaded && reviewRatingsLoaded ? (
-                    <Form
-                      key="product-review"
-                      ref={ (el) => { this.formRef = el; } }
-                      onSubmit={ () => this.onReviewSubmitAttempt() }
-                      onSubmitSuccess={ fields => this.onReviewSubmitSuccess(fields) }
-                      onSubmitError={ (fields, invalidFields) => this.onReviewSubmitAttempt(fields, invalidFields) }
+                <Form
+                  key="product-review"
+                  ref={ (el) => { this.formRef = el; } }
+                  onSubmit={ () => this.onReviewSubmitAttempt() }
+                  onSubmitSuccess={ fields => this.onReviewSubmitSuccess(fields) }
+                  onSubmitError={ (fields, invalidFields) => this.onReviewSubmitAttempt(fields, invalidFields) }
+                >
+                    <h3
+                      block="ProductReviewForm"
+                      elem="Title"
+                      id="review-form"
                     >
-                        <h3
-                          block="ProductReviewForm"
-                          elem="Title"
-                          id="review-form"
-                        >
-                            { 'You\'re reviewing:' }
-                        </h3>
-                        <p block="ProductReviewForm" elem="ProductName">{ product.name }</p>
-                        { reviewRatings.map(reviewRating => this.renderReviewRatings(reviewRating)) }
-                        <Field
-                          type="text"
-                          label="Nickname"
-                          id="nickname"
-                          validation={ ['notEmpty'] }
-                          defaultValue={ isSignedIn ? customer.firstname : '' }
-                        />
-                        <Field
-                          type="text"
-                          label="Summary"
-                          id="title"
-                          validation={ ['notEmpty'] }
-                        />
-                        <Field
-                          type="textarea"
-                          label="Review"
-                          id="detail"
-                          validation={ ['notEmpty'] }
-                        />
-                        <Loader isLoading={ isLoading } />
-                        <div block="ProductReviewForm" elem="Buttons">
-                            <button>Submit Review</button>
-                        </div>
-                    </Form>
-                ) : (
-                    <p block="ProductReviewForm" elem="PlaceholderBlock">
-                        <TextPlaceholder length="short" />
-                        <TextPlaceholder length="short" />
-                        <TextPlaceholder length="medium" />
-                        <TextPlaceholder length="medium" />
-                        <TextPlaceholder length="medium" />
-                        <TextPlaceholder length="short" />
-                    </p>
-                )}
+                        { __('You\'re reviewing:') }
+                    </h3>
+                    <p block="ProductReviewForm" elem="ProductName"><TextPlaceholder content={ product.name } /></p>
+                    { reviewRatingsLoaded
+                        ? reviewRatings.map(reviewRating => this.renderReviewRatings(reviewRating))
+                        : <TextPlaceholder length="short" />
+                    }
+                    <Field
+                      type="text"
+                      label="Nickname"
+                      id="nickname"
+                      validation={ ['notEmpty'] }
+                      defaultValue={ isSignedIn ? customer.firstname : '' }
+                    />
+                    <Field
+                      type="text"
+                      label="Summary"
+                      id="title"
+                      validation={ ['notEmpty'] }
+                    />
+                    <Field
+                      type="textarea"
+                      label="Review"
+                      id="detail"
+                      validation={ ['notEmpty'] }
+                    />
+                    <Loader isLoading={ isLoading } />
+                    <div block="ProductReviewForm" elem="Buttons">
+                        <button>{ __('Submit Review') }</button>
+                    </div>
+                </Form>
             </ContentWrapper>
         );
     }
@@ -226,7 +217,6 @@ ProductReviewForm.propTypes = {
     product: ProductType.isRequired,
     addReview: PropTypes.func.isRequired,
     showNotification: PropTypes.func.isRequired,
-    areDetailsLoaded: PropTypes.bool.isRequired,
     customer: customerType.isRequired,
     isSignedIn: PropTypes.bool.isRequired,
     reviewRatings: RatingItemsType.isRequired

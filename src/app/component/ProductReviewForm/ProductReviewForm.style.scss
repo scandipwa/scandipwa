@@ -34,6 +34,11 @@
         textarea {
             width: 100%;
         }
+
+        .TextPlaceholder {
+            display: block;
+            font-size: 1.5rem;
+        }
     }
 
     &-ReviewRating {
@@ -153,16 +158,5 @@
 
     &-Buttons {
         margin-top: 1rem;
-    }
-
-    &-PlaceholderBlock {
-        .TextPlaceholder {
-            display: block;
-            font-size: 3rem;
-            
-            @include mobile {
-                font-size: 2rem;
-            }
-        }
     }
 }

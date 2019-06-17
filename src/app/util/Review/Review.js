@@ -13,6 +13,6 @@
  * Get review text based on passed review count
  * @param {number} reviewCount review count
  */
-const getReviewText = reviewCount => (reviewCount === 1 ? 'Review' : 'Reviews');
+const getReviewText = reviewCount => (reviewCount === 1 ? __('Review') : __('Reviews'));
 
 export { getReviewText };

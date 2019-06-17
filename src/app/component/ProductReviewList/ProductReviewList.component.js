@@ -70,7 +70,13 @@ class ProductReviewList extends Component {
                 </div>
                 <div block="ProductReviewList" elem="ReviewContent">
                     <p block="ProductReviewList" elem="ReviewDetails">
-                        <TextPlaceholder content={ detail } length="long" />
+                        { detail
+                            || <>
+                                <TextPlaceholder length="long" />
+                                <TextPlaceholder length="long" />
+                                <TextPlaceholder length="medium" />
+                            </>
+                        }
                     </p>
                     <p block="ProductReviewList" elem="ReviewAuthor">
                         <TextPlaceholder
@@ -88,6 +94,11 @@ class ProductReviewList extends Component {
     render() {
         const { product, areDetailsLoaded } = this.props;
         const hasReviews = product.reviews && Object.keys(product.reviews).length > 0;
+        const placeholderReviewList = [
+            { review_id: 1 },
+            { review_id: 2 },
+            { review_id: 3 }
+        ];
 
         if (areDetailsLoaded && !hasReviews) return null;
 
@@ -95,7 +106,7 @@ class ProductReviewList extends Component {
             <ContentWrapper
               mix={ { block: 'ProductReviewList' } }
               wrapperMix={ { block: 'ProductReviewList', elem: 'Wrapper' } }
-              label="Product Review List"
+              label={ __('Product Review List') }
             >
                 <>
                     <h3
@@ -103,13 +114,12 @@ class ProductReviewList extends Component {
                       elem="Title"
                       id="reviews"
                     >
-                        <TextPlaceholder content={ areDetailsLoaded ? 'Customer reviews' : '' } />
+                        <TextPlaceholder content={ areDetailsLoaded ? __('Customer reviews') : '' } />
                     </h3>
 
                     <ul block="ProductReviewList" elem="List">
-                        { areDetailsLoaded
-                            ? product.reviews.map(review => this.renderReviewListItem(review))
-                            : this.renderReviewListItem({ review_id: null })
+                        { (areDetailsLoaded ? product.reviews : placeholderReviewList)
+                            .map(review => this.renderReviewListItem(review))
                         }
                     </ul>
                 </>
