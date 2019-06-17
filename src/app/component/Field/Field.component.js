@@ -30,6 +30,7 @@ const TEXTAREA_TYPE = 'textarea';
 const PASSWORD_TYPE = 'password';
 const SELECT_TYPE = 'select';
 
+const VISIBLE_ALWAYS = 'visibleAlways';
 /**
  * Input fields component
  * @class Field
@@ -38,12 +39,9 @@ class Field extends Component {
     constructor(props) {
         super(props);
 
-        this.onChange = this.onChange.bind(this);
-
         const {
             type,
             min,
-            checked,
             value: propsValue
         } = this.props;
 
@@ -68,7 +66,6 @@ class Field extends Component {
         }
 
         this.state = { value, isChecked: value };
-        this.onChange = this.onChange.bind(this);
     }
 
     /**
@@ -76,13 +73,8 @@ class Field extends Component {
      * For e.g. when we have two controlable fields on the screen which both share same prop value
      * @return {Object} state
      */
-    static getDerivedStateFromProps(props, state) {
+    static getDerivedStateFromProps(props) {
         const { value } = props;
-        // const { value: stateValue } = state;
-
-        // if (value !== stateValue) {
-        //     return { value: stateValue };
-        // }
 
         return { value };
     }
@@ -91,7 +83,7 @@ class Field extends Component {
         const { type, checked } = this.props;
         const { isChecked } = this.state;
 
-        // eslint-disable-next-line react/no-did-update-set-state
+        // eslint-disable-next-liqueraFieldne react/no-did-update-set-state
         if (type === 'checkbox' && checked !== isChecked) this.setState({ isChecked: !isChecked });
     }
 
@@ -107,6 +99,12 @@ class Field extends Component {
         const { onFocus } = this.props;
 
         if (onFocus) onFocus(event);
+    }
+
+    onBlur(event) {
+        const { onBlur } = this.props;
+
+        if (onBlur) onBlur(event);
     }
 
     onKeyPress(event) {
@@ -165,8 +163,9 @@ class Field extends Component {
               id={ id }
               rows={ rows }
               value={ value }
-              onChange={ this.onChange }
+              onChange={ event => this.onChange(event) }
               onFocus={ event => this.onFocus(event) }
+              onBlur={ event => this.onBlur(event) }
               onClick={ event => this.onClick(event) }
               autoComplete={ !isAutocompleteAllowed ? 'off' : undefined }
             />
@@ -188,9 +187,10 @@ class Field extends Component {
                   checked={ checkedBool }
                   name={ name }
                   value={ value }
-                  onChange={ this.onChange }
-                  onKeyPress={ this.onChange }
+                  onChange={ event => this.onChange(event) }
+                  onKeyPress={ event => this.onChange(event) }
                   onFocus={ event => this.onFocus(event) }
+                  onBlur={ event => this.onBlur(event) }
                   onClick={ event => this.onClick(event) }
                   id={ id }
                 />
@@ -213,9 +213,10 @@ class Field extends Component {
                   checked={ isChecked }
                   name={ name }
                   value={ value }
-                  onChange={ this.onChange }
-                  onKeyPress={ this.onChange }
+                  onChange={ event => this.onChange(event) }
+                  onKeyPress={ event => this.onChange(event) }
                   onFocus={ event => this.onFocus(event) }
+                  onBlur={ event => this.onBlur(event) }
                   onClick={ event => this.onClick(event) }
                   id={ id }
                 />
@@ -244,8 +245,9 @@ class Field extends Component {
               type="text"
               id={ id }
               value={ value }
-              onChange={ (this.onChange) }
+              onChange={ event => this.onChange(event) }
               onFocus={ event => this.onFocus(event) }
+              onBlur={ event => this.onBlur(event) }
               onClick={ event => this.onClick(event) }
               placeholder={ placeholder }
               autoComplete={ !isAutocompleteAllowed ? 'off' : undefined }
@@ -264,8 +266,9 @@ class Field extends Component {
               type="password"
               id={ id }
               value={ value }
-              onChange={ this.onChange }
+              onChange={ event => this.onChange(event) }
               onFocus={ event => this.onFocus(event) }
+              onBlur={ event => this.onBlur(event) }
               onClick={ event => this.onClick(event) }
               placeholder={ placeholder }
             />
@@ -283,9 +286,10 @@ class Field extends Component {
                   type="number"
                   id={ id }
                   value={ value }
-                  onChange={ this.onChange }
+                  onChange={ event => this.onChange(event) }
                   onKeyPress={ event => this.onKeyPress(event) }
                   onFocus={ event => this.onFocus(event) }
+                  onBlur={ event => this.onBlur(event) }
                   onClick={ event => this.onClick(event) }
                 />
                 <button onClick={ () => this.handleChange(parseFloat(value) + 1) }>
@@ -310,7 +314,7 @@ class Field extends Component {
               reference={ formRef }
               options={ options }
               selectedOption={ value }
-              onGetKey={ this.onChange }
+              onGetKey={ event => this.onChange(event) }
             />
         );
     }
@@ -336,7 +340,7 @@ class Field extends Component {
 
     render() {
         const {
-            id, type, label, note, message, state, block, elem
+            id, type, label, note, noteDisplayMode, message, state, block, elem
         } = this.props;
 
         const mix = (block && elem) ? { block, elem } : undefined;
@@ -345,13 +349,14 @@ class Field extends Component {
             hasError: !!message,
             ...(state ? { [state]: true } : {})
         };
+        const noteMods = noteDisplayMode ? { [noteDisplayMode]: true } : {};
 
         return (
             <div block="Field" mods={ mods } mix={ mix }>
                 { label && <label htmlFor={ id }>{ label }</label> }
                 { this.renderInputOfType(type) }
                 { message && <p block="Field" elem="Message">{ message }</p> }
-                { note && <p block="Field" elem="Note">{ note }</p> }
+                { note && <p block="Field" elem="Note" mods={ noteMods }>{ note }</p> }
             </div>
         );
     }
@@ -371,6 +376,9 @@ Field.propTypes = {
     name: PropTypes.string,
     label: PropTypes.string,
     note: PropTypes.string,
+    noteDisplayMode: PropTypes.oneOf([
+        VISIBLE_ALWAYS
+    ]),
     message: PropTypes.string,
     placeholder: PropTypes.string,
     value: PropTypes.oneOfType([
@@ -386,6 +394,7 @@ Field.propTypes = {
     ]),
     onChange: PropTypes.func,
     onFocus: PropTypes.func,
+    onBlur: PropTypes.func,
     onClick: PropTypes.func,
     onKeyPress: PropTypes.func,
     min: PropTypes.number,

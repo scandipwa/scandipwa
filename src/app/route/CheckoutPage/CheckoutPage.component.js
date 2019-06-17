@@ -69,9 +69,9 @@ class CheckoutPage extends Component {
         };
 
         this.subHeadingMap = {
-            [CHECKOUT_STEP_SHIPPING]: 'Shipping information',
-            [CHECKOUT_STEP_REVIEW_AND_PAYMENTS]: 'Review and payment information',
-            [CHECKOUT_STEP_SUCCESS]: 'Order information'
+            [CHECKOUT_STEP_SHIPPING]: __('Shipping information'),
+            [CHECKOUT_STEP_REVIEW_AND_PAYMENTS]: __('Review and payment information'),
+            [CHECKOUT_STEP_SUCCESS]: __('Order information')
         };
     }
 
@@ -148,7 +148,7 @@ class CheckoutPage extends Component {
     }
 
     saveAddressInformation(addressInformation) {
-        const { saveAddressInformation } = this.props;
+        const { saveAddressInformation, showNotification } = this.props;
         const {
             shipping_address,
             billing_address,
@@ -174,14 +174,20 @@ class CheckoutPage extends Component {
                     addressesAreChecked: true
                 });
             },
-            err => console.log(err)
+            (err) => {
+                showNotification('error', err[0].debugMessage);
+                this.setState({
+                    checkoutStep: CHECKOUT_STEP_SHIPPING
+                });
+            }
         );
     }
 
     savePaymentInformationAndPlaceOrder(paymentInformation) {
         const {
             savePaymentInformationAndPlaceOrder,
-            removeCartAndObtainNewGuest
+            removeCartAndObtainNewGuest,
+            showNotification
         } = this.props;
 
         return savePaymentInformationAndPlaceOrder(paymentInformation).then(
@@ -197,7 +203,12 @@ class CheckoutPage extends Component {
                     showSummary: false
                 });
             },
-            err => console.log(err)
+            (err) => {
+                showNotification('error', err[0].debugMessage);
+                this.setState({
+                    checkoutStep: CHECKOUT_STEP_SHIPPING
+                });
+            }
         );
     }
 
@@ -260,10 +271,10 @@ class CheckoutPage extends Component {
 
         return (
             <div>
-                <h1>Thank you for your purchase!</h1>
-                <p>{ `Your order # is: ${orderID}.`}</p>
-                <p>We`ll email you an order confirmation with details and tracking info.</p>
-                <Link to="/">Continue Shopping</Link>
+                <h1>{ __('Thank you for your purchase!') }</h1>
+                <p>{ __('Your order # is: %s.', orderID) }</p>
+                <p>{ __('We`ll email you an order confirmation with details and tracking info.') }</p>
+                <Link to="/">{ __('Continue Shopping') }</Link>
             </div>
         );
     }
@@ -276,7 +287,7 @@ class CheckoutPage extends Component {
             <div
               block="CheckoutPage"
               elem="StepIndicatorWrapper"
-              aria-label="Step indicator"
+              aria-label={ __('Step indicator') }
             >
                 { renderStepArray.reverse().map((key, i) => (
                     <div
@@ -287,7 +298,7 @@ class CheckoutPage extends Component {
                       key={ i }
                     >
                         <span>
-                            <strong>{ `Step ${ renderStepArray.length - i }` }</strong>
+                            <strong>{ __('Step %s', renderStepArray.length - i) }</strong>
                             { this.subHeadingMap[key] }
                         </span>
                     </div>
@@ -311,10 +322,8 @@ class CheckoutPage extends Component {
         return (
             <main block="CheckoutPage">
                 <header block="CheckoutPage" elem="Header">
-                    <ContentWrapper
-                      label="Checkout heading"
-                    >
-                        <h1>Checkout</h1>
+                    <ContentWrapper label={ __('Checkout heading') }>
+                        <h1>{ __('Checkout') }</h1>
                         <h3>{ subHeading }</h3>
                         { this.renderCheckoutStepsIndicator() }
                     </ContentWrapper>
@@ -322,7 +331,7 @@ class CheckoutPage extends Component {
 
                 <ContentWrapper
                   wrapperMix={ { block: 'CheckoutPage', elem: 'Wrapper' } }
-                  label="Checkout page"
+                  label={ __('Checkout page') }
                 >
                     { stepRenderFunction() }
                     { showSummary && (
@@ -344,6 +353,7 @@ CheckoutPage.propTypes = {
     savePaymentInformationAndPlaceOrder: PropTypes.func.isRequired,
     saveAddressInformation: PropTypes.func.isRequired,
     removeCartAndObtainNewGuest: PropTypes.func.isRequired,
+    showNotification: PropTypes.func.isRequired,
     requestCustomerData: PropTypes.func.isRequired,
     history: PropTypes.shape({
         location: PropTypes.object.isRequired,

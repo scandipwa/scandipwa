@@ -23,8 +23,8 @@ import GroupedProductsList from 'Component/GroupedProductsList';
 import Meta from 'Component/Meta';
 import { ProductType } from 'Type/ProductList';
 import { getUrlParam, getQueryParam, updateQueryParamWithoutHistory } from 'Util/Url';
-import './ProductPage.style';
 import RelatedProducts from 'Component/RelatedProducts';
+import './ProductPage.style';
 
 class ProductPage extends Component {
     constructor() {
@@ -200,7 +200,7 @@ class ProductPage extends Component {
                     <ContentWrapper
                       mix={ { block: 'ProductPage' } }
                       wrapperMix={ { block: 'ProductPage', elem: 'Wrapper' } }
-                      label="Main product details"
+                      label={ __('Main product details') }
                     >
                         <ProductGallery
                           thumbnail={ thumbnail }
@@ -212,7 +212,7 @@ class ProductPage extends Component {
                           areDetailsLoaded={ areDetailsLoaded }
                           configurableVariantIndex={ configurableVariantIndex }
                         />
-                        <div aria-label="Product Actions">
+                        <div aria-label={ __('Product Actions') }>
                             { type_id === 'grouped'
                             && (
                                 <GroupedProductsList

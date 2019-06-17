@@ -32,13 +32,16 @@ class ProductDetails extends Component {
         const { product: { variants, sku }, areDetailsLoaded, configurableVariantIndex } = this.props;
 
         if (areDetailsLoaded) {
-            const { product } = variants && configurableVariantIndex ? variants[configurableVariantIndex] : '';
+            const { product } = configurableVariantIndex >= 0
+                    && variants
+                    && Object.keys(variants).length >= configurableVariantIndex
+                ? variants[configurableVariantIndex] : '';
 
             return (
                 <>
-                    <span>SKU: </span>
+                    <span>{ __('SKU: ') }</span>
                     <Html content={ product ? product.sku : sku } />
-                    <span block="ProductDetails" elem="StockAvailable">In stock</span>
+                    <span block="ProductDetails" elem="StockAvailable">{ __('In stock') }</span>
                 </>
             );
         }

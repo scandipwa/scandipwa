@@ -34,27 +34,29 @@ export class WishlistDispatcher {
 
     _syncWishlistWithBE(dispatch) {
         // Need to get current wishlist from BE, update wishlist
-        return fetchQuery(Wishlist.getWishlistQuery()).then(({ wishlist }) => {
-            if (wishlist.items_count) {
-                const productsToAdd = wishlist.items.reduce((prev, wishlistItem) => {
-                    const { product } = wishlistItem;
-                    const item_id = wishlistItem.id;
-                    const { id } = product;
+        return fetchQuery(Wishlist.getWishlistQuery()).then(
+            ({ wishlist }) => {
+                if (wishlist.items_count) {
+                    const productsToAdd = wishlist.items.reduce((prev, wishlistItem) => {
+                        const { product } = wishlistItem;
+                        const item_id = wishlistItem.id;
+                        const { id } = product;
 
-                    return {
-                        ...prev,
-                        [id]: {
-                            ...product,
-                            item_id
-                        }
-                    };
-                }, {});
+                        return {
+                            ...prev,
+                            [id]: {
+                                ...product,
+                                item_id
+                            }
+                        };
+                    }, {});
 
-                dispatch(updateAllProductsInWishlist(productsToAdd));
-            }
-        },
-        // eslint-disable-next-line no-console
-        error => console.log(error));
+                    dispatch(updateAllProductsInWishlist(productsToAdd));
+                }
+            },
+            // eslint-disable-next-line no-console
+            error => dispatch(showNotification('error', error[0].message))
+        );
     }
 
     addItemToWishlist(dispatch, options) {

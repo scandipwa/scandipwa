@@ -1,13 +1,17 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/no-unused-state */
+/* eslint-disable no-console */
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Form from 'Component/Form';
 import Field from 'Component/Field';
+import validationConfig from 'Component/Form/Form.config';
 import CheckoutShippingMethods from 'Component/CheckoutShippingMethods';
 import Loader from 'Component/Loader';
 import { makeCancelable } from 'Util/Promise';
+import { fetchMutation } from 'Util/Request';
+import { CheckEmailQuery } from 'Query';
 import './CheckoutShippingStep.style';
 
 export const EMAIL_FIELD_ID = 'email';
@@ -30,6 +34,8 @@ export const STATE_DEFAULT_ADDRESS = 'defaultAddress';
 class CheckoutShippingStep extends Component {
     constructor(props) {
         super(props);
+
+        const { showNotification } = props;
 
         this.handleFieldChange = this.handleFieldChange.bind(this);
         this.changeState = this.changeState.bind(this);
@@ -54,17 +60,43 @@ class CheckoutShippingStep extends Component {
             state: STATE_NEW_ADDRESS
         };
 
+        this.emailNote = __('You can create an account after checkout.');
+        this.emailLoginNote = __('Looks like you already have account with us, please, log in!');
+
         this.fieldMap = {
             [EMAIL_FIELD_ID]: {
-                label: 'Email Address',
-                note: 'You can create an account after checkout.',
-                validation: ['notEmpty', 'email']
+                label: __('Email Address'),
+                note: this.emailNote,
+                message: '',
+                validation: ['notEmpty', 'email'],
+                onBlur: (event) => {
+                    const email = event.currentTarget.value;
+
+                    if (validationConfig.email.validate({ value: email })) {
+                        fetchMutation(
+                            CheckEmailQuery.getCheckIsEmailAvailableMutation(email)
+                        ).then(
+                            ({ checkIsEmailAvailable: { isAvailable } }) => {
+                                const { email } = this.state;
+
+                                this.fieldMap[EMAIL_FIELD_ID].note = isAvailable
+                                    ? this.emailNote : this.emailLoginNote;
+                                this.fieldMap[EMAIL_FIELD_ID].noteDisplayMode = isAvailable
+                                    ? null : 'visibleAlways';
+
+                                // Will force re-render
+                                this.setState({ email });
+                            },
+                            err => showNotification('error', err[0].debugMessage)
+                        );
+                    }
+                }
             },
-            [FIRSTNAME_FIELD_ID]: { label: 'First Name' },
-            [LASTNAME_FIELD_ID]: { label: 'Last Name' },
-            [COMPANY_FIELD_ID]: { label: 'Company', validation: [] },
+            [FIRSTNAME_FIELD_ID]: { label: __('First Name') },
+            [LASTNAME_FIELD_ID]: { label: __('Last Name') },
+            [COMPANY_FIELD_ID]: { label: __('Company'), validation: [] },
             [STREET_0_FIELD_ID]: {
-                label: 'Street Address',
+                label: __('Street Address'),
                 onChange: (street) => {
                     const { street: stateStreet } = this.state;
                     this.setState({ street: { ...stateStreet, 0: street } }, this.handleFieldChange);
@@ -77,9 +109,9 @@ class CheckoutShippingStep extends Component {
                 },
                 validation: []
             },
-            [CITY_FIELD_ID]: { label: 'City' },
+            [CITY_FIELD_ID]: { label: __('City') },
             [STATE_FIELD_ID]: {
-                label: 'State',
+                label: __('State'),
                 validation: [],
                 onChange: (value) => {
                     const { regionList } = this.state;
@@ -101,16 +133,19 @@ class CheckoutShippingStep extends Component {
                     return this.setState({ region }, this.handleFieldChange);
                 }
             },
-            [ZIP_FIELD_ID]: { label: 'Postal Code' },
+            [ZIP_FIELD_ID]: { label: __('Postal Code') },
             [COUNTRY_FIELD_ID]: {
-                label: 'Country',
+                label: __('Country'),
                 type: 'select',
                 defaultValue: DEFAULT_COUNTRY,
                 onChange: (countryId) => {
                     this.getAvailableRegions(countryId);
                 }
             },
-            [PHONE_FIELD_ID]: { label: 'Phone Number' }
+            [PHONE_FIELD_ID]: {
+                label: 'Phone Number',
+                validation: ['telephone']
+            }
         };
 
         this.renderMap = {
@@ -166,6 +201,11 @@ class CheckoutShippingStep extends Component {
         return null;
     }
 
+    // initialize available regions
+    componentDidMount() {
+        this.getAvailableRegions(DEFAULT_COUNTRY);
+    }
+
     componentDidUpdate(prevProps) {
         const { finishedLoading, shippingAddress, countryList } = this.props;
         const { country_id } = this.state;
@@ -188,7 +228,7 @@ class CheckoutShippingStep extends Component {
         const trimmedShippingAddress = this.trimAddress(this.state);
 
         if (!method_code || !carrier_code) {
-            showNotification('error', 'No shipping method specified');
+            showNotification('error', __('No shipping method specified'));
         } else {
             const addressInformation = {
                 shipping_address: trimmedShippingAddress,
@@ -197,7 +237,10 @@ class CheckoutShippingStep extends Component {
                 shipping_method_code: method_code
             };
 
-            this.setState({ loadingShippingInformationSave: true });
+            this.setState({
+                loadingShippingInformationSave: true
+            });
+
             saveAddressInformation(addressInformation);
         }
     }
@@ -280,6 +323,8 @@ class CheckoutShippingStep extends Component {
     }
 
     handleFieldChange() {
+        const { showNotification } = this.props;
+
         this.setState({ loadingShippingMethods: true });
 
         if (this.shippingMethodEstimationTimeout) {
@@ -312,7 +357,7 @@ class CheckoutShippingStep extends Component {
                     shippingMethods,
                     loadingShippingMethods: false
                 }),
-                err => console.log(err)
+                err => showNotification('error', err[0].debugMessage)
             );
         }, 1000);
     }
@@ -324,9 +369,11 @@ class CheckoutShippingStep extends Component {
             type = 'text',
             label,
             note,
+            noteDisplayMode,
             defaultValue,
             validation = ['notEmpty'],
-            onChange = value => this.setState({ [id]: value }, this.handleFieldChange)
+            onChange = value => this.setState({ [id]: value }, this.handleFieldChange),
+            onBlur
         } = this.fieldMap[id];
 
         return (
@@ -335,10 +382,12 @@ class CheckoutShippingStep extends Component {
               type={ type }
               label={ label }
               note={ note }
+              noteDisplayMode={ noteDisplayMode }
               options={ countryList }
               value={ overrideStateValue || stateValue || defaultValue }
               validation={ validation }
               onChange={ onChange }
+              onBlur={ onBlur }
             />
         );
     }
@@ -383,18 +432,18 @@ class CheckoutShippingStep extends Component {
                           block="CheckoutShippingStep"
                           elem="ButtonDefault"
                         >
-                            {"I'd like to use the default shipping address"}
+                            { __("I'd like to use the default shipping address") }
                         </button>
                     </div>)
                 }
                 { !isSignedIn && (
                     <fieldset>
-                        <legend>Email Address</legend>
+                        <legend>{ __('Email Address') }</legend>
                         { this.renderField(EMAIL_FIELD_ID) }
                     </fieldset>)
                 }
                 <fieldset>
-                    <legend>Shipping Address</legend>
+                    <legend>{ __('Shipping Address') }</legend>
                     { this.renderField(FIRSTNAME_FIELD_ID) }
                     { this.renderField(LASTNAME_FIELD_ID) }
                     { this.renderField(COMPANY_FIELD_ID) }
@@ -432,13 +481,13 @@ class CheckoutShippingStep extends Component {
                   elem="ShippingAddressPreview"
                 >
                     <dl>
-                        <dt>Contact details:</dt>
+                        <dt>{ __('Contact details:') }</dt>
                         <dd>{ `${ firstname } ${ lastname }` }</dd>
                         { company && (<>
-                            <dt>Company name</dt>
+                            <dt>{ __('Company name') }</dt>
                             <dd>{ company }</dd>
                         </>)}
-                        <dt>Shipping address:</dt>
+                        <dt>{ __('Shipping address:') }</dt>
                         <dd>{ `${country_id }, ${regionName}, ${city}` }</dd>
                         <dd>{ street[0] }</dd>
                         <dd>{ street[1] }</dd>
@@ -451,7 +500,7 @@ class CheckoutShippingStep extends Component {
                   elem="ButtonNew"
                   onClick={ () => this.changeState(STATE_NEW_ADDRESS) }
                 >
-                    {"I'd like to use a different address"}
+                    { __("I'd like to use a different address") }
                 </button>
             </>
         );
@@ -463,7 +512,8 @@ class CheckoutShippingStep extends Component {
             shippingMethods,
             loadingShippingMethods,
             activeShippingMethod,
-            state
+            state,
+            loadingShippingInformationSave
         } = this.state;
         const renderFunction = this.renderMap[state];
         const { method_code } = activeShippingMethod;
@@ -473,7 +523,7 @@ class CheckoutShippingStep extends Component {
               onSubmitSuccess={ validFields => this.onFormSuccess(validFields) }
               key="shipping_step"
             >
-                <Loader isLoading={ isSignedIn && !finishedLoading } />
+                <Loader isLoading={ (isSignedIn && !finishedLoading) || loadingShippingInformationSave } />
 
                 { renderFunction() }
 

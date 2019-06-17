@@ -8,7 +8,6 @@ import Form from 'Component/Form';
 import Loader from 'Component/Loader';
 import './CheckoutPreviewAndPaymentsStep.style';
 
-export const EMAIL_FIELD_ID = 'email';
 export const FIRSTNAME_FIELD_ID = 'firstname';
 export const LASTNAME_FIELD_ID = 'lastname';
 export const COMPANY_FIELD_ID = 'company';
@@ -53,16 +52,11 @@ class CheckoutPreviewAndPaymentsStep extends Component {
         };
 
         this.fieldMap = {
-            [EMAIL_FIELD_ID]: {
-                label: 'Email Address',
-                note: 'You can create an account after checkout.',
-                validation: ['notEmpty', 'email']
-            },
-            [FIRSTNAME_FIELD_ID]: { label: 'First Name' },
-            [LASTNAME_FIELD_ID]: { label: 'Last Name' },
-            [COMPANY_FIELD_ID]: { label: 'Company', validation: [] },
+            [FIRSTNAME_FIELD_ID]: { label: __('First Name') },
+            [LASTNAME_FIELD_ID]: { label: __('Last Name') },
+            [COMPANY_FIELD_ID]: { label: __('Company'), validation: [] },
             [STREET_0_FIELD_ID]: {
-                label: 'Street Address',
+                label: __('Street Address'),
                 onChange: (street) => {
                     const { street: stateStreet } = this.state;
                     this.setState({ street: { ...stateStreet, 0: street } }, this.handleFieldChange);
@@ -75,9 +69,9 @@ class CheckoutPreviewAndPaymentsStep extends Component {
                 },
                 validation: []
             },
-            [CITY_FIELD_ID]: { label: 'City' },
+            [CITY_FIELD_ID]: { label: __('City') },
             [STATE_FIELD_ID]: {
-                label: 'State',
+                label: __('State'),
                 validation: [],
                 defaultValue: DEFAULT_REGION,
                 onChange: (value) => {
@@ -100,16 +94,19 @@ class CheckoutPreviewAndPaymentsStep extends Component {
                     return this.setState({ region }, this.handleFieldChange);
                 }
             },
-            [ZIP_FIELD_ID]: { label: 'Postal Code' },
+            [ZIP_FIELD_ID]: { label: __('Postal Code') },
             [COUNTRY_FIELD_ID]: {
-                label: 'Country',
+                label: __('Country'),
                 type: 'select',
                 defaultValue: DEFAULT_COUNTRY,
                 onChange: (countryId) => {
                     this.getAvailableRegions(countryId);
                 }
             },
-            [PHONE_FIELD_ID]: { label: 'Phone Number' }
+            [PHONE_FIELD_ID]: {
+                label: __('Phone Number'),
+                validation: ['telephone']
+            }
         };
 
         this.renderMap = {
@@ -162,10 +159,9 @@ class CheckoutPreviewAndPaymentsStep extends Component {
             billing_address: correctAddress
         };
 
-        this.setState({ loadingPaymentInformationSave: true });
-        savePaymentInformationAndPlaceOrder(paymentInformation).then(
-            () => this.setState({ loadingPaymentInformationSave: false })
-        );
+        this.setState({ loadingPaymentInformationSave: true, finishedLoading: false });
+
+        savePaymentInformationAndPlaceOrder(paymentInformation);
     }
 
     getAvailableRegions(country_id) {
@@ -226,11 +222,11 @@ class CheckoutPreviewAndPaymentsStep extends Component {
 
         if (defaultBillingAddress) {
             if (state === 'newAddress') {
-                return { message: ("I'd like to use the default address"), type: STATE_DEFAULT_ADDRESS };
+                return { message: (__("I'd like to use the default address")), type: STATE_DEFAULT_ADDRESS };
             }
 
             if (isSignedIn) {
-                return { message: ("I'd like to use a different address"), type: STATE_NEW_ADDRESS };
+                return { message: (__("I'd like to use a different address")), type: STATE_NEW_ADDRESS };
             }
         }
 
@@ -372,14 +368,14 @@ class CheckoutPreviewAndPaymentsStep extends Component {
                   elem="ShippingAddressPreview"
                 >
                     <dl>
-                        <dt>Contact details:</dt>
+                        <dt>{ __('Contact details:') }</dt>
                         <dd>{ `${ firstname } ${ lastname }` }</dd>
                         { company && (<>
-                            <dt>Company name</dt>
+                            <dt>{ __('Company name:') }</dt>
                             <dd>{ company }</dd>
                         </>)}
                         <dd>{ telephone }</dd>
-                        <dt>Billing address:</dt>
+                        <dt>{ __('Billing address:') }</dt>
                         <dd>{ `${country_id}, ${region_code}, ${city}` }</dd>
                         <dd>{ street[0] }</dd>
                         <dd>{ street[1] }</dd>
@@ -429,7 +425,8 @@ class CheckoutPreviewAndPaymentsStep extends Component {
             billingIsSame,
             activePaymentMethod,
             shippingAddress,
-            state
+            state,
+            loadingPaymentInformationSave
         } = this.state;
         const renderFunction = this.renderMap[state];
         const { code } = activePaymentMethod;
@@ -439,7 +436,7 @@ class CheckoutPreviewAndPaymentsStep extends Component {
               onSubmitSuccess={ validFields => this.onFormSuccess(validFields) }
               key="review_and_payment_step"
             >
-                <Loader isLoading={ !finishedLoading } />
+                <Loader isLoading={ !finishedLoading || loadingPaymentInformationSave } />
 
                 <CheckoutPaymentMethods
                   paymentMethods={ paymentMethods }
@@ -447,7 +444,7 @@ class CheckoutPreviewAndPaymentsStep extends Component {
                 />
 
                 <fieldset>
-                    <legend>Billing Address</legend>
+                    <legend>{ __('Billing address') }</legend>
 
                     { this.renderStateButton() }
 
@@ -455,7 +452,7 @@ class CheckoutPreviewAndPaymentsStep extends Component {
                         <Field
                           id="sameAsShippingAddress"
                           type="checkbox"
-                          label="My billing and shipping address are the same"
+                          label={ __('My billing and shipping address are the same') }
                           value={ billingIsSame }
                           checked={ billingIsSame }
                           onChange={ (value) => {
@@ -468,7 +465,7 @@ class CheckoutPreviewAndPaymentsStep extends Component {
 
                 </fieldset>
 
-                <button type="submit" disabled={ !code }>Place Order</button>
+                <button type="submit" disabled={ !code }>{ __('Place Order') }</button>
             </Form>
         );
     }

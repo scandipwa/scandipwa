@@ -46,8 +46,14 @@ class MyAccountWishlist extends Component {
         errors.map(error => showNotification('error', error));
 
         if (addedProducts.length > 0) {
-            showNotification('success',
-                `${addedProducts.length} product(s) have been added to shopping cart: ${addedProducts.toString()}`);
+            showNotification(
+                'success',
+                __(
+                    '%s product(s) have been added to shopping cart: %s',
+                    addedProducts.length,
+                    addedProducts.toString()
+                )
+            );
         }
     }
 
@@ -56,15 +62,15 @@ class MyAccountWishlist extends Component {
         const breadcrumbs = [
             {
                 url: '/wishlist',
-                name: 'My Wish List'
+                name: __('My Wish List')
             },
             {
                 url: '/my-account',
-                name: 'My Account'
+                name: __('My Account')
             },
             {
                 url: '/',
-                name: 'Home'
+                name: __('Home')
             }
         ];
 
@@ -83,7 +89,7 @@ class MyAccountWishlist extends Component {
 
 
         if (!isSignedIn()) {
-            showNotification('error', 'You must login or register to add all products to Cart.');
+            showNotification('error', __('You must login or register to add all products to Cart.'));
             this.setState({ isLoading: false });
 
             return null;
@@ -97,7 +103,7 @@ class MyAccountWishlist extends Component {
             const { type_id, configurableVariantIndex, name } = product;
 
             if (type_id === 'configurable' && !configurableVariantIndex) {
-                data.errors.push(`You need to choose options for your item for ${name}`);
+                data.errors.push(__('You need to choose options for your item for %s', name));
                 return null;
             }
 
@@ -131,11 +137,11 @@ class MyAccountWishlist extends Component {
         }
 
         return (
-            <main block="MyAccountWishlist" aria-label="My Account Wishlist">
+            <main block="MyAccountWishlist" aria-label={ __('My Account Wishlist') }>
                 <div block="MyAccountWishlist" elem="Wrapper">
                     <MyAccountSidebar />
                     <div block="MyAccountWishlist" elem="Content">
-                        <h2>My Wish List</h2>
+                        <h2>{ __('My Wish List') }</h2>
                         <Loader isLoading={ isLoading } />
                         {
                             this.getWishlistItemsCount() > 0
@@ -148,7 +154,7 @@ class MyAccountWishlist extends Component {
                                           mods={ { isLoading } }
                                           disabled={ isLoading }
                                         >
-                                            Add All To Cart
+                                            { __('Add everything to cart') }
                                         </button>
                                         <ul block="MyAccountWishlist" elem="List">
                                             { Object.values(wishlistItems).map(
@@ -157,7 +163,7 @@ class MyAccountWishlist extends Component {
                                         </ul>
                                     </>
                                 ) : (
-                                    <p>You have no items in your wish list.</p>
+                                    <p>{ __('You have no items in your wish list.') }</p>
                                 )
                         }
                     </div>

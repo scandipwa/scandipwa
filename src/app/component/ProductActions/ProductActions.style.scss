@@ -67,6 +67,10 @@
         flex-wrap: wrap;
         margin: .5rem 0 2rem;
 
+        @include mobile {
+            margin-bottom: 0;
+        }
+
         li,
         li:last-child {
             margin-right: .5rem;
@@ -86,7 +90,13 @@
             margin-bottom: .5rem;
         }
     }
-    
+
+    .ProductPrice {
+        @include mobile {
+            margin: 2rem 0 1rem;
+        }
+    }
+
     .Field {
         display: inline-block;
         margin-right: 1rem;

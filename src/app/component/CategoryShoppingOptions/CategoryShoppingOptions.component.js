@@ -16,6 +16,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import RangeSelector from 'Component/RangeSelector';
+import CategorySearch from 'Component/CategorySearch';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import Swatch from 'Component/Swatch';
 import './CategoryShoppingOptions.style';
@@ -51,13 +52,15 @@ class CategoryShoppingOptions extends Component {
             customFiltersValues,
             sortKey,
             sortDirection,
+            searchValue,
             priceValue,
             minPriceValue,
             maxPriceValue
         } = this.props;
 
         const isPriceCustom = priceValue.min !== minPriceValue || priceValue.max !== maxPriceValue;
-        return Object.keys(customFiltersValues).length > 0 || isPriceCustom || !(sortKey || sortDirection);
+        return Object.keys(customFiltersValues).length > 0
+            || searchValue || isPriceCustom || !(sortKey || sortDirection);
     }
 
     /**
@@ -147,6 +150,22 @@ class CategoryShoppingOptions extends Component {
         });
     }
 
+    renderSearchBar() {
+        const { searchValue, updateSearch, showSearch } = this.props;
+
+        if (!showSearch) return null;
+
+        return (
+            <li block="CategoryShoppingOptions" elem="SearchBar">
+                { this.renderFilterTitle('Search') }
+                <CategorySearch
+                  value={ searchValue }
+                  onChange={ value => updateSearch(value) }
+                />
+            </li>
+        );
+    }
+
     renderClearFiltersButton() {
         const { clearFilters } = this.props;
 
@@ -157,7 +176,7 @@ class CategoryShoppingOptions extends Component {
                   elem="ClearButton"
                   onClick={ () => clearFilters() }
                 >
-                    Clear Filters
+                    { __('Clear Filters') }
                 </button>
             );
         }
@@ -188,6 +207,7 @@ class CategoryShoppingOptions extends Component {
                     ? (
                         <>
                             { this.renderClearFiltersButton() }
+                            { this.renderSearchBar() }
                             { this.renderCustomFilters() }
                             { this.renderPriceFilter() }
                         </>
@@ -217,7 +237,7 @@ class CategoryShoppingOptions extends Component {
                   mods={ { isLoaded } }
                   onClick={ () => this.toggleOptions() }
                 >
-                    <TextPlaceholder content={ isLoaded ? 'Shopping Options' : '' } />
+                    <TextPlaceholder content={ isLoaded ? __('Shopping Options') : '' } />
                 </h3>
                 { this.renderElements(isLoaded) }
             </div>
@@ -228,6 +248,9 @@ class CategoryShoppingOptions extends Component {
 CategoryShoppingOptions.propTypes = {
     updatePriceRange: PropTypes.func.isRequired,
     updateFilter: PropTypes.func.isRequired,
+    updateSearch: PropTypes.func.isRequired,
+    showSearch: PropTypes.bool,
+    searchValue: PropTypes.string,
     priceValue: PropTypes.shape({
         min: PropTypes.number,
         max: PropTypes.number
@@ -239,6 +262,11 @@ CategoryShoppingOptions.propTypes = {
     clearFilters: PropTypes.func.isRequired,
     sortKey: PropTypes.string.isRequired,
     sortDirection: PropTypes.string.isRequired
+};
+
+CategoryShoppingOptions.defaultProps = {
+    searchValue: '',
+    showSearch: false
 };
 
 export default CategoryShoppingOptions;

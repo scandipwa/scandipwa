@@ -22,7 +22,7 @@
     &:hover {
         --card-highlight-color: var(--color-neutral-light);
     }
-    
+
     &:focus,
     &:focus-within {
         --card-highlight-color: var(--color-primary-base);
@@ -40,13 +40,12 @@
     div {
         color: inherit;
         display: block;
-        padding: 1rem;
         max-width: 100%;
 
-        @include mobile {
-            padding: 0 1rem 1rem 1rem;
+        @include after-mobile {
+            padding: 1rem;
         }
-        
+
         &:hover,
         &:focus,
         &:active {
@@ -63,7 +62,7 @@
         font-size: 1rem;
         text-transform: uppercase;
         color: var(--color-neutral-base);
-        
+
         @include mobile {
             max-width: 9.5rem;
             font-size: .8rem;
@@ -87,6 +86,10 @@
     }
 
     &-Actions {
+        @include mobile {
+            padding-top: 1rem;
+        }
+
         a {
             @include button;
 

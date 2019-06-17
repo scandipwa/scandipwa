@@ -140,7 +140,8 @@ class CategoryPage extends Component {
      */
     getCategoryUrlPath() {
         const { location, match } = this.props;
-        return getUrlParam(match, location);
+        const path = getUrlParam(match, location);
+        return path.indexOf('search') === 0 ? null : path;
     }
 
     /**
@@ -149,9 +150,9 @@ class CategoryPage extends Component {
      */
     urlHasChanged(location, prevProps) {
         const pathnameHasChanged = location.pathname !== prevProps.location.pathname;
-        const searcQueryHasChanged = location.search !== prevProps.location.search;
+        const searchQueryHasChanged = location.search !== prevProps.location.search;
 
-        return pathnameHasChanged || searcQueryHasChanged;
+        return pathnameHasChanged || searchQueryHasChanged;
     }
 
     /**
@@ -162,23 +163,30 @@ class CategoryPage extends Component {
         const {
             requestCategory,
             location,
+            isSearchPage,
             items,
             category,
             categoryIds
         } = this.props;
+
         const {
             sortKey,
             sortDirection,
             previousPage,
             pageSize
         } = this.state;
+
         const categoryUrlPath = !categoryIds ? this.getCategoryUrlPath() : null;
         const currentPage = getQueryParam('page', location) || 1;
         const priceRange = this.getPriceRangeFromUrl();
         const customFilters = this.getCustomFiltersFromUrl();
         const querySortKey = getQueryParam('sortKey', location);
         const querySortDirection = getQueryParam('sortDirection', location);
+        const search = getQueryParam('search', location);
+
         const options = {
+            search: search ? decodeURIComponent(search) : '',
+            isSearchPage: isSearchPage || false,
             categoryUrlPath,
             currentPage,
             previousPage,
@@ -228,6 +236,19 @@ class CategoryPage extends Component {
         const { category, updateBreadcrumbs } = this.props;
         const shouldUpdate = Object.keys(category).length;
         if (shouldUpdate) updateBreadcrumbs(category);
+    }
+
+    /**
+     * Update Query search parameter
+     * @return {void}
+     */
+    updateSearch(value) {
+        const { location, history } = this.props;
+
+        setQueryParams({
+            search: value,
+            page: ''
+        }, location, history);
     }
 
     /**
@@ -309,8 +330,15 @@ class CategoryPage extends Component {
     clearFilters(location, history) {
         const { sortKey, sortDirection } = this.state;
         const page = getQueryParam('page', location) || 1;
+
         clearQueriesFromUrl(history);
-        setQueryParams({ sortKey, sortDirection, page }, location, history);
+        setQueryParams(
+            {
+                sortKey,
+                sortDirection,
+                page
+            }, location, history
+        );
     }
 
     renderItemCount() {
@@ -319,16 +347,21 @@ class CategoryPage extends Component {
         return (
             <p block="CategoryPage" elem="ItemsCount">
                 {isLoading
-                    ? <TextPlaceholder length="short"/>
+                    ? <TextPlaceholder length="short" />
                     : (
                         <>
-                            <span>{items.length}</span>
-                            {`/${totalItems} items showing`}
+                            <span>{ items.length }</span>
+                            { __(' / %s items showing', totalItems) }
                         </>
                     )
                 }
             </p>
         );
+    }
+
+    renderCategoryDetails() {
+        const { category } = this.props;
+        return <CategoryDetails category={ category } />;
     }
 
     render() {
@@ -342,7 +375,8 @@ class CategoryPage extends Component {
             location,
             match,
             history,
-            isLoading
+            isLoading,
+            isSearchPage
         } = this.props;
 
         const {
@@ -359,59 +393,59 @@ class CategoryPage extends Component {
             label: option.label
         }));
 
-        const isNewCategory = this.isNewCategory();
-
         const customFilters = this.getCustomFiltersFromUrl();
+        const search = getQueryParam('search', location) || '';
 
         return (
             <main block="CategoryPage">
                 <ContentWrapper
-                    wrapperMix={{ block: 'CategoryPage', elem: 'Wrapper' }}
-                    label="Category page"
+                  wrapperMix={ { block: 'CategoryPage', elem: 'Wrapper' } }
+                  label={ __('Category page') }
                 >
-                    <Meta metaObject={category}/>
+                    <Meta metaObject={ category } />
                     <aside block="CategoryPage" elem="Options">
                         <CategoryShoppingOptions
-                            availableFilters={filters}
-                            minPriceValue={minPriceRange}
-                            maxPriceValue={maxPriceRange}
-                            priceValue={this.getPriceRangeFromUrl()}
-                            customFiltersValues={customFilters}
-                            updatePriceRange={priceRange => this.updatePriceRange(priceRange)}
-                            updateFilter={(filterName, filterArray) => this.updateFilter(filterName, filterArray)}
-                            clearFilters={() => this.clearFilters(location, history)}
-                            sortKey={sortKey}
-                            sortDirection={sortDirection}
-                            location={location}
-                            history={history}
+                          availableFilters={ filters }
+                          minPriceValue={ minPriceRange }
+                          maxPriceValue={ maxPriceRange }
+                          priceValue={ this.getPriceRangeFromUrl() }
+                          showSearch={ !isSearchPage }
+                          searchValue={ search }
+                          customFiltersValues={ customFilters }
+                          updatePriceRange={ priceRange => this.updatePriceRange(priceRange) }
+                          updateFilter={ (filterName, filterArray) => this.updateFilter(filterName, filterArray) }
+                          updateSearch={ value => this.updateSearch(value) }
+                          clearFilters={ () => this.clearFilters(location, history) }
+                          sortKey={ sortKey }
+                          sortDirection={ sortDirection }
+                          location={ location }
+                          history={ history }
                         />
                         <CategoriesList
-                            availableFilters={filters}
-                            category={categoryList}
-                            currentCategory={category}
-                            location={location}
-                            match={match}
+                          availableFilters={ filters }
+                          category={ categoryList }
+                          currentCategory={ category }
+                          location={ location }
+                          match={ match }
                         />
                     </aside>
-                    <CategoryDetails
-                        category={category}
-                    />
+                    { this.renderCategoryDetails() }
                     <aside block="CategoryPage" elem="Miscellaneous">
-                        {this.renderItemCount()}
+                        { this.renderItemCount() }
                         <ProductSort
-                            onGetKey={key => this.onGetKey(key)}
-                            onGetSortDirection={direction => this.onGetSortDirection(direction)}
-                            sortFields={!isLoading && updatedSortFields}
-                            value={sortKey}
-                            sortDirection={sortDirection}
+                          onGetKey={ key => this.onGetKey(key) }
+                          onGetSortDirection={ direction => this.onGetSortDirection(direction) }
+                          sortFields={ !isLoading && updatedSortFields }
+                          value={ sortKey }
+                          sortDirection={ sortDirection }
                         />
                     </aside>
                     <CategoryProductList
-                        items={items}
-                        customFilters={customFilters}
-                        totalItems={totalItems}
-                        increasePage={() => this.increasePage()}
-                        isLoading={isLoading}
+                      items={ items }
+                      customFilters={ customFilters }
+                      totalItems={ totalItems }
+                      increasePage={ () => this.increasePage() }
+                      isLoading={ isLoading }
                     />
                 </ContentWrapper>
             </main>
@@ -442,12 +476,14 @@ CategoryPage.propTypes = {
     }).isRequired,
     isLoading: PropTypes.bool.isRequired,
     categoryIds: PropTypes.number,
-    isOnlyPlaceholder: PropTypes.bool
+    isOnlyPlaceholder: PropTypes.bool,
+    isSearchPage: PropTypes.bool
 };
 
 CategoryPage.defaultProps = {
     categoryIds: 0,
-    isOnlyPlaceholder: false
+    isOnlyPlaceholder: false,
+    isSearchPage: false
 };
 
 export default CategoryPage;

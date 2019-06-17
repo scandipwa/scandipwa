@@ -29,7 +29,7 @@ class Footer extends Component {
             <footer block="Footer" aria-label="Footer">
                 <ContentWrapper
                   mix={ { block: 'Footer', elem: 'Content', mods: { isVisible: isHeaderAndFooterVisible } } }
-                  label="Website footer content"
+                  label={ __('Website footer content') }
                 >
                     <div block="Footer" elem="Promo">
                         <Html content={ getContent('footer-free-shipping') } />
@@ -46,7 +46,7 @@ class Footer extends Component {
                 <div block="Footer" elem="Copyright">
                     <ContentWrapper
                       wrapperMix={ { block: 'Footer', elem: 'CopyrightContent' } }
-                      label="Website copyright"
+                      label={ __('Website copyright') }
                     >
                         <Html content={ getContent('footer-copyright-text') } />
                         <Html content={ getContent('footer-payment-options') } />

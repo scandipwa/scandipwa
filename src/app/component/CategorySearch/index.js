@@ -9,11 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-select {
-    font-weight: 700;
-    font-size: 1.05rem;
-    color: var(--color-breadcrumbs-current);
-    padding: .8rem 1.5rem;
-    border-radius: 0;
-    appearance: none;
-}
+import CategorySearch from './CategorySearch.component';
+
+export default CategorySearch;
