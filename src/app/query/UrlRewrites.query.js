@@ -33,4 +33,6 @@ class UrlRewritesQuery {
     }
 }
 
+export { UrlRewritesQuery };
+
 export default new UrlRewritesQuery();

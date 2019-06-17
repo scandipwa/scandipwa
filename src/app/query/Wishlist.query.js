@@ -57,4 +57,6 @@ class Wishlist {
     }
 }
 
+export { Wishlist };
+
 export default new Wishlist();

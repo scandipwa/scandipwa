@@ -38,4 +38,6 @@ class HomeSlider {
     }
 }
 
+export { HomeSlider };
+
 export default new HomeSlider();

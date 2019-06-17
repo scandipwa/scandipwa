@@ -86,4 +86,6 @@ class Checkout {
     }
 }
 
+export { Checkout };
+
 export default new Checkout();

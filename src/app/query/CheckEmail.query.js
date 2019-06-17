@@ -28,4 +28,6 @@ class CheckEmailQuery {
     }
 }
 
+export { CheckEmailQuery };
+
 export default new CheckEmailQuery();

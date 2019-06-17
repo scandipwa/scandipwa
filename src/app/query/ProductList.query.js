@@ -478,4 +478,6 @@ class ProductListQuery {
     }
 }
 
+export { ProductListQuery };
+
 export default new ProductListQuery();

@@ -211,4 +211,6 @@ class MyAccount {
     }
 }
 
+export { MyAccount };
+
 export default new MyAccount();

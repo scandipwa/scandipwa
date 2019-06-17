@@ -35,4 +35,6 @@ class RegionQuery {
     }
 }
 
+export { RegionQuery };
+
 export default new RegionQuery();
