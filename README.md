@@ -10,6 +10,10 @@ It is important to ensure you are following the best practices and setting web-s
 
 [Official Magento 2 docs](https://devdocs.magento.com/guides/v2.3/install-gde/tutorials/change-docroot-to-pub.html)
 
+### Upgrading to version ^1.7
+
+When upgrading to theme version ^1.7, pay attention to `webpack.\*.config` files, new plugin was added there. Also, the index is now split in two parts: the `index.production.html` and `index.development.html`.
+
 ## Environment
 
 ScandiPWA Theme is based on React and Redux. It is built with Webpack v4, therefore **you will need NodeJS environment support** on your CI/CD server or local machine in order to build it.
