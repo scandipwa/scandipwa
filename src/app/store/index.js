@@ -27,6 +27,7 @@ import { RelatedProductsReducer } from 'Store/RelatedProducts';
 import { SearchBarReducer } from 'Store/SearchBar';
 import { UrlRewritesReducer } from 'Store/UrlRewrites';
 import { MyAccountReducer } from 'Store/MyAccount';
+import { StoreConfigReducer } from 'Store/StoreConfig';
 
 export const reducers = {
     CmsBlocksAndSliderReducer,
@@ -42,6 +43,7 @@ export const reducers = {
     RelatedProductsReducer,
     SearchBarReducer,
     MyAccountReducer,
+    StoreConfigReducer,
     UrlRewritesReducer
 };
 
