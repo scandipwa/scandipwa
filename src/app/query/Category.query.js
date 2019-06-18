@@ -77,4 +77,6 @@ class CategoryQuery {
     }
 }
 
+export { CategoryQuery };
+
 export default new CategoryQuery();

@@ -13,7 +13,7 @@ import { Field } from 'Util/Query';
 import { ProductListQuery } from 'Query';
 import { isSignedIn } from 'Util/Auth';
 
-class Cart {
+class CartQuery {
     getCartQuery(quoteId) {
         const query = new Field('getCartForCustomer')
             .addFieldList(this._getCartTotalsFields())
@@ -79,4 +79,6 @@ class Cart {
     }
 }
 
-export default new Cart();
+export { CartQuery };
+
+export default new CartQuery();
