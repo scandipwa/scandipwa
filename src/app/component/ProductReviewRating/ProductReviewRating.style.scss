@@ -22,4 +22,12 @@
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
     }
+
+    &_isLoading {
+        &::before {
+            background-image: var(--placeholder-image);
+            background-size: var(--placeholder-size);
+            animation: var(--placeholder-animation);
+        }
+    }
 }

@@ -75,6 +75,15 @@
         @include mobile {
             margin-bottom: 1rem;
         }
+        
+        .TextPlaceholder {
+            margin-top: .5rem;
+            line-height: 1.1;
+
+            &::after {
+                display: block;
+            }
+        }
     }
 
     &-ReviewAuthor {

@@ -37,7 +37,7 @@ class ProductReviewList extends Component {
                 <p><TextPlaceholder content={ rating_code } /></p>
                 { percent
                     ? <ProductReviewRating summary={ percent } code={ rating_code } />
-                    : <TextPlaceholder length="short" />
+                    : <ProductReviewRating placeholder />
                 }
             </div>
         );
@@ -71,11 +71,13 @@ class ProductReviewList extends Component {
                 <div block="ProductReviewList" elem="ReviewContent">
                     <p block="ProductReviewList" elem="ReviewDetails">
                         { detail
-                            || <>
-                                <TextPlaceholder length="long" />
-                                <TextPlaceholder length="long" />
-                                <TextPlaceholder length="medium" />
-                            </>
+                            || (
+                                <>
+                                    <TextPlaceholder length="long" />
+                                    <TextPlaceholder length="long" />
+                                    <TextPlaceholder length="long" />
+                                </>
+                            )
                         }
                     </p>
                     <p block="ProductReviewList" elem="ReviewAuthor">
@@ -118,9 +120,9 @@ class ProductReviewList extends Component {
                     </h3>
 
                     <ul block="ProductReviewList" elem="List">
-                        { (areDetailsLoaded ? product.reviews : placeholderReviewList)
-                            .map(review => this.renderReviewListItem(review))
-                        }
+                        { (areDetailsLoaded ? product.reviews : placeholderReviewList).map(
+                            review => this.renderReviewListItem(review)
+                        ) }
                     </ul>
                 </>
             </ContentWrapper>

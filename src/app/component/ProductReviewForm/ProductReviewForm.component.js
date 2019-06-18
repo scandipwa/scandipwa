@@ -141,10 +141,17 @@ class ProductReviewForm extends Component {
               block="ProductReviewForm"
               elem="ReviewRating"
             >
-                <legend block="ProductReviewForm" elem="ReviewRatingCode">{ rating_code }</legend>
-                <div block="ProductReviewForm" elem="RatingOptionGroup">
-                    { rating_options.map(ratingOption => this.renderReviewRatingFields(ratingOption, reviewRating)) }
-                </div>
+                { rating_code && rating_options
+                    ? <>
+                        <legend block="ProductReviewForm" elem="ReviewRatingCode">{ rating_code }</legend>
+                        <div block="ProductReviewForm" elem="RatingOptionGroup">
+                            { rating_options.map(
+                                ratingOption => this.renderReviewRatingFields(ratingOption, reviewRating)
+                            ) }
+                        </div>
+                    </>
+                    : <div block="ProductReviewForm" elem="RatingOptionGroup" mods={ { isLoading: true } } />
+                }
             </fieldset>
         );
     }
@@ -180,10 +187,9 @@ class ProductReviewForm extends Component {
                         { __('You\'re reviewing:') }
                     </h3>
                     <p block="ProductReviewForm" elem="ProductName"><TextPlaceholder content={ product.name } /></p>
-                    { reviewRatingsLoaded
-                        ? reviewRatings.map(reviewRating => this.renderReviewRatings(reviewRating))
-                        : <TextPlaceholder length="short" />
-                    }
+                    { (reviewRatingsLoaded ? reviewRatings : [{ rating_id: 1 }]).map(
+                        reviewRating => this.renderReviewRatings(reviewRating)
+                    ) }
                     <Field
                       type="text"
                       label="Nickname"
@@ -205,7 +211,7 @@ class ProductReviewForm extends Component {
                     />
                     <Loader isLoading={ isLoading } />
                     <div block="ProductReviewForm" elem="Buttons">
-                        <button>{ __('Submit Review') }</button>
+                        <button block="ProductReviewForm" elem="SubmitButton">{ __('Submit Review') }</button>
                     </div>
                 </Form>
             </ContentWrapper>

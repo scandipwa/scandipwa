@@ -93,8 +93,17 @@
     }
 
     &-ReviewSummaryPlaceholder {
-        .TextPlaceholder {
+        .TextPlaceholder,
+        .ProductReviewRating-Placeholder {
             display: inline-block;
+        }
+
+        .TextPlaceholder {
+            vertical-align: sub;
+        }
+
+        .ProductReviewRating-Placeholder {
+            vertical-align: middle;
         }
     }
 

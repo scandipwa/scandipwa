@@ -107,16 +107,16 @@ class ProductDetails extends Component {
 
             return (
                 <HashLink smooth to={ linkTo } tabIndex={ getTabIndex(url_key) }>
-                    <span>Be the first to review this product</span>
+                    <span>{ __('Be the first to review this product') }</span>
                 </HashLink>
             );
         }
 
         return (
-            <p block="ProductDetails" elem="ReviewSummaryPlaceholder">
+            <div block="ProductDetails" elem="ReviewSummaryPlaceholder">
+                <ProductReviewRating placeholder />
                 <TextPlaceholder length="short" />
-                <TextPlaceholder length="short" />
-            </p>
+            </div>
         );
     }
 

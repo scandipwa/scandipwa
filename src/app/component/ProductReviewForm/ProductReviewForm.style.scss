@@ -34,22 +34,13 @@
         textarea {
             width: 100%;
         }
-
-        .TextPlaceholder {
-            display: block;
-            font-size: 1.5rem;
-        }
-    }
-
-    &-ReviewRating {
-        margin-top: 1rem;
     }
 
     &-ReviewRatingCode {
         font-size: 1.05rem;
         font-weight: 700;
         border: 0;
-        padding: 0;
+        padding: 1rem 0 0;
     }
 
     &-RatingOptionGroup {
@@ -59,6 +50,17 @@
             content: '☆☆☆☆☆';
             font-size: 3rem;
             color: var(--color-primary-base);
+        }
+
+        &_isLoading {
+            &::before {
+                content: '★★★★★';
+                background-image: var(--placeholder-image);
+                background-size: var(--placeholder-size);
+                animation: var(--placeholder-animation);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
         }
     }
 
@@ -79,8 +81,7 @@
                 opacity: 0;
                 font-size: 1rem;
                 font-weight: 400;
-                transition-property: opacity;
-                transition-duration: 150ms;
+                will-change: opacity;
 
                 &::after {
                     font-size: 3rem;
@@ -158,5 +159,11 @@
 
     &-Buttons {
         margin-top: 1rem;
+    }
+
+    &-SubmitButton {
+        @include mobile {
+            width: 100%;
+        }
     }
 }

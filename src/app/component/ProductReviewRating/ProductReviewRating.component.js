@@ -42,27 +42,40 @@ class ProductReviewRating extends Component {
     }
 
     render() {
-        const { summary, code } = this.props;
+        const { summary, code, placeholder } = this.props;
         const ariaText = this.getAriaText(summary, code);
 
         return (
-            <div
-              block="ProductReviewRating"
-              title={ `${summary}%` }
-              ref={ this.reviewRating }
-              aria-label={ ariaText }
-            />
+            placeholder
+                ? (
+                    <div
+                      block="ProductReviewRating"
+                      mods={ { isLoading: placeholder } }
+                      ref={ this.reviewRating }
+                    />
+                )
+                : (
+                    <div
+                      block="ProductReviewRating"
+                      title={ `${summary}%` }
+                      ref={ this.reviewRating }
+                      aria-label={ ariaText }
+                    />
+                )
         );
     }
 }
 
 ProductReviewRating.propTypes = {
-    summary: PropTypes.number.isRequired,
-    code: PropTypes.string
+    summary: PropTypes.number,
+    code: PropTypes.string,
+    placeholder: PropTypes.bool
 };
 
 ProductReviewRating.defaultProps = {
-    code: ''
+    summary: 0,
+    code: '',
+    placeholder: false
 };
 
 export default ProductReviewRating;
