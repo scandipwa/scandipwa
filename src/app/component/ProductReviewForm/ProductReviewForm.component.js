@@ -142,14 +142,16 @@ class ProductReviewForm extends Component {
               elem="ReviewRating"
             >
                 { rating_code && rating_options
-                    ? <>
-                        <legend block="ProductReviewForm" elem="ReviewRatingCode">{ rating_code }</legend>
-                        <div block="ProductReviewForm" elem="RatingOptionGroup">
-                            { rating_options.map(
-                                ratingOption => this.renderReviewRatingFields(ratingOption, reviewRating)
-                            ) }
-                        </div>
-                    </>
+                    ? (
+                        <>
+                            <legend block="ProductReviewForm" elem="ReviewRatingCode">{ rating_code }</legend>
+                            <div block="ProductReviewForm" elem="RatingOptionGroup">
+                                { rating_options.map(
+                                    ratingOption => this.renderReviewRatingFields(ratingOption, reviewRating)
+                                ) }
+                            </div>
+                        </>
+                    )
                     : <div block="ProductReviewForm" elem="RatingOptionGroup" mods={ { isLoading: true } } />
                 }
             </fieldset>
