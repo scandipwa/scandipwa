@@ -17,7 +17,11 @@ import ProductPrice from 'Component/ProductPrice';
 import Image from 'Component/Image';
 import AddToCart from 'Component/AddToCart';
 import ProductWishlistButton from 'Component/ProductWishlistButton';
+import ProductReviewRating from 'Component/ProductReviewRating';
 import { ProductType, FilterType } from 'Type/ProductList';
+import { getReviewText } from 'Util/Review';
+import { getTabIndex } from 'Util/Link';
+import { HashLink } from 'react-router-hash-link';
 import './ProductCard.style';
 
 /**
@@ -95,7 +99,7 @@ class ProductCard extends Component {
                 return (
                     <Link
                       to={ linkTo }
-                      tabIndex={ url_key ? '0' : '-1' }
+                      tabIndex={ getTabIndex(url_key) }
                       onClick={ this.handleConfigurableClick }
                     >
                         <span>{ __('Configure Product') }</span>
@@ -106,7 +110,7 @@ class ProductCard extends Component {
 
         if (type_id === 'grouped') {
             return (
-                <Link to={ linkTo } tabIndex={ url_key ? '0' : '-1' }>
+                <Link to={ linkTo } tabIndex={ getTabIndex(url_key) }>
                     <span>{ __('View details') }</span>
                 </Link>
             );
@@ -119,6 +123,24 @@ class ProductCard extends Component {
               fullWidth
               removeWishlistItem
             />
+        );
+    }
+
+    renderReviewSummary(linkTo) {
+        const { product: { review_summary, url_key } } = this.props;
+
+        if (!review_summary || !review_summary.review_count) return null;
+
+        const _linkTo = { ...linkTo, hash: '#reviews' };
+        const reviewText = getReviewText(review_summary.review_count);
+
+        return (
+            <div block="ProductCard" elem="ReviewSummary">
+                <ProductReviewRating summary={ review_summary.rating_summary } />
+                <HashLink smooth to={ _linkTo } tabIndex={ getTabIndex(url_key) }>
+                    <span>{ `${review_summary.review_count} ${reviewText}` }</span>
+                </HashLink>
+            </div>
         );
     }
 
@@ -155,7 +177,7 @@ class ProductCard extends Component {
             <li block="ProductCard" mods={ { isLoading } }>
                 <TagName
                   to={ linkTo }
-                  tabIndex={ url_key ? '0' : '-1' }
+                  tabIndex={ getTabIndex(url_key) }
                 >
                     <Image
                       src={ thumbnail && `/media/jpg/catalog/product${ thumbnail }` }
@@ -169,6 +191,7 @@ class ProductCard extends Component {
                     <h4><TextPlaceholder content={ name } /></h4>
                     { price && <ProductPrice price={ price } /> }
                 </TagName>
+                { this.renderReviewSummary(linkTo) }
                 <div block="ProductCard" elem="Actions">
                     { price
                         ? this.addOrConfigureProduct(variantIndex, linkTo)

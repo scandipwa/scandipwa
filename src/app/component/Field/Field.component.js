@@ -234,7 +234,8 @@ class Field extends Component {
             placeholder,
             id,
             isAutocompleteAllowed,
-            formRef
+            formRef,
+            defaultValue
         } = this.props;
         const { value } = this.state;
 
@@ -250,6 +251,7 @@ class Field extends Component {
               onClick={ event => this.onClick(event) }
               placeholder={ placeholder }
               autoComplete={ !isAutocompleteAllowed ? 'off' : undefined }
+              defaultValue={ defaultValue }
             />
         );
     }
@@ -414,7 +416,8 @@ Field.propTypes = {
                 name: PropTypes.string
             })
         ])
-    )
+    ),
+    defaultValue: PropTypes.string
 };
 
 Field.defaultProps = {

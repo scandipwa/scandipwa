@@ -12,8 +12,12 @@
 import React, { Component } from 'react';
 import Html from 'Component/Html';
 import TextPlaceholder from 'Component/TextPlaceholder';
+import ProductReviewRating from 'Component/ProductReviewRating';
 import { ProductType } from 'Type/ProductList';
 import PropTypes from 'prop-types';
+import { getReviewText } from 'Util/Review';
+import { getTabIndex } from 'Util/Link';
+import { HashLink } from 'react-router-hash-link';
 import './ProductDetails.style';
 
 /**
@@ -68,6 +72,54 @@ class ProductDetails extends Component {
         );
     }
 
+    renderReviewSummary() {
+        const {
+            product: { review_summary, url_key },
+            product,
+            areDetailsLoaded,
+            configurableVariantIndex
+        } = this.props;
+
+        if (areDetailsLoaded) {
+            const linkTo = url_key
+                ? {
+                    pathname: `/product/${ url_key }`,
+                    state: { product, configurableVariantIndex },
+                    search: `?variant=${ configurableVariantIndex }`,
+                    hash: '#review-form'
+                }
+                : undefined;
+
+            if (review_summary.review_count) {
+                const _linkTo = { ...linkTo, hash: '#reviews' };
+
+                return (
+                    <>
+                        <ProductReviewRating summary={ review_summary.rating_summary } />
+                        <HashLink smooth to={ _linkTo } tabIndex={ getTabIndex(url_key) }>
+                            <span>
+                                { `${review_summary.review_count} ${getReviewText(review_summary.review_count)}` }
+                            </span>
+                        </HashLink>
+                    </>
+                );
+            }
+
+            return (
+                <HashLink smooth to={ linkTo } tabIndex={ getTabIndex(url_key) }>
+                    <span>{ __('Be the first to review this product') }</span>
+                </HashLink>
+            );
+        }
+
+        return (
+            <div block="ProductDetails" elem="ReviewSummaryPlaceholder">
+                <ProductReviewRating placeholder />
+                <TextPlaceholder length="short" />
+            </div>
+        );
+    }
+
     render() {
         const { product: { name, brand }, areDetailsLoaded } = this.props;
 
@@ -84,6 +136,9 @@ class ProductDetails extends Component {
                 <p block="ProductDetails" elem="Sku">
                     { this.renderSku() }
                 </p>
+                <div block="ProductDetails" elem="ReviewSummary">
+                    { this.renderReviewSummary() }
+                </div>
                 <div block="ProductDetails" elem="ShortDescription">
                     { this.renderShortDescription() }
                 </div>
