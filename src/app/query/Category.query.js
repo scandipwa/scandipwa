@@ -68,6 +68,7 @@ class CategoryQuery {
             'product_count',
             'meta_title',
             'meta_description',
+            'canonical_url',
             breadcrumbs
         ];
 
