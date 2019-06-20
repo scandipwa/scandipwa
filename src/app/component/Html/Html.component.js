@@ -45,6 +45,10 @@ class Html extends Component {
             {
                 query: { name: ['input'] },
                 replace: this.replaceInput
+            },
+            {
+                query: { name: ['script'] },
+                replace: this.replaceScript
             }
         ];
 
@@ -162,6 +166,14 @@ class Html extends Component {
      */
     replaceInput({ attribs }) {
         return <input { ...attributesToProps(attribs) } />;
+    }
+
+    replaceScript({ attribs }) {
+        const script = document.createElement('script');
+        Object.entries(attribs).forEach(([attr, value]) => script.setAttribute(attr, value));
+        document.body.appendChild(script);
+
+        return <></>;
     }
 
     render() {
