@@ -1,0 +1,3 @@
+apps:
+  - script: "npm run dev-server-core"
+  - script: "npm run watch-dev-server"
