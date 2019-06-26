@@ -87,7 +87,9 @@ class Html extends Component {
         const { href } = attribs;
         if (href) {
             const isAbsoluteUrl = value => new RegExp('^(?:[a-z]+:)?//', 'i').test(value);
-            if (!isAbsoluteUrl(attribs.href)) {
+            const isSpecialLink = value => new RegExp('sms|tel|mailto', 'i').test(value);
+            
+            if (!isAbsoluteUrl(attribs.href) && !isSpecialLink(attribs.href)) {
                 /* eslint no-param-reassign: 0 */
                 // Allowed, because param is not a direct reference
                 attribs.to = attribs.href;
