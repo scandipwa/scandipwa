@@ -50,6 +50,12 @@
         }
     }
 
+    &_required {
+        label::after {
+            content: ' *';
+        }
+    }
+
     &::placeholder {
         color: var(--field-note);
         font-size: 0.9rem;

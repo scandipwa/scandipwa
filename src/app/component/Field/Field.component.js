@@ -338,13 +338,14 @@ class Field extends Component {
 
     render() {
         const {
-            id, type, label, note, noteDisplayMode, message, state, block, elem
+            id, type, label, required, note, noteDisplayMode, message, state, block, elem
         } = this.props;
 
         const mix = (block && elem) ? { block, elem } : undefined;
         const mods = {
             type,
             hasError: !!message,
+            required,
             ...(state ? { [state]: true } : {})
         };
         const noteMods = noteDisplayMode ? { [noteDisplayMode]: true } : {};
@@ -373,6 +374,7 @@ Field.propTypes = {
     ]).isRequired,
     name: PropTypes.string,
     label: PropTypes.string,
+    required: PropTypes.bool,
     note: PropTypes.string,
     noteDisplayMode: PropTypes.oneOf([
         VISIBLE_ALWAYS
@@ -421,7 +423,8 @@ Field.defaultProps = {
     rows: 4,
     min: 0,
     block: null,
-    elem: null
+    elem: null,
+    required: false
 };
 
 export default Field;
