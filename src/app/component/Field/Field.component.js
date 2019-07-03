@@ -79,14 +79,6 @@ class Field extends Component {
         return { value };
     }
 
-    componentDidUpdate() {
-        const { type, checked } = this.props;
-        const { isChecked } = this.state;
-
-        // eslint-disable-next-liqueraFieldne react/no-did-update-set-state
-        if (type === 'checkbox' && checked !== isChecked) this.setState({ isChecked: !isChecked });
-    }
-
     onChange(event) {
         if (typeof event === 'string' || typeof event === 'number') {
             return this.handleChange(event);
