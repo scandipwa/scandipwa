@@ -14,7 +14,6 @@ import { ProductListQuery } from 'Query';
 import { updateProductDetails, updateGroupedProductQuantity, clearGroupedProductQuantity } from 'Store/Product';
 import { updateNoMatch } from 'Store/NoMatch';
 import { RelatedProductsDispatcher } from 'Store/RelatedProducts';
-import { ReviewDispatcher } from 'Store/Review';
 
 /**
  * Product List Dispatcher
