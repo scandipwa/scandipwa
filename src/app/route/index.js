@@ -31,6 +31,7 @@ import Footer from 'Component/Footer';
 import Breadcrumbs from 'Component/Breadcrumbs';
 import NotificationList from 'Component/NotificationList';
 import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
+import { ConfigDispatcher } from 'Store/Config';
 import { CartDispatcher } from 'Store/Cart';
 import { WishlistDispatcher } from 'Store/Wishlist';
 
@@ -143,6 +144,7 @@ export class AppRouter extends Component {
 
         WishlistDispatcher.updateInitialWishlistData(Store.dispatch);
         HeaderAndFooterDispatcher.handleData(Store.dispatch, { menu: { menuId: 1 }, footer: footerOptions });
+        ConfigDispatcher.handleData(Store.dispatch);
         CartDispatcher.updateInitialCartData(Store.dispatch);
     }
 

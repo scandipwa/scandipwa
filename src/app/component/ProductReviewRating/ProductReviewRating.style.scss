@@ -1,0 +1,33 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+.ProductReviewRating {
+    --percentage: 0%;
+    margin-right: .5rem;
+    display: inline-block;
+    line-height: 1;
+    font-size: 1.7rem;
+
+    &::before {
+        content: '★★★★★';
+        background: linear-gradient(90deg, var(--color-primary-base) var(--percentage), var(--color-neutral-light) var(--percentage));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    &_isLoading {
+        &::before {
+            background-image: var(--placeholder-image);
+            background-size: var(--placeholder-size);
+            animation: var(--placeholder-animation);
+        }
+    }
+}

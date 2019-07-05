@@ -11,7 +11,11 @@
 
 .ProductPage {
     padding-top: 1rem;
-    
+
+    > section:nth-child(even) {
+        background-color: var(--color-breadcrumbs-background);
+    }
+
     &-Wrapper {
         display: grid;
         grid-template-columns: 1fr 1fr;

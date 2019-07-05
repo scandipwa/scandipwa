@@ -11,7 +11,6 @@
 
 export const UPDATE_MENU = 'UPDATE_MENU';
 export const TOGGLE_HEADER_AND_FOOTER = 'TOGGLE_HEADER_AND_FOOTER';
-export const GET_COUNTRY_LIST = 'GET_COUNTRY_LIST';
 
 const updateMenu = menu => ({
     type: UPDATE_MENU,
@@ -23,9 +22,4 @@ const toggleHeaderAndFooter = isHeaderAndFooterVisible => ({
     isHeaderAndFooterVisible
 });
 
-const getCountryList = countries => ({
-    type: GET_COUNTRY_LIST,
-    countries
-});
-
-export { updateMenu, toggleHeaderAndFooter, getCountryList };
+export { updateMenu, toggleHeaderAndFooter };
