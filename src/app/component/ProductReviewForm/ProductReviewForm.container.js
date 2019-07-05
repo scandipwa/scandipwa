@@ -17,7 +17,7 @@ import ProductReviewForm from './ProductReviewForm.component';
 const mapStateToProps = state => ({
     customer: state.MyAccountReducer.customer,
     isSignedIn: state.MyAccountReducer.isSignedIn,
-    reviewRatings: state.ReviewReducer.reviewRatings
+    reviewRatings: state.ConfigReducer.reviewRatings
 });
 
 const mapDispatchToProps = dispatch => ({

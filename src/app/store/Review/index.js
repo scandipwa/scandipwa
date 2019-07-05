@@ -9,17 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import ReviewReducer from './Review.reducer';
 import ReviewDispatcher from './Review.dispatcher';
 
-import {
-    UPDATE_REVIEW_RATINGS,
-    updateReviewRatings
-} from './Review.action';
-
-export {
-    ReviewReducer,
-    ReviewDispatcher,
-    UPDATE_REVIEW_RATINGS,
-    updateReviewRatings
-};
+// eslint-disable-next-line import/prefer-default-export
+export { ReviewDispatcher };

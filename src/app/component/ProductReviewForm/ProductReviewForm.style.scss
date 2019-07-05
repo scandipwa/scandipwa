@@ -10,6 +10,9 @@
  */
 
 .ProductReviewForm {
+    padding-top: 1.2rem;
+    padding-bottom: 3rem;
+
     &-Title {
         margin-bottom: 0;
     }
@@ -23,11 +26,88 @@
         }
     }
 
-    .Form {
-        max-width: 500px;
+    &-Rating {
+        margin: 1rem 0 1.3rem;
+        text-align: left;
+        direction: rtl;
+        border: 0;
+        white-space-collapse: discard; // alternative of `font-size: 0`
+
+        &Legend {
+            border-bottom: 0;
+            padding-bottom: .3rem;
+            font-weight: 700;
+            font-size: 1.05rem;
+        }
+
+        &Input {
+            --star-outline-color: #949494;
+
+            // reset from input default styles
+            display: inline;
+            margin: 0;
+            padding: 0;
+            background: none;
+            border: 0;
+
+            transition: color 150ms ease-in;
+            color: var(--color-text-white);
+            text-shadow:
+                -1px 0 var(--star-outline-color),
+                0 1px var(--star-outline-color),
+                1px 0 var(--star-outline-color),
+                0 -1px var(--star-outline-color);
+
+            font-size: 40px;
+            line-height: 1;
+            font-family: Times; // make sure ★ appears correctly
+            letter-spacing: 3px;
+
+            &::after {
+                content: '★';
+            }
+
+            &:checked,
+            &:hover,
+            &[checked],
+            &:checked ~ input,
+            &:hover ~ input,
+            &[checked] ~ input {
+                --star-outline-color: var(--color-primary-base);
+                color: var(--color-primary-base);
+            }
+
+            &:focus {
+                border: 0;
+            }
+        }
+    }
+
+    &-Form {
+        @include after-mobile {
+            max-width: 100%;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
 
         @include mobile {
             max-width: 100%;
+        }
+
+        &Content {
+            @include after-mobile {
+                flex-basis: 500px;
+                margin-left: 2rem;
+            }
+        }
+
+        &Heading {
+            margin-bottom: 1.5rem;
+
+            @include after-mobile {
+                text-align: center;
+            }
         }
 
         input,
@@ -36,129 +116,11 @@
         }
     }
 
-    &-ReviewRatingCode {
-        font-size: 1.05rem;
-        font-weight: 700;
-        border: 0;
-        padding: 1rem 0 0;
-    }
-
-    &-RatingOptionGroup {
-        display: flex;
-
-        &::before {
-            content: '☆☆☆☆☆';
-            font-size: 3rem;
-            color: var(--color-primary-base);
-        }
-
-        &_isLoading {
-            &::before {
-                content: '★★★★★';
-                background-image: var(--placeholder-image);
-                background-size: var(--placeholder-size);
-                animation: var(--placeholder-animation);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-            }
-        }
-    }
-
-    .Field {
-        width: 100%;
-
-        &_type_radio {
-            margin-top: 0;
-            position: absolute;
-
-            label {
-                position: absolute;
-                display: block;
-                border: 0;
-                background-color: transparent;
-                width: auto;
-                height: auto;
-                opacity: 0;
-                font-size: 1rem;
-                font-weight: 400;
-                will-change: opacity;
-
-                &::after {
-                    font-size: 3rem;
-                    position: relative;
-                    color: var(--color-primary-base);
-                }
-
-                &:hover {
-                    opacity: 1;
-
-                    &::after {
-                        background-color: transparent;
-                    }
-                }
-            }
-
-            &:nth-of-type(1) {
-                label {
-                    z-index: 5;
-
-                    &::after {
-                        content: '★';
-                    }
-                }
-            }
-
-            &:nth-of-type(2) {
-                label {
-                    z-index: 4;
-
-                    &::after {
-                        content: '★★';
-                    }
-                }
-            }
-
-            &:nth-of-type(3) {
-                label {
-                    z-index: 3;
-
-                    &::after {
-                        content: '★★★';
-                    }
-                }
-            }
-
-            &:nth-of-type(4) {
-                label {
-                    z-index: 2;
-
-                    &::after {
-                        content: '★★★★';
-                    }
-                }
-            }
-
-            &:nth-of-type(5) {
-                label {
-                    z-index: 1;
-
-                    &::after {
-                        content: '★★★★★';
-                    }
-                }
-            }
-
-            input {
-                &:checked + label {
-                    background-color: transparent;
-                    opacity: 1;
-                }
-            }
-        }
-    }
-
     &-Buttons {
         margin-top: 1rem;
+        flex-basis: 100%;
+        text-align: center;
+        margin-top: 2.5rem;
     }
 
     &-SubmitButton {

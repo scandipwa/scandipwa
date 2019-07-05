@@ -21,6 +21,10 @@
             padding: 2rem 0;
         }
 
+        &:last-child {
+            border-bottom: 0;
+        }
+
         &::before {
             content: none;
         }
@@ -75,7 +79,7 @@
         @include mobile {
             margin-bottom: 1rem;
         }
-        
+
         .TextPlaceholder {
             margin-top: .5rem;
             line-height: 1.1;

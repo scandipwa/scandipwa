@@ -20,11 +20,12 @@ class Review {
         return mutation;
     }
 
-    getRatingsQuery() {
+    getRatingDetails() {
         const ratingOptions = new Field('rating_options')
             .addFieldList(['option_id', 'value']);
 
         const query = new Field('getRatings')
+            .setAlias('rating_details')
             .addFieldList(['rating_id', 'rating_code', ratingOptions]);
 
         return query;

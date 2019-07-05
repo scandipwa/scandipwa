@@ -150,11 +150,13 @@ class Form extends Component {
     }
 
     render() {
+        const { mix } = this.props;
         const { children, fieldsAreValid } = this.state;
 
         return (
             <form
               block="Form"
+              mix={ mix }
               mods={ { isInvalid: !fieldsAreValid } }
               ref={ (ref) => { this.form = ref; } }
               onSubmit={ e => this.handleFormSubmit(e) }
@@ -172,13 +174,18 @@ Form.propTypes = {
     children: PropTypes.oneOfType([
         PropTypes.arrayOf(PropTypes.node),
         PropTypes.node
-    ]).isRequired
+    ]).isRequired,
+    mix: PropTypes.shape({
+        block: PropTypes.string,
+        elem: PropTypes.string
+    })
 };
 
 Form.defaultProps = {
     onSubmitSuccess: () => {},
     onSubmitError: () => {},
-    onSubmit: () => {}
+    onSubmit: () => {},
+    mix: {}
 };
 
 export default Form;

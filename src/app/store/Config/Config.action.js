@@ -9,16 +9,17 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+export const GET_COUNTRY_LIST = 'GET_COUNTRY_LIST';
 export const UPDATE_REVIEW_RATINGS = 'UPDATE_REVIEW_RATINGS';
 
-/**
- * Update review ratings
- * @param  {Array} reviewRatings List of review ratings returned from fetch
- * @return {void}
- */
 const updateReviewRatings = reviewRatings => ({
     type: UPDATE_REVIEW_RATINGS,
     reviewRatings
 });
 
-export { updateReviewRatings };
+const getCountryList = countries => ({
+    type: GET_COUNTRY_LIST,
+    countries
+});
+
+export { getCountryList, updateReviewRatings };

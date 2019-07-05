@@ -74,15 +74,21 @@ class RelatedProducts extends Component {
                 <ul block="RelatedProducts" elem="List">
                     {
                         items
-                            ? items.map(product => <ProductCard product={ product } key={ product.id } />)
-                            : (
-                                <>
-                                    <ProductCard product={ {} } />
-                                    <ProductCard product={ {} } />
-                                    <ProductCard product={ {} } />
-                                    <ProductCard product={ {} } />
-                                </>
-                            )
+                            ? items.map(product => (
+                                <ProductCard
+                                  mix={ { block: 'RelatedProducts', elem: 'Card' } }
+                                  product={ product }
+                                  key={ product.id }
+                                />
+                            ))
+                            : Array(4).fill().map((_, i) => (
+                                <ProductCard
+                                  // eslint-disable-next-line react/no-array-index-key
+                                  key={ i }
+                                  product={ {} }
+                                  mix={ { block: 'RelatedProducts', elem: 'Card' } }
+                                />
+                            ))
                     }
                 </ul>
             </ContentWrapper>

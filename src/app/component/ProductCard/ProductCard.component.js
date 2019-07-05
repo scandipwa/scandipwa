@@ -154,7 +154,8 @@ class ProductCard extends Component {
                 variants
             },
             product,
-            arePlaceholdersShown
+            arePlaceholdersShown,
+            mix
         } = this.props;
 
         const variantIndex = this.getCurrentVariantIndex();
@@ -174,7 +175,7 @@ class ProductCard extends Component {
             : product;
 
         return (
-            <li block="ProductCard" mods={ { isLoading } }>
+            <li block="ProductCard" mods={ { isLoading } } mix={ mix }>
                 <TagName
                   to={ linkTo }
                   tabIndex={ getTabIndex(url_key) }
@@ -217,13 +218,18 @@ ProductCard.propTypes = {
     customFilters: FilterType,
     arePlaceholdersShown: PropTypes.bool,
     wishlistItem: PropTypes.bool,
-    updateProductToBeRemovedAfterAdd: PropTypes.func.isRequired
+    updateProductToBeRemovedAfterAdd: PropTypes.func.isRequired,
+    mix: PropTypes.shape({
+        block: PropTypes.string,
+        elem: PropTypes.string
+    })
 };
 
 ProductCard.defaultProps = {
     customFilters: {},
     arePlaceholdersShown: false,
-    wishlistItem: false
+    wishlistItem: false,
+    mix: {}
 };
 
 export default ProductCard;

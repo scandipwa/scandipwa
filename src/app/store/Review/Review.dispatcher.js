@@ -9,32 +9,23 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { fetchQuery, fetchMutation } from 'Util/Request';
-import { updateReviewRatings } from 'Store/Review';
 import { showNotification } from 'Store/Notification';
+import { fetchMutation } from 'Util/Request';
 import { Review } from 'Query';
 
 /**
  * Product Review Dispatcher
  * @class WishlistDispatcher
  */
-class ReviewDispatcher {
+export class ReviewDispatcher {
     prepareRatingData(reviewItem) {
         const { rating_data } = reviewItem;
-        const ratingData = [];
 
-        Object.keys(rating_data).map(
-            key => ratingData.push({ rating_id: key, option_id: rating_data[key] })
-        );
-
-        return ratingData;
-    }
-
-    updateReviewRatings(dispatch) {
-        return fetchQuery(Review.getRatingsQuery()).then(
-            ({ getRatings }) => dispatch(updateReviewRatings(getRatings)),
-            // eslint-disable-next-line no-console
-            error => dispatch(showNotification('error', 'Error fetching review ratings!')) && console.log(error)
+        return Object.keys(rating_data).map(
+            key => ({
+                rating_id: +key,
+                option_id: rating_data[key]
+            })
         );
     }
 

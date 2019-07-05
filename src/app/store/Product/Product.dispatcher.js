@@ -45,8 +45,6 @@ export class ProductDispatcher extends QueryDispatcher {
             RelatedProductsDispatcher.clearRelatedProducts(dispatch);
         }
 
-        ReviewDispatcher.updateReviewRatings(dispatch);
-
         return (items && items.length > 0)
             ? dispatch(updateProductDetails(product, filters))
             : dispatch(updateNoMatch(true));
