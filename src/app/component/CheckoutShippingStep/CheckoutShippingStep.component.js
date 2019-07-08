@@ -10,7 +10,7 @@ import validationConfig from 'Component/Form/Form.config';
 import CheckoutShippingMethods from 'Component/CheckoutShippingMethods';
 import Loader from 'Component/Loader';
 import { makeCancelable } from 'Util/Promise';
-import { fetchMutation } from 'Util/Request';
+import { fetchQuery } from 'Util/Request';
 import { CheckEmailQuery } from 'Query';
 import './CheckoutShippingStep.style';
 
@@ -73,10 +73,10 @@ class CheckoutShippingStep extends Component {
                     const email = event.currentTarget.value;
 
                     if (validationConfig.email.validate({ value: email })) {
-                        fetchMutation(
-                            CheckEmailQuery.getCheckIsEmailAvailableMutation(email)
+                        fetchQuery(
+                            CheckEmailQuery.getIsEmailAvailable(email)
                         ).then(
-                            ({ checkIsEmailAvailable: { isAvailable } }) => {
+                            ({ isEmailAvailable: { is_email_available: isAvailable } }) => {
                                 const { email } = this.state;
 
                                 this.fieldMap[EMAIL_FIELD_ID].note = isAvailable
