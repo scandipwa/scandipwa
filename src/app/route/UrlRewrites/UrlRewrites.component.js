@@ -16,11 +16,14 @@ import ProductPage from 'Route/ProductPage';
 import CmsPage from 'Route/CmsPage';
 import NoMatch from 'Route/NoMatch';
 import { getUrlParam } from 'Util/Url';
+import Cookie from 'Util/Cookie';
 
 export const TYPE_PRODUCT = 'PRODUCT';
 export const TYPE_CMS_PAGE = 'CMS_PAGE';
 export const TYPE_CATEGORY = 'CATEGORY';
 export const TYPE_NOTFOUND = 'NOT_FOUND';
+
+export const ACTION_TYPE_COOKIE = 'action_type';
 
 /**
  * Additional types possible:
@@ -41,13 +44,13 @@ class UrlRewrites extends Component {
     }
 
     componentWillMount() {
-        const { type } = window.actionName || '';
-
         // Type is not set
-        if (!type) {
+        if (!Cookie.isset(ACTION_TYPE_COOKIE)) {
             this.requestRewrite();
             return;
         }
+
+        const type = Cookie.get(ACTION_TYPE_COOKIE);
 
         // Known components
         if (this.knownTypes.indexOf(type) >= 0) {
