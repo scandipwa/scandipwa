@@ -20,6 +20,8 @@ import {
 const initialState = {
     items: [],
     totalItems: 0,
+    minPrice: 300, // initial values will be reset with first real data
+    maxPrice: 0,
     category: {},
     categoryList: {},
     sortFields: {},
@@ -30,6 +32,8 @@ const initialState = {
 const CategoryReducer = (state = initialState, action) => {
     const {
         totalItems,
+        minPrice,
+        maxPrice,
         items,
         categoryList,
         sortFields,
@@ -63,6 +67,8 @@ const CategoryReducer = (state = initialState, action) => {
         return {
             ...state,
             totalItems,
+            minPrice: Math.min(state.minPrice, minPrice),
+            maxPrice: Math.max(state.maxPrice, maxPrice),
             items,
             sortFields,
             filters
@@ -74,7 +80,9 @@ const CategoryReducer = (state = initialState, action) => {
             items: [
                 ...state.items,
                 ...items
-            ]
+            ],
+            minPrice: Math.min(state.minPrice, minPrice),
+            maxPrice: Math.max(state.maxPrice, maxPrice)
         };
 
     case UPDATE_CATEGORY_LIST:
@@ -85,7 +93,7 @@ const CategoryReducer = (state = initialState, action) => {
 
     case UPDATE_CURRENT_CATEGORY:
         const { categoryList: stateCategoryList } = state;
-        const flattendCategories = {};
+        const flattenedCategories = {};
 
         const deleteProperty = (key, { [key]: _, ...newObj }) => newObj;
         const flattenCategory = (category) => {
@@ -94,7 +102,7 @@ const CategoryReducer = (state = initialState, action) => {
             if (children) {
                 children.forEach((element) => {
                     flattenCategory(element);
-                    flattendCategories[categoryUrlPath
+                    flattenedCategories[categoryUrlPath
                         ? element.url_path : element.id] = deleteProperty('children', element);
                 });
             }
@@ -106,7 +114,7 @@ const CategoryReducer = (state = initialState, action) => {
 
         return {
             ...state,
-            category: flattendCategories[categoryUrlPath || categoryIds]
+            category: flattenedCategories[categoryUrlPath || categoryIds]
         };
 
     case UPDATE_LOAD_STATUS:
