@@ -115,6 +115,7 @@ const postFetch = (graphQlURI, query, variables) => fetch(graphQlURI,
  */
 const checkForErrors = res => new Promise((resolve, reject) => {
     const { errors, data } = res;
+    // eslint-disable-next-line no-console
     if (errors) { console.error(errors); }
     return !data && errors ? reject(errors) : resolve(data);
 });
