@@ -34,8 +34,6 @@ class CategoryPage extends Component {
             sortKey: 'name',
             sortDirection: 'ASC',
             defaultPriceRange: { min: 0, max: 300 },
-            minPriceRange: 0,
-            maxPriceRange: 300,
             previousPage: 0,
             pageSize: 12
         };
@@ -370,6 +368,8 @@ class CategoryPage extends Component {
             categoryList,
             items,
             totalItems,
+            minPriceRange,
+            maxPriceRange,
             sortFields,
             filters,
             location,
@@ -381,9 +381,7 @@ class CategoryPage extends Component {
 
         const {
             sortKey,
-            sortDirection,
-            minPriceRange,
-            maxPriceRange
+            sortDirection
         } = this.state;
 
         const { options } = sortFields;
@@ -462,6 +460,8 @@ CategoryPage.propTypes = {
     categoryList: CategoryTreeType.isRequired,
     items: ItemsType.isRequired,
     totalItems: PropTypes.number.isRequired,
+    minPriceRange: PropTypes.number.isRequired,
+    maxPriceRange: PropTypes.number.isRequired,
     location: PropTypes.shape({
         pathname: PropTypes.string.isRequired
     }).isRequired,
@@ -470,6 +470,7 @@ CategoryPage.propTypes = {
     }).isRequired,
     requestCategory: PropTypes.func.isRequired,
     updateBreadcrumbs: PropTypes.func.isRequired,
+    updateLoadStatus: PropTypes.func.isRequired,
     filters: PropTypes.arrayOf(PropTypes.shape).isRequired,
     sortFields: PropTypes.shape({
         options: PropTypes.array

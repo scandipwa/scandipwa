@@ -19,6 +19,8 @@ const mapStateToProps = state => ({
     categoryList: state.CategoryReducer.categoryList,
     items: state.CategoryReducer.items,
     totalItems: state.CategoryReducer.totalItems,
+    minPriceRange: state.CategoryReducer.minPrice,
+    maxPriceRange: state.CategoryReducer.maxPrice,
     sortFields: state.CategoryReducer.sortFields,
     filters: state.CategoryReducer.filters,
     isLoading: state.CategoryReducer.isLoading

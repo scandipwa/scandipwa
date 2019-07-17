@@ -34,6 +34,8 @@ export class CategoryDispatcher extends QueryDispatcher {
             products: {
                 items,
                 total_count,
+                min_price,
+                max_price,
                 sort_fields,
                 filters
             }
@@ -50,13 +52,17 @@ export class CategoryDispatcher extends QueryDispatcher {
             && !isSearchPage) dispatch(updateNoMatch(true));
 
         if (category) { // If category details are updated, reset all data
-            dispatch(updateCategoryProductList(items, total_count, sort_fields, filters));
+            dispatch(updateCategoryProductList(
+                items, total_count, min_price, max_price, sort_fields, filters
+            ));
             dispatch(updateCategoryList(category));
             dispatch(updateCurrentCategory(categoryUrlPath, categoryIds, isSearchPage));
         } else if (filters || sort_fields) {
-            dispatch(updateCategoryProductList(items, total_count, sort_fields, filters));
+            dispatch(updateCategoryProductList(
+                items, total_count, min_price, max_price, sort_fields, filters
+            ));
         } else {
-            dispatch(appendCategoryProductList(items, total_count));
+            dispatch(appendCategoryProductList(items, total_count, min_price, max_price));
         }
 
         dispatch(updateLoadStatus(false));

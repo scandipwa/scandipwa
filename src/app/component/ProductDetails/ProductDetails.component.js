@@ -29,7 +29,7 @@ class ProductDetails extends Component {
      * Render product SKU only when it's loaded
      */
     renderSku() {
-        const { product: { variants, sku }, areDetailsLoaded, configurableVariantIndex } = this.props;
+        const { product: { variants, sku, stock_status }, areDetailsLoaded, configurableVariantIndex } = this.props;
 
         if (areDetailsLoaded) {
             const { product } = configurableVariantIndex >= 0
@@ -41,7 +41,9 @@ class ProductDetails extends Component {
                 <>
                     <span>{ __('SKU: ') }</span>
                     <Html content={ product ? product.sku : sku } />
-                    <span block="ProductDetails" elem="StockAvailable">{ __('In stock') }</span>
+                    <span block="ProductDetails" elem="StockAvailable">
+                        { (stock_status === 'OUT_OF_STOCK' ? __('Out of stock') : __('In stock')) }
+                    </span>
                 </>
             );
         }
