@@ -41,7 +41,9 @@ export class CategoryDispatcher extends QueryDispatcher {
             }
         } = data;
 
-        const { categoryUrlPath, isSearchPage, categoryIds } = {
+        const {
+            categoryUrlPath, isSearchPage, categoryIds, currentPage
+        } = {
             ...options,
             ...{ categoryUrlPath: (options.isSearchPage ? 'all-products' : options.categoryUrlPath) }
         };
@@ -53,17 +55,18 @@ export class CategoryDispatcher extends QueryDispatcher {
 
         if (category) { // If category details are updated, reset all data
             dispatch(updateCategoryProductList(
-                items, total_count, min_price, max_price, sort_fields, filters
+                items, total_count, min_price, max_price, sort_fields, filters, currentPage
             ));
             dispatch(updateCategoryList(category));
             dispatch(updateCurrentCategory(categoryUrlPath, categoryIds, isSearchPage));
         } else if (filters || sort_fields) {
             dispatch(updateCategoryProductList(
-                items, total_count, min_price, max_price, sort_fields, filters
+                items, total_count, min_price, max_price, sort_fields, filters, currentPage
             ));
         } else {
-            dispatch(appendCategoryProductList(items, total_count, min_price, max_price));
+            dispatch(appendCategoryProductList(items, min_price, max_price, currentPage));
         }
+
 
         dispatch(updateLoadStatus(false));
     }
@@ -93,6 +96,7 @@ export class CategoryDispatcher extends QueryDispatcher {
         } = options;
         const query = [];
 
+
         if (!isCategoryLoaded) {
             query.push(CategoryQuery.getQuery(options));
         } else {
@@ -106,12 +110,8 @@ export class CategoryDispatcher extends QueryDispatcher {
 
             if (productsLoaded && productsLoaded / pageSize === currentPage - 1) { // We are loading next page of products!
                 options.isNextPage = true;
-                return ProductListQuery.getQuery(options); // Product should only be requested
+                return ProductListQuery.getQuery(options);
             }
-
-            options.pageSize = pageSize * currentPage; // load all products before current page
-            options.currentPage = 1; // set page to one, because a bigger list is loading
-            // Both will be requested
         } else if (this._areCustomFiltersPresent(options) || this._isOneOfSortFiltersPresent(options)) {
             dispatch(updateLoadStatus(true));
             query.push(ProductListQuery.getQuery(options));

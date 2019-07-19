@@ -12,7 +12,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ProductCard from 'Component/ProductCard';
-import { ItemsType } from 'Type/ProductList';
+import { PagesType } from 'Type/ProductList';
 import './CategoryProductList.style';
 
 /**
@@ -23,33 +23,27 @@ class CategoryProductList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            prevItemsLength: 0
+            pagesCount: 1
         };
     }
 
-    /**
-     * Properly returng prevItemsLength even if category is switched
-     * @param {*} props
-     * @param {*} state
-     */
     static getDerivedStateFromProps(props, state) {
-        const { items, isLoading } = props;
-        const { prevItemsLength } = state;
+        const { pages, isLoading } = props;
+        const { pagesCount } = state;
 
-        if (isLoading) return { prevItemsLength: 0 };
-        if (items.length !== prevItemsLength) return { prevItemsLength };
+        if (isLoading) return { pagesCount: 1 };
+        if (Object.keys(pages).length !== pagesCount) return { pagesCount };
+
         return null;
     }
 
-    /**
-     * Show loading placeholders while products are fetching
-     * @return {void}
-     */
     componentDidUpdate() {
-        const { prevItemsLength } = this.state;
-        const { items, totalItems } = this.props;
-        const shouldUpdateList = this.node && prevItemsLength !== items.length
-         && items.length !== 0 && items.length <= totalItems;
+        const { pagesCount } = this.state;
+        const { totalPages } = this.props;
+        const { maxPage, loadedPagesCount } = this.getPagesBounds();
+
+        // console.log(currentPage, previousPage);
+        const shouldUpdateList = this.node && maxPage < totalPages && totalPages > 0 && pagesCount === loadedPagesCount;
 
         if (shouldUpdateList) {
             if ('IntersectionObserver' in window) {
@@ -74,25 +68,44 @@ class CategoryProductList extends Component {
         }
     }
 
+    /**
+     * Get boundaries for pages.
+     * @return {{maxPage:Number, minPage:Number}}
+     */
+    getPagesBounds() {
+        const { pages } = this.props;
+
+        const keys = Object.keys(pages);
+
+        const maxPage = Math.max(...keys);
+        const minPage = Math.min(...keys);
+
+        const loadedPagesCount = keys.length;
+
+        return { maxPage, minPage, loadedPagesCount };
+    }
+
+    showLoading() {
+        const { pagesCount } = this.state;
+        const { increasePage } = this.props;
+
+        this.setState({ pagesCount: pagesCount + 1 });
+
+        increasePage();
+    }
+
     stopObserving() {
         if (this.observer) {
             if (this.observer.unobserve) {
                 this.observer.unobserve(this.node);
             }
+
             if (this.observer.disconnect) {
                 this.observer.disconnect();
             }
+
             this.observer = null;
         }
-    }
-
-    /**
-     * Increase page count and update previous items length
-     */
-    showLoading() {
-        const { items, increasePage } = this.props;
-        this.setState({ prevItemsLength: items.length });
-        increasePage();
     }
 
     renderNoProducts() {
@@ -106,19 +119,23 @@ class CategoryProductList extends Component {
         );
     }
 
-    renderProducts() {
-        const { items, customFilters } = this.props;
+    renderPage(items, key) {
+        const { customFilters, isLoading } = this.props;
 
-        if (items.length === 0) return this.renderNoProducts();
+        // if (items.length === 0) return this.renderNoProducts();
 
-        return items.map(product => (
-            <ProductCard
-              product={ product }
-              key={ product.id }
-              customFilters={ customFilters }
-              arePlaceholdersShown
-            />
-        ));
+        return (
+            <ul block="CategoryProductList" key={ key } mods={ { isLoading } }>
+                { items.map(product => (
+                    <ProductCard
+                      product={ product }
+                      key={ product.id }
+                      customFilters={ customFilters }
+                      arePlaceholdersShown
+                    />
+                )) }
+            </ul>
+        );
     }
 
     /**
@@ -134,17 +151,23 @@ class CategoryProductList extends Component {
         );
 
         if (isLoading) {
-            return renderPlaceholders();
+            return (
+                <div block="CategoryProductList">
+                    { renderPlaceholders() }
+                </div>
+            );
         }
 
         if (showLoadMore) {
             return (
-                <div
-                  block="CategoryProductList"
-                  elem="Placeholder"
-                  ref={ (node) => { this.node = node; } }
-                >
-                    { renderPlaceholders() }
+                <div block="CategoryProductList">
+                    <div
+                      block="CategoryProductList"
+                      elem="Placeholder"
+                      ref={ (node) => { this.node = node; } }
+                    >
+                        { renderPlaceholders() }
+                    </div>
                 </div>
             );
         }
@@ -153,23 +176,27 @@ class CategoryProductList extends Component {
     }
 
     render() {
-        const { items, totalItems, isLoading } = this.props;
-        const showLoadMore = items.length < totalItems && !isLoading;
+        const { pagesCount } = this.state;
+        const { pages, totalPages, isLoading } = this.props;
+        const { maxPage, loadedPagesCount } = this.getPagesBounds();
+
+        const showLoadMore = maxPage < totalPages && !isLoading;
 
         return (
-            <ul block="CategoryProductList" mods={ { isLoading } }>
-                { !isLoading && this.renderProducts() }
+            <>
+                { !isLoading && Object.entries(pages).map(([pageNumber, items]) => this.renderPage(items, pageNumber)) }
                 { this.renderPlaceholder(showLoadMore, isLoading) }
-            </ul>
+            </>
         );
     }
 }
 
 CategoryProductList.propTypes = {
-    items: ItemsType.isRequired,
-    totalItems: PropTypes.number.isRequired,
-    increasePage: PropTypes.func.isRequired,
+    pages: PagesType.isRequired,
     isLoading: PropTypes.bool.isRequired,
+    totalPages: PropTypes.number.isRequired,
+    increasePage: PropTypes.func.isRequired,
+    currentPage: PropTypes.number.isRequired,
     customFilters: PropTypes.objectOf(PropTypes.array)
 };
 

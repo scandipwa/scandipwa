@@ -19,6 +19,7 @@ import {
 
 const initialState = {
     items: [],
+    pages: {},
     totalItems: 0,
     minPrice: 300, // initial values will be reset with first real data
     maxPrice: 0,
@@ -41,7 +42,8 @@ const CategoryReducer = (state = initialState, action) => {
         isLoading,
         categoryUrlPath,
         categoryIds,
-        isSearchPage
+        isSearchPage,
+        currentPage
     } = action;
 
     if (items) {
@@ -70,6 +72,9 @@ const CategoryReducer = (state = initialState, action) => {
             minPrice: Math.min(state.minPrice, minPrice),
             maxPrice: Math.max(state.maxPrice, maxPrice),
             items,
+            pages: {
+                [currentPage]: items
+            },
             sortFields,
             filters
         };
@@ -81,6 +86,10 @@ const CategoryReducer = (state = initialState, action) => {
                 ...state.items,
                 ...items
             ],
+            pages: {
+                ...state.pages,
+                [currentPage]: items
+            },
             minPrice: Math.min(state.minPrice, minPrice),
             maxPrice: Math.max(state.maxPrice, maxPrice)
         };

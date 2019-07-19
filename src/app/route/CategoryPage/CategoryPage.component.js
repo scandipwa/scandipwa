@@ -23,7 +23,7 @@ import {
     getUrlParam, getQueryParam, setQueryParams, clearQueriesFromUrl
 } from 'Util/Url';
 import { CategoryTreeType } from 'Type/Category';
-import { ItemsType } from 'Type/ProductList';
+import { ItemsType, PagesType } from 'Type/ProductList';
 import './CategoryPage.style';
 
 class CategoryPage extends Component {
@@ -85,6 +85,21 @@ class CategoryPage extends Component {
 
         setQueryParams({ sortKey }, location, history);
         setQueryParams({ sortDirection: direction }, location, history);
+    }
+
+    /**
+     * Get Total Page Count and Current Page Number
+     * @return {{totalPages: Number, currentPage: Number}}
+     */
+    getPageParams() {
+        const { totalItems } = this.props;
+        const { pageSize } = this.state;
+        const pageFromUrl = getQueryParam('page', location) || 1;
+
+        const totalPages = Math.floor(totalItems / pageSize);
+        const currentPage = parseInt(totalPages < pageFromUrl ? totalPages : pageFromUrl, 10);
+
+        return { totalPages, currentPage };
     }
 
     /**
@@ -308,13 +323,9 @@ class CategoryPage extends Component {
         const {
             location,
             history,
-            isLoading,
-            totalItems
+            isLoading
         } = this.props;
-        const { pageSize } = this.state;
-        const pageFromUrl = getQueryParam('page', location) || 1;
-        const totalPages = Math.floor(totalItems / pageSize);
-        const currentPage = totalPages < pageFromUrl ? totalPages : pageFromUrl;
+        const { currentPage } = this.getPageParams();
 
         if (!isLoading) {
             setQueryParams({ page: parseInt(currentPage, 10) + 1 }, location, history);
@@ -366,8 +377,7 @@ class CategoryPage extends Component {
         const {
             category,
             categoryList,
-            items,
-            totalItems,
+            pages,
             minPriceRange,
             maxPriceRange,
             sortFields,
@@ -393,6 +403,8 @@ class CategoryPage extends Component {
 
         const customFilters = this.getCustomFiltersFromUrl();
         const search = getQueryParam('search', location) || '';
+
+        const { currentPage, totalPages } = this.getPageParams();
 
         return (
             <main block="CategoryPage">
@@ -439,11 +451,12 @@ class CategoryPage extends Component {
                         />
                     </aside>
                     <CategoryProductList
-                      items={ items }
-                      customFilters={ customFilters }
-                      totalItems={ totalItems }
-                      increasePage={ () => this.increasePage() }
+                      pages={ pages }
                       isLoading={ isLoading }
+                      totalPages={ totalPages }
+                      currentPage={ currentPage }
+                      customFilters={ customFilters }
+                      increasePage={ () => this.increasePage() }
                     />
                 </ContentWrapper>
             </main>
@@ -459,6 +472,7 @@ CategoryPage.propTypes = {
     category: CategoryTreeType.isRequired,
     categoryList: CategoryTreeType.isRequired,
     items: ItemsType.isRequired,
+    pages: PagesType.isRequired,
     totalItems: PropTypes.number.isRequired,
     minPriceRange: PropTypes.number.isRequired,
     maxPriceRange: PropTypes.number.isRequired,
