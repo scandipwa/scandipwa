@@ -20,7 +20,7 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import CategoryShoppingOptions from 'Component/CategoryShoppingOptions';
 import Meta from 'Component/Meta';
 import {
-    getUrlParam, getQueryParam, setQueryParams, clearQueriesFromUrl
+    getUrlParam, getQueryParam, setQueryParams, clearQueriesFromUrl, convertQueryStringToKeyValuePairs
 } from 'Util/Url';
 import { CategoryTreeType } from 'Type/Category';
 import { ItemsType, PagesType } from 'Type/ProductList';
@@ -96,7 +96,7 @@ class CategoryPage extends Component {
         const { pageSize } = this.state;
         const pageFromUrl = getQueryParam('page', location) || 1;
 
-        const totalPages = Math.floor(totalItems / pageSize);
+        const totalPages = Math.ceil(totalItems / pageSize);
         const currentPage = parseInt(totalPages < pageFromUrl ? totalPages : pageFromUrl, 10);
 
         return { totalPages, currentPage };
@@ -163,16 +163,33 @@ class CategoryPage extends Component {
      */
     urlHasChanged(location, prevProps) {
         const pathnameHasChanged = location.pathname !== prevProps.location.pathname;
-        const searchQueryHasChanged = location.search !== prevProps.location.search;
+        const searchQueryHasChanged = !this.compareQueriesWithoutPage(location.search, prevProps.location.search);
 
         return pathnameHasChanged || searchQueryHasChanged;
+    }
+
+    /**
+     * Compares queries ignoring page number
+     * @return {Boolean}
+     */
+    compareQueriesWithoutPage(currentQuery, previousQuery) {
+        const removePage = (params) => {
+            const { page, ...filteredParams } = params;
+
+            return filteredParams;
+        };
+
+        const currentParams = removePage(convertQueryStringToKeyValuePairs(currentQuery));
+        const previousParams = removePage(convertQueryStringToKeyValuePairs(previousQuery));
+
+        return JSON.stringify(currentParams) === JSON.stringify(previousParams);
     }
 
     /**
      * Prepare and dispatch category request
      * @return {void}
      */
-    requestCategory() {
+    requestCategory(loadPage = null) {
         const {
             requestCategory,
             location,
@@ -200,8 +217,9 @@ class CategoryPage extends Component {
         const options = {
             search: search ? decodeURIComponent(search) : '',
             isSearchPage: isSearchPage || false,
+            isNext: !!loadPage,
             categoryUrlPath,
-            currentPage,
+            currentPage: loadPage || currentPage,
             previousPage,
             pageSize,
             priceRange,
@@ -265,6 +283,18 @@ class CategoryPage extends Component {
     }
 
     /**
+     * Sets page number in address bar
+     * @param {Number} pageNumber
+     */
+    updatePage(pageNumber) {
+        const { location, history } = this.props;
+
+        setQueryParams({
+            page: pageNumber === 1 ? '' : pageNumber
+        }, location, history);
+    }
+
+    /**
      * Update Query parameters for price range
      * @return {void}
      */
@@ -317,18 +347,16 @@ class CategoryPage extends Component {
 
     /**
      * Increase page number, cannot exceed calculated page amount.
+     * @param {Number} pageNumber
      * @return {void}
      */
-    increasePage() {
+    loadPage(pageNumber) {
         const {
-            location,
-            history,
             isLoading
         } = this.props;
-        const { currentPage } = this.getPageParams();
 
         if (!isLoading) {
-            setQueryParams({ page: parseInt(currentPage, 10) + 1 }, location, history);
+            this.requestCategory(pageNumber);
         }
     }
 
@@ -404,7 +432,7 @@ class CategoryPage extends Component {
         const customFilters = this.getCustomFiltersFromUrl();
         const search = getQueryParam('search', location) || '';
 
-        const { currentPage, totalPages } = this.getPageParams();
+        const { totalPages } = this.getPageParams();
 
         return (
             <main block="CategoryPage">
@@ -454,9 +482,9 @@ class CategoryPage extends Component {
                       pages={ pages }
                       isLoading={ isLoading }
                       totalPages={ totalPages }
-                      currentPage={ currentPage }
                       customFilters={ customFilters }
-                      increasePage={ () => this.increasePage() }
+                      loadPage={ pageNumber => this.loadPage(pageNumber) }
+                      updatePage={ pageNumber => this.updatePage(pageNumber) }
                     />
                 </ContentWrapper>
             </main>

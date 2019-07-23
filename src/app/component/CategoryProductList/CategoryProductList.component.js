@@ -12,7 +12,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ProductCard from 'Component/ProductCard';
+import CategoryProductListPlaceholder from 'Component/CategoryProductListPlaceholder';
 import { PagesType } from 'Type/ProductList';
+import { getQueryParam } from 'Util/Url';
 import './CategoryProductList.style';
 
 /**
@@ -37,40 +39,62 @@ class CategoryProductList extends Component {
         return null;
     }
 
+    componentDidMount() {
+        this.nodes = {};
+        this.observedNodes = [];
+    }
+
     componentDidUpdate() {
-        const { pagesCount } = this.state;
-        const { totalPages } = this.props;
-        const { maxPage, loadedPagesCount } = this.getPagesBounds();
+        const { updatePage, isLoading } = this.props;
 
-        // console.log(currentPage, previousPage);
-        const shouldUpdateList = this.node && maxPage < totalPages && totalPages > 0 && pagesCount === loadedPagesCount;
-
-        if (shouldUpdateList) {
-            if ('IntersectionObserver' in window) {
-                const options = {
-                    rootMargin: '0px',
-                    threshold: 0.1
-                };
-
-                this.observer = new IntersectionObserver((entries) => {
-                    entries.forEach((entry) => {
-                        if (entry.intersectionRatio > 0) {
-                            this.stopObserving();
-                            this.showLoading();
-                        }
-                    });
-                }, options);
-
-                this.observer.observe(this.node);
-            } else {
-                this.showLoading();
-            }
+        if (isLoading) {
+            this.pagesIntersecting = [];
         }
+
+        if (!this.observer && 'IntersectionObserver' in window) {
+            const options = {
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            this.observer = new IntersectionObserver((entries) => {
+                const pageFromUrl = parseInt(getQueryParam('page', location) || 1, 10);
+
+                entries.forEach((entry) => {
+                    const page = parseInt(
+                        Object.keys(this.nodes).find(key => this.nodes[key] === entry.target),
+                        10
+                    );
+
+                    const index = this.pagesIntersecting.indexOf(page);
+
+                    if (entry.isIntersecting) {
+                        if (index === -1) this.pagesIntersecting.push(page);
+                    } else if (index > -1) {
+                        this.pagesIntersecting.splice(index, 1);
+                    }
+                });
+
+                const minPage = Math.min(...this.pagesIntersecting);
+                if (minPage < Infinity && minPage !== pageFromUrl) {
+                    updatePage(minPage);
+                }
+            }, options);
+        }
+        this.updateObserver();
+    }
+
+    componentWillUnmount() {
+        if (this.observer.disconnect) {
+            this.observer.disconnect();
+        }
+
+        this.observer = null;
     }
 
     /**
      * Get boundaries for pages.
-     * @return {{maxPage:Number, minPage:Number}}
+     * @return {{maxPage:Number, minPage:Number, loadedPagesCount:Number}}
      */
     getPagesBounds() {
         const { pages } = this.props;
@@ -85,26 +109,36 @@ class CategoryProductList extends Component {
         return { maxPage, minPage, loadedPagesCount };
     }
 
-    showLoading() {
-        const { pagesCount } = this.state;
-        const { increasePage } = this.props;
+    updateObserver() {
+        if (!this.observer || Object.keys(this.nodes).length <= 0) return;
 
-        this.setState({ pagesCount: pagesCount + 1 });
+        Object.values(this.nodes)
+            .forEach((node) => {
+                if (node && !this.observedNodes.includes(node)) {
+                    this.observer.observe(node);
+                    this.observedNodes.push(node);
+                }
+            });
 
-        increasePage();
+        this.observedNodes
+            .filter(node => !Object.values(this.nodes).includes(node))
+            .forEach((node) => {
+                this.observer.unobserve(node);
+                this.observedNodes.splice(this.observedNodes.indexOf(node), 1);
+            });
     }
 
-    stopObserving() {
-        if (this.observer) {
-            if (this.observer.unobserve) {
-                this.observer.unobserve(this.node);
-            }
+    showLoading() {
+        const { pagesCount } = this.state;
+        const { loadPage, totalPages } = this.props;
+        const { maxPage, loadedPagesCount } = this.getPagesBounds();
 
-            if (this.observer.disconnect) {
-                this.observer.disconnect();
-            }
+        const shouldUpdateList = maxPage < totalPages && totalPages > 0 && pagesCount === loadedPagesCount;
 
-            this.observer = null;
+        if (shouldUpdateList) {
+            this.setState({ pagesCount: pagesCount + 1 });
+
+            loadPage(maxPage + 1);
         }
     }
 
@@ -122,10 +156,13 @@ class CategoryProductList extends Component {
     renderPage(items, key) {
         const { customFilters, isLoading } = this.props;
 
-        // if (items.length === 0) return this.renderNoProducts();
-
         return (
-            <ul block="CategoryProductList" key={ key } mods={ { isLoading } }>
+            <ul
+              block="CategoryProductList"
+              key={ key }
+              mods={ { isLoading } }
+              ref={ (node) => { this.nodes[key] = node; } }
+            >
                 { items.map(product => (
                     <ProductCard
                       product={ product }
@@ -138,54 +175,22 @@ class CategoryProductList extends Component {
         );
     }
 
-    /**
-     * render placeholders beneath the product list
-     */
-    renderPlaceholder(showLoadMore, isLoading) {
-        const renderPlaceholders = () => (
-            <>
-                <ProductCard product={ {} } />
-                <ProductCard product={ {} } />
-                <ProductCard product={ {} } />
-            </>
-        );
-
-        if (isLoading) {
-            return (
-                <div block="CategoryProductList">
-                    { renderPlaceholders() }
-                </div>
-            );
-        }
-
-        if (showLoadMore) {
-            return (
-                <div block="CategoryProductList">
-                    <div
-                      block="CategoryProductList"
-                      elem="Placeholder"
-                      ref={ (node) => { this.node = node; } }
-                    >
-                        { renderPlaceholders() }
-                    </div>
-                </div>
-            );
-        }
-
-        return null;
-    }
-
     render() {
-        const { pagesCount } = this.state;
         const { pages, totalPages, isLoading } = this.props;
-        const { maxPage, loadedPagesCount } = this.getPagesBounds();
+        const { maxPage } = this.getPagesBounds();
 
         const showLoadMore = maxPage < totalPages && !isLoading;
+
+        if (!isLoading && totalPages === 0) return this.renderNoProducts();
 
         return (
             <>
                 { !isLoading && Object.entries(pages).map(([pageNumber, items]) => this.renderPage(items, pageNumber)) }
-                { this.renderPlaceholder(showLoadMore, isLoading) }
+                <CategoryProductListPlaceholder
+                  isLoading={ isLoading }
+                  isVisible={ showLoadMore }
+                  updatePages={ () => this.showLoading() }
+                />
             </>
         );
     }
@@ -193,10 +198,10 @@ class CategoryProductList extends Component {
 
 CategoryProductList.propTypes = {
     pages: PagesType.isRequired,
+    loadPage: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
+    updatePage: PropTypes.func.isRequired,
     totalPages: PropTypes.number.isRequired,
-    increasePage: PropTypes.func.isRequired,
-    currentPage: PropTypes.number.isRequired,
     customFilters: PropTypes.objectOf(PropTypes.array)
 };
 

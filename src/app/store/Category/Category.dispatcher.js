@@ -87,12 +87,11 @@ export class CategoryDispatcher extends QueryDispatcher {
         const {
             currentPage,
             previousPage,
-            pageSize,
-            productsLoaded,
             isCategoryLoaded,
             categoryUrlPath,
             categoryIds,
-            isSearchPage
+            isSearchPage,
+            isNext
         } = options;
         const query = [];
 
@@ -108,7 +107,7 @@ export class CategoryDispatcher extends QueryDispatcher {
                 dispatch(updateLoadStatus(true));
             }
 
-            if (productsLoaded && productsLoaded / pageSize === currentPage - 1) { // We are loading next page of products!
+            if (isNext) { // We are loading next page of products!
                 options.isNextPage = true;
                 return ProductListQuery.getQuery(options);
             }

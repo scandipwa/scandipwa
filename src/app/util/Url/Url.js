@@ -157,5 +157,6 @@ export {
     getQueryParam,
     setQueryParams,
     clearQueriesFromUrl,
-    updateQueryParamWithoutHistory
+    updateQueryParamWithoutHistory,
+    convertQueryStringToKeyValuePairs
 };
