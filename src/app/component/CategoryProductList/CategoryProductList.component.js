@@ -24,6 +24,10 @@ import './CategoryProductList.style';
 class CategoryProductList extends Component {
     constructor(props) {
         super(props);
+
+        this.nodes = {};
+        this.observedNodes = [];
+
         this.state = {
             pagesCount: 1
         };
@@ -37,11 +41,6 @@ class CategoryProductList extends Component {
         if (Object.keys(pages).length !== pagesCount) return { pagesCount };
 
         return null;
-    }
-
-    componentDidMount() {
-        this.nodes = {};
-        this.observedNodes = [];
     }
 
     componentDidUpdate() {
@@ -85,7 +84,7 @@ class CategoryProductList extends Component {
     }
 
     componentWillUnmount() {
-        if (this.observer.disconnect) {
+        if (this.observer && this.observer.disconnect) {
             this.observer.disconnect();
         }
 
@@ -128,18 +127,35 @@ class CategoryProductList extends Component {
             });
     }
 
-    showLoading() {
+    loadPage(next = true) {
         const { pagesCount } = this.state;
         const { loadPage, totalPages } = this.props;
-        const { maxPage, loadedPagesCount } = this.getPagesBounds();
+        const { minPage, maxPage, loadedPagesCount } = this.getPagesBounds();
 
-        const shouldUpdateList = maxPage < totalPages && totalPages > 0 && pagesCount === loadedPagesCount;
+        const isUpdateable = totalPages > 0 && pagesCount === loadedPagesCount;
+        const shouldUpdateList = next ? maxPage < totalPages : minPage > 1;
 
-        if (shouldUpdateList) {
+        if (isUpdateable && shouldUpdateList) {
+            const modifier = next ? maxPage + 1 : minPage - 1;
+
             this.setState({ pagesCount: pagesCount + 1 });
-
-            loadPage(maxPage + 1);
+            loadPage(modifier);
         }
+    }
+
+    renderLoadPrevious() {
+        return (
+            <div
+              block="CategoryProductList"
+              elem="LoadPrevious"
+              role="button"
+              tabIndex="-1"
+              onKeyUp={ () => this.loadPage(false) }
+              onClick={ () => this.loadPage(false) }
+            >
+                    { __('Load previous') }
+            </div>
+        );
     }
 
     renderNoProducts() {
@@ -177,21 +193,23 @@ class CategoryProductList extends Component {
 
     render() {
         const { pages, totalPages, isLoading } = this.props;
-        const { maxPage } = this.getPagesBounds();
+        const { minPage, maxPage } = this.getPagesBounds();
 
-        const showLoadMore = maxPage < totalPages && !isLoading;
+        const showLoadPrevious = minPage > 1 && !isLoading;
+        const showLoadNext = maxPage < totalPages;
 
         if (!isLoading && totalPages === 0) return this.renderNoProducts();
 
         return (
-            <>
+            <div>
+                { showLoadPrevious && this.renderLoadPrevious() }
                 { !isLoading && Object.entries(pages).map(([pageNumber, items]) => this.renderPage(items, pageNumber)) }
                 <CategoryProductListPlaceholder
                   isLoading={ isLoading }
-                  isVisible={ showLoadMore }
-                  updatePages={ () => this.showLoading() }
+                  isVisible={ showLoadNext }
+                  updatePages={ () => this.loadPage() }
                 />
-            </>
+            </div>
         );
     }
 }

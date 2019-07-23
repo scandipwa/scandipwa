@@ -18,7 +18,6 @@ import {
 } from './Category.action';
 
 const initialState = {
-    items: [],
     pages: {},
     totalItems: 0,
     minPrice: 300, // initial values will be reset with first real data
@@ -71,7 +70,6 @@ const CategoryReducer = (state = initialState, action) => {
             totalItems,
             minPrice: Math.min(state.minPrice, minPrice),
             maxPrice: Math.max(state.maxPrice, maxPrice),
-            items,
             pages: {
                 [currentPage]: items
             },
@@ -82,10 +80,6 @@ const CategoryReducer = (state = initialState, action) => {
     case APPEND_CATEGORY_PRODUCT_LIST:
         return {
             ...state,
-            items: [
-                ...state.items,
-                ...items
-            ],
             pages: {
                 ...state.pages,
                 [currentPage]: items

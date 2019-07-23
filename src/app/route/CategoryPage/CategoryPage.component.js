@@ -15,6 +15,7 @@ import CategoryProductList from 'Component/CategoryProductList';
 import ContentWrapper from 'Component/ContentWrapper';
 import CategoryDetails from 'Component/CategoryDetails';
 import CategoriesList from 'Component/CategoriesList';
+import Pagination from 'Component/Pagination';
 import ProductSort from 'Component/ProductSort';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import CategoryShoppingOptions from 'Component/CategoryShoppingOptions';
@@ -23,7 +24,7 @@ import {
     getUrlParam, getQueryParam, setQueryParams, clearQueriesFromUrl, convertQueryStringToKeyValuePairs
 } from 'Util/Url';
 import { CategoryTreeType } from 'Type/Category';
-import { ItemsType, PagesType } from 'Type/ProductList';
+import { PagesType } from 'Type/ProductList';
 import './CategoryPage.style';
 
 class CategoryPage extends Component {
@@ -89,17 +90,18 @@ class CategoryPage extends Component {
 
     /**
      * Get Total Page Count and Current Page Number
-     * @return {{totalPages: Number, currentPage: Number}}
+     * @return {{totalPages: Number, currentPage: Number, productsLoaded: Number}}
      */
     getPageParams() {
-        const { totalItems } = this.props;
+        const { totalItems, pages } = this.props;
         const { pageSize } = this.state;
         const pageFromUrl = getQueryParam('page', location) || 1;
 
         const totalPages = Math.ceil(totalItems / pageSize);
         const currentPage = parseInt(totalPages < pageFromUrl ? totalPages : pageFromUrl, 10);
+        const productsLoaded = Object.values(pages).reduce((accumulator, page) => accumulator + page.length, 0);
 
-        return { totalPages, currentPage };
+        return { totalPages, currentPage, productsLoaded };
     }
 
     /**
@@ -194,7 +196,6 @@ class CategoryPage extends Component {
             requestCategory,
             location,
             isSearchPage,
-            items,
             category,
             categoryIds
         } = this.props;
@@ -214,6 +215,8 @@ class CategoryPage extends Component {
         const querySortDirection = getQueryParam('sortDirection', location);
         const search = getQueryParam('search', location);
 
+        const { productsLoaded } = this.getPageParams();
+
         const options = {
             search: search ? decodeURIComponent(search) : '',
             isSearchPage: isSearchPage || false,
@@ -227,7 +230,7 @@ class CategoryPage extends Component {
             categoryIds,
             sortKey: querySortKey || sortKey,
             sortDirection: querySortDirection || sortDirection,
-            productsLoaded: items.length,
+            productsLoaded,
             // TODO: adding configurable data request (as in PDP) to query, should make a seperate/more specific query
             getConfigurableData: true,
             isCategoryLoaded: (!!Object.entries(category).length)
@@ -379,7 +382,8 @@ class CategoryPage extends Component {
     }
 
     renderItemCount() {
-        const { items, totalItems, isLoading } = this.props;
+        const { totalItems, isLoading } = this.props;
+        const { productsLoaded } = this.getPageParams();
 
         return (
             <p block="CategoryPage" elem="ItemsCount">
@@ -387,7 +391,7 @@ class CategoryPage extends Component {
                     ? <TextPlaceholder length="short" />
                     : (
                         <>
-                            <span>{ items.length }</span>
+                            <span>{ productsLoaded }</span>
                             { __(' / %s items showing', totalItems) }
                         </>
                     )
@@ -432,7 +436,7 @@ class CategoryPage extends Component {
         const customFilters = this.getCustomFiltersFromUrl();
         const search = getQueryParam('search', location) || '';
 
-        const { totalPages } = this.getPageParams();
+        const { totalPages, currentPage } = this.getPageParams();
 
         return (
             <main block="CategoryPage">
@@ -470,6 +474,11 @@ class CategoryPage extends Component {
                     { this.renderCategoryDetails() }
                     <aside block="CategoryPage" elem="Miscellaneous">
                         { this.renderItemCount() }
+                        <Pagination
+                          category={ category }
+                          totalPages={ totalPages }
+                          currentPage={ currentPage }
+                        />
                         <ProductSort
                           onGetKey={ key => this.onGetKey(key) }
                           onGetSortDirection={ direction => this.onGetSortDirection(direction) }
@@ -499,7 +508,6 @@ CategoryPage.propTypes = {
     }).isRequired,
     category: CategoryTreeType.isRequired,
     categoryList: CategoryTreeType.isRequired,
-    items: ItemsType.isRequired,
     pages: PagesType.isRequired,
     totalItems: PropTypes.number.isRequired,
     minPriceRange: PropTypes.number.isRequired,

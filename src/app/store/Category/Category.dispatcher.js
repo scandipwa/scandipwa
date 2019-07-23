@@ -102,16 +102,18 @@ export class CategoryDispatcher extends QueryDispatcher {
             dispatch(updateCurrentCategory(categoryUrlPath, categoryIds, isSearchPage));
         }
 
-        if (currentPage > 1) {
-            if (previousPage === currentPage) {
-                dispatch(updateLoadStatus(true));
-            }
+        if (previousPage === currentPage) {
+            dispatch(updateLoadStatus(true));
+        }
 
-            if (isNext) { // We are loading next page of products!
-                options.isNextPage = true;
-                return ProductListQuery.getQuery(options);
-            }
-        } else if (this._areCustomFiltersPresent(options) || this._isOneOfSortFiltersPresent(options)) {
+        if (isNext) { // We are loading only page of products!
+            options.isNextPage = true;
+            return ProductListQuery.getQuery(options);
+        }
+
+        if (currentPage === 1
+            && !isNext
+            && (this._areCustomFiltersPresent(options) || this._isOneOfSortFiltersPresent(options))) {
             dispatch(updateLoadStatus(true));
             query.push(ProductListQuery.getQuery(options));
             return query;

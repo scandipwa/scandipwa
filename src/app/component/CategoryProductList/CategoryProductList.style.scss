@@ -53,4 +53,13 @@
     &-More {
         min-height: 3rem;
     }
+
+    &-LoadPrevious {
+        background-color: var(--color-breadcrumbs-background);
+        cursor: pointer;
+        font-size: 12.5pt;
+        margin: 1rem 0;
+        padding: 1rem 0;
+        text-align: center;
+    }
 }

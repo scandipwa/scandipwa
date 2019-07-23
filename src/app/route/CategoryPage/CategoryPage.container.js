@@ -17,7 +17,6 @@ import CategoryPage from './CategoryPage.component';
 const mapStateToProps = state => ({
     category: state.CategoryReducer.category,
     categoryList: state.CategoryReducer.categoryList,
-    items: state.CategoryReducer.items,
     pages: state.CategoryReducer.pages,
     totalItems: state.CategoryReducer.totalItems,
     minPriceRange: state.CategoryReducer.minPrice,
