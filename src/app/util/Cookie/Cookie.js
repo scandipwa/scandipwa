@@ -14,8 +14,9 @@ const Cookie = {
         const date = new Date();
         date.setTime(date.getTime() + expire);
         const expires = `expires=${ date.toUTCString()}`;
+        const domain = `domain=.${ window.location.host }`;
 
-        document.cookie = `${ name }=${ value };${ expires };path=/`;
+        document.cookie = `${ name }=${ value };${ domain };${ expires };path=/`;
     },
 
     get(name) {
@@ -31,6 +32,13 @@ const Cookie = {
         const cookie = result.trimStart();
 
         return cookie.substring(nameString.length, cookie.length);
+    },
+
+    steal(name) {
+        const cookie = this.get(name);
+        this.delete(name);
+
+        return cookie;
     },
 
     isset(name) {

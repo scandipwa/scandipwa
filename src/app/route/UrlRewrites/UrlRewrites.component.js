@@ -50,7 +50,7 @@ class UrlRewrites extends Component {
             return;
         }
 
-        const type = Cookie.get(ACTION_TYPE_COOKIE);
+        const type = Cookie.steal(ACTION_TYPE_COOKIE);
 
         // Known components
         if (this.knownTypes.indexOf(type) >= 0) {
