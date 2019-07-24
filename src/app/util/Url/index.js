@@ -12,6 +12,7 @@
 import {
     getUrlParam,
     getQueryParam,
+    generateQuery,
     setQueryParams,
     clearQueriesFromUrl,
     updateQueryParamWithoutHistory,
@@ -21,6 +22,7 @@ import {
 export {
     getUrlParam,
     getQueryParam,
+    generateQuery,
     setQueryParams,
     clearQueriesFromUrl,
     updateQueryParamWithoutHistory,

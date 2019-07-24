@@ -14,8 +14,8 @@ import PropTypes from 'prop-types';
 import CategoryProductList from 'Component/CategoryProductList';
 import ContentWrapper from 'Component/ContentWrapper';
 import CategoryDetails from 'Component/CategoryDetails';
+import CategoryPagination from 'Component/CategoryPagination';
 import CategoriesList from 'Component/CategoriesList';
-import Pagination from 'Component/Pagination';
 import ProductSort from 'Component/ProductSort';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import CategoryShoppingOptions from 'Component/CategoryShoppingOptions';
@@ -474,11 +474,6 @@ class CategoryPage extends Component {
                     { this.renderCategoryDetails() }
                     <aside block="CategoryPage" elem="Miscellaneous">
                         { this.renderItemCount() }
-                        <Pagination
-                          category={ category }
-                          totalPages={ totalPages }
-                          currentPage={ currentPage }
-                        />
                         <ProductSort
                           onGetKey={ key => this.onGetKey(key) }
                           onGetSortDirection={ direction => this.onGetSortDirection(direction) }
@@ -494,6 +489,15 @@ class CategoryPage extends Component {
                       customFilters={ customFilters }
                       loadPage={ pageNumber => this.loadPage(pageNumber) }
                       updatePage={ pageNumber => this.updatePage(pageNumber) }
+                    />
+                    <CategoryPagination
+                      history={ history }
+                      location={ location }
+                      category={ category }
+                      totalPages={ totalPages }
+                      currentPage={ currentPage }
+                      ariaLabel={ __('Catalog navigation') }
+                      getPage={ pageNumber => console.log('Set Page', pageNumber) }
                     />
                 </ContentWrapper>
             </main>

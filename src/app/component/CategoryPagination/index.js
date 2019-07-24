@@ -9,6 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import Pagination from './Pagination.component';
+import CategoryPagination from './CategoryPagination.component';
 
-export default Pagination;
+export default CategoryPagination;

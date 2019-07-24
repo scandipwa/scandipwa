@@ -84,11 +84,13 @@ class CategoryProductList extends Component {
     }
 
     componentWillUnmount() {
-        if (this.observer && this.observer.disconnect) {
-            this.observer.disconnect();
-        }
+        if (this.observer) {
+            if (this.observer.disconnect) {
+                this.observer.disconnect();
+            }
 
-        this.observer = null;
+            this.observer = null;
+        }
     }
 
     /**
@@ -111,7 +113,8 @@ class CategoryProductList extends Component {
     updateObserver() {
         if (!this.observer || Object.keys(this.nodes).length <= 0) return;
 
-        Object.values(this.nodes)
+        Object
+            .values(this.nodes)
             .forEach((node) => {
                 if (node && !this.observedNodes.includes(node)) {
                     this.observer.observe(node);
