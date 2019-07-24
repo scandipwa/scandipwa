@@ -20,7 +20,6 @@ import StaleWhileRevalidateHandler from './handler/StaleWhileRevalidateHandler';
 
 self.CACHE_NAME = 'app-runtime-static';
 
-console.log('hi from serviceWorker!1');
 self.addEventListener('fetch', (event) => {
     const { request: { url } } = event;
     if (url.match(new RegExp(/(?=^.*[^.]{6}$)(?!^.*sockjs)(?!^.*graphql)(?!^.*admin).*/))) {
