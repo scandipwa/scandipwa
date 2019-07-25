@@ -10,84 +10,24 @@
  */
 
 import {
-    UPDATE_CATEGORY_PRODUCT_LIST,
     UPDATE_CATEGORY_LIST,
-    UPDATE_CURRENT_CATEGORY,
-    APPEND_CATEGORY_PRODUCT_LIST,
-    UPDATE_LOAD_STATUS
+    UPDATE_CURRENT_CATEGORY
 } from './Category.action';
 
 const initialState = {
-    pages: {},
-    totalItems: 0,
-    minPrice: 300, // initial values will be reset with first real data
-    maxPrice: 0,
     category: {},
-    categoryList: {},
-    sortFields: {},
-    filters: [],
-    isLoading: true
+    categoryList: {}
 };
 
 const CategoryReducer = (state = initialState, action) => {
     const {
-        totalItems,
-        minPrice,
-        maxPrice,
-        items,
         categoryList,
-        sortFields,
-        filters,
-        isLoading,
         categoryUrlPath,
         categoryIds,
-        isSearchPage,
-        currentPage
+        isSearchPage
     } = action;
 
-    if (items) {
-        items.forEach(({ attributes, variants }, i) => {
-            attributes.forEach(({ attribute_code, attribute_value }) => {
-                items[i][attribute_code] = attribute_value;
-            });
-
-            if (variants) {
-                variants.forEach(({ product: { attributes } }, j) => {
-                    if (attributes) {
-                        attributes.forEach(({ attribute_code, attribute_value }) => {
-                            items[i].variants[j].product[attribute_code] = attribute_value;
-                        });
-                    }
-                });
-            }
-        });
-    }
-
     switch (action.type) {
-    case UPDATE_CATEGORY_PRODUCT_LIST:
-        return {
-            ...state,
-            totalItems,
-            minPrice: Math.min(state.minPrice, minPrice),
-            maxPrice: Math.max(state.maxPrice, maxPrice),
-            pages: {
-                [currentPage]: items
-            },
-            sortFields,
-            filters
-        };
-
-    case APPEND_CATEGORY_PRODUCT_LIST:
-        return {
-            ...state,
-            pages: {
-                ...state.pages,
-                [currentPage]: items
-            },
-            minPrice: Math.min(state.minPrice, minPrice),
-            maxPrice: Math.max(state.maxPrice, maxPrice)
-        };
-
     case UPDATE_CATEGORY_LIST:
         return {
             ...state,
@@ -118,12 +58,6 @@ const CategoryReducer = (state = initialState, action) => {
         return {
             ...state,
             category: flattenedCategories[categoryUrlPath || categoryIds]
-        };
-
-    case UPDATE_LOAD_STATUS:
-        return {
-            ...state,
-            isLoading
         };
 
     default:

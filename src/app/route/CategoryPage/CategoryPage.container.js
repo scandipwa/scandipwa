@@ -10,25 +10,34 @@
  */
 
 import { connect } from 'react-redux';
-import { CategoryDispatcher, updateLoadStatus } from 'Store/Category';
+import { CategoryDispatcher, updateCurrentCategory } from 'Store/Category';
+import { ProductListDispatcher, updateLoadStatus } from 'Store/ProductList';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import CategoryPage from './CategoryPage.component';
 
 const mapStateToProps = state => ({
     category: state.CategoryReducer.category,
     categoryList: state.CategoryReducer.categoryList,
-    pages: state.CategoryReducer.pages,
-    totalItems: state.CategoryReducer.totalItems,
-    minPriceRange: state.CategoryReducer.minPrice,
-    maxPriceRange: state.CategoryReducer.maxPrice,
-    sortFields: state.CategoryReducer.sortFields,
-    filters: state.CategoryReducer.filters,
-    isLoading: state.CategoryReducer.isLoading
+    pages: state.ProductListReducer.pages,
+    filters: state.ProductListReducer.filters,
+    isLoading: state.ProductListReducer.isLoading,
+    totalItems: state.ProductListReducer.totalItems,
+    sortFields: state.ProductListReducer.sortFields,
+    minPriceRange: state.ProductListReducer.minPrice,
+    maxPriceRange: state.ProductListReducer.maxPrice
 });
 
 const mapDispatchToProps = dispatch => ({
     requestCategory: (options) => {
         CategoryDispatcher.handleData(dispatch, options);
+    },
+
+    requestProductList: (options) => {
+        ProductListDispatcher.handleData(dispatch, options);
+    },
+
+    updateCurrentCategory: (categoryUrlPath, categoryIds, isSearchPage) => {
+        dispatch(updateCurrentCategory(categoryUrlPath, categoryIds, isSearchPage));
     },
 
     updateLoadStatus: (options) => {

@@ -191,66 +191,32 @@ class CategoryPage extends Component {
      * Prepare and dispatch category request
      * @return {void}
      */
-    requestCategory(loadPage = null) {
+    requestCategory() {
         const {
-            requestCategory,
-            location,
-            isSearchPage,
             category,
-            categoryIds
+            categoryIds,
+            isSearchPage,
+            requestCategory,
+            updateCurrentCategory
         } = this.props;
 
-        const {
-            sortKey,
-            sortDirection,
-            previousPage,
-            pageSize
-        } = this.state;
-
-        const categoryUrlPath = !categoryIds ? this.getCategoryUrlPath() : null;
         const currentPage = getQueryParam('page', location) || 1;
-        const priceRange = this.getPriceRangeFromUrl();
-        const customFilters = this.getCustomFiltersFromUrl();
-        const querySortKey = getQueryParam('sortKey', location);
-        const querySortDirection = getQueryParam('sortDirection', location);
-        const search = getQueryParam('search', location);
-
-        const { productsLoaded } = this.getPageParams();
+        const categoryUrlPath = !categoryIds ? this.getCategoryUrlPath() : null;
+        const isCategoryLoaded = (!!Object.entries(category).length);
 
         const options = {
-            search: search ? decodeURIComponent(search) : '',
-            isSearchPage: isSearchPage || false,
-            isNext: !!loadPage,
             categoryUrlPath,
-            currentPage: loadPage || currentPage,
-            previousPage,
-            pageSize,
-            priceRange,
-            customFilters,
-            categoryIds,
-            sortKey: querySortKey || sortKey,
-            sortDirection: querySortDirection || sortDirection,
-            productsLoaded,
-            // TODO: adding configurable data request (as in PDP) to query, should make a seperate/more specific query
-            getConfigurableData: true,
-            isCategoryLoaded: (!!Object.entries(category).length)
+            isSearchPage,
+            categoryIds
         };
 
-        const stateUpdate = {
-            previousPage: currentPage
-        };
-
-        if (querySortKey) {
-            stateUpdate.sortKey = querySortKey;
+        if (!isCategoryLoaded) {
+            requestCategory(options);
+        } else {
+            updateCurrentCategory(categoryUrlPath, categoryIds, isSearchPage);
         }
 
-        if (querySortDirection) {
-            stateUpdate.sortDirection = querySortDirection;
-        }
-
-        this.setState(stateUpdate);
-
-        requestCategory(options);
+        this.requestPage(currentPage);
     }
 
     /**
@@ -351,16 +317,52 @@ class CategoryPage extends Component {
     /**
      * Increase page number, cannot exceed calculated page amount.
      * @param {Number} pageNumber
+     * @param {Boolean} isNextPage
      * @return {void}
      */
-    loadPage(pageNumber) {
+    requestPage(pageNumber, isNext = false) {
         const {
-            isLoading
+            location,
+            categoryIds,
+            requestProductList
         } = this.props;
 
-        if (!isLoading) {
-            this.requestCategory(pageNumber);
-        }
+        const {
+            sortKey,
+            pageSize,
+            sortDirection
+        } = this.state;
+
+        const categoryUrlPath = !categoryIds ? this.getCategoryUrlPath() : null;
+        const currentPage = pageNumber || 1;
+        const customFilters = this.getCustomFiltersFromUrl();
+        const priceRange = this.getPriceRangeFromUrl();
+        const querySortDirection = getQueryParam('sortDirection', location);
+        const querySortKey = getQueryParam('sortKey', location);
+        const search = getQueryParam('search', location);
+
+        const options = {
+            categoryIds,
+            categoryUrlPath,
+            currentPage,
+            customFilters,
+            // TODO: adding configurable data request (as in PDP) to query, should make a seperate/more specific query
+            getConfigurableData: true,
+            isNextPage: false,
+            isNext,
+            pageSize,
+            priceRange,
+            search: search ? decodeURIComponent(search) : '',
+            sortDirection: querySortDirection || sortDirection,
+            sortKey: querySortKey || sortKey
+        };
+
+        this.setState({
+            sortKey: querySortKey || sortKey,
+            sortDirection: querySortDirection || sortDirection
+        });
+
+        requestProductList(options);
     }
 
     /**
@@ -474,20 +476,22 @@ class CategoryPage extends Component {
                     { this.renderCategoryDetails() }
                     <aside block="CategoryPage" elem="Miscellaneous">
                         { this.renderItemCount() }
-                        <ProductSort
-                          onGetKey={ key => this.onGetKey(key) }
-                          onGetSortDirection={ direction => this.onGetSortDirection(direction) }
-                          sortFields={ !isLoading && updatedSortFields }
-                          value={ sortKey }
-                          sortDirection={ sortDirection }
-                        />
+                        { !isLoading && (
+                            <ProductSort
+                              onGetKey={ key => this.onGetKey(key) }
+                              onGetSortDirection={ direction => this.onGetSortDirection(direction) }
+                              sortFields={ updatedSortFields }
+                              value={ sortKey }
+                              sortDirection={ sortDirection }
+                            />
+                        ) }
                     </aside>
                     <CategoryProductList
                       pages={ pages }
                       isLoading={ isLoading }
                       totalPages={ totalPages }
                       customFilters={ customFilters }
-                      loadPage={ pageNumber => this.loadPage(pageNumber) }
+                      loadPage={ pageNumber => this.requestPage(pageNumber, true) }
                       updatePage={ pageNumber => this.updatePage(pageNumber) }
                     />
                     <CategoryPagination
@@ -523,6 +527,8 @@ CategoryPage.propTypes = {
         path: PropTypes.string.isRequired
     }).isRequired,
     requestCategory: PropTypes.func.isRequired,
+    requestProductList: PropTypes.func.isRequired,
+    updateCurrentCategory: PropTypes.func.isRequired,
     updateBreadcrumbs: PropTypes.func.isRequired,
     updateLoadStatus: PropTypes.func.isRequired,
     filters: PropTypes.arrayOf(PropTypes.shape).isRequired,

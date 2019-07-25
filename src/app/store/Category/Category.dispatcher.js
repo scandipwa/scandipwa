@@ -12,37 +12,27 @@
 /* eslint-disable no-param-reassign */
 
 import { QueryDispatcher } from 'Util/Request';
-import { CategoryQuery, ProductListQuery } from 'Query';
+import { CategoryQuery } from 'Query';
 import {
-    updateCategoryProductList, updateCategoryList, appendCategoryProductList, updateLoadStatus, updateCurrentCategory
+    updateCategoryList, updateCurrentCategory
 } from 'Store/Category';
 import { updateNoMatch } from 'Store/NoMatch';
 
 /**
- * Product List Dispatcher
+ * Category Dispatcher
  * @class CategoryDispatcher
  * @extends QueryDispatcher
  */
 export class CategoryDispatcher extends QueryDispatcher {
     constructor() {
-        super('ProductList', 86400);
+        super('Category', 86400);
     }
 
     onSuccess(data, dispatch, options) {
-        const {
-            category,
-            products: {
-                items,
-                total_count,
-                min_price,
-                max_price,
-                sort_fields,
-                filters
-            }
-        } = data;
+        const { category } = data;
 
         const {
-            categoryUrlPath, isSearchPage, categoryIds, currentPage
+            categoryUrlPath, isSearchPage, categoryIds
         } = {
             ...options,
             ...{ categoryUrlPath: (options.isSearchPage ? 'all-products' : options.categoryUrlPath) }
@@ -53,22 +43,8 @@ export class CategoryDispatcher extends QueryDispatcher {
             && !this._isCategoryExists(category, categoryUrlPath, categoryIds)
             && !isSearchPage) dispatch(updateNoMatch(true));
 
-        if (category) { // If category details are updated, reset all data
-            dispatch(updateCategoryProductList(
-                items, total_count, min_price, max_price, sort_fields, filters, currentPage
-            ));
-            dispatch(updateCategoryList(category));
-            dispatch(updateCurrentCategory(categoryUrlPath, categoryIds, isSearchPage));
-        } else if (filters || sort_fields) {
-            dispatch(updateCategoryProductList(
-                items, total_count, min_price, max_price, sort_fields, filters, currentPage
-            ));
-        } else {
-            dispatch(appendCategoryProductList(items, min_price, max_price, currentPage));
-        }
-
-
-        dispatch(updateLoadStatus(false));
+        dispatch(updateCategoryList(category));
+        dispatch(updateCurrentCategory(categoryUrlPath, categoryIds, isSearchPage));
     }
 
     onError(error, dispatch) {
@@ -77,75 +53,14 @@ export class CategoryDispatcher extends QueryDispatcher {
     }
 
     /**
-     * Prepare ProductList query
+     * Prepare Category query
      * @param  {{search: String, categoryIds: Array<String|Number>, categoryUrlPath: String, activePage: Number, priceRange: {min: Number, max: Number}, sortKey: String, sortDirection: String, productPageSize: Number}} options A object containing different aspects of query, each item can be omitted
      * @param {Function} dispatch
-     * @return {Query} ProductList query
+     * @return {Query} Category query
      * @memberof CategoryDispatcher
      */
-    prepareRequest(options, dispatch) {
-        const {
-            currentPage,
-            previousPage,
-            isCategoryLoaded,
-            categoryUrlPath,
-            categoryIds,
-            isSearchPage,
-            isNext
-        } = options;
-        const query = [];
-
-
-        if (!isCategoryLoaded) {
-            query.push(CategoryQuery.getQuery(options));
-        } else {
-            dispatch(updateCurrentCategory(categoryUrlPath, categoryIds, isSearchPage));
-        }
-
-        if (previousPage === currentPage) {
-            dispatch(updateLoadStatus(true));
-        }
-
-        if (isNext) { // We are loading only page of products!
-            options.isNextPage = true;
-            return ProductListQuery.getQuery(options);
-        }
-
-        if (currentPage === 1
-            && !isNext
-            && (this._areCustomFiltersPresent(options) || this._isOneOfSortFiltersPresent(options))) {
-            dispatch(updateLoadStatus(true));
-            query.push(ProductListQuery.getQuery(options));
-            return query;
-        }
-
-        query.push(ProductListQuery.getQuery(options));
-
-        // TODO: default pagesize should be taken from some global config
-        // this fixes paginated loading while working as expected when changing categories
-        if (options.pageSize < 13) {
-            dispatch(updateLoadStatus(true));
-        }
-
-        return query;
-    }
-
-    /**
-     * Check if custom filters exists
-     * @param {{Object}} customFilters Loading indication boolean
-     * @return {Boolean}
-     */
-    _areCustomFiltersPresent({ customFilters }) {
-        return Object.keys(customFilters).length;
-    }
-
-    /**
-     * Check if custom filters exists
-     * @param {{Object}} customFilters Loading indication boolean
-     * @return {Boolean}
-     */
-    _isOneOfSortFiltersPresent({ sortKey, sortDirection }) {
-        return !!sortKey || !!sortDirection;
+    prepareRequest(options) {
+        return CategoryQuery.getQuery(options);
     }
 
     /**
