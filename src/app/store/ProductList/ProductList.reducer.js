@@ -11,28 +11,18 @@
 
 import {
     APPEND_PAGE,
-    UPDATE_PRODUCT_LIST,
+    UPDATE_PRODUCT_LIST_ITEMS,
     UPDATE_LOAD_STATUS
 } from 'Store/ProductList';
 
 const initialState = {
     pages: {},
-    totalItems: 0,
-    minPrice: 300,
-    maxPrice: 0,
-    sortFields: {},
-    filters: [],
     isLoading: true
 };
 
 const ProductListReducer = (state = initialState, action) => {
     const {
-        totalItems,
-        minPrice,
-        maxPrice,
         items,
-        sortFields,
-        filters,
         currentPage,
         isLoading
     } = action;
@@ -62,22 +52,15 @@ const ProductListReducer = (state = initialState, action) => {
             pages: {
                 ...state.pages,
                 [currentPage]: items
-            },
-            minPrice: Math.min(state.minPrice, minPrice),
-            maxPrice: Math.max(state.maxPrice, maxPrice)
+            }
         };
 
-    case UPDATE_PRODUCT_LIST:
+    case UPDATE_PRODUCT_LIST_ITEMS:
         return {
             ...state,
-            totalItems,
-            minPrice: Math.min(state.minPrice, minPrice),
-            maxPrice: Math.max(state.maxPrice, maxPrice),
             pages: {
                 [currentPage]: items
-            },
-            sortFields,
-            filters
+            }
         };
 
     case UPDATE_LOAD_STATUS:

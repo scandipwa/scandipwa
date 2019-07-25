@@ -13,10 +13,10 @@ import ProductListReducer from './ProductList.reducer';
 import ProductListDispatcher, { ProductListDispatcher as ProductListDispatcherClass } from './ProductList.dispatcher';
 import {
     APPEND_PAGE,
-    UPDATE_PRODUCT_LIST,
+    UPDATE_PRODUCT_LIST_ITEMS,
     UPDATE_LOAD_STATUS,
     appendPage,
-    updateProductList,
+    updateProductListItems,
     updateLoadStatus
 } from './ProductList.action';
 
@@ -25,9 +25,9 @@ export {
     ProductListDispatcher,
     ProductListDispatcherClass,
     APPEND_PAGE,
-    UPDATE_PRODUCT_LIST,
+    UPDATE_PRODUCT_LIST_ITEMS,
     UPDATE_LOAD_STATUS,
     appendPage,
-    updateProductList,
+    updateProductListItems,
     updateLoadStatus
 };

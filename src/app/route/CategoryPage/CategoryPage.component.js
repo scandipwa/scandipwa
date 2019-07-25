@@ -35,7 +35,6 @@ class CategoryPage extends Component {
             sortKey: 'name',
             sortDirection: 'ASC',
             defaultPriceRange: { min: 0, max: 300 },
-            previousPage: 0,
             pageSize: 12
         };
     }
@@ -212,10 +211,10 @@ class CategoryPage extends Component {
 
         if (!isCategoryLoaded) {
             requestCategory(options);
-        } else {
-            updateCurrentCategory(categoryUrlPath, categoryIds, isSearchPage);
-        }
+        } else if (this.isNewCategory()) updateCurrentCategory(categoryUrlPath, categoryIds, isSearchPage);
 
+        // Requests only Product List info and then Product List without info
+        if (this.isNewCategory()) this.requestCategoryProductsInfo();
         this.requestPage(currentPage);
     }
 
@@ -321,10 +320,25 @@ class CategoryPage extends Component {
      * @return {void}
      */
     requestPage(pageNumber, isNext = false) {
+        const { requestProductList } = this.props;
+
+        const currentPage = pageNumber || 1;
+        const options = this._getProductListOptions(currentPage, isNext);
+
+        requestProductList(options);
+    }
+
+    requestCategoryProductsInfo() {
+        const { requestProductListInfo } = this.props;
+
+        const options = this._getProductListOptions(1, false);
+        requestProductListInfo(options);
+    }
+
+    _getProductListOptions(currentPage, isNext) {
         const {
             location,
-            categoryIds,
-            requestProductList
+            categoryIds
         } = this.props;
 
         const {
@@ -334,7 +348,6 @@ class CategoryPage extends Component {
         } = this.state;
 
         const categoryUrlPath = !categoryIds ? this.getCategoryUrlPath() : null;
-        const currentPage = pageNumber || 1;
         const customFilters = this.getCustomFiltersFromUrl();
         const priceRange = this.getPriceRangeFromUrl();
         const querySortDirection = getQueryParam('sortDirection', location);
@@ -348,7 +361,6 @@ class CategoryPage extends Component {
             customFilters,
             // TODO: adding configurable data request (as in PDP) to query, should make a seperate/more specific query
             getConfigurableData: true,
-            isNextPage: false,
             isNext,
             pageSize,
             priceRange,
@@ -362,7 +374,7 @@ class CategoryPage extends Component {
             sortDirection: querySortDirection || sortDirection
         });
 
-        requestProductList(options);
+        return options;
     }
 
     /**
@@ -384,16 +396,16 @@ class CategoryPage extends Component {
     }
 
     renderItemCount() {
-        const { totalItems, isLoading } = this.props;
+        const { totalItems, isInfoLoading, isPagesLoading } = this.props;
         const { productsLoaded } = this.getPageParams();
 
         return (
             <p block="CategoryPage" elem="ItemsCount">
-                {isLoading
+                {isInfoLoading
                     ? <TextPlaceholder length="short" />
                     : (
                         <>
-                            <span>{ productsLoaded }</span>
+                            <span>{ !isPagesLoading ? productsLoaded : 0 }</span>
                             { __(' / %s items showing', totalItems) }
                         </>
                     )
@@ -419,7 +431,8 @@ class CategoryPage extends Component {
             location,
             match,
             history,
-            isLoading,
+            isPagesLoading,
+            isInfoLoading,
             isSearchPage
         } = this.props;
 
@@ -428,6 +441,7 @@ class CategoryPage extends Component {
             sortDirection
         } = this.state;
 
+        const isLoading = isPagesLoading || isInfoLoading;
         const { options } = sortFields;
 
         const updatedSortFields = options && Object.values(options).map(option => ({
@@ -476,15 +490,13 @@ class CategoryPage extends Component {
                     { this.renderCategoryDetails() }
                     <aside block="CategoryPage" elem="Miscellaneous">
                         { this.renderItemCount() }
-                        { !isLoading && (
-                            <ProductSort
-                              onGetKey={ key => this.onGetKey(key) }
-                              onGetSortDirection={ direction => this.onGetSortDirection(direction) }
-                              sortFields={ updatedSortFields }
-                              value={ sortKey }
-                              sortDirection={ sortDirection }
-                            />
-                        ) }
+                        <ProductSort
+                          onGetKey={ key => this.onGetKey(key) }
+                          onGetSortDirection={ direction => this.onGetSortDirection(direction) }
+                          sortFields={ !isInfoLoading && updatedSortFields }
+                          value={ sortKey }
+                          sortDirection={ sortDirection }
+                        />
                     </aside>
                     <CategoryProductList
                       pages={ pages }
@@ -494,15 +506,17 @@ class CategoryPage extends Component {
                       loadPage={ pageNumber => this.requestPage(pageNumber, true) }
                       updatePage={ pageNumber => this.updatePage(pageNumber) }
                     />
-                    <CategoryPagination
-                      history={ history }
-                      location={ location }
-                      category={ category }
-                      totalPages={ totalPages }
-                      currentPage={ currentPage }
-                      ariaLabel={ __('Catalog navigation') }
-                      getPage={ pageNumber => console.log('Set Page', pageNumber) }
-                    />
+                    { !isInfoLoading && (
+                        <CategoryPagination
+                          history={ history }
+                          location={ location }
+                          category={ category }
+                          totalPages={ totalPages }
+                          currentPage={ currentPage }
+                          ariaLabel={ __('Catalog navigation') }
+                          getPage={ pageNumber => this.requestPage(pageNumber, false) }
+                        />
+                    )}
                 </ContentWrapper>
             </main>
         );
@@ -528,6 +542,7 @@ CategoryPage.propTypes = {
     }).isRequired,
     requestCategory: PropTypes.func.isRequired,
     requestProductList: PropTypes.func.isRequired,
+    requestProductListInfo: PropTypes.func.isRequired,
     updateCurrentCategory: PropTypes.func.isRequired,
     updateBreadcrumbs: PropTypes.func.isRequired,
     updateLoadStatus: PropTypes.func.isRequired,
@@ -535,7 +550,8 @@ CategoryPage.propTypes = {
     sortFields: PropTypes.shape({
         options: PropTypes.array
     }).isRequired,
-    isLoading: PropTypes.bool.isRequired,
+    isInfoLoading: PropTypes.bool.isRequired,
+    isPagesLoading: PropTypes.bool.isRequired,
     categoryIds: PropTypes.number,
     isOnlyPlaceholder: PropTypes.bool,
     isSearchPage: PropTypes.bool

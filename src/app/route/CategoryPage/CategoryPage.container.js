@@ -11,7 +11,8 @@
 
 import { connect } from 'react-redux';
 import { CategoryDispatcher, updateCurrentCategory } from 'Store/Category';
-import { ProductListDispatcher, updateLoadStatus } from 'Store/ProductList';
+import { ProductListDispatcher, updateLoadStatus as updateProductLoadStatus } from 'Store/ProductList';
+import { ProductListInfoDispatcher, updateInfoLoadStatus } from 'Store/ProductListInfo';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import CategoryPage from './CategoryPage.component';
 
@@ -19,12 +20,13 @@ const mapStateToProps = state => ({
     category: state.CategoryReducer.category,
     categoryList: state.CategoryReducer.categoryList,
     pages: state.ProductListReducer.pages,
-    filters: state.ProductListReducer.filters,
-    isLoading: state.ProductListReducer.isLoading,
-    totalItems: state.ProductListReducer.totalItems,
-    sortFields: state.ProductListReducer.sortFields,
-    minPriceRange: state.ProductListReducer.minPrice,
-    maxPriceRange: state.ProductListReducer.maxPrice
+    isPagesLoading: state.ProductListReducer.isLoading,
+    filters: state.ProductListInfoReducer.filters,
+    totalItems: state.ProductListInfoReducer.totalItems,
+    sortFields: state.ProductListInfoReducer.sortFields,
+    minPriceRange: state.ProductListInfoReducer.minPrice,
+    maxPriceRange: state.ProductListInfoReducer.maxPrice,
+    isInfoLoading: state.ProductListInfoReducer.isLoading
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -36,12 +38,17 @@ const mapDispatchToProps = dispatch => ({
         ProductListDispatcher.handleData(dispatch, options);
     },
 
+    requestProductListInfo: (options) => {
+        ProductListInfoDispatcher.handleData(dispatch, options);
+    },
+
     updateCurrentCategory: (categoryUrlPath, categoryIds, isSearchPage) => {
         dispatch(updateCurrentCategory(categoryUrlPath, categoryIds, isSearchPage));
     },
 
     updateLoadStatus: (options) => {
-        dispatch(updateLoadStatus(options));
+        dispatch(updateInfoLoadStatus(options));
+        dispatch(updateProductLoadStatus(options));
     },
 
     updateBreadcrumbs: (breadcrumbs) => {

@@ -12,10 +12,9 @@
 import { QueryDispatcher } from 'Util/Request';
 import { ProductListQuery } from 'Query';
 import {
-    appendPage,
-    updateProductListItems,
-    updateLoadStatus
-} from 'Store/ProductList';
+    updateProductListInfo,
+    updateInfoLoadStatus
+} from 'Store/ProductListInfo';
 import { updateNoMatch } from 'Store/NoMatch';
 
 /**
@@ -23,30 +22,24 @@ import { updateNoMatch } from 'Store/NoMatch';
  * @class ProductListDispatcher
  * @extends QueryDispatcher
  */
-export class ProductListDispatcher extends QueryDispatcher {
+export class ProductListInfoDispatcher extends QueryDispatcher {
     constructor() {
         super('ProductList', 86400);
     }
 
-    // eslint-disable-next-line consistent-return
-    onSuccess(data, dispatch, options) {
+    onSuccess(data, dispatch) {
         const {
             products: {
-                items
+                total_count,
+                min_price,
+                max_price,
+                sort_fields,
+                filters
             }
         } = data;
 
-        const {
-            currentPage,
-            isNext
-        } = options;
-
-        if (isNext) {
-            return dispatch(appendPage(items, currentPage));
-        }
-
-        dispatch(updateProductListItems(items, currentPage));
-        dispatch(updateLoadStatus(false));
+        dispatch(updateProductListInfo(total_count, min_price, max_price, sort_fields, filters));
+        dispatch(updateInfoLoadStatus(false));
     }
 
     onError(error, dispatch) {
@@ -55,13 +48,13 @@ export class ProductListDispatcher extends QueryDispatcher {
     }
 
     prepareRequest(options, dispatch) {
-        if (!options.isNext) { dispatch(updateLoadStatus(true)); }
-
+        dispatch(updateInfoLoadStatus(true));
         return ProductListQuery.getQuery({
             ...options,
-            notRequireInfo: true
+            pageSize: 1,
+            notRequireItems: true
         });
     }
 }
 
-export default new ProductListDispatcher();
+export default new ProductListInfoDispatcher();

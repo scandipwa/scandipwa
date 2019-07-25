@@ -43,16 +43,16 @@ class CategoryPagination extends Component {
 
     render() {
         const {
-            totalPages, currentPage, block, elem, mod, ariaLabel
+            totalPages, currentPage, ariaLabel
         } = this.props;
 
         return (
-            <nav block={ block } elem={ elem } mod={ mod } aria-label={ ariaLabel }>
-                <ul block="Pagination">
+            <nav aria-label={ ariaLabel }>
+                <ul block="CategoryPagination">
                     { Array.from({ length: totalPages }, ((_, i) => (
                         <li
                           key={ i }
-                          block="Pagination"
+                          block="CategoryPagination"
                           elem="ListItem"
                         >
                             { this.renderPageLink(i + 1, (i + 1) === currentPage) }
@@ -65,9 +65,6 @@ class CategoryPagination extends Component {
 }
 
 CategoryPagination.propTypes = {
-    mod: PropTypes.string,
-    elem: PropTypes.string,
-    block: PropTypes.string,
     ariaLabel: PropTypes.string,
     getPage: PropTypes.func.isRequired,
     category: CategoryTreeType.isRequired,
@@ -83,9 +80,6 @@ CategoryPagination.propTypes = {
 };
 
 CategoryPagination.defaultProps = {
-    mod: '',
-    elem: '',
-    block: '',
     ariaLabel: ''
 };
 

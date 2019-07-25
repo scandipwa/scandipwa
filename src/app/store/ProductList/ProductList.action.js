@@ -10,7 +10,7 @@
  */
 
 export const APPEND_PAGE = 'APPEND_PAGE';
-export const UPDATE_PRODUCT_LIST = 'UPDATE_PRODUCT_LIST';
+export const UPDATE_PRODUCT_LIST_ITEMS = 'UPDATE_PRODUCT_LIST_ITEMS';
 export const UPDATE_LOAD_STATUS = 'UPDATE_LOAD_STATUS';
 
 /**
@@ -39,19 +39,14 @@ const appendPage = (items, minPrice, maxPrice, currentPage) => ({
  * @param {Number} currentPage Numver of requested page
  * @return {void}
  */
-const updateProductList = (items, totalItems, minPrice, maxPrice, sortFields, filters, currentPage) => ({
-    type: UPDATE_PRODUCT_LIST,
+const updateProductListItems = (items, currentPage) => ({
+    type: UPDATE_PRODUCT_LIST_ITEMS,
     items,
-    totalItems,
-    minPrice,
-    maxPrice,
-    sortFields,
-    filters,
     currentPage
 });
 
 /**
- * Change loading status
+ * Update loading status
  * @param {Boolean} status Loading indication boolean
  * @return {void}
  */
@@ -62,6 +57,6 @@ const updateLoadStatus = status => ({
 
 export {
     appendPage,
-    updateProductList,
+    updateProductListItems,
     updateLoadStatus
 };

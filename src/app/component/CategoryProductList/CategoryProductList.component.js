@@ -146,17 +146,18 @@ class CategoryProductList extends Component {
         }
     }
 
-    renderLoadPrevious() {
+    renderLoadButton(next = false, hidden = false) {
         return (
             <div
               block="CategoryProductList"
-              elem="LoadPrevious"
+              elem="LoadButton"
+              mods={ { hidden } }
               role="button"
               tabIndex="-1"
-              onKeyUp={ () => this.loadPage(false) }
-              onClick={ () => this.loadPage(false) }
+              onKeyUp={ () => this.loadPage(next) }
+              onClick={ () => this.loadPage(next) }
             >
-                    { __('Load previous') }
+                    { next ? __('Load next') : __('Load previous') }
             </div>
         );
     }
@@ -205,13 +206,14 @@ class CategoryProductList extends Component {
 
         return (
             <div>
-                { showLoadPrevious && this.renderLoadPrevious() }
+                { showLoadPrevious && this.renderLoadButton() }
                 { !isLoading && Object.entries(pages).map(([pageNumber, items]) => this.renderPage(items, pageNumber)) }
                 <CategoryProductListPlaceholder
                   isLoading={ isLoading }
                   isVisible={ showLoadNext }
                   updatePages={ () => this.loadPage() }
                 />
+                { showLoadNext && this.renderLoadButton(true, true) }
             </div>
         );
     }

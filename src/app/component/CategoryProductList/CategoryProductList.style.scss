@@ -54,12 +54,16 @@
         min-height: 3rem;
     }
 
-    &-LoadPrevious {
+    &-LoadButton {
         background-color: var(--color-breadcrumbs-background);
         cursor: pointer;
         font-size: 12.5pt;
         margin: 1rem 0;
         padding: 1rem 0;
         text-align: center;
+
+        &_hidden {
+            display: none;
+        }
     }
 }
