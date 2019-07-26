@@ -1,0 +1,27 @@
+.CategoryProductListPlaceholder {
+    display: grid;
+    grid-template-columns: repeat(3, calc(33.33% - .66rem));
+    grid-auto-rows: max-content;
+    grid-column-gap: 1rem;
+    padding-bottom: 2rem;
+
+    @include mobile {
+        grid-template-columns: 1fr 1fr;
+        grid-column-gap: 0.5rem;
+        border: 0;
+    }
+    
+    @include after-mobile {
+        grid-column: 2;
+    }
+
+    &-Container {
+        display: grid;
+        grid-template-columns: inherit;
+        grid-column: 1/4;
+    
+        @include mobile {
+            grid-column: span 2;
+        }
+    }
+}

@@ -12,6 +12,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ProductCard from 'Component/ProductCard';
+import './CategoryProductListPlaceholder.style';
 
 /**
  * Placeholder for List of category product
@@ -67,18 +68,20 @@ class CategoryProductListPlaceholder extends Component {
 
         if (isLoading) {
             return (
-                <div block="CategoryProductList">
-                    { renderPlaceholders() }
+                <div block="CategoryProductListPlaceholder">
+                    <div block="CategoryProductListPlaceholder" elem="Container">
+                        { renderPlaceholders() }
+                    </div>
                 </div>
             );
         }
 
         if (isVisible) {
             return (
-                <div block="CategoryProductList">
+                <div block="CategoryProductListPlaceholder">
                     <div
-                      block="CategoryProductList"
-                      elem="Placeholder"
+                      block="CategoryProductListPlaceholder"
+                      elem="Container"
                       ref={ (node) => { this.node = node; } }
                     >
                         { renderPlaceholders() }

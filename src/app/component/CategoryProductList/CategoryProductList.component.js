@@ -166,9 +166,13 @@ class CategoryProductList extends Component {
         return (
             <div
               block="CategoryProductList"
-              elem="NoProducts"
             >
-                No products found
+                <div
+                  block="CategoryProductList"
+                  elem="NoProducts"
+                >
+                    No products found
+                </div>
             </div>
         );
     }
@@ -179,6 +183,7 @@ class CategoryProductList extends Component {
         return (
             <ul
               block="CategoryProductList"
+              elem="Page"
               key={ key }
               mods={ { isLoading } }
               ref={ (node) => { this.nodes[key] = node; } }
@@ -205,7 +210,7 @@ class CategoryProductList extends Component {
         if (!isLoading && totalPages === 0) return this.renderNoProducts();
 
         return (
-            <div>
+            <div block="CategoryProductList">
                 { showLoadPrevious && this.renderLoadButton() }
                 { !isLoading && Object.entries(pages).map(([pageNumber, items]) => this.renderPage(items, pageNumber)) }
                 <CategoryProductListPlaceholder
