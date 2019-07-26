@@ -58,6 +58,7 @@ const ProductListReducer = (state = initialState, action) => {
     case UPDATE_PRODUCT_LIST_ITEMS:
         return {
             ...state,
+            isLoading: false,
             pages: {
                 [currentPage]: items
             }

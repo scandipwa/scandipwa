@@ -39,7 +39,6 @@ export class ProductListInfoDispatcher extends QueryDispatcher {
         } = data;
 
         dispatch(updateProductListInfo(total_count, min_price, max_price, sort_fields, filters));
-        dispatch(updateInfoLoadStatus(false));
     }
 
     onError(error, dispatch) {

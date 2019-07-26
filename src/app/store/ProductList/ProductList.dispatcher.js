@@ -46,7 +46,6 @@ export class ProductListDispatcher extends QueryDispatcher {
         }
 
         dispatch(updateProductListItems(items, currentPage));
-        dispatch(updateLoadStatus(false));
     }
 
     onError(error, dispatch) {

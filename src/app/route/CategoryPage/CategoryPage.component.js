@@ -31,6 +31,9 @@ class CategoryPage extends Component {
     constructor(props) {
         super(props);
 
+        this.requestPage = this.requestPage.bind(this);
+        this.updatePage = this.updatePage.bind(this);
+
         this.state = {
             sortKey: 'name',
             sortDirection: 'ASC',
@@ -504,7 +507,7 @@ class CategoryPage extends Component {
                       totalPages={ totalPages }
                       customFilters={ customFilters }
                       loadPage={ pageNumber => this.requestPage(pageNumber, true) }
-                      updatePage={ pageNumber => this.updatePage(pageNumber) }
+                      updatePage={ this.updatePage }
                     />
                     { !isInfoLoading && (
                         <CategoryPagination
@@ -514,7 +517,7 @@ class CategoryPage extends Component {
                           totalPages={ totalPages }
                           currentPage={ currentPage }
                           ariaLabel={ __('Catalog navigation') }
-                          getPage={ pageNumber => this.requestPage(pageNumber, false) }
+                          getPage={ this.requestPage }
                         />
                     )}
                 </ContentWrapper>

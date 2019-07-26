@@ -9,6 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+:root {
+    --color-pagination-link-text: var(--color-text-black);
+    --color-pagination-link-active-text: var(--link-color);
+}
+
 .CategoryPagination {
     display: flex;
     list-style: none;
@@ -32,10 +37,10 @@
         }
 
         a {
-            color: var(--color-text-black);
+            color: var(--color-pagination-link-text);
 
             &.active {
-                color: var(--link-color);
+                color: var(--color-pagination-link-active-text);
             }
         }
     }

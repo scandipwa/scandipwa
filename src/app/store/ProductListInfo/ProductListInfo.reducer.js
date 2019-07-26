@@ -41,7 +41,8 @@ const ProductListReducer = (state = initialState, action) => {
             totalItems,
             sortFields,
             minPrice: Math.min(state.minPrice, minPrice),
-            maxPrice: Math.max(state.maxPrice, maxPrice)
+            maxPrice: Math.max(state.maxPrice, maxPrice),
+            isLoading: false
         };
 
     case UPDATE_INFO_LOAD_STATUS:

@@ -28,6 +28,8 @@ class CategoryProductList extends Component {
         this.nodes = {};
         this.observedNodes = [];
 
+        this.loadPage = this.loadPage.bind(this);
+
         this.state = {
             pagesCount: 1
         };
@@ -35,8 +37,8 @@ class CategoryProductList extends Component {
 
     /**
      * Properly returning pagesCount even if category is switched
-     * @param {*} props 
-     * @param {*} state 
+     * @param {*} props
+     * @param {*} state
      */
     static getDerivedStateFromProps(props, state) {
         const { pages, isLoading } = props;
@@ -163,6 +165,7 @@ class CategoryProductList extends Component {
     }
 
     renderLoadButton(next = false, hidden = false) {
+        const loadPage = this.loadPage.bind(null, next);
         return (
             <div
               block="CategoryProductList"
@@ -170,8 +173,8 @@ class CategoryProductList extends Component {
               mods={ { hidden } }
               role="button"
               tabIndex="-1"
-              onKeyUp={ () => this.loadPage(next) }
-              onClick={ () => this.loadPage(next) }
+              onKeyUp={ loadPage }
+              onClick={ loadPage }
             >
                     { next ? __('Load next') : __('Load previous') }
             </div>
@@ -232,7 +235,7 @@ class CategoryProductList extends Component {
                 <CategoryProductListPlaceholder
                   isLoading={ isLoading }
                   isVisible={ showLoadNext }
-                  updatePages={ () => this.loadPage() }
+                  updatePages={ this.loadPage }
                 />
                 { showLoadNext && this.renderLoadButton(true, true) }
             </div>
