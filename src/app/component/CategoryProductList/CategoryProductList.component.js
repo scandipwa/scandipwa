@@ -33,6 +33,11 @@ class CategoryProductList extends Component {
         };
     }
 
+    /**
+     * Properly returning pagesCount even if category is switched
+     * @param {*} props 
+     * @param {*} state 
+     */
     static getDerivedStateFromProps(props, state) {
         const { pages, isLoading } = props;
         const { pagesCount } = state;
@@ -43,6 +48,10 @@ class CategoryProductList extends Component {
         return null;
     }
 
+    /**
+     * Change page while scrolling
+     * @return {void}
+     */
     componentDidUpdate() {
         const { updatePage, isLoading } = this.props;
 
@@ -110,6 +119,9 @@ class CategoryProductList extends Component {
         return { maxPage, minPage, loadedPagesCount };
     }
 
+    /**
+     * Observes new pages and unobserves obsolete
+     */
     updateObserver() {
         if (!this.observer || Object.keys(this.nodes).length <= 0) return;
 
@@ -130,6 +142,10 @@ class CategoryProductList extends Component {
             });
     }
 
+    /**
+     * Loads previous or next page
+     * @param {Boolean} next
+     */
     loadPage(next = true) {
         const { pagesCount } = this.state;
         const { loadPage, totalPages } = this.props;
