@@ -205,7 +205,7 @@ class CategoryPage extends Component {
 
         const options = {
             categoryUrlPath,
-            isSearchPage,
+            isSearchPage: isSearchPage || false,
             categoryIds
         };
 

@@ -20,11 +20,9 @@ export const UPDATE_LOAD_STATUS = 'UPDATE_LOAD_STATUS';
  * @param {Number} maxPrice Maximal products price returned from fetch
  * @param {Number} currentPage Number of requested page
  */
-const appendPage = (items, minPrice, maxPrice, currentPage) => ({
+const appendPage = (items, currentPage) => ({
     type: APPEND_PAGE,
     items,
-    minPrice,
-    maxPrice,
     currentPage
 });
 

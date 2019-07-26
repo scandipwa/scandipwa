@@ -13,7 +13,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CategoryPage from 'Route/CategoryPage/CategoryPage.component';
 import {
-    getUrlParam, getQueryParam, setQueryParams, clearQueriesFromUrl
+    getUrlParam, getQueryParam
 } from 'Util/Url';
 import './SearchPage.style';
 
@@ -25,8 +25,6 @@ class SearchPage extends CategoryPage {
             sortKey: 'name',
             sortDirection: 'ASC',
             defaultPriceRange: { min: 0, max: 300 },
-            minPriceRange: 0,
-            maxPriceRange: 300,
             previousPage: 0,
             pageSize: 12
         };
@@ -34,17 +32,6 @@ class SearchPage extends CategoryPage {
 
     componentWillMount() {
         this.updateBreadcrumbs();
-    }
-
-    componentDidMount() {
-        const { isOnlyPlaceholder, updateLoadStatus } = this.props;
-
-        if (!isOnlyPlaceholder) {
-            this.updateBreadcrumbs();
-            this.requestCategory();
-        } else {
-            updateLoadStatus(true);
-        }
     }
 
     componentDidUpdate(prevProps) {
@@ -56,67 +43,46 @@ class SearchPage extends CategoryPage {
         }
     }
 
-    /**
-     * Prepare and dispatch category request
-     * @return {void}
-     */
-    requestCategory() {
+
+    _getProductListOptions(currentPage, isNext) {
         const {
-            requestCategory,
             location,
-            isSearchPage,
-            items,
-            category,
             categoryIds
         } = this.props;
 
         const {
             sortKey,
-            sortDirection,
-            previousPage,
-            pageSize
+            pageSize,
+            sortDirection
         } = this.state;
 
         const categoryUrlPath = !categoryIds ? this.getCategoryUrlPath() : null;
-        const currentPage = getQueryParam('page', location) || 1;
-        const priceRange = this.getPriceRangeFromUrl();
         const customFilters = this.getCustomFiltersFromUrl();
-        const querySortKey = getQueryParam('sortKey', location);
+        const priceRange = this.getPriceRangeFromUrl();
         const querySortDirection = getQueryParam('sortDirection', location);
+        const querySortKey = getQueryParam('sortKey', location);
 
         const options = {
-            search: getUrlParam({ path: 'search/' }, location),
-            isSearchPage: isSearchPage || false,
+            categoryIds,
             categoryUrlPath,
             currentPage,
-            previousPage,
-            pageSize,
-            priceRange,
             customFilters,
-            categoryIds,
-            sortKey: querySortKey || sortKey,
-            sortDirection: querySortDirection || sortDirection,
-            productsLoaded: items.length,
             // TODO: adding configurable data request (as in PDP) to query, should make a seperate/more specific query
             getConfigurableData: true,
-            isCategoryLoaded: (!!Object.entries(category).length)
+            isNext,
+            pageSize,
+            priceRange,
+            search: getUrlParam({ path: 'search/' }, location),
+            sortDirection: querySortDirection || sortDirection,
+            sortKey: querySortKey || sortKey
         };
 
-        const stateUpdate = {
-            previousPage: currentPage
-        };
+        this.setState({
+            sortKey: querySortKey || sortKey,
+            sortDirection: querySortDirection || sortDirection
+        });
 
-        if (querySortKey) {
-            stateUpdate.sortKey = querySortKey;
-        }
-
-        if (querySortDirection) {
-            stateUpdate.sortDirection = querySortDirection;
-        }
-
-        this.setState(stateUpdate);
-
-        requestCategory(options);
+        return options;
     }
 
     updateBreadcrumbs() {
@@ -148,30 +114,11 @@ class SearchPage extends CategoryPage {
             </div>
         );
     }
-
-    /**
-     * Clear all filters
-     * @return {void}
-     */
-    clearFilters(location, history) {
-        const { sortKey, sortDirection } = this.state;
-        const page = 1;
-
-        clearQueriesFromUrl(history);
-        setQueryParams(
-            {
-                sortKey,
-                sortDirection,
-                page
-            }, location, history
-        );
-    }
 }
 
 SearchPage.propTypes = {
     makeSearchRequest: PropTypes.func.isRequired,
-    totalItems: PropTypes.number.isRequired,
-    isLoading: PropTypes.bool.isRequired
+    totalItems: PropTypes.number.isRequired
 };
 
 export default SearchPage;
