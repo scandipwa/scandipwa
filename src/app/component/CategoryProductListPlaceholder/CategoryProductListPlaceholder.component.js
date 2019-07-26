@@ -43,7 +43,7 @@ class CategoryProductListPlaceholder extends Component {
 
     stopObserving() {
         if (this.observer) {
-            if (this.observer.unobserve) {
+            if (this.observer.unobserve && this.node) {
                 this.observer.unobserve(this.node);
             }
 

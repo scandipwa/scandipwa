@@ -55,8 +55,7 @@ const mapDispatchToProps = dispatch => ({
     },
 
     updateBreadcrumbs: (breadcrumbs) => {
-        if (Object.keys(breadcrumbs).length) BreadcrumbsDispatcher.updateWithCategory(breadcrumbs, dispatch);
-        else BreadcrumbsDispatcher.update([], dispatch);
+        BreadcrumbsDispatcher.update(breadcrumbs, dispatch);
     }
 });
 

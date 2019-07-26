@@ -34,6 +34,17 @@ class SearchPage extends CategoryPage {
         this.updateBreadcrumbs();
     }
 
+    componentDidMount() {
+        const { isOnlyPlaceholder, updateLoadStatus } = this.props;
+
+        if (!isOnlyPlaceholder) {
+            this.updateBreadcrumbs();
+            this.requestCategory();
+        } else {
+            updateLoadStatus(true);
+        }
+    }
+
     componentDidUpdate(prevProps) {
         const { location } = this.props;
 
