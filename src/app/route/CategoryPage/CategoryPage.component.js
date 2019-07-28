@@ -31,8 +31,9 @@ class CategoryPage extends Component {
     constructor(props) {
         super(props);
 
-        this.requestPage = this.requestPage.bind(this);
         this.updatePage = this.updatePage.bind(this);
+        this.requestPage = this.requestPage.bind(this);
+        this.requestNextPage = this.requestNextPage.bind(this);
 
         this.state = {
             sortKey: 'name',
@@ -330,7 +331,11 @@ class CategoryPage extends Component {
 
         requestProductList(options);
     }
-
+    
+    requestNextPage(pageNumber) {
+        this.requestPage(pageNumber, true);
+    }
+    
     requestCategoryProductsInfo() {
         const { requestProductListInfo } = this.props;
 
@@ -506,7 +511,7 @@ class CategoryPage extends Component {
                       isLoading={ isLoading }
                       totalPages={ totalPages }
                       customFilters={ customFilters }
-                      loadPage={ pageNumber => this.requestPage(pageNumber, true) }
+                      loadPage={ this.requestNextPage }
                       updatePage={ this.updatePage }
                     />
                     { !isInfoLoading && (
