@@ -126,7 +126,7 @@ class CategoryProductList extends Component {
      */
     updateObserver() {
         const currentNodes = Object.values(this.nodes);
-        
+
         if (!this.observer || currentNodes.length <= 0) return;
 
         currentNodes.forEach((node) => {
@@ -136,12 +136,15 @@ class CategoryProductList extends Component {
             }
         });
 
-        this.observedNodes.forEach((node) => {
+        this.observedNodes = this.observedNodes.reduce((acc, node) => {
             if (!currentNodes.includes(node)) {
                 this.observer.unobserve(node);
-                this.observedNodes.splice(this.observedNodes.indexOf(node), 1);
+            } else {
+                acc.push(node);
             }
-        });
+
+            return acc;
+        }, []);
     }
 
     /**
