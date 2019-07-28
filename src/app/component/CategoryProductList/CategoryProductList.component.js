@@ -125,23 +125,23 @@ class CategoryProductList extends Component {
      * Observes new pages and unobserves obsolete
      */
     updateObserver() {
-        if (!this.observer || Object.keys(this.nodes).length <= 0) return;
+        const currentNodes = Object.values(this.nodes);
+        
+        if (!this.observer || currentNodes.length <= 0) return;
 
-        Object
-            .values(this.nodes)
-            .forEach((node) => {
-                if (node && !this.observedNodes.includes(node)) {
-                    this.observer.observe(node);
-                    this.observedNodes.push(node);
-                }
-            });
+        currentNodes.forEach((node) => {
+            if (node && !this.observedNodes.includes(node)) {
+                this.observer.observe(node);
+                this.observedNodes.push(node);
+            }
+        });
 
-        this.observedNodes
-            .filter(node => !Object.values(this.nodes).includes(node))
-            .forEach((node) => {
+        this.observedNodes.forEach((node) => {
+            if (!currentNodes.includes(node)) {
                 this.observer.unobserve(node);
                 this.observedNodes.splice(this.observedNodes.indexOf(node), 1);
-            });
+            }
+        });
     }
 
     /**
