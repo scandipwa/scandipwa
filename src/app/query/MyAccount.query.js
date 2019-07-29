@@ -129,18 +129,9 @@ class MyAccount {
     getCreateAccountMutation(options) {
         const { customer, password } = options;
 
-        return (process.env.MAGENTO_VERSION === '2.3.1')
-            // For M2 v. 2.3.1
-            ? new Field('createCustomer')
-                .addArgument('input', 'CustomerInput!', { ...customer, password })
-                .addField(this.getCustomer(true))
-            // For M2 v. 2.3.0
-            : new Field('createCustomer')
-                .addArgument('customer', 'CreateCustomerInput!', customer)
-                .addArgument('password', 'String!', password)
-                .addField('status')
-                .addField('token')
-                .addField(this.getCustomer(true));
+        return new Field('createCustomer')
+            .addArgument('input', 'CustomerInput!', { ...customer, password })
+            .addField(this.getCustomer(true));
     }
 
     /**
