@@ -387,7 +387,7 @@ class CategoryPage extends Component {
     }
 
     shouldChangePrdoductListInfo(location, prevProps) {
-        return !this.compareQueriesWithoutSort(location.search, prevProps.location.search);
+        return this.isNewCategory() || !this.compareQueriesWithoutSort(location.search, prevProps.location.search);
     }
 
     _getProductListOptions(currentPage, isNext) {
