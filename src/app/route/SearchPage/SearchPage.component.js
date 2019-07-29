@@ -12,9 +12,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CategoryPage from 'Route/CategoryPage/CategoryPage.component';
-import {
-    getUrlParam, getQueryParam
-} from 'Util/Url';
+import { getUrlParam } from 'Util/Url';
 import './SearchPage.style';
 
 class SearchPage extends CategoryPage {
@@ -54,46 +52,11 @@ class SearchPage extends CategoryPage {
         }
     }
 
-
-    _getProductListOptions(currentPage, isNext) {
-        const {
-            location,
-            categoryIds
-        } = this.props;
-
-        const {
-            sortKey,
-            pageSize,
-            sortDirection
-        } = this.state;
-
-        const categoryUrlPath = !categoryIds ? this.getCategoryUrlPath() : null;
-        const customFilters = this.getCustomFiltersFromUrl();
-        const priceRange = this.getPriceRangeFromUrl();
-        const querySortDirection = getQueryParam('sortDirection', location);
-        const querySortKey = getQueryParam('sortKey', location);
-
-        const options = {
-            categoryIds,
-            categoryUrlPath,
-            currentPage,
-            customFilters,
-            // TODO: adding configurable data request (as in PDP) to query, should make a seperate/more specific query
-            getConfigurableData: true,
-            isNext,
-            pageSize,
-            priceRange,
-            search: getUrlParam({ path: 'search/' }, location),
-            sortDirection: querySortDirection || sortDirection,
-            sortKey: querySortKey || sortKey
-        };
-
-        this.setState({
-            sortKey: querySortKey || sortKey,
-            sortDirection: querySortDirection || sortDirection
-        });
-
-        return options;
+    /**
+     * @inheritdoc
+     */
+    getSearchParam() {
+        return getUrlParam({ path: 'search/' }, location);
     }
 
     updateBreadcrumbs() {

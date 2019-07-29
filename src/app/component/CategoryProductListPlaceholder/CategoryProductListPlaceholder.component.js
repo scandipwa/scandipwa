@@ -69,23 +69,18 @@ class CategoryProductListPlaceholder extends Component {
         if (isLoading) {
             return (
                 <div block="CategoryProductListPlaceholder">
-                    <div block="CategoryProductListPlaceholder" elem="Container">
-                        { renderPlaceholders() }
-                    </div>
+                    { renderPlaceholders() }
                 </div>
             );
         }
 
         if (isVisible) {
             return (
-                <div block="CategoryProductListPlaceholder">
-                    <div
-                      block="CategoryProductListPlaceholder"
-                      elem="Container"
-                      ref={ (node) => { this.node = node; } }
-                    >
-                        { renderPlaceholders() }
-                    </div>
+                <div
+                  block="CategoryProductListPlaceholder"
+                  ref={ (node) => { this.node = node; } }
+                >
+                    { renderPlaceholders() }
                 </div>
             );
         }

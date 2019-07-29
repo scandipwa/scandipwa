@@ -163,6 +163,15 @@ class CategoryPage extends Component {
     }
 
     /**
+     * Get search parameter for request
+     * @return {String} search request parameter
+     */
+    getSearchParam() {
+        const search = getQueryParam('search', location);
+        return search ? decodeURIComponent(search) : '';
+    }
+
+    /**
      * Check if url was changed
      * @return {Boolean}
      */
@@ -320,7 +329,7 @@ class CategoryPage extends Component {
     /**
      * Increase page number, cannot exceed calculated page amount.
      * @param {Number} pageNumber
-     * @param {Boolean} isNextPage
+     * @param {Boolean} isNext
      * @return {void}
      */
     requestPage(pageNumber, isNext = false) {
@@ -331,11 +340,11 @@ class CategoryPage extends Component {
 
         requestProductList(options);
     }
-    
+
     requestNextPage(pageNumber) {
         this.requestPage(pageNumber, true);
     }
-    
+
     requestCategoryProductsInfo() {
         const { requestProductListInfo } = this.props;
 
@@ -360,7 +369,7 @@ class CategoryPage extends Component {
         const priceRange = this.getPriceRangeFromUrl();
         const querySortDirection = getQueryParam('sortDirection', location);
         const querySortKey = getQueryParam('sortKey', location);
-        const search = getQueryParam('search', location);
+        const search = this.getSearchParam();
 
         const options = {
             categoryIds,
@@ -372,7 +381,7 @@ class CategoryPage extends Component {
             isNext,
             pageSize,
             priceRange,
-            search: search ? decodeURIComponent(search) : '',
+            search,
             sortDirection: querySortDirection || sortDirection,
             sortKey: querySortKey || sortKey
         };

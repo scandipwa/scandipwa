@@ -153,13 +153,13 @@ class CategoryProductList extends Component {
      */
     loadPage(next = true) {
         const { pagesCount } = this.state;
-        const { loadPage, totalPages } = this.props;
+        const { loadPage, totalPages, isLoading } = this.props;
         const { minPage, maxPage, loadedPagesCount } = this.getPagesBounds();
 
         const isUpdateable = totalPages > 0 && pagesCount === loadedPagesCount;
         const shouldUpdateList = next ? maxPage < totalPages : minPage > 1;
 
-        if (isUpdateable && shouldUpdateList) {
+        if (isUpdateable && shouldUpdateList && !isLoading) {
             const modifier = next ? maxPage + 1 : minPage - 1;
 
             this.setState({ pagesCount: pagesCount + 1 });
@@ -235,11 +235,13 @@ class CategoryProductList extends Component {
             <div block="CategoryProductList">
                 { showLoadPrevious && this.renderLoadButton() }
                 { !isLoading && Object.entries(pages).map(([pageNumber, items]) => this.renderPage(items, pageNumber)) }
-                <CategoryProductListPlaceholder
-                  isLoading={ isLoading }
-                  isVisible={ showLoadNext }
-                  updatePages={ this.loadPage }
-                />
+                <div block="CategoryProductList" elem="Page">
+                    <CategoryProductListPlaceholder
+                      isLoading={ isLoading }
+                      isVisible={ showLoadNext }
+                      updatePages={ this.loadPage }
+                    />
+                </div>
                 { showLoadNext && this.renderLoadButton(true, true) }
             </div>
         );
