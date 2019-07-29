@@ -37,7 +37,7 @@ class SearchPage extends CategoryPage {
 
         if (!isOnlyPlaceholder) {
             this.updateBreadcrumbs();
-            this.requestCategory();
+            this.requestCategoryWithPageList();
         } else {
             updateLoadStatus(true);
         }
@@ -48,7 +48,7 @@ class SearchPage extends CategoryPage {
 
         if (this.urlHasChanged(location, prevProps)) {
             this.updateBreadcrumbs();
-            this.requestCategory();
+            this.requestCategoryWithPageList(this.shouldChangePrdoductListInfo(location, prevProps));
         }
     }
 

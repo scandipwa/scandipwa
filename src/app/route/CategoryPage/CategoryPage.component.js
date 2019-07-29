@@ -50,7 +50,7 @@ class CategoryPage extends Component {
             if (this.isNewCategory()) updateBreadcrumbs({});
             else this.updateBreadcrumbs();
 
-            this.requestCategory();
+            this.requestCategoryWithPageList();
         } else {
             updateLoadStatus(true);
         }
@@ -64,7 +64,9 @@ class CategoryPage extends Component {
         if (id !== prevId) this.updateBreadcrumbs();
 
         // update category only if route or search query has been changed
-        if (this.urlHasChanged(location, prevProps) || categoryIds !== prevCategoryIds) this.requestCategory();
+        if (this.urlHasChanged(location, prevProps) || categoryIds !== prevCategoryIds) {
+            this.requestCategoryWithPageList(this.shouldChangePrdoductListInfo(location, prevProps));
+        }
     }
 
     /**
@@ -183,6 +185,17 @@ class CategoryPage extends Component {
     }
 
     /**
+     * Compares queries with specified filter passed in callback
+     * @returns {Boolean}
+     */
+    compareQueriesWithFilter(currentQuery, previousQuery, callback) {
+        const currentParams = callback(convertQueryStringToKeyValuePairs(currentQuery));
+        const previousParams = callback(convertQueryStringToKeyValuePairs(previousQuery));
+
+        return JSON.stringify(currentParams) === JSON.stringify(previousParams);
+    }
+
+    /**
      * Compares queries ignoring page number
      * @return {Boolean}
      */
@@ -193,10 +206,36 @@ class CategoryPage extends Component {
             return filteredParams;
         };
 
-        const currentParams = removePage(convertQueryStringToKeyValuePairs(currentQuery));
-        const previousParams = removePage(convertQueryStringToKeyValuePairs(previousQuery));
+        return this.compareQueriesWithFilter(currentQuery, previousQuery, removePage);
+    }
 
-        return JSON.stringify(currentParams) === JSON.stringify(previousParams);
+    /**
+     * Compares queries ignoring sortKey and sortDirection
+     * @return {Boolean}
+     */
+    compareQueriesWithoutSort(currentQuery, previousQuery) {
+        const removeSortKeyAndDirection = (params) => {
+            const { sortKey, sortDirection, ...filteredParams } = params;
+
+            return filteredParams;
+        };
+
+        return this.compareQueriesWithFilter(currentQuery, previousQuery, removeSortKeyAndDirection);
+    }
+
+    /**
+     * Prepare and dispatch Category, ProductList and ProductListInfo requests
+     * @param {Boolean} shouldRequestPrdoductListInfo
+     * @return {void}
+     */
+    requestCategoryWithPageList(shouldRequestPrdoductListInfo = true) {
+        const currentPage = getQueryParam('page', location) || 1;
+
+        this.requestCategory();
+
+        // Requests only Product List info and then Product List without info
+        if (shouldRequestPrdoductListInfo) this.requestCategoryProductsInfo();
+        this.requestPage(currentPage);
     }
 
     /**
@@ -212,7 +251,6 @@ class CategoryPage extends Component {
             updateCurrentCategory
         } = this.props;
 
-        const currentPage = getQueryParam('page', location) || 1;
         const categoryUrlPath = !categoryIds ? this.getCategoryUrlPath() : null;
         const isCategoryLoaded = (!!Object.entries(category).length);
 
@@ -225,10 +263,6 @@ class CategoryPage extends Component {
         if (!isCategoryLoaded) {
             requestCategory(options);
         } else if (this.isNewCategory()) updateCurrentCategory(categoryUrlPath, categoryIds, isSearchPage);
-
-        // Requests only Product List info and then Product List without info
-        if (this.isNewCategory()) this.requestCategoryProductsInfo();
-        this.requestPage(currentPage);
     }
 
     /**
@@ -350,6 +384,10 @@ class CategoryPage extends Component {
 
         const options = this._getProductListOptions(1, false);
         requestProductListInfo(options);
+    }
+
+    shouldChangePrdoductListInfo(location, prevProps) {
+        return !this.compareQueriesWithoutSort(location.search, prevProps.location.search);
     }
 
     _getProductListOptions(currentPage, isNext) {
