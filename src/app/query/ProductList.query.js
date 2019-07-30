@@ -487,6 +487,8 @@ class ProductListQuery {
             (new Field('short_description').addField('html')),
             'url_key',
             'special_price',
+            'special_from_date',
+            'special_to_date',
             'sku'
         ];
 
