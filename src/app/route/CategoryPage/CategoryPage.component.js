@@ -202,7 +202,6 @@ class CategoryPage extends Component {
     compareQueriesWithoutPage(currentQuery, previousQuery) {
         const removePage = (params) => {
             const { page, ...filteredParams } = params;
-
             return filteredParams;
         };
 
@@ -456,15 +455,14 @@ class CategoryPage extends Component {
 
         return (
             <p block="CategoryPage" elem="ItemsCount">
-                {isInfoLoading
+                { isInfoLoading
                     ? <TextPlaceholder length="short" />
                     : (
                         <>
                             <span>{ !isPagesLoading ? productsLoaded : 0 }</span>
                             { __(' / %s items showing', totalItems) }
                         </>
-                    )
-                }
+                    ) }
             </p>
         );
     }
@@ -571,7 +569,7 @@ class CategoryPage extends Component {
                           ariaLabel={ __('Catalog navigation') }
                           getPage={ this.requestPage }
                         />
-                    )}
+                    ) }
                 </ContentWrapper>
             </main>
         );

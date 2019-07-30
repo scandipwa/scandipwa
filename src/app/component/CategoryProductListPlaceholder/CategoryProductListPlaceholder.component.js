@@ -29,8 +29,8 @@ class CategoryProductListPlaceholder extends Component {
             };
 
             this.observer = new IntersectionObserver((entries) => {
-                entries.forEach((entry) => {
-                    if (entry.intersectionRatio > 0) {
+                entries.forEach(({ intersectionRatio }) => {
+                    if (intersectionRatio > 0) {
                         this.stopObserving();
                         updatePages();
                     }

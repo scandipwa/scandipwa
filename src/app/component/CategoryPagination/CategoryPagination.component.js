@@ -17,7 +17,24 @@ import { generateQuery } from 'Util/Url';
 import './CategoryPagination.style';
 
 class CategoryPagination extends Component {
-    renderPageLink(pageNumber, isCurrent) {
+    renderPreviousPageLink(page) {
+        return this.renderPageLink(page, __('Previous page'), false, '<');
+    }
+
+    renderPageLinks() {
+        const { totalPages: length, currentPage } = this.props;
+
+        return Array.from(
+            { length },
+            ((_, i) => this.renderPageLink(i + 1, __('Page %s', i + 1), (i + 1) === currentPage, i + 1))
+        );
+    }
+
+    renderNextPageLink(page) {
+        return this.renderPageLink(page, __('Next page'), false, '>');
+    }
+
+    renderPageLink(pageNumber, label, isCurrent, text) {
         const {
             category: { url_path }, getPage, location, history
         } = this.props;
@@ -25,19 +42,28 @@ class CategoryPagination extends Component {
         const page = pageNumber !== 1 ? pageNumber : '';
         const search = generateQuery({ page }, location, history);
 
+        const active = isCurrent ? ' PaginationLink_active' : '';
+        const className = `Pagination_Link${active}`;
+
         return (
-            <Link
-              to={ {
-                  pathname: `/category/${ url_path }`,
-                  search
-              } }
-              aria-label={ __('Page %s', pageNumber) }
-              className={ isCurrent ? 'active' : '' }
-              aria-current={ isCurrent ? 'page' : 'false' }
-              onClick={ () => getPage(pageNumber) }
+            <li
+              key={ page }
+              block="CategoryPagination"
+              elem="ListItem"
             >
-                { pageNumber }
-            </Link>
+                <Link
+                  to={ {
+                      pathname: `/category/${ url_path }`,
+                      search
+                  } }
+                  aria-label={ label }
+                  className={ className }
+                  aria-current={ isCurrent ? 'page' : 'false' }
+                  onClick={ () => getPage(pageNumber) }
+                >
+                    { text }
+                </Link>
+            </li>
         );
     }
 
@@ -49,15 +75,9 @@ class CategoryPagination extends Component {
         return (
             <nav aria-label={ ariaLabel }>
                 <ul block="CategoryPagination">
-                    { Array.from({ length: totalPages }, ((_, i) => (
-                        <li
-                          key={ i }
-                          block="CategoryPagination"
-                          elem="ListItem"
-                        >
-                            { this.renderPageLink(i + 1, (i + 1) === currentPage) }
-                        </li>
-                    ))) }
+                    { currentPage > 1 && this.renderPreviousPageLink(currentPage - 1) }
+                    { this.renderPageLinks() }
+                    { currentPage <= totalPages - 1 && this.renderNextPageLink(currentPage + 1) }
                 </ul>
             </nav>
         );

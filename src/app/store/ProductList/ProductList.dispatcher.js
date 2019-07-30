@@ -16,6 +16,7 @@ import {
     updateProductListItems,
     updateLoadStatus
 } from 'Store/ProductList';
+import { showNotification } from 'Store/Notification';
 import { updateNoMatch } from 'Store/NoMatch';
 
 /**
@@ -30,11 +31,7 @@ export class ProductListDispatcher extends QueryDispatcher {
 
     // eslint-disable-next-line consistent-return
     onSuccess(data, dispatch, options) {
-        const {
-            products: {
-                items
-            }
-        } = data;
+        const { products: { items } } = data;
 
         const {
             currentPage,
@@ -49,7 +46,7 @@ export class ProductListDispatcher extends QueryDispatcher {
     }
 
     onError(error, dispatch) {
-        console.error(error);
+        dispatch(showNotification('error', 'Error fetching Product List!', error));
         dispatch(updateNoMatch(true));
     }
 

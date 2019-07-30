@@ -38,14 +38,11 @@ class CategoryProductList extends Component {
     /**
      * Properly returning pagesCount even if category is switched
      * @param {*} props
-     * @param {*} state
      */
-    static getDerivedStateFromProps(props, state) {
-        const { pages, isLoading } = props;
-        const { pagesCount } = state;
+    static getDerivedStateFromProps(props) {
+        const { isLoading } = props;
 
         if (isLoading) return { pagesCount: 1 };
-        if (Object.keys(pages).length !== pagesCount) return { pagesCount };
 
         return null;
     }
@@ -70,15 +67,15 @@ class CategoryProductList extends Component {
             this.observer = new IntersectionObserver((entries) => {
                 const pageFromUrl = parseInt(getQueryParam('page', location) || 1, 10);
 
-                entries.forEach((entry) => {
+                entries.forEach(({ target, isIntersecting }) => {
                     const page = parseInt(
-                        Object.keys(this.nodes).find(key => this.nodes[key] === entry.target),
+                        Object.keys(this.nodes).find(key => this.nodes[key] === target),
                         10
                     );
 
                     const index = this.pagesIntersecting.indexOf(page);
 
-                    if (entry.isIntersecting) {
+                    if (isIntersecting) {
                         if (index === -1) this.pagesIntersecting.push(page);
                     } else if (index > -1) {
                         this.pagesIntersecting.splice(index, 1);
@@ -113,12 +110,11 @@ class CategoryProductList extends Component {
 
         const keys = Object.keys(pages);
 
-        const maxPage = Math.max(...keys);
-        const minPage = Math.min(...keys);
-
-        const loadedPagesCount = keys.length;
-
-        return { maxPage, minPage, loadedPagesCount };
+        return {
+            maxPage: Math.max(...keys),
+            minPage: Math.min(...keys),
+            loadedPagesCount: keys.length
+        };
     }
 
     /**
@@ -175,7 +171,7 @@ class CategoryProductList extends Component {
               elem="LoadButton"
               mods={ { hidden } }
               role="button"
-              tabIndex="-1"
+              tabIndex="0"
               onKeyUp={ loadPage }
               onClick={ loadPage }
             >
@@ -193,22 +189,22 @@ class CategoryProductList extends Component {
                   block="CategoryProductList"
                   elem="NoProducts"
                 >
-                    No products found
+                    { __('No products found') }
                 </div>
             </div>
         );
     }
 
-    renderPage(items, key) {
-        const { customFilters, isLoading } = this.props;
+    renderPages() {
+        const { pages, customFilters, isLoading } = this.props;
 
-        return (
+        return Object.entries(pages).map(([pageNumber, items]) => (
             <ul
               block="CategoryProductList"
               elem="Page"
-              key={ key }
+              key={ pageNumber }
               mods={ { isLoading } }
-              ref={ (node) => { this.nodes[key] = node; } }
+              ref={ (node) => { this.nodes[pageNumber] = node; } }
             >
                 { items.map(product => (
                     <ProductCard
@@ -219,11 +215,11 @@ class CategoryProductList extends Component {
                     />
                 )) }
             </ul>
-        );
+        ));
     }
 
     render() {
-        const { pages, totalPages, isLoading } = this.props;
+        const { totalPages, isLoading } = this.props;
         const { minPage, maxPage } = this.getPagesBounds();
 
         const showLoadPrevious = minPage > 1 && !isLoading;
@@ -234,7 +230,7 @@ class CategoryProductList extends Component {
         return (
             <div block="CategoryProductList">
                 { showLoadPrevious && this.renderLoadButton() }
-                { !isLoading && Object.entries(pages).map(([pageNumber, items]) => this.renderPage(items, pageNumber)) }
+                { !isLoading && this.renderPages() }
                 <div block="CategoryProductList" elem="Page">
                     <CategoryProductListPlaceholder
                       isLoading={ isLoading }
@@ -242,7 +238,6 @@ class CategoryProductList extends Component {
                       updatePages={ this.loadPage }
                     />
                 </div>
-                { showLoadNext && this.renderLoadButton(true, true) }
             </div>
         );
     }

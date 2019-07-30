@@ -25,6 +25,7 @@ const initialState = {
 
 const ProductListReducer = (state = initialState, action) => {
     const {
+        type,
         totalItems,
         minPrice,
         maxPrice,
@@ -33,15 +34,20 @@ const ProductListReducer = (state = initialState, action) => {
         isLoading
     } = action;
 
-    switch (action.type) {
+    const {
+        minPrice: stateMinPrice,
+        maxPrice: stateMaxPrice
+    } = state;
+
+    switch (type) {
     case UPDATE_PRODUCT_LIST_INFO:
         return {
             ...state,
             filters,
             totalItems,
             sortFields,
-            minPrice: Math.min(state.minPrice, minPrice),
-            maxPrice: Math.max(state.maxPrice, maxPrice),
+            minPrice: Math.min(stateMinPrice, minPrice),
+            maxPrice: Math.max(stateMaxPrice, maxPrice),
             isLoading: false
         };
 

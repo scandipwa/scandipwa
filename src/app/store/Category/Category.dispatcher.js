@@ -16,6 +16,7 @@ import { CategoryQuery } from 'Query';
 import {
     updateCategoryList, updateCurrentCategory
 } from 'Store/Category';
+import { showNotification } from 'Store/Notification';
 import { updateNoMatch } from 'Store/NoMatch';
 
 /**
@@ -48,7 +49,7 @@ export class CategoryDispatcher extends QueryDispatcher {
     }
 
     onError(error, dispatch) {
-        console.error(error);
+        dispatch(showNotification('error', 'Error fetching Category!', error));
         dispatch(updateNoMatch(true));
     }
 

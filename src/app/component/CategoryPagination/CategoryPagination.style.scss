@@ -11,7 +11,7 @@
 
 :root {
     --color-pagination-link-text: var(--color-text-black);
-    --color-pagination-link-active-text: var(--link-color);
+    --color-pagination-link-active-text: var(--color-primary-base);
 }
 
 .CategoryPagination {
@@ -26,8 +26,8 @@
             content: '';
         }
 
-        @include mobile {
-            &:first-child {
+        &:first-child {
+            @include mobile {
                 padding-left: 0;
             }
         }
@@ -35,13 +35,13 @@
         &:last-child {
             margin-bottom: 0;
         }
+    }
+}
 
-        a {
-            color: var(--color-pagination-link-text);
+.PaginationLink {
+    color: var(--color-pagination-link-text);
 
-            &.active {
-                color: var(--color-pagination-link-active-text);
-            }
-        }
+    &_active {
+        color: var(--color-pagination-link-active-text);
     }
 }

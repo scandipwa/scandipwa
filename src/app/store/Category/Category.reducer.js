@@ -21,13 +21,14 @@ const initialState = {
 
 const CategoryReducer = (state = initialState, action) => {
     const {
+        type,
         categoryList,
         categoryUrlPath,
         categoryIds,
         isSearchPage
     } = action;
 
-    switch (action.type) {
+    switch (type) {
     case UPDATE_CATEGORY_LIST:
         return {
             ...state,

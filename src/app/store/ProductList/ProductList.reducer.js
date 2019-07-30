@@ -22,6 +22,7 @@ const initialState = {
 
 const ProductListReducer = (state = initialState, action) => {
     const {
+        type,
         items,
         currentPage,
         isLoading
@@ -45,7 +46,7 @@ const ProductListReducer = (state = initialState, action) => {
         });
     }
 
-    switch (action.type) {
+    switch (type) {
     case APPEND_PAGE:
         return {
             ...state,
