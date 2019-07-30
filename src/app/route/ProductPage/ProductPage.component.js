@@ -177,13 +177,23 @@ class ProductPage extends Component {
     updateUrl(variant) {
         const { configurableVariantIndex } = this.state;
 
-        if (configurableVariantIndex !== variant) updateQueryParamWithoutHistory('variant', variant);
+        // if (configurableVariantIndex !== variant) updateQueryParamWithoutHistory('variant', variant);
+
+        if (configurableVariantIndex !== variant) {
+            const { product: { variants } } = this.props;
+            const { parametres } = variants[variant].product;
+            // get from configurable options
+            // size can be shoe_size
+            // updateQueryParamWithoutHistory('color', parseInt(parametres.color, 10));
+            // updateQueryParamWithoutHistory('size', parseInt(parametres.size, 10));
+            updateQueryParamWithoutHistory('variant', variant);
+        }
 
         return this.setState({ configurableVariantIndex: variant });
     }
 
     render() {
-        const { product, product: { variants, type_id }, filters } = this.props;
+        const { product, product: { variants, type_id } } = this.props;
         const { configurableVariantIndex } = this.state;
         const dataSource = this.getDataSource();
         const { media_gallery_entries } = dataSource;
@@ -222,7 +232,6 @@ class ProductPage extends Component {
                             ) }
                             <ProductActions
                               product={ dataSource }
-                              availableFilters={ filters }
                               configurableVariantIndex={ configurableVariantIndex }
                               areDetailsLoaded={ areDetailsLoaded }
                               updateConfigurableVariantIndex={ index => this.updateUrl(index) }
@@ -266,7 +275,6 @@ ProductPage.propTypes = {
     updateBreadcrumbs: PropTypes.func.isRequired,
     clearGroupedProductQuantity: PropTypes.func.isRequired,
     product: ProductType.isRequired,
-    filters: PropTypes.arrayOf(PropTypes.shape),
     isOnlyPlaceholder: PropTypes.bool
 };
 
@@ -274,7 +282,6 @@ ProductPage.defaultProps = {
     location: {
         state: {}
     },
-    filters: [],
     isOnlyPlaceholder: false
 };
 
