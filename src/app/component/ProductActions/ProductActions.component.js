@@ -72,7 +72,7 @@ class ProductActions extends Component {
             if (attribute_code === attributeCode) {
                 for (let j = 0; j < attribute_options.length; j++) {
                     const { value: value_string, swatch_data: { value: swatchValue } } = attribute_options[j];
-                    
+
                     if (parseInt(value_string, 10) === value) {
                         return swatchValue;
                     }
@@ -88,7 +88,11 @@ class ProductActions extends Component {
      * @return {Boolean}
      */
     allDataLoaded() {
-        const { product: { attributes, price, type_id, configurable_options } } = this.props;
+        const {
+            product: {
+                attributes, price, type_id, configurable_options
+            }
+        } = this.props;
         const simpleProductData = price && attributes;
         const configurableProductData = simpleProductData && configurable_options;
 
@@ -101,41 +105,23 @@ class ProductActions extends Component {
      * @param {String} attributeCode
      * @return {void}
      */
-    // changeConfigurableVariant(attributeCode, value) {
-    //     const {
-    //         product: {
-    //             variants,
-    //             configurable_options
-    //         },
-    //         updateConfigurableVariantIndex,
-    //         configurableVariantIndex
-    //     } = this.props;
+    changeConfigurableVariant(attributeCode, value) {
+        const {
+            product: { variants },
+            updateConfigurableVariantIndex,
+            configurableVariantIndex
+        } = this.props;
 
-    //     const {
-    //         product: currentConfigurableVariant
-    //     } = variants[configurableVariantIndex];
+        const {
+            product: currentConfigurableVariant
+        } = variants[configurableVariantIndex];
 
-    //     const currentVariant = { ...currentConfigurableVariant, parametres: { [attributeCode]: value } };
-
-    //     console.log(currentVariant);
-    //     // fixed here??
-    //     // currentVariant.parametres[attributeCode] = value;
-
-    //     for (let i = 0; i < variants.length; i++) {
-    //         const { product } = variants[i];
-    //         // console.log(variants,'test', configurable_options, product.parametres, currentVariant.parametres);
-    //         const isCorrectVariant = configurable_options.every(
-    //             // fixed here??
-    //             ({ attribute_code: code }) => parseInt(product.parametres[code], 10) === parseInt(currentVariant.parametres[code], 10)
-    //         );
-    //         // console.log(isCorrectVariant, i);
-    //         if (isCorrectVariant) {
-    //             updateConfigurableVariantIndex(i);
-    //             // console.log(i);
-    //             break;
-    //         }
-    //     }
-    // }
+        const currentVariant = {
+            ...currentConfigurableVariant,
+            parameters: { ...currentConfigurableVariant.parameters, [attributeCode]: value.toString() }
+        };
+        updateConfigurableVariantIndex(currentVariant.parameters);
+    }
 
     /**
      * Handle onKeyDown event
@@ -223,8 +209,7 @@ class ProductActions extends Component {
             );
 
             const isSelected = value => (
-                // fixed here??
-                value === parseInt(currentConfigurableVariant.parametres[attribute_code], 10)
+                value === parseInt(currentConfigurableVariant.parameters[attribute_code], 10)
             );
 
             return values.map(value => (
@@ -297,8 +282,7 @@ class ProductActions extends Component {
             if (attributes.length) {
                 return attributes.map((attribute) => {
                     const { attribute_code } = attribute;
-                    // fixed here??
-                    if (product.parametres[attribute_code]) {
+                    if (product.parameters[attribute_code]) {
                         return renderSwatch(attribute);
                     }
 
