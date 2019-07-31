@@ -20,4 +20,4 @@ const checkEveryOption = (properties, options) => Object.keys(options)
 
 // eslint-disable-next-line import/prefer-default-export
 export const getVariantIndex = (variants, options) => Object.keys(variants)
-    .find(key => checkEveryOption(variants[key].product, options));
+    .find(key => checkEveryOption(variants[key].product.properties, options));

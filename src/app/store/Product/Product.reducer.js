@@ -26,19 +26,6 @@ const ProductReducer = (state = initialState, action) => {
 
         const { product, product: { variants, configurable_options } } = action;
 
-        // adds size, color, material(null), brand(null) to all variants
-        // if (variants) {
-        //     variants.forEach(({ product: { attributes } }, i) => {
-        //         if (attributes) {
-        //             attributes.forEach(({ attribute_code, attribute_value }) => {
-        //                 // get rid of this
-        //                 product.variants[i].product.parametres[attribute_code] = attribute_value;
-        //                 // console.log(attribute_code, attribute_value)
-        //             });
-        //         }
-        //     });
-        // }
-
         const necessaryOptions = configurable_options.map(({ attribute_code }) => attribute_code);
 
         if (variants) {
@@ -51,7 +38,7 @@ const ProductReducer = (state = initialState, action) => {
                         [attribute_code]: attribute_value
                     };
                 }, {});
-                Object.assign(product, { parametres: params });
+                // Object.assign(product, { parametres: params });
             });
         }
 

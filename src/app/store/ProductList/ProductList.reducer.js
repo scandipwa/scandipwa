@@ -29,22 +29,26 @@ const ProductListReducer = (state = initialState, action) => {
     } = action;
 
     if (items) {
-        items.forEach(({ attributes, variants }, i) => {
-            attributes.forEach(({ attribute_code, attribute_value }) => {
-                items[i][attribute_code] = attribute_value;
-            });
+        items.forEach((product) => {
+            const { variants, configurable_options } = product;
+            const necessaryOptions = configurable_options.map(({ attribute_code }) => attribute_code);
 
             if (variants) {
-                variants.forEach(({ product: { attributes } }, j) => {
-                    if (attributes) {
-                        attributes.forEach(({ attribute_code, attribute_value }) => {
-                            items[i].variants[j].product[attribute_code] = attribute_value;
-                        });
-                    }
+                variants.forEach(({ product: { attributes } }) => {
+                    const params = attributes.reduce((accum, { attribute_code, attribute_value }) => {
+                        if (!necessaryOptions.includes(attribute_code)) return accum;
+
+                        return {
+                            ...accum,
+                            [attribute_code]: attribute_value
+                        };
+                    }, {});
+                    Object.assign(product, { parametres: params });
                 });
             }
         });
     }
+    console.log(items);
 
     switch (type) {
     case APPEND_PAGE:

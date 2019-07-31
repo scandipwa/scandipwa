@@ -24,6 +24,7 @@ import { getReviewText } from 'Util/Review';
 import { getTabIndex } from 'Util/Link';
 import { HashLink } from 'react-router-hash-link';
 import './ProductCard.style';
+import { convertKeyValuesToQueryString } from 'Util/Url';
 
 /**
  * Product card
@@ -61,19 +62,20 @@ class ProductCard extends Component {
         const { product: { variants }, customFilters } = this.props;
         const customFiltersExist = customFilters && Object.keys(customFilters).length;
 
-        if (!(variants && customFiltersExist)) return { index: 0, parameters: {} };
+
+        if (!(variants || customFiltersExist)) return { index: 0, parameters: {} };
 
         if (variants && customFiltersExist) {
             const index = getVariantIndex(variants, customFilters);
             return {
                 index,
-                parameters: variants[index].parameters
+                parameters: variants[index].product.parameters
             };
         }
 
         return {
             index: 0,
-            parameters: variants[0].parameters
+            parameters: variants[0].product.parameters
         };
     }
 
@@ -179,14 +181,17 @@ class ProductCard extends Component {
             mix
         } = this.props;
 
-        const { index } = this.getConfigurableParameters();
+        const { index, parameters } = this.getConfigurableParameters();
         const thumbnail = this.getThumbnail(index);
         const TagName = url_key ? Link : 'div';
         const isLoading = !url_key;
+        // console.log(parameters);
+        // const search = convertKeyValuesToQueryString(parameters);
+        // console.log(search);
         const linkTo = url_key
             ? {
                 pathname: `/product/${ url_key }`,
-                state: { product, variantIndex: index },
+                state: { product, ...parameters },
                 search: `?variant=${ index }`
             }
             : undefined;
