@@ -23,26 +23,12 @@ const initialState = {
 const ProductReducer = (state = initialState, action) => {
     switch (action.type) {
     case UPDATE_PRODUCT_DETAILS:
-
         const { product, product: { variants, configurable_options } } = action;
-
-        // adds size, color, material(null), brand(null) to all variants
-        // if (variants) {
-        //     variants.forEach(({ product: { attributes } }, i) => {
-        //         if (attributes) {
-        //             attributes.forEach(({ attribute_code, attribute_value }) => {
-        //                 // get rid of this
-        //                 product.variants[i].product.parametres[attribute_code] = attribute_value;
-        //                 // console.log(attribute_code, attribute_value)
-        //             });
-        //         }
-        //     });
-        // }
 
         const necessaryOptions = configurable_options.map(({ attribute_code }) => attribute_code);
 
         if (variants) {
-            variants.forEach(({ product: { attributes } }) => {
+            variants.forEach(({ product: variant, product: { attributes } }) => {
                 const params = attributes.reduce((accum, { attribute_code, attribute_value }) => {
                     if (!necessaryOptions.includes(attribute_code)) return accum;
 
@@ -51,11 +37,10 @@ const ProductReducer = (state = initialState, action) => {
                         [attribute_code]: attribute_value
                     };
                 }, {});
-                Object.assign(product, { parametres: params });
+                Object.assign(variant, { parameters: params });
             });
         }
 
-        console.log('prod_red_update', { ...state, product });
         return {
             ...state,
             product
