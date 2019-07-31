@@ -43,7 +43,7 @@ class CategoryPagination extends Component {
         const search = generateQuery({ page }, location, history);
 
         const active = isCurrent ? ' PaginationLink_active' : '';
-        const className = `Pagination_Link${active}`;
+        const className = `PaginationLink${active}`;
 
         return (
             <li
