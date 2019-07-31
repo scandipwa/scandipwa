@@ -33,7 +33,7 @@ class CategoryQuery {
         } else if (categoryIds) {
             category.addArgument('id', 'Int!', categoryIds);
         } else {
-            console.warn('Can not query category without ID/URL_PATH not specified.');
+            throw new Error(__('Can not query category without ID/URL_PATH not specified.'));
         }
 
         this.childrenDepth = childrenDepth || CHILDREN_DEPTH;
