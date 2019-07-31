@@ -12,7 +12,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ProductCard from 'Component/ProductCard';
-import { ItemsType } from 'Type/ProductList';
+import CategoryProductListPlaceholder from 'Component/CategoryProductListPlaceholder';
+import { PagesType } from 'Type/ProductList';
+import { getQueryParam } from 'Util/Url';
 import './CategoryProductList.style';
 
 /**
@@ -22,154 +24,231 @@ import './CategoryProductList.style';
 class CategoryProductList extends Component {
     constructor(props) {
         super(props);
+
+        this.nodes = {};
+        this.observedNodes = [];
+
+        this.loadPage = this.loadPage.bind(this);
+
         this.state = {
-            prevItemsLength: 0
+            pagesCount: 1
         };
     }
 
     /**
-     * Properly returng prevItemsLength even if category is switched
+     * Properly returning pagesCount even if category is switched
      * @param {*} props
-     * @param {*} state
      */
-    static getDerivedStateFromProps(props, state) {
-        const { items, isLoading } = props;
-        const { prevItemsLength } = state;
+    static getDerivedStateFromProps(props) {
+        const { isLoading } = props;
 
-        if (isLoading) return { prevItemsLength: 0 };
-        if (items.length !== prevItemsLength) return { prevItemsLength };
+        if (isLoading) return { pagesCount: 1 };
+
         return null;
     }
 
     /**
-     * Show loading placeholders while products are fetching
+     * Change page while scrolling
      * @return {void}
      */
     componentDidUpdate() {
-        const { prevItemsLength } = this.state;
-        const { items, totalItems } = this.props;
-        const shouldUpdateList = this.node && prevItemsLength !== items.length
-         && items.length !== 0 && items.length <= totalItems;
+        const { updatePage, isLoading } = this.props;
 
-        if (shouldUpdateList) {
-            if ('IntersectionObserver' in window) {
-                const options = {
-                    rootMargin: '0px',
-                    threshold: 0.1
-                };
-
-                this.observer = new IntersectionObserver((entries) => {
-                    entries.forEach((entry) => {
-                        if (entry.intersectionRatio > 0) {
-                            this.stopObserving();
-                            this.showLoading();
-                        }
-                    });
-                }, options);
-
-                this.observer.observe(this.node);
-            } else {
-                this.showLoading();
-            }
+        if (isLoading) {
+            this.pagesIntersecting = [];
         }
+
+        if (!this.observer && 'IntersectionObserver' in window) {
+            const options = {
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            this.observer = new IntersectionObserver((entries) => {
+                const pageFromUrl = parseInt(getQueryParam('page', location) || 1, 10);
+
+                entries.forEach(({ target, isIntersecting }) => {
+                    const page = parseInt(
+                        Object.keys(this.nodes).find(key => this.nodes[key] === target),
+                        10
+                    );
+
+                    const index = this.pagesIntersecting.indexOf(page);
+
+                    if (isIntersecting) {
+                        if (index === -1) this.pagesIntersecting.push(page);
+                    } else if (index > -1) {
+                        this.pagesIntersecting.splice(index, 1);
+                    }
+                });
+
+                const minPage = Math.min(...this.pagesIntersecting);
+                if (minPage < Infinity && minPage !== pageFromUrl) {
+                    updatePage(minPage);
+                }
+            }, options);
+        }
+        this.updateObserver();
     }
 
-    stopObserving() {
+    componentWillUnmount() {
         if (this.observer) {
-            if (this.observer.unobserve) {
-                this.observer.unobserve(this.node);
-            }
             if (this.observer.disconnect) {
                 this.observer.disconnect();
             }
+
             this.observer = null;
         }
     }
 
     /**
-     * Increase page count and update previous items length
+     * Get boundaries for pages.
+     * @return {{maxPage:Number, minPage:Number, loadedPagesCount:Number}}
      */
-    showLoading() {
-        const { items, increasePage } = this.props;
-        this.setState({ prevItemsLength: items.length });
-        increasePage();
+    getPagesBounds() {
+        const { pages } = this.props;
+
+        const keys = Object.keys(pages);
+
+        return {
+            maxPage: Math.max(...keys),
+            minPage: Math.min(...keys),
+            loadedPagesCount: keys.length
+        };
+    }
+
+    /**
+     * Observes new pages and unobserves obsolete
+     */
+    updateObserver() {
+        const currentNodes = Object.values(this.nodes);
+
+        if (!this.observer || currentNodes.length <= 0) return;
+
+        currentNodes.forEach((node) => {
+            if (node && !this.observedNodes.includes(node)) {
+                this.observer.observe(node);
+                this.observedNodes.push(node);
+            }
+        });
+
+        this.observedNodes = this.observedNodes.reduce((acc, node) => {
+            if (!currentNodes.includes(node)) {
+                this.observer.unobserve(node);
+            } else {
+                acc.push(node);
+            }
+
+            return acc;
+        }, []);
+    }
+
+    /**
+     * Loads previous or next page
+     * @param {Boolean} next
+     */
+    loadPage(next = true) {
+        const { pagesCount } = this.state;
+        const { loadPage, totalPages, isLoading } = this.props;
+        const { minPage, maxPage, loadedPagesCount } = this.getPagesBounds();
+
+        const isUpdateable = totalPages > 0 && pagesCount === loadedPagesCount;
+        const shouldUpdateList = next ? maxPage < totalPages : minPage > 1;
+
+        if (isUpdateable && shouldUpdateList && !isLoading) {
+            const modifier = next ? maxPage + 1 : minPage - 1;
+
+            this.setState({ pagesCount: pagesCount + 1 });
+            loadPage(modifier);
+        }
+    }
+
+    renderLoadButton(next = false, hidden = false) {
+        const loadPage = this.loadPage.bind(null, next);
+        return (
+            <div
+              block="CategoryProductList"
+              elem="LoadButton"
+              mods={ { hidden } }
+              role="button"
+              tabIndex="0"
+              onKeyUp={ loadPage }
+              onClick={ loadPage }
+            >
+                    { next ? __('Load next') : __('Load previous') }
+            </div>
+        );
     }
 
     renderNoProducts() {
         return (
             <div
               block="CategoryProductList"
-              elem="NoProducts"
             >
-                No products found
+                <div
+                  block="CategoryProductList"
+                  elem="NoProducts"
+                >
+                    { __('No products found') }
+                </div>
             </div>
         );
     }
 
-    renderProducts() {
-        const { items, customFilters } = this.props;
+    renderPages() {
+        const { pages, customFilters, isLoading } = this.props;
 
-        if (items.length === 0) return this.renderNoProducts();
-
-        return items.map(product => (
-            <ProductCard
-              product={ product }
-              key={ product.id }
-              customFilters={ customFilters }
-              arePlaceholdersShown
-            />
+        return Object.entries(pages).map(([pageNumber, items]) => (
+            <ul
+              block="CategoryProductList"
+              elem="Page"
+              key={ pageNumber }
+              mods={ { isLoading } }
+              ref={ (node) => { this.nodes[pageNumber] = node; } }
+            >
+                { items.map(product => (
+                    <ProductCard
+                      product={ product }
+                      key={ product.id }
+                      customFilters={ customFilters }
+                      arePlaceholdersShown
+                    />
+                )) }
+            </ul>
         ));
     }
 
-    /**
-     * render placeholders beneath the product list
-     */
-    renderPlaceholder(showLoadMore, isLoading) {
-        const renderPlaceholders = () => (
-            <>
-                <ProductCard product={ {} } />
-                <ProductCard product={ {} } />
-                <ProductCard product={ {} } />
-            </>
-        );
-
-        if (isLoading) {
-            return renderPlaceholders();
-        }
-
-        if (showLoadMore) {
-            return (
-                <div
-                  block="CategoryProductList"
-                  elem="Placeholder"
-                  ref={ (node) => { this.node = node; } }
-                >
-                    { renderPlaceholders() }
-                </div>
-            );
-        }
-
-        return null;
-    }
-
     render() {
-        const { items, totalItems, isLoading } = this.props;
-        const showLoadMore = items.length < totalItems && !isLoading;
+        const { totalPages, isLoading } = this.props;
+        const { minPage, maxPage } = this.getPagesBounds();
+
+        const showLoadPrevious = minPage > 1 && !isLoading;
+        const showLoadNext = maxPage < totalPages;
+
+        if (!isLoading && totalPages === 0) return this.renderNoProducts();
 
         return (
-            <ul block="CategoryProductList" mods={ { isLoading } }>
-                { !isLoading && this.renderProducts() }
-                { this.renderPlaceholder(showLoadMore, isLoading) }
-            </ul>
+            <div block="CategoryProductList">
+                { showLoadPrevious && this.renderLoadButton() }
+                { !isLoading && this.renderPages() }
+                <div block="CategoryProductList" elem="Page">
+                    <CategoryProductListPlaceholder
+                      isLoading={ isLoading }
+                      isVisible={ showLoadNext }
+                      updatePages={ this.loadPage }
+                    />
+                </div>
+            </div>
         );
     }
 }
 
 CategoryProductList.propTypes = {
-    items: ItemsType.isRequired,
-    totalItems: PropTypes.number.isRequired,
-    increasePage: PropTypes.func.isRequired,
+    pages: PagesType.isRequired,
+    loadPage: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
+    updatePage: PropTypes.func.isRequired,
+    totalPages: PropTypes.number.isRequired,
     customFilters: PropTypes.objectOf(PropTypes.array)
 };
 

@@ -17,7 +17,7 @@ import { Field, Fragment } from 'Util/Query';
  */
 class ProductListQuery {
     /**
-     * get ProductList query
+     * Get ProductList query
      * @param  {{search: String, categoryIds: Array<String|Number>, productUrlPath: String, categoryUrlPath: String, activePage: Number, priceRange: {min: Number, max: Number}, sortKey: String, sortDirection: String, productPageSize: Number, customFilters: Object}} options A object containing different aspects of query, each item can be omitted
      * @return {Query} ProductList query
      * @memberof ProductListQuery
@@ -33,17 +33,21 @@ class ProductListQuery {
         const field = new Field('products')
             .addArgument('currentPage', 'Int!', args.currentPage)
             .addArgument('pageSize', 'Int!', args.pageSize)
-            .addArgument('filter', 'ProductFilterInput!', args.filter)
-            .addField('total_count')
-            .addField('min_price')
-            .addField('max_price')
-            .addField(items);
+            .addArgument('filter', 'ProductFilterInput!', args.filter);
 
         if (args.sort) field.addArgument('sort', 'ProductSortInput', args.sort);
         if (args.search) field.addArgument('search', 'String', encodeURIComponent(args.search));
 
-        // do not load sort and filter fields if this is next page load
-        if (!options.isNextPage) field.addField(sortFields).addField(filters);
+        if (!options.notRequireInfo) {
+            field
+                .addField('total_count')
+                .addField('min_price')
+                .addField('max_price')
+                .addField(sortFields)
+                .addField(filters);
+        }
+
+        if (!options.notRequireItems) field.addField(items);
 
         return field;
     }

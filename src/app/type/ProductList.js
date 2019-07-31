@@ -118,3 +118,5 @@ export const FilterType = PropTypes.objectOf(
 );
 
 export const ItemsType = PropTypes.arrayOf(ProductType);
+
+export const PagesType = PropTypes.objectOf(ItemsType);
