@@ -30,8 +30,11 @@ const ProductListReducer = (state = initialState, action) => {
     } = action;
 
     if (items) {
-        items.forEach((item, i) => {
-            const { variants, configurable_options, type_id } = item;
+        items.forEach(({
+            variants, configurable_options, type_id, attributes
+        }, i) => {
+            const brandAttribute = attributes.find(({ attribute_code }) => attribute_code === 'brand');
+            if (brandAttribute) items[i].brand = brandAttribute.attribute_value;
 
             if (type_id !== 'configurable') return;
             const requiredParams = configurable_options.map(({ attribute_code }) => attribute_code);

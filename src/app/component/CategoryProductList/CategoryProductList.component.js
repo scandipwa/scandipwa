@@ -197,7 +197,7 @@ class CategoryProductList extends Component {
 
     renderPages() {
         const {
-            pages, customFilters, isLoading, getProductUrlSearch
+            pages, customFilters, isLoading
         } = this.props;
 
         return Object.entries(pages).map(([pageNumber, items]) => (
@@ -214,7 +214,6 @@ class CategoryProductList extends Component {
                       key={ product.id }
                       customFilters={ customFilters }
                       arePlaceholdersShown
-                      getProductUrlSearch={ options => getProductUrlSearch(options) }
                     />
                 )) }
             </ul>
@@ -252,8 +251,7 @@ CategoryProductList.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     updatePage: PropTypes.func.isRequired,
     totalPages: PropTypes.number.isRequired,
-    customFilters: PropTypes.objectOf(PropTypes.array),
-    getProductUrlSearch: PropTypes.func.isRequired
+    customFilters: PropTypes.objectOf(PropTypes.array)
 };
 
 CategoryProductList.defaultProps = {

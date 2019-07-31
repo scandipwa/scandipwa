@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { getVariantIndex, getVariantsWithParams } from './Product';
-
-export { getVariantIndex, getVariantsWithParams };
+export * from './Product';

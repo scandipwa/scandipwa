@@ -78,16 +78,23 @@ class ProductCard extends Component {
         };
     }
 
+    getProductUrlSearch(parameters) {
+        const paramString = Object.keys(parameters).sort()
+            .reduce((acc, key) => `${ acc }${ key }=${ parameters[key] }&`, '')
+            .slice(0, -1); // remove trailing '&'
+
+        return `?${ paramString }`;
+    }
+
     getLinkTo(parameters) {
         const {
             product: {
                 url_key
             },
-            product,
-            getProductUrlSearch
+            product
         } = this.props;
 
-        const search = parameters && getProductUrlSearch(parameters);
+        const search = parameters && this.getProductUrlSearch(parameters);
 
         return url_key
             ? {
@@ -258,16 +265,14 @@ ProductCard.propTypes = {
     mix: PropTypes.shape({
         block: PropTypes.string,
         elem: PropTypes.string
-    }),
-    getProductUrlSearch: PropTypes.func
+    })
 };
 
 ProductCard.defaultProps = {
     customFilters: {},
     arePlaceholdersShown: false,
     wishlistItem: false,
-    mix: {},
-    getProductUrlSearch: () => ({ index: 0, parameters: null })
+    mix: {}
 };
 
 export default ProductCard;

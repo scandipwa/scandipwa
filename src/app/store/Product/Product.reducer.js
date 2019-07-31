@@ -24,12 +24,25 @@ const initialState = {
 const ProductReducer = (state = initialState, action) => {
     switch (action.type) {
     case UPDATE_PRODUCT_DETAILS:
-        const { product, product: { variants, configurable_options } } = action;
+        const {
+            product,
+            product: {
+                variants, configurable_options, attributes, type_id
+            }
+        } = action;
 
-        const requiredParams = configurable_options.map(({ attribute_code }) => attribute_code);
+        const brandAttribute = attributes.find(({ attribute_code }) => attribute_code === 'brand');
+        if (brandAttribute) product.brand = brandAttribute.attribute_value;
 
-        if (variants) {
+        if (type_id === 'configurable' && variants) {
+            const requiredParams = configurable_options.map(({ attribute_code }) => attribute_code);
             product.variants = getVariantsWithParams(variants, requiredParams);
+        } else {
+            const parameters = attributes.reduce(
+                (acc, { attribute_code, attribute_value }) => ({ ...acc, [attribute_code]: attribute_value }),
+                {}
+            );
+            product.parameters = parameters;
         }
 
         return {

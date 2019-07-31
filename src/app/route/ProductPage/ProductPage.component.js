@@ -78,18 +78,16 @@ class ProductPage extends Component {
 
     static getDerivedStateFromProps(props, state) {
         const { isConfigurationInitilized } = state;
-        const { location, product } = props;
+        const { location: { search }, product } = props;
         if (!Object.keys(product).length) return null;
 
-        const variantIndex = parseInt(
-            getVariantIndex(product.variants, convertQueryStringToKeyValuePairs(location.search)),
-            10
-        );
-
+        const searchObject = convertQueryStringToKeyValuePairs(search);
         const shouldConfigurableOptionBeInitilized = !isConfigurationInitilized
-            && typeof variantIndex === 'number';
+            && Object.keys(searchObject).length > 0
+            && search.length > 0;
 
         if (shouldConfigurableOptionBeInitilized) {
+            const variantIndex = getVariantIndex(product.variants, searchObject);
             return {
                 configurableVariantIndex: variantIndex,
                 isConfigurationInitilized: true
@@ -184,7 +182,13 @@ class ProductPage extends Component {
     updateUrl(options) {
         const { product: { variants }, location, history } = this.props;
         const { configurableVariantIndex } = this.state;
-        const newIndex = getVariantIndex(variants, options);
+        const { product: { parameters } } = variants[configurableVariantIndex];
+
+        const newParams = {
+            ...parameters,
+            ...options
+        };
+        const newIndex = getVariantIndex(variants, newParams);
 
         if (configurableVariantIndex !== newIndex) {
             setQueryParams(options, location, history);
@@ -234,7 +238,7 @@ class ProductPage extends Component {
                               product={ dataSource }
                               configurableVariantIndex={ configurableVariantIndex }
                               areDetailsLoaded={ areDetailsLoaded }
-                              updateConfigurableVariantIndex={ options => this.updateUrl(options) }
+                              updateConfigurableVariant={ options => this.updateUrl(options) }
                             />
                         </div>
                     </ContentWrapper>

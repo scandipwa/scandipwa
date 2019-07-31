@@ -18,8 +18,8 @@ const checkEveryOption = (parameters, options) => Object.keys(options)
         return options[param].includes(parameters[param]);
     });
 
-const getVariantWithParams = (variant, requiredParameters) => {
-    const { product, product: { attributes } } = variant;
+export const getProductWithParams = (product, requiredParameters) => {
+    const { attributes } = product;
 
     const parameters = attributes.reduce((accum, { attribute_code, attribute_value }) => {
         if (!requiredParameters.includes(attribute_code)) return accum;
@@ -31,11 +31,18 @@ const getVariantWithParams = (variant, requiredParameters) => {
     }, {});
 
     return {
+        ...product,
+        parameters
+    };
+};
+
+export const getVariantWithParams = (variant, requiredParameters) => {
+    const { product: initialProduct } = variant;
+    const product = getProductWithParams(initialProduct, requiredParameters);
+
+    return {
         ...variant,
-        product: {
-            ...product,
-            parameters
-        }
+        product
     };
 };
 
@@ -44,3 +51,6 @@ export const getVariantIndex = (variants, options) => +Object.keys(variants)
 
 export const getVariantsWithParams = (variants, requiredParameters) => variants
     .map(variant => getVariantWithParams(variant, requiredParameters));
+
+export const getProductsWithParams = (products, requiredParameters) => products
+    .map(product => getProductWithParams(product, requiredParameters));
