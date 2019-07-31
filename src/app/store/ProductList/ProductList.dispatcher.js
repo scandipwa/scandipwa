@@ -51,7 +51,7 @@ export class ProductListDispatcher extends QueryDispatcher {
     }
 
     prepareRequest(options, dispatch) {
-        if (!options.isNext) { dispatch(updateLoadStatus(true)); }
+        if (!options.isNext) dispatch(updateLoadStatus(true));
 
         return ProductListQuery.getQuery({
             ...options,

@@ -51,51 +51,39 @@ class CategoriesList extends Component {
                 {this.renderCategoryLabel(name, url_path)}
                 {isParentExpanded && children && (
                     <ul>
-                        {children.map(child => this.renderSubCategory(child))}
+                        { children.map(child => this.renderSubCategory(child)) }
                     </ul>
                 )}
             </li>
         );
     }
 
-    renderCategories(isLoadedOnce) {
-        const { category: { children } } = this.props;
+    renderCategories(isLoading) {
+        const { currentCategory: { children } } = this.props;
 
-        if (isLoadedOnce) {
-            if (children && children.length) {
-                return (
-                    <ul>
-                        { children.map(child => this.renderSubCategory(child)) }
-                    </ul>
-                );
-            }
-
-            return (<p>{ __('All products relate to current category!') }</p>);
-        }
+        if (isLoading) return <p><TextPlaceholder length="short" /></p>;
+        if (!children || !children.length) return (<p>{ __('All products relate to current category!') }</p>);
 
         return (
-            <p><TextPlaceholder length="short" /></p>
+            <ul>
+                { children.map(child => this.renderSubCategory(child)) }
+            </ul>
         );
     }
 
     render() {
-        const { availableFilters, category, currentCategory } = this.props;
-        const isLoadedOnce = availableFilters.length
-            && Object.keys(category).length
-            && Object.keys(currentCategory).length;
+        const { currentCategory: { id: isLoaded } } = this.props;
 
         return (
             <div block="CategoriesList">
-                <h3><TextPlaceholder content={ isLoadedOnce ? __('Categories') : '' } /></h3>
-                { this.renderCategories(isLoadedOnce) }
+                <h3><TextPlaceholder content={ !isLoaded ? '' : __('Sub Categories') } /></h3>
+                { this.renderCategories(!isLoaded) }
             </div>
         );
     }
 }
 
 CategoriesList.propTypes = {
-    availableFilters: PropTypes.arrayOf(PropTypes.object).isRequired,
-    category: CategoryTreeType.isRequired,
     currentCategory: CategoryTreeType.isRequired,
     location: PropTypes.shape({
         pathname: PropTypes.string.isRequired

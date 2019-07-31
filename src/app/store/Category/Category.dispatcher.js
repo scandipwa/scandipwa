@@ -13,9 +13,7 @@
 
 import { QueryDispatcher } from 'Util/Request';
 import { CategoryQuery } from 'Query';
-import {
-    updateCategoryList, updateCurrentCategory
-} from 'Store/Category';
+import { updateCurrentCategory } from 'Store/Category';
 import { showNotification } from 'Store/Notification';
 import { updateNoMatch } from 'Store/NoMatch';
 
@@ -29,28 +27,19 @@ export class CategoryDispatcher extends QueryDispatcher {
         super('Category', 86400);
     }
 
-    onSuccess(data, dispatch, options) {
-        const { category } = data;
-
-        const {
-            categoryUrlPath, isSearchPage, categoryIds
-        } = {
-            ...options,
-            ...{ categoryUrlPath: (options.isSearchPage ? 'all-products' : options.categoryUrlPath) }
-        };
-        if (category && !category.url_path && isSearchPage) category.url_path = 'all-products';
-
-        if (category
-            && !this._isCategoryExists(category, categoryUrlPath, categoryIds)
-            && !isSearchPage) dispatch(updateNoMatch(true));
-
-        dispatch(updateCategoryList(category));
-        dispatch(updateCurrentCategory(categoryUrlPath, categoryIds, isSearchPage));
+    onSuccess(data, dispatch, { isSearchPage }) {
+        const { category = {}, category: { id } } = data;
+        if (!id && !isSearchPage) dispatch(updateNoMatch(true));
+        dispatch(updateCurrentCategory(category));
     }
 
-    onError(error, dispatch) {
-        dispatch(showNotification('error', 'Error fetching Category!', error));
-        dispatch(updateNoMatch(true));
+    onError(error, dispatch, { isSearchPage }) {
+        if (!isSearchPage) {
+            dispatch(updateNoMatch(true));
+            dispatch(showNotification('error', 'Error fetching Category!', error));
+        } else {
+            dispatch(updateCurrentCategory({ id: 'all-products' }));
+        }
     }
 
     /**
@@ -62,32 +51,6 @@ export class CategoryDispatcher extends QueryDispatcher {
      */
     prepareRequest(options) {
         return CategoryQuery.getQuery(options);
-    }
-
-    /**
-     * Check if category exists in master category
-     * @param {Object} masterCategory
-     * @param {String} categoryUrlPath current category url path
-     * @return {Boolean}
-     */
-    _isCategoryExists(masterCategory, categoryUrlPath, categoryIds) {
-        const flattendCategories = [];
-
-        const flattenCategory = (category) => {
-            const { children } = category;
-
-            if (children) {
-                children.forEach((element) => {
-                    const { id, url_path } = element;
-                    flattenCategory(element);
-                    flattendCategories.push(categoryUrlPath ? url_path : id);
-                });
-            }
-        };
-
-        flattenCategory(masterCategory);
-
-        return flattendCategories.includes(categoryUrlPath || parseInt(categoryIds, 10));
     }
 }
 
