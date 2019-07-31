@@ -9,15 +9,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-const checkEveryOption = (properties, options) => Object.keys(options)
+const checkEveryOption = (parameters, options) => Object.keys(options)
     .every((param) => {
         if (typeof options[param] === 'string') {
-            return options[param] === properties[param];
+            return options[param] === parameters[param];
         }
 
-        return options[param].includes(properties[param]);
+        return options[param].includes(parameters[param]);
     });
 
 // eslint-disable-next-line import/prefer-default-export
-export const getVariantIndex = (variants, options) => Object.keys(variants)
-    .find(key => checkEveryOption(variants[key].product.properties, options));
+export const getVariantIndex = (variants, options) => +Object.keys(variants)
+    .find(key => checkEveryOption(variants[key].product.parameters, options));

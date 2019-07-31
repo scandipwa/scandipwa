@@ -181,22 +181,18 @@ class ProductPage extends Component {
      * Update query params without adding to history, set configurableVariantIndex
      * @param {Number} variant
      */
-    updateUrl(variant) {
+    // params
+    updateUrl(options) {
+        const { product: { variants } } = this.props;
         const { configurableVariantIndex } = this.state;
+        const newIndex = getVariantIndex(variants, options);
 
-        // if (configurableVariantIndex !== variant) updateQueryParamWithoutHistory('variant', variant);
-
-        if (configurableVariantIndex !== variant) {
-            const { product: { variants } } = this.props;
-            const { parametres } = variants[variant].product;
-            // get from configurable options
-            // size can be shoe_size
-            // updateQueryParamWithoutHistory('color', parseInt(parametres.color, 10));
-            // updateQueryParamWithoutHistory('size', parseInt(parametres.size, 10));
-            updateQueryParamWithoutHistory('variant', variant);
+        if (configurableVariantIndex !== newIndex) {
+            Object.keys(options).forEach((key) => {
+                updateQueryParamWithoutHistory(key, options[key]);
+            });
+            this.setState({ configurableVariantIndex: newIndex });
         }
-
-        return this.setState({ configurableVariantIndex: variant });
     }
 
     render() {
@@ -241,7 +237,7 @@ class ProductPage extends Component {
                               product={ dataSource }
                               configurableVariantIndex={ configurableVariantIndex }
                               areDetailsLoaded={ areDetailsLoaded }
-                              updateConfigurableVariantIndex={ index => this.updateUrl(index) }
+                              updateConfigurableVariantIndex={ options => this.updateUrl(options) }
                             />
                         </div>
                     </ContentWrapper>
