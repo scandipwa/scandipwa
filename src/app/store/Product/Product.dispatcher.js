@@ -26,7 +26,7 @@ export class ProductDispatcher extends QueryDispatcher {
     }
 
     onSuccess(data, dispatch) {
-        const { products: { items, filters, total_count } } = data;
+        const { products: { items, total_count } } = data;
 
         if (!total_count) return dispatch(updateNoMatch(true));
 
@@ -45,7 +45,7 @@ export class ProductDispatcher extends QueryDispatcher {
         }
 
         return (items && items.length > 0)
-            ? dispatch(updateProductDetails(product, filters))
+            ? dispatch(updateProductDetails(product))
             : dispatch(updateNoMatch(true));
     }
 
