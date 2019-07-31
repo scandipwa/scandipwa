@@ -106,18 +106,13 @@ const postFetch = (graphQlURI, query, variables) => fetch(graphQlURI,
     });
 
 /**
- * Check for errors in response, but reject only if data does not exist and error is present.
- * Due query batching it is possible that only one of many queries or resources within query returns error, it is better
- * to log error and return remaining resources rather than fail whole query.
- *
+ * Checks for errors in response, if they exist, rejects promise
  * @param  {Object} res Response from GraphQL endpoint
  * @return {Promise<Object>} Handled GraphqlQL results promise
  */
 const checkForErrors = res => new Promise((resolve, reject) => {
     const { errors, data } = res;
-    // eslint-disable-next-line no-console
-    if (errors) { console.error(errors); }
-    return !data && errors ? reject(errors) : resolve(data);
+    return errors ? reject(errors) : resolve(data);
 });
 
 /**
