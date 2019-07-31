@@ -22,7 +22,8 @@ import ProductActions from 'Component/ProductActions';
 import GroupedProductsList from 'Component/GroupedProductsList';
 import Meta from 'Component/Meta';
 import { ProductType } from 'Type/ProductList';
-import { getUrlParam, getQueryParam, updateQueryParamWithoutHistory } from 'Util/Url';
+import { getUrlParam, convertQueryStringToKeyValuePairs, updateQueryParamWithoutHistory } from 'Util/Url';
+import { getVariantIndex } from 'Util/Product';
 import RelatedProducts from 'Component/RelatedProducts';
 import './ProductPage.style';
 
@@ -77,8 +78,14 @@ class ProductPage extends Component {
 
     static getDerivedStateFromProps(props, state) {
         const { isConfigurationInitilized } = state;
-        const { location } = props;
-        const variantIndex = parseInt(getQueryParam('variant', location) || 0, 10);
+        const { location, product } = props;
+        if (!Object.keys(product).length) return null;
+
+        const variantIndex = parseInt(
+            getVariantIndex(product.variants, convertQueryStringToKeyValuePairs(location.search)),
+            10
+        );
+
         const shouldConfigurableOptionBeInitilized = !isConfigurationInitilized
             && typeof variantIndex === 'number';
 

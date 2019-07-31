@@ -12,15 +12,19 @@
 import {
     getUrlParam,
     getQueryParam,
+    generateQuery,
     setQueryParams,
     clearQueriesFromUrl,
-    updateQueryParamWithoutHistory
+    updateQueryParamWithoutHistory,
+    convertQueryStringToKeyValuePairs
 } from './Url';
 
 export {
     getUrlParam,
     getQueryParam,
+    generateQuery,
     setQueryParams,
     clearQueriesFromUrl,
-    updateQueryParamWithoutHistory
+    updateQueryParamWithoutHistory,
+    convertQueryStringToKeyValuePairs
 };

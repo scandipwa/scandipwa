@@ -19,6 +19,7 @@ import AddToCart from 'Component/AddToCart';
 import ProductWishlistButton from 'Component/ProductWishlistButton';
 import ProductReviewRating from 'Component/ProductReviewRating';
 import { ProductType, FilterType } from 'Type/ProductList';
+import { getVariantIndex } from 'Util/Product';
 import { getReviewText } from 'Util/Review';
 import { getTabIndex } from 'Util/Link';
 import { HashLink } from 'react-router-hash-link';
@@ -54,6 +55,26 @@ class ProductCard extends Component {
         }
 
         return 0;
+    }
+
+    getConfigurableParameters() {
+        const { product: { variants }, customFilters } = this.props;
+        const customFiltersExist = customFilters && Object.keys(customFilters).length;
+
+        if (!(variants && customFiltersExist)) return { index: 0, parameters: {} };
+
+        if (variants && customFiltersExist) {
+            const index = getVariantIndex(variants, customFilters);
+            return {
+                index,
+                parameters: variants[index].parameters
+            };
+        }
+
+        return {
+            index: 0,
+            parameters: variants[0].parameters
+        };
     }
 
     /**
@@ -158,15 +179,15 @@ class ProductCard extends Component {
             mix
         } = this.props;
 
-        const variantIndex = this.getCurrentVariantIndex();
-        const thumbnail = this.getThumbnail(variantIndex);
+        const { index } = this.getConfigurableParameters();
+        const thumbnail = this.getThumbnail(index);
         const TagName = url_key ? Link : 'div';
         const isLoading = !url_key;
         const linkTo = url_key
             ? {
                 pathname: `/product/${ url_key }`,
-                state: { product, variantIndex },
-                search: `?variant=${ variantIndex }`
+                state: { product, variantIndex: index },
+                search: `?variant=${ index }`
             }
             : undefined;
 
@@ -195,7 +216,7 @@ class ProductCard extends Component {
                 { this.renderReviewSummary(linkTo) }
                 <div block="ProductCard" elem="Actions">
                     { price
-                        ? this.addOrConfigureProduct(variantIndex, linkTo)
+                        ? this.addOrConfigureProduct(index, linkTo)
                         : <TextPlaceholder length="medium" />
                     }
                     { price
