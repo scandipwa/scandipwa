@@ -14,6 +14,7 @@ import {
     UPDATE_PRODUCT_LIST_ITEMS,
     UPDATE_LOAD_STATUS
 } from 'Store/ProductList';
+import { getVariantsWithParams } from 'Util/Product';
 
 const initialState = {
     pages: {},
@@ -29,26 +30,17 @@ const ProductListReducer = (state = initialState, action) => {
     } = action;
 
     if (items) {
-        items.forEach((product) => {
-            const { variants, configurable_options } = product;
-            const necessaryOptions = configurable_options.map(({ attribute_code }) => attribute_code);
+        items.forEach((item, i) => {
+            const { variants, configurable_options, type_id } = item;
+
+            if (type_id !== 'configurable') return;
+            const requiredParams = configurable_options.map(({ attribute_code }) => attribute_code);
 
             if (variants) {
-                variants.forEach(({ product: { attributes } }) => {
-                    const params = attributes.reduce((accum, { attribute_code, attribute_value }) => {
-                        if (!necessaryOptions.includes(attribute_code)) return accum;
-
-                        return {
-                            ...accum,
-                            [attribute_code]: attribute_value
-                        };
-                    }, {});
-                    Object.assign(product, { parametres: params });
-                });
+                items[i].variants = getVariantsWithParams(variants, requiredParams);
             }
         });
     }
-    console.log(items);
 
     switch (type) {
     case APPEND_PAGE:

@@ -24,7 +24,6 @@ import { getReviewText } from 'Util/Review';
 import { getTabIndex } from 'Util/Link';
 import { HashLink } from 'react-router-hash-link';
 import './ProductCard.style';
-import { convertKeyValuesToQueryString } from 'Util/Url';
 
 /**
  * Product card
@@ -63,7 +62,7 @@ class ProductCard extends Component {
         const customFiltersExist = customFilters && Object.keys(customFilters).length;
 
 
-        if (!(variants || customFiltersExist)) return { index: 0, parameters: {} };
+        if (!(variants || customFiltersExist)) return { index: 0, parameters: null };
 
         if (variants && customFiltersExist) {
             const index = getVariantIndex(variants, customFilters);
@@ -77,6 +76,26 @@ class ProductCard extends Component {
             index: 0,
             parameters: variants[0].product.parameters
         };
+    }
+
+    getLinkTo(parameters) {
+        const {
+            product: {
+                url_key
+            },
+            product,
+            getProductUrlSearch
+        } = this.props;
+
+        const search = parameters && getProductUrlSearch(parameters);
+
+        return url_key
+            ? {
+                pathname: `/product/${ url_key }`,
+                state: { product, ...parameters },
+                search
+            }
+            : undefined;
     }
 
     /**
@@ -185,16 +204,7 @@ class ProductCard extends Component {
         const thumbnail = this.getThumbnail(index);
         const TagName = url_key ? Link : 'div';
         const isLoading = !url_key;
-        // console.log(parameters);
-        // const search = convertKeyValuesToQueryString(parameters);
-        // console.log(search);
-        const linkTo = url_key
-            ? {
-                pathname: `/product/${ url_key }`,
-                state: { product, ...parameters },
-                search: `?variant=${ index }`
-            }
-            : undefined;
+        const linkTo = this.getLinkTo(parameters);
 
         const { price } = type_id === 'configurable' && variants
             ? variants[this.getCurrentVariantIndex()].product
@@ -248,14 +258,16 @@ ProductCard.propTypes = {
     mix: PropTypes.shape({
         block: PropTypes.string,
         elem: PropTypes.string
-    })
+    }),
+    getProductUrlSearch: PropTypes.func
 };
 
 ProductCard.defaultProps = {
     customFilters: {},
     arePlaceholdersShown: false,
     wishlistItem: false,
-    mix: {}
+    mix: {},
+    getProductUrlSearch: () => ({ index: 0, parameters: null })
 };
 
 export default ProductCard;

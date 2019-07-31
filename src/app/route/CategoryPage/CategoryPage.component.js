@@ -21,7 +21,7 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import CategoryShoppingOptions from 'Component/CategoryShoppingOptions';
 import Meta from 'Component/Meta';
 import {
-    getUrlParam, getQueryParam, setQueryParams, clearQueriesFromUrl, convertQueryStringToKeyValuePairs
+    getUrlParam, getQueryParam, setQueryParams, clearQueriesFromUrl, convertQueryStringToKeyValuePairs, generateQuery
 } from 'Util/Url';
 import { CategoryTreeType } from 'Type/Category';
 import { PagesType } from 'Type/ProductList';
@@ -34,6 +34,7 @@ class CategoryPage extends Component {
         this.updatePage = this.updatePage.bind(this);
         this.requestPage = this.requestPage.bind(this);
         this.requestNextPage = this.requestNextPage.bind(this);
+        this.getProductUrlSearch = this.getProductUrlSearch.bind(this);
 
         this.state = {
             sortKey: 'name',
@@ -171,6 +172,11 @@ class CategoryPage extends Component {
     getSearchParam() {
         const search = getQueryParam('search', location);
         return search ? decodeURIComponent(search) : '';
+    }
+
+    getProductUrlSearch(options) {
+        const { location, history } = this.props;
+        return generateQuery(options, location, history);
     }
 
     /**
@@ -558,6 +564,7 @@ class CategoryPage extends Component {
                       customFilters={ customFilters }
                       loadPage={ this.requestNextPage }
                       updatePage={ this.updatePage }
+                      getProductUrlSearch={ this.getProductUrlSearch }
                     />
                     { !isInfoLoading && (
                         <CategoryPagination

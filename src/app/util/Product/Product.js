@@ -18,6 +18,29 @@ const checkEveryOption = (parameters, options) => Object.keys(options)
         return options[param].includes(parameters[param]);
     });
 
-// eslint-disable-next-line import/prefer-default-export
+const getVariantWithParams = (variant, requiredParameters) => {
+    const { product, product: { attributes } } = variant;
+
+    const parameters = attributes.reduce((accum, { attribute_code, attribute_value }) => {
+        if (!requiredParameters.includes(attribute_code)) return accum;
+
+        return {
+            ...accum,
+            [attribute_code]: attribute_value
+        };
+    }, {});
+
+    return {
+        ...variant,
+        product: {
+            ...product,
+            parameters
+        }
+    };
+};
+
 export const getVariantIndex = (variants, options) => +Object.keys(variants)
     .find(key => checkEveryOption(variants[key].product.parameters, options));
+
+export const getVariantsWithParams = (variants, requiredParameters) => variants
+    .map(variant => getVariantWithParams(variant, requiredParameters));

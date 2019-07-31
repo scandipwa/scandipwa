@@ -22,7 +22,7 @@ import { RelatedProductsDispatcher } from 'Store/RelatedProducts';
  */
 export class ProductDispatcher extends QueryDispatcher {
     constructor() {
-        super('ProductList', 86400);
+        super('Product', 86400);
     }
 
     onSuccess(data, dispatch) {
@@ -49,7 +49,7 @@ export class ProductDispatcher extends QueryDispatcher {
             : dispatch(updateNoMatch(true));
     }
 
-    onError(error, dispatch) {
+    onError(_, dispatch) {
         dispatch(updateNoMatch(true));
     }
 

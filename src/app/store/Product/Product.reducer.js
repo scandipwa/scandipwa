@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { getVariantsWithParams } from 'Util/Product';
 import {
     UPDATE_PRODUCT_DETAILS,
     UPDATE_GROUPED_PRODUCT_QUANTITY,
@@ -25,20 +26,10 @@ const ProductReducer = (state = initialState, action) => {
     case UPDATE_PRODUCT_DETAILS:
         const { product, product: { variants, configurable_options } } = action;
 
-        const necessaryOptions = configurable_options.map(({ attribute_code }) => attribute_code);
+        const requiredParams = configurable_options.map(({ attribute_code }) => attribute_code);
 
         if (variants) {
-            variants.forEach(({ product: variant, product: { attributes } }) => {
-                const params = attributes.reduce((accum, { attribute_code, attribute_value }) => {
-                    if (!necessaryOptions.includes(attribute_code)) return accum;
-
-                    return {
-                        ...accum,
-                        [attribute_code]: attribute_value
-                    };
-                }, {});
-                Object.assign(variant, { parameters: params });
-            });
+            product.variants = getVariantsWithParams(variants, requiredParams);
         }
 
         return {

@@ -22,7 +22,7 @@ import ProductActions from 'Component/ProductActions';
 import GroupedProductsList from 'Component/GroupedProductsList';
 import Meta from 'Component/Meta';
 import { ProductType } from 'Type/ProductList';
-import { getUrlParam, convertQueryStringToKeyValuePairs, updateQueryParamWithoutHistory } from 'Util/Url';
+import { getUrlParam, convertQueryStringToKeyValuePairs, setQueryParams } from 'Util/Url';
 import { getVariantIndex } from 'Util/Product';
 import RelatedProducts from 'Component/RelatedProducts';
 import './ProductPage.style';
@@ -179,18 +179,15 @@ class ProductPage extends Component {
 
     /**
      * Update query params without adding to history, set configurableVariantIndex
-     * @param {Number} variant
+     * @param {Object} options
      */
-    // params
     updateUrl(options) {
-        const { product: { variants } } = this.props;
+        const { product: { variants }, location, history } = this.props;
         const { configurableVariantIndex } = this.state;
         const newIndex = getVariantIndex(variants, options);
 
         if (configurableVariantIndex !== newIndex) {
-            Object.keys(options).forEach((key) => {
-                updateQueryParamWithoutHistory(key, options[key]);
-            });
+            setQueryParams(options, location, history);
             this.setState({ configurableVariantIndex: newIndex });
         }
     }
@@ -271,6 +268,10 @@ ProductPage.propTypes = {
             product: ProductType
         })
     }),
+    history: PropTypes.shape({
+        location: PropTypes.object.isRequired,
+        push: PropTypes.func.isRequired
+    }).isRequired,
     match: PropTypes.shape({
         path: PropTypes.string.isRequired
     }).isRequired,
