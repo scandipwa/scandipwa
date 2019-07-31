@@ -14,13 +14,12 @@ import { SearchBarDispatcher } from 'Store/SearchBar';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import { ProductListDispatcher, updateLoadStatus as updateProductLoadStatus } from 'Store/ProductList';
 import { ProductListInfoDispatcher, updateInfoLoadStatus } from 'Store/ProductListInfo';
-import { CategoryDispatcher, updateCurrentCategory } from 'Store/Category';
+import { CategoryDispatcher } from 'Store/Category';
 import SearchPage from './SearchPage.component';
 
 const mapStateToProps = state => ({
     isSearchPage: true,
     category: state.CategoryReducer.category,
-    categoryList: state.CategoryReducer.categoryList,
     pages: state.ProductListReducer.pages,
     isPagesLoading: state.ProductListReducer.isLoading,
     filters: state.ProductListInfoReducer.filters,
@@ -43,10 +42,6 @@ const mapDispatchToProps = dispatch => ({
 
     requestProductListInfo: (options) => {
         ProductListInfoDispatcher.handleData(dispatch, options);
-    },
-
-    updateCurrentCategory: (categoryUrlPath, categoryIds, isSearchPage) => {
-        dispatch(updateCurrentCategory(categoryUrlPath, categoryIds, isSearchPage));
     },
 
     updateLoadStatus: (options) => {

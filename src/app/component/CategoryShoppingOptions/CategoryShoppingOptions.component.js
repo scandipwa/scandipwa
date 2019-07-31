@@ -44,26 +44,6 @@ class CategoryShoppingOptions extends Component {
     }
 
     /**
-     * Check if any filter is selected to show Clear all button
-     * @return {Boolean}
-     */
-    isClearButtonShown() {
-        const {
-            customFiltersValues,
-            sortKey,
-            sortDirection,
-            searchValue,
-            priceValue,
-            minPriceValue,
-            maxPriceValue
-        } = this.props;
-
-        const isPriceCustom = priceValue.min !== minPriceValue || priceValue.max !== maxPriceValue;
-        return Object.keys(customFiltersValues).length > 0
-            || searchValue || isPriceCustom || !(sortKey || sortDirection);
-    }
-
-    /**
      * Update filter when new filter is selected
      * @return {Boolean}
      */
@@ -169,19 +149,17 @@ class CategoryShoppingOptions extends Component {
     renderClearFiltersButton() {
         const { clearFilters } = this.props;
 
-        if (window.location.search && this.isClearButtonShown()) { // ok to use window object for simple check...?
-            return (
-                <button
-                  block="CategoryShoppingOptions"
-                  elem="ClearButton"
-                  onClick={ () => clearFilters() }
-                >
-                    { __('Clear Filters') }
-                </button>
-            );
-        }
+        if (!window.location.search) return null; // bad, that we are showing this on page
 
-        return null;
+        return (
+            <button
+              block="CategoryShoppingOptions"
+              elem="ClearButton"
+              onClick={ () => clearFilters() }
+            >
+                { __('Clear Filters') }
+            </button>
+        );
     }
 
     renderPlaceholderSwatch(amountOfSwathces) {

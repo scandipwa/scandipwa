@@ -10,7 +10,7 @@
  */
 
 import { connect } from 'react-redux';
-import { CategoryDispatcher, updateCurrentCategory } from 'Store/Category';
+import { CategoryDispatcher } from 'Store/Category';
 import { ProductListDispatcher, updateLoadStatus as updateProductLoadStatus } from 'Store/ProductList';
 import { ProductListInfoDispatcher, updateInfoLoadStatus } from 'Store/ProductListInfo';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
@@ -18,7 +18,6 @@ import CategoryPage from './CategoryPage.component';
 
 const mapStateToProps = state => ({
     category: state.CategoryReducer.category,
-    categoryList: state.CategoryReducer.categoryList,
     pages: state.ProductListReducer.pages,
     isPagesLoading: state.ProductListReducer.isLoading,
     filters: state.ProductListInfoReducer.filters,
@@ -40,10 +39,6 @@ const mapDispatchToProps = dispatch => ({
 
     requestProductListInfo: (options) => {
         ProductListInfoDispatcher.handleData(dispatch, options);
-    },
-
-    updateCurrentCategory: (categoryUrlPath, categoryIds, isSearchPage) => {
-        dispatch(updateCurrentCategory(categoryUrlPath, categoryIds, isSearchPage));
     },
 
     updateLoadStatus: (options) => {
