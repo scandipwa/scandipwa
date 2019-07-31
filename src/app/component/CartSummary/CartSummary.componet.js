@@ -20,11 +20,6 @@ import './CartSummary.style';
  * @class CartSummary
  */
 class CartSummary extends Component {
-    calculateDiscount(sum, { qty, product: { price: { regularPrice, minimalPrice } } }) {
-        // eslint-disable-next-line no-param-reassign, no-return-assign
-        return sum += qty * (regularPrice.amount.value - minimalPrice.amount.value);
-    }
-
     renderPriceLine(price, name, mods) {
         const { totals: { base_currency_code } } = this.props;
         const priceString = formatCurrency(price ? parseFloat(price).toFixed(2) : 0, base_currency_code);
@@ -48,14 +43,11 @@ class CartSummary extends Component {
         // eslint-disable-next-line no-param-reassign, no-return-assign
         const itemsTax = items ? items.reduce((sum, { tax_amount }) => sum += tax_amount, tax_amount) : 0;
 
-        const discount = items ? items.reduce(this.calculateDiscount, 0) : 0;
-
         return (
             <div block="CartSummary" aria-label="Cart Summary">
                 <h3>{ __('Summary') }</h3>
                 <ul>
                     { this.renderPriceLine(subtotal, __('Subtotal')) }
-                    { this.renderPriceLine(discount, __('Discount')) }
                     { this.renderPriceLine(itemsTax, __('Tax'), { divider: true }) }
                     { shipping_amount && this.renderPriceLine(shipping_amount, __('Shipping'), { divider: true }) }
                     { this.renderPriceLine(grand_total, __('Order Total')) }
