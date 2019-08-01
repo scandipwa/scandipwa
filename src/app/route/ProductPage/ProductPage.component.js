@@ -33,8 +33,7 @@ class ProductPage extends Component {
 
         this.state = {
             configurableVariantIndex: 0,
-            parameters: {},
-            previousPath: ''
+            id: 0
         };
     }
 
@@ -45,8 +44,8 @@ class ProductPage extends Component {
     }
 
     static getDerivedStateFromProps(props, state) {
-        const { product: { variants, configurable_options }, location: { search } } = props;
-        const { parameters: prevParams } = state;
+        const { product: { variants, configurable_options, id }, location: { search } } = props;
+        const { id: stateId } = state;
 
         if (!(configurable_options && variants)) return null;
 
@@ -58,18 +57,9 @@ class ProductPage extends Component {
                 return acc;
             }, {});
 
-        const didParametersChange = (param1, param2) => {
-            const sortParameters = parameters => Object.keys(parameters).sort().reduce((acc, key) => ({
-                ...acc,
-                [key]: parameters[key]
-            }), {});
-
-            return JSON.stringify(sortParameters(param1)) !== JSON.stringify(sortParameters(param2));
-        };
-
-        if (didParametersChange(parameters, prevParams)) {
+        if (id !== stateId) {
             const configurableVariantIndex = getVariantIndex(variants, parameters);
-            return { configurableVariantIndex, parameters };
+            return { configurableVariantIndex, id };
         }
 
         return null;
@@ -189,7 +179,6 @@ class ProductPage extends Component {
             ? this.getConfigurableVariantMediaLibrary()
             : media_gallery_entries;
 
-        console.log(dataSource, product);
         return (
             <>
                 <Meta metaObject={ dataSource } />
