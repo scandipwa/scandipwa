@@ -33,8 +33,8 @@ class ProductPage extends Component {
 
         this.state = {
             configurableVariantIndex: 0,
-            // eslint-disable-next-line react/no-unused-state
-            isConfigurationInitilized: false
+            parameters: {},
+            previousPath: ''
         };
     }
 
@@ -44,27 +44,41 @@ class ProductPage extends Component {
         this.updateBreadcrumbs();
     }
 
-    /**
-     * Get selected configurable product variant
-     * @param {Object} props
-     * @return {Number} variant index
-     */
-    static getVariantIndexFromProps(props) {
-        const { location: { state: locationState } } = props;
+    static getDerivedStateFromProps(props, state) {
+        const { product: { variants, configurable_options }, location: { search } } = props;
+        const { parameters: prevParams } = state;
 
-        return (locationState && Object.hasOwnProperty.call(locationState, 'variantIndex'))
-            ? locationState.variantIndex
-            : null;
+        if (!(configurable_options && variants)) return null;
+
+        const parameters = Object.entries(convertQueryStringToKeyValuePairs(search))
+            .reduce((acc, [key, value]) => {
+                if (configurable_options.find(({ attribute_code }) => attribute_code === key)) {
+                    return { ...acc, [key]: value };
+                }
+                return acc;
+            }, {});
+
+        const didParametersChange = (param1, param2) => {
+            const sortParameters = parameters => Object.keys(parameters).sort().reduce((acc, key) => ({
+                ...acc,
+                [key]: parameters[key]
+            }), {});
+
+            return JSON.stringify(sortParameters(param1)) !== JSON.stringify(sortParameters(param2));
+        };
+
+        if (didParametersChange(parameters, prevParams)) {
+            const configurableVariantIndex = getVariantIndex(variants, parameters);
+            return { configurableVariantIndex, parameters };
+        }
+
+        return null;
     }
 
     componentDidUpdate(prevProps) {
         const { location } = this.props;
 
-        if (location !== prevProps.location) this.requestProduct();
-        if (this.variantIndexInPropsChanged(this.props, prevProps)) {
-            // eslint-disable-next-line react/no-did-update-set-state
-            this.setState({ isConfigurationInitilized: false });
-        }
+        if (location.pathname !== prevProps.location.pathname) this.requestProduct();
         this.updateBreadcrumbs();
     }
 
@@ -72,27 +86,6 @@ class ProductPage extends Component {
         const { product: { type_id }, clearGroupedProductQuantity } = this.props;
 
         if (type_id === 'grouped') return clearGroupedProductQuantity();
-
-        return null;
-    }
-
-    static getDerivedStateFromProps(props, state) {
-        const { isConfigurationInitilized } = state;
-        const { location: { search }, product } = props;
-        if (!Object.keys(product).length) return null;
-
-        const searchObject = convertQueryStringToKeyValuePairs(search);
-        const shouldConfigurableOptionBeInitilized = !isConfigurationInitilized
-            && Object.keys(searchObject).length > 0
-            && search.length > 0;
-
-        if (shouldConfigurableOptionBeInitilized) {
-            const variantIndex = getVariantIndex(product.variants, searchObject);
-            return {
-                configurableVariantIndex: variantIndex,
-                isConfigurationInitilized: true
-            };
-        }
 
         return null;
     }
@@ -139,16 +132,6 @@ class ProductPage extends Component {
     }
 
     /**
-     * Check if product varian has changed
-     * @param {Object} props
-     * @param {Object} prevProps
-     * @return {Boolean}
-     */
-    variantIndexInPropsChanged(props, prevProps) {
-        return ProductPage.getVariantIndexFromProps(props) !== ProductPage.getVariantIndexFromProps(prevProps);
-    }
-
-    /**
      * Dispatch product data request
      * @return {void}
      */
@@ -160,7 +143,6 @@ class ProductPage extends Component {
             getConfigurableData: true
         };
 
-        this.setState({ isConfigurationInitilized: false });
         requestProduct(options);
     }
 
@@ -207,6 +189,7 @@ class ProductPage extends Component {
             ? this.getConfigurableVariantMediaLibrary()
             : media_gallery_entries;
 
+        console.log(dataSource, product);
         return (
             <>
                 <Meta metaObject={ dataSource } />

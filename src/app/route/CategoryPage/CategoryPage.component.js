@@ -104,7 +104,10 @@ class CategoryPage extends Component {
 
         const totalPages = Math.ceil(totalItems / pageSize);
         const currentPage = parseInt(totalPages < pageFromUrl ? totalPages : pageFromUrl, 10);
-        const productsLoaded = pages.length ? Object.values(pages).reduce((accumulator, page) => accumulator + page.length, 0) : 0;
+
+        const pagesValues = Object.values(pages);
+        const productsLoaded = pagesValues.length
+            ? pagesValues.reduce((accumulator, page) => accumulator + page.length, 0) : 0;
 
         return { totalPages, currentPage, productsLoaded };
     }

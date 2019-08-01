@@ -62,20 +62,23 @@ class ProductCard extends Component {
         const customFiltersExist = customFilters && Object.keys(customFilters).length;
 
 
-        if (!(variants || customFiltersExist)) return { index: 0, parameters: null };
-
         if (variants && customFiltersExist) {
             const index = getVariantIndex(variants, customFilters);
+
+            if (!Number.isNaN(index)) {
+                return {
+                    index,
+                    parameters: variants[index].product.parameters
+                };
+            }
+        } else if (variants) {
             return {
-                index,
-                parameters: variants[index].product.parameters
+                index: 0,
+                parameters: variants[0].product.parameters
             };
         }
 
-        return {
-            index: 0,
-            parameters: variants[0].product.parameters
-        };
+        return { index: 0, parameters: null };
     }
 
     getProductUrlSearch(parameters) {
@@ -99,7 +102,7 @@ class ProductCard extends Component {
         return url_key
             ? {
                 pathname: `/product/${ url_key }`,
-                state: { product, ...parameters },
+                state: { product, parameters },
                 search
             }
             : undefined;
