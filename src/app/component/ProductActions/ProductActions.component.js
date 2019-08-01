@@ -106,21 +106,8 @@ class ProductActions extends Component {
      * @return {void}
      */
     changeConfigurableVariant(attributeCode, value) {
-        const {
-            product: { variants },
-            updateConfigurableVariantIndex,
-            configurableVariantIndex
-        } = this.props;
-
-        const {
-            product: currentConfigurableVariant
-        } = variants[configurableVariantIndex];
-
-        const currentVariant = {
-            ...currentConfigurableVariant,
-            parameters: { ...currentConfigurableVariant.parameters, [attributeCode]: value.toString() }
-        };
-        updateConfigurableVariantIndex(currentVariant.parameters);
+        const { updateConfigurableVariant } = this.props;
+        updateConfigurableVariant({ [attributeCode]: `${value}` });
     }
 
     /**
@@ -142,7 +129,8 @@ class ProductActions extends Component {
         const { itemCount } = this.state;
         const isConfigurable = type_id === 'configurable';
 
-        const { price } = isConfigurable && variants ? variants[configurableVariantIndex].product : product;
+        const { price } = isConfigurable && variants[configurableVariantIndex]
+            ? variants[configurableVariantIndex].product : product;
 
         return (
             <>
@@ -282,7 +270,8 @@ class ProductActions extends Component {
             if (attributes.length) {
                 return attributes.map((attribute) => {
                     const { attribute_code } = attribute;
-                    if (product.parameters[attribute_code]) {
+                    const { parameters } = product;
+                    if (parameters && parameters[attribute_code]) {
                         return renderSwatch(attribute);
                     }
 
@@ -339,7 +328,7 @@ class ProductActions extends Component {
 ProductActions.propTypes = {
     product: ProductType.isRequired,
     configurableVariantIndex: PropTypes.number.isRequired,
-    updateConfigurableVariantIndex: PropTypes.func.isRequired,
+    updateConfigurableVariant: PropTypes.func.isRequired,
     groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired,
     areDetailsLoaded: PropTypes.bool.isRequired
 };

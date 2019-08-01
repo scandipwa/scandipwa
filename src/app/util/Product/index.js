@@ -9,7 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { getVariantIndex } from './Product';
-
-// eslint-disable-next-line import/prefer-default-export
-export { getVariantIndex };
+export * from './Product';

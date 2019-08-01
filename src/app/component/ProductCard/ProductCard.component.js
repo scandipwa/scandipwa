@@ -61,20 +61,48 @@ class ProductCard extends Component {
         const { product: { variants }, customFilters } = this.props;
         const customFiltersExist = customFilters && Object.keys(customFilters).length;
 
-        if (!(variants && customFiltersExist)) return { index: 0, parameters: {} };
+
+        if (!(variants || customFiltersExist)) return { index: 0, parameters: null };
 
         if (variants && customFiltersExist) {
             const index = getVariantIndex(variants, customFilters);
             return {
                 index,
-                parameters: variants[index].parameters
+                parameters: variants[index].product.parameters
             };
         }
 
         return {
             index: 0,
-            parameters: variants[0].parameters
+            parameters: variants[0].product.parameters
         };
+    }
+
+    getProductUrlSearch(parameters) {
+        const paramString = Object.keys(parameters).sort()
+            .reduce((acc, key) => `${ acc }${ key }=${ parameters[key] }&`, '')
+            .slice(0, -1); // remove trailing '&'
+
+        return `?${ paramString }`;
+    }
+
+    getLinkTo(parameters) {
+        const {
+            product: {
+                url_key
+            },
+            product
+        } = this.props;
+
+        const search = parameters && this.getProductUrlSearch(parameters);
+
+        return url_key
+            ? {
+                pathname: `/product/${ url_key }`,
+                state: { product, ...parameters },
+                search
+            }
+            : undefined;
     }
 
     /**
@@ -179,17 +207,11 @@ class ProductCard extends Component {
             mix
         } = this.props;
 
-        const { index } = this.getConfigurableParameters();
+        const { index, parameters } = this.getConfigurableParameters();
         const thumbnail = this.getThumbnail(index);
         const TagName = url_key ? Link : 'div';
         const isLoading = !url_key;
-        const linkTo = url_key
-            ? {
-                pathname: `/product/${ url_key }`,
-                state: { product, variantIndex: index },
-                search: `?variant=${ index }`
-            }
-            : undefined;
+        const linkTo = this.getLinkTo(parameters);
 
         const { price } = type_id === 'configurable' && variants
             ? variants[this.getCurrentVariantIndex()].product

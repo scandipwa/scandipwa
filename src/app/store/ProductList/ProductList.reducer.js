@@ -14,6 +14,7 @@ import {
     UPDATE_PRODUCT_LIST_ITEMS,
     UPDATE_LOAD_STATUS
 } from 'Store/ProductList';
+import { getVariantsWithParams } from 'Util/Product';
 
 const initialState = {
     pages: {},
@@ -29,22 +30,19 @@ const ProductListReducer = (state = initialState, action) => {
     } = action;
 
     if (items) {
-        items.forEach(({ attributes, variants }, i) => {
-            attributes.forEach(({ attribute_code, attribute_value }) => {
-                items[i][attribute_code] = attribute_value;
-            });
+        items.forEach(({
+            variants, configurable_options, type_id, attributes
+        }, i) => {
+            const brandAttribute = attributes.find(({ attribute_code }) => attribute_code === 'brand');
+            if (brandAttribute) items[i].brand = brandAttribute.attribute_value;
 
-            if (variants) {
-                variants.forEach(({ product: { attributes } }, j) => {
-                    if (attributes) {
-                        attributes.forEach(({ attribute_code, attribute_value }) => {
-                            items[i].variants[j].product[attribute_code] = attribute_value;
-                        });
-                    }
-                });
+            if (type_id === 'configurable' && variants) {
+                const requiredParams = configurable_options.map(({ attribute_code }) => attribute_code);
+                items[i].variants = getVariantsWithParams(variants, requiredParams);
             }
         });
     }
+
 
     switch (type) {
     case APPEND_PAGE:

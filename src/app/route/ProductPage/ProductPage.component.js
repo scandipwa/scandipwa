@@ -22,7 +22,7 @@ import ProductActions from 'Component/ProductActions';
 import GroupedProductsList from 'Component/GroupedProductsList';
 import Meta from 'Component/Meta';
 import { ProductType } from 'Type/ProductList';
-import { getUrlParam, convertQueryStringToKeyValuePairs, updateQueryParamWithoutHistory } from 'Util/Url';
+import { getUrlParam, convertQueryStringToKeyValuePairs, setQueryParams } from 'Util/Url';
 import { getVariantIndex } from 'Util/Product';
 import RelatedProducts from 'Component/RelatedProducts';
 import './ProductPage.style';
@@ -78,18 +78,16 @@ class ProductPage extends Component {
 
     static getDerivedStateFromProps(props, state) {
         const { isConfigurationInitilized } = state;
-        const { location, product } = props;
+        const { location: { search }, product } = props;
         if (!Object.keys(product).length) return null;
 
-        const variantIndex = parseInt(
-            getVariantIndex(product.variants, convertQueryStringToKeyValuePairs(location.search)),
-            10
-        );
-
+        const searchObject = convertQueryStringToKeyValuePairs(search);
         const shouldConfigurableOptionBeInitilized = !isConfigurationInitilized
-            && typeof variantIndex === 'number';
+            && Object.keys(searchObject).length > 0
+            && search.length > 0;
 
         if (shouldConfigurableOptionBeInitilized) {
+            const variantIndex = getVariantIndex(product.variants, searchObject);
             return {
                 configurableVariantIndex: variantIndex,
                 isConfigurationInitilized: true
@@ -179,18 +177,21 @@ class ProductPage extends Component {
 
     /**
      * Update query params without adding to history, set configurableVariantIndex
-     * @param {Number} variant
+     * @param {Object} options
      */
-    // params
     updateUrl(options) {
-        const { product: { variants } } = this.props;
+        const { product: { variants }, location, history } = this.props;
         const { configurableVariantIndex } = this.state;
-        const newIndex = getVariantIndex(variants, options);
+        const { product: { parameters } } = variants[configurableVariantIndex];
+
+        const newParams = {
+            ...parameters,
+            ...options
+        };
+        const newIndex = getVariantIndex(variants, newParams);
 
         if (configurableVariantIndex !== newIndex) {
-            Object.keys(options).forEach((key) => {
-                updateQueryParamWithoutHistory(key, options[key]);
-            });
+            setQueryParams(options, location, history);
             this.setState({ configurableVariantIndex: newIndex });
         }
     }
@@ -237,7 +238,7 @@ class ProductPage extends Component {
                               product={ dataSource }
                               configurableVariantIndex={ configurableVariantIndex }
                               areDetailsLoaded={ areDetailsLoaded }
-                              updateConfigurableVariantIndex={ options => this.updateUrl(options) }
+                              updateConfigurableVariant={ options => this.updateUrl(options) }
                             />
                         </div>
                     </ContentWrapper>
@@ -271,6 +272,10 @@ ProductPage.propTypes = {
             product: ProductType
         })
     }),
+    history: PropTypes.shape({
+        location: PropTypes.object.isRequired,
+        push: PropTypes.func.isRequired
+    }).isRequired,
     match: PropTypes.shape({
         path: PropTypes.string.isRequired
     }).isRequired,
