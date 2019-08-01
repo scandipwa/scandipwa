@@ -107,7 +107,7 @@ class ProductActions extends Component {
      */
     changeConfigurableVariant(attributeCode, value) {
         const { updateConfigurableVariant } = this.props;
-        updateConfigurableVariant({ [attributeCode]: value });
+        updateConfigurableVariant({ [attributeCode]: `${value}` });
     }
 
     /**
@@ -129,7 +129,8 @@ class ProductActions extends Component {
         const { itemCount } = this.state;
         const isConfigurable = type_id === 'configurable';
 
-        const { price } = isConfigurable && variants ? variants[configurableVariantIndex].product : product;
+        const { price } = isConfigurable && variants[configurableVariantIndex]
+            ? variants[configurableVariantIndex].product : product;
 
         return (
             <>
@@ -269,8 +270,8 @@ class ProductActions extends Component {
             if (attributes.length) {
                 return attributes.map((attribute) => {
                     const { attribute_code } = attribute;
-                    console.log(product.parameters);
-                    if (product.parameters[attribute_code]) {
+                    const { parameters } = product;
+                    if (parameters && parameters[attribute_code]) {
                         return renderSwatch(attribute);
                     }
 

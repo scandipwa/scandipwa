@@ -36,14 +36,13 @@ const ProductListReducer = (state = initialState, action) => {
             const brandAttribute = attributes.find(({ attribute_code }) => attribute_code === 'brand');
             if (brandAttribute) items[i].brand = brandAttribute.attribute_value;
 
-            if (type_id !== 'configurable') return;
-            const requiredParams = configurable_options.map(({ attribute_code }) => attribute_code);
-
-            if (variants) {
+            if (type_id === 'configurable' && variants) {
+                const requiredParams = configurable_options.map(({ attribute_code }) => attribute_code);
                 items[i].variants = getVariantsWithParams(variants, requiredParams);
             }
         });
     }
+
 
     switch (type) {
     case APPEND_PAGE:

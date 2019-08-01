@@ -19,13 +19,13 @@ import { showNotification } from 'Store/Notification';
 import { updateNoMatch } from 'Store/NoMatch';
 
 /**
- * Product List Dispatcher
- * @class ProductListDispatcher
+ * Product List Info Dispatcher
+ * @class ProductListInfoDispatcher
  * @extends QueryDispatcher
  */
 export class ProductListInfoDispatcher extends QueryDispatcher {
     constructor() {
-        super('ProductList', 86400);
+        super('ProductListInfo', 86400);
     }
 
     onSuccess(data, dispatch) {
