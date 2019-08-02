@@ -23,17 +23,8 @@ const initialState = {
 const RelatedProductsReducer = (state = initialState, action) => {
     switch (action.type) {
     case UPDATE_RELATED_PRODUCTS:
-        const { relatedProducts: { products } } = action;
-        
-        if (products.items) {
-            products.items.forEach(({ attributes }, i) => {
-                attributes.forEach(({ attribute_code, attribute_value }) => {
-                    products.items[i][attribute_code] = attribute_value;
-                });
-            });
-        }
+        const { relatedProducts: { products, products: { items } } } = action;
 
-        const { items } = products;
         if (items) {
             items.forEach(({
                 variants, configurable_options, type_id, attributes
