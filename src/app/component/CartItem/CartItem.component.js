@@ -18,6 +18,7 @@ import ProductPrice from 'Component/ProductPrice';
 import Field from 'Component/Field';
 import Loader from 'Component/Loader';
 import { ProductType } from 'Type/ProductList';
+import { convertKeyValueObjectToQueryString } from 'Util/Url';
 import './CartItem.style';
 
 /**
@@ -40,14 +41,13 @@ class CartItem extends Component {
      */
     getProductLinkTo(url_key) {
         if (!url_key) return undefined;
-
-        const { product: { configurableVariantIndex, parent }, product } = this.props;
+        const { product: { configurableVariantIndex, parent }, product, product: { variants } } = this.props;
         const variantIndex = configurableVariantIndex || 0;
-
+        const { parameters } = variants[variantIndex].product;
         return {
             pathname: `/product/${ url_key }`,
             state: { product: parent || product, variantIndex },
-            search: `?variant=${ variantIndex }`
+            search: convertKeyValueObjectToQueryString(parameters)
         };
     }
 

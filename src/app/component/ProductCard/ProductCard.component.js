@@ -23,6 +23,7 @@ import { getVariantIndex } from 'Util/Product';
 import { getReviewText } from 'Util/Review';
 import { getTabIndex } from 'Util/Link';
 import { HashLink } from 'react-router-hash-link';
+import { convertKeyValueObjectToQueryString } from 'Util/Url';
 import './ProductCard.style';
 
 /**
@@ -81,14 +82,6 @@ class ProductCard extends Component {
         return { index: 0, parameters: null };
     }
 
-    getProductUrlSearch(parameters) {
-        const paramString = Object.keys(parameters).sort()
-            .reduce((acc, key) => `${ acc }${ key }=${ parameters[key] }&`, '')
-            .slice(0, -1); // remove trailing '&'
-
-        return `?${ paramString }`;
-    }
-
     getLinkTo(parameters) {
         const {
             product: {
@@ -97,7 +90,7 @@ class ProductCard extends Component {
             product
         } = this.props;
 
-        const search = parameters && this.getProductUrlSearch(parameters);
+        const search = parameters && convertKeyValueObjectToQueryString(parameters);
 
         return url_key
             ? {

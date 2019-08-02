@@ -10,6 +10,7 @@
  */
 
 import BrowserDatabase from 'Util/BrowserDatabase';
+import { generateParameters } from 'Util/Product';
 import {
     UPDATE_TOTALS,
     UPDATE_ALL_PRODUCTS_IN_CART
@@ -32,8 +33,23 @@ const updateCartTotals = (action) => {
 const updateAllProductsInCart = (action) => {
     const { products } = action;
 
+    const parameteredProducts = Object.keys(products).reduce((accum, key) => {
+        const currentItem = products[key];
+        const { variants, configurable_options, configurableVariantIndex } = currentItem;
+        const selectedVariant = variants[configurableVariantIndex].product;
+        const parameters = generateParameters(selectedVariant.attributes, configurable_options);
+
+        Object.assign(selectedVariant, { parameters });
+        return {
+            ...accum,
+            [key]: {
+                ...currentItem
+            }
+        };
+    }, {});
+
     BrowserDatabase.setItem(
-        products,
+        parameteredProducts,
         PRODUCTS_IN_CART
     );
 
