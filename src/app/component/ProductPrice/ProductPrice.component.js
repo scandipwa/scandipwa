@@ -26,7 +26,7 @@ class ProductPrice extends Component {
      * @param {Number} reg regular price
      * @return {Nmber} discount percentage
      */
-    calculateDiscountPercentage(min, reg) {
+    static calculateDiscountPercentage(min, reg) {
         return Math.floor(Math.round((1 - min / reg) * 100));
     }
 
@@ -35,18 +35,18 @@ class ProductPrice extends Component {
      * @param {Number} discount discount percentage
      * @param {Number} min minimum price
      * @param {Number} reg regular price
-     * @return {Nmber} final price
+     * @return {Number} final price
      */
-    calculateFinalPrice(discount, min, reg) {
+    static calculateFinalPrice(discount, min, reg) {
         return discount ? min : reg;
     }
 
     /**
      * Calculate final price
      * @param {Number} price
-     * @return {Nmber} rounded price
+     * @return {Number} rounded price
      */
-    roundPrice(price) {
+    static roundPrice(price) {
         return parseFloat(price).toFixed(2);
     }
 
@@ -55,9 +55,9 @@ class ProductPrice extends Component {
         const minimalPriceValue = minimalPrice.amount.value;
         const regularPriceValue = regularPrice.amount.value;
         const priceCurrency = regularPrice.amount.currency;
-        const discountPercentage = this.calculateDiscountPercentage(minimalPriceValue, regularPriceValue);
-        const finalPrice = this.calculateFinalPrice(discountPercentage, minimalPriceValue, regularPriceValue);
-        const priceString = formatCurrency(this.roundPrice(finalPrice), priceCurrency);
+        const discountPercentage = ProductPrice.calculateDiscountPercentage(minimalPriceValue, regularPriceValue);
+        const finalPrice = ProductPrice.calculateFinalPrice(discountPercentage, minimalPriceValue, regularPriceValue);
+        const priceString = formatCurrency(ProductPrice.roundPrice(finalPrice), priceCurrency);
 
         // Use <ins></ins> <del></del> to represent new price and the old (deleted) one
         const PriceSemanticElementName = discountPercentage > 0 ? 'ins' : 'span';
@@ -65,12 +65,12 @@ class ProductPrice extends Component {
         return (
             <p block="ProductPrice" aria-label={ __('Product Price') } mods={ mods || {} }>
                 <PriceSemanticElementName aria-label={ __('Current product price') }>
-                    <data value={ this.roundPrice(finalPrice) }>{ priceString }</data>
+                    <data value={ ProductPrice.roundPrice(finalPrice) }>{ priceString }</data>
                 </PriceSemanticElementName>
 
                 { discountPercentage > 0 && (
                     <del aria-label={ __('Old product price') }>
-                        { this.roundPrice(regularPriceValue) }
+                        { ProductPrice.roundPrice(regularPriceValue) }
                     </del>
                 )}
             </p>

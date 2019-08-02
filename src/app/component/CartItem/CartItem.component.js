@@ -19,6 +19,7 @@ import Field from 'Component/Field';
 import Loader from 'Component/Loader';
 import { ProductType } from 'Type/ProductList';
 import './CartItem.style';
+import { formatCurrency } from 'Util/Price';
 
 /**
  * Cart and Minicart item
@@ -35,19 +36,16 @@ class CartItem extends Component {
 
     /**
      * Get link to product page
-     * @param url_key Url to product
-     * @return {{pathname: Srting, state Object}} Pathname and product state
+     * @return {{pathname: String, state Object}} Pathname and product state
      */
-    getProductLinkTo(url_key) {
-        if (!url_key) return undefined;
-
-        const { product: { configurableVariantIndex, parent }, product } = this.props;
-        const variantIndex = configurableVariantIndex || 0;
+    getProductLinkTo() {
+        const { item: { product: { url_key } } } = this.props;
+        const variantIndex = this.getVariantIndex();
 
         return {
             pathname: `/product/${ url_key }`,
             state: { product: parent || product, variantIndex },
-            search: `?variant=${ variantIndex }`
+            search: `?variant=${ variantIndex >= 0 ? variantIndex : 0}`
         };
     }
 
@@ -104,7 +102,9 @@ class CartItem extends Component {
         onItemClick();
     }
 
-    renderItemTitle(url_key, name, brand) {
+    renderItemTitle() {
+        const { item: { product: { name, url_key, attributes } }} = this.props;
+        let brand = attributes.find(attribute => attribute.attribute_code === 'brand').attribute_value;
         return (
             <div block="CartItem" elem="Title">
                 <Link
@@ -119,7 +119,12 @@ class CartItem extends Component {
         );
     }
 
-    renderItemDetails(quantity, price) {
+    /**
+     * @returns {void}
+     */
+    renderItemDetails() {
+        const { currency, item: {qty, row_total} } = this.props;
+        const priceString = formatCurrency(ProductPrice.roundPrice(row_total), currency);
         return (
             <div
               block="CartItem"
@@ -130,27 +135,51 @@ class CartItem extends Component {
                   elem="QtySelector"
                   id="QtySelector"
                   type="number"
-                  value={ quantity }
-                  onChange={ quantity => this.handleChangeQuantity(quantity) }
+                  value={ qty }
+                  onChange={ qty => this.handleChangeQuantity(qty) }
                 />
                 <div block="CartItem" elem="Price">
-                    <ProductPrice price={ price } mods={ { type: 'regular' } } />
+                    <p block="ProductPrice" aria-label={ __('Product Price') }>
+                        <span aria-label={ __('Current product price') }>
+                            <data value={ProductPrice.roundPrice(row_total)}>{ priceString }</data>
+                        </span>
+                    </p>
                 </div>
             </div>
         );
     }
 
+    /**
+     * @returns {Int}
+     */
+    getVariantIndex() {
+        const {
+            item: {
+                sku: itemSku,
+                product: { variants = [] }
+            }
+        } = this.props;
+
+        return variants.findIndex( ({ product: { sku } }) => sku === itemSku);
+    }
+
+    /**
+     * @returns {Product}
+     */
+    getCurrentProduct() {
+        const { item: { product } } = this.props;
+
+        const variantIndex = this.getVariantIndex();
+        if (!variantIndex) {
+            return product;
+        }
+        return product.variants[variantIndex];
+    }
+
     render() {
         const { isLoading } = this.state;
-        const {
-            thumbnail: { path: thumbnail },
-            url_key,
-            name,
-            quantity,
-            price,
-            brand
-        } = this.getDataSource();
-
+        const { product: { thumbnail: { path: thumbnail } } } = this.getCurrentProduct();
+        let t = '';
         return (
             <li block="CartItem" aria-label="Cart Item">
                 <Loader isLoading={ isLoading } />
@@ -158,8 +187,8 @@ class CartItem extends Component {
                   block="CartItem"
                   elem="Thumbnail"
                 >
-                    <Link to={ this.getProductLinkTo(url_key) } onClick={ () => this.handleItemClick }>
-                        <Image src={ `/media/catalog/product${thumbnail}` } alt={ __('Cart Thumbnail') } />
+                    <Link to={ this.getProductLinkTo() } onClick={ () => this.handleItemClick }>
+                        <Image src={ `/media/catalog/product${ thumbnail }` } alt={ __('Cart Thumbnail') } />
                     </Link>
                 </div>
                 <div
@@ -167,8 +196,8 @@ class CartItem extends Component {
                   elem="Info"
                   aria-label={ __('Cart Info') }
                 >
-                    { url_key && this.renderItemTitle(url_key, name, brand || '') }
-                    { quantity && this.renderItemDetails(quantity, price) }
+                    { this.renderItemTitle() }
+                    { this.renderItemDetails() }
                 </div>
                 <button
                   block="CartItem"
@@ -183,7 +212,8 @@ class CartItem extends Component {
 }
 
 CartItem.propTypes = {
-    product: ProductType.isRequired,
+    // product: ProductType.isRequired,
+    // Item: CartItem.isRequired,
     addProduct: PropTypes.func.isRequired,
     removeProduct: PropTypes.func.isRequired,
     onItemClick: PropTypes.func

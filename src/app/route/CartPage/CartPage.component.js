@@ -44,9 +44,10 @@ class CartPage extends Component {
      * Render Cart Item
      * @return {JSX}
      */
-    renderItemsList(items) {
+    renderItemsList() {
+        const { totals: { items, base_currency_code } } = this.props;
         return Object.keys(items)
-            .map(key => <CartItem key={ key } product={ items[key] } />);
+            .map(key => <CartItem key={ key } item={ items[key] } currency={ base_currency_code } />);
     }
 
     /**
@@ -63,7 +64,7 @@ class CartPage extends Component {
     }
 
     render() {
-        const { products, totals } = this.props;
+        const { totals, totals: { items_qty } } = this.props;
 
         return (
             <>
@@ -81,10 +82,10 @@ class CartPage extends Component {
                                 <span>{ __('Subtotal') }</span>
                             </div>
                             <ul>
-                                { Object.entries(products).length
+                                { items_qty
                                     ? (
                                         <>
-                                            { this.renderItemsList(products) }
+                                            { this.renderItemsList() }
                                             <DiscountCoupons />
                                         </>
                                     )
