@@ -42,12 +42,12 @@ class ProductActions extends Component {
      * @return {void}
      */
     getBackgroundColorForColorFilter(colorValue) {
-        const { availableFilters } = this.props;
+        const { product: { attributes } } = this.props;
 
-        for (const { request_var, filter_items } of availableFilters) {
-            if (request_var === 'color') {
-                for (const { value_string, swatch_data: { value: hexColor } } of filter_items) {
-                    if (+value_string === colorValue) {
+        for (const { attribute_code, attribute_options } of attributes) {
+            if (attribute_code === 'color') {
+                for (const { value, swatch_data: { value: hexColor } } of attribute_options) {
+                    if (parseInt(value, 10) === colorValue) {
                         return hexColor;
                     }
                 }
@@ -64,14 +64,14 @@ class ProductActions extends Component {
      * @return {void}
      */
     getCustomFilterLabel(value, attributeCode) {
-        const { availableFilters } = this.props;
+        const { product: { attributes } } = this.props;
 
-        for (let i = 0; i < availableFilters.length; i++) {
-            const { filter_items, request_var } = availableFilters[i];
+        for (let i = 0; i < attributes.length; i++) {
+            const { attribute_code, attribute_options } = attributes[i];
 
-            if (request_var === attributeCode) {
-                for (let j = 0; j < filter_items.length; j++) {
-                    const { value_string, swatch_data: { value: swatchValue } } = filter_items[j];
+            if (attribute_code === attributeCode) {
+                for (let j = 0; j < attribute_options.length; j++) {
+                    const { value: value_string, swatch_data: { value: swatchValue } } = attribute_options[j];
 
                     if (parseInt(value_string, 10) === value) {
                         return swatchValue;
@@ -88,8 +88,12 @@ class ProductActions extends Component {
      * @return {Boolean}
      */
     allDataLoaded() {
-        const { availableFilters, product: { price, type_id, configurable_options } } = this.props;
-        const simpleProductData = price && availableFilters;
+        const {
+            product: {
+                attributes, price, type_id, configurable_options
+            }
+        } = this.props;
+        const simpleProductData = price && attributes;
         const configurableProductData = simpleProductData && configurable_options;
 
         return type_id === 'configurable' ? configurableProductData : simpleProductData;
@@ -102,34 +106,8 @@ class ProductActions extends Component {
      * @return {void}
      */
     changeConfigurableVariant(attributeCode, value) {
-        const {
-            product: {
-                variants,
-                configurable_options
-            },
-            updateConfigurableVariantIndex,
-            configurableVariantIndex
-        } = this.props;
-
-        const {
-            product: currentConfigurableVariant
-        } = variants[configurableVariantIndex];
-
-        const currentVariant = { ...currentConfigurableVariant };
-
-        currentVariant[attributeCode] = value;
-
-        for (let i = 0; i < variants.length; i++) {
-            const { product } = variants[i];
-            const isCorrectVariant = configurable_options.every(
-                ({ attribute_code: code }) => parseInt(product[code], 10) === parseInt(currentVariant[code], 10)
-            );
-
-            if (isCorrectVariant) {
-                updateConfigurableVariantIndex(i);
-                break;
-            }
-        }
+        const { updateConfigurableVariant } = this.props;
+        updateConfigurableVariant({ [attributeCode]: `${value}` });
     }
 
     /**
@@ -151,7 +129,8 @@ class ProductActions extends Component {
         const { itemCount } = this.state;
         const isConfigurable = type_id === 'configurable';
 
-        const { price } = isConfigurable && variants ? variants[configurableVariantIndex].product : product;
+        const { price } = isConfigurable && variants[configurableVariantIndex]
+            ? variants[configurableVariantIndex].product : product;
 
         return (
             <>
@@ -198,14 +177,12 @@ class ProductActions extends Component {
      * Render configurable swatch, return null if configurable does not exist by variant or not yet loaded
      */
     renderConfigurableSwatches() {
-        const { product: { configurable_options, variants }, configurableVariantIndex, areDetailsLoaded } = this.props;
-        const configurableExists = variants[configurableVariantIndex] && areDetailsLoaded;
+        const { product: { configurable_options }, areDetailsLoaded, parameters } = this.props;
+        const configurableExists = areDetailsLoaded;
 
         if (!configurableExists) {
             return this.renderSwatchPlaceholder();
         }
-
-        const { product: currentConfigurableVariant } = variants[configurableVariantIndex];
 
         const renderAvailableValues = (configurableOption) => {
             const { values, attribute_code } = configurableOption;
@@ -218,7 +195,7 @@ class ProductActions extends Component {
             );
 
             const isSelected = value => (
-                value === parseInt(currentConfigurableVariant[attribute_code], 10)
+                value === parseInt(parameters[attribute_code], 10)
             );
 
             return values.map(value => (
@@ -254,7 +231,7 @@ class ProductActions extends Component {
     }
 
     renderSimpleSwatches() {
-        const { product, product: { attributes } } = this.props;
+        const { product: { attributes, parameters } } = this.props;
 
         const renderSwatch = (attribute) => {
             const {
@@ -291,7 +268,7 @@ class ProductActions extends Component {
             if (attributes.length) {
                 return attributes.map((attribute) => {
                     const { attribute_code } = attribute;
-                    if (product[attribute_code]) {
+                    if (parameters && parameters[attribute_code]) {
                         return renderSwatch(attribute);
                     }
 
@@ -347,9 +324,9 @@ class ProductActions extends Component {
 
 ProductActions.propTypes = {
     product: ProductType.isRequired,
-    availableFilters: PropTypes.arrayOf(PropTypes.shape).isRequired,
+    parameters: PropTypes.shape({}).isRequired,
     configurableVariantIndex: PropTypes.number.isRequired,
-    updateConfigurableVariantIndex: PropTypes.func.isRequired,
+    updateConfigurableVariant: PropTypes.func.isRequired,
     groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired,
     areDetailsLoaded: PropTypes.bool.isRequired
 };

@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { getVariantsWithParams } from 'Util/Product';
 import {
     UPDATE_PRODUCT_DETAILS,
     UPDATE_GROUPED_PRODUCT_QUANTITY,
@@ -23,26 +24,30 @@ const initialState = {
 const ProductReducer = (state = initialState, action) => {
     switch (action.type) {
     case UPDATE_PRODUCT_DETAILS:
-        const { product, product: { attributes, variants }, filters } = action;
+        const {
+            product,
+            product: {
+                variants, configurable_options, attributes, type_id
+            }
+        } = action;
 
-        attributes.forEach(({ attribute_code, attribute_value }) => {
-            product[attribute_code] = attribute_value;
-        });
+        const brandAttribute = attributes.find(({ attribute_code }) => attribute_code === 'brand');
+        if (brandAttribute) product.brand = brandAttribute.attribute_value;
 
-        if (variants) {
-            variants.forEach(({ product: { attributes } }, i) => {
-                if (attributes) {
-                    attributes.forEach(({ attribute_code, attribute_value }) => {
-                        product.variants[i].product[attribute_code] = attribute_value;
-                    });
-                }
-            });
+        if (type_id === 'configurable' && variants) {
+            const requiredParams = configurable_options.map(({ attribute_code }) => attribute_code);
+            product.variants = getVariantsWithParams(variants, requiredParams);
+        } else {
+            const parameters = attributes.reduce(
+                (acc, { attribute_code, attribute_value }) => ({ ...acc, [attribute_code]: attribute_value }),
+                {}
+            );
+            product.parameters = parameters;
         }
 
         return {
             ...state,
-            product,
-            filters
+            product
         };
 
     case UPDATE_GROUPED_PRODUCT_QUANTITY:

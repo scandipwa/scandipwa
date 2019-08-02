@@ -35,7 +35,7 @@ class ProductDetails extends Component {
             const { product } = configurableVariantIndex >= 0
                     && variants
                     && Object.keys(variants).length >= configurableVariantIndex
-                ? variants[configurableVariantIndex] : '';
+                ? variants[configurableVariantIndex] : {};
 
             return (
                 <>

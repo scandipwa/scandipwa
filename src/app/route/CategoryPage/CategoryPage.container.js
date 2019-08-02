@@ -10,20 +10,23 @@
  */
 
 import { connect } from 'react-redux';
-import { CategoryDispatcher, updateLoadStatus } from 'Store/Category';
+import { CategoryDispatcher, updateCurrentCategory } from 'Store/Category';
+import { ProductListDispatcher, updateLoadStatus as updateProductLoadStatus } from 'Store/ProductList';
+import { ProductListInfoDispatcher, updateInfoLoadStatus } from 'Store/ProductListInfo';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import CategoryPage from './CategoryPage.component';
 
 const mapStateToProps = state => ({
     category: state.CategoryReducer.category,
     categoryList: state.CategoryReducer.categoryList,
-    items: state.CategoryReducer.items,
-    totalItems: state.CategoryReducer.totalItems,
-    minPriceRange: state.CategoryReducer.minPrice,
-    maxPriceRange: state.CategoryReducer.maxPrice,
-    sortFields: state.CategoryReducer.sortFields,
-    filters: state.CategoryReducer.filters,
-    isLoading: state.CategoryReducer.isLoading
+    pages: state.ProductListReducer.pages,
+    isPagesLoading: state.ProductListReducer.isLoading,
+    filters: state.ProductListInfoReducer.filters,
+    totalItems: state.ProductListInfoReducer.totalItems,
+    sortFields: state.ProductListInfoReducer.sortFields,
+    minPriceRange: state.ProductListInfoReducer.minPrice,
+    maxPriceRange: state.ProductListInfoReducer.maxPrice,
+    isInfoLoading: state.ProductListInfoReducer.isLoading
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -31,8 +34,21 @@ const mapDispatchToProps = dispatch => ({
         CategoryDispatcher.handleData(dispatch, options);
     },
 
+    requestProductList: (options) => {
+        ProductListDispatcher.handleData(dispatch, options);
+    },
+
+    requestProductListInfo: (options) => {
+        ProductListInfoDispatcher.handleData(dispatch, options);
+    },
+
+    updateCurrentCategory: (categoryUrlPath, categoryIds, isSearchPage) => {
+        dispatch(updateCurrentCategory(categoryUrlPath, categoryIds, isSearchPage));
+    },
+
     updateLoadStatus: (options) => {
-        dispatch(updateLoadStatus(options));
+        dispatch(updateInfoLoadStatus(options));
+        dispatch(updateProductLoadStatus(options));
     },
 
     updateBreadcrumbs: (breadcrumbs) => {

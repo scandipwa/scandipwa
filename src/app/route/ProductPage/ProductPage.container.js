@@ -15,8 +15,7 @@ import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import ProductPage from './ProductPage.component';
 
 const mapStateToProps = state => ({
-    product: state.ProductReducer.product,
-    filters: state.ProductReducer.filters
+    product: state.ProductReducer.product
 });
 
 const mapDispatchToProps = dispatch => ({

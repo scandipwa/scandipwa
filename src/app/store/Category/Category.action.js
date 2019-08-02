@@ -9,39 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const UPDATE_CATEGORY_PRODUCT_LIST = 'UPDATE_CATEGORY_PRODUCT_LIST';
 export const UPDATE_CATEGORY_LIST = 'UPDATE_CATEGORY_LIST';
 export const UPDATE_CURRENT_CATEGORY = 'UPDATE_CURRENT_CATEGORY';
-export const APPEND_CATEGORY_PRODUCT_LIST = 'APPEND_CATEGORY_PRODUCT_LIST';
-export const UPDATE_LOAD_STATUS = 'UPDATE_LOAD_STATUS';
-
-/**
- * Update product list with new list (rewrite if already exists).
- * @param {Array<Object>} items List of products returned from fetch
- * @param {Number} totalItems Total number of products in this filter
- * @return {void}
- */
-const updateCategoryProductList = (items, totalItems, minPrice, maxPrice, sortFields, filters) => ({
-    type: UPDATE_CATEGORY_PRODUCT_LIST,
-    items,
-    totalItems,
-    minPrice,
-    maxPrice,
-    sortFields,
-    filters
-});
-
-/**
- * Append product list.
- * @param {Array<Object>} items List of products returned from fetch
- * @return {void}
- */
-const appendCategoryProductList = (items, minPrice, maxPrice) => ({
-    type: APPEND_CATEGORY_PRODUCT_LIST,
-    items,
-    minPrice,
-    maxPrice
-});
 
 /**
  * Update Category Details
@@ -66,16 +35,6 @@ const updateCurrentCategory = (categoryUrlPath, categoryIds, isSearchPage) => ({
     isSearchPage
 });
 
-/**
- * Change loading status
- * @param {Boolean} status Loading indication boolean
- * @return {void}
- */
-const updateLoadStatus = status => ({
-    type: UPDATE_LOAD_STATUS,
-    isLoading: status
-});
-
 export {
-    updateCategoryProductList, updateCategoryList, updateCurrentCategory, appendCategoryProductList, updateLoadStatus
+    updateCategoryList, updateCurrentCategory
 };

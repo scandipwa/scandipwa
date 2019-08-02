@@ -22,17 +22,16 @@ import { RelatedProductsDispatcher } from 'Store/RelatedProducts';
  */
 export class ProductDispatcher extends QueryDispatcher {
     constructor() {
-        super('ProductList', 86400);
+        super('Product', 86400);
     }
 
     onSuccess(data, dispatch) {
-        const { products: { items, filters, total_count } } = data;
+        const { products: { items, total_count } } = data;
 
         if (!total_count) return dispatch(updateNoMatch(true));
 
         const [productItem] = items;
-        const product = productItem.type_id === 'grouped'
-            ? this._prepareGroupedProduct(productItem) : productItem;
+        const product = productItem.type_id === 'grouped' ? this._prepareGroupedProduct(productItem) : productItem;
 
         // TODO: make one request per description & related in this.prepareRequest
         if (productItem && productItem.product_links && Object.keys(productItem.product_links).length > 0) {
@@ -44,12 +43,10 @@ export class ProductDispatcher extends QueryDispatcher {
             RelatedProductsDispatcher.clearRelatedProducts(dispatch);
         }
 
-        return (items && items.length > 0)
-            ? dispatch(updateProductDetails(product, filters))
-            : dispatch(updateNoMatch(true));
+        return (items && items.length > 0) ? dispatch(updateProductDetails(product)) : dispatch(updateNoMatch(true));
     }
 
-    onError(error, dispatch) {
+    onError(_, dispatch) {
         dispatch(updateNoMatch(true));
     }
 

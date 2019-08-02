@@ -22,13 +22,12 @@ const initialState = {
 const RelatedProductsReducer = (state = initialState, action) => {
     switch (action.type) {
     case UPDATE_RELATED_PRODUCTS:
-        const { relatedProducts: { products } } = action;
+        const { relatedProducts: { products, products: { items } } } = action;
 
-        if (products.items) {
-            products.items.forEach(({ attributes }, i) => {
-                attributes.forEach(({ attribute_code, attribute_value }) => {
-                    products.items[i][attribute_code] = attribute_value;
-                });
+        if (items) {
+            items.forEach(({ attributes }, i) => {
+                const brandAttribute = attributes.find(({ attribute_code }) => attribute_code === 'brand');
+                if (brandAttribute) items[i].brand = brandAttribute.attribute_value;
             });
         }
 

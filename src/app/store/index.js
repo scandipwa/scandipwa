@@ -19,6 +19,8 @@ import { CategoryReducer } from 'Store/Category';
 import { NotificationReducer } from 'Store/Notification';
 import { BreadcrumbsReducer } from 'Store/Breadcrumbs';
 import { ProductReducer } from 'Store/Product';
+import { ProductListReducer } from 'Store/ProductList';
+import { ProductListInfoReducer } from 'Store/ProductListInfo';
 import { HeaderAndFooterReducer } from 'Store/HeaderAndFooter';
 import { CartReducer } from 'Store/Cart';
 import { WishlistReducer } from 'Store/Wishlist';
@@ -36,6 +38,8 @@ export const reducers = {
     NotificationReducer,
     BreadcrumbsReducer,
     ProductReducer,
+    ProductListReducer,
+    ProductListInfoReducer,
     HeaderAndFooterReducer,
     CartReducer,
     WishlistReducer,

@@ -177,7 +177,7 @@ export class CartDispatcher {
 
             const configurable_item_options = configurable_options.reduce((prev, curr) => {
                 const { attribute_id, attribute_code } = curr;
-                const attribute_value = currentVariant[attribute_code];
+                const attribute_value = currentVariant.parameters[attribute_code];
 
                 if (attribute_value) {
                     return [
@@ -211,9 +211,8 @@ export class CartDispatcher {
     }
 
     _getProductAttribute(attribute, { variants, configurableVariantIndex, [attribute]: attributeValue }) {
-        return typeof configurableVariantIndex === 'number'
-            ? variants[configurableVariantIndex].product[attribute]
-            : attributeValue;
+        const isNumber = typeof configurableVariantIndex === 'number';
+        return isNumber ? variants[configurableVariantIndex].product[attribute] : attributeValue;
     }
 
     /**
