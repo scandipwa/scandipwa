@@ -177,14 +177,12 @@ class ProductActions extends Component {
      * Render configurable swatch, return null if configurable does not exist by variant or not yet loaded
      */
     renderConfigurableSwatches() {
-        const { product: { configurable_options, variants }, configurableVariantIndex, areDetailsLoaded } = this.props;
-        const configurableExists = variants[configurableVariantIndex] && areDetailsLoaded;
+        const { product: { configurable_options }, areDetailsLoaded, parameters } = this.props;
+        const configurableExists = areDetailsLoaded;
 
         if (!configurableExists) {
             return this.renderSwatchPlaceholder();
         }
-
-        const { product: currentConfigurableVariant } = variants[configurableVariantIndex];
 
         const renderAvailableValues = (configurableOption) => {
             const { values, attribute_code } = configurableOption;
@@ -197,7 +195,7 @@ class ProductActions extends Component {
             );
 
             const isSelected = value => (
-                value === parseInt(currentConfigurableVariant.parameters[attribute_code], 10)
+                value === parseInt(parameters[attribute_code], 10)
             );
 
             return values.map(value => (
@@ -233,7 +231,7 @@ class ProductActions extends Component {
     }
 
     renderSimpleSwatches() {
-        const { product, product: { attributes } } = this.props;
+        const { product: { attributes, parameters } } = this.props;
 
         const renderSwatch = (attribute) => {
             const {
@@ -270,7 +268,6 @@ class ProductActions extends Component {
             if (attributes.length) {
                 return attributes.map((attribute) => {
                     const { attribute_code } = attribute;
-                    const { parameters } = product;
                     if (parameters && parameters[attribute_code]) {
                         return renderSwatch(attribute);
                     }
@@ -327,6 +324,7 @@ class ProductActions extends Component {
 
 ProductActions.propTypes = {
     product: ProductType.isRequired,
+    parameters: PropTypes.shape({}).isRequired,
     configurableVariantIndex: PropTypes.number.isRequired,
     updateConfigurableVariant: PropTypes.func.isRequired,
     groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired,

@@ -113,14 +113,15 @@ class AddToCart extends Component {
         const { isLoading } = this.state;
         const {
             fullWidth,
-            product,
             product: {
-                stock_status, variants, configurableVariantIndex, type_id
-            }
+                stock_status, variants, type_id
+            },
+            configurableVariantIndex
         } = this.props;
+
         const isNotAvailable = stock_status !== 'IN_STOCK';
-        console.log(product);
-        // const configurableVariantExists = type_id !== 'configurable' ? true : !!variants[configurableVariantIndex];
+        const isProductReady = type_id === 'configurable' && variants
+            ? !!variants[configurableVariantIndex] : true;
 
         return (
             <button
@@ -128,7 +129,7 @@ class AddToCart extends Component {
               block="AddToCart"
               elem="Button"
               mods={ { isLoading, fullWidth } }
-              disabled={ isLoading || isNotAvailable }
+              disabled={ isLoading || isNotAvailable || !isProductReady }
             >
                 <span>{ __('Add to cart') }</span>
                 <span>{ __('Adding...') }</span>

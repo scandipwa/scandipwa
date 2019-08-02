@@ -47,7 +47,11 @@ class ProductPage extends Component {
     }
 
     static getDerivedStateFromProps(props, state) {
-        const { product: { variants, configurable_options, id }, location: { search } } = props;
+        const {
+            product: {
+                variants, configurable_options, id, type_id
+            }, location: { search }
+        } = props;
         const { id: stateId } = state;
 
         if (!(configurable_options && variants)) return null;
@@ -63,7 +67,11 @@ class ProductPage extends Component {
         if (id !== stateId) {
             const configurableVariantIndex = getVariantIndex(variants, parameters);
 
-            if (!Number.isNaN(configurableVariantIndex)) return { id, parameters, configurableVariantIndex };
+            if (Object.keys(parameters).length === Object.keys(configurable_options).length
+                || type_id !== 'configurable') {
+                return { id, parameters, configurableVariantIndex };
+            }
+
             return { id, parameters };
         }
 
@@ -157,7 +165,7 @@ class ProductPage extends Component {
      * @param {Object} options
      */
     updateUrl(options) {
-        const { product: { variants }, location, history } = this.props;
+        const { product: { variants, configurable_options }, location, history } = this.props;
         const { configurableVariantIndex, parameters: oldParameters } = this.state;
 
         const parameters = {
@@ -169,7 +177,8 @@ class ProductPage extends Component {
         setQueryParams(options, location, history);
         const newIndex = getVariantIndex(variants, parameters);
 
-        if (!Number.isNaN(newIndex) && configurableVariantIndex !== newIndex) {
+        if (Object.keys(parameters).length === Object.keys(configurable_options).length
+            && configurableVariantIndex !== newIndex) {
             this.setState({ configurableVariantIndex: newIndex });
         }
     }
