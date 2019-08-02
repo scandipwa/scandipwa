@@ -36,46 +36,21 @@ class ProductCard extends Component {
         this.handleConfigurableClick = this.handleConfigurableClick.bind(this);
     }
 
-    getCurrentVariantIndex() {
-        const { product: { variants }, customFilters } = this.props;
-        const customFiltersExist = customFilters && Object.keys(customFilters).length;
-
-        if (variants && customFiltersExist) {
-            for (let i = 0; i < variants.length; i++) {
-                const { product } = variants[ i ];
-
-                const isCorrectVariant = Object.keys(customFilters).every(filterKey => (
-                    customFilters[ filterKey ].find(value => +value === +product[ filterKey ])
-                ));
-
-                if (isCorrectVariant) return i;
-            }
-
-            return 0;
-        }
-
-        return 0;
-    }
-
     getConfigurableParameters() {
         const { product: { variants }, customFilters } = this.props;
         const customFiltersExist = customFilters && Object.keys(customFilters).length;
-
 
         if (variants && customFiltersExist) {
             const index = getVariantIndex(variants, customFilters);
 
             if (!Number.isNaN(index)) {
-                return {
-                    index,
-                    parameters: variants[index].product.parameters
-                };
+                const parameters = Object.entries(variants[index].product.parameters).reduce((acc, [key, param]) => {
+                    if (Object.keys(customFilters).includes(key)) return { ...acc, [key]: param };
+                    return acc;
+                }, {});
+
+                return { index, parameters };
             }
-        } else if (variants) {
-            return {
-                index: 0,
-                parameters: variants[0].product.parameters
-            };
         }
 
         return { index: 0, parameters: null };
@@ -90,19 +65,15 @@ class ProductCard extends Component {
     }
 
     getLinkTo(parameters) {
-        const {
-            product: {
-                url_key
-            },
-            product
-        } = this.props;
+        const { product: { url_key }, product } = this.props;
 
-        // const search = parameters && this.getProductUrlSearch(parameters);
+        const search = parameters && this.getProductUrlSearch(parameters);
 
         return url_key
             ? {
                 pathname: `/product/${ url_key }`,
-                state: { product }
+                state: { product },
+                search
             }
             : undefined;
     }
@@ -133,30 +104,18 @@ class ProductCard extends Component {
     }
 
     addOrConfigureProduct(variantIndex, linkTo) {
-        const { customFilters, product, product: { url_key, variants, type_id } } = this.props;
+        const { product, product: { url_key, type_id } } = this.props;
 
-        if (variants && type_id === 'configurable') {
-            const correctVariants = variants.reduce((correctVariants, { product }) => {
-                const isCorrectVariant = Object.keys(customFilters).every(filterKey => (
-                    customFilters[ filterKey ].find(value => +value === +product[ filterKey ])
-                ));
-
-                if (isCorrectVariant) correctVariants.push(product);
-
-                return correctVariants;
-            }, []);
-
-            if (correctVariants.length !== 1) {
-                return (
-                    <Link
-                      to={ linkTo }
-                      tabIndex={ getTabIndex(url_key) }
-                      onClick={ this.handleConfigurableClick }
-                    >
-                        <span>{ __('Configure Product') }</span>
-                    </Link>
-                );
-            }
+        if (type_id === 'configurable') {
+            return (
+                <Link
+                  to={ linkTo }
+                  tabIndex={ getTabIndex(url_key) }
+                  onClick={ this.handleConfigurableClick }
+                >
+                    <span>{ __('Configure Product') }</span>
+                </Link>
+            );
         }
 
         if (type_id === 'grouped') {
@@ -216,7 +175,7 @@ class ProductCard extends Component {
         const linkTo = this.getLinkTo(parameters);
 
         const { price } = type_id === 'configurable' && variants
-            ? variants[this.getCurrentVariantIndex()].product
+            ? variants[index].product
             : product;
 
         return (
