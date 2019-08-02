@@ -31,8 +31,7 @@ export class ProductDispatcher extends QueryDispatcher {
         if (!total_count) return dispatch(updateNoMatch(true));
 
         const [productItem] = items;
-        const product = productItem.type_id === 'grouped'
-            ? this._prepareGroupedProduct(productItem) : productItem;
+        const product = productItem.type_id === 'grouped' ? this._prepareGroupedProduct(productItem) : productItem;
 
         // TODO: make one request per description & related in this.prepareRequest
         if (productItem && productItem.product_links && Object.keys(productItem.product_links).length > 0) {
@@ -44,9 +43,7 @@ export class ProductDispatcher extends QueryDispatcher {
             RelatedProductsDispatcher.clearRelatedProducts(dispatch);
         }
 
-        return (items && items.length > 0)
-            ? dispatch(updateProductDetails(product))
-            : dispatch(updateNoMatch(true));
+        return (items && items.length > 0) ? dispatch(updateProductDetails(product)) : dispatch(updateNoMatch(true));
     }
 
     onError(_, dispatch) {

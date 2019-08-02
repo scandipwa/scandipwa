@@ -111,8 +111,16 @@ class AddToCart extends Component {
 
     render() {
         const { isLoading } = this.state;
-        const { fullWidth, product: { stock_status } } = this.props;
+        const {
+            fullWidth,
+            product,
+            product: {
+                stock_status, variants, configurableVariantIndex, type_id
+            }
+        } = this.props;
         const isNotAvailable = stock_status !== 'IN_STOCK';
+        console.log(product);
+        // const configurableVariantExists = type_id !== 'configurable' ? true : !!variants[configurableVariantIndex];
 
         return (
             <button

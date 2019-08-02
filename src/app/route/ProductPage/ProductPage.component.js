@@ -31,9 +31,12 @@ class ProductPage extends Component {
     constructor() {
         super();
 
+        this.updateUrl = this.updateUrl.bind(this);
+
         this.state = {
-            configurableVariantIndex: 0,
-            id: 0
+            id: 0,
+            parameters: {},
+            configurableVariantIndex: -1
         };
     }
 
@@ -59,7 +62,9 @@ class ProductPage extends Component {
 
         if (id !== stateId) {
             const configurableVariantIndex = getVariantIndex(variants, parameters);
-            return { configurableVariantIndex, id };
+
+            if (!Number.isNaN(configurableVariantIndex)) return { id, parameters, configurableVariantIndex };
+            return { id, parameters };
         }
 
         return null;
@@ -153,24 +158,25 @@ class ProductPage extends Component {
      */
     updateUrl(options) {
         const { product: { variants }, location, history } = this.props;
-        const { configurableVariantIndex } = this.state;
-        const { product: { parameters } } = variants[configurableVariantIndex];
+        const { configurableVariantIndex, parameters: oldParameters } = this.state;
 
-        const newParams = {
-            ...parameters,
+        const parameters = {
+            ...oldParameters,
             ...options
         };
-        const newIndex = getVariantIndex(variants, newParams);
 
-        if (configurableVariantIndex !== newIndex) {
-            setQueryParams(options, location, history);
+        this.setState({ parameters });
+        setQueryParams(options, location, history);
+        const newIndex = getVariantIndex(variants, parameters);
+
+        if (!Number.isNaN(newIndex) && configurableVariantIndex !== newIndex) {
             this.setState({ configurableVariantIndex: newIndex });
         }
     }
 
     render() {
         const { product, product: { variants, type_id } } = this.props;
-        const { configurableVariantIndex } = this.state;
+        const { configurableVariantIndex, parameters } = this.state;
         const dataSource = this.getDataSource();
         const { media_gallery_entries } = dataSource;
         const areDetailsLoaded = dataSource === product;
@@ -208,9 +214,10 @@ class ProductPage extends Component {
                             ) }
                             <ProductActions
                               product={ dataSource }
+                              parameters={ parameters }
                               configurableVariantIndex={ configurableVariantIndex }
                               areDetailsLoaded={ areDetailsLoaded }
-                              updateConfigurableVariant={ options => this.updateUrl(options) }
+                              updateConfigurableVariant={ this.updateUrl }
                             />
                         </div>
                     </ContentWrapper>

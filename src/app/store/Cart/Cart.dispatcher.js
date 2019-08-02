@@ -211,9 +211,8 @@ export class CartDispatcher {
     }
 
     _getProductAttribute(attribute, { variants, configurableVariantIndex, [attribute]: attributeValue }) {
-        return typeof configurableVariantIndex === 'number'
-            ? variants[configurableVariantIndex].product[attribute]
-            : attributeValue;
+        const isNumber = typeof configurableVariantIndex === 'number';
+        return isNumber ? variants[configurableVariantIndex].product[attribute] : attributeValue;
     }
 
     /**
