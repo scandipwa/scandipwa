@@ -17,7 +17,7 @@ import Image from 'Component/Image';
 import ProductPrice from 'Component/ProductPrice';
 import Field from 'Component/Field';
 import Loader from 'Component/Loader';
-import { ProductType } from 'Type/ProductList';
+import { CartItemType } from 'Type/MiniCart';
 import './CartItem.style';
 import { formatCurrency } from 'Util/Price';
 
@@ -49,20 +49,9 @@ class CartItem extends Component {
         };
     }
 
-    /**
-     * Get data of a product
-     * @return {Object} Product data
-     */
-    getDataSource() {
-        const { product, product: { configurableVariantIndex } } = this.props;
-
-        if (typeof configurableVariantIndex === 'number') {
-            const { variants } = product;
-
-            return { ...product, ...variants[configurableVariantIndex].product };
-        }
-
-        return product;
+    componentWillUnmount() {
+        const { handleRemoveItem } = this.props;
+        this.removeItem && this.removeItem.cancel();
     }
 
     /**
@@ -79,16 +68,13 @@ class CartItem extends Component {
         );
     }
 
-    /**
-     * Removes product from the cart
-     * @return {void}
-     */
+    
     handleRemoveItem() {
-        const { removeProduct, product } = this.props;
-        this.setState({ isLoading: true });
-        removeProduct({ product }).then(
-            () => this.setState({ isLoading: false })
-        );
+        const { handleRemoveItem } = this.props;
+        this.setState({ isLoading: true }, () => {
+            this.removeItem = handleRemoveItem();
+            this.removeItem.promise.then(() => this.setState({ isLoading: false }))
+        });
     }
 
     /**
@@ -170,7 +156,7 @@ class CartItem extends Component {
         const { item: { product } } = this.props;
 
         const variantIndex = this.getVariantIndex();
-        if (!variantIndex) {
+        if (variantIndex < 0) {
             return product;
         }
         return product.variants[variantIndex];
@@ -212,8 +198,7 @@ class CartItem extends Component {
 }
 
 CartItem.propTypes = {
-    // product: ProductType.isRequired,
-    // Item: CartItem.isRequired,
+    item: CartItemType.isRequired,
     addProduct: PropTypes.func.isRequired,
     removeProduct: PropTypes.func.isRequired,
     onItemClick: PropTypes.func

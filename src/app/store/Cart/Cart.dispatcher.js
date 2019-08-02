@@ -99,9 +99,9 @@ export class CartDispatcher {
         return Promise.reject();
     }
 
-    removeProductFromCart(dispatch, { product }) {
+    removeProductFromCart(dispatch, item_id) {
         return fetchMutation(Cart.getRemoveCartItemMutation(
-            product,
+            item_id,
             !isSignedIn() && this._getGuestQuoteId()
         )).then(
             ({ removeCartItem: { cartData } }) => this._updateCartData(cartData, dispatch),

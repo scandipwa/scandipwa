@@ -31,16 +31,6 @@
             "name": "Launch Chrome",
             "url": "https://scandipwa.local/product/test-simple-product",
             "webRoot": "${workspaceFolder}"
-        },
-        {
-            "type": "chrome",
-            "request": "launch",
-            "runtimeExecutable": "/usr/bin/google-chrome-stable",
-            "runtimeArgs": ["--user-data-dir=~/chrome-debug", "--remote-debugging-port=9222"],
-            "port": 9222,
-            "name": "Launch Chrome(manjaro-stable)",
-            "url": "https://scandipwa.local/cart",
-            "webRoot": "${workspaceFolder}"
         }
     ]
 }
