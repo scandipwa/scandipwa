@@ -11,7 +11,6 @@
 
 /* eslint-disable no-param-reassign */
 
-import { getVariantsWithParams } from 'Util/Product';
 import {
     UPDATE_RELATED_PRODUCTS
 } from './RelatedProducts.action';
@@ -26,16 +25,9 @@ const RelatedProductsReducer = (state = initialState, action) => {
         const { relatedProducts: { products, products: { items } } } = action;
 
         if (items) {
-            items.forEach(({
-                variants, configurable_options, type_id, attributes
-            }, i) => {
+            items.forEach(({ attributes }, i) => {
                 const brandAttribute = attributes.find(({ attribute_code }) => attribute_code === 'brand');
                 if (brandAttribute) items[i].brand = brandAttribute.attribute_value;
-
-                if (type_id === 'configurable' && variants) {
-                    const requiredParams = configurable_options.map(({ attribute_code }) => attribute_code);
-                    items[i].variants = getVariantsWithParams(variants, requiredParams);
-                }
             });
         }
 

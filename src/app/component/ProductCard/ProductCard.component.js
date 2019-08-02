@@ -97,13 +97,12 @@ class ProductCard extends Component {
             product
         } = this.props;
 
-        const search = parameters && this.getProductUrlSearch(parameters);
+        // const search = parameters && this.getProductUrlSearch(parameters);
 
         return url_key
             ? {
                 pathname: `/product/${ url_key }`,
-                state: { product, parameters },
-                search
+                state: { product }
             }
             : undefined;
     }
