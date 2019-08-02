@@ -18,6 +18,25 @@ const checkEveryOption = (parameters, options) => Object.keys(options)
         return options[param].includes(parameters[param]);
     });
 
+export const generateParameters = (variant_attributes, configurable_options) => {
+    const required_params = configurable_options.map(({ attribute_code }) => attribute_code);
+    const parameters = variant_attributes.reduce((accum, { attribute_code, attribute_value }) => {
+        return required_params.includes(attribute_code)
+            ? {
+                ...accum,
+                [attribute_code]: attribute_value
+            }
+            : accum;
+    }, {});
+    return parameters;
+};
+
+export const addParametersToProductVariant = (variant, configurable_options) => {
+    const { attributes } = variant;
+    const parameters = generateParameters(attributes, configurable_options);
+    return { ...variant, parameters };
+};
+
 export const getProductWithParams = (product, requiredParameters) => {
     const { attributes } = product;
 

@@ -16,7 +16,8 @@ import {
     setQueryParams,
     clearQueriesFromUrl,
     updateQueryParamWithoutHistory,
-    convertQueryStringToKeyValuePairs
+    convertQueryStringToKeyValuePairs,
+    convertKeyValueObjectToQueryString
 } from './Url';
 
 export {
@@ -26,5 +27,6 @@ export {
     setQueryParams,
     clearQueriesFromUrl,
     updateQueryParamWithoutHistory,
-    convertQueryStringToKeyValuePairs
+    convertQueryStringToKeyValuePairs,
+    convertKeyValueObjectToQueryString
 };
