@@ -39,7 +39,7 @@ export class ProductDispatcher extends QueryDispatcher {
             const { product_links } = productItem;
             const productsSkuArray = product_links.map(item => `"${item.linked_product_sku}"`);
 
-            RelatedProductsDispatcher.handleData(dispatch, { productsSkuArray });
+            RelatedProductsDispatcher.handleData(dispatch, { productsSkuArray, getConfigurableData: true });
         } else {
             RelatedProductsDispatcher.clearRelatedProducts(dispatch);
         }
