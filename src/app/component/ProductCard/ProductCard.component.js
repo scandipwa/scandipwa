@@ -82,10 +82,6 @@ class ProductCard extends Component {
         return { index: 0, parameters: null };
     }
 
-    getProductUrlSearch(parameters) {
-        return convertKeyValueObjectToQueryString(parameters);
-    }
-
     getLinkTo(parameters) {
         const {
             product: {
@@ -94,7 +90,7 @@ class ProductCard extends Component {
             product
         } = this.props;
 
-        const search = parameters && this.getProductUrlSearch(parameters);
+        const search = parameters && convertKeyValueObjectToQueryString(parameters);
 
         return url_key
             ? {
