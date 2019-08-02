@@ -159,6 +159,15 @@ const clearQueriesFromUrl = (history) => {
     history.push({ search: '' });
 };
 
+const convertKeyValueObjectToQueryString = (parameters) => {
+    if (!parameters) return '?nothing';
+    const paramString = Object.keys(parameters).sort()
+        .reduce((acc, key) => `${ acc }${ key }=${ parameters[key] }&`, '')
+        .slice(0, -1); // remove trailing '&'
+
+    return `?${ paramString }`;
+}
+
 export {
     getUrlParam,
     getQueryParam,
@@ -166,5 +175,6 @@ export {
     setQueryParams,
     clearQueriesFromUrl,
     updateQueryParamWithoutHistory,
-    convertQueryStringToKeyValuePairs
+    convertQueryStringToKeyValuePairs,
+    convertKeyValueObjectToQueryString
 };
