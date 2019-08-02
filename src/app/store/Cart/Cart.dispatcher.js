@@ -77,6 +77,7 @@ export class CartDispatcher {
     addProductToCart(dispatch, options) {
         const { product, quantity } = options;
         const { item_id, quantity: originalQuantity } = this._getProductInCart(product);
+        console.log('_getProductInCart', this._getProductInCart(product));
         const { sku, type_id: product_type } = product;
 
         const productToAdd = {
@@ -86,6 +87,8 @@ export class CartDispatcher {
             qty: (parseInt(originalQuantity, 10) || 0) + parseInt(quantity, 10),
             product_option: { extension_attributes: this._getExtensionAttributes(product) }
         };
+
+        console.log(productToAdd);
 
         if (this._isAllowed(options)) {
             return fetchMutation(Cart.getSaveCartItemMutation(
@@ -205,7 +208,7 @@ export class CartDispatcher {
     _getProductInCart(product) {
         const id = this._getProductAttribute('id', product);
         const productsInCart = BrowserDatabase.getItem(PRODUCTS_IN_CART) || {};
-
+        console.log('inside _getProductInCart', id, productsInCart);
         if (!productsInCart[id]) return {};
         return productsInCart[id];
     }
