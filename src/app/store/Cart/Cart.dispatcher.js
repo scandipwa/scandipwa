@@ -87,7 +87,6 @@ export class CartDispatcher {
             product_option: { extension_attributes: this._getExtensionAttributes(product) }
         };
 
-
         if (this._isAllowed(options)) {
             return fetchMutation(Cart.getSaveCartItemMutation(
                 productToAdd, !isSignedIn() && this._getGuestQuoteId()
@@ -206,6 +205,7 @@ export class CartDispatcher {
     _getProductInCart(product) {
         const id = this._getProductAttribute('id', product);
         const productsInCart = BrowserDatabase.getItem(PRODUCTS_IN_CART) || {};
+
         if (!productsInCart[id]) return {};
         return productsInCart[id];
     }
