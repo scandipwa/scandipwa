@@ -37,33 +37,20 @@ export const generateParameters = (variantAttributes, requiredParams) => {
 };
 
 /**
- * Return product with parameters
- * @param {Obejct} product
- * @param {string[]} requiredParameters
- * @returns {Object}
- */
-export const getProductWithParams = (product, requiredParameters) => {
-    const { attributes } = product;
-
-    return {
-        ...product,
-        parameters: generateParameters(attributes, requiredParameters)
-    };
-};
-
-/**
  * Append product variant with parameters
  * @param {Object} variant
  * @param {string[]} requiredParameters
  * @returns {Object}
  */
-export const getVariantWithParams = (variant, requiredParameters) => {
-    const { product: initialProduct } = variant;
-    const product = getProductWithParams(initialProduct, requiredParameters);
+const getVariantWithParams = (variant, requiredParameters) => {
+    const { product, product: { attributes } } = variant;
 
     return {
         ...variant,
-        product
+        product: {
+            ...product,
+            parameters: generateParameters(attributes, requiredParameters)
+        }
     };
 };
 

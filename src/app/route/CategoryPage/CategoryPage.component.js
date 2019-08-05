@@ -49,11 +49,11 @@ class CategoryPage extends Component {
         if (!isOnlyPlaceholder) {
             if (this.isNewCategory()) updateBreadcrumbs({});
             else this.updateBreadcrumbs();
-
-            this.requestCategoryWithPageList();
         } else {
             updateLoadStatus(true);
         }
+
+        if (this.isNewCategory()) this.requestCategoryWithPageList();
     }
 
     componentDidUpdate(prevProps) {
