@@ -10,7 +10,7 @@
  */
 
 /* eslint-disable no-param-reassign */
-
+import { getBrand } from 'Util/Product';
 import {
     UPDATE_RELATED_PRODUCTS
 } from './RelatedProducts.action';
@@ -22,18 +22,27 @@ const initialState = {
 const RelatedProductsReducer = (state = initialState, action) => {
     switch (action.type) {
     case UPDATE_RELATED_PRODUCTS:
-        const { relatedProducts: { products, products: { items } } } = action;
+        const { relatedProducts: { products, products: { items: initialItems } } } = action;
 
-        if (items) {
-            items.forEach(({ attributes }, i) => {
-                const brandAttribute = attributes.find(({ attribute_code }) => attribute_code === 'brand');
-                if (brandAttribute) items[i].brand = brandAttribute.attribute_value;
-            });
-        }
+        const items = initialItems && initialItems.reduce(((acc, item) => {
+            const { attributes } = item;
+            const brand = getBrand(attributes);
+
+            return [
+                ...acc,
+                {
+                    ...item,
+                    brand
+                }
+            ];
+        }), []);
 
         return {
             ...state,
-            relatedProducts: products
+            relatedProducts: {
+                ...products,
+                items
+            }
         };
 
     default:

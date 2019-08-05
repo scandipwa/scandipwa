@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { getVariantsWithParams } from 'Util/Product';
+import { getVariantsWithParams, getBrand } from 'Util/Product';
 import {
     UPDATE_PRODUCT_DETAILS,
     UPDATE_GROUPED_PRODUCT_QUANTITY,
@@ -27,26 +27,30 @@ const ProductReducer = (state = initialState, action) => {
         const {
             product,
             product: {
-                variants, configurable_options, attributes, type_id
+                variants: initialVariants, configurable_options, attributes, type_id
             }
         } = action;
 
-        const brandAttribute = attributes.find(({ attribute_code }) => attribute_code === 'brand');
-        if (brandAttribute) product.brand = brandAttribute.attribute_value;
+        const brand = getBrand(attributes);
 
-        if (type_id === 'configurable' && variants) {
-            product.variants = getVariantsWithParams(variants, configurable_options);
-        } else {
-            const parameters = attributes.reduce(
+        const parameters = !initialVariants
+            ? attributes.reduce(
                 (acc, { attribute_code, attribute_value }) => ({ ...acc, [attribute_code]: attribute_value }),
                 {}
-            );
-            product.parameters = parameters;
-        }
+            ) : undefined;
+
+        const variants = type_id === 'configurable' && initialVariants
+            ? getVariantsWithParams(initialVariants, configurable_options)
+            : undefined;
 
         return {
             ...state,
-            product
+            product: {
+                ...product,
+                brand,
+                parameters,
+                variants
+            }
         };
 
     case UPDATE_GROUPED_PRODUCT_QUANTITY:

@@ -14,7 +14,7 @@ import {
     UPDATE_PRODUCT_LIST_ITEMS,
     UPDATE_LOAD_STATUS
 } from 'Store/ProductList';
-import { getVariantsWithParams } from 'Util/Product';
+import { getVariantsWithParams, getBrand } from 'Util/Product';
 
 const initialState = {
     pages: {},
@@ -24,24 +24,26 @@ const initialState = {
 const ProductListReducer = (state = initialState, action) => {
     const {
         type,
-        items,
+        items: initialItems,
         currentPage,
         isLoading
     } = action;
 
-    if (items) {
-        items.forEach(({
-            variants, configurable_options, type_id, attributes
-        }, i) => {
-            const brandAttribute = attributes.find(({ attribute_code }) => attribute_code === 'brand');
-            if (brandAttribute) items[i].brand = brandAttribute.attribute_value;
+    const items = initialItems && initialItems.reduce(((acc, item) => {
+        const { attributes, configurable_options, variants: initialVariants } = item;
 
-            if (type_id === 'configurable' && variants) {
-                items[i].variants = getVariantsWithParams(variants, configurable_options);
+        const brand = getBrand(attributes);
+        const variants = initialVariants ? getVariantsWithParams(initialVariants, configurable_options) : undefined;
+
+        return [
+            ...acc,
+            {
+                ...item,
+                brand,
+                variants
             }
-        });
-    }
-
+        ];
+    }), []);
 
     switch (type) {
     case APPEND_PAGE:

@@ -57,3 +57,8 @@ export const getVariantsWithParams = (variants, configurable_options) => {
     const requiredParameters = configurable_options.map(({ attribute_code }) => attribute_code);
     return variants.map(variant => getVariantWithParams(variant, requiredParameters));
 };
+
+export const getBrand = (attributes) => {
+    const { attribute_value } = attributes.find(({ attribute_code }) => attribute_code === 'brand');
+    return attribute_value;
+};
