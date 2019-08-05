@@ -22,18 +22,24 @@ const initialState = {
 const RelatedProductsReducer = (state = initialState, action) => {
     switch (action.type) {
     case UPDATE_RELATED_PRODUCTS:
-        const { relatedProducts: { products, products: { items } } } = action;
+        const { relatedProducts: { products, products: { items: initialItems } } } = action;
 
-        if (items) {
-            items.forEach(({ attributes }, i) => {
-                const brandAttribute = attributes.find(({ attribute_code }) => attribute_code === 'brand');
-                if (brandAttribute) items[i].brand = brandAttribute.attribute_value;
-            });
-        }
+        const items = initialItems.reduce(((acc, { attributes }, index) => {
+            const { attribute_value: brand } = attributes.find(({ attribute_code }) => attribute_code === 'brand');
+            return {
+                ...acc,
+                [index]: {
+                    brand
+                }
+            };
+        }), initialItems);
 
         return {
             ...state,
-            relatedProducts: products
+            relatedProducts: {
+                ...products,
+                items
+            }
         };
 
     default:

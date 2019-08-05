@@ -24,24 +24,29 @@ const initialState = {
 const ProductListReducer = (state = initialState, action) => {
     const {
         type,
-        items,
+        items: initialItems,
         currentPage,
         isLoading
     } = action;
 
-    if (items) {
-        items.forEach(({
-            variants, configurable_options, type_id, attributes
-        }, i) => {
-            const brandAttribute = attributes.find(({ attribute_code }) => attribute_code === 'brand');
-            if (brandAttribute) items[i].brand = brandAttribute.attribute_value;
+    const items = initialItems.reduce(((
+        acc,
+        { attributes, configurable_options, variants: initialVariants },
+        index
+    ) => {
+        const { attribute_value: brand } = attributes.find(({ attribute_code }) => attribute_code === 'brand');
 
-            if (type_id === 'configurable' && variants) {
-                const requiredParams = configurable_options.map(({ attribute_code }) => attribute_code);
-                items[i].variants = getVariantsWithParams(variants, requiredParams);
+        const requiredParams = configurable_options.map(({ attribute_code }) => attribute_code);
+        const variants = initialVariants ? getVariantsWithParams(initialVariants, requiredParams) : undefined;
+
+        return {
+            ...acc,
+            [index]: {
+                brand,
+                variants
             }
-        });
-    }
+        };
+    }), initialItems);
 
 
     switch (type) {
