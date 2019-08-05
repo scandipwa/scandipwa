@@ -10,7 +10,7 @@
  */
 
 /* eslint-disable no-param-reassign */
-
+import { getBrand } from 'Util/Product';
 import {
     UPDATE_RELATED_PRODUCTS
 } from './RelatedProducts.action';
@@ -26,7 +26,7 @@ const RelatedProductsReducer = (state = initialState, action) => {
 
         const items = initialItems && initialItems.reduce(((acc, item) => {
             const { attributes } = item;
-            const { attribute_value: brand } = attributes.find(({ attribute_code }) => attribute_code === 'brand');
+            const brand = getBrand(attributes);
 
             return [
                 ...acc,

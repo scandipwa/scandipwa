@@ -14,7 +14,7 @@ import {
     UPDATE_PRODUCT_LIST_ITEMS,
     UPDATE_LOAD_STATUS
 } from 'Store/ProductList';
-import { getVariantsWithParams } from 'Util/Product';
+import { getVariantsWithParams, getBrand } from 'Util/Product';
 
 const initialState = {
     pages: {},
@@ -32,10 +32,8 @@ const ProductListReducer = (state = initialState, action) => {
     const items = initialItems && initialItems.reduce(((acc, item) => {
         const { attributes, configurable_options, variants: initialVariants } = item;
 
-        const { attribute_value: brand } = attributes.find(({ attribute_code }) => attribute_code === 'brand');
-
-        const requiredParams = configurable_options.map(({ attribute_code }) => attribute_code);
-        const variants = initialVariants ? getVariantsWithParams(initialVariants, requiredParams) : undefined;
+        const brand = getBrand(attributes);
+        const variants = initialVariants ? getVariantsWithParams(initialVariants, configurable_options) : undefined;
 
         return [
             ...acc,

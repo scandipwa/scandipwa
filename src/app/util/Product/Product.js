@@ -18,40 +18,24 @@ const checkEveryOption = (parameters, options) => Object.keys(options)
         return options[param].includes(parameters[param]);
     });
 
-export const generateParameters = (variant_attributes, configurable_options) => {
-    const required_params = configurable_options.map(({ attribute_code }) => attribute_code);
-    const parameters = variant_attributes.reduce((accum, { attribute_code, attribute_value }) => {
-        return required_params.includes(attribute_code)
+export const generateParameters = (variant_attributes, required_params) => {
+    const parameters = variant_attributes.reduce((accum, { attribute_code, attribute_value }) => (
+        required_params.includes(attribute_code)
             ? {
                 ...accum,
                 [attribute_code]: attribute_value
             }
-            : accum;
-    }, {});
+            : accum),
+    {});
     return parameters;
-};
-
-export const addParametersToProductVariant = (variant, configurable_options) => {
-    const { attributes } = variant;
-    const parameters = generateParameters(attributes, configurable_options);
-    return { ...variant, parameters };
 };
 
 export const getProductWithParams = (product, requiredParameters) => {
     const { attributes } = product;
 
-    const parameters = attributes.reduce((accum, { attribute_code, attribute_value }) => {
-        if (!requiredParameters.includes(attribute_code)) return accum;
-
-        return {
-            ...accum,
-            [attribute_code]: attribute_value
-        };
-    }, {});
-
     return {
         ...product,
-        parameters
+        parameters: generateParameters(attributes, requiredParameters)
     };
 };
 
@@ -68,8 +52,12 @@ export const getVariantWithParams = (variant, requiredParameters) => {
 export const getVariantIndex = (variants, options) => +Object.keys(variants)
     .find(key => checkEveryOption(variants[key].product.parameters, options));
 
-export const getVariantsWithParams = (variants, requiredParameters) => variants
-    .map(variant => getVariantWithParams(variant, requiredParameters));
+export const getVariantsWithParams = (variants, configurable_options) => {
+    const requiredParameters = configurable_options.map(({ attribute_code }) => attribute_code);
+    return variants.map(variant => getVariantWithParams(variant, requiredParameters));
+};
 
-export const getProductsWithParams = (products, requiredParameters) => products
-    .map(product => getProductWithParams(product, requiredParameters));
+export const getBrand = (attributes) => {
+    const { attribute_value } = attributes.find(({ attribute_code }) => attribute_code === 'brand');
+    return attribute_value;
+};

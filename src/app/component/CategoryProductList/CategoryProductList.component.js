@@ -203,9 +203,7 @@ class CategoryProductList extends Component {
     }
 
     renderPages() {
-        const {
-            pages, customFilters, isLoading
-        } = this.props;
+        const { pages, customFilters, isLoading } = this.props;
 
         return Object.entries(pages).map(([pageNumber, items]) => (
             <ul

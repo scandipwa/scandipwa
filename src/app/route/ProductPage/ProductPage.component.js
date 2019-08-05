@@ -49,14 +49,15 @@ class ProductPage extends Component {
     }
 
     static getDerivedStateFromProps(props, state) {
+        const { id: stateId } = state;
         const {
             product: {
                 variants, configurable_options, id, type_id
-            }, location: { search }
+            },
+            location: { search }
         } = props;
-        const { id: stateId } = state;
 
-        if (!(configurable_options && variants)) return null;
+        if (!(configurable_options && variants && id !== stateId)) return null;
 
         const parameters = Object.entries(convertQueryStringToKeyValuePairs(search))
             .reduce((acc, [key, value]) => {
@@ -66,18 +67,14 @@ class ProductPage extends Component {
                 return acc;
             }, {});
 
-        if (id !== stateId) {
-            const configurableVariantIndex = getVariantIndex(variants, parameters);
+        const configurableVariantIndex = getVariantIndex(variants, parameters);
 
-            if (Object.keys(parameters).length === Object.keys(configurable_options).length
-                || type_id !== 'configurable') {
-                return { id, parameters, configurableVariantIndex };
-            }
-
-            return { id, parameters };
+        if (Object.keys(parameters).length === Object.keys(configurable_options).length
+            || type_id !== 'configurable') {
+            return { id, parameters, configurableVariantIndex };
         }
 
-        return null;
+        return { id, parameters };
     }
 
     componentDidUpdate(prevProps) {
@@ -172,7 +169,7 @@ class ProductPage extends Component {
 
         const parameters = {
             ...oldParameters,
-            [key]: value
+            [key]: `${value}`
         };
 
         this.setState({ parameters });
