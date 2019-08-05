@@ -32,11 +32,10 @@ export const generateParameters = (variant_attributes, required_params) => {
 
 export const getProductWithParams = (product, requiredParameters) => {
     const { attributes } = product;
-    const parameters = generateParameters(attributes, requiredParameters);
 
     return {
         ...product,
-        parameters
+        parameters: generateParameters(attributes, requiredParameters)
     };
 };
 
