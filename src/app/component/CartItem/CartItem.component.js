@@ -39,12 +39,12 @@ class CartItem extends Component {
      * @return {{pathname: String, state Object}} Pathname and product state
      */
     getProductLinkTo() {
-        const { item: { product: { url_key } } } = this.props;
+        const { item: { product, product: { url_key } } } = this.props;
         const variantIndex = this.getVariantIndex();
 
         return {
             pathname: `/product/${ url_key }`,
-            state: { product: parent || product, variantIndex },
+            state: { product: product, variantIndex },
             search: `?variant=${ variantIndex >= 0 ? variantIndex : 0}`
         };
     }
@@ -60,12 +60,11 @@ class CartItem extends Component {
      * @return {void}
      */
     handleChangeQuantity(value) {
-        const { addProduct, product, product: { quantity } } = this.props;
-        const newQuantity = quantity < value ? 1 : -1;
-        this.setState({ isLoading: true });
-        addProduct({ product, quantity: newQuantity }).then(
-            () => this.setState({ isLoading: false })
-        );
+        const { handleChangeQuantity } = this.props;
+        this.setState({ isLoading: true }, () => {
+            this.changeQuantity = handleChangeQuantity(value);
+            this.changeQuantity.promise.then(() => this.setState({ isLoading: false }));
+        });
     }
 
     
@@ -165,7 +164,7 @@ class CartItem extends Component {
     render() {
         const { isLoading } = this.state;
         const { product: { thumbnail: { path: thumbnail } } } = this.getCurrentProduct();
-        let t = '';
+
         return (
             <li block="CartItem" aria-label="Cart Item">
                 <Loader isLoading={ isLoading } />

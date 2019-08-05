@@ -22,21 +22,18 @@ const mapDispatchToProps = dispatch => ({
 
 
 
-const something = (props) => {
+const cartItemWrapper = (props) => {
     /**
      * Handle item quantity change. Check that value is <1
      * @param {Number} value new quantity
      * @return {void}
      */
-    // const handleChangeQuantity = (value) => {
-    //     const { addProduct, product, product: { quantity } } = this.props;
-    //     const newQuantity = quantity < value ? 1 : -1;
-    //     isLoading = true;
-    //     // this.setState({ isLoading: true });
-    //     addProduct({ product, quantity: newQuantity }).then(
-    //         () => { isLoading = false; }
-    //     );
-    // }
+    const handleChangeQuantity = (value) => {
+        const { addProduct, item: { product, qty } } = props;
+        const newQuantity = qty < value ? 1 : -1;
+        // this.setState({ isLoading: true });
+        return makeCancelable(addProduct({ product, quantity: newQuantity }));
+    }
 
     
     const handleRemoveItem = () => {
@@ -45,10 +42,10 @@ const something = (props) => {
     }
 
 
-    return <CartItem { ...props } handleRemoveItem={ handleRemoveItem }/>
+    return <CartItem { ...props } handleRemoveItem={ handleRemoveItem } handleChangeQuantity={ handleChangeQuantity }/>
 }
 
-const CartItemContainer = connect(null, mapDispatchToProps)(something);
+const CartItemContainer = connect(null, mapDispatchToProps)(cartItemWrapper);
 
 
 export default CartItemContainer;

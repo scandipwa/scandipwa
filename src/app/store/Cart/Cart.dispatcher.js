@@ -84,7 +84,7 @@ export class CartDispatcher {
             sku,
             product_type,
             qty: (parseInt(originalQuantity, 10) || 0) + parseInt(quantity, 10),
-            product_option: { extension_attributes: this._getExtensionAttributes(product) }
+            // product_option: { extension_attributes: this._getExtensionAttributes(product) }
         };
 
         if (this._isAllowed(options)) {
@@ -161,7 +161,7 @@ export class CartDispatcher {
         }, {});
 
         dispatch(updateTotals(cartData));
-        dispatch(updateAllProductsInCart(productsToAdd));
+        // dispatch(updateAllProductsInCart(productsToAdd));
     }
 
     _getExtensionAttributes(product) {
