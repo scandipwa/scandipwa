@@ -122,7 +122,7 @@ class ProductCard extends Component {
         return (
             <AddToCart
               product={ product }
-              configurableVariantIndex={ variantIndex }
+            //   configurableVariantIndex={ variantIndex }
               fullWidth
               removeWishlistItem
             />

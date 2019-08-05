@@ -41,7 +41,15 @@ class CartItem extends Component {
      */
     getProductLinkTo(url_key) {
         if (!url_key) return undefined;
-        const { product: { configurableVariantIndex, parent }, product, product: { variants } } = this.props;
+        const {
+            product, product: {
+                type_id, configurableVariantIndex, parent, variants
+            }
+        } = this.props;
+        // eslint-disable-next-line curly
+        if (type_id === 'simple') return {
+            pathname: `/product/${ url_key }`
+        };
         const variantIndex = configurableVariantIndex || 0;
         const { parameters } = variants[variantIndex].product;
         return {

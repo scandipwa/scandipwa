@@ -78,7 +78,6 @@ export class CartDispatcher {
         const { product, quantity } = options;
         const { item_id, quantity: originalQuantity } = this._getProductInCart(product);
         const { sku, type_id: product_type } = product;
-
         const productToAdd = {
             item_id,
             sku,
