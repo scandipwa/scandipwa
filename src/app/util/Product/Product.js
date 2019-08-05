@@ -9,6 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+/**
+ * Checks whether every option is in parameters
+ * @param {Object} parameters
+ * @param {{ attribute_code: string }[]} options
+ * @returns {boolean}
+ */
 const checkEveryOption = (parameters, options) => Object.keys(options)
     .every((param) => {
         if (typeof options[param] === 'string') {
