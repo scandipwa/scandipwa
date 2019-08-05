@@ -37,8 +37,7 @@ const ProductListReducer = (state = initialState, action) => {
             if (brandAttribute) items[i].brand = brandAttribute.attribute_value;
 
             if (type_id === 'configurable' && variants) {
-                const requiredParams = configurable_options.map(({ attribute_code }) => attribute_code);
-                items[i].variants = getVariantsWithParams(variants, requiredParams);
+                items[i].variants = getVariantsWithParams(variants, configurable_options);
             }
         });
     }

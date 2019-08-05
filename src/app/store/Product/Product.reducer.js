@@ -35,8 +35,7 @@ const ProductReducer = (state = initialState, action) => {
         if (brandAttribute) product.brand = brandAttribute.attribute_value;
 
         if (type_id === 'configurable' && variants) {
-            const requiredParams = configurable_options.map(({ attribute_code }) => attribute_code);
-            product.variants = getVariantsWithParams(variants, requiredParams);
+            product.variants = getVariantsWithParams(variants, configurable_options);
         } else {
             const parameters = attributes.reduce(
                 (acc, { attribute_code, attribute_value }) => ({ ...acc, [attribute_code]: attribute_value }),

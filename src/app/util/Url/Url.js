@@ -166,7 +166,7 @@ const convertKeyValueObjectToQueryString = (parameters) => {
         .slice(0, -1); // remove trailing '&'
 
     return `?${ paramString }`;
-}
+};
 
 export {
     getUrlParam,

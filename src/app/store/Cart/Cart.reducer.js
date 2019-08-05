@@ -37,7 +37,8 @@ const updateAllProductsInCart = (action) => {
         if (currentItem.type_id !== 'simple') {
             const { variants, configurable_options, configurableVariantIndex } = currentItem;
             const selectedVariant = variants[configurableVariantIndex].product;
-            const parameters = generateParameters(selectedVariant.attributes, configurable_options);
+            const required_params = configurable_options.map(({ attribute_code }) => attribute_code);
+            const parameters = generateParameters(selectedVariant.attributes, required_params);
             Object.assign(selectedVariant, { parameters });
         }
 
