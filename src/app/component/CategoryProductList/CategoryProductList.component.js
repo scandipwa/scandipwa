@@ -27,12 +27,23 @@ class CategoryProductList extends Component {
 
         this.nodes = {};
         this.observedNodes = [];
+        this.pagesIntersecting = [];
 
         this.loadPage = this.loadPage.bind(this);
 
         this.state = {
             pagesCount: 1
         };
+    }
+
+    componentDidMount() {
+        const { pages } = this.props;
+        const { pagesCount } = this.state;
+        const pagesLength = Object.keys(pages).length;
+
+        if (pagesCount !== pagesLength) {
+            this.setState({ pagesCount: pagesLength });
+        }
     }
 
     /**
@@ -52,11 +63,7 @@ class CategoryProductList extends Component {
      * @return {void}
      */
     componentDidUpdate() {
-        const { updatePage, isLoading } = this.props;
-
-        if (isLoading) {
-            this.pagesIntersecting = [];
-        }
+        const { updatePage } = this.props;
 
         if (!this.observer && 'IntersectionObserver' in window) {
             const options = {
@@ -175,7 +182,7 @@ class CategoryProductList extends Component {
               onKeyUp={ loadPage }
               onClick={ loadPage }
             >
-                    { next ? __('Load next') : __('Load previous') }
+                { next ? __('Load next') : __('Load previous') }
             </div>
         );
     }
