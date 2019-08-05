@@ -107,7 +107,7 @@ class ProductActions extends Component {
      */
     changeConfigurableVariant(attributeCode, value) {
         const { updateConfigurableVariant } = this.props;
-        updateConfigurableVariant({ [attributeCode]: `${value}` });
+        updateConfigurableVariant(attributeCode, value.toString(10));
     }
 
     /**

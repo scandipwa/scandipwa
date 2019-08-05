@@ -22,9 +22,11 @@ import ProductActions from 'Component/ProductActions';
 import GroupedProductsList from 'Component/GroupedProductsList';
 import Meta from 'Component/Meta';
 import { ProductType } from 'Type/ProductList';
-import { getUrlParam, convertQueryStringToKeyValuePairs, setQueryParams } from 'Util/Url';
 import { getVariantIndex } from 'Util/Product';
 import RelatedProducts from 'Component/RelatedProducts';
+import {
+    getUrlParam, convertQueryStringToKeyValuePairs, updateQueryParamWithoutHistory
+} from 'Util/Url';
 import './ProductPage.style';
 
 class ProductPage extends Component {
@@ -164,19 +166,19 @@ class ProductPage extends Component {
      * Update query params without adding to history, set configurableVariantIndex
      * @param {Object} options
      */
-    updateUrl(options) {
-        const { product: { variants, configurable_options }, location, history } = this.props;
+    updateUrl(key, value) {
+        const { product: { variants, configurable_options } } = this.props;
         const { configurableVariantIndex, parameters: oldParameters } = this.state;
 
         const parameters = {
             ...oldParameters,
-            ...options
+            [key]: value
         };
 
         this.setState({ parameters });
-        setQueryParams(options, location, history);
-        const newIndex = getVariantIndex(variants, parameters);
+        updateQueryParamWithoutHistory(key, value);
 
+        const newIndex = getVariantIndex(variants, parameters);
         if (Object.keys(parameters).length === Object.keys(configurable_options).length
             && configurableVariantIndex !== newIndex) {
             this.setState({ configurableVariantIndex: newIndex });
