@@ -32,14 +32,15 @@ const updateCartTotals = (action) => {
 
 const updateAllProductsInCart = (action) => {
     const { products } = action;
-
     const parameteredProducts = Object.keys(products).reduce((accum, key) => {
         const currentItem = products[key];
-        const { variants, configurable_options, configurableVariantIndex } = currentItem;
-        const selectedVariant = variants[configurableVariantIndex].product;
-        const parameters = generateParameters(selectedVariant.attributes, configurable_options);
+        if (currentItem.type_id !== 'simple') {
+            const { variants, configurable_options, configurableVariantIndex } = currentItem;
+            const selectedVariant = variants[configurableVariantIndex].product;
+            const parameters = generateParameters(selectedVariant.attributes, configurable_options);
+            Object.assign(selectedVariant, { parameters });
+        }
 
-        Object.assign(selectedVariant, { parameters });
         return {
             ...accum,
             [key]: {
