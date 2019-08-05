@@ -29,25 +29,23 @@ const ProductListReducer = (state = initialState, action) => {
         isLoading
     } = action;
 
-    const items = initialItems.reduce(((
-        acc,
-        { attributes, configurable_options, variants: initialVariants },
-        index
-    ) => {
+    const items = initialItems && initialItems.reduce(((acc, item) => {
+        const { attributes, configurable_options, variants: initialVariants } = item;
+
         const { attribute_value: brand } = attributes.find(({ attribute_code }) => attribute_code === 'brand');
 
         const requiredParams = configurable_options.map(({ attribute_code }) => attribute_code);
         const variants = initialVariants ? getVariantsWithParams(initialVariants, requiredParams) : undefined;
 
-        return {
+        return [
             ...acc,
-            [index]: {
+            {
+                ...item,
                 brand,
                 variants
             }
-        };
-    }), initialItems);
-
+        ];
+    }), []);
 
     switch (type) {
     case APPEND_PAGE:
