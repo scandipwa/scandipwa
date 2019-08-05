@@ -96,9 +96,7 @@ class CartItem extends Component {
     handleRemoveItem() {
         const { removeProduct, product } = this.props;
         this.setState({ isLoading: true });
-        removeProduct({ product }).then(
-            () => this.setState({ isLoading: false })
-        );
+        removeProduct({ product });
     }
 
     /**
