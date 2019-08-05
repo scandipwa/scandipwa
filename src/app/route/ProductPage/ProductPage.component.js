@@ -147,7 +147,7 @@ class ProductPage extends Component {
             isSingleProduct: true,
             getConfigurableData: true
         };
-
+        this.setState({ configurableVariantIndex: -1 });
         requestProduct(options);
     }
 
