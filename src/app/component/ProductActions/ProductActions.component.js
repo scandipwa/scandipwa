@@ -167,9 +167,8 @@ class ProductActions extends Component {
      */
     renderConfigurableSwatches() {
         const { product: { configurable_options }, areDetailsLoaded, parameters } = this.props;
-        const configurableExists = areDetailsLoaded;
 
-        if (!configurableExists) {
+        if (!areDetailsLoaded) {
             return this.renderSwatchPlaceholder();
         }
 
@@ -197,7 +196,7 @@ class ProductActions extends Component {
                       backgroundColor={ backgroundColor(value.value_index) }
                       handler={ () => updateConfigurableVariant(
                           attribute_code,
-                          value.value_index.toString(10)
+                          value.value_index
                       ) }
                       arePlaceholdersShown
                     />

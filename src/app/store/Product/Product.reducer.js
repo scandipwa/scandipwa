@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { getVariantsWithParams } from 'Util/Product';
+import { getVariantsWithParams, getBrand } from 'Util/Product';
 import {
     UPDATE_PRODUCT_DETAILS,
     UPDATE_GROUPED_PRODUCT_QUANTITY,
@@ -31,7 +31,7 @@ const ProductReducer = (state = initialState, action) => {
             }
         } = action;
 
-        const { attribute_value: brand } = attributes.find(({ attribute_code }) => attribute_code === 'brand');
+        const brand = getBrand(attributes);
 
         const parameters = !initialVariants
             ? attributes.reduce(
@@ -39,9 +39,8 @@ const ProductReducer = (state = initialState, action) => {
                 {}
             ) : undefined;
 
-        const requiredParams = configurable_options.map(({ attribute_code }) => attribute_code);
         const variants = type_id === 'configurable' && initialVariants
-            ? getVariantsWithParams(initialVariants, requiredParams)
+            ? getVariantsWithParams(initialVariants, configurable_options)
             : undefined;
 
         return {
