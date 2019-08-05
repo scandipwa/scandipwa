@@ -161,7 +161,8 @@ class ProductPage extends Component {
 
     /**
      * Update query params without adding to history, set configurableVariantIndex
-     * @param {Object} options
+     * @param {string} key
+     * @param {number|string} value
      */
     updateUrl(key, value) {
         const { product: { variants, configurable_options } } = this.props;
