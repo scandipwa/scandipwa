@@ -100,17 +100,6 @@ class ProductActions extends Component {
     }
 
     /**
-     * Handle configurable value change
-     * @param {Number} value custom filter value
-     * @param {String} attributeCode
-     * @return {void}
-     */
-    changeConfigurableVariant(attributeCode, value) {
-        const { updateConfigurableVariant } = this.props;
-        updateConfigurableVariant({ [attributeCode]: `${value}` });
-    }
-
-    /**
      * Handle onKeyDown event
      * @param {Object} event onKeyDown event
      * @returns {void}
@@ -185,6 +174,7 @@ class ProductActions extends Component {
         }
 
         const renderAvailableValues = (configurableOption) => {
+            const { updateConfigurableVariant } = this.props;
             const { values, attribute_code } = configurableOption;
             const isColorOption = attribute_code === 'color';
 
@@ -205,7 +195,10 @@ class ProductActions extends Component {
                       isRound={ isColorOption }
                       isSelected={ isSelected(value.value_index) }
                       backgroundColor={ backgroundColor(value.value_index) }
-                      handler={ () => this.changeConfigurableVariant(attribute_code, value.value_index) }
+                      handler={ () => updateConfigurableVariant(
+                          attribute_code,
+                          value.value_index.toString(10)
+                      ) }
                       arePlaceholdersShown
                     />
                 </li>

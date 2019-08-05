@@ -41,7 +41,15 @@ class CartItem extends Component {
      */
     getProductLinkTo(url_key) {
         if (!url_key) return undefined;
-        const { product: { configurableVariantIndex, parent, variants }, product } = this.props;
+        const {
+            product,
+            product: {
+                type_id, configurableVariantIndex, parent, variants
+            }
+        } = this.props;
+
+        if (type_id === 'simple') return { pathname: `/product/${ url_key }` };
+
         const variantIndex = configurableVariantIndex || 0;
         const { parameters } = variants[variantIndex].product;
         return {
@@ -88,9 +96,7 @@ class CartItem extends Component {
     handleRemoveItem() {
         const { removeProduct, product } = this.props;
         this.setState({ isLoading: true });
-        removeProduct({ product }).then(
-            () => this.setState({ isLoading: false })
-        );
+        removeProduct({ product });
     }
 
     /**
