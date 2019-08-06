@@ -81,6 +81,9 @@ class ProductPage extends Component {
 
         if (location.pathname !== prevProps.location.pathname) this.requestProduct();
         this.updateBreadcrumbs();
+
+
+        console.log(this.props, this.state);
     }
 
     componentWillUnmount() {
@@ -194,9 +197,10 @@ class ProductPage extends Component {
         updateQueryParamWithoutHistory(key, value);
 
         const newIndex = getVariantIndex(variants, parameters);
-        // if (Object.keys(parameters).length === Object.keys(configurable_options).length
-        //     && configurableVariantIndex !== newIndex) {
-        if (configurableVariantIndex !== newIndex) {
+        if (
+            Object.keys(parameters).length === Object.keys(configurable_options).length
+            && configurableVariantIndex !== newIndex
+        ) {
             this.setState({ configurableVariantIndex: newIndex });
         }
     }

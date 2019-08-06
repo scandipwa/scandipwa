@@ -32,6 +32,7 @@ const ProductListReducer = (state = initialState, action) => {
     const items = initialItems && initialItems.reduce(((acc, item) => {
         const { attributes, configurable_options, variants: initialVariants } = item;
 
+        // TODO: remove brand
         const brand = getBrand(attributes);
         const variants = initialVariants ? getVariantsWithParams(initialVariants, configurable_options) : undefined;
 

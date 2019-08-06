@@ -119,8 +119,8 @@ class AddToCart extends Component {
             configurableVariantIndex
         } = this.props;
 
-        console.log(this.props, this.state);
         const isNotAvailable = stock_status !== 'IN_STOCK';
+
         const isNotVariantAvailable = !(type_id === 'configurable'
             && Object.keys(variants).length
             ? !!variants[configurableVariantIndex] : true);

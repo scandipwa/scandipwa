@@ -28,13 +28,7 @@ const RelatedProductsReducer = (state = initialState, action) => {
             const { attributes } = item;
             const brand = getBrand(attributes);
 
-            return [
-                ...acc,
-                {
-                    ...item,
-                    brand
-                }
-            ];
+            return [...acc, { ...item, brand }];
         }), []);
 
         return {

@@ -41,11 +41,7 @@ const ProductReducer = (state = initialState, action) => {
             ? attributes.reduce(
                 (acc, { attribute_code, attribute_value }) => ({ ...acc, [attribute_code]: attribute_value }),
                 {}
-            ) : undefined;
-
-            // attributes.reduce((acc, { attribute_code, attribute_value }) => (
-            //     { ...acc, [attribute_code]: attribute_value }
-            // ), {});
+            ) : {};
 
         const variants = type_id === 'configurable' && initialVariants
             ? getVariantsWithParams(initialVariants, configurable_options)
