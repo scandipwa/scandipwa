@@ -15,13 +15,13 @@
  * @param {{ attribute_code: string }[]} options
  * @returns {boolean}
  */
-const checkEveryOption = (parameters, options) => Object.keys(options)
-    .every((param) => {
-        if (typeof options[param] === 'string') {
-            return options[param] === parameters[param];
+const checkEveryOption = (attributes, options) => Object.keys(options)
+    .every((option) => {
+        if (typeof options[option] === 'string') {
+            return options[option] === attributes[option].attribute_value;
         }
 
-        return options[param].includes(parameters[param]);
+        return options[option].includes(attributes[option].attribute_value);
     });
 
 /**
@@ -67,7 +67,7 @@ const getVariantWithParams = (variant, requiredParameters) => {
  * @returns {number}
  */
 export const getVariantIndex = (variants, options) => +Object.keys(variants)
-    .find(key => checkEveryOption(variants[key].product.parameters, options));
+    .find(i => checkEveryOption(variants[i].attributes, options));
 
 /**
  * Append product variants with parameters

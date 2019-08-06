@@ -27,29 +27,56 @@ const ProductReducer = (state = initialState, action) => {
         const {
             product,
             product: {
-                variants: initialVariants, configurable_options, attributes, type_id
+                variants: initialVariants = [],
+                configurable_options: initialConfigurableOptions = [],
+                attributes: initialAttributes = []
             }
         } = action;
 
-        const brand = getBrand(attributes);
+        const reduceAttributes = attributes => attributes.reduce((acc, attribute) => {
+            const { attribute_code, attribute_options = [] } = attribute;
 
-        const parameters = !initialVariants
-            ? attributes.reduce(
-                (acc, { attribute_code, attribute_value }) => ({ ...acc, [attribute_code]: attribute_value }),
-                {}
-            ) : undefined;
+            acc[attribute_code] = {
+                ...attribute,
+                attribute_options: attribute_options.reduce((acc, option) => (
+                    { ...acc, [option.value]: option }
+                ), {})
+            };
 
-        const variants = type_id === 'configurable' && initialVariants
-            ? getVariantsWithParams(initialVariants, configurable_options)
-            : undefined;
+            return acc;
+        }, {});
+
+        const attributes = reduceAttributes(initialAttributes);
+
+        const reduceConfigurableOptions = configurable_options => (
+            configurable_options.reduce((acc, option) => {
+                const { values, attribute_code } = option;
+
+                return {
+                    ...acc,
+                    [attribute_code]: {
+                        ...attributes[attribute_code],
+                        attribute_values: values.map(({ value_index }) => `${value_index}`)
+                    }
+                };
+            }, {})
+        );
+
+        const reduceVariants = variants => variants.map(({ product }) => {
+            const { attributes } = product;
+            return {
+                ...product,
+                attributes: reduceAttributes(attributes)
+            };
+        });
 
         return {
             ...state,
             product: {
                 ...product,
-                brand,
-                parameters,
-                variants
+                configurable_options: reduceConfigurableOptions(initialConfigurableOptions),
+                variants: reduceVariants(initialVariants),
+                attributes
             }
         };
 

@@ -41,11 +41,12 @@ class ProductCard extends Component {
         const { product: { variants }, customFilters } = this.props;
         const customFiltersExist = customFilters && Object.keys(customFilters).length;
 
-        if (variants && customFiltersExist) {
-            const index = getVariantIndex(variants, customFilters);
+        const index = variants ? getVariantIndex(variants, customFilters) : 0;
+        const { product: { parameters: initialParameters } } = variants[index];
 
+        if (variants && customFiltersExist) {
             if (!Number.isNaN(index)) {
-                const parameters = Object.entries(variants[index].product.parameters).reduce((acc, [key, param]) => {
+                const parameters = Object.entries(variants[index].parameters).reduce((acc, [key, param]) => {
                     if (Object.keys(customFilters).includes(key)) return { ...acc, [key]: param };
                     return acc;
                 }, {});
@@ -54,7 +55,7 @@ class ProductCard extends Component {
             }
         }
 
-        return { index: 0, parameters: null };
+        return { index, parameters };
     }
 
     getLinkTo(parameters) {
@@ -78,7 +79,7 @@ class ProductCard extends Component {
      */
     getThumbnail(currentVariantIndex) {
         const { product: { thumbnail, variants } } = this.props;
-        const variantThumbnail = variants ? variants[ currentVariantIndex ].product.thumbnail.path : null;
+        const variantThumbnail = variants ? variants[ currentVariantIndex ].thumbnail.path : null;
         return variantThumbnail || (thumbnail && thumbnail.path);
     }
 
@@ -147,6 +148,8 @@ class ProductCard extends Component {
     }
 
     render() {
+        return null;
+
         const {
             product: {
                 name,
@@ -167,7 +170,7 @@ class ProductCard extends Component {
         const linkTo = this.getLinkTo(parameters);
 
         const { price } = type_id === 'configurable' && variants
-            ? variants[index].product
+            ? variants[index]
             : product;
 
         return (

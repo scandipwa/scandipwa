@@ -128,7 +128,7 @@ export class CartDispatcher {
 
                 const variant = variants.find(
                     (variant, index) => {
-                        const { product: { sku: productSku } } = variant;
+                        const { sku: productSku } = variant;
                         const isChosenProduct = productSku === sku;
                         if (isChosenProduct) configurableVariantIndex = index;
                         return isChosenProduct;
@@ -136,7 +136,7 @@ export class CartDispatcher {
                 );
 
                 if (variant) {
-                    const { product: { id: variantId } } = variant;
+                    const { id: variantId } = variant;
 
                     return {
                         ...prev,
@@ -173,7 +173,7 @@ export class CartDispatcher {
         } = product;
 
         if (type_id === 'configurable') {
-            const { product: currentVariant } = variants[configurableVariantIndex];
+            const currentVariant = variants[configurableVariantIndex];
 
             const configurable_item_options = configurable_options.reduce((prev, curr) => {
                 const { attribute_id, attribute_code } = curr;
