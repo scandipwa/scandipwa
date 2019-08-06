@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -11,19 +10,18 @@
  */
 
 import React, { Component } from 'react';
-
-import { Route, Switch } from 'react-router-dom';
-import { Router } from 'react-router';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { createBrowserHistory } from 'history';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Store from 'Store';
 
 import HomePage from 'Route/HomePage';
 import CategoryPage from 'Route/CategoryPage';
+import SearchPage from 'Route/SearchPage';
 import ProductPage from 'Route/ProductPage';
 import CmsPage from 'Route/CmsPage';
 import CartPage from 'Route/CartPage';
 import CheckoutPage from 'Route/CheckoutPage';
 import MyAccountDetails from 'Route/MyAccountDetails';
+import MyAccountWishlist from 'Route/MyAccountWishlist';
 import PasswordChangePage from 'Route/PasswordChangePage';
 import NoMatchHandler from 'Route/NoMatchHandler';
 import UrlRewrites from 'Route/UrlRewrites';
@@ -32,10 +30,8 @@ import Header from 'Component/Header';
 import Footer from 'Component/Footer';
 import Breadcrumbs from 'Component/Breadcrumbs';
 import NotificationList from 'Component/NotificationList';
-
-import Store from 'Store';
-
 import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
+import { ConfigDispatcher } from 'Store/Config';
 import { CartDispatcher } from 'Store/Cart';
 import { WishlistDispatcher } from 'Store/Wishlist';
 
@@ -43,12 +39,9 @@ const BEFORE_ITEMS_TYPE = 'BEFORE_ITEMS_TYPE';
 const SWITCH_ITEMS_TYPE = 'SWITCH_ITEMS_TYPE';
 const AFTER_ITEMS_TYPE = 'AFTER_ITEMS_TYPE';
 
-export const history = createBrowserHistory({ basename: '/' });
-
-class AppRouter extends Component {
+export class AppRouter extends Component {
     constructor() {
         super();
-
         this.items = {
             beforeItems: [
                 {
@@ -72,6 +65,10 @@ class AppRouter extends Component {
                 {
                     component: <Route path="/category" component={ CategoryPage } />,
                     position: 20
+                },
+                {
+                    component: <Route path="/search/:query/" component={ SearchPage } />,
+                    position: 25
                 },
                 {
                     component: <Route path="/product" component={ ProductPage } />,
@@ -98,6 +95,10 @@ class AppRouter extends Component {
                     position: 70
                 },
                 {
+                    component: <Route path="/wishlist/" exact component={ MyAccountWishlist } />,
+                    position: 90
+                },
+                {
                     component: <Route component={ UrlRewrites } />,
                     position: 100
                 }
@@ -109,7 +110,6 @@ class AppRouter extends Component {
                 }
             ]
         };
-
         this.customItems = {};
     }
 
@@ -127,14 +127,24 @@ class AppRouter extends Component {
         };
         const footerOptions = {
             identifiers: [
-                'social-links',
-                'imagine-banner'
+                'footer-free-shipping',
+                'footer-online-support',
+                'footer-payment-secure',
+                'footer-company-links',
+                'footer-resources-links',
+                'footer-quick-links',
+                'footer-social-links',
+                'footer-download-our-apps',
+                'footer-payment-options',
+                'footer-copyright-text',
+                'newsletter-signup'
             ],
             fields: ['identifier']
         };
 
         WishlistDispatcher.updateInitialWishlistData(Store.dispatch);
-        HeaderAndFooterDispatcher.handleData(Store.dispatch, { menu: { menuId: 2 }, footer: footerOptions });
+        HeaderAndFooterDispatcher.handleData(Store.dispatch, { menu: { menuId: 1 }, footer: footerOptions });
+        ConfigDispatcher.handleData(Store.dispatch);
         CartDispatcher.updateInitialCartData(Store.dispatch);
     }
 
@@ -196,7 +206,7 @@ class AppRouter extends Component {
         } = this.items;
 
         return (
-            <Router history={ history }>
+            <Router>
                 <>
                     {
                         this.prepareContent(beforeItems, BEFORE_ITEMS_TYPE)

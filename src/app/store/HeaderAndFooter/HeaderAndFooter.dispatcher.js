@@ -17,7 +17,7 @@ import { updateCmsBlocks } from 'Store/CmsBlocksAndSlider';
 
 class HeaderAndFooterDispatcher extends QueryDispatcher {
     constructor() {
-        super('HeaderAndFooter', 86400);
+        super('HeaderAndFooter', 31536000);
     }
 
     onSuccess(options, dispatch) {

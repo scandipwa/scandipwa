@@ -21,7 +21,7 @@ import { updateCmsBlocks, updateSlider } from 'Store/CmsBlocksAndSlider';
  */
 class CmsBlocksAndSliderDispatcher extends QueryDispatcher {
     constructor() {
-        super('CmsBlocksAndSlider', 86400);
+        super('CmsBlocksAndSlider', 31536000);
     }
 
     onSuccess(data, dispatch) {
