@@ -109,27 +109,38 @@ class ProductPage extends Component {
         return useLoadedProduct ? product : state.product;
     }
 
+    getConfigurableVariantIndex(variants) {
+        const { configurableVariantIndex, parameters } = this.state;
+
+        if (configurableVariantIndex >= 0) return configurableVariantIndex;
+        if (variants) return getVariantIndex(variants, parameters);
+
+        return -1;
+    }
+
     getConfigurableVariantMediaLibrary() {
         const { product: { variants } } = this.props;
-        const { configurableVariantIndex } = this.state;
         const dataSource = this.getDataSource();
+        const index = this.getConfigurableVariantIndex(variants);
+
         const { media_gallery_entries } = dataSource;
-        const { media_gallery_entries: configurableMediaGallery } = variants[configurableVariantIndex].product;
+        const { media_gallery_entries: configurableMediaGallery } = variants[index].product;
 
         return configurableMediaGallery.length ? configurableMediaGallery : media_gallery_entries;
     }
 
     /**
      * Get thumbnail picture of the product
-     * @param {Number} currentVariantIndex product variant index
      * @param {Object} dataSource product data
      * @return {Number} variant index
      */
-    getThumbnail(currentVariantIndex, dataSource) {
+    getThumbnail(dataSource) {
         const { thumbnail, variants } = dataSource;
+        const index = this.getConfigurableVariantIndex(variants);
+
         const variantThumbnail = variants
-            && variants[ currentVariantIndex ]
-            && variants[ currentVariantIndex ].product.thumbnail;
+            && variants[ index ]
+            && variants[ index ].product.thumbnail;
         return variantThumbnail || thumbnail;
     }
 
@@ -161,7 +172,8 @@ class ProductPage extends Component {
 
     /**
      * Update query params without adding to history, set configurableVariantIndex
-     * @param {Object} options
+     * @param {string} key
+     * @param {number|string} value
      */
     updateUrl(key, value) {
         const { product: { variants, configurable_options } } = this.props;
@@ -188,8 +200,8 @@ class ProductPage extends Component {
         const dataSource = this.getDataSource();
         const { media_gallery_entries } = dataSource;
         const areDetailsLoaded = dataSource === product;
-        const thumbnail = this.getThumbnail(configurableVariantIndex, dataSource);
-        const mediaGallery = variants && variants[configurableVariantIndex] && areDetailsLoaded
+        const thumbnail = this.getThumbnail(dataSource);
+        const mediaGallery = variants && areDetailsLoaded
             ? this.getConfigurableVariantMediaLibrary()
             : media_gallery_entries;
 

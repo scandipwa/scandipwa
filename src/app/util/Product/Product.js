@@ -9,6 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+/**
+ * Checks whether every option is in parameters
+ * @param {Object} parameters
+ * @param {{ attribute_code: string }[]} options
+ * @returns {boolean}
+ */
 const checkEveryOption = (parameters, options) => Object.keys(options)
     .every((param) => {
         if (typeof options[param] === 'string') {
@@ -18,9 +24,15 @@ const checkEveryOption = (parameters, options) => Object.keys(options)
         return options[param].includes(parameters[param]);
     });
 
-export const generateParameters = (variant_attributes, required_params) => {
-    const parameters = variant_attributes.reduce((accum, { attribute_code, attribute_value }) => (
-        required_params.includes(attribute_code)
+/**
+ * Get parameters for product variant from varian attributes
+ * @param {{ attribute_code: string, attribute_value: string }[]} variantAttributes
+ * @param {string[]} requiredParams
+ * @returns {Object}
+ */
+export const generateParameters = (variantAttributes, requiredParams) => {
+    const parameters = variantAttributes.reduce((accum, { attribute_code, attribute_value }) => (
+        requiredParams.includes(attribute_code)
             ? {
                 ...accum,
                 [attribute_code]: attribute_value
@@ -30,34 +42,49 @@ export const generateParameters = (variant_attributes, required_params) => {
     return parameters;
 };
 
-export const getProductWithParams = (product, requiredParameters) => {
-    const { attributes } = product;
-    const parameters = generateParameters(attributes, requiredParameters);
-
-    return {
-        ...product,
-        parameters
-    };
-};
-
-export const getVariantWithParams = (variant, requiredParameters) => {
-    const { product: initialProduct } = variant;
-    const product = getProductWithParams(initialProduct, requiredParameters);
+/**
+ * Append product variant with parameters
+ * @param {Object} variant
+ * @param {string[]} requiredParameters
+ * @returns {Object}
+ */
+const getVariantWithParams = (variant, requiredParameters) => {
+    const { product, product: { attributes } } = variant;
 
     return {
         ...variant,
-        product
+        product: {
+            ...product,
+            parameters: generateParameters(attributes, requiredParameters)
+        }
     };
 };
 
+/**
+ * Get product variant index by options
+ * @param {Object[]} variants
+ * @param {{ attribute_code: string }[]} options
+ * @returns {number}
+ */
 export const getVariantIndex = (variants, options) => +Object.keys(variants)
     .find(key => checkEveryOption(variants[key].product.parameters, options));
 
+/**
+ * Append product variants with parameters
+ * @param {Object[]} variants
+ * @param {{ attribute_code: string }[]} configurable_options
+ * @returns {Object[]}
+ */
 export const getVariantsWithParams = (variants, configurable_options) => {
     const requiredParameters = configurable_options.map(({ attribute_code }) => attribute_code);
     return variants.map(variant => getVariantWithParams(variant, requiredParameters));
 };
 
+/**
+ * Get product's brand from attributes
+ * @param {{ attribute_value: string, attribute_code: string }} attributes
+ * @returns {string}
+ */
 export const getBrand = (attributes) => {
     const { attribute_value } = attributes.find(({ attribute_code }) => attribute_code === 'brand');
     return attribute_value;

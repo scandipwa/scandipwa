@@ -316,7 +316,7 @@ class ProductActions extends Component {
 
 ProductActions.propTypes = {
     product: ProductType.isRequired,
-    parameters: PropTypes.shape({}).isRequired,
+    parameters: PropTypes.object.isRequired,
     configurableVariantIndex: PropTypes.number.isRequired,
     updateConfigurableVariant: PropTypes.func.isRequired,
     groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired,
