@@ -107,7 +107,11 @@ class CheckoutShippingStep extends Component {
                     const { street: stateStreet } = this.state;
                     this.setState({ street: { ...stateStreet, 1: street } }, this.handleFieldChange);
                 },
-                validation: []
+                validation: [],
+                onKeyPress: (e) => {
+                    console.log(e);
+                    console.log('im hereee');
+                }
             },
             [CITY_FIELD_ID]: { label: __('City') },
             [STATE_FIELD_ID]: {
@@ -140,6 +144,10 @@ class CheckoutShippingStep extends Component {
                 defaultValue: DEFAULT_COUNTRY,
                 onChange: (countryId) => {
                     this.getAvailableRegions(countryId);
+                    console.log(countryId);
+                },
+                onKeyPress: (e) => {
+                    console.log(e.key);
                 }
             },
             [PHONE_FIELD_ID]: {
@@ -373,7 +381,8 @@ class CheckoutShippingStep extends Component {
             defaultValue,
             validation = ['notEmpty'],
             onChange = value => this.setState({ [id]: value }, this.handleFieldChange),
-            onBlur
+            onBlur,
+            onKeyPress
         } = this.fieldMap[id];
 
         return (
@@ -388,6 +397,7 @@ class CheckoutShippingStep extends Component {
               validation={ validation }
               onChange={ onChange }
               onBlur={ onBlur }
+              onKeyPress={ onKeyPress }
             />
         );
     }

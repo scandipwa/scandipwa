@@ -159,6 +159,11 @@ const clearQueriesFromUrl = (history) => {
     history.push({ search: '' });
 };
 
+/**
+ * Convert object with key value pairs to url query string
+ * @param {Object} keyValuePairs object with key value pairs
+ * @return {String} Converted query string
+ */
 const convertKeyValueObjectToQueryString = (parameters) => {
     if (!parameters) return '?nothing';
     const paramString = Object.keys(parameters).sort()
