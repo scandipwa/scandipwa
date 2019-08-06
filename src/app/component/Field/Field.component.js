@@ -246,7 +246,6 @@ class Field extends Component {
               onFocus={ event => this.onFocus(event) }
               onBlur={ event => this.onBlur(event) }
               onClick={ event => this.onClick(event) }
-              onKeyPress={ event => this.onKeyPress(event) }
               placeholder={ placeholder }
               autoComplete={ !isAutocompleteAllowed ? 'off' : undefined }
               defaultValue={ defaultValue }
@@ -313,7 +312,6 @@ class Field extends Component {
               options={ options }
               selectedOption={ value }
               onGetKey={ event => this.onChange(event) }
-              onKeyPress={ event => this.onKeyPress(event) }
             />
         );
     }

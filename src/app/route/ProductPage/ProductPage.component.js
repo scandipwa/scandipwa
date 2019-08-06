@@ -146,13 +146,6 @@ class ProductPage extends Component {
         return variantThumbnail || thumbnail;
     }
 
-    // getThumbnail(dataSource) {
-    //     const { thumbnail, variants = { product: {} } } = dataSource;
-    //     const index = this.getConfigurableVariantIndex(variants);
-    //     const { product: { thumbnail: variantThumbnail } } = variants[index];
-    //     return variantThumbnail || thumbnail;
-    // }
-
     /**
      * Dispatch product data request
      * @return {void}
