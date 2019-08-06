@@ -27,10 +27,14 @@ const ProductReducer = (state = initialState, action) => {
         const {
             product,
             product: {
-                variants: initialVariants, configurable_options, attributes, type_id
+                variants: initialVariants,
+                configurable_options,
+                attributes,
+                type_id
             }
         } = action;
 
+        // TODO: fix brand
         const brand = getBrand(attributes);
 
         const parameters = !initialVariants
@@ -38,6 +42,10 @@ const ProductReducer = (state = initialState, action) => {
                 (acc, { attribute_code, attribute_value }) => ({ ...acc, [attribute_code]: attribute_value }),
                 {}
             ) : undefined;
+
+            // attributes.reduce((acc, { attribute_code, attribute_value }) => (
+            //     { ...acc, [attribute_code]: attribute_value }
+            // ), {});
 
         const variants = type_id === 'configurable' && initialVariants
             ? getVariantsWithParams(initialVariants, configurable_options)

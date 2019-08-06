@@ -51,7 +51,7 @@ class CartItem extends Component {
         if (type_id === 'simple') return { pathname: `/product/${ url_key }` };
 
         const variantIndex = configurableVariantIndex || 0;
-        const { parameters } = variants[variantIndex].product;
+        const { product: { parameters } } = variants[variantIndex] || {};
         return {
             pathname: `/product/${ url_key }`,
             state: { product: parent || product, variantIndex },

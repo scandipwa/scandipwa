@@ -187,21 +187,24 @@ class ProductActions extends Component {
                 value === parseInt(parameters[attribute_code], 10)
             );
 
-            return values.map(value => (
-                <li key={ value.value_index }>
-                    <Swatch
-                      title={ isColorOption ? '' : returnLabel(value) }
-                      isRound={ isColorOption }
-                      isSelected={ isSelected(value.value_index) }
-                      backgroundColor={ backgroundColor(value.value_index) }
-                      handler={ () => updateConfigurableVariant(
-                          attribute_code,
-                          value.value_index
-                      ) }
-                      arePlaceholdersShown
-                    />
-                </li>
-            ));
+            return values.map((value) => {
+                const { value_index } = value;
+                return (
+                    <li key={ value_index }>
+                        <Swatch
+                          title={ isColorOption ? '' : returnLabel(value) }
+                          isRound={ isColorOption }
+                          isSelected={ isSelected(value_index) }
+                          backgroundColor={ backgroundColor(value_index) }
+                          handler={ () => updateConfigurableVariant(
+                              attribute_code,
+                              value_index
+                          ) }
+                          arePlaceholdersShown
+                        />
+                    </li>
+                );
+            });
         };
 
         const renderOptions = () => (
@@ -260,7 +263,7 @@ class ProductActions extends Component {
             if (attributes.length) {
                 return attributes.map((attribute) => {
                     const { attribute_code } = attribute;
-                    if (parameters && parameters[attribute_code]) {
+                    if (Object.keys(parameters).length && parameters[attribute_code]) {
                         return renderSwatch(attribute);
                     }
 

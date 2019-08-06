@@ -34,19 +34,19 @@ const updateAllProductsInCart = (action) => {
     const { products } = action;
     const parameteredProducts = Object.keys(products).reduce((accum, key) => {
         const currentItem = products[key];
-        if (currentItem.type_id !== 'simple') {
-            const { variants, configurable_options, configurableVariantIndex } = currentItem;
-            const selectedVariant = variants[configurableVariantIndex].product;
+        const {
+            variants, configurable_options, configurableVariantIndex, type_id
+        } = currentItem;
+        if (type_id !== 'simple') {
+            const { product: selectedVariant } = variants[configurableVariantIndex];
             const required_params = configurable_options.map(({ attribute_code }) => attribute_code);
             const parameters = generateParameters(selectedVariant.attributes, required_params);
-            Object.assign(selectedVariant, { parameters });
+            variants[configurableVariantIndex].product = { ...selectedVariant, parameters };
         }
 
         return {
             ...accum,
-            [key]: {
-                ...currentItem
-            }
+            [key]: currentItem
         };
     }, {});
 

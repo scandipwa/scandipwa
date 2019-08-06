@@ -44,31 +44,30 @@ class ProductCard extends Component {
         if (variants && customFiltersExist) {
             const index = getVariantIndex(variants, customFilters);
 
-            if (!Number.isNaN(index)) {
-                const parameters = Object.entries(variants[index].product.parameters).reduce((acc, [key, param]) => {
-                    if (Object.keys(customFilters).includes(key)) return { ...acc, [key]: param };
-                    return acc;
-                }, {});
+            if (Number.isNaN(index)) {
+                const { product: { parameters: params } } = variants[index];
+                const parameters = Object.entries(params).reduce(
+                    (acc, [key, param]) => (customFilters[key] ? { ...acc, [key]: param } : acc),
+                    {}
+                );
 
                 return { index, parameters };
             }
         }
 
-        return { index: 0, parameters: null };
+        return { index: 0, parameters: {} };
     }
 
     getLinkTo(parameters) {
         const { product: { url_key }, product } = this.props;
 
-        const search = parameters && convertKeyValueObjectToQueryString(parameters);
+        if (!url_key) return undefined;
 
-        return url_key
-            ? {
-                pathname: `/product/${ url_key }`,
-                state: { product },
-                search
-            }
-            : undefined;
+        return {
+            pathname: `/product/${ url_key }`,
+            state: { product },
+            search: convertKeyValueObjectToQueryString(parameters)
+        };
     }
 
     /**
@@ -96,7 +95,8 @@ class ProductCard extends Component {
         return null;
     }
 
-    addOrConfigureProduct(variantIndex, linkTo) {
+    renderAddOrConfigureButton(notReady, linkTo) {
+        if (notReady) return <TextPlaceholder length="medium" />;
         const { product, product: { url_key, type_id } } = this.props;
 
         if (type_id === 'configurable') {
@@ -124,6 +124,17 @@ class ProductCard extends Component {
               product={ product }
               fullWidth
               removeWishlistItem
+            />
+        );
+    }
+
+    renderAddToWishlistButton(notReady) {
+        const { product } = this.props;
+        if (notReady) return <TextPlaceholder length="medium" />;
+        return (
+            <ProductWishlistButton
+              product={ product }
+              fullWidth
             />
         );
     }
@@ -190,19 +201,8 @@ class ProductCard extends Component {
                 </TagName>
                 { this.renderReviewSummary(linkTo) }
                 <div block="ProductCard" elem="Actions">
-                    { price
-                        ? this.addOrConfigureProduct(index, linkTo)
-                        : <TextPlaceholder length="medium" />
-                    }
-                    { price
-                        ? (
-                            <ProductWishlistButton
-                              product={ product }
-                              fullWidth
-                            />
-                        )
-                        : <TextPlaceholder length="medium" />
-                    }
+                    { this.renderAddOrConfigureButton(!price, linkTo) }
+                    { this.renderAddToWishlistButton(!price) }
                 </div>
             </li>
         );

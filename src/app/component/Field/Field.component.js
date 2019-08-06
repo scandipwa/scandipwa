@@ -109,7 +109,6 @@ class Field extends Component {
 
     onKeyPress(event) {
         const { onKeyPress } = this.props;
-        console.log('hey inside keyPress', onKeyPress);
         if (onKeyPress) onKeyPress(event);
     }
 
@@ -304,7 +303,6 @@ class Field extends Component {
     renderTypeSelect() {
         const { id, formRef, options } = this.props;
         const { value } = this.state;
-        console.log('renderTypeSelect', this.props, this.state);
 
         return (
             <Select
@@ -315,7 +313,7 @@ class Field extends Component {
               options={ options }
               selectedOption={ value }
               onGetKey={ event => this.onChange(event) }
-              onKeyPress={ event => console.log(event) }
+              onKeyPress={ event => this.onKeyPress(event) }
             />
         );
     }

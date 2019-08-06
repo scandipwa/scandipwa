@@ -165,7 +165,7 @@ const clearQueriesFromUrl = (history) => {
  * @return {String} Converted query string
  */
 const convertKeyValueObjectToQueryString = (parameters) => {
-    if (!parameters) return '?nothing';
+    if (!parameters) return '';
     const paramString = Object.keys(parameters).sort()
         .reduce((acc, key) => `${ acc }${ key }=${ parameters[key] }&`, '')
         .slice(0, -1); // remove trailing '&'

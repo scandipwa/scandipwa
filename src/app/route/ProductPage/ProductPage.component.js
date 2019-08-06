@@ -25,7 +25,9 @@ import { ProductType } from 'Type/ProductList';
 import { getVariantIndex } from 'Util/Product';
 import RelatedProducts from 'Component/RelatedProducts';
 import {
-    getUrlParam, convertQueryStringToKeyValuePairs, updateQueryParamWithoutHistory
+    getUrlParam,
+    convertQueryStringToKeyValuePairs,
+    updateQueryParamWithoutHistory
 } from 'Util/Url';
 import './ProductPage.style';
 
@@ -59,21 +61,18 @@ class ProductPage extends Component {
 
         if (!(configurable_options && variants && id !== stateId)) return null;
 
-        const parameters = Object.entries(convertQueryStringToKeyValuePairs(search))
-            .reduce((acc, [key, value]) => {
-                if (configurable_options.find(({ attribute_code }) => attribute_code === key)) {
-                    return { ...acc, [key]: value };
-                }
-                return acc;
-            }, {});
+        const parameters = Object.entries(convertQueryStringToKeyValuePairs(search)).reduce((acc, [key, value]) => (
+            configurable_options.some(({ attribute_code }) => attribute_code === key) ? { ...acc, [key]: value } : acc
+        ), {});
 
         const configurableVariantIndex = getVariantIndex(variants, parameters);
 
-        if (Object.keys(parameters).length === Object.keys(configurable_options).length
-            || type_id !== 'configurable') {
+        if (
+            Object.keys(parameters).length === Object.keys(configurable_options).length
+            || type_id !== 'configurable'
+        ) {
             return { id, parameters, configurableVariantIndex };
         }
-
         return { id, parameters };
     }
 
@@ -124,7 +123,7 @@ class ProductPage extends Component {
         const index = this.getConfigurableVariantIndex(variants);
 
         const { media_gallery_entries } = dataSource;
-        const { media_gallery_entries: configurableMediaGallery } = variants[index].product;
+        const { product: { media_gallery_entries: configurableMediaGallery } } = variants[index];
 
         return configurableMediaGallery.length ? configurableMediaGallery : media_gallery_entries;
     }
@@ -139,10 +138,17 @@ class ProductPage extends Component {
         const index = this.getConfigurableVariantIndex(variants);
 
         const variantThumbnail = variants
-            && variants[ index ]
-            && variants[ index ].product.thumbnail;
+            && variants[index]
+            && variants[index].product.thumbnail;
         return variantThumbnail || thumbnail;
     }
+
+    // getThumbnail(dataSource) {
+    //     const { thumbnail, variants = { product: {} } } = dataSource;
+    //     const index = this.getConfigurableVariantIndex(variants);
+    //     const { product: { thumbnail: variantThumbnail } } = variants[index];
+    //     return variantThumbnail || thumbnail;
+    // }
 
     /**
      * Dispatch product data request
@@ -181,15 +187,16 @@ class ProductPage extends Component {
 
         const parameters = {
             ...oldParameters,
-            [key]: `${value}`
+            [key]: value.toString(10)
         };
 
         this.setState({ parameters });
         updateQueryParamWithoutHistory(key, value);
 
         const newIndex = getVariantIndex(variants, parameters);
-        if (Object.keys(parameters).length === Object.keys(configurable_options).length
-            && configurableVariantIndex !== newIndex) {
+        // if (Object.keys(parameters).length === Object.keys(configurable_options).length
+        //     && configurableVariantIndex !== newIndex) {
+        if (configurableVariantIndex !== newIndex) {
             this.setState({ configurableVariantIndex: newIndex });
         }
     }
