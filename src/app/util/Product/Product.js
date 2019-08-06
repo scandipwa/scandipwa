@@ -9,6 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+/**
+ * Checks whether every option is in parameters
+ * @param {Object} parameters
+ * @param {{ attribute_code: string }[]} options
+ * @returns {boolean}
+ */
 const checkEveryOption = (parameters, options) => Object.keys(options)
     .every((param) => {
         if (typeof options[param] === 'string') {
@@ -37,33 +43,20 @@ export const generateParameters = (variantAttributes, requiredParams) => {
 };
 
 /**
- * Return product with parameters
- * @param {Obejct} product
- * @param {string[]} requiredParameters
- * @returns {Object}
- */
-export const getProductWithParams = (product, requiredParameters) => {
-    const { attributes } = product;
-
-    return {
-        ...product,
-        parameters: generateParameters(attributes, requiredParameters)
-    };
-};
-
-/**
  * Append product variant with parameters
  * @param {Object} variant
  * @param {string[]} requiredParameters
  * @returns {Object}
  */
-export const getVariantWithParams = (variant, requiredParameters) => {
-    const { product: initialProduct } = variant;
-    const product = getProductWithParams(initialProduct, requiredParameters);
+const getVariantWithParams = (variant, requiredParameters) => {
+    const { product, product: { attributes } } = variant;
 
     return {
         ...variant,
-        product
+        product: {
+            ...product,
+            parameters: generateParameters(attributes, requiredParameters)
+        }
     };
 };
 
