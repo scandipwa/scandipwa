@@ -27,7 +27,7 @@ const checkEveryOption = (parameters, options) => Object.keys(options)
 /**
  * Get parameters for product variant from varian attributes
  * @param {{ attribute_code: string, attribute_value: string }[]} variantAttributes
- * @param {*} requiredParams
+ * @param {string[]} requiredParams
  * @returns {Object}
  */
 export const generateParameters = (variantAttributes, requiredParams) => {
