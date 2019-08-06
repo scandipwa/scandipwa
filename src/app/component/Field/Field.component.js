@@ -109,7 +109,7 @@ class Field extends Component {
 
     onKeyPress(event) {
         const { onKeyPress } = this.props;
-        // console.log('hey inside keyPress', onKeyPress);
+        console.log('hey inside keyPress', onKeyPress);
         if (onKeyPress) onKeyPress(event);
     }
 
@@ -315,7 +315,7 @@ class Field extends Component {
               options={ options }
               selectedOption={ value }
               onGetKey={ event => this.onChange(event) }
-              onKeyPress={ event => this.onKeyPress(event) }
+              onKeyPress={ event => console.log(event) }
             />
         );
     }
