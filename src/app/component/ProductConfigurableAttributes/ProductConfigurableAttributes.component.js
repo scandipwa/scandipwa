@@ -26,8 +26,11 @@ class ProductConfigurableAttributes extends Component {
         return Object.values(configurable_options).map((option) => {
             const { attribute_values, attribute_label } = option;
             return (
-                <section aria-label={ attribute_label }>
-                    <h4>{ attribute_label }</h4>
+                <section
+                  block="ProductConfigurableAttribute"
+                  aria-label={ attribute_label }
+                >
+                    <h4 block="ProductConfigurableAttribute" elem="SectionHeading">{ attribute_label }</h4>
                     { attribute_values.map(attribute_value => (
                         this.renderConfigurableAttribute({ ...option, attribute_value })
                     )) }

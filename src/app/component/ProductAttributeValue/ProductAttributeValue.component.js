@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import TextPlaceholder from 'Component/TextPlaceholder';
 import './ProductAttributeValue.style';
 
 class ProductAttributeValue extends Component {
