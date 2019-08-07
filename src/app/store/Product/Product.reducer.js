@@ -8,8 +8,7 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-
-import { getVariantsWithParams, getBrand } from 'Util/Product';
+import { getIndexedProduct } from 'Util/Product';
 import {
     UPDATE_PRODUCT_DETAILS,
     UPDATE_GROUPED_PRODUCT_QUANTITY,
@@ -24,60 +23,11 @@ const initialState = {
 const ProductReducer = (state = initialState, action) => {
     switch (action.type) {
     case UPDATE_PRODUCT_DETAILS:
-        const {
-            product,
-            product: {
-                variants: initialVariants = [],
-                configurable_options: initialConfigurableOptions = [],
-                attributes: initialAttributes = []
-            }
-        } = action;
-
-        const reduceAttributes = attributes => attributes.reduce((acc, attribute) => {
-            const { attribute_code, attribute_options = [] } = attribute;
-
-            acc[attribute_code] = {
-                ...attribute,
-                attribute_options: attribute_options.reduce((acc, option) => (
-                    { ...acc, [option.value]: option }
-                ), {})
-            };
-
-            return acc;
-        }, {});
-
-        const attributes = reduceAttributes(initialAttributes);
-
-        const reduceConfigurableOptions = configurable_options => (
-            configurable_options.reduce((acc, option) => {
-                const { values, attribute_code } = option;
-
-                return {
-                    ...acc,
-                    [attribute_code]: {
-                        ...attributes[attribute_code],
-                        attribute_values: values.map(({ value_index }) => `${value_index}`)
-                    }
-                };
-            }, {})
-        );
-
-        const reduceVariants = variants => variants.map(({ product }) => {
-            const { attributes } = product;
-            return {
-                ...product,
-                attributes: reduceAttributes(attributes)
-            };
-        });
+        const { product } = action;
 
         return {
             ...state,
-            product: {
-                ...product,
-                configurable_options: reduceConfigurableOptions(initialConfigurableOptions),
-                variants: reduceVariants(initialVariants),
-                attributes
-            }
+            product: getIndexedProduct(product)
         };
 
     case UPDATE_GROUPED_PRODUCT_QUANTITY:

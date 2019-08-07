@@ -17,7 +17,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { ProductType } from 'Type/ProductList';
 import Field from 'Component/Field';
-import Swatch from 'Component/Swatch';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import ProductPrice from 'Component/ProductPrice';
 import AddToCart from 'Component/AddToCart';
@@ -123,7 +122,6 @@ class ProductActions extends Component {
 
 ProductActions.propTypes = {
     product: ProductType.isRequired,
-    parameters: PropTypes.shape({}).isRequired,
     configurableVariantIndex: PropTypes.number.isRequired,
     groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired
 };

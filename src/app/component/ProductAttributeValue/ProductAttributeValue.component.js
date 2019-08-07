@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import TextPlaceholder from 'Component/TextPlaceholder';
+import './ProductAttributeValue.style';
 
 class ProductAttributeValue extends Component {
     constructor(props) {
@@ -76,15 +77,15 @@ class ProductAttributeValue extends Component {
     }
 
     renderColorValue(color, label) {
-        const { mix } = this.props;
         const isLight = this.getIsColorLight(color);
 
         return (
             <data
+              block="ProductAttributeValue"
+              elem="Color"
               value={ label }
-              mix={ { ...mix, mods: { isColor: true } } }
               style={ {
-                  '--swatch-background': color,
+                  '--swatch-background-color': color,
                   '--swatch-border-color': isLight ? '#000' : color,
                   '--swatch-check-mark-background': isLight ? '#000' : '#fff'
               } }
@@ -93,23 +94,24 @@ class ProductAttributeValue extends Component {
     }
 
     renderImageValue(img, label) {
-        const { mix } = this.props;
-
         return (
             <img
+              block="ProductAttributeValue"
+              elem="Image"
               src={ img }
-              mix={ { ...mix, mods: { isImage: true } } }
               alt={ label }
             />
         );
     }
 
     renderStringValue(value, label) {
-        const { mix } = this.props;
-
         return (
-            <span mix={ mix } title={ label }>
-                <TextPlaceholder content={ value } />
+            <span
+              block="ProductAttributeValue"
+              elem="String"
+              title={ label }
+            >
+                { value }
             </span>
         );
     }
@@ -132,13 +134,24 @@ class ProductAttributeValue extends Component {
     }
 
     render() {
-        const { attribute: { attribute_code, attribute_value, attribute_options = [] } } = this.props;
+        const {
+            onClick,
+            attribute: { attribute_code, attribute_value }
+        } = this.props;
         if (attribute_code && !attribute_value) return null;
-        return this.renderAttributeByType();
+        return (
+            <button
+              block="ProductAttributeValue"
+              onClick={ () => onClick() }
+            >
+                { this.renderAttributeByType() }
+            </button>
+        );
     }
 }
 
 ProductAttributeValue.propTypes = {
+    onClick: PropTypes.func.isRequired,
     attribute: PropTypes.shape({
         attribute_code: PropTypes.string,
         attribute_type: PropTypes.string,
@@ -148,10 +161,6 @@ ProductAttributeValue.propTypes = {
             label: PropTypes.string,
             value: PropTypes.string
         }))
-    }).isRequired,
-    mix: PropTypes.shape({
-        block: PropTypes.string,
-        elem: PropTypes.string
     }).isRequired
 };
 

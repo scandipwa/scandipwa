@@ -9,56 +9,56 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+
 /**
- * Checks whether every option is in parameters
- * @param {Object} parameters
+ * Checks whether every option is in attributes
+ * @param {Object} attributes
  * @param {{ attribute_code: string }[]} options
  * @returns {boolean}
  */
 const checkEveryOption = (attributes, options) => Object.keys(options)
     .every((option) => {
+        if (!attributes[option]) return false;
+
+        const { attribute_value } = attributes[option];
+
         if (typeof options[option] === 'string') {
-            return options[option] === attributes[option].attribute_value;
+            return options[option] === attribute_value;
         }
 
-        return options[option].includes(attributes[option].attribute_value);
+        return options[option].includes(attribute_value);
     });
 
-/**
- * Get parameters for product variant from varian attributes
- * @param {{ attribute_code: string, attribute_value: string }[]} variantAttributes
- * @param {string[]} requiredParams
- * @returns {Object}
- */
-export const generateParameters = (variantAttributes, requiredParams) => {
-    const parameters = variantAttributes.reduce((accum, { attribute_code, attribute_value }) => (
-        requiredParams.includes(attribute_code)
-            ? {
-                ...accum,
-                [attribute_code]: attribute_value
-            }
-            : accum),
-    {});
-    return parameters;
-};
-
-/**
- * Append product variant with parameters
- * @param {Object} variant
- * @param {string[]} requiredParameters
- * @returns {Object}
- */
-const getVariantWithParams = (variant, requiredParameters) => {
-    const { product, product: { attributes } } = variant;
-
+const getIndexedAttributes = attributes => attributes.reduce((indexedAttributes, attribute) => {
+    const { attribute_code, attribute_options = [] } = attribute;
     return {
-        ...variant,
-        product: {
-            ...product,
-            parameters: generateParameters(attributes, requiredParameters)
+        ...indexedAttributes,
+        [attribute_code]: {
+            ...attribute,
+            attribute_options: attribute_options.reduce((indexedAttributeOptions, option) => (
+                { ...indexedAttributeOptions, [option.value]: option }
+            ), {})
         }
     };
-};
+}, {});
+
+const getIndexedConfigurableOptions = (configurableOptions, indexedAttributes) => (
+    configurableOptions.reduce((indexedConfigurableOptions, { values, attribute_code }) => ({
+        ...indexedConfigurableOptions,
+        [attribute_code]: {
+            ...indexedAttributes[attribute_code],
+            attribute_values: values.map(({ value_index }) => `${ value_index }`)
+        }
+    }), {})
+);
+
+const getIndexedVariants = variants => variants.map(({ product }) => {
+    const { attributes } = product;
+    return {
+        ...product,
+        attributes: getIndexedAttributes(attributes)
+    };
+});
 
 /**
  * Get product variant index by options
@@ -66,26 +66,30 @@ const getVariantWithParams = (variant, requiredParameters) => {
  * @param {{ attribute_code: string }[]} options
  * @returns {number}
  */
-export const getVariantIndex = (variants, options) => +Object.keys(variants)
-    .find(i => checkEveryOption(variants[i].attributes, options));
+export const getVariantIndex = (variants, options) => variants
+    .findIndex(variant => checkEveryOption(variant.attributes, options));
 
-/**
- * Append product variants with parameters
- * @param {Object[]} variants
- * @param {{ attribute_code: string }[]} configurable_options
- * @returns {Object[]}
- */
-export const getVariantsWithParams = (variants, configurable_options) => {
-    const requiredParameters = configurable_options.map(({ attribute_code }) => attribute_code);
-    return variants.map(variant => getVariantWithParams(variant, requiredParameters));
+export const getVariantsIndexes = (variants, options) => Object.entries(variants)
+    .reduce((indexes, [index, variant]) => {
+        if (checkEveryOption(variant.attributes, options)) indexes.push(+index);
+        return indexes;
+    }, []);
+
+export const getIndexedProduct = (product) => {
+    const {
+        variants: initialVariants = [],
+        configurable_options: initialConfigurableOptions = [],
+        attributes: initialAttributes = []
+    } = product;
+
+    const attributes = getIndexedAttributes(initialAttributes);
+
+    return {
+        ...product,
+        configurable_options: getIndexedConfigurableOptions(initialConfigurableOptions, attributes),
+        variants: getIndexedVariants(initialVariants),
+        attributes
+    };
 };
 
-/**
- * Get product's brand from attributes
- * @param {{ attribute_value: string, attribute_code: string }} attributes
- * @returns {string}
- */
-export const getBrand = (attributes) => {
-    const { attribute_value } = attributes.find(({ attribute_code }) => attribute_code === 'brand');
-    return attribute_value;
-};
+export const getIndexedProducts = products => products.map(getIndexedProduct);
