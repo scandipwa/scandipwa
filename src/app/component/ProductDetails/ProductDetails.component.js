@@ -31,7 +31,9 @@ class ProductDetails extends Component {
     renderSku() {
         const {
             product: {
-                variants = [], sku, stock_status
+                variants = [],
+                sku,
+                stock_status
             },
             areDetailsLoaded,
             configurableVariantIndex

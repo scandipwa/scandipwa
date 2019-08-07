@@ -226,7 +226,7 @@ class ProductActions extends Component {
     }
 
     renderSimpleSwatches() {
-        const { product: { attributes, parameters } } = this.props;
+        const { product: { attributes, parameters = {} } } = this.props;
 
         const renderSwatch = (attribute) => {
             const {

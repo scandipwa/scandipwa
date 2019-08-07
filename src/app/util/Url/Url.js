@@ -164,13 +164,12 @@ const clearQueriesFromUrl = (history) => {
  * @param {Object} keyValuePairs object with key value pairs
  * @return {String} Converted query string
  */
-const convertKeyValueObjectToQueryString = (parameters) => {
-    if (!parameters) return '';
-    const paramString = Object.keys(parameters).sort()
-        .reduce((acc, key) => `${ acc }${ key }=${ parameters[key] }&`, '')
-        .slice(0, -1); // remove trailing '&'
+const convertKeyValueObjectToQueryString = (keyValueObject = {}) => {
+    const paramString = Object.entries(keyValueObject).sort()
+        .reduce((acc, [key, value]) => `${acc}&${key}=${value}`, '')
+        .replace('&', '');
 
-    return `?${ paramString }`;
+    return paramString.length > 0 ? `?${paramString}` : '';
 };
 
 export {

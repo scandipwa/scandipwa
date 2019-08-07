@@ -81,9 +81,6 @@ class ProductPage extends Component {
 
         if (location.pathname !== prevProps.location.pathname) this.requestProduct();
         this.updateBreadcrumbs();
-
-
-        console.log(this.props, this.state);
     }
 
     componentWillUnmount() {

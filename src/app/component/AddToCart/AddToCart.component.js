@@ -121,9 +121,7 @@ class AddToCart extends Component {
 
         const isNotAvailable = stock_status !== 'IN_STOCK';
 
-        const isNotVariantAvailable = !(type_id === 'configurable'
-            && Object.keys(variants).length
-            ? !!variants[configurableVariantIndex] : true);
+        const isNotVariantAvailable = type_id === 'configurable' && !variants[configurableVariantIndex];
 
         return (
             <button

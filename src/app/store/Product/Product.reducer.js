@@ -34,7 +34,6 @@ const ProductReducer = (state = initialState, action) => {
             }
         } = action;
 
-        // TODO: fix brand
         const brand = getBrand(attributes);
 
         const parameters = !initialVariants
