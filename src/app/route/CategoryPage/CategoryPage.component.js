@@ -21,7 +21,11 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import CategoryShoppingOptions from 'Component/CategoryShoppingOptions';
 import Meta from 'Component/Meta';
 import {
-    getUrlParam, getQueryParam, setQueryParams, clearQueriesFromUrl, convertQueryStringToKeyValuePairs
+    getUrlParam,
+    getQueryParam,
+    setQueryParams,
+    clearQueriesFromUrl,
+    convertQueryStringToKeyValuePairs
 } from 'Util/Url';
 import { CategoryTreeType } from 'Type/Category';
 import { PagesType } from 'Type/ProductList';

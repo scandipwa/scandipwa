@@ -14,7 +14,7 @@ import {
     UPDATE_PRODUCT_LIST_ITEMS,
     UPDATE_LOAD_STATUS
 } from 'Store/ProductList';
-import { getVariantsWithParams, getBrand } from 'Util/Product';
+import { getIndexedProducts } from 'Util/Product';
 
 const initialState = {
     pages: {},
@@ -24,27 +24,12 @@ const initialState = {
 const ProductListReducer = (state = initialState, action) => {
     const {
         type,
-        items: initialItems,
+        items: initialItems = [],
         currentPage,
         isLoading
     } = action;
 
-    const items = initialItems && initialItems.reduce(((acc, item) => {
-        const { attributes, configurable_options, variants: initialVariants } = item;
-
-        // TODO: remove brand
-        const brand = getBrand(attributes);
-        const variants = initialVariants ? getVariantsWithParams(initialVariants, configurable_options) : undefined;
-
-        return [
-            ...acc,
-            {
-                ...item,
-                brand,
-                variants
-            }
-        ];
-    }), []);
+    const items = getIndexedProducts(initialItems);
 
     switch (type) {
     case APPEND_PAGE:

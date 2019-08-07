@@ -30,6 +30,7 @@ import {
     updateQueryParamWithoutHistory
 } from 'Util/Url';
 import './ProductPage.style';
+import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
 
 class ProductPage extends Component {
     constructor() {
@@ -61,9 +62,13 @@ class ProductPage extends Component {
 
         if (!(configurable_options && variants && id !== stateId)) return null;
 
-        const parameters = Object.entries(convertQueryStringToKeyValuePairs(search)).reduce((acc, [key, value]) => (
-            configurable_options.some(({ attribute_code }) => attribute_code === key) ? { ...acc, [key]: value } : acc
-        ), {});
+        const parameters = Object.entries(convertQueryStringToKeyValuePairs(search))
+            .reduce((acc, [key, value]) => {
+                if (configurable_options[key]) {
+                    return { ...acc, [key]: value };
+                }
+                return acc;
+            }, {});
 
         const configurableVariantIndex = getVariantIndex(variants, parameters);
 
@@ -123,7 +128,7 @@ class ProductPage extends Component {
         const index = this.getConfigurableVariantIndex(variants);
 
         const { media_gallery_entries } = dataSource;
-        const { product: { media_gallery_entries: configurableMediaGallery } } = variants[index];
+        const { media_gallery_entries: configurableMediaGallery } = variants[index];
 
         return configurableMediaGallery.length ? configurableMediaGallery : media_gallery_entries;
     }
@@ -134,12 +139,9 @@ class ProductPage extends Component {
      * @return {Number} variant index
      */
     getThumbnail(dataSource) {
-        const { thumbnail, variants } = dataSource;
+        const { thumbnail, variants = [] } = dataSource;
         const index = this.getConfigurableVariantIndex(variants);
-
-        const variantThumbnail = variants
-            && variants[index]
-            && variants[index].product.thumbnail;
+        const { thumbnail: variantThumbnail } = variants[index] || {};
         return variantThumbnail || thumbnail;
     }
 
@@ -225,14 +227,15 @@ class ProductPage extends Component {
                           areDetailsLoaded={ areDetailsLoaded }
                           configurableVariantIndex={ configurableVariantIndex }
                         />
-                        <div aria-label={ __('Product Actions') }>
-                            { type_id === 'grouped'
-                            && (
-                                <GroupedProductsList
-                                  product={ dataSource }
-                                  handleGroupedQuantityChange={ this.changeGroupedProductQuantity }
-                                />
-                            ) }
+                        <div>
+                            <GroupedProductsList
+                              product={ dataSource }
+                              handleGroupedQuantityChange={ this.changeGroupedProductQuantity }
+                            />
+                            <ProductConfigurableAttributes
+                              product={ product }
+                              updateConfigurableVariant={ this.updateUrl }
+                            />
                             <ProductActions
                               product={ dataSource }
                               parameters={ parameters }

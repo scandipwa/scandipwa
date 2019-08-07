@@ -310,7 +310,8 @@ class ProductListQuery {
         const attributes = new Field('attributes')
             .addField('attribute_value')
             .addField('attribute_code')
-            .addField('attribute_label');
+            .addField('attribute_label')
+            .addField('attribute_type');
 
         if (isFullProduct) {
             attributes
@@ -320,6 +321,7 @@ class ProductListQuery {
                         .addField('value')
                         .addField(
                             new Field('swatch_data')
+                                .addField('type')
                                 .addField('value')
                         )
                 );

@@ -8,8 +8,7 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-
-import { getVariantsWithParams, getBrand } from 'Util/Product';
+import { getIndexedProduct } from 'Util/Product';
 import {
     UPDATE_PRODUCT_DETAILS,
     UPDATE_GROUPED_PRODUCT_QUANTITY,
@@ -24,36 +23,11 @@ const initialState = {
 const ProductReducer = (state = initialState, action) => {
     switch (action.type) {
     case UPDATE_PRODUCT_DETAILS:
-        const {
-            product,
-            product: {
-                variants: initialVariants,
-                configurable_options,
-                attributes,
-                type_id
-            }
-        } = action;
-
-        const brand = getBrand(attributes);
-
-        const parameters = !initialVariants
-            ? attributes.reduce(
-                (acc, { attribute_code, attribute_value }) => ({ ...acc, [attribute_code]: attribute_value }),
-                {}
-            ) : {};
-
-        const variants = type_id === 'configurable' && initialVariants
-            ? getVariantsWithParams(initialVariants, configurable_options)
-            : undefined;
+        const { product } = action;
 
         return {
             ...state,
-            product: {
-                ...product,
-                brand,
-                parameters,
-                variants
-            }
+            product: getIndexedProduct(product)
         };
 
     case UPDATE_GROUPED_PRODUCT_QUANTITY:
