@@ -18,9 +18,7 @@ import {
     UPDATE_MENU,
     TOGGLE_HEADER_AND_FOOTER,
     updateMenu,
-    toggleHeaderAndFooter,
-    getCountryList,
-    GET_COUNTRY_LIST
+    toggleHeaderAndFooter
 } from './HeaderAndFooter.action';
 
 export {
@@ -30,7 +28,5 @@ export {
     UPDATE_MENU,
     TOGGLE_HEADER_AND_FOOTER,
     updateMenu,
-    toggleHeaderAndFooter,
-    getCountryList,
-    GET_COUNTRY_LIST
+    toggleHeaderAndFooter
 };

@@ -10,10 +10,6 @@
  */
 
 .ProductDescription {
-    --description-background: var(--color-breadcrumbs-background);
-
-    background-color: var(--description-background);
-
     &-Wrapper {
         display: grid;
         grid-template-columns: 1fr 1.2fr;

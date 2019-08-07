@@ -21,6 +21,7 @@ import Cart from 'Query/Cart.query';
 import UrlRewritesQuery from 'Query/UrlRewrites.query';
 import RegionQuery from 'Query/Region.query';
 import CheckEmailQuery from 'Query/CheckEmail.query';
+import Review from 'Query/Review.query';
 
 export {
     CategoryQuery,
@@ -34,5 +35,6 @@ export {
     Wishlist,
     Cart,
     RegionQuery,
-    CheckEmailQuery
+    CheckEmailQuery,
+    Review
 };

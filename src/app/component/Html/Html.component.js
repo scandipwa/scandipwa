@@ -45,6 +45,10 @@ class Html extends Component {
             {
                 query: { name: ['input'] },
                 replace: this.replaceInput
+            },
+            {
+                query: { name: ['script'] },
+                replace: this.replaceScript
             }
         ];
 
@@ -83,7 +87,9 @@ class Html extends Component {
         const { href } = attribs;
         if (href) {
             const isAbsoluteUrl = value => new RegExp('^(?:[a-z]+:)?//', 'i').test(value);
-            if (!isAbsoluteUrl(attribs.href)) {
+            const isSpecialLink = value => new RegExp('^(sms|tel|mailto):', 'i').test(value);
+            
+            if (!isAbsoluteUrl(attribs.href) && !isSpecialLink(attribs.href)) {
                 /* eslint no-param-reassign: 0 */
                 // Allowed, because param is not a direct reference
                 attribs.to = attribs.href;
@@ -162,6 +168,14 @@ class Html extends Component {
      */
     replaceInput({ attribs }) {
         return <input { ...attributesToProps(attribs) } />;
+    }
+
+    replaceScript({ attribs }) {
+        const script = document.createElement('script');
+        Object.entries(attribs).forEach(([attr, value]) => script.setAttribute(attr, value));
+        document.body.appendChild(script);
+
+        return <></>;
     }
 
     render() {

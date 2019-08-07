@@ -11,7 +11,7 @@
 
 import { Field } from 'Util/Query';
 
-const CHILDREN_DEPTH = 1;
+const CHILDREN_DEPTH = 0;
 
 /**
  * Category Query
@@ -25,10 +25,18 @@ class CategoryQuery {
      * @memberof CategoryQuery
      */
     getQuery(options = {}) {
-        const category = new Field('category')
-            .addArgument('id', 'Int!', '2'); // TODO: When config is available get value from config
+        const { categoryUrlPath, categoryIds, childrenDepth } = options;
+        const category = new Field('category');
 
-        this.childrenDepth = options.childrenDepth || CHILDREN_DEPTH;
+        if (categoryUrlPath) {
+            category.addArgument('url_path', 'String!', categoryUrlPath); // TODO: When config is available get value from config
+        } else if (categoryIds) {
+            category.addArgument('id', 'Int!', categoryIds);
+        } else {
+            throw new Error(__('Can not query category without ID/URL_PATH not specified.'));
+        }
+
+        this.childrenDepth = childrenDepth || CHILDREN_DEPTH;
 
         this._addDefaultFields(category);
         this._addChildrenFields(category);

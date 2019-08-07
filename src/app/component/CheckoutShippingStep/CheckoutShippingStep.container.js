@@ -14,7 +14,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mapStateToProps = state => ({
-    countryList: state.HeaderAndFooterReducer.countries
+    countryList: state.ConfigReducer.countries
 });
 
 const MappedCheckoutShippingStep = connect(mapStateToProps, mapDispatchToProps)(CheckoutShippingStep);

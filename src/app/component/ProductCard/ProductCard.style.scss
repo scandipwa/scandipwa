@@ -11,10 +11,12 @@
 
 .ProductCard {
     --card-highlight-color: transparent;
+
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     border: 1px solid var(--card-highlight-color);
+    background-color: var(--color-text-white);
     text-align: center;
     padding-left: 0;
     min-width: 0;
@@ -122,6 +124,45 @@
         .ProductWishlistButton {
             &-Button {
                 margin-left: 0;
+            }
+        }
+    }
+
+    &-ReviewSummary {
+        font-size: 1.1rem;
+        padding-top: 0;
+
+        @include mobile {
+            font-size: 1rem;
+            margin-top: 1rem;
+        }
+
+        .ProductReviewRating,
+        a {
+            display: inline-block;
+            padding: 0;
+        }
+
+        .ProductReviewRating {
+            vertical-align: middle;
+
+            @include mobile {
+                font-size: 1.4rem;
+                margin: 0;
+            }
+        }
+
+        a {
+            color: var(--link-color);
+            vertical-align: sub;
+
+            @include mobile {
+                display: block;
+            }
+
+            &:hover,
+            &:focus {
+                text-decoration: underline;
             }
         }
     }

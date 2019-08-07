@@ -17,7 +17,7 @@ import { Field, Fragment } from 'Util/Query';
  */
 class ProductListQuery {
     /**
-     * get ProductList query
+     * Get ProductList query
      * @param  {{search: String, categoryIds: Array<String|Number>, productUrlPath: String, categoryUrlPath: String, activePage: Number, priceRange: {min: Number, max: Number}, sortKey: String, sortDirection: String, productPageSize: Number, customFilters: Object}} options A object containing different aspects of query, each item can be omitted
      * @return {Query} ProductList query
      * @memberof ProductListQuery
@@ -33,15 +33,21 @@ class ProductListQuery {
         const field = new Field('products')
             .addArgument('currentPage', 'Int!', args.currentPage)
             .addArgument('pageSize', 'Int!', args.pageSize)
-            .addArgument('filter', 'ProductFilterInput!', args.filter)
-            .addField('total_count')
-            .addField(items);
+            .addArgument('filter', 'ProductFilterInput!', args.filter);
 
         if (args.sort) field.addArgument('sort', 'ProductSortInput', args.sort);
         if (args.search) field.addArgument('search', 'String', encodeURIComponent(args.search));
 
-        // do not load sort and filter fields if this is next page load
-        if (!options.isNextPage) field.addField(sortFields).addField(filters);
+        if (!options.notRequireInfo) {
+            field
+                .addField('total_count')
+                .addField('min_price')
+                .addField('max_price')
+                .addField(sortFields)
+                .addField(filters);
+        }
+
+        if (!options.notRequireItems) field.addField(items);
 
         return field;
     }
@@ -342,10 +348,11 @@ class ProductListQuery {
             const productLinks = this._prepareAdditionalProductLinks();
             const description = new Field('description').addField('html');
             const groupedProductItems = this._prepareGroupedData();
+            const reviews = this._prepareReviewsField();
 
             additionalInformation.push(...[
                 'meta_title', 'meta_keyword', 'meta_description', 'canonical_url',
-                description, mediaGallery, tierPrices, productLinks, groupedProductItems
+                description, mediaGallery, tierPrices, productLinks, groupedProductItems, reviews
             ]);
         }
 
@@ -431,6 +438,37 @@ class ProductListQuery {
     }
 
     /**
+     * Prepare review summary field
+     * @returns {Field}
+     * @private
+     */
+    _prepareReviewSummaryField() {
+        return new Field('review_summary')
+            .addField('rating_summary')
+            .addField('review_count');
+    }
+
+    /**
+     * Prepare review summary field
+     * @returns {Field}
+     * @private
+     */
+    _prepareReviewsField() {
+        const ratingVotes = new Field('rating_votes')
+            .addField('vote_id')
+            .addField('rating_code')
+            .addField('percent');
+
+        return new Field('reviews')
+            .addField('review_id')
+            .addField('nickname')
+            .addField('title')
+            .addField('detail')
+            .addField('created_at')
+            .addField(ratingVotes);
+    }
+
+    /**
      * Prepare `items` field
      * @private
      * @param  {{isSingleProduct: Boolean, search: String, categoryIds: Array<String|Number>, categoryUrlPath: String, activePage: Number, priceRange: {min: Number, max: Number}, sortKey: String, sortDirection: String, productPageSize: Number}} options A object containing different aspects of query, each item can be omitted
@@ -444,6 +482,7 @@ class ProductListQuery {
         const images = this._prepareImageFields(options); // images related to product (based on `isSingleProduct` option)
         const additionalInformation = this._prepareAdditionalInformation(options); // additional options related to SINGLE product request
         const configurableData = this._prepareConfigurableData(options);
+        const reviewSummary = this._prepareReviewSummaryField();
 
         // default fields for all queries
         const defaultFields = [
@@ -461,7 +500,8 @@ class ProductListQuery {
             .addField(price) // Minimal & Regular Price (Minimal – for Customizable products)
             .addFieldList(images) // Simple images: either `small_image` and `thumbnail`, either both previous + `image`
             .addFieldList(additionalInformation) // Single product related fields
-            .addFieldList(configurableData);
+            .addFieldList(configurableData)
+            .addField(reviewSummary);
     }
 
     /**

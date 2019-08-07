@@ -12,9 +12,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CategoryPage from 'Route/CategoryPage/CategoryPage.component';
-import {
-    getUrlParam, getQueryParam, setQueryParams, clearQueriesFromUrl
-} from 'Util/Url';
+import { getUrlParam } from 'Util/Url';
 import './SearchPage.style';
 
 class SearchPage extends CategoryPage {
@@ -25,8 +23,6 @@ class SearchPage extends CategoryPage {
             sortKey: 'name',
             sortDirection: 'ASC',
             defaultPriceRange: { min: 0, max: 300 },
-            minPriceRange: 0,
-            maxPriceRange: 300,
             previousPage: 0,
             pageSize: 12
         };
@@ -41,7 +37,7 @@ class SearchPage extends CategoryPage {
 
         if (!isOnlyPlaceholder) {
             this.updateBreadcrumbs();
-            this.requestCategory();
+            this.requestCategoryWithPageList();
         } else {
             updateLoadStatus(true);
         }
@@ -52,71 +48,15 @@ class SearchPage extends CategoryPage {
 
         if (this.urlHasChanged(location, prevProps)) {
             this.updateBreadcrumbs();
-            this.requestCategory();
+            this.requestCategoryWithPageList(this.shouldChangePrdoductListInfo(location, prevProps));
         }
     }
 
     /**
-     * Prepare and dispatch category request
-     * @return {void}
+     * @inheritdoc
      */
-    requestCategory() {
-        const {
-            requestCategory,
-            location,
-            isSearchPage,
-            items,
-            category,
-            categoryIds
-        } = this.props;
-
-        const {
-            sortKey,
-            sortDirection,
-            previousPage,
-            pageSize
-        } = this.state;
-
-        const categoryUrlPath = !categoryIds ? this.getCategoryUrlPath() : null;
-        const currentPage = getQueryParam('page', location) || 1;
-        const priceRange = this.getPriceRangeFromUrl();
-        const customFilters = this.getCustomFiltersFromUrl();
-        const querySortKey = getQueryParam('sortKey', location);
-        const querySortDirection = getQueryParam('sortDirection', location);
-
-        const options = {
-            search: getUrlParam({ path: 'search/' }, location),
-            isSearchPage: isSearchPage || false,
-            categoryUrlPath,
-            currentPage,
-            previousPage,
-            pageSize,
-            priceRange,
-            customFilters,
-            categoryIds,
-            sortKey: querySortKey || sortKey,
-            sortDirection: querySortDirection || sortDirection,
-            productsLoaded: items.length,
-            // TODO: adding configurable data request (as in PDP) to query, should make a seperate/more specific query
-            getConfigurableData: true,
-            isCategoryLoaded: (!!Object.entries(category).length)
-        };
-
-        const stateUpdate = {
-            previousPage: currentPage
-        };
-
-        if (querySortKey) {
-            stateUpdate.sortKey = querySortKey;
-        }
-
-        if (querySortDirection) {
-            stateUpdate.sortDirection = querySortDirection;
-        }
-
-        this.setState(stateUpdate);
-
-        requestCategory(options);
+    getSearchParam() {
+        return getUrlParam({ path: 'search/' }, location);
     }
 
     updateBreadcrumbs() {
@@ -148,30 +88,11 @@ class SearchPage extends CategoryPage {
             </div>
         );
     }
-
-    /**
-     * Clear all filters
-     * @return {void}
-     */
-    clearFilters(location, history) {
-        const { sortKey, sortDirection } = this.state;
-        const page = 1;
-
-        clearQueriesFromUrl(history);
-        setQueryParams(
-            {
-                sortKey,
-                sortDirection,
-                page
-            }, location, history
-        );
-    }
 }
 
 SearchPage.propTypes = {
     makeSearchRequest: PropTypes.func.isRequired,
-    totalItems: PropTypes.number.isRequired,
-    isLoading: PropTypes.bool.isRequired
+    totalItems: PropTypes.number.isRequired
 };
 
 export default SearchPage;

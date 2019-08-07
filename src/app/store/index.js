@@ -19,6 +19,8 @@ import { CategoryReducer } from 'Store/Category';
 import { NotificationReducer } from 'Store/Notification';
 import { BreadcrumbsReducer } from 'Store/Breadcrumbs';
 import { ProductReducer } from 'Store/Product';
+import { ProductListReducer } from 'Store/ProductList';
+import { ProductListInfoReducer } from 'Store/ProductListInfo';
 import { HeaderAndFooterReducer } from 'Store/HeaderAndFooter';
 import { CartReducer } from 'Store/Cart';
 import { WishlistReducer } from 'Store/Wishlist';
@@ -27,6 +29,7 @@ import { RelatedProductsReducer } from 'Store/RelatedProducts';
 import { SearchBarReducer } from 'Store/SearchBar';
 import { UrlRewritesReducer } from 'Store/UrlRewrites';
 import { MyAccountReducer } from 'Store/MyAccount';
+import { ConfigReducer } from 'Store/Config';
 
 export const reducers = {
     CmsBlocksAndSliderReducer,
@@ -35,6 +38,8 @@ export const reducers = {
     NotificationReducer,
     BreadcrumbsReducer,
     ProductReducer,
+    ProductListReducer,
+    ProductListInfoReducer,
     HeaderAndFooterReducer,
     CartReducer,
     WishlistReducer,
@@ -42,7 +47,8 @@ export const reducers = {
     RelatedProductsReducer,
     SearchBarReducer,
     MyAccountReducer,
-    UrlRewritesReducer
+    UrlRewritesReducer,
+    ConfigReducer
 };
 
 const combinedReducers = combineReducers(reducers);
