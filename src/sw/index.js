@@ -22,12 +22,10 @@ import StaleWhileRevalidateHandler from './handler/StaleWhileRevalidateHandler';
 self.CACHE_NAME = 'app-runtime-static';
 
 self.addEventListener('fetch', (event) => {
-    const { request, request: { url } } = event;
+    const { request: { url } } = event;
 
     const { hostname } = new URL(url);
-    if (hostname !== self.location.hostname) {
-        event.respondWith(fetch(request));
-    }
+    if (hostname !== self.location.hostname) return;
 
     if (url.match(new RegExp(/(?=^.*[^.]{6}$)(?!^.*sockjs)(?!^.*graphql)(?!^.*admin).*/))) {
         event.respondWith(caches.open(self.CACHE_NAME)
