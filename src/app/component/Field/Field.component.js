@@ -150,7 +150,11 @@ class Field extends Component {
     }
 
     handleSelectListKeyPress(event) {
-        const { isSelectExpanded, searchString: prevSearchString, valueIndex: previousValueIndex } = this.state;
+        const {
+            isSelectExpanded,
+            searchString: prevSearchString,
+            valueIndex: previousValueIndex
+        } = this.state;
         const keyCode = event.which || event.keycode;
 
         // on Enter pressed
@@ -172,6 +176,7 @@ class Field extends Component {
         let searchString = (prevSearchString[prevSearchString.length - 1].toLowerCase() !== pressedKeyValue)
             ? `${prevSearchString}${pressedKeyValue}`
             : pressedKeyValue.toUpperCase();
+
         let selectedItemIndex = selectOptions.findIndex(({ label }, i) => (
             label && label.startsWith(searchString) && (
                 i > previousValueIndex
