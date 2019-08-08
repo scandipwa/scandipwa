@@ -37,7 +37,7 @@ class ProductPage extends Component {
         this.updateUrl = this.updateUrl.bind(this);
 
         this.state = {
-            id: 0,
+            id: -1,
             parameters: {},
             configurableVariantIndex: -1
         };
@@ -153,7 +153,6 @@ class ProductPage extends Component {
             isSingleProduct: true,
             getConfigurableData: true
         };
-        this.setState({ configurableVariantIndex: -1 });
         requestProduct(options);
     }
 

@@ -10,7 +10,6 @@
  */
 
 import { connect } from 'react-redux';
-import { CartDispatcher } from 'Store/Cart';
 import MiniCart from './MiniCart.component';
 
 const mapStateToProps = state => ({

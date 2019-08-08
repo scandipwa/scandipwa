@@ -44,17 +44,26 @@ class CartItem extends Component {
         const {
             product,
             product: {
-                type_id, configurableVariantIndex, parent, variants
+                type_id,
+                configurable_options,
+                configurableVariantIndex,
+                parent,
+                variants = []
             }
         } = this.props;
 
         if (type_id === 'simple') return { pathname: `/product/${ url_key }` };
 
-        const variantIndex = configurableVariantIndex || 0;
-        const { parameters } = variants[variantIndex].product;
+        const { attributes } = variants[configurableVariantIndex];
+
+        const parameters = Object.entries(attributes).reduce((parameters, [code, { attribute_value }]) => {
+            if (Object.keys(configurable_options).includes(code)) return { ...parameters, [code]: attribute_value };
+            return parameters;
+        }, {});
+
         return {
             pathname: `/product/${ url_key }`,
-            state: { product: parent || product, variantIndex },
+            state: { product: parent || product },
             search: convertKeyValueObjectToQueryString(parameters)
         };
     }

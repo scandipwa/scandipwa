@@ -43,13 +43,18 @@ const getIndexedAttributes = attributes => attributes.reduce((indexedAttributes,
 }, {});
 
 const getIndexedConfigurableOptions = (configurableOptions, indexedAttributes) => (
-    configurableOptions.reduce((indexedConfigurableOptions, { values, attribute_code }) => ({
-        ...indexedConfigurableOptions,
-        [attribute_code]: {
-            ...indexedAttributes[attribute_code],
-            attribute_values: values.map(({ value_index }) => `${ value_index }`)
-        }
-    }), {})
+    configurableOptions.reduce((indexedConfigurableOptions, configurableOption) => {
+        const { values, attribute_code } = configurableOption;
+
+        return {
+            ...indexedConfigurableOptions,
+            [attribute_code]: {
+                ...configurableOption,
+                ...indexedAttributes[attribute_code],
+                attribute_values: values.map(({ value_index }) => `${ value_index }`)
+            }
+        };
+    }, {})
 );
 
 const getIndexedVariants = variants => variants.map(({ product }) => {
@@ -93,3 +98,9 @@ export const getIndexedProduct = (product) => {
 };
 
 export const getIndexedProducts = products => products.map(getIndexedProduct);
+
+export const getIndexedParameteredProducts = products => Object.entries(products)
+    .reduce((products, [id, product]) => ({
+        ...products,
+        [id]: getIndexedProduct(product)
+    }), {});

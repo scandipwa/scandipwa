@@ -12,13 +12,10 @@
 
 import { fetchMutation, fetchQuery } from 'Util/Request';
 import {
-    // addProductToCart,
-    // removeProductFromCart,
     updateTotals,
     updateAllProductsInCart,
     PRODUCTS_IN_CART
 } from 'Store/Cart';
-// import { getProductPrice } from 'Util/Price';
 import { isSignedIn } from 'Util/Auth';
 import { Cart } from 'Query';
 import { showNotification } from 'Store/Notification';
@@ -127,8 +124,8 @@ export class CartDispatcher {
                 let configurableVariantIndex = 0;
 
                 const variant = variants.find(
-                    (variant, index) => {
-                        const { sku: productSku } = variant;
+                    ({ product }, index) => {
+                        const { sku: productSku } = product;
                         const isChosenProduct = productSku === sku;
                         if (isChosenProduct) configurableVariantIndex = index;
                         return isChosenProduct;
@@ -175,9 +172,9 @@ export class CartDispatcher {
         if (type_id === 'configurable') {
             const currentVariant = variants[configurableVariantIndex];
 
-            const configurable_item_options = configurable_options.reduce((prev, curr) => {
+            const configurable_item_options = Object.values(configurable_options).reduce((prev, curr) => {
                 const { attribute_id, attribute_code } = curr;
-                const attribute_value = currentVariant.parameters[attribute_code];
+                const { attribute_value } = currentVariant.attributes[attribute_code];
 
                 if (attribute_value) {
                     return [
@@ -212,7 +209,7 @@ export class CartDispatcher {
 
     _getProductAttribute(attribute, { variants, configurableVariantIndex, [attribute]: attributeValue }) {
         const isNumber = typeof configurableVariantIndex === 'number';
-        return isNumber ? variants[configurableVariantIndex].product[attribute] : attributeValue;
+        return isNumber ? variants[configurableVariantIndex][attribute] : attributeValue;
     }
 
     /**
