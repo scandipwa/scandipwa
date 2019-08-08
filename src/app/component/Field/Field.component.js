@@ -189,10 +189,10 @@ class Field extends Component {
             selectedItemIndex = selectOptions.findIndex(({ label }) => (
                 label && label.startsWith(searchString)
             ));
-
-            // if there are no items starting with this letter
-            if (selectedItemIndex === -1) return;
         }
+
+        // if there are no items starting with this letter
+        if (selectedItemIndex === -1) return;
 
         this.setState({ searchString, valueIndex: selectedItemIndex });
         const { id, value } = selectOptions[selectedItemIndex];
