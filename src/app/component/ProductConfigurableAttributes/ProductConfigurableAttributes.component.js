@@ -13,6 +13,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ProductAttributeValue from 'Component/ProductAttributeValue';
 import { ProductType } from 'Type/ProductList';
+import './ProductConfigurableAttributes.style';
 
 class ProductConfigurableAttributes extends Component {
     handleOptionClick({ attribute_code, attribute_value }) {
@@ -21,31 +22,37 @@ class ProductConfigurableAttributes extends Component {
     }
 
     renderConfigurableAttributes() {
-        const { product: { configurable_options } } = this.props;
+        const { product: { configurable_options }, parameters = {} } = this.props;
 
         return Object.values(configurable_options).map((option) => {
-            const { attribute_values, attribute_label } = option;
+            const { attribute_values, attribute_label, attribute_code } = option;
+
             return (
                 <section
+                  key={ attribute_code }
                   block="ProductConfigurableAttribute"
                   aria-label={ attribute_label }
                 >
                     <h4 block="ProductConfigurableAttribute" elem="SectionHeading">{ attribute_label }</h4>
                     { attribute_values.map(attribute_value => (
-                        this.renderConfigurableAttribute({ ...option, attribute_value })
+                        this.renderConfigurableAttribute(
+                            { ...option, attribute_value },
+                            parameters[attribute_code] === attribute_value
+                        )
                     )) }
                 </section>
             );
         });
     }
 
-    renderConfigurableAttribute(attribute) {
+    renderConfigurableAttribute(attribute, isSelected) {
         const { attribute_value } = attribute;
 
         return (
             <ProductAttributeValue
               key={ attribute_value }
               attribute={ attribute }
+              isSelected={ isSelected }
               onClick={ () => this.handleOptionClick(attribute) }
             />
         );
@@ -60,6 +67,7 @@ class ProductConfigurableAttributes extends Component {
 
 ProductConfigurableAttributes.propTypes = {
     product: ProductType.isRequired,
+    parameters: PropTypes.shape({}).isRequired,
     updateConfigurableVariant: PropTypes.func.isRequired
 };
 

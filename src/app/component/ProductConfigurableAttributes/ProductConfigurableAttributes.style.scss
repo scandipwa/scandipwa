@@ -10,10 +10,13 @@
  */
 
 .ProductConfigurableAttribute {
+    padding: 1.5rem calc(1rem - 5px);
+
     &-SectionHeading {
-        margin: 0 5px 1rem;
         font-weight: 600;
         line-height: 1;
+        margin: 0 0 1rem;
+        text-transform: uppercase;
 
         @include mobile {
           display: none;

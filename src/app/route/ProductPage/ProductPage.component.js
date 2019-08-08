@@ -193,7 +193,7 @@ class ProductPage extends Component {
     }
 
     render() {
-        const { product, product: { variants, type_id } } = this.props;
+        const { product, product: { variants } } = this.props;
         const { configurableVariantIndex, parameters } = this.state;
         const dataSource = this.getDataSource();
         const { media_gallery_entries } = dataSource;
@@ -230,6 +230,7 @@ class ProductPage extends Component {
                             <ProductConfigurableAttributes
                               product={ product }
                               updateConfigurableVariant={ this.updateUrl }
+                              parameters={ parameters }
                             />
                             <ProductActions
                               product={ dataSource }

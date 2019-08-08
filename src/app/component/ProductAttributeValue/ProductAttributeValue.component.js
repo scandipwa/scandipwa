@@ -76,6 +76,7 @@ class ProductAttributeValue extends Component {
     }
 
     renderColorValue(color, label) {
+        const { isSelected } = this.props;
         const isLight = this.getIsColorLight(color);
 
         return (
@@ -83,10 +84,12 @@ class ProductAttributeValue extends Component {
               block="ProductAttributeValue"
               elem="Color"
               value={ label }
+              title={ label }
               style={ {
                   '--swatch-background-color': color,
                   '--swatch-border-color': isLight ? '#000' : color,
-                  '--swatch-check-mark-background': isLight ? '#000' : '#fff'
+                  '--swatch-check-mark-background': isLight ? '#000' : '#fff',
+                  '--swatch-is-selected': +isSelected
               } }
             />
         );
@@ -104,10 +107,13 @@ class ProductAttributeValue extends Component {
     }
 
     renderStringValue(value, label) {
+        const { isSelected } = this.props;
+
         return (
             <span
               block="ProductAttributeValue"
               elem="String"
+              mods={ { isSelected } }
               title={ label }
             >
                 { value }
@@ -160,7 +166,12 @@ ProductAttributeValue.propTypes = {
             label: PropTypes.string,
             value: PropTypes.string
         }))
-    }).isRequired
+    }).isRequired,
+    isSelected: PropTypes.bool
+};
+
+ProductAttributeValue.defaultProps = {
+    isSelected: false
 };
 
 export default ProductAttributeValue;
