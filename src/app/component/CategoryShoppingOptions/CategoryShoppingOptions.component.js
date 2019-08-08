@@ -153,8 +153,6 @@ class CategoryShoppingOptions extends Component {
             };
         }, {});
 
-        console.log(customFiltersValues);
-
         return (
             <ProductConfigurableAttributes
               configurable_options={ configurable_options }
