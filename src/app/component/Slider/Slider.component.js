@@ -40,6 +40,7 @@ class Slider extends Component {
         this.handleDragEnd = this.handleDragEnd.bind(this);
         this.renderCrumb = this.renderCrumb.bind(this);
         this.getSlideSize = this.getSlideSize.bind(this);
+        console.log(this.state, this.props);
     }
 
     static getDerivedStateFromProps(props, state) {
