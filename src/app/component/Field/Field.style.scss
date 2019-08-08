@@ -1,174 +1,174 @@
 /**
- * ScandiPWA - Progressive Web App for Magento
- *
- * Copyright © Scandiweb, Inc. All rights reserved.
- * See LICENSE for license details.
- *
- * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
- */
+* ScandiPWA - Progressive Web App for Magento
+*
+* Copyright © Scandiweb, Inc. All rights reserved.
+* See LICENSE for license details.
+*
+* @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+* @package scandipwa/base-theme
+* @link https://github.com/scandipwa/base-theme
+*/
 
- $select-width: 160px;
- $select-height: 45px;
- $select-option-height: 36px;
- $select-arrow-height: 6px;
- $select-arrow-width: 6px;
- 
- :root {
-     --select-option-background: #fff;
-     --select-option-hover-background: #f0f0f0;
- }
- 
- .Field {
-     margin-top: 1rem;
- 
-     label {
-         padding-bottom: .3rem;
-         font-weight: 700;
-         font-size: 1.05rem;
-     }
- 
-     &-Message {
-         margin-bottom: -.1em;
-         font-size: 1.05rem;
-         font-weight: 600;
-         color: var(--color-primary-dark);
-     }
- 
-     &-Note {
-         margin-bottom: .2rem;
-         font-size: 1.0rem;
-         font-weight: 600;
-         color: var(--field-note);
-         opacity: 0;
-         height: 0;
-         transition: height 0.1s ease-in, opacity 0.1s linear;
- 
-         &::before {
-             content: '* ';
-         }
-     }
- 
-     &-Select {
-         min-width: 100%;
- 
-         @include after-mobile {
-             pointer-events: none;
-         }
- 
-         &_isExpanded {
-             border-color: var(--input-color);
-         }
- 
-         &Wrapper {
-             cursor: pointer;
- 
-             &::after {
-                 content: '';
-                 display: block;
-                 width: $select-arrow-width;
-                 height: $select-arrow-height;
-                 transform: rotate(45deg);
-                 pointer-events: none;
- 
-                 position: absolute;
-                 right: 20px;
-                 bottom: 20px;
- 
-                 border-style: solid;
-                 border-color: #000;
-                 border-width: 0 1px 1px 0;
-             }
- 
-             &_isExpanded::after {
-                 @include after-mobile {
-                     bottom: $select-arrow-height * 3/2;
-                     transform: rotate(-135deg);
-                 }
-             }
-         }
- 
-         &Options {
-             position: absolute;
-             width: 100%;
-             top: 100%;
-             left: 0;
-             z-index: 20;
-             border-width: 0 1px 1px;
-             border-style: solid;
-             border-color: transparent;
- 
-             overflow: scroll;
-             transition: 200ms max-height;
-             will-change: max-height;
-             max-height: 0;
- 
-             &_isExpanded {
-                 @include after-mobile {
-                     max-height: 200px;
-                     border-color: var(--input-border-color);
-                 }
-             }
-         }
- 
-         &Option {
-             padding: 0;
-             margin: 0;
-             z-index: 1;
-             transition: 100ms max-height ease-in;
-             max-height: $select-option-height;
-             line-height: 3rem;
-             padding-left: 1.5rem;
-             background: var(--select-option-background);
- 
-             &::before {
-                 content: none;
-             }
- 
-             &:last-of-type {
-                 margin: 0;
-             }
- 
-             &:hover {
-                 background: var(--select-option-hover-background);
-             }
-         }
-     }
- 
-     &_hasError {
-         input {
-             border: 1px solid var(--color-primary-dark);
-         }
-     }
- 
-     &::placeholder {
-         color: var(--field-note);
-         font-size: 0.9rem;
-     }
- 
-     input:focus + .Field-Note {
-         opacity: 1;
-         height: 100%;
-     }
- 
-     &_type {
-         &_checkbox,
-         &_radio {
-             label {
-                 &:first-of-type {
-                     display: inline-block;
- 
-                     ~ label {
-                         margin-left: 1rem;
-                     }
-                 }
- 
-                 &:last-of-type {
-                     display: inline-block;
-                     vertical-align: middle;
-                 }
-             }
-         }
-     }
- }
+$select-width: 160px;
+$select-height: 45px;
+$select-option-height: 36px;
+$select-arrow-height: 6px;
+$select-arrow-width: 6px;
+
+:root {
+    --select-option-background: #fff;
+    --select-option-hover-background: #f0f0f0;
+}
+
+.Field {
+    margin-top: 1rem;
+
+    label {
+        padding-bottom: .3rem;
+        font-weight: 700;
+        font-size: 1.05rem;
+    }
+
+    &-Message {
+        margin-bottom: -.1em;
+        font-size: 1.05rem;
+        font-weight: 600;
+        color: var(--color-primary-dark);
+    }
+
+    &-Note {
+        margin-bottom: .2rem;
+        font-size: 1.0rem;
+        font-weight: 600;
+        color: var(--field-note);
+        opacity: 0;
+        height: 0;
+        transition: height 0.1s ease-in, opacity 0.1s linear;
+
+        &::before {
+            content: '* ';
+        }
+    }
+
+    &-Select {
+        min-width: 100%;
+
+        @include after-mobile {
+            pointer-events: none;
+        }
+
+        &_isExpanded {
+            border-color: var(--input-color);
+        }
+
+        &Wrapper {
+            cursor: pointer;
+
+            &::after {
+                content: '';
+                display: block;
+                width: $select-arrow-width;
+                height: $select-arrow-height;
+                transform: rotate(45deg);
+                pointer-events: none;
+
+                position: absolute;
+                right: 20px;
+                bottom: 20px;
+
+                border-style: solid;
+                border-color: #000;
+                border-width: 0 1px 1px 0;
+            }
+
+            &_isExpanded::after {
+                @include after-mobile {
+                    bottom: $select-arrow-height * 3/2;
+                    transform: rotate(-135deg);
+                }
+            }
+        }
+
+        &Options {
+            position: absolute;
+            width: 100%;
+            top: 100%;
+            left: 0;
+            z-index: 20;
+            border-width: 0 1px 1px;
+            border-style: solid;
+            border-color: transparent;
+
+            overflow: scroll;
+            transition: 200ms max-height;
+            will-change: max-height;
+            max-height: 0;
+
+            &_isExpanded {
+                @include after-mobile {
+                    max-height: 200px;
+                    border-color: var(--input-border-color);
+                }
+            }
+        }
+
+        &Option {
+            padding: 0;
+            margin: 0;
+            z-index: 1;
+            transition: 100ms max-height ease-in;
+            max-height: $select-option-height;
+            line-height: 3rem;
+            padding-left: 1.5rem;
+            background: var(--select-option-background);
+
+            &::before {
+                content: none;
+            }
+
+            &:last-of-type {
+                margin: 0;
+            }
+
+            &:hover {
+                background: var(--select-option-hover-background);
+            }
+        }
+    }
+
+    &_hasError {
+        input {
+            border: 1px solid var(--color-primary-dark);
+        }
+    }
+
+    &::placeholder {
+        color: var(--field-note);
+        font-size: 0.9rem;
+    }
+
+    input:focus + .Field-Note {
+        opacity: 1;
+        height: 100%;
+    }
+
+    &_type {
+        &_checkbox,
+        &_radio {
+            label {
+                &:first-of-type {
+                    display: inline-block;
+
+                    ~ label {
+                        margin-left: 1rem;
+                    }
+                }
+
+                &:last-of-type {
+                    display: inline-block;
+                    vertical-align: middle;
+                }
+            }
+        }
+    }
+}
