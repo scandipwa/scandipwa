@@ -25,7 +25,7 @@ import { ProductType } from 'Type/ProductList';
 import { getVariantIndex } from 'Util/Product';
 import RelatedProducts from 'Component/RelatedProducts';
 import {
-    getUrlParam, convertQueryStringToKeyValuePairs, updateQueryParamWithoutHistory
+    getUrlParam, convertQueryStringToKeyValuePairs, updateQueryParamWithoutHistory, convertKeyValueObjectToQueryString
 } from 'Util/Url';
 import './ProductPage.style';
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
@@ -34,6 +34,7 @@ class ProductPage extends Component {
     constructor() {
         super();
 
+        this.getLink = this.getLink.bind(this);
         this.updateUrl = this.updateUrl.bind(this);
 
         this.state = {
@@ -128,6 +129,14 @@ class ProductPage extends Component {
         const { media_gallery_entries: configurableMediaGallery } = variants[index];
 
         return configurableMediaGallery.length ? configurableMediaGallery : media_gallery_entries;
+    }
+
+    getLink(key, value) {
+        const { location: { search } } = this.props;
+        return convertKeyValueObjectToQueryString({
+            ...convertQueryStringToKeyValuePairs(search),
+            [key]: value
+        });
     }
 
     /**
@@ -228,15 +237,15 @@ class ProductPage extends Component {
                             />
                             <ProductConfigurableAttributes
                               product={ product }
-                              updateConfigurableVariant={ this.updateUrl }
+                              getLink={ this.getLink }
                               parameters={ parameters }
+                              updateConfigurableVariant={ this.updateUrl }
                             />
                             <ProductActions
                               product={ dataSource }
                               parameters={ parameters }
                               configurableVariantIndex={ configurableVariantIndex }
                               areDetailsLoaded={ areDetailsLoaded }
-                              updateConfigurableVariant={ this.updateUrl }
                             />
                         </div>
                     </ContentWrapper>

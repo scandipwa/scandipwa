@@ -6,6 +6,7 @@ class ProductAttributeValue extends Component {
     constructor(props) {
         super(props);
 
+        this.clickHandler = this.clickHandler.bind(this);
         this.getOptionLabel = this.getOptionLabel.bind(this);
     }
 
@@ -26,6 +27,13 @@ class ProductAttributeValue extends Component {
         }
 
         return {};
+    }
+
+    clickHandler(e) {
+        const { onClick } = this.props;
+
+        e.preventDefault();
+        onClick();
     }
 
     renderTextAttribute() {
@@ -140,22 +148,27 @@ class ProductAttributeValue extends Component {
 
     render() {
         const {
-            onClick,
+            getLink,
             attribute: { attribute_code, attribute_value }
         } = this.props;
         if (attribute_code && !attribute_value) return null;
+
+        const href = getLink();
+
         return (
-            <button
+            <a
+              href={ href }
               block="ProductAttributeValue"
-              onClick={ () => onClick() }
+              onClick={ this.clickHandler }
             >
                 { this.renderAttributeByType() }
-            </button>
+            </a>
         );
     }
 }
 
 ProductAttributeValue.propTypes = {
+    getLink: PropTypes.func.isRequired,
     onClick: PropTypes.func.isRequired,
     attribute: PropTypes.shape({
         attribute_code: PropTypes.string,

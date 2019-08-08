@@ -16,6 +16,11 @@ import { ProductType } from 'Type/ProductList';
 import './ProductConfigurableAttributes.style';
 
 class ProductConfigurableAttributes extends Component {
+    getLink({ attribute_code, attribute_value }) {
+        const { getLink } = this.props;
+        return getLink(attribute_code, attribute_value);
+    }
+
     handleOptionClick({ attribute_code, attribute_value }) {
         const { updateConfigurableVariant } = this.props;
         updateConfigurableVariant(attribute_code, attribute_value);
@@ -54,6 +59,7 @@ class ProductConfigurableAttributes extends Component {
               attribute={ attribute }
               isSelected={ isSelected }
               onClick={ () => this.handleOptionClick(attribute) }
+              getLink={ () => this.getLink(attribute) }
             />
         );
     }
@@ -67,6 +73,7 @@ class ProductConfigurableAttributes extends Component {
 
 ProductConfigurableAttributes.propTypes = {
     product: ProductType.isRequired,
+    getLink: PropTypes.func.isRequired,
     parameters: PropTypes.shape({}).isRequired,
     updateConfigurableVariant: PropTypes.func.isRequired
 };

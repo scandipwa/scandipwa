@@ -63,7 +63,7 @@ const convertQueryStringToKeyValuePairs = (queryString) => {
         const pair = param.split('=');
         const [keyPair, valuePair] = pair;
 
-        keyValuePairs[keyPair] = valuePair;
+        if (keyPair.length > 0 && valuePair.length > 0) keyValuePairs[keyPair] = valuePair;
     });
 
     return keyValuePairs;
