@@ -58,9 +58,7 @@ class Field extends Component {
 
         this.state = {
             value,
-            valueIndex: -1,
-            isSelectExpanded: false,
-            searchString: 'A'
+            isSelectExpanded: false
         };
 
         this.onChange = this.onChange.bind(this);
@@ -70,7 +68,6 @@ class Field extends Component {
         this.onClick = this.onClick.bind(this);
         this.handleSelectExpand = this.handleSelectExpand.bind(this);
         this.handleSelectListOptionClick = this.handleSelectListOptionClick.bind(this);
-        this.handleSelectListKeyPress = this.handleSelectListKeyPress.bind(this);
     }
 
     componentDidUpdate(prevProps) {
@@ -147,60 +144,6 @@ class Field extends Component {
         } else {
             onChange(value);
         }
-    }
-
-    handleSelectListKeyPress(event) {
-        const {
-            isSelectExpanded,
-            searchString: prevSearchString,
-            valueIndex: previousValueIndex
-        } = this.state;
-        const keyCode = event.which || event.keycode;
-
-        // on Enter pressed
-        if (keyCode === 13) {
-            this.handleSelectExpand();
-            return;
-        }
-
-        if (!isSelectExpanded
-            || !keyCode
-            || keyCode < 65
-            || keyCode > 122
-            || (keyCode > 90 && keyCode < 97)
-        ) return;
-
-        const { selectOptions, onChange, id: selectId } = this.props;
-        const pressedKeyValue = String.fromCharCode(keyCode).toLowerCase();
-
-        let searchString = (prevSearchString[prevSearchString.length - 1].toLowerCase() !== pressedKeyValue)
-            ? `${prevSearchString}${pressedKeyValue}`
-            : pressedKeyValue.toUpperCase();
-
-        let selectedItemIndex = selectOptions.findIndex(({ label }, i) => (
-            label && label.startsWith(searchString) && (
-                i > previousValueIndex
-                || prevSearchString !== searchString
-            )));
-
-        // if no items were found, take only the latest letter of the search string
-        if (selectedItemIndex === -1) {
-            searchString = searchString[searchString.length - 1].toUpperCase();
-            selectedItemIndex = selectOptions.findIndex(({ label }) => (
-                label && label.startsWith(searchString)
-            ));
-        }
-
-        // if there are no items starting with this letter
-        if (selectedItemIndex === -1) return;
-
-        this.setState({ searchString, valueIndex: selectedItemIndex });
-        const { id, value } = selectOptions[selectedItemIndex];
-        // converting to string for avoiding the error with the first select option
-        onChange(value.toString(10));
-
-        const selectedElement = document.querySelector(`#${selectId} + ul #o${id}[role="menuitem"]`);
-        selectedElement.focus();
     }
 
     renderTextarea() {
@@ -406,7 +349,7 @@ class Field extends Component {
                   block="Field"
                   elem="SelectWrapper"
                   onClick={ this.handleSelectExpand }
-                  onKeyPress={ this.handleSelectListKeyPress }
+                  onKeyPress={ this.handleSelectExpand }
                   role="button"
                   tabIndex="0"
                   aria-label="Select drop-down"
@@ -454,9 +397,6 @@ class Field extends Component {
                                   elem="SelectOption"
                                   mods={ { isExpanded } }
                                   key={ id }
-                                  // added 'o' as querySelector does not work with
-                                  // ids, that consist of numbers only
-                                  id={ `o${id}` }
                                   role="menuitem"
                                   onClick={ () => this.handleSelectListOptionClick(options) }
                                   onKeyPress={ () => this.handleSelectListOptionClick(options) }
