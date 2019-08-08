@@ -12,7 +12,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ProductAttributeValue from 'Component/ProductAttributeValue';
-import { ProductType } from 'Type/ProductList';
 import './ProductConfigurableAttributes.style';
 
 class ProductConfigurableAttributes extends Component {
@@ -24,30 +23,6 @@ class ProductConfigurableAttributes extends Component {
     handleOptionClick({ attribute_code, attribute_value }) {
         const { updateConfigurableVariant } = this.props;
         updateConfigurableVariant(attribute_code, attribute_value);
-    }
-
-    renderConfigurableAttributes() {
-        const { product: { configurable_options }, parameters = {} } = this.props;
-
-        return Object.values(configurable_options).map((option) => {
-            const { attribute_values, attribute_label, attribute_code } = option;
-
-            return (
-                <section
-                  key={ attribute_code }
-                  block="ProductConfigurableAttribute"
-                  aria-label={ attribute_label }
-                >
-                    <h4 block="ProductConfigurableAttribute" elem="SectionHeading">{ attribute_label }</h4>
-                    { attribute_values.map(attribute_value => (
-                        this.renderConfigurableAttribute(
-                            { ...option, attribute_value },
-                            parameters[attribute_code] === attribute_value
-                        )
-                    )) }
-                </section>
-            );
-        });
     }
 
     renderConfigurableAttribute(attribute, isSelected) {
@@ -65,14 +40,33 @@ class ProductConfigurableAttributes extends Component {
     }
 
     render() {
-        const { product: { type_id } } = this.props;
-        if (type_id !== 'configurable') return null;
-        return this.renderConfigurableAttributes();
+        const { configurable_options, parameters = {} } = this.props;
+
+        return Object.values(configurable_options).map((option) => {
+            const { attribute_values, attribute_label, attribute_code } = option;
+
+            return (
+                <section
+                  key={ attribute_code }
+                  block="ProductConfigurableAttribute"
+                  aria-label={ attribute_label }
+                >
+                    <h4 block="ProductConfigurableAttribute" elem="SectionHeading">{ attribute_label }</h4>
+                    { attribute_values.map(attribute_value => (
+                        this.renderConfigurableAttribute(
+                            { ...option, attribute_value },
+                            parameters[attribute_code] === attribute_value
+                            || (parameters[attribute_code] && parameters[attribute_code].length ? parameters[attribute_code].includes(attribute_value) : false)
+                        )
+                    )) }
+                </section>
+            );
+        });
     }
 }
 
 ProductConfigurableAttributes.propTypes = {
-    product: ProductType.isRequired,
+    configurable_options: PropTypes.shape({}).isRequired,
     getLink: PropTypes.func.isRequired,
     parameters: PropTypes.shape({}).isRequired,
     updateConfigurableVariant: PropTypes.func.isRequired

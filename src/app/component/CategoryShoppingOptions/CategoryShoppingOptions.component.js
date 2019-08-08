@@ -19,6 +19,7 @@ import RangeSelector from 'Component/RangeSelector';
 import CategorySearch from 'Component/CategorySearch';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import Swatch from 'Component/Swatch';
+import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
 import './CategoryShoppingOptions.style';
 
 /**
@@ -28,6 +29,9 @@ import './CategoryShoppingOptions.style';
 class CategoryShoppingOptions extends Component {
     constructor(props) {
         super(props);
+
+        this.getFilterUrl = this.getFilterUrl.bind(this);
+        this.toggleCustomFilter = this.toggleCustomFilter.bind(this);
 
         this.state = {
             optionsVisible: false
@@ -81,6 +85,19 @@ class CategoryShoppingOptions extends Component {
         updateFilter(requestVar, newFilterArray);
     }
 
+    getFilterUrl(requestVar, value) {
+        const { getFilterUrl, customFiltersValues } = this.props;
+
+        const newFilterArray = customFiltersValues[requestVar] || [];
+        const filterValueIndex = newFilterArray.indexOf(value);
+
+        if (filterValueIndex === -1) {
+            newFilterArray.push(value);
+        }
+
+        return getFilterUrl(requestVar, newFilterArray);
+    }
+
     renderFilterTitle(title) {
         return (
             <h4 block="CategoryShoppingOptions" elem="FilterTitle">
@@ -107,47 +124,45 @@ class CategoryShoppingOptions extends Component {
         );
     }
 
-    renderFilterItems(requestVar, filterItems) {
-        const { customFiltersValues } = this.props;
-        const filterIsColor = requestVar === 'color';
-        const currentFilterArray = customFiltersValues[requestVar] ? customFiltersValues[requestVar] : [];
-
-        return filterItems.map(({ swatch_data, label, value_string }) => {
-            const title = (swatch_data && swatch_data.value) || label;
-            const isSelected = currentFilterArray.indexOf(value_string) !== -1;
-            const dynamicStyle = filterIsColor ? title : '';
-
-            return (
-                <li key={ value_string }>
-                    <Swatch
-                      title={ filterIsColor ? '' : title }
-                      isSelected={ isSelected }
-                      isRound={ filterIsColor }
-                      backgroundColor={ dynamicStyle }
-                      handler={ () => this.toggleCustomFilter(requestVar, value_string) }
-                    />
-                </li>
-            );
-        });
-    }
-
     renderCustomFilters() {
-        const { availableFilters } = this.props;
+        const { availableFilters, customFiltersValues } = this.props;
 
-        return availableFilters.map(({ name, request_var, filter_items }) => {
-            if (request_var !== 'cat') {
-                return (
-                    <li block="CategoryShoppingOptions" elem="FilterBlock" key={ name }>
-                        { this.renderFilterTitle(name) }
-                        <ul block="CategoryShoppingOptions" elem="Swatches">
-                            { this.renderFilterItems(request_var, filter_items) }
-                        </ul>
-                    </li>
-                );
-            }
+        const configurable_options = availableFilters.reduce((co, item) => {
+            const {
+                request_var: attribute_code,
+                name: attribute_label,
+                filter_items
+            } = item;
 
-            return null;
-        });
+            const attribute_values = filter_items.map(({ value_string }) => value_string);
+            const attribute_options = filter_items.reduce((acc, option) => ({
+                ...acc,
+                [+option.value_string]: option
+            }), {});
+
+            return {
+                ...co,
+                [attribute_code]: {
+                    attribute_code,
+                    attribute_label,
+                    attribute_value: null,
+                    attribute_values,
+                    attribute_type: 'select',
+                    attribute_options
+                }
+            };
+        }, {});
+
+        console.log(customFiltersValues);
+
+        return (
+            <ProductConfigurableAttributes
+              configurable_options={ configurable_options }
+              getLink={ this.getFilterUrl }
+              parameters={ customFiltersValues }
+              updateConfigurableVariant={ this.toggleCustomFilter }
+            />
+        );
     }
 
     renderSearchBar() {
@@ -248,6 +263,7 @@ class CategoryShoppingOptions extends Component {
 CategoryShoppingOptions.propTypes = {
     updatePriceRange: PropTypes.func.isRequired,
     updateFilter: PropTypes.func.isRequired,
+    getFilterUrl: PropTypes.func.isRequired,
     updateSearch: PropTypes.func.isRequired,
     showSearch: PropTypes.bool,
     searchValue: PropTypes.string,

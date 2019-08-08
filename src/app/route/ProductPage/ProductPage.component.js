@@ -201,7 +201,7 @@ class ProductPage extends Component {
     }
 
     render() {
-        const { product, product: { variants } } = this.props;
+        const { product, product: { variants, configurable_options, type_id } } = this.props;
         const { configurableVariantIndex, parameters } = this.state;
         const dataSource = this.getDataSource();
         const { media_gallery_entries } = dataSource;
@@ -235,12 +235,15 @@ class ProductPage extends Component {
                               product={ dataSource }
                               handleGroupedQuantityChange={ this.changeGroupedProductQuantity }
                             />
-                            <ProductConfigurableAttributes
-                              product={ product }
-                              getLink={ this.getLink }
-                              parameters={ parameters }
-                              updateConfigurableVariant={ this.updateUrl }
-                            />
+                            { type_id === 'configurable' && (
+                                <ProductConfigurableAttributes
+                                  configurable_options={ configurable_options }
+                                  getLink={ this.getLink }
+                                  parameters={ parameters }
+                                  updateConfigurableVariant={ this.updateUrl }
+                                />
+                            ) }
+
                             <ProductActions
                               product={ dataSource }
                               parameters={ parameters }
