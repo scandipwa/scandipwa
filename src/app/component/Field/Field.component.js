@@ -109,6 +109,7 @@ class Field extends Component {
 
     onKeyPress(event) {
         const { onKeyPress } = this.props;
+
         if (onKeyPress) onKeyPress(event);
     }
 
@@ -187,6 +188,7 @@ class Field extends Component {
                   name={ name }
                   value={ value }
                   onChange={ event => this.onChange(event) }
+                  onKeyPress={ event => this.onChange(event) }
                   onFocus={ event => this.onFocus(event) }
                   onBlur={ event => this.onBlur(event) }
                   onClick={ event => this.onClick(event) }
@@ -212,6 +214,7 @@ class Field extends Component {
                   name={ name }
                   value={ value }
                   onChange={ event => this.onChange(event) }
+                  onKeyPress={ event => this.onChange(event) }
                   onFocus={ event => this.onFocus(event) }
                   onBlur={ event => this.onBlur(event) }
                   onClick={ event => this.onClick(event) }
