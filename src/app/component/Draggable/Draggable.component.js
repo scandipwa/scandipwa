@@ -21,11 +21,8 @@ class Draggable extends Component {
         this.state = {
             isDragging: false,
             originalX: 0,
-            originalY: 0,
             translateX: 0,
-            translateY: 0,
             lastTranslateX: 0,
-            lastTranslateY: 0,
             prevActiveSlider: 0
         };
 
@@ -38,31 +35,18 @@ class Draggable extends Component {
     }
 
     static getDerivedStateFromProps(props, state) {
-        console.log('getDerivedStateFromProps before', state, props);
+        console.log('Drgbl st&pr getDerivedStateFromProps', state, props);
         if (props.draggableRef.current !== null) {
-            const { activeSlide, isVertical } = props;
-            // const { prevActiveSlider } = state;
-            const slideSize = isVertical
-                ? props.draggableRef.current.clientHeight
-                : props.draggableRef.current.clientWidth;
+            const { activeSlide } = props;
+            const { prevActiveSlider } = state;
+            const slideSize = props.draggableRef.current.clientWidth;
 
-            return {
-                prevActiveSlider: activeSlide,
-                lastTranslateY: Math.round(slideSize * activeSlide),
-                lastTranslateX: Math.round(slideSize * activeSlide)
-            };
-            // if (prevActiveSlider !== activeSlide) {
-            //     if (isVertical) {
-            //         return {
-            //             prevActiveSlider: activeSlide,
-            //             lastTranslateY: Math.round(slideSize * activeSlide)
-            //         };
-            //     }
-            //     return {
-            //         prevActiveSlider: activeSlide,
-            //         lastTranslateX: Math.round(slideSize * activeSlide)
-            //     };
-            // }
+            if (prevActiveSlider !== activeSlide) {
+                return {
+                    prevActiveSlider: activeSlide,
+                    lastTranslateX: Math.round(slideSize * activeSlide)
+                };
+            }
         }
         return null;
     }
@@ -90,8 +74,7 @@ class Draggable extends Component {
     }
 
     _handleDragStart({
-        clientX,
-        clientY
+        clientX
     }) {
         const { onDragStart } = this.props;
 
@@ -99,7 +82,6 @@ class Draggable extends Component {
 
         this.setState({
             originalX: clientX,
-            originalY: clientY,
             isDragging: true
         });
     }
@@ -109,24 +91,20 @@ class Draggable extends Component {
     }
 
     handleMouseMove({
-        clientX,
-        clientY
+        clientX
     }) {
         const { isDragging } = this.state;
 
         if (!isDragging) return;
 
         this.setState(({
-            originalY,
             originalX,
-            lastTranslateX,
-            lastTranslateY
+            lastTranslateX
         }) => ({
-            translateX: clientX - originalX + lastTranslateX,
-            translateY: clientY - originalY + lastTranslateY
+            translateX: clientX - originalX + lastTranslateX
         }), () => {
             const { onDrag } = this.props;
-            if (onDrag) onDrag({ ...this.state, clientY, clientX });
+            if (onDrag) onDrag({ ...this.state, clientX });
         });
     }
 
@@ -150,21 +128,16 @@ class Draggable extends Component {
         onDragEnd(this.state, newState => this.setState({
             ...newState,
             isDragging: false,
-            translateX: 0,
-            translateY: 0
+            translateX: 0
         }));
 
         // TO STAY WHERE RELEASED
         // originalX: 0,
-        // originalY: 0,
         // lastTranslateX: translateX,
-        // lastTranslateY: translateY,
 
         // TO RETURN INTO INITIAL
         // originalX: 0,
-        // originalY: 0,
-        // lastTranslateX: 0,
-        // lastTranslateY: 0
+        // lastTranslateX: 0
     }
 
     render() {
@@ -194,7 +167,6 @@ class Draggable extends Component {
 }
 
 Draggable.propTypes = {
-    isVertical: PropTypes.bool,
     onDragStart: PropTypes.func,
     onDragEnd: PropTypes.func,
     handleFocus: PropTypes.func,
@@ -222,19 +194,16 @@ Draggable.propTypes = {
 Draggable.defaultProps = {
     onDragStart: () => {},
     onDragEnd: (state, callback) => {
-        const { translateX, translateY } = state;
+        const { translateX } = state;
 
         callback({
             originalX: 0,
-            originalY: 0,
-            lastTranslateX: translateX,
-            lastTranslateY: translateY
+            lastTranslateX: translateX
         });
     },
     onDrag: () => {},
     handleFocus: () => {},
     draggableRef: () => {},
-    isVertical: false,
     mix: {}
 };
 
