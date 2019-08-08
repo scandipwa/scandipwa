@@ -13,6 +13,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import './Draggable.style';
+import { convertReactPropstoHtmlAttributes } from 'react-helmet/lib/HelmetUtils';
 
 class Draggable extends Component {
     constructor(props) {
@@ -25,7 +26,8 @@ class Draggable extends Component {
             translateX: 0,
             translateY: 0,
             lastTranslateX: 0,
-            lastTranslateY: 0
+            lastTranslateY: 0,
+            prevActiveSlider: 0
         };
 
         this.handleMouseDown = this.handleMouseDown.bind(this);
@@ -34,6 +36,30 @@ class Draggable extends Component {
         this.handleTouchStart = this.handleTouchStart.bind(this);
         this.handleTouchMove = this.handleTouchMove.bind(this);
         this.handleTouchEnd = this.handleTouchEnd.bind(this);
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        if (props.draggableRef.current !== null) {
+            const { activeSlide, isVertical } = props;
+            const { prevActiveSlider } = state;
+            const slideSize = isVertical
+                ? props.draggableRef.current.clientHeight
+                : props.draggableRef.current.clientWidth;
+
+            if (prevActiveSlider !== activeSlide) {
+                if (isVertical) {
+                    return {
+                        prevActiveSlider: activeSlide,
+                        lastTranslateY: Math.round(slideSize * activeSlide)
+                    };
+                }
+                return {
+                    prevActiveSlider: activeSlide,
+                    lastTranslateX: Math.round(slideSize * activeSlide)
+                };
+            }
+        }
+        return null;
     }
 
     componentWillUnmount() {
@@ -163,6 +189,7 @@ class Draggable extends Component {
 }
 
 Draggable.propTypes = {
+    isVertical: PropTypes.bool,
     onDragStart: PropTypes.func,
     onDragEnd: PropTypes.func,
     handleFocus: PropTypes.func,
@@ -202,6 +229,7 @@ Draggable.defaultProps = {
     onDrag: () => {},
     handleFocus: () => {},
     draggableRef: () => {},
+    isVertical: false,
     mix: {}
 };
 

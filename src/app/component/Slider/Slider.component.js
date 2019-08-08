@@ -1,3 +1,5 @@
+/* eslint-disable react/no-unused-state */
+
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -23,7 +25,12 @@ class Slider extends Component {
     constructor(props) {
         super(props);
 
-        this.state = { activeSlide: 0 };
+        const { activeImage } = this.props;
+
+        this.state = {
+            activeSlide: -activeImage,
+            prevActiveImage: activeImage
+        };
 
         this.prevPosition = 0;
         this.draggableRef = React.createRef();
@@ -32,6 +39,21 @@ class Slider extends Component {
         this.handleDrag = this.handleDrag.bind(this);
         this.handleDragEnd = this.handleDragEnd.bind(this);
         this.renderCrumb = this.renderCrumb.bind(this);
+        this.getSlideSize = this.getSlideSize.bind(this);
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        const { activeImage } = props;
+        const { prevActiveImage } = state;
+
+        if (prevActiveImage !== activeImage) {
+            return {
+                activeSlide: -activeImage,
+                prevActiveImage: activeImage
+            };
+        }
+
+        return null;
     }
 
     componentDidMount() {
@@ -46,12 +68,55 @@ class Slider extends Component {
         }, 300);
     }
 
-    getSlideSize() {
+    componentDidUpdate(prevProps, prevState) {
+        const { activeImage: prevActiveImage } = prevProps;
+        const { activeImage, isVertical } = this.props;
+        const { activeSlide: prevActiveSlide } = prevState;
+        const { activeSlide } = this.state;
+
+        if (activeImage !== prevActiveImage || prevActiveSlide !== activeSlide) {
+            const newTranslate = activeSlide * this.getSlideSize();
+
+            CSS.setVariable(
+                this.draggableRef,
+                'animation-speed',
+                `${ Math.abs((prevActiveSlide - activeSlide) * 300) }ms`
+            );
+
+            CSS.setVariable(
+                this.draggableRef,
+                isVertical ? 'translateY' : 'translateX',
+                `${newTranslate}px`
+            );
+        }
+    }
+
+    onClickChangeSlide(state, slideSize, lastTranslate, fullSliderSize) {
+        const { originalX, prevActiveSlider } = state;
         const { isVertical } = this.props;
 
-        return isVertical
-            ? this.sliderRef.current.offsetHeight
-            : this.draggableRef.current.offsetWidth;
+        const fullSliderPoss = Math.round(fullSliderSize / slideSize);
+        const elementPossitionInDOM = isVertical
+            ? this.draggableRef.current.getBoundingClientRect().y
+            : this.draggableRef.current.getBoundingClientRect().x;
+
+        const sliderPossition = prevActiveSlider;
+        const realElementPossitionInDOM = elementPossitionInDOM - lastTranslate;
+        const mousePossitionInElement = originalX - realElementPossitionInDOM;
+
+        if (slideSize / 2 < mousePossitionInElement && -fullSliderPoss < sliderPossition) {
+            const activeSlide = sliderPossition - 1;
+            this.setState({ activeSlide });
+            return activeSlide;
+        }
+
+        if (slideSize / 2 > mousePossitionInElement && lastTranslate) {
+            const activeSlide = sliderPossition + 1;
+            this.setState({ activeSlide });
+            return activeSlide;
+        }
+
+        return sliderPossition;
     }
 
     getFullSliderWidth() {
@@ -64,6 +129,14 @@ class Slider extends Component {
         const sliderHeight = this.sliderRef.current.offsetHeight;
         const fullSliderHeight = this.sliderRef.current.scrollHeight;
         return fullSliderHeight - sliderHeight;
+    }
+
+    getSlideSize() {
+        const { isVertical } = this.props;
+
+        return isVertical
+            ? this.sliderRef.current.offsetHeight
+            : this.draggableRef.current.offsetWidth;
     }
 
     calculateNextSlide(state) {
@@ -89,12 +162,14 @@ class Slider extends Component {
         const activeSlidePercent = Math.abs(activeSlidePosition % 1);
         const isSlideBack = translate > lastTranslate;
 
-        if (translate > 0) {
-            return Math.floor(activeSlidePosition);
-        }
+        if (!translate) return this.onClickChangeSlide(state, slideSize, lastTranslate, fullSliderSize);
+
+        if (translate > 0) return 0;
 
         if (translate < -fullSliderSize) {
-            return Math.ceil(activeSlidePosition);
+            const activeSlide = Math.round(fullSliderSize / -slideSize);
+            this.setState({ activeSlide });
+            return activeSlide;
         }
 
         if (isSlideBack && activeSlidePercent < 0.90) {
@@ -172,6 +247,12 @@ class Slider extends Component {
         }
     }
 
+    changeActiveImage(activeImage) {
+        this.setState({
+            activeSlide: -activeImage
+        });
+    }
+
     renderCrumbs() {
         const { children, isVertical } = this.props;
 
@@ -191,7 +272,18 @@ class Slider extends Component {
         const isActive = i === Math.abs(activeSlide);
 
         return (
-            <div block="Slider" elem="Crumb" mods={ { isActive } } />
+            <button
+              block="Slider"
+              elem="Image"
+              mods={ { type: 'single' } }
+              onClick={ () => this.changeActiveImage(i) }
+            >
+                <div
+                  block="Slider"
+                  elem="Crumb"
+                  mods={ { isActive } }
+                />
+            </button>
         );
     }
 
@@ -202,6 +294,7 @@ class Slider extends Component {
 
     render() {
         const { isVertical, showCrumbs, mix } = this.props;
+        const { activeSlide } = this.state;
 
         return (
             <div
@@ -216,6 +309,7 @@ class Slider extends Component {
                   onDragStart={ this.handleDragStart }
                   onDragEnd={ this.handleDragEnd }
                   onDrag={ this.handleDrag }
+                  activeSlide={ activeSlide }
                 >
                     { this.renderSlides() }
                 </Draggable>
@@ -228,6 +322,7 @@ class Slider extends Component {
 Slider.propTypes = {
     isVertical: PropTypes.bool,
     showCrumbs: PropTypes.bool,
+    activeImage: PropTypes.number,
     mix: PropTypes.shape({
         block: PropTypes.string,
         elem: PropTypes.string,
@@ -245,6 +340,7 @@ Slider.propTypes = {
 };
 
 Slider.defaultProps = {
+    activeImage: 0,
     isVertical: false,
     showCrumbs: false,
     mix: {}
