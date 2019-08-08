@@ -123,7 +123,7 @@ export class CartDispatcher {
             if (type_id === 'configurable') {
                 let configurableVariantIndex = 0;
 
-                const variant = variants.find(
+                const { product: variant } = variants.find(
                     ({ product }, index) => {
                         const { sku: productSku } = product;
                         const isChosenProduct = productSku === sku;
