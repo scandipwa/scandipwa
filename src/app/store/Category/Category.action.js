@@ -9,32 +9,18 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const UPDATE_CATEGORY_LIST = 'UPDATE_CATEGORY_LIST';
 export const UPDATE_CURRENT_CATEGORY = 'UPDATE_CURRENT_CATEGORY';
-
-/**
- * Update Category Details
- * @param {Object} category Main Category object
- * @param {Array<Object>} subCategories List subcategories
- * @return {void}
- */
-const updateCategoryList = categoryList => ({
-    type: UPDATE_CATEGORY_LIST,
-    categoryList
-});
 
 /**
  * Update Current Category
  * @param {String} categoryUrlPath url path Main Category object
  * @return {void}
  */
-const updateCurrentCategory = (categoryUrlPath, categoryIds, isSearchPage) => ({
+const updateCurrentCategory = category => ({
     type: UPDATE_CURRENT_CATEGORY,
-    categoryUrlPath,
-    categoryIds,
-    isSearchPage
+    category
 });
 
 export {
-    updateCategoryList, updateCurrentCategory
+    updateCurrentCategory
 };

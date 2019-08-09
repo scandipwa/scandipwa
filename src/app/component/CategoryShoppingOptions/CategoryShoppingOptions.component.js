@@ -198,19 +198,17 @@ class CategoryShoppingOptions extends Component {
     renderClearFiltersButton() {
         const { clearFilters } = this.props;
 
-        if (window.location.search && this.isClearButtonShown()) { // ok to use window object for simple check...?
-            return (
-                <button
-                  block="CategoryShoppingOptions"
-                  elem="ClearButton"
-                  onClick={ () => clearFilters() }
-                >
-                    { __('Clear Filters') }
-                </button>
-            );
-        }
+        if (!window.location.search) return null; // bad, that we are showing this on page
 
-        return null;
+        return (
+            <button
+              block="CategoryShoppingOptions"
+              elem="ClearButton"
+              onClick={ () => clearFilters() }
+            >
+                { __('Clear Filters') }
+            </button>
+        );
     }
 
     renderPlaceholderSwatch(amountOfSwathces) {

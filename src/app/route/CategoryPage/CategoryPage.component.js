@@ -230,16 +230,16 @@ class CategoryPage extends Component {
 
     /**
      * Prepare and dispatch Category, ProductList and ProductListInfo requests
-     * @param {Boolean} shouldRequestPrdoductListInfo
+     * @param {Boolean} shouldRequestProductListInfo
      * @return {void}
      */
-    requestCategoryWithPageList(shouldRequestPrdoductListInfo = true) {
+    requestCategoryWithPageList(shouldRequestProductListInfo = true) {
         const currentPage = getQueryParam('page', location) || 1;
 
         this.requestCategory();
 
         // Requests only Product List info and then Product List without info
-        if (shouldRequestPrdoductListInfo) this.requestCategoryProductsInfo();
+        if (shouldRequestProductListInfo) this.requestCategoryProductsInfo();
         this.requestPage(currentPage);
     }
 
@@ -248,26 +248,14 @@ class CategoryPage extends Component {
      * @return {void}
      */
     requestCategory() {
-        const {
-            category,
-            categoryIds,
-            isSearchPage,
-            requestCategory,
-            updateCurrentCategory
-        } = this.props;
-
+        const { categoryIds, isSearchPage, requestCategory } = this.props;
         const categoryUrlPath = !categoryIds ? this.getCategoryUrlPath() : null;
-        const isCategoryLoaded = (!!Object.entries(category).length);
 
-        const options = {
+        requestCategory({
             categoryUrlPath,
             isSearchPage: isSearchPage || false,
             categoryIds
-        };
-
-        if (!isCategoryLoaded) {
-            requestCategory(options);
-        } else if (this.isNewCategory()) updateCurrentCategory(categoryUrlPath, categoryIds, isSearchPage);
+        });
     }
 
     /**
@@ -474,7 +462,8 @@ class CategoryPage extends Component {
                             <span>{ !isPagesLoading ? productsLoaded : 0 }</span>
                             { __(' / %s items showing', totalItems) }
                         </>
-                    ) }
+                    )
+                }
             </p>
         );
     }
@@ -487,7 +476,6 @@ class CategoryPage extends Component {
     render() {
         const {
             category,
-            categoryList,
             pages,
             minPriceRange,
             maxPriceRange,
@@ -507,16 +495,10 @@ class CategoryPage extends Component {
         } = this.state;
 
         const isLoading = isPagesLoading || isInfoLoading;
-        const { options } = sortFields;
-
-        const updatedSortFields = options && Object.values(options).map(option => ({
-            id: option.value,
-            label: option.label
-        }));
-
+        const { options = {} } = sortFields;
+        const updatedSortFields = Object.values(options).map(({ value: id, label }) => ({ id, label }));
         const customFilters = this.getCustomFiltersFromUrl();
         const search = getQueryParam('search', location) || '';
-
         const { totalPages, currentPage } = this.getPageParams();
 
         return (
@@ -547,7 +529,6 @@ class CategoryPage extends Component {
                         />
                         <CategoriesList
                           availableFilters={ filters }
-                          category={ categoryList }
                           currentCategory={ category }
                           location={ location }
                           match={ match }
@@ -595,7 +576,6 @@ CategoryPage.propTypes = {
         push: PropTypes.func.isRequired
     }).isRequired,
     category: CategoryTreeType.isRequired,
-    categoryList: CategoryTreeType.isRequired,
     pages: PagesType.isRequired,
     totalItems: PropTypes.number.isRequired,
     minPriceRange: PropTypes.number.isRequired,
@@ -609,7 +589,6 @@ CategoryPage.propTypes = {
     requestCategory: PropTypes.func.isRequired,
     requestProductList: PropTypes.func.isRequired,
     requestProductListInfo: PropTypes.func.isRequired,
-    updateCurrentCategory: PropTypes.func.isRequired,
     updateBreadcrumbs: PropTypes.func.isRequired,
     updateLoadStatus: PropTypes.func.isRequired,
     filters: PropTypes.arrayOf(PropTypes.shape).isRequired,

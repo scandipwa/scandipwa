@@ -42,8 +42,8 @@ class CategoryPagination extends Component {
         const page = pageNumber !== 1 ? pageNumber : '';
         const search = generateQuery({ page }, location, history);
 
-        const active = isCurrent ? ' PaginationLink_active' : '';
-        const className = `Pagination_Link${active}`;
+        const active = isCurrent ? ' CategoryPagination-PaginationLink_active' : '';
+        const className = `CategoryPagination-PaginationLink${active}`;
 
         return (
             <li
@@ -75,9 +75,15 @@ class CategoryPagination extends Component {
         return (
             <nav aria-label={ ariaLabel }>
                 <ul block="CategoryPagination">
-                    { currentPage > 1 && this.renderPreviousPageLink(currentPage - 1) }
+                    { (currentPage > 1)
+                        ? this.renderPreviousPageLink(currentPage - 1)
+                        : <li block="CategoryPagination" elem="ListItem" />
+                    }
                     { this.renderPageLinks() }
-                    { currentPage <= totalPages - 1 && this.renderNextPageLink(currentPage + 1) }
+                    { (currentPage <= totalPages - 1)
+                        ? this.renderNextPageLink(currentPage + 1)
+                        : <li block="CategoryPagination" elem="ListItem" />
+                    }
                 </ul>
             </nav>
         );
