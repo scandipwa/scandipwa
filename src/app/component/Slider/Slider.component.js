@@ -42,7 +42,6 @@ class Slider extends Component {
     }
 
     static getDerivedStateFromProps(props, state) {
-        // console.log('props & state from Slider', props, state);
         const { activeImage } = props;
         const { prevActiveImage } = state;
 
@@ -123,7 +122,6 @@ class Slider extends Component {
     }
 
     calculateNextSlide(state) {
-        console.log('fun calculateNextSlide', this.draggableRef, this.draggableRef.current.parentNode);
         const {
             translateX: translate,
             lastTranslateX: lastTranslate
@@ -183,7 +181,6 @@ class Slider extends Component {
     }
 
     handleDragEnd(state, callback) {
-        // console.log('fun handleDragEnd');
         const activeSlide = this.calculateNextSlide(state);
 
         const slideSize = this.draggableRef.current.offsetWidth;

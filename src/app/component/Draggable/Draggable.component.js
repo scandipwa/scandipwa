@@ -35,7 +35,6 @@ class Draggable extends Component {
     }
 
     static getDerivedStateFromProps(props, state) {
-        console.log('Drgbl st&pr getDerivedStateFromProps', state, props);
         if (props.draggableRef.current !== null) {
             const { activeSlide } = props;
             const { prevActiveSlider } = state;
