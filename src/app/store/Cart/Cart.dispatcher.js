@@ -87,7 +87,7 @@ export class CartDispatcher {
             // product_option: { extension_attributes: this._getExtensionAttributes(product) }
         };
 
-        if (this._isAllowed(options)) {
+        if (this._canBeAdded(options)) {
             return fetchMutation(Cart.getSaveCartItemMutation(
                 productToAdd, !isSignedIn() && this._getGuestQuoteId()
             )).then(
@@ -222,7 +222,7 @@ export class CartDispatcher {
      * @return {Boolean} Indicates is allowed or not
      * @memberof CartDispatcher
      */
-    _isAllowed(options) {
+    _canBeAdded(options) {
         if (options.product && options.quantity && (options.product.quantity + options.quantity) < 1) {
             return false;
         }

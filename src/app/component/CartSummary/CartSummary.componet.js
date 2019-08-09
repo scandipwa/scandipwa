@@ -35,7 +35,7 @@ class CartSummary extends Component {
     render() {
         const {
             totals: {
-                subtotal, tax_amount, grand_total, shipping_amount, items
+                subtotal, tax_amount, grand_total, shipping_amount, items = []
             }
         } = this.props;
         const cartIsEmpty = items.length;
