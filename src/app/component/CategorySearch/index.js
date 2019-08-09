@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import CategorySearch from './CategorySearch.component';
-
-export default CategorySearch;
+export { default } from './CategorySearch.component';

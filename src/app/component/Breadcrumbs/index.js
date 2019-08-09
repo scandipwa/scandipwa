@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import Breadcrumbs from './Breadcrumbs.container';
-
-export default Breadcrumbs;
+export { default } from './Breadcrumbs.container';

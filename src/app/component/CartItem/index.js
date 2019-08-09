@@ -8,7 +8,4 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-
-import CartItem from './CartItem.container';
-
-export default CartItem;
+export { default } from './CartItem.container';

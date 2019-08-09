@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import CartPage from './CartPage.container';
-
-export default CartPage;
+export { default } from './CartPage.container';

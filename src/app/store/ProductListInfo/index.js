@@ -9,22 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import ProductListInfoReducer from './ProductListInfo.reducer';
-import ProductListInfoDispatcher,
-{ ProductListInfoDispatcher as ProductListInfoDispatcherClass } from './ProductListInfo.dispatcher';
-import {
-    UPDATE_PRODUCT_LIST_INFO,
-    UPDATE_INFO_LOAD_STATUS,
-    updateProductListInfo,
-    updateInfoLoadStatus
-} from './ProductListInfo.action';
-
+export * from './ProductListInfo.action';
+export { default as ProductListInfoReducer } from './ProductListInfo.reducer';
 export {
-    ProductListInfoReducer,
-    ProductListInfoDispatcher,
-    ProductListInfoDispatcherClass,
-    UPDATE_PRODUCT_LIST_INFO,
-    UPDATE_INFO_LOAD_STATUS,
-    updateProductListInfo,
-    updateInfoLoadStatus
-};
+    default as ProductListInfoDispatcher,
+    ProductListInfoDispatcher as ProductListInfoDispatcherClass
+} from './ProductListInfo.dispatcher';

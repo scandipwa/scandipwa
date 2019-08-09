@@ -18,7 +18,7 @@ import PropTypes from 'prop-types';
 import RangeSelector from 'Component/RangeSelector';
 import CategorySearch from 'Component/CategorySearch';
 import TextPlaceholder from 'Component/TextPlaceholder';
-import Swatch from 'Component/Swatch';
+import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
 import './CategoryShoppingOptions.style';
 
 /**
@@ -29,18 +29,58 @@ class CategoryShoppingOptions extends Component {
     constructor(props) {
         super(props);
 
+        this.getFilterUrl = this.getFilterUrl.bind(this);
+        this.updateFilter = this.updateFilter.bind(this);
+
         this.state = {
             optionsVisible: false
         };
     }
 
     /**
-     * Open/Close shoping options on mobile
-     * @return {void}
+     * Returns filter array with new parameters
+     *
+     * @param {String} filterKey key of option
+     * @param {String} value
+     * @returns {Object[]}
+     * @memberof CategoryShoppingOptions
      */
-    toggleOptions() {
-        const { optionsVisible } = this.state;
-        this.setState({ optionsVisible: !optionsVisible });
+    getNewFilterArray(filterKey, value) {
+        const { customFiltersValues } = this.props;
+        const newFilterArray = Array.from(customFiltersValues[filterKey] || []);
+        const filterValueIndex = newFilterArray.indexOf(value);
+
+        if (filterValueIndex === -1) {
+            newFilterArray.push(value);
+        } else {
+            newFilterArray.splice(filterValueIndex, 1);
+        }
+
+        return newFilterArray;
+    }
+
+    /**
+     * Get URL for new filter value
+     *
+     * @param {*} filterKey
+     * @param {*} value
+     * @returns {String} new URL path
+     * @memberof CategoryShoppingOptions
+     */
+    getFilterUrl(filterKey, value) {
+        const { getFilterUrl } = this.props;
+
+        return getFilterUrl(filterKey, this.getNewFilterArray(filterKey, value));
+    }
+
+    /**
+     * Update filter when new filter is selected
+     * @return {Boolean}
+     */
+    updateFilter(requestVar, value) {
+        const { updateFilter } = this.props;
+
+        updateFilter(requestVar, this.getNewFilterArray(requestVar, value));
     }
 
     /**
@@ -64,21 +104,12 @@ class CategoryShoppingOptions extends Component {
     }
 
     /**
-     * Update filter when new filter is selected
-     * @return {Boolean}
+     * Open/Close shoping options on mobile
+     * @return {void}
      */
-    toggleCustomFilter(requestVar, value) {
-        const { updateFilter, customFiltersValues } = this.props;
-        const newFilterArray = customFiltersValues[requestVar] ? customFiltersValues[requestVar] : [];
-        const filterValueIndex = newFilterArray.indexOf(value);
-
-        if (filterValueIndex === -1) {
-            newFilterArray.push(value);
-        } else {
-            newFilterArray.splice(filterValueIndex, 1);
-        }
-
-        updateFilter(requestVar, newFilterArray);
+    toggleOptions() {
+        const { optionsVisible } = this.state;
+        this.setState({ optionsVisible: !optionsVisible });
     }
 
     renderFilterTitle(title) {
@@ -107,47 +138,45 @@ class CategoryShoppingOptions extends Component {
         );
     }
 
-    renderFilterItems(requestVar, filterItems) {
-        const { customFiltersValues } = this.props;
-        const filterIsColor = requestVar === 'color';
-        const currentFilterArray = customFiltersValues[requestVar] ? customFiltersValues[requestVar] : [];
-
-        return filterItems.map(({ swatch_data, label, value_string }) => {
-            const title = (swatch_data && swatch_data.value) || label;
-            const isSelected = currentFilterArray.indexOf(value_string) !== -1;
-            const dynamicStyle = filterIsColor ? title : '';
-
-            return (
-                <li key={ value_string }>
-                    <Swatch
-                      title={ filterIsColor ? '' : title }
-                      isSelected={ isSelected }
-                      isRound={ filterIsColor }
-                      backgroundColor={ dynamicStyle }
-                      handler={ () => this.toggleCustomFilter(requestVar, value_string) }
-                    />
-                </li>
-            );
-        });
-    }
-
     renderCustomFilters() {
-        const { availableFilters } = this.props;
+        const { availableFilters, customFiltersValues } = this.props;
 
-        return availableFilters.map(({ name, request_var, filter_items }) => {
-            if (request_var !== 'cat') {
-                return (
-                    <li block="CategoryShoppingOptions" elem="FilterBlock" key={ name }>
-                        { this.renderFilterTitle(name) }
-                        <ul block="CategoryShoppingOptions" elem="Swatches">
-                            { this.renderFilterItems(request_var, filter_items) }
-                        </ul>
-                    </li>
-                );
-            }
+        const configurable_options = availableFilters.reduce((co, item) => {
+            const {
+                request_var: attribute_code,
+                name: attribute_label,
+                filter_items
+            } = item;
 
-            return null;
-        });
+            //! TODO: Remove this hardcoded check, after solving the problem on BE: https://github.com/magento/magento2/blob/89cf888f6f3c7b163702969a8e256f9f0486f6b8/app/code/Magento/Catalog/Model/Layer/FilterList.php#L70
+            if (attribute_code === 'cat') return co;
+
+            const attribute_values = filter_items.map(({ value_string }) => value_string);
+            const attribute_options = filter_items.reduce((acc, option) => ({
+                ...acc,
+                [+option.value_string]: option
+            }), {});
+
+            return {
+                ...co,
+                [attribute_code]: {
+                    attribute_code,
+                    attribute_label,
+                    attribute_values,
+                    attribute_type: 'select',
+                    attribute_options
+                }
+            };
+        }, {});
+
+        return (
+            <ProductConfigurableAttributes
+              configurable_options={ configurable_options }
+              getLink={ this.getFilterUrl }
+              parameters={ customFiltersValues }
+              updateConfigurableVariant={ this.updateFilter }
+            />
+        );
     }
 
     renderSearchBar() {
@@ -192,7 +221,7 @@ class CategoryShoppingOptions extends Component {
                     { Array(amountOfSwathces).fill().map((_, i) => (
                         // eslint-disable-next-line react/no-array-index-key
                         <li key={ i }>
-                            <Swatch />
+                            <div block="CategoryShoppingOptions" elem="Swatch" />
                         </li>
                     )) }
                 </ul>
@@ -248,6 +277,7 @@ class CategoryShoppingOptions extends Component {
 CategoryShoppingOptions.propTypes = {
     updatePriceRange: PropTypes.func.isRequired,
     updateFilter: PropTypes.func.isRequired,
+    getFilterUrl: PropTypes.func.isRequired,
     updateSearch: PropTypes.func.isRequired,
     showSearch: PropTypes.bool,
     searchValue: PropTypes.string,

@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import HomeSlider from './HomeSlider.container';
-
-export default HomeSlider;
+export { default } from './HomeSlider.container';

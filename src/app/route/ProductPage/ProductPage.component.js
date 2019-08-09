@@ -25,7 +25,10 @@ import { ProductType } from 'Type/ProductList';
 import { getVariantIndex } from 'Util/Product';
 import RelatedProducts from 'Component/RelatedProducts';
 import {
-    getUrlParam, convertQueryStringToKeyValuePairs, updateQueryParamWithoutHistory
+    getUrlParam,
+    convertQueryStringToKeyValuePairs,
+    updateQueryParamWithoutHistory,
+    convertKeyValueObjectToQueryString
 } from 'Util/Url';
 import './ProductPage.style';
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
@@ -34,10 +37,11 @@ class ProductPage extends Component {
     constructor() {
         super();
 
+        this.getLink = this.getLink.bind(this);
         this.updateUrl = this.updateUrl.bind(this);
 
         this.state = {
-            id: 0,
+            id: -1,
             parameters: {},
             configurableVariantIndex: -1
         };
@@ -53,7 +57,9 @@ class ProductPage extends Component {
         const { id: stateId } = state;
         const {
             product: {
-                variants, configurable_options, id, type_id
+                id,
+                variants,
+                configurable_options
             },
             location: { search }
         } = props;
@@ -68,14 +74,10 @@ class ProductPage extends Component {
                 return acc;
             }, {});
 
+        if (Object.keys(parameters).length !== Object.keys(configurable_options).length) return { id, parameters };
+
         const configurableVariantIndex = getVariantIndex(variants, parameters);
-
-        if (Object.keys(parameters).length === Object.keys(configurable_options).length
-            || type_id !== 'configurable') {
-            return { id, parameters, configurableVariantIndex };
-        }
-
-        return { id, parameters };
+        return { id, parameters, configurableVariantIndex };
     }
 
     componentDidUpdate(prevProps) {
@@ -130,6 +132,16 @@ class ProductPage extends Component {
         return configurableMediaGallery.length ? configurableMediaGallery : media_gallery_entries;
     }
 
+    getLink(key, value) {
+        const { location: { search, pathname } } = this.props;
+        const query = convertKeyValueObjectToQueryString({
+            ...convertQueryStringToKeyValuePairs(search),
+            [key]: value
+        });
+
+        return `${pathname}${query}`;
+    }
+
     /**
      * Get thumbnail picture of the product
      * @param {Object} dataSource product data
@@ -153,7 +165,6 @@ class ProductPage extends Component {
             isSingleProduct: true,
             getConfigurableData: true
         };
-        this.setState({ configurableVariantIndex: -1 });
         requestProduct(options);
     }
 
@@ -179,21 +190,39 @@ class ProductPage extends Component {
 
         const parameters = {
             ...oldParameters,
-            [key]: `${value}`
+            [key]: value.toString(10)
         };
 
         this.setState({ parameters });
         updateQueryParamWithoutHistory(key, value);
 
         const newIndex = getVariantIndex(variants, parameters);
-        if (Object.keys(parameters).length === Object.keys(configurable_options).length
-            && configurableVariantIndex !== newIndex) {
+        if (
+            Object.keys(parameters).length === Object.keys(configurable_options).length
+            && configurableVariantIndex !== newIndex
+        ) {
             this.setState({ configurableVariantIndex: newIndex });
         }
     }
 
+    renderConfigurableAttributes() {
+        const { product: { configurable_options, type_id } } = this.props;
+        const { parameters } = this.state;
+
+        if (type_id !== 'configurable') return null;
+
+        return (
+            <ProductConfigurableAttributes
+              configurable_options={ configurable_options }
+              getLink={ this.getLink }
+              parameters={ parameters }
+              updateConfigurableVariant={ this.updateUrl }
+            />
+        );
+    }
+
     render() {
-        const { product, product: { variants, type_id } } = this.props;
+        const { product, product: { variants } } = this.props;
         const { configurableVariantIndex, parameters } = this.state;
         const dataSource = this.getDataSource();
         const { media_gallery_entries } = dataSource;
@@ -227,16 +256,12 @@ class ProductPage extends Component {
                               product={ dataSource }
                               handleGroupedQuantityChange={ this.changeGroupedProductQuantity }
                             />
-                            <ProductConfigurableAttributes
-                              product={ product }
-                              updateConfigurableVariant={ this.updateUrl }
-                            />
+                            { this.renderConfigurableAttributes() }
                             <ProductActions
                               product={ dataSource }
                               parameters={ parameters }
                               configurableVariantIndex={ configurableVariantIndex }
                               areDetailsLoaded={ areDetailsLoaded }
-                              updateConfigurableVariant={ this.updateUrl }
                             />
                         </div>
                     </ContentWrapper>

@@ -1,28 +1,17 @@
-import MyAccountReducer from './MyAccount.reducer';
-import MyAccountDispatcher, {
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+export * from './MyAccount.action';
+export { default as MyAccountReducer } from './MyAccount.reducer';
+export {
+    default as MyAccountDispatcher,
     MyAccountDispatcher as MyAccountDispatcherClass
 } from './MyAccount.dispatcher';
-import {
-    UPDATE_CUSTOMER_SIGN_IN_STATUS,
-    UPDATE_CUSTOMER_DETAILS,
-    UPDATE_CUSTOMER_PASSWORD_RESET_STATUS,
-    UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS,
-    updateCustomerSignInStatus,
-    updateCustomerDetails,
-    updateCustomerPasswordResetStatus,
-    updateCustomerPasswordForgotStatus
-} from './MyAccount.action';
-
-export {
-    MyAccountReducer,
-    MyAccountDispatcher,
-    MyAccountDispatcherClass,
-    UPDATE_CUSTOMER_SIGN_IN_STATUS,
-    UPDATE_CUSTOMER_DETAILS,
-    UPDATE_CUSTOMER_PASSWORD_RESET_STATUS,
-    UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS,
-    updateCustomerSignInStatus,
-    updateCustomerDetails,
-    updateCustomerPasswordResetStatus,
-    updateCustomerPasswordForgotStatus
-};

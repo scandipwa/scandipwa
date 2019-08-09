@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import Notification from './Notification.component';
-
-export default Notification;
+export { default } from './Notification.component';

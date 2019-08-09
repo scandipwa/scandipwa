@@ -12,7 +12,7 @@
 /**
  * Update query params without adding to history
  * @param {String} name
- * @param {Number} value
+ * @param {String} value
  */
 const updateQueryParamWithoutHistory = (name, value) => {
     const params = new URLSearchParams(window.location.search);
@@ -63,7 +63,7 @@ const convertQueryStringToKeyValuePairs = (queryString) => {
         const pair = param.split('=');
         const [keyPair, valuePair] = pair;
 
-        keyValuePairs[keyPair] = valuePair;
+        if (keyPair.length > 0 && valuePair.length > 0) keyValuePairs[keyPair] = valuePair;
     });
 
     return keyValuePairs;
@@ -159,13 +159,17 @@ const clearQueriesFromUrl = (history) => {
     history.push({ search: '' });
 };
 
-const convertKeyValueObjectToQueryString = (parameters) => {
-    if (!parameters) return '?nothing';
-    const paramString = Object.keys(parameters).sort()
-        .reduce((acc, key) => `${ acc }${ key }=${ parameters[key] }&`, '')
-        .slice(0, -1); // remove trailing '&'
+/**
+ * Convert object with key value pairs to url query string
+ * @param {Object} keyValuePairs object with key value pairs
+ * @return {String} Converted query string
+ */
+const convertKeyValueObjectToQueryString = (keyValueObject = {}) => {
+    const paramString = Object.entries(keyValueObject).sort()
+        .reduce((acc, [key, value]) => `${acc}&${key}=${value}`, '')
+        .replace('&', '');
 
-    return `?${ paramString }`;
+    return paramString.length > 0 ? `?${paramString}` : '';
 };
 
 export {

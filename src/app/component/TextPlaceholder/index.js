@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import TextPlaceholder from './TextPlaceholder.component';
-
-export default TextPlaceholder;
+export { default } from './TextPlaceholder.component';

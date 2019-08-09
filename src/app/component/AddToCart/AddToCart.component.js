@@ -114,7 +114,9 @@ class AddToCart extends Component {
         const {
             fullWidth,
             product: {
-                stock_status, variants, type_id
+                type_id,
+                stock_status,
+                variants = []
             },
             configurableVariantIndex
         } = this.props;

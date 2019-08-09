@@ -1,11 +1,23 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import TextPlaceholder from 'Component/TextPlaceholder';
+import './ProductAttributeValue.style';
 
 class ProductAttributeValue extends Component {
     constructor(props) {
         super(props);
 
+        this.clickHandler = this.clickHandler.bind(this);
         this.getOptionLabel = this.getOptionLabel.bind(this);
     }
 
@@ -26,6 +38,13 @@ class ProductAttributeValue extends Component {
         }
 
         return {};
+    }
+
+    clickHandler(e) {
+        const { onClick } = this.props;
+
+        e.preventDefault();
+        onClick();
     }
 
     renderTextAttribute() {
@@ -76,40 +95,47 @@ class ProductAttributeValue extends Component {
     }
 
     renderColorValue(color, label) {
-        const { mix } = this.props;
+        const { isSelected } = this.props;
         const isLight = this.getIsColorLight(color);
 
         return (
             <data
+              block="ProductAttributeValue"
+              elem="Color"
               value={ label }
-              mix={ { ...mix, mods: { isColor: true } } }
+              title={ label }
               style={ {
-                  '--swatch-background': color,
+                  '--swatch-background-color': color,
                   '--swatch-border-color': isLight ? '#000' : color,
-                  '--swatch-check-mark-background': isLight ? '#000' : '#fff'
+                  '--swatch-check-mark-background': isLight ? '#000' : '#fff',
+                  '--swatch-is-selected': +isSelected
               } }
             />
         );
     }
 
     renderImageValue(img, label) {
-        const { mix } = this.props;
-
         return (
             <img
+              block="ProductAttributeValue"
+              elem="Image"
               src={ img }
-              mix={ { ...mix, mods: { isImage: true } } }
               alt={ label }
             />
         );
     }
 
     renderStringValue(value, label) {
-        const { mix } = this.props;
+        const { isSelected } = this.props;
 
         return (
-            <span mix={ mix } title={ label }>
-                <TextPlaceholder content={ value } />
+            <span
+              block="ProductAttributeValue"
+              elem="String"
+              mods={ { isSelected } }
+              title={ label }
+            >
+                { value }
             </span>
         );
     }
@@ -132,13 +158,29 @@ class ProductAttributeValue extends Component {
     }
 
     render() {
-        const { attribute: { attribute_code, attribute_value, attribute_options = [] } } = this.props;
+        const {
+            getLink,
+            attribute: { attribute_code, attribute_value }
+        } = this.props;
         if (attribute_code && !attribute_value) return null;
-        return this.renderAttributeByType();
+
+        const href = getLink();
+
+        return (
+            <a
+              href={ href }
+              block="ProductAttributeValue"
+              onClick={ this.clickHandler }
+            >
+                { this.renderAttributeByType() }
+            </a>
+        );
     }
 }
 
 ProductAttributeValue.propTypes = {
+    getLink: PropTypes.func.isRequired,
+    onClick: PropTypes.func.isRequired,
     attribute: PropTypes.shape({
         attribute_code: PropTypes.string,
         attribute_type: PropTypes.string,
@@ -149,10 +191,11 @@ ProductAttributeValue.propTypes = {
             value: PropTypes.string
         }))
     }).isRequired,
-    mix: PropTypes.shape({
-        block: PropTypes.string,
-        elem: PropTypes.string
-    }).isRequired
+    isSelected: PropTypes.bool
+};
+
+ProductAttributeValue.defaultProps = {
+    isSelected: false
 };
 
 export default ProductAttributeValue;

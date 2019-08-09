@@ -82,6 +82,12 @@
         }
     }
 
+    &-Swatch {
+        background-image: var(--placeholder-image);
+        background-size: var(--placeholder-size);
+        animation: var(--placeholder-animation);
+    }
+
     &-ClearButton {
         --button-background: transparent;
         --button-hover-background: var(--color-primary-base);
