@@ -71,11 +71,12 @@ class ProductPage extends Component {
 
         const configurableVariantIndex = getVariantIndex(variants, parameters);
 
-        if (Object.keys(parameters).length === Object.keys(configurable_options).length
-            || type_id !== 'configurable') {
+        if (
+            Object.keys(parameters).length === Object.keys(configurable_options).length
+            || type_id !== 'configurable'
+        ) {
             return { id, parameters, configurableVariantIndex };
         }
-
         return { id, parameters };
     }
 
@@ -187,15 +188,17 @@ class ProductPage extends Component {
 
         const parameters = {
             ...oldParameters,
-            [key]: `${value}`
+            [key]: value.toString(10)
         };
 
         this.setState({ parameters });
         updateQueryParamWithoutHistory(key, value);
 
         const newIndex = getVariantIndex(variants, parameters);
-        if (Object.keys(parameters).length === Object.keys(configurable_options).length
-            && configurableVariantIndex !== newIndex) {
+        if (
+            Object.keys(parameters).length === Object.keys(configurable_options).length
+            && configurableVariantIndex !== newIndex
+        ) {
             this.setState({ configurableVariantIndex: newIndex });
         }
     }

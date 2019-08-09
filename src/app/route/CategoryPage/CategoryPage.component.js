@@ -110,8 +110,7 @@ class CategoryPage extends Component {
         const currentPage = parseInt(totalPages < pageFromUrl ? totalPages : pageFromUrl, 10);
 
         const pagesValues = Object.values(pages);
-        const productsLoaded = pagesValues.length
-            ? pagesValues.reduce((accumulator, page) => accumulator + page.length, 0) : 0;
+        const productsLoaded = pagesValues.reduce((accumulator, page) => accumulator + page.length, 0);
 
         return { totalPages, currentPage, productsLoaded };
     }

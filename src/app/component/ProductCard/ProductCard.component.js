@@ -41,12 +41,12 @@ class ProductCard extends Component {
         const { product: { variants = [] }, customFilters = {} } = this.props;
         const filterKeys = Object.keys(customFilters);
 
-        if (filterKeys.length < 0) return { indexes: [], parameters: null };
+        if (filterKeys.length < 0) return { indexes: [], parameters: {} };
 
         const indexes = getVariantsIndexes(variants, customFilters);
         const [index] = indexes;
 
-        if (!variants[index]) return { indexes: [], parameters: null };
+        if (!variants[index]) return { indexes: [], parameters: {} };
 
         const parameters = Object.entries(variants[index].attributes)
             .reduce((parameters, [key, { attribute_value }]) => {
@@ -60,15 +60,13 @@ class ProductCard extends Component {
     getLinkTo(parameters) {
         const { product: { url_key }, product } = this.props;
 
-        const search = parameters && convertKeyValueObjectToQueryString(parameters);
+        if (!url_key) return undefined;
 
-        return url_key
-            ? {
-                pathname: `/product/${ url_key }`,
-                state: { product },
-                search
-            }
-            : undefined;
+        return {
+            pathname: `/product/${ url_key }`,
+            state: { product },
+            search: convertKeyValueObjectToQueryString(parameters)
+        };
     }
 
     /**
@@ -128,6 +126,17 @@ class ProductCard extends Component {
               fullWidth
               removeWishlistItem
               configurableVariantIndex={ index }
+            />
+        );
+    }
+
+    renderAddToWishlistButton(notReady) {
+        const { product } = this.props;
+        if (notReady) return <TextPlaceholder length="medium" />;
+        return (
+            <ProductWishlistButton
+              product={ product }
+              fullWidth
             />
         );
     }
