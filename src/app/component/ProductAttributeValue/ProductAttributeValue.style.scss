@@ -26,6 +26,7 @@
     --swatch-is-selected: 0;
 
     border-style: none;
+    margin-left: 0;
 
     &:hover,
     &:focus {
@@ -89,8 +90,8 @@
             }
         }
 
-        @include after-mobile {
-            &:hover {
+        &:hover {
+            @include after-mobile {
                 &::before,
                 &::after {
                     --swatch-is-selected: 0.5;

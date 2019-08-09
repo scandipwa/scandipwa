@@ -329,7 +329,7 @@ class CategoryPage extends Component {
         }, location, history);
     }
 
-    getFilterUrl(filterName, filterArray) {
+    getFilterUrl(filterName, filterArray, isFull = true) {
         const { location: { pathname } } = this.props;
         const prevCustomFilters = this.getCustomFiltersFromUrl();
 
@@ -356,7 +356,7 @@ class CategoryPage extends Component {
         customFilters = hasTrailingSemicolon ? customFiltersString.slice(0, -1) : customFiltersString;
         customFilters = hasLeadingSemicolon ? customFilters.slice(1) : customFilters;
 
-        return `${pathname}?${customFilters}`;
+        return `${isFull ? `${pathname}?` : ''}${customFilters}`;
     }
 
     /**
@@ -364,8 +364,10 @@ class CategoryPage extends Component {
      * @return {void}
      */
     updateFilter(filterName, filterArray) {
+        const { location, history } = this.props;
+
         setQueryParams({
-            customFilters: this.getFilterUrl(filterName, filterArray),
+            customFilters: this.getFilterUrl(filterName, filterArray, false),
             page: ''
         }, location, history);
     }

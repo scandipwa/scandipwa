@@ -9,8 +9,21 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-.ProductConfigurableAttribute {
-    padding: 1.5rem calc(1rem - 5px);
+.ProductConfigurableAttributes {
+    &-Attribute {
+        padding: 1.5rem 0;
+    }
+}
+
+.ProductConfigurableAttribute {    
+    &-AttributesList { 
+        display: flex;
+        flex-wrap: wrap;
+
+        & > * {
+            padding: 5px;
+        }
+    }
 
     &-SectionHeading {
         font-weight: 600;

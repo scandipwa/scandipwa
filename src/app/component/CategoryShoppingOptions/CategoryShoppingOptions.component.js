@@ -67,13 +67,9 @@ class CategoryShoppingOptions extends Component {
             || searchValue || isPriceCustom || !(sortKey || sortDirection);
     }
 
-    /**
-     * Update filter when new filter is selected
-     * @return {Boolean}
-     */
-    toggleCustomFilter(requestVar, value) {
-        const { updateFilter, customFiltersValues } = this.props;
-        const newFilterArray = customFiltersValues[requestVar] ? customFiltersValues[requestVar] : [];
+    getNewFilterArray(requestVar, value) {
+        const { customFiltersValues } = this.props;
+        const newFilterArray = Array.from(customFiltersValues[requestVar] || []);
         const filterValueIndex = newFilterArray.indexOf(value);
 
         if (filterValueIndex === -1) {
@@ -82,20 +78,23 @@ class CategoryShoppingOptions extends Component {
             newFilterArray.splice(filterValueIndex, 1);
         }
 
-        updateFilter(requestVar, newFilterArray);
+        return newFilterArray;
+    }
+
+    /**
+     * Update filter when new filter is selected
+     * @return {Boolean}
+     */
+    toggleCustomFilter(requestVar, value) {
+        const { updateFilter } = this.props;
+
+        updateFilter(requestVar, this.getNewFilterArray(requestVar, value));
     }
 
     getFilterUrl(requestVar, value) {
-        const { getFilterUrl, customFiltersValues } = this.props;
+        const { getFilterUrl } = this.props;
 
-        const newFilterArray = customFiltersValues[requestVar] || [];
-        const filterValueIndex = newFilterArray.indexOf(value);
-
-        if (filterValueIndex === -1) {
-            newFilterArray.push(value);
-        }
-
-        return getFilterUrl(requestVar, newFilterArray);
+        return getFilterUrl(requestVar, this.getNewFilterArray(requestVar, value));
     }
 
     renderFilterTitle(title) {
@@ -133,6 +132,9 @@ class CategoryShoppingOptions extends Component {
                 name: attribute_label,
                 filter_items
             } = item;
+
+            //! TODO: Remove this hardcoded check, after solving it on BE: https://github.com/magento/magento2/blob/89cf888f6f3c7b163702969a8e256f9f0486f6b8/app/code/Magento/Catalog/Model/Layer/FilterList.php#L70
+            if (attribute_code === 'cat') return co;
 
             const attribute_values = filter_items.map(({ value_string }) => value_string);
             const attribute_options = filter_items.reduce((acc, option) => ({

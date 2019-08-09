@@ -25,7 +25,7 @@ class ProductConfigurableAttributes extends Component {
         updateConfigurableVariant(attribute_code, attribute_value);
     }
 
-    renderConfigurableAttribute(attribute, isSelected) {
+    renderConfigurableAttributeValue(attribute, isSelected) {
         const { attribute_value } = attribute;
 
         return (
@@ -39,7 +39,7 @@ class ProductConfigurableAttributes extends Component {
         );
     }
 
-    render() {
+    renderConfigurableAttributes() {
         const { configurable_options, parameters = {} } = this.props;
 
         return Object.values(configurable_options).map((option) => {
@@ -48,20 +48,31 @@ class ProductConfigurableAttributes extends Component {
             return (
                 <section
                   key={ attribute_code }
+                  className="ProductConfigurableAttributes-Attribute"
                   block="ProductConfigurableAttribute"
                   aria-label={ attribute_label }
                 >
                     <h4 block="ProductConfigurableAttribute" elem="SectionHeading">{ attribute_label }</h4>
-                    { attribute_values.map(attribute_value => (
-                        this.renderConfigurableAttribute(
-                            { ...option, attribute_value },
-                            parameters[attribute_code] === attribute_value
-                            || (parameters[attribute_code] && parameters[attribute_code].length ? parameters[attribute_code].includes(attribute_value) : false)
-                        )
-                    )) }
+                    <div block="ProductConfigurableAttribute" elem="AttributesList">
+                        { attribute_values.map(attribute_value => (
+                            this.renderConfigurableAttributeValue(
+                                { ...option, attribute_value },
+                                parameters[attribute_code] === attribute_value
+                                || (parameters[attribute_code] && parameters[attribute_code].length ? parameters[attribute_code].includes(attribute_value) : false)
+                            )
+                        )) }
+                    </div>
                 </section>
             );
         });
+    }
+
+    render() {
+        return (
+            <div block="ProductConfigurableAttributes">
+                { this.renderConfigurableAttributes() }
+            </div>
+        );
     }
 }
 
