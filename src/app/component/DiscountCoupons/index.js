@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import DiscountCoupons from './DiscountCoupons.component';
-
-export default DiscountCoupons;
+export { default } from './DiscountCoupons.component';

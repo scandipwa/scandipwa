@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import Menu from './Menu.container';
-
-export default Menu;
+export { default } from './Menu.container';

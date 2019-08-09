@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import Figure from './Figure.component';
-
-export default Figure;
+export { default } from './Figure.component';

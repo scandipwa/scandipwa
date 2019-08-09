@@ -9,8 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import {
-    getReviewText
-} from './Review';
-
-export { getReviewText };
+export * from './Review';

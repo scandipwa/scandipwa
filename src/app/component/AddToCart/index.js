@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import AddToCart from './AddToCart.container';
-
-export default AddToCart;
+export { default } from './AddToCart.container';

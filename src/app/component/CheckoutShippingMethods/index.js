@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import CheckoutShippingMethods from './CheckoutShippingMethods.component';
-
-export default CheckoutShippingMethods;
+export { default } from './CheckoutShippingMethods.component';

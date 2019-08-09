@@ -9,8 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import {
-    getTabIndex
-} from './Link';
-
-export { getTabIndex };
+export * from './Link';

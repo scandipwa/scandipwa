@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import NewsletterSubscribe from './NewsletterSubscribe.container';
-
-export default NewsletterSubscribe;
+export { default } from './NewsletterSubscribe.container';

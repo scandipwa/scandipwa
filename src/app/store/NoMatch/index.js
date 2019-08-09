@@ -9,17 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import NoMatchReducer from './NoMatch.reducer';
-import NoMatchDispatcher, { NoMatchDispatcher as NoMatchDispatcherClass } from './NoMatch.dispatcher';
-import {
-    UPDATE_NOMATCH,
-    updateNoMatch
-} from './NoMatch.action';
-
-export {
-    NoMatchReducer,
-    NoMatchDispatcher,
-    NoMatchDispatcherClass,
-    UPDATE_NOMATCH,
-    updateNoMatch
-};
+export * from './NoMatch.action';
+export { default as NoMatchReducer } from './NoMatch.reducer';
+export { default as NoMatchDispatcher, NoMatchDispatcher as NoMatchDispatcherClass } from './NoMatch.dispatcher';

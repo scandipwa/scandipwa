@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import CategoryShoppingOptions from './CategoryShoppingOptions.component';
-
-export default CategoryShoppingOptions;
+export { default } from './CategoryShoppingOptions.component';

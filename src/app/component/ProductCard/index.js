@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import ProductCard from './ProductCard.container';
-
-export default ProductCard;
+export { default } from './ProductCard.container';

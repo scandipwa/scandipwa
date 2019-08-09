@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import MyAccountContainer from './MyAccount.container';
-
-export default MyAccountContainer;
+export { default } from './MyAccount.container';

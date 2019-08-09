@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import FieldContainer from './Field.container';
-
-export default FieldContainer;
+export { default } from './Field.container';
