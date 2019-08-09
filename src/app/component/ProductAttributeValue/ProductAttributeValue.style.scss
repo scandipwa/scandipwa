@@ -10,12 +10,12 @@
  */
 
 :root {
-  --swatch-background-color: var(--color-homepage-background);
-  --swatch-border-color: var(--color-border-base);
-  --swatch-check-mark-background: var(--color-text-black);
-  --swatch-text-color: var(--color-text-black);
-  --swatch-padding: 0 12px;
-  --swatch-size: 35px;
+    --swatch-background-color: var(--color-homepage-background);
+    --swatch-border-color: var(--color-border-base);
+    --swatch-check-mark-background: var(--color-text-black);
+    --swatch-text-color: var(--color-text-black);
+    --swatch-padding: 0 12px;
+    --swatch-size: 35px;
 }
 
 .ProductAttributeValue {
@@ -97,8 +97,8 @@
         min-width: var(--swatch-size);
 
         &_isSelected {
-        --swatch-border-color: var(--color-primary-base);
-        --swatch-text-color: var(--color-primary-base);
+            --swatch-border-color: var(--color-primary-base);
+            --swatch-text-color: var(--color-primary-base);
         }
     }
 }

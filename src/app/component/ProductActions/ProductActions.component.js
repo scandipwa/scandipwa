@@ -42,7 +42,10 @@ class ProductActions extends Component {
     allDataLoaded() {
         const {
             product: {
-                attributes, price, type_id, configurable_options
+                price,
+                type_id,
+                attributes,
+                configurable_options
             }
         } = this.props;
         const simpleProductData = price && attributes;

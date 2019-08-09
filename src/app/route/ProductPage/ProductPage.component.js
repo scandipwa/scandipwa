@@ -80,10 +80,10 @@ class ProductPage extends Component {
         return { id, parameters, configurableVariantIndex };
     }
 
-    componentDidUpdate(prevProps) {
-        const { location } = this.props;
+    componentDidUpdate({ location: { pathname: prevPathname } }) {
+        const { location: { pathname } } = this.props;
 
-        if (location.pathname !== prevProps.location.pathname) this.requestProduct();
+        if (pathname !== prevPathname) this.requestProduct();
         this.updateBreadcrumbs();
     }
 

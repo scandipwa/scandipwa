@@ -97,8 +97,10 @@ class ProductCard extends Component {
         return null;
     }
 
-    addOrConfigureProduct(variantIndexes = [], linkTo) {
+    renderAddOrConfigureProduct(variantIndexes = [], linkTo, price) {
         const { product, product: { url_key, type_id } } = this.props;
+
+        if (!price) return (<TextPlaceholder length="medium" />);
 
         if (type_id === 'configurable' && variantIndexes.length !== 1) {
             return (
@@ -202,19 +204,12 @@ class ProductCard extends Component {
                 </TagName>
                 { this.renderReviewSummary(linkTo) }
                 <div block="ProductCard" elem="Actions">
-                    { price
-                        ? this.addOrConfigureProduct(indexes, linkTo)
-                        : <TextPlaceholder length="medium" />
-                    }
-                    { price
-                        ? (
-                            <ProductWishlistButton
-                              product={ product }
-                              fullWidth
-                            />
-                        )
-                        : <TextPlaceholder length="medium" />
-                    }
+                    { this.renderAddOrConfigureProduct(indexes, linkTo, price) }
+                    <ProductWishlistButton
+                      product={ product }
+                      fullWidth
+                      isReady={ !!price }
+                    />
                 </div>
             </li>
         );
