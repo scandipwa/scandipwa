@@ -54,6 +54,11 @@ module.exports = (_, options) => {
             extensions: [
                 '.js',
                 '*'
+            ],
+            plugins: [
+                new FallbackPlugin({
+                    fallbackRoot, projectRoot
+                })
             ]
         },
 
@@ -90,10 +95,6 @@ module.exports = (_, options) => {
         },
 
         plugins: [
-            new FallbackPlugin({
-                fallbackRoot
-            }),
-
             ...additionalPlugins
         ]
     };

@@ -45,6 +45,11 @@ module.exports = {
             '.jsx',
             '.scss',
             '*'
+        ],
+        plugins: [
+            new FallbackPlugin({
+                fallbackRoot, projectRoot
+            })
         ]
     },
 
@@ -161,10 +166,6 @@ module.exports = {
         new CopyWebpackPlugin([
             { from: path.resolve(projectRoot, 'src', 'public', 'assets'), to: './assets' }
         ]),
-
-        new FallbackPlugin({
-            fallbackRoot
-        }),
 
         new MinifyPlugin({
             removeConsole: true,
