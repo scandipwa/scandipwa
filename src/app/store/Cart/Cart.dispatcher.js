@@ -172,22 +172,22 @@ export class CartDispatcher {
         if (type_id === 'configurable') {
             const currentVariant = variants[configurableVariantIndex];
 
-            const configurable_item_options = Object.values(configurable_options).reduce((prev, curr) => {
-                const { attribute_id, attribute_code } = curr;
-                const { attribute_value } = currentVariant.attributes[attribute_code];
+            const configurable_item_options = Object.values(configurable_options)
+                .reduce((prev, { attribute_id, attribute_code }) => {
+                    const { attribute_value } = currentVariant.attributes[attribute_code];
 
-                if (attribute_value) {
-                    return [
-                        ...prev,
-                        {
-                            option_id: attribute_id,
-                            option_value: attribute_value
-                        }
-                    ];
-                }
+                    if (attribute_value) {
+                        return [
+                            ...prev,
+                            {
+                                option_id: attribute_id,
+                                option_value: attribute_value
+                            }
+                        ];
+                    }
 
-                return prev;
-            }, []);
+                    return prev;
+                }, []);
 
             return { configurable_item_options };
         }

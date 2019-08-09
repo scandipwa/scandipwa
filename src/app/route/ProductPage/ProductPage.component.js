@@ -57,7 +57,9 @@ class ProductPage extends Component {
         const { id: stateId } = state;
         const {
             product: {
-                variants, configurable_options, id, type_id
+                id,
+                variants,
+                configurable_options
             },
             location: { search }
         } = props;
@@ -72,15 +74,10 @@ class ProductPage extends Component {
                 return acc;
             }, {});
 
-        const configurableVariantIndex = getVariantIndex(variants, parameters);
+        if (Object.keys(parameters).length !== Object.keys(configurable_options).length) return { id, parameters };
 
-        if (
-            Object.keys(parameters).length === Object.keys(configurable_options).length
-            || type_id !== 'configurable'
-        ) {
-            return { id, parameters, configurableVariantIndex };
-        }
-        return { id, parameters };
+        const configurableVariantIndex = getVariantIndex(variants, parameters);
+        return { id, parameters, configurableVariantIndex };
     }
 
     componentDidUpdate(prevProps) {
@@ -208,8 +205,24 @@ class ProductPage extends Component {
         }
     }
 
+    renderConfigurableAttributes() {
+        const { product: { configurable_options, type_id } } = this.props;
+        const { parameters } = this.state;
+
+        if (type_id !== 'configurable') return null;
+
+        return (
+            <ProductConfigurableAttributes
+              configurable_options={ configurable_options }
+              getLink={ this.getLink }
+              parameters={ parameters }
+              updateConfigurableVariant={ this.updateUrl }
+            />
+        );
+    }
+
     render() {
-        const { product, product: { variants, configurable_options, type_id } } = this.props;
+        const { product, product: { variants } } = this.props;
         const { configurableVariantIndex, parameters } = this.state;
         const dataSource = this.getDataSource();
         const { media_gallery_entries } = dataSource;
@@ -243,15 +256,7 @@ class ProductPage extends Component {
                               product={ dataSource }
                               handleGroupedQuantityChange={ this.changeGroupedProductQuantity }
                             />
-                            { type_id === 'configurable' && (
-                                <ProductConfigurableAttributes
-                                  configurable_options={ configurable_options }
-                                  getLink={ this.getLink }
-                                  parameters={ parameters }
-                                  updateConfigurableVariant={ this.updateUrl }
-                                />
-                            ) }
-
+                            { this.renderConfigurableAttributes() }
                             <ProductActions
                               product={ dataSource }
                               parameters={ parameters }

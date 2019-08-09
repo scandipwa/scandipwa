@@ -21,7 +21,6 @@ const checkEveryOption = (attributes, options) => Object.keys(options)
         if (!attributes[option]) return false;
 
         const { attribute_value } = attributes[option];
-
         if (typeof options[option] === 'string') {
             return options[option] === attribute_value;
         }
