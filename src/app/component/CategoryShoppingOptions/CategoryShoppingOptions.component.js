@@ -18,7 +18,6 @@ import PropTypes from 'prop-types';
 import RangeSelector from 'Component/RangeSelector';
 import CategorySearch from 'Component/CategorySearch';
 import TextPlaceholder from 'Component/TextPlaceholder';
-import Swatch from 'Component/Swatch';
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
 import './CategoryShoppingOptions.style';
 
@@ -31,7 +30,7 @@ class CategoryShoppingOptions extends Component {
         super(props);
 
         this.getFilterUrl = this.getFilterUrl.bind(this);
-        this.toggleCustomFilter = this.toggleCustomFilter.bind(this);
+        this.updateFilter = this.updateFilter.bind(this);
 
         this.state = {
             optionsVisible: false
@@ -39,12 +38,49 @@ class CategoryShoppingOptions extends Component {
     }
 
     /**
-     * Open/Close shoping options on mobile
-     * @return {void}
+     * Returns filter array with new parameters
+     *
+     * @param {String} filterKey key of option
+     * @param {String} value
+     * @returns {Object[]}
+     * @memberof CategoryShoppingOptions
      */
-    toggleOptions() {
-        const { optionsVisible } = this.state;
-        this.setState({ optionsVisible: !optionsVisible });
+    getNewFilterArray(filterKey, value) {
+        const { customFiltersValues } = this.props;
+        const newFilterArray = Array.from(customFiltersValues[filterKey] || []);
+        const filterValueIndex = newFilterArray.indexOf(value);
+
+        if (filterValueIndex === -1) {
+            newFilterArray.push(value);
+        } else {
+            newFilterArray.splice(filterValueIndex, 1);
+        }
+
+        return newFilterArray;
+    }
+
+    /**
+     * Get URL for new filter value
+     *
+     * @param {*} filterKey
+     * @param {*} value
+     * @returns {String} new URL path
+     * @memberof CategoryShoppingOptions
+     */
+    getFilterUrl(filterKey, value) {
+        const { getFilterUrl } = this.props;
+
+        return getFilterUrl(filterKey, this.getNewFilterArray(filterKey, value));
+    }
+
+    /**
+     * Update filter when new filter is selected
+     * @return {Boolean}
+     */
+    updateFilter(requestVar, value) {
+        const { updateFilter } = this.props;
+
+        updateFilter(requestVar, this.getNewFilterArray(requestVar, value));
     }
 
     /**
@@ -67,34 +103,13 @@ class CategoryShoppingOptions extends Component {
             || searchValue || isPriceCustom || !(sortKey || sortDirection);
     }
 
-    getNewFilterArray(requestVar, value) {
-        const { customFiltersValues } = this.props;
-        const newFilterArray = Array.from(customFiltersValues[requestVar] || []);
-        const filterValueIndex = newFilterArray.indexOf(value);
-
-        if (filterValueIndex === -1) {
-            newFilterArray.push(value);
-        } else {
-            newFilterArray.splice(filterValueIndex, 1);
-        }
-
-        return newFilterArray;
-    }
-
     /**
-     * Update filter when new filter is selected
-     * @return {Boolean}
+     * Open/Close shoping options on mobile
+     * @return {void}
      */
-    toggleCustomFilter(requestVar, value) {
-        const { updateFilter } = this.props;
-
-        updateFilter(requestVar, this.getNewFilterArray(requestVar, value));
-    }
-
-    getFilterUrl(requestVar, value) {
-        const { getFilterUrl } = this.props;
-
-        return getFilterUrl(requestVar, this.getNewFilterArray(requestVar, value));
+    toggleOptions() {
+        const { optionsVisible } = this.state;
+        this.setState({ optionsVisible: !optionsVisible });
     }
 
     renderFilterTitle(title) {
@@ -133,7 +148,7 @@ class CategoryShoppingOptions extends Component {
                 filter_items
             } = item;
 
-            //! TODO: Remove this hardcoded check, after solving it on BE: https://github.com/magento/magento2/blob/89cf888f6f3c7b163702969a8e256f9f0486f6b8/app/code/Magento/Catalog/Model/Layer/FilterList.php#L70
+            //! TODO: Remove this hardcoded check, after solving the problem on BE: https://github.com/magento/magento2/blob/89cf888f6f3c7b163702969a8e256f9f0486f6b8/app/code/Magento/Catalog/Model/Layer/FilterList.php#L70
             if (attribute_code === 'cat') return co;
 
             const attribute_values = filter_items.map(({ value_string }) => value_string);
@@ -147,7 +162,6 @@ class CategoryShoppingOptions extends Component {
                 [attribute_code]: {
                     attribute_code,
                     attribute_label,
-                    attribute_value: null,
                     attribute_values,
                     attribute_type: 'select',
                     attribute_options
@@ -160,7 +174,7 @@ class CategoryShoppingOptions extends Component {
               configurable_options={ configurable_options }
               getLink={ this.getFilterUrl }
               parameters={ customFiltersValues }
-              updateConfigurableVariant={ this.toggleCustomFilter }
+              updateConfigurableVariant={ this.updateFilter }
             />
         );
     }
@@ -207,7 +221,7 @@ class CategoryShoppingOptions extends Component {
                     { Array(amountOfSwathces).fill().map((_, i) => (
                         // eslint-disable-next-line react/no-array-index-key
                         <li key={ i }>
-                            <Swatch />
+                            <div block="CategoryShoppingOptions" elem="Swatch" />
                         </li>
                     )) }
                 </ul>

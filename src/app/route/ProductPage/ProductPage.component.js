@@ -25,7 +25,10 @@ import { ProductType } from 'Type/ProductList';
 import { getVariantIndex } from 'Util/Product';
 import RelatedProducts from 'Component/RelatedProducts';
 import {
-    getUrlParam, convertQueryStringToKeyValuePairs, updateQueryParamWithoutHistory, convertKeyValueObjectToQueryString
+    getUrlParam,
+    convertQueryStringToKeyValuePairs,
+    updateQueryParamWithoutHistory,
+    convertKeyValueObjectToQueryString
 } from 'Util/Url';
 import './ProductPage.style';
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
@@ -133,11 +136,13 @@ class ProductPage extends Component {
     }
 
     getLink(key, value) {
-        const { location: { search } } = this.props;
-        return convertKeyValueObjectToQueryString({
+        const { location: { search, pathname } } = this.props;
+        const query = convertKeyValueObjectToQueryString({
             ...convertQueryStringToKeyValuePairs(search),
             [key]: value
         });
+
+        return `${pathname}${query}`;
     }
 
     /**

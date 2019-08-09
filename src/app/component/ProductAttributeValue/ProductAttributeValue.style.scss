@@ -25,22 +25,13 @@
 
     --swatch-is-selected: 0;
 
-    border-style: none;
     margin-left: 0;
-
-    &:hover,
-    &:focus {
-        background-color: initial;
-        border-color: initial;
-        color: initial;
-    }
 
     &-Color,
     &-String,
     &-Image {
         background-color: var(--swatch-background-color);
         border-color: var(--swatch-border-color);
-        border-style: none;
         border-width: 1px;
         color: var(--swatch-text-color);
         display: inline-block;
@@ -102,7 +93,6 @@
 
     &-String {
         border-style: solid;
-        font-size: 1rem;
         line-height: var(--swatch-size);
         min-width: var(--swatch-size);
 

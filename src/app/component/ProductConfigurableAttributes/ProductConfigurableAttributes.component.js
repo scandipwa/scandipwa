@@ -15,24 +15,53 @@ import ProductAttributeValue from 'Component/ProductAttributeValue';
 import './ProductConfigurableAttributes.style';
 
 class ProductConfigurableAttributes extends Component {
+    /**
+     * Get URL link for attribute
+     *
+     * @param {{ attribute_code: String, attribute_value: String }} { attribute_code, attribute_value }
+     * @returns {String}
+     * @memberof ProductConfigurableAttributes
+     */
     getLink({ attribute_code, attribute_value }) {
         const { getLink } = this.props;
         return getLink(attribute_code, attribute_value);
     }
 
+    /**
+     * Updates URL on click
+     *
+     * @param {{ attribute_code: String, attribute_value: String }} { attribute_code, attribute_value }
+     * @memberof ProductConfigurableAttributes
+     */
     handleOptionClick({ attribute_code, attribute_value }) {
         const { updateConfigurableVariant } = this.props;
         updateConfigurableVariant(attribute_code, attribute_value);
     }
 
-    renderConfigurableAttributeValue(attribute, isSelected) {
+    /**
+     * Checks whether provided attribute were selected
+     *
+     * @param {{ attribute_code: String, attribute_value: String }} { attribute_code, attribute_value }
+     * @returns {bool}
+     * @memberof ProductConfigurableAttributes
+     */
+    isSelected({ attribute_code, attribute_value }) {
+        const { parameters = {} } = this.props;
+        const parameter = parameters[attribute_code];
+
+        if (parameter === undefined) return false;
+        if (parameter.length !== undefined) return parameter.includes(attribute_value);
+        return parameter === attribute_value;
+    }
+
+    renderConfigurableAttributeValue(attribute) {
         const { attribute_value } = attribute;
 
         return (
             <ProductAttributeValue
               key={ attribute_value }
               attribute={ attribute }
-              isSelected={ isSelected }
+              isSelected={ this.isSelected(attribute) }
               onClick={ () => this.handleOptionClick(attribute) }
               getLink={ () => this.getLink(attribute) }
             />
@@ -40,7 +69,7 @@ class ProductConfigurableAttributes extends Component {
     }
 
     renderConfigurableAttributes() {
-        const { configurable_options, parameters = {} } = this.props;
+        const { configurable_options } = this.props;
 
         return Object.values(configurable_options).map((option) => {
             const { attribute_values, attribute_label, attribute_code } = option;
@@ -55,11 +84,7 @@ class ProductConfigurableAttributes extends Component {
                     <h4 block="ProductConfigurableAttribute" elem="SectionHeading">{ attribute_label }</h4>
                     <div block="ProductConfigurableAttribute" elem="AttributesList">
                         { attribute_values.map(attribute_value => (
-                            this.renderConfigurableAttributeValue(
-                                { ...option, attribute_value },
-                                parameters[attribute_code] === attribute_value
-                                || (parameters[attribute_code] && parameters[attribute_code].length ? parameters[attribute_code].includes(attribute_value) : false)
-                            )
+                            this.renderConfigurableAttributeValue({ ...option, attribute_value })
                         )) }
                     </div>
                 </section>

@@ -47,8 +47,9 @@ class ProductCard extends Component {
         const [index] = indexes;
 
         if (!variants[index]) return { indexes: [], parameters: {} };
+        const { attributes } = variants[index];
 
-        const parameters = Object.entries(variants[index].attributes)
+        const parameters = Object.entries(attributes)
             .reduce((parameters, [key, { attribute_value }]) => {
                 if (filterKeys.includes(key)) return { ...parameters, [key]: attribute_value };
                 return parameters;
@@ -75,11 +76,11 @@ class ProductCard extends Component {
      * @return {void}
      */
     getThumbnail(currentVariantIndex) {
-        const { product: { thumbnail, variants = [] } } = this.props;
-        const variantThumbnail = variants[currentVariantIndex]
-            ? variants[currentVariantIndex].thumbnail.path
-            : null;
-        return variantThumbnail || (thumbnail && thumbnail.path);
+        const { product: { thumbnail = {}, variants = [] } } = this.props;
+
+        const { path } = thumbnail;
+        if (variants[currentVariantIndex] === undefined) return path;
+        return variants[currentVariantIndex].thumbnail.path;
     }
 
     handleConfigurableClick() {
