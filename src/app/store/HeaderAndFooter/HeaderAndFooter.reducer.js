@@ -12,23 +12,15 @@
 /* eslint-disable no-param-reassign */
 import {
     UPDATE_MENU,
-    GET_COUNTRY_LIST
+    TOGGLE_HEADER_AND_FOOTER
 } from './HeaderAndFooter.action';
 
 const initialState = {
     menu: {},
-    countries: []
+    isHeaderAndFooterVisible: true
 };
 
 const HeaderAndFooterReducer = (state = initialState, action) => {
-    const { countries } = action;
-
-    const resultingCountries = countries && countries.map(country => ({
-        id: country.id,
-        label: country.full_name_locale,
-        available_regions: country.available_regions
-    }));
-
     switch (action.type) {
     case UPDATE_MENU:
         const { menu: { items } } = action;
@@ -73,12 +65,13 @@ const HeaderAndFooterReducer = (state = initialState, action) => {
             menu
         };
 
-    case GET_COUNTRY_LIST:
+    case TOGGLE_HEADER_AND_FOOTER:
+        const { isHeaderAndFooterVisible } = action;
+
         return {
             ...state,
-            countries: resultingCountries
+            isHeaderAndFooterVisible
         };
-
 
     default:
         return state;

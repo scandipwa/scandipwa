@@ -13,13 +13,14 @@ import { Field } from 'Util/Query';
 import { ProductListQuery } from 'Query';
 import { isSignedIn } from 'Util/Auth';
 
-class Cart {
-    getCartItemsQuery(quoteId) {
-        const query = new Field('getCartItems');
+class CartQuery {
+    getCartQuery(quoteId) {
+        const query = new Field('getCartForCustomer')
+            .addFieldList(this._getCartTotalsFields())
+            .addField(this._getCartItemsField())
+            .setAlias('cartData');
 
         if (!isSignedIn()) query.addArgument('guestCartId', 'String', quoteId);
-
-        this._getCartItemField(query, true);
 
         return query;
     }
@@ -34,7 +35,7 @@ class Cart {
 
         if (!isSignedIn()) mutation.addArgument('guestCartId', 'String', quoteId);
 
-        this._getCartItemField(mutation);
+        mutation.addField(this.getCartQuery(quoteId));
 
         return mutation;
     }
@@ -47,26 +48,37 @@ class Cart {
 
         if (!isSignedIn()) mutation.addArgument('guestCartId', 'String', quoteId);
 
+        mutation.addField(this.getCartQuery(quoteId));
+
         return mutation;
     }
 
-    _getCartItemField(field, requestProduct) {
-        field
-            .addField('item_id')
-            .addField('name')
-            .addField('price')
-            .addField('product_type')
-            .addField('qty')
-            .addField('quote_id')
-            .addField('sku');
+    _getCartTotalsFields() {
+        return [
+            'tax_amount',
+            'subtotal',
+            'discount_amount',
+            'subtotal_with_discount',
+            'grand_total',
+            'items_qty',
+            'base_currency_code'
+        ];
+    }
 
-        if (requestProduct) {
-            field.addField(ProductListQuery._prepareItemsField(
+    _getCartItemsField() {
+        return new Field('items')
+            .addFieldList([
+                'price', 'tax_amount', 'row_total', 'tax_percent',
+                'discount_amount', 'discount_percent',
+                'item_id', 'qty', 'sku'
+            ])
+            .addField(ProductListQuery._prepareItemsField(
                 { getConfigurableData: true, isSingleProduct: true },
                 new Field('product')
             ));
-        }
     }
 }
 
-export default new Cart();
+export { CartQuery };
+
+export default new CartQuery();

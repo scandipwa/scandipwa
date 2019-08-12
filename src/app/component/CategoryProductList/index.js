@@ -9,6 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import CategoryProductList from './CategoryProductList.component';
+import CategoryProductList from './CategoryProductList.container';
 
 export default CategoryProductList;

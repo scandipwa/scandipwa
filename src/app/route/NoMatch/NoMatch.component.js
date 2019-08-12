@@ -29,11 +29,11 @@ class NoMatch extends Component {
         const breadcrumbs = [
             {
                 url: '',
-                name: 'Not Found'
+                name: __('Not Found')
             },
             {
                 url: '/',
-                name: 'Home'
+                name: __('Home')
             }
         ];
 
@@ -42,25 +42,25 @@ class NoMatch extends Component {
 
     render() {
         return (
-            <main block="NoMatch" aria-label="Page Not Found">
+            <main block="NoMatch" aria-label={ __('Page Not Found') }>
                 <ContentWrapper
                   mix={ { block: 'NoMatch' } }
                   wrapperMix={ { block: 'NoMatch', elem: 'Wrapper' } }
-                  label="Page Not Found Content"
+                  label={ __('Page Not Found Content') }
                 >
                     <h1>
                         404
                     </h1>
                     <p block="NoMatch" elem="Subtitle">
-                        Page not found
+                        { __('Page not found') }
                     </p>
                     <p>
-                        { `Sorry, we can't find the page you are looking for! 
-                        Please press a big orange button to come back to homepage.` }
+                        { /* eslint-disable-next-line max-len */ }
+                        { __('Sorry, we can`t find the page you are looking for! Please press a big orange button to come back to homepage.') }
                     </p>
                     <Link to="/">
                         <button>
-                            Back to homepage
+                            { __('Back to homepage') }
                         </button>
                     </Link>
                 </ContentWrapper>

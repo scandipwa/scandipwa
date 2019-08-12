@@ -10,20 +10,21 @@
  */
 
 import HeaderAndFooterReducer from './HeaderAndFooter.reducer';
-import HeaderAndFooterDispatcher from './HeaderAndFooter.dispatcher';
+import HeaderAndFooterDispatcher, {
+    HeaderAndFooterDispatcher as HeaderAndFooterDispatcherClass
+} from './HeaderAndFooter.dispatcher';
 
 import {
     UPDATE_MENU,
     updateMenu,
-    getCountryList,
-    GET_COUNTRY_LIST
+    toggleHeaderAndFooter
 } from './HeaderAndFooter.action';
 
 export {
     HeaderAndFooterReducer,
     HeaderAndFooterDispatcher,
+    HeaderAndFooterDispatcherClass,
     UPDATE_MENU,
     updateMenu,
-    getCountryList,
-    GET_COUNTRY_LIST
+    toggleHeaderAndFooter
 };

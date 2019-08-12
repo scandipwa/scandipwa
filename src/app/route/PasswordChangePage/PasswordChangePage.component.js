@@ -46,13 +46,13 @@ class PasswordChangePage extends Component {
 
             switch (passwordResetStatus) {
             case STATUS_PASSOWORD_UPDATED:
-                showNotification('success', 'Password has been successfully updated!');
+                showNotification('success', __('Password has been successfully updated!'));
                 break;
             case STATUS_PASSOWORD_MISSMATCH:
-                showNotification('error', 'Your password and confirmation password do not match.');
+                showNotification('error', __('Your password and confirmation password do not match.'));
                 break;
             default:
-                showNotification('error', 'Error! Something went wrong');
+                showNotification('error', __('Error! Something went wrong'));
             }
         }
 
@@ -80,11 +80,11 @@ class PasswordChangePage extends Component {
         const breadcrumbs = [
             {
                 url: '/createPassword',
-                name: 'Change Password'
+                name: __('Change Password')
             },
             {
                 url: '/',
-                name: 'Home'
+                name: __('Home')
             }
         ];
 
@@ -100,14 +100,14 @@ class PasswordChangePage extends Component {
 
         return (
             <>
-                <main block="PasswordChangePage" aria-label="Password Change Page">
+                <main block="PasswordChangePage" aria-label={ __('Password Change Page') }>
                     <ContentWrapper
                       mix={ { block: 'PasswordChangePage' } }
                       wrapperMix={ { block: 'PasswordChangePage', elem: 'Wrapper' } }
-                      label="Password Change Actions"
+                      label={ __('Password Change Actions') }
                     >
                         <Loader isLoading={ isLoading } />
-                        <h1>Change My Password</h1>
+                        <h1>{ __('Change My Password') }</h1>
                         <Form
                           key="reset-password"
                           onSubmit={ () => this.onPasswordAttempt() }
@@ -116,20 +116,22 @@ class PasswordChangePage extends Component {
                         >
                             <Field
                               type="password"
-                              label="New password"
+                              label={ __('New password') }
                               id="passwordReset"
                               name="passwordReset"
                               validation={ ['notEmpty', 'password'] }
                             />
                             <Field
                               type="password"
-                              label="Confirm password"
+                              label={ __('Confirm password') }
                               id="passwordResetConfirm"
                               name="passwordResetConfirm"
                               validation={ ['notEmpty', 'password'] }
                             />
                             <div block="MyAccount" elem="Buttons">
-                                <button type="submit">Submit</button>
+                                <button type="submit">
+                                    { __('Submit') }
+                                </button>
                             </div>
                         </Form>
                     </ContentWrapper>

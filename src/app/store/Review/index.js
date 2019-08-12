@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import UrlRewrites from './UrlRewrites';
+import ReviewDispatcher from './Review.dispatcher';
 
-export default UrlRewrites;
+// eslint-disable-next-line import/prefer-default-export
+export { ReviewDispatcher };

@@ -90,6 +90,12 @@ class Field extends Component {
         if (onFocus) onFocus(event);
     }
 
+    onBlur(event) {
+        const { onBlur } = this.props;
+
+        if (onBlur) onBlur(event);
+    }
+
     onKeyPress(event) {
         const { onKeyPress } = this.props;
 

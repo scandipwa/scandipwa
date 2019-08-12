@@ -26,10 +26,10 @@ import { customerType } from 'Type/Account';
 import { CHECKOUT } from 'Component/Header';
 import './CheckoutPage.style';
 
-const CHECKOUT_BASE_URL = 'checkout';
-const CHECKOUT_STEP_SHIPPING = 'shipping';
-const CHECKOUT_STEP_REVIEW_AND_PAYMENTS = 'review-and-payments';
-const CHECKOUT_STEP_SUCCESS = 'success';
+export const CHECKOUT_BASE_URL = 'checkout';
+export const CHECKOUT_STEP_SHIPPING = 'shipping';
+export const CHECKOUT_STEP_REVIEW_AND_PAYMENTS = 'review-and-payments';
+export const CHECKOUT_STEP_SUCCESS = 'success';
 
 class CheckoutPage extends Component {
     static changeUrlByCheckoutStep(props, state) {
@@ -58,7 +58,6 @@ class CheckoutPage extends Component {
             methodCode: '',
             paymentMethods: [],
             paymentTotals: {},
-            shippingMethod: {},
             orderID: '',
             ...state
         };
@@ -75,9 +74,9 @@ class CheckoutPage extends Component {
         };
 
         this.headerTitleMap = {
-            [CHECKOUT_STEP_SHIPPING]: '1. Shipping',
-            [CHECKOUT_STEP_REVIEW_AND_PAYMENTS]: '2. Payment type',
-            [CHECKOUT_STEP_SUCCESS]: 'Order information'
+            [CHECKOUT_STEP_SHIPPING]: __('1. Shipping'),
+            [CHECKOUT_STEP_REVIEW_AND_PAYMENTS]: __('2. Payment type'),
+            [CHECKOUT_STEP_SUCCESS]: __('Order information')
         };
     }
 
@@ -164,9 +163,8 @@ class CheckoutPage extends Component {
         return requestCustomerData(options);
     }
 
-    saveAddressInformation(shippingInformation) {
-        const { saveAddressInformation } = this.props;
-        const { addressInformation, shippingMethod } = shippingInformation;
+    saveAddressInformation(addressInformation) {
+        const { saveAddressInformation, showNotification } = this.props;
         const {
             shipping_address,
             billing_address,
@@ -179,8 +177,7 @@ class CheckoutPage extends Component {
             billingAddress: billing_address,
             carrierCode: shipping_carrier_code,
             methodCode: shipping_method_code,
-            addressesAreChecked: false,
-            shippingMethod
+            addressesAreChecked: false
         });
 
         return saveAddressInformation(addressInformation).then(
@@ -193,14 +190,20 @@ class CheckoutPage extends Component {
                     addressesAreChecked: true
                 }, this.updateHeader);
             },
-            err => console.log(err)
+            (err) => {
+                showNotification('error', err[0].debugMessage);
+                this.setState({
+                    checkoutStep: CHECKOUT_STEP_SHIPPING
+                });
+            }
         );
     }
 
     savePaymentInformationAndPlaceOrder(paymentInformation) {
         const {
             savePaymentInformationAndPlaceOrder,
-            removeCartAndObtainNewGuest
+            removeCartAndObtainNewGuest,
+            showNotification
         } = this.props;
 
         return savePaymentInformationAndPlaceOrder(paymentInformation).then(
@@ -213,7 +216,12 @@ class CheckoutPage extends Component {
                     showSummary: false
                 }, this.updateHeader);
             },
-            err => console.log(err)
+            (err) => {
+                showNotification('error', err[0].debugMessage);
+                this.setState({
+                    checkoutStep: CHECKOUT_STEP_SHIPPING
+                });
+            }
         );
     }
 
@@ -287,20 +295,20 @@ class CheckoutPage extends Component {
                   block="CheckoutPage"
                   elem="SuccessOrderNumber"
                 >
-                    Your order # is:
+                    { __('Your order # is:') }
                     <strong>{ orderID }</strong>
                 </p>
                 <p
                   block="CheckoutPage"
                   elem="SuccessOrderDetails"
                 >
-                    We`ll email you an order confirmation with details and tracking info.
+                    { __('We`ll email you an order confirmation with details and tracking info.') }
                 </p>
                 <Link
                   className="Button CheckoutPage-SuccessButton"
                   to="/"
                 >
-                    Continue Shopping
+                    { __('Continue Shopping') }
                 </Link>
             </div>
         );
@@ -311,7 +319,9 @@ class CheckoutPage extends Component {
      * @returns {*}
      */
     render() {
-        const { checkoutStep, shippingMethod, showSummary } = this.state;
+        const {
+            checkoutStep, showSummary, paymentTotals
+        } = this.state;
         const { products, totals } = this.props;
         const stepRenderFunction = this.renderMap[checkoutStep];
 
@@ -319,16 +329,15 @@ class CheckoutPage extends Component {
             <main block="CheckoutPage">
                 <ContentWrapper
                   wrapperMix={ { block: 'CheckoutPage', elem: 'Wrapper' } }
-                  label="Checkout page"
+                  label={ __('Checkout page') }
                 >
                     <div block="CheckoutPage" elem="Step">
                         { stepRenderFunction() }
                     </div>
                     { showSummary && (
                         <CheckoutOrderSummary
-                          totals={ totals }
+                          totals={ Object.keys(paymentTotals).length ? paymentTotals : totals }
                           products={ products }
-                          shippingMethod={ shippingMethod }
                         />
                     ) }
                 </ContentWrapper>
@@ -341,6 +350,7 @@ CheckoutPage.propTypes = {
     savePaymentInformationAndPlaceOrder: PropTypes.func.isRequired,
     saveAddressInformation: PropTypes.func.isRequired,
     removeCartAndObtainNewGuest: PropTypes.func.isRequired,
+    showNotification: PropTypes.func.isRequired,
     requestCustomerData: PropTypes.func.isRequired,
     toggleBreadcrumbs: PropTypes.func.isRequired,
     setHeaderState: PropTypes.func.isRequired,

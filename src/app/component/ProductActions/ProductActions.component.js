@@ -72,10 +72,9 @@ class ProductActions extends Component {
 
         for (let i = 0; i < variants.length; i++) {
             const { product } = variants[i];
-
-            const isCorrectVariant = configurable_options.every(({ attribute_code }) => (
-                product[attribute_code] === currentVariant[attribute_code]
-            ));
+            const isCorrectVariant = configurable_options.every(
+                ({ attribute_code: code }) => parseInt(product[code], 10) === parseInt(currentVariant[code], 10)
+            );
 
             if (isCorrectVariant) return updateConfigurableVariantIndex(i);
         }

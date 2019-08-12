@@ -11,7 +11,10 @@
     "document": true,
     "sessionStorage": true,
     "localStorage": true,
-    "jest": true
+    "jest": true,
+    "__": true,
+    "workbox": true,
+    "importScripts": true
   },
   "plugins": [
     "react",
@@ -20,6 +23,7 @@
   ],
   "rules": {
     "css-rcurlyexpected": 0,
+    "no-restricted-globals": ["error", "isFinite", "isNaN"],
     "max-len": [2, {
         "ignoreComments": true,
         "ignoreUrls": true,

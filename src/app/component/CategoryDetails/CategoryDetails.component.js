@@ -10,6 +10,7 @@
  */
 
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Html from 'Component/Html';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import Image from 'Component/Image';
@@ -21,26 +22,62 @@ import './CategoryDetails.style';
  * @class CategoryDetails
  */
 class CategoryDetails extends Component {
-    render() {
-        const { category: { name, description, image } } = this.props;
+    renderCategoryName() {
+        const { category: { name } } = this.props;
 
+        return (
+            <h1 block="CategoryDetails" elem="Heading">
+                <TextPlaceholder content={ name } />
+            </h1>
+        );
+    }
+
+    renderCategoryDescription() {
+        const { category: { description } } = this.props;
+
+        if (description) {
+            return <Html content={ description } />;
+        }
+
+        return (
+            <p>
+                <TextPlaceholder content={ description } length="long" />
+            </p>
+        );
+    }
+
+    renderCategoryImage() {
+        const { category: { image } } = this.props;
+
+        if (!image) {
+            return (
+                <Image
+                  mix={ { block: 'CategoryDetails', elem: 'Picture' } }
+                  objectFit="cover"
+                  ratio="custom"
+                  isPlaceholder
+                />
+            );
+        }
+
+        return (
+            <Image
+              mix={ { block: 'CategoryDetails', elem: 'Picture' } }
+              src={ image && `/media/catalog/category/${image}` }
+              ratio="custom"
+              objectFit="cover"
+            />
+        );
+    }
+
+    render() {
         return (
             <article block="CategoryDetails">
                 <div block="CategoryDetails" elem="Description">
-                    <h1 block="CategoryDetails" elem="Heading">
-                        <TextPlaceholder content={ name } />
-                    </h1>
-                    { description
-                        ? <Html content={ description } />
-                        : <p><TextPlaceholder content={ description } length="long" /></p>
-                    }
+                    { this.renderCategoryName() }
+                    { this.renderCategoryDescription() }
                 </div>
-                <Image
-                  mix={ { block: 'CategoryDetails', elem: 'Picture' } }
-                  src={ image && `/media/catalog/category/${image}` }
-                  ratio="custom"
-                  objectFit="cover"
-                />
+                { this.renderCategoryImage() }
             </article>
         );
     }

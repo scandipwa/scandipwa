@@ -13,26 +13,37 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { TotalsType } from 'Type/MiniCart';
 import { ProductType } from 'Type/ProductList';
-import TextPlaceholder from 'Component/TextPlaceholder';
 import CartItem from 'Component/CartItem';
+import { formatCurrency } from 'Util/Price';
 import './CheckoutOrderSummary.style';
 
 /**
  *
  */
 class CheckoutOrderSummary extends Component {
+    getDataSource(item) {
+        const { configurableVariantIndex, variants } = item;
+
+        if (typeof configurableVariantIndex === 'number' && variants) {
+            return variants[configurableVariantIndex].product;
+        }
+
+        return item;
+    }
+
     /**
      * Render price line
      */
     renderPriceLine(price, name, mods) {
+        if (!price) return null;
+
+        const { totals: { base_currency_code } } = this.props;
+        const priceString = formatCurrency(parseFloat(price).toFixed(2), base_currency_code);
+
         return (
             <li block="CheckoutOrderSummary" elem="SummaryItem" mods={ mods }>
                 <strong block="CheckoutOrderSummary" elem="Text">{ name }</strong>
-                <strong block="CheckoutOrderSummary" elem="Text">
-                    {/* TODO: Use value from configuration file */ }
-                    $
-                    <TextPlaceholder content={ price } />
-                </strong>
+                <strong block="CheckoutOrderSummary" elem="Text">{ priceString }</strong>
             </li>
         );
     }
@@ -55,15 +66,18 @@ class CheckoutOrderSummary extends Component {
      */
     render() {
         const {
-            totals: { grandTotalPrice, taxPrice },
-            products,
-            shippingMethod: { price_incl_tax: price, carrier_title: title }
+            totals: {
+                grand_total, subtotal,
+                tax_amount, items,
+                shipping_amount
+            },
+            products
         } = this.props;
 
-        const productCount = Object.keys(products).length;
+        // eslint-disable-next-line no-param-reassign, no-return-assign
+        const itemsTax = items ? items.reduce((sum, { tax_amount }) => sum += tax_amount, tax_amount) : 0;
 
-        // calculate grand totals including shipping price
-        const grandTotalWithShipping = (price) ? parseFloat(grandTotalPrice) + parseFloat(price) : grandTotalPrice;
+        const productCount = Object.keys(products).length;
 
         return (
             <article block="CheckoutOrderSummary" aria-label="Order Summary">
@@ -73,7 +87,7 @@ class CheckoutOrderSummary extends Component {
                   mix={ { block: 'CheckoutPage', elem: 'Heading', mods: { hasDivider: true } } }
                 >
                     <span>Order Summary</span>
-                    <p block="CheckoutOrderSummary" elem="ItemsInCart">{ `${ productCount } Items In Cart` }</p>
+                    <p block="CheckoutOrderSummary" elem="ItemsInCart">{ __('%s Items In Cart', productCount) }</p>
                 </h3>
                 <div block="CheckoutOrderSummary" elem="OrderItems">
                     <ul block="CheckoutOrderSummary" elem="CartItemList">
@@ -83,9 +97,10 @@ class CheckoutOrderSummary extends Component {
                 </div>
                 <div block="CheckoutOrderSummary" elem="OrderTotals">
                     <ul>
-                        { title && this.renderPriceLine(String(price), `Shipping (${ title })`, { divider: true }) }
-                        { this.renderPriceLine(String(taxPrice), 'Tax total') }
-                        { this.renderPriceLine(String(grandTotalWithShipping), 'Order Total') }
+                        { this.renderPriceLine(shipping_amount, __('Shipping'), { divider: true }) }
+                        { this.renderPriceLine(subtotal, __('Cart Subtotal')) }
+                        { this.renderPriceLine(itemsTax, __('Tax')) }
+                        { this.renderPriceLine(grand_total, __('Order Total')) }
                     </ul>
                 </div>
             </article>
@@ -95,17 +110,12 @@ class CheckoutOrderSummary extends Component {
 
 CheckoutOrderSummary.propTypes = {
     totals: TotalsType,
-    products: PropTypes.objectOf(ProductType),
-    shippingMethod: PropTypes.shape({
-        price: PropTypes.number,
-        title: PropTypes.string
-    })
+    products: PropTypes.objectOf(ProductType)
 };
 
 CheckoutOrderSummary.defaultProps = {
     totals: {},
-    products: {},
-    shippingMethod: {}
+    products: {}
 };
 
 export default CheckoutOrderSummary;

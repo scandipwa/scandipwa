@@ -47,4 +47,6 @@ class CmsBlockQuery {
     }
 }
 
+export { CmsBlockQuery };
+
 export default new CmsBlockQuery();

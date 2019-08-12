@@ -18,7 +18,6 @@ import attributesToProps from 'html-react-parser/lib/attributes-to-props';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Image from 'Component/Image';
-import Figure from 'Component/Figure';
 
 /**
  * Html content parser
@@ -37,6 +36,14 @@ class Html extends Component {
             {
                 query: { name: ['img'] },
                 replace: this.replaceImages
+            },
+            {
+                query: { name: ['input'] },
+                replace: this.replaceInput
+            },
+            {
+                query: { name: ['script'] },
+                replace: this.replaceScript
             }
         ];
 
@@ -75,7 +82,9 @@ class Html extends Component {
         const { href } = attribs;
         if (href) {
             const isAbsoluteUrl = value => new RegExp('^(?:[a-z]+:)?//', 'i').test(value);
-            if (!isAbsoluteUrl(attribs.href)) {
+            const isSpecialLink = value => new RegExp('^(sms|tel|mailto):', 'i').test(value);
+            
+            if (!isAbsoluteUrl(attribs.href) && !isSpecialLink(attribs.href)) {
                 /* eslint no-param-reassign: 0 */
                 // Allowed, because param is not a direct reference
                 attribs.to = attribs.href;
@@ -97,14 +106,27 @@ class Html extends Component {
      * @memberof Html
      */
     replaceImages({ attribs }) {
-        if (Object.prototype.hasOwnProperty.call(attribs, 'src')) {
-            return (
-                <Image
-                  { ...attributesToProps(attribs) }
-                  arePlaceholdersShown
-                />
-            );
+        if (attribs.src) {
+            return <Image { ...attributesToProps(attribs) } />;
         }
+    }
+
+    /**
+     * Replace input.
+     * @param  {{ attribs: Object }}
+     * @return {void|JSX} Return JSX with image
+     * @memberof Html
+     */
+    replaceInput({ attribs }) {
+        return <input { ...attributesToProps(attribs) } />;
+    }
+
+    replaceScript({ attribs }) {
+        const script = document.createElement('script');
+        Object.entries(attribs).forEach(([attr, value]) => script.setAttribute(attr, value));
+        document.body.appendChild(script);
+
+        return <></>;
     }
 
     render() {

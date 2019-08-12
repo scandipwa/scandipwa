@@ -10,12 +10,13 @@
  */
 
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import ProductReviewRating from 'Component/ProductReviewRating';
+import { ProductType } from 'Type/ProductList';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import ProductPrice from 'Component/ProductPrice';
 import Image from 'Component/Image';
-import { ProductType, FilterType } from 'Type/ProductList';
 import './ProductCard.style';
 
 /**
@@ -23,97 +24,31 @@ import './ProductCard.style';
  * @class ProductCard
  */
 class ProductCard extends Component {
-    getPictureLabel() {
-        const { product: { type_id } } = this.props;
-
-        if (type_id === 'grouped') return 'grouped product';
-
-        return null;
-    }
-
-    getCurrentVariantIndex() {
-        const { product: { variants }, customFilters } = this.props;
-        const customFiltersExist = customFilters && Object.keys(customFilters).length;
-
-        if (variants && customFiltersExist) {
-            for (let i = 0; i < variants.length; i++) {
-                const { product } = variants[ i ];
-
-                const isCorrectVariant = Object.keys(customFilters).every(filterKey => (
-                    customFilters[ filterKey ].find(value => +value === product[ filterKey ])
-                ));
-
-                if (isCorrectVariant) return i;
-            }
-
-            return 0;
-        }
-
-        return 0;
-    }
-
-    /**
-     * Get thumbnail for the product
-     * @param {Number} currentVariantIndex configurable product index
-     * @return {void}
-     */
-    getThumbnail(currentVariantIndex) {
-        const { product: { thumbnail, variants } } = this.props;
-        const variantThumbnail = variants ? variants[ currentVariantIndex ].product.thumbnail.path : null;
-        return variantThumbnail || (thumbnail && thumbnail.path);
-    }
-
     renderProductPrice() {
-        const { product: { price } } = this.props;
-
-        if (price) {
-            return (
-                <ProductPrice
-                  price={ price }
-                  mix={ { block: 'ProductCard', elem: 'Price' } }
-                />
-            );
-        }
-
-        return <TextPlaceholder />;
-    }
-
-    renderColorOptions() {
-        const { product: { variants, color }, availableFilters } = this.props;
-
-        if (!availableFilters.length || !(variants || color)) return null;
-
-        // Collects only COLOR filter items from available filter object
-        const { filter_items: filterItems } = availableFilters.reduce(
-            (prev, curr) => ((curr.request_var === 'color') ? curr : prev),
-            {}
-        );
-
-        if (!filterItems) return null;
-
-        // Maps every color attribute value to corresponding string
-        const colorMap = filterItems.reduce(
-            (prev, { value_string, label, swatch_data: { value } }) => ({ ...prev, [value_string]: { value, label } }),
-            {}
-        );
-
-        // Collects color object from product variants
-        const colors = variants
-            ? variants.reduce(
-                (prev, { product: { color } }) => ((!color) ? prev : ({ ...prev, [color]: colorMap[color] })),
-                {}
-            ) : { [color]: colorMap[color] };
-
-        const colorsLabel = Object.values(colors).map(({ label }) => label);
+        const { getProductOrVariant } = this.props;
+        const { price } = getProductOrVariant();
+        if (!price) return <TextPlaceholder />;
 
         return (
-            <div block="ProductCard" elem="Colors" aria-label={ `Available colors: ${ colorsLabel.join(', ') }` }>
-                { Object.values(colors).map(({ value: backgroundColor, label }) => (
+            <ProductPrice
+              price={ price }
+              mix={ { block: 'ProductCard', elem: 'Price' } }
+            />
+        );
+    }
+
+    renderVisualConfigurableOptions() {
+        const { getAvailableVisualOptions } = this.props;
+        const availableVisualOptions = getAvailableVisualOptions();
+
+        return (
+            <div block="ProductCard" elem="ConfigurableOptions">
+                { availableVisualOptions.map(({ value, label }) => (
                     <span
                       block="ProductCard"
                       elem="Color"
-                      key={ label }
-                      style={ { backgroundColor } }
+                      key={ value }
+                      style={ { backgroundColor: value } }
                       aria-label={ label }
                     />
                 )) }
@@ -121,71 +56,128 @@ class ProductCard extends Component {
         );
     }
 
-    renderPictureLabel() {
-        const label = this.getPictureLabel();
+    renderPicture() {
+        const { product: { id, name }, getThumbnail } = this.props;
 
-        if (!label) return null;
+        const thumbnail = getThumbnail();
+        const imageUrl = thumbnail && `/media/catalog/product${ thumbnail }`;
 
         return (
-            <figcaption block="ProductCard" elem="PictureLabel">
-                { label }
+            <>
+                <Image
+                  src={ imageUrl }
+                  alt={ name }
+                  ratio="custom"
+                  mix={ { block: 'ProductCard', elem: 'Picture' } }
+                  isPlaceholder={ !id }
+                />
+                <img
+                  style={ { display: 'none' } }
+                  alt={ name }
+                  src={ imageUrl }
+                  itemProp="image"
+                />
+            </>
+        );
+    }
+
+    renderPictureLabel() {
+        const { product: { review_summary: { rating_summary, review_count } = {} } } = this.props;
+        if (!rating_summary) return null;
+
+        return (
+            <figcaption
+              block="ProductCard"
+              elem="PictureLabel"
+              itemProp="aggregateRating"
+              itemScope
+              itemType="https://schema.org/AggregateRating"
+            >
+                <meta itemProp="ratingValue" content={ rating_summary || 0 } />
+                <meta itemProp="ratingCount" content={ review_count || 0 } />
+                <ProductReviewRating summary={ rating_summary || 0 } />
             </figcaption>
         );
     }
 
-    render() {
-        const {
-            product: {
-                name,
-                url_key,
-                brand
-            },
-            product,
-            cardRef
-        } = this.props;
+    renderAdditionalProductDetails() {
+        const { product: { sku }, getAttribute } = this.props;
+        const { attribute_value: brand } = getAttribute('brand') || {};
 
-        const variantIndex = this.getCurrentVariantIndex();
-        const thumbnail = this.getThumbnail(variantIndex);
-        const TagName = url_key ? Link : 'div';
-        const isLoading = !url_key;
-        const linkTo = url_key
-            ? {
-                pathname: `/product/${ url_key }`,
-                state: { product, variantIndex },
-                search: `?variant=${ variantIndex }`
-            }
-            : undefined;
+        if (sku && !brand) return null;
+
+        return (
+            <p
+              block="ProductCard"
+              elem="Brand"
+              mods={ { isLoaded: !!brand } }
+              itemProp="brand"
+            >
+                { brand }
+            </p>
+        );
+    }
+
+    renderMainDetails() {
+        const { product: { name } } = this.props;
+
+        return (
+            <p
+              block="ProductCard"
+              elem="Name"
+              mods={ { isLoaded: !!name } }
+              itemProp="name"
+            >
+                <TextPlaceholder content={ name } length="medium" />
+            </p>
+        );
+    }
+
+    renderCardWrapper(children) {
+        const { product: { url_key }, product, getCurrentVariantIndex } = this.props;
+        const variantIndex = getCurrentVariantIndex();
+
+        if (!url_key) {
+            return (<div>{ children }</div>);
+        }
+
+        return (
+            <Link
+              to={ {
+                  pathname: `/product/${ url_key }`,
+                  state: { product, variantIndex },
+                  search: variantIndex ? `?variant=${ variantIndex }` : undefined
+              } }
+            >
+                { children }
+            </Link>
+        );
+    }
+
+    render() {
+        const { product: { sku } } = this.props;
 
         return (
             <li
               block="ProductCard"
-              mods={ { isLoading } }
-              ref={ cardRef }
+              itemScope
+              itemType={ sku && 'https://schema.org/Product' }
             >
-                <TagName
-                  to={ linkTo }
-                  tabIndex={ url_key ? '0' : '-1' }
-                >
-                    <figure aria-hidden="true">
-                        <Image
-                          src={ thumbnail && `/media/jpg/catalog/product${ thumbnail }` }
-                          alt="Product Thumbnail"
-                          ratio="custom"
-                          mix={ { block: 'ProductCard', elem: 'Picture' } }
-                        />
-                        { this.renderPictureLabel() }
-                    </figure>
-                    <div block="ProductCard" elem="Content">
-                        { this.renderProductPrice() }
-                        { this.renderColorOptions() }
-                        <p block="ProductCard" elem="Name">
-                            <TextPlaceholder content={ name } length="medium" />
-                        </p>
-                        <p block="ProductCard" elem="Brand" aria-hidden="true">
-                            { brand }
-                        </p>
-                    </div>
-                </TagName>
+                <meta itemProp="sku" content={ sku } />
+                { this.renderCardWrapper((
+                    <>
+                        <figure>
+                            { this.renderPicture() }
+                            { this.renderPictureLabel() }
+                        </figure>
+                        <div block="ProductCard" elem="Content">
+                            { this.renderProductPrice() }
+                            { this.renderVisualConfigurableOptions() }
+                            { this.renderMainDetails() }
+                            { this.renderAdditionalProductDetails() }
+                        </div>
+                    </>
+                )) }
             </li>
         );
     }
@@ -193,19 +185,11 @@ class ProductCard extends Component {
 
 ProductCard.propTypes = {
     product: ProductType.isRequired,
-    customFilters: FilterType,
-    availableFilters: PropTypes.arrayOf(PropTypes.shape),
-    cardRef: PropTypes.oneOfType([
-        PropTypes.func,
-        PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
-        PropTypes.bool
-    ])
-};
-
-ProductCard.defaultProps = {
-    customFilters: {},
-    availableFilters: [],
-    cardRef: null
+    getAvailableVisualOptions: PropTypes.func.isRequired,
+    getCurrentVariantIndex: PropTypes.func.isRequired,
+    getProductOrVariant: PropTypes.func.isRequired,
+    getThumbnail: PropTypes.func.isRequired,
+    getAttribute: PropTypes.func.isRequired
 };
 
 export default ProductCard;

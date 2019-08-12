@@ -10,9 +10,11 @@
  */
 
 import {
-    getProductPrice
+    getProductPrice,
+    formatCurrency
 } from './Price';
 
 export {
-    getProductPrice
+    getProductPrice,
+    formatCurrency
 };

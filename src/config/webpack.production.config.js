@@ -118,7 +118,7 @@ module.exports = {
         }),
 
         new HtmlWebpackPlugin({
-            template: path.resolve(projectRoot, 'src', 'public', 'index.html'),
+            template: path.resolve(projectRoot, 'src', 'public', 'index.production.html'),
             filename: '../templates/root.phtml',
             inject: false,
             hash: true,
@@ -143,6 +143,10 @@ module.exports = {
                 REBEM_ELEM_DELIM: JSON.stringify('-'),
                 MAGENTO_VERSION: JSON.stringify('2.3.1')
             }
+        }),
+
+        new webpack.ProvidePlugin({
+            __: path.resolve(path.join(__dirname, 'TranslationFunction'))
         }),
 
         new CleanWebpackPlugin([

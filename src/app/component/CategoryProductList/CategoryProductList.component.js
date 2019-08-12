@@ -11,8 +11,9 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import CategoryProductListPlaceholder from 'Component/CategoryProductListPlaceholder';
+import { PagesType, FilterType } from 'Type/ProductList';
 import ProductCard from 'Component/ProductCard';
-import { ItemsType } from 'Type/ProductList';
 import './CategoryProductList.style';
 
 /**
@@ -23,140 +24,157 @@ class CategoryProductList extends Component {
     constructor(props) {
         super(props);
 
-        this.state = { prevItemsLength: 0 };
-        this.scrollListener = React.createRef();
+        this.nodes = {};
+        this.observedNodes = [];
+        this.pagesIntersecting = [];
     }
 
-    /**
-     * Properly returng prevItemsLength even if category is switched
-     * @param {*} props
-     * @param {*} state
-     */
-    static getDerivedStateFromProps(props, state) {
-        const { items, isLoading } = props;
-        const { prevItemsLength } = state;
-
-        if (isLoading) return { prevItemsLength: 0 };
-        if (items.length !== prevItemsLength) return { prevItemsLength };
-        return null;
-    }
-
-    /**
-     * Show loading placeholders while products are fetching
-     * @return {void}
-     */
     componentDidUpdate() {
-        const { prevItemsLength } = this.state;
-        const { items, totalItems } = this.props;
+        const { updatePage, isLoading, getPageFromUrl } = this.props;
 
-        const shouldUpdateList = this.scrollListener.current
-            && prevItemsLength !== items.length
-            && items.length !== 0
-            && items.length <= totalItems;
+        if (isLoading) this.pagesIntersecting = [];
 
-        if (shouldUpdateList) {
-            if ('IntersectionObserver' in window) {
-                const options = {
-                    rootMargin: '0px',
-                    threshold: 0.1
-                };
+        if (!this.observer && 'IntersectionObserver' in window) {
+            this.observer = new IntersectionObserver((entries) => {
+                entries.forEach(({ target, isIntersecting }) => {
+                    const page = +Object.keys(this.nodes).find(node => this.nodes[node] === target);
+                    const index = this.pagesIntersecting.indexOf(page);
 
-                this.observer = new IntersectionObserver((entries) => {
-                    entries.forEach((entry) => {
-                        if (entry.intersectionRatio > 0) {
-                            this.stopObserving();
-                            this.showLoading();
-                        }
-                    });
-                }, options);
+                    if (isIntersecting) {
+                        this.pagesIntersecting.push(page);
+                    } else if (index > -1) {
+                        this.pagesIntersecting.splice(index, 1);
+                    }
+                });
 
-                this.observer.observe(this.scrollListener.current);
+                const minPage = Math.min(...this.pagesIntersecting);
+                if (minPage < Infinity && minPage !== getPageFromUrl()) updatePage(minPage);
+            }, {
+                rootMargin: '0px',
+                threshold: 0.1
+            });
+        }
+
+        this.updateObserver();
+    }
+
+    componentWillUnmount() {
+        if (this.observer && this.observer.disconnect) this.observer.disconnect();
+        this.observer = null;
+    }
+
+    updateObserver() {
+        const currentNodes = Object.values(this.nodes);
+
+        if (!this.observer || currentNodes.length <= 0) return;
+
+        currentNodes.forEach((node) => {
+            if (node && !this.observedNodes.includes(node)) {
+                this.observer.observe(node);
+                this.observedNodes.push(node);
+            }
+        });
+
+        this.observedNodes = this.observedNodes.reduce((acc, node) => {
+            if (!currentNodes.includes(node)) {
+                this.observer.unobserve(node);
             } else {
-                this.showLoading();
+                acc.push(node);
             }
-        }
+
+            return acc;
+        }, []);
     }
 
-    stopObserving() {
-        if (this.observer && this.scrollListener.current) {
-            if (this.observer.unobserve) {
-                this.observer.unobserve(this.scrollListener.current);
-            }
-            if (this.observer.disconnect) {
-                this.observer.disconnect();
-            }
-            this.observer = null;
-        }
+    renderLoadButton() {
+        const { isShowLoading, loadPrevPage } = this.props;
+        if (!isShowLoading()) return null;
+
+        return (
+            <div
+              block="CategoryProductList"
+              elem="LoadButton"
+              role="button"
+              tabIndex="0"
+              onKeyUp={ loadPrevPage }
+              onClick={ loadPrevPage }
+            >
+                    {__('Load previous') }
+            </div>
+        );
     }
 
-    /**
-     * Increase page count and update previous items length
-     */
-    showLoading() {
-        const { items, increasePage } = this.props;
-        this.setState({ prevItemsLength: items.length });
-        increasePage();
+    renderNoProducts() {
+        return (
+            <div block="CategoryProductList">
+                <div
+                  block="CategoryProductList"
+                  elem="PictureMissing"
+                >
+                    { __('No products found') }
+                </div>
+            </div>
+        );
     }
 
-    renderProducts() {
-        const { items, customFilters, availableFilters } = this.props;
+    renderPages() {
+        const { pages, selectedFilters, isLoading } = this.props;
 
-        return items.map(product => (
-            <ProductCard
-              product={ product }
-              key={ product.id }
-              customFilters={ customFilters }
-              availableFilters={ availableFilters }
-              arePlaceholdersShown
-            />
+        if (isLoading) return null;
+
+        return Object.entries(pages).map(([pageNumber, items = []]) => (
+            <ul
+              block="CategoryProductList"
+              elem="Page"
+              key={ pageNumber }
+              ref={ (node) => { this.nodes[pageNumber] = node; } }
+            >
+                { items.map(product => (
+                    <ProductCard
+                      product={ product }
+                      key={ product.id }
+                      selectedFilters={ selectedFilters }
+                      arePlaceholdersShown
+                    />
+                )) }
+            </ul>
         ));
     }
 
-    /**
-     * render placeholders beneath the product list
-     */
-    renderPlaceholder() {
-        const { items, totalItems, isLoading } = this.props;
-        const showLoadMore = items.length < totalItems && !isLoading;
-
-        if (showLoadMore || isLoading) {
-            return (
-                <>
-                    <ProductCard product={ {} } cardRef={ !isLoading && this.scrollListener } />
-                    <ProductCard product={ {} } />
-                    <ProductCard product={ {} } />
-                    <ProductCard product={ {} } />
-                </>
-            );
-        }
-
-        return null;
-    }
-
     render() {
-        const { isLoading } = this.props;
+        const {
+            totalPages, isLoading, loadPage, isVisible
+        } = this.props;
+
+        if (!isLoading && totalPages === 0) return this.renderNoProducts();
 
         return (
-            <ul block="CategoryProductList" mods={ { isLoading } }>
-                { !isLoading && this.renderProducts() }
-                { this.renderPlaceholder() }
-            </ul>
+            <div block="CategoryProductList" mods={ { isLoading } }>
+                { this.renderLoadButton() }
+                { this.renderPages() }
+                <div block="CategoryProductList" elem="Page">
+                    <CategoryProductListPlaceholder
+                      isLoading={ isLoading }
+                      isVisible={ isVisible() }
+                      updatePages={ loadPage }
+                    />
+                </div>
+            </div>
         );
     }
 }
 
 CategoryProductList.propTypes = {
-    items: ItemsType.isRequired,
-    totalItems: PropTypes.number.isRequired,
-    increasePage: PropTypes.func.isRequired,
+    pages: PagesType.isRequired,
+    loadPage: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
-    customFilters: PropTypes.objectOf(PropTypes.array),
-    availableFilters: PropTypes.arrayOf(PropTypes.shape)
-};
-
-CategoryProductList.defaultProps = {
-    customFilters: {},
-    availableFilters: []
+    updatePage: PropTypes.func.isRequired,
+    totalPages: PropTypes.number.isRequired,
+    selectedFilters: FilterType.isRequired,
+    getPageFromUrl: PropTypes.func.isRequired,
+    loadPrevPage: PropTypes.func.isRequired,
+    isShowLoading: PropTypes.func.isRequired,
+    isVisible: PropTypes.func.isRequired
 };
 
 export default CategoryProductList;

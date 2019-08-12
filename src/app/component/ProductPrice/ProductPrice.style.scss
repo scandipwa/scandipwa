@@ -23,8 +23,13 @@
         text-decoration: none;
     }
 
-    del {
+    &-HighPrice {
         padding-left: .3em;
         color: var(---price-discount-color);
+        display: none;
+
+        &_isVisible {
+            display: block;
+        }
     }
 }

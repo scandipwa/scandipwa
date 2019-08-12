@@ -41,9 +41,26 @@ class AddToCart extends Component {
     }
 
     afterAdded() {
-        const { showNotification, setQuantityToDefault } = this.props;
+        const {
+            showNotification,
+            setQuantityToDefault,
+            productToBeRemovedAfterAdd,
+            removeProductFromWishlist,
+            wishlistItems,
+            product,
+            removeWishlistItem
+        } = this.props;
+
         showNotification('success', 'Product added to cart!');
         setQuantityToDefault();
+
+        const { sku, id } = product;
+
+        // for configurable products productToBeRemovedAfterAdd will be saved in state
+        if (removeWishlistItem || (productToBeRemovedAfterAdd === sku && wishlistItems[id])) {
+            removeProductFromWishlist({ product: wishlistItems[id], noMessages: true });
+        }
+
         this.setState({ isLoading: false });
     }
 
@@ -108,16 +125,19 @@ class AddToCart extends Component {
             );
         }
 
+        const { product: { stock_status } } = this.props;
+        const isNotAvailable = stock_status !== 'IN_STOCK';
+
         return (
             <button
               onClick={ () => this.buttonClick() }
               block="Button AddToCart"
               mods={ { isLoading } }
               mix={ mix }
-              disabled={ isLoading }
+              disabled={ isLoading || isNotAvailable }
             >
-                <span>Add to cart</span>
-                <span>Adding...</span>
+                <span>{ __('Add to cart') }</span>
+                <span>{ __('Adding...') }</span>
             </button>
         );
     }
@@ -129,7 +149,6 @@ AddToCart.propTypes = {
     configurableVariantIndex: PropTypes.number,
     groupedProductQuantity: PropTypes.objectOf(PropTypes.number),
     showNotification: PropTypes.func.isRequired,
-    addProduct: PropTypes.func,
     setQuantityToDefault: PropTypes.func,
     mix: PropTypes.shape({
         block: PropTypes.string,
@@ -138,17 +157,24 @@ AddToCart.propTypes = {
             PropTypes.string,
             PropTypes.bool
         ]))
-    })
+    }),
+    addProduct: PropTypes.func.isRequired,
+    productToBeRemovedAfterAdd: PropTypes.string,
+    removeProductFromWishlist: PropTypes.func.isRequired,
+    wishlistItems: PropTypes.objectOf(ProductType).isRequired,
+    removeWishlistItem: PropTypes.bool,
+    fullWidth: PropTypes.bool
 };
 
 AddToCart.defaultProps = {
     quantity: 1,
     configurableVariantIndex: 0,
     groupedProductQuantity: {},
-    addProduct: () => {},
     setQuantityToDefault: () => {},
     product: {},
-    mix: {}
+    mix: {},
+    productToBeRemovedAfterAdd: '',
+    removeWishlistItem: false
 };
 
 export default AddToCart;

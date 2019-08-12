@@ -30,14 +30,14 @@ import { prepareQuery } from 'Util/Query';
  * My account actions
  * @class MyAccount
  */
-class MyAccountDispatcher {
+export class MyAccountDispatcher {
     requestCustomerData(options, dispatch) {
         const { withAddresses } = options;
         const query = MyAccount.getCustomer(withAddresses);
 
         return executePost(prepareQuery([query])).then(
             ({ customer }) => dispatch(updateCustomerDetails(customer)),
-            error => console.log(error)
+            error => dispatch(showNotification('error', error[0].message))
         );
     }
 
@@ -45,7 +45,7 @@ class MyAccountDispatcher {
         const mutation = MyAccount.getUpdateInformationMutation(options);
         return fetchMutation(mutation).then(
             ({ customer }) => dispatch(updateCustomerDetails(customer)),
-            error => console.log(error)
+            error => dispatch(showNotification('error', error[0].message))
         );
     }
 
@@ -71,7 +71,7 @@ class MyAccountDispatcher {
 
         return fetchMutation(mutation).then(
             ({ addresses }) => dispatch(updateCustomerDetails(addresses)),
-            error => console.log(error)
+            error => dispatch(showNotification('error', error[0].message))
         );
     }
 
@@ -80,7 +80,7 @@ class MyAccountDispatcher {
 
         return fetchMutation(mutation).then(
             ({ addresses }) => dispatch(updateCustomerDetails(addresses)),
-            error => console.log(error)
+            error => dispatch(showNotification('error', error[0].message))
         );
     }
 
@@ -94,7 +94,7 @@ class MyAccountDispatcher {
         const mutation = MyAccount.getForgotPasswordMutation(options);
         fetchMutation(mutation).then(
             () => dispatch(updateCustomerPasswordForgotStatus()),
-            error => console.log(error)
+            error => dispatch(showNotification('error', error[0].message))
         );
     }
 
@@ -126,7 +126,7 @@ class MyAccountDispatcher {
                 this.signIn({ email, password }, dispatch);
                 dispatch(updateCustomerDetails(customer));
             },
-            error => console.log(error)
+            error => dispatch(showNotification('error', error[0].message))
         );
     }
 
@@ -146,9 +146,7 @@ class MyAccountDispatcher {
                 CartDispatcher.updateInitialCartData(dispatch);
                 WishlistDispatcher.updateInitialWishlistData(dispatch);
             },
-            (error) => {
-                throw new Error(error[0].message);
-            }
+            error => dispatch(showNotification('error', error[0].message))
         );
     }
 }

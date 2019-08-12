@@ -40,4 +40,6 @@ class MenuQuery {
     }
 }
 
+export { MenuQuery };
+
 export default new MenuQuery();

@@ -54,7 +54,7 @@ class CheckoutPaymentMethods extends Component {
 
         return (
             <fieldset block="CheckoutStep" elem="legend">
-                <legend block="CheckoutPage" elem="Heading">Payment type</legend>
+                <legend block="CheckoutPage" elem="Heading">{ __('Payment Method') }</legend>
                 <table block="CheckoutStep" elem="OptionsTable">
                     <tbody>
                         { paymentMethods.map(method => this.renderPaymentMethod(method)) }

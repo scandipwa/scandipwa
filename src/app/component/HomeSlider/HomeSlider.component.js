@@ -67,8 +67,6 @@ class HomeSlider extends Component {
                       ratio="custom"
                       objectFit="cover"
                       src="/media/scandiweb/slider/s/l/slider-woman-on-the-beach.jpg"
-                      arePlaceholdersShown
-                      showGreyPlaceholder
                     />
                     <figcaption
                       block="HomePage"

@@ -19,22 +19,22 @@ import Form from 'Component/Form';
 import Loader from 'Component/Loader';
 import './CheckoutPreviewAndPaymentsStep.style';
 
-const EMAIL_FIELD_ID = 'email';
-const FIRSTNAME_FIELD_ID = 'firstname';
-const LASTNAME_FIELD_ID = 'lastname';
-const COMPANY_FIELD_ID = 'company';
-const STREET_0_FIELD_ID = 'street_0';
-const STREET_1_FIELD_ID = 'street_1';
-const CITY_FIELD_ID = 'city';
-const REGION_FIELD_ID = 'region';
-const REGION_ID_FIELD_ID = 'region_id';
-const ZIP_FIELD_ID = 'postcode';
-const PHONE_FIELD_ID = 'telephone';
-const COUNTRY_FIELD_ID = 'country_id';
+export const FIRSTNAME_FIELD_ID = 'firstname';
+export const LASTNAME_FIELD_ID = 'lastname';
+export const COMPANY_FIELD_ID = 'company';
+export const STREET_0_FIELD_ID = 'street_0';
+export const STREET_1_FIELD_ID = 'street_1';
+export const CITY_FIELD_ID = 'city';
+export const REGION_FIELD_ID = 'region';
+export const ZIP_FIELD_ID = 'postcode';
+export const PHONE_FIELD_ID = 'telephone';
+export const COUNTRY_FIELD_ID = 'country_id';
+export const DEFAULT_COUNTRY = 'US';
+export const DEFAULT_REGION = { region_code: 'AL', region: 'Alabama', region_id: 1 };
 
-const STATE_NEW_ADDRESS = 'newAddress';
-const STATE_DEFAULT_ADDRESS = 'defaultAddress';
-const STATE_SAME_ADDRESS = 'sameAddress';
+export const STATE_NEW_ADDRESS = 'newAddress';
+export const STATE_DEFAULT_ADDRESS = 'defaultAddress';
+export const STATE_SAME_ADDRESS = 'sameAddress';
 
 class CheckoutPreviewAndPaymentsStep extends Component {
     constructor(props) {
@@ -64,16 +64,11 @@ class CheckoutPreviewAndPaymentsStep extends Component {
         };
 
         this.fieldMap = {
-            [EMAIL_FIELD_ID]: {
-                placeholder: 'Email Address',
-                note: 'You can create an account after checkout.',
-                validation: ['notEmpty', 'email']
-            },
-            [FIRSTNAME_FIELD_ID]: { placeholder: 'First Name' },
-            [LASTNAME_FIELD_ID]: { placeholder: 'Last Name' },
-            [COMPANY_FIELD_ID]: { placeholder: 'Company', validation: [] },
+            [FIRSTNAME_FIELD_ID]: { label: __('First Name') },
+            [LASTNAME_FIELD_ID]: { label: __('Last Name') },
+            [COMPANY_FIELD_ID]: { label: __('Company'), validation: [] },
             [STREET_0_FIELD_ID]: {
-                placeholder: 'Street Address',
+                label: __('Street Address'),
                 onChange: (street) => {
                     const { street: stateStreet } = this.state;
                     this.setState({ street: { ...stateStreet, 0: street } }, this.handleFieldChange);
@@ -86,41 +81,44 @@ class CheckoutPreviewAndPaymentsStep extends Component {
                 },
                 validation: []
             },
-            [CITY_FIELD_ID]: { placeholder: 'City' },
-            // [STATE_FIELD_ID]: {
-            //     label: 'State',
-            //     validation: [],
-            //     defaultValue: DEFAULT_REGION,
-            //     onChange: (value) => {
-            //         const { regionList } = this.state;
-            //         if (typeof value === 'number') {
-            //             const regionValue = regionList.reduce((regionValue, region) => {
-            //                 const { id: regionId } = region;
+            [CITY_FIELD_ID]: { label: __('City') },
+            [REGION_FIELD_ID]: {
+                label: __('State'),
+                validation: [],
+                defaultValue: DEFAULT_REGION,
+                onChange: (value) => {
+                    const { regionList } = this.state;
+                    if (typeof value === 'number') {
+                        const regionValue = regionList.reduce((regionValue, region) => {
+                            const { id: regionId } = region;
 
-            //                 if (value === regionId) regionValue.push(region);
+                            if (value === regionId) regionValue.push(region);
 
-            //                 return regionValue;
-            //             }, []);
-            //             const { code: region_code, name: region, id: region_id } = regionValue[0];
-            //             const correctRegion = { region_code, region, region_id };
+                            return regionValue;
+                        }, []);
+                        const { code: region_code, name: region, id: region_id } = regionValue[0];
+                        const correctRegion = { region_code, region, region_id };
 
-            //             return this.setState({ region: correctRegion }, this.handleFieldChange);
-            //         }
+                        return this.setState({ region: correctRegion }, this.handleFieldChange);
+                    }
 
-            //         const region = { region_code: value, region: value, region_id: 0 };
-            //         return this.setState({ region }, this.handleFieldChange);
-            //     }
-            // },
-            [ZIP_FIELD_ID]: { placeholder: 'Postal Code' },
-            // [COUNTRY_FIELD_ID]: {
-            //     label: 'Country',
-            //     type: 'select',
-            //     defaultValue: DEFAULT_COUNTRY,
-            //     onChange: (countryId) => {
-            //         this.getAvailableRegions(countryId);
-            //     }
-            // },
-            [PHONE_FIELD_ID]: { placeholder: 'Phone Number' }
+                    const region = { region_code: value, region: value, region_id: 0 };
+                    return this.setState({ region }, this.handleFieldChange);
+                }
+            },
+            [ZIP_FIELD_ID]: { label: __('Postal Code') },
+            [COUNTRY_FIELD_ID]: {
+                label: __('Country'),
+                type: 'select',
+                defaultValue: DEFAULT_COUNTRY,
+                onChange: (countryId) => {
+                    this.getAvailableRegions(countryId);
+                }
+            },
+            [PHONE_FIELD_ID]: {
+                label: __('Phone Number'),
+                validation: ['telephone']
+            }
         };
 
         this.renderMap = {
@@ -173,10 +171,9 @@ class CheckoutPreviewAndPaymentsStep extends Component {
             billing_address: correctAddress
         };
 
-        this.setState({ loadingPaymentInformationSave: true });
-        savePaymentInformationAndPlaceOrder(paymentInformation).then(
-            () => this.setState({ loadingPaymentInformationSave: false })
-        );
+        this.setState({ loadingPaymentInformationSave: true, finishedLoading: false });
+
+        savePaymentInformationAndPlaceOrder(paymentInformation);
     }
 
     // getAvailableRegions(country_id) {
@@ -237,11 +234,11 @@ class CheckoutPreviewAndPaymentsStep extends Component {
 
         if (defaultBillingAddress) {
             if (state === 'newAddress') {
-                return { message: ("I'd like to use the default address"), type: STATE_DEFAULT_ADDRESS };
+                return { message: (__("I'd like to use the default address")), type: STATE_DEFAULT_ADDRESS };
             }
 
             if (isSignedIn) {
-                return { message: ("I'd like to use a different address"), type: STATE_NEW_ADDRESS };
+                return { message: (__("I'd like to use a different address")), type: STATE_NEW_ADDRESS };
             }
         }
 
@@ -361,8 +358,8 @@ class CheckoutPreviewAndPaymentsStep extends Component {
         if (regions) {
             return (
                 <Field
-                  id={ REGION_ID_FIELD_ID }
-                  name={ REGION_ID_FIELD_ID }
+                  id={ REGION_FIELD_ID }
+                  name={ REGION_FIELD_ID }
                   type="select"
                   placeholder="State"
                   selectOptions={ regions.map(({ id, name }) => ({ id, label: name, value: id })) }
@@ -450,7 +447,7 @@ class CheckoutPreviewAndPaymentsStep extends Component {
                 { this.renderField(COMPANY_FIELD_ID) }
                 { this.renderField(STREET_0_FIELD_ID, street[0]) }
                 { this.renderField(CITY_FIELD_ID) }
-                {/* { this.renderRegionField(STATE_FIELD_ID) } */}
+                {/* { this.renderRegionField(REGION_FIELD_ID) } */}
                 { this.renderRegionField() }
                 { this.renderField(ZIP_FIELD_ID) }
                 {/* { this.renderField(COUNTRY_FIELD_ID) } */}
@@ -496,7 +493,10 @@ class CheckoutPreviewAndPaymentsStep extends Component {
                 <Loader isLoading={ !finishedLoading || loadingPaymentInformationSave } />
 
                 <fieldset>
-                    <legend block="CheckoutPage" elem="Heading" mods={ { hasDivider: true } }>1. Shipping</legend>
+                    <legend block="CheckoutPage" elem="Heading" mods={ { hasDivider: true } }>
+                        { __('1. Shipping') }
+                    </legend>
+
                     { this.renderStateButton() }
 
                     { shippingAddress && !!Object.entries(shippingAddress).length && (
@@ -504,7 +504,7 @@ class CheckoutPreviewAndPaymentsStep extends Component {
                           id="sameAsShippingAddress"
                           name="sameAsShippingAddress"
                           type="checkbox"
-                          label="My billing and shipping are the same"
+                          label={ __('My billing and shipping address are the same') }
                           value="sameAsShippingAddress"
                           checked={ !!billingIsSame }
                           onChange={ () => this.setState(
@@ -531,7 +531,7 @@ class CheckoutPreviewAndPaymentsStep extends Component {
                   block="Button"
                   disabled={ !code }
                 >
-                    Place Order
+                    { __('Place Order') }
                 </button>
             </Form>
         );

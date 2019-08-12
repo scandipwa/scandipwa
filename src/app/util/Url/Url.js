@@ -115,13 +115,8 @@ const convertKeyValuesToQueryString = (keyValuePairs) => {
     return `${newSearchQuery.slice(0, -1)}`; // remove trailing '&'
 };
 
-/**
- * Set add key value pairs to url
- * @param {Object} variable Object with key value pairs to be added to url
- * @param {Object} variable location object from react-router
- * @param {Object} variable react router history object
- */
-const setQueryParams = (keyValueObject, location, history) => {
+
+const generateQuery = (keyValueObject, location, history) => {
     let query = history.location.search;
 
     Object.entries(keyValueObject).forEach((pair) => {
@@ -142,6 +137,19 @@ const setQueryParams = (keyValueObject, location, history) => {
         }
     });
 
+    return query;
+};
+
+/**
+ * Set add key value pairs to url
+ * @param {Object} variable Object with key value pairs to be added to url
+ * @param {Object} variable location object from react-router
+ * @param {Object} variable react router history object
+ * @param {Object} variable is url flush required
+ */
+const setQueryParams = (keyValueObject, location, history) => {
+    const query = generateQuery(keyValueObject, location, history);
+
     history.push({ search: query });
 };
 
@@ -156,7 +164,9 @@ const clearQueriesFromUrl = (history) => {
 export {
     getUrlParam,
     getQueryParam,
+    generateQuery,
     setQueryParams,
     clearQueriesFromUrl,
-    updateQueryParamWithoutHistory
+    updateQueryParamWithoutHistory,
+    convertQueryStringToKeyValuePairs
 };

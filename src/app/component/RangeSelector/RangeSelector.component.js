@@ -71,7 +71,6 @@ class RangeSelector extends Component {
     render() {
         const { minValue, maxValue } = this.props;
         const { min, max } = this.getValue();
-
         const isChanged = min !== minValue || max !== maxValue;
 
         return (

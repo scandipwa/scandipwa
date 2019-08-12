@@ -10,27 +10,26 @@
  */
 
 import { QueryDispatcher } from 'Util/Request';
-import { MenuQuery, CmsBlockQuery, RegionQuery } from 'Query';
+import { MenuQuery, CmsBlockQuery } from 'Query';
 import { showNotification } from 'Store/Notification';
-import { updateMenu, toggleHeaderAndFooter, getCountryList } from 'Store/HeaderAndFooter';
+import { updateMenu, toggleHeaderAndFooter } from 'Store/HeaderAndFooter';
 import { updateCmsBlocks } from 'Store/CmsBlocksAndSlider';
 
-class HeaderAndFooterDispatcher extends QueryDispatcher {
+export class HeaderAndFooterDispatcher extends QueryDispatcher {
     constructor() {
         super('HeaderAndFooter', 86400);
     }
 
     onSuccess(options, dispatch) {
         if (options) {
-            const { menu, cmsBlocks, countries } = options;
+            const { menu, cmsBlocks } = options;
             dispatch(updateMenu(menu));
             dispatch(updateCmsBlocks(cmsBlocks));
-            dispatch(getCountryList(countries));
         }
     }
 
     onError(error, dispatch) {
-        dispatch(showNotification('error', 'Error fetching Menu!', error));
+        dispatch(showNotification('error', 'Error fetching Header or Footer!', error));
     }
 
     /**
@@ -42,9 +41,12 @@ class HeaderAndFooterDispatcher extends QueryDispatcher {
     prepareRequest(options) {
         return [
             MenuQuery.getQuery(options.menu),
-            CmsBlockQuery.getQuery(options.footer),
-            RegionQuery.getCountriesList()
+            CmsBlockQuery.getQuery(options.footer)
         ];
+    }
+
+    toggleHeaderAndFooter(dispatch, options) {
+        return dispatch(toggleHeaderAndFooter(options.isHeaderAndFooterVisible));
     }
 }
 

@@ -73,4 +73,6 @@ class CmsPageQuery {
     }
 }
 
+export { CmsPageQuery };
+
 export default new CmsPageQuery();

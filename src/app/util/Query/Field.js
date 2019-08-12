@@ -136,17 +136,27 @@ class Field {
      *
      * @returns {Field}
      */
-    build() {
+    build(args = []) {
         Object.keys(this._argumentList).forEach((argument) => {
-            this._variableDefinitions.push(
-                `$${this._getVariableName(argument)}:${this._argumentList[ argument ].type}`
-            );
+            const variableName = this._getVariableName(argument, args);
 
-            this._variableValues[ this._getVariableName(argument) ] = this._argumentList[ argument ].value;
-            this._argumentDefinitions.push(`${argument}:$${this._getVariableName(argument)}`);
+            this._variableDefinitions.push(
+                `$${ variableName }:${ this._argumentList[ argument ].type }`
+            );
+            this._variableValues[ variableName ] = this._argumentList[ argument ].value;
+            this._argumentDefinitions.push(`${ argument }:$${ variableName }`);
         });
 
-        return this;
+        Object.values(this._fieldList).forEach((field) => {
+            const { variableDefinitions, variableValues } = field.build(args);
+            this._variableDefinitions.push(...variableDefinitions);
+            this._variableValues = { ...this._variableValues, ...variableValues };
+        });
+
+        return {
+            variableDefinitions: this._variableDefinitions,
+            variableValues: this._variableValues
+        };
     }
 
     /**
@@ -177,8 +187,16 @@ class Field {
      *
      * @param {String} field
      */
-    _getVariableName(field) {
-        return `${ this._alias }_${ field }`;
+    _getVariableName(arg, args, index = 0) {
+        const argName = `${ this._alias }_${ arg }_${ index }`;
+
+        if (!args.includes(argName)) {
+            args.push(argName);
+            return argName;
+        }
+
+        const nextIndex = index + 1;
+        return this._getVariableName(arg, args, nextIndex);
     }
 
     /**

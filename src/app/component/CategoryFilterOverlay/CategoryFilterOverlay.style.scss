@@ -164,7 +164,7 @@
         padding-left: 0;
 
         &::before {
-            content: '';
+            content: none;
         }
 
         &:last-child {

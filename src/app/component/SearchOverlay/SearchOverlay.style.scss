@@ -18,7 +18,7 @@
 }
 
 .SearchOverlay {
-    --placeholder-animation: placeholderAnimation 2s linear infinite, appear 200ms forwards;
+    --placeholder-animation: placeholderAnimation 2s linear infinite;
 
     @include after-mobile {
         transition-property: width, opacity, transform, border-color;

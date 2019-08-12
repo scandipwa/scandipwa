@@ -94,7 +94,7 @@ class CheckoutShippingMethods extends Component {
                   block="CheckoutPage"
                   elem="Heading"
                 >
-                    Shipping method
+                    { __('Shipping Method') }
                 </legend>
                 <div>
                     <Loader isLoading={ loadingShippingMethods } />
@@ -107,7 +107,7 @@ class CheckoutShippingMethods extends Component {
                             </table>
                         )
                         : (
-                            <p>Please enter shipping address information first!</p>
+                            <p>{ __('Please enter shipping address information first!') }</p>
                         )
                     }
                 </div>

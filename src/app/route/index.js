@@ -19,11 +19,13 @@ import { createBrowserHistory } from 'history';
 
 import HomePage from 'Route/HomePage';
 import CategoryPage from 'Route/CategoryPage';
+import SearchPage from 'Route/SearchPage';
 import ProductPage from 'Route/ProductPage';
 import CmsPage from 'Route/CmsPage';
 import CartPage from 'Route/CartPage';
 import CheckoutPage from 'Route/CheckoutPage';
 import MyAccountDetails from 'Route/MyAccountDetails';
+import MyAccountWishlist from 'Route/MyAccountWishlist';
 import PasswordChangePage from 'Route/PasswordChangePage';
 import NoMatchHandler from 'Route/NoMatchHandler';
 import UrlRewrites from 'Route/UrlRewrites';
@@ -36,6 +38,7 @@ import NotificationList from 'Component/NotificationList';
 import Store from 'Store';
 
 import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
+import { ConfigDispatcher } from 'Store/Config';
 import { CartDispatcher } from 'Store/Cart';
 import { WishlistDispatcher } from 'Store/Wishlist';
 
@@ -74,6 +77,10 @@ class AppRouter extends Component {
                     position: 20
                 },
                 {
+                    component: <Route path="/search/:query/" component={ SearchPage } />,
+                    position: 25
+                },
+                {
                     component: <Route path="/product" component={ ProductPage } />,
                     position: 30
                 },
@@ -98,8 +105,12 @@ class AppRouter extends Component {
                     position: 70
                 },
                 {
+                    component: <Route path="/wishlist/" exact component={ MyAccountWishlist } />,
+                    position: 90
+                },
+                {
                     component: <Route component={ UrlRewrites } />,
-                    position: 100
+                    position: 1000
                 }
             ],
             afterItems: [
@@ -135,6 +146,7 @@ class AppRouter extends Component {
 
         WishlistDispatcher.updateInitialWishlistData(Store.dispatch);
         HeaderAndFooterDispatcher.handleData(Store.dispatch, { menu: { menuId: 2 }, footer: footerOptions });
+        ConfigDispatcher.handleData(Store.dispatch);
         CartDispatcher.updateInitialCartData(Store.dispatch);
     }
 

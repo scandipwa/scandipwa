@@ -40,3 +40,12 @@ export const getProductPrice = (product) => {
         roundedTaxPrice
     };
 };
+
+export const formatCurrency = (currency = 'USD') => {
+    const { value: symbol } = new Intl.NumberFormat(
+        'en-US',
+        { style: 'currency', currency }
+    ).formatToParts(0).find(({ type }) => type === 'currency');
+
+    return symbol;
+};

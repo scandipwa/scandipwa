@@ -9,16 +9,17 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+:root {
+    --image-default-background: #f8f8f8;
+    --image-content-color: var(--color-text-black);
+}
+
 .Image {
     display: inline-block;
     overflow: hidden;
     height: 0;
     width: 100%;
-
-    /* TODO: move those styles into separate helper */
-    background-image: var(--placeholder-image);
-    background-size: var(--placeholder-size);
-    animation: var(--placeholder-animation);
+    background: var(--image-default-background);
 
     &_ratio {
         &_16x9 {
@@ -34,32 +35,48 @@
         }
     }
 
-    &_isReal,
-    &_isLoaded {
-        animation: none;
-        background: transparent;
+    &_imageStatus_0,
+    &_isPlaceholder {
+        background-image: var(--placeholder-image);
+        background-size: var(--placeholder-size);
+        animation: var(--placeholder-animation);
     }
 
-    &_objectFit {
-        &_contain {
-            img {
-                object-fit: contain;
-            }
-        }
-
-        &_cover {
-            img {
-                object-fit: cover;
-            }
-        }
+    &_imageStatus_1 {
+        background: none;
     }
 
-    img {
+    &-Content {
+        position: absolute;
+        height: max-content;
+        width: 100%;
+        position: absolute;
+        text-align: center;
+        bottom: 0;
+        margin: auto;
+        top: 0;
+
+        color: var(--image-content-color);
+        font-size: 14px;
+    }
+
+    &-Image {
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
         object-position: 50% 50%;
+        object-fit: contain;
+
+        &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--image-default-background);
+        }
     }
 }

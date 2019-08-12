@@ -19,6 +19,7 @@ import { BlockListType } from 'Type/CMS';
 import Meta from 'Component/Meta';
 import ContentWrapper from 'Component/ContentWrapper';
 import './HomePage.style';
+import Image from 'Component/Image';
 
 class HomePage extends Component {
     constructor() {
@@ -81,7 +82,7 @@ class HomePage extends Component {
                               elem="Figure"
                               mods={ { isPlaceholder: true } }
                             >
-                                <picture />
+                                <Image isPlaceholder />
                                 <figcaption
                                   block="HomePage"
                                   elem="Figcaption"

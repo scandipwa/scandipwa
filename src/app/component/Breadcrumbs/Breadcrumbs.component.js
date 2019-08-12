@@ -47,7 +47,7 @@ class Breadcrumbs extends Component {
         if (!areBreadcrumbsVisible) return null;
 
         return (
-            <ContentWrapper mix={ { block: 'Breadcrumbs' } } label="Breadcrumbs (current location)">
+            <ContentWrapper mix={ { block: 'Breadcrumbs' } } label={ __('Breadcrumbs (current location)...') }>
                 <nav aria-label="Breadcrumbs navigation">
                     <ul block="Breadcrumbs" elem="List">
                         { breadcrumbs.length

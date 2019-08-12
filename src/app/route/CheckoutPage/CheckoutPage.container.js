@@ -18,6 +18,7 @@ import BrowserDatabase from 'Util/BrowserDatabase';
 import { MyAccountDispatcher } from 'Store/MyAccount';
 import { changeHeaderState } from 'Store/Header';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs';
+import { showNotification } from 'Store/Notification';
 import CheckoutPage from './CheckoutPage.component';
 
 const mapStateToProps = state => ({
@@ -26,7 +27,7 @@ const mapStateToProps = state => ({
     toggleHeaderAndFooter: state.HeaderAndFooterReducer.toggleHeaderAndFooter,
     isSignedIn: state.MyAccountReducer.isSignedIn,
     customer: state.MyAccountReducer.customer,
-    countryList: state.HeaderAndFooterReducer.countries
+    countryList: state.ConfigReducer.countries
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -36,7 +37,8 @@ const mapDispatchToProps = dispatch => ({
     },
     toggleBreadcrumbs: () => dispatch(toggleBreadcrumbs(false)),
     setHeaderState: stateName => dispatch(changeHeaderState(stateName)),
-    requestCustomerData: options => MyAccountDispatcher.requestCustomerData(options, dispatch)
+    requestCustomerData: options => MyAccountDispatcher.requestCustomerData(options, dispatch),
+    showNotification: (type, message) => dispatch(showNotification(type, message))
 });
 
 const MappedCheckoutPage = connect(mapStateToProps, mapDispatchToProps)(CheckoutPage);

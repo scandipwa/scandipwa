@@ -9,6 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import Figure from './Figure.component';
+import CategorySearch from './CategorySearch.component';
 
-export default Figure;
+export default CategorySearch;

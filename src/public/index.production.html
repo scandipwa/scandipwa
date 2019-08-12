@@ -9,17 +9,11 @@
                     navigator.serviceWorker.register('/sw.js');
                 });
             }
-            const actionName = {
-                    type: `<?php echo $this->getAction(); ?>`
-                };
-            window.actionName = actionName;
-        </script>
 
-        <script>
-            var APP_ID = "wm449zea";
-            window.intercomSettings = { app_id: APP_ID };
-            (function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',w.intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/' + APP_ID;var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();
-        </script>
+            window.actionName = {
+                type: `<?php echo $this->getAction(); ?>`
+            };
+        </script
 
         <!-- TODO: Find or implement helper to generate fonts related code -->
         <link rel="preload" href="<%= htmlWebpackPlugin.options.publicPath %>assets/font/MuliLight.woff2" as="font" type="font/woff2" crossorigin="">

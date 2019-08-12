@@ -11,7 +11,7 @@
 
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import TextPlaceholder from 'Component/TextPlaceholder';
+import { formatCurrency } from 'Util/Price';
 import { TotalsType } from 'Type/MiniCart';
 import './CartSummary.style';
 
@@ -21,35 +21,39 @@ import './CartSummary.style';
  */
 class CartSummary extends Component {
     renderPriceLine(price, name, mods) {
+        const { totals: { base_currency_code } } = this.props;
+        const priceString = formatCurrency(price ? parseFloat(price).toFixed(2) : 0, base_currency_code);
+
         return (
             <li block="CartSummary" elem="SummaryItem" mods={ mods }>
                 <strong block="CartSummary" elem="Text" mods={ { align: 'left' } }>{ name }</strong>
-                <strong block="CartSummary" elem="Text" mods={ { align: 'right' } }>
-                    {/* TODO: Use value from configuration file */}
-                    $
-                    <TextPlaceholder content={ price } />
-                </strong>
+                <strong block="CartSummary" elem="Text" mods={ { align: 'right' } }>{ priceString }</strong>
             </li>
         );
     }
 
     render() {
         const {
-            totals: { subTotalPrice, taxPrice, grandTotalPrice }
+            totals: {
+                subtotal, tax_amount, grand_total, shipping_amount, items
+            }
         } = this.props;
-        const saveVsRetail = grandTotalPrice === '0.00' ? '0.00' : '14.00'; // TODO: Hardcoded for now
+        const cartIsEmpty = !Object.keys(items).length;
+
+        // eslint-disable-next-line no-param-reassign, no-return-assign
+        const itemsTax = items ? items.reduce((sum, { tax_amount }) => sum += tax_amount, tax_amount) : 0;
 
         return (
             <div block="CartSummary" aria-label="Cart Summary">
-                <h3>Summary</h3>
+                <h3>{ __('Summary') }</h3>
                 <ul>
-                    { this.renderPriceLine(subTotalPrice, 'Subtotal') }
-                    { this.renderPriceLine(taxPrice, 'Tax', { divider: true }) }
-                    { this.renderPriceLine(saveVsRetail, 'Saved vs Retail', { highlited: true }) }
-                    { this.renderPriceLine(grandTotalPrice, 'Order Total') }
+                    { this.renderPriceLine(subtotal, __('Subtotal')) }
+                    { this.renderPriceLine(itemsTax, __('Tax'), { divider: true }) }
+                    { shipping_amount && this.renderPriceLine(shipping_amount, __('Shipping'), { divider: true }) }
+                    { this.renderPriceLine(grand_total, __('Order Total')) }
                 </ul>
-                <Link to="/checkout/shipping">Proceed to checkout</Link>
-                <Link to="/">Continue shopping</Link>
+                <Link to="/checkout/shipping" disabled={ cartIsEmpty }>{ __('Proceed to checkout') }</Link>
+                <Link to="/">{ __('Continue shopping') }</Link>
             </div>
         );
     }

@@ -36,7 +36,13 @@ const plugins = [
                 Util: './src/app/util/',
                 Query: './src/app/query/',
                 Type: './src/app/type/',
-                SourceRoute: '../../../../../vendor/scandipwa/source/src/app/route/'
+                SourceStyle: '../../../../../vendor/scandipwa/source/src/app/style/',
+                SourceComponent: '../../../../../vendor/scandipwa/source/src/app/component/',
+                SourceRoute: '../../../../../vendor/scandipwa/source/src/app/route/',
+                SourceStore: '../../../../../vendor/scandipwa/source/src/app/store/',
+                SourceUtil: '../../../../../vendor/scandipwa/source/src/app/util/',
+                SourceQuery: '../../../../../vendor/scandipwa/source/src/app/query/',
+                SourceType: '../../../../../vendor/scandipwa/source/src/app/type/'
             }
         }
     ],

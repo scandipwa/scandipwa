@@ -40,8 +40,8 @@ class CartPage extends Component {
     updateBreadcrumbs() {
         const { updateBreadcrumbs } = this.props;
         const breadcrumbs = [
-            { url: '/cart', name: 'Shopping cart' },
-            { url: '/', name: 'Home' }
+            { url: '/cart', name: __('Shopping cart') },
+            { url: '/', name: __('Home') }
         ];
 
         updateBreadcrumbs(breadcrumbs);
@@ -107,7 +107,7 @@ class CartPage extends Component {
               heading="Have a discount code?"
               mix={ { block: 'CartPage', elem: 'Discount' } }
             >
-                <p>Discount functionality coming soon!</p>
+                <p>{ __('Discount functionality coming soon!') }</p>
             </ExpandableContent>
         );
     }

@@ -11,6 +11,8 @@
 
 import { Field } from 'Util/Query';
 
+const CHILDREN_DEPTH = 0;
+
 /**
  * Category Query
  * @class CategoryQuery
@@ -18,42 +20,72 @@ import { Field } from 'Util/Query';
 class CategoryQuery {
     /**
      * get Category query
-     * @param  {{categoryUrlPath: String, currentPage: Number, customFilters: Object, getConfigurableData: Boolean, getSubCategories: Boolean, pageSize: Number, previousPage: Boolean, priceRange: Object, productsLoaded: Boolean, sortDirection: String, sortKey: String}} options A object containing different aspects of query, each item can be omitted
+     * @param  {{ childrenDepth: Number }} options A object containing different aspects of query, each item can be omitted
      * @return {Field} Category query
      * @memberof CategoryQuery
      */
-    getQuery() {
-        const categoryFields = this._prepareChildrenFields();
-        const children = new Field('children').addFieldList(categoryFields);
+    getQuery(options = {}) {
+        const { categoryUrlPath, categoryIds, childrenDepth } = options;
+        const category = new Field('category');
 
-        const field = new Field('category')
-            .addArgument('id', 'Int!', '2') // TODO: When config is available get value from config
-            .addFieldList(categoryFields)
-            .addField(children);
+        if (categoryUrlPath) {
+            category.addArgument('url_path', 'String!', categoryUrlPath); // TODO: When config is available get value from config
+        } else if (categoryIds) {
+            category.addArgument('id', 'Int!', categoryIds);
+        } else {
+            throw new Error(__('Can not query category without ID/URL_PATH not specified.'));
+        }
 
-        return field;
+        this.childrenDepth = childrenDepth || CHILDREN_DEPTH;
+
+        this._addDefaultFields(category);
+        this._addChildrenFields(category);
+
+        return category;
     }
 
     /**
-     * Prepare Children Fields of any category
-     * @return {Array<Field|String>}
-     * @memberof Category
+     * Rewrite this function to get additional data from category
+     * @param { Field } field Field on top of which new field should be added
      */
-    _prepareChildrenFields() {
+    _addCustomField() {}
+
+    _addChildrenFields(field, depth = 0) {
+        const children = new Field('children');
+
+        this._addDefaultFields(children);
+
+        if (depth < this.childrenDepth) {
+            this._addChildrenFields(children, depth + 1);
+        }
+
+        field.addField(children);
+    }
+
+    _addDefaultFields(field) {
         const breadcrumbs = new Field('breadcrumbs')
             .addFieldList(['category_name', 'category_url_key', 'category_level']);
 
-        const children = new Field('children')
-            .addFieldList(['id', 'name', 'description', 'url_path',
-                'image', 'url_key', 'product_count',
-                'meta_title', 'meta_description', breadcrumbs]);
-
-        return [
-            'id', 'name', 'description', 'url_path',
-            'image', 'url_key', 'product_count',
-            'meta_title', 'meta_description', breadcrumbs, children
+        const childrenFieldList = [
+            'id',
+            'name',
+            'description',
+            'url_path',
+            'image',
+            'url_key',
+            'product_count',
+            'meta_title',
+            'meta_description',
+            'canonical_url',
+            breadcrumbs
         ];
+
+        this._addCustomField(field);
+
+        field.addFieldList(childrenFieldList);
     }
 }
+
+export { CategoryQuery };
 
 export default new CategoryQuery();

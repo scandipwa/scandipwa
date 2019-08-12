@@ -346,7 +346,7 @@
 		&_isVisible {
 			@include mobile {
 				opacity: 1;
-				max-width: calc(100% - 120px);
+				max-width: calc(100% - 180px);
 			}
 		}
 	}

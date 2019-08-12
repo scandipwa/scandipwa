@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/no-unused-state */
+/* eslint-disable no-console */
 
 /**
  * ScandiPWA - Progressive Web App for Magento
@@ -17,30 +18,36 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Form from 'Component/Form';
 import Field from 'Component/Field';
+import validationConfig from 'Component/Form/Form.config';
 import CheckoutShippingMethods from 'Component/CheckoutShippingMethods';
 import Loader from 'Component/Loader';
 import { makeCancelable } from 'Util/Promise';
+import { fetchMutation } from 'Util/Request';
+import { CheckEmailQuery } from 'Query';
 import './CheckoutShippingStep.style';
 
-const EMAIL_FIELD_ID = 'email';
-const FIRSTNAME_FIELD_ID = 'firstname';
-const LASTNAME_FIELD_ID = 'lastname';
-const COMPANY_FIELD_ID = 'company';
-const STREET_0_FIELD_ID = 'street_0';
-const STREET_1_FIELD_ID = 'street_1';
-const CITY_FIELD_ID = 'city';
-const REGION_FIELD_ID = 'region';
-const REGION_ID_FIELD_ID = 'region_id';
-const ZIP_FIELD_ID = 'postcode';
-const PHONE_FIELD_ID = 'telephone';
-const COUNTRY_FIELD_ID = 'country_id';
+export const EMAIL_FIELD_ID = 'email';
+export const FIRSTNAME_FIELD_ID = 'firstname';
+export const LASTNAME_FIELD_ID = 'lastname';
+export const COMPANY_FIELD_ID = 'company';
+export const STREET_0_FIELD_ID = 'street_0';
+export const STREET_1_FIELD_ID = 'street_1';
+export const CITY_FIELD_ID = 'city';
+export const REGION_FIELD_ID = 'region';
+export const ZIP_FIELD_ID = 'postcode';
+export const PHONE_FIELD_ID = 'telephone';
+export const COUNTRY_FIELD_ID = 'country_id';
+export const DEFAULT_COUNTRY = 'US';
+export const DEFAULT_REGION = { region_code: 'AL', region: 'Alabama', region_id: 1 };
 
-const STATE_NEW_ADDRESS = 'newAddress';
-const STATE_DEFAULT_ADDRESS = 'defaultAddress';
+export const STATE_NEW_ADDRESS = 'newAddress';
+export const STATE_DEFAULT_ADDRESS = 'defaultAddress';
 
 class CheckoutShippingStep extends Component {
     constructor(props) {
         super(props);
+
+        const { showNotification } = props;
 
         this.handleFieldChange = this.handleFieldChange.bind(this);
         // this.changeState = this.changeState.bind(this);
@@ -68,18 +75,43 @@ class CheckoutShippingStep extends Component {
             state: STATE_NEW_ADDRESS
         };
 
+        this.emailNote = __('You can create an account after checkout.');
+        this.emailLoginNote = __('Looks like you already have account with us, please, log in!');
+
         this.fieldMap = {
             [EMAIL_FIELD_ID]: {
-                autocomplete: 'email',
-                placeholder: 'Email Address',
-                note: 'You can create an account after checkout.',
-                validation: ['notEmpty', 'email']
+                label: __('Email Address'),
+                note: this.emailNote,
+                message: '',
+                validation: ['notEmpty', 'email'],
+                onBlur: (event) => {
+                    const email = event.currentTarget.value;
+
+                    if (validationConfig.email.validate({ value: email })) {
+                        fetchMutation(
+                            CheckEmailQuery.getCheckIsEmailAvailableMutation(email)
+                        ).then(
+                            ({ checkIsEmailAvailable: { isAvailable } }) => {
+                                const { email } = this.state;
+
+                                this.fieldMap[EMAIL_FIELD_ID].note = isAvailable
+                                    ? this.emailNote : this.emailLoginNote;
+                                this.fieldMap[EMAIL_FIELD_ID].noteDisplayMode = isAvailable
+                                    ? null : 'visibleAlways';
+
+                                // Will force re-render
+                                this.setState({ email });
+                            },
+                            err => showNotification('error', err[0].debugMessage)
+                        );
+                    }
+                }
             },
-            [FIRSTNAME_FIELD_ID]: { placeholder: 'First Name' },
-            [LASTNAME_FIELD_ID]: { placeholder: 'Last Name' },
-            [COMPANY_FIELD_ID]: { placeholder: 'Company', validation: [] },
+            [FIRSTNAME_FIELD_ID]: { label: __('First Name') },
+            [LASTNAME_FIELD_ID]: { label: __('Last Name') },
+            [COMPANY_FIELD_ID]: { label: __('Company'), validation: [] },
             [STREET_0_FIELD_ID]: {
-                placeholder: 'Street Address',
+                label: __('Street Address'),
                 onChange: (street) => {
                     const { street: stateStreet } = this.state;
                     this.setState({ street: { ...stateStreet, 0: street } }, this.handleFieldChange);
@@ -92,43 +124,43 @@ class CheckoutShippingStep extends Component {
                 },
                 validation: []
             },
-            [CITY_FIELD_ID]: { placeholder: 'City' },
-            // [STATE_FIELD_ID]: {
-            //     label: 'State',
-            //     validation: [],
-            //     selectOptions: [],
-            //     onChange: (value) => {
-            //         const { regionList } = this.state;
-            //         if (typeof value === 'number') {
-            //             const regionValue = regionList.reduce((regionValue, region) => {
-            //                 const { id: regionId } = region;
+            [CITY_FIELD_ID]: { label: __('City') },
+            [REGION_FIELD_ID]: {
+                label: __('State'),
+                validation: [],
+                onChange: (value) => {
+                    const { regionList } = this.state;
+                    if (typeof value === 'number') {
+                        const regionValue = regionList.reduce((regionValue, region) => {
+                            const { id: regionId } = region;
 
-            //                 if (value === regionId) regionValue.push(region);
+                            if (value === regionId) regionValue.push(region);
 
-            //                 return regionValue;
-            //             }, []);
-            //             const { code: region_code, name: region, id: region_id } = regionValue[0];
-            //             const correctRegion = { region_code, region, region_id };
+                            return regionValue;
+                        }, []);
+                        const { code: region_code, name: region, id: region_id } = regionValue[0];
+                        const correctRegion = { region_code, region, region_id };
 
-            //             return this.setState({ region: correctRegion }, this.handleFieldChange);
-            //         }
+                        return this.setState({ region: correctRegion }, this.handleFieldChange);
+                    }
 
-            //         const region = { region_code: value, region: value, region_id: 0 };
-            //         return this.setState({ region }, this.handleFieldChange);
-            //     }
-            // },
-            [ZIP_FIELD_ID]: { placeholder: 'Postal Code' },
-            // [COUNTRY_FIELD_ID]: {
-            //     label: 'Country',
-            //     type: 'select',
-            //     value: '',
-            //     placeholder: 'Select a country',
-            //     selectOptions: [],
-            //     onChange: (countryId) => {
-            //         this.getAvailableRegions(countryId);
-            //     }
-            // },
-            [PHONE_FIELD_ID]: { placeholder: 'Phone Number' }
+                    const region = { region_code: value, region: value, region_id: 0 };
+                    return this.setState({ region }, this.handleFieldChange);
+                }
+            },
+            [ZIP_FIELD_ID]: { label: __('Postal Code') },
+            [COUNTRY_FIELD_ID]: {
+                label: __('Country'),
+                type: 'select',
+                defaultValue: DEFAULT_COUNTRY,
+                onChange: (countryId) => {
+                    this.getAvailableRegions(countryId);
+                }
+            },
+            [PHONE_FIELD_ID]: {
+                label: 'Phone Number',
+                validation: ['telephone']
+            }
         };
 
         this.renderMap = {
@@ -184,6 +216,11 @@ class CheckoutShippingStep extends Component {
     //     return null;
     // }
 
+    // initialize available regions
+    componentDidMount() {
+        this.getAvailableRegions(DEFAULT_COUNTRY);
+    }
+
     componentDidUpdate(prevProps) {
         const { finishedLoading, shippingAddress } = this.props;
 
@@ -208,7 +245,7 @@ class CheckoutShippingStep extends Component {
         console.log(trimmedShippingAddress);
 
         if (!method_code || !carrier_code) {
-            showNotification('error', 'No shipping method specified');
+            showNotification('error', __('No shipping method specified'));
         } else {
             const addressInformation = {
                 addressInformation: {
@@ -220,7 +257,10 @@ class CheckoutShippingStep extends Component {
                 shippingMethod: activeShippingMethod
             };
 
-            this.setState({ loadingShippingInformationSave: true });
+            this.setState({
+                loadingShippingInformationSave: true
+            });
+
             saveAddressInformation(addressInformation);
         }
     }
@@ -265,6 +305,8 @@ class CheckoutShippingStep extends Component {
     // }
 
     handleFieldChange() {
+        const { showNotification } = this.props;
+
         this.setState({ loadingShippingMethods: true });
 
         if (this.shippingMethodEstimationTimeout) {
@@ -300,7 +342,7 @@ class CheckoutShippingStep extends Component {
                     shippingMethods,
                     loadingShippingMethods: false
                 }),
-                err => console.log(err)
+                err => showNotification('error', err[0].debugMessage)
             );
         }, 1000);
     }
@@ -313,11 +355,12 @@ class CheckoutShippingStep extends Component {
             label,
             note,
             name,
-            validation = ['notEmpty'],
             placeholder,
             autocomplete,
             selectOptions,
-            onChange = value => this.setState({ [id]: value }, this.handleFieldChange)
+            onChange = value => this.setState({ [id]: value }, this.handleFieldChange),
+            validation = ['notEmpty'],
+            onBlur
         } = this.fieldMap[id];
 
         // const countryList = notFormatedList.map(({ id, label }) => ({ id, label, value: id }))
@@ -335,6 +378,7 @@ class CheckoutShippingStep extends Component {
               placeholder={ placeholder }
               onChange={ onChange }
               autocomplete={ autocomplete }
+              onBlur={ onBlur }
             />
         );
     }
@@ -368,8 +412,8 @@ class CheckoutShippingStep extends Component {
         if (regions) {
             return (
                 <Field
-                  id={ REGION_ID_FIELD_ID }
-                  name={ REGION_ID_FIELD_ID }
+                  id={ REGION_FIELD_ID }
+                  name={ REGION_FIELD_ID }
                   type="select"
                   placeholder="State"
                   selectOptions={ regions.map(({ id, name }) => ({ id, label: name, value: id })) }
@@ -442,7 +486,7 @@ class CheckoutShippingStep extends Component {
                           block="CheckoutShippingStep"
                           elem="ButtonDefault"
                         >
-                            {"I'd like to use the default shipping address"}
+                            { __("I'd like to use the default shipping address") }
                         </button>
                     </div>)
                 }
@@ -453,20 +497,22 @@ class CheckoutShippingStep extends Component {
                           elem="Heading"
                           mods={ { hasDivider: true } }
                         >
-                            1. SHipping
+                            { __('1. Shipping') }
                         </legend>
                         { this.renderField(EMAIL_FIELD_ID) }
                         { this.renderField(PHONE_FIELD_ID) }
                     </fieldset>)
                 }
                 <fieldset>
-                    <legend block="CheckoutPage" elem="Heading">Shipping Address</legend>
+                    <legend block="CheckoutPage" elem="Heading">
+                        { __('Shipping Address') }
+                    </legend>
                     { this.renderField(FIRSTNAME_FIELD_ID) }
                     { this.renderField(LASTNAME_FIELD_ID) }
                     { this.renderField(COMPANY_FIELD_ID) }
                     { this.renderField(STREET_0_FIELD_ID, street[0]) }
                     { this.renderField(CITY_FIELD_ID) }
-                    {/* { this.renderRegionField(STATE_FIELD_ID) } */}
+                    {/* { this.renderRegionField(REGION_FIELD_ID) } */}
                     { this.renderRegionField() }
                     { this.renderField(ZIP_FIELD_ID) }
                     {/* { this.renderField(COUNTRY_FIELD_ID) } */}
@@ -498,13 +544,13 @@ class CheckoutShippingStep extends Component {
                   elem="ShippingAddressPreview"
                 >
                     <dl>
-                        <dt>Contact details:</dt>
+                        <dt>{ __('Contact details:') }</dt>
                         <dd>{ `${ firstname } ${ lastname }` }</dd>
                         { company && (<>
-                            <dt>Company name</dt>
+                            <dt>{ __('Company name') }</dt>
                             <dd>{ company }</dd>
                         </>)}
-                        <dt>Shipping address:</dt>
+                        <dt>{ __('Shipping address:') }</dt>
                         <dd>{ `${country_id }, ${regionName}, ${city}` }</dd>
                         <dd>{ street[0] }</dd>
                         <dd>{ street[1] }</dd>
@@ -517,7 +563,7 @@ class CheckoutShippingStep extends Component {
                   elem="ButtonNew"
                 //   onClick={ () => this.changeState(STATE_NEW_ADDRESS) }
                 >
-                    {"I'd like to use a different address"}
+                    { __("I'd like to use a different address") }
                 </button>
             </>
         );

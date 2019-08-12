@@ -10,9 +10,10 @@
  */
 
 import React, { Component } from 'react';
-import { PriceType } from 'Type/ProductList';
 import PropTypes from 'prop-types';
 import TextPlaceholder from 'Component/TextPlaceholder';
+import { PriceType } from 'Type/ProductList';
+import { formatCurrency } from 'Util/Price';
 import './ProductPrice.style';
 
 /**
@@ -63,11 +64,12 @@ class ProductPrice extends Component {
 
         const minimalPriceValue = minimalPrice.amount.value;
         const regularPriceValue = regularPrice.amount.value;
+        const roundedRegularPrice = this.roundPrice(regularPriceValue);
+        const priceCurrency = regularPrice.amount.currency;
         const discountPercentage = this.calculateDiscountPercentage(minimalPriceValue, regularPriceValue);
         const finalPrice = this.calculateFinalPrice(discountPercentage, minimalPriceValue, regularPriceValue);
-
-        // TODO: implement dynamic when store-config will be injected
-        const currency = '$';
+        const formatedCurrency = this.roundPrice(finalPrice);
+        const currency = formatCurrency(priceCurrency);
 
         // Use <ins></ins> <del></del> to represent new price and the old (deleted) one
         const PriceSemanticElementName = discountPercentage > 0 ? 'ins' : 'span';
@@ -76,20 +78,31 @@ class ProductPrice extends Component {
             <p
               block="ProductPrice"
               mix={ mix }
-              aria-label={ `Product price: ${ this.roundPrice(finalPrice) }${ currency }` }
+              aria-label={ `Product price: ${ formatedCurrency }${ currency }` }
+              itemProp="offers"
+              itemScope
+              itemType="https://schema.org/AggregateOffer"
             >
                 <PriceSemanticElementName>
-                    <data value={ this.roundPrice(finalPrice) }>
-                        { currency }
-                        { this.roundPrice(finalPrice) }
+                    <data
+                      value={ formatedCurrency }
+                    >
+                        <span itemProp="lowPrice">{ formatedCurrency }</span>
+                        <span>{ currency }</span>
                     </data>
                 </PriceSemanticElementName>
 
-                { discountPercentage > 0 && (
-                    <del aria-label="Old product price">
-                        { this.roundPrice(regularPriceValue) }
-                    </del>
-                )}
+                <del
+                  block="ProductPrice"
+                  elem="HighPrice"
+                  mods={ { isVisible: discountPercentage > 0 } }
+                  aria-label={ __('Old product price') }
+                  itemProp="highPrice"
+                >
+                    { roundedRegularPrice }
+                </del>
+
+                <meta itemProp="priceCurrency" content={ priceCurrency } />
             </p>
         );
     }
