@@ -70,6 +70,7 @@ class Field extends Component {
         this.onClick = this.onClick.bind(this);
         this.handleSelectExpand = this.handleSelectExpand.bind(this);
         this.handleSelectListOptionClick = this.handleSelectListOptionClick.bind(this);
+        this.handleSelectListKeyPress = this.handleSelectListKeyPress.bind(this);
     }
 
     componentDidUpdate(prevProps) {
@@ -420,7 +421,7 @@ class Field extends Component {
                   block="Field"
                   elem="SelectWrapper"
                   onClick={ this.handleSelectExpand }
-                  onKeyPress={ this.handleSelectExpand }
+                  onKeyPress={ this.handleSelectListKeyPress }
                   role="button"
                   tabIndex="0"
                   aria-label="Select drop-down"
@@ -468,6 +469,9 @@ class Field extends Component {
                                   elem="SelectOption"
                                   mods={ { isExpanded } }
                                   key={ id }
+                                  // added 'o' as querySelector does not work with	
+                                  // ids, that consist of numbers only	
+                                  id={ `o${id}` }
                                   role="menuitem"
                                   onClick={ () => this.handleSelectListOptionClick(options) }
                                   onKeyPress={ () => this.handleSelectListOptionClick(options) }
