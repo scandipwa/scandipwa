@@ -60,8 +60,8 @@ class ProductCard extends Component {
 
     getLinkTo(parameters) {
         const { product: { url_key }, product } = this.props;
-        if (!url_key) return undefined;
 
+        if (!url_key) return undefined;
         return {
             pathname: `/product/${ url_key }`,
             state: { product },
