@@ -469,8 +469,8 @@ class Field extends Component {
                                   elem="SelectOption"
                                   mods={ { isExpanded } }
                                   key={ id }
-                                  // added 'o' as querySelector does not work with	
-                                  // ids, that consist of numbers only	
+                                  // added 'o' as querySelector does not work with
+                                  // ids, that consist of numbers only
                                   id={ `o${id}` }
                                   role="menuitem"
                                   onClick={ () => this.handleSelectListOptionClick(options) }
