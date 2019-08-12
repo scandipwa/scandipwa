@@ -96,6 +96,7 @@ class ProductGallery extends Component {
                   mix={ { block: 'ProductGallery', elem: 'Slider' } }
                   showCrumbs
                   activeImage={ activeImage }
+                  changeParentActiveImage={ i => this.changeActiveImage(i) }
                 >
                     { gallery.map(({ image, id }, index) => (
                         <Image

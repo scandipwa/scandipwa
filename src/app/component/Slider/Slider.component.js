@@ -103,12 +103,14 @@ class Slider extends Component {
         if (slideSize / 2 < mousePossitionInElement && -fullSliderPoss < sliderPossition) {
             const activeSlide = sliderPossition - 1;
             this.setState({ activeSlide });
+            this.props.changeParentActiveImage(-activeSlide);
             return activeSlide;
         }
 
         if (slideSize / 2 > mousePossitionInElement && lastTranslate) {
             const activeSlide = sliderPossition + 1;
             this.setState({ activeSlide });
+            this.props.changeParentActiveImage(-activeSlide);
             return activeSlide;
         }
 
@@ -142,18 +144,21 @@ class Slider extends Component {
         if (translate < -fullSliderSize) {
             const activeSlide = Math.round(fullSliderSize / -slideSize);
             this.setState({ activeSlide });
+            this.props.changeParentActiveImage(-activeSlide);
             return activeSlide;
         }
 
         if (isSlideBack && activeSlidePercent < 0.90) {
             const activeSlide = Math.ceil(activeSlidePosition);
             this.setState({ activeSlide });
+            this.props.changeParentActiveImage(-activeSlide);
             return activeSlide;
         }
 
         if (!isSlideBack && activeSlidePercent > 0.10) {
             const activeSlide = Math.floor(activeSlidePosition);
             this.setState({ activeSlide });
+            this.props.changeParentActiveImage(-activeSlide);
             return activeSlide;
         }
 
@@ -202,6 +207,9 @@ class Slider extends Component {
     }
 
     changeActiveImage(activeImage) {
+        const { changeParentActiveImage } = this.props;
+        changeParentActiveImage(activeImage);
+
         this.setState({
             activeSlide: -activeImage
         });
