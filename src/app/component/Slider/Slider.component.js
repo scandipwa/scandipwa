@@ -245,13 +245,10 @@ class Slider extends Component {
         );
     }
 
-    renderSlides() {
-        const { children } = this.props;
-        return Children.map(children, slide => slide);
-    }
-
     render() {
-        const { showCrumbs, mix, activeImage } = this.props;
+        const {
+            showCrumbs, mix, activeImage, children
+        } = this.props;
 
         return (
             <div
@@ -267,7 +264,7 @@ class Slider extends Component {
                   onDrag={ this.handleDrag }
                   shift={ -activeImage * this.sliderWidth }
                 >
-                    { this.renderSlides() }
+                    { children }
                 </Draggable>
                 { showCrumbs && this.renderCrumbs() }
             </div>
