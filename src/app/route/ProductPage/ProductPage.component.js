@@ -68,7 +68,7 @@ class ProductPage extends Component {
 
         const parameters = Object.entries(convertQueryStringToKeyValuePairs(search))
             .reduce((acc, [key, value]) => {
-                if (configurable_options[key]) {
+                if (key in configurable_options) {
                     return { ...acc, [key]: value };
                 }
                 return acc;

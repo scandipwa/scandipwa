@@ -26,13 +26,7 @@ const RelatedProductsReducer = (state = initialState, action) => {
 
         const items = getIndexedProducts(initialItems);
 
-        return {
-            ...state,
-            relatedProducts: {
-                ...products,
-                items
-            }
-        };
+        return { ...state, relatedProducts: { ...products, items } };
 
     default:
         return state;
