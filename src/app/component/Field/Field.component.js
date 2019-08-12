@@ -58,13 +58,9 @@ class Field extends Component {
 
         this.state = {
             value,
-<<<<<<< HEAD
-            isSelectExpanded: false
-=======
             valueIndex: -1,
             isSelectExpanded: false,
             searchString: 'a'
->>>>>>> 694212b392ac0bd068e76e27816bdfe15db09aa0
         };
 
         this.onChange = this.onChange.bind(this);
@@ -152,8 +148,6 @@ class Field extends Component {
         }
     }
 
-<<<<<<< HEAD
-=======
     _getSelectedValueIndex(keyCode) {
         const { selectOptions } = this.props;
         const {
@@ -223,7 +217,6 @@ class Field extends Component {
         });
     }
 
->>>>>>> 694212b392ac0bd068e76e27816bdfe15db09aa0
     renderTextarea() {
         const {
             id,
