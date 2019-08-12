@@ -1,0 +1,2 @@
+apps:
+  - script: "npm run dev-server-core"

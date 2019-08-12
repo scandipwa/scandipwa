@@ -12,7 +12,7 @@
         "OSL-3.0"
     ],
     "require": {
-        "magento/product-community-edition": "2.3.1",
+        "magento/magento2-base": "2.3.1",
         "scandipwa/menu-organizer": "^1.0",
         "scandipwa/persisted-query": "^1.0",
         "scandipwa/slider-graphql": "^1.0",
