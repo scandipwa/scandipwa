@@ -20,6 +20,7 @@ import CategorySearch from 'Component/CategorySearch';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
 import './CategoryShoppingOptions.style';
+import OptionsPlaceholder from 'Component/OptionsPlaceholder';
 
 /**
  * Category Shopping Options (filters)
@@ -219,18 +220,11 @@ class CategoryShoppingOptions extends Component {
         );
     }
 
-    renderPlaceholderSwatch(amountOfSwathces) {
+    renderPlaceholderOption(amountOfOptions) {
         return (
             <li block="CategoryShoppingOptions" elem="FilterBlock">
                 { this.renderFilterTitle() }
-                <ul block="CategoryShoppingOptions" elem="Swatches">
-                    { Array(amountOfSwathces).fill().map((_, i) => (
-                        // eslint-disable-next-line react/no-array-index-key
-                        <li key={ i }>
-                            <div block="CategoryShoppingOptions" elem="Swatch" />
-                        </li>
-                    )) }
-                </ul>
+                <OptionsPlaceholder amount={ amountOfOptions } />
             </li>
         );
     }
@@ -249,9 +243,9 @@ class CategoryShoppingOptions extends Component {
                     )
                     : (
                         <>
-                            { this.renderPlaceholderSwatch(6) }
-                            { this.renderPlaceholderSwatch(10) }
-                            { this.renderPlaceholderSwatch(5) }
+                            { this.renderPlaceholderOption(6) }
+                            { this.renderPlaceholderOption(10) }
+                            { this.renderPlaceholderOption(5) }
                         </>
                     )
                 }

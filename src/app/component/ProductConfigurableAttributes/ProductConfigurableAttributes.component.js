@@ -13,6 +13,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ProductAttributeValue from 'Component/ProductAttributeValue';
 import './ProductConfigurableAttributes.style';
+import TextPlaceholder from 'Component/TextPlaceholder';
+import OptionsPlaceholder from 'Component/OptionsPlaceholder';
 
 class ProductConfigurableAttributes extends Component {
     /**
@@ -92,10 +94,21 @@ class ProductConfigurableAttributes extends Component {
         });
     }
 
+    renderPlaceholder() {
+        return (
+            <>
+                <TextPlaceholder />
+                <OptionsPlaceholder amount={ 5 } />
+            </>
+        );
+    }
+
     render() {
+        const { isReady } = this.props;
+
         return (
             <div block="ProductConfigurableAttributes">
-                { this.renderConfigurableAttributes() }
+                { isReady ? this.renderConfigurableAttributes() : this.renderPlaceholder() }
             </div>
         );
     }
@@ -105,7 +118,12 @@ ProductConfigurableAttributes.propTypes = {
     configurable_options: PropTypes.shape({}).isRequired,
     getLink: PropTypes.func.isRequired,
     parameters: PropTypes.shape({}).isRequired,
-    updateConfigurableVariant: PropTypes.func.isRequired
+    updateConfigurableVariant: PropTypes.func.isRequired,
+    isReady: PropTypes.bool
+};
+
+ProductConfigurableAttributes.defaultProps = {
+    isReady: true
 };
 
 export default ProductConfigurableAttributes;

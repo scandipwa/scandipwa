@@ -205,7 +205,7 @@ class ProductPage extends Component {
         }
     }
 
-    renderConfigurableAttributes() {
+    renderConfigurableAttributes(isReady) {
         const { product: { configurable_options, type_id } } = this.props;
         const { parameters } = this.state;
 
@@ -213,10 +213,11 @@ class ProductPage extends Component {
 
         return (
             <ProductConfigurableAttributes
-              configurable_options={ configurable_options }
+              isReady={ isReady }
               getLink={ this.getLink }
               parameters={ parameters }
               updateConfigurableVariant={ this.updateUrl }
+              configurable_options={ configurable_options }
             />
         );
     }
@@ -256,7 +257,7 @@ class ProductPage extends Component {
                               product={ dataSource }
                               handleGroupedQuantityChange={ this.changeGroupedProductQuantity }
                             />
-                            { this.renderConfigurableAttributes() }
+                            { this.renderConfigurableAttributes(areDetailsLoaded) }
                             <ProductActions
                               product={ dataSource }
                               parameters={ parameters }
