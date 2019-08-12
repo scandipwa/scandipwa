@@ -58,7 +58,13 @@ class Field extends Component {
 
         this.state = {
             value,
+<<<<<<< HEAD
             isSelectExpanded: false
+=======
+            valueIndex: -1,
+            isSelectExpanded: false,
+            searchString: 'a'
+>>>>>>> 694212b392ac0bd068e76e27816bdfe15db09aa0
         };
 
         this.onChange = this.onChange.bind(this);
@@ -146,6 +152,78 @@ class Field extends Component {
         }
     }
 
+<<<<<<< HEAD
+=======
+    _getSelectedValueIndex(keyCode) {
+        const { selectOptions } = this.props;
+        const {
+            searchString: prevSearchString,
+            valueIndex: prevValueIndex
+        } = this.state;
+
+        const pressedKeyValue = String.fromCharCode(keyCode).toLowerCase();
+
+        const searchString = (prevSearchString[prevSearchString.length - 1] !== pressedKeyValue)
+            ? `${prevSearchString}${pressedKeyValue}`
+            : pressedKeyValue;
+
+        const nextValueIndex = selectOptions.findIndex(({ label }, i) => (
+            label && label.toLowerCase().startsWith(searchString) && (
+                i > prevValueIndex || prevSearchString !== searchString
+            )
+        ));
+
+        if (nextValueIndex !== -1) {
+            return { searchString, valueIndex: nextValueIndex };
+        }
+
+        // if no items were found, take only the latest letter of the search string
+        const newSearchString = searchString[searchString.length - 1];
+
+        const newValueIndex = selectOptions.findIndex(({ label }) => (
+            label && label.toLowerCase().startsWith(newSearchString)
+        ));
+
+        if (newValueIndex !== -1) {
+            return { searchString: newSearchString, valueIndex: newValueIndex };
+        }
+        // if there are no items starting with this letter
+        return {};
+    }
+
+    handleSelectListKeyPress(event) {
+        const { isSelectExpanded } = this.state;
+        const { selectOptions, onChange, id: selectId } = this.props;
+        const keyCode = event.which || event.keycode;
+
+        // on Enter pressed
+        if (keyCode === 13) {
+            this.handleSelectExpand();
+            return;
+        }
+
+        if (!isSelectExpanded
+            || !keyCode
+            || keyCode < 65
+            || keyCode > 122
+            || (keyCode > 90 && keyCode < 97)
+        ) return;
+
+        const { searchString, valueIndex } = this._getSelectedValueIndex(keyCode);
+
+        // valueIndex can be 0, so !valueIndex === true
+        if (!searchString || valueIndex === null) return;
+
+        this.setState({ searchString, valueIndex }, () => {
+            const { id, value } = selectOptions[valueIndex];
+            // converting to string for avoiding the error with the first select option
+            onChange(value.toString(10));
+            const selectedElement = document.querySelector(`#${selectId} + ul #o${id}`);
+            selectedElement.focus();
+        });
+    }
+
+>>>>>>> 694212b392ac0bd068e76e27816bdfe15db09aa0
     renderTextarea() {
         const {
             id,
