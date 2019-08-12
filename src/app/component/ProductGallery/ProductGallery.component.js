@@ -29,6 +29,7 @@ class ProductGallery extends Component {
         this.state = { activeImage: 0 };
 
         this.renderAdditionalPicture = this.renderAdditionalPicture.bind(this);
+        this.changeActiveImage = this.changeActiveImage.bind(this);
     }
 
     getGalleryPictures() {
@@ -96,7 +97,7 @@ class ProductGallery extends Component {
                   mix={ { block: 'ProductGallery', elem: 'Slider' } }
                   showCrumbs
                   activeImage={ activeImage }
-                  changeParentActiveImage={ i => this.changeActiveImage(i) }
+                  changeParentActiveImage={ this.changeActiveImage }
                 >
                     { gallery.map(({ image, id }, index) => (
                         <Image

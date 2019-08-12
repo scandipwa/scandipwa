@@ -46,9 +46,7 @@ class Slider extends Component {
         const { prevActiveImage } = state;
 
         if (prevActiveImage !== activeImage) {
-            return {
-                prevActiveImage: activeImage
-            };
+            return { prevActiveImage: activeImage };
         }
 
         return null;
@@ -262,7 +260,7 @@ class Slider extends Component {
                   onDragStart={ this.handleDragStart }
                   onDragEnd={ this.handleDragEnd }
                   onDrag={ this.handleDrag }
-                  shift={ -activeImage * this.sliderWidth }
+                  shiftX={ -activeImage * this.sliderWidth }
                 >
                     { children }
                 </Draggable>
