@@ -9,4 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default } from './CartSummary.componet';
+export { default } from './CartSummary.component';

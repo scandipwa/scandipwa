@@ -12,7 +12,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import TextPlaceholder from 'Component/TextPlaceholder';
-import CartSummary from './CartSummary.componet';
+import CartSummary from './CartSummary.component';
 
 describe('<CartSummary />', () => {
     let wrapper;

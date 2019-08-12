@@ -148,14 +148,22 @@ class CategoryShoppingOptions extends Component {
                 filter_items
             } = item;
 
-            //! TODO: Remove this hardcoded check, after solving the problem on BE: https://github.com/magento/magento2/blob/89cf888f6f3c7b163702969a8e256f9f0486f6b8/app/code/Magento/Catalog/Model/Layer/FilterList.php#L70
+            // TODO: Remove this hardcoded check, after solving the problem on BE: https://github.com/magento/magento2/blob/89cf888f6f3c7b163702969a8e256f9f0486f6b8/app/code/Magento/Catalog/Model/Layer/FilterList.php#L70
             if (attribute_code === 'cat') return co;
 
-            const attribute_values = filter_items.map(({ value_string }) => value_string);
-            const attribute_options = filter_items.reduce((acc, option) => ({
-                ...acc,
-                [+option.value_string]: option
-            }), {});
+            const { attribute_values, attribute_options } = filter_items.reduce((attribute, option) => {
+                const { value_string } = option;
+                const { attribute_values, attribute_options } = attribute;
+
+                attribute_values.push(value_string);
+                return {
+                    ...attribute,
+                    attribute_options: {
+                        ...attribute_options,
+                        [+value_string]: option
+                    }
+                };
+            }, { attribute_values: [], attribute_options: {} });
 
             return {
                 ...co,

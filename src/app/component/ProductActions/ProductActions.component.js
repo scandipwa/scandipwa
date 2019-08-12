@@ -48,8 +48,8 @@ class ProductActions extends Component {
                 configurable_options
             }
         } = this.props;
-        const simpleProductData = price && attributes;
-        const configurableProductData = simpleProductData && configurable_options;
+        const simpleProductData = price !== undefined && attributes !== undefined;
+        const configurableProductData = simpleProductData !== undefined && configurable_options !== undefined;
 
         return type_id === 'configurable' ? configurableProductData : simpleProductData;
     }
@@ -77,7 +77,7 @@ class ProductActions extends Component {
         } = this.props;
 
         const isConfigurable = type_id === 'configurable';
-        const { price } = isConfigurable && variants[configurableVariantIndex]
+        const { price } = isConfigurable && configurableVariantIndex in variants
             ? variants[configurableVariantIndex] : product;
 
         return (

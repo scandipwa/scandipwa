@@ -86,7 +86,7 @@ class ProductAttributeValue extends Component {
         case '2':
             return this.renderImageValue(value, label);
         default:
-            return this.renderStringValue(__('N/A'));
+            return this.renderStringValue(label || __('N/A'));
         }
     }
 
