@@ -170,11 +170,11 @@ export class CartDispatcher {
         } = product;
 
         if (type_id === 'configurable') {
-            const currentVariant = variants[configurableVariantIndex];
+            const { attributes } = variants[configurableVariantIndex];
 
             const configurable_item_options = Object.values(configurable_options)
                 .reduce((prev, { attribute_id, attribute_code }) => {
-                    const { attribute_value } = currentVariant.attributes[attribute_code];
+                    const { attribute_value } = attributes[attribute_code];
 
                     if (attribute_value) {
                         return [
