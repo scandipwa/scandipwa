@@ -12,12 +12,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { history } from 'Route';
 import ContentWrapper from 'Component/ContentWrapper';
 import CartItem from 'Component/CartItem';
 import { ProductType } from 'Type/ProductList';
 import { TotalsType } from 'Type/MiniCart';
-import { CART, CART_EDITING } from 'Component/Header';
 import isMobile from 'Util/Mobile';
 import ExpandableContent from 'Component/ExpandableContent';
 
@@ -27,52 +25,11 @@ class CartPage extends Component {
     constructor(props) {
         super(props);
 
-        this.state = { isEditing: false };
-
         this.changeHeaderState = this.changeHeaderState.bind(this);
     }
 
-    componentDidMount() {
-        this.updateBreadcrumbs();
-        this.changeHeaderState();
-    }
-
-    updateBreadcrumbs() {
-        const { updateBreadcrumbs } = this.props;
-        const breadcrumbs = [
-            { url: '/cart', name: __('Shopping cart') },
-            { url: '/', name: __('Home') }
-        ];
-
-        updateBreadcrumbs(breadcrumbs);
-    }
-
-    changeHeaderState() {
-        const { changeHeaderState, totals: { count } } = this.props;
-        const title = `${ count || 0 } Items`;
-
-        changeHeaderState({
-            name: CART,
-            title,
-            onEditClick: () => {
-                this.setState({ isEditing: true });
-                changeHeaderState({
-                    name: CART_EDITING,
-                    title,
-                    onOkClick: () => this.setState({ isEditing: false }),
-                    onCancelClick: () => this.setState({ isEditing: false })
-                });
-            },
-            onCloseClick: () => {
-                this.setState({ isEditing: false });
-                history.goBack();
-            }
-        });
-    }
-
     renderCartItems() {
-        const { products } = this.props;
-        const { isEditing } = this.state;
+        const { products, isEditing } = this.props;
 
         if (!Object.keys(products).length) {
             return (
@@ -209,10 +166,9 @@ class CartPage extends Component {
 }
 
 CartPage.propTypes = {
+    isEditing: PropTypes.bool.isRequired,
     products: PropTypes.objectOf(ProductType),
-    totals: TotalsType,
-    updateBreadcrumbs: PropTypes.func.isRequired,
-    changeHeaderState: PropTypes.func.isRequired
+    totals: TotalsType
 };
 
 CartPage.defaultProps = {

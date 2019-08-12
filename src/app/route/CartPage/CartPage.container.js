@@ -9,10 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import { changeHeaderState } from 'Store/Header';
+import { CART, CART_EDITING } from 'Component/Header';
+import { history } from 'Route';
 
 import CartPage from './CartPage.component';
 
@@ -26,9 +29,11 @@ export const mapDispatchToProps = dispatch => ({
     updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.update(breadcrumbs, dispatch)
 });
 
-export class CartPageContaner extends PureComponent {
+export class CartPageContainer extends PureComponent {
     constructor(props) {
         super(props);
+
+        this.state = { isEditing: false };
 
         this.availableFunctions = {
             updateBreadcrumbs: this.updateBreadcrumbs.bind(this),
@@ -78,12 +83,16 @@ export class CartPageContaner extends PureComponent {
         return (
             <CartPage
               { ...this.props }
+              { ...this.state }
               { ...this.availableFunctions }
             />
         )
     }
 }
 
-const CartPageContainer = connect(mapStateToProps, mapDispatchToProps)(CartPage);
+CartPageContainer.propTypes = {
+    updateBreadcrumbs: PropTypes.func.isRequired,
+    changeHeaderState: PropTypes.func.isRequired
+};
 
-export default CartPageContainer;
+export default connect(mapStateToProps, mapDispatchToProps)(CartPageContainer);
