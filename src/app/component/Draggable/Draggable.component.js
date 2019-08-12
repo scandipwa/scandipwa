@@ -22,8 +22,7 @@ class Draggable extends Component {
             isDragging: false,
             originalX: 0,
             translateX: 0,
-            lastTranslateX: 0,
-            prevActiveSlider: 0
+            lastTranslateX: 0
         };
 
         this.handleMouseDown = this.handleMouseDown.bind(this);
@@ -35,18 +34,9 @@ class Draggable extends Component {
     }
 
     static getDerivedStateFromProps(props, state) {
-        if (props.draggableRef.current !== null) {
-            const { activeSlide } = props;
-            const { prevActiveSlider } = state;
-            const slideSize = props.draggableRef.current.clientWidth;
-
-            if (prevActiveSlider !== activeSlide) {
-                return {
-                    prevActiveSlider: activeSlide,
-                    lastTranslateX: Math.round(slideSize * activeSlide)
-                };
-            }
-        }
+        const { shift } = props;
+        const { lastTranslateX } = state;
+        if (shift !== lastTranslateX) return { lastTranslateX: shift, originalX: 0 };
         return null;
     }
 

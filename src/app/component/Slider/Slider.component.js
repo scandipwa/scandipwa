@@ -32,6 +32,7 @@ class Slider extends Component {
             prevActiveImage: activeImage
         };
 
+        this.sliderWidth = 0;
         this.prevPosition = 0;
         this.draggableRef = React.createRef();
         this.sliderRef = React.createRef();
@@ -45,6 +46,7 @@ class Slider extends Component {
         const { activeImage } = props;
         const { prevActiveImage } = state;
 
+
         if (prevActiveImage !== activeImage) {
             return {
                 activeSlide: -activeImage,
@@ -57,6 +59,8 @@ class Slider extends Component {
 
     componentDidMount() {
         const sliderChildren = this.draggableRef.current.children;
+        const sliderWidth = this.draggableRef.current.offsetWidth;
+        this.sliderWidth = sliderWidth;
 
         sliderChildren[0].onload = () => {
             CSS.setVariable(this.sliderRef, 'slider-height', `${sliderChildren[0].offsetHeight}px`);
@@ -74,7 +78,7 @@ class Slider extends Component {
         const { activeSlide } = this.state;
 
         if (activeImage !== prevActiveImage || prevActiveSlide !== activeSlide) {
-            const newTranslate = activeSlide * this.draggableRef.current.offsetWidth;
+            const newTranslate = activeSlide * this.sliderWidth;
 
             CSS.setVariable(
                 this.draggableRef,
@@ -91,26 +95,26 @@ class Slider extends Component {
     }
 
     onClickChangeSlide(state, slideSize, lastTranslate, fullSliderSize) {
-        const { originalX, prevActiveSlider } = state;
+        const { originalX } = state;
+        const { prevActiveImage: prevActiveSlider } = this.state;
+        const { changeParentActiveImage } = this.props;
 
         const fullSliderPoss = Math.round(fullSliderSize / slideSize);
         const elementPossitionInDOM = this.draggableRef.current.getBoundingClientRect().x;
 
-        const sliderPossition = prevActiveSlider;
+        const sliderPossition = -prevActiveSlider;
         const realElementPossitionInDOM = elementPossitionInDOM - lastTranslate;
         const mousePossitionInElement = originalX - realElementPossitionInDOM;
 
         if (slideSize / 2 < mousePossitionInElement && -fullSliderPoss < sliderPossition) {
             const activeSlide = sliderPossition - 1;
-            this.setState({ activeSlide });
-            this.props.changeParentActiveImage(-activeSlide);
+            changeParentActiveImage(-activeSlide);
             return activeSlide;
         }
 
         if (slideSize / 2 > mousePossitionInElement && lastTranslate) {
             const activeSlide = sliderPossition + 1;
-            this.setState({ activeSlide });
-            this.props.changeParentActiveImage(-activeSlide);
+            changeParentActiveImage(-activeSlide);
             return activeSlide;
         }
 
@@ -118,7 +122,7 @@ class Slider extends Component {
     }
 
     getFullSliderWidth() {
-        const sliderWidth = this.draggableRef.current.offsetWidth;
+        const sliderWidth = this.sliderWidth;
         const fullSliderWidth = this.draggableRef.current.scrollWidth;
         return fullSliderWidth - sliderWidth;
     }
@@ -128,8 +132,9 @@ class Slider extends Component {
             translateX: translate,
             lastTranslateX: lastTranslate
         } = state;
+        const { changeParentActiveImage } = this.props;
 
-        const slideSize = this.draggableRef.current.offsetWidth;
+        const slideSize = this.sliderWidth;
 
         const fullSliderSize = this.getFullSliderWidth();
 
@@ -139,26 +144,26 @@ class Slider extends Component {
 
         if (!translate) return this.onClickChangeSlide(state, slideSize, lastTranslate, fullSliderSize);
 
-        if (translate > 0) return 0;
+        if (translate > 0) {
+            changeParentActiveImage(0);
+            return 0;
+        }
 
         if (translate < -fullSliderSize) {
             const activeSlide = Math.round(fullSliderSize / -slideSize);
-            this.setState({ activeSlide });
-            this.props.changeParentActiveImage(-activeSlide);
+            changeParentActiveImage(-activeSlide);
             return activeSlide;
         }
 
         if (isSlideBack && activeSlidePercent < 0.90) {
             const activeSlide = Math.ceil(activeSlidePosition);
-            this.setState({ activeSlide });
-            this.props.changeParentActiveImage(-activeSlide);
+            changeParentActiveImage(-activeSlide);
             return activeSlide;
         }
 
         if (!isSlideBack && activeSlidePercent > 0.10) {
             const activeSlide = Math.floor(activeSlidePosition);
-            this.setState({ activeSlide });
-            this.props.changeParentActiveImage(-activeSlide);
+            changeParentActiveImage(-activeSlide);
             return activeSlide;
         }
 
@@ -188,7 +193,7 @@ class Slider extends Component {
     handleDragEnd(state, callback) {
         const activeSlide = this.calculateNextSlide(state);
 
-        const slideSize = this.draggableRef.current.offsetWidth;
+        const slideSize = this.sliderWidth;
 
         const newTranslate = activeSlide * slideSize;
 
@@ -255,7 +260,7 @@ class Slider extends Component {
 
     render() {
         const { showCrumbs, mix } = this.props;
-        const { activeSlide } = this.state;
+        const { activeSlide, shift } = this.state;
 
         return (
             <div
@@ -269,7 +274,7 @@ class Slider extends Component {
                   onDragStart={ this.handleDragStart }
                   onDragEnd={ this.handleDragEnd }
                   onDrag={ this.handleDrag }
-                  activeSlide={ activeSlide }
+                  shift={ activeSlide * this.sliderWidth }
                 >
                     { this.renderSlides() }
                 </Draggable>
