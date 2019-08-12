@@ -48,7 +48,9 @@ class CategoryShoppingOptions extends Component {
      */
     getNewFilterArray(filterKey, value) {
         const { customFiltersValues } = this.props;
-        const newFilterArray = Array.from(customFiltersValues[filterKey] || []);
+        const newFilterArray = customFiltersValues[filterKey] !== undefined
+            ? Array.from(customFiltersValues[filterKey])
+            : [];
         const filterValueIndex = newFilterArray.indexOf(value);
 
         if (filterValueIndex === -1) {
@@ -94,12 +96,12 @@ class CategoryShoppingOptions extends Component {
             sortKey,
             sortDirection,
             searchValue,
-            priceValue,
+            priceValue: { min, max },
             minPriceValue,
             maxPriceValue
         } = this.props;
 
-        const isPriceCustom = priceValue.min !== minPriceValue || priceValue.max !== maxPriceValue;
+        const isPriceCustom = min !== minPriceValue || max !== maxPriceValue;
         return Object.keys(customFiltersValues).length > 0
             || searchValue || isPriceCustom || !(sortKey || sortDirection);
     }
@@ -142,45 +144,9 @@ class CategoryShoppingOptions extends Component {
     renderCustomFilters() {
         const { availableFilters, customFiltersValues } = this.props;
 
-        const configurable_options = availableFilters.reduce((co, item) => {
-            const {
-                request_var: attribute_code,
-                name: attribute_label,
-                filter_items
-            } = item;
-
-            // TODO: Remove this hardcoded check, after solving the problem on BE: https://github.com/magento/magento2/blob/89cf888f6f3c7b163702969a8e256f9f0486f6b8/app/code/Magento/Catalog/Model/Layer/FilterList.php#L70
-            if (attribute_code === 'cat') return co;
-
-            const { attribute_values, attribute_options } = filter_items.reduce((attribute, option) => {
-                const { value_string } = option;
-                const { attribute_values, attribute_options } = attribute;
-
-                attribute_values.push(value_string);
-                return {
-                    ...attribute,
-                    attribute_options: {
-                        ...attribute_options,
-                        [+value_string]: option
-                    }
-                };
-            }, { attribute_values: [], attribute_options: {} });
-
-            return {
-                ...co,
-                [attribute_code]: {
-                    attribute_code,
-                    attribute_label,
-                    attribute_values,
-                    attribute_type: 'select',
-                    attribute_options
-                }
-            };
-        }, {});
-
         return (
             <ProductConfigurableAttributes
-              configurable_options={ configurable_options }
+              configurable_options={ availableFilters }
               getLink={ this.getFilterUrl }
               parameters={ customFiltersValues }
               updateConfigurableVariant={ this.updateFilter }

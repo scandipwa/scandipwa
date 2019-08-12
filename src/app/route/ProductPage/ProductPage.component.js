@@ -74,7 +74,9 @@ class ProductPage extends Component {
                 return acc;
             }, {});
 
-        if (Object.keys(parameters).length !== Object.keys(configurable_options).length) return { id, parameters };
+        if (Object.keys(parameters).length !== Object.keys(configurable_options).length) {
+            return { id, parameters };
+        }
 
         const configurableVariantIndex = getVariantIndex(variants, parameters);
         return { id, parameters, configurableVariantIndex };
@@ -162,6 +164,7 @@ class ProductPage extends Component {
         const { requestProduct, location, match } = this.props;
         const options = {
             productUrlPath: getUrlParam(match, location),
+            notRequireInfo: true,
             isSingleProduct: true,
             getConfigurableData: true
         };
@@ -197,6 +200,7 @@ class ProductPage extends Component {
         updateQueryParamWithoutHistory(key, value);
 
         const newIndex = getVariantIndex(variants, parameters);
+
         if (
             Object.keys(parameters).length === Object.keys(configurable_options).length
             && configurableVariantIndex !== newIndex

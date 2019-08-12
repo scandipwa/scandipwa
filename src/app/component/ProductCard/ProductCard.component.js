@@ -75,9 +75,8 @@ class ProductCard extends Component {
      * @return {void}
      */
     getThumbnail(currentVariantIndex) {
-        const { product: { thumbnail = {}, variants = [] } } = this.props;
+        const { product: { thumbnail: { path } = {}, variants = [] } } = this.props;
 
-        const { path } = thumbnail;
         if (variants[currentVariantIndex] === undefined) return path;
         return variants[currentVariantIndex].thumbnail.path;
     }
@@ -135,6 +134,7 @@ class ProductCard extends Component {
     renderAddToWishlistButton(notReady) {
         const { product } = this.props;
         if (notReady) return <TextPlaceholder length="medium" />;
+
         return (
             <ProductWishlistButton
               product={ product }
@@ -174,7 +174,7 @@ class ProductCard extends Component {
             mix
         } = this.props;
 
-        const { brand = {} } = attributes;
+        const { brand: { attribute_value: brand } = {} } = attributes;
         const { index, indexes, parameters } = this.getConfigurableParameters();
         const thumbnail = this.getThumbnail(index);
         const TagName = url_key ? Link : 'div';
@@ -196,7 +196,7 @@ class ProductCard extends Component {
                       showGreyPlaceholder={ !url_key }
                     />
                     <span block="ProductCard" elem="Brand">
-                        <TextPlaceholder content={ brand.attribute_value } />
+                        <TextPlaceholder content={ brand } />
                     </span>
                     <h4><TextPlaceholder content={ name } /></h4>
                     { price && <ProductPrice price={ price } /> }

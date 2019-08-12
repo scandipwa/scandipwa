@@ -30,7 +30,7 @@
             "type": "chrome",
             "request": "launch",
             "name": "Launch Chrome",
-            "url": "http://scandipwa.local/product/n-adidas-originals-pw-tennis-hu",
+            "url": "https://scandipwa.local/",
             "webRoot": "${workspaceFolder}"
         }
     ]

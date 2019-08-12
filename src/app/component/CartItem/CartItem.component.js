@@ -56,11 +56,12 @@ class CartItem extends Component {
 
         const { attributes } = variants[configurableVariantIndex];
 
-        const parameters = Object.entries(attributes)
-            .reduce((parameters, [code, { attribute_value }]) => {
+        const parameters = Object.entries(attributes).reduce(
+            (parameters, [code, { attribute_value }]) => {
                 if (Object.keys(configurable_options).includes(code)) return { ...parameters, [code]: attribute_value };
                 return parameters;
-            }, {});
+            }, {}
+        );
 
         return {
             pathname: `/product/${ url_key }`,
