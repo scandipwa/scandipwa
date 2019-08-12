@@ -1,3 +1,5 @@
+/* eslint-disable react/no-unused-state */
+
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -23,8 +25,13 @@ class Slider extends Component {
     constructor(props) {
         super(props);
 
-        this.state = { activeSlide: 0 };
+        const { activeImage } = this.props;
 
+        this.state = {
+            prevActiveImage: activeImage
+        };
+
+        this.sliderWidth = 0;
         this.prevPosition = 0;
         this.draggableRef = React.createRef();
         this.sliderRef = React.createRef();
@@ -34,8 +41,21 @@ class Slider extends Component {
         this.renderCrumb = this.renderCrumb.bind(this);
     }
 
+    static getDerivedStateFromProps(props, state) {
+        const { activeImage } = props;
+        const { prevActiveImage } = state;
+
+        if (prevActiveImage !== activeImage) {
+            return { prevActiveImage: activeImage };
+        }
+
+        return null;
+    }
+
     componentDidMount() {
         const sliderChildren = this.draggableRef.current.children;
+        const sliderWidth = this.draggableRef.current.offsetWidth;
+        this.sliderWidth = sliderWidth;
 
         sliderChildren[0].onload = () => {
             CSS.setVariable(this.sliderRef, 'slider-height', `${sliderChildren[0].offsetHeight}px`);
@@ -46,70 +66,102 @@ class Slider extends Component {
         }, 300);
     }
 
-    getSlideSize() {
-        const { isVertical } = this.props;
+    componentDidUpdate(prevProps) {
+        const { activeImage: prevActiveImage } = prevProps;
+        const { activeImage } = this.props;
 
-        return isVertical
-            ? this.sliderRef.current.offsetHeight
-            : this.draggableRef.current.offsetWidth;
+        if (activeImage !== prevActiveImage) {
+            const newTranslate = -activeImage * this.sliderWidth;
+
+            CSS.setVariable(
+                this.draggableRef,
+                'animation-speed',
+                `${ Math.abs((prevActiveImage - activeImage) * 300) }ms`
+            );
+
+            CSS.setVariable(
+                this.draggableRef,
+                'translateX',
+                `${newTranslate}px`
+            );
+        }
+    }
+
+    onClickChangeSlide(state, slideSize, lastTranslate, fullSliderSize) {
+        const { originalX } = state;
+        const { prevActiveImage: prevActiveSlider } = this.state;
+        const { changeParentActiveImage } = this.props;
+
+        const fullSliderPoss = Math.round(fullSliderSize / slideSize);
+        const elementPossitionInDOM = this.draggableRef.current.getBoundingClientRect().x;
+
+        const sliderPossition = -prevActiveSlider;
+        const realElementPossitionInDOM = elementPossitionInDOM - lastTranslate;
+        const mousePossitionInElement = originalX - realElementPossitionInDOM;
+
+        if (slideSize / 2 < mousePossitionInElement && -fullSliderPoss < sliderPossition) {
+            const activeSlide = sliderPossition - 1;
+            changeParentActiveImage(-activeSlide);
+            return activeSlide;
+        }
+
+        if (slideSize / 2 > mousePossitionInElement && lastTranslate) {
+            const activeSlide = sliderPossition + 1;
+            changeParentActiveImage(-activeSlide);
+            return activeSlide;
+        }
+
+        return sliderPossition;
     }
 
     getFullSliderWidth() {
-        const sliderWidth = this.draggableRef.current.offsetWidth;
         const fullSliderWidth = this.draggableRef.current.scrollWidth;
-        return fullSliderWidth - sliderWidth;
-    }
-
-    getFullSliderHeight() {
-        const sliderHeight = this.sliderRef.current.offsetHeight;
-        const fullSliderHeight = this.sliderRef.current.scrollHeight;
-        return fullSliderHeight - sliderHeight;
+        return fullSliderWidth - this.sliderWidth;
     }
 
     calculateNextSlide(state) {
         const {
-            translateX,
-            lastTranslateX,
-            translateY,
-            lastTranslateY
+            translateX: translate,
+            lastTranslateX: lastTranslate
         } = state;
+        const { changeParentActiveImage } = this.props;
 
-        const { isVertical } = this.props;
+        const slideSize = this.sliderWidth;
 
-        const translate = isVertical ? translateY : translateX;
-        const lastTranslate = isVertical ? lastTranslateY : lastTranslateX;
-
-        const slideSize = this.getSlideSize();
-
-        const fullSliderSize = isVertical
-            ? this.getFullSliderHeight()
-            : this.getFullSliderWidth();
+        const fullSliderSize = this.getFullSliderWidth();
 
         const activeSlidePosition = translate / slideSize;
         const activeSlidePercent = Math.abs(activeSlidePosition % 1);
         const isSlideBack = translate > lastTranslate;
 
-        if (translate > 0) {
-            return Math.floor(activeSlidePosition);
+        if (!translate) return this.onClickChangeSlide(state, slideSize, lastTranslate, fullSliderSize);
+
+        if (translate >= 0) {
+            changeParentActiveImage(0);
+            return 0;
         }
 
         if (translate < -fullSliderSize) {
-            return Math.ceil(activeSlidePosition);
+            const activeSlide = Math.round(fullSliderSize / -slideSize);
+            changeParentActiveImage(-activeSlide);
+            return activeSlide;
         }
 
         if (isSlideBack && activeSlidePercent < 0.90) {
             const activeSlide = Math.ceil(activeSlidePosition);
-            this.setState({ activeSlide });
+            changeParentActiveImage(-activeSlide);
             return activeSlide;
         }
 
         if (!isSlideBack && activeSlidePercent > 0.10) {
             const activeSlide = Math.floor(activeSlidePosition);
-            this.setState({ activeSlide });
+            changeParentActiveImage(-activeSlide);
             return activeSlide;
         }
 
-        return Math.round(activeSlidePosition);
+        const activeSlide = Math.round(activeSlidePosition);
+        changeParentActiveImage(-activeSlide);
+        return activeSlide;
     }
 
     handleDragStart() {
@@ -117,33 +169,25 @@ class Slider extends Component {
     }
 
     handleDrag(state) {
-        const { isVertical } = this.props;
-        const { translateY, translateX } = state;
+        const { translateX } = state;
 
-        const translate = isVertical ? translateY : translateX;
+        const translate = translateX;
 
-        const fullSliderSize = isVertical
-            ? this.getFullSliderHeight()
-            : this.getFullSliderWidth();
+        const fullSliderSize = this.getFullSliderWidth();
 
         if (translate < 0 && translate > -fullSliderSize) {
             CSS.setVariable(
                 this.draggableRef,
-                isVertical ? 'translateY' : 'translateX',
+                'translateX',
                 `${translate}px`
             );
         }
     }
 
     handleDragEnd(state, callback) {
-        const { isVertical } = this.props;
-        const { translateY, translateX } = state;
-
         const activeSlide = this.calculateNextSlide(state);
 
-        const slideSize = isVertical
-            ? this.sliderRef.current.offsetHeight
-            : this.draggableRef.current.offsetWidth;
+        const slideSize = this.sliderWidth;
 
         const newTranslate = activeSlide * slideSize;
 
@@ -151,35 +195,28 @@ class Slider extends Component {
 
         CSS.setVariable(
             this.draggableRef,
-            isVertical ? 'translateY' : 'translateX',
+            'translateX',
             `${newTranslate}px`
         );
 
-        if (isVertical) {
-            callback({
-                originalX: translateX,
-                originalY: newTranslate,
-                lastTranslateX: translateY,
-                lastTranslateY: newTranslate
-            });
-        } else {
-            callback({
-                originalX: newTranslate,
-                originalY: translateY,
-                lastTranslateX: newTranslate,
-                lastTranslateY: translateY
-            });
-        }
+        callback({
+            originalX: newTranslate,
+            lastTranslateX: newTranslate
+        });
+    }
+
+    changeActiveImage(activeImage) {
+        const { changeParentActiveImage } = this.props;
+        changeParentActiveImage(activeImage);
     }
 
     renderCrumbs() {
-        const { children, isVertical } = this.props;
+        const { children } = this.props;
 
         return (
             <div
               block="Slider"
               elem="Crumbs"
-              mods={ { isVertical, isHorizontal: !isVertical } }
             >
                 { Children.map(children, this.renderCrumb) }
             </div>
@@ -187,37 +224,45 @@ class Slider extends Component {
     }
 
     renderCrumb(_, i) {
-        const { activeSlide } = this.state;
-        const isActive = i === Math.abs(activeSlide);
+        const { activeImage } = this.props;
+        const isActive = i === Math.abs(-activeImage);
 
         return (
-            <div block="Slider" elem="Crumb" mods={ { isActive } } />
+            <button
+              block="Slider"
+              elem="Image"
+              mods={ { type: 'single' } }
+              onClick={ () => this.changeActiveImage(i) }
+            >
+                <div
+                  block="Slider"
+                  elem="Crumb"
+                  mods={ { isActive } }
+                />
+            </button>
         );
     }
 
-    renderSlides() {
-        const { children } = this.props;
-        return Children.map(children, slide => slide);
-    }
-
     render() {
-        const { isVertical, showCrumbs, mix } = this.props;
+        const {
+            showCrumbs, mix, activeImage, children
+        } = this.props;
 
         return (
             <div
               block="Slider"
-              mods={ { isVertical } }
               mix={ mix }
               ref={ this.sliderRef }
             >
                 <Draggable
-                  mix={ { block: 'Slider', elem: 'Wrapper', mods: { isVertical } } }
+                  mix={ { block: 'Slider', elem: 'Wrapper' } }
                   draggableRef={ this.draggableRef }
                   onDragStart={ this.handleDragStart }
                   onDragEnd={ this.handleDragEnd }
                   onDrag={ this.handleDrag }
+                  shiftX={ -activeImage * this.sliderWidth }
                 >
-                    { this.renderSlides() }
+                    { children }
                 </Draggable>
                 { showCrumbs && this.renderCrumbs() }
             </div>
@@ -226,8 +271,9 @@ class Slider extends Component {
 }
 
 Slider.propTypes = {
-    isVertical: PropTypes.bool,
     showCrumbs: PropTypes.bool,
+    activeImage: PropTypes.number,
+    changeParentActiveImage: PropTypes.func.isRequired,
     mix: PropTypes.shape({
         block: PropTypes.string,
         elem: PropTypes.string,
@@ -245,7 +291,7 @@ Slider.propTypes = {
 };
 
 Slider.defaultProps = {
-    isVertical: false,
+    activeImage: 0,
     showCrumbs: false,
     mix: {}
 };
