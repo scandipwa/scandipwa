@@ -12,6 +12,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './ProductAttributeValue.style';
+import { AttributeType } from 'Type/ProductList';
 
 class ProductAttributeValue extends Component {
     constructor(props) {
@@ -181,16 +182,7 @@ class ProductAttributeValue extends Component {
 ProductAttributeValue.propTypes = {
     getLink: PropTypes.func.isRequired,
     onClick: PropTypes.func.isRequired,
-    attribute: PropTypes.shape({
-        attribute_code: PropTypes.string,
-        attribute_type: PropTypes.string,
-        attribute_value: PropTypes.string,
-        attribute_label: PropTypes.string,
-        attribute_options: PropTypes.objectOf(PropTypes.shape({
-            label: PropTypes.string,
-            value: PropTypes.string
-        }))
-    }).isRequired,
+    attribute: AttributeType.isRequired,
     isSelected: PropTypes.bool
 };
 

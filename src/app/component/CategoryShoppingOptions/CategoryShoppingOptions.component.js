@@ -222,7 +222,7 @@ class CategoryShoppingOptions extends Component {
     render() {
         const { availableFilters } = this.props;
         const { optionsVisible } = this.state;
-        const isLoaded = availableFilters && !!availableFilters.length;
+        const isLoaded = availableFilters && !!Object.keys(availableFilters).length;
 
         return (
             <div block="CategoryShoppingOptions" mods={ { optionsVisible } }>
@@ -253,7 +253,7 @@ CategoryShoppingOptions.propTypes = {
     }).isRequired,
     minPriceValue: PropTypes.number.isRequired,
     maxPriceValue: PropTypes.number.isRequired,
-    availableFilters: PropTypes.arrayOf(PropTypes.shape).isRequired,
+    availableFilters: PropTypes.objectOf(PropTypes.shape).isRequired,
     customFiltersValues: PropTypes.objectOf(PropTypes.array).isRequired,
     clearFilters: PropTypes.func.isRequired,
     sortKey: PropTypes.string.isRequired,

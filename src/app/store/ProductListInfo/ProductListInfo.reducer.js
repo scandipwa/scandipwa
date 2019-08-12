@@ -14,15 +14,6 @@ import {
     UPDATE_INFO_LOAD_STATUS
 } from 'Store/ProductListInfo';
 
-const initialState = {
-    totalItems: 0,
-    minPrice: 300,
-    maxPrice: 0,
-    sortFields: {},
-    filters: [],
-    isLoading: true
-};
-
 const reduceFilters = filters => filters.reduce((co, item) => {
     const {
         request_var: attribute_code,
@@ -58,6 +49,15 @@ const reduceFilters = filters => filters.reduce((co, item) => {
         }
     };
 }, {});
+
+const initialState = {
+    totalItems: 0,
+    minPrice: 300,
+    maxPrice: 0,
+    sortFields: {},
+    filters: {},
+    isLoading: true
+};
 
 const ProductListReducer = (state = initialState, action) => {
     const {

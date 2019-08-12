@@ -28,7 +28,7 @@ import {
     convertQueryStringToKeyValuePairs
 } from 'Util/Url';
 import { CategoryTreeType } from 'Type/Category';
-import { PagesType } from 'Type/ProductList';
+import { PagesType, AttributeType } from 'Type/ProductList';
 import './CategoryPage.style';
 
 class CategoryPage extends Component {
@@ -591,7 +591,7 @@ CategoryPage.propTypes = {
     requestProductListInfo: PropTypes.func.isRequired,
     updateBreadcrumbs: PropTypes.func.isRequired,
     updateLoadStatus: PropTypes.func.isRequired,
-    filters: PropTypes.arrayOf(PropTypes.shape).isRequired,
+    filters: PropTypes.objectOf(AttributeType).isRequired,
     sortFields: PropTypes.shape({
         options: PropTypes.array
     }).isRequired,

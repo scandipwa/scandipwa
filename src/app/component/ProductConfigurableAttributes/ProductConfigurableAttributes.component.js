@@ -15,6 +15,7 @@ import ProductAttributeValue from 'Component/ProductAttributeValue';
 import './ProductConfigurableAttributes.style';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import OptionsPlaceholder from 'Component/OptionsPlaceholder';
+import { AttributeType } from 'Type/ProductList';
 
 class ProductConfigurableAttributes extends Component {
     /**
@@ -115,7 +116,7 @@ class ProductConfigurableAttributes extends Component {
 }
 
 ProductConfigurableAttributes.propTypes = {
-    configurable_options: PropTypes.shape({}).isRequired,
+    configurable_options: PropTypes.objectOf(AttributeType).isRequired,
     getLink: PropTypes.func.isRequired,
     parameters: PropTypes.shape({}).isRequired,
     updateConfigurableVariant: PropTypes.func.isRequired,
