@@ -28,7 +28,6 @@ class Slider extends Component {
         const { activeImage } = this.props;
 
         this.state = {
-            activeSlide: -activeImage,
             prevActiveImage: activeImage
         };
 
@@ -46,10 +45,8 @@ class Slider extends Component {
         const { activeImage } = props;
         const { prevActiveImage } = state;
 
-
         if (prevActiveImage !== activeImage) {
             return {
-                activeSlide: -activeImage,
                 prevActiveImage: activeImage
             };
         }
@@ -71,19 +68,17 @@ class Slider extends Component {
         }, 300);
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps) {
         const { activeImage: prevActiveImage } = prevProps;
         const { activeImage } = this.props;
-        const { activeSlide: prevActiveSlide } = prevState;
-        const { activeSlide } = this.state;
 
-        if (activeImage !== prevActiveImage || prevActiveSlide !== activeSlide) {
-            const newTranslate = activeSlide * this.sliderWidth;
+        if (activeImage !== prevActiveImage) {
+            const newTranslate = -activeImage * this.sliderWidth;
 
             CSS.setVariable(
                 this.draggableRef,
                 'animation-speed',
-                `${ Math.abs((prevActiveSlide - activeSlide) * 300) }ms`
+                `${ Math.abs((prevActiveImage - activeImage) * 300) }ms`
             );
 
             CSS.setVariable(
@@ -143,7 +138,7 @@ class Slider extends Component {
 
         if (!translate) return this.onClickChangeSlide(state, slideSize, lastTranslate, fullSliderSize);
 
-        if (translate > 0) {
+        if (translate >= 0) {
             changeParentActiveImage(0);
             return 0;
         }
@@ -166,7 +161,9 @@ class Slider extends Component {
             return activeSlide;
         }
 
-        return Math.round(activeSlidePosition);
+        const activeSlide = Math.round(activeSlidePosition);
+        changeParentActiveImage(-activeSlide);
+        return activeSlide;
     }
 
     handleDragStart() {
@@ -213,10 +210,6 @@ class Slider extends Component {
     changeActiveImage(activeImage) {
         const { changeParentActiveImage } = this.props;
         changeParentActiveImage(activeImage);
-
-        this.setState({
-            activeSlide: -activeImage
-        });
     }
 
     renderCrumbs() {
@@ -233,8 +226,8 @@ class Slider extends Component {
     }
 
     renderCrumb(_, i) {
-        const { activeSlide } = this.state;
-        const isActive = i === Math.abs(activeSlide);
+        const { activeImage } = this.props;
+        const isActive = i === Math.abs(-activeImage);
 
         return (
             <button
@@ -258,8 +251,7 @@ class Slider extends Component {
     }
 
     render() {
-        const { showCrumbs, mix } = this.props;
-        const { activeSlide } = this.state;
+        const { showCrumbs, mix, activeImage } = this.props;
 
         return (
             <div
@@ -273,7 +265,7 @@ class Slider extends Component {
                   onDragStart={ this.handleDragStart }
                   onDragEnd={ this.handleDragEnd }
                   onDrag={ this.handleDrag }
-                  shift={ activeSlide * this.sliderWidth }
+                  shift={ -activeImage * this.sliderWidth }
                 >
                     { this.renderSlides() }
                 </Draggable>

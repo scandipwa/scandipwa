@@ -36,7 +36,7 @@ class Draggable extends Component {
     static getDerivedStateFromProps(props, state) {
         const { shift } = props;
         const { lastTranslateX } = state;
-        if (shift !== lastTranslateX) return { lastTranslateX: shift, originalX: 0 };
+        if (shift !== lastTranslateX) return { lastTranslateX: shift };
         return null;
     }
 
