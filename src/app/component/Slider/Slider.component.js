@@ -122,9 +122,8 @@ class Slider extends Component {
     }
 
     getFullSliderWidth() {
-        const sliderWidth = this.sliderWidth;
         const fullSliderWidth = this.draggableRef.current.scrollWidth;
-        return fullSliderWidth - sliderWidth;
+        return fullSliderWidth - this.sliderWidth;
     }
 
     calculateNextSlide(state) {
@@ -260,7 +259,7 @@ class Slider extends Component {
 
     render() {
         const { showCrumbs, mix } = this.props;
-        const { activeSlide, shift } = this.state;
+        const { activeSlide } = this.state;
 
         return (
             <div
@@ -287,6 +286,7 @@ class Slider extends Component {
 Slider.propTypes = {
     showCrumbs: PropTypes.bool,
     activeImage: PropTypes.number,
+    changeParentActiveImage: PropTypes.func.isRequired,
     mix: PropTypes.shape({
         block: PropTypes.string,
         elem: PropTypes.string,
