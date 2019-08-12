@@ -26,9 +26,9 @@ export class ProductDispatcher extends QueryDispatcher {
     }
 
     onSuccess(data, dispatch) {
-        const { products: { items, total_count } } = data;
+        const { products: { items } } = data;
 
-        if (!total_count) return dispatch(updateNoMatch(true));
+        if (!(items && items.length > 0)) return dispatch(updateNoMatch(true));
 
         const [productItem] = items;
         const product = productItem.type_id === 'grouped'
@@ -44,9 +44,7 @@ export class ProductDispatcher extends QueryDispatcher {
             RelatedProductsDispatcher.clearRelatedProducts(dispatch);
         }
 
-        return (items && items.length > 0)
-            ? dispatch(updateProductDetails(product))
-            : dispatch(updateNoMatch(true));
+        return dispatch(updateProductDetails(product));
     }
 
     onError(_, dispatch) {

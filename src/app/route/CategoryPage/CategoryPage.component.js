@@ -28,7 +28,7 @@ import {
     convertQueryStringToKeyValuePairs
 } from 'Util/Url';
 import { CategoryTreeType } from 'Type/Category';
-import { PagesType, AttributeType } from 'Type/ProductList';
+import { PagesType } from 'Type/ProductList';
 import './CategoryPage.style';
 
 class CategoryPage extends Component {
@@ -179,6 +179,36 @@ class CategoryPage extends Component {
         return search ? decodeURIComponent(search) : '';
     }
 
+    getFilterUrl(filterName, filterArray, isFull = true) {
+        const { location: { pathname } } = this.props;
+        const prevCustomFilters = this.getCustomFiltersFromUrl();
+
+        prevCustomFilters[filterName] = filterArray;
+
+        const customFiltersString = Object.keys(prevCustomFilters)
+            .reduce((accumulator, prevFilterName) => {
+                if (prevCustomFilters[prevFilterName].length) {
+                    const filterValues = prevCustomFilters[prevFilterName].sort().join(',');
+
+                    accumulator.push(`${prevFilterName}:${filterValues}`);
+                }
+
+                return accumulator;
+            }, [])
+            .sort()
+            .join(';');
+
+        let customFilters;
+
+        const hasTrailingSemicolon = customFiltersString[customFiltersString.length - 1] === ';';
+        const hasLeadingSemicolon = customFiltersString[0] === ';';
+
+        customFilters = hasTrailingSemicolon ? customFiltersString.slice(0, -1) : customFiltersString;
+        customFilters = hasLeadingSemicolon ? customFilters.slice(1) : customFilters;
+
+        return `${isFull ? `${pathname}?` : ''}${customFilters}`;
+    }
+
     /**
      * Check if url was changed
      * @return {Boolean}
@@ -314,36 +344,6 @@ class CategoryPage extends Component {
             priceMin: priceRange.min,
             page: ''
         }, location, history);
-    }
-
-    getFilterUrl(filterName, filterArray, isFull = true) {
-        const { location: { pathname } } = this.props;
-        const prevCustomFilters = this.getCustomFiltersFromUrl();
-
-        prevCustomFilters[filterName] = filterArray;
-
-        const customFiltersString = Object.keys(prevCustomFilters)
-            .reduce((accumulator, prevFilterName) => {
-                if (prevCustomFilters[prevFilterName].length) {
-                    const filterValues = prevCustomFilters[prevFilterName].sort().join(',');
-
-                    accumulator.push(`${prevFilterName}:${filterValues}`);
-                }
-
-                return accumulator;
-            }, [])
-            .sort()
-            .join(';');
-
-        let customFilters;
-
-        const hasTrailingSemicolon = customFiltersString[customFiltersString.length - 1] === ';';
-        const hasLeadingSemicolon = customFiltersString[0] === ';';
-
-        customFilters = hasTrailingSemicolon ? customFiltersString.slice(0, -1) : customFiltersString;
-        customFilters = hasLeadingSemicolon ? customFilters.slice(1) : customFilters;
-
-        return `${isFull ? `${pathname}?` : ''}${customFilters}`;
     }
 
     /**
@@ -591,7 +591,7 @@ CategoryPage.propTypes = {
     requestProductListInfo: PropTypes.func.isRequired,
     updateBreadcrumbs: PropTypes.func.isRequired,
     updateLoadStatus: PropTypes.func.isRequired,
-    filters: PropTypes.objectOf(AttributeType).isRequired,
+    filters: PropTypes.objectOf(PropTypes.shape).isRequired,
     sortFields: PropTypes.shape({
         options: PropTypes.array
     }).isRequired,
