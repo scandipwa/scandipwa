@@ -57,7 +57,7 @@ class CategoryPage extends Component {
             updateLoadStatus(true);
         }
 
-        if (this.isNewCategory()) this.requestCategoryWithPageList();
+        if (this.isUpdatedCategory()) this.requestCategoryWithPageList();
     }
 
     componentDidUpdate(prevProps) {
@@ -71,6 +71,12 @@ class CategoryPage extends Component {
         if (this.urlHasChanged(location, prevProps) || categoryIds !== prevCategoryIds) {
             this.requestCategoryWithPageList(this.shouldChangePrdoductListInfo(location, prevProps));
         }
+    }
+
+    componentWillUnmount() {
+        const { location } = this.props;
+        if (!window.categoryPage) window.categoryPage = {};
+        window.categoryPage.location = location;
     }
 
     /**
@@ -295,6 +301,20 @@ class CategoryPage extends Component {
     isNewCategory() {
         const { category } = this.props;
         return category.url_path !== this.getCategoryUrlPath();
+    }
+
+    isUpdatedCategory() {
+        const { location: { pathname, search } } = this.props;
+        const {
+            categoryPage: {
+                location: {
+                    pathname: prevPathname,
+                    search: prevSearch
+                } = {}
+            } = {}
+        } = window;
+
+        return `${pathname}?${search}` !== `${prevPathname}?${prevSearch}`;
     }
 
     /**
