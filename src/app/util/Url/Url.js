@@ -14,10 +14,12 @@
  * @param {String} name
  * @param {String} value
  */
-const updateQueryParamWithoutHistory = (name, value) => {
-    const params = new URLSearchParams(window.location.search);
+const updateQueryParamWithoutHistory = (name, value, history, location) => {
+    const { search, pathname } = location;
+
+    const params = new URLSearchParams(search);
     params.set(name, value);
-    window.history.replaceState({}, '', decodeURIComponent(`${ window.location.pathname }?${ params }`));
+    history.replace(decodeURIComponent(`${ pathname }?${ params }`));
 };
 
 /**

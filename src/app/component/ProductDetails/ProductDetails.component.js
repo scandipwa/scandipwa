@@ -25,6 +25,19 @@ import './ProductDetails.style';
  * @class ProductDetails
  */
 class ProductDetails extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            search: ''
+        };
+    }
+
+    static getDerivedStateFromProps({ search }, { search: stateSearch }) {
+        if (stateSearch !== search) return { search };
+        return {};
+    }
+
     /**
      * Render product SKU only when it's loaded
      */
@@ -81,18 +94,18 @@ class ProductDetails extends Component {
 
     renderReviewSummary() {
         const {
+            search,
             product: { review_summary, url_key },
             product,
-            areDetailsLoaded,
-            configurableVariantIndex
+            areDetailsLoaded
         } = this.props;
 
         if (areDetailsLoaded) {
             const linkTo = url_key
                 ? {
                     pathname: `/product/${ url_key }`,
-                    state: { product, configurableVariantIndex },
-                    search: `?variant=${ configurableVariantIndex }`,
+                    state: { product },
+                    search,
                     hash: '#review-form'
                 }
                 : undefined;
@@ -155,9 +168,14 @@ class ProductDetails extends Component {
 }
 
 ProductDetails.propTypes = {
+    search: PropTypes.string,
     product: ProductType.isRequired,
     configurableVariantIndex: PropTypes.number.isRequired,
     areDetailsLoaded: PropTypes.bool.isRequired
+};
+
+ProductDetails.defaultProps = {
+    search: ''
 };
 
 export default ProductDetails;

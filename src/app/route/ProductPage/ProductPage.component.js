@@ -188,7 +188,7 @@ class ProductPage extends Component {
      * @param {number|string} value
      */
     updateUrl(key, value) {
-        const { product: { variants, configurable_options } } = this.props;
+        const { product: { variants, configurable_options }, location, history } = this.props;
         const { configurableVariantIndex, parameters: oldParameters } = this.state;
 
         const parameters = {
@@ -197,7 +197,7 @@ class ProductPage extends Component {
         };
 
         this.setState({ parameters });
-        updateQueryParamWithoutHistory(key, value);
+        updateQueryParamWithoutHistory(key, value, history, location);
 
         const newIndex = getVariantIndex(variants, parameters);
 
@@ -227,7 +227,7 @@ class ProductPage extends Component {
     }
 
     render() {
-        const { product, product: { variants } } = this.props;
+        const { product, product: { variants }, location: { search } } = this.props;
         const { configurableVariantIndex, parameters } = this.state;
         const dataSource = this.getDataSource();
         const { media_gallery_entries } = dataSource;
@@ -252,6 +252,7 @@ class ProductPage extends Component {
                           areDetailsLoaded={ areDetailsLoaded }
                         />
                         <ProductDetails
+                          search={ search }
                           product={ dataSource }
                           areDetailsLoaded={ areDetailsLoaded }
                           configurableVariantIndex={ configurableVariantIndex }
