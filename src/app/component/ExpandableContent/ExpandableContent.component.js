@@ -17,7 +17,8 @@ class ExpandableContent extends Component {
     renderButton() {
         const { isContentExpanded } = this.props;
         const {
-            heading, subHeading, mix
+            heading, subHeading,
+            mix, toggleExpand
         } = this.props;
 
         return (
@@ -26,7 +27,7 @@ class ExpandableContent extends Component {
               elem="Button"
               mods={ { isContentExpanded } }
               mix={ { ...mix, elem: 'ExpandableContentButton' } }
-              onClick={ this.toggleExpand }
+              onClick={ toggleExpand }
             >
                 <span
                   block="ExpandableContent"
@@ -95,7 +96,8 @@ ExpandableContent.propTypes = {
             PropTypes.bool
         ]))
     }).isRequired,
-    isContentExpanded: PropTypes.bool.isRequired
+    isContentExpanded: PropTypes.bool.isRequired,
+    toggleExpand: PropTypes.func.isRequired
 };
 
 export default ExpandableContent;

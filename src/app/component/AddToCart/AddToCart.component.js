@@ -20,8 +20,12 @@ import './AddToCart.style';
  */
 class AddToCart extends Component {
     render() {
-        const { isLoading } = this.state;
-        const { mix, product: { id } } = this.props;
+        const {
+            mix,
+            product: { id },
+            isLoading,
+            buttonClick
+        } = this.props;
 
         if (!id) {
             return (
@@ -38,7 +42,7 @@ class AddToCart extends Component {
 
         return (
             <button
-              onClick={ () => this.buttonClick() }
+              onClick={ buttonClick }
               block="Button AddToCart"
               mods={ { isLoading } }
               mix={ mix }
@@ -52,6 +56,8 @@ class AddToCart extends Component {
 }
 
 AddToCart.propTypes = {
+    isLoading: PropTypes.bool.isRequired,
+    buttonClick: PropTypes.func.isRequired,
     product: ProductType,
     mix: PropTypes.shape({
         block: PropTypes.string,

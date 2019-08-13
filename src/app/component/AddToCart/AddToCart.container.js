@@ -143,7 +143,6 @@ export class AddToCartContainer extends PureComponent {
 }
 
 AddToCartContainer.propTypes = {
-    isLoading: PropTypes.bool.isRequired,
     quantity: PropTypes.number,
     configurableVariantIndex: PropTypes.number,
     groupedProductQuantity: PropTypes.objectOf(PropTypes.number),

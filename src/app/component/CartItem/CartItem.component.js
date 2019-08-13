@@ -88,7 +88,9 @@ class CartItem extends Component {
         const {
             isEditing,
             isLikeTable,
-            product: { quantity }
+            product: { quantity },
+            handleRemoveItem,
+            handleQtyChange
         } = this.props;
 
         return (
@@ -103,7 +105,7 @@ class CartItem extends Component {
                   name="RemoveItem"
                   elem="Delete"
                   aria-label="Remove item from cart"
-                  onClick={ this.handleRemoveItem }
+                  onClick={ handleRemoveItem }
                 >
                     <span>Delete</span>
                 </button>
@@ -114,7 +116,7 @@ class CartItem extends Component {
                   min={ 1 }
                   mix={ { block: 'CartItem', elem: 'Qty' } }
                   value={ quantity }
-                  onChange={ this.handleQtyChange }
+                  onChange={ handleQtyChange }
                 />
             </div>
         );
@@ -123,7 +125,9 @@ class CartItem extends Component {
     render() {
         const {
             product: { name },
-            isLoading
+            isLoading,
+            getProductLinkTo,
+            getProductThumbnail
         } = this.props;
 
         return (
@@ -131,10 +135,10 @@ class CartItem extends Component {
               block="CartItem"
             >
                 <Loader isLoading={ isLoading } />
-                <Link to={ this.getProductLinkTo() }>
+                <Link to={ getProductLinkTo() }>
                     <figure block="CartItem" elem="Wrapper">
                         <Image
-                          src={ this.getProductThumbnail() }
+                          src={ getProductThumbnail() }
                           mix={ {
                               block: 'CartItem',
                               elem: 'Picture'
@@ -155,7 +159,11 @@ CartItem.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     product: ProductType.isRequired,
     isEditing: PropTypes.bool,
-    isLikeTable: PropTypes.bool
+    isLikeTable: PropTypes.bool,
+    handleRemoveItem: PropTypes.func.isRequired,
+    handleQtyChange: PropTypes.func.isRequired,
+    getProductLinkTo: PropTypes.func.isRequired,
+    getProductThumbnail: PropTypes.func.isRequired
 };
 
 CartItem.defaultProps = {
