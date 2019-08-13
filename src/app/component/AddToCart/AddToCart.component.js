@@ -20,8 +20,11 @@ import './AddToCart.style';
  */
 class AddToCart extends Component {
     render() {
-        const { isLoading } = this.state;
-        const { mix, product: { id } } = this.props;
+        const {
+            mix,
+            product: { id },
+            isLoading
+        } = this.props;
 
         if (!id) {
             return (

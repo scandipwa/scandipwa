@@ -64,11 +64,12 @@ class CartPage extends Component {
     }
 
     renderTotals() {
+        console.log(this.props);
         const {
             totals: {
-                grandTotalPrice,
-                subTotalPrice,
-                taxPrice
+                grandTotalPrice = 0,
+                subTotalPrice = 0,
+                taxPrice = 0
             }
         } = this.props;
 
