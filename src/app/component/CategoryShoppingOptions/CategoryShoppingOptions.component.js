@@ -20,7 +20,6 @@ import CategorySearch from 'Component/CategorySearch';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
 import './CategoryShoppingOptions.style';
-import OptionsPlaceholder from 'Component/OptionsPlaceholder';
 
 /**
  * Category Shopping Options (filters)
@@ -141,11 +140,12 @@ class CategoryShoppingOptions extends Component {
         );
     }
 
-    renderCustomFilters() {
+    renderCustomFilters(isLoaded) {
         const { availableFilters, customFiltersValues } = this.props;
 
         return (
             <ProductConfigurableAttributes
+              isReady={ isLoaded }
               configurable_options={ availableFilters }
               getLink={ this.getFilterUrl }
               parameters={ customFiltersValues }
@@ -186,35 +186,13 @@ class CategoryShoppingOptions extends Component {
         );
     }
 
-    renderPlaceholderOption(amountOfOptions) {
-        return (
-            <li block="CategoryShoppingOptions" elem="FilterBlock">
-                { this.renderFilterTitle() }
-                <OptionsPlaceholder amount={ amountOfOptions } />
-            </li>
-        );
-    }
-
     renderElements(isLoaded) {
         return (
             <ul block="CategoryShoppingOptions" elem="Wrapper">
-                { isLoaded
-                    ? (
-                        <>
-                            { this.renderClearFiltersButton() }
-                            { this.renderSearchBar() }
-                            { this.renderCustomFilters() }
-                            { this.renderPriceFilter() }
-                        </>
-                    )
-                    : (
-                        <>
-                            { this.renderPlaceholderOption(6) }
-                            { this.renderPlaceholderOption(10) }
-                            { this.renderPlaceholderOption(5) }
-                        </>
-                    )
-                }
+                { this.renderClearFiltersButton() }
+                { this.renderSearchBar() }
+                { this.renderCustomFilters(isLoaded) }
+                { this.renderPriceFilter() }
             </ul>
         );
     }

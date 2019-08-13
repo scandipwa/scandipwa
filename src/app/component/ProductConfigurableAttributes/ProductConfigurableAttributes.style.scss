@@ -9,6 +9,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+:root {
+    --option-size: 35px;
+}
+
 .ProductConfigurableAttributes {
     &-Attribute {
         padding-bottom: 1.5rem;
@@ -21,7 +25,7 @@
         flex-wrap: wrap;
 
         & > * {
-            padding: 0 7px 5px 3px;
+            margin: 0 7px 5px 3px;
         }
     }
 
@@ -34,5 +38,13 @@
         @include mobile {
           display: none;
         }
+    }
+
+    &-Placeholder {
+        animation: var(--placeholder-animation);
+        background-image: var(--placeholder-image);
+        background-size: var(--placeholder-size);
+        height: var(--option-size);
+        width: var(--option-size);
     }
 }

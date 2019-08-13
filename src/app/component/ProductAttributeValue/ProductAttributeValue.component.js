@@ -92,7 +92,12 @@ class ProductAttributeValue extends Component {
     }
 
     renderPlaceholder() {
-        return this.renderStringValue();
+        return (
+            <div
+              block="ProductAttributeValue"
+              elem="Placeholder"
+            />
+        );
     }
 
     renderColorValue(color, label) {
@@ -106,10 +111,10 @@ class ProductAttributeValue extends Component {
               value={ label }
               title={ label }
               style={ {
-                  '--swatch-background-color': color,
-                  '--swatch-border-color': isLight ? '#000' : color,
-                  '--swatch-check-mark-background': isLight ? '#000' : '#fff',
-                  '--swatch-is-selected': +isSelected
+                  '--option-background-color': color,
+                  '--option-border-color': isLight ? '#000' : color,
+                  '--option-check-mark-background': isLight ? '#000' : '#fff',
+                  '--option-is-selected': +isSelected
               } }
             />
         );
@@ -163,6 +168,7 @@ class ProductAttributeValue extends Component {
             getLink,
             attribute: { attribute_code, attribute_value }
         } = this.props;
+
         if (attribute_code && !attribute_value) return null;
 
         const href = getLink();

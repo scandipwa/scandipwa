@@ -14,7 +14,6 @@ import PropTypes from 'prop-types';
 import ProductAttributeValue from 'Component/ProductAttributeValue';
 import './ProductConfigurableAttributes.style';
 import TextPlaceholder from 'Component/TextPlaceholder';
-import OptionsPlaceholder from 'Component/OptionsPlaceholder';
 import { AttributeType } from 'Type/ProductList';
 
 class ProductConfigurableAttributes extends Component {
@@ -71,6 +70,25 @@ class ProductConfigurableAttributes extends Component {
         );
     }
 
+    renderPlaceholder() {
+        return (
+            <>
+                <h4 block="ProductConfigurableAttribute" elem="SectionHeading">
+                    <TextPlaceholder length="medium" />
+                </h4>
+                <div block="ProductConfigurableAttribute" elem="AttributesList">
+                    { Array.from(Array(4).keys(), i => (
+                        <div
+                          key={ i }
+                          block="ProductConfigurableAttribute"
+                          elem="Placeholder"
+                        />
+                    )) }
+                </div>
+            </>
+        );
+    }
+
     renderConfigurableAttributes() {
         const { configurable_options } = this.props;
 
@@ -93,15 +111,6 @@ class ProductConfigurableAttributes extends Component {
                 </section>
             );
         });
-    }
-
-    renderPlaceholder() {
-        return (
-            <>
-                <TextPlaceholder />
-                <OptionsPlaceholder amount={ 5 } />
-            </>
-        );
     }
 
     render() {
