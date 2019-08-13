@@ -239,7 +239,7 @@ class ProductActions extends Component {
             hasAvailableFilter,
             (Object.entries(availableFilters).map(([code, option]) => {
                 if (code === 'color') return null;
-                const { label: optionLabel, values } = option;
+                const { label: optionLabel = '', values } = option;
 
                 return (
                     <section

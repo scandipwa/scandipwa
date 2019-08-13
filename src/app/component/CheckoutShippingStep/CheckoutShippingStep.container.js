@@ -18,13 +18,13 @@ import BrowserDatabase from 'Util/BrowserDatabase';
 import { showNotification } from 'Store/Notification';
 import CheckoutShippingStep from './CheckoutShippingStep.component';
 
-const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = dispatch => ({
     showNotification(type, message) {
         dispatch(showNotification(type, message));
     }
 });
 
-const mapStateToProps = state => ({
+export const mapStateToProps = state => ({
     countryList: state.ConfigReducer.countries
 });
 

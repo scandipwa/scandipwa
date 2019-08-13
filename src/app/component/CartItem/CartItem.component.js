@@ -31,6 +31,7 @@ class CartItem extends Component {
                 configurableVariantIndex,
                 variants
             },
+            product,
             isLikeTable
         } = this.props;
 
@@ -44,14 +45,15 @@ class CartItem extends Component {
               elem="Options"
               mods={ { isLikeTable } }
             >
-                { configurable_options.map(({ label, attribute_code, values }) => (
+                { configurable_options.map(({ attribute_code, values }) => (
                     <li
                       key={ attribute_code }
-                      aria-label={ label }
+                      aria-label={ attribute_code }
                       block="CartItem"
                       elem="Option"
                     >
-                        { values.find(({ value_index }) => value_index === currentVariant[attribute_code]).label }
+                        {/* { values.find(({ value_index }) => value_index === currentVariant[attribute_code]).label } */}
+                        { attribute_code }
                     </li>
                 )) }
             </ul>
@@ -60,7 +62,7 @@ class CartItem extends Component {
 
     renderFigureCaption() {
         const {
-            product: { price },
+            product: { name, price },
             isLikeTable
         } = this.props;
 
@@ -88,7 +90,9 @@ class CartItem extends Component {
         const {
             isEditing,
             isLikeTable,
-            product: { quantity }
+            product: { quantity },
+            handleRemoveItem,
+            handleQtyChange
         } = this.props;
 
         return (
@@ -103,7 +107,7 @@ class CartItem extends Component {
                   name="RemoveItem"
                   elem="Delete"
                   aria-label="Remove item from cart"
-                  onClick={ this.handleRemoveItem }
+                  onClick={ handleRemoveItem }
                 >
                     <span>Delete</span>
                 </button>
@@ -114,7 +118,7 @@ class CartItem extends Component {
                   min={ 1 }
                   mix={ { block: 'CartItem', elem: 'Qty' } }
                   value={ quantity }
-                  onChange={ this.handleQtyChange }
+                  onChange={ handleQtyChange }
                 />
             </div>
         );
@@ -123,7 +127,9 @@ class CartItem extends Component {
     render() {
         const {
             product: { name },
-            isLoading
+            isLoading,
+            getProductLinkTo,
+            getProductThumbnail
         } = this.props;
 
         return (
@@ -131,10 +137,10 @@ class CartItem extends Component {
               block="CartItem"
             >
                 <Loader isLoading={ isLoading } />
-                <Link to={ this.getProductLinkTo() }>
+                <Link to={ getProductLinkTo() }>
                     <figure block="CartItem" elem="Wrapper">
                         <Image
-                          src={ this.getProductThumbnail() }
+                          src={ getProductThumbnail() }
                           mix={ {
                               block: 'CartItem',
                               elem: 'Picture'
@@ -155,7 +161,11 @@ CartItem.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     product: ProductType.isRequired,
     isEditing: PropTypes.bool,
-    isLikeTable: PropTypes.bool
+    isLikeTable: PropTypes.bool,
+    handleRemoveItem: PropTypes.func.isRequired,
+    handleQtyChange: PropTypes.func.isRequired,
+    getProductLinkTo: PropTypes.func.isRequired,
+    getProductThumbnail: PropTypes.func.isRequired
 };
 
 CartItem.defaultProps = {

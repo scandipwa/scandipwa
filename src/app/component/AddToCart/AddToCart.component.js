@@ -23,7 +23,8 @@ class AddToCart extends Component {
         const {
             mix,
             product: { id },
-            isLoading
+            isLoading,
+            buttonClick
         } = this.props;
 
         if (!id) {
@@ -41,7 +42,7 @@ class AddToCart extends Component {
 
         return (
             <button
-              onClick={ () => this.buttonClick() }
+              onClick={ buttonClick }
               block="Button AddToCart"
               mods={ { isLoading } }
               mix={ mix }
@@ -55,6 +56,8 @@ class AddToCart extends Component {
 }
 
 AddToCart.propTypes = {
+    isLoading: PropTypes.bool.isRequired,
+    buttonClick: PropTypes.func.isRequired,
     product: ProductType,
     mix: PropTypes.shape({
         block: PropTypes.string,
