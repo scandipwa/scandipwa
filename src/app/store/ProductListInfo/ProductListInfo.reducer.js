@@ -52,8 +52,8 @@ const reduceFilters = filters => filters.reduce((co, item) => {
 
 const initialState = {
     totalItems: 0,
-    minPrice: 0,
-    maxPrice: 300,
+    minPrice: -0,
+    maxPrice: Infinity,
     sortFields: {},
     filters: {},
     isLoading: true
@@ -82,8 +82,8 @@ const ProductListReducer = (state = initialState, action) => {
             filters: reduceFilters(avaliableFilters),
             totalItems,
             sortFields,
-            minPrice: Math.min(stateMinPrice, minPrice),
-            maxPrice: Math.max(stateMaxPrice, maxPrice),
+            minPrice: Math.max(stateMinPrice, minPrice),
+            maxPrice: Math.min(stateMaxPrice, maxPrice),
             isLoading: false
         };
 
