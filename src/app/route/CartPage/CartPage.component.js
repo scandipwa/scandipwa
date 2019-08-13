@@ -22,12 +22,6 @@ import ExpandableContent from 'Component/ExpandableContent';
 import './CartPage.style';
 
 class CartPage extends Component {
-    constructor(props) {
-        super(props);
-
-        this.changeHeaderState = this.changeHeaderState.bind(this);
-    }
-
     renderCartItems() {
         const { products, isEditing } = this.props;
 

@@ -21,36 +21,6 @@ import './ProductPrice.style';
  * @class ProductPrice
  */
 class ProductPrice extends Component {
-    /**
-     * Calculate discount percentage
-     * @param {Number} min minimum price
-     * @param {Number} reg regular price
-     * @return {Nmber} discount percentage
-     */
-    calculateDiscountPercentage(min, reg) {
-        return Math.floor(Math.round((1 - min / reg) * 100));
-    }
-
-    /**
-     * Calculate final price
-     * @param {Number} discount discount percentage
-     * @param {Number} min minimum price
-     * @param {Number} reg regular price
-     * @return {Nmber} final price
-     */
-    calculateFinalPrice(discount, min, reg) {
-        return discount ? min : reg;
-    }
-
-    /**
-     * Calculate final price
-     * @param {Number} price
-     * @return {Nmber} rounded price
-     */
-    roundPrice(price) {
-        return parseFloat(price).toFixed(2);
-    }
-
     render() {
         const { price: { minimalPrice, regularPrice }, mix } = this.props;
 

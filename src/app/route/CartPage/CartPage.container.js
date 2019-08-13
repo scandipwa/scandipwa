@@ -34,11 +34,6 @@ export class CartPageContainer extends PureComponent {
         super(props);
 
         this.state = { isEditing: false };
-
-        this.availableFunctions = {
-            updateBreadcrumbs: this.updateBreadcrumbs.bind(this),
-            changeHeaderState: this.changeHeaderState.bind(this)
-        };
     }
 
     componentDidMount() {
@@ -86,7 +81,7 @@ export class CartPageContainer extends PureComponent {
               { ...this.state }
               { ...this.availableFunctions }
             />
-        )
+        );
     }
 }
 

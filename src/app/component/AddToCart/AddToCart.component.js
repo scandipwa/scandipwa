@@ -19,98 +19,6 @@ import './AddToCart.style';
  * @class AddToCart
  */
 class AddToCart extends Component {
-    constructor(props) {
-        super(props);
-        this.state = { isLoading: false };
-        this.timeOut = null;
-    }
-
-    componentWillUnmount() {
-        clearTimeout(this.timeOut);
-    }
-
-    /**
-     * Switch button text to indicated that product has been added
-     * @return {Promise}
-     */
-    setAnimationTimeout() {
-        return setTimeout(() => {
-            this.timeOut = null;
-            this.setState(({ transition }) => ({ transition: !transition }));
-        }, 1500);
-    }
-
-    afterAdded() {
-        const {
-            showNotification,
-            setQuantityToDefault,
-            productToBeRemovedAfterAdd,
-            removeProductFromWishlist,
-            wishlistItems,
-            product,
-            removeWishlistItem
-        } = this.props;
-
-        showNotification('success', 'Product added to cart!');
-        setQuantityToDefault();
-
-        const { sku, id } = product;
-
-        // for configurable products productToBeRemovedAfterAdd will be saved in state
-        if (removeWishlistItem || (productToBeRemovedAfterAdd === sku && wishlistItems[id])) {
-            removeProductFromWishlist({ product: wishlistItems[id], noMessages: true });
-        }
-
-        this.setState({ isLoading: false });
-    }
-
-    /**
-     * Button click listener
-     * @return {void}
-     */
-    buttonClick() {
-        const {
-            product,
-            configurableVariantIndex,
-            groupedProductQuantity,
-            quantity,
-            addProduct
-        } = this.props;
-        const { variants, type_id } = product;
-
-        this.setState({ isLoading: true });
-
-        if (type_id === 'grouped') {
-            const { items } = product;
-            return Promise.all(items.map((item) => {
-                // TODO: TEST
-                const { product: groupedProductItem } = item;
-                const {
-                    items: deletedItems,
-                    ...parentProduct
-                } = product;
-
-                groupedProductItem.parent = parentProduct;
-
-                return addProduct({
-                    product: groupedProductItem,
-                    quantity: groupedProductQuantity[groupedProductItem.id]
-                });
-            })).then(() => this.afterAdded());
-        }
-        const productToAdd = variants
-            ? {
-                ...product,
-                configurableVariantIndex
-            }
-            : product;
-
-        return addProduct({
-            product: productToAdd,
-            quantity
-        }).then(() => this.afterAdded());
-    }
-
     render() {
         const { isLoading } = this.state;
         const { mix, product: { id } } = this.props;
@@ -145,11 +53,6 @@ class AddToCart extends Component {
 
 AddToCart.propTypes = {
     product: ProductType,
-    quantity: PropTypes.number,
-    configurableVariantIndex: PropTypes.number,
-    groupedProductQuantity: PropTypes.objectOf(PropTypes.number),
-    showNotification: PropTypes.func.isRequired,
-    setQuantityToDefault: PropTypes.func,
     mix: PropTypes.shape({
         block: PropTypes.string,
         elem: PropTypes.string,
@@ -157,24 +60,12 @@ AddToCart.propTypes = {
             PropTypes.string,
             PropTypes.bool
         ]))
-    }),
-    addProduct: PropTypes.func.isRequired,
-    productToBeRemovedAfterAdd: PropTypes.string,
-    removeProductFromWishlist: PropTypes.func.isRequired,
-    wishlistItems: PropTypes.objectOf(ProductType).isRequired,
-    removeWishlistItem: PropTypes.bool,
-    fullWidth: PropTypes.bool
+    })
 };
 
 AddToCart.defaultProps = {
-    quantity: 1,
-    configurableVariantIndex: 0,
-    groupedProductQuantity: {},
-    setQuantityToDefault: () => {},
     product: {},
-    mix: {},
-    productToBeRemovedAfterAdd: '',
-    removeWishlistItem: false
+    mix: {}
 };
 
 export default AddToCart;
