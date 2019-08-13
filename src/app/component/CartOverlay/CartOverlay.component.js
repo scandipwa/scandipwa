@@ -24,6 +24,7 @@ import './CartOverlay.style';
 class CartOverlay extends Component {
     constructor(props) {
         super(props);
+        console.log(this.props);
 
         this.state = { isEditing: false };
 
@@ -31,7 +32,7 @@ class CartOverlay extends Component {
     }
 
     changeHeaderState() {
-        const { changeHeaderState, totals: { count } } = this.props;
+        const { changeHeaderState, totals: { count = 0 } } = this.props;
         const title = `${ count || 0 } Items`;
 
         changeHeaderState({
@@ -70,7 +71,7 @@ class CartOverlay extends Component {
     }
 
     renderTotals() {
-        const { totals: { grandTotalPrice } } = this.props;
+        const { totals: { grandTotalPrice = 0 } } = this.props;
 
         return (
             <dl
@@ -84,7 +85,7 @@ class CartOverlay extends Component {
     }
 
     renderTax() {
-        const { totals: { taxPrice } } = this.props;
+        const { totals: { taxPrice = 0 } } = this.props;
 
         return (
             <dl
