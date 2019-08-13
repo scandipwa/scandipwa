@@ -52,8 +52,8 @@ const reduceFilters = filters => filters.reduce((co, item) => {
 
 const initialState = {
     totalItems: 0,
-    minPrice: 300,
-    maxPrice: 0,
+    minPrice: 0,
+    maxPrice: 300,
     sortFields: {},
     filters: {},
     isLoading: true
