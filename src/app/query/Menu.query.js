@@ -21,22 +21,30 @@ class MenuQuery {
      * @return {Field} Menu query
      * @memberof MenuQuery
      */
-    getQuery(options) {
-        const { menuId } = options;
-
-        const items = new Field('items')
-            .addFieldList([
-                'item_id', 'is_active',
-                'parent_id', 'position', 'title',
-                'item_class', 'icon', 'url', 'url_type',
-                'cms_page_identifier', 'category_id'
-            ]);
-
+    getQuery({ menuId }) {
         return new Field('scandiwebMenu')
             .addArgument('id', 'ID!', menuId)
-            .addFieldList(['menu_id', 'is_active', 'css_class'])
-            .addField(items)
+            .addFieldList(this._getMenuFields())
+            .addField(this._getMenuItemsField())
             .setAlias('menu');
+    }
+
+    _getMenuFields() {
+        return ['menu_id', 'is_active', 'css_class'];
+    }
+
+    _getMenuItemsField() {
+        return new Field('items')
+            .addFieldList(this._getMenuItemFields());
+    }
+
+    _getMenuItemFields() {
+        return [
+            'item_id', 'is_active',
+            'parent_id', 'position', 'title',
+            'item_class', 'icon', 'url', 'url_type',
+            'cms_page_identifier', 'category_id'
+        ];
     }
 }
 

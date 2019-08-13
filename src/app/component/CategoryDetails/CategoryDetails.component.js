@@ -9,8 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react';
 import Html from 'Component/Html';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import Image from 'Component/Image';
@@ -21,7 +20,7 @@ import './CategoryDetails.style';
  * Category details
  * @class CategoryDetails
  */
-class CategoryDetails extends Component {
+class CategoryDetails extends PureComponent {
     renderCategoryName() {
         const { category: { name } } = this.props;
 

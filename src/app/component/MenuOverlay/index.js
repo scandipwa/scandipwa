@@ -9,6 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import MenuOverlay from './MenuOverlay.connect';
+import MenuOverlay from './MenuOverlay.container';
 
 export default MenuOverlay;

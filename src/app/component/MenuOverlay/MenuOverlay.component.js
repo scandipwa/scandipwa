@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -24,7 +25,9 @@ class MenuOverlay extends Component {
     constructor(props) {
         super(props);
 
-        this.state = { activeSubcategory: '' };
+        this.state = {
+            activeMenuItemsStack: []
+        };
 
         this.closeMenuOverlay = this.closeMenuOverlay.bind(this);
     }
@@ -34,20 +37,30 @@ class MenuOverlay extends Component {
         return (items && items[id]) ? items[id].content : '';
     }
 
-    showSubCategory(activeSubcategory) {
+    showSubCategory(e, activeSubcategory) {
+        const { activeMenuItemsStack } = this.state;
         const { changeHeaderState, goToPreviousHeaderState } = this.props;
         const { item_id, title } = activeSubcategory;
 
+        e.stopPropagation();
+
         changeHeaderState({
             name: MENU_SUBCATEGORY,
+            force: true,
             title,
             onBackClick: () => {
-                this.setState({ activeSubcategory: '' });
+                this.setState(({ activeMenuItemsStack }) => {
+                    activeMenuItemsStack.shift();
+                    return activeMenuItemsStack;
+                });
+
                 goToPreviousHeaderState();
             }
         });
 
-        this.setState({ activeSubcategory: item_id });
+        if (!activeMenuItemsStack.includes(item_id)) {
+            this.setState({ activeMenuItemsStack: [item_id, ...activeMenuItemsStack] });
+        }
     }
 
     closeMenuOverlay(e) {
@@ -55,7 +68,7 @@ class MenuOverlay extends Component {
 
         e.stopPropagation();
 
-        this.setState({ activeSubcategory: '' });
+        this.setState({ activeMenuItemsStack: [] });
         hideActiveOverlay();
     }
 
@@ -86,36 +99,11 @@ class MenuOverlay extends Component {
         );
     }
 
-    renderItemList(itemList, itemMods) {
-        return Object.values(itemList).map((item) => {
-            const { item_id, children, url } = item;
-            const childrenArray = Object.values(children);
-
-            return (
-                <li key={ item_id } block="MenuOverlay" elem="Item">
-                    {
-                        childrenArray.length
-                            ? (
-                                <button onClick={ this.showSubCategory.bind(this, item) }>
-                                    { this.renderItemContent(item, itemMods) }
-                                    { this.renderSubCategory(item) }
-                                </button>
-                            ) : (
-                                <Link to={ `/category${url}` } onClick={ this.closeMenuOverlay }>
-                                    { this.renderItemContent(item, itemMods) }
-                                </Link>
-                            )
-                    }
-                </li>
-            );
-        });
-    }
-
-    renderSubCategory(category) {
-        const { activeSubcategory } = this.state;
+    renderSubLevel(category) {
+        const { activeMenuItemsStack } = this.state;
         const { item_id, children } = category;
         const childrenArray = Object.values(children);
-        const isVisible = activeSubcategory === item_id;
+        const isVisible = activeMenuItemsStack.includes(item_id);
         const subcategoryMods = { type: 'subcategory' };
 
         return (
@@ -125,16 +113,57 @@ class MenuOverlay extends Component {
               mods={ { ...subcategoryMods, isVisible } }
             >
                 { childrenArray.map((item) => {
-                    const { url, item_id } = item;
+                    const { url, item_id, children } = item;
+                    const childrenArray = Object.values(children);
 
-                    return (
-                        <Link key={ item_id } to={ `/category${url}` } onClick={ this.closeMenuOverlay }>
-                            { this.renderItemContent(item, subcategoryMods) }
-                        </Link>
+                    return (childrenArray.length
+                        ? (
+                            <div
+                              key={ item_id }
+                              onClick={ e => this.showSubCategory(e, item) }
+                              tabIndex="0"
+                              role="button"
+                            >
+                                { this.renderItemContent(item, subcategoryMods) }
+                                { this.renderSubLevel(item) }
+                            </div>
+                        ) : (
+                            <Link key={ item_id } to={ `/category${url}` } onClick={ this.closeMenuOverlay }>
+                                { this.renderItemContent(item, subcategoryMods) }
+                            </Link>
+                        )
                     );
                 }) }
             </div>
         );
+    }
+
+    renderFirstLevel(itemList, itemMods) {
+        return Object.values(itemList).map((item) => {
+            const { item_id, children, url } = item;
+            const childrenArray = Object.values(children);
+
+            return (
+                <li key={ item_id } block="MenuOverlay" elem="Item">
+                    { childrenArray.length
+                        ? (
+                            <div
+                              onClick={ e => this.showSubCategory(e, item) }
+                              tabIndex="0"
+                              role="button"
+                            >
+                                { this.renderItemContent(item, itemMods) }
+                                { this.renderSubLevel(item) }
+                            </div>
+                        ) : (
+                            <Link to={ `/category${url}` } onClick={ this.closeMenuOverlay }>
+                                { this.renderItemContent(item, itemMods) }
+                            </Link>
+                        )
+                    }
+                </li>
+            );
+        });
     }
 
     renderAdditionalInformation() {
@@ -142,12 +171,12 @@ class MenuOverlay extends Component {
             <aside block="MenuOverlay" elem="AdditionalInformation">
                 <h3 block="MenuOverlay" elem="PageLink">
                     <Link to="/page/about-us" onClick={ this.closeMenuOverlay }>
-                        ABOUT US
+                        { __('ABOUT US') }
                     </Link>
                 </h3>
                 <h3 block="MenuOverlay" elem="PageLink">
                     <Link to="/page/about-us" onClick={ this.closeMenuOverlay }>
-                        CONTACTS
+                    { __('CONTACTS') }
                     </Link>
                 </h3>
                 <div block="MenuOverlay" elem="Social">
@@ -157,7 +186,7 @@ class MenuOverlay extends Component {
         );
     }
 
-    renderMainCategory() {
+    renderTopLevel() {
         const { menu } = this.props;
         const categoryArray = Object.values(menu);
 
@@ -173,19 +202,13 @@ class MenuOverlay extends Component {
 
         return (
             <div block="MenuOverlay" elem="Menu">
-                <Link
-                  className="MenuOverlay-Banner"
-                  to="/category/women"
-                >
-                    <Html content={ this.getItemContent('imagine-banner') } />
-                </Link>
                 <ul
                   block="MenuOverlay"
                   elem="ItemList"
                   mods={ mainMods }
                   aria-label={ mainCategoriesTitle }
                 >
-                    { this.renderItemList(mainCategories, mainMods) }
+                    { this.renderFirstLevel(mainCategories, mainMods) }
                 </ul>
                 <ul
                   block="MenuOverlay"
@@ -196,7 +219,7 @@ class MenuOverlay extends Component {
                     <li block="MenuOverlay" elem="ItemListHeading">
                         { trendingCategoriesTitle }
                     </li>
-                    { this.renderItemList(trendingCategories, trendingMods) }
+                    { this.renderFirstLevel(trendingCategories, trendingMods) }
                 </ul>
                 { this.renderAdditionalInformation() }
             </div>
@@ -209,7 +232,7 @@ class MenuOverlay extends Component {
               id="menu"
               mix={ { block: 'MenuOverlay' } }
             >
-                { this.renderMainCategory() }
+                { this.renderTopLevel() }
             </Overlay>
         );
     }

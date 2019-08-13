@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import './ContentWrapper.style';
 
@@ -17,11 +17,12 @@ import './ContentWrapper.style';
  * Content Wrapper
  * @class ContentWrapper
  */
-class ContentWrapper extends Component {
+class ContentWrapper extends PureComponent {
     render() {
         const {
             children, mix, wrapperMix, label
         } = this.props;
+
         return (
             <section mix={ mix } aria-label={ label }>
                 <div block="ContentWrapper" mix={ wrapperMix }>

@@ -10,7 +10,7 @@
  */
 
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import CategoryFilterOverlay from 'Component/CategoryFilterOverlay';
 import CategoryProductList from 'Component/CategoryProductList';
 import CategoryPagination from 'Component/CategoryPagination';
@@ -19,11 +19,24 @@ import CategoryDetails from 'Component/CategoryDetails';
 import ContentWrapper from 'Component/ContentWrapper';
 import CategorySort from 'Component/CategorySort';
 import { CategoryTreeType } from 'Type/Category';
-import { PagesType } from 'Type/ProductList';
+import { PagesType, FilterType } from 'Type/ProductList';
 import Meta from 'Component/Meta';
 import './CategoryPage.style';
 
-class CategoryPage extends Component {
+class CategoryPage extends PureComponent {
+    constructor(props) {
+        super(props);
+
+        this.onFilterButtonClick = this.onFilterButtonClick.bind(this);
+    }
+
+    onFilterButtonClick() {
+        const { toggleOverlayByKey, changeHeaderState } = this.props;
+
+        toggleOverlayByKey('category-filter');
+        changeHeaderState({ name: 'filter', title: __('Filters') });
+    }
+
     renderItemCount() {
         const { totalItems, isInfoLoading } = this.props;
 
@@ -41,21 +54,21 @@ class CategoryPage extends Component {
 
     renderProductList() {
         const {
-            pages, isInfoLoading,
-            requestNextPage, getSelectedFiltersFromUrl,
-            getPageParams, updatePage,
-            isPagesLoading
+            pages,
+            isInfoLoading,
+            requestNextPage,
+            updatePage,
+            isPagesLoading,
+            pageParams: { totalPages },
+            selectedFilters
         } = this.props;
-
-        const customFilters = getSelectedFiltersFromUrl();
-        const { totalPages } = getPageParams();
 
         return (
             <CategoryProductList
               pages={ pages }
               isLoading={ isInfoLoading || isPagesLoading }
               totalPages={ totalPages }
-              selectedFilters={ customFilters }
+              selectedFilters={ selectedFilters }
               loadPage={ requestNextPage }
               updatePage={ updatePage }
             />
@@ -73,16 +86,11 @@ class CategoryPage extends Component {
     }
 
     renderFilterButton() {
-        const { toggleOverlayByKey, changeHeaderState } = this.props;
-
         return (
             <button
               block="CategoryPage"
               elem="Filter"
-              onClick={ () => {
-                  toggleOverlayByKey('category-filter');
-                  changeHeaderState({ name: 'filter', title: 'Filters' });
-              } }
+              onClick={ this.onFilterButtonClick }
             >
                 { __('Filter') }
             </button>
@@ -91,19 +99,22 @@ class CategoryPage extends Component {
 
     renderFilterOverlay() {
         const {
-            minPriceRange, maxPriceRange,
-            filters, getSelectedFiltersFromUrl,
-            getPriceRangeFromUrl,
-            updatePriceRange, updateFilter
+            minPriceRange,
+            maxPriceRange,
+            filters,
+            selectedFilters,
+            selectedPriceRange,
+            updatePriceRange,
+            updateFilter
         } = this.props;
 
         return (
             <CategoryFilterOverlay
               availableFilters={ filters }
-              customFiltersValues={ getSelectedFiltersFromUrl() }
+              customFiltersValues={ selectedFilters }
               updateFilter={ updateFilter }
               updatePriceRange={ updatePriceRange }
-              priceValue={ getPriceRangeFromUrl() }
+              priceValue={ selectedPriceRange }
               minPriceValue={ minPriceRange }
               maxPriceValue={ maxPriceRange }
             />
@@ -111,10 +122,10 @@ class CategoryPage extends Component {
     }
 
     renderCategorySort() {
-        const { sortFields, getSortFromUrl, onSortChange } = this.props;
+        const { sortFields, selectedSort, onSortChange } = this.props;
         const { options = {} } = sortFields;
         const updatedSortFields = Object.values(options).map(({ value: id, label }) => ({ id, label }));
-        const { sortDirection, sortKey } = getSortFromUrl();
+        const { sortDirection, sortKey } = selectedSort;
 
         return (
             <CategorySort
@@ -128,19 +139,16 @@ class CategoryPage extends Component {
 
     renderCategoryPagination() {
         const {
-            category, requestPage,
-            location, history,
-            isInfoLoading, getPageParams
+            category,
+            requestPage,
+            isInfoLoading,
+            pageParams: { totalPages, currentPage }
         } = this.props;
 
         if (isInfoLoading) return null;
 
-        const { totalPages, currentPage } = getPageParams();
-
         return (
             <CategoryPagination
-              history={ history }
-              location={ location }
               category={ category }
               totalPages={ totalPages }
               currentPage={ currentPage }
@@ -195,20 +203,32 @@ CategoryPage.propTypes = {
     sortFields: PropTypes.shape({
         options: PropTypes.array
     }).isRequired,
+    selectedSort: PropTypes.shape({
+        sortDirection: PropTypes.oneOf([
+            'ASC',
+            'DESC'
+        ]),
+        sortKey: PropTypes.string
+    }).isRequired,
+    selectedPriceRange: PropTypes.shape({
+        min: PropTypes.number,
+        max: PropTypes.number
+    }).isRequired,
+    pageParams: PropTypes.shape({
+        totalPages: PropTypes.number,
+        currentPage: PropTypes.number
+    }).isRequired,
     isInfoLoading: PropTypes.bool.isRequired,
     isPagesLoading: PropTypes.bool.isRequired,
     onSortChange: PropTypes.func.isRequired,
-    getPageParams: PropTypes.func.isRequired,
-    getPriceRangeFromUrl: PropTypes.func.isRequired,
-    getSelectedFiltersFromUrl: PropTypes.func.isRequired,
     requestPage: PropTypes.func.isRequired,
     requestNextPage: PropTypes.func.isRequired,
     updateFilter: PropTypes.func.isRequired,
     updatePriceRange: PropTypes.func.isRequired,
     updatePage: PropTypes.func.isRequired,
-    getSortFromUrl: PropTypes.func.isRequired,
     toggleOverlayByKey: PropTypes.func.isRequired,
-    changeHeaderState: PropTypes.func.isRequired
+    changeHeaderState: PropTypes.func.isRequired,
+    selectedFilters: FilterType.isRequired
 };
 
 export default CategoryPage;

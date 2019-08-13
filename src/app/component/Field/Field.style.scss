@@ -9,11 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-$select-width: 160px;
-$select-height: 45px;
-$select-option-height: 36px;
-$select-arrow-height: 6px;
-$select-arrow-width: 6px;
+$select-width: 160px !default;
+$select-height: 45px !default;
+$select-option-height: 36px !default;
+$select-arrow-height: 6px !default;
+$select-arrow-width: 6px !default;
 
 :root {
     --select-option-background: #fff;
@@ -99,10 +99,11 @@ $select-arrow-width: 6px;
             border-style: solid;
             border-color: transparent;
 
-            overflow: scroll;
+            overflow-y: scroll;
             transition: 200ms max-height;
             will-change: max-height;
             max-height: 0;
+            -webkit-overflow-scrolling: touch;
 
             &_isExpanded {
                 @include after-mobile {

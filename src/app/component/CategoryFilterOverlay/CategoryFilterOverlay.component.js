@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import ExpandableContent from 'Component/ExpandableContent';
 import Overlay from 'Component/Overlay';
@@ -17,11 +17,13 @@ import Swatch from 'Component/Swatch';
 import RangeSelector from 'Component/RangeSelector';
 import './CategoryFilterOverlay.style';
 
-class CategoryFilterOverlay extends Component {
+class CategoryFilterOverlay extends PureComponent {
     renderPriceRange() {
         const {
-            updatePriceRange, priceValue,
-            minPriceValue, maxPriceValue
+            updatePriceRange,
+            priceValue,
+            minPriceValue,
+            maxPriceValue
         } = this.props;
 
         const { min, max } = priceValue;
@@ -46,10 +48,12 @@ class CategoryFilterOverlay extends Component {
         );
     }
 
-    renderFilterItems(requestVar, filterItems, appliedFilters) {
-        const { toggleCustomFilter } = this.props;
+    renderFilterItems(filter) {
+        const { toggleCustomFilter, getAppliedFilterItems } = this.props;
+        const { request_var, filter_items } = filter;
+        const appliedFilters = getAppliedFilterItems(filter);
 
-        return filterItems.map((filterItem) => {
+        return filter_items.map((filterItem) => {
             const { value_string } = filterItem;
 
             return (
@@ -57,9 +61,9 @@ class CategoryFilterOverlay extends Component {
                     <Swatch
                       mix={ { block: 'CategoryFilterOverlay', elem: 'Item' } }
                       filterItem={ filterItem }
-                      requestVar={ requestVar }
+                      requestVar={ request_var }
                       isSelected={ appliedFilters.indexOf(value_string) !== -1 }
-                      onClick={ () => toggleCustomFilter(requestVar, value_string) }
+                      onClick={ () => toggleCustomFilter(request_var, value_string) }
                     />
                 </li>
             );
@@ -67,10 +71,9 @@ class CategoryFilterOverlay extends Component {
     }
 
     renderFilter(filter) {
-        const { getAppliedFilterItems, getAppliedFilterItemsString } = this.props;
-        const { name, request_var: requestVar, filter_items: filterItems } = filter;
+        const { getAppliedFilterItemsString } = this.props;
+        const { name, request_var: requestVar } = filter;
         const appliedFilterItemsString = getAppliedFilterItemsString(filter);
-        const appliedFilterItems = getAppliedFilterItems(filter);
 
         return (
             <ExpandableContent
@@ -84,7 +87,7 @@ class CategoryFilterOverlay extends Component {
               } }
             >
                 <ul block="CategoryFilterOverlay" elem="ItemList" mods={ { type: requestVar } }>
-                    { this.renderFilterItems(requestVar, filterItems, appliedFilterItems) }
+                    { this.renderFilterItems(filter) }
                 </ul>
             </ExpandableContent>
         );

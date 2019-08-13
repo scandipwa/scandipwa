@@ -9,6 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import CategorySort from './CategorySort.component';
+import CategorySort from './CategorySort.container';
 
 export default CategorySort;

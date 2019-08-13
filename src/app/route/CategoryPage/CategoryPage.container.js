@@ -78,20 +78,23 @@ export class CategoryPageContainer extends PureComponent {
             sortDirection: 'ASC'
         };
 
-        this.availableFunctions = {
+        this.containerFunctions = {
             onSortChange: this.onSortChange.bind(this),
-            getPageParams: this.getPageParams.bind(this),
-            isNewCategory: this._isNewCategory.bind(this),
-            getPriceRangeFromUrl: this.getPriceRangeFromUrl.bind(this),
-            getSelectedFiltersFromUrl: this.getSelectedFiltersFromUrl.bind(this),
+            isNewCategory: this.isNewCategory.bind(this),
             requestPage: this.requestPage.bind(this),
             requestNextPage: this.requestNextPage.bind(this),
             updateFilter: this.updateFilter.bind(this),
             updatePriceRange: this.updatePriceRange.bind(this),
-            updatePage: this.updatePage.bind(this),
-            getSortFromUrl: this.getSortFromUrl.bind(this)
+            updatePage: this.updatePage.bind(this)
             // clearFilters: this._clearFilters.bind(this),
         };
+
+        this.containerProps = () => ({
+            pageParams: this._getPageParams(),
+            selectedFilters: this._getSelectedFiltersFromUrl(),
+            selectedSort: this._getSelectedSortFromUrl(),
+            selectedPriceRange: this._getSelectedPriceRangeFromUrl()
+        });
     }
 
     componentDidMount() {
@@ -100,7 +103,7 @@ export class CategoryPageContainer extends PureComponent {
         if (isOnlyPlaceholder) updateLoadStatus(true);
 
         // request data only if URL does not match loaded category
-        if (this._isNewCategory()) {
+        if (this.isNewCategory()) {
             this._requestCategoryWithPageList();
             updateBreadcrumbs({});
         } else {
@@ -128,24 +131,90 @@ export class CategoryPageContainer extends PureComponent {
         setQueryParams({ sortDirection }, location, history);
     }
 
-    getSearchParam() {
+    updateSearch(value) {
+        const { location, history } = this.props;
+
+        setQueryParams({
+            search: value,
+            page: ''
+        }, location, history);
+    }
+
+    updatePage(pageNumber) {
+        const { location, history } = this.props;
+
+        setQueryParams({
+            page: pageNumber === 1 ? '' : pageNumber
+        }, location, history);
+    }
+
+    updatePriceRange(priceRange) {
+        const { location, history } = this.props;
+
+        setQueryParams({
+            priceMax: priceRange.max,
+            priceMin: priceRange.min,
+            page: ''
+        }, location, history);
+    }
+
+    updateFilter(filterName, filterArray) {
+        const { location, history } = this.props;
+        const prevCustomFilters = this._getSelectedFiltersFromUrl();
+
+        prevCustomFilters[filterName] = filterArray;
+
+        const customFiltersString = Object.entries(prevCustomFilters)
+            .reduce((acc, [name, values]) => (!values.length
+                ? acc
+                : [...acc, `${ name }:${ values.sort().join(',') }`]
+            ), []).sort().join(';');
+
+        let customFilters;
+
+        const hasTrailingSemicolon = customFiltersString[customFiltersString.length - 1] === ';';
+        const hasLeadingSemicolon = customFiltersString[0] === ';';
+
+        customFilters = hasTrailingSemicolon ? customFiltersString.slice(0, -1) : customFiltersString;
+        customFilters = hasLeadingSemicolon ? customFilters.slice(1) : customFilters;
+
+        setQueryParams({
+            customFilters,
+            page: ''
+        }, location, history);
+    }
+
+    requestPage(pageNumber, isNext = false) {
+        const { requestProductList } = this.props;
+        requestProductList(this._getProductListOptions(pageNumber || 1, isNext));
+    }
+
+    requestNextPage(pageNumber) {
+        this.requestPage(pageNumber, true);
+    }
+
+    isNewCategory() {
+        const { category: { url_path } = {} } = this.props;
+        return url_path !== this._getCategoryUrlPath();
+    }
+
+    _getSearchParam() {
         const search = getQueryParam('search', location);
         return search ? decodeURIComponent(search) : '';
     }
 
-    getPageParams() {
-        const { totalItems, pages } = this.props;
+    _getPageParams() {
+        const { totalItems } = this.props;
         const { pageSize } = this.config;
         const pageFromUrl = getQueryParam('page', location) || 1;
 
         const totalPages = Math.ceil(totalItems / pageSize);
         const currentPage = parseInt(totalPages < pageFromUrl ? totalPages : pageFromUrl, 10);
-        const productsLoaded = Object.values(pages).reduce((accumulator, page = []) => accumulator + page.length, 0);
 
-        return { totalPages, currentPage, productsLoaded };
+        return { totalPages, currentPage };
     }
 
-    getPriceRangeFromUrl() {
+    _getSelectedPriceRangeFromUrl() {
         const { location } = this.props;
         const { defaultPriceRange: { min, max } } = this.config;
         const priceMinFromUrl = getQueryParam('priceMin', location);
@@ -153,7 +222,7 @@ export class CategoryPageContainer extends PureComponent {
         return { min: +priceMinFromUrl || min, max: +priceMaxFromUrl || max };
     }
 
-    getSelectedFiltersFromUrl() {
+    _getSelectedFiltersFromUrl() {
         const { location } = this.props;
         const selectedFiltersString = (getQueryParam('customFilters', location) || '').split(';');
         return selectedFiltersString.reduce((acc, filter) => {
@@ -163,7 +232,7 @@ export class CategoryPageContainer extends PureComponent {
         }, {});
     }
 
-    getSortFromUrl() {
+    _getSelectedSortFromUrl() {
         const { location } = this.props;
         const { sortKey: defaultSortKey, sortDirection: defaultSortDirection } = this.config;
         const sortDirection = getQueryParam('sortDirection', location) || defaultSortDirection;
@@ -182,10 +251,10 @@ export class CategoryPageContainer extends PureComponent {
         const { pageSize } = this.config;
 
         const categoryUrlPath = !categoryIds ? this._getCategoryUrlPath() : null;
-        const customFilters = this.getSelectedFiltersFromUrl();
-        const priceRange = this.getPriceRangeFromUrl();
-        const search = this.getSearchParam();
-        const sort = this.getSortFromUrl();
+        const customFilters = this._getSelectedFiltersFromUrl();
+        const priceRange = this._getSelectedPriceRangeFromUrl();
+        const search = this._getSearchParam();
+        const sort = this._getSelectedSortFromUrl();
 
         return {
             categoryIds,
@@ -221,71 +290,9 @@ export class CategoryPageContainer extends PureComponent {
         });
     }
 
-    updateSearch(value) {
-        const { location, history } = this.props;
-
-        setQueryParams({
-            search: value,
-            page: ''
-        }, location, history);
-    }
-
-    updatePage(pageNumber) {
-        const { location, history } = this.props;
-
-        setQueryParams({
-            page: pageNumber === 1 ? '' : pageNumber
-        }, location, history);
-    }
-
-    updatePriceRange(priceRange) {
-        const { location, history } = this.props;
-
-        setQueryParams({
-            priceMax: priceRange.max,
-            priceMin: priceRange.min,
-            page: ''
-        }, location, history);
-    }
-
-    updateFilter(filterName, filterArray) {
-        const { location, history } = this.props;
-        const prevCustomFilters = this.getSelectedFiltersFromUrl();
-
-        prevCustomFilters[filterName] = filterArray;
-
-        const customFiltersString = Object.entries(prevCustomFilters)
-            .reduce((acc, [name, values]) => (!values.length
-                ? acc
-                : [...acc, `${ name }:${ values.sort().join(',') }`]
-            ), []).sort().join(';');
-
-        let customFilters;
-
-        const hasTrailingSemicolon = customFiltersString[customFiltersString.length - 1] === ';';
-        const hasLeadingSemicolon = customFiltersString[0] === ';';
-
-        customFilters = hasTrailingSemicolon ? customFiltersString.slice(0, -1) : customFiltersString;
-        customFilters = hasLeadingSemicolon ? customFilters.slice(1) : customFilters;
-
-        setQueryParams({
-            customFilters,
-            page: ''
-        }, location, history);
-    }
-
-    requestCategoryProductsInfo() {
+    _requestCategoryProductsInfo() {
         const { requestProductListInfo } = this.props;
         requestProductListInfo(this._getProductListOptions(1, false));
-    }
-
-    requestPage(pageNumber, isNext = false) {
-        const { requestProductList } = this.props;
-        requestProductList(this._getProductListOptions(pageNumber || 1, isNext));
-    }
-
-    requestNextPage(pageNumber) {
-        this.requestPage(pageNumber, true);
     }
 
     _requestCategory() {
@@ -303,15 +310,10 @@ export class CategoryPageContainer extends PureComponent {
         this._requestCategory();
 
         if (shouldRequestProductListInfo) {
-            this.requestCategoryProductsInfo();
+            this._requestCategoryProductsInfo();
         }
 
         this.requestPage(getQueryParam('page', location) || 1);
-    }
-
-    _isNewCategory() {
-        const { category: { url_path } = {} } = this.props;
-        return url_path !== this._getCategoryUrlPath();
     }
 
     _compareQueriesWithFilter(search, prevSearch, filter) {
@@ -333,7 +335,7 @@ export class CategoryPageContainer extends PureComponent {
     }
 
     _shouldChangeProductListInfo({ search }, { location: { search: prevSearch } }) {
-        return this._isNewCategory() || !this._compareQueriesWithoutSort(search, prevSearch);
+        return this.isNewCategory() || !this._compareQueriesWithoutSort(search, prevSearch);
     }
 
     _urlHasChanged(location, prevProps) {
@@ -361,7 +363,8 @@ export class CategoryPageContainer extends PureComponent {
         return (
             <CategoryPage
               { ...this.props }
-              { ...this.availableFunctions }
+              { ...this.containerFunctions }
+              { ...this.containerProps() }
             />
         );
     }

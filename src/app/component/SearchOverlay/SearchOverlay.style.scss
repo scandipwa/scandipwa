@@ -132,9 +132,12 @@
         font-size: 1.1rem;
         font-weight: 600;
         max-width: calc(100vw - 7rem);
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
+
+        &_isLoaded {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
 
         @include after-mobile {
             max-width: calc(100% - 7rem);

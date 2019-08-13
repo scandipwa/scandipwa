@@ -42,13 +42,6 @@ export class CategoryDispatcher extends QueryDispatcher {
         }
     }
 
-    /**
-     * Prepare Category query
-     * @param  {{search: String, categoryIds: Array<String|Number>, categoryUrlPath: String, activePage: Number, priceRange: {min: Number, max: Number}, sortKey: String, sortDirection: String, productPageSize: Number}} options A object containing different aspects of query, each item can be omitted
-     * @param {Function} dispatch
-     * @return {Query} Category query
-     * @memberof CategoryDispatcher
-     */
     prepareRequest(options) {
         return CategoryQuery.getQuery(options);
     }

@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import Field from 'Component/Field';
@@ -19,7 +19,7 @@ import './CategorySort.style';
  * Product Sort
  * @class ProductSort
  */
-class CategorySort extends Component {
+class CategorySort extends PureComponent {
     constructor(props) {
         super(props);
 
@@ -33,81 +33,39 @@ class CategorySort extends Component {
         onSortChange(direction, key);
     }
 
-
-    prepareOptions() {
-        const { sortFields } = this.props;
-
-        if (!sortFields) return null;
-
-        const selectOptions = sortFields.reduce((acc, option) => {
-            const { id, label } = option;
-            let ascLabel = label.split(' ')[0];
-            let descLabel = label.split(' ')[0];
-
-            switch (id) {
-            case 'size':
-                return acc;
-            case 'position':
-                return acc;
-            case 'price':
-                ascLabel += ': Low to High';
-                descLabel += ': High to Low';
-                break;
-            case 'name':
-                ascLabel += ': A to Z';
-                descLabel += ': Z to A';
-                break;
-            default:
-                break;
-            }
-
-            const ascOption = {
-                id: `ASC ${id}`,
-                name: id,
-                value: `ASC ${id}`,
-                label: ascLabel
-            };
-
-            const descOption = {
-                id: `DESC ${id}`,
-                name: id,
-                value: `DESC ${id}`,
-                label: descLabel
-            };
-
-            return [...acc, ascOption, descOption];
-        }, []);
-
-        return selectOptions;
-    }
-
     renderPlaceholder() {
         return (
-            <div block="CategorySort">
-                <p block="CategorySort" elem="Placeholder">
-                    <TextPlaceholder length="short" />
-                </p>
-            </div>
+            <p block="CategorySort" elem="Placeholder">
+                <TextPlaceholder length="short" />
+            </p>
         );
     }
 
-    render() {
-        const { sortKey, sortDirection, sortFields } = this.props;
+    renderSortField() {
+        const {
+            sortKey, sortDirection, sortFields, selectOptions
+        } = this.props;
 
         if (!sortFields.length) return this.renderPlaceholder();
 
         return (
+            <Field
+              id="category-sort"
+              name="category-sort"
+              type="select"
+              label="SORT"
+              mix={ { block: 'CategorySort', elem: 'Select' } }
+              selectOptions={ selectOptions }
+              value={ `${sortDirection} ${sortKey}` }
+              onChange={ this.onChange }
+            />
+        );
+    }
+
+    render() {
+        return (
             <div block="CategorySort">
-                <Field
-                  id="category-sort"
-                  name="category-sort"
-                  type="select"
-                  label="SORT"
-                  mix={ { block: 'CategorySort', elem: 'Select' } }
-                  selectOptions={ this.prepareOptions() }
-                  value={ `${sortDirection} ${sortKey}` }
-                  onChange={ this.onChange }
-                />
+                { this.renderSortField() }
             </div>
         );
     }
@@ -117,6 +75,18 @@ CategorySort.propTypes = {
     onSortChange: PropTypes.func.isRequired,
     sortKey: PropTypes.string.isRequired,
     sortDirection: PropTypes.string.isRequired,
+    selectOptions: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number
+        ]),
+        value: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number
+        ]),
+        disabled: PropTypes.bool,
+        label: PropTypes.string
+    })).isRequired,
     sortFields: PropTypes.oneOfType([
         PropTypes.bool,
         PropTypes.arrayOf(PropTypes.shape({

@@ -23,16 +23,24 @@ export class ProductCardContainer extends PureComponent {
     constructor(props) {
         super(props);
 
-        this.availableFunctions = {
-            getAvailableVisualOptions: this.getAvailableVisualOptions.bind(this),
-            getCurrentVariantIndex: this.getCurrentVariantIndex.bind(this),
-            getProductOrVariant: this.getProductOrVariant.bind(this),
-            getThumbnail: this.getThumbnail.bind(this),
+        this.containerFunctions = {
             getAttribute: this.getAttribute.bind(this)
         };
+
+        this.containerProps = () => ({
+            availableVisualOptions: this._getAvailableVisualOptions(),
+            currentVariantIndex: this._getCurrentVariantIndex(),
+            productOrVariant: this._getProductOrVariant(),
+            thumbnail: this._getThumbnail()
+        });
     }
 
-    getCurrentVariantIndex() {
+    getAttribute(code) {
+        const { product: { attributes = [] } } = this.props;
+        return attributes.find(({ attribute_code }) => attribute_code === code);
+    }
+
+    _getCurrentVariantIndex() {
         const { product: { variants = [] }, selectedFilters = {} } = this.props;
         const index = variants.findIndex(({ product }) => Object.keys(selectedFilters).every(filterKey => (
             selectedFilters[filterKey].find(value => +value === +product[filterKey])
@@ -41,25 +49,20 @@ export class ProductCardContainer extends PureComponent {
         return index >= 0 ? index : 0;
     }
 
-    getAttribute(code) {
-        const { product: { attributes = [] } } = this.props;
-        return attributes.find(({ attribute_code }) => attribute_code === code);
-    }
-
-    getThumbnail() {
-        const { thumbnail: { path } = {} } = this.getProductOrVariant();
+    _getThumbnail() {
+        const { thumbnail: { path = '' } = {} } = this._getProductOrVariant();
         return path;
     }
 
-    getProductOrVariant() {
+    _getProductOrVariant() {
         const { product: { type_id, variants }, product } = this.props;
         return (type_id === 'configurable' && variants
-            ? variants[this.getCurrentVariantIndex()].product
+            ? variants[this._getCurrentVariantIndex()].product
             : product
         ) || {};
     }
 
-    getAvailableVisualOptions() {
+    _getAvailableVisualOptions() {
         const { product: { configurable_options = [], attributes } } = this.props;
 
         return configurable_options.reduce((acc, { attribute_code: option_code, values }) => {
@@ -85,7 +88,8 @@ export class ProductCardContainer extends PureComponent {
         return (
             <ProductCard
               { ...this.props }
-              { ...this.availableFunctions }
+              { ...this.containerFunctions }
+              { ...this.containerProps() }
             />
         );
     }
