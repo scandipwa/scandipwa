@@ -25,19 +25,6 @@ import './ProductDetails.style';
  * @class ProductDetails
  */
 class ProductDetails extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            search: ''
-        };
-    }
-
-    static getDerivedStateFromProps({ search }, { search: stateSearch }) {
-        if (stateSearch !== search) return { search };
-        return {};
-    }
-
     /**
      * Render product SKU only when it's loaded
      */
