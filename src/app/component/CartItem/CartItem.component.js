@@ -31,6 +31,7 @@ class CartItem extends Component {
                 configurableVariantIndex,
                 variants
             },
+            product,
             isLikeTable
         } = this.props;
 
@@ -44,14 +45,15 @@ class CartItem extends Component {
               elem="Options"
               mods={ { isLikeTable } }
             >
-                { configurable_options.map(({ label, attribute_code, values }) => (
+                { configurable_options.map(({ attribute_code, values }) => (
                     <li
                       key={ attribute_code }
-                      aria-label={ label }
+                      aria-label={ attribute_code }
                       block="CartItem"
                       elem="Option"
                     >
-                        { values.find(({ value_index }) => value_index === currentVariant[attribute_code]).label }
+                        {/* { values.find(({ value_index }) => value_index === currentVariant[attribute_code]).label } */}
+                        { attribute_code }
                     </li>
                 )) }
             </ul>
@@ -60,7 +62,7 @@ class CartItem extends Component {
 
     renderFigureCaption() {
         const {
-            product: { price },
+            product: { name, price },
             isLikeTable
         } = this.props;
 

@@ -37,11 +37,12 @@ export class CartPageContainer extends PureComponent {
     }
 
     componentDidMount() {
-        this.updateBreadcrumbs();
-        this.changeHeaderState();
+        this._updateBreadcrumbs();
+        this._changeHeaderState();
+        console.log(this.props);
     }
 
-    updateBreadcrumbs() {
+    _updateBreadcrumbs() {
         const { updateBreadcrumbs } = this.props;
         const breadcrumbs = [
             { url: '/cart', name: __('Shopping cart') },
@@ -51,7 +52,7 @@ export class CartPageContainer extends PureComponent {
         updateBreadcrumbs(breadcrumbs);
     }
 
-    changeHeaderState() {
+    _changeHeaderState() {
         const { changeHeaderState, totals: { count } } = this.props;
         const title = `${ count || 0 } Items`;
 
@@ -79,7 +80,6 @@ export class CartPageContainer extends PureComponent {
             <CartPage
               { ...this.props }
               { ...this.state }
-              { ...this.availableFunctions }
             />
         );
     }
