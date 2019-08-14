@@ -34,6 +34,8 @@
         border-width: 0 1px 1px;
         border-style: solid;
         border-color: transparent;
+        max-height: 50vh;
+        overflow-y: scroll;
     }
 
     &_isVisible {

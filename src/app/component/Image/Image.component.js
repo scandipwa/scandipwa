@@ -10,7 +10,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component, createRef } from 'react';
+import React, { PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
 import './Image.style';
 
@@ -25,7 +25,7 @@ export const IMAGE_LOADED = 1;
 export const IMAGE_NOT_FOUND = 2;
 export const IMAGE_NOT_SPECIFIED = 3;
 
-class Image extends Component {
+class Image extends PureComponent {
     constructor(props) {
         super(props);
         this.image = createRef();
@@ -36,14 +36,6 @@ class Image extends Component {
 
     componentDidMount() {
         this.onImageChange();
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-        const { src } = this.props;
-        const { src: nextSrc } = nextProps;
-        const { imageStatus } = this.state;
-        const { imageStatus: nextImageStatus } = nextState;
-        return imageStatus !== nextImageStatus || src !== nextSrc;
     }
 
     componentDidUpdate(prevProps) {

@@ -55,7 +55,7 @@ export class SearchOverlayContainer extends PureComponent {
 
         if (searchCriteria) {
             clearSearchResults();
-            makeSearchRequest({ search: searchCriteria });
+            makeSearchRequest({ args: { search: searchCriteria } });
         }
     }
 

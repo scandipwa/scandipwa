@@ -77,7 +77,7 @@ class SearchOverlay extends PureComponent {
                           isPlaceholder
                         />
                         <figcaption block="SearchOverlay" elem="Content">
-                            { this.renderSearchItemContent() }
+                            { this.renderSearchItemContent(product) }
                         </figcaption>
                     </figure>
                 </Link>
