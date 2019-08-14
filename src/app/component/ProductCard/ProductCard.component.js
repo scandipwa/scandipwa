@@ -136,6 +136,7 @@ class ProductCard extends PureComponent {
             return (<div>{ children }</div>);
         }
 
+        const [index] = variantIndexes;
         return (
             <Link
               to={ {
@@ -146,6 +147,24 @@ class ProductCard extends PureComponent {
             >
                 { children }
             </Link>
+        );
+    }
+
+    renderReviewSummary(linkTo) {
+        const { product: { review_summary, url_key } } = this.props;
+
+        if (!review_summary || !review_summary.review_count) return null;
+
+        const _linkTo = { ...linkTo, hash: '#reviews' };
+        const reviewText = getReviewText(review_summary.review_count);
+
+        return (
+            <div block="ProductCard" elem="ReviewSummary">
+                <ProductReviewRating summary={ review_summary.rating_summary } />
+                <HashLink smooth to={ _linkTo } tabIndex={ getTabIndex(url_key) }>
+                    <span>{ `${review_summary.review_count} ${reviewText}` }</span>
+                </HashLink>
+            </div>
         );
     }
 

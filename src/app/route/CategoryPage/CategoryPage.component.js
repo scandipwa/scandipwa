@@ -105,11 +105,13 @@ class CategoryPage extends PureComponent {
             selectedFilters,
             selectedPriceRange,
             updatePriceRange,
-            updateFilter
+            updateFilter,
+            getFilterUrl
         } = this.props;
 
         return (
             <CategoryFilterOverlay
+              getFilterUrl={ getFilterUrl }
               availableFilters={ filters }
               customFiltersValues={ selectedFilters }
               updateFilter={ updateFilter }
@@ -218,6 +220,7 @@ CategoryPage.propTypes = {
         totalPages: PropTypes.number,
         currentPage: PropTypes.number
     }).isRequired,
+    getFilterUrl: PropTypes.func.isRequired,
     isInfoLoading: PropTypes.bool.isRequired,
     isPagesLoading: PropTypes.bool.isRequired,
     onSortChange: PropTypes.func.isRequired,

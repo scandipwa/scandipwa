@@ -15,7 +15,13 @@ import { Field, Fragment } from 'Util/Query';
  * Product List Query
  * @class ProductListQuery
  */
-class ProductListQuery {
+export class ProductListQuery {
+    /**
+     * Get ProductList query
+     * @param  {{search: String, categoryIds: Array<String|Number>, productUrlPath: String, categoryUrlPath: String, activePage: Number, priceRange: {min: Number, max: Number}, sortKey: String, sortDirection: String, productPageSize: Number, customFilters: Object}} options A object containing different aspects of query, each item can be omitted
+     * @return {Query} ProductList query
+     * @memberof ProductListQuery
+     */
     getQuery(options) {
         if (!options) throw new Error('Missing argument `options`');
 
@@ -43,9 +49,7 @@ class ProductListQuery {
                 .addField(filters);
         }
 
-        if (!notRequireItems) {
-            field.addField(items);
-        }
+        if (!notRequireItems) field.addField(items);
 
         return field;
     }
@@ -484,7 +488,5 @@ class ProductListQuery {
             .addField(options);
     }
 }
-
-export { ProductListQuery };
 
 export default new ProductListQuery();

@@ -28,6 +28,7 @@ const TEXTAREA_TYPE = 'textarea';
 const PASSWORD_TYPE = 'password';
 const SELECT_TYPE = 'select';
 
+const VISIBLE_ALWAYS = 'visibleAlways';
 /**
  * Input fields component
  * @class Field
@@ -447,13 +448,14 @@ class Field extends Component {
             hasError: !!message,
             ...(state ? { [state]: true } : {})
         };
+        const noteMods = noteDisplayMode ? { [noteDisplayMode]: true } : {};
 
         return (
             <div block="Field" mods={ mods } mix={ mix }>
                 { label && <label htmlFor={ id }>{ label }</label> }
                 { this.renderInputOfType(type) }
                 { message && <p block="Field" elem="Message">{ message }</p> }
-                { note && <p block="Field" elem="Note">{ note }</p> }
+                { note && <p block="Field" elem="Note" mods={ noteMods }>{ note }</p> }
             </div>
         );
     }
@@ -473,6 +475,9 @@ Field.propTypes = {
     ]).isRequired,
     label: PropTypes.string,
     note: PropTypes.string,
+    noteDisplayMode: PropTypes.oneOf([
+        VISIBLE_ALWAYS
+    ]),
     message: PropTypes.string,
     placeholder: PropTypes.string,
     value: PropTypes.oneOfType([
@@ -501,6 +506,7 @@ Field.propTypes = {
     disabled: PropTypes.bool,
     onChange: PropTypes.func,
     onFocus: PropTypes.func,
+    onBlur: PropTypes.func,
     onClick: PropTypes.func,
     onKeyPress: PropTypes.func,
     min: PropTypes.number,

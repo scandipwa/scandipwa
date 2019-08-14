@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import RangeSelector from './RangeSelector.component';
-
-export default RangeSelector;
+export { default } from './RangeSelector.component';

@@ -113,9 +113,18 @@ class AddToCart extends Component {
 
     render() {
         const { isLoading } = this.state;
-        const { mix, product: { id } } = this.props;
+        const {
+            mix,
+            product: {
+                type_id,
+                stock_status,
+                variants = []
+            },
+            fullWidth,
+            configurableVariantIndex
+        } = this.props;
 
-        if (!id) {
+        if (!type_id) {
             return (
                 <div
                   block="AddToCart"
@@ -125,16 +134,16 @@ class AddToCart extends Component {
             );
         }
 
-        const { product: { stock_status } } = this.props;
         const isNotAvailable = stock_status !== 'IN_STOCK';
+        const isNotVariantAvailable = type_id === 'configurable' && !variants[configurableVariantIndex];
 
         return (
             <button
               onClick={ () => this.buttonClick() }
-              block="Button AddToCart"
-              mods={ { isLoading } }
-              mix={ mix }
-              disabled={ isLoading || isNotAvailable }
+              block="AddToCart"
+              elem="Button"
+              mods={ { isLoading, fullWidth } }
+              disabled={ isLoading || isNotAvailable || isNotVariantAvailable }
             >
                 <span>{ __('Add to cart') }</span>
                 <span>{ __('Adding...') }</span>
@@ -174,7 +183,8 @@ AddToCart.defaultProps = {
     product: {},
     mix: {},
     productToBeRemovedAfterAdd: '',
-    removeWishlistItem: false
+    removeWishlistItem: false,
+    fullWidth: false
 };
 
 export default AddToCart;

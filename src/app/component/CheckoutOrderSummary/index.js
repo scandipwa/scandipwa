@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import CheckoutOrderSummary from './CheckoutOrderSummary.component';
-
-export default CheckoutOrderSummary;
+export { default } from './CheckoutOrderSummary.component';

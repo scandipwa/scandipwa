@@ -45,6 +45,11 @@ module.exports = {
             '.jsx',
             '.scss',
             '*'
+        ],
+        plugins: [
+            new FallbackPlugin({
+                fallbackRoot, projectRoot
+            })
         ]
     },
 
@@ -163,10 +168,6 @@ module.exports = {
             { from: path.resolve(projectRoot, 'src', 'public', 'assets'), to: './assets' },
             { from: path.resolve(projectRoot, 'src', 'public', 'public'), to: './public' }
         ]),
-
-        new FallbackPlugin({
-            fallbackRoot
-        }),
 
         new MinifyPlugin({
             removeConsole: true,

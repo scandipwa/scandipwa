@@ -22,6 +22,10 @@ self.CACHE_NAME = 'app-runtime-static';
 
 self.addEventListener('fetch', (event) => {
     const { request: { url } } = event;
+
+    const { hostname } = new URL(url);
+    if (hostname !== self.location.hostname) return;
+
     if (url.match(new RegExp(/(?=^.*[^.]{6}$)(?!^.*sockjs)(?!^.*graphql)(?!^.*admin).*/))) {
         event.respondWith(caches.open(self.CACHE_NAME)
             .then(cache => cache.match('/')

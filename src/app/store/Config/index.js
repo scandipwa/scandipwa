@@ -9,24 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import ConfigReducer from './Config.reducer';
-import ConfigDispatcher, {
-    ConfigDispatcher as ConfigDispatcherClass
-} from './Config.dispatcher';
-
-import {
-    getCountryList,
-    GET_COUNTRY_LIST,
-    updateReviewRatings,
-    UPDATE_REVIEW_RATINGS
-} from './Config.action';
-
-export {
-    ConfigReducer,
-    ConfigDispatcher,
-    ConfigDispatcherClass,
-    getCountryList,
-    GET_COUNTRY_LIST,
-    updateReviewRatings,
-    UPDATE_REVIEW_RATINGS
-};
+export * from './Config.action';
+export { default as ConfigReducer } from './Config.reducer';
+export { default as ConfigDispatcher, ConfigDispatcher as ConfigDispatcherClass } from './Config.dispatcher';

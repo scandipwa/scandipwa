@@ -84,6 +84,7 @@ export class CategoryPageContainer extends PureComponent {
             requestPage: this.requestPage.bind(this),
             requestNextPage: this.requestNextPage.bind(this),
             updateFilter: this.updateFilter.bind(this),
+            getFilterUrl: this.getFilterUrl.bind(this),
             updatePriceRange: this.updatePriceRange.bind(this),
             updatePage: this.updatePage.bind(this)
             // clearFilters: this._clearFilters.bind(this),
@@ -158,17 +159,24 @@ export class CategoryPageContainer extends PureComponent {
         }, location, history);
     }
 
-    updateFilter(filterName, filterArray) {
-        const { location, history } = this.props;
-        const prevCustomFilters = this._getSelectedFiltersFromUrl();
+    getFilterUrl(filterName, filterArray, isFull = true) {
+        const { location: { pathname } } = this.props;
+        const prevCustomFilters = this.getCustomFiltersFromUrl();
 
         prevCustomFilters[filterName] = filterArray;
 
-        const customFiltersString = Object.entries(prevCustomFilters)
-            .reduce((acc, [name, values]) => (!values.length
-                ? acc
-                : [...acc, `${ name }:${ values.sort().join(',') }`]
-            ), []).sort().join(';');
+        const customFiltersString = Object.keys(prevCustomFilters)
+            .reduce((accumulator, prevFilterName) => {
+                if (prevCustomFilters[prevFilterName].length) {
+                    const filterValues = prevCustomFilters[prevFilterName].sort().join(',');
+
+                    accumulator.push(`${prevFilterName}:${filterValues}`);
+                }
+
+                return accumulator;
+            }, [])
+            .sort()
+            .join(';');
 
         let customFilters;
 
@@ -178,8 +186,14 @@ export class CategoryPageContainer extends PureComponent {
         customFilters = hasTrailingSemicolon ? customFiltersString.slice(0, -1) : customFiltersString;
         customFilters = hasLeadingSemicolon ? customFilters.slice(1) : customFilters;
 
+        return `${isFull ? `${pathname}?` : ''}${customFilters}`;
+    }
+
+    updateFilter(filterName, filterArray) {
+        const { location, history } = this.props;
+
         setQueryParams({
-            customFilters,
+            customFilters: this.getFilterUrl(filterName, filterArray, false),
             page: ''
         }, location, history);
     }

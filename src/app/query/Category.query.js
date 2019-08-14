@@ -39,7 +39,7 @@ export class CategoryQuery {
 
     _getBreadcrumbsField() {
         return new Field('breadcrumbs')
-            .addFieldList(this._getBreadcrumbFields())
+            .addFieldList(this._getBreadcrumbFields());
     }
 
     _getBreadcrumbFields() {

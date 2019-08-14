@@ -9,7 +9,5 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import ReviewDispatcher from './Review.dispatcher';
-
 // eslint-disable-next-line import/prefer-default-export
-export { ReviewDispatcher };
+export { default as ReviewDispatcher } from './Review.dispatcher';

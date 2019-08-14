@@ -17,11 +17,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { ProductType } from 'Type/ProductList';
 import Field from 'Component/Field';
-import Swatch from 'Component/Swatch';
+import TextPlaceholder from 'Component/TextPlaceholder';
 import ProductPrice from 'Component/ProductPrice';
 import AddToCart from 'Component/AddToCart';
 import Html from 'Component/Html';
-import TextPlaceholder from 'Component/TextPlaceholder';
 import GroupedProductList from 'Component/GroupedProductsList';
 import './ProductActions.style';
 
@@ -52,32 +51,34 @@ class ProductActions extends Component {
     }
 
     changeConfigurableVariant(attributeCode, value) {
-        const {
-            product: {
-                variants,
-                configurable_options
-            },
-            updateConfigurableVariantIndex,
-            configurableVariantIndex
-        } = this.props;
+        // const {
+        //     product: {
+        //         price,
+        //         type_id,
+        //         attributes,
+        //         configurable_options
+        //     }
+        // } = this.props;
+        // const simpleProductData = price !== undefined && attributes !== undefined;
+        // const configurableProductData = simpleProductData !== undefined && configurable_options !== undefined;
 
-        const {
-            product: currentConfigurableVariant
-        } = variants[configurableVariantIndex];
+        // const {
+        //     product: currentConfigurableVariant
+        // } = variants[configurableVariantIndex];
 
-        const currentVariant = {
-            ...currentConfigurableVariant,
-            [attributeCode]: value
-        };
+        // const currentVariant = {
+        //     ...currentConfigurableVariant,
+        //     [attributeCode]: value
+        // };
 
-        for (let i = 0; i < variants.length; i++) {
-            const { product } = variants[i];
-            const isCorrectVariant = configurable_options.every(
-                ({ attribute_code: code }) => parseInt(product[code], 10) === parseInt(currentVariant[code], 10)
-            );
+        // for (let i = 0; i < variants.length; i++) {
+        //     const { product } = variants[i];
+        //     const isCorrectVariant = configurable_options.every(
+        //         ({ attribute_code: code }) => parseInt(product[code], 10) === parseInt(currentVariant[code], 10)
+        //     );
 
-            if (isCorrectVariant) return updateConfigurableVariantIndex(i);
-        }
+        //     if (isCorrectVariant) return updateConfigurableVariantIndex(i);
+        // }
 
         return null;
     }
@@ -251,7 +252,7 @@ class ProductActions extends Component {
                       aria-label={ `${ optionLabel } options` }
                     >
                         <h4 block="ProductActions" elem="SectionHeading">{ optionLabel }</h4>
-                        { values.map(({ value, label, id }) => (
+                        {/* { values.map(({ value, label, id }) => (
                             <Swatch
                               key={ id }
                               onClick={ () => this.changeConfigurableVariant(code, id) }
@@ -260,7 +261,7 @@ class ProductActions extends Component {
                               filterItem={ { label, swatch_data: { value } } }
                               requestVar={ code }
                             />
-                        )) }
+                        )) } */}
                     </section>
                 );
             })),
@@ -274,51 +275,52 @@ class ProductActions extends Component {
                     <h4 block="ProductActions" elem="SectionHeading">
                         <TextPlaceholder />
                     </h4>
-                    { new Array(4).fill().map((_, i) => (
+                    {/* { new Array(4).fill().map((_, i) => (
                         <Swatch
                           key={ i }
                           mix={ { block: 'ProductActions', elem: 'PlaceholderOption' } }
                           requestVar="placeholder"
                         />
-                    )) }
+                    )) } */}
                 </section>
             )
         );
     }
 
     renderColorOptions() {
-        const { availableFilters: { color }, areDetailsLoaded } = this.props;
-        const { values: colorOptions = [] } = color || {};
+        // const { availableFilters: { color }, areDetailsLoaded } = this.props;
+        // const { values: colorOptions = [] } = color || {};
 
-        const renderColor = content => (
-            <section block="ProductActions" elem="Colors" aria-label="Color options">
-                <h4 block="ProductActions" elem="SectionHeading" mods={ { type: 'color' } }>
-                    <TextPlaceholder content={ areDetailsLoaded && 'Color' } />
-                </h4>
-                { content }
-            </section>
-        );
+        // const renderColor = content => (
+        //     <section block="ProductActions" elem="Colors" aria-label="Color options">
+        //         <h4 block="ProductActions" elem="SectionHeading" mods={ { type: 'color' } }>
+        //             <TextPlaceholder content={ areDetailsLoaded && 'Color' } />
+        //         </h4>
+        //         { content }
+        //     </section>
+        // );
+        return null;
 
-        return this.showOnlyIfLoaded(
-            color,
-            renderColor(colorOptions.map(({ value, label, id }) => (
-                <Swatch
-                  key={ id }
-                  mix={ { block: 'ProductActions', elem: 'Color' } }
-                  onClick={ () => this.changeConfigurableVariant('color', id) }
-                  isSelected={ this.getIsOptionInCurrentVariant('color', id) }
-                  filterItem={ { label, swatch_data: { value } } }
-                  requestVar="color"
-                />
-            ))),
-            renderColor(new Array(4).fill().map((_, i) => (
-                <Swatch
-                  key={ i }
-                  requestVar="color"
-                  mix={ { block: 'ProductActions', elem: 'Color' } }
-                />
-            )))
-        );
+        // return this.showOnlyIfLoaded(
+        //     color,
+        //     renderColor(colorOptions.map(({ value, label, id }) => (
+        //         <Swatch
+        //           key={ id }
+        //           mix={ { block: 'ProductActions', elem: 'Color' } }
+        //           onClick={ () => this.changeConfigurableVariant('color', id) }
+        //           isSelected={ this.getIsOptionInCurrentVariant('color', id) }
+        //           filterItem={ { label, swatch_data: { value } } }
+        //           requestVar="color"
+        //         />
+        //     ))),
+        //     renderColor(new Array(4).fill().map((_, i) => (
+        //         <Swatch
+        //           key={ i }
+        //           requestVar="color"
+        //           mix={ { block: 'ProductActions', elem: 'Color' } }
+        //         />
+        //     )))
+        // );
     }
 
     render() {
@@ -344,7 +346,7 @@ ProductActions.propTypes = {
     product: ProductType.isRequired,
     availableFilters: PropTypes.objectOf(PropTypes.shape).isRequired,
     configurableVariantIndex: PropTypes.number,
-    updateConfigurableVariantIndex: PropTypes.func.isRequired,
+    // updateConfigurableVariantIndex: PropTypes.func.isRequired,
     areDetailsLoaded: PropTypes.bool.isRequired,
     groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired
 };

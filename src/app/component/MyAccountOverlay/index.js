@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import MyAccountOverlay from './MyAccountOverlay.container';
-
-export default MyAccountOverlay;
+export { default } from './MyAccountOverlay.container';

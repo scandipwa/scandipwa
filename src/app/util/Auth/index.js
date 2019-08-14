@@ -9,16 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import {
-    setAuthorizationToken,
-    getAuthorizationToken,
-    deleteAuthorizationToken,
-    isSignedIn
-} from './Token';
-
-export {
-    setAuthorizationToken,
-    getAuthorizationToken,
-    deleteAuthorizationToken,
-    isSignedIn
-};
+export * from './Token';

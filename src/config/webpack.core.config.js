@@ -37,6 +37,11 @@ module.exports = {
             '.jsx',
             '.scss',
             '*'
+        ],
+        plugins: [
+            new FallbackPlugin({
+                fallbackRoot, projectRoot
+            })
         ]
     },
 

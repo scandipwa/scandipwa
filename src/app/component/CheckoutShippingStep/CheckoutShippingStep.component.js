@@ -221,6 +221,11 @@ class CheckoutShippingStep extends Component {
         this.getAvailableRegions(DEFAULT_COUNTRY);
     }
 
+    // initialize available regions
+    componentDidMount() {
+        this.getAvailableRegions(DEFAULT_COUNTRY);
+    }
+
     componentDidUpdate(prevProps) {
         const { finishedLoading, shippingAddress } = this.props;
 

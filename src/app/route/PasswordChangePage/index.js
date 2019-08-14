@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PasswordChangePage from './PasswordChangePage.container';
-
-export default PasswordChangePage;
+export { default } from './PasswordChangePage.container';

@@ -16,7 +16,9 @@ import Image from 'Component/Image';
 import ProductPrice from 'Component/ProductPrice';
 import Field from 'Component/Field';
 import Loader from 'Component/Loader';
+import TextPlaceholder from 'Component/TextPlaceholder';
 import { ProductType } from 'Type/ProductList';
+import { convertKeyValueObjectToQueryString } from 'Util/Url';
 import './CartItem.style';
 
 /**
@@ -33,16 +35,41 @@ class CartItem extends Component {
         this.handleRemoveItem = this.handleRemoveItem.bind(this);
     }
 
-    getProductLinkTo() {
-        const { product: { url_key, configurableVariantIndex, parent }, product } = this.props;
-        const variantIndex = configurableVariantIndex || 0;
+    /**
+     * Get link to product page
+     * @param url_key Url to product
+     * @return {{pathname: Srting, state Object}} Pathname and product state
+     */
+    getProductLinkTo(url_key) {
+        if (!url_key) return undefined;
+        const {
+            product,
+            product: {
+                type_id,
+                configurable_options,
+                configurableVariantIndex,
+                parent,
+                variants = []
+            }
+        } = this.props;
+
+        if (type_id === 'simple') return { pathname: `/product/${ url_key }` };
+
+        const { attributes } = variants[configurableVariantIndex];
+
+        const parameters = Object.entries(attributes).reduce(
+            (parameters, [code, { attribute_value }]) => {
+                if (Object.keys(configurable_options).includes(code)) return { ...parameters, [code]: attribute_value };
+                return parameters;
+            }, {}
+        );
 
         if (!url_key) return '/';
 
         return {
             pathname: `/product/${ url_key }`,
-            state: { product: parent || product, variantIndex },
-            search: `?variant=${ variantIndex }`
+            state: { product: parent || product },
+            search: convertKeyValueObjectToQueryString(parameters)
         };
     }
 
@@ -72,10 +99,7 @@ class CartItem extends Component {
         const { removeProduct, product } = this.props;
 
         this.setState({ isLoading: true });
-
-        removeProduct({ product }).then(
-            () => this.setState({ isLoading: false })
-        );
+        removeProduct({ product });
     }
 
     renderConfiguration() {
@@ -109,6 +133,21 @@ class CartItem extends Component {
                     </li>
                 )) }
             </ul>
+        );
+    }
+
+    renderItemTitle(url_key, name, brand) {
+        return (
+            <div block="CartItem" elem="Title">
+                <Link
+                  onClick={ () => this.handleItemClick() }
+                    // TODO: replace from configuration file
+                  to={ this.getProductLinkTo(url_key) }
+                >
+                    { brand && <span>{ brand }</span> }
+                    <p><TextPlaceholder content={ name } /></p>
+                </Link>
+            </div>
         );
     }
 

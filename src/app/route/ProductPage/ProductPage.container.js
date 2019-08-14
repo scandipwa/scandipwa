@@ -10,15 +10,14 @@
  */
 
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import { ProductDispatcher } from 'Store/Product';
 import { changeHeaderState } from 'Store/Header';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import ProductPage from './ProductPage.component';
 
 const mapStateToProps = state => ({
-    product: state.ProductReducer.product,
-    // filters: state.ProductReducer.filters,
-    filters: state.ProductReducer.formattedConfigurableOptions
+    product: state.ProductReducer.product
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -30,4 +29,4 @@ const mapDispatchToProps = dispatch => ({
 
 const ProductPageContainer = connect(mapStateToProps, mapDispatchToProps)(ProductPage);
 
-export default ProductPageContainer;
+export default withRouter(ProductPageContainer);

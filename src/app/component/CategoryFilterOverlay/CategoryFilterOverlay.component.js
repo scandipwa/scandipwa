@@ -11,10 +11,10 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import ExpandableContent from 'Component/ExpandableContent';
 import Overlay from 'Component/Overlay';
-import Swatch from 'Component/Swatch';
 import RangeSelector from 'Component/RangeSelector';
+import ExpandableContent from 'Component/ExpandableContent';
+import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
 import './CategoryFilterOverlay.style';
 
 class CategoryFilterOverlay extends PureComponent {
@@ -48,54 +48,24 @@ class CategoryFilterOverlay extends PureComponent {
         );
     }
 
-    renderFilterItems(filter) {
-        const { toggleCustomFilter, getAppliedFilterItems } = this.props;
-        const { request_var, filter_items } = filter;
-        const appliedFilters = getAppliedFilterItems(filter);
-
-        return filter_items.map((filterItem) => {
-            const { value_string } = filterItem;
-
-            return (
-                <li key={ value_string }>
-                    <Swatch
-                      mix={ { block: 'CategoryFilterOverlay', elem: 'Item' } }
-                      filterItem={ filterItem }
-                      requestVar={ request_var }
-                      isSelected={ appliedFilters.indexOf(value_string) !== -1 }
-                      onClick={ () => toggleCustomFilter(request_var, value_string) }
-                    />
-                </li>
-            );
-        });
-    }
-
-    renderFilter(filter) {
-        const { getAppliedFilterItemsString } = this.props;
-        const { name, request_var: requestVar } = filter;
-        const appliedFilterItemsString = getAppliedFilterItemsString(filter);
-
-        return (
-            <ExpandableContent
-              key={ requestVar }
-              heading={ name }
-              subHeading={ appliedFilterItemsString }
-              mix={ {
-                  block: 'CategoryFilterOverlay',
-                  elem: 'Filter',
-                  mods: { type: requestVar }
-              } }
-            >
-                <ul block="CategoryFilterOverlay" elem="ItemList" mods={ { type: requestVar } }>
-                    { this.renderFilterItems(filter) }
-                </ul>
-            </ExpandableContent>
-        );
-    }
-
     renderFilters() {
-        const { availableFilters } = this.props;
-        return availableFilters.map(filter => this.renderFilter(filter));
+        const {
+            availableFilters,
+            customFiltersValues,
+            toggleCustomFilter,
+            getFilterUrl
+        } = this.props;
+
+        const isLoaded = availableFilters && !!Object.keys(availableFilters).length;
+        return (
+            <ProductConfigurableAttributes
+              isReady={ isLoaded }
+              configurable_options={ availableFilters }
+              getLink={ getFilterUrl }
+              parameters={ customFiltersValues }
+              updateConfigurableVariant={ toggleCustomFilter }
+            />
+        );
     }
 
     renderSeeResults() {
@@ -143,9 +113,9 @@ CategoryFilterOverlay.propTypes = {
     minPriceValue: PropTypes.number.isRequired,
     maxPriceValue: PropTypes.number.isRequired,
     onSeeResultsClick: PropTypes.func.isRequired,
-    getAppliedFilterItemsString: PropTypes.func.isRequired,
-    getAppliedFilterItems: PropTypes.func.isRequired,
-    toggleCustomFilter: PropTypes.func.isRequired
+    customFiltersValues: PropTypes.objectOf(PropTypes.array).isRequired,
+    toggleCustomFilter: PropTypes.func.isRequired,
+    getFilterUrl: PropTypes.func.isRequired
 };
 
 export default CategoryFilterOverlay;

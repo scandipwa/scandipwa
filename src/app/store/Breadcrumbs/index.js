@@ -9,21 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import BreadcrumbsReducer from './Breadcrumbs.reducer';
-import BreadcrumbsDispatcher, { BreadcrumbsDispatcher as BreadcrumbsDispatcherClass } from './Breadcrumbs.dispatcher';
-import {
-    UPDATE_BREADCRUMBS,
-    TOGGLE_BREADCRUMBS,
-    toggleBreadcrumbs,
-    updateBreadcrumbs
-} from './Breadcrumbs.action';
-
+export * from './Breadcrumbs.action';
+export { default as BreadcrumbsReducer } from './Breadcrumbs.reducer';
 export {
-    BreadcrumbsReducer,
-    BreadcrumbsDispatcher,
-    BreadcrumbsDispatcherClass,
-    UPDATE_BREADCRUMBS,
-    TOGGLE_BREADCRUMBS,
-    toggleBreadcrumbs,
-    updateBreadcrumbs
-};
+    default as BreadcrumbsDispatcher,
+    BreadcrumbsDispatcher as BreadcrumbsDispatcherClass
+} from './Breadcrumbs.dispatcher';

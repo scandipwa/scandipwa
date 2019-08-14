@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import ProductWishlistButton from './ProductWishlistButton.container';
-
-export default ProductWishlistButton;
+export { default } from './ProductWishlistButton.container';
