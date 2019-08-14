@@ -136,10 +136,7 @@ class AppRouter extends Component {
             [AFTER_ITEMS_TYPE]: afterItems
         };
         const footerOptions = {
-            identifiers: [
-                'social-links',
-                'imagine-banner'
-            ],
+            identifiers: ['social-links'],
             fields: ['identifier']
         };
 

@@ -53,43 +53,20 @@ export class ProductDispatcher extends QueryDispatcher {
         dispatch(updateNoMatch(true));
     }
 
-    /**
-     * Prepare ProductList query
-     * @param  {{search: String, categoryIds: Array<String|Number>, categoryUrlPath: String, activePage: Number, priceRange: {min: Number, max: Number}, sortKey: String, sortDirection: String, productPageSize: Number}} options A object containing different aspects of query, each item can be omitted
-     * @return {Query} ProductList query
-     * @memberof ProductDispatcher
-     */
     prepareRequest(options) {
         return ProductListQuery.getQuery(options);
     }
 
-    /**
-     * Update Grouped Products quantity list
-     * @param {Function} dispatch
-     * @param {{product: Object, quantity: Number}} options A object containing different aspects of query, each item can be omitted
-     * @memberof ProductDispatcher
-     */
     updateGroupedProductQuantity(dispatch, options) {
         const { product, quantity } = options;
 
         return dispatch(updateGroupedProductQuantity(product, quantity));
     }
 
-    /**
-     * Clear Grouped Products quantity list
-     * @param {Function} dispatch
-     * @memberof ProductDispatcher
-     */
     clearGroupedProductQuantity(dispatch) {
         return dispatch(clearGroupedProductQuantity());
     }
 
-    /**
-     * Prepare Grouped Product for dispatch
-     * @param {Object} groupProduct
-     * @return {Object} prepared product
-     * @memberof ProductDispatcher
-     */
     _prepareGroupedProduct(groupProduct) {
         const { items } = groupProduct;
         const newItems = items.map(item => ({

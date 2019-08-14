@@ -25,7 +25,7 @@ export class CategoryFilterOverlayContainer extends PureComponent {
     constructor(props) {
         super(props);
 
-        this.availableFunction = {
+        this.containerFunctions = {
             onSeeResultsClick: this.onSeeResultsClick.bind(this),
             getAppliedFilterItemsString: this.getAppliedFilterItemsString.bind(this),
             getAppliedFilterItems: this.getAppliedFilterItems.bind(this),
@@ -74,7 +74,7 @@ export class CategoryFilterOverlayContainer extends PureComponent {
         return (
             <CategoryFilterOverlay
               { ...this.props }
-              { ...this.availableFunction }
+              { ...this.containerFunctions }
             />
         );
     }

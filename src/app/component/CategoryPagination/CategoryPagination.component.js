@@ -9,14 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { CategoryTreeType } from 'Type/Category';
-import { generateQuery } from 'Util/Url';
 import './CategoryPagination.style';
 
-class CategoryPagination extends Component {
+class CategoryPagination extends PureComponent {
     renderPreviousPageLink(page) {
         return this.renderPageLink(page, __('Previous page'), false, '◄');
     }
@@ -24,10 +23,9 @@ class CategoryPagination extends Component {
     renderPageLinks() {
         const { totalPages: length, currentPage } = this.props;
 
-        return Array.from(
-            { length },
-            ((_, i) => this.renderPageLink(i + 1, __('Page %s', i + 1), (i + 1) === currentPage, i + 1))
-        );
+        return Array.from({ length }, (_, i) => (
+            this.renderPageLink(i + 1, __('Page %s', i + 1), (i + 1) === currentPage, i + 1)
+        ));
     }
 
     renderNextPageLink(page) {
@@ -36,25 +34,24 @@ class CategoryPagination extends Component {
 
     renderPageLink(pageNumber, label, isCurrent, text) {
         const {
-            category: { url_path }, getPage, location, history
+            category: { url_path },
+            getPage,
+            getSearchQueryForPage
         } = this.props;
-
-        const page = pageNumber !== 1 ? pageNumber : '';
-        const search = generateQuery({ page }, location, history);
 
         const active = isCurrent ? ' CategoryPagination-PaginationLink_active' : '';
         const className = `CategoryPagination-PaginationLink${active}`;
 
         return (
             <li
-              key={ page }
+              key={ pageNumber }
               block="CategoryPagination"
               elem="ListItem"
             >
                 <Link
                   to={ {
                       pathname: `/category/${ url_path }`,
-                      search
+                      search: getSearchQueryForPage(pageNumber)
                   } }
                   aria-label={ label }
                   className={ className }
@@ -96,13 +93,7 @@ CategoryPagination.propTypes = {
     category: CategoryTreeType.isRequired,
     totalPages: PropTypes.number.isRequired,
     currentPage: PropTypes.number.isRequired,
-    history: PropTypes.shape({
-        location: PropTypes.object.isRequired,
-        push: PropTypes.func.isRequired
-    }).isRequired,
-    location: PropTypes.shape({
-        pathname: PropTypes.string.isRequired
-    }).isRequired
+    getSearchQueryForPage: PropTypes.func.isRequired
 };
 
 CategoryPagination.defaultProps = {

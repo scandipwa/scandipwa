@@ -20,11 +20,11 @@
 	--header-desktop-search-bar-width: 270px;
 	--header-desktop-search-bar-max-width: 450px;
 	--header-desktop-button-color: #f26323;
-	--header-height: 100px;
+	--header-height: 50px;
 	--header-nav-height: 50px;
 
 	@include after-mobile {
-		--header-height: 110px;
+		--header-height: 60px;
 		--header-nav-height: 60px;
 	}
 }
@@ -150,7 +150,7 @@
 		}
 	}
 
-	&-Demo {
+	&-Banner {
 		background: var(--color-primary-base);
 		color: var(--color-text-white);
 		height: 50px;

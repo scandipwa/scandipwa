@@ -9,10 +9,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-class ClickOutside extends Component {
+class ClickOutside extends PureComponent {
     constructor(props) {
         super(props);
 
@@ -34,22 +34,22 @@ class ClickOutside extends Component {
         document.removeEventListener('click', this.handleClick);
     }
 
-    handleClick(e) {
+    handleClick({ target }) {
         const { onClick } = this.props;
 
-        const isOutside = this.childrenRefs.every(
-            ref => !ref.current.contains(e.target)
-        );
-
-        if (isOutside) onClick();
+        if (this.childrenRefs.every(
+            ({ current }) => !current.contains(target)
+        )) {
+            onClick();
+        }
     }
 
     render() {
         const { children } = this.props;
 
-        return React.Children.map(children, (element, idx) => React.cloneElement(element, {
-            ref: this.childrenRefs[idx]
-        }));
+        return React.Children.map(children, (element, idx) => (
+            React.cloneElement(element, { ref: this.childrenRefs[idx] })
+        ));
     }
 }
 

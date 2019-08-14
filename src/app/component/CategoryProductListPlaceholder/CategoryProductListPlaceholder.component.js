@@ -9,7 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ProductCard from 'Component/ProductCard';
 import './CategoryProductListPlaceholder.style';
@@ -18,7 +19,7 @@ import './CategoryProductListPlaceholder.style';
  * Placeholder for List of category product
  * @class CategoryProductListPlaceholder
  */
-class CategoryProductListPlaceholder extends Component {
+class CategoryProductListPlaceholder extends PureComponent {
     constructor(props) {
         super(props);
 
@@ -34,17 +35,19 @@ class CategoryProductListPlaceholder extends Component {
                 threshold: 0.1
             };
 
-            this.observer = new IntersectionObserver((entries) => {
-                entries.forEach(({ intersectionRatio }) => {
-                    if (intersectionRatio > 0) {
-                        this.stopObserving();
-                        updatePages();
-                    }
-                });
+            this.observer = new IntersectionObserver(([{ intersectionRatio }]) => {
+                if (intersectionRatio > 0) {
+                    this.stopObserving();
+                    updatePages();
+                }
             }, options);
 
             this.observer.observe(this.node);
         }
+    }
+
+    componentWillUnmount() {
+        this.stopObserving();
     }
 
     stopObserving() {
@@ -90,4 +93,4 @@ CategoryProductListPlaceholder.propTypes = {
     updatePages: PropTypes.func.isRequired
 };
 
-export default CategoryProductListPlaceholder;
+export default withRouter(CategoryProductListPlaceholder);

@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import CategoryProductListPlaceholder from 'Component/CategoryProductListPlaceholder';
 import { PagesType, FilterType } from 'Type/ProductList';
@@ -20,7 +20,7 @@ import './CategoryProductList.style';
  * List of category products
  * @class CategoryProductList
  */
-class CategoryProductList extends Component {
+class CategoryProductList extends PureComponent {
     constructor(props) {
         super(props);
 
@@ -30,12 +30,14 @@ class CategoryProductList extends Component {
     }
 
     componentDidUpdate() {
-        const { updatePage, isLoading, getPageFromUrl } = this.props;
+        const { updatePage, isLoading } = this.props;
 
         if (isLoading) this.pagesIntersecting = [];
 
         if (!this.observer && 'IntersectionObserver' in window) {
             this.observer = new IntersectionObserver((entries) => {
+                const { currentPage } = this.props;
+
                 entries.forEach(({ target, isIntersecting }) => {
                     const page = +Object.keys(this.nodes).find(node => this.nodes[node] === target);
                     const index = this.pagesIntersecting.indexOf(page);
@@ -48,7 +50,7 @@ class CategoryProductList extends Component {
                 });
 
                 const minPage = Math.min(...this.pagesIntersecting);
-                if (minPage < Infinity && minPage !== getPageFromUrl()) updatePage(minPage);
+                if (minPage < Infinity && minPage !== currentPage) updatePage(minPage);
             }, {
                 rootMargin: '0px',
                 threshold: 0.1
@@ -88,7 +90,7 @@ class CategoryProductList extends Component {
 
     renderLoadButton() {
         const { isShowLoading, loadPrevPage } = this.props;
-        if (!isShowLoading()) return null;
+        if (!isShowLoading) return null;
 
         return (
             <div
@@ -141,10 +143,22 @@ class CategoryProductList extends Component {
         ));
     }
 
+    renderCategoryPlaceholder() {
+        const { isLoading, loadPage, isVisible } = this.props;
+
+        return (
+            <div block="CategoryProductList" elem="Page">
+                <CategoryProductListPlaceholder
+                  isLoading={ isLoading }
+                  isVisible={ isVisible }
+                  updatePages={ loadPage }
+                />
+            </div>
+        );
+    }
+
     render() {
-        const {
-            totalPages, isLoading, loadPage, isVisible
-        } = this.props;
+        const { totalPages, isLoading } = this.props;
 
         if (!isLoading && totalPages === 0) return this.renderNoProducts();
 
@@ -152,13 +166,7 @@ class CategoryProductList extends Component {
             <div block="CategoryProductList" mods={ { isLoading } }>
                 { this.renderLoadButton() }
                 { this.renderPages() }
-                <div block="CategoryProductList" elem="Page">
-                    <CategoryProductListPlaceholder
-                      isLoading={ isLoading }
-                      isVisible={ isVisible() }
-                      updatePages={ loadPage }
-                    />
-                </div>
+                { this.renderCategoryPlaceholder() }
             </div>
         );
     }
@@ -166,15 +174,15 @@ class CategoryProductList extends Component {
 
 CategoryProductList.propTypes = {
     pages: PagesType.isRequired,
-    loadPage: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
     updatePage: PropTypes.func.isRequired,
     totalPages: PropTypes.number.isRequired,
     selectedFilters: FilterType.isRequired,
-    getPageFromUrl: PropTypes.func.isRequired,
+    loadPage: PropTypes.func.isRequired,
     loadPrevPage: PropTypes.func.isRequired,
-    isShowLoading: PropTypes.func.isRequired,
-    isVisible: PropTypes.func.isRequired
+    currentPage: PropTypes.number.isRequired,
+    isShowLoading: PropTypes.bool.isRequired,
+    isVisible: PropTypes.bool.isRequired
 };
 
 export default CategoryProductList;

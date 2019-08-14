@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Image from 'Component/Image';
@@ -18,10 +18,10 @@ import { ItemsType } from 'Type/ProductList';
 import './SearchOverlay.style';
 import TextPlaceholder from 'Component/TextPlaceholder';
 
-class SearchOverlay extends Component {
+class SearchOverlay extends PureComponent {
     componentDidUpdate(prevProps) {
         const { searchCriteria: prevSearchCriteria } = prevProps;
-        const { searchCriteria, clearSearchResults } = this.props;
+        const { searchCriteria, clearSearchResults, makeSearchRequest } = this.props;
 
         if (this.timeout) clearTimeout(this.timeout);
 
@@ -29,42 +29,31 @@ class SearchOverlay extends Component {
             clearSearchResults();
             this.timeout = setTimeout(() => {
                 this.timeout = null;
-                this.makeSearchRequest();
+                makeSearchRequest();
             }, 500);
         }
     }
 
-    getProductLinkTo(product) {
-        const { url_key, configurableVariantIndex, parent } = product;
-        const variantIndex = configurableVariantIndex || 0;
+    renderSearchItemContent(product) {
+        const { name, brand } = product;
 
-        if (!url_key) return '/';
-
-        return {
-            pathname: `/product/${ url_key }`,
-            state: { product: parent || product, variantIndex },
-            search: `?variant=${ variantIndex }`
-        };
-    }
-
-    makeSearchRequest() {
-        const { makeSearchRequest, clearSearchResults, searchCriteria } = this.props;
-
-        if (searchCriteria) {
-            clearSearchResults();
-            makeSearchRequest({ search: searchCriteria });
-        }
+        return (
+            <>
+                <p block="SearchOverlay" elem="Brand">
+                    <TextPlaceholder content={ brand } />
+                </p>
+                <h4 block="SearchOverlay" elem="Title" mods={ { isLoaded: !!name } }>
+                    <TextPlaceholder content={ name } length="long" />
+                </h4>
+            </>
+        );
     }
 
     renderSearchItem(product, i) {
-        const { hideActiveOverlay } = this.props;
-        const {
-            thumbnail,
-            name,
-            brand
-        } = product;
+        const { hideActiveOverlay, getProductLinkTo } = this.props;
+        const { thumbnail: { path } = {}, name } = product;
 
-        const imageSrc = thumbnail ? `/media/catalog/product${ thumbnail.path }` : null;
+        const imageSrc = path ? `/media/catalog/product${ path }` : null;
 
         return (
             <li
@@ -72,7 +61,10 @@ class SearchOverlay extends Component {
               elem="Item"
               key={ i }
             >
-                <Link to={ this.getProductLinkTo(product) } onClick={ () => hideActiveOverlay() }>
+                <Link
+                  to={ getProductLinkTo(product) }
+                  onClick={ () => hideActiveOverlay() }
+                >
                     <figure
                       block="SearchOverlay"
                       elem="Wrapper"
@@ -81,15 +73,11 @@ class SearchOverlay extends Component {
                           block="SearchOverlay"
                           elem="Image"
                           src={ imageSrc }
-                          alt={ `Product ${name} thumbnail.` }
+                          alt={ __('Product %s thumbnail.', name) }
+                          isPlaceholder
                         />
                         <figcaption block="SearchOverlay" elem="Content">
-                            <p block="SearchOverlay" elem="Brand">
-                                <TextPlaceholder content={ brand } />
-                            </p>
-                            <h4 block="SearchOverlay" elem="Title">
-                                <TextPlaceholder content={ name } length="long" />
-                            </h4>
+                            { this.renderSearchItemContent() }
                         </figcaption>
                     </figure>
                 </Link>
@@ -106,24 +94,26 @@ class SearchOverlay extends Component {
               elem="Criteria"
               mods={ { isVisible: !!searchCriteria } }
             >
-                Results for:
+                { __('Results for:') }
                 <strong>{ searchCriteria }</strong>
             </p>
         );
     }
 
+    renderNoSearchCriteria() {
+        return <p>{ __('Start typing to see search results!') }</p>;
+    }
+
+    renderNoResults() {
+        return <p>{ __('No results found!') }</p>;
+    }
+
     renderSearchResults() {
         const { searchCriteria, searchResults, isLoading } = this.props;
 
-        if (!searchCriteria) {
-            return (<p>Start typing to see search results!</p>);
-        }
-
-        if (!searchResults.length && !isLoading && !this.timeout) {
-            return (<p>No results found!</p>);
-        }
-
-        const resultsToRender = isLoading || this.timeout ? Array(5).fill({}) : searchResults;
+        if (!searchCriteria) this.renderNoSearchCriteria();
+        if (!searchResults.length && !isLoading && !this.timeout) this.renderNoResults();
+        const resultsToRender = (isLoading || this.timeout) ? Array(5).fill({}) : searchResults;
 
         return (
             <ul>
@@ -152,12 +142,13 @@ class SearchOverlay extends Component {
 }
 
 SearchOverlay.propTypes = {
-    makeSearchRequest: PropTypes.func.isRequired,
-    clearSearchResults: PropTypes.func.isRequired,
     hideActiveOverlay: PropTypes.func.isRequired,
     searchCriteria: PropTypes.string,
     searchResults: ItemsType.isRequired,
-    isLoading: PropTypes.bool.isRequired
+    isLoading: PropTypes.bool.isRequired,
+    getProductLinkTo: PropTypes.func.isRequired,
+    makeSearchRequest: PropTypes.func.isRequired,
+    clearSearchResults: PropTypes.func.isRequired
 };
 
 SearchOverlay.defaultProps = {

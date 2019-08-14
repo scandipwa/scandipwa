@@ -16,12 +16,6 @@ import { Field, Fragment } from 'Util/Query';
  * @class ProductListQuery
  */
 class ProductListQuery {
-    /**
-     * Get ProductList query
-     * @param  {{search: String, categoryIds: Array<String|Number>, productUrlPath: String, categoryUrlPath: String, activePage: Number, priceRange: {min: Number, max: Number}, sortKey: String, sortDirection: String, productPageSize: Number, customFilters: Object}} options A object containing different aspects of query, each item can be omitted
-     * @return {Query} ProductList query
-     * @memberof ProductListQuery
-     */
     getQuery(options) {
         if (!options) throw new Error('Missing argument `options`');
 
@@ -92,12 +86,6 @@ class ProductListQuery {
             .addField(itemsGrouped);
     }
 
-    /**
-     * Prepare argument map
-     * @param  {{isSingleProduct: Boolean, search: String, productUrlPath: String, categoryIds: Array<String|Number>, categoryUrlPath: String, activePage: Number, priceRange: {min: Number, max: Number}, sortKey: String, sortDirection: String, productPageSize: Number, customFilters: Object}} options A object containing different aspects of query, each item can be omitted
-     * @return {Object}
-     * @memberof ProductListQuery
-     */
     _prepareArgumentList(options) {
         const {
             search,
@@ -218,13 +206,6 @@ class ProductListQuery {
         return new Field('price').addFieldList([regularPrice, minimalPrice]);
     }
 
-    /**
-     * Prepare `image`, `small_image`, `thumbnail` and related labels. (child of `items` field)
-     * @private
-     * @param  {{isSingleProduct: Boolean, search: String, categoryIds: Array<String|Number>, categoryUrlPath: String, activePage: Number, priceRange: {min: Number, max: Number}, sortKey: String, sortDirection: String, productPageSize: Number}} options A object containing different aspects of query, each item can be omitted
-     * @return {Array<String>} Prepared field strings for image types
-     * @memberof ProductListQuery
-     */
     _prepareImageFields(options) {
         const images = [
             new Field('thumbnail').addField('url').addField('label').addField('path'),
@@ -329,13 +310,6 @@ class ProductListQuery {
         return attributes;
     }
 
-    /**
-     * Prepare single product specific fields, example: `meta_title`, `description`, etc.
-     * @private
-     * @param  {{isSingleProduct: Boolean, search: String, categoryIds: Array<String|Number>, categoryUrlPath: String, activePage: Number, priceRange: {min: Number, max: Number}, sortKey: String, sortDirection: String, productPageSize: Number}} options A object containing different aspects of query, each item can be omitted
-     * @return {Array<String>} Prepared array of fields
-     * @memberof ProductListQuery
-     */
     _prepareAdditionalInformation(options) {
         const additionalInformation = [
             this._prepareAttributes(true),
@@ -469,14 +443,6 @@ class ProductListQuery {
             .addField(ratingVotes);
     }
 
-    /**
-     * Prepare `items` field
-     * @private
-     * @param  {{isSingleProduct: Boolean, search: String, categoryIds: Array<String|Number>, categoryUrlPath: String, activePage: Number, priceRange: {min: Number, max: Number}, sortKey: String, sortDirection: String, productPageSize: Number}} options A object containing different aspects of query, each item can be omitted
-     * @param {Field}
-     * @return {Field} Prepared items field
-     * @memberof ProductListQuery
-     */
     _prepareItemsField(options, items) {
         const categories = this._prepareItemsCategoriesField(); // same for ProductList and single product
         const price = this._prepareItemsPriceField(); // same for ProductList and single product

@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import ProductReviewRating from 'Component/ProductReviewRating';
@@ -23,10 +23,9 @@ import './ProductCard.style';
  * Product card
  * @class ProductCard
  */
-class ProductCard extends Component {
+class ProductCard extends PureComponent {
     renderProductPrice() {
-        const { getProductOrVariant } = this.props;
-        const { price } = getProductOrVariant();
+        const { productOrVariant: { price } } = this.props;
         if (!price) return <TextPlaceholder />;
 
         return (
@@ -38,8 +37,7 @@ class ProductCard extends Component {
     }
 
     renderVisualConfigurableOptions() {
-        const { getAvailableVisualOptions } = this.props;
-        const availableVisualOptions = getAvailableVisualOptions();
+        const { availableVisualOptions } = this.props;
 
         return (
             <div block="ProductCard" elem="ConfigurableOptions">
@@ -57,9 +55,7 @@ class ProductCard extends Component {
     }
 
     renderPicture() {
-        const { product: { id, name }, getThumbnail } = this.props;
-
-        const thumbnail = getThumbnail();
+        const { product: { id, name }, thumbnail } = this.props;
         const imageUrl = thumbnail && `/media/catalog/product${ thumbnail }`;
 
         return (
@@ -134,8 +130,7 @@ class ProductCard extends Component {
     }
 
     renderCardWrapper(children) {
-        const { product: { url_key }, product, getCurrentVariantIndex } = this.props;
-        const variantIndex = getCurrentVariantIndex();
+        const { product: { url_key }, product, currentVariantIndex: variantIndex } = this.props;
 
         if (!url_key) {
             return (<div>{ children }</div>);
@@ -185,11 +180,18 @@ class ProductCard extends Component {
 
 ProductCard.propTypes = {
     product: ProductType.isRequired,
-    getAvailableVisualOptions: PropTypes.func.isRequired,
-    getCurrentVariantIndex: PropTypes.func.isRequired,
-    getProductOrVariant: PropTypes.func.isRequired,
-    getThumbnail: PropTypes.func.isRequired,
+    productOrVariant: ProductType.isRequired,
+    currentVariantIndex: PropTypes.number.isRequired,
+    thumbnail: PropTypes.string,
+    availableVisualOptions: PropTypes.arrayOf(PropTypes.shape({
+        label: PropTypes.string,
+        value: PropTypes.string
+    })).isRequired,
     getAttribute: PropTypes.func.isRequired
+};
+
+ProductCard.defaultProps = {
+    thumbnail: ''
 };
 
 export default ProductCard;

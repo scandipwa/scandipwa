@@ -28,7 +28,7 @@ export class SearchBarDispatcher extends QueryDispatcher {
         dispatch(updateSearchBar(data));
     }
 
-    onError(error, dispatch) {
+    onError(_, dispatch) {
         dispatch(updateLoadStatus(false));
     }
 
@@ -36,15 +36,12 @@ export class SearchBarDispatcher extends QueryDispatcher {
         dispatch(clearSearchResults());
     }
 
-    /**
-     * Prepare ProductList query
-     * @param  {{search: String, categoryIds: Array<String|Number>, categoryUrlPath: String, activePage: Number, priceRange: {min: Number, max: Number}, sortKey: String, sortDirection: String, productPageSize: Number}} options A object containing different aspects of query, each item can be omitted
-     * @return {Query} ProductList query
-     * @memberof CategoryDispatcher
-     */
     prepareRequest(options, dispatch) {
         dispatch(updateLoadStatus(true));
-        return ProductListQuery.getQuery(options);
+        return ProductListQuery.getQuery({
+            ...options,
+            notRequireInfo: true
+        });
     }
 }
 

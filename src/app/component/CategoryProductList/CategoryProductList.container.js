@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { withRouter } from 'react-router-dom';
 import { getQueryParam } from 'Util/Url';
 import PropTypes from 'prop-types';
 import { PagesType } from 'Type/ProductList';
@@ -12,13 +13,16 @@ export class CategoryProductListContainer extends PureComponent {
             pagesCount: 1
         };
 
-        this.availableFunctions = {
-            getPageFromUrl: this.getPageFromUrl.bind(this),
+        this.containerFunctions = {
             loadPrevPage: this.loadPage.bind(this, false),
-            isShowLoading: this.isShowLoading.bind(this),
-            isVisible: this.isVisible.bind(this),
             loadPage: this.loadPage.bind(this)
         };
+
+        this.containerProps = () => ({
+            currentPage: this._getPageFromUrl(),
+            isShowLoading: this._isShowLoading(),
+            isVisible: this._isVisible()
+        });
     }
 
     componentDidMount() {
@@ -37,11 +41,12 @@ export class CategoryProductListContainer extends PureComponent {
         return null;
     }
 
-    getPageFromUrl() {
+    _getPageFromUrl() {
+        const { location } = this.props;
         return +(getQueryParam('page', location) || 1);
     }
 
-    getPagesBounds() {
+    _getPagesBounds() {
         const { pages } = this.props;
         const keys = Object.keys(pages);
 
@@ -52,22 +57,22 @@ export class CategoryProductListContainer extends PureComponent {
         };
     }
 
-    isShowLoading() {
+    _isShowLoading() {
         const { isLoading } = this.props;
-        const { minPage } = this.getPagesBounds();
+        const { minPage } = this._getPagesBounds();
         return minPage > 1 && !isLoading;
     }
 
-    isVisible() {
+    _isVisible() {
         const { totalPages } = this.props;
-        const { maxPage } = this.getPagesBounds();
+        const { maxPage } = this._getPagesBounds();
         return maxPage < totalPages;
     }
 
     loadPage(next = true) {
         const { pagesCount } = this.state;
         const { loadPage, totalPages, isLoading } = this.props;
-        const { minPage, maxPage, loadedPagesCount } = this.getPagesBounds();
+        const { minPage, maxPage, loadedPagesCount } = this._getPagesBounds();
 
         const isUpdatable = totalPages > 0 && pagesCount === loadedPagesCount;
         const shouldUpdateList = next ? maxPage < totalPages : minPage > 1;
@@ -82,7 +87,8 @@ export class CategoryProductListContainer extends PureComponent {
         return (
             <CategoryProductList
               { ...this.props }
-              { ...this.availableFunctions }
+              { ...this.containerFunctions }
+              { ...this.containerProps() }
             />
         );
     }
@@ -95,4 +101,4 @@ CategoryProductListContainer.propTypes = {
     totalPages: PropTypes.number.isRequired
 };
 
-export default CategoryProductListContainer;
+export default withRouter(CategoryProductListContainer);

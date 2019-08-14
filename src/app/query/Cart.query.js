@@ -13,7 +13,7 @@ import { Field } from 'Util/Query';
 import { ProductListQuery } from 'Query';
 import { isSignedIn } from 'Util/Auth';
 
-class CartQuery {
+export class CartQuery {
     getCartQuery(quoteId) {
         const query = new Field('getCartForCustomer')
             .addFieldList(this._getCartTotalsFields())
@@ -65,20 +65,24 @@ class CartQuery {
         ];
     }
 
+    _getCartItemProductField() {
+        return ProductListQuery._prepareItemsField(
+            { getConfigurableData: true, isSingleProduct: true },
+            new Field('product')
+        );
+    }
+
+    _getCartItemFields() {
+        return [
+            'price', 'tax_amount', 'row_total', 'tax_percent',
+            'discount_amount', 'discount_percent',
+            'item_id', 'qty', 'sku', this._getCartItemProductField()
+        ];
+    }
+
     _getCartItemsField() {
-        return new Field('items')
-            .addFieldList([
-                'price', 'tax_amount', 'row_total', 'tax_percent',
-                'discount_amount', 'discount_percent',
-                'item_id', 'qty', 'sku'
-            ])
-            .addField(ProductListQuery._prepareItemsField(
-                { getConfigurableData: true, isSingleProduct: true },
-                new Field('product')
-            ));
+        return new Field('items').addFieldList(this._getCartItemFields());
     }
 }
-
-export { CartQuery };
 
 export default new CartQuery();
