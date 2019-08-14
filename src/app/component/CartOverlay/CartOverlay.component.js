@@ -68,6 +68,15 @@ class CartOverlay extends Component {
     }
 
     renderActions() {
+        const { products } = this.props;
+        const isDisabled = !Object.keys(products).length;
+        const disabled = isDisabled
+            ? {
+                onClick: e => e.preventDefault(),
+                disabled: true
+            }
+            : {};
+
         return (
             <div block="CartOverlay" elem="Actions">
                 <Link
@@ -79,6 +88,7 @@ class CartOverlay extends Component {
                 <Link
                   className="CartOverlay-CheckoutButton Button"
                   to="/checkout"
+                  { ...disabled }
                 >
                     <span />
                     Secure checkout

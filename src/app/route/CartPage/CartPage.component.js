@@ -65,12 +65,20 @@ class CartPage extends Component {
 
     renderTotals() {
         const {
+            products,
             totals: {
                 grand_total = 0,
                 subtotal = 0,
                 tax_amount = 0
             }
         } = this.props;
+        const isDisabled = !Object.keys(products).length;
+        const disabled = isDisabled
+            ? {
+                onClick: e => e.preventDefault(),
+                disabled: true
+            }
+            : {};
 
         return (
             <article block="CartPage" elem="Summary">
@@ -88,6 +96,7 @@ class CartPage extends Component {
                 <Link
                   className="CartPage-CheckoutButton Button"
                   to="/checkout"
+                  { ...disabled }
                 >
                     <span />
                     Secure checkout

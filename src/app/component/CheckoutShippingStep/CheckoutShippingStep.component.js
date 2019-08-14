@@ -242,8 +242,6 @@ class CheckoutShippingStep extends Component {
         const trimmedBillingAddress = Object.entries(billingAddress).length ? this.trimAddress(billingAddress) : {};
         const trimmedShippingAddress = this.trimAddress(this.state);
 
-        console.log(trimmedShippingAddress);
-
         if (!method_code || !carrier_code) {
             showNotification('error', __('No shipping method specified'));
         } else {
@@ -298,11 +296,6 @@ class CheckoutShippingStep extends Component {
             telephone
         };
     }
-
-    // changeState(state) {
-    //     const { country_id } = this.state;
-    //     this.setState({ state });
-    // }
 
     handleFieldChange() {
         const { showNotification } = this.props;

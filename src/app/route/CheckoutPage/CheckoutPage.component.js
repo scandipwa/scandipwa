@@ -163,7 +163,7 @@ class CheckoutPage extends Component {
         return requestCustomerData(options);
     }
 
-    saveAddressInformation(addressInformation) {
+    saveAddressInformation({ addressInformation }) {
         const { saveAddressInformation, showNotification } = this.props;
         const {
             shipping_address,
@@ -324,7 +324,7 @@ class CheckoutPage extends Component {
         } = this.state;
         const { products, totals } = this.props;
         const stepRenderFunction = this.renderMap[checkoutStep];
-
+        console.log(!Object.keys(products).length && checkoutStep !== CHECKOUT_STEP_SUCCESS);
         return (
             <main block="CheckoutPage">
                 <ContentWrapper
@@ -332,7 +332,10 @@ class CheckoutPage extends Component {
                   label={ __('Checkout page') }
                 >
                     <div block="CheckoutPage" elem="Step">
-                        { stepRenderFunction() }
+                        { !Object.keys(products).length && checkoutStep !== CHECKOUT_STEP_SUCCESS
+                            ? (<p>No products</p>)
+                            : stepRenderFunction()
+                        }
                     </div>
                     { showSummary && (
                         <CheckoutOrderSummary

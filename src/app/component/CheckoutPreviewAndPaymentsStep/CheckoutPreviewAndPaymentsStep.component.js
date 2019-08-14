@@ -55,6 +55,7 @@ class CheckoutPreviewAndPaymentsStep extends Component {
             street: { ...street },
             billingIsSame: false,
             selectedCountryIndex: null,
+            country_id: null,
             paymentMethods,
             activePaymentMethod: {},
             loadingPaymentInformationSave: false,
@@ -343,7 +344,7 @@ class CheckoutPreviewAndPaymentsStep extends Component {
               validation={ ['notEmpty'] }
               value={ selectedCountryIndex }
               onChange={ index => this.setState({
-                  country_id: countryList[index].value,
+                  country_id: countryList[index].id,
                   selectedCountryIndex: index
               }, this.handleFieldChange) }
             />
