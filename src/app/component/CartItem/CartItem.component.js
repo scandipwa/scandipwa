@@ -31,7 +31,6 @@ class CartItem extends Component {
                 configurableVariantIndex,
                 variants
             },
-            product,
             isLikeTable
         } = this.props;
 
@@ -52,37 +51,50 @@ class CartItem extends Component {
                       block="CartItem"
                       elem="Option"
                     >
-                        {/* { values.find(({ value_index }) => value_index === currentVariant[attribute_code]).label } */}
-                        { attribute_code }
+                        { (values.find(
+                            ({ value_index }) => value_index === currentVariant[attribute_code]
+                        ) || {}).label }
                     </li>
                 )) }
             </ul>
         );
     }
 
-    renderFigureCaption() {
-        const {
-            product: { name, price },
-            isLikeTable
-        } = this.props;
+    renderContent() {
+        const { isLikeTable, linkTo } = this.props;
 
         return (
-            <figcaption
-              block="CartItem"
-              elem="Content"
-              mods={ { isLikeTable } }
-            >
-              <p block="CartItem" elem="Heading">{ name }</p>
-              { this.renderConfiguration() }
-              <ProductPrice
-                mix={ {
-                    block: 'CartItem',
-                    elem: 'Price',
-                    mods: { isLikeTable }
-                } }
-                price={ price }
-              />
-            </figcaption>
+            <Link to={ linkTo }>
+                <figure block="CartItem" elem="Wrapper">
+                    { this.renderImage() }
+                    <figcaption
+                      block="CartItem"
+                      elem="Content"
+                      mods={ { isLikeTable } }
+                    >
+                        { this.renderProductDetails() }
+                    </figcaption>
+                </figure>
+            </Link>
+        );
+    }
+
+    renderProductDetails() {
+        const { product: { name, price, isLikeTable } } = this.props;
+
+        return (
+            <>
+                <p block="CartItem" elem="Heading">{ name }</p>
+                { this.renderConfiguration() }
+                <ProductPrice
+                  mix={ {
+                      block: 'CartItem',
+                      elem: 'Price',
+                      mods: { isLikeTable }
+                  } }
+                  price={ price }
+                />
+            </>
         );
     }
 
@@ -124,33 +136,31 @@ class CartItem extends Component {
         );
     }
 
+    renderImage() {
+        const { product: { name }, thumbnail } = this.props;
+
+        return (
+            <Image
+              src={ thumbnail }
+              mix={ {
+                  block: 'CartItem',
+                  elem: 'Picture'
+              } }
+              ratio="custom"
+              alt={ `Product ${name} thumbnail.` }
+            />
+        );
+    }
+
     render() {
-        const {
-            product: { name },
-            isLoading,
-            getProductLinkTo,
-            getProductThumbnail
-        } = this.props;
+        const { isLoading } = this.props;
 
         return (
             <li
               block="CartItem"
             >
                 <Loader isLoading={ isLoading } />
-                <Link to={ getProductLinkTo() }>
-                    <figure block="CartItem" elem="Wrapper">
-                        <Image
-                          src={ getProductThumbnail() }
-                          mix={ {
-                              block: 'CartItem',
-                              elem: 'Picture'
-                          } }
-                          ratio="custom"
-                          alt={ `Product ${name} thumbnail.` }
-                        />
-                        { this.renderFigureCaption() }
-                    </figure>
-                </Link>
+                { this.renderContent() }
                 { this.renderActions() }
             </li>
         );
@@ -164,8 +174,14 @@ CartItem.propTypes = {
     isLikeTable: PropTypes.bool,
     handleRemoveItem: PropTypes.func.isRequired,
     handleQtyChange: PropTypes.func.isRequired,
-    getProductLinkTo: PropTypes.func.isRequired,
-    getProductThumbnail: PropTypes.func.isRequired
+    linkTo: PropTypes.oneOfType([
+        PropTypes.shape({
+            pathname: PropTypes.string,
+            search: PropTypes.string
+        }),
+        PropTypes.string
+    ]).isRequired,
+    thumbnail: PropTypes.string.isRequired
 };
 
 CartItem.defaultProps = {

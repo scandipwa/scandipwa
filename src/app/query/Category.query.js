@@ -16,6 +16,10 @@ import { Field } from 'Util/Query';
  * @class CategoryQuery
  */
 export class CategoryQuery {
+    constructor() {
+        this.options = {};
+    }
+
     getQuery(options = {}) {
         this.options = options;
 
@@ -39,25 +43,29 @@ export class CategoryQuery {
 
     _getBreadcrumbsField() {
         return new Field('breadcrumbs')
-            .addFieldList(this._getBreadcrumbFields())
+            .addFieldList(this._getBreadcrumbFields());
     }
 
     _getBreadcrumbFields() {
-        return ['category_name', 'category_url_key', 'category_level'];
+        return [
+            'category_name',
+            'category_level',
+            'category_url_key'
+        ];
     }
 
     _getDefaultFields() {
         return [
             'id',
             'name',
-            'description',
-            'url_path',
             'image',
             'url_key',
-            'product_count',
+            'url_path',
             'meta_title',
-            'meta_description',
+            'description',
             'canonical_url',
+            'product_count',
+            'meta_description',
             this._getBreadcrumbsField()
         ];
     }

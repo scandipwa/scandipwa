@@ -27,7 +27,6 @@ class HomePage extends Component {
 
         this.options = {
             identifiers: ['homepage-category-preview'],
-            fields: ['identifier'],
             sliderId: 4
         };
     }

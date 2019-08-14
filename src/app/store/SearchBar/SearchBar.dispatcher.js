@@ -20,7 +20,7 @@ import { updateSearchBar, updateLoadStatus, clearSearchResults } from './SearchB
  */
 export class SearchBarDispatcher extends QueryDispatcher {
     constructor() {
-        super('SearchBar', 31536000);
+        super('SearchBar', 2628000);
     }
 
     onSuccess(data, dispatch) {

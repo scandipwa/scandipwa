@@ -21,7 +21,7 @@ import { updateUrlRewrite, clearUrlRewrite } from 'Store/UrlRewrites';
  */
 export class UrlRewritesDispatcher extends QueryDispatcher {
     constructor() {
-        super('UrlRewrites', 31536000);
+        super('UrlRewrites', 2628000);
     }
 
     onSuccess({ urlResolver }, dispatch) {

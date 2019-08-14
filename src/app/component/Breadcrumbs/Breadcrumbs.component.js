@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import ContentWrapper from 'Component/ContentWrapper';
@@ -21,24 +21,39 @@ import TextPlaceholder from 'Component/TextPlaceholder';
  * Breadcrumbs
  * @class Breadcrumbs
  */
-class Breadcrumbs extends Component {
+class Breadcrumbs extends PureComponent {
     renderBreadcrumb({ url, name }, i) {
         const { breadcrumbs } = this.props;
         const isDisabled = !url || breadcrumbs.length - 1 === i;
 
         return (
-            <li block="Breadcrumbs" elem="Crumb" key={ i }>
-                <Link to={ url || '' } tabIndex={ isDisabled ? '-1' : '0' }>
-                    <TextPlaceholder content={ name } />
+            <li
+              block="Breadcrumbs"
+              elem="Crumb"
+              key={ i }
+              itemProp="itemListElement"
+              itemScope
+              itemType="https://schema.org/ListItem"
+            >
+                <Link
+                  to={ url || '' }
+                  tabIndex={ isDisabled ? '-1' : '0' }
+                  itemType="https://schema.org/Thing"
+                  itemProp="item"
+                >
+                    <span itemProp="name">
+                        <TextPlaceholder content={ name } />
+                    </span>
+                    <meta itemProp="position" content={ i } />
                 </Link>
             </li>
         );
     }
 
     renderBreadcrumbList(breadcrumbs) {
-        return breadcrumbs
-            .reverse()
-            .map((breadcrumb, i) => this.renderBreadcrumb(breadcrumb, i));
+        return breadcrumbs.map((_, i) => this.renderBreadcrumb(
+            breadcrumbs[breadcrumbs.length - 1 - i], i
+        ));
     }
 
     render() {
@@ -49,7 +64,12 @@ class Breadcrumbs extends Component {
         return (
             <ContentWrapper mix={ { block: 'Breadcrumbs' } } label={ __('Breadcrumbs (current location)...') }>
                 <nav aria-label="Breadcrumbs navigation">
-                    <ul block="Breadcrumbs" elem="List">
+                    <ul
+                      block="Breadcrumbs"
+                      elem="List"
+                      itemScope
+                      itemType="https://schema.org/BreadcrumbList"
+                    >
                         { breadcrumbs.length
                             ? this.renderBreadcrumbList(breadcrumbs)
                             : this.renderBreadcrumb({}, 0)

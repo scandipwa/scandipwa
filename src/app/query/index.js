@@ -13,7 +13,7 @@ import CategoryQuery from 'Query/Category.query';
 import ProductListQuery from 'Query/ProductList.query';
 import CmsPageQuery from 'Query/CmsPage.query';
 import CmsBlockQuery from 'Query/CmsBlock.query';
-import HomeSlider from 'Query/HomeSlider.query';
+import Slider from 'Query/Slider.query';
 import MenuQuery from 'Query/Menu.query';
 import MyAccount from 'Query/MyAccount.query';
 import Wishlist from 'Query/Wishlist.query';
@@ -28,7 +28,7 @@ export {
     ProductListQuery,
     CmsPageQuery,
     CmsBlockQuery,
-    HomeSlider,
+    Slider,
     MenuQuery,
     UrlRewritesQuery,
     MyAccount,

@@ -12,13 +12,9 @@
 export const UPDATE_PRODUCT_LIST_INFO = 'UPDATE_PRODUCT_LIST_INFO';
 export const UPDATE_INFO_LOAD_STATUS = 'UPDATE_INFO_LOAD_STATUS';
 
-const updateProductListInfo = (totalItems, minPrice, maxPrice, sortFields, filters) => ({
+const updateProductListInfo = products => ({
     type: UPDATE_PRODUCT_LIST_INFO,
-    totalItems,
-    minPrice,
-    maxPrice,
-    sortFields,
-    filters
+    products
 });
 
 /**

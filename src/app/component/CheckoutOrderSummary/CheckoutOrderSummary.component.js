@@ -42,8 +42,12 @@ class CheckoutOrderSummary extends Component {
 
         return (
             <li block="CheckoutOrderSummary" elem="SummaryItem" mods={ mods }>
-                <strong block="CheckoutOrderSummary" elem="Text">{ name }</strong>
-                <strong block="CheckoutOrderSummary" elem="Text">{ `${parseFloat(price).toFixed(2)}${priceString}` }</strong>
+                <strong block="CheckoutOrderSummary" elem="Text">
+                    { name }
+                </strong>
+                <strong block="CheckoutOrderSummary" elem="Text">
+                    { `${parseFloat(price).toFixed(2)}${priceString}` }
+                </strong>
             </li>
         );
     }
@@ -76,7 +80,6 @@ class CheckoutOrderSummary extends Component {
 
         // eslint-disable-next-line no-param-reassign, no-return-assign
         const itemsTax = items ? items.reduce((sum, { tax_amount }) => sum += tax_amount, tax_amount) : 0;
-
         const productCount = Object.keys(products).length;
 
         return (
@@ -86,7 +89,7 @@ class CheckoutOrderSummary extends Component {
                   elem="Header"
                   mix={ { block: 'CheckoutPage', elem: 'Heading', mods: { hasDivider: true } } }
                 >
-                    <span>Order Summary</span>
+                    <span>{ __('Order Summary') }</span>
                     <p block="CheckoutOrderSummary" elem="ItemsInCart">{ __('%s Items In Cart', productCount) }</p>
                 </h3>
                 <div block="CheckoutOrderSummary" elem="OrderItems">

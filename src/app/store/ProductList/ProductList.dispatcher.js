@@ -26,23 +26,15 @@ import { updateNoMatch } from 'Store/NoMatch';
  */
 export class ProductListDispatcher extends QueryDispatcher {
     constructor() {
-        super('ProductList', 86400);
+        super('ProductList', 2628000);
     }
 
-    // eslint-disable-next-line consistent-return
     onSuccess(data, dispatch, options) {
         const { products: { items } } = data;
+        const { args: { currentPage }, isNext } = options;
 
-        const {
-            currentPage,
-            isNext
-        } = options;
-
-        if (isNext) {
-            return dispatch(appendPage(items, currentPage));
-        }
-
-        dispatch(updateProductListItems(items, currentPage));
+        if (isNext) return dispatch(appendPage(items, currentPage));
+        return dispatch(updateProductListItems(items, currentPage));
     }
 
     onError(error, dispatch) {
@@ -52,11 +44,7 @@ export class ProductListDispatcher extends QueryDispatcher {
 
     prepareRequest(options, dispatch) {
         if (!options.isNext) dispatch(updateLoadStatus(true));
-
-        return ProductListQuery.getQuery({
-            ...options,
-            notRequireInfo: true
-        });
+        return ProductListQuery.getQuery(options);
     }
 }
 

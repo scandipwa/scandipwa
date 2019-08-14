@@ -19,10 +19,9 @@ export const CLEAR_GROUPED_PRODUCT_QUANTITY = 'CLEAR_GROUPED_PRODUCT_QUANTITY';
  * @param  {Number} totalItems Total number of products in this filter
  * @return {void}
  */
-const updateProductDetails = (product, filters) => ({
+const updateProductDetails = (product) => ({
     type: UPDATE_PRODUCT_DETAILS,
-    product,
-    filters
+    product
 });
 
 /**

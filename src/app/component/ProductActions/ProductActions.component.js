@@ -251,7 +251,7 @@ class ProductActions extends Component {
                       aria-label={ `${ optionLabel } options` }
                     >
                         <h4 block="ProductActions" elem="SectionHeading">{ optionLabel }</h4>
-                        { values.map(({ value, label, id }) => (
+                        {/* { values.map(({ value, label, id }) => (
                             <Swatch
                               key={ id }
                               onClick={ () => this.changeConfigurableVariant(code, id) }
@@ -260,7 +260,7 @@ class ProductActions extends Component {
                               filterItem={ { label, swatch_data: { value } } }
                               requestVar={ code }
                             />
-                        )) }
+                        )) } */}
                     </section>
                 );
             })),

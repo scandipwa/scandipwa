@@ -10,7 +10,7 @@
  */
 
 import { QueryDispatcher } from 'Util/Request';
-import { CmsBlockQuery, HomeSlider } from 'Query';
+import { CmsBlockQuery, Slider } from 'Query';
 import { showNotification } from 'Store/Notification';
 import { updateCmsBlocks, updateSlider } from 'Store/CmsBlocksAndSlider';
 
@@ -21,7 +21,7 @@ import { updateCmsBlocks, updateSlider } from 'Store/CmsBlocksAndSlider';
  */
 export class CmsBlocksAndSliderDispatcher extends QueryDispatcher {
     constructor() {
-        super('CmsBlocksAndSlider', 31536000);
+        super('CmsBlocksAndSlider', 2628000);
     }
 
     onSuccess(data, dispatch) {
@@ -45,7 +45,7 @@ export class CmsBlocksAndSliderDispatcher extends QueryDispatcher {
      */
     prepareRequest(options) {
         return this.isSliderRequested(options)
-            ? [HomeSlider.getQuery(options), CmsBlockQuery.getQuery(options)]
+            ? [Slider.getQuery(options), CmsBlockQuery.getQuery(options)]
             : [CmsBlockQuery.getQuery(options)];
     }
 }

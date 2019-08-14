@@ -24,11 +24,7 @@ class CartOverlay extends Component {
     renderCartItems() {
         const { products, isEditing } = this.props;
 
-        if (!Object.keys(products).length) {
-            return (
-                <p block="CartOverlay" elem="Empty">There are no products in cart.</p>
-            );
-        }
+        if (!Object.keys(products).length) return this.renderNoCartItems();
 
         return (
             <ul block="CartOverlay" elem="Items" aria-label="List of items in cart">
@@ -39,30 +35,38 @@ class CartOverlay extends Component {
         );
     }
 
+    renderNoCartItems() {
+        return (
+            <p block="CartOverlay" elem="Empty">
+                { __('There are no products in cart.') }
+            </p>
+        );
+    }
+
     renderTotals() {
-        const { totals: { grand_total = 0 } } = this.props;
+        const { totals: { grand_total } } = this.props;
 
         return (
             <dl
               block="CartOverlay"
               elem="Total"
             >
-                <dt>Order total:</dt>
-                <dd>{ `$${grand_total}` }</dd>
+                <dt>{ __('Order total:') }</dt>
+                <dd>{ `$${grand_total || '0'}` }</dd>
             </dl>
         );
     }
 
     renderTax() {
-        const { totals: { tax_amount = 0 } } = this.props;
+        const { totals: { tax_amount } } = this.props;
 
         return (
             <dl
               block="CartOverlay"
               elem="Tax"
             >
-                <dt>Tax total:</dt>
-                <dd>{ `$${tax_amount || 0}` }</dd>
+                <dt>{ __('Tax total:') }</dt>
+                <dd>{ `$${tax_amount || '0'}` }</dd>
             </dl>
         );
     }
@@ -83,7 +87,7 @@ class CartOverlay extends Component {
                   className="CartOverlay-CartButton Button Button_hollow"
                   to="/cart"
                 >
-                    View cart
+                    { __('View cart') }
                 </Link>
                 <Link
                   className="CartOverlay-CheckoutButton Button"
@@ -91,7 +95,7 @@ class CartOverlay extends Component {
                   { ...options }
                 >
                     <span />
-                    Secure checkout
+                    { __('Secure checkout') }
                 </Link>
             </div>
         );

@@ -136,8 +136,7 @@ class AppRouter extends Component {
             [AFTER_ITEMS_TYPE]: afterItems
         };
         const footerOptions = {
-            identifiers: ['social-links'],
-            fields: ['identifier']
+            identifiers: ['social-links']
         };
 
         WishlistDispatcher.updateInitialWishlistData(Store.dispatch);

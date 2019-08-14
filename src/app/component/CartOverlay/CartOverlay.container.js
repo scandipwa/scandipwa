@@ -9,13 +9,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import React, { PureComponent } from 'react';
 import { changeHeaderState, goToPreviousHeaderState } from 'Store/Header';
-import { CartDispatcher } from 'Store/Cart';
-import { hideActiveOverlay } from 'Store/Overlay';
 import { CART, CART_EDITING } from 'Component/Header';
+import { hideActiveOverlay } from 'Store/Overlay';
+import { CartDispatcher } from 'Store/Cart';
+import { TotalsType } from 'Type/MiniCart';
+
 import CartOverlay from './CartOverlay.component';
 
 export const mapStateToProps = state => ({
@@ -23,7 +25,7 @@ export const mapStateToProps = state => ({
     totals: state.CartReducer.cartTotals
 });
 
-const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = dispatch => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     goToPreviousHeaderState: () => dispatch(goToPreviousHeaderState()),
     changeHeaderState: state => dispatch(changeHeaderState(state)),
@@ -35,14 +37,14 @@ export class CartOverlayContainer extends PureComponent {
         super(props);
 
         this.state = { isEditing: false };
-        this.availableFunctions = {
+        this.containerFunctions = {
             changeHeaderState: this.changeHeaderState.bind(this)
         };
     }
 
     changeHeaderState() {
         const { changeHeaderState, totals: { count = 0 } } = this.props;
-        const title = `${ count || 0 } Items`;
+        const title = __('%s Items', count || 0);
 
         changeHeaderState({
             name: CART,
@@ -65,13 +67,14 @@ export class CartOverlayContainer extends PureComponent {
             <CartOverlay
               { ...this.props }
               { ...this.state }
-              { ...this.availableFunctions }
+              { ...this.containerFunctions }
             />
         );
     }
 }
 
 CartOverlayContainer.propTypes = {
+    totals: TotalsType.isRequired,
     changeHeaderState: PropTypes.func.isRequired
 };
 

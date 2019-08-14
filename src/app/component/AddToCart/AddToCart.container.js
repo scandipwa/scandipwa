@@ -13,9 +13,9 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { CartDispatcher } from 'Store/Cart';
-import { showNotification } from 'Store/Notification';
-import { WishlistDispatcher } from 'Store/Wishlist';
 import { ProductType } from 'Type/ProductList';
+import { WishlistDispatcher } from 'Store/Wishlist';
+import { showNotification } from 'Store/Notification';
 
 import AddToCart from './AddToCart.component';
 
@@ -36,7 +36,7 @@ export class AddToCartContainer extends PureComponent {
 
         this.state = { isLoading: false };
         this.timeOut = null;
-        this.availableFunctions = {
+        this.containerFunctions = {
             componentWillUnmount: this.componentWillUnmount.bind(this),
             setAnimationTimeout: this.setAnimationTimeout.bind(this),
             afterAdded: this.afterAdded.bind(this),
@@ -136,13 +136,14 @@ export class AddToCartContainer extends PureComponent {
             <AddToCart
               { ...this.props }
               { ...this.state }
-              { ...this.availableFunctions }
+              { ...this.containerFunctions }
             />
         );
     }
 }
 
 AddToCartContainer.propTypes = {
+    product: ProductType.isRequired,
     quantity: PropTypes.number,
     configurableVariantIndex: PropTypes.number,
     groupedProductQuantity: PropTypes.objectOf(PropTypes.number),

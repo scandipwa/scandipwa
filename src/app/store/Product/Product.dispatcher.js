@@ -22,13 +22,13 @@ import { RelatedProductsDispatcher } from 'Store/RelatedProducts';
  */
 export class ProductDispatcher extends QueryDispatcher {
     constructor() {
-        super('ProductList', 31536000);
+        super('ProductList', 2628000);
     }
 
     onSuccess(data, dispatch) {
-        const { products: { items, filters, total_count } } = data;
+        const { products: { items } } = data;
 
-        if (!total_count) return dispatch(updateNoMatch(true));
+        if (!items) return dispatch(updateNoMatch(true));
 
         const [productItem] = items;
         const product = productItem.type_id === 'grouped'
@@ -39,13 +39,16 @@ export class ProductDispatcher extends QueryDispatcher {
             const { product_links } = productItem;
             const productsSkuArray = product_links.map(item => `"${item.linked_product_sku}"`);
 
-            RelatedProductsDispatcher.handleData(dispatch, { productsSkuArray });
+            RelatedProductsDispatcher.handleData(
+                dispatch,
+                { args: { filter: { productsSkuArray } } }
+            );
         } else {
             RelatedProductsDispatcher.clearRelatedProducts(dispatch);
         }
 
         return (items && items.length > 0)
-            ? dispatch(updateProductDetails(product, filters))
+            ? dispatch(updateProductDetails(product))
             : dispatch(updateNoMatch(true));
     }
 

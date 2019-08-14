@@ -25,12 +25,13 @@ class MenuQuery {
         return new Field('scandiwebMenu')
             .addArgument('id', 'ID!', menuId)
             .addFieldList(this._getMenuFields())
-            .addField(this._getMenuItemsField())
             .setAlias('menu');
     }
 
     _getMenuFields() {
-        return ['menu_id', 'is_active', 'css_class'];
+        return [
+            'menu_id', 'is_active', 'css_class', this._getMenuItemsField()
+        ];
     }
 
     _getMenuItemsField() {
@@ -40,10 +41,17 @@ class MenuQuery {
 
     _getMenuItemFields() {
         return [
-            'item_id', 'is_active',
-            'parent_id', 'position', 'title',
-            'item_class', 'icon', 'url', 'url_type',
-            'cms_page_identifier', 'category_id'
+            'url',
+            'icon',
+            'title',
+            'item_id',
+            'position',
+            'url_type',
+            'parent_id',
+            'is_active',
+            'item_class',
+            'category_id',
+            'cms_page_identifier'
         ];
     }
 }

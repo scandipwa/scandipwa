@@ -171,12 +171,11 @@ class CartPage extends Component {
 CartPage.propTypes = {
     isEditing: PropTypes.bool.isRequired,
     products: PropTypes.objectOf(ProductType),
-    totals: TotalsType
+    totals: TotalsType.isRequired
 };
 
 CartPage.defaultProps = {
-    products: {},
-    totals: {}
+    products: {}
 };
 
 export default CartPage;

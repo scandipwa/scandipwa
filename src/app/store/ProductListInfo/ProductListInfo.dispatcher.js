@@ -25,21 +25,11 @@ import { updateNoMatch } from 'Store/NoMatch';
  */
 export class ProductListInfoDispatcher extends QueryDispatcher {
     constructor() {
-        super('ProductList', 86400);
+        super('ProductList', 2628000);
     }
 
-    onSuccess(data, dispatch) {
-        const {
-            products: {
-                total_count,
-                min_price,
-                max_price,
-                sort_fields,
-                filters
-            }
-        } = data;
-
-        dispatch(updateProductListInfo(total_count, min_price, max_price, sort_fields, filters));
+    onSuccess({ products }, dispatch) {
+        dispatch(updateProductListInfo(products));
     }
 
     onError(error, dispatch) {
@@ -51,8 +41,7 @@ export class ProductListInfoDispatcher extends QueryDispatcher {
         dispatch(updateInfoLoadStatus(true));
         return ProductListQuery.getQuery({
             ...options,
-            pageSize: 1,
-            notRequireItems: true
+            requireInfo: true
         });
     }
 }

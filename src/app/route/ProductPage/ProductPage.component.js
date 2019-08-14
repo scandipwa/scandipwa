@@ -166,9 +166,12 @@ class ProductPage extends Component {
     requestProduct() {
         const { requestProduct, location, match } = this.props;
         const options = {
-            productUrlPath: getUrlParam(match, location),
             isSingleProduct: true,
-            getConfigurableData: true
+            args: {
+                filter: {
+                    productUrlPath: getUrlParam(match, location)
+                }
+            }
         };
 
         // eslint-disable-next-line react/no-unused-state

@@ -9,12 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
-import { changeHeaderState } from 'Store/Header';
 import { CART, CART_EDITING } from 'Component/Header';
+import { changeHeaderState } from 'Store/Header';
+import { TotalsType } from 'Type/MiniCart';
 import { history } from 'Route';
 
 import CartPage from './CartPage.component';
@@ -86,7 +87,8 @@ export class CartPageContainer extends PureComponent {
 
 CartPageContainer.propTypes = {
     updateBreadcrumbs: PropTypes.func.isRequired,
-    changeHeaderState: PropTypes.func.isRequired
+    changeHeaderState: PropTypes.func.isRequired,
+    totals: TotalsType.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CartPageContainer);

@@ -34,7 +34,7 @@ export class ReviewDispatcher {
 
         reviewItem.rating_data = this.prepareRatingData(reviewItem);
 
-        return fetchMutation(Review.getAddProductReview(
+        return fetchMutation(Review.getAddProductReviewMutation(
             reviewItem
         )).then(
             () => dispatch(showNotification('success', 'You submitted your review for moderation.')),
