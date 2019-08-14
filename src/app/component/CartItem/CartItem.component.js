@@ -34,6 +34,10 @@ class CartItem extends Component {
         };
     }
 
+    componentWillUnmount() {
+        this.removeItem && this.removeItem.cancel();
+    }
+
     /**
      * Get link to product page
      * @return {{pathname: String, state Object}} Pathname and product state
@@ -44,14 +48,36 @@ class CartItem extends Component {
 
         return {
             pathname: `/product/${ url_key }`,
-            state: { product: product, variantIndex },
+            state: { product, variantIndex },
             search: `?variant=${ variantIndex >= 0 ? variantIndex : 0}`
         };
     }
 
-    componentWillUnmount() {
-        const { handleRemoveItem } = this.props;
-        this.removeItem && this.removeItem.cancel();
+    /**
+     * @returns {Int}
+     */
+    getVariantIndex() {
+        const {
+            item: {
+                sku: itemSku,
+                product: { variants = [] }
+            }
+        } = this.props;
+
+        return variants.findIndex(({ product: { sku } }) => sku === itemSku);
+    }
+
+    /**
+     * @returns {Product}
+     */
+    getCurrentProduct() {
+        const { item: { product } } = this.props;
+
+        const variantIndex = this.getVariantIndex();
+        if (variantIndex < 0) {
+            return product;
+        }
+        return product.variants[variantIndex];
     }
 
     /**
@@ -67,7 +93,6 @@ class CartItem extends Component {
         });
     }
 
-    
     handleRemoveItem() {
         const { handleRemoveItem } = this.props;
         this.setState({ isLoading: true }, () => {
@@ -89,7 +114,7 @@ class CartItem extends Component {
 
     renderItemTitle() {
         const { item: { product: { name, url_key, attributes } }} = this.props;
-        let brand = attributes.find(attribute => attribute.attribute_code === 'brand').attribute_value;
+        const brand = attributes.find(attribute => attribute.attribute_code === 'brand').attribute_value;
         return (
             <div block="CartItem" elem="Title">
                 <Link
@@ -108,7 +133,7 @@ class CartItem extends Component {
      * @returns {void}
      */
     renderItemDetails() {
-        const { currency, item: {qty, row_total} } = this.props;
+        const { currency, item: { qty, row_total } } = this.props;
         const priceString = formatCurrency(ProductPrice.roundPrice(row_total), currency);
         return (
             <div
@@ -126,39 +151,12 @@ class CartItem extends Component {
                 <div block="CartItem" elem="Price">
                     <p block="ProductPrice" aria-label={ __('Product Price') }>
                         <span aria-label={ __('Current product price') }>
-                            <data value={ProductPrice.roundPrice(row_total)}>{ priceString }</data>
+                            <data value={ ProductPrice.roundPrice(row_total) }>{ priceString }</data>
                         </span>
                     </p>
                 </div>
             </div>
         );
-    }
-
-    /**
-     * @returns {Int}
-     */
-    getVariantIndex() {
-        const {
-            item: {
-                sku: itemSku,
-                product: { variants = [] }
-            }
-        } = this.props;
-
-        return variants.findIndex( ({ product: { sku } }) => sku === itemSku);
-    }
-
-    /**
-     * @returns {Product}
-     */
-    getCurrentProduct() {
-        const { item: { product } } = this.props;
-
-        const variantIndex = this.getVariantIndex();
-        if (variantIndex < 0) {
-            return product;
-        }
-        return product.variants[variantIndex];
     }
 
     render() {
@@ -198,9 +196,10 @@ class CartItem extends Component {
 
 CartItem.propTypes = {
     item: CartItemType.isRequired,
-    addProduct: PropTypes.func.isRequired,
-    removeProduct: PropTypes.func.isRequired,
-    onItemClick: PropTypes.func
+    handleChangeQuantity: PropTypes.func.isRequired,
+    handleRemoveItem: PropTypes.func.isRequired,
+    onItemClick: PropTypes.func,
+    currency: PropTypes.string.isRequired
 };
 
 CartItem.defaultProps = {
