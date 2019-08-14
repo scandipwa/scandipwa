@@ -158,10 +158,6 @@ module.exports = {
             __: path.resolve(path.join(__dirname, 'TranslationFunction'))
         }),
 
-        new FallbackPlugin({
-            fallbackRoot
-        }),
-
         new HtmlWebpackPlugin({
             template: path.resolve(projectRoot, 'src', 'public', 'index.development.html'),
             filename: 'index.html',

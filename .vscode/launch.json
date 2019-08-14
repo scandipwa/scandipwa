@@ -30,7 +30,7 @@
             "type": "chrome",
             "request": "launch",
             "name": "Launch Chrome",
-            "url": "https://scandipwa.local/",
+            "url": "https://scandipwa.local/category/men",
             "webRoot": "${workspaceFolder}"
         }
     ]

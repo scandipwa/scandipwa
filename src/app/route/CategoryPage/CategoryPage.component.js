@@ -109,19 +109,18 @@ class CategoryPage extends PureComponent {
             getFilterUrl
         } = this.props;
 
-        return null;
-        // return (
-        //     <CategoryFilterOverlay
-        //       getFilterUrl={ getFilterUrl }
-        //       availableFilters={ filters }
-        //       customFiltersValues={ selectedFilters }
-        //       updateFilter={ updateFilter }
-        //       updatePriceRange={ updatePriceRange }
-        //       priceValue={ selectedPriceRange }
-        //       minPriceValue={ minPriceRange }
-        //       maxPriceValue={ maxPriceRange }
-        //     />
-        // );
+        return (
+            <CategoryFilterOverlay
+              getFilterUrl={ getFilterUrl }
+              availableFilters={ filters }
+              customFiltersValues={ selectedFilters }
+              updateFilter={ updateFilter }
+              updatePriceRange={ updatePriceRange }
+              priceValue={ selectedPriceRange }
+              minPriceValue={ minPriceRange }
+              maxPriceValue={ maxPriceRange }
+            />
+        );
     }
 
     renderCategorySort() {

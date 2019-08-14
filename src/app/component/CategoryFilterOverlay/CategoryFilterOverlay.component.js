@@ -104,7 +104,7 @@ class CategoryFilterOverlay extends PureComponent {
 }
 
 CategoryFilterOverlay.propTypes = {
-    availableFilters: PropTypes.arrayOf(PropTypes.shape).isRequired,
+    availableFilters: PropTypes.objectOf(PropTypes.shape).isRequired,
     updatePriceRange: PropTypes.func.isRequired,
     priceValue: PropTypes.shape({
         min: PropTypes.number,
