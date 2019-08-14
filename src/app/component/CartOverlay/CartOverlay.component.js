@@ -15,45 +15,14 @@ import { Link } from 'react-router-dom';
 
 import isMobile from 'Util/Mobile';
 import Overlay from 'Component/Overlay';
-import { CART, CART_EDITING } from 'Component/Header';
 import { ProductType } from 'Type/ProductList';
 import { TotalsType } from 'Type/MiniCart';
 import CartItem from 'Component/CartItem';
 import './CartOverlay.style';
 
 class CartOverlay extends Component {
-    constructor(props) {
-        super(props);
-        console.log(this.props);
-
-        this.state = { isEditing: false };
-
-        this.changeHeaderState = this.changeHeaderState.bind(this);
-    }
-
-    changeHeaderState() {
-        const { changeHeaderState, totals: { count = 0 } } = this.props;
-        const title = `${ count || 0 } Items`;
-
-        changeHeaderState({
-            name: CART,
-            title,
-            onEditClick: () => {
-                this.setState({ isEditing: true });
-                changeHeaderState({
-                    name: CART_EDITING,
-                    title,
-                    onOkClick: () => this.setState({ isEditing: false }),
-                    onCancelClick: () => this.setState({ isEditing: false })
-                });
-            },
-            onCloseClick: () => this.setState({ isEditing: false })
-        });
-    }
-
     renderCartItems() {
-        const { products } = this.props;
-        const { isEditing } = this.state;
+        const { products, isEditing } = this.props;
 
         if (!Object.keys(products).length) {
             return (
@@ -71,7 +40,7 @@ class CartOverlay extends Component {
     }
 
     renderTotals() {
-        const { totals: { grandTotalPrice = 0 } } = this.props;
+        const { totals: { grand_total = 0 } } = this.props;
 
         return (
             <dl
@@ -79,13 +48,13 @@ class CartOverlay extends Component {
               elem="Total"
             >
                 <dt>Order total:</dt>
-                <dd>{ `$${grandTotalPrice}` }</dd>
+                <dd>{ `$${grand_total}` }</dd>
             </dl>
         );
     }
 
     renderTax() {
-        const { totals: { taxPrice = 0 } } = this.props;
+        const { totals: { tax_amount = 0 } } = this.props;
 
         return (
             <dl
@@ -93,7 +62,7 @@ class CartOverlay extends Component {
               elem="Tax"
             >
                 <dt>Tax total:</dt>
-                <dd>{ `$${taxPrice}` }</dd>
+                <dd>{ `$${tax_amount || 0}` }</dd>
             </dl>
         );
     }
@@ -133,10 +102,12 @@ class CartOverlay extends Component {
     }
 
     render() {
+        const { changeHeaderState } = this.props;
+
         return (
             <Overlay
               id="cart"
-              onVisible={ this.changeHeaderState }
+              onVisible={ changeHeaderState }
               mix={ { block: 'CartOverlay' } }
             >
                 { this.renderPromo() }
@@ -152,7 +123,8 @@ class CartOverlay extends Component {
 CartOverlay.propTypes = {
     products: PropTypes.objectOf(ProductType),
     totals: TotalsType.isRequired,
-    changeHeaderState: PropTypes.func.isRequired
+    changeHeaderState: PropTypes.func.isRequired,
+    isEditing: PropTypes.bool.isRequired
 };
 
 CartOverlay.defaultProps = {

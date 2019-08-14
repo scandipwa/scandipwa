@@ -64,12 +64,11 @@ class CartPage extends Component {
     }
 
     renderTotals() {
-        console.log(this.props);
         const {
             totals: {
-                grandTotalPrice = 0,
-                subTotalPrice = 0,
-                taxPrice = 0
+                grand_total = 0,
+                subtotal = 0,
+                tax_amount = 0
             }
         } = this.props;
 
@@ -78,13 +77,13 @@ class CartPage extends Component {
                 <h4 block="CartPage" elem="SummaryHeading">Summary</h4>
                 <dl block="CartPage" elem="TotalDetails" aria-label="Order total details">
                     <dt>Subtotal:</dt>
-                    <dd>{ `$${subTotalPrice}` }</dd>
+                    <dd>{ `$${subtotal}` }</dd>
                     <dt>Tax:</dt>
-                    <dd>{ `$${taxPrice}` }</dd>
+                    <dd>{ `$${tax_amount || 0}` }</dd>
                 </dl>
                 <dl block="CartPage" elem="Total" aria-label="Complete order total">
                     <dt>Order total:</dt>
-                    <dd>{ `$${grandTotalPrice}` }</dd>
+                    <dd>{ `$${grand_total}` }</dd>
                 </dl>
                 <Link
                   className="CartPage-CheckoutButton Button"

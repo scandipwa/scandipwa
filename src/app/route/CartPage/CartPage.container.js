@@ -39,7 +39,6 @@ export class CartPageContainer extends PureComponent {
     componentDidMount() {
         this._updateBreadcrumbs();
         this._changeHeaderState();
-        console.log(this.props);
     }
 
     _updateBreadcrumbs() {
