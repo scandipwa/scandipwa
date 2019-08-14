@@ -12,15 +12,14 @@
 import { connect } from 'react-redux';
 import React from 'react';
 import { CartDispatcher } from 'Store/Cart';
-import CartItem from './CartItem.component';
 import { makeCancelable } from 'Util/Promise';
+import CartItem from './CartItem.component';
 
 const mapDispatchToProps = dispatch => ({
     addProduct: options => CartDispatcher.addProductToCart(dispatch, options),
+    changeItemQty: options => CartDispatcher.changeItemQty(dispatch, options),
     removeProduct: options => CartDispatcher.removeProductFromCart(dispatch, options)
 });
-
-
 
 const cartItemWrapper = (props) => {
     /**
@@ -28,22 +27,23 @@ const cartItemWrapper = (props) => {
      * @param {Number} value new quantity
      * @return {void}
      */
-    const handleChangeQuantity = (value) => {
-        const { addProduct, item: { product, qty } } = props;
-        const newQuantity = qty < value ? 1 : -1;
-        // this.setState({ isLoading: true });
-        return makeCancelable(addProduct({ product, quantity: newQuantity }));
-    }
+    const handleChangeQuantity = (quantity) => {
+        const { changeItemQty, item: { item_id, sku } } = props;
+        return makeCancelable(changeItemQty({ item_id, quantity, sku }));
+    };
 
-    
     const handleRemoveItem = () => {
         const { removeProduct, item: { item_id } } = props;
         return makeCancelable(removeProduct(item_id));
-    }
+    };
 
-
-    return <CartItem { ...props } handleRemoveItem={ handleRemoveItem } handleChangeQuantity={ handleChangeQuantity }/>
-}
+    return (
+        <CartItem { ...props }
+          handleRemoveItem={ handleRemoveItem }
+          handleChangeQuantity={ handleChangeQuantity }
+        />
+    );
+};
 
 const CartItemContainer = connect(null, mapDispatchToProps)(cartItemWrapper);
 

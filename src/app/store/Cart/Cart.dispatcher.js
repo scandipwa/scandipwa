@@ -74,6 +74,17 @@ export class CartDispatcher {
         );
     }
 
+    changeItemQty(dispatch, options) {
+        const { item_id, quantity, sku } = options;
+
+        return fetchMutation(Cart.getSaveCartItemMutation(
+            { sku, item_id, qty: quantity }, !isSignedIn() && this._getGuestQuoteId()
+        )).then(
+            ({ saveCartItem: { cartData }}) => this._updateCartData(cartData, dispatch),
+            error => dispatch(showNotification('error', error[0].message))
+        );
+    }
+
     addProductToCart(dispatch, options) {
         const { product, quantity } = options;
         const { item_id, quantity: originalQuantity } = this._getProductInCart(product);
@@ -84,7 +95,7 @@ export class CartDispatcher {
             sku,
             product_type,
             qty: (parseInt(originalQuantity, 10) || 0) + parseInt(quantity, 10),
-            // product_option: { extension_attributes: this._getExtensionAttributes(product) }
+            product_option: { extension_attributes: this._getExtensionAttributes(product) }
         };
 
         if (this._canBeAdded(options)) {

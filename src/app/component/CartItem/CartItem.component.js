@@ -35,7 +35,7 @@ class CartItem extends Component {
     }
 
     componentWillUnmount() {
-        this.removeItem && this.removeItem.cancel();
+        if (this.removeItem) this.removeItem.cancel();
     }
 
     /**
@@ -81,13 +81,14 @@ class CartItem extends Component {
     }
 
     /**
-     * Handle item quantity change. Check that value is <1
+     * Handle item quantity change. Check that value is >= 1
      * @param {Number} value new quantity
      * @return {void}
      */
     handleChangeQuantity(value) {
         const { handleChangeQuantity } = this.props;
-        this.setState({ isLoading: true }, () => {
+        if (value < 1) return this.handleRemoveItem();
+        return this.setState({ isLoading: true }, () => {
             this.changeQuantity = handleChangeQuantity(value);
             this.changeQuantity.promise.then(() => this.setState({ isLoading: false }));
         });
@@ -95,9 +96,9 @@ class CartItem extends Component {
 
     handleRemoveItem() {
         const { handleRemoveItem } = this.props;
-        this.setState({ isLoading: true }, () => {
+        return this.setState({ isLoading: true }, () => {
             this.removeItem = handleRemoveItem();
-            this.removeItem.promise.then(() => this.setState({ isLoading: false }))
+            this.removeItem.promise.then(() => this.setState({ isLoading: false }));
         });
     }
 
