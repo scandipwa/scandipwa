@@ -152,10 +152,10 @@ class CheckoutShippingStep extends Component {
             [COUNTRY_FIELD_ID]: {
                 label: __('Country'),
                 type: 'select',
-                defaultValue: DEFAULT_COUNTRY,
-                onChange: (countryId) => {
-                    this.getAvailableRegions(countryId);
-                }
+                defaultValue: DEFAULT_COUNTRY
+                // onChange: (countryId) => {
+                //     this.getAvailableRegions(countryId);
+                // }
             },
             [PHONE_FIELD_ID]: {
                 label: 'Phone Number',
@@ -218,7 +218,7 @@ class CheckoutShippingStep extends Component {
 
     // initialize available regions
     componentDidMount() {
-        this.getAvailableRegions(DEFAULT_COUNTRY);
+        // this.getAvailableRegions(DEFAULT_COUNTRY);
     }
 
     componentDidUpdate(prevProps) {
