@@ -152,10 +152,10 @@ class CheckoutShippingStep extends Component {
             [COUNTRY_FIELD_ID]: {
                 label: __('Country'),
                 type: 'select',
-                defaultValue: DEFAULT_COUNTRY,
-                onChange: (countryId) => {
-                    this.getAvailableRegions(countryId);
-                }
+                defaultValue: DEFAULT_COUNTRY
+                // onChange: (countryId) => {
+                //     this.getAvailableRegions(countryId);
+                // }
             },
             [PHONE_FIELD_ID]: {
                 label: 'Phone Number',
@@ -218,7 +218,7 @@ class CheckoutShippingStep extends Component {
 
     // initialize available regions
     componentDidMount() {
-        this.getAvailableRegions(DEFAULT_COUNTRY);
+        // this.getAvailableRegions(DEFAULT_COUNTRY);
     }
 
     componentDidUpdate(prevProps) {
@@ -241,8 +241,6 @@ class CheckoutShippingStep extends Component {
         const { method_code, carrier_code } = activeShippingMethod;
         const trimmedBillingAddress = Object.entries(billingAddress).length ? this.trimAddress(billingAddress) : {};
         const trimmedShippingAddress = this.trimAddress(this.state);
-
-        console.log(trimmedShippingAddress);
 
         if (!method_code || !carrier_code) {
             showNotification('error', __('No shipping method specified'));
@@ -298,11 +296,6 @@ class CheckoutShippingStep extends Component {
             telephone
         };
     }
-
-    // changeState(state) {
-    //     const { country_id } = this.state;
-    //     this.setState({ state });
-    // }
 
     handleFieldChange() {
         const { showNotification } = this.props;

@@ -131,7 +131,8 @@ $select-arrow-width: 6px !default;
                 margin: 0;
             }
 
-            &:hover {
+            &:hover,
+            &:focus {
                 background: var(--select-option-hover-background);
             }
         }

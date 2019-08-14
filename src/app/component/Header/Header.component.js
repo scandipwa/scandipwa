@@ -283,7 +283,7 @@ class Header extends PureComponent {
     }
 
     renderMinicartButton(isVisible = false) {
-        const { cartTotals: { count }, onMinicartOutsideClick, onMinicartButtonClick } = this.props;
+        const { cartTotals: { items_qty }, onMinicartOutsideClick, onMinicartButtonClick } = this.props;
 
         return (
             <ClickOutside onClick={ onMinicartOutsideClick } key="minicart">
@@ -295,7 +295,7 @@ class Header extends PureComponent {
                       onClick={ onMinicartButtonClick }
                       aria-label="Minicart"
                     >
-                        <span aria-label="Items in cart">{ count }</span>
+                        <span aria-label="Items in cart">{ items_qty }</span>
                     </button>
                     <CartOverlay />
                 </div>

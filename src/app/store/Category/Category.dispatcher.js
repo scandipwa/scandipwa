@@ -24,7 +24,7 @@ import { updateNoMatch } from 'Store/NoMatch';
  */
 export class CategoryDispatcher extends QueryDispatcher {
     constructor() {
-        super('Category', 86400);
+        super('ProductList', 31536000);
     }
 
     onSuccess(data, dispatch, { isSearchPage }) {

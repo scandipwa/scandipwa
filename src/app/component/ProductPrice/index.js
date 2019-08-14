@@ -9,6 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import ProductPrice from './ProductPrice.component';
+import ProductPrice from './ProductPrice.container';
 
 export default ProductPrice;

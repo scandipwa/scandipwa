@@ -66,9 +66,9 @@ export class ProductCardContainer extends PureComponent {
         const { product: { configurable_options = [], attributes } } = this.props;
 
         return configurable_options.reduce((acc, { attribute_code: option_code, values }) => {
-            const { attribute_options } = attributes.find(
+            const { attribute_options = [] } = attributes.find(
                 ({ attribute_code }) => attribute_code === option_code
-            );
+            ) || [];
 
             return [
                 ...acc,

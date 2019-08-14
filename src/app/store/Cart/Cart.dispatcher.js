@@ -180,14 +180,14 @@ export class CartDispatcher {
             const { product: currentVariant } = variants[configurableVariantIndex];
 
             const configurable_item_options = configurable_options.reduce((prev, curr) => {
-                const { attribute_id, attribute_code } = curr;
+                const { attribute_code } = curr;
                 const attribute_value = currentVariant[attribute_code];
 
                 if (attribute_value) {
                     return [
                         ...prev,
                         {
-                            option_id: attribute_id,
+                            option_id: attribute_code,
                             option_value: attribute_value
                         }
                     ];

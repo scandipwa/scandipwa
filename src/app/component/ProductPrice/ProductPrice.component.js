@@ -21,38 +21,14 @@ import './ProductPrice.style';
  * @class ProductPrice
  */
 class ProductPrice extends Component {
-    /**
-     * Calculate discount percentage
-     * @param {Number} min minimum price
-     * @param {Number} reg regular price
-     * @return {Nmber} discount percentage
-     */
-    calculateDiscountPercentage(min, reg) {
-        return Math.floor(Math.round((1 - min / reg) * 100));
-    }
-
-    /**
-     * Calculate final price
-     * @param {Number} discount discount percentage
-     * @param {Number} min minimum price
-     * @param {Number} reg regular price
-     * @return {Nmber} final price
-     */
-    calculateFinalPrice(discount, min, reg) {
-        return discount ? min : reg;
-    }
-
-    /**
-     * Calculate final price
-     * @param {Number} price
-     * @return {Nmber} rounded price
-     */
-    roundPrice(price) {
-        return parseFloat(price).toFixed(2);
-    }
-
     render() {
-        const { price: { minimalPrice, regularPrice }, mix } = this.props;
+        const {
+            price: { minimalPrice, regularPrice },
+            mix,
+            roundPrice,
+            calculateDiscountPercentage,
+            calculateFinalPrice
+        } = this.props;
 
         if (!minimalPrice || !regularPrice) {
             return (
@@ -64,11 +40,11 @@ class ProductPrice extends Component {
 
         const minimalPriceValue = minimalPrice.amount.value;
         const regularPriceValue = regularPrice.amount.value;
-        const roundedRegularPrice = this.roundPrice(regularPriceValue);
+        const roundedRegularPrice = roundPrice(regularPriceValue);
         const priceCurrency = regularPrice.amount.currency;
-        const discountPercentage = this.calculateDiscountPercentage(minimalPriceValue, regularPriceValue);
-        const finalPrice = this.calculateFinalPrice(discountPercentage, minimalPriceValue, regularPriceValue);
-        const formatedCurrency = this.roundPrice(finalPrice);
+        const discountPercentage = calculateDiscountPercentage(minimalPriceValue, regularPriceValue);
+        const finalPrice = calculateFinalPrice(discountPercentage, minimalPriceValue, regularPriceValue);
+        const formatedCurrency = roundPrice(finalPrice);
         const currency = formatCurrency(priceCurrency);
 
         // Use <ins></ins> <del></del> to represent new price and the old (deleted) one
@@ -109,6 +85,9 @@ class ProductPrice extends Component {
 }
 
 ProductPrice.propTypes = {
+    roundPrice: PropTypes.func.isRequired,
+    calculateDiscountPercentage: PropTypes.func.isRequired,
+    calculateFinalPrice: PropTypes.func.isRequired,
     price: PriceType,
     mix: PropTypes.shape({
         block: PropTypes.string,

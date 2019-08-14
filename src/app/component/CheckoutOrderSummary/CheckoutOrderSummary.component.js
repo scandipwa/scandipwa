@@ -38,12 +38,12 @@ class CheckoutOrderSummary extends Component {
         if (!price) return null;
 
         const { totals: { base_currency_code } } = this.props;
-        const priceString = formatCurrency(parseFloat(price).toFixed(2), base_currency_code);
+        const priceString = formatCurrency(base_currency_code);
 
         return (
             <li block="CheckoutOrderSummary" elem="SummaryItem" mods={ mods }>
                 <strong block="CheckoutOrderSummary" elem="Text">{ name }</strong>
-                <strong block="CheckoutOrderSummary" elem="Text">{ priceString }</strong>
+                <strong block="CheckoutOrderSummary" elem="Text">{ `${parseFloat(price).toFixed(2)}${priceString}` }</strong>
             </li>
         );
     }

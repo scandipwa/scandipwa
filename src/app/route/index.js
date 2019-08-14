@@ -51,7 +51,6 @@ export const history = createBrowserHistory({ basename: '/' });
 class AppRouter extends Component {
     constructor() {
         super();
-
         this.items = {
             beforeItems: [
                 {
