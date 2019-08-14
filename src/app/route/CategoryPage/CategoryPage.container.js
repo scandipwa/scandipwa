@@ -132,36 +132,9 @@ export class CategoryPageContainer extends PureComponent {
         setQueryParams({ sortDirection }, location, history);
     }
 
-    updateSearch(value) {
-        const { location, history } = this.props;
-
-        setQueryParams({
-            search: value,
-            page: ''
-        }, location, history);
-    }
-
-    updatePage(pageNumber) {
-        const { location, history } = this.props;
-
-        setQueryParams({
-            page: pageNumber === 1 ? '' : pageNumber
-        }, location, history);
-    }
-
-    updatePriceRange(priceRange) {
-        const { location, history } = this.props;
-
-        setQueryParams({
-            priceMax: priceRange.max,
-            priceMin: priceRange.min,
-            page: ''
-        }, location, history);
-    }
-
     getFilterUrl(filterName, filterArray, isFull = true) {
         const { location: { pathname } } = this.props;
-        const prevCustomFilters = this.getCustomFiltersFromUrl();
+        const prevCustomFilters = this._getSelectedFiltersFromUrl();
 
         prevCustomFilters[filterName] = filterArray;
 
@@ -187,6 +160,33 @@ export class CategoryPageContainer extends PureComponent {
         customFilters = hasLeadingSemicolon ? customFilters.slice(1) : customFilters;
 
         return `${isFull ? `${pathname}?` : ''}${customFilters}`;
+    }
+
+    updateSearch(value) {
+        const { location, history } = this.props;
+
+        setQueryParams({
+            search: value,
+            page: ''
+        }, location, history);
+    }
+
+    updatePage(pageNumber) {
+        const { location, history } = this.props;
+
+        setQueryParams({
+            page: pageNumber === 1 ? '' : pageNumber
+        }, location, history);
+    }
+
+    updatePriceRange(priceRange) {
+        const { location, history } = this.props;
+
+        setQueryParams({
+            priceMax: priceRange.max,
+            priceMin: priceRange.min,
+            page: ''
+        }, location, history);
     }
 
     updateFilter(filterName, filterArray) {
@@ -406,7 +406,7 @@ CategoryPageContainer.propTypes = {
     requestProductListInfo: PropTypes.func.isRequired,
     updateBreadcrumbs: PropTypes.func.isRequired,
     updateLoadStatus: PropTypes.func.isRequired,
-    filters: PropTypes.arrayOf(PropTypes.shape).isRequired,
+    filters: PropTypes.objectOf(PropTypes.shape).isRequired,
     sortFields: PropTypes.shape({
         options: PropTypes.array
     }).isRequired,

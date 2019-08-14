@@ -37,7 +37,7 @@ export class ProductCardContainer extends PureComponent {
 
     getAttribute(code) {
         const { product: { attributes = [] } } = this.props;
-        return attributes.find(({ attribute_code }) => attribute_code === code);
+        return attributes[code];
     }
 
     _getCurrentVariantIndex() {
@@ -57,30 +57,24 @@ export class ProductCardContainer extends PureComponent {
     _getProductOrVariant() {
         const { product: { type_id, variants }, product } = this.props;
         return (type_id === 'configurable' && variants
-            ? variants[this._getCurrentVariantIndex()].product
+            ? variants[this._getCurrentVariantIndex()]
             : product
         ) || {};
     }
 
     _getAvailableVisualOptions() {
-        const { product: { configurable_options = [], attributes } } = this.props;
+        const { product: { configurable_options = [] } } = this.props;
 
-        return configurable_options.reduce((acc, { attribute_code: option_code, values }) => {
-            const { attribute_options } = attributes.find(
-                ({ attribute_code }) => attribute_code === option_code
-            );
-
-            return [
-                ...acc,
-                ...values.reduce((acc, { value_index }) => {
-                    const { swatch_data: { type, value } = {}, label } = attribute_options.find(
-                        ({ value }) => +value === value_index
-                    ) || {};
-
+        return Object.values(configurable_options).reduce((acc, { attribute_options = {} }) => {
+            const visualOptions = Object.values(attribute_options).reduce(
+                (acc, { swatch_data: { type, value }, label }) => {
                     if (type !== '1') return acc;
                     return [...acc, { value, label }];
-                }, [])
-            ];
+                }, []
+            );
+
+            if (visualOptions.length > 0) acc.push(visualOptions);
+            return acc;
         }, []);
     }
 

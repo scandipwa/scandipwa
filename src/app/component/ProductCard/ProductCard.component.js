@@ -136,7 +136,6 @@ class ProductCard extends PureComponent {
             return (<div>{ children }</div>);
         }
 
-        const [index] = variantIndexes;
         return (
             <Link
               to={ {

@@ -440,7 +440,7 @@ class Field extends Component {
 
     render() {
         const {
-            id, type, label, note, message, state, mix
+            id, type, label, message, state, mix
         } = this.props;
 
         const mods = {
@@ -448,14 +448,12 @@ class Field extends Component {
             hasError: !!message,
             ...(state ? { [state]: true } : {})
         };
-        const noteMods = noteDisplayMode ? { [noteDisplayMode]: true } : {};
 
         return (
             <div block="Field" mods={ mods } mix={ mix }>
                 { label && <label htmlFor={ id }>{ label }</label> }
                 { this.renderInputOfType(type) }
                 { message && <p block="Field" elem="Message">{ message }</p> }
-                { note && <p block="Field" elem="Note" mods={ noteMods }>{ note }</p> }
             </div>
         );
     }
@@ -474,10 +472,6 @@ Field.propTypes = {
         SELECT_TYPE
     ]).isRequired,
     label: PropTypes.string,
-    note: PropTypes.string,
-    noteDisplayMode: PropTypes.oneOf([
-        VISIBLE_ALWAYS
-    ]),
     message: PropTypes.string,
     placeholder: PropTypes.string,
     value: PropTypes.oneOfType([
@@ -543,9 +537,9 @@ Field.defaultProps = {
     onClick: () => {},
     onFocus: () => {},
     onChange: () => {},
+    onBlur: () => {},
     value: null,
     state: '',
-    note: '',
     message: '',
     placeholder: '',
     autocomplete: 'off'
