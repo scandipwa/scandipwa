@@ -324,7 +324,6 @@ class CheckoutPage extends Component {
         } = this.state;
         const { products, totals } = this.props;
         const stepRenderFunction = this.renderMap[checkoutStep];
-        console.log(!Object.keys(products).length && checkoutStep !== CHECKOUT_STEP_SUCCESS);
         return (
             <main block="CheckoutPage">
                 <ContentWrapper

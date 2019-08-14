@@ -73,7 +73,7 @@ class CartPage extends Component {
             }
         } = this.props;
         const isDisabled = !Object.keys(products).length;
-        const disabled = isDisabled
+        const options = isDisabled
             ? {
                 onClick: e => e.preventDefault(),
                 disabled: true
@@ -96,7 +96,7 @@ class CartPage extends Component {
                 <Link
                   className="CartPage-CheckoutButton Button"
                   to="/checkout"
-                  { ...disabled }
+                  { ...options }
                 >
                     <span />
                     Secure checkout
