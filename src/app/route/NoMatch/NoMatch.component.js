@@ -10,7 +10,7 @@
  */
 
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'Component/Link';
 import PropTypes from 'prop-types';
 import ContentWrapper from 'Component/ContentWrapper';
 import './NoMatch.style';
@@ -58,10 +58,13 @@ class NoMatch extends Component {
                         { /* eslint-disable-next-line max-len */ }
                         { __('Sorry, we can`t find the page you are looking for! Please press a big orange button to come back to homepage.') }
                     </p>
-                    <Link to="/">
-                        <button>
-                            { __('Back to homepage') }
-                        </button>
+                    <Link
+                      to="/"
+                      block="NoMatch"
+                      elem="Button"
+                      mix={ { block: 'Button' } }
+                    >
+                        { __('Back to homepage') }
                     </Link>
                 </ContentWrapper>
             </main>

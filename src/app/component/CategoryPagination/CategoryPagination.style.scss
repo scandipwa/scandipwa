@@ -45,7 +45,7 @@
     &-PaginationLink {
         color: var(--color-pagination-link-text);
 
-        &_active {
+        &_isCurrent {
             --color-pagination-link-text: var(--color-pagination-link-active-text);
         }
     }

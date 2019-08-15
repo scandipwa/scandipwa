@@ -10,7 +10,7 @@
  */
 
 import React, { PureComponent } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'Component/Link';
 import PropTypes from 'prop-types';
 import { CategoryTreeType } from 'Type/Category';
 import './CategoryPagination.style';
@@ -39,9 +39,6 @@ class CategoryPagination extends PureComponent {
             getSearchQueryForPage
         } = this.props;
 
-        const active = isCurrent ? ' CategoryPagination-PaginationLink_active' : '';
-        const className = `CategoryPagination-PaginationLink${active}`;
-
         return (
             <li
               key={ pageNumber }
@@ -54,7 +51,9 @@ class CategoryPagination extends PureComponent {
                       search: getSearchQueryForPage(pageNumber)
                   } }
                   aria-label={ label }
-                  className={ className }
+                  block="CategoryPagination"
+                  elem="PaginationLink"
+                  mods={ { isCurrent } }
                   aria-current={ isCurrent ? 'page' : 'false' }
                   onClick={ () => getPage(pageNumber) }
                 >

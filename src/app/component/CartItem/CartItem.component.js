@@ -11,7 +11,7 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import Link from 'Component/Link';
 import Image from 'Component/Image';
 import ProductPrice from 'Component/ProductPrice';
 import Field from 'Component/Field';
@@ -64,7 +64,7 @@ class CartItem extends PureComponent {
         const { isLikeTable, linkTo } = this.props;
 
         return (
-            <Link to={ linkTo }>
+            <Link to={ linkTo } block="CartItem" elem="Link">
                 <figure block="CartItem" elem="Wrapper">
                     { this.renderImage() }
                     <figcaption

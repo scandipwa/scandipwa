@@ -10,7 +10,7 @@
  */
 
 import React, { PureComponent } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'Component/Link';
 import PropTypes from 'prop-types';
 import Image from 'Component/Image';
 import Overlay from 'Component/Overlay';
@@ -62,6 +62,8 @@ class SearchOverlay extends PureComponent {
               key={ i }
             >
                 <Link
+                  block="SearchOverlay"
+                  elem="Link"
                   to={ getProductLinkTo(product) }
                   onClick={ () => hideActiveOverlay() }
                 >

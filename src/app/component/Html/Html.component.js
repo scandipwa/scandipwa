@@ -15,7 +15,7 @@ import React, { PureComponent } from 'react';
 import Parser from 'html-react-parser';
 import domToReact from 'html-react-parser/lib/dom-to-react';
 import attributesToProps from 'html-react-parser/lib/attributes-to-props';
-import { Link } from 'react-router-dom';
+import Link from 'Component/Link';
 import PropTypes from 'prop-types';
 import Image from 'Component/Image';
 
