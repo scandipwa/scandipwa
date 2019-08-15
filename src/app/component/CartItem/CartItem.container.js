@@ -57,11 +57,11 @@ export class CartItemContainer extends PureComponent {
     _getProductThumbnail() {
         const { product: { configurableVariantIndex, variants }, product } = this.props;
 
-        const { thumbnail } = configurableVariantIndex
+        const { thumbnail: { path } = {} } = configurableVariantIndex
             ? variants[configurableVariantIndex].product
             : product;
 
-        return thumbnail ? `/media/catalog/product${ thumbnail.path }` : '';
+        return path ? `/media/catalog/product${ path }` : '';
     }
 
     handleQtyChange(value) {

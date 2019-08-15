@@ -33,7 +33,7 @@ $select-arrow-width: 6px !default;
         margin-bottom: -.1em;
         font-size: 1.05rem;
         font-weight: 600;
-        color: var(--color-primary-dark);
+        color: $primary-dark-color;
     }
 
     &-Note {
@@ -140,7 +140,7 @@ $select-arrow-width: 6px !default;
 
     &_hasError {
         input {
-            border: 1px solid var(--color-primary-dark);
+            border: 1px solid $primary-dark-color;
         }
     }
 
@@ -210,11 +210,11 @@ $select-arrow-width: 6px !default;
             }
 
             &:hover {
-                --box-color: #{transparentize(color(neutral, light, true), .4)};
-                border-color: color(primary, base);
+                --box-color: #{transparentize($concrete, .4)};
+                border-color: var(--primary-base-color);
 
                 &::after {
-                    --checkmark-color: #{color(neutral, base, true)};
+                    --checkmark-color: #{$dusty-grey};
                 }
             }
         }
@@ -225,11 +225,11 @@ $select-arrow-width: 6px !default;
         }
 
         &:checked + label {
-            background-color: color(primary, base, true);
-            border-color: color(primary, base, true);
+            background-color: $dusty-grey;
+            border-color: $dusty-grey;
 
             &::after {
-                --checkmark-color: #{color(text, white, true)};
+                --checkmark-color: #{$white};
             }
         }
     }
@@ -256,7 +256,7 @@ $select-arrow-width: 6px !default;
         &:checked {
             &:hover {
                 + label {
-                    background-color: var(--color-primary-base);
+                    background-color: $primary-base-color;
                 }
             }
         }
@@ -280,11 +280,11 @@ $select-arrow-width: 6px !default;
         }
 
         &:focus + label {
-            --box-color: #{transparentize(color(neutral, light, true), .4)};
-            border-color: color(primary, base);
+            --box-color: #{transparentize($concrete, .4)};
+            border-color: var(--primary-base-color);
 
             &::after {
-                --checkmark-color: #{color(text, white, true)};
+                --checkmark-color: #{$white};
             }
         }
     }

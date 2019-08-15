@@ -17,12 +17,12 @@
     }
 
     a {
-        color: var(--color-text-black);
+        color: $black;
         text-decoration: none;
 
         &:hover,
         &:focus {
-            color: var(--color-primary-base);
+            color: $primary-base-color;
             text-decoration: none;
         }
     }
@@ -46,13 +46,13 @@
 
             &:hover,
             &:focus {
-                color: var(--color-primary-base);
+                color: $primary-base-color;
             }
         }
 
         &_isSelected {
             > a {
-                color: var(--color-primary-base);
+                color: $primary-base-color;
             }
         }
     }

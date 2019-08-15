@@ -123,30 +123,20 @@ class ProductPage extends Component {
         return useLoadedProduct ? product : state.product;
     }
 
-    getConfigurableVariantMediaLibrary() {
-        const { product: { variants } } = this.props;
-        const { configurableVariantIndex } = this.state;
-        const dataSource = this.getDataSource();
-        const { media_gallery_entries } = dataSource;
-        const { media_gallery_entries: configurableMediaGallery } = variants[configurableVariantIndex].product;
-
-        return configurableMediaGallery.length ? configurableMediaGallery : media_gallery_entries;
-    }
-
     /**
      * Get thumbnail picture of the product
      * @param {Number} currentVariantIndex product variant index
      * @param {Object} dataSource product data
      * @return {Number} variant index
      */
-    getThumbnail(currentVariantIndex, dataSource) {
-        const { thumbnail, variants } = dataSource;
+    getProductOrVariant(currentVariantIndex, dataSource) {
+        const { variants } = dataSource;
 
-        const variantThumbnail = variants
+        const variant = variants
             && variants[ currentVariantIndex ]
-            && variants[ currentVariantIndex ].product.thumbnail;
+            && variants[ currentVariantIndex ].product;
 
-        return variantThumbnail || thumbnail;
+        return variant || dataSource;
     }
 
     /**
@@ -213,15 +203,11 @@ class ProductPage extends Component {
     }
 
     render() {
-        const { product, product: { variants }, filters } = this.props;
+        const { product, filters } = this.props;
         const { configurableVariantIndex } = this.state;
         const dataSource = this.getDataSource();
-        const { media_gallery_entries } = dataSource;
         const areDetailsLoaded = dataSource === product;
-        const thumbnail = this.getThumbnail(configurableVariantIndex, dataSource);
-        const mediaGallery = variants && variants[configurableVariantIndex] && areDetailsLoaded
-            ? this.getConfigurableVariantMediaLibrary()
-            : media_gallery_entries;
+        const productOrVariant = this.getProductOrVariant(configurableVariantIndex, dataSource);
 
         return (
             <>
@@ -233,8 +219,7 @@ class ProductPage extends Component {
                       label={ __('Main product details') }
                     >
                         <ProductGallery
-                          thumbnail={ thumbnail }
-                          mediaGallery={ mediaGallery }
+                          product={ productOrVariant }
                         />
                         <ProductActions
                           product={ dataSource }

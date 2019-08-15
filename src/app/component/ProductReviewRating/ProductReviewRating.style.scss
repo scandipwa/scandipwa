@@ -11,7 +11,7 @@
 
 :root {
     --product-rating-background: #979797;
-    --product-rating-filled-background: var(--color-primary-base);
+    --product-rating-filled-background: $primary-base-color;
 }
 
 .ProductReviewRating {

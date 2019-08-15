@@ -74,11 +74,11 @@ html {
 body {
     font-family: $font-muli;
     letter-spacing: .02rem;
-    color: color(text, black);
+    color: $black;
 }
 
 a {
-    color: color(text, black);
+    color: $black;
     text-decoration: inherit;
 
     &:hover {
@@ -185,6 +185,6 @@ textarea {
 }
 
 mark {
-    background-color: transparentize(color(primary, base, true), .75);
+    background-color: transparentize($primary-base-color, .75);
     margin-right: 5px;
 }

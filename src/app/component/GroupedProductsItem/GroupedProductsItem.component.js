@@ -71,7 +71,7 @@ class GroupedProductsItem extends Component {
             <li block="GroupedProductsItem" aria-label="Product Item">
                 <Image
                   mix={ { block: 'GroupedProductsItem', elem: 'Image' } }
-                  src={ thumb_url && `/media/jpg/catalog/product${ thumb_url }` }
+                  src={ thumb_url && `/media/catalog/product${ thumb_url }` }
                   alt="Product Thumbnail"
                 />
                 <div block="GroupedProductsItem" elem="Title">

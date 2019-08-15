@@ -10,7 +10,7 @@
  */
 
 :root {
-    --product-information-background: #f3f3f3;
+    --product-information-background: #{$concrete};
 }
 
 .ProductInformation {

@@ -10,8 +10,8 @@
  */
 
 :root {
-    --color-pagination-link-text: var(--color-text-black);
-    --color-pagination-link-active-text: var(--color-primary-base);
+    --color-pagination-link-text: #{$black};
+    --color-pagination-link-active-text: #{$primary-base-color};
 }
 
 .CategoryPagination {

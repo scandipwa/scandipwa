@@ -9,6 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import ProductGallery from './ProductGallery.component';
+import ProductGallery from './ProductGallery.container';
 
 export default ProductGallery;

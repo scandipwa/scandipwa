@@ -101,7 +101,7 @@
 
         @include after-mobile {
             padding: .7rem;
-            background: var(--color-primary-light);
+            background: $primary-light-color;
         }
 
         strong {

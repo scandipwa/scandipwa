@@ -11,17 +11,20 @@
 
 :root {
     --breadcrumbs-height: 40px;
+    --breadcrumbs-background: #{$concrete};
+    --breadcrumbs-visited-color: #404040;
+    --breadcrumbs-active-color: #888;
 }
 
 .Breadcrumbs {
-    background-color: var(--color-breadcrumbs-background);
+    background-color: var(--breadcrumbs-background);
     margin-top: var(--header-height);
 
     $crumb-padding: 20px;
     $arrow-size: 4px;
 
     @include mobile {
-        --color-breadcrumbs-background: #fff;
+        --breadcrumbs-background: #fff;
 
         display: none;
     }
@@ -42,7 +45,7 @@
             text-transform: capitalize;
 
             &:visited {
-                color: var(--color-breadcrumbs-base);
+                color: var(--breadcrumbs-visited-color);
             }
         }
 
@@ -51,7 +54,7 @@
 
             &:not(:first-child) {
                 a {
-                    color: var(--color-breadcrumbs-base);
+                    color: var(--breadcrumbs-visited-color);
                 }
             }
 
@@ -63,7 +66,7 @@
                 width: $arrow-size;
                 transform: rotate(-135deg);
                 margin-left: $crumb-padding - 4;
-                border-color: var(--color-breadcrumbs-arrow);
+                border-color: currentColor;
                 border-style: solid;
                 border-width: 0 0 1px 1px;
                 top: -1px;
@@ -75,7 +78,7 @@
             margin: 0;
 
             a {
-                color: var(--color-breadcrumbs-current);
+                color: var(--breadcrumbs-active-color);
             }
         }
 

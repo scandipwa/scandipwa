@@ -152,7 +152,6 @@ class Form extends Component {
     render() {
         const { mix } = this.props;
         const { children, fieldsAreValid } = this.state;
-        const { mix: { block, elem, mods } } = this.props;
 
         return (
             <form

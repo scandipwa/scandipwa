@@ -1,9 +1,13 @@
+:root {
+    --sidebar-border-color: #{$concrete};
+}
+
 .Sidebar {
     display: flex;
     flex-direction: column;
     padding-top: 2rem;
     margin-bottom: 2rem;
-    border-right: 2px solid var(--color-breadcrumbs-background);
+    border-right: 2px solid var(--sidebar-border-color);
 
     @include mobile {
         display: none;

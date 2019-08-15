@@ -84,7 +84,7 @@ class MenuOverlay extends Component {
             <figure block="MenuOverlay" elem="ItemFigure" mods={ itemMods }>
                 <Image
                   mix={ { block: 'MenuOverlay', elem: 'Image', mods: itemMods } }
-                  src={ `/media/${icon}` }
+                  src={ icon && `/media/${icon}` }
                   ratio="16x9"
                   arePlaceholdersShown
                 />
