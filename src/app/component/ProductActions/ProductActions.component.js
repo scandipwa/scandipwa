@@ -125,7 +125,7 @@ class ProductActions extends Component {
                 { this.showOnlyIfLoaded(
                     sku,
                     (<>
-                        <span block="ProductActions" elem="Sku">{ `SKU: ${ sku }` }</span>
+                        <span block="ProductActions" elem="Sku" itemProp="sku">{ `SKU: ${ sku }` }</span>
                         <span block="ProductActions" elem="Stock">In Stock</span>
                     </>),
                     <TextPlaceholder />
@@ -137,6 +137,7 @@ class ProductActions extends Component {
     renderShortDescription() {
         const { product: { short_description, brand } } = this.props;
         const { html } = short_description || {};
+        const htmlWithItemProp = `<div itemProp="description">${html}</div>`;
 
         return (
             <section
@@ -152,13 +153,14 @@ class ProductActions extends Component {
                           block="ProductActions"
                           elem="SectionHeading"
                           mods={ { type: 'brand' } }
+                          itemProp="brand"
                         >
                             <TextPlaceholder content={ brand } />
                         </h4>
                     )
                 ) }
                 <div block="ProductActions" elem="ShortDescription">
-                    { html ? <Html content={ html } /> : <TextPlaceholder length="long" /> }
+                    { html ? <Html content={ htmlWithItemProp } /> : <TextPlaceholder length="long" /> }
                 </div>
             </section>
         );
@@ -176,12 +178,12 @@ class ProductActions extends Component {
                 { this.showOnlyIfLoaded(
                     brand,
                     (
-                        <h4 block="ProductActions" elem="Brand">
+                        <h4 block="ProductActions" elem="Brand" itemProp="brand">
                             <TextPlaceholder content={ brand } />
                         </h4>
                     )
                 ) }
-                <p block="ProductActions" elem="Title">
+                <p block="ProductActions" elem="Title" itemProp="name">
                     <TextPlaceholder content={ name } length="medium" />
                 </p>
             </section>
@@ -250,7 +252,7 @@ class ProductActions extends Component {
                       mix={ { block: 'ProductActions', elem: 'Option' } }
                       aria-label={ `${ optionLabel } options` }
                     >
-                        <h4 block="ProductActions" elem="SectionHeading">{ optionLabel }</h4>
+                        <h4 block="ProductActions" elem="SectionHeading" itemProp="color">{ optionLabel }</h4>
                         {/* { values.map(({ value, label, id }) => (
                             <Swatch
                               key={ id }

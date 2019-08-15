@@ -89,7 +89,6 @@ class ProductGallery extends Component {
     render() {
         const gallery = this.getGalleryPictures();
         const { activeImage } = this.state;
-
         return (
             <div block="ProductGallery">
                 { this.renderAdditionalPictures(gallery) }
@@ -100,12 +99,20 @@ class ProductGallery extends Component {
                   changeParentActiveImage={ this.changeActiveImage }
                 >
                     { gallery.map(({ image, id }, index) => (
-                        <Image
-                          src={ image }
-                          key={ id || index }
-                          ratio="custom"
-                          mix={ { block: 'ProductGallery', elem: 'SliderImage' } }
-                        />
+                        <>
+                            <Image
+                              src={ image }
+                              key={ id || index }
+                              ratio="custom"
+                              mix={ { block: 'ProductGallery', elem: 'SliderImage' } }
+                            />
+                            <img
+                              style={ { display: 'none' } }
+                              alt={ name }
+                              src={ image }
+                              itemProp="image"
+                            />
+                        </>
                     )) }
                 </Slider>
             </div>

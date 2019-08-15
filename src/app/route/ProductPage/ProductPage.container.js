@@ -113,6 +113,32 @@ export class ProductPageContainer extends PureComponent {
         return null;
     }
 
+    /**
+     * Get thumbnail picture of the product
+     * @param {Number} currentVariantIndex product variant index
+     * @param {Object} dataSource product data
+     * @return {Number} variant index
+     */
+    getThumbnail(currentVariantIndex, dataSource) {
+        const { thumbnail, variants } = dataSource;
+
+        const variantThumbnail = variants
+            && variants[ currentVariantIndex ]
+            && variants[ currentVariantIndex ].product.thumbnail;
+
+        return variantThumbnail || thumbnail;
+    }
+
+    getConfigurableVariantMediaLibrary() {
+        const { product: { variants } } = this.props;
+        const { configurableVariantIndex } = this.state;
+        const dataSource = this._getDataSource();
+        const { media_gallery_entries } = dataSource;
+        const { media_gallery_entries: configurableMediaGallery } = variants[configurableVariantIndex].product;
+
+        return configurableMediaGallery.length ? configurableMediaGallery : media_gallery_entries;
+    }
+
     _onProductUpdate() {
         const dataSource = this._getDataSource();
 
@@ -139,33 +165,6 @@ export class ProductPageContainer extends PureComponent {
         return useLoadedProduct ? product : state.product;
     }
 
-    
-    getConfigurableVariantMediaLibrary() {
-        const { product: { variants } } = this.props;
-        const { configurableVariantIndex } = this.state;
-        const dataSource = this._getDataSource();
-        const { media_gallery_entries } = dataSource;
-        const { media_gallery_entries: configurableMediaGallery } = variants[configurableVariantIndex].product;
-
-        return configurableMediaGallery.length ? configurableMediaGallery : media_gallery_entries;
-    }
-
-    /**
-     * Get thumbnail picture of the product
-     * @param {Number} currentVariantIndex product variant index
-     * @param {Object} dataSource product data
-     * @return {Number} variant index
-     */
-    getThumbnail(currentVariantIndex, dataSource) {
-        const { thumbnail, variants } = dataSource;
-
-        const variantThumbnail = variants
-            && variants[ currentVariantIndex ]
-            && variants[ currentVariantIndex ].product.thumbnail;
-
-        return variantThumbnail || thumbnail;
-    }
-
     /**
      * Check if product varian has changed
      * @param {Object} props
@@ -173,7 +172,8 @@ export class ProductPageContainer extends PureComponent {
      * @return {Boolean}
      */
     _variantIndexInPropsChanged(props, prevProps) {
-        return ProductPageContainer.getVariantIndexFromProps(props) !== ProductPageContainer.getVariantIndexFromProps(prevProps);
+        return ProductPageContainer.getVariantIndexFromProps(props)
+            !== ProductPageContainer.getVariantIndexFromProps(prevProps);
     }
 
     /**

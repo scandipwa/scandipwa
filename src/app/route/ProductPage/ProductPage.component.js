@@ -43,6 +43,10 @@ class ProductPage extends Component {
             <>
                 <Meta metaObject={ dataSource } />
                 <main block="ProductPage" aria-label="Product page">
+                    <div
+                      itemScope
+                      itemType="http://schema.org/Product"
+                    >
                     <ContentWrapper
                       mix={ { block: 'ProductPage' } }
                       wrapperMix={ { block: 'ProductPage', elem: 'Wrapper' } }
@@ -60,11 +64,13 @@ class ProductPage extends Component {
                           updateConfigurableVariantIndex={ updateUrl }
                         />
                     </ContentWrapper>
+                    </div>
                     <ProductInformation product={ dataSource } type="block" />
                     <RelatedProducts
                       product={ dataSource }
                       areDetailsLoaded={ areDetailsLoaded }
                       label="ScandiPWA recommends"
+                      itemType=""
                     />
                 </main>
             </>
