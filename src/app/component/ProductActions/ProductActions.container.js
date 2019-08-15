@@ -27,10 +27,6 @@ export class ProductActionsContainer extends PureComponent {
             quantity: 1
         };
 
-        this.containerProps = () => ({
-
-        });
-
         this.containerFunctions = {
             setQuantityToDefault: this.setQuantityToDefault.bind(this),
             showOnlyIfLoaded: this.showOnlyIfLoaded.bind(this),
@@ -100,7 +96,6 @@ export class ProductActionsContainer extends PureComponent {
               { ...this.props }
               { ...this.state }
               { ...this.containerFunctions }
-              { ...this.containerProps() }
             />
         );
     }

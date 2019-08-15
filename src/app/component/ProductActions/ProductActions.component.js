@@ -300,9 +300,14 @@ ProductActions.propTypes = {
     product: ProductType.isRequired,
     availableFilters: PropTypes.objectOf(PropTypes.shape).isRequired,
     configurableVariantIndex: PropTypes.number,
-    updateConfigurableVariantIndex: PropTypes.func.isRequired,
     areDetailsLoaded: PropTypes.bool.isRequired,
-    groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired
+    groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired,
+    setQuantityToDefault: PropTypes.func.isRequired,
+    showOnlyIfLoaded: PropTypes.func.isRequired,
+    changeConfigurableVariant: PropTypes.func.isRequired,
+    getIsOptionInCurrentVariant: PropTypes.func.isRequired,
+    setQuantity: PropTypes.func.isRequired,
+    quantity: PropTypes.number.isRequired
 };
 
 ProductActions.defaultProps = {
