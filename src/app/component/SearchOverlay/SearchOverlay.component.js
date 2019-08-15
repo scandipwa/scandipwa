@@ -34,9 +34,7 @@ class SearchOverlay extends PureComponent {
         }
     }
 
-    renderSearchItemContent(product) {
-        const { name, brand } = product;
-
+    renderSearchItemContent(name, brand) {
         return (
             <>
                 <p block="SearchOverlay" elem="Brand">
@@ -51,7 +49,11 @@ class SearchOverlay extends PureComponent {
 
     renderSearchItem(product, i) {
         const { hideActiveOverlay, getProductLinkTo } = this.props;
-        const { thumbnail: { path } = {}, name } = product;
+        const {
+            name,
+            thumbnail: { path } = {},
+            attributes: { brand: { attribute_value: brand } = {} } = {}
+        } = product;
 
         const imageSrc = path ? `/media/catalog/product${ path }` : null;
 
@@ -74,10 +76,10 @@ class SearchOverlay extends PureComponent {
                           elem="Image"
                           src={ imageSrc }
                           alt={ __('Product %s thumbnail.', name) }
-                          isPlaceholder
+                          isPlaceholder={ !imageSrc }
                         />
                         <figcaption block="SearchOverlay" elem="Content">
-                            { this.renderSearchItemContent() }
+                            { this.renderSearchItemContent(name, brand) }
                         </figcaption>
                     </figure>
                 </Link>

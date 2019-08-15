@@ -14,6 +14,7 @@ import React, { PureComponent } from 'react';
 import { ProductType, FilterType } from 'Type/ProductList';
 import { CartDispatcher } from 'Store/Cart';
 import { getVariantsIndexes } from 'Util/Product';
+import { convertKeyValueObjectToQueryString } from 'Util/Url';
 import ProductCard from './ProductCard.component';
 
 export const mapDispatchToProps = dispatch => ({
@@ -32,13 +33,26 @@ export class ProductCardContainer extends PureComponent {
             availableVisualOptions: this._getAvailableVisualOptions(),
             currentVariantIndex: this._getCurrentVariantIndex(),
             productOrVariant: this._getProductOrVariant(),
-            thumbnail: this._getThumbnail()
+            thumbnail: this._getThumbnail(),
+            linkTo: this._getLinkTo()
         });
     }
 
     getAttribute(code) {
         const { product: { attributes = [] } } = this.props;
         return attributes[code];
+    }
+
+    _getLinkTo() {
+        const { product: { url_key }, product } = this.props;
+
+        if (!url_key) return undefined;
+        const { parameters } = this._getConfigurableParameters();
+        return {
+            pathname: `/product/${ url_key }`,
+            state: { product },
+            search: convertKeyValueObjectToQueryString(parameters)
+        };
     }
 
     _getCurrentVariantIndex() {

@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { getIndexedProducts } from 'Util/Product';
 import {
     UPDATE_SEARCH_BAR,
     UPDATE_SEARCH_LOAD_STATUS,
@@ -23,11 +24,11 @@ const initialState = {
 const SearchBarReducer = (state = initialState, action) => {
     switch (action.type) {
     case UPDATE_SEARCH_BAR:
-        const { result: { products: { items } } } = action;
+        const { result: { products: { items: initialItems } } } = action;
 
         return {
             ...state,
-            productsInSearch: items
+            productsInSearch: getIndexedProducts(initialItems)
         };
 
     case UPDATE_SEARCH_LOAD_STATUS:

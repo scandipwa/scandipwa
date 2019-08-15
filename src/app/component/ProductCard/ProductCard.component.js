@@ -130,40 +130,14 @@ class ProductCard extends PureComponent {
     }
 
     renderCardWrapper(children) {
-        const { product: { url_key }, product, currentVariantIndex: variantIndex } = this.props;
+        const { linkTo, product: { url_key } } = this.props;
 
         if (!url_key) {
             return (<div>{ children }</div>);
         }
 
         return (
-            <Link
-              to={ {
-                  pathname: `/product/${ url_key }`,
-                  state: { product, variantIndex },
-                  search: variantIndex ? `?variant=${ variantIndex }` : undefined
-              } }
-            >
-                { children }
-            </Link>
-        );
-    }
-
-    renderReviewSummary(linkTo) {
-        const { product: { review_summary, url_key } } = this.props;
-
-        if (!review_summary || !review_summary.review_count) return null;
-
-        const _linkTo = { ...linkTo, hash: '#reviews' };
-        const reviewText = getReviewText(review_summary.review_count);
-
-        return (
-            <div block="ProductCard" elem="ReviewSummary">
-                <ProductReviewRating summary={ review_summary.rating_summary } />
-                <HashLink smooth to={ _linkTo } tabIndex={ getTabIndex(url_key) }>
-                    <span>{ `${review_summary.review_count} ${reviewText}` }</span>
-                </HashLink>
-            </div>
+            <Link to={ linkTo }>{ children }</Link>
         );
     }
 
@@ -197,9 +171,9 @@ class ProductCard extends PureComponent {
 }
 
 ProductCard.propTypes = {
+    linkTo: PropTypes.shape({}),
     product: ProductType.isRequired,
     productOrVariant: ProductType.isRequired,
-    currentVariantIndex: PropTypes.number.isRequired,
     thumbnail: PropTypes.string,
     availableVisualOptions: PropTypes.arrayOf(PropTypes.shape({
         label: PropTypes.string,
@@ -209,7 +183,8 @@ ProductCard.propTypes = {
 };
 
 ProductCard.defaultProps = {
-    thumbnail: ''
+    thumbnail: '',
+    linkTo: {}
 };
 
 export default ProductCard;

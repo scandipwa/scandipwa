@@ -17,7 +17,6 @@ import { PDP } from 'Component/Header';
 import ProductGallery from 'Component/ProductGallery';
 import ContentWrapper from 'Component/ContentWrapper';
 import ProductActions from 'Component/ProductActions';
-// import GroupedProductsList from 'Component/GroupedProductsList';
 import Meta from 'Component/Meta';
 import { ProductType } from 'Type/ProductList';
 import { getVariantIndex } from 'Util/Product';
@@ -31,6 +30,7 @@ import {
 import './ProductPage.style';
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
 
+// WIP
 class ProductPage extends Component {
     constructor() {
         super();
