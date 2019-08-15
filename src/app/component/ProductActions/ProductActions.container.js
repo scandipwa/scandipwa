@@ -9,6 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
+import { ProductType } from 'Type/ProductList';
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import ProductActions from './ProductActions.component';
@@ -100,5 +102,12 @@ export class ProductActionsContainer extends PureComponent {
         );
     }
 }
+
+ProductActionsContainer.propTypes = {
+    product: ProductType.isRequired,
+    configurableVariantIndex: PropTypes.number.isRequired,
+    updateConfigurableVariantIndex: PropTypes.func.isRequired,
+    areDetailsLoaded: PropTypes.bool.isRequired
+};
 
 export default connect(mapStateToProps)(ProductActionsContainer);
