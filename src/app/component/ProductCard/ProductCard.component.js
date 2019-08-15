@@ -11,7 +11,7 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import Link from 'Component/Link';
 import ProductReviewRating from 'Component/ProductReviewRating';
 import { ProductType } from 'Type/ProductList';
 import TextPlaceholder from 'Component/TextPlaceholder';
@@ -137,7 +137,13 @@ class ProductCard extends PureComponent {
         }
 
         return (
-            <Link to={ linkTo }>{ children }</Link>
+            <Link
+              block="ProductCard"
+              elem="Link"
+              to={ linkTo }
+            >
+              { children }
+            </Link>
         );
     }
 

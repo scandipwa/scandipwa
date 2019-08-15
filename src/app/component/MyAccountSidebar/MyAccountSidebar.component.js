@@ -10,7 +10,7 @@
  */
 
 import React, { PureComponent } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'Component/Link';
 import './MyAccountSidebar.style';
 
 /**
@@ -22,17 +22,17 @@ class MyAccountSidebar extends PureComponent {
         return (
             <div block="Sidebar">
                 <div block="Sidebar" elem="SideLink">
-                    <Link to="/my-account">
+                    <Link block="Sidebar" elem="Link" to="/my-account">
                         { __('My Account') }
                     </Link>
                 </div>
                 <div block="Sidebar" elem="SideLink">
-                    <Link to="/my-account/orders">
+                    <Link block="Sidebar" elem="Link" to="/my-account/orders">
                         { __('My Orders') }
                     </Link>
                 </div>
                 <div block="Sidebar" elem="SideLink">
-                    <Link to="/wishlist">
+                    <Link block="Sidebar" elem="Link" to="/wishlist">
                         { __('My Wish List') }
                     </Link>
                 </div>

@@ -12,9 +12,9 @@
  */
 
 import React, { PureComponent, Fragment } from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+import Link from 'Component/Link';
 import MenuOverlay from 'Component/MenuOverlay';
 import SearchOverlay from 'Component/SearchOverlay';
 import CartOverlay from 'Component/CartOverlay';
@@ -250,7 +250,9 @@ class Header extends PureComponent {
               aria-label="Go to homepage by clicking on ScandiPWA logo"
               aria-hidden={ !isVisible }
               tabIndex={ isVisible ? 0 : -1 }
-              className={ `Header-Logo ${ isVisible && 'Header-Logo_isVisible' }` }
+              block="Header"
+              elem="Logo"
+              mods={ { isVisible } }
               key="logo"
               itemScope
               itemType="http://schema.org/Organization"

@@ -124,14 +124,25 @@ class ProductPage extends Component {
         return `${pathname}${query}`;
     }
 
+    getConfigurableVariantIndex() {
+        const { product: { variants } } = this.props;
+        const { configurableVariantIndex, parameters } = this.state;
+
+        if (configurableVariantIndex >= 0) return configurableVariantIndex;
+        if (variants) return getVariantIndex(variants, parameters);
+
+        return -1;
+    }
+
     /**
      * Get thumbnail picture of the product
      * @param {Object} dataSource product data
      * @return {Number} variant index
      */
-    getProductOrVariant(currentVariantIndex, dataSource) {
+    getProductOrVariant(dataSource) {
         const { variants } = dataSource;
 
+        const currentVariantIndex = this.getConfigurableVariantIndex();
         const variant = variants && variants[ currentVariantIndex ];
 
         return variant || dataSource;
@@ -223,11 +234,11 @@ class ProductPage extends Component {
     }
 
     render() {
-        const { product, product: { variants }, location: { search } } = this.props;
+        const { product } = this.props;
         const { configurableVariantIndex, parameters } = this.state;
         const dataSource = this.getDataSource();
         const areDetailsLoaded = dataSource === product;
-        const productOrVariant = this.getProductOrVariant(configurableVariantIndex, dataSource);
+        const productOrVariant = this.getProductOrVariant(dataSource);
 
         return (
             <>

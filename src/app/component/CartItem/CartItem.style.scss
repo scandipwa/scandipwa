@@ -23,7 +23,7 @@
 .CartItem {
     border-bottom: 1px solid var(--cart-item-divider-color);
 
-    a {
+    &-Link {
         color: inherit;
 
         &:hover {

@@ -11,13 +11,14 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 
+import Link from 'Component/Link';
 import isMobile from 'Util/Mobile';
 import Overlay from 'Component/Overlay';
-import { ProductType } from 'Type/ProductList';
-import { TotalsType } from 'Type/MiniCart';
 import CartItem from 'Component/CartItem';
+import { TotalsType } from 'Type/MiniCart';
+import { ProductType } from 'Type/ProductList';
+
 import './CartOverlay.style';
 
 class CartOverlay extends PureComponent {
@@ -84,13 +85,17 @@ class CartOverlay extends PureComponent {
         return (
             <div block="CartOverlay" elem="Actions">
                 <Link
-                  className="CartOverlay-CartButton Button Button_hollow"
+                  block="CartOverlay"
+                  elem="CartButton"
+                  mix={ { block: 'Button', mods: { hollow: true } } }
                   to="/cart"
                 >
                     { __('View cart') }
                 </Link>
                 <Link
-                  className="CartOverlay-CheckoutButton Button"
+                  block="CartOverlay"
+                  elem="CheckoutButton"
+                  mix={ { block: 'Button' } }
                   to="/checkout"
                   { ...options }
                 >

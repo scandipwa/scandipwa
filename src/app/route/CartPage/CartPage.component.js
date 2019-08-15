@@ -10,7 +10,7 @@
  */
 
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'Component/Link';
 import PropTypes from 'prop-types';
 import ContentWrapper from 'Component/ContentWrapper';
 import CartItem from 'Component/CartItem';
@@ -94,7 +94,9 @@ class CartPage extends Component {
                     <dd>{ `$${grand_total}` }</dd>
                 </dl>
                 <Link
-                  className="CartPage-CheckoutButton Button"
+                  block="CartPage"
+                  elem="CheckoutButton"
+                  mix={ { block: 'Button' } }
                   to="/checkout"
                   { ...options }
                 >
@@ -102,7 +104,8 @@ class CartPage extends Component {
                     Secure checkout
                 </Link>
                 <Link
-                  className="CartPage-ContinueShopping"
+                  block="CartPage"
+                  elem="ContinueShopping"
                   to="/"
                 >
                     Continue Shopping

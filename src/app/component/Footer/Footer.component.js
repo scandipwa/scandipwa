@@ -10,7 +10,7 @@
  */
 
 import React, { PureComponent } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'Component/Link';
 import './Footer.style';
 
 /**
@@ -21,10 +21,18 @@ class Footer extends PureComponent {
     render() {
         return (
             <footer block="Footer" aria-label="Footer">
-                <Link to="/page/privacy-policy-cookie-restriction-mode" className="Footer-Link">
+                <Link
+                  block="Footer"
+                  elem="Link"
+                  to="/page/privacy-policy-cookie-restriction-mode"
+                >
                     { __('Privacy policy') }
                 </Link>
-                <Link to="/page/terms-and-conditions" className="Footer-Link">
+                <Link
+                  block="Footer"
+                  elem="Link"
+                  to="/page/terms-and-conditions"
+                >
                     { __('Shopping terms and conditions') }
                 </Link>
             </footer>
