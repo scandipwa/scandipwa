@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { MediaType } from 'Type/ProductList';
 import Slider from 'Component/Slider';
@@ -99,7 +99,7 @@ class ProductGallery extends Component {
                   changeParentActiveImage={ this.changeActiveImage }
                 >
                     { gallery.map(({ image, id }, index) => (
-                        <>
+                        <Fragment key={ id || index }>
                             <Image
                               src={ image }
                               key={ id || index }
@@ -112,7 +112,7 @@ class ProductGallery extends Component {
                               src={ image }
                               itemProp="image"
                             />
-                        </>
+                        </Fragment>
                     )) }
                 </Slider>
             </div>
