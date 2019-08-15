@@ -9,12 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { ProductDispatcher } from 'Store/Product';
 import { changeHeaderState } from 'Store/Header';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import { history } from 'Route';
+import { ProductType } from 'Type/ProductList';
 import { PDP } from 'Component/Header';
 import { getUrlParam, getQueryParam, updateQueryParamWithoutHistory } from 'Util/Url';
 
@@ -237,8 +239,23 @@ export class ProductPageContainer extends PureComponent {
               { ...this.containerFunctions }
               { ...this.containerProps() }
             />
-        )
+        );
     }
-} 
+}
+
+ProductPageContainer.propTypes = {
+    location: PropTypes.shape({
+        pathname: PropTypes.string.isRequired,
+        state: PropTypes.shape({
+            product: ProductType
+        })
+    }),
+    isOnlyPlaceholder: PropTypes.bool
+};
+
+ProductPageContainer.defaultProps = {
+    location: { state: {} },
+    isOnlyPlaceholder: false
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductPageContainer);

@@ -27,9 +27,8 @@ class ProductPage extends Component {
         const {
             product, product: { variants },
             filters, configurableVariantIndex,
-            getThumbnail,
+            getThumbnail, updateUrl,
             getConfigurableVariantMediaLibrary,
-            updateUrl,
             dataSource
         } = this.props;
         const { media_gallery_entries } = dataSource;
@@ -79,6 +78,12 @@ class ProductPage extends Component {
 }
 
 ProductPage.propTypes = {
+    configurableVariantIndex: PropTypes.number.isRequired,
+    getThumbnail: PropTypes.func.isRequired,
+    updateUrl: PropTypes.func.isRequired,
+    getConfigurableVariantMediaLibrary: PropTypes.func.isRequired,
+    dataSource: PropTypes.object.isRequired,
+    filters: PropTypes.object.isRequired,
     location: PropTypes.shape({
         pathname: PropTypes.string.isRequired,
         state: PropTypes.shape({
@@ -88,18 +93,11 @@ ProductPage.propTypes = {
     match: PropTypes.shape({
         path: PropTypes.string.isRequired
     }).isRequired,
-    requestProduct: PropTypes.func.isRequired,
-    updateBreadcrumbs: PropTypes.func.isRequired,
-    changeHeaderState: PropTypes.func.isRequired,
-    clearGroupedProductQuantity: PropTypes.func.isRequired,
-    product: ProductType.isRequired,
-    filters: PropTypes.objectOf(PropTypes.shape).isRequired,
-    isOnlyPlaceholder: PropTypes.bool
+    product: ProductType.isRequired
 };
 
 ProductPage.defaultProps = {
-    location: { state: {} },
-    isOnlyPlaceholder: false
+    location: { state: {} }
 };
 
 export default ProductPage;
