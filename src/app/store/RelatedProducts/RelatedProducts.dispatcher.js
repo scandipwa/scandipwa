@@ -21,7 +21,7 @@ import { ProductListQuery } from 'Query';
  */
 export class RelatedProductsDispatcher extends QueryDispatcher {
     constructor() {
-        super('RelatedProducts', 86400);
+        super('RelatedProducts', 2628000);
     }
 
     onSuccess(data, dispatch) {

@@ -12,23 +12,42 @@
 import { Field } from 'Util/Query';
 
 class Review {
-    getAddProductReview(reviewItem) {
-        const mutation = new Field('addProductReview')
+    getAddProductReviewMutation(reviewItem) {
+        return new Field('addProductReview')
             .addArgument('productReviewItem', 'ProductReviewInput!', reviewItem)
-            .addField('detail');
-
-        return mutation;
+            .addFieldList(this._getAddProductReviewFields());
     }
 
-    getRatingDetails() {
-        const ratingOptions = new Field('rating_options')
-            .addFieldList(['option_id', 'value']);
-
-        const query = new Field('getRatings')
+    getRatingQuery() {
+        return new Field('getRatings')
             .setAlias('rating_details')
-            .addFieldList(['rating_id', 'rating_code', ratingOptions]);
+            .addFieldList(this._getRatingFields());
+    }
 
-        return query;
+    _getRatingFields() {
+        return [
+            'rating_id',
+            'rating_code',
+            this._getRatingOptionsField()
+        ];
+    }
+
+    _getAddProductReviewFields() {
+        return [
+            'detail'
+        ];
+    }
+
+    _getRatingOptionFields() {
+        return [
+            'option_id',
+            'value'
+        ];
+    }
+
+    _getRatingOptionsField() {
+        return new Field('rating_options')
+            .addFieldList(this._getRatingOptionFields());
     }
 }
 

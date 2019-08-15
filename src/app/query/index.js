@@ -13,7 +13,7 @@ export { default as CategoryQuery } from 'Query/Category.query';
 export { default as ProductListQuery } from 'Query/ProductList.query';
 export { default as CmsPageQuery } from 'Query/CmsPage.query';
 export { default as CmsBlockQuery } from 'Query/CmsBlock.query';
-export { default as HomeSlider } from 'Query/HomeSlider.query';
+export { default as Slider } from 'Query/Slider.query';
 export { default as MenuQuery } from 'Query/Menu.query';
 export { default as MyAccount } from 'Query/MyAccount.query';
 export { default as Wishlist } from 'Query/Wishlist.query';

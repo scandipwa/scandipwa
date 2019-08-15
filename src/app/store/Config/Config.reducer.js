@@ -23,15 +23,11 @@ const initialState = {
 const ConfigReducer = (state = initialState, action) => {
     const { countries, reviewRatings } = action;
 
-    const resultingCountries = countries && countries.map(({
-        id, full_name_locale: label, available_regions
-    }) => ({ id, label, available_regions }));
-
     switch (action.type) {
     case GET_COUNTRY_LIST:
         return {
             ...state,
-            countries: resultingCountries
+            countries
         };
     case UPDATE_REVIEW_RATINGS:
         return {

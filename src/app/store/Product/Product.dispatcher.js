@@ -22,7 +22,7 @@ import { RelatedProductsDispatcher } from 'Store/RelatedProducts';
  */
 export class ProductDispatcher extends QueryDispatcher {
     constructor() {
-        super('Product', 86400);
+        super('Product', 2628000);
     }
 
     onSuccess(data, dispatch) {
@@ -39,7 +39,10 @@ export class ProductDispatcher extends QueryDispatcher {
             const { product_links } = productItem;
             const productsSkuArray = product_links.map(item => `"${item.linked_product_sku}"`);
 
-            RelatedProductsDispatcher.handleData(dispatch, { productsSkuArray });
+            RelatedProductsDispatcher.handleData(
+                dispatch,
+                { args: { filter: { productsSkuArray } } }
+            );
         } else {
             RelatedProductsDispatcher.clearRelatedProducts(dispatch);
         }

@@ -15,21 +15,19 @@ import { Field } from 'Util/Query';
  * @class UrlRewritesQuery
  */
 class UrlRewritesQuery {
-    /**
-     * get UrlRewrites query
-     * @param  {{urlParam: String}} options A object containing different aspects of query, each item can be omitted
-     * @return {Field} UrlRewrites query
-     * @memberof UrlRewritesQuery
-     */
-    getQuery(options) {
-        const { urlParam } = options;
-
+    getQuery({ urlParam }) {
         return new Field('urlResolver')
             .addArgument('url', 'String!', urlParam)
-            .addField('id')
-            .addField('type')
-            .addField('canonical_url')
-            .addField('url_key');
+            .addFieldList(this._getUrlResolverFields());
+    }
+
+    _getUrlResolverFields() {
+        return [
+            'id',
+            'type',
+            'canonical_url',
+            'url_key'
+        ];
     }
 }
 

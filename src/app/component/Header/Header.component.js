@@ -252,7 +252,11 @@ class Header extends PureComponent {
               tabIndex={ isVisible ? 0 : -1 }
               className={ `Header-Logo ${ isVisible && 'Header-Logo_isVisible' }` }
               key="logo"
+              itemScope
+              itemType="http://schema.org/Organization"
             >
+                <meta itemProp="legalName" content="ScandiPWA" />
+                <meta itemProp="parentOrganization" content="Scandiweb" />
                 <svg xmlns="http://www.w3.org/2000/svg" width="116" height="17">
                     <g fill="none" fillRule="nonzero">
                         <path fill="#F26323" d="M84.38 15.94l-.07-.16-2.15-3.23-.05-.08 2.26-6.08 2.5 4.35 3.57-9.57h3.45l3.28 9.49h.07l.06-.1 4.56-9.37.02-.02h4.46l-.06.16-2.09 4.54-2.25 4.9-2.3 4.97-.06.2h-4.49l-.04-.23-1.51-4.23-1.46-4.08a.44.44 0 0 0-.12.19l-.6 1.6-1.88 5-.66 1.75h-4.44zm-9.53-7.95l.15.02h1.48c.37-.02.75-.03 1.11-.1.7-.15 1.19-.5 1.4-1.1.22-.56.22-1.12-.02-1.68-.2-.44-.54-.75-1.04-.92a4.1 4.1 0 0 0-1.25-.2H75l-.15.02v3.96zm-4.28 7.95V1.17l.13-.01h7.08c.88 0 1.74.13 2.56.43.94.34 1.7.9 2.26 1.67l-2.72 7.34c-.25.09-.5.12-.76.16-.5.08-1.01.09-1.52.09h-2.75l-.02.25v4.84h-4.26zm40.13 0l-.04-.17-1-2.43-.04-.05-.24-.01h-5.8l1.3-2.86h3.73l-1.77-4.35 2.2-4.9.24.56 3.23 7.5 2.78 6.47.11.2c0 .01 0 .04-.02.04h-4.68z" />
@@ -283,7 +287,7 @@ class Header extends PureComponent {
     }
 
     renderMinicartButton(isVisible = false) {
-        const { cartTotals: { count }, onMinicartOutsideClick, onMinicartButtonClick } = this.props;
+        const { cartTotals: { items_qty }, onMinicartOutsideClick, onMinicartButtonClick } = this.props;
 
         return (
             <ClickOutside onClick={ onMinicartOutsideClick } key="minicart">
@@ -295,7 +299,7 @@ class Header extends PureComponent {
                       onClick={ onMinicartButtonClick }
                       aria-label="Minicart"
                     >
-                        <span aria-label="Items in cart">{ count }</span>
+                        <span aria-label="Items in cart">{ items_qty }</span>
                     </button>
                     <CartOverlay />
                 </div>

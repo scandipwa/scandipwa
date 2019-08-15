@@ -271,16 +271,19 @@ export class CategoryPageContainer extends PureComponent {
         const sort = this._getSelectedSortFromUrl();
 
         return {
-            categoryIds,
-            categoryUrlPath,
-            currentPage,
-            customFilters,
-            getConfigurableData: true,
             isNext,
-            pageSize,
-            priceRange,
-            search,
-            sort
+            args: {
+                filter: {
+                    categoryUrlPath,
+                    customFilters,
+                    categoryIds,
+                    priceRange
+                },
+                currentPage,
+                pageSize,
+                search,
+                sort
+            }
         };
     }
 

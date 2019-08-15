@@ -9,22 +9,73 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import React, { PureComponent } from 'react';
 import { changeHeaderState, goToPreviousHeaderState } from 'Store/Header';
-import { CartDispatcher } from 'Store/Cart';
+import { CART, CART_EDITING } from 'Component/Header';
 import { hideActiveOverlay } from 'Store/Overlay';
+import { CartDispatcher } from 'Store/Cart';
+import { TotalsType } from 'Type/MiniCart';
+
 import CartOverlay from './CartOverlay.component';
 
-const mapStateToProps = state => ({
+export const mapStateToProps = state => ({
     products: state.CartReducer.productsInCart,
     totals: state.CartReducer.cartTotals
 });
 
-const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = dispatch => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     goToPreviousHeaderState: () => dispatch(goToPreviousHeaderState()),
     changeHeaderState: state => dispatch(changeHeaderState(state)),
     updateTotals: options => CartDispatcher.updateTotals(dispatch, options)
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(CartOverlay);
+export class CartOverlayContainer extends PureComponent {
+    constructor(props) {
+        super(props);
+
+        this.state = { isEditing: false };
+        this.containerFunctions = {
+            changeHeaderState: this.changeHeaderState.bind(this)
+        };
+    }
+
+    changeHeaderState() {
+        const { changeHeaderState, totals: { count = 0 } } = this.props;
+        const title = __('%s Items', count || 0);
+
+        changeHeaderState({
+            name: CART,
+            title,
+            onEditClick: () => {
+                this.setState({ isEditing: true });
+                changeHeaderState({
+                    name: CART_EDITING,
+                    title,
+                    onOkClick: () => this.setState({ isEditing: false }),
+                    onCancelClick: () => this.setState({ isEditing: false })
+                });
+            },
+            onCloseClick: () => this.setState({ isEditing: false })
+        });
+    }
+
+    render() {
+        return (
+            <CartOverlay
+              { ...this.props }
+              { ...this.state }
+              { ...this.containerFunctions }
+            />
+        );
+    }
+}
+
+CartOverlayContainer.propTypes = {
+    totals: TotalsType.isRequired,
+    changeHeaderState: PropTypes.func.isRequired
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CartOverlayContainer);

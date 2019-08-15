@@ -26,82 +26,6 @@ import './CartItem.style';
  * @class CartItem
  */
 class CartItem extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = { isLoading: false };
-
-        this.handleQtyChange = this.handleQtyChange.bind(this);
-        this.handleRemoveItem = this.handleRemoveItem.bind(this);
-    }
-
-    /**
-     * Get link to product page
-     * @param url_key Url to product
-     * @return {{pathname: Srting, state Object}} Pathname and product state
-     */
-    getProductLinkTo(url_key) {
-        if (!url_key) return undefined;
-        const {
-            product,
-            product: {
-                type_id,
-                configurable_options,
-                configurableVariantIndex,
-                parent,
-                variants = []
-            }
-        } = this.props;
-
-        if (type_id === 'simple') return { pathname: `/product/${ url_key }` };
-
-        const { attributes } = variants[configurableVariantIndex];
-
-        const parameters = Object.entries(attributes).reduce(
-            (parameters, [code, { attribute_value }]) => {
-                if (Object.keys(configurable_options).includes(code)) return { ...parameters, [code]: attribute_value };
-                return parameters;
-            }, {}
-        );
-
-        if (!url_key) return '/';
-
-        return {
-            pathname: `/product/${ url_key }`,
-            state: { product: parent || product },
-            search: convertKeyValueObjectToQueryString(parameters)
-        };
-    }
-
-    getProductThumbnail() {
-        const { product: { configurableVariantIndex, variants }, product } = this.props;
-
-        const { thumbnail } = configurableVariantIndex
-            ? variants[configurableVariantIndex].product
-            : product;
-
-        return thumbnail ? `/media/catalog/product${ thumbnail.path }` : null;
-    }
-
-    handleQtyChange(value) {
-        const { addProduct, product, product: { quantity } } = this.props;
-        const newQuantity = value - quantity;
-
-        if (newQuantity) {
-            this.setState({ isLoading: true });
-            addProduct({ product, quantity: newQuantity }).then(
-                () => this.setState({ isLoading: false })
-            );
-        }
-    }
-
-    handleRemoveItem() {
-        const { removeProduct, product } = this.props;
-
-        this.setState({ isLoading: true });
-        removeProduct({ product });
-    }
-
     renderConfiguration() {
         const {
             product: {
@@ -114,7 +38,7 @@ class CartItem extends Component {
 
         if (!variants || !configurable_options) return null;
 
-        const { product: currentVariant } = variants[configurableVariantIndex];
+        const { attributes } = variants[configurableVariantIndex];
 
         return (
             <ul
@@ -122,32 +46,56 @@ class CartItem extends Component {
               elem="Options"
               mods={ { isLikeTable } }
             >
-                { configurable_options.map(({ label, attribute_code, values }) => (
-                    <li
-                      key={ attribute_code }
-                      aria-label={ label }
-                      block="CartItem"
-                      elem="Option"
-                    >
-                        { values.find(({ value_index }) => value_index === currentVariant[attribute_code]).label }
-                    </li>
-                )) }
+                { Object.entries(attributes).map(([key, { attribute_label, attribute_code }]) => (
+                    !Object.keys(configurable_options).includes(key) && (
+                        <li
+                          key={ attribute_code }
+                          aria-label={ attribute_code }
+                          block="CartItem"
+                          elem="Option"
+                        >
+                            { attribute_label }
+                        </li>
+                    ))) }
             </ul>
         );
     }
 
-    renderItemTitle(url_key, name, brand) {
+    renderContent() {
+        const { isLikeTable, linkTo } = this.props;
+
         return (
-            <div block="CartItem" elem="Title">
-                <Link
-                  onClick={ () => this.handleItemClick() }
-                    // TODO: replace from configuration file
-                  to={ this.getProductLinkTo(url_key) }
-                >
-                    { brand && <span>{ brand }</span> }
-                    <p><TextPlaceholder content={ name } /></p>
-                </Link>
-            </div>
+            <Link to={ linkTo }>
+                <figure block="CartItem" elem="Wrapper">
+                    { this.renderImage() }
+                    <figcaption
+                      block="CartItem"
+                      elem="Content"
+                      mods={ { isLikeTable } }
+                    >
+                        { this.renderProductDetails() }
+                    </figcaption>
+                </figure>
+            </Link>
+        );
+    }
+
+    renderProductDetails() {
+        const { product: { name, price, isLikeTable } } = this.props;
+
+        return (
+            <>
+                <p block="CartItem" elem="Heading">{ name }</p>
+                { this.renderConfiguration() }
+                <ProductPrice
+                  mix={ {
+                      block: 'CartItem',
+                      elem: 'Price',
+                      mods: { isLikeTable }
+                  } }
+                  price={ price }
+                />
+            </>
         );
     }
 
@@ -155,7 +103,9 @@ class CartItem extends Component {
         const {
             isEditing,
             isLikeTable,
-            product: { quantity }
+            product: { quantity },
+            handleRemoveItem,
+            handleQtyChange
         } = this.props;
 
         return (
@@ -170,7 +120,7 @@ class CartItem extends Component {
                   name="RemoveItem"
                   elem="Delete"
                   aria-label="Remove item from cart"
-                  onClick={ this.handleRemoveItem }
+                  onClick={ handleRemoveItem }
                 >
                     <span>Delete</span>
                 </button>
@@ -181,54 +131,37 @@ class CartItem extends Component {
                   min={ 1 }
                   mix={ { block: 'CartItem', elem: 'Qty' } }
                   value={ quantity }
-                  onChange={ this.handleQtyChange }
+                  onChange={ handleQtyChange }
                 />
             </div>
         );
     }
 
-    render() {
-        const { isLoading } = this.state;
+    renderImage() {
+        const { product: { name }, thumbnail } = this.props;
 
-        const {
-            product: { name, price },
-            isLikeTable
-        } = this.props;
+        return (
+            <Image
+              src={ thumbnail }
+              mix={ {
+                  block: 'CartItem',
+                  elem: 'Picture'
+              } }
+              ratio="custom"
+              alt={ `Product ${name} thumbnail.` }
+            />
+        );
+    }
+
+    render() {
+        const { isLoading } = this.props;
 
         return (
             <li
               block="CartItem"
             >
                 <Loader isLoading={ isLoading } />
-                <Link to={ this.getProductLinkTo() }>
-                    <figure block="CartItem" elem="Wrapper">
-                        <Image
-                          src={ this.getProductThumbnail() }
-                          mix={ {
-                              block: 'CartItem',
-                              elem: 'Picture'
-                          } }
-                          ratio="custom"
-                          alt={ `Product ${name} thumbnail.` }
-                        />
-                        <figcaption
-                          block="CartItem"
-                          elem="Content"
-                          mods={ { isLikeTable } }
-                        >
-                            <p block="CartItem" elem="Heading">{ name }</p>
-                            { this.renderConfiguration() }
-                            <ProductPrice
-                              mix={ {
-                                  block: 'CartItem',
-                                  elem: 'Price',
-                                  mods: { isLikeTable }
-                              } }
-                              price={ price }
-                            />
-                        </figcaption>
-                    </figure>
-                </Link>
+                { this.renderContent() }
                 { this.renderActions() }
             </li>
         );
@@ -236,11 +169,20 @@ class CartItem extends Component {
 }
 
 CartItem.propTypes = {
+    isLoading: PropTypes.bool.isRequired,
     product: ProductType.isRequired,
     isEditing: PropTypes.bool,
     isLikeTable: PropTypes.bool,
-    addProduct: PropTypes.func.isRequired,
-    removeProduct: PropTypes.func.isRequired
+    handleRemoveItem: PropTypes.func.isRequired,
+    handleQtyChange: PropTypes.func.isRequired,
+    linkTo: PropTypes.oneOfType([
+        PropTypes.shape({
+            pathname: PropTypes.string,
+            search: PropTypes.string
+        }),
+        PropTypes.string
+    ]).isRequired,
+    thumbnail: PropTypes.string.isRequired
 };
 
 CartItem.defaultProps = {

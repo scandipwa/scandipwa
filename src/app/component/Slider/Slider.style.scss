@@ -15,7 +15,6 @@
 
 .Slider {
     --translateX: 0;
-    --translateY: 0;
     --animation-speed: 0;
     --slider-height: 0;
 
@@ -25,22 +24,13 @@
 
     transition: height 300ms;
 
-    &_isVertical {
-        height: var(--slider-height);
-        touch-action: pan-x;
-    }
-
     &-Wrapper {
         display: flex;
         align-items: flex-start;
 
         will-change: transform;
         transition: transform var(--animation-speed);
-        transform: translate3d(var(--translateX), var(--translateY), 0);
-
-        &_isVertical {
-            flex-direction: column;
-        }
+        transform: translate3d(var(--translateX), 0, 0);
 
         > * {
             flex-grow: 1;
@@ -54,21 +44,10 @@
         display: grid;
         grid-gap: 10px;
 
-        &_isHorizontal {
-            width: 100%;
-            grid-template-columns: repeat(auto-fit, 7px);
-            justify-content: center;
-            bottom: 1rem;
-        }
-
-        &_isVertical {
-            height: min-content;
-            grid-template-columns: 1fr;
-            grid-auto-rows: min-content;
-            right: 1rem;
-            top: 0;
-            bottom: 0;
-        }
+        width: 100%;
+        grid-template-columns: repeat(auto-fit, 7px);
+        justify-content: center;
+        bottom: 1rem;
     }
 
     &-Crumb {

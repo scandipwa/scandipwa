@@ -16,22 +16,30 @@ import { Field } from 'Util/Query';
  * @class RegionQuery
  */
 class RegionQuery {
-    getCountriesList() {
-        const countries = new Field('countries')
-            .addField(this.getAvalaibleRegions())
-            .addField('id')
-            .addField('full_name_locale');
-
-        return countries;
+    getCountriesQuery() {
+        return new Field('countries')
+            .addFieldList(this._getCountryFields());
     }
 
-    getAvalaibleRegions() {
-        const available_regions = new Field('available_regions')
-            .addField('code')
-            .addField('name')
-            .addField('id');
+    _getCountryFields() {
+        return [
+            'id',
+            this._getAvailableRegionsField(),
+            new Field('full_name_locale').setAlias('label')
+        ];
+    }
 
-        return available_regions;
+    _getAvailableRegionFields() {
+        return [
+            'code',
+            'name',
+            'id'
+        ];
+    }
+
+    _getAvailableRegionsField() {
+        return new Field('available_regions')
+            .addFieldList(this._getAvailableRegionFields());
     }
 }
 

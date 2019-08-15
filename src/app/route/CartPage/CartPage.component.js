@@ -12,67 +12,18 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { history } from 'Route';
 import ContentWrapper from 'Component/ContentWrapper';
 import CartItem from 'Component/CartItem';
 import { ProductType } from 'Type/ProductList';
 import { TotalsType } from 'Type/MiniCart';
-import { CART, CART_EDITING } from 'Component/Header';
 import isMobile from 'Util/Mobile';
 import ExpandableContent from 'Component/ExpandableContent';
 
 import './CartPage.style';
 
 class CartPage extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = { isEditing: false };
-
-        this.changeHeaderState = this.changeHeaderState.bind(this);
-    }
-
-    componentDidMount() {
-        this.updateBreadcrumbs();
-        this.changeHeaderState();
-    }
-
-    updateBreadcrumbs() {
-        const { updateBreadcrumbs } = this.props;
-        const breadcrumbs = [
-            { url: '/cart', name: __('Shopping cart') },
-            { url: '/', name: __('Home') }
-        ];
-
-        updateBreadcrumbs(breadcrumbs);
-    }
-
-    changeHeaderState() {
-        const { changeHeaderState, totals: { count } } = this.props;
-        const title = `${ count || 0 } Items`;
-
-        changeHeaderState({
-            name: CART,
-            title,
-            onEditClick: () => {
-                this.setState({ isEditing: true });
-                changeHeaderState({
-                    name: CART_EDITING,
-                    title,
-                    onOkClick: () => this.setState({ isEditing: false }),
-                    onCancelClick: () => this.setState({ isEditing: false })
-                });
-            },
-            onCloseClick: () => {
-                this.setState({ isEditing: false });
-                history.goBack();
-            }
-        });
-    }
-
     renderCartItems() {
-        const { products } = this.props;
-        const { isEditing } = this.state;
+        const { products, isEditing } = this.props;
 
         if (!Object.keys(products).length) {
             return (
@@ -114,29 +65,38 @@ class CartPage extends Component {
 
     renderTotals() {
         const {
+            products,
             totals: {
-                grandTotalPrice,
-                subTotalPrice,
-                taxPrice
+                grand_total = 0,
+                subtotal = 0,
+                tax_amount = 0
             }
         } = this.props;
+        const isDisabled = !Object.keys(products).length;
+        const options = isDisabled
+            ? {
+                onClick: e => e.preventDefault(),
+                disabled: true
+            }
+            : {};
 
         return (
             <article block="CartPage" elem="Summary">
                 <h4 block="CartPage" elem="SummaryHeading">Summary</h4>
                 <dl block="CartPage" elem="TotalDetails" aria-label="Order total details">
                     <dt>Subtotal:</dt>
-                    <dd>{ `$${subTotalPrice}` }</dd>
+                    <dd>{ `$${subtotal}` }</dd>
                     <dt>Tax:</dt>
-                    <dd>{ `$${taxPrice}` }</dd>
+                    <dd>{ `$${tax_amount || 0}` }</dd>
                 </dl>
                 <dl block="CartPage" elem="Total" aria-label="Complete order total">
                     <dt>Order total:</dt>
-                    <dd>{ `$${grandTotalPrice}` }</dd>
+                    <dd>{ `$${grand_total}` }</dd>
                 </dl>
                 <Link
                   className="CartPage-CheckoutButton Button"
                   to="/checkout"
+                  { ...options }
                 >
                     <span />
                     Secure checkout
@@ -209,15 +169,13 @@ class CartPage extends Component {
 }
 
 CartPage.propTypes = {
+    isEditing: PropTypes.bool.isRequired,
     products: PropTypes.objectOf(ProductType),
-    totals: TotalsType,
-    updateBreadcrumbs: PropTypes.func.isRequired,
-    changeHeaderState: PropTypes.func.isRequired
+    totals: TotalsType.isRequired
 };
 
 CartPage.defaultProps = {
-    products: {},
-    totals: {}
+    products: {}
 };
 
 export default CartPage;

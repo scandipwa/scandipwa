@@ -16,7 +16,7 @@ import { getCountryList, updateReviewRatings } from 'Store/Config';
 
 export class ConfigDispatcher extends QueryDispatcher {
     constructor() {
-        super('Config', 86400);
+        super('Config', 2628000);
     }
 
     onSuccess(data, dispatch) {
@@ -34,8 +34,8 @@ export class ConfigDispatcher extends QueryDispatcher {
 
     prepareRequest() {
         return [
-            RegionQuery.getCountriesList(),
-            Review.getRatingDetails()
+            RegionQuery.getCountriesQuery(),
+            Review.getRatingQuery()
         ];
     }
 }

@@ -15,51 +15,7 @@ import { Field } from 'Util/Query';
  * MyAccount Mutations
  * @class MyAccount
  */
-class MyAccount {
-    /**
-     * Get Customer query
-     * @param {boolean} withAddress
-     * @returns {Field}
-     * @memberof MyAccount
-     */
-    getCustomer(withAddress) {
-        const customer = new Field('customer')
-            .addField('created_at')
-            .addField('group_id')
-            .addField('prefix')
-            .addField('firstname')
-            .addField('middlename')
-            .addField('lastname')
-            .addField('suffix')
-            .addField('email')
-            .addField('default_billing')
-            .addField('default_shipping')
-            .addField('dob')
-            .addField('taxvat')
-            .addField('id')
-            .addField('is_subscribed');
-
-        this._getAdditionalCustomerFields(customer);
-
-        if (withAddress) customer.addField(this._getAddresses());
-
-        return customer;
-    }
-
-    /**
-     * Get ForgotPassword mutation
-     * @param {{email: String}} options
-     * @returns {Field}
-     * @memberof MyAccount
-     */
-    getForgotPasswordMutation(options) {
-        const { email } = options;
-
-        return new Field('forgotPassword')
-            .addArgument('email', 'String!', email)
-            .addField('status');
-    }
-
+export class MyAccount {
     /**
      * Get ResetPassword mutation
      * @param {{token: String, password: String, password_confirmation: String}} options A object containing different aspects of query, each item can be omitted
@@ -94,7 +50,7 @@ class MyAccount {
     getUpdateInformationMutation(options) {
         return new Field('updateCustomer')
             .addArgument('input', 'CustomerInput!', options)
-            .addField(this.getCustomer(true));
+            .addField(this._getCustomerField());
     }
 
     getChangeCustomerPasswordMutation(options) {
@@ -110,107 +66,103 @@ class MyAccount {
     getCreateAddressMutation(options) {
         return new Field('createCustomerAddress')
             .addArgument('input', 'CustomerAddressInput!', options)
-            .addFieldList(this._getAddressFieldList());
+            .addFieldList(this._getAddressFields());
     }
 
     getUpdateAddressMutation(id, options) {
         return new Field('updateCustomerAddress')
             .addArgument('id', 'Int!', id)
             .addArgument('input', 'CustomerAddressInput!', options)
-            .addFieldList(this._getAddressFieldList());
+            .addFieldList(this._getAddressFields());
     }
 
-    /**
-     * Get CreateAccount mutation
-     * @param  {{customer: Object, password: String}} options A object containing different aspects of query, each item can be omitted
-     * @return {Field}
-     * @memberof CreateAccount
-     */
     getCreateAccountMutation(options) {
         const { customer, password } = options;
 
-        return (process.env.MAGENTO_VERSION === '2.3.1')
-            // For M2 v. 2.3.1
-            ? new Field('createCustomer')
-                .addArgument('input', 'CustomerInput!', { ...customer, password })
-                .addField(this.getCustomer(true))
-            // For M2 v. 2.3.0
-            : new Field('createCustomer')
-                .addArgument('customer', 'CreateCustomerInput!', customer)
-                .addArgument('password', 'String!', password)
-                .addField('status')
-                .addField('token')
-                .addField(this.getCustomer(true));
+        return new Field('createCustomer')
+            .addArgument('input', 'CustomerInput!', { ...customer, password })
+            .addField(this._getCustomerField());
+    }
+
+    _getCustomerField() {
+        return new Field('customer')
+            .addFieldList(this._getCustomerFields());
+    }
+
+    _getCustomerFields() {
+        return [
+            'created_at',
+            'group_id',
+            'prefix',
+            'firstname',
+            'middlename',
+            'lastname',
+            'suffix',
+            'email',
+            'default_billing',
+            'default_shipping',
+            'dob',
+            'taxvat',
+            'id',
+            'is_subscribed',
+            this._getAddressesField()
+        ];
+    }
+
+    _getAddressesField() {
+        return new Field('addresses')
+            .addFieldList(this._getAddressFields());
+    }
+
+    _getRegionField() {
+        return new Field('region')
+            .addFieldList(this._getRegionFields());
+    }
+
+    _getRegionFields() {
+        return [
+            'region_code',
+            'region',
+            'region_id'
+        ];
+    }
+
+    _getAddressFields() {
+        return [
+            'id',
+            'customer_id',
+            'country_id',
+            'street',
+            'company',
+            'telephone',
+            'fax',
+            'postcode',
+            'city',
+            'firstname',
+            'lastname',
+            'middlename',
+            'prefix',
+            'suffix',
+            'vat_id',
+            'default_shipping',
+            'default_billing',
+            this._getRegionField()
+        ];
     }
 
     /**
-     * Get Customer Addresses field
+     * Get ForgotPassword mutation
+     * @param {{email: String}} options
      * @returns {Field}
      * @memberof MyAccount
      */
-    _getAddresses() {
-        const region = new Field('region')
-            .addField('region_code')
-            .addField('region')
-            .addField('region_id');
+    getForgotPasswordMutation(options) {
+        const { email } = options;
 
-        const addresses = new Field('addresses')
-            .addField('id')
-            .addField('customer_id')
-            .addField(region)
-            .addField('country_id')
-            .addField('street')
-            .addField('company')
-            .addField('telephone')
-            .addField('fax')
-            .addField('postcode')
-            .addField('city')
-            .addField('firstname')
-            .addField('lastname')
-            .addField('middlename')
-            .addField('prefix')
-            .addField('suffix')
-            .addField('vat_id')
-            .addField('default_shipping')
-            .addField('default_billing');
-
-        this._getAdditionalAddressesFields(addresses);
-
-        return addresses;
-    }
-
-    _getAddressFieldList() {
-        const region = new Field('region')
-            .addField('region_code')
-            .addField('region')
-            .addField('region_id');
-
-        return ['id', 'customer_id', region, 'country_id', 'street', 'company', 'telephone', 'fax', 'postcode',
-            'city', 'firstname', 'lastname', 'middlename', 'prefix', 'suffix', 'vat_id',
-            'default_shipping', 'default_billing'];
-    }
-
-    /**
-     * Adds additional customer address fields
-     * @param {Field} addresses
-     * @returns {*}
-     * @memberof MyAccount
-     */
-    _getAdditionalAddressesFields(addresses) {
-        return addresses;
-    }
-
-    /**
-     * Adds additional customer fields
-     * @param {Field} customer
-     * @returns {*}
-     * @memberof MyAccount
-     */
-    _getAdditionalCustomerFields(customer) {
-        return customer;
+        return new Field('forgotPassword')
+            .addArgument('email', 'String!', email)
+            .addField('status');
     }
 }
-
-export { MyAccount };
 
 export default new MyAccount();

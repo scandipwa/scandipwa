@@ -22,40 +22,17 @@ class CmsPageQuery {
      * @return {Query} CMS Page query
      * @memberof CmsPageQuery
      */
-    getQuery(options) {
-        if (!options) throw new Error('Missing argument `options`');
-        const items = this._prepareFields(options);
-        const { id } = options;
+    getQuery({ id }) {
+        if (!id) throw new Error('Missing argument `options`');
+        const items = this._getPageFields();
 
         return new Field('cmsPage')
             .addArgument('url_key', 'String!', id)
             .addFieldList(items);
     }
 
-    /**
-     * Prepare argument map
-     * @param  {{url_key: String, id: Int}} options A object containing different aspects of query, each item can be omitted
-     * @return {Object}
-     * @memberof ProductListQuery
-     */
-    _prepareArgumentList(options) {
-        const {
-            id,
-            url_key
-        } = options;
-
-        const argumentMap = {};
-        if (id) argumentMap.id = id;
-        if (url_key) argumentMap.url_key = url_key;
-
-        return argumentMap;
-    }
-
-    /**
-     * Prepare fields for the CMS Page
-     */
-    _prepareFields(options) {
-        const defaultFields = [
+    _getPageFields() {
+        return [
             'title',
             'content',
             'content_heading',
@@ -63,13 +40,6 @@ class CmsPageQuery {
             'meta_description',
             'meta_keywords'
         ];
-        let fields = defaultFields;
-
-        if (options.fields) {
-            fields = [...new Set(defaultFields.concat(options.fields))];
-        }
-
-        return fields;
     }
 }
 

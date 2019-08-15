@@ -17,7 +17,6 @@ export class CartQuery {
     getCartQuery(quoteId) {
         const query = new Field('getCartForCustomer')
             .addFieldList(this._getCartTotalsFields())
-            .addField(this._getCartItemsField())
             .setAlias('cartData');
 
         if (!isSignedIn()) query.addArgument('guestCartId', 'String', quoteId);
@@ -31,57 +30,72 @@ export class CartQuery {
 
     getSaveCartItemMutation(product, quoteId) {
         const mutation = new Field('saveCartItem')
-            .addArgument('cartItem', 'CartItemInput!', product);
+            .addArgument('cartItem', 'CartItemInput!', product)
+            .addFieldList(this._getSaveCartItemFields(quoteId));
 
         if (!isSignedIn()) mutation.addArgument('guestCartId', 'String', quoteId);
-
-        mutation.addField(this.getCartQuery(quoteId));
 
         return mutation;
     }
 
-    getRemoveCartItemMutation(product, quoteId) {
-        const { item_id } = product;
-
+    getRemoveCartItemMutation({ item_id }, quoteId) {
         const mutation = new Field('removeCartItem')
-            .addArgument('item_id', 'Int!', item_id);
+            .addArgument('item_id', 'Int!', item_id)
+            .addFieldList(this._getRemoveCartItemFields(quoteId));
 
         if (!isSignedIn()) mutation.addArgument('guestCartId', 'String', quoteId);
 
-        mutation.addField(this.getCartQuery(quoteId));
-
         return mutation;
+    }
+
+    _getSaveCartItemFields(quoteId) {
+        return [
+            this.getCartQuery(quoteId)
+        ];
+    }
+
+    _getRemoveCartItemFields(quoteId) {
+        return [
+            this.getCartQuery(quoteId)
+        ];
     }
 
     _getCartTotalsFields() {
         return [
-            'tax_amount',
             'subtotal',
-            'discount_amount',
-            'subtotal_with_discount',
-            'grand_total',
             'items_qty',
-            'base_currency_code'
+            'tax_amount',
+            'grand_total',
+            'discount_amount',
+            'base_currency_code',
+            'subtotal_with_discount',
+            this._getCartItemsField()
         ];
-    }
-
-    _getCartItemProductField() {
-        return ProductListQuery._prepareItemsField(
-            { getConfigurableData: true, isSingleProduct: true },
-            new Field('product')
-        );
     }
 
     _getCartItemFields() {
         return [
-            'price', 'tax_amount', 'row_total', 'tax_percent',
-            'discount_amount', 'discount_percent',
-            'item_id', 'qty', 'sku', this._getCartItemProductField()
+            'qty',
+            'sku',
+            'price',
+            'item_id',
+            'row_total',
+            'tax_amount',
+            'tax_percent',
+            'discount_amount',
+            'discount_percent',
+            this._getProductField()
         ];
     }
 
+    _getProductField() {
+        return new Field('product')
+            .addFieldList(ProductListQuery._getProductInterfaceFields());
+    }
+
     _getCartItemsField() {
-        return new Field('items').addFieldList(this._getCartItemFields());
+        return new Field('items')
+            .addFieldList(this._getCartItemFields());
     }
 }
 

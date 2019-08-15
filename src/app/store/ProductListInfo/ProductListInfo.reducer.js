@@ -62,12 +62,14 @@ const initialState = {
 const ProductListReducer = (state = initialState, action) => {
     const {
         type,
-        totalItems,
-        minPrice,
-        maxPrice,
-        sortFields,
-        filters: avaliableFilters = [],
-        isLoading
+        isLoading,
+        products: {
+            filters: avaliableFilters = [],
+            min_price: minPrice,
+            max_price: maxPrice,
+            total_count: totalItems,
+            sort_fields: sortFields
+        } = {}
     } = action;
 
     const {

@@ -16,8 +16,9 @@ import { history } from 'Route';
 import { PDP } from 'Component/Header';
 import ProductGallery from 'Component/ProductGallery';
 import ContentWrapper from 'Component/ContentWrapper';
-import ProductActions from 'Component/ProductActions';
+import ProductInformation from 'Component/ProductInformation';
 import Meta from 'Component/Meta';
+import ProductActions from 'Component/ProductActions';
 import { ProductType } from 'Type/ProductList';
 import { getVariantIndex } from 'Util/Product';
 import RelatedProducts from 'Component/RelatedProducts';
@@ -30,7 +31,6 @@ import {
 import './ProductPage.style';
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
 
-// WIP
 class ProductPage extends Component {
     constructor() {
         super();
@@ -50,7 +50,7 @@ class ProductPage extends Component {
     componentDidMount() {
         const { isOnlyPlaceholder } = this.props;
         if (!isOnlyPlaceholder) this.requestProduct();
-        this.onProductUpdate();
+        this.updateBreadcrumbs();
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -163,11 +163,16 @@ class ProductPage extends Component {
     requestProduct() {
         const { requestProduct, location, match } = this.props;
         const options = {
-            productUrlPath: getUrlParam(match, location),
-            notRequireInfo: true,
             isSingleProduct: true,
-            getConfigurableData: true
+            args: {
+                filter: {
+                    productUrlPath: getUrlParam(match, location)
+                }
+            }
         };
+
+        // eslint-disable-next-line react/no-unused-state
+        this.setState({ isConfigurationInitialized: false });
         requestProduct(options);
     }
 
@@ -185,9 +190,11 @@ class ProductPage extends Component {
      * Dispatch breadcrumbs update
      * @return {void}
      */
-    updateBreadcrumbs(product) {
+    updateBreadcrumbs() {
         const { updateBreadcrumbs } = this.props;
-        updateBreadcrumbs(product);
+        const dataSource = this.getDataSource();
+
+        if (Object.keys(dataSource).length) updateBreadcrumbs(dataSource);
     }
 
     /**
@@ -259,11 +266,12 @@ class ProductPage extends Component {
                           mediaGallery={ mediaGallery }
                         />
                         <ProductActions
+                          getLink={ this.getLink }
+                          updateUrl={ this.updateUrl }
                           product={ dataSource }
-                          availableFilters={ filters }
+                          parameters={ parameters }
                           areDetailsLoaded={ areDetailsLoaded }
                           configurableVariantIndex={ configurableVariantIndex }
-                          updateConfigurableVariantIndex={ this.updateUrl }
                         />
                     </ContentWrapper>
                     <ProductInformation product={ dataSource } type="block" />

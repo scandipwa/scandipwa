@@ -20,7 +20,7 @@ import { updateCmsPage } from 'Store/CmsPage';
  */
 export class CmsPageDispatcher extends QueryDispatcher {
     constructor() {
-        super('CmsPage', 86400);
+        super('CmsPage', 2628000);
     }
 
     onSuccess(data, dispatch) {

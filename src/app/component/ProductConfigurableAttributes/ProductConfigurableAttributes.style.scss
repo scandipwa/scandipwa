@@ -14,13 +14,15 @@
 }
 
 .ProductConfigurableAttributes {
+    width: 100%;
+
     &-Attribute {
         padding-bottom: 1.5rem;
     }
 }
 
-.ProductConfigurableAttribute {    
-    &-AttributesList { 
+.ProductConfigurableAttribute {
+    &-AttributesList {
         display: flex;
         flex-wrap: wrap;
 

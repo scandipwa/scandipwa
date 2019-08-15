@@ -40,6 +40,8 @@
         }
 
         img {
+            object-fit: cover;
+
             @include mobile {
                 object-position: right;
             }
