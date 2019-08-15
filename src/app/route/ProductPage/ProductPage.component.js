@@ -27,11 +27,11 @@ class ProductPage extends Component {
         const {
             product, product: { variants },
             filters, configurableVariantIndex,
-            getDataSource, getThumbnail,
+            getThumbnail,
             getConfigurableVariantMediaLibrary,
-            updateUrl
+            updateUrl,
+            dataSource
         } = this.props;
-        const dataSource = getDataSource();
         const { media_gallery_entries } = dataSource;
         const areDetailsLoaded = dataSource === product;
         const thumbnail = getThumbnail(configurableVariantIndex, dataSource);

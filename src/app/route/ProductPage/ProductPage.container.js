@@ -43,18 +43,21 @@ export class ProductPageContainer extends PureComponent {
         };
 
         this.containerFunctions = {
-            getDataSource: this.getDataSource.bind(this),
             getThumbnail: this.getThumbnail.bind(this),
             getConfigurableVariantMediaLibrary: this.getConfigurableVariantMediaLibrary.bind(this),
             updateUrl: this.updateUrl.bind(this)
         };
+
+        this.containerProps = () => ({
+            dataSource: this._getDataSource()
+        });
     }
 
 
     componentDidMount() {
         const { isOnlyPlaceholder } = this.props;
-        if (!isOnlyPlaceholder) this.requestProduct();
-        this.onProductUpdate();
+        if (!isOnlyPlaceholder) this._requestProduct();
+        this._onProductUpdate();
     }
 
     /**
@@ -74,15 +77,15 @@ export class ProductPageContainer extends PureComponent {
         const { location } = this.props;
 
         if (location !== prevProps.location) {
-            this.requestProduct();
+            this._requestProduct();
         }
 
-        if (this.variantIndexInPropsChanged(this.props, prevProps)) {
+        if (this._variantIndexInPropsChanged(this.props, prevProps)) {
             // eslint-disable-next-line react/no-unused-state, react/no-did-update-set-state
             this.setState({ isConfigurationInitialized: false });
         }
 
-        this.onProductUpdate();
+        this._onProductUpdate();
     }
 
     componentWillUnmount() {
@@ -110,16 +113,16 @@ export class ProductPageContainer extends PureComponent {
         return null;
     }
 
-    onProductUpdate() {
-        const dataSource = this.getDataSource();
+    _onProductUpdate() {
+        const dataSource = this._getDataSource();
 
         if (Object.keys(dataSource).length) {
-            this.updateBreadcrumbs(dataSource);
-            this.updateHeaderState(dataSource);
+            this._updateBreadcrumbs(dataSource);
+            this._updateHeaderState(dataSource);
         }
     }
 
-    getDataSource() {
+    _getDataSource() {
         const { product, location: { state } } = this.props;
         const productIsLoaded = Object.keys(product).length > 0;
         const locationStateExists = state && Object.keys(state.product).length > 0;
@@ -136,10 +139,11 @@ export class ProductPageContainer extends PureComponent {
         return useLoadedProduct ? product : state.product;
     }
 
+    
     getConfigurableVariantMediaLibrary() {
         const { product: { variants } } = this.props;
         const { configurableVariantIndex } = this.state;
-        const dataSource = this.getDataSource();
+        const dataSource = this._getDataSource();
         const { media_gallery_entries } = dataSource;
         const { media_gallery_entries: configurableMediaGallery } = variants[configurableVariantIndex].product;
 
@@ -168,7 +172,7 @@ export class ProductPageContainer extends PureComponent {
      * @param {Object} prevProps
      * @return {Boolean}
      */
-    variantIndexInPropsChanged(props, prevProps) {
+    _variantIndexInPropsChanged(props, prevProps) {
         return ProductPageContainer.getVariantIndexFromProps(props) !== ProductPageContainer.getVariantIndexFromProps(prevProps);
     }
 
@@ -176,7 +180,7 @@ export class ProductPageContainer extends PureComponent {
      * Dispatch product data request
      * @return {void}
      */
-    requestProduct() {
+    _requestProduct() {
         const { requestProduct, location, match } = this.props;
         const options = {
             isSingleProduct: true,
@@ -192,7 +196,7 @@ export class ProductPageContainer extends PureComponent {
         requestProduct(options);
     }
 
-    updateHeaderState({ name: title }) {
+    _updateHeaderState({ name: title }) {
         const { changeHeaderState } = this.props;
 
         changeHeaderState({
@@ -206,7 +210,7 @@ export class ProductPageContainer extends PureComponent {
      * Dispatch breadcrumbs update
      * @return {void}
      */
-    updateBreadcrumbs(product) {
+    _updateBreadcrumbs(product) {
         const { updateBreadcrumbs } = this.props;
         updateBreadcrumbs(product);
     }
@@ -228,9 +232,10 @@ export class ProductPageContainer extends PureComponent {
     render() {
         return (
             <ProductPage
-                { ...this.props }
-                { ...this.state }
-                { ...this.containerFunctions }
+              { ...this.props }
+              { ...this.state }
+              { ...this.containerFunctions }
+              { ...this.containerProps() }
             />
         )
     }
