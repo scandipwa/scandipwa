@@ -11,15 +11,26 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import TextPlaceholder from 'Component/TextPlaceholder';
 import './ExpandableContent.style';
 
 class ExpandableContent extends PureComponent {
+    constructor(props) {
+        super(props);
+
+        this.state = { isContentExpanded: false };
+        this.toggleExpand = this.toggleExpand.bind(this);
+    }
+
+    toggleExpand() {
+        this.setState(({ isContentExpanded }) => (
+            { isContentExpanded: !isContentExpanded }
+        ));
+    }
+
     renderButton() {
-        const { isContentExpanded } = this.props;
-        const {
-            heading, subHeading,
-            mix, toggleExpand
-        } = this.props;
+        const { isContentExpanded } = this.state;
+        const { heading, subHeading, mix } = this.props;
 
         return (
             <button
@@ -27,14 +38,14 @@ class ExpandableContent extends PureComponent {
               elem="Button"
               mods={ { isContentExpanded } }
               mix={ { ...mix, elem: 'ExpandableContentButton' } }
-              onClick={ toggleExpand }
+              onClick={ this.toggleExpand }
             >
                 <span
                   block="ExpandableContent"
                   elem="Heading"
                   mix={ { ...mix, elem: 'ExpandableContentHeading' } }
                 >
-                    { heading }
+                    <TextPlaceholder content={ heading } />
                 </span>
                 <span
                   block="ExpandableContent"
@@ -49,17 +60,16 @@ class ExpandableContent extends PureComponent {
     }
 
     renderContent() {
-        const {
-            isContentExpanded,
-            children, mix
-        } = this.props;
+        const { children, mix } = this.props;
+        const { isContentExpanded } = this.state;
+        const mods = { isContentExpanded };
 
         return (
             <div
               block="ExpandableContent"
               elem="Content"
-              mods={ { isContentExpanded } }
-              mix={ { ...mix, elem: 'ExpandableContentContent' } }
+              mods={ mods }
+              mix={ { ...mix, elem: 'ExpandableContentContent', mods } }
             >
                 { children }
             </div>
@@ -82,8 +92,8 @@ class ExpandableContent extends PureComponent {
 }
 
 ExpandableContent.propTypes = {
-    heading: PropTypes.string.isRequired,
-    subHeading: PropTypes.string.isRequired,
+    heading: PropTypes.string,
+    subHeading: PropTypes.string,
     children: PropTypes.oneOfType([
         PropTypes.arrayOf(PropTypes.node),
         PropTypes.node
@@ -95,9 +105,12 @@ ExpandableContent.propTypes = {
             PropTypes.string,
             PropTypes.bool
         ]))
-    }).isRequired,
-    isContentExpanded: PropTypes.bool.isRequired,
-    toggleExpand: PropTypes.func.isRequired
+    }).isRequired
+};
+
+ExpandableContent.defaultProps = {
+    subHeading: '',
+    heading: ''
 };
 
 export default ExpandableContent;

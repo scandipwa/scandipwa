@@ -166,7 +166,8 @@ class ProductAttributeValue extends Component {
     render() {
         const {
             getLink,
-            attribute: { attribute_code, attribute_value }
+            attribute: { attribute_code, attribute_value },
+            mix
         } = this.props;
 
         if (attribute_code && !attribute_value) return null;
@@ -178,6 +179,7 @@ class ProductAttributeValue extends Component {
               href={ href }
               block="ProductAttributeValue"
               onClick={ this.clickHandler }
+              mix={ mix }
             >
                 { this.renderAttributeByType() }
             </a>
@@ -189,11 +191,16 @@ ProductAttributeValue.propTypes = {
     getLink: PropTypes.func.isRequired,
     onClick: PropTypes.func.isRequired,
     attribute: AttributeType.isRequired,
-    isSelected: PropTypes.bool
+    isSelected: PropTypes.bool,
+    mix: PropTypes.shape({
+        block: PropTypes.string,
+        elem: PropTypes.string
+    })
 };
 
 ProductAttributeValue.defaultProps = {
-    isSelected: false
+    isSelected: false,
+    mix: {}
 };
 
 export default ProductAttributeValue;

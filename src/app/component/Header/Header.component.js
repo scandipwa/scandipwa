@@ -301,7 +301,7 @@ class Header extends PureComponent {
                       onClick={ onMinicartButtonClick }
                       aria-label="Minicart"
                     >
-                        <span aria-label="Items in cart">{ items_qty }</span>
+                        <span aria-label="Items in cart">{ items_qty || '0' }</span>
                     </button>
                     <CartOverlay />
                 </div>

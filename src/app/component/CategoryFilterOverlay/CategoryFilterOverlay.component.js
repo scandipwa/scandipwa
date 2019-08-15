@@ -57,8 +57,10 @@ class CategoryFilterOverlay extends PureComponent {
         } = this.props;
 
         const isLoaded = availableFilters && !!Object.keys(availableFilters).length;
+
         return (
             <ProductConfigurableAttributes
+              mix={ { block: 'CategoryFilterOverlay', elem: 'Attributes' } }
               isReady={ isLoaded }
               configurable_options={ availableFilters }
               getLink={ getFilterUrl }

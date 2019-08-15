@@ -10,19 +10,24 @@
  */
 
 :root {
-    --option-background-color: var(--color-homepage-background);
-    --option-border-color: #000;
-    --option-check-mark-background: var(--color-text-black);
-    --option-text-color: #000;
+    --option-background-color: #{$white};
+    --option-check-mark-background: #{$black};
     --option-padding: 0 12px;
-    --option-size: 35px;
+    --option-margin: 0;
+    --option-size: 45px;
+    --option-text-color: #979797;
+    --option-border-color: #979797;
+
+    @include mobile {
+        --option-border-color: #{$black};
+        --option-text-color: #{$black};
+    }
 }
 
 .ProductAttributeValue {
     --button-background: initial;
     --button-color: initial;
     --button-padding: 0;
-
     --option-is-selected: 0;
 
     margin-left: 0;
@@ -37,6 +42,7 @@
         display: inline-block;
         height: var(--option-size);
         padding: var(--option-padding);
+        margin: var(--option-margin);
     }
 
     &-Color {
@@ -94,7 +100,8 @@
     &-String {
         border-style: solid;
         line-height: var(--option-size);
-        min-width: var(--option-size);
+        min-width: calc(1.5 * var(--option-size));
+        text-align: center;
 
         &_isSelected {
             --option-border-color: var(--color-primary-base);

@@ -13,7 +13,7 @@
     padding-top: 1rem;
 
     > section:nth-child(even) {
-        background-color: var(--color-breadcrumbs-background);
+        background-color: #{$concrete};
     }
 
     &-Wrapper {

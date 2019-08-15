@@ -17,12 +17,12 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { ProductType } from 'Type/ProductList';
 import Field from 'Component/Field';
+import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import ProductPrice from 'Component/ProductPrice';
 import AddToCart from 'Component/AddToCart';
 import Html from 'Component/Html';
 import './ProductActions.style';
-import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
 
 /**
  * Product actions
@@ -81,7 +81,7 @@ class ProductActions extends PureComponent {
         );
     }
 
-    renderConfigurableAttrbiutes() {
+    renderConfigurableAttributes() {
         const {
             getLink,
             updateUrl,
@@ -94,6 +94,7 @@ class ProductActions extends PureComponent {
 
         return (
             <ProductConfigurableAttributes
+              mix={ { block: 'ProductActions', elem: 'Attributes' } }
               isReady={ areDetailsLoaded }
               getLink={ getLink }
               parameters={ parameters }
@@ -214,8 +215,8 @@ class ProductActions extends PureComponent {
                 </div>
                 { this.renderNameAndBrand() }
                 { this.renderSkuAndStock() }
+                { this.renderConfigurableAttributes() }
                 { this.renderShortDescription() }
-                { this.renderConfigurableAttrbiutes() }
             </article>
         );
     }

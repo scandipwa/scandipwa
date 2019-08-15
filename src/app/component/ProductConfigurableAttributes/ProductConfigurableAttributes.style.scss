@@ -10,24 +10,42 @@
  */
 
 :root {
-    --option-size: 35px;
-}
+    --product-configurable-attributes-direction: flex-start;
+    --product-configurable-attributes-margin: 0;
+    --product-configurable-attributes-content-padding: 0;
 
-.ProductConfigurableAttributes {
-    width: 100%;
-
-    &-Attribute {
-        padding-bottom: 1.5rem;
+    @include mobile {
+        --product-configurable-attributes-content-padding: .5rem .5rem 1.5rem;
     }
 }
 
-.ProductConfigurableAttribute {
+.ProductConfigurableAttributes {
+    margin: var(--product-configurable-attributes-margin);
+
     &-AttributesList {
+        text-align: center;
         display: flex;
         flex-wrap: wrap;
+        justify-content: var(--product-configurable-attributes-direction);
+        align-items: center;
 
-        & > * {
-            margin: 0 7px 5px 3px;
+        @include after-mobile {
+            --option-size: 33px;
+
+            display: flex;
+            flex-wrap: wrap;
+        }
+    }
+
+    &-ExpandableContentContent {
+        @include after-mobile {
+            margin-bottom: 1rem;
+        }
+
+        &_isContentExpanded {
+            @include mobile {
+                padding: var(--product-configurable-attributes-content-padding);
+            }
         }
     }
 
@@ -48,5 +66,6 @@
         background-size: var(--placeholder-size);
         height: var(--option-size);
         width: var(--option-size);
+        margin: var(--option-margin);
     }
 }

@@ -50,7 +50,7 @@ class ProductPage extends Component {
     componentDidMount() {
         const { isOnlyPlaceholder } = this.props;
         if (!isOnlyPlaceholder) this.requestProduct();
-        this.updateBreadcrumbs();
+        this.onProductUpdate();
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -86,7 +86,7 @@ class ProductPage extends Component {
         const { location: { pathname } } = this.props;
 
         if (pathname !== prevPathname) this.requestProduct();
-        this.updateBreadcrumbs();
+        this.onProductUpdate();
     }
 
     componentWillUnmount() {
@@ -95,6 +95,15 @@ class ProductPage extends Component {
         if (type_id === 'grouped') return clearGroupedProductQuantity();
 
         return null;
+    }
+
+    onProductUpdate() {
+        const dataSource = this.getDataSource();
+
+        if (Object.keys(dataSource).length) {
+            this.updateBreadcrumbs(dataSource);
+            this.updateHeaderState(dataSource);
+        }
     }
 
     getDataSource() {
@@ -182,11 +191,9 @@ class ProductPage extends Component {
      * Dispatch breadcrumbs update
      * @return {void}
      */
-    updateBreadcrumbs() {
+    updateBreadcrumbs(dataSource) {
         const { updateBreadcrumbs } = this.props;
-        const dataSource = this.getDataSource();
-
-        if (Object.keys(dataSource).length) updateBreadcrumbs(dataSource);
+        updateBreadcrumbs(dataSource);
     }
 
     /**

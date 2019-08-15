@@ -16,9 +16,7 @@ import Image from 'Component/Image';
 import ProductPrice from 'Component/ProductPrice';
 import Field from 'Component/Field';
 import Loader from 'Component/Loader';
-import TextPlaceholder from 'Component/TextPlaceholder';
 import { ProductType } from 'Type/ProductList';
-import { convertKeyValueObjectToQueryString } from 'Util/Url';
 import './CartItem.style';
 
 /**
@@ -38,7 +36,7 @@ class CartItem extends PureComponent {
 
         if (!variants || !configurable_options) return null;
 
-        const { attributes } = variants[configurableVariantIndex];
+        const { attributes } = variants[configurableVariantIndex] || {};
 
         return (
             <ul
@@ -46,15 +44,15 @@ class CartItem extends PureComponent {
               elem="Options"
               mods={ { isLikeTable } }
             >
-                { Object.entries(attributes).map(([key, { attribute_label, attribute_code }]) => (
-                    !Object.keys(configurable_options).includes(key) && (
+                { Object.entries(attributes).map(([key, { attribute_code, attribute_value }]) => (
+                    Object.keys(configurable_options).includes(key) && (
                         <li
                           key={ attribute_code }
                           aria-label={ attribute_code }
                           block="CartItem"
                           elem="Option"
                         >
-                            { attribute_label }
+                            { configurable_options[attribute_code].attribute_options[attribute_value].label }
                         </li>
                     ))) }
             </ul>
@@ -81,7 +79,7 @@ class CartItem extends PureComponent {
     }
 
     renderProductDetails() {
-        const { product: { name, price, isLikeTable } } = this.props;
+        const { product: { name, price }, isLikeTable } = this.props;
 
         return (
             <>
