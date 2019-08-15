@@ -15,7 +15,7 @@ import { Field } from 'Util/Query';
  * RegionQuery Mutations
  * @class RegionQuery
  */
-class RegionQuery {
+export class RegionQuery {
     getCountriesQuery() {
         return new Field('countries')
             .addFieldList(this._getCountryFields());
@@ -42,7 +42,5 @@ class RegionQuery {
             .addFieldList(this._getAvailableRegionFields());
     }
 }
-
-export { RegionQuery };
 
 export default new RegionQuery();

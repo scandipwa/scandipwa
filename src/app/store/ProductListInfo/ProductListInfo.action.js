@@ -12,7 +12,7 @@
 export const UPDATE_PRODUCT_LIST_INFO = 'UPDATE_PRODUCT_LIST_INFO';
 export const UPDATE_INFO_LOAD_STATUS = 'UPDATE_INFO_LOAD_STATUS';
 
-const updateProductListInfo = products => ({
+export const updateProductListInfo = products => ({
     type: UPDATE_PRODUCT_LIST_INFO,
     products
 });
@@ -22,13 +22,7 @@ const updateProductListInfo = products => ({
  * @param {Boolean} status Loading indication boolean
  * @return {void}
  */
-const updateInfoLoadStatus = status => ({
+export const updateInfoLoadStatus = status => ({
     type: UPDATE_INFO_LOAD_STATUS,
     isLoading: status
 });
-
-
-export {
-    updateProductListInfo,
-    updateInfoLoadStatus
-};

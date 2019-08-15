@@ -10,7 +10,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Image from 'Component/Image';
@@ -21,7 +21,7 @@ import { BlockListType } from 'Type/CMS';
 import { MenuType } from 'Type/Menu';
 import './MenuOverlay.style';
 
-class MenuOverlay extends Component {
+class MenuOverlay extends PureComponent {
     constructor(props) {
         super(props);
 
@@ -84,7 +84,7 @@ class MenuOverlay extends Component {
             <figure block="MenuOverlay" elem="ItemFigure" mods={ itemMods }>
                 <Image
                   mix={ { block: 'MenuOverlay', elem: 'Image', mods: itemMods } }
-                  src={ `/media/${icon}` }
+                  src={ icon && `/media/${icon}` }
                   ratio="16x9"
                   arePlaceholdersShown
                 />

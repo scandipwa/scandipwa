@@ -14,7 +14,7 @@ import { Field } from 'Util/Query';
  * UrlRewrites Query
  * @class UrlRewritesQuery
  */
-class UrlRewritesQuery {
+export class UrlRewritesQuery {
     getQuery({ urlParam }) {
         return new Field('urlResolver')
             .addArgument('url', 'String!', urlParam)
@@ -30,7 +30,5 @@ class UrlRewritesQuery {
         ];
     }
 }
-
-export { UrlRewritesQuery };
 
 export default new UrlRewritesQuery();

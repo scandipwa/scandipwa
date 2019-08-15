@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { ProductType } from 'Type/ProductList';
 import { RatingItemsType } from 'Type/Rating';
@@ -25,7 +25,7 @@ import './ProductReviewForm.style';
  * ProductReviewForm
  * @class ProductReviewForm
  */
-class ProductReviewForm extends Component {
+class ProductReviewForm extends PureComponent {
     constructor(props) {
         super(props);
 

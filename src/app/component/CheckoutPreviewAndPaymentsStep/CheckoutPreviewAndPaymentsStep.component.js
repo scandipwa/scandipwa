@@ -11,7 +11,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import CheckoutPaymentMethods from 'Component/CheckoutPaymentMethods';
 import Field from 'Component/Field';
@@ -36,7 +36,7 @@ export const STATE_NEW_ADDRESS = 'newAddress';
 export const STATE_DEFAULT_ADDRESS = 'defaultAddress';
 export const STATE_SAME_ADDRESS = 'sameAddress';
 
-class CheckoutPreviewAndPaymentsStep extends Component {
+class CheckoutPreviewAndPaymentsStep extends PureComponent {
     constructor(props) {
         super(props);
 
@@ -142,19 +142,8 @@ class CheckoutPreviewAndPaymentsStep extends Component {
         return null;
     }
 
-    componentDidMount() {
-        // const { countryList } = this.props;
-
-        // if (countryList.length) {
-        //     this.getAvailableRegions(DEFAULT_COUNTRY);
-        // }
-    }
-
     componentDidUpdate() {
         const { defaultBillingAddress } = this.state;
-        // const { countryList } = this.props;
-
-        // if (!prevProps.countryList.length && countryList.length) this.getAvailableRegions(DEFAULT_COUNTRY);
 
         if (defaultBillingAddress) return this.handleFieldChange;
 
@@ -176,45 +165,6 @@ class CheckoutPreviewAndPaymentsStep extends Component {
 
         savePaymentInformationAndPlaceOrder(paymentInformation);
     }
-
-    // getAvailableRegions(country_id) {
-    //     const { countryList } = this.props;
-    //     const { region } = this.state;
-    //     const regionList = countryList.reduce((regionList, countryRegions) => {
-    //         const { available_regions, id } = countryRegions;
-
-    //         if (available_regions && country_id === id) {
-    //             regionList.push(...available_regions);
-    //         }
-
-    //         return regionList;
-    //     }, []);
-
-    //     if (regionList.length) {
-    //         const { region_id } = region || DEFAULT_REGION;
-    //         const correctRegion = regionList.reduce((correctRegion, listRegion) => {
-    //             const { id: listId } = listRegion;
-    //             if (region_id === listId) correctRegion.push(listRegion);
-    //             return correctRegion;
-    //         }, []);
-
-    //         const { code: region_code, name: regionName, id: regionId } = correctRegion[0] || regionList[0];
-
-    //         return this.setState({
-    //             country_id,
-    //             regionList,
-    //             region: { region_code, region: regionName, region_id: regionId }
-    //         });
-    //     }
-
-    //     const { region: regionName } = region || DEFAULT_REGION;
-
-    //     return this.setState({
-    //         country_id,
-    //         regionList,
-    //         region: regionName
-    //     });
-    // }
 
     getAddressFromState() {
         const { state, billingAddress, shippingAddress } = this.state;
@@ -285,8 +235,6 @@ class CheckoutPreviewAndPaymentsStep extends Component {
     changeState(state, billingValue) {
         const { shippingAddress, defaultBillingAddress } = this.state;
         const { billingAddress } = this.props;
-
-        // this.getAvailableRegions(country_id || DEFAULT_COUNTRY);
 
         if (state === STATE_SAME_ADDRESS) {
             return this.setState({ state, billingAddress: shippingAddress, billingIsSame: billingValue });
@@ -386,32 +334,6 @@ class CheckoutPreviewAndPaymentsStep extends Component {
         );
     }
 
-    // renderRegionField(id, overrideStateValue) {
-    //     const { [id]: stateValue, regionList } = this.state;
-    //     const {
-    //         type = 'text',
-    //         label,
-    //         note,
-    //         defaultValue,
-    //         validation = ['notEmpty'],
-    //         onChange = value => this.setState({ [id]: value }, this.handleFieldChange)
-    //     } = this.fieldMap[id];
-    //     const fieldValue = overrideStateValue || stateValue || defaultValue;
-
-    //     return (
-    //         <Field
-    //           id={ id }
-    //           type={ (regionList && regionList.length) ? 'select' : type }
-    //           label={ label }
-    //           note={ note }
-    //           options={ regionList }
-    //           value={ typeof fieldValue === 'object' ? fieldValue.region_id : fieldValue }
-    //           validation={ validation }
-    //           onChange={ onChange }
-    //         />
-    //     );
-    // }
-
     renderAddressPreview(addressType) {
         const { shippingAddress, billingAddress } = this.state;
         const correctAddress = (addressType === 'sameAddress') ? shippingAddress : billingAddress;
@@ -431,7 +353,7 @@ class CheckoutPreviewAndPaymentsStep extends Component {
                   elem="ShippingAddressPreview"
                 >
                     <dl>
-                        <dt>Billing address:</dt>
+                        <dt>{ __('Billing address:') }</dt>
                         <dd>{ address.filter(s => !!s).join(', ') }</dd>
                     </dl>
                 </address>
@@ -441,6 +363,7 @@ class CheckoutPreviewAndPaymentsStep extends Component {
 
     renderNewAddress() {
         const { street } = this.state;
+
         return (
             <>
                 { this.renderField(FIRSTNAME_FIELD_ID) }
@@ -448,10 +371,8 @@ class CheckoutPreviewAndPaymentsStep extends Component {
                 { this.renderField(COMPANY_FIELD_ID) }
                 { this.renderField(STREET_0_FIELD_ID, street[0]) }
                 { this.renderField(CITY_FIELD_ID) }
-                {/* { this.renderRegionField(REGION_FIELD_ID) } */}
                 { this.renderRegionField() }
                 { this.renderField(ZIP_FIELD_ID) }
-                {/* { this.renderField(COUNTRY_FIELD_ID) } */}
                 { this.renderCountrySelect() }
                 { this.renderField(PHONE_FIELD_ID) }
             </>

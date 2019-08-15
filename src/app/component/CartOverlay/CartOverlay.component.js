@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
@@ -20,7 +20,7 @@ import { TotalsType } from 'Type/MiniCart';
 import CartItem from 'Component/CartItem';
 import './CartOverlay.style';
 
-class CartOverlay extends Component {
+class CartOverlay extends PureComponent {
     renderCartItems() {
         const { products, isEditing } = this.props;
 

@@ -13,7 +13,7 @@ import {
     UPDATE_NOMATCH
 } from './NoMatch.action';
 
-const initialState = {
+export const initialState = {
     noMatch: false
 };
 

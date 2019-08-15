@@ -15,7 +15,7 @@ import {
     CLEAR_SEARCH_RESULTS
 } from './SearchBar.action';
 
-const initialState = {
+export const initialState = {
     productsInSearch: [],
     isLoading: false
 };

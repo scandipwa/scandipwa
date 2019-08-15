@@ -10,10 +10,11 @@
  */
 
 a {
-    --link-color: #{color(primary, base, true)};
-    --link-hover: #{color(primary, dark, true)};
+    --link-color: #{$primary-base-color};
+    --link-hover: #{$primary-dark-color};
+
     color: var(--link-color);
-     
+
     &:hover {
         text-decoration: underline;
     }

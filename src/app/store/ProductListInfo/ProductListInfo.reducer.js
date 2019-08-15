@@ -14,7 +14,7 @@ import {
     UPDATE_INFO_LOAD_STATUS
 } from 'Store/ProductListInfo';
 
-const initialState = {
+export const initialState = {
     totalItems: 0,
     minPrice: 0,
     maxPrice: 300,

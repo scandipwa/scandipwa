@@ -20,7 +20,7 @@ import {
 } from 'Store/Cart';
 // import { getProductPrice } from 'Util/Price';
 import { isSignedIn } from 'Util/Auth';
-import { Cart } from 'Query';
+import { CartQuery } from 'Query';
 import { showNotification } from 'Store/Notification';
 import BrowserDatabase from 'Util/BrowserDatabase';
 
@@ -52,7 +52,7 @@ export class CartDispatcher {
     }
 
     _createEmptyCart(dispatch) {
-        return fetchMutation(Cart.getCreateEmptyCartMutation()).then(
+        return fetchMutation(CartQuery.getCreateEmptyCartMutation()).then(
             ({ createEmptyCart }) => createEmptyCart,
             error => dispatch(showNotification('error', error[0].message))
         );
@@ -60,7 +60,7 @@ export class CartDispatcher {
 
     _syncCartWithBE(dispatch) {
         // Need to get current cart from BE, update cart
-        fetchQuery(Cart.getCartQuery(
+        fetchQuery(CartQuery.getCartQuery(
             !isSignedIn() && this._getGuestQuoteId()
         )).then(
             ({ cartData }) => this._updateCartData(cartData, dispatch),
@@ -92,7 +92,7 @@ export class CartDispatcher {
         }
 
         if (this._isAllowed(options)) {
-            return fetchMutation(Cart.getSaveCartItemMutation(
+            return fetchMutation(CartQuery.getSaveCartItemMutation(
                 productToAdd, !isSignedIn() && this._getGuestQuoteId()
             )).then(
                 ({ saveCartItem: { cartData } }) => this._updateCartData(cartData, dispatch),
@@ -104,7 +104,7 @@ export class CartDispatcher {
     }
 
     removeProductFromCart(dispatch, { product }) {
-        return fetchMutation(Cart.getRemoveCartItemMutation(
+        return fetchMutation(CartQuery.getRemoveCartItemMutation(
             product,
             !isSignedIn() && this._getGuestQuoteId()
         )).then(

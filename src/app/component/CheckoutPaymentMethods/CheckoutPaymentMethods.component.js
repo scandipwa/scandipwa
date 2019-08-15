@@ -9,11 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Field from 'Component/Field';
 
-class CheckoutPaymentMethods extends Component {
+class CheckoutPaymentMethods extends PureComponent {
     constructor(props) {
         super(props);
 

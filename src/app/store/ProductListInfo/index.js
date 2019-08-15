@@ -10,8 +10,7 @@
  */
 
 import ProductListInfoReducer from './ProductListInfo.reducer';
-import ProductListInfoDispatcher,
-{ ProductListInfoDispatcher as ProductListInfoDispatcherClass } from './ProductListInfo.dispatcher';
+import ProductListInfoDispatcher from './ProductListInfo.dispatcher';
 import {
     UPDATE_PRODUCT_LIST_INFO,
     UPDATE_INFO_LOAD_STATUS,
@@ -22,7 +21,6 @@ import {
 export {
     ProductListInfoReducer,
     ProductListInfoDispatcher,
-    ProductListInfoDispatcherClass,
     UPDATE_PRODUCT_LIST_INFO,
     UPDATE_INFO_LOAD_STATUS,
     updateProductListInfo,

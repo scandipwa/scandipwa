@@ -10,7 +10,7 @@
  */
 
 import NoMatchReducer from './NoMatch.reducer';
-import NoMatchDispatcher, { NoMatchDispatcher as NoMatchDispatcherClass } from './NoMatch.dispatcher';
+import NoMatchDispatcher from './NoMatch.dispatcher';
 import {
     UPDATE_NOMATCH,
     updateNoMatch
@@ -19,7 +19,6 @@ import {
 export {
     NoMatchReducer,
     NoMatchDispatcher,
-    NoMatchDispatcherClass,
     UPDATE_NOMATCH,
     updateNoMatch
 };

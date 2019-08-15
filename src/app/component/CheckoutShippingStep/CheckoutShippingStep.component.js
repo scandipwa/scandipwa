@@ -14,7 +14,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Form from 'Component/Form';
 import Field from 'Component/Field';
@@ -43,14 +43,13 @@ export const DEFAULT_REGION = { region_code: 'AL', region: 'Alabama', region_id:
 export const STATE_NEW_ADDRESS = 'newAddress';
 export const STATE_DEFAULT_ADDRESS = 'defaultAddress';
 
-class CheckoutShippingStep extends Component {
+class CheckoutShippingStep extends PureComponent {
     constructor(props) {
         super(props);
 
         const { showNotification } = props;
 
         this.handleFieldChange = this.handleFieldChange.bind(this);
-        // this.changeState = this.changeState.bind(this);
 
         this.state = {
             email: '',
@@ -382,7 +381,6 @@ class CheckoutShippingStep extends Component {
                     && (
                     <div block="CheckoutShippingStep" elem="ButtonWrapper">
                         <button
-                        //   onClick={ () => this.changeState(STATE_DEFAULT_ADDRESS) }
                           block="CheckoutShippingStep"
                           elem="ButtonDefault"
                         >
@@ -412,10 +410,8 @@ class CheckoutShippingStep extends Component {
                     { this.renderField(COMPANY_FIELD_ID) }
                     { this.renderField(STREET_0_FIELD_ID, street[0]) }
                     { this.renderField(CITY_FIELD_ID) }
-                    {/* { this.renderRegionField(REGION_FIELD_ID) } */}
                     { this.renderRegionField() }
                     { this.renderField(ZIP_FIELD_ID) }
-                    {/* { this.renderField(COUNTRY_FIELD_ID) } */}
                     { this.renderCountrySelect() }
                 </fieldset>
             </>

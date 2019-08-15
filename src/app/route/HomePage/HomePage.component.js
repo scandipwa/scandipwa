@@ -14,7 +14,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import HomeSlider from 'Component/HomeSlider';
 import Html from 'Component/Html';
-// import NewsletterSubscribe from 'Component/NewsletterSubsribe';
 import { BlockListType } from 'Type/CMS';
 import Meta from 'Component/Meta';
 import ContentWrapper from 'Component/ContentWrapper';

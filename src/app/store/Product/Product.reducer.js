@@ -15,7 +15,7 @@ import {
     CLEAR_GROUPED_PRODUCT_QUANTITY
 } from './Product.action';
 
-const initialState = {
+export const initialState = {
     product: {},
     formattedConfigurableOptions: {},
     groupedProductQuantity: {}

@@ -25,18 +25,14 @@ import './ProductPage.style';
 class ProductPage extends Component {
     render() {
         const {
-            product, product: { variants },
+            product,
             filters, configurableVariantIndex,
-            getThumbnail, updateUrl,
-            getConfigurableVariantMediaLibrary,
-            dataSource
+            updateUrl,
+            dataSource,
+            getProductOrVariant
         } = this.props;
-        const { media_gallery_entries } = dataSource;
         const areDetailsLoaded = dataSource === product;
-        const thumbnail = getThumbnail(configurableVariantIndex, dataSource);
-        const mediaGallery = variants && variants[configurableVariantIndex] && areDetailsLoaded
-            ? getConfigurableVariantMediaLibrary()
-            : media_gallery_entries;
+        const productOrVariant = getProductOrVariant(configurableVariantIndex, dataSource);
 
         return (
             <>
@@ -52,8 +48,7 @@ class ProductPage extends Component {
                       label={ __('Main product details') }
                     >
                         <ProductGallery
-                          thumbnail={ thumbnail }
-                          mediaGallery={ mediaGallery }
+                          product={ productOrVariant }
                         />
                         <ProductActions
                           product={ dataSource }
@@ -79,10 +74,9 @@ class ProductPage extends Component {
 
 ProductPage.propTypes = {
     configurableVariantIndex: PropTypes.number.isRequired,
-    getThumbnail: PropTypes.func.isRequired,
+    getProductOrVariant: PropTypes.func.isRequired,
     updateUrl: PropTypes.func.isRequired,
-    getConfigurableVariantMediaLibrary: PropTypes.func.isRequired,
-    dataSource: PropTypes.object.isRequired,
+    dataSource: ProductType.isRequired,
     filters: PropTypes.object.isRequired,
     location: PropTypes.shape({
         pathname: PropTypes.string.isRequired,

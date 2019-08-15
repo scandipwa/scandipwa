@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import CSS from 'Util/CSS';
 import './ProductReviewRating.style';
@@ -17,7 +17,7 @@ import './ProductReviewRating.style';
 /**
  * @class ProductReviewRating
  */
-class ProductReviewRating extends Component {
+class ProductReviewRating extends PureComponent {
     constructor(props) {
         super(props);
         this.reviewRating = React.createRef();

@@ -12,14 +12,12 @@
 export const GET_COUNTRY_LIST = 'GET_COUNTRY_LIST';
 export const UPDATE_REVIEW_RATINGS = 'UPDATE_REVIEW_RATINGS';
 
-const updateReviewRatings = reviewRatings => ({
+export const updateReviewRatings = reviewRatings => ({
     type: UPDATE_REVIEW_RATINGS,
     reviewRatings
 });
 
-const getCountryList = countries => ({
+export const getCountryList = countries => ({
     type: GET_COUNTRY_LIST,
     countries
 });
-
-export { getCountryList, updateReviewRatings };

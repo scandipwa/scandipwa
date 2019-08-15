@@ -17,7 +17,7 @@ export const TOGGLE_BREADCRUMBS = 'TOGGLE_BREADCRUMBS';
  * @param  {Array<Object>} breadcrumbs List of breadcrumbs
  * @return {void}
  */
-const updateBreadcrumbs = breadcrumbs => ({
+export const updateBreadcrumbs = breadcrumbs => ({
     type: UPDATE_BREADCRUMBS,
     breadcrumbs
 });
@@ -27,9 +27,7 @@ const updateBreadcrumbs = breadcrumbs => ({
  * @param  {Boolean} areBreadcrumbsVisible
  * @return {void}
  */
-const toggleBreadcrumbs = areBreadcrumbsVisible => ({
+export const toggleBreadcrumbs = areBreadcrumbsVisible => ({
     type: TOGGLE_BREADCRUMBS,
     areBreadcrumbsVisible
 });
-
-export { updateBreadcrumbs, toggleBreadcrumbs };

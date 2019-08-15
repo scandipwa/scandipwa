@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Notification from 'Component/Notification';
 import { NotificationListType } from 'Type/NotificationList';
@@ -19,7 +19,7 @@ import './NotificationList.style';
  * Notification List
  * @class NotificationList
  */
-class NotificationList extends Component {
+class NotificationList extends PureComponent {
     render() {
         const { onHideNotification, notifications } = this.props;
 

@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import ExpandableContent from 'Component/ExpandableContent';
 import Html from 'Component/Html';
 import ContentWrapper from 'Component/ContentWrapper';
@@ -20,7 +20,7 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 
 const PRODUCT_IMAGE_PATH = '/media/catalog/product';
 
-class ProductInformation extends Component {
+class ProductInformation extends PureComponent {
     renderContentPlaceholder() {
         return (
             <div block="ProductInformation" elem="Placeholder">

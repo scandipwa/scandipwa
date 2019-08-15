@@ -16,9 +16,7 @@ export const UPDATE_RELATED_PRODUCTS = 'UPDATE_RELATED_PRODUCTS';
  * @param  {Array<String>} relatedProducts List of products returned from fetch
  * @return {void}
  */
-const updateRelatedProducts = relatedProducts => ({
+export const updateRelatedProducts = relatedProducts => ({
     type: UPDATE_RELATED_PRODUCTS,
     relatedProducts
 });
-
-export { updateRelatedProducts };

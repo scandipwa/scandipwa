@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import './TextPlaceholder.style';
 
@@ -17,7 +17,7 @@ import './TextPlaceholder.style';
  * Text placeholder
  * @class TextPlaceholder
  */
-class TextPlaceholder extends Component {
+class TextPlaceholder extends PureComponent {
     render() {
         const { content, length } = this.props;
         if (content) return content;

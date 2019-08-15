@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import ContentWrapper from 'Component/ContentWrapper';
 import ProductCard from 'Component/ProductCard';
 import PropTypes from 'prop-types';
@@ -20,7 +20,7 @@ import './RelatedProducts.style';
  * Related products block
  * @class RelatedProducts
  */
-class RelatedProducts extends Component {
+class RelatedProducts extends PureComponent {
     constructor(props) {
         super(props);
 

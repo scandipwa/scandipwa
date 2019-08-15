@@ -12,14 +12,12 @@
 export const UPDATE_MENU = 'UPDATE_MENU';
 export const TOGGLE_HEADER_AND_FOOTER = 'TOGGLE_HEADER_AND_FOOTER';
 
-const updateMenu = menu => ({
+export const updateMenu = menu => ({
     type: UPDATE_MENU,
     menu
 });
 
-const toggleHeaderAndFooter = isHeaderAndFooterVisible => ({
+export const toggleHeaderAndFooter = isHeaderAndFooterVisible => ({
     type: TOGGLE_HEADER_AND_FOOTER,
     isHeaderAndFooterVisible
 });
-
-export { updateMenu, toggleHeaderAndFooter };

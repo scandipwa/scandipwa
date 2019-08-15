@@ -40,14 +40,12 @@ export class ProductPageContainer extends PureComponent {
 
         this.state = {
             configurableVariantIndex: 0,
-            // eslint-disable-next-line react/no-unused-state
             isConfigurationInitialized: false
         };
 
         this.containerFunctions = {
-            getThumbnail: this.getThumbnail.bind(this),
-            getConfigurableVariantMediaLibrary: this.getConfigurableVariantMediaLibrary.bind(this),
-            updateUrl: this.updateUrl.bind(this)
+            updateUrl: this.updateUrl.bind(this),
+            getProductOrVariant: this.getProductOrVariant.bind(this)
         };
 
         this.containerProps = () => ({
@@ -121,24 +119,14 @@ export class ProductPageContainer extends PureComponent {
      * @param {Object} dataSource product data
      * @return {Number} variant index
      */
-    getThumbnail(currentVariantIndex, dataSource) {
-        const { thumbnail, variants } = dataSource;
+    getProductOrVariant(currentVariantIndex, dataSource) {
+        const { variants } = dataSource;
 
-        const variantThumbnail = variants
+        const variant = variants
             && variants[ currentVariantIndex ]
-            && variants[ currentVariantIndex ].product.thumbnail;
+            && variants[ currentVariantIndex ].product;
 
-        return variantThumbnail || thumbnail;
-    }
-
-    getConfigurableVariantMediaLibrary() {
-        const { product: { variants } } = this.props;
-        const { configurableVariantIndex } = this.state;
-        const dataSource = this._getDataSource();
-        const { media_gallery_entries } = dataSource;
-        const { media_gallery_entries: configurableMediaGallery } = variants[configurableVariantIndex].product;
-
-        return configurableMediaGallery.length ? configurableMediaGallery : media_gallery_entries;
+        return variant || dataSource;
     }
 
     _onProductUpdate() {

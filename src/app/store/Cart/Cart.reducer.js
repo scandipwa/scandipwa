@@ -40,7 +40,7 @@ const updateAllProductsInCart = (action) => {
     return { productsInCart: products };
 };
 
-const initialState = {
+export const initialState = {
     productsInCart: BrowserDatabase.getItem(PRODUCTS_IN_CART) || {},
     cartTotals: BrowserDatabase.getItem(CART_TOTALS) || {}
 };

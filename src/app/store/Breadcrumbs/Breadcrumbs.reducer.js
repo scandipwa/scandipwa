@@ -14,7 +14,7 @@ import {
 } from './Breadcrumbs.action';
 import { TOGGLE_BREADCRUMBS } from '.';
 
-const initialState = {
+export const initialState = {
     breadcrumbs: [],
     areBreadcrumbsVisible: true
 };

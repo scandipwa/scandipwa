@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { TotalsType } from 'Type/MiniCart';
 import { ProductType } from 'Type/ProductList';
@@ -20,7 +20,7 @@ import './CheckoutOrderSummary.style';
 /**
  *
  */
-class CheckoutOrderSummary extends Component {
+class CheckoutOrderSummary extends PureComponent {
     getDataSource(item) {
         const { configurableVariantIndex, variants } = item;
 

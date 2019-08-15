@@ -11,15 +11,16 @@
 
 :root {
     --input-border-color: #e0e0e0;
+    --input-background-color: #fff;
 }
 
 input,
 textarea,
 select {
-    --input-color: #{color(primary, base, true)};
+    --input-color: #{$primary-base-color};
 
     border: 1px solid var(--input-border-color);
-    background-color: var(--color-footer-light);
+    background-color: var(--input-background-color);
     padding: 13px 20px;
     appearance: none;
 

@@ -13,7 +13,7 @@
 /* eslint-disable react/no-array-index-key */
 // Disabled due placeholder needs
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { ProductType } from 'Type/ProductList';
 import Field from 'Component/Field';
@@ -29,67 +29,7 @@ import './ProductActions.style';
  * Product actions
  * @class ProductActions
  */
-class ProductActions extends Component {
-    constructor(props) {
-        super(props);
-
-        this.optionsInCurrentVariant = {};
-        this.setQuantityToDefault = this.setQuantityToDefault.bind(this);
-        this.state = {
-            quantity: 1
-        };
-    }
-
-    // TODO: make key=>value based
-    getIsOptionInCurrentVariant(attribute, value) {
-        const { configurableVariantIndex, product: { variants } } = this.props;
-        if (!variants) return false;
-        return variants[configurableVariantIndex].product[attribute] === value;
-    }
-
-    setQuantityToDefault() {
-        this.setState({ quantity: 1 });
-    }
-
-    changeConfigurableVariant(attributeCode, value) {
-        const {
-            product: {
-                variants,
-                configurable_options
-            },
-            updateConfigurableVariantIndex,
-            configurableVariantIndex
-        } = this.props;
-
-        const {
-            product: currentConfigurableVariant
-        } = variants[configurableVariantIndex];
-
-        const currentVariant = {
-            ...currentConfigurableVariant,
-            [attributeCode]: value
-        };
-
-        for (let i = 0; i < variants.length; i++) {
-            const { product } = variants[i];
-            const isCorrectVariant = configurable_options.every(
-                ({ attribute_code: code }) => parseInt(product[code], 10) === parseInt(currentVariant[code], 10)
-            );
-
-            if (isCorrectVariant) return updateConfigurableVariantIndex(i);
-        }
-
-        return null;
-    }
-
-    showOnlyIfLoaded(expression, content, placeholder = content) {
-        const { areDetailsLoaded } = this.props;
-
-        if (!areDetailsLoaded) return placeholder;
-        if (areDetailsLoaded && !expression) return null;
-        return content;
-    }
-
+class ProductActions extends PureComponent {
     renderGroupedProductOptions() {
         const { product, groupedProductQuantity, product: { type_id } } = this.props;
 
@@ -113,7 +53,7 @@ class ProductActions extends Component {
     }
 
     renderSkuAndStock() {
-        const { product: { sku } } = this.props;
+        const { product: { sku }, showOnlyIfLoaded } = this.props;
 
         return (
             <section
@@ -122,7 +62,7 @@ class ProductActions extends Component {
               mods={ { type: 'sku' } }
               aria-label="Product SKU and availability"
             >
-                { this.showOnlyIfLoaded(
+                { showOnlyIfLoaded(
                     sku,
                     (<>
                         <span block="ProductActions" elem="Sku" itemProp="sku">{ `SKU: ${ sku }` }</span>
@@ -135,7 +75,10 @@ class ProductActions extends Component {
     }
 
     renderShortDescription() {
-        const { product: { short_description, brand } } = this.props;
+        const {
+            product: { short_description, brand },
+            showOnlyIfLoaded
+        } = this.props;
         const { html } = short_description || {};
         const htmlWithItemProp = `<div itemProp="description">${html}</div>`;
 
@@ -146,7 +89,7 @@ class ProductActions extends Component {
               mods={ { type: 'short' } }
               aria-label="Product short description"
             >
-                { this.showOnlyIfLoaded(
+                { showOnlyIfLoaded(
                     brand,
                     (
                         <h4
@@ -167,7 +110,7 @@ class ProductActions extends Component {
     }
 
     renderNameAndBrand() {
-        const { product: { brand, name } } = this.props;
+        const { product: { brand, name }, showOnlyIfLoaded } = this.props;
 
         return (
             <section
@@ -175,7 +118,7 @@ class ProductActions extends Component {
               elem="Section"
               mods={ { type: 'name' } }
             >
-                { this.showOnlyIfLoaded(
+                { showOnlyIfLoaded(
                     brand,
                     (
                         <h4 block="ProductActions" elem="Brand" itemProp="brand">
@@ -191,7 +134,7 @@ class ProductActions extends Component {
     }
 
     renderQuantityInput() {
-        const { quantity } = this.state;
+        const { quantity, setQuantity } = this.props;
 
         return (
             <Field
@@ -201,14 +144,19 @@ class ProductActions extends Component {
               min={ 1 }
               value={ quantity }
               mix={ { block: 'ProductActions', elem: 'Qty' } }
-              onChange={ value => this.setState({ quantity: value }) }
+              onChange={ value => setQuantity(value) }
             />
         );
     }
 
     renderAddToCart() {
-        const { configurableVariantIndex, product, groupedProductQuantity } = this.props;
-        const { quantity } = this.state;
+        const {
+            configurableVariantIndex,
+            product,
+            groupedProductQuantity,
+            quantity,
+            setQuantityToDefault
+        } = this.props;
 
         return (
             <AddToCart
@@ -217,7 +165,7 @@ class ProductActions extends Component {
               mix={ { block: 'ProductActions', elem: 'AddToCart' } }
               groupedProductQuantity={ groupedProductQuantity }
               quantity={ quantity }
-              setQuantityToDefault={ this.setQuantityToDefault }
+              setQuantityToDefault={ setQuantityToDefault }
             />
         );
     }
@@ -234,14 +182,14 @@ class ProductActions extends Component {
     }
 
     renderOtherOptions() {
-        const { availableFilters } = this.props;
+        const { availableFilters, showOnlyIfLoaded } = this.props;
         const hasAvailableFilter = Object.keys(availableFilters).length;
 
-        return this.showOnlyIfLoaded(
+        return showOnlyIfLoaded(
             hasAvailableFilter,
             (Object.entries(availableFilters).map(([code, option]) => {
                 if (code === 'color') return null;
-                const { label: optionLabel = '', values } = option;
+                const { label: optionLabel = '' } = option;
 
                 return (
                     <section
@@ -289,7 +237,13 @@ class ProductActions extends Component {
     }
 
     renderColorOptions() {
-        const { availableFilters: { color }, areDetailsLoaded } = this.props;
+        const {
+            availableFilters: { color },
+            areDetailsLoaded,
+            showOnlyIfLoaded,
+            changeConfigurableVariant,
+            getIsOptionInCurrentVariant
+        } = this.props;
         const { values: colorOptions = [] } = color || {};
 
         const renderColor = content => (
@@ -301,14 +255,14 @@ class ProductActions extends Component {
             </section>
         );
 
-        return this.showOnlyIfLoaded(
+        return showOnlyIfLoaded(
             color,
             renderColor(colorOptions.map(({ value, label, id }) => (
                 <Swatch
                   key={ id }
                   mix={ { block: 'ProductActions', elem: 'Color' } }
-                  onClick={ () => this.changeConfigurableVariant('color', id) }
-                  isSelected={ this.getIsOptionInCurrentVariant('color', id) }
+                  onClick={ changeConfigurableVariant('color', id) }
+                  isSelected={ getIsOptionInCurrentVariant('color', id) }
                   filterItem={ { label, swatch_data: { value } } }
                   requestVar="color"
                 />

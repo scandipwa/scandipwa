@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { PriceType } from 'Type/ProductList';
@@ -20,7 +20,7 @@ import './ProductPrice.style';
  * Product price
  * @class ProductPrice
  */
-class ProductPrice extends Component {
+class ProductPrice extends PureComponent {
     render() {
         const {
             price: { minimalPrice, regularPrice },

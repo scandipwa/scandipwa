@@ -9,37 +9,26 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-const UPDATE_CUSTOMER_SIGN_IN_STATUS = 'UPDATE_CUSTOMER_SIGN_IN_STATUS';
-const UPDATE_CUSTOMER_DETAILS = 'UPDATE_CUSTOMER_DETAILS';
-const UPDATE_CUSTOMER_PASSWORD_RESET_STATUS = 'UPDATE_CUSTOMER_PASSWORD_RESET_STATUS';
-const UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS = 'UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS';
+export const UPDATE_CUSTOMER_SIGN_IN_STATUS = 'UPDATE_CUSTOMER_SIGN_IN_STATUS';
+export const UPDATE_CUSTOMER_DETAILS = 'UPDATE_CUSTOMER_DETAILS';
+export const UPDATE_CUSTOMER_PASSWORD_RESET_STATUS = 'UPDATE_CUSTOMER_PASSWORD_RESET_STATUS';
+export const UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS = 'UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS';
 
-const updateCustomerSignInStatus = status => ({
+export const updateCustomerSignInStatus = status => ({
     type: UPDATE_CUSTOMER_SIGN_IN_STATUS,
     status
 });
 
-const updateCustomerDetails = customer => ({
+export const updateCustomerDetails = customer => ({
     type: UPDATE_CUSTOMER_DETAILS,
     customer
 });
 
-const updateCustomerPasswordResetStatus = status => ({
+export const updateCustomerPasswordResetStatus = status => ({
     type: UPDATE_CUSTOMER_PASSWORD_RESET_STATUS,
     status
 });
 
-const updateCustomerPasswordForgotStatus = () => ({
+export const updateCustomerPasswordForgotStatus = () => ({
     type: UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS
 });
-
-export {
-    UPDATE_CUSTOMER_SIGN_IN_STATUS,
-    UPDATE_CUSTOMER_DETAILS,
-    UPDATE_CUSTOMER_PASSWORD_RESET_STATUS,
-    UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS,
-    updateCustomerSignInStatus,
-    updateCustomerDetails,
-    updateCustomerPasswordResetStatus,
-    updateCustomerPasswordForgotStatus
-};

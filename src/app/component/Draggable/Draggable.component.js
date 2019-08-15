@@ -11,10 +11,10 @@
  */
 
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import './Draggable.style';
 
-class Draggable extends Component {
+class Draggable extends PureComponent {
     constructor(props) {
         super(props);
 

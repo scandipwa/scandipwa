@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import CSS from 'Util/CSS';
 import './Swatch.style';
@@ -18,7 +18,7 @@ import './Swatch.style';
  * Swatch component
  * @class Swatch
  */
-class Swatch extends Component {
+class Swatch extends PureComponent {
     constructor(props) {
         super(props);
 

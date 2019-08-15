@@ -10,9 +10,7 @@
  */
 
 import ConfigReducer from './Config.reducer';
-import ConfigDispatcher, {
-    ConfigDispatcher as ConfigDispatcherClass
-} from './Config.dispatcher';
+import ConfigDispatcher from './Config.dispatcher';
 
 import {
     getCountryList,
@@ -24,7 +22,6 @@ import {
 export {
     ConfigReducer,
     ConfigDispatcher,
-    ConfigDispatcherClass,
     getCountryList,
     GET_COUNTRY_LIST,
     updateReviewRatings,

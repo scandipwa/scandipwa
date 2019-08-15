@@ -15,7 +15,7 @@ import { Field } from 'Util/Query';
  * MyAccount Mutations
  * @class MyAccount
  */
-export class MyAccount {
+export class MyAccountQuery {
     /**
      * Get ResetPassword mutation
      * @param {{token: String, password: String, password_confirmation: String}} options A object containing different aspects of query, each item can be omitted
@@ -165,4 +165,4 @@ export class MyAccount {
     }
 }
 
-export default new MyAccount();
+export default new MyAccountQuery();
