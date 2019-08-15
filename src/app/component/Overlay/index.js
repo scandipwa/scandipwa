@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import Overlay from './Overlay.container';
-
-export default Overlay;
+export { default } from './Overlay.container';

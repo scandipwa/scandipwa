@@ -117,6 +117,7 @@ export class ProductListQuery {
             'id',
             'sku',
             'name',
+            'type_id',
             'stock_status',
             'special_price',
             'only_x_left_in_stock',
@@ -274,11 +275,13 @@ export class ProductListQuery {
 
     _getAttributeFields(isVariant) {
         return [
+            'attribute_id',
             'attribute_value',
             'attribute_code',
+            'attribute_type',
+            'attribute_label',
             ...(!isVariant
                 ? [
-                    'attribute_label',
                     this._getAttributeOptionsField()
                 ]
                 : []

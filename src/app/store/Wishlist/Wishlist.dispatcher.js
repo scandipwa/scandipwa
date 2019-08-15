@@ -77,6 +77,7 @@ export class WishlistDispatcher {
     }
 
     removeItemFromWishlist(dispatch, { product, noMessages }) {
+        if (!product) return null;
         if (noMessages) {
             return fetchMutation(WishlistQuery.getRemoveProductFromWishlistMutation(product)).then(
                 () => {

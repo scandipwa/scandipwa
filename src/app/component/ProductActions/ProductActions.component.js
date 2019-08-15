@@ -17,13 +17,12 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { ProductType } from 'Type/ProductList';
 import Field from 'Component/Field';
-import Swatch from 'Component/Swatch';
+import TextPlaceholder from 'Component/TextPlaceholder';
 import ProductPrice from 'Component/ProductPrice';
 import AddToCart from 'Component/AddToCart';
 import Html from 'Component/Html';
-import TextPlaceholder from 'Component/TextPlaceholder';
-import GroupedProductList from 'Component/GroupedProductsList';
 import './ProductActions.style';
+import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
 
 /**
  * Product actions
@@ -51,65 +50,12 @@ class ProductActions extends PureComponent {
         this.setState({ quantity: 1 });
     }
 
-    changeConfigurableVariant(attributeCode, value) {
-        const {
-            product: {
-                variants,
-                configurable_options
-            },
-            updateConfigurableVariantIndex,
-            configurableVariantIndex
-        } = this.props;
-
-        const {
-            product: currentConfigurableVariant
-        } = variants[configurableVariantIndex];
-
-        const currentVariant = {
-            ...currentConfigurableVariant,
-            [attributeCode]: value
-        };
-
-        for (let i = 0; i < variants.length; i++) {
-            const { product } = variants[i];
-            const isCorrectVariant = configurable_options.every(
-                ({ attribute_code: code }) => parseInt(product[code], 10) === parseInt(currentVariant[code], 10)
-            );
-
-            if (isCorrectVariant) return updateConfigurableVariantIndex(i);
-        }
-
-        return null;
-    }
-
     showOnlyIfLoaded(expression, content, placeholder = content) {
         const { areDetailsLoaded } = this.props;
 
         if (!areDetailsLoaded) return placeholder;
         if (areDetailsLoaded && !expression) return null;
         return content;
-    }
-
-    renderGroupedProductOptions() {
-        const { product, groupedProductQuantity, product: { type_id } } = this.props;
-
-        if (type_id === 'grouped') {
-            return (
-                <section
-                  block="ProductActions"
-                  elem="Section"
-                  mods={ { type: 'grouped' } }
-                  aria-label="Product short description"
-                >
-                    <GroupedProductList
-                      product={ product }
-                      groupedProductQuantity={ groupedProductQuantity }
-                    />
-                </section>
-            );
-        }
-
-        return null;
     }
 
     renderSkuAndStock() {
@@ -124,13 +70,36 @@ class ProductActions extends PureComponent {
             >
                 { this.showOnlyIfLoaded(
                     sku,
-                    (<>
+                    (
+                    <>
                         <span block="ProductActions" elem="Sku">{ `SKU: ${ sku }` }</span>
                         <span block="ProductActions" elem="Stock">In Stock</span>
                     </>),
                     <TextPlaceholder />
                 ) }
             </section>
+        );
+    }
+
+    renderConfigurableAttrbiutes() {
+        const {
+            getLink,
+            updateUrl,
+            parameters,
+            areDetailsLoaded,
+            product: { configurable_options, type_id }
+        } = this.props;
+
+        if (type_id !== 'configurable') return null;
+
+        return (
+            <ProductConfigurableAttributes
+              isReady={ areDetailsLoaded }
+              getLink={ getLink }
+              parameters={ parameters }
+              updateConfigurableVariant={ updateUrl }
+              configurable_options={ configurable_options }
+            />
         );
     }
 
@@ -165,7 +134,13 @@ class ProductActions extends PureComponent {
     }
 
     renderNameAndBrand() {
-        const { product: { brand, name } } = this.props;
+        const {
+            product:
+            {
+                name,
+                attributes: { brand: { attribute_value: brand } = {} } = {}
+            }
+        } = this.props;
 
         return (
             <section
@@ -205,7 +180,7 @@ class ProductActions extends PureComponent {
     }
 
     renderAddToCart() {
-        const { configurableVariantIndex, product, groupedProductQuantity } = this.props;
+        const { configurableVariantIndex, product } = this.props;
         const { quantity } = this.state;
 
         return (
@@ -213,9 +188,7 @@ class ProductActions extends PureComponent {
               product={ product }
               configurableVariantIndex={ configurableVariantIndex }
               mix={ { block: 'ProductActions', elem: 'AddToCart' } }
-              groupedProductQuantity={ groupedProductQuantity }
               quantity={ quantity }
-              setQuantityToDefault={ this.setQuantityToDefault }
             />
         );
     }
@@ -231,110 +204,18 @@ class ProductActions extends PureComponent {
         );
     }
 
-    renderOtherOptions() {
-        const { availableFilters } = this.props;
-        const hasAvailableFilter = Object.keys(availableFilters).length;
-
-        return this.showOnlyIfLoaded(
-            hasAvailableFilter,
-            (Object.entries(availableFilters).map(([code, option]) => {
-                if (code === 'color') return null;
-                const { label: optionLabel = '', values } = option;
-
-                return (
-                    <section
-                      key={ code }
-                      block="ProductActions"
-                      elem="Section"
-                      mods={ { type: optionLabel.toLowerCase() } }
-                      mix={ { block: 'ProductActions', elem: 'Option' } }
-                      aria-label={ `${ optionLabel } options` }
-                    >
-                        <h4 block="ProductActions" elem="SectionHeading">{ optionLabel }</h4>
-                        {/* { values.map(({ value, label, id }) => (
-                            <Swatch
-                              key={ id }
-                              onClick={ () => this.changeConfigurableVariant(code, id) }
-                              mix={ { block: 'ProductActions', elem: 'TextOption' } }
-                              isSelected={ this.getIsOptionInCurrentVariant(code, id) }
-                              filterItem={ { label, swatch_data: { value } } }
-                              requestVar={ code }
-                            />
-                        )) } */}
-                    </section>
-                );
-            })),
-            (
-                <section
-                  block="ProductActions"
-                  elem="Section"
-                  mix={ { block: 'ProductActions', elem: 'Option' } }
-                  aria-label="Loading other options"
-                >
-                    <h4 block="ProductActions" elem="SectionHeading">
-                        <TextPlaceholder />
-                    </h4>
-                    { new Array(4).fill().map((_, i) => (
-                        <Swatch
-                          key={ i }
-                          mix={ { block: 'ProductActions', elem: 'PlaceholderOption' } }
-                          requestVar="placeholder"
-                        />
-                    )) }
-                </section>
-            )
-        );
-    }
-
-    renderColorOptions() {
-        const { availableFilters: { color }, areDetailsLoaded } = this.props;
-        const { values: colorOptions = [] } = color || {};
-
-        const renderColor = content => (
-            <section block="ProductActions" elem="Colors" aria-label="Color options">
-                <h4 block="ProductActions" elem="SectionHeading" mods={ { type: 'color' } }>
-                    <TextPlaceholder content={ areDetailsLoaded && 'Color' } />
-                </h4>
-                { content }
-            </section>
-        );
-
-        return this.showOnlyIfLoaded(
-            color,
-            renderColor(colorOptions.map(({ value, label, id }) => (
-                <Swatch
-                  key={ id }
-                  mix={ { block: 'ProductActions', elem: 'Color' } }
-                  onClick={ () => this.changeConfigurableVariant('color', id) }
-                  isSelected={ this.getIsOptionInCurrentVariant('color', id) }
-                  filterItem={ { label, swatch_data: { value } } }
-                  requestVar="color"
-                />
-            ))),
-            renderColor(new Array(4).fill().map((_, i) => (
-                <Swatch
-                  key={ i }
-                  requestVar="color"
-                  mix={ { block: 'ProductActions', elem: 'Color' } }
-                />
-            )))
-        );
-    }
-
     render() {
         return (
             <article block="ProductActions">
-                { this.renderColorOptions() }
                 { this.renderPrice() }
                 <div block="ProductActions" elem="AddToCartWrapper">
                   { this.renderAddToCart() }
                   { this.renderQuantityInput() }
                 </div>
-                { this.renderOtherOptions() }
                 { this.renderNameAndBrand() }
                 { this.renderSkuAndStock() }
-                { this.renderGroupedProductOptions() }
                 { this.renderShortDescription() }
+                { this.renderConfigurableAttrbiutes() }
             </article>
         );
     }
@@ -342,11 +223,9 @@ class ProductActions extends PureComponent {
 
 ProductActions.propTypes = {
     product: ProductType.isRequired,
-    availableFilters: PropTypes.objectOf(PropTypes.shape).isRequired,
     configurableVariantIndex: PropTypes.number,
-    updateConfigurableVariantIndex: PropTypes.func.isRequired,
-    areDetailsLoaded: PropTypes.bool.isRequired,
-    groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired
+    // updateConfigurableVariantIndex: PropTypes.func.isRequired,
+    areDetailsLoaded: PropTypes.bool.isRequired
 };
 
 ProductActions.defaultProps = {

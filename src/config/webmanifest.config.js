@@ -49,5 +49,5 @@ module.exports = (projectRoot) => {
                 destination: path.join('icons', 'android')
             }
         ]
-    };
+    }
 };

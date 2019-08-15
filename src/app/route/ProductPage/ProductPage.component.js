@@ -16,23 +16,32 @@ import { history } from 'Route';
 import { PDP } from 'Component/Header';
 import ProductGallery from 'Component/ProductGallery';
 import ContentWrapper from 'Component/ContentWrapper';
-import ProductActions from 'Component/ProductActions';
-// import GroupedProductsList from 'Component/GroupedProductsList';
-import Meta from 'Component/Meta';
-import { ProductType } from 'Type/ProductList';
-import { getUrlParam, getQueryParam, updateQueryParamWithoutHistory } from 'Util/Url';
-import RelatedProducts from 'Component/RelatedProducts';
 import ProductInformation from 'Component/ProductInformation';
+import Meta from 'Component/Meta';
+import ProductActions from 'Component/ProductActions';
+import { ProductType } from 'Type/ProductList';
+import { getVariantIndex } from 'Util/Product';
+import RelatedProducts from 'Component/RelatedProducts';
+import {
+    getUrlParam,
+    convertQueryStringToKeyValuePairs,
+    updateQueryParamWithoutHistory,
+    convertKeyValueObjectToQueryString
+} from 'Util/Url';
 import './ProductPage.style';
+import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
 
 class ProductPage extends Component {
     constructor() {
         super();
 
+        this.getLink = this.getLink.bind(this);
+        this.updateUrl = this.updateUrl.bind(this);
+
         this.state = {
-            configurableVariantIndex: 0,
-            // eslint-disable-next-line react/no-unused-state
-            isConfigurationInitialized: false
+            id: -1,
+            parameters: {},
+            configurableVariantIndex: -1
         };
 
         this.updateUrl = this.updateUrl.bind(this);
@@ -41,35 +50,43 @@ class ProductPage extends Component {
     componentDidMount() {
         const { isOnlyPlaceholder } = this.props;
         if (!isOnlyPlaceholder) this.requestProduct();
-        this.onProductUpdate();
+        this.updateBreadcrumbs();
     }
 
-    /**
-     * Get selected configurable product variant
-     * @param {Object} props
-     * @return {Number} variant index
-     */
-    static getVariantIndexFromProps(props) {
-        const { location: { state: locationState } } = props;
+    static getDerivedStateFromProps(props, state) {
+        const { id: stateId } = state;
+        const {
+            product: {
+                id,
+                variants,
+                configurable_options
+            },
+            location: { search }
+        } = props;
 
-        return (locationState && Object.hasOwnProperty.call(locationState, 'variantIndex'))
-            ? locationState.variantIndex
-            : null;
+        if (!(configurable_options && variants && id !== stateId)) return null;
+
+        const parameters = Object.entries(convertQueryStringToKeyValuePairs(search))
+            .reduce((acc, [key, value]) => {
+                if (key in configurable_options) {
+                    return { ...acc, [key]: value };
+                }
+                return acc;
+            }, {});
+
+        if (Object.keys(parameters).length !== Object.keys(configurable_options).length) {
+            return { id, parameters };
+        }
+
+        const configurableVariantIndex = getVariantIndex(variants, parameters);
+        return { id, parameters, configurableVariantIndex };
     }
 
-    componentDidUpdate(prevProps) {
-        const { location } = this.props;
+    componentDidUpdate({ location: { pathname: prevPathname } }) {
+        const { location: { pathname } } = this.props;
 
-        if (location !== prevProps.location) {
-            this.requestProduct();
-        }
-
-        if (this.variantIndexInPropsChanged(this.props, prevProps)) {
-            // eslint-disable-next-line react/no-unused-state, react/no-did-update-set-state
-            this.setState({ isConfigurationInitialized: false });
-        }
-
-        this.onProductUpdate();
+        if (pathname !== prevPathname) this.requestProduct();
+        this.updateBreadcrumbs();
     }
 
     componentWillUnmount() {
@@ -78,32 +95,6 @@ class ProductPage extends Component {
         if (type_id === 'grouped') return clearGroupedProductQuantity();
 
         return null;
-    }
-
-    static getDerivedStateFromProps(props, state) {
-        const { isConfigurationInitialized } = state;
-        const { location } = props;
-        const variantIndex = parseInt(getQueryParam('variant', location), 10) || 0;
-        const shouldConfigurableOptionBeInitialized = !isConfigurationInitialized
-            && typeof variantIndex === 'number';
-
-        if (shouldConfigurableOptionBeInitialized) {
-            return {
-                configurableVariantIndex: variantIndex,
-                isConfigurationInitialized: true
-            };
-        }
-
-        return null;
-    }
-
-    onProductUpdate() {
-        const dataSource = this.getDataSource();
-
-        if (Object.keys(dataSource).length) {
-            this.updateBreadcrumbs(dataSource);
-            this.updateHeaderState(dataSource);
-        }
     }
 
     getDataSource() {
@@ -123,30 +114,38 @@ class ProductPage extends Component {
         return useLoadedProduct ? product : state.product;
     }
 
-    /**
-     * Get thumbnail picture of the product
-     * @param {Number} currentVariantIndex product variant index
-     * @param {Object} dataSource product data
-     * @return {Number} variant index
-     */
-    getProductOrVariant(currentVariantIndex, dataSource) {
-        const { variants } = dataSource;
+    getLink(key, value) {
+        const { location: { search, pathname } } = this.props;
+        const query = convertKeyValueObjectToQueryString({
+            ...convertQueryStringToKeyValuePairs(search),
+            [key]: value
+        });
 
-        const variant = variants
-            && variants[ currentVariantIndex ]
-            && variants[ currentVariantIndex ].product;
+        return `${pathname}${query}`;
+    }
 
-        return variant || dataSource;
+    getConfigurableVariantIndex() {
+        const { product: { variants } } = this.props;
+        const { configurableVariantIndex, parameters } = this.state;
+
+        if (configurableVariantIndex >= 0) return configurableVariantIndex;
+        if (variants) return getVariantIndex(variants, parameters);
+
+        return -1;
     }
 
     /**
-     * Check if product varian has changed
-     * @param {Object} props
-     * @param {Object} prevProps
-     * @return {Boolean}
+     * Get thumbnail picture of the product
+     * @param {Object} dataSource product data
+     * @return {Number} variant index
      */
-    variantIndexInPropsChanged(props, prevProps) {
-        return ProductPage.getVariantIndexFromProps(props) !== ProductPage.getVariantIndexFromProps(prevProps);
+    getProductOrVariant(dataSource) {
+        const { variants } = dataSource;
+
+        const currentVariantIndex = this.getConfigurableVariantIndex();
+        const variant = variants && variants[ currentVariantIndex ];
+
+        return variant || dataSource;
     }
 
     /**
@@ -183,31 +182,63 @@ class ProductPage extends Component {
      * Dispatch breadcrumbs update
      * @return {void}
      */
-    updateBreadcrumbs(product) {
+    updateBreadcrumbs() {
         const { updateBreadcrumbs } = this.props;
-        updateBreadcrumbs(product);
+        const dataSource = this.getDataSource();
+
+        if (Object.keys(dataSource).length) updateBreadcrumbs(dataSource);
     }
 
     /**
      * Update query params without adding to history, set configurableVariantIndex
-     * @param {Number} variant
+     * @param {string} key
+     * @param {number|string} value
      */
-    updateUrl(variant) {
-        const { configurableVariantIndex } = this.state;
+    updateUrl(key, value) {
+        const { product: { variants, configurable_options }, location, history } = this.props;
+        const { configurableVariantIndex, parameters: oldParameters } = this.state;
 
-        if (configurableVariantIndex !== variant) {
-            updateQueryParamWithoutHistory('variant', variant);
+        const parameters = {
+            ...oldParameters,
+            [key]: value.toString(10)
+        };
+
+        this.setState({ parameters });
+        updateQueryParamWithoutHistory(key, value, history, location);
+
+        const newIndex = getVariantIndex(variants, parameters);
+
+        if (
+            Object.keys(parameters).length === Object.keys(configurable_options).length
+            && configurableVariantIndex !== newIndex
+        ) {
+            this.setState({ configurableVariantIndex: newIndex });
         }
+    }
 
-        return this.setState({ configurableVariantIndex: variant });
+    renderConfigurableAttributes(isReady) {
+        const { product: { configurable_options, type_id } } = this.props;
+        const { parameters } = this.state;
+
+        if (type_id !== 'configurable') return null;
+
+        return (
+            <ProductConfigurableAttributes
+              isReady={ isReady }
+              getLink={ this.getLink }
+              parameters={ parameters }
+              updateConfigurableVariant={ this.updateUrl }
+              configurable_options={ configurable_options }
+            />
+        );
     }
 
     render() {
-        const { product, filters } = this.props;
-        const { configurableVariantIndex } = this.state;
+        const { product } = this.props;
+        const { configurableVariantIndex, parameters } = this.state;
         const dataSource = this.getDataSource();
         const areDetailsLoaded = dataSource === product;
-        const productOrVariant = this.getProductOrVariant(configurableVariantIndex, dataSource);
+        const productOrVariant = this.getProductOrVariant(dataSource);
 
         return (
             <>
@@ -222,11 +253,12 @@ class ProductPage extends Component {
                           product={ productOrVariant }
                         />
                         <ProductActions
+                          getLink={ this.getLink }
+                          updateUrl={ this.updateUrl }
                           product={ dataSource }
-                          availableFilters={ filters }
+                          parameters={ parameters }
                           areDetailsLoaded={ areDetailsLoaded }
                           configurableVariantIndex={ configurableVariantIndex }
-                          updateConfigurableVariantIndex={ this.updateUrl }
                         />
                     </ContentWrapper>
                     <ProductInformation product={ dataSource } type="block" />
@@ -248,6 +280,10 @@ ProductPage.propTypes = {
             product: ProductType
         })
     }),
+    history: PropTypes.shape({
+        location: PropTypes.object.isRequired,
+        push: PropTypes.func.isRequired
+    }).isRequired,
     match: PropTypes.shape({
         path: PropTypes.string.isRequired
     }).isRequired,
@@ -256,7 +292,6 @@ ProductPage.propTypes = {
     changeHeaderState: PropTypes.func.isRequired,
     clearGroupedProductQuantity: PropTypes.func.isRequired,
     product: ProductType.isRequired,
-    filters: PropTypes.objectOf(PropTypes.shape).isRequired,
     isOnlyPlaceholder: PropTypes.bool
 };
 

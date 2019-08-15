@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import ProductReviewList from './ProductReviewList.component';
-
-export default ProductReviewList;
+export { default } from './ProductReviewList.component';

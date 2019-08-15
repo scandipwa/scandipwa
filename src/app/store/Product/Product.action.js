@@ -23,7 +23,6 @@ export const updateProductDetails = product => ({
     type: UPDATE_PRODUCT_DETAILS,
     product
 });
-
 /**
  * Update quantity of grouped product
  * @param  {Object} product

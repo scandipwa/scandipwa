@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import CheckoutShippingStep from './CheckoutShippingStep.container';
-
-export default CheckoutShippingStep;
+export { default } from './CheckoutShippingStep.container';

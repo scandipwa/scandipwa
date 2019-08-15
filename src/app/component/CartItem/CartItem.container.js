@@ -16,6 +16,7 @@ import { ProductType } from 'Type/ProductList';
 import { CartDispatcher } from 'Store/Cart';
 
 import CartItem from './CartItem.component';
+import { convertKeyValueObjectToQueryString } from 'Util/Url';
 
 export const mapDispatchToProps = dispatch => ({
     addProduct: options => CartDispatcher.addProductToCart(dispatch, options),
@@ -41,27 +42,50 @@ export class CartItemContainer extends PureComponent {
         });
     }
 
+    /**
+     * Get link to product page
+     * @param url_key Url to product
+     * @return {{pathname: Srting, state Object}} Pathname and product state
+     */
     _getProductLinkTo() {
-        const { product: { url_key, configurableVariantIndex, parent }, product } = this.props;
-        const variantIndex = configurableVariantIndex || 0;
+        const {
+            product,
+            product: {
+                type_id,
+                url_key,
+                configurable_options,
+                configurableVariantIndex,
+                parent,
+                variants = []
+            }
+        } = this.props;
 
-        if (!url_key) return '/';
+        if (type_id === 'simple') return { pathname: `/product/${ url_key }` };
+
+        const { attributes } = variants[configurableVariantIndex];
+
+        const parameters = Object.entries(attributes).reduce(
+            (parameters, [code, { attribute_value }]) => {
+                if (Object.keys(configurable_options).includes(code)) return { ...parameters, [code]: attribute_value };
+                return parameters;
+            }, {}
+        );
 
         return {
             pathname: `/product/${ url_key }`,
-            state: { product: parent || product, variantIndex },
-            search: `?variant=${ variantIndex }`
+            state: { product: parent || product },
+            search: convertKeyValueObjectToQueryString(parameters)
         };
     }
 
     _getProductThumbnail() {
         const { product: { configurableVariantIndex, variants }, product } = this.props;
 
-        const { thumbnail: { path } = {} } = configurableVariantIndex
-            ? variants[configurableVariantIndex].product
+        const { thumbnail: { path: thumbnail } = {} } = configurableVariantIndex
+            ? variants[configurableVariantIndex]
             : product;
 
-        return path ? `/media/catalog/product${ path }` : '';
+        return thumbnail ? `/media/catalog/product${ thumbnail }` : '';
     }
 
     handleQtyChange(value) {

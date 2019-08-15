@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import CheckoutPage from './CheckoutPage.container';
-
-export default CheckoutPage;
+export { default } from './CheckoutPage.container';

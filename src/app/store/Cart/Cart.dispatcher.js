@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -12,13 +11,10 @@
 
 import { fetchMutation, fetchQuery } from 'Util/Request';
 import {
-    // addProductToCart,
-    // removeProductFromCart,
     updateTotals,
     updateAllProductsInCart,
     PRODUCTS_IN_CART
 } from 'Store/Cart';
-// import { getProductPrice } from 'Util/Price';
 import { isSignedIn } from 'Util/Auth';
 import { CartQuery } from 'Query';
 import { showNotification } from 'Store/Notification';
@@ -78,18 +74,14 @@ export class CartDispatcher {
         const { product, quantity } = options;
         const { item_id, quantity: originalQuantity } = this._getProductInCart(product);
         const { sku, type_id: product_type } = product;
-        const extension_attributes = this._getExtensionAttributes(product);
 
         const productToAdd = {
             item_id,
             sku,
             product_type,
-            qty: (parseInt(originalQuantity, 10) || 0) + parseInt(quantity, 10)
+            qty: (parseInt(originalQuantity, 10) || 0) + parseInt(quantity, 10),
+            product_option: { extension_attributes: this._getExtensionAttributes(product) }
         };
-
-        if (Object.keys(extension_attributes).length) {
-            productToAdd.product_option = { extension_attributes };
-        }
 
         if (this._isAllowed(options)) {
             return fetchMutation(CartQuery.getSaveCartItemMutation(
@@ -130,9 +122,9 @@ export class CartDispatcher {
             if (type_id === 'configurable') {
                 let configurableVariantIndex = 0;
 
-                const variant = variants.find(
-                    (variant, index) => {
-                        const { product: { sku: productSku } } = variant;
+                const { product: variant } = variants.find(
+                    ({ product }, index) => {
+                        const { sku: productSku } = product;
                         const isChosenProduct = productSku === sku;
                         if (isChosenProduct) configurableVariantIndex = index;
                         return isChosenProduct;
@@ -140,7 +132,7 @@ export class CartDispatcher {
                 );
 
                 if (variant) {
-                    const { product: { id: variantId } } = variant;
+                    const { id: variantId } = variant;
 
                     return {
                         ...prev,
@@ -177,24 +169,24 @@ export class CartDispatcher {
         } = product;
 
         if (type_id === 'configurable') {
-            const { product: currentVariant } = variants[configurableVariantIndex];
+            const { attributes } = variants[configurableVariantIndex];
 
-            const configurable_item_options = configurable_options.reduce((prev, curr) => {
-                const { attribute_code } = curr;
-                const attribute_value = currentVariant[attribute_code];
+            const configurable_item_options = Object.values(configurable_options)
+                .reduce((prev, { attribute_id, attribute_code }) => {
+                    const { attribute_value } = attributes[attribute_code];
 
-                if (attribute_value) {
-                    return [
-                        ...prev,
-                        {
-                            option_id: attribute_code,
-                            option_value: attribute_value
-                        }
-                    ];
-                }
+                    if (attribute_value) {
+                        return [
+                            ...prev,
+                            {
+                                option_id: attribute_id,
+                                option_value: attribute_value
+                            }
+                        ];
+                    }
 
-                return prev;
-            }, []);
+                    return prev;
+                }, []);
 
             return { configurable_item_options };
         }
@@ -215,9 +207,8 @@ export class CartDispatcher {
     }
 
     _getProductAttribute(attribute, { variants, configurableVariantIndex, [attribute]: attributeValue }) {
-        return typeof configurableVariantIndex === 'number'
-            ? variants[configurableVariantIndex].product[attribute]
-            : attributeValue;
+        const isNumber = typeof configurableVariantIndex === 'number';
+        return isNumber ? variants[configurableVariantIndex][attribute] : attributeValue;
     }
 
     /**

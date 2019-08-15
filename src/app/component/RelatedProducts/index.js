@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import RelatedProducts from './RelatedProducts.container';
-
-export default RelatedProducts;
+export { default } from './RelatedProducts.container';

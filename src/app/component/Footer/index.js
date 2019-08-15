@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import Footer from './Footer.component';
-
-export default Footer;
+export { default } from './Footer.component';

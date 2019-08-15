@@ -22,12 +22,17 @@ class AddToCart extends PureComponent {
     render() {
         const {
             mix,
-            product: { id },
+            product: {
+                type_id,
+                stock_status,
+                variants = []
+            },
             isLoading,
-            buttonClick
+            buttonClick,
+            configurableVariantIndex
         } = this.props;
 
-        if (!id) {
+        if (!type_id) {
             return (
                 <div
                   block="AddToCart"
@@ -37,16 +42,16 @@ class AddToCart extends PureComponent {
             );
         }
 
-        const { product: { stock_status } } = this.props;
         const isNotAvailable = stock_status !== 'IN_STOCK';
+        const isNotVariantAvailable = type_id === 'configurable' && !variants[configurableVariantIndex];
 
         return (
             <button
               onClick={ buttonClick }
               block="Button AddToCart"
-              mods={ { isLoading } }
               mix={ mix }
-              disabled={ isLoading || isNotAvailable }
+              mods={ { isLoading } }
+              disabled={ isLoading || isNotAvailable || isNotVariantAvailable }
             >
                 <span>{ __('Add to cart') }</span>
                 <span>{ __('Adding...') }</span>
@@ -56,9 +61,9 @@ class AddToCart extends PureComponent {
 }
 
 AddToCart.propTypes = {
-    isLoading: PropTypes.bool.isRequired,
-    buttonClick: PropTypes.func.isRequired,
+    isLoading: PropTypes.bool,
     product: ProductType,
+    configurableVariantIndex: PropTypes.number,
     mix: PropTypes.shape({
         block: PropTypes.string,
         elem: PropTypes.string,
@@ -71,7 +76,9 @@ AddToCart.propTypes = {
 
 AddToCart.defaultProps = {
     product: {},
-    mix: {}
+    mix: {},
+    isLoading: false,
+    configurableVariantIndex: 0
 };
 
 export default AddToCart;

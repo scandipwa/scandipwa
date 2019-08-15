@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import CategoryProductListPlaceholder from './CategoryProductListPlaceholder.component';
-
-export default CategoryProductListPlaceholder;
+export { default } from './CategoryProductListPlaceholder.component';

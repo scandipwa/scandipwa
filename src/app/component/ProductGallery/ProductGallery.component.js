@@ -25,7 +25,7 @@ class ProductGallery extends PureComponent {
         this.state = { activeImage: 0 };
 
         this.renderAdditionalPicture = this.renderAdditionalPicture.bind(this);
-        this.changeActiveImage = this.onActiveImageChange.bind(this);
+        this.onActiveImageChange = this.onActiveImageChange.bind(this);
     }
 
     onActiveImageChange(activeImage) {

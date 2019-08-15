@@ -130,7 +130,7 @@ class ProductCard extends PureComponent {
     }
 
     renderCardWrapper(children) {
-        const { product: { url_key }, product, currentVariantIndex: variantIndex } = this.props;
+        const { linkTo, product: { url_key } } = this.props;
 
         if (!url_key) {
             return (<div>{ children }</div>);
@@ -140,13 +140,9 @@ class ProductCard extends PureComponent {
             <Link
               block="ProductCard"
               elem="Link"
-              to={ {
-                  pathname: `/product/${ url_key }`,
-                  state: { product, variantIndex },
-                  search: variantIndex ? `?variant=${ variantIndex }` : undefined
-              } }
+              to={ linkTo }
             >
-                { children }
+              { children }
             </Link>
         );
     }
@@ -181,9 +177,9 @@ class ProductCard extends PureComponent {
 }
 
 ProductCard.propTypes = {
+    linkTo: PropTypes.shape({}),
     product: ProductType.isRequired,
     productOrVariant: ProductType.isRequired,
-    currentVariantIndex: PropTypes.number.isRequired,
     thumbnail: PropTypes.string,
     availableVisualOptions: PropTypes.arrayOf(PropTypes.shape({
         label: PropTypes.string,
@@ -193,7 +189,8 @@ ProductCard.propTypes = {
 };
 
 ProductCard.defaultProps = {
-    thumbnail: ''
+    thumbnail: '',
+    linkTo: {}
 };
 
 export default ProductCard;

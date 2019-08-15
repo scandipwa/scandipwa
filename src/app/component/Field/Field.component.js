@@ -28,6 +28,7 @@ const TEXTAREA_TYPE = 'textarea';
 const PASSWORD_TYPE = 'password';
 const SELECT_TYPE = 'select';
 
+const VISIBLE_ALWAYS = 'visibleAlways';
 /**
  * Input fields component
  * @class Field
@@ -514,7 +515,7 @@ class Field extends PureComponent {
 
     render() {
         const {
-            id, type, label, note, message, state, mix
+            id, type, label, message, state, mix
         } = this.props;
 
         const mods = {
@@ -528,7 +529,6 @@ class Field extends PureComponent {
                 { label && <label htmlFor={ id }>{ label }</label> }
                 { this.renderInputOfType(type) }
                 { message && <p block="Field" elem="Message">{ message }</p> }
-                { note && <p block="Field" elem="Note">{ note }</p> }
             </div>
         );
     }
@@ -547,7 +547,6 @@ Field.propTypes = {
         SELECT_TYPE
     ]).isRequired,
     label: PropTypes.string,
-    note: PropTypes.string,
     message: PropTypes.string,
     placeholder: PropTypes.string,
     value: PropTypes.oneOfType([
@@ -576,6 +575,7 @@ Field.propTypes = {
     disabled: PropTypes.bool,
     onChange: PropTypes.func,
     onFocus: PropTypes.func,
+    onBlur: PropTypes.func,
     onClick: PropTypes.func,
     onBlur: PropTypes.func,
     onKeyPress: PropTypes.func,
@@ -616,7 +616,6 @@ Field.defaultProps = {
     onBlur: () => {},
     value: null,
     state: '',
-    note: '',
     message: '',
     placeholder: '',
     autocomplete: 'off'

@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import ProductPage from './ProductPage.container';
-
-export default ProductPage;
+export { default } from './ProductPage.container';

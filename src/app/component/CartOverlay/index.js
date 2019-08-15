@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import CartOverlay from './CartOverlay.container';
-
-export default CartOverlay;
+export { default } from './CartOverlay.container';

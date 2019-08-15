@@ -39,8 +39,10 @@ class GroupedProductList extends PureComponent {
 
     render() {
         const {
-            product: { items }
+            product: { items, type_id }
         } = this.props;
+
+        if (type_id !== 'grouped') return null;
 
         return (
             <>

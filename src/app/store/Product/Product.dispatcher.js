@@ -22,13 +22,13 @@ import { RelatedProductsDispatcher } from 'Store/RelatedProducts';
  */
 export class ProductDispatcher extends QueryDispatcher {
     constructor() {
-        super('ProductList', 2628000);
+        super('Product', 2628000);
     }
 
     onSuccess(data, dispatch) {
         const { products: { items } } = data;
 
-        if (!items) return dispatch(updateNoMatch(true));
+        if (!(items && items.length > 0)) return dispatch(updateNoMatch(true));
 
         const [productItem] = items;
         const product = productItem.type_id === 'grouped'
@@ -47,12 +47,10 @@ export class ProductDispatcher extends QueryDispatcher {
             RelatedProductsDispatcher.clearRelatedProducts(dispatch);
         }
 
-        return (items && items.length > 0)
-            ? dispatch(updateProductDetails(product))
-            : dispatch(updateNoMatch(true));
+        return dispatch(updateProductDetails(product));
     }
 
-    onError(error, dispatch) {
+    onError(_, dispatch) {
         dispatch(updateNoMatch(true));
     }
 

@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import CategoryDetails from './CategoryDetails.container';
-
-export default CategoryDetails;
+export { default } from './CategoryDetails.container';

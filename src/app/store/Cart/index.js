@@ -9,30 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import CartReducer, { PRODUCTS_IN_CART } from './Cart.reducer';
-import CartDispatcher, { GUEST_QUOTE_ID } from './Cart.dispatcher';
-import {
-    ADD_PRODUCT_TO_CART,
-    REMOVE_PRODUCT_FROM_CART,
-    UPDATE_ALL_PRODUCTS_IN_CART,
-    UPDATE_TOTALS,
-    addProductToCart,
-    removeProductFromCart,
-    updateTotals,
-    updateAllProductsInCart
-} from './Cart.action';
-
+export * from './Cart.action';
+export { default as CartReducer, PRODUCTS_IN_CART } from './Cart.reducer';
 export {
-    CartReducer,
-    PRODUCTS_IN_CART,
-    CartDispatcher,
     GUEST_QUOTE_ID,
-    ADD_PRODUCT_TO_CART,
-    REMOVE_PRODUCT_FROM_CART,
-    UPDATE_ALL_PRODUCTS_IN_CART,
-    UPDATE_TOTALS,
-    addProductToCart,
-    removeProductFromCart,
-    updateAllProductsInCart,
-    updateTotals
-};
+    default as CartDispatcher
+} from './Cart.dispatcher';
