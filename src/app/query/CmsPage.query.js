@@ -15,7 +15,7 @@ import { Field } from 'Util/Query';
  * CMS Page Query
  * @class CmsPageQuery
  */
-class CmsPageQuery {
+export class CmsPageQuery {
     /**
      * get CMS Page query
      * @param  {{url_key: String, title: Int, content: String, content_heading: String, page_layout: String, meta_title: String, meta_description: String, meta_keywords, string}} options A object containing different aspects of query, each item can be omitted
@@ -42,7 +42,5 @@ class CmsPageQuery {
         ];
     }
 }
-
-export { CmsPageQuery };
 
 export default new CmsPageQuery();

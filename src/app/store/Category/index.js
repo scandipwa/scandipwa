@@ -11,4 +11,4 @@
 
 export * from './Category.action';
 export { default as CategoryReducer } from './Category.reducer';
-export { default as CategoryDispatcher, CategoryDispatcher as CategoryDispatcherClass } from './Category.dispatcher';
+export { default as CategoryDispatcher } from './Category.dispatcher';

@@ -11,4 +11,4 @@
 
 export * from './NoMatch.action';
 export { default as NoMatchReducer } from './NoMatch.reducer';
-export { default as NoMatchDispatcher, NoMatchDispatcher as NoMatchDispatcherClass } from './NoMatch.dispatcher';
+export { default as NoMatchDispatcher } from './NoMatch.dispatcher';

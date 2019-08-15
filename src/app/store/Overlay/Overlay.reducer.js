@@ -14,7 +14,7 @@ import {
     HIDE_ACTIVE_OVERLAY
 } from './Overlay.action';
 
-const initialState = {
+export const initialState = {
     activeOverlay: '',
     areOtherOverlaysOpen: false
 };

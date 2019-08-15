@@ -21,6 +21,4 @@ export const mapDispatchToProps = dispatch => ({
     requestBlocks: options => CmsBlocksAndSliderDispatcher.handleData(dispatch, options)
 });
 
-const CategoryDetailsContainer = connect(mapStateToProps, mapDispatchToProps)(CategoryDetails);
-
-export default CategoryDetailsContainer;
+export default connect(mapStateToProps, mapDispatchToProps)(CategoryDetails);

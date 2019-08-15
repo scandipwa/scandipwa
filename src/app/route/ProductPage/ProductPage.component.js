@@ -114,26 +114,6 @@ class ProductPage extends Component {
         return useLoadedProduct ? product : state.product;
     }
 
-    getConfigurableVariantIndex(variants) {
-        const { configurableVariantIndex, parameters } = this.state;
-
-        if (configurableVariantIndex >= 0) return configurableVariantIndex;
-        if (variants) return getVariantIndex(variants, parameters);
-
-        return -1;
-    }
-
-    getConfigurableVariantMediaLibrary() {
-        const { product: { variants } } = this.props;
-        const dataSource = this.getDataSource();
-        const index = this.getConfigurableVariantIndex(variants);
-
-        const { media_gallery_entries } = dataSource;
-        const { media_gallery_entries: configurableMediaGallery } = variants[index];
-
-        return configurableMediaGallery.length ? configurableMediaGallery : media_gallery_entries;
-    }
-
     getLink(key, value) {
         const { location: { search, pathname } } = this.props;
         const query = convertKeyValueObjectToQueryString({
@@ -149,11 +129,12 @@ class ProductPage extends Component {
      * @param {Object} dataSource product data
      * @return {Number} variant index
      */
-    getThumbnail(dataSource) {
-        const { thumbnail, variants = [] } = dataSource;
-        const index = this.getConfigurableVariantIndex(variants);
-        const { thumbnail: variantThumbnail } = variants[index] || {};
-        return variantThumbnail || thumbnail;
+    getProductOrVariant(currentVariantIndex, dataSource) {
+        const { variants } = dataSource;
+
+        const variant = variants && variants[ currentVariantIndex ];
+
+        return variant || dataSource;
     }
 
     /**
@@ -245,12 +226,8 @@ class ProductPage extends Component {
         const { product, product: { variants }, location: { search } } = this.props;
         const { configurableVariantIndex, parameters } = this.state;
         const dataSource = this.getDataSource();
-        const { media_gallery_entries } = dataSource;
         const areDetailsLoaded = dataSource === product;
-        const thumbnail = this.getThumbnail(dataSource);
-        const mediaGallery = variants && areDetailsLoaded
-            ? this.getConfigurableVariantMediaLibrary()
-            : media_gallery_entries;
+        const productOrVariant = this.getProductOrVariant(configurableVariantIndex, dataSource);
 
         return (
             <>
@@ -262,8 +239,7 @@ class ProductPage extends Component {
                       label={ __('Main product details') }
                     >
                         <ProductGallery
-                          thumbnail={ thumbnail }
-                          mediaGallery={ mediaGallery }
+                          product={ productOrVariant }
                         />
                         <ProductActions
                           getLink={ this.getLink }

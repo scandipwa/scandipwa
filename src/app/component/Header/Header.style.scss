@@ -12,7 +12,7 @@
 :root {
 	--header-background: #fff;
 	--header-color: #000;
-	--header-search-field-background: #f3f3f3;
+	--header-search-field-background: #{$concrete};
 	--header-search-field-visible-background: #fff;
 	--header-search-field-color: #6e6e6e;
 	--header-search-clear-background: #838383;
@@ -151,8 +151,8 @@
 	}
 
 	&-Banner {
-		background: var(--color-primary-base);
-		color: var(--color-text-white);
+		background: $primary-base-color;
+		color: $white;
 		height: 50px;
 		line-height: 50px;
 		text-align: center;

@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import './CategorySearch.style';
 
-class CategorySearch extends Component {
+// TODO: add to template
+class CategorySearch extends PureComponent {
     constructor(props) {
         super(props);
         this.state = { value: decodeURIComponent(props.value) };

@@ -11,7 +11,4 @@
 
 export * from './MyAccount.action';
 export { default as MyAccountReducer } from './MyAccount.reducer';
-export {
-    default as MyAccountDispatcher,
-    MyAccountDispatcher as MyAccountDispatcherClass
-} from './MyAccount.dispatcher';
+export { default as MyAccountDispatcher } from './MyAccount.dispatcher';

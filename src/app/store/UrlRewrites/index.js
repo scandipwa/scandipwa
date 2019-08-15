@@ -11,7 +11,4 @@
 
 export * from './UrlRewrites.action';
 export { default as UrlRewritesReducer } from './UrlRewrites.reducer';
-export {
-    default as UrlRewritesDispatcher,
-    UrlRewritesDispatcher as UrlRewritesDispatcherClass
-} from './UrlRewrites.dispatcher';
+export { default as UrlRewritesDispatcher } from './UrlRewrites.dispatcher';

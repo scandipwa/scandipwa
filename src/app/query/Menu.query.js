@@ -14,7 +14,7 @@ import { Field } from 'Util/Query';
  * Menu Query
  * @class MenuQuery
  */
-class MenuQuery {
+export class MenuQuery {
     /**
      * get Menu query
      * @param  {{menuId: String}} options A object containing different aspects of query, each item can be omitted
@@ -55,7 +55,5 @@ class MenuQuery {
         ];
     }
 }
-
-export { MenuQuery };
 
 export default new MenuQuery();

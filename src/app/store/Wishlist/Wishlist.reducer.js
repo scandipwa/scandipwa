@@ -18,7 +18,7 @@ import {
 
 export const PRODUCTS_IN_WISHLIST = 'wishlist_products';
 
-const initialState = {
+export const initialState = {
     productsInWishlist: BrowserDatabase.getItem(PRODUCTS_IN_WISHLIST) || {},
     productToBeRemovedAfterAdd: ''
 };

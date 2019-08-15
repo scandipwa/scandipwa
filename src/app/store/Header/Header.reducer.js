@@ -15,7 +15,7 @@ import {
     GOTO_PREVIOUS_HEADER_STATE
 } from './Header.action';
 
-const initialState = {
+export const initialState = {
     headerState: {
         name: HOME_PAGE
     },

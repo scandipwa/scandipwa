@@ -11,4 +11,4 @@
 
 export * from './Product.action';
 export { default as ProductReducer } from './Product.reducer';
-export { default as ProductDispatcher, ProductDispatcher as ProductDispatcherClass } from './Product.dispatcher';
+export { default as ProductDispatcher } from './Product.dispatcher';

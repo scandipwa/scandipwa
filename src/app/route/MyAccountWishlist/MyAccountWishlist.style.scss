@@ -1,3 +1,7 @@
+:root {
+    --wishlist-border-color: #{$concrete};
+}
+
 .MyAccountWishlist {
     --placeholder-animation: placeholderAnimation 2s linear infinite, appear 200ms forwards;
 
@@ -27,7 +31,7 @@
         flex-direction: column;
         padding-top: 1.8rem;
         margin-bottom: 1.9rem;
-        border-right: 2px solid var(--color-breadcrumbs-background);
+        border-right: 2px solid var(--wishlist-border-color);
 
         @include mobile {
             display: none;

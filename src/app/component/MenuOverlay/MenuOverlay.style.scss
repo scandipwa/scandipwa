@@ -10,7 +10,7 @@
  */
 
 :root {
-    --menu-overlay-item-figure-background: #f3f3f3;
+    --menu-overlay-item-figure-background: #{$concrete};
     --menu-desktop-subitem-arrow-color: #000;
     --menu-overlay-item-banner-color: #fff;
     --menu-overlay-additional-information-divider-color: #dedede;

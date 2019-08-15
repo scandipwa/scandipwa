@@ -18,7 +18,7 @@ export const PRODUCT_TO_BE_REMOVED_AFTER_ADD = 'PRODUCT_TO_BE_REMOVED_AFTER_ADD'
  * @param  {Object} product Product which should be removed
  * @return {void}
  */
-const removeItemFromWishlist = product => ({
+export const removeItemFromWishlist = product => ({
     type: REMOVE_ITEM_FROM_WISHLIST,
     product
 });
@@ -28,18 +28,12 @@ const removeItemFromWishlist = product => ({
  * @param  {Array} products Products that should be updated in wishlist
  * @return {void}
  */
-const updateAllProductsInWishlist = products => ({
+export const updateAllProductsInWishlist = products => ({
     type: UPDATE_ALL_PRODUCTS_IN_WISHLIST,
     products
 });
 
-const productToBeRemovedAfterAdd = product => ({
+export const productToBeRemovedAfterAdd = product => ({
     type: PRODUCT_TO_BE_REMOVED_AFTER_ADD,
     productToBeRemovedAfterAdd: product
 });
-
-export {
-    removeItemFromWishlist,
-    updateAllProductsInWishlist,
-    productToBeRemovedAfterAdd
-};

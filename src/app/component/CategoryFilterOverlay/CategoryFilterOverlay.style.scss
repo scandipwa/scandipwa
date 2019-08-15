@@ -11,8 +11,8 @@
 
 :root {
     --category-filter-overlay-desktop-color: #979797;
-    --category-filter-overlay-selected-color: var(--color-primary-base);
-    --category-filter-overlay-hover-color: var(--color-primary-light);
+    --category-filter-overlay-selected-color: #{$primary-base-color};
+    --category-filter-overlay-hover-color: #{$primary-light-color};
 }
 
 .CategoryFilterOverlay {

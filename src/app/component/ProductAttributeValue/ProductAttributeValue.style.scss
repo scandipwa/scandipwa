@@ -11,9 +11,9 @@
 
 :root {
     --option-background-color: var(--color-homepage-background);
-    --option-border-color: var(--color-border-base);
+    --option-border-color: #000;
     --option-check-mark-background: var(--color-text-black);
-    --option-text-color: var(--color-text-black);
+    --option-text-color: #000;
     --option-padding: 0 12px;
     --option-size: 35px;
 }
@@ -51,7 +51,7 @@
         &::after {
             content: "";
             position: absolute;
-    
+
             opacity: var(--option-is-selected);
             transition: opacity 200ms;
             will-change: opacity, border-left, border-right;
@@ -60,7 +60,7 @@
         &::before {
             height: calc(var(--option-size) + 6px);
             width: calc(var(--option-size) + 6px);
-    
+
             border-radius: inherit;
             box-shadow: inherit;
             left: -3px;
@@ -72,9 +72,9 @@
             left: calc(var(--option-size) / 3.3);
             top: calc(var(--option-size) / 3.3);
             width: calc(var(--option-size) / 2.5);
-    
+
             transform: rotate(-45deg);
-    
+
             border: {
                 left: 2px solid var(--option-check-mark-background);
                 bottom: 2px solid var(--option-check-mark-background);

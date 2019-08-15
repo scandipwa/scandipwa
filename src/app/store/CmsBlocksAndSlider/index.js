@@ -11,7 +11,4 @@
 
 export * from './CmsBlocksAndSlider.action';
 export { default as CmsBlocksAndSliderReducer } from './CmsBlocksAndSlider.reducer';
-export {
-    default as CmsBlocksAndSliderDispatcher,
-    CmsBlocksAndSliderDispatcher as CmsBlocksAndSliderDispatcherClass
-} from './CmsBlocksAndSlider.dispatcher';
+export { default as CmsBlocksAndSliderDispatcher } from './CmsBlocksAndSlider.dispatcher';

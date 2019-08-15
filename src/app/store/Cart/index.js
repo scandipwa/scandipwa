@@ -13,6 +13,5 @@ export * from './Cart.action';
 export { default as CartReducer, PRODUCTS_IN_CART } from './Cart.reducer';
 export {
     GUEST_QUOTE_ID,
-    default as CartDispatcher,
-    CartDispatcher as CartDispatcherClass
+    default as CartDispatcher
 } from './Cart.dispatcher';

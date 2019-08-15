@@ -11,7 +11,4 @@
 
 export * from './RelatedProducts.action';
 export { default as RelatedProductsReducer } from './RelatedProducts.reducer';
-export {
-    default as RelatedProductsDispatcher,
-    RelatedProductsDispatcher as RelatedProductsDispatcherClass
-} from './RelatedProducts.dispatcher';
+export { default as RelatedProductsDispatcher } from './RelatedProducts.dispatcher';

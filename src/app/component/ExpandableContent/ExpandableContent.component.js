@@ -9,11 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import './ExpandableContent.style';
 
-class ExpandableContent extends Component {
+class ExpandableContent extends PureComponent {
     renderButton() {
         const { isContentExpanded } = this.props;
         const {

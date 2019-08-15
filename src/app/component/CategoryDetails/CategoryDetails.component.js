@@ -34,30 +34,30 @@ class CategoryDetails extends PureComponent {
     renderCategoryDescription() {
         const { category: { description } } = this.props;
 
-        if (description) {
-            return <Html content={ description } />;
-        }
+        if (!description) return this.renderCategoryDescriptionPlaceholder();
 
+        return <Html content={ description } />;
+    }
+
+    renderCategoryDescriptionPlaceholder() {
+        return <p><TextPlaceholder length="long" /></p>;
+    }
+
+    renderCategoryImagePlaceholder() {
         return (
-            <p>
-                <TextPlaceholder content={ description } length="long" />
-            </p>
+            <Image
+              mix={ { block: 'CategoryDetails', elem: 'Picture' } }
+              objectFit="cover"
+              ratio="custom"
+              isPlaceholder
+            />
         );
     }
 
     renderCategoryImage() {
         const { category: { image } } = this.props;
 
-        if (!image) {
-            return (
-                <Image
-                  mix={ { block: 'CategoryDetails', elem: 'Picture' } }
-                  objectFit="cover"
-                  ratio="custom"
-                  isPlaceholder
-                />
-            );
-        }
+        if (!image) return this.renderCategoryImagePlaceholder();
 
         return (
             <Image

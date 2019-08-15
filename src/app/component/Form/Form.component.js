@@ -9,12 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component, Children } from 'react';
+import React, { PureComponent, Children } from 'react';
 import PropTypes from 'prop-types';
 import Field from 'Component/Field';
 import validationConfig from './Form.config';
 
-class Form extends Component {
+class Form extends PureComponent {
     static updateChildrenRefs(props) {
         const { children: propsChildren } = props;
         const refMap = {};
@@ -152,7 +152,6 @@ class Form extends Component {
     render() {
         const { mix } = this.props;
         const { children, fieldsAreValid } = this.state;
-        const { mix: { block, elem, mods } } = this.props;
 
         return (
             <form

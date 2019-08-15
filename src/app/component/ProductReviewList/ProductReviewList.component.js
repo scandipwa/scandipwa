@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { ProductType } from 'Type/ProductList';
 import ContentWrapper from 'Component/ContentWrapper';
@@ -20,7 +20,7 @@ import './ProductReviewList.style';
 /**
  * @class ProductReviewList
  */
-class ProductReviewList extends Component {
+class ProductReviewList extends PureComponent {
     renderReviewListItemRating(ratingVoteItem) {
         const {
             vote_id,

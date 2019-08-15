@@ -11,4 +11,4 @@
 
 export * from './Wishlist.action';
 export { default as WishlistReducer, PRODUCTS_IN_WISHLIST } from './Wishlist.reducer';
-export { default as WishlistDispatcher, WishlistDispatcher as WishlistDispatcherClass } from './Wishlist.dispatcher';
+export { default as WishlistDispatcher } from './Wishlist.dispatcher';

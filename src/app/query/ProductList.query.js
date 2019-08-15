@@ -46,7 +46,7 @@ export class ProductListQuery {
             productUrlPath: option => [`url_key: { eq: ${option}}`],
             customFilters: (option = {}) => Object.entries(option).reduce((acc, [key, attribute]) => (
                 attribute.length ? [...acc, `${key}: { in: [ ${attribute.join(',')} ] } `] : acc
-            ), []).join(',')
+            ), [])
         };
     }
 
@@ -83,8 +83,6 @@ export class ProductListQuery {
     _getProductArguments() {
         const { args } = this.options;
         const argumentMap = this._getArgumentsMap();
-
-        console.log(this.options);
 
         return Object.entries(args).reduce((acc, [key, arg]) => {
             if (!arg) return acc;
@@ -303,22 +301,17 @@ export class ProductListQuery {
             'label',
             'position',
             'disabled',
-            'media_type'
+            'media_type',
+            'types'
         ];
     }
 
     _getMediaGalleryField() {
-        const { isSingleProduct } = this.options;
-        if (!isSingleProduct) return null;
-
         return new Field('media_gallery_entries')
             .addFieldList(this._getMediaGalleryFields());
     }
 
     _getProductLinksField() {
-        const { isSingleProduct } = this.options;
-        if (!isSingleProduct) return null;
-
         return new Field('product_links')
             .addFieldList(this._getProductLinkFields());
     }
@@ -330,9 +323,6 @@ export class ProductListQuery {
     }
 
     _getDescriptionField() {
-        const { isSingleProduct } = this.options;
-        if (!isSingleProduct) return null;
-
         return new Field('description')
             .addFieldList(this._getDescriptionFields());
     }
@@ -370,9 +360,6 @@ export class ProductListQuery {
     }
 
     _getReviewsField() {
-        const { isSingleProduct } = this.options;
-        if (!isSingleProduct) return null;
-
         return new Field('reviews')
             .addFieldList(this._getReviewFields());
     }

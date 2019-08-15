@@ -9,72 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-$color-prefix: --color-;
-
-$colors: (
-    breadcrumbs: (
-        background: #f3f3f3,
-        base: #404040,
-        current: #888888,
-        arrow: #404040
-    ),
-    menu: (
-        background: #ffffff,
-        hover: #f3f3f3,
-    ),
-    text: (
-        white: #fff,
-        black: #0a0a0a
-    ),
-    primary: (
-        base: #f26323,
-        dark: #d1490c,
-        light: #f69e77
-    ),
-    neutral: (
-        dark: #696969,
-        base: #949494,
-        light: #e0e0e0
-    ),
-    state: (
-        valid: #7ed688,
-        error: #df4b4b,
-    ),
-    cart: (
-        light: #fbefea,
-        background: #ffffff
-    ),
-    summary: (
-        background: #f3f3f3,
-        divider: #e0e0e0,
-    ),
-    quantity: (
-        add: #fbefea,
-        substract: #f3f3f3
-    ),
-    homepage: (
-        background: #ffffff
-    ),
-    footer: (
-        background: #f3f3f3,
-        copyright: #eaeaea,
-        light: #ffffff
-    ),
-    subscription: (
-        background: #6f7378,
-        border: #d4d4d4,
-        text: #4c4c4c,
-        hover: #8a8a8a,
-        light: #ffffff
-    ),
-    myaccount: (
-        transparent: transparent
-    ),
-    blur: #0a0a0a,
-    border: (
-        base: #404040
-    )
-);
+$white: #fff;
+$black: #0a0a0a;
+$concrete: #f3f3f3;
+$dusty-grey: #949494;
+$primary-base-color: #f26323;
+$primary-dark-color: #d1490c;
+$primary-light-color: #f69e77;
 
 $font-muli: 'Muli', sans-serif;
 $font-standard-size: 12px;

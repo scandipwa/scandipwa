@@ -11,7 +11,4 @@
 
 export * from './Breadcrumbs.action';
 export { default as BreadcrumbsReducer } from './Breadcrumbs.reducer';
-export {
-    default as BreadcrumbsDispatcher,
-    BreadcrumbsDispatcher as BreadcrumbsDispatcherClass
-} from './Breadcrumbs.dispatcher';
+export { default as BreadcrumbsDispatcher } from './Breadcrumbs.dispatcher';

@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import GroupedProductsItem from 'Component/GroupedProductsItem';
 import { ProductType } from 'Type/ProductList';
@@ -18,7 +18,7 @@ import { ProductType } from 'Type/ProductList';
  * Product description
  * @class GroupedProductList
  */
-class GroupedProductList extends Component {
+class GroupedProductList extends PureComponent {
     componentWillUnmount() {
         const { clearGroupedProductQuantity } = this.props;
         clearGroupedProductQuantity();

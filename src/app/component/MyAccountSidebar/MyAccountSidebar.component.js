@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Link } from 'react-router-dom';
 import './MyAccountSidebar.style';
 
@@ -17,7 +17,7 @@ import './MyAccountSidebar.style';
  * My account Sidebar
  * @class MyAccountSidebar
  */
-class MyAccountSidebar extends Component {
+class MyAccountSidebar extends PureComponent {
     render() {
         return (
             <div block="Sidebar">

@@ -13,7 +13,7 @@
 
 :root {
     --range-slider-color: #000;
-    --range-slider-active-color: var(--color-primary-base);
+    --range-slider-active-color: $primary-base-color;
 }
 
 .RangeSelector {

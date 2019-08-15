@@ -11,7 +11,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component, Children } from 'react';
+import React, { PureComponent, Children } from 'react';
 import PropTypes from 'prop-types';
 import Draggable from 'Component/Draggable';
 import CSS from 'Util/CSS';
@@ -21,7 +21,7 @@ import './Slider.style';
  * Slider component
  * @class Slider
  */
-class Slider extends Component {
+class Slider extends PureComponent {
     constructor(props) {
         super(props);
 
@@ -90,7 +90,7 @@ class Slider extends Component {
     onClickChangeSlide(state, slideSize, lastTranslate, fullSliderSize) {
         const { originalX } = state;
         const { prevActiveImage: prevActiveSlider } = this.state;
-        const { changeParentActiveImage } = this.props;
+        const { onActiveImageChange } = this.props;
 
         const fullSliderPoss = Math.round(fullSliderSize / slideSize);
         const elementPossitionInDOM = this.draggableRef.current.getBoundingClientRect().x;
@@ -101,13 +101,13 @@ class Slider extends Component {
 
         if (slideSize / 2 < mousePossitionInElement && -fullSliderPoss < sliderPossition) {
             const activeSlide = sliderPossition - 1;
-            changeParentActiveImage(-activeSlide);
+            onActiveImageChange(-activeSlide);
             return activeSlide;
         }
 
         if (slideSize / 2 > mousePossitionInElement && lastTranslate) {
             const activeSlide = sliderPossition + 1;
-            changeParentActiveImage(-activeSlide);
+            onActiveImageChange(-activeSlide);
             return activeSlide;
         }
 
@@ -124,7 +124,7 @@ class Slider extends Component {
             translateX: translate,
             lastTranslateX: lastTranslate
         } = state;
-        const { changeParentActiveImage } = this.props;
+        const { onActiveImageChange } = this.props;
 
         const slideSize = this.sliderWidth;
 
@@ -137,30 +137,30 @@ class Slider extends Component {
         if (!translate) return this.onClickChangeSlide(state, slideSize, lastTranslate, fullSliderSize);
 
         if (translate >= 0) {
-            changeParentActiveImage(0);
+            onActiveImageChange(0);
             return 0;
         }
 
         if (translate < -fullSliderSize) {
             const activeSlide = Math.round(fullSliderSize / -slideSize);
-            changeParentActiveImage(-activeSlide);
+            onActiveImageChange(-activeSlide);
             return activeSlide;
         }
 
         if (isSlideBack && activeSlidePercent < 0.90) {
             const activeSlide = Math.ceil(activeSlidePosition);
-            changeParentActiveImage(-activeSlide);
+            onActiveImageChange(-activeSlide);
             return activeSlide;
         }
 
         if (!isSlideBack && activeSlidePercent > 0.10) {
             const activeSlide = Math.floor(activeSlidePosition);
-            changeParentActiveImage(-activeSlide);
+            onActiveImageChange(-activeSlide);
             return activeSlide;
         }
 
         const activeSlide = Math.round(activeSlidePosition);
-        changeParentActiveImage(-activeSlide);
+        onActiveImageChange(-activeSlide);
         return activeSlide;
     }
 
@@ -206,8 +206,8 @@ class Slider extends Component {
     }
 
     changeActiveImage(activeImage) {
-        const { changeParentActiveImage } = this.props;
-        changeParentActiveImage(activeImage);
+        const { onActiveImageChange } = this.props;
+        onActiveImageChange(activeImage);
     }
 
     renderCrumbs() {
@@ -273,7 +273,7 @@ class Slider extends Component {
 Slider.propTypes = {
     showCrumbs: PropTypes.bool,
     activeImage: PropTypes.number,
-    changeParentActiveImage: PropTypes.func.isRequired,
+    onActiveImageChange: PropTypes.func,
     mix: PropTypes.shape({
         block: PropTypes.string,
         elem: PropTypes.string,
@@ -292,6 +292,7 @@ Slider.propTypes = {
 
 Slider.defaultProps = {
     activeImage: 0,
+    onActiveImageChange: () => {},
     showCrumbs: false,
     mix: {}
 };

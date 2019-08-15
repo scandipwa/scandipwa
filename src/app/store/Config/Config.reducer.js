@@ -15,10 +15,12 @@ import {
     UPDATE_REVIEW_RATINGS
 } from './Config.action';
 
-const initialState = {
+export const initialState = {
     countries: [],
     reviewRatings: []
 };
+
+// TODO: add store config
 
 const ConfigReducer = (state = initialState, action) => {
     const { countries, reviewRatings } = action;

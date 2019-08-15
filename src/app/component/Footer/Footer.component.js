@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Link } from 'react-router-dom';
 import './Footer.style';
 
@@ -17,15 +17,15 @@ import './Footer.style';
  * Page footer
  * @class Footer
  */
-class Footer extends Component {
+class Footer extends PureComponent {
     render() {
         return (
             <footer block="Footer" aria-label="Footer">
                 <Link to="/page/privacy-policy-cookie-restriction-mode" className="Footer-Link">
-                    Privicy policy
+                    { __('Privacy policy') }
                 </Link>
                 <Link to="/page/terms-and-conditions" className="Footer-Link">
-                    Shopping terms and conditions
+                    { __('Shopping terms and conditions') }
                 </Link>
             </footer>
         );

@@ -41,7 +41,7 @@
         }
 
         &Input {
-            --star-outline-color: #949494;
+            --star-outline-color: #{$dusty-grey};
 
             // reset from input default styles
             display: inline;
@@ -51,7 +51,7 @@
             border: 0;
 
             transition: color 150ms ease-in;
-            color: var(--color-text-white);
+            color: $white;
             text-shadow:
                 -1px 0 var(--star-outline-color),
                 0 1px var(--star-outline-color),
@@ -73,8 +73,9 @@
             &:checked ~ input,
             &:hover ~ input,
             &[checked] ~ input {
-                --star-outline-color: var(--color-primary-base);
-                color: var(--color-primary-base);
+                --star-outline-color: #{$primary-base-color};
+
+                color: $primary-base-color;
             }
 
             &:focus {

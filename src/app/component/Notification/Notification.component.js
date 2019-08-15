@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import CSS from 'Util/CSS';
 import PropTypes from 'prop-types';
 import { NotificationType } from 'Type/NotificationList';
@@ -22,7 +22,7 @@ const ANIMATION_DURATION = 400;
  * Notification block
  * @class Notification
  */
-class Notification extends Component {
+class Notification extends PureComponent {
     constructor(props) {
         super(props);
         this.state = { isNotificationVisible: true };

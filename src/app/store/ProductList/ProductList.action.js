@@ -20,7 +20,7 @@ export const UPDATE_LOAD_STATUS = 'UPDATE_LOAD_STATUS';
  * @param {Number} maxPrice Maximal products price returned from fetch
  * @param {Number} currentPage Number of requested page
  */
-const appendPage = (items, currentPage) => ({
+export const appendPage = (items, currentPage) => ({
     type: APPEND_PAGE,
     items,
     currentPage
@@ -32,7 +32,7 @@ const appendPage = (items, currentPage) => ({
  * @param {Number} currentPage Numver of requested page
  * @return {void}
  */
-const updateProductListItems = (items, currentPage) => ({
+export const updateProductListItems = (items, currentPage) => ({
     type: UPDATE_PRODUCT_LIST_ITEMS,
     items,
     currentPage
@@ -43,13 +43,7 @@ const updateProductListItems = (items, currentPage) => ({
  * @param {Boolean} status Loading indication boolean
  * @return {void}
  */
-const updateLoadStatus = status => ({
+export const updateLoadStatus = status => ({
     type: UPDATE_LOAD_STATUS,
     isLoading: status
 });
-
-export {
-    appendPage,
-    updateProductListItems,
-    updateLoadStatus
-};

@@ -10,7 +10,7 @@
  */
 
 import { QueryDispatcher } from 'Util/Request';
-import { RegionQuery, Review } from 'Query';
+import { RegionQuery, ReviewQuery, ConfigQuery } from 'Query';
 import { showNotification } from 'Store/Notification';
 import { getCountryList, updateReviewRatings } from 'Store/Config';
 
@@ -35,7 +35,8 @@ export class ConfigDispatcher extends QueryDispatcher {
     prepareRequest() {
         return [
             RegionQuery.getCountriesQuery(),
-            Review.getRatingQuery()
+            ReviewQuery.getRatingQuery(),
+            ConfigQuery.getQuery()
         ];
     }
 }

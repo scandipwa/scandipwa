@@ -16,7 +16,7 @@ import {
 } from 'Store/ProductList';
 import { getIndexedProducts } from 'Util/Product';
 
-const initialState = {
+export const initialState = {
     pages: {},
     isLoading: true
 };

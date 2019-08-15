@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Image from 'Component/Image';
@@ -25,7 +25,7 @@ import './CartItem.style';
  * Cart and Minicart item
  * @class CartItem
  */
-class CartItem extends Component {
+class CartItem extends PureComponent {
     renderConfiguration() {
         const {
             product: {
@@ -85,7 +85,13 @@ class CartItem extends Component {
 
         return (
             <>
-                <p block="CartItem" elem="Heading">{ name }</p>
+                <p
+                  block="CartItem"
+                  elem="Heading"
+                  itemProp="name"
+                >
+                    { name }
+                </p>
                 { this.renderConfiguration() }
                 <ProductPrice
                   mix={ {
@@ -141,15 +147,23 @@ class CartItem extends Component {
         const { product: { name }, thumbnail } = this.props;
 
         return (
-            <Image
-              src={ thumbnail }
-              mix={ {
-                  block: 'CartItem',
-                  elem: 'Picture'
-              } }
-              ratio="custom"
-              alt={ `Product ${name} thumbnail.` }
-            />
+            <>
+                <Image
+                  src={ thumbnail }
+                  mix={ {
+                      block: 'CartItem',
+                      elem: 'Picture'
+                  } }
+                  ratio="custom"
+                  alt={ `Product ${name} thumbnail.` }
+                />
+                <img
+                  style={ { display: 'none' } }
+                  alt={ name }
+                  src={ thumbnail }
+                  itemProp="image"
+                />
+            </>
         );
     }
 
@@ -159,6 +173,8 @@ class CartItem extends Component {
         return (
             <li
               block="CartItem"
+              itemScope
+              itemType="https://schema.org/Product"
             >
                 <Loader isLoading={ isLoading } />
                 { this.renderContent() }

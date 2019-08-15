@@ -50,7 +50,7 @@ const reduceFilters = filters => filters.reduce((co, item) => {
     };
 }, {});
 
-const initialState = {
+export const initialState = {
     totalItems: 0,
     minPrice: -0,
     maxPrice: Infinity,

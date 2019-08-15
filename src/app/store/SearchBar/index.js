@@ -11,7 +11,4 @@
 
 export * from './SearchBar.action';
 export { default as SearchBarReducer } from './SearchBar.reducer';
-export {
-    default as SearchBarDispatcher,
-    SearchBarDispatcher as SearchBarDispatcherClass
-} from './SearchBar.dispatcher';
+export { default as SearchBarDispatcher } from './SearchBar.dispatcher';

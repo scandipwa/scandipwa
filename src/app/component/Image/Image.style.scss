@@ -11,7 +11,7 @@
 
 :root {
     --image-default-background: #f8f8f8;
-    --image-content-color: var(--color-text-black);
+    --image-content-color: #{$black};
 }
 
 .Image {

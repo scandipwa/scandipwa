@@ -12,7 +12,7 @@
 import { Field } from 'Util/Query';
 import { isSignedIn } from 'Util/Auth';
 
-export class Checkout {
+export class CheckoutQuery {
     getEstimateShippingCosts(address, guestCartId) {
         const mutation = new Field('estimateShippingCosts')
             .addArgument('address', 'EstimateShippingCostsAddress!', address)
@@ -128,4 +128,4 @@ export class Checkout {
     }
 }
 
-export default new Checkout();
+export default new CheckoutQuery();
