@@ -15,64 +15,68 @@ import {
     TOGGLE_HEADER_AND_FOOTER
 } from './HeaderAndFooter.action';
 
-const initialState = {
+export const initialState = {
     menu: {},
     isHeaderAndFooterVisible: true
 };
 
+const reduceMenu = (action) => {
+    const { menu: { items: unsortedItems } } = action;
+
+    const items = unsortedItems.sort((
+        { parent_id: PID, position: P },
+        { parent_id: prevPID, position: prevP }
+    ) => (PID - prevPID) || (P - prevP));
+
+    const menu = {};
+    const menuPositionReference = {};
+
+    // TODO: Must take in account menu item position
+    const setToValue = (obj, path, value) => {
+        let i;
+        path = path.split('.');
+        for (i = 0; i < path.length - 1; i++) obj = obj[path[i]];
+        obj[path[i]] = value;
+    };
+
+    const createItem = (data) => {
+        const { parent_id, item_id } = data;
+
+        if (parent_id === 0) {
+            menuPositionReference[item_id] = [];
+            menu[item_id] = {
+                ...data,
+                children: {}
+            };
+        } else {
+            menuPositionReference[item_id] = [...menuPositionReference[parent_id], parent_id];
+            const position = menuPositionReference[item_id];
+            const dotSeparatedPath = `${position.join('.children.')}.children.${item_id}`;
+
+            setToValue(menu, dotSeparatedPath, {
+                ...data,
+                children: {}
+            });
+        }
+    };
+
+    items.forEach((realMenuItem) => {
+        createItem(realMenuItem);
+    });
+
+    return {
+        menu
+    };
+};
+
 const HeaderAndFooterReducer = (state = initialState, action) => {
-    switch (action.type) {
+    const { type, isHeaderAndFooterVisible } = action;
+
+    switch (type) {
     case UPDATE_MENU:
-        const { menu: { items } } = action;
-
-        const menu = {};
-        const menuPositionReference = {};
-
-        const setToValue = (obj, path, value) => {
-            let i;
-            path = path.split('.');
-            for (i = 0; i < path.length - 1; i++) obj = obj[path[i]];
-            obj[path[i]] = value;
-        };
-
-        const createItem = (data) => {
-            const { parent_id, item_id } = data;
-
-            if (parent_id === 0) {
-                menuPositionReference[item_id] = [];
-                menu[item_id] = {
-                    ...data,
-                    children: {}
-                };
-            } else {
-                menuPositionReference[item_id] = [...menuPositionReference[parent_id], parent_id];
-                const position = menuPositionReference[item_id];
-                const dotSeparatedPath = `${position.join('.children.')}.children.${item_id}`;
-
-                setToValue(menu, dotSeparatedPath, {
-                    ...data,
-                    children: {}
-                });
-            }
-        };
-
-        items.forEach((realMenuItem) => {
-            createItem(realMenuItem);
-        });
-
-        return {
-            ...state,
-            menu
-        };
-
+        return { ...state, ...reduceMenu(action) };
     case TOGGLE_HEADER_AND_FOOTER:
-        const { isHeaderAndFooterVisible } = action;
-
-        return {
-            ...state,
-            isHeaderAndFooterVisible
-        };
-
+        return { ...state, isHeaderAndFooterVisible };
     default:
         return state;
     }

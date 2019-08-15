@@ -10,7 +10,7 @@
  */
 
 import UrlRewritesReducer from './UrlRewrites.reducer';
-import UrlRewritesDispatcher, { UrlRewritesDispatcher as UrlRewritesDispatcherClass } from './UrlRewrites.dispatcher';
+import UrlRewritesDispatcher from './UrlRewrites.dispatcher';
 
 import {
     UPDATE_URL_REWRITE,
@@ -22,7 +22,6 @@ import {
 export {
     UrlRewritesReducer,
     UrlRewritesDispatcher,
-    UrlRewritesDispatcherClass,
     UPDATE_URL_REWRITE,
     CLEAR_URL_REWRITE,
     updateUrlRewrite,

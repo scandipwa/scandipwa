@@ -10,9 +10,7 @@
  */
 
 import RelatedProductsReducer from './RelatedProducts.reducer';
-import RelatedProductsDispatcher, {
-    RelatedProductsDispatcher as RelatedProductsDispatcherClass
-} from './RelatedProducts.dispatcher';
+import RelatedProductsDispatcher from './RelatedProducts.dispatcher';
 
 import {
     UPDATE_RELATED_PRODUCTS,
@@ -22,7 +20,6 @@ import {
 export {
     RelatedProductsReducer,
     RelatedProductsDispatcher,
-    RelatedProductsDispatcherClass,
     UPDATE_RELATED_PRODUCTS,
     updateRelatedProducts
 };

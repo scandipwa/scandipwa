@@ -20,7 +20,7 @@ export const UPDATE_ALL_PRODUCTS_IN_CART = 'UPDATE_ALL_PRODUCTS_IN_CART';
  * @param  {Number} totalItems Total number of products in this filter
  * @return {void}
  */
-const addProductToCart = newProduct => ({
+export const addProductToCart = newProduct => ({
     type: ADD_PRODUCT_TO_CART,
     newProduct
 });
@@ -30,7 +30,7 @@ const addProductToCart = newProduct => ({
  * @param  {Object} product Product which should be removed
  * @return {void}
  */
-const removeProductFromCart = product => ({
+export const removeProductFromCart = product => ({
     type: REMOVE_PRODUCT_FROM_CART,
     product
 });
@@ -40,7 +40,7 @@ const removeProductFromCart = product => ({
  * @param  {Array} product Product which should be removed
  * @return {void}
  */
-const updateAllProductsInCart = products => ({
+export const updateAllProductsInCart = products => ({
     type: UPDATE_ALL_PRODUCTS_IN_CART,
     products
 });
@@ -50,14 +50,7 @@ const updateAllProductsInCart = products => ({
  * @param  {Object} totals Object of calculated totals
  * @return {void}
  */
-const updateTotals = cartData => ({
+export const updateTotals = cartData => ({
     type: UPDATE_TOTALS,
     cartData
 });
-
-export {
-    addProductToCart,
-    removeProductFromCart,
-    updateTotals,
-    updateAllProductsInCart
-};

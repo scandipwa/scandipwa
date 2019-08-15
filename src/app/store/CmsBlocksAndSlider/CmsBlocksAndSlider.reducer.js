@@ -14,7 +14,7 @@ import {
     UPDATE_SLIDER
 } from './CmsBlocksAndSlider.action';
 
-const initialState = {
+export const initialState = {
     blocks: {},
     slider: {}
 };

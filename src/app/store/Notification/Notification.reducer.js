@@ -13,7 +13,7 @@ import { SHOW_NOTIFICATION, HIDE_NOTIFICATION } from './Notification.action';
 
 let notificationId = 0;
 
-const initialState = {
+export const initialState = {
     notifications: {}
 };
 

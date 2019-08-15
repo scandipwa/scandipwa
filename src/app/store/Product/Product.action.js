@@ -19,7 +19,7 @@ export const CLEAR_GROUPED_PRODUCT_QUANTITY = 'CLEAR_GROUPED_PRODUCT_QUANTITY';
  * @param  {Number} totalItems Total number of products in this filter
  * @return {void}
  */
-const updateProductDetails = (product) => ({
+export const updateProductDetails = product => ({
     type: UPDATE_PRODUCT_DETAILS,
     product
 });
@@ -30,7 +30,7 @@ const updateProductDetails = (product) => ({
  * @param  {Number} quantity new product quantity
  * @return {void}
  */
-const updateGroupedProductQuantity = (product, quantity) => ({
+export const updateGroupedProductQuantity = (product, quantity) => ({
     type: UPDATE_GROUPED_PRODUCT_QUANTITY,
     product,
     quantity
@@ -40,8 +40,6 @@ const updateGroupedProductQuantity = (product, quantity) => ({
  * Clear quantity of grouped product
  * @return {void}
  */
-const clearGroupedProductQuantity = () => ({
+export const clearGroupedProductQuantity = () => ({
     type: CLEAR_GROUPED_PRODUCT_QUANTITY
 });
-
-export { updateProductDetails, updateGroupedProductQuantity, clearGroupedProductQuantity };

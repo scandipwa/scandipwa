@@ -15,7 +15,7 @@ import {
     UPDATE_RELATED_PRODUCTS
 } from './RelatedProducts.action';
 
-const initialState = {
+export const initialState = {
     relatedProducts: {}
 };
 

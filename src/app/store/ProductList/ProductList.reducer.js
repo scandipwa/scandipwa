@@ -15,7 +15,7 @@ import {
     UPDATE_LOAD_STATUS
 } from 'Store/ProductList';
 
-const initialState = {
+export const initialState = {
     pages: {},
     isLoading: true
 };

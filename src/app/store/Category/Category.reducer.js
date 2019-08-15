@@ -11,7 +11,7 @@
 
 import { UPDATE_CURRENT_CATEGORY } from './Category.action';
 
-const initialState = {
+export const initialState = {
     category: {}
 };
 

@@ -14,7 +14,7 @@ import {
     CLEAR_URL_REWRITE
 } from './UrlRewrites.action';
 
-const initialState = {
+export const initialState = {
     urlRewrite: {}
 };
 

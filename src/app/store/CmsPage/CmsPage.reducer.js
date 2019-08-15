@@ -14,7 +14,7 @@ import {
     UPDATE_LOAD_STATUS
 } from './CmsPage.action';
 
-const initialState = {
+export const initialState = {
     page: {},
     isLoading: true
 };

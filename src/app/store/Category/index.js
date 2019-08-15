@@ -10,7 +10,7 @@
  */
 
 import CategoryReducer from './Category.reducer';
-import CategoryDispatcher, { CategoryDispatcher as CategoryDispatcherClass } from './Category.dispatcher';
+import CategoryDispatcher from './Category.dispatcher';
 import {
     UPDATE_CURRENT_CATEGORY,
     updateCurrentCategory
@@ -19,7 +19,6 @@ import {
 export {
     CategoryReducer,
     CategoryDispatcher,
-    CategoryDispatcherClass,
     UPDATE_CURRENT_CATEGORY,
     updateCurrentCategory
 };
