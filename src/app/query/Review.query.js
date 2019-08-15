@@ -11,7 +11,7 @@
 
 import { Field } from 'Util/Query';
 
-class Review {
+export class ReviewQuery {
     getAddProductReviewMutation(reviewItem) {
         return new Field('addProductReview')
             .addArgument('productReviewItem', 'ProductReviewInput!', reviewItem)
@@ -51,4 +51,4 @@ class Review {
     }
 }
 
-export default new Review();
+export default new ReviewQuery();

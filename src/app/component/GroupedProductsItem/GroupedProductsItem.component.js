@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import Image from 'Component/Image';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import ProductPrice from 'Component/ProductPrice';
@@ -22,7 +22,7 @@ import './GroupedProductsItem.style';
  * Grouped Product Item
  * @class GroupedProduct
  */
-class GroupedProductsItem extends Component {
+class GroupedProductsItem extends PureComponent {
     constructor() {
         super();
 

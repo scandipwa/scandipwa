@@ -10,7 +10,7 @@
  */
 
 import { QueryDispatcher } from 'Util/Request';
-import { CmsBlockQuery, Slider } from 'Query';
+import { CmsBlockQuery, SliderQuery } from 'Query';
 import { showNotification } from 'Store/Notification';
 import { updateCmsBlocks, updateSlider } from 'Store/CmsBlocksAndSlider';
 
@@ -45,7 +45,7 @@ export class CmsBlocksAndSliderDispatcher extends QueryDispatcher {
      */
     prepareRequest(options) {
         return this.isSliderRequested(options)
-            ? [Slider.getQuery(options), CmsBlockQuery.getQuery(options)]
+            ? [SliderQuery.getQuery(options), CmsBlockQuery.getQuery(options)]
             : [CmsBlockQuery.getQuery(options)];
     }
 }

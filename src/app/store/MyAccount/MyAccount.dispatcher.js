@@ -23,7 +23,7 @@ import {
 import { CartDispatcher } from 'Store/Cart';
 import { WishlistDispatcher } from 'Store/Wishlist';
 import { showNotification } from 'Store/Notification';
-import { MyAccount } from 'Query';
+import { MyAccountQuery } from 'Query';
 import { prepareQuery } from 'Util/Query';
 
 /**
@@ -33,7 +33,7 @@ import { prepareQuery } from 'Util/Query';
 export class MyAccountDispatcher {
     requestCustomerData(options, dispatch) {
         const { withAddresses } = options;
-        const query = MyAccount.getCustomer(withAddresses);
+        const query = MyAccountQuery.getCustomer(withAddresses);
 
         return executePost(prepareQuery([query])).then(
             ({ customer }) => dispatch(updateCustomerDetails(customer)),
@@ -42,7 +42,7 @@ export class MyAccountDispatcher {
     }
 
     updateCustomerData(options, dispatch) {
-        const mutation = MyAccount.getUpdateInformationMutation(options);
+        const mutation = MyAccountQuery.getUpdateInformationMutation(options);
         return fetchMutation(mutation).then(
             ({ customer }) => dispatch(updateCustomerDetails(customer)),
             error => dispatch(showNotification('error', error[0].message))
@@ -50,7 +50,7 @@ export class MyAccountDispatcher {
     }
 
     changeCustomerPassword(options, customer, dispatch) {
-        const mutation = MyAccount.getChangeCustomerPasswordMutation(options, customer);
+        const mutation = MyAccountQuery.getChangeCustomerPasswordMutation(options, customer);
 
         return fetchMutation(mutation).then(
             ({ password }) => dispatch(updateCustomerDetails(password)),
@@ -67,7 +67,7 @@ export class MyAccountDispatcher {
     }
 
     createCustomerAddress(options, dispatch) {
-        const mutation = MyAccount.getCreateAddressMutation(options);
+        const mutation = MyAccountQuery.getCreateAddressMutation(options);
 
         return fetchMutation(mutation).then(
             ({ addresses }) => dispatch(updateCustomerDetails(addresses)),
@@ -76,7 +76,7 @@ export class MyAccountDispatcher {
     }
 
     updateCustomerAddress(id, options, dispatch) {
-        const mutation = MyAccount.getUpdateAddressMutation(id, options);
+        const mutation = MyAccountQuery.getUpdateAddressMutation(id, options);
 
         return fetchMutation(mutation).then(
             ({ addresses }) => dispatch(updateCustomerDetails(addresses)),
@@ -91,7 +91,7 @@ export class MyAccountDispatcher {
      * @memberof MyAccountDispatcher
      */
     forgotPassword(options = {}, dispatch) {
-        const mutation = MyAccount.getForgotPasswordMutation(options);
+        const mutation = MyAccountQuery.getForgotPasswordMutation(options);
         fetchMutation(mutation).then(
             () => dispatch(updateCustomerPasswordForgotStatus()),
             error => dispatch(showNotification('error', error[0].message))
@@ -105,7 +105,7 @@ export class MyAccountDispatcher {
      * @memberof MyAccountDispatcher
      */
     resetPassword(options = {}, dispatch) {
-        const mutation = MyAccount.getResetPasswordMutation(options);
+        const mutation = MyAccountQuery.getResetPasswordMutation(options);
         fetchMutation(mutation).then(
             ({ resetPassword: { status } }) => dispatch(updateCustomerPasswordResetStatus(status)),
             () => dispatch(updateCustomerPasswordResetStatus('error'))
@@ -119,7 +119,7 @@ export class MyAccountDispatcher {
      */
     createAccount(options = {}, dispatch) {
         const { customer: { email }, password } = options;
-        const mutation = MyAccount.getCreateAccountMutation(options);
+        const mutation = MyAccountQuery.getCreateAccountMutation(options);
 
         fetchMutation(mutation).then(
             ({ customer }) => {
@@ -136,7 +136,7 @@ export class MyAccountDispatcher {
      * @memberof MyAccountDispatcher
      */
     signIn(options = {}, dispatch) {
-        const mutation = MyAccount.getSignInMutation(options);
+        const mutation = MyAccountQuery.getSignInMutation(options);
 
         return fetchMutation(mutation).then(
             ({ generateCustomerToken: { token } }) => {

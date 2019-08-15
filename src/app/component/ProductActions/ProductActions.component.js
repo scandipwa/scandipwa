@@ -13,7 +13,7 @@
 /* eslint-disable react/no-array-index-key */
 // Disabled due placeholder needs
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { ProductType } from 'Type/ProductList';
 import Field from 'Component/Field';
@@ -29,7 +29,7 @@ import './ProductActions.style';
  * Product actions
  * @class ProductActions
  */
-class ProductActions extends Component {
+class ProductActions extends PureComponent {
     constructor(props) {
         super(props);
 

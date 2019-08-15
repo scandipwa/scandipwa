@@ -15,7 +15,7 @@
 
 // todo fix text type
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import './Field.style';
 import ClickOutside from 'Component/ClickOutside';
@@ -32,7 +32,7 @@ const SELECT_TYPE = 'select';
  * Input fields component
  * @class Field
  */
-class Field extends Component {
+class Field extends PureComponent {
     constructor(props) {
         super(props);
 
@@ -577,6 +577,7 @@ Field.propTypes = {
     onChange: PropTypes.func,
     onFocus: PropTypes.func,
     onClick: PropTypes.func,
+    onBlur: PropTypes.func,
     onKeyPress: PropTypes.func,
     min: PropTypes.number,
     max: PropTypes.number,
@@ -612,6 +613,7 @@ Field.defaultProps = {
     onClick: () => {},
     onFocus: () => {},
     onChange: () => {},
+    onBlur: () => {},
     value: null,
     state: '',
     note: '',

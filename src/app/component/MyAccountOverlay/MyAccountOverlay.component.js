@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Link, withRouter } from 'react-router-dom';
 import { isSignedIn } from 'Util/Auth';
@@ -27,7 +27,7 @@ export const STATE_FORGOT_PASSWORD_SUCCESS = 'forgotPasswordSuccess';
 export const STATE_CREATE_ACCOUNT = 'createAccount';
 export const STATE_LOGGED_IN = 'loggedIn';
 
-class MyAccountOverlay extends Component {
+class MyAccountOverlay extends PureComponent {
     constructor(props) {
         super(props);
 

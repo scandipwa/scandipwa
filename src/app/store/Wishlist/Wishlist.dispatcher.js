@@ -17,7 +17,7 @@ import {
 } from 'Store/Wishlist';
 import { showNotification } from 'Store/Notification';
 import { isSignedIn } from 'Util/Auth';
-import { Wishlist } from 'Query';
+import { WishlistQuery } from 'Query';
 
 /**
  * Product Wishlist Dispatcher
@@ -34,7 +34,7 @@ export class WishlistDispatcher {
 
     _syncWishlistWithBE(dispatch) {
         // Need to get current wishlist from BE, update wishlist
-        return fetchQuery(Wishlist.getWishlistQuery()).then(
+        return fetchQuery(WishlistQuery.getWishlistQuery()).then(
             (data) => {
                 if (data && data.wishlist && data.wishlist.items_count) {
                     const { wishlist } = data;
@@ -65,7 +65,7 @@ export class WishlistDispatcher {
         const { sku } = product;
         const productToAdd = { sku };
 
-        return fetchMutation(Wishlist.getAddProductToWishlistMutation(
+        return fetchMutation(WishlistQuery.getAddProductToWishlistMutation(
             productToAdd
         )).then(
             () => this._syncWishlistWithBE(dispatch).then(
@@ -78,7 +78,7 @@ export class WishlistDispatcher {
 
     removeItemFromWishlist(dispatch, { product, noMessages }) {
         if (noMessages) {
-            return fetchMutation(Wishlist.getRemoveProductFromWishlistMutation(product)).then(
+            return fetchMutation(WishlistQuery.getRemoveProductFromWishlistMutation(product)).then(
                 () => {
                     dispatch(removeItemFromWishlist(product));
                     dispatch(productToBeRemovedAfterAdd(''));
@@ -86,7 +86,7 @@ export class WishlistDispatcher {
             );
         }
 
-        return fetchMutation(Wishlist.getRemoveProductFromWishlistMutation(product)).then(
+        return fetchMutation(WishlistQuery.getRemoveProductFromWishlistMutation(product)).then(
             () => {
                 dispatch(removeItemFromWishlist(product));
                 dispatch(showNotification('success', __('Product has been removed from your Wish List!')));

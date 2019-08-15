@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router';
 import { ProductType } from 'Type/ProductList';
@@ -20,7 +20,7 @@ import './ProductWishlistButton.style';
  * Button for adding product to Cart
  * @class ProductWishlistButton
  */
-class ProductWishlistButton extends Component {
+class ProductWishlistButton extends PureComponent {
     constructor(props) {
         super(props);
         this.state = { isLoading: false, redirectToWishlist: false };

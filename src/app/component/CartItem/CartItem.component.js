@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Image from 'Component/Image';
@@ -23,7 +23,7 @@ import './CartItem.style';
  * Cart and Minicart item
  * @class CartItem
  */
-class CartItem extends Component {
+class CartItem extends PureComponent {
     renderConfiguration() {
         const {
             product: {

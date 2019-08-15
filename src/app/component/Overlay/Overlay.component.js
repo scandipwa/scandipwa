@@ -11,11 +11,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import './Overlay.style';
 
-class Overlay extends Component {
+class Overlay extends PureComponent {
     componentDidUpdate(prevProps) {
         const { onVisible } = this.props;
 

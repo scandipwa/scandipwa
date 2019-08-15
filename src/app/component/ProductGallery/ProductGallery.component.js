@@ -25,10 +25,10 @@ class ProductGallery extends PureComponent {
         this.state = { activeImage: 0 };
 
         this.renderAdditionalPicture = this.renderAdditionalPicture.bind(this);
-        this.changeActiveImage = this.changeActiveImage.bind(this);
+        this.changeActiveImage = this.onActiveImageChange.bind(this);
     }
 
-    changeActiveImage(activeImage) {
+    onActiveImageChange(activeImage) {
         this.setState({ activeImage });
     }
 
@@ -46,7 +46,7 @@ class ProductGallery extends PureComponent {
               elem="Image"
               key={ index }
               mods={ { type } }
-              onClick={ () => this.changeActiveImage(index) }
+              onClick={ () => this.onActiveImageChange(index) }
             >
                 <Image
                   key={ index }
@@ -106,7 +106,7 @@ class ProductGallery extends PureComponent {
                   mix={ { block: 'ProductGallery', elem: 'Slider' } }
                   showCrumbs
                   activeImage={ activeImage }
-                  changeParentActiveImage={ this.changeActiveImage }
+                  onActiveImageChange={ this.onActiveImageChange }
                 >
                     { gallery.map(this.renderSlide) }
                 </Slider>

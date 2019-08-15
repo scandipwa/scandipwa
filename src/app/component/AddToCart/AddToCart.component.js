@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { ProductType } from 'Type/ProductList';
 import './AddToCart.style';
@@ -18,7 +18,7 @@ import './AddToCart.style';
  * Button for adding product to Cart
  * @class AddToCart
  */
-class AddToCart extends Component {
+class AddToCart extends PureComponent {
     render() {
         const {
             mix,

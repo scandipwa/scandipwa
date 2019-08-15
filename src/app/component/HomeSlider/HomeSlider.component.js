@@ -10,7 +10,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Link } from 'react-router-dom';
 import Slider from 'Component/Slider';
 import { SliderType } from 'Type/Slider';
@@ -22,13 +22,39 @@ import './HomeSlider.style';
  * Homepage slider
  * @class HomeSlider
  */
-class HomeSlider extends Component {
+class HomeSlider extends PureComponent {
+    constructor(props) {
+        super(props);
+
+        this.renderSlide = this.renderSlide.bind(this);
+    }
+
     getGalleryPictures() {
         const { slider } = this.props;
 
         return Object.keys(slider).length > 0
             ? slider.slides.map(({ image, slide_text }) => ({ image, slide_text }))
-            : [{ image: '', slide_text: '' }];
+            : [{ image: '', slide_text: '', isPlaceholder: true }];
+    }
+
+    renderSlide({ image, slide_text, isPlaceholder }, i) {
+        return (
+            <figure block="HomeSlider" elem="Figure" key={ i }>
+                <Image
+                  mix={ { block: 'HomeSlider', elem: 'FigureImage' } }
+                  ratio="custom"
+                  src={ image }
+                  isPlaceholder={ isPlaceholder }
+                />
+                <figcaption
+                  block="HomePage"
+                  elem="Figcaption"
+                  mix={ { block: 'HomeSlider', elem: 'Figcaption' } }
+                >
+                    <Html content={ slide_text } />
+                </figcaption>
+            </figure>
+        );
     }
 
     render() {
@@ -36,47 +62,12 @@ class HomeSlider extends Component {
 
         return (
             <Link to="/category/women/women-dresses" className="HomeSlider">
-                {/* <Slider
+                <Slider
                   mix={ { block: 'HomeSlider' } }
                   showCrumbs
                 >
-                    { gallery.map((({ image, slide_text }, i) => (
-                        <figure block="HomeSlider" elem="Figure" key={ i }>
-                            <Image
-                              mix={ { block: 'HomeSlider', elem: 'FigureImage' } }
-                              ratio="custom"
-                              objectFit="cover"
-                              src={ image }
-                              hasNoPlaceholder
-                              showGreyPlaceholder
-                            />
-                            <figcaption
-                              block="HomePage"
-                              elem="Figcaption"
-                              mix={ { block: 'HomeSlider', elem: 'Figcaption' } }
-                            >
-                                <Html content={ slide_text } />
-                            </figcaption>
-                        </figure>
-                    ))) }
-                </Slider> */}
-
-                <figure block="HomeSlider" elem="Figure">
-                    <Image
-                      mix={ { block: 'HomeSlider', elem: 'FigureImage' } }
-                      ratio="custom"
-                      objectFit="cover"
-                      src="/media/scandiweb/slider/s/l/slider-woman-on-the-beach.jpg"
-                    />
-                    <figcaption
-                      block="HomePage"
-                      elem="Figcaption"
-                      mix={ { block: 'HomeSlider', elem: 'Figcaption' } }
-                    >
-                        <h1 block="HomeSlider" elem="Heading">SUMMER mood</h1>
-                        <button block="Button">SEE DRESS COLLECTION</button>
-                    </figcaption>
-                </figure>
+                    { gallery.map(this.renderSlide) }
+                </Slider>
             </Link>
         );
     }
