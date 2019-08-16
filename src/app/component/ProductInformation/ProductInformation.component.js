@@ -36,10 +36,12 @@ class ProductInformation extends PureComponent {
     }
 
     render() {
-        const { product: { description, thumbnail: { path = '' } = {} } } = this.props;
+        const { product: { id, description, thumbnail: { path = '' } = {} } } = this.props;
         const { html } = description || {};
-
         const imageUrl = path && `${PRODUCT_IMAGE_PATH}${ path }`;
+
+        if (!html && id) return null;
+
         return (
             <ContentWrapper
               label="Product information"

@@ -11,6 +11,7 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { MixType } from 'Type/Common';
 import './TextPlaceholder.style';
 
 /**
@@ -19,9 +20,9 @@ import './TextPlaceholder.style';
  */
 class TextPlaceholder extends PureComponent {
     render() {
-        const { content, length } = this.props;
+        const { content, length, mix } = this.props;
         if (content) return content;
-        return <span block="TextPlaceholder" mods={ { length } } />;
+        return <span mix={ mix } block="TextPlaceholder" mods={ { length } } />;
     }
 }
 
@@ -35,13 +36,16 @@ TextPlaceholder.propTypes = {
         'short',
         'medium',
         'long',
-        'paragraph'
-    ])
+        'paragraph',
+        'custom'
+    ]),
+    mix: MixType
 };
 
 TextPlaceholder.defaultProps = {
     content: '',
-    length: 'short'
+    length: 'short',
+    mix: {}
 };
 
 export default TextPlaceholder;

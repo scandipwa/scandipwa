@@ -10,7 +10,9 @@
  */
 
 .ProductPage {
-    padding-top: 1rem;
+    @include after-mobile {
+        padding-top: 1rem;
+    }
 
     > section:nth-child(even) {
         background-color: #{$concrete};

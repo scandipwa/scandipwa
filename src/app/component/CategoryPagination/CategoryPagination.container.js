@@ -1,7 +1,10 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
+
 import { generateQuery } from 'Util/Url';
+import { HistoryType } from 'Type/Common';
+import { LocationType } from 'Type/Router';
+
 import CategoryPagination from './CategoryPagination.component';
 
 export class CategoryPaginationContainer extends PureComponent {
@@ -30,13 +33,8 @@ export class CategoryPaginationContainer extends PureComponent {
 }
 
 CategoryPaginationContainer.propTypes = {
-    history: PropTypes.shape({
-        location: PropTypes.object.isRequired,
-        push: PropTypes.func.isRequired
-    }).isRequired,
-    location: PropTypes.shape({
-        pathname: PropTypes.string.isRequired
-    }).isRequired
+    history: HistoryType.isRequired,
+    location: LocationType.isRequired
 };
 
 export default withRouter(CategoryPaginationContainer);

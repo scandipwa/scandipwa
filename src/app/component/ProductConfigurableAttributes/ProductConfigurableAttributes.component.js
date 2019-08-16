@@ -79,14 +79,24 @@ class ProductConfigurableAttributes extends Component {
     }
 
     renderPlaceholders() {
-        return Array.from({ length: 2 }, (_, i) => (
+        const { numberOfPlaceholders, isContentExpanded } = this.props;
+
+        return numberOfPlaceholders.map((length, i) => (
             <ExpandableContent
+              // eslint-disable-next-line react/no-array-index-key
               key={ i }
               mix={ { block: 'ProductConfigurableAttributes' } }
+              isContentExpanded={ isContentExpanded }
             >
-                <div block="ProductConfigurableAttributes" elem="AttributesList">
-                    { Array.from({ length: 6 }, i => (
+                <div
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={ i }
+                  block="ProductConfigurableAttributes"
+                  elem="AttributesList"
+                >
+                    { Array.from({ length }, (_, i) => (
                         <div
+                          // eslint-disable-next-line react/no-array-index-key
                           key={ i }
                           block="ProductConfigurableAttributes"
                           elem="Placeholder"
@@ -98,17 +108,18 @@ class ProductConfigurableAttributes extends Component {
     }
 
     renderConfigurableAttributes() {
-        const { configurable_options } = this.props;
+        const { configurable_options, isContentExpanded } = this.props;
 
         return Object.values(configurable_options).map((option) => {
-            const { attribute_values, attribute_label } = option;
+            const { attribute_values, attribute_label, attribute_code } = option;
 
             return (
                 <ExpandableContent
-                  key={ attribute_label }
+                  key={ attribute_code }
                   heading={ attribute_label }
                   subHeading={ this.getSubHeading(option) }
-                  mix={ { block: 'ProductConfigurableAttributes' } }
+                  mix={ { block: 'ProductConfigurableAttributes', elem: 'Expandable' } }
+                  isContentExpanded={ isContentExpanded }
                 >
                     <div block="ProductConfigurableAttributes" elem="AttributesList">
                         { attribute_values.map(attribute_value => (
@@ -132,6 +143,8 @@ class ProductConfigurableAttributes extends Component {
 }
 
 ProductConfigurableAttributes.propTypes = {
+    isContentExpanded: PropTypes.bool,
+    numberOfPlaceholders: PropTypes.arrayOf(PropTypes.number),
     configurable_options: PropTypes.objectOf(AttributeType).isRequired,
     getLink: PropTypes.func.isRequired,
     parameters: PropTypes.shape({}).isRequired,
@@ -145,7 +158,9 @@ ProductConfigurableAttributes.propTypes = {
 
 ProductConfigurableAttributes.defaultProps = {
     isReady: true,
-    mix: {}
+    mix: {},
+    numberOfPlaceholders: [6, 10, 7],
+    isContentExpanded: false
 };
 
 export default ProductConfigurableAttributes;

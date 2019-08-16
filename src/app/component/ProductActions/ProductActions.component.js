@@ -29,37 +29,8 @@ import './ProductActions.style';
  * @class ProductActions
  */
 class ProductActions extends PureComponent {
-    constructor(props) {
-        super(props);
-
-        this.optionsInCurrentVariant = {};
-        this.setQuantityToDefault = this.setQuantityToDefault.bind(this);
-        this.state = {
-            quantity: 1
-        };
-    }
-
-    // TODO: make key=>value based
-    getIsOptionInCurrentVariant(attribute, value) {
-        const { configurableVariantIndex, product: { variants } } = this.props;
-        if (!variants) return false;
-        return variants[configurableVariantIndex].product[attribute] === value;
-    }
-
-    setQuantityToDefault() {
-        this.setState({ quantity: 1 });
-    }
-
-    showOnlyIfLoaded(expression, content, placeholder = content) {
-        const { areDetailsLoaded } = this.props;
-
-        if (!areDetailsLoaded) return placeholder;
-        if (areDetailsLoaded && !expression) return null;
-        return content;
-    }
-
     renderSkuAndStock() {
-        const { product: { sku } } = this.props;
+        const { product: { sku }, showOnlyIfLoaded } = this.props;
 
         return (
             <section
@@ -68,13 +39,14 @@ class ProductActions extends PureComponent {
               mods={ { type: 'sku' } }
               aria-label="Product SKU and availability"
             >
-                { this.showOnlyIfLoaded(
+                { showOnlyIfLoaded(
                     sku,
                     (
-                    <>
-                        <span block="ProductActions" elem="Sku">{ `SKU: ${ sku }` }</span>
-                        <span block="ProductActions" elem="Stock">In Stock</span>
-                    </>),
+                        <>
+                            <span block="ProductActions" elem="Sku" itemProp="sku">{ `SKU: ${ sku }` }</span>
+                            <span block="ProductActions" elem="Stock">In Stock</span>
+                        </>
+                    ),
                     <TextPlaceholder />
                 ) }
             </section>
@@ -94,19 +66,24 @@ class ProductActions extends PureComponent {
 
         return (
             <ProductConfigurableAttributes
+              numberOfPlaceholders={ [2, 4] }
               mix={ { block: 'ProductActions', elem: 'Attributes' } }
               isReady={ areDetailsLoaded }
               getLink={ getLink }
               parameters={ parameters }
               updateConfigurableVariant={ updateUrl }
               configurable_options={ configurable_options }
+              isContentExpanded
             />
         );
     }
 
     renderShortDescription() {
-        const { product: { short_description, brand } } = this.props;
+        const { product: { short_description, id } } = this.props;
         const { html } = short_description || {};
+        const htmlWithItemProp = `<div itemProp="description">${html}</div>`;
+
+        if (!html && id) return null;
 
         return (
             <section
@@ -115,20 +92,8 @@ class ProductActions extends PureComponent {
               mods={ { type: 'short' } }
               aria-label="Product short description"
             >
-                { this.showOnlyIfLoaded(
-                    brand,
-                    (
-                        <h4
-                          block="ProductActions"
-                          elem="SectionHeading"
-                          mods={ { type: 'brand' } }
-                        >
-                            <TextPlaceholder content={ brand } />
-                        </h4>
-                    )
-                ) }
                 <div block="ProductActions" elem="ShortDescription">
-                    { html ? <Html content={ html } /> : <TextPlaceholder length="long" /> }
+                    { html ? <Html content={ htmlWithItemProp } /> : <p><TextPlaceholder length="long" /></p> }
                 </div>
             </section>
         );
@@ -140,7 +105,8 @@ class ProductActions extends PureComponent {
             {
                 name,
                 attributes: { brand: { attribute_value: brand } = {} } = {}
-            }
+            },
+            showOnlyIfLoaded
         } = this.props;
 
         return (
@@ -149,15 +115,15 @@ class ProductActions extends PureComponent {
               elem="Section"
               mods={ { type: 'name' } }
             >
-                { this.showOnlyIfLoaded(
+                { showOnlyIfLoaded(
                     brand,
                     (
-                        <h4 block="ProductActions" elem="Brand">
+                        <h4 block="ProductActions" elem="Brand" itemProp="brand">
                             <TextPlaceholder content={ brand } />
                         </h4>
                     )
                 ) }
-                <p block="ProductActions" elem="Title">
+                <p block="ProductActions" elem="Title" itemProp="name">
                     <TextPlaceholder content={ name } length="medium" />
                 </p>
             </section>
@@ -165,7 +131,7 @@ class ProductActions extends PureComponent {
     }
 
     renderQuantityInput() {
-        const { quantity } = this.state;
+        const { quantity, setQuantity } = this.props;
 
         return (
             <Field
@@ -175,14 +141,13 @@ class ProductActions extends PureComponent {
               min={ 1 }
               value={ quantity }
               mix={ { block: 'ProductActions', elem: 'Qty' } }
-              onChange={ value => this.setState({ quantity: value }) }
+              onChange={ value => setQuantity(value) }
             />
         );
     }
 
     renderAddToCart() {
-        const { configurableVariantIndex, product } = this.props;
-        const { quantity } = this.state;
+        const { configurableVariantIndex, product, quantity } = this.props;
 
         return (
             <AddToCart
@@ -224,11 +189,14 @@ class ProductActions extends PureComponent {
 
 ProductActions.propTypes = {
     product: ProductType.isRequired,
-    getLink: PropTypes.func.isRequired,
-    updateUrl: PropTypes.func.isRequired,
-    parameters: PropTypes.objectOf(PropTypes.string).isRequired,
     configurableVariantIndex: PropTypes.number,
-    areDetailsLoaded: PropTypes.bool.isRequired
+    showOnlyIfLoaded: PropTypes.func.isRequired,
+    quantity: PropTypes.number.isRequired,
+    areDetailsLoaded: PropTypes.bool.isRequired,
+    getLink: PropTypes.func.isRequired,
+    setQuantity: PropTypes.func.isRequired,
+    updateUrl: PropTypes.func.isRequired,
+    parameters: PropTypes.objectOf(PropTypes.string).isRequired
 };
 
 ProductActions.defaultProps = {
