@@ -98,24 +98,7 @@ ProductPage.propTypes = {
     parameters: PropTypes.objectOf(PropTypes.string).isRequired,
     updateUrl: PropTypes.func.isRequired,
     dataSource: ProductType.isRequired,
-    location: PropTypes.shape({
-        pathname: PropTypes.string.isRequired,
-        state: PropTypes.shape({
-            product: ProductType
-        })
-    }),
-    history: PropTypes.shape({
-        location: PropTypes.object.isRequired,
-        push: PropTypes.func.isRequired
-    }).isRequired,
-    match: PropTypes.shape({
-        path: PropTypes.string.isRequired
-    }).isRequired,
     areDetailsLoaded: PropTypes.bool.isRequired
-};
-
-ProductPage.defaultProps = {
-    location: { state: {} }
 };
 
 export default ProductPage;

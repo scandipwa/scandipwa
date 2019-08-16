@@ -384,12 +384,13 @@ class CheckoutPreviewAndPaymentsStep extends PureComponent {
 
         return (
             buttonsParams && (
-            <button
-              type="button"
-              onClick={ () => this.changeState(buttonsParams.type, false) }
-            >
-                {buttonsParams.message}
-            </button>)
+                <button
+                  type="button"
+                  onClick={ () => this.changeState(buttonsParams.type, false) }
+                >
+                    {buttonsParams.message}
+                </button>
+            )
         );
     }
 

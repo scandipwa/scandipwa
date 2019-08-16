@@ -12,6 +12,7 @@
 import React, { PureComponent, Children } from 'react';
 import PropTypes from 'prop-types';
 import Field from 'Component/Field';
+import { MixType, ChildrenType } from 'Type/Common';
 import validationConfig from './Form.config';
 
 class Form extends PureComponent {
@@ -171,14 +172,8 @@ Form.propTypes = {
     onSubmitSuccess: PropTypes.func,
     onSubmitError: PropTypes.func,
     onSubmit: PropTypes.func,
-    children: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.node),
-        PropTypes.node
-    ]).isRequired,
-    mix: PropTypes.shape({
-        block: PropTypes.string,
-        elem: PropTypes.string
-    })
+    children: ChildrenType.isRequired,
+    mix: MixType
 };
 
 Form.defaultProps = {

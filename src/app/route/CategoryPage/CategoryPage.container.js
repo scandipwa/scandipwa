@@ -15,10 +15,11 @@ import React, { PureComponent } from 'react';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import { CategoryDispatcher } from 'Store/Category';
 import { toggleOverlayByKey } from 'Store/Overlay';
-import { CategoryTreeType } from 'Type/Category';
 import { changeHeaderState } from 'Store/Header';
-import { PagesType } from 'Type/ProductList';
+import { CategoryTreeType } from 'Type/Category';
 import { CATEGORY } from 'Component/Header';
+import { PagesType } from 'Type/ProductList';
+import { HistoryType, LocationType, MatchType } from 'Type/Common';
 
 import {
     ProductListDispatcher,
@@ -37,6 +38,7 @@ import {
     clearQueriesFromUrl,
     convertQueryStringToKeyValuePairs
 } from 'Util/Url';
+
 
 import CategoryPage from './CategoryPage.component';
 
@@ -397,21 +399,14 @@ export class CategoryPageContainer extends PureComponent {
 }
 
 CategoryPageContainer.propTypes = {
-    history: PropTypes.shape({
-        location: PropTypes.object.isRequired,
-        push: PropTypes.func.isRequired
-    }).isRequired,
+    history: HistoryType.isRequired,
     category: CategoryTreeType.isRequired,
     pages: PagesType.isRequired,
     totalItems: PropTypes.number.isRequired,
     minPriceRange: PropTypes.number.isRequired,
     maxPriceRange: PropTypes.number.isRequired,
-    location: PropTypes.shape({
-        pathname: PropTypes.string.isRequired
-    }).isRequired,
-    match: PropTypes.shape({
-        path: PropTypes.string.isRequired
-    }).isRequired,
+    location: LocationType.isRequired,
+    match: MatchType.isRequired,
     requestCategory: PropTypes.func.isRequired,
     changeHeaderState: PropTypes.func.isRequired,
     requestProductList: PropTypes.func.isRequired,

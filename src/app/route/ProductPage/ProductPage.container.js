@@ -17,7 +17,6 @@ import { ProductDispatcher } from 'Store/Product';
 import { changeHeaderState } from 'Store/Header';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import { history } from 'Route';
-import { ProductType } from 'Type/ProductList';
 import { PDP } from 'Component/Header';
 import { getVariantIndex } from 'Util/Product';
 import {
@@ -26,6 +25,9 @@ import {
     updateQueryParamWithoutHistory,
     convertKeyValueObjectToQueryString
 } from 'Util/Url';
+
+import { ProductType } from 'Type/ProductList';
+import { LocationType, HistoryType, MatchType } from 'Type/Common';
 
 import ProductPage from './ProductPage.component';
 
@@ -237,25 +239,15 @@ export class ProductPageContainer extends PureComponent {
 }
 
 ProductPageContainer.propTypes = {
-    location: PropTypes.shape({
-        pathname: PropTypes.string.isRequired,
-        state: PropTypes.shape({
-            product: ProductType
-        })
-    }),
+    location: LocationType,
     isOnlyPlaceholder: PropTypes.bool,
     changeHeaderState: PropTypes.func.isRequired,
     updateBreadcrumbs: PropTypes.func.isRequired,
     requestProduct: PropTypes.func.isRequired,
     product: ProductType.isRequired,
     clearGroupedProductQuantity: PropTypes.func.isRequired,
-    history: PropTypes.shape({
-        location: PropTypes.object.isRequired,
-        push: PropTypes.func.isRequired
-    }).isRequired,
-    match: PropTypes.shape({
-        path: PropTypes.string.isRequired
-    }).isRequired
+    history: HistoryType.isRequired,
+    match: MatchType.isRequired
 };
 
 ProductPageContainer.defaultProps = {

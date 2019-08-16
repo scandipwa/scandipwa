@@ -379,27 +379,30 @@ class CheckoutShippingStep extends PureComponent {
             <>
                 {defaultShippingAddress
                     && (
-                    <div block="CheckoutShippingStep" elem="ButtonWrapper">
-                        <button
-                          block="CheckoutShippingStep"
-                          elem="ButtonDefault"
-                        >
-                            { __("I'd like to use the default shipping address") }
-                        </button>
-                    </div>)
+                        <div block="CheckoutShippingStep" elem="ButtonWrapper">
+                            <button
+                              block="CheckoutShippingStep"
+                              elem="ButtonDefault"
+                            >
+                                { __("I'd like to use the default shipping address") }
+                            </button>
+                        </div>
+                    )
                 }
-                { !isSignedIn && (
-                    <fieldset>
-                        <legend
-                          block="CheckoutPage"
-                          elem="Heading"
-                          mods={ { hasDivider: true } }
-                        >
-                            { __('1. Shipping') }
-                        </legend>
-                        { this.renderField(EMAIL_FIELD_ID) }
-                        { this.renderField(PHONE_FIELD_ID) }
-                    </fieldset>)
+                { !isSignedIn
+                    && (
+                        <fieldset>
+                            <legend
+                              block="CheckoutPage"
+                              elem="Heading"
+                              mods={ { hasDivider: true } }
+                            >
+                                { __('1. Shipping') }
+                            </legend>
+                            { this.renderField(EMAIL_FIELD_ID) }
+                            { this.renderField(PHONE_FIELD_ID) }
+                        </fieldset>
+                    )
                 }
                 <fieldset>
                     <legend block="CheckoutPage" elem="Heading">
@@ -442,10 +445,14 @@ class CheckoutShippingStep extends PureComponent {
                     <dl>
                         <dt>{ __('Contact details:') }</dt>
                         <dd>{ `${ firstname } ${ lastname }` }</dd>
-                        { company && (<>
-                            <dt>{ __('Company name') }</dt>
-                            <dd>{ company }</dd>
-                        </>)}
+                        { company
+                            && (
+                                <>
+                                    <dt>{ __('Company name') }</dt>
+                                    <dd>{ company }</dd>
+                                </>
+                            )
+                        }
                         <dt>{ __('Shipping address:') }</dt>
                         <dd>{ `${country_id }, ${regionName}, ${city}` }</dd>
                         <dd>{ street[0] }</dd>

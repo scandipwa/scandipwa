@@ -37,9 +37,6 @@ export class AddToCartContainer extends PureComponent {
         this.state = { isLoading: false };
         this.timeOut = null;
         this.containerFunctions = {
-            componentWillUnmount: this.componentWillUnmount.bind(this),
-            setAnimationTimeout: this.setAnimationTimeout.bind(this),
-            afterAdded: this.afterAdded.bind(this),
             buttonClick: this.buttonClick.bind(this)
         };
     }
@@ -48,45 +45,6 @@ export class AddToCartContainer extends PureComponent {
         clearTimeout(this.timeOut);
     }
 
-    /**
-     * Switch button text to indicated that product has been added
-     * @return {Promise}
-     */
-    setAnimationTimeout() {
-        return setTimeout(() => {
-            this.timeOut = null;
-            this.setState(({ transition }) => ({ transition: !transition }));
-        }, 1500);
-    }
-
-    afterAdded() {
-        const {
-            showNotification,
-            setQuantityToDefault,
-            productToBeRemovedAfterAdd,
-            removeProductFromWishlist,
-            wishlistItems,
-            product,
-            removeWishlistItem
-        } = this.props;
-
-        showNotification('success', 'Product added to cart!');
-        setQuantityToDefault();
-
-        const { sku, id } = product;
-
-        // for configurable products productToBeRemovedAfterAdd will be saved in state
-        if (removeWishlistItem || (productToBeRemovedAfterAdd === sku && wishlistItems[id])) {
-            removeProductFromWishlist({ product: wishlistItems[id], noMessages: true });
-        }
-
-        this.setState({ isLoading: false });
-    }
-
-    /**
-     * Button click listener
-     * @return {void}
-     */
     buttonClick() {
         const {
             product,
@@ -115,7 +73,7 @@ export class AddToCartContainer extends PureComponent {
                     product: groupedProductItem,
                     quantity: groupedProductQuantity[groupedProductItem.id]
                 });
-            })).then(() => this.afterAdded());
+            })).then(() => this._afterAdded());
         }
         const productToAdd = variants
             ? {
@@ -127,9 +85,32 @@ export class AddToCartContainer extends PureComponent {
         return addProduct({
             product: productToAdd,
             quantity
-        }).then(() => this.afterAdded());
+        }).then(() => this._afterAdded());
     }
 
+    _afterAdded() {
+        const {
+            showNotification,
+            setQuantityToDefault,
+            productToBeRemovedAfterAdd,
+            removeProductFromWishlist,
+            wishlistItems,
+            product,
+            removeWishlistItem
+        } = this.props;
+
+        showNotification('success', 'Product added to cart!');
+        setQuantityToDefault();
+
+        const { sku, id } = product;
+
+        // for configurable products productToBeRemovedAfterAdd will be saved in state
+        if (removeWishlistItem || (productToBeRemovedAfterAdd === sku && wishlistItems[id])) {
+            removeProductFromWishlist({ product: wishlistItems[id], noMessages: true });
+        }
+
+        this.setState({ isLoading: false });
+    }
 
     render() {
         return (

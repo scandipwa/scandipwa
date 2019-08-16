@@ -12,6 +12,7 @@
 
 import React, { PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
+import { MixType } from 'Type/Common';
 import './Image.style';
 
 /**
@@ -123,14 +124,7 @@ Image.propTypes = {
         'square',
         'custom'
     ]),
-    mix: PropTypes.shape({
-        block: PropTypes.string,
-        elem: PropTypes.string,
-        mods: PropTypes.objectOf(PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.bool
-        ]))
-    })
+    mix: MixType
 };
 
 Image.defaultProps = {

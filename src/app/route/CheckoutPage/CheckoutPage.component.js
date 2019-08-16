@@ -23,6 +23,7 @@ import CheckoutShippingStep from 'Component/CheckoutShippingStep';
 import CheckoutPreviewAndPaymentsStep from 'Component/CheckoutPreviewAndPaymentsStep';
 import { getUrlParam } from 'Util/Url';
 import { customerType } from 'Type/Account';
+import { MatchType, LocationType } from 'Type/Common';
 import { CHECKOUT } from 'Component/Header';
 import './CheckoutPage.style';
 
@@ -362,7 +363,9 @@ CheckoutPage.propTypes = {
     countryList: PropTypes.arrayOf(PropTypes.shape).isRequired,
     customer: customerType.isRequired,
     products: PropTypes.objectOf(ProductType),
-    totals: TotalsType.isRequired
+    totals: TotalsType.isRequired,
+    match: MatchType.isRequired,
+    location: LocationType.isRequired
 };
 
 CheckoutPage.defaultProps = {
