@@ -9,9 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { ProductDispatcher } from 'Store/Product';
+import { ProductType } from 'Type/ProductList';
 import GroupedProductsItem from './GroupedProductsItem.component';
 
 export const mapStateToProps = state => ({
@@ -72,5 +74,10 @@ export class GroupedProductsItemContainer extends PureComponent {
         );
     }
 }
+
+GroupedProductsItemContainer.propTypes = {
+    product: ProductType.isRequired,
+    groupedProductQuantity: PropTypes.number.isRequired
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(GroupedProductsItemContainer);
