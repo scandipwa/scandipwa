@@ -170,19 +170,20 @@ export class HeaderContainer extends PureComponent {
             headerState: { name }
         } = this.props;
 
-        if (isMobile.any() || name === MENU) {
-            setHeaderState({
-                name: SEARCH,
-                onBackClick: () => {
-                    showOverlay(MENU);
-                    goToPreviousHeaderState();
-                }
-            });
-        }
-
-        if (name === SEARCH) return;
+        if (
+            (!isMobile.any() && name === SEARCH)
+            || (isMobile.any() && name !== MENU)
+        ) return;
 
         showOverlay(SEARCH);
+
+        setHeaderState({
+            name: SEARCH,
+            onBackClick: () => {
+                showOverlay(MENU);
+                goToPreviousHeaderState();
+            }
+        });
     }
 
     onSearchBarChange({ target: { value: searchCriteria } }) {
