@@ -40,9 +40,8 @@ class Breadcrumbs extends PureComponent {
                   elem="Link"
                   to={ url || '' }
                   tabIndex={ isDisabled ? '-1' : '0' }
-                  itemType="https://schema.org/Thing"
-                  itemProp="item"
                 >
+                    <meta itemProp="item" content={ window.location.origin + (url || '') } />
                     <span itemProp="name">
                         <TextPlaceholder content={ name } />
                     </span>

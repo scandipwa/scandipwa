@@ -29,28 +29,6 @@ import './ProductActions.style';
  * @class ProductActions
  */
 class ProductActions extends PureComponent {
-    // renderGroupedProductOptions() {
-    //     const { product, groupedProductQuantity, product: { type_id } } = this.props;
-
-    //     if (type_id === 'grouped') {
-    //         return (
-    //             <section
-    //               block="ProductActions"
-    //               elem="Section"
-    //               mods={ { type: 'grouped' } }
-    //               aria-label="Product short description"
-    //             >
-    //                 <GroupedProductList
-    //                   product={ product }
-    //                   groupedProductQuantity={ groupedProductQuantity }
-    //                 />
-    //             </section>
-    //         );
-    //     }
-
-    //     return null;
-    // }
-
     renderSkuAndStock() {
         const { product: { sku }, showOnlyIfLoaded } = this.props;
 
@@ -182,9 +160,7 @@ class ProductActions extends PureComponent {
         const {
             configurableVariantIndex,
             product,
-            groupedProductQuantity,
-            quantity,
-            setQuantityToDefault
+            quantity
         } = this.props;
 
         return (
@@ -193,7 +169,6 @@ class ProductActions extends PureComponent {
               configurableVariantIndex={ configurableVariantIndex }
               mix={ { block: 'ProductActions', elem: 'AddToCart' } }
               quantity={ quantity }
-            //   setQuantityToDefault={ setQuantityToDefault }
             />
         );
     }
@@ -208,102 +183,6 @@ class ProductActions extends PureComponent {
             />
         );
     }
-
-    // renderOtherOptions() {
-    //     const { availableFilters, showOnlyIfLoaded } = this.props;
-    //     const hasAvailableFilter = Object.keys(availableFilters).length;
-
-    //     return showOnlyIfLoaded(
-    //         hasAvailableFilter,
-    //         (Object.entries(availableFilters).map(([code, option]) => {
-    //             if (code === 'color') return null;
-    //             const { label: optionLabel = '' } = option;
-
-    //             return (
-    //                 <section
-    //                   key={ code }
-    //                   block="ProductActions"
-    //                   elem="Section"
-    //                   mods={ { type: optionLabel.toLowerCase() } }
-    //                   mix={ { block: 'ProductActions', elem: 'Option' } }
-    //                   aria-label={ `${ optionLabel } options` }
-    //                 >
-    //                     <h4 block="ProductActions" elem="SectionHeading" itemProp="color">{ optionLabel }</h4>
-    //                     {/* { values.map(({ value, label, id }) => (
-    //                         <Swatch
-    //                           key={ id }
-    //                           onClick={ () => this.changeConfigurableVariant(code, id) }
-    //                           mix={ { block: 'ProductActions', elem: 'TextOption' } }
-    //                           isSelected={ this.getIsOptionInCurrentVariant(code, id) }
-    //                           filterItem={ { label, swatch_data: { value } } }
-    //                           requestVar={ code }
-    //                         />
-    //                     )) } */}
-    //                 </section>
-    //             );
-    //         })),
-    //         (
-    //             <section
-    //               block="ProductActions"
-    //               elem="Section"
-    //               mix={ { block: 'ProductActions', elem: 'Option' } }
-    //               aria-label="Loading other options"
-    //             >
-    //                 <h4 block="ProductActions" elem="SectionHeading">
-    //                     <TextPlaceholder />
-    //                 </h4>
-    //                 { new Array(4).fill().map((_, i) => (
-    //                     <Swatch
-    //                       key={ i }
-    //                       mix={ { block: 'ProductActions', elem: 'PlaceholderOption' } }
-    //                       requestVar="placeholder"
-    //                     />
-    //                 )) }
-    //             </section>
-    //         )
-    //     );
-    // }
-
-    // renderColorOptions() {
-    //     const {
-    //         availableFilters: { color },
-    //         areDetailsLoaded,
-    //         showOnlyIfLoaded,
-    //         changeConfigurableVariant,
-    //         getIsOptionInCurrentVariant
-    //     } = this.props;
-    //     const { values: colorOptions = [] } = color || {};
-
-    //     const renderColor = content => (
-    //         <section block="ProductActions" elem="Colors" aria-label="Color options">
-    //             <h4 block="ProductActions" elem="SectionHeading" mods={ { type: 'color' } }>
-    //                 <TextPlaceholder content={ areDetailsLoaded && 'Color' } />
-    //             </h4>
-    //             { content }
-    //         </section>
-    //     );
-
-    //     return showOnlyIfLoaded(
-    //         color,
-    //         renderColor(colorOptions.map(({ value, label, id }) => (
-    //             <Swatch
-    //               key={ id }
-    //               mix={ { block: 'ProductActions', elem: 'Color' } }
-    //               onClick={ changeConfigurableVariant('color', id) }
-    //               isSelected={ getIsOptionInCurrentVariant('color', id) }
-    //               filterItem={ { label, swatch_data: { value } } }
-    //               requestVar="color"
-    //             />
-    //         ))),
-    //         renderColor(new Array(4).fill().map((_, i) => (
-    //             <Swatch
-    //               key={ i }
-    //               requestVar="color"
-    //               mix={ { block: 'ProductActions', elem: 'Color' } }
-    //             />
-    //         )))
-    //     );
-    // }
 
     render() {
         return (
@@ -325,15 +204,13 @@ class ProductActions extends PureComponent {
 ProductActions.propTypes = {
     product: ProductType.isRequired,
     configurableVariantIndex: PropTypes.number,
-    // areDetailsLoaded: PropTypes.bool.isRequired,
-    // groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired,
-    // setQuantityToDefault: PropTypes.func.isRequired,
     showOnlyIfLoaded: PropTypes.func.isRequired,
-    // changeConfigurableVariant: PropTypes.func.isRequired,
-    // getIsOptionInCurrentVariant: PropTypes.func.isRequired,
-    // setQuantity: PropTypes.func.isRequired,
-    // quantity: PropTypes.number.isRequired
-    areDetailsLoaded: PropTypes.bool.isRequired
+    quantity: PropTypes.number.isRequired,
+    areDetailsLoaded: PropTypes.bool.isRequired,
+    getLink: PropTypes.func.isRequired,
+    setQuantity: PropTypes.func.isRequired,
+    updateUrl: PropTypes.func.isRequired,
+    parameters: PropTypes.objectOf(PropTypes.string).isRequired
 };
 
 ProductActions.defaultProps = {

@@ -22,7 +22,6 @@ export const mapStateToProps = state => ({
 export class ProductActionsContainer extends PureComponent {
     constructor(props) {
         super(props);
-        console.log(this.props);
 
         this.optionsInCurrentVariant = {};
 
@@ -31,9 +30,7 @@ export class ProductActionsContainer extends PureComponent {
         };
 
         this.containerFunctions = {
-            setQuantityToDefault: this.setQuantityToDefault.bind(this),
             showOnlyIfLoaded: this.showOnlyIfLoaded.bind(this),
-            // changeConfigurableVariant: this.changeConfigurableVariant.bind(this),
             getIsOptionInCurrentVariant: this.getIsOptionInCurrentVariant.bind(this),
             setQuantity: this.setQuantity.bind(this)
         };
@@ -49,41 +46,6 @@ export class ProductActionsContainer extends PureComponent {
         if (!variants) return false;
         return variants[configurableVariantIndex].product[attribute] === value;
     }
-
-    setQuantityToDefault() {
-        this.setState({ quantity: 1 });
-    }
-
-    // changeConfigurableVariant(attributeCode, value) {
-    //     const {
-    //         product: {
-    //             variants,
-    //             configurable_options
-    //         },
-    //         updateConfigurableVariantIndex,
-    //         configurableVariantIndex
-    //     } = this.props;
-
-    //     const {
-    //         product: currentConfigurableVariant
-    //     } = variants[configurableVariantIndex];
-
-    //     const currentVariant = {
-    //         ...currentConfigurableVariant,
-    //         [attributeCode]: value
-    //     };
-
-    //     for (let i = 0; i < variants.length; i++) {
-    //         const { product } = variants[i];
-    //         const isCorrectVariant = configurable_options.every(
-    //             ({ attribute_code: code }) => parseInt(product[code], 10) === parseInt(currentVariant[code], 10)
-    //         );
-
-    //         if (isCorrectVariant) return updateConfigurableVariantIndex(i);
-    //     }
-
-    //     return null;
-    // }
 
     showOnlyIfLoaded(expression, content, placeholder = content) {
         const { areDetailsLoaded } = this.props;
@@ -107,7 +69,6 @@ export class ProductActionsContainer extends PureComponent {
 ProductActionsContainer.propTypes = {
     product: ProductType.isRequired,
     configurableVariantIndex: PropTypes.number.isRequired,
-    // updateConfigurableVariantIndex: PropTypes.func.isRequired,
     areDetailsLoaded: PropTypes.bool.isRequired
 };
 

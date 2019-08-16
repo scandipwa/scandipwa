@@ -20,7 +20,6 @@ import ProductActions from 'Component/ProductActions';
 import { ProductType } from 'Type/ProductList';
 import RelatedProducts from 'Component/RelatedProducts';
 import './ProductPage.style';
-// import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
 
 class ProductPage extends Component {
     render() {
@@ -77,10 +76,11 @@ class ProductPage extends Component {
 
 ProductPage.propTypes = {
     configurableVariantIndex: PropTypes.number.isRequired,
-    // getProductOrVariant: PropTypes.func.isRequired,
+    getProductOrVariant: PropTypes.func.isRequired,
+    getLink: PropTypes.func.isRequired,
+    parameters: PropTypes.objectOf(PropTypes.string).isRequired,
     updateUrl: PropTypes.func.isRequired,
     dataSource: ProductType.isRequired,
-    // filters: PropTypes.object.isRequired,
     location: PropTypes.shape({
         pathname: PropTypes.string.isRequired,
         state: PropTypes.shape({
@@ -94,12 +94,6 @@ ProductPage.propTypes = {
     match: PropTypes.shape({
         path: PropTypes.string.isRequired
     }).isRequired,
-    // product: ProductType.isRequired
-    // requestProduct: PropTypes.func.isRequired,
-    // updateBreadcrumbs: PropTypes.func.isRequired,
-    // changeHeaderState: PropTypes.func.isRequired,
-    // clearGroupedProductQuantity: PropTypes.func.isRequired,
-    isOnlyPlaceholder: PropTypes.bool,
     product: ProductType.isRequired
 };
 

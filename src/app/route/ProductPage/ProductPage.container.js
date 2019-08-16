@@ -61,18 +61,24 @@ export class ProductPageContainer extends PureComponent {
         });
     }
 
-    /**
-     * Get selected configurable product variant
-     * @param {Object} props
-     * @return {Number} variant index
-     */
-    static getVariantIndexFromProps(props) {
-        const { location: { state: locationState } } = props;
-
-        return (locationState && Object.hasOwnProperty.call(locationState, 'variantIndex'))
-            ? locationState.variantIndex
-            : null;
+    componentDidMount() {
+        const { isOnlyPlaceholder } = this.props;
+        if (!isOnlyPlaceholder) this.requestProduct();
+        this.onProductUpdate();
     }
+
+    // /**
+    //  * Get selected configurable product variant
+    //  * @param {Object} props
+    //  * @return {Number} variant index
+    //  */
+    // static getVariantIndexFromProps(props) {
+    //     const { location: { state: locationState } } = props;
+
+    //     return (locationState && Object.hasOwnProperty.call(locationState, 'variantIndex'))
+    //         ? locationState.variantIndex
+    //         : null;
+    // }
 
     componentDidUpdate({ location: { pathname: prevPathname } }) {
         const { location: { pathname } } = this.props;
