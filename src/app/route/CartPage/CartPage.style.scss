@@ -7,10 +7,14 @@
 
 .CartPage {
     &-Wrapper {
-        @include after-mobile {
+        @include desktop {
             display: grid;
             grid-template-columns: 1fr 30rem;
             grid-column-gap: 4rem;
+        }
+
+        @include tablet {
+            grid-template-columns: 1fr;
         }
 
         @include mobile {
@@ -121,6 +125,10 @@
         @include mobile {
             margin: 3rem auto 1rem;
         }
+
+        @include tablet {
+            max-width: 250px;
+        }
     }
 
     &-Total {
@@ -198,9 +206,13 @@
 
     &-Floating {
         @include after-mobile {
-            margin-top: 6.5rem;
             display: flex;
             flex-direction: column;
+            margin-top: 6.5rem;
+        }
+
+        @include tablet {
+            margin-top: 2rem;
         }
     }
 

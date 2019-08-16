@@ -23,6 +23,10 @@
 	--header-height: 50px;
 	--header-nav-height: 50px;
 
+	@include tablet {
+		--header-desktop-search-bar-width: 200px;
+	}
+
 	@include after-mobile {
 		--header-height: 60px;
 		--header-nav-height: 60px;

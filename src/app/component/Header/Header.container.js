@@ -28,7 +28,10 @@ import Header, {
     MENU_SUBCATEGORY,
     SEARCH,
     CART,
-    CMS_PAGE
+    CMS_PAGE,
+    FILTER,
+    CART_EDITING,
+    CHECKOUT
 } from './Header.component';
 
 export const mapStateToProps = state => ({
@@ -151,12 +154,12 @@ export class HeaderContainer extends PureComponent {
     onSearchOutsideClick() {
         const { goToPreviousHeaderState, hideActiveOverlay, headerState: { name } } = this.props;
 
-        if (name !== SEARCH || isMobile.any()) return;
+        if (!isMobile.any() && name === SEARCH) {
+            this.setState({ searchCriteria: '' });
 
-        this.setState({ searchCriteria: '' });
-
-        hideActiveOverlay();
-        goToPreviousHeaderState();
+            hideActiveOverlay();
+            goToPreviousHeaderState();
+        }
     }
 
     onSearchBarClick() {
@@ -167,8 +170,7 @@ export class HeaderContainer extends PureComponent {
             headerState: { name }
         } = this.props;
 
-        if (name !== SEARCH) {
-            showOverlay(SEARCH);
+        if (isMobile.any() || name === MENU) {
             setHeaderState({
                 name: SEARCH,
                 onBackClick: () => {
@@ -177,6 +179,10 @@ export class HeaderContainer extends PureComponent {
                 }
             });
         }
+
+        if (name === SEARCH) return;
+
+        showOverlay(SEARCH);
     }
 
     onSearchBarChange({ target: { value: searchCriteria } }) {
@@ -290,7 +296,28 @@ HeaderContainer.propTypes = {
     showOverlay: PropTypes.func.isRequired,
     goToPreviousHeaderState: PropTypes.func.isRequired,
     hideActiveOverlay: PropTypes.func.isRequired,
-    setHeaderState: PropTypes.func.isRequired
+    setHeaderState: PropTypes.func.isRequired,
+    headerState: PropTypes.shape({
+        name: PropTypes.oneOf([
+            PDP,
+            CATEGORY,
+            CUSTOMER_ACCOUNT,
+            HOME_PAGE,
+            MENU,
+            MENU_SUBCATEGORY,
+            SEARCH,
+            FILTER,
+            CART,
+            CART_EDITING,
+            CHECKOUT
+        ]),
+        title: PropTypes.string,
+        onBackClick: PropTypes.func,
+        onCloseClick: PropTypes.func,
+        onEditClick: PropTypes.func,
+        onOkClick: PropTypes.func,
+        onCancelClick: PropTypes.func
+    }).isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(HeaderContainer));
