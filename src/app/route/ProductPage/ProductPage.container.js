@@ -259,7 +259,18 @@ ProductPageContainer.propTypes = {
             product: ProductType
         })
     }),
-    isOnlyPlaceholder: PropTypes.bool
+    isOnlyPlaceholder: PropTypes.bool,
+    changeHeaderState: PropTypes.func.isRequired,
+    updateBreadcrumbs: PropTypes.func.isRequired,
+    product: ProductType.isRequired,
+    clearGroupedProductQuantity: PropTypes.func.isRequired,
+    history: PropTypes.shape({
+        location: PropTypes.object.isRequired,
+        push: PropTypes.func.isRequired
+    }).isRequired,
+    match: PropTypes.shape({
+        path: PropTypes.string.isRequired
+    }).isRequired
 };
 
 ProductPageContainer.defaultProps = {
