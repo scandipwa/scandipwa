@@ -49,7 +49,6 @@ export class SearchOverlayContainer extends PureComponent {
 
     makeSearchRequest() {
         const { makeSearchRequest, clearSearchResults, searchCriteria } = this.props;
-
         if (searchCriteria) {
             clearSearchResults();
             makeSearchRequest({ args: { search: searchCriteria } });
@@ -68,7 +67,8 @@ export class SearchOverlayContainer extends PureComponent {
 
 SearchOverlayContainer.propTypes = {
     makeSearchRequest: PropTypes.func.isRequired,
-    clearSearchResults: PropTypes.func.isRequired
+    clearSearchResults: PropTypes.func.isRequired,
+    searchCriteria: PropTypes.string.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchOverlayContainer);
