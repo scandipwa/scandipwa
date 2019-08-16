@@ -137,7 +137,8 @@ class ProductActions extends PureComponent {
             {
                 name,
                 attributes: { brand: { attribute_value: brand } = {} } = {}
-            }
+            },
+            showOnlyIfLoaded
         } = this.props;
 
         return (
@@ -327,7 +328,7 @@ ProductActions.propTypes = {
     // areDetailsLoaded: PropTypes.bool.isRequired,
     // groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired,
     // setQuantityToDefault: PropTypes.func.isRequired,
-    // showOnlyIfLoaded: PropTypes.func.isRequired,
+    showOnlyIfLoaded: PropTypes.func.isRequired,
     // changeConfigurableVariant: PropTypes.func.isRequired,
     // getIsOptionInCurrentVariant: PropTypes.func.isRequired,
     // setQuantity: PropTypes.func.isRequired,
