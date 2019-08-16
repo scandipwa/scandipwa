@@ -62,7 +62,7 @@ export class CartItemContainer extends PureComponent {
 
         if (type_id === 'simple') return { pathname: `/product/${ url_key }` };
 
-        const { attributes } = variants[configurableVariantIndex];
+        const { attributes = [] } = variants[configurableVariantIndex] || {};
 
         const parameters = Object.entries(attributes).reduce(
             (parameters, [code, { attribute_value }]) => {

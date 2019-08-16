@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Slider from 'Component/Slider';
 import Image from 'Component/Image';
@@ -81,18 +81,26 @@ class ProductGallery extends PureComponent {
         switch (type) {
         case 'image':
             return (
-                <Image
-                  src={ image }
-                  key={ id }
-                  ratio="custom"
-                  mix={ {
-                      block: 'ProductGallery',
-                      elem: 'SliderImage',
-                      mods: { isPlaceholder: !image }
-                  } }
-                  isPlaceholder={ isPlaceholder }
-                  alt={ alt }
-                />
+                <Fragment key={ id || index }>
+                    <Image
+                      src={ image }
+                      key={ id }
+                      ratio="custom"
+                      mix={ {
+                          block: 'ProductGallery',
+                          elem: 'SliderImage',
+                          mods: { isPlaceholder: !image }
+                      } }
+                      isPlaceholder={ isPlaceholder }
+                      alt={ alt }
+                    />
+                    <img
+                      style={ { display: 'none' } }
+                      alt={ name }
+                      src={ image }
+                      itemProp="image"
+                    />
+                </Fragment>
             );
         default:
             return null;
@@ -102,7 +110,6 @@ class ProductGallery extends PureComponent {
     render() {
         const { gallery } = this.props;
         const { activeImage } = this.state;
-
         return (
             <div block="ProductGallery">
                 { this.renderAdditionalPictures() }

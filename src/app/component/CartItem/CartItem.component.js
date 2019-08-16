@@ -36,7 +36,7 @@ class CartItem extends PureComponent {
 
         if (!variants || !configurable_options) return null;
 
-        const { attributes } = variants[configurableVariantIndex] || {};
+        const { attributes = [] } = variants[configurableVariantIndex] || {};
 
         return (
             <ul
