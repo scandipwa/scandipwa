@@ -71,7 +71,6 @@ class ProductGallery extends PureComponent {
 
     renderSlide(media, index) {
         const {
-            id = index,
             alt,
             type,
             image,

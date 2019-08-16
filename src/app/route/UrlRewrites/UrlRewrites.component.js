@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import CategoryPage from 'Route/CategoryPage';
 import ProductPage from 'Route/ProductPage';
@@ -145,7 +146,9 @@ class UrlRewrites extends Component {
 
 UrlRewrites.propTypes = {
     location: LocationType.isRequired,
-    match: MatchType.isRequired
+    match: MatchType.isRequired,
+    clearUrlRewrites: PropTypes.func.isRequired,
+    requestUrlRewrite: PropTypes.func.isRequired
 };
 
 export default UrlRewrites;
