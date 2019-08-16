@@ -163,7 +163,7 @@ class MenuOverlay extends PureComponent {
                             </div>
                         ) : (
                             <Link
-                              to={ `/category${url}` }
+                              to={ url }
                               onClick={ this.closeMenuOverlay }
                               block="MenuOverlay"
                               elem="Link"

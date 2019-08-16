@@ -31,7 +31,7 @@ class CategoryFilterOverlay extends PureComponent {
         return (
             <ExpandableContent
               heading="Price"
-              subHeading={ `From: ${min} to ${max}` }
+              subHeading={ `From: ${min || minPriceValue} to ${max || maxPriceValue}` }
               mix={ {
                   block: 'CategoryFilterOverlay',
                   elem: 'Filter',
@@ -40,8 +40,8 @@ class CategoryFilterOverlay extends PureComponent {
             >
                 <RangeSelector
                   value={ priceValue }
-                  minValue={ minPriceValue }
-                  maxValue={ maxPriceValue }
+                  minValue={ minPriceValue || min }
+                  maxValue={ maxPriceValue || max }
                   onChangeComplete={ updatePriceRange }
                 />
             </ExpandableContent>

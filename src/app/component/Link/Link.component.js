@@ -40,7 +40,9 @@ class Link extends PureComponent {
         return (
             <RouterLink
               to={ to }
+              { ...props }
               className={ stringify(this.props) }
+              { ...props }
             >
                 { children }
             </RouterLink>

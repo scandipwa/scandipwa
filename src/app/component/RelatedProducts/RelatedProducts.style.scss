@@ -10,7 +10,7 @@
  */
 
 .RelatedProducts {
-    @include after-mobile {
+    @include desktop {
         grid-column: 1 / span 2;
         padding: 0 200px;
     }

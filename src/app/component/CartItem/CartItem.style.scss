@@ -186,6 +186,11 @@
             height: 3rem;
         }
 
+        @include tablet {
+            flex-direction: column-reverse;
+            justify-content: center;
+        }
+
         &_isLikeTable {
             @include after-mobile {
                 width: 20rem;
@@ -235,6 +240,13 @@
 
         @include after-mobile {
             top: 1px;
+        }
+
+        @include tablet {
+            height: auto;
+            padding-top: 8px;
+            margin-top: 7px;
+            margin-left: -12px;
         }
 
         height: 35px;

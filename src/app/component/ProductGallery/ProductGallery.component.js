@@ -81,10 +81,9 @@ class ProductGallery extends PureComponent {
         switch (type) {
         case 'image':
             return (
-                <Fragment key={ id || index }>
+                <Fragment key={ index }>
                     <Image
                       src={ image }
-                      key={ id }
                       ratio="custom"
                       mix={ {
                           block: 'ProductGallery',

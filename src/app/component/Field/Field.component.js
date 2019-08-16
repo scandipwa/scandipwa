@@ -29,7 +29,6 @@ const TEXTAREA_TYPE = 'textarea';
 const PASSWORD_TYPE = 'password';
 const SELECT_TYPE = 'select';
 
-const VISIBLE_ALWAYS = 'visibleAlways';
 /**
  * Input fields component
  * @class Field

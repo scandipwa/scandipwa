@@ -101,7 +101,6 @@ export class ProductListQuery {
 
         if (requireInfo) {
             return [
-                'total_count',
                 'min_price',
                 'max_price',
                 this._getSortField(),
@@ -110,6 +109,7 @@ export class ProductListQuery {
         }
 
         return [
+            'total_count',
             this._getItemsField()
         ];
     }

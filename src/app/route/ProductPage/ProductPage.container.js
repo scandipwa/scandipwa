@@ -47,7 +47,7 @@ export class ProductPageContainer extends PureComponent {
         super(props);
 
         this.state = {
-            configurableVariantIndex: 0,
+            configurableVariantIndex: -1,
             isConfigurationInitialized: false,
             parameters: {}
         };
@@ -164,14 +164,13 @@ export class ProductPageContainer extends PureComponent {
     _getProductOrVariant() {
         const dataSource = this._getDataSource();
         const { variants } = dataSource;
-        const currentVariantIndex = this._getConfigurableVariantIndex();
+        const currentVariantIndex = this._getConfigurableVariantIndex(variants);
         const variant = variants && variants[currentVariantIndex];
 
         return variant || dataSource;
     }
 
-    _getConfigurableVariantIndex() {
-        const { product: { variants } } = this.props;
+    _getConfigurableVariantIndex(variants) {
         const { configurableVariantIndex, parameters } = this.state;
 
         if (configurableVariantIndex >= 0) return configurableVariantIndex;

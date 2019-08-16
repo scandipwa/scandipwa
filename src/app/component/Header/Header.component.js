@@ -189,11 +189,10 @@ class Header extends PureComponent {
         return (
             <Fragment key="search">
                 <ClickOutside onClick={ onSearchOutsideClick }>
-                    <label
+                    <div
                       block="Header"
                       elem="SearchWrapper"
-                      aria-label="Product Search"
-                      htmlFor="search-field"
+                      aria-label="Search"
                     >
                             <input
                               id="search-field"
@@ -212,7 +211,7 @@ class Header extends PureComponent {
                             <SearchOverlay
                               searchCriteria={ searchCriteria }
                             />
-                    </label>
+                    </div>
                 </ClickOutside>
                 <button
                   block="Header"

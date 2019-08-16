@@ -49,6 +49,8 @@ const HeaderReducer = (state = initialState, action) => {
         headerStateHistory.pop();
         const newHeaderState = headerStateHistory.slice(-1)[0];
 
+        if (!newHeaderState) return state;
+
         return {
             ...state,
             headerStateHistory,

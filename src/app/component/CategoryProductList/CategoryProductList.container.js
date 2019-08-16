@@ -95,6 +95,9 @@ export class CategoryProductListContainer extends PureComponent {
 }
 
 CategoryProductListContainer.propTypes = {
+    location: PropTypes.shape({
+        pathname: PropTypes.string.isRequired
+    }).isRequired,
     pages: PagesType.isRequired,
     loadPage: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
