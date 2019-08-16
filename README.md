@@ -12,7 +12,7 @@ This repository contains ScandiPWA Theme sources.
 
 This branch contains 2.x version, that requires different DB dump available on [2.0 branch](https://github.com/scandipwa/scandipwa-base/commits/2.0)
 
-It is important to ensure you are following the best practices and setting web-server root to `/pub` folder or adapt the build configs prefixing the pathes with `/pub` dir [https://github.com/scandipwa/base-theme/issues/134]
+It is important to ensure you are following the best practices and setting web-server root to `/pub` folder or adapt the build configs prefixing the pathes with `/pub` dir <https://github.com/scandipwa/base-theme/issues/134>
 
 [Official Magento 2 docs](https://devdocs.magento.com/guides/v2.3/install-gde/tutorials/change-docroot-to-pub.html)
 
