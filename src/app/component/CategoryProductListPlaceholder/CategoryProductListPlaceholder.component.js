@@ -26,10 +26,22 @@ class CategoryProductListPlaceholder extends PureComponent {
         this.placeholdersCount = 4;
     }
 
+    componentDidMount() {
+        this.startObserving();
+    }
+
     componentDidUpdate() {
+        this.startObserving();
+    }
+
+    componentWillUnmount() {
+        this.stopObserving();
+    }
+
+    startObserving() {
         const { updatePages } = this.props;
 
-        if (this.node && 'IntersectionObserver' in window) {
+        if (this.node && !this.observer && 'IntersectionObserver' in window) {
             const options = {
                 rootMargin: '0px',
                 threshold: 0.1
@@ -44,10 +56,6 @@ class CategoryProductListPlaceholder extends PureComponent {
 
             this.observer.observe(this.node);
         }
-    }
-
-    componentWillUnmount() {
-        this.stopObserving();
     }
 
     stopObserving() {

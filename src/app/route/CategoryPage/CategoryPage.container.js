@@ -200,6 +200,7 @@ export class CategoryPageContainer extends PureComponent {
 
     requestPage(pageNumber, isNext = false) {
         const { requestProductList } = this.props;
+        if (!isNext) window.scrollTo(0, 0);
         requestProductList(this._getProductListOptions(pageNumber || 1, isNext));
     }
 
