@@ -35,14 +35,28 @@ export class AddToCartContainer extends PureComponent {
         super(props);
 
         this.state = { isLoading: false };
-        this.timeOut = null;
+
+        this.containerProps = () => ({
+            isDisabled: this._getIsDisabled()
+        });
+
         this.containerFunctions = {
             buttonClick: this.buttonClick.bind(this)
         };
     }
 
-    componentWillUnmount() {
-        clearTimeout(this.timeOut);
+    _getIsDisabled() {
+        const {
+            configurableVariantIndex,
+            product: { type_id, stock_status, variants = [] }
+        } = this.props;
+
+        const { isLoading } = this.state;
+
+        const isNotAvailable = stock_status !== 'IN_STOCK';
+        const isNotVariantAvailable = type_id === 'configurable' && !variants[configurableVariantIndex];
+
+        return isNotAvailable || isNotVariantAvailable || isLoading;
     }
 
     buttonClick() {
@@ -118,12 +132,14 @@ export class AddToCartContainer extends PureComponent {
               { ...this.props }
               { ...this.state }
               { ...this.containerFunctions }
+              { ...this.containerProps() }
             />
         );
     }
 }
 
 AddToCartContainer.propTypes = {
+    isLoading: PropTypes.bool,
     product: ProductType.isRequired,
     quantity: PropTypes.number,
     configurableVariantIndex: PropTypes.number,
@@ -143,7 +159,8 @@ AddToCartContainer.defaultProps = {
     groupedProductQuantity: {},
     setQuantityToDefault: () => {},
     productToBeRemovedAfterAdd: '',
-    removeWishlistItem: false
+    removeWishlistItem: false,
+    isLoading: false
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddToCartContainer);

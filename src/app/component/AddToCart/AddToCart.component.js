@@ -20,31 +20,28 @@ import './AddToCart.style';
  * @class AddToCart
  */
 class AddToCart extends PureComponent {
+    renderPlaceholder() {
+        const { isLoading, mix } = this.props;
+
+        return (
+            <div
+              block="AddToCart"
+              mods={ { isLoading, isPlaceholder: true } }
+              mix={ mix }
+            />
+        );
+    }
+
     render() {
         const {
             mix,
-            product: {
-                type_id,
-                stock_status,
-                variants = []
-            },
+            product: { type_id },
             isLoading,
             buttonClick,
-            configurableVariantIndex
+            isDisabled
         } = this.props;
 
-        if (!type_id) {
-            return (
-                <div
-                  block="AddToCart"
-                  mods={ { isLoading, isPlaceholder: true } }
-                  mix={ mix }
-                />
-            );
-        }
-
-        const isNotAvailable = stock_status !== 'IN_STOCK';
-        const isNotVariantAvailable = type_id === 'configurable' && !variants[configurableVariantIndex];
+        if (!type_id) this.renderPlaceholder();
 
         return (
             <button
@@ -52,7 +49,7 @@ class AddToCart extends PureComponent {
               block="Button AddToCart"
               mix={ mix }
               mods={ { isLoading } }
-              disabled={ isLoading || isNotAvailable || isNotVariantAvailable }
+              disabled={ isDisabled }
             >
                 <span>{ __('Add to cart') }</span>
                 <span>{ __('Adding...') }</span>
@@ -62,9 +59,9 @@ class AddToCart extends PureComponent {
 }
 
 AddToCart.propTypes = {
+    isDisabled: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool,
     product: ProductType,
-    configurableVariantIndex: PropTypes.number,
     mix: MixType,
     buttonClick: PropTypes.func.isRequired
 };
@@ -72,8 +69,7 @@ AddToCart.propTypes = {
 AddToCart.defaultProps = {
     product: {},
     mix: {},
-    isLoading: false,
-    configurableVariantIndex: 0
+    isLoading: false
 };
 
 export default AddToCart;

@@ -38,12 +38,12 @@ class CategoryPage extends PureComponent {
     }
 
     renderItemCount() {
-        const { totalItems, isInfoLoading } = this.props;
+        const { totalItems, isPagesLoading } = this.props;
 
         return (
             <p block="CategoryPage" elem="ItemsCount">
                 <TextPlaceholder
-                  content={ (isInfoLoading
+                  content={ (isPagesLoading
                       ? __('Products are loading...')
                       : __('%s items found', totalItems)
                   ) }
