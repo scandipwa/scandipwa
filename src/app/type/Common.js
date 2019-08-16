@@ -32,3 +32,8 @@ export const LocationType = PropTypes.shape({
 export const MatchType = PropTypes.shape({
     path: PropTypes.string.isRequired
 });
+
+export const ChildrenType = PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node
+]);

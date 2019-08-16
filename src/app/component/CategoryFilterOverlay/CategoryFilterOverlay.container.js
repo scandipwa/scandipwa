@@ -40,6 +40,26 @@ export class CategoryFilterOverlayContainer extends PureComponent {
     }
 
     /**
+     * Get URL for new filter value
+     *
+     * @param {*} filterKey
+     * @param {*} value
+     * @returns {String} new URL path
+     * @memberof CategoryShoppingOptions
+     */
+    getFilterUrl(filterKey, value) {
+        const { getFilterUrl } = this.props;
+
+        return getFilterUrl(filterKey, this._getNewFilterArray(filterKey, value));
+    }
+
+    toggleCustomFilter(requestVar, value) {
+        const { updateFilter } = this.props;
+
+        updateFilter(requestVar, this._getNewFilterArray(requestVar, value));
+    }
+
+    /**
      * Returns filter array with new parameters
      *
      * @param {String} filterKey key of option
@@ -47,7 +67,7 @@ export class CategoryFilterOverlayContainer extends PureComponent {
      * @returns {Object[]}
      * @memberof CategoryShoppingOptions
      */
-    getNewFilterArray(filterKey, value) {
+    _getNewFilterArray(filterKey, value) {
         const { customFiltersValues } = this.props;
         const newFilterArray = customFiltersValues[filterKey] !== undefined
             ? Array.from(customFiltersValues[filterKey])
@@ -61,26 +81,6 @@ export class CategoryFilterOverlayContainer extends PureComponent {
         }
 
         return newFilterArray;
-    }
-
-    /**
-     * Get URL for new filter value
-     *
-     * @param {*} filterKey
-     * @param {*} value
-     * @returns {String} new URL path
-     * @memberof CategoryShoppingOptions
-     */
-    getFilterUrl(filterKey, value) {
-        const { getFilterUrl } = this.props;
-
-        return getFilterUrl(filterKey, this.getNewFilterArray(filterKey, value));
-    }
-
-    toggleCustomFilter(requestVar, value) {
-        const { updateFilter } = this.props;
-
-        updateFilter(requestVar, this.getNewFilterArray(requestVar, value));
     }
 
     render() {

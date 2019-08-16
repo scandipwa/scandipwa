@@ -12,8 +12,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import TextPlaceholder from 'Component/TextPlaceholder';
-import { PriceType } from 'Type/ProductList';
 import { formatCurrency } from 'Util/Price';
+import { PriceType } from 'Type/ProductList';
+import { MixType } from 'Type/Common';
 import './ProductPrice.style';
 
 /**
@@ -89,14 +90,7 @@ ProductPrice.propTypes = {
     calculateDiscountPercentage: PropTypes.func.isRequired,
     calculateFinalPrice: PropTypes.func.isRequired,
     price: PriceType,
-    mix: PropTypes.shape({
-        block: PropTypes.string,
-        elem: PropTypes.string,
-        mods: PropTypes.objectOf(PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.bool
-        ]))
-    })
+    mix: MixType
 };
 
 ProductPrice.defaultProps = {

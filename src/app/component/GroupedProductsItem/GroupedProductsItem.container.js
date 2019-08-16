@@ -9,18 +9,68 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { ProductDispatcher } from 'Store/Product';
 import GroupedProductsItem from './GroupedProductsItem.component';
 
-const mapStateToProps = state => ({
+export const mapStateToProps = state => ({
     groupedProductQuantity: state.ProductReducer.groupedProductQuantity
 });
 
-const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = dispatch => ({
     updateGroupedProductQuantity: options => ProductDispatcher.updateGroupedProductQuantity(dispatch, options)
 });
 
-const GroupedProductsItemContainer = connect(mapStateToProps, mapDispatchToProps)(GroupedProductsItem);
+export class GroupedProductsItemContainer extends PureComponent {
+    constructor(props) {
+        super(props);
 
-export default GroupedProductsItemContainer;
+        this.containerFunctions = {
+            changeCount: this.changeCount.bind(this)
+        };
+
+        this.containerProps = () => ({
+            itemCount: this._getCurrentQuantity()
+        });
+    }
+
+    componentWillMount() {
+        const { updateGroupedProductQuantity, product } = this.props;
+
+        updateGroupedProductQuantity({ product, quantity: 1 });
+    }
+
+    /**
+     * Get quantity of grouped product
+     * @param {Number} id Product id
+     * @param {Object} groupedProductQuantity list of grouped products with quantities
+     * @return {Number} product quantity
+     */
+    _getCurrentQuantity() {
+        const {
+            product: { id },
+            groupedProductQuantity
+        } = this.props;
+        return groupedProductQuantity[id] || 1;
+    }
+
+    changeCount(itemCount) {
+        const { updateGroupedProductQuantity, product } = this.props;
+
+        updateGroupedProductQuantity({ product, quantity: itemCount });
+    }
+
+
+    render() {
+        return (
+            <GroupedProductsItem
+              { ...this.props }
+              { ...this.containerFunctions }
+              { ...this.containerProps() }
+            />
+        );
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(GroupedProductsItemContainer);

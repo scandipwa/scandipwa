@@ -17,8 +17,9 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import './Field.style';
+import { MixType } from 'Type/Common';
 import ClickOutside from 'Component/ClickOutside';
+import './Field.style';
 
 const TEXT_TYPE = 'text';
 const NUMBER_TYPE = 'number';
@@ -577,18 +578,10 @@ Field.propTypes = {
     onFocus: PropTypes.func,
     onBlur: PropTypes.func,
     onClick: PropTypes.func,
-    onBlur: PropTypes.func,
     onKeyPress: PropTypes.func,
     min: PropTypes.number,
     max: PropTypes.number,
-    mix: PropTypes.shape({
-        block: PropTypes.string,
-        elem: PropTypes.string,
-        mods: PropTypes.objectOf(PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.bool
-        ]))
-    }),
+    mix: MixType,
     formRef: PropTypes.oneOfType([
         PropTypes.func,
         PropTypes.shape({ current: PropTypes.instanceOf(Element) })

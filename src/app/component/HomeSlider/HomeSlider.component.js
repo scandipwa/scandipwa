@@ -10,10 +10,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import Link from 'Component/Link';
 import Slider from 'Component/Slider';
-import { SliderType } from 'Type/Slider';
 import Image from 'Component/Image';
 import Html from 'Component/Html';
 import './HomeSlider.style';
@@ -27,14 +27,6 @@ class HomeSlider extends PureComponent {
         super(props);
 
         this.renderSlide = this.renderSlide.bind(this);
-    }
-
-    getGalleryPictures() {
-        const { slider } = this.props;
-
-        return Object.keys(slider).length > 0
-            ? slider.slides.map(({ image, slide_text }) => ({ image, slide_text }))
-            : [{ image: '', slide_text: '', isPlaceholder: true }];
     }
 
     renderSlide({ image, slide_text, isPlaceholder }, i) {
@@ -58,7 +50,7 @@ class HomeSlider extends PureComponent {
     }
 
     render() {
-        const gallery = this.getGalleryPictures();
+        const { gallery } = this.props;
 
         return (
             <Link
@@ -77,11 +69,11 @@ class HomeSlider extends PureComponent {
 }
 
 HomeSlider.propTypes = {
-    slider: SliderType
+    gallery: PropTypes.arrayOf(PropTypes.object)
 };
 
 HomeSlider.defaultProps = {
-    slider: {}
+    gallery: [{}]
 };
 
 export default HomeSlider;

@@ -21,19 +21,6 @@ import './CheckoutOrderSummary.style';
  *
  */
 class CheckoutOrderSummary extends PureComponent {
-    getDataSource(item) {
-        const { configurableVariantIndex, variants } = item;
-
-        if (typeof configurableVariantIndex === 'number' && variants) {
-            return variants[configurableVariantIndex].product;
-        }
-
-        return item;
-    }
-
-    /**
-     * Render price line
-     */
     renderPriceLine(price, name, mods) {
         if (!price) return null;
 

@@ -23,49 +23,16 @@ import './GroupedProductsItem.style';
  * @class GroupedProduct
  */
 class GroupedProductsItem extends PureComponent {
-    constructor() {
-        super();
-
-        this.state = {
-            // eslint-disable-next-line react/no-unused-state
-            isConfigurationInitilized: false
-        };
-    }
-
-    componentWillMount() {
-        const { updateGroupedProductQuantity, product } = this.props;
-
-        updateGroupedProductQuantity({ product, quantity: 1 });
-    }
-
-    /**
-     * Get quantity of grouped product
-     * @param {Number} id Product id
-     * @param {Object} groupedProductQuantity list of grouped products with quantities
-     * @return {Number} product quantity
-     */
-    getCurrentQuantity(id, groupedProductQuantity) {
-        return groupedProductQuantity[id] || 1;
-    }
-
-    changeCount(itemCount) {
-        const { updateGroupedProductQuantity, product } = this.props;
-
-        updateGroupedProductQuantity({ product, quantity: itemCount });
-    }
-
     render() {
         const {
             product: {
                 thumbnail: { path: thumb_url },
                 name,
-                price,
-                id
+                price
             },
-            groupedProductQuantity
+            changeCount,
+            itemCount
         } = this.props;
-
-        const itemCount = this.getCurrentQuantity(id, groupedProductQuantity);
 
         return (
             <li block="GroupedProductsItem" aria-label="Product Item">
@@ -83,7 +50,7 @@ class GroupedProductsItem extends PureComponent {
                       type="number"
                       id="HeaderInput"
                       name="HeaderInput"
-                      onChange={ itemCount => this.changeCount(itemCount) }
+                      onChange={ itemCount => changeCount(itemCount) }
                       value={ itemCount }
                     />
                 </div>
@@ -94,8 +61,8 @@ class GroupedProductsItem extends PureComponent {
 
 GroupedProductsItem.propTypes = {
     product: ProductType.isRequired,
-    updateGroupedProductQuantity: PropTypes.func.isRequired,
-    groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired
+    changeCount: PropTypes.func.isRequired,
+    itemCount: PropTypes.number.isRequired
 };
 
 export default GroupedProductsItem;

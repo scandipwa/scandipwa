@@ -11,8 +11,9 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import './ProductAttributeValue.style';
 import { AttributeType } from 'Type/ProductList';
+import { MixType } from 'Type/Common';
+import './ProductAttributeValue.style';
 
 class ProductAttributeValue extends Component {
     constructor(props) {
@@ -192,10 +193,7 @@ ProductAttributeValue.propTypes = {
     onClick: PropTypes.func.isRequired,
     attribute: AttributeType.isRequired,
     isSelected: PropTypes.bool,
-    mix: PropTypes.shape({
-        block: PropTypes.string,
-        elem: PropTypes.string
-    })
+    mix: MixType
 };
 
 ProductAttributeValue.defaultProps = {

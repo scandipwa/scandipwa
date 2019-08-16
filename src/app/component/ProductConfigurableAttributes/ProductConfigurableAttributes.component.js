@@ -13,8 +13,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ExpandableContent from 'Component/ExpandableContent';
 import ProductAttributeValue from 'Component/ProductAttributeValue';
-import './ProductConfigurableAttributes.style';
 import { AttributeType } from 'Type/ProductList';
+import { MixType } from 'Type/Common';
+import './ProductConfigurableAttributes.style';
 
 class ProductConfigurableAttributes extends Component {
     /**
@@ -150,10 +151,7 @@ ProductConfigurableAttributes.propTypes = {
     parameters: PropTypes.shape({}).isRequired,
     updateConfigurableVariant: PropTypes.func.isRequired,
     isReady: PropTypes.bool,
-    mix: PropTypes.shape({
-        block: PropTypes.string,
-        elem: PropTypes.string
-    })
+    mix: MixType
 };
 
 ProductConfigurableAttributes.defaultProps = {

@@ -17,6 +17,7 @@ import Loader from 'Component/Loader';
 import Field from 'Component/Field';
 import Form from 'Component/Form';
 import { getQueryParam } from 'Util/Url';
+import { LocationType } from 'Type/Common';
 import './PasswordChangePage.style';
 
 const STATUS_PASSOWORD_UPDATED = 'password_updated';
@@ -144,9 +145,7 @@ class PasswordChangePage extends Component {
 PasswordChangePage.propTypes = {
     updateBreadcrumbs: PropTypes.func.isRequired,
     resetPassword: PropTypes.func.isRequired,
-    location: PropTypes.shape({
-        pathname: PropTypes.string.isRequired
-    }).isRequired
+    location: LocationType.isRequired
 };
 
 export default PasswordChangePage;

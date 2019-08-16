@@ -12,6 +12,7 @@
 
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
+import { MixType, ChildrenType } from 'Type/Common';
 import './Draggable.style';
 
 class Draggable extends PureComponent {
@@ -180,20 +181,8 @@ Draggable.propTypes = {
     onDragEnd: PropTypes.func,
     handleFocus: PropTypes.func,
     onDrag: PropTypes.func,
-    children: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.node),
-        PropTypes.node
-    ]).isRequired,
-    mix: PropTypes.shape({
-        block: PropTypes.string,
-        elem: PropTypes.string,
-        mods: PropTypes.objectOf(
-            PropTypes.oneOfType([
-                PropTypes.string,
-                PropTypes.bool
-            ])
-        )
-    }),
+    children: ChildrenType.isRequired,
+    mix: MixType,
     draggableRef: PropTypes.oneOfType([
         PropTypes.func,
         PropTypes.shape({ current: PropTypes.instanceOf(Element) })

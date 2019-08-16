@@ -13,6 +13,7 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { MixType, ChildrenType } from 'Type/Common';
 import './Overlay.style';
 
 class Overlay extends PureComponent {
@@ -47,15 +48,12 @@ class Overlay extends PureComponent {
 }
 
 Overlay.propTypes = {
-    mix: PropTypes.objectOf(PropTypes.string),
+    mix: MixType,
     id: PropTypes.string.isRequired,
     onVisible: PropTypes.func,
     activeOverlay: PropTypes.string.isRequired,
     areOtherOverlaysOpen: PropTypes.bool.isRequired,
-    children: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.node),
-        PropTypes.node
-    ])
+    children: ChildrenType
 };
 
 Overlay.defaultProps = {

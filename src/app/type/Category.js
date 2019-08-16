@@ -10,6 +10,7 @@
  */
 
 import PropTypes from 'prop-types';
+import { ChildrenType } from './Common';
 
 export const BreadcrumbsType = PropTypes.arrayOf(
     PropTypes.shape({
@@ -35,5 +36,5 @@ export const CategoryFragment = {
 
 export const CategoryTreeType = PropTypes.shape({
     ...CategoryFragment,
-    children: PropTypes.arrayOf(PropTypes.shape(CategoryFragment))
+    children: ChildrenType
 });

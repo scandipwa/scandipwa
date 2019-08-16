@@ -13,8 +13,9 @@
 
 import React, { PureComponent, Children } from 'react';
 import PropTypes from 'prop-types';
-import Draggable from 'Component/Draggable';
 import CSS from 'Util/CSS';
+import { MixType, ChildrenType } from 'Type/Common';
+import Draggable from 'Component/Draggable';
 import './Slider.style';
 
 /**
@@ -274,20 +275,8 @@ Slider.propTypes = {
     showCrumbs: PropTypes.bool,
     activeImage: PropTypes.number,
     onActiveImageChange: PropTypes.func,
-    mix: PropTypes.shape({
-        block: PropTypes.string,
-        elem: PropTypes.string,
-        mods: PropTypes.objectOf(
-            PropTypes.oneOfType([
-                PropTypes.string,
-                PropTypes.bool
-            ])
-        )
-    }),
-    children: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.node),
-        PropTypes.node
-    ]).isRequired
+    mix: MixType,
+    children: ChildrenType.isRequired
 };
 
 Slider.defaultProps = {

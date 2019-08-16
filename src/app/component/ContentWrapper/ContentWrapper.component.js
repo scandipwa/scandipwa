@@ -11,6 +11,7 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { MixType, ChildrenType } from 'Type/Common';
 import './ContentWrapper.style';
 
 /**
@@ -34,14 +35,8 @@ class ContentWrapper extends PureComponent {
 }
 
 ContentWrapper.propTypes = {
-    children: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.node),
-        PropTypes.node
-    ]),
-    mix: PropTypes.shape({
-        block: PropTypes.string,
-        elem: PropTypes.string
-    }),
+    children: ChildrenType,
+    mix: MixType,
     wrapperMix: PropTypes.shape({
         block: PropTypes.string,
         elem: PropTypes.string

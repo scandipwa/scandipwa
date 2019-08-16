@@ -10,12 +10,12 @@
  */
 
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import CategoryPage from 'Route/CategoryPage';
 import ProductPage from 'Route/ProductPage';
 import CmsPage from 'Route/CmsPage';
 import NoMatch from 'Route/NoMatch';
 import { getUrlParam } from 'Util/Url';
+import { LocationType, MatchType } from 'Type/Common';
 
 export const TYPE_PRODUCT = 'PRODUCT';
 export const TYPE_CMS_PAGE = 'CMS_PAGE';
@@ -144,12 +144,8 @@ class UrlRewrites extends Component {
 }
 
 UrlRewrites.propTypes = {
-    location: PropTypes.shape({
-        pathname: PropTypes.string.isRequired
-    }).isRequired,
-    match: PropTypes.shape({
-        path: PropTypes.string.isRequired
-    }).isRequired
+    location: LocationType.isRequired,
+    match: MatchType.isRequired
 };
 
 export default UrlRewrites;

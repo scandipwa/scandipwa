@@ -12,6 +12,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import TextPlaceholder from 'Component/TextPlaceholder';
+import { MixType, ChildrenType } from 'Type/Common';
 import './ExpandableContent.style';
 
 class ExpandableContent extends PureComponent {
@@ -96,18 +97,8 @@ ExpandableContent.propTypes = {
     isContentExpanded: PropTypes.bool,
     heading: PropTypes.string,
     subHeading: PropTypes.string,
-    children: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.node),
-        PropTypes.node
-    ]).isRequired,
-    mix: PropTypes.shape({
-        block: PropTypes.string,
-        elem: PropTypes.string,
-        mods: PropTypes.objectOf(PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.bool
-        ]))
-    }).isRequired
+    children: ChildrenType.isRequired,
+    mix: MixType.isRequired
 };
 
 ExpandableContent.defaultProps = {

@@ -11,6 +11,7 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { ChildrenType } from 'Type/Common';
 
 class ClickOutside extends PureComponent {
     constructor(props) {
@@ -55,10 +56,7 @@ class ClickOutside extends PureComponent {
 
 ClickOutside.propTypes = {
     onClick: PropTypes.func,
-    children: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.node),
-        PropTypes.node
-    ])
+    children: ChildrenType
 };
 
 ClickOutside.defaultProps = {

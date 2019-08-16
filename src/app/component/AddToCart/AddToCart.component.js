@@ -11,6 +11,7 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { MixType } from 'Type/Common';
 import { ProductType } from 'Type/ProductList';
 import './AddToCart.style';
 
@@ -64,14 +65,8 @@ AddToCart.propTypes = {
     isLoading: PropTypes.bool,
     product: ProductType,
     configurableVariantIndex: PropTypes.number,
-    mix: PropTypes.shape({
-        block: PropTypes.string,
-        elem: PropTypes.string,
-        mods: PropTypes.objectOf(PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.bool
-        ]))
-    })
+    mix: MixType,
+    buttonClick: PropTypes.func.isRequired
 };
 
 AddToCart.defaultProps = {

@@ -18,6 +18,7 @@ import Meta from 'Component/Meta';
 import { CMS_PAGE } from 'Component/Header';
 import { history } from 'Route';
 import { getUrlParam } from 'Util/Url';
+import { LocationType, MatchType } from 'Type/Common';
 import { BlockListType } from 'Type/CMS';
 import './CmsPage.style';
 
@@ -101,15 +102,11 @@ class CmsPage extends Component {
 
 CmsPage.propTypes = {
     requestPage: PropTypes.func.isRequired,
-    match: PropTypes.shape({
-        params: PropTypes.shape({
-            id: PropTypes.string
-        }).isRequired
-    }).isRequired,
+    match: MatchType.isRequired,
     page: BlockListType.isRequired,
     setHeaderState: PropTypes.func.isRequired,
     updateBreadcrumbs: PropTypes.func.isRequired,
-    location: PropTypes.shape().isRequired,
+    location: LocationType.isRequired,
     enableBreadcrumbs: PropTypes.func.isRequired,
     updateCmsPage: PropTypes.func.isRequired,
     cmsId: PropTypes.number,

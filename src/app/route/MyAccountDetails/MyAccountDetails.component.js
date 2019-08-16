@@ -11,15 +11,17 @@
  */
 
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import Field from 'Component/Field';
 import Form from 'Component/Form';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { Redirect } from 'react-router';
-import { customerType } from 'Type/Account';
 import './MyAccountDetails.style';
 import ExpandableContent from 'Component/ExpandableContent';
 import Loader from 'Component/Loader';
+
+import PropTypes from 'prop-types';
+import { customerType } from 'Type/Account';
+import { HistoryType } from 'Type/Common';
 
 export const STATE_ACCOUNT_OVERVIEW = 'accountOverview';
 export const STATE_EDIT_INFORMATION = 'editInformation';
@@ -731,13 +733,7 @@ class MyAccountDetails extends Component {
 }
 
 MyAccountDetails.propTypes = {
-    history: PropTypes.shape({
-        location: PropTypes.object.isRequired,
-        push: PropTypes.func.isRequired
-    }).isRequired,
-    location: PropTypes.shape({
-        pathname: PropTypes.string.isRequired
-    }).isRequired,
+    history: HistoryType.isRequired,
     showNotification: PropTypes.func.isRequired,
     requestCustomerData: PropTypes.func.isRequired,
     updateCustomerData: PropTypes.func.isRequired,
