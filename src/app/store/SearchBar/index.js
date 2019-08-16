@@ -9,21 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import SearchBarReducer from './SearchBar.reducer';
-import SearchBarDispatcher from './SearchBar.dispatcher';
-
-import {
-    UPDATE_SEARCH_BAR,
-    UPDATE_SEARCH_LOAD_STATUS,
-    updateSearchBar,
-    updateLoadStatus
-} from './SearchBar.action';
-
-export {
-    SearchBarReducer,
-    SearchBarDispatcher,
-    UPDATE_SEARCH_BAR,
-    UPDATE_SEARCH_LOAD_STATUS,
-    updateSearchBar,
-    updateLoadStatus
-};
+export * from './SearchBar.action';
+export { default as SearchBarReducer } from './SearchBar.reducer';
+export { default as SearchBarDispatcher } from './SearchBar.dispatcher';

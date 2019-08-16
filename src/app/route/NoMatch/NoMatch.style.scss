@@ -13,10 +13,10 @@
     h1 {
         font-size: 12rem;
         font-weight: 400;
-        color: var(--color-primary-base);
+        color: $primary-base-color;
     }
-    
-    button {
+
+    &-Button {
         margin-top: 2rem;
     }
 

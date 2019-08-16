@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import NoMatch from './NoMatch.container';
-
-export default NoMatch;
+export { default } from './NoMatch.container';

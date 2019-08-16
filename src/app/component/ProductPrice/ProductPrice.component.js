@@ -9,65 +9,44 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
-import { PriceType } from 'Type/ProductList';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import TextPlaceholder from 'Component/TextPlaceholder';
+import { formatCurrency } from 'Util/Price';
+import { PriceType } from 'Type/ProductList';
+import { MixType } from 'Type/Common';
 import './ProductPrice.style';
 
 /**
  * Product price
  * @class ProductPrice
  */
-class ProductPrice extends Component {
-    /**
-     * Calculate discount percentage
-     * @param {Number} min minimum price
-     * @param {Number} reg regular price
-     * @return {Nmber} discount percentage
-     */
-    calculateDiscountPercentage(min, reg) {
-        return Math.floor(Math.round((1 - min / reg) * 100));
-    }
-
-    /**
-     * Calculate final price
-     * @param {Number} discount discount percentage
-     * @param {Number} min minimum price
-     * @param {Number} reg regular price
-     * @return {Nmber} final price
-     */
-    calculateFinalPrice(discount, min, reg) {
-        return discount ? min : reg;
-    }
-
-    /**
-     * Calculate final price
-     * @param {Number} price
-     * @return {Nmber} rounded price
-     */
-    roundPrice(price) {
-        return parseFloat(price).toFixed(2);
-    }
-
+class ProductPrice extends PureComponent {
     render() {
-        const { price: { minimalPrice, regularPrice }, mix } = this.props;
+        const {
+            price: { minimalPrice, regularPrice },
+            mix,
+            roundPrice,
+            calculateDiscountPercentage,
+            calculateFinalPrice
+        } = this.props;
 
         if (!minimalPrice || !regularPrice) {
             return (
                 <p block="ProductPrice" aria-label="Product Price" mix={ mix }>
-                    <TextPlaceholder />
+                    <TextPlaceholder mix={ { block: 'ProductPrice', elem: 'Placeholder' } } length="custom" />
                 </p>
             );
         }
 
         const minimalPriceValue = minimalPrice.amount.value;
         const regularPriceValue = regularPrice.amount.value;
-        const discountPercentage = this.calculateDiscountPercentage(minimalPriceValue, regularPriceValue);
-        const finalPrice = this.calculateFinalPrice(discountPercentage, minimalPriceValue, regularPriceValue);
-
-        // TODO: implement dynamic when store-config will be injected
-        const currency = '$';
+        const roundedRegularPrice = roundPrice(regularPriceValue);
+        const priceCurrency = regularPrice.amount.currency;
+        const discountPercentage = calculateDiscountPercentage(minimalPriceValue, regularPriceValue);
+        const finalPrice = calculateFinalPrice(discountPercentage, minimalPriceValue, regularPriceValue);
+        const formatedCurrency = roundPrice(finalPrice);
+        const currency = formatCurrency(priceCurrency);
 
         // Use <ins></ins> <del></del> to represent new price and the old (deleted) one
         const PriceSemanticElementName = discountPercentage > 0 ? 'ins' : 'span';
@@ -76,35 +55,42 @@ class ProductPrice extends Component {
             <p
               block="ProductPrice"
               mix={ mix }
-              aria-label={ `Product price: ${ this.roundPrice(finalPrice) }${ currency }` }
+              aria-label={ `Product price: ${ formatedCurrency }${ currency }` }
+              itemProp="offers"
+              itemScope
+              itemType="https://schema.org/AggregateOffer"
             >
                 <PriceSemanticElementName>
-                    <data value={ this.roundPrice(finalPrice) }>
-                        { currency }
-                        { this.roundPrice(finalPrice) }
+                    <data
+                      value={ formatedCurrency }
+                    >
+                        <span itemProp="lowPrice">{ formatedCurrency }</span>
+                        <span>{ currency }</span>
                     </data>
                 </PriceSemanticElementName>
 
-                { discountPercentage > 0 && (
-                    <del aria-label="Old product price">
-                        { this.roundPrice(regularPriceValue) }
-                    </del>
-                )}
+                <del
+                  block="ProductPrice"
+                  elem="HighPrice"
+                  mods={ { isVisible: discountPercentage > 0 } }
+                  aria-label={ __('Old product price') }
+                  itemProp="highPrice"
+                >
+                    { roundedRegularPrice }
+                </del>
+
+                <meta itemProp="priceCurrency" content={ priceCurrency } />
             </p>
         );
     }
 }
 
 ProductPrice.propTypes = {
+    roundPrice: PropTypes.func.isRequired,
+    calculateDiscountPercentage: PropTypes.func.isRequired,
+    calculateFinalPrice: PropTypes.func.isRequired,
     price: PriceType,
-    mix: PropTypes.shape({
-        block: PropTypes.string,
-        elem: PropTypes.string,
-        mods: PropTypes.objectOf(PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.bool
-        ]))
-    })
+    mix: MixType
 };
 
 ProductPrice.defaultProps = {

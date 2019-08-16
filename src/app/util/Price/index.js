@@ -9,10 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import {
-    getProductPrice
-} from './Price';
-
-export {
-    getProductPrice
-};
+export * from './Price';

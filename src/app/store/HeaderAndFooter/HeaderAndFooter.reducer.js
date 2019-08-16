@@ -9,77 +9,25 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-/* eslint-disable no-param-reassign */
+import MenuReducer from 'Util/Menu';
 import {
     UPDATE_MENU,
-    GET_COUNTRY_LIST
+    TOGGLE_HEADER_AND_FOOTER
 } from './HeaderAndFooter.action';
 
-const initialState = {
+export const initialState = {
     menu: {},
-    countries: []
+    isHeaderAndFooterVisible: true
 };
 
 const HeaderAndFooterReducer = (state = initialState, action) => {
-    const { countries } = action;
+    const { type, isHeaderAndFooterVisible, menu } = action;
 
-    const resultingCountries = countries && countries.map(country => ({
-        id: country.id,
-        label: country.full_name_locale,
-        available_regions: country.available_regions
-    }));
-
-    switch (action.type) {
+    switch (type) {
     case UPDATE_MENU:
-        const { menu: { items } } = action;
-
-        const menu = {};
-        const menuPositionReference = {};
-
-        const setToValue = (obj, path, value) => {
-            let i;
-            path = path.split('.');
-            for (i = 0; i < path.length - 1; i++) obj = obj[path[i]];
-            obj[path[i]] = value;
-        };
-
-        const createItem = (data) => {
-            const { parent_id, item_id } = data;
-
-            if (parent_id === 0) {
-                menuPositionReference[item_id] = [];
-                menu[item_id] = {
-                    ...data,
-                    children: {}
-                };
-            } else {
-                menuPositionReference[item_id] = [...menuPositionReference[parent_id], parent_id];
-                const position = menuPositionReference[item_id];
-                const dotSeparatedPath = `${position.join('.children.')}.children.${item_id}`;
-
-                setToValue(menu, dotSeparatedPath, {
-                    ...data,
-                    children: {}
-                });
-            }
-        };
-
-        items.forEach((realMenuItem) => {
-            createItem(realMenuItem);
-        });
-
-        return {
-            ...state,
-            menu
-        };
-
-    case GET_COUNTRY_LIST:
-        return {
-            ...state,
-            countries: resultingCountries
-        };
-
-
+        return { ...state, menu: MenuReducer.reduce(menu) };
+    case TOGGLE_HEADER_AND_FOOTER:
+        return { ...state, isHeaderAndFooterVisible };
     default:
         return state;
     }

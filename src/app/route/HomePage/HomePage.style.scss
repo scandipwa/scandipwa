@@ -30,20 +30,17 @@
             height: 400px;
         }
 
-        picture {
+        .Image {
             height: 100%;
             display: block;
             padding-bottom: 0;
-            background-image: var(--placeholder-image);
-            background-size: var(--placeholder-size);
-            animation: var(--placeholder-animation);
 
             @include mobile {
                 height: 0;
                 padding-bottom: 56.5%;
             }
 
-            img {
+            &-Image {
                 object-fit: cover;
             }
         }

@@ -37,6 +37,11 @@ module.exports = {
             '.jsx',
             '.scss',
             '*'
+        ],
+        plugins: [
+            new FallbackPlugin({
+                fallbackRoot, projectRoot
+            })
         ]
     },
 
@@ -149,12 +154,12 @@ module.exports = {
             }
         }),
 
-        new FallbackPlugin({
-            fallbackRoot
+        new webpack.ProvidePlugin({
+            __: path.resolve(path.join(__dirname, 'TranslationFunction'))
         }),
 
         new HtmlWebpackPlugin({
-            template: path.resolve(projectRoot, 'src', 'public', 'index.html'),
+            template: path.resolve(projectRoot, 'src', 'public', 'index.development.html'),
             filename: 'index.html',
             inject: false,
             publicPath: '/'

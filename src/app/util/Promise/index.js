@@ -9,6 +9,5 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import makeCancelable from './MakeCancelable';
-
-export { makeCancelable };
+// eslint-disable-next-line import/prefer-default-export
+export { default as makeCancelable } from './MakeCancelable';

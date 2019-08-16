@@ -30,13 +30,13 @@ const prepareDocument = (queries) => {
             return {};
         }
 
-        const query = querySelection.build();
-        querySelections.push(query.toString());
-        variableDefinitions.push(...query.variableDefinitions);
+        querySelection.build();
+        querySelections.push(querySelection.toString());
+        variableDefinitions.push(...querySelection.variableDefinitions);
 
         return {
             ...variableAssignmentMap,
-            ...query.variableValues
+            ...querySelection.variableValues
         };
     }, {});
 

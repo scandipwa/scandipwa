@@ -10,8 +10,8 @@
  */
 
 table {
-    --table-color: #{color(primary, base, true)};
-    --table-secondary-color: #{transparentize(color(primary, base, true), .4)};
+    --table-color: #{$primary-base-color};
+    --table-secondary-color: #{transparentize($primary-base-color, .4)};
     border: 1px solid var(--table-color);
 
     td, th {
@@ -26,12 +26,16 @@ table {
     }
 
     td {
-        font-size: 1.2rem;
+        font-size: 1rem;
+
+        &:last-child {
+            text-align: right;
+        }
     }
 
     th {
         font-size: 1.35rem;
-        color: color(text, white);
+        color: $white;
         background-color: var(--table-color);
     }
 }

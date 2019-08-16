@@ -12,7 +12,7 @@
 :root {
 	--header-background: #fff;
 	--header-color: #000;
-	--header-search-field-background: #f3f3f3;
+	--header-search-field-background: #{$concrete};
 	--header-search-field-visible-background: #fff;
 	--header-search-field-color: #6e6e6e;
 	--header-search-clear-background: #838383;
@@ -20,11 +20,15 @@
 	--header-desktop-search-bar-width: 270px;
 	--header-desktop-search-bar-max-width: 450px;
 	--header-desktop-button-color: #f26323;
-	--header-height: 100px;
+	--header-height: 50px;
 	--header-nav-height: 50px;
 
+	@include tablet {
+		--header-desktop-search-bar-width: 200px;
+	}
+
 	@include after-mobile {
-		--header-height: 110px;
+		--header-height: 60px;
 		--header-nav-height: 60px;
 	}
 }
@@ -93,6 +97,10 @@
 	z-index: 100;
 	background-color: var(--header-background);
 
+	@include mobile {
+		border-bottom: 1px solid #0003;
+	}
+
 	&_name {
 		&_cart {
 			.Header-Button_type_minicart {
@@ -150,9 +158,9 @@
 		}
 	}
 
-	&-Demo {
-		background: var(--color-primary-base);
-		color: var(--color-text-white);
+	&-Banner {
+		background: $primary-base-color;
+		color: $white;
 		height: 50px;
 		line-height: 50px;
 		text-align: center;
@@ -346,7 +354,7 @@
 		&_isVisible {
 			@include mobile {
 				opacity: 1;
-				max-width: calc(100% - 120px);
+				max-width: calc(100% - 180px);
 			}
 		}
 	}

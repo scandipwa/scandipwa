@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import NoMatchHandler from './NoMatchHandler.container';
-
-export default NoMatchHandler;
+export { default } from './NoMatchHandler.container';

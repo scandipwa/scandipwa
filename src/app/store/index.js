@@ -19,6 +19,8 @@ import { CategoryReducer } from 'Store/Category';
 import { NotificationReducer } from 'Store/Notification';
 import { BreadcrumbsReducer } from 'Store/Breadcrumbs';
 import { ProductReducer } from 'Store/Product';
+import { ProductListReducer } from 'Store/ProductList';
+import { ProductListInfoReducer } from 'Store/ProductListInfo';
 import { HeaderAndFooterReducer } from 'Store/HeaderAndFooter';
 import { CartReducer } from 'Store/Cart';
 import { WishlistReducer } from 'Store/Wishlist';
@@ -29,14 +31,17 @@ import { UrlRewritesReducer } from 'Store/UrlRewrites';
 import { MyAccountReducer } from 'Store/MyAccount';
 import { HeaderReducer } from 'Store/Header';
 import { OverlayReducer } from 'Store/Overlay';
+import { ConfigReducer } from 'Store/Config';
 
-const reducers = {
+export const reducers = {
     CmsBlocksAndSliderReducer,
     CmsPageReducer,
     CategoryReducer,
     NotificationReducer,
     BreadcrumbsReducer,
     ProductReducer,
+    ProductListReducer,
+    ProductListInfoReducer,
     HeaderAndFooterReducer,
     CartReducer,
     WishlistReducer,
@@ -46,7 +51,8 @@ const reducers = {
     MyAccountReducer,
     HeaderReducer,
     OverlayReducer,
-    UrlRewritesReducer
+    UrlRewritesReducer,
+    ConfigReducer
 };
 
 const store = createStore(
@@ -60,5 +66,3 @@ const store = createStore(
 );
 
 export default store;
-
-export { reducers };

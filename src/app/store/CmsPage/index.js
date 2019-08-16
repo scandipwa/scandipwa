@@ -9,17 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import CmsPageReducer from './CmsPage.reducer';
-import CmsPageDispatcher from './CmsPage.dispatcher';
-
-import {
-    UPDATE_CMS_PAGE,
-    updateCmsPage
-} from './CmsPage.action';
-
-export {
-    CmsPageReducer,
-    CmsPageDispatcher,
-    UPDATE_CMS_PAGE,
-    updateCmsPage
-};
+export * from './CmsPage.action';
+export { default as CmsPageReducer } from './CmsPage.reducer';
+export { default as CmsPageDispatcher, CmsPageDispatcher as CmsPageDispatcherClass } from './CmsPage.dispatcher';

@@ -9,11 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Field from 'Component/Field';
 
-class CheckoutPaymentMethods extends Component {
+class CheckoutPaymentMethods extends PureComponent {
     constructor(props) {
         super(props);
 
@@ -54,7 +54,7 @@ class CheckoutPaymentMethods extends Component {
 
         return (
             <fieldset block="CheckoutStep" elem="legend">
-                <legend block="CheckoutPage" elem="Heading">Payment type</legend>
+                <legend block="CheckoutPage" elem="Heading">{ __('Payment Method') }</legend>
                 <table block="CheckoutStep" elem="OptionsTable">
                     <tbody>
                         { paymentMethods.map(method => this.renderPaymentMethod(method)) }

@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Field from 'Component/Field';
 import Loader from 'Component/Loader';
@@ -18,7 +18,7 @@ import './CheckoutShippingMethods.style';
 /**
  * Checkout shipping method selector component
  */
-class CheckoutShippingMethods extends Component {
+class CheckoutShippingMethods extends PureComponent {
     constructor(props) {
         super(props);
 
@@ -65,9 +65,9 @@ class CheckoutShippingMethods extends Component {
                   block="CheckoutShippingMethods"
                   elem="Information"
                 >
-                    Shipping carrier method:
+                    { __('Shipping carrier method:') }
                     <strong>{ carrier_title }</strong>
-                    , price rate
+                    { __(', price rate') }
                     <strong>{ method_title }</strong>
                 </td>
                 <td
@@ -94,7 +94,7 @@ class CheckoutShippingMethods extends Component {
                   block="CheckoutPage"
                   elem="Heading"
                 >
-                    Shipping method
+                    { __('Shipping Method') }
                 </legend>
                 <div>
                     <Loader isLoading={ loadingShippingMethods } />
@@ -107,7 +107,7 @@ class CheckoutShippingMethods extends Component {
                             </table>
                         )
                         : (
-                            <p>Please enter shipping address information first!</p>
+                            <p>{ __('Please enter shipping address information first!') }</p>
                         )
                     }
                 </div>

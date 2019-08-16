@@ -10,24 +10,21 @@
  */
 
 /* eslint-disable no-param-reassign */
-
+import { getIndexedProducts } from 'Util/Product';
 import {
     UPDATE_RELATED_PRODUCTS
 } from './RelatedProducts.action';
 
-const initialState = {
+export const initialState = {
     relatedProducts: {}
 };
 
 const RelatedProductsReducer = (state = initialState, action) => {
     switch (action.type) {
     case UPDATE_RELATED_PRODUCTS:
-        const { relatedProducts: { products } } = action;
+        const { relatedProducts: { products, products: { items: initialItems = [] } } } = action;
 
-        return {
-            ...state,
-            relatedProducts: products
-        };
+        return { ...state, relatedProducts: { ...products, items: getIndexedProducts(initialItems) } };
 
     default:
         return state;

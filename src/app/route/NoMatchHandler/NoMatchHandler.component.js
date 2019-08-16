@@ -13,6 +13,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import NoMatch from 'Route/NoMatch';
 import { LocationType } from 'Type/Router';
+import { ChildrenType } from 'Type/Common';
 
 class NoMatchHandler extends Component {
     componentDidMount() {
@@ -60,10 +61,7 @@ class NoMatchHandler extends Component {
 }
 
 NoMatchHandler.propTypes = {
-    children: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.node),
-        PropTypes.node
-    ]).isRequired,
+    children: ChildrenType.isRequired,
     noMatch: PropTypes.bool.isRequired,
     updateNoMatch: PropTypes.func.isRequired,
     location: LocationType.isRequired

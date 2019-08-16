@@ -15,7 +15,7 @@ import {
     GOTO_PREVIOUS_HEADER_STATE
 } from './Header.action';
 
-const initialState = {
+export const initialState = {
     headerState: {
         name: HOME_PAGE
     },
@@ -30,10 +30,10 @@ const HeaderReducer = (state = initialState, action) => {
 
     switch (action.type) {
     case CHANGE_HEADER_STATE:
-        const { name: nextName } = headerState;
+        const { name: nextName, force = false } = headerState;
         const { headerState: { name: prevName } } = state;
 
-        if (nextName === prevName) {
+        if (nextName === prevName && !force) {
             headerStateHistory[headerStateHistory.length - 1] = headerState;
         } else {
             headerStateHistory.push(headerState);
@@ -48,6 +48,8 @@ const HeaderReducer = (state = initialState, action) => {
     case GOTO_PREVIOUS_HEADER_STATE:
         headerStateHistory.pop();
         const newHeaderState = headerStateHistory.slice(-1)[0];
+
+        if (!newHeaderState) return state;
 
         return {
             ...state,

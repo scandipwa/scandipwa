@@ -9,76 +9,59 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { MediaType } from 'Type/ProductList';
 import Slider from 'Component/Slider';
 import Image from 'Component/Image';
 import './ProductGallery.style';
-
-const PRODUCT_IMAGE_PATH = '/media/catalog/product';
-const THUMBNAIL_KEY = 'thumbnail';
 
 /**
  * Product gallery
  * @class ProductGallery
  */
-class ProductGallery extends Component {
+class ProductGallery extends PureComponent {
     constructor(props) {
         super(props);
         this.state = { activeImage: 0 };
 
         this.renderAdditionalPicture = this.renderAdditionalPicture.bind(this);
-        this.changeActiveImage = this.changeActiveImage.bind(this);
+        this.onActiveImageChange = this.onActiveImageChange.bind(this);
     }
 
-    getGalleryPictures() {
-        const {
-            mediaGallery,
-            thumbnail: { path },
-            thumbnail
-        } = this.props;
-
-        // use images from gallery or fallback to thumbnail
-        return mediaGallery.length
-            ? (
-                mediaGallery.map((media, index) => ({
-                    id: index ? media.id : THUMBNAIL_KEY,
-                    image: `${PRODUCT_IMAGE_PATH}${media.file}`
-                }))
-            )
-            : [{
-                image: thumbnail && path && `${PRODUCT_IMAGE_PATH}${path}`,
-                id: THUMBNAIL_KEY
-            }, ...Array(3).fill({})];
-    }
-
-    changeActiveImage(activeImage) {
+    onActiveImageChange(activeImage) {
         this.setState({ activeImage });
     }
 
-    renderAdditionalPicture({ image, type }, index = 0) {
+    renderAdditionalPicture(media, index = 0) {
+        const {
+            alt,
+            type,
+            image,
+            isPlaceholder
+        } = media;
+
         return (
             <button
               block="ProductGallery"
               elem="Image"
               key={ index }
               mods={ { type } }
-              onClick={ () => this.changeActiveImage(index) }
+              onClick={ () => this.onActiveImageChange(index) }
             >
                 <Image
-                  // eslint-disable-next-line react/no-array-index-key
                   key={ index }
                   src={ image }
+                  alt={ alt }
                   ratio="custom"
-                  objectFit="cover"
+                  isPlaceholder={ isPlaceholder }
                   mix={ { block: 'ProductGallery', elem: 'Image' } }
                 />
             </button>
         );
     }
 
-    renderAdditionalPictures(gallery) {
+    renderAdditionalPictures() {
+        const { gallery } = this.props;
         const galleryLength = gallery.length;
 
         return galleryLength < 4
@@ -86,27 +69,55 @@ class ProductGallery extends Component {
             : gallery.slice(0, 4).map(this.renderAdditionalPicture);
     }
 
-    render() {
-        const gallery = this.getGalleryPictures();
-        const { activeImage } = this.state;
+    renderSlide(media, index) {
+        const {
+            alt,
+            type,
+            image,
+            isPlaceholder
+        } = media;
 
+        switch (type) {
+        case 'image':
+            return (
+                <Fragment key={ index }>
+                    <Image
+                      src={ image }
+                      ratio="custom"
+                      mix={ {
+                          block: 'ProductGallery',
+                          elem: 'SliderImage',
+                          mods: { isPlaceholder: !image }
+                      } }
+                      isPlaceholder={ isPlaceholder }
+                      alt={ alt }
+                    />
+                    <img
+                      style={ { display: 'none' } }
+                      alt={ name }
+                      src={ image }
+                      itemProp="image"
+                    />
+                </Fragment>
+            );
+        default:
+            return null;
+        }
+    }
+
+    render() {
+        const { gallery } = this.props;
+        const { activeImage } = this.state;
         return (
             <div block="ProductGallery">
-                { this.renderAdditionalPictures(gallery) }
+                { this.renderAdditionalPictures() }
                 <Slider
                   mix={ { block: 'ProductGallery', elem: 'Slider' } }
                   showCrumbs
                   activeImage={ activeImage }
-                  changeParentActiveImage={ this.changeActiveImage }
+                  onActiveImageChange={ this.onActiveImageChange }
                 >
-                    { gallery.map(({ image, id }, index) => (
-                        <Image
-                          src={ image }
-                          key={ id || index }
-                          ratio="custom"
-                          mix={ { block: 'ProductGallery', elem: 'SliderImage' } }
-                        />
-                    )) }
+                    { gallery.map(this.renderSlide) }
                 </Slider>
             </div>
         );
@@ -114,13 +125,18 @@ class ProductGallery extends Component {
 }
 
 ProductGallery.propTypes = {
-    mediaGallery: MediaType,
-    thumbnail: PropTypes.shape({ path: PropTypes.string })
-};
-
-ProductGallery.defaultProps = {
-    mediaGallery: [],
-    thumbnail: {}
+    gallery: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.oneOfType([
+                PropTypes.number,
+                PropTypes.string
+            ]),
+            image: PropTypes.string,
+            isPlaceholder: PropTypes.bool,
+            alt: PropTypes.string,
+            type: PropTypes.string
+        })
+    ).isRequired
 };
 
 export default ProductGallery;

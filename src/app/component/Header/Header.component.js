@@ -11,21 +11,17 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 
-import { history } from 'Route';
+import Link from 'Component/Link';
 import MenuOverlay from 'Component/MenuOverlay';
 import SearchOverlay from 'Component/SearchOverlay';
 import CartOverlay from 'Component/CartOverlay';
 import MyAccountOverlay from 'Component/MyAccountOverlay';
 import ClickOutside from 'Component/ClickOutside';
 import { TotalsType } from 'Type/MiniCart';
-import { setQueryParams } from 'Util/Url';
-import isMobile from 'Util/Mobile';
 import './Header.style';
-import { isSignedIn } from 'Util/Auth';
 
 export const PDP = 'pdp';
 export const CATEGORY = 'category';
@@ -40,22 +36,9 @@ export const CART_EDITING = 'cart_editing';
 export const CHECKOUT = 'checkout';
 export const CMS_PAGE = 'cms-page';
 
-export const NAVIGATION_BACK = 'back';
-export const NAVIGATION_CLOSE = 'close';
-export const NAVIGATION_BOTH = 'both';
-export const NAVIGATION_NONE = 'none';
-
-class Header extends Component {
+class Header extends PureComponent {
     constructor(props) {
         super(props);
-
-        this.routeMap = {
-            '/': { name: HOME_PAGE },
-            '/category': { name: CATEGORY, onBackClick: () => history.push('/') },
-            '/product': { name: PDP, onBackClick: () => history.goBack() },
-            '/cart': { name: CART },
-            '/page': { name: CMS_PAGE, onBackClick: () => history.goBack() }
-        };
 
         this.stateMap = {
             [PDP]: {
@@ -90,8 +73,7 @@ class Header extends Component {
             },
             [SEARCH]: {
                 back: true,
-                search: true,
-                searchClear: true
+                search: true
             },
             [CART]: {
                 close: true,
@@ -118,235 +100,41 @@ class Header extends Component {
             }
         };
 
-        this.state = {
-            searchCriteria: '',
-            prevPathname: '',
-            isClearEnabled: false
+        this.renderMap = {
+            cancel: this.renderCancelButton.bind(this),
+            back: this.renderBackButton.bind(this),
+            close: this.renderCloseButton.bind(this),
+            menu: this.renderMenuButton.bind(this),
+            search: this.renderSearchField.bind(this),
+            title: this.renderTitle.bind(this),
+            logo: this.renderLogo.bind(this),
+            account: this.renderAccountButton.bind(this),
+            minicart: this.renderMinicartButton.bind(this),
+            clear: this.renderClearButton.bind(this),
+            edit: this.renderEditButton.bind(this),
+            ok: this.renderOkButton.bind(this)
         };
 
         this.searchBarRef = React.createRef();
-
-        this.onBackButtonClick = this.onBackButtonClick.bind(this);
-        this.onCloseButtonClick = this.onCloseButtonClick.bind(this);
-        this.renderHeaderState = this.renderHeaderState.bind(this);
-        this.onSearchBarClick = this.onSearchBarClick.bind(this);
-        this.onMenuButtonClick = this.onMenuButtonClick.bind(this);
         this.onClearSearchButtonClick = this.onClearSearchButtonClick.bind(this);
-        this.onMyAccountButtonClick = this.onMyAccountButtonClick.bind(this);
-        this.onSearchBarChange = this.onSearchBarChange.bind(this);
-        this.onClearButtonClick = this.onClearButtonClick.bind(this);
-        this.onEditButtonClick = this.onEditButtonClick.bind(this);
-        this.onMinicartButtonClick = this.onMinicartButtonClick.bind(this);
-        this.onOkButtonClick = this.onOkButtonClick.bind(this);
-        this.onCancelButtonClick = this.onCancelButtonClick.bind(this);
-        this.onSearchOutsideClick = this.onSearchOutsideClick.bind(this);
-        this.onMenuOutsideClick = this.onMenuOutsideClick.bind(this);
-        this.onMyAccountOutsideClick = this.onMyAccountOutsideClick.bind(this);
-        this.onMinicartOutsideClick = this.onMinicartOutsideClick.bind(this);
-    }
-
-    componentDidMount() {
-        this.onRouteChanged(history.location, true);
-        history.listen(history => this.onRouteChanged(history));
-    }
-
-    onRouteChanged(history, isPrevPathnameNotRelevant = false) {
-        const { prevPathname } = this.state;
-
-        const {
-            hideActiveOverlay,
-            setHeaderState,
-            headerState: { name }
-        } = this.props;
-
-        const { pathname, search } = history;
-
-        if (!isMobile.any()) {
-            setHeaderState(this.routeMap['/']);
-            hideActiveOverlay();
-
-            return;
-        }
-
-        this.setState({
-            isClearEnabled: new RegExp(['customFilters', 'priceMax', 'priceMin'].join('|')).test(search)
-        });
-
-        if ((isPrevPathnameNotRelevant || prevPathname !== pathname)) {
-            const newHeaderState = Object.keys(this.routeMap).reduce(
-                (state, route) => ((pathname.includes(route))
-                    ? this.routeMap[route]
-                    : state
-                ), { name: HOME_PAGE }
-            );
-
-            if (name !== newHeaderState.name) {
-                setHeaderState(newHeaderState);
-            }
-
-            hideActiveOverlay();
-
-            this.setState({
-                prevPathname: pathname
-            });
-        }
-    }
-
-    onBackButtonClick() {
-        const { headerState: { onBackClick } } = this.props;
-
-        this.setState({ searchCriteria: '' });
-
-        if (onBackClick) onBackClick();
-    }
-
-    onCloseButtonClick() {
-        const { hideActiveOverlay, goToPreviousHeaderState } = this.props;
-        const { headerState: { onCloseClick } } = this.props;
-
-        this.setState({ searchCriteria: '' });
-
-        if (onCloseClick) onCloseClick();
-
-        hideActiveOverlay();
-        goToPreviousHeaderState();
-    }
-
-    onSearchOutsideClick() {
-        const { goToPreviousHeaderState, hideActiveOverlay, headerState: { name } } = this.props;
-
-        if (name !== SEARCH || isMobile.any()) return;
-
-        this.setState({ searchCriteria: '' });
-
-        hideActiveOverlay();
-        goToPreviousHeaderState();
-    }
-
-    onSearchBarClick() {
-        const {
-            setHeaderState,
-            goToPreviousHeaderState,
-            showOverlay,
-            headerState: { name }
-        } = this.props;
-
-        if (name !== SEARCH) {
-            showOverlay(SEARCH);
-            setHeaderState({
-                name: SEARCH,
-                onBackClick: () => {
-                    showOverlay(MENU);
-                    goToPreviousHeaderState();
-                }
-            });
-        }
-    }
-
-    onSearchBarChange({ target: { value: searchCriteria } }) {
-        this.setState({ searchCriteria });
     }
 
     onClearSearchButtonClick() {
-        this.setState({ searchCriteria: '' });
+        const { onClearSearchButtonClick } = this.props;
         this.searchBarRef.current.focus();
-    }
-
-    onMenuButtonClick() {
-        const { showOverlay, setHeaderState, headerState: { name } } = this.props;
-
-        if (name !== MENU) {
-            showOverlay(MENU);
-            setHeaderState({ name: MENU });
-        }
-    }
-
-    onMenuOutsideClick() {
-        const { goToPreviousHeaderState, hideActiveOverlay, headerState: { name } } = this.props;
-
-        if (isMobile.any()) return;
-
-        if (name === MENU || name === MENU_SUBCATEGORY) {
-            if (name === MENU_SUBCATEGORY) goToPreviousHeaderState();
-            goToPreviousHeaderState();
-            hideActiveOverlay();
-        }
-    }
-
-    onMyAccountButtonClick() {
-        const {
-            showOverlay, setHeaderState, headerState: { name }, history
-        } = this.props;
-
-        if (isSignedIn() && isMobile.any()) {
-            history.push({ pathname: '/my-account', state: 'accountOverview' });
-            return;
-        }
-
-        if (name !== CUSTOMER_ACCOUNT) {
-            showOverlay(CUSTOMER_ACCOUNT);
-            setHeaderState({ name: CUSTOMER_ACCOUNT, title: 'Sign in' });
-        }
-    }
-
-    onMyAccountOutsideClick() {
-        const { goToPreviousHeaderState, hideActiveOverlay, headerState: { name } } = this.props;
-
-        if (isMobile.any() || name !== CUSTOMER_ACCOUNT) return;
-
-        goToPreviousHeaderState();
-        hideActiveOverlay();
-    }
-
-    onClearButtonClick() {
-        setQueryParams({ customFilters: '', priceMax: '', priceMin: '' }, history.location, history);
-        this.setState({ isClearEnabled: false });
-    }
-
-    onMinicartButtonClick() {
-        const { showOverlay } = this.props;
-
-        if (!isMobile.any()) return showOverlay(CART);
-
-        return history.push('/cart');
-    }
-
-    onMinicartOutsideClick() {
-        const { goToPreviousHeaderState, hideActiveOverlay, headerState: { name } } = this.props;
-
-        if (isMobile.any() || name !== CART) return;
-
-        goToPreviousHeaderState();
-        hideActiveOverlay();
-    }
-
-    onEditButtonClick() {
-        const { headerState: { onEditClick } } = this.props;
-
-        if (onEditClick) onEditClick();
-    }
-
-    onOkButtonClick() {
-        const { headerState: { onOkClick }, goToPreviousHeaderState } = this.props;
-
-        if (onOkClick) onOkClick();
-        goToPreviousHeaderState();
-    }
-
-    onCancelButtonClick() {
-        const { headerState: { onCancelClick }, goToPreviousHeaderState } = this.props;
-
-        if (onCancelClick) onCancelClick();
-        goToPreviousHeaderState();
+        onClearSearchButtonClick();
     }
 
     renderBackButton(isVisible = false) {
+        const { onBackButtonClick } = this.props;
+
         return (
             <button
+              key="back"
               block="Header"
               elem="Button"
               mods={ { type: 'back', isVisible } }
-              onClick={ this.onBackButtonClick }
+              onClick={ onBackButtonClick }
               aria-label="Go back"
               aria-hidden={ !isVisible }
               tabIndex={ isVisible ? 0 : -1 }
@@ -355,12 +143,15 @@ class Header extends Component {
     }
 
     renderCloseButton(isVisible = false) {
+        const { onCloseButtonClick } = this.props;
+
         return (
             <button
+              key="close"
               block="Header"
               elem="Button"
               mods={ { type: 'close', isVisible } }
-              onClick={ this.onCloseButtonClick }
+              onClick={ onCloseButtonClick }
               aria-label="Close"
               aria-hidden={ !isVisible }
               tabIndex={ isVisible ? 0 : -1 }
@@ -369,8 +160,10 @@ class Header extends Component {
     }
 
     renderMenuButton(isVisible = false) {
+        const { onMenuOutsideClick, onMenuButtonClick } = this.props;
+
         return (
-            <ClickOutside onClick={ this.onMenuOutsideClick }>
+            <ClickOutside onClick={ onMenuOutsideClick } key="menu">
                 <div>
                     <button
                       block="Header"
@@ -379,7 +172,7 @@ class Header extends Component {
                       aria-label="Go to menu and search"
                       aria-hidden={ !isVisible }
                       tabIndex={ isVisible ? 0 : -1 }
-                      onClick={ this.onMenuButtonClick }
+                      onClick={ onMenuButtonClick }
                     />
                     <MenuOverlay />
                 </div>
@@ -387,17 +180,19 @@ class Header extends Component {
         );
     }
 
-    renderSearchField(isSearchVisible = false, isSearchClearVisible = false) {
-        const { searchCriteria } = this.state;
+    renderSearchField(isSearchVisible = false) {
+        const {
+            searchCriteria, onSearchOutsideClick,
+            onSearchBarClick, onSearchBarChange
+        } = this.props;
 
         return (
-            <>
-                <ClickOutside onClick={ this.onSearchOutsideClick }>
-                    <label
+            <Fragment key="search">
+                <ClickOutside onClick={ onSearchOutsideClick }>
+                    <div
                       block="Header"
                       elem="SearchWrapper"
-                      aria-label="Product Search"
-                      htmlFor="search-field"
+                      aria-label="Search"
                     >
                             <input
                               id="search-field"
@@ -405,16 +200,18 @@ class Header extends Component {
                               placeholder="Type a new search"
                               block="Header"
                               elem="SearchField"
-                              onClick={ this.onSearchBarClick }
-                              onChange={ this.onSearchBarChange }
+                              onClick={ onSearchBarClick }
+                              onChange={ onSearchBarChange }
                               value={ searchCriteria }
                               mods={ {
                                   isVisible: isSearchVisible,
                                   type: 'searchField'
                               } }
                             />
-                            <SearchOverlay searchCriteria={ searchCriteria } />
-                    </label>
+                            <SearchOverlay
+                              searchCriteria={ searchCriteria }
+                            />
+                    </div>
                 </ClickOutside>
                 <button
                   block="Header"
@@ -422,11 +219,11 @@ class Header extends Component {
                   onClick={ this.onClearSearchButtonClick }
                   mods={ {
                       type: 'searchClear',
-                      isVisible: isSearchClearVisible
+                      isVisible: isSearchVisible
                   } }
                   aria-label="Clear search"
                 />
-            </>
+            </Fragment>
         );
     }
 
@@ -434,9 +231,14 @@ class Header extends Component {
         const { headerState: { title } } = this.props;
 
         return (
-            <>
-                <h2 block="Header" elem="Title" mods={ { isVisible } }>{ title }</h2>
-            </>
+            <h2
+              key="title"
+              block="Header"
+              elem="Title"
+              mods={ { isVisible } }
+            >
+                { title }
+            </h2>
         );
     }
 
@@ -447,8 +249,15 @@ class Header extends Component {
               aria-label="Go to homepage by clicking on ScandiPWA logo"
               aria-hidden={ !isVisible }
               tabIndex={ isVisible ? 0 : -1 }
-              className={ `Header-Logo ${ isVisible && 'Header-Logo_isVisible' }` }
+              block="Header"
+              elem="Logo"
+              mods={ { isVisible } }
+              key="logo"
+              itemScope
+              itemType="http://schema.org/Organization"
             >
+                <meta itemProp="legalName" content="ScandiPWA" />
+                <meta itemProp="parentOrganization" content="Scandiweb" />
                 <svg xmlns="http://www.w3.org/2000/svg" width="116" height="17">
                     <g fill="none" fillRule="nonzero">
                         <path fill="#F26323" d="M84.38 15.94l-.07-.16-2.15-3.23-.05-.08 2.26-6.08 2.5 4.35 3.57-9.57h3.45l3.28 9.49h.07l.06-.1 4.56-9.37.02-.02h4.46l-.06.16-2.09 4.54-2.25 4.9-2.3 4.97-.06.2h-4.49l-.04-.23-1.51-4.23-1.46-4.08a.44.44 0 0 0-.12.19l-.6 1.6-1.88 5-.66 1.75h-4.44zm-9.53-7.95l.15.02h1.48c.37-.02.75-.03 1.11-.1.7-.15 1.19-.5 1.4-1.1.22-.56.22-1.12-.02-1.68-.2-.44-.54-.75-1.04-.92a4.1 4.1 0 0 0-1.25-.2H75l-.15.02v3.96zm-4.28 7.95V1.17l.13-.01h7.08c.88 0 1.74.13 2.56.43.94.34 1.7.9 2.26 1.67l-2.72 7.34c-.25.09-.5.12-.76.16-.5.08-1.01.09-1.52.09h-2.75l-.02.25v4.84h-4.26zm40.13 0l-.04-.17-1-2.43-.04-.05-.24-.01h-5.8l1.3-2.86h3.73l-1.77-4.35 2.2-4.9.24.56 3.23 7.5 2.78 6.47.11.2c0 .01 0 .04-.02.04h-4.68z" />
@@ -460,14 +269,16 @@ class Header extends Component {
     }
 
     renderAccountButton(isVisible = false) {
+        const { onMyAccountOutsideClick, onMyAccountButtonClick } = this.props;
+
         return (
-            <ClickOutside onClick={ this.onMyAccountOutsideClick }>
+            <ClickOutside onClick={ onMyAccountOutsideClick } key="account">
                 <div aria-label="My account">
                     <button
                       block="Header"
                       elem="Button"
                       mods={ { isVisible, type: 'account' } }
-                      onClick={ this.onMyAccountButtonClick }
+                      onClick={ onMyAccountButtonClick }
                       aria-label="Open my account"
                     />
                     <MyAccountOverlay />
@@ -477,19 +288,19 @@ class Header extends Component {
     }
 
     renderMinicartButton(isVisible = false) {
-        const { cartTotals: { count } } = this.props;
+        const { cartTotals: { items_qty }, onMinicartOutsideClick, onMinicartButtonClick } = this.props;
 
         return (
-            <ClickOutside onClick={ this.onMinicartOutsideClick }>
+            <ClickOutside onClick={ onMinicartOutsideClick } key="minicart">
                 <div>
                     <button
                       block="Header"
                       elem="Button"
                       mods={ { isVisible, type: 'minicart' } }
-                      onClick={ this.onMinicartButtonClick }
+                      onClick={ onMinicartButtonClick }
                       aria-label="Minicart"
                     >
-                        <span aria-label="Items in cart">{ count }</span>
+                        <span aria-label="Items in cart">{ items_qty || '0' }</span>
                     </button>
                     <CartOverlay />
                 </div>
@@ -498,14 +309,15 @@ class Header extends Component {
     }
 
     renderClearButton(isVisible = false) {
-        const { isClearEnabled } = this.state;
+        const { isClearEnabled, onClearButtonClick } = this.props;
 
         return (
             <button
+              key="clear"
               block="Header"
               elem="Button"
               mods={ { type: 'clear', isVisible, isDisabled: !isClearEnabled } }
-              onClick={ this.onClearButtonClick }
+              onClick={ onClearButtonClick }
               aria-label="Clear"
               aria-hidden={ !isVisible }
               tabIndex={ isVisible ? 0 : -1 }
@@ -514,12 +326,15 @@ class Header extends Component {
     }
 
     renderEditButton(isVisible = false) {
+        const { onEditButtonClick } = this.props;
+
         return (
             <button
+              key="edit"
               block="Header"
               elem="Button"
               mods={ { type: 'edit', isVisible } }
-              onClick={ this.onEditButtonClick }
+              onClick={ onEditButtonClick }
               aria-label="Clear"
               aria-hidden={ !isVisible }
               tabIndex={ isVisible ? 0 : -1 }
@@ -528,64 +343,52 @@ class Header extends Component {
     }
 
     renderOkButton(isVisible = false) {
+        const { onOkButtonClick } = this.props;
+
         return (
             <button
+              key="ok"
               block="Header"
               elem="Button"
               mods={ { type: 'ok', isVisible } }
-              onClick={ this.onOkButtonClick }
+              onClick={ onOkButtonClick }
               aria-label="Save changes"
               aria-hidden={ !isVisible }
               tabIndex={ isVisible ? 0 : -1 }
             >
-                OK
+                { __('OK') }
             </button>
         );
     }
 
     renderCancelButton(isVisible = false) {
+        const { onCancelButtonClick } = this.props;
+
         return (
             <button
+              key="cancel"
               block="Header"
               elem="Button"
               mods={ { type: 'cancel', isVisible } }
-              onClick={ this.onCancelButtonClick }
+              onClick={ onCancelButtonClick }
               aria-label="Cancel changes"
               aria-hidden={ !isVisible }
               tabIndex={ isVisible ? 0 : -1 }
             >
-                Cancel
+                { __('Cancel') }
             </button>
         );
     }
 
-    renderHeaderState(state) {
-        const source = this.stateMap[state]
-            ? this.stateMap[state]
+    renderHeaderState() {
+        const { headerState: { name } } = this.props;
+
+        const source = this.stateMap[name]
+            ? this.stateMap[name]
             : this.stateMap[HOME_PAGE];
 
-        const {
-            back, close, title, minicart,
-            account, menu, logo, search,
-            searchClear, clear, edit,
-            ok, cancel
-        } = source;
-
-        return (
-            <>
-                { this.renderCancelButton(cancel) }
-                { this.renderBackButton(back) }
-                { this.renderCloseButton(close) }
-                { this.renderMenuButton(menu) }
-                { this.renderSearchField(search, searchClear) }
-                { this.renderTitle(title) }
-                { this.renderLogo(logo) }
-                { this.renderAccountButton(account) }
-                { this.renderMinicartButton(minicart) }
-                { this.renderClearButton(clear) }
-                { this.renderEditButton(edit) }
-                { this.renderOkButton(ok) }
-            </>
+        return Object.entries(this.renderMap).map(
+            ([key, renderFunction]) => renderFunction(source[key])
         );
     }
 
@@ -594,12 +397,8 @@ class Header extends Component {
 
         return (
             <header block="Header" mods={ { name } }>
-                <a block="Header" elem="Demo" href="mailto:pwa@scandipwa.com">
-                    Get PWA – email to
-                    <strong>pwa@scandipwa.com</strong>
-                </a>
                 <nav block="Header" elem="Nav">
-                    { this.renderHeaderState(name) }
+                    { this.renderHeaderState() }
                 </nav>
             </header>
         );
@@ -607,10 +406,6 @@ class Header extends Component {
 }
 
 Header.propTypes = {
-    showOverlay: PropTypes.func.isRequired,
-    goToPreviousHeaderState: PropTypes.func.isRequired,
-    hideActiveOverlay: PropTypes.func.isRequired,
-    setHeaderState: PropTypes.func.isRequired,
     headerState: PropTypes.shape({
         name: PropTypes.oneOf([
             PDP,
@@ -633,10 +428,24 @@ Header.propTypes = {
         onCancelClick: PropTypes.func
     }).isRequired,
     cartTotals: TotalsType.isRequired,
-    history: PropTypes.shape({
-        location: PropTypes.object.isRequired,
-        push: PropTypes.func.isRequired
-    }).isRequired
+    onBackButtonClick: PropTypes.func.isRequired,
+    onCloseButtonClick: PropTypes.func.isRequired,
+    onSearchBarClick: PropTypes.func.isRequired,
+    onMenuButtonClick: PropTypes.func.isRequired,
+    onClearSearchButtonClick: PropTypes.func.isRequired,
+    onMyAccountButtonClick: PropTypes.func.isRequired,
+    onSearchBarChange: PropTypes.func.isRequired,
+    onClearButtonClick: PropTypes.func.isRequired,
+    onEditButtonClick: PropTypes.func.isRequired,
+    onMinicartButtonClick: PropTypes.func.isRequired,
+    onOkButtonClick: PropTypes.func.isRequired,
+    onCancelButtonClick: PropTypes.func.isRequired,
+    onSearchOutsideClick: PropTypes.func.isRequired,
+    onMenuOutsideClick: PropTypes.func.isRequired,
+    onMyAccountOutsideClick: PropTypes.func.isRequired,
+    onMinicartOutsideClick: PropTypes.func.isRequired,
+    isClearEnabled: PropTypes.bool.isRequired,
+    searchCriteria: PropTypes.string.isRequired
 };
 
-export default withRouter(Header);
+export default Header;

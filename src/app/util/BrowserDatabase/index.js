@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import BrowserDatabase from './BrowserDatabase';
-
-export default BrowserDatabase;
+export { default } from './BrowserDatabase';

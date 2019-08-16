@@ -9,12 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component, Children } from 'react';
+import React, { PureComponent, Children } from 'react';
 import PropTypes from 'prop-types';
 import Field from 'Component/Field';
-import valdationConfig from './Form.config';
+import { MixType, ChildrenType } from 'Type/Common';
+import validationConfig from './Form.config';
 
-class Form extends Component {
+class Form extends PureComponent {
     static updateChildrenRefs(props) {
         const { children: propsChildren } = props;
         const refMap = {};
@@ -22,10 +23,6 @@ class Form extends Component {
             propsChildren,
             (child) => {
                 const { props: { name } } = child;
-                // const onChange = (v) => {
-                //     Form.handleInputChange(v);
-                //     if (originalOnChange) originalOnChange(v);
-                // };
                 refMap[name] = React.createRef();
                 return React.cloneElement(child, { formRef: refMap[name] });
             }
@@ -88,8 +85,8 @@ class Form extends Component {
             for (let i = 0; i < validation.length; i++) {
                 const rule = validation[i];
 
-                if (valdationConfig[rule]) {
-                    const validationRules = valdationConfig[rule];
+                if (validationConfig[rule]) {
+                    const validationRules = validationConfig[rule];
                     const isValid = validationRules.validate(inputNode);
 
                     if (!isValid) return { message: validationRules.message };
@@ -114,10 +111,6 @@ class Form extends Component {
         const { children } = props;
         if (fieldsAreValid) return Form.updateChildrenRefs(props);
         return Form.cloneAndValidateChildren(children, refMap);
-    }
-
-    handleInputChange() {
-        // console.log('THIS INPUT WAS CHANGED!');
     }
 
     handleFormSubmit(e) {
@@ -160,15 +153,13 @@ class Form extends Component {
     render() {
         const { mix } = this.props;
         const { children, fieldsAreValid } = this.state;
-        const { mix: { block, elem, mods } } = this.props;
 
         return (
             <form
-              block={ block || 'Form' }
-              elem={ elem || undefined }
-              mods={ { isInvalid: !fieldsAreValid, ...mods } }
-              ref={ this.form }
+              block="Form"
               mix={ mix }
+              mods={ { isInvalid: !fieldsAreValid } }
+              ref={ (ref) => { this.form = ref; } }
               onSubmit={ e => this.handleFormSubmit(e) }
             >
                 { children }
@@ -181,18 +172,8 @@ Form.propTypes = {
     onSubmitSuccess: PropTypes.func,
     onSubmitError: PropTypes.func,
     onSubmit: PropTypes.func,
-    children: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.node),
-        PropTypes.node
-    ]).isRequired,
-    mix: PropTypes.shape({
-        block: PropTypes.string,
-        elem: PropTypes.string,
-        mods: PropTypes.objectOf(PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.bool
-        ]))
-    })
+    children: ChildrenType.isRequired,
+    mix: MixType
 };
 
 Form.defaultProps = {

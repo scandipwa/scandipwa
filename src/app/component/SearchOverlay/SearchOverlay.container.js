@@ -9,20 +9,66 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import React, { PureComponent } from 'react';
 import { SearchBarDispatcher } from 'Store/SearchBar';
 import { hideActiveOverlay } from 'Store/Overlay';
 import SearchOverlay from './SearchOverlay.component';
 
-const mapStateToProps = state => ({
+export const mapStateToProps = state => ({
     searchResults: state.SearchBarReducer.productsInSearch,
     isLoading: state.SearchBarReducer.isLoading
 });
 
-const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = dispatch => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     makeSearchRequest: options => SearchBarDispatcher.handleData(dispatch, options),
     clearSearchResults: () => SearchBarDispatcher.clearSearchResults(dispatch)
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchOverlay);
+export class SearchOverlayContainer extends PureComponent {
+    constructor(props) {
+        super(props);
+
+        this.containerFunctions = {
+            getProductLinkTo: this.getProductLinkTo.bind(this),
+            makeSearchRequest: this.makeSearchRequest.bind(this)
+        };
+    }
+
+    getProductLinkTo(product) {
+        const { url_key } = product;
+
+        if (!url_key) return {};
+        return {
+            pathname: `/product/${ url_key }`,
+            state: { product }
+        };
+    }
+
+    makeSearchRequest() {
+        const { makeSearchRequest, clearSearchResults, searchCriteria } = this.props;
+        if (searchCriteria) {
+            clearSearchResults();
+            makeSearchRequest({ args: { search: searchCriteria } });
+        }
+    }
+
+    render() {
+        return (
+            <SearchOverlay
+              { ...this.props }
+              { ...this.containerFunctions }
+            />
+        );
+    }
+}
+
+SearchOverlayContainer.propTypes = {
+    makeSearchRequest: PropTypes.func.isRequired,
+    clearSearchResults: PropTypes.func.isRequired,
+    searchCriteria: PropTypes.string.isRequired
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchOverlayContainer);

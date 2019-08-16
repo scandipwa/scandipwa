@@ -15,43 +15,58 @@ import { Field } from 'Util/Query';
  * Category Query
  * @class CategoryQuery
  */
-class CategoryQuery {
-    /**
-     * get Category query
-     * @param  {{categoryUrlPath: String, currentPage: Number, customFilters: Object, getConfigurableData: Boolean, getSubCategories: Boolean, pageSize: Number, previousPage: Boolean, priceRange: Object, productsLoaded: Boolean, sortDirection: String, sortKey: String}} options A object containing different aspects of query, each item can be omitted
-     * @return {Field} Category query
-     * @memberof CategoryQuery
-     */
-    getQuery() {
-        const categoryFields = this._prepareChildrenFields();
-        const children = new Field('children').addFieldList(categoryFields);
-
-        const field = new Field('category')
-            .addArgument('id', 'Int!', '2') // TODO: When config is available get value from config
-            .addFieldList(categoryFields)
-            .addField(children);
-
-        return field;
+export class CategoryQuery {
+    constructor() {
+        this.options = {};
     }
 
-    /**
-     * Prepare Children Fields of any category
-     * @return {Array<Field|String>}
-     * @memberof Category
-     */
-    _prepareChildrenFields() {
-        const breadcrumbs = new Field('breadcrumbs')
-            .addFieldList(['category_name', 'category_url_key', 'category_level']);
+    getQuery(options = {}) {
+        this.options = options;
 
-        const children = new Field('children')
-            .addFieldList(['id', 'name', 'description', 'url_path',
-                'image', 'url_key', 'product_count',
-                'meta_title', 'meta_description', breadcrumbs]);
+        return new Field('category')
+            .addArgument(...this._getConditionalArguments())
+            .addFieldList(this._getDefaultFields())
+            .addField(this._getChildrenFields());
+    }
 
+    _getConditionalArguments() {
+        const { categoryUrlPath, categoryIds } = this.options;
+        if (categoryUrlPath) return ['url_path', 'String!', categoryUrlPath];
+        if (categoryIds) return ['id', 'Int!', categoryIds];
+        throw new Error(__('Can not query category without ID/URL_PATH not specified.'));
+    }
+
+    _getChildrenFields() {
+        return new Field('children')
+            .addFieldList(this._getDefaultFields());
+    }
+
+    _getBreadcrumbsField() {
+        return new Field('breadcrumbs')
+            .addFieldList(this._getBreadcrumbFields());
+    }
+
+    _getBreadcrumbFields() {
         return [
-            'id', 'name', 'description', 'url_path',
-            'image', 'url_key', 'product_count',
-            'meta_title', 'meta_description', breadcrumbs, children
+            'category_name',
+            'category_level',
+            'category_url_key'
+        ];
+    }
+
+    _getDefaultFields() {
+        return [
+            'id',
+            'name',
+            'image',
+            'url_key',
+            'url_path',
+            'meta_title',
+            'description',
+            'canonical_url',
+            'product_count',
+            'meta_description',
+            this._getBreadcrumbsField()
         ];
     }
 }

@@ -10,7 +10,7 @@
  */
 
 .RelatedProducts {
-    @include after-mobile {
+    @include desktop {
         grid-column: 1 / span 2;
         padding: 0 200px;
     }
@@ -37,7 +37,7 @@
 
     &-Label {
         text-transform: uppercase;
-        font-weight: 600;
+        font-weight: bold;
         line-height: 1;
 
         @include mobile {

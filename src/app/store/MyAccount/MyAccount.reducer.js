@@ -20,7 +20,7 @@ import {
     UPDATE_CUSTOMER_PASSWORD_FORGOT_STATUS
 } from './MyAccount.action';
 
-const initialState = {
+export const initialState = {
     isSignedIn: isInitiallySignedIn(),
     passwordResetStatus: false,
     isPasswordForgotSend: false,

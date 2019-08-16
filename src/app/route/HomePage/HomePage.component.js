@@ -14,11 +14,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import HomeSlider from 'Component/HomeSlider';
 import Html from 'Component/Html';
-// import NewsletterSubscribe from 'Component/NewsletterSubsribe';
 import { BlockListType } from 'Type/CMS';
 import Meta from 'Component/Meta';
 import ContentWrapper from 'Component/ContentWrapper';
 import './HomePage.style';
+import Image from 'Component/Image';
 
 class HomePage extends Component {
     constructor() {
@@ -26,7 +26,6 @@ class HomePage extends Component {
 
         this.options = {
             identifiers: ['homepage-category-preview'],
-            fields: ['identifier'],
             sliderId: 4
         };
     }
@@ -81,7 +80,7 @@ class HomePage extends Component {
                               elem="Figure"
                               mods={ { isPlaceholder: true } }
                             >
-                                <picture />
+                                <Image isPlaceholder />
                                 <figcaption
                                   block="HomePage"
                                   elem="Figcaption"

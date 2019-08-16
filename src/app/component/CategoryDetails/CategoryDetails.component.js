@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import Html from 'Component/Html';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import Image from 'Component/Image';
@@ -20,27 +20,63 @@ import './CategoryDetails.style';
  * Category details
  * @class CategoryDetails
  */
-class CategoryDetails extends Component {
-    render() {
-        const { category: { name, description, image } } = this.props;
+class CategoryDetails extends PureComponent {
+    renderCategoryName() {
+        const { category: { name } } = this.props;
 
+        return (
+            <h1 block="CategoryDetails" elem="Heading">
+                <TextPlaceholder content={ name } />
+            </h1>
+        );
+    }
+
+    renderCategoryDescription() {
+        const { category: { description } } = this.props;
+
+        if (!description) return this.renderCategoryDescriptionPlaceholder();
+
+        return <Html content={ description } />;
+    }
+
+    renderCategoryDescriptionPlaceholder() {
+        return <p><TextPlaceholder length="long" /></p>;
+    }
+
+    renderCategoryImagePlaceholder() {
+        return (
+            <Image
+              mix={ { block: 'CategoryDetails', elem: 'Picture' } }
+              objectFit="cover"
+              ratio="custom"
+              isPlaceholder
+            />
+        );
+    }
+
+    renderCategoryImage() {
+        const { category: { image } } = this.props;
+
+        if (!image) return this.renderCategoryImagePlaceholder();
+
+        return (
+            <Image
+              mix={ { block: 'CategoryDetails', elem: 'Picture' } }
+              src={ image && `/media/catalog/category/${image}` }
+              ratio="custom"
+              objectFit="cover"
+            />
+        );
+    }
+
+    render() {
         return (
             <article block="CategoryDetails">
                 <div block="CategoryDetails" elem="Description">
-                    <h1 block="CategoryDetails" elem="Heading">
-                        <TextPlaceholder content={ name } />
-                    </h1>
-                    { description
-                        ? <Html content={ description } />
-                        : <p><TextPlaceholder content={ description } length="long" /></p>
-                    }
+                    { this.renderCategoryName() }
+                    { this.renderCategoryDescription() }
                 </div>
-                <Image
-                  mix={ { block: 'CategoryDetails', elem: 'Picture' } }
-                  src={ image && `/media/catalog/category/${image}` }
-                  ratio="custom"
-                  objectFit="cover"
-                />
+                { this.renderCategoryImage() }
             </article>
         );
     }

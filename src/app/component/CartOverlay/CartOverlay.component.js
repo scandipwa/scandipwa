@@ -9,56 +9,23 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 
+import Link from 'Component/Link';
 import isMobile from 'Util/Mobile';
 import Overlay from 'Component/Overlay';
-import { CART, CART_EDITING } from 'Component/Header';
-import { ProductType } from 'Type/ProductList';
-import { TotalsType } from 'Type/MiniCart';
 import CartItem from 'Component/CartItem';
+import { TotalsType } from 'Type/MiniCart';
+import { ProductType } from 'Type/ProductList';
+
 import './CartOverlay.style';
 
-class CartOverlay extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = { isEditing: false };
-
-        this.changeHeaderState = this.changeHeaderState.bind(this);
-    }
-
-    changeHeaderState() {
-        const { changeHeaderState, totals: { count } } = this.props;
-        const title = `${ count || 0 } Items`;
-
-        changeHeaderState({
-            name: CART,
-            title,
-            onEditClick: () => {
-                this.setState({ isEditing: true });
-                changeHeaderState({
-                    name: CART_EDITING,
-                    title,
-                    onOkClick: () => this.setState({ isEditing: false }),
-                    onCancelClick: () => this.setState({ isEditing: false })
-                });
-            },
-            onCloseClick: () => this.setState({ isEditing: false })
-        });
-    }
-
+class CartOverlay extends PureComponent {
     renderCartItems() {
-        const { products } = this.props;
-        const { isEditing } = this.state;
+        const { products, isEditing } = this.props;
 
-        if (!Object.keys(products).length) {
-            return (
-                <p block="CartOverlay" elem="Empty">There are no products in cart.</p>
-            );
-        }
+        if (!Object.keys(products).length) return this.renderNoCartItems();
 
         return (
             <ul block="CartOverlay" elem="Items" aria-label="List of items in cart">
@@ -69,49 +36,71 @@ class CartOverlay extends Component {
         );
     }
 
+    renderNoCartItems() {
+        return (
+            <p block="CartOverlay" elem="Empty">
+                { __('There are no products in cart.') }
+            </p>
+        );
+    }
+
     renderTotals() {
-        const { totals: { grandTotalPrice } } = this.props;
+        const { totals: { grand_total } } = this.props;
 
         return (
             <dl
               block="CartOverlay"
               elem="Total"
             >
-                <dt>Order total:</dt>
-                <dd>{ `$${grandTotalPrice}` }</dd>
+                <dt>{ __('Order total:') }</dt>
+                <dd>{ `$${grand_total || '0'}` }</dd>
             </dl>
         );
     }
 
     renderTax() {
-        const { totals: { taxPrice } } = this.props;
+        const { totals: { tax_amount } } = this.props;
 
         return (
             <dl
               block="CartOverlay"
               elem="Tax"
             >
-                <dt>Tax total:</dt>
-                <dd>{ `$${taxPrice}` }</dd>
+                <dt>{ __('Tax total:') }</dt>
+                <dd>{ `$${tax_amount || '0'}` }</dd>
             </dl>
         );
     }
 
     renderActions() {
+        const { products } = this.props;
+        const isDisabled = !Object.keys(products).length;
+        const options = isDisabled
+            ? {
+                onClick: e => e.preventDefault(),
+                disabled: true
+            }
+            : {};
+
         return (
             <div block="CartOverlay" elem="Actions">
                 <Link
-                  className="CartOverlay-CartButton Button Button_hollow"
+                  block="CartOverlay"
+                  elem="CartButton"
+                  mix={ { block: 'Button', mods: { hollow: true } } }
                   to="/cart"
                 >
-                    View cart
+                    { __('View cart') }
                 </Link>
                 <Link
-                  className="CartOverlay-CheckoutButton Button"
+                  block="CartOverlay"
+                  elem="CheckoutButton"
+                  mix={ { block: 'Button' } }
                   to="/checkout"
+                  { ...options }
                 >
                     <span />
-                    Secure checkout
+                    { __('Secure checkout') }
                 </Link>
             </div>
         );
@@ -132,10 +121,12 @@ class CartOverlay extends Component {
     }
 
     render() {
+        const { changeHeaderState } = this.props;
+
         return (
             <Overlay
               id="cart"
-              onVisible={ this.changeHeaderState }
+              onVisible={ changeHeaderState }
               mix={ { block: 'CartOverlay' } }
             >
                 { this.renderPromo() }
@@ -151,7 +142,8 @@ class CartOverlay extends Component {
 CartOverlay.propTypes = {
     products: PropTypes.objectOf(ProductType),
     totals: TotalsType.isRequired,
-    changeHeaderState: PropTypes.func.isRequired
+    changeHeaderState: PropTypes.func.isRequired,
+    isEditing: PropTypes.bool.isRequired
 };
 
 CartOverlay.defaultProps = {

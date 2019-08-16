@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import isMobile from './isMobile';
-
-export default isMobile;
+export { default } from './isMobile';

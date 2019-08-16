@@ -13,14 +13,21 @@
     &-Wrapper {
         @include after-mobile {
             display: grid;
-            grid-template-columns: 300px auto;
-            grid-column-gap: 4rem;
             padding-top: 2rem;
+        }
+
+        @include desktop {
+            grid-template-columns: minmax(200px, 300px) auto;
+            grid-column-gap: 4rem;
+        }
+
+        @include tablet {
+            grid-template-columns: minmax(150px, 200px) auto;
+            grid-column-gap: 2rem;
         }
 
         @include mobile {
             padding: 0;
-            border-top: 1px solid var(--overlay-divider-color);
         }
     }
 

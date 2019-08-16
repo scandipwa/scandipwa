@@ -18,13 +18,25 @@
     color: var(--price-color);
     font-weight: 700;
     line-height: 1;
+    vertical-align: middle;
 
     ins {
         text-decoration: none;
     }
 
-    del {
+    &-HighPrice {
         padding-left: .3em;
         color: var(---price-discount-color);
+        display: none;
+
+        &_isVisible {
+            display: block;
+        }
+    }
+
+    &-Placeholder {
+        &::after {
+            content: 'aaaaa';
+        }
     }
 }

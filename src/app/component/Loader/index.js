@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import Loader from './Loader.component';
-
-export default Loader;
+export { default } from './Loader.component';

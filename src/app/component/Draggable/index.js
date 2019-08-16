@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import Draggable from './Draggable.component';
-
-export default Draggable;
+export { default } from './Draggable.component';

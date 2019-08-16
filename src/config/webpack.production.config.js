@@ -45,6 +45,11 @@ module.exports = {
             '.jsx',
             '.scss',
             '*'
+        ],
+        plugins: [
+            new FallbackPlugin({
+                fallbackRoot, projectRoot
+            })
         ]
     },
 
@@ -118,7 +123,7 @@ module.exports = {
         }),
 
         new HtmlWebpackPlugin({
-            template: path.resolve(projectRoot, 'src', 'public', 'index.html'),
+            template: path.resolve(projectRoot, 'src', 'public', 'index.production.html'),
             filename: '../templates/root.phtml',
             inject: false,
             hash: true,
@@ -145,10 +150,13 @@ module.exports = {
             }
         }),
 
+        new webpack.ProvidePlugin({
+            __: path.resolve(path.join(__dirname, 'TranslationFunction'))
+        }),
+
         new CleanWebpackPlugin([
             path.resolve('Magento_Theme', 'templates'),
-            path.resolve('Magento_Theme', 'web'),
-            path.resolve('Magento_Theme', 'public')
+            path.resolve('Magento_Theme', 'web')
         ], { root: projectRoot }),
 
         new MiniCssExtractPlugin(),
@@ -156,13 +164,8 @@ module.exports = {
         new OptimizeCssAssetsPlugin(),
 
         new CopyWebpackPlugin([
-            { from: path.resolve(projectRoot, 'src', 'public', 'assets'), to: './assets' },
-            { from: path.resolve(projectRoot, 'src', 'public', 'public'), to: './public' }
+            { from: path.resolve(projectRoot, 'src', 'public', 'assets'), to: './assets' }
         ]),
-
-        new FallbackPlugin({
-            fallbackRoot
-        }),
 
         new MinifyPlugin({
             removeConsole: true,

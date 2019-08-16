@@ -9,45 +9,21 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import ExpandableContent from 'Component/ExpandableContent';
 import Overlay from 'Component/Overlay';
-import Swatch from 'Component/Swatch';
 import RangeSelector from 'Component/RangeSelector';
+import ExpandableContent from 'Component/ExpandableContent';
+import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
 import './CategoryFilterOverlay.style';
 
-class CategoryFilterOverlay extends Component {
-    constructor(props) {
-        super(props);
-
-        this.onSeeResultsClick = this.onSeeResultsClick.bind(this);
-    }
-
-    onSeeResultsClick() {
-        const { hideActiveOverlay, goToPreviousHeaderState } = this.props;
-
-        hideActiveOverlay();
-        goToPreviousHeaderState();
-    }
-
-    toggleCustomFilter(requestVar, value) {
-        const { updateFilter, customFiltersValues } = this.props;
-        const newFilterArray = customFiltersValues[requestVar] ? customFiltersValues[requestVar] : [];
-        const filterValueIndex = newFilterArray.indexOf(value);
-
-        if (filterValueIndex === -1) {
-            newFilterArray.push(value);
-        } else {
-            newFilterArray.splice(filterValueIndex, 1);
-        }
-
-        updateFilter(requestVar, newFilterArray);
-    }
-
+class CategoryFilterOverlay extends PureComponent {
     renderPriceRange() {
         const {
-            updatePriceRange, priceValue, minPriceValue, maxPriceValue
+            updatePriceRange,
+            priceValue,
+            minPriceValue,
+            maxPriceValue
         } = this.props;
 
         const { min, max } = priceValue;
@@ -55,7 +31,7 @@ class CategoryFilterOverlay extends Component {
         return (
             <ExpandableContent
               heading="Price"
-              subHeading={ `From: ${min} to ${max}` }
+              subHeading={ `From: ${min || minPriceValue} to ${max || maxPriceValue}` }
               mix={ {
                   block: 'CategoryFilterOverlay',
                   elem: 'Filter',
@@ -64,81 +40,64 @@ class CategoryFilterOverlay extends Component {
             >
                 <RangeSelector
                   value={ priceValue }
-                  minValue={ minPriceValue }
-                  maxValue={ maxPriceValue }
+                  minValue={ minPriceValue || min }
+                  maxValue={ maxPriceValue || max }
                   onChangeComplete={ updatePriceRange }
                 />
             </ExpandableContent>
         );
     }
 
-    renderFilterItems(requestVar, filterItems, appliedFilters) {
-        return filterItems.map((filterItem) => {
-            const { value_string } = filterItem;
+    renderFilters() {
+        const {
+            availableFilters,
+            customFiltersValues,
+            toggleCustomFilter,
+            getFilterUrl
+        } = this.props;
 
-            return (
-                <li key={ value_string }>
-                    <Swatch
-                      mix={ { block: 'CategoryFilterOverlay', elem: 'Item' } }
-                      filterItem={ filterItem }
-                      requestVar={ requestVar }
-                      isSelected={ appliedFilters.indexOf(value_string) !== -1 }
-                      onClick={ () => this.toggleCustomFilter(requestVar, value_string) }
-                    />
-                </li>
-            );
-        });
-    }
-
-    renderFilter(filter) {
-        const { customFiltersValues: appliedFilters } = this.props;
-        const { name, request_var: requestVar, filter_items: filterItems } = filter;
-        const appliedFilterItems = appliedFilters[requestVar] ? appliedFilters[requestVar] : [];
-        const appliedFilterItemsString = filterItems.reduce(
-            (prev, { label, value_string }) => {
-                if (appliedFilterItems.indexOf(value_string) !== -1) prev.push(label);
-                return prev;
-            }, []
-        ).join(', ');
+        const isLoaded = availableFilters && !!Object.keys(availableFilters).length;
 
         return (
-            <ExpandableContent
-              key={ requestVar }
-              heading={ name }
-              subHeading={ appliedFilterItemsString }
-              mix={ {
-                  block: 'CategoryFilterOverlay',
-                  elem: 'Filter',
-                  mods: { type: requestVar }
-              } }
-            >
-                <ul block="CategoryFilterOverlay" elem="ItemList" mods={ { type: requestVar } }>
-                    { this.renderFilterItems(requestVar, filterItems, appliedFilterItems) }
-                </ul>
-            </ExpandableContent>
+            <ProductConfigurableAttributes
+              mix={ { block: 'CategoryFilterOverlay', elem: 'Attributes' } }
+              isReady={ isLoaded }
+              configurable_options={ availableFilters }
+              getLink={ getFilterUrl }
+              parameters={ customFiltersValues }
+              updateConfigurableVariant={ toggleCustomFilter }
+            />
         );
     }
 
     renderSeeResults() {
+        const { onSeeResultsClick } = this.props;
+
         return (
             <button
               block="CategoryFilterOverlay"
               elem="SeeResults"
               mix={ { block: 'Button' } }
-              onClick={ this.onSeeResultsClick }
+              onClick={ onSeeResultsClick }
             >
-                SEE RESULTS
+                { __('SEE RESULTS') }
             </button>
         );
     }
 
-    render() {
-        const { availableFilters } = this.props;
+    renderHeading() {
+        return (
+            <h2 block="CategoryFilterOverlay" elem="Heading">
+                { __('Shopping Options') }
+            </h2>
+        );
+    }
 
+    render() {
         return (
             <Overlay mix={ { block: 'CategoryFilterOverlay' } } id="category-filter">
-                <h2 block="CategoryFilterOverlay" elem="Heading">Shopping Options</h2>
-                { availableFilters.map(filter => this.renderFilter(filter)) }
+                { this.renderHeading() }
+                { this.renderFilters() }
                 { this.renderPriceRange() }
                 { this.renderSeeResults() }
             </Overlay>
@@ -147,18 +106,18 @@ class CategoryFilterOverlay extends Component {
 }
 
 CategoryFilterOverlay.propTypes = {
-    availableFilters: PropTypes.arrayOf(PropTypes.shape).isRequired,
-    customFiltersValues: PropTypes.objectOf(PropTypes.array).isRequired,
+    availableFilters: PropTypes.objectOf(PropTypes.shape).isRequired,
     updatePriceRange: PropTypes.func.isRequired,
-    hideActiveOverlay: PropTypes.func.isRequired,
-    goToPreviousHeaderState: PropTypes.func.isRequired,
-    updateFilter: PropTypes.func.isRequired,
     priceValue: PropTypes.shape({
         min: PropTypes.number,
         max: PropTypes.number
     }).isRequired,
     minPriceValue: PropTypes.number.isRequired,
-    maxPriceValue: PropTypes.number.isRequired
+    maxPriceValue: PropTypes.number.isRequired,
+    onSeeResultsClick: PropTypes.func.isRequired,
+    customFiltersValues: PropTypes.objectOf(PropTypes.array).isRequired,
+    toggleCustomFilter: PropTypes.func.isRequired,
+    getFilterUrl: PropTypes.func.isRequired
 };
 
 export default CategoryFilterOverlay;

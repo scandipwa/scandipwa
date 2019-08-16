@@ -10,7 +10,7 @@
  */
 
 :root {
-    --product-information-background: #f3f3f3;
+    --product-information-background: #{$concrete};
 }
 
 .ProductInformation {
@@ -23,6 +23,10 @@
             font-size: 20px;
             text-transform: uppercase;
         }
+    }
+
+    &-Content {
+        width: 100%;
     }
 
     &-Wrapper {

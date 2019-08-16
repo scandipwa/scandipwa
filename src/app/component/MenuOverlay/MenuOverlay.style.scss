@@ -10,7 +10,7 @@
  */
 
 :root {
-    --menu-overlay-item-figure-background: #f3f3f3;
+    --menu-overlay-item-figure-background: #{$concrete};
     --menu-desktop-subitem-arrow-color: #000;
     --menu-overlay-item-banner-color: #fff;
     --menu-overlay-additional-information-divider-color: #dedede;
@@ -124,7 +124,7 @@
                 background-color: var(--overlay-background);
                 opacity: 0;
 
-                overflow: scroll;
+                // overflow-y: scroll;
                 touch-action: pan-y;
                 pointer-events: none;
                 grid-row-gap: 1rem;
@@ -167,6 +167,18 @@
                         border: {
                             left: 1px solid var(--menu-desktop-subitem-arrow-color);
                             bottom: 1px solid var(--menu-desktop-subitem-arrow-color);
+                        }
+                    }
+                }
+
+                & & {
+                    @include after-mobile {
+                        top: -1rem;
+                    }
+
+                    &::before {
+                        @include after-mobile {
+                            top: 25px;
                         }
                     }
                 }
@@ -243,6 +255,13 @@
 
                 color: var(--menu-overlay-item-hover-color);
             }
+
+            + .MenuOverlay-ItemList {
+                @include after-mobile {
+                    @include subcategory-visible;
+                    @include subcategory-desktop-visible;
+                }
+            }
         }
 
         &_type {
@@ -255,15 +274,6 @@
 
                 @include after-mobile {
                     z-index: 20;
-                }
-
-                &:hover {
-                    + .MenuOverlay-ItemList {
-                        @include after-mobile {
-                            @include subcategory-visible;
-                            @include subcategory-desktop-visible;
-                        }
-                    }
                 }
             }
 
@@ -362,23 +372,23 @@
         margin-top: 2rem;
     }
 
-    li {
-        padding-left: 0;
-
-        &::before {
-            content: none;
-        }
-    }
-
-    a {
+    &-Link {
         color: inherit;
 
         &:hover {
             text-decoration: none;
         }
+    }
 
-        + a {
-            margin-left: 0;
+    &-Link + &-Link {
+        margin-left: 0;
+    }
+
+    li {
+        padding-left: 0;
+
+        &::before {
+            content: none;
         }
     }
 }

@@ -11,6 +11,17 @@
 
 import PropTypes from 'prop-types';
 
+export const AttributeType = PropTypes.shape({
+    attribute_code: PropTypes.string,
+    attribute_type: PropTypes.string,
+    attribute_value: PropTypes.string,
+    attribute_label: PropTypes.string,
+    attribute_options: PropTypes.objectOf(PropTypes.shape({
+        label: PropTypes.string,
+        value: PropTypes.string
+    }))
+});
+
 export const BreadcrumbsType = PropTypes.arrayOf(
     PropTypes.shape({
         name: PropTypes.string,
@@ -64,6 +75,28 @@ export const ProductLinksType = PropTypes.arrayOf(
     })
 );
 
+export const ReviewSummaryType = PropTypes.shape({
+    rating_summary: PropTypes.number,
+    review_count: PropTypes.number
+});
+
+export const RatingVoteType = PropTypes.shape({
+    vote_id: PropTypes.number,
+    rating_code: PropTypes.string,
+    percent: PropTypes.number
+});
+
+export const ReviewsType = PropTypes.arrayOf(
+    PropTypes.shape({
+        review_id: PropTypes.number,
+        nickname: PropTypes.string,
+        title: PropTypes.string,
+        detail: PropTypes.string,
+        created_at: PropTypes.string,
+        rating_votes: PropTypes.arrayOf(RatingVoteType)
+    })
+);
+
 export const ProductType = PropTypes.shape({
     canonical_url: PropTypes.string,
     categories: CategoriesType,
@@ -86,7 +119,9 @@ export const ProductType = PropTypes.shape({
     thumbnail_label: PropTypes.shape({ label: PropTypes.string }),
     tier_prices: PropTypes.string,
     url_key: PropTypes.string,
-    quantity: PropTypes.number
+    quantity: PropTypes.number,
+    review_summary: ReviewSummaryType,
+    reviews: ReviewsType
 });
 
 export const FilterType = PropTypes.objectOf(
@@ -94,3 +129,5 @@ export const FilterType = PropTypes.objectOf(
 );
 
 export const ItemsType = PropTypes.arrayOf(ProductType);
+
+export const PagesType = PropTypes.objectOf(ItemsType);

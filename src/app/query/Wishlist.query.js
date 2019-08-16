@@ -12,48 +12,46 @@
 import { Field } from 'Util/Query';
 import { ProductListQuery } from 'Query';
 
-class Wishlist {
+export class Wishlist {
     getWishlistQuery() {
-        const items = new Field('items');
-        this._getWishlistItemField(items, true);
-
-        const query = new Field('wishlist')
-            .addField('items_count')
-            .addField('updated_at')
-            .addField(items);
-
-        return query;
+        return new Field('wishlist')
+            .addFieldList(this._getWishlistFields());
     }
 
-    getAddProductToWishlistMutation(product) {
-        const { sku } = product;
-        const mutation = new Field('addProductToWishlist')
-            .addArgument('productSku', 'String!', sku);
-
-        this._getWishlistItemField(mutation);
-
-        return mutation;
+    getAddProductToWishlistMutation({ sku }) {
+        return new Field('addProductToWishlist')
+            .addArgument('productSku', 'String!', sku)
+            .addFieldList(this._getItemFields());
     }
 
-    getRemoveProductFromWishlistMutation(product) {
-        const { item_id } = product;
-
-        const mutation = new Field('removeProductFromWishlist')
+    getRemoveProductFromWishlistMutation({ item_id }) {
+        return new Field('removeProductFromWishlist')
             .addArgument('itemId', 'String!', item_id);
-
-        return mutation;
     }
 
-    _getWishlistItemField(field, requestProduct) {
-        field
-            .addField('id');
+    _getWishlistFields() {
+        return [
+            'items_count',
+            'updated_at',
+            this._getItemsField()
+        ];
+    }
 
-        if (requestProduct) {
-            field.addField(ProductListQuery._prepareItemsField(
-                { getConfigurableData: true, isSingleProduct: true },
-                new Field('product')
-            ));
-        }
+    _getItemFields() {
+        return [
+            'id',
+            this._getProductField()
+        ];
+    }
+
+    _getProductField() {
+        return new Field('product')
+            .addFieldList(ProductListQuery._getProductInterfaceFields());
+    }
+
+    _getItemsField() {
+        return new Field('item')
+            .addFieldList(this._getItemFields());
     }
 }
 

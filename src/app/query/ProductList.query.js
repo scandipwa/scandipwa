@@ -15,449 +15,489 @@ import { Field, Fragment } from 'Util/Query';
  * Product List Query
  * @class ProductListQuery
  */
-class ProductListQuery {
-    /**
-     * get ProductList query
-     * @param  {{search: String, categoryIds: Array<String|Number>, productUrlPath: String, categoryUrlPath: String, activePage: Number, priceRange: {min: Number, max: Number}, sortKey: String, sortDirection: String, productPageSize: Number, customFilters: Object}} options A object containing different aspects of query, each item can be omitted
-     * @return {Query} ProductList query
-     * @memberof ProductListQuery
-     */
+export class ProductListQuery {
+    constructor() {
+        this.options = {};
+    }
+
     getQuery(options) {
         if (!options) throw new Error('Missing argument `options`');
 
-        const args = this._prepareArgumentList(options);
-        const items = this._prepareItemsField(options, new Field('items'));
-        const sortFields = this._prepareSortFields();
-        const filters = this._prepeareFiltersField();
+        this.options = options;
 
-        const field = new Field('products')
-            .addArgument('currentPage', 'Int!', args.currentPage)
-            .addArgument('pageSize', 'Int!', args.pageSize)
-            .addArgument('filter', 'ProductFilterInput!', args.filter)
-            .addField('total_count')
-            .addField(items);
-
-        if (args.sort) field.addArgument('sort', 'ProductSortInput', args.sort);
-        if (args.search) field.addArgument('search', 'String', args.search);
-
-        // do not load sort and filter fields if this is next page load
-        if (!options.isNextPage) field.addField(sortFields).addField(filters);
-
-        return field;
+        return this._getProductsField();
     }
 
-    /**
-     * Prepare grouped product data
-     * @private
-     * @return {Fragment}
-     * @memberof ProductListQuery
-     */
-    _prepareGroupedData() {
-        const amount = new Field('amount')
-            .addField('value')
-            .addField('currency');
+    _getProductsField() {
+        const products = new Field('products')
+            .addFieldList(this._getProductFields());
 
-        const regularPrice = new Field('regularPrice')
-            .addField(amount);
+        this._getProductArguments().forEach(arg => products.addArgument(...arg));
 
-        const minimalPrice = new Field('minimalPrice')
-            .addField(amount);
-
-        const price = new Field('price')
-            .addField(regularPrice)
-            .addField(minimalPrice);
-
-        const product = new Field('product')
-            .addField('id')
-            .addField('sku')
-            .addField('name')
-            .addField('color')
-            .addField('size')
-            .addField('brand')
-            .addField('shoes_size')
-            .addField(new Field('short_description').addField('html'))
-            .addField(new Field('image').addField('url').addField('label').addField('path'))
-            .addField(new Field('thumbnail').addField('url').addField('label').addField('path'))
-            .addField(price);
-
-        const itemsGrouped = new Field('items').addField(product);
-
-        return new Fragment('GroupedProduct')
-            .addField(itemsGrouped);
+        return products;
     }
 
-    /**
-     * Prepare argument map
-     * @param  {{isSingleProduct: Boolean, search: String, productUrlPath: String, categoryIds: Array<String|Number>, categoryUrlPath: String, activePage: Number, priceRange: {min: Number, max: Number}, sortKey: String, sortDirection: String, productPageSize: Number, customFilters: Object}} options A object containing different aspects of query, each item can be omitted
-     * @return {Object}
-     * @memberof ProductListQuery
-     */
-    _prepareArgumentList(options) {
-        const {
-            search,
-            categoryIds,
-            categoryUrlPath,
-            priceRange,
-            productsSkuArray,
-            sortKey,
-            sortDirection,
-            pageSize,
-            currentPage,
-            productUrlPath,
-            customFilters
-        } = options;
-
-        const argumentMap = {};
-
-        const areCustomFiltersPresent = customFilters ? Object.keys(customFilters).length : false;
-
-        if (categoryIds
-            || categoryUrlPath
-            || priceRange
-            || productsSkuArray
-            || productUrlPath
-            || areCustomFiltersPresent
-            || search
-        ) {
-            // TODO: rewrite when argument will be allowed not to be Strings only
-            const filterList = [];
-
-            const pushToList = (value, formatted) => {
-                if (typeof value === 'object') {
-                    if (value && Object.keys(value).length) {
-                        filterList.push(formatted);
-                    }
-                } else if (value) {
-                    filterList.push(formatted);
-                }
-            };
-
-            pushToList(categoryIds, `category_id: { eq: ${categoryIds} }`);
-            // TODO: Bring back when backend will be fixed
-            pushToList(categoryUrlPath, `category_url_path: { eq: ${categoryUrlPath} }`);
-            if (priceRange) pushToList(priceRange.min, `min_price: { gteq: ${priceRange.min} }`);
-            if (priceRange) pushToList(priceRange.max, `max_price: { lteq: ${priceRange.max} }`);
-            pushToList(productsSkuArray, `sku: { in: [${productsSkuArray}] }`);
-            pushToList(productUrlPath, `url_key: { eq: ${productUrlPath}}`);
-            pushToList(customFilters, this._getCustomAttributeFilters(customFilters));
-
-            argumentMap.filter = `{${filterList.join(',')}}`;
-        }
-
-        argumentMap.pageSize = pageSize || 12; // TODO: move this hard-coded value to config
-        argumentMap.currentPage = currentPage || 1;
-        if (search) argumentMap.search = search;
-        if (sortKey) argumentMap.sort = `{${sortKey}: ${sortDirection || 'ASC'}}`;
-
-        return argumentMap;
+    _getFilterArgumentMap() {
+        return {
+            categoryIds: option => [`category_id: { eq: ${option} }`],
+            categoryUrlPath: option => [`category_url_path: { eq: ${option} }`],
+            priceRange: ({ min, max }) => {
+                const filters = [];
+                if (min) filters.push(`min_price: { gteq: ${min} }`);
+                if (max) filters.push(`max_price: { lteq: ${max} }`);
+                return filters;
+            },
+            productsSkuArray: option => [`sku: { in: [${option}] }`],
+            productUrlPath: option => [`url_key: { eq: ${option}}`],
+            customFilters: (option = {}) => Object.entries(option).reduce((acc, [key, attribute]) => (
+                attribute.length ? [...acc, `${key}: { in: [ ${attribute.join(',')} ] } `] : acc
+            ), [])
+        };
     }
 
-    /**
-     * Prepare custom attribute filter queries
-     * @param {Object} customFilters
-     * @return {String}
-     */
-    _getCustomAttributeFilters(customFilters = {}) {
-        return Object.keys(customFilters).reduce((prev, key) => {
-            const attribute = customFilters[key];
-            if (attribute.length) {
-                return [
-                    ...prev,
-                    `${key}: { in: [ ${attribute.join(',')} ] } `
-                ];
+    _getArgumentsMap() {
+        const { requireInfo } = this.options;
+        const filterArgumentMap = this._getFilterArgumentMap();
+
+        return {
+            currentPage: { type: 'Int!' },
+            pageSize: {
+                type: 'Int!',
+                handler: option => (requireInfo ? 1 : option)
+            },
+            search: {
+                type: 'String!',
+                handler: option => encodeURIComponent(option)
+            },
+            sort: {
+                type: 'ProductSortInput!',
+                handler: ({ sortKey, sortDirection }) => `{${sortKey}: ${sortDirection || 'ASC'}}`
+            },
+            filter: {
+                type: 'ProductFilterInput!',
+                handler: (options = {}) => `{${ Object.entries(options).reduce(
+                    (acc, [key, option]) => ((option && filterArgumentMap[key])
+                        ? [...acc, ...filterArgumentMap[key](option)]
+                        : acc
+                    ), []
+                ).join(',') }}`
             }
-
-            return prev;
-        }, []).join(',');
+        };
     }
 
-    /**
-     * Prepare `filters` field (child of `items` field)
-     * @private
-     * @return {Field}
-     * @memberof ProductListQuery
-     */
-    _prepareItemsFiltersField() {
-        const filterItems = new Field('filter_items')
-            .addField('label')
-            .addField('value_string');
+    _getProductArguments() {
+        const { args } = this.options;
+        const argumentMap = this._getArgumentsMap();
 
-        return new Field('filters')
-            .addField('name')
-            .addField('request_var')
-            .addField(filterItems);
+        return Object.entries(args).reduce((acc, [key, arg]) => {
+            if (!arg) return acc;
+            const { type, handler = option => option } = argumentMap[key];
+            return [...acc, [key, type, handler(arg)]];
+        }, []);
     }
 
-    /**
-     * Prepare `categories` field (child of `items` field)
-     * @private
-     * @return {Field}
-     * @memberof ProductListQuery
-     */
-    _prepareItemsCategoriesField() {
-        const breadcrumbs = new Field('breadcrumbs')
-            .addFieldList(['category_name', 'category_url_key']);
+    _getProductFields() {
+        const { requireInfo } = this.options;
 
-        return new Field('categories')
-            .addField('name')
-            .addField('url_path')
-            .addField(breadcrumbs);
-    }
-
-    /**
-     * Prepare `price` field (child of `items` field)
-     * @private
-     * @return {Field}
-     * @memberof ProductListQuery
-     */
-    _prepareItemsPriceField() {
-        const amount = new Field('amount').addFieldList(['value', 'currency']);
-        const regularPrice = new Field('regularPrice').addField(amount);
-        const minimalPrice = new Field('minimalPrice').addField(amount);
-
-        return new Field('price').addFieldList([regularPrice, minimalPrice]);
-    }
-
-    /**
-     * Prepare `image`, `small_image`, `thumbnail` and related labels. (child of `items` field)
-     * @private
-     * @param  {{isSingleProduct: Boolean, search: String, categoryIds: Array<String|Number>, categoryUrlPath: String, activePage: Number, priceRange: {min: Number, max: Number}, sortKey: String, sortDirection: String, productPageSize: Number}} options A object containing different aspects of query, each item can be omitted
-     * @return {Array<String>} Prepared field strings for image types
-     * @memberof ProductListQuery
-     */
-    _prepareImageFields(options) {
-        const images = [
-            new Field('thumbnail').addField('url').addField('label').addField('path'),
-            new Field('small_image').addField('url').addField('label').addField('path')
-        ];
-        if (options.isSingleProduct) images.push(new Field('image').addField('url').addField('label').addField('path'));
-        return images;
-    }
-
-    /**
-     * Prepare configurable product data
-     * @private
-     * @param  {{getConfigurableData: Boolean}} options A object containing different aspects of query, each item can be omitted
-     * @return {Array<String>} Array of prepared SKU id's
-     * @memberof ProductListQuery
-     */
-    _prepareConfigurableData(options) {
-        let data = ['type_id'];
-
-        if (options.getConfigurableData) {
-            const values = new Field('values')
-                .addField('value_index')
-                .addField('label');
-
-            const configurableOptions = new Field('configurable_options')
-                .addField('id')
-                .addField('label')
-                .addField('attribute_code')
-                .addField('attribute_id')
-                .addField(values);
-
-            const amount = new Field('amount')
-                .addField('value')
-                .addField('currency');
-
-            const regularPrice = new Field('regularPrice')
-                .addField(amount);
-
-            const minimalPrice = new Field('minimalPrice')
-                .addField(amount);
-
-            const price = new Field('price')
-                .addField(regularPrice)
-                .addField(minimalPrice);
-
-            const mediaGallery = new Field('media_gallery_entries')
-                .addField('id')
-                .addField('file');
-
-            const product = new Field('product')
-                .addField('id')
-                .addField('sku')
-                .addField('name')
-                .addField('color')
-                .addField('size')
-                .addField('shoes_size')
-                .addField(
-                    new Field('short_description').addField('html')
-                )
-                .addField(
-                    new Field('image').addField('url').addField('label').addField('path')
-                )
-                .addField(
-                    new Field('thumbnail')
-                        .addField('url')
-                        .addField('label')
-                        .addField('path')
-                )
-                .addField(mediaGallery)
-                .addField(price);
-
-            const variants = new Field('variants')
-                .addField(product);
-
-            const configurableData = new Fragment('ConfigurableProduct')
-                .addField(configurableOptions)
-                .addField(variants);
-
-            data = [...data, configurableData];
+        if (requireInfo) {
+            return [
+                'min_price',
+                'max_price',
+                this._getSortField(),
+                this._getFiltersField()
+            ];
         }
 
-        return data;
-    }
-
-    /**
-     * Prepare single product specific fields, example: `meta_title`, `description`, etc.
-     * @private
-     * @param  {{isSingleProduct: Boolean, search: String, categoryIds: Array<String|Number>, categoryUrlPath: String, activePage: Number, priceRange: {min: Number, max: Number}, sortKey: String, sortDirection: String, productPageSize: Number}} options A object containing different aspects of query, each item can be omitted
-     * @return {Array<String>} Prepared array of fields
-     * @memberof ProductListQuery
-     */
-    _prepareAdditionalInformation(options) {
-        const additionalInformation = ['brand', 'color', 'size', 'shoes_size'];
-
-        if (options.isSingleProduct) {
-            const mediaGallery = this._prepareAdditionalGallery();
-            const tierPrices = this._prepareTierPrice();
-            const productLinks = this._prepareAdditionalProductLinks();
-            const description = new Field('description').addField('html');
-            const groupedProductItems = this._prepareGroupedData();
-
-            additionalInformation.push(...[
-                'meta_title', 'meta_keyword',
-                'meta_description', 'canonical_url',
-                description, mediaGallery, tierPrices, productLinks, groupedProductItems
-            ]);
-        }
-
-        return additionalInformation;
-    }
-
-    /**
-     * Prepare tier price (single product specific)
-     * @private
-     * @return {Field} Prepared field
-     * @memberof ProductListQuery
-     */
-    _prepareTierPrice() {
-        return new Field('tier_prices')
-            .addFieldList([
-                'customer_group_id', 'qty', 'value',
-                'percentage_value', 'website_id'
-            ]);
-    }
-
-    /**
-     * Prepare additional gallery (single product specific)
-     * @private
-     * @return {Field} Prepared field
-     * @memberof ProductListQuery
-     */
-    _prepareAdditionalGallery() {
-        const content = new Field('content')
-            .addFieldList(['base64_encoded_data', 'type', 'name']);
-
-        const videoContent = new Field('video_content')
-            .addFieldList([
-                'media_type', 'video_provider', 'video_url',
-                'video_title', 'video_description', 'video_metadata'
-            ]);
-
-        const additionalFields = [
-            'id', 'media_type', 'label',
-            'position', 'disabled', 'types', 'file'
+        return [
+            'total_count',
+            this._getItemsField()
         ];
-
-        return new Field('media_gallery_entries')
-            .addField(content)
-            .addField(videoContent)
-            .addFieldList(additionalFields);
     }
 
-    /**
-     * Prepare product fields (single product specific)
-     * @private
-     * @return {Field} Prepared field
-     * @memberof ProductListQuery
-     */
-    _prepareAdditionalProductLinks() {
-        return new Field('product_links')
-            .addFieldList(['link_type', 'linked_product_sku', 'position']);
-    }
+    _getProductInterfaceFields(isVariant) {
+        const { isSingleProduct } = this.options;
+        // TODO: add Grouped product fragment
 
-    /**
-     * Prepare filters field
-     * @private
-     * @return {Field} Prepared field
-     * @memberof ProductListQuery
-     */
-    _prepeareFiltersField() {
-        const swatchData = new Field('swatch_data')
-            .addField('type')
-            .addField('value');
-
-        const swatchLayerFilterItem = new Fragment('SwatchLayerFilterItem')
-            .addField('label')
-            .addField(swatchData);
-
-        const filterItems = new Field('filter_items')
-            .addField('label')
-            .addField('value_string')
-            .addField(swatchLayerFilterItem);
-
-        return new Field('filters')
-            .addField('name')
-            .addField('request_var')
-            .addField(filterItems);
-    }
-
-    /**
-     * Prepare `items` field
-     * @private
-     * @param  {{isSingleProduct: Boolean, search: String, categoryIds: Array<String|Number>, categoryUrlPath: String, activePage: Number, priceRange: {min: Number, max: Number}, sortKey: String, sortDirection: String, productPageSize: Number}} options A object containing different aspects of query, each item can be omitted
-     * @param {Field}
-     * @return {Field} Prepared items field
-     * @memberof ProductListQuery
-     */
-    _prepareItemsField(options, items) {
-        const categories = this._prepareItemsCategoriesField(); // same for ProductList and single product
-        const price = this._prepareItemsPriceField(); // same for ProductList and single product
-        const images = this._prepareImageFields(options); // images related to product (based on `isSingleProduct` option)
-        const additionalInformation = this._prepareAdditionalInformation(options); // additional options related to SINGLE product request
-        const configurableData = this._prepareConfigurableData(options);
-        // default fields for all queries
-        const defaultFields = [
+        return [
             'id',
+            'sku',
             'name',
-            (new Field('short_description').addField('html')),
-            'url_key',
+            'type_id',
+            'stock_status',
             'special_price',
-            'sku'
+            'only_x_left_in_stock',
+            this._getPriceField(),
+            this._getThumbnailField(),
+            this._getCategoriesField(),
+            this._getShortDescriptionField(),
+            this._getAttributesField(isVariant),
+            ...(!isVariant
+                ? [
+                    'url_key',
+                    this._getReviewSummaryField(),
+                    this._getConfigurableProductFragment()
+                ]
+                : []
+            ),
+            ...(isSingleProduct
+                ? [
+                    'meta_title',
+                    'meta_keyword',
+                    'canonical_url',
+                    'meta_description',
+                    this._getDescriptionField(),
+                    this._getMediaGalleryField(),
+                    ...(!isVariant
+                        ? [
+                            this._getReviewsField(),
+                            this._getProductLinksField()
+                        ]
+                        : []
+                    )
+                ]
+                : []
+            )
         ];
-
-        return items
-            .addFieldList(defaultFields) // Important fields, default for all Products
-            .addField(categories) // Categories & Breadcrumbs
-            .addField(price) // Minimal & Regular Price (Minimal – for Customizable products)
-            .addFieldList(images) // Simple images: either `small_image` and `thumbnail`, either both previous + `image`
-            .addFieldList(additionalInformation) // Single product related fields
-            .addFieldList(configurableData);
     }
 
-    /**
-     * Prepare `sort_fields` field
-     * @private
-     * @return {Field} Prepared items field
-     * @memberof ProductListQuery
-     */
-    _prepareSortFields() {
-        const options = new Field('options').addFieldList(['value', 'label']);
+    _getItemsField() {
+        return new Field('items')
+            .addFieldList(this._getProductInterfaceFields());
+    }
 
+    _getProductField() {
+        return new Field('product')
+            .addFieldList(this._getProductInterfaceFields(true));
+    }
+
+    _getShortDescriptionFields() {
+        return [
+            'html'
+        ];
+    }
+
+    _getShortDescriptionField() {
+        return new Field('short_description')
+            .addFieldList(this._getShortDescriptionFields());
+    }
+
+    _getBreadcrumbFields() {
+        return [
+            'category_name',
+            'category_url_key'
+        ];
+    }
+
+    _getBreadcrumbsField() {
+        return new Field('breadcrumbs')
+            .addFieldList(this._getBreadcrumbFields());
+    }
+
+    _getCategoryFields() {
+        return [
+            'name',
+            'url_path',
+            this._getBreadcrumbsField()
+        ];
+    }
+
+    _getCategoriesField() {
+        return new Field('categories')
+            .addFieldList(this._getCategoryFields());
+    }
+
+    _getAmountFields() {
+        return [
+            'value',
+            'currency'
+        ];
+    }
+
+    _getAmountField() {
+        return new Field('amount')
+            .addFieldList(this._getAmountFields());
+    }
+
+    _getMinimalPriceFields() {
+        return [
+            this._getAmountField()
+        ];
+    }
+
+    _getMinimalPriceField() {
+        return new Field('minimalPrice')
+            .addFieldList(this._getMinimalPriceFields());
+    }
+
+    _getRegularPriceFields() {
+        return [
+            this._getAmountField()
+        ];
+    }
+
+    _getRegularPriceField() {
+        return new Field('regularPrice')
+            .addFieldList(this._getRegularPriceFields());
+    }
+
+    _getPriceFields() {
+        return [
+            this._getMinimalPriceField(),
+            this._getRegularPriceField()
+        ];
+    }
+
+    _getPriceField() {
+        return new Field('price')
+            .addFieldList(this._getPriceFields());
+    }
+
+    _getThumbnailFields() {
+        return [
+            'url',
+            'path',
+            'label'
+        ];
+    }
+
+    _getThumbnailField() {
+        return new Field('thumbnail')
+            .addFieldList(this._getThumbnailFields());
+    }
+
+    _getAttributeOptionField() {
+        return [
+            'label',
+            'value',
+            this._getSwatchDataField()
+        ];
+    }
+
+    _getAttributeOptionsField() {
+        return new Field('attribute_options')
+            .addFieldList(this._getAttributeOptionField());
+    }
+
+    _getAttributeFields(isVariant) {
+        return [
+            'attribute_id',
+            'attribute_value',
+            'attribute_code',
+            'attribute_type',
+            'attribute_label',
+            ...(!isVariant
+                ? [
+                    this._getAttributeOptionsField()
+                ]
+                : []
+            )
+        ];
+    }
+
+    _getAttributesField(isVariant) {
+        return new Field('attributes')
+            .addFieldList(this._getAttributeFields(isVariant));
+    }
+
+    _getMediaGalleryFields() {
+        return [
+            'id',
+            'file',
+            'label',
+            'position',
+            'disabled',
+            'media_type',
+            'types'
+        ];
+    }
+
+    _getMediaGalleryField() {
+        return new Field('media_gallery_entries')
+            .addFieldList(this._getMediaGalleryFields());
+    }
+
+    _getProductLinksField() {
+        return new Field('product_links')
+            .addFieldList(this._getProductLinkFields());
+    }
+
+    _getDescriptionFields() {
+        return [
+            'html'
+        ];
+    }
+
+    _getDescriptionField() {
+        return new Field('description')
+            .addFieldList(this._getDescriptionFields());
+    }
+
+    _getProductLinkFields() {
+        return [
+            'position',
+            'link_type',
+            'linked_product_sku'
+        ];
+    }
+
+    _getRatingVoteFields() {
+        return [
+            'vote_id',
+            'rating_code',
+            'percent'
+        ];
+    }
+
+    _getRatingVotesField() {
+        return new Field('rating_votes')
+            .addFieldList(this._getRatingVoteFields());
+    }
+
+    _getReviewFields() {
+        return [
+            'review_id',
+            'nickname',
+            'title',
+            'detail',
+            'created_at',
+            this._getRatingVotesField()
+        ];
+    }
+
+    _getReviewsField() {
+        return new Field('reviews')
+            .addFieldList(this._getReviewFields());
+    }
+
+    _getReviewSummaryFields() {
+        return [
+            'rating_summary',
+            'review_count'
+        ];
+    }
+
+    _getReviewSummaryField() {
+        return new Field('review_summary')
+            .addFieldList(this._getReviewSummaryFields());
+    }
+
+    _getValueFields() {
+        return [
+            'value_index'
+        ];
+    }
+
+    _getValuesField() {
+        return new Field('values')
+            .addFieldList(this._getValueFields());
+    }
+
+    _getConfigurableOptionFields() {
+        return [
+            'attribute_code',
+            this._getValuesField()
+        ];
+    }
+
+    _getConfigurableOptionsField() {
+        return new Field('configurable_options')
+            .addFieldList(this._getConfigurableOptionFields());
+    }
+
+    _getVariantFields() {
+        return [
+            this._getProductField()
+        ];
+    }
+
+    _getVariantsField() {
+        return new Field('variants')
+            .addFieldList(this._getVariantFields());
+    }
+
+    _getConfigurableProductFragmentFields() {
+        return [
+            this._getConfigurableOptionsField(),
+            this._getVariantsField()
+        ];
+    }
+
+    _getConfigurableProductFragment() {
+        return new Fragment('ConfigurableProduct')
+            .addFieldList(this._getConfigurableProductFragmentFields());
+    }
+
+    _getSortOptionFields() {
+        return [
+            'value',
+            'label'
+        ];
+    }
+
+    _getSortOptionsField() {
+        return new Field('options')
+            .addFieldList(this._getSortOptionFields());
+    }
+
+    _getSortFields() {
+        return [
+            this._getSortOptionsField()
+        ];
+    }
+
+    _getSortField() {
         return new Field('sort_fields')
-            .addField(options);
+            .addFieldList(this._getSortFields());
+    }
+
+    _getSwatchDataFields() {
+        return [
+            'type',
+            'value'
+        ];
+    }
+
+    _getSwatchDataField() {
+        return new Field('swatch_data')
+            .addFieldList(this._getSwatchDataFields());
+    }
+
+    _getFilterItemSwatchFragmentFields() {
+        return [
+            'label',
+            this._getSwatchDataField()
+        ];
+    }
+
+    _getFilterItemSwatchFragment() {
+        return new Fragment('SwatchLayerFilterItem')
+            .addFieldList(this._getFilterItemSwatchFragmentFields());
+    }
+
+    _getFilterItemFields() {
+        return [
+            'label',
+            'value_string',
+            this._getFilterItemSwatchFragment()
+        ];
+    }
+
+    _getFilterItemsField() {
+        return new Field('filter_items')
+            .addFieldList(this._getFilterItemFields());
+    }
+
+    _getFilterFields() {
+        return [
+            'name',
+            'request_var',
+            this._getFilterItemsField()
+        ];
+    }
+
+    _getFiltersField() {
+        return new Field('filters')
+            .addFieldList(this._getFilterFields());
     }
 }
 

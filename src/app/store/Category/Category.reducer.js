@@ -9,89 +9,18 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import {
-    UPDATE_CATEGORY_PRODUCT_LIST,
-    UPDATE_CATEGORY_LIST,
-    UPDATE_CURRENT_CATEGORY,
-    APPEND_CATEGORY_PRODUCT_LIST,
-    UPDATE_LOAD_STATUS
-} from './Category.action';
+import { UPDATE_CURRENT_CATEGORY } from './Category.action';
 
-const initialState = {
-    items: [],
-    totalItems: 0,
-    category: {},
-    categoryList: {},
-    sortFields: {},
-    filters: [],
-    isLoading: true
+export const initialState = {
+    category: {}
 };
 
-const CategoryReducer = (state = initialState, action) => {
-    const {
-        totalItems,
-        items,
-        categoryList,
-        sortFields,
-        filters,
-        isLoading,
-        categoryUrlPath,
-        categoryIds
-    } = action;
-
-    switch (action.type) {
-    case UPDATE_CATEGORY_PRODUCT_LIST:
-        return {
-            ...state,
-            totalItems,
-            items,
-            sortFields,
-            filters
-        };
-
-    case APPEND_CATEGORY_PRODUCT_LIST:
-        return {
-            ...state,
-            items: [
-                ...state.items,
-                ...items
-            ]
-        };
-
-    case UPDATE_CATEGORY_LIST:
-        return {
-            ...state,
-            categoryList
-        };
-
+const CategoryReducer = (state = initialState, { type, category }) => {
+    switch (type) {
     case UPDATE_CURRENT_CATEGORY:
-        const { categoryList: stateCategoryList } = state;
-        const flattendCategories = {};
-
-        const deleteProperty = (key, { [key]: _, ...newObj }) => newObj;
-        const flattenCategory = (category) => {
-            const { children } = category;
-
-            if (children) {
-                children.forEach((element) => {
-                    flattenCategory(element);
-                    flattendCategories[categoryUrlPath
-                        ? element.url_path : element.id] = deleteProperty('children', element);
-                });
-            }
-        };
-
-        flattenCategory(stateCategoryList);
-
         return {
             ...state,
-            category: flattendCategories[categoryUrlPath || categoryIds]
-        };
-
-    case UPDATE_LOAD_STATUS:
-        return {
-            ...state,
-            isLoading
+            category
         };
 
     default:

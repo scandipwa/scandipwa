@@ -12,7 +12,7 @@
 import { connect } from 'react-redux';
 import Field from './Field.component';
 
-const mapStateToProps = state => ({
+export const mapStateToProps = state => ({
     customer: state.MyAccountReducer.customer
 });
 

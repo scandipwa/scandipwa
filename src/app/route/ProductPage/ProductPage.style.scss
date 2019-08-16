@@ -10,6 +10,14 @@
  */
 
 .ProductPage {
+    @include after-mobile {
+        padding-top: 1rem;
+    }
+
+    > section:nth-child(even) {
+        background-color: #{$concrete};
+    }
+
     &-Wrapper {
         display: grid;
         grid-template-columns: 6fr 4fr;

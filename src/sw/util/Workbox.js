@@ -10,8 +10,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-/* eslint-disable no-undef */
-
 if (typeof workbox === 'undefined') {
     importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js');
 }

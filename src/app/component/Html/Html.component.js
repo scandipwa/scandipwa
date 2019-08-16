@@ -11,21 +11,20 @@
 
 /* eslint-disable consistent-return */
 // Disabled due `domToReact` internal logic
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import Parser from 'html-react-parser';
 import domToReact from 'html-react-parser/lib/dom-to-react';
 import attributesToProps from 'html-react-parser/lib/attributes-to-props';
-import { Link } from 'react-router-dom';
+import Link from 'Component/Link';
 import PropTypes from 'prop-types';
 import Image from 'Component/Image';
-import Figure from 'Component/Figure';
 
 /**
  * Html content parser
  * Component converts HTML strings to React components
  * @class Html
  */
-class Html extends Component {
+class Html extends PureComponent {
     constructor(props) {
         super(props);
 
@@ -37,25 +36,40 @@ class Html extends Component {
             {
                 query: { name: ['img'] },
                 replace: this.replaceImages
+            },
+            {
+                query: { name: ['input'] },
+                replace: this.replaceInput
+            },
+            {
+                query: { name: ['script'] },
+                replace: this.replaceScript
             }
         ];
 
         this.parserOptions = {
             replace: (domNode) => {
-                for (let i = 0; i < this.rules.length; i++) {
-                    const { query, replace } = this.rules[i];
+                const { data, name: domName, attribs: domAttrs } = domNode;
 
-                    if (query.name && domNode.name && query.name.indexOf(domNode.name) !== -1) {
+                // Let's remove empty text nodes
+                if (data && !data.replace(/\u21b5/g, '').replace(/\s/g, '').length) {
+                    return <></>;
+                }
+
+                for (let i = 0; i < this.rules.length; i++) {
+                    const { query: { name, attribs }, replace } = this.rules[i];
+
+                    if (name && domName && name.indexOf(domName) !== -1) {
                         return replace.call(this, domNode);
-                    } if (query.attribs && domNode.attribs) {
-                        query.attribs.forEach((attrib) => {
+                    } if (attribs && domAttrs) {
+                        attribs.forEach((attrib) => {
                             if (typeof attrib === 'object') {
                                 const queryAttrib = Object.keys(attrib)[0];
-                                if (Object.prototype.hasOwnProperty.call(domNode.attribs, queryAttrib)) {
-                                    const match = domNode.attribs[queryAttrib].match(Object.values(attrib)[0]);
+                                if (Object.prototype.hasOwnProperty.call(domAttrs, queryAttrib)) {
+                                    const match = domAttrs[queryAttrib].match(Object.values(attrib)[0]);
                                     if (match) return replace.call(this, domNode);
                                 }
-                            } else if (Object.prototype.hasOwnProperty.call(domNode.attribs, attrib)) {
+                            } else if (Object.prototype.hasOwnProperty.call(domAttrs, attrib)) {
                                 return replace.call(this, domNode);
                             }
                         });
@@ -75,7 +89,9 @@ class Html extends Component {
         const { href } = attribs;
         if (href) {
             const isAbsoluteUrl = value => new RegExp('^(?:[a-z]+:)?//', 'i').test(value);
-            if (!isAbsoluteUrl(attribs.href)) {
+            const isSpecialLink = value => new RegExp('^(sms|tel|mailto):', 'i').test(value);
+
+            if (!isAbsoluteUrl(attribs.href) && !isSpecialLink(attribs.href)) {
                 /* eslint no-param-reassign: 0 */
                 // Allowed, because param is not a direct reference
                 attribs.to = attribs.href;
@@ -97,24 +113,32 @@ class Html extends Component {
      * @memberof Html
      */
     replaceImages({ attribs }) {
-        if (Object.prototype.hasOwnProperty.call(attribs, 'src')) {
-            return (
-                <Image
-                  { ...attributesToProps(attribs) }
-                  arePlaceholdersShown
-                />
-            );
+        if (attribs.src) {
+            return <Image { ...attributesToProps(attribs) } />;
         }
+    }
+
+    /**
+     * Replace input.
+     * @param  {{ attribs: Object }}
+     * @return {void|JSX} Return JSX with image
+     * @memberof Html
+     */
+    replaceInput({ attribs }) {
+        return <input { ...attributesToProps(attribs) } />;
+    }
+
+    replaceScript({ attribs }) {
+        const script = document.createElement('script');
+        Object.entries(attribs).forEach(([attr, value]) => script.setAttribute(attr, value));
+        document.body.appendChild(script);
+
+        return <></>;
     }
 
     render() {
         const { content } = this.props;
-
-        return (
-            <>
-                { Parser(content, this.parserOptions) }
-            </>
-        );
+        return Parser(content, this.parserOptions);
     }
 }
 

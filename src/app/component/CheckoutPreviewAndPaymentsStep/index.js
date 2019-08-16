@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import CheckoutPreviewAndPaymentsStep from './CheckoutPreviewAndPaymentsStep.component';
-
-export default CheckoutPreviewAndPaymentsStep;
+export { default } from './CheckoutPreviewAndPaymentsStep.component';

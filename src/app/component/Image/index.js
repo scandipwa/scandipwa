@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import Image from './Image.component';
-
-export default Image;
+export { default } from './Image.component';

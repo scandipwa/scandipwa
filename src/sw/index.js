@@ -10,7 +10,6 @@
  */
 
 /* eslint-disable no-undef */
-/* eslint-disable no-restricted-globals */
 
 import workbox from './util/Workbox';
 import { flushCache } from './handler/FlushCache';

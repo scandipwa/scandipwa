@@ -9,93 +9,102 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import TextPlaceholder from 'Component/TextPlaceholder';
+import { MixType, ChildrenType } from 'Type/Common';
 import './ExpandableContent.style';
 
-class ExpandableContent extends Component {
+class ExpandableContent extends PureComponent {
     constructor(props) {
         super(props);
 
-        this.state = { isContentExpanded: false };
-
+        const { isContentExpanded } = this.props;
+        this.state = { isContentExpanded };
         this.toggleExpand = this.toggleExpand.bind(this);
     }
 
     toggleExpand() {
+        this.setState(({ isContentExpanded }) => (
+            { isContentExpanded: !isContentExpanded }
+        ));
+    }
+
+    renderButton() {
         const { isContentExpanded } = this.state;
-        this.setState({ isContentExpanded: !isContentExpanded });
+        const { heading, subHeading, mix } = this.props;
+
+        return (
+            <button
+              block="ExpandableContent"
+              elem="Button"
+              mods={ { isContentExpanded } }
+              mix={ { ...mix, elem: 'ExpandableContentButton' } }
+              onClick={ this.toggleExpand }
+            >
+                <span
+                  block="ExpandableContent"
+                  elem="Heading"
+                  mix={ { ...mix, elem: 'ExpandableContentHeading' } }
+                >
+                    <TextPlaceholder content={ heading } />
+                </span>
+                <span
+                  block="ExpandableContent"
+                  elem="SubHeading"
+                  mix={ { ...mix, elem: 'ExpandableContentSubHeading' } }
+                >
+                    { subHeading }
+                </span>
+            </button>
+
+        );
+    }
+
+    renderContent() {
+        const { children, mix } = this.props;
+        const { isContentExpanded } = this.state;
+        const mods = { isContentExpanded };
+
+        return (
+            <div
+              block="ExpandableContent"
+              elem="Content"
+              mods={ mods }
+              mix={ { ...mix, elem: 'ExpandableContentContent', mods } }
+            >
+                { children }
+            </div>
+        );
     }
 
     render() {
-        const { isContentExpanded } = this.state;
-        const {
-            heading, subHeading,
-            children, mix
-        } = this.props;
+        const { mix } = this.props;
 
         return (
             <article
               block="ExpandableContent"
               mix={ mix }
             >
-                <button
-                  block="ExpandableContent"
-                  elem="Button"
-                  mods={ { isContentExpanded } }
-                  mix={ { ...mix, elem: 'ExpandableContentButton' } }
-                  onClick={ this.toggleExpand }
-                >
-                    <span
-                      block="ExpandableContent"
-                      elem="Heading"
-                      mix={ { ...mix, elem: 'ExpandableContentHeading' } }
-                    >
-                        { heading }
-                    </span>
-                    <span
-                      block="ExpandableContent"
-                      elem="SubHeading"
-                      mix={ { ...mix, elem: 'ExpandableContentSubHeading' } }
-                    >
-                        { subHeading }
-                    </span>
-                </button>
-                <div
-                  block="ExpandableContent"
-                  elem="Content"
-                  mods={ { isContentExpanded } }
-                  mix={ { ...mix, elem: 'ExpandableContentContent' } }
-                >
-                    { children }
-                </div>
+                { this.renderButton() }
+                { this.renderContent() }
             </article>
         );
     }
 }
 
 ExpandableContent.propTypes = {
+    isContentExpanded: PropTypes.bool,
     heading: PropTypes.string,
     subHeading: PropTypes.string,
-    children: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.node),
-        PropTypes.node
-    ]),
-    mix: PropTypes.shape({
-        block: PropTypes.string,
-        elem: PropTypes.string,
-        mods: PropTypes.objectOf(PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.bool
-        ]))
-    })
+    children: ChildrenType.isRequired,
+    mix: MixType.isRequired
 };
 
 ExpandableContent.defaultProps = {
-    heading: '',
     subHeading: '',
-    children: [],
-    mix: {}
+    heading: '',
+    isContentExpanded: false
 };
 
 export default ExpandableContent;

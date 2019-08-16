@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import InputRange from 'react-input-range';
 import PropTypes from 'prop-types';
 import 'react-input-range/lib/css/index.css';
@@ -19,7 +19,7 @@ import './RangeSelector.style';
  * Product Sort
  * @class ProductSort
  */
-class RangeSelector extends Component {
+class RangeSelector extends PureComponent {
     constructor() {
         super();
 
@@ -71,7 +71,6 @@ class RangeSelector extends Component {
     render() {
         const { minValue, maxValue } = this.props;
         const { min, max } = this.getValue();
-
         const isChanged = min !== minValue || max !== maxValue;
 
         return (

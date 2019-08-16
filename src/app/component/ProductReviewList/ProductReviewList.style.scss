@@ -1,0 +1,103 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+.ProductReviewList {
+    &-Item {
+        // border-bottom: 1px solid #e0e0e0;
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0;
+        padding: 3rem 0;
+
+        @include mobile {
+            padding: 2rem 0;
+        }
+
+        &:last-child {
+            border-bottom: 0;
+        }
+
+        &::before {
+            content: none;
+        }
+    }
+
+    &-Title {
+        text-align: center;
+        font-weight: 700;
+        font-size: 2rem;
+        margin-top: 3rem;
+    }
+
+    &-ReviewTitle {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    &-RatingSummary {
+        line-height: 1;
+
+        @include mobile {
+            margin-bottom: 1rem;
+        }
+    }
+
+    &-RatingSummaryItem {
+        align-items: center;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: .5rem;
+
+        &:last-of-type {
+            margin-bottom: 0;
+        }
+
+        .ProductReviewRating {
+            margin: 0 0 .2rem 1rem;
+        }
+    }
+
+    &-ReviewContent {
+        flex: 1 0 0;
+        margin-left: 4rem;
+
+        @include mobile {
+            flex: 0 0 auto;
+            margin-left: 0;
+            width: 100%;
+        }
+
+        .TextPlaceholder {
+            display: block;
+        }
+    }
+
+    &-ReviewDetails {
+        margin-bottom: 2rem;
+
+        @include mobile {
+            margin-bottom: 1rem;
+        }
+
+        .TextPlaceholder {
+            margin-top: .5rem;
+            line-height: 1.1;
+
+            &::after {
+                display: block;
+            }
+        }
+    }
+
+    &-ReviewAuthor {
+        font-size: 1rem;
+    }
+}

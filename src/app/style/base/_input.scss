@@ -11,15 +11,16 @@
 
 :root {
     --input-border-color: #e0e0e0;
+    --input-background-color: #fff;
 }
 
 input,
 textarea,
 select {
-    --input-color: #{color(primary, base, true)};
+    --input-color: #{$primary-base-color};
 
     border: 1px solid var(--input-border-color);
-    background-color: var(--color-footer-light);
+    background-color: var(--input-background-color);
     padding: 13px 20px;
     appearance: none;
 
@@ -30,10 +31,6 @@ select {
     &:not(:first) {
         margin-top: 1rem;
     }
-}
-
-select {
-    padding-right: 40px;
 }
 
 textarea {
@@ -72,121 +69,6 @@ textarea {
 
         &:last-child {
             bottom: 0;
-        }
-    }
-}
-
-[type="checkbox"],
-[type="radio"] {
-    position: absolute;
-    opacity: 0;
-    padding: 0;
-    min-width: 0;
-    min-height: 0;
-
-    + label {
-        --box-color: #{white};
-
-        display: inline-block;
-        position: relative;
-        cursor: pointer;
-        padding: 0;
-        width: 1.5rem;
-        height: 1.5rem;
-        background-color: var(--box-color);
-        border: 1px solid var(--input-border-color);
-        transition-property: background-color, border-color;
-        transition-duration: .25s;
-        transition-timing-function: ease-in;
-
-        &::after {
-            --checkmark-color: transparent;
-
-            content: '';
-            position: absolute;
-            pointer-events: none;
-            background: var(--checkmark-color);
-            transition-duration: .25s;
-            transition-timing-function: ease-in;
-            transition-property: background-color;
-        }
-
-        &:hover {
-            --box-color: #{transparentize(color(neutral, light, true), .4)};
-            border-color: color(primary, base);
-
-            &::after {
-                --checkmark-color: #{color(neutral, base, true)};
-            }
-        }
-    }
-
-    &:disabled + label {
-        color: #b8b8b8;
-        cursor: auto;
-    }
-
-    &:checked + label {
-        background-color: color(primary, base, true);
-        border-color: color(primary, base, true);
-
-        &::after {
-            --checkmark-color: #{color(text, white, true)};
-        }
-    }
-}
-
-[type="checkbox"] {
-    + label {
-        &::after {
-            left: .25rem;
-            top: .6rem;
-            width: .2rem;
-            height: .2rem;
-            box-shadow:
-                2px 0 0 var(--checkmark-color),
-                4px 0 0 var(--checkmark-color),
-                4px -2px 0 var(--checkmark-color),
-                4px -4px 0 var(--checkmark-color),
-                4px -6px 0 var(--checkmark-color),
-                4px -8px 0 var(--checkmark-color);
-            transform: rotate(45deg);
-            transition-property: background-color, box-shadow;
-        }
-    }
-
-    &:checked {
-        &:hover {
-            + label {
-                background-color: var(--color-primary-base);
-            }
-        }
-    }
-}
-
-[type="radio"] {
-    + label {
-        border-radius: 50%;
-
-        &::after {
-            left: 0;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            margin: auto;
-            width: .5rem;
-            height: .5rem;
-            border-radius: 50%;
-            transition-property: background-color, box-shadow;
-        }
-    }
-
-    &:focus + label {
-        --box-color: #{transparentize(color(neutral, light, true), .4)};
-        border-color: color(primary, base);
-
-        &::after {
-            --checkmark-color: #{color(text, white, true)};
         }
     }
 }

@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 
@@ -17,7 +17,7 @@ import Helmet from 'react-helmet';
  * Page Meta data
  * @class Meta
  */
-class Meta extends Component {
+class Meta extends PureComponent {
     render() {
         const {
             metaObject: {
@@ -25,7 +25,8 @@ class Meta extends Component {
                 title,
                 meta_title,
                 meta_description,
-                meta_keyword
+                meta_keyword,
+                canonical_url
             }
         } = this.props;
 
@@ -36,6 +37,9 @@ class Meta extends Component {
                   { name: 'title', content: meta_title },
                   { name: 'description', content: meta_description },
                   { name: 'keywords', content: meta_keyword }
+              ] }
+              link={ [
+                  { ...(canonical_url && { rel: 'canonical', href: canonical_url }) }
               ] }
             />
         );

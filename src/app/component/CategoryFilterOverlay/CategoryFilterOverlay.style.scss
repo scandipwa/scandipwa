@@ -11,8 +11,8 @@
 
 :root {
     --category-filter-overlay-desktop-color: #979797;
-    --category-filter-overlay-selected-color: var(--color-primary-base);
-    --category-filter-overlay-hover-color: var(--color-primary-light);
+    --category-filter-overlay-selected-color: #{$primary-base-color};
+    --category-filter-overlay-hover-color: #{$primary-light-color};
 }
 
 .CategoryFilterOverlay {
@@ -36,42 +36,6 @@
 
         @include mobile {
             display: none;
-        }
-    }
-
-    &-ItemList {
-        display: grid;
-        grid-template-columns: repeat(3, 33.33%);
-        text-align: center;
-
-        @include after-mobile {
-            --swatch-type-size: 33px;
-
-            display: flex;
-            flex-wrap: wrap;
-        }
-
-        &:not(.CategoryFilterOverlay-ItemList_type_color) {
-            grid-template-columns: 50% 50%;
-        }
-
-        &_type {
-            &_color {
-                grid-template-columns: repeat(5, 20%);
-
-                @include mobile {
-                    grid-row-gap: 1rem;
-                }
-            }
-
-            &_cat {
-                @include after-mobile {
-                    --swatch-type-size: auto;
-
-                    flex-direction: column;
-                    align-items: flex-start;
-                }
-            }
         }
     }
 
@@ -117,22 +81,19 @@
         padding: 1rem;
     }
 
+    &-Attributes {
+        --option-margin: .5rem;
+
+        @include after-mobile {
+            --option-margin: 0 12px 12px 0;
+        }
+    }
+
     &-Filter {
         order: 50;
 
-        &_type {
-            &_cat {
-                order: 100;
-                display: none;
-            }
-
-            &_price {
-                order: 60;
-
-                @include after-mobile {
-                    margin-bottom: 1rem;
-                }
-            }
+        @include after-mobile {
+            margin-bottom: 1rem;
         }
     }
 
@@ -154,17 +115,11 @@
         }
     }
 
-    .ExpandableContent-Content_isContentExpanded {
-        @include mobile {
-            padding: 2rem 1rem;
-        }
-    }
-
     li {
         padding-left: 0;
 
         &::before {
-            content: '';
+            content: none;
         }
 
         &:last-child {

@@ -29,8 +29,8 @@
     &::before {
         @include after-mobile {
             content: '';
-            background: var(--color-breadcrumbs-background);
-            min-height: 40px;
+            background: var(--breadcrumbs-background);
+            min-height: var(--breadcrumbs-height);
             display: block;
         }
     }

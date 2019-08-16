@@ -8,69 +8,32 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-
+import { getIndexedProduct } from 'Util/Product';
 import {
     UPDATE_PRODUCT_DETAILS,
     UPDATE_GROUPED_PRODUCT_QUANTITY,
     CLEAR_GROUPED_PRODUCT_QUANTITY
 } from './Product.action';
 
-const initialState = {
+export const initialState = {
     product: {},
-    filters: [],
     formattedConfigurableOptions: {},
     groupedProductQuantity: {}
 };
 
-export const formatConfigurableOptions = (configurable_options, filters) => configurable_options
+export const formatConfigurableOptions = configurable_options => configurable_options
     .reduce((prev, option) => {
         const {
             attribute_id,
             label,
-            attribute_code,
-            values: rawValues
+            attribute_code
         } = option;
-
-        const values = rawValues.map(({ value_index, label }) => {
-            const quickData = {
-                id: value_index,
-                label
-            };
-
-            const { filter_items: filterItems } = filters.find(
-                ({ request_var }) => request_var === attribute_code
-            ) || {};
-
-            if (!filterItems) return quickData;
-
-            const { swatch_data: swatchData } = filterItems.find(
-                // eslint-disable-next-line eqeqeq
-                ({ value_string }) => value_index == value_string
-            ) || {};
-
-            const typemap = {
-                0: 'text',
-                1: 'color',
-                2: 'image'
-            };
-
-            if (!swatchData) return quickData;
-
-            const { type, value } = swatchData;
-
-            return ({
-                ...quickData,
-                type: typemap[type],
-                value
-            });
-        });
 
         return {
             ...prev,
             [attribute_code]: {
                 attribute_id,
-                label,
-                values
+                label
             }
         };
     }, {});
@@ -78,17 +41,11 @@ export const formatConfigurableOptions = (configurable_options, filters) => conf
 const ProductReducer = (state = initialState, action) => {
     switch (action.type) {
     case UPDATE_PRODUCT_DETAILS:
-        const { product, filters } = action;
-
-        const { configurable_options } = product;
+        const { product } = action;
 
         return {
             ...state,
-            product,
-            filters,
-            formattedConfigurableOptions: configurable_options
-                ? formatConfigurableOptions(configurable_options, filters)
-                : {}
+            product: getIndexedProduct(product)
         };
 
     case UPDATE_GROUPED_PRODUCT_QUANTITY:

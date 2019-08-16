@@ -19,7 +19,7 @@ import MyAccountDetails from './MyAccountDetails.component';
 const mapStateToProps = state => ({
     isSignedIn: state.MyAccountReducer.isSignedIn,
     customer: state.MyAccountReducer.customer,
-    countryList: state.HeaderAndFooterReducer.countries
+    countryList: state.ConfigReducer.countries
 });
 
 const mapDispatchToProps = dispatch => ({

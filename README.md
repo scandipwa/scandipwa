@@ -9,10 +9,16 @@ This repository contains ScandiPWA Theme sources.
 > Unless you are trying to commit to "core" components - use `composer require scandipwa\installer` [package](https://bitbucket.org/scandiweb/scandipwa-theme-installer) instead.
 
 ## Important note
-This branch contains experimental 2.x version, that requires different DB dump available on [2.0 branch](https://github.com/scandipwa/scandipwa-base/commits/2.0)
- 
-v1.x is currently the main [master branch](https://github.com/scandipwa/base-theme) and has active support and 
- development.  
+
+This branch contains 2.x version, that requires different DB dump available on [2.0 branch](https://github.com/scandipwa/scandipwa-base/commits/2.0)
+
+It is important to ensure you are following the best practices and setting web-server root to `/pub` folder or adapt the build configs prefixing the pathes with `/pub` dir <https://github.com/scandipwa/base-theme/issues/134>
+
+[Official Magento 2 docs](https://devdocs.magento.com/guides/v2.3/install-gde/tutorials/change-docroot-to-pub.html)
+
+### Upgrading to version ^1.7
+
+When upgrading to theme version ^1.7, pay attention to `webpack.*.config` files, new plugin was added there. Also, the index is now split in two parts: the `index.production.html` and `index.development.html`.
 
 ## Environment
 

@@ -15,10 +15,11 @@
 
 // todo fix text type
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import './Field.style';
+import { MixType } from 'Type/Common';
 import ClickOutside from 'Component/ClickOutside';
+import './Field.style';
 
 const TEXT_TYPE = 'text';
 const NUMBER_TYPE = 'number';
@@ -32,7 +33,7 @@ const SELECT_TYPE = 'select';
  * Input fields component
  * @class Field
  */
-class Field extends Component {
+class Field extends PureComponent {
     constructor(props) {
         super(props);
 
@@ -91,6 +92,12 @@ class Field extends Component {
         const { onFocus } = this.props;
 
         if (onFocus) onFocus(event);
+    }
+
+    onBlur(event) {
+        const { onBlur } = this.props;
+
+        if (onBlur) onBlur(event);
     }
 
     onKeyPress(event) {
@@ -508,7 +515,7 @@ class Field extends Component {
 
     render() {
         const {
-            id, type, label, note, message, state, mix
+            id, type, label, message, state, mix
         } = this.props;
 
         const mods = {
@@ -522,7 +529,6 @@ class Field extends Component {
                 { label && <label htmlFor={ id }>{ label }</label> }
                 { this.renderInputOfType(type) }
                 { message && <p block="Field" elem="Message">{ message }</p> }
-                { note && <p block="Field" elem="Note">{ note }</p> }
             </div>
         );
     }
@@ -541,7 +547,6 @@ Field.propTypes = {
         SELECT_TYPE
     ]).isRequired,
     label: PropTypes.string,
-    note: PropTypes.string,
     message: PropTypes.string,
     placeholder: PropTypes.string,
     value: PropTypes.oneOfType([
@@ -570,18 +575,12 @@ Field.propTypes = {
     disabled: PropTypes.bool,
     onChange: PropTypes.func,
     onFocus: PropTypes.func,
+    onBlur: PropTypes.func,
     onClick: PropTypes.func,
     onKeyPress: PropTypes.func,
     min: PropTypes.number,
     max: PropTypes.number,
-    mix: PropTypes.shape({
-        block: PropTypes.string,
-        elem: PropTypes.string,
-        mods: PropTypes.objectOf(PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.bool
-        ]))
-    }),
+    mix: MixType,
     formRef: PropTypes.oneOfType([
         PropTypes.func,
         PropTypes.shape({ current: PropTypes.instanceOf(Element) })
@@ -606,9 +605,9 @@ Field.defaultProps = {
     onClick: () => {},
     onFocus: () => {},
     onChange: () => {},
+    onBlur: () => {},
     value: null,
     state: '',
-    note: '',
     message: '',
     placeholder: '',
     autocomplete: 'off'

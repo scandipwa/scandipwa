@@ -10,7 +10,7 @@
  */
 
 :root {
-    --search-criteria-background: #f3f3f3;
+    --search-criteria-background: #{$concrete};
     --search-criteria-label-color: rgba(10, 10, 10, 0.44);
     --search-criteria-search-term-color: #0a0a0a;
     --search-item-divider-color: #eeeeee;
@@ -18,7 +18,7 @@
 }
 
 .SearchOverlay {
-    --placeholder-animation: placeholderAnimation 2s linear infinite, appear 200ms forwards;
+    --placeholder-animation: placeholderAnimation 2s linear infinite;
 
     @include after-mobile {
         transition-property: width, opacity, transform, border-color;
@@ -34,6 +34,8 @@
         border-width: 0 1px 1px;
         border-style: solid;
         border-color: transparent;
+        max-height: 50vh;
+        overflow-y: scroll;
     }
 
     &_isVisible {
@@ -132,16 +134,19 @@
         font-size: 1.1rem;
         font-weight: 600;
         max-width: calc(100vw - 7rem);
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
+
+        &_isLoaded {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
 
         @include after-mobile {
             max-width: calc(100% - 7rem);
         }
     }
 
-    a {
+    &-Link {
         color: inherit;
 
         &:hover {
