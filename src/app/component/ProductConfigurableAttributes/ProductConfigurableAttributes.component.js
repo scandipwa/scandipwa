@@ -84,7 +84,7 @@ class ProductConfigurableAttributes extends Component {
               key={ i }
               mix={ { block: 'ProductConfigurableAttributes' } }
             >
-                <div block="ProductConfigurableAttributes" elem="AttributesList">
+                <div key={ i } block="ProductConfigurableAttributes" elem="AttributesList">
                     { Array.from({ length: 6 }, i => (
                         <div
                           key={ i }
