@@ -20,8 +20,6 @@
 }
 
 .ProductConfigurableAttributes {
-    margin: var(--product-configurable-attributes-margin);
-
     &-AttributesList {
         text-align: center;
         display: flex;
@@ -35,6 +33,10 @@
             display: flex;
             flex-wrap: wrap;
         }
+    }
+
+    &-Expandable {
+        margin: var(--product-configurable-attributes-margin);
     }
 
     &-ExpandableContentButton {
