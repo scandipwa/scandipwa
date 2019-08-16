@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import Slider from './Slider.component';
-
-export default Slider;
+export { default } from './Slider.component';

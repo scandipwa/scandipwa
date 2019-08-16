@@ -9,34 +9,17 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import CategoryQuery from 'Query/Category.query';
-import ProductListQuery from 'Query/ProductList.query';
-import CmsPageQuery from 'Query/CmsPage.query';
-import CmsBlockQuery from 'Query/CmsBlock.query';
-import SliderQuery from 'Query/Slider.query';
-import MenuQuery from 'Query/Menu.query';
-import MyAccountQuery from 'Query/MyAccount.query';
-import WishlistQuery from 'Query/Wishlist.query';
-import CartQuery from 'Query/Cart.query';
-import RegionQuery from 'Query/Region.query';
-import CheckEmailQuery from 'Query/CheckEmail.query';
-import ReviewQuery from 'Query/Review.query';
-import UrlRewritesQuery from 'Query/UrlRewrites.query';
-import ConfigQuery from 'Query/Config.query';
-
-export {
-    CategoryQuery,
-    ProductListQuery,
-    CmsPageQuery,
-    CmsBlockQuery,
-    SliderQuery,
-    MenuQuery,
-    UrlRewritesQuery,
-    MyAccountQuery,
-    WishlistQuery,
-    CartQuery,
-    RegionQuery,
-    CheckEmailQuery,
-    ReviewQuery,
-    ConfigQuery
-};
+export { default as CategoryQuery } from 'Query/Category.query';
+export { default as ProductListQuery } from 'Query/ProductList.query';
+export { default as CmsPageQuery } from 'Query/CmsPage.query';
+export { default as CmsBlockQuery } from 'Query/CmsBlock.query';
+export { default as SliderQuery } from 'Query/Slider.query';
+export { default as MenuQuery } from 'Query/Menu.query';
+export { default as MyAccountQuery } from 'Query/MyAccount.query';
+export { default as WishlistQuery } from 'Query/Wishlist.query';
+export { default as CartQuery } from 'Query/Cart.query';
+export { default as RegionQuery } from 'Query/Region.query';
+export { default as CheckEmailQuery } from 'Query/CheckEmail.query';
+export { default as ReviewQuery } from 'Query/Review.query';
+export { default as UrlRewritesQuery } from 'Query/UrlRewrites.query';
+export { default as ConfigQuery } from 'Query/Config.query';

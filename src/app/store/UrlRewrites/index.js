@@ -9,21 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import UrlRewritesReducer from './UrlRewrites.reducer';
-import UrlRewritesDispatcher from './UrlRewrites.dispatcher';
-
-import {
-    UPDATE_URL_REWRITE,
-    CLEAR_URL_REWRITE,
-    updateUrlRewrite,
-    clearUrlRewrite
-} from './UrlRewrites.action';
-
-export {
-    UrlRewritesReducer,
-    UrlRewritesDispatcher,
-    UPDATE_URL_REWRITE,
-    CLEAR_URL_REWRITE,
-    updateUrlRewrite,
-    clearUrlRewrite
-};
+export * from './UrlRewrites.action';
+export { default as UrlRewritesReducer } from './UrlRewrites.reducer';
+export { default as UrlRewritesDispatcher } from './UrlRewrites.dispatcher';

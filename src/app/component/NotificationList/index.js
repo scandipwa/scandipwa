@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import NotificationList from './NotificationList.container';
-
-export default NotificationList;
+export { default } from './NotificationList.container';

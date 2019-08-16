@@ -11,7 +11,7 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import Link from 'Component/Link';
 import Image from 'Component/Image';
 import ProductPrice from 'Component/ProductPrice';
 import Field from 'Component/Field';
@@ -36,7 +36,7 @@ class CartItem extends PureComponent {
 
         if (!variants || !configurable_options) return null;
 
-        const { product: currentVariant } = variants[configurableVariantIndex];
+        const { attributes = [] } = variants[configurableVariantIndex] || {};
 
         return (
             <ul
@@ -44,18 +44,17 @@ class CartItem extends PureComponent {
               elem="Options"
               mods={ { isLikeTable } }
             >
-                { configurable_options.map(({ attribute_code, values }) => (
-                    <li
-                      key={ attribute_code }
-                      aria-label={ attribute_code }
-                      block="CartItem"
-                      elem="Option"
-                    >
-                        { (values.find(
-                            ({ value_index }) => value_index === currentVariant[attribute_code]
-                        ) || {}).label }
-                    </li>
-                )) }
+                { Object.entries(attributes).map(([key, { attribute_code, attribute_value }]) => (
+                    Object.keys(configurable_options).includes(key) && (
+                        <li
+                          key={ attribute_code }
+                          aria-label={ attribute_code }
+                          block="CartItem"
+                          elem="Option"
+                        >
+                            { configurable_options[attribute_code].attribute_options[attribute_value].label }
+                        </li>
+                    ))) }
             </ul>
         );
     }
@@ -64,7 +63,7 @@ class CartItem extends PureComponent {
         const { isLikeTable, linkTo } = this.props;
 
         return (
-            <Link to={ linkTo }>
+            <Link to={ linkTo } block="CartItem" elem="Link">
                 <figure block="CartItem" elem="Wrapper">
                     { this.renderImage() }
                     <figcaption
@@ -80,7 +79,7 @@ class CartItem extends PureComponent {
     }
 
     renderProductDetails() {
-        const { product: { name, price, isLikeTable } } = this.props;
+        const { product: { name, price }, isLikeTable } = this.props;
 
         return (
             <>

@@ -12,8 +12,8 @@
 :root {
     --breadcrumbs-height: 40px;
     --breadcrumbs-background: #{$concrete};
-    --breadcrumbs-visited-color: #404040;
     --breadcrumbs-active-color: #888;
+    --breadcrumbs-color: #404040;
 }
 
 .Breadcrumbs {
@@ -35,28 +35,19 @@
         min-height: 40px;
     }
 
+    &-Link {
+        text-transform: capitalize;
+        color: var(--breadcrumbs-color);
+    }
+
     &-Crumb {
         display: inline-block;
         font-size: 1rem;
         line-height: 20px;
         padding: 0 $crumb-padding 0 0;
 
-        a {
-            text-transform: capitalize;
-
-            &:visited {
-                color: var(--breadcrumbs-visited-color);
-            }
-        }
-
         &:not(:last-child) {
             margin: 0;
-
-            &:not(:first-child) {
-                a {
-                    color: var(--breadcrumbs-visited-color);
-                }
-            }
 
             &::after {
                 content: '';
@@ -74,12 +65,10 @@
         }
 
         &:last-child {
+            --breadcrumbs-color: var(--breadcrumbs-active-color);
+
             pointer-events: none;
             margin: 0;
-
-            a {
-                color: var(--breadcrumbs-active-color);
-            }
         }
 
         &::before {

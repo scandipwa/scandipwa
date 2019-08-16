@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-:root {
+ :root {
     --product-actions-option-border-color: #979797;
     --product-actions-selected-option-border-color: #f26323;
     --product-brand-heading-color: #adadad;
@@ -111,6 +111,27 @@
         }
     }
 
+    &-Attributes {
+        @include mobile {
+            --product-configurable-attributes-content-padding: .5rem;
+            // --product-configurable-attributes-direction: center;
+            --option-margin: 0 .5rem 1rem;
+
+            border-top: 1px solid var(--expandable-content-divider-color);
+        }
+
+        @include after-mobile {
+            --product-configurable-attributes-margin: 0 2rem 0 0;
+            --option-margin: 0 1rem 0 0;
+
+            order: 10;
+            display: flex;
+            flex-wrap: wrap;
+            flex-basis: 100%;
+            padding: 1.5rem calc(1rem - 5px);
+        }
+    }
+
     &-Section {
         padding: 1.5rem calc(1rem - 5px);
         display: flex;
@@ -133,6 +154,7 @@
 
             &_short {
                 @include mobile {
+                    border-top: 0;
                     border-bottom: 1px solid var(--expandable-content-divider-color);
                 }
 
@@ -186,12 +208,6 @@
         &_type {
             &_related {
                 margin-left: 1rem;
-            }
-
-            &_color {
-                @include mobile {
-                    display: none;
-                }
             }
 
             &_brand {

@@ -12,7 +12,7 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import Link from 'Component/Link';
 import Image from 'Component/Image';
 import Overlay from 'Component/Overlay';
 import Html from 'Component/Html';
@@ -128,7 +128,13 @@ class MenuOverlay extends PureComponent {
                                 { this.renderSubLevel(item) }
                             </div>
                         ) : (
-                            <Link key={ item_id } to={ `/category${url}` } onClick={ this.closeMenuOverlay }>
+                            <Link
+                              key={ item_id }
+                              to={ url }
+                              onClick={ this.closeMenuOverlay }
+                              block="MenuOverlay"
+                              elem="Link"
+                            >
                                 { this.renderItemContent(item, subcategoryMods) }
                             </Link>
                         )
@@ -156,7 +162,12 @@ class MenuOverlay extends PureComponent {
                                 { this.renderSubLevel(item) }
                             </div>
                         ) : (
-                            <Link to={ `/category${url}` } onClick={ this.closeMenuOverlay }>
+                            <Link
+                              to={ `/category${url}` }
+                              onClick={ this.closeMenuOverlay }
+                              block="MenuOverlay"
+                              elem="Link"
+                            >
                                 { this.renderItemContent(item, itemMods) }
                             </Link>
                         )
@@ -170,12 +181,22 @@ class MenuOverlay extends PureComponent {
         return (
             <aside block="MenuOverlay" elem="AdditionalInformation">
                 <h3 block="MenuOverlay" elem="PageLink">
-                    <Link to="/page/about-us" onClick={ this.closeMenuOverlay }>
+                    <Link
+                      to="/page/about-us"
+                      onClick={ this.closeMenuOverlay }
+                      block="MenuOverlay"
+                      elem="Link"
+                    >
                         { __('ABOUT US') }
                     </Link>
                 </h3>
                 <h3 block="MenuOverlay" elem="PageLink">
-                    <Link to="/page/about-us" onClick={ this.closeMenuOverlay }>
+                    <Link
+                      to="/page/about-us"
+                      onClick={ this.closeMenuOverlay }
+                      block="MenuOverlay"
+                      elem="Link"
+                    >
                     { __('CONTACTS') }
                     </Link>
                 </h3>

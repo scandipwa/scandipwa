@@ -14,6 +14,7 @@ import PropTypes from 'prop-types';
 import { Redirect } from 'react-router';
 import { ProductType } from 'Type/ProductList';
 import { isSignedIn } from 'Util/Auth';
+import TextPlaceholder from 'Component/TextPlaceholder';
 import './ProductWishlistButton.style';
 
 /**
@@ -105,10 +106,13 @@ class ProductWishlistButton extends PureComponent {
 
     render() {
         const { isLoading, redirectToWishlist } = this.state;
-        const { fullWidth } = this.props;
+        const { fullWidth, isReady } = this.props;
         const wishlistItem = this.getProductInWishlist();
         const isProductInWishlist = !!wishlistItem;
         const isDisabled = isProductInWishlist && !wishlistItem.item_id;
+
+
+        if (!isReady) return (<TextPlaceholder length="medium" />);
 
         if (redirectToWishlist) {
             return <Redirect to="/wishlist" />;
@@ -134,11 +138,13 @@ ProductWishlistButton.propTypes = {
     removeProductFromWishlist: PropTypes.func.isRequired,
     showNotification: PropTypes.func.isRequired,
     wishlistItems: PropTypes.objectOf(ProductType).isRequired,
-    fullWidth: PropTypes.bool
+    fullWidth: PropTypes.bool,
+    isReady: PropTypes.bool
 };
 
 ProductWishlistButton.defaultProps = {
-    fullWidth: false
+    fullWidth: false,
+    isReady: true
 };
 
 export default ProductWishlistButton;

@@ -10,6 +10,7 @@
  */
 
 import BrowserDatabase from 'Util/BrowserDatabase';
+import { getIndexedParameteredProducts } from 'Util/Product';
 import {
     UPDATE_TOTALS,
     UPDATE_ALL_PRODUCTS_IN_CART
@@ -31,13 +32,14 @@ const updateCartTotals = (action) => {
 
 const updateAllProductsInCart = (action) => {
     const { products } = action;
+    const productsInCart = getIndexedParameteredProducts(products);
 
     BrowserDatabase.setItem(
-        products,
+        productsInCart,
         PRODUCTS_IN_CART
     );
 
-    return { productsInCart: products };
+    return { productsInCart };
 };
 
 export const initialState = {

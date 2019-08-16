@@ -36,10 +36,10 @@ class ProductInformation extends PureComponent {
     }
 
     render() {
-        const { product: { description, image } } = this.props;
+        const { product: { description, thumbnail: { path = '' } = {} } } = this.props;
         const { html } = description || {};
-        const { path } = image || {};
 
+        const imageUrl = path && `${PRODUCT_IMAGE_PATH}${ path }`;
         return (
             <ContentWrapper
               label="Product information"
@@ -47,7 +47,7 @@ class ProductInformation extends PureComponent {
               wrapperMix={ { block: 'ProductInformation', elem: 'Wrapper' } }
             >
                 <Image
-                  src={ path ? `${PRODUCT_IMAGE_PATH}${path}` : '' }
+                  src={ imageUrl }
                   alt="Product image"
                   mix={ { block: 'ProductInformation', elem: 'Image' } }
                 />

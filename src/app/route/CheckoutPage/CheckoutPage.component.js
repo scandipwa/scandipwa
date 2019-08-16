@@ -13,7 +13,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import Link from 'Component/Link';
 import { history } from 'Route';
 import { TotalsType } from 'Type/MiniCart';
 import { ProductType } from 'Type/ProductList';
@@ -305,7 +305,9 @@ class CheckoutPage extends Component {
                     { __('We`ll email you an order confirmation with details and tracking info.') }
                 </p>
                 <Link
-                  className="Button CheckoutPage-SuccessButton"
+                  block="CheckoutPage"
+                  elem="SuccessButton"
+                  mix={ { block: 'Button' } }
                   to="/"
                 >
                     { __('Continue Shopping') }

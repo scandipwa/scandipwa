@@ -13,6 +13,8 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { ProductType, FilterType } from 'Type/ProductList';
 import { CartDispatcher } from 'Store/Cart';
+import { getVariantsIndexes } from 'Util/Product';
+import { convertKeyValueObjectToQueryString } from 'Util/Url';
 import ProductCard from './ProductCard.component';
 
 export const mapDispatchToProps = dispatch => ({
@@ -31,22 +33,52 @@ export class ProductCardContainer extends PureComponent {
             availableVisualOptions: this._getAvailableVisualOptions(),
             currentVariantIndex: this._getCurrentVariantIndex(),
             productOrVariant: this._getProductOrVariant(),
-            thumbnail: this._getThumbnail()
+            thumbnail: this._getThumbnail(),
+            linkTo: this._getLinkTo()
         });
     }
 
     getAttribute(code) {
         const { product: { attributes = [] } } = this.props;
-        return attributes.find(({ attribute_code }) => attribute_code === code);
+        return attributes[code];
+    }
+
+    _getLinkTo() {
+        const { product: { url_key }, product } = this.props;
+
+        if (!url_key) return undefined;
+        const { parameters } = this._getConfigurableParameters();
+        return {
+            pathname: `/product/${ url_key }`,
+            state: { product },
+            search: convertKeyValueObjectToQueryString(parameters)
+        };
     }
 
     _getCurrentVariantIndex() {
-        const { product: { variants = [] }, selectedFilters = {} } = this.props;
-        const index = variants.findIndex(({ product }) => Object.keys(selectedFilters).every(filterKey => (
-            selectedFilters[filterKey].find(value => +value === +product[filterKey])
-        )));
-
+        const { index } = this._getConfigurableParameters();
         return index >= 0 ? index : 0;
+    }
+
+    _getConfigurableParameters() {
+        const { product: { variants = [] }, selectedFilters = {} } = this.props;
+        const filterKeys = Object.keys(selectedFilters);
+
+        if (filterKeys.length < 0) return { indexes: [], parameters: {} };
+
+        const indexes = getVariantsIndexes(variants, selectedFilters);
+        const [index] = indexes;
+
+        if (!variants[index]) return { indexes: [], parameters: {} };
+        const { attributes } = variants[index];
+
+        const parameters = Object.entries(attributes)
+            .reduce((parameters, [key, { attribute_value }]) => {
+                if (filterKeys.includes(key)) return { ...parameters, [key]: attribute_value };
+                return parameters;
+            }, {});
+
+        return { indexes, index, parameters };
     }
 
     _getThumbnail() {
@@ -56,31 +88,25 @@ export class ProductCardContainer extends PureComponent {
 
     _getProductOrVariant() {
         const { product: { type_id, variants }, product } = this.props;
-        return (type_id === 'configurable' && variants
-            ? variants[this._getCurrentVariantIndex()].product
+        return (type_id === 'configurable' && variants !== undefined
+            ? variants[this._getCurrentVariantIndex()]
             : product
         ) || {};
     }
 
     _getAvailableVisualOptions() {
-        const { product: { configurable_options = [], attributes } } = this.props;
+        const { product: { configurable_options = [] } } = this.props;
 
-        return configurable_options.reduce((acc, { attribute_code: option_code, values }) => {
-            const { attribute_options = [] } = attributes.find(
-                ({ attribute_code }) => attribute_code === option_code
-            ) || [];
+        return Object.values(configurable_options).reduce((acc, { attribute_options = {}, attribute_values }) => {
+            const visualOptions = Object.values(attribute_options).reduce(
+                (acc, { swatch_data: { type, value }, label, value: attrValue }) => {
+                    if (type === '1' && attribute_values.includes(attrValue)) acc.push({ value, label });
+                    return acc;
+                }, []
+            );
 
-            return [
-                ...acc,
-                ...values.reduce((acc, { value_index }) => {
-                    const { swatch_data: { type, value } = {}, label } = attribute_options.find(
-                        ({ value }) => +value === value_index
-                    ) || {};
-
-                    if (type !== '1') return acc;
-                    return [...acc, { value, label }];
-                }, [])
-            ];
+            if (visualOptions.length > 0) return [...acc, ...visualOptions];
+            return acc;
         }, []);
     }
 

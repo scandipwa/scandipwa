@@ -12,6 +12,7 @@
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import { ProductDispatcher } from 'Store/Product';
 import { changeHeaderState } from 'Store/Header';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
@@ -23,8 +24,7 @@ import { getUrlParam, getQueryParam, updateQueryParamWithoutHistory } from 'Util
 import ProductPage from './ProductPage.component';
 
 const mapStateToProps = state => ({
-    product: state.ProductReducer.product,
-    filters: state.ProductReducer.formattedConfigurableOptions
+    product: state.ProductReducer.product
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -246,4 +246,5 @@ ProductPageContainer.defaultProps = {
     isOnlyPlaceholder: false
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProductPageContainer);
+const ProductPageContainerWrapper = connect(mapStateToProps, mapDispatchToProps)(ProductPageContainer);
+export default withRouter(ProductPageContainerWrapper);

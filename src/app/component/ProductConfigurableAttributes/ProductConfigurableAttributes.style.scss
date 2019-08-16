@@ -1,0 +1,71 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+:root {
+    --product-configurable-attributes-direction: flex-start;
+    --product-configurable-attributes-margin: 0;
+    --product-configurable-attributes-content-padding: 0;
+
+    @include mobile {
+        --product-configurable-attributes-content-padding: .5rem .5rem 1.5rem;
+    }
+}
+
+.ProductConfigurableAttributes {
+    margin: var(--product-configurable-attributes-margin);
+
+    &-AttributesList {
+        text-align: center;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: var(--product-configurable-attributes-direction);
+        align-items: center;
+
+        @include after-mobile {
+            --option-size: 33px;
+
+            display: flex;
+            flex-wrap: wrap;
+        }
+    }
+
+    &-ExpandableContentContent {
+        @include after-mobile {
+            margin-bottom: 1rem;
+        }
+
+        &_isContentExpanded {
+            @include mobile {
+                padding: var(--product-configurable-attributes-content-padding);
+            }
+        }
+    }
+
+    &-SectionHeading {
+        font-size: 1.2em;
+        font-weight: 700;
+        line-height: 1;
+        margin: 0 0 1rem;
+
+        @include mobile {
+          display: none;
+        }
+    }
+
+    &-Placeholder {
+        animation: var(--placeholder-animation);
+        background-image: var(--placeholder-image);
+        background-size: var(--placeholder-size);
+        height: var(--option-size);
+        width: var(--option-size);
+        margin: var(--option-margin);
+    }
+}

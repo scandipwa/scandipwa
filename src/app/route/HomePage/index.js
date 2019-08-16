@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import HomePage from './HomePage.container';
-
-export default HomePage;
+export { default } from './HomePage.container';

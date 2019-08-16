@@ -9,25 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import WishlistReducer, { PRODUCTS_IN_WISHLIST } from './Wishlist.reducer';
-import WishlistDispatcher from './Wishlist.dispatcher';
-import {
-    REMOVE_ITEM_FROM_WISHLIST,
-    UPDATE_ALL_PRODUCTS_IN_WISHLIST,
-    PRODUCT_TO_BE_REMOVED_AFTER_ADD,
-    removeItemFromWishlist,
-    updateAllProductsInWishlist,
-    productToBeRemovedAfterAdd
-} from './Wishlist.action';
-
-export {
-    WishlistReducer,
-    WishlistDispatcher,
-    PRODUCTS_IN_WISHLIST,
-    REMOVE_ITEM_FROM_WISHLIST,
-    UPDATE_ALL_PRODUCTS_IN_WISHLIST,
-    PRODUCT_TO_BE_REMOVED_AFTER_ADD,
-    removeItemFromWishlist,
-    updateAllProductsInWishlist,
-    productToBeRemovedAfterAdd
-};
+export * from './Wishlist.action';
+export { default as WishlistReducer, PRODUCTS_IN_WISHLIST } from './Wishlist.reducer';
+export { default as WishlistDispatcher } from './Wishlist.dispatcher';

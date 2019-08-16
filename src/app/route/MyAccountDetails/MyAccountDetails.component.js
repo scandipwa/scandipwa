@@ -230,7 +230,9 @@ class MyAccountDetails extends Component {
      * @param {Object} correctAddress
      */
     changeState(state, correctAddress) {
-        this.setState({ state, correctAddress, selectValue: '', isLoading: false });
+        this.setState({
+            state, correctAddress, selectValue: '', isLoading: false
+        });
     }
 
     /**
@@ -486,7 +488,7 @@ class MyAccountDetails extends Component {
                           value={ isSubscribed }
                           onChange={ value => this.setState({ isSubscribed: value }) }
                         />
-                        <button  block="Button" mods={ { type: 'editAccountInfo' } } type="submit">
+                        <button block="Button" mods={ { type: 'editAccountInfo' } } type="submit">
                             { __('Save Changes') }
                         </button>
                     </fieldset>
@@ -558,7 +560,10 @@ class MyAccountDetails extends Component {
         } = customer;
 
         return (
-            <ExpandableContent heading="Account Information" mix={ { block: 'MyAccountDetails', elem: 'AccountInformation' } }>
+            <ExpandableContent
+              heading="Account Information"
+              mix={ { block: 'MyAccountDetails', elem: 'AccountInformation' } }
+            >
                 <div block="MyAccountDetails" elem="Field">
                     <strong>{ __('Name:') }</strong>
                     <TextPlaceholder
@@ -575,7 +580,7 @@ class MyAccountDetails extends Component {
                 </div>
                 <div block="MyAccountDetails" elem="Field">
                     <strong>{ __('Subscribed to newsletter:') }</strong>
-                    { id ? (is_subscribed ? __('Yes' ) : __('No')) : <TextPlaceholder /> }
+                    { id ? (is_subscribed ? __('Yes') : __('No')) : <TextPlaceholder /> }
                 </div>
                 <div block="MyAccountDetails" elem="Actions">
                     <button

@@ -8,7 +8,7 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-
+import { getIndexedProduct } from 'Util/Product';
 import {
     UPDATE_PRODUCT_DETAILS,
     UPDATE_GROUPED_PRODUCT_QUANTITY,
@@ -41,30 +41,11 @@ export const formatConfigurableOptions = configurable_options => configurable_op
 const ProductReducer = (state = initialState, action) => {
     switch (action.type) {
     case UPDATE_PRODUCT_DETAILS:
-        const { product, product: { attributes, variants } } = action;
-
-        attributes.forEach(({ attribute_code, attribute_value }) => {
-            product[attribute_code] = attribute_value;
-        });
-
-        if (variants) {
-            variants.forEach(({ product: { attributes } }, i) => {
-                if (attributes) {
-                    attributes.forEach(({ attribute_code, attribute_value }) => {
-                        product.variants[i].product[attribute_code] = attribute_value;
-                    });
-                }
-            });
-        }
-
-        const { configurable_options } = product;
+        const { product } = action;
 
         return {
             ...state,
-            product,
-            formattedConfigurableOptions: configurable_options
-                ? formatConfigurableOptions(configurable_options)
-                : {}
+            product: getIndexedProduct(product)
         };
 
     case UPDATE_GROUPED_PRODUCT_QUANTITY:

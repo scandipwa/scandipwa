@@ -27,9 +27,8 @@ export class CategoryFilterOverlayContainer extends PureComponent {
 
         this.containerFunctions = {
             onSeeResultsClick: this.onSeeResultsClick.bind(this),
-            getAppliedFilterItemsString: this.getAppliedFilterItemsString.bind(this),
-            getAppliedFilterItems: this.getAppliedFilterItems.bind(this),
-            toggleCustomFilter: this.toggleCustomFilter.bind(this)
+            toggleCustomFilter: this.toggleCustomFilter.bind(this),
+            getFilterUrl: this.getFilterUrl.bind(this)
         };
     }
 
@@ -40,25 +39,19 @@ export class CategoryFilterOverlayContainer extends PureComponent {
         goToPreviousHeaderState();
     }
 
-    getAppliedFilterItems(filter) {
-        const { customFiltersValues: appliedFilters } = this.props;
-        const { request_var } = filter;
-        return appliedFilters[request_var] || [];
-    }
-
-    getAppliedFilterItemsString(filter) {
-        const { filter_items } = filter;
-        return filter_items.reduce(
-            (prev, { label, value_string }) => {
-                if (this.getAppliedFilterItems(filter).indexOf(value_string) !== -1) prev.push(label);
-                return prev;
-            }, []
-        ).join(', ');
-    }
-
-    toggleCustomFilter(requestVar, value) {
-        const { updateFilter, customFiltersValues } = this.props;
-        const newFilterArray = Array.from(customFiltersValues[requestVar] || []);
+    /**
+     * Returns filter array with new parameters
+     *
+     * @param {String} filterKey key of option
+     * @param {String} value
+     * @returns {Object[]}
+     * @memberof CategoryShoppingOptions
+     */
+    getNewFilterArray(filterKey, value) {
+        const { customFiltersValues } = this.props;
+        const newFilterArray = customFiltersValues[filterKey] !== undefined
+            ? Array.from(customFiltersValues[filterKey])
+            : [];
         const filterValueIndex = newFilterArray.indexOf(value);
 
         if (filterValueIndex === -1) {
@@ -67,7 +60,27 @@ export class CategoryFilterOverlayContainer extends PureComponent {
             newFilterArray.splice(filterValueIndex, 1);
         }
 
-        updateFilter(requestVar, newFilterArray);
+        return newFilterArray;
+    }
+
+    /**
+     * Get URL for new filter value
+     *
+     * @param {*} filterKey
+     * @param {*} value
+     * @returns {String} new URL path
+     * @memberof CategoryShoppingOptions
+     */
+    getFilterUrl(filterKey, value) {
+        const { getFilterUrl } = this.props;
+
+        return getFilterUrl(filterKey, this.getNewFilterArray(filterKey, value));
+    }
+
+    toggleCustomFilter(requestVar, value) {
+        const { updateFilter } = this.props;
+
+        updateFilter(requestVar, this.getNewFilterArray(requestVar, value));
     }
 
     render() {
@@ -84,7 +97,8 @@ CategoryFilterOverlayContainer.propTypes = {
     customFiltersValues: PropTypes.objectOf(PropTypes.array).isRequired,
     hideActiveOverlay: PropTypes.func.isRequired,
     goToPreviousHeaderState: PropTypes.func.isRequired,
-    updateFilter: PropTypes.func.isRequired
+    updateFilter: PropTypes.func.isRequired,
+    getFilterUrl: PropTypes.func.isRequired
 };
 
 export default connect(null, mapDispatchToProps)(CategoryFilterOverlayContainer);

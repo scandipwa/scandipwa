@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import SearchPage from './SearchPage.container';
-
-export default SearchPage;
+export { default } from './SearchPage.container';

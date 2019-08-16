@@ -84,6 +84,7 @@ export class CategoryPageContainer extends PureComponent {
             requestPage: this.requestPage.bind(this),
             requestNextPage: this.requestNextPage.bind(this),
             updateFilter: this.updateFilter.bind(this),
+            getFilterUrl: this.getFilterUrl.bind(this),
             updatePriceRange: this.updatePriceRange.bind(this),
             updatePage: this.updatePage.bind(this)
             // clearFilters: this._clearFilters.bind(this),
@@ -131,6 +132,36 @@ export class CategoryPageContainer extends PureComponent {
         setQueryParams({ sortDirection }, location, history);
     }
 
+    getFilterUrl(filterName, filterArray, isFull = true) {
+        const { location: { pathname } } = this.props;
+        const prevCustomFilters = this._getSelectedFiltersFromUrl();
+
+        prevCustomFilters[filterName] = filterArray;
+
+        const customFiltersString = Object.keys(prevCustomFilters)
+            .reduce((accumulator, prevFilterName) => {
+                if (prevCustomFilters[prevFilterName].length) {
+                    const filterValues = prevCustomFilters[prevFilterName].sort().join(',');
+
+                    accumulator.push(`${prevFilterName}:${filterValues}`);
+                }
+
+                return accumulator;
+            }, [])
+            .sort()
+            .join(';');
+
+        let customFilters;
+
+        const hasTrailingSemicolon = customFiltersString[customFiltersString.length - 1] === ';';
+        const hasLeadingSemicolon = customFiltersString[0] === ';';
+
+        customFilters = hasTrailingSemicolon ? customFiltersString.slice(0, -1) : customFiltersString;
+        customFilters = hasLeadingSemicolon ? customFilters.slice(1) : customFilters;
+
+        return `${isFull ? `${pathname}?` : ''}${customFilters}`;
+    }
+
     updateSearch(value) {
         const { location, history } = this.props;
 
@@ -160,26 +191,9 @@ export class CategoryPageContainer extends PureComponent {
 
     updateFilter(filterName, filterArray) {
         const { location, history } = this.props;
-        const prevCustomFilters = this._getSelectedFiltersFromUrl();
-
-        prevCustomFilters[filterName] = filterArray;
-
-        const customFiltersString = Object.entries(prevCustomFilters)
-            .reduce((acc, [name, values]) => (!values.length
-                ? acc
-                : [...acc, `${ name }:${ values.sort().join(',') }`]
-            ), []).sort().join(';');
-
-        let customFilters;
-
-        const hasTrailingSemicolon = customFiltersString[customFiltersString.length - 1] === ';';
-        const hasLeadingSemicolon = customFiltersString[0] === ';';
-
-        customFilters = hasTrailingSemicolon ? customFiltersString.slice(0, -1) : customFiltersString;
-        customFilters = hasLeadingSemicolon ? customFilters.slice(1) : customFilters;
 
         setQueryParams({
-            customFilters,
+            customFilters: this.getFilterUrl(filterName, filterArray, false),
             page: ''
         }, location, history);
     }
@@ -395,7 +409,7 @@ CategoryPageContainer.propTypes = {
     requestProductListInfo: PropTypes.func.isRequired,
     updateBreadcrumbs: PropTypes.func.isRequired,
     updateLoadStatus: PropTypes.func.isRequired,
-    filters: PropTypes.arrayOf(PropTypes.shape).isRequired,
+    filters: PropTypes.objectOf(PropTypes.shape).isRequired,
     sortFields: PropTypes.shape({
         options: PropTypes.array
     }).isRequired,

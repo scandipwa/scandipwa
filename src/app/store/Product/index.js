@@ -9,26 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import ProductReducer, { formatConfigurableOptions } from './Product.reducer';
-import ProductDispatcher from './Product.dispatcher';
-
-import {
-    UPDATE_PRODUCT_DETAILS,
-    UPDATE_GROUPED_PRODUCT_QUANTITY,
-    CLEAR_GROUPED_PRODUCT_QUANTITY,
-    updateProductDetails,
-    updateGroupedProductQuantity,
-    clearGroupedProductQuantity
-} from './Product.action';
-
-export {
-    ProductReducer,
-    ProductDispatcher,
-    UPDATE_PRODUCT_DETAILS,
-    UPDATE_GROUPED_PRODUCT_QUANTITY,
-    CLEAR_GROUPED_PRODUCT_QUANTITY,
-    updateProductDetails,
-    updateGroupedProductQuantity,
-    clearGroupedProductQuantity,
-    formatConfigurableOptions
-};
+export * from './Product.action';
+export { default as ProductReducer } from './Product.reducer';
+export { default as ProductDispatcher } from './Product.dispatcher';

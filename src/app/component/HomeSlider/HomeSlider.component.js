@@ -11,7 +11,7 @@
  */
 
 import React, { PureComponent } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'Component/Link';
 import Slider from 'Component/Slider';
 import { SliderType } from 'Type/Slider';
 import Image from 'Component/Image';
@@ -61,7 +61,10 @@ class HomeSlider extends PureComponent {
         const gallery = this.getGalleryPictures();
 
         return (
-            <Link to="/category/women/women-dresses" className="HomeSlider">
+            <Link
+              to="/category/women/women-dresses"
+              block="HomeSlider"
+            >
                 <Slider
                   mix={ { block: 'HomeSlider' } }
                   showCrumbs

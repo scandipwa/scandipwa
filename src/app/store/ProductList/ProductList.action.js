@@ -29,11 +29,6 @@ export const appendPage = (items, currentPage) => ({
 /**
  * Update product list with new list (rewrite if already exists).
  * @param {Array<Object>} items List of products returned from fetch
- * @param {Number} totalItems Total number of products in this filter
- * @param {Number} minPrice Minimal products price returned from fetch
- * @param {Number} maxPrice Maximal products price returned from fetch
- * @param {Object} sortFields List of sortable fields
- * @param {Array<Object>} filters List of filters
  * @param {Number} currentPage Numver of requested page
  * @return {void}
  */

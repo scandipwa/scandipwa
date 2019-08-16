@@ -9,6 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import ExpandableContent from './ExpandableContent.container';
+import ExpandableContent from './ExpandableContent.component';
 
 export default ExpandableContent;

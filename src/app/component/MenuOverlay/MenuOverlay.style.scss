@@ -372,23 +372,23 @@
         margin-top: 2rem;
     }
 
-    li {
-        padding-left: 0;
-
-        &::before {
-            content: none;
-        }
-    }
-
-    a {
+    &-Link {
         color: inherit;
 
         &:hover {
             text-decoration: none;
         }
+    }
 
-        + a {
-            margin-left: 0;
+    &-Link + &-Link {
+        margin-left: 0;
+    }
+
+    li {
+        padding-left: 0;
+
+        &::before {
+            content: none;
         }
     }
 }

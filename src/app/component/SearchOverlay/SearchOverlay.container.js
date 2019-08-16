@@ -15,6 +15,7 @@ import React, { PureComponent } from 'react';
 import { SearchBarDispatcher } from 'Store/SearchBar';
 import { hideActiveOverlay } from 'Store/Overlay';
 import SearchOverlay from './SearchOverlay.component';
+import { convertKeyValueObjectToQueryString } from 'Util/Url';
 
 export const mapStateToProps = state => ({
     searchResults: state.SearchBarReducer.productsInSearch,
@@ -38,15 +39,12 @@ export class SearchOverlayContainer extends PureComponent {
     }
 
     getProductLinkTo(product) {
-        const { url_key, configurableVariantIndex, parent } = product;
-        const variantIndex = configurableVariantIndex || 0;
+        const { url_key } = product;
 
-        if (!url_key) return '/';
-
+        if (!url_key) return {};
         return {
             pathname: `/product/${ url_key }`,
-            state: { product: parent || product, variantIndex },
-            search: `?variant=${ variantIndex }`
+            state: { product }
         };
     }
 

@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import Form from './Form.component';
-
-export default Form;
+export { default } from './Form.component';

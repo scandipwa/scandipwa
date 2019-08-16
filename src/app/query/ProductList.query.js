@@ -41,7 +41,12 @@ export class ProductListQuery {
         return {
             categoryIds: option => [`category_id: { eq: ${option} }`],
             categoryUrlPath: option => [`category_url_path: { eq: ${option} }`],
-            priceRange: ({ min, max }) => [`min_price: { gteq: ${min} }`, `max_price: { lteq: ${max} }`],
+            priceRange: ({ min, max }) => {
+                const filters = [];
+                if (min) filters.push(`min_price: { gteq: ${min} }`);
+                if (max) filters.push(`max_price: { lteq: ${max} }`);
+                return filters;
+            },
             productsSkuArray: option => [`sku: { in: [${option}] }`],
             productUrlPath: option => [`url_key: { eq: ${option}}`],
             customFilters: (option = {}) => Object.entries(option).reduce((acc, [key, attribute]) => (
@@ -117,6 +122,7 @@ export class ProductListQuery {
             'id',
             'sku',
             'name',
+            'type_id',
             'stock_status',
             'special_price',
             'only_x_left_in_stock',
@@ -274,11 +280,13 @@ export class ProductListQuery {
 
     _getAttributeFields(isVariant) {
         return [
+            'attribute_id',
             'attribute_value',
             'attribute_code',
+            'attribute_type',
+            'attribute_label',
             ...(!isVariant
                 ? [
-                    'attribute_label',
                     this._getAttributeOptionsField()
                 ]
                 : []

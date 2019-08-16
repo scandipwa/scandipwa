@@ -11,7 +11,7 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import Link from 'Component/Link';
 import ContentWrapper from 'Component/ContentWrapper';
 import { BreadcrumbsType } from 'Type/Breadcrumbs';
 import './Breadcrumbs.style';
@@ -36,6 +36,8 @@ class Breadcrumbs extends PureComponent {
               itemType="https://schema.org/ListItem"
             >
                 <Link
+                  block="Breadcrumbs"
+                  elem="Link"
                   to={ url || '' }
                   tabIndex={ isDisabled ? '-1' : '0' }
                   itemType="https://schema.org/Thing"
