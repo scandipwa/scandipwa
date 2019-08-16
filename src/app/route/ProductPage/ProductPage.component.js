@@ -252,7 +252,6 @@ class ProductPage extends Component {
                 <Meta metaObject={ dataSource } />
                 <main block="ProductPage" aria-label="Product page">
                     <ContentWrapper
-                      mix={ { block: 'ProductPage' } }
                       wrapperMix={ { block: 'ProductPage', elem: 'Wrapper' } }
                       label={ __('Main product details') }
                     >

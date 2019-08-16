@@ -426,7 +426,7 @@ class CheckoutPreviewAndPaymentsStep extends PureComponent {
                           id="sameAsShippingAddress"
                           name="sameAsShippingAddress"
                           type="checkbox"
-                          label={ __('My billing and shipping address are the same') }
+                          label={ __('My billing and shipping are the same') }
                           value="sameAsShippingAddress"
                           checked={ !!billingIsSame }
                           onChange={ () => this.setState(

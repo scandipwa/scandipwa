@@ -61,8 +61,10 @@
     }
 
     &-SliderImage {
-        @include mobile {
-            padding-bottom: 100%;
+        padding-bottom: 100%;
+
+        &:not(.ProductGallery-SliderImage_isPlaceholder) {
+            background: none;
         }
 
         @include after-mobile {

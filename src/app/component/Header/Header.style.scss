@@ -93,6 +93,10 @@
 	z-index: 100;
 	background-color: var(--header-background);
 
+	@include mobile {
+		border-bottom: 1px solid #0003;
+	}
+
 	&_name {
 		&_cart {
 			.Header-Button_type_minicart {

@@ -100,7 +100,7 @@
     &-String {
         border-style: solid;
         line-height: var(--option-size);
-        min-width: calc(1.5 * var(--option-size));
+        min-width: calc(1.25 * var(--option-size));
         text-align: center;
 
         &_isSelected {

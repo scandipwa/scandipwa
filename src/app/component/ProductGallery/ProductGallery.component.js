@@ -85,7 +85,11 @@ class ProductGallery extends PureComponent {
                   src={ image }
                   key={ id }
                   ratio="custom"
-                  mix={ { block: 'ProductGallery', elem: 'SliderImage' } }
+                  mix={ {
+                      block: 'ProductGallery',
+                      elem: 'SliderImage',
+                      mods: { isPlaceholder: !image }
+                  } }
                   isPlaceholder={ isPlaceholder }
                   alt={ alt }
                 />
