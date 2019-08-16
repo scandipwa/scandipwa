@@ -224,8 +224,10 @@ class ProductActions extends PureComponent {
 
 ProductActions.propTypes = {
     product: ProductType.isRequired,
+    getLink: PropTypes.func.isRequired,
+    updateUrl: PropTypes.func.isRequired,
+    parameters: PropTypes.objectOf(PropTypes.string).isRequired,
     configurableVariantIndex: PropTypes.number,
-    // updateConfigurableVariantIndex: PropTypes.func.isRequired,
     areDetailsLoaded: PropTypes.bool.isRequired
 };
 

@@ -14,7 +14,7 @@ export const UPDATE_PRODUCT_LIST_ITEMS = 'UPDATE_PRODUCT_LIST_ITEMS';
 export const UPDATE_LOAD_STATUS = 'UPDATE_LOAD_STATUS';
 
 /**
- * Apped page to the list.
+ * Append page to the list.
  * @param {Array<Object>} items List of products returned from fetch
  * @param {Number} minPrice Minimal products price returned from fetch
  * @param {Number} maxPrice Maximal products price returned from fetch
@@ -29,13 +29,15 @@ export const appendPage = (items, currentPage) => ({
 /**
  * Update product list with new list (rewrite if already exists).
  * @param {Array<Object>} items List of products returned from fetch
- * @param {Number} currentPage Numver of requested page
+ * @param {Number} currentPage Number of requested page
+ * @param {Number} total_count Number of requested page
  * @return {void}
  */
-export const updateProductListItems = (items, currentPage) => ({
+export const updateProductListItems = (items, currentPage, total_count) => ({
     type: UPDATE_PRODUCT_LIST_ITEMS,
     items,
-    currentPage
+    currentPage,
+    total_count
 });
 
 /**

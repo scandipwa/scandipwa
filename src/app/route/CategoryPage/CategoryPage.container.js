@@ -43,9 +43,9 @@ import CategoryPage from './CategoryPage.component';
 export const mapStateToProps = state => ({
     category: state.CategoryReducer.category,
     pages: state.ProductListReducer.pages,
+    totalItems: state.ProductListReducer.totalItems,
     isPagesLoading: state.ProductListReducer.isLoading,
     filters: state.ProductListInfoReducer.filters,
-    totalItems: state.ProductListInfoReducer.totalItems,
     sortFields: state.ProductListInfoReducer.sortFields,
     minPriceRange: state.ProductListInfoReducer.minPrice,
     maxPriceRange: state.ProductListInfoReducer.maxPrice,
@@ -94,7 +94,7 @@ export class CategoryPageContainer extends PureComponent {
             pageParams: this._getPageParams(),
             selectedFilters: this._getSelectedFiltersFromUrl(),
             selectedSort: this._getSelectedSortFromUrl(),
-            selectedPriceRange: this._getSelectedPriceRangeFromUrl()
+            selectedPriceRange: this._getPriceRangeForSlider()
         });
     }
 
@@ -121,7 +121,7 @@ export class CategoryPageContainer extends PureComponent {
 
         // update category only if route or search query has been changed
         if (this._urlHasChanged(location, prevProps) || categoryIds !== prevCategoryIds) {
-            this._requestCategoryWithPageList(this._shouldChangeProductListInfo(location, prevProps));
+            this._requestCategoryWithPageList(this.isNewCategory());
         }
     }
 
@@ -230,10 +230,16 @@ export class CategoryPageContainer extends PureComponent {
 
     _getSelectedPriceRangeFromUrl() {
         const { location } = this.props;
-        const { defaultPriceRange: { min, max } } = this.config;
-        const priceMinFromUrl = getQueryParam('priceMin', location);
-        const priceMaxFromUrl = getQueryParam('priceMax', location);
-        return { min: +priceMinFromUrl || min, max: +priceMaxFromUrl || max };
+        const min = +getQueryParam('priceMin', location);
+        const max = +getQueryParam('priceMax', location);
+        return { min, max };
+    }
+
+    _getPriceRangeForSlider() {
+        const { minPriceRange, maxPriceRange } = this.props;
+        const { defaultPriceRange: { min: defaultMin, max: defaultMax } } = this.config;
+        const { min, max } = this._getSelectedPriceRangeFromUrl();
+        return { min: min || minPriceRange || defaultMin, max: max || maxPriceRange || defaultMax };
     }
 
     _getSelectedFiltersFromUrl() {
@@ -260,7 +266,7 @@ export class CategoryPageContainer extends PureComponent {
         return path.indexOf('search') === 0 ? null : path;
     }
 
-    _getProductListOptions(currentPage, isNext) {
+    _getProductListOptions(currentPage, isNext, isInfo) {
         const { categoryIds } = this.props;
         const { pageSize } = this.config;
 
@@ -269,6 +275,18 @@ export class CategoryPageContainer extends PureComponent {
         const priceRange = this._getSelectedPriceRangeFromUrl();
         const search = this._getSearchParam();
         const sort = this._getSelectedSortFromUrl();
+
+        if (isInfo) {
+            return {
+                args: {
+                    filter: {
+                        categoryUrlPath,
+                        categoryIds
+                    }
+                },
+                currentPage
+            };
+        }
 
         return {
             isNext,
@@ -309,7 +327,7 @@ export class CategoryPageContainer extends PureComponent {
 
     _requestCategoryProductsInfo() {
         const { requestProductListInfo } = this.props;
-        requestProductListInfo(this._getProductListOptions(1, false));
+        requestProductListInfo(this._getProductListOptions(1, false, true));
     }
 
     _requestCategory() {
@@ -339,20 +357,10 @@ export class CategoryPageContainer extends PureComponent {
         return JSON.stringify(currentParams) === JSON.stringify(previousParams);
     }
 
-    _compareQueriesWithoutSort(search, prevSearch) {
-        return this._compareQueriesWithFilter(
-            search, prevSearch, ({ sortKey, sortDirection, ...filteredParams }) => filteredParams
-        );
-    }
-
     _compareQueriesWithoutPage(search, prevSearch) {
         return this._compareQueriesWithFilter(
             search, prevSearch, ({ page, ...filteredParams }) => filteredParams
         );
-    }
-
-    _shouldChangeProductListInfo({ search }, { location: { search: prevSearch } }) {
-        return this.isNewCategory() || !this._compareQueriesWithoutSort(search, prevSearch);
     }
 
     _urlHasChanged(location, prevProps) {

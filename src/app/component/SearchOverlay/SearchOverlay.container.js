@@ -15,7 +15,6 @@ import React, { PureComponent } from 'react';
 import { SearchBarDispatcher } from 'Store/SearchBar';
 import { hideActiveOverlay } from 'Store/Overlay';
 import SearchOverlay from './SearchOverlay.component';
-import { convertKeyValueObjectToQueryString } from 'Util/Url';
 
 export const mapStateToProps = state => ({
     searchResults: state.SearchBarReducer.productsInSearch,

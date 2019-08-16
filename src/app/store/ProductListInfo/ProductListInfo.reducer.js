@@ -51,9 +51,8 @@ const reduceFilters = filters => filters.reduce((co, item) => {
 }, {});
 
 export const initialState = {
-    totalItems: 0,
-    minPrice: -0,
-    maxPrice: Infinity,
+    minPrice: 0,
+    maxPrice: 0,
     sortFields: {},
     filters: {},
     isLoading: true
@@ -64,28 +63,21 @@ const ProductListReducer = (state = initialState, action) => {
         type,
         isLoading,
         products: {
-            filters: avaliableFilters = [],
+            filters: availableFilters = [],
             min_price: minPrice,
             max_price: maxPrice,
-            total_count: totalItems,
             sort_fields: sortFields
         } = {}
     } = action;
-
-    const {
-        minPrice: stateMinPrice,
-        maxPrice: stateMaxPrice
-    } = state;
 
     switch (type) {
     case UPDATE_PRODUCT_LIST_INFO:
         return {
             ...state,
-            filters: reduceFilters(avaliableFilters),
-            totalItems,
+            filters: reduceFilters(availableFilters),
             sortFields,
-            minPrice: Math.max(stateMinPrice, minPrice),
-            maxPrice: Math.min(stateMaxPrice, maxPrice),
+            minPrice,
+            maxPrice,
             isLoading: false
         };
 

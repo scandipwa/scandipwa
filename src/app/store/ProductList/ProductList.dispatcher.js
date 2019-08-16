@@ -30,11 +30,11 @@ export class ProductListDispatcher extends QueryDispatcher {
     }
 
     onSuccess(data, dispatch, options) {
-        const { products: { items } } = data;
+        const { products: { items, total_count } = {} } = data;
         const { args: { currentPage }, isNext } = options;
 
         if (isNext) return dispatch(appendPage(items, currentPage));
-        return dispatch(updateProductListItems(items, currentPage));
+        return dispatch(updateProductListItems(items, currentPage, total_count));
     }
 
     onError(error, dispatch) {
