@@ -18,7 +18,8 @@ class ExpandableContent extends PureComponent {
     constructor(props) {
         super(props);
 
-        this.state = { isContentExpanded: false };
+        const { isContentExpanded } = this.props;
+        this.state = { isContentExpanded };
         this.toggleExpand = this.toggleExpand.bind(this);
     }
 
@@ -92,6 +93,7 @@ class ExpandableContent extends PureComponent {
 }
 
 ExpandableContent.propTypes = {
+    isContentExpanded: PropTypes.bool,
     heading: PropTypes.string,
     subHeading: PropTypes.string,
     children: PropTypes.oneOfType([
@@ -110,7 +112,8 @@ ExpandableContent.propTypes = {
 
 ExpandableContent.defaultProps = {
     subHeading: '',
-    heading: ''
+    heading: '',
+    isContentExpanded: false
 };
 
 export default ExpandableContent;

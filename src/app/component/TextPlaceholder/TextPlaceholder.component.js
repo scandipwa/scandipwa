@@ -19,9 +19,9 @@ import './TextPlaceholder.style';
  */
 class TextPlaceholder extends PureComponent {
     render() {
-        const { content, length } = this.props;
+        const { content, length, mix } = this.props;
         if (content) return content;
-        return <span block="TextPlaceholder" mods={ { length } } />;
+        return <span mix={ mix } block="TextPlaceholder" mods={ { length } } />;
     }
 }
 
@@ -35,13 +35,23 @@ TextPlaceholder.propTypes = {
         'short',
         'medium',
         'long',
-        'paragraph'
-    ])
+        'paragraph',
+        'custom'
+    ]),
+    mix: PropTypes.shape({
+        block: PropTypes.string,
+        elem: PropTypes.string,
+        mods: PropTypes.objectOf(PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.bool
+        ]))
+    })
 };
 
 TextPlaceholder.defaultProps = {
     content: '',
-    length: 'short'
+    length: 'short',
+    mix: {}
 };
 
 export default TextPlaceholder;

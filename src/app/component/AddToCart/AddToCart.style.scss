@@ -10,6 +10,9 @@
  */
 
  .AddToCart {
+    min-width: 12rem;
+    vertical-align: middle;
+
     span {
         display: block;
         opacity: 1;
@@ -27,6 +30,7 @@
 
     &_isPlaceholder {
         height: 4rem;
+        display: inline-block;
         padding: var(--button-padding);
         background-image: var(--placeholder-image);
         background-size: var(--placeholder-size);

@@ -58,7 +58,9 @@
     }
 
     &-ShortDescription {
-        margin: 0 5px;
+        @include mobile {
+            margin: 0 5px;
+        }
     }
 
     &-Color {
@@ -252,6 +254,7 @@
         margin-top: 0;
         margin-left: 10px;
         display: inline-block;
+        vertical-align: middle;
 
         @include mobile {
             display: none;

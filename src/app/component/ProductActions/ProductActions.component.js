@@ -64,23 +64,24 @@ class ProductActions extends PureComponent {
 
         return (
             <ProductConfigurableAttributes
+              numberOfPlaceholders={ [2, 4] }
               mix={ { block: 'ProductActions', elem: 'Attributes' } }
               isReady={ areDetailsLoaded }
               getLink={ getLink }
               parameters={ parameters }
               updateConfigurableVariant={ updateUrl }
               configurable_options={ configurable_options }
+              isContentExpanded
             />
         );
     }
 
     renderShortDescription() {
-        const {
-            product: { short_description, brand },
-            showOnlyIfLoaded
-        } = this.props;
+        const { product: { short_description, id } } = this.props;
         const { html } = short_description || {};
         const htmlWithItemProp = `<div itemProp="description">${html}</div>`;
+
+        if (!html && id) return null;
 
         return (
             <section
@@ -89,21 +90,8 @@ class ProductActions extends PureComponent {
               mods={ { type: 'short' } }
               aria-label="Product short description"
             >
-                { showOnlyIfLoaded(
-                    brand,
-                    (
-                        <h4
-                          block="ProductActions"
-                          elem="SectionHeading"
-                          mods={ { type: 'brand' } }
-                          itemProp="brand"
-                        >
-                            <TextPlaceholder content={ brand } />
-                        </h4>
-                    )
-                ) }
                 <div block="ProductActions" elem="ShortDescription">
-                    { html ? <Html content={ htmlWithItemProp } /> : <TextPlaceholder length="long" /> }
+                    { html ? <Html content={ htmlWithItemProp } /> : <p><TextPlaceholder length="long" /></p> }
                 </div>
             </section>
         );

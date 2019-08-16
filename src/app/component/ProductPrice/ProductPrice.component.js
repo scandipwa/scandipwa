@@ -33,7 +33,7 @@ class ProductPrice extends PureComponent {
         if (!minimalPrice || !regularPrice) {
             return (
                 <p block="ProductPrice" aria-label="Product Price" mix={ mix }>
-                    <TextPlaceholder />
+                    <TextPlaceholder mix={ { block: 'ProductPrice', elem: 'Placeholder' } } length="custom" />
                 </p>
             );
         }

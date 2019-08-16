@@ -43,7 +43,6 @@ class ProductPage extends Component {
                       itemType="http://schema.org/Product"
                     >
                     <ContentWrapper
-                      mix={ { block: 'ProductPage' } }
                       wrapperMix={ { block: 'ProductPage', elem: 'Wrapper' } }
                       label={ __('Main product details') }
                     >
