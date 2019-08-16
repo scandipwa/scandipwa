@@ -40,7 +40,7 @@ export class ProductGalleryContainer extends PureComponent {
                 if (!canBeShown) return acc;
 
                 const isThumbnail = types.includes(THUMBNAIL_KEY);
-                const key = isThumbnail ? 0 : position;
+                const key = isThumbnail ? 0 : (position + i);
 
                 return {
                     ...acc,
