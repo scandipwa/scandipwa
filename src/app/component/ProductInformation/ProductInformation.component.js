@@ -18,28 +18,47 @@ import { ProductType } from 'Type/ProductList';
 import './ProductInformation.style';
 import TextPlaceholder from 'Component/TextPlaceholder';
 
-const PRODUCT_IMAGE_PATH = '/media/catalog/product';
+export const PRODUCT_IMAGE_PATH = '/media/catalog/product';
 
 class ProductInformation extends PureComponent {
     renderContentPlaceholder() {
         return (
             <div block="ProductInformation" elem="Placeholder">
-              <TextPlaceholder length="medium" />
-              <TextPlaceholder length="long" />
-              <TextPlaceholder length="medium" />
-              <TextPlaceholder length="long" />
-              <TextPlaceholder />
-              <TextPlaceholder length="medium" />
-              <TextPlaceholder length="long" />
+                <p>
+                    <TextPlaceholder length="paragraph" />
+                </p>
             </div>
         );
     }
 
-    render() {
-        const { product: { id, description, thumbnail: { path = '' } = {} } } = this.props;
-        const { html } = description || {};
+    renderImage() {
+        const { product: { thumbnail: { path = '' } = {} } } = this.props;
         const imageUrl = path && `${PRODUCT_IMAGE_PATH}${ path }`;
 
+        return (
+          <Image
+            src={ imageUrl }
+            alt="Product image"
+            mix={ { block: 'ProductInformation', elem: 'Image' } }
+          />
+        );
+    }
+
+    renderContent() {
+        const { product: { description: { html } = {} } } = this.props;
+
+        return (
+            <ExpandableContent
+              heading="Product information"
+              mix={ { block: 'ProductInformation', elem: 'Content' } }
+            >
+                { html ? <Html content={ html } /> : this.renderContentPlaceholder() }
+            </ExpandableContent>
+        );
+    }
+
+    render() {
+        const { product: { id, description: { html } = {} } } = this.props;
         if (!html && id) return null;
 
         return (
@@ -48,17 +67,8 @@ class ProductInformation extends PureComponent {
               mix={ { block: 'ProductInformation' } }
               wrapperMix={ { block: 'ProductInformation', elem: 'Wrapper' } }
             >
-                <Image
-                  src={ imageUrl }
-                  alt="Product image"
-                  mix={ { block: 'ProductInformation', elem: 'Image' } }
-                />
-                <ExpandableContent
-                  heading="Product information"
-                  mix={ { block: 'ProductInformation', elem: 'Content' } }
-                >
-                    { html ? <Html content={ html } /> : this.renderContentPlaceholder() }
-                </ExpandableContent>
+                { this.renderImage() }
+                { this.renderContent() }
             </ContentWrapper>
         );
     }
