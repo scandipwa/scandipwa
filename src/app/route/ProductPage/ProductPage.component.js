@@ -22,18 +22,53 @@ import RelatedProducts from 'Component/RelatedProducts';
 import './ProductPage.style';
 
 class ProductPage extends Component {
-    render() {
+    renderProductPageContent() {
         const {
-            product,
             configurableVariantIndex,
             parameters,
             getLink,
             dataSource,
             updateUrl,
-            getProductOrVariant
+            productOrVariant,
+            areDetailsLoaded
         } = this.props;
-        const areDetailsLoaded = dataSource === product;
-        const productOrVariant = getProductOrVariant(dataSource);
+
+        return (
+            <>
+                <ProductGallery
+                  product={ productOrVariant }
+                />
+                <ProductActions
+                  getLink={ getLink }
+                  updateUrl={ updateUrl }
+                  product={ dataSource }
+                  parameters={ parameters }
+                  areDetailsLoaded={ areDetailsLoaded }
+                  configurableVariantIndex={ configurableVariantIndex }
+                />
+            </>
+        );
+    }
+
+    renderAdditionalSections() {
+        const { dataSource, areDetailsLoaded } = this.props;
+
+        return (
+            <>
+                <ProductInformation product={ dataSource } type="block" />
+                <RelatedProducts
+                  product={ dataSource }
+                  areDetailsLoaded={ areDetailsLoaded }
+                  label="ScandiPWA recommends"
+                  itemType=""
+                />
+            </>
+        );
+    }
+
+    render() {
+        const { dataSource } = this.props;
+
         return (
             <>
                 <Meta metaObject={ dataSource } />
@@ -46,27 +81,10 @@ class ProductPage extends Component {
                       wrapperMix={ { block: 'ProductPage', elem: 'Wrapper' } }
                       label={ __('Main product details') }
                     >
-                        <ProductGallery
-                          product={ productOrVariant }
-                        />
-                        <ProductActions
-                          getLink={ getLink }
-                          updateUrl={ updateUrl }
-                          product={ dataSource }
-                          parameters={ parameters }
-                          areDetailsLoaded={ areDetailsLoaded }
-                          configurableVariantIndex={ configurableVariantIndex }
-                        //   updateConfigurableVariantIndex={ updateUrl }
-                        />
+                        { this.renderProductPageContent() }
                     </ContentWrapper>
                     </div>
-                    <ProductInformation product={ dataSource } type="block" />
-                    <RelatedProducts
-                      product={ dataSource }
-                      areDetailsLoaded={ areDetailsLoaded }
-                      label="ScandiPWA recommends"
-                      itemType=""
-                    />
+                    { this.renderAdditionalSections() }
                 </main>
             </>
         );
@@ -75,7 +93,7 @@ class ProductPage extends Component {
 
 ProductPage.propTypes = {
     configurableVariantIndex: PropTypes.number.isRequired,
-    getProductOrVariant: PropTypes.func.isRequired,
+    productOrVariant: ProductType.isRequired,
     getLink: PropTypes.func.isRequired,
     parameters: PropTypes.objectOf(PropTypes.string).isRequired,
     updateUrl: PropTypes.func.isRequired,
@@ -93,7 +111,7 @@ ProductPage.propTypes = {
     match: PropTypes.shape({
         path: PropTypes.string.isRequired
     }).isRequired,
-    product: ProductType.isRequired
+    areDetailsLoaded: PropTypes.bool.isRequired
 };
 
 ProductPage.defaultProps = {

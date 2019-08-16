@@ -12,14 +12,17 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Link, withRouter } from 'react-router-dom';
-import { isSignedIn } from 'Util/Auth';
-import Overlay from 'Component/Overlay';
+
 import Form from 'Component/Form';
+import isMobile from 'Util/Mobile';
 import Field from 'Component/Field';
 import Loader from 'Component/Loader';
+import { isSignedIn } from 'Util/Auth';
+import Overlay from 'Component/Overlay';
+import { HistoryType } from 'Type/Common';
 import { CUSTOMER_ACCOUNT } from 'Component/Header';
+
 import './MyAccountOverlay.style';
-import isMobile from 'Util/Mobile';
 
 export const STATE_SIGN_IN = 'signIn';
 export const STATE_FORGOT_PASSWORD = 'forgotPassword';
@@ -297,7 +300,10 @@ class MyAccountOverlay extends PureComponent {
               mods={ { state } }
             >
                 <h4 id="forgot-password-success">
-                    { __('If there is an account associated with the provided address you will receive an email with a link to reset your password') }
+                    {
+                        // eslint-disable-next-line max-len
+                        __('If there is an account associated with the provided address you will receive an email with a link to reset your password')
+                    }
                 </h4>
                 <button
                   block="Button"
@@ -459,11 +465,7 @@ MyAccountOverlay.propTypes = {
     isOverlayVisible: PropTypes.bool.isRequired,
     setHeaderState: PropTypes.func.isRequired,
     hideActiveOverlay: PropTypes.func.isRequired,
-    history: PropTypes.shape({
-        location: PropTypes.object.isRequired,
-        push: PropTypes.func.isRequired
-    }).isRequired,
-    setHeaderState: PropTypes.func.isRequired
+    history: HistoryType.isRequired
 };
 
 export default withRouter(MyAccountOverlay);

@@ -23,8 +23,6 @@ export class ProductActionsContainer extends PureComponent {
     constructor(props) {
         super(props);
 
-        this.optionsInCurrentVariant = {};
-
         this.state = {
             quantity: 1
         };

@@ -12,6 +12,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import CSS from 'Util/CSS';
+import { MixType } from 'Type/Common';
 import './Swatch.style';
 
 /**
@@ -84,14 +85,7 @@ Swatch.propTypes = {
     isSelected: PropTypes.bool,
     filterItem: PropTypes.objectOf(PropTypes.shape),
     requestVar: PropTypes.string,
-    mix: PropTypes.shape({
-        block: PropTypes.string,
-        elem: PropTypes.string,
-        mods: PropTypes.objectOf(PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.bool
-        ]))
-    })
+    mix: MixType
 };
 
 Swatch.defaultProps = {

@@ -41,10 +41,12 @@ class ProductActions extends PureComponent {
             >
                 { showOnlyIfLoaded(
                     sku,
-                    (<>
-                        <span block="ProductActions" elem="Sku" itemProp="sku">{ `SKU: ${ sku }` }</span>
-                        <span block="ProductActions" elem="Stock">In Stock</span>
-                    </>),
+                    (
+                        <>
+                            <span block="ProductActions" elem="Sku" itemProp="sku">{ `SKU: ${ sku }` }</span>
+                            <span block="ProductActions" elem="Stock">In Stock</span>
+                        </>
+                    ),
                     <TextPlaceholder />
                 ) }
             </section>
@@ -145,11 +147,7 @@ class ProductActions extends PureComponent {
     }
 
     renderAddToCart() {
-        const {
-            configurableVariantIndex,
-            product,
-            quantity
-        } = this.props;
+        const { configurableVariantIndex, product, quantity } = this.props;
 
         return (
             <AddToCart

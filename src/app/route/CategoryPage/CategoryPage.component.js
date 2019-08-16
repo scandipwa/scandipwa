@@ -186,21 +186,11 @@ class CategoryPage extends PureComponent {
 }
 
 CategoryPage.propTypes = {
-    history: PropTypes.shape({
-        location: PropTypes.object.isRequired,
-        push: PropTypes.func.isRequired
-    }).isRequired,
     category: CategoryTreeType.isRequired,
     pages: PagesType.isRequired,
     totalItems: PropTypes.number.isRequired,
     minPriceRange: PropTypes.number.isRequired,
     maxPriceRange: PropTypes.number.isRequired,
-    location: PropTypes.shape({
-        pathname: PropTypes.string.isRequired
-    }).isRequired,
-    match: PropTypes.shape({
-        path: PropTypes.string.isRequired
-    }).isRequired,
     filters: PropTypes.objectOf(PropTypes.shape).isRequired,
     sortFields: PropTypes.shape({
         options: PropTypes.array

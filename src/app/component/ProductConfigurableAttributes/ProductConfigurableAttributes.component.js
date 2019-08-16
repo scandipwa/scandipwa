@@ -88,8 +88,13 @@ class ProductConfigurableAttributes extends Component {
               mix={ { block: 'ProductConfigurableAttributes' } }
               isContentExpanded={ isContentExpanded }
             >
-                <div key={ i } block="ProductConfigurableAttributes" elem="AttributesList">
-                    { Array.from({ length: 6 }, i => (
+                <div
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={ i }
+                  block="ProductConfigurableAttributes"
+                  elem="AttributesList"
+                >
+                    { Array.from({ length }, (_, i) => (
                         <div
                           // eslint-disable-next-line react/no-array-index-key
                           key={ i }

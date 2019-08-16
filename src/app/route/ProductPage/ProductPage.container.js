@@ -29,11 +29,11 @@ import {
 
 import ProductPage from './ProductPage.component';
 
-const mapStateToProps = state => ({
+export const mapStateToProps = state => ({
     product: state.ProductReducer.product
 });
 
-const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = dispatch => ({
     changeHeaderState: state => dispatch(changeHeaderState(state)),
     requestProduct: options => ProductDispatcher.handleData(dispatch, options),
     updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.updateWithProduct(breadcrumbs, dispatch),
@@ -52,26 +52,27 @@ export class ProductPageContainer extends PureComponent {
 
         this.containerFunctions = {
             updateUrl: this.updateUrl.bind(this),
-            getProductOrVariant: this.getProductOrVariant.bind(this),
             getLink: this.getLink.bind(this)
         };
 
         this.containerProps = () => ({
-            dataSource: this.getDataSource()
+            productOrVariant: this._getProductOrVariant(),
+            dataSource: this._getDataSource(),
+            areDetailsLoaded: this._getAreDetailsLoaded()
         });
     }
 
     componentDidMount() {
         const { isOnlyPlaceholder } = this.props;
-        if (!isOnlyPlaceholder) this.requestProduct();
-        this.onProductUpdate();
+        if (!isOnlyPlaceholder) this._requestProduct();
+        this._onProductUpdate();
     }
 
     componentDidUpdate({ location: { pathname: prevPathname } }) {
         const { location: { pathname } } = this.props;
 
-        if (pathname !== prevPathname) this.requestProduct();
-        this.onProductUpdate();
+        if (pathname !== prevPathname) this._requestProduct();
+        this._onProductUpdate();
     }
 
 
@@ -112,39 +113,6 @@ export class ProductPageContainer extends PureComponent {
         return { id, parameters, configurableVariantIndex };
     }
 
-    onProductUpdate() {
-        const dataSource = this.getDataSource();
-
-        if (Object.keys(dataSource).length) {
-            this.updateBreadcrumbs(dataSource);
-            this.updateHeaderState(dataSource);
-        }
-    }
-
-    /**
-     * Get thumbnail picture of the product
-     * @param {Object} dataSource product data
-     * @return {Number} variant index
-     */
-    getProductOrVariant(dataSource) {
-        const { variants } = dataSource;
-
-        const currentVariantIndex = this.getConfigurableVariantIndex();
-        const variant = variants && variants[currentVariantIndex];
-
-        return variant || dataSource;
-    }
-
-    getConfigurableVariantIndex() {
-        const { product: { variants } } = this.props;
-        const { configurableVariantIndex, parameters } = this.state;
-
-        if (configurableVariantIndex >= 0) return configurableVariantIndex;
-        if (variants) return getVariantIndex(variants, parameters);
-
-        return -1;
-    }
-
     getLink(key, value) {
         const { location: { search, pathname } } = this.props;
         const query = convertKeyValueObjectToQueryString({
@@ -155,68 +123,6 @@ export class ProductPageContainer extends PureComponent {
         return `${pathname}${query}`;
     }
 
-    getDataSource() {
-        const { product, location: { state } } = this.props;
-        const productIsLoaded = Object.keys(product).length > 0;
-        const locationStateExists = state && Object.keys(state.product).length > 0;
-
-        // return nothing, if no product in url state and no loaded product
-        if (!locationStateExists && !productIsLoaded) return {};
-
-        // use product from props, if product is loaded and state does not exist, or state product is equal loaded product
-        const useLoadedProduct = productIsLoaded && (
-            (locationStateExists && (product.id === state.product.id))
-            || !locationStateExists
-        );
-
-        return useLoadedProduct ? product : state.product;
-    }
-
-    /**
-     * Dispatch product data request
-     * @return {void}
-     */
-    requestProduct() {
-        const { requestProduct, location, match } = this.props;
-        const options = {
-            isSingleProduct: true,
-            args: {
-                filter: {
-                    productUrlPath: getUrlParam(match, location)
-                }
-            }
-        };
-
-        // eslint-disable-next-line react/no-unused-state
-        this.setState({ isConfigurationInitialized: false });
-        requestProduct(options);
-    }
-
-    updateHeaderState({ name: title }) {
-        const { changeHeaderState } = this.props;
-
-        changeHeaderState({
-            name: PDP,
-            title,
-            onBackClick: () => history.goBack()
-        });
-    }
-
-
-    /**
-     * Dispatch breadcrumbs update
-     * @return {void}
-     */
-    updateBreadcrumbs(dataSource) {
-        const { updateBreadcrumbs } = this.props;
-        updateBreadcrumbs(dataSource);
-    }
-
-    /**
-     * Update query params without adding to history, set configurableVariantIndex
-     * @param {string} key
-     * @param {number|string} value
-     */
     updateUrl(key, value) {
         const { product: { variants, configurable_options }, location, history } = this.props;
         const { configurableVariantIndex, parameters: oldParameters } = this.state;
@@ -239,6 +145,85 @@ export class ProductPageContainer extends PureComponent {
         }
     }
 
+    _onProductUpdate() {
+        const dataSource = this._getDataSource();
+
+        if (Object.keys(dataSource).length) {
+            this._updateBreadcrumbs(dataSource);
+            this._updateHeaderState(dataSource);
+        }
+    }
+
+    _getAreDetailsLoaded() {
+        const { product } = this.props;
+        return this._getDataSource() === product;
+    }
+
+    _getProductOrVariant() {
+        const dataSource = this._getDataSource();
+        const { variants } = dataSource;
+        const currentVariantIndex = this._getConfigurableVariantIndex();
+        const variant = variants && variants[currentVariantIndex];
+
+        return variant || dataSource;
+    }
+
+    _getConfigurableVariantIndex() {
+        const { product: { variants } } = this.props;
+        const { configurableVariantIndex, parameters } = this.state;
+
+        if (configurableVariantIndex >= 0) return configurableVariantIndex;
+        if (variants) return getVariantIndex(variants, parameters);
+
+        return -1;
+    }
+
+    _getDataSource() {
+        const { product, location: { state } } = this.props;
+        const productIsLoaded = Object.keys(product).length > 0;
+        const locationStateExists = state && Object.keys(state.product).length > 0;
+
+        // return nothing, if no product in url state and no loaded product
+        if (!locationStateExists && !productIsLoaded) return {};
+
+        // use product from props, if product is loaded and state does not exist, or state product is equal loaded product
+        const useLoadedProduct = productIsLoaded && (
+            (locationStateExists && (product.id === state.product.id))
+            || !locationStateExists
+        );
+
+        return useLoadedProduct ? product : state.product;
+    }
+
+    _requestProduct() {
+        const { requestProduct, location, match } = this.props;
+        const options = {
+            isSingleProduct: true,
+            args: {
+                filter: {
+                    productUrlPath: getUrlParam(match, location)
+                }
+            }
+        };
+
+        this.setState({ isConfigurationInitialized: false });
+        requestProduct(options);
+    }
+
+    _updateHeaderState({ name: title }) {
+        const { changeHeaderState } = this.props;
+
+        changeHeaderState({
+            name: PDP,
+            title,
+            onBackClick: () => history.goBack()
+        });
+    }
+
+    _updateBreadcrumbs(dataSource) {
+        const { updateBreadcrumbs } = this.props;
+        updateBreadcrumbs(dataSource);
+    }
 
     render() {
         return (
@@ -262,6 +247,7 @@ ProductPageContainer.propTypes = {
     isOnlyPlaceholder: PropTypes.bool,
     changeHeaderState: PropTypes.func.isRequired,
     updateBreadcrumbs: PropTypes.func.isRequired,
+    requestProduct: PropTypes.func.isRequired,
     product: ProductType.isRequired,
     clearGroupedProductQuantity: PropTypes.func.isRequired,
     history: PropTypes.shape({

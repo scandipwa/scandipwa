@@ -358,13 +358,6 @@ CheckoutPage.propTypes = {
     requestCustomerData: PropTypes.func.isRequired,
     toggleBreadcrumbs: PropTypes.func.isRequired,
     setHeaderState: PropTypes.func.isRequired,
-    history: PropTypes.shape({
-        location: PropTypes.object.isRequired,
-        push: PropTypes.func.isRequired
-    }).isRequired,
-    location: PropTypes.shape({
-        pathname: PropTypes.string.isRequired
-    }).isRequired,
     isSignedIn: PropTypes.bool.isRequired,
     countryList: PropTypes.arrayOf(PropTypes.shape).isRequired,
     customer: customerType.isRequired,
