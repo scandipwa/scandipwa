@@ -18,6 +18,7 @@ import { getIndexedProducts } from 'Util/Product';
 
 export const initialState = {
     pages: {},
+    totalItems: 0,
     isLoading: true
 };
 
@@ -25,6 +26,7 @@ const ProductListReducer = (state = initialState, action) => {
     const {
         type,
         items: initialItems = [],
+        total_count: totalItems,
         currentPage,
         isLoading
     } = action;
@@ -45,7 +47,8 @@ const ProductListReducer = (state = initialState, action) => {
             isLoading: false,
             pages: {
                 [currentPage]: getIndexedProducts(initialItems)
-            }
+            },
+            totalItems
         };
 
     case UPDATE_LOAD_STATUS:
