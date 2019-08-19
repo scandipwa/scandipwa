@@ -9,24 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import CmsBlocksAndSliderReducer from './CmsBlocksAndSlider.reducer';
-import CmsBlocksAndSliderDispatcher, {
+export * from './CmsBlocksAndSlider.action';
+export { default as CmsBlocksAndSliderReducer } from './CmsBlocksAndSlider.reducer';
+export {
+    default as CmsBlocksAndSliderDispatcher,
     CmsBlocksAndSliderDispatcher as CmsBlocksAndSliderDispatcherClass
 } from './CmsBlocksAndSlider.dispatcher';
-
-import {
-    UPDATE_CMS_BLOCKS,
-    UPDATE_SLIDER,
-    updateCmsBlocks,
-    updateSlider
-} from './CmsBlocksAndSlider.action';
-
-export {
-    CmsBlocksAndSliderReducer,
-    CmsBlocksAndSliderDispatcher,
-    CmsBlocksAndSliderDispatcherClass,
-    UPDATE_CMS_BLOCKS,
-    UPDATE_SLIDER,
-    updateCmsBlocks,
-    updateSlider
-};

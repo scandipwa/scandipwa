@@ -9,5 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import Meta from './Meta.component';
-export default Meta;
+export { default } from './Meta.component';

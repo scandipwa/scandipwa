@@ -10,7 +10,7 @@
  */
 
 /* eslint-disable no-param-reassign */
-
+import { getIndexedProducts } from 'Util/Product';
 import {
     UPDATE_RELATED_PRODUCTS
 } from './RelatedProducts.action';
@@ -22,20 +22,11 @@ const initialState = {
 const RelatedProductsReducer = (state = initialState, action) => {
     switch (action.type) {
     case UPDATE_RELATED_PRODUCTS:
-        const { relatedProducts: { products } } = action;
+        const { relatedProducts: { products, products: { items: initialItems = [] } } } = action;
 
-        if (products.items) {
-            products.items.forEach(({ attributes }, i) => {
-                attributes.forEach(({ attribute_code, attribute_value }) => {
-                    products.items[i][attribute_code] = attribute_value;
-                });
-            });
-        }
+        const items = getIndexedProducts(initialItems);
 
-        return {
-            ...state,
-            relatedProducts: products
-        };
+        return { ...state, relatedProducts: { ...products, items } };
 
     default:
         return state;

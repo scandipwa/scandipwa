@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import ProductReviewForm from './ProductReviewForm.container';
-
-export default ProductReviewForm;
+export { default } from './ProductReviewForm.container';

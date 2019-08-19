@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import CartSummary from './CartSummary.componet';
-
-export default CartSummary;
+export { default } from './CartSummary.component';

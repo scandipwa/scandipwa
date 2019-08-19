@@ -1,0 +1,104 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+:root {
+    --option-background-color: var(--color-homepage-background);
+    --option-border-color: var(--color-border-base);
+    --option-check-mark-background: var(--color-text-black);
+    --option-text-color: var(--color-text-black);
+    --option-padding: 0 12px;
+    --option-size: 35px;
+}
+
+.ProductAttributeValue {
+    --button-background: initial;
+    --button-color: initial;
+    --button-padding: 0;
+
+    --option-is-selected: 0;
+
+    margin-left: 0;
+
+    &-Color,
+    &-String,
+    &-Image {
+        background-color: var(--option-background-color);
+        border-color: var(--option-border-color);
+        border-width: 1px;
+        color: var(--option-text-color);
+        display: inline-block;
+        height: var(--option-size);
+        padding: var(--option-padding);
+    }
+
+    &-Color {
+        border-radius: 50%;
+        font-size: 0;
+        width: var(--option-size);
+
+        box-shadow: inset 0 0 0 1px var(--option-border-color);
+        will-change: box-shadow, background-color;
+
+        &::before,
+        &::after {
+            content: "";
+            position: absolute;
+    
+            opacity: var(--option-is-selected);
+            transition: opacity 200ms;
+            will-change: opacity, border-left, border-right;
+        }
+
+        &::before {
+            height: calc(var(--option-size) + 6px);
+            width: calc(var(--option-size) + 6px);
+    
+            border-radius: inherit;
+            box-shadow: inherit;
+            left: -3px;
+            top: -3px;
+        }
+
+        &::after {
+            height: calc(var(--option-size) / 5);
+            left: calc(var(--option-size) / 3.3);
+            top: calc(var(--option-size) / 3.3);
+            width: calc(var(--option-size) / 2.5);
+    
+            transform: rotate(-45deg);
+    
+            border: {
+                left: 2px solid var(--option-check-mark-background);
+                bottom: 2px solid var(--option-check-mark-background);
+            }
+        }
+
+        &:hover {
+            @include after-mobile {
+                &::before,
+                &::after {
+                    --option-is-selected: 0.5;
+                }
+            }
+        }
+    }
+
+    &-String {
+        border-style: solid;
+        line-height: var(--option-size);
+        min-width: var(--option-size);
+
+        &_isSelected {
+            --option-border-color: var(--color-primary-base);
+            --option-text-color: var(--color-primary-base);
+        }
+    }
+}

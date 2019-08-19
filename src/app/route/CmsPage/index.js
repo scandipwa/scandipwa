@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import CmsPage from './CmsPage.container';
-
-export default CmsPage;
+export { default } from './CmsPage.container';

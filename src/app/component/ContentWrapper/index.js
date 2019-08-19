@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import ContentWrapper from './ContentWrapper.componet';
-
-export default ContentWrapper;
+export { default } from './ContentWrapper.component';

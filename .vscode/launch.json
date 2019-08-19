@@ -22,14 +22,15 @@
             "name": "Launch Webpack",
             "program": "${workspaceFolder}/node_modules/webpack/bin/webpack.js",
             "args": [
-                "--config", "./src/config/webpack.production.config.js"
+                "--config",
+                "./src/config/webpack.production.config.js"
             ]
         },
         {
             "type": "chrome",
             "request": "launch",
             "name": "Launch Chrome",
-            "url": "https://scandipwa.local/product/test-simple-product",
+            "url": "https://scandipwa.local/",
             "webRoot": "${workspaceFolder}"
         }
     ]

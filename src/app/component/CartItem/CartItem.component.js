@@ -18,6 +18,7 @@ import ProductPrice from 'Component/ProductPrice';
 import Field from 'Component/Field';
 import Loader from 'Component/Loader';
 import { ProductType } from 'Type/ProductList';
+import { convertKeyValueObjectToQueryString } from 'Util/Url';
 import './CartItem.style';
 
 /**
@@ -40,14 +41,32 @@ class CartItem extends Component {
      */
     getProductLinkTo(url_key) {
         if (!url_key) return undefined;
+        const {
+            product,
+            product: {
+                type_id,
+                configurable_options,
+                configurableVariantIndex,
+                parent,
+                variants = []
+            }
+        } = this.props;
 
-        const { product: { configurableVariantIndex, parent }, product } = this.props;
-        const variantIndex = configurableVariantIndex || 0;
+        if (type_id === 'simple') return { pathname: `/product/${ url_key }` };
+
+        const { attributes } = variants[configurableVariantIndex];
+
+        const parameters = Object.entries(attributes).reduce(
+            (parameters, [code, { attribute_value }]) => {
+                if (Object.keys(configurable_options).includes(code)) return { ...parameters, [code]: attribute_value };
+                return parameters;
+            }, {}
+        );
 
         return {
             pathname: `/product/${ url_key }`,
-            state: { product: parent || product, variantIndex },
-            search: `?variant=${ variantIndex }`
+            state: { product: parent || product },
+            search: convertKeyValueObjectToQueryString(parameters)
         };
     }
 
@@ -88,9 +107,7 @@ class CartItem extends Component {
     handleRemoveItem() {
         const { removeProduct, product } = this.props;
         this.setState({ isLoading: true });
-        removeProduct({ product }).then(
-            () => this.setState({ isLoading: false })
-        );
+        removeProduct({ product });
     }
 
     /**

@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import CategoryPage from './CategoryPage.container';
-
-export default CategoryPage;
+export { default } from './CategoryPage.container';

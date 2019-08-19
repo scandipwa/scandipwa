@@ -29,13 +29,18 @@ class ProductDetails extends Component {
      * Render product SKU only when it's loaded
      */
     renderSku() {
-        const { product: { variants, sku, stock_status }, areDetailsLoaded, configurableVariantIndex } = this.props;
+        const {
+            product: {
+                variants = [],
+                sku,
+                stock_status
+            },
+            areDetailsLoaded,
+            configurableVariantIndex
+        } = this.props;
 
         if (areDetailsLoaded) {
-            const { product } = configurableVariantIndex >= 0
-                    && variants
-                    && Object.keys(variants).length >= configurableVariantIndex
-                ? variants[configurableVariantIndex] : '';
+            const { product } = variants[configurableVariantIndex] || {};
 
             return (
                 <>
@@ -76,18 +81,18 @@ class ProductDetails extends Component {
 
     renderReviewSummary() {
         const {
+            search,
             product: { review_summary, url_key },
             product,
-            areDetailsLoaded,
-            configurableVariantIndex
+            areDetailsLoaded
         } = this.props;
 
         if (areDetailsLoaded) {
             const linkTo = url_key
                 ? {
                     pathname: `/product/${ url_key }`,
-                    state: { product, configurableVariantIndex },
-                    search: `?variant=${ configurableVariantIndex }`,
+                    state: { product },
+                    search,
                     hash: '#review-form'
                 }
                 : undefined;
@@ -150,9 +155,14 @@ class ProductDetails extends Component {
 }
 
 ProductDetails.propTypes = {
+    search: PropTypes.string,
     product: ProductType.isRequired,
     configurableVariantIndex: PropTypes.number.isRequired,
     areDetailsLoaded: PropTypes.bool.isRequired
+};
+
+ProductDetails.defaultProps = {
+    search: ''
 };
 
 export default ProductDetails;

@@ -9,17 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import CategoryReducer from './Category.reducer';
-import CategoryDispatcher, { CategoryDispatcher as CategoryDispatcherClass } from './Category.dispatcher';
-import {
-    UPDATE_CURRENT_CATEGORY,
-    updateCurrentCategory
-} from './Category.action';
-
-export {
-    CategoryReducer,
-    CategoryDispatcher,
-    CategoryDispatcherClass,
-    UPDATE_CURRENT_CATEGORY,
-    updateCurrentCategory
-};
+export * from './Category.action';
+export { default as CategoryReducer } from './Category.reducer';
+export { default as CategoryDispatcher, CategoryDispatcher as CategoryDispatcherClass } from './Category.dispatcher';

@@ -73,15 +73,6 @@
         margin: 0 0 1.5rem;
     }
 
-    &-Swatches {
-        display: grid;
-        grid-template-columns: repeat(6, 1fr);
-
-        @include mobile {
-            grid-template-columns: repeat(8, 1fr);
-        }
-    }
-
     &-ClearButton {
         --button-background: transparent;
         --button-hover-background: var(--color-primary-base);

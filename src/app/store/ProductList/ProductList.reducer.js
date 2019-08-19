@@ -14,6 +14,7 @@ import {
     UPDATE_PRODUCT_LIST_ITEMS,
     UPDATE_LOAD_STATUS
 } from 'Store/ProductList';
+import { getIndexedProducts } from 'Util/Product';
 
 const initialState = {
     pages: {},
@@ -23,28 +24,12 @@ const initialState = {
 const ProductListReducer = (state = initialState, action) => {
     const {
         type,
-        items,
+        items: initialItems = [],
         currentPage,
         isLoading
     } = action;
 
-    if (items) {
-        items.forEach(({ attributes, variants }, i) => {
-            attributes.forEach(({ attribute_code, attribute_value }) => {
-                items[i][attribute_code] = attribute_value;
-            });
-
-            if (variants) {
-                variants.forEach(({ product: { attributes } }, j) => {
-                    if (attributes) {
-                        attributes.forEach(({ attribute_code, attribute_value }) => {
-                            items[i].variants[j].product[attribute_code] = attribute_value;
-                        });
-                    }
-                });
-            }
-        });
-    }
+    const items = getIndexedProducts(initialItems);
 
     switch (type) {
     case APPEND_PAGE:

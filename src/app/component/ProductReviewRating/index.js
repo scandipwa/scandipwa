@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import ProductReviewRating from './ProductReviewRating.component';
-
-export default ProductReviewRating;
+export { default } from './ProductReviewRating.component';

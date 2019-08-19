@@ -12,12 +12,14 @@
 /**
  * Update query params without adding to history
  * @param {String} name
- * @param {Number} value
+ * @param {String} value
  */
-const updateQueryParamWithoutHistory = (name, value) => {
-    const params = new URLSearchParams(window.location.search);
+const updateQueryParamWithoutHistory = (name, value, history, location) => {
+    const { search, pathname } = location;
+
+    const params = new URLSearchParams(search);
     params.set(name, value);
-    window.history.replaceState({}, '', decodeURIComponent(`${ window.location.pathname }?${ params }`));
+    history.replace(decodeURIComponent(`${ pathname }?${ params }`));
 };
 
 /**
@@ -63,7 +65,7 @@ const convertQueryStringToKeyValuePairs = (queryString) => {
         const pair = param.split('=');
         const [keyPair, valuePair] = pair;
 
-        keyValuePairs[keyPair] = valuePair;
+        if (keyPair.length > 0 && valuePair.length > 0) keyValuePairs[keyPair] = valuePair;
     });
 
     return keyValuePairs;
@@ -159,6 +161,19 @@ const clearQueriesFromUrl = (history) => {
     history.push({ search: '' });
 };
 
+/**
+ * Convert object with key value pairs to url query string
+ * @param {Object} keyValuePairs object with key value pairs
+ * @return {String} Converted query string
+ */
+const convertKeyValueObjectToQueryString = (keyValueObject = {}) => {
+    const paramString = Object.entries(keyValueObject).sort()
+        .reduce((acc, [key, value]) => `${acc}&${key}=${value}`, '')
+        .replace('&', '');
+
+    return paramString.length > 0 ? `?${paramString}` : '';
+};
+
 export {
     getUrlParam,
     getQueryParam,
@@ -166,5 +181,6 @@ export {
     setQueryParams,
     clearQueriesFromUrl,
     updateQueryParamWithoutHistory,
-    convertQueryStringToKeyValuePairs
+    convertQueryStringToKeyValuePairs,
+    convertKeyValueObjectToQueryString
 };

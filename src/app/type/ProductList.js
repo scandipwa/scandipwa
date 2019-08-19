@@ -11,6 +11,17 @@
 
 import PropTypes from 'prop-types';
 
+export const AttributeType = PropTypes.shape({
+    attribute_code: PropTypes.string,
+    attribute_type: PropTypes.string,
+    attribute_value: PropTypes.string,
+    attribute_label: PropTypes.string,
+    attribute_options: PropTypes.objectOf(PropTypes.shape({
+        label: PropTypes.string,
+        value: PropTypes.string
+    }))
+});
+
 export const BreadcrumbsType = PropTypes.arrayOf(
     PropTypes.shape({
         name: PropTypes.string,
