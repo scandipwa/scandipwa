@@ -27,7 +27,7 @@ class CheckoutOrderSummary extends Component {
         const { configurableVariantIndex, variants } = item;
 
         if (typeof configurableVariantIndex === 'number' && variants) {
-            return variants[configurableVariantIndex].product;
+            return variants[configurableVariantIndex] || {};
         }
 
         return item;
@@ -58,8 +58,8 @@ class CheckoutOrderSummary extends Component {
      */
     renderItem(key, item) {
         const {
-            thumbnail: { path },
-            short_description: { html },
+            thumbnail: { path } = {},
+            short_description: { html } = {},
             manufacturer,
             name,
             quantity,
