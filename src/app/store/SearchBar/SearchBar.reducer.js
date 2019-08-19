@@ -18,7 +18,7 @@ import {
 
 export const initialState = {
     productsInSearch: [],
-    isLoading: false
+    isLoading: true
 };
 
 const SearchBarReducer = (state = initialState, action) => {

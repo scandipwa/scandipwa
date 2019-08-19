@@ -43,17 +43,14 @@ class MenuOverlay extends PureComponent {
         const { item_id, title } = activeSubcategory;
 
         e.stopPropagation();
-
         changeHeaderState({
             name: MENU_SUBCATEGORY,
             force: true,
             title,
             onBackClick: () => {
-                this.setState(({ activeMenuItemsStack }) => {
-                    activeMenuItemsStack.shift();
-                    return activeMenuItemsStack;
-                });
-
+                this.setState(({ activeMenuItemsStack }) => (
+                    { activeMenuItemsStack: activeMenuItemsStack.slice(1) }
+                ));
                 goToPreviousHeaderState();
             }
         });
