@@ -80,7 +80,7 @@ export class CartDispatcher {
         return fetchMutation(Cart.getSaveCartItemMutation(
             { sku, item_id, qty: quantity }, !isSignedIn() && this._getGuestQuoteId()
         )).then(
-            ({ saveCartItem: { cartData }}) => this._updateCartData(cartData, dispatch),
+            ({ saveCartItem: { cartData } }) => this._updateCartData(cartData, dispatch),
             error => dispatch(showNotification('error', error[0].message))
         );
     }
@@ -172,7 +172,7 @@ export class CartDispatcher {
         }, {});
 
         dispatch(updateTotals(cartData));
-        // dispatch(updateAllProductsInCart(productsToAdd));
+        dispatch(updateAllProductsInCart(productsToAdd));
     }
 
     _getExtensionAttributes(product) {
