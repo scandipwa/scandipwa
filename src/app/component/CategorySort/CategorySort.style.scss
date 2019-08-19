@@ -12,6 +12,7 @@
 .CategorySort {
     @include after-mobile {
         margin-left: auto;
+        min-width: 15rem;
     }
 
     &-Select {
