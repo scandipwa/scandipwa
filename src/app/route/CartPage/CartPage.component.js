@@ -118,7 +118,7 @@ class CartPage extends Component {
         return (
             <img
               block="CartPage"
-              elem="PaymenyMethods"
+              elem="PaymentMethods"
               src="/media/wysiwyg/etc/payment-methods.jpg"
               alt="Shipping car icon"
             />
