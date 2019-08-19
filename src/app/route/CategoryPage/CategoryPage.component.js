@@ -55,7 +55,6 @@ class CategoryPage extends PureComponent {
     renderProductList() {
         const {
             pages,
-            isInfoLoading,
             requestNextPage,
             updatePage,
             isPagesLoading,
@@ -66,7 +65,7 @@ class CategoryPage extends PureComponent {
         return (
             <CategoryProductList
               pages={ pages }
-              isLoading={ isInfoLoading || isPagesLoading }
+              isLoading={ isPagesLoading }
               totalPages={ totalPages }
               selectedFilters={ selectedFilters }
               loadPage={ requestNextPage }

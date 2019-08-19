@@ -45,10 +45,8 @@ const ProductListReducer = (state = initialState, action) => {
         return {
             ...state,
             isLoading: false,
-            pages: {
-                [currentPage]: getIndexedProducts(initialItems)
-            },
-            totalItems
+            totalItems,
+            pages: { [currentPage]: getIndexedProducts(initialItems) }
         };
 
     case UPDATE_LOAD_STATUS:
