@@ -142,11 +142,11 @@ class CategoryPage extends PureComponent {
         const {
             category,
             requestPage,
-            isInfoLoading,
+            isPagesLoading,
             pageParams: { totalPages, currentPage }
         } = this.props;
 
-        if (isInfoLoading) return null;
+        if (isPagesLoading) return null;
 
         return (
             <CategoryPagination
@@ -210,7 +210,6 @@ CategoryPage.propTypes = {
         currentPage: PropTypes.number
     }).isRequired,
     getFilterUrl: PropTypes.func.isRequired,
-    isInfoLoading: PropTypes.bool.isRequired,
     isPagesLoading: PropTypes.bool.isRequired,
     onSortChange: PropTypes.func.isRequired,
     requestPage: PropTypes.func.isRequired,
