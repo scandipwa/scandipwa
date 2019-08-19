@@ -41,6 +41,11 @@
         }
     }
 
+    &-ProductsMissing {
+        padding: 1rem;
+        text-align: center;
+    }
+
     &_isLoading {
         opacity: 0;
         animation: appear 100ms 200ms ease-in forwards;

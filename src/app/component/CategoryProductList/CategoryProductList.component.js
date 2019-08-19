@@ -111,9 +111,11 @@ class CategoryProductList extends PureComponent {
             <div block="CategoryProductList">
                 <div
                   block="CategoryProductList"
-                  elem="PictureMissing"
+                  elem="ProductsMissing"
                 >
-                    { __('No products found') }
+                    <h2>{ __('We are sorry!') }</h2>
+                    <h3>{ __('There were no products found matching your request.') }</h3>
+                    <p>{ __('Please, try removing selected filters and try again!') }</p>
                 </div>
             </div>
         );
