@@ -221,12 +221,11 @@ export class CategoryPageContainer extends PureComponent {
     }
 
     _getPageParams() {
-        const { totalItems } = this.props;
+        const { totalItems, pages } = this.props;
         const { pageSize } = this.config;
-        const pageFromUrl = getQueryParam('page', location) || 1;
 
         const totalPages = Math.ceil(totalItems / pageSize);
-        const currentPage = parseInt(totalPages < pageFromUrl ? totalPages : pageFromUrl, 10);
+        const currentPage = Math.max(...Object.keys(pages));
 
         return { totalPages, currentPage };
     }
