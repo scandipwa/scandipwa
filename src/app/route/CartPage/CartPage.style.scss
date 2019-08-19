@@ -168,7 +168,7 @@
 
     &-TableHead {
         display: grid;
-        grid-template-columns: 1fr 20rem 20rem;
+        grid-template-columns: 3fr 1fr 1fr;
         border-bottom: 1px solid var(--cart-page-divider-background);
         background-color: var(--cart-page-table-head-background);
         text-transform: uppercase;
@@ -225,6 +225,13 @@
 
         @include mobile {
             display: none;
+        }
+    }
+
+    .CartItem-Actions {
+        @include tablet {
+            flex-direction: column-reverse;
+            justify-content: center;
         }
     }
 }
