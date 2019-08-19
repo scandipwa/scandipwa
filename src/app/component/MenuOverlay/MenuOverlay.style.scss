@@ -114,6 +114,12 @@
             &_trending {
                 column-gap: 10px;
 
+                @include after-mobile {
+                    @media (max-height: 940px) {
+                        display: none;
+                    }
+                }
+
                 .MenuOverlay-Item {
                     margin: 0;
                 }
