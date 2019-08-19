@@ -140,10 +140,12 @@
         }
 
         &_isLikeTable {
+            top: 0;
+
             @include after-mobile {
                 width: 20rem;
                 position: absolute;
-                top: 0;
+                top: 20px;
                 bottom: 0;
                 margin: auto;
                 right: 0;
@@ -186,18 +188,17 @@
             height: 3rem;
         }
 
-        @include tablet {
-            flex-direction: column-reverse;
-            justify-content: center;
-        }
-
         &_isLikeTable {
             @include after-mobile {
-                width: 20rem;
+                width: 20%;
                 bottom: 0;
-                right: 20rem;
-                top: 0;
+                right: 20%;
+                top: -5px;
                 margin: auto;
+                justify-content: center;
+            }
+            > * {
+                margin: 0 5px;
             }
         }
 
