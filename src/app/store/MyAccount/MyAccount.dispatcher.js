@@ -135,19 +135,20 @@ export class MyAccountDispatcher {
      * @param {{email: String, password: String}} [options={}]
      * @memberof MyAccountDispatcher
      */
-    signIn(options = {}, dispatch) {
+    async signIn(options = {}, dispatch) {
         const mutation = MyAccountQuery.getSignInMutation(options);
 
-        return fetchMutation(mutation).then(
-            ({ generateCustomerToken: { token } }) => {
-                // TODO: TEST
-                setAuthorizationToken(token);
-                dispatch(updateCustomerSignInStatus(true));
-                CartDispatcher.updateInitialCartData(dispatch);
-                WishlistDispatcher.updateInitialWishlistData(dispatch);
-            },
-            error => dispatch(showNotification('error', error[0].message))
-        );
+        try {
+            const result = await fetchMutation(mutation);
+            const { generateCustomerToken: { token } } = result;
+
+            setAuthorizationToken(token);
+            dispatch(updateCustomerSignInStatus(true));
+            CartDispatcher.updateInitialCartData(dispatch);
+            WishlistDispatcher.updateInitialWishlistData(dispatch);
+        } catch ([e]) {
+            throw e;
+        }
     }
 }
 
