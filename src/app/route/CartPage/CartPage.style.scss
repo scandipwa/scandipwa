@@ -177,10 +177,6 @@
         padding: .9rem 1rem;
         margin-bottom: 0;
 
-        @include desktop {
-            grid-gap: 2rem;
-        }
-
         @include mobile {
             display: none;
         }
