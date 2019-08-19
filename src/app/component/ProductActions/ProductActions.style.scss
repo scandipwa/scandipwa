@@ -75,7 +75,7 @@
 
         &:last-of-type {
             @include after-mobile {
-                padding: 1rem 15px 1rem 5px;
+                padding: 10px 15px 1rem 5px;
             }
         }
     }
