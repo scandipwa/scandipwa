@@ -185,8 +185,6 @@
 }
 
 @mixin minicart-button {
-	width: 100%;
-
 	&::before,
 	&::after {
 		content: '';
