@@ -23,6 +23,7 @@ export class HeaderAndFooterDispatcher extends QueryDispatcher {
     onSuccess(options, dispatch) {
         if (options) {
             const { menu, cmsBlocks } = options;
+            console.log('_: HeaderAndFooterDispatcher -> onSuccess -> options', options);
             dispatch(updateMenu(menu));
             dispatch(updateCmsBlocks(cmsBlocks));
         }
@@ -39,6 +40,7 @@ export class HeaderAndFooterDispatcher extends QueryDispatcher {
      * @memberof HeaderAndFooterDispatcher
      */
     prepareRequest(options) {
+        console.log('_: HeaderAndFooterDispatcher -> prepareRequest -> options.footer', options.footer);
         return [
             MenuQuery.getQuery(options.menu),
             CmsBlockQuery.getQuery(options.footer)

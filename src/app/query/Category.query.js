@@ -22,6 +22,7 @@ export class CategoryQuery {
 
     getQuery(options = {}) {
         this.options = options;
+        console.log('TCL: getQuery -> options', options);
 
         return new Field('category')
             .addArgument(...this._getConditionalArguments())

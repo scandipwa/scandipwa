@@ -24,6 +24,7 @@ export class ProductListQuery {
         if (!options) throw new Error('Missing argument `options`');
 
         this.options = options;
+        console.log("TCL: ProductListQuery -> getQuery -> options", options);
 
         return this._getProductsField();
     }
