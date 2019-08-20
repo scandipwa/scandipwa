@@ -104,6 +104,7 @@ export class ProductPageContainer extends PureComponent {
                 if (key in configurable_options) {
                     return { ...acc, [key]: value };
                 }
+
                 return acc;
             }, {});
 

@@ -37,8 +37,7 @@ class ProductReviewList extends PureComponent {
                 <p><TextPlaceholder content={ rating_code } /></p>
                 { percent
                     ? <ProductReviewRating summary={ percent } code={ rating_code } />
-                    : <ProductReviewRating placeholder />
-                }
+                    : <ProductReviewRating placeholder /> }
             </div>
         );
     }
@@ -65,8 +64,7 @@ class ProductReviewList extends PureComponent {
                 <div block="ProductReviewList" elem="RatingSummary">
                     { rating_votes
                         ? rating_votes.map(rating => this.renderReviewListItemRating(rating))
-                        : this.renderReviewListItemRating({ vote_id: null })
-                    }
+                        : this.renderReviewListItemRating({ vote_id: null }) }
                 </div>
                 <div block="ProductReviewList" elem="ReviewContent">
                     <p block="ProductReviewList" elem="ReviewDetails">
@@ -77,8 +75,7 @@ class ProductReviewList extends PureComponent {
                                     <TextPlaceholder length="long" />
                                     <TextPlaceholder length="long" />
                                 </>
-                            )
-                        }
+                            ) }
                     </p>
                     <p block="ProductReviewList" elem="ReviewAuthor">
                         <TextPlaceholder

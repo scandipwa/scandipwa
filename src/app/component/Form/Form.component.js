@@ -130,6 +130,7 @@ class Form extends PureComponent {
             fieldsAreValid,
             invalidFields
         } = Form.cloneAndValidateChildren(propsChildren, refMap);
+
         this.setState({ children, fieldsAreValid });
 
         const inputValues = Object.values(refMap).reduce((inputValues, input) => {
@@ -140,8 +141,10 @@ class Form extends PureComponent {
                     const boolValue = checked;
                     return { ...inputValues, [name]: boolValue };
                 }
+
                 return { ...inputValues, [name]: value };
             }
+
             return inputValues;
         }, {});
 

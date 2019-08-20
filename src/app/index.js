@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *

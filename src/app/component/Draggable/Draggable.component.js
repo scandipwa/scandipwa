@@ -46,6 +46,7 @@ class Draggable extends PureComponent {
                 lastTranslateY: shiftY
             };
         }
+
         return null;
     }
 

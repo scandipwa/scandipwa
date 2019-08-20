@@ -43,7 +43,7 @@
     "import/no-unresolved": 0,
     "import/named": 0,
     "no-plusplus": 0,
-    "react/jsx-curly-spacing": [2, {"when": "always", "allowMultiline": false} ],
+    "react/jsx-curly-spacing": [2, {"when": "always", "allowMultiline": false, "children": true} ],
     "import/no-named-as-default": 0,
     "import/no-named-as-default-member": 0,
     "react/jsx-filename-extension": 0,
@@ -63,6 +63,13 @@
       "never"
     ],
     "no-case-declarations": "off",
-    "jsx-a11y/label-has-for": 0
+    "jsx-a11y/label-has-for": 0,
+    "padding-line-between-statements": [
+        "error",
+        { "blankLine": "always", "prev": ["const", "let", "var"], "next": "*" },
+        { "blankLine": "any", "prev": ["const", "let", "var"], "next": ["const", "let", "var"] },
+        { "blankLine": "always", "prev": ["block", "block-like", "multiline-block-like", "multiline-expression", "multiline-const", "multiline-let", "multiline-var"], "next": "return" },
+        { "blankLine": "any", "prev": ["singleline-const", "singleline-let", "singleline-var"], "next": "*" }
+    ]
   }
 }

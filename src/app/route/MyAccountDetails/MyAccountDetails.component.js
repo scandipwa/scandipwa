@@ -75,6 +75,7 @@ class MyAccountDetails extends Component {
 
             return { regionSelect, regionType };
         }
+
         return null;
     }
 

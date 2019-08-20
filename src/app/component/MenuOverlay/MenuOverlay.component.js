@@ -167,8 +167,7 @@ class MenuOverlay extends PureComponent {
                             >
                                 { this.renderItemContent(item, itemMods) }
                             </Link>
-                        )
-                    }
+                        ) }
                 </li>
             );
         });

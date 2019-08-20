@@ -300,10 +300,8 @@ class MyAccountOverlay extends PureComponent {
               mods={ { state } }
             >
                 <h4 id="forgot-password-success">
-                    {
-                        // eslint-disable-next-line max-len
-                        __('If there is an account associated with the provided address you will receive an email with a link to reset your password')
-                    }
+                    { // eslint-disable-next-line max-len
+ __('If there is an account associated with the provided address you will receive an email with a link to reset your password') }
                 </h4>
                 <button
                   block="Button"

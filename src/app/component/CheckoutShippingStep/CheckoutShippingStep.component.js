@@ -377,7 +377,7 @@ class CheckoutShippingStep extends PureComponent {
 
         return (
             <>
-                {defaultShippingAddress
+                { defaultShippingAddress
                     && (
                         <div block="CheckoutShippingStep" elem="ButtonWrapper">
                             <button
@@ -387,8 +387,7 @@ class CheckoutShippingStep extends PureComponent {
                                 { __("I'd like to use the default shipping address") }
                             </button>
                         </div>
-                    )
-                }
+                    ) }
                 { !isSignedIn
                     && (
                         <fieldset>
@@ -402,8 +401,7 @@ class CheckoutShippingStep extends PureComponent {
                             { this.renderField(EMAIL_FIELD_ID) }
                             { this.renderField(PHONE_FIELD_ID) }
                         </fieldset>
-                    )
-                }
+                    ) }
                 <fieldset>
                     <legend block="CheckoutPage" elem="Heading">
                         { __('Shipping Address') }
@@ -451,8 +449,7 @@ class CheckoutShippingStep extends PureComponent {
                                     <dt>{ __('Company name') }</dt>
                                     <dd>{ company }</dd>
                                 </>
-                            )
-                        }
+                            ) }
                         <dt>{ __('Shipping address:') }</dt>
                         <dd>{ `${country_id }, ${regionName}, ${city}` }</dd>
                         <dd>{ street[0] }</dd>

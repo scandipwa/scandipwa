@@ -101,7 +101,7 @@ class CategoryProductList extends PureComponent {
               onKeyUp={ loadPrevPage }
               onClick={ loadPrevPage }
             >
-                    {__('Load previous') }
+                    { __('Load previous') }
             </div>
         );
     }

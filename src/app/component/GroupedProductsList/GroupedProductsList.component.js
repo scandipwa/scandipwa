@@ -46,7 +46,7 @@ class GroupedProductList extends PureComponent {
 
         return (
             <>
-                { items && this.renderProductList(items)}
+                { items && this.renderProductList(items) }
             </>
         );
     }

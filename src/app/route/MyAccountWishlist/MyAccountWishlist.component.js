@@ -143,9 +143,8 @@ class MyAccountWishlist extends Component {
                     <div block="MyAccountWishlist" elem="Content">
                         <h2>{ __('My Wish List') }</h2>
                         <Loader isLoading={ isLoading } />
-                        {
-                            this.getWishlistItemsCount() > 0
-                                ? (
+                        { this.getWishlistItemsCount() > 0
+                            ? (
                                     <>
                                         <button
                                           onClick={ () => this.addToCart() }
@@ -159,13 +158,12 @@ class MyAccountWishlist extends Component {
                                         <ul block="MyAccountWishlist" elem="List">
                                             { Object.values(wishlistItems).map(
                                                 product => this.renderWishlistItem(product)
-                                            )}
+                                            ) }
                                         </ul>
                                     </>
-                                ) : (
+                            ) : (
                                     <p>{ __('You have no items in your wish list.') }</p>
-                                )
-                        }
+                            ) }
                     </div>
                 </div>
             </main>

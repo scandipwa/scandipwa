@@ -73,8 +73,7 @@ class Breadcrumbs extends PureComponent {
                     >
                         { breadcrumbs.length
                             ? this.renderBreadcrumbList(breadcrumbs)
-                            : this.renderBreadcrumb({}, 0)
-                        }
+                            : this.renderBreadcrumb({}, 0) }
                     </ul>
                 </nav>
             </ContentWrapper>

@@ -108,8 +108,7 @@ class CheckoutShippingMethods extends PureComponent {
                         )
                         : (
                             <p>{ __('Please enter shipping address information first!') }</p>
-                        )
-                    }
+                        ) }
                 </div>
             </fieldset>
         );

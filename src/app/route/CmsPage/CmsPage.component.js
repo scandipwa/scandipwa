@@ -91,8 +91,7 @@ class CmsPage extends Component {
                                     <TextPlaceholder length="paragraph" />
                                     <TextPlaceholder length="medium" />
                                 </p>
-                            )
-                        }
+                            ) }
                     </div>
                 </ContentWrapper>
             </main>

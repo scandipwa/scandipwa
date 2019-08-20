@@ -73,13 +73,11 @@ class CategoryPagination extends PureComponent {
                 <ul block="CategoryPagination">
                     { (currentPage > 1)
                         ? this.renderPreviousPageLink(currentPage - 1)
-                        : <li block="CategoryPagination" elem="ListItem" />
-                    }
+                        : <li block="CategoryPagination" elem="ListItem" /> }
                     { this.renderPageLinks() }
                     { (currentPage <= totalPages - 1)
                         ? this.renderNextPageLink(currentPage + 1)
-                        : <li block="CategoryPagination" elem="ListItem" />
-                    }
+                        : <li block="CategoryPagination" elem="ListItem" /> }
                 </ul>
             </nav>
         );

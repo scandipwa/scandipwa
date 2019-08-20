@@ -102,6 +102,7 @@ class UrlRewrites extends Component {
                 }
 
             };
+
             return <ProductPage { ...newRoute } />;
         case TYPE_CMS_PAGE:
             return <CmsPage { ...props } cmsId={ id } />;
@@ -148,7 +149,8 @@ UrlRewrites.propTypes = {
     location: LocationType.isRequired,
     match: MatchType.isRequired,
     clearUrlRewrites: PropTypes.func.isRequired,
-    requestUrlRewrite: PropTypes.func.isRequired
+    requestUrlRewrite: PropTypes.func.isRequired,
+    urlRewrite: PropTypes.func.isRequired
 };
 
 export default UrlRewrites;

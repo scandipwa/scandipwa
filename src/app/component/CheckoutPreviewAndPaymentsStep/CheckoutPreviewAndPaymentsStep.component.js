@@ -388,7 +388,7 @@ class CheckoutPreviewAndPaymentsStep extends PureComponent {
                   type="button"
                   onClick={ () => this.changeState(buttonsParams.type, false) }
                 >
-                    {buttonsParams.message}
+                    { buttonsParams.message }
                 </button>
             )
         );
@@ -439,7 +439,7 @@ class CheckoutPreviewAndPaymentsStep extends PureComponent {
                               ))
                           ) }
                         />
-                    )}
+                    ) }
 
                     { renderFunction() }
                 </fieldset>

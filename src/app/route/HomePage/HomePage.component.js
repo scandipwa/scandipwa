@@ -87,8 +87,7 @@ class HomePage extends Component {
                                   mods={ { isPlaceholder: true } }
                                 />
                             </figure>
-                        ))
-                    }
+                        )) }
                 </ContentWrapper>
             </main>
         );

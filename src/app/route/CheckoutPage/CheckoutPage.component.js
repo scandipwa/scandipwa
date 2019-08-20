@@ -336,8 +336,7 @@ class CheckoutPage extends Component {
                     <div block="CheckoutPage" elem="Step">
                         { !Object.keys(products).length && checkoutStep !== CHECKOUT_STEP_SUCCESS
                             ? (<p>No products</p>)
-                            : stepRenderFunction()
-                        }
+                            : stepRenderFunction() }
                     </div>
                     { showSummary && (
                         <CheckoutOrderSummary

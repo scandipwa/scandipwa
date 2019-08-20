@@ -205,22 +205,16 @@ class AppRouter extends Component {
         return (
             <Router history={ history }>
                 <>
-                    {
-                        this.prepareContent(beforeItems, BEFORE_ITEMS_TYPE)
-                            .map((item, key) => item && this.applyKeyToReactElement(item, key))
-                    }
+                    { this.prepareContent(beforeItems, BEFORE_ITEMS_TYPE)
+                        .map((item, key) => item && this.applyKeyToReactElement(item, key)) }
                     <NoMatchHandler>
                         <Switch>
-                            {
-                                this.prepareContent(switchItems, SWITCH_ITEMS_TYPE)
-                                    .map((item, key) => item && this.applyKeyToReactElement(item, key))
-                            }
+                            { this.prepareContent(switchItems, SWITCH_ITEMS_TYPE)
+                                .map((item, key) => item && this.applyKeyToReactElement(item, key)) }
                         </Switch>
                     </NoMatchHandler>
-                    {
-                        this.prepareContent(afterItems, AFTER_ITEMS_TYPE)
-                            .map((item, key) => item && this.applyKeyToReactElement(item, key))
-                    }
+                    { this.prepareContent(afterItems, AFTER_ITEMS_TYPE)
+                        .map((item, key) => item && this.applyKeyToReactElement(item, key)) }
                 </>
             </Router>
         );

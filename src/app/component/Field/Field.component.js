@@ -85,6 +85,7 @@ class Field extends PureComponent {
         if (typeof event === 'string' || typeof event === 'number') {
             return this.handleChange(event);
         }
+
         return this.handleChange(event.target.value);
     }
 
@@ -189,6 +190,7 @@ class Field extends PureComponent {
         if (newValueIndex !== -1) {
             return { searchString: newSearchString, valueIndex: newValueIndex };
         }
+
         // if there are no items starting with this letter
         return {};
     }
@@ -446,10 +448,9 @@ class Field extends PureComponent {
                       onChange={ this.onChange }
                     >
                         { placeholder && <option value="" label={ placeholder } /> }
-                        {
-                            selectOptions.map(({
-                                id, value, disabled, label
-                            }) => (
+                        { selectOptions.map(({
+                            id, value, disabled, label
+                        }) => (
                                 <option
                                   key={ id }
                                   id={ id }
@@ -458,8 +459,7 @@ class Field extends PureComponent {
                                 >
                                     { label }
                                 </option>
-                            ))
-                        }
+                        )) }
                     </select>
                     <ul
                       block="Field"
