@@ -2,6 +2,7 @@
   "plugins": [
     "stylelint-scss"
   ],
+  "fix": true,
   "extends": "stylelint-config-standard",
   "rules": {
     "indentation": 4,
