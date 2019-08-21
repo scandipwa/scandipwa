@@ -22,6 +22,14 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 export class CategoryFilterOverlayContainer extends PureComponent {
+    static propTypes = {
+        customFiltersValues: PropTypes.objectOf(PropTypes.array).isRequired,
+        hideActiveOverlay: PropTypes.func.isRequired,
+        goToPreviousHeaderState: PropTypes.func.isRequired,
+        updateFilter: PropTypes.func.isRequired,
+        getFilterUrl: PropTypes.func.isRequired
+    };
+
     constructor(props) {
         super(props);
 
@@ -92,13 +100,5 @@ export class CategoryFilterOverlayContainer extends PureComponent {
         );
     }
 }
-
-CategoryFilterOverlayContainer.propTypes = {
-    customFiltersValues: PropTypes.objectOf(PropTypes.array).isRequired,
-    hideActiveOverlay: PropTypes.func.isRequired,
-    goToPreviousHeaderState: PropTypes.func.isRequired,
-    updateFilter: PropTypes.func.isRequired,
-    getFilterUrl: PropTypes.func.isRequired
-};
 
 export default connect(null, mapDispatchToProps)(CategoryFilterOverlayContainer);

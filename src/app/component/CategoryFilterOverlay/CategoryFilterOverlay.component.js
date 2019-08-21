@@ -18,6 +18,21 @@ import ProductConfigurableAttributes from 'Component/ProductConfigurableAttribut
 import './CategoryFilterOverlay.style';
 
 class CategoryFilterOverlay extends PureComponent {
+    static propTypes = {
+        availableFilters: PropTypes.objectOf(PropTypes.shape).isRequired,
+        updatePriceRange: PropTypes.func.isRequired,
+        priceValue: PropTypes.shape({
+            min: PropTypes.number,
+            max: PropTypes.number
+        }).isRequired,
+        minPriceValue: PropTypes.number.isRequired,
+        maxPriceValue: PropTypes.number.isRequired,
+        onSeeResultsClick: PropTypes.func.isRequired,
+        customFiltersValues: PropTypes.objectOf(PropTypes.array).isRequired,
+        toggleCustomFilter: PropTypes.func.isRequired,
+        getFilterUrl: PropTypes.func.isRequired
+    };
+
     renderPriceRange() {
         const {
             updatePriceRange,
@@ -104,20 +119,5 @@ class CategoryFilterOverlay extends PureComponent {
         );
     }
 }
-
-CategoryFilterOverlay.propTypes = {
-    availableFilters: PropTypes.objectOf(PropTypes.shape).isRequired,
-    updatePriceRange: PropTypes.func.isRequired,
-    priceValue: PropTypes.shape({
-        min: PropTypes.number,
-        max: PropTypes.number
-    }).isRequired,
-    minPriceValue: PropTypes.number.isRequired,
-    maxPriceValue: PropTypes.number.isRequired,
-    onSeeResultsClick: PropTypes.func.isRequired,
-    customFiltersValues: PropTypes.objectOf(PropTypes.array).isRequired,
-    toggleCustomFilter: PropTypes.func.isRequired,
-    getFilterUrl: PropTypes.func.isRequired
-};
 
 export default CategoryFilterOverlay;

@@ -6,6 +6,16 @@ import { PagesType } from 'Type/ProductList';
 import CategoryProductList from './CategoryProductList.component';
 
 export class CategoryProductListContainer extends PureComponent {
+    static propTypes = {
+        location: PropTypes.shape({
+            pathname: PropTypes.string.isRequired
+        }).isRequired,
+        pages: PagesType.isRequired,
+        loadPage: PropTypes.func.isRequired,
+        isLoading: PropTypes.bool.isRequired,
+        totalPages: PropTypes.number.isRequired
+    };
+
     constructor(props) {
         super(props);
 
@@ -93,15 +103,5 @@ export class CategoryProductListContainer extends PureComponent {
         );
     }
 }
-
-CategoryProductListContainer.propTypes = {
-    location: PropTypes.shape({
-        pathname: PropTypes.string.isRequired
-    }).isRequired,
-    pages: PagesType.isRequired,
-    loadPage: PropTypes.func.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-    totalPages: PropTypes.number.isRequired
-};
 
 export default withRouter(CategoryProductListContainer);

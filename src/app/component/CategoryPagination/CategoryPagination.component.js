@@ -16,6 +16,19 @@ import { CategoryTreeType } from 'Type/Category';
 import './CategoryPagination.style';
 
 class CategoryPagination extends PureComponent {
+    static propTypes = {
+        ariaLabel: PropTypes.string,
+        getPage: PropTypes.func.isRequired,
+        category: CategoryTreeType.isRequired,
+        totalPages: PropTypes.number.isRequired,
+        currentPage: PropTypes.number.isRequired,
+        getSearchQueryForPage: PropTypes.func.isRequired
+    };
+
+    static defaultProps = {
+        ariaLabel: ''
+    };
+
     renderPreviousPageLink(page) {
         return this.renderPageLink(page, __('Previous page'), false, '◄');
     }
@@ -83,18 +96,5 @@ class CategoryPagination extends PureComponent {
         );
     }
 }
-
-CategoryPagination.propTypes = {
-    ariaLabel: PropTypes.string,
-    getPage: PropTypes.func.isRequired,
-    category: CategoryTreeType.isRequired,
-    totalPages: PropTypes.number.isRequired,
-    currentPage: PropTypes.number.isRequired,
-    getSearchQueryForPage: PropTypes.func.isRequired
-};
-
-CategoryPagination.defaultProps = {
-    ariaLabel: ''
-};
 
 export default CategoryPagination;

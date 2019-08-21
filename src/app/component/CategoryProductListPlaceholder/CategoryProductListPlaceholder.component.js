@@ -20,6 +20,12 @@ import './CategoryProductListPlaceholder.style';
  * @class CategoryProductListPlaceholder
  */
 class CategoryProductListPlaceholder extends PureComponent {
+    static propTypes = {
+        isLoading: PropTypes.bool.isRequired,
+        isVisible: PropTypes.bool.isRequired,
+        updatePages: PropTypes.func.isRequired
+    };
+
     constructor(props) {
         super(props);
 
@@ -94,11 +100,5 @@ class CategoryProductListPlaceholder extends PureComponent {
         );
     }
 }
-
-CategoryProductListPlaceholder.propTypes = {
-    isLoading: PropTypes.bool.isRequired,
-    isVisible: PropTypes.bool.isRequired,
-    updatePages: PropTypes.func.isRequired
-};
 
 export default withRouter(CategoryProductListPlaceholder);

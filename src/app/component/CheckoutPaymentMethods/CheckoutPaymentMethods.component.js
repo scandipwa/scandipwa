@@ -14,6 +14,11 @@ import PropTypes from 'prop-types';
 import Field from 'Component/Field';
 
 class CheckoutPaymentMethods extends PureComponent {
+    static propTypes = {
+        paymentMethods: PropTypes.arrayOf(PropTypes.object).isRequired,
+        onSelectPaymentMethod: PropTypes.func.isRequired
+    };
+
     constructor(props) {
         super(props);
 
@@ -64,10 +69,5 @@ class CheckoutPaymentMethods extends PureComponent {
         );
     }
 }
-
-CheckoutPaymentMethods.propTypes = {
-    paymentMethods: PropTypes.arrayOf(PropTypes.object).isRequired,
-    onSelectPaymentMethod: PropTypes.func.isRequired
-};
 
 export default CheckoutPaymentMethods;

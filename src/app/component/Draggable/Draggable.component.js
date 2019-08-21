@@ -16,6 +16,41 @@ import { MixType, ChildrenType } from 'Type/Common';
 import './Draggable.style';
 
 class Draggable extends PureComponent {
+    static propTypes = {
+        shiftX: PropTypes.number,
+        shiftY: PropTypes.number,
+        onDragStart: PropTypes.func,
+        onDragEnd: PropTypes.func,
+        handleFocus: PropTypes.func,
+        onDrag: PropTypes.func,
+        children: ChildrenType.isRequired,
+        mix: MixType,
+        draggableRef: PropTypes.oneOfType([
+            PropTypes.func,
+            PropTypes.shape({ current: PropTypes.instanceOf(Element) })
+        ])
+    }
+
+    static defaultProps = {
+        shiftX: 0,
+        shiftY: 0,
+        onDragStart: () => {},
+        onDragEnd: (state, callback) => {
+            const { translateX, translateY } = state;
+
+            callback({
+                originalX: 0,
+                originalY: 0,
+                shiftX: translateX,
+                shiftY: translateY
+            });
+        },
+        onDrag: () => {},
+        handleFocus: () => {},
+        draggableRef: () => {},
+        mix: {}
+    }
+
     constructor(props) {
         super(props);
 
@@ -174,40 +209,5 @@ class Draggable extends PureComponent {
         );
     }
 }
-
-Draggable.propTypes = {
-    shiftX: PropTypes.number,
-    shiftY: PropTypes.number,
-    onDragStart: PropTypes.func,
-    onDragEnd: PropTypes.func,
-    handleFocus: PropTypes.func,
-    onDrag: PropTypes.func,
-    children: ChildrenType.isRequired,
-    mix: MixType,
-    draggableRef: PropTypes.oneOfType([
-        PropTypes.func,
-        PropTypes.shape({ current: PropTypes.instanceOf(Element) })
-    ])
-};
-
-Draggable.defaultProps = {
-    shiftX: 0,
-    shiftY: 0,
-    onDragStart: () => {},
-    onDragEnd: (state, callback) => {
-        const { translateX, translateY } = state;
-
-        callback({
-            originalX: 0,
-            originalY: 0,
-            shiftX: translateX,
-            shiftY: translateY
-        });
-    },
-    onDrag: () => {},
-    handleFocus: () => {},
-    draggableRef: () => {},
-    mix: {}
-};
 
 export default Draggable;

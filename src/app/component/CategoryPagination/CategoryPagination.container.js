@@ -8,6 +8,11 @@ import { LocationType } from 'Type/Router';
 import CategoryPagination from './CategoryPagination.component';
 
 export class CategoryPaginationContainer extends PureComponent {
+    static propTypes = {
+        history: HistoryType.isRequired,
+        location: LocationType.isRequired
+    };
+
     constructor(props) {
         super(props);
 
@@ -31,10 +36,5 @@ export class CategoryPaginationContainer extends PureComponent {
         );
     }
 }
-
-CategoryPaginationContainer.propTypes = {
-    history: HistoryType.isRequired,
-    location: LocationType.isRequired
-};
 
 export default withRouter(CategoryPaginationContainer);

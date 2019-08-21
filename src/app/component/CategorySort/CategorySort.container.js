@@ -3,6 +3,20 @@ import PropTypes from 'prop-types';
 import CategorySort from './CategorySort.component';
 
 export class CategorySortContainer extends PureComponent {
+    static propTypes = {
+        sortFields: PropTypes.oneOfType([
+            PropTypes.bool,
+            PropTypes.arrayOf(PropTypes.shape({
+                id: PropTypes.string,
+                label: PropTypes.string
+            }))
+        ])
+    };
+
+    static defaultProps = {
+        sortFields: []
+    };
+
     constructor(props) {
         super(props);
 
@@ -65,19 +79,5 @@ export class CategorySortContainer extends PureComponent {
         );
     }
 }
-
-CategorySortContainer.propTypes = {
-    sortFields: PropTypes.oneOfType([
-        PropTypes.bool,
-        PropTypes.arrayOf(PropTypes.shape({
-            id: PropTypes.string,
-            label: PropTypes.string
-        }))
-    ])
-};
-
-CategorySortContainer.defaultProps = {
-    sortFields: []
-};
 
 export default CategorySortContainer;

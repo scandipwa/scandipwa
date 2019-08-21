@@ -20,6 +20,14 @@ import './CartSummary.style';
  * @class CartSummary
  */
 class CartSummary extends Component {
+    static propTypes = {
+        totals: TotalsType
+    };
+
+    static defaultProps = {
+        totals: {}
+    };
+
     renderPriceLine(price, name, mods) {
         const { totals: { base_currency_code } } = this.props;
         const priceString = formatCurrency(price ? parseFloat(price).toFixed(2) : 0, base_currency_code);
@@ -58,13 +66,5 @@ class CartSummary extends Component {
         );
     }
 }
-
-CartSummary.propTypes = {
-    totals: TotalsType
-};
-
-CartSummary.defaultProps = {
-    totals: {}
-};
 
 export default CartSummary;

@@ -19,6 +19,22 @@ import './ContentWrapper.style';
  * @class ContentWrapper
  */
 class ContentWrapper extends PureComponent {
+    static propTypes = {
+        children: ChildrenType,
+        mix: MixType,
+        wrapperMix: PropTypes.shape({
+            block: PropTypes.string,
+            elem: PropTypes.string
+        }),
+        label: PropTypes.string.isRequired
+    };
+
+    static defaultProps = {
+        mix: {},
+        wrapperMix: {},
+        children: null
+    };
+
     render() {
         const {
             children, mix, wrapperMix, label
@@ -33,21 +49,5 @@ class ContentWrapper extends PureComponent {
         );
     }
 }
-
-ContentWrapper.propTypes = {
-    children: ChildrenType,
-    mix: MixType,
-    wrapperMix: PropTypes.shape({
-        block: PropTypes.string,
-        elem: PropTypes.string
-    }),
-    label: PropTypes.string.isRequired
-};
-
-ContentWrapper.defaultProps = {
-    mix: {},
-    wrapperMix: {},
-    children: null
-};
 
 export default ContentWrapper;

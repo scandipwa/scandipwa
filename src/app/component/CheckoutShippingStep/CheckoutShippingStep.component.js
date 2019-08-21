@@ -44,6 +44,41 @@ export const STATE_NEW_ADDRESS = 'newAddress';
 export const STATE_DEFAULT_ADDRESS = 'defaultAddress';
 
 class CheckoutShippingStep extends PureComponent {
+    static propTypes = {
+        estimateShippingCost: PropTypes.func.isRequired,
+        saveAddressInformation: PropTypes.func.isRequired,
+        showNotification: PropTypes.func.isRequired,
+        isSignedIn: PropTypes.bool.isRequired,
+        finishedLoading: PropTypes.bool.isRequired,
+        billingAddress: PropTypes.shape({
+            city: PropTypes.string,
+            company: PropTypes.string,
+            country_id: PropTypes.string,
+            email: PropTypes.string,
+            firstname: PropTypes.string,
+            lastname: PropTypes.string,
+            postcode: PropTypes.string,
+            region_id: PropTypes.number,
+            region: PropTypes.string,
+            street: PropTypes.array,
+            telephone: PropTypes.string
+        }).isRequired,
+        shippingAddress: PropTypes.shape({
+            city: PropTypes.string,
+            company: PropTypes.string,
+            country_id: PropTypes.string,
+            email: PropTypes.string,
+            firstname: PropTypes.string,
+            lastname: PropTypes.string,
+            postcode: PropTypes.string,
+            region_id: PropTypes.number,
+            region: PropTypes.string,
+            street: PropTypes.array,
+            telephone: PropTypes.string
+        }).isRequired,
+        countryList: PropTypes.arrayOf(PropTypes.shape).isRequired
+    };
+
     constructor(props) {
         super(props);
 
@@ -507,40 +542,5 @@ class CheckoutShippingStep extends PureComponent {
         );
     }
 }
-
-CheckoutShippingStep.propTypes = {
-    estimateShippingCost: PropTypes.func.isRequired,
-    saveAddressInformation: PropTypes.func.isRequired,
-    showNotification: PropTypes.func.isRequired,
-    isSignedIn: PropTypes.bool.isRequired,
-    finishedLoading: PropTypes.bool.isRequired,
-    billingAddress: PropTypes.shape({
-        city: PropTypes.string,
-        company: PropTypes.string,
-        country_id: PropTypes.string,
-        email: PropTypes.string,
-        firstname: PropTypes.string,
-        lastname: PropTypes.string,
-        postcode: PropTypes.string,
-        region_id: PropTypes.number,
-        region: PropTypes.string,
-        street: PropTypes.array,
-        telephone: PropTypes.string
-    }).isRequired,
-    shippingAddress: PropTypes.shape({
-        city: PropTypes.string,
-        company: PropTypes.string,
-        country_id: PropTypes.string,
-        email: PropTypes.string,
-        firstname: PropTypes.string,
-        lastname: PropTypes.string,
-        postcode: PropTypes.string,
-        region_id: PropTypes.number,
-        region: PropTypes.string,
-        street: PropTypes.array,
-        telephone: PropTypes.string
-    }).isRequired,
-    countryList: PropTypes.arrayOf(PropTypes.shape).isRequired
-};
 
 export default CheckoutShippingStep;

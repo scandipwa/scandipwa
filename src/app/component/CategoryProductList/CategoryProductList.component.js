@@ -21,6 +21,19 @@ import './CategoryProductList.style';
  * @class CategoryProductList
  */
 class CategoryProductList extends PureComponent {
+    static propTypes = {
+        pages: PagesType.isRequired,
+        isLoading: PropTypes.bool.isRequired,
+        updatePage: PropTypes.func.isRequired,
+        totalPages: PropTypes.number.isRequired,
+        selectedFilters: FilterType.isRequired,
+        loadPage: PropTypes.func.isRequired,
+        loadPrevPage: PropTypes.func.isRequired,
+        currentPage: PropTypes.number.isRequired,
+        isShowLoading: PropTypes.bool.isRequired,
+        isVisible: PropTypes.bool.isRequired
+    };
+
     constructor(props) {
         super(props);
 
@@ -173,18 +186,5 @@ class CategoryProductList extends PureComponent {
         );
     }
 }
-
-CategoryProductList.propTypes = {
-    pages: PagesType.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-    updatePage: PropTypes.func.isRequired,
-    totalPages: PropTypes.number.isRequired,
-    selectedFilters: FilterType.isRequired,
-    loadPage: PropTypes.func.isRequired,
-    loadPrevPage: PropTypes.func.isRequired,
-    currentPage: PropTypes.number.isRequired,
-    isShowLoading: PropTypes.bool.isRequired,
-    isVisible: PropTypes.bool.isRequired
-};
 
 export default CategoryProductList;

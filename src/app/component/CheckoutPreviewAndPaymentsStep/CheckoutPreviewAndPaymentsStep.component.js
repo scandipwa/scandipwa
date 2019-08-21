@@ -37,6 +37,38 @@ export const STATE_DEFAULT_ADDRESS = 'defaultAddress';
 export const STATE_SAME_ADDRESS = 'sameAddress';
 
 class CheckoutPreviewAndPaymentsStep extends PureComponent {
+    static propTypes = {
+        shippingAddress: PropTypes.shape({
+            city: PropTypes.string,
+            company: PropTypes.string,
+            country_id: PropTypes.string,
+            email: PropTypes.string,
+            firstname: PropTypes.string,
+            lastname: PropTypes.string,
+            postcode: PropTypes.string,
+            region_id: PropTypes.number,
+            street: PropTypes.array,
+            telephone: PropTypes.string
+        }).isRequired,
+        billingAddress: PropTypes.shape({
+            city: PropTypes.string,
+            company: PropTypes.string,
+            country_id: PropTypes.string,
+            email: PropTypes.string,
+            firstname: PropTypes.string,
+            lastname: PropTypes.string,
+            postcode: PropTypes.string,
+            region_id: PropTypes.number,
+            street: PropTypes.array,
+            telephone: PropTypes.string
+        }).isRequired,
+        savePaymentInformationAndPlaceOrder: PropTypes.func.isRequired,
+        paymentMethods: PropTypes.arrayOf(PropTypes.object).isRequired,
+        finishedLoading: PropTypes.bool.isRequired,
+        isSignedIn: PropTypes.bool.isRequired,
+        countryList: PropTypes.arrayOf(PropTypes.shape).isRequired
+    };
+
     constructor(props) {
         super(props);
 
@@ -460,37 +492,5 @@ class CheckoutPreviewAndPaymentsStep extends PureComponent {
         );
     }
 }
-
-CheckoutPreviewAndPaymentsStep.propTypes = {
-    shippingAddress: PropTypes.shape({
-        city: PropTypes.string,
-        company: PropTypes.string,
-        country_id: PropTypes.string,
-        email: PropTypes.string,
-        firstname: PropTypes.string,
-        lastname: PropTypes.string,
-        postcode: PropTypes.string,
-        region_id: PropTypes.number,
-        street: PropTypes.array,
-        telephone: PropTypes.string
-    }).isRequired,
-    billingAddress: PropTypes.shape({
-        city: PropTypes.string,
-        company: PropTypes.string,
-        country_id: PropTypes.string,
-        email: PropTypes.string,
-        firstname: PropTypes.string,
-        lastname: PropTypes.string,
-        postcode: PropTypes.string,
-        region_id: PropTypes.number,
-        street: PropTypes.array,
-        telephone: PropTypes.string
-    }).isRequired,
-    savePaymentInformationAndPlaceOrder: PropTypes.func.isRequired,
-    paymentMethods: PropTypes.arrayOf(PropTypes.object).isRequired,
-    finishedLoading: PropTypes.bool.isRequired,
-    isSignedIn: PropTypes.bool.isRequired,
-    countryList: PropTypes.arrayOf(PropTypes.shape).isRequired
-};
 
 export default CheckoutPreviewAndPaymentsStep;

@@ -24,6 +24,12 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 export class CartItemContainer extends PureComponent {
+    static propTypes = {
+        product: ProductType.isRequired,
+        addProduct: PropTypes.func.isRequired,
+        removeProduct: PropTypes.func.isRequired
+    };
+
     constructor(props) {
         super(props);
 
@@ -119,11 +125,5 @@ export class CartItemContainer extends PureComponent {
         );
     }
 }
-
-CartItemContainer.propTypes = {
-    product: ProductType.isRequired,
-    addProduct: PropTypes.func.isRequired,
-    removeProduct: PropTypes.func.isRequired
-};
 
 export default connect(null, mapDispatchToProps)(CartItemContainer);
