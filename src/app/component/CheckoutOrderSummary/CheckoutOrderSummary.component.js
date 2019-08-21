@@ -15,9 +15,9 @@ import Html from 'Component/Html';
 import { TotalsType } from 'Type/MiniCart';
 import { ProductType } from 'Type/ProductList';
 import { formatCurrency } from 'Util/Price';
-import ProductPrice from 'Component/ProductPrice';
 import Image from 'Component/Image';
 import './CheckoutOrderSummary.style';
+import CartItemPrice from 'Component/CartItemPrice';
 
 /**
  *
@@ -51,21 +51,19 @@ class CheckoutOrderSummary extends Component {
     }
 
     /**
-     * Render order summury cart item
+     * Render order summary cart item
      * @param key
      * @param item
      * @returns {*}
      */
-    renderItem(key, item) {
+    renderItem(key, item, currency_code) {
+        const { product, row_total, quantity } = this.getDataSource(item);
         const {
             thumbnail: { path },
             short_description: { html },
             manufacturer,
-            name,
-            quantity,
-            price
-        } = this.getDataSource(item);
-
+            name
+        } = product;
         return (
             <li key={ key } block="CheckoutOrderSummary" elem="CartItem">
                 <div
@@ -88,7 +86,7 @@ class CheckoutOrderSummary extends Component {
                   elem="Details"
                 >
                     <div block="CheckoutOrderSummary" elem="Price">
-                        <ProductPrice price={ price } mods={ { type: 'regular' } } />
+                        <CartItemPrice row_total={ row_total } currency_code={ currency_code } />
                     </div>
                     <p block="CheckoutOrderSummary" elem="Qty">
                         <strong>{ __('Qty:') }</strong>
@@ -106,7 +104,7 @@ class CheckoutOrderSummary extends Component {
     render() {
         const {
             totals: {
-                grand_total, subtotal, tax_amount, items, shipping_amount
+                grand_total, subtotal, tax_amount, items, shipping_amount, base_currency_code
             },
             products
         } = this.props;
@@ -132,7 +130,7 @@ class CheckoutOrderSummary extends Component {
                     <h3>{ __('%s Items In Cart', productCount) }</h3>
                     <ul block="CheckoutOrderSummary" elem="CartItemList">
                         { Object.keys(products)
-                            .map(key => this.renderItem(key, products[key])) }
+                            .map(key => this.renderItem(key, products[key], base_currency_code)) }
                     </ul>
                 </div>
             </div>

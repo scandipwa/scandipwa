@@ -14,12 +14,11 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import Image from 'Component/Image';
-import ProductPrice from 'Component/ProductPrice';
 import Field from 'Component/Field';
 import Loader from 'Component/Loader';
 import { CartItemType } from 'Type/MiniCart';
 import './CartItem.style';
-import { formatCurrency } from 'Util/Price';
+import CartItemPrice from 'Component/CartItemPrice';
 
 /**
  * Cart and Minicart item
@@ -135,7 +134,6 @@ class CartItem extends Component {
      */
     renderItemDetails() {
         const { currency, item: { qty, row_total } } = this.props;
-        const priceString = formatCurrency(ProductPrice.roundPrice(row_total), currency);
         return (
             <div
               block="CartItem"
@@ -150,11 +148,7 @@ class CartItem extends Component {
                   onChange={ qty => this.handleChangeQuantity(qty) }
                 />
                 <div block="CartItem" elem="Price">
-                    <p block="ProductPrice" aria-label={ __('Product Price') }>
-                        <span aria-label={ __('Current product price') }>
-                            <data value={ ProductPrice.roundPrice(row_total) }>{ priceString }</data>
-                        </span>
-                    </p>
+                    <CartItemPrice row_total={ row_total } currency_code={ currency } />
                 </div>
             </div>
         );

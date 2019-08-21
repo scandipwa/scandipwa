@@ -126,11 +126,12 @@ export class CartDispatcher {
         const productsToAdd = items.reduce((prev, cartProduct) => {
             const {
                 product: {
-                    variants, id, type_id
+                    variants, type_id
                 },
                 product,
                 item_id,
                 sku,
+                row_total,
                 qty: quantity
             } = cartProduct;
 
@@ -147,26 +148,25 @@ export class CartDispatcher {
                 );
 
                 if (variant) {
-                    const { product: { id: variantId } } = variant;
-
-                    return {
+                    const res = {
                         ...prev,
-                        [variantId]: {
-                            ...product,
+                        [item_id]: {
+                            product,
                             configurableVariantIndex,
-                            item_id,
-                            quantity
+                            quantity,
+                            row_total
                         }
                     };
+                    return res;
                 }
             }
 
             return {
                 ...prev,
-                [id]: {
-                    ...product,
-                    item_id,
-                    quantity
+                [item_id]: {
+                    product,
+                    quantity,
+                    row_total
                 }
             };
         }, {});
