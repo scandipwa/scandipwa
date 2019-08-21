@@ -18,6 +18,7 @@ import attributesToProps from 'html-react-parser/lib/attributes-to-props';
 import Link from 'Component/Link';
 import PropTypes from 'prop-types';
 import Image from 'Component/Image';
+import WidgetFactory from 'Component/WidgetFactory';
 
 /**
  * Html content parser
@@ -29,6 +30,10 @@ class Html extends PureComponent {
         super(props);
 
         this.rules = [
+            {
+                query: { name: ['widget'] },
+                replace: this.replaceWidget
+            },
             {
                 query: { name: ['a'] },
                 replace: this.replaceLinks
@@ -126,6 +131,17 @@ class Html extends PureComponent {
      */
     replaceInput({ attribs }) {
         return <input { ...attributesToProps(attribs) } />;
+    }
+
+    /**
+     * Insert corresponding widget
+     *
+     * @param {{ attribs: Object }} { attribs }
+     * @returns {null|JSX} Return Widget
+     * @memberof Html
+     */
+    replaceWidget({ attribs }) {
+        return <WidgetFactory { ...attributesToProps(attribs) } />;
     }
 
     replaceScript({ attribs }) {

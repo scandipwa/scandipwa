@@ -9,12 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { connect } from 'react-redux';
-import HomeSlider from './HomeSlider.component';
+import React from 'react';
 
-export const mapStateToProps = (state) => {
-    const { slides: gallery } = state.CmsBlocksAndSliderReducer.slider;
-    return { gallery };
-};
+const TestWidget = (...args) => (<>{ args.join(', ') }</>);
 
-export default connect(mapStateToProps)(HomeSlider);
+export default TestWidget;
