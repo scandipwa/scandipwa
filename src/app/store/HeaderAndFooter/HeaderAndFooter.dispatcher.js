@@ -40,7 +40,6 @@ export class HeaderAndFooterDispatcher extends QueryDispatcher {
      * @memberof HeaderAndFooterDispatcher
      */
     prepareRequest(options) {
-        console.log('_: HeaderAndFooterDispatcher -> prepareRequest -> options.footer', options.footer);
         return [
             MenuQuery.getQuery(options.menu),
             CmsBlockQuery.getQuery(options.footer)
