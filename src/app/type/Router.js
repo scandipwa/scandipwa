@@ -11,11 +11,10 @@
 
 import PropTypes from 'prop-types';
 
-const LocationType = PropTypes.shape({
+// eslint-disable-next-line import/prefer-default-export
+export const LocationType = PropTypes.shape({
     hash: PropTypes.string,
     key: PropTypes.string,
     pathname: PropTypes.string,
     search: PropTypes.string
 });
-
-export default { LocationType };

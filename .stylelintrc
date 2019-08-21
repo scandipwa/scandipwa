@@ -8,12 +8,15 @@
         "stylelint-config-standard"
     ],
     "rules": {
-        "indentation": 4,
         "at-rule-no-unknown": null,
-        "number-leading-zero": "never",
-        "declaration-empty-line-before": null,
-        "scss/at-rule-no-unknown": true,
         "at-rule-empty-line-before": null,
+        "declaration-empty-line-before": null,
+        "indentation": 4,
+        "number-leading-zero": "never",
+        "no-descending-specificity": null,
+        "string-quotes": ["single", { "avoidEscape": true }],
+        "scss/at-rule-no-unknown": true,
+        "scss/selector-no-redundant-nesting-selector": true,
         "order/order": [
             "custom-properties",
             "declarations",

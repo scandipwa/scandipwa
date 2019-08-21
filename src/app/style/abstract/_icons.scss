@@ -10,317 +10,328 @@
  */
 
 @mixin clear-button {
-	&::before,
-	&::after {
-		content: '';
-		position: absolute;
-	}
+    &::before,
+    &::after {
+        content: '';
+        position: absolute;
+    }
 
-	&::before {
-		top: 12px;
-		left: 12px;
-		width: 10px;
-		height: 14px;
-		transform: perspective(10px) rotateX(-10deg);
-		border: {
-			left: 1px solid var(--header-color);
-			right: 1px solid var(--header-color);
-			bottom: 1px solid var(--header-color);
-			bottom-left-radius: 3px;
-			bottom-right-radius: 3px;
-		}
-	}
+    &::before {
+        top: 12px;
+        left: 12px;
+        width: 10px;
+        height: 14px;
+        transform: perspective(10px) rotateX(-10deg);
+        border: {
+            left: 1px solid var(--header-color);
+            right: 1px solid var(--header-color);
+            bottom: 1px solid var(--header-color);
+            bottom-left-radius: 3px;
+            bottom-right-radius: 3px;
+        }
+    }
 
-	&::after {
-		left: 14px;
-		top: 7px;
-		width: 6px;
-		height: 2px;
-		border: {
-			left: 1px solid var(--header-color);
-			right: 1px solid var(--header-color);
-			top: 1px solid var(--header-color);
-			top-left-radius: 2px;
-			top-right-radius: 2px;
-		};
-		box-shadow:
-			6px 2px 0 -1px var(--header-color),
-			-6px 2px 0 -1px var(--header-color),
-			-2px 2px 0 -1px var(--header-color),
-			2px 2px 0 -1px var(--header-color);
-	}
+    &::after {
+        left: 14px;
+        top: 7px;
+        width: 6px;
+        height: 2px;
+        box-shadow:
+            6px 2px 0 -1px var(--header-color),
+            -6px 2px 0 -1px var(--header-color),
+            -2px 2px 0 -1px var(--header-color),
+            2px 2px 0 -1px var(--header-color);
+        border: {
+            left: 1px solid var(--header-color);
+            right: 1px solid var(--header-color);
+            top: 1px solid var(--header-color);
+            top-left-radius: 2px;
+            top-right-radius: 2px;
+        };
+    }
 }
 
 @mixin close-button {
-	&::before,
-	&::after {
-		content: '';
-		position: absolute;
-		width: 1px;
-		height: 20px;
-		transform-origin: 50% 50%;
-		top: 7px;
-		transform: rotate(-45deg);
-		background-color: var(--header-color);
-	}
+    &::before,
+    &::after {
+        content: '';
+        position: absolute;
+        width: 1px;
+        height: 20px;
+        transform-origin: 50% 50%;
+        top: 7px;
+        transform: rotate(-45deg);
+        background-color: var(--header-color);
+    }
 
-	&::after {
-		transform: rotate(45deg);
-	}
+    &::after {
+        transform: rotate(45deg);
+    }
 }
 
 @mixin back-button {
-	&::before,
-	&::after {
-		content: '';
-		position: absolute;
-	}
+    &::before,
+    &::after {
+        content: '';
+        position: absolute;
+    }
 
-	&::before {
-		width: 18px;
-		height: 1px;
-		top: 17px;
-		right: 8px;
-		background-color: var(--header-color);
-	}
+    &::before {
+        width: 18px;
+        height: 1px;
+        top: 17px;
+        right: 8px;
+        background-color: var(--header-color);
+    }
 
-	&::after {
-		width: 8px;
-		height: 8px;
-		top: 13px;
-		left: 10px;
-		transform: rotate(-45deg);
+    &::after {
+        width: 8px;
+        height: 8px;
+        top: 13px;
+        left: 10px;
+        transform: rotate(-45deg);
 
-		border: {
-			top: 1px solid var(--header-color);
-			left: 1px solid var(--header-color);
-		}
-	}
+        border: {
+            top: 1px solid var(--header-color);
+            left: 1px solid var(--header-color);
+        }
+    }
 }
 
 @mixin menu-button {
-	&::before,
-	&::after {
-		content: '';
-		position: absolute;
-	}
+    &::before,
+    &::after {
+        content: '';
+        position: absolute;
+    }
 
-	&::after {
-		width: 7px;
-		height: 1px;
-		top: 12px;
-		left: 8px;
-		background-color: var(--header-color);
-		box-shadow:
-			3px 0 0 0 var(--header-color),
-			0 6px 0 0 var(--header-color),
-			2px 6px 0 0 var(--header-color),
-			0 12px 0 0 var(--header-color),
-			6px 12px 0 0 var(--header-color),
-			10px 12px 0 0 var(--header-color);
+    &::after {
+        width: 7px;
+        height: 1px;
+        top: 12px;
+        left: 8px;
+        background-color: var(--header-color);
+        box-shadow:
+            3px 0 0 0 var(--header-color),
+            0 6px 0 0 var(--header-color),
+            2px 6px 0 0 var(--header-color),
+            0 12px 0 0 var(--header-color),
+            6px 12px 0 0 var(--header-color),
+            10px 12px 0 0 var(--header-color);
 
-		@include after-mobile {
-			width: 20px;
-			box-shadow:
-				0 6px 0 0 var(--header-color),
-				0 12px 0 0 var(--header-color);
-		}
-	}
+        @include after-mobile {
+            width: 20px;
+            box-shadow:
+                0 6px 0 0 var(--header-color),
+                0 12px 0 0 var(--header-color);
+        }
+    }
 
-	&::before {
-		@include mobile {
-			width: 10px;
-			height: 10px;
-			border: 1px solid var(--header-color);
-			border-radius: 50%;
-			top: 10px;
-			right: 4px;
-			box-shadow:
-				4px 4px 0 -5px var(--header-color),
-				5px 5px 0 -5px var(--header-color),
-				6px 6px 0 -5px var(--header-color),
-				7px 7px 0 -5px var(--header-color),
-				8px 8px 0 -5px var(--header-color);
-		}
+    &::before {
+        @include mobile {
+            width: 10px;
+            height: 10px;
+            border: 1px solid var(--header-color);
+            border-radius: 50%;
+            top: 10px;
+            right: 4px;
+            box-shadow:
+                4px 4px 0 -5px var(--header-color),
+                5px 5px 0 -5px var(--header-color),
+                6px 6px 0 -5px var(--header-color),
+                7px 7px 0 -5px var(--header-color),
+                8px 8px 0 -5px var(--header-color);
+        }
 
-		@include after-mobile {
-			content: 'menu';
-			color: var(--header-color);
-			text-transform: uppercase;
-			left: 35px;
-			top: 11px;
-			font-size: 12px;
-		}
-	}
+        @include after-mobile {
+            content: 'menu';
+            color: var(--header-color);
+            text-transform: uppercase;
+            left: 35px;
+            top: 11px;
+            font-size: 12px;
+        }
+    }
 }
 
 @mixin account-button {
-	&::before,
-	&::after {
-		content: '';
-		position: absolute;
-	}
+    &::before,
+    &::after {
+        content: '';
+        position: absolute;
+    }
 
-	&::before {
-		width: 7px;
-		height: 7px;
-		border: 1px solid var(--header-color);
-		border-radius: 50%;
-		top: 9px;
-		right: 0;
-		left: 0;
-		margin: auto;
-		box-shadow:
-			0 14px 0 3px var(--header-background),
-			0 14px 0 4px var(--header-color);
-	}
+    &::before {
+        width: 7px;
+        height: 7px;
+        border: 1px solid var(--header-color);
+        border-radius: 50%;
+        top: 9px;
+        right: 0;
+        left: 0;
+        margin: auto;
+        box-shadow:
+            0 14px 0 3px var(--header-background),
+            0 14px 0 4px var(--header-color);
+    }
 
-	&::after {
-		background-color: var(--header-background);
-		bottom: -1px;
-		left: 0;
-		height: 10px;
-		width: 100%;
-	}
+    &::after {
+        background-color: var(--header-background);
+        bottom: -1px;
+        left: 0;
+        height: 10px;
+        width: 100%;
+    }
 }
 
 @mixin minicart-button {
-	width: 100%;
+    width: 100%;
 
-	&::before,
-	&::after {
-		content: '';
-		position: absolute;
-	}
+    &::before,
+    &::after {
+        content: '';
+        position: absolute;
+    }
 
-	&::before {
-		border: 1px solid var(--header-color);
-		border-radius: 1px;
-		width: 10px;
-		height: 14px;
-		top: 11px;
-		right: 10px;
-		z-index: 1;
-	}
+    &::before {
+        border: 1px solid var(--header-color);
+        border-radius: 1px;
+        width: 10px;
+        height: 14px;
+        top: 11px;
+        right: 10px;
+        z-index: 1;
+    }
 
-	&::after {
-		border: {
-			top: 1px solid var(--header-color);
-			left: 1px solid var(--header-color);
-			right: 1px solid var(--header-color);
-			top-right-radius: 2px;
-			top-left-radius: 2px;
-		};
-		width: 6px;
-		height: 5px;
-		right: 12px;
-		top: 8px;
-	}
+    &::after {
+        width: 6px;
+        height: 5px;
+        right: 12px;
+        top: 8px;
+        border: {
+            top: 1px solid var(--header-color);
+            left: 1px solid var(--header-color);
+            right: 1px solid var(--header-color);
+            top-right-radius: 2px;
+            top-left-radius: 2px;
+        };
+    }
 
-	span {
-		left: -15px;
-		padding: 0 4px;
-		color: var(--header-color);
-		background: var(--header-background);
-	}
+    span {
+        left: -15px;
+        padding: 0 4px;
+        color: var(--header-color);
+        background: var(--header-background);
+    }
 }
 
 @mixin clear-search-button {
-	@include close-button;
 
-	border-radius: 50%;
-	background-color: var(--header-search-clear-background);
+    border-radius: 50%;
+    background-color: var(--header-search-clear-background);
 
-	height: 15px;
+    height: 15px;
     width: 15px;
-	position: absolute;
-	right: 3rem;
+    position: absolute;
+    right: 3rem;
 
-	&::before,
-	&::after {
-		height: 9px;
-		width: 1px;
-		top: 3px;
-		left: 7px;
-		background-color: var(--header-background);
-	}
+    &::before,
+    &::after {
+        height: 9px;
+        width: 1px;
+        top: 3px;
+        left: 7px;
+        background-color: var(--header-background);
+    }
+    @include close-button;
 }
 
 @mixin edit-button {
-	// border-radius: 10px; <- Wait chrome until bug will be fixed
-	box-shadow:
-		inset 0 0 0 8px var(--header-background),
-		inset 0 0 0 9px var(--header-color);
+    // border-radius: 10px; <- Wait chrome until bug will be fixed
+    box-shadow:
+        inset 0 0 0 8px var(--header-background),
+        inset 0 0 0 9px var(--header-color);
 
-	&::before,
-	&::after {
-		content: '';
-		position: absolute;
-		transform-origin: 0 0;
-		transform: rotate(45deg);
-		top: 4px;
-		right: 2px;
-	}
+    &::before,
+    &::after {
+        content: '';
+        position: absolute;
+        transform-origin: 0 0;
+        transform: rotate(45deg);
+        top: 4px;
+        right: 2px;
+    }
 
-	&::before {
-		border: {
-			top: 1px solid var(--header-color);
-			left: 1px solid var(--header-color);
-			right: 1px solid var(--header-color);
-		}
-		background-color: var(--header-background);
-		box-shadow: 0 0 0 2px var(--header-background);
-		width: 4px;
-		height: 16px;
-		border-top-left-radius: 5px;
-		border-top-right-radius: 5px;
-	}
+    &::before {
+        background-color: var(--header-background);
+        box-shadow: 0 0 0 2px var(--header-background);
+        width: 4px;
+        height: 16px;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        border: {
+            top: 1px solid var(--header-color);
+            left: 1px solid var(--header-color);
+            right: 1px solid var(--header-color);
+        }
+    }
 
-	&::after {
-		background-color:var(--header-color);
-		width: 6px;
-		top: 4px;
-		height: 23px;
-		clip-path: polygon(
-			3px 23px, 6.5px 17px, 3px 17px,
-			3px 4.5px, 0 4.5px, 0 3.5px, 5px 3.5px, 5px 4.5px, 3px 4.5px,
-			3px 17px, -0.5px 17px,
-			3px 23px,
-			3px 21.5px, 1px 18px, 5px 18px,
-			3px 21.5px,
-		);
-	}
+    &::after {
+        background-color: var(--header-color);
+        width: 6px;
+        top: 4px;
+        height: 23px;
+        clip-path:
+            polygon(
+                3px 23px,
+                6.5px 17px,
+                3px 17px,
+                3px 4.5px,
+                0 4.5px,
+                0 3.5px,
+                5px 3.5px,
+                5px 4.5px,
+                3px 4.5px,
+                3px 17px,
+                -.5px 17px,
+                3px 23px,
+                3px 21.5px,
+                1px 18px,
+                5px 18px,
+                3px 21.5px,
+            );
+    }
 }
 
 @mixin lock-button {
-	display: inline-block;
-	margin-right: 9px;
+    display: inline-block;
+    margin-right: 9px;
 
-	&::before,
-	&::after {
-		content: '';
-	}
+    &::before,
+    &::after {
+        content: '';
+    }
 
-	&::after {
-		display: block;
-		position: relative;
-		top: 1px;
-		width: 10px;
-		height: 9px;
-		background: currentColor;
-		border-radius: 1px;
-		box-shadow: inset 0 0 0 -2px var(--button-background);
-	}
+    &::after {
+        display: block;
+        position: relative;
+        top: 1px;
+        width: 10px;
+        height: 9px;
+        background: currentColor;
+        border-radius: 1px;
+        box-shadow: inset 0 0 0 -2px var(--button-background);
+    }
 
-	&::before {
-		position: absolute;
-		left: 0;
-		right: 0;
-		margin: auto;
-		top: -4px;
-		border-radius: 50%;
-		border: 1px solid currentColor;
-		width: 6px;
-		height: 6px;
-	}
+    &::before {
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: auto;
+        top: -4px;
+        border-radius: 50%;
+        border: 1px solid currentColor;
+        width: 6px;
+        height: 6px;
+    }
 }

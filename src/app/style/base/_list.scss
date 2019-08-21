@@ -16,11 +16,11 @@ li {
         position: absolute;
         left: 1em;
         top: .07em;
-        content: "\2022";
+        content: '\2022';
         padding-right: 1.1225em;
 
         ol & {
-            content: counter(list) ".";
+            content: counter(list) '.';
         }
     }
 }

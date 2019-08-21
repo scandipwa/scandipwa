@@ -12,12 +12,13 @@
     "build-sw": "webpack --config ./src/config/webpack.sw.config.js --mode=production",
     "test": "jest --env=jsdom --watchAll",
     "eslint": "eslint ./src/app --ignore-pattern *.test.*",
-    "eslint:fix": "npm run eslint --fix",
+    "eslint:fix": "npm run eslint -- --fix",
     "dev-server": "forever ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --config ./src/config/webpack.development.config.js",
     "dev-server-core": "forever ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --config ./src/config/webpack.core.config.js",
     "watch-dev-server": "SHELL=/bin/bash chokidar --silent \"src/**/*.js\" \"src/**/*.scss\"  -c \"[ '{event}' = 'add' ] || [ '{event}' = 'unlink' ] && forever restartall \"",
     "pm2-watch": "./node_modules/.bin/pm2 start process.yml --no-daemon",
-    "stylelint": "stylelint ./src/**/*.scss"
+    "stylelint": "stylelint ./src/**/*.scss",
+    "stylelint:fix": "npm run stylelint -- --fix"
   },
   "browserslist": [
     ">0.2%",

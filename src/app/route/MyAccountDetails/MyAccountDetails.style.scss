@@ -60,7 +60,7 @@
         @include mobile {
             row-gap: 1.5rem;
 
-            & * {
+            * {
                 grid-column: 1 / span 2;
             }
         }
@@ -120,7 +120,7 @@
 
     .Field {
         input {
-            &:not([type="checkbox"]) {
+            &:not([type='checkbox']) {
                 width: 100%;
             }
         }
