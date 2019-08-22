@@ -12,9 +12,8 @@
 import { connect } from 'react-redux';
 import HomeSlider from './HomeSlider.component';
 
-export const mapStateToProps = (state) => {
-    const { slides: gallery } = state.CmsBlocksAndSliderReducer.slider;
-    return { gallery };
-};
+export const mapStateToProps = state => ({
+    gallery: state.CmsBlocksAndSliderReducer.slider.slides
+});
 
 export default connect(mapStateToProps)(HomeSlider);
