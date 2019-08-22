@@ -27,6 +27,7 @@
   "rules": {
     "fp/no-let": "error",
     "fp/no-arguments": "error",
+    "fp/no-loops": "error",
     "fp/no-delete": "error",
     "no-var": "error",
     "css-rcurlyexpected": 0,

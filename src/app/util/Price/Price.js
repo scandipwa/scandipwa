@@ -11,11 +11,9 @@
 
 /* eslint-disable import/prefer-default-export */
 
-export const formatCurrency = (currency = 'USD') => {
-    const { value: symbol } = new Intl.NumberFormat(
-        'en-US',
-        { style: 'currency', currency }
-    ).formatToParts(0).find(({ type }) => type === 'currency');
+import getSymbolFromCurrency from 'currency-symbol-map';
 
-    return symbol;
+export const formatCurrency = (currency = 'USD') => {
+    const symbol = getSymbolFromCurrency(currency);
+    return symbol || currency;
 };

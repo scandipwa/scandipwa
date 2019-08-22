@@ -40,6 +40,7 @@ export const hash = (key, seed) => {
     h1 = seed;
     i = 0;
 
+    // eslint-disable-next-line fp/no-loops
     while (i < bytes) {
         k1 = ((key.charCodeAt(i) & 0xff))
             | ((key.charCodeAt(++i) & 0xff) << 8)

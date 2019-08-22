@@ -46,6 +46,7 @@ export class MenuReducer {
         // eslint-disable-next-line fp/no-let
         let i;
         path = path.split('.');
+        // eslint-disable-next-line fp/no-loops
         for (i = 0; i < path.length - 1; i++) obj = obj[path[i]];
         obj[path[i]] = value;
     }
