@@ -35,13 +35,10 @@ class ProductGallery extends PureComponent {
         ).isRequired
     }
 
-    constructor(props) {
-        super(props);
-        this.state = { activeImage: 0 };
+    state = { activeImage: 0 };
 
-        this.renderAdditionalPicture = this.renderAdditionalPicture.bind(this);
-        this.onActiveImageChange = this.onActiveImageChange.bind(this);
-    }
+    renderAdditionalPicture = this.renderAdditionalPicture.bind(this);
+    onActiveImageChange = this.onActiveImageChange.bind(this);
 
     onActiveImageChange(activeImage) {
         this.setState({ activeImage });

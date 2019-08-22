@@ -51,13 +51,10 @@ class Image extends PureComponent {
         isPlaceholder: false
     }
 
-    constructor(props) {
-        super(props);
-        this.image = createRef();
-        this.state = { imageStatus: IMAGE_LOADING };
-        this.onError = this.onError.bind(this);
-        this.onLoad = this.onLoad.bind(this);
-    }
+    image = createRef();
+    state = { imageStatus: IMAGE_LOADING };
+    onError = this.onError.bind(this);
+    onLoad = this.onLoad.bind(this);
 
     componentDidMount() {
         this.onImageChange();

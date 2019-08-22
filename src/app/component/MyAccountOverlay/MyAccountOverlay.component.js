@@ -45,6 +45,32 @@ class MyAccountOverlay extends PureComponent {
         history: HistoryType.isRequired
     }
 
+    renderMap = {
+        [STATE_SIGN_IN]: {
+            render: () => this.renderSignIn(),
+            title: 'Sign in to your account'
+        },
+        [STATE_FORGOT_PASSWORD]: {
+            render: () => this.renderForgotPassword(),
+            title: 'Get password link'
+        },
+        [STATE_FORGOT_PASSWORD_SUCCESS]: {
+            render: () => this.renderForgotPasswordSuccess()
+        },
+        [STATE_CREATE_ACCOUNT]: {
+            render: () => this.renderCreateAccount(),
+            title: 'Create new account'
+        },
+        [STATE_LOGGED_IN]: {
+            render: () => this.renderAccountActions()
+        }
+    }
+
+    handleForgotPassword = this.handleForgotPassword.bind(this);
+    handleForgotPasswordSuccess = this.handleForgotPasswordSuccess.bind(this);
+    handleCreateAccount = this.handleCreateAccount.bind(this);
+    handleSignIn = this.handleSignIn.bind(this);
+
     constructor(props) {
         super(props);
 
@@ -56,32 +82,6 @@ class MyAccountOverlay extends PureComponent {
             isPasswordForgotSend,
             isLoading: false
         };
-
-        this.renderMap = {
-            [STATE_SIGN_IN]: {
-                render: () => this.renderSignIn(),
-                title: 'Sign in to your account'
-            },
-            [STATE_FORGOT_PASSWORD]: {
-                render: () => this.renderForgotPassword(),
-                title: 'Get password link'
-            },
-            [STATE_FORGOT_PASSWORD_SUCCESS]: {
-                render: () => this.renderForgotPasswordSuccess()
-            },
-            [STATE_CREATE_ACCOUNT]: {
-                render: () => this.renderCreateAccount(),
-                title: 'Create new account'
-            },
-            [STATE_LOGGED_IN]: {
-                render: () => this.renderAccountActions()
-            }
-        };
-
-        this.handleForgotPassword = this.handleForgotPassword.bind(this);
-        this.handleForgotPasswordSuccess = this.handleForgotPasswordSuccess.bind(this);
-        this.handleCreateAccount = this.handleCreateAccount.bind(this);
-        this.handleSignIn = this.handleSignIn.bind(this);
     }
 
     static getDerivedStateFromProps(props, state) {

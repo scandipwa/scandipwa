@@ -35,21 +35,17 @@ class ProductReviewForm extends PureComponent {
         reviewRatings: RatingItemsType.isRequired
     }
 
-    constructor(props) {
-        super(props);
+    ratingTitleMap = {
+        1: __('Awful'),
+        2: __('Bad'),
+        3: __('Average'),
+        4: __('Good'),
+        5: __('Awesome')
+    }
 
-        this.ratingTitleMap = {
-            1: __('Awful'),
-            2: __('Bad'),
-            3: __('Average'),
-            4: __('Good'),
-            5: __('Awesome')
-        };
-
-        this.state = {
-            isLoading: false,
-            ratingData: {}
-        };
+    state = {
+        isLoading: false,
+        ratingData: {}
     }
 
     onReviewSubmitAttempt(_, invalidFields) {

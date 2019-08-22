@@ -17,13 +17,9 @@ export class CategorySortContainer extends PureComponent {
         sortFields: []
     };
 
-    constructor(props) {
-        super(props);
-
-        this.containerProps = () => ({
-            selectOptions: this._prepareOptions()
-        });
-    }
+    containerProps = () => ({
+        selectOptions: this._prepareOptions()
+    })
 
     _prepareOptions() {
         const { sortFields } = this.props;

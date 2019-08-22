@@ -62,11 +62,7 @@ class CategoryPage extends PureComponent {
         selectedFilters: FilterType.isRequired
     }
 
-    constructor(props) {
-        super(props);
-
-        this.onFilterButtonClick = this.onFilterButtonClick.bind(this);
-    }
+    onFilterButtonClick = this.onFilterButtonClick.bind(this);
 
     onFilterButtonClick() {
         const { toggleOverlayByKey, changeHeaderState } = this.props;

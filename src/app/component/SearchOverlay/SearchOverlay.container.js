@@ -34,13 +34,9 @@ export class SearchOverlayContainer extends PureComponent {
         searchCriteria: PropTypes.string.isRequired
     }
 
-    constructor(props) {
-        super(props);
-
-        this.containerFunctions = {
-            getProductLinkTo: this.getProductLinkTo.bind(this),
-            makeSearchRequest: this.makeSearchRequest.bind(this)
-        };
+    containerFunctions = {
+        getProductLinkTo: this.getProductLinkTo.bind(this),
+        makeSearchRequest: this.makeSearchRequest.bind(this)
     }
 
     getProductLinkTo(product) {

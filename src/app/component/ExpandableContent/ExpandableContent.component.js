@@ -30,12 +30,13 @@ class ExpandableContent extends PureComponent {
         isContentExpanded: false
     }
 
+    toggleExpand = this.toggleExpand.bind(this);
+
     constructor(props) {
         super(props);
 
         const { isContentExpanded } = this.props;
         this.state = { isContentExpanded };
-        this.toggleExpand = this.toggleExpand.bind(this);
     }
 
     toggleExpand() {

@@ -75,41 +75,37 @@ export class HeaderContainer extends PureComponent {
         }).isRequired
     }
 
-    constructor(props) {
-        super(props);
+    state = {
+        prevPathname: '',
+        searchCriteria: '',
+        isClearEnabled: false
+    };
 
-        this.state = {
-            prevPathname: '',
-            searchCriteria: '',
-            isClearEnabled: false
-        };
+    routeMap = {
+        '/': { name: HOME_PAGE },
+        '/category': { name: CATEGORY, onBackClick: () => history.push('/') },
+        '/product': { name: PDP, onBackClick: () => history.goBack() },
+        '/cart': { name: CART },
+        '/page': { name: CMS_PAGE, onBackClick: () => history.goBack() }
+    }
 
-        this.routeMap = {
-            '/': { name: HOME_PAGE },
-            '/category': { name: CATEGORY, onBackClick: () => history.push('/') },
-            '/product': { name: PDP, onBackClick: () => history.goBack() },
-            '/cart': { name: CART },
-            '/page': { name: CMS_PAGE, onBackClick: () => history.goBack() }
-        };
-
-        this.containerFunctions = {
-            onBackButtonClick: this.onBackButtonClick.bind(this),
-            onCloseButtonClick: this.onCloseButtonClick.bind(this),
-            onSearchBarClick: this.onSearchBarClick.bind(this),
-            onMenuButtonClick: this.onMenuButtonClick.bind(this),
-            onClearSearchButtonClick: this.onClearSearchButtonClick.bind(this),
-            onMyAccountButtonClick: this.onMyAccountButtonClick.bind(this),
-            onSearchBarChange: this.onSearchBarChange.bind(this),
-            onClearButtonClick: this.onClearButtonClick.bind(this),
-            onEditButtonClick: this.onEditButtonClick.bind(this),
-            onMinicartButtonClick: this.onMinicartButtonClick.bind(this),
-            onOkButtonClick: this.onOkButtonClick.bind(this),
-            onCancelButtonClick: this.onCancelButtonClick.bind(this),
-            onSearchOutsideClick: this.onSearchOutsideClick.bind(this),
-            onMenuOutsideClick: this.onMenuOutsideClick.bind(this),
-            onMyAccountOutsideClick: this.onMyAccountOutsideClick.bind(this),
-            onMinicartOutsideClick: this.onMinicartOutsideClick.bind(this)
-        };
+    containerFunctions = {
+        onBackButtonClick: this.onBackButtonClick.bind(this),
+        onCloseButtonClick: this.onCloseButtonClick.bind(this),
+        onSearchBarClick: this.onSearchBarClick.bind(this),
+        onMenuButtonClick: this.onMenuButtonClick.bind(this),
+        onClearSearchButtonClick: this.onClearSearchButtonClick.bind(this),
+        onMyAccountButtonClick: this.onMyAccountButtonClick.bind(this),
+        onSearchBarChange: this.onSearchBarChange.bind(this),
+        onClearButtonClick: this.onClearButtonClick.bind(this),
+        onEditButtonClick: this.onEditButtonClick.bind(this),
+        onMinicartButtonClick: this.onMinicartButtonClick.bind(this),
+        onOkButtonClick: this.onOkButtonClick.bind(this),
+        onCancelButtonClick: this.onCancelButtonClick.bind(this),
+        onSearchOutsideClick: this.onSearchOutsideClick.bind(this),
+        onMenuOutsideClick: this.onMenuOutsideClick.bind(this),
+        onMyAccountOutsideClick: this.onMyAccountOutsideClick.bind(this),
+        onMinicartOutsideClick: this.onMinicartOutsideClick.bind(this)
     }
 
     componentDidMount() {

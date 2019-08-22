@@ -113,6 +113,15 @@ class Field extends PureComponent {
         autocomplete: 'off'
     }
 
+    onChange = this.onChange.bind(this);
+    onFocus = this.onFocus.bind(this);
+    onKeyPress = this.onKeyPress.bind(this);
+    onKeyEnterDown = this.onKeyEnterDown.bind(this);
+    onClick = this.onClick.bind(this);
+    handleSelectExpand = this.handleSelectExpand.bind(this);
+    handleSelectListOptionClick = this.handleSelectListOptionClick.bind(this);
+    handleSelectListKeyPress = this.handleSelectListKeyPress.bind(this);
+
     constructor(props) {
         super(props);
 
@@ -142,15 +151,6 @@ class Field extends PureComponent {
             isSelectExpanded: false,
             searchString: 'a'
         };
-
-        this.onChange = this.onChange.bind(this);
-        this.onFocus = this.onFocus.bind(this);
-        this.onKeyPress = this.onKeyPress.bind(this);
-        this.onKeyEnterDown = this.onKeyEnterDown.bind(this);
-        this.onClick = this.onClick.bind(this);
-        this.handleSelectExpand = this.handleSelectExpand.bind(this);
-        this.handleSelectListOptionClick = this.handleSelectListOptionClick.bind(this);
-        this.handleSelectListKeyPress = this.handleSelectListKeyPress.bind(this);
     }
 
     componentDidUpdate(prevProps) {

@@ -102,34 +102,22 @@ export class CategoryPageContainer extends PureComponent {
         isSearchPage: false
     }
 
-    constructor(props) {
-        super(props);
+    config = {
+        pageSize: 12,
+        defaultPriceRange: { min: 0, max: 300 },
+        sortKey: 'name',
+        sortDirection: 'ASC'
+    }
 
-        this.config = {
-            pageSize: 12,
-            defaultPriceRange: { min: 0, max: 300 },
-            sortKey: 'name',
-            sortDirection: 'ASC'
-        };
-
-        this.containerFunctions = {
-            onSortChange: this.onSortChange.bind(this),
-            isNewCategory: this.isNewCategory.bind(this),
-            requestPage: this.requestPage.bind(this),
-            requestNextPage: this.requestNextPage.bind(this),
-            updateFilter: this.updateFilter.bind(this),
-            getFilterUrl: this.getFilterUrl.bind(this),
-            updatePriceRange: this.updatePriceRange.bind(this),
-            updatePage: this.updatePage.bind(this)
-            // clearFilters: this._clearFilters.bind(this),
-        };
-
-        this.containerProps = () => ({
-            pageParams: this._getPageParams(),
-            selectedFilters: this._getSelectedFiltersFromUrl(),
-            selectedSort: this._getSelectedSortFromUrl(),
-            selectedPriceRange: this._getPriceRangeForSlider()
-        });
+    containerFunctions = {
+        onSortChange: this.onSortChange.bind(this),
+        isNewCategory: this.isNewCategory.bind(this),
+        requestPage: this.requestPage.bind(this),
+        requestNextPage: this.requestNextPage.bind(this),
+        updateFilter: this.updateFilter.bind(this),
+        getFilterUrl: this.getFilterUrl.bind(this),
+        updatePriceRange: this.updatePriceRange.bind(this),
+        updatePage: this.updatePage.bind(this)
     }
 
     componentDidMount() {
@@ -195,6 +183,13 @@ export class CategoryPageContainer extends PureComponent {
 
         return `${isFull ? `${pathname}?` : ''}${customFilters}`;
     }
+
+    containerProps = () => ({
+        pageParams: this._getPageParams(),
+        selectedFilters: this._getSelectedFiltersFromUrl(),
+        selectedSort: this._getSelectedSortFromUrl(),
+        selectedPriceRange: this._getPriceRangeForSlider()
+    })
 
     updateSearch(value) {
         const { location, history } = this.props;

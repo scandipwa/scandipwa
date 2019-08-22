@@ -16,23 +16,10 @@ export class CategoryProductListContainer extends PureComponent {
         totalPages: PropTypes.number.isRequired
     }
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            pagesCount: 1
-        };
-
-        this.containerFunctions = {
-            loadPrevPage: this.loadPage.bind(this, false),
-            loadPage: this.loadPage.bind(this)
-        };
-
-        this.containerProps = () => ({
-            currentPage: this._getPageFromUrl(),
-            isShowLoading: this._isShowLoading(),
-            isVisible: this._isVisible()
-        });
+    state = { pagesCount: 1 }
+    containerFunctions = {
+        loadPrevPage: this.loadPage.bind(this, false),
+        loadPage: this.loadPage.bind(this)
     }
 
     componentDidMount() {
@@ -50,6 +37,12 @@ export class CategoryProductListContainer extends PureComponent {
         if (isLoading) return { pagesCount: 1 };
         return null;
     }
+
+    containerProps = () => ({
+        currentPage: this._getPageFromUrl(),
+        isShowLoading: this._isShowLoading(),
+        isVisible: this._isVisible()
+    })
 
     _getPageFromUrl() {
         const { location } = this.props;

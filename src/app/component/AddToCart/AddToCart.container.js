@@ -56,19 +56,14 @@ export class AddToCartContainer extends PureComponent {
         isLoading: false
     }
 
-    constructor(props) {
-        super(props);
-
-        this.state = { isLoading: false };
-
-        this.containerProps = () => ({
-            isDisabled: this._getIsDisabled()
-        });
-
-        this.containerFunctions = {
-            buttonClick: this.buttonClick.bind(this)
-        };
+    state = { isLoading: false }
+    containerFunctions = {
+        buttonClick: this.buttonClick.bind(this)
     }
+
+    containerProps = () => ({
+        isDisabled: this._getIsDisabled()
+    })
 
     _getIsDisabled() {
         const {

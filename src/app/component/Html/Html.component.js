@@ -29,58 +29,54 @@ class Html extends PureComponent {
         content: PropTypes.string.isRequired
     }
 
-    constructor(props) {
-        super(props);
+    rules = [
+        {
+            query: { name: ['a'] },
+            replace: this.replaceLinks
+        },
+        {
+            query: { name: ['img'] },
+            replace: this.replaceImages
+        },
+        {
+            query: { name: ['input'] },
+            replace: this.replaceInput
+        },
+        {
+            query: { name: ['script'] },
+            replace: this.replaceScript
+        }
+    ]
 
-        this.rules = [
-            {
-                query: { name: ['a'] },
-                replace: this.replaceLinks
-            },
-            {
-                query: { name: ['img'] },
-                replace: this.replaceImages
-            },
-            {
-                query: { name: ['input'] },
-                replace: this.replaceInput
-            },
-            {
-                query: { name: ['script'] },
-                replace: this.replaceScript
+    parserOptions = {
+        replace: (domNode) => {
+            const { data, name: domName, attribs: domAttrs } = domNode;
+
+            // Let's remove empty text nodes
+            if (data && !data.replace(/\u21b5/g, '').replace(/\s/g, '').length) {
+                return <></>;
             }
-        ];
 
-        this.parserOptions = {
-            replace: (domNode) => {
-                const { data, name: domName, attribs: domAttrs } = domNode;
+            for (let i = 0; i < this.rules.length; i++) {
+                const { query: { name, attribs }, replace } = this.rules[i];
 
-                // Let's remove empty text nodes
-                if (data && !data.replace(/\u21b5/g, '').replace(/\s/g, '').length) {
-                    return <></>;
-                }
-
-                for (let i = 0; i < this.rules.length; i++) {
-                    const { query: { name, attribs }, replace } = this.rules[i];
-
-                    if (name && domName && name.indexOf(domName) !== -1) {
-                        return replace.call(this, domNode);
-                    } if (attribs && domAttrs) {
-                        attribs.forEach((attrib) => {
-                            if (typeof attrib === 'object') {
-                                const queryAttrib = Object.keys(attrib)[0];
-                                if (Object.prototype.hasOwnProperty.call(domAttrs, queryAttrib)) {
-                                    const match = domAttrs[queryAttrib].match(Object.values(attrib)[0]);
-                                    if (match) return replace.call(this, domNode);
-                                }
-                            } else if (Object.prototype.hasOwnProperty.call(domAttrs, attrib)) {
-                                return replace.call(this, domNode);
+                if (name && domName && name.indexOf(domName) !== -1) {
+                    return replace.call(this, domNode);
+                } if (attribs && domAttrs) {
+                    attribs.forEach((attrib) => {
+                        if (typeof attrib === 'object') {
+                            const queryAttrib = Object.keys(attrib)[0];
+                            if (Object.prototype.hasOwnProperty.call(domAttrs, queryAttrib)) {
+                                const match = domAttrs[queryAttrib].match(Object.values(attrib)[0]);
+                                if (match) return replace.call(this, domNode);
                             }
-                        });
-                    }
+                        } else if (Object.prototype.hasOwnProperty.call(domAttrs, attrib)) {
+                            return replace.call(this, domNode);
+                        }
+                    });
                 }
             }
-        };
+        }
     }
 
     /**

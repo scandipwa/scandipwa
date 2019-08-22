@@ -76,6 +76,12 @@
         "object": true
     }, {
         "enforceForRenamedProperties": false
-    }]
+    }],
+    "lines-between-class-members": [
+        "error", "always",
+        {
+            "exceptAfterSingleLine": true
+        }
+    ],
   }
 }

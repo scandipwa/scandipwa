@@ -37,11 +37,7 @@ export class CartPageContainer extends PureComponent {
         totals: TotalsType.isRequired
     }
 
-    constructor(props) {
-        super(props);
-
-        this.state = { isEditing: false };
-    }
+    state = { isEditing: false };
 
     componentDidMount() {
         this._updateBreadcrumbs();

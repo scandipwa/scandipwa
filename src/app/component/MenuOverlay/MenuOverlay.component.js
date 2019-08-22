@@ -30,15 +30,8 @@ class MenuOverlay extends PureComponent {
         changeHeaderState: PropTypes.func.isRequired
     }
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            activeMenuItemsStack: []
-        };
-
-        this.closeMenuOverlay = this.closeMenuOverlay.bind(this);
-    }
+    state = { activeMenuItemsStack: [] }
+    closeMenuOverlay = this.closeMenuOverlay.bind(this);
 
     getItemContent(id) {
         const { blocks: { items } } = this.props;

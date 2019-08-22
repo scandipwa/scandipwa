@@ -38,13 +38,9 @@ export class CartOverlayContainer extends PureComponent {
         changeHeaderState: PropTypes.func.isRequired
     }
 
-    constructor(props) {
-        super(props);
-
-        this.state = { isEditing: false };
-        this.containerFunctions = {
-            changeHeaderState: this.changeHeaderState.bind(this)
-        };
+    state = { isEditing: false }
+    containerFunctions = {
+        changeHeaderState: this.changeHeaderState.bind(this)
     }
 
     changeHeaderState() {

@@ -39,9 +39,7 @@ class RelatedProducts extends PureComponent {
         label: ''
     }
 
-    constructor(props) {
-        super(props);
-
+    componentDidMount() {
         this.clearRelatedProducts();
     }
 

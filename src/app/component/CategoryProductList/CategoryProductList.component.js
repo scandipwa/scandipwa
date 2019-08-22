@@ -34,13 +34,9 @@ class CategoryProductList extends PureComponent {
         isVisible: PropTypes.bool.isRequired
     }
 
-    constructor(props) {
-        super(props);
-
-        this.nodes = {};
-        this.observedNodes = [];
-        this.pagesIntersecting = [];
-    }
+    nodes = {};
+    observedNodes = [];
+    pagesIntersecting = [];
 
     componentDidUpdate() {
         const { updatePage, isLoading } = this.props;

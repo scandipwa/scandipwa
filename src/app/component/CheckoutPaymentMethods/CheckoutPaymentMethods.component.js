@@ -19,13 +19,7 @@ class CheckoutPaymentMethods extends PureComponent {
         onSelectPaymentMethod: PropTypes.func.isRequired
     }
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            paymentMethod: ''
-        };
-    }
+    state = { paymentMethod: '' }
 
     handlePaymentMethodChange(method) {
         const { onSelectPaymentMethod } = this.props;

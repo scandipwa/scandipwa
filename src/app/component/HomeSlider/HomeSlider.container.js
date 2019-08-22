@@ -27,13 +27,9 @@ export class HomeSliderContainer extends PureComponent {
         slider: {}
     }
 
-    constructor(props) {
-        super(props);
-
-        this.containerProps = () => ({
-            gallery: this._getGalleryPictures()
-        });
-    }
+    containerProps = () => ({
+        gallery: this._getGalleryPictures()
+    })
 
     _getGalleryPictures() {
         const { slider } = this.props;

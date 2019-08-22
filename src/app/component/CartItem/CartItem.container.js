@@ -30,21 +30,16 @@ export class CartItemContainer extends PureComponent {
         removeProduct: PropTypes.func.isRequired
     }
 
-    constructor(props) {
-        super(props);
-
-        this.state = { isLoading: false };
-
-        this.containerFunctions = {
-            handleQtyChange: this.handleQtyChange.bind(this),
-            handleRemoveItem: this.handleRemoveItem.bind(this)
-        };
-
-        this.containerProps = () => ({
-            thumbnail: this._getProductThumbnail(),
-            linkTo: this._getProductLinkTo()
-        });
+    state = { isLoading: false }
+    containerFunctions = {
+        handleQtyChange: this.handleQtyChange.bind(this),
+        handleRemoveItem: this.handleRemoveItem.bind(this)
     }
+
+    containerProps = () => ({
+        thumbnail: this._getProductThumbnail(),
+        linkTo: this._getProductLinkTo()
+    })
 
     handleQtyChange(value) {
         const { addProduct, product, product: { quantity } } = this.props;

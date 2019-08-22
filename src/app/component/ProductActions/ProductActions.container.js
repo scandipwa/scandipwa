@@ -26,18 +26,11 @@ export class ProductActionsContainer extends PureComponent {
         areDetailsLoaded: PropTypes.bool.isRequired
     }
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            quantity: 1
-        };
-
-        this.containerFunctions = {
-            showOnlyIfLoaded: this.showOnlyIfLoaded.bind(this),
-            getIsOptionInCurrentVariant: this.getIsOptionInCurrentVariant.bind(this),
-            setQuantity: this.setQuantity.bind(this)
-        };
+    state = { quantity: 1 }
+    containerFunctions = {
+        showOnlyIfLoaded: this.showOnlyIfLoaded.bind(this),
+        getIsOptionInCurrentVariant: this.getIsOptionInCurrentVariant.bind(this),
+        setQuantity: this.setQuantity.bind(this)
     }
 
     setQuantity(value) {

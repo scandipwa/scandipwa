@@ -24,6 +24,8 @@ class ClickOutside extends PureComponent {
         children: []
     }
 
+    handleClick = this.handleClick.bind(this);
+
     constructor(props) {
         super(props);
 
@@ -33,8 +35,6 @@ class ClickOutside extends PureComponent {
             children,
             () => React.createRef()
         );
-
-        this.handleClick = this.handleClick.bind(this);
     }
 
     componentDidMount() {

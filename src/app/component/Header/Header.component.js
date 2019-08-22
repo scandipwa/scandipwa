@@ -80,87 +80,83 @@ class Header extends PureComponent {
         searchCriteria: PropTypes.string.isRequired
     }
 
-    constructor(props) {
-        super(props);
-
-        this.stateMap = {
-            [PDP]: {
-                back: true,
-                title: true,
-                minicart: true
-            },
-            [CATEGORY]: {
-                back: true,
-                menu: true,
-                title: true,
-                minicart: true
-            },
-            [CUSTOMER_ACCOUNT]: {
-                close: true,
-                title: true
-            },
-            [HOME_PAGE]: {
-                menu: true,
-                title: true,
-                account: true,
-                minicart: true,
-                logo: true
-            },
-            [MENU]: {
-                close: true,
-                search: true
-            },
-            [MENU_SUBCATEGORY]: {
-                back: true,
-                title: true
-            },
-            [SEARCH]: {
-                back: true,
-                search: true
-            },
-            [CART]: {
-                close: true,
-                title: true,
-                edit: true
-            },
-            [CART_EDITING]: {
-                ok: true,
-                title: true,
-                cancel: true
-            },
-            [FILTER]: {
-                close: true,
-                clear: true,
-                title: true
-            },
-            [CHECKOUT]: {
-                back: true,
-                title: true
-            },
-            [CMS_PAGE]: {
-                back: true,
-                title: true
-            }
-        };
-
-        this.renderMap = {
-            cancel: this.renderCancelButton.bind(this),
-            back: this.renderBackButton.bind(this),
-            close: this.renderCloseButton.bind(this),
-            menu: this.renderMenuButton.bind(this),
-            search: this.renderSearchField.bind(this),
-            title: this.renderTitle.bind(this),
-            logo: this.renderLogo.bind(this),
-            account: this.renderAccountButton.bind(this),
-            minicart: this.renderMinicartButton.bind(this),
-            clear: this.renderClearButton.bind(this),
-            edit: this.renderEditButton.bind(this),
-            ok: this.renderOkButton.bind(this)
-        };
-
-        this.searchBarRef = React.createRef();
-        this.onClearSearchButtonClick = this.onClearSearchButtonClick.bind(this);
+    stateMap = {
+        [PDP]: {
+            back: true,
+            title: true,
+            minicart: true
+        },
+        [CATEGORY]: {
+            back: true,
+            menu: true,
+            title: true,
+            minicart: true
+        },
+        [CUSTOMER_ACCOUNT]: {
+            close: true,
+            title: true
+        },
+        [HOME_PAGE]: {
+            menu: true,
+            title: true,
+            account: true,
+            minicart: true,
+            logo: true
+        },
+        [MENU]: {
+            close: true,
+            search: true
+        },
+        [MENU_SUBCATEGORY]: {
+            back: true,
+            title: true
+        },
+        [SEARCH]: {
+            back: true,
+            search: true
+        },
+        [CART]: {
+            close: true,
+            title: true,
+            edit: true
+        },
+        [CART_EDITING]: {
+            ok: true,
+            title: true,
+            cancel: true
+        },
+        [FILTER]: {
+            close: true,
+            clear: true,
+            title: true
+        },
+        [CHECKOUT]: {
+            back: true,
+            title: true
+        },
+        [CMS_PAGE]: {
+            back: true,
+            title: true
+        }
     }
+
+    renderMap = {
+        cancel: this.renderCancelButton.bind(this),
+        back: this.renderBackButton.bind(this),
+        close: this.renderCloseButton.bind(this),
+        menu: this.renderMenuButton.bind(this),
+        search: this.renderSearchField.bind(this),
+        title: this.renderTitle.bind(this),
+        logo: this.renderLogo.bind(this),
+        account: this.renderAccountButton.bind(this),
+        minicart: this.renderMinicartButton.bind(this),
+        clear: this.renderClearButton.bind(this),
+        edit: this.renderEditButton.bind(this),
+        ok: this.renderOkButton.bind(this)
+    }
+
+    searchBarRef = React.createRef();
+    onClearSearchButtonClick = this.onClearSearchButtonClick.bind(this);
 
     onClearSearchButtonClick() {
         const { onClearSearchButtonClick } = this.props;

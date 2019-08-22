@@ -37,11 +37,8 @@ class ProductWishlistButton extends PureComponent {
         isReady: true
     }
 
-    constructor(props) {
-        super(props);
-        this.state = { isLoading: false, redirectToWishlist: false };
-        this.timeOut = null;
-    }
+    state = { isLoading: false, redirectToWishlist: false };
+    timeOut = null;
 
     componentWillUnmount() {
         clearTimeout(this.timeOut);

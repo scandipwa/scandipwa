@@ -26,11 +26,7 @@ class CategoryProductListPlaceholder extends PureComponent {
         updatePages: PropTypes.func.isRequired
     }
 
-    constructor(props) {
-        super(props);
-
-        this.placeholdersCount = 4;
-    }
+    placeholdersCount = 4;
 
     componentDidMount() {
         this.startObserving();

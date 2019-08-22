@@ -79,38 +79,42 @@ class CheckoutShippingStep extends PureComponent {
         countryList: PropTypes.arrayOf(PropTypes.shape).isRequired
     }
 
+    state = {
+        email: '',
+        firstname: '',
+        lastname: '',
+        company: '',
+        street: [],
+        city: '',
+        region: null,
+        region_id: null,
+        postcode: '',
+        country_id: 0,
+        telephone: '',
+
+        selectedCountryIndex: null,
+        shippingMethods: [],
+        activeShippingMethod: {},
+        loadingShippingMethods: false,
+        loadingShippingInformationSave: false,
+        fieldsArePopulated: false,
+        defaultShippingAddress: false,
+        state: STATE_NEW_ADDRESS
+    }
+
+    handleFieldChange = this.handleFieldChange.bind(this);
+    emailNote = __('You can create an account after checkout.');
+    emailLoginNote = __('Looks like you already have account with us, please, log in!');
+
+    renderMap = {
+        [STATE_NEW_ADDRESS]: () => (this.renderNewAddress()),
+        [STATE_DEFAULT_ADDRESS]: () => (this.renderDefaultShippingAddress())
+    }
+
     constructor(props) {
         super(props);
 
         const { showNotification } = props;
-
-        this.handleFieldChange = this.handleFieldChange.bind(this);
-
-        this.state = {
-            email: '',
-            firstname: '',
-            lastname: '',
-            company: '',
-            street: [],
-            city: '',
-            region: null,
-            region_id: null,
-            postcode: '',
-            country_id: 0,
-            telephone: '',
-
-            selectedCountryIndex: null,
-            shippingMethods: [],
-            activeShippingMethod: {},
-            loadingShippingMethods: false,
-            loadingShippingInformationSave: false,
-            fieldsArePopulated: false,
-            defaultShippingAddress: false,
-            state: STATE_NEW_ADDRESS
-        };
-
-        this.emailNote = __('You can create an account after checkout.');
-        this.emailLoginNote = __('Looks like you already have account with us, please, log in!');
 
         this.fieldMap = {
             [EMAIL_FIELD_ID]: {
@@ -192,11 +196,6 @@ class CheckoutShippingStep extends PureComponent {
                 label: 'Phone Number',
                 validation: ['telephone']
             }
-        };
-
-        this.renderMap = {
-            [STATE_NEW_ADDRESS]: () => (this.renderNewAddress()),
-            [STATE_DEFAULT_ADDRESS]: () => (this.renderDefaultShippingAddress())
         };
     }
 

@@ -29,11 +29,8 @@ class Notification extends PureComponent {
         onHideNotification: PropTypes.func.isRequired
     }
 
-    constructor(props) {
-        super(props);
-        this.state = { isNotificationVisible: true };
-        this.notification = React.createRef();
-    }
+    state = { isNotificationVisible: true };
+    notification = React.createRef();
 
     componentDidMount() {
         this.hideTimeout = setTimeout(() => this.hideNotification(), 5000);

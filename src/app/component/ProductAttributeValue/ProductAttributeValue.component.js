@@ -29,12 +29,8 @@ class ProductAttributeValue extends Component {
         mix: {}
     }
 
-    constructor(props) {
-        super(props);
-
-        this.clickHandler = this.clickHandler.bind(this);
-        this.getOptionLabel = this.getOptionLabel.bind(this);
-    }
+    clickHandler = this.clickHandler.bind(this);
+    getOptionLabel = this.getOptionLabel.bind(this);
 
     getIsColorLight(hex) {
         const color = (hex.charAt(0) === '#') ? hex.substring(1, 7) : hex;

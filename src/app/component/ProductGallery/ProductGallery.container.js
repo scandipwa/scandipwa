@@ -11,14 +11,6 @@ export class ProductGalleryContainer extends PureComponent {
         product: ProductType.isRequired
     }
 
-    constructor(props) {
-        super(props);
-
-        this.containerProps = () => ({
-            gallery: this.getGalleryPictures()
-        });
-    }
-
     getGalleryPictures() {
         const {
             product: {
@@ -69,6 +61,10 @@ export class ProductGalleryContainer extends PureComponent {
             type: 'image'
         }, ...Array(3).fill({ type: 'image', isPlaceholder: true })];
     }
+
+    containerProps = () => ({
+        gallery: this.getGalleryPictures()
+    })
 
     render() {
         return (

@@ -30,10 +30,7 @@ class ProductReviewRating extends PureComponent {
         placeholder: false
     }
 
-    constructor(props) {
-        super(props);
-        this.reviewRating = React.createRef();
-    }
+    reviewRating = React.createRef();
 
     componentDidMount() {
         const { summary } = this.props;
@@ -77,7 +74,6 @@ class ProductReviewRating extends PureComponent {
         );
     }
 }
-
 
 
 export default ProductReviewRating;

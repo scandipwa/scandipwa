@@ -47,26 +47,23 @@ class MyAccountDetails extends Component {
         logout: PropTypes.func.isRequired
     }
 
-    constructor(props) {
-        super(props);
 
-        this.state = {
-            state: STATE_ACCOUNT_OVERVIEW,
-            correctAddress: {},
-            isLoading: false,
-            selectValue: '',
-            isSubscribed: null
-        };
+    state = {
+        state: STATE_ACCOUNT_OVERVIEW,
+        correctAddress: {},
+        isLoading: false,
+        selectValue: '',
+        isSubscribed: null
+    };
 
-        this.renderMap = {
-            [STATE_ACCOUNT_OVERVIEW]: () => (this.renderAccountOverview()),
-            [STATE_UPDATE_ADDRESS]: () => (this.renderUpdateAddress()),
-            [STATE_EDIT_INFORMATION]: () => (this.renderEditInformation()),
-            [STATE_EDIT_PASSWORD]: () => (this.renderEditPassword())
-        };
+    renderMap = {
+        [STATE_ACCOUNT_OVERVIEW]: () => (this.renderAccountOverview()),
+        [STATE_UPDATE_ADDRESS]: () => (this.renderUpdateAddress()),
+        [STATE_EDIT_INFORMATION]: () => (this.renderEditInformation()),
+        [STATE_EDIT_PASSWORD]: () => (this.renderEditPassword())
+    };
 
-        this.changeState = this.changeState.bind(this);
-    }
+    changeState = this.changeState.bind(this);
 
     static getDerivedStateFromProps(props, state) {
         const { state: pageState } = state;

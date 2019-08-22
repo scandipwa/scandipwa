@@ -20,11 +20,7 @@ import './CategorySort.style';
  * @class ProductSort
  */
 class CategorySort extends PureComponent {
-    constructor(props) {
-        super(props);
-
-        this.onChange = this.onChange.bind(this);
-    }
+    onChange = this.onChange.bind(this);
 
     onChange(value) {
         const { onSortChange } = this.props;

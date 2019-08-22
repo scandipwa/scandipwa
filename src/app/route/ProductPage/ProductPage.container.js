@@ -60,25 +60,15 @@ export class ProductPageContainer extends PureComponent {
         isOnlyPlaceholder: false
     }
 
-    constructor(props) {
-        super(props);
+    state = {
+        configurableVariantIndex: -1,
+        isConfigurationInitialized: false,
+        parameters: {}
+    }
 
-        this.state = {
-            configurableVariantIndex: -1,
-            isConfigurationInitialized: false,
-            parameters: {}
-        };
-
-        this.containerFunctions = {
-            updateUrl: this.updateUrl.bind(this),
-            getLink: this.getLink.bind(this)
-        };
-
-        this.containerProps = () => ({
-            productOrVariant: this._getProductOrVariant(),
-            dataSource: this._getDataSource(),
-            areDetailsLoaded: this._getAreDetailsLoaded()
-        });
+    containerFunctions = {
+        updateUrl: this.updateUrl.bind(this),
+        getLink: this.getLink.bind(this)
     }
 
     componentDidMount() {
@@ -142,6 +132,12 @@ export class ProductPageContainer extends PureComponent {
 
         return `${pathname}${query}`;
     }
+
+    containerProps = () => ({
+        productOrVariant: this._getProductOrVariant(),
+        dataSource: this._getDataSource(),
+        areDetailsLoaded: this._getAreDetailsLoaded()
+    })
 
     updateUrl(key, value) {
         const { product: { variants, configurable_options }, location, history } = this.props;

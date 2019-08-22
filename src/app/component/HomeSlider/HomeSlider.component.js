@@ -31,11 +31,7 @@ class HomeSlider extends PureComponent {
         gallery: [{}]
     }
 
-    constructor(props) {
-        super(props);
-
-        this.renderSlide = this.renderSlide.bind(this);
-    }
+    renderSlide = this.renderSlide.bind(this);
 
     renderSlide({ image, slide_text, isPlaceholder }, i) {
         return (

@@ -30,14 +30,10 @@ export class CategoryFilterOverlayContainer extends PureComponent {
         getFilterUrl: PropTypes.func.isRequired
     }
 
-    constructor(props) {
-        super(props);
-
-        this.containerFunctions = {
-            onSeeResultsClick: this.onSeeResultsClick.bind(this),
-            toggleCustomFilter: this.toggleCustomFilter.bind(this),
-            getFilterUrl: this.getFilterUrl.bind(this)
-        };
+    containerFunctions = {
+        onSeeResultsClick: this.onSeeResultsClick.bind(this),
+        toggleCustomFilter: this.toggleCustomFilter.bind(this),
+        getFilterUrl: this.getFilterUrl.bind(this)
     }
 
     onSeeResultsClick() {

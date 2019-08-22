@@ -29,11 +29,7 @@ class MyAccountWishlist extends Component {
         addProduct: PropTypes.func.isRequired
     }
 
-    constructor(props) {
-        super(props);
-
-        this.state = { isLoading: false };
-    }
+    state = { isLoading: false };
 
     componentDidMount() {
         this.updateBreadcrumbs();

@@ -31,26 +31,22 @@ export class ProductCardContainer extends PureComponent {
         selectedFilters: {}
     }
 
-    constructor(props) {
-        super(props);
-
-        this.containerFunctions = {
-            getAttribute: this.getAttribute.bind(this)
-        };
-
-        this.containerProps = () => ({
-            availableVisualOptions: this._getAvailableVisualOptions(),
-            currentVariantIndex: this._getCurrentVariantIndex(),
-            productOrVariant: this._getProductOrVariant(),
-            thumbnail: this._getThumbnail(),
-            linkTo: this._getLinkTo()
-        });
+    containerFunctions = {
+        getAttribute: this.getAttribute.bind(this)
     }
 
     getAttribute(code) {
         const { product: { attributes = [] } } = this.props;
         return attributes[code];
     }
+
+    containerProps = () => ({
+        availableVisualOptions: this._getAvailableVisualOptions(),
+        currentVariantIndex: this._getCurrentVariantIndex(),
+        productOrVariant: this._getProductOrVariant(),
+        thumbnail: this._getThumbnail(),
+        linkTo: this._getLinkTo()
+    })
 
     _getLinkTo() {
         const { product: { url_key }, product } = this.props;

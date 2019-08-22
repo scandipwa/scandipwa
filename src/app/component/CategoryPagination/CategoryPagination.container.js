@@ -13,12 +13,8 @@ export class CategoryPaginationContainer extends PureComponent {
         location: LocationType.isRequired
     }
 
-    constructor(props) {
-        super(props);
-
-        this.containerFunctions = {
-            getSearchQueryForPage: this.getSearchQueryForPage.bind(this)
-        };
+    containerFunctions = {
+        getSearchQueryForPage: this.getSearchQueryForPage.bind(this)
     }
 
     getSearchQueryForPage(pageNumber) {

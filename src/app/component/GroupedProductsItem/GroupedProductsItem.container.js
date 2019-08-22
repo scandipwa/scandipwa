@@ -35,16 +35,8 @@ export class GroupedProductsItemContainer extends PureComponent {
         updateGroupedProductQuantity: () => {}
     }
 
-    constructor(props) {
-        super(props);
-
-        this.containerFunctions = {
-            changeCount: this.changeCount.bind(this)
-        };
-
-        this.containerProps = () => ({
-            itemCount: this._getCurrentQuantity()
-        });
+    containerFunctions = {
+        changeCount: this.changeCount.bind(this)
     }
 
     componentWillMount() {
@@ -52,6 +44,10 @@ export class GroupedProductsItemContainer extends PureComponent {
 
         updateGroupedProductQuantity({ product, quantity: 1 });
     }
+
+    containerProps = () => ({
+        itemCount: this._getCurrentQuantity()
+    })
 
     /**
      * Get quantity of grouped product

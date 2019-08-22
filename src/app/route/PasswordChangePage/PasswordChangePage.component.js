@@ -30,13 +30,9 @@ class PasswordChangePage extends Component {
         location: LocationType.isRequired
     }
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            passwordResetStatus: '',
-            isLoading: false
-        };
+    state = {
+        passwordResetStatus: '',
+        isLoading: false
     }
 
     componentDidMount() {

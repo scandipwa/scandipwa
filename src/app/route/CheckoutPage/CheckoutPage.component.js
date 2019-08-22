@@ -60,6 +60,18 @@ class CheckoutPage extends Component {
         history.push(`/${CHECKOUT_BASE_URL}/${checkoutStep}`, state);
     }
 
+    renderMap = {
+        [CHECKOUT_STEP_SHIPPING]: () => this.renderShippingStep(),
+        [CHECKOUT_STEP_REVIEW_AND_PAYMENTS]: () => this.renderReviewAndPaymentsStep(),
+        [CHECKOUT_STEP_SUCCESS]: () => this.renderCheckoutSuccessStep()
+    };
+
+    headerTitleMap = {
+        [CHECKOUT_STEP_SHIPPING]: __('1. Shipping'),
+        [CHECKOUT_STEP_REVIEW_AND_PAYMENTS]: __('2. Payment type'),
+        [CHECKOUT_STEP_SUCCESS]: __('Order information')
+    };
+
     constructor(props) {
         super(props);
 
@@ -88,18 +100,6 @@ class CheckoutPage extends Component {
         if (getUrlParam(match, location) !== checkoutStep) {
             CheckoutPage.changeUrlByCheckoutStep(this.props, state || this.state);
         }
-
-        this.renderMap = {
-            [CHECKOUT_STEP_SHIPPING]: () => this.renderShippingStep(),
-            [CHECKOUT_STEP_REVIEW_AND_PAYMENTS]: () => this.renderReviewAndPaymentsStep(),
-            [CHECKOUT_STEP_SUCCESS]: () => this.renderCheckoutSuccessStep()
-        };
-
-        this.headerTitleMap = {
-            [CHECKOUT_STEP_SHIPPING]: __('1. Shipping'),
-            [CHECKOUT_STEP_REVIEW_AND_PAYMENTS]: __('2. Payment type'),
-            [CHECKOUT_STEP_SUCCESS]: __('Order information')
-        };
     }
 
     static getDerivedStateFromProps(props, state) {

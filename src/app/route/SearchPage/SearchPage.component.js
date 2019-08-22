@@ -21,16 +21,12 @@ class SearchPage extends CategoryPage {
         totalItems: PropTypes.number.isRequired
     }
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            sortKey: 'name',
-            sortDirection: 'ASC',
-            defaultPriceRange: { min: 0, max: 300 },
-            previousPage: 0,
-            pageSize: 12
-        };
+    state = {
+        sortKey: 'name',
+        sortDirection: 'ASC',
+        defaultPriceRange: { min: 0, max: 300 },
+        previousPage: 0,
+        pageSize: 12
     }
 
     componentWillMount() {

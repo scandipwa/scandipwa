@@ -28,14 +28,10 @@ class ProductPriceContainer extends PureComponent {
         price: {}
     }
 
-    constructor(props) {
-        super(props);
-
-        this.containerFunctions = {
-            calculateDiscountPercentage: this.calculateDiscountPercentage.bind(this),
-            calculateFinalPrice: this.calculateFinalPrice.bind(this),
-            roundPrice: this.roundPrice.bind(this)
-        };
+    containerFunctions = {
+        calculateDiscountPercentage: this.calculateDiscountPercentage.bind(this),
+        calculateFinalPrice: this.calculateFinalPrice.bind(this),
+        roundPrice: this.roundPrice.bind(this)
     }
 
     /**

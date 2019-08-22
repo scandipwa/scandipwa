@@ -51,26 +51,22 @@ class Draggable extends PureComponent {
         mix: {}
     }
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            isDragging: false,
-            originalX: 0,
-            translateX: 0,
-            lastTranslateX: 0,
-            originalY: 0,
-            translateY: 0,
-            lastTranslateY: 0
-        };
-
-        this.handleMouseDown = this.handleMouseDown.bind(this);
-        this.handleMouseMove = this.handleMouseMove.bind(this);
-        this.handleMouseUp = this.handleMouseUp.bind(this);
-        this.handleTouchStart = this.handleTouchStart.bind(this);
-        this.handleTouchMove = this.handleTouchMove.bind(this);
-        this.handleTouchEnd = this.handleTouchEnd.bind(this);
+    state = {
+        isDragging: false,
+        originalX: 0,
+        translateX: 0,
+        lastTranslateX: 0,
+        originalY: 0,
+        translateY: 0,
+        lastTranslateY: 0
     }
+
+    handleMouseDown = this.handleMouseDown.bind(this);
+    handleMouseMove = this.handleMouseMove.bind(this);
+    handleMouseUp = this.handleMouseUp.bind(this);
+    handleTouchStart = this.handleTouchStart.bind(this);
+    handleTouchMove = this.handleTouchMove.bind(this);
+    handleTouchEnd = this.handleTouchEnd.bind(this);
 
     static getDerivedStateFromProps(props, state) {
         const { shiftX, shiftY } = props;
