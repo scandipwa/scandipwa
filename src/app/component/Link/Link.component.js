@@ -16,6 +16,14 @@ import { stringify } from 'rebem-classname';
 import { ChildrenType } from 'Type/Common';
 
 class Link extends PureComponent {
+    static propTypes = {
+        to: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.object
+        ]).isRequired,
+        children: ChildrenType.isRequired
+    }
+
     render() {
         const {
             to,
@@ -51,13 +59,5 @@ class Link extends PureComponent {
         );
     }
 }
-
-Link.propTypes = {
-    to: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.object
-    ]).isRequired,
-    children: ChildrenType.isRequired
-};
 
 export default Link;

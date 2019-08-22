@@ -18,14 +18,20 @@ import ProductPrice from './ProductPrice.component';
  * @class ProductPrice
  */
 class ProductPriceContainer extends PureComponent {
-    constructor(props) {
-        super(props);
+    static propTypes = {
+        price: PriceType,
+        mix: MixType
+    }
 
-        this.containerFunctions = {
-            calculateDiscountPercentage: this.calculateDiscountPercentage.bind(this),
-            calculateFinalPrice: this.calculateFinalPrice.bind(this),
-            roundPrice: this.roundPrice.bind(this)
-        };
+    static defaultProps = {
+        mix: {},
+        price: {}
+    }
+
+    containerFunctions = {
+        calculateDiscountPercentage: this.calculateDiscountPercentage.bind(this),
+        calculateFinalPrice: this.calculateFinalPrice.bind(this),
+        roundPrice: this.roundPrice.bind(this)
     }
 
     /**
@@ -68,14 +74,5 @@ class ProductPriceContainer extends PureComponent {
     }
 }
 
-ProductPriceContainer.propTypes = {
-    price: PriceType,
-    mix: MixType
-};
-
-ProductPriceContainer.defaultProps = {
-    mix: {},
-    price: {}
-};
 
 export default ProductPriceContainer;

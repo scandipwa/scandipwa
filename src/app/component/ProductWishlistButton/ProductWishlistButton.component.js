@@ -22,11 +22,23 @@ import './ProductWishlistButton.style';
  * @class ProductWishlistButton
  */
 class ProductWishlistButton extends PureComponent {
-    constructor(props) {
-        super(props);
-        this.state = { isLoading: false, redirectToWishlist: false };
-        this.timeOut = null;
+    static propTypes = {
+        product: ProductType.isRequired,
+        addProductToWishlist: PropTypes.func.isRequired,
+        removeProductFromWishlist: PropTypes.func.isRequired,
+        showNotification: PropTypes.func.isRequired,
+        wishlistItems: PropTypes.objectOf(ProductType).isRequired,
+        fullWidth: PropTypes.bool,
+        isReady: PropTypes.bool
     }
+
+    static defaultProps = {
+        fullWidth: false,
+        isReady: true
+    }
+
+    state = { isLoading: false, redirectToWishlist: false };
+    timeOut = null;
 
     componentWillUnmount() {
         clearTimeout(this.timeOut);
@@ -131,20 +143,5 @@ class ProductWishlistButton extends PureComponent {
         );
     }
 }
-
-ProductWishlistButton.propTypes = {
-    product: ProductType.isRequired,
-    addProductToWishlist: PropTypes.func.isRequired,
-    removeProductFromWishlist: PropTypes.func.isRequired,
-    showNotification: PropTypes.func.isRequired,
-    wishlistItems: PropTypes.objectOf(ProductType).isRequired,
-    fullWidth: PropTypes.bool,
-    isReady: PropTypes.bool
-};
-
-ProductWishlistButton.defaultProps = {
-    fullWidth: false,
-    isReady: true
-};
 
 export default ProductWishlistButton;

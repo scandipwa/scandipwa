@@ -11,12 +11,14 @@
     "build": "npm run build-sw && webpack --config ./src/config/webpack.production.config.js",
     "build-sw": "webpack --config ./src/config/webpack.sw.config.js --mode=production",
     "test": "jest --env=jsdom --watchAll",
-    "eslint": "eslint ./src/app",
-    "eslint:fix": "eslint ./src/app --fix",
+    "eslint": "eslint ./src/app --ignore-pattern *.test.*",
+    "eslint:fix": "npm run eslint -- --fix",
     "dev-server": "forever ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --config ./src/config/webpack.development.config.js",
     "dev-server-core": "forever ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --config ./src/config/webpack.core.config.js",
     "watch-dev-server": "SHELL=/bin/bash chokidar --silent \"src/**/*.js\" \"src/**/*.scss\"  -c \"[ '{event}' = 'add' ] || [ '{event}' = 'unlink' ] && forever restartall \"",
-    "pm2-watch": "./node_modules/.bin/pm2 start process.yml --no-daemon"
+    "pm2-watch": "./node_modules/.bin/pm2 start process.yml --no-daemon",
+    "stylelint": "stylelint ./src/**/*.scss",
+    "stylelint:fix": "npm run stylelint -- --fix"
   },
   "browserslist": [
     ">0.2%",
@@ -96,6 +98,10 @@
     "redux-devtools": "^3.4.2",
     "sass-loader": "^7.1.0",
     "sass-resources-loader": "^2.0.0",
+    "stylelint": "^10.1.0",
+    "stylelint-config-standard": "^18.3.0",
+    "stylelint-order": "^3.0.1",
+    "stylelint-scss": "^3.9.4",
     "terser": "3.14.1",
     "url-loader": "^1.1.2",
     "webpack": "^4.28.0",

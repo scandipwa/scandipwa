@@ -20,6 +20,11 @@ import './NotificationList.style';
  * @class NotificationList
  */
 class NotificationList extends PureComponent {
+    static propTypes = {
+        notifications: NotificationListType.isRequired,
+        onHideNotification: PropTypes.func.isRequired
+    }
+
     render() {
         const { onHideNotification, notifications } = this.props;
 
@@ -37,10 +42,5 @@ class NotificationList extends PureComponent {
         );
     }
 }
-
-NotificationList.propTypes = {
-    notifications: NotificationListType.isRequired,
-    onHideNotification: PropTypes.func.isRequired
-};
 
 export default NotificationList;

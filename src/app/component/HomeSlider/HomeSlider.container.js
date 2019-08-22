@@ -19,13 +19,17 @@ export const mapStateToProps = state => ({
 });
 
 export class HomeSliderContainer extends PureComponent {
-    constructor(props) {
-        super(props);
-
-        this.containerProps = () => ({
-            gallery: this._getGalleryPictures()
-        });
+    static propTypes = {
+        slider: SliderType
     }
+
+    static defaultProps = {
+        slider: {}
+    }
+
+    containerProps = () => ({
+        gallery: this._getGalleryPictures()
+    })
 
     _getGalleryPictures() {
         const { slider } = this.props;
@@ -44,13 +48,5 @@ export class HomeSliderContainer extends PureComponent {
         );
     }
 }
-
-HomeSliderContainer.propTypes = {
-    slider: SliderType
-};
-
-HomeSliderContainer.defaultProps = {
-    slider: {}
-};
 
 export default connect(mapStateToProps)(HomeSliderContainer);

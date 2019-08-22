@@ -27,13 +27,34 @@ export const IMAGE_NOT_FOUND = 2;
 export const IMAGE_NOT_SPECIFIED = 3;
 
 class Image extends PureComponent {
-    constructor(props) {
-        super(props);
-        this.image = createRef();
-        this.state = { imageStatus: IMAGE_LOADING };
-        this.onError = this.onError.bind(this);
-        this.onLoad = this.onLoad.bind(this);
+    static propTypes = {
+        isPlaceholder: PropTypes.bool,
+        src: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.bool
+        ]),
+        alt: PropTypes.string,
+        ratio: PropTypes.oneOf([
+            '4x3',
+            '16x9',
+            'square',
+            'custom'
+        ]),
+        mix: MixType
     }
+
+    static defaultProps = {
+        src: '',
+        alt: '',
+        ratio: 'square',
+        mix: {},
+        isPlaceholder: false
+    }
+
+    image = createRef();
+    state = { imageStatus: IMAGE_LOADING };
+    onError = this.onError.bind(this);
+    onLoad = this.onLoad.bind(this);
 
     componentDidMount() {
         this.onImageChange();
@@ -110,29 +131,5 @@ class Image extends PureComponent {
         );
     }
 }
-
-Image.propTypes = {
-    isPlaceholder: PropTypes.bool,
-    src: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.bool
-    ]),
-    alt: PropTypes.string,
-    ratio: PropTypes.oneOf([
-        '4x3',
-        '16x9',
-        'square',
-        'custom'
-    ]),
-    mix: MixType
-};
-
-Image.defaultProps = {
-    src: '',
-    alt: '',
-    ratio: 'square',
-    mix: {},
-    isPlaceholder: false
-};
 
 export default Image;

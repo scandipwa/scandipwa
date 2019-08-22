@@ -25,16 +25,18 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 export class GroupedProductsItemContainer extends PureComponent {
-    constructor(props) {
-        super(props);
+    static propTypes = {
+        product: ProductType.isRequired,
+        groupedProductQuantity: PropTypes.number.isRequired,
+        updateGroupedProductQuantity: PropTypes.func
+    }
 
-        this.containerFunctions = {
-            changeCount: this.changeCount.bind(this)
-        };
+    static defaultProps = {
+        updateGroupedProductQuantity: () => {}
+    }
 
-        this.containerProps = () => ({
-            itemCount: this._getCurrentQuantity()
-        });
+    containerFunctions = {
+        changeCount: this.changeCount.bind(this)
     }
 
     componentWillMount() {
@@ -42,6 +44,10 @@ export class GroupedProductsItemContainer extends PureComponent {
 
         updateGroupedProductQuantity({ product, quantity: 1 });
     }
+
+    containerProps = () => ({
+        itemCount: this._getCurrentQuantity()
+    })
 
     /**
      * Get quantity of grouped product
@@ -54,6 +60,7 @@ export class GroupedProductsItemContainer extends PureComponent {
             product: { id },
             groupedProductQuantity
         } = this.props;
+
         return groupedProductQuantity[id] || 1;
     }
 
@@ -74,10 +81,5 @@ export class GroupedProductsItemContainer extends PureComponent {
         );
     }
 }
-
-GroupedProductsItemContainer.propTypes = {
-    product: ProductType.isRequired,
-    groupedProductQuantity: PropTypes.number.isRequired
-};
 
 export default connect(mapStateToProps, mapDispatchToProps)(GroupedProductsItemContainer);

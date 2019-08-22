@@ -22,26 +22,31 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 export class ProductCardContainer extends PureComponent {
-    constructor(props) {
-        super(props);
+    static propTypes = {
+        product: ProductType.isRequired,
+        selectedFilters: FilterType
+    }
 
-        this.containerFunctions = {
-            getAttribute: this.getAttribute.bind(this)
-        };
+    static defaultProps = {
+        selectedFilters: {}
+    }
 
-        this.containerProps = () => ({
-            availableVisualOptions: this._getAvailableVisualOptions(),
-            currentVariantIndex: this._getCurrentVariantIndex(),
-            productOrVariant: this._getProductOrVariant(),
-            thumbnail: this._getThumbnail(),
-            linkTo: this._getLinkTo()
-        });
+    containerFunctions = {
+        getAttribute: this.getAttribute.bind(this)
     }
 
     getAttribute(code) {
         const { product: { attributes = [] } } = this.props;
         return attributes[code];
     }
+
+    containerProps = () => ({
+        availableVisualOptions: this._getAvailableVisualOptions(),
+        currentVariantIndex: this._getCurrentVariantIndex(),
+        productOrVariant: this._getProductOrVariant(),
+        thumbnail: this._getThumbnail(),
+        linkTo: this._getLinkTo()
+    })
 
     _getLinkTo() {
         const { product: { url_key }, product } = this.props;
@@ -121,13 +126,5 @@ export class ProductCardContainer extends PureComponent {
     }
 }
 
-ProductCardContainer.propTypes = {
-    product: ProductType.isRequired,
-    selectedFilters: FilterType
-};
-
-ProductCardContainer.defaultProps = {
-    selectedFilters: {}
-};
 
 export default connect(null, mapDispatchToProps)(ProductCardContainer);

@@ -22,15 +22,16 @@ import { MenuType } from 'Type/Menu';
 import './MenuOverlay.style';
 
 class MenuOverlay extends PureComponent {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            activeMenuItemsStack: []
-        };
-
-        this.closeMenuOverlay = this.closeMenuOverlay.bind(this);
+    static propTypes = {
+        blocks: BlockListType.isRequired,
+        menu: MenuType.isRequired,
+        hideActiveOverlay: PropTypes.func.isRequired,
+        goToPreviousHeaderState: PropTypes.func.isRequired,
+        changeHeaderState: PropTypes.func.isRequired
     }
+
+    state = { activeMenuItemsStack: [] }
+    closeMenuOverlay = this.closeMenuOverlay.bind(this);
 
     getItemContent(id) {
         const { blocks: { items } } = this.props;
@@ -167,8 +168,7 @@ class MenuOverlay extends PureComponent {
                             >
                                 { this.renderItemContent(item, itemMods) }
                             </Link>
-                        )
-                    }
+                        ) }
                 </li>
             );
         });
@@ -255,13 +255,5 @@ class MenuOverlay extends PureComponent {
         );
     }
 }
-
-MenuOverlay.propTypes = {
-    blocks: BlockListType.isRequired,
-    menu: MenuType.isRequired,
-    hideActiveOverlay: PropTypes.func.isRequired,
-    goToPreviousHeaderState: PropTypes.func.isRequired,
-    changeHeaderState: PropTypes.func.isRequired
-};
 
 export default MenuOverlay;

@@ -19,6 +19,11 @@ import { ProductType } from 'Type/ProductList';
  * @class GroupedProductList
  */
 class GroupedProductList extends PureComponent {
+    static propTypes = {
+        product: ProductType.isRequired,
+        clearGroupedProductQuantity: PropTypes.func.isRequired
+    }
+
     componentWillUnmount() {
         const { clearGroupedProductQuantity } = this.props;
         clearGroupedProductQuantity();
@@ -46,15 +51,10 @@ class GroupedProductList extends PureComponent {
 
         return (
             <>
-                { items && this.renderProductList(items)}
+                { items && this.renderProductList(items) }
             </>
         );
     }
 }
-
-GroupedProductList.propTypes = {
-    product: ProductType.isRequired,
-    clearGroupedProductQuantity: PropTypes.func.isRequired
-};
 
 export default GroupedProductList;

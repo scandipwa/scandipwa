@@ -19,6 +19,20 @@ import './SearchOverlay.style';
 import TextPlaceholder from 'Component/TextPlaceholder';
 
 class SearchOverlay extends PureComponent {
+    static propTypes = {
+        hideActiveOverlay: PropTypes.func.isRequired,
+        searchCriteria: PropTypes.string,
+        searchResults: ItemsType.isRequired,
+        isLoading: PropTypes.bool.isRequired,
+        getProductLinkTo: PropTypes.func.isRequired,
+        makeSearchRequest: PropTypes.func.isRequired,
+        clearSearchResults: PropTypes.func.isRequired
+    }
+
+    static defaultProps = {
+        searchCriteria: ''
+    }
+
     componentDidUpdate(prevProps) {
         const { searchCriteria: prevSearchCriteria } = prevProps;
         const { searchCriteria, clearSearchResults, makeSearchRequest } = this.props;
@@ -144,19 +158,5 @@ class SearchOverlay extends PureComponent {
         );
     }
 }
-
-SearchOverlay.propTypes = {
-    hideActiveOverlay: PropTypes.func.isRequired,
-    searchCriteria: PropTypes.string,
-    searchResults: ItemsType.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-    getProductLinkTo: PropTypes.func.isRequired,
-    makeSearchRequest: PropTypes.func.isRequired,
-    clearSearchResults: PropTypes.func.isRequired
-};
-
-SearchOverlay.defaultProps = {
-    searchCriteria: ''
-};
 
 export default SearchOverlay;

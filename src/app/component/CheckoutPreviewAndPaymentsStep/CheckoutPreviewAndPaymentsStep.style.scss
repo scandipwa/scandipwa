@@ -16,17 +16,12 @@
 .CheckoutPreviewAndPaymentsStep {
     &-ShippingAddressPreview {
         display: inline-block;
-        border: {
-            top: 1px solid var(--checkout-preview-border-color);
-            bottom: 1px solid var(--checkout-preview-border-color);
-        }
         padding: 1rem 0;
         margin: 1rem 0;
         min-width: 40rem;
-
-        @include mobile {
-            width: 100%;
-            min-width: 0;
+        border: {
+            top: 1px solid var(--checkout-preview-border-color);
+            bottom: 1px solid var(--checkout-preview-border-color);
         }
 
         dt {
@@ -42,6 +37,11 @@
 
         dd {
             font-style: normal;
+        }
+
+        @include mobile {
+            width: 100%;
+            min-width: 0;
         }
     }
 }

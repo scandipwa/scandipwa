@@ -154,7 +154,7 @@
 
             &:last-of-type {
                 @include after-mobile {
-                    margin: auto;;
+                    margin: auto;
                 }
             }
         }
@@ -197,6 +197,7 @@
                 margin: auto;
                 justify-content: center;
             }
+
             > * {
                 margin: 0 5px;
             }

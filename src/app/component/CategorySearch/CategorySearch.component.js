@@ -4,6 +4,14 @@ import './CategorySearch.style';
 
 // TODO: add to template
 class CategorySearch extends PureComponent {
+    static propTypes = {
+        value: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number
+        ]).isRequired,
+        onChange: PropTypes.func.isRequired
+    }
+
     constructor(props) {
         super(props);
         this.state = { value: decodeURIComponent(props.value) };
@@ -38,13 +46,5 @@ class CategorySearch extends PureComponent {
         );
     }
 }
-
-CategorySearch.propTypes = {
-    value: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number
-    ]).isRequired,
-    onChange: PropTypes.func.isRequired
-};
 
 export default CategorySearch;

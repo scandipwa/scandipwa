@@ -20,13 +20,25 @@ import './ProductGallery.style';
  * @class ProductGallery
  */
 class ProductGallery extends PureComponent {
-    constructor(props) {
-        super(props);
-        this.state = { activeImage: 0 };
-
-        this.renderAdditionalPicture = this.renderAdditionalPicture.bind(this);
-        this.onActiveImageChange = this.onActiveImageChange.bind(this);
+    static propTypes = {
+        gallery: PropTypes.arrayOf(
+            PropTypes.shape({
+                id: PropTypes.oneOfType([
+                    PropTypes.number,
+                    PropTypes.string
+                ]),
+                image: PropTypes.string,
+                isPlaceholder: PropTypes.bool,
+                alt: PropTypes.string,
+                type: PropTypes.string
+            })
+        ).isRequired
     }
+
+    state = { activeImage: 0 };
+
+    renderAdditionalPicture = this.renderAdditionalPicture.bind(this);
+    onActiveImageChange = this.onActiveImageChange.bind(this);
 
     onActiveImageChange(activeImage) {
         this.setState({ activeImage });
@@ -123,20 +135,5 @@ class ProductGallery extends PureComponent {
         );
     }
 }
-
-ProductGallery.propTypes = {
-    gallery: PropTypes.arrayOf(
-        PropTypes.shape({
-            id: PropTypes.oneOfType([
-                PropTypes.number,
-                PropTypes.string
-            ]),
-            image: PropTypes.string,
-            isPlaceholder: PropTypes.bool,
-            alt: PropTypes.string,
-            type: PropTypes.string
-        })
-    ).isRequired
-};
 
 export default ProductGallery;

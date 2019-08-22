@@ -16,6 +16,13 @@ import { LocationType } from 'Type/Router';
 import { ChildrenType } from 'Type/Common';
 
 class NoMatchHandler extends Component {
+    static propTypes = {
+        children: ChildrenType.isRequired,
+        noMatch: PropTypes.bool.isRequired,
+        updateNoMatch: PropTypes.func.isRequired,
+        location: LocationType.isRequired
+    }
+
     componentDidMount() {
         window.scrollTo(0, 0);
     }
@@ -59,12 +66,5 @@ class NoMatchHandler extends Component {
         );
     }
 }
-
-NoMatchHandler.propTypes = {
-    children: ChildrenType.isRequired,
-    noMatch: PropTypes.bool.isRequired,
-    updateNoMatch: PropTypes.func.isRequired,
-    location: LocationType.isRequired
-};
 
 export default NoMatchHandler;

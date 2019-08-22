@@ -31,11 +31,13 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 export class CartPageContainer extends PureComponent {
-    constructor(props) {
-        super(props);
-
-        this.state = { isEditing: false };
+    static propTypes = {
+        updateBreadcrumbs: PropTypes.func.isRequired,
+        changeHeaderState: PropTypes.func.isRequired,
+        totals: TotalsType.isRequired
     }
+
+    state = { isEditing: false };
 
     componentDidMount() {
         this._updateBreadcrumbs();
@@ -84,11 +86,5 @@ export class CartPageContainer extends PureComponent {
         );
     }
 }
-
-CartPageContainer.propTypes = {
-    updateBreadcrumbs: PropTypes.func.isRequired,
-    changeHeaderState: PropTypes.func.isRequired,
-    totals: TotalsType.isRequired
-};
 
 export default connect(mapStateToProps, mapDispatchToProps)(CartPageContainer);

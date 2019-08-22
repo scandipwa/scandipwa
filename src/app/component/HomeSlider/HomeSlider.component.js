@@ -23,11 +23,15 @@ import './HomeSlider.style';
  * @class HomeSlider
  */
 class HomeSlider extends PureComponent {
-    constructor(props) {
-        super(props);
-
-        this.renderSlide = this.renderSlide.bind(this);
+    static propTypes = {
+        gallery: PropTypes.arrayOf(PropTypes.object)
     }
+
+    static defaultProps = {
+        gallery: [{}]
+    }
+
+    renderSlide = this.renderSlide.bind(this);
 
     renderSlide({ image, slide_text, isPlaceholder }, i) {
         return (
@@ -67,13 +71,5 @@ class HomeSlider extends PureComponent {
         );
     }
 }
-
-HomeSlider.propTypes = {
-    gallery: PropTypes.arrayOf(PropTypes.object)
-};
-
-HomeSlider.defaultProps = {
-    gallery: [{}]
-};
 
 export default HomeSlider;

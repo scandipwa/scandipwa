@@ -22,14 +22,18 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 export class CategoryFilterOverlayContainer extends PureComponent {
-    constructor(props) {
-        super(props);
+    static propTypes = {
+        customFiltersValues: PropTypes.objectOf(PropTypes.array).isRequired,
+        hideActiveOverlay: PropTypes.func.isRequired,
+        goToPreviousHeaderState: PropTypes.func.isRequired,
+        updateFilter: PropTypes.func.isRequired,
+        getFilterUrl: PropTypes.func.isRequired
+    }
 
-        this.containerFunctions = {
-            onSeeResultsClick: this.onSeeResultsClick.bind(this),
-            toggleCustomFilter: this.toggleCustomFilter.bind(this),
-            getFilterUrl: this.getFilterUrl.bind(this)
-        };
+    containerFunctions = {
+        onSeeResultsClick: this.onSeeResultsClick.bind(this),
+        toggleCustomFilter: this.toggleCustomFilter.bind(this),
+        getFilterUrl: this.getFilterUrl.bind(this)
     }
 
     onSeeResultsClick() {
@@ -92,13 +96,5 @@ export class CategoryFilterOverlayContainer extends PureComponent {
         );
     }
 }
-
-CategoryFilterOverlayContainer.propTypes = {
-    customFiltersValues: PropTypes.objectOf(PropTypes.array).isRequired,
-    hideActiveOverlay: PropTypes.func.isRequired,
-    goToPreviousHeaderState: PropTypes.func.isRequired,
-    updateFilter: PropTypes.func.isRequired,
-    getFilterUrl: PropTypes.func.isRequired
-};
 
 export default connect(null, mapDispatchToProps)(CategoryFilterOverlayContainer);

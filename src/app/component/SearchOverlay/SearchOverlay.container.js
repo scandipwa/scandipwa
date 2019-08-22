@@ -28,13 +28,15 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 export class SearchOverlayContainer extends PureComponent {
-    constructor(props) {
-        super(props);
+    static propTypes = {
+        makeSearchRequest: PropTypes.func.isRequired,
+        clearSearchResults: PropTypes.func.isRequired,
+        searchCriteria: PropTypes.string.isRequired
+    }
 
-        this.containerFunctions = {
-            getProductLinkTo: this.getProductLinkTo.bind(this),
-            makeSearchRequest: this.makeSearchRequest.bind(this)
-        };
+    containerFunctions = {
+        getProductLinkTo: this.getProductLinkTo.bind(this),
+        makeSearchRequest: this.makeSearchRequest.bind(this)
     }
 
     getProductLinkTo(product) {
@@ -64,11 +66,5 @@ export class SearchOverlayContainer extends PureComponent {
         );
     }
 }
-
-SearchOverlayContainer.propTypes = {
-    makeSearchRequest: PropTypes.func.isRequired,
-    clearSearchResults: PropTypes.func.isRequired,
-    searchCriteria: PropTypes.string.isRequired
-};
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchOverlayContainer);

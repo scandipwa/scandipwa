@@ -10,361 +10,360 @@
  */
 
 :root {
-	--header-background: #fff;
-	--header-color: #000;
-	--header-search-field-background: #{$concrete};
-	--header-search-field-visible-background: #fff;
-	--header-search-field-color: #6e6e6e;
-	--header-search-clear-background: #838383;
-	--header-search-field-border-color: #f26323;
-	--header-desktop-search-bar-width: 270px;
-	--header-desktop-search-bar-max-width: 450px;
-	--header-desktop-button-color: #f26323;
-	--header-height: 50px;
-	--header-nav-height: 50px;
+    --header-background: #fff;
+    --header-color: #000;
+    --header-search-field-background: #{$concrete};
+    --header-search-field-visible-background: #fff;
+    --header-search-field-color: #6e6e6e;
+    --header-search-clear-background: #838383;
+    --header-search-field-border-color: #f26323;
+    --header-desktop-search-bar-width: 270px;
+    --header-desktop-search-bar-max-width: 450px;
+    --header-desktop-button-color: #f26323;
+    --header-height: 50px;
+    --header-nav-height: 50px;
 
-	@include tablet {
-		--header-desktop-search-bar-width: 200px;
-	}
+    @include tablet {
+        --header-desktop-search-bar-width: 200px;
+    }
 
-	@include after-mobile {
-		--header-height: 60px;
-		--header-nav-height: 60px;
-	}
+    @include after-mobile {
+        --header-height: 60px;
+        --header-nav-height: 60px;
+    }
 }
 
 @mixin button-invisible {
-	opacity: 0;
-	padding: 0;
-	width: 0;
-	pointer-events: none;
-	overflow: hidden;
+    opacity: 0;
+    padding: 0;
+    width: 0;
+    pointer-events: none;
+    overflow: hidden;
 }
 
 @mixin button-visible {
-	opacity: 1;
-	padding: 7.5px;
-	width: 35px;
-	pointer-events: all;
-	overflow: visible;
+    opacity: 1;
+    padding: 7.5px;
+    width: 35px;
+    pointer-events: all;
+    overflow: visible;
 }
 
 @mixin search-bar-visible {
-	opacity: 1;
-	border-color: transparent;
-	border-width: 1px;
-	padding: {
-		top: 4px;
-		bottom: 5px;
-		left: 10px;
-	};
+    opacity: 1;
+    border-color: transparent;
+    border-width: 1px;
+    padding: {
+        top: 4px;
+        bottom: 5px;
+        left: 10px;
+    };
 
-	@include mobile {
-		max-width: 100%;
-	}
+    @include mobile {
+        max-width: 100%;
+    }
 }
 
 @mixin logo-visible {
-	opacity: 1;
-	max-width: 100%;
+    opacity: 1;
+    max-width: 100%;
 }
 
 @mixin search-icon-input {
-	&::before {
-		content: '';
-		position: absolute;
-		z-index: 1;
-		width: 10px;
-		height: 10px;
-		border: 1px solid var(--header-search-field-color);
-		border-radius: 50%;
-		top: 7px;
-		right: 17px;
-		box-shadow:
-			4px 4px 0 -5px var(--header-search-field-color),
-			5px 5px 0 -5px var(--header-search-field-color),
-			6px 6px 0 -5px var(--header-search-field-color),
-			7px 7px 0 -5px var(--header-search-field-color),
-			8px 8px 0 -5px var(--header-search-field-color);
-	}
+    &::before {
+        content: '';
+        position: absolute;
+        z-index: 1;
+        width: 10px;
+        height: 10px;
+        border: 1px solid var(--header-search-field-color);
+        border-radius: 50%;
+        top: 7px;
+        right: 17px;
+        box-shadow:
+            4px 4px 0 -5px var(--header-search-field-color),
+            5px 5px 0 -5px var(--header-search-field-color),
+            6px 6px 0 -5px var(--header-search-field-color),
+            7px 7px 0 -5px var(--header-search-field-color),
+            8px 8px 0 -5px var(--header-search-field-color);
+    }
 }
 
 .Header {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	z-index: 100;
-	background-color: var(--header-background);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    background-color: var(--header-background);
 
-	@include mobile {
-		border-bottom: 1px solid #0003;
-	}
+    @include mobile {
+        border-bottom: 1px solid #0003;
+    }
 
-	&_name {
-		&_cart {
-			.Header-Button_type_minicart {
-				@include after-mobile {
-					--header-color: var(--header-desktop-button-color);
-				}
-			}
-		}
+    &_name {
+        &_cart {
+            .Header-Button_type_minicart {
+                @include after-mobile {
+                    --header-color: var(--header-desktop-button-color);
+                }
+            }
+        }
 
-		&_search {
-			@include after-mobile {
-				--header-desktop-search-bar-width: calc(50% - 100px);
-			}
+        &_search {
+            @include after-mobile {
+                --header-desktop-search-bar-width: calc(50% - 100px);
+            }
 
-			.Header-SearchBar {
-				@include after-mobile {
-					border: 1px solid var(--header-search-field-border-color);
-					background-color: var(--header-search-field-visible-background);
-				}
-			}
-		}
+            .Header-SearchBar {
+                @include after-mobile {
+                    border: 1px solid var(--header-search-field-border-color);
+                    background-color: var(--header-search-field-visible-background);
+                }
+            }
+        }
 
-		&_menu,
-		&_menu_subcategory {
-			.Header-Button_type {
-				&_close {
-					@include after-mobile {
-						@include button-visible;
-					}
-				}
+        &_menu,
+        &_menu_subcategory {
+            .Header-Button_type {
+                &_close {
+                    @include after-mobile {
+                        @include button-visible;
+                    }
+                }
 
-				&_menu {
-					@include after-mobile {
-						@include button-invisible;
-					}
-				}
-			}
-		}
+                &_menu {
+                    @include after-mobile {
+                        @include button-invisible;
+                    }
+                }
+            }
+        }
 
-		&_customer_account {
-			.Header-Button_type_account {
-				@include after-mobile {
-					--header-color: var(--header-desktop-button-color);
-				}
-			}
-		}
+        &_customer_account {
+            .Header-Button_type_account {
+                @include after-mobile {
+                    --header-color: var(--header-desktop-button-color);
+                }
+            }
+        }
 
-		&_checkout {
-			.Header-Button,
-			.Header-SearchWrapper {
-				@include after-mobile {
-					display: none;
-				}
-			}
-		}
-	}
+        &_checkout {
+            .Header-Button,
+            .Header-SearchWrapper {
+                @include after-mobile {
+                    display: none;
+                }
+            }
+        }
+    }
 
-	&-Banner {
-		background: $primary-base-color;
-		color: $white;
-		height: 50px;
-		line-height: 50px;
-		text-align: center;
-		display: block;
-		z-index: 100;
+    &-Banner {
+        background: $primary-base-color;
+        color: $white;
+        height: 50px;
+        line-height: 50px;
+        text-align: center;
+        display: block;
+        z-index: 100;
 
-		strong {
-			margin-left: 3px;
-		}
-	}
+        strong {
+            margin-left: 3px;
+        }
+    }
 
     &-Nav {
         height: var(--header-nav-height);
         display: flex;
         align-items: center;
-		padding: 0 1rem;
-		z-index: 20;
-		max-width: var(--content-wrapper-width);
-		margin: auto;
-	}
+        padding: 0 1rem;
+        z-index: 20;
+        max-width: var(--content-wrapper-width);
+        margin: auto;
+    }
 
-	&-Button {
-		@include button-invisible;
+    &-Button {
+        @include button-invisible;
 
-		cursor: pointer;
-		margin: 0;
-		height: 35px;
+        cursor: pointer;
+        margin: 0;
+        height: 35px;
 
-		&_isVisible {
-			@include mobile {
-				@include button-visible;
-			}
-		}
+        &_isVisible {
+            @include mobile {
+                @include button-visible;
+            }
+        }
 
-		&_isDisabled {
-			pointer-events: none;
-			opacity: .1;
-		}
+        &_isDisabled {
+            pointer-events: none;
+            opacity: .1;
+        }
 
-		&_type {
-			&_menu,
-			&_account,
-			&_minicart {
-				@include after-mobile {
-					@include button-visible;
-				}
-			}
+        &_type {
+            &_menu,
+            &_account,
+            &_minicart {
+                @include after-mobile {
+                    @include button-visible;
+                }
+            }
 
-			&_close {
-				@include close-button;
-			}
+            &_close {
+                @include close-button;
+            }
 
-			&_back {
-				@include back-button;
-			}
+            &_back {
+                @include back-button;
+            }
 
-			&_menu {
-				@include menu-button;
+            &_menu {
+                @include menu-button;
 
-				@include after-mobile {
-					width: 100px;
-				}
-			}
+                @include after-mobile {
+                    width: 100px;
+                }
+            }
 
-			&_account {
-				@include account-button;
-			}
+            &_account {
+                @include account-button;
+            }
 
-			&_minicart {
-				@include minicart-button;
-			}
+            &_minicart {
+                @include minicart-button;
+            }
 
-			&_searchClear {
-				@include clear-search-button;
-			}
+            &_searchClear {
+                @include clear-search-button;
+            }
 
-			&_clear {
-				@include clear-button;
-			}
+            &_clear {
+                @include clear-button;
+            }
 
-			&_edit {
-				@include edit-button;
-			}
+            &_edit {
+                @include edit-button;
+            }
 
-			&_ok,
-			&_cancel {
-				font-size: 14px;
-				opacity: .5;
+            &_ok,
+            &_cancel {
+                font-size: 14px;
+                opacity: .5;
 
-				&.Header-Button_isVisible {
-					width: 70px;
-				}
-			}
-		}
-	}
+                &.Header-Button_isVisible {
+                    width: 70px;
+                }
+            }
+        }
+    }
 
-	&-SearchWrapper {
-		flex-grow: 1;
-		margin-left: 5px;
+    &-SearchWrapper {
+        flex-grow: 1;
+        margin-left: 5px;
 
-		@include after-mobile {
-			@include search-icon-input;
+        @include after-mobile {
+            @include search-icon-input;
 
-			text-align: right;
-			margin-right: 1rem;
-		}
-	}
+            text-align: right;
+            margin-right: 1rem;
+        }
+    }
 
-	&-SearchField {
-		background-color: var(--header-search-field-background);
-		font-size: 16px;
-		border-radius: 4px;
+    &-SearchField {
+        background-color: var(--header-search-field-background);
+        font-size: 16px;
+        border-radius: 4px;
 
-		border-width: 0;
-		width: 100%;
-		max-width: 0;
-		min-width: 0;
-		opacity: 0;
-		padding: 0;
-		transition-property: opacity, background-color;
-		transition-duration: 200ms;
-		will-change: max-width, width, opacity, padding, border, background-color;
+        border-width: 0;
+        width: 100%;
+        max-width: 0;
+        min-width: 0;
+        opacity: 0;
+        padding: 0;
+        transition-property: opacity, background-color;
+        transition-duration: 200ms;
+        will-change: max-width, width, opacity, padding, border, background-color;
 
-		@include after-mobile {
-			@include search-bar-visible;
+        @include after-mobile {
+            @include search-bar-visible;
 
-			transition-property: opacity, width, border;
-			width: var(--header-desktop-search-bar-width);
-			max-width: var(--header-desktop-search-bar-max-width);
-			font-size: 14px;
-			border-radius: 0;
-		}
+            transition-property: opacity, width, border;
+            width: var(--header-desktop-search-bar-width);
+            max-width: var(--header-desktop-search-bar-max-width);
+            font-size: 14px;
+            border-radius: 0;
+        }
 
-		&_isVisible {
-			@include search-bar-visible;
-		}
-	}
+        &_isVisible {
+            @include search-bar-visible;
+        }
+    }
 
-	&-Logo {
-		position: absolute;
-		max-width: 0;
-		width: 116px;
-		height: 17px;
-		left: 0;
-		right: 0;
-		margin: auto;
-		top: 0;
-		bottom: 0;
-		opacity: 0;
-		overflow: hidden;
+    &-Logo {
+        position: absolute;
+        max-width: 0;
+        width: 116px;
+        height: 17px;
+        left: 0;
+        right: 0;
+        margin: auto;
+        top: 0;
+        bottom: 0;
+        opacity: 0;
+        overflow: hidden;
 
-		transition-property: opacity;
-		transition-duration: 200ms;
+        transition-property: opacity;
+        transition-duration: 200ms;
 
-		@include after-mobile {
-			@include logo-visible;
-		}
+        @include after-mobile {
+            @include logo-visible;
+        }
 
-		&_isVisible {
-			@include logo-visible;
-		}
-	}
+        &_isVisible {
+            @include logo-visible;
+        }
+    }
 
-	&-Title {
-		opacity: 0;
-		max-width: 0;
-		transition-property: opacity;
-		transition-duration: 200ms;
+    &-Title {
+        opacity: 0;
+        max-width: 0;
+        transition-property: opacity;
+        transition-duration: 200ms;
 
-		text-align: center;
-		font-size: 1.3rem;
-		color: var(--header-color);
+        text-align: center;
+        font-size: 1.3rem;
+        color: var(--header-color);
 
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
 
-		pointer-events: none;
+        pointer-events: none;
 
-		position: absolute;
-		margin: auto;
-		width: 100%;
-		height: 1.5rem;
-		line-height: 1.5rem;
-		top: 0;
-		bottom: 0;
-		left: 0;
-		right: 0;
+        position: absolute;
+        margin: auto;
+        width: 100%;
+        height: 1.5rem;
+        line-height: 1.5rem;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
 
-		&_isVisible {
-			@include mobile {
-				opacity: 1;
-				max-width: calc(100% - 180px);
-			}
-		}
-	}
+        &_isVisible {
+            @include mobile {
+                opacity: 1;
+                max-width: calc(100% - 180px);
+            }
+        }
+    }
 
-
-	a {
-		&:hover,
-		&:focus {
-			@include mobile {
-				text-decoration: none;
-			}
-		}
-	}
+    a {
+        &:hover,
+        &:focus {
+            @include mobile {
+                text-decoration: none;
+            }
+        }
+    }
 }

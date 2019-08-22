@@ -7,12 +7,8 @@ export const PRODUCT_IMAGE_PATH = '/media/catalog/product';
 export const THUMBNAIL_KEY = 'thumbnail';
 
 export class ProductGalleryContainer extends PureComponent {
-    constructor(props) {
-        super(props);
-
-        this.containerProps = () => ({
-            gallery: this.getGalleryPictures()
-        });
+    static propTypes = {
+        product: ProductType.isRequired
     }
 
     getGalleryPictures() {
@@ -66,6 +62,10 @@ export class ProductGalleryContainer extends PureComponent {
         }, ...Array(3).fill({ type: 'image', isPlaceholder: true })];
     }
 
+    containerProps = () => ({
+        gallery: this.getGalleryPictures()
+    })
+
     render() {
         return (
             <ProductGallery
@@ -74,9 +74,5 @@ export class ProductGalleryContainer extends PureComponent {
         );
     }
 }
-
-ProductGalleryContainer.propTypes = {
-    product: ProductType.isRequired
-};
 
 export default ProductGalleryContainer;

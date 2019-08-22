@@ -21,13 +21,22 @@ import './CategoryProductList.style';
  * @class CategoryProductList
  */
 class CategoryProductList extends PureComponent {
-    constructor(props) {
-        super(props);
-
-        this.nodes = {};
-        this.observedNodes = [];
-        this.pagesIntersecting = [];
+    static propTypes = {
+        pages: PagesType.isRequired,
+        isLoading: PropTypes.bool.isRequired,
+        updatePage: PropTypes.func.isRequired,
+        totalPages: PropTypes.number.isRequired,
+        selectedFilters: FilterType.isRequired,
+        loadPage: PropTypes.func.isRequired,
+        loadPrevPage: PropTypes.func.isRequired,
+        currentPage: PropTypes.number.isRequired,
+        isShowLoading: PropTypes.bool.isRequired,
+        isVisible: PropTypes.bool.isRequired
     }
+
+    nodes = {};
+    observedNodes = [];
+    pagesIntersecting = [];
 
     componentDidUpdate() {
         const { updatePage, isLoading } = this.props;
@@ -101,7 +110,7 @@ class CategoryProductList extends PureComponent {
               onKeyUp={ loadPrevPage }
               onClick={ loadPrevPage }
             >
-                    {__('Load previous') }
+                    { __('Load previous') }
             </div>
         );
     }
@@ -173,18 +182,5 @@ class CategoryProductList extends PureComponent {
         );
     }
 }
-
-CategoryProductList.propTypes = {
-    pages: PagesType.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-    updatePage: PropTypes.func.isRequired,
-    totalPages: PropTypes.number.isRequired,
-    selectedFilters: FilterType.isRequired,
-    loadPage: PropTypes.func.isRequired,
-    loadPrevPage: PropTypes.func.isRequired,
-    currentPage: PropTypes.number.isRequired,
-    isShowLoading: PropTypes.bool.isRequired,
-    isVisible: PropTypes.bool.isRequired
-};
 
 export default CategoryProductList;

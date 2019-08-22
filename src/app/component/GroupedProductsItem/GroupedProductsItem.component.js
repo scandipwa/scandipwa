@@ -23,6 +23,12 @@ import './GroupedProductsItem.style';
  * @class GroupedProduct
  */
 class GroupedProductsItem extends PureComponent {
+    static propTypes = {
+        product: ProductType.isRequired,
+        changeCount: PropTypes.func.isRequired,
+        itemCount: PropTypes.number.isRequired
+    }
+
     render() {
         const {
             product: {
@@ -58,11 +64,5 @@ class GroupedProductsItem extends PureComponent {
         );
     }
 }
-
-GroupedProductsItem.propTypes = {
-    product: ProductType.isRequired,
-    changeCount: PropTypes.func.isRequired,
-    itemCount: PropTypes.number.isRequired
-};
 
 export default GroupedProductsItem;

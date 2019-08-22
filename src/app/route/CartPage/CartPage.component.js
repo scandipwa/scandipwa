@@ -22,6 +22,16 @@ import ExpandableContent from 'Component/ExpandableContent';
 import './CartPage.style';
 
 class CartPage extends Component {
+    static propTypes = {
+        isEditing: PropTypes.bool.isRequired,
+        products: PropTypes.objectOf(ProductType),
+        totals: TotalsType.isRequired
+    }
+
+    static defaultProps = {
+        products: {}
+    }
+
     renderCartItems() {
         const { products, isEditing } = this.props;
 
@@ -170,15 +180,5 @@ class CartPage extends Component {
         );
     }
 }
-
-CartPage.propTypes = {
-    isEditing: PropTypes.bool.isRequired,
-    products: PropTypes.objectOf(ProductType),
-    totals: TotalsType.isRequired
-};
-
-CartPage.defaultProps = {
-    products: {}
-};
 
 export default CartPage;

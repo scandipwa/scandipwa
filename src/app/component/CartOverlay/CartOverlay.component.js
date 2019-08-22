@@ -22,6 +22,17 @@ import { ProductType } from 'Type/ProductList';
 import './CartOverlay.style';
 
 class CartOverlay extends PureComponent {
+    static propTypes = {
+        products: PropTypes.objectOf(ProductType),
+        totals: TotalsType.isRequired,
+        changeHeaderState: PropTypes.func.isRequired,
+        isEditing: PropTypes.bool.isRequired
+    }
+
+    static defaultProps = {
+        products: {}
+    }
+
     renderCartItems() {
         const { products, isEditing } = this.props;
 
@@ -138,16 +149,5 @@ class CartOverlay extends PureComponent {
         );
     }
 }
-
-CartOverlay.propTypes = {
-    products: PropTypes.objectOf(ProductType),
-    totals: TotalsType.isRequired,
-    changeHeaderState: PropTypes.func.isRequired,
-    isEditing: PropTypes.bool.isRequired
-};
-
-CartOverlay.defaultProps = {
-    products: {}
-};
 
 export default CartOverlay;

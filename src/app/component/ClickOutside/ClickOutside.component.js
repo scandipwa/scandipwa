@@ -14,6 +14,18 @@ import PropTypes from 'prop-types';
 import { ChildrenType } from 'Type/Common';
 
 class ClickOutside extends PureComponent {
+    static propTypes = {
+        onClick: PropTypes.func,
+        children: ChildrenType
+    }
+
+    static defaultProps = {
+        onClick: () => {},
+        children: []
+    }
+
+    handleClick = this.handleClick.bind(this);
+
     constructor(props) {
         super(props);
 
@@ -23,8 +35,6 @@ class ClickOutside extends PureComponent {
             children,
             () => React.createRef()
         );
-
-        this.handleClick = this.handleClick.bind(this);
     }
 
     componentDidMount() {
@@ -53,15 +63,5 @@ class ClickOutside extends PureComponent {
         ));
     }
 }
-
-ClickOutside.propTypes = {
-    onClick: PropTypes.func,
-    children: ChildrenType
-};
-
-ClickOutside.defaultProps = {
-    onClick: () => {},
-    children: []
-};
 
 export default ClickOutside;

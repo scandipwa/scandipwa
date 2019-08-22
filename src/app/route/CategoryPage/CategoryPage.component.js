@@ -24,11 +24,45 @@ import Meta from 'Component/Meta';
 import './CategoryPage.style';
 
 class CategoryPage extends PureComponent {
-    constructor(props) {
-        super(props);
-
-        this.onFilterButtonClick = this.onFilterButtonClick.bind(this);
+    static propTypes = {
+        category: CategoryTreeType.isRequired,
+        pages: PagesType.isRequired,
+        totalItems: PropTypes.number.isRequired,
+        minPriceRange: PropTypes.number.isRequired,
+        maxPriceRange: PropTypes.number.isRequired,
+        filters: PropTypes.objectOf(PropTypes.shape).isRequired,
+        sortFields: PropTypes.shape({
+            options: PropTypes.array
+        }).isRequired,
+        selectedSort: PropTypes.shape({
+            sortDirection: PropTypes.oneOf([
+                'ASC',
+                'DESC'
+            ]),
+            sortKey: PropTypes.string
+        }).isRequired,
+        selectedPriceRange: PropTypes.shape({
+            min: PropTypes.number,
+            max: PropTypes.number
+        }).isRequired,
+        pageParams: PropTypes.shape({
+            totalPages: PropTypes.number,
+            currentPage: PropTypes.number
+        }).isRequired,
+        getFilterUrl: PropTypes.func.isRequired,
+        isPagesLoading: PropTypes.bool.isRequired,
+        onSortChange: PropTypes.func.isRequired,
+        requestPage: PropTypes.func.isRequired,
+        requestNextPage: PropTypes.func.isRequired,
+        updateFilter: PropTypes.func.isRequired,
+        updatePriceRange: PropTypes.func.isRequired,
+        updatePage: PropTypes.func.isRequired,
+        toggleOverlayByKey: PropTypes.func.isRequired,
+        changeHeaderState: PropTypes.func.isRequired,
+        selectedFilters: FilterType.isRequired
     }
+
+    onFilterButtonClick = this.onFilterButtonClick.bind(this);
 
     onFilterButtonClick() {
         const { toggleOverlayByKey, changeHeaderState } = this.props;
@@ -183,43 +217,5 @@ class CategoryPage extends PureComponent {
         );
     }
 }
-
-CategoryPage.propTypes = {
-    category: CategoryTreeType.isRequired,
-    pages: PagesType.isRequired,
-    totalItems: PropTypes.number.isRequired,
-    minPriceRange: PropTypes.number.isRequired,
-    maxPriceRange: PropTypes.number.isRequired,
-    filters: PropTypes.objectOf(PropTypes.shape).isRequired,
-    sortFields: PropTypes.shape({
-        options: PropTypes.array
-    }).isRequired,
-    selectedSort: PropTypes.shape({
-        sortDirection: PropTypes.oneOf([
-            'ASC',
-            'DESC'
-        ]),
-        sortKey: PropTypes.string
-    }).isRequired,
-    selectedPriceRange: PropTypes.shape({
-        min: PropTypes.number,
-        max: PropTypes.number
-    }).isRequired,
-    pageParams: PropTypes.shape({
-        totalPages: PropTypes.number,
-        currentPage: PropTypes.number
-    }).isRequired,
-    getFilterUrl: PropTypes.func.isRequired,
-    isPagesLoading: PropTypes.bool.isRequired,
-    onSortChange: PropTypes.func.isRequired,
-    requestPage: PropTypes.func.isRequired,
-    requestNextPage: PropTypes.func.isRequired,
-    updateFilter: PropTypes.func.isRequired,
-    updatePriceRange: PropTypes.func.isRequired,
-    updatePage: PropTypes.func.isRequired,
-    toggleOverlayByKey: PropTypes.func.isRequired,
-    changeHeaderState: PropTypes.func.isRequired,
-    selectedFilters: FilterType.isRequired
-};
 
 export default CategoryPage;

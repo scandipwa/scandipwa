@@ -21,6 +21,10 @@ import './CategoryDetails.style';
  * @class CategoryDetails
  */
 class CategoryDetails extends PureComponent {
+    static propTypes = {
+        category: CategoryTreeType.isRequired
+    }
+
     renderCategoryName() {
         const { category: { name } } = this.props;
 
@@ -81,9 +85,5 @@ class CategoryDetails extends PureComponent {
         );
     }
 }
-
-CategoryDetails.propTypes = {
-    category: CategoryTreeType.isRequired
-};
 
 export default CategoryDetails;

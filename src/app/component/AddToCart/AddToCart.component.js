@@ -20,6 +20,20 @@ import './AddToCart.style';
  * @class AddToCart
  */
 class AddToCart extends PureComponent {
+    static propTypes = {
+        isDisabled: PropTypes.bool.isRequired,
+        isLoading: PropTypes.bool,
+        product: ProductType,
+        mix: MixType,
+        buttonClick: PropTypes.func.isRequired
+    }
+
+    static defaultProps = {
+        product: {},
+        mix: {},
+        isLoading: false
+    }
+
     renderPlaceholder() {
         const { isLoading, mix } = this.props;
 
@@ -57,19 +71,5 @@ class AddToCart extends PureComponent {
         );
     }
 }
-
-AddToCart.propTypes = {
-    isDisabled: PropTypes.bool.isRequired,
-    isLoading: PropTypes.bool,
-    product: ProductType,
-    mix: MixType,
-    buttonClick: PropTypes.func.isRequired
-};
-
-AddToCart.defaultProps = {
-    product: {},
-    mix: {},
-    isLoading: false
-};
 
 export default AddToCart;

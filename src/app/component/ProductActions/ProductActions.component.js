@@ -29,6 +29,22 @@ import './ProductActions.style';
  * @class ProductActions
  */
 class ProductActions extends PureComponent {
+    static propTypes = {
+        product: ProductType.isRequired,
+        configurableVariantIndex: PropTypes.number,
+        showOnlyIfLoaded: PropTypes.func.isRequired,
+        quantity: PropTypes.number.isRequired,
+        areDetailsLoaded: PropTypes.bool.isRequired,
+        getLink: PropTypes.func.isRequired,
+        setQuantity: PropTypes.func.isRequired,
+        updateUrl: PropTypes.func.isRequired,
+        parameters: PropTypes.objectOf(PropTypes.string).isRequired
+    }
+
+    static defaultProps = {
+        configurableVariantIndex: 0
+    }
+
     renderSkuAndStock() {
         const { product: { sku }, showOnlyIfLoaded } = this.props;
 
@@ -186,21 +202,5 @@ class ProductActions extends PureComponent {
         );
     }
 }
-
-ProductActions.propTypes = {
-    product: ProductType.isRequired,
-    configurableVariantIndex: PropTypes.number,
-    showOnlyIfLoaded: PropTypes.func.isRequired,
-    quantity: PropTypes.number.isRequired,
-    areDetailsLoaded: PropTypes.bool.isRequired,
-    getLink: PropTypes.func.isRequired,
-    setQuantity: PropTypes.func.isRequired,
-    updateUrl: PropTypes.func.isRequired,
-    parameters: PropTypes.objectOf(PropTypes.string).isRequired
-};
-
-ProductActions.defaultProps = {
-    configurableVariantIndex: 0
-};
 
 export default ProductActions;

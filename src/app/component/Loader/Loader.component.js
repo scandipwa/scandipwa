@@ -19,6 +19,10 @@ import './Loader.style';
  * @class Loader
  */
 class Loader extends PureComponent {
+    static propTypes = {
+        isLoading: PropTypes.bool.isRequired
+    }
+
     render() {
         const { isLoading } = this.props;
 
@@ -33,9 +37,5 @@ class Loader extends PureComponent {
         );
     }
 }
-
-Loader.propTypes = {
-    isLoading: PropTypes.bool.isRequired
-};
 
 export default Loader;

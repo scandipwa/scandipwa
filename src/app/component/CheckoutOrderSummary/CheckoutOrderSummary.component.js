@@ -21,6 +21,16 @@ import './CheckoutOrderSummary.style';
  *
  */
 class CheckoutOrderSummary extends PureComponent {
+    static propTypes = {
+        totals: TotalsType,
+        products: PropTypes.objectOf(ProductType)
+    }
+
+    static defaultProps = {
+        totals: {},
+        products: {}
+    }
+
     renderPriceLine(price, name, mods) {
         if (!price) return null;
 
@@ -97,15 +107,5 @@ class CheckoutOrderSummary extends PureComponent {
         );
     }
 }
-
-CheckoutOrderSummary.propTypes = {
-    totals: TotalsType,
-    products: PropTypes.objectOf(ProductType)
-};
-
-CheckoutOrderSummary.defaultProps = {
-    totals: {},
-    products: {}
-};
 
 export default CheckoutOrderSummary;

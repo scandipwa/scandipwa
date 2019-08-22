@@ -33,13 +33,14 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 export class CartOverlayContainer extends PureComponent {
-    constructor(props) {
-        super(props);
+    static propTypes = {
+        totals: TotalsType.isRequired,
+        changeHeaderState: PropTypes.func.isRequired
+    }
 
-        this.state = { isEditing: false };
-        this.containerFunctions = {
-            changeHeaderState: this.changeHeaderState.bind(this)
-        };
+    state = { isEditing: false }
+    containerFunctions = {
+        changeHeaderState: this.changeHeaderState.bind(this)
     }
 
     changeHeaderState() {
@@ -72,10 +73,5 @@ export class CartOverlayContainer extends PureComponent {
         );
     }
 }
-
-CartOverlayContainer.propTypes = {
-    totals: TotalsType.isRequired,
-    changeHeaderState: PropTypes.func.isRequired
-};
 
 export default connect(mapStateToProps, mapDispatchToProps)(CartOverlayContainer);

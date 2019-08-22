@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -29,6 +30,7 @@ if (process.env.NODE_ENV === 'development') {
         ReactDOM.render(<NextRootContainer />, document.getElementById('root'));
     });
 }
+
 
 class App extends Component {
     render() {

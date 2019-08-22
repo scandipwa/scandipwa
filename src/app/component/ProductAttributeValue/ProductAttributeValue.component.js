@@ -16,12 +16,21 @@ import { MixType } from 'Type/Common';
 import './ProductAttributeValue.style';
 
 class ProductAttributeValue extends Component {
-    constructor(props) {
-        super(props);
-
-        this.clickHandler = this.clickHandler.bind(this);
-        this.getOptionLabel = this.getOptionLabel.bind(this);
+    static propTypes = {
+        getLink: PropTypes.func.isRequired,
+        onClick: PropTypes.func.isRequired,
+        attribute: AttributeType.isRequired,
+        isSelected: PropTypes.bool,
+        mix: MixType
     }
+
+    static defaultProps = {
+        isSelected: false,
+        mix: {}
+    }
+
+    clickHandler = this.clickHandler.bind(this);
+    getOptionLabel = this.getOptionLabel.bind(this);
 
     getIsColorLight(hex) {
         const color = (hex.charAt(0) === '#') ? hex.substring(1, 7) : hex;
@@ -187,18 +196,5 @@ class ProductAttributeValue extends Component {
         );
     }
 }
-
-ProductAttributeValue.propTypes = {
-    getLink: PropTypes.func.isRequired,
-    onClick: PropTypes.func.isRequired,
-    attribute: AttributeType.isRequired,
-    isSelected: PropTypes.bool,
-    mix: MixType
-};
-
-ProductAttributeValue.defaultProps = {
-    isSelected: false,
-    mix: {}
-};
 
 export default ProductAttributeValue;

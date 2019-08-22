@@ -20,18 +20,17 @@ export const mapStateToProps = state => ({
 });
 
 export class ProductActionsContainer extends PureComponent {
-    constructor(props) {
-        super(props);
+    static propTypes = {
+        product: ProductType.isRequired,
+        configurableVariantIndex: PropTypes.number.isRequired,
+        areDetailsLoaded: PropTypes.bool.isRequired
+    }
 
-        this.state = {
-            quantity: 1
-        };
-
-        this.containerFunctions = {
-            showOnlyIfLoaded: this.showOnlyIfLoaded.bind(this),
-            getIsOptionInCurrentVariant: this.getIsOptionInCurrentVariant.bind(this),
-            setQuantity: this.setQuantity.bind(this)
-        };
+    state = { quantity: 1 }
+    containerFunctions = {
+        showOnlyIfLoaded: this.showOnlyIfLoaded.bind(this),
+        getIsOptionInCurrentVariant: this.getIsOptionInCurrentVariant.bind(this),
+        setQuantity: this.setQuantity.bind(this)
     }
 
     setQuantity(value) {
@@ -63,11 +62,5 @@ export class ProductActionsContainer extends PureComponent {
         );
     }
 }
-
-ProductActionsContainer.propTypes = {
-    product: ProductType.isRequired,
-    configurableVariantIndex: PropTypes.number.isRequired,
-    areDetailsLoaded: PropTypes.bool.isRequired
-};
 
 export default connect(mapStateToProps)(ProductActionsContainer);

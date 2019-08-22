@@ -23,11 +23,14 @@ const ANIMATION_DURATION = 400;
  * @class Notification
  */
 class Notification extends PureComponent {
-    constructor(props) {
-        super(props);
-        this.state = { isNotificationVisible: true };
-        this.notification = React.createRef();
+    static propTypes = {
+        notificationId: PropTypes.string.isRequired,
+        notification: NotificationType.isRequired,
+        onHideNotification: PropTypes.func.isRequired
     }
+
+    state = { isNotificationVisible: true };
+    notification = React.createRef();
 
     componentDidMount() {
         this.hideTimeout = setTimeout(() => this.hideNotification(), 5000);
@@ -73,11 +76,5 @@ class Notification extends PureComponent {
         );
     }
 }
-
-Notification.propTypes = {
-    notificationId: PropTypes.string.isRequired,
-    notification: NotificationType.isRequired,
-    onHideNotification: PropTypes.func.isRequired
-};
 
 export default Notification;

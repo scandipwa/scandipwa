@@ -22,6 +22,11 @@ import TextPlaceholder from 'Component/TextPlaceholder';
  * @class Breadcrumbs
  */
 class Breadcrumbs extends PureComponent {
+    static propTypes = {
+        breadcrumbs: BreadcrumbsType.isRequired,
+        areBreadcrumbsVisible: PropTypes.bool.isRequired
+    }
+
     renderBreadcrumb({ url, name }, i) {
         const { breadcrumbs } = this.props;
         const isDisabled = !url || breadcrumbs.length - 1 === i;
@@ -73,18 +78,12 @@ class Breadcrumbs extends PureComponent {
                     >
                         { breadcrumbs.length
                             ? this.renderBreadcrumbList(breadcrumbs)
-                            : this.renderBreadcrumb({}, 0)
-                        }
+                            : this.renderBreadcrumb({}, 0) }
                     </ul>
                 </nav>
             </ContentWrapper>
         );
     }
 }
-
-Breadcrumbs.propTypes = {
-    breadcrumbs: BreadcrumbsType.isRequired,
-    areBreadcrumbsVisible: PropTypes.bool.isRequired
-};
 
 export default Breadcrumbs;

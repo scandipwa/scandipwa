@@ -21,9 +21,25 @@ import './RelatedProducts.style';
  * @class RelatedProducts
  */
 class RelatedProducts extends PureComponent {
-    constructor(props) {
-        super(props);
+    static propTypes = {
+        relatedProducts: PropTypes.shape({
+            items: ItemsType,
+            total_count: PropTypes.number
+        }).isRequired,
+        product: PropTypes.shape({
+            items: ItemsType,
+            total_count: PropTypes.number
+        }).isRequired,
+        clearRelatedProducts: PropTypes.func.isRequired,
+        areDetailsLoaded: PropTypes.bool.isRequired,
+        label: PropTypes.string
+    }
 
+    static defaultProps = {
+        label: ''
+    }
+
+    componentDidMount() {
         this.clearRelatedProducts();
     }
 
@@ -97,24 +113,6 @@ class RelatedProducts extends PureComponent {
         );
     }
 }
-
-RelatedProducts.propTypes = {
-    relatedProducts: PropTypes.shape({
-        items: ItemsType,
-        total_count: PropTypes.number
-    }).isRequired,
-    product: PropTypes.shape({
-        items: ItemsType,
-        total_count: PropTypes.number
-    }).isRequired,
-    clearRelatedProducts: PropTypes.func.isRequired,
-    areDetailsLoaded: PropTypes.bool.isRequired,
-    label: PropTypes.string
-};
-
-RelatedProducts.defaultProps = {
-    label: ''
-};
 
 
 export default RelatedProducts;

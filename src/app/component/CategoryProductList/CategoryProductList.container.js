@@ -6,23 +6,20 @@ import { PagesType } from 'Type/ProductList';
 import CategoryProductList from './CategoryProductList.component';
 
 export class CategoryProductListContainer extends PureComponent {
-    constructor(props) {
-        super(props);
+    static propTypes = {
+        location: PropTypes.shape({
+            pathname: PropTypes.string.isRequired
+        }).isRequired,
+        pages: PagesType.isRequired,
+        loadPage: PropTypes.func.isRequired,
+        isLoading: PropTypes.bool.isRequired,
+        totalPages: PropTypes.number.isRequired
+    }
 
-        this.state = {
-            pagesCount: 1
-        };
-
-        this.containerFunctions = {
-            loadPrevPage: this.loadPage.bind(this, false),
-            loadPage: this.loadPage.bind(this)
-        };
-
-        this.containerProps = () => ({
-            currentPage: this._getPageFromUrl(),
-            isShowLoading: this._isShowLoading(),
-            isVisible: this._isVisible()
-        });
+    state = { pagesCount: 1 }
+    containerFunctions = {
+        loadPrevPage: this.loadPage.bind(this, false),
+        loadPage: this.loadPage.bind(this)
     }
 
     componentDidMount() {
@@ -40,6 +37,12 @@ export class CategoryProductListContainer extends PureComponent {
         if (isLoading) return { pagesCount: 1 };
         return null;
     }
+
+    containerProps = () => ({
+        currentPage: this._getPageFromUrl(),
+        isShowLoading: this._isShowLoading(),
+        isVisible: this._isVisible()
+    })
 
     _getPageFromUrl() {
         const { location } = this.props;
@@ -93,15 +96,5 @@ export class CategoryProductListContainer extends PureComponent {
         );
     }
 }
-
-CategoryProductListContainer.propTypes = {
-    location: PropTypes.shape({
-        pathname: PropTypes.string.isRequired
-    }).isRequired,
-    pages: PagesType.isRequired,
-    loadPage: PropTypes.func.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-    totalPages: PropTypes.number.isRequired
-};
 
 export default withRouter(CategoryProductListContainer);

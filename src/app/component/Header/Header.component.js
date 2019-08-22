@@ -37,87 +37,126 @@ export const CHECKOUT = 'checkout';
 export const CMS_PAGE = 'cms-page';
 
 class Header extends PureComponent {
-    constructor(props) {
-        super(props);
-
-        this.stateMap = {
-            [PDP]: {
-                back: true,
-                title: true,
-                minicart: true
-            },
-            [CATEGORY]: {
-                back: true,
-                menu: true,
-                title: true,
-                minicart: true
-            },
-            [CUSTOMER_ACCOUNT]: {
-                close: true,
-                title: true
-            },
-            [HOME_PAGE]: {
-                menu: true,
-                title: true,
-                account: true,
-                minicart: true,
-                logo: true
-            },
-            [MENU]: {
-                close: true,
-                search: true
-            },
-            [MENU_SUBCATEGORY]: {
-                back: true,
-                title: true
-            },
-            [SEARCH]: {
-                back: true,
-                search: true
-            },
-            [CART]: {
-                close: true,
-                title: true,
-                edit: true
-            },
-            [CART_EDITING]: {
-                ok: true,
-                title: true,
-                cancel: true
-            },
-            [FILTER]: {
-                close: true,
-                clear: true,
-                title: true
-            },
-            [CHECKOUT]: {
-                back: true,
-                title: true
-            },
-            [CMS_PAGE]: {
-                back: true,
-                title: true
-            }
-        };
-
-        this.renderMap = {
-            cancel: this.renderCancelButton.bind(this),
-            back: this.renderBackButton.bind(this),
-            close: this.renderCloseButton.bind(this),
-            menu: this.renderMenuButton.bind(this),
-            search: this.renderSearchField.bind(this),
-            title: this.renderTitle.bind(this),
-            logo: this.renderLogo.bind(this),
-            account: this.renderAccountButton.bind(this),
-            minicart: this.renderMinicartButton.bind(this),
-            clear: this.renderClearButton.bind(this),
-            edit: this.renderEditButton.bind(this),
-            ok: this.renderOkButton.bind(this)
-        };
-
-        this.searchBarRef = React.createRef();
-        this.onClearSearchButtonClick = this.onClearSearchButtonClick.bind(this);
+    static propTypes = {
+        headerState: PropTypes.shape({
+            name: PropTypes.oneOf([
+                PDP,
+                CATEGORY,
+                CUSTOMER_ACCOUNT,
+                HOME_PAGE,
+                MENU,
+                MENU_SUBCATEGORY,
+                SEARCH,
+                FILTER,
+                CART,
+                CART_EDITING,
+                CHECKOUT
+            ]),
+            title: PropTypes.string,
+            onBackClick: PropTypes.func,
+            onCloseClick: PropTypes.func,
+            onEditClick: PropTypes.func,
+            onOkClick: PropTypes.func,
+            onCancelClick: PropTypes.func
+        }).isRequired,
+        cartTotals: TotalsType.isRequired,
+        onBackButtonClick: PropTypes.func.isRequired,
+        onCloseButtonClick: PropTypes.func.isRequired,
+        onSearchBarClick: PropTypes.func.isRequired,
+        onMenuButtonClick: PropTypes.func.isRequired,
+        onClearSearchButtonClick: PropTypes.func.isRequired,
+        onMyAccountButtonClick: PropTypes.func.isRequired,
+        onSearchBarChange: PropTypes.func.isRequired,
+        onClearButtonClick: PropTypes.func.isRequired,
+        onEditButtonClick: PropTypes.func.isRequired,
+        onMinicartButtonClick: PropTypes.func.isRequired,
+        onOkButtonClick: PropTypes.func.isRequired,
+        onCancelButtonClick: PropTypes.func.isRequired,
+        onSearchOutsideClick: PropTypes.func.isRequired,
+        onMenuOutsideClick: PropTypes.func.isRequired,
+        onMyAccountOutsideClick: PropTypes.func.isRequired,
+        onMinicartOutsideClick: PropTypes.func.isRequired,
+        isClearEnabled: PropTypes.bool.isRequired,
+        searchCriteria: PropTypes.string.isRequired
     }
+
+    stateMap = {
+        [PDP]: {
+            back: true,
+            title: true,
+            minicart: true
+        },
+        [CATEGORY]: {
+            back: true,
+            menu: true,
+            title: true,
+            minicart: true
+        },
+        [CUSTOMER_ACCOUNT]: {
+            close: true,
+            title: true
+        },
+        [HOME_PAGE]: {
+            menu: true,
+            title: true,
+            account: true,
+            minicart: true,
+            logo: true
+        },
+        [MENU]: {
+            close: true,
+            search: true
+        },
+        [MENU_SUBCATEGORY]: {
+            back: true,
+            title: true
+        },
+        [SEARCH]: {
+            back: true,
+            search: true
+        },
+        [CART]: {
+            close: true,
+            title: true,
+            edit: true
+        },
+        [CART_EDITING]: {
+            ok: true,
+            title: true,
+            cancel: true
+        },
+        [FILTER]: {
+            close: true,
+            clear: true,
+            title: true
+        },
+        [CHECKOUT]: {
+            back: true,
+            title: true
+        },
+        [CMS_PAGE]: {
+            back: true,
+            title: true
+        }
+    }
+
+    renderMap = {
+        cancel: this.renderCancelButton.bind(this),
+        back: this.renderBackButton.bind(this),
+        close: this.renderCloseButton.bind(this),
+        menu: this.renderMenuButton.bind(this),
+        search: this.renderSearchField.bind(this),
+        title: this.renderTitle.bind(this),
+        logo: this.renderLogo.bind(this),
+        account: this.renderAccountButton.bind(this),
+        minicart: this.renderMinicartButton.bind(this),
+        clear: this.renderClearButton.bind(this),
+        edit: this.renderEditButton.bind(this),
+        ok: this.renderOkButton.bind(this)
+    }
+
+    searchBarRef = React.createRef();
+    onClearSearchButtonClick = this.onClearSearchButtonClick.bind(this);
 
     onClearSearchButtonClick() {
         const { onClearSearchButtonClick } = this.props;
@@ -404,48 +443,5 @@ class Header extends PureComponent {
         );
     }
 }
-
-Header.propTypes = {
-    headerState: PropTypes.shape({
-        name: PropTypes.oneOf([
-            PDP,
-            CATEGORY,
-            CUSTOMER_ACCOUNT,
-            HOME_PAGE,
-            MENU,
-            MENU_SUBCATEGORY,
-            SEARCH,
-            FILTER,
-            CART,
-            CART_EDITING,
-            CHECKOUT
-        ]),
-        title: PropTypes.string,
-        onBackClick: PropTypes.func,
-        onCloseClick: PropTypes.func,
-        onEditClick: PropTypes.func,
-        onOkClick: PropTypes.func,
-        onCancelClick: PropTypes.func
-    }).isRequired,
-    cartTotals: TotalsType.isRequired,
-    onBackButtonClick: PropTypes.func.isRequired,
-    onCloseButtonClick: PropTypes.func.isRequired,
-    onSearchBarClick: PropTypes.func.isRequired,
-    onMenuButtonClick: PropTypes.func.isRequired,
-    onClearSearchButtonClick: PropTypes.func.isRequired,
-    onMyAccountButtonClick: PropTypes.func.isRequired,
-    onSearchBarChange: PropTypes.func.isRequired,
-    onClearButtonClick: PropTypes.func.isRequired,
-    onEditButtonClick: PropTypes.func.isRequired,
-    onMinicartButtonClick: PropTypes.func.isRequired,
-    onOkButtonClick: PropTypes.func.isRequired,
-    onCancelButtonClick: PropTypes.func.isRequired,
-    onSearchOutsideClick: PropTypes.func.isRequired,
-    onMenuOutsideClick: PropTypes.func.isRequired,
-    onMyAccountOutsideClick: PropTypes.func.isRequired,
-    onMinicartOutsideClick: PropTypes.func.isRequired,
-    isClearEnabled: PropTypes.bool.isRequired,
-    searchCriteria: PropTypes.string.isRequired
-};
 
 export default Header;

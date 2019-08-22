@@ -26,21 +26,26 @@ import './ProductReviewForm.style';
  * @class ProductReviewForm
  */
 class ProductReviewForm extends PureComponent {
-    constructor(props) {
-        super(props);
+    static propTypes = {
+        product: ProductType.isRequired,
+        addReview: PropTypes.func.isRequired,
+        showNotification: PropTypes.func.isRequired,
+        customer: customerType.isRequired,
+        isSignedIn: PropTypes.bool.isRequired,
+        reviewRatings: RatingItemsType.isRequired
+    }
 
-        this.ratingTitleMap = {
-            1: __('Awful'),
-            2: __('Bad'),
-            3: __('Average'),
-            4: __('Good'),
-            5: __('Awesome')
-        };
+    ratingTitleMap = {
+        1: __('Awful'),
+        2: __('Bad'),
+        3: __('Average'),
+        4: __('Good'),
+        5: __('Awesome')
+    }
 
-        this.state = {
-            isLoading: false,
-            ratingData: {}
-        };
+    state = {
+        isLoading: false,
+        ratingData: {}
     }
 
     onReviewSubmitAttempt(_, invalidFields) {
@@ -121,8 +126,7 @@ class ProductReviewForm extends PureComponent {
                     </legend>
                     { rating_options
                         .sort(({ value }, { value: nextValue }) => nextValue - value)
-                        .map(option => this.renderReviewStar(option, rating_id))
-                    }
+                        .map(option => this.renderReviewStar(option, rating_id)) }
                 </fieldset>
             );
         });
@@ -210,14 +214,5 @@ class ProductReviewForm extends PureComponent {
         );
     }
 }
-
-ProductReviewForm.propTypes = {
-    product: ProductType.isRequired,
-    addReview: PropTypes.func.isRequired,
-    showNotification: PropTypes.func.isRequired,
-    customer: customerType.isRequired,
-    isSignedIn: PropTypes.bool.isRequired,
-    reviewRatings: RatingItemsType.isRequired
-};
 
 export default ProductReviewForm;

@@ -31,19 +31,39 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 export class AddToCartContainer extends PureComponent {
-    constructor(props) {
-        super(props);
-
-        this.state = { isLoading: false };
-
-        this.containerProps = () => ({
-            isDisabled: this._getIsDisabled()
-        });
-
-        this.containerFunctions = {
-            buttonClick: this.buttonClick.bind(this)
-        };
+    static propTypes = {
+        isLoading: PropTypes.bool,
+        product: ProductType.isRequired,
+        quantity: PropTypes.number,
+        configurableVariantIndex: PropTypes.number,
+        groupedProductQuantity: PropTypes.objectOf(PropTypes.number),
+        showNotification: PropTypes.func.isRequired,
+        setQuantityToDefault: PropTypes.func,
+        addProduct: PropTypes.func.isRequired,
+        productToBeRemovedAfterAdd: PropTypes.string,
+        removeProductFromWishlist: PropTypes.func.isRequired,
+        wishlistItems: PropTypes.objectOf(ProductType).isRequired,
+        removeWishlistItem: PropTypes.bool
     }
+
+    static defaultProps = {
+        quantity: 1,
+        configurableVariantIndex: 0,
+        groupedProductQuantity: {},
+        setQuantityToDefault: () => {},
+        productToBeRemovedAfterAdd: '',
+        removeWishlistItem: false,
+        isLoading: false
+    }
+
+    state = { isLoading: false }
+    containerFunctions = {
+        buttonClick: this.buttonClick.bind(this)
+    }
+
+    containerProps = () => ({
+        isDisabled: this._getIsDisabled()
+    })
 
     _getIsDisabled() {
         const {
@@ -137,30 +157,5 @@ export class AddToCartContainer extends PureComponent {
         );
     }
 }
-
-AddToCartContainer.propTypes = {
-    isLoading: PropTypes.bool,
-    product: ProductType.isRequired,
-    quantity: PropTypes.number,
-    configurableVariantIndex: PropTypes.number,
-    groupedProductQuantity: PropTypes.objectOf(PropTypes.number),
-    showNotification: PropTypes.func.isRequired,
-    setQuantityToDefault: PropTypes.func,
-    addProduct: PropTypes.func.isRequired,
-    productToBeRemovedAfterAdd: PropTypes.string,
-    removeProductFromWishlist: PropTypes.func.isRequired,
-    wishlistItems: PropTypes.objectOf(ProductType).isRequired,
-    removeWishlistItem: PropTypes.bool
-};
-
-AddToCartContainer.defaultProps = {
-    quantity: 1,
-    configurableVariantIndex: 0,
-    groupedProductQuantity: {},
-    setQuantityToDefault: () => {},
-    productToBeRemovedAfterAdd: '',
-    removeWishlistItem: false,
-    isLoading: false
-};
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddToCartContainer);

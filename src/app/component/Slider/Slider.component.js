@@ -23,6 +23,31 @@ import './Slider.style';
  * @class Slider
  */
 class Slider extends PureComponent {
+    static propTypes = {
+        showCrumbs: PropTypes.bool,
+        activeImage: PropTypes.number,
+        onActiveImageChange: PropTypes.func,
+        mix: MixType,
+        children: ChildrenType.isRequired
+    };
+
+    static defaultProps = {
+        activeImage: 0,
+        onActiveImageChange: () => {},
+        showCrumbs: false,
+        mix: {}
+    };
+
+    sliderWidth = 0;
+    prevPosition = 0;
+    draggableRef = React.createRef();
+    sliderRef = React.createRef();
+    handleDragStart = this.handleDragStart.bind(this);
+    handleDrag = this.handleDrag.bind(this);
+    handleDragEnd = this.handleDragEnd.bind(this);
+    renderCrumb = this.renderCrumb.bind(this);
+
+
     constructor(props) {
         super(props);
 
@@ -31,15 +56,6 @@ class Slider extends PureComponent {
         this.state = {
             prevActiveImage: activeImage
         };
-
-        this.sliderWidth = 0;
-        this.prevPosition = 0;
-        this.draggableRef = React.createRef();
-        this.sliderRef = React.createRef();
-        this.handleDragStart = this.handleDragStart.bind(this);
-        this.handleDrag = this.handleDrag.bind(this);
-        this.handleDragEnd = this.handleDragEnd.bind(this);
-        this.renderCrumb = this.renderCrumb.bind(this);
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -270,20 +286,5 @@ class Slider extends PureComponent {
         );
     }
 }
-
-Slider.propTypes = {
-    showCrumbs: PropTypes.bool,
-    activeImage: PropTypes.number,
-    onActiveImageChange: PropTypes.func,
-    mix: MixType,
-    children: ChildrenType.isRequired
-};
-
-Slider.defaultProps = {
-    activeImage: 0,
-    onActiveImageChange: () => {},
-    showCrumbs: false,
-    mix: {}
-};
 
 export default Slider;

@@ -19,13 +19,13 @@ import './CheckoutShippingMethods.style';
  * Checkout shipping method selector component
  */
 class CheckoutShippingMethods extends PureComponent {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            activeMethod: ''
-        };
+    static propTypes = {
+        shippingMethods: PropTypes.arrayOf(PropTypes.object).isRequired,
+        onSelectShippingMethod: PropTypes.func.isRequired,
+        loadingShippingMethods: PropTypes.bool.isRequired
     }
+
+    state = { activeMethod: '' }
 
     handleShippingMethodChange(method) {
         const { method_code } = method;
@@ -108,18 +108,11 @@ class CheckoutShippingMethods extends PureComponent {
                         )
                         : (
                             <p>{ __('Please enter shipping address information first!') }</p>
-                        )
-                    }
+                        ) }
                 </div>
             </fieldset>
         );
     }
 }
-
-CheckoutShippingMethods.propTypes = {
-    shippingMethods: PropTypes.arrayOf(PropTypes.object).isRequired,
-    onSelectShippingMethod: PropTypes.func.isRequired,
-    loadingShippingMethods: PropTypes.bool.isRequired
-};
 
 export default CheckoutShippingMethods;

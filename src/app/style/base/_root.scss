@@ -19,8 +19,7 @@
     --button-hover-color: #{$white};
     --button-hover-border: #{$primary-base-color};
     --button-border-width: 1px;
-
-    --placeholder-image: linear-gradient(to right,rgba(0,0,0,.08) 0,rgba(0,0,0,.15) 15%,rgba(0,0,0,.08) 30%);
+    --placeholder-image: linear-gradient(to right, rgba(0, 0, 0, .08) 0, rgba(0, 0, 0, .15) 15%, rgba(0, 0, 0, .08) 30%);
     --placeholder-size: 1200px 100%;
     --placeholder-animation: placeholderAnimation 2s linear infinite;
 }
