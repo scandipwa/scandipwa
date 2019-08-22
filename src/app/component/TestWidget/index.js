@@ -11,6 +11,6 @@
 
 import React from 'react';
 
-const TestWidget = (...args) => (<>{ args.join(', ') }</>);
+const TestWidget = (...args) => (<>{ args.map(arg => (Object.entries(arg).map(([key, value]) => `${key}: ${value}`).join(', '))) }</>);
 
 export default TestWidget;

@@ -10,20 +10,24 @@
  */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import WidgetUtil from 'Util/Widget';
+import TestWidget from 'Component/TestWidget';
 
+export const PAGE_LINK = 'Magento\\Cms\\Block\\Widget\\Page\\Link';
 export default class WidgetFactory extends Component {
     static propTypes = {
         type: PropTypes.string.isRequired
     }
 
+    renderMap = {
+        [PAGE_LINK]: {
+            component: TestWidget
+        }
+    }
+
     render() {
         const { type } = this.props;
+        const { component: Widget } = this.renderMap[type] || {};
 
-        const util = new WidgetUtil();
-        if (!util.has(type)) return null;
-
-        const Widget = util.get(type);
-        return <Widget { ...this.props } />;
+        return Widget !== undefined ? <Widget { ...this.props } /> : null;
     }
 }
