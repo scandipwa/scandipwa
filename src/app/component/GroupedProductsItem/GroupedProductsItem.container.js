@@ -39,9 +39,10 @@ export class GroupedProductsItemContainer extends PureComponent {
         changeCount: this.changeCount.bind(this)
     };
 
-    componentWillMount() {
-        const { updateGroupedProductQuantity, product } = this.props;
+    constructor(props) {
+        super(props);
 
+        const { updateGroupedProductQuantity, product } = this.props;
         updateGroupedProductQuantity({ product, quantity: 1 });
     }
 

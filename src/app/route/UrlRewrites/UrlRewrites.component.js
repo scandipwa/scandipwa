@@ -10,7 +10,7 @@
  */
 
 import PropTypes from 'prop-types';
-import { Component } from 'react';
+import { PureComponent } from 'react';
 import CategoryPage from 'Route/CategoryPage';
 import ProductPage from 'Route/ProductPage';
 import CmsPage from 'Route/CmsPage';
@@ -29,8 +29,7 @@ export const TYPE_NOTFOUND = 'NOT_FOUND';
  * const TYPE_CUSTOM = 'CUSTOM';
  */
 
-
-class UrlRewrites extends Component {
+class UrlRewrites extends PureComponent {
     static propTypes = {
         location: LocationType.isRequired,
         match: MatchType.isRequired,
@@ -39,17 +38,20 @@ class UrlRewrites extends Component {
         urlRewrite: PropTypes.func.isRequired
     };
 
+    state = {
+        isNotFound: false,
+        placeholderType: ''
+    };
+
+    knownTypes = [
+        TYPE_CATEGORY,
+        TYPE_CMS_PAGE,
+        TYPE_PRODUCT
+    ];
+
     constructor() {
         super();
-        this.knownTypes = [TYPE_CATEGORY, TYPE_CMS_PAGE, TYPE_PRODUCT];
 
-        this.state = {
-            isNotFound: false,
-            placeholderType: ''
-        };
-    }
-
-    componentWillMount() {
         const { type } = window.actionName || '';
 
         // Type is not set

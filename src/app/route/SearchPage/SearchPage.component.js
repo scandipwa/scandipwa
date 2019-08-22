@@ -28,10 +28,6 @@ class SearchPage extends CategoryPage {
         pageSize: 12
     };
 
-    componentWillMount() {
-        this.updateBreadcrumbs();
-    }
-
     componentDidMount() {
         const { isOnlyPlaceholder, updateLoadStatus } = this.props;
 
