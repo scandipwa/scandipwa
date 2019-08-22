@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import SearchBar from './SearchBar.container';
-
-export default SearchBar;
+export { default } from './SearchBar.container';

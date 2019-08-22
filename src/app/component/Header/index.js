@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import Header from './Header.container';
-
-export default Header;
+export { default } from './Header.container';

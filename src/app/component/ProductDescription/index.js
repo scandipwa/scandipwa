@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import ProductDescription from './ProductDescription.component';
-
-export default ProductDescription;
+export { default } from './ProductDescription.component';

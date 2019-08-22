@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import Swatch from './Swatch.component';
-
-export default Swatch;
+export * from './Product';

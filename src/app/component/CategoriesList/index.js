@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import CategoriesList from './CategoriesList.component';
-
-export default CategoriesList;
+export { default } from './CategoriesList.component';

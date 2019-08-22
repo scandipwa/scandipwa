@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import MiniCart from './MiniCart.container';
-
-export default MiniCart;
+export { default } from './MiniCart.container';

@@ -9,18 +9,5 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import NotificationReducer from './Notification.reducer';
-import {
-    SHOW_NOTIFICATION,
-    HIDE_NOTIFICATION,
-    showNotification,
-    hideNotification
-} from './Notification.action';
-
-export {
-    showNotification,
-    SHOW_NOTIFICATION,
-    HIDE_NOTIFICATION,
-    hideNotification,
-    NotificationReducer
-};
+export * from './Notification.action';
+export { default as NotificationReducer } from './Notification.reducer';

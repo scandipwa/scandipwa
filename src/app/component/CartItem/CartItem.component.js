@@ -17,6 +17,7 @@ import Image from 'Component/Image';
 import Field from 'Component/Field';
 import Loader from 'Component/Loader';
 import { CartItemType } from 'Type/MiniCart';
+import { objectToUri } from 'Util/Url';
 import './CartItem.style';
 import CartItemPrice from 'Component/CartItemPrice';
 
@@ -42,13 +43,34 @@ class CartItem extends Component {
      * @return {{pathname: String, state Object}} Pathname and product state
      */
     getProductLinkTo() {
-        const { item: { product, product: { url_key } } } = this.props;
-        const variantIndex = this.getVariantIndex();
+        const {
+            item: {
+                product,
+                product: {
+                    type_id,
+                    configurable_options,
+                    parent,
+                    variants = [],
+                    url_key
+                }
+            }
+        } = this.props;
+
+        if (type_id === 'simple') return { pathname: `/product/${ url_key }` };
+
+        const { product: { attributes } } = variants[this.getVariantIndex()];
+
+        const parameters = Object.entries(attributes).reduce(
+            (parameters, [code, { attribute_value }]) => {
+                if (Object.keys(configurable_options).includes(code)) return { ...parameters, [code]: attribute_value };
+                return parameters;
+            }, {}
+        );
 
         return {
             pathname: `/product/${ url_key }`,
-            state: { product, variantIndex },
-            search: `?variant=${ variantIndex >= 0 ? variantIndex : 0}`
+            state: { product: parent || product },
+            search: objectToUri(parameters)
         };
     }
 

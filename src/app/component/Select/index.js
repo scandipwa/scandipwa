@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import Select from './Select.component';
-
-export default Select;
+export { default } from './Select.component';

@@ -19,9 +19,11 @@ import AddToCart from 'Component/AddToCart';
 import ProductWishlistButton from 'Component/ProductWishlistButton';
 import ProductReviewRating from 'Component/ProductReviewRating';
 import { ProductType, FilterType } from 'Type/ProductList';
+import { getVariantsIndexes } from 'Util/Product';
 import { getReviewText } from 'Util/Review';
 import { getTabIndex } from 'Util/Link';
 import { HashLink } from 'react-router-hash-link';
+import { objectToUri } from 'Util/Url';
 import './ProductCard.style';
 
 /**
@@ -35,25 +37,36 @@ class ProductCard extends Component {
         this.handleConfigurableClick = this.handleConfigurableClick.bind(this);
     }
 
-    getCurrentVariantIndex() {
-        const { product: { variants }, customFilters } = this.props;
-        const customFiltersExist = customFilters && Object.keys(customFilters).length;
+    getConfigurableParameters() {
+        const { product: { variants = [] }, customFilters = {} } = this.props;
+        const filterKeys = Object.keys(customFilters);
 
-        if (variants && customFiltersExist) {
-            for (let i = 0; i < variants.length; i++) {
-                const { product } = variants[ i ];
+        if (filterKeys.length < 0) return { indexes: [], parameters: {} };
 
-                const isCorrectVariant = Object.keys(customFilters).every(filterKey => (
-                    customFilters[ filterKey ].find(value => +value === +product[ filterKey ])
-                ));
+        const indexes = getVariantsIndexes(variants, customFilters);
+        const [index] = indexes;
 
-                if (isCorrectVariant) return i;
-            }
+        if (!variants[index]) return { indexes: [], parameters: {} };
+        const { attributes } = variants[index];
 
-            return 0;
-        }
+        const parameters = Object.entries(attributes)
+            .reduce((parameters, [key, { attribute_value }]) => {
+                if (filterKeys.includes(key)) return { ...parameters, [key]: attribute_value };
+                return parameters;
+            }, {});
 
-        return 0;
+        return { indexes, index, parameters };
+    }
+
+    getLinkTo(parameters) {
+        const { product: { url_key }, product } = this.props;
+
+        if (!url_key) return undefined;
+        return {
+            pathname: `/product/${ url_key }`,
+            state: { product },
+            search: objectToUri(parameters)
+        };
     }
 
     /**
@@ -62,9 +75,10 @@ class ProductCard extends Component {
      * @return {void}
      */
     getThumbnail(currentVariantIndex) {
-        const { product: { thumbnail, variants } } = this.props;
-        const variantThumbnail = variants ? variants[ currentVariantIndex ].product.thumbnail.path : null;
-        return variantThumbnail || (thumbnail && thumbnail.path);
+        const { product: { thumbnail: { path } = {}, variants = [] } } = this.props;
+
+        if (variants[currentVariantIndex] === undefined) return path;
+        return variants[currentVariantIndex].thumbnail.path;
     }
 
     handleConfigurableClick() {
@@ -81,31 +95,21 @@ class ProductCard extends Component {
         return null;
     }
 
-    addOrConfigureProduct(variantIndex, linkTo) {
-        const { customFilters, product, product: { url_key, variants, type_id } } = this.props;
+    renderAddOrConfigureProduct(variantIndexes = [], linkTo, price) {
+        const { product, product: { url_key, type_id } } = this.props;
 
-        if (variants && type_id === 'configurable') {
-            const correctVariants = variants.reduce((correctVariants, { product }) => {
-                const isCorrectVariant = Object.keys(customFilters).every(filterKey => (
-                    customFilters[ filterKey ].find(value => +value === +product[ filterKey ])
-                ));
+        if (!price) return (<TextPlaceholder length="medium" />);
 
-                if (isCorrectVariant) correctVariants.push(product);
-
-                return correctVariants;
-            }, []);
-
-            if (correctVariants.length !== 1) {
-                return (
-                    <Link
-                      to={ linkTo }
-                      tabIndex={ getTabIndex(url_key) }
-                      onClick={ this.handleConfigurableClick }
-                    >
-                        <span>{ __('Configure Product') }</span>
-                    </Link>
-                );
-            }
+        if (type_id === 'configurable' && variantIndexes.length !== 1) {
+            return (
+                <Link
+                  to={ linkTo }
+                  tabIndex={ getTabIndex(url_key) }
+                  onClick={ this.handleConfigurableClick }
+                >
+                    <span>{ __('Configure Product') }</span>
+                </Link>
+            );
         }
 
         if (type_id === 'grouped') {
@@ -116,12 +120,25 @@ class ProductCard extends Component {
             );
         }
 
+        const [index] = variantIndexes;
         return (
             <AddToCart
               product={ product }
-              configurableVariantIndex={ variantIndex }
               fullWidth
               removeWishlistItem
+              configurableVariantIndex={ index }
+            />
+        );
+    }
+
+    renderAddToWishlistButton(notReady) {
+        const { product } = this.props;
+        if (notReady) return <TextPlaceholder length="medium" />;
+
+        return (
+            <ProductWishlistButton
+              product={ product }
+              fullWidth
             />
         );
     }
@@ -149,30 +166,22 @@ class ProductCard extends Component {
             product: {
                 name,
                 url_key,
-                brand,
-                type_id,
-                variants
+                variants = [],
+                attributes = {}
             },
             product,
             arePlaceholdersShown,
             mix
         } = this.props;
 
-        const variantIndex = this.getCurrentVariantIndex();
-        const thumbnail = this.getThumbnail(variantIndex);
+        const { brand: { attribute_value: brand } = {} } = attributes;
+        const { index, indexes, parameters } = this.getConfigurableParameters();
+        const thumbnail = this.getThumbnail(index);
         const TagName = url_key ? Link : 'div';
         const isLoading = !url_key;
-        const linkTo = url_key
-            ? {
-                pathname: `/product/${ url_key }`,
-                state: { product, variantIndex },
-                search: `?variant=${ variantIndex }`
-            }
-            : undefined;
+        const linkTo = this.getLinkTo(parameters);
 
-        const { price } = type_id === 'configurable' && variants
-            ? variants[this.getCurrentVariantIndex()].product
-            : product;
+        const { price } = variants[index] || product;
 
         return (
             <li block="ProductCard" mods={ { isLoading } } mix={ mix }>
@@ -194,19 +203,12 @@ class ProductCard extends Component {
                 </TagName>
                 { this.renderReviewSummary(linkTo) }
                 <div block="ProductCard" elem="Actions">
-                    { price
-                        ? this.addOrConfigureProduct(variantIndex, linkTo)
-                        : <TextPlaceholder length="medium" />
-                    }
-                    { price
-                        ? (
-                            <ProductWishlistButton
-                              product={ product }
-                              fullWidth
-                            />
-                        )
-                        : <TextPlaceholder length="medium" />
-                    }
+                    { this.renderAddOrConfigureProduct(indexes, linkTo, price) }
+                    <ProductWishlistButton
+                      product={ product }
+                      fullWidth
+                      isReady={ !!price }
+                    />
                 </div>
             </li>
         );

@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import Html from './Html.component';
-
-export default Html;
+export { default } from './Html.component';

@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import ProductActions from './ProductActions.container';
-
-export default ProductActions;
+export { default } from './ProductActions.container';
