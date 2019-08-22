@@ -79,7 +79,7 @@ class CmsPage extends Component {
                 >
                     <Meta metaObject={ page } />
                     <h1 block="CmsPage" elem="Heading">
-                        <TextPlaceholder content={ content_heading } />
+                        { content_heading && <TextPlaceholder content={ content_heading } /> }
                     </h1>
                     <div block="CmsPage" elem="Content">
                         { content

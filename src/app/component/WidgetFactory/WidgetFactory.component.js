@@ -12,7 +12,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import TestWidget from 'Component/TestWidget';
 
-export const PAGE_LINK = 'Magento\\Cms\\Block\\Widget\\Page\\Link';
+export const PAGE_LINK = 'TestWidget';
 export default class WidgetFactory extends Component {
     static propTypes = {
         type: PropTypes.string.isRequired
