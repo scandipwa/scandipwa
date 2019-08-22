@@ -77,7 +77,8 @@ export class GroupedProductsItemContainer extends PureComponent {
 
 GroupedProductsItemContainer.propTypes = {
     product: ProductType.isRequired,
-    groupedProductQuantity: PropTypes.number.isRequired
+    groupedProductQuantity: PropTypes.number.isRequired,
+    updateGroupedProductQuantity: PropTypes.func.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(GroupedProductsItemContainer);

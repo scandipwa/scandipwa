@@ -15,9 +15,8 @@ import PropTypes from 'prop-types';
 import Link from 'Component/Link';
 import Image from 'Component/Image';
 import Overlay from 'Component/Overlay';
-import Html from 'Component/Html';
+import CmsBlock from 'Component/CmsBlock';
 import { MENU_SUBCATEGORY } from 'Component/Header';
-import { BlockListType } from 'Type/CMS';
 import { MenuType } from 'Type/Menu';
 import './MenuOverlay.style';
 
@@ -30,11 +29,6 @@ class MenuOverlay extends PureComponent {
         };
 
         this.closeMenuOverlay = this.closeMenuOverlay.bind(this);
-    }
-
-    getItemContent(id) {
-        const { blocks: { items } } = this.props;
-        return (items && items[id]) ? items[id].content : '';
     }
 
     showSubCategory(e, activeSubcategory) {
@@ -198,7 +192,7 @@ class MenuOverlay extends PureComponent {
                     </Link>
                 </h3>
                 <div block="MenuOverlay" elem="Social">
-                    <Html content={ this.getItemContent('social-links') } />
+                    <CmsBlock identifiers={ ['social-links'] } />
                 </div>
             </aside>
         );
@@ -257,7 +251,6 @@ class MenuOverlay extends PureComponent {
 }
 
 MenuOverlay.propTypes = {
-    blocks: BlockListType.isRequired,
     menu: MenuType.isRequired,
     hideActiveOverlay: PropTypes.func.isRequired,
     goToPreviousHeaderState: PropTypes.func.isRequired,

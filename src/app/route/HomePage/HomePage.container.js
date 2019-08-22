@@ -25,9 +25,6 @@ const mapDispatchToProps = dispatch => ({
     disableBreadcrumbs: () => {
         BreadcrumbsDispatcher.update([], dispatch);
         dispatch(toggleBreadcrumbs(false));
-    },
-    updateSlider: (options) => {
-        CmsBlocksAndSliderDispatcher.handleData(dispatch, options);
     }
 });
 
