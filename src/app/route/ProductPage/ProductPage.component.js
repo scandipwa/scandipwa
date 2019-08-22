@@ -233,7 +233,7 @@ class ProductPage extends Component {
         const { media_gallery_entries } = dataSource;
         const areDetailsLoaded = dataSource === product;
         const thumbnail = this.getThumbnail(dataSource);
-        const mediaGallery = variants && areDetailsLoaded
+        const mediaGallery = (variants && variants.length && areDetailsLoaded)
             ? this.getConfigurableVariantMediaLibrary()
             : media_gallery_entries;
 

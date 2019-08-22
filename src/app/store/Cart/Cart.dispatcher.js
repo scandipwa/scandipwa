@@ -219,9 +219,13 @@ export class CartDispatcher {
         return productsInCart[id];
     }
 
-    _getProductAttribute(attribute, { variants, configurableVariantIndex, [attribute]: attributeValue }) {
-        const isNumber = typeof configurableVariantIndex === 'number';
-        return isNumber ? variants[configurableVariantIndex][attribute] : attributeValue;
+    /**
+     * @param {*} attribute
+     * @param {*} product
+     */
+    _getProductAttribute(attribute, product) {
+        const { variants, configurableVariantIndex, [attribute]: attributeValue } = product;
+        return configurableVariantIndex >= 0 ? variants[configurableVariantIndex][attribute] : attributeValue;
     }
 
     /**
