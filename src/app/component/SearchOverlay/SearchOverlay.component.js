@@ -18,6 +18,9 @@ import { ItemsType } from 'Type/ProductList';
 import './SearchOverlay.style';
 import TextPlaceholder from 'Component/TextPlaceholder';
 
+export const SEARCH_TIMEOUT = 500;
+export const AMOUNT_OF_PLACEHOLDERS = 5;
+
 class SearchOverlay extends PureComponent {
     static propTypes = {
         hideActiveOverlay: PropTypes.func.isRequired,
@@ -27,11 +30,11 @@ class SearchOverlay extends PureComponent {
         getProductLinkTo: PropTypes.func.isRequired,
         makeSearchRequest: PropTypes.func.isRequired,
         clearSearchResults: PropTypes.func.isRequired
-    }
+    };
 
     static defaultProps = {
         searchCriteria: ''
-    }
+    };
 
     componentDidUpdate(prevProps) {
         const { searchCriteria: prevSearchCriteria } = prevProps;
@@ -44,7 +47,7 @@ class SearchOverlay extends PureComponent {
             this.timeout = setTimeout(() => {
                 this.timeout = null;
                 makeSearchRequest();
-            }, 500);
+            }, SEARCH_TIMEOUT);
         }
     }
 
@@ -131,7 +134,7 @@ class SearchOverlay extends PureComponent {
 
         if (!searchCriteria) this.renderNoSearchCriteria();
         if (!searchResults.length && !isLoading && !this.timeout) this.renderNoResults();
-        const resultsToRender = (isLoading || this.timeout) ? Array(5).fill({}) : searchResults;
+        const resultsToRender = (isLoading || this.timeout) ? Array(AMOUNT_OF_PLACEHOLDERS).fill({}) : searchResults;
 
         return (
             <ul>

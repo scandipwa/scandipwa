@@ -25,7 +25,7 @@ class HomePage extends Component {
         blocks: BlockListType.isRequired,
         requestBlocks: PropTypes.func.isRequired,
         disableBreadcrumbs: PropTypes.func.isRequired
-    }
+    };
 
     constructor() {
         super();

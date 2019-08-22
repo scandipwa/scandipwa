@@ -94,20 +94,20 @@ export class CategoryPageContainer extends PureComponent {
         categoryIds: PropTypes.number,
         isOnlyPlaceholder: PropTypes.bool,
         isSearchPage: PropTypes.bool
-    }
+    };
 
     static defaultProps = {
         categoryIds: 0,
         isOnlyPlaceholder: false,
         isSearchPage: false
-    }
+    };
 
     config = {
         pageSize: 12,
         defaultPriceRange: { min: 0, max: 300 },
         sortKey: 'name',
         sortDirection: 'ASC'
-    }
+    };
 
     containerFunctions = {
         onSortChange: this.onSortChange.bind(this),
@@ -118,7 +118,7 @@ export class CategoryPageContainer extends PureComponent {
         getFilterUrl: this.getFilterUrl.bind(this),
         updatePriceRange: this.updatePriceRange.bind(this),
         updatePage: this.updatePage.bind(this)
-    }
+    };
 
     componentDidMount() {
         const { updateBreadcrumbs, isOnlyPlaceholder, updateLoadStatus } = this.props;
@@ -156,32 +156,8 @@ export class CategoryPageContainer extends PureComponent {
 
     getFilterUrl(filterName, filterArray, isFull = true) {
         const { location: { pathname } } = this.props;
-        const prevCustomFilters = this._getSelectedFiltersFromUrl();
-
-        prevCustomFilters[filterName] = filterArray;
-
-        const customFiltersString = Object.keys(prevCustomFilters)
-            .reduce((accumulator, prevFilterName) => {
-                if (prevCustomFilters[prevFilterName].length) {
-                    const filterValues = prevCustomFilters[prevFilterName].sort().join(',');
-
-                    accumulator.push(`${prevFilterName}:${filterValues}`);
-                }
-
-                return accumulator;
-            }, [])
-            .sort()
-            .join(';');
-
-        let customFilters;
-
-        const hasTrailingSemicolon = customFiltersString[customFiltersString.length - 1] === ';';
-        const hasLeadingSemicolon = customFiltersString[0] === ';';
-
-        customFilters = hasTrailingSemicolon ? customFiltersString.slice(0, -1) : customFiltersString;
-        customFilters = hasLeadingSemicolon ? customFilters.slice(1) : customFilters;
-
-        return `${isFull ? `${pathname}?` : ''}${customFilters}`;
+        const selectedFilters = this._getNewSelectedFilters(filterName, filterArray);
+        return `${isFull ? `${pathname}?` : ''}${this._formatSelectedFiltersString(selectedFilters)}`;
     }
 
     containerProps = () => ({
@@ -189,7 +165,7 @@ export class CategoryPageContainer extends PureComponent {
         selectedFilters: this._getSelectedFiltersFromUrl(),
         selectedSort: this._getSelectedSortFromUrl(),
         selectedPriceRange: this._getPriceRangeForSlider()
-    })
+    });
 
     updateSearch(value) {
         const { location, history } = this.props;
@@ -240,6 +216,39 @@ export class CategoryPageContainer extends PureComponent {
     isNewCategory() {
         const { category: { url_path } = {} } = this.props;
         return url_path !== this._getCategoryUrlPath();
+    }
+
+    _getNewSelectedFilters(filterName, filterArray) {
+        const prevCustomFilters = this._getSelectedFiltersFromUrl();
+        prevCustomFilters[filterName] = filterArray;
+
+        return Object.keys(prevCustomFilters)
+            .reduce((accumulator, prevFilterName) => {
+                if (prevCustomFilters[prevFilterName].length) {
+                    const filterValues = prevCustomFilters[prevFilterName].sort().join(',');
+
+                    accumulator.push(`${prevFilterName}:${filterValues}`);
+                }
+
+                return accumulator;
+            }, [])
+            .sort()
+            .join(';');
+    }
+
+    _formatSelectedFiltersString(string) {
+        const hasTrailingSemicolon = string[string.length - 1] === ';';
+        const hasLeadingSemicolon = string[0] === ';';
+
+        if (hasLeadingSemicolon) {
+            return this._formatSelectedFiltersString(string.slice(0, -1));
+        }
+
+        if (hasTrailingSemicolon) {
+            return string.slice(1);
+        }
+
+        return string;
     }
 
     _getSearchParam() {

@@ -33,7 +33,7 @@ class ProductReviewForm extends PureComponent {
         customer: customerType.isRequired,
         isSignedIn: PropTypes.bool.isRequired,
         reviewRatings: RatingItemsType.isRequired
-    }
+    };
 
     ratingTitleMap = {
         1: __('Awful'),
@@ -41,12 +41,12 @@ class ProductReviewForm extends PureComponent {
         3: __('Average'),
         4: __('Good'),
         5: __('Awesome')
-    }
+    };
 
     state = {
         isLoading: false,
         ratingData: {}
-    }
+    };
 
     onReviewSubmitAttempt(_, invalidFields) {
         const { showNotification, reviewRatings } = this.props;

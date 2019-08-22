@@ -27,7 +27,7 @@ class GroupedProductsItem extends PureComponent {
         product: ProductType.isRequired,
         changeCount: PropTypes.func.isRequired,
         itemCount: PropTypes.number.isRequired
-    }
+    };
 
     render() {
         const {

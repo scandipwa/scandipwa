@@ -22,7 +22,7 @@ class Link extends PureComponent {
             PropTypes.object
         ]).isRequired,
         children: ChildrenType.isRequired
-    }
+    };
 
     render() {
         const {
@@ -51,6 +51,7 @@ class Link extends PureComponent {
             <RouterLink
               to={ to }
               { ...props }
+              // eslint-disable-next-line react/forbid-component-props
               className={ stringify(this.props) }
               { ...props }
             >

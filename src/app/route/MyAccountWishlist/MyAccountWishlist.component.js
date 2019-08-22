@@ -27,7 +27,7 @@ class MyAccountWishlist extends Component {
         showNotification: PropTypes.func.isRequired,
         updateBreadcrumbs: PropTypes.func.isRequired,
         addProduct: PropTypes.func.isRequired
-    }
+    };
 
     state = { isLoading: false };
 

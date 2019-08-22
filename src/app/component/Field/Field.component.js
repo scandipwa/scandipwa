@@ -21,13 +21,20 @@ import { MixType } from 'Type/Common';
 import ClickOutside from 'Component/ClickOutside';
 import './Field.style';
 
-const TEXT_TYPE = 'text';
-const NUMBER_TYPE = 'number';
-const RADIO_TYPE = 'radio';
-const CHECKBOX_TYPE = 'checkbox';
-const TEXTAREA_TYPE = 'textarea';
-const PASSWORD_TYPE = 'password';
-const SELECT_TYPE = 'select';
+export const TEXT_TYPE = 'text';
+export const NUMBER_TYPE = 'number';
+export const RADIO_TYPE = 'radio';
+export const CHECKBOX_TYPE = 'checkbox';
+export const TEXTAREA_TYPE = 'textarea';
+export const PASSWORD_TYPE = 'password';
+export const SELECT_TYPE = 'select';
+
+const ENTER_KEY_CODE = 13;
+const A_KEY_CODE = 65;
+const z_KEY_CODE = 122;
+const Z_KEY_CODE = 90;
+const a_KEY_CODE = 97;
+
 
 /**
  * Input fields component
@@ -89,7 +96,7 @@ class Field extends PureComponent {
             PropTypes.string,
             PropTypes.bool
         ])
-    }
+    };
 
     static defaultProps = {
         rows: 4,
@@ -111,42 +118,29 @@ class Field extends PureComponent {
         message: '',
         placeholder: '',
         autocomplete: 'off'
-    }
+    };
 
     onChange = this.onChange.bind(this);
+
     onFocus = this.onFocus.bind(this);
+
     onKeyPress = this.onKeyPress.bind(this);
+
     onKeyEnterDown = this.onKeyEnterDown.bind(this);
+
     onClick = this.onClick.bind(this);
+
     handleSelectExpand = this.handleSelectExpand.bind(this);
+
     handleSelectListOptionClick = this.handleSelectListOptionClick.bind(this);
+
     handleSelectListKeyPress = this.handleSelectListKeyPress.bind(this);
 
     constructor(props) {
         super(props);
 
-        const {
-            type,
-            min,
-            value: propsValue
-        } = this.props;
-
-        let value = propsValue;
-
-        if (!propsValue) {
-            switch (type) {
-            case NUMBER_TYPE:
-                if (value < min) value = min;
-                value = 0;
-                break;
-            default:
-                value = '';
-                break;
-            }
-        }
-
         this.state = {
-            value,
+            value: this._getInitialPropsValue(),
             valueIndex: -1,
             isSelectExpanded: false,
             searchString: 'a'
@@ -187,7 +181,7 @@ class Field extends PureComponent {
     }
 
     onKeyEnterDown(event) {
-        if (event.keyCode === 13) {
+        if (event.keyCode === ENTER_KEY_CODE) {
             const value = event.target.value || 1;
             this.handleChange(value);
         }
@@ -236,6 +230,19 @@ class Field extends PureComponent {
         }
     }
 
+    _getInitialPropsValue() {
+        const { type, value } = this.props;
+
+        if (value) return value;
+
+        switch (type) {
+        case NUMBER_TYPE:
+            return 0;
+        default:
+            return '';
+        }
+    }
+
     _getSelectedValueIndex(keyCode) {
         const { selectOptions } = this.props;
         const {
@@ -280,16 +287,16 @@ class Field extends PureComponent {
         const keyCode = event.which || event.keycode;
 
         // on Enter pressed
-        if (keyCode === 13) {
+        if (keyCode === ENTER_KEY_CODE) {
             this.handleSelectExpand();
             return;
         }
 
         if (!isSelectExpanded
             || !keyCode
-            || keyCode < 65
-            || keyCode > 122
-            || (keyCode > 90 && keyCode < 97)
+            || keyCode < A_KEY_CODE
+            || keyCode > z_KEY_CODE
+            || (keyCode > Z_KEY_CODE && keyCode < a_KEY_CODE)
         ) return;
 
         const { searchString, valueIndex } = this._getSelectedValueIndex(keyCode);
@@ -300,7 +307,7 @@ class Field extends PureComponent {
         this.setState({ searchString, valueIndex }, () => {
             const { id, value } = selectOptions[valueIndex];
             // converting to string for avoiding the error with the first select option
-            onChange(value.toString(10));
+            onChange(value.toString());
             const selectedElement = document.querySelector(`#${selectId} + ul #o${id}`);
             selectedElement.focus();
         });

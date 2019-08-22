@@ -23,13 +23,13 @@ class NotificationList extends PureComponent {
     static propTypes = {
         notifications: NotificationListType.isRequired,
         onHideNotification: PropTypes.func.isRequired
-    }
+    };
 
     render() {
         const { onHideNotification, notifications } = this.props;
 
         return (
-            <div className="NotificationList">
+            <div block="NotificationList">
                 { Object.keys(notifications).map(id => (
                     <Notification
                       key={ id }

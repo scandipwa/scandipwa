@@ -43,7 +43,7 @@ class MyAccountOverlay extends PureComponent {
         setHeaderState: PropTypes.func.isRequired,
         hideActiveOverlay: PropTypes.func.isRequired,
         history: HistoryType.isRequired
-    }
+    };
 
     renderMap = {
         [STATE_SIGN_IN]: {
@@ -64,11 +64,14 @@ class MyAccountOverlay extends PureComponent {
         [STATE_LOGGED_IN]: {
             render: () => this.renderAccountActions()
         }
-    }
+    };
 
     handleForgotPassword = this.handleForgotPassword.bind(this);
+
     handleForgotPasswordSuccess = this.handleForgotPasswordSuccess.bind(this);
+
     handleCreateAccount = this.handleCreateAccount.bind(this);
+
     handleSignIn = this.handleSignIn.bind(this);
 
     constructor(props) {

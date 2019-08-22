@@ -16,7 +16,8 @@ import { NotificationType } from 'Type/NotificationList';
 import './Notification.style';
 
 // controls CSS animation speed
-const ANIMATION_DURATION = 400;
+export const ANIMATION_DURATION = 400;
+export const NOTIFICATION_LIFETIME = 5000;
 
 /**
  * Notification block
@@ -27,13 +28,14 @@ class Notification extends PureComponent {
         notificationId: PropTypes.string.isRequired,
         notification: NotificationType.isRequired,
         onHideNotification: PropTypes.func.isRequired
-    }
+    };
 
     state = { isNotificationVisible: true };
+
     notification = React.createRef();
 
     componentDidMount() {
-        this.hideTimeout = setTimeout(() => this.hideNotification(), 5000);
+        this.hideTimeout = setTimeout(() => this.hideNotification(), NOTIFICATION_LIFETIME);
         CSS.setVariable(this.notification, 'animation-duration', `${ANIMATION_DURATION}ms`);
     }
 
@@ -71,7 +73,11 @@ class Notification extends PureComponent {
             <div block="Notification" mods={ mods } ref={ this.notification }>
                 <button block="Notification" elem="Button" onClick={ () => this.hideNotification() }>Close</button>
                 <p block="Notification" elem="Text">{ msgText }</p>
-                { msgDebug && <pre className="Notification-Debug">{ JSON.stringify(msgDebug) }</pre> }
+                { msgDebug && (
+                    <pre block="Notification" elem="Debug">
+                        { JSON.stringify(msgDebug) }
+                    </pre>
+                ) }
             </div>
         );
     }

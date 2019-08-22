@@ -21,7 +21,7 @@ class NoMatchHandler extends Component {
         noMatch: PropTypes.bool.isRequired,
         updateNoMatch: PropTypes.func.isRequired,
         location: LocationType.isRequired
-    }
+    };
 
     componentDidMount() {
         window.scrollTo(0, 0);

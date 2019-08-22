@@ -22,14 +22,14 @@ class Form extends PureComponent {
         onSubmit: PropTypes.func,
         children: ChildrenType.isRequired,
         mix: MixType
-    }
+    };
 
     static defaultProps = {
         onSubmitSuccess: () => {},
         onSubmitError: () => {},
         onSubmit: () => {},
         mix: {}
-    }
+    };
 
     static updateChildrenRefs(props) {
         const { children: propsChildren } = props;
@@ -97,16 +97,14 @@ class Form extends PureComponent {
         if (validation && id && refMap[name] && refMap[name].current) {
             const { current: inputNode } = refMap[name];
 
-            for (let i = 0; i < validation.length; i++) {
-                const rule = validation[i];
+            const rule = validation.find((rule) => {
+                if (!validationConfig[rule]) return false;
+                const validationRules = validationConfig[rule];
+                const isValid = validationRules.validate(inputNode);
+                return !isValid;
+            });
 
-                if (validationConfig[rule]) {
-                    const validationRules = validationConfig[rule];
-                    const isValid = validationRules.validate(inputNode);
-
-                    if (!isValid) return { message: validationRules.message };
-                }
-            }
+            if (rule) return validationConfig[rule];
         }
 
         return {};

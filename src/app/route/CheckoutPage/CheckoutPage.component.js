@@ -48,11 +48,11 @@ class CheckoutPage extends Component {
         totals: TotalsType.isRequired,
         match: MatchType.isRequired,
         location: LocationType.isRequired
-    }
+    };
 
     static defaultProps = {
         products: {}
-    }
+    };
 
     static changeUrlByCheckoutStep(props, state) {
         const { history } = props;

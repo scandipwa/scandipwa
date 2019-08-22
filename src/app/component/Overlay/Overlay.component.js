@@ -24,13 +24,13 @@ class Overlay extends PureComponent {
         activeOverlay: PropTypes.string.isRequired,
         areOtherOverlaysOpen: PropTypes.bool.isRequired,
         children: ChildrenType
-    }
+    };
 
     static defaultProps = {
         mix: {},
         children: [],
         onVisible: () => {}
-    }
+    };
 
     componentDidUpdate(prevProps) {
         const { onVisible } = this.props;

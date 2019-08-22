@@ -45,7 +45,7 @@ class MyAccountDetails extends Component {
         customer: customerType.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
         logout: PropTypes.func.isRequired
-    }
+    };
 
 
     state = {

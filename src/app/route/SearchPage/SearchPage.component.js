@@ -19,7 +19,7 @@ class SearchPage extends CategoryPage {
     static propTypes = {
         makeSearchRequest: PropTypes.func.isRequired,
         totalItems: PropTypes.number.isRequired
-    }
+    };
 
     state = {
         sortKey: 'name',
@@ -27,7 +27,7 @@ class SearchPage extends CategoryPage {
         defaultPriceRange: { min: 0, max: 300 },
         previousPage: 0,
         pageSize: 12
-    }
+    };
 
     componentWillMount() {
         this.updateBreadcrumbs();

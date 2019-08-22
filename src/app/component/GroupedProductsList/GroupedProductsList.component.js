@@ -22,7 +22,7 @@ class GroupedProductList extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         clearGroupedProductQuantity: PropTypes.func.isRequired
-    }
+    };
 
     componentWillUnmount() {
         const { clearGroupedProductQuantity } = this.props;

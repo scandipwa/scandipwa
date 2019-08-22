@@ -24,7 +24,7 @@ class ProductReviewList extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         areDetailsLoaded: PropTypes.bool.isRequired
-    }
+    };
 
     renderReviewListItemRating(ratingVoteItem) {
         const {

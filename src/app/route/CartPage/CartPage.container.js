@@ -35,7 +35,7 @@ export class CartPageContainer extends PureComponent {
         updateBreadcrumbs: PropTypes.func.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
         totals: TotalsType.isRequired
-    }
+    };
 
     state = { isEditing: false };
 

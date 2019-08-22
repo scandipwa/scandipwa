@@ -39,11 +39,11 @@ class ProductActions extends PureComponent {
         setQuantity: PropTypes.func.isRequired,
         updateUrl: PropTypes.func.isRequired,
         parameters: PropTypes.objectOf(PropTypes.string).isRequired
-    }
+    };
 
     static defaultProps = {
         configurableVariantIndex: 0
-    }
+    };
 
     renderSkuAndStock() {
         const { product: { sku }, showOnlyIfLoaded } = this.props;
@@ -82,6 +82,7 @@ class ProductActions extends PureComponent {
 
         return (
             <ProductConfigurableAttributes
+              // eslint-disable-next-line no-magic-numbers
               numberOfPlaceholders={ [2, 4] }
               mix={ { block: 'ProductActions', elem: 'Attributes' } }
               isReady={ areDetailsLoaded }

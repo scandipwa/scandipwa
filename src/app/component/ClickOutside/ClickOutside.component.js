@@ -17,12 +17,12 @@ class ClickOutside extends PureComponent {
     static propTypes = {
         onClick: PropTypes.func,
         children: ChildrenType
-    }
+    };
 
     static defaultProps = {
         onClick: () => {},
         children: []
-    }
+    };
 
     handleClick = this.handleClick.bind(this);
 

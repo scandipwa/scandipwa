@@ -11,11 +11,11 @@ export class CategoryPaginationContainer extends PureComponent {
     static propTypes = {
         history: HistoryType.isRequired,
         location: LocationType.isRequired
-    }
+    };
 
     containerFunctions = {
         getSearchQueryForPage: this.getSearchQueryForPage.bind(this)
-    }
+    };
 
     getSearchQueryForPage(pageNumber) {
         const { history, location } = this.props;

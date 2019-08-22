@@ -43,6 +43,8 @@ export const DEFAULT_REGION = { region_code: 'AL', region: 'Alabama', region_id:
 export const STATE_NEW_ADDRESS = 'newAddress';
 export const STATE_DEFAULT_ADDRESS = 'defaultAddress';
 
+export const SHIPPING_METHODS_ESTIMATION_TIMEOUT = 1000;
+
 class CheckoutShippingStep extends PureComponent {
     static propTypes = {
         estimateShippingCost: PropTypes.func.isRequired,
@@ -77,7 +79,7 @@ class CheckoutShippingStep extends PureComponent {
             telephone: PropTypes.string
         }).isRequired,
         countryList: PropTypes.arrayOf(PropTypes.shape).isRequired
-    }
+    };
 
     state = {
         email: '',
@@ -100,16 +102,18 @@ class CheckoutShippingStep extends PureComponent {
         fieldsArePopulated: false,
         defaultShippingAddress: false,
         state: STATE_NEW_ADDRESS
-    }
+    };
 
     handleFieldChange = this.handleFieldChange.bind(this);
+
     emailNote = __('You can create an account after checkout.');
+
     emailLoginNote = __('Looks like you already have account with us, please, log in!');
 
     renderMap = {
         [STATE_NEW_ADDRESS]: () => (this.renderNewAddress()),
         [STATE_DEFAULT_ADDRESS]: () => (this.renderDefaultShippingAddress())
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -309,7 +313,7 @@ class CheckoutShippingStep extends PureComponent {
                 }),
                 err => showNotification('error', err[0].debugMessage)
             );
-        }, 1000);
+        }, SHIPPING_METHODS_ESTIMATION_TIMEOUT);
     }
 
     renderField(id, overrideStateValue) {

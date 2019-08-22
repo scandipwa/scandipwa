@@ -25,11 +25,11 @@ import './HomeSlider.style';
 class HomeSlider extends PureComponent {
     static propTypes = {
         gallery: PropTypes.arrayOf(PropTypes.object)
-    }
+    };
 
     static defaultProps = {
         gallery: [{}]
-    }
+    };
 
     renderSlide = this.renderSlide.bind(this);
 

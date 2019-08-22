@@ -41,7 +41,7 @@ class Image extends PureComponent {
             'custom'
         ]),
         mix: MixType
-    }
+    };
 
     static defaultProps = {
         src: '',
@@ -49,11 +49,14 @@ class Image extends PureComponent {
         ratio: 'square',
         mix: {},
         isPlaceholder: false
-    }
+    };
 
     image = createRef();
+
     state = { imageStatus: IMAGE_LOADING };
+
     onError = this.onError.bind(this);
+
     onLoad = this.onLoad.bind(this);
 
     componentDidMount() {

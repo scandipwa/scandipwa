@@ -15,6 +15,8 @@ import Slider from 'Component/Slider';
 import Image from 'Component/Image';
 import './ProductGallery.style';
 
+export const GALLERY_LENGTH_BEFORE_COLLAPSE = 4;
+
 /**
  * Product gallery
  * @class ProductGallery
@@ -33,11 +35,12 @@ class ProductGallery extends PureComponent {
                 type: PropTypes.string
             })
         ).isRequired
-    }
+    };
 
     state = { activeImage: 0 };
 
     renderAdditionalPicture = this.renderAdditionalPicture.bind(this);
+
     onActiveImageChange = this.onActiveImageChange.bind(this);
 
     onActiveImageChange(activeImage) {
@@ -76,9 +79,9 @@ class ProductGallery extends PureComponent {
         const { gallery } = this.props;
         const galleryLength = gallery.length;
 
-        return galleryLength < 4
+        return galleryLength < GALLERY_LENGTH_BEFORE_COLLAPSE
             ? this.renderAdditionalPicture({ ...gallery[galleryLength - 1], type: 'single' })
-            : gallery.slice(0, 4).map(this.renderAdditionalPicture);
+            : gallery.slice(0, GALLERY_LENGTH_BEFORE_COLLAPSE).map(this.renderAdditionalPicture);
     }
 
     renderSlide(media, index) {

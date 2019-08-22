@@ -23,7 +23,7 @@ export const PRODUCT_IMAGE_PATH = '/media/catalog/product';
 class ProductInformation extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired
-    }
+    };
 
     renderContentPlaceholder() {
         return (

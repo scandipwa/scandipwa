@@ -14,13 +14,14 @@ export class CategoryProductListContainer extends PureComponent {
         loadPage: PropTypes.func.isRequired,
         isLoading: PropTypes.bool.isRequired,
         totalPages: PropTypes.number.isRequired
-    }
+    };
 
-    state = { pagesCount: 1 }
+    state = { pagesCount: 1 };
+
     containerFunctions = {
         loadPrevPage: this.loadPage.bind(this, false),
         loadPage: this.loadPage.bind(this)
-    }
+    };
 
     componentDidMount() {
         const { pages } = this.props;
@@ -42,7 +43,7 @@ export class CategoryProductListContainer extends PureComponent {
         currentPage: this._getPageFromUrl(),
         isShowLoading: this._isShowLoading(),
         isVisible: this._isVisible()
-    })
+    });
 
     _getPageFromUrl() {
         const { location } = this.props;

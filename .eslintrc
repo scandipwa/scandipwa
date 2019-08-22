@@ -1,6 +1,7 @@
 {
   "extends": [
-    "airbnb"
+    "airbnb",
+    "plugin:array-func/recommended"
   ],
   "env": {
     "browser": true
@@ -19,9 +20,15 @@
   "plugins": [
     "react",
     "import",
-    "jest"
+    "jest",
+    "babel",
+    "fp"
   ],
   "rules": {
+    "fp/no-let": "error",
+    "fp/no-arguments": "error",
+    "fp/no-delete": "error",
+    "no-var": "error",
     "css-rcurlyexpected": 0,
     "no-restricted-globals": ["error", "isFinite", "isNaN"],
     "max-len": [2, {
@@ -51,6 +58,14 @@
     "react/button-has-type": 0,
     "react/jsx-indent": 0,
     "react/jsx-indent-props": 2,
+    "react/forbid-prop-types": [2, {"forbid": ["className"]}],
+    "react/forbid-component-props": [2, {"forbid": ["className"]}],
+    "react/forbid-dom-props": [2, {"forbid": ["className"]}],
+    "react/no-deprecated": 2,
+    "babel/semi": 1,
+    "new-cap": ["error", { "newIsCap": true }],
+    "no-param-reassign": ["error", { "props": true, "ignorePropertyModificationsFor": ["acc", "sum"] }],
+    "no-magic-numbers": ["error", { "ignore": [1, 0, 2, -1] }],
     "indent": [
       "error",
       4,
@@ -77,11 +92,7 @@
     }, {
         "enforceForRenamedProperties": false
     }],
-    "lines-between-class-members": [
-        "error", "always",
-        {
-            "exceptAfterSingleLine": true
-        }
-    ],
+    "lines-between-class-members": ["error", "always"],
+    "no-extra-semi": "error"
   }
 }

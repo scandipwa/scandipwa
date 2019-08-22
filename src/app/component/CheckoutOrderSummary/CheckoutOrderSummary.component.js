@@ -24,12 +24,12 @@ class CheckoutOrderSummary extends PureComponent {
     static propTypes = {
         totals: TotalsType,
         products: PropTypes.objectOf(ProductType)
-    }
+    };
 
     static defaultProps = {
         totals: {},
         products: {}
-    }
+    };
 
     renderPriceLine(price, name, mods) {
         if (!price) return null;
@@ -69,15 +69,11 @@ class CheckoutOrderSummary extends PureComponent {
         const {
             totals: {
                 grand_total, subtotal,
-                tax_amount, items,
-                shipping_amount
+                tax_amount, shipping_amount,
+                items_qty
             },
             products
         } = this.props;
-
-        // eslint-disable-next-line no-param-reassign, no-return-assign
-        const itemsTax = items ? items.reduce((sum, { tax_amount }) => sum += tax_amount, tax_amount) : 0;
-        const productCount = Object.keys(products).length;
 
         return (
             <article block="CheckoutOrderSummary" aria-label="Order Summary">
@@ -87,7 +83,7 @@ class CheckoutOrderSummary extends PureComponent {
                   mix={ { block: 'CheckoutPage', elem: 'Heading', mods: { hasDivider: true } } }
                 >
                     <span>{ __('Order Summary') }</span>
-                    <p block="CheckoutOrderSummary" elem="ItemsInCart">{ __('%s Items In Cart', productCount) }</p>
+                    <p block="CheckoutOrderSummary" elem="ItemsInCart">{ __('%s Items In Cart', items_qty) }</p>
                 </h3>
                 <div block="CheckoutOrderSummary" elem="OrderItems">
                     <ul block="CheckoutOrderSummary" elem="CartItemList">
@@ -99,7 +95,7 @@ class CheckoutOrderSummary extends PureComponent {
                     <ul>
                         { this.renderPriceLine(shipping_amount, __('Shipping'), { divider: true }) }
                         { this.renderPriceLine(subtotal, __('Cart Subtotal')) }
-                        { this.renderPriceLine(itemsTax, __('Tax')) }
+                        { this.renderPriceLine(tax_amount, __('Tax')) }
                         { this.renderPriceLine(grand_total, __('Order Total')) }
                     </ul>
                 </div>

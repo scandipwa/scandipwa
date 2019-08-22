@@ -26,13 +26,13 @@ class AddToCart extends PureComponent {
         product: ProductType,
         mix: MixType,
         buttonClick: PropTypes.func.isRequired
-    }
+    };
 
     static defaultProps = {
         product: {},
         mix: {},
         isLoading: false
-    }
+    };
 
     renderPlaceholder() {
         const { isLoading, mix } = this.props;

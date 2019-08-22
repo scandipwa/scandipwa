@@ -1,3 +1,5 @@
+/* eslint-disable fp/no-let */
+
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,7 +11,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-// TODO: revrite using import { history } from 'Route';
+// TODO: rewrite using import { history } from 'Route';
+// TODO: fix no LET
 
 /**
  * Update query params without adding to history

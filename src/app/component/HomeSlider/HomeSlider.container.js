@@ -21,15 +21,15 @@ export const mapStateToProps = state => ({
 export class HomeSliderContainer extends PureComponent {
     static propTypes = {
         slider: SliderType
-    }
+    };
 
     static defaultProps = {
         slider: {}
-    }
+    };
 
     containerProps = () => ({
         gallery: this._getGalleryPictures()
-    })
+    });
 
     _getGalleryPictures() {
         const { slider } = this.props;

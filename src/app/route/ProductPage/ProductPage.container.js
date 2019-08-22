@@ -53,23 +53,23 @@ export class ProductPageContainer extends PureComponent {
         clearGroupedProductQuantity: PropTypes.func.isRequired,
         history: HistoryType.isRequired,
         match: MatchType.isRequired
-    }
+    };
 
     static defaultProps = {
         location: { state: {} },
         isOnlyPlaceholder: false
-    }
+    };
 
     state = {
         configurableVariantIndex: -1,
         isConfigurationInitialized: false,
         parameters: {}
-    }
+    };
 
     containerFunctions = {
         updateUrl: this.updateUrl.bind(this),
         getLink: this.getLink.bind(this)
-    }
+    };
 
     componentDidMount() {
         const { isOnlyPlaceholder } = this.props;
@@ -137,7 +137,7 @@ export class ProductPageContainer extends PureComponent {
         productOrVariant: this._getProductOrVariant(),
         dataSource: this._getDataSource(),
         areDetailsLoaded: this._getAreDetailsLoaded()
-    })
+    });
 
     updateUrl(key, value) {
         const { product: { variants, configurable_options }, location, history } = this.props;
@@ -145,7 +145,7 @@ export class ProductPageContainer extends PureComponent {
 
         const parameters = {
             ...oldParameters,
-            [key]: value.toString(10)
+            [key]: value.toString()
         };
 
         this.setState({ parameters });

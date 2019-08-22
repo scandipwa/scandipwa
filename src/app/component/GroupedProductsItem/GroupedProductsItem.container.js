@@ -29,15 +29,15 @@ export class GroupedProductsItemContainer extends PureComponent {
         product: ProductType.isRequired,
         groupedProductQuantity: PropTypes.number.isRequired,
         updateGroupedProductQuantity: PropTypes.func
-    }
+    };
 
     static defaultProps = {
         updateGroupedProductQuantity: () => {}
-    }
+    };
 
     containerFunctions = {
         changeCount: this.changeCount.bind(this)
-    }
+    };
 
     componentWillMount() {
         const { updateGroupedProductQuantity, product } = this.props;
@@ -47,7 +47,7 @@ export class GroupedProductsItemContainer extends PureComponent {
 
     containerProps = () => ({
         itemCount: this._getCurrentQuantity()
-    })
+    });
 
     /**
      * Get quantity of grouped product

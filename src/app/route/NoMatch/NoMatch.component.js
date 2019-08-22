@@ -18,7 +18,7 @@ import './NoMatch.style';
 class NoMatch extends Component {
     static propTypes = {
         updateBreadcrumbs: PropTypes.func.isRequired
-    }
+    };
 
     componentDidMount() {
         this.updateBreadcrumbs();

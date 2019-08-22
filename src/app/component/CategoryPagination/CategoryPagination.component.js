@@ -23,11 +23,11 @@ class CategoryPagination extends PureComponent {
         totalPages: PropTypes.number.isRequired,
         currentPage: PropTypes.number.isRequired,
         getSearchQueryForPage: PropTypes.func.isRequired
-    }
+    };
 
     static defaultProps = {
         ariaLabel: ''
-    }
+    };
 
     renderPreviousPageLink(page) {
         return this.renderPageLink(page, __('Previous page'), false, '◄');

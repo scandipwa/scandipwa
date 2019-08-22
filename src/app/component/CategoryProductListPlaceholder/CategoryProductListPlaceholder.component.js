@@ -15,6 +15,8 @@ import PropTypes from 'prop-types';
 import ProductCard from 'Component/ProductCard';
 import './CategoryProductListPlaceholder.style';
 
+export const DEFAULT_PLACEHOLDER_COUNT = 4;
+
 /**
  * Placeholder for List of category product
  * @class CategoryProductListPlaceholder
@@ -24,9 +26,9 @@ class CategoryProductListPlaceholder extends PureComponent {
         isLoading: PropTypes.bool.isRequired,
         isVisible: PropTypes.bool.isRequired,
         updatePages: PropTypes.func.isRequired
-    }
+    };
 
-    placeholdersCount = 4;
+    placeholdersCount = DEFAULT_PLACEHOLDER_COUNT;
 
     componentDidMount() {
         this.startObserving();

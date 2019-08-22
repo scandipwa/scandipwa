@@ -34,12 +34,12 @@ class ProductCard extends PureComponent {
             value: PropTypes.string
         })).isRequired,
         getAttribute: PropTypes.func.isRequired
-    }
+    };
 
     static defaultProps = {
         thumbnail: '',
         linkTo: {}
-    }
+    };
 
     renderProductPrice() {
         const { productOrVariant: { price } } = this.props;

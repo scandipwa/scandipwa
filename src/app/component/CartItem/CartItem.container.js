@@ -28,18 +28,19 @@ export class CartItemContainer extends PureComponent {
         product: ProductType.isRequired,
         addProduct: PropTypes.func.isRequired,
         removeProduct: PropTypes.func.isRequired
-    }
+    };
 
-    state = { isLoading: false }
+    state = { isLoading: false };
+
     containerFunctions = {
         handleQtyChange: this.handleQtyChange.bind(this),
         handleRemoveItem: this.handleRemoveItem.bind(this)
-    }
+    };
 
     containerProps = () => ({
         thumbnail: this._getProductThumbnail(),
         linkTo: this._getProductLinkTo()
-    })
+    });
 
     handleQtyChange(value) {
         const { addProduct, product, product: { quantity } } = this.props;

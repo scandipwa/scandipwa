@@ -22,13 +22,13 @@ class ExpandableContent extends PureComponent {
         subHeading: PropTypes.string,
         children: ChildrenType.isRequired,
         mix: MixType.isRequired
-    }
+    };
 
     static defaultProps = {
         subHeading: '',
         heading: '',
         isContentExpanded: false
-    }
+    };
 
     toggleExpand = this.toggleExpand.bind(this);
 

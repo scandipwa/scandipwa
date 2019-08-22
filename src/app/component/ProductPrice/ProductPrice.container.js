@@ -21,18 +21,18 @@ class ProductPriceContainer extends PureComponent {
     static propTypes = {
         price: PriceType,
         mix: MixType
-    }
+    };
 
     static defaultProps = {
         mix: {},
         price: {}
-    }
+    };
 
     containerFunctions = {
         calculateDiscountPercentage: this.calculateDiscountPercentage.bind(this),
         calculateFinalPrice: this.calculateFinalPrice.bind(this),
         roundPrice: this.roundPrice.bind(this)
-    }
+    };
 
     /**
      * Calculate discount percentage
@@ -41,7 +41,8 @@ class ProductPriceContainer extends PureComponent {
      * @return {Nmber} discount percentage
      */
     calculateDiscountPercentage(min, reg) {
-        return Math.floor(Math.round((1 - min / reg) * 100));
+        const HUNDRED_PERCENT = 100;
+        return Math.floor(Math.round((1 - min / reg) * HUNDRED_PERCENT));
     }
 
     /**

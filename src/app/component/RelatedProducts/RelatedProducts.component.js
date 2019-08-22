@@ -16,6 +16,8 @@ import PropTypes from 'prop-types';
 import { ItemsType } from 'Type/ProductList';
 import './RelatedProducts.style';
 
+export const MAX_NUMBER_OF_PRODUCTS_TO_RENDER = 4;
+
 /**
  * Related products block
  * @class RelatedProducts
@@ -33,11 +35,11 @@ class RelatedProducts extends PureComponent {
         clearRelatedProducts: PropTypes.func.isRequired,
         areDetailsLoaded: PropTypes.bool.isRequired,
         label: PropTypes.string
-    }
+    };
 
     static defaultProps = {
         label: ''
-    }
+    };
 
     componentDidMount() {
         this.clearRelatedProducts();
@@ -64,7 +66,7 @@ class RelatedProducts extends PureComponent {
     }
 
     renderProducts(products) {
-        return products.slice(0, 4).map(product => (
+        return products.slice(0, MAX_NUMBER_OF_PRODUCTS_TO_RENDER).map(product => (
             <ProductCard
               product={ product }
               key={ product.id }

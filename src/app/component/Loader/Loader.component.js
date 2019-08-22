@@ -21,7 +21,7 @@ import './Loader.style';
 class Loader extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired
-    }
+    };
 
     render() {
         const { isLoading } = this.props;

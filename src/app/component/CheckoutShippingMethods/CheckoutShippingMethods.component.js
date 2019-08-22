@@ -23,9 +23,9 @@ class CheckoutShippingMethods extends PureComponent {
         shippingMethods: PropTypes.arrayOf(PropTypes.object).isRequired,
         onSelectShippingMethod: PropTypes.func.isRequired,
         loadingShippingMethods: PropTypes.bool.isRequired
-    }
+    };
 
-    state = { activeMethod: '' }
+    state = { activeMethod: '' };
 
     handleShippingMethodChange(method) {
         const { method_code } = method;

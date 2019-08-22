@@ -32,12 +32,12 @@ export class SearchOverlayContainer extends PureComponent {
         makeSearchRequest: PropTypes.func.isRequired,
         clearSearchResults: PropTypes.func.isRequired,
         searchCriteria: PropTypes.string.isRequired
-    }
+    };
 
     containerFunctions = {
         getProductLinkTo: this.getProductLinkTo.bind(this),
         makeSearchRequest: this.makeSearchRequest.bind(this)
-    }
+    };
 
     getProductLinkTo(product) {
         const { url_key } = product;

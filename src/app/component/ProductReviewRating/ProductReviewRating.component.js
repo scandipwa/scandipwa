@@ -22,13 +22,13 @@ class ProductReviewRating extends PureComponent {
         summary: PropTypes.number,
         code: PropTypes.string,
         placeholder: PropTypes.bool
-    }
+    };
 
     static defaultProps = {
         summary: 0,
         code: '',
         placeholder: false
-    }
+    };
 
     reviewRating = React.createRef();
 
@@ -43,7 +43,8 @@ class ProductReviewRating extends PureComponent {
     }
 
     getAriaText(summary, code) {
-        const rating = Math.round((summary / 20) * 100) / 100;
+        const ONE_FIFTH_OF_A_HUNDRED = 20;
+        const rating = parseFloat(summary / ONE_FIFTH_OF_A_HUNDRED).toFixed(2);
 
         return code
             ? `Review's ${code} rating is ${rating} out of 5`

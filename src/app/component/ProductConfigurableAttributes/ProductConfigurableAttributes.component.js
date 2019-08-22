@@ -27,14 +27,15 @@ class ProductConfigurableAttributes extends Component {
         updateConfigurableVariant: PropTypes.func.isRequired,
         isReady: PropTypes.bool,
         mix: MixType
-    }
+    };
 
     static defaultProps = {
         isReady: true,
         mix: {},
+        // eslint-disable-next-line no-magic-numbers
         numberOfPlaceholders: [6, 10, 7],
         isContentExpanded: false
-    }
+    };
 
     /**
      * Get URL link for attribute

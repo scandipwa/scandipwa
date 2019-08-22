@@ -28,12 +28,12 @@ class ProductPrice extends PureComponent {
         calculateFinalPrice: PropTypes.func.isRequired,
         price: PriceType,
         mix: MixType
-    }
+    };
 
     static defaultProps = {
         mix: {},
         price: {}
-    }
+    };
 
     render() {
         const {

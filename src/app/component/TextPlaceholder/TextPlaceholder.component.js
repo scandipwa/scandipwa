@@ -33,13 +33,13 @@ class TextPlaceholder extends PureComponent {
             'custom'
         ]),
         mix: MixType
-    }
+    };
 
     static defaultProps = {
         content: '',
         length: 'short',
         mix: {}
-    }
+    };
 
     render() {
         const { content, length, mix } = this.props;

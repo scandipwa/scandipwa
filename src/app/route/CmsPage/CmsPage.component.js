@@ -34,12 +34,12 @@ class CmsPage extends Component {
         updateCmsPage: PropTypes.func.isRequired,
         cmsId: PropTypes.number,
         isOnlyPlaceholder: PropTypes.bool
-    }
+    };
 
     static defaultProps = {
         cmsId: 0,
         isOnlyPlaceholder: false
-    }
+    };
 
     componentDidMount() {
         const {

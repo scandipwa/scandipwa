@@ -25,15 +25,15 @@ export class ProductCardContainer extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         selectedFilters: FilterType
-    }
+    };
 
     static defaultProps = {
         selectedFilters: {}
-    }
+    };
 
     containerFunctions = {
         getAttribute: this.getAttribute.bind(this)
-    }
+    };
 
     getAttribute(code) {
         const { product: { attributes = [] } } = this.props;
@@ -46,7 +46,7 @@ export class ProductCardContainer extends PureComponent {
         productOrVariant: this._getProductOrVariant(),
         thumbnail: this._getThumbnail(),
         linkTo: this._getLinkTo()
-    })
+    });
 
     _getLinkTo() {
         const { product: { url_key }, product } = this.props;

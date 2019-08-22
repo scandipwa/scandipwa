@@ -73,7 +73,7 @@ export class HeaderContainer extends PureComponent {
             onOkClick: PropTypes.func,
             onCancelClick: PropTypes.func
         }).isRequired
-    }
+    };
 
     state = {
         prevPathname: '',
@@ -87,7 +87,7 @@ export class HeaderContainer extends PureComponent {
         '/product': { name: PDP, onBackClick: () => history.goBack() },
         '/cart': { name: CART },
         '/page': { name: CMS_PAGE, onBackClick: () => history.goBack() }
-    }
+    };
 
     containerFunctions = {
         onBackButtonClick: this.onBackButtonClick.bind(this),
@@ -106,7 +106,7 @@ export class HeaderContainer extends PureComponent {
         onMenuOutsideClick: this.onMenuOutsideClick.bind(this),
         onMyAccountOutsideClick: this.onMyAccountOutsideClick.bind(this),
         onMinicartOutsideClick: this.onMinicartOutsideClick.bind(this)
-    }
+    };
 
     componentDidMount() {
         this.onRouteChanged(history.location, true);

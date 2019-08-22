@@ -37,7 +37,7 @@ class UrlRewrites extends Component {
         clearUrlRewrites: PropTypes.func.isRequired,
         requestUrlRewrite: PropTypes.func.isRequired,
         urlRewrite: PropTypes.func.isRequired
-    }
+    };
 
     constructor() {
         super();

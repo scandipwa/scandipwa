@@ -30,7 +30,7 @@ class ProductPage extends Component {
         updateUrl: PropTypes.func.isRequired,
         dataSource: ProductType.isRequired,
         areDetailsLoaded: PropTypes.bool.isRequired
-    }
+    };
 
     renderProductPageContent() {
         const {

@@ -60,7 +60,7 @@ class CategoryPage extends PureComponent {
         toggleOverlayByKey: PropTypes.func.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
         selectedFilters: FilterType.isRequired
-    }
+    };
 
     onFilterButtonClick = this.onFilterButtonClick.bind(this);
 

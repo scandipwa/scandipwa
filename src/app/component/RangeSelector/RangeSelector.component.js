@@ -28,7 +28,7 @@ class RangeSelector extends PureComponent {
         minValue: PropTypes.number.isRequired,
         maxValue: PropTypes.number.isRequired,
         onChangeComplete: PropTypes.func.isRequired
-    }
+    };
 
     constructor() {
         super();

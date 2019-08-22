@@ -25,7 +25,7 @@ class Meta extends PureComponent {
             meta_description: PropTypes.string,
             meta_keyword: PropTypes.string
         }).isRequired
-    }
+    };
 
     render() {
         const {

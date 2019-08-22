@@ -36,12 +36,13 @@ export class CartOverlayContainer extends PureComponent {
     static propTypes = {
         totals: TotalsType.isRequired,
         changeHeaderState: PropTypes.func.isRequired
-    }
+    };
 
-    state = { isEditing: false }
+    state = { isEditing: false };
+
     containerFunctions = {
         changeHeaderState: this.changeHeaderState.bind(this)
-    }
+    };
 
     changeHeaderState() {
         const { changeHeaderState, totals: { count = 0 } } = this.props;

@@ -28,9 +28,10 @@ class MenuOverlay extends PureComponent {
         hideActiveOverlay: PropTypes.func.isRequired,
         goToPreviousHeaderState: PropTypes.func.isRequired,
         changeHeaderState: PropTypes.func.isRequired
-    }
+    };
 
-    state = { activeMenuItemsStack: [] }
+    state = { activeMenuItemsStack: [] };
+
     closeMenuOverlay = this.closeMenuOverlay.bind(this);
 
     getItemContent(id) {
@@ -70,13 +71,9 @@ class MenuOverlay extends PureComponent {
         hideActiveOverlay();
     }
 
-    renderItemContent(item, itemMods = {}) {
+    renderItemContent(item, mods = {}) {
         const { title, icon, item_class } = item;
-
-        if (item_class === 'MenuOverlay-ItemFigure_type_banner') {
-            // eslint-disable-next-line no-param-reassign
-            itemMods = { type: 'banner' };
-        }
+        const itemMods = item_class === 'MenuOverlay-ItemFigure_type_banner' ? { type: 'banner' } : mods;
 
         return (
             <figure block="MenuOverlay" elem="ItemFigure" mods={ itemMods }>

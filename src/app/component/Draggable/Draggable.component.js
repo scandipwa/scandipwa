@@ -29,7 +29,7 @@ class Draggable extends PureComponent {
             PropTypes.func,
             PropTypes.shape({ current: PropTypes.instanceOf(Element) })
         ])
-    }
+    };
 
     static defaultProps = {
         shiftX: 0,
@@ -49,7 +49,7 @@ class Draggable extends PureComponent {
         handleFocus: () => {},
         draggableRef: () => {},
         mix: {}
-    }
+    };
 
     state = {
         isDragging: false,
@@ -59,13 +59,18 @@ class Draggable extends PureComponent {
         originalY: 0,
         translateY: 0,
         lastTranslateY: 0
-    }
+    };
 
     handleMouseDown = this.handleMouseDown.bind(this);
+
     handleMouseMove = this.handleMouseMove.bind(this);
+
     handleMouseUp = this.handleMouseUp.bind(this);
+
     handleTouchStart = this.handleTouchStart.bind(this);
+
     handleTouchMove = this.handleTouchMove.bind(this);
+
     handleTouchEnd = this.handleTouchEnd.bind(this);
 
     static getDerivedStateFromProps(props, state) {

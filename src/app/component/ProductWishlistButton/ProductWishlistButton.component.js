@@ -30,29 +30,19 @@ class ProductWishlistButton extends PureComponent {
         wishlistItems: PropTypes.objectOf(ProductType).isRequired,
         fullWidth: PropTypes.bool,
         isReady: PropTypes.bool
-    }
+    };
 
     static defaultProps = {
         fullWidth: false,
         isReady: true
-    }
+    };
 
     state = { isLoading: false, redirectToWishlist: false };
+
     timeOut = null;
 
     componentWillUnmount() {
         clearTimeout(this.timeOut);
-    }
-
-    /**
-     * Switch button text to indicated that product has been added
-     * @return {Promise}
-     */
-    setAnimationTimeout() {
-        return setTimeout(() => {
-            this.timeOut = null;
-            this.setState(({ transition }) => ({ transition: !transition }));
-        }, 1500);
     }
 
     getProductInWishlist() {

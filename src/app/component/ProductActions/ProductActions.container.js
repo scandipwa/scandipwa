@@ -24,14 +24,15 @@ export class ProductActionsContainer extends PureComponent {
         product: ProductType.isRequired,
         configurableVariantIndex: PropTypes.number.isRequired,
         areDetailsLoaded: PropTypes.bool.isRequired
-    }
+    };
 
-    state = { quantity: 1 }
+    state = { quantity: 1 };
+
     containerFunctions = {
         showOnlyIfLoaded: this.showOnlyIfLoaded.bind(this),
         getIsOptionInCurrentVariant: this.getIsOptionInCurrentVariant.bind(this),
         setQuantity: this.setQuantity.bind(this)
-    }
+    };
 
     setQuantity(value) {
         this.setState({ quantity: value });

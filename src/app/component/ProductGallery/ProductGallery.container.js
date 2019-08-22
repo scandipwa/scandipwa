@@ -5,11 +5,12 @@ import ProductGallery from './ProductGallery.component';
 
 export const PRODUCT_IMAGE_PATH = '/media/catalog/product';
 export const THUMBNAIL_KEY = 'thumbnail';
+export const AMOUNT_OF_PLACEHOLDERS = 3;
 
 export class ProductGalleryContainer extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired
-    }
+    };
 
     getGalleryPictures() {
         const {
@@ -59,12 +60,12 @@ export class ProductGalleryContainer extends PureComponent {
             id: THUMBNAIL_KEY,
             alt: name,
             type: 'image'
-        }, ...Array(3).fill({ type: 'image', isPlaceholder: true })];
+        }, ...Array(AMOUNT_OF_PLACEHOLDERS).fill({ type: 'image', isPlaceholder: true })];
     }
 
     containerProps = () => ({
         gallery: this.getGalleryPictures()
-    })
+    });
 
     render() {
         return (

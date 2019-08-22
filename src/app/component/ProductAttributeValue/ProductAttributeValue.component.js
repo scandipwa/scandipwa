@@ -1,3 +1,5 @@
+/* eslint-disable no-magic-numbers */
+
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -22,14 +24,15 @@ class ProductAttributeValue extends Component {
         attribute: AttributeType.isRequired,
         isSelected: PropTypes.bool,
         mix: MixType
-    }
+    };
 
     static defaultProps = {
         isSelected: false,
         mix: {}
-    }
+    };
 
     clickHandler = this.clickHandler.bind(this);
+
     getOptionLabel = this.getOptionLabel.bind(this);
 
     getIsColorLight(hex) {

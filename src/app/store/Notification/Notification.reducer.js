@@ -11,8 +11,6 @@
 
 import { SHOW_NOTIFICATION, HIDE_NOTIFICATION } from './Notification.action';
 
-let notificationId = 0;
-
 export const initialState = {
     notifications: {}
 };
@@ -23,7 +21,7 @@ const NotificationReducer = (state = initialState, action) => {
     switch (action.type) {
     case SHOW_NOTIFICATION:
         const { msgType, msgText, msgDebug } = action;
-        notifications[notificationId++] = { msgType, msgText, msgDebug };
+        notifications[Date.now()] = { msgType, msgText, msgDebug };
 
         return {
             ...state,
@@ -31,11 +29,11 @@ const NotificationReducer = (state = initialState, action) => {
         };
 
     case HIDE_NOTIFICATION:
-        delete notifications[action.id];
+        const { [action.id]: id, ...shownNotifications } = notifications;
 
         return {
             ...state,
-            notifications
+            notifications: shownNotifications
         };
 
     default:

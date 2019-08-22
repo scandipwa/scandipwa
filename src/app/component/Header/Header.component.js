@@ -78,7 +78,7 @@ class Header extends PureComponent {
         onMinicartOutsideClick: PropTypes.func.isRequired,
         isClearEnabled: PropTypes.bool.isRequired,
         searchCriteria: PropTypes.string.isRequired
-    }
+    };
 
     stateMap = {
         [PDP]: {
@@ -138,7 +138,7 @@ class Header extends PureComponent {
             back: true,
             title: true
         }
-    }
+    };
 
     renderMap = {
         cancel: this.renderCancelButton.bind(this),
@@ -153,9 +153,10 @@ class Header extends PureComponent {
         clear: this.renderClearButton.bind(this),
         edit: this.renderEditButton.bind(this),
         ok: this.renderOkButton.bind(this)
-    }
+    };
 
     searchBarRef = React.createRef();
+
     onClearSearchButtonClick = this.onClearSearchButtonClick.bind(this);
 
     onClearSearchButtonClick() {

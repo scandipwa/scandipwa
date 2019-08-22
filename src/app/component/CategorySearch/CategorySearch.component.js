@@ -2,6 +2,8 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import './CategorySearch.style';
 
+export const CATEGORY_SEARCH_TIMEOUT = 500;
+
 // TODO: add to template
 class CategorySearch extends PureComponent {
     static propTypes = {
@@ -10,7 +12,7 @@ class CategorySearch extends PureComponent {
             PropTypes.number
         ]).isRequired,
         onChange: PropTypes.func.isRequired
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -31,7 +33,7 @@ class CategorySearch extends PureComponent {
         this.setState({ value });
 
         clearTimeout(this.timeout);
-        this.timeout = setTimeout(onChange, 500, value);
+        this.timeout = setTimeout(onChange, CATEGORY_SEARCH_TIMEOUT, value);
     }
 
     render() {

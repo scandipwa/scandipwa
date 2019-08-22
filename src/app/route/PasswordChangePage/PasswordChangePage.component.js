@@ -28,12 +28,12 @@ class PasswordChangePage extends Component {
         updateBreadcrumbs: PropTypes.func.isRequired,
         resetPassword: PropTypes.func.isRequired,
         location: LocationType.isRequired
-    }
+    };
 
     state = {
         passwordResetStatus: '',
         isLoading: false
-    }
+    };
 
     componentDidMount() {
         this.updateBreadcrumbs();

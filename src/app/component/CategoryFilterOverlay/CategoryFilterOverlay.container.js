@@ -28,13 +28,13 @@ export class CategoryFilterOverlayContainer extends PureComponent {
         goToPreviousHeaderState: PropTypes.func.isRequired,
         updateFilter: PropTypes.func.isRequired,
         getFilterUrl: PropTypes.func.isRequired
-    }
+    };
 
     containerFunctions = {
         onSeeResultsClick: this.onSeeResultsClick.bind(this),
         toggleCustomFilter: this.toggleCustomFilter.bind(this),
         getFilterUrl: this.getFilterUrl.bind(this)
-    }
+    };
 
     onSeeResultsClick() {
         const { hideActiveOverlay, goToPreviousHeaderState } = this.props;
