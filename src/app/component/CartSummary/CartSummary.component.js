@@ -22,11 +22,11 @@ import './CartSummary.style';
 class CartSummary extends Component {
     static propTypes = {
         totals: TotalsType
-    };
+    }
 
     static defaultProps = {
         totals: {}
-    };
+    }
 
     renderPriceLine(price, name, mods) {
         const { totals: { base_currency_code } } = this.props;

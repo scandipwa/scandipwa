@@ -11,7 +11,7 @@ export class CategoryPaginationContainer extends PureComponent {
     static propTypes = {
         history: HistoryType.isRequired,
         location: LocationType.isRequired
-    };
+    }
 
     constructor(props) {
         super(props);

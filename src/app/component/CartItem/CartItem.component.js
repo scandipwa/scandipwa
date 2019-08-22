@@ -39,12 +39,12 @@ class CartItem extends PureComponent {
             PropTypes.string
         ]).isRequired,
         thumbnail: PropTypes.string.isRequired
-    };
+    }
 
     static defaultProps = {
         isEditing: false,
         isLikeTable: false
-    };
+    }
 
     renderConfiguration() {
         const {

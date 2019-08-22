@@ -24,6 +24,12 @@ const STATUS_PASSOWORD_UPDATED = 'password_updated';
 const STATUS_PASSOWORD_MISSMATCH = 'passwords_miss_match';
 
 class PasswordChangePage extends Component {
+    static propTypes = {
+        updateBreadcrumbs: PropTypes.func.isRequired,
+        resetPassword: PropTypes.func.isRequired,
+        location: LocationType.isRequired
+    }
+
     constructor(props) {
         super(props);
 
@@ -141,11 +147,5 @@ class PasswordChangePage extends Component {
         );
     }
 }
-
-PasswordChangePage.propTypes = {
-    updateBreadcrumbs: PropTypes.func.isRequired,
-    resetPassword: PropTypes.func.isRequired,
-    location: LocationType.isRequired
-};
 
 export default PasswordChangePage;

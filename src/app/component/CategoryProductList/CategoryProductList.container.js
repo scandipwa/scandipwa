@@ -14,7 +14,7 @@ export class CategoryProductListContainer extends PureComponent {
         loadPage: PropTypes.func.isRequired,
         isLoading: PropTypes.bool.isRequired,
         totalPages: PropTypes.number.isRequired
-    };
+    }
 
     constructor(props) {
         super(props);

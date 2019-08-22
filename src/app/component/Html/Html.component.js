@@ -25,6 +25,10 @@ import Image from 'Component/Image';
  * @class Html
  */
 class Html extends PureComponent {
+    static propTypes = {
+        content: PropTypes.string.isRequired
+    }
+
     constructor(props) {
         super(props);
 
@@ -141,9 +145,5 @@ class Html extends PureComponent {
         return Parser(content, this.parserOptions);
     }
 }
-
-Html.propTypes = {
-    content: PropTypes.string.isRequired
-};
 
 export default Html;

@@ -43,6 +43,23 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 export class ProductPageContainer extends PureComponent {
+    static propTypes = {
+        location: LocationType,
+        isOnlyPlaceholder: PropTypes.bool,
+        changeHeaderState: PropTypes.func.isRequired,
+        updateBreadcrumbs: PropTypes.func.isRequired,
+        requestProduct: PropTypes.func.isRequired,
+        product: ProductType.isRequired,
+        clearGroupedProductQuantity: PropTypes.func.isRequired,
+        history: HistoryType.isRequired,
+        match: MatchType.isRequired
+    }
+
+    static defaultProps = {
+        location: { state: {} },
+        isOnlyPlaceholder: false
+    }
+
     constructor(props) {
         super(props);
 
@@ -238,23 +255,6 @@ export class ProductPageContainer extends PureComponent {
         );
     }
 }
-
-ProductPageContainer.propTypes = {
-    location: LocationType,
-    isOnlyPlaceholder: PropTypes.bool,
-    changeHeaderState: PropTypes.func.isRequired,
-    updateBreadcrumbs: PropTypes.func.isRequired,
-    requestProduct: PropTypes.func.isRequired,
-    product: ProductType.isRequired,
-    clearGroupedProductQuantity: PropTypes.func.isRequired,
-    history: HistoryType.isRequired,
-    match: MatchType.isRequired
-};
-
-ProductPageContainer.defaultProps = {
-    location: { state: {} },
-    isOnlyPlaceholder: false
-};
 
 const ProductPageContainerWrapper = connect(mapStateToProps, mapDispatchToProps)(ProductPageContainer);
 export default withRouter(ProductPageContainerWrapper);

@@ -32,7 +32,7 @@ class CategoryProductList extends PureComponent {
         currentPage: PropTypes.number.isRequired,
         isShowLoading: PropTypes.bool.isRequired,
         isVisible: PropTypes.bool.isRequired
-    };
+    }
 
     constructor(props) {
         super(props);

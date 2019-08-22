@@ -23,6 +23,14 @@ import './HomeSlider.style';
  * @class HomeSlider
  */
 class HomeSlider extends PureComponent {
+    static propTypes = {
+        gallery: PropTypes.arrayOf(PropTypes.object)
+    }
+
+    static defaultProps = {
+        gallery: [{}]
+    }
+
     constructor(props) {
         super(props);
 
@@ -67,13 +75,5 @@ class HomeSlider extends PureComponent {
         );
     }
 }
-
-HomeSlider.propTypes = {
-    gallery: PropTypes.arrayOf(PropTypes.object)
-};
-
-HomeSlider.defaultProps = {
-    gallery: [{}]
-};
 
 export default HomeSlider;

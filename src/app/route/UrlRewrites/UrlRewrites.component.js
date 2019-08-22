@@ -31,6 +31,14 @@ export const TYPE_NOTFOUND = 'NOT_FOUND';
 
 
 class UrlRewrites extends Component {
+    static propTypes = {
+        location: LocationType.isRequired,
+        match: MatchType.isRequired,
+        clearUrlRewrites: PropTypes.func.isRequired,
+        requestUrlRewrite: PropTypes.func.isRequired,
+        urlRewrite: PropTypes.func.isRequired
+    }
+
     constructor() {
         super();
         this.knownTypes = [TYPE_CATEGORY, TYPE_CMS_PAGE, TYPE_PRODUCT];
@@ -144,13 +152,5 @@ class UrlRewrites extends Component {
         return this.renderPlaceholders();
     }
 }
-
-UrlRewrites.propTypes = {
-    location: LocationType.isRequired,
-    match: MatchType.isRequired,
-    clearUrlRewrites: PropTypes.func.isRequired,
-    requestUrlRewrite: PropTypes.func.isRequired,
-    urlRewrite: PropTypes.func.isRequired
-};
 
 export default UrlRewrites;

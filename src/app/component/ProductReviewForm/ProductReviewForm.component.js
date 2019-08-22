@@ -26,6 +26,15 @@ import './ProductReviewForm.style';
  * @class ProductReviewForm
  */
 class ProductReviewForm extends PureComponent {
+    static propTypes = {
+        product: ProductType.isRequired,
+        addReview: PropTypes.func.isRequired,
+        showNotification: PropTypes.func.isRequired,
+        customer: customerType.isRequired,
+        isSignedIn: PropTypes.bool.isRequired,
+        reviewRatings: RatingItemsType.isRequired
+    }
+
     constructor(props) {
         super(props);
 
@@ -209,14 +218,5 @@ class ProductReviewForm extends PureComponent {
         );
     }
 }
-
-ProductReviewForm.propTypes = {
-    product: ProductType.isRequired,
-    addReview: PropTypes.func.isRequired,
-    showNotification: PropTypes.func.isRequired,
-    customer: customerType.isRequired,
-    isSignedIn: PropTypes.bool.isRequired,
-    reviewRatings: RatingItemsType.isRequired
-};
 
 export default ProductReviewForm;

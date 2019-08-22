@@ -21,6 +21,14 @@ import './MyAccountWishlist.style';
 
 
 class MyAccountWishlist extends Component {
+    static propTypes = {
+        wishlistItems: PropTypes.objectOf(ProductType).isRequired,
+        removeProductFromWishlist: PropTypes.func.isRequired,
+        showNotification: PropTypes.func.isRequired,
+        updateBreadcrumbs: PropTypes.func.isRequired,
+        addProduct: PropTypes.func.isRequired
+    }
+
     constructor(props) {
         super(props);
 
@@ -170,13 +178,5 @@ class MyAccountWishlist extends Component {
         );
     }
 }
-
-MyAccountWishlist.propTypes = {
-    wishlistItems: PropTypes.objectOf(ProductType).isRequired,
-    removeProductFromWishlist: PropTypes.func.isRequired,
-    showNotification: PropTypes.func.isRequired,
-    updateBreadcrumbs: PropTypes.func.isRequired,
-    addProduct: PropTypes.func.isRequired
-};
 
 export default MyAccountWishlist;

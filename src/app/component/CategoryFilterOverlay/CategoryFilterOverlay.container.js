@@ -28,7 +28,7 @@ export class CategoryFilterOverlayContainer extends PureComponent {
         goToPreviousHeaderState: PropTypes.func.isRequired,
         updateFilter: PropTypes.func.isRequired,
         getFilterUrl: PropTypes.func.isRequired
-    };
+    }
 
     constructor(props) {
         super(props);

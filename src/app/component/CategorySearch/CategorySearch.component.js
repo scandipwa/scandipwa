@@ -10,7 +10,7 @@ class CategorySearch extends PureComponent {
             PropTypes.number
         ]).isRequired,
         onChange: PropTypes.func.isRequired
-    };
+    }
 
     constructor(props) {
         super(props);

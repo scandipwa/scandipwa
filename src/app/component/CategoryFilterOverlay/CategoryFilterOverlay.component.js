@@ -31,7 +31,7 @@ class CategoryFilterOverlay extends PureComponent {
         customFiltersValues: PropTypes.objectOf(PropTypes.array).isRequired,
         toggleCustomFilter: PropTypes.func.isRequired,
         getFilterUrl: PropTypes.func.isRequired
-    };
+    }
 
     renderPriceRange() {
         const {

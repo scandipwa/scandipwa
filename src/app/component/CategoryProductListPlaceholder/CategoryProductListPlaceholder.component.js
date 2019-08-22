@@ -24,7 +24,7 @@ class CategoryProductListPlaceholder extends PureComponent {
         isLoading: PropTypes.bool.isRequired,
         isVisible: PropTypes.bool.isRequired,
         updatePages: PropTypes.func.isRequired
-    };
+    }
 
     constructor(props) {
         super(props);

@@ -25,7 +25,7 @@ class Breadcrumbs extends PureComponent {
     static propTypes = {
         breadcrumbs: BreadcrumbsType.isRequired,
         areBreadcrumbsVisible: PropTypes.bool.isRequired
-    };
+    }
 
     renderBreadcrumb({ url, name }, i) {
         const { breadcrumbs } = this.props;

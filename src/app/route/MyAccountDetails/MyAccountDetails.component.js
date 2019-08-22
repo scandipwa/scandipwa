@@ -31,6 +31,22 @@ export const DEFAULT_COUNTRY = 'US';
 export const DEFAULT_REGION = 'AL';
 
 class MyAccountDetails extends Component {
+    static propTypes = {
+        history: HistoryType.isRequired,
+        showNotification: PropTypes.func.isRequired,
+        requestCustomerData: PropTypes.func.isRequired,
+        updateCustomerData: PropTypes.func.isRequired,
+        createCustomerAddress: PropTypes.func.isRequired,
+        updateCustomerAddress: PropTypes.func.isRequired,
+        changeCustomerPassword: PropTypes.func.isRequired,
+        updateBreadcrumbs: PropTypes.func.isRequired,
+        isSignedIn: PropTypes.bool.isRequired,
+        countryList: PropTypes.arrayOf(PropTypes.shape).isRequired,
+        customer: customerType.isRequired,
+        changeHeaderState: PropTypes.func.isRequired,
+        logout: PropTypes.func.isRequired
+    }
+
     constructor(props) {
         super(props);
 
@@ -732,21 +748,5 @@ class MyAccountDetails extends Component {
         );
     }
 }
-
-MyAccountDetails.propTypes = {
-    history: HistoryType.isRequired,
-    showNotification: PropTypes.func.isRequired,
-    requestCustomerData: PropTypes.func.isRequired,
-    updateCustomerData: PropTypes.func.isRequired,
-    createCustomerAddress: PropTypes.func.isRequired,
-    updateCustomerAddress: PropTypes.func.isRequired,
-    changeCustomerPassword: PropTypes.func.isRequired,
-    updateBreadcrumbs: PropTypes.func.isRequired,
-    isSignedIn: PropTypes.bool.isRequired,
-    countryList: PropTypes.arrayOf(PropTypes.shape).isRequired,
-    customer: customerType.isRequired,
-    changeHeaderState: PropTypes.func.isRequired,
-    logout: PropTypes.func.isRequired
-};
 
 export default MyAccountDetails;

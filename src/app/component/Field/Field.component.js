@@ -34,6 +34,85 @@ const SELECT_TYPE = 'select';
  * @class Field
  */
 class Field extends PureComponent {
+    static propTypes = {
+        id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        type: PropTypes.oneOf([
+            TEXT_TYPE,
+            NUMBER_TYPE,
+            TEXTAREA_TYPE,
+            PASSWORD_TYPE,
+            RADIO_TYPE,
+            CHECKBOX_TYPE,
+            SELECT_TYPE
+        ]).isRequired,
+        label: PropTypes.string,
+        message: PropTypes.string,
+        placeholder: PropTypes.string,
+        value: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number,
+            PropTypes.bool
+        ]),
+        state: PropTypes.string,
+        rows: PropTypes.number,
+        checked: PropTypes.oneOfType([
+            PropTypes.bool,
+            PropTypes.string
+        ]),
+        selectOptions: PropTypes.arrayOf(PropTypes.shape({
+            id: PropTypes.oneOfType([
+                PropTypes.string,
+                PropTypes.number
+            ]),
+            value: PropTypes.oneOfType([
+                PropTypes.string,
+                PropTypes.number
+            ]),
+            disabled: PropTypes.bool,
+            label: PropTypes.string
+        })),
+        disabled: PropTypes.bool,
+        onChange: PropTypes.func,
+        onFocus: PropTypes.func,
+        onBlur: PropTypes.func,
+        onClick: PropTypes.func,
+        onKeyPress: PropTypes.func,
+        min: PropTypes.number,
+        max: PropTypes.number,
+        mix: MixType,
+        formRef: PropTypes.oneOfType([
+            PropTypes.func,
+            PropTypes.shape({ current: PropTypes.instanceOf(Element) })
+        ]),
+        autocomplete: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.bool
+        ])
+    }
+
+    static defaultProps = {
+        rows: 4,
+        min: 1,
+        max: 99,
+        disabled: false,
+        checked: false,
+        mix: {},
+        selectOptions: [],
+        label: '',
+        formRef: () => {},
+        onKeyPress: () => {},
+        onClick: () => {},
+        onFocus: () => {},
+        onChange: () => {},
+        onBlur: () => {},
+        value: null,
+        state: '',
+        message: '',
+        placeholder: '',
+        autocomplete: 'off'
+    }
+
     constructor(props) {
         super(props);
 
@@ -533,84 +612,5 @@ class Field extends PureComponent {
         );
     }
 }
-
-Field.propTypes = {
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    type: PropTypes.oneOf([
-        TEXT_TYPE,
-        NUMBER_TYPE,
-        TEXTAREA_TYPE,
-        PASSWORD_TYPE,
-        RADIO_TYPE,
-        CHECKBOX_TYPE,
-        SELECT_TYPE
-    ]).isRequired,
-    label: PropTypes.string,
-    message: PropTypes.string,
-    placeholder: PropTypes.string,
-    value: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number,
-        PropTypes.bool
-    ]),
-    state: PropTypes.string,
-    rows: PropTypes.number,
-    checked: PropTypes.oneOfType([
-        PropTypes.bool,
-        PropTypes.string
-    ]),
-    selectOptions: PropTypes.arrayOf(PropTypes.shape({
-        id: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.number
-        ]),
-        value: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.number
-        ]),
-        disabled: PropTypes.bool,
-        label: PropTypes.string
-    })),
-    disabled: PropTypes.bool,
-    onChange: PropTypes.func,
-    onFocus: PropTypes.func,
-    onBlur: PropTypes.func,
-    onClick: PropTypes.func,
-    onKeyPress: PropTypes.func,
-    min: PropTypes.number,
-    max: PropTypes.number,
-    mix: MixType,
-    formRef: PropTypes.oneOfType([
-        PropTypes.func,
-        PropTypes.shape({ current: PropTypes.instanceOf(Element) })
-    ]),
-    autocomplete: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.bool
-    ])
-};
-
-Field.defaultProps = {
-    rows: 4,
-    min: 1,
-    max: 99,
-    disabled: false,
-    checked: false,
-    mix: {},
-    selectOptions: [],
-    label: '',
-    formRef: () => {},
-    onKeyPress: () => {},
-    onClick: () => {},
-    onFocus: () => {},
-    onChange: () => {},
-    onBlur: () => {},
-    value: null,
-    state: '',
-    message: '',
-    placeholder: '',
-    autocomplete: 'off'
-};
 
 export default Field;

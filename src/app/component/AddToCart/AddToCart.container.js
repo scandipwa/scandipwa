@@ -44,7 +44,7 @@ export class AddToCartContainer extends PureComponent {
         removeProductFromWishlist: PropTypes.func.isRequired,
         wishlistItems: PropTypes.objectOf(ProductType).isRequired,
         removeWishlistItem: PropTypes.bool
-    };
+    }
 
     static defaultProps = {
         quantity: 1,
@@ -54,7 +54,7 @@ export class AddToCartContainer extends PureComponent {
         productToBeRemovedAfterAdd: '',
         removeWishlistItem: false,
         isLoading: false
-    };
+    }
 
     constructor(props) {
         super(props);

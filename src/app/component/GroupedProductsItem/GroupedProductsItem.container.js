@@ -25,6 +25,16 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 export class GroupedProductsItemContainer extends PureComponent {
+    static propTypes = {
+        product: ProductType.isRequired,
+        groupedProductQuantity: PropTypes.number.isRequired,
+        updateGroupedProductQuantity: PropTypes.func
+    }
+
+    static defaultProps = {
+        updateGroupedProductQuantity: () => {}
+    }
+
     constructor(props) {
         super(props);
 
@@ -75,15 +85,5 @@ export class GroupedProductsItemContainer extends PureComponent {
         );
     }
 }
-
-GroupedProductsItemContainer.propTypes = {
-    product: ProductType.isRequired,
-    groupedProductQuantity: PropTypes.number.isRequired,
-    updateGroupedProductQuantity: PropTypes.func
-};
-
-GroupedProductsItemContainer.defaultProps = {
-    updateGroupedProductQuantity: () => {}
-};
 
 export default connect(mapStateToProps, mapDispatchToProps)(GroupedProductsItemContainer);

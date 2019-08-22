@@ -22,6 +22,14 @@ import { MenuType } from 'Type/Menu';
 import './MenuOverlay.style';
 
 class MenuOverlay extends PureComponent {
+    static propTypes = {
+        blocks: BlockListType.isRequired,
+        menu: MenuType.isRequired,
+        hideActiveOverlay: PropTypes.func.isRequired,
+        goToPreviousHeaderState: PropTypes.func.isRequired,
+        changeHeaderState: PropTypes.func.isRequired
+    }
+
     constructor(props) {
         super(props);
 
@@ -254,13 +262,5 @@ class MenuOverlay extends PureComponent {
         );
     }
 }
-
-MenuOverlay.propTypes = {
-    blocks: BlockListType.isRequired,
-    menu: MenuType.isRequired,
-    hideActiveOverlay: PropTypes.func.isRequired,
-    goToPreviousHeaderState: PropTypes.func.isRequired,
-    changeHeaderState: PropTypes.func.isRequired
-};
 
 export default MenuOverlay;

@@ -23,7 +23,7 @@ class CheckoutShippingMethods extends PureComponent {
         shippingMethods: PropTypes.arrayOf(PropTypes.object).isRequired,
         onSelectShippingMethod: PropTypes.func.isRequired,
         loadingShippingMethods: PropTypes.bool.isRequired
-    };
+    }
 
     constructor(props) {
         super(props);

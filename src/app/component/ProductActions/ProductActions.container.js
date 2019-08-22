@@ -20,6 +20,12 @@ export const mapStateToProps = state => ({
 });
 
 export class ProductActionsContainer extends PureComponent {
+    static propTypes = {
+        product: ProductType.isRequired,
+        configurableVariantIndex: PropTypes.number.isRequired,
+        areDetailsLoaded: PropTypes.bool.isRequired
+    }
+
     constructor(props) {
         super(props);
 
@@ -63,11 +69,5 @@ export class ProductActionsContainer extends PureComponent {
         );
     }
 }
-
-ProductActionsContainer.propTypes = {
-    product: ProductType.isRequired,
-    configurableVariantIndex: PropTypes.number.isRequired,
-    areDetailsLoaded: PropTypes.bool.isRequired
-};
 
 export default connect(mapStateToProps)(ProductActionsContainer);

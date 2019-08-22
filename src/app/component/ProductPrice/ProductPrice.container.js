@@ -18,6 +18,16 @@ import ProductPrice from './ProductPrice.component';
  * @class ProductPrice
  */
 class ProductPriceContainer extends PureComponent {
+    static propTypes = {
+        price: PriceType,
+        mix: MixType
+    }
+
+    static defaultProps = {
+        mix: {},
+        price: {}
+    }
+
     constructor(props) {
         super(props);
 
@@ -68,14 +78,5 @@ class ProductPriceContainer extends PureComponent {
     }
 }
 
-ProductPriceContainer.propTypes = {
-    price: PriceType,
-    mix: MixType
-};
-
-ProductPriceContainer.defaultProps = {
-    mix: {},
-    price: {}
-};
 
 export default ProductPriceContainer;

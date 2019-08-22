@@ -16,6 +16,20 @@ import { MixType, ChildrenType } from 'Type/Common';
 import './ExpandableContent.style';
 
 class ExpandableContent extends PureComponent {
+    static propTypes = {
+        isContentExpanded: PropTypes.bool,
+        heading: PropTypes.string,
+        subHeading: PropTypes.string,
+        children: ChildrenType.isRequired,
+        mix: MixType.isRequired
+    }
+
+    static defaultProps = {
+        subHeading: '',
+        heading: '',
+        isContentExpanded: false
+    }
+
     constructor(props) {
         super(props);
 
@@ -92,19 +106,5 @@ class ExpandableContent extends PureComponent {
         );
     }
 }
-
-ExpandableContent.propTypes = {
-    isContentExpanded: PropTypes.bool,
-    heading: PropTypes.string,
-    subHeading: PropTypes.string,
-    children: ChildrenType.isRequired,
-    mix: MixType.isRequired
-};
-
-ExpandableContent.defaultProps = {
-    subHeading: '',
-    heading: '',
-    isContentExpanded: false
-};
 
 export default ExpandableContent;

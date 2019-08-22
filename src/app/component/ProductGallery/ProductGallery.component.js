@@ -20,6 +20,21 @@ import './ProductGallery.style';
  * @class ProductGallery
  */
 class ProductGallery extends PureComponent {
+    static propTypes = {
+        gallery: PropTypes.arrayOf(
+            PropTypes.shape({
+                id: PropTypes.oneOfType([
+                    PropTypes.number,
+                    PropTypes.string
+                ]),
+                image: PropTypes.string,
+                isPlaceholder: PropTypes.bool,
+                alt: PropTypes.string,
+                type: PropTypes.string
+            })
+        ).isRequired
+    }
+
     constructor(props) {
         super(props);
         this.state = { activeImage: 0 };
@@ -123,20 +138,5 @@ class ProductGallery extends PureComponent {
         );
     }
 }
-
-ProductGallery.propTypes = {
-    gallery: PropTypes.arrayOf(
-        PropTypes.shape({
-            id: PropTypes.oneOfType([
-                PropTypes.number,
-                PropTypes.string
-            ]),
-            image: PropTypes.string,
-            isPlaceholder: PropTypes.bool,
-            alt: PropTypes.string,
-            type: PropTypes.string
-        })
-    ).isRequired
-};
 
 export default ProductGallery;

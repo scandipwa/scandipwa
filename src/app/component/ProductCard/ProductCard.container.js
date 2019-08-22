@@ -22,6 +22,15 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 export class ProductCardContainer extends PureComponent {
+    static propTypes = {
+        product: ProductType.isRequired,
+        selectedFilters: FilterType
+    }
+
+    static defaultProps = {
+        selectedFilters: {}
+    }
+
     constructor(props) {
         super(props);
 
@@ -121,13 +130,5 @@ export class ProductCardContainer extends PureComponent {
     }
 }
 
-ProductCardContainer.propTypes = {
-    product: ProductType.isRequired,
-    selectedFilters: FilterType
-};
-
-ProductCardContainer.defaultProps = {
-    selectedFilters: {}
-};
 
 export default connect(null, mapDispatchToProps)(ProductCardContainer);

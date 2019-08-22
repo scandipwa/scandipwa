@@ -17,7 +17,7 @@ class CheckoutPaymentMethods extends PureComponent {
     static propTypes = {
         paymentMethods: PropTypes.arrayOf(PropTypes.object).isRequired,
         onSelectPaymentMethod: PropTypes.func.isRequired
-    };
+    }
 
     constructor(props) {
         super(props);

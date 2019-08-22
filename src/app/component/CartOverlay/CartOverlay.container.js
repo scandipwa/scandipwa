@@ -36,7 +36,7 @@ export class CartOverlayContainer extends PureComponent {
     static propTypes = {
         totals: TotalsType.isRequired,
         changeHeaderState: PropTypes.func.isRequired
-    };
+    }
 
     constructor(props) {
         super(props);

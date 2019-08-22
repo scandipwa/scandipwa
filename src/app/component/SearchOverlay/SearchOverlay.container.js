@@ -28,6 +28,12 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 export class SearchOverlayContainer extends PureComponent {
+    static propTypes = {
+        makeSearchRequest: PropTypes.func.isRequired,
+        clearSearchResults: PropTypes.func.isRequired,
+        searchCriteria: PropTypes.string.isRequired
+    }
+
     constructor(props) {
         super(props);
 
@@ -64,11 +70,5 @@ export class SearchOverlayContainer extends PureComponent {
         );
     }
 }
-
-SearchOverlayContainer.propTypes = {
-    makeSearchRequest: PropTypes.func.isRequired,
-    clearSearchResults: PropTypes.func.isRequired,
-    searchCriteria: PropTypes.string.isRequired
-};
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchOverlayContainer);

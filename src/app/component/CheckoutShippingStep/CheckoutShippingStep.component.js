@@ -77,7 +77,7 @@ class CheckoutShippingStep extends PureComponent {
             telephone: PropTypes.string
         }).isRequired,
         countryList: PropTypes.arrayOf(PropTypes.shape).isRequired
-    };
+    }
 
     constructor(props) {
         super(props);

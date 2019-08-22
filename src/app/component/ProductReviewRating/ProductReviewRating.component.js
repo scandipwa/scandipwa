@@ -18,6 +18,18 @@ import './ProductReviewRating.style';
  * @class ProductReviewRating
  */
 class ProductReviewRating extends PureComponent {
+    static propTypes = {
+        summary: PropTypes.number,
+        code: PropTypes.string,
+        placeholder: PropTypes.bool
+    }
+
+    static defaultProps = {
+        summary: 0,
+        code: '',
+        placeholder: false
+    }
+
     constructor(props) {
         super(props);
         this.reviewRating = React.createRef();
@@ -66,16 +78,6 @@ class ProductReviewRating extends PureComponent {
     }
 }
 
-ProductReviewRating.propTypes = {
-    summary: PropTypes.number,
-    code: PropTypes.string,
-    placeholder: PropTypes.bool
-};
 
-ProductReviewRating.defaultProps = {
-    summary: 0,
-    code: '',
-    placeholder: false
-};
 
 export default ProductReviewRating;

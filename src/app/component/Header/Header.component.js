@@ -37,6 +37,49 @@ export const CHECKOUT = 'checkout';
 export const CMS_PAGE = 'cms-page';
 
 class Header extends PureComponent {
+    static propTypes = {
+        headerState: PropTypes.shape({
+            name: PropTypes.oneOf([
+                PDP,
+                CATEGORY,
+                CUSTOMER_ACCOUNT,
+                HOME_PAGE,
+                MENU,
+                MENU_SUBCATEGORY,
+                SEARCH,
+                FILTER,
+                CART,
+                CART_EDITING,
+                CHECKOUT
+            ]),
+            title: PropTypes.string,
+            onBackClick: PropTypes.func,
+            onCloseClick: PropTypes.func,
+            onEditClick: PropTypes.func,
+            onOkClick: PropTypes.func,
+            onCancelClick: PropTypes.func
+        }).isRequired,
+        cartTotals: TotalsType.isRequired,
+        onBackButtonClick: PropTypes.func.isRequired,
+        onCloseButtonClick: PropTypes.func.isRequired,
+        onSearchBarClick: PropTypes.func.isRequired,
+        onMenuButtonClick: PropTypes.func.isRequired,
+        onClearSearchButtonClick: PropTypes.func.isRequired,
+        onMyAccountButtonClick: PropTypes.func.isRequired,
+        onSearchBarChange: PropTypes.func.isRequired,
+        onClearButtonClick: PropTypes.func.isRequired,
+        onEditButtonClick: PropTypes.func.isRequired,
+        onMinicartButtonClick: PropTypes.func.isRequired,
+        onOkButtonClick: PropTypes.func.isRequired,
+        onCancelButtonClick: PropTypes.func.isRequired,
+        onSearchOutsideClick: PropTypes.func.isRequired,
+        onMenuOutsideClick: PropTypes.func.isRequired,
+        onMyAccountOutsideClick: PropTypes.func.isRequired,
+        onMinicartOutsideClick: PropTypes.func.isRequired,
+        isClearEnabled: PropTypes.bool.isRequired,
+        searchCriteria: PropTypes.string.isRequired
+    }
+
     constructor(props) {
         super(props);
 
@@ -404,48 +447,5 @@ class Header extends PureComponent {
         );
     }
 }
-
-Header.propTypes = {
-    headerState: PropTypes.shape({
-        name: PropTypes.oneOf([
-            PDP,
-            CATEGORY,
-            CUSTOMER_ACCOUNT,
-            HOME_PAGE,
-            MENU,
-            MENU_SUBCATEGORY,
-            SEARCH,
-            FILTER,
-            CART,
-            CART_EDITING,
-            CHECKOUT
-        ]),
-        title: PropTypes.string,
-        onBackClick: PropTypes.func,
-        onCloseClick: PropTypes.func,
-        onEditClick: PropTypes.func,
-        onOkClick: PropTypes.func,
-        onCancelClick: PropTypes.func
-    }).isRequired,
-    cartTotals: TotalsType.isRequired,
-    onBackButtonClick: PropTypes.func.isRequired,
-    onCloseButtonClick: PropTypes.func.isRequired,
-    onSearchBarClick: PropTypes.func.isRequired,
-    onMenuButtonClick: PropTypes.func.isRequired,
-    onClearSearchButtonClick: PropTypes.func.isRequired,
-    onMyAccountButtonClick: PropTypes.func.isRequired,
-    onSearchBarChange: PropTypes.func.isRequired,
-    onClearButtonClick: PropTypes.func.isRequired,
-    onEditButtonClick: PropTypes.func.isRequired,
-    onMinicartButtonClick: PropTypes.func.isRequired,
-    onOkButtonClick: PropTypes.func.isRequired,
-    onCancelButtonClick: PropTypes.func.isRequired,
-    onSearchOutsideClick: PropTypes.func.isRequired,
-    onMenuOutsideClick: PropTypes.func.isRequired,
-    onMyAccountOutsideClick: PropTypes.func.isRequired,
-    onMinicartOutsideClick: PropTypes.func.isRequired,
-    isClearEnabled: PropTypes.bool.isRequired,
-    searchCriteria: PropTypes.string.isRequired
-};
 
 export default Header;

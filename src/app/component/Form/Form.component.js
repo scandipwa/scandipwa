@@ -16,6 +16,21 @@ import { MixType, ChildrenType } from 'Type/Common';
 import validationConfig from './Form.config';
 
 class Form extends PureComponent {
+    static propTypes = {
+        onSubmitSuccess: PropTypes.func,
+        onSubmitError: PropTypes.func,
+        onSubmit: PropTypes.func,
+        children: ChildrenType.isRequired,
+        mix: MixType
+    }
+
+    static defaultProps = {
+        onSubmitSuccess: () => {},
+        onSubmitError: () => {},
+        onSubmit: () => {},
+        mix: {}
+    }
+
     static updateChildrenRefs(props) {
         const { children: propsChildren } = props;
         const refMap = {};
@@ -170,20 +185,5 @@ class Form extends PureComponent {
         );
     }
 }
-
-Form.propTypes = {
-    onSubmitSuccess: PropTypes.func,
-    onSubmitError: PropTypes.func,
-    onSubmit: PropTypes.func,
-    children: ChildrenType.isRequired,
-    mix: MixType
-};
-
-Form.defaultProps = {
-    onSubmitSuccess: () => {},
-    onSubmitError: () => {},
-    onSubmit: () => {},
-    mix: {}
-};
 
 export default Form;

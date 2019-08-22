@@ -16,6 +16,11 @@ import { getUrlParam } from 'Util/Url';
 import './SearchPage.style';
 
 class SearchPage extends CategoryPage {
+    static propTypes = {
+        makeSearchRequest: PropTypes.func.isRequired,
+        totalItems: PropTypes.number.isRequired
+    }
+
     constructor(props) {
         super(props);
 
@@ -89,10 +94,5 @@ class SearchPage extends CategoryPage {
         );
     }
 }
-
-SearchPage.propTypes = {
-    makeSearchRequest: PropTypes.func.isRequired,
-    totalItems: PropTypes.number.isRequired
-};
 
 export default SearchPage;

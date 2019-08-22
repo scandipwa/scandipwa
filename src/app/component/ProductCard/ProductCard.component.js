@@ -24,6 +24,23 @@ import './ProductCard.style';
  * @class ProductCard
  */
 class ProductCard extends PureComponent {
+    static propTypes = {
+        linkTo: PropTypes.shape({}),
+        product: ProductType.isRequired,
+        productOrVariant: ProductType.isRequired,
+        thumbnail: PropTypes.string,
+        availableVisualOptions: PropTypes.arrayOf(PropTypes.shape({
+            label: PropTypes.string,
+            value: PropTypes.string
+        })).isRequired,
+        getAttribute: PropTypes.func.isRequired
+    }
+
+    static defaultProps = {
+        thumbnail: '',
+        linkTo: {}
+    }
+
     renderProductPrice() {
         const { productOrVariant: { price } } = this.props;
         if (!price) return <TextPlaceholder />;
@@ -175,22 +192,5 @@ class ProductCard extends PureComponent {
         );
     }
 }
-
-ProductCard.propTypes = {
-    linkTo: PropTypes.shape({}),
-    product: ProductType.isRequired,
-    productOrVariant: ProductType.isRequired,
-    thumbnail: PropTypes.string,
-    availableVisualOptions: PropTypes.arrayOf(PropTypes.shape({
-        label: PropTypes.string,
-        value: PropTypes.string
-    })).isRequired,
-    getAttribute: PropTypes.func.isRequired
-};
-
-ProductCard.defaultProps = {
-    thumbnail: '',
-    linkTo: {}
-};
 
 export default ProductCard;

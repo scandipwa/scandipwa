@@ -27,11 +27,11 @@ class CartOverlay extends PureComponent {
         totals: TotalsType.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
         isEditing: PropTypes.bool.isRequired
-    };
+    }
 
     static defaultProps = {
         products: {}
-    };
+    }
 
     renderCartItems() {
         const { products, isEditing } = this.props;

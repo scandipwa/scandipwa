@@ -27,13 +27,13 @@ class ContentWrapper extends PureComponent {
             elem: PropTypes.string
         }),
         label: PropTypes.string.isRequired
-    };
+    }
 
     static defaultProps = {
         mix: {},
         wrapperMix: {},
         children: null
-    };
+    }
 
     render() {
         const {

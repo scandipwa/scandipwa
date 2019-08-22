@@ -67,7 +67,7 @@ class CheckoutPreviewAndPaymentsStep extends PureComponent {
         finishedLoading: PropTypes.bool.isRequired,
         isSignedIn: PropTypes.bool.isRequired,
         countryList: PropTypes.arrayOf(PropTypes.shape).isRequired
-    };
+    }
 
     constructor(props) {
         super(props);

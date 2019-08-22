@@ -18,6 +18,24 @@ import { MixType } from 'Type/Common';
 import './ProductConfigurableAttributes.style';
 
 class ProductConfigurableAttributes extends Component {
+    static propTypes = {
+        isContentExpanded: PropTypes.bool,
+        numberOfPlaceholders: PropTypes.arrayOf(PropTypes.number),
+        configurable_options: PropTypes.objectOf(AttributeType).isRequired,
+        getLink: PropTypes.func.isRequired,
+        parameters: PropTypes.shape({}).isRequired,
+        updateConfigurableVariant: PropTypes.func.isRequired,
+        isReady: PropTypes.bool,
+        mix: MixType
+    }
+
+    static defaultProps = {
+        isReady: true,
+        mix: {},
+        numberOfPlaceholders: [6, 10, 7],
+        isContentExpanded: false
+    }
+
     /**
      * Get URL link for attribute
      *
@@ -143,22 +161,5 @@ class ProductConfigurableAttributes extends Component {
     }
 }
 
-ProductConfigurableAttributes.propTypes = {
-    isContentExpanded: PropTypes.bool,
-    numberOfPlaceholders: PropTypes.arrayOf(PropTypes.number),
-    configurable_options: PropTypes.objectOf(AttributeType).isRequired,
-    getLink: PropTypes.func.isRequired,
-    parameters: PropTypes.shape({}).isRequired,
-    updateConfigurableVariant: PropTypes.func.isRequired,
-    isReady: PropTypes.bool,
-    mix: MixType
-};
-
-ProductConfigurableAttributes.defaultProps = {
-    isReady: true,
-    mix: {},
-    numberOfPlaceholders: [6, 10, 7],
-    isContentExpanded: false
-};
 
 export default ProductConfigurableAttributes;

@@ -23,6 +23,21 @@ import './Slider.style';
  * @class Slider
  */
 class Slider extends PureComponent {
+    static propTypes = {
+        showCrumbs: PropTypes.bool,
+        activeImage: PropTypes.number,
+        onActiveImageChange: PropTypes.func,
+        mix: MixType,
+        children: ChildrenType.isRequired
+    };
+
+    static defaultProps = {
+        activeImage: 0,
+        onActiveImageChange: () => {},
+        showCrumbs: false,
+        mix: {}
+    };
+
     constructor(props) {
         super(props);
 
@@ -270,20 +285,5 @@ class Slider extends PureComponent {
         );
     }
 }
-
-Slider.propTypes = {
-    showCrumbs: PropTypes.bool,
-    activeImage: PropTypes.number,
-    onActiveImageChange: PropTypes.func,
-    mix: MixType,
-    children: ChildrenType.isRequired
-};
-
-Slider.defaultProps = {
-    activeImage: 0,
-    onActiveImageChange: () => {},
-    showCrumbs: false,
-    mix: {}
-};
 
 export default Slider;

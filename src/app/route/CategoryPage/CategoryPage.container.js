@@ -70,6 +70,38 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 export class CategoryPageContainer extends PureComponent {
+    static propTypes = {
+        history: HistoryType.isRequired,
+        category: CategoryTreeType.isRequired,
+        pages: PagesType.isRequired,
+        totalItems: PropTypes.number.isRequired,
+        minPriceRange: PropTypes.number.isRequired,
+        maxPriceRange: PropTypes.number.isRequired,
+        location: LocationType.isRequired,
+        match: MatchType.isRequired,
+        requestCategory: PropTypes.func.isRequired,
+        changeHeaderState: PropTypes.func.isRequired,
+        requestProductList: PropTypes.func.isRequired,
+        requestProductListInfo: PropTypes.func.isRequired,
+        updateBreadcrumbs: PropTypes.func.isRequired,
+        updateLoadStatus: PropTypes.func.isRequired,
+        filters: PropTypes.objectOf(PropTypes.shape).isRequired,
+        sortFields: PropTypes.shape({
+            options: PropTypes.array
+        }).isRequired,
+        isInfoLoading: PropTypes.bool.isRequired,
+        isPagesLoading: PropTypes.bool.isRequired,
+        categoryIds: PropTypes.number,
+        isOnlyPlaceholder: PropTypes.bool,
+        isSearchPage: PropTypes.bool
+    }
+
+    static defaultProps = {
+        categoryIds: 0,
+        isOnlyPlaceholder: false,
+        isSearchPage: false
+    }
+
     constructor(props) {
         super(props);
 
@@ -396,37 +428,5 @@ export class CategoryPageContainer extends PureComponent {
         );
     }
 }
-
-CategoryPageContainer.propTypes = {
-    history: HistoryType.isRequired,
-    category: CategoryTreeType.isRequired,
-    pages: PagesType.isRequired,
-    totalItems: PropTypes.number.isRequired,
-    minPriceRange: PropTypes.number.isRequired,
-    maxPriceRange: PropTypes.number.isRequired,
-    location: LocationType.isRequired,
-    match: MatchType.isRequired,
-    requestCategory: PropTypes.func.isRequired,
-    changeHeaderState: PropTypes.func.isRequired,
-    requestProductList: PropTypes.func.isRequired,
-    requestProductListInfo: PropTypes.func.isRequired,
-    updateBreadcrumbs: PropTypes.func.isRequired,
-    updateLoadStatus: PropTypes.func.isRequired,
-    filters: PropTypes.objectOf(PropTypes.shape).isRequired,
-    sortFields: PropTypes.shape({
-        options: PropTypes.array
-    }).isRequired,
-    isInfoLoading: PropTypes.bool.isRequired,
-    isPagesLoading: PropTypes.bool.isRequired,
-    categoryIds: PropTypes.number,
-    isOnlyPlaceholder: PropTypes.bool,
-    isSearchPage: PropTypes.bool
-};
-
-CategoryPageContainer.defaultProps = {
-    categoryIds: 0,
-    isOnlyPlaceholder: false,
-    isSearchPage: false
-};
 
 export default connect(mapStateToProps, mapDispatchToProps)(CategoryPageContainer);

@@ -31,6 +31,12 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 export class CartPageContainer extends PureComponent {
+    static propTypes = {
+        updateBreadcrumbs: PropTypes.func.isRequired,
+        changeHeaderState: PropTypes.func.isRequired,
+        totals: TotalsType.isRequired
+    }
+
     constructor(props) {
         super(props);
 
@@ -84,11 +90,5 @@ export class CartPageContainer extends PureComponent {
         );
     }
 }
-
-CartPageContainer.propTypes = {
-    updateBreadcrumbs: PropTypes.func.isRequired,
-    changeHeaderState: PropTypes.func.isRequired,
-    totals: TotalsType.isRequired
-};
 
 export default connect(mapStateToProps, mapDispatchToProps)(CartPageContainer);

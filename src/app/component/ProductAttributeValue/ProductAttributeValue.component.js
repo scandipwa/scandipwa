@@ -16,6 +16,19 @@ import { MixType } from 'Type/Common';
 import './ProductAttributeValue.style';
 
 class ProductAttributeValue extends Component {
+    static propTypes = {
+        getLink: PropTypes.func.isRequired,
+        onClick: PropTypes.func.isRequired,
+        attribute: AttributeType.isRequired,
+        isSelected: PropTypes.bool,
+        mix: MixType
+    }
+
+    static defaultProps = {
+        isSelected: false,
+        mix: {}
+    }
+
     constructor(props) {
         super(props);
 
@@ -187,18 +200,5 @@ class ProductAttributeValue extends Component {
         );
     }
 }
-
-ProductAttributeValue.propTypes = {
-    getLink: PropTypes.func.isRequired,
-    onClick: PropTypes.func.isRequired,
-    attribute: AttributeType.isRequired,
-    isSelected: PropTypes.bool,
-    mix: MixType
-};
-
-ProductAttributeValue.defaultProps = {
-    isSelected: false,
-    mix: {}
-};
 
 export default ProductAttributeValue;

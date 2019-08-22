@@ -21,6 +21,11 @@ import './ProductReviewList.style';
  * @class ProductReviewList
  */
 class ProductReviewList extends PureComponent {
+    static propTypes = {
+        product: ProductType.isRequired,
+        areDetailsLoaded: PropTypes.bool.isRequired
+    }
+
     renderReviewListItemRating(ratingVoteItem) {
         const {
             vote_id,
@@ -126,10 +131,5 @@ class ProductReviewList extends PureComponent {
         );
     }
 }
-
-ProductReviewList.propTypes = {
-    product: ProductType.isRequired,
-    areDetailsLoaded: PropTypes.bool.isRequired
-};
 
 export default ProductReviewList;

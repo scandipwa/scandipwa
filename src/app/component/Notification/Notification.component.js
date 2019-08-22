@@ -23,6 +23,12 @@ const ANIMATION_DURATION = 400;
  * @class Notification
  */
 class Notification extends PureComponent {
+    static propTypes = {
+        notificationId: PropTypes.string.isRequired,
+        notification: NotificationType.isRequired,
+        onHideNotification: PropTypes.func.isRequired
+    }
+
     constructor(props) {
         super(props);
         this.state = { isNotificationVisible: true };
@@ -73,11 +79,5 @@ class Notification extends PureComponent {
         );
     }
 }
-
-Notification.propTypes = {
-    notificationId: PropTypes.string.isRequired,
-    notification: NotificationType.isRequired,
-    onHideNotification: PropTypes.func.isRequired
-};
 
 export default Notification;

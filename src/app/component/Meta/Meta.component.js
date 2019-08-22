@@ -18,6 +18,15 @@ import Helmet from 'react-helmet';
  * @class Meta
  */
 class Meta extends PureComponent {
+    static propTypes = {
+        metaObject: PropTypes.shape({
+            name: PropTypes.string,
+            meta_title: PropTypes.string,
+            meta_description: PropTypes.string,
+            meta_keyword: PropTypes.string
+        }).isRequired
+    }
+
     render() {
         const {
             metaObject: {
@@ -45,14 +54,5 @@ class Meta extends PureComponent {
         );
     }
 }
-
-Meta.propTypes = {
-    metaObject: PropTypes.shape({
-        name: PropTypes.string,
-        meta_title: PropTypes.string,
-        meta_description: PropTypes.string,
-        meta_keyword: PropTypes.string
-    }).isRequired
-};
 
 export default Meta;

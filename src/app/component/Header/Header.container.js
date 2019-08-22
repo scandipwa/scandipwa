@@ -47,6 +47,34 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 export class HeaderContainer extends PureComponent {
+    static propTypes = {
+        showOverlay: PropTypes.func.isRequired,
+        goToPreviousHeaderState: PropTypes.func.isRequired,
+        hideActiveOverlay: PropTypes.func.isRequired,
+        setHeaderState: PropTypes.func.isRequired,
+        headerState: PropTypes.shape({
+            name: PropTypes.oneOf([
+                PDP,
+                CATEGORY,
+                CUSTOMER_ACCOUNT,
+                HOME_PAGE,
+                MENU,
+                MENU_SUBCATEGORY,
+                SEARCH,
+                FILTER,
+                CART,
+                CART_EDITING,
+                CHECKOUT
+            ]),
+            title: PropTypes.string,
+            onBackClick: PropTypes.func,
+            onCloseClick: PropTypes.func,
+            onEditClick: PropTypes.func,
+            onOkClick: PropTypes.func,
+            onCancelClick: PropTypes.func
+        }).isRequired
+    }
+
     constructor(props) {
         super(props);
 
@@ -292,33 +320,5 @@ export class HeaderContainer extends PureComponent {
         );
     }
 }
-
-HeaderContainer.propTypes = {
-    showOverlay: PropTypes.func.isRequired,
-    goToPreviousHeaderState: PropTypes.func.isRequired,
-    hideActiveOverlay: PropTypes.func.isRequired,
-    setHeaderState: PropTypes.func.isRequired,
-    headerState: PropTypes.shape({
-        name: PropTypes.oneOf([
-            PDP,
-            CATEGORY,
-            CUSTOMER_ACCOUNT,
-            HOME_PAGE,
-            MENU,
-            MENU_SUBCATEGORY,
-            SEARCH,
-            FILTER,
-            CART,
-            CART_EDITING,
-            CHECKOUT
-        ]),
-        title: PropTypes.string,
-        onBackClick: PropTypes.func,
-        onCloseClick: PropTypes.func,
-        onEditClick: PropTypes.func,
-        onOkClick: PropTypes.func,
-        onCancelClick: PropTypes.func
-    }).isRequired
-};
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(HeaderContainer));

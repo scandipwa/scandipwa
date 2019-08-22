@@ -21,6 +21,12 @@ import './HomePage.style';
 import Image from 'Component/Image';
 
 class HomePage extends Component {
+    static propTypes = {
+        blocks: BlockListType.isRequired,
+        requestBlocks: PropTypes.func.isRequired,
+        disableBreadcrumbs: PropTypes.func.isRequired
+    }
+
     constructor() {
         super();
 
@@ -93,11 +99,5 @@ class HomePage extends Component {
         );
     }
 }
-
-HomePage.propTypes = {
-    blocks: BlockListType.isRequired,
-    requestBlocks: PropTypes.func.isRequired,
-    disableBreadcrumbs: PropTypes.func.isRequired
-};
 
 export default HomePage;

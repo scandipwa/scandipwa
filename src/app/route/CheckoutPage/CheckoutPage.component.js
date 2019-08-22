@@ -33,6 +33,27 @@ export const CHECKOUT_STEP_REVIEW_AND_PAYMENTS = 'review-and-payments';
 export const CHECKOUT_STEP_SUCCESS = 'success';
 
 class CheckoutPage extends Component {
+    static propTypes = {
+        savePaymentInformationAndPlaceOrder: PropTypes.func.isRequired,
+        saveAddressInformation: PropTypes.func.isRequired,
+        removeCartAndObtainNewGuest: PropTypes.func.isRequired,
+        showNotification: PropTypes.func.isRequired,
+        requestCustomerData: PropTypes.func.isRequired,
+        toggleBreadcrumbs: PropTypes.func.isRequired,
+        setHeaderState: PropTypes.func.isRequired,
+        isSignedIn: PropTypes.bool.isRequired,
+        countryList: PropTypes.arrayOf(PropTypes.shape).isRequired,
+        customer: customerType.isRequired,
+        products: PropTypes.objectOf(ProductType),
+        totals: TotalsType.isRequired,
+        match: MatchType.isRequired,
+        location: LocationType.isRequired
+    }
+
+    static defaultProps = {
+        products: {}
+    }
+
     static changeUrlByCheckoutStep(props, state) {
         const { history } = props;
         const { checkoutStep } = state;
@@ -349,26 +370,5 @@ class CheckoutPage extends Component {
         );
     }
 }
-
-CheckoutPage.propTypes = {
-    savePaymentInformationAndPlaceOrder: PropTypes.func.isRequired,
-    saveAddressInformation: PropTypes.func.isRequired,
-    removeCartAndObtainNewGuest: PropTypes.func.isRequired,
-    showNotification: PropTypes.func.isRequired,
-    requestCustomerData: PropTypes.func.isRequired,
-    toggleBreadcrumbs: PropTypes.func.isRequired,
-    setHeaderState: PropTypes.func.isRequired,
-    isSignedIn: PropTypes.bool.isRequired,
-    countryList: PropTypes.arrayOf(PropTypes.shape).isRequired,
-    customer: customerType.isRequired,
-    products: PropTypes.objectOf(ProductType),
-    totals: TotalsType.isRequired,
-    match: MatchType.isRequired,
-    location: LocationType.isRequired
-};
-
-CheckoutPage.defaultProps = {
-    products: {}
-};
 
 export default CheckoutPage;

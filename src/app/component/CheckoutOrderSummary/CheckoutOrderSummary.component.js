@@ -24,12 +24,12 @@ class CheckoutOrderSummary extends PureComponent {
     static propTypes = {
         totals: TotalsType,
         products: PropTypes.objectOf(ProductType)
-    };
+    }
 
     static defaultProps = {
         totals: {},
         products: {}
-    };
+    }
 
     renderPriceLine(price, name, mods) {
         if (!price) return null;

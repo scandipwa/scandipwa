@@ -31,6 +31,20 @@ export const STATE_CREATE_ACCOUNT = 'createAccount';
 export const STATE_LOGGED_IN = 'loggedIn';
 
 class MyAccountOverlay extends PureComponent {
+    static propTypes = {
+        forgotPassword: PropTypes.func.isRequired,
+        signIn: PropTypes.func.isRequired,
+        isPasswordForgotSend: PropTypes.bool.isRequired,
+        showNotification: PropTypes.func.isRequired,
+        createAccount: PropTypes.func.isRequired,
+        logout: PropTypes.func.isRequired,
+        // eslint-disable-next-line react/no-unused-prop-types
+        isOverlayVisible: PropTypes.bool.isRequired,
+        setHeaderState: PropTypes.func.isRequired,
+        hideActiveOverlay: PropTypes.func.isRequired,
+        history: HistoryType.isRequired
+    }
+
     constructor(props) {
         super(props);
 
@@ -451,19 +465,5 @@ class MyAccountOverlay extends PureComponent {
         );
     }
 }
-
-MyAccountOverlay.propTypes = {
-    forgotPassword: PropTypes.func.isRequired,
-    signIn: PropTypes.func.isRequired,
-    isPasswordForgotSend: PropTypes.bool.isRequired,
-    showNotification: PropTypes.func.isRequired,
-    createAccount: PropTypes.func.isRequired,
-    logout: PropTypes.func.isRequired,
-    // eslint-disable-next-line react/no-unused-prop-types
-    isOverlayVisible: PropTypes.bool.isRequired,
-    setHeaderState: PropTypes.func.isRequired,
-    hideActiveOverlay: PropTypes.func.isRequired,
-    history: HistoryType.isRequired
-};
 
 export default withRouter(MyAccountOverlay);

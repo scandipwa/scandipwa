@@ -28,7 +28,7 @@ export class CartItemContainer extends PureComponent {
         product: ProductType.isRequired,
         addProduct: PropTypes.func.isRequired,
         removeProduct: PropTypes.func.isRequired
-    };
+    }
 
     constructor(props) {
         super(props);
