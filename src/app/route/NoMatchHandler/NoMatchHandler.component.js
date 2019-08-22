@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
 import NoMatch from 'Route/NoMatch';
 import { LocationType } from 'Type/Router';
@@ -54,16 +54,8 @@ class NoMatchHandler extends Component {
 
     render() {
         const { children, noMatch } = this.props;
-
-        if (noMatch) {
-            return <NoMatch />;
-        }
-
-        return (
-            <React.Fragment>
-                { children }
-            </React.Fragment>
-        );
+        if (noMatch) return <NoMatch />;
+        return children;
     }
 }
 

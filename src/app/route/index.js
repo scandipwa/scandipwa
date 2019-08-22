@@ -10,7 +10,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import { Component, cloneElement } from 'react';
 
 import { Route, Switch } from 'react-router-dom';
 import { Router } from 'react-router';
@@ -192,7 +192,7 @@ class AppRouter extends Component {
      * @param {string|number} key
      */
     applyKeyToReactElement(element, key) {
-        return React.cloneElement(element, { ...element.props, key });
+        return cloneElement(element, { ...element.props, key });
     }
 
     render() {

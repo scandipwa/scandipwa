@@ -11,7 +11,7 @@
 
 /* eslint-disable consistent-return */
 // Disabled due `domToReact` internal logic
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import parser from 'html-react-parser';
 import domToReact from 'html-react-parser/lib/dom-to-react';
 import attributesToProps from 'html-react-parser/lib/attributes-to-props';

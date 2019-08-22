@@ -11,7 +11,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent, Children } from 'react';
+import { PureComponent, Children, createRef } from 'react';
 import PropTypes from 'prop-types';
 import CSS from 'Util/CSS';
 import { MixType, ChildrenType } from 'Type/Common';
@@ -45,9 +45,9 @@ class Slider extends PureComponent {
 
     prevPosition = 0;
 
-    draggableRef = React.createRef();
+    draggableRef = createRef();
 
-    sliderRef = React.createRef();
+    sliderRef = createRef();
 
     handleDragStart = this.handleDragStart.bind(this);
 

@@ -11,7 +11,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent, Fragment } from 'react';
+import { PureComponent, Fragment, createRef } from 'react';
 import PropTypes from 'prop-types';
 
 import Link from 'Component/Link';
@@ -155,7 +155,7 @@ class Header extends PureComponent {
         ok: this.renderOkButton.bind(this)
     };
 
-    searchBarRef = React.createRef();
+    searchBarRef = createRef();
 
     onClearSearchButtonClick = this.onClearSearchButtonClick.bind(this);
 

@@ -10,7 +10,7 @@
  */
 
 import { connect } from 'react-redux';
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import { ProductType, FilterType } from 'Type/ProductList';
 import { CartDispatcher } from 'Store/Cart';
 import { getVariantsIndexes } from 'Util/Product';

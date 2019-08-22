@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import { generateQuery } from 'Util/Url';

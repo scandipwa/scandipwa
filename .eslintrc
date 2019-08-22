@@ -51,6 +51,7 @@
     "import/no-unresolved": 0,
     "import/named": 0,
     "no-plusplus": 0,
+    "react/react-in-jsx-scope": 0,
     "react/jsx-curly-spacing": [2, {"when": "always", "allowMultiline": false, "children": true} ],
     "import/no-named-as-default": 0,
     "import/no-named-as-default-member": 0,

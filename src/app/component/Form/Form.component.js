@@ -9,7 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent, Children } from 'react';
+import {
+    PureComponent,
+    Children,
+    createRef,
+    cloneElement
+} from 'react';
 import PropTypes from 'prop-types';
 import Field from 'Component/Field';
 import { MixType, ChildrenType } from 'Type/Common';
@@ -38,8 +43,8 @@ class Form extends PureComponent {
             propsChildren,
             (child) => {
                 const { props: { name } } = child;
-                refMap[name] = React.createRef();
-                return React.cloneElement(child, { formRef: refMap[name] });
+                refMap[name] = createRef();
+                return cloneElement(child, { formRef: refMap[name] });
             }
         );
 
@@ -56,7 +61,7 @@ class Form extends PureComponent {
                 }
 
                 if (typeof children === 'object') {
-                    return React.cloneElement(child, {
+                    return cloneElement(child, {
                         ...props,
                         children: executeClone(children)
                     });
@@ -81,10 +86,10 @@ class Form extends PureComponent {
 
                 if (message) {
                     invalidFields.push(id);
-                    return React.cloneElement(child, { message, formRef: refMap[name] });
+                    return cloneElement(child, { message, formRef: refMap[name] });
                 }
 
-                return React.cloneElement(child, { formRef: refMap[name] });
+                return cloneElement(child, { formRef: refMap[name] });
             }
         );
 

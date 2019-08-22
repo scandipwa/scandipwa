@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import { getQueryParam } from 'Util/Url';
 import PropTypes from 'prop-types';

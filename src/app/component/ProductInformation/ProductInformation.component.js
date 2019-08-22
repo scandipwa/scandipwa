@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import ExpandableContent from 'Component/ExpandableContent';
 import Html from 'Component/Html';
 import ContentWrapper from 'Component/ContentWrapper';

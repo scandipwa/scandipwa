@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import { ProductType } from 'Type/ProductList';
 
 import ProductGallery from './ProductGallery.component';

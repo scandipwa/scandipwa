@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import { PriceType } from 'Type/ProductList';
 import { MixType } from 'Type/Common';
 import ProductPrice from './ProductPrice.component';

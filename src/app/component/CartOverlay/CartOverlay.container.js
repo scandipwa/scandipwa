@@ -11,7 +11,7 @@
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import { changeHeaderState, goToPreviousHeaderState } from 'Store/Header';
 import { CART, CART_EDITING } from 'Component/Header';
 import { hideActiveOverlay } from 'Store/Overlay';

@@ -11,7 +11,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import CheckoutPaymentMethods from 'Component/CheckoutPaymentMethods';
 import Field from 'Component/Field';

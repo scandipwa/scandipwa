@@ -27,7 +27,7 @@ const autoprefixer = require('autoprefixer');
 
 const { InjectManifest } = require('workbox-webpack-plugin');
 
-const WebmanifestConfig = require('./webmanifest.config');
+const webmanifestConfig = require('./webmanifest.config');
 const BabelConfig = require('./babel.config');
 const FallbackPlugin = require('./FallbackPlugin');
 
@@ -140,7 +140,7 @@ module.exports = {
             }
         }),
 
-        new WebpackPwaManifest(WebmanifestConfig(projectRoot)),
+        new WebpackPwaManifest(webmanifestConfig(projectRoot)),
 
         new webpack.DefinePlugin({
             'process.env': {
@@ -151,7 +151,8 @@ module.exports = {
         }),
 
         new webpack.ProvidePlugin({
-            __: path.resolve(path.join(__dirname, 'TranslationFunction'))
+            __: path.resolve(path.join(__dirname, 'TranslationFunction')),
+            React: 'react'
         }),
 
         new CleanWebpackPlugin([

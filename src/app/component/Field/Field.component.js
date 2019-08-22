@@ -15,7 +15,7 @@
 
 // todo fix text type
 
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { MixType } from 'Type/Common';
 import ClickOutside from 'Component/ClickOutside';

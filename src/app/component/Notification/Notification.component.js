@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import { PureComponent, createRef } from 'react';
 import CSS from 'Util/CSS';
 import PropTypes from 'prop-types';
 import { NotificationType } from 'Type/NotificationList';
@@ -32,7 +32,7 @@ class Notification extends PureComponent {
 
     state = { isNotificationVisible: true };
 
-    notification = React.createRef();
+    notification = createRef();
 
     componentDidMount() {
         this.hideTimeout = setTimeout(() => this.hideNotification(), NOTIFICATION_LIFETIME);

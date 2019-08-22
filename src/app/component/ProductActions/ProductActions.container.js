@@ -11,7 +11,7 @@
 
 import PropTypes from 'prop-types';
 import { ProductType } from 'Type/ProductList';
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import ProductActions from './ProductActions.component';
 

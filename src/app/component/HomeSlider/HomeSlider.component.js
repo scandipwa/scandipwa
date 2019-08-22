@@ -11,7 +11,7 @@
  */
 
 import PropTypes from 'prop-types';
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import Link from 'Component/Link';
 import Slider from 'Component/Slider';
 import Image from 'Component/Image';
