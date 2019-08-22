@@ -10,31 +10,37 @@
  */
 
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import Html from 'Component/Html';
 import { TotalsType } from 'Type/MiniCart';
-import { ProductType } from 'Type/ProductList';
 import { formatCurrency } from 'Util/Price';
 import Image from 'Component/Image';
 import './CheckoutOrderSummary.style';
 import CartItemPrice from 'Component/CartItemPrice';
+import PropTypes from 'prop-types';
 
 /**
- *
+ * Checkout Order Summary component
  */
 class CheckoutOrderSummary extends Component {
-    getDataSource(item) {
-        const { configurableVariantIndex, variants } = item;
-
-        if (typeof configurableVariantIndex === 'number' && variants) {
-            return variants[configurableVariantIndex] || {};
+    /**
+     * @param {*} product
+     * @param {*} item
+     */
+    getSourceProduct(product, item) {
+        const { type_id: type, variants } = product;
+        if (type === 'configurable') {
+            const variantIndex = Array.prototype.findIndex.call(variants,
+                variant => this.sku === variant.sku, item);
+            return variants[variantIndex].product;
         }
 
-        return item;
+        return product;
     }
 
     /**
-     * Render price line
+     * @param {*} price
+     * @param {*} name
+     * @param {*} mods
      */
     renderPriceLine(price, name, mods) {
         if (!price) return null;
@@ -57,13 +63,14 @@ class CheckoutOrderSummary extends Component {
      * @returns {*}
      */
     renderItem(key, item, currency_code) {
-        const { product, row_total, quantity } = this.getDataSource(item);
+        const { product, row_total, qty: quantity } = item;
+        const sourceProduct = this.getSourceProduct(product, item);
         const {
             thumbnail: { path } = {},
             short_description: { html } = {},
             manufacturer,
             name
-        } = product;
+        } = sourceProduct;
         return (
             <li key={ key } block="CheckoutOrderSummary" elem="CartItem">
                 <div
@@ -106,13 +113,13 @@ class CheckoutOrderSummary extends Component {
             totals: {
                 grand_total, subtotal, tax_amount, items, shipping_amount, base_currency_code
             },
-            products
+            cartItems
         } = this.props;
 
         // eslint-disable-next-line no-param-reassign, no-return-assign
         const itemsTax = items ? items.reduce((sum, { tax_amount }) => sum += tax_amount, tax_amount) : 0;
 
-        const productCount = Object.keys(products).length;
+        const itemsCount = Object.keys(items).length;
 
         return (
             <div block="CheckoutOrderSummary" aria-label="Order Summary">
@@ -127,10 +134,15 @@ class CheckoutOrderSummary extends Component {
                 </div>
 
                 <div block="CheckoutOrderSummary" elem="OrderItems">
-                    <h3>{ __('%s Items In Cart', productCount) }</h3>
+                    <h3>{ __('%s Items In Cart', itemsCount) }</h3>
                     <ul block="CheckoutOrderSummary" elem="CartItemList">
-                        { Object.keys(products)
-                            .map(key => this.renderItem(key, products[key], base_currency_code)) }
+                        { Object.keys(items).map((key) => {
+                            const currentItem = items[key];
+                            if (currentItem.product) {
+                                this.renderItem(key, items[key], base_currency_code);
+                            }
+                            this.renderItem(key, cartItems[currentItem.item_id], base_currency_code);
+                        }) }
                     </ul>
                 </div>
             </div>
@@ -140,12 +152,11 @@ class CheckoutOrderSummary extends Component {
 
 CheckoutOrderSummary.propTypes = {
     totals: TotalsType,
-    products: PropTypes.objectOf(ProductType)
+    cartItems: PropTypes.shape([]).isRequired
 };
 
 CheckoutOrderSummary.defaultProps = {
-    totals: {},
-    products: {}
+    totals: {}
 };
 
 export default CheckoutOrderSummary;

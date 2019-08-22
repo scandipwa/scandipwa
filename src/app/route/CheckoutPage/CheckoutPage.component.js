@@ -308,14 +308,14 @@ class CheckoutPage extends Component {
     }
 
     /**
-     * render function calls approperiate renderer based on step
+     * render function calls appropriate renderer based on step
      * @returns {*}
      */
     render() {
         const {
             checkoutStep, methodCode, showSummary, paymentTotals
         } = this.state;
-        const { products, totals } = this.props;
+        const { products: cartItems, totals } = this.props;
         const stepRenderFunction = this.renderMap[checkoutStep];
         const subHeading = this.subHeadingMap[checkoutStep];
 
@@ -337,7 +337,7 @@ class CheckoutPage extends Component {
                     { showSummary && (
                         <CheckoutOrderSummary
                           totals={ Object.keys(paymentTotals).length ? paymentTotals : totals }
-                          products={ products }
+                          cartItems={ cartItems }
                           shippingMethod={ methodCode }
                         />
                     ) }
