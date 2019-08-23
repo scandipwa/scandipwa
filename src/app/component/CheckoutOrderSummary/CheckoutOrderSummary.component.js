@@ -139,9 +139,9 @@ class CheckoutOrderSummary extends Component {
                         { Object.keys(items).map((key) => {
                             const currentItem = items[key];
                             if (currentItem.product) {
-                                this.renderItem(key, items[key], base_currency_code);
+                                return this.renderItem(key, items[key], base_currency_code);
                             }
-                            this.renderItem(key, cartItems[currentItem.item_id], base_currency_code);
+                            return this.renderItem(key, cartItems[currentItem.item_id], base_currency_code);
                         }) }
                     </ul>
                 </div>
