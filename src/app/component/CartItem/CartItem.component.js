@@ -20,6 +20,7 @@ import { CartItemType } from 'Type/MiniCart';
 import { objectToUri } from 'Util/Url';
 import './CartItem.style';
 import CartItemPrice from 'Component/CartItemPrice';
+import { removeItemFromWishlist } from 'Store/Wishlist';
 
 /**
  * Cart and Minicart item
@@ -60,17 +61,22 @@ class CartItem extends Component {
 
         const { product: { attributes } } = variants[this.getVariantIndex()];
 
-        const parameters = Object.entries(attributes).reduce(
-            (parameters, [code, { attribute_value }]) => {
-                if (Object.keys(configurable_options).includes(code)) return { ...parameters, [code]: attribute_value };
-                return parameters;
-            }, {}
-        );
+        const params = Array.prototype.reduce.call(configurable_options,
+            (result, item) => {
+                const { attribute_code: option_code } = item;
+                const currentAttribute = Array.prototype.find.call(attributes, (attribute) => {
+                    const { attribute_code } = attribute;
+                    return option_code === attribute_code;
+                });
+                const { attribute_code: current_code, attribute_value } = currentAttribute;
+
+                return { ...result, [current_code]: attribute_value };
+            }, {});
 
         return {
             pathname: `/product/${ url_key }`,
             state: { product: parent || product },
-            search: objectToUri(parameters)
+            search: objectToUri(params)
         };
     }
 
