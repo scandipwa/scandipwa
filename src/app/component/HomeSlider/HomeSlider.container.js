@@ -9,11 +9,47 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { connect } from 'react-redux';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import { executeGet } from 'Util/Request';
+import { prepareQuery } from 'Util/Query';
+import { SliderQuery } from 'Query';
 import HomeSlider from './HomeSlider.component';
 
-export const mapStateToProps = state => ({
-    gallery: state.CmsBlocksAndSliderReducer.slider.slides
-});
+export class HomeSliderContainer extends PureComponent {
+    static propTypes = {
+        sliderId: PropTypes.number.isRequired
+    }
 
-export default connect(mapStateToProps)(HomeSlider);
+    state = {
+        gallery: [{ image: '', slide_text: '', isPlaceholder: true }]
+    }
+
+    componentDidMount() {
+        const { sliderId } = this.props;
+        const query = [SliderQuery.getQuery({ sliderId })];
+        executeGet(prepareQuery(query), 'Slider', 2628000)
+            .then(({ slider: { slides: gallery } }) => this.setState({ gallery }))
+            .catch(console.error);
+    }
+
+    containerProps = () => ({
+        gallery: this._getGalleryPictures()
+    })
+
+    _getGalleryPictures() {
+        const { gallery } = this.state;
+        return gallery;
+    }
+
+    render() {
+        return (
+            <HomeSlider
+              { ...this.props }
+              { ...this.containerProps() }
+            />
+        );
+    }
+}
+
+export default HomeSliderContainer;

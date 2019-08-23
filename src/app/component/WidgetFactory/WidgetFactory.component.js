@@ -10,16 +10,21 @@
  */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import HomeSlider from 'Component/HomeSlider';
 import TestWidget from 'Component/TestWidget';
 
-export const PAGE_LINK = 'TestWidget';
+const SLIDER = 'Slider';
+const NEW_PRODUCTS = 'NewProducts';
 export default class WidgetFactory extends Component {
     static propTypes = {
         type: PropTypes.string.isRequired
     }
 
     renderMap = {
-        [PAGE_LINK]: {
+        [SLIDER]: {
+            component: HomeSlider
+        },
+        [NEW_PRODUCTS]: {
             component: TestWidget
         }
     }

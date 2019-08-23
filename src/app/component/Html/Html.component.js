@@ -84,6 +84,20 @@ class Html extends PureComponent {
         };
     }
 
+    attributesToProps(attribs) {
+        const toCamelCase = string => string.replace(/_[a-z]/g, match => match.substr(1).toUpperCase());
+
+        const convertPropertiesToValidFormat = properties => Object.entries(properties)
+            .reduce((validProps, [key, value]) => {
+                // eslint-disable-next-line no-restricted-globals
+                if (!isNaN(value)) return { ...validProps, [toCamelCase(key)]: +value };
+                return { ...validProps, [toCamelCase(key)]: value };
+            }, {});
+
+        const properties = convertPropertiesToValidFormat(attribs);
+        return attributesToProps(properties);
+    }
+
     /**
      * Replace links to native React Router links
      * @param  {{ attribs: Object, children: Array }}
@@ -141,7 +155,7 @@ class Html extends PureComponent {
      * @memberof Html
      */
     replaceWidget({ attribs }) {
-        return <WidgetFactory { ...attributesToProps(attribs) } />;
+        return <WidgetFactory { ...this.attributesToProps(attribs) } />;
     }
 
     replaceScript({ attribs }) {

@@ -8,10 +8,3 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-
-import React from 'react';
-import './TestWidget.style.scss';
-
-const TestWidget = (...args) => (<code block="TestWidget">{args.map(arg => (Object.entries(arg).map(([key, value]) => `${key}: ${value}`).join(', '))) }</code>);
-
-export default TestWidget;

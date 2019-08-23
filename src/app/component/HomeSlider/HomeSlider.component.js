@@ -73,7 +73,7 @@ HomeSlider.propTypes = {
 };
 
 HomeSlider.defaultProps = {
-    gallery: [{ image: '', slide_text: '', isPlaceholder: true }]
+    gallery: []
 };
 
 export default HomeSlider;
