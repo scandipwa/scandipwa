@@ -8,5 +8,11 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+import { connect } from 'react-redux';
+import Footer from './Footer.component';
 
-export { default } from './Footer.container';
+export const mapStateToProps = state => ({
+    copyright: state.ConfigReducer.copyright
+});
+
+export default connect(mapStateToProps, null)(Footer);

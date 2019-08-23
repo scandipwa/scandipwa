@@ -29,14 +29,14 @@ class CmsPage extends Component {
             location,
             match,
             enableBreadcrumbs,
-            cmsId,
+            urlKey,
             isOnlyPlaceholder,
             updateCmsPage
         } = this.props;
         const urlParam = getUrlParam(match, location);
 
         updateCmsPage({});
-        if (!isOnlyPlaceholder) requestPage({ id: cmsId || urlParam });
+        if (!isOnlyPlaceholder && (urlKey || urlParam)) requestPage({ id: urlKey || urlParam });
         enableBreadcrumbs();
     }
 
@@ -44,13 +44,13 @@ class CmsPage extends Component {
         const {
             updateBreadcrumbs, page, location, setHeaderState,
             page: { content_heading }, requestPage, match,
-            location: { pathname }, cmsId
+            location: { pathname }, urlKey
         } = this.props;
         const {
             location: {
                 pathname: prevPathname
             },
-            cmsId: prevCmsId
+            urlKey: prevUrlKey
         } = prevProps;
 
         updateBreadcrumbs(page);
@@ -61,9 +61,9 @@ class CmsPage extends Component {
             onBackClick: () => history.goBack()
         });
 
-        if (pathname !== prevPathname || cmsId !== prevCmsId) {
+        if (pathname !== prevPathname || urlKey !== prevUrlKey) {
             const urlParam = getUrlParam(match, location);
-            requestPage({ id: cmsId || urlParam });
+            requestPage({ id: urlKey || urlParam });
         }
     }
 
@@ -109,12 +109,12 @@ CmsPage.propTypes = {
     location: LocationType.isRequired,
     enableBreadcrumbs: PropTypes.func.isRequired,
     updateCmsPage: PropTypes.func.isRequired,
-    cmsId: PropTypes.number,
+    urlKey: PropTypes.string,
     isOnlyPlaceholder: PropTypes.bool
 };
 
 CmsPage.defaultProps = {
-    cmsId: 0,
+    urlKey: '',
     isOnlyPlaceholder: false
 };
 
