@@ -31,9 +31,9 @@ class CmsBlock extends PureComponent {
 
         if (cmsBlocks.length) {
             return (
-                <>
+                <div block="CmsBlock" elem="Wrapper">
                     { cmsBlocks }
-                </>
+                </div>
             );
         }
 
