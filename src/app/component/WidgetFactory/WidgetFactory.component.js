@@ -11,7 +11,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import HomeSlider from 'Component/HomeSlider';
-import TestWidget from 'Component/TestWidget';
+import NewProducts from 'Component/NewProducts';
 
 const SLIDER = 'Slider';
 const NEW_PRODUCTS = 'NewProducts';
@@ -25,7 +25,7 @@ export default class WidgetFactory extends Component {
             component: HomeSlider
         },
         [NEW_PRODUCTS]: {
-            component: TestWidget
+            component: NewProducts
         }
     }
 

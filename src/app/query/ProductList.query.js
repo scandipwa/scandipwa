@@ -51,7 +51,8 @@ export class ProductListQuery {
             productUrlPath: option => [`url_key: { eq: ${option}}`],
             customFilters: (option = {}) => Object.entries(option).reduce((acc, [key, attribute]) => (
                 attribute.length ? [...acc, `${key}: { in: [ ${attribute.join(',')} ] } `] : acc
-            ), [])
+            ), []),
+            newToDate: option => [`news_to_date: { from: ${option} }`]
         };
     }
 
