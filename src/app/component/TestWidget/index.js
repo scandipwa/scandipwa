@@ -10,8 +10,18 @@
  */
 
 import React from 'react';
-import './TestWidget.style.scss';
+import './TestWidget.style';
 
-const TestWidget = (...args) => (<code block="TestWidget">{args.map(arg => (Object.entries(arg).map(([key, value]) => `${key}: ${value}`).join(', '))) }</code>);
+const TestWidget = (...args) => (
+    <code block="TestWidget">
+        {
+            args.map(arg => (
+                Object.entries(arg).map(
+                    ([key, value]) => `${key}: ${value}`
+                ).join(', ')
+            ))
+        }
+    </code>
+);
 
 export default TestWidget;

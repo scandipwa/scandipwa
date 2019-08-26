@@ -16,9 +16,15 @@ import TestWidget from 'Component/TestWidget';
 import { prepareQuery } from 'Util/Query';
 import { ProductListQuery } from 'Query';
 import { executeGet } from 'Util/Request';
+import { showNotification } from 'Store/Notification';
+import ProductCard from 'Component/ProductCard';
 
 const mapStateToProps = state => ({
     timezone: state.ConfigReducer.timezone
+});
+
+const mapDispatchToProps = dispatch => ({
+    showNotification: (type, title, error) => dispatch(showNotification(type, title, error))
 });
 
 export class NewProductsContainer extends PureComponent {
@@ -27,7 +33,8 @@ export class NewProductsContainer extends PureComponent {
         cacheLifetime: PropTypes.number,
         productsCount: PropTypes.number,
         productsPerPage: PropTypes.number,
-        timezone: PropTypes.string.isRequired
+        timezone: PropTypes.string.isRequired,
+        showNotification: PropTypes.func.isRequired
     }
 
     static defaultProps = {
@@ -37,9 +44,13 @@ export class NewProductsContainer extends PureComponent {
         cacheLifetime: 86400
     }
 
-    containerProps = () => ({
-        products: this._getProducts()
-    });
+    state = {
+        products: []
+    }
+
+    componentDidMount() {
+        this.requestProducts();
+    }
 
     /**
      * Calculates date for request in server locale and with ttl error
@@ -47,7 +58,7 @@ export class NewProductsContainer extends PureComponent {
      * @returns {Date}
      * @memberof NewProducts
      */
-    _getRequestDate() {
+    getRequestDate() {
         const { cacheLifetime, timezone: timeZone } = this.props;
 
         const now = new Date();
@@ -62,7 +73,7 @@ export class NewProductsContainer extends PureComponent {
         return requestDate.toISOString().slice(0, 10);
     }
 
-    _getProducts() {
+    requestProducts() {
         const {
             timezone,
             category: categoryUrlPath,
@@ -70,9 +81,9 @@ export class NewProductsContainer extends PureComponent {
             cacheLifetime
         } = this.props;
 
-        if (!timezone) return [];
+        if (!timezone) return;
 
-        const newToDate = this._getRequestDate();
+        const newToDate = this.getRequestDate();
 
         const options = {
             args: {
@@ -86,22 +97,15 @@ export class NewProductsContainer extends PureComponent {
         };
 
         const query = [ProductListQuery.getQuery(options)];
-        // console.log(newToDate);
         executeGet(prepareQuery(query), 'NewProducts', cacheLifetime)
-            .then(console.log)
-            .catch(console.error);
-
-        // return ;
+            .then(({ products: { items: products } }) => this.setState({ products }))
+            .catch(e => showNotification('error', 'Error fetching NewProducts!', e));
     }
 
     render() {
-        return (
-            <TestWidget
-              { ...this.props }
-              { ...this.containerProps() }
-            />
-        );
+        const { products } = this.state;
+        return products.map(product => <ProductCard product={ product } />);
     }
 }
 
-export default connect(mapStateToProps, null)(NewProductsContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(NewProductsContainer);
