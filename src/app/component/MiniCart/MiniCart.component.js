@@ -92,7 +92,7 @@ class MiniCart extends Component {
     }
 
     renderCartDropdown() {
-        const {totals: {items_qty } } = this.props;
+        const { totals: { items_qty } } = this.props;
         return (
             <ul block="MiniCart" elem="Dropdown" aria-label={ __('MiniCart Dropdown') }>
                 { items_qty
@@ -109,7 +109,7 @@ class MiniCart extends Component {
             <CartItem
               key={ key }
               item={ items[key] }
-              currency = { base_currency_code }
+              currency={ base_currency_code }
               onItemClick={ this.handleItemClick }
             />
         ));

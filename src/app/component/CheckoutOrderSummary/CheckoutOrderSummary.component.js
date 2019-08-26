@@ -28,13 +28,12 @@ class CheckoutOrderSummary extends Component {
      */
     getSourceProduct(product, item) {
         const { type_id: type, variants } = product;
-        if (type === 'configurable') {
-            const variantIndex = Array.prototype.findIndex.call(variants,
-                variant => this.sku === variant.sku, item);
-            return variants[variantIndex].product;
+        if (type !== 'configurable') {
+            return product;
         }
-
-        return product;
+        const variantIndex = Array.prototype.findIndex.call(variants,
+            variant => this.sku === variant.sku, item);
+        return variants[variantIndex].product;
     }
 
     /**
@@ -111,15 +110,13 @@ class CheckoutOrderSummary extends Component {
     render() {
         const {
             totals: {
-                grand_total, subtotal, tax_amount, items, shipping_amount, base_currency_code
+                grand_total, subtotal, tax_amount, items, shipping_amount, base_currency_code, items_qty
             },
             cartItems
         } = this.props;
 
         // eslint-disable-next-line no-param-reassign, no-return-assign
         const itemsTax = items ? items.reduce((sum, { tax_amount }) => sum += tax_amount, tax_amount) : 0;
-
-        const itemsCount = Object.keys(items).length;
 
         return (
             <div block="CheckoutOrderSummary" aria-label="Order Summary">
@@ -134,7 +131,7 @@ class CheckoutOrderSummary extends Component {
                 </div>
 
                 <div block="CheckoutOrderSummary" elem="OrderItems">
-                    <h3>{ __('%s Items In Cart', itemsCount) }</h3>
+                    <h3>{ __('%s Items In Cart', items_qty) }</h3>
                     <ul block="CheckoutOrderSummary" elem="CartItemList">
                         { Object.keys(items).map((key) => {
                             const currentItem = items[key];

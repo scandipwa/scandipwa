@@ -16,11 +16,10 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import Image from 'Component/Image';
 import Field from 'Component/Field';
 import Loader from 'Component/Loader';
+import CartItemPrice from 'Component/CartItemPrice';
 import { CartItemType } from 'Type/MiniCart';
 import { objectToUri } from 'Util/Url';
 import './CartItem.style';
-import CartItemPrice from 'Component/CartItemPrice';
-import { removeItemFromWishlist } from 'Store/Wishlist';
 
 /**
  * Cart and Minicart item
@@ -57,7 +56,7 @@ class CartItem extends Component {
             }
         } = this.props;
 
-        if (type_id === 'simple') return { pathname: `/product/${ url_key }` };
+        if (type_id !== 'configurable') return { pathname: `/product/${ url_key }` };
 
         const { product: { attributes } } = variants[this.getVariantIndex()];
 
@@ -141,7 +140,7 @@ class CartItem extends Component {
     }
 
     renderItemTitle() {
-        const { item: { product: { name, url_key, attributes } }} = this.props;
+        const { item: { product: { name, url_key, attributes } } } = this.props;
         const brand = attributes.find(attribute => attribute.attribute_code === 'brand').attribute_value;
         return (
             <div block="CartItem" elem="Title">

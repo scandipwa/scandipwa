@@ -20,11 +20,11 @@ class CartItemPrice extends Component {
         const priceString = formatCurrency(ProductPrice.roundPrice(row_total), currency_code);
 
         return (
-        <p block="ProductPrice" aria-label={ __('Product Price') }>
-            <span aria-label={ __('Current product price') }>
-                <data value={ ProductPrice.roundPrice(row_total) }>{ priceString }</data>
-            </span>
-        </p>
+            <p block="ProductPrice" aria-label={ __('Product Price') }>
+                <span aria-label={ __('Current product price') }>
+                    <data value={ ProductPrice.roundPrice(row_total) }>{ priceString }</data>
+                </span>
+            </p>
         );
     }
 }

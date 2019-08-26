@@ -75,7 +75,8 @@ export class CartDispatcher {
         const { item_id, quantity, sku } = options;
 
         return fetchMutation(Cart.getSaveCartItemMutation(
-            { sku, item_id, qty: quantity }, !isSignedIn() && this._getGuestQuoteId()
+            { sku, item_id, qty: quantity },
+            !isSignedIn() && this._getGuestQuoteId()
         )).then(
             ({ saveCartItem: { cartData } }) => this._updateCartData(cartData, dispatch),
             error => dispatch(showNotification('error', error[0].message))

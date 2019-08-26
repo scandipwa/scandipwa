@@ -52,7 +52,13 @@ class CartSummary extends Component {
                     { shipping_amount && this.renderPriceLine(shipping_amount, __('Shipping'), { divider: true }) }
                     { this.renderPriceLine(grand_total, __('Order Total')) }
                 </ul>
-                <Link className="Button" to="/checkout/shipping" disabled={ cartIsEmpty }>{ __('Proceed to checkout') }</Link>
+                <Link
+                  className="Button"
+                  to="/checkout/shipping"
+                  disabled={ cartIsEmpty }
+                >
+                  { __('Proceed to checkout') }
+                </Link>
                 <Link to="/">{ __('Continue shopping') }</Link>
             </div>
         );

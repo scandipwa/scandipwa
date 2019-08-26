@@ -11,9 +11,12 @@
 
 import { connect } from 'react-redux';
 import React from 'react';
+import PropTypes from 'prop-types';
 import { CartDispatcher } from 'Store/Cart';
 import { makeCancelable } from 'Util/Promise';
+import { CartItemType } from 'Type/MiniCart';
 import CartItem from './CartItem.component';
+
 
 const mapDispatchToProps = dispatch => ({
     addProduct: options => CartDispatcher.addProductToCart(dispatch, options),
@@ -38,11 +41,18 @@ const cartItemWrapper = (props) => {
     };
 
     return (
-        <CartItem { ...props }
+        <CartItem
+          { ...props }
           handleRemoveItem={ handleRemoveItem }
           handleChangeQuantity={ handleChangeQuantity }
         />
     );
+};
+
+cartItemWrapper.propTypes = {
+    item: CartItemType.isRequired,
+    changeItemQty: PropTypes.func.isRequired,
+    removeProduct: PropTypes.func.isRequired
 };
 
 const CartItemContainer = connect(null, mapDispatchToProps)(cartItemWrapper);
