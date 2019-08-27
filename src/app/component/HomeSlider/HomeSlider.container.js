@@ -33,6 +33,17 @@ export class HomeSliderContainer extends PureComponent {
     }
 
     componentDidMount() {
+        this.requestSlider();
+    }
+
+    componentDidUpdate(prevProps) {
+        const { sliderId } = this.props;
+        const { sliderId: pSliderId } = prevProps;
+
+        if (sliderId !== pSliderId) this.requestSlider();
+    }
+
+    requestSlider() {
         const { sliderId, showNotification } = this.props;
         const query = [SliderQuery.getQuery({ sliderId })];
         executeGet(prepareQuery(query), 'Slider', 2628000)

@@ -43,7 +43,7 @@ class HomeSlider extends PureComponent {
                   elem="Figcaption"
                   mix={ { block: 'HomeSlider', elem: 'Figcaption' } }
                 >
-                    <Html content={ slide_text } />
+                    <Html content={ slide_text || '' } />
                 </figcaption>
             </figure>
         );

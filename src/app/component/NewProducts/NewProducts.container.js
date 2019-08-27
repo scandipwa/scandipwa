@@ -12,12 +12,12 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import TestWidget from 'Component/TestWidget';
 import { prepareQuery } from 'Util/Query';
 import { ProductListQuery } from 'Query';
 import { executeGet } from 'Util/Request';
 import { showNotification } from 'Store/Notification';
-import ProductCard from 'Component/ProductCard';
+import { getIndexedProducts } from 'Util/Product';
+import NewProducts from './NewProducts.component';
 
 const mapStateToProps = state => ({
     timezone: state.ConfigReducer.timezone
@@ -32,15 +32,13 @@ export class NewProductsContainer extends PureComponent {
         category: PropTypes.string,
         cacheLifetime: PropTypes.number,
         productsCount: PropTypes.number,
-        productsPerPage: PropTypes.number,
         timezone: PropTypes.string.isRequired,
         showNotification: PropTypes.func.isRequired
     }
 
     static defaultProps = {
-        category: 'men',
+        category: '',
         productsCount: 10,
-        productsPerPage: 5,
         cacheLifetime: 86400
     }
 
@@ -50,6 +48,25 @@ export class NewProductsContainer extends PureComponent {
 
     componentDidMount() {
         this.requestProducts();
+    }
+
+    componentDidUpdate(prevProps) {
+        const {
+            category,
+            productsCount,
+            cacheLifetime
+        } = this.props;
+        const {
+            category: pCategory,
+            productsCount: pProductsCount,
+            cacheLifetime: pCacheLifetime
+        } = prevProps;
+
+        if (category !== pCategory
+            || productsCount !== pProductsCount
+            || cacheLifetime !== pCacheLifetime) {
+            this.requestProducts();
+        }
     }
 
     /**
@@ -78,7 +95,8 @@ export class NewProductsContainer extends PureComponent {
             timezone,
             category: categoryUrlPath,
             productsCount: pageSize,
-            cacheLifetime
+            cacheLifetime,
+            showNotification
         } = this.props;
 
         if (!timezone) return;
@@ -98,14 +116,11 @@ export class NewProductsContainer extends PureComponent {
 
         const query = [ProductListQuery.getQuery(options)];
         executeGet(prepareQuery(query), 'NewProducts', cacheLifetime)
-            .then(({ products: { items: products } }) => this.setState({ products }))
+            .then(({ products: { items } }) => this.setState({ products: getIndexedProducts(items) }))
             .catch(e => showNotification('error', 'Error fetching NewProducts!', e));
     }
 
-    render() {
-        const { products } = this.state;
-        return products.map(product => <ProductCard product={ product } />);
-    }
+    render = () => <NewProducts { ...this.props } { ...this.state } />;
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewProductsContainer);

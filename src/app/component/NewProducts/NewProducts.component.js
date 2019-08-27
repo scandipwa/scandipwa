@@ -8,3 +8,56 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import { ProductType } from 'Type/ProductList';
+import ProductCard from 'Component/ProductCard';
+import './NewProducts.style';
+import CSS from 'Util/CSS';
+
+export class NewProducts extends PureComponent {
+    static propTypes = {
+        products: PropTypes.arrayOf(ProductType),
+        productsPerPage: PropTypes.number
+    }
+
+    static defaultProps = {
+        products: [],
+        productsPerPage: 4
+    }
+
+    newProductsRef = React.createRef();
+
+    componentDidMount() {
+        this.setStyles();
+    }
+
+    componentDidUpdate() {
+        this.setStyles();
+    }
+
+    setStyles() {
+        const { productsPerPage } = this.props;
+        CSS.setVariable(this.newProductsRef, 'new-products-per-page-count', productsPerPage);
+    }
+
+    render() {
+        const { products } = this.props;
+        return (
+            <section block="NewProducts" ref={ this.newProductsRef }>
+                <h3>{ __('New Products') }</h3>
+                <ul block="NewProducts" elem="Products">
+                    { products.map(product => (
+                        <ProductCard
+                          key={ product.id }
+                          product={ product }
+                        />
+                    )) }
+                </ul>
+            </section>
+        );
+    }
+}
+
+export default NewProducts;
