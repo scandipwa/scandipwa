@@ -28,16 +28,17 @@ class CmsPage extends Component {
             requestPage,
             location,
             match,
-            enableBreadcrumbs,
+            toggleBreadcrumbs,
             urlKey,
             isOnlyPlaceholder,
+            isBreadcrumbsActive,
             updateCmsPage
         } = this.props;
         const urlParam = getUrlParam(match, location);
 
         updateCmsPage({});
         if (!isOnlyPlaceholder && (urlKey || urlParam)) requestPage({ id: urlKey || urlParam });
-        enableBreadcrumbs();
+        toggleBreadcrumbs(isBreadcrumbsActive);
     }
 
     componentDidUpdate(prevProps) {
@@ -107,15 +108,17 @@ CmsPage.propTypes = {
     setHeaderState: PropTypes.func.isRequired,
     updateBreadcrumbs: PropTypes.func.isRequired,
     location: LocationType.isRequired,
-    enableBreadcrumbs: PropTypes.func.isRequired,
+    toggleBreadcrumbs: PropTypes.func.isRequired,
     updateCmsPage: PropTypes.func.isRequired,
     urlKey: PropTypes.string,
-    isOnlyPlaceholder: PropTypes.bool
+    isOnlyPlaceholder: PropTypes.bool,
+    isBreadcrumbsActive: PropTypes.bool
 };
 
 CmsPage.defaultProps = {
     urlKey: '',
-    isOnlyPlaceholder: false
+    isOnlyPlaceholder: false,
+    isBreadcrumbsActive: true
 };
 
 export default CmsPage;
