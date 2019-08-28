@@ -1,0 +1,19 @@
+.SomethingWentWrong {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: $concrete;
+    min-height: 100vh;
+    margin-top: 0;
+
+    &-Debug {
+        text-align: left;
+        white-space: pre-line;
+        margin-top: 4rem;
+        font-family: 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback';
+        background-color: $black;
+        color: $white;
+        padding: 1rem;
+    }
+}
