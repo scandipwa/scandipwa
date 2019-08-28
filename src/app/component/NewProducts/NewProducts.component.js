@@ -23,7 +23,7 @@ export class NewProducts extends PureComponent {
     }
 
     static defaultProps = {
-        products: [],
+        products: Array.from({ length: 4 }, () => ({})),
         productsPerPage: 4
     }
 
@@ -48,9 +48,9 @@ export class NewProducts extends PureComponent {
             <section block="NewProducts" ref={ this.newProductsRef }>
                 <h3>{ __('New Products') }</h3>
                 <ul block="NewProducts" elem="Products">
-                    { products.map(product => (
+                    { products.map((product, i) => (
                         <ProductCard
-                          key={ product.id }
+                          key={ product.id || i }
                           product={ product }
                         />
                     )) }

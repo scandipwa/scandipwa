@@ -43,7 +43,7 @@ export class NewProductsContainer extends PureComponent {
     }
 
     state = {
-        products: []
+        products: undefined
     }
 
     componentDidMount() {
@@ -54,15 +54,18 @@ export class NewProductsContainer extends PureComponent {
         const {
             category,
             productsCount,
-            cacheLifetime
+            cacheLifetime,
+            timezone
         } = this.props;
         const {
             category: pCategory,
             productsCount: pProductsCount,
-            cacheLifetime: pCacheLifetime
+            cacheLifetime: pCacheLifetime,
+            timezone: pTimezone
         } = prevProps;
 
         if (category !== pCategory
+            || timezone !== pTimezone
             || productsCount !== pProductsCount
             || cacheLifetime !== pCacheLifetime) {
             this.requestProducts();
