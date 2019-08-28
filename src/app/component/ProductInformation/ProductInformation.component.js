@@ -20,7 +20,7 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 
 export const PRODUCT_IMAGE_PATH = '/media/catalog/product';
 
-class ProductInformation extends PureComponent {
+export default class ProductInformation extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired
     };
@@ -77,5 +77,3 @@ class ProductInformation extends PureComponent {
         );
     }
 }
-
-export default ProductInformation;

@@ -18,7 +18,7 @@ import { ProductType } from 'Type/ProductList';
  * Product description
  * @class GroupedProductList
  */
-class GroupedProductList extends PureComponent {
+export default class GroupedProductList extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         clearGroupedProductQuantity: PropTypes.func.isRequired
@@ -56,5 +56,3 @@ class GroupedProductList extends PureComponent {
         );
     }
 }
-
-export default GroupedProductList;

@@ -21,7 +21,7 @@ import TextPlaceholder from 'Component/TextPlaceholder';
  * Breadcrumbs
  * @class Breadcrumbs
  */
-class Breadcrumbs extends PureComponent {
+export default class Breadcrumbs extends PureComponent {
     static propTypes = {
         breadcrumbs: BreadcrumbsType.isRequired,
         areBreadcrumbsVisible: PropTypes.bool.isRequired
@@ -85,5 +85,3 @@ class Breadcrumbs extends PureComponent {
         );
     }
 }
-
-export default Breadcrumbs;

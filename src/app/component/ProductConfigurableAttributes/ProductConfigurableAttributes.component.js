@@ -17,7 +17,7 @@ import { AttributeType } from 'Type/ProductList';
 import { MixType } from 'Type/Common';
 import './ProductConfigurableAttributes.style';
 
-class ProductConfigurableAttributes extends Component {
+export default class ProductConfigurableAttributes extends Component {
     static propTypes = {
         isContentExpanded: PropTypes.bool,
         numberOfPlaceholders: PropTypes.arrayOf(PropTypes.number),
@@ -161,6 +161,3 @@ class ProductConfigurableAttributes extends Component {
         );
     }
 }
-
-
-export default ProductConfigurableAttributes;

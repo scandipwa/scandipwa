@@ -19,7 +19,7 @@ import './RangeSelector.style';
  * Product Sort
  * @class ProductSort
  */
-class RangeSelector extends PureComponent {
+export default class RangeSelector extends PureComponent {
     static propTypes = {
         value: PropTypes.oneOfType([
             PropTypes.object,
@@ -96,5 +96,3 @@ class RangeSelector extends PureComponent {
         );
     }
 }
-
-export default RangeSelector;

@@ -22,7 +22,7 @@ export const MAX_NUMBER_OF_PRODUCTS_TO_RENDER = 4;
  * Related products block
  * @class RelatedProducts
  */
-class RelatedProducts extends PureComponent {
+export default class RelatedProducts extends PureComponent {
     static propTypes = {
         relatedProducts: PropTypes.shape({
             items: ItemsType,
@@ -115,6 +115,3 @@ class RelatedProducts extends PureComponent {
         );
     }
 }
-
-
-export default RelatedProducts;

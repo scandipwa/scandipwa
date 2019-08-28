@@ -18,7 +18,7 @@ import './ContentWrapper.style';
  * Content Wrapper
  * @class ContentWrapper
  */
-class ContentWrapper extends PureComponent {
+export default class ContentWrapper extends PureComponent {
     static propTypes = {
         children: ChildrenType,
         mix: MixType,
@@ -49,5 +49,3 @@ class ContentWrapper extends PureComponent {
         );
     }
 }
-
-export default ContentWrapper;

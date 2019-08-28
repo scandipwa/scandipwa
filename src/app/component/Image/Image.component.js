@@ -26,7 +26,7 @@ export const IMAGE_LOADED = 1;
 export const IMAGE_NOT_FOUND = 2;
 export const IMAGE_NOT_SPECIFIED = 3;
 
-class Image extends PureComponent {
+export default class Image extends PureComponent {
     static propTypes = {
         isPlaceholder: PropTypes.bool,
         src: PropTypes.oneOfType([
@@ -134,5 +134,3 @@ class Image extends PureComponent {
         );
     }
 }
-
-export default Image;

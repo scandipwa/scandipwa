@@ -17,7 +17,7 @@ import './MyAccountSidebar.style';
  * My account Sidebar
  * @class MyAccountSidebar
  */
-class MyAccountSidebar extends PureComponent {
+export default class MyAccountSidebar extends PureComponent {
     render() {
         return (
             <div block="Sidebar">
@@ -40,5 +40,3 @@ class MyAccountSidebar extends PureComponent {
         );
     }
 }
-
-export default MyAccountSidebar;

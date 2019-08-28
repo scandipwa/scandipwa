@@ -13,7 +13,7 @@ import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Field from 'Component/Field';
 
-class CheckoutPaymentMethods extends PureComponent {
+export default class CheckoutPaymentMethods extends PureComponent {
     static propTypes = {
         paymentMethods: PropTypes.arrayOf(PropTypes.object).isRequired,
         onSelectPaymentMethod: PropTypes.func.isRequired
@@ -63,5 +63,3 @@ class CheckoutPaymentMethods extends PureComponent {
         );
     }
 }
-
-export default CheckoutPaymentMethods;

@@ -25,7 +25,7 @@ export const ACTIVE_SLIDE_PERCENT = 0.1;
  * Slider component
  * @class Slider
  */
-class Slider extends PureComponent {
+export default class Slider extends PureComponent {
     static propTypes = {
         showCrumbs: PropTypes.bool,
         activeImage: PropTypes.number,
@@ -296,5 +296,3 @@ class Slider extends PureComponent {
         );
     }
 }
-
-export default Slider;

@@ -20,7 +20,7 @@ import './CategoryProductList.style';
  * List of category products
  * @class CategoryProductList
  */
-class CategoryProductList extends PureComponent {
+export default class CategoryProductList extends PureComponent {
     static propTypes = {
         pages: PagesType.isRequired,
         isLoading: PropTypes.bool.isRequired,
@@ -184,5 +184,3 @@ class CategoryProductList extends PureComponent {
         );
     }
 }
-
-export default CategoryProductList;

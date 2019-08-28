@@ -18,7 +18,7 @@ import './Loader.style';
  * Loaders overlay to identify loading
  * @class Loader
  */
-class Loader extends PureComponent {
+export default class Loader extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired
     };
@@ -37,5 +37,3 @@ class Loader extends PureComponent {
         );
     }
 }
-
-export default Loader;

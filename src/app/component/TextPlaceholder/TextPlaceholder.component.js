@@ -18,7 +18,7 @@ import './TextPlaceholder.style';
  * Text placeholder
  * @class TextPlaceholder
  */
-class TextPlaceholder extends PureComponent {
+export default class TextPlaceholder extends PureComponent {
     static propTypes = {
         content: PropTypes.oneOfType([
             PropTypes.string,
@@ -47,5 +47,3 @@ class TextPlaceholder extends PureComponent {
         return <span mix={ mix } block="TextPlaceholder" mods={ { length } } />;
     }
 }
-
-export default TextPlaceholder;

@@ -16,7 +16,7 @@ import PropTypes from 'prop-types';
 import { MixType, ChildrenType } from 'Type/Common';
 import './Overlay.style';
 
-class Overlay extends PureComponent {
+export default class Overlay extends PureComponent {
     static propTypes = {
         mix: MixType,
         id: PropTypes.string.isRequired,
@@ -61,5 +61,3 @@ class Overlay extends PureComponent {
         );
     }
 }
-
-export default Overlay;

@@ -22,7 +22,7 @@ import './GroupedProductsItem.style';
  * Grouped Product Item
  * @class GroupedProduct
  */
-class GroupedProductsItem extends PureComponent {
+export default class GroupedProductsItem extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         changeCount: PropTypes.func.isRequired,
@@ -64,5 +64,3 @@ class GroupedProductsItem extends PureComponent {
         );
     }
 }
-
-export default GroupedProductsItem;

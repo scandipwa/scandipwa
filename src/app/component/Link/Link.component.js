@@ -15,7 +15,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { stringify } from 'rebem-classname';
 import { ChildrenType } from 'Type/Common';
 
-class Link extends PureComponent {
+export default class Link extends PureComponent {
     static propTypes = {
         to: PropTypes.oneOfType([
             PropTypes.string,
@@ -60,5 +60,3 @@ class Link extends PureComponent {
         );
     }
 }
-
-export default Link;

@@ -5,7 +5,7 @@ import './CategorySearch.style';
 export const CATEGORY_SEARCH_TIMEOUT = 500;
 
 // TODO: add to template
-class CategorySearch extends PureComponent {
+export default class CategorySearch extends PureComponent {
     static propTypes = {
         value: PropTypes.oneOfType([
             PropTypes.string,
@@ -48,5 +48,3 @@ class CategorySearch extends PureComponent {
         );
     }
 }
-
-export default CategorySearch;

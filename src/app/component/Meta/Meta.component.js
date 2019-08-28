@@ -17,7 +17,7 @@ import Helmet from 'react-helmet';
  * Page Meta data
  * @class Meta
  */
-class Meta extends PureComponent {
+export default class Meta extends PureComponent {
     static propTypes = {
         metaObject: PropTypes.shape({
             name: PropTypes.string,
@@ -54,5 +54,3 @@ class Meta extends PureComponent {
         );
     }
 }
-
-export default Meta;

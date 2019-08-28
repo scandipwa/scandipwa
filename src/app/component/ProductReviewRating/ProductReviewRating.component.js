@@ -17,7 +17,7 @@ import './ProductReviewRating.style';
 /**
  * @class ProductReviewRating
  */
-class ProductReviewRating extends PureComponent {
+export default class ProductReviewRating extends PureComponent {
     static propTypes = {
         summary: PropTypes.number,
         code: PropTypes.string,
@@ -75,6 +75,3 @@ class ProductReviewRating extends PureComponent {
         );
     }
 }
-
-
-export default ProductReviewRating;

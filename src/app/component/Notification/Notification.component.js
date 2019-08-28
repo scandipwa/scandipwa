@@ -23,7 +23,7 @@ export const NOTIFICATION_LIFETIME = 5000;
  * Notification block
  * @class Notification
  */
-class Notification extends PureComponent {
+export default class Notification extends PureComponent {
     static propTypes = {
         notificationId: PropTypes.string.isRequired,
         notification: NotificationType.isRequired,
@@ -82,5 +82,3 @@ class Notification extends PureComponent {
         );
     }
 }
-
-export default Notification;

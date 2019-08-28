@@ -40,7 +40,7 @@ const a_KEY_CODE = 97;
  * Input fields component
  * @class Field
  */
-class Field extends PureComponent {
+export default class Field extends PureComponent {
     static propTypes = {
         id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
@@ -619,5 +619,3 @@ class Field extends PureComponent {
         );
     }
 }
-
-export default Field;
