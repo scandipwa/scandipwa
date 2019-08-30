@@ -45,7 +45,7 @@ export const STATE_DEFAULT_ADDRESS = 'defaultAddress';
 
 export const SHIPPING_METHODS_ESTIMATION_TIMEOUT = 1000;
 
-class CheckoutShippingStep extends PureComponent {
+export default class CheckoutShippingStep extends PureComponent {
     static propTypes = {
         estimateShippingCost: PropTypes.func.isRequired,
         saveAddressInformation: PropTypes.func.isRequired,
@@ -545,5 +545,3 @@ class CheckoutShippingStep extends PureComponent {
         );
     }
 }
-
-export default CheckoutShippingStep;

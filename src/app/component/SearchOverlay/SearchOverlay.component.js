@@ -21,7 +21,7 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 export const SEARCH_TIMEOUT = 500;
 export const AMOUNT_OF_PLACEHOLDERS = 5;
 
-class SearchOverlay extends PureComponent {
+export default class SearchOverlay extends PureComponent {
     static propTypes = {
         hideActiveOverlay: PropTypes.func.isRequired,
         searchCriteria: PropTypes.string,
@@ -161,5 +161,3 @@ class SearchOverlay extends PureComponent {
         );
     }
 }
-
-export default SearchOverlay;

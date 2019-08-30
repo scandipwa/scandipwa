@@ -15,7 +15,7 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import { MixType, ChildrenType } from 'Type/Common';
 import './ExpandableContent.style';
 
-class ExpandableContent extends PureComponent {
+export default class ExpandableContent extends PureComponent {
     static propTypes = {
         isContentExpanded: PropTypes.bool,
         heading: PropTypes.string,
@@ -107,5 +107,3 @@ class ExpandableContent extends PureComponent {
         );
     }
 }
-
-export default ExpandableContent;

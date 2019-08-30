@@ -15,7 +15,7 @@ import PropTypes from 'prop-types';
 import { CategoryTreeType } from 'Type/Category';
 import './CategoryPagination.style';
 
-class CategoryPagination extends PureComponent {
+export default class CategoryPagination extends PureComponent {
     static propTypes = {
         ariaLabel: PropTypes.string,
         getPage: PropTypes.func.isRequired,
@@ -96,5 +96,3 @@ class CategoryPagination extends PureComponent {
         );
     }
 }
-
-export default CategoryPagination;

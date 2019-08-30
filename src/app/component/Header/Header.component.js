@@ -36,7 +36,7 @@ export const CART_EDITING = 'cart_editing';
 export const CHECKOUT = 'checkout';
 export const CMS_PAGE = 'cms-page';
 
-class Header extends PureComponent {
+export default class Header extends PureComponent {
     static propTypes = {
         headerState: PropTypes.shape({
             name: PropTypes.oneOf([
@@ -444,5 +444,3 @@ class Header extends PureComponent {
         );
     }
 }
-
-export default Header;

@@ -18,7 +18,7 @@ import './CheckoutShippingMethods.style';
 /**
  * Checkout shipping method selector component
  */
-class CheckoutShippingMethods extends PureComponent {
+export default class CheckoutShippingMethods extends PureComponent {
     static propTypes = {
         shippingMethods: PropTypes.arrayOf(PropTypes.object).isRequired,
         onSelectShippingMethod: PropTypes.func.isRequired,
@@ -114,5 +114,3 @@ class CheckoutShippingMethods extends PureComponent {
         );
     }
 }
-
-export default CheckoutShippingMethods;

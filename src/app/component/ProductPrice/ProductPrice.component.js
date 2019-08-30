@@ -21,7 +21,7 @@ import './ProductPrice.style';
  * Product price
  * @class ProductPrice
  */
-class ProductPrice extends PureComponent {
+export default class ProductPrice extends PureComponent {
     static propTypes = {
         roundPrice: PropTypes.func.isRequired,
         calculateDiscountPercentage: PropTypes.func.isRequired,
@@ -97,6 +97,3 @@ class ProductPrice extends PureComponent {
         );
     }
 }
-
-
-export default ProductPrice;

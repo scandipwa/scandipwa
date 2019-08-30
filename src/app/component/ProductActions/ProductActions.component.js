@@ -28,7 +28,7 @@ import './ProductActions.style';
  * Product actions
  * @class ProductActions
  */
-class ProductActions extends PureComponent {
+export default class ProductActions extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         configurableVariantIndex: PropTypes.number,
@@ -203,5 +203,3 @@ class ProductActions extends PureComponent {
         );
     }
 }
-
-export default ProductActions;

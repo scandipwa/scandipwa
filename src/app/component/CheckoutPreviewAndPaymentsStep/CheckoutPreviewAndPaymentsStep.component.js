@@ -36,7 +36,7 @@ export const STATE_NEW_ADDRESS = 'newAddress';
 export const STATE_DEFAULT_ADDRESS = 'defaultAddress';
 export const STATE_SAME_ADDRESS = 'sameAddress';
 
-class CheckoutPreviewAndPaymentsStep extends PureComponent {
+export default class CheckoutPreviewAndPaymentsStep extends PureComponent {
     static propTypes = {
         shippingAddress: PropTypes.shape({
             city: PropTypes.string,
@@ -492,5 +492,3 @@ class CheckoutPreviewAndPaymentsStep extends PureComponent {
         );
     }
 }
-
-export default CheckoutPreviewAndPaymentsStep;

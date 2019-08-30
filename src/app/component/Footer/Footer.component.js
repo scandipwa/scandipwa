@@ -17,7 +17,7 @@ import './Footer.style';
  * Page footer
  * @class Footer
  */
-class Footer extends PureComponent {
+export default class Footer extends PureComponent {
     render() {
         return (
             <footer block="Footer" aria-label="Footer">
@@ -39,5 +39,3 @@ class Footer extends PureComponent {
         );
     }
 }
-
-export default Footer;

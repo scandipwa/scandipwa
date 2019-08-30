@@ -25,7 +25,7 @@ import './ProductReviewForm.style';
  * ProductReviewForm
  * @class ProductReviewForm
  */
-class ProductReviewForm extends PureComponent {
+export default class ProductReviewForm extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         addReview: PropTypes.func.isRequired,
@@ -214,5 +214,3 @@ class ProductReviewForm extends PureComponent {
         );
     }
 }
-
-export default ProductReviewForm;

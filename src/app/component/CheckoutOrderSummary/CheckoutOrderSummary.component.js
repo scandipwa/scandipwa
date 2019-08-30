@@ -20,7 +20,7 @@ import './CheckoutOrderSummary.style';
 /**
  *
  */
-class CheckoutOrderSummary extends PureComponent {
+export default class CheckoutOrderSummary extends PureComponent {
     static propTypes = {
         totals: TotalsType,
         products: PropTypes.objectOf(ProductType)
@@ -103,5 +103,3 @@ class CheckoutOrderSummary extends PureComponent {
         );
     }
 }
-
-export default CheckoutOrderSummary;

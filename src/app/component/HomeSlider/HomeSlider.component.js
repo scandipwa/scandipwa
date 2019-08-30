@@ -22,7 +22,7 @@ import './HomeSlider.style';
  * Homepage slider
  * @class HomeSlider
  */
-class HomeSlider extends PureComponent {
+export default class HomeSlider extends PureComponent {
     static propTypes = {
         gallery: PropTypes.arrayOf(PropTypes.object)
     };
@@ -71,5 +71,3 @@ class HomeSlider extends PureComponent {
         );
     }
 }
-
-export default HomeSlider;

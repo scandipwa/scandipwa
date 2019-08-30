@@ -21,7 +21,7 @@ import { BlockListType } from 'Type/CMS';
 import { MenuType } from 'Type/Menu';
 import './MenuOverlay.style';
 
-class MenuOverlay extends PureComponent {
+export default class MenuOverlay extends PureComponent {
     static propTypes = {
         blocks: BlockListType.isRequired,
         menu: MenuType.isRequired,
@@ -252,5 +252,3 @@ class MenuOverlay extends PureComponent {
         );
     }
 }
-
-export default MenuOverlay;

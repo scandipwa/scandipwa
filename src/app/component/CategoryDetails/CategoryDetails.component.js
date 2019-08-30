@@ -20,7 +20,7 @@ import './CategoryDetails.style';
  * Category details
  * @class CategoryDetails
  */
-class CategoryDetails extends PureComponent {
+export default class CategoryDetails extends PureComponent {
     static propTypes = {
         category: CategoryTreeType.isRequired
     };
@@ -85,5 +85,3 @@ class CategoryDetails extends PureComponent {
         );
     }
 }
-
-export default CategoryDetails;

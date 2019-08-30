@@ -21,7 +21,7 @@ import './ProductWishlistButton.style';
  * Button for adding product to Cart
  * @class ProductWishlistButton
  */
-class ProductWishlistButton extends PureComponent {
+export default class ProductWishlistButton extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         addProductToWishlist: PropTypes.func.isRequired,
@@ -133,5 +133,3 @@ class ProductWishlistButton extends PureComponent {
         );
     }
 }
-
-export default ProductWishlistButton;

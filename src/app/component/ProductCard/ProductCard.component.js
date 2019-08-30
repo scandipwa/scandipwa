@@ -23,7 +23,7 @@ import './ProductCard.style';
  * Product card
  * @class ProductCard
  */
-class ProductCard extends PureComponent {
+export default class ProductCard extends PureComponent {
     static propTypes = {
         linkTo: PropTypes.shape({}),
         product: ProductType.isRequired,
@@ -192,5 +192,3 @@ class ProductCard extends PureComponent {
         );
     }
 }
-
-export default ProductCard;

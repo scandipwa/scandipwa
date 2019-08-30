@@ -20,7 +20,7 @@ import './ProductReviewList.style';
 /**
  * @class ProductReviewList
  */
-class ProductReviewList extends PureComponent {
+export default class ProductReviewList extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         areDetailsLoaded: PropTypes.bool.isRequired
@@ -131,5 +131,3 @@ class ProductReviewList extends PureComponent {
         );
     }
 }
-
-export default ProductReviewList;

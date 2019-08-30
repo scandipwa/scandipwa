@@ -24,7 +24,7 @@ import Image from 'Component/Image';
  * Component converts HTML strings to React components
  * @class Html
  */
-class Html extends PureComponent {
+export default class Html extends PureComponent {
     static propTypes = {
         content: PropTypes.string.isRequired
     };
@@ -143,5 +143,3 @@ class Html extends PureComponent {
         return parser(content, this.parserOptions);
     }
 }
-
-export default Html;

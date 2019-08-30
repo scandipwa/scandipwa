@@ -17,7 +17,7 @@ import ExpandableContent from 'Component/ExpandableContent';
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
 import './CategoryFilterOverlay.style';
 
-class CategoryFilterOverlay extends PureComponent {
+export default class CategoryFilterOverlay extends PureComponent {
     static propTypes = {
         availableFilters: PropTypes.objectOf(PropTypes.shape).isRequired,
         updatePriceRange: PropTypes.func.isRequired,
@@ -119,5 +119,3 @@ class CategoryFilterOverlay extends PureComponent {
         );
     }
 }
-
-export default CategoryFilterOverlay;

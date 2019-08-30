@@ -20,7 +20,7 @@ import Field from 'Component/Field';
 import { MixType, ChildrenType } from 'Type/Common';
 import validationConfig from './Form.config';
 
-class Form extends PureComponent {
+export default class Form extends PureComponent {
     static propTypes = {
         onSubmitSuccess: PropTypes.func,
         onSubmitError: PropTypes.func,
@@ -188,5 +188,3 @@ class Form extends PureComponent {
         );
     }
 }
-
-export default Form;

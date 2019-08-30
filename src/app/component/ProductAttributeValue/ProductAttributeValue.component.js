@@ -17,7 +17,7 @@ import { AttributeType } from 'Type/ProductList';
 import { MixType } from 'Type/Common';
 import './ProductAttributeValue.style';
 
-class ProductAttributeValue extends Component {
+export default class ProductAttributeValue extends Component {
     static propTypes = {
         getLink: PropTypes.func.isRequired,
         onClick: PropTypes.func.isRequired,
@@ -199,5 +199,3 @@ class ProductAttributeValue extends Component {
         );
     }
 }
-
-export default ProductAttributeValue;

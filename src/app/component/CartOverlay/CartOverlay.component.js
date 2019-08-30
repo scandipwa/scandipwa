@@ -21,7 +21,7 @@ import { ProductType } from 'Type/ProductList';
 
 import './CartOverlay.style';
 
-class CartOverlay extends PureComponent {
+export default class CartOverlay extends PureComponent {
     static propTypes = {
         products: PropTypes.objectOf(ProductType),
         totals: TotalsType.isRequired,
@@ -149,5 +149,3 @@ class CartOverlay extends PureComponent {
         );
     }
 }
-
-export default CartOverlay;

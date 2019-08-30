@@ -21,7 +21,7 @@ export const GALLERY_LENGTH_BEFORE_COLLAPSE = 4;
  * Product gallery
  * @class ProductGallery
  */
-class ProductGallery extends PureComponent {
+export default class ProductGallery extends PureComponent {
     static propTypes = {
         gallery: PropTypes.arrayOf(
             PropTypes.shape({
@@ -138,5 +138,3 @@ class ProductGallery extends PureComponent {
         );
     }
 }
-
-export default ProductGallery;

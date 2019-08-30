@@ -19,7 +19,7 @@ import './AddToCart.style';
  * Button for adding product to Cart
  * @class AddToCart
  */
-class AddToCart extends PureComponent {
+export default class AddToCart extends PureComponent {
     static propTypes = {
         isDisabled: PropTypes.bool.isRequired,
         isLoading: PropTypes.bool,
@@ -71,5 +71,3 @@ class AddToCart extends PureComponent {
         );
     }
 }
-
-export default AddToCart;

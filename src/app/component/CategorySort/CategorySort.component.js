@@ -19,7 +19,36 @@ import './CategorySort.style';
  * Product Sort
  * @class ProductSort
  */
-class CategorySort extends PureComponent {
+export default class CategorySort extends PureComponent {
+    static propTypes = {
+        onSortChange: PropTypes.func.isRequired,
+        sortKey: PropTypes.string.isRequired,
+        sortDirection: PropTypes.string.isRequired,
+        selectOptions: PropTypes.arrayOf(PropTypes.shape({
+            id: PropTypes.oneOfType([
+                PropTypes.string,
+                PropTypes.number
+            ]),
+            value: PropTypes.oneOfType([
+                PropTypes.string,
+                PropTypes.number
+            ]),
+            disabled: PropTypes.bool,
+            label: PropTypes.string
+        })).isRequired,
+        sortFields: PropTypes.oneOfType([
+            PropTypes.bool,
+            PropTypes.arrayOf(PropTypes.shape({
+                id: PropTypes.string,
+                label: PropTypes.string
+            }))
+        ])
+    };
+
+    static defaultProps = {
+        sortFields: []
+    };
+
     onChange = this.onChange.bind(this);
 
     onChange(value) {
@@ -66,34 +95,3 @@ class CategorySort extends PureComponent {
         );
     }
 }
-
-CategorySort.propTypes = {
-    onSortChange: PropTypes.func.isRequired,
-    sortKey: PropTypes.string.isRequired,
-    sortDirection: PropTypes.string.isRequired,
-    selectOptions: PropTypes.arrayOf(PropTypes.shape({
-        id: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.number
-        ]),
-        value: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.number
-        ]),
-        disabled: PropTypes.bool,
-        label: PropTypes.string
-    })).isRequired,
-    sortFields: PropTypes.oneOfType([
-        PropTypes.bool,
-        PropTypes.arrayOf(PropTypes.shape({
-            id: PropTypes.string,
-            label: PropTypes.string
-        }))
-    ])
-};
-
-CategorySort.defaultProps = {
-    sortFields: []
-};
-
-export default CategorySort;

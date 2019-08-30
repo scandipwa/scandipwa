@@ -23,7 +23,7 @@ import './CartItem.style';
  * Cart and Minicart item
  * @class CartItem
  */
-class CartItem extends PureComponent {
+export default class CartItem extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         product: ProductType.isRequired,
@@ -203,5 +203,3 @@ class CartItem extends PureComponent {
         );
     }
 }
-
-export default CartItem;
