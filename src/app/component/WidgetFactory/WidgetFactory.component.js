@@ -12,9 +12,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import HomeSlider from 'Component/HomeSlider';
 import NewProducts from 'Component/NewProducts';
+import TestWidget from 'Component/TestWidget';
 
 const SLIDER = 'Slider';
 const NEW_PRODUCTS = 'NewProducts';
+const CATALOG_PRODUCT_LIST = 'CatalogProductList';
 export default class WidgetFactory extends Component {
     static propTypes = {
         type: PropTypes.string.isRequired
@@ -26,6 +28,9 @@ export default class WidgetFactory extends Component {
         },
         [NEW_PRODUCTS]: {
             component: NewProducts
+        },
+        [CATALOG_PRODUCT_LIST]: {
+            component: TestWidget
         }
     }
 
