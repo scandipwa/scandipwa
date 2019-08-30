@@ -143,6 +143,7 @@ class CartItem extends PureComponent {
 
     renderImage() {
         const { product: { name }, thumbnail } = this.props;
+        const fullImageUrl = `${window.location.hostname}${thumbnail}`;
 
         return (
             <>
@@ -158,7 +159,7 @@ class CartItem extends PureComponent {
                 <img
                   style={ { display: 'none' } }
                   alt={ name }
-                  src={ thumbnail }
+                  src={ fullImageUrl }
                   itemProp="image"
                 />
             </>
