@@ -25,6 +25,9 @@ import { WishlistDispatcher } from 'Store/Wishlist';
 import { showNotification } from 'Store/Notification';
 import { MyAccountQuery } from 'Query';
 import { prepareQuery } from 'Util/Query';
+import BrowserDatabase from 'Util/BrowserDatabase';
+
+export const CUSTOMER = 'customer';
 
 /**
  * My account actions
@@ -33,10 +36,16 @@ import { prepareQuery } from 'Util/Query';
 export class MyAccountDispatcher {
     requestCustomerData(options, dispatch) {
         const { withAddresses } = options;
-        const query = MyAccountQuery.getCustomer(withAddresses);
+        const query = MyAccountQuery.getCustomerQuery(withAddresses);
 
-        return executePost(prepareQuery([query])).then(
-            ({ customer }) => dispatch(updateCustomerDetails(customer)),
+        const customer = BrowserDatabase.getItem(CUSTOMER) || {};
+        if (customer.id) dispatch(updateCustomerDetails(customer));
+
+        executePost(prepareQuery([query])).then(
+            ({ customer }) => {
+                dispatch(updateCustomerDetails(customer));
+                BrowserDatabase.setItem(customer, CUSTOMER, 2628000);
+            },
             error => dispatch(showNotification('error', error[0].message))
         );
     }
@@ -44,7 +53,10 @@ export class MyAccountDispatcher {
     updateCustomerData(options, dispatch) {
         const mutation = MyAccountQuery.getUpdateInformationMutation(options);
         return fetchMutation(mutation).then(
-            ({ customer }) => dispatch(updateCustomerDetails(customer)),
+            ({ updateCustomer: { customer } }) => {
+                BrowserDatabase.setItem(customer, CUSTOMER, 2628000);
+                dispatch(updateCustomerDetails(customer));
+            },
             error => dispatch(showNotification('error', error[0].message))
         );
     }

@@ -185,7 +185,7 @@
                 margin: 1rem;
                 width: calc(100% - 2rem);
 
-                @include desktop {
+                @include after-mobile {
                     display: none;
                 }
             }

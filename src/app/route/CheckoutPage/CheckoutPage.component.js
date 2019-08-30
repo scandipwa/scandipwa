@@ -45,12 +45,15 @@ class CheckoutPage extends Component {
         const {
             location: { state },
             location,
-            match
+            match,
+            isSignedIn,
+            customer
         } = props;
 
         this.state = {
             checkoutStep: CHECKOUT_STEP_SHIPPING, // shipping or review-and-payments
             prevCheckoutStep: CHECKOUT_STEP_SHIPPING,
+            prevCustomer: customer,
             showSummary: true,
             shippingAddress: {},
             billingAddress: {},
@@ -79,22 +82,22 @@ class CheckoutPage extends Component {
             [CHECKOUT_STEP_REVIEW_AND_PAYMENTS]: __('2. Payment type'),
             [CHECKOUT_STEP_SUCCESS]: __('Order information')
         };
+
+        if (isSignedIn) {
+            this.state = {
+                ...this.state,
+                ...CheckoutPage.getDefaultAddresses(props, this.state)
+            };
+        }
     }
 
     static getDerivedStateFromProps(props, state) {
-        const { prevCheckoutStep, checkoutStep } = state;
-        // const {
-        // match,
-        // location,
-        // location: { state: locationState }
-        // } = props;
-        const stateToBeUpdated = {};
+        const { prevCheckoutStep, checkoutStep, prevCustomer: { prevCustomerId } } = state;
+        const { customer: { id } } = props;
 
-        // if (getUrlParam(match, location) !== checkoutStep && locationState) {
-        //     const { locationState: { checkoutStep: locationCheckoutStep } } = location;
-        //     stateToBeUpdated.checkoutStep = locationCheckoutStep;
-        //     stateToBeUpdated.prevCheckoutStep = locationCheckoutStep;
-        // }
+        const stateToBeUpdated = (id !== prevCustomerId)
+            ? CheckoutPage.getDefaultAddresses(props, state)
+            : {};
 
         if (prevCheckoutStep !== checkoutStep) {
             CheckoutPage.changeUrlByCheckoutStep(props, state);
@@ -109,17 +112,15 @@ class CheckoutPage extends Component {
 
         toggleBreadcrumbs();
 
-        if (isSignedIn) {
-            this.requestCustomerData().then(() => this.getDefaultAddresses());
-        } else {
+        if (!isSignedIn) {
             this.updateHeader();
-            this.getDefaultAddresses();
         }
     }
 
-    getDefaultAddresses() {
-        const { customer } = this.props;
-        const { shippingAddress, billingAddress } = this.state;
+    static getDefaultAddresses(props, state) {
+        const { customer } = props;
+        const { shippingAddress, billingAddress } = state;
+        const newState = {};
 
         if (Object.entries(customer).length) {
             const { addresses } = customer;
@@ -128,18 +129,18 @@ class CheckoutPage extends Component {
                 const { default_shipping, default_billing } = address;
 
                 if (default_shipping && !Object.entries(shippingAddress).length) {
-                    this.setState({ shippingAddress: address });
+                    newState.shippingAddress = address;
                 }
 
                 if (default_billing && !Object.entries(billingAddress).length) {
-                    this.setState({ billingAddress: address });
+                    newState.billingAddress = address;
                 }
 
                 return null;
             });
         }
 
-        this.setState({ addressesAreChecked: true });
+        return { ...newState, addressesAreChecked: true };
     }
 
     updateHeader() {

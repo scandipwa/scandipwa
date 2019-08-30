@@ -220,10 +220,8 @@ class MyAccountDetails extends Component {
      */
     redirectBackToOverview(hideNotification) {
         const { showNotification } = this.props;
-        this.requestCustomerData().then(() => {
-            this.changeState(STATE_ACCOUNT_OVERVIEW);
-            if (!hideNotification) showNotification('success', __('Changes have been saved to your account!'));
-        });
+        this.changeState(STATE_ACCOUNT_OVERVIEW);
+        if (!hideNotification) showNotification('success', __('Changes have been saved to your account!'));
     }
 
     /**

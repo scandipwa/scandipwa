@@ -84,6 +84,10 @@ export class MyAccountQuery {
             .addField(this._getCustomerField());
     }
 
+    getCustomerQuery() {
+        return this._getCustomerField();
+    }
+
     _getCustomerField() {
         return new Field('customer')
             .addFieldList(this._getCustomerFields());
