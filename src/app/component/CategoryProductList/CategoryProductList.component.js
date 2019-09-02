@@ -14,6 +14,7 @@ import PropTypes from 'prop-types';
 import CategoryProductListPlaceholder from 'Component/CategoryProductListPlaceholder';
 import { PagesType, FilterType } from 'Type/ProductList';
 import ProductCard from 'Component/ProductCard';
+import CategoryPagination from 'Component/CategoryPagination';
 import './CategoryProductList.style';
 
 /**
@@ -122,7 +123,7 @@ class CategoryProductList extends PureComponent {
     }
 
     renderPages() {
-        const { pages, selectedFilters, isLoading } = this.props;
+        const { pages, filters, isLoading } = this.props;
 
         if (isLoading) return null;
 
@@ -137,7 +138,7 @@ class CategoryProductList extends PureComponent {
                     <ProductCard
                       product={ product }
                       key={ product.id }
-                      selectedFilters={ selectedFilters }
+                      filters={ filters }
                       arePlaceholdersShown
                     />
                 )) }
@@ -146,7 +147,7 @@ class CategoryProductList extends PureComponent {
     }
 
     renderCategoryPlaceholder() {
-        const { isLoading, loadPage, isVisible } = this.props;
+        const { isLoading, isVisible, loadPage } = this.props;
 
         return (
             <div block="CategoryProductList" elem="Page">
@@ -159,6 +160,13 @@ class CategoryProductList extends PureComponent {
         );
     }
 
+    renderPagination() {
+        const { loadPage, isLoading } = this.props;
+
+        if (isLoading) return null;
+        return <CategoryPagination onClick={ loadPage } />;
+    }
+
     render() {
         const { totalPages, isLoading } = this.props;
 
@@ -169,6 +177,7 @@ class CategoryProductList extends PureComponent {
                 { this.renderLoadButton() }
                 { this.renderPages() }
                 { this.renderCategoryPlaceholder() }
+                { this.renderPagination() }
             </div>
         );
     }
@@ -176,10 +185,10 @@ class CategoryProductList extends PureComponent {
 
 CategoryProductList.propTypes = {
     pages: PagesType.isRequired,
+    filters: FilterType.isRequired,
     isLoading: PropTypes.bool.isRequired,
     updatePage: PropTypes.func.isRequired,
     totalPages: PropTypes.number.isRequired,
-    selectedFilters: FilterType.isRequired,
     loadPage: PropTypes.func.isRequired,
     loadPrevPage: PropTypes.func.isRequired,
     currentPage: PropTypes.number.isRequired,

@@ -12,7 +12,6 @@
 import React, { PureComponent } from 'react';
 import Link from 'Component/Link';
 import PropTypes from 'prop-types';
-import { CategoryTreeType } from 'Type/Category';
 import './CategoryPagination.style';
 
 class CategoryPagination extends PureComponent {
@@ -33,11 +32,7 @@ class CategoryPagination extends PureComponent {
     }
 
     renderPageLink(pageNumber, label, isCurrent, text) {
-        const {
-            category: { url_path },
-            getPage,
-            getSearchQueryForPage
-        } = this.props;
+        const { pathname, getPage, getSearchQueryForPage } = this.props;
 
         return (
             <li
@@ -47,7 +42,7 @@ class CategoryPagination extends PureComponent {
             >
                 <Link
                   to={ {
-                      pathname: `/category/${ url_path }`,
+                      pathname,
                       search: getSearchQueryForPage(pageNumber)
                   } }
                   aria-label={ label }
@@ -64,12 +59,10 @@ class CategoryPagination extends PureComponent {
     }
 
     render() {
-        const {
-            totalPages, currentPage, ariaLabel
-        } = this.props;
+        const { totalPages, currentPage } = this.props;
 
         return (
-            <nav aria-label={ ariaLabel }>
+            <nav aria-label={ __('Product list navigation') }>
                 <ul block="CategoryPagination">
                     { (currentPage > 1)
                         ? this.renderPreviousPageLink(currentPage - 1)
@@ -87,16 +80,11 @@ class CategoryPagination extends PureComponent {
 }
 
 CategoryPagination.propTypes = {
-    ariaLabel: PropTypes.string,
     getPage: PropTypes.func.isRequired,
-    category: CategoryTreeType.isRequired,
+    pathname: PropTypes.string.isRequired,
     totalPages: PropTypes.number.isRequired,
     currentPage: PropTypes.number.isRequired,
     getSearchQueryForPage: PropTypes.func.isRequired
-};
-
-CategoryPagination.defaultProps = {
-    ariaLabel: ''
 };
 
 export default CategoryPagination;
