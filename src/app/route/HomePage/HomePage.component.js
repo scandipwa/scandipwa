@@ -56,7 +56,7 @@ class HomePage extends Component {
                 />
                 <HomeSlider />
                 <ContentWrapper wrapperMix={ { block: 'HomePage', elem: 'Wrapper' } } label="Homepage promo categories">
-                    <CmsBlock identifiers={ ['homepage-category-preaview'] }>
+                    <CmsBlock identifiers={ ['homepage-category-preview'] }>
                         { Array.from('12', (_, i) => (
                             <figure
                               key={ i }
