@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-:root {
+ :root {
     --image-default-background: #f8f8f8;
     --image-content-color: #{$black};
 }
@@ -50,7 +50,6 @@
         position: absolute;
         height: max-content;
         width: 100%;
-        position: absolute;
         text-align: center;
         margin: auto;
         bottom: 0;

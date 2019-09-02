@@ -24,7 +24,7 @@ class HomePage extends Component {
         super();
 
         this.cmsBlocks = {
-            identifiers: ['homepage-category-preview'],
+            identifiers: ['one-size', 'homepage-category-preview'],
             sliderId: 4
         };
     }
@@ -56,7 +56,7 @@ class HomePage extends Component {
                 />
                 <HomeSlider />
                 <ContentWrapper wrapperMix={ { block: 'HomePage', elem: 'Wrapper' } } label="Homepage promo categories">
-                    <CmsBlock identifiers={ ['homepage-category-preaview'] }>
+                    <CmsBlock identifiers={ ['one-size', 'homepage-category-preview'] }>
                         { Array.from('12', (_, i) => (
                             <figure
                               key={ i }
