@@ -185,8 +185,6 @@
 }
 
 @mixin minicart-button {
-	width: 100%;
-
 	&::before,
 	&::after {
 		content: '';
@@ -218,8 +216,8 @@
 	}
 
 	span {
-		left: -15px;
-		padding: 0 4px;
+		left: -14px;
+		padding: 0 6px;
 		color: var(--header-color);
 		background: var(--header-background);
 	}
