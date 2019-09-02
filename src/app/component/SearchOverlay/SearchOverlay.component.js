@@ -55,7 +55,7 @@ class SearchOverlay extends PureComponent {
             attributes: { brand: { attribute_value: brand } = {} } = {}
         } = product;
 
-        const imageSrc = path ? `/media/catalog/product${ path }` : null;
+        const imageSrc = path ? `/media/catalog/product${ path }` : undefined;
 
         return (
             <li
