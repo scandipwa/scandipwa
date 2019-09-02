@@ -123,7 +123,7 @@ Image.propTypes = {
         PropTypes.string,
         PropTypes.bool
     ]).isRequired,
-    style: PropTypes.objectOf({
+    style: PropTypes.shape({
         width: PropTypes.string,
         height: PropTypes.string
     }).isRequired,

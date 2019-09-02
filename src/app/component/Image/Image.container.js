@@ -63,8 +63,8 @@ export class ImageContainer extends PureComponent {
         if (height.slice(-1) === '%' && width.slice(-1) === '%') return {};
 
         return height.slice(-1) !== '%'
-            ? { 'padding-bottom': height }
-            : { 'padding-bottom': width };
+            ? { paddingBottom: height }
+            : { paddingBottom: width };
     }
 
     render() {
