@@ -12,7 +12,6 @@ import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { BlockListType } from 'Type/CMS';
-import Html from 'Component/Html';
 import CmsBlock from './CmsBlock.component';
 
 export const mapStateToProps = state => ({
@@ -32,7 +31,7 @@ export class CmsBlockContainer extends PureComponent {
         const { identifiers, blocks: { items = {} } } = this.props;
         return identifiers.reduce((acc, id) => (items[id]
             ? [...acc, (
-                <Html key={ id } content={ items[id].content } />
+                { id, content: items[id].content }
             )]
             : acc), []);
     }

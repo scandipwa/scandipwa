@@ -10,9 +10,10 @@
  */
 
 import { QueryDispatcher } from 'Util/Request';
-import { MenuQuery } from 'Query';
+import { MenuQuery, CmsBlockQuery } from 'Query';
 import { showNotification } from 'Store/Notification';
 import { updateMenu, toggleHeaderAndFooter } from 'Store/HeaderAndFooter';
+import { updateCmsBlocks } from 'Store/CmsBlocksAndSlider';
 
 export class HeaderAndFooterDispatcher extends QueryDispatcher {
     constructor() {
@@ -21,8 +22,9 @@ export class HeaderAndFooterDispatcher extends QueryDispatcher {
 
     onSuccess(options, dispatch) {
         if (options) {
-            const { menu } = options;
+            const { menu, cmsBlocks } = options;
             dispatch(updateMenu(menu));
+            dispatch(updateCmsBlocks(cmsBlocks));
         }
     }
 
@@ -38,7 +40,8 @@ export class HeaderAndFooterDispatcher extends QueryDispatcher {
      */
     prepareRequest(options) {
         return [
-            MenuQuery.getQuery(options.menu)
+            MenuQuery.getQuery(options.menu),
+            CmsBlockQuery.getQuery(options.footer)
         ];
     }
 

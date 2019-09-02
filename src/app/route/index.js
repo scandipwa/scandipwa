@@ -135,9 +135,12 @@ class AppRouter extends Component {
             [SWITCH_ITEMS_TYPE]: switchItems,
             [AFTER_ITEMS_TYPE]: afterItems
         };
+        const footerOptions = {
+            identifiers: ['social-links']
+        };
 
         WishlistDispatcher.updateInitialWishlistData(Store.dispatch);
-        HeaderAndFooterDispatcher.handleData(Store.dispatch, { menu: { menuId: 2 } });
+        HeaderAndFooterDispatcher.handleData(Store.dispatch, { menu: { menuId: 2 }, footer: footerOptions });
         ConfigDispatcher.handleData(Store.dispatch);
         CartDispatcher.updateInitialCartData(Store.dispatch);
     }
