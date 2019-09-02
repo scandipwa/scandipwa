@@ -31,7 +31,7 @@ export class ImageContainer extends PureComponent {
 
     _parseSize(size) {
         const trimmedSize = size.trim();
-        if (!trimmedSize) return 'auto';
+        if (!trimmedSize) return '100%';
 
         if (
             trimmedSize.slice(-2) === 'px'
@@ -57,14 +57,14 @@ export class ImageContainer extends PureComponent {
     }
 
     _getWrapperSize() {
-        // const size = this._getCorrectSize();
-        // const { height, width } = size;
-        // if (height === 'auto' && width === 'auto') return { 'padding-bottom': 0 };
+        const size = this._getCorrectSize();
+        const { height, width } = size;
 
-        // return height !== 'auto'
-        //     ? { 'padding-bottom': height }
-        //     : { 'padding-bottom': width };
-        return {};
+        if (height.slice(-1) === '%' && width.slice(-1) === '%') return {};
+
+        return height.slice(-1) !== '%'
+            ? { 'padding-bottom': height }
+            : { 'padding-bottom': width };
     }
 
     render() {
