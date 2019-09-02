@@ -99,7 +99,10 @@ class Image extends PureComponent {
     }
 
     render() {
-        const { ratio, mix, isPlaceholder, wrapperSize } = this.props;
+        const {
+            ratio, mix, isPlaceholder,
+            wrapperSize
+        } = this.props;
         const { imageStatus } = this.state;
         return (
             <div
@@ -131,7 +134,14 @@ Image.propTypes = {
         'square',
         'custom'
     ]).isRequired,
-    mix: MixType.isRequired
+    mix: MixType.isRequired,
+    wrapperSize: PropTypes.shape({
+        height: PropTypes.string
+    })
+};
+
+Image.defaultProps = {
+    wrapperSize: {}
 };
 
 export default Image;
