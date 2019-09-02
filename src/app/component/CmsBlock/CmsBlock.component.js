@@ -11,7 +11,6 @@
 
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
-import Html from 'Component/Html';
 import { BlockListType } from 'Type/CMS';
 import { ChildrenType } from 'Type/Common';
 
@@ -21,13 +20,7 @@ import { ChildrenType } from 'Type/Common';
  */
 class CmsBlock extends PureComponent {
     render() {
-        const { identifiers, blocks: { items = {} }, children } = this.props;
-
-        const cmsBlocks = identifiers.reduce((acc, id) => (items[id]
-            ? [...acc, (
-                <Html key={ id } content={ items[id].content } />
-            )]
-            : acc), []);
+        const { cmsBlocks, children } = this.props;
 
         if (cmsBlocks.length) {
             return (
@@ -37,19 +30,12 @@ class CmsBlock extends PureComponent {
             );
         }
 
-        if (!children) return null;
-
-        return (
-            <>
-                { children }
-            </>
-        );
+        return children;
     }
 }
 
 CmsBlock.propTypes = {
-    identifiers: PropTypes.arrayOf(PropTypes.string).isRequired,
-    blocks: BlockListType.isRequired,
+    cmsBlocks: PropTypes.arrayOf(BlockListType).isRequired,
     children: ChildrenType
 };
 

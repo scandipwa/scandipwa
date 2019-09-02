@@ -24,8 +24,8 @@ const CmsBlocksAndSliderReducer = (state = initialState, action) => {
     case UPDATE_CMS_BLOCKS:
         const { blocks: { items: blockItems } } = action;
         const items = blockItems.reduce((o, item) => {
-            const { disabled } = item;
-            return disabled ? o : { ...o, [item.identifier]: item };
+            const { disabled, identifier } = item;
+            return disabled ? o : { ...o, [identifier]: item };
         }, {});
 
         if (state.blocks.items) {
