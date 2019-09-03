@@ -231,6 +231,14 @@
 
             &_minicart {
                 @include minicart-button;
+
+                &.Header-Button_isVisible {
+                    width: 100%;
+                }
+
+                @include after-mobile {
+                    width: 100%;
+                }
             }
 
             &_searchClear {
