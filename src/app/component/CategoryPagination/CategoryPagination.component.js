@@ -9,13 +9,26 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import Link from 'Component/Link';
 import PropTypes from 'prop-types';
 import './CategoryPagination.style';
 import TextPlaceholder from 'Component/TextPlaceholder';
 
-class CategoryPagination extends PureComponent {
+export default class CategoryPagination extends PureComponent {
+    static propTypes = {
+        isLoading: PropTypes.bool,
+        pathname: PropTypes.string.isRequired,
+        onPageSelect: PropTypes.func.isRequired,
+        totalPages: PropTypes.number.isRequired,
+        currentPage: PropTypes.number.isRequired,
+        getSearchQuery: PropTypes.func.isRequired
+    };
+
+    static defaultProps = {
+        isLoading: false
+    };
+
     renderPreviousPageLink(page) {
         return this.renderPageLink(page, __('Previous page'), false, '◄');
     }
@@ -85,30 +98,13 @@ class CategoryPagination extends PureComponent {
                 <ul block="CategoryPagination">
                     { (currentPage > 1)
                         ? this.renderPreviousPageLink(currentPage - 1)
-                        : <li block="CategoryPagination" elem="ListItem" />
-                    }
+                        : <li block="CategoryPagination" elem="ListItem" /> }
                     { this.renderPageLinks() }
                     { (currentPage <= totalPages - 1)
                         ? this.renderNextPageLink(currentPage + 1)
-                        : <li block="CategoryPagination" elem="ListItem" />
-                    }
+                        : <li block="CategoryPagination" elem="ListItem" /> }
                 </ul>
             </nav>
         );
     }
 }
-
-CategoryPagination.propTypes = {
-    isLoading: PropTypes.bool,
-    pathname: PropTypes.string.isRequired,
-    onPageSelect: PropTypes.func.isRequired,
-    totalPages: PropTypes.number.isRequired,
-    currentPage: PropTypes.number.isRequired,
-    getSearchQuery: PropTypes.func.isRequired
-};
-
-CategoryPagination.defaultProps = {
-    isLoading: false
-};
-
-export default CategoryPagination;

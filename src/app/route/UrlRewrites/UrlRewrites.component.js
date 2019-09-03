@@ -10,7 +10,7 @@
  */
 
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import { PureComponent } from 'react';
 import CategoryPage from 'Route/CategoryPage';
 import ProductPage from 'Route/ProductPage';
 import CmsPage from 'Route/CmsPage';
@@ -29,19 +29,29 @@ export const TYPE_NOTFOUND = 'NOT_FOUND';
  * const TYPE_CUSTOM = 'CUSTOM';
  */
 
+class UrlRewrites extends PureComponent {
+    static propTypes = {
+        location: LocationType.isRequired,
+        match: MatchType.isRequired,
+        clearUrlRewrites: PropTypes.func.isRequired,
+        requestUrlRewrite: PropTypes.func.isRequired,
+        urlRewrite: PropTypes.func.isRequired
+    };
 
-class UrlRewrites extends Component {
+    state = {
+        isNotFound: false,
+        placeholderType: ''
+    };
+
+    knownTypes = [
+        TYPE_CATEGORY,
+        TYPE_CMS_PAGE,
+        TYPE_PRODUCT
+    ];
+
     constructor() {
         super();
-        this.knownTypes = [TYPE_CATEGORY, TYPE_CMS_PAGE, TYPE_PRODUCT];
 
-        this.state = {
-            isNotFound: false,
-            placeholderType: ''
-        };
-    }
-
-    componentWillMount() {
         const { type } = window.actionName || '';
 
         // Type is not set
@@ -102,6 +112,7 @@ class UrlRewrites extends Component {
                 }
 
             };
+
             return <ProductPage { ...newRoute } />;
         case TYPE_CMS_PAGE:
             return <CmsPage { ...props } urlKey={ url_key } />;
@@ -143,12 +154,5 @@ class UrlRewrites extends Component {
         return this.renderPlaceholders();
     }
 }
-
-UrlRewrites.propTypes = {
-    location: LocationType.isRequired,
-    match: MatchType.isRequired,
-    clearUrlRewrites: PropTypes.func.isRequired,
-    requestUrlRewrite: PropTypes.func.isRequired
-};
 
 export default UrlRewrites;

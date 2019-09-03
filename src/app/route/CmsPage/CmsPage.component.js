@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
 import ContentWrapper from 'Component/ContentWrapper';
 import Html from 'Component/Html';
@@ -23,6 +23,26 @@ import { BlockListType } from 'Type/CMS';
 import './CmsPage.style';
 
 class CmsPage extends Component {
+    static propTypes = {
+        requestPage: PropTypes.func.isRequired,
+        match: MatchType.isRequired,
+        page: BlockListType.isRequired,
+        setHeaderState: PropTypes.func.isRequired,
+        updateBreadcrumbs: PropTypes.func.isRequired,
+        location: LocationType.isRequired,
+        toggleBreadcrumbs: PropTypes.func.isRequired,
+        updateCmsPage: PropTypes.func.isRequired,
+        urlKey: PropTypes.string,
+        isOnlyPlaceholder: PropTypes.bool,
+        isBreadcrumbsActive: PropTypes.bool
+    };
+
+    static defaultProps = {
+        urlKey: '',
+        isOnlyPlaceholder: false,
+        isBreadcrumbsActive: true
+    };
+
     componentDidMount() {
         const {
             requestPage,
@@ -92,33 +112,12 @@ class CmsPage extends Component {
                                     <TextPlaceholder length="paragraph" />
                                     <TextPlaceholder length="medium" />
                                 </p>
-                            )
-                        }
+                            ) }
                     </div>
                 </ContentWrapper>
             </main>
         );
     }
 }
-
-CmsPage.propTypes = {
-    requestPage: PropTypes.func.isRequired,
-    match: MatchType.isRequired,
-    page: BlockListType.isRequired,
-    setHeaderState: PropTypes.func.isRequired,
-    updateBreadcrumbs: PropTypes.func.isRequired,
-    location: LocationType.isRequired,
-    toggleBreadcrumbs: PropTypes.func.isRequired,
-    updateCmsPage: PropTypes.func.isRequired,
-    urlKey: PropTypes.string,
-    isOnlyPlaceholder: PropTypes.bool,
-    isBreadcrumbsActive: PropTypes.bool
-};
-
-CmsPage.defaultProps = {
-    urlKey: '',
-    isOnlyPlaceholder: false,
-    isBreadcrumbsActive: true
-};
 
 export default CmsPage;

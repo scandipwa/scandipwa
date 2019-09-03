@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -20,27 +20,39 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 export class CategoryProductListContainer extends PureComponent {
-    constructor(props) {
-        super(props);
+    static propTypes = {
+        history: HistoryType.isRequired,
+        location: PropTypes.shape({
+            pathname: PropTypes.string.isRequired
+        }).isRequired,
+        pages: PagesType.isRequired,
+        pageSize: PropTypes.number,
+        isLoading: PropTypes.bool.isRequired,
+        totalItems: PropTypes.number.isRequired,
+        requestProductList: PropTypes.func.isRequired,
+        selectedFilters: PropTypes.objectOf(PropTypes.shape),
 
-        this.state = {
-            pagesCount: 1
-        };
+        filter: PropTypes.shape({}),
+        search: PropTypes.string,
+        sort: PropTypes.shape({})
+    };
 
-        this.containerFunctions = {
-            loadPrevPage: this.loadPage.bind(this, false),
-            loadPage: this.loadPage.bind(this),
-            updatePage: this.updatePage.bind(this),
-            requestPage: this.requestPage.bind(this)
-        };
+    static defaultProps = {
+        pageSize: 12,
+        filter: {},
+        search: '',
+        selectedFilters: {},
+        sort: undefined
+    };
 
-        this.containerProps = () => ({
-            currentPage: this._getPageFromUrl(),
-            isShowLoading: this._isShowLoading(),
-            isVisible: this._isVisible(),
-            totalPages: this._getTotalPages()
-        });
-    }
+    state = { pagesCount: 1 };
+
+    containerFunctions = {
+        loadPrevPage: this.loadPage.bind(this, false),
+        loadPage: this.loadPage.bind(this),
+        updatePage: this.updatePage.bind(this),
+        requestPage: this.requestPage.bind(this)
+    };
 
     componentDidMount() {
         const { pages } = this.props;
@@ -69,6 +81,13 @@ export class CategoryProductListContainer extends PureComponent {
         if (isLoading) return { pagesCount: 1 };
         return null;
     }
+
+    containerProps = () => ({
+        currentPage: this._getPageFromUrl(),
+        isShowLoading: this._isShowLoading(),
+        isVisible: this._isVisible(),
+        totalPages: this._getTotalPages()
+    });
 
     _getPageFromUrl() {
         const { location } = this.props;
@@ -166,30 +185,5 @@ export class CategoryProductListContainer extends PureComponent {
         );
     }
 }
-
-CategoryProductListContainer.propTypes = {
-    history: HistoryType.isRequired,
-    location: PropTypes.shape({
-        pathname: PropTypes.string.isRequired
-    }).isRequired,
-    pages: PagesType.isRequired,
-    pageSize: PropTypes.number,
-    isLoading: PropTypes.bool.isRequired,
-    totalItems: PropTypes.number.isRequired,
-    requestProductList: PropTypes.func.isRequired,
-    selectedFilters: PropTypes.objectOf(PropTypes.shape),
-
-    filter: PropTypes.shape({}),
-    search: PropTypes.string,
-    sort: PropTypes.shape({})
-};
-
-CategoryProductListContainer.defaultProps = {
-    pageSize: 12,
-    filter: {},
-    search: '',
-    selectedFilters: {},
-    sort: undefined
-};
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CategoryProductListContainer));

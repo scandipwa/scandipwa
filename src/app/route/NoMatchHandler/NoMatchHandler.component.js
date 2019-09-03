@@ -9,13 +9,20 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
 import NoMatch from 'Route/NoMatch';
 import { LocationType } from 'Type/Router';
 import { ChildrenType } from 'Type/Common';
 
 class NoMatchHandler extends Component {
+    static propTypes = {
+        children: ChildrenType.isRequired,
+        noMatch: PropTypes.bool.isRequired,
+        updateNoMatch: PropTypes.func.isRequired,
+        location: LocationType.isRequired
+    };
+
     componentDidMount() {
         window.scrollTo(0, 0);
     }
@@ -47,24 +54,9 @@ class NoMatchHandler extends Component {
 
     render() {
         const { children, noMatch } = this.props;
-
-        if (noMatch) {
-            return <NoMatch />;
-        }
-
-        return (
-            <React.Fragment>
-                { children }
-            </React.Fragment>
-        );
+        if (noMatch) return <NoMatch />;
+        return children;
     }
 }
-
-NoMatchHandler.propTypes = {
-    children: ChildrenType.isRequired,
-    noMatch: PropTypes.bool.isRequired,
-    updateNoMatch: PropTypes.func.isRequired,
-    location: LocationType.isRequired
-};
 
 export default NoMatchHandler;

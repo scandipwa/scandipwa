@@ -10,7 +10,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
 import ProductGallery from 'Component/ProductGallery';
 import ContentWrapper from 'Component/ContentWrapper';
@@ -22,6 +22,16 @@ import RelatedProducts from 'Component/RelatedProducts';
 import './ProductPage.style';
 
 class ProductPage extends Component {
+    static propTypes = {
+        configurableVariantIndex: PropTypes.number.isRequired,
+        productOrVariant: ProductType.isRequired,
+        getLink: PropTypes.func.isRequired,
+        parameters: PropTypes.objectOf(PropTypes.string).isRequired,
+        updateUrl: PropTypes.func.isRequired,
+        dataSource: ProductType.isRequired,
+        areDetailsLoaded: PropTypes.bool.isRequired
+    };
+
     renderProductPageContent() {
         const {
             configurableVariantIndex,
@@ -90,15 +100,5 @@ class ProductPage extends Component {
         );
     }
 }
-
-ProductPage.propTypes = {
-    configurableVariantIndex: PropTypes.number.isRequired,
-    productOrVariant: ProductType.isRequired,
-    getLink: PropTypes.func.isRequired,
-    parameters: PropTypes.objectOf(PropTypes.string).isRequired,
-    updateUrl: PropTypes.func.isRequired,
-    dataSource: ProductType.isRequired,
-    areDetailsLoaded: PropTypes.bool.isRequired
-};
 
 export default ProductPage;

@@ -14,6 +14,8 @@ import { listenForBroadCast, executeGet } from 'Util/Request/Request';
 import { prepareQuery, Field } from 'Util/Query';
 import { makeCancelable } from 'Util/Promise';
 
+export const ONE_MONTH_IN_SECONDS = 2592000;
+
 /**
  * Abstract request dispatcher.
  * IMPORTANT: it is required to implement `prepareRequest(options)` before using!
@@ -26,7 +28,7 @@ class QueryDispatcher {
      * @param  {Number} cacheTTL Cache TTL (in seconds) for ServiceWorker to cache responses
      * @memberof QueryDispatcher
      */
-    constructor(name, cacheTTL) {
+    constructor(name, cacheTTL = ONE_MONTH_IN_SECONDS) {
         this.name = name;
         this.cacheTTL = cacheTTL;
         this.promise = null;

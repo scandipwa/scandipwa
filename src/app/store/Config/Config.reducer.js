@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-/* eslint-disable no-param-reassign */
 import {
     GET_COUNTRY_LIST,
     UPDATE_REVIEW_RATINGS,

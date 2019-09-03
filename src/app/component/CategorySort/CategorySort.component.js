@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import Field from 'Component/Field';
@@ -19,12 +19,37 @@ import './CategorySort.style';
  * Product Sort
  * @class ProductSort
  */
-class CategorySort extends PureComponent {
-    constructor(props) {
-        super(props);
+export default class CategorySort extends PureComponent {
+    static propTypes = {
+        onSortChange: PropTypes.func.isRequired,
+        sortKey: PropTypes.string.isRequired,
+        sortDirection: PropTypes.string.isRequired,
+        selectOptions: PropTypes.arrayOf(PropTypes.shape({
+            id: PropTypes.oneOfType([
+                PropTypes.string,
+                PropTypes.number
+            ]),
+            value: PropTypes.oneOfType([
+                PropTypes.string,
+                PropTypes.number
+            ]),
+            disabled: PropTypes.bool,
+            label: PropTypes.string
+        })).isRequired,
+        sortFields: PropTypes.oneOfType([
+            PropTypes.bool,
+            PropTypes.arrayOf(PropTypes.shape({
+                id: PropTypes.string,
+                label: PropTypes.string
+            }))
+        ])
+    };
 
-        this.onChange = this.onChange.bind(this);
-    }
+    static defaultProps = {
+        sortFields: []
+    };
+
+    onChange = this.onChange.bind(this);
 
     onChange(value) {
         const { onSortChange } = this.props;
@@ -70,34 +95,3 @@ class CategorySort extends PureComponent {
         );
     }
 }
-
-CategorySort.propTypes = {
-    onSortChange: PropTypes.func.isRequired,
-    sortKey: PropTypes.string.isRequired,
-    sortDirection: PropTypes.string.isRequired,
-    selectOptions: PropTypes.arrayOf(PropTypes.shape({
-        id: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.number
-        ]),
-        value: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.number
-        ]),
-        disabled: PropTypes.bool,
-        label: PropTypes.string
-    })).isRequired,
-    sortFields: PropTypes.oneOfType([
-        PropTypes.bool,
-        PropTypes.arrayOf(PropTypes.shape({
-            id: PropTypes.string,
-            label: PropTypes.string
-        }))
-    ])
-};
-
-CategorySort.defaultProps = {
-    sortFields: []
-};
-
-export default CategorySort;

@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -47,42 +47,66 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 export class HeaderContainer extends PureComponent {
-    constructor(props) {
-        super(props);
+    static propTypes = {
+        showOverlay: PropTypes.func.isRequired,
+        goToPreviousHeaderState: PropTypes.func.isRequired,
+        hideActiveOverlay: PropTypes.func.isRequired,
+        setHeaderState: PropTypes.func.isRequired,
+        headerState: PropTypes.shape({
+            name: PropTypes.oneOf([
+                PDP,
+                CATEGORY,
+                CUSTOMER_ACCOUNT,
+                HOME_PAGE,
+                MENU,
+                MENU_SUBCATEGORY,
+                SEARCH,
+                FILTER,
+                CART,
+                CART_EDITING,
+                CHECKOUT
+            ]),
+            title: PropTypes.string,
+            onBackClick: PropTypes.func,
+            onCloseClick: PropTypes.func,
+            onEditClick: PropTypes.func,
+            onOkClick: PropTypes.func,
+            onCancelClick: PropTypes.func
+        }).isRequired
+    };
 
-        this.state = {
-            prevPathname: '',
-            searchCriteria: '',
-            isClearEnabled: false
-        };
+    state = {
+        prevPathname: '',
+        searchCriteria: '',
+        isClearEnabled: false
+    };
 
-        this.routeMap = {
-            '/': { name: HOME_PAGE },
-            '/category': { name: CATEGORY, onBackClick: () => history.push('/') },
-            '/product': { name: PDP, onBackClick: () => history.goBack() },
-            '/cart': { name: CART },
-            '/page': { name: CMS_PAGE, onBackClick: () => history.goBack() }
-        };
+    routeMap = {
+        '/': { name: HOME_PAGE },
+        '/category': { name: CATEGORY, onBackClick: () => history.push('/') },
+        '/product': { name: PDP, onBackClick: () => history.goBack() },
+        '/cart': { name: CART },
+        '/page': { name: CMS_PAGE, onBackClick: () => history.goBack() }
+    };
 
-        this.containerFunctions = {
-            onBackButtonClick: this.onBackButtonClick.bind(this),
-            onCloseButtonClick: this.onCloseButtonClick.bind(this),
-            onSearchBarClick: this.onSearchBarClick.bind(this),
-            onMenuButtonClick: this.onMenuButtonClick.bind(this),
-            onClearSearchButtonClick: this.onClearSearchButtonClick.bind(this),
-            onMyAccountButtonClick: this.onMyAccountButtonClick.bind(this),
-            onSearchBarChange: this.onSearchBarChange.bind(this),
-            onClearButtonClick: this.onClearButtonClick.bind(this),
-            onEditButtonClick: this.onEditButtonClick.bind(this),
-            onMinicartButtonClick: this.onMinicartButtonClick.bind(this),
-            onOkButtonClick: this.onOkButtonClick.bind(this),
-            onCancelButtonClick: this.onCancelButtonClick.bind(this),
-            onSearchOutsideClick: this.onSearchOutsideClick.bind(this),
-            onMenuOutsideClick: this.onMenuOutsideClick.bind(this),
-            onMyAccountOutsideClick: this.onMyAccountOutsideClick.bind(this),
-            onMinicartOutsideClick: this.onMinicartOutsideClick.bind(this)
-        };
-    }
+    containerFunctions = {
+        onBackButtonClick: this.onBackButtonClick.bind(this),
+        onCloseButtonClick: this.onCloseButtonClick.bind(this),
+        onSearchBarClick: this.onSearchBarClick.bind(this),
+        onMenuButtonClick: this.onMenuButtonClick.bind(this),
+        onClearSearchButtonClick: this.onClearSearchButtonClick.bind(this),
+        onMyAccountButtonClick: this.onMyAccountButtonClick.bind(this),
+        onSearchBarChange: this.onSearchBarChange.bind(this),
+        onClearButtonClick: this.onClearButtonClick.bind(this),
+        onEditButtonClick: this.onEditButtonClick.bind(this),
+        onMinicartButtonClick: this.onMinicartButtonClick.bind(this),
+        onOkButtonClick: this.onOkButtonClick.bind(this),
+        onCancelButtonClick: this.onCancelButtonClick.bind(this),
+        onSearchOutsideClick: this.onSearchOutsideClick.bind(this),
+        onMenuOutsideClick: this.onMenuOutsideClick.bind(this),
+        onMyAccountOutsideClick: this.onMyAccountOutsideClick.bind(this),
+        onMinicartOutsideClick: this.onMinicartOutsideClick.bind(this)
+    };
 
     componentDidMount() {
         this.onRouteChanged(history.location, true);
@@ -292,34 +316,5 @@ export class HeaderContainer extends PureComponent {
         );
     }
 }
-
-HeaderContainer.propTypes = {
-    showOverlay: PropTypes.func.isRequired,
-    goToPreviousHeaderState: PropTypes.func.isRequired,
-    hideActiveOverlay: PropTypes.func.isRequired,
-    setHeaderState: PropTypes.func.isRequired,
-    headerState: PropTypes.shape({
-        name: PropTypes.oneOf([
-            PDP,
-            CATEGORY,
-            CUSTOMER_ACCOUNT,
-            HOME_PAGE,
-            MENU,
-            MENU_SUBCATEGORY,
-            SEARCH,
-            FILTER,
-            CART,
-            CART_EDITING,
-            CHECKOUT,
-            CMS_PAGE
-        ]),
-        title: PropTypes.string,
-        onBackClick: PropTypes.func,
-        onCloseClick: PropTypes.func,
-        onEditClick: PropTypes.func,
-        onOkClick: PropTypes.func,
-        onCancelClick: PropTypes.func
-    }).isRequired
-};
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(HeaderContainer));

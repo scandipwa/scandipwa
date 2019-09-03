@@ -10,7 +10,7 @@
  */
 
 import PropTypes from 'prop-types';
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import CategoryFilterOverlay from 'Component/CategoryFilterOverlay';
 import CategoryProductList from 'Component/CategoryProductList';
 import CategoryItemsCount from 'Component/CategoryItemsCount';
@@ -23,11 +23,37 @@ import Meta from 'Component/Meta';
 import './CategoryPage.style';
 
 class CategoryPage extends PureComponent {
-    constructor(props) {
-        super(props);
+    static propTypes = {
+        category: CategoryTreeType.isRequired,
+        minPriceRange: PropTypes.number.isRequired,
+        maxPriceRange: PropTypes.number.isRequired,
+        filters: PropTypes.objectOf(PropTypes.shape).isRequired,
+        sortFields: PropTypes.shape({
+            options: PropTypes.array
+        }).isRequired,
+        selectedSort: PropTypes.shape({
+            sortDirection: PropTypes.oneOf([
+                'ASC',
+                'DESC'
+            ]),
+            sortKey: PropTypes.string
+        }).isRequired,
+        selectedPriceRange: PropTypes.shape({
+            min: PropTypes.number,
+            max: PropTypes.number
+        }).isRequired,
+        getFilterUrl: PropTypes.func.isRequired,
+        onSortChange: PropTypes.func.isRequired,
+        updateFilter: PropTypes.func.isRequired,
+        updatePriceRange: PropTypes.func.isRequired,
+        toggleOverlayByKey: PropTypes.func.isRequired,
+        changeHeaderState: PropTypes.func.isRequired,
+        selectedFilters: FilterType.isRequired,
+        filter: PropTypes.shape({}).isRequired,
+        search: PropTypes.string.isRequired
+    };
 
-        this.onFilterButtonClick = this.onFilterButtonClick.bind(this);
-    }
+    onFilterButtonClick = this.onFilterButtonClick.bind(this);
 
     onFilterButtonClick() {
         const { toggleOverlayByKey, changeHeaderState } = this.props;
@@ -141,35 +167,5 @@ class CategoryPage extends PureComponent {
         );
     }
 }
-
-CategoryPage.propTypes = {
-    category: CategoryTreeType.isRequired,
-    minPriceRange: PropTypes.number.isRequired,
-    maxPriceRange: PropTypes.number.isRequired,
-    filters: PropTypes.objectOf(PropTypes.shape).isRequired,
-    sortFields: PropTypes.shape({
-        options: PropTypes.array
-    }).isRequired,
-    selectedSort: PropTypes.shape({
-        sortDirection: PropTypes.oneOf([
-            'ASC',
-            'DESC'
-        ]),
-        sortKey: PropTypes.string
-    }).isRequired,
-    selectedPriceRange: PropTypes.shape({
-        min: PropTypes.number,
-        max: PropTypes.number
-    }).isRequired,
-    getFilterUrl: PropTypes.func.isRequired,
-    onSortChange: PropTypes.func.isRequired,
-    updateFilter: PropTypes.func.isRequired,
-    updatePriceRange: PropTypes.func.isRequired,
-    toggleOverlayByKey: PropTypes.func.isRequired,
-    changeHeaderState: PropTypes.func.isRequired,
-    selectedFilters: FilterType.isRequired,
-    filter: PropTypes.shape({}).isRequired,
-    search: PropTypes.string.isRequired
-};
 
 export default CategoryPage;

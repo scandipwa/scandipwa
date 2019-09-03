@@ -1,7 +1,7 @@
-import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import { generateQuery, getQueryParam } from 'Util/Url';
 import { HistoryType } from 'Type/Common';
@@ -14,18 +14,23 @@ export const mapStateToProps = state => ({
 });
 
 export class CategoryPaginationContainer extends PureComponent {
-    constructor(props) {
-        super(props);
+    static propTypes = {
+        isLoading: PropTypes.bool,
+        onPageSelect: PropTypes.func,
+        history: HistoryType.isRequired,
+        location: LocationType.isRequired,
+        totalPages: PropTypes.number.isRequired
+    };
 
-        this.containerFunctions = {
-            getSearchQuery: this.getSearchQuery.bind(this)
-        };
+    containerFunctions = {
+        isLoading: false,
+        onPageSelect: () => {}
+    };
 
-        this.containerProps = () => ({
-            pathname: this._getPathname(),
-            currentPage: this._getCurrentPage()
-        });
-    }
+    containerProps = () => ({
+        pathname: this._getPathname(),
+        currentPage: this._getCurrentPage()
+    });
 
     getSearchQuery(pageNumber) {
         const { history, location } = this.props;
@@ -55,18 +60,5 @@ export class CategoryPaginationContainer extends PureComponent {
         );
     }
 }
-
-CategoryPaginationContainer.propTypes = {
-    isLoading: PropTypes.bool,
-    onPageSelect: PropTypes.func,
-    history: HistoryType.isRequired,
-    location: LocationType.isRequired,
-    totalPages: PropTypes.number.isRequired
-};
-
-CategoryPaginationContainer.defaultProps = {
-    isLoading: false,
-    onPageSelect: () => {}
-};
 
 export default withRouter(connect(mapStateToProps)(CategoryPaginationContainer));

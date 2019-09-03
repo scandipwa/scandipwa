@@ -9,4 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default } from './CategoriesList.component';
+export { default } from './ProductListWidget.container';

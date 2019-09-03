@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Link from 'Component/Link';
 import './Footer.style';
@@ -18,14 +18,14 @@ import './Footer.style';
  * Page footer
  * @class Footer
  */
-class Footer extends PureComponent {
+export default class Footer extends PureComponent {
     static propTypes = {
         copyright: PropTypes.string
-    }
+    };
 
     static defaultProps = {
         copyright: ''
-    }
+    };
 
     render() {
         const { copyright } = this.props;
@@ -53,5 +53,3 @@ class Footer extends PureComponent {
         );
     }
 }
-
-export default Footer;

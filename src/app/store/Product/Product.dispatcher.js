@@ -22,7 +22,7 @@ import { RelatedProductsDispatcher } from 'Store/RelatedProducts';
  */
 export class ProductDispatcher extends QueryDispatcher {
     constructor() {
-        super('Product', 2628000);
+        super('Product');
     }
 
     onSuccess(data, dispatch) {

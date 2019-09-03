@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { executeGet } from 'Util/Request';
@@ -22,15 +22,17 @@ const mapDispatchToProps = dispatch => ({
     showNotification: (type, title, error) => dispatch(showNotification(type, title, error))
 });
 
+export const SLIDER_TTL = 2628000;
+
 export class HomeSliderContainer extends PureComponent {
     static propTypes = {
         sliderId: PropTypes.number.isRequired,
         showNotification: PropTypes.func.isRequired
-    }
+    };
 
     state = {
         gallery: [{ image: '', slide_text: '', isPlaceholder: true }]
-    }
+    };
 
     componentDidMount() {
         this.requestSlider();
@@ -46,7 +48,7 @@ export class HomeSliderContainer extends PureComponent {
     requestSlider() {
         const { sliderId, showNotification } = this.props;
         const query = [SliderQuery.getQuery({ sliderId })];
-        executeGet(prepareQuery(query), 'Slider', 2628000)
+        executeGet(prepareQuery(query), 'Slider', SLIDER_TTL)
             .then(({ slider: { slides: gallery } }) => this.setState({ gallery }))
             .catch(e => showNotification('error', 'Error fetching Slider!', e));
     }

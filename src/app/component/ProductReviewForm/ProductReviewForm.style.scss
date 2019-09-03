@@ -31,6 +31,7 @@
         text-align: left;
         direction: rtl;
         border: 0;
+        /* stylelint-disable-next-line property-no-unknown */
         white-space-collapse: discard; // alternative of `font-size: 0`
 
         &Legend {
@@ -60,6 +61,7 @@
 
             font-size: 40px;
             line-height: 1;
+            /* stylelint-disable-next-line font-family-no-missing-generic-family-keyword */
             font-family: Times; // make sure ★ appears correctly
             letter-spacing: 3px;
 
@@ -118,7 +120,6 @@
     }
 
     &-Buttons {
-        margin-top: 1rem;
         flex-basis: 100%;
         text-align: center;
         margin-top: 2.5rem;
