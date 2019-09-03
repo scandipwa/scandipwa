@@ -173,9 +173,8 @@ export default class CategoryProductList extends PureComponent {
     }
 
     renderPagination() {
-        const { requestPage, isLoading: isPageLoading, totalPages } = this.props;
+        const { requestPage, isLoading } = this.props;
 
-        const isLoading = isPageLoading && totalPages === 0;
         return <CategoryPagination isLoading={ isLoading } onPageSelect={ requestPage } />;
     }
 

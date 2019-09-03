@@ -22,21 +22,25 @@ export class CategoryPaginationContainer extends PureComponent {
         totalPages: PropTypes.number.isRequired
     };
 
-    containerFunctions = {
+    static defaultProps = {
         isLoading: false,
         onPageSelect: () => {}
     };
 
-    containerProps = () => ({
-        pathname: this._getPathname(),
-        currentPage: this._getCurrentPage()
-    });
+    containerFunctions = {
+        getSearchQuery: this.getSearchQuery.bind(this)
+    };
 
     getSearchQuery(pageNumber) {
         const { history, location } = this.props;
         const page = pageNumber !== 1 ? pageNumber : '';
         return generateQuery({ page }, location, history);
     }
+
+    containerProps = () => ({
+        pathname: this._getPathname(),
+        currentPage: this._getCurrentPage()
+    });
 
     _getPathname() {
         const { location: { pathname } } = this.props;
