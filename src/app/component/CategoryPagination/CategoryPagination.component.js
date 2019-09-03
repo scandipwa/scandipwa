@@ -62,8 +62,12 @@ class CategoryPagination extends PureComponent {
     renderPlaceholder() {
         return (
             <ul block="CategoryPagination" mods={ { isLoading: true } }>
-                { Array.from({ length: 4 }, () => (
-                    <li block="CategoryPagination" elem="Placeholder">
+                { Array.from({ length: 4 }, (_, i) => (
+                    <li
+                      key={ i }
+                      block="CategoryPagination"
+                      elem="Placeholder"
+                    >
                         <TextPlaceholder length="block" />
                     </li>
                 )) }

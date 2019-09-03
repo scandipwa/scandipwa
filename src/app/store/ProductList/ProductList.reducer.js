@@ -32,6 +32,7 @@ const ProductListReducer = (state = initialState, action) => {
     const {
         type,
         items: initialItems = [],
+        total_pages: totalPages,
         total_count: totalItems,
         currentPage,
         isLoading
@@ -48,9 +49,6 @@ const ProductListReducer = (state = initialState, action) => {
         };
 
     case UPDATE_PRODUCT_LIST_ITEMS:
-        const { itemsPerPageCount } = defaultConfig;
-        const totalPages = Math.ceil(totalItems / itemsPerPageCount);
-
         return {
             ...state,
             isLoading: false,
