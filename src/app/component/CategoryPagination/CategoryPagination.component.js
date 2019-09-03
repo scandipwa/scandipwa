@@ -13,6 +13,7 @@ import React, { PureComponent } from 'react';
 import Link from 'Component/Link';
 import PropTypes from 'prop-types';
 import './CategoryPagination.style';
+import TextPlaceholder from 'Component/TextPlaceholder';
 
 class CategoryPagination extends PureComponent {
     renderPreviousPageLink(page) {
@@ -58,8 +59,22 @@ class CategoryPagination extends PureComponent {
         );
     }
 
+    renderPlaceholder() {
+        return (
+            <ul block="CategoryPagination" mods={ { isLoading: true } }>
+                { Array.from({ length: 4 }, () => (
+                    <li block="CategoryPagination" elem="Placeholder">
+                        <TextPlaceholder length="block" />
+                    </li>
+                )) }
+            </ul>
+        );
+    }
+
     render() {
-        const { totalPages, currentPage } = this.props;
+        const { totalPages, currentPage, isLoading } = this.props;
+
+        if (isLoading) return this.renderPlaceholder();
 
         return (
             <nav aria-label={ __('Product list navigation') }>
@@ -80,11 +95,16 @@ class CategoryPagination extends PureComponent {
 }
 
 CategoryPagination.propTypes = {
+    isLoading: PropTypes.bool,
     pathname: PropTypes.string.isRequired,
     onPageSelect: PropTypes.func.isRequired,
     totalPages: PropTypes.number.isRequired,
     currentPage: PropTypes.number.isRequired,
     getSearchQuery: PropTypes.func.isRequired
+};
+
+CategoryPagination.defaultProps = {
+    isLoading: false
 };
 
 export default CategoryPagination;

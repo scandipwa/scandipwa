@@ -33,6 +33,7 @@ TextPlaceholder.propTypes = {
         PropTypes.number
     ]),
     length: PropTypes.oneOf([
+        'block',
         'short',
         'medium',
         'long',

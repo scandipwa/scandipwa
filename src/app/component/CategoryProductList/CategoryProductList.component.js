@@ -161,10 +161,9 @@ class CategoryProductList extends PureComponent {
     }
 
     renderPagination() {
-        const { loadPage, isLoading } = this.props;
+        const { loadPage } = this.props;
 
-        if (isLoading) return null;
-        return <CategoryPagination onClick={ loadPage } />;
+        return <CategoryPagination onPageSelect={ loadPage } />;
     }
 
     render() {

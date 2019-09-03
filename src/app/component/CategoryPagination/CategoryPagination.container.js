@@ -10,6 +10,7 @@ import { LocationType } from 'Type/Router';
 import CategoryPagination from './CategoryPagination.component';
 
 export const mapStateToProps = state => ({
+    isLoading: state.ProductListReducer.isLoading,
     totalPages: state.ProductListReducer.totalPages
 });
 
@@ -18,7 +19,6 @@ export class CategoryPaginationContainer extends PureComponent {
         super(props);
 
         this.containerFunctions = {
-            onPageSelect: this.onPageSelect.bind(this),
             getSearchQuery: this.getSearchQuery.bind(this)
         };
 
@@ -26,10 +26,6 @@ export class CategoryPaginationContainer extends PureComponent {
             pathname: this._getPathname(),
             currentPage: this._getCurrentPage()
         });
-    }
-
-    onPageSelect(pageNumber) {
-        console.log(pageNumber);
     }
 
     getSearchQuery(pageNumber) {
@@ -60,9 +56,16 @@ export class CategoryPaginationContainer extends PureComponent {
 }
 
 CategoryPaginationContainer.propTypes = {
+    isLoading: PropTypes.bool,
+    onPageSelect: PropTypes.func,
     history: HistoryType.isRequired,
     location: LocationType.isRequired,
     totalPages: PropTypes.number.isRequired
+};
+
+CategoryPaginationContainer.defaultProps = {
+    isLoading: false,
+    onPageSelect: () => {}
 };
 
 export default withRouter(connect(mapStateToProps)(CategoryPaginationContainer));

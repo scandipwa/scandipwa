@@ -29,6 +29,10 @@
     }
 
     &_length {
+        &_block::after {
+            content: 'aa';
+        }
+
         &_short::after {
             content: 'aaaaaaaaaaaaa';
 
