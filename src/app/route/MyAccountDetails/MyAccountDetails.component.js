@@ -10,7 +10,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import Field from 'Component/Field';
 import Form from 'Component/Form';
 import TextPlaceholder from 'Component/TextPlaceholder';
@@ -31,26 +31,39 @@ export const DEFAULT_COUNTRY = 'US';
 export const DEFAULT_REGION = 'AL';
 
 class MyAccountDetails extends Component {
-    constructor(props) {
-        super(props);
+    static propTypes = {
+        history: HistoryType.isRequired,
+        showNotification: PropTypes.func.isRequired,
+        requestCustomerData: PropTypes.func.isRequired,
+        updateCustomerData: PropTypes.func.isRequired,
+        createCustomerAddress: PropTypes.func.isRequired,
+        updateCustomerAddress: PropTypes.func.isRequired,
+        changeCustomerPassword: PropTypes.func.isRequired,
+        updateBreadcrumbs: PropTypes.func.isRequired,
+        isSignedIn: PropTypes.bool.isRequired,
+        countryList: PropTypes.arrayOf(PropTypes.shape).isRequired,
+        customer: customerType.isRequired,
+        changeHeaderState: PropTypes.func.isRequired,
+        logout: PropTypes.func.isRequired
+    };
 
-        this.state = {
-            state: STATE_ACCOUNT_OVERVIEW,
-            correctAddress: {},
-            isLoading: false,
-            selectValue: '',
-            isSubscribed: null
-        };
 
-        this.renderMap = {
-            [STATE_ACCOUNT_OVERVIEW]: () => (this.renderAccountOverview()),
-            [STATE_UPDATE_ADDRESS]: () => (this.renderUpdateAddress()),
-            [STATE_EDIT_INFORMATION]: () => (this.renderEditInformation()),
-            [STATE_EDIT_PASSWORD]: () => (this.renderEditPassword())
-        };
+    state = {
+        state: STATE_ACCOUNT_OVERVIEW,
+        correctAddress: {},
+        isLoading: false,
+        selectValue: '',
+        isSubscribed: null
+    };
 
-        this.changeState = this.changeState.bind(this);
-    }
+    renderMap = {
+        [STATE_ACCOUNT_OVERVIEW]: () => (this.renderAccountOverview()),
+        [STATE_UPDATE_ADDRESS]: () => (this.renderUpdateAddress()),
+        [STATE_EDIT_INFORMATION]: () => (this.renderEditInformation()),
+        [STATE_EDIT_PASSWORD]: () => (this.renderEditPassword())
+    };
+
+    changeState = this.changeState.bind(this);
 
     static getDerivedStateFromProps(props, state) {
         const { state: pageState } = state;
@@ -75,6 +88,7 @@ class MyAccountDetails extends Component {
 
             return { regionSelect, regionType };
         }
+
         return null;
     }
 
@@ -731,21 +745,5 @@ class MyAccountDetails extends Component {
         );
     }
 }
-
-MyAccountDetails.propTypes = {
-    history: HistoryType.isRequired,
-    showNotification: PropTypes.func.isRequired,
-    requestCustomerData: PropTypes.func.isRequired,
-    updateCustomerData: PropTypes.func.isRequired,
-    createCustomerAddress: PropTypes.func.isRequired,
-    updateCustomerAddress: PropTypes.func.isRequired,
-    changeCustomerPassword: PropTypes.func.isRequired,
-    updateBreadcrumbs: PropTypes.func.isRequired,
-    isSignedIn: PropTypes.bool.isRequired,
-    countryList: PropTypes.arrayOf(PropTypes.shape).isRequired,
-    customer: customerType.isRequired,
-    changeHeaderState: PropTypes.func.isRequired,
-    logout: PropTypes.func.isRequired
-};
 
 export default MyAccountDetails;

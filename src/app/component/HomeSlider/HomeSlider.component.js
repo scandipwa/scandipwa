@@ -11,7 +11,7 @@
  */
 
 import PropTypes from 'prop-types';
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import Link from 'Component/Link';
 import Slider from 'Component/Slider';
 import Image from 'Component/Image';
@@ -22,12 +22,16 @@ import './HomeSlider.style';
  * Homepage slider
  * @class HomeSlider
  */
-class HomeSlider extends PureComponent {
-    constructor(props) {
-        super(props);
+export default class HomeSlider extends PureComponent {
+    static propTypes = {
+        gallery: PropTypes.arrayOf(PropTypes.object)
+    };
 
-        this.renderSlide = this.renderSlide.bind(this);
-    }
+    static defaultProps = {
+        gallery: [{}]
+    };
+
+    renderSlide = this.renderSlide.bind(this);
 
     renderSlide({ image, slide_text, isPlaceholder }, i) {
         return (
@@ -67,13 +71,3 @@ class HomeSlider extends PureComponent {
         );
     }
 }
-
-HomeSlider.propTypes = {
-    gallery: PropTypes.arrayOf(PropTypes.object)
-};
-
-HomeSlider.defaultProps = {
-    gallery: [{}]
-};
-
-export default HomeSlider;

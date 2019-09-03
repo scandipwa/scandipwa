@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import InputRange from 'react-input-range';
 import PropTypes from 'prop-types';
 import 'react-input-range/lib/css/index.css';
@@ -19,7 +19,17 @@ import './RangeSelector.style';
  * Product Sort
  * @class ProductSort
  */
-class RangeSelector extends PureComponent {
+export default class RangeSelector extends PureComponent {
+    static propTypes = {
+        value: PropTypes.oneOfType([
+            PropTypes.object,
+            PropTypes.number
+        ]).isRequired,
+        minValue: PropTypes.number.isRequired,
+        maxValue: PropTypes.number.isRequired,
+        onChangeComplete: PropTypes.func.isRequired
+    };
+
     constructor() {
         super();
 
@@ -86,15 +96,3 @@ class RangeSelector extends PureComponent {
         );
     }
 }
-
-RangeSelector.propTypes = {
-    value: PropTypes.oneOfType([
-        PropTypes.object,
-        PropTypes.number
-    ]).isRequired,
-    minValue: PropTypes.number.isRequired,
-    maxValue: PropTypes.number.isRequired,
-    onChangeComplete: PropTypes.func.isRequired
-};
-
-export default RangeSelector;

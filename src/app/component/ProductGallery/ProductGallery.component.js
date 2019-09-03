@@ -9,24 +9,39 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent, Fragment } from 'react';
+import { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Slider from 'Component/Slider';
 import Image from 'Component/Image';
 import './ProductGallery.style';
 
+export const GALLERY_LENGTH_BEFORE_COLLAPSE = 4;
+
 /**
  * Product gallery
  * @class ProductGallery
  */
-class ProductGallery extends PureComponent {
-    constructor(props) {
-        super(props);
-        this.state = { activeImage: 0 };
+export default class ProductGallery extends PureComponent {
+    static propTypes = {
+        gallery: PropTypes.arrayOf(
+            PropTypes.shape({
+                id: PropTypes.oneOfType([
+                    PropTypes.number,
+                    PropTypes.string
+                ]),
+                image: PropTypes.string,
+                isPlaceholder: PropTypes.bool,
+                alt: PropTypes.string,
+                type: PropTypes.string
+            })
+        ).isRequired
+    };
 
-        this.renderAdditionalPicture = this.renderAdditionalPicture.bind(this);
-        this.onActiveImageChange = this.onActiveImageChange.bind(this);
-    }
+    state = { activeImage: 0 };
+
+    renderAdditionalPicture = this.renderAdditionalPicture.bind(this);
+
+    onActiveImageChange = this.onActiveImageChange.bind(this);
 
     onActiveImageChange(activeImage) {
         this.setState({ activeImage });
@@ -64,9 +79,9 @@ class ProductGallery extends PureComponent {
         const { gallery } = this.props;
         const galleryLength = gallery.length;
 
-        return galleryLength < 4
+        return galleryLength < GALLERY_LENGTH_BEFORE_COLLAPSE
             ? this.renderAdditionalPicture({ ...gallery[galleryLength - 1], type: 'single' })
-            : gallery.slice(0, 4).map(this.renderAdditionalPicture);
+            : gallery.slice(0, GALLERY_LENGTH_BEFORE_COLLAPSE).map(this.renderAdditionalPicture);
     }
 
     renderSlide(media, index) {
@@ -124,20 +139,3 @@ class ProductGallery extends PureComponent {
         );
     }
 }
-
-ProductGallery.propTypes = {
-    gallery: PropTypes.arrayOf(
-        PropTypes.shape({
-            id: PropTypes.oneOfType([
-                PropTypes.number,
-                PropTypes.string
-            ]),
-            image: PropTypes.string,
-            isPlaceholder: PropTypes.bool,
-            alt: PropTypes.string,
-            type: PropTypes.string
-        })
-    ).isRequired
-};
-
-export default ProductGallery;

@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import CategoryProductListPlaceholder from 'Component/CategoryProductListPlaceholder';
 import { PagesType, FilterType } from 'Type/ProductList';
@@ -20,14 +20,25 @@ import './CategoryProductList.style';
  * List of category products
  * @class CategoryProductList
  */
-class CategoryProductList extends PureComponent {
-    constructor(props) {
-        super(props);
+export default class CategoryProductList extends PureComponent {
+    static propTypes = {
+        pages: PagesType.isRequired,
+        isLoading: PropTypes.bool.isRequired,
+        updatePage: PropTypes.func.isRequired,
+        totalPages: PropTypes.number.isRequired,
+        selectedFilters: FilterType.isRequired,
+        loadPage: PropTypes.func.isRequired,
+        loadPrevPage: PropTypes.func.isRequired,
+        currentPage: PropTypes.number.isRequired,
+        isShowLoading: PropTypes.bool.isRequired,
+        isVisible: PropTypes.bool.isRequired
+    };
 
-        this.nodes = {};
-        this.observedNodes = [];
-        this.pagesIntersecting = [];
-    }
+    nodes = {};
+
+    observedNodes = [];
+
+    pagesIntersecting = [];
 
     componentDidUpdate() {
         const { updatePage, isLoading } = this.props;
@@ -101,7 +112,7 @@ class CategoryProductList extends PureComponent {
               onKeyUp={ loadPrevPage }
               onClick={ loadPrevPage }
             >
-                    {__('Load previous') }
+                    { __('Load previous') }
             </div>
         );
     }
@@ -173,18 +184,3 @@ class CategoryProductList extends PureComponent {
         );
     }
 }
-
-CategoryProductList.propTypes = {
-    pages: PagesType.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-    updatePage: PropTypes.func.isRequired,
-    totalPages: PropTypes.number.isRequired,
-    selectedFilters: FilterType.isRequired,
-    loadPage: PropTypes.func.isRequired,
-    loadPrevPage: PropTypes.func.isRequired,
-    currentPage: PropTypes.number.isRequired,
-    isShowLoading: PropTypes.bool.isRequired,
-    isVisible: PropTypes.bool.isRequired
-};
-
-export default CategoryProductList;

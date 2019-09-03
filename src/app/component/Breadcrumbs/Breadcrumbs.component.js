@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Link from 'Component/Link';
 import ContentWrapper from 'Component/ContentWrapper';
@@ -21,7 +21,12 @@ import TextPlaceholder from 'Component/TextPlaceholder';
  * Breadcrumbs
  * @class Breadcrumbs
  */
-class Breadcrumbs extends PureComponent {
+export default class Breadcrumbs extends PureComponent {
+    static propTypes = {
+        breadcrumbs: BreadcrumbsType.isRequired,
+        areBreadcrumbsVisible: PropTypes.bool.isRequired
+    };
+
     renderBreadcrumb({ url, name }, i) {
         const { breadcrumbs } = this.props;
         const isDisabled = !url || breadcrumbs.length - 1 === i;
@@ -73,18 +78,10 @@ class Breadcrumbs extends PureComponent {
                     >
                         { breadcrumbs.length
                             ? this.renderBreadcrumbList(breadcrumbs)
-                            : this.renderBreadcrumb({}, 0)
-                        }
+                            : this.renderBreadcrumb({}, 0) }
                     </ul>
                 </nav>
             </ContentWrapper>
         );
     }
 }
-
-Breadcrumbs.propTypes = {
-    breadcrumbs: BreadcrumbsType.isRequired,
-    areBreadcrumbsVisible: PropTypes.bool.isRequired
-};
-
-export default Breadcrumbs;

@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,7 +10,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { Provider } from 'react-redux';
 import AppRouter from 'Route';
 import store from 'Store';
@@ -29,6 +30,7 @@ if (process.env.NODE_ENV === 'development') {
         ReactDOM.render(<NextRootContainer />, document.getElementById('root'));
     });
 }
+
 
 class App extends Component {
     render() {

@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Field from 'Component/Field';
 import Loader from 'Component/Loader';
@@ -18,14 +18,14 @@ import './CheckoutShippingMethods.style';
 /**
  * Checkout shipping method selector component
  */
-class CheckoutShippingMethods extends PureComponent {
-    constructor(props) {
-        super(props);
+export default class CheckoutShippingMethods extends PureComponent {
+    static propTypes = {
+        shippingMethods: PropTypes.arrayOf(PropTypes.object).isRequired,
+        onSelectShippingMethod: PropTypes.func.isRequired,
+        loadingShippingMethods: PropTypes.bool.isRequired
+    };
 
-        this.state = {
-            activeMethod: ''
-        };
-    }
+    state = { activeMethod: '' };
 
     handleShippingMethodChange(method) {
         const { method_code } = method;
@@ -108,18 +108,9 @@ class CheckoutShippingMethods extends PureComponent {
                         )
                         : (
                             <p>{ __('Please enter shipping address information first!') }</p>
-                        )
-                    }
+                        ) }
                 </div>
             </fieldset>
         );
     }
 }
-
-CheckoutShippingMethods.propTypes = {
-    shippingMethods: PropTypes.arrayOf(PropTypes.object).isRequired,
-    onSelectShippingMethod: PropTypes.func.isRequired,
-    loadingShippingMethods: PropTypes.bool.isRequired
-};
-
-export default CheckoutShippingMethods;

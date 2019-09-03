@@ -1,9 +1,19 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import './CategorySearch.style';
 
+export const CATEGORY_SEARCH_TIMEOUT = 500;
+
 // TODO: add to template
-class CategorySearch extends PureComponent {
+export default class CategorySearch extends PureComponent {
+    static propTypes = {
+        value: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number
+        ]).isRequired,
+        onChange: PropTypes.func.isRequired
+    };
+
     constructor(props) {
         super(props);
         this.state = { value: decodeURIComponent(props.value) };
@@ -23,7 +33,7 @@ class CategorySearch extends PureComponent {
         this.setState({ value });
 
         clearTimeout(this.timeout);
-        this.timeout = setTimeout(onChange, 500, value);
+        this.timeout = setTimeout(onChange, CATEGORY_SEARCH_TIMEOUT, value);
     }
 
     render() {
@@ -38,13 +48,3 @@ class CategorySearch extends PureComponent {
         );
     }
 }
-
-CategorySearch.propTypes = {
-    value: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number
-    ]).isRequired,
-    onChange: PropTypes.func.isRequired
-};
-
-export default CategorySearch;

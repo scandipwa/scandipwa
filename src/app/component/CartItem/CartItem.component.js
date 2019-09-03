@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Link from 'Component/Link';
 import Image from 'Component/Image';
@@ -23,7 +23,29 @@ import './CartItem.style';
  * Cart and Minicart item
  * @class CartItem
  */
-class CartItem extends PureComponent {
+export default class CartItem extends PureComponent {
+    static propTypes = {
+        isLoading: PropTypes.bool.isRequired,
+        product: ProductType.isRequired,
+        isEditing: PropTypes.bool,
+        isLikeTable: PropTypes.bool,
+        handleRemoveItem: PropTypes.func.isRequired,
+        handleQtyChange: PropTypes.func.isRequired,
+        linkTo: PropTypes.oneOfType([
+            PropTypes.shape({
+                pathname: PropTypes.string,
+                search: PropTypes.string
+            }),
+            PropTypes.string
+        ]).isRequired,
+        thumbnail: PropTypes.string.isRequired
+    };
+
+    static defaultProps = {
+        isEditing: false,
+        isLikeTable: false
+    };
+
     renderConfiguration() {
         const {
             product: {
@@ -182,27 +204,3 @@ class CartItem extends PureComponent {
         );
     }
 }
-
-CartItem.propTypes = {
-    isLoading: PropTypes.bool.isRequired,
-    product: ProductType.isRequired,
-    isEditing: PropTypes.bool,
-    isLikeTable: PropTypes.bool,
-    handleRemoveItem: PropTypes.func.isRequired,
-    handleQtyChange: PropTypes.func.isRequired,
-    linkTo: PropTypes.oneOfType([
-        PropTypes.shape({
-            pathname: PropTypes.string,
-            search: PropTypes.string
-        }),
-        PropTypes.string
-    ]).isRequired,
-    thumbnail: PropTypes.string.isRequired
-};
-
-CartItem.defaultProps = {
-    isEditing: false,
-    isLikeTable: false
-};
-
-export default CartItem;

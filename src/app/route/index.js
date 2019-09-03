@@ -10,7 +10,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import { PureComponent, cloneElement } from 'react';
 
 import { Route, Switch } from 'react-router-dom';
 import { Router } from 'react-router';
@@ -48,99 +48,100 @@ const AFTER_ITEMS_TYPE = 'AFTER_ITEMS_TYPE';
 
 export const history = createBrowserHistory({ basename: '/' });
 
-class AppRouter extends Component {
-    constructor() {
-        super();
-        this.items = {
-            beforeItems: [
-                {
-                    component: <NotificationList />,
-                    position: 10
-                },
-                {
-                    component: <Header />,
-                    position: 20
-                },
-                {
-                    component: <Breadcrumbs />,
-                    position: 30
-                }
-            ],
-            switchItems: [
-                {
-                    component: <Route path="/" exact component={ HomePage } />,
-                    position: 10
-                },
-                {
-                    component: <Route path="/category" component={ CategoryPage } />,
-                    position: 20
-                },
-                {
-                    component: <Route path="/search/:query/" component={ SearchPage } />,
-                    position: 25
-                },
-                {
-                    component: <Route path="/product" component={ ProductPage } />,
-                    position: 30
-                },
-                {
-                    component: <Route path="/page" component={ CmsPage } />,
-                    position: 40
-                },
-                {
-                    component: <Route path="/cart" exact component={ CartPage } />,
-                    position: 50
-                },
-                {
-                    component: <Route path="/checkout" component={ CheckoutPage } />,
-                    position: 55
-                },
-                {
-                    component: <Route path="/:account*/createPassword/" component={ PasswordChangePage } />,
-                    position: 60
-                },
-                {
-                    component: <Route path="/my-account/" exact component={ MyAccountDetails } />,
-                    position: 70
-                },
-                {
-                    component: <Route path="/wishlist/" exact component={ MyAccountWishlist } />,
-                    position: 90
-                },
-                {
-                    component: <Route component={ UrlRewrites } />,
-                    position: 1000
-                }
-            ],
-            afterItems: [
-                {
-                    component: <Footer />,
-                    position: 10
-                }
-            ]
-        };
+class AppRouter extends PureComponent {
+    items = {
+        beforeItems: [
+            {
+                component: <NotificationList />,
+                position: 10
+            },
+            {
+                component: <Header />,
+                position: 20
+            },
+            {
+                component: <Breadcrumbs />,
+                position: 30
+            }
+        ],
+        switchItems: [
+            {
+                component: <Route path="/" exact component={ HomePage } />,
+                position: 10
+            },
+            {
+                component: <Route path="/category" component={ CategoryPage } />,
+                position: 20
+            },
+            {
+                component: <Route path="/search/:query/" component={ SearchPage } />,
+                position: 25
+            },
+            {
+                component: <Route path="/product" component={ ProductPage } />,
+                position: 30
+            },
+            {
+                component: <Route path="/page" component={ CmsPage } />,
+                position: 40
+            },
+            {
+                component: <Route path="/cart" exact component={ CartPage } />,
+                position: 50
+            },
+            {
+                component: <Route path="/checkout" component={ CheckoutPage } />,
+                position: 55
+            },
+            {
+                component: <Route path="/:account*/createPassword/" component={ PasswordChangePage } />,
+                position: 60
+            },
+            {
+                component: <Route path="/my-account/" exact component={ MyAccountDetails } />,
+                position: 70
+            },
+            {
+                component: <Route path="/wishlist/" exact component={ MyAccountWishlist } />,
+                position: 90
+            },
+            {
+                component: <Route component={ UrlRewrites } />,
+                position: 1000
+            }
+        ],
+        afterItems: [
+            {
+                component: <Footer />,
+                position: 10
+            }
+        ]
+    };
 
-        this.customItems = {};
-    }
+    customItems = {};
 
-    componentWillMount() {
+    itemsMap = {};
+
+    constructor(props) {
+        super(props);
+
         const {
             beforeItems,
             switchItems,
             afterItems
         } = this.customItems;
 
-        this.itemsMap = {
+        this.customItems = {
             [BEFORE_ITEMS_TYPE]: beforeItems,
             [SWITCH_ITEMS_TYPE]: switchItems,
             [AFTER_ITEMS_TYPE]: afterItems
         };
-        const footerOptions = {
-            identifiers: ['social-links']
-        };
 
         WishlistDispatcher.updateInitialWishlistData(Store.dispatch);
-        HeaderAndFooterDispatcher.handleData(Store.dispatch, { menu: { menuId: 2 }, footer: footerOptions });
+        HeaderAndFooterDispatcher.handleData(Store.dispatch, {
+            menu: { menuId: 2 },
+            footer: { identifiers: ['social-links'] }
+        });
         ConfigDispatcher.handleData(Store.dispatch);
         CartDispatcher.updateInitialCartData(Store.dispatch);
     }
@@ -192,7 +193,7 @@ class AppRouter extends Component {
      * @param {string|number} key
      */
     applyKeyToReactElement(element, key) {
-        return React.cloneElement(element, { ...element.props, key });
+        return cloneElement(element, { ...element.props, key });
     }
 
     render() {
@@ -205,22 +206,16 @@ class AppRouter extends Component {
         return (
             <Router history={ history }>
                 <>
-                    {
-                        this.prepareContent(beforeItems, BEFORE_ITEMS_TYPE)
-                            .map((item, key) => item && this.applyKeyToReactElement(item, key))
-                    }
+                    { this.prepareContent(beforeItems, BEFORE_ITEMS_TYPE)
+                        .map((item, key) => item && this.applyKeyToReactElement(item, key)) }
                     <NoMatchHandler>
                         <Switch>
-                            {
-                                this.prepareContent(switchItems, SWITCH_ITEMS_TYPE)
-                                    .map((item, key) => item && this.applyKeyToReactElement(item, key))
-                            }
+                            { this.prepareContent(switchItems, SWITCH_ITEMS_TYPE)
+                                .map((item, key) => item && this.applyKeyToReactElement(item, key)) }
                         </Switch>
                     </NoMatchHandler>
-                    {
-                        this.prepareContent(afterItems, AFTER_ITEMS_TYPE)
-                            .map((item, key) => item && this.applyKeyToReactElement(item, key))
-                    }
+                    { this.prepareContent(afterItems, AFTER_ITEMS_TYPE)
+                        .map((item, key) => item && this.applyKeyToReactElement(item, key)) }
                 </>
             </Router>
         );
