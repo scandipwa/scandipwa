@@ -123,7 +123,7 @@ class CategoryProductList extends PureComponent {
     }
 
     renderPages() {
-        const { pages, filters, isLoading } = this.props;
+        const { pages, selectedFilters, isLoading } = this.props;
 
         if (isLoading) return null;
 
@@ -138,7 +138,7 @@ class CategoryProductList extends PureComponent {
                     <ProductCard
                       product={ product }
                       key={ product.id }
-                      filters={ filters }
+                      selectedFilters={ selectedFilters }
                       arePlaceholdersShown
                     />
                 )) }
@@ -161,9 +161,10 @@ class CategoryProductList extends PureComponent {
     }
 
     renderPagination() {
-        const { loadPage } = this.props;
+        const { requestPage, isLoading: isPageLoading, totalPages } = this.props;
 
-        return <CategoryPagination onPageSelect={ loadPage } />;
+        const isLoading = isPageLoading && totalPages === 0;
+        return <CategoryPagination isLoading={ isLoading } onPageSelect={ requestPage } />;
     }
 
     render() {
@@ -184,11 +185,12 @@ class CategoryProductList extends PureComponent {
 
 CategoryProductList.propTypes = {
     pages: PagesType.isRequired,
-    filters: FilterType.isRequired,
+    selectedFilters: FilterType.isRequired,
     isLoading: PropTypes.bool.isRequired,
     updatePage: PropTypes.func.isRequired,
     totalPages: PropTypes.number.isRequired,
     loadPage: PropTypes.func.isRequired,
+    requestPage: PropTypes.func.isRequired,
     loadPrevPage: PropTypes.func.isRequired,
     currentPage: PropTypes.number.isRequired,
     isShowLoading: PropTypes.bool.isRequired,

@@ -75,8 +75,10 @@ export class CategoryPageContainer extends PureComponent {
         };
 
         this.containerProps = () => ({
-            selectedFilters: this._getSelectedFiltersFromUrl(),
+            filter: this._getFilter(),
+            search: this._getSearchParam(),
             selectedSort: this._getSelectedSortFromUrl(),
+            selectedFilters: this._getSelectedFiltersFromUrl(),
             selectedPriceRange: this._getPriceRangeForSlider()
         });
     }
@@ -221,42 +223,32 @@ export class CategoryPageContainer extends PureComponent {
         return path.indexOf('search') === 0 ? null : path;
     }
 
-    _getProductListOptions(currentPage, isNext, isInfo) {
+    _getFilter() {
         const { categoryIds } = this.props;
-        const { pageSize } = this.config;
-
         const categoryUrlPath = !categoryIds ? this._getCategoryUrlPath() : null;
         const customFilters = this._getSelectedFiltersFromUrl();
         const priceRange = this._getSelectedPriceRangeFromUrl();
-        const search = this._getSearchParam();
-        const sort = this._getSelectedSortFromUrl();
-
-        if (isInfo) {
-            return {
-                args: {
-                    filter: {
-                        categoryUrlPath,
-                        categoryIds
-                    }
-                },
-                currentPage
-            };
-        }
 
         return {
-            isNext,
+            priceRange,
+            categoryIds,
+            customFilters,
+            categoryUrlPath
+        };
+    }
+
+    _getProductListOptions(currentPage) {
+        const { categoryIds } = this.props;
+        const categoryUrlPath = !categoryIds ? this._getCategoryUrlPath() : null;
+
+        return {
             args: {
                 filter: {
                     categoryUrlPath,
-                    customFilters,
-                    categoryIds,
-                    priceRange
-                },
-                currentPage,
-                pageSize,
-                search,
-                sort
-            }
+                    categoryIds
+                }
+            },
+            currentPage
         };
     }
 
@@ -291,7 +283,7 @@ export class CategoryPageContainer extends PureComponent {
 
         requestCategory({
             categoryUrlPath,
-            isSearchPage: isSearchPage || false,
+            isSearchPage,
             categoryIds
         });
     }
@@ -302,8 +294,6 @@ export class CategoryPageContainer extends PureComponent {
         if (shouldRequestProductListInfo) {
             this._requestCategoryProductsInfo();
         }
-
-        // this.requestPage(getQueryParam('page', location) || 1);
     }
 
     _compareQueriesWithFilter(search, prevSearch, filter) {
@@ -340,9 +330,12 @@ export class CategoryPageContainer extends PureComponent {
     }
 
     render() {
+        const { pageSize } = this.config;
+
         return (
             <CategoryPage
               { ...this.props }
+              pageSize={ pageSize }
               { ...this.containerFunctions }
               { ...this.containerProps() }
             />

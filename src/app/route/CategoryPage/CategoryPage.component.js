@@ -100,6 +100,24 @@ class CategoryPage extends PureComponent {
         );
     }
 
+    renderCategoryProductList() {
+        const {
+            filter,
+            search,
+            selectedSort,
+            selectedFilters
+        } = this.props;
+
+        return (
+            <CategoryProductList
+              filter={ filter }
+              search={ search }
+              sort={ selectedSort }
+              selectedFilters={ selectedFilters }
+            />
+        );
+    }
+
     render() {
         const { category } = this.props;
 
@@ -117,7 +135,7 @@ class CategoryPage extends PureComponent {
                         { this.renderCategorySort() }
                         { this.renderFilterButton() }
                     </aside>
-                    <CategoryProductList />
+                    { this.renderCategoryProductList() }
                 </ContentWrapper>
             </main>
         );
@@ -149,7 +167,9 @@ CategoryPage.propTypes = {
     updatePriceRange: PropTypes.func.isRequired,
     toggleOverlayByKey: PropTypes.func.isRequired,
     changeHeaderState: PropTypes.func.isRequired,
-    selectedFilters: FilterType.isRequired
+    selectedFilters: FilterType.isRequired,
+    filter: PropTypes.shape({}).isRequired,
+    search: PropTypes.string.isRequired
 };
 
 export default CategoryPage;

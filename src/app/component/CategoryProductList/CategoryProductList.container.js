@@ -30,11 +30,11 @@ export class CategoryProductListContainer extends PureComponent {
         this.containerFunctions = {
             loadPrevPage: this.loadPage.bind(this, false),
             loadPage: this.loadPage.bind(this),
-            updatePage: this.updatePage.bind(this)
+            updatePage: this.updatePage.bind(this),
+            requestPage: this.requestPage.bind(this)
         };
 
         this.containerProps = () => ({
-            filters: this._getFilters(),
             currentPage: this._getPageFromUrl(),
             isShowLoading: this._isShowLoading(),
             isVisible: this._isVisible(),
@@ -51,17 +51,23 @@ export class CategoryProductListContainer extends PureComponent {
             this.setState({ pagesCount: pagesLength });
         }
 
-        this.requestPage();
+        this.requestPage(this._getPageFromUrl());
+    }
+
+    componentDidUpdate(prevProps) {
+        const { sort, search, filter } = this.props;
+        const { sort: prevSort, search: prevSearch, filter: prevFilter } = prevProps;
+
+        if (search !== prevSearch
+            || JSON.stringify(sort) !== JSON.stringify(prevSort)
+            || JSON.stringify(filter) !== JSON.stringify(prevFilter)
+        ) this.requestPage(this._getPageFromUrl());
     }
 
     static getDerivedStateFromProps(props) {
         const { isLoading } = props;
         if (isLoading) return { pagesCount: 1 };
         return null;
-    }
-
-    _getFilters() {
-        return {};
     }
 
     _getPageFromUrl() {
@@ -113,7 +119,7 @@ export class CategoryProductListContainer extends PureComponent {
 
         if (isUpdatable && shouldUpdateList && !isLoading) {
             this.setState({ pagesCount: pagesCount + 1 });
-            // loadPage(next ? maxPage + 1 : minPage - 1);
+            this.requestPage(next ? maxPage + 1 : minPage - 1, true);
         }
     }
 
@@ -171,6 +177,7 @@ CategoryProductListContainer.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     totalItems: PropTypes.number.isRequired,
     requestProductList: PropTypes.func.isRequired,
+    selectedFilters: PropTypes.objectOf(PropTypes.shape),
 
     filter: PropTypes.shape({}),
     search: PropTypes.string,
@@ -181,6 +188,7 @@ CategoryProductListContainer.defaultProps = {
     pageSize: 12,
     filter: {},
     search: '',
+    selectedFilters: {},
     sort: undefined
 };
 

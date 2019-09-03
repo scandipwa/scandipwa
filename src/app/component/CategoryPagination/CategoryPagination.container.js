@@ -3,14 +3,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import { generateQuery } from 'Util/Url';
+import { generateQuery, getQueryParam } from 'Util/Url';
 import { HistoryType } from 'Type/Common';
 import { LocationType } from 'Type/Router';
 
 import CategoryPagination from './CategoryPagination.component';
 
 export const mapStateToProps = state => ({
-    isLoading: state.ProductListReducer.isLoading,
     totalPages: state.ProductListReducer.totalPages
 });
 
@@ -41,7 +40,9 @@ export class CategoryPaginationContainer extends PureComponent {
     }
 
     _getCurrentPage() {
-        return 1;
+        const { location } = this.props;
+
+        return +(getQueryParam('page', location) || 1);
     }
 
     render() {
