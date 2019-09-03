@@ -110,7 +110,8 @@ export class ProductListQuery {
 
         return [
             'total_count',
-            this._getItemsField()
+            this._getItemsField(),
+            this._getPageInfoField()
         ];
     }
 
@@ -498,6 +499,15 @@ export class ProductListQuery {
     _getFiltersField() {
         return new Field('filters')
             .addFieldList(this._getFilterFields());
+    }
+
+    _getPageInfoField() {
+        return new Field('page_info')
+            .addFieldList([
+                'current_page',
+                'page_size',
+                'total_pages'
+            ]);
     }
 }
 
