@@ -32,7 +32,7 @@ class CategoryPagination extends PureComponent {
     }
 
     renderPageLink(pageNumber, label, isCurrent, text) {
-        const { pathname, getPage, getSearchQueryForPage } = this.props;
+        const { pathname, onPageSelect, getSearchQuery } = this.props;
 
         return (
             <li
@@ -43,14 +43,14 @@ class CategoryPagination extends PureComponent {
                 <Link
                   to={ {
                       pathname,
-                      search: getSearchQueryForPage(pageNumber)
+                      search: getSearchQuery(pageNumber)
                   } }
                   aria-label={ label }
                   block="CategoryPagination"
                   elem="PaginationLink"
                   mods={ { isCurrent } }
                   aria-current={ isCurrent ? 'page' : 'false' }
-                  onClick={ () => getPage(pageNumber) }
+                  onClick={ () => onPageSelect(pageNumber) }
                 >
                     { text }
                 </Link>
@@ -80,11 +80,11 @@ class CategoryPagination extends PureComponent {
 }
 
 CategoryPagination.propTypes = {
-    getPage: PropTypes.func.isRequired,
     pathname: PropTypes.string.isRequired,
+    onPageSelect: PropTypes.func.isRequired,
     totalPages: PropTypes.number.isRequired,
     currentPage: PropTypes.number.isRequired,
-    getSearchQueryForPage: PropTypes.func.isRequired
+    getSearchQuery: PropTypes.func.isRequired
 };
 
 export default CategoryPagination;

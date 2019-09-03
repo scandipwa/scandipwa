@@ -19,7 +19,13 @@ import { getIndexedProducts } from 'Util/Product';
 export const initialState = {
     pages: {},
     totalItems: 0,
+    totalPages: 0,
     isLoading: true
+};
+
+export const defaultConfig = {
+// TODO: retrieve default itemsPerPageCount from storeConfig
+    itemsPerPageCount: 12
 };
 
 const ProductListReducer = (state = initialState, action) => {
@@ -42,10 +48,14 @@ const ProductListReducer = (state = initialState, action) => {
         };
 
     case UPDATE_PRODUCT_LIST_ITEMS:
+        const { itemsPerPageCount } = defaultConfig;
+        const totalPages = Math.ceil(totalItems / itemsPerPageCount);
+
         return {
             ...state,
             isLoading: false,
             totalItems,
+            totalPages,
             pages: { [currentPage]: getIndexedProducts(initialItems) }
         };
 

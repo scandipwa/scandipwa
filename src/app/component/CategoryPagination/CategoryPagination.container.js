@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import { generateQuery } from 'Util/Url';
@@ -17,15 +18,21 @@ export class CategoryPaginationContainer extends PureComponent {
         super(props);
 
         this.containerFunctions = {
-            getSearchQueryForPage: this.getSearchQueryForPage.bind(this)
+            onPageSelect: this.onPageSelect.bind(this),
+            getSearchQuery: this.getSearchQuery.bind(this)
         };
 
         this.containerProps = () => ({
-            pathname: this._getPathname()
+            pathname: this._getPathname(),
+            currentPage: this._getCurrentPage()
         });
     }
 
-    getSearchQueryForPage(pageNumber) {
+    onPageSelect(pageNumber) {
+        console.log(pageNumber);
+    }
+
+    getSearchQuery(pageNumber) {
         const { history, location } = this.props;
         const page = pageNumber !== 1 ? pageNumber : '';
         return generateQuery({ page }, location, history);
@@ -37,11 +44,16 @@ export class CategoryPaginationContainer extends PureComponent {
         return pathname;
     }
 
+    _getCurrentPage() {
+        return 1;
+    }
+
     render() {
         return (
             <CategoryPagination
               { ...this.props }
               { ...this.containerFunctions }
+              { ...this.containerProps() }
             />
         );
     }
@@ -53,4 +65,4 @@ CategoryPaginationContainer.propTypes = {
     totalPages: PropTypes.number.isRequired
 };
 
-export default withRouter(CategoryPaginationContainer);
+export default withRouter(connect(mapStateToProps)(CategoryPaginationContainer));
