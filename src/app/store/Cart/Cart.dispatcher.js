@@ -122,15 +122,17 @@ export class CartDispatcher {
             if (type_id === 'configurable') {
                 let configurableVariantIndex = 0;
 
-                const selectedVariant = variants
-                    .filter(({ product }) => product !== null)
-                    .find((variant, id) => {
-                        const { sku: productSku } = variant.product;
+                const { product: variant } = variants.find(
+                    ({ product }, index) => {
+                        if (product === null) return false;
+                        configurableVariantIndex++;
+                        const { sku: productSku } = product;
                         const isChosenProduct = productSku === sku;
-                        if (isChosenProduct) configurableVariantIndex = id;
+                        if (isChosenProduct) configurableVariantIndex = index;
                         return isChosenProduct;
-                    });
-                const { product: variant } = selectedVariant;
+                    }
+                );
+
                 if (variant) {
                     const { id: variantId } = variant;
 
