@@ -15,7 +15,7 @@ import PropTypes from 'prop-types';
 import ProductList from 'Component/ProductList';
 import { ProductListQuery } from 'Query';
 import { getIndexedProducts } from 'Util/Product';
-import { executeGet } from 'Util/Request';
+import { executeGet, executePost } from 'Util/Request';
 import { prepareQuery } from 'Util/Query';
 import { showNotification } from 'Store/Notification';
 import { updateNoMatch } from 'Store/NoMatch';
@@ -114,7 +114,7 @@ export class ProductListWidgetContainer extends PureComponent {
         if (!isNext) this.updateLoadStatus(true);
 
         const query = [ProductListQuery.getQuery(options)];
-        executeGet(prepareQuery(query), 'ProductList', ONE_MONTH_IN_SECONDS)
+        executeGet(prepareQuery(query))
             .then(isNext ? this.appendPage : this.updateProductListItems)
             .catch(this.onError);
     }
