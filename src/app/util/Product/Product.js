@@ -56,15 +56,15 @@ const getIndexedConfigurableOptions = (configurableOptions, indexedAttributes) =
     }, {})
 );
 
-const getIndexedVariants = variants => Object.entries(variants).filter( ([index,{product}]) => {
-    return product != undefined;
-}).map(([index,{ product }]) => {
-    const { attributes } = product;
-    return {
-        ...product,
-        attributes: getIndexedAttributes(attributes)
-    };
-});
+const getIndexedVariants = variants => variants
+    .filter(({ product }) => product !== null)
+    .map(({ product }) => {
+        const { attributes } = product;
+        return {
+            ...product,
+            attributes: getIndexedAttributes(attributes)
+        };
+    });
 
 /**
  * Get product variant index by options
@@ -72,16 +72,12 @@ const getIndexedVariants = variants => Object.entries(variants).filter( ([index,
  * @param {{ attribute_code: string }[]} options
  * @returns {number}
  */
-export const getVariantIndex = (variants, options) => Object.entries(variants)
-    .filter( ([index,variant]) => {
-        return variant != undefined;
-    }).findIndex(([index,variant]) => checkEveryOption(variant.attributes, options));
+export const getVariantIndex = (variants, options) => variants
+    .findIndex(variant => checkEveryOption(variant.attributes, options));
 
 export const getVariantsIndexes = (variants, options) => Object.entries(variants)
-    .filter( ([index,variant]) => {
-        return variant != undefined;
-    }).reduce((indexes, [index, variant]) => {
-        if (checkEveryOption(variant.attributes, options)) indexes.push(+index);
+    .reduce((indexes, [index, variant]) => {
+        if (variant !== null && checkEveryOption(variant.attributes, options)) indexes.push(+index);
         return indexes;
     }, []);
 
