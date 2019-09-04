@@ -15,7 +15,7 @@ import CategoryProductListPlaceholder from 'Component/CategoryProductListPlaceho
 import { PagesType, FilterType } from 'Type/ProductList';
 import ProductCard from 'Component/ProductCard';
 import CategoryPagination from 'Component/CategoryPagination';
-import './CategoryProductList.style';
+import './ProductList.style';
 
 /**
  * List of category products
@@ -23,6 +23,7 @@ import './CategoryProductList.style';
  */
 export default class CategoryProductList extends PureComponent {
     static propTypes = {
+        title: PropTypes.string,
         pages: PagesType.isRequired,
         selectedFilters: FilterType.isRequired,
         isLoading: PropTypes.bool.isRequired,
@@ -33,7 +34,15 @@ export default class CategoryProductList extends PureComponent {
         loadPrevPage: PropTypes.func.isRequired,
         currentPage: PropTypes.number.isRequired,
         isShowLoading: PropTypes.bool.isRequired,
-        isVisible: PropTypes.bool.isRequired
+        isVisible: PropTypes.bool.isRequired,
+        isInfiniteLoaderEnabled: PropTypes.bool,
+        isPaginationEnabled: PropTypes.bool
+    };
+
+    static defaultProps = {
+        title: '',
+        isInfiniteLoaderEnabled: true,
+        isPaginationEnabled: true
     };
 
     nodes = {};
@@ -43,6 +52,16 @@ export default class CategoryProductList extends PureComponent {
     pagesIntersecting = [];
 
     componentDidUpdate() {
+        const { isInfiniteLoaderEnabled } = this.props;
+        if (isInfiniteLoaderEnabled) this.observePageChange();
+    }
+
+    componentWillUnmount() {
+        if (this.observer && this.observer.disconnect) this.observer.disconnect();
+        this.observer = null;
+    }
+
+    observePageChange() {
         const { updatePage, isLoading } = this.props;
 
         if (isLoading) this.pagesIntersecting = [];
@@ -73,11 +92,6 @@ export default class CategoryProductList extends PureComponent {
         this.updateObserver();
     }
 
-    componentWillUnmount() {
-        if (this.observer && this.observer.disconnect) this.observer.disconnect();
-        this.observer = null;
-    }
-
     updateObserver() {
         const currentNodes = Object.values(this.nodes);
 
@@ -102,8 +116,8 @@ export default class CategoryProductList extends PureComponent {
     }
 
     renderLoadButton() {
-        const { isShowLoading, loadPrevPage } = this.props;
-        if (!isShowLoading) return null;
+        const { isShowLoading, isInfiniteLoaderEnabled, loadPrevPage } = this.props;
+        if (!isShowLoading || !isInfiniteLoaderEnabled) return null;
 
         return (
             <div
@@ -159,7 +173,14 @@ export default class CategoryProductList extends PureComponent {
     }
 
     renderCategoryPlaceholder() {
-        const { isLoading, isVisible, loadPage } = this.props;
+        const {
+            loadPage,
+            isLoading,
+            isVisible,
+            isInfiniteLoaderEnabled
+        } = this.props;
+
+        if (!isInfiniteLoaderEnabled) return null;
 
         return (
             <div block="CategoryProductList" elem="Page">
@@ -173,9 +194,29 @@ export default class CategoryProductList extends PureComponent {
     }
 
     renderPagination() {
-        const { requestPage, isLoading } = this.props;
+        const {
+            isLoading,
+            totalPages,
+            requestPage,
+            isPaginationEnabled
+        } = this.props;
 
-        return <CategoryPagination isLoading={ isLoading } onPageSelect={ requestPage } />;
+        if (!isPaginationEnabled) return null;
+
+        return (
+            <CategoryPagination
+              isLoading={ isLoading }
+              totalPages={ totalPages }
+              onPageSelect={ requestPage }
+            />
+        );
+    }
+
+    renderTitle() {
+        const { title } = this.props;
+        if (!title) return null;
+
+        return <h2>{ title }</h2>;
     }
 
     render() {
@@ -185,6 +226,7 @@ export default class CategoryProductList extends PureComponent {
 
         return (
             <div block="CategoryProductList" mods={ { isLoading } }>
+                { this.renderTitle() }
                 { this.renderLoadButton() }
                 { this.renderPages() }
                 { this.renderCategoryPlaceholder() }

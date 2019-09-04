@@ -1,17 +1,12 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
 
 import { generateQuery, getQueryParam } from 'Util/Url';
 import { HistoryType } from 'Type/Common';
 import { LocationType } from 'Type/Router';
 
 import CategoryPagination from './CategoryPagination.component';
-
-export const mapStateToProps = state => ({
-    totalPages: state.ProductListReducer.totalPages
-});
 
 export class CategoryPaginationContainer extends PureComponent {
     static propTypes = {
@@ -65,4 +60,4 @@ export class CategoryPaginationContainer extends PureComponent {
     }
 }
 
-export default withRouter(connect(mapStateToProps)(CategoryPaginationContainer));
+export default withRouter(CategoryPaginationContainer);

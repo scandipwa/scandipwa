@@ -34,7 +34,7 @@ export class ProductListDispatcher extends QueryDispatcher {
             products: {
                 items,
                 total_count,
-                page_info: { total_pages }
+                page_info: { total_pages } = {}
             } = {}
         } = data;
         const { args: { currentPage }, isNext } = options;

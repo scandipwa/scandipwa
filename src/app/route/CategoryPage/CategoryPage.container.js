@@ -114,15 +114,15 @@ export class CategoryPageContainer extends PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        const { location, category: { id }, categoryIds } = this.props;
+        const { category: { id }, categoryIds } = this.props;
         const { category: { id: prevId }, categoryIds: prevCategoryIds } = prevProps;
 
         // update breadcrumbs only if category has changed
         if (id !== prevId) this._onCategoryUpdate();
 
         // update category only if route or search query has been changed
-        if (this._urlHasChanged(location, prevProps) || categoryIds !== prevCategoryIds) {
-            this._requestCategoryWithPageList(this.isNewCategory());
+        if (this.isNewCategory() || categoryIds !== prevCategoryIds) {
+            this._requestCategoryWithPageList();
         }
     }
 
@@ -321,12 +321,9 @@ export class CategoryPageContainer extends PureComponent {
         });
     }
 
-    _requestCategoryWithPageList(shouldRequestProductListInfo = true) {
+    _requestCategoryWithPageList() {
         this._requestCategory();
-
-        if (shouldRequestProductListInfo) {
-            this._requestCategoryProductsInfo();
-        }
+        this._requestCategoryProductsInfo();
     }
 
     _compareQueriesWithFilter(search, prevSearch, filter) {

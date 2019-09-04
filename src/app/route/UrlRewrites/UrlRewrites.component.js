@@ -35,7 +35,7 @@ class UrlRewrites extends PureComponent {
         match: MatchType.isRequired,
         clearUrlRewrites: PropTypes.func.isRequired,
         requestUrlRewrite: PropTypes.func.isRequired,
-        urlRewrite: PropTypes.func.isRequired
+        urlRewrite: PropTypes.shape({}).isRequired
     };
 
     state = {
@@ -49,9 +49,7 @@ class UrlRewrites extends PureComponent {
         TYPE_PRODUCT
     ];
 
-    constructor() {
-        super();
-
+    componentWillMount() {
         const { type } = window.actionName || '';
 
         // Type is not set

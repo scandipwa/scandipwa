@@ -505,6 +505,7 @@ export class ProductListQuery {
 
     _getPageInfoField() {
         return new Field('page_info')
+            .addField('current_page')
             .addField('total_pages');
     }
 }

@@ -12,7 +12,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import HomeSlider from 'Component/HomeSlider';
 import NewProducts from 'Component/NewProducts';
-import TestWidget from 'Component/TestWidget';
+import ProductListWidget from 'Component/ProductListWidget';
 
 const SLIDER = 'Slider';
 const NEW_PRODUCTS = 'NewProducts';
@@ -20,7 +20,7 @@ const CATALOG_PRODUCT_LIST = 'CatalogProductList';
 export default class WidgetFactory extends Component {
     static propTypes = {
         type: PropTypes.string.isRequired
-    }
+    };
 
     renderMap = {
         [SLIDER]: {
@@ -30,9 +30,9 @@ export default class WidgetFactory extends Component {
             component: NewProducts
         },
         [CATALOG_PRODUCT_LIST]: {
-            component: TestWidget
+            component: ProductListWidget
         }
-    }
+    };
 
     render() {
         const { type } = this.props;
