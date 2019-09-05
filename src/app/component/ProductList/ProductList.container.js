@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { getQueryParam, setQueryParams } from 'Util/Url';
 import { PagesType, FilterInputType } from 'Type/ProductList';
 import { HistoryType } from 'Type/Common';
-import CategoryProductList from './ProductList.component';
+import ProductList from './ProductList.component';
 
 export class ProductListContainer extends PureComponent {
     static propTypes = {
@@ -157,7 +157,7 @@ export class ProductListContainer extends PureComponent {
 
     render() {
         return (
-            <CategoryProductList
+            <ProductList
               { ...this.props }
               { ...this.containerFunctions }
               { ...this.containerProps() }

@@ -21,7 +21,7 @@ import './ProductList.style';
  * List of category products
  * @class CategoryProductList
  */
-export default class CategoryProductList extends PureComponent {
+export default class ProductList extends PureComponent {
     static propTypes = {
         title: PropTypes.string,
         pages: PagesType.isRequired,
@@ -180,7 +180,7 @@ export default class CategoryProductList extends PureComponent {
             isInfiniteLoaderEnabled
         } = this.props;
 
-        if (!isInfiniteLoaderEnabled) return null;
+        if (!isInfiniteLoaderEnabled && !isLoading) return null;
 
         return (
             <div block="CategoryProductList" elem="Page">
