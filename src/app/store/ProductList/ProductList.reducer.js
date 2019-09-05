@@ -24,7 +24,6 @@ export const initialState = {
 };
 
 export const defaultConfig = {
-// TODO: retrieve default itemsPerPageCount from storeConfig
     itemsPerPageCount: 12
 };
 

@@ -11,21 +11,23 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+
+import CSS from 'Util/CSS';
 import { ProductType } from 'Type/ProductList';
 import ProductCard from 'Component/ProductCard';
+
 import './NewProducts.style';
-import CSS from 'Util/CSS';
 
 export class NewProducts extends PureComponent {
     static propTypes = {
         products: PropTypes.arrayOf(ProductType),
         productsPerPage: PropTypes.number
-    }
+    };
 
     static defaultProps = {
         products: Array.from({ length: 4 }, () => ({})),
         productsPerPage: 4
-    }
+    };
 
     newProductsRef = React.createRef();
 

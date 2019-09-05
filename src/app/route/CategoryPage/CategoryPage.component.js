@@ -18,7 +18,7 @@ import CategoryDetails from 'Component/CategoryDetails';
 import ContentWrapper from 'Component/ContentWrapper';
 import CategorySort from 'Component/CategorySort';
 import { CategoryTreeType } from 'Type/Category';
-import { FilterType } from 'Type/ProductList';
+import { FilterType, FilterInputType } from 'Type/ProductList';
 import Meta from 'Component/Meta';
 import './CategoryPage.style';
 
@@ -49,7 +49,7 @@ class CategoryPage extends PureComponent {
         toggleOverlayByKey: PropTypes.func.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
         selectedFilters: FilterType.isRequired,
-        filter: PropTypes.shape({}).isRequired,
+        filter: FilterInputType.isRequired,
         search: PropTypes.string.isRequired
     };
 

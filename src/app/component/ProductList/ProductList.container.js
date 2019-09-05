@@ -2,7 +2,7 @@ import { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { getQueryParam, setQueryParams } from 'Util/Url';
-import { PagesType } from 'Type/ProductList';
+import { PagesType, FilterInputType } from 'Type/ProductList';
 import { HistoryType } from 'Type/Common';
 import CategoryProductList from './ProductList.component';
 
@@ -19,9 +19,9 @@ export class ProductListContainer extends PureComponent {
         requestProductList: PropTypes.func.isRequired,
         selectedFilters: PropTypes.objectOf(PropTypes.shape),
 
-        filter: PropTypes.shape({}),
+        filter: FilterInputType,
         search: PropTypes.string,
-        sort: PropTypes.shape({})
+        sort: PropTypes.objectOf(PropTypes.string)
     };
 
     static defaultProps = {
@@ -117,7 +117,7 @@ export class ProductListContainer extends PureComponent {
         const shouldUpdateList = next ? maxPage < totalPages : minPage > 1;
 
         if (isUpdatable && shouldUpdateList && !isLoading) {
-            // this.setState({ pagesCount: pagesCount + 1 });
+            this.setState({ pagesCount: pagesCount + 1 });
             this.requestPage(next ? maxPage + 1 : minPage - 1, true);
         }
     }

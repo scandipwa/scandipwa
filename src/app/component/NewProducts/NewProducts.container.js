@@ -34,17 +34,17 @@ export class NewProductsContainer extends PureComponent {
         productsCount: PropTypes.number,
         timezone: PropTypes.string.isRequired,
         showNotification: PropTypes.func.isRequired
-    }
+    };
 
     static defaultProps = {
         category: '',
         productsCount: 10,
         cacheLifetime: 86400
-    }
+    };
 
     state = {
         products: undefined
-    }
+    };
 
     componentDidMount() {
         this.requestProducts();
@@ -80,17 +80,19 @@ export class NewProductsContainer extends PureComponent {
      */
     getRequestDate() {
         const { cacheLifetime, timezone: timeZone } = this.props;
+        const milliInSeccond = 1000;
 
         const now = new Date();
         const serverNow = new Date(now.toLocaleString('en', { timeZone }));
 
         const serverNowTime = serverNow.getTime();
-        const ttl = cacheLifetime * 1000;
+        const ttl = cacheLifetime * milliInSeccond;
 
         const requestTime = serverNowTime - (serverNowTime % ttl);
         const requestDate = new Date(requestTime);
 
-        return requestDate.toISOString().slice(0, 10);
+        const timeOffset = 10;
+        return requestDate.toISOString().slice(0, timeOffset);
     }
 
     requestProducts() {

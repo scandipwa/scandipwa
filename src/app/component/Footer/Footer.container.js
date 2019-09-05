@@ -15,4 +15,4 @@ export const mapStateToProps = state => ({
     copyright: state.ConfigReducer.copyright
 });
 
-export default connect(mapStateToProps, null)(Footer);
+export default connect(mapStateToProps)(Footer);

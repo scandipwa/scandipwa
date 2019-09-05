@@ -53,7 +53,7 @@ export class ProductListQuery {
                 attribute.length ? [...acc, `${key}: { in: [ ${attribute.join(',')} ] } `] : acc
             ), []),
             newToDate: date => [`news_to_date: { gteq: ${date} }`],
-            conditions: conditions => [`conditions: { eq: ${encodeURIComponent(conditions)} }`]
+            conditions: conditions => [`conditions: { eq: ${conditions} }`]
         };
     }
 
