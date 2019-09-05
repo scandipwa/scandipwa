@@ -53,7 +53,7 @@ export const mapDispatchToProps = dispatch => ({
         ? BreadcrumbsDispatcher.updateWithCategory(breadcrumbs, dispatch)
         : BreadcrumbsDispatcher.update([], dispatch)),
     requestProductListInfo: options => ProductListInfoDispatcher.handleData(dispatch, options),
-    updateLoadStatus: options => dispatch(updateInfoLoadStatus(options))
+    updateLoadStatus: isLoading => dispatch(updateInfoLoadStatus(isLoading))
 });
 
 export class CategoryPageContainer extends PureComponent {

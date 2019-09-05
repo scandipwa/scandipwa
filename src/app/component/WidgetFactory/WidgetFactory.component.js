@@ -8,15 +8,16 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import React, { Component } from 'react';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
 import HomeSlider from 'Component/HomeSlider';
 import NewProducts from 'Component/NewProducts';
 import ProductListWidget from 'Component/ProductListWidget';
 
-const SLIDER = 'Slider';
-const NEW_PRODUCTS = 'NewProducts';
-const CATALOG_PRODUCT_LIST = 'CatalogProductList';
+export const SLIDER = 'Slider';
+export const NEW_PRODUCTS = 'NewProducts';
+export const CATALOG_PRODUCT_LIST = 'CatalogProductList';
+
 export default class WidgetFactory extends Component {
     static propTypes = {
         type: PropTypes.string.isRequired

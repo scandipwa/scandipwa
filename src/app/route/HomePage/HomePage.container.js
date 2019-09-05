@@ -20,4 +20,4 @@ const mapStateToProps = state => ({
 
 const HomePageContainer = props => <CmsPage { ...props } isBreadcrumbsActive={ false } />;
 
-export default connect(mapStateToProps, null)(HomePageContainer);
+export default connect(mapStateToProps)(HomePageContainer);

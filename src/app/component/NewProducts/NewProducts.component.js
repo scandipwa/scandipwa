@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import { PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
 
 import CSS from 'Util/CSS';
@@ -29,7 +29,7 @@ export class NewProducts extends PureComponent {
         productsPerPage: 4
     };
 
-    newProductsRef = React.createRef();
+    newProductsRef = createRef();
 
     componentDidMount() {
         this.setStyles();

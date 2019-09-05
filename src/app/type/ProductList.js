@@ -135,7 +135,7 @@ export const PagesType = PropTypes.objectOf(ItemsType);
 export const FilterInputType = PropTypes.shape({
     categoryIds: PropTypes.number,
     categoryUrlPath: PropTypes.string,
-    customFilters: PropTypes.object(PropTypes.arrayOf(PropTypes.string)),
+    customFilters: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
     priceRange: PropTypes.shape({
         min: PropTypes.number,
         max: PropTypes.number

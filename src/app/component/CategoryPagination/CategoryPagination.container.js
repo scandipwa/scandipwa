@@ -33,15 +33,8 @@ export class CategoryPaginationContainer extends PureComponent {
     }
 
     containerProps = () => ({
-        pathname: this._getPathname(),
         currentPage: this._getCurrentPage()
     });
-
-    _getPathname() {
-        const { location: { pathname } } = this.props;
-
-        return pathname;
-    }
 
     _getCurrentPage() {
         const { location } = this.props;
@@ -50,8 +43,11 @@ export class CategoryPaginationContainer extends PureComponent {
     }
 
     render() {
+        const { location: { pathname } } = this.props;
+
         return (
             <CategoryPagination
+              pathname={ pathname }
               { ...this.props }
               { ...this.containerFunctions }
               { ...this.containerProps() }

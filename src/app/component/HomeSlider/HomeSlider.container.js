@@ -16,13 +16,12 @@ import { executeGet } from 'Util/Request';
 import { prepareQuery } from 'Util/Query';
 import { SliderQuery } from 'Query';
 import { showNotification } from 'Store/Notification';
+import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 import HomeSlider from './HomeSlider.component';
 
 const mapDispatchToProps = dispatch => ({
     showNotification: (type, title, error) => dispatch(showNotification(type, title, error))
 });
-
-export const SLIDER_TTL = 2628000;
 
 export class HomeSliderContainer extends PureComponent {
     static propTypes = {
@@ -48,7 +47,7 @@ export class HomeSliderContainer extends PureComponent {
     requestSlider() {
         const { sliderId, showNotification } = this.props;
         const query = [SliderQuery.getQuery({ sliderId })];
-        executeGet(prepareQuery(query), 'Slider', SLIDER_TTL)
+        executeGet(prepareQuery(query), 'Slider', ONE_MONTH_IN_SECONDS)
             .then(({ slider: { slides: gallery } }) => this.setState({ gallery }))
             .catch(e => showNotification('error', 'Error fetching Slider!', e));
     }
