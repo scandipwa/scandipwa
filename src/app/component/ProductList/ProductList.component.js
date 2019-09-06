@@ -17,6 +17,8 @@ import ProductCard from 'Component/ProductCard';
 import CategoryPagination from 'Component/CategoryPagination';
 import './ProductList.style';
 
+export const observerThreshold = 10;
+
 /**
  * List of category products
  * @class CategoryProductList
@@ -67,6 +69,8 @@ export default class ProductList extends PureComponent {
         if (isLoading) this.pagesIntersecting = [];
 
         if (!this.observer && 'IntersectionObserver' in window) {
+            const threshold = this._getThreshold();
+
             this.observer = new IntersectionObserver((entries) => {
                 const { currentPage } = this.props;
 
@@ -74,9 +78,11 @@ export default class ProductList extends PureComponent {
                     const page = +Object.keys(this.nodes).find(node => this.nodes[node] === target);
                     const index = this.pagesIntersecting.indexOf(page);
 
-                    if (isIntersecting) {
+                    if (isIntersecting && index === -1) {
                         this.pagesIntersecting.push(page);
-                    } else if (index > -1) {
+                    }
+
+                    if (!isIntersecting && index > -1) {
                         this.pagesIntersecting.splice(index, 1);
                     }
                 });
@@ -85,7 +91,7 @@ export default class ProductList extends PureComponent {
                 if (minPage < Infinity && minPage !== currentPage) updatePage(minPage);
             }, {
                 rootMargin: '0px',
-                threshold: 0.1
+                threshold
             });
         }
 
@@ -113,6 +119,15 @@ export default class ProductList extends PureComponent {
 
             return acc;
         }, []);
+    }
+
+    _getThreshold() {
+        const hundredPercent = 100;
+
+        return Array.from(
+            { length: (hundredPercent / observerThreshold) + 1 },
+            (_, i) => i * (observerThreshold / hundredPercent)
+        );
     }
 
     renderLoadButton() {
