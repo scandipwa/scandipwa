@@ -51,27 +51,29 @@ export default class ProductReviewRating extends PureComponent {
             : `Product's rating is ${rating} out of 5`;
     }
 
+    renderPlaceholder() {
+        return (
+            <div
+              block="ProductReviewRating"
+              mods={ { isLoading: placeholder } }
+              ref={ this.reviewRating }
+            />
+        )
+    }
+
     render() {
         const { summary, code, placeholder } = this.props;
         const ariaText = this.getAriaText(summary, code);
 
+        if (placeholder) return this.renderPlaceholder();
+
         return (
-            placeholder
-                ? (
-                    <div
-                      block="ProductReviewRating"
-                      mods={ { isLoading: placeholder } }
-                      ref={ this.reviewRating }
-                    />
-                )
-                : (
-                    <div
-                      block="ProductReviewRating"
-                      title={ `${summary}%` }
-                      ref={ this.reviewRating }
-                      aria-label={ ariaText }
-                    />
-                )
+            <div
+              block="ProductReviewRating"
+              title={ `${summary}%` }
+              ref={ this.reviewRating }
+              aria-label={ ariaText }
+            />
         );
     }
 }
