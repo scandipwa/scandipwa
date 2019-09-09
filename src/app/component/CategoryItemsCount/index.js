@@ -9,4 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default } from './Footer.container';
+export { default } from './CategoryItemsCount.container';

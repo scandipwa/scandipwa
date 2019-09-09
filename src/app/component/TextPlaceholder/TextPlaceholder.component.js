@@ -26,6 +26,7 @@ export default class TextPlaceholder extends PureComponent {
             PropTypes.number
         ]),
         length: PropTypes.oneOf([
+            'block',
             'short',
             'medium',
             'long',

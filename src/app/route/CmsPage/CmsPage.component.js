@@ -30,15 +30,17 @@ class CmsPage extends Component {
         setHeaderState: PropTypes.func.isRequired,
         updateBreadcrumbs: PropTypes.func.isRequired,
         location: LocationType.isRequired,
-        enableBreadcrumbs: PropTypes.func.isRequired,
+        toggleBreadcrumbs: PropTypes.func.isRequired,
         updateCmsPage: PropTypes.func.isRequired,
-        cmsId: PropTypes.number,
-        isOnlyPlaceholder: PropTypes.bool
+        urlKey: PropTypes.string,
+        isOnlyPlaceholder: PropTypes.bool,
+        isBreadcrumbsActive: PropTypes.bool
     };
 
     static defaultProps = {
-        cmsId: 0,
-        isOnlyPlaceholder: false
+        urlKey: '',
+        isOnlyPlaceholder: false,
+        isBreadcrumbsActive: true
     };
 
     componentDidMount() {
@@ -46,29 +48,30 @@ class CmsPage extends Component {
             requestPage,
             location,
             match,
-            enableBreadcrumbs,
-            cmsId,
+            toggleBreadcrumbs,
+            urlKey,
             isOnlyPlaceholder,
+            isBreadcrumbsActive,
             updateCmsPage
         } = this.props;
         const urlParam = getUrlParam(match, location);
 
         updateCmsPage({});
-        if (!isOnlyPlaceholder) requestPage({ id: cmsId || urlParam });
-        enableBreadcrumbs();
+        if (!isOnlyPlaceholder && (urlKey || urlParam)) requestPage({ id: urlKey || urlParam });
+        toggleBreadcrumbs(isBreadcrumbsActive);
     }
 
     componentDidUpdate(prevProps) {
         const {
             updateBreadcrumbs, page, location, setHeaderState,
             page: { content_heading }, requestPage, match,
-            location: { pathname }, cmsId
+            location: { pathname }, urlKey
         } = this.props;
         const {
             location: {
                 pathname: prevPathname
             },
-            cmsId: prevCmsId
+            urlKey: prevUrlKey
         } = prevProps;
 
         updateBreadcrumbs(page);
@@ -79,9 +82,9 @@ class CmsPage extends Component {
             onBackClick: () => history.goBack()
         });
 
-        if (pathname !== prevPathname || cmsId !== prevCmsId) {
+        if (pathname !== prevPathname || urlKey !== prevUrlKey) {
             const urlParam = getUrlParam(match, location);
-            requestPage({ id: cmsId || urlParam });
+            requestPage({ id: urlKey || urlParam });
         }
     }
 
@@ -97,7 +100,7 @@ class CmsPage extends Component {
                 >
                     <Meta metaObject={ page } />
                     <h1 block="CmsPage" elem="Heading">
-                        <TextPlaceholder content={ content_heading } />
+                        { content_heading && <TextPlaceholder content={ content_heading } /> }
                     </h1>
                     <div block="CmsPage" elem="Content">
                         { content

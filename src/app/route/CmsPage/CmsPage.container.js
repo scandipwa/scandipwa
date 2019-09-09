@@ -25,9 +25,9 @@ const mapDispatchToProps = dispatch => ({
     updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.updateWithCmsPage(breadcrumbs, dispatch),
     setHeaderState: stateName => dispatch(changeHeaderState(stateName)),
     updateCmsPage: options => dispatch(updateCmsPage(options)),
-    enableBreadcrumbs: () => {
+    toggleBreadcrumbs: (isActive) => {
         BreadcrumbsDispatcher.update([], dispatch);
-        dispatch(toggleBreadcrumbs(true));
+        dispatch(toggleBreadcrumbs(isActive));
     }
 });
 

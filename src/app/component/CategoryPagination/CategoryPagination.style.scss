@@ -54,4 +54,16 @@
             --color-pagination-link-text: var(--color-pagination-link-active-text);
         }
     }
+
+    &-Placeholder {
+        margin-right: 1em;
+
+        &::before {
+            content: '';
+        }
+    }
+
+    &_isLoading {
+        justify-content: center;
+    }
 }
