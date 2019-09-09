@@ -201,6 +201,39 @@ export default class CheckoutPreviewAndPaymentsStep extends PureComponent {
         savePaymentInformationAndPlaceOrder(paymentInformation);
     }
 
+    onCountrySelectChange = (index) => {
+        const { countryList } = this.props;
+
+        this.setState({
+            country_id: countryList[index].id,
+            selectedCountryIndex: index
+        }, this.handleFieldChange);
+    };
+
+    onRegionFieldChange = (region) => {
+        this.setState({ region, region_id: null }, this.handleFieldChange);
+    };
+
+    onRegionIdFieldChange = (region_id) => {
+        this.setState({
+            region_id: parseInt(region_id, 10),
+            region: null
+        }, this.handleFieldChange);
+    };
+
+    onSameAsShippingChange = () => {
+        const { billingIsSame } = this.state;
+
+        this.setState(
+            { billingIsSame: !billingIsSame },
+            () => this.setState(({ billingIsSame }) => (
+                billingIsSame
+                    ? { state: STATE_SAME_ADDRESS }
+                    : { state: STATE_NEW_ADDRESS }
+            ))
+        );
+    };
+
     getAddressFromState() {
         const { state, billingAddress, shippingAddress } = this.state;
 
@@ -326,10 +359,7 @@ export default class CheckoutPreviewAndPaymentsStep extends PureComponent {
               selectOptions={ countryList.map(({ id, label }, index) => ({ id, label, value: index })) }
               validation={ ['notEmpty'] }
               value={ selectedCountryIndex }
-              onChange={ index => this.setState({
-                  country_id: countryList[index].id,
-                  selectedCountryIndex: index
-              }, this.handleFieldChange) }
+              onChange={ this.onCountrySelectChange }
             />
         );
     }
@@ -349,10 +379,7 @@ export default class CheckoutPreviewAndPaymentsStep extends PureComponent {
                   selectOptions={ regions.map(({ id, name }) => ({ id, label: name, value: id })) }
                   validation={ ['notEmpty'] }
                   value={ region_id }
-                  onChange={ region_id => this.setState({
-                      region_id: parseInt(region_id, 10),
-                      region: null
-                  }, this.handleFieldChange) }
+                  onChange={ this.onRegionIdFieldChange }
                 />
             );
         }
@@ -363,7 +390,7 @@ export default class CheckoutPreviewAndPaymentsStep extends PureComponent {
               name={ REGION_FIELD_ID }
               type="text"
               placeholder="Region"
-              onChange={ region => this.setState({ region, region_id: null }, this.handleFieldChange) }
+              onChange={ this.onRegionFieldChange }
               value={ region }
             />
         );
@@ -465,14 +492,7 @@ export default class CheckoutPreviewAndPaymentsStep extends PureComponent {
                           label={ __('My billing and shipping are the same') }
                           value="sameAsShippingAddress"
                           checked={ !!billingIsSame }
-                          onChange={ () => this.setState(
-                              { billingIsSame: !billingIsSame },
-                              () => this.setState(({ billingIsSame }) => (
-                                  billingIsSame
-                                      ? { state: STATE_SAME_ADDRESS }
-                                      : { state: STATE_NEW_ADDRESS }
-                              ))
-                          ) }
+                          onChange={ this.onSameAsShippingChange }
                         />
                     ) }
 

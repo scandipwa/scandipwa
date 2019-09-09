@@ -11,7 +11,6 @@
 
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import Field from 'Component/Field';
 import Loader from 'Component/Loader';
 import './CheckoutShippingMethods.style';
 import CheckoutShippingMethod from 'Component/CheckoutShippingMethod/CheckoutShippingMethod.component';
