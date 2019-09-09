@@ -158,7 +158,7 @@ export default class ProductActions extends PureComponent {
               min={ 1 }
               value={ quantity }
               mix={ { block: 'ProductActions', elem: 'Qty' } }
-              onChange={ value => setQuantity(value) }
+              onChange={ setQuantity }
             />
         );
     }

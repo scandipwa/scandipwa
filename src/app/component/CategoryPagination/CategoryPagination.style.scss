@@ -46,12 +46,4 @@
             margin-bottom: 0;
         }
     }
-
-    &-PaginationLink {
-        color: var(--color-pagination-link-text);
-
-        &_isCurrent {
-            --color-pagination-link-text: var(--color-pagination-link-active-text);
-        }
-    }
 }

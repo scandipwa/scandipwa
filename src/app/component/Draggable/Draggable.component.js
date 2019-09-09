@@ -200,7 +200,7 @@ export default class Draggable extends PureComponent {
               ref={ draggableRef }
               onMouseDown={ this.handleMouseDown }
               onTouchStart={ this.handleTouchStart }
-              onFocus={ () => handleFocus() }
+              onFocus={ handleFocus }
               tabIndex={ 0 }
               role="button"
               aria-label="Draggable area"

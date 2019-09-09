@@ -159,6 +159,9 @@ export default class CheckoutPreviewAndPaymentsStep extends PureComponent {
             [STATE_DEFAULT_ADDRESS]: () => (this.renderAddressPreview(STATE_DEFAULT_ADDRESS)),
             [STATE_SAME_ADDRESS]: () => (this.renderAddressPreview(STATE_SAME_ADDRESS))
         };
+
+        this.handleSelectPaymentMethod = this.handleSelectPaymentMethod.bind(this);
+        this.onFormSuccess = this.onFormSuccess.bind(this);
     }
 
     static getDerivedStateFromProps(state, props) {
@@ -442,7 +445,7 @@ export default class CheckoutPreviewAndPaymentsStep extends PureComponent {
         return (
             <Form
               mix={ { block: 'CheckoutPreviewAndPaymentsStep' } }
-              onSubmitSuccess={ validFields => this.onFormSuccess(validFields) }
+              onSubmitSuccess={ this.onFormSuccess }
               key="review_and_payment_step"
             >
                 <Loader isLoading={ !finishedLoading || loadingPaymentInformationSave } />
@@ -478,7 +481,7 @@ export default class CheckoutPreviewAndPaymentsStep extends PureComponent {
 
                 <CheckoutPaymentMethods
                   paymentMethods={ paymentMethods }
-                  onSelectPaymentMethod={ method => this.handleSelectPaymentMethod(method) }
+                  onSelectPaymentMethod={ this.handleSelectPaymentMethod }
                 />
 
                 <button
