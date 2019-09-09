@@ -32,15 +32,27 @@ export default class CmsBlock extends PureComponent {
         cmsBlocks: []
     };
 
+    renderCmsBlock = this.renderCmsBlock.bind(this);
+
+    renderCmsBlock(block) {
+        const { id, content } = block;
+
+        return (
+            <div
+              block="CmsBlock"
+              elem="Wrapper"
+              key={ id }
+            >
+                <Html content={ content } />
+            </div>
+        );
+    }
+
     render() {
         const { cmsBlocks, children } = this.props;
 
         if (cmsBlocks.length) {
-            return (
-                <div block="CmsBlock" elem="Wrapper">
-                    { cmsBlocks.map(({ id, content }) => <Html key={ id } content={ content } />) }
-                </div>
-            );
+            return cmsBlocks.map(this.renderCmsBlock);
         }
 
         return children;

@@ -10,7 +10,7 @@
  */
 import { Component } from 'react';
 import PropTypes from 'prop-types';
-import HomeSlider from 'Component/HomeSlider';
+import HomeSlider from 'Component/SliderWidget';
 import NewProducts from 'Component/NewProducts';
 import ProductListWidget from 'Component/ProductListWidget';
 

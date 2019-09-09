@@ -139,7 +139,7 @@ class AppRouter extends PureComponent {
 
         WishlistDispatcher.updateInitialWishlistData(Store.dispatch);
         HeaderAndFooterDispatcher.handleData(Store.dispatch, {
-            menu: { menuId: 2 },
+            menu: { identifier: 'new-main-menu' },
             footer: { identifiers: ['social-links'] }
         });
         ConfigDispatcher.handleData(Store.dispatch);

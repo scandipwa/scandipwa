@@ -9,10 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import {
-    UPDATE_CMS_PAGE,
-    UPDATE_LOAD_STATUS
-} from './CmsPage.action';
+import { UPDATE_CMS_PAGE } from './CmsPage.action';
 
 export const initialState = {
     page: {},
@@ -20,20 +17,17 @@ export const initialState = {
 };
 
 const CmsPageReducer = (state = initialState, action) => {
-    switch (action.type) {
+    const {
+        page,
+        isLoading,
+        type
+    } = action;
+
+    switch (type) {
     case UPDATE_CMS_PAGE:
-        const { page } = action;
-
         return {
             ...state,
-            page
-        };
-
-    case UPDATE_LOAD_STATUS:
-        const { isLoading } = action;
-
-        return {
-            ...state,
+            page,
             isLoading
         };
 

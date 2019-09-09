@@ -28,7 +28,8 @@ export class Slider {
     _getSliderFields() {
         return [
             this._getSlidesField(),
-            'slider_id'
+            'slider_id',
+            'title'
         ];
     }
 
@@ -36,7 +37,9 @@ export class Slider {
         return [
             'slide_text',
             'slide_id',
-            'image'
+            'image',
+            'title',
+            'is_active'
         ];
     }
 

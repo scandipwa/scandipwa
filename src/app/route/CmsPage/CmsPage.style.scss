@@ -14,6 +14,10 @@
         border-top: 1px solid var(--overlay-divider-color);
     }
 
+    &_isBreadcrumbsHidden {
+        margin-top: var(--header-height);
+    }
+
     &-Wrapper {
         margin-top: 1.8rem;
         margin-bottom: 1.8rem;
@@ -26,6 +30,14 @@
         @include mobile {
             display: none;
         }
+    }
+
+    &-SectionPlaceholder {
+        background-image: var(--placeholder-image);
+        background-size: var(--placeholder-size);
+        animation: var(--placeholder-animation);
+        padding-bottom: 40%;
+        margin: 0 0 10px;
     }
 
     .TextPlaceholder {

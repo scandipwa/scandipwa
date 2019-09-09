@@ -9,110 +9,73 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Component } from 'react';
+
 import ContentWrapper from 'Component/ContentWrapper';
-import Html from 'Component/Html';
 import TextPlaceholder from 'Component/TextPlaceholder';
-import Meta from 'Component/Meta';
-import { CMS_PAGE } from 'Component/Header';
-import { history } from 'Route';
-import { getUrlParam } from 'Util/Url';
-import { LocationType, MatchType } from 'Type/Common';
 import { BlockListType } from 'Type/CMS';
+import Html from 'Component/Html';
+import Meta from 'Component/Meta';
+
 import './CmsPage.style';
 
 export default class CmsPage extends Component {
     static propTypes = {
-        requestPage: PropTypes.func.isRequired,
-        match: MatchType.isRequired,
-        page: BlockListType.isRequired,
-        setHeaderState: PropTypes.func.isRequired,
-        updateBreadcrumbs: PropTypes.func.isRequired,
-        location: LocationType.isRequired,
-        toggleBreadcrumbs: PropTypes.func.isRequired,
-        updateCmsPage: PropTypes.func.isRequired,
-        urlKey: PropTypes.string,
-        isOnlyPlaceholder: PropTypes.bool,
-        isBreadcrumbsActive: PropTypes.bool
+        isLoading: PropTypes.bool.isRequired,
+        isBreadcrumbsActive: PropTypes.bool,
+        page: BlockListType.isRequired
     };
 
     static defaultProps = {
-        urlKey: '',
-        isOnlyPlaceholder: false,
         isBreadcrumbsActive: true
     };
 
-    componentDidMount() {
-        const {
-            requestPage,
-            location,
-            match,
-            toggleBreadcrumbs,
-            urlKey,
-            isOnlyPlaceholder,
-            isBreadcrumbsActive,
-            updateCmsPage
-        } = this.props;
-        const urlParam = getUrlParam(match, location);
+    renderHeading() {
+        const { page: { content_heading } } = this.props;
 
-        updateCmsPage({});
-        if (!isOnlyPlaceholder && (urlKey || urlParam)) requestPage({ id: urlKey || urlParam });
-        toggleBreadcrumbs(isBreadcrumbsActive);
+        if (!content_heading) return null;
+
+        return (
+            <h1 block="CmsPage" elem="Heading">
+                <TextPlaceholder content={ content_heading } />
+            </h1>
+        );
     }
 
-    componentDidUpdate(prevProps) {
-        const {
-            updateBreadcrumbs, page, location, setHeaderState,
-            page: { content_heading }, requestPage, match,
-            location: { pathname }, urlKey
-        } = this.props;
-        const {
-            location: {
-                pathname: prevPathname
-            },
-            urlKey: prevUrlKey
-        } = prevProps;
+    renderContent() {
+        const { isLoading, page: { content } } = this.props;
 
-        updateBreadcrumbs(page);
+        if (!isLoading && !content) return null;
 
-        setHeaderState({
-            name: CMS_PAGE,
-            title: content_heading,
-            onBackClick: () => history.goBack()
-        });
-
-        if (pathname !== prevPathname || urlKey !== prevUrlKey) {
-            const urlParam = getUrlParam(match, location);
-            requestPage({ id: urlKey || urlParam });
+        if (!content) {
+            return (
+                <>
+                    <div block="CmsPage" elem="SectionPlaceholder" />
+                    <div block="CmsPage" elem="SectionPlaceholder" />
+                </>
+            );
         }
+
+        return <Html content={ content } />;
     }
 
     render() {
-        const { page } = this.props;
-        const { page: { content, content_heading } } = this.props;
+        const { page, isBreadcrumbsActive } = this.props;
 
         return (
-            <main block="CmsPage">
+            <main
+              block="CmsPage"
+              mods={ { isBreadcrumbsHidden: !isBreadcrumbsActive } }
+            >
                 <ContentWrapper
                   wrapperMix={ { block: 'CmsPage', elem: 'Wrapper' } }
                   label="CMS page"
                 >
                     <Meta metaObject={ page } />
-                    <h1 block="CmsPage" elem="Heading">
-                        { content_heading && <TextPlaceholder content={ content_heading } /> }
-                    </h1>
+                    { this.renderHeading() }
                     <div block="CmsPage" elem="Content">
-                        { content
-                            ? <Html content={ content } />
-                            : (
-                                <p block="CmsPage" elem="PlaceholderBlock">
-                                    <TextPlaceholder length="paragraph" />
-                                    <TextPlaceholder length="long" />
-                                    <TextPlaceholder length="paragraph" />
-                                    <TextPlaceholder length="medium" />
-                                </p>
-                            ) }
+                        { this.renderContent() }
                     </div>
                 </ContentWrapper>
             </main>

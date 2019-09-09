@@ -17,20 +17,22 @@ import { prepareQuery } from 'Util/Query';
 import { SliderQuery } from 'Query';
 import { showNotification } from 'Store/Notification';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
-import HomeSlider from './HomeSlider.component';
+import SliderWidget from './SliderWidget.component';
 
 const mapDispatchToProps = dispatch => ({
     showNotification: (type, title, error) => dispatch(showNotification(type, title, error))
 });
 
-export class HomeSliderContainer extends PureComponent {
+export class SliderWidgetContainer extends PureComponent {
     static propTypes = {
         sliderId: PropTypes.number.isRequired,
         showNotification: PropTypes.func.isRequired
     };
 
     state = {
-        gallery: [{ image: '', slide_text: '', isPlaceholder: true }]
+        slider: {
+            slides: [{ image: '', slide_text: '', isPlaceholder: true }]
+        }
     };
 
     componentDidMount() {
@@ -48,7 +50,7 @@ export class HomeSliderContainer extends PureComponent {
         const { sliderId, showNotification } = this.props;
         const query = [SliderQuery.getQuery({ sliderId })];
         executeGet(prepareQuery(query), 'Slider', ONE_MONTH_IN_SECONDS)
-            .then(({ slider: { slides: gallery } }) => this.setState({ gallery }))
+            .then(({ slider }) => this.setState({ slider }))
             .catch(e => showNotification('error', 'Error fetching Slider!', e));
     }
 
@@ -59,7 +61,7 @@ export class HomeSliderContainer extends PureComponent {
 
     render() {
         return (
-            <HomeSlider
+            <SliderWidget
               { ...this.props }
               { ...this.state }
             />
@@ -67,4 +69,4 @@ export class HomeSliderContainer extends PureComponent {
     }
 }
 
-export default connect(null, mapDispatchToProps)(HomeSliderContainer);
+export default connect(null, mapDispatchToProps)(SliderWidgetContainer);
