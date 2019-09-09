@@ -13,7 +13,7 @@
     position: relative;
     width: 40px;
     height: 23.09px;
-    background-color: #ffffff;
+    background-color: #fff;
     margin: 11.55px 0;
     border-left: solid 5px #f26323;
     border-right: solid 5px #f26323;
@@ -23,14 +23,14 @@
 
     &::before,
     &::after {
-        content: "";
+        content: '';
         position: absolute;
         z-index: 1;
         width: 28.28px;
         height: 28.28px;
-        transform: scaleY(0.5774) rotate(-45deg);
+        transform: scaleY(.5774) rotate(-45deg);
         background-color: inherit;
-        left: 0.8579px;
+        left: .8579px;
         box-sizing: border-box;
     }
 

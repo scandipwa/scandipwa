@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Overlay from 'Component/Overlay';
 import RangeSelector from 'Component/RangeSelector';
@@ -17,7 +17,22 @@ import ExpandableContent from 'Component/ExpandableContent';
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
 import './CategoryFilterOverlay.style';
 
-class CategoryFilterOverlay extends PureComponent {
+export default class CategoryFilterOverlay extends PureComponent {
+    static propTypes = {
+        availableFilters: PropTypes.objectOf(PropTypes.shape).isRequired,
+        updatePriceRange: PropTypes.func.isRequired,
+        priceValue: PropTypes.shape({
+            min: PropTypes.number,
+            max: PropTypes.number
+        }).isRequired,
+        minPriceValue: PropTypes.number.isRequired,
+        maxPriceValue: PropTypes.number.isRequired,
+        onSeeResultsClick: PropTypes.func.isRequired,
+        customFiltersValues: PropTypes.objectOf(PropTypes.array).isRequired,
+        toggleCustomFilter: PropTypes.func.isRequired,
+        getFilterUrl: PropTypes.func.isRequired
+    };
+
     renderPriceRange() {
         const {
             updatePriceRange,
@@ -104,20 +119,3 @@ class CategoryFilterOverlay extends PureComponent {
         );
     }
 }
-
-CategoryFilterOverlay.propTypes = {
-    availableFilters: PropTypes.objectOf(PropTypes.shape).isRequired,
-    updatePriceRange: PropTypes.func.isRequired,
-    priceValue: PropTypes.shape({
-        min: PropTypes.number,
-        max: PropTypes.number
-    }).isRequired,
-    minPriceValue: PropTypes.number.isRequired,
-    maxPriceValue: PropTypes.number.isRequired,
-    onSeeResultsClick: PropTypes.func.isRequired,
-    customFiltersValues: PropTypes.objectOf(PropTypes.array).isRequired,
-    toggleCustomFilter: PropTypes.func.isRequired,
-    getFilterUrl: PropTypes.func.isRequired
-};
-
-export default CategoryFilterOverlay;

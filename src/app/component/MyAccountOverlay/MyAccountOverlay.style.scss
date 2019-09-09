@@ -11,7 +11,7 @@
 
 :root {
     --checkbox-label-color: #0a0a0a;
-    --my-account-input-label-color: rgba(10, 10, 10, 0.59);
+    --my-account-input-label-color: rgba(10, 10, 10, .59);
 }
 
 .MyAccountOverlay {
@@ -19,13 +19,6 @@
     grid-column: 3;
     right: 0;
     padding-top: 1rem;
-
-    @include after-mobile {
-        position: absolute;
-        top: var(--header-nav-height);
-        right: -40px;
-        padding: 0;
-    }
 
     &_isVisible {
         @include after-mobile {
@@ -60,13 +53,13 @@
     }
 
     &-Heading {
-        @include mobile {
-            display: none;
-        }
 
         font-size: 18px;
         font-weight: bold;
         padding: 0 1rem 1rem;
+        @include mobile {
+            display: none;
+        }
     }
 
     &-Notification {
@@ -75,10 +68,6 @@
     }
 
     &-Navigation {
-        @include after-mobile {
-            padding: 0.5rem;
-        }
-
         li {
             margin: 0;
             padding: 0;
@@ -103,10 +92,6 @@
             padding: 1rem 2rem;
             font-size: 1.2rem;
 
-            @include after-mobile {
-                padding: 0.5rem;
-            }
-
             &:hover {
                 background-color: var(--color-cart-light);
                 text-decoration: none;
@@ -115,6 +100,13 @@
             &:focus {
                 text-decoration: none;
             }
+
+            @include after-mobile {
+                padding: .5rem;
+            }
+        }
+        @include after-mobile {
+            padding: .5rem;
         }
     }
 
@@ -132,17 +124,8 @@
         height: 100%;
         grid-template-rows: max-content 1fr;
 
-        @include after-mobile {
-            width: 400px;
-            padding: 1rem 2rem 2rem;
-        }
-
         &_state {
             &_createAccount {
-                @include mobile {
-                    padding-top: 1rem;
-                }
-
                 h4 {
                     padding-right: 1rem;
                     display: inline;
@@ -165,6 +148,9 @@
                 .Field {
                     margin-top: .7rem;
                 }
+                @include mobile {
+                    padding-top: 1rem;
+                }
             }
 
             &_forgotPassword {
@@ -184,15 +170,14 @@
             }
 
             &_loggedIn {
-                @include after-mobile {
-                    width: 180px;
-                    padding: 0;
-                }
-
                 .MyAccountOverlay-Heading {
                     @include after-mobile {
                         display: none;
                     }
+                }
+                @include after-mobile {
+                    width: 180px;
+                    padding: 0;
                 }
             }
         }
@@ -206,6 +191,11 @@
         h3 {
             margin-top: 0;
         }
+
+        @include after-mobile {
+            width: 400px;
+            padding: 1rem 2rem 2rem;
+        }
     }
 
     &-Additional {
@@ -214,11 +204,11 @@
         section {
             display: flex;
 
+            padding-top: 20px;
+
             &:first-of-type {
                 padding-top: 0;
             }
-
-            padding-top: 20px;
         }
 
         &_state {
@@ -234,7 +224,7 @@
                     width: initial;
                     height: initial;
                     margin: 0;
-                    padding-left: 0.4rem;
+                    padding-left: .4rem;
                 }
             }
 
@@ -335,5 +325,12 @@
             height: 20px;
             left: 20px;
         }
+    }
+
+    @include after-mobile {
+        position: absolute;
+        top: var(--header-nav-height);
+        right: -40px;
+        padding: 0;
     }
 }

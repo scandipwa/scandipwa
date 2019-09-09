@@ -9,22 +9,37 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import {
+    PureComponent,
+    Children,
+    createRef,
+    cloneElement
+} from 'react';
 import PropTypes from 'prop-types';
 import { ChildrenType } from 'Type/Common';
 
-class ClickOutside extends PureComponent {
+export default class ClickOutside extends PureComponent {
+    static propTypes = {
+        onClick: PropTypes.func,
+        children: ChildrenType
+    };
+
+    static defaultProps = {
+        onClick: () => {},
+        children: []
+    };
+
+    handleClick = this.handleClick.bind(this);
+
     constructor(props) {
         super(props);
 
         const { children } = this.props;
 
-        this.childrenRefs = React.Children.map(
+        this.childrenRefs = Children.map(
             children,
-            () => React.createRef()
+            () => createRef()
         );
-
-        this.handleClick = this.handleClick.bind(this);
     }
 
     componentDidMount() {
@@ -48,20 +63,8 @@ class ClickOutside extends PureComponent {
     render() {
         const { children } = this.props;
 
-        return React.Children.map(children, (element, idx) => (
-            React.cloneElement(element, { ref: this.childrenRefs[idx] })
+        return Children.map(children, (element, idx) => (
+            cloneElement(element, { ref: this.childrenRefs[idx] })
         ));
     }
 }
-
-ClickOutside.propTypes = {
-    onClick: PropTypes.func,
-    children: ChildrenType
-};
-
-ClickOutside.defaultProps = {
-    onClick: () => {},
-    children: []
-};
-
-export default ClickOutside;

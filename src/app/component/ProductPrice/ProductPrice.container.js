@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import { PriceType } from 'Type/ProductList';
 import { MixType } from 'Type/Common';
 import ProductPrice from './ProductPrice.component';
@@ -18,15 +18,21 @@ import ProductPrice from './ProductPrice.component';
  * @class ProductPrice
  */
 class ProductPriceContainer extends PureComponent {
-    constructor(props) {
-        super(props);
+    static propTypes = {
+        price: PriceType,
+        mix: MixType
+    };
 
-        this.containerFunctions = {
-            calculateDiscountPercentage: this.calculateDiscountPercentage.bind(this),
-            calculateFinalPrice: this.calculateFinalPrice.bind(this),
-            roundPrice: this.roundPrice.bind(this)
-        };
-    }
+    static defaultProps = {
+        mix: {},
+        price: {}
+    };
+
+    containerFunctions = {
+        calculateDiscountPercentage: this.calculateDiscountPercentage.bind(this),
+        calculateFinalPrice: this.calculateFinalPrice.bind(this),
+        roundPrice: this.roundPrice.bind(this)
+    };
 
     /**
      * Calculate discount percentage
@@ -35,7 +41,8 @@ class ProductPriceContainer extends PureComponent {
      * @return {Nmber} discount percentage
      */
     calculateDiscountPercentage(min, reg) {
-        return Math.floor(Math.round((1 - min / reg) * 100));
+        const HUNDRED_PERCENT = 100;
+        return Math.floor(Math.round((1 - min / reg) * HUNDRED_PERCENT));
     }
 
     /**
@@ -68,14 +75,5 @@ class ProductPriceContainer extends PureComponent {
     }
 }
 
-ProductPriceContainer.propTypes = {
-    price: PriceType,
-    mix: MixType
-};
-
-ProductPriceContainer.defaultProps = {
-    mix: {},
-    price: {}
-};
 
 export default ProductPriceContainer;

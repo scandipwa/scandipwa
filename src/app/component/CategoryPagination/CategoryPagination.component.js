@@ -9,13 +9,26 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import Link from 'Component/Link';
 import PropTypes from 'prop-types';
 import { CategoryTreeType } from 'Type/Category';
 import './CategoryPagination.style';
 
-class CategoryPagination extends PureComponent {
+export default class CategoryPagination extends PureComponent {
+    static propTypes = {
+        ariaLabel: PropTypes.string,
+        getPage: PropTypes.func.isRequired,
+        category: CategoryTreeType.isRequired,
+        totalPages: PropTypes.number.isRequired,
+        currentPage: PropTypes.number.isRequired,
+        getSearchQueryForPage: PropTypes.func.isRequired
+    };
+
+    static defaultProps = {
+        ariaLabel: ''
+    };
+
     renderPreviousPageLink(page) {
         return this.renderPageLink(page, __('Previous page'), false, '◄');
     }
@@ -73,30 +86,13 @@ class CategoryPagination extends PureComponent {
                 <ul block="CategoryPagination">
                     { (currentPage > 1)
                         ? this.renderPreviousPageLink(currentPage - 1)
-                        : <li block="CategoryPagination" elem="ListItem" />
-                    }
+                        : <li block="CategoryPagination" elem="ListItem" /> }
                     { this.renderPageLinks() }
                     { (currentPage <= totalPages - 1)
                         ? this.renderNextPageLink(currentPage + 1)
-                        : <li block="CategoryPagination" elem="ListItem" />
-                    }
+                        : <li block="CategoryPagination" elem="ListItem" /> }
                 </ul>
             </nav>
         );
     }
 }
-
-CategoryPagination.propTypes = {
-    ariaLabel: PropTypes.string,
-    getPage: PropTypes.func.isRequired,
-    category: CategoryTreeType.isRequired,
-    totalPages: PropTypes.number.isRequired,
-    currentPage: PropTypes.number.isRequired,
-    getSearchQueryForPage: PropTypes.func.isRequired
-};
-
-CategoryPagination.defaultProps = {
-    ariaLabel: ''
-};
-
-export default CategoryPagination;

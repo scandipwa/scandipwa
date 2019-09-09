@@ -14,7 +14,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Form from 'Component/Form';
 import Field from 'Component/Field';
@@ -43,39 +43,82 @@ export const DEFAULT_REGION = { region_code: 'AL', region: 'Alabama', region_id:
 export const STATE_NEW_ADDRESS = 'newAddress';
 export const STATE_DEFAULT_ADDRESS = 'defaultAddress';
 
-class CheckoutShippingStep extends PureComponent {
+export const SHIPPING_METHODS_ESTIMATION_TIMEOUT = 1000;
+
+export default class CheckoutShippingStep extends PureComponent {
+    static propTypes = {
+        estimateShippingCost: PropTypes.func.isRequired,
+        saveAddressInformation: PropTypes.func.isRequired,
+        showNotification: PropTypes.func.isRequired,
+        isSignedIn: PropTypes.bool.isRequired,
+        finishedLoading: PropTypes.bool.isRequired,
+        billingAddress: PropTypes.shape({
+            city: PropTypes.string,
+            company: PropTypes.string,
+            country_id: PropTypes.string,
+            email: PropTypes.string,
+            firstname: PropTypes.string,
+            lastname: PropTypes.string,
+            postcode: PropTypes.string,
+            region_id: PropTypes.number,
+            region: PropTypes.string,
+            street: PropTypes.array,
+            telephone: PropTypes.string
+        }).isRequired,
+        shippingAddress: PropTypes.shape({
+            city: PropTypes.string,
+            company: PropTypes.string,
+            country_id: PropTypes.string,
+            email: PropTypes.string,
+            firstname: PropTypes.string,
+            lastname: PropTypes.string,
+            postcode: PropTypes.string,
+            region_id: PropTypes.number,
+            region: PropTypes.string,
+            street: PropTypes.array,
+            telephone: PropTypes.string
+        }).isRequired,
+        countryList: PropTypes.arrayOf(PropTypes.shape).isRequired
+    };
+
+    state = {
+        email: '',
+        firstname: '',
+        lastname: '',
+        company: '',
+        street: [],
+        city: '',
+        region: null,
+        region_id: null,
+        postcode: '',
+        country_id: 0,
+        telephone: '',
+
+        selectedCountryIndex: null,
+        shippingMethods: [],
+        activeShippingMethod: {},
+        loadingShippingMethods: false,
+        loadingShippingInformationSave: false,
+        fieldsArePopulated: false,
+        defaultShippingAddress: false,
+        state: STATE_NEW_ADDRESS
+    };
+
+    handleFieldChange = this.handleFieldChange.bind(this);
+
+    emailNote = __('You can create an account after checkout.');
+
+    emailLoginNote = __('Looks like you already have account with us, please, log in!');
+
+    renderMap = {
+        [STATE_NEW_ADDRESS]: () => (this.renderNewAddress()),
+        [STATE_DEFAULT_ADDRESS]: () => (this.renderDefaultShippingAddress())
+    };
+
     constructor(props) {
         super(props);
 
         const { showNotification } = props;
-
-        this.handleFieldChange = this.handleFieldChange.bind(this);
-
-        this.state = {
-            email: '',
-            firstname: '',
-            lastname: '',
-            company: '',
-            street: [],
-            city: '',
-            region: null,
-            region_id: null,
-            postcode: '',
-            country_id: 0,
-            telephone: '',
-
-            selectedCountryIndex: null,
-            shippingMethods: [],
-            activeShippingMethod: {},
-            loadingShippingMethods: false,
-            loadingShippingInformationSave: false,
-            fieldsArePopulated: false,
-            defaultShippingAddress: false,
-            state: STATE_NEW_ADDRESS
-        };
-
-        this.emailNote = __('You can create an account after checkout.');
-        this.emailLoginNote = __('Looks like you already have account with us, please, log in!');
 
         this.fieldMap = {
             [EMAIL_FIELD_ID]: {
@@ -157,11 +200,6 @@ class CheckoutShippingStep extends PureComponent {
                 label: 'Phone Number',
                 validation: ['telephone']
             }
-        };
-
-        this.renderMap = {
-            [STATE_NEW_ADDRESS]: () => (this.renderNewAddress()),
-            [STATE_DEFAULT_ADDRESS]: () => (this.renderDefaultShippingAddress())
         };
     }
 
@@ -275,7 +313,7 @@ class CheckoutShippingStep extends PureComponent {
                 }),
                 err => showNotification('error', err[0].debugMessage)
             );
-        }, 1000);
+        }, SHIPPING_METHODS_ESTIMATION_TIMEOUT);
     }
 
     renderField(id, overrideStateValue) {
@@ -377,7 +415,7 @@ class CheckoutShippingStep extends PureComponent {
 
         return (
             <>
-                {defaultShippingAddress
+                { defaultShippingAddress
                     && (
                         <div block="CheckoutShippingStep" elem="ButtonWrapper">
                             <button
@@ -387,8 +425,7 @@ class CheckoutShippingStep extends PureComponent {
                                 { __("I'd like to use the default shipping address") }
                             </button>
                         </div>
-                    )
-                }
+                    ) }
                 { !isSignedIn
                     && (
                         <fieldset>
@@ -402,8 +439,7 @@ class CheckoutShippingStep extends PureComponent {
                             { this.renderField(EMAIL_FIELD_ID) }
                             { this.renderField(PHONE_FIELD_ID) }
                         </fieldset>
-                    )
-                }
+                    ) }
                 <fieldset>
                     <legend block="CheckoutPage" elem="Heading">
                         { __('Shipping Address') }
@@ -451,8 +487,7 @@ class CheckoutShippingStep extends PureComponent {
                                     <dt>{ __('Company name') }</dt>
                                     <dd>{ company }</dd>
                                 </>
-                            )
-                        }
+                            ) }
                         <dt>{ __('Shipping address:') }</dt>
                         <dd>{ `${country_id }, ${regionName}, ${city}` }</dd>
                         <dd>{ street[0] }</dd>
@@ -510,40 +545,3 @@ class CheckoutShippingStep extends PureComponent {
         );
     }
 }
-
-CheckoutShippingStep.propTypes = {
-    estimateShippingCost: PropTypes.func.isRequired,
-    saveAddressInformation: PropTypes.func.isRequired,
-    showNotification: PropTypes.func.isRequired,
-    isSignedIn: PropTypes.bool.isRequired,
-    finishedLoading: PropTypes.bool.isRequired,
-    billingAddress: PropTypes.shape({
-        city: PropTypes.string,
-        company: PropTypes.string,
-        country_id: PropTypes.string,
-        email: PropTypes.string,
-        firstname: PropTypes.string,
-        lastname: PropTypes.string,
-        postcode: PropTypes.string,
-        region_id: PropTypes.number,
-        region: PropTypes.string,
-        street: PropTypes.array,
-        telephone: PropTypes.string
-    }).isRequired,
-    shippingAddress: PropTypes.shape({
-        city: PropTypes.string,
-        company: PropTypes.string,
-        country_id: PropTypes.string,
-        email: PropTypes.string,
-        firstname: PropTypes.string,
-        lastname: PropTypes.string,
-        postcode: PropTypes.string,
-        region_id: PropTypes.number,
-        region: PropTypes.string,
-        street: PropTypes.array,
-        telephone: PropTypes.string
-    }).isRequired,
-    countryList: PropTypes.arrayOf(PropTypes.shape).isRequired
-};
-
-export default CheckoutShippingStep;

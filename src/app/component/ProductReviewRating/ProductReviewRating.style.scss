@@ -24,10 +24,12 @@
 
     &::before {
         content: '★★★★★';
-        background: linear-gradient(90deg,
-            var(--product-rating-filled-background) var(--percentage),
-            var(--product-rating-background) var(--percentage)
-        );
+        background:
+            linear-gradient(
+                90deg,
+                var(--product-rating-filled-background) var(--percentage),
+                var(--product-rating-background) var(--percentage)
+            );
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
     }

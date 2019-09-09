@@ -10,7 +10,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent, createRef } from 'react';
+import { PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
 import { MixType } from 'Type/Common';
 import './Image.style';
@@ -26,14 +26,47 @@ export const IMAGE_LOADED = 1;
 export const IMAGE_NOT_FOUND = 2;
 export const IMAGE_NOT_SPECIFIED = 3;
 
-class Image extends PureComponent {
-    constructor(props) {
-        super(props);
-        this.image = createRef();
-        this.state = { imageStatus: IMAGE_LOADING };
-        this.onError = this.onError.bind(this);
-        this.onLoad = this.onLoad.bind(this);
-    }
+export default class Image extends PureComponent {
+    static propTypes = {
+        isPlaceholder: PropTypes.bool,
+        src: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.bool
+        ]),
+        style: PropTypes.shape({
+            width: PropTypes.string,
+            height: PropTypes.string
+        }).isRequired,
+        alt: PropTypes.string,
+        ratio: PropTypes.oneOf([
+            '4x3',
+            '16x9',
+            'square',
+            'custom'
+        ]),
+        wrapperSize: PropTypes.shape({
+            height: PropTypes.string
+        }),
+        mix: MixType
+    };
+
+    static defaultProps = {
+        src: '',
+        alt: '',
+        ratio: 'square',
+        mix: {},
+        isPlaceholder: false,
+        wrapperSize: {},
+        style: {}
+    };
+
+    image = createRef();
+
+    state = { imageStatus: IMAGE_LOADING };
+
+    onError = this.onError.bind(this);
+
+    onLoad = this.onLoad.bind(this);
 
     componentDidMount() {
         this.onImageChange();
@@ -116,32 +149,3 @@ class Image extends PureComponent {
         );
     }
 }
-
-Image.propTypes = {
-    isPlaceholder: PropTypes.bool.isRequired,
-    src: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.bool
-    ]).isRequired,
-    style: PropTypes.shape({
-        width: PropTypes.string,
-        height: PropTypes.string
-    }).isRequired,
-    alt: PropTypes.string.isRequired,
-    ratio: PropTypes.oneOf([
-        '4x3',
-        '16x9',
-        'square',
-        'custom'
-    ]).isRequired,
-    mix: MixType.isRequired,
-    wrapperSize: PropTypes.shape({
-        height: PropTypes.string
-    })
-};
-
-Image.defaultProps = {
-    wrapperSize: {}
-};
-
-export default Image;

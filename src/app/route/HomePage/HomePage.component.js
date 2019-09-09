@@ -10,7 +10,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
 import HomeSlider from 'Component/HomeSlider';
 import Meta from 'Component/Meta';
@@ -20,6 +20,12 @@ import ContentWrapper from 'Component/ContentWrapper';
 import './HomePage.style';
 
 class HomePage extends Component {
+    static propTypes = {
+        blocks: BlockListType.isRequired,
+        requestBlocks: PropTypes.func.isRequired,
+        disableBreadcrumbs: PropTypes.func.isRequired
+    };
+
     constructor() {
         super();
 
@@ -78,10 +84,5 @@ class HomePage extends Component {
         );
     }
 }
-
-HomePage.propTypes = {
-    requestBlocks: PropTypes.func.isRequired,
-    disableBreadcrumbs: PropTypes.func.isRequired
-};
 
 export default HomePage;

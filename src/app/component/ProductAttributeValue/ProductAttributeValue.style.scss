@@ -55,7 +55,7 @@
 
         &::before,
         &::after {
-            content: "";
+            content: '';
             position: absolute;
 
             opacity: var(--option-is-selected);
@@ -91,7 +91,7 @@
             @include after-mobile {
                 &::before,
                 &::after {
-                    --option-is-selected: 0.5;
+                    --option-is-selected: .5;
                 }
             }
         }

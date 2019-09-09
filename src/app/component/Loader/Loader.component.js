@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import './Loader.style';
 
@@ -18,7 +18,11 @@ import './Loader.style';
  * Loaders overlay to identify loading
  * @class Loader
  */
-class Loader extends PureComponent {
+export default class Loader extends PureComponent {
+    static propTypes = {
+        isLoading: PropTypes.bool.isRequired
+    };
+
     render() {
         const { isLoading } = this.props;
 
@@ -33,9 +37,3 @@ class Loader extends PureComponent {
         );
     }
 }
-
-Loader.propTypes = {
-    isLoading: PropTypes.bool.isRequired
-};
-
-export default Loader;

@@ -68,7 +68,7 @@
         &_type_cat {
             &::before {
                 @include after-mobile {
-                    content: "\2022";
+                    content: '\2022';
 
                     margin-right: 1rem;
                     margin-left: 2px;
