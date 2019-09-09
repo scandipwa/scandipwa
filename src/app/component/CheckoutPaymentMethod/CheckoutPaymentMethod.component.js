@@ -32,7 +32,7 @@ export default class CheckoutPaymentMethod extends PureComponent {
         } = this.props;
 
         return (
-            <tr key={ code } onClick={ this.handlePaymentMethodChange }>
+            <tr onClick={ this.handlePaymentMethodChange }>
                 <td>
                     <Field
                       id={ code }

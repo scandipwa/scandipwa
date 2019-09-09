@@ -9,11 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-:root {
-    --color-pagination-link-text: #{$black};
-    --color-pagination-link-active-text: #{$primary-base-color};
-}
-
 .CategoryPagination {
     display: flex;
     justify-content: space-around;

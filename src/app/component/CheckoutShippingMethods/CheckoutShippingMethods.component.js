@@ -46,6 +46,7 @@ export default class CheckoutShippingMethods extends PureComponent {
 
         return (
             <CheckoutShippingMethod
+              key={ method_code }
               isChecked={ method_code === activeMethod }
               method={ method }
               handleShippingMethodChange={ this.handleShippingMethodChange }

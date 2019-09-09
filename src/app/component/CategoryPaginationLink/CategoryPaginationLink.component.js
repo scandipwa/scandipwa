@@ -12,6 +12,7 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Link from 'Component/Link';
+import './CategoryPaginationLink.style';
 
 export default class CategoryPaginationLink extends PureComponent {
     static propTypes = {

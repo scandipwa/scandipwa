@@ -16,7 +16,7 @@ import Field from 'Component/Field';
 export default class CheckoutShippingMethod extends PureComponent {
     static propTypes = {
         method: PropTypes.shape({
-            price_incl_tax: PropTypes.string,
+            price_incl_tax: PropTypes.number,
             method_title: PropTypes.string,
             carrier_title: PropTypes.string,
             method_code: PropTypes.string
@@ -42,7 +42,7 @@ export default class CheckoutShippingMethod extends PureComponent {
         } = this.props;
 
         return (
-            <tr key={ method_code } onClick={ this.handleShippingMethodChange }>
+            <tr onClick={ this.handleShippingMethodChange }>
                 <td>
                     <Field
                       id={ method_code }

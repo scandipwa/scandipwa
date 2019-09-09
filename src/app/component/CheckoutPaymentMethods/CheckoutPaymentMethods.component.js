@@ -33,6 +33,7 @@ export default class CheckoutPaymentMethods extends PureComponent {
 
         return (
             <CheckoutPaymentMethod
+              key={ code }
               method={ method }
               isChecked={ paymentMethodCode === code }
               handlePaymentMethodChange={ this.handlePaymentMethodChange }
