@@ -15,6 +15,7 @@ import CategoryProductListPlaceholder from 'Component/CategoryProductListPlaceho
 import { PagesType, FilterType } from 'Type/ProductList';
 import ProductCard from 'Component/ProductCard';
 import CategoryPagination from 'Component/CategoryPagination';
+import { MixType } from 'Type/Common';
 import './ProductList.style';
 
 export const observerThreshold = 10;
@@ -38,10 +39,12 @@ export default class ProductList extends PureComponent {
         isShowLoading: PropTypes.bool.isRequired,
         isVisible: PropTypes.bool.isRequired,
         isInfiniteLoaderEnabled: PropTypes.bool,
-        isPaginationEnabled: PropTypes.bool
+        isPaginationEnabled: PropTypes.bool,
+        mix: MixType
     };
 
     static defaultProps = {
+        mix: {},
         title: '',
         isInfiniteLoaderEnabled: true,
         isPaginationEnabled: true
@@ -164,7 +167,12 @@ export default class ProductList extends PureComponent {
     }
 
     renderPages() {
-        const { pages, selectedFilters, isLoading } = this.props;
+        const {
+            selectedFilters,
+            isLoading,
+            pages,
+            mix
+        } = this.props;
 
         if (isLoading) return null;
 
@@ -172,6 +180,7 @@ export default class ProductList extends PureComponent {
             <ul
               block="CategoryProductList"
               elem="Page"
+              mix={ { ...mix, elem: 'Page' } }
               key={ pageNumber }
               ref={ (node) => { this.nodes[pageNumber] = node; } }
             >
@@ -235,12 +244,16 @@ export default class ProductList extends PureComponent {
     }
 
     render() {
-        const { totalPages, isLoading } = this.props;
+        const { totalPages, isLoading, mix } = this.props;
 
         if (!isLoading && totalPages === 0) return this.renderNoProducts();
 
         return (
-            <div block="CategoryProductList" mods={ { isLoading } }>
+            <div
+              block="CategoryProductList"
+              mods={ { isLoading } }
+              mix={ mix }
+            >
                 { this.renderTitle() }
                 { this.renderLoadButton() }
                 { this.renderPages() }

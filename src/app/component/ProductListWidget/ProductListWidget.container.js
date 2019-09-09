@@ -20,6 +20,7 @@ import { prepareQuery } from 'Util/Query';
 import { showNotification } from 'Store/Notification';
 import { updateNoMatch } from 'Store/NoMatch';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
+import './ProductListWidget.style';
 
 export const mapDispatchToProps = {
     updateNoMatch,
@@ -144,6 +145,7 @@ export class ProductListWidgetContainer extends PureComponent {
               { ...adaptedProps }
               { ...this.containerFunctions }
               isInfiniteLoaderEnabled={ false }
+              mix={ { block: 'ProductListWidget' } }
             />
         );
     }
