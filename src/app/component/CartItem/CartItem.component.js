@@ -58,9 +58,16 @@ class CartItem extends Component {
         onItemClick();
     }
 
+    renderAdditionalAttributes() {
+        const { item: { product: { attributes } } } = this.props;
+        const brand = attributes.find(attribute => attribute.attribute_code === 'brand');
+        if (!brand && {}.hasOwnProperty.call(brand, 'attribute_value')) return null;
+
+        return <span>{ brand.attribute_value }</span>;
+    }
+
     renderItemTitle() {
-        const { item: { product: { name, attributes } }, getProductLinkTo } = this.props;
-        const brand = attributes.find(attribute => attribute.attribute_code === 'brand').attribute_value;
+        const { item: { product: { name } }, getProductLinkTo } = this.props;
         return (
             <div block="CartItem" elem="Title">
                 <Link
@@ -68,7 +75,7 @@ class CartItem extends Component {
                     // TODO: replace from configuration file
                   to={ getProductLinkTo() }
                 >
-                    { brand && <span>{ brand }</span> }
+                    { this.renderAdditionalAttributes() }
                     <p><TextPlaceholder content={ name } /></p>
                 </Link>
             </div>

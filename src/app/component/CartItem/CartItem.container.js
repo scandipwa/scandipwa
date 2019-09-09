@@ -80,10 +80,10 @@ export class CartItemContainer extends PureComponent {
 
         const { product: { attributes } } = variants[this.getVariantIndex()];
 
-        const params = Array.prototype.reduce.call(configurable_options,
+        const params = [].reduce.call(configurable_options,
             (result, item) => {
                 const { attribute_code: option_code } = item;
-                const currentAttribute = Array.prototype.find.call(attributes, (attribute) => {
+                const currentAttribute = [].find.call(attributes, (attribute) => {
                     const { attribute_code } = attribute;
                     return option_code === attribute_code;
                 });
