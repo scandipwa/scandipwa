@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import Link from 'Component/Link';
 import './Footer.style';
 
@@ -17,7 +17,7 @@ import './Footer.style';
  * Page footer
  * @class Footer
  */
-class Footer extends PureComponent {
+export default class Footer extends PureComponent {
     render() {
         return (
             <footer block="Footer" aria-label="Footer">
@@ -39,5 +39,3 @@ class Footer extends PureComponent {
         );
     }
 }
-
-export default Footer;

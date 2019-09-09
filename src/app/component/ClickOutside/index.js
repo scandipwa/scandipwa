@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import ClickOutside from './ClickOutside.component';
-
-export default ClickOutside;
+export { default } from './ClickOutside.component';

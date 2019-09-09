@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { Redirect } from 'react-router';
 import PropTypes from 'prop-types';
 import ContentWrapper from 'Component/ContentWrapper';
@@ -24,14 +24,16 @@ const STATUS_PASSOWORD_UPDATED = 'password_updated';
 const STATUS_PASSOWORD_MISSMATCH = 'passwords_miss_match';
 
 class PasswordChangePage extends Component {
-    constructor(props) {
-        super(props);
+    static propTypes = {
+        updateBreadcrumbs: PropTypes.func.isRequired,
+        resetPassword: PropTypes.func.isRequired,
+        location: LocationType.isRequired
+    };
 
-        this.state = {
-            passwordResetStatus: '',
-            isLoading: false
-        };
-    }
+    state = {
+        passwordResetStatus: '',
+        isLoading: false
+    };
 
     componentDidMount() {
         this.updateBreadcrumbs();
@@ -141,11 +143,5 @@ class PasswordChangePage extends Component {
         );
     }
 }
-
-PasswordChangePage.propTypes = {
-    updateBreadcrumbs: PropTypes.func.isRequired,
-    resetPassword: PropTypes.func.isRequired,
-    location: LocationType.isRequired
-};
 
 export default PasswordChangePage;

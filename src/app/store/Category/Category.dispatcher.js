@@ -9,8 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-/* eslint-disable no-param-reassign */
-
 import { QueryDispatcher } from 'Util/Request';
 import { CategoryQuery } from 'Query';
 import { updateCurrentCategory } from 'Store/Category';
@@ -24,7 +22,7 @@ import { updateNoMatch } from 'Store/NoMatch';
  */
 export class CategoryDispatcher extends QueryDispatcher {
     constructor() {
-        super('Category', 2628000);
+        super('Category');
     }
 
     onSuccess(data, dispatch, { isSearchPage }) {

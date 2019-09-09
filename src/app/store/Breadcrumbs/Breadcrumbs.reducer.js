@@ -9,10 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import {
-    UPDATE_BREADCRUMBS
-} from './Breadcrumbs.action';
-import { TOGGLE_BREADCRUMBS } from '.';
+import { UPDATE_BREADCRUMBS, TOGGLE_BREADCRUMBS } from './Breadcrumbs.action';
 
 export const initialState = {
     breadcrumbs: [],

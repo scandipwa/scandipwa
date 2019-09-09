@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React from 'react';
 import { connect } from 'react-redux';
 import { GUEST_QUOTE_ID } from 'Store/Cart';
 import { fetchMutation } from 'Util/Request';
