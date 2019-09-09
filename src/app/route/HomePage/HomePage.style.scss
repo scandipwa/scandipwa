@@ -81,7 +81,9 @@
         }
     }
 
-    a + a {
-        margin-left: 0;
+    &-Links {
+        a + a {
+            margin-left: 0;
+        }
     }
 }

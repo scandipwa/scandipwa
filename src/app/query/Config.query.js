@@ -7,7 +7,8 @@ export class ConfigQuery {
                 'cms_home_page',
                 'cms_no_route',
                 'copyright',
-                'header_logo_src'
+                'header_logo_src',
+                'timezone'
             ]);
     }
 }

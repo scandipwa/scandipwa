@@ -11,42 +11,60 @@
 
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { SliderType } from 'Type/Slider';
+import PropTypes from 'prop-types';
+import { executeGet } from 'Util/Request';
+import { prepareQuery } from 'Util/Query';
+import { SliderQuery } from 'Query';
+import { showNotification } from 'Store/Notification';
+import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 import HomeSlider from './HomeSlider.component';
 
-export const mapStateToProps = state => ({
-    slider: state.CmsBlocksAndSliderReducer.slider
+const mapDispatchToProps = dispatch => ({
+    showNotification: (type, title, error) => dispatch(showNotification(type, title, error))
 });
 
 export class HomeSliderContainer extends PureComponent {
     static propTypes = {
-        slider: SliderType
+        sliderId: PropTypes.number.isRequired,
+        showNotification: PropTypes.func.isRequired
     };
 
-    static defaultProps = {
-        slider: {}
+    state = {
+        gallery: [{ image: '', slide_text: '', isPlaceholder: true }]
     };
 
-    containerProps = () => ({
-        gallery: this._getGalleryPictures()
-    });
+    componentDidMount() {
+        this.requestSlider();
+    }
+
+    componentDidUpdate(prevProps) {
+        const { sliderId } = this.props;
+        const { sliderId: pSliderId } = prevProps;
+
+        if (sliderId !== pSliderId) this.requestSlider();
+    }
+
+    requestSlider() {
+        const { sliderId, showNotification } = this.props;
+        const query = [SliderQuery.getQuery({ sliderId })];
+        executeGet(prepareQuery(query), 'Slider', ONE_MONTH_IN_SECONDS)
+            .then(({ slider: { slides: gallery } }) => this.setState({ gallery }))
+            .catch(e => showNotification('error', 'Error fetching Slider!', e));
+    }
 
     _getGalleryPictures() {
-        const { slider } = this.props;
-
-        return Object.keys(slider).length > 0
-            ? slider.slides.map(({ image, slide_text }) => ({ image, slide_text }))
-            : [{ image: '', slide_text: '', isPlaceholder: true }];
+        const { gallery } = this.state;
+        return gallery;
     }
 
     render() {
         return (
             <HomeSlider
               { ...this.props }
-              { ...this.containerProps() }
+              { ...this.state }
             />
         );
     }
 }
 
-export default connect(mapStateToProps)(HomeSliderContainer);
+export default connect(null, mapDispatchToProps)(HomeSliderContainer);

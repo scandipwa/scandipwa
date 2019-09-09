@@ -9,15 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React from 'react';
 import { connect } from 'react-redux';
-import CmsPage from 'Route/CmsPage';
-import './HomePage.style';
+import CategoryItemsCount from './CategoryItemsCount.component';
 
-const mapStateToProps = state => ({
-    urlKey: state.ConfigReducer.cms_home_page
+export const mapStateToProps = state => ({
+    isLoading: state.ProductListReducer.isLoading,
+    totalItems: state.ProductListReducer.totalItems
 });
 
-const HomePageContainer = props => <CmsPage { ...props } isBreadcrumbsActive={ false } />;
-
-export default connect(mapStateToProps)(HomePageContainer);
+export default connect(mapStateToProps)(CategoryItemsCount);

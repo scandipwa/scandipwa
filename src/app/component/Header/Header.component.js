@@ -50,7 +50,8 @@ export default class Header extends PureComponent {
                 FILTER,
                 CART,
                 CART_EDITING,
-                CHECKOUT
+                CHECKOUT,
+                CMS_PAGE
             ]),
             title: PropTypes.string,
             onBackClick: PropTypes.func,
@@ -444,5 +445,3 @@ export default class Header extends PureComponent {
         );
     }
 }
-
-export default Header;

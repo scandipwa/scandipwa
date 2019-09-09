@@ -15,7 +15,7 @@ import NoMatch from 'Route/NoMatch';
 import { LocationType } from 'Type/Router';
 import { ChildrenType } from 'Type/Common';
 
-class NoMatchHandler extends Component {
+export default class NoMatchHandler extends Component {
     static propTypes = {
         children: ChildrenType.isRequired,
         noMatch: PropTypes.bool.isRequired,
@@ -61,5 +61,3 @@ class NoMatchHandler extends Component {
         return children;
     }
 }
-
-export default NoMatchHandler;

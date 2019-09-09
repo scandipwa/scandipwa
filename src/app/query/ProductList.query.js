@@ -39,19 +39,21 @@ export class ProductListQuery {
 
     _getFilterArgumentMap() {
         return {
-            categoryIds: option => [`category_id: { eq: ${option} }`],
-            categoryUrlPath: option => [`category_url_path: { eq: ${option} }`],
+            categoryIds: id => [`category_id: { eq: ${id} }`],
+            categoryUrlPath: url => [`category_url_path: { eq: ${url} }`],
             priceRange: ({ min, max }) => {
                 const filters = [];
                 if (min) filters.push(`min_price: { gteq: ${min} }`);
                 if (max) filters.push(`max_price: { lteq: ${max} }`);
                 return filters;
             },
-            productsSkuArray: option => [`sku: { in: [${option}] }`],
-            productUrlPath: option => [`url_key: { eq: ${option}}`],
-            customFilters: (option = {}) => Object.entries(option).reduce((acc, [key, attribute]) => (
+            productsSkuArray: sku => [`sku: { in: [${sku}] }`],
+            productUrlPath: url => [`url_key: { eq: ${url}}`],
+            customFilters: (filters = {}) => Object.entries(filters).reduce((acc, [key, attribute]) => (
                 attribute.length ? [...acc, `${key}: { in: [ ${attribute.join(',')} ] } `] : acc
-            ), [])
+            ), []),
+            newToDate: date => [`news_to_date: { gteq: ${date} }`],
+            conditions: conditions => [`conditions: { eq: ${conditions} }`]
         };
     }
 
@@ -110,7 +112,8 @@ export class ProductListQuery {
 
         return [
             'total_count',
-            this._getItemsField()
+            this._getItemsField(),
+            this._getPageInfoField()
         ];
     }
 
@@ -498,6 +501,12 @@ export class ProductListQuery {
     _getFiltersField() {
         return new Field('filters')
             .addFieldList(this._getFilterFields());
+    }
+
+    _getPageInfoField() {
+        return new Field('page_info')
+            .addField('current_page')
+            .addField('total_pages');
     }
 }
 

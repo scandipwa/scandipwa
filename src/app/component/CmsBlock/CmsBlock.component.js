@@ -18,7 +18,20 @@ import { ChildrenType } from 'Type/Common';
  * Cms Block
  * @class CmsBlock
  */
-class CmsBlock extends PureComponent {
+export default class CmsBlock extends PureComponent {
+    static propTypes = {
+        cmsBlocks: PropTypes.arrayOf(PropTypes.shape({
+            id: PropTypes.string,
+            content: PropTypes.string
+        })),
+        children: ChildrenType
+    };
+
+    static defaultProps = {
+        children: [],
+        cmsBlocks: []
+    };
+
     render() {
         const { cmsBlocks, children } = this.props;
 
@@ -33,18 +46,3 @@ class CmsBlock extends PureComponent {
         return children;
     }
 }
-
-CmsBlock.propTypes = {
-    cmsBlocks: PropTypes.arrayOf(PropTypes.shape({
-        id: PropTypes.string,
-        content: PropTypes.string
-    })),
-    children: ChildrenType
-};
-
-CmsBlock.defaultProps = {
-    children: [],
-    cmsBlocks: []
-};
-
-export default CmsBlock;

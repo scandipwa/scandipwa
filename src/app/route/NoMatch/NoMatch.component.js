@@ -15,7 +15,7 @@ import PropTypes from 'prop-types';
 import ContentWrapper from 'Component/ContentWrapper';
 import './NoMatch.style';
 
-class NoMatch extends Component {
+export default class NoMatch extends Component {
     static propTypes = {
         updateBreadcrumbs: PropTypes.func.isRequired
     };
@@ -75,5 +75,3 @@ class NoMatch extends Component {
         );
     }
 }
-
-export default NoMatch;

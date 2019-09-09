@@ -11,18 +11,26 @@
 
 import {
     GET_COUNTRY_LIST,
-    UPDATE_REVIEW_RATINGS
+    UPDATE_REVIEW_RATINGS,
+    UPDATE_STORE_CONFIG
 } from './Config.action';
 
 export const initialState = {
     countries: [],
-    reviewRatings: []
+    reviewRatings: [],
+    cms_home_page: '',
+    cms_no_route: '',
+    copyright: '',
+    header_logo_src: '',
+    timezone: ''
 };
 
-// TODO: add store config
-
 const ConfigReducer = (state = initialState, action) => {
-    const { countries, reviewRatings } = action;
+    const {
+        countries,
+        reviewRatings,
+        storeConfig
+    } = action;
 
     switch (action.type) {
     case GET_COUNTRY_LIST:
@@ -34,6 +42,11 @@ const ConfigReducer = (state = initialState, action) => {
         return {
             ...state,
             reviewRatings
+        };
+    case UPDATE_STORE_CONFIG:
+        return {
+            ...state,
+            ...storeConfig
         };
 
     default:

@@ -26,6 +26,4 @@ const mapDispatchToProps = dispatch => ({
     }
 });
 
-const UrlRewritesContainer = connect(mapStateToProps, mapDispatchToProps)(UrlRewrites);
-
-export default UrlRewritesContainer;
+export default connect(mapStateToProps, mapDispatchToProps)(UrlRewrites);
