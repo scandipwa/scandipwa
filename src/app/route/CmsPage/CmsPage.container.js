@@ -40,6 +40,8 @@ export const mapDispatchToProps = dispatch => ({
     }
 });
 
+export const M2_DEFAULT_HOME = 'home';
+
 export class CmsPageContainer extends PureComponent {
     static propTypes = {
         requestPage: PropTypes.func.isRequired,
@@ -80,6 +82,7 @@ export class CmsPageContainer extends PureComponent {
         if (
             !isOnlyPlaceholder
             && (urlKey || urlParam)
+            && urlKey !== M2_DEFAULT_HOME
         ) {
             requestPage({ id: urlKey || urlParam });
         }
@@ -113,7 +116,7 @@ export class CmsPageContainer extends PureComponent {
             onBackClick: () => history.goBack()
         });
 
-        if (pathname !== prevPathname || urlKey !== prevUrlKey) {
+        if ((pathname !== prevPathname || urlKey !== prevUrlKey) && urlKey !== M2_DEFAULT_HOME) {
             const urlParam = getUrlParam(match, location);
             requestPage({ id: urlKey || urlParam });
         }
