@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable no-console */
 /**
  * ScandiPWA - Progressive Web App for Magento
@@ -27,6 +28,7 @@ import CheckoutPage from 'Route/CheckoutPage';
 import MyAccountDetails from 'Route/MyAccountDetails';
 import MyAccountWishlist from 'Route/MyAccountWishlist';
 import PasswordChangePage from 'Route/PasswordChangePage';
+import NewsletterUnsubscribe from 'Route/NewsletterUnsubscribe';
 import NoMatchHandler from 'Route/NoMatchHandler';
 import UrlRewrites from 'Route/UrlRewrites';
 
@@ -104,6 +106,10 @@ class AppRouter extends PureComponent {
             {
                 component: <Route path="/wishlist/" exact component={ MyAccountWishlist } />,
                 position: 90
+            },
+            {
+                component: <Route path="/newsletter/subscriber/unsubscribe/id/:id/code/:code/" exact component={ NewsletterUnsubscribe } />,
+                position: 100
             },
             {
                 component: <Route component={ UrlRewrites } />,
