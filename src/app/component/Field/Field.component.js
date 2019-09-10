@@ -438,11 +438,8 @@ export default class Field extends PureComponent {
                   id={ id }
                   name={ name }
                   type="checkbox"
-                  checked={ checked }
                   disabled={ disabled }
-                //   onFocus={ this.onFocus }
-                  onChange={ this.onChange }
-                //   onKeyPress={ this.onKeyPress }
+                  defaultChecked={ checked }
                 />
                 <label htmlFor={ id } />
             </>
