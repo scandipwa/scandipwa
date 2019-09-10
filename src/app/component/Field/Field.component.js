@@ -198,10 +198,7 @@ export default class Field extends PureComponent {
 
     handleChange(value, shouldUpdate = true) {
         const {
-            min,
-            max,
-            type,
-            onChange
+            onChange, type, min, max
         } = this.props;
 
         switch (type) {
@@ -210,9 +207,6 @@ export default class Field extends PureComponent {
             if (min > value || value > max || isValueNaN) break;
             if (onChange && shouldUpdate) onChange(value);
             this.setState({ value });
-            break;
-        case CHECKBOX_TYPE:
-            this.setState({ checked: value === 'on' });
             break;
         default:
             if (onChange) onChange(value);
@@ -452,8 +446,11 @@ export default class Field extends PureComponent {
                   id={ id }
                   name={ name }
                   type="checkbox"
+                  checked={ checked }
                   disabled={ disabled }
-                  defaultChecked={ checked }
+                //   onFocus={ this.onFocus }
+                  onChange={ this.onChange }
+                //   onKeyPress={ this.onKeyPress }
                 />
                 <label htmlFor={ id } />
             </>
