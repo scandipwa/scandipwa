@@ -86,13 +86,18 @@ class CmsPage extends Component {
     }
 
     render() {
-        const { page } = this.props;
-        const { page: { content, content_heading } } = this.props;
+        const {
+            page, page: {
+                content, content_heading, page_width
+            }
+        } = this.props;
 
         return (
             <main block="CmsPage">
                 <ContentWrapper
-                  wrapperMix={ { block: 'CmsPage', elem: 'Wrapper' } }
+                  wrapperMix={ {
+                      block: 'CmsPage', elem: 'Wrapper', mods: { page_width }
+                  } }
                   label="CMS page"
                 >
                     <Meta metaObject={ page } />

@@ -23,4 +23,10 @@
         left: auto;
         right: auto;
     };
+
+    &_page_width{
+        &_full {
+            max-width: 100%;
+        }
+    }
 }
