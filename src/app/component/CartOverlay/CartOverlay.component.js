@@ -101,8 +101,7 @@ export default class CartOverlay extends PureComponent {
               elem="Discount"
             >
                 <dt>
-                    { __('Coupon') }
-                    { ' ' }
+                    { __('Coupon ') }
                     <strong>{ coupon_code.toUpperCase() }</strong>
                     { ':' }
                 </dt>
