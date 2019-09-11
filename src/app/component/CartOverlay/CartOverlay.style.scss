@@ -132,4 +132,11 @@
             border-bottom: 1px solid var(--cart-item-divider-color);
         }
     }
+
+    &-DiscountCoupon {
+        &::after {
+            content: ':';
+            font-weight: normal;
+        }
+    }
 }
