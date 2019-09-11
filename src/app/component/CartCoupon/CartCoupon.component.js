@@ -3,6 +3,7 @@ import Field from 'Component/Field';
 import Loader from 'Component/Loader';
 import PropTypes from 'prop-types';
 import './CartCoupon.style';
+import { applyCouponToCart } from 'Store/Cart';
 
 class CartCoupon extends PureComponent {
     static propTypes = {
@@ -22,12 +23,21 @@ class CartCoupon extends PureComponent {
 
     handleCouponCodeChange = this.handleCouponCodeChange.bind(this);
 
+    handleApplyCoupon = this.handleApplyCoupon.bind(this);
+
     handleRemoveCoupon = this.handleRemoveCoupon.bind(this);
 
     handleCouponCodeChange(enteredCouponCode) {
         this.setState({
             enteredCouponCode
         });
+    }
+
+    handleApplyCoupon() {
+        const { handleApplyCouponToCart } = this.props;
+        const { enteredCouponCode } = this.state;
+
+        handleApplyCouponToCart(enteredCouponCode);
     }
 
     handleRemoveCoupon() {
@@ -43,7 +53,6 @@ class CartCoupon extends PureComponent {
     }
 
     renderApplyCoupon() {
-        const { handleApplyCouponToCart } = this.props;
         const { enteredCouponCode } = this.state;
 
         return (
@@ -62,7 +71,7 @@ class CartCoupon extends PureComponent {
                   elem="Button"
                   mix={ { block: 'Button' } }
                   disabled={ !enteredCouponCode }
-                  onClick={ () => handleApplyCouponToCart(enteredCouponCode) }
+                  onClick={ this.handleApplyCoupon }
                 >
                     { __('Apply Coupon') }
                 </button>
