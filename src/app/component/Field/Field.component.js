@@ -167,7 +167,11 @@ export default class Field extends PureComponent {
     }
 
     onChangeCheckbox(event) {
-        return this.handleChange(event.target.checked);
+        const { onChange } = this.props;
+        const { target: { checked, value } } = event;
+
+        if (onChange) onChange(value, checked);
+        return this.setState({ checked });
     }
 
     onFocus(event) {
@@ -214,11 +218,6 @@ export default class Field extends PureComponent {
             if (onChange && shouldUpdate) onChange(value);
             this.setState({ value });
             break;
-        case CHECKBOX_TYPE:
-            if (onChange) onChange(value);
-            this.setState({ value });
-            this.setState({ checked: value });
-            break;
         default:
             if (onChange) onChange(value);
             this.setState({ value });
@@ -244,16 +243,9 @@ export default class Field extends PureComponent {
     }
 
     _getInitialPropsValue() {
-        const { type, value, checked } = this.props;
+        const { type, value } = this.props;
 
-        if (value) {
-            switch (type) {
-            case CHECKBOX_TYPE:
-                return checked;
-            default:
-                return value;
-            }
-        }
+        if (value) return value;
 
         switch (type) {
         case NUMBER_TYPE:

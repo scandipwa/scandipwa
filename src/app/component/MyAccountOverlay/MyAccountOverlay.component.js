@@ -359,6 +359,7 @@ class MyAccountOverlay extends PureComponent {
                         />
                         <Field
                           type="checkbox"
+                          value="is_subscribed"
                           label={ __('Subscribe to ScandiPWA newsletter') }
                           id="is_subscribed"
                           mix={ { block: 'MyAccountOverlay', elem: 'Checkbox' } }
