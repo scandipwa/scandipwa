@@ -13,6 +13,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
+import { CartDispatcher } from 'Store/Cart';
 import { CART, CART_EDITING } from 'Component/Header';
 import { changeHeaderState } from 'Store/Header';
 import { TotalsType } from 'Type/MiniCart';
@@ -27,21 +28,40 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
     changeHeaderState: state => dispatch(changeHeaderState(state)),
-    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.update(breadcrumbs, dispatch)
+    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.update(breadcrumbs, dispatch),
+    applyCouponToCart: couponCode => CartDispatcher.applyCouponToCart(dispatch, couponCode),
+    removeCouponFromCart: () => CartDispatcher.removeCouponFromCart(dispatch)
 });
 
 export class CartPageContainer extends PureComponent {
     static propTypes = {
         updateBreadcrumbs: PropTypes.func.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
-        totals: TotalsType.isRequired
+        totals: TotalsType.isRequired,
+        applyCouponToCart: PropTypes.func.isRequired,
+        removeCouponFromCart: PropTypes.func.isRequired
     };
 
     state = { isEditing: false };
 
+    containerFunctions = {
+        handleApplyCouponToCart: this.handleApplyCouponToCart.bind(this),
+        handleRemoveCouponFromCart: this.handleRemoveCouponFromCart.bind(this)
+    };
+
     componentDidMount() {
         this._updateBreadcrumbs();
         this._changeHeaderState();
+    }
+
+    handleApplyCouponToCart(couponCode) {
+        const { applyCouponToCart } = this.props;
+        applyCouponToCart(couponCode);
+    }
+
+    handleRemoveCouponFromCart() {
+        const { removeCouponFromCart } = this.props;
+        removeCouponFromCart();
     }
 
     _updateBreadcrumbs() {
@@ -82,6 +102,7 @@ export class CartPageContainer extends PureComponent {
             <CartPage
               { ...this.props }
               { ...this.state }
+              { ...this.containerFunctions }
             />
         );
     }
