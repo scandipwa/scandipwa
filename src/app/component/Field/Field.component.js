@@ -122,6 +122,8 @@ export default class Field extends PureComponent {
 
     onChange = this.onChange.bind(this);
 
+    onChangeCheckbox = this.onChangeCheckbox.bind(this);
+
     onFocus = this.onFocus.bind(this);
 
     onKeyPress = this.onKeyPress.bind(this);
@@ -160,6 +162,10 @@ export default class Field extends PureComponent {
         }
 
         return this.handleChange(event.target.value);
+    }
+
+    onChangeCheckbox(event) {
+        return this.handleChange(event.target.checked);
     }
 
     onFocus(event) {
@@ -231,9 +237,16 @@ export default class Field extends PureComponent {
     }
 
     _getInitialPropsValue() {
-        const { type, value } = this.props;
+        const { type, value, checked } = this.props;
 
-        if (value) return value;
+        if (value) {
+            switch (type) {
+            case CHECKBOX_TYPE:
+                return checked;
+            default:
+                return value;
+            }
+        }
 
         switch (type) {
         case NUMBER_TYPE:
@@ -430,6 +443,7 @@ export default class Field extends PureComponent {
         const {
             id, name, formRef, disabled, checked
         } = this.props;
+        const { value } = this.state;
 
         return (
             <>
@@ -438,8 +452,10 @@ export default class Field extends PureComponent {
                   id={ id }
                   name={ name }
                   type="checkbox"
+                  checked={ value }
+                  value={ value }
                   disabled={ disabled }
-                  defaultChecked={ checked }
+                  onChange={ this.onChangeCheckbox }
                 />
                 <label htmlFor={ id } />
             </>
