@@ -48,6 +48,25 @@ export class CartQuery {
         return mutation;
     }
 
+    getApplyCouponMutation(couponCode, quoteId) {
+        const mutation = new Field('applyCoupon')
+            .addArgument('coupon_code', 'String!', couponCode)
+            .addField(this.getCartQuery(quoteId));
+
+        if (!isSignedIn()) mutation.addArgument('guestCartId', 'String', quoteId);
+
+        return mutation;
+    }
+
+    getRemoveCouponMutation(quoteId) {
+        const mutation = new Field('removeCoupon')
+            .addField(this.getCartQuery(quoteId));
+
+        if (!isSignedIn()) mutation.addArgument('guestCartId', 'String', quoteId);
+
+        return mutation;
+    }
+
     _getSaveCartItemFields(quoteId) {
         return [
             this.getCartQuery(quoteId)
@@ -69,6 +88,7 @@ export class CartQuery {
             'discount_amount',
             'base_currency_code',
             'subtotal_with_discount',
+            'coupon_code',
             this._getCartItemsField()
         ];
     }
