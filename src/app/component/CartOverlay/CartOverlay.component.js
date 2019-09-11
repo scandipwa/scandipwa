@@ -89,6 +89,29 @@ export default class CartOverlay extends PureComponent {
         );
     }
 
+    renderDiscount() {
+        const { totals: { coupon_code, discount_amount = 0 } } = this.props;
+
+        if (!coupon_code) return null;
+
+
+        return (
+            <dl
+              block="CartOverlay"
+              elem="Discount"
+            >
+                <dt>
+                    { __('Coupon') }
+                    { ' ' }
+                    <strong>{ coupon_code.toUpperCase() }</strong>
+                    { ':' }
+                </dt>
+                <dd>{ `-${this.renderPriceLine(Math.abs(discount_amount))}` }</dd>
+            </dl>
+        );
+    }
+
+
     renderActions() {
         const { products } = this.props;
         const isDisabled = !Object.keys(products).length;
@@ -148,6 +171,7 @@ export default class CartOverlay extends PureComponent {
             >
                 { this.renderPromo() }
                 { this.renderCartItems() }
+                { this.renderDiscount() }
                 { this.renderTax() }
                 { this.renderTotals() }
                 { this.renderActions() }
