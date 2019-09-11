@@ -34,12 +34,6 @@
         }
     }
 
-    .Button {
-        @include mobile {
-            display: none;
-        }
-    }
-
     .Slider-Crumbs {
         bottom: 2rem;
     }
@@ -47,8 +41,8 @@
     .SliderWidget-Figcaption {
         text-align: center;
 
-        @include after-mobile {
-            padding-top: 10rem;
+        @include desktop {
+            padding-top: 5rem;
         }
     }
 }

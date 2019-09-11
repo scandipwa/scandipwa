@@ -40,6 +40,7 @@ export default class ProductList extends PureComponent {
         isVisible: PropTypes.bool.isRequired,
         isInfiniteLoaderEnabled: PropTypes.bool,
         isPaginationEnabled: PropTypes.bool,
+        numberOfPlaceholders: PropTypes.number,
         mix: MixType
     };
 
@@ -47,7 +48,8 @@ export default class ProductList extends PureComponent {
         mix: {},
         title: '',
         isInfiniteLoaderEnabled: true,
-        isPaginationEnabled: true
+        isPaginationEnabled: true,
+        numberOfPlaceholders: 4
     };
 
     nodes = {};
@@ -198,20 +200,27 @@ export default class ProductList extends PureComponent {
 
     renderCategoryPlaceholder() {
         const {
+            mix,
             loadPage,
             isLoading,
             isVisible,
+            numberOfPlaceholders,
             isInfiniteLoaderEnabled
         } = this.props;
 
         if (!isInfiniteLoaderEnabled && !isLoading) return null;
 
         return (
-            <div block="CategoryProductList" elem="Page">
+            <div
+              block="CategoryProductList"
+              elem="Page"
+              mix={ { ...mix, elem: 'Page' } }
+            >
                 <CategoryProductListPlaceholder
                   isLoading={ isLoading }
                   isVisible={ isVisible }
                   updatePages={ loadPage }
+                  numberOfPlaceholders={ numberOfPlaceholders }
                 />
             </div>
         );

@@ -53,6 +53,7 @@ export default class CmsPage extends Component {
                 <>
                     <div block="CmsPage" elem="SectionPlaceholder" />
                     <div block="CmsPage" elem="SectionPlaceholder" />
+                    <div block="CmsPage" elem="SectionPlaceholder" />
                 </>
             );
         }

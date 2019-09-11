@@ -19,7 +19,7 @@
     }
 
     &-Wrapper {
-        margin-top: 1.8rem;
+        margin-top: 1rem;
         margin-bottom: 1.8rem;
         grid-template-columns: auto;
     }
@@ -36,8 +36,20 @@
         background-image: var(--placeholder-image);
         background-size: var(--placeholder-size);
         animation: var(--placeholder-animation);
-        padding-bottom: 40%;
         margin: 0 0 10px;
+        padding-bottom: 30%;
+
+        @include mobile {
+            padding-bottom: 60%;
+        }
+
+        &:first-child {
+            padding-bottom: 40%;
+
+            @include mobile {
+                padding-bottom: 100%;
+            }
+        }
     }
 
     .TextPlaceholder {

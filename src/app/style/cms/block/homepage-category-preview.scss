@@ -15,6 +15,12 @@
 }
 
 .HomepageCategories {
+    @include desktop {
+        grid-gap: 1rem;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+    }
+
     &-Figure {
         margin-top: 1rem;
 
@@ -71,6 +77,14 @@
         @include mobile {
             text-align: left;
             width: 100%;
+        }
+    }
+
+    a {
+        display: block;
+
+        + a {
+            margin-left: 0;
         }
     }
 }

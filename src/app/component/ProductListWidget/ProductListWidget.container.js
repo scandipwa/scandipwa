@@ -145,6 +145,7 @@ export class ProductListWidgetContainer extends PureComponent {
               { ...adaptedProps }
               { ...this.containerFunctions }
               isInfiniteLoaderEnabled={ false }
+              numberOfPlaceholders={ 6 }
               mix={ { block: 'ProductListWidget' } }
             />
         );
