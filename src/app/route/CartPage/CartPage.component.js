@@ -27,9 +27,7 @@ class CartPage extends Component {
     static propTypes = {
         isEditing: PropTypes.bool.isRequired,
         products: PropTypes.objectOf(ProductType),
-        totals: TotalsType.isRequired,
-        handleApplyCouponToCart: PropTypes.func.isRequired,
-        handleRemoveCouponFromCart: PropTypes.func.isRequired
+        totals: TotalsType.isRequired
     };
 
     static defaultProps = {
@@ -68,9 +66,7 @@ class CartPage extends Component {
 
     renderDiscountCode() {
         const {
-            totals: { coupon_code },
-            handleApplyCouponToCart,
-            handleRemoveCouponFromCart
+            totals: { coupon_code }
         } = this.props;
 
         return (
@@ -78,11 +74,7 @@ class CartPage extends Component {
               heading={ __('Have a discount code?') }
               mix={ { block: 'CartPage', elem: 'Discount' } }
             >
-                <CartCoupon
-                  coupon_code={ coupon_code }
-                  handleApplyCouponToCart={ handleApplyCouponToCart }
-                  handleRemoveCouponFromCart={ handleRemoveCouponFromCart }
-                />
+                <CartCoupon couponCode={ coupon_code } />
             </ExpandableContent>
         );
     }

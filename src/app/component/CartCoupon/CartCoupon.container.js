@@ -4,10 +4,6 @@ import { connect } from 'react-redux';
 import { CartDispatcher } from 'Store/Cart';
 import CartCoupon from './CartCoupon.component';
 
-export const mapStateToProps = state => ({
-    totals: state.CartReducer.cartTotals
-});
-
 export const mapDispatchToProps = dispatch => ({
     applyCouponToCart: couponCode => CartDispatcher.applyCouponToCart(dispatch, couponCode),
     removeCouponFromCart: () => CartDispatcher.removeCouponFromCart(dispatch)
@@ -15,13 +11,13 @@ export const mapDispatchToProps = dispatch => ({
 
 class CartCouponContainer extends PureComponent {
     static propTypes = {
+        couponCode: PropTypes.string,
         applyCouponToCart: PropTypes.func.isRequired,
-        removeCouponFromCart: PropTypes.func.isRequired,
-        coupon_code: PropTypes.string
+        removeCouponFromCart: PropTypes.func.isRequired
     };
 
     static defaultProps = {
-        coupon_code: ''
+        couponCode: ''
     };
 
     containerFunctions = {

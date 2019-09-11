@@ -7,13 +7,13 @@ import './CartCoupon.style';
 class CartCoupon extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
-        coupon_code: PropTypes.string,
+        couponCode: PropTypes.string,
         handleApplyCouponToCart: PropTypes.func.isRequired,
         handleRemoveCouponFromCart: PropTypes.func.isRequired
     };
 
     static defaultProps = {
-        coupon_code: ''
+        couponCode: ''
     };
 
     state = {
@@ -79,14 +79,14 @@ class CartCoupon extends PureComponent {
     }
 
     renderRemoveCoupon() {
-        const { coupon_code } = this.props;
+        const { couponCode } = this.props;
 
         return (
             <>
                 <p block="CartCoupon" elem="Message">
                     { __('Applied coupon code') }
                     { ': ' }
-                    <strong>{ coupon_code.toUpperCase() }</strong>
+                    <strong>{ couponCode.toUpperCase() }</strong>
                 </p>
                 <button
                   block="CartCoupon"
@@ -101,12 +101,12 @@ class CartCoupon extends PureComponent {
     }
 
     render() {
-        const { isLoading, coupon_code } = this.props;
+        const { isLoading, couponCode } = this.props;
 
         return (
             <div block="CartCoupon">
                 <Loader isLoading={ isLoading } />
-                { !coupon_code
+                { !couponCode
                     ? this.renderApplyCoupon()
                     : this.renderRemoveCoupon() }
             </div>
