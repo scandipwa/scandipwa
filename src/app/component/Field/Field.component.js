@@ -216,6 +216,7 @@ export default class Field extends PureComponent {
             break;
         case CHECKBOX_TYPE:
             if (onChange) onChange(value);
+            this.setState({ value });
             this.setState({ checked: value });
             break;
         default:
