@@ -144,16 +144,18 @@ export default class Field extends PureComponent {
         this.state = {
             value: this._getInitialPropsValue(),
             valueIndex: -1,
-            isSelectExpanded: false,
-            searchString: 'a'
+            checked: false,
+            searchString: 'a',
+            isSelectExpanded: false
         };
     }
 
     componentDidUpdate(prevProps) {
-        const { value: prevValue } = prevProps;
-        const { value: currentValue } = this.props;
+        const { value: prevValue, checked: prevChecked } = prevProps;
+        const { value: currentValue, checked: currChecked, type } = this.props;
 
         if (prevValue !== currentValue) this.setState({ value: currentValue });
+        if (type === CHECKBOX_TYPE && currChecked !== prevChecked) this.setState({ checked: currChecked });
     }
 
     onChange(event) {
@@ -211,6 +213,10 @@ export default class Field extends PureComponent {
             if (min > value || value > max || isValueNaN) break;
             if (onChange && shouldUpdate) onChange(value);
             this.setState({ value });
+            break;
+        case CHECKBOX_TYPE:
+            if (onChange) onChange(value);
+            this.setState({ checked: value });
             break;
         default:
             if (onChange) onChange(value);
@@ -441,9 +447,9 @@ export default class Field extends PureComponent {
 
     renderCheckbox() {
         const {
-            id, name, formRef, disabled, checked
+            id, name, formRef, disabled
         } = this.props;
-        const { value } = this.state;
+        const { value, checked } = this.state;
 
         return (
             <>
@@ -452,8 +458,8 @@ export default class Field extends PureComponent {
                   id={ id }
                   name={ name }
                   type="checkbox"
-                  checked={ value }
                   value={ value }
+                  checked={ checked }
                   disabled={ disabled }
                   onChange={ this.onChangeCheckbox }
                 />
