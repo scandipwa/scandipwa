@@ -111,7 +111,6 @@ export default class CartOverlay extends PureComponent {
         );
     }
 
-
     renderActions() {
         const { products } = this.props;
         const isDisabled = !Object.keys(products).length;

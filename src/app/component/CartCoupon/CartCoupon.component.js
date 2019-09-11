@@ -3,7 +3,6 @@ import Field from 'Component/Field';
 import Loader from 'Component/Loader';
 import PropTypes from 'prop-types';
 import './CartCoupon.style';
-import { applyCouponToCart } from 'Store/Cart';
 
 class CartCoupon extends PureComponent {
     static propTypes = {
