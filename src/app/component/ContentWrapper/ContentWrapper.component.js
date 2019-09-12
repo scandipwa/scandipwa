@@ -31,7 +31,9 @@ export default class ContentWrapper extends PureComponent {
 
     static defaultProps = {
         mix: {},
-        wrapperMix: {},
+        wrapperMix: {
+            mods: {}
+        },
         children: null
     };
 
@@ -39,7 +41,7 @@ export default class ContentWrapper extends PureComponent {
         const {
             children, mix, wrapperMix, label
         } = this.props;
-        const { mods = {} } = wrapperMix;
+        const { mods } = wrapperMix;
 
         return (
             <section mix={ mix } aria-label={ label }>
