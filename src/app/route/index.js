@@ -41,182 +41,179 @@ import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
 import { ConfigDispatcher } from 'Store/Config';
 import { CartDispatcher } from 'Store/Cart';
 import { WishlistDispatcher } from 'Store/Wishlist';
+import SomethingWentWrong from './SomethingWentWrong';
 
-const BEFORE_ITEMS_TYPE = 'BEFORE_ITEMS_TYPE';
-const SWITCH_ITEMS_TYPE = 'SWITCH_ITEMS_TYPE';
-const AFTER_ITEMS_TYPE = 'AFTER_ITEMS_TYPE';
+export const BEFORE_ITEMS_TYPE = 'BEFORE_ITEMS_TYPE';
+export const SWITCH_ITEMS_TYPE = 'SWITCH_ITEMS_TYPE';
+export const AFTER_ITEMS_TYPE = 'AFTER_ITEMS_TYPE';
 
 export const history = createBrowserHistory({ basename: '/' });
 
 class AppRouter extends PureComponent {
-    items = {
-        beforeItems: [
-            {
-                component: <NotificationList />,
-                position: 10
-            },
-            {
-                component: <Header />,
-                position: 20
-            },
-            {
-                component: <Breadcrumbs />,
-                position: 30
-            }
-        ],
-        switchItems: [
-            {
-                component: <Route path="/" exact component={ HomePage } />,
-                position: 10
-            },
-            {
-                component: <Route path="/category" component={ CategoryPage } />,
-                position: 20
-            },
-            {
-                component: <Route path="/search/:query/" component={ SearchPage } />,
-                position: 25
-            },
-            {
-                component: <Route path="/product" component={ ProductPage } />,
-                position: 30
-            },
-            {
-                component: <Route path="/page" component={ CmsPage } />,
-                position: 40
-            },
-            {
-                component: <Route path="/cart" exact component={ CartPage } />,
-                position: 50
-            },
-            {
-                component: <Route path="/checkout" component={ CheckoutPage } />,
-                position: 55
-            },
-            {
-                component: <Route path="/:account*/createPassword/" component={ PasswordChangePage } />,
-                position: 60
-            },
-            {
-                component: <Route path="/my-account/" exact component={ MyAccountDetails } />,
-                position: 70
-            },
-            {
-                component: <Route path="/wishlist/" exact component={ MyAccountWishlist } />,
-                position: 90
-            },
-            {
-                component: <Route component={ UrlRewrites } />,
-                position: 1000
-            }
-        ],
-        afterItems: [
-            {
-                component: <Footer />,
-                position: 10
-            }
-        ]
+    [BEFORE_ITEMS_TYPE] = [
+        {
+            component: <NotificationList />,
+            position: 10
+        },
+        {
+            component: <Header />,
+            position: 20
+        },
+        {
+            component: <Breadcrumbs />,
+            position: 30
+        }
+    ];
+
+    [SWITCH_ITEMS_TYPE] = [
+        {
+            component: <Route path="/" exact component={ HomePage } />,
+            position: 10
+        },
+        {
+            component: <Route path="/category" component={ CategoryPage } />,
+            position: 20
+        },
+        {
+            component: <Route path="/search/:query/" component={ SearchPage } />,
+            position: 25
+        },
+        {
+            component: <Route path="/product" component={ ProductPage } />,
+            position: 30
+        },
+        {
+            component: <Route path="/page" component={ CmsPage } />,
+            position: 40
+        },
+        {
+            component: <Route path="/cart" exact component={ CartPage } />,
+            position: 50
+        },
+        {
+            component: <Route path="/checkout" component={ CheckoutPage } />,
+            position: 55
+        },
+        {
+            component: <Route path="/:account*/createPassword/" component={ PasswordChangePage } />,
+            position: 60
+        },
+        {
+            component: <Route path="/my-account/" exact component={ MyAccountDetails } />,
+            position: 70
+        },
+        {
+            component: <Route path="/wishlist/" exact component={ MyAccountWishlist } />,
+            position: 90
+        },
+        {
+            component: <Route component={ UrlRewrites } />,
+            position: 1000
+        }
+    ];
+
+    [AFTER_ITEMS_TYPE] = [
+        {
+            component: <Footer />,
+            position: 10
+        }
+    ];
+
+    state = {
+        hasError: false,
+        errorDetails: {}
     };
-
-    customItems = {};
-
-    itemsMap = {};
 
     constructor(props) {
         super(props);
 
-        const {
-            beforeItems,
-            switchItems,
-            afterItems
-        } = this.customItems;
+        this.dispatchActions();
+    }
 
-        this.customItems = {
-            [BEFORE_ITEMS_TYPE]: beforeItems,
-            [SWITCH_ITEMS_TYPE]: switchItems,
-            [AFTER_ITEMS_TYPE]: afterItems
-        };
-
-        WishlistDispatcher.updateInitialWishlistData(Store.dispatch);
-        HeaderAndFooterDispatcher.handleData(Store.dispatch, {
+    getHeaderAndFooterOptions() {
+        return {
             menu: { identifier: 'new-main-menu' },
             footer: { identifiers: ['social-links'] }
+        };
+    }
+
+    getSortedItems(type) {
+        const items = this[type].reduce((acc, { component, position }) => {
+            if (!component) {
+                console.warn('There is an item without a component property declared in main router.');
+                return acc;
+            }
+
+            if (acc[position]) {
+                console.warn(`There is already an item with ${ position } declared in main router.`);
+                return acc;
+            }
+
+            return { ...acc, [position]: component };
+        }, {});
+
+        return items;
+    }
+
+    handleErrorReset = () => {
+        this.setState({ hasError: false });
+    };
+
+    componentDidCatch(err, info) {
+        this.setState({
+            hasError: true,
+            errorDetails: { err, info }
         });
-        ConfigDispatcher.handleData(Store.dispatch);
+    }
+
+    dispatchActions() {
+        WishlistDispatcher.updateInitialWishlistData(Store.dispatch);
         CartDispatcher.updateInitialCartData(Store.dispatch);
+        ConfigDispatcher.handleData(Store.dispatch);
+        HeaderAndFooterDispatcher.handleData(Store.dispatch, this.getHeaderAndFooterOptions());
     }
 
-    /**
-     * Returns custom items by contentType
-     * @param {string} contentType
-     */
-    getItemsByContentType(contentType) {
-        return this.itemsMap[contentType];
+    renderItemsOfType(type) {
+        return Object.entries(this.getSortedItems(type)).map(
+            ([key, component]) => cloneElement(component, { key })
+        );
     }
 
-    /**
-     * Merges core items and custom items. Returns sorted array by position.
-     * @param {Array} items
-     * @param {string} contentType
-     */
-    prepareContent(items, contentType) {
-        const customItems = this.getItemsByContentType(contentType) || [];
-        const mergedItems = items.concat(customItems);
+    renderErrorRouterContent() {
+        const { errorDetails } = this.state;
 
-        return Object.values(mergedItems.reduce((prev, current) => {
-            const { position, component } = current;
-            const { position: prevPosition } = prev;
-
-            if (position < 0) {
-                console.warn(
-                    `Router item has negative position ${
-                        position
-                    }! Use positive values only.`
-                );
-
-                return current;
-            }
-
-            if (prev[position]) {
-                throw new Error(`Router item has occupied position ${
-                    prevPosition
-                }! Choose another position.`);
-            }
-
-            return { [position]: component, ...prev };
-        }, {}));
+        return (
+            <SomethingWentWrong
+              onClick={ this.handleErrorReset }
+              errorDetails={ errorDetails }
+            />
+        );
     }
 
-    /**
-     * Applies given key to the given element
-     * @param {Object} element
-     * @param {string|number} key
-     */
-    applyKeyToReactElement(element, key) {
-        return cloneElement(element, { ...element.props, key });
+    renderDefaultRouterContent() {
+        return (
+            <>
+                { this.renderItemsOfType(BEFORE_ITEMS_TYPE) }
+                <NoMatchHandler>
+                    <Switch>
+                        { this.renderItemsOfType(SWITCH_ITEMS_TYPE) }
+                    </Switch>
+                </NoMatchHandler>
+                { this.renderItemsOfType(AFTER_ITEMS_TYPE) }
+            </>
+        );
+    }
+
+    renderRouterContent() {
+        const { hasError } = this.state;
+        if (hasError) return this.renderErrorRouterContent();
+        return this.renderDefaultRouterContent();
     }
 
     render() {
-        const {
-            beforeItems,
-            switchItems,
-            afterItems
-        } = this.items;
-
         return (
             <Router history={ history }>
-                <>
-                    { this.prepareContent(beforeItems, BEFORE_ITEMS_TYPE)
-                        .map((item, key) => item && this.applyKeyToReactElement(item, key)) }
-                    <NoMatchHandler>
-                        <Switch>
-                            { this.prepareContent(switchItems, SWITCH_ITEMS_TYPE)
-                                .map((item, key) => item && this.applyKeyToReactElement(item, key)) }
-                        </Switch>
-                    </NoMatchHandler>
-                    { this.prepareContent(afterItems, AFTER_ITEMS_TYPE)
-                        .map((item, key) => item && this.applyKeyToReactElement(item, key)) }
-                </>
+                { this.renderRouterContent() }
             </Router>
         );
     }
