@@ -152,6 +152,10 @@ class AppRouter extends PureComponent {
         return items;
     }
 
+    handleErrorReset = () => {
+        this.setState({ hasError: false });
+    };
+
     componentDidCatch(err, info) {
         this.setState({
             hasError: true,
@@ -177,7 +181,7 @@ class AppRouter extends PureComponent {
 
         return (
             <SomethingWentWrong
-              onClick={ () => this.setState({ hasError: false }) }
+              onClick={ this.handleErrorReset }
               errorDetails={ errorDetails }
             />
         );
