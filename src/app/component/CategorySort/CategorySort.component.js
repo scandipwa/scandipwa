@@ -49,14 +49,12 @@ export default class CategorySort extends PureComponent {
         sortFields: []
     };
 
-    onChange = this.onChange.bind(this);
-
-    onChange(value) {
+    onChange = (value) => {
         const { onSortChange } = this.props;
         const [direction, ...key] = value.split(' ');
 
         onSortChange(direction, key);
-    }
+    };
 
     renderPlaceholder() {
         return (

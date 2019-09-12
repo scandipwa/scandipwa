@@ -104,8 +104,6 @@ export default class CheckoutShippingStep extends PureComponent {
         state: STATE_NEW_ADDRESS
     };
 
-    handleFieldChange = this.handleFieldChange.bind(this);
-
     emailNote = __('You can create an account after checkout.');
 
     emailLoginNote = __('Looks like you already have account with us, please, log in!');
@@ -263,37 +261,7 @@ export default class CheckoutShippingStep extends PureComponent {
         }, this.handleFieldChange);
     };
 
-    trimAddress(address) {
-        const {
-            city,
-            company,
-            country_id,
-            email,
-            firstname,
-            lastname,
-            postcode,
-            region,
-            region_id,
-            street,
-            telephone
-        } = address;
-
-        return {
-            city,
-            company,
-            country_id,
-            email,
-            firstname,
-            lastname,
-            postcode,
-            region,
-            region_id,
-            street: Object.values(street),
-            telephone
-        };
-    }
-
-    handleFieldChange() {
+    handleFieldChange = () => {
         const { showNotification } = this.props;
 
         this.setState({ loadingShippingMethods: true });
@@ -334,6 +302,36 @@ export default class CheckoutShippingStep extends PureComponent {
                 err => showNotification('error', err[0].debugMessage)
             );
         }, SHIPPING_METHODS_ESTIMATION_TIMEOUT);
+    };
+
+    trimAddress(address) {
+        const {
+            city,
+            company,
+            country_id,
+            email,
+            firstname,
+            lastname,
+            postcode,
+            region,
+            region_id,
+            street,
+            telephone
+        } = address;
+
+        return {
+            city,
+            company,
+            country_id,
+            email,
+            firstname,
+            lastname,
+            postcode,
+            region,
+            region_id,
+            street: Object.values(street),
+            telephone
+        };
     }
 
     renderField(id, overrideStateValue) {

@@ -159,9 +159,6 @@ export default class CheckoutPreviewAndPaymentsStep extends PureComponent {
             [STATE_DEFAULT_ADDRESS]: () => (this.renderAddressPreview(STATE_DEFAULT_ADDRESS)),
             [STATE_SAME_ADDRESS]: () => (this.renderAddressPreview(STATE_SAME_ADDRESS))
         };
-
-        this.handleSelectPaymentMethod = this.handleSelectPaymentMethod.bind(this);
-        this.onFormSuccess = this.onFormSuccess.bind(this);
     }
 
     static getDerivedStateFromProps(state, props) {
@@ -185,7 +182,7 @@ export default class CheckoutPreviewAndPaymentsStep extends PureComponent {
         return null;
     }
 
-    onFormSuccess() {
+    onFormSuccess = () => {
         const { savePaymentInformationAndPlaceOrder } = this.props;
         const correctAddress = this.getAddressFromState();
 
@@ -199,7 +196,7 @@ export default class CheckoutPreviewAndPaymentsStep extends PureComponent {
         this.setState({ loadingPaymentInformationSave: true, finishedLoading: false });
 
         savePaymentInformationAndPlaceOrder(paymentInformation);
-    }
+    };
 
     onCountrySelectChange = (index) => {
         const { countryList } = this.props;
@@ -264,6 +261,10 @@ export default class CheckoutPreviewAndPaymentsStep extends PureComponent {
         return null;
     }
 
+    handleSelectPaymentMethod = (method) => {
+        this.setState({ activePaymentMethod: method });
+    };
+
     trimAddress(address) {
         const { email: stateEmail, shippingAddress: { email: shippingEmail } } = this.state;
         const {
@@ -294,10 +295,6 @@ export default class CheckoutPreviewAndPaymentsStep extends PureComponent {
             street: Object.values(street),
             telephone
         };
-    }
-
-    handleSelectPaymentMethod(method) {
-        this.setState({ activePaymentMethod: method });
     }
 
     changeState(state, billingValue) {

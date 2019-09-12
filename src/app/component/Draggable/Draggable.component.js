@@ -61,18 +61,6 @@ export default class Draggable extends PureComponent {
         lastTranslateY: 0
     };
 
-    handleMouseDown = this.handleMouseDown.bind(this);
-
-    handleMouseMove = this.handleMouseMove.bind(this);
-
-    handleMouseUp = this.handleMouseUp.bind(this);
-
-    handleTouchStart = this.handleTouchStart.bind(this);
-
-    handleTouchMove = this.handleTouchMove.bind(this);
-
-    handleTouchEnd = this.handleTouchEnd.bind(this);
-
     static getDerivedStateFromProps(props, state) {
         const { shiftX, shiftY } = props;
         const { lastTranslateX, lastTranslateY } = state;
@@ -93,44 +81,26 @@ export default class Draggable extends PureComponent {
         window.removeEventListener('touchend', this.handleTouchEnd);
     }
 
-    handleTouchStart({ touches }) {
+    handleTouchStart = ({ touches }) => {
         window.addEventListener('touchmove', this.handleTouchMove);
         window.addEventListener('touchend', this.handleTouchEnd);
 
         if (touches.length === 1) this._handleDragStart(touches[0]);
-    }
+    };
 
-    handleMouseDown(event) {
+    handleMouseDown = (event) => {
         window.addEventListener('mousemove', this.handleMouseMove);
         window.addEventListener('mouseup', this.handleMouseUp);
 
         event.preventDefault();
         this._handleDragStart(event);
-    }
+    };
 
-    _handleDragStart({
-        clientX,
-        clientY
-    }) {
-        const { onDragStart } = this.props;
-
-        if (onDragStart) onDragStart();
-
-        this.setState({
-            originalX: clientX,
-            originalY: clientY,
-            isDragging: true
-        });
-    }
-
-    handleTouchMove({ touches }) {
+    handleTouchMove = ({ touches }) => {
         if (touches.length === 1) this.handleMouseMove(touches[0]);
-    }
+    };
 
-    handleMouseMove({
-        clientX,
-        clientY
-    }) {
+    handleMouseMove = ({ clientX, clientY }) => {
         const { isDragging } = this.state;
         const { shiftX, shiftY } = this.props;
 
@@ -146,20 +116,35 @@ export default class Draggable extends PureComponent {
             const { onDrag } = this.props;
             if (onDrag) onDrag({ ...this.state, clientX, clientY });
         });
-    }
+    };
 
-    handleTouchEnd() {
+    handleTouchEnd = () => {
         window.removeEventListener('touchmove', this.handleTouchMove);
         window.removeEventListener('touchend', this.handleTouchEnd);
 
         this._handleDragEnd();
-    }
+    };
 
-    handleMouseUp() {
+    handleMouseUp = () => {
         window.removeEventListener('mousemove', this.handleMouseMove);
         window.removeEventListener('mouseup', this.handleMouseUp);
 
         this._handleDragEnd();
+    };
+
+    _handleDragStart({
+        clientX,
+        clientY
+    }) {
+        const { onDragStart } = this.props;
+
+        if (onDragStart) onDragStart();
+
+        this.setState({
+            originalX: clientX,
+            originalY: clientY,
+            isDragging: true
+        });
     }
 
     _handleDragEnd() {
