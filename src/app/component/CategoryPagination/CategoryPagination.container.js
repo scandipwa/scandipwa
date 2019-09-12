@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import { generateQuery } from 'Util/Url';
@@ -8,13 +8,14 @@ import { LocationType } from 'Type/Router';
 import CategoryPagination from './CategoryPagination.component';
 
 export class CategoryPaginationContainer extends PureComponent {
-    constructor(props) {
-        super(props);
+    static propTypes = {
+        history: HistoryType.isRequired,
+        location: LocationType.isRequired
+    };
 
-        this.containerFunctions = {
-            getSearchQueryForPage: this.getSearchQueryForPage.bind(this)
-        };
-    }
+    containerFunctions = {
+        getSearchQueryForPage: this.getSearchQueryForPage.bind(this)
+    };
 
     getSearchQueryForPage(pageNumber) {
         const { history, location } = this.props;
@@ -31,10 +32,5 @@ export class CategoryPaginationContainer extends PureComponent {
         );
     }
 }
-
-CategoryPaginationContainer.propTypes = {
-    history: HistoryType.isRequired,
-    location: LocationType.isRequired
-};
 
 export default withRouter(CategoryPaginationContainer);

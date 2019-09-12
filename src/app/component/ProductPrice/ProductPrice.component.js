@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { formatCurrency } from 'Util/Price';
@@ -21,7 +21,20 @@ import './ProductPrice.style';
  * Product price
  * @class ProductPrice
  */
-class ProductPrice extends PureComponent {
+export default class ProductPrice extends PureComponent {
+    static propTypes = {
+        roundPrice: PropTypes.func.isRequired,
+        calculateDiscountPercentage: PropTypes.func.isRequired,
+        calculateFinalPrice: PropTypes.func.isRequired,
+        price: PriceType,
+        mix: MixType
+    };
+
+    static defaultProps = {
+        mix: {},
+        price: {}
+    };
+
     render() {
         const {
             price: { minimalPrice, regularPrice },
@@ -84,18 +97,3 @@ class ProductPrice extends PureComponent {
         );
     }
 }
-
-ProductPrice.propTypes = {
-    roundPrice: PropTypes.func.isRequired,
-    calculateDiscountPercentage: PropTypes.func.isRequired,
-    calculateFinalPrice: PropTypes.func.isRequired,
-    price: PriceType,
-    mix: MixType
-};
-
-ProductPrice.defaultProps = {
-    mix: {},
-    price: {}
-};
-
-export default ProductPrice;

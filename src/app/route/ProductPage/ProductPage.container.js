@@ -10,7 +10,7 @@
  */
 
 import PropTypes from 'prop-types';
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { ProductDispatcher } from 'Store/Product';
@@ -43,26 +43,33 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 export class ProductPageContainer extends PureComponent {
-    constructor(props) {
-        super(props);
+    static propTypes = {
+        location: LocationType,
+        isOnlyPlaceholder: PropTypes.bool,
+        changeHeaderState: PropTypes.func.isRequired,
+        updateBreadcrumbs: PropTypes.func.isRequired,
+        requestProduct: PropTypes.func.isRequired,
+        product: ProductType.isRequired,
+        clearGroupedProductQuantity: PropTypes.func.isRequired,
+        history: HistoryType.isRequired,
+        match: MatchType.isRequired
+    };
 
-        this.state = {
-            configurableVariantIndex: -1,
-            isConfigurationInitialized: false,
-            parameters: {}
-        };
+    static defaultProps = {
+        location: { state: {} },
+        isOnlyPlaceholder: false
+    };
 
-        this.containerFunctions = {
-            updateUrl: this.updateUrl.bind(this),
-            getLink: this.getLink.bind(this)
-        };
+    state = {
+        configurableVariantIndex: -1,
+        isConfigurationInitialized: false,
+        parameters: {}
+    };
 
-        this.containerProps = () => ({
-            productOrVariant: this._getProductOrVariant(),
-            dataSource: this._getDataSource(),
-            areDetailsLoaded: this._getAreDetailsLoaded()
-        });
-    }
+    containerFunctions = {
+        updateUrl: this.updateUrl.bind(this),
+        getLink: this.getLink.bind(this)
+    };
 
     componentDidMount() {
         const { isOnlyPlaceholder } = this.props;
@@ -104,6 +111,7 @@ export class ProductPageContainer extends PureComponent {
                 if (key in configurable_options) {
                     return { ...acc, [key]: value };
                 }
+
                 return acc;
             }, {});
 
@@ -125,13 +133,19 @@ export class ProductPageContainer extends PureComponent {
         return `${pathname}${query}`;
     }
 
+    containerProps = () => ({
+        productOrVariant: this._getProductOrVariant(),
+        dataSource: this._getDataSource(),
+        areDetailsLoaded: this._getAreDetailsLoaded()
+    });
+
     updateUrl(key, value) {
         const { product: { variants, configurable_options }, location, history } = this.props;
         const { configurableVariantIndex, parameters: oldParameters } = this.state;
 
         const parameters = {
             ...oldParameters,
-            [key]: value.toString(10)
+            [key]: value.toString()
         };
 
         this.setState({ parameters });
@@ -237,23 +251,6 @@ export class ProductPageContainer extends PureComponent {
         );
     }
 }
-
-ProductPageContainer.propTypes = {
-    location: LocationType,
-    isOnlyPlaceholder: PropTypes.bool,
-    changeHeaderState: PropTypes.func.isRequired,
-    updateBreadcrumbs: PropTypes.func.isRequired,
-    requestProduct: PropTypes.func.isRequired,
-    product: ProductType.isRequired,
-    clearGroupedProductQuantity: PropTypes.func.isRequired,
-    history: HistoryType.isRequired,
-    match: MatchType.isRequired
-};
-
-ProductPageContainer.defaultProps = {
-    location: { state: {} },
-    isOnlyPlaceholder: false
-};
 
 const ProductPageContainerWrapper = connect(mapStateToProps, mapDispatchToProps)(ProductPageContainer);
 export default withRouter(ProductPageContainerWrapper);

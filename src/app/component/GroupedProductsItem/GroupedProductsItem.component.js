@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import Image from 'Component/Image';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import ProductPrice from 'Component/ProductPrice';
@@ -22,7 +22,13 @@ import './GroupedProductsItem.style';
  * Grouped Product Item
  * @class GroupedProduct
  */
-class GroupedProductsItem extends PureComponent {
+export default class GroupedProductsItem extends PureComponent {
+    static propTypes = {
+        product: ProductType.isRequired,
+        changeCount: PropTypes.func.isRequired,
+        itemCount: PropTypes.number.isRequired
+    };
+
     render() {
         const {
             product: {
@@ -58,11 +64,3 @@ class GroupedProductsItem extends PureComponent {
         );
     }
 }
-
-GroupedProductsItem.propTypes = {
-    product: ProductType.isRequired,
-    changeCount: PropTypes.func.isRequired,
-    itemCount: PropTypes.number.isRequired
-};
-
-export default GroupedProductsItem;

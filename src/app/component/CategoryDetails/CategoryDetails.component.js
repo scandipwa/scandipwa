@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import Html from 'Component/Html';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import Image from 'Component/Image';
@@ -20,7 +20,11 @@ import './CategoryDetails.style';
  * Category details
  * @class CategoryDetails
  */
-class CategoryDetails extends PureComponent {
+export default class CategoryDetails extends PureComponent {
+    static propTypes = {
+        category: CategoryTreeType.isRequired
+    };
+
     renderCategoryName() {
         const { category: { name } } = this.props;
 
@@ -81,9 +85,3 @@ class CategoryDetails extends PureComponent {
         );
     }
 }
-
-CategoryDetails.propTypes = {
-    category: CategoryTreeType.isRequired
-};
-
-export default CategoryDetails;

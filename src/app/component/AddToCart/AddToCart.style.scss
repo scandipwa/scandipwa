@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
- .AddToCart {
+.AddToCart {
     min-width: 12rem;
     vertical-align: middle;
 
@@ -53,7 +53,7 @@
         &:active {
             span {
                 &:last-child {
-                    opacity: 0.9;
+                    opacity: .9;
                     transform: translateY(-120%);
                 }
             }

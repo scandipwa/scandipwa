@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import Link from 'Component/Link';
 import PropTypes from 'prop-types';
 import ContentWrapper from 'Component/ContentWrapper';
@@ -20,8 +20,19 @@ import isMobile from 'Util/Mobile';
 import ExpandableContent from 'Component/ExpandableContent';
 
 import './CartPage.style';
+import { formatCurrency } from 'Util/Price';
 
 class CartPage extends Component {
+    static propTypes = {
+        isEditing: PropTypes.bool.isRequired,
+        products: PropTypes.objectOf(ProductType),
+        totals: TotalsType.isRequired
+    };
+
+    static defaultProps = {
+        products: {}
+    };
+
     renderCartItems() {
         const { products, isEditing } = this.props;
 
@@ -63,6 +74,11 @@ class CartPage extends Component {
         );
     }
 
+    renderPriceLine(price) {
+        const { totals: { base_currency_code } } = this.props;
+        return `${formatCurrency(base_currency_code)}${parseFloat(price).toFixed(2)}`;
+    }
+
     renderTotals() {
         const {
             products,
@@ -73,32 +89,27 @@ class CartPage extends Component {
             }
         } = this.props;
         const isDisabled = !Object.keys(products).length;
-        const options = isDisabled
-            ? {
-                onClick: e => e.preventDefault(),
-                disabled: true
-            }
-            : {};
+        const props = isDisabled ? { onClick: e => e.preventDefault(), disabled: true } : {};
 
         return (
             <article block="CartPage" elem="Summary">
                 <h4 block="CartPage" elem="SummaryHeading">Summary</h4>
                 <dl block="CartPage" elem="TotalDetails" aria-label="Order total details">
                     <dt>Subtotal:</dt>
-                    <dd>{ `$${subtotal}` }</dd>
+                    <dd>{ this.renderPriceLine(subtotal) }</dd>
                     <dt>Tax:</dt>
-                    <dd>{ `$${tax_amount || 0}` }</dd>
+                    <dd>{ this.renderPriceLine(tax_amount) }</dd>
                 </dl>
                 <dl block="CartPage" elem="Total" aria-label="Complete order total">
                     <dt>Order total:</dt>
-                    <dd>{ `$${grand_total}` }</dd>
+                    <dd>{ this.renderPriceLine(grand_total) }</dd>
                 </dl>
                 <Link
                   block="CartPage"
                   elem="CheckoutButton"
                   mix={ { block: 'Button' } }
                   to="/checkout"
-                  { ...options }
+                  { ...props }
                 >
                     <span />
                     Secure checkout
@@ -170,15 +181,5 @@ class CartPage extends Component {
         );
     }
 }
-
-CartPage.propTypes = {
-    isEditing: PropTypes.bool.isRequired,
-    products: PropTypes.objectOf(ProductType),
-    totals: TotalsType.isRequired
-};
-
-CartPage.defaultProps = {
-    products: {}
-};
 
 export default CartPage;

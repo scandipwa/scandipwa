@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { ProductType } from 'Type/ProductList';
 import { RatingItemsType } from 'Type/Rating';
@@ -25,23 +25,28 @@ import './ProductReviewForm.style';
  * ProductReviewForm
  * @class ProductReviewForm
  */
-class ProductReviewForm extends PureComponent {
-    constructor(props) {
-        super(props);
+export default class ProductReviewForm extends PureComponent {
+    static propTypes = {
+        product: ProductType.isRequired,
+        addReview: PropTypes.func.isRequired,
+        showNotification: PropTypes.func.isRequired,
+        customer: customerType.isRequired,
+        isSignedIn: PropTypes.bool.isRequired,
+        reviewRatings: RatingItemsType.isRequired
+    };
 
-        this.ratingTitleMap = {
-            1: __('Awful'),
-            2: __('Bad'),
-            3: __('Average'),
-            4: __('Good'),
-            5: __('Awesome')
-        };
+    ratingTitleMap = {
+        1: __('Awful'),
+        2: __('Bad'),
+        3: __('Average'),
+        4: __('Good'),
+        5: __('Awesome')
+    };
 
-        this.state = {
-            isLoading: false,
-            ratingData: {}
-        };
-    }
+    state = {
+        isLoading: false,
+        ratingData: {}
+    };
 
     onReviewSubmitAttempt(_, invalidFields) {
         const { showNotification, reviewRatings } = this.props;
@@ -121,8 +126,7 @@ class ProductReviewForm extends PureComponent {
                     </legend>
                     { rating_options
                         .sort(({ value }, { value: nextValue }) => nextValue - value)
-                        .map(option => this.renderReviewStar(option, rating_id))
-                    }
+                        .map(option => this.renderReviewStar(option, rating_id)) }
                 </fieldset>
             );
         });
@@ -210,14 +214,3 @@ class ProductReviewForm extends PureComponent {
         );
     }
 }
-
-ProductReviewForm.propTypes = {
-    product: ProductType.isRequired,
-    addReview: PropTypes.func.isRequired,
-    showNotification: PropTypes.func.isRequired,
-    customer: customerType.isRequired,
-    isSignedIn: PropTypes.bool.isRequired,
-    reviewRatings: RatingItemsType.isRequired
-};
-
-export default ProductReviewForm;

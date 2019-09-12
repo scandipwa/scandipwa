@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import { getQueryParam } from 'Util/Url';
 import PropTypes from 'prop-types';
@@ -6,24 +6,22 @@ import { PagesType } from 'Type/ProductList';
 import CategoryProductList from './CategoryProductList.component';
 
 export class CategoryProductListContainer extends PureComponent {
-    constructor(props) {
-        super(props);
+    static propTypes = {
+        location: PropTypes.shape({
+            pathname: PropTypes.string.isRequired
+        }).isRequired,
+        pages: PagesType.isRequired,
+        loadPage: PropTypes.func.isRequired,
+        isLoading: PropTypes.bool.isRequired,
+        totalPages: PropTypes.number.isRequired
+    };
 
-        this.state = {
-            pagesCount: 1
-        };
+    state = { pagesCount: 1 };
 
-        this.containerFunctions = {
-            loadPrevPage: this.loadPage.bind(this, false),
-            loadPage: this.loadPage.bind(this)
-        };
-
-        this.containerProps = () => ({
-            currentPage: this._getPageFromUrl(),
-            isShowLoading: this._isShowLoading(),
-            isVisible: this._isVisible()
-        });
-    }
+    containerFunctions = {
+        loadPrevPage: this.loadPage.bind(this, false),
+        loadPage: this.loadPage.bind(this)
+    };
 
     componentDidMount() {
         const { pages } = this.props;
@@ -40,6 +38,12 @@ export class CategoryProductListContainer extends PureComponent {
         if (isLoading) return { pagesCount: 1 };
         return null;
     }
+
+    containerProps = () => ({
+        currentPage: this._getPageFromUrl(),
+        isShowLoading: this._isShowLoading(),
+        isVisible: this._isVisible()
+    });
 
     _getPageFromUrl() {
         const { location } = this.props;
@@ -93,15 +97,5 @@ export class CategoryProductListContainer extends PureComponent {
         );
     }
 }
-
-CategoryProductListContainer.propTypes = {
-    location: PropTypes.shape({
-        pathname: PropTypes.string.isRequired
-    }).isRequired,
-    pages: PagesType.isRequired,
-    loadPage: PropTypes.func.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-    totalPages: PropTypes.number.isRequired
-};
 
 export default withRouter(CategoryProductListContainer);

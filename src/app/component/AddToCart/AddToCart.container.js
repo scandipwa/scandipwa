@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { CartDispatcher } from 'Store/Cart';
@@ -31,19 +31,40 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 export class AddToCartContainer extends PureComponent {
-    constructor(props) {
-        super(props);
+    static propTypes = {
+        isLoading: PropTypes.bool,
+        product: ProductType.isRequired,
+        quantity: PropTypes.number,
+        configurableVariantIndex: PropTypes.number,
+        groupedProductQuantity: PropTypes.objectOf(PropTypes.number),
+        showNotification: PropTypes.func.isRequired,
+        setQuantityToDefault: PropTypes.func,
+        addProduct: PropTypes.func.isRequired,
+        productToBeRemovedAfterAdd: PropTypes.string,
+        removeProductFromWishlist: PropTypes.func.isRequired,
+        wishlistItems: PropTypes.objectOf(ProductType).isRequired,
+        removeWishlistItem: PropTypes.bool
+    };
 
-        this.state = { isLoading: false };
+    static defaultProps = {
+        quantity: 1,
+        configurableVariantIndex: 0,
+        groupedProductQuantity: {},
+        setQuantityToDefault: () => {},
+        productToBeRemovedAfterAdd: '',
+        removeWishlistItem: false,
+        isLoading: false
+    };
 
-        this.containerProps = () => ({
-            isDisabled: this._getIsDisabled()
-        });
+    state = { isLoading: false };
 
-        this.containerFunctions = {
-            buttonClick: this.buttonClick.bind(this)
-        };
-    }
+    containerFunctions = {
+        buttonClick: this.buttonClick.bind(this)
+    };
+
+    containerProps = () => ({
+        isDisabled: this._getIsDisabled()
+    });
 
     _getIsDisabled() {
         const {
@@ -137,30 +158,5 @@ export class AddToCartContainer extends PureComponent {
         );
     }
 }
-
-AddToCartContainer.propTypes = {
-    isLoading: PropTypes.bool,
-    product: ProductType.isRequired,
-    quantity: PropTypes.number,
-    configurableVariantIndex: PropTypes.number,
-    groupedProductQuantity: PropTypes.objectOf(PropTypes.number),
-    showNotification: PropTypes.func.isRequired,
-    setQuantityToDefault: PropTypes.func,
-    addProduct: PropTypes.func.isRequired,
-    productToBeRemovedAfterAdd: PropTypes.string,
-    removeProductFromWishlist: PropTypes.func.isRequired,
-    wishlistItems: PropTypes.objectOf(ProductType).isRequired,
-    removeWishlistItem: PropTypes.bool
-};
-
-AddToCartContainer.defaultProps = {
-    quantity: 1,
-    configurableVariantIndex: 0,
-    groupedProductQuantity: {},
-    setQuantityToDefault: () => {},
-    productToBeRemovedAfterAdd: '',
-    removeWishlistItem: false,
-    isLoading: false
-};
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddToCartContainer);

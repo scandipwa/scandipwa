@@ -11,18 +11,53 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent, Children } from 'react';
+import { PureComponent, Children, createRef } from 'react';
 import PropTypes from 'prop-types';
 import CSS from 'Util/CSS';
 import { MixType, ChildrenType } from 'Type/Common';
 import Draggable from 'Component/Draggable';
 import './Slider.style';
 
+export const ANIMATION_DURATION = 300;
+export const ACTIVE_SLIDE_PERCENT = 0.1;
+
 /**
  * Slider component
  * @class Slider
  */
-class Slider extends PureComponent {
+export default class Slider extends PureComponent {
+    static propTypes = {
+        showCrumbs: PropTypes.bool,
+        activeImage: PropTypes.number,
+        onActiveImageChange: PropTypes.func,
+        mix: MixType,
+        children: ChildrenType.isRequired
+    };
+
+    static defaultProps = {
+        activeImage: 0,
+        onActiveImageChange: () => {},
+        showCrumbs: false,
+        mix: {}
+    };
+
+    sliderWidth = 0;
+
+    prevPosition = 0;
+
+    draggableRef = createRef();
+
+    sliderRef = createRef();
+
+    handleDragStart = this.handleDragStart.bind(this);
+
+    handleDrag = this.handleDrag.bind(this);
+
+    handleDragEnd = this.handleDragEnd.bind(this);
+
+    renderCrumb = this.renderCrumb.bind(this);
+
+
     constructor(props) {
         super(props);
 
@@ -31,15 +66,6 @@ class Slider extends PureComponent {
         this.state = {
             prevActiveImage: activeImage
         };
-
-        this.sliderWidth = 0;
-        this.prevPosition = 0;
-        this.draggableRef = React.createRef();
-        this.sliderRef = React.createRef();
-        this.handleDragStart = this.handleDragStart.bind(this);
-        this.handleDrag = this.handleDrag.bind(this);
-        this.handleDragEnd = this.handleDragEnd.bind(this);
-        this.renderCrumb = this.renderCrumb.bind(this);
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -64,7 +90,7 @@ class Slider extends PureComponent {
 
         setTimeout(() => {
             CSS.setVariable(this.sliderRef, 'slider-height', `${sliderChildren[0].offsetHeight}px`);
-        }, 300);
+        }, ANIMATION_DURATION);
     }
 
     componentDidUpdate(prevProps) {
@@ -77,7 +103,7 @@ class Slider extends PureComponent {
             CSS.setVariable(
                 this.draggableRef,
                 'animation-speed',
-                `${ Math.abs((prevActiveImage - activeImage) * 300) }ms`
+                `${ Math.abs((prevActiveImage - activeImage) * ANIMATION_DURATION) }ms`
             );
 
             CSS.setVariable(
@@ -148,13 +174,13 @@ class Slider extends PureComponent {
             return activeSlide;
         }
 
-        if (isSlideBack && activeSlidePercent < 0.90) {
+        if (isSlideBack && activeSlidePercent < 1 - ACTIVE_SLIDE_PERCENT) {
             const activeSlide = Math.ceil(activeSlidePosition);
             onActiveImageChange(-activeSlide);
             return activeSlide;
         }
 
-        if (!isSlideBack && activeSlidePercent > 0.10) {
+        if (!isSlideBack && activeSlidePercent > ACTIVE_SLIDE_PERCENT) {
             const activeSlide = Math.floor(activeSlidePosition);
             onActiveImageChange(-activeSlide);
             return activeSlide;
@@ -270,20 +296,3 @@ class Slider extends PureComponent {
         );
     }
 }
-
-Slider.propTypes = {
-    showCrumbs: PropTypes.bool,
-    activeImage: PropTypes.number,
-    onActiveImageChange: PropTypes.func,
-    mix: MixType,
-    children: ChildrenType.isRequired
-};
-
-Slider.defaultProps = {
-    activeImage: 0,
-    onActiveImageChange: () => {},
-    showCrumbs: false,
-    mix: {}
-};
-
-export default Slider;

@@ -9,21 +9,39 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import ContentWrapper from 'Component/ContentWrapper';
 import ProductCard from 'Component/ProductCard';
 import PropTypes from 'prop-types';
 import { ItemsType } from 'Type/ProductList';
 import './RelatedProducts.style';
 
+export const MAX_NUMBER_OF_PRODUCTS_TO_RENDER = 4;
+
 /**
  * Related products block
  * @class RelatedProducts
  */
-class RelatedProducts extends PureComponent {
-    constructor(props) {
-        super(props);
+export default class RelatedProducts extends PureComponent {
+    static propTypes = {
+        relatedProducts: PropTypes.shape({
+            items: ItemsType,
+            total_count: PropTypes.number
+        }).isRequired,
+        product: PropTypes.shape({
+            items: ItemsType,
+            total_count: PropTypes.number
+        }).isRequired,
+        clearRelatedProducts: PropTypes.func.isRequired,
+        areDetailsLoaded: PropTypes.bool.isRequired,
+        label: PropTypes.string
+    };
 
+    static defaultProps = {
+        label: ''
+    };
+
+    componentDidMount() {
         this.clearRelatedProducts();
     }
 
@@ -48,7 +66,7 @@ class RelatedProducts extends PureComponent {
     }
 
     renderProducts(products) {
-        return products.slice(0, 4).map(product => (
+        return products.slice(0, MAX_NUMBER_OF_PRODUCTS_TO_RENDER).map(product => (
             <ProductCard
               product={ product }
               key={ product.id }
@@ -97,24 +115,3 @@ class RelatedProducts extends PureComponent {
         );
     }
 }
-
-RelatedProducts.propTypes = {
-    relatedProducts: PropTypes.shape({
-        items: ItemsType,
-        total_count: PropTypes.number
-    }).isRequired,
-    product: PropTypes.shape({
-        items: ItemsType,
-        total_count: PropTypes.number
-    }).isRequired,
-    clearRelatedProducts: PropTypes.func.isRequired,
-    areDetailsLoaded: PropTypes.bool.isRequired,
-    label: PropTypes.string
-};
-
-RelatedProducts.defaultProps = {
-    label: ''
-};
-
-
-export default RelatedProducts;

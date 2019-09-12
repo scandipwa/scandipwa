@@ -11,12 +11,27 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { MixType, ChildrenType } from 'Type/Common';
 import './Overlay.style';
 
-class Overlay extends PureComponent {
+export default class Overlay extends PureComponent {
+    static propTypes = {
+        mix: MixType,
+        id: PropTypes.string.isRequired,
+        onVisible: PropTypes.func,
+        activeOverlay: PropTypes.string.isRequired,
+        areOtherOverlaysOpen: PropTypes.bool.isRequired,
+        children: ChildrenType
+    };
+
+    static defaultProps = {
+        mix: {},
+        children: [],
+        onVisible: () => {}
+    };
+
     componentDidUpdate(prevProps) {
         const { onVisible } = this.props;
 
@@ -46,20 +61,3 @@ class Overlay extends PureComponent {
         );
     }
 }
-
-Overlay.propTypes = {
-    mix: MixType,
-    id: PropTypes.string.isRequired,
-    onVisible: PropTypes.func,
-    activeOverlay: PropTypes.string.isRequired,
-    areOtherOverlaysOpen: PropTypes.bool.isRequired,
-    children: ChildrenType
-};
-
-Overlay.defaultProps = {
-    mix: {},
-    children: [],
-    onVisible: () => {}
-};
-
-export default Overlay;

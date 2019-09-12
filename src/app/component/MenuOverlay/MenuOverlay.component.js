@@ -10,7 +10,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Link from 'Component/Link';
 import Image from 'Component/Image';
@@ -21,16 +21,18 @@ import { BlockListType } from 'Type/CMS';
 import { MenuType } from 'Type/Menu';
 import './MenuOverlay.style';
 
-class MenuOverlay extends PureComponent {
-    constructor(props) {
-        super(props);
+export default class MenuOverlay extends PureComponent {
+    static propTypes = {
+        blocks: BlockListType.isRequired,
+        menu: MenuType.isRequired,
+        hideActiveOverlay: PropTypes.func.isRequired,
+        goToPreviousHeaderState: PropTypes.func.isRequired,
+        changeHeaderState: PropTypes.func.isRequired
+    };
 
-        this.state = {
-            activeMenuItemsStack: []
-        };
+    state = { activeMenuItemsStack: [] };
 
-        this.closeMenuOverlay = this.closeMenuOverlay.bind(this);
-    }
+    closeMenuOverlay = this.closeMenuOverlay.bind(this);
 
     getItemContent(id) {
         const { blocks: { items } } = this.props;
@@ -69,13 +71,9 @@ class MenuOverlay extends PureComponent {
         hideActiveOverlay();
     }
 
-    renderItemContent(item, itemMods = {}) {
+    renderItemContent(item, mods = {}) {
         const { title, icon, item_class } = item;
-
-        if (item_class === 'MenuOverlay-ItemFigure_type_banner') {
-            // eslint-disable-next-line no-param-reassign
-            itemMods = { type: 'banner' };
-        }
+        const itemMods = item_class === 'MenuOverlay-ItemFigure_type_banner' ? { type: 'banner' } : mods;
 
         return (
             <figure block="MenuOverlay" elem="ItemFigure" mods={ itemMods }>
@@ -167,8 +165,7 @@ class MenuOverlay extends PureComponent {
                             >
                                 { this.renderItemContent(item, itemMods) }
                             </Link>
-                        )
-                    }
+                        ) }
                 </li>
             );
         });
@@ -255,13 +252,3 @@ class MenuOverlay extends PureComponent {
         );
     }
 }
-
-MenuOverlay.propTypes = {
-    blocks: BlockListType.isRequired,
-    menu: MenuType.isRequired,
-    hideActiveOverlay: PropTypes.func.isRequired,
-    goToPreviousHeaderState: PropTypes.func.isRequired,
-    changeHeaderState: PropTypes.func.isRequired
-};
-
-export default MenuOverlay;

@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { SliderType } from 'Type/Slider';
 import HomeSlider from './HomeSlider.component';
@@ -19,13 +19,17 @@ export const mapStateToProps = state => ({
 });
 
 export class HomeSliderContainer extends PureComponent {
-    constructor(props) {
-        super(props);
+    static propTypes = {
+        slider: SliderType
+    };
 
-        this.containerProps = () => ({
-            gallery: this._getGalleryPictures()
-        });
-    }
+    static defaultProps = {
+        slider: {}
+    };
+
+    containerProps = () => ({
+        gallery: this._getGalleryPictures()
+    });
 
     _getGalleryPictures() {
         const { slider } = this.props;
@@ -44,13 +48,5 @@ export class HomeSliderContainer extends PureComponent {
         );
     }
 }
-
-HomeSliderContainer.propTypes = {
-    slider: SliderType
-};
-
-HomeSliderContainer.defaultProps = {
-    slider: {}
-};
 
 export default connect(mapStateToProps)(HomeSliderContainer);
