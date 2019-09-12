@@ -37,7 +37,7 @@ export default class ProductActions extends PureComponent {
         areDetailsLoaded: PropTypes.bool.isRequired,
         getLink: PropTypes.func.isRequired,
         setQuantity: PropTypes.func.isRequired,
-        updateUrl: PropTypes.func.isRequired,
+        updateConfigurableVariant: PropTypes.func.isRequired,
         parameters: PropTypes.objectOf(PropTypes.string).isRequired
     };
 
@@ -72,7 +72,7 @@ export default class ProductActions extends PureComponent {
     renderConfigurableAttributes() {
         const {
             getLink,
-            updateUrl,
+            updateConfigurableVariant,
             parameters,
             areDetailsLoaded,
             product: { configurable_options, type_id }
@@ -88,7 +88,7 @@ export default class ProductActions extends PureComponent {
               isReady={ areDetailsLoaded }
               getLink={ getLink }
               parameters={ parameters }
-              updateConfigurableVariant={ updateUrl }
+              updateConfigurableVariant={ updateConfigurableVariant }
               configurable_options={ configurable_options }
               isContentExpanded
             />
