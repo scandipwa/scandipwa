@@ -13,10 +13,10 @@
     ],
     "require": {
         "magento/magento2-base": "2.3.2",
-        "scandipwa/menu-organizer": "^1.0",
+        "scandipwa/menu-organizer": "^1.1.1",
         "scandipwa/persisted-query": "^2.0",
         "scandipwa/slider-graphql": "^1.0",
-        "scandipwa/cms-graphql": "^1.0",
+        "scandipwa/cms-graphql": "^1.2.1",
         "scandipwa/catalog-graphql": "^2.0",
         "scandipwa/route717": "^1.0",
         "scandipwa/customer-graph-ql": "^2.0",

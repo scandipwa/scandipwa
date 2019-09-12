@@ -9,4 +9,20 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default } from './HomeSlider.container';
+:root {
+    --homepage-jeans-background: #f8f8f8;
+}
+
+.homage-jeans-preview {
+    padding: 2rem 4rem;
+    background: var(--homepage-jeans-background);
+    margin: 2rem 0 1rem;
+
+    @include mobile {
+        padding: 2rem 1rem;
+    }
+
+    h2 {
+        margin: 0;
+    }
+}

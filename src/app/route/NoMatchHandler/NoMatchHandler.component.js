@@ -15,7 +15,7 @@ import NoMatch from 'Route/NoMatch';
 import { LocationType } from 'Type/Router';
 import { ChildrenType } from 'Type/Common';
 
-class NoMatchHandler extends Component {
+export default class NoMatchHandler extends Component {
     static propTypes = {
         children: ChildrenType.isRequired,
         noMatch: PropTypes.bool.isRequired,
@@ -35,7 +35,12 @@ class NoMatchHandler extends Component {
             // 'window.scrollTo' is used to set correct scroll position for newly opened page. Previously we passed (0,0)
             // It caused scroll issue in Firefox, when navigating back from ProductPage to CategoryPage
             // Not calling 'window.scrollTo' did not help, but passing dummy value for 'y' seems to fix it
-            window.scrollTo(0, 1);
+            if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+                window.scrollTo(0, 1);
+            } else {
+                window.scrollTo(0, 0);
+            }
+
             this.onRouteChanged();
         }
     }
@@ -61,5 +66,3 @@ class NoMatchHandler extends Component {
         return children;
     }
 }
-
-export default NoMatchHandler;

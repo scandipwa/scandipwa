@@ -14,8 +14,12 @@
         border-top: 1px solid var(--overlay-divider-color);
     }
 
+    &_isBreadcrumbsHidden {
+        margin-top: var(--header-height);
+    }
+
     &-Wrapper {
-        margin-top: 1.8rem;
+        margin-top: 1rem;
         margin-bottom: 1.8rem;
         grid-template-columns: auto;
     }
@@ -25,6 +29,26 @@
 
         @include mobile {
             display: none;
+        }
+    }
+
+    &-SectionPlaceholder {
+        background-image: var(--placeholder-image);
+        background-size: var(--placeholder-size);
+        animation: var(--placeholder-animation);
+        margin: 0 0 10px;
+        padding-bottom: 30%;
+
+        @include mobile {
+            padding-bottom: 60%;
+        }
+
+        &:first-child {
+            padding-bottom: 40%;
+
+            @include mobile {
+                padding-bottom: 100%;
+            }
         }
     }
 

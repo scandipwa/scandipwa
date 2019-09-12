@@ -21,7 +21,7 @@ import { ProductType } from 'Type/ProductList';
 import RelatedProducts from 'Component/RelatedProducts';
 import './ProductPage.style';
 
-class ProductPage extends Component {
+export default class ProductPage extends Component {
     static propTypes = {
         configurableVariantIndex: PropTypes.number.isRequired,
         productOrVariant: ProductType.isRequired,
@@ -100,5 +100,3 @@ class ProductPage extends Component {
         );
     }
 }
-
-export default ProductPage;

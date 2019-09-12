@@ -1,0 +1,59 @@
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import Link from 'Component/Link';
+import ContentWrapper from 'Component/ContentWrapper';
+import './SomethingWentWrong.style';
+
+class SomethingWentWrong extends PureComponent {
+    static propTypes = {
+        onClick: PropTypes.func.isRequired,
+        errorDetails: PropTypes.shape({
+            err: PropTypes.shape({
+
+            }),
+            info: PropTypes.shape({
+                componentStack: PropTypes.string
+            })
+        }).isRequired
+    };
+
+    renderErrorDetails() {
+        const { errorDetails: { err, info: { componentStack } = {} } } = this.props;
+
+        if (process.env.NODE_ENV === 'production') return null;
+
+        return (
+            <>
+                <div block="SomethingWentWrong" elem="Debug">
+                    { err.toString() }
+                    { componentStack }
+                </div>
+            </>
+        );
+    }
+
+    render() {
+        const { onClick } = this.props;
+
+        return (
+            <main block="SomethingWentWrong">
+                <ContentWrapper label="Something went wrong on the page.">
+                    <h1 block="SomethingWentWrong" elem="Heading">{ __('Ooops!') }</h1>
+                    <h2 block="SomethingWentWrong" elem="SubHeading">{ __('Something went wrong!') }</h2>
+                    <Link
+                      to="/"
+                      block="SomethingWentWrong"
+                      elem="Button"
+                      mix={ { block: 'Button' } }
+                      onClick={ onClick }
+                    >
+                        { __('Back to homepage') }
+                    </Link>
+                    { this.renderErrorDetails() }
+                </ContentWrapper>
+            </main>
+        );
+    }
+}
+
+export default SomethingWentWrong;

@@ -224,6 +224,7 @@
 }
 
 @mixin clear-search-button {
+    @include close-button;
 
     border-radius: 50%;
     background-color: var(--header-search-clear-background);
@@ -241,7 +242,6 @@
         left: 7px;
         background-color: var(--header-background);
     }
-    @include close-button;
 }
 
 @mixin edit-button {

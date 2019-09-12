@@ -23,11 +23,11 @@ export class CmsPageDispatcher extends QueryDispatcher {
         super('CmsPage');
     }
 
-    onSuccess(data, dispatch) {
-        dispatch(updateCmsPage(data.cmsPage));
+    onSuccess({ cmsPage }, dispatch) {
+        dispatch(updateCmsPage(cmsPage, false));
     }
 
-    onError(error, dispatch) {
+    onError(_, dispatch) {
         dispatch(updateNoMatch(true));
     }
 
@@ -38,7 +38,7 @@ export class CmsPageDispatcher extends QueryDispatcher {
      * @memberof CmsPageDispatcher
      */
     prepareRequest(options, dispatch) {
-        dispatch(updateCmsPage({}));
+        dispatch(updateCmsPage({}, true));
         return CmsPageQuery.getQuery(options);
     }
 }

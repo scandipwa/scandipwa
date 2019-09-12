@@ -19,13 +19,19 @@ import { getIndexedProducts } from 'Util/Product';
 export const initialState = {
     pages: {},
     totalItems: 0,
+    totalPages: 0,
     isLoading: true
+};
+
+export const defaultConfig = {
+    itemsPerPageCount: 12
 };
 
 const ProductListReducer = (state = initialState, action) => {
     const {
         type,
         items: initialItems = [],
+        total_pages: totalPages,
         total_count: totalItems,
         currentPage,
         isLoading
@@ -46,6 +52,7 @@ const ProductListReducer = (state = initialState, action) => {
             ...state,
             isLoading: false,
             totalItems,
+            totalPages,
             pages: { [currentPage]: getIndexedProducts(initialItems) }
         };
 
