@@ -14,7 +14,7 @@
     --cart-item-subheading-color: #888;
     --cart-item-option-color: #adadad;
     --cart-item-background: #fff;
-    --cart-item-actions-background: #f8f8f8;
+    --cart-item-actions-background: #{$concrete};
     --cart-item-action-border: #d8d8d8;
     --cart-item-actions-color: #000;
     --cart-item-divider-color: var(--expandable-content-divider-color);

@@ -10,7 +10,7 @@
  */
 
 :root {
-    --image-default-background: #f8f8f8;
+    --image-default-background: #{$concrete};
     --image-content-color: #{$black};
 }
 

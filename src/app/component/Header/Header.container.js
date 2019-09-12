@@ -84,6 +84,7 @@ export class HeaderContainer extends PureComponent {
     routeMap = {
         '/': { name: HOME_PAGE },
         '/category': { name: CATEGORY, onBackClick: () => history.push('/') },
+        '/my-account': { name: CUSTOMER_ACCOUNT, onBackClick: () => history.push('/') },
         '/product': { name: PDP, onBackClick: () => history.goBack() },
         '/cart': { name: CART },
         '/page': { name: CMS_PAGE, onBackClick: () => history.goBack() }
@@ -108,7 +109,9 @@ export class HeaderContainer extends PureComponent {
         onMinicartOutsideClick: this.onMinicartOutsideClick.bind(this)
     };
 
-    componentDidMount() {
+    constructor(props) {
+        super(props);
+
         this.onRouteChanged(history.location, true);
         history.listen(history => this.onRouteChanged(history));
     }
@@ -244,8 +247,8 @@ export class HeaderContainer extends PureComponent {
             showOverlay, setHeaderState, headerState: { name }
         } = this.props;
 
-        if (isSignedIn() && isMobile.any()) {
-            history.push({ pathname: '/my-account', state: 'accountOverview' });
+        if (isSignedIn()) {
+            history.push({ pathname: '/my-account/dashboard' });
             return;
         }
 

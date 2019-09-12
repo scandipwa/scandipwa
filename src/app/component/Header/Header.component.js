@@ -93,7 +93,7 @@ export default class Header extends PureComponent {
             minicart: true
         },
         [CUSTOMER_ACCOUNT]: {
-            close: true,
+            back: true,
             title: true
         },
         [HOME_PAGE]: {

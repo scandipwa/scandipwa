@@ -48,3 +48,22 @@ export const customerType = PropTypes.shape({
     suffix: PropTypes.string,
     taxvat: PropTypes.string
 });
+
+export const DASHBOARD = 'dashboard';
+export const MY_ORDERS = 'my-orders';
+export const MY_WISHLIST = 'my-wishlist';
+export const ADDRESS_BOOK = 'address-book';
+
+export const activeTabType = PropTypes.oneOf([
+    DASHBOARD,
+    MY_ORDERS,
+    MY_WISHLIST,
+    ADDRESS_BOOK
+]);
+
+export const tabType = PropTypes.shape({
+    url: PropTypes.string,
+    name: PropTypes.string
+});
+
+export const tabMapType = PropTypes.objectOf(tabType);

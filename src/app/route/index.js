@@ -24,8 +24,9 @@ import ProductPage from 'Route/ProductPage';
 import CmsPage from 'Route/CmsPage';
 import CartPage from 'Route/CartPage';
 import CheckoutPage from 'Route/CheckoutPage';
-import MyAccountDetails from 'Route/MyAccountDetails';
-import MyAccountWishlist from 'Route/MyAccountWishlist';
+// import MyAccountDetails from 'Route/MyAccountDetails';
+// import MyAccountWishlist from 'Route/MyAccountWishlist';
+import MyAccount from 'Route/MyAccount';
 import PasswordChangePage from 'Route/PasswordChangePage';
 import NoMatchHandler from 'Route/NoMatchHandler';
 import UrlRewrites from 'Route/UrlRewrites';
@@ -99,13 +100,17 @@ class AppRouter extends PureComponent {
             position: 60
         },
         {
-            component: <Route path="/my-account/" exact component={ MyAccountDetails } />,
+            component: <Route path="/my-account/:tab?" component={ MyAccount } />,
             position: 70
         },
-        {
-            component: <Route path="/wishlist/" exact component={ MyAccountWishlist } />,
-            position: 90
-        },
+        // {
+        //     component: <Route path="/my-account/:tab" exact component={ MyAccount } />,
+        //     position: 70
+        // },
+        // {
+        //     component: <Route path="/wishlist/" exact component={ MyAccountWishlist } />,
+        //     position: 90
+        // },
         {
             component: <Route component={ UrlRewrites } />,
             position: 1000
@@ -164,7 +169,7 @@ class AppRouter extends PureComponent {
     }
 
     dispatchActions() {
-        WishlistDispatcher.updateInitialWishlistData(Store.dispatch);
+        // WishlistDispatcher.updateInitialWishlistData(Store.dispatch);
         CartDispatcher.updateInitialCartData(Store.dispatch);
         ConfigDispatcher.handleData(Store.dispatch);
         HeaderAndFooterDispatcher.handleData(Store.dispatch, this.getHeaderAndFooterOptions());

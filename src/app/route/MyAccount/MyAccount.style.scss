@@ -1,0 +1,36 @@
+:root {
+    --my-account-content-background: #{$white};
+
+    @include after-mobile {
+        --my-account-background: #{$concrete};
+    }
+}
+
+.MyAccount {
+    background: var(--my-account-background);
+
+    &-Wrapper {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        grid-template-rows: auto 1fr;
+        grid-column-gap: 2rem;
+        grid-row-gap: 0;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+
+        @include mobile {
+            padding: 0;
+            grid-template-columns: 1fr;
+        }
+    }
+
+    &-TabContent {
+        background: var(--my-account-content-background);
+        padding: 2rem;
+        min-height: calc(100vh - var(--header-height) - var(--footer-height) - var(--breadcrumbs-height) - 2rem);
+
+        @include after-mobile {
+            grid-row: span 2;
+        }
+    }
+}
