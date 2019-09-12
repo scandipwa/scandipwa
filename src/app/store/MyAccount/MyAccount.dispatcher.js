@@ -29,14 +29,15 @@ import BrowserDatabase from 'Util/BrowserDatabase';
 
 export const CUSTOMER = 'customer';
 
+const ONE_MONTH_IN_SECONDS = 2628000;
+
 /**
  * My account actions
  * @class MyAccount
  */
 export class MyAccountDispatcher {
-    requestCustomerData(options, dispatch) {
-        const { withAddresses } = options;
-        const query = MyAccountQuery.getCustomerQuery(withAddresses);
+    requestCustomerData(dispatch) {
+        const query = MyAccountQuery.getCustomerQuery();
 
         const customer = BrowserDatabase.getItem(CUSTOMER) || {};
         if (customer.id) dispatch(updateCustomerDetails(customer));
@@ -44,7 +45,7 @@ export class MyAccountDispatcher {
         executePost(prepareQuery([query])).then(
             ({ customer }) => {
                 dispatch(updateCustomerDetails(customer));
-                BrowserDatabase.setItem(customer, CUSTOMER, 2628000);
+                BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS);
             },
             error => dispatch(showNotification('error', error[0].message))
         );
@@ -54,7 +55,7 @@ export class MyAccountDispatcher {
         const mutation = MyAccountQuery.getUpdateInformationMutation(options);
         return fetchMutation(mutation).then(
             ({ updateCustomer: { customer } }) => {
-                BrowserDatabase.setItem(customer, CUSTOMER, 2628000);
+                BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS);
                 dispatch(updateCustomerDetails(customer));
             },
             error => dispatch(showNotification('error', error[0].message))

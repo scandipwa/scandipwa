@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import MyAccountDashboard from './MyAccountDashboard.component';
 
 export const mapStateToProps = state => ({
-    // wishlistItems: state.WishlistReducer.productsInWishlist
+    customer: state.MyAccountReducer.customer
 });
 
 export const mapDispatchToProps = dispatch => ({

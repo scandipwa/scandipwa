@@ -36,7 +36,6 @@ const mapDispatchToProps = dispatch => ({
     },
     toggleBreadcrumbs: () => dispatch(toggleBreadcrumbs(false)),
     setHeaderState: stateName => dispatch(changeHeaderState(stateName)),
-    requestCustomerData: options => MyAccountDispatcher.requestCustomerData(options, dispatch),
     showNotification: (type, message) => dispatch(showNotification(type, message))
 });
 

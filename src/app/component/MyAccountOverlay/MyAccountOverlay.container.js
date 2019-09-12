@@ -40,7 +40,6 @@ export const mapDispatchToProps = dispatch => ({
     forgotPassword: options => MyAccountDispatcher.forgotPassword(options, dispatch),
     createAccount: options => MyAccountDispatcher.createAccount(options, dispatch),
     signIn: options => MyAccountDispatcher.signIn(options, dispatch),
-    requestCustomerData: options => MyAccountDispatcher.handleData(dispatch, options),
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     setHeaderState: headerState => dispatch(changeHeaderState(headerState))

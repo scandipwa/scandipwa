@@ -2,6 +2,7 @@ import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import { MyAccountDispatcher } from 'Store/MyAccount';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import { CUSTOMER_ACCOUNT } from 'Component/Header';
 import { changeHeaderState } from 'Store/Header';
@@ -20,18 +21,18 @@ export const MY_ACCOUNT_URL = '/my-account';
 
 export const mapStateToProps = state => ({
     isSignedIn: state.MyAccountReducer.isSignedIn
-    // wishlistItems: state.WishlistReducer.productsInWishlist
 });
 
 export const mapDispatchToProps = dispatch => ({
     updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.update(breadcrumbs, dispatch),
-    changeHeaderState: state => dispatch(changeHeaderState(state))
-    // addProduct: options => CartDispatcher.addProductToCart(dispatch, options)
+    changeHeaderState: state => dispatch(changeHeaderState(state)),
+    requestCustomerData: () => MyAccountDispatcher.requestCustomerData(dispatch)
 });
 
 export class MyAccountContainer extends PureComponent {
     static propTypes = {
         changeHeaderState: PropTypes.func.isRequired,
+        requestCustomerData: PropTypes.func.isRequired,
         updateBreadcrumbs: PropTypes.func.isRequired,
         isSignedIn: PropTypes.bool.isRequired,
         match: MatchType.isRequired
@@ -69,7 +70,8 @@ export class MyAccountContainer extends PureComponent {
                     tab: activeTab = DASHBOARD
                 } = {}
             } = {},
-            changeHeaderState
+            changeHeaderState,
+            requestCustomerData
         } = props;
 
         this.state = { activeTab };
@@ -79,6 +81,8 @@ export class MyAccountContainer extends PureComponent {
             name: CUSTOMER_ACCOUNT,
             onBackClick: () => history.push('/')
         });
+
+        requestCustomerData();
 
         this.updateBreadcrumbs();
         this.redirectIfNotSignedIn();

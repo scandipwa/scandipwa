@@ -38,7 +38,6 @@ class CheckoutPage extends Component {
         saveAddressInformation: PropTypes.func.isRequired,
         removeCartAndObtainNewGuest: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
-        requestCustomerData: PropTypes.func.isRequired,
         toggleBreadcrumbs: PropTypes.func.isRequired,
         setHeaderState: PropTypes.func.isRequired,
         isSignedIn: PropTypes.bool.isRequired,
@@ -165,17 +164,6 @@ class CheckoutPage extends Component {
             title: this.headerTitleMap[checkoutStep],
             onBackClick: () => history.push('/')
         });
-    }
-
-    requestCustomerData() {
-        const { requestCustomerData } = this.props;
-        const options = {
-            withAddresses: true
-        };
-
-        this.setState({ addressesAreChecked: false });
-
-        return requestCustomerData(options);
     }
 
     saveAddressInformation({ addressInformation }) {

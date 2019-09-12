@@ -10,15 +10,7 @@
  */
 
 table {
-    --table-color: #{$primary-base-color};
-    --table-secondary-color: #{transparentize($primary-base-color, .4)};
-    border: 1px solid var(--table-color);
-
-    td,
-    th {
-        min-width: 10rem;
-        padding: .35rem;
-    }
+    --table-secondary-color: #{transparentize($concrete, .4)};
 
     tr {
         &:nth-child(even) {
@@ -26,17 +18,22 @@ table {
         }
     }
 
-    td {
+    td,
+    th {
         font-size: 1rem;
+        text-align: center;
+        padding: 10px;
+
+        @include after-mobile {
+            min-width: 10rem;
+        }
 
         &:last-child {
             text-align: right;
         }
-    }
 
-    th {
-        font-size: 1.35rem;
-        color: $white;
-        background-color: var(--table-color);
+        &:first-child {
+            text-align: left;
+        }
     }
 }
