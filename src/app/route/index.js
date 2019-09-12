@@ -10,7 +10,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import { PureComponent, cloneElement } from 'react';
 
 import { Route, Switch } from 'react-router-dom';
 import { Router } from 'react-router';
@@ -119,12 +119,13 @@ class AppRouter extends PureComponent {
         }
     ];
 
+    state = {
+        hasError: false,
+        errorDetails: {}
+    };
+
     constructor(props) {
         super(props);
-
-        this.state = {
-            hasError: false
-        };
 
         this.dispatchActions();
     }
@@ -167,7 +168,7 @@ class AppRouter extends PureComponent {
 
     renderItemsOfType(type) {
         return Object.entries(this.getSortedItems(type)).map(
-            ([key, component]) => React.cloneElement(component, { key })
+            ([key, component]) => cloneElement(component, { key })
         );
     }
 

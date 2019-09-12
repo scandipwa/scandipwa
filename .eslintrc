@@ -1,6 +1,7 @@
 {
   "extends": [
-    "airbnb"
+    "airbnb",
+    "plugin:array-func/recommended"
   ],
   "env": {
     "browser": true
@@ -19,9 +20,16 @@
   "plugins": [
     "react",
     "import",
-    "jest"
+    "jest",
+    "babel",
+    "fp"
   ],
   "rules": {
+    "fp/no-let": "error",
+    "fp/no-arguments": "error",
+    "fp/no-loops": "error",
+    "fp/no-delete": "error",
+    "no-var": "error",
     "css-rcurlyexpected": 0,
     "no-restricted-globals": ["error", "isFinite", "isNaN"],
     "max-len": [2, {
@@ -43,7 +51,8 @@
     "import/no-unresolved": 0,
     "import/named": 0,
     "no-plusplus": 0,
-    "react/jsx-curly-spacing": [2, {"when": "always", "allowMultiline": false} ],
+    "react/react-in-jsx-scope": 0,
+    "react/jsx-curly-spacing": [2, {"when": "always", "allowMultiline": false, "children": true} ],
     "import/no-named-as-default": 0,
     "import/no-named-as-default-member": 0,
     "react/jsx-filename-extension": 0,
@@ -51,6 +60,21 @@
     "react/button-has-type": 0,
     "react/jsx-indent": 0,
     "react/jsx-indent-props": 2,
+    "react/jsx-no-bind": [2, {
+        "ignoreDOMComponents": false,
+        "ignoreRefs": false,
+        "allowArrowFunctions": false,
+        "allowFunctions": false,
+        "allowBind": false
+    }],
+    "react/forbid-prop-types": [2, {"forbid": ["className"]}],
+    "react/forbid-component-props": [2, {"forbid": ["className"]}],
+    "react/forbid-dom-props": [2, {"forbid": ["className"]}],
+    "react/no-deprecated": 2,
+    "babel/semi": 1,
+    "new-cap": ["error", { "newIsCap": true }],
+    "no-param-reassign": ["error", { "props": true, "ignorePropertyModificationsFor": ["acc", "sum"] }],
+    "no-magic-numbers": ["error", { "ignore": [1, 0, 2, -1] }],
     "indent": [
       "error",
       4,
@@ -63,6 +87,21 @@
       "never"
     ],
     "no-case-declarations": "off",
-    "jsx-a11y/label-has-for": 0
+    "jsx-a11y/label-has-for": 0,
+    "padding-line-between-statements": [
+        "error",
+        { "blankLine": "always", "prev": ["const", "let", "var"], "next": "*" },
+        { "blankLine": "any", "prev": ["const", "let", "var"], "next": ["const", "let", "var"] },
+        { "blankLine": "always", "prev": ["block", "block-like", "multiline-block-like", "multiline-expression", "multiline-const", "multiline-let", "multiline-var"], "next": "return" },
+        { "blankLine": "any", "prev": ["singleline-const", "singleline-let", "singleline-var"], "next": "*" }
+    ],
+    "prefer-destructuring": ["error", {
+        "array": false,
+        "object": true
+    }, {
+        "enforceForRenamedProperties": false
+    }],
+    "lines-between-class-members": ["error", "always"],
+    "no-extra-semi": "error"
   }
 }

@@ -11,7 +11,7 @@
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import { ProductType } from 'Type/ProductList';
 import { CartDispatcher } from 'Store/Cart';
 import { convertKeyValueObjectToQueryString } from 'Util/Url';
@@ -24,21 +24,23 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 export class CartItemContainer extends PureComponent {
-    constructor(props) {
-        super(props);
+    static propTypes = {
+        product: ProductType.isRequired,
+        addProduct: PropTypes.func.isRequired,
+        removeProduct: PropTypes.func.isRequired
+    };
 
-        this.state = { isLoading: false };
+    state = { isLoading: false };
 
-        this.containerFunctions = {
-            handleQtyChange: this.handleQtyChange.bind(this),
-            handleRemoveItem: this.handleRemoveItem.bind(this)
-        };
+    containerFunctions = {
+        handleQtyChange: this.handleQtyChange.bind(this),
+        handleRemoveItem: this.handleRemoveItem.bind(this)
+    };
 
-        this.containerProps = () => ({
-            thumbnail: this._getProductThumbnail(),
-            linkTo: this._getProductLinkTo()
-        });
-    }
+    containerProps = () => ({
+        thumbnail: this._getProductThumbnail(),
+        linkTo: this._getProductLinkTo()
+    });
 
     handleQtyChange(value) {
         const { addProduct, product, product: { quantity } } = this.props;
@@ -119,11 +121,5 @@ export class CartItemContainer extends PureComponent {
         );
     }
 }
-
-CartItemContainer.propTypes = {
-    product: ProductType.isRequired,
-    addProduct: PropTypes.func.isRequired,
-    removeProduct: PropTypes.func.isRequired
-};
 
 export default connect(null, mapDispatchToProps)(CartItemContainer);

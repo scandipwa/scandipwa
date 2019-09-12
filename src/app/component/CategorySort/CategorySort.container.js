@@ -1,14 +1,44 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import CategorySort from './CategorySort.component';
 
 export class CategorySortContainer extends PureComponent {
-    constructor(props) {
-        super(props);
+    static propTypes = {
+        sortFields: PropTypes.oneOfType([
+            PropTypes.bool,
+            PropTypes.arrayOf(PropTypes.shape({
+                id: PropTypes.string,
+                label: PropTypes.string
+            }))
+        ])
+    };
 
-        this.containerProps = () => ({
-            selectOptions: this._prepareOptions()
-        });
+    static defaultProps = {
+        sortFields: []
+    };
+
+    containerProps = () => ({
+        selectOptions: this._prepareOptions()
+    });
+
+    _getLabel(option) {
+        const { id, label: pureLabel } = option;
+        const [label] = pureLabel.split(' ');
+
+        switch (id) {
+        case 'price':
+            return {
+                asc: __('%s: Low to High', label),
+                desc: __('%s: High to Low', label)
+            };
+        case 'name':
+            return {
+                asc: __('%s: A to Z', label),
+                desc: __('%s: Z to A', label)
+            };
+        default:
+            return {};
+        }
     }
 
     _prepareOptions() {
@@ -17,37 +47,24 @@ export class CategorySortContainer extends PureComponent {
         if (!sortFields) return [];
 
         const selectOptions = sortFields.reduce((acc, option) => {
-            const { id, label } = option;
-            let ascLabel = label.split(' ')[0];
-            let descLabel = label.split(' ')[0];
+            const { id } = option;
+            const label = this._getLabel(option);
+            const { asc, desc } = label;
 
-            switch (id) {
-            case 'price':
-                ascLabel += __(': Low to High');
-                descLabel += __(': High to Low');
-                break;
-            case 'name':
-                ascLabel += __(': A to Z');
-                descLabel += __(': Z to A');
-                break;
-            case 'size':
-            case 'position':
-            default:
-                return acc;
-            }
+            if (!asc || !desc) return acc;
 
             const ascOption = {
                 id: `ASC ${id}`,
                 name: id,
                 value: `ASC ${id}`,
-                label: ascLabel
+                label: asc
             };
 
             const descOption = {
                 id: `DESC ${id}`,
                 name: id,
                 value: `DESC ${id}`,
-                label: descLabel
+                label: desc
             };
 
             return [...acc, ascOption, descOption];
@@ -65,19 +82,5 @@ export class CategorySortContainer extends PureComponent {
         );
     }
 }
-
-CategorySortContainer.propTypes = {
-    sortFields: PropTypes.oneOfType([
-        PropTypes.bool,
-        PropTypes.arrayOf(PropTypes.shape({
-            id: PropTypes.string,
-            label: PropTypes.string
-        }))
-    ])
-};
-
-CategorySortContainer.defaultProps = {
-    sortFields: []
-};
 
 export default CategorySortContainer;

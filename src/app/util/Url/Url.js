@@ -1,3 +1,5 @@
+/* eslint-disable fp/no-let */
+
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,7 +11,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-// TODO: revrite using import { history } from 'Route';
+// TODO: rewrite using import { history } from 'Route';
+// TODO: fix no LET
 
 /**
  * Update query params without adding to history
@@ -46,6 +49,7 @@ const getUrlParam = (match, location) => {
 const getQueryParam = (variable, location) => {
     const query = location.search.substring(1);
     const vars = query.split('&');
+    // eslint-disable-next-line fp/no-loops
     for (let i = 0; i < vars.length; i++) {
         const pair = vars[i].split('=');
         if (pair[0] === variable) return pair[1];

@@ -93,6 +93,7 @@ class Field {
             value,
             type
         };
+
         return this;
     }
 

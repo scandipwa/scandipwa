@@ -10,7 +10,7 @@
  */
 
 import PropTypes from 'prop-types';
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { ProductDispatcher } from 'Store/Product';
 import { ProductType } from 'Type/ProductList';
@@ -25,23 +25,30 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 export class GroupedProductsItemContainer extends PureComponent {
+    static propTypes = {
+        product: ProductType.isRequired,
+        groupedProductQuantity: PropTypes.number.isRequired,
+        updateGroupedProductQuantity: PropTypes.func
+    };
+
+    static defaultProps = {
+        updateGroupedProductQuantity: () => {}
+    };
+
+    containerFunctions = {
+        changeCount: this.changeCount.bind(this)
+    };
+
     constructor(props) {
         super(props);
 
-        this.containerFunctions = {
-            changeCount: this.changeCount.bind(this)
-        };
-
-        this.containerProps = () => ({
-            itemCount: this._getCurrentQuantity()
-        });
-    }
-
-    componentWillMount() {
         const { updateGroupedProductQuantity, product } = this.props;
-
         updateGroupedProductQuantity({ product, quantity: 1 });
     }
+
+    containerProps = () => ({
+        itemCount: this._getCurrentQuantity()
+    });
 
     /**
      * Get quantity of grouped product
@@ -54,6 +61,7 @@ export class GroupedProductsItemContainer extends PureComponent {
             product: { id },
             groupedProductQuantity
         } = this.props;
+
         return groupedProductQuantity[id] || 1;
     }
 
@@ -74,10 +82,5 @@ export class GroupedProductsItemContainer extends PureComponent {
         );
     }
 }
-
-GroupedProductsItemContainer.propTypes = {
-    product: ProductType.isRequired,
-    groupedProductQuantity: PropTypes.number.isRequired
-};
 
 export default connect(mapStateToProps, mapDispatchToProps)(GroupedProductsItemContainer);

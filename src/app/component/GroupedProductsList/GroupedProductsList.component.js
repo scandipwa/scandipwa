@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import GroupedProductsItem from 'Component/GroupedProductsItem';
 import { ProductType } from 'Type/ProductList';
@@ -18,7 +18,12 @@ import { ProductType } from 'Type/ProductList';
  * Product description
  * @class GroupedProductList
  */
-class GroupedProductList extends PureComponent {
+export default class GroupedProductList extends PureComponent {
+    static propTypes = {
+        product: ProductType.isRequired,
+        clearGroupedProductQuantity: PropTypes.func.isRequired
+    };
+
     componentWillUnmount() {
         const { clearGroupedProductQuantity } = this.props;
         clearGroupedProductQuantity();
@@ -46,15 +51,8 @@ class GroupedProductList extends PureComponent {
 
         return (
             <>
-                { items && this.renderProductList(items)}
+                { items && this.renderProductList(items) }
             </>
         );
     }
 }
-
-GroupedProductList.propTypes = {
-    product: ProductType.isRequired,
-    clearGroupedProductQuantity: PropTypes.func.isRequired
-};
-
-export default GroupedProductList;

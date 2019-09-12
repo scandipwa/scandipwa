@@ -19,6 +19,7 @@
  * @return {Promise} Cancelable promise
  */
 const makeCancelable = (promise) => {
+    // eslint-disable-next-line fp/no-let
     let hasCanceled_ = false;
 
     const wrappedPromise = new Promise((resolve, reject) => {

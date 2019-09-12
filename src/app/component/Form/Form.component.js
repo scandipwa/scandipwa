@@ -9,13 +9,33 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent, Children } from 'react';
+import {
+    PureComponent,
+    Children,
+    createRef,
+    cloneElement
+} from 'react';
 import PropTypes from 'prop-types';
 import Field from 'Component/Field';
 import { MixType, ChildrenType } from 'Type/Common';
 import validationConfig from './Form.config';
 
-class Form extends PureComponent {
+export default class Form extends PureComponent {
+    static propTypes = {
+        onSubmitSuccess: PropTypes.func,
+        onSubmitError: PropTypes.func,
+        onSubmit: PropTypes.func,
+        children: ChildrenType.isRequired,
+        mix: MixType
+    };
+
+    static defaultProps = {
+        onSubmitSuccess: () => {},
+        onSubmitError: () => {},
+        onSubmit: () => {},
+        mix: {}
+    };
+
     static updateChildrenRefs(props) {
         const { children: propsChildren } = props;
         const refMap = {};
@@ -23,8 +43,8 @@ class Form extends PureComponent {
             propsChildren,
             (child) => {
                 const { props: { name } } = child;
-                refMap[name] = React.createRef();
-                return React.cloneElement(child, { formRef: refMap[name] });
+                refMap[name] = createRef();
+                return cloneElement(child, { formRef: refMap[name] });
             }
         );
 
@@ -41,7 +61,7 @@ class Form extends PureComponent {
                 }
 
                 if (typeof children === 'object') {
-                    return React.cloneElement(child, {
+                    return cloneElement(child, {
                         ...props,
                         children: executeClone(children)
                     });
@@ -66,10 +86,10 @@ class Form extends PureComponent {
 
                 if (message) {
                     invalidFields.push(id);
-                    return React.cloneElement(child, { message, formRef: refMap[name] });
+                    return cloneElement(child, { message, formRef: refMap[name] });
                 }
 
-                return React.cloneElement(child, { formRef: refMap[name] });
+                return cloneElement(child, { formRef: refMap[name] });
             }
         );
 
@@ -82,16 +102,14 @@ class Form extends PureComponent {
         if (validation && id && refMap[name] && refMap[name].current) {
             const { current: inputNode } = refMap[name];
 
-            for (let i = 0; i < validation.length; i++) {
-                const rule = validation[i];
+            const rule = validation.find((rule) => {
+                if (!validationConfig[rule]) return false;
+                const validationRules = validationConfig[rule];
+                const isValid = validationRules.validate(inputNode);
+                return !isValid;
+            });
 
-                if (validationConfig[rule]) {
-                    const validationRules = validationConfig[rule];
-                    const isValid = validationRules.validate(inputNode);
-
-                    if (!isValid) return { message: validationRules.message };
-                }
-            }
+            if (rule) return validationConfig[rule];
         }
 
         return {};
@@ -130,6 +148,7 @@ class Form extends PureComponent {
             fieldsAreValid,
             invalidFields
         } = Form.cloneAndValidateChildren(propsChildren, refMap);
+
         this.setState({ children, fieldsAreValid });
 
         const inputValues = Object.values(refMap).reduce((inputValues, input) => {
@@ -140,8 +159,10 @@ class Form extends PureComponent {
                     const boolValue = checked;
                     return { ...inputValues, [name]: boolValue };
                 }
+
                 return { ...inputValues, [name]: value };
             }
+
             return inputValues;
         }, {});
 
@@ -167,20 +188,3 @@ class Form extends PureComponent {
         );
     }
 }
-
-Form.propTypes = {
-    onSubmitSuccess: PropTypes.func,
-    onSubmitError: PropTypes.func,
-    onSubmit: PropTypes.func,
-    children: ChildrenType.isRequired,
-    mix: MixType
-};
-
-Form.defaultProps = {
-    onSubmitSuccess: () => {},
-    onSubmitError: () => {},
-    onSubmit: () => {},
-    mix: {}
-};
-
-export default Form;

@@ -37,17 +37,12 @@ const appendTokenToHeaders = (headers) => {
  * @returns {*}
  */
 const formatURI = (query, variables, url) => {
-    let requestUrl;
-    const stringifyVariables = [`?hash=${ hash(query) }`];
-    Object.keys(variables).forEach((variable) => {
-        stringifyVariables.push(`${ variable }=${ variables[ variable ] }`);
-    });
-    if (stringifyVariables.length) {
-        requestUrl = `${ url }${ stringifyVariables.join('&') }`;
-    }
-    requestUrl = requestUrl.replace(/ /g, '');
+    const stringifyVariables = Object.keys(variables).reduce(
+        (acc, variable) => [...acc, `${ variable }=${ variables[ variable ] }`],
+        [`?hash=${ hash(query) }`]
+    );
 
-    return requestUrl;
+    return `${ url }${ stringifyVariables.join('&') }`.replace(/ /g, '');
 };
 
 /**
@@ -131,6 +126,9 @@ const parseResponse = promise => new Promise((resolve, reject) => {
     );
 });
 
+export const HTTP_410_GONE = 410;
+export const HTTP_201_CREATED = 201;
+
 /**
  * Make GET request to endpoint (via ServiceWorker)
  * @param  {{}} queryObject prepared with `prepareDocument()` from `Util/Query` request body object
@@ -144,9 +142,9 @@ export const executeGet = (queryObject, name, cacheTTL) => {
 
     return parseResponse(new Promise((resolve) => {
         getFetch(uri, name).then((res) => {
-            if (res.status === 410) {
+            if (res.status === HTTP_410_GONE) {
                 putPersistedQuery(GRAPHQL_URI, query, cacheTTL).then((putResponse) => {
-                    if (putResponse.status === 201) {
+                    if (putResponse.status === HTTP_201_CREATED) {
                         getFetch(uri, name).then(res => resolve(res));
                     }
                 });

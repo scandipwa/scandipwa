@@ -111,13 +111,27 @@
     }
 
     @keyframes fadeinLeft {
-        from { opacity: 0; left: 100%; }
-        to { opacity: 1; left: 0; }
+        from {
+            opacity: 0;
+            left: 100%;
+        }
+
+        to {
+            opacity: 1;
+            left: 0;
+        }
     }
 
     @keyframes fadeoutLeft {
-        from { opacity: 1; left: 0; }
-        to { opacity: 0; left: 100%; }
+        from {
+            opacity: 1;
+            left: 0;
+        }
+
+        to {
+            opacity: 0;
+            left: 100%;
+        }
     }
 
     @keyframes fadeinOpacity {

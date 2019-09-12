@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers */
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable no-fallthrough */
 /* eslint-disable no-bitwise */
@@ -26,7 +27,7 @@
  * @return {number} 32-bit positive integer hash
  */
 export const hash = (key, seed) => {
-    // eslint-disable-next-line one-var
+    // eslint-disable-next-line one-var, fp/no-let
     let h1,
         h1b,
         k1,
@@ -39,6 +40,7 @@ export const hash = (key, seed) => {
     h1 = seed;
     i = 0;
 
+    // eslint-disable-next-line fp/no-loops
     while (i < bytes) {
         k1 = ((key.charCodeAt(i) & 0xff))
             | ((key.charCodeAt(++i) & 0xff) << 8)

@@ -26,11 +26,11 @@
 
         &_fullWidth {
             width: 100%;
-            margin: 0.5rem 0 0;
+            margin: .5rem 0 0;
 
             @include mobile {
-                padding: 0.8rem;
-                font-size: 0.8rem;
+                padding: .8rem;
+                font-size: .8rem;
             }
         }
 
@@ -65,7 +65,7 @@
             &:active {
                 span {
                     &:last-child {
-                        opacity: 0.9;
+                        opacity: .9;
                         transform: translateY(-120%);
                     }
                 }

@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import { PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
 import CSS from 'Util/CSS';
 import './ProductReviewRating.style';
@@ -17,11 +17,20 @@ import './ProductReviewRating.style';
 /**
  * @class ProductReviewRating
  */
-class ProductReviewRating extends PureComponent {
-    constructor(props) {
-        super(props);
-        this.reviewRating = React.createRef();
-    }
+export default class ProductReviewRating extends PureComponent {
+    static propTypes = {
+        summary: PropTypes.number,
+        code: PropTypes.string,
+        placeholder: PropTypes.bool
+    };
+
+    static defaultProps = {
+        summary: 0,
+        code: '',
+        placeholder: false
+    };
+
+    reviewRating = createRef();
 
     componentDidMount() {
         const { summary } = this.props;
@@ -34,7 +43,8 @@ class ProductReviewRating extends PureComponent {
     }
 
     getAriaText(summary, code) {
-        const rating = Math.round((summary / 20) * 100) / 100;
+        const ONE_FIFTH_OF_A_HUNDRED = 20;
+        const rating = parseFloat(summary / ONE_FIFTH_OF_A_HUNDRED).toFixed(2);
 
         return code
             ? `Review's ${code} rating is ${rating} out of 5`
@@ -65,17 +75,3 @@ class ProductReviewRating extends PureComponent {
         );
     }
 }
-
-ProductReviewRating.propTypes = {
-    summary: PropTypes.number,
-    code: PropTypes.string,
-    placeholder: PropTypes.bool
-};
-
-ProductReviewRating.defaultProps = {
-    summary: 0,
-    code: '',
-    placeholder: false
-};
-
-export default ProductReviewRating;

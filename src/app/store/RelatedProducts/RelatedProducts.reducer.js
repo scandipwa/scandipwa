@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-/* eslint-disable no-param-reassign */
 import { getIndexedProducts } from 'Util/Product';
 import {
     UPDATE_RELATED_PRODUCTS
