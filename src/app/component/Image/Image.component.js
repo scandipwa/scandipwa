@@ -33,6 +33,10 @@ export default class Image extends PureComponent {
             PropTypes.string,
             PropTypes.bool
         ]),
+        style: PropTypes.shape({
+            width: PropTypes.string,
+            height: PropTypes.string
+        }).isRequired,
         alt: PropTypes.string,
         ratio: PropTypes.oneOf([
             '4x3',
@@ -40,6 +44,9 @@ export default class Image extends PureComponent {
             'square',
             'custom'
         ]),
+        wrapperSize: PropTypes.shape({
+            height: PropTypes.string
+        }),
         mix: MixType
     };
 
@@ -48,7 +55,9 @@ export default class Image extends PureComponent {
         alt: '',
         ratio: 'square',
         mix: {},
-        isPlaceholder: false
+        isPlaceholder: false,
+        wrapperSize: {},
+        style: {}
     };
 
     image = createRef();
@@ -86,7 +95,9 @@ export default class Image extends PureComponent {
     }
 
     renderImage() {
-        const { alt, src, isPlaceholder } = this.props;
+        const {
+            alt, src, isPlaceholder, style
+        } = this.props;
         const { imageStatus } = this.state;
 
         if (isPlaceholder) {
@@ -110,6 +121,7 @@ export default class Image extends PureComponent {
                   elem="Image"
                   src={ src || '' }
                   alt={ alt }
+                  style={ style }
                   onLoad={ this.onLoad }
                   onError={ this.onError }
                 />
@@ -120,14 +132,17 @@ export default class Image extends PureComponent {
     }
 
     render() {
-        const { ratio, mix, isPlaceholder } = this.props;
+        const {
+            ratio, mix, isPlaceholder,
+            wrapperSize
+        } = this.props;
         const { imageStatus } = this.state;
-
         return (
             <div
               block="Image"
               mods={ { ratio, imageStatus, isPlaceholder } }
               mix={ mix }
+              style={ wrapperSize }
             >
                 { this.renderImage() }
             </div>

@@ -28,14 +28,13 @@ export const TYPE_NOTFOUND = 'NOT_FOUND';
  * const TYPE_PWA = 'PWA_ROUTER';
  * const TYPE_CUSTOM = 'CUSTOM';
  */
-
-class UrlRewrites extends PureComponent {
+export default class UrlRewrites extends PureComponent {
     static propTypes = {
         location: LocationType.isRequired,
         match: MatchType.isRequired,
         clearUrlRewrites: PropTypes.func.isRequired,
         requestUrlRewrite: PropTypes.func.isRequired,
-        urlRewrite: PropTypes.func.isRequired
+        urlRewrite: PropTypes.shape({}).isRequired
     };
 
     state = {
@@ -49,9 +48,7 @@ class UrlRewrites extends PureComponent {
         TYPE_PRODUCT
     ];
 
-    constructor() {
-        super();
-
+    componentWillMount() {
         const { type } = window.actionName || '';
 
         // Type is not set
@@ -115,7 +112,7 @@ class UrlRewrites extends PureComponent {
 
             return <ProductPage { ...newRoute } />;
         case TYPE_CMS_PAGE:
-            return <CmsPage { ...props } cmsId={ id } />;
+            return <CmsPage { ...props } urlKey={ url_key } />;
         case TYPE_CATEGORY:
             return <CategoryPage { ...props } categoryIds={ id } />;
         case TYPE_NOTFOUND:
@@ -133,7 +130,7 @@ class UrlRewrites extends PureComponent {
         case TYPE_PRODUCT:
             return <ProductPage { ...props } isOnlyPlaceholder />;
         case TYPE_CMS_PAGE:
-            return <CmsPage { ...props } cmsId={ 0 } isOnlyPlaceholder />;
+            return <CmsPage { ...props } urlKey="" isOnlyPlaceholder />;
         case TYPE_CATEGORY:
             return <CategoryPage { ...props } isOnlyPlaceholder />;
         case TYPE_NOTFOUND:
@@ -154,5 +151,3 @@ class UrlRewrites extends PureComponent {
         return this.renderPlaceholders();
     }
 }
-
-export default UrlRewrites;

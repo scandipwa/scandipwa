@@ -131,7 +131,10 @@ class AppRouter extends PureComponent {
     }
 
     getHeaderAndFooterOptions() {
-        return { menu: { menuId: 2 }, footer: { identifiers: ['social-links'] } };
+        return {
+            menu: { identifier: 'new-main-menu' },
+            footer: { identifiers: ['social-links'] }
+        };
     }
 
     getSortedItems(type) {

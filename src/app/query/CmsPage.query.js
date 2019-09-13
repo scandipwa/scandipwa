@@ -35,6 +35,7 @@ export class CmsPageQuery {
         return [
             'title',
             'content',
+            'page_width',
             'content_heading',
             'meta_title',
             'meta_description',

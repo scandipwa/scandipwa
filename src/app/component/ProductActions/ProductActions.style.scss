@@ -30,13 +30,13 @@
         height: max-content;
     }
 
-    &-Colors,
-    &-Price {
-        display: grid;
-        justify-content: center;
+    @include mobile {
         align-items: center;
 
-        @include mobile {
+        &-Colors,
+        &-Price {
+            display: grid;
+            justify-content: center;
             margin: 1.5rem 1rem;
         }
     }

@@ -23,7 +23,7 @@ import ExpandableContent from 'Component/ExpandableContent';
 import './CartPage.style';
 import { formatCurrency } from 'Util/Price';
 
-class CartPage extends Component {
+export default class CartPage extends Component {
     static propTypes = {
         isEditing: PropTypes.bool.isRequired,
         products: PropTypes.objectOf(ProductType),
@@ -208,5 +208,3 @@ class CartPage extends Component {
         );
     }
 }
-
-export default CartPage;

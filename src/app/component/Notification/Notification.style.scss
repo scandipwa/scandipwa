@@ -31,6 +31,7 @@
     &-Debug {
         white-space: pre-wrap;
         background: white;
+        color: black;
         padding: 5px;
     }
 
@@ -90,24 +91,6 @@
             color: white;
             background: #6ee06e;
         }
-    }
-
-    &_is {
-        // &_opening {
-        //     animation: fadeinLeft var(--animation-duration) ease-in-out forwards;
-
-        //     @include mobile {
-        //         animation-name: fadeinOpacity;
-        //     }
-        // }
-
-        // &_closing {
-        //     animation: fadeoutLeft var(--animation-duration) ease-in-out forwards;
-
-        //     @include mobile {
-        //         animation-name: fadeoutOpacity;
-        //     }
-        // }
     }
 
     @keyframes fadeinLeft {

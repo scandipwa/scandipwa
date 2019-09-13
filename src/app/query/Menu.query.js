@@ -17,13 +17,13 @@ import { Field } from 'Util/Query';
 export class MenuQuery {
     /**
      * get Menu query
-     * @param  {{menuId: String}} options A object containing different aspects of query, each item can be omitted
+     * @param  {{identifier: String}} options A object containing different aspects of query, each item can be omitted
      * @return {Field} Menu query
      * @memberof MenuQuery
      */
-    getQuery({ menuId }) {
+    getQuery({ identifier }) {
         return new Field('scandiwebMenu')
-            .addArgument('id', 'ID!', menuId)
+            .addArgument('identifier', 'String!', identifier)
             .addFieldList(this._getMenuFields())
             .setAlias('menu');
     }

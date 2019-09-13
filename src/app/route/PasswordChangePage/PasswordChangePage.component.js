@@ -23,7 +23,7 @@ import './PasswordChangePage.style';
 const STATUS_PASSOWORD_UPDATED = 'password_updated';
 const STATUS_PASSOWORD_MISSMATCH = 'passwords_miss_match';
 
-class PasswordChangePage extends Component {
+export default class PasswordChangePage extends Component {
     static propTypes = {
         updateBreadcrumbs: PropTypes.func.isRequired,
         resetPassword: PropTypes.func.isRequired,
@@ -143,5 +143,3 @@ class PasswordChangePage extends Component {
         );
     }
 }
-
-export default PasswordChangePage;

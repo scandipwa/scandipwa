@@ -32,7 +32,7 @@ export const CHECKOUT_STEP_SHIPPING = 'shipping';
 export const CHECKOUT_STEP_REVIEW_AND_PAYMENTS = 'review-and-payments';
 export const CHECKOUT_STEP_SUCCESS = 'success';
 
-class CheckoutPage extends Component {
+export default class CheckoutPage extends Component {
     static propTypes = {
         savePaymentInformationAndPlaceOrder: PropTypes.func.isRequired,
         saveAddressInformation: PropTypes.func.isRequired,
@@ -372,5 +372,3 @@ class CheckoutPage extends Component {
         );
     }
 }
-
-export default CheckoutPage;

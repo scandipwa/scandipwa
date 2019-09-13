@@ -25,10 +25,13 @@ class CategoryProductListPlaceholder extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         isVisible: PropTypes.bool.isRequired,
-        updatePages: PropTypes.func.isRequired
+        updatePages: PropTypes.func.isRequired,
+        numberOfPlaceholders: PropTypes.number
     };
 
-    placeholdersCount = DEFAULT_PLACEHOLDER_COUNT;
+    static defaultProps = {
+        numberOfPlaceholders: DEFAULT_PLACEHOLDER_COUNT
+    };
 
     componentDidMount() {
         this.startObserving();
@@ -77,8 +80,10 @@ class CategoryProductListPlaceholder extends PureComponent {
     }
 
     renderPlaceholders() {
+        const { numberOfPlaceholders } = this.props;
+
         return Array.from(
-            { length: this.placeholdersCount },
+            { length: numberOfPlaceholders },
             (_, i) => <ProductCard key={ i } product={ {} } />
         );
     }

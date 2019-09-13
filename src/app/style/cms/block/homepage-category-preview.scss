@@ -14,12 +14,11 @@
     --homepage-button-color: #000;
 }
 
-.HomePage {
-    &-Wrapper {
-        @include after-mobile {
-            max-width: 100%;
-            padding: 0;
-        }
+.HomepageCategories {
+    @include desktop {
+        grid-gap: 1rem;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
     }
 
     &-Figure {
@@ -81,7 +80,11 @@
         }
     }
 
-    a + a {
-        margin-left: 0;
+    a {
+        display: block;
+
+        + a {
+            margin-left: 0;
+        }
     }
 }
