@@ -14,6 +14,7 @@ import Link from 'Component/Link';
 import PropTypes from 'prop-types';
 import ContentWrapper from 'Component/ContentWrapper';
 import CartItem from 'Component/CartItem';
+import CartCoupon from 'Component/CartCoupon';
 import { ProductType } from 'Type/ProductList';
 import { TotalsType } from 'Type/MiniCart';
 import isMobile from 'Util/Mobile';
@@ -38,16 +39,16 @@ export default class CartPage extends Component {
 
         if (!Object.keys(products).length) {
             return (
-                <p block="CartPage" elem="Empty">There are no products in cart.</p>
+                <p block="CartPage" elem="Empty">{ __('There are no products in cart.') }</p>
             );
         }
 
         return (
             <>
                 <p block="CartPage" elem="TableHead" aria-hidden>
-                    <span>item</span>
-                    <span>qty</span>
-                    <span>subtotal</span>
+                    <span>{ __('item') }</span>
+                    <span>{ __('qty') }</span>
+                    <span>{ __('subtotal') }</span>
                 </p>
                 <ul block="CartPage" elem="Items" aria-label="List of items in cart">
                     { Object.entries(products).map(([id, product]) => (
@@ -64,12 +65,16 @@ export default class CartPage extends Component {
     }
 
     renderDiscountCode() {
+        const {
+            totals: { coupon_code }
+        } = this.props;
+
         return (
             <ExpandableContent
-              heading="Have a discount code?"
+              heading={ __('Have a discount code?') }
               mix={ { block: 'CartPage', elem: 'Discount' } }
             >
-                <p>{ __('Discount functionality coming soon!') }</p>
+                <CartCoupon couponCode={ coupon_code } />
             </ExpandableContent>
         );
     }
@@ -93,15 +98,16 @@ export default class CartPage extends Component {
 
         return (
             <article block="CartPage" elem="Summary">
-                <h4 block="CartPage" elem="SummaryHeading">Summary</h4>
+                <h4 block="CartPage" elem="SummaryHeading">{ __('Summary') }</h4>
                 <dl block="CartPage" elem="TotalDetails" aria-label="Order total details">
-                    <dt>Subtotal:</dt>
+                    <dt>{ __('Subtotal:') }</dt>
                     <dd>{ this.renderPriceLine(subtotal) }</dd>
-                    <dt>Tax:</dt>
+                    { this.renderDiscount() }
+                    <dt>{ __('Tax:') }</dt>
                     <dd>{ this.renderPriceLine(tax_amount) }</dd>
                 </dl>
                 <dl block="CartPage" elem="Total" aria-label="Complete order total">
-                    <dt>Order total:</dt>
+                    <dt>{ __('Order total:') }</dt>
                     <dd>{ this.renderPriceLine(grand_total) }</dd>
                 </dl>
                 <Link
@@ -112,16 +118,37 @@ export default class CartPage extends Component {
                   { ...props }
                 >
                     <span />
-                    Secure checkout
+                    { __('Secure checkout') }
                 </Link>
                 <Link
                   block="CartPage"
                   elem="ContinueShopping"
                   to="/"
                 >
-                    Continue Shopping
+                    { __('Continue Shopping') }
                 </Link>
             </article>
+        );
+    }
+
+    renderDiscount() {
+        const {
+            totals: {
+                coupon_code,
+                discount_amount = 0
+            }
+        } = this.props;
+
+        if (!coupon_code) return null;
+
+        return (
+            <>
+                <dt>
+                    { __('Coupon ') }
+                    <strong block="CartPage" elem="DiscountCoupon">{ coupon_code.toUpperCase() }</strong>
+                </dt>
+                <dd>{ `-${this.renderPriceLine(Math.abs(discount_amount))}` }</dd>
+            </>
         );
     }
 
@@ -167,7 +194,7 @@ export default class CartPage extends Component {
                   label="Cart page details"
                 >
                     <div block="CartPage" elem="Static">
-                        <h2 block="CartPage" elem="Heading">Shopping cart</h2>
+                        <h2 block="CartPage" elem="Heading">{ __('Shopping cart') }</h2>
                         { this.renderCartItems() }
                         { this.renderDiscountCode() }
                     </div>

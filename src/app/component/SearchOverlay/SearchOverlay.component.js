@@ -84,7 +84,7 @@ export default class SearchOverlay extends PureComponent {
                   block="SearchOverlay"
                   elem="Link"
                   to={ getProductLinkTo(product) }
-                  onClick={ () => hideActiveOverlay() }
+                  onClick={ hideActiveOverlay }
                 >
                     <figure
                       block="SearchOverlay"

@@ -9,11 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-:root {
-    --color-pagination-link-text: #{$black};
-    --color-pagination-link-active-text: #{$primary-base-color};
-}
-
 .CategoryPagination {
     display: flex;
     justify-content: space-around;
@@ -45,25 +40,5 @@
         &:last-child {
             margin-bottom: 0;
         }
-    }
-
-    &-PaginationLink {
-        color: var(--color-pagination-link-text);
-
-        &_isCurrent {
-            --color-pagination-link-text: var(--color-pagination-link-active-text);
-        }
-    }
-
-    &-Placeholder {
-        margin-right: 1em;
-
-        &::before {
-            content: '';
-        }
-    }
-
-    &_isLoading {
-        justify-content: center;
     }
 }

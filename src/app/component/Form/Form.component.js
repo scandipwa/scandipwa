@@ -131,7 +131,7 @@ export default class Form extends PureComponent {
         return Form.cloneAndValidateChildren(children, refMap);
     }
 
-    handleFormSubmit(e) {
+    handleFormSubmit = (e) => {
         const { refMap } = this.state;
         const {
             children: propsChildren,
@@ -169,7 +169,7 @@ export default class Form extends PureComponent {
         return !invalidFields.length
             ? onSubmitSuccess(inputValues)
             : onSubmitError(inputValues, invalidFields);
-    }
+    };
 
     render() {
         const { mix } = this.props;
@@ -181,7 +181,7 @@ export default class Form extends PureComponent {
               mix={ mix }
               mods={ { isInvalid: !fieldsAreValid } }
               ref={ (ref) => { this.form = ref; } }
-              onSubmit={ e => this.handleFormSubmit(e) }
+              onSubmit={ this.handleFormSubmit }
             >
                 { children }
             </form>

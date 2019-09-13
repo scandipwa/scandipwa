@@ -74,6 +74,16 @@ class MyAccountOverlay extends PureComponent {
 
     handleSignIn = this.handleSignIn.bind(this);
 
+    onCreateAccountAttempt = this.onCreateAccountAttempt.bind(this);
+
+    onCreateAccountSuccess = this.onCreateAccountSuccess.bind(this);
+
+    onSignInAttempt = this.onSignInAttempt.bind(this);
+
+    onSignInSuccess = this.onSignInSuccess.bind(this);
+
+    onFormError = this.onFormError.bind(this);
+
     constructor(props) {
         super(props);
 
@@ -252,7 +262,7 @@ class MyAccountOverlay extends PureComponent {
                         <button
                           block="Button"
                           mods={ { likeLink: true } }
-                          onClick={ () => logout() }
+                          onClick={ logout }
                         >
                             { __('Logout') }
                         </button>
@@ -269,9 +279,9 @@ class MyAccountOverlay extends PureComponent {
             <>
                 <Form
                   key="forgot-password"
-                  onSubmit={ () => this.onForgotPasswordAttempt() }
-                  onSubmitSuccess={ fields => this.onForgotPasswordSuccess(fields) }
-                  onSubmitError={ () => this.onFormError() }
+                  onSubmit={ this.onForgotPasswordAttempt }
+                  onSubmitSuccess={ this.onForgotPasswordSuccess }
+                  onSubmitError={ this.onFormError }
                 >
                     <Field type="text" id="email" name="email" label="Email" validation={ ['notEmpty', 'email'] } />
                     <div block="MyAccountOverlay" elem="Buttons">
@@ -337,9 +347,9 @@ class MyAccountOverlay extends PureComponent {
             <>
                 <Form
                   key="create-account"
-                  onSubmit={ () => this.onCreateAccountAttempt() }
-                  onSubmitSuccess={ fields => this.onCreateAccountSuccess(fields) }
-                  onSubmitError={ (fields, invalidFields) => this.onCreateAccountAttempt(fields, invalidFields) }
+                  onSubmit={ this.onCreateAccountAttempt }
+                  onSubmitSuccess={ this.onCreateAccountSuccess }
+                  onSubmitError={ this.onCreateAccountAttempt }
                 >
                     <fieldset block="MyAccountOverlay" elem="Legend">
                         <legend>{ __('Personal Information') }</legend>
@@ -359,6 +369,7 @@ class MyAccountOverlay extends PureComponent {
                         />
                         <Field
                           type="checkbox"
+                          value="is_subscribed"
                           label={ __('Subscribe to ScandiPWA newsletter') }
                           id="is_subscribed"
                           mix={ { block: 'MyAccountOverlay', elem: 'Checkbox' } }
@@ -410,9 +421,9 @@ class MyAccountOverlay extends PureComponent {
             <>
                 <Form
                   key="sign-in"
-                  onSubmit={ () => this.onSignInAttempt() }
-                  onSubmitSuccess={ fields => this.onSignInSuccess(fields) }
-                  onSubmitError={ () => this.onFormError() }
+                  onSubmit={ this.onSignInAttempt }
+                  onSubmitSuccess={ this.onSignInSuccess }
+                  onSubmitError={ this.onFormError }
                 >
                     <Field
                       type="text"

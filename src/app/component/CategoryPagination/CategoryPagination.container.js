@@ -22,15 +22,15 @@ export class CategoryPaginationContainer extends PureComponent {
         onPageSelect: () => {}
     };
 
-    containerFunctions = {
-        getSearchQuery: this.getSearchQuery.bind(this)
-    };
+    containerFunctions = () => ({
+        getSearchQueryForPage: this.getSearchQueryForPage
+    });
 
-    getSearchQuery(pageNumber) {
+    getSearchQueryForPage = (pageNumber) => {
         const { history, location } = this.props;
         const page = pageNumber !== 1 ? pageNumber : '';
         return generateQuery({ page }, location, history);
-    }
+    };
 
     containerProps = () => ({
         currentPage: this._getCurrentPage()
@@ -49,8 +49,7 @@ export class CategoryPaginationContainer extends PureComponent {
             <CategoryPagination
               pathname={ pathname }
               { ...this.props }
-              { ...this.containerFunctions }
-              { ...this.containerProps() }
+              { ...this.containerFunctions() }
             />
         );
     }

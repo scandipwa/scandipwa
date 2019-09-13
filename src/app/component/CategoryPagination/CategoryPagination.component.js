@@ -10,10 +10,9 @@
  */
 
 import { PureComponent } from 'react';
-import Link from 'Component/Link';
 import PropTypes from 'prop-types';
 import './CategoryPagination.style';
-import TextPlaceholder from 'Component/TextPlaceholder';
+import CategoryPaginationLink from 'Component/CategoryPaginationLink';
 
 export default class CategoryPagination extends PureComponent {
     static propTypes = {
@@ -37,7 +36,7 @@ export default class CategoryPagination extends PureComponent {
         const { totalPages: length, currentPage } = this.props;
 
         return Array.from({ length }, (_, i) => (
-            this.renderPageLink(i + 1, __('Page %s', i + 1), (i + 1) === currentPage, i + 1)
+            this.renderPageLink(i + 1, __('Page %s', i + 1), (i + 1) === currentPage, (i + 1).toString())
         ));
     }
 
@@ -54,20 +53,15 @@ export default class CategoryPagination extends PureComponent {
               block="CategoryPagination"
               elem="ListItem"
             >
-                <Link
-                  to={ {
-                      pathname,
-                      search: getSearchQuery(pageNumber)
-                  } }
-                  aria-label={ label }
-                  block="CategoryPagination"
-                  elem="PaginationLink"
-                  mods={ { isCurrent } }
-                  aria-current={ isCurrent ? 'page' : 'false' }
-                  onClick={ () => onPageSelect(pageNumber) }
-                >
-                    { text }
-                </Link>
+                <CategoryPaginationLink
+                  text={ text }
+                  label={ label }
+                  getPage={ getPage }
+                  url_path={ url_path }
+                  isCurrent={ isCurrent }
+                  pageNumber={ pageNumber }
+                  getSearchQueryForPage={ getSearchQueryForPage }
+                />
             </li>
         );
     }

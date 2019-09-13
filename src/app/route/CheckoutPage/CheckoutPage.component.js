@@ -72,6 +72,10 @@ export default class CheckoutPage extends Component {
         [CHECKOUT_STEP_SUCCESS]: __('Order information')
     };
 
+    saveAddressInformation = this.saveAddressInformation.bind(this);
+
+    savePaymentInformationAndPlaceOrder = this.savePaymentInformationAndPlaceOrder.bind(this);
+
     constructor(props) {
         super(props);
 
@@ -257,7 +261,7 @@ export default class CheckoutPage extends Component {
 
         return (
             <CheckoutShippingStep
-              saveAddressInformation={ addressInformation => this.saveAddressInformation(addressInformation) }
+              saveAddressInformation={ this.saveAddressInformation }
               shippingAddress={ shippingAddress }
               billingAddress={ billingAddress }
               isSignedIn={ isSignedIn }
@@ -286,9 +290,7 @@ export default class CheckoutPage extends Component {
               billingAddress={ billingAddress }
               shippingAddress={ shippingAddress }
               paymentMethods={ paymentMethods }
-              savePaymentInformationAndPlaceOrder={ (
-                  paymentInformation => this.savePaymentInformationAndPlaceOrder(paymentInformation)
-              ) }
+              savePaymentInformationAndPlaceOrder={ this.savePaymentInformationAndPlaceOrder }
               email={ email }
               isSignedIn={ isSignedIn }
               finishedLoading={ addressesAreChecked }

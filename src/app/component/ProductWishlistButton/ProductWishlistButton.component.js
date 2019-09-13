@@ -58,7 +58,7 @@ export default class ProductWishlistButton extends PureComponent {
      * Button click listener
      * @return {void}
      */
-    buttonClick(isProductInWishlist) {
+    buttonClick = () => {
         const {
             product,
             addProductToWishlist,
@@ -66,6 +66,7 @@ export default class ProductWishlistButton extends PureComponent {
             showNotification,
             wishlistItems
         } = this.props;
+        const isProductInWishlist = !!this.getProductInWishlist();
 
         this.setState({ isLoading: true });
 
@@ -86,7 +87,7 @@ export default class ProductWishlistButton extends PureComponent {
         return addProductToWishlist({ product }).then(
             () => this.setState({ isLoading: false, redirectToWishlist: true })
         );
-    }
+    };
 
     renderButtonText(isProductInWishlist) {
         if (isProductInWishlist) {
@@ -122,7 +123,7 @@ export default class ProductWishlistButton extends PureComponent {
 
         return (
             <button
-              onClick={ () => this.buttonClick(isProductInWishlist) }
+              onClick={ this.buttonClick }
               block="ProductWishlistButton"
               elem="Button"
               mods={ { isLoading, fullWidth } }
