@@ -108,4 +108,9 @@
             --option-text-color: var(--color-primary-base);
         }
     }
+
+    &_isNotAvailable {
+        opacity: .25;
+        pointer-events: none;
+    }
 }
