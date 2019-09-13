@@ -23,7 +23,7 @@ export default class ProductAttributeValue extends Component {
         onClick: PropTypes.func.isRequired,
         attribute: AttributeType.isRequired,
         isSelected: PropTypes.bool,
-        isEnabled: PropTypes.bool.isRequired,
+        isAvailable: PropTypes.bool.isRequired,
         mix: MixType
     };
 
@@ -181,7 +181,7 @@ export default class ProductAttributeValue extends Component {
         const {
             getLink,
             attribute,
-            isEnabled,
+            isAvailable,
             attribute: { attribute_code, attribute_value },
             mix
         } = this.props;
@@ -189,7 +189,7 @@ export default class ProductAttributeValue extends Component {
         if (attribute_code && !attribute_value) return null;
 
         const href = getLink(attribute);
-        const isNotAvailable = !isEnabled;
+        const isNotAvailable = !isAvailable;
 
         return (
             <a

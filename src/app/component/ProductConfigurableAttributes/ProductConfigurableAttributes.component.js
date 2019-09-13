@@ -93,10 +93,10 @@ export default class ProductConfigurableAttributes extends Component {
      * @returns {bool}
      * @memberof ProductConfigurableAttributes
      */
-    isEnabled({ attribute_code, attribute_value }) {
+    isAvailable({ attribute_code, attribute_value }) {
         const { parameters, variants } = this.props;
 
-        const isEnabled = selectedOptions => variants
+        const isAvailable = selectedOptions => variants
             .some(({ attributes }) => {
                 // Check if variant has current attribute_code and attribute_value
                 const variantHasCurrentOption = Object.hasOwnProperty.call(attributes, attribute_code)
@@ -120,10 +120,10 @@ export default class ProductConfigurableAttributes extends Component {
                 .entries(parameters)
                 .filter(([key]) => key !== attribute_code);
 
-            return isEnabled(options);
+            return isAvailable(options);
         }
 
-        return isEnabled(Object.entries(parameters));
+        return isAvailable(Object.entries(parameters));
     }
 
     renderConfigurableAttributeValue(attribute) {
@@ -134,7 +134,7 @@ export default class ProductConfigurableAttributes extends Component {
               key={ attribute_value }
               attribute={ attribute }
               isSelected={ this.isSelected(attribute) }
-              isEnabled={ this.isEnabled(attribute) }
+              isAvailable={ this.isAvailable(attribute) }
               onClick={ this.handleOptionClick }
               getLink={ this.getLink }
             />
