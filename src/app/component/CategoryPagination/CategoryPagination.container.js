@@ -23,10 +23,10 @@ export class CategoryPaginationContainer extends PureComponent {
     };
 
     containerFunctions = () => ({
-        getSearchQueryForPage: this.getSearchQueryForPage
+        getSearchQuery: this.getSearchQuery
     });
 
-    getSearchQueryForPage = (pageNumber) => {
+    getSearchQuery = (pageNumber) => {
         const { history, location } = this.props;
         const page = pageNumber !== 1 ? pageNumber : '';
         return generateQuery({ page }, location, history);
@@ -50,6 +50,7 @@ export class CategoryPaginationContainer extends PureComponent {
               pathname={ pathname }
               { ...this.props }
               { ...this.containerFunctions() }
+              { ...this.containerProps() }
             />
         );
     }

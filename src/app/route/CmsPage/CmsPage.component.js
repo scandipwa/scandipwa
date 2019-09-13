@@ -12,7 +12,6 @@
 import PropTypes from 'prop-types';
 import { Component } from 'react';
 
-import ContentWrapper from 'Component/ContentWrapper';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { BlockListType } from 'Type/CMS';
 import Html from 'Component/Html';
