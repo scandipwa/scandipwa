@@ -62,27 +62,22 @@ export default class CmsPage extends Component {
     }
 
     render() {
-        const {
-            page, isBreadcrumbsActive, page: { page_width }
-        } = this.props;
+        const { page, isBreadcrumbsActive } = this.props;
+        const { page_width } = page;
 
         return (
             <main
               block="CmsPage"
               mods={ { isBreadcrumbsHidden: !isBreadcrumbsActive } }
             >
-                <ContentWrapper
-                  wrapperMix={ {
-                      block: 'CmsPage', elem: 'Wrapper', mods: { page_width }
-                  } }
-                  label="CMS page"
-                >
+                { /* eslint-disable-next-line react/forbid-dom-props */ }
+                <div className={ `CmsPage-Wrapper CmsPage-Wrapper_page_width_${page_width}` }>
                     <Meta metaObject={ page } />
                     { this.renderHeading() }
                     <div block="CmsPage" elem="Content">
                         { this.renderContent() }
                     </div>
-                </ContentWrapper>
+                </div>
             </main>
         );
     }
