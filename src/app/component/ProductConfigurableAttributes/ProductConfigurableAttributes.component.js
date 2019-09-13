@@ -44,10 +44,10 @@ export default class ProductConfigurableAttributes extends Component {
      * @returns {String}
      * @memberof ProductConfigurableAttributes
      */
-    getLink({ attribute_code, attribute_value }) {
+    getLink = ({ attribute_code, attribute_value }) => {
         const { getLink } = this.props;
         return getLink(attribute_code, attribute_value);
-    }
+    };
 
     getSubHeading({ attribute_values, attribute_code, attribute_options }) {
         return attribute_values.reduce((acc, attribute_value) => (
@@ -63,10 +63,10 @@ export default class ProductConfigurableAttributes extends Component {
      * @param {{ attribute_code: String, attribute_value: String }} { attribute_code, attribute_value }
      * @memberof ProductConfigurableAttributes
      */
-    handleOptionClick({ attribute_code, attribute_value }) {
+    handleOptionClick = ({ attribute_code, attribute_value }) => {
         const { updateConfigurableVariant } = this.props;
         updateConfigurableVariant(attribute_code, attribute_value);
-    }
+    };
 
     /**
      * Checks whether provided attribute were selected
@@ -92,8 +92,8 @@ export default class ProductConfigurableAttributes extends Component {
               key={ attribute_value }
               attribute={ attribute }
               isSelected={ this.isSelected(attribute) }
-              onClick={ () => this.handleOptionClick(attribute) }
-              getLink={ () => this.getLink(attribute) }
+              onClick={ this.handleOptionClick }
+              getLink={ this.getLink }
             />
         );
     }

@@ -1,0 +1,23 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+:root {
+    --color-pagination-link-text: #{$black};
+    --color-pagination-link-active-text: #{$primary-base-color};
+}
+
+.CategoryPaginationLink {
+    color: var(--color-pagination-link-text);
+
+    &_isCurrent {
+        --color-pagination-link-text: var(--color-pagination-link-active-text);
+    }
+}

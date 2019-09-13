@@ -104,8 +104,6 @@ export default class CheckoutShippingStep extends PureComponent {
         state: STATE_NEW_ADDRESS
     };
 
-    handleFieldChange = this.handleFieldChange.bind(this);
-
     emailNote = __('You can create an account after checkout.');
 
     emailLoginNote = __('Looks like you already have account with us, please, log in!');
@@ -211,11 +209,11 @@ export default class CheckoutShippingStep extends PureComponent {
         }
     }
 
-    onSelectShippingMethod(method) {
+    onSelectShippingMethod = (method) => {
         this.setState({ activeShippingMethod: method });
-    }
+    };
 
-    onFormSuccess() {
+    onFormSuccess = () => {
         const { showNotification, saveAddressInformation, billingAddress } = this.props;
         const { activeShippingMethod } = this.state;
         const { method_code, carrier_code } = activeShippingMethod;
@@ -241,39 +239,29 @@ export default class CheckoutShippingStep extends PureComponent {
 
             saveAddressInformation(addressInformation);
         }
-    }
+    };
 
-    trimAddress(address) {
-        const {
-            city,
-            company,
-            country_id,
-            email,
-            firstname,
-            lastname,
-            postcode,
-            region,
-            region_id,
-            street,
-            telephone
-        } = address;
+    onCountrySelectChange = (index) => {
+        const { countryList } = this.props;
 
-        return {
-            city,
-            company,
-            country_id,
-            email,
-            firstname,
-            lastname,
-            postcode,
-            region,
-            region_id,
-            street: Object.values(street),
-            telephone
-        };
-    }
+        this.setState({
+            country_id: countryList[index].id,
+            selectedCountryIndex: index
+        }, this.handleFieldChange);
+    };
 
-    handleFieldChange() {
+    onRegionFieldChange = (region) => {
+        this.setState({ region, region_id: null }, this.handleFieldChange);
+    };
+
+    onRegionIdFieldChange = (region_id) => {
+        this.setState({
+            region_id: parseInt(region_id, 10),
+            region: null
+        }, this.handleFieldChange);
+    };
+
+    handleFieldChange = () => {
         const { showNotification } = this.props;
 
         this.setState({ loadingShippingMethods: true });
@@ -314,6 +302,36 @@ export default class CheckoutShippingStep extends PureComponent {
                 err => showNotification('error', err[0].debugMessage)
             );
         }, SHIPPING_METHODS_ESTIMATION_TIMEOUT);
+    };
+
+    trimAddress(address) {
+        const {
+            city,
+            company,
+            country_id,
+            email,
+            firstname,
+            lastname,
+            postcode,
+            region,
+            region_id,
+            street,
+            telephone
+        } = address;
+
+        return {
+            city,
+            company,
+            country_id,
+            email,
+            firstname,
+            lastname,
+            postcode,
+            region,
+            region_id,
+            street: Object.values(street),
+            telephone
+        };
     }
 
     renderField(id, overrideStateValue) {
@@ -363,10 +381,7 @@ export default class CheckoutShippingStep extends PureComponent {
               selectOptions={ countryList.map(({ id, label }, index) => ({ id, label, value: index })) }
               validation={ ['notEmpty'] }
               value={ selectedCountryIndex }
-              onChange={ index => this.setState({
-                  country_id: countryList[index].id,
-                  selectedCountryIndex: index
-              }, this.handleFieldChange) }
+              onChange={ this.onCountrySelectChange }
             />
         );
     }
@@ -386,10 +401,7 @@ export default class CheckoutShippingStep extends PureComponent {
                   selectOptions={ regions.map(({ id, name }) => ({ id, label: name, value: id })) }
                   validation={ ['notEmpty'] }
                   value={ region_id }
-                  onChange={ region_id => this.setState({
-                      region_id: parseInt(region_id, 10),
-                      region: null
-                  }, this.handleFieldChange) }
+                  onChange={ this.onRegionIdFieldChange }
                 />
             );
         }
@@ -400,10 +412,7 @@ export default class CheckoutShippingStep extends PureComponent {
               name={ REGION_FIELD_ID }
               type="text"
               placeholder="Region"
-              onChange={ region => this.setState({
-                  region,
-                  region_id: null
-              }, this.handleFieldChange) }
+              onChange={ this.onRegionFieldChange }
               value={ region }
             />
         );
@@ -521,7 +530,7 @@ export default class CheckoutShippingStep extends PureComponent {
         return (
             <Form
               mix={ { block: 'CheckoutShippingStep' } }
-              onSubmitSuccess={ validFields => this.onFormSuccess(validFields) }
+              onSubmitSuccess={ this.onFormSuccess }
               key="shipping_step"
             >
                 <Loader isLoading={ (isSignedIn && !finishedLoading) || loadingShippingInformationSave } />
@@ -531,7 +540,7 @@ export default class CheckoutShippingStep extends PureComponent {
                 <CheckoutShippingMethods
                   shippingMethods={ shippingMethods }
                   loadingShippingMethods={ loadingShippingMethods }
-                  onSelectShippingMethod={ method => this.onSelectShippingMethod(method) }
+                  onSelectShippingMethod={ this.onSelectShippingMethod }
                 />
 
                 <button

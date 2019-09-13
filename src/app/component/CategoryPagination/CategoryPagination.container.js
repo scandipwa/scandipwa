@@ -13,21 +13,21 @@ export class CategoryPaginationContainer extends PureComponent {
         location: LocationType.isRequired
     };
 
-    containerFunctions = {
-        getSearchQueryForPage: this.getSearchQueryForPage.bind(this)
-    };
+    containerFunctions = () => ({
+        getSearchQueryForPage: this.getSearchQueryForPage
+    });
 
-    getSearchQueryForPage(pageNumber) {
+    getSearchQueryForPage = (pageNumber) => {
         const { history, location } = this.props;
         const page = pageNumber !== 1 ? pageNumber : '';
         return generateQuery({ page }, location, history);
-    }
+    };
 
     render() {
         return (
             <CategoryPagination
               { ...this.props }
-              { ...this.containerFunctions }
+              { ...this.containerFunctions() }
             />
         );
     }

@@ -49,7 +49,7 @@ export default class Notification extends PureComponent {
      * Remove notification from screen
      * @return {void}
      */
-    hideNotification() {
+    hideNotification = () => {
         const { onHideNotification, notificationId } = this.props;
         this.setState({ isNotificationVisible: false });
 
@@ -57,7 +57,7 @@ export default class Notification extends PureComponent {
         this.CSSHideTimeout = setTimeout(() => {
             onHideNotification(notificationId);
         }, ANIMATION_DURATION);
-    }
+    };
 
     render() {
         const { notification } = this.props;
@@ -71,7 +71,7 @@ export default class Notification extends PureComponent {
 
         return (
             <div block="Notification" mods={ mods } ref={ this.notification }>
-                <button block="Notification" elem="Button" onClick={ () => this.hideNotification() }>Close</button>
+                <button block="Notification" elem="Button" onClick={ this.hideNotification }>Close</button>
                 <p block="Notification" elem="Text">{ msgText }</p>
                 { msgDebug && (
                     <pre block="Notification" elem="Debug">

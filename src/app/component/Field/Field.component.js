@@ -132,6 +132,8 @@ export default class Field extends PureComponent {
 
     handleSelectExpand = this.handleSelectExpand.bind(this);
 
+    handleSelectExpandedExpand = this.handleSelectExpandedExpand.bind(this);
+
     handleSelectListOptionClick = this.handleSelectListOptionClick.bind(this);
 
     handleSelectListKeyPress = this.handleSelectListKeyPress.bind(this);
@@ -214,6 +216,12 @@ export default class Field extends PureComponent {
 
     handleSelectExpand() {
         this.setState(({ isSelectExpanded }) => ({ isSelectExpanded: !isSelectExpanded }));
+    }
+
+    handleSelectExpandedExpand() {
+        const { isSelectExpanded } = this.state;
+
+        if (isSelectExpanded) this.handleSelectExpand();
     }
 
     handleSelectListOptionClick({ value }) {
@@ -511,7 +519,7 @@ export default class Field extends PureComponent {
         if (!selectOptions) throw new Error('Prop `selectOptions` is required for Field type `select`');
 
         return (
-            <ClickOutside onClick={ () => isExpanded && this.handleSelectExpand() }>
+            <ClickOutside onClick={ this.handleSelectExpandedExpand }>
                 <div
                   block="Field"
                   elem="SelectWrapper"

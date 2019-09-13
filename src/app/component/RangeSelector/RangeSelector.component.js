@@ -38,18 +38,22 @@ export default class RangeSelector extends PureComponent {
         };
     }
 
+    onChange = (value) => {
+        this.setState({ value });
+    };
+
     /**
      * Toggle on range selection change
      * @param {Object} value sliders mix and max values
      * @return {void}
      */
-    onChangeComplete(value) {
+    onChangeComplete = (value) => {
         const { onChangeComplete } = this.props;
 
         onChangeComplete(value);
 
         this.setState({ value: false });
-    }
+    };
 
     /**
      * Get selected value
@@ -89,8 +93,8 @@ export default class RangeSelector extends PureComponent {
                   minValue={ minValue }
                   maxValue={ maxValue }
                   value={ this.getValue() }
-                  onChangeComplete={ value => this.onChangeComplete(value) }
-                  onChange={ value => this.setState({ value }) }
+                  onChangeComplete={ this.onChangeComplete }
+                  onChange={ this.onChange }
                 />
             </div>
         );

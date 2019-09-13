@@ -30,8 +30,6 @@ export default class ExpandableContent extends PureComponent {
         isContentExpanded: false
     };
 
-    toggleExpand = this.toggleExpand.bind(this);
-
     constructor(props) {
         super(props);
 
@@ -39,11 +37,11 @@ export default class ExpandableContent extends PureComponent {
         this.state = { isContentExpanded };
     }
 
-    toggleExpand() {
+    toggleExpand = () => {
         this.setState(({ isContentExpanded }) => (
             { isContentExpanded: !isContentExpanded }
         ));
-    }
+    };
 
     renderButton() {
         const { isContentExpanded } = this.state;

@@ -61,8 +61,8 @@
     "react/jsx-indent": 0,
     "react/jsx-indent-props": 2,
     "react/jsx-no-bind": [2, {
-        "ignoreDOMComponents": false,
-        "ignoreRefs": false,
+        "ignoreDOMComponents": true,
+        "ignoreRefs": true,
         "allowArrowFunctions": false,
         "allowFunctions": false,
         "allowBind": false

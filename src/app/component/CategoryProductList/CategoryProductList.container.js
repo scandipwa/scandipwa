@@ -18,11 +18,6 @@ export class CategoryProductListContainer extends PureComponent {
 
     state = { pagesCount: 1 };
 
-    containerFunctions = {
-        loadPrevPage: this.loadPage.bind(this, false),
-        loadPage: this.loadPage.bind(this)
-    };
-
     componentDidMount() {
         const { pages } = this.props;
         const { pagesCount } = this.state;
@@ -44,6 +39,25 @@ export class CategoryProductListContainer extends PureComponent {
         isShowLoading: this._isShowLoading(),
         isVisible: this._isVisible()
     });
+
+    containerFunctions = () => ({
+        loadPrevPage: this.loadPage.bind(this, false),
+        loadPage: this.loadPage
+    });
+
+    loadPage = (next = true) => {
+        const { pagesCount } = this.state;
+        const { loadPage, totalPages, isLoading } = this.props;
+        const { minPage, maxPage, loadedPagesCount } = this._getPagesBounds();
+
+        const isUpdatable = totalPages > 0 && pagesCount === loadedPagesCount;
+        const shouldUpdateList = next ? maxPage < totalPages : minPage > 1;
+
+        if (isUpdatable && shouldUpdateList && !isLoading) {
+            this.setState({ pagesCount: pagesCount + 1 });
+            loadPage(next ? maxPage + 1 : minPage - 1);
+        }
+    };
 
     _getPageFromUrl() {
         const { location } = this.props;
@@ -73,26 +87,12 @@ export class CategoryProductListContainer extends PureComponent {
         return maxPage < totalPages;
     }
 
-    loadPage(next = true) {
-        const { pagesCount } = this.state;
-        const { loadPage, totalPages, isLoading } = this.props;
-        const { minPage, maxPage, loadedPagesCount } = this._getPagesBounds();
-
-        const isUpdatable = totalPages > 0 && pagesCount === loadedPagesCount;
-        const shouldUpdateList = next ? maxPage < totalPages : minPage > 1;
-
-        if (isUpdatable && shouldUpdateList && !isLoading) {
-            this.setState({ pagesCount: pagesCount + 1 });
-            loadPage(next ? maxPage + 1 : minPage - 1);
-        }
-    }
-
     render() {
         return (
             <CategoryProductList
               { ...this.props }
-              { ...this.containerFunctions }
               { ...this.containerProps() }
+              { ...this.containerFunctions() }
             />
         );
     }

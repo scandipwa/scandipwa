@@ -182,7 +182,7 @@ export default class CheckoutPreviewAndPaymentsStep extends PureComponent {
         return null;
     }
 
-    onFormSuccess() {
+    onFormSuccess = () => {
         const { savePaymentInformationAndPlaceOrder } = this.props;
         const correctAddress = this.getAddressFromState();
 
@@ -196,7 +196,40 @@ export default class CheckoutPreviewAndPaymentsStep extends PureComponent {
         this.setState({ loadingPaymentInformationSave: true, finishedLoading: false });
 
         savePaymentInformationAndPlaceOrder(paymentInformation);
-    }
+    };
+
+    onCountrySelectChange = (index) => {
+        const { countryList } = this.props;
+
+        this.setState({
+            country_id: countryList[index].id,
+            selectedCountryIndex: index
+        }, this.handleFieldChange);
+    };
+
+    onRegionFieldChange = (region) => {
+        this.setState({ region, region_id: null }, this.handleFieldChange);
+    };
+
+    onRegionIdFieldChange = (region_id) => {
+        this.setState({
+            region_id: parseInt(region_id, 10),
+            region: null
+        }, this.handleFieldChange);
+    };
+
+    onSameAsShippingChange = () => {
+        const { billingIsSame } = this.state;
+
+        this.setState(
+            { billingIsSame: !billingIsSame },
+            () => this.setState(({ billingIsSame }) => (
+                billingIsSame
+                    ? { state: STATE_SAME_ADDRESS }
+                    : { state: STATE_NEW_ADDRESS }
+            ))
+        );
+    };
 
     getAddressFromState() {
         const { state, billingAddress, shippingAddress } = this.state;
@@ -228,6 +261,10 @@ export default class CheckoutPreviewAndPaymentsStep extends PureComponent {
         return null;
     }
 
+    handleSelectPaymentMethod = (method) => {
+        this.setState({ activePaymentMethod: method });
+    };
+
     trimAddress(address) {
         const { email: stateEmail, shippingAddress: { email: shippingEmail } } = this.state;
         const {
@@ -258,10 +295,6 @@ export default class CheckoutPreviewAndPaymentsStep extends PureComponent {
             street: Object.values(street),
             telephone
         };
-    }
-
-    handleSelectPaymentMethod(method) {
-        this.setState({ activePaymentMethod: method });
     }
 
     changeState(state, billingValue) {
@@ -323,10 +356,7 @@ export default class CheckoutPreviewAndPaymentsStep extends PureComponent {
               selectOptions={ countryList.map(({ id, label }, index) => ({ id, label, value: index })) }
               validation={ ['notEmpty'] }
               value={ selectedCountryIndex }
-              onChange={ index => this.setState({
-                  country_id: countryList[index].id,
-                  selectedCountryIndex: index
-              }, this.handleFieldChange) }
+              onChange={ this.onCountrySelectChange }
             />
         );
     }
@@ -346,10 +376,7 @@ export default class CheckoutPreviewAndPaymentsStep extends PureComponent {
                   selectOptions={ regions.map(({ id, name }) => ({ id, label: name, value: id })) }
                   validation={ ['notEmpty'] }
                   value={ region_id }
-                  onChange={ region_id => this.setState({
-                      region_id: parseInt(region_id, 10),
-                      region: null
-                  }, this.handleFieldChange) }
+                  onChange={ this.onRegionIdFieldChange }
                 />
             );
         }
@@ -360,7 +387,7 @@ export default class CheckoutPreviewAndPaymentsStep extends PureComponent {
               name={ REGION_FIELD_ID }
               type="text"
               placeholder="Region"
-              onChange={ region => this.setState({ region, region_id: null }, this.handleFieldChange) }
+              onChange={ this.onRegionFieldChange }
               value={ region }
             />
         );
@@ -442,7 +469,7 @@ export default class CheckoutPreviewAndPaymentsStep extends PureComponent {
         return (
             <Form
               mix={ { block: 'CheckoutPreviewAndPaymentsStep' } }
-              onSubmitSuccess={ validFields => this.onFormSuccess(validFields) }
+              onSubmitSuccess={ this.onFormSuccess }
               key="review_and_payment_step"
             >
                 <Loader isLoading={ !finishedLoading || loadingPaymentInformationSave } />
@@ -462,14 +489,7 @@ export default class CheckoutPreviewAndPaymentsStep extends PureComponent {
                           label={ __('My billing and shipping are the same') }
                           value="sameAsShippingAddress"
                           checked={ !!billingIsSame }
-                          onChange={ () => this.setState(
-                              { billingIsSame: !billingIsSame },
-                              () => this.setState(({ billingIsSame }) => (
-                                  billingIsSame
-                                      ? { state: STATE_SAME_ADDRESS }
-                                      : { state: STATE_NEW_ADDRESS }
-                              ))
-                          ) }
+                          onChange={ this.onSameAsShippingChange }
                         />
                     ) }
 
@@ -478,7 +498,7 @@ export default class CheckoutPreviewAndPaymentsStep extends PureComponent {
 
                 <CheckoutPaymentMethods
                   paymentMethods={ paymentMethods }
-                  onSelectPaymentMethod={ method => this.handleSelectPaymentMethod(method) }
+                  onSelectPaymentMethod={ this.handleSelectPaymentMethod }
                 />
 
                 <button

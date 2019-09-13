@@ -27,14 +27,14 @@ export default class CategorySearch extends PureComponent {
         if (prevValue !== value) this.setState({ value });
     }
 
-    onChange(e) {
+    onChange = (e) => {
         const { value } = e.target;
         const { onChange } = this.props;
         this.setState({ value });
 
         clearTimeout(this.timeout);
         this.timeout = setTimeout(onChange, CATEGORY_SEARCH_TIMEOUT, value);
-    }
+    };
 
     render() {
         const { value } = this.state;
@@ -42,7 +42,7 @@ export default class CategorySearch extends PureComponent {
             <input
               block="CategorySearch"
               value={ value }
-              onChange={ e => this.onChange(e) }
+              onChange={ this.onChange }
               placeholder={ __('I`m looking for...') }
             />
         );
