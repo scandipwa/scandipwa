@@ -13,6 +13,7 @@ import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import './CategoryPagination.style';
 import CategoryPaginationLink from 'Component/CategoryPaginationLink';
+import TextPlaceholder from 'Component/TextPlaceholder';
 
 export default class CategoryPagination extends PureComponent {
     static propTypes = {
@@ -56,11 +57,11 @@ export default class CategoryPagination extends PureComponent {
                 <CategoryPaginationLink
                   text={ text }
                   label={ label }
-                  getPage={ getPage }
-                  url_path={ url_path }
+                  url_path={ pathname }
+                  getPage={ onPageSelect }
                   isCurrent={ isCurrent }
                   pageNumber={ pageNumber }
-                  getSearchQueryForPage={ getSearchQueryForPage }
+                  getSearchQueryForPage={ getSearchQuery }
                 />
             </li>
         );
