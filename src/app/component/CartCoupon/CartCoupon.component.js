@@ -99,9 +99,10 @@ class CartCoupon extends PureComponent {
         return (
             <div block="CartCoupon">
                 <Loader isLoading={ isLoading } />
-                { !couponCode
-                    ? this.renderApplyCoupon()
-                    : this.renderRemoveCoupon() }
+                { (couponCode
+                    ? this.renderRemoveCoupon()
+                    : this.renderApplyCoupon()
+                ) }
             </div>
         );
     }
