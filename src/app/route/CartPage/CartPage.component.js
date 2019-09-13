@@ -144,8 +144,7 @@ class CartPage extends Component {
         return (
             <>
                 <dt>
-                    { __('Coupon') }
-                    { ' ' }
+                    { __('Coupon ') }
                     <strong block="CartPage" elem="DiscountCoupon">{ coupon_code.toUpperCase() }</strong>
                 </dt>
                 <dd>{ `-${this.renderPriceLine(Math.abs(discount_amount))}` }</dd>
