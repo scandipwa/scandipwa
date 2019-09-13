@@ -189,6 +189,7 @@ export default class ProductAttributeValue extends Component {
         if (attribute_code && !attribute_value) return null;
 
         const href = getLink(attribute);
+        // Invert to apply css rule without using not()
         const isNotAvailable = !isAvailable;
 
         return (
