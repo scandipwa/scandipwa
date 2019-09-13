@@ -26,7 +26,8 @@ export default class ProductConfigurableAttributes extends Component {
         parameters: PropTypes.shape({}).isRequired,
         updateConfigurableVariant: PropTypes.func.isRequired,
         isReady: PropTypes.bool,
-        mix: MixType
+        mix: MixType,
+        variants: PropTypes.arrayOf(AttributeType)
     };
 
     static defaultProps = {
@@ -34,7 +35,8 @@ export default class ProductConfigurableAttributes extends Component {
         mix: {},
         // eslint-disable-next-line no-magic-numbers
         numberOfPlaceholders: [6, 10, 7],
-        isContentExpanded: false
+        isContentExpanded: false,
+        variants: []
     };
 
     /**
@@ -84,6 +86,46 @@ export default class ProductConfigurableAttributes extends Component {
         return parameter === attribute_value;
     }
 
+    /**
+     * Checks whether provided attribute is disabled
+     *
+     * @param {{ attribute_code: String, attribute_value: String }} { attribute_code, attribute_value }
+     * @returns {bool}
+     * @memberof ProductConfigurableAttributes
+     */
+    isEnabled({ attribute_code, attribute_value }) {
+        const { parameters, variants } = this.props;
+
+        const isEnabled = selectedOptions => variants
+            .some(({ attributes }) => {
+                // Check if variant has current attribute_code and attribute_value
+                const variantHasCurrentOption = Object.hasOwnProperty.call(attributes, attribute_code)
+                    && attributes[attribute_code].attribute_value === attribute_value;
+
+                if (!variantHasCurrentOption) return false;
+
+                // Check if variant has all currently selected options
+                return selectedOptions.every(([key, value]) => Object.hasOwnProperty.call(attributes, key)
+                    && attributes[key].attribute_value === value);
+            });
+
+        // If user already selected option with current attribute_code
+        if (Object.hasOwnProperty.call(parameters, attribute_code)) {
+            // If value matches current attribute_value, option should be enabled
+            if (parameters[attribute_code] === attribute_value) return true;
+
+            // If not then we need to check if there is a at least 1 variant
+            // that corresponds to all selected options, excluding current attribute_code, otherwise we will get false
+            const options = Object
+                .entries(parameters)
+                .filter(([key]) => key !== attribute_code);
+
+            return isEnabled(options);
+        }
+
+        return isEnabled(Object.entries(parameters));
+    }
+
     renderConfigurableAttributeValue(attribute) {
         const { attribute_value } = attribute;
 
@@ -92,6 +134,7 @@ export default class ProductConfigurableAttributes extends Component {
               key={ attribute_value }
               attribute={ attribute }
               isSelected={ this.isSelected(attribute) }
+              isEnabled={ this.isEnabled(attribute) }
               onClick={ this.handleOptionClick }
               getLink={ this.getLink }
             />
