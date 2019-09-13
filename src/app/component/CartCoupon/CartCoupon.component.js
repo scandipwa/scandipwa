@@ -20,26 +20,20 @@ class CartCoupon extends PureComponent {
         enteredCouponCode: ''
     };
 
-    handleCouponCodeChange = this.handleCouponCodeChange.bind(this);
-
-    handleApplyCoupon = this.handleApplyCoupon.bind(this);
-
-    handleRemoveCoupon = this.handleRemoveCoupon.bind(this);
-
-    handleCouponCodeChange(enteredCouponCode) {
+    handleCouponCodeChange = (enteredCouponCode) => {
         this.setState({
             enteredCouponCode
         });
-    }
+    };
 
-    handleApplyCoupon() {
+    handleApplyCoupon = () => {
         const { handleApplyCouponToCart } = this.props;
         const { enteredCouponCode } = this.state;
 
         handleApplyCouponToCart(enteredCouponCode);
-    }
+    };
 
-    handleRemoveCoupon() {
+    handleRemoveCoupon = () => {
         const { handleRemoveCouponFromCart } = this.props;
 
         handleRemoveCouponFromCart();
@@ -49,7 +43,7 @@ class CartCoupon extends PureComponent {
         this.setState({
             enteredCouponCode: ''
         });
-    }
+    };
 
     renderApplyCoupon() {
         const { enteredCouponCode } = this.state;
