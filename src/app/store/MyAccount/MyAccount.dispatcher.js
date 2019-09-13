@@ -158,7 +158,7 @@ export class MyAccountDispatcher {
             setAuthorizationToken(token);
             dispatch(updateCustomerSignInStatus(true));
             CartDispatcher.updateInitialCartData(dispatch);
-            WishlistDispatcher.updateInitialWishlistData(dispatch);
+            // WishlistDispatcher.updateInitialWishlistData(dispatch);
         } catch ([e]) {
             throw e;
         }

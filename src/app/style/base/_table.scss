@@ -12,28 +12,20 @@
 table {
     --table-secondary-color: #{transparentize($concrete, .4)};
 
-    tr {
-        &:nth-child(even) {
-            background-color: var(--table-secondary-color);
-        }
+    tr:nth-child(even),
+    thead tr {
+        background-color: var(--table-secondary-color);
+    }
+
+    thead tr {
+        border-bottom: 1px solid #{transparentize($black, .5)};
     }
 
     td,
     th {
         font-size: 1rem;
-        text-align: center;
         padding: 10px;
-
-        @include after-mobile {
-            min-width: 10rem;
-        }
-
-        &:last-child {
-            text-align: right;
-        }
-
-        &:first-child {
-            text-align: left;
-        }
+        text-align: left;
+        min-width: 10rem;
     }
 }

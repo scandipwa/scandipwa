@@ -20,7 +20,7 @@ export class ReviewQuery {
 
     getRatingQuery() {
         return new Field('getRatings')
-            .setAlias('rating_details')
+            .setAlias('reviewRatings')
             .addFieldList(this._getRatingFields());
     }
 

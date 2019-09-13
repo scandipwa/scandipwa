@@ -1,10 +1,10 @@
 import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { customerType } from 'Type/Account';
 import MyAccountAddressBook from './MyAccountAddressBook.component';
 
 export const mapStateToProps = state => ({
-    // wishlistItems: state.WishlistReducer.productsInWishlist
+    customer: state.MyAccountReducer.customer
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -13,15 +13,19 @@ export const mapDispatchToProps = dispatch => ({
 
 export class MyAccountAddressBookContainer extends PureComponent {
     static propTypes = {
-        // TODO: implement prop-types
+        customer: customerType.isRequired
     };
 
     containerFunctions = {
-        // getData: this.getData.bind(this)
+        getDefaultPostfix: this.getDefaultPostfix.bind(this)
     };
 
-    containerProps = () => {
-        // isDisabled: this._getIsDisabled()
+    getDefaultPostfix(address) {
+        const { default_billing, default_shipping } = address;
+        if (!default_billing && !default_shipping) return '';
+        if (default_billing && default_shipping) return ' - default shipping, billing address';
+        if (default_billing) return ' - default billing address';
+        return ' - default shipping address';
     }
 
     render() {
@@ -29,7 +33,6 @@ export class MyAccountAddressBookContainer extends PureComponent {
             <MyAccountAddressBook
               { ...this.props }
               { ...this.containerFunctions }
-              { ...this.containerProps() }
             />
         );
     }

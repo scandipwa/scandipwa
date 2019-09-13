@@ -4,10 +4,9 @@ import { connect } from 'react-redux';
 
 import { MyAccountDispatcher } from 'Store/MyAccount';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
-import { CUSTOMER_ACCOUNT } from 'Component/Header';
+import { CUSTOMER_ACCOUNT, HOME_PAGE } from 'Component/Header';
 import { changeHeaderState } from 'Store/Header';
-import { MatchType } from 'Type/Common';
-import { history } from 'Route';
+import { MatchType, HistoryType } from 'Type/Common';
 import {
     DASHBOARD,
     MY_ORDERS,
@@ -35,7 +34,8 @@ export class MyAccountContainer extends PureComponent {
         requestCustomerData: PropTypes.func.isRequired,
         updateBreadcrumbs: PropTypes.func.isRequired,
         isSignedIn: PropTypes.bool.isRequired,
-        match: MatchType.isRequired
+        match: MatchType.isRequired,
+        history: HistoryType.isRequired
     };
 
     containerFunctions = {
@@ -71,7 +71,8 @@ export class MyAccountContainer extends PureComponent {
                 } = {}
             } = {},
             changeHeaderState,
-            requestCustomerData
+            requestCustomerData,
+            history
         } = props;
 
         this.state = { activeTab };
@@ -97,6 +98,7 @@ export class MyAccountContainer extends PureComponent {
     };
 
     changeActiveTab(activeTab) {
+        const { history } = this.props;
         const { [activeTab]: { url } } = this.tabMap;
 
         this.setState({ activeTab }, () => this.updateBreadcrumbs());
@@ -115,7 +117,7 @@ export class MyAccountContainer extends PureComponent {
     }
 
     redirectIfNotSignedIn() {
-        const { isSignedIn } = this.props;
+        const { isSignedIn, history } = this.props;
         if (!isSignedIn) history.push('/');
     }
 

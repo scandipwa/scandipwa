@@ -12,7 +12,9 @@
 import { QueryDispatcher } from 'Util/Request';
 import { RegionQuery, ReviewQuery, ConfigQuery } from 'Query';
 import { showNotification } from 'Store/Notification';
-import { getCountryList, updateReviewRatings } from 'Store/Config';
+import { updateConfig } from 'Store/Config';
+import BrowserDatabase from 'Util/BrowserDatabase';
+import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
 export class ConfigDispatcher extends QueryDispatcher {
     constructor() {
@@ -21,10 +23,8 @@ export class ConfigDispatcher extends QueryDispatcher {
 
     onSuccess(data, dispatch) {
         if (data) {
-            const { countries, rating_details } = data;
-
-            dispatch(getCountryList(countries));
-            dispatch(updateReviewRatings(rating_details));
+            BrowserDatabase.setItem(data, 'config', ONE_MONTH_IN_SECONDS);
+            dispatch(updateConfig(data));
         }
     }
 

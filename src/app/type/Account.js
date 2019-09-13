@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-export const region = PropTypes.oneOfType([
+export const regionType = PropTypes.oneOfType([
     PropTypes.shape({
         region_code: PropTypes.string,
         region: PropTypes.string,
@@ -8,7 +8,7 @@ export const region = PropTypes.oneOfType([
     })
 ]);
 
-export const address = PropTypes.shape({
+export const addressType = PropTypes.shape({
     city: PropTypes.string,
     company: PropTypes.string,
     country_id: PropTypes.string,
@@ -22,17 +22,17 @@ export const address = PropTypes.shape({
     middlename: PropTypes.string,
     postcode: PropTypes.string,
     prefix: PropTypes.string,
-    region,
+    regionType,
     street: PropTypes.arrayOf(PropTypes.string),
     suffix: PropTypes.string,
     telephone: PropTypes.string,
     vat_id: PropTypes.string
 });
 
-export const addresses = PropTypes.arrayOf(address);
+export const addressesType = PropTypes.arrayOf(addressType);
 
 export const customerType = PropTypes.shape({
-    addresses,
+    addressesType,
     created_at: PropTypes.string,
     default_billing: PropTypes.string,
     default_shipping: PropTypes.string,

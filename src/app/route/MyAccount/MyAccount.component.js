@@ -35,6 +35,7 @@ class MyAccount extends PureComponent {
     render() {
         const { activeTab, tabMap, changeActiveTab } = this.props;
         const TabContent = this.renderMap[activeTab];
+        const { name } = tabMap[activeTab];
 
         return (
             <main block="MyAccount">
@@ -48,6 +49,7 @@ class MyAccount extends PureComponent {
                       changeActiveTab={ changeActiveTab }
                     />
                     <div block="MyAccount" elem="TabContent">
+                        <h1 block="MyAccount" elem="Heading">{ name }</h1>
                         <TabContent />
                     </div>
                 </ContentWrapper>

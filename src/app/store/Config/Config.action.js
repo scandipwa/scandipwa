@@ -8,16 +8,9 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+export const UPDATE_CONFIG = 'UPDATE_CONFIG';
 
-export const GET_COUNTRY_LIST = 'GET_COUNTRY_LIST';
-export const UPDATE_REVIEW_RATINGS = 'UPDATE_REVIEW_RATINGS';
-
-export const updateReviewRatings = reviewRatings => ({
-    type: UPDATE_REVIEW_RATINGS,
-    reviewRatings
-});
-
-export const getCountryList = countries => ({
-    type: GET_COUNTRY_LIST,
-    countries
+export const updateConfig = config => ({
+    type: UPDATE_CONFIG,
+    config
 });

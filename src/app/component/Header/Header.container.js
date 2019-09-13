@@ -113,6 +113,9 @@ export class HeaderContainer extends PureComponent {
         super(props);
 
         this.onRouteChanged(history.location, true);
+    }
+
+    componentDidMount() {
         history.listen(history => this.onRouteChanged(history));
     }
 

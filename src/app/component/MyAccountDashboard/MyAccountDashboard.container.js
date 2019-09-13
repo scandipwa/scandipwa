@@ -1,6 +1,7 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { customerType } from 'Type/Account';
 import MyAccountDashboard from './MyAccountDashboard.component';
 
 export const mapStateToProps = state => ({
@@ -13,16 +14,23 @@ export const mapDispatchToProps = dispatch => ({
 
 export class MyAccountDashboardContainer extends PureComponent {
     static propTypes = {
-        // TODO: implement prop-types
+        customer: customerType.isRequired
     };
 
     containerFunctions = {
-        // getData: this.getData.bind(this)
+        getDefaultAddress: this.getDefaultAddress.bind(this)
     };
+
+    getDefaultAddress(isBilling) {
+        const { customer: { addresses = [] } } = this.props;
+        const key = isBilling ? 'default_billing' : 'default_shipping';
+        return addresses.find(({ [key]: defaultAddress }) => defaultAddress);
+    }
 
     containerProps = () => {
         // isDisabled: this._getIsDisabled()
-    }
+    };
+
 
     render() {
         return (

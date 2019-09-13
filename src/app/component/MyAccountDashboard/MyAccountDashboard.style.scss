@@ -1,5 +1,16 @@
 .MyAccountDashboard {
-    &-DataTable {
-        margin-top: 2rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 2rem;
+
+    @include after-mobile {
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 4rem;
+    }
+
+    &-DefaultAddress {
+        @include after-mobile {
+            grid-row: 2;
+        }
     }
 }

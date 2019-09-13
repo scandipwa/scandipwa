@@ -26,16 +26,36 @@
 
     &-TabContent {
         background: var(--my-account-content-background);
-        padding: 2rem;
-        min-height: calc(100vh - var(--header-height) - var(--footer-height) - var(--breadcrumbs-height) - 2rem);
+        padding: 1rem;
 
         @include after-mobile {
             grid-row: span 2;
+            padding: 2rem;
         }
     }
 
     &-Heading {
         font-size: 20px;
         font-weight: 400;
+        text-transform: none;
+        margin: 0 0 2rem;
+
+        @include mobile {
+            display: none;
+        }
+    }
+
+    button {
+        @include mobile {
+            width: 100%;
+        }
+    }
+
+    button + button {
+        margin-top: 1rem;
+
+        @include after-mobile {
+            margin-left: 1rem;
+        }
     }
 }

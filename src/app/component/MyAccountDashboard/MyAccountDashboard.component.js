@@ -1,48 +1,66 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+
 import { customerType } from 'Type/Account';
-import './MyAccountDashboard.style';
+import MyAccountAddressTable from 'Component/MyAccountAddressTable';
 import Loader from 'Component/Loader';
+
+import './MyAccountDashboard.style';
+import MyAccountCustomerTable from 'Component/MyAccountCustomerTable';
 
 class MyAccountDashboard extends PureComponent {
     static propTypes = {
-        customer: customerType.isRequired
-        // TODO: implement prop-types
+        customer: customerType.isRequired,
+        getDefaultAddress: PropTypes.func.isRequired
     };
 
-    renderHeading() {
-        const { customer: { email } } = this.props;
+    renderDefaultAddressTable(isBilling) {
+        const { getDefaultAddress } = this.props;
+        const name = isBilling ? __('billing') : __('shipping');
+        const address = getDefaultAddress(isBilling);
+
+        if (!address) return <p>{ __('No %s address configured.', name) }</p>;
 
         return (
-            <h1 block="MyAccount" elem="Heading">
-                { __('My profile - ') }
-                <strong>{ email }</strong>
-            </h1>
+            <div
+              key={ name }
+              block="MyAccountDashboard"
+              elem="DefaultAddress"
+            >
+                <MyAccountAddressTable
+                  address={ address }
+                  showAdditionalFields
+                  title={ __('Default %s address', name) }
+                />
+            </div>
         );
     }
 
-    renderCustomerDataRow(key, label) {
-        const { customer: { [key]: value } } = this.props;
+    renderDefaultAddressTables() {
+        const { customer: { addresses = [] } } = this.props;
 
-        if (!value) return null;
+        if (!addresses.length) {
+            return (
+                <p>{ __('You have no configured addresses.') }</p>
+            );
+        }
 
-        return (
-            <tr>
-                <th>{ label }</th>
-                <td>{ value }</td>
-            </tr>
-        );
+        return [
+            this.renderDefaultAddressTable(),
+            this.renderDefaultAddressTable(true)
+        ];
     }
 
-    renderCustomerDataTable() {
+    renderCustomerTable() {
+        const { customer } = this.props;
+
         return (
-            <table block="MyAccountDashboard" elem="DataTable">
-                <tbody>
-                    { this.renderCustomerDataRow('firstname', 'First name') }
-                    { this.renderCustomerDataRow('lastname', 'Last name') }
-                    { this.renderCustomerDataRow('email', 'Email') }
-                </tbody>
-            </table>
+            <div block="MyAccountDashboard" elem="CustomerData">
+                <MyAccountCustomerTable
+                  customer={ customer }
+                  title={ __('My profile') }
+                />
+            </div>
         );
     }
 
@@ -52,8 +70,8 @@ class MyAccountDashboard extends PureComponent {
         return (
             <div block="MyAccountDashboard">
                 <Loader isLoading={ !id } />
-                { this.renderHeading() }
-                { this.renderCustomerDataTable() }
+                { this.renderCustomerTable() }
+                { this.renderDefaultAddressTables() }
             </div>
         );
     }
