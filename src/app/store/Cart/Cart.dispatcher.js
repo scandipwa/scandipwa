@@ -105,6 +105,30 @@ export class CartDispatcher {
         );
     }
 
+    applyCouponToCart(dispatch, couponCode) {
+        return fetchMutation(CartQuery.getApplyCouponMutation(
+            couponCode, !isSignedIn() && this._getGuestQuoteId()
+        )).then(
+            ({ applyCoupon: { cartData } }) => {
+                this._updateCartData(cartData, dispatch);
+                dispatch(showNotification('success', __('Coupon was applied!')));
+            },
+            error => dispatch(showNotification('error', error[0].message))
+        );
+    }
+
+    removeCouponFromCart(dispatch) {
+        return fetchMutation(CartQuery.getRemoveCouponMutation(
+            !isSignedIn() && this._getGuestQuoteId()
+        )).then(
+            ({ removeCoupon: { cartData } }) => {
+                this._updateCartData(cartData, dispatch);
+                dispatch(showNotification('success', __('Coupon was removed!')));
+            },
+            error => dispatch(showNotification('error', error[0].message))
+        );
+    }
+
     _updateCartData(cartData, dispatch) {
         const { items } = cartData;
 
