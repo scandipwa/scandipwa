@@ -70,8 +70,7 @@ export default class CmsPage extends Component {
               block="CmsPage"
               mods={ { isBreadcrumbsHidden: !isBreadcrumbsActive } }
             >
-                { /* eslint-disable-next-line react/forbid-dom-props */ }
-                <div className={ `CmsPage-Wrapper CmsPage-Wrapper_page_width_${page_width}` }>
+                <div block="CmsPage" elem="Wrapper" mods={ { page_width } }>
                     <Meta metaObject={ page } />
                     { this.renderHeading() }
                     <div block="CmsPage" elem="Content">

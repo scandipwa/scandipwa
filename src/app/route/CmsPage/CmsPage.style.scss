@@ -9,10 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-:root {
-    --content-wrapper-width: 1400px;
-}
-
 .CmsPage {
     @include mobile {
         border-top: 1px solid var(--overlay-divider-color);
