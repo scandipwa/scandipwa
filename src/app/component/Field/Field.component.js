@@ -122,6 +122,8 @@ export default class Field extends PureComponent {
 
     onChange = this.onChange.bind(this);
 
+    onChangeCheckbox = this.onChangeCheckbox.bind(this);
+
     onFocus = this.onFocus.bind(this);
 
     onKeyPress = this.onKeyPress.bind(this);
@@ -144,16 +146,18 @@ export default class Field extends PureComponent {
         this.state = {
             value: this._getInitialPropsValue(),
             valueIndex: -1,
-            isSelectExpanded: false,
-            searchString: 'a'
+            checked: false,
+            searchString: 'a',
+            isSelectExpanded: false
         };
     }
 
     componentDidUpdate(prevProps) {
-        const { value: prevValue } = prevProps;
-        const { value: currentValue } = this.props;
+        const { value: prevValue, checked: prevChecked } = prevProps;
+        const { value: currentValue, checked: currChecked, type } = this.props;
 
         if (prevValue !== currentValue) this.setState({ value: currentValue });
+        if (type === CHECKBOX_TYPE && currChecked !== prevChecked) this.setState({ checked: currChecked });
     }
 
     onChange(event) {
@@ -162,6 +166,14 @@ export default class Field extends PureComponent {
         }
 
         return this.handleChange(event.target.value);
+    }
+
+    onChangeCheckbox(event) {
+        const { onChange } = this.props;
+        const { target: { checked, value } } = event;
+
+        if (onChange) onChange(value, checked);
+        return this.setState({ checked });
     }
 
     onFocus(event) {
@@ -436,8 +448,9 @@ export default class Field extends PureComponent {
 
     renderCheckbox() {
         const {
-            id, name, formRef, disabled, checked
+            id, name, formRef, disabled
         } = this.props;
+        const { value, checked } = this.state;
 
         return (
             <>
@@ -446,11 +459,10 @@ export default class Field extends PureComponent {
                   id={ id }
                   name={ name }
                   type="checkbox"
+                  value={ value }
                   checked={ checked }
                   disabled={ disabled }
-                //   onFocus={ this.onFocus }
-                  onChange={ this.onChange }
-                //   onKeyPress={ this.onKeyPress }
+                  onChange={ this.onChangeCheckbox }
                 />
                 <label htmlFor={ id } />
             </>
