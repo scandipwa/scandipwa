@@ -97,7 +97,9 @@ export default class ProductConfigurableAttributes extends Component {
         const { parameters, variants } = this.props;
 
         const isAvailable = selectedOptions => variants
-            .some(({ attributes }) => {
+            .some(({ stock_status, attributes }) => {
+                if (stock_status !== 'IN_STOCK') return false;
+
                 // Check if variant has current attribute_code and attribute_value
                 const variantHasCurrentOption = Object.hasOwnProperty.call(attributes, attribute_code)
                     && attributes[attribute_code].attribute_value === attribute_value;
