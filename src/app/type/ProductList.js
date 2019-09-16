@@ -131,3 +131,14 @@ export const FilterType = PropTypes.objectOf(
 export const ItemsType = PropTypes.arrayOf(ProductType);
 
 export const PagesType = PropTypes.objectOf(ItemsType);
+
+export const FilterInputType = PropTypes.shape({
+    categoryIds: PropTypes.number,
+    categoryUrlPath: PropTypes.string,
+    customFilters: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
+    priceRange: PropTypes.shape({
+        min: PropTypes.number,
+        max: PropTypes.number
+    }),
+    condtions: PropTypes.string
+});

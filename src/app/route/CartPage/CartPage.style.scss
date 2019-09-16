@@ -233,4 +233,11 @@
             justify-content: center;
         }
     }
+
+    &-DiscountCoupon {
+        &::after {
+            content: ':';
+            font-weight: normal;
+        }
+    }
 }

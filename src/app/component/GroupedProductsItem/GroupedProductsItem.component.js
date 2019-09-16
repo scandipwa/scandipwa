@@ -56,7 +56,7 @@ export default class GroupedProductsItem extends PureComponent {
                       type="number"
                       id="HeaderInput"
                       name="HeaderInput"
-                      onChange={ itemCount => changeCount(itemCount) }
+                      onChange={ changeCount }
                       value={ itemCount }
                     />
                 </div>

@@ -34,7 +34,7 @@ export class HeaderAndFooterDispatcher extends QueryDispatcher {
 
     /**
      * Prepare Header and Footer requests
-     * @param {{ menuId: String }} options A object containing different aspects of query, each item can be omitted
+     * @param {{ identifier: String }} options A object containing different aspects of query, each item can be omitted
      * @return {Query} Menu query
      * @memberof HeaderAndFooterDispatcher
      */

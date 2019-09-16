@@ -18,13 +18,7 @@ import { toggleOverlayByKey } from 'Store/Overlay';
 import { changeHeaderState } from 'Store/Header';
 import { CategoryTreeType } from 'Type/Category';
 import { CATEGORY } from 'Component/Header';
-import { PagesType } from 'Type/ProductList';
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
-
-import {
-    ProductListDispatcher,
-    updateLoadStatus as updateProductLoadStatus
-} from 'Store/ProductList';
 
 import {
     ProductListInfoDispatcher,
@@ -44,9 +38,6 @@ import CategoryPage from './CategoryPage.component';
 
 export const mapStateToProps = state => ({
     category: state.CategoryReducer.category,
-    pages: state.ProductListReducer.pages,
-    totalItems: state.ProductListReducer.totalItems,
-    isPagesLoading: state.ProductListReducer.isLoading,
     filters: state.ProductListInfoReducer.filters,
     sortFields: state.ProductListInfoReducer.sortFields,
     minPriceRange: state.ProductListInfoReducer.minPrice,
@@ -61,27 +52,20 @@ export const mapDispatchToProps = dispatch => ({
     updateBreadcrumbs: breadcrumbs => ((Object.keys(breadcrumbs).length)
         ? BreadcrumbsDispatcher.updateWithCategory(breadcrumbs, dispatch)
         : BreadcrumbsDispatcher.update([], dispatch)),
-    requestProductList: options => ProductListDispatcher.handleData(dispatch, options),
     requestProductListInfo: options => ProductListInfoDispatcher.handleData(dispatch, options),
-    updateLoadStatus: (options) => {
-        dispatch(updateInfoLoadStatus(options));
-        dispatch(updateProductLoadStatus(options));
-    }
+    updateLoadStatus: isLoading => dispatch(updateInfoLoadStatus(isLoading))
 });
 
 export class CategoryPageContainer extends PureComponent {
     static propTypes = {
         history: HistoryType.isRequired,
         category: CategoryTreeType.isRequired,
-        pages: PagesType.isRequired,
-        totalItems: PropTypes.number.isRequired,
         minPriceRange: PropTypes.number.isRequired,
         maxPriceRange: PropTypes.number.isRequired,
         location: LocationType.isRequired,
         match: MatchType.isRequired,
         requestCategory: PropTypes.func.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
-        requestProductList: PropTypes.func.isRequired,
         requestProductListInfo: PropTypes.func.isRequired,
         updateBreadcrumbs: PropTypes.func.isRequired,
         updateLoadStatus: PropTypes.func.isRequired,
@@ -90,7 +74,6 @@ export class CategoryPageContainer extends PureComponent {
             options: PropTypes.array
         }).isRequired,
         isInfoLoading: PropTypes.bool.isRequired,
-        isPagesLoading: PropTypes.bool.isRequired,
         categoryIds: PropTypes.number,
         isOnlyPlaceholder: PropTypes.bool,
         isSearchPage: PropTypes.bool
@@ -103,7 +86,6 @@ export class CategoryPageContainer extends PureComponent {
     };
 
     config = {
-        pageSize: 12,
         defaultPriceRange: { min: 0, max: 300 },
         sortKey: 'name',
         sortDirection: 'ASC'
@@ -112,12 +94,9 @@ export class CategoryPageContainer extends PureComponent {
     containerFunctions = {
         onSortChange: this.onSortChange.bind(this),
         isNewCategory: this.isNewCategory.bind(this),
-        requestPage: this.requestPage.bind(this),
-        requestNextPage: this.requestNextPage.bind(this),
         updateFilter: this.updateFilter.bind(this),
         getFilterUrl: this.getFilterUrl.bind(this),
-        updatePriceRange: this.updatePriceRange.bind(this),
-        updatePage: this.updatePage.bind(this)
+        updatePriceRange: this.updatePriceRange.bind(this)
     };
 
     componentDidMount() {
@@ -135,15 +114,15 @@ export class CategoryPageContainer extends PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        const { location, category: { id }, categoryIds } = this.props;
+        const { category: { id }, categoryIds } = this.props;
         const { category: { id: prevId }, categoryIds: prevCategoryIds } = prevProps;
 
         // update breadcrumbs only if category has changed
         if (id !== prevId) this._onCategoryUpdate();
 
         // update category only if route or search query has been changed
-        if (this._urlHasChanged(location, prevProps) || categoryIds !== prevCategoryIds) {
-            this._requestCategoryWithPageList(this.isNewCategory());
+        if (this.isNewCategory() || categoryIds !== prevCategoryIds) {
+            this._requestCategoryWithPageList();
         }
     }
 
@@ -161,9 +140,10 @@ export class CategoryPageContainer extends PureComponent {
     }
 
     containerProps = () => ({
-        pageParams: this._getPageParams(),
-        selectedFilters: this._getSelectedFiltersFromUrl(),
+        filter: this._getFilter(),
+        search: this._getSearchParam(),
         selectedSort: this._getSelectedSortFromUrl(),
+        selectedFilters: this._getSelectedFiltersFromUrl(),
         selectedPriceRange: this._getPriceRangeForSlider()
     });
 
@@ -173,14 +153,6 @@ export class CategoryPageContainer extends PureComponent {
         setQueryParams({
             search: value,
             page: ''
-        }, location, history);
-    }
-
-    updatePage(pageNumber) {
-        const { location, history } = this.props;
-
-        setQueryParams({
-            page: pageNumber === 1 ? '' : pageNumber
         }, location, history);
     }
 
@@ -201,16 +173,6 @@ export class CategoryPageContainer extends PureComponent {
             customFilters: this.getFilterUrl(filterName, filterArray, false),
             page: ''
         }, location, history);
-    }
-
-    requestPage(pageNumber, isNext = false) {
-        const { requestProductList } = this.props;
-        if (!isNext) window.scrollTo(0, 0);
-        requestProductList(this._getProductListOptions(pageNumber || 1, isNext));
-    }
-
-    requestNextPage(pageNumber) {
-        this.requestPage(pageNumber, true);
     }
 
     isNewCategory() {
@@ -256,16 +218,6 @@ export class CategoryPageContainer extends PureComponent {
         return search ? decodeURIComponent(search) : '';
     }
 
-    _getPageParams() {
-        const { totalItems, pages } = this.props;
-        const { pageSize } = this.config;
-
-        const totalPages = Math.ceil(totalItems / pageSize);
-        const currentPage = Math.max(...Object.keys(pages));
-
-        return { totalPages, currentPage };
-    }
-
     _getSelectedPriceRangeFromUrl() {
         const { location } = this.props;
         const min = +getQueryParam('priceMin', location);
@@ -304,42 +256,32 @@ export class CategoryPageContainer extends PureComponent {
         return path.indexOf('search') === 0 ? null : path;
     }
 
-    _getProductListOptions(currentPage, isNext, isInfo) {
+    _getFilter() {
         const { categoryIds } = this.props;
-        const { pageSize } = this.config;
-
         const categoryUrlPath = !categoryIds ? this._getCategoryUrlPath() : null;
         const customFilters = this._getSelectedFiltersFromUrl();
         const priceRange = this._getSelectedPriceRangeFromUrl();
-        const search = this._getSearchParam();
-        const sort = this._getSelectedSortFromUrl();
-
-        if (isInfo) {
-            return {
-                args: {
-                    filter: {
-                        categoryUrlPath,
-                        categoryIds
-                    }
-                },
-                currentPage
-            };
-        }
 
         return {
-            isNext,
+            priceRange,
+            categoryIds,
+            customFilters,
+            categoryUrlPath
+        };
+    }
+
+    _getProductListOptions(currentPage) {
+        const { categoryIds } = this.props;
+        const categoryUrlPath = !categoryIds ? this._getCategoryUrlPath() : null;
+
+        return {
             args: {
                 filter: {
                     categoryUrlPath,
-                    customFilters,
-                    categoryIds,
-                    priceRange
-                },
-                currentPage,
-                pageSize,
-                search,
-                sort
-            }
+                    categoryIds
+                }
+            },
+            currentPage
         };
     }
 
@@ -374,19 +316,14 @@ export class CategoryPageContainer extends PureComponent {
 
         requestCategory({
             categoryUrlPath,
-            isSearchPage: isSearchPage || false,
+            isSearchPage,
             categoryIds
         });
     }
 
-    _requestCategoryWithPageList(shouldRequestProductListInfo = true) {
+    _requestCategoryWithPageList() {
         this._requestCategory();
-
-        if (shouldRequestProductListInfo) {
-            this._requestCategoryProductsInfo();
-        }
-
-        this.requestPage(getQueryParam('page', location) || 1);
+        this._requestCategoryProductsInfo();
     }
 
     _compareQueriesWithFilter(search, prevSearch, filter) {
@@ -423,9 +360,12 @@ export class CategoryPageContainer extends PureComponent {
     }
 
     render() {
+        const { pageSize } = this.config;
+
         return (
             <CategoryPage
               { ...this.props }
+              pageSize={ pageSize }
               { ...this.containerFunctions }
               { ...this.containerProps() }
             />

@@ -110,6 +110,7 @@
     }
 
     &-Total,
+    &-Discount,
     &-Tax {
         display: flex;
         justify-content: space-between;
@@ -129,6 +130,13 @@
 
         @include after-mobile {
             border-bottom: 1px solid var(--cart-item-divider-color);
+        }
+    }
+
+    &-DiscountCoupon {
+        &::after {
+            content: ':';
+            font-weight: normal;
         }
     }
 }

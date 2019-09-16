@@ -26,7 +26,7 @@ export default class ExpandableContent extends PureComponent {
             const propValue = props[propName];
             if (propValue === null) return;
             if (typeof propValue === 'function') return;
-            return new Error(`${componentName} only accepts null or string`)
+            throw new Error(`${componentName} only accepts null or string`);
         }
     };
 
@@ -36,8 +36,6 @@ export default class ExpandableContent extends PureComponent {
         isContentExpanded: false,
         onClick: null
     };
-
-    toggleExpand = this.toggleExpand.bind(this);
 
     constructor(props) {
         super(props);
@@ -61,14 +59,13 @@ export default class ExpandableContent extends PureComponent {
         return null;
     }
 
-    toggleExpand() {
+    toggleExpand = () => {
         const { onClick } = this.props;
         if (onClick) { onClick(); return; }
-
         this.setState(({ isContentExpanded }) => (
             { isContentExpanded: !isContentExpanded }
         ));
-    }
+    };
 
     renderButton() {
         const { isContentExpanded } = this.state;

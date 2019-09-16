@@ -14,6 +14,7 @@ import PropTypes from 'prop-types';
 import Slider from 'Component/Slider';
 import Image from 'Component/Image';
 import './ProductGallery.style';
+import ProductGalleryImage from 'Component/ProductGalleryImage';
 
 export const GALLERY_LENGTH_BEFORE_COLLAPSE = 4;
 
@@ -48,30 +49,13 @@ export default class ProductGallery extends PureComponent {
     }
 
     renderAdditionalPicture(media, index = 0) {
-        const {
-            alt,
-            type,
-            image,
-            isPlaceholder
-        } = media;
-
         return (
-            <button
-              block="ProductGallery"
-              elem="Image"
+            <ProductGalleryImage
               key={ index }
-              mods={ { type } }
-              onClick={ () => this.onActiveImageChange(index) }
-            >
-                <Image
-                  key={ index }
-                  src={ image }
-                  alt={ alt }
-                  ratio="custom"
-                  isPlaceholder={ isPlaceholder }
-                  mix={ { block: 'ProductGallery', elem: 'Image' } }
-                />
-            </button>
+              media={ media }
+              index={ index }
+              onActiveImageChange={ this.onActiveImageChange }
+            />
         );
     }
 
@@ -91,7 +75,7 @@ export default class ProductGallery extends PureComponent {
             image,
             isPlaceholder
         } = media;
-        const fullImageUrl = `${window.location.hostname}${image}`;
+        const fullImageUrl = `//${window.location.hostname}${image}`;
 
         switch (type) {
         case 'image':

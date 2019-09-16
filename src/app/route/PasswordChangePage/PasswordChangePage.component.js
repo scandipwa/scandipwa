@@ -23,7 +23,7 @@ import './PasswordChangePage.style';
 const STATUS_PASSOWORD_UPDATED = 'password_updated';
 const STATUS_PASSOWORD_MISSMATCH = 'passwords_miss_match';
 
-class PasswordChangePage extends Component {
+export default class PasswordChangePage extends Component {
     static propTypes = {
         updateBreadcrumbs: PropTypes.func.isRequired,
         resetPassword: PropTypes.func.isRequired,
@@ -62,21 +62,21 @@ class PasswordChangePage extends Component {
         return Object.keys(stateToBeUpdated).length ? stateToBeUpdated : null;
     }
 
-    onPasswordSuccess(fields) {
+    onPasswordSuccess = (fields) => {
         const { resetPassword, location } = this.props;
         const { passwordReset: password, passwordResetConfirm: password_confirmation } = fields;
         const token = getQueryParam('token', location);
 
         resetPassword({ token, password, password_confirmation });
-    }
+    };
 
-    onPasswordAttempt() {
+    onPasswordAttempt = () => {
         this.setState({ isLoading: true });
-    }
+    };
 
-    onError() {
+    onError = () => {
         this.setState({ isLoading: false });
-    }
+    };
 
     updateBreadcrumbs() {
         const { updateBreadcrumbs } = this.props;
@@ -113,9 +113,9 @@ class PasswordChangePage extends Component {
                         <h1>{ __('Change My Password') }</h1>
                         <Form
                           key="reset-password"
-                          onSubmit={ () => this.onPasswordAttempt() }
-                          onSubmitSuccess={ fields => this.onPasswordSuccess(fields) }
-                          onSubmitError={ () => this.onError() }
+                          onSubmit={ this.onPasswordAttempt }
+                          onSubmitSuccess={ this.onPasswordSuccess }
+                          onSubmitError={ this.onError }
                         >
                             <Field
                               type="password"
@@ -143,5 +143,3 @@ class PasswordChangePage extends Component {
         );
     }
 }
-
-export default PasswordChangePage;

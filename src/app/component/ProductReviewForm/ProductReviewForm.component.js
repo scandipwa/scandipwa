@@ -20,6 +20,7 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import Loader from 'Component/Loader';
 import { customerType } from 'Type/Account';
 import './ProductReviewForm.style';
+import ReviewStar from 'Component/ReviewStar';
 
 /**
  * ProductReviewForm
@@ -48,7 +49,7 @@ export default class ProductReviewForm extends PureComponent {
         ratingData: {}
     };
 
-    onReviewSubmitAttempt(_, invalidFields) {
+    onReviewSubmitAttempt = (_, invalidFields) => {
         const { showNotification, reviewRatings } = this.props;
         const { ratingData } = this.state;
 
@@ -60,9 +61,9 @@ export default class ProductReviewForm extends PureComponent {
         }
 
         this.setState({ isLoading: !reviewsAreNotValid });
-    }
+    };
 
-    onReviewSubmitSuccess(fields) {
+    onReviewSubmitSuccess = (fields) => {
         const { product, addReview } = this.props;
         const { ratingData: rating_data } = this.state;
         const { nickname, title, detail } = fields;
@@ -85,13 +86,13 @@ export default class ProductReviewForm extends PureComponent {
                 this.setState({ isLoading: false });
             });
         }
-    }
+    };
 
-    onStarRatingClick(rating_id, option_id) {
+    onStarRatingClick = (rating_id, option_id) => {
         const { ratingData } = this.state;
         ratingData[rating_id] = option_id;
         this.setState({ ratingData });
-    }
+    };
 
     renderReviewStar(options, rating_id) {
         const { option_id, value } = options;
@@ -99,16 +100,14 @@ export default class ProductReviewForm extends PureComponent {
         const isChecked = !!ratingData[rating_id] && ratingData[rating_id] === option_id;
 
         return (
-            <input
+            <ReviewStar
               key={ option_id }
-              block="ProductReviewForm"
-              elem="RatingInput"
-              type="radio"
-              name="raiting"
               value={ value }
-              defaultChecked={ isChecked }
               title={ this.ratingTitleMap[value] }
-              onClick={ () => this.onStarRatingClick(rating_id, option_id) }
+              isChecked={ isChecked }
+              option_id={ option_id }
+              rating_id={ rating_id }
+              onStarRatingClick={ this.onStarRatingClick }
             />
         );
     }
@@ -203,9 +202,9 @@ export default class ProductReviewForm extends PureComponent {
                   key="product-review"
                   mix={ { block: 'ProductReviewForm', elem: 'Form' } }
                   ref={ (el) => { this.formRef = el; } }
-                  onSubmit={ () => this.onReviewSubmitAttempt() }
-                  onSubmitSuccess={ fields => this.onReviewSubmitSuccess(fields) }
-                  onSubmitError={ (fields, invalidFields) => this.onReviewSubmitAttempt(fields, invalidFields) }
+                  onSubmit={ this.onReviewSubmitAttempt }
+                  onSubmitSuccess={ this.onReviewSubmitSuccess }
+                  onSubmitError={ this.onReviewSubmitAttempt }
                 >
                     <Loader isLoading={ isLoading } />
                     { this.renderReviewFormContent() }

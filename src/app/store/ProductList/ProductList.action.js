@@ -33,10 +33,11 @@ export const appendPage = (items, currentPage) => ({
  * @param {Number} total_count Number of requested page
  * @return {void}
  */
-export const updateProductListItems = (items, currentPage, total_count) => ({
+export const updateProductListItems = (items, currentPage, total_count, total_pages) => ({
     type: UPDATE_PRODUCT_LIST_ITEMS,
     items,
     currentPage,
+    total_pages,
     total_count
 });
 

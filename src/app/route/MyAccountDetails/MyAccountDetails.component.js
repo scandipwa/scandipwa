@@ -30,7 +30,7 @@ export const STATE_UPDATE_ADDRESS = 'updateAddress';
 export const DEFAULT_COUNTRY = 'US';
 export const DEFAULT_REGION = 'AL';
 
-class MyAccountDetails extends Component {
+export default class MyAccountDetails extends Component {
     static propTypes = {
         history: HistoryType.isRequired,
         showNotification: PropTypes.func.isRequired,
@@ -712,16 +712,6 @@ class MyAccountDetails extends Component {
                 </div>
             </ExpandableContent>
         );
-
-        // return (
-        //     <fieldset
-        //       block="MyAccountDetails"
-        //       elem="Fieldset"
-        //       mods={ { type: 'AddressBook' } }
-        //     >
-        //         <legend block="MyAccountDetails" elem="Legend">Address Book</legend>
-        //     </fieldset>
-        // );
     }
 
     render() {
@@ -743,5 +733,3 @@ class MyAccountDetails extends Component {
         );
     }
 }
-
-export default MyAccountDetails;

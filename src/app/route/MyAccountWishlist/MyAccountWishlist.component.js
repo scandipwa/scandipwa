@@ -19,8 +19,7 @@ import { isSignedIn } from 'Util/Auth';
 import Loader from 'Component/Loader';
 import './MyAccountWishlist.style';
 
-
-class MyAccountWishlist extends Component {
+export default class MyAccountWishlist extends Component {
     static propTypes = {
         wishlistItems: PropTypes.objectOf(ProductType).isRequired,
         removeProductFromWishlist: PropTypes.func.isRequired,
@@ -174,5 +173,3 @@ class MyAccountWishlist extends Component {
         );
     }
 }
-
-export default MyAccountWishlist;

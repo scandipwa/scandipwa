@@ -29,8 +29,6 @@ export default class ClickOutside extends PureComponent {
         children: []
     };
 
-    handleClick = this.handleClick.bind(this);
-
     constructor(props) {
         super(props);
 
@@ -50,7 +48,7 @@ export default class ClickOutside extends PureComponent {
         document.removeEventListener('click', this.handleClick);
     }
 
-    handleClick({ target }) {
+    handleClick = ({ target }) => {
         const { onClick } = this.props;
 
         if (this.childrenRefs.every(
@@ -58,7 +56,7 @@ export default class ClickOutside extends PureComponent {
         )) {
             onClick();
         }
-    }
+    };
 
     render() {
         const { children } = this.props;

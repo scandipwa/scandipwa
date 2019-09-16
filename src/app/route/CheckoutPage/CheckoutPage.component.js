@@ -32,7 +32,7 @@ export const CHECKOUT_STEP_SHIPPING = 'shipping';
 export const CHECKOUT_STEP_REVIEW_AND_PAYMENTS = 'review-and-payments';
 export const CHECKOUT_STEP_SUCCESS = 'success';
 
-class CheckoutPage extends Component {
+export default class CheckoutPage extends Component {
     static propTypes = {
         savePaymentInformationAndPlaceOrder: PropTypes.func.isRequired,
         saveAddressInformation: PropTypes.func.isRequired,
@@ -70,6 +70,10 @@ class CheckoutPage extends Component {
         [CHECKOUT_STEP_REVIEW_AND_PAYMENTS]: __('2. Payment type'),
         [CHECKOUT_STEP_SUCCESS]: __('Order information')
     };
+
+    saveAddressInformation = this.saveAddressInformation.bind(this);
+
+    savePaymentInformationAndPlaceOrder = this.savePaymentInformationAndPlaceOrder.bind(this);
 
     constructor(props) {
         super(props);
@@ -238,7 +242,7 @@ class CheckoutPage extends Component {
 
         return (
             <CheckoutShippingStep
-              saveAddressInformation={ addressInformation => this.saveAddressInformation(addressInformation) }
+              saveAddressInformation={ this.saveAddressInformation }
               shippingAddress={ shippingAddress }
               billingAddress={ billingAddress }
               isSignedIn={ isSignedIn }
@@ -267,9 +271,7 @@ class CheckoutPage extends Component {
               billingAddress={ billingAddress }
               shippingAddress={ shippingAddress }
               paymentMethods={ paymentMethods }
-              savePaymentInformationAndPlaceOrder={ (
-                  paymentInformation => this.savePaymentInformationAndPlaceOrder(paymentInformation)
-              ) }
+              savePaymentInformationAndPlaceOrder={ this.savePaymentInformationAndPlaceOrder }
               email={ email }
               isSignedIn={ isSignedIn }
               finishedLoading={ addressesAreChecked }
@@ -351,5 +353,3 @@ class CheckoutPage extends Component {
         );
     }
 }
-
-export default CheckoutPage;

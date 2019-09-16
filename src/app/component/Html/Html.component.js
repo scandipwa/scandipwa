@@ -18,6 +18,7 @@ import attributesToProps from 'html-react-parser/lib/attributes-to-props';
 import Link from 'Component/Link';
 import PropTypes from 'prop-types';
 import Image from 'Component/Image';
+import WidgetFactory from 'Component/WidgetFactory';
 
 /**
  * Html content parser
@@ -30,6 +31,10 @@ export default class Html extends PureComponent {
     };
 
     rules = [
+        {
+            query: { name: ['widget'] },
+            replace: this.replaceWidget
+        },
         {
             query: { name: ['a'] },
             replace: this.replaceLinks
@@ -85,6 +90,20 @@ export default class Html extends PureComponent {
         }
     };
 
+    attributesToProps(attribs) {
+        const toCamelCase = string => string.replace(/_[a-z]/g, match => match.substr(1).toUpperCase());
+
+        const convertPropertiesToValidFormat = properties => Object.entries(properties)
+            .reduce((validProps, [key, value]) => {
+                // eslint-disable-next-line no-restricted-globals
+                if (!isNaN(value)) return { ...validProps, [toCamelCase(key)]: +value };
+                return { ...validProps, [toCamelCase(key)]: value };
+            }, {});
+
+        const properties = convertPropertiesToValidFormat(attribs);
+        return attributesToProps(properties);
+    }
+
     /**
      * Replace links to native React Router links
      * @param  {{ attribs: Object, children: Array }}
@@ -128,6 +147,17 @@ export default class Html extends PureComponent {
      */
     replaceInput({ attribs }) {
         return <input { ...attributesToProps(attribs) } />;
+    }
+
+    /**
+     * Insert corresponding widget
+     *
+     * @param {{ attribs: Object }} { attribs }
+     * @returns {null|JSX} Return Widget
+     * @memberof Html
+     */
+    replaceWidget({ attribs }) {
+        return <WidgetFactory { ...this.attributesToProps(attribs) } />;
     }
 
     replaceScript({ attribs }) {

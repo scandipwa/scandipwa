@@ -82,6 +82,7 @@ export class CartPageContainer extends PureComponent {
             <CartPage
               { ...this.props }
               { ...this.state }
+              { ...this.containerFunctions }
             />
         );
     }

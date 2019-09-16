@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { GUEST_QUOTE_ID, CartDispatcher } from 'Store/Cart';
 import { fetchMutation } from 'Util/Request';
@@ -41,24 +42,26 @@ const mapDispatchToProps = dispatch => ({
 
 const MappedCheckoutPage = connect(mapStateToProps, mapDispatchToProps)(CheckoutPage);
 
-const CheckoutPageContainer = (props) => {
-    const getGuestCartId = () => BrowserDatabase.getItem(GUEST_QUOTE_ID);
+class CheckoutPageContainer extends PureComponent {
+    getGuestCartId = () => BrowserDatabase.getItem(GUEST_QUOTE_ID);
 
-    const saveAddressInformation = addressInformation => fetchMutation(
-        CheckoutQuery.getSaveAddressInformation(addressInformation, getGuestCartId())
+    saveAddressInformation = addressInformation => fetchMutation(
+        CheckoutQuery.getSaveAddressInformation(addressInformation, this.getGuestCartId())
     );
 
-    const savePaymentInformationAndPlaceOrder = paymentInformation => fetchMutation(
-        CheckoutQuery.getSavePaymentInformationAndPlaceOrder(paymentInformation, getGuestCartId())
+    savePaymentInformationAndPlaceOrder = paymentInformation => fetchMutation(
+        CheckoutQuery.getSavePaymentInformationAndPlaceOrder(paymentInformation, this.getGuestCartId())
     );
 
-    return (
-        <MappedCheckoutPage
-          saveAddressInformation={ saveAddressInformation }
-          savePaymentInformationAndPlaceOrder={ savePaymentInformationAndPlaceOrder }
-          { ...props }
-        />
-    );
-};
+    render() {
+        return (
+            <MappedCheckoutPage
+              saveAddressInformation={ this.saveAddressInformation }
+              savePaymentInformationAndPlaceOrder={ this.savePaymentInformationAndPlaceOrder }
+              { ...this.props }
+            />
+        );
+    }
+}
 
 export default CheckoutPageContainer;

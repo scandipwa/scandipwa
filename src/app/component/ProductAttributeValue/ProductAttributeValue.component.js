@@ -55,10 +55,10 @@ export default class ProductAttributeValue extends Component {
     }
 
     clickHandler(e) {
-        const { onClick } = this.props;
+        const { onClick, attribute } = this.props;
 
         e.preventDefault();
-        onClick();
+        onClick(attribute);
     }
 
     renderTextAttribute() {
@@ -179,13 +179,14 @@ export default class ProductAttributeValue extends Component {
     render() {
         const {
             getLink,
+            attribute,
             attribute: { attribute_code, attribute_value },
             mix
         } = this.props;
 
         if (attribute_code && !attribute_value) return null;
 
-        const href = getLink();
+        const href = getLink(attribute);
 
         return (
             <a

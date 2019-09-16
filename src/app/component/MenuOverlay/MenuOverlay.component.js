@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-bind */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /**
  * ScandiPWA - Progressive Web App for Magento
@@ -15,15 +16,13 @@ import PropTypes from 'prop-types';
 import Link from 'Component/Link';
 import Image from 'Component/Image';
 import Overlay from 'Component/Overlay';
-import Html from 'Component/Html';
+import CmsBlock from 'Component/CmsBlock';
 import { MENU_SUBCATEGORY } from 'Component/Header';
-import { BlockListType } from 'Type/CMS';
 import { MenuType } from 'Type/Menu';
 import './MenuOverlay.style';
 
 export default class MenuOverlay extends PureComponent {
     static propTypes = {
-        blocks: BlockListType.isRequired,
         menu: MenuType.isRequired,
         hideActiveOverlay: PropTypes.func.isRequired,
         goToPreviousHeaderState: PropTypes.func.isRequired,
@@ -33,11 +32,6 @@ export default class MenuOverlay extends PureComponent {
     state = { activeMenuItemsStack: [] };
 
     closeMenuOverlay = this.closeMenuOverlay.bind(this);
-
-    getItemContent(id) {
-        const { blocks: { items } } = this.props;
-        return (items && items[id]) ? items[id].content : '';
-    }
 
     showSubCategory(e, activeSubcategory) {
         const { activeMenuItemsStack } = this.state;
@@ -195,7 +189,7 @@ export default class MenuOverlay extends PureComponent {
                     </Link>
                 </h3>
                 <div block="MenuOverlay" elem="Social">
-                    <Html content={ this.getItemContent('social-links') } />
+                    <CmsBlock identifiers={ ['social-links'] } />
                 </div>
             </aside>
         );

@@ -14,20 +14,24 @@ import { UPDATE_CONFIG } from './Config.action';
 
 export const initialState = BrowserDatabase.getItem('config') || {
     countries: [],
-    reviewRatings: []
+    reviewRatings: [],
+    cms_home_page: '',
+    cms_no_route: '',
+    copyright: '',
+    header_logo_src: '',
+    timezone: ''
 };
 
-// TODO: add store config
-
 const ConfigReducer = (state = initialState, action) => {
-    const { config: { countries, reviewRatings } = {}, type } = action;
+    const { config: { countries, reviewRatings, storeConfig } = {}, type } = action;
 
     switch (type) {
     case UPDATE_CONFIG:
         return {
             ...state,
             countries,
-            reviewRatings
+            reviewRatings,
+            ...storeConfig
         };
 
     default:

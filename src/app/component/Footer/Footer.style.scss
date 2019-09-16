@@ -15,11 +15,14 @@
 
 .Footer {
     height: var(--footer-height);
+    display: flex;
     text-align: center;
+    align-items: center;
+    justify-content: center;
 
-    &-Link {
+    &-Link,
+    &-Copyright {
         font-size: 11px;
-        line-height: var(--footer-height);
         font-weight: 300;
         color: inherit;
 
@@ -29,5 +32,9 @@
                 margin-left: 1rem;
             }
         }
+    }
+
+    &-Copyright {
+        display: block;
     }
 }
