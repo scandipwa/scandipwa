@@ -74,7 +74,7 @@ export default class CategoryPagination extends PureComponent {
                     <li
                       key={ i }
                       block="CategoryPagination"
-                      elem="Placeholder"
+                      elem="ListItem"
                     >
                         <TextPlaceholder length="block" />
                     </li>
