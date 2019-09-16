@@ -11,31 +11,55 @@
  */
 
 import PropTypes from 'prop-types';
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import { MixType, ChildrenType } from 'Type/Common';
 import './Draggable.style';
 
-class Draggable extends PureComponent {
-    constructor(props) {
-        super(props);
+export default class Draggable extends PureComponent {
+    static propTypes = {
+        shiftX: PropTypes.number,
+        shiftY: PropTypes.number,
+        onDragStart: PropTypes.func,
+        onDragEnd: PropTypes.func,
+        handleFocus: PropTypes.func,
+        onDrag: PropTypes.func,
+        children: ChildrenType.isRequired,
+        mix: MixType,
+        draggableRef: PropTypes.oneOfType([
+            PropTypes.func,
+            PropTypes.shape({ current: PropTypes.instanceOf(Element) })
+        ])
+    };
 
-        this.state = {
-            isDragging: false,
-            originalX: 0,
-            translateX: 0,
-            lastTranslateX: 0,
-            originalY: 0,
-            translateY: 0,
-            lastTranslateY: 0
-        };
+    static defaultProps = {
+        shiftX: 0,
+        shiftY: 0,
+        onDragStart: () => {},
+        onDragEnd: (state, callback) => {
+            const { translateX, translateY } = state;
 
-        this.handleMouseDown = this.handleMouseDown.bind(this);
-        this.handleMouseMove = this.handleMouseMove.bind(this);
-        this.handleMouseUp = this.handleMouseUp.bind(this);
-        this.handleTouchStart = this.handleTouchStart.bind(this);
-        this.handleTouchMove = this.handleTouchMove.bind(this);
-        this.handleTouchEnd = this.handleTouchEnd.bind(this);
-    }
+            callback({
+                originalX: 0,
+                originalY: 0,
+                shiftX: translateX,
+                shiftY: translateY
+            });
+        },
+        onDrag: () => {},
+        handleFocus: () => {},
+        draggableRef: () => {},
+        mix: {}
+    };
+
+    state = {
+        isDragging: false,
+        originalX: 0,
+        translateX: 0,
+        lastTranslateX: 0,
+        originalY: 0,
+        translateY: 0,
+        lastTranslateY: 0
+    };
 
     static getDerivedStateFromProps(props, state) {
         const { shiftX, shiftY } = props;
@@ -46,6 +70,7 @@ class Draggable extends PureComponent {
                 lastTranslateY: shiftY
             };
         }
+
         return null;
     }
 
@@ -56,44 +81,26 @@ class Draggable extends PureComponent {
         window.removeEventListener('touchend', this.handleTouchEnd);
     }
 
-    handleTouchStart({ touches }) {
+    handleTouchStart = ({ touches }) => {
         window.addEventListener('touchmove', this.handleTouchMove);
         window.addEventListener('touchend', this.handleTouchEnd);
 
         if (touches.length === 1) this._handleDragStart(touches[0]);
-    }
+    };
 
-    handleMouseDown(event) {
+    handleMouseDown = (event) => {
         window.addEventListener('mousemove', this.handleMouseMove);
         window.addEventListener('mouseup', this.handleMouseUp);
 
         event.preventDefault();
         this._handleDragStart(event);
-    }
+    };
 
-    _handleDragStart({
-        clientX,
-        clientY
-    }) {
-        const { onDragStart } = this.props;
-
-        if (onDragStart) onDragStart();
-
-        this.setState({
-            originalX: clientX,
-            originalY: clientY,
-            isDragging: true
-        });
-    }
-
-    handleTouchMove({ touches }) {
+    handleTouchMove = ({ touches }) => {
         if (touches.length === 1) this.handleMouseMove(touches[0]);
-    }
+    };
 
-    handleMouseMove({
-        clientX,
-        clientY
-    }) {
+    handleMouseMove = ({ clientX, clientY }) => {
         const { isDragging } = this.state;
         const { shiftX, shiftY } = this.props;
 
@@ -109,20 +116,35 @@ class Draggable extends PureComponent {
             const { onDrag } = this.props;
             if (onDrag) onDrag({ ...this.state, clientX, clientY });
         });
-    }
+    };
 
-    handleTouchEnd() {
+    handleTouchEnd = () => {
         window.removeEventListener('touchmove', this.handleTouchMove);
         window.removeEventListener('touchend', this.handleTouchEnd);
 
         this._handleDragEnd();
-    }
+    };
 
-    handleMouseUp() {
+    handleMouseUp = () => {
         window.removeEventListener('mousemove', this.handleMouseMove);
         window.removeEventListener('mouseup', this.handleMouseUp);
 
         this._handleDragEnd();
+    };
+
+    _handleDragStart({
+        clientX,
+        clientY
+    }) {
+        const { onDragStart } = this.props;
+
+        if (onDragStart) onDragStart();
+
+        this.setState({
+            originalX: clientX,
+            originalY: clientY,
+            isDragging: true
+        });
     }
 
     _handleDragEnd() {
@@ -163,7 +185,7 @@ class Draggable extends PureComponent {
               ref={ draggableRef }
               onMouseDown={ this.handleMouseDown }
               onTouchStart={ this.handleTouchStart }
-              onFocus={ () => handleFocus() }
+              onFocus={ handleFocus }
               tabIndex={ 0 }
               role="button"
               aria-label="Draggable area"
@@ -173,40 +195,3 @@ class Draggable extends PureComponent {
         );
     }
 }
-
-Draggable.propTypes = {
-    shiftX: PropTypes.number,
-    shiftY: PropTypes.number,
-    onDragStart: PropTypes.func,
-    onDragEnd: PropTypes.func,
-    handleFocus: PropTypes.func,
-    onDrag: PropTypes.func,
-    children: ChildrenType.isRequired,
-    mix: MixType,
-    draggableRef: PropTypes.oneOfType([
-        PropTypes.func,
-        PropTypes.shape({ current: PropTypes.instanceOf(Element) })
-    ])
-};
-
-Draggable.defaultProps = {
-    shiftX: 0,
-    shiftY: 0,
-    onDragStart: () => {},
-    onDragEnd: (state, callback) => {
-        const { translateX, translateY } = state;
-
-        callback({
-            originalX: 0,
-            originalY: 0,
-            shiftX: translateX,
-            shiftY: translateY
-        });
-    },
-    onDrag: () => {},
-    handleFocus: () => {},
-    draggableRef: () => {},
-    mix: {}
-};
-
-export default Draggable;

@@ -12,19 +12,20 @@
 import { QueryDispatcher } from 'Util/Request';
 import { RegionQuery, ReviewQuery, ConfigQuery } from 'Query';
 import { showNotification } from 'Store/Notification';
-import { getCountryList, updateReviewRatings } from 'Store/Config';
+import { getCountryList, updateReviewRatings, updateStoreConfig } from 'Store/Config';
 
 export class ConfigDispatcher extends QueryDispatcher {
     constructor() {
-        super('Config', 2628000);
+        super('Config');
     }
 
     onSuccess(data, dispatch) {
         if (data) {
-            const { countries, rating_details } = data;
+            const { countries, rating_details, storeConfig } = data;
 
             dispatch(getCountryList(countries));
             dispatch(updateReviewRatings(rating_details));
+            dispatch(updateStoreConfig(storeConfig));
         }
     }
 

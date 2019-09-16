@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router';
 import { ProductType } from 'Type/ProductList';
@@ -21,26 +21,28 @@ import './ProductWishlistButton.style';
  * Button for adding product to Cart
  * @class ProductWishlistButton
  */
-class ProductWishlistButton extends PureComponent {
-    constructor(props) {
-        super(props);
-        this.state = { isLoading: false, redirectToWishlist: false };
-        this.timeOut = null;
-    }
+export default class ProductWishlistButton extends PureComponent {
+    static propTypes = {
+        product: ProductType.isRequired,
+        addProductToWishlist: PropTypes.func.isRequired,
+        removeProductFromWishlist: PropTypes.func.isRequired,
+        showNotification: PropTypes.func.isRequired,
+        wishlistItems: PropTypes.objectOf(ProductType).isRequired,
+        fullWidth: PropTypes.bool,
+        isReady: PropTypes.bool
+    };
+
+    static defaultProps = {
+        fullWidth: false,
+        isReady: true
+    };
+
+    state = { isLoading: false, redirectToWishlist: false };
+
+    timeOut = null;
 
     componentWillUnmount() {
         clearTimeout(this.timeOut);
-    }
-
-    /**
-     * Switch button text to indicated that product has been added
-     * @return {Promise}
-     */
-    setAnimationTimeout() {
-        return setTimeout(() => {
-            this.timeOut = null;
-            this.setState(({ transition }) => ({ transition: !transition }));
-        }, 1500);
     }
 
     getProductInWishlist() {
@@ -56,7 +58,7 @@ class ProductWishlistButton extends PureComponent {
      * Button click listener
      * @return {void}
      */
-    buttonClick(isProductInWishlist) {
+    buttonClick = () => {
         const {
             product,
             addProductToWishlist,
@@ -64,6 +66,7 @@ class ProductWishlistButton extends PureComponent {
             showNotification,
             wishlistItems
         } = this.props;
+        const isProductInWishlist = !!this.getProductInWishlist();
 
         this.setState({ isLoading: true });
 
@@ -84,7 +87,7 @@ class ProductWishlistButton extends PureComponent {
         return addProductToWishlist({ product }).then(
             () => this.setState({ isLoading: false, redirectToWishlist: true })
         );
-    }
+    };
 
     renderButtonText(isProductInWishlist) {
         if (isProductInWishlist) {
@@ -120,7 +123,7 @@ class ProductWishlistButton extends PureComponent {
 
         return (
             <button
-              onClick={ () => this.buttonClick(isProductInWishlist) }
+              onClick={ this.buttonClick }
               block="ProductWishlistButton"
               elem="Button"
               mods={ { isLoading, fullWidth } }
@@ -131,20 +134,3 @@ class ProductWishlistButton extends PureComponent {
         );
     }
 }
-
-ProductWishlistButton.propTypes = {
-    product: ProductType.isRequired,
-    addProductToWishlist: PropTypes.func.isRequired,
-    removeProductFromWishlist: PropTypes.func.isRequired,
-    showNotification: PropTypes.func.isRequired,
-    wishlistItems: PropTypes.objectOf(ProductType).isRequired,
-    fullWidth: PropTypes.bool,
-    isReady: PropTypes.bool
-};
-
-ProductWishlistButton.defaultProps = {
-    fullWidth: false,
-    isReady: true
-};
-
-export default ProductWishlistButton;

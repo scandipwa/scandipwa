@@ -9,54 +9,53 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent, Fragment } from 'react';
+import { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Slider from 'Component/Slider';
 import Image from 'Component/Image';
 import './ProductGallery.style';
+import ProductGalleryImage from 'Component/ProductGalleryImage';
+
+export const GALLERY_LENGTH_BEFORE_COLLAPSE = 4;
 
 /**
  * Product gallery
  * @class ProductGallery
  */
-class ProductGallery extends PureComponent {
-    constructor(props) {
-        super(props);
-        this.state = { activeImage: 0 };
+export default class ProductGallery extends PureComponent {
+    static propTypes = {
+        gallery: PropTypes.arrayOf(
+            PropTypes.shape({
+                id: PropTypes.oneOfType([
+                    PropTypes.number,
+                    PropTypes.string
+                ]),
+                image: PropTypes.string,
+                isPlaceholder: PropTypes.bool,
+                alt: PropTypes.string,
+                type: PropTypes.string
+            })
+        ).isRequired
+    };
 
-        this.renderAdditionalPicture = this.renderAdditionalPicture.bind(this);
-        this.onActiveImageChange = this.onActiveImageChange.bind(this);
-    }
+    state = { activeImage: 0 };
+
+    renderAdditionalPicture = this.renderAdditionalPicture.bind(this);
+
+    onActiveImageChange = this.onActiveImageChange.bind(this);
 
     onActiveImageChange(activeImage) {
         this.setState({ activeImage });
     }
 
     renderAdditionalPicture(media, index = 0) {
-        const {
-            alt,
-            type,
-            image,
-            isPlaceholder
-        } = media;
-
         return (
-            <button
-              block="ProductGallery"
-              elem="Image"
+            <ProductGalleryImage
               key={ index }
-              mods={ { type } }
-              onClick={ () => this.onActiveImageChange(index) }
-            >
-                <Image
-                  key={ index }
-                  src={ image }
-                  alt={ alt }
-                  ratio="custom"
-                  isPlaceholder={ isPlaceholder }
-                  mix={ { block: 'ProductGallery', elem: 'Image' } }
-                />
-            </button>
+              media={ media }
+              index={ index }
+              onActiveImageChange={ this.onActiveImageChange }
+            />
         );
     }
 
@@ -64,9 +63,9 @@ class ProductGallery extends PureComponent {
         const { gallery } = this.props;
         const galleryLength = gallery.length;
 
-        return galleryLength < 4
+        return galleryLength < GALLERY_LENGTH_BEFORE_COLLAPSE
             ? this.renderAdditionalPicture({ ...gallery[galleryLength - 1], type: 'single' })
-            : gallery.slice(0, 4).map(this.renderAdditionalPicture);
+            : gallery.slice(0, GALLERY_LENGTH_BEFORE_COLLAPSE).map(this.renderAdditionalPicture);
     }
 
     renderSlide(media, index) {
@@ -76,6 +75,7 @@ class ProductGallery extends PureComponent {
             image,
             isPlaceholder
         } = media;
+        const fullImageUrl = `//${window.location.hostname}${image}`;
 
         switch (type) {
         case 'image':
@@ -95,7 +95,7 @@ class ProductGallery extends PureComponent {
                     <img
                       style={ { display: 'none' } }
                       alt={ name }
-                      src={ image }
+                      src={ fullImageUrl }
                       itemProp="image"
                     />
                 </Fragment>
@@ -123,20 +123,3 @@ class ProductGallery extends PureComponent {
         );
     }
 }
-
-ProductGallery.propTypes = {
-    gallery: PropTypes.arrayOf(
-        PropTypes.shape({
-            id: PropTypes.oneOfType([
-                PropTypes.number,
-                PropTypes.string
-            ]),
-            image: PropTypes.string,
-            isPlaceholder: PropTypes.bool,
-            alt: PropTypes.string,
-            type: PropTypes.string
-        })
-    ).isRequired
-};
-
-export default ProductGallery;

@@ -9,13 +9,26 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
-import Link from 'Component/Link';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { CategoryTreeType } from 'Type/Category';
 import './CategoryPagination.style';
+import CategoryPaginationLink from 'Component/CategoryPaginationLink';
+import TextPlaceholder from 'Component/TextPlaceholder';
 
-class CategoryPagination extends PureComponent {
+export default class CategoryPagination extends PureComponent {
+    static propTypes = {
+        isLoading: PropTypes.bool,
+        pathname: PropTypes.string.isRequired,
+        onPageSelect: PropTypes.func.isRequired,
+        totalPages: PropTypes.number.isRequired,
+        currentPage: PropTypes.number.isRequired,
+        getSearchQuery: PropTypes.func.isRequired
+    };
+
+    static defaultProps = {
+        isLoading: false
+    };
+
     renderPreviousPageLink(page) {
         return this.renderPageLink(page, __('Previous page'), false, '◄');
     }
@@ -24,7 +37,7 @@ class CategoryPagination extends PureComponent {
         const { totalPages: length, currentPage } = this.props;
 
         return Array.from({ length }, (_, i) => (
-            this.renderPageLink(i + 1, __('Page %s', i + 1), (i + 1) === currentPage, i + 1)
+            this.renderPageLink(i + 1, __('Page %s', i + 1), (i + 1) === currentPage, (i + 1).toString())
         ));
     }
 
@@ -33,11 +46,7 @@ class CategoryPagination extends PureComponent {
     }
 
     renderPageLink(pageNumber, label, isCurrent, text) {
-        const {
-            category: { url_path },
-            getPage,
-            getSearchQueryForPage
-        } = this.props;
+        const { pathname, onPageSelect, getSearchQuery } = this.props;
 
         return (
             <li
@@ -45,58 +54,52 @@ class CategoryPagination extends PureComponent {
               block="CategoryPagination"
               elem="ListItem"
             >
-                <Link
-                  to={ {
-                      pathname: `/category/${ url_path }`,
-                      search: getSearchQueryForPage(pageNumber)
-                  } }
-                  aria-label={ label }
-                  block="CategoryPagination"
-                  elem="PaginationLink"
-                  mods={ { isCurrent } }
-                  aria-current={ isCurrent ? 'page' : 'false' }
-                  onClick={ () => getPage(pageNumber) }
-                >
-                    { text }
-                </Link>
+                <CategoryPaginationLink
+                  text={ text }
+                  label={ label }
+                  url_path={ pathname }
+                  getPage={ onPageSelect }
+                  isCurrent={ isCurrent }
+                  pageNumber={ pageNumber }
+                  getSearchQueryForPage={ getSearchQuery }
+                />
             </li>
         );
     }
 
+    renderPlaceholder() {
+        return (
+            <ul block="CategoryPagination" mods={ { isLoading: true } }>
+                { Array.from({ length: 4 }, (_, i) => (
+                    <li
+                      key={ i }
+                      block="CategoryPagination"
+                      elem="ListItem"
+                    >
+                        <TextPlaceholder length="block" />
+                    </li>
+                )) }
+            </ul>
+        );
+    }
+
     render() {
-        const {
-            totalPages, currentPage, ariaLabel
-        } = this.props;
+        const { totalPages, currentPage, isLoading } = this.props;
+
+        if (isLoading) return this.renderPlaceholder();
 
         return (
-            <nav aria-label={ ariaLabel }>
+            <nav aria-label={ __('Product list navigation') }>
                 <ul block="CategoryPagination">
                     { (currentPage > 1)
                         ? this.renderPreviousPageLink(currentPage - 1)
-                        : <li block="CategoryPagination" elem="ListItem" />
-                    }
+                        : <li block="CategoryPagination" elem="ListItem" /> }
                     { this.renderPageLinks() }
                     { (currentPage <= totalPages - 1)
                         ? this.renderNextPageLink(currentPage + 1)
-                        : <li block="CategoryPagination" elem="ListItem" />
-                    }
+                        : <li block="CategoryPagination" elem="ListItem" /> }
                 </ul>
             </nav>
         );
     }
 }
-
-CategoryPagination.propTypes = {
-    ariaLabel: PropTypes.string,
-    getPage: PropTypes.func.isRequired,
-    category: CategoryTreeType.isRequired,
-    totalPages: PropTypes.number.isRequired,
-    currentPage: PropTypes.number.isRequired,
-    getSearchQueryForPage: PropTypes.func.isRequired
-};
-
-CategoryPagination.defaultProps = {
-    ariaLabel: ''
-};
-
-export default CategoryPagination;

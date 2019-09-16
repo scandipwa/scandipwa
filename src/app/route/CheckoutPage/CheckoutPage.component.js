@@ -11,7 +11,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
 import Link from 'Component/Link';
 import { history } from 'Route';
@@ -32,12 +32,49 @@ export const CHECKOUT_STEP_SHIPPING = 'shipping';
 export const CHECKOUT_STEP_REVIEW_AND_PAYMENTS = 'review-and-payments';
 export const CHECKOUT_STEP_SUCCESS = 'success';
 
-class CheckoutPage extends Component {
+export default class CheckoutPage extends Component {
+    static propTypes = {
+        savePaymentInformationAndPlaceOrder: PropTypes.func.isRequired,
+        saveAddressInformation: PropTypes.func.isRequired,
+        removeCartAndObtainNewGuest: PropTypes.func.isRequired,
+        showNotification: PropTypes.func.isRequired,
+        requestCustomerData: PropTypes.func.isRequired,
+        toggleBreadcrumbs: PropTypes.func.isRequired,
+        setHeaderState: PropTypes.func.isRequired,
+        isSignedIn: PropTypes.bool.isRequired,
+        countryList: PropTypes.arrayOf(PropTypes.shape).isRequired,
+        customer: customerType.isRequired,
+        products: PropTypes.objectOf(ProductType),
+        totals: TotalsType.isRequired,
+        match: MatchType.isRequired,
+        location: LocationType.isRequired
+    };
+
+    static defaultProps = {
+        products: {}
+    };
+
     static changeUrlByCheckoutStep(props, state) {
         const { history } = props;
         const { checkoutStep } = state;
         history.push(`/${CHECKOUT_BASE_URL}/${checkoutStep}`, state);
     }
+
+    renderMap = {
+        [CHECKOUT_STEP_SHIPPING]: () => this.renderShippingStep(),
+        [CHECKOUT_STEP_REVIEW_AND_PAYMENTS]: () => this.renderReviewAndPaymentsStep(),
+        [CHECKOUT_STEP_SUCCESS]: () => this.renderCheckoutSuccessStep()
+    };
+
+    headerTitleMap = {
+        [CHECKOUT_STEP_SHIPPING]: __('1. Shipping'),
+        [CHECKOUT_STEP_REVIEW_AND_PAYMENTS]: __('2. Payment type'),
+        [CHECKOUT_STEP_SUCCESS]: __('Order information')
+    };
+
+    saveAddressInformation = this.saveAddressInformation.bind(this);
+
+    savePaymentInformationAndPlaceOrder = this.savePaymentInformationAndPlaceOrder.bind(this);
 
     constructor(props) {
         super(props);
@@ -67,18 +104,6 @@ class CheckoutPage extends Component {
         if (getUrlParam(match, location) !== checkoutStep) {
             CheckoutPage.changeUrlByCheckoutStep(this.props, state || this.state);
         }
-
-        this.renderMap = {
-            [CHECKOUT_STEP_SHIPPING]: () => this.renderShippingStep(),
-            [CHECKOUT_STEP_REVIEW_AND_PAYMENTS]: () => this.renderReviewAndPaymentsStep(),
-            [CHECKOUT_STEP_SUCCESS]: () => this.renderCheckoutSuccessStep()
-        };
-
-        this.headerTitleMap = {
-            [CHECKOUT_STEP_SHIPPING]: __('1. Shipping'),
-            [CHECKOUT_STEP_REVIEW_AND_PAYMENTS]: __('2. Payment type'),
-            [CHECKOUT_STEP_SUCCESS]: __('Order information')
-        };
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -236,7 +261,7 @@ class CheckoutPage extends Component {
 
         return (
             <CheckoutShippingStep
-              saveAddressInformation={ addressInformation => this.saveAddressInformation(addressInformation) }
+              saveAddressInformation={ this.saveAddressInformation }
               shippingAddress={ shippingAddress }
               billingAddress={ billingAddress }
               isSignedIn={ isSignedIn }
@@ -265,9 +290,7 @@ class CheckoutPage extends Component {
               billingAddress={ billingAddress }
               shippingAddress={ shippingAddress }
               paymentMethods={ paymentMethods }
-              savePaymentInformationAndPlaceOrder={ (
-                  paymentInformation => this.savePaymentInformationAndPlaceOrder(paymentInformation)
-              ) }
+              savePaymentInformationAndPlaceOrder={ this.savePaymentInformationAndPlaceOrder }
               email={ email }
               isSignedIn={ isSignedIn }
               finishedLoading={ addressesAreChecked }
@@ -336,8 +359,7 @@ class CheckoutPage extends Component {
                     <div block="CheckoutPage" elem="Step">
                         { !Object.keys(products).length && checkoutStep !== CHECKOUT_STEP_SUCCESS
                             ? (<p>No products</p>)
-                            : stepRenderFunction()
-                        }
+                            : stepRenderFunction() }
                     </div>
                     { showSummary && (
                         <CheckoutOrderSummary
@@ -350,26 +372,3 @@ class CheckoutPage extends Component {
         );
     }
 }
-
-CheckoutPage.propTypes = {
-    savePaymentInformationAndPlaceOrder: PropTypes.func.isRequired,
-    saveAddressInformation: PropTypes.func.isRequired,
-    removeCartAndObtainNewGuest: PropTypes.func.isRequired,
-    showNotification: PropTypes.func.isRequired,
-    requestCustomerData: PropTypes.func.isRequired,
-    toggleBreadcrumbs: PropTypes.func.isRequired,
-    setHeaderState: PropTypes.func.isRequired,
-    isSignedIn: PropTypes.bool.isRequired,
-    countryList: PropTypes.arrayOf(PropTypes.shape).isRequired,
-    customer: customerType.isRequired,
-    products: PropTypes.objectOf(ProductType),
-    totals: TotalsType.isRequired,
-    match: MatchType.isRequired,
-    location: LocationType.isRequired
-};
-
-CheckoutPage.defaultProps = {
-    products: {}
-};
-
-export default CheckoutPage;

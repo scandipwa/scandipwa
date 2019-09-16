@@ -15,77 +15,165 @@
 
 // todo fix text type
 
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { MixType } from 'Type/Common';
 import ClickOutside from 'Component/ClickOutside';
 import './Field.style';
 
-const TEXT_TYPE = 'text';
-const NUMBER_TYPE = 'number';
-const RADIO_TYPE = 'radio';
-const CHECKBOX_TYPE = 'checkbox';
-const TEXTAREA_TYPE = 'textarea';
-const PASSWORD_TYPE = 'password';
-const SELECT_TYPE = 'select';
+export const TEXT_TYPE = 'text';
+export const NUMBER_TYPE = 'number';
+export const RADIO_TYPE = 'radio';
+export const CHECKBOX_TYPE = 'checkbox';
+export const TEXTAREA_TYPE = 'textarea';
+export const PASSWORD_TYPE = 'password';
+export const SELECT_TYPE = 'select';
+
+const ENTER_KEY_CODE = 13;
+const A_KEY_CODE = 65;
+const z_KEY_CODE = 122;
+const Z_KEY_CODE = 90;
+const a_KEY_CODE = 97;
+
 
 /**
  * Input fields component
  * @class Field
  */
-class Field extends PureComponent {
+export default class Field extends PureComponent {
+    static propTypes = {
+        id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        type: PropTypes.oneOf([
+            TEXT_TYPE,
+            NUMBER_TYPE,
+            TEXTAREA_TYPE,
+            PASSWORD_TYPE,
+            RADIO_TYPE,
+            CHECKBOX_TYPE,
+            SELECT_TYPE
+        ]).isRequired,
+        label: PropTypes.string,
+        message: PropTypes.string,
+        placeholder: PropTypes.string,
+        value: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number,
+            PropTypes.bool
+        ]),
+        state: PropTypes.string,
+        rows: PropTypes.number,
+        checked: PropTypes.oneOfType([
+            PropTypes.bool,
+            PropTypes.string
+        ]),
+        selectOptions: PropTypes.arrayOf(PropTypes.shape({
+            id: PropTypes.oneOfType([
+                PropTypes.string,
+                PropTypes.number
+            ]),
+            value: PropTypes.oneOfType([
+                PropTypes.string,
+                PropTypes.number
+            ]),
+            disabled: PropTypes.bool,
+            label: PropTypes.string
+        })),
+        disabled: PropTypes.bool,
+        onChange: PropTypes.func,
+        onFocus: PropTypes.func,
+        onBlur: PropTypes.func,
+        onClick: PropTypes.func,
+        onKeyPress: PropTypes.func,
+        min: PropTypes.number,
+        max: PropTypes.number,
+        mix: MixType,
+        formRef: PropTypes.oneOfType([
+            PropTypes.func,
+            PropTypes.shape({ current: PropTypes.instanceOf(Element) })
+        ]),
+        autocomplete: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.bool
+        ])
+    };
+
+    static defaultProps = {
+        rows: 4,
+        min: 1,
+        max: 99,
+        disabled: false,
+        checked: false,
+        mix: {},
+        selectOptions: [],
+        label: '',
+        formRef: () => {},
+        onKeyPress: () => {},
+        onClick: () => {},
+        onFocus: () => {},
+        onChange: () => {},
+        onBlur: () => {},
+        value: null,
+        state: '',
+        message: '',
+        placeholder: '',
+        autocomplete: 'off'
+    };
+
+    onChange = this.onChange.bind(this);
+
+    onChangeCheckbox = this.onChangeCheckbox.bind(this);
+
+    onFocus = this.onFocus.bind(this);
+
+    onKeyPress = this.onKeyPress.bind(this);
+
+    onKeyEnterDown = this.onKeyEnterDown.bind(this);
+
+    onClick = this.onClick.bind(this);
+
+    handleSelectExpand = this.handleSelectExpand.bind(this);
+
+    handleSelectExpandedExpand = this.handleSelectExpandedExpand.bind(this);
+
+    handleSelectListOptionClick = this.handleSelectListOptionClick.bind(this);
+
+    handleSelectListKeyPress = this.handleSelectListKeyPress.bind(this);
+
     constructor(props) {
         super(props);
 
-        const {
-            type,
-            min,
-            value: propsValue
-        } = this.props;
-
-        let value = propsValue;
-
-        if (!propsValue) {
-            switch (type) {
-            case NUMBER_TYPE:
-                if (value < min) value = min;
-                value = 0;
-                break;
-            default:
-                value = '';
-                break;
-            }
-        }
-
         this.state = {
-            value,
+            value: this._getInitialPropsValue(),
             valueIndex: -1,
-            isSelectExpanded: false,
-            searchString: 'a'
+            checked: false,
+            searchString: 'a',
+            isSelectExpanded: false
         };
-
-        this.onChange = this.onChange.bind(this);
-        this.onFocus = this.onFocus.bind(this);
-        this.onKeyPress = this.onKeyPress.bind(this);
-        this.onKeyEnterDown = this.onKeyEnterDown.bind(this);
-        this.onClick = this.onClick.bind(this);
-        this.handleSelectExpand = this.handleSelectExpand.bind(this);
-        this.handleSelectListOptionClick = this.handleSelectListOptionClick.bind(this);
-        this.handleSelectListKeyPress = this.handleSelectListKeyPress.bind(this);
     }
 
     componentDidUpdate(prevProps) {
-        const { value: prevValue } = prevProps;
-        const { value: currentValue } = this.props;
+        const { value: prevValue, checked: prevChecked } = prevProps;
+        const { value: currentValue, checked: currChecked, type } = this.props;
 
         if (prevValue !== currentValue) this.setState({ value: currentValue });
+        if (type === CHECKBOX_TYPE && currChecked !== prevChecked) this.setState({ checked: currChecked });
     }
 
     onChange(event) {
         if (typeof event === 'string' || typeof event === 'number') {
             return this.handleChange(event);
         }
+
         return this.handleChange(event.target.value);
+    }
+
+    onChangeCheckbox(event) {
+        const { onChange } = this.props;
+        const { target: { checked, value } } = event;
+
+        if (onChange) onChange(value, checked);
+        return this.setState({ checked });
     }
 
     onFocus(event) {
@@ -107,7 +195,7 @@ class Field extends PureComponent {
     }
 
     onKeyEnterDown(event) {
-        if (event.keyCode === 13) {
+        if (event.keyCode === ENTER_KEY_CODE) {
             const value = event.target.value || 1;
             this.handleChange(value);
         }
@@ -142,6 +230,12 @@ class Field extends PureComponent {
         this.setState(({ isSelectExpanded }) => ({ isSelectExpanded: !isSelectExpanded }));
     }
 
+    handleSelectExpandedExpand() {
+        const { isSelectExpanded } = this.state;
+
+        if (isSelectExpanded) this.handleSelectExpand();
+    }
+
     handleSelectListOptionClick({ value }) {
         const { formRef, onChange } = this.props;
 
@@ -153,6 +247,19 @@ class Field extends PureComponent {
             formRef.current.dispatchEvent(event);
         } else {
             onChange(value);
+        }
+    }
+
+    _getInitialPropsValue() {
+        const { type, value } = this.props;
+
+        if (value) return value;
+
+        switch (type) {
+        case NUMBER_TYPE:
+            return 0;
+        default:
+            return '';
         }
     }
 
@@ -189,6 +296,7 @@ class Field extends PureComponent {
         if (newValueIndex !== -1) {
             return { searchString: newSearchString, valueIndex: newValueIndex };
         }
+
         // if there are no items starting with this letter
         return {};
     }
@@ -199,16 +307,16 @@ class Field extends PureComponent {
         const keyCode = event.which || event.keycode;
 
         // on Enter pressed
-        if (keyCode === 13) {
+        if (keyCode === ENTER_KEY_CODE) {
             this.handleSelectExpand();
             return;
         }
 
         if (!isSelectExpanded
             || !keyCode
-            || keyCode < 65
-            || keyCode > 122
-            || (keyCode > 90 && keyCode < 97)
+            || keyCode < A_KEY_CODE
+            || keyCode > z_KEY_CODE
+            || (keyCode > Z_KEY_CODE && keyCode < a_KEY_CODE)
         ) return;
 
         const { searchString, valueIndex } = this._getSelectedValueIndex(keyCode);
@@ -219,7 +327,7 @@ class Field extends PureComponent {
         this.setState({ searchString, valueIndex }, () => {
             const { id, value } = selectOptions[valueIndex];
             // converting to string for avoiding the error with the first select option
-            onChange(value.toString(10));
+            onChange(value.toString());
             const selectedElement = document.querySelector(`#${selectId} + ul #o${id}`);
             selectedElement.focus();
         });
@@ -340,8 +448,9 @@ class Field extends PureComponent {
 
     renderCheckbox() {
         const {
-            id, name, formRef, disabled, checked
+            id, name, formRef, disabled
         } = this.props;
+        const { value, checked } = this.state;
 
         return (
             <>
@@ -350,11 +459,10 @@ class Field extends PureComponent {
                   id={ id }
                   name={ name }
                   type="checkbox"
+                  value={ value }
                   checked={ checked }
                   disabled={ disabled }
-                //   onFocus={ this.onFocus }
-                  onChange={ this.onChange }
-                //   onKeyPress={ this.onKeyPress }
+                  onChange={ this.onChangeCheckbox }
                 />
                 <label htmlFor={ id } />
             </>
@@ -423,7 +531,7 @@ class Field extends PureComponent {
         if (!selectOptions) throw new Error('Prop `selectOptions` is required for Field type `select`');
 
         return (
-            <ClickOutside onClick={ () => isExpanded && this.handleSelectExpand() }>
+            <ClickOutside onClick={ this.handleSelectExpandedExpand }>
                 <div
                   block="Field"
                   elem="SelectWrapper"
@@ -446,10 +554,9 @@ class Field extends PureComponent {
                       onChange={ this.onChange }
                     >
                         { placeholder && <option value="" label={ placeholder } /> }
-                        {
-                            selectOptions.map(({
-                                id, value, disabled, label
-                            }) => (
+                        { selectOptions.map(({
+                            id, value, disabled, label
+                        }) => (
                                 <option
                                   key={ id }
                                   id={ id }
@@ -458,8 +565,7 @@ class Field extends PureComponent {
                                 >
                                     { label }
                                 </option>
-                            ))
-                        }
+                        )) }
                     </select>
                     <ul
                       block="Field"
@@ -533,84 +639,3 @@ class Field extends PureComponent {
         );
     }
 }
-
-Field.propTypes = {
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    type: PropTypes.oneOf([
-        TEXT_TYPE,
-        NUMBER_TYPE,
-        TEXTAREA_TYPE,
-        PASSWORD_TYPE,
-        RADIO_TYPE,
-        CHECKBOX_TYPE,
-        SELECT_TYPE
-    ]).isRequired,
-    label: PropTypes.string,
-    message: PropTypes.string,
-    placeholder: PropTypes.string,
-    value: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number,
-        PropTypes.bool
-    ]),
-    state: PropTypes.string,
-    rows: PropTypes.number,
-    checked: PropTypes.oneOfType([
-        PropTypes.bool,
-        PropTypes.string
-    ]),
-    selectOptions: PropTypes.arrayOf(PropTypes.shape({
-        id: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.number
-        ]),
-        value: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.number
-        ]),
-        disabled: PropTypes.bool,
-        label: PropTypes.string
-    })),
-    disabled: PropTypes.bool,
-    onChange: PropTypes.func,
-    onFocus: PropTypes.func,
-    onBlur: PropTypes.func,
-    onClick: PropTypes.func,
-    onKeyPress: PropTypes.func,
-    min: PropTypes.number,
-    max: PropTypes.number,
-    mix: MixType,
-    formRef: PropTypes.oneOfType([
-        PropTypes.func,
-        PropTypes.shape({ current: PropTypes.instanceOf(Element) })
-    ]),
-    autocomplete: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.bool
-    ])
-};
-
-Field.defaultProps = {
-    rows: 4,
-    min: 1,
-    max: 99,
-    disabled: false,
-    checked: false,
-    mix: {},
-    selectOptions: [],
-    label: '',
-    formRef: () => {},
-    onKeyPress: () => {},
-    onClick: () => {},
-    onFocus: () => {},
-    onChange: () => {},
-    onBlur: () => {},
-    value: null,
-    state: '',
-    message: '',
-    placeholder: '',
-    autocomplete: 'off'
-};
-
-export default Field;

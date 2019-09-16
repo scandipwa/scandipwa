@@ -9,34 +9,46 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import Link from 'Component/Link';
 import PropTypes from 'prop-types';
 import ContentWrapper from 'Component/ContentWrapper';
 import CartItem from 'Component/CartItem';
+import CartCoupon from 'Component/CartCoupon';
 import { ProductType } from 'Type/ProductList';
 import { TotalsType } from 'Type/MiniCart';
 import isMobile from 'Util/Mobile';
 import ExpandableContent from 'Component/ExpandableContent';
 
 import './CartPage.style';
+import { formatCurrency } from 'Util/Price';
 
-class CartPage extends Component {
+export default class CartPage extends Component {
+    static propTypes = {
+        isEditing: PropTypes.bool.isRequired,
+        products: PropTypes.objectOf(ProductType),
+        totals: TotalsType.isRequired
+    };
+
+    static defaultProps = {
+        products: {}
+    };
+
     renderCartItems() {
         const { products, isEditing } = this.props;
 
         if (!Object.keys(products).length) {
             return (
-                <p block="CartPage" elem="Empty">There are no products in cart.</p>
+                <p block="CartPage" elem="Empty">{ __('There are no products in cart.') }</p>
             );
         }
 
         return (
             <>
                 <p block="CartPage" elem="TableHead" aria-hidden>
-                    <span>item</span>
-                    <span>qty</span>
-                    <span>subtotal</span>
+                    <span>{ __('item') }</span>
+                    <span>{ __('qty') }</span>
+                    <span>{ __('subtotal') }</span>
                 </p>
                 <ul block="CartPage" elem="Items" aria-label="List of items in cart">
                     { Object.entries(products).map(([id, product]) => (
@@ -53,14 +65,23 @@ class CartPage extends Component {
     }
 
     renderDiscountCode() {
+        const {
+            totals: { coupon_code }
+        } = this.props;
+
         return (
             <ExpandableContent
-              heading="Have a discount code?"
+              heading={ __('Have a discount code?') }
               mix={ { block: 'CartPage', elem: 'Discount' } }
             >
-                <p>{ __('Discount functionality coming soon!') }</p>
+                <CartCoupon couponCode={ coupon_code } />
             </ExpandableContent>
         );
+    }
+
+    renderPriceLine(price) {
+        const { totals: { base_currency_code } } = this.props;
+        return `${formatCurrency(base_currency_code)}${parseFloat(price).toFixed(2)}`;
     }
 
     renderTotals() {
@@ -73,44 +94,61 @@ class CartPage extends Component {
             }
         } = this.props;
         const isDisabled = !Object.keys(products).length;
-        const options = isDisabled
-            ? {
-                onClick: e => e.preventDefault(),
-                disabled: true
-            }
-            : {};
+        const props = isDisabled ? { onClick: e => e.preventDefault(), disabled: true } : {};
 
         return (
             <article block="CartPage" elem="Summary">
-                <h4 block="CartPage" elem="SummaryHeading">Summary</h4>
+                <h4 block="CartPage" elem="SummaryHeading">{ __('Summary') }</h4>
                 <dl block="CartPage" elem="TotalDetails" aria-label="Order total details">
-                    <dt>Subtotal:</dt>
-                    <dd>{ `$${subtotal}` }</dd>
-                    <dt>Tax:</dt>
-                    <dd>{ `$${tax_amount || 0}` }</dd>
+                    <dt>{ __('Subtotal:') }</dt>
+                    <dd>{ this.renderPriceLine(subtotal) }</dd>
+                    { this.renderDiscount() }
+                    <dt>{ __('Tax:') }</dt>
+                    <dd>{ this.renderPriceLine(tax_amount) }</dd>
                 </dl>
                 <dl block="CartPage" elem="Total" aria-label="Complete order total">
-                    <dt>Order total:</dt>
-                    <dd>{ `$${grand_total}` }</dd>
+                    <dt>{ __('Order total:') }</dt>
+                    <dd>{ this.renderPriceLine(grand_total) }</dd>
                 </dl>
                 <Link
                   block="CartPage"
                   elem="CheckoutButton"
                   mix={ { block: 'Button' } }
                   to="/checkout"
-                  { ...options }
+                  { ...props }
                 >
                     <span />
-                    Secure checkout
+                    { __('Secure checkout') }
                 </Link>
                 <Link
                   block="CartPage"
                   elem="ContinueShopping"
                   to="/"
                 >
-                    Continue Shopping
+                    { __('Continue Shopping') }
                 </Link>
             </article>
+        );
+    }
+
+    renderDiscount() {
+        const {
+            totals: {
+                coupon_code,
+                discount_amount = 0
+            }
+        } = this.props;
+
+        if (!coupon_code) return null;
+
+        return (
+            <>
+                <dt>
+                    { __('Coupon ') }
+                    <strong block="CartPage" elem="DiscountCoupon">{ coupon_code.toUpperCase() }</strong>
+                </dt>
+                <dd>{ `-${this.renderPriceLine(Math.abs(discount_amount))}` }</dd>
+            </>
         );
     }
 
@@ -156,7 +194,7 @@ class CartPage extends Component {
                   label="Cart page details"
                 >
                     <div block="CartPage" elem="Static">
-                        <h2 block="CartPage" elem="Heading">Shopping cart</h2>
+                        <h2 block="CartPage" elem="Heading">{ __('Shopping cart') }</h2>
                         { this.renderCartItems() }
                         { this.renderDiscountCode() }
                     </div>
@@ -170,15 +208,3 @@ class CartPage extends Component {
         );
     }
 }
-
-CartPage.propTypes = {
-    isEditing: PropTypes.bool.isRequired,
-    products: PropTypes.objectOf(ProductType),
-    totals: TotalsType.isRequired
-};
-
-CartPage.defaultProps = {
-    products: {}
-};
-
-export default CartPage;

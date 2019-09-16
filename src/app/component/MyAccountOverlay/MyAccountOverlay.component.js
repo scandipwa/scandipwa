@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Link, withRouter } from 'react-router-dom';
 
@@ -31,6 +31,59 @@ export const STATE_CREATE_ACCOUNT = 'createAccount';
 export const STATE_LOGGED_IN = 'loggedIn';
 
 class MyAccountOverlay extends PureComponent {
+    static propTypes = {
+        forgotPassword: PropTypes.func.isRequired,
+        signIn: PropTypes.func.isRequired,
+        isPasswordForgotSend: PropTypes.bool.isRequired,
+        showNotification: PropTypes.func.isRequired,
+        createAccount: PropTypes.func.isRequired,
+        logout: PropTypes.func.isRequired,
+        // eslint-disable-next-line react/no-unused-prop-types
+        isOverlayVisible: PropTypes.bool.isRequired,
+        setHeaderState: PropTypes.func.isRequired,
+        hideActiveOverlay: PropTypes.func.isRequired,
+        history: HistoryType.isRequired
+    };
+
+    renderMap = {
+        [STATE_SIGN_IN]: {
+            render: () => this.renderSignIn(),
+            title: 'Sign in to your account'
+        },
+        [STATE_FORGOT_PASSWORD]: {
+            render: () => this.renderForgotPassword(),
+            title: 'Get password link'
+        },
+        [STATE_FORGOT_PASSWORD_SUCCESS]: {
+            render: () => this.renderForgotPasswordSuccess()
+        },
+        [STATE_CREATE_ACCOUNT]: {
+            render: () => this.renderCreateAccount(),
+            title: 'Create new account'
+        },
+        [STATE_LOGGED_IN]: {
+            render: () => this.renderAccountActions()
+        }
+    };
+
+    handleForgotPassword = this.handleForgotPassword.bind(this);
+
+    handleForgotPasswordSuccess = this.handleForgotPasswordSuccess.bind(this);
+
+    handleCreateAccount = this.handleCreateAccount.bind(this);
+
+    handleSignIn = this.handleSignIn.bind(this);
+
+    onCreateAccountAttempt = this.onCreateAccountAttempt.bind(this);
+
+    onCreateAccountSuccess = this.onCreateAccountSuccess.bind(this);
+
+    onSignInAttempt = this.onSignInAttempt.bind(this);
+
+    onSignInSuccess = this.onSignInSuccess.bind(this);
+
+    onFormError = this.onFormError.bind(this);
+
     constructor(props) {
         super(props);
 
@@ -42,32 +95,6 @@ class MyAccountOverlay extends PureComponent {
             isPasswordForgotSend,
             isLoading: false
         };
-
-        this.renderMap = {
-            [STATE_SIGN_IN]: {
-                render: () => this.renderSignIn(),
-                title: 'Sign in to your account'
-            },
-            [STATE_FORGOT_PASSWORD]: {
-                render: () => this.renderForgotPassword(),
-                title: 'Get password link'
-            },
-            [STATE_FORGOT_PASSWORD_SUCCESS]: {
-                render: () => this.renderForgotPasswordSuccess()
-            },
-            [STATE_CREATE_ACCOUNT]: {
-                render: () => this.renderCreateAccount(),
-                title: 'Create new account'
-            },
-            [STATE_LOGGED_IN]: {
-                render: () => this.renderAccountActions()
-            }
-        };
-
-        this.handleForgotPassword = this.handleForgotPassword.bind(this);
-        this.handleForgotPasswordSuccess = this.handleForgotPasswordSuccess.bind(this);
-        this.handleCreateAccount = this.handleCreateAccount.bind(this);
-        this.handleSignIn = this.handleSignIn.bind(this);
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -235,7 +262,7 @@ class MyAccountOverlay extends PureComponent {
                         <button
                           block="Button"
                           mods={ { likeLink: true } }
-                          onClick={ () => logout() }
+                          onClick={ logout }
                         >
                             { __('Logout') }
                         </button>
@@ -252,9 +279,9 @@ class MyAccountOverlay extends PureComponent {
             <>
                 <Form
                   key="forgot-password"
-                  onSubmit={ () => this.onForgotPasswordAttempt() }
-                  onSubmitSuccess={ fields => this.onForgotPasswordSuccess(fields) }
-                  onSubmitError={ () => this.onFormError() }
+                  onSubmit={ this.onForgotPasswordAttempt }
+                  onSubmitSuccess={ this.onForgotPasswordSuccess }
+                  onSubmitError={ this.onFormError }
                 >
                     <Field type="text" id="email" name="email" label="Email" validation={ ['notEmpty', 'email'] } />
                     <div block="MyAccountOverlay" elem="Buttons">
@@ -300,10 +327,8 @@ class MyAccountOverlay extends PureComponent {
               mods={ { state } }
             >
                 <h4 id="forgot-password-success">
-                    {
-                        // eslint-disable-next-line max-len
-                        __('If there is an account associated with the provided address you will receive an email with a link to reset your password')
-                    }
+                    { // eslint-disable-next-line max-len
+                    __('If there is an account associated with the provided address you will receive an email with a link to reset your password') }
                 </h4>
                 <button
                   block="Button"
@@ -322,9 +347,9 @@ class MyAccountOverlay extends PureComponent {
             <>
                 <Form
                   key="create-account"
-                  onSubmit={ () => this.onCreateAccountAttempt() }
-                  onSubmitSuccess={ fields => this.onCreateAccountSuccess(fields) }
-                  onSubmitError={ (fields, invalidFields) => this.onCreateAccountAttempt(fields, invalidFields) }
+                  onSubmit={ this.onCreateAccountAttempt }
+                  onSubmitSuccess={ this.onCreateAccountSuccess }
+                  onSubmitError={ this.onCreateAccountAttempt }
                 >
                     <fieldset block="MyAccountOverlay" elem="Legend">
                         <legend>{ __('Personal Information') }</legend>
@@ -344,6 +369,7 @@ class MyAccountOverlay extends PureComponent {
                         />
                         <Field
                           type="checkbox"
+                          value="is_subscribed"
                           label={ __('Subscribe to ScandiPWA newsletter') }
                           id="is_subscribed"
                           mix={ { block: 'MyAccountOverlay', elem: 'Checkbox' } }
@@ -395,9 +421,9 @@ class MyAccountOverlay extends PureComponent {
             <>
                 <Form
                   key="sign-in"
-                  onSubmit={ () => this.onSignInAttempt() }
-                  onSubmitSuccess={ fields => this.onSignInSuccess(fields) }
-                  onSubmitError={ () => this.onFormError() }
+                  onSubmit={ this.onSignInAttempt }
+                  onSubmitSuccess={ this.onSignInSuccess }
+                  onSubmitError={ this.onFormError }
                 >
                     <Field
                       type="text"
@@ -453,19 +479,5 @@ class MyAccountOverlay extends PureComponent {
         );
     }
 }
-
-MyAccountOverlay.propTypes = {
-    forgotPassword: PropTypes.func.isRequired,
-    signIn: PropTypes.func.isRequired,
-    isPasswordForgotSend: PropTypes.bool.isRequired,
-    showNotification: PropTypes.func.isRequired,
-    createAccount: PropTypes.func.isRequired,
-    logout: PropTypes.func.isRequired,
-    // eslint-disable-next-line react/no-unused-prop-types
-    isOverlayVisible: PropTypes.bool.isRequired,
-    setHeaderState: PropTypes.func.isRequired,
-    hideActiveOverlay: PropTypes.func.isRequired,
-    history: HistoryType.isRequired
-};
 
 export default withRouter(MyAccountOverlay);

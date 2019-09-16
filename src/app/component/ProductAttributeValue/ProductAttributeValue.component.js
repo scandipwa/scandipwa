@@ -1,3 +1,5 @@
+/* eslint-disable no-magic-numbers */
+
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,19 +11,29 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { AttributeType } from 'Type/ProductList';
 import { MixType } from 'Type/Common';
 import './ProductAttributeValue.style';
 
-class ProductAttributeValue extends Component {
-    constructor(props) {
-        super(props);
+export default class ProductAttributeValue extends Component {
+    static propTypes = {
+        getLink: PropTypes.func.isRequired,
+        onClick: PropTypes.func.isRequired,
+        attribute: AttributeType.isRequired,
+        isSelected: PropTypes.bool,
+        mix: MixType
+    };
 
-        this.clickHandler = this.clickHandler.bind(this);
-        this.getOptionLabel = this.getOptionLabel.bind(this);
-    }
+    static defaultProps = {
+        isSelected: false,
+        mix: {}
+    };
+
+    clickHandler = this.clickHandler.bind(this);
+
+    getOptionLabel = this.getOptionLabel.bind(this);
 
     getIsColorLight(hex) {
         const color = (hex.charAt(0) === '#') ? hex.substring(1, 7) : hex;
@@ -43,10 +55,10 @@ class ProductAttributeValue extends Component {
     }
 
     clickHandler(e) {
-        const { onClick } = this.props;
+        const { onClick, attribute } = this.props;
 
         e.preventDefault();
-        onClick();
+        onClick(attribute);
     }
 
     renderTextAttribute() {
@@ -167,13 +179,14 @@ class ProductAttributeValue extends Component {
     render() {
         const {
             getLink,
+            attribute,
             attribute: { attribute_code, attribute_value },
             mix
         } = this.props;
 
         if (attribute_code && !attribute_value) return null;
 
-        const href = getLink();
+        const href = getLink(attribute);
 
         return (
             <a
@@ -187,18 +200,3 @@ class ProductAttributeValue extends Component {
         );
     }
 }
-
-ProductAttributeValue.propTypes = {
-    getLink: PropTypes.func.isRequired,
-    onClick: PropTypes.func.isRequired,
-    attribute: AttributeType.isRequired,
-    isSelected: PropTypes.bool,
-    mix: MixType
-};
-
-ProductAttributeValue.defaultProps = {
-    isSelected: false,
-    mix: {}
-};
-
-export default ProductAttributeValue;

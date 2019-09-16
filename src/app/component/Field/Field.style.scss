@@ -38,12 +38,12 @@ $select-arrow-width: 6px !default;
 
     &-Note {
         margin-bottom: .2rem;
-        font-size: 1.0rem;
+        font-size: 1rem;
         font-weight: 600;
         color: var(--field-note);
         opacity: 0;
         height: 0;
-        transition: height 0.1s ease-in, opacity 0.1s linear;
+        transition: height .1s ease-in, opacity .1s linear;
 
         &::before {
             content: '* ';
@@ -146,7 +146,7 @@ $select-arrow-width: 6px !default;
 
     &::placeholder {
         color: var(--field-note);
-        font-size: 0.9rem;
+        font-size: .9rem;
     }
 
     input:focus + .Field-Note {
@@ -174,8 +174,8 @@ $select-arrow-width: 6px !default;
         }
     }
 
-    [type="checkbox"],
-    [type="radio"] {
+    [type='checkbox'],
+    [type='radio'] {
         position: absolute;
         opacity: 0;
         padding: 0;
@@ -234,7 +234,7 @@ $select-arrow-width: 6px !default;
         }
     }
 
-    [type="checkbox"] {
+    [type='checkbox'] {
         + label {
             &::after {
                 left: .25rem;
@@ -262,7 +262,7 @@ $select-arrow-width: 6px !default;
         }
     }
 
-    [type="radio"] {
+    [type='radio'] {
         + label {
             border-radius: 50%;
 

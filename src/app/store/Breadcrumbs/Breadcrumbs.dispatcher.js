@@ -109,20 +109,22 @@ export class BreadcrumbsDispatcher {
         const breadcrumbsList = [];
 
         if (categories.length) {
-            let breadcrumbsCategory = {};
-            let longestBreadcrumbsLength = 0;
+            const { breadcrumbsCategory = {} } = categories.reduce((acc, category) => {
+                const { longestBreadcrumbsLength } = acc;
+                const { breadcrumbs } = category;
+                const breadcrumbsLength = (breadcrumbs || []).length;
 
-            categories.forEach((category) => {
-                if (category.breadcrumbs) {
-                    const currentCategoryLength = category.breadcrumbs.length;
-                    if (currentCategoryLength > longestBreadcrumbsLength) {
-                        breadcrumbsCategory = category;
-                        longestBreadcrumbsLength = currentCategoryLength;
-                    }
-                } else if (longestBreadcrumbsLength === 0) {
-                    breadcrumbsCategory = category;
-                }
-            });
+                if (!breadcrumbsLength && longestBreadcrumbsLength !== 0) return acc;
+
+                if (longestBreadcrumbsLength === 0) return { ...acc, breadcrumbsCategory: category };
+
+                if (breadcrumbsLength <= longestBreadcrumbsLength) return acc;
+
+                return {
+                    breadcrumbsCategory: category,
+                    longestBreadcrumbsLength: breadcrumbsLength
+                };
+            }, { breadcrumbsCategory: {}, longestBreadcrumbsLength: 0 });
 
             breadcrumbsList.push(...this._getCategoryBreadcrumbs(breadcrumbsCategory));
         }

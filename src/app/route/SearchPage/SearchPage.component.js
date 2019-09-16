@@ -9,28 +9,24 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React from 'react';
 import PropTypes from 'prop-types';
 import CategoryPage from 'Route/CategoryPage/CategoryPage.component';
 import { getUrlParam } from 'Util/Url';
 import './SearchPage.style';
 
-class SearchPage extends CategoryPage {
-    constructor(props) {
-        super(props);
+export default class SearchPage extends CategoryPage {
+    static propTypes = {
+        makeSearchRequest: PropTypes.func.isRequired,
+        totalItems: PropTypes.number.isRequired
+    };
 
-        this.state = {
-            sortKey: 'name',
-            sortDirection: 'ASC',
-            defaultPriceRange: { min: 0, max: 300 },
-            previousPage: 0,
-            pageSize: 12
-        };
-    }
-
-    componentWillMount() {
-        this.updateBreadcrumbs();
-    }
+    state = {
+        sortKey: 'name',
+        sortDirection: 'ASC',
+        defaultPriceRange: { min: 0, max: 300 },
+        previousPage: 0,
+        pageSize: 12
+    };
 
     componentDidMount() {
         const { isOnlyPlaceholder, updateLoadStatus } = this.props;
@@ -89,10 +85,3 @@ class SearchPage extends CategoryPage {
         );
     }
 }
-
-SearchPage.propTypes = {
-    makeSearchRequest: PropTypes.func.isRequired,
-    totalItems: PropTypes.number.isRequired
-};
-
-export default SearchPage;

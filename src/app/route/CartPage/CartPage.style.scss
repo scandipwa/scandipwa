@@ -165,7 +165,6 @@
         }
     }
 
-
     &-TableHead {
         display: grid;
         grid-template-columns: 3fr 1fr 1fr;
@@ -232,6 +231,13 @@
         @include tablet {
             flex-direction: column-reverse;
             justify-content: center;
+        }
+    }
+
+    &-DiscountCoupon {
+        &::after {
+            content: ':';
+            font-weight: normal;
         }
     }
 }

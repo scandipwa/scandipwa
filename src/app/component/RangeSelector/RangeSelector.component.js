@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import InputRange from 'react-input-range';
 import PropTypes from 'prop-types';
 import 'react-input-range/lib/css/index.css';
@@ -19,7 +19,17 @@ import './RangeSelector.style';
  * Product Sort
  * @class ProductSort
  */
-class RangeSelector extends PureComponent {
+export default class RangeSelector extends PureComponent {
+    static propTypes = {
+        value: PropTypes.oneOfType([
+            PropTypes.object,
+            PropTypes.number
+        ]).isRequired,
+        minValue: PropTypes.number.isRequired,
+        maxValue: PropTypes.number.isRequired,
+        onChangeComplete: PropTypes.func.isRequired
+    };
+
     constructor() {
         super();
 
@@ -28,18 +38,22 @@ class RangeSelector extends PureComponent {
         };
     }
 
+    onChange = (value) => {
+        this.setState({ value });
+    };
+
     /**
      * Toggle on range selection change
      * @param {Object} value sliders mix and max values
      * @return {void}
      */
-    onChangeComplete(value) {
+    onChangeComplete = (value) => {
         const { onChangeComplete } = this.props;
 
         onChangeComplete(value);
 
         this.setState({ value: false });
-    }
+    };
 
     /**
      * Get selected value
@@ -79,22 +93,10 @@ class RangeSelector extends PureComponent {
                   minValue={ minValue }
                   maxValue={ maxValue }
                   value={ this.getValue() }
-                  onChangeComplete={ value => this.onChangeComplete(value) }
-                  onChange={ value => this.setState({ value }) }
+                  onChangeComplete={ this.onChangeComplete }
+                  onChange={ this.onChange }
                 />
             </div>
         );
     }
 }
-
-RangeSelector.propTypes = {
-    value: PropTypes.oneOfType([
-        PropTypes.object,
-        PropTypes.number
-    ]).isRequired,
-    minValue: PropTypes.number.isRequired,
-    maxValue: PropTypes.number.isRequired,
-    onChangeComplete: PropTypes.func.isRequired
-};
-
-export default RangeSelector;

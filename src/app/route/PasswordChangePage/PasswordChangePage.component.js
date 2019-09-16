@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { Redirect } from 'react-router';
 import PropTypes from 'prop-types';
 import ContentWrapper from 'Component/ContentWrapper';
@@ -23,15 +23,17 @@ import './PasswordChangePage.style';
 const STATUS_PASSOWORD_UPDATED = 'password_updated';
 const STATUS_PASSOWORD_MISSMATCH = 'passwords_miss_match';
 
-class PasswordChangePage extends Component {
-    constructor(props) {
-        super(props);
+export default class PasswordChangePage extends Component {
+    static propTypes = {
+        updateBreadcrumbs: PropTypes.func.isRequired,
+        resetPassword: PropTypes.func.isRequired,
+        location: LocationType.isRequired
+    };
 
-        this.state = {
-            passwordResetStatus: '',
-            isLoading: false
-        };
-    }
+    state = {
+        passwordResetStatus: '',
+        isLoading: false
+    };
 
     componentDidMount() {
         this.updateBreadcrumbs();
@@ -60,21 +62,21 @@ class PasswordChangePage extends Component {
         return Object.keys(stateToBeUpdated).length ? stateToBeUpdated : null;
     }
 
-    onPasswordSuccess(fields) {
+    onPasswordSuccess = (fields) => {
         const { resetPassword, location } = this.props;
         const { passwordReset: password, passwordResetConfirm: password_confirmation } = fields;
         const token = getQueryParam('token', location);
 
         resetPassword({ token, password, password_confirmation });
-    }
+    };
 
-    onPasswordAttempt() {
+    onPasswordAttempt = () => {
         this.setState({ isLoading: true });
-    }
+    };
 
-    onError() {
+    onError = () => {
         this.setState({ isLoading: false });
-    }
+    };
 
     updateBreadcrumbs() {
         const { updateBreadcrumbs } = this.props;
@@ -111,9 +113,9 @@ class PasswordChangePage extends Component {
                         <h1>{ __('Change My Password') }</h1>
                         <Form
                           key="reset-password"
-                          onSubmit={ () => this.onPasswordAttempt() }
-                          onSubmitSuccess={ fields => this.onPasswordSuccess(fields) }
-                          onSubmitError={ () => this.onError() }
+                          onSubmit={ this.onPasswordAttempt }
+                          onSubmitSuccess={ this.onPasswordSuccess }
+                          onSubmitError={ this.onError }
                         >
                             <Field
                               type="password"
@@ -141,11 +143,3 @@ class PasswordChangePage extends Component {
         );
     }
 }
-
-PasswordChangePage.propTypes = {
-    updateBreadcrumbs: PropTypes.func.isRequired,
-    resetPassword: PropTypes.func.isRequired,
-    location: LocationType.isRequired
-};
-
-export default PasswordChangePage;

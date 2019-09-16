@@ -11,7 +11,7 @@
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import { changeHeaderState, goToPreviousHeaderState } from 'Store/Header';
 import { CART, CART_EDITING } from 'Component/Header';
 import { hideActiveOverlay } from 'Store/Overlay';
@@ -33,14 +33,16 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 export class CartOverlayContainer extends PureComponent {
-    constructor(props) {
-        super(props);
+    static propTypes = {
+        totals: TotalsType.isRequired,
+        changeHeaderState: PropTypes.func.isRequired
+    };
 
-        this.state = { isEditing: false };
-        this.containerFunctions = {
-            changeHeaderState: this.changeHeaderState.bind(this)
-        };
-    }
+    state = { isEditing: false };
+
+    containerFunctions = {
+        changeHeaderState: this.changeHeaderState.bind(this)
+    };
 
     changeHeaderState() {
         const { changeHeaderState, totals: { count = 0 } } = this.props;
@@ -72,10 +74,5 @@ export class CartOverlayContainer extends PureComponent {
         );
     }
 }
-
-CartOverlayContainer.propTypes = {
-    totals: TotalsType.isRequired,
-    changeHeaderState: PropTypes.func.isRequired
-};
 
 export default connect(mapStateToProps, mapDispatchToProps)(CartOverlayContainer);

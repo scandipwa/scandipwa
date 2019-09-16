@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import Link from 'Component/Link';
 import PropTypes from 'prop-types';
 import Image from 'Component/Image';
@@ -18,7 +18,24 @@ import { ItemsType } from 'Type/ProductList';
 import './SearchOverlay.style';
 import TextPlaceholder from 'Component/TextPlaceholder';
 
-class SearchOverlay extends PureComponent {
+export const SEARCH_TIMEOUT = 500;
+export const AMOUNT_OF_PLACEHOLDERS = 5;
+
+export default class SearchOverlay extends PureComponent {
+    static propTypes = {
+        hideActiveOverlay: PropTypes.func.isRequired,
+        searchCriteria: PropTypes.string,
+        searchResults: ItemsType.isRequired,
+        isLoading: PropTypes.bool.isRequired,
+        getProductLinkTo: PropTypes.func.isRequired,
+        makeSearchRequest: PropTypes.func.isRequired,
+        clearSearchResults: PropTypes.func.isRequired
+    };
+
+    static defaultProps = {
+        searchCriteria: ''
+    };
+
     componentDidUpdate(prevProps) {
         const { searchCriteria: prevSearchCriteria } = prevProps;
         const { searchCriteria, clearSearchResults, makeSearchRequest } = this.props;
@@ -30,7 +47,7 @@ class SearchOverlay extends PureComponent {
             this.timeout = setTimeout(() => {
                 this.timeout = null;
                 makeSearchRequest();
-            }, 500);
+            }, SEARCH_TIMEOUT);
         }
     }
 
@@ -55,7 +72,7 @@ class SearchOverlay extends PureComponent {
             attributes: { brand: { attribute_value: brand } = {} } = {}
         } = product;
 
-        const imageSrc = path ? `/media/catalog/product${ path }` : null;
+        const imageSrc = path ? `/media/catalog/product${ path }` : undefined;
 
         return (
             <li
@@ -67,7 +84,7 @@ class SearchOverlay extends PureComponent {
                   block="SearchOverlay"
                   elem="Link"
                   to={ getProductLinkTo(product) }
-                  onClick={ () => hideActiveOverlay() }
+                  onClick={ hideActiveOverlay }
                 >
                     <figure
                       block="SearchOverlay"
@@ -117,7 +134,7 @@ class SearchOverlay extends PureComponent {
 
         if (!searchCriteria) this.renderNoSearchCriteria();
         if (!searchResults.length && !isLoading && !this.timeout) this.renderNoResults();
-        const resultsToRender = (isLoading || this.timeout) ? Array(5).fill({}) : searchResults;
+        const resultsToRender = (isLoading || this.timeout) ? Array(AMOUNT_OF_PLACEHOLDERS).fill({}) : searchResults;
 
         return (
             <ul>
@@ -144,19 +161,3 @@ class SearchOverlay extends PureComponent {
         );
     }
 }
-
-SearchOverlay.propTypes = {
-    hideActiveOverlay: PropTypes.func.isRequired,
-    searchCriteria: PropTypes.string,
-    searchResults: ItemsType.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-    getProductLinkTo: PropTypes.func.isRequired,
-    makeSearchRequest: PropTypes.func.isRequired,
-    clearSearchResults: PropTypes.func.isRequired
-};
-
-SearchOverlay.defaultProps = {
-    searchCriteria: ''
-};
-
-export default SearchOverlay;

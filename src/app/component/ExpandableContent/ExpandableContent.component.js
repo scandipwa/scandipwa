@@ -9,26 +9,39 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { MixType, ChildrenType } from 'Type/Common';
 import './ExpandableContent.style';
 
-class ExpandableContent extends PureComponent {
+export default class ExpandableContent extends PureComponent {
+    static propTypes = {
+        isContentExpanded: PropTypes.bool,
+        heading: PropTypes.string,
+        subHeading: PropTypes.string,
+        children: ChildrenType.isRequired,
+        mix: MixType.isRequired
+    };
+
+    static defaultProps = {
+        subHeading: '',
+        heading: '',
+        isContentExpanded: false
+    };
+
     constructor(props) {
         super(props);
 
         const { isContentExpanded } = this.props;
         this.state = { isContentExpanded };
-        this.toggleExpand = this.toggleExpand.bind(this);
     }
 
-    toggleExpand() {
+    toggleExpand = () => {
         this.setState(({ isContentExpanded }) => (
             { isContentExpanded: !isContentExpanded }
         ));
-    }
+    };
 
     renderButton() {
         const { isContentExpanded } = this.state;
@@ -92,19 +105,3 @@ class ExpandableContent extends PureComponent {
         );
     }
 }
-
-ExpandableContent.propTypes = {
-    isContentExpanded: PropTypes.bool,
-    heading: PropTypes.string,
-    subHeading: PropTypes.string,
-    children: ChildrenType.isRequired,
-    mix: MixType.isRequired
-};
-
-ExpandableContent.defaultProps = {
-    subHeading: '',
-    heading: '',
-    isContentExpanded: false
-};
-
-export default ExpandableContent;

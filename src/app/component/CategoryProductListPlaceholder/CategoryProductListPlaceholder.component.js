@@ -9,22 +9,29 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ProductCard from 'Component/ProductCard';
 import './CategoryProductListPlaceholder.style';
+
+export const DEFAULT_PLACEHOLDER_COUNT = 4;
 
 /**
  * Placeholder for List of category product
  * @class CategoryProductListPlaceholder
  */
 class CategoryProductListPlaceholder extends PureComponent {
-    constructor(props) {
-        super(props);
+    static propTypes = {
+        isLoading: PropTypes.bool.isRequired,
+        isVisible: PropTypes.bool.isRequired,
+        updatePages: PropTypes.func.isRequired,
+        numberOfPlaceholders: PropTypes.number
+    };
 
-        this.placeholdersCount = 4;
-    }
+    static defaultProps = {
+        numberOfPlaceholders: DEFAULT_PLACEHOLDER_COUNT
+    };
 
     componentDidMount() {
         this.startObserving();
@@ -73,8 +80,10 @@ class CategoryProductListPlaceholder extends PureComponent {
     }
 
     renderPlaceholders() {
+        const { numberOfPlaceholders } = this.props;
+
         return Array.from(
-            { length: this.placeholdersCount },
+            { length: numberOfPlaceholders },
             (_, i) => <ProductCard key={ i } product={ {} } />
         );
     }
@@ -94,11 +103,5 @@ class CategoryProductListPlaceholder extends PureComponent {
         );
     }
 }
-
-CategoryProductListPlaceholder.propTypes = {
-    isLoading: PropTypes.bool.isRequired,
-    isVisible: PropTypes.bool.isRequired,
-    updatePages: PropTypes.func.isRequired
-};
 
 export default withRouter(CategoryProductListPlaceholder);

@@ -9,13 +9,17 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import Link from 'Component/Link';
 import PropTypes from 'prop-types';
 import ContentWrapper from 'Component/ContentWrapper';
 import './NoMatch.style';
 
-class NoMatch extends Component {
+export default class NoMatch extends Component {
+    static propTypes = {
+        updateBreadcrumbs: PropTypes.func.isRequired
+    };
+
     componentDidMount() {
         this.updateBreadcrumbs();
     }
@@ -71,9 +75,3 @@ class NoMatch extends Component {
         );
     }
 }
-
-NoMatch.propTypes = {
-    updateBreadcrumbs: PropTypes.func.isRequired
-};
-
-export default NoMatch;

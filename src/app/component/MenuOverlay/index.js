@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import MenuOverlay from './MenuOverlay.container';
-
-export default MenuOverlay;
+export { default } from './MenuOverlay.container';

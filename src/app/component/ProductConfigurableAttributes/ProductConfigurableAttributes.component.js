@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
 import ExpandableContent from 'Component/ExpandableContent';
 import ProductAttributeValue from 'Component/ProductAttributeValue';
@@ -17,7 +17,26 @@ import { AttributeType } from 'Type/ProductList';
 import { MixType } from 'Type/Common';
 import './ProductConfigurableAttributes.style';
 
-class ProductConfigurableAttributes extends Component {
+export default class ProductConfigurableAttributes extends Component {
+    static propTypes = {
+        isContentExpanded: PropTypes.bool,
+        numberOfPlaceholders: PropTypes.arrayOf(PropTypes.number),
+        configurable_options: PropTypes.objectOf(AttributeType).isRequired,
+        getLink: PropTypes.func.isRequired,
+        parameters: PropTypes.shape({}).isRequired,
+        updateConfigurableVariant: PropTypes.func.isRequired,
+        isReady: PropTypes.bool,
+        mix: MixType
+    };
+
+    static defaultProps = {
+        isReady: true,
+        mix: {},
+        // eslint-disable-next-line no-magic-numbers
+        numberOfPlaceholders: [6, 10, 7],
+        isContentExpanded: false
+    };
+
     /**
      * Get URL link for attribute
      *
@@ -25,10 +44,10 @@ class ProductConfigurableAttributes extends Component {
      * @returns {String}
      * @memberof ProductConfigurableAttributes
      */
-    getLink({ attribute_code, attribute_value }) {
+    getLink = ({ attribute_code, attribute_value }) => {
         const { getLink } = this.props;
         return getLink(attribute_code, attribute_value);
-    }
+    };
 
     getSubHeading({ attribute_values, attribute_code, attribute_options }) {
         return attribute_values.reduce((acc, attribute_value) => (
@@ -44,10 +63,10 @@ class ProductConfigurableAttributes extends Component {
      * @param {{ attribute_code: String, attribute_value: String }} { attribute_code, attribute_value }
      * @memberof ProductConfigurableAttributes
      */
-    handleOptionClick({ attribute_code, attribute_value }) {
+    handleOptionClick = ({ attribute_code, attribute_value }) => {
         const { updateConfigurableVariant } = this.props;
         updateConfigurableVariant(attribute_code, attribute_value);
-    }
+    };
 
     /**
      * Checks whether provided attribute were selected
@@ -73,8 +92,8 @@ class ProductConfigurableAttributes extends Component {
               key={ attribute_value }
               attribute={ attribute }
               isSelected={ this.isSelected(attribute) }
-              onClick={ () => this.handleOptionClick(attribute) }
-              getLink={ () => this.getLink(attribute) }
+              onClick={ this.handleOptionClick }
+              getLink={ this.getLink }
             />
         );
     }
@@ -142,23 +161,3 @@ class ProductConfigurableAttributes extends Component {
         );
     }
 }
-
-ProductConfigurableAttributes.propTypes = {
-    isContentExpanded: PropTypes.bool,
-    numberOfPlaceholders: PropTypes.arrayOf(PropTypes.number),
-    configurable_options: PropTypes.objectOf(AttributeType).isRequired,
-    getLink: PropTypes.func.isRequired,
-    parameters: PropTypes.shape({}).isRequired,
-    updateConfigurableVariant: PropTypes.func.isRequired,
-    isReady: PropTypes.bool,
-    mix: MixType
-};
-
-ProductConfigurableAttributes.defaultProps = {
-    isReady: true,
-    mix: {},
-    numberOfPlaceholders: [6, 10, 7],
-    isContentExpanded: false
-};
-
-export default ProductConfigurableAttributes;

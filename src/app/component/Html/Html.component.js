@@ -11,72 +11,97 @@
 
 /* eslint-disable consistent-return */
 // Disabled due `domToReact` internal logic
-import React, { PureComponent } from 'react';
-import Parser from 'html-react-parser';
+import { PureComponent } from 'react';
+import parser from 'html-react-parser';
 import domToReact from 'html-react-parser/lib/dom-to-react';
 import attributesToProps from 'html-react-parser/lib/attributes-to-props';
 import Link from 'Component/Link';
 import PropTypes from 'prop-types';
 import Image from 'Component/Image';
+import WidgetFactory from 'Component/WidgetFactory';
 
 /**
  * Html content parser
  * Component converts HTML strings to React components
  * @class Html
  */
-class Html extends PureComponent {
-    constructor(props) {
-        super(props);
+export default class Html extends PureComponent {
+    static propTypes = {
+        content: PropTypes.string.isRequired
+    };
 
-        this.rules = [
-            {
-                query: { name: ['a'] },
-                replace: this.replaceLinks
-            },
-            {
-                query: { name: ['img'] },
-                replace: this.replaceImages
-            },
-            {
-                query: { name: ['input'] },
-                replace: this.replaceInput
-            },
-            {
-                query: { name: ['script'] },
-                replace: this.replaceScript
+    rules = [
+        {
+            query: { name: ['widget'] },
+            replace: this.replaceWidget
+        },
+        {
+            query: { name: ['a'] },
+            replace: this.replaceLinks
+        },
+        {
+            query: { name: ['img'] },
+            replace: this.replaceImages
+        },
+        {
+            query: { name: ['input'] },
+            replace: this.replaceInput
+        },
+        {
+            query: { name: ['script'] },
+            replace: this.replaceScript
+        }
+    ];
+
+    parserOptions = {
+        replace: (domNode) => {
+            const { data, name: domName, attribs: domAttrs } = domNode;
+
+            // Let's remove empty text nodes
+            if (data && !data.replace(/\u21b5/g, '').replace(/\s/g, '').length) {
+                return <></>;
             }
-        ];
 
-        this.parserOptions = {
-            replace: (domNode) => {
-                const { data, name: domName, attribs: domAttrs } = domNode;
+            const rule = this.rules.find((rule) => {
+                const { query: { name, attribs } } = rule;
 
-                // Let's remove empty text nodes
-                if (data && !data.replace(/\u21b5/g, '').replace(/\s/g, '').length) {
-                    return <></>;
-                }
-
-                for (let i = 0; i < this.rules.length; i++) {
-                    const { query: { name, attribs }, replace } = this.rules[i];
-
-                    if (name && domName && name.indexOf(domName) !== -1) {
-                        return replace.call(this, domNode);
-                    } if (attribs && domAttrs) {
-                        attribs.forEach((attrib) => {
-                            if (typeof attrib === 'object') {
-                                const queryAttrib = Object.keys(attrib)[0];
-                                if (Object.prototype.hasOwnProperty.call(domAttrs, queryAttrib)) {
-                                    const match = domAttrs[queryAttrib].match(Object.values(attrib)[0]);
-                                    if (match) return replace.call(this, domNode);
-                                }
-                            } else if (Object.prototype.hasOwnProperty.call(domAttrs, attrib)) {
-                                return replace.call(this, domNode);
+                if (name && domName && name.indexOf(domName) !== -1) {
+                    return true;
+                } if (attribs && domAttrs) {
+                    attribs.forEach((attrib) => {
+                        if (typeof attrib === 'object') {
+                            const queryAttrib = Object.keys(attrib)[0];
+                            if (Object.prototype.hasOwnProperty.call(domAttrs, queryAttrib)) {
+                                return domAttrs[queryAttrib].match(Object.values(attrib)[0]);
                             }
-                        });
-                    }
+                        } else if (Object.prototype.hasOwnProperty.call(domAttrs, attrib)) {
+                            return true;
+                        }
+                    });
                 }
+
+                return false;
+            });
+
+            if (rule) {
+                const { replace } = rule;
+                return replace.call(this, domNode);
             }
-        };
+        }
+    };
+
+    attributesToProps(attribs) {
+        const toCamelCase = string => string.replace(/_[a-z]/g, match => match.substr(1).toUpperCase());
+
+        const convertPropertiesToValidFormat = properties => Object.entries(properties)
+            .reduce((validProps, [key, value]) => {
+                // eslint-disable-next-line no-restricted-globals
+                if (!isNaN(value)) return { ...validProps, [toCamelCase(key)]: +value };
+                return { ...validProps, [toCamelCase(key)]: value };
+            }, {});
+
+        const properties = convertPropertiesToValidFormat(attribs);
+        return attributesToProps(properties);
     }
 
     /**
@@ -86,19 +111,15 @@ class Html extends PureComponent {
      * @memberof Html
      */
     replaceLinks({ attribs, children }) {
-        const { href } = attribs;
+        const { href, ...attrs } = attribs;
+
         if (href) {
             const isAbsoluteUrl = value => new RegExp('^(?:[a-z]+:)?//', 'i').test(value);
             const isSpecialLink = value => new RegExp('^(sms|tel|mailto):', 'i').test(value);
 
-            if (!isAbsoluteUrl(attribs.href) && !isSpecialLink(attribs.href)) {
-                /* eslint no-param-reassign: 0 */
-                // Allowed, because param is not a direct reference
-                attribs.to = attribs.href;
-                delete attribs.href;
-
+            if (!isAbsoluteUrl(href) && !isSpecialLink(href)) {
                 return (
-                    <Link { ...attributesToProps(attribs) }>
+                    <Link { ...attributesToProps({ ...attrs, to: href }) }>
                         { domToReact(children, this.parserOptions) }
                     </Link>
                 );
@@ -128,6 +149,17 @@ class Html extends PureComponent {
         return <input { ...attributesToProps(attribs) } />;
     }
 
+    /**
+     * Insert corresponding widget
+     *
+     * @param {{ attribs: Object }} { attribs }
+     * @returns {null|JSX} Return Widget
+     * @memberof Html
+     */
+    replaceWidget({ attribs }) {
+        return <WidgetFactory { ...this.attributesToProps(attribs) } />;
+    }
+
     replaceScript({ attribs }) {
         const script = document.createElement('script');
         Object.entries(attribs).forEach(([attr, value]) => script.setAttribute(attr, value));
@@ -138,12 +170,6 @@ class Html extends PureComponent {
 
     render() {
         const { content } = this.props;
-        return Parser(content, this.parserOptions);
+        return parser(content, this.parserOptions);
     }
 }
-
-Html.propTypes = {
-    content: PropTypes.string.isRequired
-};
-
-export default Html;

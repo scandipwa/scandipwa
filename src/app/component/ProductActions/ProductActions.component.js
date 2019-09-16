@@ -13,7 +13,7 @@
 /* eslint-disable react/no-array-index-key */
 // Disabled due placeholder needs
 
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { ProductType } from 'Type/ProductList';
 import Field from 'Component/Field';
@@ -28,7 +28,23 @@ import './ProductActions.style';
  * Product actions
  * @class ProductActions
  */
-class ProductActions extends PureComponent {
+export default class ProductActions extends PureComponent {
+    static propTypes = {
+        product: ProductType.isRequired,
+        configurableVariantIndex: PropTypes.number,
+        showOnlyIfLoaded: PropTypes.func.isRequired,
+        quantity: PropTypes.number.isRequired,
+        areDetailsLoaded: PropTypes.bool.isRequired,
+        getLink: PropTypes.func.isRequired,
+        setQuantity: PropTypes.func.isRequired,
+        updateUrl: PropTypes.func.isRequired,
+        parameters: PropTypes.objectOf(PropTypes.string).isRequired
+    };
+
+    static defaultProps = {
+        configurableVariantIndex: 0
+    };
+
     renderSkuAndStock() {
         const { product: { sku }, showOnlyIfLoaded } = this.props;
 
@@ -66,6 +82,7 @@ class ProductActions extends PureComponent {
 
         return (
             <ProductConfigurableAttributes
+              // eslint-disable-next-line no-magic-numbers
               numberOfPlaceholders={ [2, 4] }
               mix={ { block: 'ProductActions', elem: 'Attributes' } }
               isReady={ areDetailsLoaded }
@@ -141,7 +158,7 @@ class ProductActions extends PureComponent {
               min={ 1 }
               value={ quantity }
               mix={ { block: 'ProductActions', elem: 'Qty' } }
-              onChange={ value => setQuantity(value) }
+              onChange={ setQuantity }
             />
         );
     }
@@ -186,21 +203,3 @@ class ProductActions extends PureComponent {
         );
     }
 }
-
-ProductActions.propTypes = {
-    product: ProductType.isRequired,
-    configurableVariantIndex: PropTypes.number,
-    showOnlyIfLoaded: PropTypes.func.isRequired,
-    quantity: PropTypes.number.isRequired,
-    areDetailsLoaded: PropTypes.bool.isRequired,
-    getLink: PropTypes.func.isRequired,
-    setQuantity: PropTypes.func.isRequired,
-    updateUrl: PropTypes.func.isRequired,
-    parameters: PropTypes.objectOf(PropTypes.string).isRequired
-};
-
-ProductActions.defaultProps = {
-    configurableVariantIndex: 0
-};
-
-export default ProductActions;

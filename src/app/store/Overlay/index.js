@@ -9,18 +9,5 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import {
-    TOGGLE_OVERLAY,
-    HIDE_ACTIVE_OVERLAY,
-    toggleOverlayByKey,
-    hideActiveOverlay
-} from './Overlay.action';
-import OverlayReducer from './Overlay.reducer';
-
-export {
-    TOGGLE_OVERLAY,
-    HIDE_ACTIVE_OVERLAY,
-    toggleOverlayByKey,
-    hideActiveOverlay,
-    OverlayReducer
-};
+export * from './Overlay.action';
+export { default as OverlayReducer } from './Overlay.reducer';

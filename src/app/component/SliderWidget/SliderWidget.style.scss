@@ -1,0 +1,25 @@
+.SliderWidget {
+    &-Figcaption {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: 100%;
+        transform: translateY(-50%);
+    }
+
+    &-FigureImage {
+        padding-bottom: 40%;
+
+        @include mobile {
+            padding-bottom: 100%;
+        }
+
+        img {
+            object-fit: cover;
+
+            @include mobile {
+                object-position: center;
+            }
+        }
+    }
+}

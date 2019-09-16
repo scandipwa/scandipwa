@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React from 'react';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { GUEST_QUOTE_ID } from 'Store/Cart';
 import { fetchMutation } from 'Util/Request';
@@ -30,22 +30,24 @@ export const mapStateToProps = state => ({
 
 const MappedCheckoutShippingStep = connect(mapStateToProps, mapDispatchToProps)(CheckoutShippingStep);
 
-const CheckoutShippingStepContainer = (props) => {
-    const getGuestCartId = () => BrowserDatabase.getItem(GUEST_QUOTE_ID);
+class CheckoutShippingStepContainer extends PureComponent {
+    getGuestCartId = () => BrowserDatabase.getItem(GUEST_QUOTE_ID);
 
-    const estimateShippingCost = address => fetchMutation(
+    estimateShippingCost = address => fetchMutation(
         CheckoutQuery.getEstimateShippingCosts(
             address,
-            getGuestCartId()
+            this.getGuestCartId()
         )
     );
 
-    return (
-        <MappedCheckoutShippingStep
-          estimateShippingCost={ estimateShippingCost }
-          { ...props }
-        />
-    );
-};
+    render() {
+        return (
+            <MappedCheckoutShippingStep
+              estimateShippingCost={ this.estimateShippingCost }
+              { ...this.props }
+            />
+        );
+    }
+}
 
 export default CheckoutShippingStepContainer;

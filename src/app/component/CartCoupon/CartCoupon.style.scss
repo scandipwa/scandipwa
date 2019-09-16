@@ -1,0 +1,36 @@
+.CartCoupon {
+    @include mobile {
+        width: 100%;
+    }
+
+    &-Message {
+        display: inline-block;
+    }
+
+    &-Input {
+        display: inline-block;
+
+        input {
+            width: 200px;
+
+            @include mobile {
+                width: 100%;
+            }
+        }
+
+        @include mobile {
+            width: 100%;
+        }
+    }
+
+    &-Button {
+        margin-left: 2rem;
+
+        @include mobile {
+            width: 100%;
+
+            margin-left: 0;
+            margin-top: 2rem;
+        }
+    }
+}

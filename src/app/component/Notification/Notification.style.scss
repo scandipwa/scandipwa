@@ -31,6 +31,7 @@
     &-Debug {
         white-space: pre-wrap;
         background: white;
+        color: black;
         padding: 5px;
     }
 
@@ -92,32 +93,28 @@
         }
     }
 
-    &_is {
-        // &_opening {
-        //     animation: fadeinLeft var(--animation-duration) ease-in-out forwards;
-
-        //     @include mobile {
-        //         animation-name: fadeinOpacity;
-        //     }
-        // }
-
-        // &_closing {
-        //     animation: fadeoutLeft var(--animation-duration) ease-in-out forwards;
-
-        //     @include mobile {
-        //         animation-name: fadeoutOpacity;
-        //     }
-        // }
-    }
-
     @keyframes fadeinLeft {
-        from { opacity: 0; left: 100%; }
-        to { opacity: 1; left: 0; }
+        from {
+            opacity: 0;
+            left: 100%;
+        }
+
+        to {
+            opacity: 1;
+            left: 0;
+        }
     }
 
     @keyframes fadeoutLeft {
-        from { opacity: 1; left: 0; }
-        to { opacity: 0; left: 100%; }
+        from {
+            opacity: 1;
+            left: 0;
+        }
+
+        to {
+            opacity: 0;
+            left: 100%;
+        }
     }
 
     @keyframes fadeinOpacity {

@@ -9,43 +9,35 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import Field from 'Component/Field';
+import CheckoutPaymentMethod from 'Component/CheckoutPaymentMethod/CheckoutPaymentMethod.component';
 
-class CheckoutPaymentMethods extends PureComponent {
-    constructor(props) {
-        super(props);
+export default class CheckoutPaymentMethods extends PureComponent {
+    static propTypes = {
+        paymentMethods: PropTypes.arrayOf(PropTypes.object).isRequired,
+        onSelectPaymentMethod: PropTypes.func.isRequired
+    };
 
-        this.state = {
-            paymentMethod: ''
-        };
-    }
+    state = { paymentMethod: '' };
 
-    handlePaymentMethodChange(method) {
+    handlePaymentMethodChange = (method) => {
         const { onSelectPaymentMethod } = this.props;
         onSelectPaymentMethod(method);
         this.setState({ paymentMethod: method });
-    }
+    };
 
     renderPaymentMethod(method) {
-        const { title, code } = method;
+        const { code } = method;
         const { paymentMethod: { code: paymentMethodCode } } = this.state;
 
         return (
-            <tr key={ code } onClick={ () => this.handlePaymentMethodChange(method) }>
-                <td>
-                    <Field
-                      id={ code }
-                      type="radio"
-                      name={ code }
-                      value={ code }
-                      checked={ paymentMethodCode === code }
-                      onChange={ () => this.handlePaymentMethodChange(method) }
-                    />
-                </td>
-                <td>{ title }</td>
-            </tr>
+            <CheckoutPaymentMethod
+              key={ code }
+              method={ method }
+              isChecked={ paymentMethodCode === code }
+              handlePaymentMethodChange={ this.handlePaymentMethodChange }
+            />
         );
     }
 
@@ -64,10 +56,3 @@ class CheckoutPaymentMethods extends PureComponent {
         );
     }
 }
-
-CheckoutPaymentMethods.propTypes = {
-    paymentMethods: PropTypes.arrayOf(PropTypes.object).isRequired,
-    onSelectPaymentMethod: PropTypes.func.isRequired
-};
-
-export default CheckoutPaymentMethods;

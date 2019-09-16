@@ -11,7 +11,7 @@
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import { SearchBarDispatcher } from 'Store/SearchBar';
 import { hideActiveOverlay } from 'Store/Overlay';
 import SearchOverlay from './SearchOverlay.component';
@@ -28,14 +28,16 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 export class SearchOverlayContainer extends PureComponent {
-    constructor(props) {
-        super(props);
+    static propTypes = {
+        makeSearchRequest: PropTypes.func.isRequired,
+        clearSearchResults: PropTypes.func.isRequired,
+        searchCriteria: PropTypes.string.isRequired
+    };
 
-        this.containerFunctions = {
-            getProductLinkTo: this.getProductLinkTo.bind(this),
-            makeSearchRequest: this.makeSearchRequest.bind(this)
-        };
-    }
+    containerFunctions = {
+        getProductLinkTo: this.getProductLinkTo.bind(this),
+        makeSearchRequest: this.makeSearchRequest.bind(this)
+    };
 
     getProductLinkTo(product) {
         const { url_key } = product;
@@ -64,11 +66,5 @@ export class SearchOverlayContainer extends PureComponent {
         );
     }
 }
-
-SearchOverlayContainer.propTypes = {
-    makeSearchRequest: PropTypes.func.isRequired,
-    clearSearchResults: PropTypes.func.isRequired,
-    searchCriteria: PropTypes.string.isRequired
-};
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchOverlayContainer);

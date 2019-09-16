@@ -9,30 +9,30 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import Field from 'Component/Field';
 import Loader from 'Component/Loader';
 import './CheckoutShippingMethods.style';
+import CheckoutShippingMethod from 'Component/CheckoutShippingMethod/CheckoutShippingMethod.component';
 
 /**
  * Checkout shipping method selector component
  */
-class CheckoutShippingMethods extends PureComponent {
-    constructor(props) {
-        super(props);
+export default class CheckoutShippingMethods extends PureComponent {
+    static propTypes = {
+        shippingMethods: PropTypes.arrayOf(PropTypes.object).isRequired,
+        onSelectShippingMethod: PropTypes.func.isRequired,
+        loadingShippingMethods: PropTypes.bool.isRequired
+    };
 
-        this.state = {
-            activeMethod: ''
-        };
-    }
+    state = { activeMethod: '' };
 
-    handleShippingMethodChange(method) {
+    handleShippingMethodChange = (method) => {
         const { method_code } = method;
         const { onSelectShippingMethod } = this.props;
         this.setState({ activeMethod: method_code });
         onSelectShippingMethod(method);
-    }
+    };
 
     /**
      * Render single row with shipping method
@@ -42,41 +42,15 @@ class CheckoutShippingMethods extends PureComponent {
      */
     renderShippingMethod(method) {
         const { activeMethod } = this.state;
-        const {
-            price_incl_tax,
-            method_title,
-            carrier_title,
-            method_code
-        } = method;
+        const { method_code } = method;
 
         return (
-            <tr key={ method_code } onClick={ () => this.handleShippingMethodChange(method) }>
-                <td>
-                    <Field
-                      id={ method_code }
-                      name="shipping_method"
-                      type="radio"
-                      value={ method_code }
-                      checked={ method_code === activeMethod }
-                      onChange={ () => this.handleShippingMethodChange(method) }
-                    />
-                </td>
-                <td
-                  block="CheckoutShippingMethods"
-                  elem="Information"
-                >
-                    { __('Shipping carrier method:') }
-                    <strong>{ carrier_title }</strong>
-                    { __(', price rate') }
-                    <strong>{ method_title }</strong>
-                </td>
-                <td
-                  block="CheckoutShippingMethods"
-                  elem="Price"
-                >
-                    { `${price_incl_tax}$` }
-                </td>
-            </tr>
+            <CheckoutShippingMethod
+              key={ method_code }
+              isChecked={ method_code === activeMethod }
+              method={ method }
+              handleShippingMethodChange={ this.handleShippingMethodChange }
+            />
         );
     }
 
@@ -108,18 +82,9 @@ class CheckoutShippingMethods extends PureComponent {
                         )
                         : (
                             <p>{ __('Please enter shipping address information first!') }</p>
-                        )
-                    }
+                        ) }
                 </div>
             </fieldset>
         );
     }
 }
-
-CheckoutShippingMethods.propTypes = {
-    shippingMethods: PropTypes.arrayOf(PropTypes.object).isRequired,
-    onSelectShippingMethod: PropTypes.func.isRequired,
-    loadingShippingMethods: PropTypes.bool.isRequired
-};
-
-export default CheckoutShippingMethods;

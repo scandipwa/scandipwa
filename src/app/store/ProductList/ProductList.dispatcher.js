@@ -26,15 +26,21 @@ import { updateNoMatch } from 'Store/NoMatch';
  */
 export class ProductListDispatcher extends QueryDispatcher {
     constructor() {
-        super('ProductList', 2628000);
+        super('ProductList');
     }
 
     onSuccess(data, dispatch, options) {
-        const { products: { items, total_count } = {} } = data;
+        const {
+            products: {
+                items,
+                total_count,
+                page_info: { total_pages } = {}
+            } = {}
+        } = data;
         const { args: { currentPage }, isNext } = options;
 
         if (isNext) return dispatch(appendPage(items, currentPage));
-        return dispatch(updateProductListItems(items, currentPage, total_count));
+        return dispatch(updateProductListItems(items, currentPage, total_count, total_pages));
     }
 
     onError(error, dispatch) {

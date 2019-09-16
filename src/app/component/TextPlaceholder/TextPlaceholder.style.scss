@@ -23,12 +23,16 @@
     &_loaded {
         pointer-events: all;
 
-        &:after {
+        &::after {
             opacity: 0;
         }
     }
 
     &_length {
+        &_block::after {
+            content: 'aa';
+        }
+
         &_short::after {
             content: 'aaaaaaaaaaaaa';
 

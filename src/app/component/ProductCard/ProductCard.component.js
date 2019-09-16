@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Link from 'Component/Link';
 import ProductReviewRating from 'Component/ProductReviewRating';
@@ -23,7 +23,24 @@ import './ProductCard.style';
  * Product card
  * @class ProductCard
  */
-class ProductCard extends PureComponent {
+export default class ProductCard extends PureComponent {
+    static propTypes = {
+        linkTo: PropTypes.shape({}),
+        product: ProductType.isRequired,
+        productOrVariant: ProductType.isRequired,
+        thumbnail: PropTypes.string,
+        availableVisualOptions: PropTypes.arrayOf(PropTypes.shape({
+            label: PropTypes.string,
+            value: PropTypes.string
+        })).isRequired,
+        getAttribute: PropTypes.func.isRequired
+    };
+
+    static defaultProps = {
+        thumbnail: '',
+        linkTo: {}
+    };
+
     renderProductPrice() {
         const { productOrVariant: { price } } = this.props;
         if (!price) return <TextPlaceholder />;
@@ -57,6 +74,7 @@ class ProductCard extends PureComponent {
     renderPicture() {
         const { product: { id, name }, thumbnail } = this.props;
         const imageUrl = thumbnail && `/media/catalog/product${ thumbnail }`;
+        const fullImageUrl = `//${window.location.hostname}${imageUrl}`;
 
         return (
             <>
@@ -70,7 +88,7 @@ class ProductCard extends PureComponent {
                 <img
                   style={ { display: 'none' } }
                   alt={ name }
-                  src={ imageUrl }
+                  src={ fullImageUrl }
                   itemProp="image"
                 />
             </>
@@ -81,6 +99,9 @@ class ProductCard extends PureComponent {
         const { product: { review_summary: { rating_summary, review_count } = {} } } = this.props;
         if (!rating_summary) return null;
 
+        const ONE_FIFTH_OF_A_HUNDRED = 20;
+        const rating = parseFloat(rating_summary / ONE_FIFTH_OF_A_HUNDRED).toFixed(2);
+
         return (
             <figcaption
               block="ProductCard"
@@ -89,7 +110,7 @@ class ProductCard extends PureComponent {
               itemScope
               itemType="https://schema.org/AggregateRating"
             >
-                <meta itemProp="ratingValue" content={ rating_summary || 0 } />
+                <meta itemProp="ratingValue" content={ rating || 0 } />
                 <meta itemProp="ratingCount" content={ review_count || 0 } />
                 <ProductReviewRating summary={ rating_summary || 0 } />
             </figcaption>
@@ -175,22 +196,3 @@ class ProductCard extends PureComponent {
         );
     }
 }
-
-ProductCard.propTypes = {
-    linkTo: PropTypes.shape({}),
-    product: ProductType.isRequired,
-    productOrVariant: ProductType.isRequired,
-    thumbnail: PropTypes.string,
-    availableVisualOptions: PropTypes.arrayOf(PropTypes.shape({
-        label: PropTypes.string,
-        value: PropTypes.string
-    })).isRequired,
-    getAttribute: PropTypes.func.isRequired
-};
-
-ProductCard.defaultProps = {
-    thumbnail: '',
-    linkTo: {}
-};
-
-export default ProductCard;

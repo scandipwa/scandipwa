@@ -69,12 +69,17 @@
             width: 11px;
             height: 8px;
             background-color: var(--header-color);
-            clip-path: polygon(
-                5px 8px, 11px 0, 0 0,
-                5px 8px,
-                5px 6px, 2px 1.5px, 8.6px 1.5px,
-                5px 6px
-            );
+            clip-path:
+                polygon(
+                    5px 8px,
+                    11px 0,
+                    0 0,
+                    5px 8px,
+                    5px 6px,
+                    2px 1.5px,
+                    8.6px 1.5px,
+                    5px 6px
+                );
         }
 
         &::after {

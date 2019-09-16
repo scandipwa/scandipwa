@@ -14,10 +14,33 @@
         border-top: 1px solid var(--overlay-divider-color);
     }
 
+    &_isBreadcrumbsHidden {
+        margin-top: var(--header-height);
+    }
+
     &-Wrapper {
-        margin-top: 1.8rem;
-        margin-bottom: 1.8rem;
         grid-template-columns: auto;
+        max-width: var(--content-wrapper-width);
+        padding: {
+            left: 1rem;
+            right: 1rem;
+        };
+        margin: {
+            top: 1rem;
+            bottom: 1.8rem;
+            left: auto;
+            right: auto;
+        };
+
+        &_page_width {
+            &_full {
+                max-width: 100%;
+                padding: {
+                    left: 0;
+                    right: 0;
+                };
+            }
+        }
     }
 
     &-Heading {
@@ -28,12 +51,33 @@
         }
     }
 
+    &-SectionPlaceholder {
+        background-image: var(--placeholder-image);
+        background-size: var(--placeholder-size);
+        animation: var(--placeholder-animation);
+        margin: 0 0 10px;
+        padding-bottom: 30%;
+
+        @include mobile {
+            padding-bottom: 60%;
+        }
+
+        &:first-child {
+            padding-bottom: 40%;
+
+            @include mobile {
+                padding-bottom: 100%;
+            }
+        }
+    }
+
     .TextPlaceholder {
         margin-bottom: 1.8rem;
         display: block;
     }
 
-    h2, h3 {
+    h2,
+    h3 {
         @include mobile {
             font-size: 1rem;
         }

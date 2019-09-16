@@ -105,6 +105,30 @@ export class CartDispatcher {
         );
     }
 
+    applyCouponToCart(dispatch, couponCode) {
+        return fetchMutation(CartQuery.getApplyCouponMutation(
+            couponCode, !isSignedIn() && this._getGuestQuoteId()
+        )).then(
+            ({ applyCoupon: { cartData } }) => {
+                this._updateCartData(cartData, dispatch);
+                dispatch(showNotification('success', __('Coupon was applied!')));
+            },
+            error => dispatch(showNotification('error', error[0].message))
+        );
+    }
+
+    removeCouponFromCart(dispatch) {
+        return fetchMutation(CartQuery.getRemoveCouponMutation(
+            !isSignedIn() && this._getGuestQuoteId()
+        )).then(
+            ({ removeCoupon: { cartData } }) => {
+                this._updateCartData(cartData, dispatch);
+                dispatch(showNotification('success', __('Coupon was removed!')));
+            },
+            error => dispatch(showNotification('error', error[0].message))
+        );
+    }
+
     _updateCartData(cartData, dispatch) {
         const { items } = cartData;
 
@@ -120,20 +144,19 @@ export class CartDispatcher {
             } = cartProduct;
 
             if (type_id === 'configurable') {
+                // eslint-disable-next-line fp/no-let
                 let configurableVariantIndex = 0;
 
-                const { product: variant } = variants.find(
-                    ({ product }) => {
-                        if (product === null) return false;
-                        const { sku: productSku } = product;
-                        const isChosenProduct = productSku === sku;
-                        if (!isChosenProduct) configurableVariantIndex++;
-                        return isChosenProduct;
-                    }
-                );
+                variants.find(({ product }) => {
+                    if (product === null) return false;
+                    const { sku: productSku } = product;
+                    const isChosenProduct = productSku === sku;
+                    if (!isChosenProduct) configurableVariantIndex++;
+                    return isChosenProduct;
+                });
 
-                if (variant) {
-                    const { id: variantId } = variant;
+                if (configurableVariantIndex !== -1) {
+                    const { id: variantId } = variants[configurableVariantIndex].product;
 
                     return {
                         ...prev,

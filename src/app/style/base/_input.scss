@@ -28,7 +28,7 @@ select {
         border: 1px solid var(--input-color);
     }
 
-    &:not(:first) {
+    &:not(:first-of-type) {
         margin-top: 1rem;
     }
 }
@@ -37,10 +37,11 @@ textarea {
     width: 25rem;
 }
 
-[type="number"] {
+[type='number'] {
     width: var(--input-type-number-width);
     font-weight: 700;
     padding-right: 0;
+    -moz-appearance: textfield;
 
     &:focus {
         border: 1px solid var(--input-border-color);
@@ -48,8 +49,8 @@ textarea {
 
     &::-webkit-inner-spin-button,
     &::-webkit-outer-spin-button {
-      appearance: none;
-      margin: 0;
+        appearance: none;
+        margin: 0;
     }
 
     ~ button {

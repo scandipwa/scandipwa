@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router';
 import { ProductType } from 'Type/ProductList';
@@ -19,13 +19,16 @@ import { isSignedIn } from 'Util/Auth';
 import Loader from 'Component/Loader';
 import './MyAccountWishlist.style';
 
+export default class MyAccountWishlist extends Component {
+    static propTypes = {
+        wishlistItems: PropTypes.objectOf(ProductType).isRequired,
+        removeProductFromWishlist: PropTypes.func.isRequired,
+        showNotification: PropTypes.func.isRequired,
+        updateBreadcrumbs: PropTypes.func.isRequired,
+        addProduct: PropTypes.func.isRequired
+    };
 
-class MyAccountWishlist extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = { isLoading: false };
-    }
+    state = { isLoading: false };
 
     componentDidMount() {
         this.updateBreadcrumbs();
@@ -143,9 +146,8 @@ class MyAccountWishlist extends Component {
                     <div block="MyAccountWishlist" elem="Content">
                         <h2>{ __('My Wish List') }</h2>
                         <Loader isLoading={ isLoading } />
-                        {
-                            this.getWishlistItemsCount() > 0
-                                ? (
+                        { this.getWishlistItemsCount() > 0
+                            ? (
                                     <>
                                         <button
                                           onClick={ () => this.addToCart() }
@@ -159,26 +161,15 @@ class MyAccountWishlist extends Component {
                                         <ul block="MyAccountWishlist" elem="List">
                                             { Object.values(wishlistItems).map(
                                                 product => this.renderWishlistItem(product)
-                                            )}
+                                            ) }
                                         </ul>
                                     </>
-                                ) : (
+                            ) : (
                                     <p>{ __('You have no items in your wish list.') }</p>
-                                )
-                        }
+                            ) }
                     </div>
                 </div>
             </main>
         );
     }
 }
-
-MyAccountWishlist.propTypes = {
-    wishlistItems: PropTypes.objectOf(ProductType).isRequired,
-    removeProductFromWishlist: PropTypes.func.isRequired,
-    showNotification: PropTypes.func.isRequired,
-    updateBreadcrumbs: PropTypes.func.isRequired,
-    addProduct: PropTypes.func.isRequired
-};
-
-export default MyAccountWishlist;

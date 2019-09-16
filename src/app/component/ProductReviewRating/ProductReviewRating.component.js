@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import { PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
 import CSS from 'Util/CSS';
 import './ProductReviewRating.style';
@@ -17,11 +17,20 @@ import './ProductReviewRating.style';
 /**
  * @class ProductReviewRating
  */
-class ProductReviewRating extends PureComponent {
-    constructor(props) {
-        super(props);
-        this.reviewRating = React.createRef();
-    }
+export default class ProductReviewRating extends PureComponent {
+    static propTypes = {
+        summary: PropTypes.number,
+        code: PropTypes.string,
+        placeholder: PropTypes.bool
+    };
+
+    static defaultProps = {
+        summary: 0,
+        code: '',
+        placeholder: false
+    };
+
+    reviewRating = createRef();
 
     componentDidMount() {
         const { summary } = this.props;
@@ -34,48 +43,37 @@ class ProductReviewRating extends PureComponent {
     }
 
     getAriaText(summary, code) {
-        const rating = Math.round((summary / 20) * 100) / 100;
+        const ONE_FIFTH_OF_A_HUNDRED = 20;
+        const rating = parseFloat(summary / ONE_FIFTH_OF_A_HUNDRED).toFixed(2);
 
         return code
             ? `Review's ${code} rating is ${rating} out of 5`
             : `Product's rating is ${rating} out of 5`;
     }
 
+    renderPlaceholder() {
+        return (
+            <div
+              block="ProductReviewRating"
+              mods={ { isLoading: placeholder } }
+              ref={ this.reviewRating }
+            />
+        )
+    }
+
     render() {
         const { summary, code, placeholder } = this.props;
         const ariaText = this.getAriaText(summary, code);
 
+        if (placeholder) return this.renderPlaceholder();
+
         return (
-            placeholder
-                ? (
-                    <div
-                      block="ProductReviewRating"
-                      mods={ { isLoading: placeholder } }
-                      ref={ this.reviewRating }
-                    />
-                )
-                : (
-                    <div
-                      block="ProductReviewRating"
-                      title={ `${summary}%` }
-                      ref={ this.reviewRating }
-                      aria-label={ ariaText }
-                    />
-                )
+            <div
+              block="ProductReviewRating"
+              title={ `${summary}%` }
+              ref={ this.reviewRating }
+              aria-label={ ariaText }
+            />
         );
     }
 }
-
-ProductReviewRating.propTypes = {
-    summary: PropTypes.number,
-    code: PropTypes.string,
-    placeholder: PropTypes.bool
-};
-
-ProductReviewRating.defaultProps = {
-    summary: 0,
-    code: '',
-    placeholder: false
-};
-
-export default ProductReviewRating;
