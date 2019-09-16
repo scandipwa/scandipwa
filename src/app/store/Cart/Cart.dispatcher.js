@@ -144,9 +144,16 @@ export class CartDispatcher {
             } = cartProduct;
 
             if (type_id === 'configurable') {
-                const configurableVariantIndex = variants.findIndex(
-                    ({ product: { sku: productSku } }) => productSku === sku
-                );
+                // eslint-disable-next-line fp/no-let
+                let configurableVariantIndex = 0;
+
+                variants.find(({ product }) => {
+                    if (product === null) return false;
+                    const { sku: productSku } = product;
+                    const isChosenProduct = productSku === sku;
+                    if (!isChosenProduct) configurableVariantIndex++;
+                    return isChosenProduct;
+                });
 
                 if (configurableVariantIndex !== -1) {
                     const { id: variantId } = variants[configurableVariantIndex].product;
