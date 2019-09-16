@@ -36,8 +36,7 @@ const removeQueryParamWithoutHistory = (name, history, location) => {
 
     const params = new URLSearchParams(search);
     params.delete(name);
-    const a = decodeURIComponent(`${ pathname }?${ params }`);
-    history.replace(a);
+    history.replace(decodeURIComponent(`${ pathname }?${ params }`));
 };
 
 /**

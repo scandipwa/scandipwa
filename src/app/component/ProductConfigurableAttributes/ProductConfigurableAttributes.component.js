@@ -26,8 +26,7 @@ export default class ProductConfigurableAttributes extends Component {
         parameters: PropTypes.shape({}).isRequired,
         updateConfigurableVariant: PropTypes.func.isRequired,
         isReady: PropTypes.bool,
-        mix: MixType,
-        variants: PropTypes.arrayOf(AttributeType)
+        mix: MixType
     };
 
     static defaultProps = {
@@ -35,8 +34,7 @@ export default class ProductConfigurableAttributes extends Component {
         mix: {},
         // eslint-disable-next-line no-magic-numbers
         numberOfPlaceholders: [6, 10, 7],
-        isContentExpanded: false,
-        variants: []
+        isContentExpanded: false
     };
 
     /**
