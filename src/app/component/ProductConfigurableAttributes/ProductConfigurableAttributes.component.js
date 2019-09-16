@@ -87,7 +87,7 @@ export default class ProductConfigurableAttributes extends Component {
     }
 
     /**
-     * Checks whether provided attribute is disabled
+     * Checks whether provided attribute is available
      *
      * @param {{ attribute_code: String, attribute_value: String }} { attribute_code, attribute_value }
      * @returns {bool}
@@ -96,36 +96,24 @@ export default class ProductConfigurableAttributes extends Component {
     isAvailable({ attribute_code, attribute_value }) {
         const { parameters, variants } = this.props;
 
-        const isAvailable = selectedOptions => variants
-            .some(({ stock_status, attributes }) => {
-                if (stock_status !== 'IN_STOCK') return false;
+        const isAttributeSelected = Object.hasOwnProperty.call(parameters, attribute_code);
 
-                // Check if variant has current attribute_code and attribute_value
-                const variantHasCurrentOption = Object.hasOwnProperty.call(attributes, attribute_code)
-                    && attributes[attribute_code].attribute_value === attribute_value;
+        // If value matches current attribute_value, option should be enabled
+        if (isAttributeSelected && parameters[attribute_code] === attribute_value) return true;
 
-                if (!variantHasCurrentOption) return false;
+        const parameterPairs = Object.entries(parameters);
 
-                // Check if variant has all currently selected options
-                return selectedOptions.every(([key, value]) => Object.hasOwnProperty.call(attributes, key)
-                    && attributes[key].attribute_value === value);
-            });
+        const selectedAttributes = isAttributeSelected
+            // Need to exclude itself, otherwise different attribute_values of the same attribute_code will always be disabled
+            ? parameterPairs.filter(([key]) => key !== attribute_code)
+            : parameterPairs;
 
-        // If user already selected option with current attribute_code
-        if (Object.hasOwnProperty.call(parameters, attribute_code)) {
-            // If value matches current attribute_value, option should be enabled
-            if (parameters[attribute_code] === attribute_value) return true;
-
-            // If not then we need to check if there is a at least 1 variant
-            // that corresponds to all selected options, excluding current attribute_code, otherwise we will get false
-            const options = Object
-                .entries(parameters)
-                .filter(([key]) => key !== attribute_code);
-
-            return isAvailable(options);
-        }
-
-        return isAvailable(Object.entries(parameters));
+        return variants
+            .some(({ stock_status, attributes }) => stock_status === 'IN_STOCK'
+                // Variant must have currently checked attribute_code and attribute_value
+                && attributes[attribute_code].attribute_value === attribute_value
+                // Variant must have all currently selected attributes
+                && selectedAttributes.every(([key, value]) => attributes[key].attribute_value === value));
     }
 
     renderConfigurableAttributeValue(attribute) {
