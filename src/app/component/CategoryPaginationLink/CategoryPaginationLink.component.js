@@ -39,7 +39,7 @@ export default class CategoryPaginationLink extends PureComponent {
         const {
             text,
             label,
-            url_path,
+            url_path: pathname,
             isCurrent
         } = this.props;
 
@@ -49,7 +49,7 @@ export default class CategoryPaginationLink extends PureComponent {
             <Link
               to={ {
                   search,
-                  pathname: `/category/${ url_path }`
+                  pathname
               } }
               aria-label={ label }
               block="CategoryPaginationLink"
