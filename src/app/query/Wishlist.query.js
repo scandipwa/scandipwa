@@ -21,7 +21,7 @@ export class Wishlist {
     getAddProductToWishlistMutation({ sku }) {
         return new Field('addProductToWishlist')
             .addArgument('productSku', 'String!', sku)
-            .addFieldList(this._getItemFields());
+            .addFieldList(this._getItemsFields());
     }
 
     getRemoveProductFromWishlistMutation({ item_id }) {
@@ -37,7 +37,7 @@ export class Wishlist {
         ];
     }
 
-    _getItemFields() {
+    _getItemsFields() {
         return [
             'id',
             this._getProductField()
@@ -50,8 +50,8 @@ export class Wishlist {
     }
 
     _getItemsField() {
-        return new Field('item')
-            .addFieldList(this._getItemFields());
+        return new Field('items')
+            .addFieldList(this._getItemsFields());
     }
 }
 

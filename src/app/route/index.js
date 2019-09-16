@@ -169,7 +169,7 @@ class AppRouter extends PureComponent {
     }
 
     dispatchActions() {
-        // WishlistDispatcher.updateInitialWishlistData(Store.dispatch);
+        WishlistDispatcher.updateInitialWishlistData(Store.dispatch);
         CartDispatcher.updateInitialCartData(Store.dispatch);
         ConfigDispatcher.handleData(Store.dispatch);
         HeaderAndFooterDispatcher.handleData(Store.dispatch, this.getHeaderAndFooterOptions());

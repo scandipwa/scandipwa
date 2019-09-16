@@ -64,9 +64,12 @@
 
     &-AddToButtons {
         order: 3;
-        width: 100%;
         padding: 0 15px;
         justify-content: flex-end;
+
+        @include after-mobile {
+            width: 100%;
+        }
     }
 
     &-Color {

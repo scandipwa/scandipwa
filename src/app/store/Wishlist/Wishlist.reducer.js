@@ -10,17 +10,20 @@
  */
 
 import BrowserDatabase from 'Util/BrowserDatabase';
+import { getIndexedParameteredProducts } from 'Util/Product';
 import {
     REMOVE_ITEM_FROM_WISHLIST,
     UPDATE_ALL_PRODUCTS_IN_WISHLIST,
-    PRODUCT_TO_BE_REMOVED_AFTER_ADD
+    PRODUCT_TO_BE_REMOVED_AFTER_ADD,
+    UPDATE_IS_LOADING_IN_WISHLIST
 } from './Wishlist.action';
 
 export const PRODUCTS_IN_WISHLIST = 'wishlist_products';
 
 export const initialState = {
     productsInWishlist: BrowserDatabase.getItem(PRODUCTS_IN_WISHLIST) || {},
-    productToBeRemovedAfterAdd: ''
+    productToBeRemovedAfterAdd: '',
+    isLoading: true
 };
 
 const removeItemFromWishlist = (action, state) => {
@@ -38,14 +41,16 @@ const removeItemFromWishlist = (action, state) => {
 };
 
 const updateAllProductsInWishlist = (action) => {
-    const { products } = action;
+    const { products: initialProducts } = action;
+
+    const products = getIndexedParameteredProducts(initialProducts);
 
     BrowserDatabase.setItem(
         products,
         PRODUCTS_IN_WISHLIST
     );
 
-    return { productsInWishlist: products };
+    return { productsInWishlist: products, isLoading: false };
 };
 
 const WishlistReducer = (state = initialState, action) => {
@@ -55,12 +60,14 @@ const WishlistReducer = (state = initialState, action) => {
     case REMOVE_ITEM_FROM_WISHLIST:
         return {
             ...state,
+            isLoading: false,
             ...removeItemFromWishlist(action, state)
         };
 
     case UPDATE_ALL_PRODUCTS_IN_WISHLIST:
         return {
             ...state,
+            isLoading: false,
             ...updateAllProductsInWishlist(action)
         };
 
@@ -69,7 +76,16 @@ const WishlistReducer = (state = initialState, action) => {
 
         return {
             ...state,
+            isLoading: false,
             productToBeRemovedAfterAdd
+        };
+
+    case UPDATE_IS_LOADING_IN_WISHLIST:
+        const { isLoading } = action;
+
+        return {
+            ...state,
+            isLoading
         };
 
     default:
