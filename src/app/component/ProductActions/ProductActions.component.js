@@ -18,7 +18,9 @@ import PropTypes from 'prop-types';
 import { ProductType } from 'Type/ProductList';
 import Field from 'Component/Field';
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
+import ProductWishlistButton from 'Component/ProductWishlistButton';
 import TextPlaceholder from 'Component/TextPlaceholder';
+import AddToWishlist from 'Component/AddToWishlist';
 import ProductPrice from 'Component/ProductPrice';
 import AddToCart from 'Component/AddToCart';
 import Html from 'Component/Html';
@@ -187,10 +189,26 @@ export default class ProductActions extends PureComponent {
         );
     }
 
+    renderAddToButtons() {
+        const { product } = this.props;
+
+        return (
+            <div
+              block="ProductActions"
+              elem="AddToButtons"
+            >
+                <ProductWishlistButton product={ product }>
+                    <AddToWishlist id={ product.id } />
+                </ProductWishlistButton>
+            </div>
+        );
+    }
+
     render() {
         return (
             <article block="ProductActions">
                 { this.renderPrice() }
+                { this.renderAddToButtons() }
                 <div block="ProductActions" elem="AddToCartWrapper">
                   { this.renderAddToCart() }
                   { this.renderQuantityInput() }

@@ -41,6 +41,46 @@ class MyAccountWishlist extends Component {
         return Object.keys(wishlistItems).length;
     }
 
+    addToCart = () => {
+        const {
+            showNotification,
+            wishlistItems,
+            addProduct,
+            removeProductFromWishlist
+        } = this.props;
+
+        this.setState({ isLoading: true });
+
+
+        if (!isSignedIn()) {
+            showNotification('error', __('You must login or register to add all products to Cart.'));
+            this.setState({ isLoading: false });
+
+            return null;
+        }
+
+        const data = [];
+        data.errors = [];
+        data.addedProducts = [];
+
+        return Promise.all(Object.values(wishlistItems).map((product) => {
+            const { type_id, configurableVariantIndex, name } = product;
+
+            if (type_id === 'configurable' && !configurableVariantIndex) {
+                data.errors.push(__('You need to choose options for your item for %s', name));
+                return null;
+            }
+
+            return addProduct({
+                product,
+                quantity: 1
+            }).then(() => {
+                data.addedProducts.push(name);
+                removeProductFromWishlist({ product, noMessages: true });
+            });
+        })).then(() => this.afterAdded(data));
+    };
+
     afterAdded(response) {
         const { showNotification } = this.props;
         const { errors, addedProducts } = response;
@@ -81,46 +121,6 @@ class MyAccountWishlist extends Component {
         updateBreadcrumbs(breadcrumbs);
     }
 
-    addToCart() {
-        const {
-            showNotification,
-            wishlistItems,
-            addProduct,
-            removeProductFromWishlist
-        } = this.props;
-
-        this.setState({ isLoading: true });
-
-
-        if (!isSignedIn()) {
-            showNotification('error', __('You must login or register to add all products to Cart.'));
-            this.setState({ isLoading: false });
-
-            return null;
-        }
-
-        const data = [];
-        data.errors = [];
-        data.addedProducts = [];
-
-        return Promise.all(Object.values(wishlistItems).map((product) => {
-            const { type_id, configurableVariantIndex, name } = product;
-
-            if (type_id === 'configurable' && !configurableVariantIndex) {
-                data.errors.push(__('You need to choose options for your item for %s', name));
-                return null;
-            }
-
-            return addProduct({
-                product,
-                quantity: 1
-            }).then(() => {
-                data.addedProducts.push(name);
-                removeProductFromWishlist({ product, noMessages: true });
-            });
-        })).then(() => this.afterAdded(data));
-    }
-
     renderWishlistItem(product) {
         return (
             <ProductCard
@@ -151,7 +151,7 @@ class MyAccountWishlist extends Component {
                             ? (
                                     <>
                                         <button
-                                          onClick={ () => this.addToCart() }
+                                          onClick={ this.addToCart }
                                           block="MyAccountWishlist"
                                           elem="Button"
                                           mods={ { isLoading } }
