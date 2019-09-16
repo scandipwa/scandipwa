@@ -53,6 +53,7 @@ class MyAccountTabList extends PureComponent {
                   block="MyAccountTabListItem"
                   elem="Button"
                   onClick={ logout }
+                  role="link"
                 >
                     { __('Logout') }
                 </button>

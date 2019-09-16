@@ -1,12 +1,14 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import { customerType } from 'Type/Account';
+import { customerType, ADDRESS_BOOK } from 'Type/Account';
 import MyAccountAddressTable from 'Component/MyAccountAddressTable';
-import Loader from 'Component/Loader';
-
-import './MyAccountDashboard.style';
 import MyAccountCustomerTable from 'Component/MyAccountCustomerTable';
+import Loader from 'Component/Loader';
+import Link from 'Component/Link';
+
+import { MY_ACCOUNT_URL } from 'Route/MyAccount/MyAccount.container';
+import './MyAccountDashboard.style';
 
 class MyAccountDashboard extends PureComponent {
     static propTypes = {
@@ -41,7 +43,14 @@ class MyAccountDashboard extends PureComponent {
 
         if (!addresses.length) {
             return (
-                <p>{ __('You have no configured addresses.') }</p>
+                <div>
+                    <p block="MyAccountDashboard" elem="Info">{ __('You have no configured addresses.') }</p>
+                    <p block="MyAccountDashboard" elem="Info">
+                        <Link to={ `${MY_ACCOUNT_URL}/${ADDRESS_BOOK}` }>
+                            { __('Go to "Address Book", to configure them!') }
+                        </Link>
+                    </p>
+                </div>
             );
         }
 

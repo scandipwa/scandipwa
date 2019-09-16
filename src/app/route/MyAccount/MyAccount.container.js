@@ -61,21 +61,29 @@ export class MyAccountContainer extends PureComponent {
         }
     };
 
-    constructor(props) {
-        super(props);
-
+    static navigateToSelectedTab(props, state = {}) {
         const {
             match: {
                 params: {
-                    tab: activeTab = DASHBOARD
+                    tab: historyActiveTab = DASHBOARD
                 } = {}
-            } = {},
-            changeHeaderState,
-            requestCustomerData,
-            history
+            } = {}
         } = props;
 
-        this.state = { activeTab };
+        const { activeTab } = state;
+
+        if (activeTab !== historyActiveTab) {
+            return { activeTab: historyActiveTab };
+        }
+
+        return null;
+    }
+
+    constructor(props) {
+        super(props);
+
+        const { changeHeaderState, requestCustomerData, history } = props;
+        this.state = MyAccountContainer.navigateToSelectedTab(this.props) || {};
 
         changeHeaderState({
             title: 'My account',
@@ -89,19 +97,21 @@ export class MyAccountContainer extends PureComponent {
         this.redirectIfNotSignedIn();
     }
 
-    componentDidUpdate() {
-        this.redirectIfNotSignedIn();
+    static getDerivedStateFromProps(props, state) {
+        return MyAccountContainer.navigateToSelectedTab(props, state);
     }
 
-    containerProps = () => {
-        // isDisabled: this._getIsDisabled()
-    };
+    componentDidUpdate(_, prevState) {
+        const { prevActiveTab } = prevState;
+        const { activeTab } = this.state;
+
+        this.redirectIfNotSignedIn();
+        if (prevActiveTab !== activeTab) this.updateBreadcrumbs();
+    }
 
     changeActiveTab(activeTab) {
         const { history } = this.props;
         const { [activeTab]: { url } } = this.tabMap;
-
-        this.setState({ activeTab }, () => this.updateBreadcrumbs());
         history.push(`${ MY_ACCOUNT_URL }${ url }`);
     }
 
@@ -127,7 +137,6 @@ export class MyAccountContainer extends PureComponent {
               { ...this.props }
               { ...this.state }
               { ...this.containerFunctions }
-              { ...this.containerProps() }
               tabMap={ this.tabMap }
             />
         );

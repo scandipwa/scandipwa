@@ -135,10 +135,7 @@ export class MyAccountDispatcher {
         const mutation = MyAccountQuery.getCreateAccountMutation(options);
 
         fetchMutation(mutation).then(
-            ({ customer }) => {
-                this.signIn({ email, password }, dispatch);
-                dispatch(updateCustomerDetails(customer));
-            },
+            () => this.signIn({ email, password }, dispatch),
             error => dispatch(showNotification('error', error[0].message))
         );
     }

@@ -36,6 +36,7 @@ class MyAccountTabListItem extends PureComponent {
                   block="MyAccountTabListItem"
                   elem="Button"
                   onClick={ this.changeActiveTab }
+                  role="link"
                 >
                     { name }
                 </button>

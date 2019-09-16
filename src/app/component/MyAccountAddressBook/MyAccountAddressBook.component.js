@@ -25,14 +25,36 @@ class MyAccountAddressBook extends PureComponent {
         );
     };
 
+    renderNoAddresses() {
+        return (
+            <div>
+                <p>{ __('You have no configured addresses.') }</p>
+            </div>
+        );
+    }
+
+    renderActions() {
+        return (
+            <button
+              block="MyAccountAddressBook"
+              elem="Button"
+              mix={ { block: 'Button' } }
+            >
+                { __('Add new address') }
+            </button>
+        );
+    }
+
     renderAddressList() {
         const { customer: { addresses = [] } } = this.props;
+        if (!addresses.length) return this.renderNoAddresses();
         return addresses.map(this.renderAddress);
     }
 
     render() {
         return (
             <div block="MyAccountAddressBook">
+                { this.renderActions() }
                 { this.renderAddressList() }
             </div>
         );
