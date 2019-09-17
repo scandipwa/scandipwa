@@ -199,9 +199,10 @@ export class MyAccountOverlayContainer extends PureComponent {
         this.setState({ isLoading: false });
     }
 
-    handleForgotPassword() {
+    handleForgotPassword(e) {
         const { setHeaderState } = this.props;
-
+        e.preventDefault();
+        e.nativeEvent.stopImmediatePropagation();
         this.setState({ state: STATE_FORGOT_PASSWORD });
         setHeaderState({ name: CUSTOMER_ACCOUNT, title: 'Forgot password' });
     }
@@ -210,16 +211,18 @@ export class MyAccountOverlayContainer extends PureComponent {
         this.setState({ state: STATE_FORGOT_PASSWORD_SUCCESS });
     }
 
-    handleSignIn() {
+    handleSignIn(e) {
         const { setHeaderState } = this.props;
-
+        e.preventDefault();
+        e.nativeEvent.stopImmediatePropagation();
         this.setState({ state: STATE_SIGN_IN });
         setHeaderState({ name: CUSTOMER_ACCOUNT, title: 'Sign in' });
     }
 
-    handleCreateAccount() {
+    handleCreateAccount(e) {
         const { setHeaderState } = this.props;
-
+        e.preventDefault();
+        e.nativeEvent.stopImmediatePropagation();
         this.setState({ state: STATE_CREATE_ACCOUNT });
         setHeaderState({ name: CUSTOMER_ACCOUNT, title: 'Create account' });
     }

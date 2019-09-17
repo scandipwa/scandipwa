@@ -42,7 +42,7 @@ export class MyAccountDispatcher {
         const customer = BrowserDatabase.getItem(CUSTOMER) || {};
         if (customer.id) dispatch(updateCustomerDetails(customer));
 
-        executePost(prepareQuery([query])).then(
+        return executePost(prepareQuery([query])).then(
             ({ customer }) => {
                 dispatch(updateCustomerDetails(customer));
                 BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS);
@@ -92,7 +92,7 @@ export class MyAccountDispatcher {
         const mutation = MyAccountQuery.getUpdateAddressMutation(id, options);
 
         return fetchMutation(mutation).then(
-            ({ addresses }) => dispatch(updateCustomerDetails(addresses)),
+            // ({ addresses }) => dispatch(updateCustomerDetails(addresses)),
             error => dispatch(showNotification('error', error[0].message))
         );
     }

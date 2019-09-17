@@ -1,0 +1,17 @@
+.MyAccountAddressForm {
+    label {
+        min-width: calc(100% - 30px);
+    }
+
+    input {
+        width: 100%;
+
+        + label {
+            min-width: auto;
+        }
+    }
+
+    &-Fields {
+        margin-bottom: 1rem;
+    }
+}

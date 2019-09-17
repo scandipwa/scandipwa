@@ -41,7 +41,7 @@ import Store from 'Store';
 import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
 import { ConfigDispatcher } from 'Store/Config';
 import { CartDispatcher } from 'Store/Cart';
-import { WishlistDispatcher } from 'Store/Wishlist';
+// import { WishlistDispatcher } from 'Store/Wishlist';
 import SomethingWentWrong from './SomethingWentWrong';
 
 export const BEFORE_ITEMS_TYPE = 'BEFORE_ITEMS_TYPE';
