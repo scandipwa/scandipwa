@@ -39,7 +39,7 @@ export default class ProductActions extends PureComponent {
         setQuantity: PropTypes.func.isRequired,
         updateConfigurableVariant: PropTypes.func.isRequired,
         parameters: PropTypes.objectOf(PropTypes.string).isRequired,
-        isConfigurableAttributeAvailable: PropTypes.func.isRequired
+        getIsConfigurableAttributeAvailable: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -77,7 +77,7 @@ export default class ProductActions extends PureComponent {
             parameters,
             areDetailsLoaded,
             product: { configurable_options, type_id },
-            isConfigurableAttributeAvailable
+            getIsConfigurableAttributeAvailable
         } = this.props;
 
         if (type_id !== 'configurable') return null;
@@ -92,7 +92,7 @@ export default class ProductActions extends PureComponent {
               parameters={ parameters }
               updateConfigurableVariant={ updateConfigurableVariant }
               configurable_options={ configurable_options }
-              isAvailable={ isConfigurableAttributeAvailable }
+              getIsAvailable={ getIsConfigurableAttributeAvailable }
               isContentExpanded
             />
         );

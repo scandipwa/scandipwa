@@ -33,7 +33,7 @@ export class ProductActionsContainer extends PureComponent {
         showOnlyIfLoaded: this.showOnlyIfLoaded.bind(this),
         getIsOptionInCurrentVariant: this.getIsOptionInCurrentVariant.bind(this),
         setQuantity: this.setQuantity.bind(this),
-        isConfigurableAttributeAvailable: this.isConfigurableAttributeAvailable.bind(this)
+        getIsConfigurableAttributeAvailable: this.getIsConfigurableAttributeAvailable.bind(this)
     };
 
     setQuantity(value) {
@@ -47,25 +47,8 @@ export class ProductActionsContainer extends PureComponent {
         return variants[configurableVariantIndex].product[attribute] === value;
     }
 
-    showOnlyIfLoaded(expression, content, placeholder = content) {
-        const { areDetailsLoaded } = this.props;
-
-        if (!areDetailsLoaded) return placeholder;
-        if (areDetailsLoaded && !expression) return null;
-        return content;
-    }
-
-    /**
-     * Checks whether provided attribute is available
-     *
-     * @param {{ attribute_code: String, attribute_value: String }} { attribute_code, attribute_value }
-     * @returns {bool}
-     * @memberof ProductConfigurableAttributes
-     */
-    isConfigurableAttributeAvailable({ attribute_code, attribute_value }) {
+    getIsConfigurableAttributeAvailable({ attribute_code, attribute_value }) {
         const { parameters, product: { variants } } = this.props;
-
-        if (!variants.length) return true;
 
         const isAttributeSelected = Object.hasOwnProperty.call(parameters, attribute_code);
 
@@ -85,6 +68,14 @@ export class ProductActionsContainer extends PureComponent {
                 && attributes[attribute_code].attribute_value === attribute_value
                 // Variant must have all currently selected attributes
                 && selectedAttributes.every(([key, value]) => attributes[key].attribute_value === value));
+    }
+
+    showOnlyIfLoaded(expression, content, placeholder = content) {
+        const { areDetailsLoaded } = this.props;
+
+        if (!areDetailsLoaded) return placeholder;
+        if (areDetailsLoaded && !expression) return null;
+        return content;
     }
 
     render() {

@@ -27,7 +27,7 @@ export default class ProductConfigurableAttributes extends Component {
         updateConfigurableVariant: PropTypes.func.isRequired,
         isReady: PropTypes.bool,
         mix: MixType,
-        isAvailable: PropTypes.func
+        getIsAvailable: PropTypes.func
     };
 
     static defaultProps = {
@@ -36,7 +36,7 @@ export default class ProductConfigurableAttributes extends Component {
         // eslint-disable-next-line no-magic-numbers
         numberOfPlaceholders: [6, 10, 7],
         isContentExpanded: false,
-        isAvailable: () => true
+        getIsAvailable: () => true
     };
 
     /**
@@ -87,7 +87,7 @@ export default class ProductConfigurableAttributes extends Component {
     }
 
     renderConfigurableAttributeValue(attribute) {
-        const { isAvailable } = this.props;
+        const { getIsAvailable } = this.props;
         const { attribute_value } = attribute;
 
         return (
@@ -95,7 +95,7 @@ export default class ProductConfigurableAttributes extends Component {
               key={ attribute_value }
               attribute={ attribute }
               isSelected={ this.isSelected(attribute) }
-              isAvailable={ isAvailable(attribute) }
+              isAvailable={ getIsAvailable(attribute) }
               onClick={ this.handleOptionClick }
               getLink={ this.getLink }
             />
