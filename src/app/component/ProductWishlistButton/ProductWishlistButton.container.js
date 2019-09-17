@@ -52,14 +52,14 @@ export class ProductWishlistButtonContainer extends PureComponent {
         const {
             product,
             product: { id },
+            showNotification,
             productsInWishlist,
             addProductToWishlist,
             removeProductFromWishlist
         } = this.props;
 
         if (!isSignedIn()) {
-            showNotification('error', __('You must login or register to add items to your wishlist.'));
-            return null;
+            return showNotification('error', __('You must login or register to add items to your wishlist.'));
         }
 
         if (add) return addProductToWishlist({ product });

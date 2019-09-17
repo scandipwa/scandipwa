@@ -31,12 +31,11 @@
     }
 
     @include mobile {
+        display: grid;
         align-items: center;
 
         &-Colors,
         &-Price {
-            display: grid;
-            justify-content: center;
             margin: 1.5rem 1rem 0 1rem;
         }
     }
@@ -64,6 +63,7 @@
     }
 
     &-AddToButtons {
+        display: flex;
         order: 3;
         padding: 0 15px;
         justify-content: flex-end;

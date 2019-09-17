@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import MyAccountMyWishlist from './MyAccountMyWishlist.component';
 
 export const mapStateToProps = state => ({
+    isLoading: state.WishlistReducer.isLoading,
     wishlistItems: state.WishlistReducer.productsInWishlist
 });
 
