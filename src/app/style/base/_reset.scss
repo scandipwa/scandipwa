@@ -186,3 +186,7 @@ mark {
     background-color: transparentize($primary-base-color, .75);
     margin-right: 5px;
 }
+
+::-webkit-scrollbar {
+    display: none;
+}

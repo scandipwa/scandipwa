@@ -1,3 +1,14 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
@@ -16,12 +27,31 @@ class MyAccountDashboard extends PureComponent {
         getDefaultAddress: PropTypes.func.isRequired
     };
 
+    renderNoDefaultAddressConfigured(name) {
+        return (
+            <div key={ name }>
+                <p block="MyAccountDashboard" elem="Info">{ __('No %s address configured.', name) }</p>
+                { this.renderLinkToAddressBook() }
+            </div>
+        );
+    }
+
+    renderLinkToAddressBook() {
+        return (
+            <p block="MyAccountDashboard" elem="Info">
+                <Link to={ `${MY_ACCOUNT_URL}/${ADDRESS_BOOK}` }>
+                    { __('Go to "Address Book", to configure them!') }
+                </Link>
+            </p>
+        );
+    }
+
     renderDefaultAddressTable(isBilling) {
         const { getDefaultAddress } = this.props;
         const name = isBilling ? __('billing') : __('shipping');
         const address = getDefaultAddress(isBilling);
 
-        if (!address) return <p>{ __('No %s address configured.', name) }</p>;
+        if (!address) return this.renderNoDefaultAddressConfigured(name);
 
         return (
             <div
@@ -38,21 +68,19 @@ class MyAccountDashboard extends PureComponent {
         );
     }
 
+    renderNoAddresses() {
+        return (
+            <div>
+                <p block="MyAccountDashboard" elem="Info">{ __('You have no configured addresses.') }</p>
+                { this.renderLinkToAddressBook() }
+            </div>
+        );
+    }
+
     renderDefaultAddressTables() {
         const { customer: { addresses = [] } } = this.props;
 
-        if (!addresses.length) {
-            return (
-                <div>
-                    <p block="MyAccountDashboard" elem="Info">{ __('You have no configured addresses.') }</p>
-                    <p block="MyAccountDashboard" elem="Info">
-                        <Link to={ `${MY_ACCOUNT_URL}/${ADDRESS_BOOK}` }>
-                            { __('Go to "Address Book", to configure them!') }
-                        </Link>
-                    </p>
-                </div>
-            );
-        }
+        if (!addresses.length) return this.renderNoAddresses();
 
         return [
             this.renderDefaultAddressTable(),

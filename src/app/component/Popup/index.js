@@ -9,4 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default } from './MyAccountMyWishlist.container';
+export { default } from './Popup.container';

@@ -31,7 +31,8 @@ import Header, {
     CMS_PAGE,
     FILTER,
     CART_EDITING,
-    CHECKOUT
+    CHECKOUT,
+    CUSTOMER_ACCOUNT_PAGE
 } from './Header.component';
 
 export const mapStateToProps = state => ({
@@ -57,6 +58,7 @@ export class HeaderContainer extends PureComponent {
                 PDP,
                 CATEGORY,
                 CUSTOMER_ACCOUNT,
+                CUSTOMER_ACCOUNT_PAGE,
                 HOME_PAGE,
                 MENU,
                 MENU_SUBCATEGORY,
@@ -85,7 +87,7 @@ export class HeaderContainer extends PureComponent {
     routeMap = {
         '/': { name: HOME_PAGE },
         '/category': { name: CATEGORY, onBackClick: () => history.push('/') },
-        '/my-account': { name: CUSTOMER_ACCOUNT, onBackClick: () => history.push('/') },
+        '/my-account': { name: CUSTOMER_ACCOUNT_PAGE, onBackClick: () => history.push('/') },
         '/product': { name: PDP, onBackClick: () => history.goBack() },
         '/cart': { name: CART },
         '/page': { name: CMS_PAGE, onBackClick: () => history.goBack() }

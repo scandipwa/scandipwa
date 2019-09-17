@@ -30,29 +30,22 @@
         color: var(--button-border);
     }
 
-    &:hover,
-    &:focus {
-        text-decoration: none;
+    &:not([disabled]) {
+        &:hover,
+        &:focus {
+            text-decoration: none;
 
-        @include after-mobile {
-            border-color: var(--button-hover-border);
-            background-color: var(--button-hover-background);
-            color: var(--button-hover-color);
+            @include after-mobile {
+                border-color: var(--button-hover-border);
+                background-color: var(--button-hover-background);
+                color: var(--button-hover-color);
+            }
         }
     }
 
     &[disabled] {
         opacity: .25;
         cursor: not-allowed;
-
-        &:hover,
-        &:focus {
-            @include after-mobile {
-                color: var(--button-color);
-                background-color: var(--button-background);
-                border-color: var(--button-border);
-            }
-        }
     }
 
     &_isHollow {

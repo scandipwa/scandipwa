@@ -10,11 +10,16 @@
  */
 
 import { connect } from 'react-redux';
-import OverlayComponent from './Overlay.component';
+import { hideActiveOverlay } from 'Store/Overlay';
+import Popup from './Popup.component';
 
 export const mapStateToProps = state => ({
     activeOverlay: state.OverlayReducer.activeOverlay,
     areOtherOverlaysOpen: state.OverlayReducer.areOtherOverlaysOpen
 });
 
-export default connect(mapStateToProps)(OverlayComponent);
+export const mapDispatchToProps = dispatch => ({
+    hideActiveOverlay: () => dispatch(hideActiveOverlay())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Popup);

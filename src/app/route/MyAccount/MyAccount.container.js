@@ -1,10 +1,21 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { MyAccountDispatcher } from 'Store/MyAccount';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
-import { CUSTOMER_ACCOUNT, HOME_PAGE } from 'Component/Header';
+import { CUSTOMER_ACCOUNT_PAGE } from 'Component/Header';
 import { changeHeaderState } from 'Store/Header';
 import { MatchType, HistoryType } from 'Type/Common';
 import {
@@ -38,9 +49,23 @@ export class MyAccountContainer extends PureComponent {
         history: HistoryType.isRequired
     };
 
-    containerFunctions = {
-        changeActiveTab: this.changeActiveTab.bind(this)
-    };
+    static navigateToSelectedTab(props, state = {}) {
+        const {
+            match: {
+                params: {
+                    tab: historyActiveTab = DASHBOARD
+                } = {}
+            } = {}
+        } = props;
+
+        const { activeTab } = state;
+
+        if (activeTab !== historyActiveTab) {
+            return { activeTab: historyActiveTab };
+        }
+
+        return null;
+    }
 
     tabMap = {
         [DASHBOARD]: {
@@ -61,23 +86,9 @@ export class MyAccountContainer extends PureComponent {
         }
     };
 
-    static navigateToSelectedTab(props, state = {}) {
-        const {
-            match: {
-                params: {
-                    tab: historyActiveTab = DASHBOARD
-                } = {}
-            } = {}
-        } = props;
-
-        const { activeTab } = state;
-
-        if (activeTab !== historyActiveTab) {
-            return { activeTab: historyActiveTab };
-        }
-
-        return null;
-    }
+    containerFunctions = {
+        changeActiveTab: this.changeActiveTab.bind(this)
+    };
 
     constructor(props) {
         super(props);
@@ -87,7 +98,7 @@ export class MyAccountContainer extends PureComponent {
 
         changeHeaderState({
             title: 'My account',
-            name: CUSTOMER_ACCOUNT,
+            name: CUSTOMER_ACCOUNT_PAGE,
             onBackClick: () => history.push('/')
         });
 

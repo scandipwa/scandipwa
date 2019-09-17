@@ -26,6 +26,7 @@ import './Header.style';
 export const PDP = 'pdp';
 export const CATEGORY = 'category';
 export const CUSTOMER_ACCOUNT = 'customer_account';
+export const CUSTOMER_ACCOUNT_PAGE = 'customer_account_page';
 export const HOME_PAGE = 'home';
 export const MENU = 'menu';
 export const MENU_SUBCATEGORY = 'menu_subcategory';
@@ -43,6 +44,7 @@ export default class Header extends PureComponent {
                 PDP,
                 CATEGORY,
                 CUSTOMER_ACCOUNT,
+                CUSTOMER_ACCOUNT_PAGE,
                 HOME_PAGE,
                 MENU,
                 MENU_SUBCATEGORY,
@@ -94,6 +96,10 @@ export default class Header extends PureComponent {
             minicart: true
         },
         [CUSTOMER_ACCOUNT]: {
+            close: true,
+            title: true
+        },
+        [CUSTOMER_ACCOUNT_PAGE]: {
             back: true,
             title: true
         },

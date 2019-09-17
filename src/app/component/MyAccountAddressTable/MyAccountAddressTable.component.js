@@ -1,3 +1,14 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
 import PropTypes from 'prop-types';
 
 import { addressType } from 'Type/Account';
@@ -10,7 +21,10 @@ class MyAccountAddressTable extends KeyValueTable {
     static propTypes = {
         getFormatedRegion: PropTypes.func.isRequired,
         address: addressType.isRequired,
+        showActions: PropTypes.bool,
         showAdditionalFields: PropTypes.bool,
+        onEditClick: PropTypes.func.isRequired,
+        onDeleteClick: PropTypes.func.isRequired,
         countries: PropTypes.arrayOf(
             PropTypes.shape({
                 label: PropTypes.string,
@@ -27,7 +41,8 @@ class MyAccountAddressTable extends KeyValueTable {
     };
 
     static defaultProps = {
-        showAdditionalFields: false
+        showAdditionalFields: false,
+        showActions: false
     };
 
     get dataPairArray() {
@@ -37,32 +52,32 @@ class MyAccountAddressTable extends KeyValueTable {
         const additionalFields = [
             {
                 key: 'country',
-                label: 'County',
+                label: __('County'),
                 source: regionData
             },
             {
-                key: 'state',
-                label: 'State',
+                key: 'region',
+                label: __('State/Province'),
                 source: regionData
             },
             {
                 key: 'city',
-                label: 'City',
+                label: __('City'),
                 source: address
             },
             {
                 key: 'company',
-                label: 'Company',
+                label: __('Company'),
                 source: address
             },
             {
                 key: 'vat_id',
-                label: 'VAT ID',
+                label: __('VAT ID'),
                 source: address
             },
             {
                 key: 'fax',
-                label: 'Fax',
+                label: __('Fax'),
                 source: address
             }
         ];
@@ -70,27 +85,27 @@ class MyAccountAddressTable extends KeyValueTable {
         return [
             {
                 key: 'firstname',
-                label: 'First name',
+                label: __('First name'),
                 source: address
             },
             {
                 key: 'lastname',
-                label: 'Last name',
+                label: __('Last name'),
                 source: address
             },
             {
                 key: 'street',
-                label: 'Street',
+                label: __('Street'),
                 source: address
             },
             {
                 key: 'postcode',
-                label: 'Postal code',
+                label: __('Postal code'),
                 source: address
             },
             {
                 key: 'telephone',
-                label: 'Phone number',
+                label: __('Phone number'),
                 source: address
             },
             ...(showAdditionalFields ? additionalFields : [])
@@ -98,12 +113,32 @@ class MyAccountAddressTable extends KeyValueTable {
     }
 
     renderActions() {
+        const {
+            onEditClick,
+            onDeleteClick,
+            showActions,
+            address: { default_billing, default_shipping }
+        } = this.props;
+
+        const isDeleteAllowed = default_shipping || default_billing;
+
+        if (!showActions) return null;
+
         return (
             <>
-                <button block="Button">
+                <button
+                  block="Button"
+                  onClick={ onEditClick }
+                >
                     { __('Edit address') }
                 </button>
-                <button block="Button" mods={ { isHollow: true } }>
+                <button
+                  block="Button"
+                  mods={ { isHollow: true } }
+                  onClick={ onDeleteClick }
+                  disabled={ isDeleteAllowed }
+                  title={ isDeleteAllowed ? __('Can not delete - address is set as default.') : 'Delete this address' }
+                >
                     { __('Delete') }
                 </button>
             </>
@@ -114,7 +149,7 @@ class MyAccountAddressTable extends KeyValueTable {
         const { countries } = this.props;
 
         return (
-            <div block="MyAccountAddressTable" elem="Wrapper">
+            <div block="MyAccountAddressTable">
                 <Loader isLoading={ !countries.length } />
                 { this.renderTable() }
                 { this.renderActions() }

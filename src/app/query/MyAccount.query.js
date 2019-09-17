@@ -69,6 +69,11 @@ export class MyAccountQuery {
             .addFieldList(this._getAddressFields());
     }
 
+    getDeleteAddressMutation(id) {
+        return new Field('deleteCustomerAddress')
+            .addArgument('id', 'Int!', id);
+    }
+
     getUpdateAddressMutation(id, options) {
         return new Field('updateCustomerAddress')
             .addArgument('id', 'Int!', id)
