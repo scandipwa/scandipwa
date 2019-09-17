@@ -172,7 +172,10 @@ export default class ProductList extends PureComponent {
                 >
                     <h2>{ __('We are sorry!') }</h2>
                     <h3>{ __('There were no products found matching your request.') }</h3>
-                    <p>{ __('Please, try removing selected filters and try again!') }</p>
+                    { /*
+                        TODO: change to more generic question or use props
+                        <p>{ __('Please, try removing selected filters and try again!') }</p>
+                    */ }
                 </div>
             </div>
         );
