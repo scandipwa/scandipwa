@@ -43,6 +43,7 @@
         border-radius: 5px;
         padding: 2rem;
         min-width: 490px;
+        overflow-y: scroll;
 
         @include mobile {
             min-width: 100%;
@@ -50,7 +51,7 @@
         }
     }
 
-    &-CloseBtn {
+    & &-CloseBtn {
         @include close-button;
 
         height: 40px;
@@ -61,7 +62,7 @@
         z-index: 5;
 
         @include mobile {
-            top: 40px;
+            top: 25px;
         }
     }
 }

@@ -20,12 +20,19 @@ import Link from 'Component/Link';
 
 import { MY_ACCOUNT_URL } from 'Route/MyAccount/MyAccount.container';
 import './MyAccountDashboard.style';
+import MyAccountCustomerPopup from 'Component/MyAccountCustomerPopup';
 
 class MyAccountDashboard extends PureComponent {
     static propTypes = {
         customer: customerType.isRequired,
         getDefaultAddress: PropTypes.func.isRequired
     };
+
+    renderCustomerPopup() {
+        return (
+            <MyAccountCustomerPopup />
+        );
+    }
 
     renderNoDefaultAddressConfigured(name) {
         return (
@@ -109,6 +116,7 @@ class MyAccountDashboard extends PureComponent {
                 <Loader isLoading={ !id } />
                 { this.renderCustomerTable() }
                 { this.renderDefaultAddressTables() }
+                { this.renderCustomerPopup() }
             </div>
         );
     }

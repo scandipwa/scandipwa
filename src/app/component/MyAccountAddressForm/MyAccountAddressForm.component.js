@@ -149,7 +149,7 @@ class MyAccountAddressForm extends PureComponent {
         const { address: { [key]: addressValue } } = this.props;
         const {
             label,
-            type,
+            type = 'text',
             selectOptions,
             value,
             checked,
@@ -162,7 +162,7 @@ class MyAccountAddressForm extends PureComponent {
               key={ key }
               name={ key }
               id={ key }
-              type={ type || 'text' }
+              type={ type }
               label={ label }
               selectOptions={ selectOptions }
               checked={ checked }

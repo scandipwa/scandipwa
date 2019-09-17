@@ -102,6 +102,7 @@ class MyAccountAddressPopup extends PureComponent {
             <Popup
               id={ ADDRESS_POPUP_ID }
               clickOutside={ false }
+              mix={ { block: 'MyAccountAddressPopup' } }
             >
                 <Loader isLoading={ isLoading } />
                 { this.renderHeading() }
