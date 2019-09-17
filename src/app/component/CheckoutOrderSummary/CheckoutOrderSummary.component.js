@@ -14,9 +14,8 @@ import Html from 'Component/Html';
 import { TotalsType } from 'Type/MiniCart';
 import { formatCurrency } from 'Util/Price';
 import Image from 'Component/Image';
-import './CheckoutOrderSummary.style';
 import CartItemPrice from 'Component/CartItemPrice';
-import PropTypes from 'prop-types';
+import './CheckoutOrderSummary.style';
 
 /**
  * Checkout Order Summary component
@@ -28,12 +27,16 @@ class CheckoutOrderSummary extends Component {
      */
     getSourceProduct(product, item) {
         const { type_id: type, variants } = product;
-        if (type !== 'configurable') {
-            return product;
-        }
-        const variantIndex = Array.prototype.findIndex.call(variants,
-            variant => this.sku === variant.sku, item);
-        return variants[variantIndex].product;
+        if (type !== 'configurable') return product;
+        const { sku: itemSku } = item;
+        const variantIndex = [].findIndex.call(
+            variants,
+            variant => itemSku === variant.product.sku
+        );
+
+        if (variantIndex >= 0) return variants[variantIndex].product;
+
+        return null;
     }
 
     /**
@@ -64,6 +67,7 @@ class CheckoutOrderSummary extends Component {
     renderItem(key, item, currency_code) {
         const { product, row_total, qty: quantity } = item;
         const sourceProduct = this.getSourceProduct(product, item);
+        if (!sourceProduct) return null;
         const {
             thumbnail: { path } = {},
             short_description: { html } = {},
@@ -111,8 +115,7 @@ class CheckoutOrderSummary extends Component {
         const {
             totals: {
                 grand_total, subtotal, tax_amount, items, shipping_amount, base_currency_code, items_qty
-            },
-            cartItems
+            }
         } = this.props;
 
         // eslint-disable-next-line no-param-reassign, no-return-assign
@@ -133,13 +136,7 @@ class CheckoutOrderSummary extends Component {
                 <div block="CheckoutOrderSummary" elem="OrderItems">
                     <h3>{ __('%s Items In Cart', items_qty) }</h3>
                     <ul block="CheckoutOrderSummary" elem="CartItemList">
-                        { Object.keys(items).map((key) => {
-                            const currentItem = items[key];
-                            if (currentItem.product) {
-                                return this.renderItem(key, items[key], base_currency_code);
-                            }
-                            return this.renderItem(key, cartItems[currentItem.item_id], base_currency_code);
-                        }) }
+                        { [].map.call(items, (item, index) => this.renderItem(index, item, base_currency_code)) }
                     </ul>
                 </div>
             </div>
@@ -148,8 +145,7 @@ class CheckoutOrderSummary extends Component {
 }
 
 CheckoutOrderSummary.propTypes = {
-    totals: TotalsType,
-    cartItems: PropTypes.shape([]).isRequired
+    totals: TotalsType
 };
 
 CheckoutOrderSummary.defaultProps = {

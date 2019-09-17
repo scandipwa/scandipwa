@@ -13,7 +13,6 @@ import { connect } from 'react-redux';
 import MiniCart from './MiniCart.component';
 
 const mapStateToProps = state => ({
-    products: state.CartReducer.productsInCart,
     totals: state.CartReducer.cartTotals
 });
 

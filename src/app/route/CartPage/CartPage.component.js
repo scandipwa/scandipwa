@@ -102,14 +102,8 @@ class CartPage extends Component {
 }
 
 CartPage.propTypes = {
-    products: PropTypes.objectOf(ProductType),
-    totals: TotalsType,
+    totals: TotalsType.isRequired,
     updateBreadcrumbs: PropTypes.func.isRequired
-};
-
-CartPage.defaultProps = {
-    products: {},
-    totals: {}
 };
 
 export default CartPage;

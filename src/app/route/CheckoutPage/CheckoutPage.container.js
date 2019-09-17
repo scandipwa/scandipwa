@@ -21,7 +21,6 @@ import { showNotification } from 'Store/Notification';
 import CheckoutPage from './CheckoutPage.component';
 
 const mapStateToProps = state => ({
-    products: state.CartReducer.productsInCart,
     totals: state.CartReducer.cartTotals,
     toggleHeaderAndFooter: state.HeaderAndFooterReducer.toggleHeaderAndFooter,
     isHeaderAndFooterVisible: state.HeaderAndFooterReducer.isHeaderAndFooterVisible,

@@ -149,12 +149,7 @@ class MiniCart extends Component {
 }
 
 MiniCart.propTypes = {
-    products: PropTypes.objectOf(ProductType),
     totals: TotalsType.isRequired
-};
-
-MiniCart.defaultProps = {
-    products: {}
 };
 
 export default MiniCart;

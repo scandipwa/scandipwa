@@ -12,7 +12,6 @@
 export const ADD_PRODUCT_TO_CART = 'ADD_PRODUCT_TO_CART';
 export const REMOVE_PRODUCT_FROM_CART = 'REMOVE_PRODUCT_FROM_CART';
 export const UPDATE_TOTALS = 'UPDATE_TOTALS';
-export const UPDATE_ALL_PRODUCTS_IN_CART = 'UPDATE_ALL_PRODUCTS_IN_CART';
 
 /**
  * Update product list with new list (rewrite if already exists).
@@ -36,16 +35,6 @@ const removeProductFromCart = product => ({
 });
 
 /**
- * Update all products in cart
- * @param  {Array} product Product which should be removed
- * @return {void}
- */
-const updateAllProductsInCart = products => ({
-    type: UPDATE_ALL_PRODUCTS_IN_CART,
-    products
-});
-
-/**
  * Update totals block
  * @param  {Object} totals Object of calculated totals
  * @return {void}
@@ -58,6 +47,5 @@ const updateTotals = cartData => ({
 export {
     addProductToCart,
     removeProductFromCart,
-    updateTotals,
-    updateAllProductsInCart
+    updateTotals
 };

@@ -13,7 +13,6 @@
 import { fetchMutation, fetchQuery } from 'Util/Request';
 import {
     updateTotals,
-    updateAllProductsInCart,
     PRODUCTS_IN_CART
 } from 'Store/Cart';
 import { isSignedIn } from 'Util/Auth';
@@ -42,7 +41,6 @@ export class CartDispatcher {
             // Need to create empty cart and save quote
             this._createEmptyCart(dispatch).then((data) => {
                 BrowserDatabase.setItem(data, GUEST_QUOTE_ID);
-                dispatch(updateAllProductsInCart({}));
                 dispatch(updateTotals({}));
             });
         }
@@ -64,7 +62,6 @@ export class CartDispatcher {
             () => {
                 this._createEmptyCart(dispatch).then((data) => {
                     BrowserDatabase.setItem(data, GUEST_QUOTE_ID);
-                    dispatch(updateAllProductsInCart({}));
                     dispatch(updateTotals({}));
                 });
             }
@@ -119,59 +116,7 @@ export class CartDispatcher {
     }
 
     _updateCartData(cartData, dispatch) {
-        const { items } = cartData;
-
-        const productsToAdd = items.reduce((prev, cartProduct) => {
-            const {
-                product: {
-                    variants, type_id
-                },
-                product,
-                item_id,
-                sku,
-                row_total,
-                qty: quantity
-            } = cartProduct;
-
-            if (type_id === 'configurable') {
-                let configurableVariantIndex = 0;
-
-                const { product: variant } = variants.find(
-                    ({ product }, index) => {
-                        const { sku: productSku } = product;
-                        const isChosenProduct = productSku === sku;
-                        if (isChosenProduct) configurableVariantIndex = index;
-                        return isChosenProduct;
-                    }
-                );
-
-                if (variant) {
-                    const { id: variantId } = variant;
-                    return {
-                        ...prev,
-                        [item_id]: {
-                            variantId,
-                            product,
-                            configurableVariantIndex,
-                            quantity,
-                            row_total
-                        }
-                    };
-                }
-            }
-
-            return {
-                ...prev,
-                [item_id]: {
-                    product,
-                    quantity,
-                    row_total
-                }
-            };
-        }, {});
-
         dispatch(updateTotals(cartData));
-        dispatch(updateAllProductsInCart(productsToAdd));
     }
 
     _getExtensionAttributes(product) {

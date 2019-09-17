@@ -10,11 +10,8 @@
  */
 
 import BrowserDatabase from 'Util/BrowserDatabase';
-import { getIndexedParameteredProducts } from 'Util/Product';
-import {
-    UPDATE_TOTALS,
-    UPDATE_ALL_PRODUCTS_IN_CART
-} from './Cart.action';
+// import { getIndexedParameteredProducts } from 'Util/Product';
+import { UPDATE_TOTALS } from './Cart.action';
 
 export const PRODUCTS_IN_CART = 'cart_products';
 export const CART_TOTALS = 'cart_totals';
@@ -30,18 +27,6 @@ const updateCartTotals = (action) => {
     return { cartTotals };
 };
 
-const updateAllProductsInCart = (action) => {
-    const { products } = action;
-    const productsInCart = getIndexedParameteredProducts(products);
-
-    BrowserDatabase.setItem(
-        productsInCart,
-        PRODUCTS_IN_CART
-    );
-
-    return { productsInCart };
-};
-
 const initialState = {
     productsInCart: BrowserDatabase.getItem(PRODUCTS_IN_CART) || {},
     cartTotals: BrowserDatabase.getItem(CART_TOTALS) || {}
@@ -51,12 +36,6 @@ const CartReducer = (state = initialState, action) => {
     const { type } = action;
 
     switch (type) {
-    case UPDATE_ALL_PRODUCTS_IN_CART:
-        return {
-            ...state,
-            ...updateAllProductsInCart(action)
-        };
-
     case UPDATE_TOTALS:
         return {
             ...state,
