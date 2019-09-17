@@ -92,7 +92,7 @@ export default class ProductActions extends PureComponent {
               parameters={ parameters }
               updateConfigurableVariant={ updateConfigurableVariant }
               configurable_options={ configurable_options }
-              getIsAvailable={ getIsConfigurableAttributeAvailable }
+              getIsConfigurableAttributeAvailable={ getIsConfigurableAttributeAvailable }
               isContentExpanded
             />
         );
