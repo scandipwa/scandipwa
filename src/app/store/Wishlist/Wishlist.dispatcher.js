@@ -13,7 +13,8 @@ import { fetchMutation, fetchQuery } from 'Util/Request';
 import {
     removeItemFromWishlist,
     updateAllProductsInWishlist,
-    productToBeRemovedAfterAdd
+    productToBeRemovedAfterAdd,
+    updateIsLoading
 } from 'Store/Wishlist';
 import { showNotification } from 'Store/Notification';
 import { isSignedIn } from 'Util/Auth';
@@ -53,6 +54,8 @@ export class WishlistDispatcher {
                     }, {});
 
                     dispatch(updateAllProductsInWishlist(productsToAdd));
+                } else {
+                    dispatch(updateIsLoading(false));
                 }
             },
             // eslint-disable-next-line no-console
@@ -64,6 +67,7 @@ export class WishlistDispatcher {
         const { product } = options;
         const { sku } = product;
         const productToAdd = { sku };
+        dispatch(updateIsLoading(true));
 
         return fetchMutation(WishlistQuery.getAddProductToWishlistMutation(
             productToAdd
@@ -78,6 +82,8 @@ export class WishlistDispatcher {
 
     removeItemFromWishlist(dispatch, { product, noMessages }) {
         if (!product) return null;
+        dispatch(updateIsLoading(true));
+
         if (noMessages) {
             return fetchMutation(WishlistQuery.getRemoveProductFromWishlistMutation(product)).then(
                 () => {

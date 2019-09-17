@@ -12,6 +12,7 @@
 export const REMOVE_ITEM_FROM_WISHLIST = 'REMOVE_ITEM_FROM_WISHLIST';
 export const UPDATE_ALL_PRODUCTS_IN_WISHLIST = 'UPDATE_ALL_PRODUCTS_IN_WISHLIST';
 export const PRODUCT_TO_BE_REMOVED_AFTER_ADD = 'PRODUCT_TO_BE_REMOVED_AFTER_ADD';
+export const UPDATE_IS_LOADING_IN_WISHLIST = 'UPDATE_IS_LOADING_IN_WISHLIST';
 
 /**
  * Remove specified product from wishlist
@@ -36,4 +37,9 @@ export const updateAllProductsInWishlist = products => ({
 export const productToBeRemovedAfterAdd = product => ({
     type: PRODUCT_TO_BE_REMOVED_AFTER_ADD,
     productToBeRemovedAfterAdd: product
+});
+
+export const updateIsLoading = isLoading => ({
+    type: UPDATE_IS_LOADING_IN_WISHLIST,
+    isLoading
 });

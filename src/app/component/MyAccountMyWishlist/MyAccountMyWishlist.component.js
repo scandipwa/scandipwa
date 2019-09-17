@@ -1,19 +1,31 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import ProductCard from 'Component/ProductCard';
+import { ProductType } from 'Type/ProductList';
 import './MyAccountMyWishlist.style';
 
-class MyAccountMyWishlist extends PureComponent {
+export default class MyAccountMyWishlist extends PureComponent {
     static propTypes = {
-        // TODO: implement prop-types
+        wishlistItems: PropTypes.objectOf(ProductType).isRequired
     };
+
+    renderWishlistItems() {
+        const { wishlistItems } = this.props;
+
+        const entries = Object.entries(wishlistItems);
+
+        return (
+            <>
+                { entries.length > 0 ? entries.map(([id, product]) => <ProductCard key={ id } product={ product } />) : __('No products were found in your wishlist') }
+            </>
+        );
+    }
 
     render() {
         return (
             <div block="MyAccountMyWishlist">
-                MyAccountMyWishlist
+                { this.renderWishlistItems() }
             </div>
         );
     }
 }
-
-export default MyAccountMyWishlist;

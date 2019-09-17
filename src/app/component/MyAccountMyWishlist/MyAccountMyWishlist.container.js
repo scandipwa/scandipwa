@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import MyAccountMyWishlist from './MyAccountMyWishlist.component';
 
 export const mapStateToProps = state => ({
-    // wishlistItems: state.WishlistReducer.productsInWishlist
+    wishlistItems: state.WishlistReducer.productsInWishlist
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -22,7 +22,7 @@ export class MyAccountMyWishlistContainer extends PureComponent {
 
     containerProps = () => {
         // isDisabled: this._getIsDisabled()
-    }
+    };
 
     render() {
         return (

@@ -37,7 +37,7 @@
         &-Price {
             display: grid;
             justify-content: center;
-            margin: 1.5rem 1rem;
+            margin: 1.5rem 1rem 0 1rem;
         }
     }
 
@@ -63,6 +63,16 @@
         }
     }
 
+    &-AddToButtons {
+        order: 3;
+        padding: 0 15px;
+        justify-content: flex-end;
+
+        @include after-mobile {
+            width: 100%;
+        }
+    }
+
     &-Color {
         @include after-mobile {
             margin: 6px;
@@ -70,8 +80,10 @@
     }
 
     &-Price {
-        font-size: 25px;
         order: 21;
+        font-size: 25px;
+        align-items: center;
+        justify-content: center;
 
         &:last-of-type {
             @include after-mobile {

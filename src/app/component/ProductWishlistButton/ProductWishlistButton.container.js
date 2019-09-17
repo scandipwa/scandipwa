@@ -9,25 +9,79 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { WishlistDispatcher } from 'Store/Wishlist';
+import PropTypes from 'prop-types';
+import { isSignedIn } from 'Util/Auth';
 import { showNotification } from 'Store/Notification';
+import { WishlistDispatcher } from 'Store/Wishlist';
+import { ProductType } from 'Type/ProductList';
 import ProductWishlistButton from './ProductWishlistButton.component';
 
-const mapStateToProps = state => ({
-    wishlistItems: state.WishlistReducer.productsInWishlist
+export const mapStateToProps = state => ({
+    productsInWishlist: state.WishlistReducer.productsInWishlist,
+    isLoading: state.WishlistReducer.isLoading
 });
 
-const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = dispatch => ({
     addProductToWishlist: options => WishlistDispatcher.addItemToWishlist(dispatch, options),
-
     removeProductFromWishlist: options => WishlistDispatcher.removeItemFromWishlist(dispatch, options),
-
-    showNotification(type, message) {
-        dispatch(showNotification(type, message));
-    }
+    showNotification: (type, message) => dispatch(showNotification(type, message))
 });
 
-const ProductWishlistButtonContainer = connect(mapStateToProps, mapDispatchToProps)(ProductWishlistButton);
+export class ProductWishlistButtonContainer extends PureComponent {
+    static propTypes = {
+        product: ProductType.isRequired,
+        isLoading: PropTypes.bool.isRequired,
+        showNotification: PropTypes.func.isRequired,
+        productsInWishlist: PropTypes.objectOf(ProductType).isRequired,
+        addProductToWishlist: PropTypes.func.isRequired,
+        removeProductFromWishlist: PropTypes.func.isRequired
+    };
 
-export default ProductWishlistButtonContainer;
+    containerProps = () => ({
+        isInWishlist: this.isInWishlist()
+    });
+
+    containerFunctions = () => ({
+        addToWishlist: this.toggleProductInWishlist,
+        removeFromWishlist: this.toggleProductInWishlist.bind(this, false)
+    });
+
+    toggleProductInWishlist = (add = true) => {
+        const {
+            product,
+            product: { id },
+            productsInWishlist,
+            addProductToWishlist,
+            removeProductFromWishlist
+        } = this.props;
+
+        if (!isSignedIn()) {
+            showNotification('error', __('You must login or register to add items to your wishlist.'));
+            return null;
+        }
+
+        if (add) return addProductToWishlist({ product });
+
+        return removeProductFromWishlist({ product: productsInWishlist[id] });
+    };
+
+    isInWishlist = () => {
+        const { product: { id }, productsInWishlist } = this.props;
+
+        return id in productsInWishlist;
+    };
+
+    render() {
+        return (
+            <ProductWishlistButton
+              { ...this.props }
+              { ...this.containerProps() }
+              { ...this.containerFunctions() }
+            />
+        );
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductWishlistButtonContainer);
