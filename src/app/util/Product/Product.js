@@ -88,13 +88,10 @@ export const getIndexedProduct = (product) => {
 
     const attributes = getIndexedAttributes(initialAttributes);
 
-    // If simple product is disabled, variant is still present, but its value is null
-    const enabledInitialVariants = initialVariants.filter(({ product }) => product);
-
     return {
         ...product,
         configurable_options: getIndexedConfigurableOptions(initialConfigurableOptions, attributes),
-        variants: getIndexedVariants(enabledInitialVariants),
+        variants: getIndexedVariants(initialVariants),
         attributes
     };
 };
