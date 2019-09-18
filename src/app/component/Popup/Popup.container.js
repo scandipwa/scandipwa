@@ -9,17 +9,77 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
 import { hideActiveOverlay } from 'Store/Overlay';
+import { changeHeaderState } from 'Store/Header';
+import { POPUP } from 'Component/Header';
+
 import Popup from './Popup.component';
 
 export const mapStateToProps = state => ({
     activeOverlay: state.OverlayReducer.activeOverlay,
-    areOtherOverlaysOpen: state.OverlayReducer.areOtherOverlaysOpen
+    areOtherOverlaysOpen: state.OverlayReducer.areOtherOverlaysOpen,
+    payload: state.PopupReducer.popupPayload
 });
 
 export const mapDispatchToProps = dispatch => ({
-    hideActiveOverlay: () => dispatch(hideActiveOverlay())
+    hideActiveOverlay: () => dispatch(hideActiveOverlay()),
+    changeHeaderState: state => dispatch(changeHeaderState(state))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Popup);
+export class PopupContainer extends PureComponent {
+    static propTypes = {
+        payload: PropTypes.objectOf(
+            PropTypes.shape({
+                title: PropTypes.string
+            })
+        ).isRequired,
+        activeOverlay: PropTypes.string.isRequired,
+        changeHeaderState: PropTypes.func.isRequired,
+        onVisible: PropTypes.func
+    };
+
+    static defaultProps = {
+        onVisible: () => {}
+    };
+
+    containerFunctions = {
+        onVisible: this.onVisible.bind(this)
+    };
+
+    onVisible() {
+        const { changeHeaderState, onVisible } = this.props;
+
+        changeHeaderState({
+            name: POPUP,
+            title: this._getPopupTitle()
+        });
+
+        onVisible();
+    }
+
+    containerProps = () => ({
+        title: this._getPopupTitle()
+    });
+
+    _getPopupTitle() {
+        const { payload, activeOverlay } = this.props;
+        const { title } = payload[activeOverlay] || {};
+        return title;
+    }
+
+    render() {
+        return (
+            <Popup
+              { ...this.props }
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
+            />
+        );
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PopupContainer);

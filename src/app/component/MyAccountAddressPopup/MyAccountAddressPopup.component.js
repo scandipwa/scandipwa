@@ -69,32 +69,6 @@ class MyAccountAddressPopup extends PureComponent {
         }
     }
 
-    renderHeadingText() {
-        const { payload: { action } } = this.props;
-
-        switch (action) {
-        case EDIT_ADDRESS:
-            return __('Edit address');
-        case ADD_ADDRESS:
-            return __('Add new address');
-        case DELETE_ADDRESS:
-            return __('Confirm delete');
-        default:
-            return null;
-        }
-    }
-
-    renderHeading() {
-        return (
-            <h3
-              block="MyAccountAddressPopup"
-              elem="Heading"
-            >
-                { this.renderHeadingText() }
-            </h3>
-        );
-    }
-
     render() {
         const { isLoading } = this.props;
 
@@ -105,7 +79,6 @@ class MyAccountAddressPopup extends PureComponent {
               mix={ { block: 'MyAccountAddressPopup' } }
             >
                 <Loader isLoading={ isLoading } />
-                { this.renderHeading() }
                 { this.renderContent() }
             </Popup>
         );

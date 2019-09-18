@@ -51,19 +51,8 @@ export class MyAccountDispatcher {
         );
     }
 
-    updateCustomerData(options, dispatch) {
-        const mutation = MyAccountQuery.getUpdateInformationMutation(options);
-        return fetchMutation(mutation).then(
-            ({ updateCustomer: { customer } }) => {
-                BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS);
-                dispatch(updateCustomerDetails(customer));
-            },
-            error => dispatch(showNotification('error', error[0].message))
-        );
-    }
-
-    changeCustomerPassword(options, customer, dispatch) {
-        const mutation = MyAccountQuery.getChangeCustomerPasswordMutation(options, customer);
+    changeCustomerPassword(options, dispatch) {
+        const mutation = MyAccountQuery.getChangeCustomerPasswordMutation(options);
 
         return fetchMutation(mutation).then(
             ({ password }) => dispatch(updateCustomerDetails(password)),
@@ -77,24 +66,6 @@ export class MyAccountDispatcher {
         CartDispatcher.updateInitialCartData(dispatch);
         WishlistDispatcher.updateInitialWishlistData(dispatch);
         // TODO: logout in BE
-    }
-
-    createCustomerAddress(options, dispatch) {
-        const mutation = MyAccountQuery.getCreateAddressMutation(options);
-
-        return fetchMutation(mutation).then(
-            ({ addresses }) => dispatch(updateCustomerDetails(addresses)),
-            error => dispatch(showNotification('error', error[0].message))
-        );
-    }
-
-    updateCustomerAddress(id, options, dispatch) {
-        const mutation = MyAccountQuery.getUpdateAddressMutation(id, options);
-
-        return fetchMutation(mutation).then(
-            // ({ addresses }) => dispatch(updateCustomerDetails(addresses)),
-            error => dispatch(showNotification('error', error[0].message))
-        );
     }
 
     /**

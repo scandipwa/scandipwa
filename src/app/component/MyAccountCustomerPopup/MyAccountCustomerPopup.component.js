@@ -6,8 +6,6 @@ import { customerType } from 'Type/Account';
 import MyAccountCustomerForm from 'Component/MyAccountCustomerForm';
 import Loader from 'Component/Loader';
 
-import './MyAccountCustomerPopup.style';
-
 export const CUSTOMER_POPUP_ID = 'MyAccountCustomerPopup';
 
 export const CHANGE_PASSWORD = 'CHANGE_PASSWORD';
@@ -25,30 +23,6 @@ class MyAccountCustomerPopup extends PureComponent {
             customer: customerType
         }).isRequired
     };
-
-    renderHeadingText() {
-        const { payload: { action } } = this.props;
-
-        switch (action) {
-        case CHANGE_PASSWORD:
-            return __('Change Password');
-        case EDIT_CUSTOMER:
-            return __('Edit customer details');
-        default:
-            return null;
-        }
-    }
-
-    renderHeading() {
-        return (
-            <h3
-              block="MyAccountAddressPopup"
-              elem="Heading"
-            >
-                { this.renderHeadingText() }
-            </h3>
-        );
-    }
 
     renderChangePasswordForm() {
         return 'password';
@@ -88,7 +62,6 @@ class MyAccountCustomerPopup extends PureComponent {
               mix={ { block: 'MyAccountCustomerPopup' } }
             >
                 <Loader isLoading={ isLoading } />
-                { this.renderHeading() }
                 { this.renderContent() }
             </Popup>
         );

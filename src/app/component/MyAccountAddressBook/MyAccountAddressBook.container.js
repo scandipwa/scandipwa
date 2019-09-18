@@ -48,7 +48,12 @@ export class MyAccountAddressBookContainer extends PureComponent {
 
     showCreateNewPopup() {
         const { showPopup } = this.props;
-        showPopup({ action: ADD_ADDRESS, address: {} });
+
+        showPopup({
+            action: ADD_ADDRESS,
+            title: __('Add new address'),
+            address: {}
+        });
     }
 
     render() {

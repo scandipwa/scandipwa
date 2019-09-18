@@ -24,6 +24,7 @@ import { TotalsType } from 'Type/MiniCart';
 import './Header.style';
 
 export const PDP = 'pdp';
+export const POPUP = 'popup';
 export const CATEGORY = 'category';
 export const CUSTOMER_ACCOUNT = 'customer_account';
 export const CUSTOMER_ACCOUNT_PAGE = 'customer_account_page';
@@ -53,7 +54,8 @@ export default class Header extends PureComponent {
                 CART,
                 CART_EDITING,
                 CHECKOUT,
-                CMS_PAGE
+                CMS_PAGE,
+                POPUP
             ]),
             title: PropTypes.string,
             onBackClick: PropTypes.func,
@@ -84,6 +86,10 @@ export default class Header extends PureComponent {
     };
 
     stateMap = {
+        [POPUP]: {
+            title: true,
+            close: true
+        },
         [PDP]: {
             back: true,
             title: true,

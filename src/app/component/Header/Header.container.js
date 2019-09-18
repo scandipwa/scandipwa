@@ -32,7 +32,8 @@ import Header, {
     FILTER,
     CART_EDITING,
     CHECKOUT,
-    CUSTOMER_ACCOUNT_PAGE
+    CUSTOMER_ACCOUNT_PAGE,
+    POPUP
 } from './Header.component';
 
 export const mapStateToProps = state => ({
@@ -67,7 +68,8 @@ export class HeaderContainer extends PureComponent {
                 CART,
                 CART_EDITING,
                 CHECKOUT,
-                CMS_PAGE
+                CMS_PAGE,
+                POPUP
             ]),
             title: PropTypes.string,
             onBackClick: PropTypes.func,
@@ -115,15 +117,22 @@ export class HeaderContainer extends PureComponent {
     constructor(props) {
         super(props);
 
-        this.onRouteChanged(history.location, true);
+        this.state = {
+            ...this.state,
+            ...this.onRouteChanged(history.location, true)
+        };
     }
 
     componentDidMount() {
-        history.listen(history => this.onRouteChanged(history));
+        history.listen(history => this.setState(this.onRouteChanged(history)));
     }
 
     onRouteChanged(history, isPrevPathnameNotRelevant = false) {
-        const { prevPathname } = this.state;
+        const newState = {};
+
+        const {
+            prevPathname
+        } = this.state;
 
         const {
             hideActiveOverlay,
@@ -137,12 +146,10 @@ export class HeaderContainer extends PureComponent {
             setHeaderState(this.routeMap['/']);
             hideActiveOverlay();
 
-            return;
+            return {};
         }
 
-        this.setState({
-            isClearEnabled: new RegExp(['customFilters', 'priceMax', 'priceMin'].join('|')).test(search)
-        });
+        newState.isClearEnabled = new RegExp(['customFilters', 'priceMax', 'priceMin'].join('|')).test(search);
 
         if ((isPrevPathnameNotRelevant || prevPathname !== pathname)) {
             const newHeaderState = Object.keys(this.routeMap).reduce(
@@ -158,10 +165,10 @@ export class HeaderContainer extends PureComponent {
 
             hideActiveOverlay();
 
-            this.setState({
-                prevPathname: pathname
-            });
+            newState.prevPathname = pathname;
         }
+
+        return newState;
     }
 
     onBackButtonClick() {

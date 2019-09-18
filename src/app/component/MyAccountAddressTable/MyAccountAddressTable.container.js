@@ -43,12 +43,22 @@ export class MyAccountAddressTableContainer extends PureComponent {
 
     onEditClick() {
         const { showEditPopup, address } = this.props;
-        showEditPopup({ action: EDIT_ADDRESS, address });
+
+        showEditPopup({
+            action: EDIT_ADDRESS,
+            title: __('Edit address'),
+            address
+        });
     }
 
     onDeleteClick() {
         const { showEditPopup, address } = this.props;
-        showEditPopup({ action: DELETE_ADDRESS, address });
+
+        showEditPopup({
+            action: DELETE_ADDRESS,
+            title: __('Confirm delete'),
+            address
+        });
     }
 
     getFormatedRegion(address) {

@@ -27,12 +27,22 @@ export class MyAccountCustomerTableContainer extends PureComponent {
 
     showEditPopup() {
         const { showPopup, customer } = this.props;
-        showPopup({ action: EDIT_CUSTOMER, customer });
+
+        showPopup({
+            action: EDIT_CUSTOMER,
+            customer,
+            title: __('Edit customer details')
+        });
     }
 
     showChangePasswordPopup() {
         const { showPopup, customer } = this.props;
-        showPopup({ action: CHANGE_PASSWORD, customer });
+
+        showPopup({
+            action: CHANGE_PASSWORD,
+            customer,
+            title: __('Change Password')
+        });
     }
 
     render() {

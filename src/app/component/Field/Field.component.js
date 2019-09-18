@@ -629,6 +629,7 @@ export default class Field extends PureComponent {
         return (
             <label
               block="Field"
+              elem="Label"
               mods={ { isRequired } }
               htmlFor={ id }
             >
