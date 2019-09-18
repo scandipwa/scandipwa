@@ -122,6 +122,7 @@ export class CheckoutQuery {
 
     _getTotalsFields() {
         return [
+            'items_qty',
             'subtotal',
             'tax_amount',
             'grand_total',
