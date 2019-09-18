@@ -12,7 +12,7 @@
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { GUEST_QUOTE_ID, CartDispatcher } from 'Store/Cart';
-import { fetchMutation } from 'Util/Request';
+import { fetchMutation, fetchQuery } from 'Util/Request';
 import CheckoutQuery from 'Query/Checkout.query';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { MyAccountDispatcher } from 'Store/MyAccount';
@@ -44,22 +44,32 @@ const mapDispatchToProps = dispatch => ({
 const MappedCheckoutPage = connect(mapStateToProps, mapDispatchToProps)(CheckoutPage);
 
 class CheckoutPageContainer extends PureComponent {
+    containerFunctions = {
+        saveAddressInformation: this.saveAddressInformation.bind(this),
+        savePaymentInformationAndPlaceOrder: this.savePaymentInformationAndPlaceOrder.bind(this),
+        getPaymentInformation: this.getPaymentInformation.bind(this)
+    };
+
     getGuestCartId = () => BrowserDatabase.getItem(GUEST_QUOTE_ID);
 
-    saveAddressInformation = addressInformation => fetchMutation(
-        CheckoutQuery.getSaveAddressInformation(addressInformation, this.getGuestCartId())
-    );
+    getPaymentInformation() {
+        return fetchQuery(CheckoutQuery.getPaymentInformation(this.getGuestCartId()));
+    }
 
-    savePaymentInformationAndPlaceOrder = paymentInformation => fetchMutation(
-        CheckoutQuery.getSavePaymentInformationAndPlaceOrder(paymentInformation, this.getGuestCartId())
-    );
+    saveAddressInformation(addressInformation) {
+        return fetchMutation(CheckoutQuery.getSaveAddressInformation(addressInformation, this.getGuestCartId()));
+    }
+
+    savePaymentInformationAndPlaceOrder(paymentInformation) {
+        return fetchMutation(CheckoutQuery
+            .getSavePaymentInformationAndPlaceOrder(paymentInformation, this.getGuestCartId()));
+    }
 
     render() {
         return (
             <MappedCheckoutPage
-              saveAddressInformation={ this.saveAddressInformation }
-              savePaymentInformationAndPlaceOrder={ this.savePaymentInformationAndPlaceOrder }
               { ...this.props }
+              { ...this.containerFunctions }
             />
         );
     }

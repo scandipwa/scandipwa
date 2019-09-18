@@ -36,6 +36,7 @@ export default class CheckoutPage extends Component {
     static propTypes = {
         savePaymentInformationAndPlaceOrder: PropTypes.func.isRequired,
         saveAddressInformation: PropTypes.func.isRequired,
+        getPaymentInformation: PropTypes.func.isRequired,
         removeCartAndObtainNewGuest: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
         requestCustomerData: PropTypes.func.isRequired,
