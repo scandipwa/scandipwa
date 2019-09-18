@@ -193,7 +193,7 @@ export default class CheckoutPreviewAndPaymentsStep extends PureComponent {
             billing_address: correctAddress
         };
 
-        this.setState({ loadingPaymentInformationSave: true, finishedLoading: false });
+        this.setState({ loadingPaymentInformationSave: true });
 
         savePaymentInformationAndPlaceOrder(paymentInformation);
     };
