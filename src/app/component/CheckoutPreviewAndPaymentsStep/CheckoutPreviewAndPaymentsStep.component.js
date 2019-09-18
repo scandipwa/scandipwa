@@ -469,7 +469,7 @@ export default class CheckoutPreviewAndPaymentsStep extends PureComponent {
               onSubmitSuccess={ this.onFormSuccess }
               key="review_and_payment_step"
             >
-                <Loader isLoading={ !finishedLoading || loadingPaymentInformationSave } />
+                <Loader isLoading={ loadingPaymentInformationSave } />
 
                 <fieldset>
                     <legend block="CheckoutPage" elem="Heading" mods={ { hasDivider: true } }>
@@ -493,10 +493,14 @@ export default class CheckoutPreviewAndPaymentsStep extends PureComponent {
                     { renderFunction() }
                 </fieldset>
 
-                <CheckoutPaymentMethods
-                  paymentMethods={ paymentMethods }
-                  onSelectPaymentMethod={ this.handleSelectPaymentMethod }
-                />
+                <div>
+                    <Loader isLoading={ !finishedLoading } />
+
+                    <CheckoutPaymentMethods
+                      paymentMethods={ paymentMethods }
+                      onSelectPaymentMethod={ this.handleSelectPaymentMethod }
+                    />
+                </div>
 
                 <button
                   type="submit"

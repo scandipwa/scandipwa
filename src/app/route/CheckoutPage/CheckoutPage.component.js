@@ -98,6 +98,7 @@ export default class CheckoutPage extends Component {
             shippingAddress: {},
             billingAddress: {},
             addressesAreChecked: false,
+            isPaymentInformationLoaded: false,
             carrierCode: '',
             methodCode: '',
             paymentMethods: [],
@@ -201,7 +202,7 @@ export default class CheckoutPage extends Component {
         const { getPaymentInformation, showNotification } = this.props;
 
         this.setState({
-            addressesAreChecked: false
+            isPaymentInformationLoaded: false
         });
 
         getPaymentInformation().then(
@@ -210,7 +211,7 @@ export default class CheckoutPage extends Component {
                 this.setState({
                     paymentMethods: payment_methods,
                     paymentTotals: totals,
-                    addressesAreChecked: true
+                    isPaymentInformationLoaded: true
                 }, this.updateHeader);
             },
             (err) => {
@@ -247,7 +248,8 @@ export default class CheckoutPage extends Component {
             billingAddress: billing_address,
             carrierCode: shipping_carrier_code,
             methodCode: shipping_method_code,
-            addressesAreChecked: false
+            addressesAreChecked: false,
+            isPaymentInformationLoaded: false
         });
 
         return saveAddressInformation(addressInformation).then(
@@ -257,7 +259,8 @@ export default class CheckoutPage extends Component {
                     checkoutStep: CHECKOUT_STEP_REVIEW_AND_PAYMENTS,
                     paymentMethods: payment_methods,
                     paymentTotals: totals,
-                    addressesAreChecked: true
+                    addressesAreChecked: true,
+                    isPaymentInformationLoaded: true
                 }, this.updateHeader);
             },
             (err) => {
@@ -326,7 +329,7 @@ export default class CheckoutPage extends Component {
             shippingAddress,
             billingAddress,
             paymentMethods,
-            addressesAreChecked
+            isPaymentInformationLoaded
         } = this.state;
 
         return (
@@ -337,7 +340,7 @@ export default class CheckoutPage extends Component {
               savePaymentInformationAndPlaceOrder={ this.savePaymentInformationAndPlaceOrder }
               email={ email }
               isSignedIn={ isSignedIn }
-              finishedLoading={ addressesAreChecked }
+              finishedLoading={ isPaymentInformationLoaded }
               countryList={ countryList }
             />
         );
