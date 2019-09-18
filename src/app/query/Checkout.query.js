@@ -43,6 +43,15 @@ export class CheckoutQuery {
         return mutation;
     }
 
+    getPaymentInformation(guestCartId) {
+        const query = new Field('getPaymentInformation')
+            .addFieldList(this._getPaymentInformationFields());
+
+        this._addGuestCartId(guestCartId, query);
+
+        return query;
+    }
+
     _addGuestCartId(guestCartId, mutation) {
         if (guestCartId && !isSignedIn()) mutation.addArgument('guestCartId', 'String!', guestCartId);
     }
@@ -60,6 +69,11 @@ export class CheckoutQuery {
         ];
     }
 
+    _getPaymentInformationFields() {
+        return [
+            this._getPaymentMethodsField()
+        ];
+    }
 
     _getEstimatedShippingFields() {
         return [
