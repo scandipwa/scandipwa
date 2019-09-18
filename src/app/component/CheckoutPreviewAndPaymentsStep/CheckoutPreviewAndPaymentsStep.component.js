@@ -74,8 +74,7 @@ export default class CheckoutPreviewAndPaymentsStep extends PureComponent {
 
         const {
             shippingAddress,
-            billingAddress,
-            paymentMethods
+            billingAddress
         } = props;
 
         const { street } = billingAddress;
@@ -88,7 +87,6 @@ export default class CheckoutPreviewAndPaymentsStep extends PureComponent {
             billingIsSame: false,
             selectedCountryIndex: null,
             country_id: null,
-            paymentMethods,
             activePaymentMethod: {},
             loadingPaymentInformationSave: false,
             defaultBillingAddress: false,
@@ -454,9 +452,8 @@ export default class CheckoutPreviewAndPaymentsStep extends PureComponent {
     }
 
     render() {
-        const { finishedLoading } = this.props;
+        const { finishedLoading, paymentMethods } = this.props;
         const {
-            paymentMethods,
             billingIsSame,
             activePaymentMethod,
             shippingAddress,

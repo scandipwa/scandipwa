@@ -71,7 +71,8 @@ export class CheckoutQuery {
 
     _getPaymentInformationFields() {
         return [
-            this._getPaymentMethodsField()
+            this._getPaymentMethodsField(),
+            this._getTotalsField()
         ];
     }
 

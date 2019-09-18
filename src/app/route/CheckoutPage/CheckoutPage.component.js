@@ -86,9 +86,14 @@ export default class CheckoutPage extends Component {
             match
         } = props;
 
+        // If all products are virtual we go straight to billing address
+        const checkoutStep = this.getAreAllProductsVirtual()
+            ? CHECKOUT_STEP_REVIEW_AND_PAYMENTS
+            : CHECKOUT_STEP_SHIPPING;
+
         this.state = {
-            checkoutStep: CHECKOUT_STEP_SHIPPING, // shipping or review-and-payments
-            prevCheckoutStep: CHECKOUT_STEP_SHIPPING,
+            checkoutStep,
+            prevCheckoutStep: checkoutStep,
             showSummary: true,
             shippingAddress: {},
             billingAddress: {},
@@ -101,7 +106,6 @@ export default class CheckoutPage extends Component {
             ...state
         };
 
-        const { checkoutStep } = this.state;
         if (getUrlParam(match, location) !== checkoutStep) {
             CheckoutPage.changeUrlByCheckoutStep(this.props, state || this.state);
         }
@@ -132,6 +136,7 @@ export default class CheckoutPage extends Component {
 
     componentDidMount() {
         const { isSignedIn, toggleBreadcrumbs } = this.props;
+        const { checkoutStep } = this.state;
 
         toggleBreadcrumbs();
 
@@ -141,6 +146,19 @@ export default class CheckoutPage extends Component {
             this.updateHeader();
             this.getDefaultAddresses();
         }
+
+        //  Payment is retrieved after shipping address is set. We need to get payment methods explicitly, if shipping step was skipped
+        if (checkoutStep === CHECKOUT_STEP_REVIEW_AND_PAYMENTS) {
+            this.updatePaymentMethods();
+        }
+    }
+
+    getAreAllProductsVirtual() {
+        const { products } = this.props;
+
+        const productKeyValues = Object.entries(products);
+        return productKeyValues.length > 0
+            && productKeyValues.every(([, { type_id }]) => type_id === 'virtual');
     }
 
     getDefaultAddresses() {
@@ -177,6 +195,31 @@ export default class CheckoutPage extends Component {
             title: this.headerTitleMap[checkoutStep],
             onBackClick: () => history.push('/')
         });
+    }
+
+    updatePaymentMethods() {
+        const { getPaymentInformation, showNotification } = this.props;
+
+        this.setState({
+            addressesAreChecked: false
+        });
+
+        getPaymentInformation().then(
+            ({ getPaymentInformation }) => {
+                const { payment_methods, totals } = getPaymentInformation;
+                this.setState({
+                    paymentMethods: payment_methods,
+                    paymentTotals: totals,
+                    addressesAreChecked: true
+                }, this.updateHeader);
+            },
+            (err) => {
+                showNotification('error', err[0].debugMessage);
+                this.setState({
+                    checkoutStep: CHECKOUT_STEP_SHIPPING
+                });
+            }
+        );
     }
 
     requestCustomerData() {
