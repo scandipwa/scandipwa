@@ -20,6 +20,7 @@ export const mapStateToProps = state => ({
 export const mapDispatchToProps = dispatch => ({
     updateCustomer: customer => dispatch(updateCustomerDetails(customer)),
     showErrorNotification: error => dispatch(showNotification('error', error[0].message)),
+    showSuccessNotification: message => dispatch(showNotification('success', message)),
     hideActiveOverlay: () => dispatch(hideActiveOverlay())
 });
 
@@ -27,7 +28,8 @@ export class MyAccountCustomerPopupContainer extends PureComponent {
     static propTypes = {
         updateCustomer: PropTypes.func.isRequired,
         showErrorNotification: PropTypes.func.isRequired,
-        hideActiveOverlay: PropTypes.func.isRequired
+        hideActiveOverlay: PropTypes.func.isRequired,
+        showSuccessNotification: PropTypes.func.isRequired
     };
 
     state = {
@@ -35,15 +37,18 @@ export class MyAccountCustomerPopupContainer extends PureComponent {
     };
 
     containerFunctions = {
-        onCustomerSave: this.onCustomerSave.bind(this)
+        onCustomerSave: this.onCustomerSave.bind(this),
+        onPasswordChange: this.onPasswordChange.bind(this)
+    };
+
+    onError = (error) => {
+        const { showErrorNotification } = this.props;
+        this.setState({ isLoading: false });
+        showErrorNotification(error);
     };
 
     onCustomerSave(customer) {
-        const {
-            updateCustomer,
-            hideActiveOverlay,
-            showErrorNotification
-        } = this.props;
+        const { updateCustomer, hideActiveOverlay } = this.props;
         const mutation = MyAccountQuery.getUpdateInformationMutation(customer);
         this.setState({ isLoading: true });
 
@@ -53,10 +58,21 @@ export class MyAccountCustomerPopupContainer extends PureComponent {
                 updateCustomer(customer);
                 this.setState({ isLoading: false }, () => hideActiveOverlay());
             },
+            this.onError
+        );
+    }
+
+    onPasswordChange(passwords) {
+        const { showSuccessNotification, hideActiveOverlay } = this.props;
+        const mutation = MyAccountQuery.getChangeCustomerPasswordMutation(passwords);
+        this.setState({ isLoading: true });
+
+        return fetchMutation(mutation).then(
             () => {
-                showErrorNotification();
-                this.setState({ isLoading: false });
-            }
+                showSuccessNotification(__('Your password was successfully updated!'));
+                this.setState({ isLoading: false }, () => hideActiveOverlay());
+            },
+            this.onError
         );
     }
 

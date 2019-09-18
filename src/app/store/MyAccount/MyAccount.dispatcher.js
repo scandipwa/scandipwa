@@ -51,15 +51,6 @@ export class MyAccountDispatcher {
         );
     }
 
-    changeCustomerPassword(options, dispatch) {
-        const mutation = MyAccountQuery.getChangeCustomerPasswordMutation(options);
-
-        return fetchMutation(mutation).then(
-            ({ password }) => dispatch(updateCustomerDetails(password)),
-            error => dispatch(showNotification('error', error[0].message))
-        );
-    }
-
     logout(_, dispatch) {
         dispatch(updateCustomerSignInStatus(false));
         deleteAuthorizationToken();

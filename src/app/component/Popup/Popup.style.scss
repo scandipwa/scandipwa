@@ -60,12 +60,14 @@
         border-radius: 5px;
         padding: 2rem;
         min-width: 490px;
+        max-height: 80%;
         overflow-y: scroll;
 
         @include mobile {
             min-width: 100%;
             border-radius: 0;
             padding: 1rem;
+            max-height: 100%;
         }
     }
 

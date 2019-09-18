@@ -14,14 +14,20 @@
     grid-template-columns: 1fr;
     grid-gap: 2rem;
 
-    @include after-mobile {
+    @include desktop {
         grid-template-columns: 1fr 1fr;
         grid-gap: 4rem;
     }
 
     &-DefaultAddress {
-        @include after-mobile {
+        @include desktop {
             grid-row: 2;
+        }
+    }
+
+    &-CustomerData {
+        @include desktop {
+            grid-column: span 2;
         }
     }
 

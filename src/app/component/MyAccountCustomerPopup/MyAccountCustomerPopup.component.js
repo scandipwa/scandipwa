@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Popup from 'Component/Popup';
 import { customerType } from 'Type/Account';
 import MyAccountCustomerForm from 'Component/MyAccountCustomerForm';
+import MyAccountPasswordForm from 'Component/MyAccountPasswordForm';
 import Loader from 'Component/Loader';
 
 export const CUSTOMER_POPUP_ID = 'MyAccountCustomerPopup';
@@ -14,6 +15,7 @@ export const EDIT_CUSTOMER = 'EDIT_CUSTOMER';
 class MyAccountCustomerPopup extends PureComponent {
     static propTypes = {
         onCustomerSave: PropTypes.func.isRequired,
+        onPasswordChange: PropTypes.func.isRequired,
         isLoading: PropTypes.bool.isRequired,
         payload: PropTypes.shape({
             action: PropTypes.oneOf([
@@ -25,7 +27,13 @@ class MyAccountCustomerPopup extends PureComponent {
     };
 
     renderChangePasswordForm() {
-        return 'password';
+        const { onPasswordChange } = this.props;
+
+        return (
+            <MyAccountPasswordForm
+              onPasswordChange={ onPasswordChange }
+            />
+        );
     }
 
     renderCustomerForm() {
