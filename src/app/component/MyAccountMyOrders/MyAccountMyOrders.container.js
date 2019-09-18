@@ -33,7 +33,7 @@ export class MyAccountMyOrdersContainer extends PureComponent {
 
     containerProps = () => {
         // isDisabled: this._getIsDisabled()
-    }
+    };
 
     render() {
         return (

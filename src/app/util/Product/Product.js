@@ -64,8 +64,10 @@ const getIndexedVariants = variants => variants
                 ...product,
                 attributes: getIndexedAttributes(attributes)
             };
+
             filteredVariants.push(filteredVariant);
         }
+
         return filteredVariants;
     }, []);
 
