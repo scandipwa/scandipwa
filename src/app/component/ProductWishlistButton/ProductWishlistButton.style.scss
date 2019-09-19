@@ -12,7 +12,7 @@
 .ProductWishlistButton {
     &-PlusHeart,
     &-MinusHeart {
-        &_isLoading {
+        &_isDisabled {
             fill: #999;
         }
     }

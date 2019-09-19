@@ -29,49 +29,92 @@ export const mapDispatchToProps = dispatch => ({
     showNotification: (type, message) => dispatch(showNotification(type, message))
 });
 
+export const ERROR_CONFIGURABLE_NOT_PROVIDED = 'ERROR_CONFIGURABLE_NOT_PROVIDED';
+
 export class ProductWishlistButtonContainer extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         isLoading: PropTypes.bool.isRequired,
+        configurableVariantIndex: PropTypes.number,
         showNotification: PropTypes.func.isRequired,
         productsInWishlist: PropTypes.objectOf(ProductType).isRequired,
         addProductToWishlist: PropTypes.func.isRequired,
         removeProductFromWishlist: PropTypes.func.isRequired
     };
 
+    static defaultProps = {
+        configurableVariantIndex: -2
+    };
+
     containerProps = () => ({
+        isDisabled: this.isDisabled(),
         isInWishlist: this.isInWishlist()
     });
 
     containerFunctions = () => ({
-        addToWishlist: this.toggleProductInWishlist,
+        addToWishlist: this.toggleProductInWishlist.bind(this, true),
         removeFromWishlist: this.toggleProductInWishlist.bind(this, false)
     });
 
     toggleProductInWishlist = (add = true) => {
         const {
-            product,
-            product: { id },
+            isLoading,
             showNotification,
             productsInWishlist,
             addProductToWishlist,
             removeProductFromWishlist
         } = this.props;
 
+        if (isLoading) return null;
+
         if (!isSignedIn()) {
             return showNotification('error', __('You must login or register to add items to your wishlist.'));
         }
 
-        if (add) return addProductToWishlist({ product });
+        const product = this._getProductVariant();
+        if (product === ERROR_CONFIGURABLE_NOT_PROVIDED) {
+            return showNotification('error', __('Plaese, select desireable variant first!'));
+        }
 
-        return removeProductFromWishlist({ product: productsInWishlist[id] });
+        const { sku } = product;
+        if (add) return addProductToWishlist(sku);
+
+        const { item_id } = productsInWishlist[sku];
+        return removeProductFromWishlist({ item_id });
+    };
+
+    isDisabled = () => {
+        const { isLoading } = this.props;
+        const product = this._getProductVariant();
+
+        if (product === ERROR_CONFIGURABLE_NOT_PROVIDED) return true;
+        return isLoading;
     };
 
     isInWishlist = () => {
-        const { product: { id }, productsInWishlist } = this.props;
+        const { productsInWishlist } = this.props;
+        const product = this._getProductVariant();
 
-        return id in productsInWishlist;
+        if (product === ERROR_CONFIGURABLE_NOT_PROVIDED) return false;
+
+        const { sku } = product;
+        return sku in productsInWishlist;
     };
+
+    _getProductVariant() {
+        const {
+            product,
+            product: { type_id },
+            configurableVariantIndex
+        } = this.props;
+
+        if (type_id === 'configurable') {
+            if (configurableVariantIndex < 0) return ERROR_CONFIGURABLE_NOT_PROVIDED;
+            return product.variants[configurableVariantIndex];
+        }
+
+        return product;
+    }
 
     render() {
         return (

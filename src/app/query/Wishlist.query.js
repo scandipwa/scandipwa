@@ -18,13 +18,13 @@ export class Wishlist {
             .addFieldList(this._getWishlistFields());
     }
 
-    getAddProductToWishlistMutation({ sku }) {
+    getAddProductToWishlistMutation(sku) {
         return new Field('addProductToWishlist')
             .addArgument('productSku', 'String!', sku)
             .addFieldList(this._getItemsFields());
     }
 
-    getRemoveProductFromWishlistMutation({ item_id }) {
+    getRemoveProductFromWishlistMutation(item_id) {
         return new Field('removeProductFromWishlist')
             .addArgument('itemId', 'String!', item_id);
     }

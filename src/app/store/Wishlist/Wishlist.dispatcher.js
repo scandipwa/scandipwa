@@ -11,10 +11,9 @@
 
 import { fetchMutation, fetchQuery } from 'Util/Request';
 import {
+    updateIsLoading,
     removeItemFromWishlist,
-    updateAllProductsInWishlist,
-    productToBeRemovedAfterAdd,
-    updateIsLoading
+    updateAllProductsInWishlist
 } from 'Store/Wishlist';
 import { showNotification } from 'Store/Notification';
 import { isSignedIn } from 'Util/Auth';
@@ -63,15 +62,10 @@ export class WishlistDispatcher {
         );
     }
 
-    addItemToWishlist(dispatch, options) {
-        const { product } = options;
-        const { sku } = product;
-        const productToAdd = { sku };
+    addItemToWishlist(dispatch, sku) {
         dispatch(updateIsLoading(true));
 
-        return fetchMutation(WishlistQuery.getAddProductToWishlistMutation(
-            productToAdd
-        )).then(
+        return fetchMutation(WishlistQuery.getAddProductToWishlistMutation(sku)).then(
             () => this._syncWishlistWithBE(dispatch).then(
                 () => dispatch(showNotification('success', __('Product has been added to your Wish List!')))
             ),
@@ -80,22 +74,21 @@ export class WishlistDispatcher {
         );
     }
 
-    removeItemFromWishlist(dispatch, { product, noMessages }) {
-        if (!product) return null;
+    removeItemFromWishlist(dispatch, { item_id, noMessages }) {
+        if (!item_id) return null;
         dispatch(updateIsLoading(true));
 
         if (noMessages) {
-            return fetchMutation(WishlistQuery.getRemoveProductFromWishlistMutation(product)).then(
+            return fetchMutation(WishlistQuery.getRemoveProductFromWishlistMutation(item_id)).then(
                 () => {
-                    dispatch(removeItemFromWishlist(product));
-                    dispatch(productToBeRemovedAfterAdd(''));
+                    dispatch(removeItemFromWishlist(item_id));
                 }
             );
         }
 
-        return fetchMutation(WishlistQuery.getRemoveProductFromWishlistMutation(product)).then(
+        return fetchMutation(WishlistQuery.getRemoveProductFromWishlistMutation(item_id)).then(
             () => {
-                dispatch(removeItemFromWishlist(product));
+                dispatch(removeItemFromWishlist(item_id));
                 dispatch(showNotification('success', __('Product has been removed from your Wish List!')));
             },
             (error) => {
@@ -104,13 +97,6 @@ export class WishlistDispatcher {
                 console.log(error);
             }
         );
-    }
-
-    updateProductToBeRemovedAfterAdd(dispatch, options) {
-        const { product: { sku } } = options;
-        if (sku) return dispatch(productToBeRemovedAfterAdd(sku));
-
-        return dispatch(productToBeRemovedAfterAdd(''));
     }
 }
 

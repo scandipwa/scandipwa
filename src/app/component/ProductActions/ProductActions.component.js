@@ -189,14 +189,22 @@ export default class ProductActions extends PureComponent {
     }
 
     renderAddToButtons() {
-        const { product } = this.props;
+        const {
+            product,
+            quantity,
+            configurableVariantIndex
+        } = this.props;
 
         return (
             <div
               block="ProductActions"
               elem="AddToButtons"
             >
-                <ProductWishlistButton product={ product } />
+                <ProductWishlistButton
+                  product={ product }
+                  quantity={ quantity }
+                  configurableVariantIndex={ configurableVariantIndex }
+                />
             </div>
         );
     }

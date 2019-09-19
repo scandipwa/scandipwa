@@ -14,7 +14,6 @@ import { getIndexedParameteredProducts } from 'Util/Product';
 import {
     REMOVE_ITEM_FROM_WISHLIST,
     UPDATE_ALL_PRODUCTS_IN_WISHLIST,
-    PRODUCT_TO_BE_REMOVED_AFTER_ADD,
     UPDATE_IS_LOADING_IN_WISHLIST
 } from './Wishlist.action';
 
@@ -22,22 +21,19 @@ export const PRODUCTS_IN_WISHLIST = 'wishlist_products';
 
 export const initialState = {
     productsInWishlist: BrowserDatabase.getItem(PRODUCTS_IN_WISHLIST) || {},
-    productToBeRemovedAfterAdd: '',
     isLoading: true
 };
 
-const removeItemFromWishlist = (action, state) => {
-    const { product } = action;
-    const { productsInWishlist } = state;
+const removeItemFromWishlist = ({ item_id }, { productsInWishlist: initialProducts }) => {
     const deleteProperty = (key, { [key]: _, ...newObj }) => newObj;
-    const newProductsInWishlist = deleteProperty(product.id, productsInWishlist) || {};
+    const productsInWishlist = deleteProperty(item_id, initialProducts) || {};
 
     BrowserDatabase.setItem(
-        newProductsInWishlist,
+        productsInWishlist,
         PRODUCTS_IN_WISHLIST
     );
 
-    return { productsInWishlist: newProductsInWishlist };
+    return { productsInWishlist };
 };
 
 const updateAllProductsInWishlist = (action) => {
@@ -69,15 +65,6 @@ const WishlistReducer = (state = initialState, action) => {
             ...state,
             isLoading: false,
             ...updateAllProductsInWishlist(action)
-        };
-
-    case PRODUCT_TO_BE_REMOVED_AFTER_ADD:
-        const { productToBeRemovedAfterAdd } = action;
-
-        return {
-            ...state,
-            isLoading: false,
-            productToBeRemovedAfterAdd
         };
 
     case UPDATE_IS_LOADING_IN_WISHLIST:

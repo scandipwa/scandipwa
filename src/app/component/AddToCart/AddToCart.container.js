@@ -14,20 +14,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { CartDispatcher } from 'Store/Cart';
 import { ProductType } from 'Type/ProductList';
-import { WishlistDispatcher } from 'Store/Wishlist';
 import { showNotification } from 'Store/Notification';
 
 import AddToCart from './AddToCart.component';
 
-export const mapStateToProps = state => ({
-    wishlistItems: state.WishlistReducer.productsInWishlist,
-    productToBeRemovedAfterAdd: state.WishlistReducer.productToBeRemovedAfterAdd
-});
-
 export const mapDispatchToProps = dispatch => ({
     addProduct: options => CartDispatcher.addProductToCart(dispatch, options),
-    showNotification: (type, message) => dispatch(showNotification(type, message)),
-    removeProductFromWishlist: options => WishlistDispatcher.removeItemFromWishlist(dispatch, options)
+    showNotification: (type, message) => dispatch(showNotification(type, message))
 });
 
 export class AddToCartContainer extends PureComponent {
@@ -39,11 +32,7 @@ export class AddToCartContainer extends PureComponent {
         groupedProductQuantity: PropTypes.objectOf(PropTypes.number),
         showNotification: PropTypes.func.isRequired,
         setQuantityToDefault: PropTypes.func,
-        addProduct: PropTypes.func.isRequired,
-        productToBeRemovedAfterAdd: PropTypes.string,
-        removeProductFromWishlist: PropTypes.func.isRequired,
-        wishlistItems: PropTypes.objectOf(ProductType).isRequired,
-        removeWishlistItem: PropTypes.bool
+        addProduct: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -51,8 +40,6 @@ export class AddToCartContainer extends PureComponent {
         configurableVariantIndex: 0,
         groupedProductQuantity: {},
         setQuantityToDefault: () => {},
-        productToBeRemovedAfterAdd: '',
-        removeWishlistItem: false,
         isLoading: false
     };
 
@@ -126,23 +113,13 @@ export class AddToCartContainer extends PureComponent {
     _afterAdded() {
         const {
             showNotification,
-            setQuantityToDefault,
-            productToBeRemovedAfterAdd,
-            removeProductFromWishlist,
-            wishlistItems,
-            product,
-            removeWishlistItem
+            setQuantityToDefault
         } = this.props;
 
         showNotification('success', 'Product added to cart!');
         setQuantityToDefault();
 
-        const { sku, id } = product;
-
-        // for configurable products productToBeRemovedAfterAdd will be saved in state
-        if (removeWishlistItem || (productToBeRemovedAfterAdd === sku && wishlistItems[id])) {
-            removeProductFromWishlist({ product: wishlistItems[id], noMessages: true });
-        }
+        // TODO: add product removal from wishlist, after adding to cart
 
         this.setState({ isLoading: false });
     }
@@ -159,4 +136,4 @@ export class AddToCartContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddToCartContainer);
+export default connect(null, mapDispatchToProps)(AddToCartContainer);
