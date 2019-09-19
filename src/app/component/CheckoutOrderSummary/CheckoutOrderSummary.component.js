@@ -31,10 +31,10 @@ class CheckoutOrderSummary extends Component {
         const { sku: itemSku } = item;
         const variantIndex = [].findIndex.call(
             variants,
-            variant => itemSku === variant.product.sku
+            variant => itemSku === variant.sku
         );
 
-        if (variantIndex >= 0) return variants[variantIndex].product;
+        if (variantIndex >= 0) return variants[variantIndex];
 
         return null;
     }

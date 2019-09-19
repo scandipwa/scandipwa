@@ -60,10 +60,11 @@ class CartItem extends Component {
 
     renderAdditionalAttributes() {
         const { item: { product: { attributes } } } = this.props;
-        const brand = attributes.find(attribute => attribute.attribute_code === 'brand');
-        if (!brand && {}.hasOwnProperty.call(brand, 'attribute_value')) return null;
+        if (!Object.hasOwnProperty.call(attributes, 'brand')) {
+            return null;
+        }
 
-        return <span>{ brand.attribute_value }</span>;
+        return <span>{ attributes.brand.attribute_value }</span>;
     }
 
     renderItemTitle() {
@@ -110,7 +111,7 @@ class CartItem extends Component {
     render() {
         const { isLoading, getProductLinkTo, getCurrentProduct } = this.props;
         const product = getCurrentProduct();
-        const { product: { thumbnail: { path: thumbnail } } } = product;
+        const { thumbnail: { path: thumbnail } } = product;
 
         return (
             <li block="CartItem" aria-label="Cart Item">

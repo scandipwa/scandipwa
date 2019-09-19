@@ -55,7 +55,7 @@ export class CartItemContainer extends PureComponent {
             }
         } = this.props;
 
-        return variants.findIndex(({ product: { sku } }) => sku === itemSku);
+        return variants.findIndex(({ sku }) => sku === itemSku);
     }
 
     /**
@@ -78,7 +78,7 @@ export class CartItemContainer extends PureComponent {
 
         if (type_id !== 'configurable') return { pathname: `/product/${ url_key }` };
 
-        const { product: { attributes } } = variants[this.getVariantIndex()];
+        const { attributes } = variants[this.getVariantIndex()];
 
         const params = [].reduce.call(configurable_options,
             (result, item) => {
