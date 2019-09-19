@@ -426,6 +426,8 @@ export default class CheckoutPreviewAndPaymentsStep extends PureComponent {
     renderNewAddress() {
         const { street, shippingAddress: { email: shippingEmail } } = this.state;
 
+        // Shipping step is skipped if all products in cart are virtual
+        // This means tha email is not provided and we need to display the field
         return (
             <>
                 { this.renderField(FIRSTNAME_FIELD_ID) }
