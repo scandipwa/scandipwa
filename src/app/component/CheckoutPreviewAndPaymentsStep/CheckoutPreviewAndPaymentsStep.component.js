@@ -28,6 +28,7 @@ export const CITY_FIELD_ID = 'city';
 export const REGION_FIELD_ID = 'region';
 export const ZIP_FIELD_ID = 'postcode';
 export const PHONE_FIELD_ID = 'telephone';
+export const EMAIL_FIELD_ID = 'email';
 export const COUNTRY_FIELD_ID = 'country_id';
 export const DEFAULT_COUNTRY = 'US';
 export const DEFAULT_REGION = { region_code: 'AL', region: 'Alabama', region_id: 1 };
@@ -149,6 +150,10 @@ export default class CheckoutPreviewAndPaymentsStep extends PureComponent {
             [PHONE_FIELD_ID]: {
                 label: __('Phone Number'),
                 validation: ['telephone']
+            },
+            [EMAIL_FIELD_ID]: {
+                label: __('Email Address'),
+                validation: ['notEmpty', 'email']
             }
         };
 
@@ -419,7 +424,7 @@ export default class CheckoutPreviewAndPaymentsStep extends PureComponent {
     }
 
     renderNewAddress() {
-        const { street } = this.state;
+        const { street, shippingAddress: { email: shippingEmail } } = this.state;
 
         return (
             <>
@@ -432,6 +437,10 @@ export default class CheckoutPreviewAndPaymentsStep extends PureComponent {
                 { this.renderField(ZIP_FIELD_ID) }
                 { this.renderCountrySelect() }
                 { this.renderField(PHONE_FIELD_ID) }
+                { (shippingEmail
+                    ? null
+                    : this.renderField(EMAIL_FIELD_ID)
+                ) }
             </>
         );
     }
