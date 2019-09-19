@@ -86,7 +86,7 @@ export default class CheckoutPage extends Component {
             match
         } = props;
 
-        // If all products are virtual we go straight to billing address
+        // If all products are virtual shipping address is not required
         const checkoutStep = this.getAreAllProductsVirtual()
             ? CHECKOUT_STEP_REVIEW_AND_PAYMENTS
             : CHECKOUT_STEP_SHIPPING;
@@ -148,7 +148,7 @@ export default class CheckoutPage extends Component {
             this.getDefaultAddresses();
         }
 
-        //  Payment is retrieved after shipping address is set. We need to get payment methods explicitly, if shipping step was skipped
+        //  Payment is retrieved after shipping address is saved. We need to get payment methods explicitly, if shipping address step is skipped
         if (checkoutStep === CHECKOUT_STEP_REVIEW_AND_PAYMENTS) {
             this.updatePaymentMethods();
         }
@@ -216,9 +216,6 @@ export default class CheckoutPage extends Component {
             },
             (err) => {
                 showNotification('error', err[0].debugMessage);
-                this.setState({
-                    checkoutStep: CHECKOUT_STEP_SHIPPING
-                });
             }
         );
     }
