@@ -22,7 +22,7 @@ class Checkout extends PureComponent {
     };
 
     static defaultProps = {
-        checkoutStep: SHIPPING_STEP
+        checkoutStep: BILLING_STEP
     };
 
     stepMap = {

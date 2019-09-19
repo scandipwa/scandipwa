@@ -33,8 +33,7 @@ class CheckoutPayments extends PureComponent {
     };
 
     paymentRenderMap = {
-        [BRAINTREE]: this.renderBrainTreePayment.bind(this),
-        [CHECK_MONEY]: null
+        [BRAINTREE]: this.renderBrainTreePayment.bind(this)
     };
 
     renderBrainTreePayment() {

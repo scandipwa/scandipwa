@@ -20,8 +20,7 @@ export class CheckoutPaymentsContainer extends PureComponent {
     state = { selectedPaymentCode: BRAINTREE };
 
     dataMap = {
-        [BRAINTREE]: this.getBraintreeData.bind(this),
-        [CHECK_MONEY]: null
+        [BRAINTREE]: this.getBraintreeData.bind(this)
     };
 
     componentDidMount() {
@@ -31,14 +30,14 @@ export class CheckoutPaymentsContainer extends PureComponent {
     }
 
     getBraintreeData() {
-        return this.braintree.requestPaymentNonce();
+        return { asyncData: this.braintree.requestPaymentNonce() };
     }
 
     collectAdditionalData = () => {
         const { selectedPaymentCode } = this.state;
         const additionalDataGetter = this.dataMap[selectedPaymentCode];
         if (!additionalDataGetter) return {};
-        return { asyncData: additionalDataGetter() };
+        return additionalDataGetter();
     };
 
     initBraintree() {
