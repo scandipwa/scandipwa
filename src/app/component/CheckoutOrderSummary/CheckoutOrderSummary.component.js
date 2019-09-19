@@ -50,7 +50,7 @@ export default class CheckoutOrderSummary extends PureComponent {
     }
 
     /**
-     * Render order summury cart item
+     * Render order summary cart item
      * @param key
      * @param item
      * @returns {*}
