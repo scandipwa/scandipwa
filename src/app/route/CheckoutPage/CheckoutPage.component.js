@@ -357,7 +357,7 @@ export default class CheckoutPage extends Component {
                   elem="Heading"
                   mods={ { hasDivider: true } }
                 >
-                    Thank you for your purchase!
+                    { __('Thank you for your purchase!') }
                 </h1>
                 <p
                   block="CheckoutPage"
