@@ -1,0 +1,37 @@
+.CheckoutAddressBook {
+    margin: 2rem 0;
+    width: 100%;
+
+    &-Wrapper {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    &-Heading {
+        text-transform: none;
+        font-weight: 400;
+        font-size: 20px;
+        margin: 0 0 1rem;
+
+        @include mobile {
+            margin: 0;
+            padding-top: 1rem;
+        }
+    }
+
+    &-CustomAddressWrapper {
+        margin: 2rem 0;
+
+        @include mobile {
+            margin: 1rem 0;
+        }
+    }
+
+    & &-Button {
+        display: block;
+
+        &_isCustomAddressExpanded {
+            display: none;
+        }
+    }
+}

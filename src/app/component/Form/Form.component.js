@@ -17,6 +17,7 @@ import {
 } from 'react';
 import PropTypes from 'prop-types';
 import Field from 'Component/Field';
+import FormPortalCollector from 'Util/FormPortalCollector';
 import { MixType, ChildrenType } from 'Type/Common';
 import validationConfig from './Form.config';
 
@@ -26,6 +27,7 @@ export default class Form extends PureComponent {
         onSubmitError: PropTypes.func,
         onSubmit: PropTypes.func,
         children: ChildrenType.isRequired,
+        id: PropTypes.string,
         mix: MixType
     };
 
@@ -33,7 +35,8 @@ export default class Form extends PureComponent {
         onSubmitSuccess: () => {},
         onSubmitError: () => {},
         onSubmit: () => {},
-        mix: {}
+        mix: {},
+        id: ''
     };
 
     static updateChildrenRefs(props) {
@@ -118,6 +121,10 @@ export default class Form extends PureComponent {
     constructor(props) {
         super(props);
 
+        if (!window.formPortalCollector) {
+            window.formPortalCollector = new FormPortalCollector();
+        }
+
         this.state = {
             ...Form.updateChildrenRefs(props),
             fieldsAreValid: true
@@ -131,17 +138,60 @@ export default class Form extends PureComponent {
         return Form.cloneAndValidateChildren(children, refMap);
     }
 
-    handleFormSubmit = (e) => {
-        const { refMap } = this.state;
+    handleFormSubmit = async (e) => {
         const {
-            children: propsChildren,
             onSubmitSuccess,
             onSubmitError,
-            onSubmit
+            onSubmit,
+            id
         } = this.props;
 
         e.preventDefault();
         onSubmit();
+
+        const portalData = id ? await window.formPortalCollector.collect(id) : [];
+
+        const {
+            invalidFields,
+            inputValues
+        } = portalData.reduce((acc, portalData) => {
+            const {
+                invalidFields = [],
+                inputValues = {}
+            } = portalData;
+
+            const {
+                invalidFields: initialInvalidFields,
+                inputValues: initialInputValues
+            } = acc;
+
+            return ({
+                invalidFields: [...initialInvalidFields, ...invalidFields],
+                inputValues: { ...initialInputValues, ...inputValues }
+            });
+        }, this.collectFieldsInformation());
+
+        const asyncData = Promise.all(portalData.reduce((acc, { asyncData }) => {
+            if (!asyncData) return acc;
+            return [...acc, asyncData];
+        }, []));
+
+        asyncData.then(
+            (asyncDataList) => {
+                if (!invalidFields.length) {
+                    onSubmitSuccess(inputValues, asyncDataList);
+                    return;
+                }
+
+                onSubmitError(inputValues, invalidFields);
+            },
+            e => onSubmitError(inputValues, invalidFields, e)
+        );
+    };
+
+    collectFieldsInformation = () => {
+        const { refMap } = this.state;
+        const { children: propsChildren } = this.props;
 
         const {
             children,
@@ -166,9 +216,10 @@ export default class Form extends PureComponent {
             return inputValues;
         }, {});
 
-        return !invalidFields.length
-            ? onSubmitSuccess(inputValues)
-            : onSubmitError(inputValues, invalidFields);
+        return {
+            inputValues,
+            invalidFields
+        };
     };
 
     render() {

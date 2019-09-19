@@ -28,6 +28,7 @@ import MyAccount from 'Route/MyAccount';
 import PasswordChangePage from 'Route/PasswordChangePage';
 import NoMatchHandler from 'Route/NoMatchHandler';
 import UrlRewrites from 'Route/UrlRewrites';
+import Checkout from 'Route/Checkout';
 
 import Header from 'Component/Header';
 import Footer from 'Component/Footer';
@@ -92,6 +93,10 @@ class AppRouter extends PureComponent {
         {
             component: <Route path="/checkout" component={ CheckoutPage } />,
             position: 55
+        },
+        {
+            component: <Route path="/checkout-2" component={ Checkout } />,
+            position: 56
         },
         {
             component: <Route path="/:account*/createPassword/" component={ PasswordChangePage } />,
