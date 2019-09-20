@@ -21,8 +21,10 @@ const updateCartTotals = (action) => {
     // let { cartTotals } = state;
     if (Object.hasOwnProperty.call(cartTotals, 'items')) {
         const normalizedItemsProduct = cartTotals.items.map((item) => {
-            item.product = getIndexedProduct(item.product);
-            return item;
+            const normalizedItem = item;
+            normalizedItem.product = getIndexedProduct(item.product);
+
+            return normalizedItem;
         });
         cartTotals.items = normalizedItemsProduct;
     }
