@@ -1,5 +1,40 @@
 .Checkout {
+    @include after-mobile {
+        margin-top: var(--header-height);
+    }
+
+    &::before {
+        @include after-mobile {
+            content: '';
+            background: var(--breadcrumbs-background);
+            min-height: var(--breadcrumbs-height);
+            display: block;
+        }
+    }
+
     &-Step {
         max-width: 470px;
+    }
+
+    &-Wrapper {
+        padding-top: 1px;
+    }
+
+    &-Heading {
+        text-transform: none;
+        font-weight: 400;
+        font-size: 20px;
+        margin: 0 0 1rem;
+    }
+
+    &-Title {
+        text-transform: capitalize;
+        font-weight: 600;
+        font-size: 25px;
+        margin: 2rem 0;
+
+        @include mobile {
+            display: none;
+        }
     }
 }

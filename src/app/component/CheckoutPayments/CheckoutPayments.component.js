@@ -5,6 +5,7 @@ import CheckoutPayment from 'Component/CheckoutPayment';
 import Braintree from 'Component/Braintree';
 
 import './CheckoutPayments.style';
+import { paymentMethodsType } from 'Type/Checkout';
 
 export const BRAINTREE = 'braintree';
 export const CHECK_MONEY = 'checkmo';
@@ -12,24 +13,12 @@ export const CHECK_MONEY = 'checkmo';
 class CheckoutPayments extends PureComponent {
     static propTypes = {
         selectPaymentMethod: PropTypes.func.isRequired,
+        paymentMethods: paymentMethodsType.isRequired,
         initBraintree: PropTypes.func.isRequired,
         selectedPaymentCode: PropTypes.oneOf([
             BRAINTREE,
             CHECK_MONEY
-        ]).isRequired,
-        paymentMethods: PropTypes.arrayOf(
-            PropTypes.shape({
-                code: PropTypes.string,
-                title: PropTypes.string
-            })
-        )
-    };
-
-    static defaultProps = {
-        paymentMethods: [
-            { code: 'braintree', title: 'Braintree' },
-            { code: 'checkmo', title: 'Check / Money order' }
-        ]
+        ]).isRequired
     };
 
     paymentRenderMap = {
@@ -51,11 +40,12 @@ class CheckoutPayments extends PureComponent {
         } = this.props;
 
         const { code } = method;
+        const isSelected = selectedPaymentCode === code;
 
         return (
             <CheckoutPayment
               key={ code }
-              isSelected={ selectedPaymentCode === code }
+              isSelected={ isSelected }
               method={ method }
               onClick={ selectPaymentMethod }
             />
@@ -76,10 +66,7 @@ class CheckoutPayments extends PureComponent {
 
     renderHeading() {
         return (
-            <h2
-              block="CheckoutPayments"
-              elem="Heading"
-            >
+            <h2 block="Checkout" elem="Heading">
                 { __('Select payment method') }
             </h2>
         );

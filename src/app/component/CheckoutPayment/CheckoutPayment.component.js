@@ -1,15 +1,13 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { paymentMethodType } from 'Type/Checkout';
 import './CheckoutPayment.style';
 
 class CheckoutPayment extends PureComponent {
     static propTypes = {
+        method: paymentMethodType.isRequired,
         onClick: PropTypes.func.isRequired,
-        isSelected: PropTypes.bool,
-        method: PropTypes.shape({
-            code: PropTypes.string,
-            title: PropTypes.string
-        }).isRequired
+        isSelected: PropTypes.bool
     };
 
     static defaultProps = {

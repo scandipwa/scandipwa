@@ -1,12 +1,17 @@
 import { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+
 import BraintreeDropIn from 'Util/Braintree';
+import { paymentMethodsType } from 'Type/Checkout';
+
 import { BRAINTREE_CONTAINER_ID } from 'Component/Braintree/Braintree.component';
 import { BILLING_STEP } from 'Route/Checkout/Checkout.component';
-import CheckoutPayments, { BRAINTREE, CHECK_MONEY } from './CheckoutPayments.component';
+import CheckoutPayments, { BRAINTREE } from './CheckoutPayments.component';
 
 export class CheckoutPaymentsContainer extends PureComponent {
     static propTypes = {
-        // TODO: implement prop-types
+        onPaymentMethodSelect: PropTypes.func.isRequired,
+        paymentMethods: paymentMethodsType.isRequired
     };
 
     containerFunctions = {
@@ -17,15 +22,27 @@ export class CheckoutPaymentsContainer extends PureComponent {
 
     braintree = new BraintreeDropIn(BRAINTREE_CONTAINER_ID);
 
-    state = { selectedPaymentCode: BRAINTREE };
-
     dataMap = {
         [BRAINTREE]: this.getBraintreeData.bind(this)
     };
 
+    constructor(props) {
+        super(props);
+
+        const { paymentMethods } = props;
+        const [{ code }] = paymentMethods;
+        this.state = { selectedPaymentCode: code };
+    }
+
     componentDidMount() {
         if (window.formPortalCollector) {
             window.formPortalCollector.subscribe(BILLING_STEP, this.collectAdditionalData);
+        }
+    }
+
+    componentWillUnmount() {
+        if (window.formPortalCollector) {
+            window.formPortalCollector.unsubscribe(BILLING_STEP, this.collectAdditionalData);
         }
     }
 
@@ -44,8 +61,11 @@ export class CheckoutPaymentsContainer extends PureComponent {
         return this.braintree.create();
     }
 
-    selectPaymentMethod({ code }) {
+    selectPaymentMethod(paymentMethod) {
+        const { onPaymentMethodSelect } = this.props;
+        const { code } = paymentMethod;
         this.setState({ selectedPaymentCode: code });
+        onPaymentMethodSelect(code);
     }
 
     render() {

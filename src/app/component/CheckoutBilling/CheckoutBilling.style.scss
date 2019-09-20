@@ -1,0 +1,11 @@
+.CheckoutBilling {
+    &-Checkbox {
+        margin-bottom: 2rem;
+    }
+
+    &-Button {
+        @include mobile {
+            width: 100%;
+        }
+    }
+}

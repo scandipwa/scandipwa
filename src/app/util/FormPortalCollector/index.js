@@ -22,6 +22,8 @@ export default class FormPortalCollector {
     }
 
     unsubscribe(id, f) {
+        const portalObservers = this.portalsObservers[id];
+        if (!portalObservers) return;
         this.portalsObservers = this.portalsObservers[id].filter(portal => portal !== f);
     }
 

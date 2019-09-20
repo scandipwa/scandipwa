@@ -9,6 +9,10 @@
 .CheckoutAddressTable {
     width: 100%;
 
+    &:first-child &-Button {
+        margin-top: 0;
+    }
+
     &-Button {
         --check-mark-opacity: 0;
 

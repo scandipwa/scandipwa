@@ -5,8 +5,8 @@ class FormPortal extends Form {
         const { id: prevId } = prevProps;
         const { id } = this.props;
 
-        if (id !== prevId && window.formPortalCollector) {
-            window.formPortalCollector.unsubscribe(prevId, this.collectFieldsInformation);
+        if (id !== prevId) {
+            this.unsubscribeToFormPortalCollector(prevId);
             this.subscribeToFormPortalCollector(id);
         }
     }
@@ -15,6 +15,17 @@ class FormPortal extends Form {
         if (window.formPortalCollector) {
             window.formPortalCollector.subscribe(id, this.collectFieldsInformation);
         }
+    }
+
+    unsubscribeToFormPortalCollector(id) {
+        if (window.formPortalCollector) {
+            window.formPortalCollector.unsubscribe(id, this.collectFieldsInformation);
+        }
+    }
+
+    componentWillUnmount() {
+        const { id } = this.props;
+        this.unsubscribeToFormPortalCollector(id);
     }
 
     componentDidMount() {

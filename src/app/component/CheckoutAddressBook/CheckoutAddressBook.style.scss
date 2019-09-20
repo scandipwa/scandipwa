@@ -7,18 +7,6 @@
         flex-wrap: wrap;
     }
 
-    &-Heading {
-        text-transform: none;
-        font-weight: 400;
-        font-size: 20px;
-        margin: 0 0 1rem;
-
-        @include mobile {
-            margin: 0;
-            padding-top: 1rem;
-        }
-    }
-
     &-CustomAddressWrapper {
         margin: 2rem 0;
 

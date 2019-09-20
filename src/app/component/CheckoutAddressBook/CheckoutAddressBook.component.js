@@ -13,6 +13,7 @@ class CheckoutAddressBook extends PureComponent {
     static propTypes = {
         customer: customerType.isRequired,
         onAddressSelect: PropTypes.func.isRequired,
+        onShippingEstimationFieldsChange: PropTypes.func.isRequired,
         selectedAddressId: PropTypes.number.isRequired,
         isSignedIn: PropTypes.bool.isRequired,
         isBilling: PropTypes.bool.isRequired
@@ -80,18 +81,19 @@ class CheckoutAddressBook extends PureComponent {
         const addressName = isBilling ? __('Select billing address') : __('Select shipping address');
 
         return (
-            <h2 block="CheckoutAddressBook" elem="Heading">
+            <h2 block="Checkout" elem="Heading">
                 { addressName }
             </h2>
         );
     }
 
     renderCustomAddress() {
-        const { isBilling } = this.props;
+        const { isBilling, onShippingEstimationFieldsChange } = this.props;
         const formPortalId = isBilling ? BILLING_STEP : SHIPPING_STEP;
 
         return (
             <CheckoutAddressForm
+              onShippingEstimationFieldsChange={ onShippingEstimationFieldsChange }
               address={ {} }
               id={ formPortalId }
             />

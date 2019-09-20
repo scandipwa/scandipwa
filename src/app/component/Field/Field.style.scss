@@ -133,7 +133,9 @@ $select-arrow-width: 6px !default;
 
             &:hover,
             &:focus {
-                background: var(--select-option-hover-background);
+                @include after-mobile {
+                    background: var(--select-option-hover-background);
+                }
             }
         }
     }
@@ -210,11 +212,15 @@ $select-arrow-width: 6px !default;
             }
 
             &:hover {
-                --box-color: #{transparentize($concrete, .4)};
-                border-color: $primary-base-color;
+                @include after-mobile {
+                    --box-color: #{transparentize($concrete, .4)};
+                    border-color: $primary-base-color;
+                }
 
                 &::after {
-                    --checkmark-color: #{$dusty-grey};
+                    @include after-mobile {
+                        --checkmark-color: #{$dusty-grey};
+                    }
                 }
             }
         }
@@ -256,7 +262,9 @@ $select-arrow-width: 6px !default;
         &:checked {
             &:hover {
                 + label {
-                    background-color: #{$primary-base-color};
+                    @include after-mobile {
+                        background-color: #{$primary-base-color};
+                    }
                 }
             }
         }

@@ -69,6 +69,17 @@ class MyAccountAddressForm extends FieldForm {
         };
     }
 
+    onCountryChange = (countryId) => {
+        const { countries } = this.props;
+        const country = countries.find(({ id }) => id === countryId);
+        const { available_regions } = country;
+
+        this.setState({
+            countryId,
+            availableRegions: available_regions || []
+        });
+    };
+
     get fieldMap() {
         const { countryId } = this.state;
         const { countries, address } = this.props;
@@ -109,15 +120,7 @@ class MyAccountAddressForm extends FieldForm {
                 validation: ['notEmpty'],
                 value: countryId,
                 selectOptions: countries.map(({ id, label }) => ({ id, label, value: id })),
-                onChange: (countryId) => {
-                    const country = countries.find(({ id }) => id === countryId);
-                    const { available_regions } = country;
-
-                    this.setState({
-                        countryId,
-                        availableRegions: available_regions || []
-                    });
-                }
+                onChange: this.onCountryChange
             },
             ...this.getRegionFields(),
             postcode: {

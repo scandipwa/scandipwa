@@ -18,12 +18,15 @@ export class CheckoutAddressBookContainer extends PureComponent {
     static propTypes = {
         isSignedIn: PropTypes.bool.isRequired,
         requestCustomerData: PropTypes.func.isRequired,
+        onShippingEstimationFieldsChange: PropTypes.func.isRequired,
+        onAddressSelect: PropTypes.func,
         customer: customerType.isRequired,
         isBilling: PropTypes.bool
     };
 
     static defaultProps = {
-        isBilling: false
+        isBilling: false,
+        onAddressSelect: () => {}
     };
 
     static _getDefaultAddressId(props) {
@@ -46,6 +49,7 @@ export class CheckoutAddressBookContainer extends PureComponent {
         const {
             requestCustomerData,
             customer: { id },
+            onAddressSelect,
             isSignedIn
         } = props;
 
@@ -53,10 +57,26 @@ export class CheckoutAddressBookContainer extends PureComponent {
 
         const defaultAddressId = CheckoutAddressBookContainer._getDefaultAddressId(props);
 
+        if (defaultAddressId) {
+            onAddressSelect(defaultAddressId);
+            this.estimateShipping(defaultAddressId);
+        }
+
         this.state = {
             prevDefaultAddressId: defaultAddressId,
             selectedAddressId: defaultAddressId
         };
+    }
+
+    componentDidUpdate(_, prevState) {
+        const { onAddressSelect } = this.props;
+        const { selectedAddressId: prevSelectedAddressId } = prevState;
+        const { selectedAddressId } = this.state;
+
+        if (selectedAddressId !== prevSelectedAddressId) {
+            onAddressSelect(selectedAddressId);
+            this.estimateShipping(selectedAddressId);
+        }
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -73,8 +93,38 @@ export class CheckoutAddressBookContainer extends PureComponent {
         return null;
     }
 
-    onAddressSelect({ id = 0 }) {
+    onAddressSelect(address) {
+        const { id = 0 } = address;
         this.setState({ selectedAddressId: id });
+    }
+
+    estimateShipping(addressId) {
+        const {
+            onShippingEstimationFieldsChange,
+            customer: { addresses = [] }
+        } = this.props;
+
+        const address = addresses.find(({ id }) => id === addressId);
+
+        if (!address) return;
+
+        const {
+            city,
+            country_id,
+            region: {
+                region_id,
+                region
+            } = {}
+        } = address;
+
+        if (!country_id) return;
+
+        onShippingEstimationFieldsChange({
+            city,
+            country_id,
+            region_id,
+            region
+        });
     }
 
     render() {
