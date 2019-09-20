@@ -16,6 +16,7 @@ import { isSignedIn } from 'Util/Auth';
 import { showNotification } from 'Store/Notification';
 import { WishlistDispatcher } from 'Store/Wishlist';
 import { ProductType } from 'Type/ProductList';
+import { getExtensionAttributes } from 'Util/Product';
 import ProductWishlistButton from './ProductWishlistButton.component';
 
 export const mapStateToProps = state => ({
@@ -58,6 +59,7 @@ export class ProductWishlistButtonContainer extends PureComponent {
 
     toggleProductInWishlist = (add = true) => {
         const {
+            product: { sku },
             isLoading,
             showNotification,
             productsInWishlist,
@@ -65,7 +67,7 @@ export class ProductWishlistButtonContainer extends PureComponent {
             removeProductFromWishlist
         } = this.props;
 
-        if (isLoading) return null;
+        // if (isLoading) return null;
 
         if (!isSignedIn()) {
             return showNotification('error', __('You must login or register to add items to your wishlist.'));
@@ -76,16 +78,18 @@ export class ProductWishlistButtonContainer extends PureComponent {
             return showNotification('error', __('Plaese, select desireable variant first!'));
         }
 
-        const { sku } = product;
-        if (add) return addProductToWishlist(sku);
+        const { sku: variantSku, product_option } = product;
+        if (add) return addProductToWishlist({ sku, product_option });
 
-        const { item_id } = productsInWishlist[sku];
+        const { item_id } = productsInWishlist[variantSku];
         return removeProductFromWishlist({ item_id });
     };
 
     isDisabled = () => {
         const { isLoading } = this.props;
         const product = this._getProductVariant();
+
+        return false;
 
         if (product === ERROR_CONFIGURABLE_NOT_PROVIDED) return true;
         return isLoading;
@@ -110,7 +114,11 @@ export class ProductWishlistButtonContainer extends PureComponent {
 
         if (type_id === 'configurable') {
             if (configurableVariantIndex < 0) return ERROR_CONFIGURABLE_NOT_PROVIDED;
-            return product.variants[configurableVariantIndex];
+
+            const extension_attributes = getExtensionAttributes({ ...product, configurableVariantIndex });
+            const variant = product.variants[configurableVariantIndex];
+
+            return { ...variant, product_option: { extension_attributes } };
         }
 
         return product;

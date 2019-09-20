@@ -64,8 +64,10 @@ const getIndexedVariants = variants => variants
                 ...product,
                 attributes: getIndexedAttributes(attributes)
             };
+
             filteredVariants.push(filteredVariant);
         }
+
         return filteredVariants;
     }, []);
 
@@ -108,3 +110,38 @@ export const getIndexedParameteredProducts = products => Object.entries(products
         ...products,
         [id]: getIndexedProduct(product)
     }), {});
+
+
+export const getExtensionAttributes = (product) => {
+    const {
+        configurable_options,
+        configurableVariantIndex,
+        variants,
+        type_id
+    } = product;
+
+    if (type_id === 'configurable') {
+        const { attributes } = variants[configurableVariantIndex];
+
+        const configurable_item_options = Object.values(configurable_options)
+            .reduce((prev, { attribute_id, attribute_code }) => {
+                const { attribute_value } = attributes[attribute_code];
+
+                if (attribute_value) {
+                    return [
+                        ...prev,
+                        {
+                            option_id: attribute_id,
+                            option_value: attribute_value
+                        }
+                    ];
+                }
+
+                return prev;
+            }, []);
+
+        return { configurable_item_options };
+    }
+
+    return {};
+};

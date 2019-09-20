@@ -62,10 +62,10 @@ export class WishlistDispatcher {
         );
     }
 
-    addItemToWishlist(dispatch, sku) {
+    addItemToWishlist(dispatch, wishlistItem) {
         dispatch(updateIsLoading(true));
 
-        return fetchMutation(WishlistQuery.getAddProductToWishlistMutation(sku)).then(
+        return fetchMutation(WishlistQuery.getAddProductToWishlistMutation(wishlistItem)).then(
             () => this._syncWishlistWithBE(dispatch).then(
                 () => dispatch(showNotification('success', __('Product has been added to your Wish List!')))
             ),
