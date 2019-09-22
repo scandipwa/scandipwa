@@ -23,7 +23,7 @@ import SearchPage from 'Route/SearchPage';
 import ProductPage from 'Route/ProductPage';
 import CmsPage from 'Route/CmsPage';
 import CartPage from 'Route/CartPage';
-import CheckoutPage from 'Route/CheckoutPage';
+// import CheckoutPage from 'Route/CheckoutPage';
 import MyAccount from 'Route/MyAccount';
 import PasswordChangePage from 'Route/PasswordChangePage';
 import NoMatchHandler from 'Route/NoMatchHandler';
@@ -90,13 +90,13 @@ class AppRouter extends PureComponent {
             component: <Route path="/cart" exact component={ CartPage } />,
             position: 50
         },
+        // {
+        //     component: <Route path="/checkout" component={ CheckoutPage } />,
+        //     position: 55
+        // },
         {
-            component: <Route path="/checkout" component={ CheckoutPage } />,
+            component: <Route path="/checkout" component={ Checkout } />,
             position: 55
-        },
-        {
-            component: <Route path="/checkout-2" component={ Checkout } />,
-            position: 56
         },
         {
             component: <Route path="/:account*/createPassword/" component={ PasswordChangePage } />,

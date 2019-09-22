@@ -56,12 +56,16 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
     }
 
     componentDidUpdate(_, prevState) {
-        const { onShippingMethodSelect } = this.props;
+        const { onShippingMethodSelect, shippingMethods } = this.props;
         const { selectedShippingMethodCode } = this.state;
         const { selectedShippingMethodCode: prevSelectedShippingMethodCode } = prevState;
 
         if (selectedShippingMethodCode !== prevSelectedShippingMethodCode) {
-            onShippingMethodSelect(selectedShippingMethodCode);
+            const shippingMethod = shippingMethods.find(
+                ({ carrier_code }) => carrier_code === selectedShippingMethodCode
+            );
+
+            onShippingMethodSelect(shippingMethod);
         }
     }
 
@@ -98,7 +102,7 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
         const { onShippingMethodSelect } = this.props;
         const { carrier_code } = shippingMethod;
         this.setState({ selectedShippingMethodCode: carrier_code });
-        onShippingMethodSelect(carrier_code);
+        onShippingMethodSelect(shippingMethod);
     }
 
     render() {

@@ -7,6 +7,7 @@ import { paymentMethodsType, shippingMethodsType } from 'Type/Checkout';
 import CheckoutGuestForm from 'Component/CheckoutGuestForm';
 import CheckoutShipping from 'Component/CheckoutShipping';
 import { CHECKOUT } from 'Component/Header';
+import { addressType } from 'Type/Account';
 import Loader from 'Component/Loader';
 
 import './Checkout.style';
@@ -21,16 +22,17 @@ class Checkout extends PureComponent {
         onShippingEstimationFieldsChange: PropTypes.func.isRequired,
         setHeaderState: PropTypes.func.isRequired,
         paymentMethods: paymentMethodsType.isRequired,
+        saveAddressInformation: PropTypes.func.isRequired,
+        savePaymentInformation: PropTypes.func.isRequired,
         isLoading: PropTypes.bool.isRequired,
+        isDeliveryOptionsLoading: PropTypes.bool.isRequired,
+        shippingAddress: addressType.isRequired,
+        orderID: PropTypes.string.isRequired,
         checkoutStep: PropTypes.oneOf([
             SHIPPING_STEP,
             BILLING_STEP,
             DETAILS_STEP
-        ])
-    };
-
-    static defaultProps = {
-        checkoutStep: SHIPPING_STEP
+        ]).isRequired
     };
 
     stepMap = {
@@ -54,8 +56,17 @@ class Checkout extends PureComponent {
         this.updateHeader();
     }
 
+    componentDidUpdate(prevProps) {
+        const { checkoutStep } = this.props;
+        const { checkoutStep: prevCheckoutStep } = prevProps;
+
+        if (checkoutStep !== prevCheckoutStep) {
+            this.updateHeader();
+        }
+    }
+
     updateHeader() {
-        const { setHeaderState, checkoutStep } = this.props;
+        const { setHeaderState, checkoutStep, history } = this.props;
         const { title = '' } = this.stepMap[checkoutStep];
 
         setHeaderState({
@@ -89,24 +100,32 @@ class Checkout extends PureComponent {
         const {
             shippingMethods,
             onShippingEstimationFieldsChange,
-            isLoading
+            saveAddressInformation,
+            isDeliveryOptionsLoading
         } = this.props;
 
         return (
             <CheckoutShipping
-              isLoading={ isLoading }
+              isLoading={ isDeliveryOptionsLoading }
               shippingMethods={ shippingMethods }
+              saveAddressInformation={ saveAddressInformation }
               onShippingEstimationFieldsChange={ onShippingEstimationFieldsChange }
             />
         );
     }
 
     renderBillingStep() {
-        const { paymentMethods } = this.props;
+        const {
+            paymentMethods,
+            shippingAddress,
+            savePaymentInformation
+        } = this.props;
 
         return (
             <CheckoutBilling
               paymentMethods={ paymentMethods }
+              shippingAddress={ shippingAddress }
+              savePaymentInformation={ savePaymentInformation }
             />
         );
     }
@@ -122,6 +141,11 @@ class Checkout extends PureComponent {
         return null;
     }
 
+    renderLoader() {
+        const { isLoading } = this.props;
+        return <Loader isLoading={ isLoading } />;
+    }
+
     render() {
         return (
             <main block="Checkout">
@@ -133,6 +157,7 @@ class Checkout extends PureComponent {
                         { this.renderTitle() }
                         { this.renderGuestForm() }
                         { this.renderStep() }
+                        { this.renderLoader() }
                     </div>
                 </ContentWrapper>
             </main>

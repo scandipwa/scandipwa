@@ -1,9 +1,12 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
 import { shippingMethodsType } from 'Type/Checkout';
-import CheckoutShipping from './CheckoutShipping.component';
+import { trimCustomerAddress, trimAddressFields } from 'Util/Address';
 import { customerType } from 'Type/Account';
+
+import CheckoutShipping from './CheckoutShipping.component';
 
 export const mapStateToProps = state => ({
     customer: state.MyAccountReducer.customer
@@ -15,6 +18,7 @@ export const mapDispatchToProps = dispatch => ({
 
 export class CheckoutShippingContainer extends PureComponent {
     static propTypes = {
+        saveAddressInformation: PropTypes.func.isRequired,
         shippingMethods: shippingMethodsType.isRequired,
         customer: customerType.isRequired
     };
@@ -65,19 +69,28 @@ export class CheckoutShippingContainer extends PureComponent {
 
         const shippingAddress = selectedCustomerAddressId
             ? this._getAddressById(selectedCustomerAddressId)
-            : fields;
+            : trimAddressFields(fields);
 
         const {
             carrier_code: shipping_carrier_code,
             method_code: shipping_method_code
-        } = 
+        } = selectedShippingMethod;
+
+        const data = {
+            billing_address: shippingAddress,
+            shipping_address: shippingAddress,
+            shipping_carrier_code,
+            shipping_method_code
+        };
+
+        saveAddressInformation(data);
     }
 
 
     _getAddressById(addressId) {
         const { customer: { addresses } } = this.props;
-        const { id, region, ...address } = addresses.find(({ id }) => id !== addressId);
-        return { ...address, ...region };
+        const address = addresses.find(({ id }) => id !== addressId);
+        return trimCustomerAddress(address);
     }
 
     _getAddressFromFields(fields) {

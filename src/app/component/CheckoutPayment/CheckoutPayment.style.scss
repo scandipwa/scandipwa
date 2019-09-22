@@ -33,11 +33,13 @@
             z-index: 1;
             opacity: var(--check-mark-opacity);
             transition: opacity 150ms ease-in;
-            top: 14px;
+            top: 0;
+            bottom: 0;
+            margin: auto;
             left: 16px;
             width: 12px;
             height: 6px;
-            transform: rotate(135deg);
+            transform: rotate(135deg) translateX(-5px);
             border-right: 2px solid var(--check-mark-color);
             border-top: 2px solid var(--check-mark-color);
         }

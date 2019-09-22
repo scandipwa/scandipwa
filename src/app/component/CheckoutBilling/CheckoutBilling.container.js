@@ -4,11 +4,13 @@ import { connect } from 'react-redux';
 
 import { showNotification } from 'Store/Notification';
 import { paymentMethodsType } from 'Type/Checkout';
+import { customerType, addressType } from 'Type/Account';
+import { trimCustomerAddress, trimAddressFields } from 'Util/Address';
 
 import CheckoutBilling from './CheckoutBilling.component';
 
 export const mapStateToProps = state => ({
-    // wishlistItems: state.WishlistReducer.productsInWishlist
+    customer: state.MyAccountReducer.customer
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -18,7 +20,10 @@ export const mapDispatchToProps = dispatch => ({
 export class CheckoutBillingContainer extends PureComponent {
     static propTypes = {
         showErrorNotification: PropTypes.func.isRequired,
-        paymentMethods: paymentMethodsType.isRequired
+        paymentMethods: paymentMethodsType.isRequired,
+        savePaymentInformation: PropTypes.func.isRequired,
+        shippingAddress: addressType.isRequired,
+        customer: customerType.isRequired
     };
 
     containerFunctions = {
@@ -55,21 +60,16 @@ export class CheckoutBillingContainer extends PureComponent {
     }
 
     onBillingSuccess(fields, asyncData) {
-        const {
-            isSameAsShipping,
-            selectedCustomerAddressId,
-            paymentMethod
-        } = this.state;
+        const { savePaymentInformation } = this.props;
+        const { paymentMethod: method } = this.state;
+        const address = this._getAddress(fields);
 
-        console.log(
-            {
-                fields,
-                asyncData,
-                isSameAsShipping,
-                selectedCustomerAddressId,
-                paymentMethod
-            }
-        );
+        // TODO: handle asyncData from payment Methods, probably define custom handlers for them
+
+        savePaymentInformation({
+            billing_address: address,
+            paymentMethod: { method }
+        });
     }
 
     onBillingError(fields, invalidFields, error) {
@@ -79,6 +79,22 @@ export class CheckoutBillingContainer extends PureComponent {
             const { message = __('Something went wrong') } = error;
             showErrorNotification(message);
         }
+    }
+
+    _getAddress(fields) {
+        const { shippingAddress } = this.props;
+
+        const {
+            isSameAsShipping,
+            selectedCustomerAddressId
+        } = this.state;
+
+        if (isSameAsShipping) return shippingAddress;
+        if (!selectedCustomerAddressId) return trimAddressFields(fields);
+
+        const { customer: { addresses } } = this.props;
+        const address = addresses.find(({ id }) => id !== addressId);
+        return trimCustomerAddress(address);
     }
 
     render() {

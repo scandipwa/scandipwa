@@ -145,8 +145,7 @@ export default class Header extends PureComponent {
         },
         [CHECKOUT]: {
             back: true,
-            title: true,
-            account: true
+            title: true
         },
         [CMS_PAGE]: {
             back: true,

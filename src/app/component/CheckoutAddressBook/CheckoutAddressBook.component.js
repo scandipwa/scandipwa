@@ -116,7 +116,7 @@ class CheckoutAddressBook extends PureComponent {
                   type="button"
                   onClick={ this.expandCustomAddress }
                 >
-                    { __('I would like to use custom address') }
+                    { __('Use custom address') }
                 </button>
                 { isCustomAddressExpanded && this.renderCustomAddress() }
             </div>

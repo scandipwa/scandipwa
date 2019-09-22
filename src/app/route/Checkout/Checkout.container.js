@@ -10,7 +10,7 @@ import BrowserDatabase from 'Util/BrowserDatabase';
 import { GUEST_QUOTE_ID } from 'Store/Cart';
 import { fetchMutation } from 'Util/Request';
 
-import Checkout from './Checkout.component';
+import Checkout, { SHIPPING_STEP, BILLING_STEP, DETAILS_STEP } from './Checkout.component';
 
 export const mapStateToProps = state => ({
 });
@@ -28,20 +28,25 @@ export class CheckoutContainer extends PureComponent {
     };
 
     containerFunctions = {
-        onShippingEstimationFieldsChange: this.onShippingEstimationFieldsChange.bind(this)
+        onShippingEstimationFieldsChange: this.onShippingEstimationFieldsChange.bind(this),
+        savePaymentInformation: this.savePaymentInformation.bind(this),
+        saveAddressInformation: this.saveAddressInformation.bind(this)
     };
 
     constructor(props) {
         super(props);
-
         const { toggleBreadcrumbs } = props;
         toggleBreadcrumbs(false);
     }
 
     state = {
+        isLoading: false,
+        isDeliveryOptionsLoading: false,
         paymentMethods: [],
         shippingMethods: [],
-        isLoading: false
+        shippingAddress: {},
+        checkoutStep: SHIPPING_STEP,
+        orderID: ''
     };
 
     componentWillUnmount() {
@@ -50,14 +55,14 @@ export class CheckoutContainer extends PureComponent {
     }
 
     onShippingEstimationFieldsChange(address) {
-        this.setState({ isLoading: true });
+        this.setState({ isDeliveryOptionsLoading: true });
 
         fetchMutation(CheckoutQuery.getEstimateShippingCosts(
             address,
             this._getGuestCartId()
         )).then(
             ({ estimateShippingCosts: shippingMethods }) => {
-                this.setState({ shippingMethods, isLoading: false });
+                this.setState({ shippingMethods, isDeliveryOptionsLoading: false });
             },
             this._handleError
         );
@@ -65,20 +70,62 @@ export class CheckoutContainer extends PureComponent {
 
     _handleError = (error) => {
         const { showErrorNotification } = this.props;
-        this.setState({ isLoading: false }, () => {
+
+        this.setState({
+            isDeliveryOptionsLoading: false,
+            isLoading: false
+        }, () => {
             showErrorNotification(error[0].message);
         });
     };
 
     _getGuestCartId = () => BrowserDatabase.getItem(GUEST_QUOTE_ID);
 
-    saveAddressInformation = addressInformation => fetchMutation(
-        CheckoutQuery.getSaveAddressInformation(addressInformation, this._getGuestCartId())
-    );
+    saveAddressInformation(addressInformation) {
+        const { shipping_address } = addressInformation;
 
-    savePaymentInformationAndPlaceOrder = paymentInformation => fetchMutation(
-        CheckoutQuery.getSavePaymentInformationAndPlaceOrder(paymentInformation, this._getGuestCartId())
-    );
+        this.setState({
+            isLoading: true,
+            shippingAddress: shipping_address
+        });
+
+        fetchMutation(CheckoutQuery.getSaveAddressInformation(
+            addressInformation,
+            this._getGuestCartId()
+        )).then(
+            ({ saveAddressInformation: data }) => {
+                const { payment_methods, totals } = data;
+                // TODO: handle totals field
+
+                this.setState({
+                    isLoading: false,
+                    paymentMethods: payment_methods,
+                    checkoutStep: BILLING_STEP
+                });
+            },
+            this._handleError
+        );
+    }
+
+    savePaymentInformation(paymentInformation) {
+        this.setState({ isLoading: true });
+
+        fetchMutation(CheckoutQuery.getSavePaymentInformationAndPlaceOrder(
+            paymentInformation,
+            this._getGuestCartId()
+        )).then(
+            ({ savePaymentInformationAndPlaceOrder: data }) => {
+                const { orderID } = data;
+
+                this.setState({
+                    isLoading: false,
+                    checkoutStep: DETAILS_STEP,
+                    orderID
+                });
+            },
+            this._handleError
+        );
+    }
 
     render() {
         return (

@@ -18,7 +18,7 @@ export class CheckoutAddressBookContainer extends PureComponent {
     static propTypes = {
         isSignedIn: PropTypes.bool.isRequired,
         requestCustomerData: PropTypes.func.isRequired,
-        onShippingEstimationFieldsChange: PropTypes.func.isRequired,
+        onShippingEstimationFieldsChange: PropTypes.func,
         onAddressSelect: PropTypes.func,
         customer: customerType.isRequired,
         isBilling: PropTypes.bool
@@ -26,7 +26,8 @@ export class CheckoutAddressBookContainer extends PureComponent {
 
     static defaultProps = {
         isBilling: false,
-        onAddressSelect: () => {}
+        onAddressSelect: () => {},
+        onShippingEstimationFieldsChange:  () => {}
     };
 
     static _getDefaultAddressId(props) {

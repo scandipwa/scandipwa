@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import CheckoutAddressBook from 'Component/CheckoutAddressBook';
 import { SHIPPING_STEP } from 'Route/Checkout/Checkout.component';
 import CheckoutDeliveryOptions from 'Component/CheckoutDeliveryOptions';
-import { shippingMethodsType } from 'Type/Checkout';
+import { shippingMethodsType, shippingMethodType } from 'Type/Checkout';
 import Loader from 'Component/Loader';
 import Form from 'Component/Form';
 
@@ -17,13 +17,13 @@ class CheckoutShipping extends PureComponent {
         onShippingEstimationFieldsChange: PropTypes.func.isRequired,
         shippingMethods: shippingMethodsType.isRequired,
         onShippingMethodSelect: PropTypes.func.isRequired,
-        selectedShippingMethod: PropTypes.string,
+        selectedShippingMethod: shippingMethodType,
         onAddressSelect: PropTypes.func.isRequired,
         isLoading: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
-        selectedShippingMethod: ''
+        selectedShippingMethod: null
     };
 
     renderActions() {
