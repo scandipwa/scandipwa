@@ -23,3 +23,5 @@ export { default as CheckEmailQuery } from 'Query/CheckEmail.query';
 export { default as ReviewQuery } from 'Query/Review.query';
 export { default as UrlRewritesQuery } from 'Query/UrlRewrites.query';
 export { default as ConfigQuery } from 'Query/Config.query';
+export { default as OrderQuery } from 'Query/Config.query';
+export { default as OrderProductQuery } from 'Query/Config.query';
