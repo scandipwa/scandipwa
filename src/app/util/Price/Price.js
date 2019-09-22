@@ -11,9 +11,9 @@
 
 /* eslint-disable import/prefer-default-export */
 
-import getSymbolFromCurrency from 'currency-symbol-map';
+// import getSymbolFromCurrency from 'currency-symbol-map';
 
 export const formatCurrency = (currency = 'USD') => {
-    const symbol = getSymbolFromCurrency(currency);
-    return symbol || currency;
+    // const symbol = getSymbolFromCurrency(currency);
+    return currency;
 };
