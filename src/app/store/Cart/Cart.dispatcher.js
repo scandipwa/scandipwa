@@ -147,17 +147,19 @@ export class CartDispatcher {
                 const configurableVariantIndex = variants
                     .findIndex(({ product: { sku: productSku } }) => productSku === sku);
 
-                const { id: variantId } = variants[configurableVariantIndex].product;
+                if (configurableVariantIndex !== -1) {
+                    const { id: variantId } = variants[configurableVariantIndex].product;
 
-                return {
-                    ...prev,
-                    [variantId]: {
-                        ...product,
-                        configurableVariantIndex,
-                        item_id,
-                        quantity
-                    }
-                };
+                    return {
+                        ...prev,
+                        [variantId]: {
+                            ...product,
+                            configurableVariantIndex,
+                            item_id,
+                            quantity
+                        }
+                    };
+                }
             }
 
             return {
