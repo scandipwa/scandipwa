@@ -26,7 +26,7 @@ class CheckoutDeliveryOptions extends PureComponent {
     renderHeading() {
         return (
             <h2 block="Checkout" elem="Heading">
-                { __('Select payment method') }
+                { __('Select shipping method') }
             </h2>
         );
     }
