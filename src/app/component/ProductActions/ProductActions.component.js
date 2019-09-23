@@ -60,7 +60,7 @@ export default class ProductActions extends PureComponent {
                     (
                         <>
                             <span block="ProductActions" elem="Sku" itemProp="sku">{ `SKU: ${ sku }` }</span>
-                            <span block="ProductActions" elem="Stock">In Stock</span>
+                            <span block="ProductActions" elem="Stock">{ __('In Stock') }</span>
                         </>
                     ),
                     <TextPlaceholder />
