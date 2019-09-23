@@ -87,14 +87,16 @@ export class ProductCardContainer extends PureComponent {
     }
 
     _getThumbnail() {
-        const { product: { thumbnail: { path: productPath = '' } = {} } } = this.props;
-        const { thumbnail: { path: productOrVariantPath = '' } = {} } = this._getProductOrVariant();
+        const productOrVariant = this._getProductOrVariant();
+        const { thumbnail: { path: productOrVariantPath = '' } = {} } = productOrVariant;
 
-        // If variant does not have image, we display image of its configurable product
-        // "no_selection" is a value magento uses if thumbnail is missing
-        return productOrVariantPath === 'no_selection'
-            ? productPath
-            : productOrVariantPath;
+        // If thumbnail is missing, magento returns "no_selection"
+        if (productOrVariantPath !== 'no_selection') return productOrVariantPath;
+
+        // If thumbnail is, missing we try to get image from product, because it may have beed a variant
+        const { product: { thumbnail: { path: productPath = '' } = {} } } = this.props;
+
+        return productPath;
     }
 
     _getProductOrVariant() {
