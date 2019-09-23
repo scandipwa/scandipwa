@@ -10,5 +10,157 @@
  */
 
 .MyAccountMyOrders {
-    
+    &-Heading {
+        margin-top: 0;
+        margin-bottom: 0;
+        font-size: 16px;
+        font-weight: 900;
+        color: var(--color-orders-heading);
+    }
+
+    &-List {
+        margin-top: 15px;
+
+        @include mobile {
+            margin-top: 0;
+        }
+    }
+
+    &-Row {
+        padding-left: 0;
+
+        &::after {
+            content: '';
+            position: absolute;
+            left: -30px;
+            bottom: 0;
+            z-index: 20;
+            width: calc(100% + 60px);
+            height: 1px;
+            border-bottom: 1px solid var(--color-orders-separator);
+        }
+
+        &:last-child {
+            &::after {
+                content: none;
+            }
+        }
+
+        @include mobile {
+            padding-top: 15px;
+            padding-bottom: 5px;
+        }
+    }
+
+    &-RowItems {
+        display: flex;
+        min-height: 46px;
+        align-items: center;
+
+        @include mobile {
+            flex-direction: column;
+        }
+
+        &_type_heading {
+            &::before {
+                content: none;
+            }
+        }
+    }
+
+    &-Column {
+        width: 100%;
+        margin-right: 14px;
+        padding-left: 0;
+
+        @include mobile {
+            margin-right: 0;
+        }
+
+        &:last-child {
+            text-align: right;
+            max-width: 66px;
+
+            @include mobile {
+                max-width: 100%;
+                bottom: 4px;
+                height: 0;
+            }
+        }
+
+        &_type_status_label {
+            @include mobile {
+                order: 1;
+                padding-right: 7rem;
+            }
+        }
+
+        &_type_more {
+            .TextPlaceholder::after {
+                content: 'aaaaaa';
+                font-size: 14px;
+            }
+
+            @include mobile {
+                .TextPlaceholder {
+                    bottom: 23px;
+                }
+            }
+        }
+    }
+
+    &-ColumnContent {
+        font-size: 14px;
+        line-height: 14px;
+        font-weight: 500;
+        color: var(--color-orders-item);
+        padding: 10px 0;
+
+        &_type_heading {
+            color: var(--color-orders-table-heading);
+            padding: 0;
+        }
+
+        @include mobile {
+            padding-top: 0;
+            padding-bottom: 10px;
+        }
+
+        .TextPlaceholder::after {
+            content: 'aaaaaaaaa';
+            line-height: 12px;
+        }
+    }
+
+    &-More {
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--color-orders-show-more);
+    }
+
+    &-B2BNote {
+        font-size: 12px;
+        color: var(--color-orders-table-heading);
+    }
+
+    &-MobileColumnHeading {
+        color: var(--color-orders-mobile-heading);
+
+        @include after-mobile {
+            display: none;
+        }
+    }
+
+    li {
+        margin-bottom: 0;
+
+        &::before {
+            content: none;
+        }
+
+        &:last-child {
+            margin-right: 0;
+            margin-bottom: 0;
+        }
+    }
 }
