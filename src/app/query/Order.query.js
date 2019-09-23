@@ -12,7 +12,11 @@
 import { Field } from 'Util/Query';
 import { OrderProductQuery } from 'Query';
 
-class OrderQuery {
+/**
+ * Order Query
+ * @class OrderQuery
+ */
+export class OrderQuery {
     getOrderListQuery() {
         const orderListItems = this._prepareBaseOrderInfo();
 
