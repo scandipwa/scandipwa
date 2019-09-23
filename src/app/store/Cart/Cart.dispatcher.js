@@ -147,11 +147,10 @@ export class CartDispatcher {
                 // eslint-disable-next-line fp/no-let
                 let configurableVariantIndex = 0;
 
-                variants.find(({ product }) => {
-                    if (product === null) return false;
+                variants.find(({ product }, index) => {
                     const { sku: productSku } = product;
                     const isChosenProduct = productSku === sku;
-                    if (!isChosenProduct) configurableVariantIndex++;
+                    if (isChosenProduct) configurableVariantIndex = index;
                     return isChosenProduct;
                 });
 
