@@ -28,20 +28,37 @@ export class MyAccountMyWishlistContainer extends PureComponent {
         // TODO: implement prop-types
     };
 
-    containerFunctions = {
-        // getData: this.getData.bind(this)
-    };
+    containerFunctions = () => ({
+        getParameters: this.getParameters
+    });
 
     containerProps = () => {
         // isDisabled: this._getIsDisabled()
+    };
+
+    getParameters = (sku, product) => {
+        const { variants, configurable_options } = product;
+
+        const options = Object.keys(configurable_options) || [];
+        const { attributes = {} } = variants.find(({ sku: variantSku }) => variantSku === sku);
+        const parameters = Object.entries(attributes).reduce((acc, [code, { attribute_value }]) => {
+            if (!options.includes(code)) return acc;
+
+            return {
+                ...acc,
+                [code]: [attribute_value]
+            };
+        }, {});
+
+        return parameters;
     };
 
     render() {
         return (
             <MyAccountMyWishlist
               { ...this.props }
-              { ...this.containerFunctions }
               { ...this.containerProps() }
+              { ...this.containerFunctions() }
             />
         );
     }
