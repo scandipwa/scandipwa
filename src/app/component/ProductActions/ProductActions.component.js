@@ -61,7 +61,7 @@ export default class ProductActions extends PureComponent {
                     (
                         <>
                             <span block="ProductActions" elem="Sku" itemProp="sku">{ `SKU: ${ sku }` }</span>
-                            <span block="ProductActions" elem="Stock">In Stock</span>
+                            <span block="ProductActions" elem="Stock">{ __('In Stock') }</span>
                         </>
                     ),
                     <TextPlaceholder />
@@ -180,11 +180,15 @@ export default class ProductActions extends PureComponent {
     }
 
     renderPrice() {
-        const { product: { price } } = this.props;
+        const { product: { price, variants }, configurableVariantIndex } = this.props;
+
+        const productOrVariantPrice = configurableVariantIndex >= 0
+            ? variants[configurableVariantIndex].price
+            : price;
 
         return (
             <ProductPrice
-              price={ price }
+              price={ productOrVariantPrice }
               mix={ { block: 'ProductActions', elem: 'Price' } }
             />
         );
