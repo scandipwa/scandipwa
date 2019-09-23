@@ -144,29 +144,23 @@ export class CartDispatcher {
             } = cartProduct;
 
             if (type_id === 'configurable') {
-                // eslint-disable-next-line fp/no-let
-                let configurableVariantIndex = 0;
+                const configurableVariantIndex = variants
+                    .findIndex(({ product }) => {
+                        const { sku: productSku } = product;
+                        return productSku === sku;
+                    });
 
-                variants.find(({ product }, index) => {
-                    const { sku: productSku } = product;
-                    const isChosenProduct = productSku === sku;
-                    if (isChosenProduct) configurableVariantIndex = index;
-                    return isChosenProduct;
-                });
+                const { id: variantId } = variants[configurableVariantIndex].product;
 
-                if (configurableVariantIndex !== -1) {
-                    const { id: variantId } = variants[configurableVariantIndex].product;
-
-                    return {
-                        ...prev,
-                        [variantId]: {
-                            ...product,
-                            configurableVariantIndex,
-                            item_id,
-                            quantity
-                        }
-                    };
-                }
+                return {
+                    ...prev,
+                    [variantId]: {
+                        ...product,
+                        configurableVariantIndex,
+                        item_id,
+                        quantity
+                    }
+                };
             }
 
             return {
