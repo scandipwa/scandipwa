@@ -177,11 +177,15 @@ export default class ProductActions extends PureComponent {
     }
 
     renderPrice() {
-        const { product: { price } } = this.props;
+        const { product: { variants, price }, configurableVariantIndex } = this.props;
+
+        const productOrVariantPrice = configurableVariantIndex > 0
+            ? variants[configurableVariantIndex].price
+            : price;
 
         return (
             <ProductPrice
-              price={ price }
+              price={ productOrVariantPrice }
               mix={ { block: 'ProductActions', elem: 'Price' } }
             />
         );
