@@ -10,12 +10,15 @@
  */
 
 import { customerType } from 'Type/Account';
+import PropTypes from 'prop-types';
 import KeyValueTable from 'Component/KeyValueTable';
 import './MyAccountCustomerTable.style';
 
 class MyAccountCustomerTable extends KeyValueTable {
     static propTypes = {
-        customer: customerType.isRequired
+        customer: customerType.isRequired,
+        showEditPopup: PropTypes.func.isRequired,
+        showChangePasswordPopup: PropTypes.func.isRequired
     };
 
     get dataPairArray() {
@@ -41,16 +44,20 @@ class MyAccountCustomerTable extends KeyValueTable {
     }
 
     renderActions() {
+        const { showChangePasswordPopup, showEditPopup } = this.props;
+
         return (
             <>
                 <button
                   block="Button"
+                  onClick={ showEditPopup }
                 >
                     { __('Edit details') }
                 </button>
                 <button
                   block="Button"
                   mods={ { isHollow: true } }
+                  onClick={ showChangePasswordPopup }
                 >
                     { __('Change Password') }
                 </button>

@@ -33,9 +33,12 @@ export class ImageContainer extends PureComponent {
         const trimmedSize = size.trim();
         if (!trimmedSize) return '100%';
 
+        const PX_LENGTH = -2;
+        const PERCENT_LENGTH = -1;
+
         if (
-            trimmedSize.slice(-2) === 'px'
-            || trimmedSize.slice(-1) === '%'
+            trimmedSize.slice(PX_LENGTH) === 'px'
+            || trimmedSize.slice(PERCENT_LENGTH) === '%'
         ) {
             return trimmedSize;
         }

@@ -1,6 +1,8 @@
-.MyAccountAddressForm {
+.FieldForm {
     label {
-        min-width: calc(100% - 30px);
+        @include after-mobile {
+            min-width: calc(100% - 30px);
+        }
     }
 
     input {

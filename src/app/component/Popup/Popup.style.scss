@@ -21,7 +21,7 @@
     position: fixed;
     background-color: var(--popup-background);
     left: 0;
-    top: 0;
+    bottom: 0;
 
     display: flex;
     justify-content: center;
@@ -34,8 +34,25 @@
     &_isVisible {
         pointer-events: all;
         opacity: 1;
-        height: 100vh;
         width: 100vw;
+        height: 100vh;
+
+        @include mobile {
+            height: calc(100vh - var(--header-height) - 1px);
+        }
+    }
+
+    &-Heading {
+        font-size: 20px;
+        text-decoration: none;
+        font-weight: 400;
+        margin-top: 0;
+    }
+
+    &-Header {
+        @include mobile {
+            display: none;
+        }
     }
 
     &-Content {
@@ -43,25 +60,35 @@
         border-radius: 5px;
         padding: 2rem;
         min-width: 490px;
+        max-height: 80%;
+        overflow-y: scroll;
 
         @include mobile {
             min-width: 100%;
             border-radius: 0;
+            padding: 1rem;
+            max-height: 100%;
         }
     }
 
-    &-CloseBtn {
+    & &-CloseBtn {
         @include close-button;
 
         height: 40px;
         width: 40px;
         position: absolute;
-        top: 19px;
-        right: 1rem;
+        top: -4px;
+        right: -1rem;
         z-index: 5;
 
         @include mobile {
-            top: 40px;
+            top: 25px;
+        }
+    }
+
+    .Loader-LoaderWrapper {
+        @include mobile {
+            position: fixed;
         }
     }
 }

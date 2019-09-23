@@ -20,12 +20,14 @@ import './Popup.style';
 export default class Popup extends Overlay {
     static propTypes = {
         ...Overlay.propTypes,
-        clickOutside: PropTypes.bool
+        clickOutside: PropTypes.bool,
+        title: PropTypes.string
     };
 
     static defaultProps = {
         ...Popup.defaultProps,
-        clickOutside: true
+        clickOutside: true,
+        title: ''
     };
 
     popupRef = createRef();
@@ -67,6 +69,17 @@ export default class Popup extends Overlay {
         window.scrollTo(0, this.YoffsetWhenScrollDisabled);
     }
 
+    renderTitle() {
+        const { title } = this.props;
+        if (!title) return null;
+
+        return (
+            <h3 block="Popup" elem="Heading">
+                { title }
+            </h3>
+        );
+    }
+
     renderContent() {
         const { children } = this.props;
         const isVisible = this.getIsVisible();
@@ -76,12 +89,15 @@ export default class Popup extends Overlay {
         return (
             <ClickOutside onClick={ this.handleClickOutside }>
                 <div block="Popup" elem="Content">
-                    <button
-                      block="Popup"
-                      elem="CloseBtn"
-                      title="Close Popup"
-                      onClick={ this.hidePopUp }
-                    />
+                    <header block="Popup" elem="Header">
+                        { this.renderTitle() }
+                        <button
+                          block="Popup"
+                          elem="CloseBtn"
+                          title="Close Popup"
+                          onClick={ this.hidePopUp }
+                        />
+                    </header>
                     { children }
                 </div>
             </ClickOutside>

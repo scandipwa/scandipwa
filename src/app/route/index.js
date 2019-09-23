@@ -24,8 +24,6 @@ import ProductPage from 'Route/ProductPage';
 import CmsPage from 'Route/CmsPage';
 import CartPage from 'Route/CartPage';
 import CheckoutPage from 'Route/CheckoutPage';
-// import MyAccountDetails from 'Route/MyAccountDetails';
-// import MyAccountWishlist from 'Route/MyAccountWishlist';
 import MyAccount from 'Route/MyAccount';
 import PasswordChangePage from 'Route/PasswordChangePage';
 import NoMatchHandler from 'Route/NoMatchHandler';
@@ -103,14 +101,6 @@ class AppRouter extends PureComponent {
             component: <Route path="/my-account/:tab?" component={ MyAccount } />,
             position: 70
         },
-        // {
-        //     component: <Route path="/my-account/:tab" exact component={ MyAccount } />,
-        //     position: 70
-        // },
-        // {
-        //     component: <Route path="/wishlist/" exact component={ MyAccountWishlist } />,
-        //     position: 90
-        // },
         {
             component: <Route component={ UrlRewrites } />,
             position: 1000

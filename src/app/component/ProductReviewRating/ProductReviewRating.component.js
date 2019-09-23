@@ -55,10 +55,9 @@ export default class ProductReviewRating extends PureComponent {
         return (
             <div
               block="ProductReviewRating"
-              mods={ { isLoading: placeholder } }
               ref={ this.reviewRating }
             />
-        )
+        );
     }
 
     render() {

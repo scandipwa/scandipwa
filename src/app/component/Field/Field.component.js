@@ -624,10 +624,12 @@ export default class Field extends PureComponent {
     renderLabel() {
         const { id, label, validation } = this.props;
         const isRequired = validation.includes('notEmpty');
+        if (!label) return null;
 
         return (
             <label
               block="Field"
+              elem="Label"
               mods={ { isRequired } }
               htmlFor={ id }
             >
@@ -638,6 +640,7 @@ export default class Field extends PureComponent {
 
     renderMessage() {
         const { message } = this.props;
+        if (!message) return null;
 
         return (
             <p block="Field" elem="Message">

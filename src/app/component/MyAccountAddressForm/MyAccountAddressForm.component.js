@@ -1,16 +1,12 @@
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import { addressType } from 'Type/Account';
 import { countriesType } from 'Type/Config';
-import Form from 'Component/Form';
-import Field from 'Component/Field';
-
-import './MyAccountAddressForm.style';
+import FieldForm from 'Component/FieldForm';
 
 export const DEFAULT_COUNTRY_ID = 'US';
 
-class MyAccountAddressForm extends PureComponent {
+class MyAccountAddressForm extends FieldForm {
     static propTypes = {
         address: addressType.isRequired,
         countries: countriesType.isRequired,
@@ -145,62 +141,21 @@ class MyAccountAddressForm extends PureComponent {
         };
     }
 
-    renderAddressField = ([key, props]) => {
+    getDefaultValues(fieldEntry) {
+        const [key, { value }] = fieldEntry;
         const { address: { [key]: addressValue } } = this.props;
-        const {
-            label,
-            type,
-            selectOptions,
-            value,
-            checked,
-            onChange = () => {},
-            validation
-        } = props;
 
-        return (
-            <Field
-              key={ key }
-              name={ key }
-              id={ key }
-              type={ type || 'text' }
-              label={ label }
-              selectOptions={ selectOptions }
-              checked={ checked }
-              value={ value !== undefined ? value : addressValue }
-              onChange={ onChange }
-              validation={ validation }
-            />
-        );
-    };
+        return {
+            ...super.getDefaultValues(fieldEntry),
+            value: value !== undefined ? value : addressValue
+        };
+    }
 
     renderActions() {
         return (
             <button type="submit" block="Button">
                 { __('Save address') }
             </button>
-        );
-    }
-
-    renderFields() {
-        return (
-            <div
-              block="MyAccountAddressForm"
-              elem="Fields"
-            >
-                { Object.entries(this.fieldMap).map(this.renderAddressField) }
-            </div>
-        );
-    }
-
-    render() {
-        return (
-            <Form
-              onSubmitSuccess={ this.onFormSuccess }
-              mix={ { block: 'MyAccountAddressForm' } }
-            >
-                { this.renderFields() }
-                { this.renderActions() }
-            </Form>
         );
     }
 }
