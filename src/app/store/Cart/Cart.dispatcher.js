@@ -145,10 +145,7 @@ export class CartDispatcher {
 
             if (type_id === 'configurable') {
                 const configurableVariantIndex = variants
-                    .findIndex(({ product }) => {
-                        const { sku: productSku } = product;
-                        return productSku === sku;
-                    });
+                    .findIndex(({ product: { sku: productSku } }) => productSku === sku);
 
                 const { id: variantId } = variants[configurableVariantIndex].product;
 
