@@ -17,6 +17,7 @@ import MyAccountMyOrders from 'Component/MyAccountMyOrders';
 import MyAccountMyWishlistContainer from 'Component/MyAccountMyWishlist';
 import MyAccountAddressBook from 'Component/MyAccountAddressBook';
 import MyAccountTabList from 'Component/MyAccountTabList';
+import { MatchType } from 'Type/Common';
 import {
     activeTabType,
     tabMapType,
@@ -33,6 +34,7 @@ class MyAccount extends PureComponent {
     static propTypes = {
         activeTab: activeTabType.isRequired,
         tabMap: tabMapType.isRequired,
+        match: MatchType.isRequired,
         changeActiveTab: PropTypes.func.isRequired
     };
 
@@ -44,7 +46,9 @@ class MyAccount extends PureComponent {
     };
 
     render() {
-        const { activeTab, tabMap, changeActiveTab } = this.props;
+        const {
+            activeTab, tabMap, changeActiveTab, match
+        } = this.props;
         const TabContent = this.renderMap[activeTab];
         const { name } = tabMap[activeTab];
 
@@ -61,7 +65,7 @@ class MyAccount extends PureComponent {
                     />
                     <div block="MyAccount" elem="TabContent">
                         <h1 block="MyAccount" elem="Heading">{ name }</h1>
-                        <TabContent />
+                        <TabContent match={ match } />
                     </div>
                 </ContentWrapper>
             </main>
