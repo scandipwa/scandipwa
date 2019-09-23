@@ -24,9 +24,9 @@ export const initialState = {
     isLoading: true
 };
 
-const removeItemFromWishlist = ({ item_id }, { productsInWishlist: initialProducts }) => {
+const removeItemFromWishlist = ({ sku }, { productsInWishlist: initialProducts }) => {
     const deleteProperty = (key, { [key]: _, ...newObj }) => newObj;
-    const productsInWishlist = deleteProperty(item_id, initialProducts) || {};
+    const productsInWishlist = deleteProperty(sku, initialProducts) || {};
 
     BrowserDatabase.setItem(
         productsInWishlist,

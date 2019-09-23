@@ -18,9 +18,9 @@ export const UPDATE_IS_LOADING_IN_WISHLIST = 'UPDATE_IS_LOADING_IN_WISHLIST';
  * @param  {Object} product Product which should be removed
  * @return {void}
  */
-export const removeItemFromWishlist = item_id => ({
+export const removeItemFromWishlist = sku => ({
     type: REMOVE_ITEM_FROM_WISHLIST,
-    item_id
+    sku
 });
 
 /**
