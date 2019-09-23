@@ -34,6 +34,7 @@ export const ERROR_CONFIGURABLE_NOT_PROVIDED = 'ERROR_CONFIGURABLE_NOT_PROVIDED'
 
 export class ProductWishlistButtonContainer extends PureComponent {
     static propTypes = {
+        quantity: PropTypes.number,
         product: ProductType.isRequired,
         isLoading: PropTypes.bool.isRequired,
         configurableVariantIndex: PropTypes.number,
@@ -44,6 +45,7 @@ export class ProductWishlistButtonContainer extends PureComponent {
     };
 
     static defaultProps = {
+        quantity: 1,
         configurableVariantIndex: -2
     };
 
@@ -60,6 +62,7 @@ export class ProductWishlistButtonContainer extends PureComponent {
     toggleProductInWishlist = (add = true) => {
         const {
             product: { sku },
+            quantity,
             isLoading,
             showNotification,
             productsInWishlist,
@@ -79,7 +82,7 @@ export class ProductWishlistButtonContainer extends PureComponent {
         }
 
         const { sku: variantSku, product_option } = product;
-        if (add) return addProductToWishlist({ sku, product_option });
+        if (add) return addProductToWishlist({ sku, product_option, quantity });
 
         const { item_id } = productsInWishlist[variantSku];
         return removeProductFromWishlist({ item_id, sku: variantSku });

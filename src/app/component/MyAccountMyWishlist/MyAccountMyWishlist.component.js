@@ -18,12 +18,14 @@ import './MyAccountMyWishlist.style';
 export default class MyAccountMyWishlist extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool,
+        addAllToCart: PropTypes.func,
         getParameters: PropTypes.func.isRequired,
         wishlistItems: PropTypes.objectOf(ProductType).isRequired
     };
 
     static defaultProps = {
-        isLoading: false
+        isLoading: false,
+        addAllToCart: () => {}
     };
 
     renderProduct = ([sku, product]) => {
@@ -42,7 +44,15 @@ export default class MyAccountMyWishlist extends PureComponent {
     }
 
     renderActionLine() {
-        return null;
+        const { addAllToCart } = this.props;
+
+        return (
+            <div block="MyAccountMyWishlist" elem="ActionBar">
+                <button block="Button" onClick={ addAllToCart }>
+                    { __('Add All to Cart') }
+                </button>
+            </div>
+        );
     }
 
     renderPlaceholders() {

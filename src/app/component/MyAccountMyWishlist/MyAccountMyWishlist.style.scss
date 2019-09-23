@@ -29,4 +29,10 @@
             grid-column: 2;
         }
     }
+
+    &-ActionBar {
+        display: flex;
+        padding: 0 0 10px;
+        justify-content: flex-end;
+    }
 }

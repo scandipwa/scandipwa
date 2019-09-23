@@ -29,6 +29,7 @@ export class MyAccountMyWishlistContainer extends PureComponent {
     };
 
     containerFunctions = () => ({
+        addAllToCart: this.addAllToCart,
         getParameters: this.getParameters
     });
 
@@ -51,6 +52,11 @@ export class MyAccountMyWishlistContainer extends PureComponent {
         }, {});
 
         return parameters;
+    };
+
+    addAllToCart = () => {
+        //! TODO: implement method
+        console.log('hi :)');
     };
 
     render() {
