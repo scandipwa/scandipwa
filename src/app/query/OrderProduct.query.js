@@ -35,8 +35,7 @@ class OrderProduct {
                         new Field('swatch_data')
                             .addField('value')
                     )
-            )
-            .addField('is_comparable');
+            );
 
         return attributes;
     }
