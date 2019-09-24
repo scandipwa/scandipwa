@@ -37,10 +37,21 @@ export class MyAccountMyWishlistContainer extends PureComponent {
         wishlistItems: PropTypes.objectOf(ProductType).isRequired
     };
 
+    containerProps = () => ({
+        isWishlistEmpty: this.getIsWishlistEmpty()
+    });
+
     containerFunctions = () => ({
+        removeAll: this.removeAll,
         addAllToCart: this.addAllToCart,
         getParameters: this.getParameters
     });
+
+    getIsWishlistEmpty = () => {
+        const { wishlistItems } = this.props;
+
+        return Object.entries(wishlistItems).length <= 0;
+    };
 
     getConfigurableVariantIndex = (sku, variants) => Object.keys(variants).find(i => variants[i].sku === sku);
 
@@ -77,32 +88,50 @@ export class MyAccountMyWishlistContainer extends PureComponent {
             }
             : item;
 
-        return addProductToCart({ product, quantity }).then(() => this._afterItemAdded(item_id, sku));
+        return addProductToCart({ product, quantity }).then(() => this.removeItem(item_id, sku));
     };
 
     addAllToCart = () => {
         const { wishlistItems } = this.props;
-        const entries = Object.entries(wishlistItems);
 
-        const promises = entries.map(([sku, item]) => this.addItemToCart(sku, item));
+        const promises = Object.entries(wishlistItems)
+            .map(([sku, item]) => this.addItemToCart(sku, item));
 
-        Promise.all(promises).then(() => this._afterAllItemsAdded());
+        Promise.all(promises)
+            .then(() => this.showSuccessNotification('Products added to cart'))
+            .catch(() => this.showErrorNotification());
     };
 
-    _afterItemAdded = (item_id, sku) => {
+    removeAll = () => {
+        const { wishlistItems } = this.props;
+        const promises = Object.entries(wishlistItems)
+            .map(([sku, { item_id }]) => this.removeItem(item_id, sku));
+
+        Promise.all(promises)
+            .then(() => this.showSuccessNotification('Wishlist cleared'))
+            .catch(() => this.showErrorNotification());
+    };
+
+    removeItem = (item_id, sku) => {
         const { removeFromWishlist } = this.props;
         removeFromWishlist({ item_id, sku, noMessages: true });
     };
 
-    _afterAllItemsAdded = () => {
+    showSuccessNotification = (message) => {
         const { showNotification } = this.props;
-        showNotification('success', 'Products added to cart!');
+        showNotification('success', message);
+    };
+
+    showErrorNotification = (message = 'Something went wrong') => {
+        const { showNotification } = this.props;
+        showNotification('error', message);
     };
 
     render() {
         return (
             <MyAccountMyWishlist
               { ...this.props }
+              { ...this.containerProps() }
               { ...this.containerFunctions() }
             />
         );

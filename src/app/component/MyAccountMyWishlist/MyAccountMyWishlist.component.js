@@ -16,19 +16,18 @@ import ProductCard from 'Component/ProductCard';
 import './MyAccountMyWishlist.style';
 
 export default class MyAccountMyWishlist extends PureComponent {
-    state = {
-        showNoProductsFound: false
-    };
-
     static propTypes = {
         isLoading: PropTypes.bool,
         addAllToCart: PropTypes.func,
+        isWishlistEmpty: PropTypes.bool,
+        removeAll: PropTypes.func.isRequired,
         getParameters: PropTypes.func.isRequired,
         wishlistItems: PropTypes.objectOf(ProductType).isRequired
     };
 
     static defaultProps = {
         isLoading: false,
+        isWishlistEmpty: false,
         addAllToCart: () => {}
     };
 
@@ -49,22 +48,32 @@ export default class MyAccountMyWishlist extends PureComponent {
 
     renderProducts() {
         const { wishlistItems } = this.props;
-        const entries = Object.entries(wishlistItems);
-
-        if (entries.length <= 0) {
-            return this.setState({ showNoProductsFound: true });
-        }
-
-        return entries.map(this.renderProduct);
+        return Object.entries(wishlistItems).map(this.renderProduct);
     }
 
     renderActionLine() {
-        const { showNoProductsFound } = this.state;
-        const { addAllToCart, isLoading } = this.props;
+        const {
+            isLoading,
+            removeAll,
+            addAllToCart,
+            isWishlistEmpty
+        } = this.props;
+        const disabled = isLoading || isWishlistEmpty;
 
         return (
             <div block="MyAccountMyWishlist" elem="ActionBar">
-                <button block="Button" onClick={ addAllToCart } disabled={ isLoading || showNoProductsFound }>
+                <button
+                  block="Button"
+                  onClick={ removeAll }
+                  disabled={ disabled }
+                >
+                    { __('Clear Wishlist') }
+                </button>
+                <button
+                  block="Button"
+                  onClick={ addAllToCart }
+                  disabled={ disabled }
+                >
                     { __('Add All to Cart') }
                 </button>
             </div>
@@ -76,10 +85,9 @@ export default class MyAccountMyWishlist extends PureComponent {
     }
 
     renderContent() {
-        const { isLoading } = this.props;
-        const { showNoProductsFound } = this.state;
+        const { isLoading, isWishlistEmpty } = this.props;
 
-        if (!showNoProductsFound || isLoading) {
+        if (!isWishlistEmpty || isLoading) {
             return (
                 <div block="MyAccountMyWishlist" elem="Products">
                     { isLoading ? this.renderPlaceholders() : this.renderProducts() }

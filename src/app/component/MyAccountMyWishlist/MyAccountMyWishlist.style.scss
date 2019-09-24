@@ -40,4 +40,12 @@
         display: flex;
         justify-content: center;
     }
+
+    .Button + .Button {
+        margin-top: 0;
+
+        @include mobile {
+            margin-left: 1rem;
+        }
+    }
 }
