@@ -39,13 +39,19 @@ export class WishlistDispatcher {
                 if (data && data.wishlist && data.wishlist.items_count) {
                     const { wishlist } = data;
                     const productsToAdd = wishlist.items.reduce((prev, wishlistItem) => {
-                        const { product, sku, id: item_id } = wishlistItem;
+                        const {
+                            sku,
+                            product,
+                            id: item_id,
+                            qty: quantity
+                        } = wishlistItem;
 
                         return {
                             ...prev,
                             [sku]: {
                                 ...product,
-                                item_id
+                                item_id,
+                                quantity
                             }
                         };
                     }, {});

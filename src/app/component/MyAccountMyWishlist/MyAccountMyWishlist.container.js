@@ -12,6 +12,10 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { CartDispatcher } from 'Store/Cart';
+import { WishlistDispatcher } from 'Store/Wishlist';
+import { showNotification } from 'Store/Notification';
+import { ProductType } from 'Type/ProductList';
 import MyAccountMyWishlist from './MyAccountMyWishlist.component';
 
 export const mapStateToProps = state => ({
@@ -20,12 +24,17 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-    // addProduct: options => CartDispatcher.addProductToCart(dispatch, options)
+    showNotification: (type, message) => dispatch(showNotification(type, message)),
+    addProductToCart: options => CartDispatcher.addProductToCart(dispatch, options),
+    removeFromWishlist: options => WishlistDispatcher.removeItemFromWishlist(dispatch, options)
 });
 
 export class MyAccountMyWishlistContainer extends PureComponent {
     static propTypes = {
-        // TODO: implement prop-types
+        addProductToCart: PropTypes.func.isRequired,
+        showNotification: PropTypes.func.isRequired,
+        removeFromWishlist: PropTypes.func.isRequired,
+        wishlistItems: PropTypes.objectOf(ProductType).isRequired
     };
 
     containerFunctions = () => ({
@@ -33,15 +42,15 @@ export class MyAccountMyWishlistContainer extends PureComponent {
         getParameters: this.getParameters
     });
 
-    containerProps = () => {
-        // isDisabled: this._getIsDisabled()
-    };
+    getConfigurableVariantIndex = (sku, variants) => Object.keys(variants).find(i => variants[i].sku === sku);
 
-    getParameters = (sku, product) => {
-        const { variants, configurable_options } = product;
+    getParameters = (sku, item) => {
+        const { variants, configurable_options } = item;
 
         const options = Object.keys(configurable_options) || [];
-        const { attributes = {} } = variants.find(({ sku: variantSku }) => variantSku === sku);
+        const configurableVariantIndex = this.getConfigurableVariantIndex(sku, variants);
+
+        const { attributes = {} } = variants[configurableVariantIndex];
         const parameters = Object.entries(attributes).reduce((acc, [code, { attribute_value }]) => {
             if (!options.includes(code)) return acc;
 
@@ -54,16 +63,46 @@ export class MyAccountMyWishlistContainer extends PureComponent {
         return parameters;
     };
 
+    addItemToCart = (sku, item) => {
+        const { addProductToCart } = this.props;
+        const {
+            item_id, type_id, variants, quantity
+        } = item;
+
+        const configurableVariantIndex = this.getConfigurableVariantIndex(sku, variants);
+        const product = type_id === 'configurable'
+            ? {
+                ...item,
+                configurableVariantIndex
+            }
+            : item;
+
+        return addProductToCart({ product, quantity }).then(() => this._afterItemAdded(item_id, sku));
+    };
+
     addAllToCart = () => {
-        //! TODO: implement method
-        console.log('hi :)');
+        const { wishlistItems } = this.props;
+        const entries = Object.entries(wishlistItems);
+
+        const promises = entries.map(([sku, item]) => this.addItemToCart(sku, item));
+
+        Promise.all(promises).then(() => this._afterAllItemsAdded());
+    };
+
+    _afterItemAdded = (item_id, sku) => {
+        const { removeFromWishlist } = this.props;
+        removeFromWishlist({ item_id, sku, noMessages: true });
+    };
+
+    _afterAllItemsAdded = () => {
+        const { showNotification } = this.props;
+        showNotification('success', 'Products added to cart!');
     };
 
     render() {
         return (
             <MyAccountMyWishlist
               { ...this.props }
-              { ...this.containerProps() }
               { ...this.containerFunctions() }
             />
         );

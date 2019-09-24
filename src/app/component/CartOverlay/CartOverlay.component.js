@@ -84,7 +84,7 @@ export default class CartOverlay extends PureComponent {
               elem="Tax"
             >
                 <dt>{ __('Tax total:') }</dt>
-                <dd>{ this.renderPriceLine(tax_amount) }</dd>
+                <dd>{ this.renderPriceLine(tax_amount || 0) }</dd>
             </dl>
         );
     }

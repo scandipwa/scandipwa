@@ -16,6 +16,10 @@ import ProductCard from 'Component/ProductCard';
 import './MyAccountMyWishlist.style';
 
 export default class MyAccountMyWishlist extends PureComponent {
+    state = {
+        showNoProductsFound: false
+    };
+
     static propTypes = {
         isLoading: PropTypes.bool,
         addAllToCart: PropTypes.func,
@@ -28,6 +32,12 @@ export default class MyAccountMyWishlist extends PureComponent {
         addAllToCart: () => {}
     };
 
+    renderNoProductsFound = () => (
+        <div block="MyAccountMyWishlist" elem="NoProducts">
+            <h3>Please add products to wishlist first!</h3>
+        </div>
+    );
+
     renderProduct = ([sku, product]) => {
         const { getParameters } = this.props;
         const { type_id } = product;
@@ -39,16 +49,22 @@ export default class MyAccountMyWishlist extends PureComponent {
 
     renderProducts() {
         const { wishlistItems } = this.props;
+        const entries = Object.entries(wishlistItems);
 
-        return Object.entries(wishlistItems).map(this.renderProduct);
+        if (entries.length <= 0) {
+            return this.setState({ showNoProductsFound: true });
+        }
+
+        return entries.map(this.renderProduct);
     }
 
     renderActionLine() {
-        const { addAllToCart } = this.props;
+        const { showNoProductsFound } = this.state;
+        const { addAllToCart, isLoading } = this.props;
 
         return (
             <div block="MyAccountMyWishlist" elem="ActionBar">
-                <button block="Button" onClick={ addAllToCart }>
+                <button block="Button" onClick={ addAllToCart } disabled={ isLoading || showNoProductsFound }>
                     { __('Add All to Cart') }
                 </button>
             </div>
@@ -59,15 +75,26 @@ export default class MyAccountMyWishlist extends PureComponent {
         return Array.from({ length: 4 }, (_, i) => <ProductCard key={ i } />);
     }
 
-    render() {
+    renderContent() {
         const { isLoading } = this.props;
+        const { showNoProductsFound } = this.state;
 
-        return (
-            <div block="MyAccountMyWishlist">
-                { this.renderActionLine() }
+        if (!showNoProductsFound || isLoading) {
+            return (
                 <div block="MyAccountMyWishlist" elem="Products">
                     { isLoading ? this.renderPlaceholders() : this.renderProducts() }
                 </div>
+            );
+        }
+
+        return this.renderNoProductsFound();
+    }
+
+    render() {
+        return (
+            <div block="MyAccountMyWishlist">
+                { this.renderActionLine() }
+                { this.renderContent() }
             </div>
         );
     }

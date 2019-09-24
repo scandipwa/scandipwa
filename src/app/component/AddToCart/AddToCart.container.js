@@ -12,14 +12,21 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { isSignedIn } from 'Util/Auth';
 import { CartDispatcher } from 'Store/Cart';
 import { ProductType } from 'Type/ProductList';
 import { showNotification } from 'Store/Notification';
 
+import { WishlistDispatcher } from 'Store/Wishlist';
 import AddToCart from './AddToCart.component';
+
+export const mapStateToProps = state => ({
+    wishlistItems: state.WishlistReducer.productsInWishlist
+});
 
 export const mapDispatchToProps = dispatch => ({
     addProduct: options => CartDispatcher.addProductToCart(dispatch, options),
+    removeFromWishlist: options => WishlistDispatcher.removeItemFromWishlist(dispatch, options),
     showNotification: (type, message) => dispatch(showNotification(type, message))
 });
 
@@ -32,7 +39,9 @@ export class AddToCartContainer extends PureComponent {
         groupedProductQuantity: PropTypes.objectOf(PropTypes.number),
         showNotification: PropTypes.func.isRequired,
         setQuantityToDefault: PropTypes.func,
-        addProduct: PropTypes.func.isRequired
+        addProduct: PropTypes.func.isRequired,
+        removeFromWishlist: PropTypes.func.isRequired,
+        wishlistItems: PropTypes.objectOf(ProductType).isRequired
     };
 
     static defaultProps = {
@@ -110,6 +119,24 @@ export class AddToCartContainer extends PureComponent {
         }).then(() => this._afterAdded());
     }
 
+    removeProductFromWishlist() {
+        const {
+            product,
+            wishlistItems,
+            removeFromWishlist,
+            product: { type_id },
+            configurableVariantIndex
+        } = this.props;
+
+        if (type_id !== 'configurable') return null;
+
+        const { sku } = product.variants[configurableVariantIndex];
+        if (!isSignedIn() || sku in wishlistItems === false) return null;
+
+        const { item_id } = wishlistItems[sku];
+        return removeFromWishlist({ item_id, sku, noMessage: true });
+    }
+
     _afterAdded() {
         const {
             showNotification,
@@ -119,8 +146,7 @@ export class AddToCartContainer extends PureComponent {
         showNotification('success', 'Product added to cart!');
         setQuantityToDefault();
 
-        // TODO: add product removal from wishlist, after adding to cart
-
+        this.removeProductFromWishlist();
         this.setState({ isLoading: false });
     }
 
@@ -136,4 +162,4 @@ export class AddToCartContainer extends PureComponent {
     }
 }
 
-export default connect(null, mapDispatchToProps)(AddToCartContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(AddToCartContainer);

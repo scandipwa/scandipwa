@@ -19,8 +19,9 @@ import './ProductWishlistButton.style';
 export default class ProductWishlistButton extends PureComponent {
     static propTypes = {
         product: ProductType,
-        isDisabled: PropTypes.bool,
         quantity: PropTypes.number,
+        isLoggedIn: PropTypes.bool,
+        isDisabled: PropTypes.bool,
         isInWishlist: PropTypes.bool,
         addToWishlist: PropTypes.func,
         removeFromWishlist: PropTypes.func
@@ -29,10 +30,11 @@ export default class ProductWishlistButton extends PureComponent {
     static defaultProps = {
         product: {},
         quantity: 1,
+        isLoggedIn: true,
         isDisabled: false,
+        isInWishlist: false,
         addToWishlist: () => {},
-        removeFromWishlist: () => {},
-        isInWishlist: false
+        removeFromWishlist: () => {}
     };
 
     onClick = () => {
@@ -74,13 +76,12 @@ export default class ProductWishlistButton extends PureComponent {
     }
 
     renderButton() {
-        const { isInWishlist, isDisabled } = this.props;
+        const { isInWishlist } = this.props;
 
         return (
             <button
               onClick={ this.onClick }
               title={ !isInWishlist ? __('Add to Wishlist') : __('Remove from Wishlist') }
-              disabled={ isDisabled }
             >
                { !isInWishlist ? this.renderPlusHeart() : this.renderMinusHeart() }
             </button>

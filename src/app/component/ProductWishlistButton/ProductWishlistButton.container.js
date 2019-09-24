@@ -25,7 +25,7 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-    addProductToWishlist: options => WishlistDispatcher.addItemToWishlist(dispatch, options),
+    addProductToWishlist: wishlistItem => WishlistDispatcher.addItemToWishlist(dispatch, wishlistItem),
     removeProductFromWishlist: options => WishlistDispatcher.removeItemFromWishlist(dispatch, options),
     showNotification: (type, message) => dispatch(showNotification(type, message))
 });
@@ -70,11 +70,11 @@ export class ProductWishlistButtonContainer extends PureComponent {
             removeProductFromWishlist
         } = this.props;
 
-        if (isLoading) return null;
-
         if (!isSignedIn()) {
             return showNotification('error', __('You must login or register to add items to your wishlist.'));
         }
+
+        if (isLoading) return null;
 
         const product = this._getProductVariant();
         if (product === ERROR_CONFIGURABLE_NOT_PROVIDED) {
@@ -93,7 +93,7 @@ export class ProductWishlistButtonContainer extends PureComponent {
         const product = this._getProductVariant();
 
         if (product === ERROR_CONFIGURABLE_NOT_PROVIDED) return true;
-        return isLoading;
+        return isLoading || !isSignedIn();
     };
 
     isInWishlist = () => {
