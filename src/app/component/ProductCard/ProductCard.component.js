@@ -33,12 +33,14 @@ export default class ProductCard extends PureComponent {
             label: PropTypes.string,
             value: PropTypes.string
         })).isRequired,
-        getAttribute: PropTypes.func.isRequired
+        getAttribute: PropTypes.func.isRequired,
+        children: PropTypes.element
     };
 
     static defaultProps = {
         thumbnail: '',
-        linkTo: {}
+        linkTo: {},
+        children: null
     };
 
     renderProductPrice() {
@@ -169,7 +171,7 @@ export default class ProductCard extends PureComponent {
     }
 
     render() {
-        const { product: { sku } } = this.props;
+        const { product: { sku }, children } = this.props;
 
         return (
             <li
@@ -189,6 +191,10 @@ export default class ProductCard extends PureComponent {
                             { this.renderVisualConfigurableOptions() }
                             { this.renderMainDetails() }
                             { this.renderAdditionalProductDetails() }
+
+                            <div block="ProductCard" elem="AdditionalContent">
+                                { children }
+                            </div>
                         </div>
                     </>
                 )) }

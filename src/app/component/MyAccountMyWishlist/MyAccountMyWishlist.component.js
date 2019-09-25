@@ -39,11 +39,20 @@ export default class MyAccountMyWishlist extends PureComponent {
 
     renderProduct = ([sku, product]) => {
         const { getParameters } = this.props;
-        const { type_id } = product;
+        const { type_id, quantity, description } = product;
 
         const parameters = type_id !== 'configurable' ? {} : getParameters(sku, product);
 
-        return <ProductCard product={ product } selectedFilters={ parameters } key={ sku } />;
+        return (
+            <ProductCard
+              product={ product }
+              selectedFilters={ parameters }
+              key={ sku }
+            >
+                <h1>{ quantity }</h1>
+                <h2>{ description }</h2>
+            </ProductCard>
+        );
     };
 
     renderProducts() {
