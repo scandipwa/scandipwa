@@ -165,7 +165,7 @@ export default class CartItem extends PureComponent {
 
     renderImage() {
         const { product: { name }, thumbnail } = this.props;
-        const fullImageUrl = `//${window.location.hostname}${thumbnail}`;
+        const fullImageUrl = `//${window.location.hostname}${thumbnail || ''}`;
 
         return (
             <>
