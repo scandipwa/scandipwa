@@ -34,13 +34,15 @@ export default class ProductCard extends PureComponent {
             value: PropTypes.string
         })).isRequired,
         getAttribute: PropTypes.func.isRequired,
-        children: PropTypes.element
+        children: PropTypes.element,
+        mix: PropTypes.shape({})
     };
 
     static defaultProps = {
         thumbnail: '',
         linkTo: {},
-        children: null
+        children: null,
+        mix: {}
     };
 
     renderProductPrice() {
@@ -171,13 +173,14 @@ export default class ProductCard extends PureComponent {
     }
 
     render() {
-        const { product: { sku }, children } = this.props;
+        const { product: { sku }, children, mix } = this.props;
 
         return (
             <li
               block="ProductCard"
               itemScope
               itemType={ sku && 'https://schema.org/Product' }
+              mix={ mix }
             >
                 <meta itemProp="sku" content={ sku } />
                 { this.renderCardWrapper((
@@ -191,13 +194,12 @@ export default class ProductCard extends PureComponent {
                             { this.renderVisualConfigurableOptions() }
                             { this.renderMainDetails() }
                             { this.renderAdditionalProductDetails() }
-
-                            <div block="ProductCard" elem="AdditionalContent">
-                                { children }
-                            </div>
                         </div>
                     </>
                 )) }
+                <div block="ProductCard" elem="AdditionalContent">
+                    { children }
+                </div>
             </li>
         );
     }

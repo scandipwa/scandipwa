@@ -9,4 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default } from './MyAccountWishlist.container';
+.WishlistItem {
+    .Button {
+        margin-top: 5px;
+    }
+}

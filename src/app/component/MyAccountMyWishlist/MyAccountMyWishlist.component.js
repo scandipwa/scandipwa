@@ -13,6 +13,7 @@ import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { ProductType } from 'Type/ProductList';
 import ProductCard from 'Component/ProductCard';
+import WishlistItem from 'Component/WishlistItem';
 import './MyAccountMyWishlist.style';
 
 export default class MyAccountMyWishlist extends PureComponent {
@@ -39,19 +40,14 @@ export default class MyAccountMyWishlist extends PureComponent {
 
     renderProduct = ([sku, product]) => {
         const { getParameters } = this.props;
-        const { type_id, quantity, description } = product;
-
-        const parameters = type_id !== 'configurable' ? {} : getParameters(sku, product);
 
         return (
-            <ProductCard
-              product={ product }
-              selectedFilters={ parameters }
+            <WishlistItem
               key={ sku }
-            >
-                <h1>{ quantity }</h1>
-                <h2>{ description }</h2>
-            </ProductCard>
+              sku={ sku }
+              product={ product }
+              getParameters={ getParameters }
+            />
         );
     };
 
@@ -90,7 +86,7 @@ export default class MyAccountMyWishlist extends PureComponent {
     }
 
     renderPlaceholders() {
-        return Array.from({ length: 4 }, (_, i) => <ProductCard key={ i } />);
+        return Array.from({ length: 3 }, (_, i) => <ProductCard key={ i } />);
     }
 
     renderContent() {

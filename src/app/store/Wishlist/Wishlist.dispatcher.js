@@ -43,7 +43,8 @@ export class WishlistDispatcher {
                             sku,
                             product,
                             id: item_id,
-                            qty: quantity
+                            qty: quantity,
+                            description: item_description
                         } = wishlistItem;
 
                         return {
@@ -51,7 +52,8 @@ export class WishlistDispatcher {
                             [sku]: {
                                 ...product,
                                 item_id,
-                                quantity
+                                quantity,
+                                item_description
                             }
                         };
                     }, {});
