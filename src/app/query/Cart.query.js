@@ -40,9 +40,7 @@ class CartQuery {
         return mutation;
     }
 
-    getRemoveCartItemMutation(product, quoteId) {
-        const { item_id } = product;
-
+    getRemoveCartItemMutation(item_id, quoteId) {
         const mutation = new Field('removeCartItem')
             .addArgument('item_id', 'Int!', item_id);
 

@@ -10,6 +10,8 @@
  */
 
 import PropTypes from 'prop-types';
+import { ProductType } from './ProductList';
+
 
 export const PageType = PropTypes.shape({
     title: PropTypes.string,
@@ -30,4 +32,17 @@ export const TotalsType = PropTypes.shape({
     subTotalPrice: PropTypes.string,
     taxPrice: PropTypes.string,
     grandTotalPrice: PropTypes.string
+});
+
+export const CartItemType = PropTypes.shape({
+    discount_amount: PropTypes.number,
+    discount_percent: PropTypes.number,
+    item_id: PropTypes.number,
+    price: PropTypes.number,
+    product: ProductType,
+    qty: PropTypes.number,
+    row_total: PropTypes.number,
+    sku: PropTypes.string,
+    tax_amount: PropTypes.number,
+    tax_percent: PropTypes.number
 });

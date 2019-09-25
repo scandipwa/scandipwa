@@ -10,31 +10,39 @@
  */
 
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import Html from 'Component/Html';
 import { TotalsType } from 'Type/MiniCart';
-import { ProductType } from 'Type/ProductList';
 import { formatCurrency } from 'Util/Price';
-import ProductPrice from 'Component/ProductPrice';
 import Image from 'Component/Image';
+import CartItemPrice from 'Component/CartItemPrice';
 import './CheckoutOrderSummary.style';
 
 /**
- *
+ * Checkout Order Summary component
  */
 class CheckoutOrderSummary extends Component {
-    getDataSource(item) {
-        const { configurableVariantIndex, variants } = item;
+    /**
+     * @param {*} product
+     * @param {*} item
+     */
+    getSourceProduct(product, item) {
+        const { type_id: type, variants } = product;
+        if (type !== 'configurable') return product;
+        const { sku: itemSku } = item;
+        const variantIndex = [].findIndex.call(
+            variants,
+            variant => itemSku === variant.sku
+        );
 
-        if (typeof configurableVariantIndex === 'number' && variants) {
-            return variants[configurableVariantIndex] || {};
-        }
+        if (variantIndex >= 0) return variants[variantIndex];
 
-        return item;
+        return null;
     }
 
     /**
-     * Render price line
+     * @param {*} price
+     * @param {*} name
+     * @param {*} mods
      */
     renderPriceLine(price, name, mods) {
         if (!price) return null;
@@ -51,21 +59,21 @@ class CheckoutOrderSummary extends Component {
     }
 
     /**
-     * Render order summury cart item
+     * Render order summary cart item
      * @param key
      * @param item
      * @returns {*}
      */
-    renderItem(key, item) {
+    renderItem(key, item, currency_code) {
+        const { product, row_total, qty: quantity } = item;
+        const sourceProduct = this.getSourceProduct(product, item);
+        if (!sourceProduct) return null;
         const {
             thumbnail: { path } = {},
             short_description: { html } = {},
             manufacturer,
-            name,
-            quantity,
-            price
-        } = this.getDataSource(item);
-
+            name
+        } = sourceProduct;
         return (
             <li key={ key } block="CheckoutOrderSummary" elem="CartItem">
                 <div
@@ -88,7 +96,7 @@ class CheckoutOrderSummary extends Component {
                   elem="Details"
                 >
                     <div block="CheckoutOrderSummary" elem="Price">
-                        <ProductPrice price={ price } mods={ { type: 'regular' } } />
+                        <CartItemPrice row_total={ row_total } currency_code={ currency_code } />
                     </div>
                     <p block="CheckoutOrderSummary" elem="Qty">
                         <strong>{ __('Qty:') }</strong>
@@ -106,15 +114,12 @@ class CheckoutOrderSummary extends Component {
     render() {
         const {
             totals: {
-                grand_total, subtotal, tax_amount, items, shipping_amount
-            },
-            products
+                grand_total, subtotal, tax_amount, items, shipping_amount, base_currency_code, items_qty
+            }
         } = this.props;
 
         // eslint-disable-next-line no-param-reassign, no-return-assign
         const itemsTax = items ? items.reduce((sum, { tax_amount }) => sum += tax_amount, tax_amount) : 0;
-
-        const productCount = Object.keys(products).length;
 
         return (
             <div block="CheckoutOrderSummary" aria-label="Order Summary">
@@ -129,10 +134,9 @@ class CheckoutOrderSummary extends Component {
                 </div>
 
                 <div block="CheckoutOrderSummary" elem="OrderItems">
-                    <h3>{ __('%s Items In Cart', productCount) }</h3>
+                    <h3>{ __('%s Items In Cart', items_qty) }</h3>
                     <ul block="CheckoutOrderSummary" elem="CartItemList">
-                        { Object.keys(products)
-                            .map(key => this.renderItem(key, products[key])) }
+                        { [].map.call(items, (item, index) => this.renderItem(index, item, base_currency_code)) }
                     </ul>
                 </div>
             </div>
@@ -141,13 +145,11 @@ class CheckoutOrderSummary extends Component {
 }
 
 CheckoutOrderSummary.propTypes = {
-    totals: TotalsType,
-    products: PropTypes.objectOf(ProductType)
+    totals: TotalsType
 };
 
 CheckoutOrderSummary.defaultProps = {
-    totals: {},
-    products: {}
+    totals: {}
 };
 
 export default CheckoutOrderSummary;

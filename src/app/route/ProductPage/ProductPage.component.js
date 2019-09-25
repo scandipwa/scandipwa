@@ -28,7 +28,7 @@ import {
     getUrlParam,
     convertQueryStringToKeyValuePairs,
     updateQueryParamWithoutHistory,
-    convertKeyValueObjectToQueryString
+    objectToUri
 } from 'Util/Url';
 import './ProductPage.style';
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
@@ -136,7 +136,7 @@ class ProductPage extends Component {
 
     getLink(key, value) {
         const { location: { search, pathname } } = this.props;
-        const query = convertKeyValueObjectToQueryString({
+        const query = objectToUri({
             ...convertQueryStringToKeyValuePairs(search),
             [key]: value
         });
@@ -233,7 +233,7 @@ class ProductPage extends Component {
         const { media_gallery_entries } = dataSource;
         const areDetailsLoaded = dataSource === product;
         const thumbnail = this.getThumbnail(dataSource);
-        const mediaGallery = variants && areDetailsLoaded
+        const mediaGallery = (variants && variants.length && areDetailsLoaded)
             ? this.getConfigurableVariantMediaLibrary()
             : media_gallery_entries;
 

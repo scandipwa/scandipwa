@@ -19,6 +19,7 @@ import CheckoutShippingStep from 'Component/CheckoutShippingStep';
 import CheckoutPreviewAndPaymentsStep from 'Component/CheckoutPreviewAndPaymentsStep';
 import { getUrlParam } from 'Util/Url';
 import { customerType } from 'Type/Account';
+import { TotalsType } from 'Type/MiniCart';
 import './CheckoutPage.style';
 
 export const CHECKOUT_BASE_URL = 'checkout';
@@ -308,16 +309,25 @@ class CheckoutPage extends Component {
     }
 
     /**
-     * render function calls approperiate renderer based on step
+     * render function calls appropriate renderer based on step
      * @returns {*}
      */
     render() {
         const {
-            checkoutStep, methodCode, showSummary, paymentTotals
+            checkoutStep,
+            methodCode,
+            showSummary,
+            paymentTotals
         } = this.state;
-        const { products, totals } = this.props;
+
+        const { totals: cartTotals } = this.props;
+
         const stepRenderFunction = this.renderMap[checkoutStep];
         const subHeading = this.subHeadingMap[checkoutStep];
+
+        const { items } = cartTotals;
+        const isPaymentTotalsAvailable = Object.keys(paymentTotals).length;
+        const totals = isPaymentTotalsAvailable ? { ...paymentTotals, items } : cartTotals;
 
         return (
             <main block="CheckoutPage">
@@ -336,8 +346,7 @@ class CheckoutPage extends Component {
                     { stepRenderFunction() }
                     { showSummary && (
                         <CheckoutOrderSummary
-                          totals={ Object.keys(paymentTotals).length ? paymentTotals : totals }
-                          products={ products }
+                          totals={ totals }
                           shippingMethod={ methodCode }
                         />
                     ) }
@@ -349,6 +358,7 @@ class CheckoutPage extends Component {
 
 CheckoutPage.propTypes = {
     // isHeaderAndFooterVisible: PropTypes.bool.isRequired,
+    totals: TotalsType.isRequired,
     updateToggleHeaderAndFooter: PropTypes.func.isRequired,
     savePaymentInformationAndPlaceOrder: PropTypes.func.isRequired,
     saveAddressInformation: PropTypes.func.isRequired,

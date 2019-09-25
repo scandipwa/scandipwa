@@ -9,13 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { connect } from 'react-redux';
-import MiniCart from './MiniCart.component';
+import CartItemPrice from './CartItemPrice.component';
 
-const mapStateToProps = state => ({
-    totals: state.CartReducer.cartTotals
-});
-
-const MiniCartContainer = connect(mapStateToProps)(MiniCart);
-
-export default MiniCartContainer;
+export default CartItemPrice;

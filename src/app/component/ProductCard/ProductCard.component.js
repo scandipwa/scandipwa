@@ -23,7 +23,7 @@ import { getVariantsIndexes } from 'Util/Product';
 import { getReviewText } from 'Util/Review';
 import { getTabIndex } from 'Util/Link';
 import { HashLink } from 'react-router-hash-link';
-import { convertKeyValueObjectToQueryString } from 'Util/Url';
+import { objectToUri } from 'Util/Url';
 import './ProductCard.style';
 
 /**
@@ -65,7 +65,7 @@ class ProductCard extends Component {
         return {
             pathname: `/product/${ url_key }`,
             state: { product },
-            search: convertKeyValueObjectToQueryString(parameters)
+            search: objectToUri(parameters)
         };
     }
 

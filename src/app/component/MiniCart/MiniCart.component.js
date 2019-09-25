@@ -57,7 +57,7 @@ class MiniCart extends Component {
         );
     }
 
-    renderCartData(products) {
+    renderCartData() {
         const { totals: { base_currency_code, subtotal } } = this.props;
 
         return (
@@ -65,7 +65,7 @@ class MiniCart extends Component {
                 <div block="MiniCart" elem="Promo" aria-label="Minicart Promo">
                     { __('Add <strong> $45 </strong> to your cart and <strong> get free shipping!</strong>') }
                 </div>
-                { this.renderItemsList(products) }
+                { this.renderItemsList() }
                 <li block="MiniCart" elem="Subtotal" aria-label={ __('MiniCart Subtotal') }>
                     <span>{ __('Save $14.00 vs Retail') }</span>
                     <div>
@@ -91,34 +91,36 @@ class MiniCart extends Component {
         );
     }
 
-    renderCartDropdown(products) {
+    renderCartDropdown() {
+        const { totals: { items_qty } } = this.props;
         return (
             <ul block="MiniCart" elem="Dropdown" aria-label={ __('MiniCart Dropdown') }>
-                { Object.entries(products).length !== 0
-                    ? this.renderCartData(products)
+                { items_qty
+                    ? this.renderCartData()
                     : this.renderEmptyMessage(__('You have no items in your shopping cart.', 1))
                 }
             </ul>
         );
     }
 
-    renderItemsList(items) {
+    renderItemsList() {
+        const { totals: { items, base_currency_code } } = this.props;
         return Object.keys(items).map(key => (
             <CartItem
               key={ key }
-              product={ items[key] }
+              item={ items[key] }
+              currency={ base_currency_code }
               onItemClick={ this.handleItemClick }
             />
         ));
     }
 
     render() {
-        const { products, totals: { subtotal, items_qty } } = this.props;
+        const { totals: { items_qty } } = this.props;
         const { isActive } = this.state;
-        const empty = !Object.keys(products).length;
 
         return (
-            <div block="MiniCart" mods={ { empty } }>
+            <div block="MiniCart" mods={ { items_qty } }>
                 <Link
                   onClick={ this.handleItemClick }
                   onMouseEnter={ () => this.setState({ isActive: true }) }
@@ -140,19 +142,14 @@ class MiniCart extends Component {
                         </div>
                     </div>
                 </Link>
-                { isActive && this.renderCartDropdown(products, subtotal) }
+                { isActive && this.renderCartDropdown() }
             </div>
         );
     }
 }
 
 MiniCart.propTypes = {
-    products: PropTypes.objectOf(ProductType),
     totals: TotalsType.isRequired
-};
-
-MiniCart.defaultProps = {
-    products: {}
 };
 
 export default MiniCart;

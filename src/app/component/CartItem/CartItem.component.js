@@ -14,11 +14,10 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import Image from 'Component/Image';
-import ProductPrice from 'Component/ProductPrice';
 import Field from 'Component/Field';
 import Loader from 'Component/Loader';
-import { ProductType } from 'Type/ProductList';
-import { convertKeyValueObjectToQueryString } from 'Util/Url';
+import CartItemPrice from 'Component/CartItemPrice';
+import { CartItemType } from 'Type/MiniCart';
 import './CartItem.style';
 
 /**
@@ -26,88 +25,26 @@ import './CartItem.style';
  * @class CartItem
  */
 class CartItem extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            isLoading: false
-        };
-    }
-
     /**
-     * Get link to product page
-     * @param url_key Url to product
-     * @return {{pathname: Srting, state Object}} Pathname and product state
-     */
-    getProductLinkTo(url_key) {
-        if (!url_key) return undefined;
-        const {
-            product,
-            product: {
-                type_id,
-                configurable_options,
-                configurableVariantIndex,
-                parent,
-                variants = []
-            }
-        } = this.props;
-
-        if (type_id === 'simple') return { pathname: `/product/${ url_key }` };
-
-        const { attributes } = variants[configurableVariantIndex];
-
-        const parameters = Object.entries(attributes).reduce(
-            (parameters, [code, { attribute_value }]) => {
-                if (Object.keys(configurable_options).includes(code)) return { ...parameters, [code]: attribute_value };
-                return parameters;
-            }, {}
-        );
-
-        return {
-            pathname: `/product/${ url_key }`,
-            state: { product: parent || product },
-            search: convertKeyValueObjectToQueryString(parameters)
-        };
-    }
-
-    /**
-     * Get data of a product
-     * @return {Object} Product data
-     */
-    getDataSource() {
-        const { product, product: { configurableVariantIndex } } = this.props;
-
-        if (typeof configurableVariantIndex === 'number') {
-            const { variants } = product;
-
-            return { ...product, ...variants[configurableVariantIndex].product };
-        }
-
-        return product;
-    }
-
-    /**
-     * Handle item quantity change. Check that value is <1
+     * Handle item quantity change. Check that value is >= 1
      * @param {Number} value new quantity
-     * @return {void}
+     * @returns {void}
      */
     handleChangeQuantity(value) {
-        const { addProduct, product, product: { quantity } } = this.props;
-        const newQuantity = quantity < value ? 1 : -1;
-        this.setState({ isLoading: true });
-        addProduct({ product, quantity: newQuantity }).then(
-            () => this.setState({ isLoading: false })
-        );
+        const { handleChangeQuantity } = this.props;
+        if (value < 1) {
+            this.handleRemoveItem();
+            return;
+        }
+        handleChangeQuantity(value);
     }
 
     /**
-     * Removes product from the cart
-     * @return {void}
+     * @returns {void}
      */
     handleRemoveItem() {
-        const { removeProduct, product } = this.props;
-        this.setState({ isLoading: true });
-        removeProduct({ product });
+        const { handleRemoveItem } = this.props;
+        handleRemoveItem();
     }
 
     /**
@@ -121,22 +58,36 @@ class CartItem extends Component {
         onItemClick();
     }
 
-    renderItemTitle(url_key, name, brand) {
+    renderAdditionalAttributes() {
+        const { item: { product: { attributes } } } = this.props;
+        if (!Object.hasOwnProperty.call(attributes, 'brand')) {
+            return null;
+        }
+
+        return <span>{ attributes.brand.attribute_value }</span>;
+    }
+
+    renderItemTitle() {
+        const { item: { product: { name } }, getProductLinkTo } = this.props;
         return (
             <div block="CartItem" elem="Title">
                 <Link
                   onClick={ () => this.handleItemClick() }
                     // TODO: replace from configuration file
-                  to={ this.getProductLinkTo(url_key) }
+                  to={ getProductLinkTo() }
                 >
-                    { brand && <span>{ brand }</span> }
+                    { this.renderAdditionalAttributes() }
                     <p><TextPlaceholder content={ name } /></p>
                 </Link>
             </div>
         );
     }
 
-    renderItemDetails(quantity, price) {
+    /**
+     * @returns {void}
+     */
+    renderItemDetails() {
+        const { currency, item: { qty, row_total } } = this.props;
         return (
             <div
               block="CartItem"
@@ -147,26 +98,20 @@ class CartItem extends Component {
                   elem="QtySelector"
                   id="QtySelector"
                   type="number"
-                  value={ quantity }
-                  onChange={ quantity => this.handleChangeQuantity(quantity) }
+                  value={ qty }
+                  onChange={ qty => this.handleChangeQuantity(qty) }
                 />
                 <div block="CartItem" elem="Price">
-                    <ProductPrice price={ price } mods={ { type: 'regular' } } />
+                    <CartItemPrice row_total={ row_total } currency_code={ currency } />
                 </div>
             </div>
         );
     }
 
     render() {
-        const { isLoading } = this.state;
-        const {
-            thumbnail: { path: thumbnail },
-            url_key,
-            name,
-            quantity,
-            price,
-            brand
-        } = this.getDataSource();
+        const { isLoading, getProductLinkTo, getCurrentProduct } = this.props;
+        const product = getCurrentProduct();
+        const { thumbnail: { path: thumbnail } } = product;
 
         return (
             <li block="CartItem" aria-label="Cart Item">
@@ -175,8 +120,8 @@ class CartItem extends Component {
                   block="CartItem"
                   elem="Thumbnail"
                 >
-                    <Link to={ this.getProductLinkTo(url_key) } onClick={ () => this.handleItemClick }>
-                        <Image src={ `/media/catalog/product${thumbnail}` } alt={ __('Cart Thumbnail') } />
+                    <Link to={ getProductLinkTo() } onClick={ () => this.handleItemClick }>
+                        <Image src={ `/media/catalog/product${ thumbnail }` } alt={ __('Cart Thumbnail') } />
                     </Link>
                 </div>
                 <div
@@ -184,8 +129,8 @@ class CartItem extends Component {
                   elem="Info"
                   aria-label={ __('Cart Info') }
                 >
-                    { url_key && this.renderItemTitle(url_key, name, brand || '') }
-                    { quantity && this.renderItemDetails(quantity, price) }
+                    { this.renderItemTitle() }
+                    { this.renderItemDetails() }
                 </div>
                 <button
                   block="CartItem"
@@ -200,10 +145,14 @@ class CartItem extends Component {
 }
 
 CartItem.propTypes = {
-    product: ProductType.isRequired,
-    addProduct: PropTypes.func.isRequired,
-    removeProduct: PropTypes.func.isRequired,
-    onItemClick: PropTypes.func
+    item: CartItemType.isRequired,
+    handleChangeQuantity: PropTypes.func.isRequired,
+    handleRemoveItem: PropTypes.func.isRequired,
+    getProductLinkTo: PropTypes.func.isRequired,
+    getCurrentProduct: PropTypes.func.isRequired,
+    onItemClick: PropTypes.func,
+    currency: PropTypes.string.isRequired,
+    isLoading: PropTypes.bool.isRequired
 };
 
 CartItem.defaultProps = {
