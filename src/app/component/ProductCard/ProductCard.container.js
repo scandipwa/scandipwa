@@ -86,17 +86,19 @@ export class ProductCardContainer extends PureComponent {
         return { indexes, index, parameters };
     }
 
+    _isThumbnailAvailable(path) {
+        return path && path !== 'no_selection';
+    }
+
     _getThumbnail() {
-        const productOrVariant = this._getProductOrVariant();
-        const { thumbnail: { path: productOrVariantPath = '' } = {} } = productOrVariant;
+        const product = this._getProductOrVariant();
+        const { thumbnail: { path } = {} } = product;
+        if (this._isThumbnailAvailable(path)) return path;
+        // If thumbnail is, missing we try to get image from parent
+        const { product: { thumbnail: { path: parentPath } = {} } } = this.props;
+        if (this._isThumbnailAvailable(parentPath)) return parentPath;
 
-        // If thumbnail is missing, magento returns "no_selection"
-        if (productOrVariantPath !== 'no_selection') return productOrVariantPath;
-
-        // If thumbnail is, missing we try to get image from product, because it may have beed a variant
-        const { product: { thumbnail: { path: productPath = '' } = {} } } = this.props;
-
-        return productPath;
+        return '';
     }
 
     _getProductOrVariant() {
