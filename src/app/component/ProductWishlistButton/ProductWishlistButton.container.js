@@ -102,8 +102,8 @@ export class ProductWishlistButtonContainer extends PureComponent {
 
         if (product === ERROR_CONFIGURABLE_NOT_PROVIDED) return false;
 
-        const { sku } = product;
-        return sku in productsInWishlist;
+        const { sku: productSku } = product;
+        return Object.values(productsInWishlist).findIndex(({ wishlist: { sku } }) => sku === productSku) >= 0;
     };
 
     _getProductVariant() {

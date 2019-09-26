@@ -26,6 +26,7 @@ export const mapStateToProps = state => ({
 export const mapDispatchToProps = dispatch => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     addProductToCart: options => CartDispatcher.addProductToCart(dispatch, options),
+    updateWishlistItem: options => WishlistDispatcher.updateWishlistItem(dispatch, options),
     removeFromWishlist: options => WishlistDispatcher.removeItemFromWishlist(dispatch, options)
 });
 
@@ -34,6 +35,7 @@ export class MyAccountMyWishlistContainer extends PureComponent {
         addProductToCart: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
         removeFromWishlist: PropTypes.func.isRequired,
+        updateWishlistItem: PropTypes.func.isRequired,
         wishlistItems: PropTypes.objectOf(ProductType).isRequired
     };
 
@@ -47,6 +49,8 @@ export class MyAccountMyWishlistContainer extends PureComponent {
         addAllToCart: this.addAllToCart,
         addItemToCart: this.addItemToCart,
         getParameters: this.getParameters,
+        changeQuantity: this.changeQuantity,
+        changeDescription: this.changeDescription,
         showErrorNotification: this.showErrorNotification,
         showSuccessNotification: this.showSuccessNotification
     });
@@ -78,10 +82,17 @@ export class MyAccountMyWishlistContainer extends PureComponent {
         return parameters;
     };
 
-    addItemToCart = (sku, item) => {
+    addItemToCart = (item) => {
         const { addProductToCart } = this.props;
+
         const {
-            item_id, type_id, variants, quantity
+            type_id,
+            variants,
+            wishlist: {
+                id,
+                sku,
+                quantity
+            }
         } = item;
 
         const configurableVariantIndex = this.getConfigurableVariantIndex(sku, variants);
@@ -92,33 +103,40 @@ export class MyAccountMyWishlistContainer extends PureComponent {
             }
             : item;
 
-        return addProductToCart({ product, quantity }).then(() => this.removeItem(item_id, sku));
+        return addProductToCart({ product, quantity }).then(() => this.removeItem(id));
     };
 
     addAllToCart = () => {
         const { wishlistItems } = this.props;
-
-        const promises = Object.entries(wishlistItems)
-            .map(([sku, item]) => this.addItemToCart(sku, item));
+        const promises = Object.values(wishlistItems).map(this.addItemToCart);
 
         return Promise.all(promises)
             .then(() => this.showSuccessNotification('Products added to cart'))
             .catch(() => this.showErrorNotification());
     };
 
+    changeQuantity = (item_id, quantity) => {
+        const { updateWishlistItem } = this.props;
+        updateWishlistItem({ item_id, quantity });
+    };
+
+    changeDescription = (item_id, description) => {
+        const { updateWishlistItem } = this.props;
+        updateWishlistItem({ item_id, description });
+    };
+
     removeAll = () => {
         const { wishlistItems } = this.props;
-        const promises = Object.entries(wishlistItems)
-            .map(([sku, { item_id }]) => this.removeItem(item_id, sku));
+        const promises = Object.keys(wishlistItems).map(this.removeItem);
 
         return Promise.all(promises)
             .then(() => this.showSuccessNotification('Wishlist cleared'))
             .catch(() => this.showErrorNotification());
     };
 
-    removeItem = (item_id, sku) => {
+    removeItem = (item_id) => {
         const { removeFromWishlist } = this.props;
-        return removeFromWishlist({ item_id, sku, noMessages: true });
+        return removeFromWishlist({ item_id, noMessages: true });
     };
 
     showSuccessNotification = (message) => {

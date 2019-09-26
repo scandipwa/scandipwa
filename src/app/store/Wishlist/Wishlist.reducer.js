@@ -14,7 +14,8 @@ import { getIndexedParameteredProducts } from 'Util/Product';
 import {
     REMOVE_ITEM_FROM_WISHLIST,
     UPDATE_ALL_PRODUCTS_IN_WISHLIST,
-    UPDATE_IS_LOADING_IN_WISHLIST
+    UPDATE_IS_LOADING_IN_WISHLIST,
+    UPDATE_ITEM_OPTIONS
 } from './Wishlist.action';
 
 export const PRODUCTS_IN_WISHLIST = 'wishlist_products';
@@ -24,9 +25,10 @@ export const initialState = {
     isLoading: true
 };
 
-const removeItemFromWishlist = ({ sku }, { productsInWishlist: initialProducts }) => {
-    const deleteProperty = (key, { [key]: _, ...newObj }) => newObj;
-    const productsInWishlist = deleteProperty(sku, initialProducts) || {};
+const deleteProperty = (key, { [key]: _, ...newObj }) => newObj;
+
+const removeItemFromWishlist = ({ item_id }, { productsInWishlist: initialProducts }) => {
+    const productsInWishlist = deleteProperty(item_id, initialProducts) || {};
 
     BrowserDatabase.setItem(
         productsInWishlist,
@@ -49,8 +51,13 @@ const updateAllProductsInWishlist = (action) => {
     return { productsInWishlist: products, isLoading: false };
 };
 
+const updateItemOptions = (options) => {
+    // TODO: Implement method
+    // const { item_id } =
+};
+
 const WishlistReducer = (state = initialState, action) => {
-    const { type } = action;
+    const { type, options } = action;
 
     switch (type) {
     case REMOVE_ITEM_FROM_WISHLIST:
@@ -65,6 +72,12 @@ const WishlistReducer = (state = initialState, action) => {
             ...state,
             isLoading: false,
             ...updateAllProductsInWishlist(action)
+        };
+
+    case UPDATE_ITEM_OPTIONS:
+        return {
+            ...state,
+            ...updateItemOptions(options)
         };
 
     case UPDATE_IS_LOADING_IN_WISHLIST:

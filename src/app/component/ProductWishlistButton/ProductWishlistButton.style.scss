@@ -9,11 +9,18 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+:root {
+    --wishlist-text-color: #{$black};
+    --wishlist-text-disabled-color: #{$dusty-grey};
+}
+
 .ProductWishlistButton {
-    &-PlusHeart,
-    &-MinusHeart {
+    &-AddToWishlist,
+    &-RemoveFromWishlist {
+        color: var(--wishlist-text-color);
+
         &_isDisabled {
-            fill: #999;
+            color: var(--wishlist-text-disabled-color);
         }
     }
 }

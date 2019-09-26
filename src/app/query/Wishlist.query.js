@@ -29,6 +29,14 @@ export class Wishlist {
             .addArgument('itemId', 'String!', item_id);
     }
 
+    getUpdateWishlistItemMutation(itemId, { description, quantity }) {
+        return new Field('updateWishlistItem')
+            .addArgument('itemId', 'String!', itemId)
+            .addArgument('description', 'String', description)
+            .addArgument('quantity', 'Int', quantity)
+            .addFieldList(this._getItemsFields());
+    }
+
     _getWishlistFields() {
         return [
             'items_count',

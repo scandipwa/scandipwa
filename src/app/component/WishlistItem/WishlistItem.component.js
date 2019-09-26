@@ -19,7 +19,6 @@ import './WishlistItem.style';
 
 export default class WishlistItem extends PureComponent {
     static propTypes = {
-        sku: PropTypes.string.isRequired,
         product: ProductType.isRequired,
         getParameters: PropTypes.func.isRequired,
         addToCart: PropTypes.func,
@@ -41,50 +40,50 @@ export default class WishlistItem extends PureComponent {
 
     addToCart = () => {
         const {
-            sku,
             product,
             addToCart,
             showErrorNotification,
             showSuccessNotification
         } = this.props;
 
-        addToCart(sku, product)
+        addToCart(product)
             .then(() => showSuccessNotification('Product added to cart'))
             .catch(() => showErrorNotification());
     };
 
     removeFromWishlist = () => {
         const {
-            sku,
-            product: { item_id },
+            product: { wishlist: { id } },
             removeFromWishlist,
             showErrorNotification,
             showSuccessNotification
         } = this.props;
 
-        removeFromWishlist(item_id, sku)
+        removeFromWishlist(id)
             .then(() => showSuccessNotification('Product removed from wishlist'))
             .catch(() => showErrorNotification());
     };
 
     changeQuantity = (quantity) => {
-        const { product: { item_id }, sku } = this.props;
-        console.log(quantity, item_id, sku);
+        const { product: { wishlist: { id } }, changeQuantity } = this.props;
+        changeQuantity(id, quantity);
     };
 
     changeDescription = (description) => {
-        const { product: { item_id }, sku } = this.props;
-        console.log(description, item_id, sku);
+        const { product: { wishlsit: { id } }, changeDescription } = this.props;
+        changeDescription(id, description);
     };
 
     render() {
         const {
-            sku,
             product,
             product: {
                 type_id,
-                quantity,
-                item_description
+                wishlist: {
+                    sku,
+                    quantity,
+                    description
+                }
             },
             getParameters
         } = this.props;
@@ -102,7 +101,7 @@ export default class WishlistItem extends PureComponent {
                       id="description"
                       name="description"
                       type="text"
-                      value={ item_description }
+                      value={ description }
                       mix={ { block: 'MyAccountMyWishlist', elem: 'Description' } }
                       placeholder={ __('Add description') }
                       onChange={ this.changeDescription }
