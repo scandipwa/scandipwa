@@ -19,17 +19,26 @@ import './MyAccountMyWishlist.style';
 export default class MyAccountMyWishlist extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool,
+        removeAll: PropTypes.func,
+        removeItem: PropTypes.func,
         addAllToCart: PropTypes.func,
+        addItemToCart: PropTypes.func,
         isWishlistEmpty: PropTypes.bool,
-        removeAll: PropTypes.func.isRequired,
+        showErrorNotification: PropTypes.func,
+        showSuccessNotification: PropTypes.func,
         getParameters: PropTypes.func.isRequired,
         wishlistItems: PropTypes.objectOf(ProductType).isRequired
     };
 
     static defaultProps = {
         isLoading: false,
+        removeAll: () => {},
+        removeItem: () => {},
         isWishlistEmpty: false,
-        addAllToCart: () => {}
+        addAllToCart: () => {},
+        addItemToCart: () => {},
+        showErrorNotification: () => {},
+        showSuccessNotification: () => {}
     };
 
     renderNoProductsFound = () => (
@@ -39,14 +48,24 @@ export default class MyAccountMyWishlist extends PureComponent {
     );
 
     renderProduct = ([sku, product]) => {
-        const { getParameters } = this.props;
+        const {
+            removeItem,
+            addItemToCart,
+            getParameters,
+            showErrorNotification,
+            showSuccessNotification
+        } = this.props;
 
         return (
             <WishlistItem
               key={ sku }
               sku={ sku }
               product={ product }
+              addToCart={ addItemToCart }
               getParameters={ getParameters }
+              removeFromWishlist={ removeItem }
+              showErrorNotification={ showErrorNotification }
+              showSuccessNotification={ showSuccessNotification }
             />
         );
     };

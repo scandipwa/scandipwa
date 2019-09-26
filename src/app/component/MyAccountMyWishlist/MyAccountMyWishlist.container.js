@@ -43,8 +43,12 @@ export class MyAccountMyWishlistContainer extends PureComponent {
 
     containerFunctions = () => ({
         removeAll: this.removeAll,
+        removeItem: this.removeItem,
         addAllToCart: this.addAllToCart,
-        getParameters: this.getParameters
+        addItemToCart: this.addItemToCart,
+        getParameters: this.getParameters,
+        showErrorNotification: this.showErrorNotification,
+        showSuccessNotification: this.showSuccessNotification
     });
 
     getIsWishlistEmpty = () => {
@@ -97,7 +101,7 @@ export class MyAccountMyWishlistContainer extends PureComponent {
         const promises = Object.entries(wishlistItems)
             .map(([sku, item]) => this.addItemToCart(sku, item));
 
-        Promise.all(promises)
+        return Promise.all(promises)
             .then(() => this.showSuccessNotification('Products added to cart'))
             .catch(() => this.showErrorNotification());
     };
@@ -107,24 +111,24 @@ export class MyAccountMyWishlistContainer extends PureComponent {
         const promises = Object.entries(wishlistItems)
             .map(([sku, { item_id }]) => this.removeItem(item_id, sku));
 
-        Promise.all(promises)
+        return Promise.all(promises)
             .then(() => this.showSuccessNotification('Wishlist cleared'))
             .catch(() => this.showErrorNotification());
     };
 
     removeItem = (item_id, sku) => {
         const { removeFromWishlist } = this.props;
-        removeFromWishlist({ item_id, sku, noMessages: true });
+        return removeFromWishlist({ item_id, sku, noMessages: true });
     };
 
     showSuccessNotification = (message) => {
         const { showNotification } = this.props;
-        showNotification('success', message);
+        return showNotification('success', message);
     };
 
     showErrorNotification = (message = 'Something went wrong') => {
         const { showNotification } = this.props;
-        showNotification('error', message);
+        return showNotification('error', message);
     };
 
     render() {
