@@ -86,15 +86,20 @@ export default class CartPage extends Component {
 
     renderTotals() {
         const {
-            products,
             totals: {
                 grand_total = 0,
                 subtotal = 0,
-                tax_amount = 0
+                tax_amount = 0,
+                items = []
             }
         } = this.props;
-        const isDisabled = !Object.keys(products).length;
-        const props = isDisabled ? { onClick: e => e.preventDefault(), disabled: true } : {};
+
+        const props = !items.length
+            ? {
+                onClick: e => e.preventDefault(),
+                disabled: true
+            }
+            : {};
 
         return (
             <article block="CartPage" elem="Summary">
