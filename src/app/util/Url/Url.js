@@ -184,7 +184,7 @@ const clearQueriesFromUrl = (history) => {
  * @param {Object} keyValuePairs object with key value pairs
  * @return {String} Converted query string
  */
-const convertKeyValueObjectToQueryString = (keyValueObject = {}) => {
+const objectToUri = (keyValueObject = {}) => {
     const paramString = Object.entries(keyValueObject).sort()
         .reduce((acc, [key, value]) => `${acc}&${key}=${value}`, '')
         .replace('&', '');
@@ -201,5 +201,5 @@ export {
     updateQueryParamWithoutHistory,
     removeQueryParamWithoutHistory,
     convertQueryStringToKeyValuePairs,
-    convertKeyValueObjectToQueryString
+    objectToUri
 };

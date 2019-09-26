@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 import { PureComponent } from 'react';
 import { ProductType } from 'Type/ProductList';
 import { CartDispatcher } from 'Store/Cart';
-import { convertKeyValueObjectToQueryString } from 'Util/Url';
+import { objectToUri } from 'Util/Url';
 
 import CartItem from './CartItem.component';
 
@@ -96,7 +96,7 @@ export class CartItemContainer extends PureComponent {
         return {
             pathname: `/product/${ url_key }`,
             state: { product: parent || product },
-            search: convertKeyValueObjectToQueryString(parameters)
+            search: objectToUri(parameters)
         };
     }
 

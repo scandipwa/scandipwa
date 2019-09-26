@@ -24,7 +24,7 @@ import {
     convertQueryStringToKeyValuePairs,
     updateQueryParamWithoutHistory,
     removeQueryParamWithoutHistory,
-    convertKeyValueObjectToQueryString
+    objectToUri
 } from 'Util/Url';
 
 import { ProductType } from 'Type/ProductList';
@@ -126,7 +126,7 @@ export class ProductPageContainer extends PureComponent {
 
     getLink(key, value) {
         const { location: { search, pathname } } = this.props;
-        const query = convertKeyValueObjectToQueryString({
+        const query = objectToUri({
             ...convertQueryStringToKeyValuePairs(search),
             [key]: value
         });
