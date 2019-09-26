@@ -51,9 +51,27 @@ const updateAllProductsInWishlist = (action) => {
     return { productsInWishlist: products, isLoading: false };
 };
 
-const updateItemOptions = (options) => {
-    // TODO: Implement method
-    // const { item_id } =
+const updateItemOptions = (options, { productsInWishlist }) => {
+    const { item_id } = options;
+    const cleanedOptions = deleteProperty('item_id', options) || {};
+
+    const products = {
+        ...productsInWishlist,
+        [item_id]: {
+            ...productsInWishlist[item_id],
+            wishlist: {
+                ...productsInWishlist[item_id].wishlist,
+                ...cleanedOptions
+            }
+        }
+    };
+
+    BrowserDatabase.setItem(
+        products,
+        PRODUCTS_IN_WISHLIST
+    );
+
+    return { productsInWishlist: products };
 };
 
 const WishlistReducer = (state = initialState, action) => {
@@ -77,7 +95,7 @@ const WishlistReducer = (state = initialState, action) => {
     case UPDATE_ITEM_OPTIONS:
         return {
             ...state,
-            ...updateItemOptions(options)
+            ...updateItemOptions(options, state)
         };
 
     case UPDATE_IS_LOADING_IN_WISHLIST:

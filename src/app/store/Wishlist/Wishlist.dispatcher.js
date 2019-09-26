@@ -12,6 +12,7 @@
 import { fetchMutation, fetchQuery } from 'Util/Request';
 import {
     updateIsLoading,
+    updateItemOptions,
     removeItemFromWishlist,
     updateAllProductsInWishlist
 } from 'Store/Wishlist';

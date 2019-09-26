@@ -14,8 +14,11 @@ import PropTypes from 'prop-types';
 import Field from 'Component/Field';
 import ProductCard from 'Component/ProductCard';
 import { ProductType } from 'Type/ProductList';
+import { debounce } from 'Util/Request';
 
 import './WishlistItem.style';
+
+export const REQUEST_RATE = 1000;
 
 export default class WishlistItem extends PureComponent {
     static propTypes = {
@@ -37,6 +40,16 @@ export default class WishlistItem extends PureComponent {
         showSuccessNotification: () => {},
         showErrorNotification: () => {}
     };
+
+    changeQuantity = debounce((quantity) => {
+        const { product: { wishlist: { id } }, changeQuantity } = this.props;
+        changeQuantity(id, quantity);
+    }, REQUEST_RATE);
+
+    changeDescription = debounce((description) => {
+        const { product: { wishlist: { id } }, changeDescription } = this.props;
+        changeDescription(id, description);
+    }, REQUEST_RATE);
 
     addToCart = () => {
         const {
@@ -62,16 +75,6 @@ export default class WishlistItem extends PureComponent {
         removeFromWishlist(id)
             .then(() => showSuccessNotification('Product removed from wishlist'))
             .catch(() => showErrorNotification());
-    };
-
-    changeQuantity = (quantity) => {
-        const { product: { wishlist: { id } }, changeQuantity } = this.props;
-        changeQuantity(id, quantity);
-    };
-
-    changeDescription = (description) => {
-        const { product: { wishlsit: { id } }, changeDescription } = this.props;
-        changeDescription(id, description);
     };
 
     render() {
