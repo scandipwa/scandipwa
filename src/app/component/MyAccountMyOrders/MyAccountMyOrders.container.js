@@ -43,6 +43,18 @@ export class MyAccountMyOrdersContainer extends PureComponent {
         getFormattedDate: this.getFormattedDate.bind(this)
     };
 
+    getFormattedDate(rawDate) {
+        const date = new Date(rawDate.replace(/\s/, 'T'));
+        const RADIX = 10;
+
+        const addLeadingZero = value => (value < RADIX ? `0${value}` : value);
+
+        const day = addLeadingZero(date.getDate());
+        const month = addLeadingZero(date.getMonth() + 1);
+
+        return `${day}.${month}.${date.getFullYear()}`;
+    }
+
     containerProps = () => ({
         orderId: this._getOrderIdFromUrl()
     });
@@ -51,19 +63,6 @@ export class MyAccountMyOrdersContainer extends PureComponent {
         const { match: { params: { id = 1 } } } = this.props;
 
         return id;
-    }
-
-    // eslint-disable-next-line react/sort-comp
-    getFormattedDate(rawDate) {
-        const date = new Date(rawDate.replace(/\s/, 'T'));
-
-        // eslint-disable-next-line no-magic-numbers
-        const addLeadingZero = value => (value < 10 ? `0${value}` : value);
-
-        const day = addLeadingZero(date.getDate());
-        const month = addLeadingZero(date.getMonth() + 1);
-
-        return `${day}.${month}.${date.getFullYear()}`;
     }
 
     render() {

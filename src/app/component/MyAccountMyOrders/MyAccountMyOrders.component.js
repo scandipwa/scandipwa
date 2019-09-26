@@ -13,13 +13,13 @@ import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import './MyAccountMyOrders.style';
 
+import { MY_ACCOUNT_URL } from 'Route/MyAccount/MyAccount.container';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { Link } from 'react-router-dom';
 import { formatCurrency } from 'Util/Price';
 
 export const ORDERS_PATH = 'orders-list';
 
-const MY_ACCOUNT_PREFIX = 'my-account';
 const CREATED_AT = 'created_at';
 const GRAND_TOTAL = 'grand_total';
 const ID = 'increment_id';
@@ -31,10 +31,18 @@ class MyAccountMyOrders extends PureComponent {
         getOrderById: PropTypes.func.isRequired,
         getOrderList: PropTypes.func.isRequired,
         getFormattedDate: PropTypes.func.isRequired,
-        orderId: PropTypes.oneOfType([
-            PropTypes.string, PropTypes.number
-        ]).isRequired,
-        orderList: PropTypes.arrayOf(PropTypes.shape).isRequired,
+        orderId: PropTypes.string.isRequired,
+        orderList: PropTypes.shape({
+            items: PropTypes.arrayOf(
+                PropTypes.shape({
+                    base_order_info: PropTypes.object,
+                    order_id: PropTypes.string,
+                    order_products: PropTypes.object,
+                    payment_info: PropTypes.object,
+                    shipping_info: PropTypes.object
+                })
+            )
+        }).isRequired,
         isMobileTab: PropTypes.bool
     };
 
@@ -42,17 +50,13 @@ class MyAccountMyOrders extends PureComponent {
         isMobileTab: false
     };
 
-    static getTabLabel() {
-        return __('Order history');
-    }
-
-    static getTabPathname() {
-        return ORDERS_PATH;
-    }
-
-    static isVisible() {
-        return true;
-    }
+    tableHeadingRow = {
+        [ID]: `${__('Order')} №`,
+        [CREATED_AT]: __('Date'),
+        [STATUS_LABEL]: __('Status Label'),
+        [GRAND_TOTAL]: __('Order - Total'),
+        [SHOW_MORE]: __('Action')
+    };
 
     constructor(props) {
         super(props);
@@ -64,20 +68,15 @@ class MyAccountMyOrders extends PureComponent {
             'grand_total'
         ];
 
-        this.tableHeadingRow = {
-            [ID]: `${__('Order')} №`,
-            [CREATED_AT]: __('Date'),
-            [STATUS_LABEL]: __('Status Label'),
-            [GRAND_TOTAL]: __('Order - Total'),
-            [SHOW_MORE]: __('Action')
-        };
-
         this.renderOrderTableRow = this.renderOrderTableRow.bind(this);
     }
 
     componentDidMount() {
         const {
-            getOrderList, getOrderById, isMobileTab, orderId
+            getOrderList,
+            getOrderById,
+            isMobileTab,
+            orderId
         } = this.props;
 
         if (isMobileTab) return;
@@ -89,7 +88,7 @@ class MyAccountMyOrders extends PureComponent {
         }
     }
 
-    processOrderItem(key, value, is_b2b) {
+    processOrderItem(key, value) {
         if (!this.shownOrderValues.includes(key)) {
             return null;
         }
@@ -99,13 +98,13 @@ class MyAccountMyOrders extends PureComponent {
             const { getFormattedDate } = this.props;
             const formattedDate = getFormattedDate(value);
 
-            return this.renderOrderTableColumn(key, formattedDate, null, is_b2b);
+            return this.renderOrderTableColumn(key, formattedDate);
         case GRAND_TOTAL:
             const priceString = formatCurrency(value);
 
-            return this.renderOrderTableColumn(key, priceString, null, is_b2b);
+            return this.renderOrderTableColumn(key, priceString);
         default:
-            return this.renderOrderTableColumn(key, value, null, is_b2b);
+            return this.renderOrderTableColumn(key, value);
         }
     }
 
@@ -163,12 +162,7 @@ class MyAccountMyOrders extends PureComponent {
     renderOrderTableRow(order) {
         const {
             base_order_info: { id },
-            base_order_info,
-            shipping_info: {
-                shipping_address: {
-                    is_b2b
-                } = {}
-            } = {}
+            base_order_info
         } = order;
 
         const isRealOrder = Object.keys(base_order_info).length > 1;
@@ -185,7 +179,7 @@ class MyAccountMyOrders extends PureComponent {
                 >
                     { isRealOrder
                         ? Object.entries(base_order_info)
-                            .map(([key, value]) => this.processOrderItem(key, value, is_b2b))
+                            .map(([key, value]) => this.processOrderItem(key, value))
                         : this.shownOrderValues.map((_, i) => this.renderOrderTableColumn(i, null, 'heading')) }
                     { this.renderShowMoreLink(id, isRealOrder) }
                 </ul>
@@ -193,7 +187,7 @@ class MyAccountMyOrders extends PureComponent {
         );
     }
 
-    renderOrderTableColumn(key, value, type, isb2b) {
+    renderOrderTableColumn(key, value, type = null) {
         return (
             <li
               block="MyAccountMyOrders"
@@ -210,22 +204,8 @@ class MyAccountMyOrders extends PureComponent {
                         { value && `${this.tableHeadingRow[key]}: ` }
                     </span>
                     { value || <TextPlaceholder /> }
-                    { this.renderIsB2BNote(key, type, isb2b) }
                 </div>
             </li>
-        );
-    }
-
-    renderIsB2BNote(key, type, isb2b) {
-        if (!(key === ID && type !== 'heading') || !+isb2b) return null;
-
-        return (
-            <p
-              block="MyAccountMyOrders"
-              elem="B2BNote"
-            >
-                { __('* Order for representative') }
-            </p>
         );
     }
 
@@ -241,7 +221,7 @@ class MyAccountMyOrders extends PureComponent {
                         <Link
                           block="MyAccountMyOrders"
                           elem="More"
-                          to={ `/${MY_ACCOUNT_PREFIX}/${ORDERS_PATH}/${id}` }
+                          to={ `${MY_ACCOUNT_URL}/${ORDERS_PATH}/${id}` }
                         >
                             { __('Order more') }
                         </Link>

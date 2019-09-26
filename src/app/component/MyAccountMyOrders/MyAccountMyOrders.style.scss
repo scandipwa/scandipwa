@@ -88,24 +88,26 @@
             }
         }
 
-        &_type_status_label {
-            @include mobile {
-                order: 1;
-                padding-right: 7rem;
-            }
-        }
-
-        &_type_more {
-            .TextPlaceholder::after {
-                content: 'aaaaaa';
-                font-size: 14px;
-            }
-
-            @include mobile {
-                .TextPlaceholder {
-                    bottom: 23px;
+        &_type {
+            &_status_label {
+                @include mobile {
+                    order: 1;
+                    padding-right: 7rem;
                 }
             }
+
+            // &_more {
+            //     .TextPlaceholder{
+            //         @include mobile {
+            //             bottom: 23px;
+            //         }
+                    
+            //         &::after {
+            //             content: 'aaaaaa';
+            //             font-size: 14px;
+            //         }
+            //     }
+            // }
         }
     }
 
