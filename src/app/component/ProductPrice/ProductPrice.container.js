@@ -28,48 +28,10 @@ class ProductPriceContainer extends PureComponent {
         price: {}
     };
 
-    containerFunctions = {
-        calculateDiscountPercentage: this.calculateDiscountPercentage.bind(this),
-        calculateFinalPrice: this.calculateFinalPrice.bind(this),
-        roundPrice: this.roundPrice.bind(this)
-    };
-
-    /**
-     * Calculate discount percentage
-     * @param {Number} min minimum price
-     * @param {Number} reg regular price
-     * @return {Number} discount percentage
-     */
-    calculateDiscountPercentage(min, reg) {
-        const HUNDRED_PERCENT = 100;
-        return Math.floor(Math.round((1 - min / reg) * HUNDRED_PERCENT));
-    }
-
-    /**
-     * Calculate final price
-     * @param {Number} discount discount percentage
-     * @param {Number} min minimum price
-     * @param {Number} reg regular price
-     * @return {Number} final price
-     */
-    calculateFinalPrice(discount, min, reg) {
-        return discount ? min : reg;
-    }
-
-    /**
-     * Calculate final price
-     * @param {Number} price
-     * @return {Number} rounded price
-     */
-    roundPrice(price) {
-        return parseFloat(price).toFixed(2);
-    }
-
     render() {
         return (
             <ProductPrice
               { ...this.props }
-              { ...this.containerFunctions }
             />
         );
     }

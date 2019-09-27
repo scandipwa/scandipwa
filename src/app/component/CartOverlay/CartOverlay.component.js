@@ -34,14 +34,19 @@ export default class CartOverlay extends PureComponent {
     }
 
     renderCartItems() {
-        const { isEditing, totals: { items_qty, items = [] } } = this.props;
+        const { isEditing, totals: { items_qty, items = [], base_currency_code } } = this.props;
 
         if (!items_qty) return this.renderNoCartItems();
 
         return (
             <ul block="CartOverlay" elem="Items" aria-label="List of items in cart">
                 { Object.keys(items).map(key => (
-                    <CartItem key={ key } item={ items[key] } isEditing={ !isMobile.any() || isEditing } />
+                    <CartItem
+                      key={ key }
+                      item={ items[key] }
+                      currency_code={ base_currency_code }
+                      isEditing={ !isMobile.any() || isEditing }
+                    />
                 )) }
             </ul>
         );

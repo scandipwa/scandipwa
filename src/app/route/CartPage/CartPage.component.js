@@ -29,7 +29,7 @@ export default class CartPage extends Component {
     };
 
     renderCartItems() {
-        const { isEditing, totals: { items_qty, items } } = this.props;
+        const { isEditing, totals: { items_qty, items, base_currency_code } } = this.props;
 
         if (items_qty < 1) {
             return (
@@ -49,6 +49,7 @@ export default class CartPage extends Component {
                         <CartItem
                           key={ key }
                           item={ items[key] }
+                          currency_code={ base_currency_code }
                           isEditing={ !isMobile.any() || isEditing }
                           isLikeTable
                         />

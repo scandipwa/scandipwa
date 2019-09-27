@@ -10,11 +10,16 @@
  */
 
 import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import TextPlaceholder from 'Component/TextPlaceholder';
-import { formatCurrency } from 'Util/Price';
+import {
+    formatCurrency,
+    calculateDiscountPercentage,
+    calculateFinalPrice,
+    roundPrice
+} from 'Util/Price';
 import { PriceType } from 'Type/ProductList';
 import { MixType } from 'Type/Common';
+
 import './ProductPrice.style';
 
 /**
@@ -23,9 +28,6 @@ import './ProductPrice.style';
  */
 export default class ProductPrice extends PureComponent {
     static propTypes = {
-        roundPrice: PropTypes.func.isRequired,
-        calculateDiscountPercentage: PropTypes.func.isRequired,
-        calculateFinalPrice: PropTypes.func.isRequired,
         price: PriceType,
         mix: MixType
     };
@@ -38,10 +40,7 @@ export default class ProductPrice extends PureComponent {
     render() {
         const {
             price: { minimalPrice, regularPrice },
-            mix,
-            roundPrice,
-            calculateDiscountPercentage,
-            calculateFinalPrice
+            mix
         } = this.props;
 
         if (!minimalPrice || !regularPrice) {
