@@ -38,7 +38,7 @@ class ProductPriceContainer extends PureComponent {
      * Calculate discount percentage
      * @param {Number} min minimum price
      * @param {Number} reg regular price
-     * @return {Nmber} discount percentage
+     * @return {Number} discount percentage
      */
     calculateDiscountPercentage(min, reg) {
         const HUNDRED_PERCENT = 100;
@@ -50,7 +50,7 @@ class ProductPriceContainer extends PureComponent {
      * @param {Number} discount discount percentage
      * @param {Number} min minimum price
      * @param {Number} reg regular price
-     * @return {Nmber} final price
+     * @return {Number} final price
      */
     calculateFinalPrice(discount, min, reg) {
         return discount ? min : reg;
@@ -59,7 +59,7 @@ class ProductPriceContainer extends PureComponent {
     /**
      * Calculate final price
      * @param {Number} price
-     * @return {Nmber} rounded price
+     * @return {Number} rounded price
      */
     roundPrice(price) {
         return parseFloat(price).toFixed(2);
