@@ -20,7 +20,7 @@ import isMobile from 'Util/Mobile';
 import ExpandableContent from 'Component/ExpandableContent';
 
 import './CartPage.style';
-import { formatCurrency } from 'Util/Price';
+import { formatCurrency, roundPrice } from 'Util/Price';
 
 export default class CartPage extends Component {
     static propTypes = {
@@ -76,7 +76,7 @@ export default class CartPage extends Component {
 
     renderPriceLine(price) {
         const { totals: { base_currency_code } } = this.props;
-        return `${formatCurrency(base_currency_code)}${parseFloat(price).toFixed(2)}`;
+        return `${formatCurrency(base_currency_code)}${roundPrice(price)}`;
     }
 
     renderTotals() {
@@ -85,11 +85,11 @@ export default class CartPage extends Component {
                 grand_total = 0,
                 subtotal = 0,
                 tax_amount = 0,
-                items = []
+                items_qty
             }
         } = this.props;
 
-        const props = !items.length
+        const props = !items_qty
             ? {
                 onClick: e => e.preventDefault(),
                 disabled: true

@@ -27,6 +27,7 @@ export const mapDispatchToProps = dispatch => ({
 export class CartItemContainer extends PureComponent {
     static propTypes = {
         item: CartItemType.isRequired,
+        currency_code: PropTypes.string.isRequired,
         changeItemQty: PropTypes.func.isRequired,
         removeProduct: PropTypes.func.isRequired
     };
@@ -162,23 +163,13 @@ export class CartItemContainer extends PureComponent {
     }
 
     _getProductThumbnail() {
-        const {
-            item: {
-                product,
-                product: {
-                    type_id,
-                    variants = []
-                }
-            }
-        } = this.props;
+        const product = this.getCurrentProduct();
 
-        const productOrVariant = type_id === 'configurable'
-            ? variants[this._getVariantIndex()]
-            : product;
+        const { thumbnail: { path: thumbnail } = {} } = product;
 
-        const { thumbnail: { path: thumbnail } = {} } = productOrVariant;
-
-        return thumbnail ? `/media/catalog/product${ thumbnail }` : '';
+        return thumbnail
+            ? `/media/catalog/product${ thumbnail }`
+            : '';
     }
 
     render() {

@@ -40,7 +40,7 @@ export class CartDispatcher {
             // Need to create empty cart and save quote
             this._createEmptyCart(dispatch).then((data) => {
                 BrowserDatabase.setItem(data, GUEST_QUOTE_ID);
-                dispatch(updateTotals({}));
+                this._updateCartData({}, dispatch);
             });
         }
     }
@@ -61,7 +61,7 @@ export class CartDispatcher {
             () => {
                 this._createEmptyCart(dispatch).then((data) => {
                     BrowserDatabase.setItem(data, GUEST_QUOTE_ID);
-                    dispatch(updateTotals({}));
+                    this._updateCartData({}, dispatch);
                 });
             }
         );
@@ -194,7 +194,9 @@ export class CartDispatcher {
      */
     _getProductAttribute(attribute, product) {
         const { variants, configurableVariantIndex, [attribute]: attributeValue } = product;
-        return configurableVariantIndex >= 0 ? variants[configurableVariantIndex][attribute] : attributeValue;
+        return configurableVariantIndex >= 0
+            ? variants[configurableVariantIndex][attribute]
+            : attributeValue;
     }
 
     /**

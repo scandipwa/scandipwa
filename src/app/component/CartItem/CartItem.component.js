@@ -20,7 +20,7 @@ import { CartItemType } from 'Type/MiniCart';
 import './CartItem.style';
 
 /**
- * Cart and Minicart item
+ * Cart and CartOverlay item
  * @class CartItem
  */
 export default class CartItem extends PureComponent {

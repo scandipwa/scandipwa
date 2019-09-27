@@ -16,7 +16,6 @@ import PropTypes from 'prop-types';
 import Link from 'Component/Link';
 import { history } from 'Route';
 import { TotalsType } from 'Type/MiniCart';
-import { ProductType } from 'Type/ProductList';
 import ContentWrapper from 'Component/ContentWrapper';
 import CheckoutOrderSummary from 'Component/CheckoutOrderSummary';
 import CheckoutShippingStep from 'Component/CheckoutShippingStep';
@@ -44,14 +43,9 @@ export default class CheckoutPage extends Component {
         isSignedIn: PropTypes.bool.isRequired,
         countryList: PropTypes.arrayOf(PropTypes.shape).isRequired,
         customer: customerType.isRequired,
-        products: PropTypes.objectOf(ProductType),
         totals: TotalsType.isRequired,
         match: MatchType.isRequired,
         location: LocationType.isRequired
-    };
-
-    static defaultProps = {
-        products: {}
     };
 
     static changeUrlByCheckoutStep(props, state) {
@@ -341,15 +335,24 @@ export default class CheckoutPage extends Component {
     }
 
     /**
-     * render function calls approperiate renderer based on step
+     * render function calls appropriate renderer based on step
      * @returns {*}
      */
     render() {
         const {
-            checkoutStep, showSummary, paymentTotals
+            checkoutStep,
+            showSummary,
+            paymentTotals
         } = this.state;
-        const { products, totals } = this.props;
+
+        const { totals: cartTotals, totals: { items_qty, items } } = this.props;
+
         const stepRenderFunction = this.renderMap[checkoutStep];
+        const isPaymentTotalsAvailable = Object.keys(paymentTotals).length;
+        const totals = isPaymentTotalsAvailable
+            ? { ...paymentTotals, items }
+            : cartTotals;
+
         return (
             <main block="CheckoutPage">
                 <ContentWrapper
@@ -357,14 +360,13 @@ export default class CheckoutPage extends Component {
                   label={ __('Checkout page') }
                 >
                     <div block="CheckoutPage" elem="Step">
-                        { !Object.keys(products).length && checkoutStep !== CHECKOUT_STEP_SUCCESS
+                        { !items_qty && checkoutStep !== CHECKOUT_STEP_SUCCESS
                             ? (<p>No products</p>)
                             : stepRenderFunction() }
                     </div>
                     { showSummary && (
                         <CheckoutOrderSummary
-                          totals={ Object.keys(paymentTotals).length ? paymentTotals : totals }
-                          products={ products }
+                          totals={ totals }
                         />
                     ) }
                 </ContentWrapper>

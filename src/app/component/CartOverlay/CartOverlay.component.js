@@ -34,7 +34,7 @@ export default class CartOverlay extends PureComponent {
     }
 
     renderCartItems() {
-        const { isEditing, totals: { items_qty, items = [], base_currency_code } } = this.props;
+        const { isEditing, totals: { items_qty, items, base_currency_code } } = this.props;
 
         if (!items_qty) return this.renderNoCartItems();
 
@@ -92,7 +92,6 @@ export default class CartOverlay extends PureComponent {
         const { totals: { coupon_code, discount_amount = 0 } } = this.props;
 
         if (!coupon_code) return null;
-
 
         return (
             <dl
