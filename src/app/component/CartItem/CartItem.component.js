@@ -62,8 +62,8 @@ export default class CartItem extends PureComponent {
 
         if (!variants || !configurable_options) return null;
 
-        const product = getCurrentProduct();
-        const { attributes = [] } = product || {};
+        const product = getCurrentProduct() || {};
+        const { attributes = [] } = product;
 
         return (
             <ul
@@ -107,14 +107,14 @@ export default class CartItem extends PureComponent {
 
     renderProductDetails() {
         const {
+            isLikeTable,
             currency_code,
             item: {
+                row_total,
                 product: {
                     name
-                },
-                row_total
-            },
-            isLikeTable
+                }
+            }
         } = this.props;
 
         return (

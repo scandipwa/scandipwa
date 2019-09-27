@@ -48,12 +48,12 @@ export default class CheckoutOrderSummary extends PureComponent {
     /**
      * Render order summary cart item
      * @param key
-     * @param item
+     * @param {CartItem} item
      * @returns {*}
      */
-    renderItem(key, item, currency_code) {
+    renderItem(item, currency_code) {
         return (
-            <CartItem key={ key } item={ item } currency_code={ currency_code } />
+            <CartItem key={ item.item_id } item={ item } currency_code={ currency_code } />
         );
     }
 
@@ -96,7 +96,7 @@ export default class CheckoutOrderSummary extends PureComponent {
                 </h3>
                 <div block="CheckoutOrderSummary" elem="OrderItems">
                     <ul block="CheckoutOrderSummary" elem="CartItemList">
-                        { Object.keys(items).map(key => this.renderItem(key, items[key], base_currency_code)) }
+                        { items.map(item => this.renderItem(item, base_currency_code)) }
                     </ul>
                 </div>
                 <div block="CheckoutOrderSummary" elem="OrderTotals">

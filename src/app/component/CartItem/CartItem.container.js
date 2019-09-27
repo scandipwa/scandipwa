@@ -164,7 +164,6 @@ export class CartItemContainer extends PureComponent {
 
     _getProductThumbnail() {
         const product = this.getCurrentProduct();
-
         const { thumbnail: { path: thumbnail } = {} } = product;
 
         return thumbnail

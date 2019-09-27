@@ -29,9 +29,9 @@ export default class CartPage extends Component {
     };
 
     renderCartItems() {
-        const { isEditing, totals: { items_qty, items, base_currency_code } } = this.props;
+        const { isEditing, totals: { items, base_currency_code } } = this.props;
 
-        if (items_qty < 1) {
+        if (!items || items.length < 1) {
             return (
                 <p block="CartPage" elem="Empty">{ __('There are no products in cart.') }</p>
             );
@@ -45,10 +45,10 @@ export default class CartPage extends Component {
                     <span>{ __('subtotal') }</span>
                 </p>
                 <ul block="CartPage" elem="Items" aria-label="List of items in cart">
-                    { Object.keys(items).map(key => (
+                    { items.map(item => (
                         <CartItem
-                          key={ key }
-                          item={ items[key] }
+                          key={ item.item_id }
+                          item={ item }
                           currency_code={ base_currency_code }
                           isEditing={ !isMobile.any() || isEditing }
                           isLikeTable
@@ -85,11 +85,11 @@ export default class CartPage extends Component {
                 grand_total = 0,
                 subtotal = 0,
                 tax_amount = 0,
-                items_qty
+                items
             }
         } = this.props;
 
-        const props = !items_qty
+        const props = !items || items.length < 1
             ? {
                 onClick: e => e.preventDefault(),
                 disabled: true

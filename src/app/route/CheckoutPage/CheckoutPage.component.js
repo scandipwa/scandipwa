@@ -345,11 +345,10 @@ export default class CheckoutPage extends Component {
             paymentTotals
         } = this.state;
 
-        const { totals: cartTotals, totals: { items_qty, items } } = this.props;
+        const { totals: cartTotals, totals: { items } } = this.props;
 
         const stepRenderFunction = this.renderMap[checkoutStep];
-        const isPaymentTotalsAvailable = Object.keys(paymentTotals).length;
-        const totals = isPaymentTotalsAvailable
+        const totals = Object.keys(paymentTotals).length
             ? { ...paymentTotals, items }
             : cartTotals;
 
@@ -360,7 +359,7 @@ export default class CheckoutPage extends Component {
                   label={ __('Checkout page') }
                 >
                     <div block="CheckoutPage" elem="Step">
-                        { !items_qty && checkoutStep !== CHECKOUT_STEP_SUCCESS
+                        { (!items || items.length < 1) && checkoutStep !== CHECKOUT_STEP_SUCCESS
                             ? (<p>No products</p>)
                             : stepRenderFunction() }
                     </div>
