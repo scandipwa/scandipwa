@@ -163,7 +163,7 @@ export default class CartItem extends PureComponent {
                   aria-label="Remove item from cart"
                   onClick={ handleRemoveItem }
                 >
-                    <span>Delete</span>
+                    <span>{ __('Delete') }</span>
                 </button>
                 <Field
                   id="item_qty"
