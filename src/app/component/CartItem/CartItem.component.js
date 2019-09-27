@@ -48,16 +48,6 @@ export default class CartItem extends PureComponent {
         isLikeTable: false
     };
 
-    handleChangeQuantity = (value) => {
-        const { handleChangeQuantity, handleRemoveItem } = this.props;
-
-        if (value < 1) {
-            handleRemoveItem();
-        } else {
-            handleChangeQuantity(value);
-        }
-    };
-
     renderConfiguration() {
         const {
             item: {
@@ -155,7 +145,8 @@ export default class CartItem extends PureComponent {
             isEditing,
             isLikeTable,
             item: { qty },
-            handleRemoveItem
+            handleRemoveItem,
+            handleChangeQuantity
         } = this.props;
 
         return (
@@ -178,10 +169,10 @@ export default class CartItem extends PureComponent {
                   id="item_qty"
                   name="item_qty"
                   type="number"
-                  min={ 0 }
+                  min={ 1 }
                   mix={ { block: 'CartItem', elem: 'Qty' } }
                   value={ qty }
-                  onChange={ this.handleChangeQuantity }
+                  onChange={ handleChangeQuantity }
                 />
             </div>
         );
