@@ -15,7 +15,6 @@ import PropTypes from 'prop-types';
 import ContentWrapper from 'Component/ContentWrapper';
 import CartItem from 'Component/CartItem';
 import CartCoupon from 'Component/CartCoupon';
-import { ProductType } from 'Type/ProductList';
 import { TotalsType } from 'Type/MiniCart';
 import isMobile from 'Util/Mobile';
 import ExpandableContent from 'Component/ExpandableContent';
@@ -26,18 +25,13 @@ import { formatCurrency } from 'Util/Price';
 export default class CartPage extends Component {
     static propTypes = {
         isEditing: PropTypes.bool.isRequired,
-        products: PropTypes.objectOf(ProductType),
         totals: TotalsType.isRequired
     };
 
-    static defaultProps = {
-        products: {}
-    };
-
     renderCartItems() {
-        const { products, isEditing } = this.props;
+        const { isEditing, totals: { items_qty, items } } = this.props;
 
-        if (!Object.keys(products).length) {
+        if (items_qty < 1) {
             return (
                 <p block="CartPage" elem="Empty">{ __('There are no products in cart.') }</p>
             );
@@ -51,10 +45,10 @@ export default class CartPage extends Component {
                     <span>{ __('subtotal') }</span>
                 </p>
                 <ul block="CartPage" elem="Items" aria-label="List of items in cart">
-                    { Object.entries(products).map(([id, product]) => (
+                    { Object.keys(items).map(key => (
                         <CartItem
-                          key={ id }
-                          product={ product }
+                          key={ key }
+                          item={ items[key] }
                           isEditing={ !isMobile.any() || isEditing }
                           isLikeTable
                         />

@@ -12,56 +12,115 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { PureComponent } from 'react';
-import { ProductType } from 'Type/ProductList';
 import { CartDispatcher } from 'Store/Cart';
+import { makeCancelable } from 'Util/Promise';
 import { objectToUri } from 'Util/Url';
-
+import { CartItemType } from 'Type/MiniCart';
 import CartItem from './CartItem.component';
 
 export const mapDispatchToProps = dispatch => ({
     addProduct: options => CartDispatcher.addProductToCart(dispatch, options),
+    changeItemQty: options => CartDispatcher.changeItemQty(dispatch, options),
     removeProduct: options => CartDispatcher.removeProductFromCart(dispatch, options)
 });
 
 export class CartItemContainer extends PureComponent {
     static propTypes = {
-        product: ProductType.isRequired,
-        addProduct: PropTypes.func.isRequired,
+        item: CartItemType.isRequired,
+        changeItemQty: PropTypes.func.isRequired,
         removeProduct: PropTypes.func.isRequired
     };
 
     state = { isLoading: false };
 
+    handlers = [];
+
+    setStateNotLoading = this.setStateNotLoading.bind(this);
+
     containerFunctions = {
-        handleQtyChange: this.handleQtyChange.bind(this),
-        handleRemoveItem: this.handleRemoveItem.bind(this)
+        handleChangeQuantity: this.handleChangeQuantity.bind(this),
+        handleRemoveItem: this.handleRemoveItem.bind(this),
+        getCurrentProduct: this.getCurrentProduct.bind(this)
     };
+
+    componentWillUnmount() {
+        if (this.handlers.length) [].forEach.call(this.handlers, cancelablePromise => cancelablePromise.cancel());
+    }
+
+    /**
+     * @returns {Product}
+     */
+    getCurrentProduct() {
+        const { item: { product } } = this.props;
+        const variantIndex = this._getVariantIndex();
+
+        return variantIndex < 0
+            ? product
+            : product.variants[variantIndex];
+    }
+
+    setStateNotLoading() {
+        this.setState({ isLoading: false });
+    }
 
     containerProps = () => ({
         thumbnail: this._getProductThumbnail(),
         linkTo: this._getProductLinkTo()
     });
 
-    handleQtyChange(value) {
-        const { addProduct, product, product: { quantity } } = this.props;
-        const newQuantity = value - quantity;
-
-        if (newQuantity) {
-            this.setState({ isLoading: true });
-            addProduct({ product, quantity: newQuantity }).then(
-                () => this.setState({ isLoading: false })
-            );
-        }
+    /**
+     * Handle item quantity change. Check that value is <1
+     * @param {Number} value new quantity
+     * @return {void}
+     */
+    handleChangeQuantity(quantity) {
+        this.setState({ isLoading: true }, () => {
+            const { changeItemQty, item: { item_id, sku } } = this.props;
+            this.hideLoaderAfterPromise(changeItemQty({ item_id, quantity, sku }));
+        });
     }
 
+    /**
+     * @return {void}
+     */
     handleRemoveItem() {
-        const { removeProduct, product } = this.props;
+        this.setState({ isLoading: true }, () => {
+            const { removeProduct, item: { item_id } } = this.props;
+            this.hideLoaderAfterPromise(removeProduct(item_id));
+        });
+    }
 
-        this.setState({ isLoading: true });
+    /**
+     * @param {Promise}
+     * @returns {cancelablePromise}
+     */
+    registerCancelablePromise(promise) {
+        const cancelablePromise = makeCancelable(promise);
+        this.handlers.push(cancelablePromise);
+        return cancelablePromise;
+    }
 
-        removeProduct({ product }).then(
-            () => this.setState({ isLoading: false })
-        );
+    /**
+     * @param {Promise} promise
+     * @returns {void}
+     */
+    hideLoaderAfterPromise(promise) {
+        this.registerCancelablePromise(promise)
+            .promise.then(this.setStateNotLoading, this.setStateNotLoading);
+    }
+
+    /**
+     * @returns {Int}
+     */
+    _getVariantIndex() {
+        const {
+            item: {
+                sku: itemSku,
+                product: { variants = [] }
+            }
+        } = this.props;
+
+        return variants.findIndex(({ sku }) => sku === itemSku);
     }
 
     /**
@@ -71,20 +130,22 @@ export class CartItemContainer extends PureComponent {
      */
     _getProductLinkTo() {
         const {
-            product,
-            product: {
-                type_id,
-                url_key,
-                configurable_options,
-                configurableVariantIndex,
-                parent,
-                variants = []
+            item: {
+                product,
+                product: {
+                    type_id,
+                    configurable_options,
+                    parent,
+                    variants = [],
+                    url_key
+                }
             }
         } = this.props;
 
-        if (type_id === 'simple') return { pathname: `/product/${ url_key }` };
+        if (type_id !== 'configurable') return { pathname: `/product/${ url_key }` };
 
-        const { attributes = [] } = variants[configurableVariantIndex] || {};
+        const variant = variants[this._getVariantIndex()];
+        const { attributes } = variant;
 
         const parameters = Object.entries(attributes).reduce(
             (parameters, [code, { attribute_value }]) => {
@@ -101,11 +162,21 @@ export class CartItemContainer extends PureComponent {
     }
 
     _getProductThumbnail() {
-        const { product: { configurableVariantIndex, variants }, product } = this.props;
+        const {
+            item: {
+                product,
+                product: {
+                    type_id,
+                    variants = []
+                }
+            }
+        } = this.props;
 
-        const { thumbnail: { path: thumbnail } = {} } = configurableVariantIndex
-            ? variants[configurableVariantIndex]
+        const productOrVariant = type_id === 'configurable'
+            ? variants[this._getVariantIndex()]
             : product;
+
+        const { thumbnail: { path: thumbnail } = {} } = productOrVariant;
 
         return thumbnail ? `/media/catalog/product${ thumbnail }` : '';
     }

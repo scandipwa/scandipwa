@@ -57,7 +57,7 @@ export default class CheckoutOrderSummary extends PureComponent {
      */
     renderItem(key, item) {
         return (
-            <CartItem key={ key } product={ item } />
+            <CartItem key={ key } item={ item } />
         );
     }
 

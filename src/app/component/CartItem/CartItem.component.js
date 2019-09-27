@@ -16,7 +16,7 @@ import Image from 'Component/Image';
 import ProductPrice from 'Component/ProductPrice';
 import Field from 'Component/Field';
 import Loader from 'Component/Loader';
-import { ProductType } from 'Type/ProductList';
+import { CartItemType } from 'Type/MiniCart';
 import './CartItem.style';
 
 /**
@@ -26,11 +26,12 @@ import './CartItem.style';
 export default class CartItem extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
-        product: ProductType.isRequired,
+        item: CartItemType.isRequired,
         isEditing: PropTypes.bool,
         isLikeTable: PropTypes.bool,
         handleRemoveItem: PropTypes.func.isRequired,
-        handleQtyChange: PropTypes.func.isRequired,
+        handleChangeQuantity: PropTypes.func.isRequired,
+        getCurrentProduct: PropTypes.func.isRequired,
         linkTo: PropTypes.oneOfType([
             PropTypes.shape({
                 pathname: PropTypes.string,
@@ -46,19 +47,32 @@ export default class CartItem extends PureComponent {
         isLikeTable: false
     };
 
+    handleChangeQuantity = (value) => {
+        const { handleChangeQuantity, handleRemoveItem } = this.props;
+
+        if (value < 1) {
+            handleRemoveItem();
+        } else {
+            handleChangeQuantity(value);
+        }
+    };
+
     renderConfiguration() {
         const {
-            product: {
-                configurable_options,
-                configurableVariantIndex,
-                variants
+            item: {
+                product: {
+                    configurable_options,
+                    variants
+                }
             },
-            isLikeTable
+            isLikeTable,
+            getCurrentProduct
         } = this.props;
 
         if (!variants || !configurable_options) return null;
 
-        const { attributes = [] } = variants[configurableVariantIndex] || {};
+        const product = getCurrentProduct();
+        const { attributes = [] } = product || {};
 
         return (
             <ul
@@ -101,7 +115,14 @@ export default class CartItem extends PureComponent {
     }
 
     renderProductDetails() {
-        const { product: { name, price }, isLikeTable } = this.props;
+        const {
+            item: {
+                product: {
+                    name,
+                    price
+                }
+            }, isLikeTable
+        } = this.props;
 
         return (
             <>
@@ -129,9 +150,8 @@ export default class CartItem extends PureComponent {
         const {
             isEditing,
             isLikeTable,
-            product: { quantity },
-            handleRemoveItem,
-            handleQtyChange
+            item: { qty },
+            handleRemoveItem
         } = this.props;
 
         return (
@@ -154,17 +174,17 @@ export default class CartItem extends PureComponent {
                   id="item_qty"
                   name="item_qty"
                   type="number"
-                  min={ 1 }
+                  min={ 0 }
                   mix={ { block: 'CartItem', elem: 'Qty' } }
-                  value={ quantity }
-                  onChange={ handleQtyChange }
+                  value={ qty }
+                  onChange={ this.handleChangeQuantity }
                 />
             </div>
         );
     }
 
     renderImage() {
-        const { product: { name }, thumbnail } = this.props;
+        const { item: { product: { name } }, thumbnail } = this.props;
         const fullImageUrl = `//${window.location.hostname}${thumbnail}`;
 
         return (
