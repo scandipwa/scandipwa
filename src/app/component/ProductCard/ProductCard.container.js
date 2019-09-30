@@ -87,9 +87,19 @@ export class ProductCardContainer extends PureComponent {
         return { indexes, index, parameters };
     }
 
+    _isThumbnailAvailable(path) {
+        return path && path !== 'no_selection';
+    }
+
     _getThumbnail() {
-        const { thumbnail: { path = '' } = {} } = this._getProductOrVariant();
-        return path;
+        const product = this._getProductOrVariant();
+        const { thumbnail: { path } = {} } = product;
+        if (this._isThumbnailAvailable(path)) return path;
+        // If thumbnail is, missing we try to get image from parent
+        const { product: { thumbnail: { path: parentPath } = {} } } = this.props;
+        if (this._isThumbnailAvailable(parentPath)) return parentPath;
+
+        return '';
     }
 
     _getProductOrVariant() {

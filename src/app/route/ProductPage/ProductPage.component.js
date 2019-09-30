@@ -27,7 +27,7 @@ export default class ProductPage extends Component {
         productOrVariant: ProductType.isRequired,
         getLink: PropTypes.func.isRequired,
         parameters: PropTypes.objectOf(PropTypes.string).isRequired,
-        updateUrl: PropTypes.func.isRequired,
+        updateConfigurableVariant: PropTypes.func.isRequired,
         dataSource: ProductType.isRequired,
         areDetailsLoaded: PropTypes.bool.isRequired
     };
@@ -38,7 +38,7 @@ export default class ProductPage extends Component {
             parameters,
             getLink,
             dataSource,
-            updateUrl,
+            updateConfigurableVariant,
             productOrVariant,
             areDetailsLoaded
         } = this.props;
@@ -50,7 +50,7 @@ export default class ProductPage extends Component {
                 />
                 <ProductActions
                   getLink={ getLink }
-                  updateUrl={ updateUrl }
+                  updateConfigurableVariant={ updateConfigurableVariant }
                   product={ dataSource }
                   parameters={ parameters }
                   areDetailsLoaded={ areDetailsLoaded }
