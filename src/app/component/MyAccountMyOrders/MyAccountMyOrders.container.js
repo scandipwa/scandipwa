@@ -48,25 +48,7 @@ export class MyAccountMyOrdersContainer extends PureComponent {
     };
 
     _getFormattedOrders() {
-        // const { orderList: { items } } = this.props;
-        const {
-            orderList: {
-                items = [
-                    {
-                        id: 1,
-                        created_at: '10.02.1999',
-                        grand_total: 142,
-                        status_label: '11223'
-                    },
-                    {
-                        id: 2,
-                        created_at: '10.11.1123',
-                        grand_total: 4125,
-                        status_label: 'Another3'
-                    }
-                ]
-            }
-        } = this.props;
+        const { orderList: { items = [] } } = this.props;
 
         const formattedItems = items.map((item) => {
             const { created_at, grand_total } = item;
