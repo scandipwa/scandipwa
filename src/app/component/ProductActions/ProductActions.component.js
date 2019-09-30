@@ -37,8 +37,9 @@ export default class ProductActions extends PureComponent {
         areDetailsLoaded: PropTypes.bool.isRequired,
         getLink: PropTypes.func.isRequired,
         setQuantity: PropTypes.func.isRequired,
-        updateUrl: PropTypes.func.isRequired,
-        parameters: PropTypes.objectOf(PropTypes.string).isRequired
+        updateConfigurableVariant: PropTypes.func.isRequired,
+        parameters: PropTypes.objectOf(PropTypes.string).isRequired,
+        getIsConfigurableAttributeAvailable: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -60,7 +61,7 @@ export default class ProductActions extends PureComponent {
                     (
                         <>
                             <span block="ProductActions" elem="Sku" itemProp="sku">{ `SKU: ${ sku }` }</span>
-                            <span block="ProductActions" elem="Stock">In Stock</span>
+                            <span block="ProductActions" elem="Stock">{ __('In Stock') }</span>
                         </>
                     ),
                     <TextPlaceholder />
@@ -72,10 +73,11 @@ export default class ProductActions extends PureComponent {
     renderConfigurableAttributes() {
         const {
             getLink,
-            updateUrl,
+            updateConfigurableVariant,
             parameters,
             areDetailsLoaded,
-            product: { configurable_options, type_id }
+            product: { configurable_options, type_id },
+            getIsConfigurableAttributeAvailable
         } = this.props;
 
         if (type_id !== 'configurable') return null;
@@ -88,8 +90,9 @@ export default class ProductActions extends PureComponent {
               isReady={ areDetailsLoaded }
               getLink={ getLink }
               parameters={ parameters }
-              updateConfigurableVariant={ updateUrl }
+              updateConfigurableVariant={ updateConfigurableVariant }
               configurable_options={ configurable_options }
+              getIsConfigurableAttributeAvailable={ getIsConfigurableAttributeAvailable }
               isContentExpanded
             />
         );
@@ -177,11 +180,15 @@ export default class ProductActions extends PureComponent {
     }
 
     renderPrice() {
-        const { product: { price } } = this.props;
+        const { product: { price, variants }, configurableVariantIndex } = this.props;
+
+        const productOrVariantPrice = configurableVariantIndex >= 0
+            ? variants[configurableVariantIndex].price
+            : price;
 
         return (
             <ProductPrice
-              price={ price }
+              price={ productOrVariantPrice }
               mix={ { block: 'ProductActions', elem: 'Price' } }
             />
         );

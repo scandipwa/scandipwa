@@ -124,7 +124,7 @@
 
         @include after-mobile {
             --product-configurable-attributes-margin: 0 2rem 0 0;
-            --option-margin: 0 1rem 0 0;
+            --option-margin: 0 1rem 1rem 0;
 
             order: 10;
             display: flex;

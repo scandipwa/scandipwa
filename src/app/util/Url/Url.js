@@ -28,6 +28,18 @@ const updateQueryParamWithoutHistory = (name, value, history, location) => {
 };
 
 /**
+ * Remove query param without adding to history
+ * @param {String} name
+ */
+const removeQueryParamWithoutHistory = (name, history, location) => {
+    const { search, pathname } = location;
+
+    const params = new URLSearchParams(search);
+    params.delete(name);
+    history.replace(decodeURIComponent(`${ pathname }?${ params }`));
+};
+
+/**
  * Get query param from url
  * @param {Object} match match object from react-router
  * @param {Object} location location object from react-router
@@ -187,6 +199,7 @@ export {
     setQueryParams,
     clearQueriesFromUrl,
     updateQueryParamWithoutHistory,
+    removeQueryParamWithoutHistory,
     convertQueryStringToKeyValuePairs,
     convertKeyValueObjectToQueryString
 };

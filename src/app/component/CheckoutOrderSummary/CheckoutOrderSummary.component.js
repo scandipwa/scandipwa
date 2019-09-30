@@ -50,7 +50,7 @@ export default class CheckoutOrderSummary extends PureComponent {
     }
 
     /**
-     * Render order summury cart item
+     * Render order summary cart item
      * @param key
      * @param item
      * @returns {*}
@@ -59,6 +59,19 @@ export default class CheckoutOrderSummary extends PureComponent {
         return (
             <CartItem key={ key } product={ item } />
         );
+    }
+
+    renderDiscountLine() {
+        const {
+            totals: {
+                discount_amount,
+                coupon_code
+            }
+        } = this.props;
+
+        if (!coupon_code) return null;
+
+        return this.renderPriceLine(-Math.abs(discount_amount), __('Coupon %s:', coupon_code.toUpperCase()));
     }
 
     /**
@@ -95,6 +108,7 @@ export default class CheckoutOrderSummary extends PureComponent {
                     <ul>
                         { this.renderPriceLine(shipping_amount, __('Shipping'), { divider: true }) }
                         { this.renderPriceLine(subtotal, __('Cart Subtotal')) }
+                        { this.renderDiscountLine() }
                         { this.renderPriceLine(tax_amount, __('Tax')) }
                         { this.renderPriceLine(grand_total, __('Order Total')) }
                     </ul>
