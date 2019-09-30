@@ -25,7 +25,7 @@ export const mapStateToProps = state => ({
 export const mapDispatchToProps = dispatch => ({
     clearWishlist: () => WishlistDispatcher.clearWishlist(dispatch),
     moveWishlistToCart: () => WishlistDispatcher.moveWishlistToCart(dispatch),
-    showNotification: (type, message) => dispatch(showNotification(type, message))
+    showNotification: message => dispatch(showNotification('success', message))
 });
 
 export class MyAccountMyWishlistContainer extends PureComponent {
@@ -52,18 +52,13 @@ export class MyAccountMyWishlistContainer extends PureComponent {
     };
 
     addAllToCart = () => {
-        const { moveWishlistToCart } = this.props;
-        return moveWishlistToCart().then(() => this.showNotification('Wishlist moved to cart'));
+        const { moveWishlistToCart, showNotification } = this.props;
+        return moveWishlistToCart().then(() => showNotification('Wishlist moved to cart'));
     };
 
     removeAll = () => {
-        const { clearWishlist } = this.props;
-        return clearWishlist().then(() => this.showNotification('Wishlist cleared'));
-    };
-
-    showNotification = (message) => {
-        const { showNotification } = this.props;
-        return showNotification('success', message);
+        const { clearWishlist, showNotification } = this.props;
+        return clearWishlist().then(() => showNotification('Wishlist cleared'));
     };
 
     render() {
