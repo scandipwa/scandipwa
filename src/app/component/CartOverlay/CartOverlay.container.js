@@ -21,7 +21,6 @@ import { TotalsType } from 'Type/MiniCart';
 import CartOverlay from './CartOverlay.component';
 
 export const mapStateToProps = state => ({
-    products: state.CartReducer.productsInCart,
     totals: state.CartReducer.cartTotals
 });
 

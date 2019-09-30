@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import { ProductType, FilterType } from 'Type/ProductList';
 import { CartDispatcher } from 'Store/Cart';
 import { getVariantsIndexes } from 'Util/Product';
-import { convertKeyValueObjectToQueryString } from 'Util/Url';
+import { objectToUri } from 'Util/Url';
 import ProductCard from './ProductCard.component';
 
 export const mapDispatchToProps = dispatch => ({
@@ -56,7 +56,7 @@ export class ProductCardContainer extends PureComponent {
         return {
             pathname: `/product/${ url_key }`,
             state: { product },
-            search: convertKeyValueObjectToQueryString(parameters)
+            search: objectToUri(parameters)
         };
     }
 

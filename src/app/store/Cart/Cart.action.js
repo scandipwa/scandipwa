@@ -12,7 +12,6 @@
 export const ADD_PRODUCT_TO_CART = 'ADD_PRODUCT_TO_CART';
 export const REMOVE_PRODUCT_FROM_CART = 'REMOVE_PRODUCT_FROM_CART';
 export const UPDATE_TOTALS = 'UPDATE_TOTALS';
-export const UPDATE_ALL_PRODUCTS_IN_CART = 'UPDATE_ALL_PRODUCTS_IN_CART';
 export const APPLY_COUPON_TO_CART = 'APPLY_COUPON_TO_CART';
 export const REMOVE_COUPON_FROM_CART = 'REMOVE_COUPON_FROM_CART';
 
@@ -35,16 +34,6 @@ export const addProductToCart = newProduct => ({
 export const removeProductFromCart = product => ({
     type: REMOVE_PRODUCT_FROM_CART,
     product
-});
-
-/**
- * Update all products in cart
- * @param  {Array} product Product which should be removed
- * @return {void}
- */
-export const updateAllProductsInCart = products => ({
-    type: UPDATE_ALL_PRODUCTS_IN_CART,
-    products
 });
 
 /**

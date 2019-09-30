@@ -10,25 +10,21 @@
  */
 
 import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import { TotalsType } from 'Type/MiniCart';
-import { ProductType } from 'Type/ProductList';
 import CartItem from 'Component/CartItem';
-import { formatCurrency } from 'Util/Price';
+import { formatCurrency, roundPrice } from 'Util/Price';
 import './CheckoutOrderSummary.style';
 
 /**
- *
+ * Checkout Order Summary component
  */
 export default class CheckoutOrderSummary extends PureComponent {
     static propTypes = {
-        totals: TotalsType,
-        products: PropTypes.objectOf(ProductType)
+        totals: TotalsType
     };
 
     static defaultProps = {
-        totals: {},
-        products: {}
+        totals: {}
     };
 
     renderPriceLine(price, name, mods) {
@@ -43,7 +39,7 @@ export default class CheckoutOrderSummary extends PureComponent {
                     { name }
                 </strong>
                 <strong block="CheckoutOrderSummary" elem="Text">
-                    { `${parseFloat(price).toFixed(2)}${priceString}` }
+                    { `${roundPrice(price)}${priceString}` }
                 </strong>
             </li>
         );
@@ -52,12 +48,12 @@ export default class CheckoutOrderSummary extends PureComponent {
     /**
      * Render order summary cart item
      * @param key
-     * @param item
+     * @param {CartItem} item
      * @returns {*}
      */
-    renderItem(key, item) {
+    renderItem(item, currency_code) {
         return (
-            <CartItem key={ key } product={ item } />
+            <CartItem key={ item.item_id } item={ item } currency_code={ currency_code } />
         );
     }
 
@@ -83,9 +79,9 @@ export default class CheckoutOrderSummary extends PureComponent {
             totals: {
                 grand_total, subtotal,
                 tax_amount, shipping_amount,
-                items_qty
-            },
-            products
+                items_qty, items,
+                base_currency_code
+            }
         } = this.props;
 
         return (
@@ -100,8 +96,7 @@ export default class CheckoutOrderSummary extends PureComponent {
                 </h3>
                 <div block="CheckoutOrderSummary" elem="OrderItems">
                     <ul block="CheckoutOrderSummary" elem="CartItemList">
-                        { Object.keys(products)
-                            .map(key => this.renderItem(key, products[key])) }
+                        { items.map(item => this.renderItem(item, base_currency_code)) }
                     </ul>
                 </div>
                 <div block="CheckoutOrderSummary" elem="OrderTotals">
