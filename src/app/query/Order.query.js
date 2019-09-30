@@ -10,7 +10,6 @@
  */
 
 import { Field } from 'Util/Query';
-import { OrderProductQuery } from 'Query';
 
 /**
  * Order Query
@@ -18,122 +17,174 @@ import { OrderProductQuery } from 'Query';
  */
 export class OrderQuery {
     getOrderListQuery() {
-        const orderListItems = this._prepareBaseOrderInfo();
-
         return new Field('getOrderList')
-            .addField(orderListItems);
+            .addField(this._prepareBaseOrderInfo());
     }
 
     getOrderByIdQuery(orderId) {
-        const query = new Field('getOrderById');
-
-        this._getOrderItemField(query);
-
-        const baseOrderInfo = this._prepareExpandedOrderInfo();
-        const paymentInfo = this._preparePaymentInfo();
-        const shippingInfo = this._prepareShippingInfo();
-
-        query
-            .addField(baseOrderInfo)
-            .addField(paymentInfo)
-            .addField(shippingInfo);
-
-        query.addArgument('id', 'Int', orderId);
-
-        return query;
+        return this._getOrderByIdFields(orderId);
     }
 
-    _getOrderItemField(field) {
-        field.addField(OrderProductQuery._prepareItemsField(
-            new Field('order_products')
-        ));
+    _getOrderByIdFields(orderId) {
+        return new Field('getOrderById')
+            .addArgument('id', 'Int', orderId)
+            .addFieldList([
+                this._prepareExpandedOrderInfo(),
+                this._preparePaymentInfo(),
+                this._prepareShippingInfo(),
+                this._getOrderProductsField()
+            ]);
+    }
+
+    _getOrderProductsField() {
+        return new Field('order_products')
+            .addFieldList([
+                this._getDefaultFields(),
+                this._prepareImageFields(),
+                this._prepareAttributes()
+            ]);
+    }
+
+    _prepareImageFields() {
+        return [
+            new Field('thumbnail')
+                .addFieldList([
+                    'url',
+                    'label',
+                    'path'
+                ]),
+            new Field('small_image')
+                .addFieldList([
+                    'url',
+                    'label',
+                    'path'
+                ])
+        ];
+    }
+
+    _prepareAttributes() {
+        return new Field('attributes')
+            .addFieldList([
+                'attribute_value',
+                'attribute_code',
+                'attribute_type',
+                'attribute_label',
+                this._getAttributeOptions()
+            ]);
+    }
+
+    _getAttributeOptions() {
+        new Field('attribute_options')
+            .addFieldList([
+                'label',
+                'value',
+                new Field('swatch_data')
+                    .addField('value')
+            ]);
+    }
+
+    _getDefaultFields() {
+        return [
+            'id',
+            'name',
+            (new Field('short_description').addField('html')),
+            'sku',
+            'qty',
+            'row_total',
+            'original_price',
+            'license_key'
+        ];
     }
 
     _prepareShippingInfo() {
-        const orderCustomerAddressInfo = this._prepareOrderCustomerAddressInfo();
-
         return new Field('shipping_info')
-            .addField('shipping_method')
-            .addField(orderCustomerAddressInfo)
-            .addField('shipping_description')
-            .addField('shipping_amount')
-            .addField('tracking_numbers');
+            .addFieldList([
+                'shipping_method',
+                'shipping_description',
+                'shipping_amount',
+                'tracking_numbers',
+                this._prepareOrderCustomerAddressInfo()
+            ]);
     }
 
     _prepareOrderCustomerAddressInfo() {
         return new Field('shipping_address')
-            .addField('city')
-            .addField('company')
-            .addField('firstname')
-            .addField('lastname')
-            .addField('middlename')
-            .addField('telephone')
-            .addField('district')
-            .addField('house_number')
-            .addField('apartment_number')
-            .addField('postomat_code')
-            .addField('store_pickup_code')
-            .addField('post_office_code')
-            .addField('postcode')
-            .addField('street')
-            .addField('is_b2b')
-            .addField('region')
-            .addField('organizationname')
-            .addField('organizationbin')
-            .addField('organizationaddress')
-            .addField('organizationiic')
-            .addField('organizationbik');
+            .addFieldList([
+                'city',
+                'company',
+                'firstname',
+                'lastname',
+                'middlename',
+                'telephone',
+                'district',
+                'house_number',
+                'apartment_number',
+                'postomat_code',
+                'store_pickup_code',
+                'post_office_code',
+                'postcode',
+                'street',
+                'is_b2b',
+                'region',
+                'organizationname',
+                'organizationbin',
+                'organizationaddress',
+                'organizationiic',
+                'organizationbik'
+            ]);
     }
 
     _prepareExpandedOrderInfo() {
         return new Field('base_order_info')
-            .addField('id')
-            .addField('increment_id')
-            .addField('created_at')
-            .addField('status')
-            .addField('status_label')
-            .addField('grand_total')
-            .addField('sub_total')
-            .addField('total_qty_ordered');
+            .addFieldList([
+                'id',
+                'increment_id',
+                'created_at',
+                'status',
+                'status_label',
+                'grand_total',
+                'sub_total',
+                'total_qty_ordered'
+            ]);
     }
 
     _preparePaymentInfo() {
-        const additionalCustomerInfo = this._prepareAdditionalCustomerInfo();
-
         return new Field('payment_info')
-            .addField('method')
-            .addField(additionalCustomerInfo);
+            .addFieldList([
+                'method',
+                this._prepareAdditionalCustomerInfo()
+            ]);
     }
 
     _prepareAdditionalCustomerInfo() {
-        const creditCustomerInfo = this._prepareCreditCustomerInfo();
-
         return new Field('additional_information')
-            .addField('bank')
-            .addField('method_title')
-            .addField('credit_type')
-            .addField('month')
-            .addField(creditCustomerInfo);
+            .addFieldList([
+                'bank',
+                'method_title',
+                'credit_type',
+                'month',
+                this._prepareCreditCustomerInfo()
+            ]);
     }
 
     _prepareCreditCustomerInfo() {
         return new Field('customer_info')
-            .addField('first_name')
-            .addField('last_name')
-            .addField('middle_name')
-            .addField('iin_number')
-            .addField('phone');
+            .addFieldList([
+                'first_name',
+                'last_name',
+                'middle_name',
+                'iin_number',
+                'phone'
+            ]);
     }
 
     _prepareBaseOrderInfo() {
-        const baseOrderInfo = this._prepareExpandedOrderInfo();
-        const paymentInfo = this._preparePaymentInfo();
-        const shippingInfo = this._prepareShippingInfo();
-
         return new Field('items')
-            .addField(baseOrderInfo)
-            .addField(paymentInfo)
-            .addField(shippingInfo);
+            .addFieldList([
+                this._prepareExpandedOrderInfo(),
+                this._preparePaymentInfo(),
+                this._prepareShippingInfo()
+            ]);
     }
 }
 
