@@ -106,7 +106,8 @@ export class CategoryPageContainer extends PureComponent {
 
         // request data only if URL does not match loaded category
         if (this.isNewCategory()) {
-            this._requestCategoryWithPageList();
+            this._requestCategory();
+            this._requestCategoryProductsInfo();
             updateBreadcrumbs({});
         } else {
             this._onCategoryUpdate();
@@ -114,15 +115,20 @@ export class CategoryPageContainer extends PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        const { category: { id }, categoryIds } = this.props;
+        const { category: { id }, categoryIds, location } = this.props;
         const { category: { id: prevId }, categoryIds: prevCategoryIds } = prevProps;
 
         // update breadcrumbs only if category has changed
         if (id !== prevId) this._onCategoryUpdate();
 
-        // update category only if route or search query has been changed
-        if (this.isNewCategory() || categoryIds !== prevCategoryIds) {
-            this._requestCategoryWithPageList();
+        // ComponentDidUpdate fires multiple times, to prevent getting same data we check that url has changed
+        if (this._urlHasChanged(location, prevProps) || categoryIds !== prevCategoryIds) {
+            // This prevents getting Category data, when sort or filter options have changed
+            if (this.isNewCategory()) {
+                this._requestCategory();
+            }
+
+            this._requestCategoryProductsInfo();
         }
     }
 
@@ -319,11 +325,6 @@ export class CategoryPageContainer extends PureComponent {
             isSearchPage,
             categoryIds
         });
-    }
-
-    _requestCategoryWithPageList() {
-        this._requestCategory();
-        this._requestCategoryProductsInfo();
     }
 
     _compareQueriesWithFilter(search, prevSearch, filter) {
