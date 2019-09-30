@@ -93,7 +93,7 @@ export class CategoryPageContainer extends PureComponent {
 
     containerFunctions = {
         onSortChange: this.onSortChange.bind(this),
-        isNewCategory: this.isNewCategory.bind(this),
+        getIsNewCategory: this.getIsNewCategory.bind(this),
         updateFilter: this.updateFilter.bind(this),
         getFilterUrl: this.getFilterUrl.bind(this),
         updatePriceRange: this.updatePriceRange.bind(this)
@@ -105,9 +105,8 @@ export class CategoryPageContainer extends PureComponent {
         if (isOnlyPlaceholder) updateLoadStatus(true);
 
         // request data only if URL does not match loaded category
-        if (this.isNewCategory()) {
-            this._requestCategory();
-            this._requestCategoryProductsInfo();
+        if (this.getIsNewCategory()) {
+            this._requestCategoryWithPageList();
             updateBreadcrumbs({});
         } else {
             this._onCategoryUpdate();
@@ -122,13 +121,9 @@ export class CategoryPageContainer extends PureComponent {
         if (id !== prevId) this._onCategoryUpdate();
 
         // ComponentDidUpdate fires multiple times, to prevent getting same data we check that url has changed
-        if (this._urlHasChanged(location, prevProps) || categoryIds !== prevCategoryIds) {
-            // This prevents getting Category data, when sort or filter options have changed
-            if (this.isNewCategory()) {
-                this._requestCategory();
-            }
-
-            this._requestCategoryProductsInfo();
+        // This prevents getting Category data, when sort or filter options have changed
+        if ((this._urlHasChanged(location, prevProps) && this.getIsNewCategory()) || categoryIds !== prevCategoryIds) {
+            this._requestCategoryWithPageList();
         }
     }
 
@@ -143,6 +138,11 @@ export class CategoryPageContainer extends PureComponent {
         const { location: { pathname } } = this.props;
         const selectedFilters = this._getNewSelectedFilters(filterName, filterArray);
         return `${isFull ? `${pathname}?` : ''}${this._formatSelectedFiltersString(selectedFilters)}`;
+    }
+
+    getIsNewCategory() {
+        const { category: { url_path } = {} } = this.props;
+        return url_path !== this._getCategoryUrlPath();
     }
 
     containerProps = () => ({
@@ -179,11 +179,6 @@ export class CategoryPageContainer extends PureComponent {
             customFilters: this.getFilterUrl(filterName, filterArray, false),
             page: ''
         }, location, history);
-    }
-
-    isNewCategory() {
-        const { category: { url_path } = {} } = this.props;
-        return url_path !== this._getCategoryUrlPath();
     }
 
     _getNewSelectedFilters(filterName, filterArray) {
@@ -325,6 +320,11 @@ export class CategoryPageContainer extends PureComponent {
             isSearchPage,
             categoryIds
         });
+    }
+
+    _requestCategoryWithPageList() {
+        this._requestCategory();
+        this._requestCategoryProductsInfo();
     }
 
     _compareQueriesWithFilter(search, prevSearch, filter) {
