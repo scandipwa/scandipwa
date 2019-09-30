@@ -49,6 +49,16 @@ export const customerType = PropTypes.shape({
     taxvat: PropTypes.string
 });
 
+export const orderType = PropTypes.shape({
+    base_order_info: PropTypes.object,
+    order_id: PropTypes.number,
+    order_products: PropTypes.object,
+    payment_info: PropTypes.object,
+    shipping_info: PropTypes.object
+});
+
+export const ordersType = PropTypes.arrayOf(orderType);
+
 export const DASHBOARD = 'dashboard';
 export const MY_ORDERS = 'my-orders';
 export const MY_WISHLIST = 'my-wishlist';
