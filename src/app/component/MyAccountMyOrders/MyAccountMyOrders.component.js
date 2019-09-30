@@ -21,7 +21,7 @@ class MyAccountMyOrders extends PureComponent {
     render() {
         return (
             <div block="MyAccountMyOrders">
-                MyAccountMyOrders
+                Orders functionality is coming in future releases
             </div>
         );
     }

@@ -23,7 +23,8 @@ import {
     getUrlParam,
     convertQueryStringToKeyValuePairs,
     updateQueryParamWithoutHistory,
-    convertKeyValueObjectToQueryString
+    removeQueryParamWithoutHistory,
+    objectToUri
 } from 'Util/Url';
 
 import { ProductType } from 'Type/ProductList';
@@ -67,7 +68,7 @@ export class ProductPageContainer extends PureComponent {
     };
 
     containerFunctions = {
-        updateUrl: this.updateUrl.bind(this),
+        updateConfigurableVariant: this.updateConfigurableVariant.bind(this),
         getLink: this.getLink.bind(this)
     };
 
@@ -93,18 +94,16 @@ export class ProductPageContainer extends PureComponent {
         return null;
     }
 
-    static getDerivedStateFromProps(props, state) {
-        const { id: stateId } = state;
+    static getDerivedStateFromProps(props) {
         const {
             product: {
-                id,
                 variants,
                 configurable_options
             },
             location: { search }
         } = props;
 
-        if (!(configurable_options && variants && id !== stateId)) return null;
+        if (!configurable_options && !variants) return null;
 
         const parameters = Object.entries(convertQueryStringToKeyValuePairs(search))
             .reduce((acc, [key, value]) => {
@@ -116,21 +115,41 @@ export class ProductPageContainer extends PureComponent {
             }, {});
 
         if (Object.keys(parameters).length !== Object.keys(configurable_options).length) {
-            return { id, parameters };
+            return { parameters };
         }
 
         const configurableVariantIndex = getVariantIndex(variants, parameters);
-        return { id, parameters, configurableVariantIndex };
+        return { parameters, configurableVariantIndex };
     }
 
     getLink(key, value) {
         const { location: { search, pathname } } = this.props;
-        const query = convertKeyValueObjectToQueryString({
+        const query = objectToUri({
             ...convertQueryStringToKeyValuePairs(search),
             [key]: value
         });
 
         return `${pathname}${query}`;
+    }
+
+    getIsConfigurableParameterSelected(parameters, key, value) {
+        return Object.hasOwnProperty.call(parameters, key) && parameters[key] === value;
+    }
+
+    getNewParameters(key, value) {
+        const { parameters } = this.state;
+
+        // If value is already selected, than we remove the key to achieve deselection
+        if (this.getIsConfigurableParameterSelected(parameters, key, value)) {
+            const { [key]: oldValue, ...newParameters } = parameters;
+
+            return newParameters;
+        }
+
+        return {
+            ...parameters,
+            [key]: value.toString()
+        };
     }
 
     containerProps = () => ({
@@ -139,24 +158,36 @@ export class ProductPageContainer extends PureComponent {
         areDetailsLoaded: this._getAreDetailsLoaded()
     });
 
-    updateUrl(key, value) {
-        const { product: { variants, configurable_options }, location, history } = this.props;
-        const { configurableVariantIndex, parameters: oldParameters } = this.state;
-
-        const parameters = {
-            ...oldParameters,
-            [key]: value.toString()
-        };
-
+    updateConfigurableVariant(key, value) {
+        const parameters = this.getNewParameters(key, value);
         this.setState({ parameters });
-        updateQueryParamWithoutHistory(key, value, history, location);
 
-        const newIndex = getVariantIndex(variants, parameters);
+        this.updateUrl(key, value, parameters);
+        this.updateConfigurableVariantIndex(parameters);
+    }
 
-        if (
-            Object.keys(parameters).length === Object.keys(configurable_options).length
-            && configurableVariantIndex !== newIndex
-        ) {
+    updateUrl(key, value, parameters) {
+        const { location, history } = this.props;
+
+        const isParameterSelected = this.getIsConfigurableParameterSelected(parameters, key, value);
+
+        if (isParameterSelected) {
+            updateQueryParamWithoutHistory(key, value, history, location);
+        } else {
+            removeQueryParamWithoutHistory(key, history, location);
+        }
+    }
+
+    updateConfigurableVariantIndex(parameters) {
+        const { product: { variants, configurable_options } } = this.props;
+        const { configurableVariantIndex } = this.state;
+
+        const newIndex = Object.keys(parameters).length === Object.keys(configurable_options).length
+            ? getVariantIndex(variants, parameters)
+            // Not all parameters are selected yet, therefore variantIndex must be invalid
+            : -1;
+
+        if (configurableVariantIndex !== newIndex) {
             this.setState({ configurableVariantIndex: newIndex });
         }
     }

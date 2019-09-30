@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import { ProductType, FilterType } from 'Type/ProductList';
 import { CartDispatcher } from 'Store/Cart';
 import { getVariantsIndexes } from 'Util/Product';
-import { convertKeyValueObjectToQueryString } from 'Util/Url';
+import { objectToUri } from 'Util/Url';
 import ProductCard from './ProductCard.component';
 
 export const mapDispatchToProps = dispatch => ({
@@ -56,7 +56,7 @@ export class ProductCardContainer extends PureComponent {
         return {
             pathname: `/product/${ url_key }`,
             state: { product },
-            search: convertKeyValueObjectToQueryString(parameters)
+            search: objectToUri(parameters)
         };
     }
 
@@ -86,9 +86,19 @@ export class ProductCardContainer extends PureComponent {
         return { indexes, index, parameters };
     }
 
+    _isThumbnailAvailable(path) {
+        return path && path !== 'no_selection';
+    }
+
     _getThumbnail() {
-        const { thumbnail: { path = '' } = {} } = this._getProductOrVariant();
-        return path;
+        const product = this._getProductOrVariant();
+        const { thumbnail: { path } = {} } = product;
+        if (this._isThumbnailAvailable(path)) return path;
+        // If thumbnail is, missing we try to get image from parent
+        const { product: { thumbnail: { path: parentPath } = {} } } = this.props;
+        if (this._isThumbnailAvailable(parentPath)) return parentPath;
+
+        return '';
     }
 
     _getProductOrVariant() {

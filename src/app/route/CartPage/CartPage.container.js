@@ -21,7 +21,6 @@ import { history } from 'Route';
 import CartPage from './CartPage.component';
 
 export const mapStateToProps = state => ({
-    products: state.CartReducer.productsInCart,
     totals: state.CartReducer.cartTotals
 });
 

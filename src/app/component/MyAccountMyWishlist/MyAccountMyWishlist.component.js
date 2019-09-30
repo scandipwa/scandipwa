@@ -21,7 +21,7 @@ class MyAccountMyWishlist extends PureComponent {
     render() {
         return (
             <div block="MyAccountMyWishlist">
-                MyAccountMyWishlist
+                Wishlist functionality is coming in future releases
             </div>
         );
     }

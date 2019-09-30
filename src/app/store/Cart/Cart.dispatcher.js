@@ -12,7 +12,6 @@
 import { fetchMutation, fetchQuery } from 'Util/Request';
 import {
     updateTotals,
-    updateAllProductsInCart,
     PRODUCTS_IN_CART
 } from 'Store/Cart';
 import { isSignedIn } from 'Util/Auth';
@@ -41,8 +40,7 @@ export class CartDispatcher {
             // Need to create empty cart and save quote
             this._createEmptyCart(dispatch).then((data) => {
                 BrowserDatabase.setItem(data, GUEST_QUOTE_ID);
-                dispatch(updateAllProductsInCart({}));
-                dispatch(updateTotals({}));
+                this._updateCartData({}, dispatch);
             });
         }
     }
@@ -63,10 +61,21 @@ export class CartDispatcher {
             () => {
                 this._createEmptyCart(dispatch).then((data) => {
                     BrowserDatabase.setItem(data, GUEST_QUOTE_ID);
-                    dispatch(updateAllProductsInCart({}));
-                    dispatch(updateTotals({}));
+                    this._updateCartData({}, dispatch);
                 });
             }
+        );
+    }
+
+    changeItemQty(dispatch, options) {
+        const { item_id, quantity, sku } = options;
+
+        return fetchMutation(CartQuery.getSaveCartItemMutation(
+            { sku, item_id, qty: quantity },
+            !isSignedIn() && this._getGuestQuoteId()
+        )).then(
+            ({ saveCartItem: { cartData } }) => this._updateCartData(cartData, dispatch),
+            error => dispatch(showNotification('error', error[0].message))
         );
     }
 
@@ -83,7 +92,7 @@ export class CartDispatcher {
             product_option: { extension_attributes: this._getExtensionAttributes(product) }
         };
 
-        if (this._isAllowed(options)) {
+        if (this._canBeAdded(options)) {
             return fetchMutation(CartQuery.getSaveCartItemMutation(
                 productToAdd, !isSignedIn() && this._getGuestQuoteId()
             )).then(
@@ -95,9 +104,9 @@ export class CartDispatcher {
         return Promise.reject();
     }
 
-    removeProductFromCart(dispatch, { product }) {
+    removeProductFromCart(dispatch, item_id) {
         return fetchMutation(CartQuery.getRemoveCartItemMutation(
-            product,
+            item_id,
             !isSignedIn() && this._getGuestQuoteId()
         )).then(
             ({ removeCartItem: { cartData } }) => this._updateCartData(cartData, dispatch),
@@ -130,58 +139,7 @@ export class CartDispatcher {
     }
 
     _updateCartData(cartData, dispatch) {
-        const { items } = cartData;
-
-        const productsToAdd = items.reduce((prev, cartProduct) => {
-            const {
-                product: {
-                    variants, id, type_id
-                },
-                product,
-                item_id,
-                sku,
-                qty: quantity
-            } = cartProduct;
-
-            if (type_id === 'configurable') {
-                // eslint-disable-next-line fp/no-let
-                let configurableVariantIndex = 0;
-
-                variants.find(({ product }) => {
-                    if (product === null) return false;
-                    const { sku: productSku } = product;
-                    const isChosenProduct = productSku === sku;
-                    if (!isChosenProduct) configurableVariantIndex++;
-                    return isChosenProduct;
-                });
-
-                if (configurableVariantIndex !== -1) {
-                    const { id: variantId } = variants[configurableVariantIndex].product;
-
-                    return {
-                        ...prev,
-                        [variantId]: {
-                            ...product,
-                            configurableVariantIndex,
-                            item_id,
-                            quantity
-                        }
-                    };
-                }
-            }
-
-            return {
-                ...prev,
-                [id]: {
-                    ...product,
-                    item_id,
-                    quantity
-                }
-            };
-        }, {});
-
         dispatch(updateTotals(cartData));
-        dispatch(updateAllProductsInCart(productsToAdd));
     }
 
     _getExtensionAttributes(product) {
@@ -230,9 +188,15 @@ export class CartDispatcher {
         return productsInCart[id];
     }
 
-    _getProductAttribute(attribute, { variants, configurableVariantIndex, [attribute]: attributeValue }) {
-        const isNumber = configurableVariantIndex >= 0;
-        return isNumber ? variants[configurableVariantIndex][attribute] : attributeValue;
+    /**
+     * @param {*} attribute
+     * @param {*} product
+     */
+    _getProductAttribute(attribute, product) {
+        const { variants, configurableVariantIndex, [attribute]: attributeValue } = product;
+        return configurableVariantIndex >= 0
+            ? variants[configurableVariantIndex][attribute]
+            : attributeValue;
     }
 
     /**
@@ -241,7 +205,7 @@ export class CartDispatcher {
      * @return {Boolean} Indicates is allowed or not
      * @memberof CartDispatcher
      */
-    _isAllowed(options) {
+    _canBeAdded(options) {
         if (options.product && options.quantity && (options.product.quantity + options.quantity) < 1) {
             return false;
         }
