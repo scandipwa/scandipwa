@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+export const CLEAR_WISHLIST = 'CLEAR_WISHLIST';
 export const UPDATE_ITEM_OPTIONS = 'UPDATE_ITEM_OPTIONS';
 export const REMOVE_ITEM_FROM_WISHLIST = 'REMOVE_ITEM_FROM_WISHLIST';
 export const UPDATE_ALL_PRODUCTS_IN_WISHLIST = 'UPDATE_ALL_PRODUCTS_IN_WISHLIST';
@@ -42,4 +43,8 @@ export const updateIsLoading = isLoading => ({
 export const updateItemOptions = options => ({
     type: UPDATE_ITEM_OPTIONS,
     options
+});
+
+export const clearWishlist = () => ({
+    type: CLEAR_WISHLIST
 });

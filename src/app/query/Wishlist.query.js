@@ -24,6 +24,14 @@ export class Wishlist {
             .addFieldList(this._getItemsFields());
     }
 
+    getClearWishlist() {
+        return new Field('clearWishlist');
+    }
+
+    getMoveWishlistToCart() {
+        return new Field('moveWishlistToCart');
+    }
+
     getRemoveProductFromWishlistMutation(item_id) {
         return new Field('removeProductFromWishlist')
             .addArgument('itemId', 'String!', item_id);

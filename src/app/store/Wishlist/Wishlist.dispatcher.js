@@ -11,11 +11,13 @@
 
 import { fetchMutation, fetchQuery } from 'Util/Request';
 import {
+    clearWishlist,
     updateIsLoading,
     updateItemOptions,
     removeItemFromWishlist,
     updateAllProductsInWishlist
 } from 'Store/Wishlist';
+import { CartDispatcher } from 'Store/Cart';
 import { showNotification } from 'Store/Notification';
 import { isSignedIn } from 'Util/Auth';
 import { WishlistQuery } from 'Query';
@@ -91,6 +93,20 @@ export class WishlistDispatcher {
         return fetchMutation(WishlistQuery.getUpdateWishlistItemMutation(item_id, options)).then(
             () => dispatch(updateItemOptions(options))
         );
+    }
+
+    clearWishlist(dispatch) {
+        return fetchMutation(WishlistQuery.getClearWishlist())
+            .then(() => dispatch(clearWishlist()))
+            .catch(() => dispatch(showNotification('error', __('Error clearing wish list!'))));
+    }
+
+    moveWishlistToCart(dispatch) {
+        return fetchMutation(WishlistQuery.getMoveWishlistToCart())
+            .then(() => {
+                dispatch(clearWishlist());
+                dispatch(CartDispatcher._syncCartWithBE(dispatch));
+            });
     }
 
     removeItemFromWishlist(dispatch, { item_id, noMessages }) {

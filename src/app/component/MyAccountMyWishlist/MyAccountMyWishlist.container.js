@@ -24,6 +24,8 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
+    clearWishlist: () => WishlistDispatcher.clearWishlist(dispatch),
+    moveWishlistToCart: () => WishlistDispatcher.moveWishlistToCart(dispatch),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     addProductToCart: options => CartDispatcher.addProductToCart(dispatch, options),
     updateWishlistItem: options => WishlistDispatcher.updateWishlistItem(dispatch, options),
@@ -32,8 +34,10 @@ export const mapDispatchToProps = dispatch => ({
 
 export class MyAccountMyWishlistContainer extends PureComponent {
     static propTypes = {
+        clearWishlist: PropTypes.func.isRequired,
         addProductToCart: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
+        moveWishlistToCart: PropTypes.func.isRequired,
         removeFromWishlist: PropTypes.func.isRequired,
         updateWishlistItem: PropTypes.func.isRequired,
         wishlistItems: PropTypes.objectOf(ProductType).isRequired
@@ -107,12 +111,9 @@ export class MyAccountMyWishlistContainer extends PureComponent {
     };
 
     addAllToCart = () => {
-        const { wishlistItems } = this.props;
-        const promises = Object.values(wishlistItems).map(this.addItemToCart);
+        const { moveWishlistToCart } = this.props;
 
-        return Promise.all(promises)
-            .then(() => this.showSuccessNotification('Products added to cart'))
-            .catch(() => this.showErrorNotification());
+        return moveWishlistToCart().then(() => this.showSuccessNotification('Wishlist moved to cart'));
     };
 
     changeQuantity = (item_id, quantity) => {
@@ -126,12 +127,8 @@ export class MyAccountMyWishlistContainer extends PureComponent {
     };
 
     removeAll = () => {
-        const { wishlistItems } = this.props;
-        const promises = Object.keys(wishlistItems).map(this.removeItem);
-
-        return Promise.all(promises)
-            .then(() => this.showSuccessNotification('Wishlist cleared'))
-            .catch(() => this.showErrorNotification());
+        const { clearWishlist } = this.props;
+        return clearWishlist().then(() => this.showSuccessNotification('Wishlist cleared'));
     };
 
     removeItem = (item_id) => {

@@ -15,7 +15,8 @@ import {
     REMOVE_ITEM_FROM_WISHLIST,
     UPDATE_ALL_PRODUCTS_IN_WISHLIST,
     UPDATE_IS_LOADING_IN_WISHLIST,
-    UPDATE_ITEM_OPTIONS
+    UPDATE_ITEM_OPTIONS,
+    CLEAR_WISHLIST
 } from './Wishlist.action';
 
 export const PRODUCTS_IN_WISHLIST = 'wishlist_products';
@@ -35,6 +36,13 @@ const removeItemFromWishlist = ({ item_id }, { productsInWishlist: initialProduc
         PRODUCTS_IN_WISHLIST
     );
 
+    return { productsInWishlist };
+};
+
+const clearWishlist = () => {
+    const productsInWishlist = {};
+
+    BrowserDatabase.setItem(productsInWishlist, PRODUCTS_IN_WISHLIST);
     return { productsInWishlist };
 };
 
@@ -83,6 +91,12 @@ const WishlistReducer = (state = initialState, action) => {
             ...state,
             isLoading: false,
             ...removeItemFromWishlist(action, state)
+        };
+
+    case CLEAR_WISHLIST:
+        return {
+            ...state,
+            ...clearWishlist()
         };
 
     case UPDATE_ALL_PRODUCTS_IN_WISHLIST:
