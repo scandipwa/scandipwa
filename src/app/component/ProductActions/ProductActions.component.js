@@ -182,7 +182,9 @@ export default class ProductActions extends PureComponent {
     renderPrice() {
         const { product: { price, variants }, configurableVariantIndex } = this.props;
 
-        const productOrVariantPrice = configurableVariantIndex >= 0
+        // Product in props is updated before ConfigurableVariantIndex in props, when page is opened by clicking CartItem
+        // As a result, we have new product, but old configurableVariantIndex, which may be out of range for variants
+        const productOrVariantPrice = variants && variants[configurableVariantIndex] !== undefined
             ? variants[configurableVariantIndex].price
             : price;
 
