@@ -18,63 +18,43 @@ import { debounce } from 'Util/Request';
 
 import './WishlistItem.style';
 
-export const REQUEST_RATE = 1000;
+export const UPDATE_WISHLIST_FREQUENCY = 1000; // (ms)
 
 export default class WishlistItem extends PureComponent {
     static propTypes = {
-        product: ProductType.isRequired,
-        getParameters: PropTypes.func.isRequired,
         addToCart: PropTypes.func,
         changeQuantity: PropTypes.func,
+        product: ProductType.isRequired,
         changeDescription: PropTypes.func,
         removeFromWishlist: PropTypes.func,
-        showErrorNotification: PropTypes.func,
-        showSuccessNotification: PropTypes.func
+        getParameters: PropTypes.func.isRequired
     };
 
     static defaultProps = {
         addToCart: () => {},
         changeQuantity: () => {},
         changeDescription: () => {},
-        removeFromWishlist: () => {},
-        showSuccessNotification: () => {},
-        showErrorNotification: () => {}
+        removeFromWishlist: () => {}
     };
 
     changeQuantity = debounce((quantity) => {
         const { product: { wishlist: { id } }, changeQuantity } = this.props;
         changeQuantity(id, quantity);
-    }, REQUEST_RATE);
+    }, UPDATE_WISHLIST_FREQUENCY);
 
     changeDescription = debounce((description) => {
         const { product: { wishlist: { id } }, changeDescription } = this.props;
         changeDescription(id, description);
-    }, REQUEST_RATE);
+    }, UPDATE_WISHLIST_FREQUENCY);
 
     addToCart = () => {
-        const {
-            product,
-            addToCart,
-            showErrorNotification,
-            showSuccessNotification
-        } = this.props;
-
-        addToCart(product)
-            .then(() => showSuccessNotification('Product added to cart'))
-            .catch(() => showErrorNotification());
+        const { product, addToCart } = this.props;
+        addToCart(product);
     };
 
     removeFromWishlist = () => {
-        const {
-            product: { wishlist: { id } },
-            removeFromWishlist,
-            showErrorNotification,
-            showSuccessNotification
-        } = this.props;
-
-        removeFromWishlist(id)
-            .then(() => showSuccessNotification('Product removed from wishlist'))
-            .catch(() => showErrorNotification());
+        const { product: { wishlist: { id } }, removeFromWishlist } = this.props;
+        removeFromWishlist(id);
     };
 
     render() {
@@ -83,9 +63,7 @@ export default class WishlistItem extends PureComponent {
             product: {
                 type_id,
                 wishlist: {
-                    sku,
-                    quantity,
-                    description
+                    sku, quantity, description
                 }
             },
             getParameters
@@ -127,7 +105,13 @@ export default class WishlistItem extends PureComponent {
                             Add to Cart
                         </button>
                     </div>
-                    <button block="Button" mix={ { block: 'WishlistItem', elem: 'Remove' } } onClick={ this.removeFromWishlist }>Remove from Wishlist</button>
+                    <button
+                      block="Button"
+                      mix={ { block: 'WishlistItem', elem: 'Remove' } }
+                      onClick={ this.removeFromWishlist }
+                    >
+                        Remove from Wishlist
+                    </button>
                 </>
             </ProductCard>
         );

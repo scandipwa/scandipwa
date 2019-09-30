@@ -14,9 +14,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { CartDispatcher } from 'Store/Cart';
 import { WishlistDispatcher } from 'Store/Wishlist';
+import { showNotification } from 'Store/Notification';
 import WishlistItem from './WishlistItem.component';
 
 export const mapDispatchToProps = dispatch => ({
+    showNotification: (type, message) => dispatch(showNotification(type, __(message))),
     addProductToCart: options => CartDispatcher.addProductToCart(dispatch, options),
     updateWishlistItem: options => WishlistDispatcher.updateWishlistItem(dispatch, options),
     removeFromWishlist: options => WishlistDispatcher.removeItemFromWishlist(dispatch, options)
@@ -25,15 +27,16 @@ export const mapDispatchToProps = dispatch => ({
 export class WishlistItemContainer extends PureComponent {
     static propTypes = {
         addProductToCart: PropTypes.func.isRequired,
+        showNotification: PropTypes.func.isRequired,
         updateWishlistItem: PropTypes.func.isRequired,
         removeFromWishlist: PropTypes.func.isRequired
     };
 
     containerFunctions = () => ({
-        removeItem: this.removeItem,
-        addItemToCart: this.addItemToCart,
+        addToCart: this.addItemToCart,
         getParameters: this.getParameters,
         changeQuantity: this.changeQuantity,
+        removeItem: this.removeItemWithMessage,
         changeDescription: this.changeDescription
 
     });
@@ -66,9 +69,7 @@ export class WishlistItemContainer extends PureComponent {
             type_id,
             variants,
             wishlist: {
-                id,
-                sku,
-                quantity
+                id, sku, quantity
             }
         } = item;
 
@@ -80,7 +81,13 @@ export class WishlistItemContainer extends PureComponent {
             }
             : item;
 
-        return addProductToCart({ product, quantity }).then(() => this.removeItem(id));
+        return addProductToCart({ product, quantity })
+            .then(
+                () => this.removeItem(id),
+                () => showNotification('error', 'Error Adding Product To Cart')
+            )
+            .then(() => showNotification('success', 'Product Added To Cart'))
+            .catch(() => showNotification('error', 'Error cleaning wishlist'));
     };
 
     changeQuantity = (item_id, quantity) => {
@@ -93,10 +100,12 @@ export class WishlistItemContainer extends PureComponent {
         updateWishlistItem({ item_id, description });
     };
 
-    removeItem = (item_id) => {
+    removeItem = (item_id, noMessages = true) => {
         const { removeFromWishlist } = this.props;
-        return removeFromWishlist({ item_id, noMessages: true });
+        return removeFromWishlist({ item_id, noMessages });
     };
+
+    removeItemWithMessage = item_id => this.removeItem(item_id, false);
 
     render() {
         return <WishlistItem { ...this.props } { ...this.containerFunctions() } />;

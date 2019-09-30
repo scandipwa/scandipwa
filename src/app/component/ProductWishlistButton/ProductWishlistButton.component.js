@@ -20,7 +20,6 @@ export default class ProductWishlistButton extends PureComponent {
     static propTypes = {
         product: ProductType,
         quantity: PropTypes.number,
-        isLoggedIn: PropTypes.bool,
         isDisabled: PropTypes.bool,
         isInWishlist: PropTypes.bool,
         addToWishlist: PropTypes.func,
@@ -30,7 +29,6 @@ export default class ProductWishlistButton extends PureComponent {
     static defaultProps = {
         product: {},
         quantity: 1,
-        isLoggedIn: true,
         isDisabled: false,
         isInWishlist: false,
         addToWishlist: () => {},
@@ -54,13 +52,29 @@ export default class ProductWishlistButton extends PureComponent {
     renderAddToWishlist() {
         const { isDisabled } = this.props;
 
-        return <span block="ProductWishlistButton" elem="AddToWishlist" mods={ { isDisabled } }>{ __('Add to Wishlist') }</span>;
+        return (
+            <span
+              block="ProductWishlistButton"
+              elem="AddToWishlist"
+              mods={ { isDisabled } }
+            >
+                { __('Add to Wishlist') }
+            </span>
+        );
     }
 
     renderRemoveFromWishlist() {
         const { isDisabled } = this.props;
 
-        return <span block="ProductWishlistButton" elem="RemoveFromWishlist" mods={ { isDisabled } }>{ __('Remove from Wishlist') }</span>;
+        return (
+            <span
+              block="ProductWishlistButton"
+              elem="RemoveFromWishlist"
+              mods={ { isDisabled } }
+            >
+                { __('Remove from Wishlist') }
+            </span>
+        );
     }
 
     renderPlaceholder() {
