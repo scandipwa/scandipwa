@@ -109,16 +109,25 @@ export default class WishlistItem extends PureComponent {
                       placeholder={ __('Add description') }
                       onChange={ this.changeDescription }
                     />
-                    <Field
-                      id="item_qty"
-                      name="item_qty"
-                      type="number"
-                      min={ 1 }
-                      value={ quantity }
-                      onChange={ this.changeQuantity }
-                    />
-                    <button block="Button" onClick={ this.addToCart }>Add to Cart</button>
-                    <button block="Button" onClick={ this.removeFromWishlist }>Remove from Wishlist</button>
+                    <div block="WishlistItem" elem="Row">
+                        <Field
+                          id="item_qty"
+                          name="item_qty"
+                          type="number"
+                          min={ 1 }
+                          value={ quantity }
+                          mix={ { block: 'WishlistItem', elem: 'Quantity' } }
+                          onChange={ this.changeQuantity }
+                        />
+                        <button
+                          block="Button"
+                          mix={ { block: 'WishlistItem', elem: 'AddToCart' } }
+                          onClick={ this.addToCart }
+                        >
+                            Add to Cart
+                        </button>
+                    </div>
+                    <button block="Button" mix={ { block: 'WishlistItem', elem: 'Remove' } } onClick={ this.removeFromWishlist }>Remove from Wishlist</button>
                 </>
             </ProductCard>
         );

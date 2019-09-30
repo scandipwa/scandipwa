@@ -10,7 +10,26 @@
  */
 
 .WishlistItem {
-    .Button {
+    &-Remove,
+    &-AddToCart {
+        width: 100%;
+    }
+
+    &-Row,
+    &-Remove {
         margin-top: 5px;
+    }
+
+    &-AddToCart {
+        display: inline-block;
+        margin-top: 0;
+    }
+
+    &-Quantity {
+        margin: 0 5px 0 0;
+    }
+
+    &-Row {
+        display: flex;
     }
 }

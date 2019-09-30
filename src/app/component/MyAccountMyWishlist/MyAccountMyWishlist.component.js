@@ -19,30 +19,17 @@ import './MyAccountMyWishlist.style';
 export default class MyAccountMyWishlist extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool,
-        isWishlistEmpty: PropTypes.bool,
         removeAll: PropTypes.func,
-        removeItem: PropTypes.func,
         addAllToCart: PropTypes.func,
-        addItemToCart: PropTypes.func,
-        changeQuantity: PropTypes.func,
-        changeDescription: PropTypes.func,
-        showErrorNotification: PropTypes.func,
-        showSuccessNotification: PropTypes.func,
-        getParameters: PropTypes.func.isRequired,
+        isWishlistEmpty: PropTypes.bool,
         wishlistItems: PropTypes.objectOf(ProductType).isRequired
     };
 
     static defaultProps = {
         isLoading: false,
         removeAll: () => {},
-        removeItem: () => {},
-        isWishlistEmpty: false,
         addAllToCart: () => {},
-        addItemToCart: () => {},
-        changeQuantity: () => {},
-        changeDescription: () => {},
-        showErrorNotification: () => {},
-        showSuccessNotification: () => {}
+        isWishlistEmpty: false
     };
 
     renderNoProductsFound = () => (
@@ -51,31 +38,7 @@ export default class MyAccountMyWishlist extends PureComponent {
         </div>
     );
 
-    renderProduct = ([id, product]) => {
-        const {
-            removeItem,
-            addItemToCart,
-            getParameters,
-            changeQuantity,
-            changeDescription,
-            showErrorNotification,
-            showSuccessNotification
-        } = this.props;
-
-        return (
-            <WishlistItem
-              key={ id }
-              product={ product }
-              addToCart={ addItemToCart }
-              getParameters={ getParameters }
-              changeQuantity={ changeQuantity }
-              removeFromWishlist={ removeItem }
-              changeDescription={ changeDescription }
-              showErrorNotification={ showErrorNotification }
-              showSuccessNotification={ showSuccessNotification }
-            />
-        );
-    };
+    renderProduct = ([id, product]) => <WishlistItem key={ id } product={ product } />;
 
     renderProducts() {
         const { wishlistItems } = this.props;
