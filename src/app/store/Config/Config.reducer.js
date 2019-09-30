@@ -9,13 +9,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import {
-    GET_COUNTRY_LIST,
-    UPDATE_REVIEW_RATINGS,
-    UPDATE_STORE_CONFIG
-} from './Config.action';
+import BrowserDatabase from 'Util/BrowserDatabase';
+import { UPDATE_CONFIG } from './Config.action';
 
-export const initialState = {
+export const initialState = BrowserDatabase.getItem('config') || {
     countries: [],
     reviewRatings: [],
     cms_home_page: '',
@@ -26,26 +23,14 @@ export const initialState = {
 };
 
 const ConfigReducer = (state = initialState, action) => {
-    const {
-        countries,
-        reviewRatings,
-        storeConfig
-    } = action;
+    const { config: { countries, reviewRatings, storeConfig } = {}, type } = action;
 
-    switch (action.type) {
-    case GET_COUNTRY_LIST:
+    switch (type) {
+    case UPDATE_CONFIG:
         return {
             ...state,
-            countries
-        };
-    case UPDATE_REVIEW_RATINGS:
-        return {
-            ...state,
-            reviewRatings
-        };
-    case UPDATE_STORE_CONFIG:
-        return {
-            ...state,
+            countries,
+            reviewRatings,
             ...storeConfig
         };
 

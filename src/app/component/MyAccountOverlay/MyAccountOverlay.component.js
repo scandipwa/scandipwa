@@ -11,16 +11,12 @@
 
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 import Form from 'Component/Form';
-import isMobile from 'Util/Mobile';
 import Field from 'Component/Field';
 import Loader from 'Component/Loader';
-import { isSignedIn } from 'Util/Auth';
 import Overlay from 'Component/Overlay';
-import { HistoryType } from 'Type/Common';
-import { CUSTOMER_ACCOUNT } from 'Component/Header';
 
 import './MyAccountOverlay.style';
 
@@ -32,17 +28,27 @@ export const STATE_LOGGED_IN = 'loggedIn';
 
 class MyAccountOverlay extends PureComponent {
     static propTypes = {
-        forgotPassword: PropTypes.func.isRequired,
-        signIn: PropTypes.func.isRequired,
-        isPasswordForgotSend: PropTypes.bool.isRequired,
-        showNotification: PropTypes.func.isRequired,
-        createAccount: PropTypes.func.isRequired,
-        logout: PropTypes.func.isRequired,
         // eslint-disable-next-line react/no-unused-prop-types
         isOverlayVisible: PropTypes.bool.isRequired,
-        setHeaderState: PropTypes.func.isRequired,
-        hideActiveOverlay: PropTypes.func.isRequired,
-        history: HistoryType.isRequired
+        isLoading: PropTypes.bool.isRequired,
+        state: PropTypes.oneOf([
+            STATE_SIGN_IN,
+            STATE_FORGOT_PASSWORD,
+            STATE_FORGOT_PASSWORD_SUCCESS,
+            STATE_CREATE_ACCOUNT,
+            STATE_LOGGED_IN
+        ]).isRequired,
+        onSignInSuccess: PropTypes.func.isRequired,
+        onSignInAttempt: PropTypes.func.isRequired,
+        onCreateAccountAttempt: PropTypes.func.isRequired,
+        onCreateAccountSuccess: PropTypes.func.isRequired,
+        onForgotPasswordSuccess: PropTypes.func.isRequired,
+        onForgotPasswordAttempt: PropTypes.func.isRequired,
+        onFormError: PropTypes.func.isRequired,
+        handleForgotPassword: PropTypes.func.isRequired,
+        handleForgotPasswordSuccess: PropTypes.func.isRequired,
+        handleSignIn: PropTypes.func.isRequired,
+        handleCreateAccount: PropTypes.func.isRequired
     };
 
     renderMap = {
@@ -62,181 +68,12 @@ class MyAccountOverlay extends PureComponent {
             title: 'Create new account'
         },
         [STATE_LOGGED_IN]: {
-            render: () => this.renderAccountActions()
+            render: () => {}
         }
     };
 
-    handleForgotPassword = this.handleForgotPassword.bind(this);
-
-    handleForgotPasswordSuccess = this.handleForgotPasswordSuccess.bind(this);
-
-    handleCreateAccount = this.handleCreateAccount.bind(this);
-
-    handleSignIn = this.handleSignIn.bind(this);
-
-    onCreateAccountAttempt = this.onCreateAccountAttempt.bind(this);
-
-    onCreateAccountSuccess = this.onCreateAccountSuccess.bind(this);
-
-    onSignInAttempt = this.onSignInAttempt.bind(this);
-
-    onSignInSuccess = this.onSignInSuccess.bind(this);
-
-    onFormError = this.onFormError.bind(this);
-
-    constructor(props) {
-        super(props);
-
-        const { isPasswordForgotSend } = props;
-
-        this.state = {
-            state: isSignedIn() ? STATE_LOGGED_IN : STATE_SIGN_IN,
-            // eslint-disable-next-line react/no-unused-state
-            isPasswordForgotSend,
-            isLoading: false
-        };
-    }
-
-    static getDerivedStateFromProps(props, state) {
-        const {
-            isSignedIn,
-            isPasswordForgotSend,
-            showNotification,
-            isOverlayVisible
-        } = props;
-
-        const {
-            isPasswordForgotSend: currentIsPasswordForgotSend,
-            state: myAccountState
-        } = state;
-
-        const stateToBeUpdated = {};
-
-        if (!isOverlayVisible && !isSignedIn) {
-            stateToBeUpdated.state = STATE_SIGN_IN;
-        } else if (!isOverlayVisible && isSignedIn) {
-            stateToBeUpdated.state = STATE_LOGGED_IN;
-        }
-
-        if (myAccountState !== STATE_LOGGED_IN && isSignedIn) {
-            stateToBeUpdated.isLoading = false;
-            showNotification('success', __('You are successfully logged in!'));
-            stateToBeUpdated.state = STATE_LOGGED_IN;
-        }
-
-        if (myAccountState === STATE_LOGGED_IN && !isSignedIn) {
-            stateToBeUpdated.state = STATE_SIGN_IN;
-            showNotification('success', __('You are successfully logged out!'));
-        }
-
-        if (isPasswordForgotSend !== currentIsPasswordForgotSend) {
-            stateToBeUpdated.isLoading = false;
-            stateToBeUpdated.isPasswordForgotSend = isPasswordForgotSend;
-            showNotification('success', __(`If there is an account associated with the
-            provided address you will receive an email with a link to reset your password.`));
-            stateToBeUpdated.state = STATE_SIGN_IN;
-        }
-
-        return Object.keys(stateToBeUpdated).length ? stateToBeUpdated : null;
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        const { state: oldMyAccountState } = prevState;
-        const { state: newMyAccountState } = this.state;
-        const { history } = this.props;
-
-        if (oldMyAccountState === newMyAccountState) return;
-
-        if (newMyAccountState === STATE_LOGGED_IN && isMobile.any()) {
-            history.push({ pathname: '/my-account', state: 'accountOverview' });
-        }
-    }
-
-    async onSignInSuccess(fields) {
-        const { signIn, showNotification } = this.props;
-
-        try {
-            await signIn(fields);
-        } catch (e) {
-            this.setState({ isLoading: false });
-            showNotification('error', e.message);
-        }
-    }
-
-    onSignInAttempt() {
-        this.setState({ isLoading: true });
-    }
-
-    onCreateAccountAttempt(fields, invalidFields) {
-        const { showNotification } = this.props;
-        if (invalidFields) {
-            showNotification('error', __('Incorrect data! Please resolve all field validation errors.'));
-        }
-        this.setState({ isLoading: !invalidFields });
-    }
-
-    onCreateAccountSuccess(fields) {
-        const { createAccount } = this.props;
-        const {
-            password,
-            email,
-            firstname,
-            lastname,
-            is_subscribed
-        } = fields;
-        const customerData = {
-            customer: {
-                firstname,
-                lastname,
-                email,
-                is_subscribed
-            },
-            password
-        };
-
-        createAccount(customerData);
-    }
-
-    onForgotPasswordSuccess(fields) {
-        const { forgotPassword } = this.props;
-        forgotPassword(fields);
-    }
-
-    onForgotPasswordAttempt() {
-        this.setState({ isLoading: true });
-    }
-
-    onFormError() {
-        this.setState({ isLoading: false });
-    }
-
-    handleForgotPassword() {
-        const { setHeaderState } = this.props;
-
-        this.setState({ state: STATE_FORGOT_PASSWORD });
-        setHeaderState({ name: CUSTOMER_ACCOUNT, title: 'Forgot password' });
-    }
-
-    handleForgotPasswordSuccess() {
-        this.setState({ state: STATE_FORGOT_PASSWORD_SUCCESS });
-    }
-
-    handleSignIn() {
-        const { setHeaderState } = this.props;
-
-        this.setState({ state: STATE_SIGN_IN });
-        setHeaderState({ name: CUSTOMER_ACCOUNT, title: 'Sign in' });
-    }
-
-    handleCreateAccount() {
-        const { setHeaderState } = this.props;
-
-        this.setState({ state: STATE_CREATE_ACCOUNT });
-        setHeaderState({ name: CUSTOMER_ACCOUNT, title: 'Create account' });
-    }
-
     renderMyAccount() {
-        const { state } = this.state;
+        const { state } = this.props;
         const { render, title } = this.renderMap[state];
 
         return (
@@ -247,45 +84,28 @@ class MyAccountOverlay extends PureComponent {
         );
     }
 
-    renderAccountActions() {
-        const { logout, hideActiveOverlay } = this.props;
-        const linkTo = {
-            pathname: '/my-account',
-            state: 'accountOverview'
-        };
-
-        return (
-            <nav block="MyAccountOverlay" elem="Navigation">
-                <ul>
-                    <li><Link to={ linkTo } onClick={ hideActiveOverlay }>{ __('My Account') }</Link></li>
-                    <li>
-                        <button
-                          block="Button"
-                          mods={ { likeLink: true } }
-                          onClick={ logout }
-                        >
-                            { __('Logout') }
-                        </button>
-                    </li>
-                </ul>
-            </nav>
-        );
-    }
-
     renderForgotPassword() {
-        const { state } = this.state;
+        const {
+            state,
+            onForgotPasswordAttempt,
+            onForgotPasswordSuccess,
+            onFormError,
+            handleForgotPasswordSuccess,
+            handleSignIn,
+            handleCreateAccount
+        } = this.props;
 
         return (
             <>
                 <Form
                   key="forgot-password"
-                  onSubmit={ this.onForgotPasswordAttempt }
-                  onSubmitSuccess={ this.onForgotPasswordSuccess }
-                  onSubmitError={ this.onFormError }
+                  onSubmit={ onForgotPasswordAttempt }
+                  onSubmitSuccess={ onForgotPasswordSuccess }
+                  onSubmitError={ onFormError }
                 >
                     <Field type="text" id="email" name="email" label="Email" validation={ ['notEmpty', 'email'] } />
                     <div block="MyAccountOverlay" elem="Buttons">
-                        <button block="Button" type="submit" onClick={ this.handleForgotPasswordSuccess }>
+                        <button block="Button" type="submit" onClick={ handleForgotPasswordSuccess }>
                             { __('Send reset link') }
                         </button>
                     </div>
@@ -296,7 +116,7 @@ class MyAccountOverlay extends PureComponent {
                         <button
                           block="Button"
                           mods={ { likeLink: true } }
-                          onClick={ this.handleSignIn }
+                          onClick={ handleSignIn }
                         >
                             { __('Sign in here') }
                         </button>
@@ -306,7 +126,7 @@ class MyAccountOverlay extends PureComponent {
                         <button
                           block="Button"
                           mods={ { likeLink: true } }
-                          onClick={ this.handleCreateAccount }
+                          onClick={ handleCreateAccount }
                         >
                             { __('Create an account') }
                         </button>
@@ -317,7 +137,7 @@ class MyAccountOverlay extends PureComponent {
     }
 
     renderForgotPasswordSuccess() {
-        const { state } = this.state;
+        const { state, handleSignIn } = this.props;
 
         return (
             <article
@@ -332,7 +152,7 @@ class MyAccountOverlay extends PureComponent {
                 </h4>
                 <button
                   block="Button"
-                  onClick={ this.handleSignIn }
+                  onClick={ handleSignIn }
                 >
                     { __('Got it') }
                 </button>
@@ -341,15 +161,20 @@ class MyAccountOverlay extends PureComponent {
     }
 
     renderCreateAccount() {
-        const { state } = this.state;
+        const {
+            state,
+            onCreateAccountAttempt,
+            onCreateAccountSuccess,
+            handleSignIn
+        } = this.props;
 
         return (
             <>
                 <Form
                   key="create-account"
-                  onSubmit={ this.onCreateAccountAttempt }
-                  onSubmitSuccess={ this.onCreateAccountSuccess }
-                  onSubmitError={ this.onCreateAccountAttempt }
+                  onSubmit={ onCreateAccountAttempt }
+                  onSubmitSuccess={ onCreateAccountSuccess }
+                  onSubmitError={ onCreateAccountAttempt }
                 >
                     <fieldset block="MyAccountOverlay" elem="Legend">
                         <legend>{ __('Personal Information') }</legend>
@@ -404,7 +229,7 @@ class MyAccountOverlay extends PureComponent {
                         <button
                           block="Button"
                           mods={ { likeLink: true } }
-                          onClick={ this.handleSignIn }
+                          onClick={ handleSignIn }
                         >
                             { __('Sign in here') }
                         </button>
@@ -415,15 +240,22 @@ class MyAccountOverlay extends PureComponent {
     }
 
     renderSignIn() {
-        const { state } = this.state;
+        const {
+            state,
+            onSignInAttempt,
+            onSignInSuccess,
+            onFormError,
+            handleForgotPassword,
+            handleCreateAccount
+        } = this.props;
 
         return (
             <>
                 <Form
                   key="sign-in"
-                  onSubmit={ this.onSignInAttempt }
-                  onSubmitSuccess={ this.onSignInSuccess }
-                  onSubmitError={ this.onFormError }
+                  onSubmit={ onSignInAttempt }
+                  onSubmitSuccess={ onSignInSuccess }
+                  onSubmitError={ onFormError }
                 >
                     <Field
                       type="text"
@@ -445,9 +277,9 @@ class MyAccountOverlay extends PureComponent {
                     <button
                       block="Button"
                       mods={ { likeLink: true } }
-                      onClick={ this.handleForgotPassword }
+                      onClick={ handleForgotPassword }
                     >
-                        Forgot password?
+                        { __('Forgot password?') }
                     </button>
                 </Form>
                 <article block="MyAccountOverlay" elem="Additional" mods={ { state } }>
@@ -455,7 +287,7 @@ class MyAccountOverlay extends PureComponent {
                         <h4 id="forgot-password-label">{ __('New to ScandiPWA?') }</h4>
                         <button
                           block="Button"
-                          onClick={ this.handleCreateAccount }
+                          onClick={ handleCreateAccount }
                         >
                             { __('Create an account') }
                         </button>
@@ -466,7 +298,7 @@ class MyAccountOverlay extends PureComponent {
     }
 
     render() {
-        const { isLoading } = this.state;
+        const { isLoading } = this.props;
 
         return (
             <Overlay

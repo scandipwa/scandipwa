@@ -10,33 +10,22 @@
  */
 
 table {
-    --table-color: #{$primary-base-color};
-    --table-secondary-color: #{transparentize($primary-base-color, .4)};
-    border: 1px solid var(--table-color);
+    --table-secondary-color: #{transparentize($concrete, .4)};
+
+    tr:nth-child(even),
+    thead tr {
+        background-color: var(--table-secondary-color);
+    }
+
+    thead tr {
+        border-bottom: 1px solid #{transparentize($black, .5)};
+    }
 
     td,
     th {
-        min-width: 10rem;
-        padding: .35rem;
-    }
-
-    tr {
-        &:nth-child(even) {
-            background-color: var(--table-secondary-color);
-        }
-    }
-
-    td {
         font-size: 1rem;
-
-        &:last-child {
-            text-align: right;
-        }
-    }
-
-    th {
-        font-size: 1.35rem;
-        color: $white;
-        background-color: var(--table-color);
+        padding: 10px;
+        text-align: left;
+        min-width: 10rem;
     }
 }

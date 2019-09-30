@@ -10,7 +10,7 @@
  */
 
 :root {
-    --cart-overlay-totals-background: #f8f8f8;
+    --cart-overlay-totals-background: #{$concrete};
     --cart-overlay-divider-background: #d8d8d8;
     --cart-overlay-promo-background: #fff;
 }

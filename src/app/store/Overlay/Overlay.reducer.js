@@ -9,6 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { SHOW_POPUP } from 'Store/Popup';
+
 import {
     TOGGLE_OVERLAY,
     HIDE_ACTIVE_OVERLAY
@@ -19,9 +21,10 @@ export const initialState = {
     areOtherOverlaysOpen: false
 };
 
-const OverlayReducer = (state = initialState, action) => {
+export const OverlayReducer = (state = initialState, action) => {
     switch (action.type) {
     case TOGGLE_OVERLAY:
+    case SHOW_POPUP:
         const { overlayKey } = action;
         const { activeOverlay: prevActiveOverlay } = state;
         const activeOverlay = prevActiveOverlay === overlayKey ? '' : overlayKey;

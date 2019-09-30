@@ -21,23 +21,47 @@ export default class ExpandableContent extends PureComponent {
         heading: PropTypes.string,
         subHeading: PropTypes.string,
         children: ChildrenType.isRequired,
-        mix: MixType.isRequired
+        mix: MixType.isRequired,
+        onClick: (props, propName, componentName) => {
+            const propValue = props[propName];
+            if (propValue === null) return;
+            if (typeof propValue === 'function') return;
+            throw new Error(`${componentName} only accepts null or string`);
+        }
     };
 
     static defaultProps = {
         subHeading: '',
         heading: '',
-        isContentExpanded: false
+        isContentExpanded: false,
+        onClick: null
     };
 
     constructor(props) {
         super(props);
 
         const { isContentExpanded } = this.props;
-        this.state = { isContentExpanded };
+        this.state = {
+            isContentExpanded,
+            // eslint-disable-next-line react/no-unused-state
+            prevIsContentExpanded: isContentExpanded
+        };
+    }
+
+    static getDerivedStateFromProps({ isContentExpanded }, { prevIsContentExpanded }) {
+        if (isContentExpanded !== prevIsContentExpanded) {
+            return {
+                prevIsContentExpanded: isContentExpanded,
+                isContentExpanded
+            };
+        }
+
+        return null;
     }
 
     toggleExpand = () => {
+        const { onClick } = this.props;
+        if (onClick) { onClick(); return; }
         this.setState(({ isContentExpanded }) => (
             { isContentExpanded: !isContentExpanded }
         ));

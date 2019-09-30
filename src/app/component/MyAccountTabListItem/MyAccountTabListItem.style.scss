@@ -1,0 +1,69 @@
+:root {
+    --my-account-tab-list-item-color: #404040;
+}
+
+.MyAccountTabListItem {
+    --border-width: 1px;
+    --text-shadow: none;
+
+    padding-left: 0;
+    margin-bottom: 0;
+
+    &::before {
+        content: none;
+    }
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    &_isActive,
+    &:hover {
+        @include after-mobile {
+            --border-width: 2px;
+            --text-shadow:
+                -.02ex 0 var(--my-account-tab-list-item-color),
+                .02ex 0 var(--my-account-tab-list-item-color);
+        }
+    }
+
+    &_isActive {
+        @include mobile {
+            display: none;
+        }
+    }
+
+    &-Button {
+        padding: 10px 0;
+        min-width: 100%;
+        min-height: 38px;
+        text-align: left;
+        text-shadow: var(--text-shadow);
+        letter-spacing: .03ex;
+
+        @include after-mobile {
+            padding: 10px 2rem;
+            min-width: 250px;
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 1rem;
+            bottom: 0;
+            width: 6px;
+            height: 6px;
+            margin: auto;
+            transform: rotate(45deg);
+            border: {
+                right: var(--border-width) solid var(--my-account-tab-list-item-color);
+                top: var(--border-width) solid var(--my-account-tab-list-item-color);
+            }
+
+            @include after-mobile {
+                right: 2rem;
+            }
+        }
+    }
+}

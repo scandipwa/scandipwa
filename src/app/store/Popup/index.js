@@ -9,4 +9,5 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default } from './MyAccountDetails.container';
+export * from './Popup.action';
+export { default as PopupReducer } from './Popup.reducer';

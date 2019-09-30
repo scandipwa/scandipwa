@@ -124,7 +124,7 @@ export default class CartOverlay extends PureComponent {
                 <Link
                   block="CartOverlay"
                   elem="CartButton"
-                  mix={ { block: 'Button', mods: { hollow: true } } }
+                  mix={ { block: 'Button', mods: { isHollow: true } } }
                   to="/cart"
                 >
                     { __('View cart') }

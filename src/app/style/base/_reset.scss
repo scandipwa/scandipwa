@@ -132,10 +132,6 @@ h4,
 p,
 li {
     font-size: 14px;
-
-    @include mobile {
-        font-size: 12px;
-    }
 }
 
 li {
@@ -189,4 +185,8 @@ textarea {
 mark {
     background-color: transparentize($primary-base-color, .75);
     margin-right: 5px;
+}
+
+::-webkit-scrollbar {
+    display: none;
 }

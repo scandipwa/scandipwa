@@ -61,7 +61,7 @@ export default class Field extends PureComponent {
             PropTypes.number,
             PropTypes.bool
         ]),
-        state: PropTypes.string,
+        validation: PropTypes.arrayOf(PropTypes.string),
         rows: PropTypes.number,
         checked: PropTypes.oneOfType([
             PropTypes.bool,
@@ -114,10 +114,10 @@ export default class Field extends PureComponent {
         onChange: () => {},
         onBlur: () => {},
         value: null,
-        state: '',
         message: '',
         placeholder: '',
-        autocomplete: 'off'
+        autocomplete: 'off',
+        validation: []
     };
 
     onChange = this.onChange.bind(this);
@@ -143,10 +143,12 @@ export default class Field extends PureComponent {
     constructor(props) {
         super(props);
 
+        const { checked } = props;
+
         this.state = {
             value: this._getInitialPropsValue(),
             valueIndex: -1,
-            checked: false,
+            checked,
             searchString: 'a',
             isSelectExpanded: false
         };
@@ -448,9 +450,9 @@ export default class Field extends PureComponent {
 
     renderCheckbox() {
         const {
-            id, name, formRef, disabled
+            id, name, formRef, disabled, value
         } = this.props;
-        const { value, checked } = this.state;
+        const { checked } = this.state;
 
         return (
             <>
@@ -619,22 +621,46 @@ export default class Field extends PureComponent {
         }
     }
 
-    render() {
-        const {
-            id, type, label, message, state, mix
-        } = this.props;
-
-        const mods = {
-            type,
-            hasError: !!message,
-            ...(state ? { [state]: true } : {})
-        };
+    renderLabel() {
+        const { id, label, validation } = this.props;
+        const isRequired = validation.includes('notEmpty');
+        if (!label) return null;
 
         return (
-            <div block="Field" mods={ mods } mix={ mix }>
-                { label && <label htmlFor={ id }>{ label }</label> }
+            <label
+              block="Field"
+              elem="Label"
+              mods={ { isRequired } }
+              htmlFor={ id }
+            >
+                { label }
+            </label>
+        );
+    }
+
+    renderMessage() {
+        const { message } = this.props;
+        if (!message) return null;
+
+        return (
+            <p block="Field" elem="Message">
+                { message }
+            </p>
+        );
+    }
+
+    render() {
+        const { mix, type, message } = this.props;
+
+        return (
+            <div
+              block="Field"
+              mods={ { type, hasError: !!message } }
+              mix={ mix }
+            >
+                { this.renderLabel() }
                 { this.renderInputOfType(type) }
-                { message && <p block="Field" elem="Message">{ message }</p> }
+                { this.renderMessage() }
             </div>
         );
     }

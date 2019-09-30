@@ -36,7 +36,7 @@ export default class Image extends PureComponent {
         style: PropTypes.shape({
             width: PropTypes.string,
             height: PropTypes.string
-        }).isRequired,
+        }),
         alt: PropTypes.string,
         ratio: PropTypes.oneOf([
             '4x3',
