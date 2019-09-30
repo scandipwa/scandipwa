@@ -69,7 +69,6 @@ export class MyAccountMyOrdersContainer extends PureComponent {
         return (
             <MyAccountMyOrders
               { ...this.props }
-            //   { ...this.containerFunctions }
               { ...this.containerProps() }
             />
         );
