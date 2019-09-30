@@ -94,18 +94,16 @@ export class ProductPageContainer extends PureComponent {
         return null;
     }
 
-    static getDerivedStateFromProps(props, state) {
-        const { id: stateId } = state;
+    static getDerivedStateFromProps(props) {
         const {
             product: {
-                id,
                 variants,
                 configurable_options
             },
             location: { search }
         } = props;
 
-        if (!(configurable_options && variants && id !== stateId)) return null;
+        if (!configurable_options && !variants) return null;
 
         const parameters = Object.entries(convertQueryStringToKeyValuePairs(search))
             .reduce((acc, [key, value]) => {
@@ -117,11 +115,11 @@ export class ProductPageContainer extends PureComponent {
             }, {});
 
         if (Object.keys(parameters).length !== Object.keys(configurable_options).length) {
-            return { id, parameters };
+            return { parameters };
         }
 
         const configurableVariantIndex = getVariantIndex(variants, parameters);
-        return { id, parameters, configurableVariantIndex };
+        return { parameters, configurableVariantIndex };
     }
 
     getLink(key, value) {
