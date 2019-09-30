@@ -13,37 +13,29 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { OrderDispatcher } from 'Store/Order';
+import { formatCurrency } from 'Util/Price';
+import { ordersType } from 'Type/Account';
 import MyAccountMyOrders from './MyAccountMyOrders.component';
 
 export const mapStateToProps = state => ({
-    orderList: state.OrderReducer.orderList,
-    order: state.OrderReducer.order,
-    isOrderLoading: state.OrderReducer.isOrderLoading
+    orderList: state.OrderReducer.orderList
 });
 
 export const mapDispatchToProps = dispatch => ({
-    getOrderList: () => OrderDispatcher.getOrderList(dispatch),
-    getOrderById: orderId => OrderDispatcher.getOrderById(dispatch, orderId)
+    getOrderList: () => OrderDispatcher.getOrderList(dispatch)
 });
 
 export class MyAccountMyOrdersContainer extends PureComponent {
     static propTypes = {
-        match: PropTypes.shape({
-            params: PropTypes.shape({
-                id: PropTypes.string
-            }).isRequired
-        })
+        orderList: ordersType.isRequired,
+        getOrderList: PropTypes.func.isRequired
     };
 
-    static defaultProps = {
-        match: {}
-    };
+    containerProps = () => ({
+        orders: this._getFormattedOrders()
+    });
 
-    containerFunctions = {
-        getFormattedDate: this.getFormattedDate.bind(this)
-    };
-
-    getFormattedDate(rawDate) {
+    _getFormattedDate = (rawDate) => {
         const date = new Date(rawDate.replace(/\s/, 'T'));
         const RADIX = 10;
 
@@ -53,23 +45,49 @@ export class MyAccountMyOrdersContainer extends PureComponent {
         const month = addLeadingZero(date.getMonth() + 1);
 
         return `${day}.${month}.${date.getFullYear()}`;
-    }
+    };
 
-    containerProps = () => ({
-        orderId: this._getOrderIdFromUrl()
-    });
+    _getFormattedOrders() {
+        // const { orderList: { items } } = this.props;
+        const {
+            orderList: {
+                items = [
+                    {
+                        id: 1,
+                        created_at: '10.02.1999',
+                        grand_total: 142,
+                        status_label: '11223'
+                    },
+                    {
+                        id: 2,
+                        created_at: '10.11.1123',
+                        grand_total: 4125,
+                        status_label: 'Another3'
+                    }
+                ]
+            }
+        } = this.props;
 
-    _getOrderIdFromUrl() {
-        const { match: { params: { id = 1 } } } = this.props;
+        const formattedItems = items.map((item) => {
+            const { created_at, grand_total } = item;
+            const priceString = `${grand_total}${formatCurrency()}`;
+            const formattedDate = this._getFormattedDate(created_at);
 
-        return id;
+            return {
+                ...item,
+                created_at: formattedDate,
+                grand_total: priceString
+            };
+        });
+
+        return formattedItems;
     }
 
     render() {
         return (
             <MyAccountMyOrders
               { ...this.props }
-              { ...this.containerFunctions }
+            //   { ...this.containerFunctions }
               { ...this.containerProps() }
             />
         );

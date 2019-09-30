@@ -9,16 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-.MyAccountMyOrders {
-    display: grid;
-    grid-gap: 2rem;
-    grid-template-columns: 1fr;
-
-    &-Button {
-        @include after-mobile {
-            position: absolute;
-            top: -55px;
-            right: 0;
-        }
-    }
-}
+export { default } from './MyAccountOrderPopup.container';
