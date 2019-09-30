@@ -28,7 +28,7 @@ class MyAccountOrderPopup extends KeyValueTable {
 
     static defaultProps = {
         payload: { order: {} },
-        title: 'Meee'
+        title: null
     };
 
     get dataPairArray() {

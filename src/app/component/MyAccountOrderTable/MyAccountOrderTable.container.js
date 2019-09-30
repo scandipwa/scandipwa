@@ -44,7 +44,7 @@ export class MyAccountOrderTableContainer extends PureComponent {
 
         showViewPopup({
             action: VIEW_ORDER,
-            title: __('View order'),
+            title: __('Order details'),
             order
         });
     }
