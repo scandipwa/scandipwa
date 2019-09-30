@@ -19,7 +19,6 @@ import KeyValueTable from 'Component/KeyValueTable';
 export const ORDER_POPUP_ID = 'MyAccountOrderPopup';
 export const VIEW_ORDER = 'VIEW_ORDER';
 
-// class MyAccountOrderPopup extends PureComponent {
 class MyAccountOrderPopup extends KeyValueTable {
     static propTypes = {
         payload: PropTypes.shape({
@@ -41,11 +40,6 @@ class MyAccountOrderPopup extends KeyValueTable {
                 label: `${__('Order')} №`,
                 source: order
             },
-            // {
-            //     key: 'increment_id',
-            //     label: __('increment_id'),
-            //     source: order
-            // },
             {
                 key: 'base_order_info',
                 label: __('Order info'),
@@ -66,11 +60,6 @@ class MyAccountOrderPopup extends KeyValueTable {
                 label: __('Status'),
                 source: order
             },
-            // {
-            //     key: 'status_label',
-            //     label: __('Status Label'),
-            //     source: order
-            // },
             {
                 key: 'sub_total',
                 label: __('Subtotal'),
