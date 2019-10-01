@@ -56,20 +56,13 @@ const getIndexedConfigurableOptions = (configurableOptions, indexedAttributes) =
     }, {})
 );
 
-const getIndexedVariants = variants => variants
-    .reduce((filteredVariants, { product }) => {
-        if (product !== null) {
-            const { attributes } = product;
-            const filteredVariant = {
-                ...product,
-                attributes: getIndexedAttributes(attributes)
-            };
-
-            filteredVariants.push(filteredVariant);
-        }
-
-        return filteredVariants;
-    }, []);
+const getIndexedVariants = variants => variants.map(({ product }) => {
+    const { attributes } = product;
+    return {
+        ...product,
+        attributes: getIndexedAttributes(attributes)
+    };
+});
 
 /**
  * Get product variant index by options
@@ -82,7 +75,7 @@ export const getVariantIndex = (variants, options) => variants
 
 export const getVariantsIndexes = (variants, options) => Object.entries(variants)
     .reduce((indexes, [index, variant]) => {
-        if (variant !== null && checkEveryOption(variant.attributes, options)) indexes.push(+index);
+        if (checkEveryOption(variant.attributes, options)) indexes.push(+index);
         return indexes;
     }, []);
 

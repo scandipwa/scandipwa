@@ -72,7 +72,7 @@ export default class ProductGallery extends PureComponent {
         const {
             alt,
             type,
-            image,
+            image = '',
             isPlaceholder
         } = media;
         const fullImageUrl = `//${window.location.hostname}${image}`;
