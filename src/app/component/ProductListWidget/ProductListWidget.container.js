@@ -53,7 +53,8 @@ export class ProductListWidgetContainer extends PureComponent {
 
     containerFunctions = {
         requestProductList: this.requestProductList.bind(this),
-        updateLoadStatus: this.updateLoadStatus.bind(this)
+        updateLoadStatus: this.updateLoadStatus.bind(this),
+        getIsNewCategory: this.getIsNewCategory.bind(this)
     };
 
     onError = this.onError.bind(this);
@@ -66,6 +67,10 @@ export class ProductListWidgetContainer extends PureComponent {
         const { showNotification, updateNoMatch } = this.props;
         showNotification('error', 'Error fetching Product List!', error);
         updateNoMatch(true);
+    }
+
+    getIsNewCategory() {
+        return true;
     }
 
     appendPage(data) {
