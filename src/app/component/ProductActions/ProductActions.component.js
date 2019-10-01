@@ -203,16 +203,15 @@ export default class ProductActions extends PureComponent {
         } = this.props;
 
         return (
-            <div
-              block="ProductActions"
-              elem="AddToButtons"
-            >
+            <>
                 <ProductWishlistButton
                   product={ product }
                   quantity={ quantity }
+                  mix={ { block: 'ProductActions', elem: 'ProductWishlistButton' } }
                   configurableVariantIndex={ configurableVariantIndex }
                 />
-            </div>
+                { this.renderAddToCart() }
+            </>
         );
     }
 
@@ -220,10 +219,9 @@ export default class ProductActions extends PureComponent {
         return (
             <article block="ProductActions">
                 { this.renderPrice() }
-                { this.renderAddToButtons() }
                 <div block="ProductActions" elem="AddToCartWrapper">
-                  { this.renderAddToCart() }
                   { this.renderQuantityInput() }
+                  { this.renderAddToButtons() }
                 </div>
                 { this.renderNameAndBrand() }
                 { this.renderSkuAndStock() }

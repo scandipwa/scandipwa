@@ -62,17 +62,6 @@
         }
     }
 
-    &-AddToButtons {
-        display: flex;
-        order: 3;
-        padding: 0 15px;
-        justify-content: flex-end;
-
-        @include after-mobile {
-            width: 100%;
-        }
-    }
-
     &-Color {
         @include after-mobile {
             margin: 6px;
@@ -112,7 +101,7 @@
 
     &-AddToCart {
         @include mobile {
-            margin: 1.8rem 1rem 1.5rem;
+            margin: 1.3rem 1rem 1.5rem;
             width: calc(100% - 2rem);
         }
     }
@@ -143,6 +132,17 @@
             flex-wrap: wrap;
             flex-basis: 100%;
             padding: 1.5rem calc(1rem - 5px);
+        }
+    }
+
+    &-ProductWishlistButton {
+        margin: 0 .5rem;
+        min-width: 12rem;
+        vertical-align: middle;
+
+        @include mobile {
+            margin: 1.5rem 0 0 1rem;
+            width: calc(100% - 2rem);
         }
     }
 

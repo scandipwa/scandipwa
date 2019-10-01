@@ -14,7 +14,6 @@ import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { ProductType } from 'Type/ProductList';
-import './ProductWishlistButton.style';
 
 export default class ProductWishlistButton extends PureComponent {
     static propTypes = {
@@ -23,10 +22,16 @@ export default class ProductWishlistButton extends PureComponent {
         isDisabled: PropTypes.bool,
         isInWishlist: PropTypes.bool,
         addToWishlist: PropTypes.func,
-        removeFromWishlist: PropTypes.func
+        removeFromWishlist: PropTypes.func,
+        mix: PropTypes.shape({ block: PropTypes.string, elem: PropTypes.string, mod: PropTypes.string })
     };
 
     static defaultProps = {
+        mix: {
+            block: '',
+            elem: '',
+            mod: ''
+        },
         product: {},
         quantity: 1,
         isDisabled: false,
@@ -49,47 +54,22 @@ export default class ProductWishlistButton extends PureComponent {
         return removeFromWishlist(product, quantity);
     };
 
-    renderAddToWishlist() {
-        const { isDisabled } = this.props;
-
-        return (
-            <span
-              block="ProductWishlistButton"
-              elem="AddToWishlist"
-              mods={ { isDisabled } }
-            >
-                { __('Add to Wishlist') }
-            </span>
-        );
-    }
-
-    renderRemoveFromWishlist() {
-        const { isDisabled } = this.props;
-
-        return (
-            <span
-              block="ProductWishlistButton"
-              elem="RemoveFromWishlist"
-              mods={ { isDisabled } }
-            >
-                { __('Remove from Wishlist') }
-            </span>
-        );
-    }
-
     renderPlaceholder() {
         return <TextPlaceholder length="short" />;
     }
 
     renderButton() {
-        const { isInWishlist } = this.props;
+        const { isInWishlist, isDisabled, mix } = this.props;
 
         return (
             <button
+              block="Button"
+              disabled={ isDisabled }
               onClick={ this.onClick }
+              mix={ mix }
               title={ !isInWishlist ? __('Add to Wishlist') : __('Remove from Wishlist') }
             >
-               { !isInWishlist ? this.renderAddToWishlist() : this.renderRemoveFromWishlist() }
+               { !isInWishlist ? __('Add to Wishlist') : __('Remove from Wishlist') }
             </button>
         );
     }
