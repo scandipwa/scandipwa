@@ -61,6 +61,11 @@ class MyAccountOrderPopup extends KeyValueTable {
                 source: order
             },
             {
+                key: 'status_label',
+                label: __('Status Label'),
+                source: order
+            },
+            {
                 key: 'sub_total',
                 label: __('Subtotal'),
                 source: order

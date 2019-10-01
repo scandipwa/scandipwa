@@ -20,7 +20,7 @@ import MyAccountOrderPopup from 'Component/MyAccountOrderPopup';
 class MyAccountMyOrders extends PureComponent {
     static propTypes = {
         getOrderList: PropTypes.func.isRequired,
-        orders: ordersType.isRequired
+        orderList: ordersType.isRequired
     };
 
     componentDidMount() {
@@ -53,10 +53,10 @@ class MyAccountMyOrders extends PureComponent {
     }
 
     renderOrdersList() {
-        const { orders } = this.props;
+        const { orderList } = this.props;
 
-        if (!orders.length) return this.renderNoOrders();
-        return orders.map(this.renderOrders);
+        if (!orderList.length) return this.renderNoOrders();
+        return orderList.map(this.renderOrders);
     }
 
     render() {
