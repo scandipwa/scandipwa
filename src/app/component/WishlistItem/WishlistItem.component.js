@@ -14,11 +14,8 @@ import PropTypes from 'prop-types';
 import Field from 'Component/Field';
 import ProductCard from 'Component/ProductCard';
 import { ProductType } from 'Type/ProductList';
-import { debounce } from 'Util/Request';
 
 import './WishlistItem.style';
-
-export const UPDATE_WISHLIST_FREQUENCY = 1000; // (ms)
 
 export default class WishlistItem extends PureComponent {
     static propTypes = {
@@ -37,26 +34,6 @@ export default class WishlistItem extends PureComponent {
         removeFromWishlist: () => {}
     };
 
-    changeQuantity = debounce((quantity) => {
-        const { product: { wishlist: { id } }, changeQuantity } = this.props;
-        changeQuantity(id, quantity);
-    }, UPDATE_WISHLIST_FREQUENCY);
-
-    changeDescription = debounce((description) => {
-        const { product: { wishlist: { id } }, changeDescription } = this.props;
-        changeDescription(id, description);
-    }, UPDATE_WISHLIST_FREQUENCY);
-
-    addToCart = () => {
-        const { product, addToCart } = this.props;
-        addToCart(product);
-    };
-
-    removeFromWishlist = () => {
-        const { product: { wishlist: { id } }, removeFromWishlist } = this.props;
-        removeFromWishlist(id);
-    };
-
     render() {
         const {
             product,
@@ -66,7 +43,11 @@ export default class WishlistItem extends PureComponent {
                     sku, quantity, description
                 }
             },
-            getParameters
+            addToCart,
+            getParameters,
+            changeQuantity,
+            changeDescription,
+            removeFromWishlist
         } = this.props;
 
         const parameters = type_id !== 'configurable' ? {} : getParameters(sku, product);
@@ -85,7 +66,7 @@ export default class WishlistItem extends PureComponent {
                       value={ description }
                       mix={ { block: 'MyAccountMyWishlist', elem: 'Description' } }
                       placeholder={ __('Add description') }
-                      onChange={ this.changeDescription }
+                      onChange={ changeDescription }
                     />
                     <div block="WishlistItem" elem="Row">
                         <Field
@@ -95,22 +76,22 @@ export default class WishlistItem extends PureComponent {
                           min={ 1 }
                           value={ quantity }
                           mix={ { block: 'WishlistItem', elem: 'Quantity' } }
-                          onChange={ this.changeQuantity }
+                          onChange={ changeQuantity }
                         />
                         <button
                           block="Button"
                           mix={ { block: 'WishlistItem', elem: 'AddToCart' } }
-                          onClick={ this.addToCart }
+                          onClick={ addToCart }
                         >
-                            Add to Cart
+                            { __('Add to Cart') }
                         </button>
                     </div>
                     <button
                       block="Button"
                       mix={ { block: 'WishlistItem', elem: 'Remove' } }
-                      onClick={ this.removeFromWishlist }
+                      onClick={ removeFromWishlist }
                     >
-                        Remove from Wishlist
+                        { __('Remove from Wishlist') }
                     </button>
                 </>
             </ProductCard>

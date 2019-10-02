@@ -18,24 +18,17 @@ import './MyAccountMyWishlist.style';
 
 export default class MyAccountMyWishlist extends PureComponent {
     static propTypes = {
-        isLoading: PropTypes.bool,
-        removeAll: PropTypes.func,
-        addAllToCart: PropTypes.func,
-        isWishlistEmpty: PropTypes.bool,
+        isLoading: PropTypes.bool.isRequired,
+        removeAll: PropTypes.func.isRequired,
+        addAllToCart: PropTypes.func.isRequired,
+        isWishlistEmpty: PropTypes.bool.isRequired,
         wishlistItems: PropTypes.objectOf(ProductType).isRequired
     };
 
-    static defaultProps = {
-        isLoading: false,
-        removeAll: () => {},
-        addAllToCart: () => {},
-        isWishlistEmpty: false
-    };
-
     renderNoProductsFound = () => (
-        <div block="MyAccountMyWishlist" elem="NoProducts">
-            <h3>Please add products to wishlist first!</h3>
-        </div>
+        <p block="MyAccountMyWishlist" elem="NoProducts">
+            { __('Please add products to wishlist first!') }
+        </p>
     );
 
     renderProduct = ([id, product]) => <WishlistItem key={ id } product={ product } />;
@@ -52,6 +45,7 @@ export default class MyAccountMyWishlist extends PureComponent {
             addAllToCart,
             isWishlistEmpty
         } = this.props;
+
         const disabled = isLoading || isWishlistEmpty;
 
         return (
@@ -81,15 +75,13 @@ export default class MyAccountMyWishlist extends PureComponent {
     renderContent() {
         const { isLoading, isWishlistEmpty } = this.props;
 
-        if (!isWishlistEmpty || isLoading) {
-            return (
-                <div block="MyAccountMyWishlist" elem="Products">
-                    { isLoading ? this.renderPlaceholders() : this.renderProducts() }
-                </div>
-            );
-        }
+        if (isWishlistEmpty && !isLoading) return this.renderNoProductsFound();
 
-        return this.renderNoProductsFound();
+        return (
+            <div block="MyAccountMyWishlist" elem="Products">
+                { isLoading ? this.renderPlaceholders() : this.renderProducts() }
+            </div>
+        );
     }
 
     render() {

@@ -12,10 +12,14 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { debounce } from 'Util/Request';
 import { CartDispatcher } from 'Store/Cart';
+import { ProductType } from 'Type/ProductList';
 import { WishlistDispatcher } from 'Store/Wishlist';
 import { showNotification } from 'Store/Notification';
 import WishlistItem from './WishlistItem.component';
+
+export const UPDATE_WISHLIST_FREQUENCY = 1000; // (ms)
 
 export const mapDispatchToProps = dispatch => ({
     showNotification: (type, message) => dispatch(showNotification(type, __(message))),
@@ -26,19 +30,29 @@ export const mapDispatchToProps = dispatch => ({
 
 export class WishlistItemContainer extends PureComponent {
     static propTypes = {
+        product: ProductType.isRequired,
         addProductToCart: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
         updateWishlistItem: PropTypes.func.isRequired,
         removeFromWishlist: PropTypes.func.isRequired
     };
 
+    changeQuantity = debounce((quantity) => {
+        const { product: { wishlist: { id: item_id } }, updateWishlistItem } = this.props;
+        updateWishlistItem({ item_id, quantity });
+    }, UPDATE_WISHLIST_FREQUENCY);
+
+    changeDescription = debounce((description) => {
+        const { product: { wishlist: { id: item_id } }, updateWishlistItem } = this.props;
+        updateWishlistItem({ item_id, description });
+    }, UPDATE_WISHLIST_FREQUENCY);
+
     containerFunctions = () => ({
         addToCart: this.addItemToCart,
         getParameters: this.getParameters,
         changeQuantity: this.changeQuantity,
-        removeItem: this.removeItemWithMessage,
-        changeDescription: this.changeDescription
-
+        changeDescription: this.changeDescription,
+        removeItem: this.removeItem.bind(this, false)
     });
 
     getConfigurableVariantIndex = (sku, variants) => Object.keys(variants).find(i => variants[i].sku === sku);
@@ -62,8 +76,8 @@ export class WishlistItemContainer extends PureComponent {
         return parameters;
     };
 
-    addItemToCart = (item) => {
-        const { addProductToCart } = this.props;
+    addItemToCart = () => {
+        const { product: item, addProductToCart } = this.props;
 
         const {
             type_id,
@@ -90,22 +104,10 @@ export class WishlistItemContainer extends PureComponent {
             .catch(() => showNotification('error', 'Error cleaning wishlist'));
     };
 
-    changeQuantity = (item_id, quantity) => {
-        const { updateWishlistItem } = this.props;
-        updateWishlistItem({ item_id, quantity });
-    };
-
-    changeDescription = (item_id, description) => {
-        const { updateWishlistItem } = this.props;
-        updateWishlistItem({ item_id, description });
-    };
-
-    removeItem = (item_id, noMessages = true) => {
-        const { removeFromWishlist } = this.props;
+    removeItem = (noMessages = true) => {
+        const { product: { wishlist: { id: item_id } }, removeFromWishlist } = this.props;
         return removeFromWishlist({ item_id, noMessages });
     };
-
-    removeItemWithMessage = item_id => this.removeItem(item_id, false);
 
     render() {
         return <WishlistItem { ...this.props } { ...this.containerFunctions() } />;

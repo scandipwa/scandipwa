@@ -121,20 +121,19 @@ export class AddToCartContainer extends PureComponent {
 
     removeProductFromWishlist() {
         const {
-            product,
             wishlistItems,
             removeFromWishlist,
-            product: { type_id },
-            configurableVariantIndex
+            configurableVariantIndex,
+            product: { type_id, variants = {} } = {}
         } = this.props;
 
-        if (type_id !== 'configurable') return null;
+        if (type_id !== 'configurable') return;
 
-        const { sku } = product.variants[configurableVariantIndex];
-        if (!isSignedIn() || sku in wishlistItems === false) return null;
+        const { sku } = variants[configurableVariantIndex];
+        if (!isSignedIn() || sku in wishlistItems === false) return;
 
         const { item_id } = wishlistItems[sku];
-        return removeFromWishlist({ item_id, sku, noMessage: true });
+        removeFromWishlist({ item_id, sku, noMessage: true });
     }
 
     _afterAdded() {

@@ -37,19 +37,13 @@ export class MyAccountMyWishlistContainer extends PureComponent {
     };
 
     containerProps = () => ({
-        isWishlistEmpty: this.getIsWishlistEmpty()
+        isWishlistEmpty: this._getIsWishlistEmpty()
     });
 
     containerFunctions = () => ({
         removeAll: this.removeAll,
         addAllToCart: this.addAllToCart
     });
-
-    getIsWishlistEmpty = () => {
-        const { wishlistItems } = this.props;
-
-        return Object.entries(wishlistItems).length <= 0;
-    };
 
     addAllToCart = () => {
         const { moveWishlistToCart, showNotification } = this.props;
@@ -59,6 +53,12 @@ export class MyAccountMyWishlistContainer extends PureComponent {
     removeAll = () => {
         const { clearWishlist, showNotification } = this.props;
         return clearWishlist().then(() => showNotification('Wishlist cleared'));
+    };
+
+    _getIsWishlistEmpty = () => {
+        const { wishlistItems } = this.props;
+
+        return Object.entries(wishlistItems).length <= 0;
     };
 
     render() {

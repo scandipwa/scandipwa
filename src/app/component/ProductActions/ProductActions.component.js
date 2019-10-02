@@ -23,6 +23,9 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import ProductPrice from 'Component/ProductPrice';
 import AddToCart from 'Component/AddToCart';
 import Html from 'Component/Html';
+import Link from 'Component/Link';
+import { isSignedIn } from 'Util/Auth';
+
 import './ProductActions.style';
 
 /**
@@ -195,7 +198,20 @@ export default class ProductActions extends PureComponent {
         );
     }
 
-    renderAddToButtons() {
+    renderGoToWishlist() {
+        if (!isSignedIn()) return null;
+
+        return (
+            <Link
+              to="/my-account/my-wishlist"
+              mix={ { block: 'Button' } }
+            >
+                { __('Go To Wishlist') }
+            </Link>
+        );
+    }
+
+    renderProductWishlistButton() {
         const {
             product,
             quantity,
@@ -203,15 +219,20 @@ export default class ProductActions extends PureComponent {
         } = this.props;
 
         return (
-            <>
-                <ProductWishlistButton
-                  product={ product }
-                  quantity={ quantity }
-                  mix={ { block: 'ProductActions', elem: 'ProductWishlistButton' } }
-                  configurableVariantIndex={ configurableVariantIndex }
-                />
-                { this.renderAddToCart() }
-            </>
+            <ProductWishlistButton
+              product={ product }
+              quantity={ quantity }
+              configurableVariantIndex={ configurableVariantIndex }
+            />
+        );
+    }
+
+    renderAdditionalButtons() {
+        return (
+            <div block="ProductActions" elem="AdditionalButtons">
+                { this.renderProductWishlistButton() }
+                { this.renderGoToWishlist() }
+            </div>
         );
     }
 
@@ -220,9 +241,10 @@ export default class ProductActions extends PureComponent {
             <article block="ProductActions">
                 { this.renderPrice() }
                 <div block="ProductActions" elem="AddToCartWrapper">
-                  { this.renderQuantityInput() }
-                  { this.renderAddToButtons() }
+                    { this.renderQuantityInput() }
+                    { this.renderAddToCart() }
                 </div>
+                { this.renderAdditionalButtons() }
                 { this.renderNameAndBrand() }
                 { this.renderSkuAndStock() }
                 { this.renderConfigurableAttributes() }

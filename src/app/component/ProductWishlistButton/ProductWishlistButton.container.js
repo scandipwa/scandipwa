@@ -51,7 +51,8 @@ export class ProductWishlistButtonContainer extends PureComponent {
 
     containerProps = () => ({
         isDisabled: this.isDisabled(),
-        isInWishlist: this.isInWishlist()
+        isInWishlist: this.isInWishlist(),
+        isReady: this._getIsProductReady()
     });
 
     containerFunctions = () => ({
@@ -108,6 +109,16 @@ export class ProductWishlistButtonContainer extends PureComponent {
         const { sku: productSku } = product;
         return Object.values(productsInWishlist).findIndex(({ wishlist: { sku } }) => sku === productSku) >= 0;
     };
+
+    _getIsProductReady() {
+        const { product: { type_id }, configurableVariantIndex } = this.props;
+
+        if (type_id === 'configurable' && configurableVariantIndex < 0) {
+            return false;
+        }
+
+        return true;
+    }
 
     _getProductVariant() {
         const {
