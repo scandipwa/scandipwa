@@ -26,7 +26,8 @@ export default class ProductConfigurableAttributes extends Component {
         parameters: PropTypes.shape({}).isRequired,
         updateConfigurableVariant: PropTypes.func.isRequired,
         isReady: PropTypes.bool,
-        mix: MixType
+        mix: MixType,
+        getIsConfigurableAttributeAvailable: PropTypes.func
     };
 
     static defaultProps = {
@@ -34,7 +35,8 @@ export default class ProductConfigurableAttributes extends Component {
         mix: {},
         // eslint-disable-next-line no-magic-numbers
         numberOfPlaceholders: [6, 10, 7],
-        isContentExpanded: false
+        isContentExpanded: false,
+        getIsConfigurableAttributeAvailable: () => true
     };
 
     /**
@@ -85,6 +87,7 @@ export default class ProductConfigurableAttributes extends Component {
     }
 
     renderConfigurableAttributeValue(attribute) {
+        const { getIsConfigurableAttributeAvailable } = this.props;
         const { attribute_value } = attribute;
 
         return (
@@ -92,6 +95,7 @@ export default class ProductConfigurableAttributes extends Component {
               key={ attribute_value }
               attribute={ attribute }
               isSelected={ this.isSelected(attribute) }
+              isAvailable={ getIsConfigurableAttributeAvailable(attribute) }
               onClick={ this.handleOptionClick }
               getLink={ this.getLink }
             />

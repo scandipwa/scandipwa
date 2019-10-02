@@ -13,24 +13,26 @@ import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Link from 'Component/Link';
 import Image from 'Component/Image';
-import ProductPrice from 'Component/ProductPrice';
 import Field from 'Component/Field';
+import CartItemPrice from 'Component/CartItemPrice';
 import Loader from 'Component/Loader';
-import { ProductType } from 'Type/ProductList';
+import { CartItemType } from 'Type/MiniCart';
 import './CartItem.style';
 
 /**
- * Cart and Minicart item
+ * Cart and CartOverlay item
  * @class CartItem
  */
 export default class CartItem extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
-        product: ProductType.isRequired,
+        item: CartItemType.isRequired,
+        currency_code: PropTypes.string.isRequired,
         isEditing: PropTypes.bool,
         isLikeTable: PropTypes.bool,
         handleRemoveItem: PropTypes.func.isRequired,
-        handleQtyChange: PropTypes.func.isRequired,
+        handleChangeQuantity: PropTypes.func.isRequired,
+        getCurrentProduct: PropTypes.func.isRequired,
         linkTo: PropTypes.oneOfType([
             PropTypes.shape({
                 pathname: PropTypes.string,
@@ -48,17 +50,20 @@ export default class CartItem extends PureComponent {
 
     renderConfiguration() {
         const {
-            product: {
-                configurable_options,
-                configurableVariantIndex,
-                variants
+            item: {
+                product: {
+                    configurable_options,
+                    variants
+                }
             },
-            isLikeTable
+            isLikeTable,
+            getCurrentProduct
         } = this.props;
 
         if (!variants || !configurable_options) return null;
 
-        const { attributes = [] } = variants[configurableVariantIndex] || {};
+        const product = getCurrentProduct() || {};
+        const { attributes = [] } = product;
 
         return (
             <ul
@@ -101,7 +106,16 @@ export default class CartItem extends PureComponent {
     }
 
     renderProductDetails() {
-        const { product: { name, price }, isLikeTable } = this.props;
+        const {
+            isLikeTable,
+            currency_code,
+            item: {
+                row_total,
+                product: {
+                    name
+                }
+            }
+        } = this.props;
 
         return (
             <>
@@ -113,13 +127,14 @@ export default class CartItem extends PureComponent {
                     { name }
                 </p>
                 { this.renderConfiguration() }
-                <ProductPrice
+                <CartItemPrice
+                  row_total={ row_total }
+                  currency_code={ currency_code }
                   mix={ {
                       block: 'CartItem',
                       elem: 'Price',
                       mods: { isLikeTable }
                   } }
-                  price={ price }
                 />
             </>
         );
@@ -129,9 +144,9 @@ export default class CartItem extends PureComponent {
         const {
             isEditing,
             isLikeTable,
-            product: { quantity },
+            item: { qty },
             handleRemoveItem,
-            handleQtyChange
+            handleChangeQuantity
         } = this.props;
 
         return (
@@ -148,7 +163,7 @@ export default class CartItem extends PureComponent {
                   aria-label="Remove item from cart"
                   onClick={ handleRemoveItem }
                 >
-                    <span>Delete</span>
+                    <span>{ __('Delete') }</span>
                 </button>
                 <Field
                   id="item_qty"
@@ -156,15 +171,15 @@ export default class CartItem extends PureComponent {
                   type="number"
                   min={ 1 }
                   mix={ { block: 'CartItem', elem: 'Qty' } }
-                  value={ quantity }
-                  onChange={ handleQtyChange }
+                  value={ qty }
+                  onChange={ handleChangeQuantity }
                 />
             </div>
         );
     }
 
     renderImage() {
-        const { product: { name }, thumbnail } = this.props;
+        const { item: { product: { name } }, thumbnail } = this.props;
         const fullImageUrl = `//${window.location.hostname}${thumbnail}`;
 
         return (

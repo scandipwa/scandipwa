@@ -1,0 +1,15 @@
+.KeyValueTable {
+    margin: 0 0 1rem 0;
+    min-width: 100%;
+
+    &-Heading {
+        font-size: 14px;
+    }
+
+    &-Wrapper {
+        @include mobile {
+            overflow-x: scroll;
+            max-width: calc(100vw - 2rem);
+        }
+    }
+}

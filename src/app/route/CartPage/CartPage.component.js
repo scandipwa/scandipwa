@@ -15,29 +15,23 @@ import PropTypes from 'prop-types';
 import ContentWrapper from 'Component/ContentWrapper';
 import CartItem from 'Component/CartItem';
 import CartCoupon from 'Component/CartCoupon';
-import { ProductType } from 'Type/ProductList';
 import { TotalsType } from 'Type/MiniCart';
 import isMobile from 'Util/Mobile';
 import ExpandableContent from 'Component/ExpandableContent';
 
 import './CartPage.style';
-import { formatCurrency } from 'Util/Price';
+import { formatCurrency, roundPrice } from 'Util/Price';
 
 export default class CartPage extends Component {
     static propTypes = {
         isEditing: PropTypes.bool.isRequired,
-        products: PropTypes.objectOf(ProductType),
         totals: TotalsType.isRequired
     };
 
-    static defaultProps = {
-        products: {}
-    };
-
     renderCartItems() {
-        const { products, isEditing } = this.props;
+        const { isEditing, totals: { items, base_currency_code } } = this.props;
 
-        if (!Object.keys(products).length) {
+        if (!items || items.length < 1) {
             return (
                 <p block="CartPage" elem="Empty">{ __('There are no products in cart.') }</p>
             );
@@ -51,10 +45,11 @@ export default class CartPage extends Component {
                     <span>{ __('subtotal') }</span>
                 </p>
                 <ul block="CartPage" elem="Items" aria-label="List of items in cart">
-                    { Object.entries(products).map(([id, product]) => (
+                    { items.map(item => (
                         <CartItem
-                          key={ id }
-                          product={ product }
+                          key={ item.item_id }
+                          item={ item }
+                          currency_code={ base_currency_code }
                           isEditing={ !isMobile.any() || isEditing }
                           isLikeTable
                         />
@@ -81,20 +76,25 @@ export default class CartPage extends Component {
 
     renderPriceLine(price) {
         const { totals: { base_currency_code } } = this.props;
-        return `${formatCurrency(base_currency_code)}${parseFloat(price).toFixed(2)}`;
+        return `${formatCurrency(base_currency_code)}${roundPrice(price)}`;
     }
 
     renderTotals() {
         const {
-            products,
             totals: {
                 grand_total = 0,
                 subtotal = 0,
-                tax_amount = 0
+                tax_amount = 0,
+                items
             }
         } = this.props;
-        const isDisabled = !Object.keys(products).length;
-        const props = isDisabled ? { onClick: e => e.preventDefault(), disabled: true } : {};
+
+        const props = !items || items.length < 1
+            ? {
+                onClick: e => e.preventDefault(),
+                disabled: true
+            }
+            : {};
 
         return (
             <article block="CartPage" elem="Summary">

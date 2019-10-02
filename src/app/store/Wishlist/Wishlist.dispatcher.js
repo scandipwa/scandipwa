@@ -56,7 +56,7 @@ export class WishlistDispatcher {
                 }
             },
             // eslint-disable-next-line no-console
-            error => dispatch(showNotification('error', error[0].message))
+            error => console.log(error)
         );
     }
 

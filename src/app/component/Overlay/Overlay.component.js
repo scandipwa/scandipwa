@@ -21,6 +21,7 @@ export default class Overlay extends PureComponent {
         mix: MixType,
         id: PropTypes.string.isRequired,
         onVisible: PropTypes.func,
+        onHide: PropTypes.func,
         activeOverlay: PropTypes.string.isRequired,
         areOtherOverlaysOpen: PropTypes.bool.isRequired,
         children: ChildrenType
@@ -29,16 +30,25 @@ export default class Overlay extends PureComponent {
     static defaultProps = {
         mix: {},
         children: [],
-        onVisible: () => {}
+        onVisible: () => {},
+        onHide: () => {}
     };
 
     componentDidUpdate(prevProps) {
-        const { onVisible } = this.props;
-
         const prevWasVisible = this.getIsVisible(prevProps);
         const isVisible = this.getIsVisible();
+        if (isVisible && !prevWasVisible) this.onVisible();
+        if (!isVisible && prevWasVisible) this.onHide();
+    }
 
-        if (isVisible && !prevWasVisible) onVisible();
+    onVisible() {
+        const { onVisible } = this.props;
+        onVisible();
+    }
+
+    onHide() {
+        const { onHide } = this.props;
+        onHide();
     }
 
     getIsVisible(props = this.props) {

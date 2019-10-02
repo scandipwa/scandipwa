@@ -38,7 +38,7 @@ export class CartQuery {
         return mutation;
     }
 
-    getRemoveCartItemMutation({ item_id }, quoteId) {
+    getRemoveCartItemMutation(item_id, quoteId) {
         const mutation = new Field('removeCartItem')
             .addArgument('item_id', 'Int!', item_id)
             .addFieldList(this._getRemoveCartItemFields(quoteId));

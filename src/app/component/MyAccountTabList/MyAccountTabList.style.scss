@@ -1,0 +1,35 @@
+:root {
+    @include after-mobile {
+        --my-account-tab-list-background: #{$white};
+    }
+}
+
+.MyAccountTabList {
+    @include after-mobile {
+        padding: 1rem 0;
+        background-color: var(--my-account-tab-list-background);
+    }
+
+    &-ExpandableContentContent {
+        @include after-mobile {
+            margin-top: 0;
+        }
+
+        &_isContentExpanded {
+            @include mobile {
+                padding: 0 1rem 1rem;
+            }
+        }
+    }
+
+    &-ExpandableContentButton {
+        @include after-mobile {
+            display: none;
+        }
+
+        &::before,
+        &::after {
+            right: 2rem;
+        }
+    }
+}

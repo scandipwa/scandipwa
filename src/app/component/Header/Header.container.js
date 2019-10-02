@@ -31,7 +31,9 @@ import Header, {
     CMS_PAGE,
     FILTER,
     CART_EDITING,
-    CHECKOUT
+    CHECKOUT,
+    CUSTOMER_ACCOUNT_PAGE,
+    POPUP
 } from './Header.component';
 
 export const mapStateToProps = state => ({
@@ -57,6 +59,7 @@ export class HeaderContainer extends PureComponent {
                 PDP,
                 CATEGORY,
                 CUSTOMER_ACCOUNT,
+                CUSTOMER_ACCOUNT_PAGE,
                 HOME_PAGE,
                 MENU,
                 MENU_SUBCATEGORY,
@@ -65,7 +68,8 @@ export class HeaderContainer extends PureComponent {
                 CART,
                 CART_EDITING,
                 CHECKOUT,
-                CMS_PAGE
+                CMS_PAGE,
+                POPUP
             ]),
             title: PropTypes.string,
             onBackClick: PropTypes.func,
@@ -85,6 +89,7 @@ export class HeaderContainer extends PureComponent {
     routeMap = {
         '/': { name: HOME_PAGE },
         '/category': { name: CATEGORY, onBackClick: () => history.push('/') },
+        '/my-account': { name: CUSTOMER_ACCOUNT_PAGE, onBackClick: () => history.push('/') },
         '/product': { name: PDP, onBackClick: () => history.goBack() },
         '/cart': { name: CART },
         '/page': { name: CMS_PAGE, onBackClick: () => history.goBack() }
@@ -109,13 +114,25 @@ export class HeaderContainer extends PureComponent {
         onMinicartOutsideClick: this.onMinicartOutsideClick.bind(this)
     };
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            ...this.state,
+            ...this.onRouteChanged(history.location, true)
+        };
+    }
+
     componentDidMount() {
-        this.onRouteChanged(history.location, true);
-        history.listen(history => this.onRouteChanged(history));
+        history.listen(history => this.setState(this.onRouteChanged(history)));
     }
 
     onRouteChanged(history, isPrevPathnameNotRelevant = false) {
-        const { prevPathname } = this.state;
+        const newState = {};
+
+        const {
+            prevPathname
+        } = this.state;
 
         const {
             hideActiveOverlay,
@@ -129,12 +146,10 @@ export class HeaderContainer extends PureComponent {
             setHeaderState(this.routeMap['/']);
             hideActiveOverlay();
 
-            return;
+            return {};
         }
 
-        this.setState({
-            isClearEnabled: new RegExp(['customFilters', 'priceMax', 'priceMin'].join('|')).test(search)
-        });
+        newState.isClearEnabled = new RegExp(['customFilters', 'priceMax', 'priceMin'].join('|')).test(search);
 
         if ((isPrevPathnameNotRelevant || prevPathname !== pathname)) {
             const newHeaderState = Object.keys(this.routeMap).reduce(
@@ -150,10 +165,10 @@ export class HeaderContainer extends PureComponent {
 
             hideActiveOverlay();
 
-            this.setState({
-                prevPathname: pathname
-            });
+            newState.prevPathname = pathname;
         }
+
+        return newState;
     }
 
     onBackButtonClick() {
@@ -245,8 +260,8 @@ export class HeaderContainer extends PureComponent {
             showOverlay, setHeaderState, headerState: { name }
         } = this.props;
 
-        if (isSignedIn() && isMobile.any()) {
-            history.push({ pathname: '/my-account', state: 'accountOverview' });
+        if (isSignedIn()) {
+            history.push({ pathname: '/my-account/dashboard' });
             return;
         }
 

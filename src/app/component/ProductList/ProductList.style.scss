@@ -10,7 +10,7 @@
  */
 
 :root {
-    --category-product-list-load-button-background: #f8f8f8;
+    --category-product-list-load-button-background: #{$concrete};
 }
 
 .CategoryProductList {

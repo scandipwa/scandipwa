@@ -9,4 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default } from './MyAccountSidebar.component';
+import CartItemPrice from './CartItemPrice.component';
+
+export default CartItemPrice;

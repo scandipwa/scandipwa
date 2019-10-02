@@ -17,21 +17,15 @@ import isMobile from 'Util/Mobile';
 import Overlay from 'Component/Overlay';
 import CartItem from 'Component/CartItem';
 import { TotalsType } from 'Type/MiniCart';
-import { ProductType } from 'Type/ProductList';
 import { formatCurrency } from 'Util/Price';
 
 import './CartOverlay.style';
 
 export default class CartOverlay extends PureComponent {
     static propTypes = {
-        products: PropTypes.objectOf(ProductType),
         totals: TotalsType.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
         isEditing: PropTypes.bool.isRequired
-    };
-
-    static defaultProps = {
-        products: {}
     };
 
     renderPriceLine(price) {
@@ -40,14 +34,19 @@ export default class CartOverlay extends PureComponent {
     }
 
     renderCartItems() {
-        const { products, isEditing } = this.props;
+        const { isEditing, totals: { items, base_currency_code } } = this.props;
 
-        if (!Object.keys(products).length) return this.renderNoCartItems();
+        if (!items || items.length < 1) return this.renderNoCartItems();
 
         return (
             <ul block="CartOverlay" elem="Items" aria-label="List of items in cart">
-                { Object.entries(products).map(([id, product]) => (
-                    <CartItem key={ id } product={ product } isEditing={ !isMobile.any() || isEditing } />
+                { items.map(item => (
+                    <CartItem
+                      key={ item.item_id }
+                      item={ item }
+                      currency_code={ base_currency_code }
+                      isEditing={ !isMobile.any() || isEditing }
+                    />
                 )) }
             </ul>
         );
@@ -94,7 +93,6 @@ export default class CartOverlay extends PureComponent {
 
         if (!coupon_code) return null;
 
-
         return (
             <dl
               block="CartOverlay"
@@ -110,9 +108,9 @@ export default class CartOverlay extends PureComponent {
     }
 
     renderActions() {
-        const { products } = this.props;
-        const isDisabled = !Object.keys(products).length;
-        const options = isDisabled
+        const { totals: { items } } = this.props;
+
+        const options = !items || items.length < 1
             ? {
                 onClick: e => e.preventDefault(),
                 disabled: true
@@ -124,7 +122,7 @@ export default class CartOverlay extends PureComponent {
                 <Link
                   block="CartOverlay"
                   elem="CartButton"
-                  mix={ { block: 'Button', mods: { hollow: true } } }
+                  mix={ { block: 'Button', mods: { isHollow: true } } }
                   to="/cart"
                 >
                     { __('View cart') }

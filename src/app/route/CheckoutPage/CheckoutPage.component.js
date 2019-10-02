@@ -16,7 +16,6 @@ import PropTypes from 'prop-types';
 import Link from 'Component/Link';
 import { history } from 'Route';
 import { TotalsType } from 'Type/MiniCart';
-import { ProductType } from 'Type/ProductList';
 import ContentWrapper from 'Component/ContentWrapper';
 import CheckoutOrderSummary from 'Component/CheckoutOrderSummary';
 import CheckoutShippingStep from 'Component/CheckoutShippingStep';
@@ -38,20 +37,14 @@ export default class CheckoutPage extends Component {
         saveAddressInformation: PropTypes.func.isRequired,
         removeCartAndObtainNewGuest: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
-        requestCustomerData: PropTypes.func.isRequired,
         toggleBreadcrumbs: PropTypes.func.isRequired,
         setHeaderState: PropTypes.func.isRequired,
         isSignedIn: PropTypes.bool.isRequired,
         countryList: PropTypes.arrayOf(PropTypes.shape).isRequired,
         customer: customerType.isRequired,
-        products: PropTypes.objectOf(ProductType),
         totals: TotalsType.isRequired,
         match: MatchType.isRequired,
         location: LocationType.isRequired
-    };
-
-    static defaultProps = {
-        products: {}
     };
 
     static changeUrlByCheckoutStep(props, state) {
@@ -82,12 +75,14 @@ export default class CheckoutPage extends Component {
         const {
             location: { state },
             location,
-            match
+            match,
+            customer
         } = props;
 
         this.state = {
             checkoutStep: CHECKOUT_STEP_SHIPPING, // shipping or review-and-payments
             prevCheckoutStep: CHECKOUT_STEP_SHIPPING,
+            prevCustomer: customer,
             showSummary: true,
             shippingAddress: {},
             billingAddress: {},
@@ -107,19 +102,12 @@ export default class CheckoutPage extends Component {
     }
 
     static getDerivedStateFromProps(props, state) {
-        const { prevCheckoutStep, checkoutStep } = state;
-        // const {
-        // match,
-        // location,
-        // location: { state: locationState }
-        // } = props;
-        const stateToBeUpdated = {};
+        const { prevCheckoutStep, checkoutStep, prevCustomer: { prevCustomerId } } = state;
+        const { customer: { id } } = props;
 
-        // if (getUrlParam(match, location) !== checkoutStep && locationState) {
-        //     const { locationState: { checkoutStep: locationCheckoutStep } } = location;
-        //     stateToBeUpdated.checkoutStep = locationCheckoutStep;
-        //     stateToBeUpdated.prevCheckoutStep = locationCheckoutStep;
-        // }
+        const stateToBeUpdated = (id !== prevCustomerId)
+            ? CheckoutPage.getDefaultAddresses(props, state)
+            : {};
 
         if (prevCheckoutStep !== checkoutStep) {
             CheckoutPage.changeUrlByCheckoutStep(props, state);
@@ -134,17 +122,15 @@ export default class CheckoutPage extends Component {
 
         toggleBreadcrumbs();
 
-        if (isSignedIn) {
-            this.requestCustomerData().then(() => this.getDefaultAddresses());
-        } else {
+        if (!isSignedIn) {
             this.updateHeader();
-            this.getDefaultAddresses();
         }
     }
 
-    getDefaultAddresses() {
-        const { customer } = this.props;
-        const { shippingAddress, billingAddress } = this.state;
+    static getDefaultAddresses(props, state) {
+        const { customer } = props;
+        const { shippingAddress, billingAddress } = state;
+        const newState = {};
 
         if (Object.entries(customer).length) {
             const { addresses } = customer;
@@ -153,18 +139,18 @@ export default class CheckoutPage extends Component {
                 const { default_shipping, default_billing } = address;
 
                 if (default_shipping && !Object.entries(shippingAddress).length) {
-                    this.setState({ shippingAddress: address });
+                    newState.shippingAddress = address;
                 }
 
                 if (default_billing && !Object.entries(billingAddress).length) {
-                    this.setState({ billingAddress: address });
+                    newState.billingAddress = address;
                 }
 
                 return null;
             });
         }
 
-        this.setState({ addressesAreChecked: true });
+        return { ...newState, addressesAreChecked: true };
     }
 
     updateHeader() {
@@ -176,17 +162,6 @@ export default class CheckoutPage extends Component {
             title: this.headerTitleMap[checkoutStep],
             onBackClick: () => history.push('/')
         });
-    }
-
-    requestCustomerData() {
-        const { requestCustomerData } = this.props;
-        const options = {
-            withAddresses: true
-        };
-
-        this.setState({ addressesAreChecked: false });
-
-        return requestCustomerData(options);
     }
 
     saveAddressInformation({ addressInformation }) {
@@ -341,15 +316,23 @@ export default class CheckoutPage extends Component {
     }
 
     /**
-     * render function calls approperiate renderer based on step
+     * render function calls appropriate renderer based on step
      * @returns {*}
      */
     render() {
         const {
-            checkoutStep, showSummary, paymentTotals
+            checkoutStep,
+            showSummary,
+            paymentTotals
         } = this.state;
-        const { products, totals } = this.props;
+
+        const { totals: cartTotals, totals: { items } } = this.props;
+
         const stepRenderFunction = this.renderMap[checkoutStep];
+        const totals = Object.keys(paymentTotals).length
+            ? { ...paymentTotals, items }
+            : cartTotals;
+
         return (
             <main block="CheckoutPage">
                 <ContentWrapper
@@ -357,14 +340,13 @@ export default class CheckoutPage extends Component {
                   label={ __('Checkout page') }
                 >
                     <div block="CheckoutPage" elem="Step">
-                        { !Object.keys(products).length && checkoutStep !== CHECKOUT_STEP_SUCCESS
+                        { (!items || items.length < 1) && checkoutStep !== CHECKOUT_STEP_SUCCESS
                             ? (<p>No products</p>)
                             : stepRenderFunction() }
                     </div>
                     { showSummary && (
                         <CheckoutOrderSummary
-                          totals={ Object.keys(paymentTotals).length ? paymentTotals : totals }
-                          products={ products }
+                          totals={ totals }
                         />
                     ) }
                 </ContentWrapper>

@@ -25,35 +25,28 @@ import { WishlistDispatcher } from 'Store/Wishlist';
 import { showNotification } from 'Store/Notification';
 import { MyAccountQuery } from 'Query';
 import { prepareQuery } from 'Util/Query';
+import BrowserDatabase from 'Util/BrowserDatabase';
+
+export const CUSTOMER = 'customer';
+
+const ONE_MONTH_IN_SECONDS = 2628000;
 
 /**
  * My account actions
  * @class MyAccount
  */
 export class MyAccountDispatcher {
-    requestCustomerData(options, dispatch) {
-        const { withAddresses } = options;
-        const query = MyAccountQuery.getCustomer(withAddresses);
+    requestCustomerData(dispatch) {
+        const query = MyAccountQuery.getCustomerQuery();
+
+        const customer = BrowserDatabase.getItem(CUSTOMER) || {};
+        if (customer.id) dispatch(updateCustomerDetails(customer));
 
         return executePost(prepareQuery([query])).then(
-            ({ customer }) => dispatch(updateCustomerDetails(customer)),
-            error => dispatch(showNotification('error', error[0].message))
-        );
-    }
-
-    updateCustomerData(options, dispatch) {
-        const mutation = MyAccountQuery.getUpdateInformationMutation(options);
-        return fetchMutation(mutation).then(
-            ({ customer }) => dispatch(updateCustomerDetails(customer)),
-            error => dispatch(showNotification('error', error[0].message))
-        );
-    }
-
-    changeCustomerPassword(options, customer, dispatch) {
-        const mutation = MyAccountQuery.getChangeCustomerPasswordMutation(options, customer);
-
-        return fetchMutation(mutation).then(
-            ({ password }) => dispatch(updateCustomerDetails(password)),
+            ({ customer }) => {
+                dispatch(updateCustomerDetails(customer));
+                BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS);
+            },
             error => dispatch(showNotification('error', error[0].message))
         );
     }
@@ -64,24 +57,6 @@ export class MyAccountDispatcher {
         CartDispatcher.updateInitialCartData(dispatch);
         WishlistDispatcher.updateInitialWishlistData(dispatch);
         // TODO: logout in BE
-    }
-
-    createCustomerAddress(options, dispatch) {
-        const mutation = MyAccountQuery.getCreateAddressMutation(options);
-
-        return fetchMutation(mutation).then(
-            ({ addresses }) => dispatch(updateCustomerDetails(addresses)),
-            error => dispatch(showNotification('error', error[0].message))
-        );
-    }
-
-    updateCustomerAddress(id, options, dispatch) {
-        const mutation = MyAccountQuery.getUpdateAddressMutation(id, options);
-
-        return fetchMutation(mutation).then(
-            ({ addresses }) => dispatch(updateCustomerDetails(addresses)),
-            error => dispatch(showNotification('error', error[0].message))
-        );
     }
 
     /**
@@ -122,10 +97,7 @@ export class MyAccountDispatcher {
         const mutation = MyAccountQuery.getCreateAccountMutation(options);
 
         fetchMutation(mutation).then(
-            ({ customer }) => {
-                this.signIn({ email, password }, dispatch);
-                dispatch(updateCustomerDetails(customer));
-            },
+            () => this.signIn({ email, password }, dispatch),
             error => dispatch(showNotification('error', error[0].message))
         );
     }
@@ -145,7 +117,7 @@ export class MyAccountDispatcher {
             setAuthorizationToken(token);
             dispatch(updateCustomerSignInStatus(true));
             CartDispatcher.updateInitialCartData(dispatch);
-            WishlistDispatcher.updateInitialWishlistData(dispatch);
+            // WishlistDispatcher.updateInitialWishlistData(dispatch);
         } catch ([e]) {
             throw e;
         }

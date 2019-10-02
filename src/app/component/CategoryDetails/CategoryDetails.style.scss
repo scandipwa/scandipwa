@@ -10,7 +10,7 @@
  */
 
 :root {
-    --category-details-background: #f8f8f8;
+    --category-details-background: #{$concrete};
 }
 
 .CategoryDetails {

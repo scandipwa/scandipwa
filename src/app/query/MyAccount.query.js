@@ -69,6 +69,11 @@ export class MyAccountQuery {
             .addFieldList(this._getAddressFields());
     }
 
+    getDeleteAddressMutation(id) {
+        return new Field('deleteCustomerAddress')
+            .addArgument('id', 'Int!', id);
+    }
+
     getUpdateAddressMutation(id, options) {
         return new Field('updateCustomerAddress')
             .addArgument('id', 'Int!', id)
@@ -82,6 +87,10 @@ export class MyAccountQuery {
         return new Field('createCustomer')
             .addArgument('input', 'CustomerInput!', { ...customer, password })
             .addField(this._getCustomerField());
+    }
+
+    getCustomerQuery() {
+        return this._getCustomerField();
     }
 
     _getCustomerField() {

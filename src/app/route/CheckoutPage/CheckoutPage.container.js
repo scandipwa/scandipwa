@@ -15,7 +15,6 @@ import { GUEST_QUOTE_ID, CartDispatcher } from 'Store/Cart';
 import { fetchMutation } from 'Util/Request';
 import CheckoutQuery from 'Query/Checkout.query';
 import BrowserDatabase from 'Util/BrowserDatabase';
-import { MyAccountDispatcher } from 'Store/MyAccount';
 import { changeHeaderState } from 'Store/Header';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs';
 import { showNotification } from 'Store/Notification';
@@ -37,7 +36,6 @@ const mapDispatchToProps = dispatch => ({
     },
     toggleBreadcrumbs: () => dispatch(toggleBreadcrumbs(false)),
     setHeaderState: stateName => dispatch(changeHeaderState(stateName)),
-    requestCustomerData: options => MyAccountDispatcher.requestCustomerData(options, dispatch),
     showNotification: (type, message) => dispatch(showNotification(type, message))
 });
 
