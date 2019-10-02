@@ -130,9 +130,16 @@ export class AddToCartContainer extends PureComponent {
         if (type_id !== 'configurable') return;
 
         const { sku } = variants[configurableVariantIndex];
-        if (!isSignedIn() || sku in wishlistItems === false) return;
 
-        const { item_id } = wishlistItems[sku];
+        const wishilistItemKey = Object.keys(wishlistItems)
+            .find((key) => {
+                const { wishlist: { sku: wSku } } = wishlistItems[key];
+                return wSku === sku;
+            });
+
+        if (!isSignedIn() || wishilistItemKey === undefined) return;
+
+        const { wishlist: { id: item_id } } = wishlistItems[wishilistItemKey];
         removeFromWishlist({ item_id, sku, noMessage: true });
     }
 
