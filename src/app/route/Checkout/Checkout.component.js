@@ -1,13 +1,16 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import CheckoutBilling from 'Component/CheckoutBilling';
-import ContentWrapper from 'Component/ContentWrapper';
 import { paymentMethodsType, shippingMethodsType } from 'Type/Checkout';
+import CheckoutOrderSummary from 'Component/CheckoutOrderSummary';
 import CheckoutGuestForm from 'Component/CheckoutGuestForm';
 import CheckoutShipping from 'Component/CheckoutShipping';
+import CheckoutBilling from 'Component/CheckoutBilling';
+import ContentWrapper from 'Component/ContentWrapper';
 import { CHECKOUT } from 'Component/Header';
 import { addressType } from 'Type/Account';
+import { TotalsType } from 'Type/MiniCart';
+import { HistoryType } from 'Type/Common';
 import Loader from 'Component/Loader';
 
 import './Checkout.style';
@@ -27,7 +30,9 @@ class Checkout extends PureComponent {
         isLoading: PropTypes.bool.isRequired,
         isDeliveryOptionsLoading: PropTypes.bool.isRequired,
         shippingAddress: addressType.isRequired,
+        checkoutTotals: TotalsType.isRequired,
         orderID: PropTypes.string.isRequired,
+        history: HistoryType.isRequired,
         checkoutStep: PropTypes.oneOf([
             SHIPPING_STEP,
             BILLING_STEP,
@@ -38,15 +43,18 @@ class Checkout extends PureComponent {
     stepMap = {
         [SHIPPING_STEP]: {
             title: __('1. Shipping step'),
-            render: this.renderShippingStep.bind(this)
+            render: this.renderShippingStep.bind(this),
+            areTotalsVisible: true
         },
         [BILLING_STEP]: {
             title: __('2. Billing step'),
-            render: this.renderBillingStep.bind(this)
+            render: this.renderBillingStep.bind(this),
+            areTotalsVisible: true
         },
         [DETAILS_STEP]: {
-            title: __('Order details'),
-            render: this.renderDetailsStep.bind(this)
+            title: __('3. Order details'),
+            render: this.renderDetailsStep.bind(this),
+            areTotalsVisible: false
         }
     };
 
@@ -131,7 +139,14 @@ class Checkout extends PureComponent {
     }
 
     renderDetailsStep() {
-        return ('details');
+        const { orderID } = this.props;
+
+        return (
+            <div>
+                <h3>{ __('Order is successfully placed!') }</h3>
+                <p>{ __('Your order ID is: %s', orderID) }</p>
+            </div>
+        );
     }
 
     renderStep() {
@@ -144,6 +159,17 @@ class Checkout extends PureComponent {
     renderLoader() {
         const { isLoading } = this.props;
         return <Loader isLoading={ isLoading } />;
+    }
+
+    renderSummary() {
+        const { checkoutTotals, checkoutStep } = this.props;
+        const { areTotalsVisible } = this.stepMap[checkoutStep];
+
+        if (!areTotalsVisible) return null;
+
+        return (
+            <CheckoutOrderSummary totals={ checkoutTotals } />
+        );
     }
 
     render() {
@@ -159,6 +185,7 @@ class Checkout extends PureComponent {
                         { this.renderStep() }
                         { this.renderLoader() }
                     </div>
+                    { this.renderSummary() }
                 </ContentWrapper>
             </main>
         );

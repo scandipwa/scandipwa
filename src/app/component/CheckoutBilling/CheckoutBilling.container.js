@@ -8,6 +8,7 @@ import { customerType, addressType } from 'Type/Account';
 import { trimCustomerAddress, trimAddressFields } from 'Util/Address';
 
 import CheckoutBilling from './CheckoutBilling.component';
+import { BRAINTREE } from 'Component/CheckoutPayments/CheckoutPayments.component';
 
 export const mapStateToProps = state => ({
     customer: state.MyAccountReducer.customer
@@ -38,7 +39,7 @@ export class CheckoutBillingContainer extends PureComponent {
         super(props);
 
         const { paymentMethods } = props;
-        const [paymentMethod] = paymentMethods;
+        const [{ code: paymentMethod }] = paymentMethods;
 
         this.state = {
             isSameAsShipping: true,
@@ -61,14 +62,12 @@ export class CheckoutBillingContainer extends PureComponent {
 
     onBillingSuccess(fields, asyncData) {
         const { savePaymentInformation } = this.props;
-        const { paymentMethod: method } = this.state;
         const address = this._getAddress(fields);
-
-        // TODO: handle asyncData from payment Methods, probably define custom handlers for them
+        const paymentMethod = this._getPaymentData(asyncData);
 
         savePaymentInformation({
             billing_address: address,
-            paymentMethod: { method }
+            paymentMethod
         });
     }
 
@@ -78,6 +77,25 @@ export class CheckoutBillingContainer extends PureComponent {
         if (error) {
             const { message = __('Something went wrong') } = error;
             showErrorNotification(message);
+        }
+    }
+
+    _getPaymentData(asyncData) {
+        const { paymentMethod: method } = this.state;
+
+        switch (method) {
+        case BRAINTREE:
+            const [{ nonce }] = asyncData;
+            console.log(asyncData);
+
+            return {
+                method,
+                additional_data: {
+                    payment_method_nonce: nonce
+                }
+            };
+        default:
+            return { method };
         }
     }
 

@@ -90,7 +90,7 @@ class AppRouter extends PureComponent {
             position: 50
         },
         {
-            component: <Route path="/checkout" component={ Checkout } />,
+            component: <Route path="/checkout/:step?" component={ Checkout } />,
             position: 55
         },
         {

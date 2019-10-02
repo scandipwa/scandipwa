@@ -19,11 +19,11 @@ class CheckoutGuestForm extends FieldForm {
             email: {
                 label: __('Email'),
                 validation: ['notEmpty']
-            },
-            phone: {
-                label: __('Phone'),
-                validation: ['notEmpty']
             }
+            // phone: {
+            //     label: __('Phone'),
+            //     validation: ['notEmpty']
+            // }
         };
     }
 
