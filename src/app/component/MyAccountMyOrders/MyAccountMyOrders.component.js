@@ -19,14 +19,8 @@ import MyAccountOrderPopup from 'Component/MyAccountOrderPopup';
 
 class MyAccountMyOrders extends PureComponent {
     static propTypes = {
-        getOrderList: PropTypes.func.isRequired,
         orderList: ordersType.isRequired
     };
-
-    componentDidMount() {
-        const { getOrderList } = this.props;
-        getOrderList();
-    }
 
     renderPopup() {
         return <MyAccountOrderPopup />;

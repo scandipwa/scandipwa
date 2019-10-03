@@ -9,6 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { OrderDispatcher } from 'Store/Order';
 import MyAccountMyOrders from './MyAccountMyOrders.component';
@@ -21,4 +23,23 @@ export const mapDispatchToProps = dispatch => ({
     getOrderList: () => OrderDispatcher.getOrderList(dispatch)
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyAccountMyOrders);
+class MyAccountMyOrdersContainer extends PureComponent {
+    static propTypes = {
+        getOrderList: PropTypes.func.isRequired
+    };
+
+    componentDidMount() {
+        const { getOrderList } = this.props;
+        getOrderList();
+    }
+
+    render() {
+        return (
+            <MyAccountMyOrders
+              { ...this.props }
+            />
+        );
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MyAccountMyOrdersContainer);
