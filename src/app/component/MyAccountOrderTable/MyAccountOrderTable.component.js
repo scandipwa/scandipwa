@@ -29,30 +29,29 @@ class MyAccountOrderTable extends KeyValueTable {
     };
 
     get dataPairArray() {
-        const {
-            order
-        } = this.props;
+        const { order } = this.props;
+        const { base_order_info = {} } = order;
 
         return [
             {
                 key: 'id',
                 label: `${__('Order')} №`,
-                source: order
+                source: base_order_info
             },
             {
                 key: 'created_at',
                 label: __('Date'),
-                source: order
+                source: base_order_info
             },
             {
                 key: 'status_label',
                 label: __('Status Label'),
-                source: order
+                source: base_order_info
             },
             {
                 key: 'grand_total',
                 label: __('Order - Total'),
-                source: order
+                source: base_order_info
             }
         ];
     }

@@ -9,10 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
-import './MyAccountMyOrders.style';
-
 import { PureComponent } from 'react';
+import './MyAccountMyOrders.style';
 import { ordersType } from 'Type/Account';
 import MyAccountOrderTable from 'Component/MyAccountOrderTable';
 import MyAccountOrderPopup from 'Component/MyAccountOrderPopup';
@@ -27,7 +25,7 @@ class MyAccountMyOrders extends PureComponent {
     }
 
     renderOrders = (order) => {
-        const { id } = order;
+        const { base_order_info: { id } } = order;
         return (
             <MyAccountOrderTable
               title={ __('Order #%s', id) }

@@ -33,47 +33,43 @@ class MyAccountOrderPopup extends KeyValueTable {
 
     get dataPairArray() {
         const { payload: { order } } = this.props;
+        const { base_order_info = {} } = order;
 
         return [
             {
                 key: 'id',
                 label: `${__('Order')} №`,
-                source: order
-            },
-            {
-                key: 'base_order_info',
-                label: __('Order info'),
-                source: order
+                source: base_order_info
             },
             {
                 key: 'created_at',
                 label: __('Date'),
-                source: order
+                source: base_order_info
             },
             {
                 key: 'total_qty_ordered',
                 label: __('Quantity'),
-                source: order
+                source: base_order_info
             },
             {
                 key: 'status',
                 label: __('Status'),
-                source: order
+                source: base_order_info
             },
             {
                 key: 'status_label',
                 label: __('Status Label'),
-                source: order
+                source: base_order_info
             },
             {
                 key: 'sub_total',
                 label: __('Subtotal'),
-                source: order
+                source: base_order_info
             },
             {
                 key: 'grand_total',
                 label: __('Order - Total'),
-                source: order
+                source: base_order_info
             }
         ];
     }
