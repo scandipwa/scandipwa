@@ -9,11 +9,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { getIndexedProducts } from 'Util/Product';
 import { formatCurrency } from 'Util/Price';
 import {
     GET_ORDER_LIST,
-    GET_ORDER,
+    EMPTY_ORDER_LIST,
     SET_ORDER_LOADING_STATUS
 } from './Order.action';
 
@@ -30,7 +29,8 @@ const getFormattedDate = (rawDate = '') => {
 };
 
 const formatOrders = orders => orders.reduce((acc, order) => {
-    const { created_at, grand_total } = order;
+    const { base_order_info } = order;
+    const { created_at, grand_total } = base_order_info;
     const priceString = `${grand_total}${formatCurrency()}`;
     const formattedDate = getFormattedDate(created_at);
 
@@ -38,8 +38,11 @@ const formatOrders = orders => orders.reduce((acc, order) => {
         ...acc,
         {
             ...order,
-            grand_total: priceString,
-            created_at: formattedDate
+            base_order_info: {
+                ...order.base_order_info,
+                grand_total: priceString,
+                created_at: formattedDate
+            }
         }
     ];
 }, []);
@@ -47,14 +50,13 @@ const formatOrders = orders => orders.reduce((acc, order) => {
 export const initialState = {
     orderList: [],
     order: {},
-    isOrderLoading: false
+    isLoading: true
 };
 
 const OrderReducer = (state = initialState, action) => {
     const {
         type,
         orderList,
-        order,
         status
     } = action;
 
@@ -68,22 +70,16 @@ const OrderReducer = (state = initialState, action) => {
             orderList: formattedOrders
         };
 
-    case GET_ORDER:
-        const { order_products = [] } = order;
-        const indexedProducts = getIndexedProducts(order_products);
-
+    case EMPTY_ORDER_LIST:
         return {
             ...state,
-            order: {
-                ...order,
-                order_products: indexedProducts
-            }
+            orderList: []
         };
 
     case SET_ORDER_LOADING_STATUS:
         return {
             ...state,
-            isOrderLoading: status
+            isLoading: status
         };
 
     default:

@@ -11,43 +11,27 @@
 
 /* eslint-disable max-len */
 /* eslint-disable no-console */
-import { fetchQuery } from 'Util/Request';
+import { QueryDispatcher } from 'Util/Request';
 import {
     getOrderList,
-    getOrder,
     setOrderLoadingStatus
 } from 'Store/Order';
 import { showNotification } from 'Store/Notification';
 import { OrderQuery } from 'Query';
 
-export class OrderDispatcher {
-    getOrderList(dispatch) {
-        dispatch(getOrder({}));
-        dispatch(getOrderList({}));
-
-        return fetchQuery(OrderQuery.getOrderListQuery()).then(
-            ({ getOrderList: list }) => {
-                dispatch(getOrderList(list));
-            },
-            error => dispatch(showNotification('error', __('Error getting Order List!'))) && console.log(error)
-        );
+export class OrderDispatcher extends QueryDispatcher {
+    onSuccess({ getOrderList: list }, dispatch) {
+        dispatch(setOrderLoadingStatus(false));
+        dispatch(getOrderList(list));
     }
 
-    getOrderById(dispatch, orderId) {
-        dispatch(getOrder({}));
-        dispatch(setOrderLoadingStatus(true));
+    onError(_, dispatch) {
+        dispatch(showNotification('error', __('Error getting Order List!')));
+    }
 
-        return fetchQuery(OrderQuery.getOrderByIdQuery(orderId)).then(
-            ({ getOrderById: order }) => {
-                dispatch(setOrderLoadingStatus(false));
-                dispatch(getOrder(order));
-            },
-            (error) => {
-                dispatch(setOrderLoadingStatus(false));
-                dispatch(showNotification('error', __('Error getting Order by ID!')));
-                console.log(error);
-            }
-        );
+    prepareRequest(dispatch) {
+        dispatch(setOrderLoadingStatus(true));
+        return OrderQuery.getOrderListQuery();
     }
 }
 

@@ -26,6 +26,7 @@ import { showNotification } from 'Store/Notification';
 import { MyAccountQuery } from 'Query';
 import { prepareQuery } from 'Util/Query';
 import BrowserDatabase from 'Util/BrowserDatabase';
+import { OrderDispatcher } from 'Store/Order';
 
 export const CUSTOMER = 'customer';
 
@@ -56,6 +57,7 @@ export class MyAccountDispatcher {
         deleteAuthorizationToken();
         CartDispatcher.updateInitialCartData(dispatch);
         WishlistDispatcher.updateInitialWishlistData(dispatch);
+        OrderDispatcher.emptyOrderList();
         // TODO: logout in BE
     }
 
