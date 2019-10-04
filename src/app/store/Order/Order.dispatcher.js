@@ -20,6 +20,10 @@ import { showNotification } from 'Store/Notification';
 import { OrderQuery } from 'Query';
 
 export class OrderDispatcher extends QueryDispatcher {
+    constructor() {
+        super('Order');
+    }
+
     onSuccess({ getOrderList: list }, dispatch) {
         dispatch(setOrderLoadingStatus(false));
         dispatch(getOrderList(list));
@@ -29,7 +33,7 @@ export class OrderDispatcher extends QueryDispatcher {
         dispatch(showNotification('error', __('Error getting Order List!')));
     }
 
-    prepareRequest(dispatch) {
+    prepareRequest(_, dispatch) {
         dispatch(setOrderLoadingStatus(true));
         return OrderQuery.getOrderListQuery();
     }
