@@ -9,15 +9,18 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import './MyAccountMyOrders.style';
 import { ordersType } from 'Type/Account';
+import Loader from 'Component/Loader';
 import MyAccountOrderTable from 'Component/MyAccountOrderTable';
 import MyAccountOrderPopup from 'Component/MyAccountOrderPopup';
 
 class MyAccountMyOrders extends PureComponent {
     static propTypes = {
-        orderList: ordersType.isRequired
+        orderList: ordersType.isRequired,
+        isLoading: PropTypes.bool.isRequired
     };
 
     renderPopup() {
@@ -52,11 +55,16 @@ class MyAccountMyOrders extends PureComponent {
     }
 
     render() {
+        const { isLoading } = this.props;
+
         return (
-            <div block="MyAccountMyOrders">
-                { this.renderOrdersList() }
-                { this.renderPopup() }
-            </div>
+            <>
+                <Loader isLoading={ isLoading } />
+                <div block="MyAccountMyOrders">
+                    { this.renderOrdersList() }
+                    { this.renderPopup() }
+                </div>
+            </>
         );
     }
 }

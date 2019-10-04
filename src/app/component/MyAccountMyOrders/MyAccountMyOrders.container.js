@@ -16,11 +16,12 @@ import { OrderDispatcher } from 'Store/Order';
 import MyAccountMyOrders from './MyAccountMyOrders.component';
 
 export const mapStateToProps = state => ({
-    orderList: state.OrderReducer.orderList
+    orderList: state.OrderReducer.orderList,
+    isLoading: state.OrderReducer.isLoading
 });
 
 export const mapDispatchToProps = dispatch => ({
-    getOrderList: () => OrderDispatcher.getOrderList(dispatch)
+    getOrderList: () => OrderDispatcher.handleData(dispatch)
 });
 
 class MyAccountMyOrdersContainer extends PureComponent {
