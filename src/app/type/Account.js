@@ -51,7 +51,6 @@ export const customerType = PropTypes.shape({
 
 export const orderType = PropTypes.shape({
     base_order_info: PropTypes.object,
-    order_id: PropTypes.number,
     order_products: PropTypes.object,
     payment_info: PropTypes.object,
     shipping_info: PropTypes.object
