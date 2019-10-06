@@ -20,13 +20,13 @@ import {
     setAuthorizationToken,
     deleteAuthorizationToken
 } from 'Util/Auth';
-import { CartDispatcher } from 'Store/Cart';
 import { WishlistDispatcher } from 'Store/Wishlist';
 import { showNotification } from 'Store/Notification';
+import { OrderDispatcher } from 'Store/Order';
+import { CartDispatcher } from 'Store/Cart';
 import { MyAccountQuery } from 'Query';
 import { prepareQuery } from 'Util/Query';
 import BrowserDatabase from 'Util/BrowserDatabase';
-import { OrderDispatcher } from 'Store/Order';
 
 export const CUSTOMER = 'customer';
 
@@ -57,7 +57,7 @@ export class MyAccountDispatcher {
         deleteAuthorizationToken();
         CartDispatcher.updateInitialCartData(dispatch);
         WishlistDispatcher.updateInitialWishlistData(dispatch);
-        OrderDispatcher.emptyOrderList();
+        OrderDispatcher.emptyOrderList(dispatch);
         // TODO: logout in BE
     }
 

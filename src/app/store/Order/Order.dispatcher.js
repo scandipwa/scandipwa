@@ -16,6 +16,7 @@ import {
     getOrderList,
     getOrder,
     emptyOrder,
+    emptyOrderList,
     setOrderLoadingStatus
 } from 'Store/Order';
 import { showNotification } from 'Store/Notification';
@@ -51,6 +52,10 @@ export class OrderDispatcher extends QueryDispatcher {
 
         dispatch(setOrderLoadingStatus(true));
         return OrderQuery.getOrderListQuery();
+    }
+
+    emptyOrderList(dispatch) {
+        dispatch(emptyOrderList());
     }
 }
 
