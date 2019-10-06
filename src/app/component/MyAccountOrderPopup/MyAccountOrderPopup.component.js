@@ -62,8 +62,8 @@ class MyAccountOrderPopup extends KeyValueTable {
         const allValues = keys.map((key, i) => {
             const value = this.getValueFromSource({ key, source });
             return i === 0
-                ? <th>{ value }</th>
-                : <td key={ value }>{ value }</td>;
+                ? <th key={ key }>{ value }</th>
+                : <td key={ key }>{ value }</td>;
         });
 
         if (!allValues) return null;
