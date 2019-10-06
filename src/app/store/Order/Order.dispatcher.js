@@ -55,6 +55,7 @@ export class OrderDispatcher extends QueryDispatcher {
 
     emptyOrderList(dispatch) {
         dispatch(emptyOrderList());
+        dispatch(setOrderLoadingStatus(true));
     }
 }
 
