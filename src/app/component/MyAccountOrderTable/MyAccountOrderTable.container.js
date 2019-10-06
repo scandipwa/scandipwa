@@ -43,11 +43,12 @@ export class MyAccountOrderTableContainer extends PureComponent {
     };
 
     onViewClick() {
-        const { showViewPopup, order } = this.props;
+        const {
+            showViewPopup, order, getOrder
+        } = this.props;
         const { base_order_info } = order;
         const { id } = base_order_info;
 
-        const { getOrder } = this.props;
         getOrder({ orderId: id });
 
         showViewPopup({
