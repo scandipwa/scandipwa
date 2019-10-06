@@ -33,7 +33,7 @@ export class OrderQuery {
 
     _getOrderByIdField(orderId) {
         return new Field('getOrderById')
-            .addArgument('id', 'Int', orderId)
+            .addArgument('id', 'Int!', orderId)
             .addFieldList(this._getOrderByIdFields());
     }
 
@@ -53,8 +53,8 @@ export class OrderQuery {
 
     _getOrderProductsFields() {
         return [
-            this._getDefaultFields(),
-            this._prepareImageFields(),
+            ...this._getDefaultFields(),
+            ...this._prepareImageFields(),
             this._prepareAttributes()
         ];
     }
@@ -100,7 +100,7 @@ export class OrderQuery {
     }
 
     _getAttributeOptions() {
-        new Field('attribute_options')
+        return new Field('attribute_options')
             .addFieldList(this._getAttributeOptionsFields());
     }
 
