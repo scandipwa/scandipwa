@@ -24,7 +24,7 @@ class MyAccountOrderPopup extends KeyValueTable {
         super(props);
 
         this.headingFields = ['Name', 'Price', 'Qty', 'Subtotal'];
-        this.fieldsToDisplay = ['original_price', 'qty', 'row_total'];
+        this.fieldsToDisplay = ['name', 'original_price', 'qty', 'row_total'];
     }
 
     static propTypes = {
@@ -44,8 +44,7 @@ class MyAccountOrderPopup extends KeyValueTable {
             [
                 ...acc,
                 {
-                    key: 'name',
-                    otherKeys: this.fieldsToDisplay,
+                    keys: this.fieldsToDisplay,
                     label: `product_${i + 1}`,
                     source: item
                 }
@@ -57,17 +56,21 @@ class MyAccountOrderPopup extends KeyValueTable {
 
     renderTableRow = (data) => {
         const {
-            otherKeys,
-            label, source
+            keys, label, source
         } = data;
-        const values = otherKeys.map(key => this.getValueFromSource({ key, source }));
 
-        if (!values) return null;
+        const allValues = keys.map((key, i) => {
+            const value = this.getValueFromSource({ key, source });
+            return i === 0
+                ? <th>{ value }</th>
+                : <td key={ value }>{ value }</td>;
+        });
+
+        if (!allValues) return null;
 
         return (
             <tr key={ label }>
-                <th>{ this.getValueFromSource(data) }</th>
-                { values.map(value => (<td key={ value }>{ value }</td>)) }
+                { allValues }
             </tr>
         );
     };
