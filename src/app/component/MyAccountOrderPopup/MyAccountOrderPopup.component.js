@@ -20,70 +20,87 @@ export const ORDER_POPUP_ID = 'MyAccountOrderPopup';
 export const VIEW_ORDER = 'VIEW_ORDER';
 
 class MyAccountOrderPopup extends KeyValueTable {
+    constructor(props) {
+        super(props);
+
+        this.headingFields = ['Name', 'Price', 'Qty', 'Subtotal'];
+        this.fieldsToDisplay = ['original_price', 'qty', 'row_total'];
+    }
+
     static propTypes = {
-        payload: PropTypes.shape({
-            order: orderType
-        })
+        title: PropTypes.string,
+        order: orderType.isRequired
     };
 
     static defaultProps = {
-        payload: { order: {} },
-        title: null
+        title: 'Order products'
     };
 
     get dataPairArray() {
-        const { payload: { order } } = this.props;
-        const { base_order_info = {} } = order;
+        const { order = {} } = this.props;
+        const { order_products = [] } = order;
 
-        return [
-            {
-                key: 'id',
-                label: `${__('Order')} №`,
-                source: base_order_info
-            },
-            {
-                key: 'created_at',
-                label: __('Date'),
-                source: base_order_info
-            },
-            {
-                key: 'total_qty_ordered',
-                label: __('Quantity'),
-                source: base_order_info
-            },
-            {
-                key: 'status',
-                label: __('Status'),
-                source: base_order_info
-            },
-            {
-                key: 'status_label',
-                label: __('Status Label'),
-                source: base_order_info
-            },
-            {
-                key: 'sub_total',
-                label: __('Subtotal'),
-                source: base_order_info
-            },
-            {
-                key: 'grand_total',
-                label: __('Order - Total'),
-                source: base_order_info
-            }
-        ];
+        const fields = order_products.reduce((acc, item, i) => (
+            [
+                ...acc,
+                {
+                    key: 'name',
+                    otherKeys: this.fieldsToDisplay,
+                    label: `product_${i + 1}`,
+                    source: item
+                }
+            ]
+        ), []);
+
+        return fields;
+    }
+
+    renderTableRow = (data) => {
+        const {
+            otherKeys,
+            label, source
+        } = data;
+        const values = otherKeys.map(key => this.getValueFromSource({ key, source }));
+
+        if (!values) return null;
+
+        return (
+            <tr key={ label }>
+                <th>{ this.getValueFromSource(data) }</th>
+                { values.map(value => (<td key={ value }>{ value }</td>)) }
+            </tr>
+        );
+    };
+
+    renderHeading() {
+        const { title } = this.props;
+        if (!title) return null;
+
+        return (
+            <tr>
+                { Array.from(this.headingFields, item => (
+                    <th
+                      block="KeyValueTable"
+                      elem="Heading"
+                      key={ item }
+                    >
+                        { item }
+                    </th>
+                )) }
+            </tr>
+        );
     }
 
     render() {
-        const { payload: { order } } = this.props;
+        const { order } = this.props;
         return (
             <Popup
               id={ ORDER_POPUP_ID }
               clickOutside={ false }
               mix={ { block: 'MyAccountOrderPopup' } }
             >
-                <Loader isLoading={ !order } />
-                { order && this.renderTable() }
+                <Loader isLoading={ !Object.keys(order).length } />
+                { Object.keys(order).length && this.renderTable() }
             </Popup>
         );
     }

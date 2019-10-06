@@ -10,10 +10,10 @@
  */
 
 import { connect } from 'react-redux';
-import MyAccountOrderPopup, { ORDER_POPUP_ID } from './MyAccountOrderPopup.component';
+import MyAccountOrderPopup from './MyAccountOrderPopup.component';
 
 export const mapStateToProps = state => ({
-    payload: state.PopupReducer.popupPayload[ORDER_POPUP_ID] || {}
+    order: state.OrderReducer.order
 });
 
 export default connect(mapStateToProps)(MyAccountOrderPopup);

@@ -17,10 +17,12 @@ import {
     ORDER_POPUP_ID, VIEW_ORDER
 } from 'Component/MyAccountOrderPopup/MyAccountOrderPopup.component';
 import { orderType } from 'Type/Account';
+import { OrderDispatcher } from 'Store/Order';
 import MyAccountOrderTable from './MyAccountOrderTable.component';
 
 export const mapDispatchToProps = dispatch => ({
-    showViewPopup: payload => dispatch(showPopup(ORDER_POPUP_ID, payload))
+    showViewPopup: payload => dispatch(showPopup(ORDER_POPUP_ID, payload)),
+    getOrder: options => OrderDispatcher.handleData(dispatch, options)
 });
 
 export class MyAccountOrderTableContainer extends PureComponent {
@@ -28,7 +30,8 @@ export class MyAccountOrderTableContainer extends PureComponent {
         showViewPopup: PropTypes.func.isRequired,
         title: PropTypes.string.isRequired,
         showActions: PropTypes.bool,
-        order: orderType.isRequired
+        order: orderType.isRequired,
+        getOrder: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -41,11 +44,15 @@ export class MyAccountOrderTableContainer extends PureComponent {
 
     onViewClick() {
         const { showViewPopup, order } = this.props;
+        const { base_order_info } = order;
+        const { id } = base_order_info;
+
+        const { getOrder } = this.props;
+        getOrder({ orderId: id });
 
         showViewPopup({
             action: VIEW_ORDER,
-            title: __('Order details'),
-            order
+            title: __('Order details')
         });
     }
 

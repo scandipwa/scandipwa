@@ -21,7 +21,7 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-    getOrderList: () => OrderDispatcher.handleData(dispatch)
+    getOrderList: options => OrderDispatcher.handleData(dispatch, options)
 });
 
 class MyAccountMyOrdersContainer extends PureComponent {
@@ -31,7 +31,7 @@ class MyAccountMyOrdersContainer extends PureComponent {
 
     componentDidMount() {
         const { getOrderList } = this.props;
-        getOrderList();
+        getOrderList({});
     }
 
     render() {
