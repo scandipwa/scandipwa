@@ -100,7 +100,7 @@ class MyAccountOrderPopup extends KeyValueTable {
               mix={ { block: 'MyAccountOrderPopup' } }
             >
                 <Loader isLoading={ !Object.keys(order).length } />
-                { Object.keys(order).length && this.renderTable() }
+                { this.renderTable() }
             </Popup>
         );
     }

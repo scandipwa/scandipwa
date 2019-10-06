@@ -50,7 +50,6 @@ export class OrderDispatcher extends QueryDispatcher {
             return OrderQuery.getOrderByIdQuery(orderId);
         }
 
-        dispatch(setOrderLoadingStatus(true));
         return OrderQuery.getOrderListQuery();
     }
 
