@@ -9,10 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { getIndexedProducts } from 'Util/Product';
 import { formatCurrency } from 'Util/Price';
 import {
     GET_ORDER_LIST,
     EMPTY_ORDER_LIST,
+    GET_ORDER,
+    EMPTY_ORDER,
     SET_ORDER_LOADING_STATUS
 } from './Order.action';
 
@@ -47,6 +50,18 @@ const formatOrders = orders => orders.reduce((acc, order) => {
     ];
 }, []);
 
+const convertPrice = items => items.reduce((acc, item) => {
+    const { original_price, row_total } = item;
+    return [
+        ...acc,
+        {
+            ...item,
+            original_price: `${original_price}${formatCurrency()}`,
+            row_total: `${row_total}${formatCurrency()}`
+        }
+    ];
+}, []);
+
 export const initialState = {
     orderList: [],
     order: {},
@@ -57,6 +72,7 @@ const OrderReducer = (state = initialState, action) => {
     const {
         type,
         orderList,
+        order,
         status
     } = action;
 
@@ -68,6 +84,25 @@ const OrderReducer = (state = initialState, action) => {
         return {
             ...state,
             orderList: formattedOrders
+        };
+
+    case GET_ORDER:
+        const { order_products = [] } = order;
+        const indexedProducts = getIndexedProducts(order_products);
+        const indexedProductsWithPrice = convertPrice(indexedProducts);
+
+        return {
+            ...state,
+            order: {
+                ...order,
+                order_products: indexedProductsWithPrice
+            }
+        };
+
+    case EMPTY_ORDER:
+        return {
+            ...state,
+            order: {}
         };
 
     case EMPTY_ORDER_LIST:

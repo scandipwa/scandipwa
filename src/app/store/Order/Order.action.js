@@ -11,6 +11,8 @@
 
 export const GET_ORDER_LIST = 'GET_ORDER_LIST';
 export const EMPTY_ORDER_LIST = 'EMPTY_ORDER_LIST';
+export const GET_ORDER = 'GET_ORDER';
+export const EMPTY_ORDER = 'EMPTY_ORDER';
 export const SET_ORDER_LOADING_STATUS = 'GET_ORDER_LOADING_STATUS';
 
 export const getOrderList = orderList => ({
@@ -20,6 +22,15 @@ export const getOrderList = orderList => ({
 
 export const emptyOrderList = () => ({
     type: EMPTY_ORDER_LIST
+});
+
+export const getOrder = order => ({
+    type: GET_ORDER,
+    order
+});
+
+export const emptyOrder = () => ({
+    type: EMPTY_ORDER
 });
 
 export const setOrderLoadingStatus = status => ({

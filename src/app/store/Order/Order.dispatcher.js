@@ -14,6 +14,8 @@
 import { QueryDispatcher } from 'Util/Request';
 import {
     getOrderList,
+    getOrder,
+    emptyOrder,
     setOrderLoadingStatus
 } from 'Store/Order';
 import { showNotification } from 'Store/Notification';
@@ -24,16 +26,29 @@ export class OrderDispatcher extends QueryDispatcher {
         super('Order');
     }
 
-    onSuccess({ getOrderList: list }, dispatch) {
-        dispatch(setOrderLoadingStatus(false));
-        dispatch(getOrderList(list));
+    onSuccess(options, dispatch) {
+        const { getOrderById: order, getOrderList: list } = options;
+
+        if (order) {
+            dispatch(getOrder(order));
+        } else {
+            dispatch(setOrderLoadingStatus(false));
+            dispatch(getOrderList(list));
+        }
     }
 
     onError(_, dispatch) {
         dispatch(showNotification('error', __('Error getting Order List!')));
     }
 
-    prepareRequest(_, dispatch) {
+    prepareRequest(options, dispatch) {
+        const { orderId } = options;
+
+        if (orderId) {
+            dispatch(emptyOrder());
+            return OrderQuery.getOrderByIdQuery(orderId);
+        }
+
         dispatch(setOrderLoadingStatus(true));
         return OrderQuery.getOrderListQuery();
     }
