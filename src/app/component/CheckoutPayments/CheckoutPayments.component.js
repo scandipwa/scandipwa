@@ -7,9 +7,11 @@ import Braintree from 'Component/Braintree';
 import './CheckoutPayments.style';
 import { paymentMethodsType } from 'Type/Checkout';
 import { addressType } from 'Type/Account';
+import PayPal from 'Component/PayPal';
 
 export const BRAINTREE = 'braintree';
 export const CHECK_MONEY = 'checkmo';
+export const PAYPAL_EXPRESS = 'paypal_express';
 
 class CheckoutPayments extends PureComponent {
     static propTypes = {
@@ -18,13 +20,19 @@ class CheckoutPayments extends PureComponent {
         initBraintree: PropTypes.func.isRequired,
         selectedPaymentCode: PropTypes.oneOf([
             BRAINTREE,
-            CHECK_MONEY
+            CHECK_MONEY,
+            PAYPAL_EXPRESS
         ]).isRequired
     };
 
     paymentRenderMap = {
-        [BRAINTREE]: this.renderBrainTreePayment.bind(this)
+        [BRAINTREE]: this.renderBrainTreePayment.bind(this),
+        [PAYPAL_EXPRESS]: this.renderPayPal.bind(this)
     };
+
+    renderPayPal() {
+        return <PayPal />;
+    }
 
     renderBrainTreePayment() {
         const { initBraintree } = this.props;
