@@ -136,7 +136,7 @@ export class CategoryPageContainer extends PureComponent {
 
     getFilterUrl(filterName, filterArray, isFull = true) {
         const { location: { pathname } } = this.props;
-        const selectedFilters = this._getNewSelectedFilters(filterName, filterArray);
+        const selectedFilters = this._getNewSelectedFiltersString(filterName, filterArray);
         return `${isFull ? `${pathname}?` : ''}${this._formatSelectedFiltersString(selectedFilters)}`;
     }
 
@@ -174,6 +174,9 @@ export class CategoryPageContainer extends PureComponent {
 
     updateFilter(filterName, filterArray) {
         const { location, history } = this.props;
+        const customFilters = this._getNewSelectedFilters(filterName, filterArray);
+
+        this._requestCategoryProductsInfo(customFilters);
 
         setQueryParams({
             customFilters: this.getFilterUrl(filterName, filterArray, false),
@@ -182,8 +185,13 @@ export class CategoryPageContainer extends PureComponent {
     }
 
     _getNewSelectedFilters(filterName, filterArray) {
-        const prevCustomFilters = this._getSelectedFiltersFromUrl();
-        prevCustomFilters[filterName] = filterArray;
+        const customFilters = this._getSelectedFiltersFromUrl();
+        customFilters[filterName] = filterArray;
+        return customFilters;
+    }
+
+    _getNewSelectedFiltersString(filterName, filterArray) {
+        const prevCustomFilters = this._getNewSelectedFilters(filterName, filterArray);
 
         return Object.keys(prevCustomFilters)
             .reduce((accumulator, prevFilterName) => {
@@ -271,7 +279,7 @@ export class CategoryPageContainer extends PureComponent {
         };
     }
 
-    _getProductListOptions(currentPage) {
+    _getProductListOptions(currentPage, customFilters = {}) {
         const { categoryIds } = this.props;
         const categoryUrlPath = !categoryIds ? this._getCategoryUrlPath() : null;
 
@@ -279,7 +287,8 @@ export class CategoryPageContainer extends PureComponent {
             args: {
                 filter: {
                     categoryUrlPath,
-                    categoryIds
+                    categoryIds,
+                    customFilters
                 }
             },
             currentPage
@@ -306,9 +315,9 @@ export class CategoryPageContainer extends PureComponent {
         });
     }
 
-    _requestCategoryProductsInfo() {
+    _requestCategoryProductsInfo(customFilters = {}) {
         const { requestProductListInfo } = this.props;
-        requestProductListInfo(this._getProductListOptions(1, false, true));
+        requestProductListInfo(this._getProductListOptions(1, customFilters));
     }
 
     _requestCategory() {
@@ -323,8 +332,10 @@ export class CategoryPageContainer extends PureComponent {
     }
 
     _requestCategoryWithPageList() {
+        const customFilters = this._getSelectedFiltersFromUrl();
+
         this._requestCategory();
-        this._requestCategoryProductsInfo();
+        this._requestCategoryProductsInfo(customFilters);
     }
 
     _compareQueriesWithFilter(search, prevSearch, filter) {
