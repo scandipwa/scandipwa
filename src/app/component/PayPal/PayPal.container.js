@@ -26,11 +26,11 @@ export class PayPalContainer extends PureComponent {
 
     getPayPal() {
         const { paypal } = window;
-        return paypal;
+        return paypal || false;
     }
 
     render() {
-        return <PayPal paypal={ this.getPayPal() } />;
+        return <PayPal { ...this.props } paypal={ this.getPayPal() } />;
     }
 }
 

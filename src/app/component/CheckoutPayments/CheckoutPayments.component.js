@@ -26,13 +26,8 @@ class CheckoutPayments extends PureComponent {
     };
 
     paymentRenderMap = {
-        [BRAINTREE]: this.renderBrainTreePayment.bind(this),
-        [PAYPAL_EXPRESS]: this.renderPayPal.bind(this)
+        [BRAINTREE]: this.renderBrainTreePayment.bind(this)
     };
-
-    renderPayPal() {
-        return <PayPal />;
-    }
 
     renderBrainTreePayment() {
         const { initBraintree } = this.props;
@@ -81,6 +76,11 @@ class CheckoutPayments extends PureComponent {
         );
     }
 
+    renderPayPal() {
+        const { selectedPaymentCode } = this.props;
+        return <PayPal isDisabled={ selectedPaymentCode !== PAYPAL_EXPRESS } />;
+    }
+
     render() {
         return (
             <div block="CheckoutPayments">
@@ -89,6 +89,7 @@ class CheckoutPayments extends PureComponent {
                     { this.renderPayments() }
                 </ul>
                 { this.renderSelectedPayment() }
+                { this.renderPayPal() }
             </div>
         );
     }
