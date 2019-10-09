@@ -16,29 +16,89 @@ import Html from 'Component/Html';
 
 import './PayPal.style';
 
-export const PAYPAL_BUTTON = 'PAYPAL_BUTTON';
 export const PAYPAL_SCRIPT = 'PAYPAL_SCRIPT';
 
-const paypalScript = `<script id="${PAYPAL_SCRIPT}" src="https://www.paypal.com/sdk/js?client-id=sb"></script>`;
-
+/**
+ * *Note*
+ * This component currently can be rendered only once
+ * Please try to not have more than 2 components per page and use isDisabled to hide it.
+*/
 export default class PayPal extends PureComponent {
     static propTypes = {
         isDisabled: PropTypes.bool,
-        paypal: PropTypes.any.isRequired
+        paypal: PropTypes.any.isRequired,
+        cartTotals: PropTypes.shape({}).isRequired
     };
 
     static defaultProps = {
         isDisabled: false
     };
 
-    render() {
-        const { paypal, isDisabled } = this.props;
+    onApprove = (data, actions) => {
+        console.log('APPROVED');
+
+        return actions.order.capture().then(details => console.log('DETAILS', details));
+    };
+
+    onCancel = (data) => {
+        console.log('CANCELED', data);
+    };
+
+    onError = (err) => {
+        console.log('ERROR', err);
+    };
+
+    createOrder = (data, actions) => {
+        const { cartTotals: { base_currency_code: currency_code } } = this.props;
+
+        return actions.order.create({
+            purchase_units: [{
+                amount: {
+                    value: '0.02',
+                    currency_code
+                }
+            }]
+        });
+    };
+
+    getPayPalScript = () => {
+        //! TODO: get client id / sandbox enabled from server
+        const { cartTotals: { base_currency_code } } = this.props;
+
+        const clientId = 'sb';
+
+        return `<script id="${PAYPAL_SCRIPT}" src="https://www.paypal.com/sdk/js?client-id=${clientId}&currency=${base_currency_code}"></script>`;
+    };
+
+    renderButtons() {
+        const { paypal } = this.props;
+
+        if (!paypal) return null;
+
         const PayPalButton = paypal && paypal.Buttons.driver('react', { React, ReactDOM });
+
+        return (
+            <PayPalButton
+              env="sandbox"
+              onError={ this.onError }
+              style={ { layout: 'horizontal', label: 'pay' } }
+              onCancel={ this.onCancel }
+              onApprove={ this.onApprove }
+              createOrder={ this.createOrder }
+              enableStandardCardFields
+            />
+        );
+    }
+
+    render() {
+        const { isDisabled } = this.props;
+
+        const paypalScript = this.getPayPalScript();
 
         return (
             <div block="PayPal" mods={ { isDisabled } }>
                 <Html content={ paypalScript } />
-                { paypal && <PayPalButton /> }
+                { this.renderButtons() }
             </div>
         );
     }

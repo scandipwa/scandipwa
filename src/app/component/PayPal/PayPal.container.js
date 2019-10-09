@@ -10,9 +10,14 @@
  */
 
 import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
 import PayPal from './PayPal.component';
 
 export const PAYPAL_SCRIPT = 'PAYPAL_SCRIPT';
+
+export const mapStateToProps = state => ({
+    cartTotals: state.CartReducer.cartTotals
+});
 
 export class PayPalContainer extends PureComponent {
     static propTypes = {
@@ -34,4 +39,4 @@ export class PayPalContainer extends PureComponent {
     }
 }
 
-export default PayPalContainer;
+export default connect(mapStateToProps)(PayPalContainer);
