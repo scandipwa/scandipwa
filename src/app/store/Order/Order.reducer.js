@@ -13,9 +13,7 @@ import { getIndexedProducts } from 'Util/Product';
 import { formatCurrency } from 'Util/Price';
 import {
     GET_ORDER_LIST,
-    EMPTY_ORDER_LIST,
     GET_ORDER,
-    EMPTY_ORDER,
     SET_ORDER_LOADING_STATUS
 } from './Order.action';
 
@@ -62,6 +60,25 @@ const convertPrice = items => items.reduce((acc, item) => {
     ];
 }, []);
 
+const convertTotalPrice = (order) => {
+    const { base_order_info = {}, shipping_info = {} } = order;
+    const { grand_total = 0, sub_total = 0 } = base_order_info;
+    const { shipping_amount = 0 } = shipping_info;
+
+    return {
+        ...order,
+        base_order_info: {
+            ...base_order_info,
+            grand_total: `${grand_total}${formatCurrency()}`,
+            sub_total: `${sub_total}${formatCurrency()}`
+        },
+        shipping_info: {
+            ...shipping_info,
+            shipping_amount: `${shipping_amount}${formatCurrency()}`
+        }
+    };
+};
+
 export const initialState = {
     orderList: [],
     order: {},
@@ -90,12 +107,14 @@ const OrderReducer = (state = initialState, action) => {
         const { order_products = [] } = order;
         const indexedProducts = getIndexedProducts(order_products);
         const indexedProductsWithPrice = convertPrice(indexedProducts);
+        const convertedOrder = convertTotalPrice(
+            { ...order, order_products: indexedProductsWithPrice }
+        );
 
         return {
             ...state,
             order: {
-                ...order,
-                order_products: indexedProductsWithPrice
+                ...convertedOrder
             }
         };
 

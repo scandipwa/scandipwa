@@ -23,7 +23,7 @@ import BrowserDatabase from 'Util/BrowserDatabase';
 
 export const ORDERS = 'orders';
 
-const ONE_HOUR_IN_SECONDS = 3600;
+const ONE_DAY_IN_SECONDS = 86400;
 
 export class OrderDispatcher {
     requestOrders(dispatch) {
@@ -39,7 +39,7 @@ export class OrderDispatcher {
             ({ getOrderList: orders }) => {
                 dispatch(getOrderList(orders));
                 dispatch(setOrderLoadingStatus(false));
-                BrowserDatabase.setItem(orders, ORDERS, ONE_HOUR_IN_SECONDS);
+                BrowserDatabase.setItem(orders, ORDERS, ONE_DAY_IN_SECONDS);
             },
             error => dispatch(showNotification('error', error[0].message))
         );
