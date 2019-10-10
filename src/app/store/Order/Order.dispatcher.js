@@ -9,53 +9,54 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-/* eslint-disable max-len */
 /* eslint-disable no-console */
-import { QueryDispatcher } from 'Util/Request';
 import {
     getOrderList,
     getOrder,
-    emptyOrder,
-    emptyOrderList,
     setOrderLoadingStatus
 } from 'Store/Order';
+import { executePost, fetchQuery } from 'Util/Request';
 import { showNotification } from 'Store/Notification';
+import { prepareQuery } from 'Util/Query';
 import { OrderQuery } from 'Query';
+import BrowserDatabase from 'Util/BrowserDatabase';
 
-export class OrderDispatcher extends QueryDispatcher {
-    constructor() {
-        super('Order');
-    }
+export const ORDERS = 'orders';
 
-    onSuccess(options, dispatch) {
-        const { getOrderById: order, getOrderList: list } = options;
+const ONE_HOUR_IN_SECONDS = 3600;
 
-        if (order) {
-            dispatch(getOrder(order));
-        } else {
+export class OrderDispatcher {
+    requestOrders(dispatch) {
+        const query = OrderQuery.getOrderListQuery();
+
+        const orders = BrowserDatabase.getItem(ORDERS) || {};
+        if (orders.getOrderList) {
+            dispatch(getOrderList(orders.getOrderList));
             dispatch(setOrderLoadingStatus(false));
-            dispatch(getOrderList(list));
-        }
-    }
-
-    onError(_, dispatch) {
-        dispatch(showNotification('error', __('Error getting Order List!')));
-    }
-
-    prepareRequest(options, dispatch) {
-        const { orderId } = options;
-
-        if (orderId) {
-            dispatch(emptyOrder());
-            return OrderQuery.getOrderByIdQuery(orderId);
         }
 
-        return OrderQuery.getOrderListQuery();
+        return executePost(prepareQuery([query])).then(
+            ({ getOrderList: orders }) => {
+                dispatch(getOrderList(orders));
+                dispatch(setOrderLoadingStatus(false));
+                BrowserDatabase.setItem(orders, ORDERS, ONE_HOUR_IN_SECONDS);
+            },
+            error => dispatch(showNotification('error', error[0].message))
+        );
     }
 
-    emptyOrderList(dispatch) {
-        dispatch(emptyOrderList());
-        dispatch(setOrderLoadingStatus(true));
+    getOrderById(dispatch, orderId) {
+        dispatch(getOrder({}));
+
+        return fetchQuery(OrderQuery.getOrderByIdQuery(orderId)).then(
+            ({ getOrderById: order }) => {
+                dispatch(getOrder(order));
+            },
+            (error) => {
+                dispatch(showNotification('error', __('Error getting Order by ID!')));
+                console.log(error);
+            }
+        );
     }
 }
 

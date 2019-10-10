@@ -96,13 +96,15 @@ class MyAccountOrderPopup extends KeyValueTable {
 
     render() {
         const { order } = this.props;
+        const { order_products = [] } = order;
+
         return (
             <Popup
               id={ ORDER_POPUP_ID }
               clickOutside={ false }
               mix={ { block: 'MyAccountOrderPopup' } }
             >
-                <Loader isLoading={ !Object.keys(order).length } />
+                <Loader isLoading={ !order_products.length } />
                 { this.renderTable() }
             </Popup>
         );

@@ -22,11 +22,11 @@ import {
 } from 'Util/Auth';
 import { WishlistDispatcher } from 'Store/Wishlist';
 import { showNotification } from 'Store/Notification';
-import { OrderDispatcher } from 'Store/Order';
 import { CartDispatcher } from 'Store/Cart';
 import { MyAccountQuery } from 'Query';
 import { prepareQuery } from 'Util/Query';
 import BrowserDatabase from 'Util/BrowserDatabase';
+import { ORDERS } from 'Store/Order/Order.dispatcher';
 
 export const CUSTOMER = 'customer';
 
@@ -57,7 +57,7 @@ export class MyAccountDispatcher {
         deleteAuthorizationToken();
         CartDispatcher.updateInitialCartData(dispatch);
         WishlistDispatcher.updateInitialWishlistData(dispatch);
-        OrderDispatcher.emptyOrderList(dispatch);
+        BrowserDatabase.deleteItem(ORDERS);
         // TODO: logout in BE
     }
 

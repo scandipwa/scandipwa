@@ -22,7 +22,7 @@ import MyAccountOrderTable from './MyAccountOrderTable.component';
 
 export const mapDispatchToProps = dispatch => ({
     showViewPopup: payload => dispatch(showPopup(ORDER_POPUP_ID, payload)),
-    getOrder: options => OrderDispatcher.handleData(dispatch, options)
+    getOrder: orderId => OrderDispatcher.getOrderById(dispatch, orderId)
 });
 
 export class MyAccountOrderTableContainer extends PureComponent {
@@ -49,7 +49,7 @@ export class MyAccountOrderTableContainer extends PureComponent {
         const { base_order_info } = order;
         const { id } = base_order_info;
 
-        getOrder({ orderId: id });
+        getOrder(id);
 
         showViewPopup({
             action: VIEW_ORDER,

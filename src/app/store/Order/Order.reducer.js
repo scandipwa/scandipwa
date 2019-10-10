@@ -99,18 +99,6 @@ const OrderReducer = (state = initialState, action) => {
             }
         };
 
-    case EMPTY_ORDER:
-        return {
-            ...state,
-            order: {}
-        };
-
-    case EMPTY_ORDER_LIST:
-        return {
-            ...state,
-            orderList: []
-        };
-
     case SET_ORDER_LOADING_STATUS:
         return {
             ...state,
