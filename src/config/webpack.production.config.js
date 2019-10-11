@@ -48,7 +48,7 @@ module.exports = {
         ],
         plugins: [
             new FallbackPlugin({
-                fallbackRoot, projectRoot
+                projectRoot, fallbackRoot
             })
         ]
     },
