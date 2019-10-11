@@ -62,7 +62,7 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
 
         if (selectedShippingMethodCode !== prevSelectedShippingMethodCode) {
             const shippingMethod = shippingMethods.find(
-                ({ carrier_code }) => carrier_code === selectedShippingMethodCode
+                ({ method_code }) => method_code === selectedShippingMethodCode
             );
 
             onShippingMethodSelect(shippingMethod);
@@ -100,8 +100,8 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
 
     selectShippingMethod(shippingMethod) {
         const { onShippingMethodSelect } = this.props;
-        const { carrier_code } = shippingMethod;
-        this.setState({ selectedShippingMethodCode: carrier_code });
+        const { method_code } = shippingMethod;
+        this.setState({ selectedShippingMethodCode: method_code });
         onShippingMethodSelect(shippingMethod);
     }
 

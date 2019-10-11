@@ -27,7 +27,7 @@ export class CheckoutAddressBookContainer extends PureComponent {
     static defaultProps = {
         isBilling: false,
         onAddressSelect: () => {},
-        onShippingEstimationFieldsChange:  () => {}
+        onShippingEstimationFieldsChange: () => {}
     };
 
     static _getDefaultAddressId(props) {
@@ -112,6 +112,7 @@ export class CheckoutAddressBookContainer extends PureComponent {
         const {
             city,
             country_id,
+            postcode,
             region: {
                 region_id,
                 region
@@ -124,7 +125,8 @@ export class CheckoutAddressBookContainer extends PureComponent {
             city,
             country_id,
             region_id,
-            region
+            region,
+            postcode
         });
     }
 

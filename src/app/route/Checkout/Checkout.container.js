@@ -57,6 +57,7 @@ export class CheckoutContainer extends PureComponent {
         this.state = {
             isLoading: false,
             isDeliveryOptionsLoading: false,
+            requestsSent: 0,
             paymentMethods: [],
             shippingMethods: [],
             shippingAddress: {},
@@ -72,14 +73,25 @@ export class CheckoutContainer extends PureComponent {
     }
 
     onShippingEstimationFieldsChange(address) {
-        this.setState({ isDeliveryOptionsLoading: true });
+        const { requestsSent } = this.state;
+
+        this.setState({
+            isDeliveryOptionsLoading: true,
+            requestsSent: requestsSent + 1
+        });
 
         fetchMutation(CheckoutQuery.getEstimateShippingCosts(
             address,
             this._getGuestCartId()
         )).then(
             ({ estimateShippingCosts: shippingMethods }) => {
-                this.setState({ shippingMethods, isDeliveryOptionsLoading: false });
+                const { requestsSent } = this.state;
+
+                this.setState({
+                    shippingMethods,
+                    isDeliveryOptionsLoading: requestsSent > 1,
+                    requestsSent: requestsSent - 1
+                });
             },
             this._handleError
         );

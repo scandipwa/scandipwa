@@ -1,7 +1,10 @@
 import PropTypes from 'prop-types';
 import FormPortal from 'Component/FormPortal';
+import { debounce } from 'Util/Request';
 import MyAccountAddressForm from 'Component/MyAccountAddressForm/MyAccountAddressForm.component';
 import './CheckoutAddressForm.style';
+
+export const UPDATE_STATE_FREQUENCY = 1000; // (ms)
 
 class CheckoutAddressForm extends MyAccountAddressForm {
     static propTypes = {
@@ -15,41 +18,43 @@ class CheckoutAddressForm extends MyAccountAddressForm {
         onShippingEstimationFieldsChange: () => {}
     };
 
+    onChange = debounce((key, value) => {
+        this.setState(() => ({ [key]: value }));
+    }, UPDATE_STATE_FREQUENCY);
+
     constructor(props) {
         super(props);
 
         const {
-            address: { region: { region = '' } = {} },
-            onShippingEstimationFieldsChange
+            address: { region: { region = '' } = {} }
         } = this.props;
 
         // TODO: get from region data
         this.state = {
             ...this.state,
             region,
-            city: ''
+            city: '',
+            postcode: ''
         };
 
         this.estimateShipping();
     }
-
-    onChange = (key, value) => {
-        this.setState(() => ({ [key]: value }));
-    };
 
     componentDidUpdate(_, prevState) {
         const {
             countryId,
             regionId,
             region,
-            city
+            city,
+            postcode
         } = this.state;
 
         const {
             countryId: prevCountryId,
             regionId: prevRegionId,
             region: prevRegion,
-            city: prevCity
+            city: prevCity,
+            postcode: prevpostcode
         } = prevState;
 
         if (
@@ -57,6 +62,7 @@ class CheckoutAddressForm extends MyAccountAddressForm {
             || regionId !== prevRegionId
             || city !== prevCity
             || region !== prevRegion
+            || postcode !== prevpostcode
         ) {
             this.estimateShipping();
         }
@@ -69,14 +75,16 @@ class CheckoutAddressForm extends MyAccountAddressForm {
             countryId,
             regionId,
             region,
-            city
+            city,
+            postcode
         } = this.state;
 
         onShippingEstimationFieldsChange({
             country_id: countryId,
             region_id: regionId,
             region,
-            city
+            city,
+            postcode
         });
     }
 
@@ -87,12 +95,18 @@ class CheckoutAddressForm extends MyAccountAddressForm {
             default_billing,
             default_shipping,
             city,
+            postcode,
             ...fieldMap
         } = super.fieldMap;
 
         fieldMap.city = {
             ...city,
             onChange: value => this.onChange('city', value)
+        };
+
+        fieldMap.postcode = {
+            ...postcode,
+            onChange: value => this.onChange('postcode', value)
         };
 
         return fieldMap;

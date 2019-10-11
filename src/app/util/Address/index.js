@@ -10,7 +10,7 @@ export const trimCustomerAddress = (customerAddress) => {
         postcode,
         street,
         telephone,
-        region,
+        region
     } = customerAddress;
 
     return {
