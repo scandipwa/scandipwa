@@ -57,31 +57,19 @@ export default class PayPal extends PureComponent {
     createOrder = async (_, actions) => {
         const { cartTotals: { base_currency_code: currency_code } } = this.props;
 
-        const token = await fetchMutation(PayPalQuery.getCreatePaypalExpressTokenMutation({
+        const data = await fetchMutation(PayPalQuery.getCreatePaypalExpressTokenMutation({
             code: 'paypal_express',
             guest_cart_id: isSignedIn() ? '' : CartDispatcher._getGuestQuoteId(),
+            express_button: true,
             urls: {
-                cancel_url: 'https://www.paypal.com/checkoutnow/error',
-                return_url: 'https://www.paypal.com/checkoutnow/error'
+                cancel_url: 'www.paypal.com/checkoutnow/error',
+                return_url: 'www.paypal.com/checkoutnow/error'
             }
         }));
 
-        console.log('TOKEN', token);
+        const { paypalExpress: { token } } = data;
 
-        return null;
-
-        // return actions.order.create({
-        //     purchase_units: [{
-        //         amount: {
-        //             value: '0.02',
-        //             currency_code
-        //         }
-        //     }]
-        // }).then((ndata) => {
-        //     // Save it on server
-        //     console.log('ORDER_ID', ndata);
-        //     return ndata;
-        // });
+        return token;
     };
 
     getPayPalScript = () => {
