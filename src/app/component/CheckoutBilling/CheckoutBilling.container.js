@@ -7,8 +7,8 @@ import { paymentMethodsType } from 'Type/Checkout';
 import { customerType, addressType } from 'Type/Account';
 import { trimCustomerAddress, trimAddressFields } from 'Util/Address';
 
-import CheckoutBilling from './CheckoutBilling.component';
 import { BRAINTREE } from 'Component/CheckoutPayments/CheckoutPayments.component';
+import CheckoutBilling from './CheckoutBilling.component';
 
 export const mapStateToProps = state => ({
     customer: state.MyAccountReducer.customer
@@ -111,7 +111,7 @@ export class CheckoutBillingContainer extends PureComponent {
         if (!selectedCustomerAddressId) return trimAddressFields(fields);
 
         const { customer: { addresses } } = this.props;
-        const address = addresses.find(({ id }) => id !== addressId);
+        const address = addresses.find(({ id }) => id === addressId);
         return trimCustomerAddress(address);
     }
 

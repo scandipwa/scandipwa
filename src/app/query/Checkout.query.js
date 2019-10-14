@@ -52,7 +52,8 @@ export class CheckoutQuery {
 
     getPlaceOrderMutation(guestCartId) {
         const mutation = new Field('s_placeOrder')
-            .setAlias('placeOrder');
+            .setAlias('placeOrder')
+            .addField(this._getOrderField());
 
         if (!isSignedIn()) mutation.addArgument('guestCartId', 'String', guestCartId);
 
@@ -61,6 +62,11 @@ export class CheckoutQuery {
 
     _addGuestCartId(guestCartId, mutation) {
         if (guestCartId && !isSignedIn()) mutation.addArgument('guestCartId', 'String!', guestCartId);
+    }
+
+    _getOrderField() {
+        return new Field('order')
+            .addFieldList(['order_id']);
     }
 
     _getSavePaymentInformationAndPlaceOrderFields() {

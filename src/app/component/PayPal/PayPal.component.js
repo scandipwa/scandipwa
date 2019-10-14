@@ -12,11 +12,12 @@
 import React, { PureComponent } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
+
 import Html from 'Component/Html';
-import { fetchMutation } from 'Util/Request';
-import { PayPalQuery } from 'Query';
 import { isSignedIn } from 'Util/Auth';
 import { CartDispatcher } from 'Store/Cart';
+import { fetchMutation } from 'Util/Request';
+import { PayPalQuery, CheckoutQuery } from 'Query';
 
 import './PayPal.style';
 
@@ -39,14 +40,25 @@ export default class PayPal extends PureComponent {
         isDisabled: false
     };
 
-    onApprove = (data, actions) => {
-        console.log('APPROVED', data);
+    onApprove = async (data) => {
+        const { orderID, payerID } = data;
+        const guest_cart_id = this._getGuestQuoteId();
 
-        return actions.order.capture().then(details => console.log('DETAILS', details));
+        await fetchMutation(CheckoutQuery.getSetPaymentMethodOnCartMutation({
+            guest_cart_id,
+            payment_method: {
+                code: 'paypal_express',
+                paypal_express: {
+                    token: orderID,
+                    payer_id: payerID
+                }
+            }
+        }));
+
+        await fetchMutation(CheckoutQuery.getPlaceOrderMutation(guest_cart_id));
     };
 
     onCancel = (data) => {
-        // CANCEL IT ON SERVER
         console.log('CANCELED', data);
     };
 
@@ -54,33 +66,34 @@ export default class PayPal extends PureComponent {
         console.log('ERROR', err);
     };
 
-    createOrder = async (_, actions) => {
-        const { cartTotals: { base_currency_code: currency_code } } = this.props;
+    createOrder = async () => {
+        const guest_cart_id = this._getGuestQuoteId();
 
-        const data = await fetchMutation(PayPalQuery.getCreatePaypalExpressTokenMutation({
+        const {
+            paypalExpress: { token }
+        } = await fetchMutation(PayPalQuery.getCreatePaypalExpressTokenMutation({
+            guest_cart_id,
+            express_button: false,
             code: 'paypal_express',
-            guest_cart_id: isSignedIn() ? '' : CartDispatcher._getGuestQuoteId(),
-            express_button: true,
             urls: {
                 cancel_url: 'www.paypal.com/checkoutnow/error',
                 return_url: 'www.paypal.com/checkoutnow/error'
             }
         }));
 
-        const { paypalExpress: { token } } = data;
-
         return token;
     };
+
+    _getGuestQuoteId = () => (isSignedIn() ? '' : CartDispatcher._getGuestQuoteId());
 
     getPayPalScript = () => {
         //! TODO: get client id / sandbox enabled from server
         const { cartTotals: { base_currency_code: currency } } = this.props;
 
-        const clientId = 'sb';
+        const clientId = 'AXmZAtF_N3bY3PWr3P7ZRvcW1ths0KZZXX_mtylTcvcOyFzNiImGm5WQj5IggMy3YhjZ5a9QDE6Hy4ZD';
 
         const params = {
             currency,
-            debug: 'true',
             intent: 'authorize',
             'client-id': clientId
         };
@@ -100,7 +113,6 @@ export default class PayPal extends PureComponent {
         return (
             <PayPalButton
               env="sandbox"
-              enableStandardCardFields
               onError={ this.onError }
               onCancel={ this.onCancel }
               onApprove={ this.onApprove }
