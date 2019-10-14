@@ -6,7 +6,6 @@ import { showNotification } from 'Store/Notification';
 import { paymentMethodsType } from 'Type/Checkout';
 import { customerType, addressType } from 'Type/Account';
 import { trimCustomerAddress, trimAddressFields } from 'Util/Address';
-import { BRAINTREE } from 'Component/CheckoutPayments/CheckoutPayments.component';
 
 import CheckoutBilling from './CheckoutBilling.component';
 
@@ -80,19 +79,11 @@ export class CheckoutBillingContainer extends PureComponent {
         }
     }
 
+    // eslint-disable-next-line no-unused-vars
     _getPaymentData(asyncData) {
         const { paymentMethod: method } = this.state;
 
         switch (method) {
-        case BRAINTREE:
-            const [{ nonce }] = asyncData;
-
-            return {
-                method,
-                additional_data: {
-                    payment_method_nonce: nonce
-                }
-            };
         default:
             return { method };
         }

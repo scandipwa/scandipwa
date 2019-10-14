@@ -34,7 +34,6 @@
     }
   },
   "dependencies": {
-    "braintree-web-drop-in": "^1.20.1",
     "currency-symbol-map": "^4.0.4",
     "html-react-parser": "^0.6.1",
     "localforage": "^1.7.3",
