@@ -12,6 +12,7 @@ import { fetchMutation } from 'Util/Request';
 import { GUEST_QUOTE_ID } from 'Store/Cart';
 import { TotalsType } from 'Type/MiniCart';
 import { HistoryType } from 'Type/Common';
+import { CART_TOTALS } from 'Store/Cart/Cart.reducer';
 
 import Checkout, { SHIPPING_STEP, BILLING_STEP, DETAILS_STEP } from './Checkout.component';
 
@@ -47,7 +48,7 @@ export class CheckoutContainer extends PureComponent {
         const {
             toggleBreadcrumbs,
             history,
-            totals: { items }
+            totals: { items = [] }
         } = props;
 
         toggleBreadcrumbs(false);
@@ -167,6 +168,7 @@ export class CheckoutContainer extends PureComponent {
                 const { orderID } = data;
 
                 BrowserDatabase.deleteItem(PAYMENT_TOTALS);
+                BrowserDatabase.deleteItem(CART_TOTALS);
 
                 this.setState({
                     isLoading: false,

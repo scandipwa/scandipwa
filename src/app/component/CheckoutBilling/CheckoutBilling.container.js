@@ -6,9 +6,9 @@ import { showNotification } from 'Store/Notification';
 import { paymentMethodsType } from 'Type/Checkout';
 import { customerType, addressType } from 'Type/Account';
 import { trimCustomerAddress, trimAddressFields } from 'Util/Address';
+import { BRAINTREE } from 'Component/CheckoutPayments/CheckoutPayments.component';
 
 import CheckoutBilling from './CheckoutBilling.component';
-import { BRAINTREE } from 'Component/CheckoutPayments/CheckoutPayments.component';
 
 export const mapStateToProps = state => ({
     customer: state.MyAccountReducer.customer
@@ -86,7 +86,6 @@ export class CheckoutBillingContainer extends PureComponent {
         switch (method) {
         case BRAINTREE:
             const [{ nonce }] = asyncData;
-            console.log(asyncData);
 
             return {
                 method,
@@ -111,7 +110,8 @@ export class CheckoutBillingContainer extends PureComponent {
         if (!selectedCustomerAddressId) return trimAddressFields(fields);
 
         const { customer: { addresses } } = this.props;
-        const address = addresses.find(({ id }) => id !== addressId);
+        const address = addresses.find(({ id }) => id !== selectedCustomerAddressId);
+
         return trimCustomerAddress(address);
     }
 

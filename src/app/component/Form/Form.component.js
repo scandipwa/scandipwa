@@ -205,6 +205,10 @@ export default class Form extends PureComponent {
             const { current } = input;
             if (current && current.id && current.value) {
                 const { name, value, checked } = current;
+
+                console.log(current.dataset.skipValue);
+                if (current.dataset.skipValue === 'true') return inputValues;
+
                 if (current.type === 'checkbox') {
                     const boolValue = checked;
                     return { ...inputValues, [name]: boolValue };

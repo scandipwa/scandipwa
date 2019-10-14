@@ -13,6 +13,15 @@ import { Field } from 'Util/Query';
 import { isSignedIn } from 'Util/Auth';
 
 export class CheckoutQuery {
+    getSaveGuestEmailMutation(email, cart_id) {
+        const input = { email, cart_id };
+        const mutation = new Field('setGuestEmailOnCart')
+            .addArgument('input', 'SetGuestEmailOnCartInput', input)
+            .addField(((new Field('cart')).addField('email')));
+
+        return mutation;
+    }
+
     getEstimateShippingCosts(address, guestCartId) {
         const mutation = new Field('estimateShippingCosts')
             .addArgument('address', 'EstimateShippingCostsAddress!', address)

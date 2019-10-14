@@ -93,10 +93,6 @@ export class CheckoutShippingContainer extends PureComponent {
         return trimCustomerAddress(address);
     }
 
-    _getAddressFromFields(fields) {
-
-    }
-
     render() {
         return (
             <CheckoutShipping

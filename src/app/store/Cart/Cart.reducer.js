@@ -13,7 +13,6 @@ import BrowserDatabase from 'Util/BrowserDatabase';
 import { getIndexedProduct } from 'Util/Product';
 import { UPDATE_TOTALS } from './Cart.action';
 
-export const PRODUCTS_IN_CART = 'cart_products';
 export const CART_TOTALS = 'cart_totals';
 
 const updateCartTotals = (action) => {

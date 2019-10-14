@@ -6,7 +6,6 @@ import Braintree from 'Component/Braintree';
 
 import './CheckoutPayments.style';
 import { paymentMethodsType } from 'Type/Checkout';
-import { addressType } from 'Type/Account';
 
 export const BRAINTREE = 'braintree';
 export const CHECK_MONEY = 'checkmo';

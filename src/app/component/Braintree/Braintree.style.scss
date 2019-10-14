@@ -1,6 +1,11 @@
 .Braintree {
     margin-top: 2rem;
 
+    &-Form {
+        min-height: 200px;
+        border-radius: 5px;
+    }
+
     .braintree-placeholder {
         display: none;
     }
