@@ -85,10 +85,7 @@ export class MyAccountOrderPopupContainer extends PureComponent {
     requestOrderDetails() {
         const { payload: { order: { base_order_info: { id } } } } = this.props;
 
-        this.setState({ isLoading: true });
-
-        const fetch = fetchQuery(OrderQuery.getOrderByIdQuery(id));
-        this.orderPromise = makeCancelable(fetch);
+        this.orderPromise = makeCancelable(fetchQuery(OrderQuery.getOrderByIdQuery(id)));
 
         this.orderPromise.promise.then(
             ({ getOrderById: rawOrder }) => {
