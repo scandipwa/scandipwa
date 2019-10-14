@@ -9,20 +9,62 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import './MyAccountMyOrders.style';
+import { ordersType } from 'Type/Account';
+import Loader from 'Component/Loader';
+import MyAccountOrderTable from 'Component/MyAccountOrderTable';
+import MyAccountOrderPopup from 'Component/MyAccountOrderPopup';
 
 class MyAccountMyOrders extends PureComponent {
     static propTypes = {
-        // TODO: implement prop-types
+        orderList: ordersType.isRequired,
+        isLoading: PropTypes.bool.isRequired
     };
 
-    render() {
+    renderPopup() {
+        return <MyAccountOrderPopup />;
+    }
+
+    renderOrders = (order) => {
+        const { base_order_info: { id } } = order;
         return (
-            <div block="MyAccountMyOrders">
-                Orders functionality is coming in future releases
+            <MyAccountOrderTable
+              title={ __('Order #%s', id) }
+              showActions
+              order={ order }
+              key={ id }
+            />
+        );
+    };
+
+    renderNoOrders() {
+        return (
+            <div>
+                <p>{ __('You have no orders.') }</p>
             </div>
+        );
+    }
+
+    renderOrdersList() {
+        const { orderList } = this.props;
+
+        if (!orderList.length) return this.renderNoOrders();
+        return orderList.map(this.renderOrders);
+    }
+
+    render() {
+        const { isLoading } = this.props;
+
+        return (
+            <>
+                <Loader isLoading={ isLoading } />
+                <div block="MyAccountMyOrders">
+                    { this.renderOrdersList() }
+                    { this.renderPopup() }
+                </div>
+            </>
         );
     }
 }

@@ -6,6 +6,18 @@
         font-size: 14px;
     }
 
+    &-Item {
+        &-Name {
+            border-top: 1px solid rgba(10, 10, 10, 0.5);
+        }
+    }
+
+    &-Totals {
+        &-Separated {
+            border-top: 1px solid rgba(10, 10, 10, 0.5);
+        }
+    }
+
     &-Wrapper {
         @include mobile {
             overflow-x: scroll;

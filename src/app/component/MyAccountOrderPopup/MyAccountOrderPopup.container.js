@@ -9,16 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-.MyAccountMyOrders {
-    display: grid;
-    grid-gap: 2rem;
-    grid-template-columns: 1fr;
+import { connect } from 'react-redux';
+import MyAccountOrderPopup from './MyAccountOrderPopup.component';
 
-    &-Button {
-        @include after-mobile {
-            position: absolute;
-            top: -55px;
-            right: 0;
-        }
-    }
-}
+export const mapStateToProps = state => ({
+    order: state.OrderReducer.order
+});
+
+export default connect(mapStateToProps)(MyAccountOrderPopup);
