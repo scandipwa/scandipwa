@@ -21,4 +21,11 @@
             right: 0;
         }
     }
+
+    td,
+    th {
+        @include mobile {
+            min-width: 0;
+        }
+    }
 }

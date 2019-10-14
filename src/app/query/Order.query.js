@@ -18,32 +18,23 @@ import { Field } from 'Util/Query';
 export class OrderQuery {
     getOrderListQuery() {
         return new Field('getOrderList')
-            .addFieldList(this._getOrderListFields());
+            .addFieldList(this._getOrderListFields(true));
     }
 
     getOrderByIdQuery(orderId) {
         return this._getOrderByIdField(orderId);
     }
 
-    _getOrderListFields() {
+    _getOrderListFields(isList) {
         return [
-            this._prepareBaseOrderInfo()
+            this._getOrderItemsField(isList)
         ];
     }
 
     _getOrderByIdField(orderId) {
         return new Field('getOrderById')
             .addArgument('id', 'Int!', orderId)
-            .addFieldList(this._getOrderByIdFields());
-    }
-
-    _getOrderByIdFields() {
-        return [
-            this._prepareExpandedOrderInfo(),
-            this._preparePaymentInfo(),
-            this._prepareShippingInfo(),
-            this._getOrderProductsField()
-        ];
+            .addFieldList(this._getOrderItemsFields());
     }
 
     _getOrderProductsField() {
@@ -172,76 +163,75 @@ export class OrderQuery {
         ];
     }
 
-    _prepareExpandedOrderInfo() {
+    _getBaseOrderInfoField(isList) {
         return new Field('base_order_info')
-            .addFieldList(this._prepareExpandedOrderInfoFields());
+            .addFieldList(this._getBaseOrderInfoFields(isList));
     }
 
-    _prepareExpandedOrderInfoFields() {
+    _getBaseOrderInfoFields(isList) {
         return [
             'id',
             'increment_id',
             'created_at',
-            'status',
             'status_label',
             'grand_total',
-            'sub_total',
-            'total_qty_ordered'
+            ...(isList ? [] : ['sub_total'])
         ];
     }
 
-    _preparePaymentInfo() {
+    _getPaymentInfoField() {
         return new Field('payment_info')
-            .addFieldList(this._preparePaymentInfoFields());
+            .addFieldList(this._getPaymentInfoFields());
     }
 
-    _preparePaymentInfoFields() {
+    _getPaymentInfoFields() {
         return [
             'method',
-            this._prepareAdditionalCustomerInfo()
+            this._getAdditionalInformationField()
         ];
     }
 
-    _prepareAdditionalCustomerInfo() {
+    _getAdditionalInformationField() {
         return new Field('additional_information')
-            .addFieldList(this._prepareAdditionalCustomerInfoFields());
+            .addFieldList(this._getAdditionalInformationFields());
     }
 
-    _prepareAdditionalCustomerInfoFields() {
+    _getAdditionalInformationFields() {
         return [
             'bank',
             'method_title',
             'credit_type',
             'month',
-            this._prepareCreditCustomerInfo()
+            this._getCustomerInfoField()
         ];
     }
 
-    _prepareCreditCustomerInfo() {
+    _getCustomerInfoField() {
         return new Field('customer_info')
-            .addFieldList(this._prepareCreditCustomerInfoFields());
+            .addFieldList(this._getCustomerInfoFields());
     }
 
-    _prepareCreditCustomerInfoFields() {
+    _getCustomerInfoFields() {
         return [
             'first_name',
             'last_name',
-            'middle_name',
-            'iin_number',
             'phone'
         ];
     }
 
-    _prepareBaseOrderInfo() {
+    _getOrderItemsField(isList) {
         return new Field('items')
-            .addFieldList(this._prepareBaseOrderInfoFields());
+            .addFieldList(this._getOrderItemsFields(isList));
     }
 
-    _prepareBaseOrderInfoFields() {
+    _getOrderItemsFields(isList) {
         return [
-            this._prepareExpandedOrderInfo(),
-            this._preparePaymentInfo(),
-            this._prepareShippingInfo()
+            this._getBaseOrderInfoField(isList),
+            ...(!isList ? [
+                this._getPaymentInfoField(),
+                this._prepareShippingInfo(),
+                this._getOrderProductsField()
+            ] : [])
         ];
     }
 }

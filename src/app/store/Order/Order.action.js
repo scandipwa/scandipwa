@@ -10,20 +10,9 @@
  */
 
 export const GET_ORDER_LIST = 'GET_ORDER_LIST';
-export const GET_ORDER = 'GET_ORDER';
-export const SET_ORDER_LOADING_STATUS = 'GET_ORDER_LOADING_STATUS';
 
-export const getOrderList = orderList => ({
+export const getOrderList = (orderList, status) => ({
     type: GET_ORDER_LIST,
-    orderList
-});
-
-export const getOrder = order => ({
-    type: GET_ORDER,
-    order
-});
-
-export const setOrderLoadingStatus = status => ({
-    type: SET_ORDER_LOADING_STATUS,
+    orderList,
     status
 });

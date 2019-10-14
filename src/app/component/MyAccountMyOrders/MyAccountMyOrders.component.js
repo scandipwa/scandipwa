@@ -11,11 +11,13 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import './MyAccountMyOrders.style';
+
 import { ordersType } from 'Type/Account';
 import Loader from 'Component/Loader';
-import MyAccountOrderTable from 'Component/MyAccountOrderTable';
 import MyAccountOrderPopup from 'Component/MyAccountOrderPopup';
+import MyAccountOrderTableRow from 'Component/MyAccountOrderTableRow';
+
+import './MyAccountMyOrders.style';
 
 class MyAccountMyOrders extends PureComponent {
     static propTypes = {
@@ -27,31 +29,54 @@ class MyAccountMyOrders extends PureComponent {
         return <MyAccountOrderPopup />;
     }
 
-    renderOrders = (order) => {
-        const { base_order_info: { id } } = order;
-        return (
-            <MyAccountOrderTable
-              title={ __('Order #%s', id) }
-              showActions
-              order={ order }
-              key={ id }
-            />
-        );
-    };
-
     renderNoOrders() {
         return (
-            <div>
+            <div block="MyAccountMyOrders" elem="NoOrders">
                 <p>{ __('You have no orders.') }</p>
             </div>
         );
     }
 
-    renderOrdersList() {
-        const { orderList } = this.props;
+    renderTable() {
+        return (
+            <table>
+                <thead>
+                    <tr>
+                        <th>Order</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th block="hidden-mobile">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    { this.renderOrdersList() }
+                </tbody>
+            </table>
+        );
+    }
 
-        if (!orderList.length) return this.renderNoOrders();
-        return orderList.map(this.renderOrders);
+    renderOrderRow = (order) => {
+        const { base_order_info: { id } } = order;
+
+        return (
+            <MyAccountOrderTableRow
+              key={ id }
+              order={ order }
+            />
+        );
+    };
+
+    renderOrdersList() {
+        const { orderList, isLoading } = this.props;
+
+        const orders = (!isLoading && orderList.length)
+            ? orderList
+            : Array.from({ length: 10 }, (_, id) => ({ base_order_info: { id } }));
+
+        return orders.reduceRight(
+            (acc, e) => [...acc, this.renderOrderRow(e)],
+            []
+        );
     }
 
     render() {
@@ -59,9 +84,9 @@ class MyAccountMyOrders extends PureComponent {
 
         return (
             <>
-                <Loader isLoading={ isLoading } />
                 <div block="MyAccountMyOrders">
-                    { this.renderOrdersList() }
+                    <Loader isLoading={ isLoading } />
+                    { this.renderTable() }
                     { this.renderPopup() }
                 </div>
             </>

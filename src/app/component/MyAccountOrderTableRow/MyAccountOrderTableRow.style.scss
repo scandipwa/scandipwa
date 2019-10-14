@@ -9,11 +9,22 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-.MyAccountOrderTable {
+:root {
+    --my-account-order-table-row-hover-background: #{$concrete};
+}
+
+.MyAccountOrderTableRow {
+    height: 36px;
+
     td,
     th {
-        @include after-mobile {
-            width: 50%;
+        @include mobile {
+            min-width: 0;
         }
+    }
+
+    &:hover {
+        background-color: var(--my-account-order-table-row-hover-background);
+        cursor: pointer;
     }
 }
