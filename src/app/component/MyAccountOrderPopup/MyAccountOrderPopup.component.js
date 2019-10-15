@@ -195,13 +195,15 @@ class MyAccountOrderPopup extends PureComponent {
 
         if (!order_products) return null;
 
-        return [
-            this.renderBaseInfo(),
-            this.renderPayment(),
-            this.renderShipping(),
-            this.renderProducts(),
-            this.renderTotals()
-        ];
+        return (
+            <>
+                { this.renderBaseInfo() }
+                { this.renderPayment() }
+                { this.renderShipping() }
+                { this.renderProducts() }
+                { this.renderTotals() }
+            </>
+        );
     }
 
     render() {
