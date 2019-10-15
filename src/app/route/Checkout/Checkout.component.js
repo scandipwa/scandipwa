@@ -155,16 +155,16 @@ class Checkout extends PureComponent {
         const { orderID } = this.props;
 
         return (
-            <div>
+            <div block="Checkout" elem="Success">
                 <p>{ __('Your order # is: %s', orderID) }</p>
                 <p>{ __('We`ll email you an order confirmation with details and tracking info.') }</p>
-                <Link
+                <a
                   block="Button"
                   mix={ { block: 'Checkout', elem: 'ContinueButton' } }
-                  to="/"
+                  href="/"
                 >
                     { __('Continue shopping') }
-                </Link>
+                </a>
             </div>
         );
     }

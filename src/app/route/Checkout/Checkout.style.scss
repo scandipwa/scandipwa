@@ -62,6 +62,16 @@
 
     &-ContinueButton {
         margin-top: 2rem;
+
+        @include mobile {
+            text-align: center;
+        }
+    }
+
+    &-Success {
+        @include mobile {
+            margin-top: 2rem;
+        }
     }
 
     .Button {
