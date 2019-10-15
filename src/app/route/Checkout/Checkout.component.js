@@ -26,6 +26,7 @@ import Loader from 'Component/Loader';
 import Meta from 'Component/Meta';
 
 import './Checkout.style';
+import Link from 'Component/Link';
 
 export const SHIPPING_STEP = 'SHIPPING_STEP';
 export const BILLING_STEP = 'BILLING_STEP';
@@ -64,7 +65,7 @@ class Checkout extends PureComponent {
             areTotalsVisible: true
         },
         [DETAILS_STEP]: {
-            title: __('3. Order details'),
+            title: __('Thank you for your purchase!'),
             render: this.renderDetailsStep.bind(this),
             areTotalsVisible: false
         }
@@ -155,8 +156,15 @@ class Checkout extends PureComponent {
 
         return (
             <div>
-                <h3>{ __('Order is successfully placed!') }</h3>
-                <p>{ __('Your order ID is: %s', orderID) }</p>
+                <p>{ __('Your order # is: %s', orderID) }</p>
+                <p>{ __('We`ll email you an order confirmation with details and tracking info.') }</p>
+                <Link
+                  block="Button"
+                  mix={ { block: 'Checkout', elem: 'ContinueButton' } }
+                  to="/"
+                >
+                    { __('Continue shopping') }
+                </Link>
             </div>
         );
     }
