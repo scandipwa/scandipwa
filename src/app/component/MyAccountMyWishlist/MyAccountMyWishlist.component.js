@@ -79,7 +79,9 @@ export default class MyAccountMyWishlist extends PureComponent {
 
         return (
             <div block="MyAccountMyWishlist" elem="Products">
-                { isLoading ? this.renderPlaceholders() : this.renderProducts() }
+                { (isLoading && isWishlistEmpty)
+                    ? this.renderPlaceholders()
+                    : this.renderProducts() }
             </div>
         );
     }
