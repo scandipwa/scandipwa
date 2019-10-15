@@ -88,9 +88,7 @@ export class WishlistDispatcher {
     }
 
     updateWishlistItem(dispatch, options) {
-        const { item_id } = options;
-
-        return fetchMutation(WishlistQuery.getUpdateWishlistItemMutation(item_id, options)).then(
+        return fetchMutation(WishlistQuery.getUpdateWishlistItemMutation(options)).then(
             () => dispatch(updateItemOptions(options))
         );
     }

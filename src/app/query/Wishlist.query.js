@@ -18,10 +18,14 @@ export class Wishlist {
             .addFieldList(this._getWishlistFields());
     }
 
-    getAddProductToWishlistMutation(wishlistItem) {
-        return new Field('addProductToWishlist')
+    getSaveWishlistItemMutation(wishlistItem) {
+        return new Field('saveWishlistItem')
             .addArgument('wishlistItem', 'WishlistItemInput!', wishlistItem)
             .addFieldList(this._getItemsFields());
+    }
+
+    getAddProductToWishlistMutation(wishlistItem) {
+        return this.getSaveWishlistItemMutation(wishlistItem);
     }
 
     getClearWishlist() {
@@ -34,15 +38,11 @@ export class Wishlist {
 
     getRemoveProductFromWishlistMutation(item_id) {
         return new Field('removeProductFromWishlist')
-            .addArgument('itemId', 'String!', item_id);
+            .addArgument('itemId', 'ID!', item_id);
     }
 
-    getUpdateWishlistItemMutation(itemId, { description, quantity }) {
-        return new Field('updateWishlistItem')
-            .addArgument('itemId', 'String!', itemId)
-            .addArgument('description', 'String', description)
-            .addArgument('quantity', 'Int', quantity)
-            .addFieldList(this._getItemsFields());
+    getUpdateWishlistItemMutation(wishlistItem) {
+        return this.getSaveWishlistItemMutation(wishlistItem);
     }
 
     _getWishlistFields() {

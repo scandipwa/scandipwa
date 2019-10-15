@@ -44,10 +44,10 @@ export default class WishlistItem extends PureComponent {
                 }
             },
             addToCart,
+            removeItem,
             getParameters,
             changeQuantity,
-            changeDescription,
-            removeFromWishlist
+            changeDescription
         } = this.props;
 
         const parameters = type_id !== 'configurable' ? {} : getParameters(sku, product);
@@ -89,7 +89,7 @@ export default class WishlistItem extends PureComponent {
                     <button
                       block="Button"
                       mix={ { block: 'WishlistItem', elem: 'Remove' } }
-                      onClick={ removeFromWishlist }
+                      onClick={ removeItem }
                     >
                         { __('Remove from Wishlist') }
                     </button>
