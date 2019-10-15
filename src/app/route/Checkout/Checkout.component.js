@@ -12,6 +12,7 @@ import { addressType } from 'Type/Account';
 import { TotalsType } from 'Type/MiniCart';
 import { HistoryType } from 'Type/Common';
 import Loader from 'Component/Loader';
+import Meta from 'Component/Meta';
 
 import './Checkout.style';
 
@@ -175,6 +176,7 @@ class Checkout extends PureComponent {
     render() {
         return (
             <main block="Checkout">
+                <Meta metaObject={ { title: 'Checkout' } } />
                 <ContentWrapper
                   wrapperMix={ { block: 'Checkout', elem: 'Wrapper' } }
                   label={ __('Checkout page') }
