@@ -24,6 +24,7 @@ export const formatCurrency = (currency = 'USD') => {
  * @param {Number} reg regular price
  * @return {Number} discount percentage
  */
+// eslint-disable-next-line no-magic-numbers
 export const calculateDiscountPercentage = (min, reg) => Math.floor(Math.round((1 - min / reg) * 100));
 
 /**

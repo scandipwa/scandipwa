@@ -11,20 +11,11 @@
 
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 import { shippingMethodsType } from 'Type/Checkout';
 import { SHIPPING_STEP } from 'Route/Checkout/Checkout.component';
 
 import CheckoutDeliveryOptions from './CheckoutDeliveryOptions.component';
-
-export const mapStateToProps = state => ({
-    // wishlistItems: state.WishlistReducer.productsInWishlist
-});
-
-export const mapDispatchToProps = dispatch => ({
-    // addProduct: options => CartDispatcher.addProductToCart(dispatch, options)
-});
 
 export class CheckoutDeliveryOptionsContainer extends PureComponent {
     static propTypes = {
@@ -127,4 +118,4 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CheckoutDeliveryOptionsContainer);
+export default CheckoutDeliveryOptionsContainer;

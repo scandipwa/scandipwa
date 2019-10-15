@@ -13,7 +13,6 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { makeCancelable } from 'Util/Promise';
 import { orderType } from 'Type/Account';
 import { OrderDispatcher } from 'Store/Order';
 import { showNotification } from 'Store/Notification';

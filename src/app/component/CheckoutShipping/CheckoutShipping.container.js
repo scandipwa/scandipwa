@@ -23,10 +23,6 @@ export const mapStateToProps = state => ({
     customer: state.MyAccountReducer.customer
 });
 
-export const mapDispatchToProps = dispatch => ({
-    // addProduct: options => CartDispatcher.addProductToCart(dispatch, options)
-});
-
 export class CheckoutShippingContainer extends PureComponent {
     static propTypes = {
         saveAddressInformation: PropTypes.func.isRequired,
@@ -115,4 +111,4 @@ export class CheckoutShippingContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CheckoutShippingContainer);
+export default connect(mapStateToProps)(CheckoutShippingContainer);
