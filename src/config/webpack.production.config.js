@@ -30,6 +30,7 @@ const { InjectManifest } = require('workbox-webpack-plugin');
 const webmanifestConfig = require('./webmanifest.config');
 const BabelConfig = require('./babel.config');
 const FallbackPlugin = require('./FallbackPlugin');
+const { I18nPlugin, mapTranslationsToConfig } = require('./I18nPlugin');
 
 const projectRoot = path.resolve(__dirname, '..', '..');
 const magentoRoot = path.resolve(projectRoot, '..', '..', '..', '..', '..');
@@ -38,7 +39,7 @@ const fallbackRoot = path.resolve(magentoRoot, 'vendor', 'scandipwa', 'source');
 
 const publicPath = '/static/frontend/Scandiweb/pwa/en_US/Magento_Theme/';
 
-module.exports = {
+const webpackConfig = ([lang, translation]) => ({
     resolve: {
         extensions: [
             '.js',
@@ -91,7 +92,7 @@ module.exports = {
                     {
                         loader: 'sass-resources-loader',
                         options: {
-                            resources: path.resolve(fallbackRoot, 'src', 'app', 'style', 'abstract', '_abstract.scss')
+                            resources: path.resolve(projectRoot, 'src', 'app', 'style', 'abstract', '_abstract.scss')
                         }
                     }
                 ]
@@ -108,8 +109,7 @@ module.exports = {
     },
 
     output: {
-        filename: '[hash:6].bundle.js',
-        chunkFilename: '[name].[hash:6].chunk.js',
+        filename: `${lang}.bundle.js`,
         path: path.resolve(projectRoot, 'Magento_Theme', 'web'),
         pathinfo: true,
         publicPath
@@ -150,9 +150,8 @@ module.exports = {
             }
         }),
 
-        new webpack.ProvidePlugin({
-            __: path.resolve(path.join(__dirname, 'TranslationFunction')),
-            React: 'react'
+        new I18nPlugin({
+            translation
         }),
 
         new CleanWebpackPlugin([
@@ -175,4 +174,6 @@ module.exports = {
             comments: false
         })
     ]
-};
+});
+
+module.exports = mapTranslationsToConfig(['en_US'], webpackConfig);
