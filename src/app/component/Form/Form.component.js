@@ -206,8 +206,6 @@ export default class Form extends PureComponent {
             if (current && current.id && current.value) {
                 const { name, value, checked } = current;
 
-                // eslint-disable-next-line no-console
-                console.log(current.dataset.skipValue);
                 if (current.dataset.skipValue === 'true') return inputValues;
 
                 if (current.type === 'checkbox') {

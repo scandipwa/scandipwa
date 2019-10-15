@@ -17,11 +17,13 @@ import { showNotification } from 'Store/Notification';
 import { paymentMethodsType } from 'Type/Checkout';
 import { customerType, addressType } from 'Type/Account';
 import { trimCustomerAddress, trimAddressFields } from 'Util/Address';
+import { TotalsType } from 'Type/MiniCart';
 
 import CheckoutBilling from './CheckoutBilling.component';
 
 export const mapStateToProps = state => ({
-    customer: state.MyAccountReducer.customer
+    customer: state.MyAccountReducer.customer,
+    totals: state.CartReducer.cartTotals
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -34,8 +36,26 @@ export class CheckoutBillingContainer extends PureComponent {
         paymentMethods: paymentMethodsType.isRequired,
         savePaymentInformation: PropTypes.func.isRequired,
         shippingAddress: addressType.isRequired,
-        customer: customerType.isRequired
+        customer: customerType.isRequired,
+        totals: TotalsType.isRequired
     };
+
+    static getDerivedStateFromProps(props, state) {
+        const { paymentMethod, prevPaymentMethods } = state;
+        const { paymentMethods } = props;
+
+        if (!prevPaymentMethods.length && !paymentMethod) {
+            const [method] = paymentMethods;
+            const { code: paymentMethod } = method || {};
+
+            return {
+                prevPaymentMethods: paymentMethods,
+                paymentMethod
+            };
+        }
+
+        return null;
+    }
 
     containerFunctions = {
         onBillingSuccess: this.onBillingSuccess.bind(this),
@@ -48,12 +68,14 @@ export class CheckoutBillingContainer extends PureComponent {
     constructor(props) {
         super(props);
 
-        const { paymentMethods } = props;
-        const [{ code: paymentMethod }] = paymentMethods;
+        const { paymentMethods, totals: { is_virtual } } = props;
+        const [method] = paymentMethods;
+        const { code: paymentMethod } = method || {};
 
         this.state = {
-            isSameAsShipping: true,
+            isSameAsShipping: !is_virtual,
             selectedCustomerAddressId: 0,
+            prevPaymentMethods: paymentMethods,
             paymentMethod
         };
     }

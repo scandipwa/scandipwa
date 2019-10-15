@@ -19,7 +19,7 @@ import { toggleBreadcrumbs } from 'Store/Breadcrumbs';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { changeHeaderState } from 'Store/Header';
 import CheckoutQuery from 'Query/Checkout.query';
-import { fetchMutation } from 'Util/Request';
+import { fetchMutation, fetchQuery } from 'Util/Request';
 import { GUEST_QUOTE_ID } from 'Store/Cart';
 import { TotalsType } from 'Type/MiniCart';
 import { HistoryType } from 'Type/Common';
@@ -59,7 +59,7 @@ export class CheckoutContainer extends PureComponent {
         const {
             toggleBreadcrumbs,
             history,
-            totals: { items = [] }
+            totals: { items = [], is_virtual }
         } = props;
 
         toggleBreadcrumbs(false);
@@ -67,16 +67,20 @@ export class CheckoutContainer extends PureComponent {
         if (!items.length) history.push('/cart');
 
         this.state = {
-            isLoading: false,
+            isLoading: is_virtual,
             isDeliveryOptionsLoading: false,
             requestsSent: 0,
             paymentMethods: [],
             shippingMethods: [],
             shippingAddress: {},
-            checkoutStep: SHIPPING_STEP,
+            checkoutStep: is_virtual ? BILLING_STEP : SHIPPING_STEP,
             orderID: '',
             paymentTotals: BrowserDatabase.getItem(PAYMENT_TOTALS) || {}
         };
+
+        if (is_virtual) {
+            this._getPaymentMethods();
+        }
     }
 
     componentWillUnmount() {
@@ -125,6 +129,17 @@ export class CheckoutContainer extends PureComponent {
     };
 
     _getGuestCartId = () => BrowserDatabase.getItem(GUEST_QUOTE_ID);
+
+    _getPaymentMethods() {
+        fetchQuery(CheckoutQuery.getPaymentMethodsQuery(
+            this._getGuestCartId()
+        )).then(
+            ({ getPaymentMethods: paymentMethods }) => {
+                this.setState({ isLoading: false, paymentMethods });
+            },
+            this._handleError
+        );
+    }
 
     _getCheckoutTotals() {
         const { totals: cartTotals } = this.props;

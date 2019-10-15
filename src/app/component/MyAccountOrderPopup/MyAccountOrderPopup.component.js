@@ -62,10 +62,7 @@ class MyAccountOrderPopup extends PureComponent {
     }
 
     renderShippingAddressTable() {
-        const { order: { shipping_info } } = this.props;
-        if (!shipping_info) return null;
-
-        const { shipping_address } = shipping_info;
+        const { order: { shipping_info: { shipping_address } } } = this.props;
 
         return (
             <MyAccountAddressTable
@@ -81,8 +78,11 @@ class MyAccountOrderPopup extends PureComponent {
 
         const {
             shipping_description,
-            shipping_amount
+            shipping_amount,
+            shipping_address
         } = shipping_info || {};
+
+        if (!shipping_address) return null;
 
         return (
             <div block="MyAccountOrderPopup" elem="ShippingWrapper">

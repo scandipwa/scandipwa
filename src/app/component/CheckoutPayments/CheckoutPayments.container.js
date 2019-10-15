@@ -34,7 +34,9 @@ export class CheckoutPaymentsContainer extends PureComponent {
         super(props);
 
         const { paymentMethods } = props;
-        const [{ code }] = paymentMethods;
+        const [method] = paymentMethods;
+        const { code } = method || {};
+
         this.state = { selectedPaymentCode: code };
     }
 

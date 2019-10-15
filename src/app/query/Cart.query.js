@@ -89,6 +89,8 @@ export class CartQuery {
             'base_currency_code',
             'subtotal_with_discount',
             'coupon_code',
+            'shipping_amount',
+            'is_virtual',
             this._getCartItemsField()
         ];
     }

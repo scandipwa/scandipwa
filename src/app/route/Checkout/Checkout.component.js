@@ -55,12 +55,12 @@ class Checkout extends PureComponent {
 
     stepMap = {
         [SHIPPING_STEP]: {
-            title: __('1. Shipping step'),
+            title: __('Shipping step'),
             render: this.renderShippingStep.bind(this),
             areTotalsVisible: true
         },
         [BILLING_STEP]: {
-            title: __('2. Billing step'),
+            title: __('Billing step'),
             render: this.renderBillingStep.bind(this),
             areTotalsVisible: true
         },
@@ -137,7 +137,7 @@ class Checkout extends PureComponent {
 
     renderBillingStep() {
         const {
-            paymentMethods,
+            paymentMethods = [],
             shippingAddress,
             savePaymentInformation
         } = this.props;

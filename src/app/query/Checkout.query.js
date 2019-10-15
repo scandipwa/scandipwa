@@ -13,6 +13,15 @@ import { Field } from 'Util/Query';
 import { isSignedIn } from 'Util/Auth';
 
 export class CheckoutQuery {
+    getPaymentMethodsQuery(guestCartId) {
+        const query = new Field('getPaymentMethods')
+            .addFieldList(this._getPaymentMethodFields());
+
+        this._addGuestCartId(guestCartId, query);
+
+        return query;
+    }
+
     getSaveGuestEmailMutation(email, cart_id) {
         const input = { email, cart_id };
         const mutation = new Field('setGuestEmailOnCart')
