@@ -12,13 +12,6 @@
         }
     }
 
-    &-ProductsWrapper {
-        @include after-mobile {
-            grid-column: span 2;
-            order: 2;
-        }
-    }
-
     &-Products {
         width: 100%;
         margin-top: 1rem;
@@ -46,19 +39,13 @@
         }
     }
 
-    &-ShippingWrapper {
-        @include after-mobile {
-            order: -1;
-            grid-row: span 3;
-        }
-    }
-
     &-Content {
         max-width: 700px;
+        min-height: 200px;
+        width: 100%;
 
         @include after-mobile {
             display: grid;
-            grid-template-columns: 1fr 1fr;
             grid-gap: 2rem;
         }
     }
