@@ -35,13 +35,12 @@ class MyAccountOrderTableRow extends PureComponent {
 
         return (
             <tr onClick={ onViewClick } block="MyAccountOrderTableRow">
-                <td>{ increment_id }</td>
+                <td>{ increment_id ? `#${increment_id}` : '' }</td>
                 <td>{ created_at }</td>
                 <td>{ status_label }</td>
                 <td block="hidden-mobile">
-                    { grand_total }
                     { /* TODO: get currency symbol */ }
-                    { formatCurrency() }
+                    { grand_total ? `${grand_total}${formatCurrency()}` : '' }
                 </td>
             </tr>
         );

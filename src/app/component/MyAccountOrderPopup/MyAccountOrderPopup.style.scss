@@ -1,3 +1,89 @@
 .MyAccountOrderPopup {
+    &-Address,
+    &-Products {
+        margin-bottom: 1rem;
 
+        @include after-mobile {
+            margin-top: 2rem;
+        }
+
+        @include mobile {
+            margin-bottom: 2rem;
+        }
+    }
+
+    &-ProductsWrapper {
+        @include after-mobile {
+            grid-column: span 2;
+            order: 2;
+        }
+    }
+
+    &-Products {
+        width: 100%;
+        margin-top: 1rem;
+
+        td,
+        th {
+            vertical-align: middle;
+        }
+    }
+
+    &-Thumbnail {
+        width: 60px;
+        height: 60px;
+        padding: 0;
+    }
+
+    &-Row {
+        height: 80px;
+        padding: 10px 0;
+
+        &:nth-child(even) {
+            img {
+                mix-blend-mode: multiply;
+            }
+        }
+    }
+
+    &-ShippingWrapper {
+        @include after-mobile {
+            order: -1;
+            grid-row: span 3;
+        }
+    }
+
+    &-Content {
+        max-width: 700px;
+
+        @include after-mobile {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 2rem;
+        }
+    }
+
+    h4 {
+        font-size: 1.2rem;
+    }
+
+    dt {
+        font-weight: bold;
+    }
+
+    dl {
+        display: grid;
+        margin-top: 1rem;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: .5rem;
+
+        @include mobile {
+            margin-bottom: 2rem;
+        }
+    }
+
+    td,
+    th {
+        min-width: 0;
+    }
 }

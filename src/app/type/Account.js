@@ -23,7 +23,10 @@ export const addressType = PropTypes.shape({
     postcode: PropTypes.string,
     prefix: PropTypes.string,
     regionType,
-    street: PropTypes.arrayOf(PropTypes.string),
+    street: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string)
+    ]),
     suffix: PropTypes.string,
     telephone: PropTypes.string,
     vat_id: PropTypes.string

@@ -18,10 +18,13 @@ import { orderType } from 'Type/Account';
 import { OrderDispatcher } from 'Store/Order';
 import { showNotification } from 'Store/Notification';
 import { getIndexedProducts } from 'Util/Product';
-import { fetchQuery } from 'Util/Request';
+import { executeGet } from 'Util/Request';
+import { prepareQuery } from 'Util/Query';
 import { OrderQuery } from 'Query';
 
 import MyAccountOrderPopup, { ORDER_POPUP_ID } from './MyAccountOrderPopup.component';
+
+export const ONE_DAY_IN_SECONDS = 86400;
 
 export const mapStateToProps = state => ({
     order: state.OrderReducer.order,
@@ -50,8 +53,9 @@ export class MyAccountOrderPopupContainer extends PureComponent {
     };
 
     static getDerivedStateFromProps(props, state) {
-        const { payload: { id } } = props;
+        const { payload: { increment_id: id } } = props;
         const { prevOrderId } = state;
+
         if (prevOrderId === id) return null;
         return { order: {}, isLoading: true, prevOrderId: id };
     }
@@ -63,10 +67,6 @@ export class MyAccountOrderPopupContainer extends PureComponent {
         if (id !== prevId) {
             this.requestOrderDetails();
         }
-    }
-
-    componentWillUnmount() {
-        this.orderPromise.cancel();
     }
 
     containerProps = () => {
@@ -84,10 +84,9 @@ export class MyAccountOrderPopupContainer extends PureComponent {
 
     requestOrderDetails() {
         const { payload: { order: { base_order_info: { id } } } } = this.props;
+        const query = prepareQuery([OrderQuery.getOrderByIdQuery(id)]);
 
-        this.orderPromise = makeCancelable(fetchQuery(OrderQuery.getOrderByIdQuery(id)));
-
-        this.orderPromise.promise.then(
+        executeGet(query, 'Order', ONE_DAY_IN_SECONDS).then(
             ({ getOrderById: rawOrder }) => {
                 const { order_products = [] } = rawOrder;
                 const indexedProducts = getIndexedProducts(order_products);
@@ -102,9 +101,11 @@ export class MyAccountOrderPopupContainer extends PureComponent {
     }
 
     render() {
+        const props = this.containerProps();
+
         return (
             <MyAccountOrderPopup
-              { ...this.containerProps() }
+              { ...props }
             />
         );
     }
