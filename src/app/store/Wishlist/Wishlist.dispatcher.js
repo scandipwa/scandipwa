@@ -78,7 +78,7 @@ export class WishlistDispatcher {
     addItemToWishlist(dispatch, wishlistItem) {
         dispatch(updateIsLoading(true));
 
-        return fetchMutation(WishlistQuery.getAddProductToWishlistMutation(wishlistItem)).then(
+        return fetchMutation(WishlistQuery.getSaveWishlistItemMutation(wishlistItem)).then(
             () => this._syncWishlistWithBE(dispatch).then(
                 () => dispatch(showNotification('success', __('Product has been added to your Wish List!')))
             ),
@@ -88,7 +88,7 @@ export class WishlistDispatcher {
     }
 
     updateWishlistItem(dispatch, options) {
-        return fetchMutation(WishlistQuery.getUpdateWishlistItemMutation(options)).then(
+        return fetchMutation(WishlistQuery.getSaveWishlistItemMutation(options)).then(
             () => dispatch(updateItemOptions(options))
         );
     }

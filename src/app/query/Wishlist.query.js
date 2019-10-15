@@ -24,10 +24,6 @@ export class Wishlist {
             .addFieldList(this._getItemsFields());
     }
 
-    getAddProductToWishlistMutation(wishlistItem) {
-        return this.getSaveWishlistItemMutation(wishlistItem);
-    }
-
     getClearWishlist() {
         return new Field('clearWishlist');
     }
@@ -39,10 +35,6 @@ export class Wishlist {
     getRemoveProductFromWishlistMutation(item_id) {
         return new Field('removeProductFromWishlist')
             .addArgument('itemId', 'ID!', item_id);
-    }
-
-    getUpdateWishlistItemMutation(wishlistItem) {
-        return this.getSaveWishlistItemMutation(wishlistItem);
     }
 
     _getWishlistFields() {
