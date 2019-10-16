@@ -10,7 +10,7 @@
  */
 
 export * from './Cart.action';
-export { default as CartReducer, PRODUCTS_IN_CART } from './Cart.reducer';
+export { default as CartReducer } from './Cart.reducer';
 export {
     GUEST_QUOTE_ID,
     default as CartDispatcher

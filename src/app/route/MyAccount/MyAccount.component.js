@@ -14,9 +14,11 @@ import PropTypes from 'prop-types';
 
 import MyAccountDashboard from 'Component/MyAccountDashboard';
 import MyAccountMyOrders from 'Component/MyAccountMyOrders';
-import MyAccountMyWishlistContainer from 'Component/MyAccountMyWishlist';
+import MyAccountMyWishlist from 'Component/MyAccountMyWishlist';
 import MyAccountAddressBook from 'Component/MyAccountAddressBook';
 import MyAccountTabList from 'Component/MyAccountTabList';
+import ContentWrapper from 'Component/ContentWrapper';
+import Meta from 'Component/Meta';
 import {
     activeTabType,
     tabMapType,
@@ -27,7 +29,6 @@ import {
 } from 'Type/Account';
 
 import './MyAccount.style';
-import ContentWrapper from 'Component/ContentWrapper';
 
 class MyAccount extends PureComponent {
     static propTypes = {
@@ -39,7 +40,7 @@ class MyAccount extends PureComponent {
     renderMap = {
         [DASHBOARD]: MyAccountDashboard,
         [MY_ORDERS]: MyAccountMyOrders,
-        [MY_WISHLIST]: MyAccountMyWishlistContainer,
+        [MY_WISHLIST]: MyAccountMyWishlist,
         [ADDRESS_BOOK]: MyAccountAddressBook
     };
 
@@ -50,6 +51,7 @@ class MyAccount extends PureComponent {
 
         return (
             <main block="MyAccount">
+                <Meta metaObject={ { title: 'My Account' } } />
                 <ContentWrapper
                   label={ __('My Account page') }
                   wrapperMix={ { block: 'MyAccount', elem: 'Wrapper' } }

@@ -42,6 +42,7 @@ const a_KEY_CODE = 97;
  */
 export default class Field extends PureComponent {
     static propTypes = {
+        skipValue: PropTypes.bool,
         id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
         type: PropTypes.oneOf([
@@ -79,7 +80,7 @@ export default class Field extends PureComponent {
             disabled: PropTypes.bool,
             label: PropTypes.string
         })),
-        disabled: PropTypes.bool,
+        isDisabled: PropTypes.bool,
         onChange: PropTypes.func,
         onFocus: PropTypes.func,
         onBlur: PropTypes.func,
@@ -102,7 +103,7 @@ export default class Field extends PureComponent {
         rows: 4,
         min: 1,
         max: 99,
-        disabled: false,
+        isDisabled: false,
         checked: false,
         mix: {},
         selectOptions: [],
@@ -117,7 +118,8 @@ export default class Field extends PureComponent {
         message: '',
         placeholder: '',
         autocomplete: 'off',
-        validation: []
+        validation: [],
+        skipValue: false
     };
 
     onChange = this.onChange.bind(this);
@@ -341,7 +343,8 @@ export default class Field extends PureComponent {
             name,
             rows,
             autocomplete,
-            formRef
+            formRef,
+            isDisabled
         } = this.props;
         const { value } = this.state;
 
@@ -352,6 +355,7 @@ export default class Field extends PureComponent {
               name={ name }
               rows={ rows }
               value={ value }
+              disabled={ isDisabled }
               onChange={ this.onChange }
               onFocus={ this.onFocus }
               onClick={ this.onClick }
@@ -370,18 +374,22 @@ export default class Field extends PureComponent {
             name,
             placeholder,
             autocomplete,
-            formRef
+            formRef,
+            isDisabled,
+            skipValue
         } = this.props;
 
         const { value } = this.state;
 
         return (
             <input
+              data-skip-value={ skipValue }
               ref={ formRef }
               type="text"
               id={ id }
               name={ name }
               value={ value }
+              disabled={ isDisabled }
               onChange={ (this.onChange) }
               onFocus={ this.onFocus }
               onClick={ this.onClick }
@@ -393,18 +401,26 @@ export default class Field extends PureComponent {
 
     renderTypePassword() {
         const {
-            id, name, placeholder, formRef
+            id,
+            name,
+            placeholder,
+            formRef,
+            isDisabled,
+            skipValue
         } = this.props;
+
         const { value } = this.state;
 
         return (
             <input
+              data-skip-value={ skipValue }
               ref={ formRef }
               type="password"
               autoComplete="current-password"
               id={ id }
               name={ name }
               value={ value }
+              disabled={ isDisabled }
               onChange={ this.onChange }
               onFocus={ this.onFocus }
               onClick={ this.onClick }
@@ -415,18 +431,26 @@ export default class Field extends PureComponent {
 
     renderTypeNumber() {
         const {
-            id, name, formRef, min, max
+            id,
+            name,
+            formRef,
+            min,
+            max,
+            isDisabled,
+            skipValue
         } = this.props;
         const { value } = this.state;
 
         return (
             <>
                 <input
+                  data-skip-value={ skipValue }
                   ref={ formRef }
                   type="number"
                   id={ id }
                   name={ name }
                   value={ value }
+                  disabled={ isDisabled }
                   onChange={ e => this.handleChange(e.target.value, false) }
                   onKeyDown={ this.onKeyEnterDown }
                   onBlur={ this.onChange }
@@ -450,20 +474,26 @@ export default class Field extends PureComponent {
 
     renderCheckbox() {
         const {
-            id, name, formRef, disabled, value
+            id,
+            name,
+            formRef,
+            isDisabled,
+            value,
+            skipValue
         } = this.props;
         const { checked } = this.state;
 
         return (
             <>
                 <input
+                  data-skip-value={ skipValue }
                   ref={ formRef }
                   id={ id }
                   name={ name }
                   type="checkbox"
                   value={ value }
                   checked={ checked }
-                  disabled={ disabled }
+                  disabled={ isDisabled }
                   onChange={ this.onChangeCheckbox }
                 />
                 <label htmlFor={ id } />
@@ -473,20 +503,27 @@ export default class Field extends PureComponent {
 
     renderRadioButton() {
         const {
-            formRef, id, name, value, disabled, label, checked
+            formRef,
+            id,
+            name,
+            value,
+            isDisabled,
+            label,
+            checked,
+            skipValue
         } = this.props;
 
         return (
             <label htmlFor={ id }>
                 <input
+                  data-skip-value={ skipValue }
                   ref={ formRef }
                   type="radio"
                   id={ id }
                   name={ name }
                   checked={ checked }
                   value={ value }
-                  disabled={ disabled }
-                //   onFocus={ this.onFocus }
+                  disabled={ isDisabled }
                   onChange={ this.onClick }
                   onKeyPress={ this.onKeyPress }
                 />
@@ -503,7 +540,12 @@ export default class Field extends PureComponent {
             <fieldset id={ fieldSetId } name={ name }>
                 { radioOptions.map((radioButton) => {
                     const {
-                        id, name, value, disabled, checked, label
+                        id,
+                        name,
+                        value,
+                        isDisabled,
+                        checked,
+                        label
                     } = radioButton;
 
                     return (
@@ -513,7 +555,7 @@ export default class Field extends PureComponent {
                           id={ id }
                           name={ name }
                           value={ value }
-                          disabled={ disabled }
+                          disabled={ isDisabled }
                           checked={ checked }
                           label={ label }
                         />

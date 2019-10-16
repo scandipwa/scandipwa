@@ -180,3 +180,13 @@ export const listenForBroadCast = name => new Promise((resolve) => {
         };
     }
 });
+
+export const debounce = (callback, delay) => {
+    // eslint-disable-next-line fp/no-let
+    let timeout;
+    return (...args) => {
+        const context = this;
+        clearTimeout(timeout);
+        timeout = setTimeout(() => callback.apply(context, args), delay);
+    };
+};

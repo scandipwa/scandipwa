@@ -15,7 +15,7 @@ import getSymbolFromCurrency from 'currency-symbol-map';
 
 export const formatCurrency = (currency = 'USD') => {
     const symbol = getSymbolFromCurrency(currency);
-    return symbol || currency;
+    return symbol;
 };
 
 /**
@@ -24,6 +24,7 @@ export const formatCurrency = (currency = 'USD') => {
  * @param {Number} reg regular price
  * @return {Number} discount percentage
  */
+// eslint-disable-next-line no-magic-numbers
 export const calculateDiscountPercentage = (min, reg) => Math.floor(Math.round((1 - min / reg) * 100));
 
 /**

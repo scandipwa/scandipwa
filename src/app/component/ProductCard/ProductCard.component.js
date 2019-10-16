@@ -18,6 +18,7 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import ProductPrice from 'Component/ProductPrice';
 import Image from 'Component/Image';
 import './ProductCard.style';
+import Loader from 'Component/Loader';
 
 /**
  * Product card
@@ -33,12 +34,18 @@ export default class ProductCard extends PureComponent {
             label: PropTypes.string,
             value: PropTypes.string
         })).isRequired,
-        getAttribute: PropTypes.func.isRequired
+        getAttribute: PropTypes.func.isRequired,
+        children: PropTypes.element,
+        isLoading: PropTypes.bool,
+        mix: PropTypes.shape({})
     };
 
     static defaultProps = {
         thumbnail: '',
-        linkTo: {}
+        linkTo: {},
+        children: null,
+        isLoading: false,
+        mix: {}
     };
 
     renderProductPrice() {
@@ -169,14 +176,21 @@ export default class ProductCard extends PureComponent {
     }
 
     render() {
-        const { product: { sku } } = this.props;
+        const {
+            product: { sku },
+            children,
+            mix,
+            isLoading
+        } = this.props;
 
         return (
             <li
               block="ProductCard"
               itemScope
               itemType={ sku && 'https://schema.org/Product' }
+              mix={ mix }
             >
+                <Loader isLoading={ isLoading } />
                 <meta itemProp="sku" content={ sku } />
                 { this.renderCardWrapper((
                     <>
@@ -192,6 +206,9 @@ export default class ProductCard extends PureComponent {
                         </div>
                     </>
                 )) }
+                <div block="ProductCard" elem="AdditionalContent">
+                    { children }
+                </div>
             </li>
         );
     }

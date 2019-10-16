@@ -1,3 +1,14 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
 import { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -19,6 +30,8 @@ export class ProductListContainer extends PureComponent {
         totalItems: PropTypes.number.isRequired,
         requestProductList: PropTypes.func.isRequired,
         selectedFilters: PropTypes.objectOf(PropTypes.shape),
+        isInfiniteLoaderEnabled: PropTypes.bool,
+        isPaginationEnabled: PropTypes.bool,
 
         filter: FilterInputType,
         search: PropTypes.string,
@@ -30,7 +43,9 @@ export class ProductListContainer extends PureComponent {
         filter: {},
         search: '',
         selectedFilters: {},
-        sort: undefined
+        sort: undefined,
+        isPaginationEnabled: true,
+        isInfiniteLoaderEnabled: true
     };
 
     state = { pagesCount: 1 };

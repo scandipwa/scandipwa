@@ -18,9 +18,10 @@ import CartCoupon from 'Component/CartCoupon';
 import { TotalsType } from 'Type/MiniCart';
 import isMobile from 'Util/Mobile';
 import ExpandableContent from 'Component/ExpandableContent';
+import { formatCurrency, roundPrice } from 'Util/Price';
+import Meta from 'Component/Meta';
 
 import './CartPage.style';
-import { formatCurrency, roundPrice } from 'Util/Price';
 
 export default class CartPage extends Component {
     static propTypes = {
@@ -188,6 +189,7 @@ export default class CartPage extends Component {
     render() {
         return (
             <main block="CartPage" aria-label="Cart Page">
+                <Meta metaObject={ { title: 'Cart' } } />
                 <ContentWrapper
                   mix={ { block: 'CartPage' } }
                   wrapperMix={ { block: 'CartPage', elem: 'Wrapper' } }

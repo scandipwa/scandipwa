@@ -9,38 +9,35 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { OrderDispatcher } from 'Store/Order';
 import MyAccountMyOrders from './MyAccountMyOrders.component';
 
 export const mapStateToProps = state => ({
-    // wishlistItems: state.WishlistReducer.productsInWishlist
+    orderList: state.OrderReducer.orderList,
+    isLoading: state.OrderReducer.isLoading
 });
 
 export const mapDispatchToProps = dispatch => ({
-    // addProduct: options => CartDispatcher.addProductToCart(dispatch, options)
+    getOrderList: () => OrderDispatcher.requestOrders(dispatch)
 });
 
-export class MyAccountMyOrdersContainer extends PureComponent {
+class MyAccountMyOrdersContainer extends PureComponent {
     static propTypes = {
-        // TODO: implement prop-types
+        getOrderList: PropTypes.func.isRequired
     };
 
-    containerFunctions = {
-        // getData: this.getData.bind(this)
-    };
-
-    containerProps = () => {
-        // isDisabled: this._getIsDisabled()
-    };
+    componentDidMount() {
+        const { getOrderList } = this.props;
+        getOrderList();
+    }
 
     render() {
         return (
             <MyAccountMyOrders
               { ...this.props }
-              { ...this.containerFunctions }
-              { ...this.containerProps() }
             />
         );
     }

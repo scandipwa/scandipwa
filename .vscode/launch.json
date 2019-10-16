@@ -30,8 +30,9 @@
             "type": "chrome",
             "request": "launch",
             "name": "Launch Chrome",
-            "url": "https://scandipwa.local/category/men",
-            "webRoot": "${workspaceFolder}"
+            "url": "https://scandipwa.local/checkout-2",
+            "webRoot": "${workspaceFolder}",
+            "runtimeExecutable": "/usr/bin/google-chrome-stable"
         }
     ]
 }

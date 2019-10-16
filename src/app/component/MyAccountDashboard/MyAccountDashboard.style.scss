@@ -34,4 +34,12 @@
     &-Info {
         margin-bottom: 5px;
     }
+
+    button + button {
+        margin-top: 1rem;
+
+        @include after-mobile {
+            margin-left: 1rem;
+        }
+    }
 }
