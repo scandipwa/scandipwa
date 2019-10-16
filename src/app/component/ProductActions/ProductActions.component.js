@@ -206,7 +206,7 @@ export default class ProductActions extends PureComponent {
         return (
             <Link
               to="/my-account/my-wishlist"
-              mix={ { block: 'Button' } }
+              mix={ { block: 'Button', mods: { isHollow: true } } }
             >
                 { __('Go To Wishlist') }
             </Link>

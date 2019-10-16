@@ -69,7 +69,7 @@ export class MyAccountDispatcher {
      */
     forgotPassword(options = {}, dispatch) {
         const mutation = MyAccountQuery.getForgotPasswordMutation(options);
-        fetchMutation(mutation).then(
+        return fetchMutation(mutation).then(
             () => dispatch(updateCustomerPasswordForgotStatus()),
             error => dispatch(showNotification('error', error[0].message))
         );
@@ -83,7 +83,7 @@ export class MyAccountDispatcher {
      */
     resetPassword(options = {}, dispatch) {
         const mutation = MyAccountQuery.getResetPasswordMutation(options);
-        fetchMutation(mutation).then(
+        return fetchMutation(mutation).then(
             ({ resetPassword: { status } }) => dispatch(updateCustomerPasswordResetStatus(status)),
             () => dispatch(updateCustomerPasswordResetStatus('error'))
         );
@@ -98,7 +98,7 @@ export class MyAccountDispatcher {
         const { customer: { email }, password } = options;
         const mutation = MyAccountQuery.getCreateAccountMutation(options);
 
-        fetchMutation(mutation).then(
+        return fetchMutation(mutation).then(
             () => this.signIn({ email, password }, dispatch),
             error => dispatch(showNotification('error', error[0].message))
         );
