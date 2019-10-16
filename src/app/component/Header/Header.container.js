@@ -53,8 +53,8 @@ export const mapDispatchToProps = dispatch => ({
     goToPreviousHeaderState: () => dispatch(goToPreviousHeaderState())
 });
 
-export const DEFAULT_LOGO_HEIGHT = 40;
-export const DEFAULT_LOGO_WIDTH = 180;
+export const DEFAULT_LOGO_HEIGHT = 46;
+export const DEFAULT_LOGO_WIDTH = 183;
 export const MAX_HEIGHT = 50;
 export const MAX_WIDTH = 200;
 
