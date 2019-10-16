@@ -15,10 +15,13 @@ import { ProductType } from 'Type/ProductList';
 import ProductCard from 'Component/ProductCard';
 import WishlistItem from 'Component/WishlistItem';
 import './MyAccountMyWishlist.style';
+import Loader from 'Component/Loader';
+import Link from 'Component/Link';
 
 export default class MyAccountMyWishlist extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
+        isWishlistLoading: PropTypes.bool.isRequired,
         removeAll: PropTypes.func.isRequired,
         addAllToCart: PropTypes.func.isRequired,
         isWishlistEmpty: PropTypes.bool.isRequired,
@@ -26,9 +29,18 @@ export default class MyAccountMyWishlist extends PureComponent {
     };
 
     renderNoProductsFound = () => (
-        <p block="MyAccountMyWishlist" elem="NoProducts">
-            { __('Please add products to wishlist first!') }
-        </p>
+        <div>
+            <p>{ __('Wishlist is empty!') }</p>
+            <Link
+              to="/"
+              mix={ {
+                  block: 'Button',
+                  mix: { block: 'MyAccountMyWishlist', elem: 'NoProductsButton' }
+              } }
+            >
+                { __('Continue shopping') }
+            </Link>
+        </div>
     );
 
     renderProduct = ([id, product]) => <WishlistItem key={ id } product={ product } />;
@@ -40,13 +52,13 @@ export default class MyAccountMyWishlist extends PureComponent {
 
     renderActionLine() {
         const {
-            isLoading,
+            isWishlistLoading,
             removeAll,
             addAllToCart,
             isWishlistEmpty
         } = this.props;
 
-        const disabled = isLoading || isWishlistEmpty;
+        const disabled = isWishlistLoading || isWishlistEmpty;
 
         return (
             <div block="MyAccountMyWishlist" elem="ActionBar">
@@ -69,19 +81,25 @@ export default class MyAccountMyWishlist extends PureComponent {
     }
 
     renderPlaceholders() {
-        return Array.from({ length: 3 }, (_, i) => <ProductCard key={ i } />);
+        return Array.from({ length: 2 }, (_, i) => <ProductCard key={ i } />);
     }
 
     renderContent() {
-        const { isLoading, isWishlistEmpty } = this.props;
+        const {
+            isWishlistLoading,
+            isWishlistEmpty,
+            isLoading
+        } = this.props;
 
-        if (isWishlistEmpty && !isLoading) return this.renderNoProductsFound();
+        if (isWishlistEmpty && !isWishlistLoading) return this.renderNoProductsFound();
 
         return (
             <div block="MyAccountMyWishlist" elem="Products">
-                { (isLoading && isWishlistEmpty)
+                <Loader isLoading={ isLoading } />
+                { ((isWishlistLoading && isWishlistEmpty)
                     ? this.renderPlaceholders()
-                    : this.renderProducts() }
+                    : this.renderProducts()
+                ) }
             </div>
         );
     }

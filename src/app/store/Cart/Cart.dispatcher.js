@@ -85,7 +85,7 @@ export class CartDispatcher {
             sku,
             product_type,
             qty: parseInt(quantity, 10),
-            product_option: { extension_attributes: this._getExtensionAttributes(product) }
+            product_option: { extension_attributes: getExtensionAttributes(product) }
         };
 
         if (this._canBeAdded(options)) {
