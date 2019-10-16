@@ -39,8 +39,6 @@ export class WishlistItemContainer extends PureComponent {
 
     containerFunctions = {
         addToCart: this.addItemToCart.bind(this),
-        changeQuantity: this.changeQuantity.bind(this),
-        changeDescription: this.changeDescription.bind(this),
         removeItem: this.removeItem.bind(this, false)
     };
 
@@ -48,10 +46,22 @@ export class WishlistItemContainer extends PureComponent {
         isLoading: false
     };
 
+    changeQuantity = debounce((quantity) => {
+        const { product: { wishlist: { id: item_id } }, updateWishlistItem } = this.props;
+        updateWishlistItem({ item_id, quantity });
+    }, UPDATE_WISHLIST_FREQUENCY);
+
+    changeDescription = debounce((description) => {
+        const { product: { wishlist: { id: item_id } }, updateWishlistItem } = this.props;
+        updateWishlistItem({ item_id, description });
+    }, UPDATE_WISHLIST_FREQUENCY);
+
     containerProps = () => {
         const { isLoading } = this.state;
 
         return {
+            changeQuantity: this.changeQuantity,
+            changeDescription: this.changeDescription,
             parameters: this._getParameters(),
             isLoading
         };
@@ -86,20 +96,6 @@ export class WishlistItemContainer extends PureComponent {
 
         return parameters;
     };
-
-    changeQuantity() {
-        return debounce((quantity) => {
-            const { product: { wishlist: { id: item_id } }, updateWishlistItem } = this.props;
-            updateWishlistItem({ item_id, quantity });
-        }, UPDATE_WISHLIST_FREQUENCY);
-    }
-
-    changeDescription() {
-        return debounce((description) => {
-            const { product: { wishlist: { id: item_id } }, updateWishlistItem } = this.props;
-            updateWishlistItem({ item_id, description });
-        }, UPDATE_WISHLIST_FREQUENCY);
-    }
 
     addItemToCart() {
         const { product: item, addProductToCart, showNotification } = this.props;
