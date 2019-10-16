@@ -11,10 +11,13 @@
 
 import { fetchMutation, fetchQuery } from 'Util/Request';
 import {
+    clearWishlist,
+    updateIsLoading,
+    updateItemOptions,
     removeItemFromWishlist,
-    updateAllProductsInWishlist,
-    productToBeRemovedAfterAdd
+    updateAllProductsInWishlist
 } from 'Store/Wishlist';
+import { CartDispatcher } from 'Store/Cart';
 import { showNotification } from 'Store/Notification';
 import { isSignedIn } from 'Util/Auth';
 import { WishlistQuery } from 'Query';
@@ -39,20 +42,32 @@ export class WishlistDispatcher {
                 if (data && data.wishlist && data.wishlist.items_count) {
                     const { wishlist } = data;
                     const productsToAdd = wishlist.items.reduce((prev, wishlistItem) => {
-                        const { product } = wishlistItem;
-                        const item_id = wishlistItem.id;
-                        const { id } = product;
+                        const {
+                            id,
+                            sku,
+                            product,
+                            description,
+                            qty: quantity
+                        } = wishlistItem;
 
                         return {
                             ...prev,
                             [id]: {
                                 ...product,
-                                item_id
+                                quantity,
+                                wishlist: {
+                                    id,
+                                    sku,
+                                    quantity,
+                                    description
+                                }
                             }
                         };
                     }, {});
 
                     dispatch(updateAllProductsInWishlist(productsToAdd));
+                } else {
+                    dispatch(updateIsLoading(false));
                 }
             },
             // eslint-disable-next-line no-console
@@ -60,14 +75,10 @@ export class WishlistDispatcher {
         );
     }
 
-    addItemToWishlist(dispatch, options) {
-        const { product } = options;
-        const { sku } = product;
-        const productToAdd = { sku };
+    addItemToWishlist(dispatch, wishlistItem) {
+        dispatch(updateIsLoading(true));
 
-        return fetchMutation(WishlistQuery.getAddProductToWishlistMutation(
-            productToAdd
-        )).then(
+        return fetchMutation(WishlistQuery.getSaveWishlistItemMutation(wishlistItem)).then(
             () => this._syncWishlistWithBE(dispatch).then(
                 () => dispatch(showNotification('success', __('Product has been added to your Wish List!')))
             ),
@@ -76,20 +87,41 @@ export class WishlistDispatcher {
         );
     }
 
-    removeItemFromWishlist(dispatch, { product, noMessages }) {
-        if (!product) return null;
+    updateWishlistItem(dispatch, options) {
+        return fetchMutation(WishlistQuery.getSaveWishlistItemMutation(options)).then(
+            () => dispatch(updateItemOptions(options))
+        );
+    }
+
+    clearWishlist(dispatch) {
+        return fetchMutation(WishlistQuery.getClearWishlist())
+            .then(() => dispatch(clearWishlist()))
+            .catch(() => dispatch(showNotification('error', __('Error clearing wish list!'))));
+    }
+
+    moveWishlistToCart(dispatch) {
+        return fetchMutation(WishlistQuery.getMoveWishlistToCart())
+            .then(() => {
+                dispatch(clearWishlist());
+                dispatch(CartDispatcher._syncCartWithBE(dispatch));
+            });
+    }
+
+    removeItemFromWishlist(dispatch, { item_id, noMessages }) {
+        if (!item_id) return null;
+        dispatch(updateIsLoading(true));
+
         if (noMessages) {
-            return fetchMutation(WishlistQuery.getRemoveProductFromWishlistMutation(product)).then(
+            return fetchMutation(WishlistQuery.getRemoveProductFromWishlistMutation(item_id)).then(
                 () => {
-                    dispatch(removeItemFromWishlist(product));
-                    dispatch(productToBeRemovedAfterAdd(''));
+                    dispatch(removeItemFromWishlist(item_id));
                 }
             );
         }
 
-        return fetchMutation(WishlistQuery.getRemoveProductFromWishlistMutation(product)).then(
+        return fetchMutation(WishlistQuery.getRemoveProductFromWishlistMutation(item_id)).then(
             () => {
-                dispatch(removeItemFromWishlist(product));
+                dispatch(removeItemFromWishlist(item_id));
                 dispatch(showNotification('success', __('Product has been removed from your Wish List!')));
             },
             (error) => {
@@ -98,13 +130,6 @@ export class WishlistDispatcher {
                 console.log(error);
             }
         );
-    }
-
-    updateProductToBeRemovedAfterAdd(dispatch, options) {
-        const { product: { sku } } = options;
-        if (sku) return dispatch(productToBeRemovedAfterAdd(sku));
-
-        return dispatch(productToBeRemovedAfterAdd(''));
     }
 }
 

@@ -23,12 +23,15 @@ export class ProductListContainer extends PureComponent {
         location: PropTypes.shape({
             pathname: PropTypes.string.isRequired
         }).isRequired,
+        getIsNewCategory: PropTypes.func.isRequired,
         pages: PagesType.isRequired,
         pageSize: PropTypes.number,
         isLoading: PropTypes.bool.isRequired,
         totalItems: PropTypes.number.isRequired,
         requestProductList: PropTypes.func.isRequired,
         selectedFilters: PropTypes.objectOf(PropTypes.shape),
+        isInfiniteLoaderEnabled: PropTypes.bool,
+        isPaginationEnabled: PropTypes.bool,
 
         filter: FilterInputType,
         search: PropTypes.string,
@@ -40,7 +43,9 @@ export class ProductListContainer extends PureComponent {
         filter: {},
         search: '',
         selectedFilters: {},
-        sort: undefined
+        sort: undefined,
+        isPaginationEnabled: true,
+        isInfiniteLoaderEnabled: true
     };
 
     state = { pagesCount: 1 };
@@ -53,7 +58,7 @@ export class ProductListContainer extends PureComponent {
     };
 
     componentDidMount() {
-        const { pages } = this.props;
+        const { pages, getIsNewCategory } = this.props;
         const { pagesCount } = this.state;
         const pagesLength = Object.keys(pages).length;
 
@@ -61,7 +66,10 @@ export class ProductListContainer extends PureComponent {
             this.setState({ pagesCount: pagesLength });
         }
 
-        this.requestPage(this._getPageFromUrl());
+        // Is true when category is changed. This check prevents making new requests when navigating back to PLP from PDP
+        if (getIsNewCategory()) {
+            this.requestPage(this._getPageFromUrl());
+        }
     }
 
     componentDidUpdate(prevProps) {

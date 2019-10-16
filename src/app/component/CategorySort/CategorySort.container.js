@@ -47,6 +47,11 @@ export class CategorySortContainer extends PureComponent {
                 asc: __('%s: A to Z', label),
                 desc: __('%s: Z to A', label)
             };
+        case 'position':
+            return {
+                asc: __('%s: Ascending', label),
+                desc: __('%s: Descending', label)
+            };
         default:
             return {};
         }
