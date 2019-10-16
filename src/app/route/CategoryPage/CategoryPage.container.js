@@ -198,21 +198,19 @@ export class CategoryPageContainer extends PureComponent {
         }
     }
 
-    _getNewSelectedFilters(filterName, filterArray) {
-        const customFilters = this._getSelectedFiltersFromUrl();
-        customFilters[filterName] = filterArray;
-        return customFilters;
-    }
-
     _getNewSelectedFiltersString(filterName, filterArray) {
-        const prevCustomFilters = this._getNewSelectedFilters(filterName, filterArray);
+        const prevCustomFilters = this._getSelectedFiltersFromUrl();
+        const customFilers = {
+            ...prevCustomFilters,
+            [filterName]: filterArray
+        };
 
-        return Object.keys(prevCustomFilters)
-            .reduce((accumulator, prevFilterName) => {
-                if (prevCustomFilters[prevFilterName].length) {
-                    const filterValues = prevCustomFilters[prevFilterName].sort().join(',');
+        return Object.entries(customFilers)
+            .reduce((accumulator, [filterKey, filterValue]) => {
+                if (filterValue.length) {
+                    const filterValues = filterValue.sort().join(',');
 
-                    accumulator.push(`${prevFilterName}:${filterValues}`);
+                    accumulator.push(`${filterKey}:${filterValues}`);
                 }
 
                 return accumulator;
@@ -295,7 +293,6 @@ export class CategoryPageContainer extends PureComponent {
 
     _getProductListOptions(currentPage) {
         const { categoryIds } = this.props;
-
         const categoryUrlPath = !categoryIds ? this._getCategoryUrlPath() : null;
         const customFilters = this._getSelectedFiltersFromUrl();
 
