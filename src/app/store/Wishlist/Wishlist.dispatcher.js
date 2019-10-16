@@ -103,7 +103,7 @@ export class WishlistDispatcher {
         return fetchMutation(WishlistQuery.getMoveWishlistToCart())
             .then(() => {
                 dispatch(clearWishlist());
-                dispatch(CartDispatcher._syncCartWithBE(dispatch));
+                CartDispatcher._syncCartWithBE(dispatch);
             });
     }
 

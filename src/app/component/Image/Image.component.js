@@ -133,10 +133,14 @@ export default class Image extends PureComponent {
 
     render() {
         const {
-            ratio, mix, isPlaceholder,
+            ratio,
+            mix,
+            isPlaceholder,
             wrapperSize
         } = this.props;
+
         const { imageStatus } = this.state;
+
         return (
             <div
               block="Image"

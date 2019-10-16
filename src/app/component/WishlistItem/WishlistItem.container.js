@@ -37,28 +37,39 @@ export class WishlistItemContainer extends PureComponent {
         removeFromWishlist: PropTypes.func.isRequired
     };
 
-    changeQuantity = debounce((quantity) => {
-        const { product: { wishlist: { id: item_id } }, updateWishlistItem } = this.props;
-        updateWishlistItem({ item_id, quantity });
-    }, UPDATE_WISHLIST_FREQUENCY);
-
-    changeDescription = debounce((description) => {
-        const { product: { wishlist: { id: item_id } }, updateWishlistItem } = this.props;
-        updateWishlistItem({ item_id, description });
-    }, UPDATE_WISHLIST_FREQUENCY);
-
-    containerFunctions = () => ({
-        addToCart: this.addItemToCart,
-        getParameters: this.getParameters,
-        changeQuantity: this.changeQuantity,
-        changeDescription: this.changeDescription,
+    containerFunctions = {
+        addToCart: this.addItemToCart.bind(this),
+        changeQuantity: this.changeQuantity.bind(this),
+        changeDescription: this.changeDescription.bind(this),
         removeItem: this.removeItem.bind(this, false)
-    });
+    };
+
+    state = {
+        isLoading: false
+    };
+
+    containerProps = () => {
+        const { isLoading } = this.state;
+
+        return {
+            parameters: this._getParameters(),
+            isLoading
+        };
+    };
 
     getConfigurableVariantIndex = (sku, variants) => Object.keys(variants).find(i => variants[i].sku === sku);
 
-    getParameters = (sku, item) => {
-        const { variants, configurable_options } = item;
+    _getParameters = () => {
+        const { product } = this.props;
+
+        const {
+            type_id,
+            wishlist: { sku },
+            variants,
+            configurable_options
+        } = product;
+
+        if (type_id !== 'configurable') return {};
 
         const options = Object.keys(configurable_options) || [];
         const configurableVariantIndex = this.getConfigurableVariantIndex(sku, variants);
@@ -76,8 +87,22 @@ export class WishlistItemContainer extends PureComponent {
         return parameters;
     };
 
-    addItemToCart = () => {
-        const { product: item, addProductToCart } = this.props;
+    changeQuantity() {
+        return debounce((quantity) => {
+            const { product: { wishlist: { id: item_id } }, updateWishlistItem } = this.props;
+            updateWishlistItem({ item_id, quantity });
+        }, UPDATE_WISHLIST_FREQUENCY);
+    }
+
+    changeDescription() {
+        return debounce((description) => {
+            const { product: { wishlist: { id: item_id } }, updateWishlistItem } = this.props;
+            updateWishlistItem({ item_id, description });
+        }, UPDATE_WISHLIST_FREQUENCY);
+    }
+
+    addItemToCart() {
+        const { product: item, addProductToCart, showNotification } = this.props;
 
         const {
             type_id,
@@ -89,28 +114,40 @@ export class WishlistItemContainer extends PureComponent {
 
         const configurableVariantIndex = this.getConfigurableVariantIndex(sku, variants);
         const product = type_id === 'configurable'
-            ? {
-                ...item,
-                configurableVariantIndex
-            }
+            ? { ...item, configurableVariantIndex }
             : item;
+
+        this.setState({ isLoading: true });
 
         return addProductToCart({ product, quantity })
             .then(
                 () => this.removeItem(id),
-                () => showNotification('error', 'Error Adding Product To Cart')
+                () => this.showNotification('error', 'Error Adding Product To Cart')
             )
             .then(() => showNotification('success', 'Product Added To Cart'))
-            .catch(() => showNotification('error', 'Error cleaning wishlist'));
-    };
+            .catch(() => this.showNotification('error', 'Error cleaning wishlist'));
+    }
 
-    removeItem = (noMessages = true) => {
+    showNotification(...args) {
+        const { showNotification } = this.props;
+        this.setState({ isLoading: false });
+        showNotification(...args);
+    }
+
+    removeItem(noMessages = true) {
         const { product: { wishlist: { id: item_id } }, removeFromWishlist } = this.props;
+        this.setState({ isLoading: true });
         return removeFromWishlist({ item_id, noMessages });
-    };
+    }
 
     render() {
-        return <WishlistItem { ...this.props } { ...this.containerFunctions() } />;
+        return (
+            <WishlistItem
+              { ...this.props }
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
+            />
+        );
     }
 }
 

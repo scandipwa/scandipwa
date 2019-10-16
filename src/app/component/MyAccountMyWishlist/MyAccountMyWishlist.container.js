@@ -18,8 +18,8 @@ import { ProductType } from 'Type/ProductList';
 import MyAccountMyWishlist from './MyAccountMyWishlist.component';
 
 export const mapStateToProps = state => ({
-    isLoading: state.WishlistReducer.isLoading,
-    wishlistItems: state.WishlistReducer.productsInWishlist
+    wishlistItems: state.WishlistReducer.productsInWishlist,
+    isWishlistLoading: state.WishlistReducer.isLoading
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -36,9 +36,18 @@ export class MyAccountMyWishlistContainer extends PureComponent {
         wishlistItems: PropTypes.objectOf(ProductType).isRequired
     };
 
-    containerProps = () => ({
-        isWishlistEmpty: this._getIsWishlistEmpty()
-    });
+    state = {
+        isLoading: false
+    };
+
+    containerProps = () => {
+        const { isLoading } = this.state;
+
+        return {
+            isWishlistEmpty: this._getIsWishlistEmpty(),
+            isLoading
+        };
+    };
 
     containerFunctions = () => ({
         removeAll: this.removeAll,
@@ -46,13 +55,23 @@ export class MyAccountMyWishlistContainer extends PureComponent {
     });
 
     addAllToCart = () => {
-        const { moveWishlistToCart, showNotification } = this.props;
-        return moveWishlistToCart().then(() => showNotification('Wishlist moved to cart'));
+        const { moveWishlistToCart } = this.props;
+
+        this.setState({ isLoading: true });
+
+        return moveWishlistToCart().then(
+            () => this.showNotificationAndRemoveLoading('Wishlist moved to cart')
+        );
     };
 
     removeAll = () => {
-        const { clearWishlist, showNotification } = this.props;
-        return clearWishlist().then(() => showNotification('Wishlist cleared'));
+        const { clearWishlist } = this.props;
+
+        this.setState({ isLoading: true });
+
+        return clearWishlist().then(
+            () => this.showNotificationAndRemoveLoading('Wishlist cleared')
+        );
     };
 
     _getIsWishlistEmpty = () => {
@@ -60,6 +79,12 @@ export class MyAccountMyWishlistContainer extends PureComponent {
 
         return Object.entries(wishlistItems).length <= 0;
     };
+
+    showNotificationAndRemoveLoading(message) {
+        const { showNotification } = this.props;
+        this.setState({ isLoading: false });
+        showNotification(message);
+    }
 
     render() {
         return (

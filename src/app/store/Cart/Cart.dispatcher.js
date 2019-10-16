@@ -10,10 +10,7 @@
  */
 
 import { fetchMutation, fetchQuery } from 'Util/Request';
-import {
-    updateTotals,
-    PRODUCTS_IN_CART
-} from 'Store/Cart';
+import { updateTotals } from 'Store/Cart';
 import { isSignedIn } from 'Util/Auth';
 import { CartQuery } from 'Query';
 import { showNotification } from 'Store/Notification';
@@ -82,14 +79,12 @@ export class CartDispatcher {
 
     addProductToCart(dispatch, options) {
         const { product, quantity } = options;
-        const { item_id, quantity: originalQuantity } = this._getProductInCart(product);
         const { sku, type_id: product_type } = product;
 
         const productToAdd = {
-            item_id,
             sku,
             product_type,
-            qty: (parseInt(originalQuantity, 10) || 0) + parseInt(quantity, 10),
+            qty: parseInt(quantity, 10),
             product_option: { extension_attributes: getExtensionAttributes(product) }
         };
 
@@ -145,14 +140,6 @@ export class CartDispatcher {
 
     _getGuestQuoteId() {
         return BrowserDatabase.getItem(GUEST_QUOTE_ID);
-    }
-
-    _getProductInCart(product) {
-        const id = this._getProductAttribute('id', product);
-        const productsInCart = BrowserDatabase.getItem(PRODUCTS_IN_CART) || {};
-
-        if (!productsInCart[id]) return {};
-        return productsInCart[id];
     }
 
     /**

@@ -109,6 +109,11 @@
         }
     }
 
+    &-Items {
+        max-height: 40vh;
+        overflow-y: scroll;
+    }
+
     &-Total,
     &-Discount,
     &-Tax {

@@ -14,11 +14,13 @@ import PropTypes from 'prop-types';
 import { addressType } from 'Type/Account';
 import Loader from 'Component/Loader';
 import KeyValueTable from 'Component/KeyValueTable';
+import { MixType } from 'Type/Common';
 
 import './MyAccountAddressTable.style';
 
 class MyAccountAddressTable extends KeyValueTable {
     static propTypes = {
+        mix: MixType,
         getFormatedRegion: PropTypes.func.isRequired,
         address: addressType.isRequired,
         showActions: PropTypes.bool,
@@ -42,7 +44,8 @@ class MyAccountAddressTable extends KeyValueTable {
 
     static defaultProps = {
         showAdditionalFields: false,
-        showActions: false
+        showActions: false,
+        mix: {}
     };
 
     get dataPairArray() {
@@ -146,10 +149,10 @@ class MyAccountAddressTable extends KeyValueTable {
     }
 
     render() {
-        const { countries } = this.props;
+        const { countries, mix } = this.props;
 
         return (
-            <div block="MyAccountAddressTable">
+            <div block="MyAccountAddressTable" mix={ mix }>
                 <Loader isLoading={ !countries.length } />
                 { this.renderTable() }
                 { this.renderActions() }
