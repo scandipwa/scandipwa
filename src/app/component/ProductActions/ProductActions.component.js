@@ -18,10 +18,14 @@ import PropTypes from 'prop-types';
 import { ProductType } from 'Type/ProductList';
 import Field from 'Component/Field';
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
+import ProductWishlistButton from 'Component/ProductWishlistButton';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import ProductPrice from 'Component/ProductPrice';
 import AddToCart from 'Component/AddToCart';
 import Html from 'Component/Html';
+import Link from 'Component/Link';
+import { isSignedIn } from 'Util/Auth';
+
 import './ProductActions.style';
 
 /**
@@ -196,14 +200,53 @@ export default class ProductActions extends PureComponent {
         );
     }
 
+    renderGoToWishlist() {
+        if (!isSignedIn()) return null;
+
+        return (
+            <Link
+              to="/my-account/my-wishlist"
+              mix={ { block: 'Button' } }
+            >
+                { __('Go To Wishlist') }
+            </Link>
+        );
+    }
+
+    renderProductWishlistButton() {
+        const {
+            product,
+            quantity,
+            configurableVariantIndex
+        } = this.props;
+
+        return (
+            <ProductWishlistButton
+              product={ product }
+              quantity={ quantity }
+              configurableVariantIndex={ configurableVariantIndex }
+            />
+        );
+    }
+
+    renderAdditionalButtons() {
+        return (
+            <div block="ProductActions" elem="AdditionalButtons">
+                { this.renderProductWishlistButton() }
+                { this.renderGoToWishlist() }
+            </div>
+        );
+    }
+
     render() {
         return (
             <article block="ProductActions">
                 { this.renderPrice() }
                 <div block="ProductActions" elem="AddToCartWrapper">
-                  { this.renderAddToCart() }
-                  { this.renderQuantityInput() }
+                    { this.renderQuantityInput() }
+                    { this.renderAddToCart() }
                 </div>
+                { this.renderAdditionalButtons() }
                 { this.renderNameAndBrand() }
                 { this.renderSkuAndStock() }
                 { this.renderConfigurableAttributes() }

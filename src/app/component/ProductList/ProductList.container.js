@@ -19,6 +19,8 @@ export class ProductListContainer extends PureComponent {
         totalItems: PropTypes.number.isRequired,
         requestProductList: PropTypes.func.isRequired,
         selectedFilters: PropTypes.objectOf(PropTypes.shape),
+        isInfiniteLoaderEnabled: PropTypes.bool,
+        isPaginationEnabled: PropTypes.bool,
 
         filter: FilterInputType,
         search: PropTypes.string,
@@ -30,7 +32,9 @@ export class ProductListContainer extends PureComponent {
         filter: {},
         search: '',
         selectedFilters: {},
-        sort: undefined
+        sort: undefined,
+        isPaginationEnabled: true,
+        isInfiniteLoaderEnabled: true
     };
 
     state = { pagesCount: 1 };

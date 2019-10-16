@@ -18,6 +18,7 @@ import { isSignedIn } from 'Util/Auth';
 import { CartQuery } from 'Query';
 import { showNotification } from 'Store/Notification';
 import BrowserDatabase from 'Util/BrowserDatabase';
+import { getExtensionAttributes } from 'Util/Product';
 
 export const GUEST_QUOTE_ID = 'guest_quote_id';
 
@@ -89,7 +90,7 @@ export class CartDispatcher {
             sku,
             product_type,
             qty: (parseInt(originalQuantity, 10) || 0) + parseInt(quantity, 10),
-            product_option: { extension_attributes: this._getExtensionAttributes(product) }
+            product_option: { extension_attributes: getExtensionAttributes(product) }
         };
 
         if (this._canBeAdded(options)) {
@@ -140,40 +141,6 @@ export class CartDispatcher {
 
     _updateCartData(cartData, dispatch) {
         dispatch(updateTotals(cartData));
-    }
-
-    _getExtensionAttributes(product) {
-        const {
-            configurable_options,
-            configurableVariantIndex,
-            variants,
-            type_id
-        } = product;
-
-        if (type_id === 'configurable') {
-            const { attributes } = variants[configurableVariantIndex];
-
-            const configurable_item_options = Object.values(configurable_options)
-                .reduce((prev, { attribute_id, attribute_code }) => {
-                    const { attribute_value } = attributes[attribute_code];
-
-                    if (attribute_value) {
-                        return [
-                            ...prev,
-                            {
-                                option_id: attribute_id,
-                                option_value: attribute_value
-                            }
-                        ];
-                    }
-
-                    return prev;
-                }, []);
-
-            return { configurable_item_options };
-        }
-
-        return {};
     }
 
     _getGuestQuoteId() {

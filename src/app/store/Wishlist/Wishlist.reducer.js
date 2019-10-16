@@ -10,35 +10,69 @@
  */
 
 import BrowserDatabase from 'Util/BrowserDatabase';
+import { getIndexedParameteredProducts } from 'Util/Product';
 import {
     REMOVE_ITEM_FROM_WISHLIST,
     UPDATE_ALL_PRODUCTS_IN_WISHLIST,
-    PRODUCT_TO_BE_REMOVED_AFTER_ADD
+    UPDATE_IS_LOADING_IN_WISHLIST,
+    UPDATE_ITEM_OPTIONS,
+    CLEAR_WISHLIST
 } from './Wishlist.action';
 
 export const PRODUCTS_IN_WISHLIST = 'wishlist_products';
 
 export const initialState = {
     productsInWishlist: BrowserDatabase.getItem(PRODUCTS_IN_WISHLIST) || {},
-    productToBeRemovedAfterAdd: ''
+    isLoading: true
 };
 
-const removeItemFromWishlist = (action, state) => {
-    const { product } = action;
-    const { productsInWishlist } = state;
-    const deleteProperty = (key, { [key]: _, ...newObj }) => newObj;
-    const newProductsInWishlist = deleteProperty(product.id, productsInWishlist) || {};
+const deleteProperty = (key, { [key]: _, ...newObj }) => newObj;
+
+const removeItemFromWishlist = ({ item_id }, { productsInWishlist: initialProducts }) => {
+    const productsInWishlist = deleteProperty(item_id, initialProducts) || {};
 
     BrowserDatabase.setItem(
-        newProductsInWishlist,
+        productsInWishlist,
         PRODUCTS_IN_WISHLIST
     );
 
-    return { productsInWishlist: newProductsInWishlist };
+    return { productsInWishlist };
+};
+
+const clearWishlist = () => {
+    const productsInWishlist = {};
+
+    BrowserDatabase.setItem(productsInWishlist, PRODUCTS_IN_WISHLIST);
+    return { productsInWishlist };
 };
 
 const updateAllProductsInWishlist = (action) => {
-    const { products } = action;
+    const { products: initialProducts } = action;
+
+    const products = getIndexedParameteredProducts(initialProducts);
+
+    BrowserDatabase.setItem(
+        products,
+        PRODUCTS_IN_WISHLIST
+    );
+
+    return { productsInWishlist: products, isLoading: false };
+};
+
+const updateItemOptions = (options, { productsInWishlist }) => {
+    const { item_id } = options;
+    const cleanedOptions = deleteProperty('item_id', options) || {};
+
+    const products = {
+        ...productsInWishlist,
+        [item_id]: {
+            ...productsInWishlist[item_id],
+            wishlist: {
+                ...productsInWishlist[item_id].wishlist,
+                ...cleanedOptions
+            }
+        }
+    };
 
     BrowserDatabase.setItem(
         products,
@@ -49,27 +83,41 @@ const updateAllProductsInWishlist = (action) => {
 };
 
 const WishlistReducer = (state = initialState, action) => {
-    const { type } = action;
+    const { type, options } = action;
 
     switch (type) {
     case REMOVE_ITEM_FROM_WISHLIST:
         return {
             ...state,
+            isLoading: false,
             ...removeItemFromWishlist(action, state)
+        };
+
+    case CLEAR_WISHLIST:
+        return {
+            ...state,
+            ...clearWishlist()
         };
 
     case UPDATE_ALL_PRODUCTS_IN_WISHLIST:
         return {
             ...state,
+            isLoading: false,
             ...updateAllProductsInWishlist(action)
         };
 
-    case PRODUCT_TO_BE_REMOVED_AFTER_ADD:
-        const { productToBeRemovedAfterAdd } = action;
+    case UPDATE_ITEM_OPTIONS:
+        return {
+            ...state,
+            ...updateItemOptions(options, state)
+        };
+
+    case UPDATE_IS_LOADING_IN_WISHLIST:
+        const { isLoading } = action;
 
         return {
             ...state,
-            productToBeRemovedAfterAdd
+            isLoading
         };
 
     default:
