@@ -150,6 +150,10 @@ const webpackConfig = ([lang, translation]) => ({
             }
         }),
 
+        new webpack.ProvidePlugin({
+            React: 'react'
+        }),
+
         new I18nPlugin({
             translation
         }),
