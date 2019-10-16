@@ -38,7 +38,12 @@ import Header, {
 
 export const mapStateToProps = state => ({
     headerState: state.HeaderReducer.headerState,
-    cartTotals: state.CartReducer.cartTotals
+    cartTotals: state.CartReducer.cartTotals,
+    header_logo_src: state.ConfigReducer.header_logo_src,
+    logo_alt: state.ConfigReducer.logo_alt,
+    logo_height: state.ConfigReducer.logo_height,
+    logo_width: state.ConfigReducer.logo_width,
+    isLoading: state.ConfigReducer.isLoading
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -47,6 +52,11 @@ export const mapDispatchToProps = dispatch => ({
     setHeaderState: stateName => dispatch(changeHeaderState(stateName)),
     goToPreviousHeaderState: () => dispatch(goToPreviousHeaderState())
 });
+
+export const DEFAULT_LOGO_HEIGHT = 40;
+export const DEFAULT_LOGO_WIDTH = 180;
+export const MAX_HEIGHT = 50;
+export const MAX_WIDTH = 200;
 
 export class HeaderContainer extends PureComponent {
     static propTypes = {
@@ -77,7 +87,16 @@ export class HeaderContainer extends PureComponent {
             onEditClick: PropTypes.func,
             onOkClick: PropTypes.func,
             onCancelClick: PropTypes.func
-        }).isRequired
+        }).isRequired,
+        header_logo_src: PropTypes.string,
+        logo_height: PropTypes.number,
+        logo_width: PropTypes.number
+    };
+
+    static defaultProps = {
+        logo_height: 183,
+        logo_width: 46,
+        header_logo_src: ''
     };
 
     state = {
@@ -322,12 +341,47 @@ export class HeaderContainer extends PureComponent {
         goToPreviousHeaderState();
     }
 
+    containerProps = () => ({
+        logoSize: this._getLogoSize()
+    });
+
+    _getLogoSize() {
+        const {
+            logo_height, header_logo_src, logo_width
+        } = this.props;
+
+        if (!header_logo_src) return {};
+
+        if (logo_height > MAX_HEIGHT) {
+            const newWidth = Math.round(logo_width / (logo_height / MAX_HEIGHT));
+
+            if (newWidth > MAX_WIDTH) {
+                const newHeight = Math.round(logo_height / (newWidth / MAX_WIDTH));
+
+                return { height: newHeight, width: MAX_WIDTH };
+            }
+
+            return { height: MAX_HEIGHT, width: newWidth };
+        }
+
+        if (logo_width > MAX_WIDTH) {
+            const newHeight = Math.round(logo_height / (logo_width / MAX_WIDTH));
+            return { height: newHeight, width: MAX_WIDTH };
+        }
+
+        return {
+            height: logo_height || DEFAULT_LOGO_HEIGHT,
+            width: logo_width || DEFAULT_LOGO_WIDTH
+        };
+    }
+
     render() {
         return (
             <Header
               { ...this.props }
               { ...this.state }
               { ...this.containerFunctions }
+              { ...this.containerProps() }
             />
         );
     }
