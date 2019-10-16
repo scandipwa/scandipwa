@@ -38,8 +38,7 @@ const ConfigReducer = (state = initialState, action) => {
             ...state,
             countries,
             reviewRatings,
-            ...storeConfig,
-            isLoading: false
+            ...storeConfig
         };
 
     case SET_LOADING_STATUS:
