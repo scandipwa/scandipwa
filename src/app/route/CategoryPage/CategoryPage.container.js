@@ -114,17 +114,13 @@ export class CategoryPageContainer extends PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        const { category: { id }, categoryIds, location } = this.props;
-        const { category: { id: prevId }, categoryIds: prevCategoryIds } = prevProps;
+        const { category: { id } } = this.props;
+        const { category: { id: prevId } } = prevProps;
 
         // update breadcrumbs only if category has changed
         if (id !== prevId) this._onCategoryUpdate();
 
-        // ComponentDidUpdate fires multiple times, to prevent getting same data we check that url has changed
-        // getIsNewCategory prevents getting Category data, when sort or filter options have changed
-        if ((this._urlHasChanged(location, prevProps) && this.getIsNewCategory()) || categoryIds !== prevCategoryIds) {
-            this._requestCategoryWithPageList();
-        }
+        this._updateData(prevProps);
     }
 
     onSortChange(sortDirection, sortKey) {
@@ -174,14 +170,32 @@ export class CategoryPageContainer extends PureComponent {
 
     updateFilter(filterName, filterArray) {
         const { location, history } = this.props;
-        const customFilters = this._getNewSelectedFilters(filterName, filterArray);
-
-        this._requestCategoryProductsInfo(customFilters);
 
         setQueryParams({
             customFilters: this.getFilterUrl(filterName, filterArray, false),
             page: ''
         }, location, history);
+    }
+
+    _updateData(prevProps) {
+        const { categoryIds, location: { search } } = this.props;
+        const { categoryIds: prevCategoryIds, location: { search: prevSearch } } = prevProps;
+
+        // ComponentDidUpdate fires multiple times, to prevent getting same data we check that url has changed
+        // getIsNewCategory prevents getting Category data, when sort or filter options have changed
+        if (this._urlHasChanged(location, prevProps) && this.getIsNewCategory()) {
+            this._requestCategoryWithPageList();
+            return;
+        }
+
+        if (categoryIds !== prevCategoryIds) {
+            this._requestCategoryWithPageList();
+            return;
+        }
+
+        if (!this._compareQueriesByFilters(search, prevSearch)) {
+            this._requestCategoryProductsInfo();
+        }
     }
 
     _getNewSelectedFilters(filterName, filterArray) {
@@ -279,9 +293,11 @@ export class CategoryPageContainer extends PureComponent {
         };
     }
 
-    _getProductListOptions(currentPage, customFilters = {}) {
+    _getProductListOptions(currentPage) {
         const { categoryIds } = this.props;
+
         const categoryUrlPath = !categoryIds ? this._getCategoryUrlPath() : null;
+        const customFilters = this._getSelectedFiltersFromUrl();
 
         return {
             args: {
@@ -315,9 +331,9 @@ export class CategoryPageContainer extends PureComponent {
         });
     }
 
-    _requestCategoryProductsInfo(customFilters = {}) {
+    _requestCategoryProductsInfo() {
         const { requestProductListInfo } = this.props;
-        requestProductListInfo(this._getProductListOptions(1, customFilters));
+        requestProductListInfo(this._getProductListOptions(1));
     }
 
     _requestCategory() {
@@ -332,10 +348,8 @@ export class CategoryPageContainer extends PureComponent {
     }
 
     _requestCategoryWithPageList() {
-        const customFilters = this._getSelectedFiltersFromUrl();
-
         this._requestCategory();
-        this._requestCategoryProductsInfo(customFilters);
+        this._requestCategoryProductsInfo();
     }
 
     _compareQueriesWithFilter(search, prevSearch, filter) {
@@ -347,6 +361,12 @@ export class CategoryPageContainer extends PureComponent {
     _compareQueriesWithoutPage(search, prevSearch) {
         return this._compareQueriesWithFilter(
             search, prevSearch, ({ page, ...filteredParams }) => filteredParams
+        );
+    }
+
+    _compareQueriesByFilters(search, prevSearch) {
+        return this._compareQueriesWithFilter(
+            search, prevSearch, ({ customFilters }) => customFilters
         );
     }
 
