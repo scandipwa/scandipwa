@@ -21,4 +21,13 @@
             right: 0;
         }
     }
+
+    button + button {
+        margin-left: 1rem;
+
+        @include mobile {
+            margin-top: 1rem;
+            margin-left: 0;
+        }
+    }
 }
