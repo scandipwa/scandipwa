@@ -10,7 +10,7 @@
  */
 
 import PropTypes from 'prop-types';
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import Html from 'Component/Html';
 import { ChildrenType } from 'Type/Common';
 
