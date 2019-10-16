@@ -10,7 +10,7 @@
  */
 
 import BrowserDatabase from 'Util/BrowserDatabase';
-import { UPDATE_CONFIG } from './Config.action';
+import { UPDATE_CONFIG, SET_LOADING_STATUS } from './Config.action';
 
 export const initialState = BrowserDatabase.getItem('config') || {
     countries: [],
@@ -18,12 +18,19 @@ export const initialState = BrowserDatabase.getItem('config') || {
     cms_home_page: '',
     cms_no_route: '',
     copyright: '',
+    timezone: '',
     header_logo_src: '',
-    timezone: ''
+    logo_alt: '',
+    logo_height: '',
+    logo_width: '',
+    isLoading: true
 };
 
 const ConfigReducer = (state = initialState, action) => {
-    const { config: { countries, reviewRatings, storeConfig } = {}, type } = action;
+    const {
+        config: { countries, reviewRatings, storeConfig } = {},
+        type, status
+    } = action;
 
     switch (type) {
     case UPDATE_CONFIG:
@@ -31,7 +38,14 @@ const ConfigReducer = (state = initialState, action) => {
             ...state,
             countries,
             reviewRatings,
-            ...storeConfig
+            ...storeConfig,
+            isLoading: false
+        };
+
+    case SET_LOADING_STATUS:
+        return {
+            ...state,
+            isLoading: status
         };
 
     default:
