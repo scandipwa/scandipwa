@@ -102,7 +102,7 @@ export default class ProductCard extends PureComponent {
         );
     }
 
-    renderPictureLabel() {
+    renderReviews() {
         const { product: { review_summary: { rating_summary, review_count } = {} } } = this.props;
         if (!rating_summary) return null;
 
@@ -110,9 +110,9 @@ export default class ProductCard extends PureComponent {
         const rating = parseFloat(rating_summary / ONE_FIFTH_OF_A_HUNDRED).toFixed(2);
 
         return (
-            <figcaption
+            <div
               block="ProductCard"
-              elem="PictureLabel"
+              elem="Reviews"
               itemProp="aggregateRating"
               itemScope
               itemType="https://schema.org/AggregateRating"
@@ -120,7 +120,7 @@ export default class ProductCard extends PureComponent {
                 <meta itemProp="ratingValue" content={ rating || 0 } />
                 <meta itemProp="ratingCount" content={ review_count || 0 } />
                 <ProductReviewRating summary={ rating_summary || 0 } />
-            </figcaption>
+            </div>
         );
     }
 
@@ -194,11 +194,11 @@ export default class ProductCard extends PureComponent {
                 <meta itemProp="sku" content={ sku } />
                 { this.renderCardWrapper((
                     <>
-                        <figure>
+                        <figure block="ProductCard" elem="Figure">
                             { this.renderPicture() }
-                            { this.renderPictureLabel() }
                         </figure>
                         <div block="ProductCard" elem="Content">
+                            { this.renderReviews() }
                             { this.renderProductPrice() }
                             { this.renderVisualConfigurableOptions() }
                             { this.renderMainDetails() }

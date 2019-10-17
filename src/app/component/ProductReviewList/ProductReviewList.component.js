@@ -10,11 +10,10 @@
  */
 
 import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+
 import { ProductType } from 'Type/ProductList';
-import ContentWrapper from 'Component/ContentWrapper';
-import TextPlaceholder from 'Component/TextPlaceholder';
 import ProductReviewRating from 'Component/ProductReviewRating';
+
 import './ProductReviewList.style';
 
 /**
@@ -22,11 +21,10 @@ import './ProductReviewList.style';
  */
 export default class ProductReviewList extends PureComponent {
     static propTypes = {
-        product: ProductType.isRequired,
-        areDetailsLoaded: PropTypes.bool.isRequired
+        product: ProductType.isRequired
     };
 
-    renderReviewListItemRating(ratingVoteItem) {
+    renderReviewListItemRating = (ratingVoteItem) => {
         const {
             vote_id,
             rating_code,
@@ -39,21 +37,32 @@ export default class ProductReviewList extends PureComponent {
               block="ProductReviewList"
               elem="RatingSummaryItem"
             >
-                <p><TextPlaceholder content={ rating_code } /></p>
-                { percent
-                    ? <ProductReviewRating summary={ percent } code={ rating_code } />
-                    : <ProductReviewRating placeholder /> }
+                <p>{ rating_code }</p>
+                { <ProductReviewRating summary={ percent } code={ rating_code } /> }
             </div>
+        );
+    };
+
+    renderAuthor(reviewItem) {
+        const {
+            nickname,
+            created_at
+        } = reviewItem;
+
+        return (
+            <p block="ProductReviewList" elem="ReviewAuthor">
+                { __('Written by ') }
+                <strong>{ nickname }</strong>
+                { __(', written at %s', new Date(created_at).toDateString()) }
+            </p>
         );
     }
 
-    renderReviewListItem(reviewItem) {
+    renderReviewListItem = (reviewItem) => {
         const {
-            review_id,
-            nickname,
             title,
             detail,
-            created_at,
+            review_id,
             rating_votes
         } = reviewItem;
 
@@ -64,70 +73,35 @@ export default class ProductReviewList extends PureComponent {
               elem="Item"
             >
                 <h4 block="ProductReviewList" elem="ReviewTitle">
-                    <TextPlaceholder content={ title } />
+                    { title }
                 </h4>
                 <div block="ProductReviewList" elem="RatingSummary">
-                    { rating_votes
-                        ? rating_votes.map(rating => this.renderReviewListItemRating(rating))
-                        : this.renderReviewListItemRating({ vote_id: null }) }
+                    { rating_votes.map(this.renderReviewListItemRating) }
                 </div>
                 <div block="ProductReviewList" elem="ReviewContent">
                     <p block="ProductReviewList" elem="ReviewDetails">
-                        { detail
-                            || (
-                                <>
-                                    <TextPlaceholder length="long" />
-                                    <TextPlaceholder length="long" />
-                                    <TextPlaceholder length="long" />
-                                </>
-                            ) }
+                        { detail }
                     </p>
-                    <p block="ProductReviewList" elem="ReviewAuthor">
-                        <TextPlaceholder
-                          content={ nickname && created_at
-                              ? `Review by ${nickname} ${new Date(created_at).toLocaleDateString()}`
-                              : '' }
-                          length="medium"
-                        />
-                    </p>
+                    { this.renderAuthor(reviewItem) }
                 </div>
             </li>
         );
+    };
+
+    renderReviews() {
+        const { product: { reviews } } = this.props;
+        return reviews.map(this.renderReviewListItem);
     }
 
     render() {
-        const { product, areDetailsLoaded } = this.props;
+        const { product } = this.props;
         const hasReviews = product.reviews && Object.keys(product.reviews).length > 0;
-        const placeholderReviewList = [
-            { review_id: 1 },
-            { review_id: 2 },
-            { review_id: 3 }
-        ];
-
-        if (areDetailsLoaded && !hasReviews) return null;
+        if (!hasReviews) return null;
 
         return (
-            <ContentWrapper
-              mix={ { block: 'ProductReviewList' } }
-              wrapperMix={ { block: 'ProductReviewList', elem: 'Wrapper' } }
-              label={ __('Product Review List') }
-            >
-                <>
-                    <h3
-                      block="ProductReviewList"
-                      elem="Title"
-                      id="reviews"
-                    >
-                        <TextPlaceholder content={ areDetailsLoaded ? __('Customer reviews') : '' } />
-                    </h3>
-
-                    <ul block="ProductReviewList" elem="List">
-                        { (areDetailsLoaded ? product.reviews : placeholderReviewList).map(
-                            review => this.renderReviewListItem(review)
-                        ) }
-                    </ul>
-                </>
-            </ContentWrapper>
+            <ul block="ProductReviewList">
+                { this.renderReviews() }
+            </ul>
         );
     }
 }
