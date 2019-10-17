@@ -12,6 +12,7 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
+import media, { PRODUCT_MEDIA } from 'Util/Media';
 import Html from 'Component/Html';
 import Image from 'Component/Image';
 import { ProductType } from 'Type/ProductList';
@@ -20,8 +21,6 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import ExpandableContent from 'Component/ExpandableContent';
 
 import './ProductInformation.style';
-
-export const PRODUCT_IMAGE_PATH = '/media/catalog/product';
 
 export default class ProductInformation extends PureComponent {
     static propTypes = {
@@ -41,7 +40,7 @@ export default class ProductInformation extends PureComponent {
 
     renderImage() {
         const { product: { thumbnail: { path = '' } = {} } } = this.props;
-        const imageUrl = path && `${PRODUCT_IMAGE_PATH}${ path }`;
+        const imageUrl = path && media(`${ PRODUCT_MEDIA }${ path }`);
 
         return (
           <Image

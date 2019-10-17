@@ -27,7 +27,8 @@ export const ONE_DAY_IN_SECONDS = 86400;
 
 export const mapStateToProps = state => ({
     order: state.OrderReducer.order,
-    payload: state.PopupReducer.popupPayload[ORDER_POPUP_ID] || {}
+    payload: state.PopupReducer.popupPayload[ORDER_POPUP_ID] || {},
+    currency_code: state.ConfigReducer.base_currency_code
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -42,7 +43,12 @@ export class MyAccountOrderPopupContainer extends PureComponent {
             increment_id: PropTypes.string
         }).isRequired,
         showNotification: PropTypes.func.isRequired,
-        getOrder: PropTypes.func.isRequired
+        getOrder: PropTypes.func.isRequired,
+        currency_code: PropTypes.string.isRequired
+    };
+
+    static defaultProps = {
+        currency_code: ''
     };
 
     state = {
@@ -70,10 +76,11 @@ export class MyAccountOrderPopupContainer extends PureComponent {
 
     containerProps = () => {
         const { order: stateOrder, isLoading } = this.state;
-        const { payload: { order: payloadOrder } } = this.props;
+        const { payload: { order: payloadOrder }, currency_code } = this.props;
 
         return {
             isLoading,
+            currency_code,
             order: {
                 ...payloadOrder,
                 ...stateOrder
@@ -100,11 +107,9 @@ export class MyAccountOrderPopupContainer extends PureComponent {
     }
 
     render() {
-        const props = this.containerProps();
-
         return (
             <MyAccountOrderPopup
-              { ...props }
+              { ...this.containerProps() }
             />
         );
     }

@@ -10,11 +10,12 @@
  */
 
 import { PureComponent } from 'react';
+
+import media, { PRODUCT_MEDIA } from 'Util/Media';
 import { ProductType } from 'Type/ProductList';
 
 import ProductGallery from './ProductGallery.component';
 
-export const PRODUCT_IMAGE_PATH = '/media/catalog/product';
 export const THUMBNAIL_KEY = 'thumbnail';
 export const AMOUNT_OF_PLACEHOLDERS = 3;
 
@@ -33,7 +34,7 @@ export class ProductGalleryContainer extends PureComponent {
         } = this.props;
 
         if (mediaGallery.length) {
-            return Object.values(mediaGallery.reduce((acc, media, i) => {
+            return Object.values(mediaGallery.reduce((acc, srcMedia, i) => {
                 const {
                     id,
                     file,
@@ -42,7 +43,7 @@ export class ProductGalleryContainer extends PureComponent {
                     position,
                     disabled,
                     media_type
-                } = media;
+                } = srcMedia;
 
                 const canBeShown = !disabled;
                 if (!canBeShown) return acc;
@@ -54,7 +55,7 @@ export class ProductGalleryContainer extends PureComponent {
                     ...acc,
                     [key]: {
                         id: isThumbnail ? THUMBNAIL_KEY : id,
-                        image: `${PRODUCT_IMAGE_PATH}${file}`,
+                        image: media(`${ PRODUCT_MEDIA }${ file }`),
                         alt: label || __('%s - Picture #%s', name, i),
                         type: media_type
                     }
@@ -67,7 +68,7 @@ export class ProductGalleryContainer extends PureComponent {
         }
 
         return [{
-            image: path && `${PRODUCT_IMAGE_PATH}${path}`,
+            image: path && media(`${ PRODUCT_MEDIA }${ path }`),
             id: THUMBNAIL_KEY,
             alt: name,
             type: 'image'

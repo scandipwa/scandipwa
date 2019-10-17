@@ -18,6 +18,7 @@ import { baseOrderInfoType } from 'Type/Account';
 
 class MyAccountOrderTableRow extends PureComponent {
     static propTypes = {
+        currency_code: PropTypes.string.isRequired,
         base_order_info: baseOrderInfoType.isRequired,
         onViewClick: PropTypes.func.isRequired
     };
@@ -30,7 +31,8 @@ class MyAccountOrderTableRow extends PureComponent {
                 increment_id,
                 grand_total
             },
-            onViewClick
+            onViewClick,
+            currency_code
         } = this.props;
 
         return (
@@ -40,7 +42,7 @@ class MyAccountOrderTableRow extends PureComponent {
                 <td>{ status_label }</td>
                 <td block="hidden-mobile">
                     { /* TODO: get currency symbol */ }
-                    { grand_total ? `${grand_total}${formatCurrency()}` : '' }
+                    { grand_total ? `${grand_total}${formatCurrency(currency_code)}` : '' }
                 </td>
             </tr>
         );

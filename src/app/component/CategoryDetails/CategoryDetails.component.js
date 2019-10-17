@@ -10,10 +10,13 @@
  */
 
 import { PureComponent } from 'react';
+
+import media, { CATEGORY_MEDIA } from 'Util/Media';
 import Html from 'Component/Html';
-import TextPlaceholder from 'Component/TextPlaceholder';
 import Image from 'Component/Image';
 import { CategoryTreeType } from 'Type/Category';
+import TextPlaceholder from 'Component/TextPlaceholder';
+
 import './CategoryDetails.style';
 
 /**
@@ -63,10 +66,12 @@ export default class CategoryDetails extends PureComponent {
 
         if (!image) return this.renderCategoryImagePlaceholder();
 
+        const src = image ? media(`${ CATEGORY_MEDIA }${image}`) : '';
+
         return (
             <Image
               mix={ { block: 'CategoryDetails', elem: 'Picture' } }
-              src={ image && `/media/catalog/category/${image}` }
+              src={ src }
               ratio="custom"
               objectFit="cover"
             />
