@@ -10,7 +10,7 @@
  */
 
 import BrowserDatabase from 'Util/BrowserDatabase';
-import { UPDATE_CONFIG, SET_LOADING_STATUS } from './Config.action';
+import { UPDATE_CONFIG } from './Config.action';
 
 export const initialState = BrowserDatabase.getItem('config') || {
     countries: [],
@@ -29,7 +29,7 @@ export const initialState = BrowserDatabase.getItem('config') || {
 const ConfigReducer = (state = initialState, action) => {
     const {
         config: { countries, reviewRatings, storeConfig } = {},
-        type, status
+        type
     } = action;
 
     switch (type) {
@@ -38,13 +38,8 @@ const ConfigReducer = (state = initialState, action) => {
             ...state,
             countries,
             reviewRatings,
-            ...storeConfig
-        };
-
-    case SET_LOADING_STATUS:
-        return {
-            ...state,
-            isLoading: status
+            ...storeConfig,
+            isLoading: false
         };
 
     default:
