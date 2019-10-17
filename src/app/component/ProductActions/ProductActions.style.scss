@@ -56,6 +56,29 @@
         }
     }
 
+    &-Reviews {
+        order: 2;
+        margin-bottom: .5rem;
+
+        @include mobile {
+            display: none;
+        }
+    }
+
+    &-ReviewLabel {
+        display: inline-block;
+        font-weight: 600;
+        margin-left: .5rem;
+
+        span {
+            font-weight: normal;
+
+            &::before {
+                content: ' / ';
+            }
+        }
+    }
+
     &-ShortDescription {
         @include mobile {
             margin: 0 5px;

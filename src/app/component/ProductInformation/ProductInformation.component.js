@@ -10,19 +10,23 @@
  */
 
 import { PureComponent } from 'react';
-import ExpandableContent from 'Component/ExpandableContent';
+import PropTypes from 'prop-types';
+
 import Html from 'Component/Html';
-import ContentWrapper from 'Component/ContentWrapper';
 import Image from 'Component/Image';
 import { ProductType } from 'Type/ProductList';
-import './ProductInformation.style';
+import ContentWrapper from 'Component/ContentWrapper';
 import TextPlaceholder from 'Component/TextPlaceholder';
+import ExpandableContent from 'Component/ExpandableContent';
+
+import './ProductInformation.style';
 
 export const PRODUCT_IMAGE_PATH = '/media/catalog/product';
 
 export default class ProductInformation extends PureComponent {
     static propTypes = {
-        product: ProductType.isRequired
+        product: ProductType.isRequired,
+        areDetailsLoaded: PropTypes.bool.isRequired
     };
 
     renderContentPlaceholder() {
@@ -62,8 +66,15 @@ export default class ProductInformation extends PureComponent {
     }
 
     render() {
-        const { product: { id, description: { html } = {} } } = this.props;
-        if (!html && id) return null;
+        const {
+            product: {
+                id,
+                description: { html } = {}
+            },
+            areDetailsLoaded
+        } = this.props;
+
+        if (!html && id && areDetailsLoaded) return null;
 
         return (
             <ContentWrapper

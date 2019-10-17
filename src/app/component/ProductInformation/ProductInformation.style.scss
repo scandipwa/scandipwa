@@ -59,6 +59,7 @@
         mix-blend-mode: multiply;
         margin-right: 10rem;
         min-width: 30rem;
+        background: none;
 
         @include mobile {
             display: none;
