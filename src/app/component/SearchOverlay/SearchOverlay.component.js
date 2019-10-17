@@ -10,13 +10,16 @@
  */
 
 import { PureComponent } from 'react';
-import Link from 'Component/Link';
 import PropTypes from 'prop-types';
+
+import media, { PRODUCT_MEDIA } from 'Util/Media';
+import Link from 'Component/Link';
 import Image from 'Component/Image';
 import Overlay from 'Component/Overlay';
 import { ItemsType } from 'Type/ProductList';
-import './SearchOverlay.style';
 import TextPlaceholder from 'Component/TextPlaceholder';
+
+import './SearchOverlay.style';
 
 export const SEARCH_TIMEOUT = 500;
 export const AMOUNT_OF_PLACEHOLDERS = 5;
@@ -72,7 +75,7 @@ export default class SearchOverlay extends PureComponent {
             attributes: { brand: { attribute_value: brand } = {} } = {}
         } = product;
 
-        const imageSrc = path ? `/media/catalog/product${ path }` : undefined;
+        const imageSrc = path ? media(`${ PRODUCT_MEDIA }${ path }`) : undefined;
 
         return (
             <li

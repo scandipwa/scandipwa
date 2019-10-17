@@ -10,16 +10,18 @@
  */
 
 import { Component } from 'react';
-import Link from 'Component/Link';
 import PropTypes from 'prop-types';
-import ContentWrapper from 'Component/ContentWrapper';
-import CartItem from 'Component/CartItem';
-import CartCoupon from 'Component/CartCoupon';
-import { TotalsType } from 'Type/MiniCart';
-import isMobile from 'Util/Mobile';
-import ExpandableContent from 'Component/ExpandableContent';
-import { formatCurrency, roundPrice } from 'Util/Price';
+
+import media, { WYSIWYG_MEDIA } from 'Util/Media';
+import Link from 'Component/Link';
 import Meta from 'Component/Meta';
+import isMobile from 'Util/Mobile';
+import CartItem from 'Component/CartItem';
+import { TotalsType } from 'Type/MiniCart';
+import CartCoupon from 'Component/CartCoupon';
+import ContentWrapper from 'Component/ContentWrapper';
+import { formatCurrency, roundPrice } from 'Util/Price';
+import ExpandableContent from 'Component/ExpandableContent';
 
 import './CartPage.style';
 
@@ -158,7 +160,7 @@ export default class CartPage extends Component {
             <img
               block="CartPage"
               elem="PaymentMethods"
-              src="/media/wysiwyg/etc/payment-methods.jpg"
+              src={ media(`${ WYSIWYG_MEDIA }etc/payment-methods.jpg`) }
               alt="Shipping car icon"
             />
         );
@@ -173,7 +175,7 @@ export default class CartPage extends Component {
                 <img
                   block="CartPage"
                   elem="PromoImage"
-                  src="/media/wysiwyg/etc/shipping-car.svg"
+                  src={ media(`${ WYSIWYG_MEDIA }etc/shipping-car.svg`) }
                   alt="Shipping car icon"
                 />
                 <figcaption block="CartPage" elem="PromoText">

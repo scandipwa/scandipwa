@@ -10,12 +10,15 @@
  */
 
 import { PureComponent } from 'react';
-import Image from 'Component/Image';
-import TextPlaceholder from 'Component/TextPlaceholder';
-import ProductPrice from 'Component/ProductPrice';
-import Field from 'Component/Field';
-import { ProductType } from 'Type/ProductList';
 import PropTypes from 'prop-types';
+
+import media, { PRODUCT_MEDIA } from 'Util/Media';
+import Field from 'Component/Field';
+import Image from 'Component/Image';
+import { ProductType } from 'Type/ProductList';
+import ProductPrice from 'Component/ProductPrice';
+import TextPlaceholder from 'Component/TextPlaceholder';
+
 import './GroupedProductsItem.style';
 
 /**
@@ -44,7 +47,7 @@ export default class GroupedProductsItem extends PureComponent {
             <li block="GroupedProductsItem" aria-label="Product Item">
                 <Image
                   mix={ { block: 'GroupedProductsItem', elem: 'Image' } }
-                  src={ thumb_url && `/media/catalog/product${ thumb_url }` }
+                  src={ thumb_url && media(`${ PRODUCT_MEDIA }${ thumb_url }`) }
                   alt="Product Thumbnail"
                 />
                 <div block="GroupedProductsItem" elem="Title">

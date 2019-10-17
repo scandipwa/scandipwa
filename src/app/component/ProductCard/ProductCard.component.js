@@ -11,14 +11,17 @@
 
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+
+import media, { PRODUCT_MEDIA } from 'Util/Media';
 import Link from 'Component/Link';
-import ProductReviewRating from 'Component/ProductReviewRating';
-import { ProductType } from 'Type/ProductList';
-import TextPlaceholder from 'Component/TextPlaceholder';
-import ProductPrice from 'Component/ProductPrice';
 import Image from 'Component/Image';
-import './ProductCard.style';
 import Loader from 'Component/Loader';
+import { ProductType } from 'Type/ProductList';
+import ProductPrice from 'Component/ProductPrice';
+import TextPlaceholder from 'Component/TextPlaceholder';
+import ProductReviewRating from 'Component/ProductReviewRating';
+
+import './ProductCard.style';
 
 /**
  * Product card
@@ -80,8 +83,7 @@ export default class ProductCard extends PureComponent {
 
     renderPicture() {
         const { product: { id, name }, thumbnail } = this.props;
-        const imageUrl = thumbnail && `/media/catalog/product${ thumbnail }`;
-        const fullImageUrl = `//${window.location.hostname}${imageUrl}`;
+        const imageUrl = thumbnail && media(`${ PRODUCT_MEDIA }${ thumbnail }`);
 
         return (
             <>
@@ -95,7 +97,7 @@ export default class ProductCard extends PureComponent {
                 <img
                   style={ { display: 'none' } }
                   alt={ name }
-                  src={ fullImageUrl }
+                  src={ imageUrl }
                   itemProp="image"
                 />
             </>
