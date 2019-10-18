@@ -30,6 +30,7 @@ const checkEveryOption = (attributes, options) => Object.keys(options)
 
 const getIndexedAttributes = attributes => attributes.reduce((indexedAttributes, attribute) => {
     const { attribute_code, attribute_options = [] } = attribute;
+
     return {
         ...indexedAttributes,
         [attribute_code]: {
@@ -60,7 +61,7 @@ const getIndexedVariants = variants => variants.map(({ product }) => {
     const { attributes } = product;
     return {
         ...product,
-        attributes: getIndexedAttributes(attributes)
+        attributes: getIndexedAttributes(attributes || [])
     };
 });
 
@@ -86,7 +87,7 @@ export const getIndexedProduct = (product) => {
         attributes: initialAttributes = []
     } = product;
 
-    const attributes = getIndexedAttributes(initialAttributes);
+    const attributes = getIndexedAttributes(initialAttributes || []);
 
     return {
         ...product,
