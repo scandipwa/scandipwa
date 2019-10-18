@@ -11,7 +11,10 @@
 
 import { PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
+
 import CSS from 'Util/CSS';
+import { MixType } from 'Type/Common';
+
 import './ProductReviewRating.style';
 
 /**
@@ -21,25 +24,25 @@ export default class ProductReviewRating extends PureComponent {
     static propTypes = {
         summary: PropTypes.number,
         code: PropTypes.string,
-        placeholder: PropTypes.bool
+        placeholder: PropTypes.bool,
+        mix: MixType
     };
 
     static defaultProps = {
         summary: 0,
         code: '',
-        placeholder: false
+        placeholder: false,
+        mix: {}
     };
 
     reviewRating = createRef();
 
     componentDidMount() {
-        const { summary } = this.props;
+        this.updateRating();
+    }
 
-        CSS.setVariable(
-            this.reviewRating,
-            'percentage',
-            `${summary}%`
-        );
+    componentDidUpdate() {
+        this.updateRating();
     }
 
     getAriaText(summary, code) {
@@ -49,6 +52,16 @@ export default class ProductReviewRating extends PureComponent {
         return code
             ? `Review's ${code} rating is ${rating} out of 5`
             : `Product's rating is ${rating} out of 5`;
+    }
+
+    updateRating() {
+        const { summary } = this.props;
+
+        CSS.setVariable(
+            this.reviewRating,
+            'percentage',
+            `${summary}%`
+        );
     }
 
     renderPlaceholder() {
@@ -61,7 +74,13 @@ export default class ProductReviewRating extends PureComponent {
     }
 
     render() {
-        const { summary, code, placeholder } = this.props;
+        const {
+            summary,
+            code,
+            placeholder,
+            mix
+        } = this.props;
+
         const ariaText = this.getAriaText(summary, code);
 
         if (placeholder) return this.renderPlaceholder();
@@ -72,6 +91,7 @@ export default class ProductReviewRating extends PureComponent {
               title={ `${summary}%` }
               ref={ this.reviewRating }
               aria-label={ ariaText }
+              mix={ mix }
             />
         );
     }

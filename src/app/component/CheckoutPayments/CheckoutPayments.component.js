@@ -1,15 +1,23 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import CheckoutPayment from 'Component/CheckoutPayment';
-import Braintree from 'Component/Braintree';
 
 import './CheckoutPayments.style';
 import { paymentMethodsType } from 'Type/Checkout';
-import { addressType } from 'Type/Account';
 import PayPal from 'Component/PayPal';
 
-export const BRAINTREE = 'braintree';
 export const CHECK_MONEY = 'checkmo';
 export const PAYPAL_EXPRESS = 'paypal_express';
 
@@ -17,25 +25,14 @@ class CheckoutPayments extends PureComponent {
     static propTypes = {
         selectPaymentMethod: PropTypes.func.isRequired,
         paymentMethods: paymentMethodsType.isRequired,
-        initBraintree: PropTypes.func.isRequired,
         selectedPaymentCode: PropTypes.oneOf([
-            BRAINTREE,
             CHECK_MONEY,
             PAYPAL_EXPRESS
         ]).isRequired
     };
 
     paymentRenderMap = {
-        [BRAINTREE]: this.renderBrainTreePayment.bind(this)
     };
-
-    renderBrainTreePayment() {
-        const { initBraintree } = this.props;
-
-        return (
-            <Braintree init={ initBraintree } />
-        );
-    }
 
     renderPayment = (method) => {
         const {

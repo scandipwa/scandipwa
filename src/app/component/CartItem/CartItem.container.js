@@ -12,10 +12,13 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { PureComponent } from 'react';
-import { CartDispatcher } from 'Store/Cart';
-import { makeCancelable } from 'Util/Promise';
+
+import media, { PRODUCT_MEDIA } from 'Util/Media';
 import { objectToUri } from 'Util/Url';
+import { CartDispatcher } from 'Store/Cart';
 import { CartItemType } from 'Type/MiniCart';
+import { makeCancelable } from 'Util/Promise';
+
 import CartItem from './CartItem.component';
 
 export const mapDispatchToProps = dispatch => ({
@@ -166,9 +169,8 @@ export class CartItemContainer extends PureComponent {
         const product = this.getCurrentProduct();
         const { thumbnail: { path: thumbnail } = {} } = product;
 
-        return thumbnail
-            ? `/media/catalog/product${ thumbnail }`
-            : '';
+        if (!thumbnail) return '';
+        return media(`${ PRODUCT_MEDIA }${ thumbnail }`);
     }
 
     render() {

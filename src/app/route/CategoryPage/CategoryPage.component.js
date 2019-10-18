@@ -27,6 +27,7 @@ export default class CategoryPage extends PureComponent {
         category: CategoryTreeType.isRequired,
         minPriceRange: PropTypes.number.isRequired,
         maxPriceRange: PropTypes.number.isRequired,
+        getIsNewCategory: PropTypes.func.isRequired,
         filters: PropTypes.objectOf(PropTypes.shape).isRequired,
         sortFields: PropTypes.shape({
             options: PropTypes.array
@@ -131,7 +132,8 @@ export default class CategoryPage extends PureComponent {
             filter,
             search,
             selectedSort,
-            selectedFilters
+            selectedFilters,
+            getIsNewCategory
         } = this.props;
 
         return (
@@ -140,6 +142,7 @@ export default class CategoryPage extends PureComponent {
               search={ search }
               sort={ selectedSort }
               selectedFilters={ selectedFilters }
+              getIsNewCategory={ getIsNewCategory }
             />
         );
     }

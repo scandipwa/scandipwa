@@ -1,3 +1,14 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -6,12 +17,13 @@ import { showNotification } from 'Store/Notification';
 import { paymentMethodsType } from 'Type/Checkout';
 import { customerType, addressType } from 'Type/Account';
 import { trimCustomerAddress, trimAddressFields } from 'Util/Address';
+import { TotalsType } from 'Type/MiniCart';
 
-import { BRAINTREE } from 'Component/CheckoutPayments/CheckoutPayments.component';
 import CheckoutBilling from './CheckoutBilling.component';
 
 export const mapStateToProps = state => ({
-    customer: state.MyAccountReducer.customer
+    customer: state.MyAccountReducer.customer,
+    totals: state.CartReducer.cartTotals
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -24,8 +36,26 @@ export class CheckoutBillingContainer extends PureComponent {
         paymentMethods: paymentMethodsType.isRequired,
         savePaymentInformation: PropTypes.func.isRequired,
         shippingAddress: addressType.isRequired,
-        customer: customerType.isRequired
+        customer: customerType.isRequired,
+        totals: TotalsType.isRequired
     };
+
+    static getDerivedStateFromProps(props, state) {
+        const { paymentMethod, prevPaymentMethods } = state;
+        const { paymentMethods } = props;
+
+        if (!prevPaymentMethods.length && !paymentMethod) {
+            const [method] = paymentMethods;
+            const { code: paymentMethod } = method || {};
+
+            return {
+                prevPaymentMethods: paymentMethods,
+                paymentMethod
+            };
+        }
+
+        return null;
+    }
 
     containerFunctions = {
         onBillingSuccess: this.onBillingSuccess.bind(this),
@@ -38,12 +68,14 @@ export class CheckoutBillingContainer extends PureComponent {
     constructor(props) {
         super(props);
 
-        const { paymentMethods } = props;
-        const [{ code: paymentMethod }] = paymentMethods;
+        const { paymentMethods, totals: { is_virtual } } = props;
+        const [method] = paymentMethods;
+        const { code: paymentMethod } = method || {};
 
         this.state = {
-            isSameAsShipping: true,
+            isSameAsShipping: !is_virtual,
             selectedCustomerAddressId: 0,
+            prevPaymentMethods: paymentMethods,
             paymentMethod
         };
     }
@@ -80,20 +112,11 @@ export class CheckoutBillingContainer extends PureComponent {
         }
     }
 
+    // eslint-disable-next-line no-unused-vars
     _getPaymentData(asyncData) {
         const { paymentMethod: method } = this.state;
 
         switch (method) {
-        case BRAINTREE:
-            const [{ nonce }] = asyncData;
-            console.log(asyncData);
-
-            return {
-                method,
-                additional_data: {
-                    payment_method_nonce: nonce
-                }
-            };
         default:
             return { method };
         }
@@ -111,7 +134,8 @@ export class CheckoutBillingContainer extends PureComponent {
         if (!selectedCustomerAddressId) return trimAddressFields(fields);
 
         const { customer: { addresses } } = this.props;
-        const address = addresses.find(({ id }) => id === addressId);
+        const address = addresses.find(({ id }) => id !== selectedCustomerAddressId);
+
         return trimCustomerAddress(address);
     }
 

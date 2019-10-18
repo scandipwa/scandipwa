@@ -1,3 +1,14 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
 export const trimCustomerAddress = (customerAddress) => {
     const {
         city,
@@ -10,7 +21,7 @@ export const trimCustomerAddress = (customerAddress) => {
         postcode,
         street,
         telephone,
-        region,
+        region
     } = customerAddress;
 
     return {

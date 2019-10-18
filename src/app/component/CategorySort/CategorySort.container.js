@@ -1,3 +1,14 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import CategorySort from './CategorySort.component';
@@ -35,6 +46,11 @@ export class CategorySortContainer extends PureComponent {
             return {
                 asc: __('%s: A to Z', label),
                 desc: __('%s: Z to A', label)
+            };
+        case 'position':
+            return {
+                asc: __('%s: Ascending', label),
+                desc: __('%s: Descending', label)
             };
         default:
             return {};

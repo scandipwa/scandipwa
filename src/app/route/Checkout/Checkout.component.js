@@ -1,3 +1,14 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
@@ -12,8 +23,10 @@ import { addressType } from 'Type/Account';
 import { TotalsType } from 'Type/MiniCart';
 import { HistoryType } from 'Type/Common';
 import Loader from 'Component/Loader';
+import Meta from 'Component/Meta';
 
 import './Checkout.style';
+import Link from 'Component/Link';
 
 export const SHIPPING_STEP = 'SHIPPING_STEP';
 export const BILLING_STEP = 'BILLING_STEP';
@@ -42,17 +55,17 @@ class Checkout extends PureComponent {
 
     stepMap = {
         [SHIPPING_STEP]: {
-            title: __('1. Shipping step'),
+            title: __('Shipping step'),
             render: this.renderShippingStep.bind(this),
             areTotalsVisible: true
         },
         [BILLING_STEP]: {
-            title: __('2. Billing step'),
+            title: __('Billing step'),
             render: this.renderBillingStep.bind(this),
             areTotalsVisible: true
         },
         [DETAILS_STEP]: {
-            title: __('3. Order details'),
+            title: __('Thank you for your purchase!'),
             render: this.renderDetailsStep.bind(this),
             areTotalsVisible: false
         }
@@ -124,7 +137,7 @@ class Checkout extends PureComponent {
 
     renderBillingStep() {
         const {
-            paymentMethods,
+            paymentMethods = [],
             shippingAddress,
             savePaymentInformation
         } = this.props;
@@ -142,9 +155,16 @@ class Checkout extends PureComponent {
         const { orderID } = this.props;
 
         return (
-            <div>
-                <h3>{ __('Order is successfully placed!') }</h3>
-                <p>{ __('Your order ID is: %s', orderID) }</p>
+            <div block="Checkout" elem="Success">
+                <p>{ __('Your order # is: %s', orderID) }</p>
+                <p>{ __('We`ll email you an order confirmation with details and tracking info.') }</p>
+                <a
+                  block="Button"
+                  mix={ { block: 'Checkout', elem: 'ContinueButton' } }
+                  href="/"
+                >
+                    { __('Continue shopping') }
+                </a>
             </div>
         );
     }
@@ -175,6 +195,7 @@ class Checkout extends PureComponent {
     render() {
         return (
             <main block="Checkout">
+                <Meta metaObject={ { title: 'Checkout' } } />
                 <ContentWrapper
                   wrapperMix={ { block: 'Checkout', elem: 'Wrapper' } }
                   label={ __('Checkout page') }

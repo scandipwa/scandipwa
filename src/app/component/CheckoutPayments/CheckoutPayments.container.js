@@ -1,12 +1,21 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import BraintreeDropIn from 'Util/Braintree';
 import { paymentMethodsType } from 'Type/Checkout';
 
-import { BRAINTREE_CONTAINER_ID } from 'Component/Braintree/Braintree.component';
 import { BILLING_STEP } from 'Route/Checkout/Checkout.component';
-import CheckoutPayments, { BRAINTREE } from './CheckoutPayments.component';
+import CheckoutPayments from './CheckoutPayments.component';
 
 export class CheckoutPaymentsContainer extends PureComponent {
     static propTypes = {
@@ -15,22 +24,19 @@ export class CheckoutPaymentsContainer extends PureComponent {
     };
 
     containerFunctions = {
-        selectPaymentMethod: this.selectPaymentMethod.bind(this),
-        getBraintreeData: this.getBraintreeData.bind(this),
-        initBraintree: this.initBraintree.bind(this)
+        selectPaymentMethod: this.selectPaymentMethod.bind(this)
     };
 
-    braintree = new BraintreeDropIn(BRAINTREE_CONTAINER_ID);
-
     dataMap = {
-        [BRAINTREE]: this.getBraintreeData.bind(this)
     };
 
     constructor(props) {
         super(props);
 
         const { paymentMethods } = props;
-        const [{ code }] = paymentMethods;
+        const [method] = paymentMethods;
+        const { code } = method || {};
+
         this.state = { selectedPaymentCode: code };
     }
 
@@ -46,10 +52,6 @@ export class CheckoutPaymentsContainer extends PureComponent {
         }
     }
 
-    getBraintreeData() {
-        return { asyncData: this.braintree.requestPaymentNonce() };
-    }
-
     collectAdditionalData = () => {
         const { selectedPaymentCode } = this.state;
         const additionalDataGetter = this.dataMap[selectedPaymentCode];
@@ -57,15 +59,10 @@ export class CheckoutPaymentsContainer extends PureComponent {
         return additionalDataGetter();
     };
 
-    initBraintree() {
-        return this.braintree.create();
-    }
-
     selectPaymentMethod(paymentMethod) {
         const { onPaymentMethodSelect } = this.props;
         const { code } = paymentMethod;
         this.setState({ selectedPaymentCode: code });
-        console.log(code);
         onPaymentMethodSelect(code);
     }
 

@@ -23,6 +23,7 @@ import { ProductListReducer } from 'Store/ProductList';
 import { ProductListInfoReducer } from 'Store/ProductListInfo';
 import { HeaderAndFooterReducer } from 'Store/HeaderAndFooter';
 import { CartReducer } from 'Store/Cart';
+import { OrderReducer } from 'Store/Order';
 import { WishlistReducer } from 'Store/Wishlist';
 import { NoMatchReducer } from 'Store/NoMatch';
 import { RelatedProductsReducer } from 'Store/RelatedProducts';
@@ -45,6 +46,7 @@ export const reducers = {
     ProductListInfoReducer,
     HeaderAndFooterReducer,
     CartReducer,
+    OrderReducer,
     WishlistReducer,
     NoMatchReducer,
     RelatedProductsReducer,

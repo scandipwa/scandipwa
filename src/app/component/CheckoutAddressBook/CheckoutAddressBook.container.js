@@ -1,3 +1,14 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -27,7 +38,7 @@ export class CheckoutAddressBookContainer extends PureComponent {
     static defaultProps = {
         isBilling: false,
         onAddressSelect: () => {},
-        onShippingEstimationFieldsChange:  () => {}
+        onShippingEstimationFieldsChange: () => {}
     };
 
     static _getDefaultAddressId(props) {
@@ -112,6 +123,7 @@ export class CheckoutAddressBookContainer extends PureComponent {
         const {
             city,
             country_id,
+            postcode,
             region: {
                 region_id,
                 region
@@ -124,7 +136,8 @@ export class CheckoutAddressBookContainer extends PureComponent {
             city,
             country_id,
             region_id,
-            region
+            region,
+            postcode
         });
     }
 

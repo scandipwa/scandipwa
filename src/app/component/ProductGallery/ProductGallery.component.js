@@ -75,7 +75,6 @@ export default class ProductGallery extends PureComponent {
             image = '',
             isPlaceholder
         } = media;
-        const fullImageUrl = `//${window.location.hostname}${image}`;
 
         switch (type) {
         case 'image':
@@ -95,7 +94,7 @@ export default class ProductGallery extends PureComponent {
                     <img
                       style={ { display: 'none' } }
                       alt={ name }
-                      src={ fullImageUrl }
+                      src={ image }
                       itemProp="image"
                     />
                 </Fragment>

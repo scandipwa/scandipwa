@@ -42,6 +42,7 @@ const a_KEY_CODE = 97;
  */
 export default class Field extends PureComponent {
     static propTypes = {
+        skipValue: PropTypes.bool,
         id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
         type: PropTypes.oneOf([
@@ -117,7 +118,8 @@ export default class Field extends PureComponent {
         message: '',
         placeholder: '',
         autocomplete: 'off',
-        validation: []
+        validation: [],
+        skipValue: false
     };
 
     onChange = this.onChange.bind(this);
@@ -144,9 +146,10 @@ export default class Field extends PureComponent {
         super(props);
 
         const { checked } = props;
+        const value = this._getInitialPropsValue();
 
         this.state = {
-            value: this._getInitialPropsValue(),
+            value,
             valueIndex: -1,
             checked,
             searchString: 'a',
@@ -373,13 +376,15 @@ export default class Field extends PureComponent {
             placeholder,
             autocomplete,
             formRef,
-            isDisabled
+            isDisabled,
+            skipValue
         } = this.props;
 
         const { value } = this.state;
 
         return (
             <input
+              data-skip-value={ skipValue }
               ref={ formRef }
               type="text"
               id={ id }
@@ -401,12 +406,15 @@ export default class Field extends PureComponent {
             name,
             placeholder,
             formRef,
-            isDisabled
+            isDisabled,
+            skipValue
         } = this.props;
+
         const { value } = this.state;
 
         return (
             <input
+              data-skip-value={ skipValue }
               ref={ formRef }
               type="password"
               autoComplete="current-password"
@@ -429,13 +437,15 @@ export default class Field extends PureComponent {
             formRef,
             min,
             max,
-            isDisabled
+            isDisabled,
+            skipValue
         } = this.props;
         const { value } = this.state;
 
         return (
             <>
                 <input
+                  data-skip-value={ skipValue }
                   ref={ formRef }
                   type="number"
                   id={ id }
@@ -469,13 +479,15 @@ export default class Field extends PureComponent {
             name,
             formRef,
             isDisabled,
-            value
+            value,
+            skipValue
         } = this.props;
         const { checked } = this.state;
 
         return (
             <>
                 <input
+                  data-skip-value={ skipValue }
                   ref={ formRef }
                   id={ id }
                   name={ name }
@@ -498,12 +510,14 @@ export default class Field extends PureComponent {
             value,
             isDisabled,
             label,
-            checked
+            checked,
+            skipValue
         } = this.props;
 
         return (
             <label htmlFor={ id }>
                 <input
+                  data-skip-value={ skipValue }
                   ref={ formRef }
                   type="radio"
                   id={ id }
@@ -517,38 +531,6 @@ export default class Field extends PureComponent {
                 <label htmlFor={ id } />
                 { label }
             </label>
-        );
-    }
-
-    static renderMultipleRadioButtons(radioOptions, fieldSetId, fieldSetName = null) {
-        const name = fieldSetName || fieldSetId;
-
-        return (
-            <fieldset id={ fieldSetId } name={ name }>
-                { radioOptions.map((radioButton) => {
-                    const {
-                        id,
-                        name,
-                        value,
-                        isDisabled,
-                        checked,
-                        label
-                    } = radioButton;
-
-                    return (
-                        <Field
-                          key={ id }
-                          type={ RADIO_TYPE }
-                          id={ id }
-                          name={ name }
-                          value={ value }
-                          disabled={ isDisabled }
-                          checked={ checked }
-                          label={ label }
-                        />
-                    );
-                }) }
-            </fieldset>
         );
     }
 

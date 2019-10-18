@@ -1,19 +1,21 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 import { shippingMethodsType } from 'Type/Checkout';
 import { SHIPPING_STEP } from 'Route/Checkout/Checkout.component';
 
 import CheckoutDeliveryOptions from './CheckoutDeliveryOptions.component';
-
-export const mapStateToProps = state => ({
-    // wishlistItems: state.WishlistReducer.productsInWishlist
-});
-
-export const mapDispatchToProps = dispatch => ({
-    // addProduct: options => CartDispatcher.addProductToCart(dispatch, options)
-});
 
 export class CheckoutDeliveryOptionsContainer extends PureComponent {
     static propTypes = {
@@ -62,7 +64,7 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
 
         if (selectedShippingMethodCode !== prevSelectedShippingMethodCode) {
             const shippingMethod = shippingMethods.find(
-                ({ carrier_code }) => carrier_code === selectedShippingMethodCode
+                ({ method_code }) => method_code === selectedShippingMethodCode
             );
 
             onShippingMethodSelect(shippingMethod);
@@ -100,8 +102,8 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
 
     selectShippingMethod(shippingMethod) {
         const { onShippingMethodSelect } = this.props;
-        const { carrier_code } = shippingMethod;
-        this.setState({ selectedShippingMethodCode: carrier_code });
+        const { method_code } = shippingMethod;
+        this.setState({ selectedShippingMethodCode: method_code });
         onShippingMethodSelect(shippingMethod);
     }
 
@@ -116,4 +118,4 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CheckoutDeliveryOptionsContainer);
+export default CheckoutDeliveryOptionsContainer;

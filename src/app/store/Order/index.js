@@ -9,4 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default } from './MyAccountWishlist.container';
+export * from './Order.action';
+export { default as OrderReducer } from './Order.reducer';
+export { default as OrderDispatcher } from './Order.dispatcher';

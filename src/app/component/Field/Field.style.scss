@@ -141,7 +141,8 @@ $select-arrow-width: 6px !default;
     }
 
     &_hasError {
-        input {
+        input,
+        textarea {
             border: 1px solid $primary-dark-color;
         }
     }

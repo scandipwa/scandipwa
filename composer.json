@@ -20,8 +20,8 @@
         "scandipwa/catalog-graphql": "^2.1.1",
         "scandipwa/route717": "^1.3",
         "scandipwa/customer-graph-ql": "^2.0",
-        "scandipwa/quote-graphql": "^2.4.1",
-        "scandipwa/wishlist-graphql": "^1.0",
+        "scandipwa/quote-graphql": "^2.6.0",
+        "scandipwa/wishlist-graphql": "^1.2.0",
         "scandipwa/urlrewrite-graphql": "^1.0",
         "scandipwa/reviews-graphql": "^1.0"
     },

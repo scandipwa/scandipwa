@@ -1,3 +1,14 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
@@ -6,15 +17,11 @@ import CheckoutDeliveryOption from 'Component/CheckoutDeliveryOption';
 
 import './CheckoutDeliveryOptions.style';
 
-export const FLAT_RATE = 'flatrate';
-
 class CheckoutDeliveryOptions extends PureComponent {
     static propTypes = {
         shippingMethods: shippingMethodsType.isRequired,
         selectShippingMethod: PropTypes.func.isRequired,
-        selectedShippingMethodCode: PropTypes.oneOf([
-            FLAT_RATE
-        ])
+        selectedShippingMethodCode: PropTypes.string
     };
 
     static defaultProps = {
@@ -37,12 +44,12 @@ class CheckoutDeliveryOptions extends PureComponent {
             selectShippingMethod
         } = this.props;
 
-        const { carrier_code } = option;
-        const isSelected = selectedShippingMethodCode === carrier_code;
+        const { method_code } = option;
+        const isSelected = selectedShippingMethodCode === method_code;
 
         return (
             <CheckoutDeliveryOption
-              key={ carrier_code }
+              key={ method_code }
               isSelected={ isSelected }
               option={ option }
               onClick={ selectShippingMethod }
