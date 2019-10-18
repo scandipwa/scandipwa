@@ -33,58 +33,16 @@ export default class PayPal extends PureComponent {
     static propTypes = {
         isDisabled: PropTypes.bool,
         paypal: PropTypes.any.isRequired,
-        cartTotals: PropTypes.shape({}).isRequired
+        cartTotals: PropTypes.shape({}).isRequired,
+        onError: PropTypes.func.isRequired,
+        onCancel: PropTypes.func.isRequired,
+        onApprove: PropTypes.func.isRequired,
+        createOrder: PropTypes.func.isRequired
     };
 
     static defaultProps = {
         isDisabled: false
     };
-
-    onApprove = async (data) => {
-        const { orderID, payerID } = data;
-        const guest_cart_id = this._getGuestQuoteId();
-
-        await fetchMutation(CheckoutQuery.getSetPaymentMethodOnCartMutation({
-            guest_cart_id,
-            payment_method: {
-                code: 'paypal_express',
-                paypal_express: {
-                    token: orderID,
-                    payer_id: payerID
-                }
-            }
-        }));
-
-        await fetchMutation(CheckoutQuery.getPlaceOrderMutation(guest_cart_id));
-    };
-
-    onCancel = (data) => {
-        console.log('CANCELED', data);
-    };
-
-    onError = (err) => {
-        console.log('ERROR', err);
-    };
-
-    createOrder = async () => {
-        const guest_cart_id = this._getGuestQuoteId();
-
-        const {
-            paypalExpress: { token }
-        } = await fetchMutation(PayPalQuery.getCreatePaypalExpressTokenMutation({
-            guest_cart_id,
-            express_button: false,
-            code: 'paypal_express',
-            urls: {
-                cancel_url: 'www.paypal.com/checkoutnow/error',
-                return_url: 'www.paypal.com/checkoutnow/error'
-            }
-        }));
-
-        return token;
-    };
-
-    _getGuestQuoteId = () => (isSignedIn() ? '' : CartDispatcher._getGuestQuoteId());
 
     getPayPalScript = () => {
         //! TODO: get client id / sandbox enabled from server
@@ -104,7 +62,13 @@ export default class PayPal extends PureComponent {
     };
 
     renderButtons() {
-        const { paypal } = this.props;
+        const {
+            paypal,
+            onError,
+            onCancel,
+            onApprove,
+            createOrder
+        } = this.props;
 
         if (!paypal) return null;
 
@@ -113,10 +77,10 @@ export default class PayPal extends PureComponent {
         return (
             <PayPalButton
               env="sandbox"
-              onError={ this.onError }
-              onCancel={ this.onCancel }
-              onApprove={ this.onApprove }
-              createOrder={ this.createOrder }
+              onError={ onError }
+              onCancel={ onCancel }
+              onApprove={ onApprove }
+              createOrder={ createOrder }
               style={ { layout: 'horizontal', label: 'pay' } }
             />
         );
