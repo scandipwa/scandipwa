@@ -12,12 +12,7 @@
 import React, { PureComponent } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-
 import Html from 'Component/Html';
-import { isSignedIn } from 'Util/Auth';
-import { CartDispatcher } from 'Store/Cart';
-import { fetchMutation } from 'Util/Request';
-import { PayPalQuery, CheckoutQuery } from 'Query';
 
 import './PayPal.style';
 
@@ -33,11 +28,16 @@ export default class PayPal extends PureComponent {
     static propTypes = {
         isDisabled: PropTypes.bool,
         paypal: PropTypes.any.isRequired,
+        clientId: PropTypes.string.isRequired,
         cartTotals: PropTypes.shape({}).isRequired,
         onError: PropTypes.func.isRequired,
         onCancel: PropTypes.func.isRequired,
         onApprove: PropTypes.func.isRequired,
-        createOrder: PropTypes.func.isRequired
+        createOrder: PropTypes.func.isRequired,
+        environment: PropTypes.oneOf([
+            'production',
+            'sandbox'
+        ]).isRequired
     };
 
     static defaultProps = {
@@ -45,10 +45,10 @@ export default class PayPal extends PureComponent {
     };
 
     getPayPalScript = () => {
-        //! TODO: get client id / sandbox enabled from server
-        const { cartTotals: { base_currency_code: currency } } = this.props;
-
-        const clientId = 'AXmZAtF_N3bY3PWr3P7ZRvcW1ths0KZZXX_mtylTcvcOyFzNiImGm5WQj5IggMy3YhjZ5a9QDE6Hy4ZD';
+        const {
+            clientId,
+            cartTotals: { base_currency_code: currency }
+        } = this.props;
 
         const params = {
             currency,
@@ -67,7 +67,8 @@ export default class PayPal extends PureComponent {
             onError,
             onCancel,
             onApprove,
-            createOrder
+            createOrder,
+            environment
         } = this.props;
 
         if (!paypal) return null;
@@ -76,7 +77,7 @@ export default class PayPal extends PureComponent {
 
         return (
             <PayPalButton
-              env="sandbox"
+              env={ environment }
               onError={ onError }
               onCancel={ onCancel }
               onApprove={ onApprove }

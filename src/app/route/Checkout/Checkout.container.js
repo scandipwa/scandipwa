@@ -48,6 +48,7 @@ export class CheckoutContainer extends PureComponent {
     };
 
     containerFunctions = {
+        updateState: this.updateState.bind(this),
         onShippingEstimationFieldsChange: this.onShippingEstimationFieldsChange.bind(this),
         savePaymentInformation: this.savePaymentInformation.bind(this),
         saveAddressInformation: this.saveAddressInformation.bind(this)
@@ -204,6 +205,10 @@ export class CheckoutContainer extends PureComponent {
             },
             this._handleError
         );
+    }
+
+    updateState(newState) {
+        this.setState({ ...newState });
     }
 
     render() {

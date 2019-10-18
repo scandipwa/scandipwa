@@ -26,7 +26,6 @@ import Loader from 'Component/Loader';
 import Meta from 'Component/Meta';
 
 import './Checkout.style';
-import Link from 'Component/Link';
 
 export const SHIPPING_STEP = 'SHIPPING_STEP';
 export const BILLING_STEP = 'BILLING_STEP';
@@ -34,6 +33,7 @@ export const DETAILS_STEP = 'DETAILS_STEP';
 
 class Checkout extends PureComponent {
     static propTypes = {
+        updateState: PropTypes.func.isRequired,
         shippingMethods: shippingMethodsType.isRequired,
         onShippingEstimationFieldsChange: PropTypes.func.isRequired,
         setHeaderState: PropTypes.func.isRequired,
@@ -137,6 +137,7 @@ class Checkout extends PureComponent {
 
     renderBillingStep() {
         const {
+            updateState,
             paymentMethods = [],
             shippingAddress,
             savePaymentInformation
@@ -145,6 +146,7 @@ class Checkout extends PureComponent {
         return (
             <CheckoutBilling
               paymentMethods={ paymentMethods }
+              updateCheckoutState={ updateState }
               shippingAddress={ shippingAddress }
               savePaymentInformation={ savePaymentInformation }
             />

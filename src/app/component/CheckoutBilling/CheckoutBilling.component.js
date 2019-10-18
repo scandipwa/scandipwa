@@ -23,7 +23,12 @@ import Field from 'Component/Field';
 import './CheckoutBilling.style';
 
 class CheckoutBilling extends PureComponent {
+    state = {
+        showCompleteOrder: true
+    };
+
     static propTypes = {
+        updateCheckoutState: PropTypes.func.isRequired,
         isSameAsShipping: PropTypes.bool.isRequired,
         onSameAsShippingChange: PropTypes.func.isRequired,
         onPaymentMethodSelect: PropTypes.func.isRequired,
@@ -34,7 +39,22 @@ class CheckoutBilling extends PureComponent {
         totals: TotalsType.isRequired
     };
 
+    toggleCompleteOrderButton = (show) => {
+        const { showCompleteOrder } = this.state;
+
+        if (show === undefined) {
+            this.setState({ showCompleteOrder: !showCompleteOrder });
+            return;
+        }
+
+        this.setState({ showCompleteOrder: show });
+    };
+
     renderActions() {
+        const { showCompleteOrder } = this.state;
+
+        if (!showCompleteOrder) return null;
+
         return (
             <button
               type="submit"
@@ -84,14 +104,16 @@ class CheckoutBilling extends PureComponent {
     }
 
     renderPayments() {
-        const { paymentMethods, onPaymentMethodSelect } = this.props;
+        const { paymentMethods, onPaymentMethodSelect, updateCheckoutState } = this.props;
 
         if (!paymentMethods.length) return null;
 
         return (
             <CheckoutPayments
               paymentMethods={ paymentMethods }
+              updateCheckoutState={ updateCheckoutState }
               onPaymentMethodSelect={ onPaymentMethodSelect }
+              toggleCompleteOrderButton={ this.toggleCompleteOrderButton }
             />
         );
     }

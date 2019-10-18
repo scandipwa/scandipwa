@@ -23,8 +23,10 @@ export const PAYPAL_EXPRESS = 'paypal_express';
 
 class CheckoutPayments extends PureComponent {
     static propTypes = {
+        updateCheckoutState: PropTypes.func.isRequired,
         selectPaymentMethod: PropTypes.func.isRequired,
         paymentMethods: paymentMethodsType.isRequired,
+        toggleCompleteOrderButton: PropTypes.func.isRequired,
         selectedPaymentCode: PropTypes.oneOf([
             CHECK_MONEY,
             PAYPAL_EXPRESS
@@ -33,6 +35,23 @@ class CheckoutPayments extends PureComponent {
 
     paymentRenderMap = {
     };
+
+    componentDidUpdate(prevProps) {
+        const { selectedPaymentCode, toggleCompleteOrderButton } = this.props;
+        const { selectedPaymentCode: prevselectedPaymentCode } = prevProps;
+
+        console.log(selectedPaymentCode, prevselectedPaymentCode);
+
+        if (selectedPaymentCode !== prevselectedPaymentCode) {
+            if (selectedPaymentCode === PAYPAL_EXPRESS) {
+                toggleCompleteOrderButton(false);
+            }
+
+            if (prevselectedPaymentCode === PAYPAL_EXPRESS) {
+                toggleCompleteOrderButton(true);
+            }
+        }
+    }
 
     renderPayment = (method) => {
         const {
@@ -74,8 +93,14 @@ class CheckoutPayments extends PureComponent {
     }
 
     renderPayPal() {
-        const { selectedPaymentCode } = this.props;
-        return <PayPal isDisabled={ selectedPaymentCode !== PAYPAL_EXPRESS } />;
+        const { selectedPaymentCode, updateCheckoutState } = this.props;
+
+        return (
+            <PayPal
+              updateCheckoutState={ updateCheckoutState }
+              isDisabled={ selectedPaymentCode !== PAYPAL_EXPRESS }
+            />
+        );
     }
 
     render() {

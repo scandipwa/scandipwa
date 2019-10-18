@@ -17,6 +17,7 @@ import { CartDispatcher } from 'Store/Cart';
 import { fetchMutation } from 'Util/Request';
 import { CheckoutQuery, PayPalQuery } from 'Query';
 import { showNotification } from 'Store/Notification';
+import { DETAILS_STEP } from 'Route/Checkout/Checkout.component';
 import PayPal from './PayPal.component';
 
 export const PAYPAL_SCRIPT = 'PAYPAL_SCRIPT';
@@ -31,7 +32,8 @@ export const mapDispatchToProps = dispatch => ({
 
 export class PayPalContainer extends PureComponent {
     static propTypes = {
-        showNotification: PropTypes.func.isRequired
+        showNotification: PropTypes.func.isRequired,
+        updateCheckoutState: PropTypes.func.isRequired
     };
 
     componentDidMount() {
@@ -40,7 +42,9 @@ export class PayPalContainer extends PureComponent {
     }
 
     containerProps = () => ({
-        paypal: this.getPayPal()
+        paypal: this.getPayPal(),
+        clientId: this.getClientID(),
+        environment: this.getEnvironment()
     });
 
     containerFunctions = () => ({
@@ -51,21 +55,35 @@ export class PayPalContainer extends PureComponent {
     });
 
     onApprove = async (data) => {
+        const { showNotification, updateCheckoutState } = this.props;
         const { orderID, payerID } = data;
         const guest_cart_id = this._getGuestQuoteId();
 
-        await fetchMutation(CheckoutQuery.getSetPaymentMethodOnCartMutation({
-            guest_cart_id,
-            payment_method: {
-                code: 'paypal_express',
-                paypal_express: {
-                    token: orderID,
-                    payer_id: payerID
+        try {
+            updateCheckoutState({ isLoading: true });
+            await fetchMutation(CheckoutQuery.getSetPaymentMethodOnCartMutation({
+                guest_cart_id,
+                payment_method: {
+                    code: 'paypal_express',
+                    paypal_express: {
+                        token: orderID,
+                        payer_id: payerID
+                    }
                 }
-            }
-        }));
+            }));
 
-        await fetchMutation(CheckoutQuery.getPlaceOrderMutation(guest_cart_id));
+            const orderData = await fetchMutation(CheckoutQuery.getPlaceOrderMutation(guest_cart_id));
+
+            const { placeOrder: { order: { order_id } } } = orderData;
+
+            updateCheckoutState({
+                isLoading: false,
+                orderID: order_id,
+                checkoutStep: DETAILS_STEP
+            });
+        } catch (e) {
+            showNotification('error', 'Something went wrong');
+        }
     };
 
     onCancel = (data) => {
@@ -81,6 +99,16 @@ export class PayPalContainer extends PureComponent {
     getPayPal = () => {
         const { paypal } = window;
         return paypal || false;
+    };
+
+    getClientID = () => {
+        const { PAYPAL_CLIENT_ID } = process.env;
+        return PAYPAL_CLIENT_ID || 'sb';
+    };
+
+    getEnvironment = () => {
+        const { PAYPAL_SANDBOX_STATUS } = process.env;
+        return PAYPAL_SANDBOX_STATUS === 'ENABLED' ? 'sandbox' : 'production';
     };
 
     createOrder = async () => {
