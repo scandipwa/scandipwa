@@ -135,13 +135,27 @@ export default class ProductAttributeValue extends Component {
     }
 
     renderImageValue(img, label) {
+        const { isSelected } = this.props;
+
         return (
-            <img
-              block="ProductAttributeValue"
-              elem="Image"
-              src={ img }
-              alt={ label }
-            />
+            <>
+                <img
+                  block="ProductAttributeValue"
+                  elem="Image"
+                  src={ `/media/attribute/swatch${img}` }
+                  alt={ label }
+                  mods={ { isSelected } }
+                />
+                <data
+                  block="ProductAttributeValue"
+                  elem="Image-Overlay"
+                  value={ label }
+                  title={ label }
+                  style={ {
+                      '--option-is-selected': +isSelected
+                  } }
+                />
+            </>
         );
     }
 
@@ -153,7 +167,7 @@ export default class ProductAttributeValue extends Component {
               block="ProductAttributeValue"
               elem="String"
               mods={ { isSelected } }
-              title={ label }
+              title={ label || value }
             >
                 { value }
             </span>
