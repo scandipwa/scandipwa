@@ -43,14 +43,11 @@
         height: var(--option-size);
         width: var(--option-size);
         margin: var(--option-margin);
-    }
-
-    &-Color,
-    &-String {
         padding: var(--option-padding);
     }
 
     &-Image {
+        padding: 0;
         border-radius: 50%;
         position: relative;
     }
