@@ -144,7 +144,6 @@ export default class ProductAttributeValue extends Component {
                   elem="Image"
                   src={ `/media/attribute/swatch${img}` }
                   alt={ label }
-                  mods={ { isSelected } }
                 />
                 <data
                   block="ProductAttributeValue"
