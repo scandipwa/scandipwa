@@ -132,6 +132,56 @@
         }
     }
 
+    &-Text {
+        display: flex;
+        border: 0;
+        align-items: center;
+        margin: 0;
+        text-transform: uppercase;
+
+        &_isSelected {
+            color: var(--color-primary-base);
+        }
+
+        label {
+            font-weight: 400;
+            margin: 0;
+            cursor: pointer;
+
+            &:first-of-type {
+                order: 1;
+                padding-left: 1rem;
+                padding-bottom: 0;
+
+                ~ label {
+                    margin: 0;
+                }
+            }
+        }
+
+        &:hover {
+            label {
+                @include after-mobile {
+                    border-color: $primary-base-color;
+                }
+
+                &::after {
+                    @include after-mobile {
+                        --checkmark-color: #{$dusty-grey};
+                    }
+                }
+            }
+        }
+
+        @include after-mobile {
+            padding: 0;
+        }
+    }
+
+    &:hover {
+        text-decoration: none;
+    }
+
     &_isNotAvailable {
         opacity: .25;
         pointer-events: none;
