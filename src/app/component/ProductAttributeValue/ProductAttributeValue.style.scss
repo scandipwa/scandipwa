@@ -34,7 +34,8 @@
 
     &-Color,
     &-String,
-    &-Image {
+    &-Image,
+    &-Text {
         background-color: var(--option-background-color);
         border-color: var(--option-border-color);
         border-width: 1px;
@@ -117,7 +118,8 @@
         }
     }
 
-    &-String {
+    &-String,
+    &-Text {
         border-style: solid;
         line-height: var(--option-size);
         min-width: calc(1.25 * var(--option-size));

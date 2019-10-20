@@ -160,11 +160,12 @@ export default class ProductAttributeValue extends Component {
 
     renderStringValue(value, label) {
         const { isSelected } = this.props;
+        const isNotSwatch = !label;
 
         return (
             <span
               block="ProductAttributeValue"
-              elem="String"
+              elem={ isNotSwatch ? 'Text' : 'String' }
               mods={ { isSelected } }
               title={ label || value }
             >

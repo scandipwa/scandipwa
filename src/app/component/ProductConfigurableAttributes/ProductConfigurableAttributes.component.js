@@ -135,7 +135,12 @@ export default class ProductConfigurableAttributes extends Component {
         const { configurable_options, isContentExpanded } = this.props;
 
         return Object.values(configurable_options).map((option) => {
-            const { attribute_values, attribute_label, attribute_code } = option;
+            const {
+                attribute_values, attribute_label, attribute_code,
+                attribute_options
+            } = option;
+            const { swatch_data } = attribute_options[Object.keys(attribute_options)[0]];
+            const isNotSwatch = !swatch_data;
 
             return (
                 <ExpandableContent
@@ -145,7 +150,10 @@ export default class ProductConfigurableAttributes extends Component {
                   mix={ { block: 'ProductConfigurableAttributes', elem: 'Expandable' } }
                   isContentExpanded={ isContentExpanded }
                 >
-                    <div block="ProductConfigurableAttributes" elem="AttributesList">
+                    <div
+                      block="ProductConfigurableAttributes"
+                      elem={ isNotSwatch ? 'AttributesVerticalList' : 'AttributesList' }
+                    >
                         { attribute_values.map(attribute_value => (
                             this.renderConfigurableAttributeValue({ ...option, attribute_value })
                         )) }

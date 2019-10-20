@@ -20,7 +20,8 @@
 }
 
 .ProductConfigurableAttributes {
-    &-AttributesList {
+    &-AttributesList,
+    &-AttributesVerticalList {
         text-align: center;
         display: flex;
         flex-wrap: wrap;
@@ -33,6 +34,11 @@
             display: flex;
             flex-wrap: wrap;
         }
+    }
+
+    &-AttributesVerticalList {
+        flex-direction: column;
+        align-items: start;
     }
 
     &-Expandable {
