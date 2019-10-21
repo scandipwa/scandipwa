@@ -12,11 +12,11 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
+import { paymentMethodsType } from 'Type/Checkout';
 import CheckoutPayment from 'Component/CheckoutPayment';
+import PayPal from 'Component/PayPal';
 
 import './CheckoutPayments.style';
-import { paymentMethodsType } from 'Type/Checkout';
-import PayPal from 'Component/PayPal';
 
 export const CHECK_MONEY = 'checkmo';
 export const PAYPAL_EXPRESS = 'paypal_express';
@@ -39,8 +39,6 @@ class CheckoutPayments extends PureComponent {
     componentDidUpdate(prevProps) {
         const { selectedPaymentCode, toggleCompleteOrderButton } = this.props;
         const { selectedPaymentCode: prevselectedPaymentCode } = prevProps;
-
-        console.log(selectedPaymentCode, prevselectedPaymentCode);
 
         if (selectedPaymentCode !== prevselectedPaymentCode) {
             if (selectedPaymentCode === PAYPAL_EXPRESS) {

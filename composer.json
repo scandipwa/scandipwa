@@ -23,7 +23,8 @@
         "scandipwa/quote-graphql": "^2.6.0",
         "scandipwa/wishlist-graphql": "^1.2.0",
         "scandipwa/urlrewrite-graphql": "^1.0",
-        "scandipwa/reviews-graphql": "^1.0"
+        "scandipwa/reviews-graphql": "^1.0",
+        "scandipwa/paypal-graphql": "*"
     },
     "support": {
         "source": "https://bitbucket.org/scandiweb/scandipwa-base-theme",
