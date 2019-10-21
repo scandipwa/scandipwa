@@ -163,11 +163,11 @@ export default class ProductAttributeValue extends Component {
         const { isSelected } = this.props;
         return (
             <Field
-              id="value"
-              name="value"
+              id={ value }
+              name={ value }
               type="checkbox"
               label={ value }
-              value="value"
+              value={ value }
               mix={ { block: 'ProductAttributeValue', elem: 'Text', mods: { isSelected } } }
               checked={ isSelected }
             />
@@ -184,7 +184,7 @@ export default class ProductAttributeValue extends Component {
               block="ProductAttributeValue"
               elem={ isNotSwatch ? 'Text' : 'String' }
               mods={ { isSelected } }
-              title={ label || value }
+              title={ label }
             >
                 { value }
             </span>
