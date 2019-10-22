@@ -39,7 +39,7 @@ export class ResetButtonContainer extends PureComponent {
 
     isContentFiltered() {
         const { customFilters, priceMin, priceMax } = this.urlStringToObject();
-        return customFilters || priceMin || priceMax;
+        return !(customFilters && priceMin && priceMax);
     }
 
     urlStringToObject() {

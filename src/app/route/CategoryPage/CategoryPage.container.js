@@ -18,6 +18,7 @@ import { toggleOverlayByKey } from 'Store/Overlay';
 import { changeHeaderState } from 'Store/Header';
 import { CategoryTreeType } from 'Type/Category';
 import { CATEGORY } from 'Component/Header';
+import { debounce } from 'Util/Request';
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
 
 import {
@@ -55,6 +56,8 @@ export const mapDispatchToProps = dispatch => ({
     requestProductListInfo: options => ProductListInfoDispatcher.handleData(dispatch, options),
     updateLoadStatus: isLoading => dispatch(updateInfoLoadStatus(isLoading))
 });
+
+export const UPDATE_FILTERS_FREQUENCY = 1000;
 
 export class CategoryPageContainer extends PureComponent {
     static propTypes = {
@@ -98,6 +101,11 @@ export class CategoryPageContainer extends PureComponent {
         getFilterUrl: this.getFilterUrl.bind(this),
         updatePriceRange: this.updatePriceRange.bind(this)
     };
+
+    _debounceRequestCategoryProductsInfo = debounce(
+        () => this._requestCategoryProductsInfo(),
+        UPDATE_FILTERS_FREQUENCY
+    );
 
     componentDidMount() {
         const { updateBreadcrumbs, isOnlyPlaceholder, updateLoadStatus } = this.props;
@@ -194,7 +202,7 @@ export class CategoryPageContainer extends PureComponent {
         }
 
         if (!this._compareQueriesByFilters(search, prevSearch)) {
-            this._requestCategoryProductsInfo();
+            this._debounceRequestCategoryProductsInfo();
         }
     }
 
