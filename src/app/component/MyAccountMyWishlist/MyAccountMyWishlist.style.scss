@@ -9,6 +9,73 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+:root {
+    --wishlist-item-border-color: var(--expandable-content-divider-color);
+}
+
 .MyAccountMyWishlist {
-    
+    &-Products {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-auto-rows: max-content;
+        grid-column-gap: 2rem;
+
+        @media (min-width: 1370px) {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        @include tablet {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        @include mobile {
+            grid-template-columns: 1fr;
+            border: 0;
+        }
+
+        @include after-mobile {
+            grid-column: 2;
+        }
+    }
+
+    &-ActionBar {
+        display: flex;
+        padding: 0 0 1rem;
+        justify-content: flex-end;
+
+        @include after-mobile {
+            position: absolute;
+            top: -55px;
+            right: 0;
+        }
+
+        @include mobile {
+            display: block;
+        }
+
+        button + button {
+            margin-left: 1rem;
+
+            @include mobile {
+                margin-top: 1rem;
+                margin-left: 0;
+            }
+        }
+    }
+
+    &-NoProductsButton {
+        margin-top: 1rem;
+    }
+
+    &-Description input {
+        width: 100%;
+    }
+
+    .ProductCard {
+        padding: 1rem 0;
+
+        @include mobile {
+            border-top: 1px solid var(--wishlist-item-border-color);
+        }
+    }
 }

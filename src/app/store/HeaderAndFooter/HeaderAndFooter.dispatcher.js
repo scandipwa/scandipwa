@@ -12,7 +12,7 @@
 import { QueryDispatcher } from 'Util/Request';
 import { MenuQuery, CmsBlockQuery } from 'Query';
 import { showNotification } from 'Store/Notification';
-import { updateMenu, toggleHeaderAndFooter } from 'Store/HeaderAndFooter';
+import { updateMenu } from 'Store/HeaderAndFooter';
 import { updateCmsBlocks } from 'Store/CmsBlocksAndSlider';
 
 export class HeaderAndFooterDispatcher extends QueryDispatcher {
@@ -43,10 +43,6 @@ export class HeaderAndFooterDispatcher extends QueryDispatcher {
             MenuQuery.getQuery(options.menu),
             CmsBlockQuery.getQuery(options.footer)
         ];
-    }
-
-    toggleHeaderAndFooter(dispatch, options) {
-        return dispatch(toggleHeaderAndFooter(options.isHeaderAndFooterVisible));
     }
 }
 

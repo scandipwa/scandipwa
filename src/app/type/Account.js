@@ -1,3 +1,14 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
 import PropTypes from 'prop-types';
 
 export const regionType = PropTypes.oneOfType([
@@ -23,7 +34,10 @@ export const addressType = PropTypes.shape({
     postcode: PropTypes.string,
     prefix: PropTypes.string,
     regionType,
-    street: PropTypes.arrayOf(PropTypes.string),
+    street: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string)
+    ]),
     suffix: PropTypes.string,
     telephone: PropTypes.string,
     vat_id: PropTypes.string
@@ -48,6 +62,25 @@ export const customerType = PropTypes.shape({
     suffix: PropTypes.string,
     taxvat: PropTypes.string
 });
+
+export const baseOrderInfoType = PropTypes.shape({
+    id: PropTypes.number,
+    increment_id: PropTypes.string,
+    created_at: PropTypes.string,
+    status_label: PropTypes.string,
+    grand_total: PropTypes.number,
+    subtotal: PropTypes.string
+});
+
+// TODO: remove objects
+export const orderType = PropTypes.shape({
+    base_order_info: baseOrderInfoType,
+    order_products: PropTypes.array,
+    payment_info: PropTypes.object,
+    shipping_info: PropTypes.object
+});
+
+export const ordersType = PropTypes.arrayOf(orderType);
 
 export const DASHBOARD = 'dashboard';
 export const MY_ORDERS = 'my-orders';

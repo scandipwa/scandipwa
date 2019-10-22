@@ -10,8 +10,10 @@
  */
 
 .ProductGalleryImage {
-    display: block;
-    height: 100%;
+    @include after-mobile {
+        display: block;
+        height: 100%;
+    }
 
     &_type_single {
         grid-row: 1/3;

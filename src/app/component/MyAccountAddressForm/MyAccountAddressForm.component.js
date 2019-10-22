@@ -1,3 +1,14 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
 import PropTypes from 'prop-types';
 
 import { addressType } from 'Type/Account';
@@ -69,6 +80,17 @@ class MyAccountAddressForm extends FieldForm {
         };
     }
 
+    onCountryChange = (countryId) => {
+        const { countries } = this.props;
+        const country = countries.find(({ id }) => id === countryId);
+        const { available_regions } = country;
+
+        this.setState({
+            countryId,
+            availableRegions: available_regions || []
+        });
+    };
+
     get fieldMap() {
         const { countryId } = this.state;
         const { countries, address } = this.props;
@@ -109,15 +131,7 @@ class MyAccountAddressForm extends FieldForm {
                 validation: ['notEmpty'],
                 value: countryId,
                 selectOptions: countries.map(({ id, label }) => ({ id, label, value: id })),
-                onChange: (countryId) => {
-                    const country = countries.find(({ id }) => id === countryId);
-                    const { available_regions } = country;
-
-                    this.setState({
-                        countryId,
-                        availableRegions: available_regions || []
-                    });
-                }
+                onChange: this.onCountryChange
             },
             ...this.getRegionFields(),
             postcode: {

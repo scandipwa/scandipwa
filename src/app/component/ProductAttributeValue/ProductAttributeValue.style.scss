@@ -41,11 +41,31 @@
         color: var(--option-text-color);
         display: inline-block;
         height: var(--option-size);
-        padding: var(--option-padding);
+        width: var(--option-size);
         margin: var(--option-margin);
+        padding: var(--option-padding);
     }
 
-    &-Color {
+    &-Image {
+        padding: 0;
+        border-radius: 50%;
+        position: relative;
+    }
+
+    &-Image-Overlay {
+        --option-check-mark-background: white;
+        position: absolute;
+        top: 0;
+        left: 0;
+        margin: .5rem;
+
+        @include after-mobile {
+            margin: 0;
+        }
+    }
+
+    &-Color,
+    &-Image-Overlay {
         border-radius: 50%;
         font-size: 0;
         width: var(--option-size);
@@ -101,6 +121,7 @@
         border-style: solid;
         line-height: var(--option-size);
         min-width: calc(1.25 * var(--option-size));
+        width: auto;
         text-align: center;
 
         &_isSelected {

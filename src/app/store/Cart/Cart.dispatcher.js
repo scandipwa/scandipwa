@@ -10,14 +10,12 @@
  */
 
 import { fetchMutation, fetchQuery } from 'Util/Request';
-import {
-    updateTotals,
-    PRODUCTS_IN_CART
-} from 'Store/Cart';
+import { updateTotals } from 'Store/Cart';
 import { isSignedIn } from 'Util/Auth';
 import { CartQuery } from 'Query';
 import { showNotification } from 'Store/Notification';
 import BrowserDatabase from 'Util/BrowserDatabase';
+import { getExtensionAttributes } from 'Util/Product';
 
 export const GUEST_QUOTE_ID = 'guest_quote_id';
 
@@ -81,15 +79,13 @@ export class CartDispatcher {
 
     addProductToCart(dispatch, options) {
         const { product, quantity } = options;
-        const { item_id, quantity: originalQuantity } = this._getProductInCart(product);
         const { sku, type_id: product_type } = product;
 
         const productToAdd = {
-            item_id,
             sku,
             product_type,
-            qty: (parseInt(originalQuantity, 10) || 0) + parseInt(quantity, 10),
-            product_option: { extension_attributes: this._getExtensionAttributes(product) }
+            qty: parseInt(quantity, 10),
+            product_option: { extension_attributes: getExtensionAttributes(product) }
         };
 
         if (this._canBeAdded(options)) {
@@ -142,50 +138,8 @@ export class CartDispatcher {
         dispatch(updateTotals(cartData));
     }
 
-    _getExtensionAttributes(product) {
-        const {
-            configurable_options,
-            configurableVariantIndex,
-            variants,
-            type_id
-        } = product;
-
-        if (type_id === 'configurable') {
-            const { attributes } = variants[configurableVariantIndex];
-
-            const configurable_item_options = Object.values(configurable_options)
-                .reduce((prev, { attribute_id, attribute_code }) => {
-                    const { attribute_value } = attributes[attribute_code];
-
-                    if (attribute_value) {
-                        return [
-                            ...prev,
-                            {
-                                option_id: attribute_id,
-                                option_value: attribute_value
-                            }
-                        ];
-                    }
-
-                    return prev;
-                }, []);
-
-            return { configurable_item_options };
-        }
-
-        return {};
-    }
-
     _getGuestQuoteId() {
         return BrowserDatabase.getItem(GUEST_QUOTE_ID);
-    }
-
-    _getProductInCart(product) {
-        const id = this._getProductAttribute('id', product);
-        const productsInCart = BrowserDatabase.getItem(PRODUCTS_IN_CART) || {};
-
-        if (!productsInCart[id]) return {};
-        return productsInCart[id];
     }
 
     /**

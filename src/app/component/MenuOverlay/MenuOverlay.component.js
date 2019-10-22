@@ -13,12 +13,15 @@
 
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+
+import media from 'Util/Media';
 import Link from 'Component/Link';
 import Image from 'Component/Image';
+import { MenuType } from 'Type/Menu';
 import Overlay from 'Component/Overlay';
 import CmsBlock from 'Component/CmsBlock';
 import { MENU_SUBCATEGORY } from 'Component/Header';
-import { MenuType } from 'Type/Menu';
+
 import './MenuOverlay.style';
 
 export default class MenuOverlay extends PureComponent {
@@ -73,7 +76,7 @@ export default class MenuOverlay extends PureComponent {
             <figure block="MenuOverlay" elem="ItemFigure" mods={ itemMods }>
                 <Image
                   mix={ { block: 'MenuOverlay', elem: 'Image', mods: itemMods } }
-                  src={ icon && `/media/${icon}` }
+                  src={ icon && media(icon) }
                   ratio="16x9"
                   arePlaceholdersShown
                 />

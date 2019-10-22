@@ -18,15 +18,23 @@ export class Wishlist {
             .addFieldList(this._getWishlistFields());
     }
 
-    getAddProductToWishlistMutation({ sku }) {
-        return new Field('addProductToWishlist')
-            .addArgument('productSku', 'String!', sku)
-            .addFieldList(this._getItemFields());
+    getSaveWishlistItemMutation(wishlistItem) {
+        return new Field('saveWishlistItem')
+            .addArgument('wishlistItem', 'WishlistItemInput!', wishlistItem)
+            .addFieldList(this._getItemsFields());
     }
 
-    getRemoveProductFromWishlistMutation({ item_id }) {
+    getClearWishlist() {
+        return new Field('clearWishlist');
+    }
+
+    getMoveWishlistToCart() {
+        return new Field('moveWishlistToCart');
+    }
+
+    getRemoveProductFromWishlistMutation(item_id) {
         return new Field('removeProductFromWishlist')
-            .addArgument('itemId', 'String!', item_id);
+            .addArgument('itemId', 'ID!', item_id);
     }
 
     _getWishlistFields() {
@@ -37,9 +45,12 @@ export class Wishlist {
         ];
     }
 
-    _getItemFields() {
+    _getItemsFields() {
         return [
             'id',
+            'sku',
+            'qty',
+            'description',
             this._getProductField()
         ];
     }
@@ -50,8 +61,8 @@ export class Wishlist {
     }
 
     _getItemsField() {
-        return new Field('item')
-            .addFieldList(this._getItemFields());
+        return new Field('items')
+            .addFieldList(this._getItemsFields());
     }
 }
 
