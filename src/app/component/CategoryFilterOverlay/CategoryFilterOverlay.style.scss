@@ -106,6 +106,14 @@
         }
     }
 
+    &-ResetButton {
+        margin-bottom: 1rem;
+
+        @include mobile {
+            display: none !important;
+        }
+    }
+
     li {
         padding-left: 0;
 

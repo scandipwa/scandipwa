@@ -12,6 +12,7 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Overlay from 'Component/Overlay';
+import ResetButton from 'Component/ResetButton';
 import RangeSelector from 'Component/RangeSelector';
 import ExpandableContent from 'Component/ExpandableContent';
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
@@ -100,6 +101,10 @@ export default class CategoryFilterOverlay extends PureComponent {
         );
     }
 
+    renderResetButton() {
+        return <ResetButton mix={ { block: 'CategoryFilterOverlay', elem: 'ResetButton' } } />;
+    }
+
     renderHeading() {
         return (
             <h2 block="CategoryFilterOverlay" elem="Heading">
@@ -112,6 +117,7 @@ export default class CategoryFilterOverlay extends PureComponent {
         return (
             <Overlay mix={ { block: 'CategoryFilterOverlay' } } id="category-filter">
                 { this.renderHeading() }
+                { this.renderResetButton() }
                 { this.renderFilters() }
                 { this.renderPriceRange() }
                 { this.renderSeeResults() }
