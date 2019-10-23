@@ -110,8 +110,9 @@ export class PayPalContainer extends PureComponent {
 
     createOrder = async () => {
         const { setLoading } = this.props;
-
         const guest_cart_id = this._getGuestQuoteId();
+
+        setLoading(true);
 
         const {
             paypalExpress: { token }
@@ -124,8 +125,6 @@ export class PayPalContainer extends PureComponent {
                 return_url: 'www.paypal.com/checkoutnow/error'
             }
         }));
-
-        setLoading(true);
 
         return token;
     };
