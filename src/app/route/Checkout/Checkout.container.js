@@ -143,11 +143,10 @@ export class CheckoutContainer extends PureComponent {
 
     _getCheckoutTotals() {
         const { totals: cartTotals } = this.props;
-        const { items } = cartTotals;
-        const { paymentTotals } = this.state;
+        const { paymentTotals: { shipping_amount } } = this.state;
 
-        return Object.keys(paymentTotals).length
-            ? { ...cartTotals, ...paymentTotals, items }
+        return shipping_amount
+            ? { ...cartTotals, shipping_amount }
             : cartTotals;
     }
 
