@@ -24,11 +24,12 @@ import './CheckoutBilling.style';
 
 class CheckoutBilling extends PureComponent {
     state = {
-        showCompleteOrder: true
+        isOrderButtonVisible: true
     };
 
     static propTypes = {
-        updateCheckoutState: PropTypes.func.isRequired,
+        setLoading: PropTypes.func.isRequired,
+        setDetailsStep: PropTypes.func.isRequired,
         isSameAsShipping: PropTypes.bool.isRequired,
         onSameAsShippingChange: PropTypes.func.isRequired,
         onPaymentMethodSelect: PropTypes.func.isRequired,
@@ -39,21 +40,14 @@ class CheckoutBilling extends PureComponent {
         totals: TotalsType.isRequired
     };
 
-    toggleCompleteOrderButton = (show) => {
-        const { showCompleteOrder } = this.state;
-
-        if (show === undefined) {
-            this.setState({ showCompleteOrder: !showCompleteOrder });
-            return;
-        }
-
-        this.setState({ showCompleteOrder: show });
+    setOrderButtonVisibility = (isOrderButtonVisible) => {
+        this.setState({ isOrderButtonVisible });
     };
 
     renderActions() {
-        const { showCompleteOrder } = this.state;
+        const { isOrderButtonVisible } = this.state;
 
-        if (!showCompleteOrder) return null;
+        if (!isOrderButtonVisible) return null;
 
         return (
             <button
@@ -104,16 +98,19 @@ class CheckoutBilling extends PureComponent {
     }
 
     renderPayments() {
-        const { paymentMethods, onPaymentMethodSelect, updateCheckoutState } = this.props;
+        const {
+            paymentMethods, onPaymentMethodSelect, setLoading, setDetailsStep
+        } = this.props;
 
         if (!paymentMethods.length) return null;
 
         return (
             <CheckoutPayments
+              setLoading={ setLoading }
+              setDetailsStep={ setDetailsStep }
               paymentMethods={ paymentMethods }
-              updateCheckoutState={ updateCheckoutState }
               onPaymentMethodSelect={ onPaymentMethodSelect }
-              toggleCompleteOrderButton={ this.toggleCompleteOrderButton }
+              setOrderButtonVisibility={ this.setOrderButtonVisibility }
             />
         );
     }

@@ -23,10 +23,11 @@ export const PAYPAL_EXPRESS = 'paypal_express';
 
 class CheckoutPayments extends PureComponent {
     static propTypes = {
-        updateCheckoutState: PropTypes.func.isRequired,
+        setLoading: PropTypes.func.isRequired,
+        setDetailsStep: PropTypes.func.isRequired,
         selectPaymentMethod: PropTypes.func.isRequired,
         paymentMethods: paymentMethodsType.isRequired,
-        toggleCompleteOrderButton: PropTypes.func.isRequired,
+        setOrderButtonVisibility: PropTypes.func.isRequired,
         selectedPaymentCode: PropTypes.oneOf([
             CHECK_MONEY,
             PAYPAL_EXPRESS
@@ -37,16 +38,16 @@ class CheckoutPayments extends PureComponent {
     };
 
     componentDidUpdate(prevProps) {
-        const { selectedPaymentCode, toggleCompleteOrderButton } = this.props;
-        const { selectedPaymentCode: prevselectedPaymentCode } = prevProps;
+        const { selectedPaymentCode, setOrderButtonVisibility } = this.props;
+        const { selectedPaymentCode: prevSelectedPaymentCode } = prevProps;
 
-        if (selectedPaymentCode !== prevselectedPaymentCode) {
+        if (selectedPaymentCode !== prevSelectedPaymentCode) {
             if (selectedPaymentCode === PAYPAL_EXPRESS) {
-                toggleCompleteOrderButton(false);
+                setOrderButtonVisibility(false);
             }
 
-            if (prevselectedPaymentCode === PAYPAL_EXPRESS) {
-                toggleCompleteOrderButton(true);
+            if (prevSelectedPaymentCode === PAYPAL_EXPRESS) {
+                setOrderButtonVisibility(true);
             }
         }
     }
@@ -91,11 +92,12 @@ class CheckoutPayments extends PureComponent {
     }
 
     renderPayPal() {
-        const { selectedPaymentCode, updateCheckoutState } = this.props;
+        const { selectedPaymentCode, setLoading, setDetailsStep } = this.props;
 
         return (
             <PayPal
-              updateCheckoutState={ updateCheckoutState }
+              setLoading={ setLoading }
+              setDetailsStep={ setDetailsStep }
               isDisabled={ selectedPaymentCode !== PAYPAL_EXPRESS }
             />
         );

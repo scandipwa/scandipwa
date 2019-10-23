@@ -48,10 +48,11 @@ export class CheckoutContainer extends PureComponent {
     };
 
     containerFunctions = {
-        updateState: this.updateState.bind(this),
-        onShippingEstimationFieldsChange: this.onShippingEstimationFieldsChange.bind(this),
+        setLoading: this.setLoading.bind(this),
+        setDetailsStep: this.setDetailsStep.bind(this),
         savePaymentInformation: this.savePaymentInformation.bind(this),
-        saveAddressInformation: this.saveAddressInformation.bind(this)
+        saveAddressInformation: this.saveAddressInformation.bind(this),
+        onShippingEstimationFieldsChange: this.onShippingEstimationFieldsChange.bind(this)
     };
 
     constructor(props) {
@@ -112,6 +113,21 @@ export class CheckoutContainer extends PureComponent {
             },
             this._handleError
         );
+    }
+
+    setDetailsStep(orderID) {
+        BrowserDatabase.deleteItem(PAYMENT_TOTALS);
+        BrowserDatabase.deleteItem(CART_TOTALS);
+
+        this.setState({
+            orderID,
+            isLoading: false,
+            checkoutStep: DETAILS_STEP
+        });
+    }
+
+    setLoading(isLoading = true) {
+        this.setState({ isLoading });
     }
 
     containerProps = () => ({
@@ -185,7 +201,7 @@ export class CheckoutContainer extends PureComponent {
     }
 
     savePaymentInformation(paymentInformation) {
-        this.setState({ isLoading: true });
+        this.setLoading();
 
         fetchMutation(CheckoutQuery.getSavePaymentInformationAndPlaceOrder(
             paymentInformation,
@@ -193,22 +209,10 @@ export class CheckoutContainer extends PureComponent {
         )).then(
             ({ savePaymentInformationAndPlaceOrder: data }) => {
                 const { orderID } = data;
-
-                BrowserDatabase.deleteItem(PAYMENT_TOTALS);
-                BrowserDatabase.deleteItem(CART_TOTALS);
-
-                this.setState({
-                    isLoading: false,
-                    checkoutStep: DETAILS_STEP,
-                    orderID
-                });
+                this.setDetailsStep(orderID);
             },
             this._handleError
         );
-    }
-
-    updateState(newState) {
-        this.setState({ ...newState });
     }
 
     render() {

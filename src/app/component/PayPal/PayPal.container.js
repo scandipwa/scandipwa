@@ -32,8 +32,9 @@ export const mapDispatchToProps = dispatch => ({
 
 export class PayPalContainer extends PureComponent {
     static propTypes = {
-        showNotification: PropTypes.func.isRequired,
-        updateCheckoutState: PropTypes.func.isRequired
+        setLoading: PropTypes.func.isRequired,
+        setDetailsStep: PropTypes.func.isRequired,
+        showNotification: PropTypes.func.isRequired
     };
 
     componentDidMount() {
@@ -55,12 +56,11 @@ export class PayPalContainer extends PureComponent {
     });
 
     onApprove = async (data) => {
-        const { showNotification, updateCheckoutState } = this.props;
+        const { showNotification, setDetailsStep } = this.props;
         const { orderID, payerID } = data;
         const guest_cart_id = this._getGuestQuoteId();
 
         try {
-            updateCheckoutState({ isLoading: true });
             await fetchMutation(CheckoutQuery.getSetPaymentMethodOnCartMutation({
                 guest_cart_id,
                 payment_method: {
@@ -73,26 +73,23 @@ export class PayPalContainer extends PureComponent {
             }));
 
             const orderData = await fetchMutation(CheckoutQuery.getPlaceOrderMutation(guest_cart_id));
-
             const { placeOrder: { order: { order_id } } } = orderData;
 
-            updateCheckoutState({
-                isLoading: false,
-                orderID: order_id,
-                checkoutStep: DETAILS_STEP
-            });
+            setDetailsStep(order_id);
         } catch (e) {
             showNotification('error', 'Something went wrong');
         }
     };
 
     onCancel = (data) => {
-        const { showNotification } = this.props;
+        const { showNotification, setLoading } = this.props;
+        setLoading(false);
         showNotification('error', 'Your payment has been canceled', data);
     };
 
     onError = (err) => {
-        const { showNotification } = this.props;
+        const { showNotification, setLoading } = this.props;
+        setLoading(false);
         showNotification('error', 'Some error appeared with PayPal', err);
     };
 
@@ -112,6 +109,8 @@ export class PayPalContainer extends PureComponent {
     };
 
     createOrder = async () => {
+        const { setLoading } = this.props;
+
         const guest_cart_id = this._getGuestQuoteId();
 
         const {
@@ -125,6 +124,8 @@ export class PayPalContainer extends PureComponent {
                 return_url: 'www.paypal.com/checkoutnow/error'
             }
         }));
+
+        setLoading(true);
 
         return token;
     };

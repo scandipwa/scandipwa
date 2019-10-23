@@ -33,7 +33,8 @@ export const DETAILS_STEP = 'DETAILS_STEP';
 
 class Checkout extends PureComponent {
     static propTypes = {
-        updateState: PropTypes.func.isRequired,
+        setLoading: PropTypes.func.isRequired,
+        setDetailsStep: PropTypes.func.isRequired,
         shippingMethods: shippingMethodsType.isRequired,
         onShippingEstimationFieldsChange: PropTypes.func.isRequired,
         setHeaderState: PropTypes.func.isRequired,
@@ -137,16 +138,18 @@ class Checkout extends PureComponent {
 
     renderBillingStep() {
         const {
-            updateState,
-            paymentMethods = [],
+            setLoading,
+            setDetailsStep,
             shippingAddress,
+            paymentMethods = [],
             savePaymentInformation
         } = this.props;
 
         return (
             <CheckoutBilling
+              setLoading={ setLoading }
               paymentMethods={ paymentMethods }
-              updateCheckoutState={ updateState }
+              setDetailsStep={ setDetailsStep }
               shippingAddress={ shippingAddress }
               savePaymentInformation={ savePaymentInformation }
             />
