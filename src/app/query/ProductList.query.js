@@ -480,6 +480,7 @@ export class ProductListQuery {
     _getFilterItemFields() {
         return [
             'label',
+            'items_count',
             'value_string',
             this._getFilterItemSwatchFragment()
         ];

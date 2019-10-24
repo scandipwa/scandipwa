@@ -87,21 +87,22 @@ export default class ProductAttributeValue extends Component {
     renderSelectAttribute() {
         const { attribute: { attribute_value } } = this.props;
         const attributeOption = this.getOptionLabel(attribute_value);
-        const { label, swatch_data } = attributeOption;
+        const { label, swatch_data, items_count } = attributeOption;
 
         if (!swatch_data) return this.renderStringValue(label || __('N/A'));
 
         const { value, type } = swatch_data;
+        const countString = items_count && `${__('Total count')}: ${items_count}`;
 
         switch (type) {
         case '0':
-            return this.renderStringValue(value, label);
+            return this.renderStringValue(value, countString || label);
         case '1':
-            return this.renderColorValue(value, label);
+            return this.renderColorValue(value, countString || label);
         case '2':
-            return this.renderImageValue(value, label);
+            return this.renderImageValue(value, countString || label);
         default:
-            return this.renderStringValue(label || __('N/A'));
+            return this.renderStringValue(countString || label || __('N/A'));
         }
     }
 
