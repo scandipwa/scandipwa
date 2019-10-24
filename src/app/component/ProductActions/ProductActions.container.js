@@ -63,11 +63,17 @@ export class ProductActionsContainer extends PureComponent {
             : parameterPairs;
 
         return variants
-            .some(({ stock_status, attributes }) => stock_status === 'IN_STOCK'
-                // Variant must have currently checked attribute_code and attribute_value
-                && attributes[attribute_code].attribute_value === attribute_value
-                // Variant must have all currently selected attributes
-                && selectedAttributes.every(([key, value]) => attributes[key].attribute_value === value));
+            .some(({ stock_status, attributes }) => {
+                const { attribute_value: foundValue } = attributes[attribute_code] || {};
+
+                return (
+                    stock_status === 'IN_STOCK'
+                    // Variant must have currently checked attribute_code and attribute_value
+                    && foundValue === attribute_value
+                    // Variant must have all currently selected attributes
+                    && selectedAttributes.every(([key, value]) => attributes[key].attribute_value === value)
+                );
+            });
     }
 
     showOnlyIfLoaded(expression, content, placeholder = content) {
