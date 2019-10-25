@@ -126,7 +126,6 @@ export class ProductListQuery {
             'sku',
             'name',
             'type_id',
-            'special_price',
             this._getPriceField(),
             this._getThumbnailField(),
             this._getShortDescriptionField(),
@@ -256,8 +255,8 @@ export class ProductListQuery {
 
     _getThumbnailFields() {
         return [
+            'path'
             // 'url',
-            'path',
             // 'label'
         ];
     }
