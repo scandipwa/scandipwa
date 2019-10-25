@@ -108,7 +108,7 @@ export class BreadcrumbsDispatcher {
         const { categories, url_key, name } = product;
         const breadcrumbsList = [];
 
-        if (categories.length) {
+        if (categories && categories.length) {
             const { breadcrumbsCategory = {} } = categories.reduce((acc, category) => {
                 const { longestBreadcrumbsLength } = acc;
                 const { breadcrumbs } = category;
