@@ -43,9 +43,9 @@ export const initialState = {
 
 const ConfigReducer = (state = initialState, action) => {
     const { config: { countries, reviewRatings, storeConfig = {} } = {}, type } = action;
+
     switch (type) {
     case UPDATE_CONFIG:
-
         return {
             ...state,
             countries,
