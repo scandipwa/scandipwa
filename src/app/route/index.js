@@ -23,11 +23,11 @@ import SearchPage from 'Route/SearchPage';
 import ProductPage from 'Route/ProductPage';
 import CmsPage from 'Route/CmsPage';
 import CartPage from 'Route/CartPage';
-import CheckoutPage from 'Route/CheckoutPage';
 import MyAccount from 'Route/MyAccount';
 import PasswordChangePage from 'Route/PasswordChangePage';
 import NoMatchHandler from 'Route/NoMatchHandler';
 import UrlRewrites from 'Route/UrlRewrites';
+import Checkout from 'Route/Checkout';
 
 import Header from 'Component/Header';
 import Footer from 'Component/Footer';
@@ -39,7 +39,7 @@ import Store from 'Store';
 import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
 import { ConfigDispatcher } from 'Store/Config';
 import { CartDispatcher } from 'Store/Cart';
-// import { WishlistDispatcher } from 'Store/Wishlist';
+import { WishlistDispatcher } from 'Store/Wishlist';
 import SomethingWentWrong from './SomethingWentWrong';
 
 export const BEFORE_ITEMS_TYPE = 'BEFORE_ITEMS_TYPE';
@@ -90,7 +90,7 @@ class AppRouter extends PureComponent {
             position: 50
         },
         {
-            component: <Route path="/checkout" component={ CheckoutPage } />,
+            component: <Route path="/checkout/:step?" component={ Checkout } />,
             position: 55
         },
         {
@@ -162,7 +162,7 @@ class AppRouter extends PureComponent {
     }
 
     dispatchActions() {
-        // WishlistDispatcher.updateInitialWishlistData(Store.dispatch);
+        WishlistDispatcher.updateInitialWishlistData(Store.dispatch);
         CartDispatcher.updateInitialCartData(Store.dispatch);
         ConfigDispatcher.handleData(Store.dispatch);
         HeaderAndFooterDispatcher.handleData(Store.dispatch, this.getHeaderAndFooterOptions());

@@ -10,5 +10,22 @@
  */
 
 .MyAccountMyOrders {
-    
+    display: grid;
+    grid-gap: 2rem;
+    grid-template-columns: 1fr;
+
+    &-Button {
+        @include after-mobile {
+            position: absolute;
+            top: -55px;
+            right: 0;
+        }
+    }
+
+    td,
+    th {
+        @include mobile {
+            min-width: 0;
+        }
+    }
 }

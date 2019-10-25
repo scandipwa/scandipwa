@@ -53,8 +53,6 @@ export const mapDispatchToProps = dispatch => ({
     goToPreviousHeaderState: () => dispatch(goToPreviousHeaderState())
 });
 
-export const DEFAULT_LOGO_HEIGHT = 46;
-export const DEFAULT_LOGO_WIDTH = 183;
 export const MAX_HEIGHT = 50;
 export const MAX_WIDTH = 200;
 
@@ -94,8 +92,8 @@ export class HeaderContainer extends PureComponent {
     };
 
     static defaultProps = {
-        logo_height: 183,
-        logo_width: 46,
+        logo_height: 46,
+        logo_width: 183,
         header_logo_src: ''
     };
 
@@ -356,7 +354,7 @@ export class HeaderContainer extends PureComponent {
             const newWidth = Math.round(logo_width / (logo_height / MAX_HEIGHT));
 
             if (newWidth > MAX_WIDTH) {
-                const newHeight = Math.round(logo_height / (newWidth / MAX_WIDTH));
+                const newHeight = Math.round(MAX_HEIGHT / (newWidth / MAX_WIDTH));
 
                 return { height: newHeight, width: MAX_WIDTH };
             }
@@ -370,8 +368,8 @@ export class HeaderContainer extends PureComponent {
         }
 
         return {
-            height: logo_height || DEFAULT_LOGO_HEIGHT,
-            width: logo_width || DEFAULT_LOGO_WIDTH
+            height: logo_height,
+            width: logo_width
         };
     }
 

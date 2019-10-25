@@ -45,19 +45,25 @@ export default class CheckoutOrderSummary extends PureComponent {
         );
     }
 
-    /**
-     * Render order summary cart item
-     * @param key
-     * @param {CartItem} item
-     * @returns {*}
-     */
-    renderItem(item, currency_code) {
-        return (
-            <CartItem key={ item.item_id } item={ item } currency_code={ currency_code } />
-        );
-    }
+    renderItem = (item) => {
+        const {
+            totals: {
+                base_currency_code
+            }
+        } = this.props;
 
-    renderDiscountLine() {
+        const { item_id } = item;
+
+        return (
+            <CartItem
+              key={ item_id }
+              item={ item }
+              currency_code={ base_currency_code }
+            />
+        );
+    };
+
+    renderCouponCode() {
         const {
             totals: {
                 discount_amount,
@@ -67,47 +73,68 @@ export default class CheckoutOrderSummary extends PureComponent {
 
         if (!coupon_code) return null;
 
-        return this.renderPriceLine(-Math.abs(discount_amount), __('Coupon %s:', coupon_code.toUpperCase()));
+        return this.renderPriceLine(
+            -Math.abs(discount_amount),
+            __('Coupon %s:', coupon_code.toUpperCase())
+        );
     }
 
-    /**
-     * Render checkout order summary block
-     * @returns {*}
-     */
-    render() {
+    renderItems() {
+        const { totals: { items = [] } } = this.props;
+
+        return (
+            <div block="CheckoutOrderSummary" elem="OrderItems">
+                <ul block="CheckoutOrderSummary" elem="CartItemList">
+                    { items.map(this.renderItem) }
+                </ul>
+            </div>
+        );
+    }
+
+    renderHeading() {
+        const { totals: { items_qty } } = this.props;
+
+        return (
+            <h3
+              block="CheckoutOrderSummary"
+              elem="Header"
+              mix={ { block: 'CheckoutPage', elem: 'Heading', mods: { hasDivider: true } } }
+            >
+                <span>{ __('Order Summary') }</span>
+                <p block="CheckoutOrderSummary" elem="ItemsInCart">{ __('%s Item(s) In Cart', items_qty) }</p>
+            </h3>
+        );
+    }
+
+    renderTotals() {
         const {
             totals: {
-                grand_total, subtotal,
-                tax_amount, shipping_amount,
-                items_qty, items,
-                base_currency_code
+                subtotal,
+                tax_amount,
+                grand_total,
+                shipping_amount
             }
         } = this.props;
 
         return (
+            <div block="CheckoutOrderSummary" elem="OrderTotals">
+                <ul>
+                    { this.renderPriceLine(shipping_amount, __('Shipping'), { divider: true }) }
+                    { this.renderPriceLine(subtotal, __('Cart Subtotal')) }
+                    { this.renderCouponCode() }
+                    { this.renderPriceLine(tax_amount, __('Tax')) }
+                    { this.renderPriceLine(grand_total, __('Order Total')) }
+                </ul>
+            </div>
+        );
+    }
+
+    render() {
+        return (
             <article block="CheckoutOrderSummary" aria-label="Order Summary">
-                <h3
-                  block="CheckoutOrderSummary"
-                  elem="Header"
-                  mix={ { block: 'CheckoutPage', elem: 'Heading', mods: { hasDivider: true } } }
-                >
-                    <span>{ __('Order Summary') }</span>
-                    <p block="CheckoutOrderSummary" elem="ItemsInCart">{ __('%s Items In Cart', items_qty) }</p>
-                </h3>
-                <div block="CheckoutOrderSummary" elem="OrderItems">
-                    <ul block="CheckoutOrderSummary" elem="CartItemList">
-                        { items.map(item => this.renderItem(item, base_currency_code)) }
-                    </ul>
-                </div>
-                <div block="CheckoutOrderSummary" elem="OrderTotals">
-                    <ul>
-                        { this.renderPriceLine(shipping_amount, __('Shipping'), { divider: true }) }
-                        { this.renderPriceLine(subtotal, __('Cart Subtotal')) }
-                        { this.renderDiscountLine() }
-                        { this.renderPriceLine(tax_amount, __('Tax')) }
-                        { this.renderPriceLine(grand_total, __('Order Total')) }
-                    </ul>
-                </div>
+                { this.renderHeading() }
+                { this.renderItems() }
+                { this.renderTotals() }
             </article>
         );
     }

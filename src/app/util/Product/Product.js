@@ -30,6 +30,7 @@ const checkEveryOption = (attributes, options) => Object.keys(options)
 
 const getIndexedAttributes = attributes => attributes.reduce((indexedAttributes, attribute) => {
     const { attribute_code, attribute_options = [] } = attribute;
+
     return {
         ...indexedAttributes,
         [attribute_code]: {
@@ -60,7 +61,7 @@ const getIndexedVariants = variants => variants.map(({ product }) => {
     const { attributes } = product;
     return {
         ...product,
-        attributes: getIndexedAttributes(attributes)
+        attributes: getIndexedAttributes(attributes || [])
     };
 });
 
@@ -86,7 +87,7 @@ export const getIndexedProduct = (product) => {
         attributes: initialAttributes = []
     } = product;
 
-    const attributes = getIndexedAttributes(initialAttributes);
+    const attributes = getIndexedAttributes(initialAttributes || []);
 
     return {
         ...product,
@@ -103,3 +104,38 @@ export const getIndexedParameteredProducts = products => Object.entries(products
         ...products,
         [id]: getIndexedProduct(product)
     }), {});
+
+
+export const getExtensionAttributes = (product) => {
+    const {
+        configurable_options,
+        configurableVariantIndex,
+        variants,
+        type_id
+    } = product;
+
+    if (type_id === 'configurable') {
+        const { attributes } = variants[configurableVariantIndex];
+
+        const configurable_item_options = Object.values(configurable_options)
+            .reduce((prev, { attribute_id, attribute_code }) => {
+                const { attribute_value } = attributes[attribute_code];
+
+                if (attribute_value) {
+                    return [
+                        ...prev,
+                        {
+                            option_id: attribute_id,
+                            option_value: attribute_value
+                        }
+                    ];
+                }
+
+                return prev;
+            }, []);
+
+        return { configurable_item_options };
+    }
+
+    return {};
+};

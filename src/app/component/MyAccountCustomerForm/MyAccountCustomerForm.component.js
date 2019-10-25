@@ -1,3 +1,14 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
 import PropTypes from 'prop-types';
 
 import { customerType } from 'Type/Account';
@@ -26,10 +37,6 @@ class MyAccountCustomerForm extends FieldForm {
 
     get fieldMap() {
         return {
-            email: {
-                label: __('Email'),
-                validation: ['notEmpty']
-            },
             firstname: {
                 label: __('First name'),
                 validation: ['notEmpty']

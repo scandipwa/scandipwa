@@ -12,33 +12,45 @@
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { UPDATE_CONFIG } from './Config.action';
 
-export const initialState = BrowserDatabase.getItem('config') || {
+export const ALWAYS_UPDATE_IN_CONFIG = ['header_logo_src', 'logo_height', 'logo_width'];
+
+export const filterStoreConfig = config => Object.entries(config).reduce(
+    (acc, [key, value]) => {
+        if (ALWAYS_UPDATE_IN_CONFIG.includes(key)) {
+            return value
+                ? { ...acc, [key]: value }
+                : { ...acc, [key]: undefined };
+        }
+
+        return value ? { ...acc, [key]: value } : acc;
+    },
+    {}
+);
+
+const { countries, reviewRatings, storeConfig } = BrowserDatabase.getItem('config') || {
     countries: [],
     reviewRatings: [],
-    cms_home_page: '',
-    cms_no_route: '',
-    copyright: '',
-    timezone: '',
-    header_logo_src: '',
-    logo_alt: '',
-    logo_height: '',
-    logo_width: '',
+    storeConfig: {}
+};
+
+export const initialState = {
+    ...filterStoreConfig(storeConfig),
+    countries,
+    reviewRatings,
+    title_prefix: 'ScandiPWA |',
     isLoading: true
 };
 
 const ConfigReducer = (state = initialState, action) => {
-    const {
-        config: { countries, reviewRatings, storeConfig } = {},
-        type
-    } = action;
-
+    const { config: { countries, reviewRatings, storeConfig = {} } = {}, type } = action;
     switch (type) {
     case UPDATE_CONFIG:
+
         return {
             ...state,
             countries,
             reviewRatings,
-            ...storeConfig,
+            ...filterStoreConfig(storeConfig),
             isLoading: false
         };
 

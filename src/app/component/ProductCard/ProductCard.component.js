@@ -11,12 +11,16 @@
 
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+
+import media, { PRODUCT_MEDIA } from 'Util/Media';
 import Link from 'Component/Link';
-import ProductReviewRating from 'Component/ProductReviewRating';
-import { ProductType } from 'Type/ProductList';
-import TextPlaceholder from 'Component/TextPlaceholder';
-import ProductPrice from 'Component/ProductPrice';
 import Image from 'Component/Image';
+import Loader from 'Component/Loader';
+import { ProductType } from 'Type/ProductList';
+import ProductPrice from 'Component/ProductPrice';
+import TextPlaceholder from 'Component/TextPlaceholder';
+import ProductReviewRating from 'Component/ProductReviewRating';
+
 import './ProductCard.style';
 
 /**
@@ -33,12 +37,18 @@ export default class ProductCard extends PureComponent {
             label: PropTypes.string,
             value: PropTypes.string
         })).isRequired,
-        getAttribute: PropTypes.func.isRequired
+        getAttribute: PropTypes.func.isRequired,
+        children: PropTypes.element,
+        isLoading: PropTypes.bool,
+        mix: PropTypes.shape({})
     };
 
     static defaultProps = {
         thumbnail: '',
-        linkTo: {}
+        linkTo: {},
+        children: null,
+        isLoading: false,
+        mix: {}
     };
 
     renderProductPrice() {
@@ -73,8 +83,7 @@ export default class ProductCard extends PureComponent {
 
     renderPicture() {
         const { product: { id, name }, thumbnail } = this.props;
-        const imageUrl = thumbnail && `/media/catalog/product${ thumbnail }`;
-        const fullImageUrl = `//${window.location.hostname}${imageUrl}`;
+        const imageUrl = thumbnail && media(`${ PRODUCT_MEDIA }${ thumbnail }`);
 
         return (
             <>
@@ -88,14 +97,14 @@ export default class ProductCard extends PureComponent {
                 <img
                   style={ { display: 'none' } }
                   alt={ name }
-                  src={ fullImageUrl }
+                  src={ imageUrl }
                   itemProp="image"
                 />
             </>
         );
     }
 
-    renderPictureLabel() {
+    renderReviews() {
         const { product: { review_summary: { rating_summary, review_count } = {} } } = this.props;
         if (!rating_summary) return null;
 
@@ -103,9 +112,9 @@ export default class ProductCard extends PureComponent {
         const rating = parseFloat(rating_summary / ONE_FIFTH_OF_A_HUNDRED).toFixed(2);
 
         return (
-            <figcaption
+            <div
               block="ProductCard"
-              elem="PictureLabel"
+              elem="Reviews"
               itemProp="aggregateRating"
               itemScope
               itemType="https://schema.org/AggregateRating"
@@ -113,7 +122,7 @@ export default class ProductCard extends PureComponent {
                 <meta itemProp="ratingValue" content={ rating || 0 } />
                 <meta itemProp="ratingCount" content={ review_count || 0 } />
                 <ProductReviewRating summary={ rating_summary || 0 } />
-            </figcaption>
+            </div>
         );
     }
 
@@ -169,22 +178,29 @@ export default class ProductCard extends PureComponent {
     }
 
     render() {
-        const { product: { sku } } = this.props;
+        const {
+            product: { sku },
+            children,
+            mix,
+            isLoading
+        } = this.props;
 
         return (
             <li
               block="ProductCard"
               itemScope
               itemType={ sku && 'https://schema.org/Product' }
+              mix={ mix }
             >
+                <Loader isLoading={ isLoading } />
                 <meta itemProp="sku" content={ sku } />
                 { this.renderCardWrapper((
                     <>
-                        <figure>
+                        <figure block="ProductCard" elem="Figure">
                             { this.renderPicture() }
-                            { this.renderPictureLabel() }
                         </figure>
                         <div block="ProductCard" elem="Content">
+                            { this.renderReviews() }
                             { this.renderProductPrice() }
                             { this.renderVisualConfigurableOptions() }
                             { this.renderMainDetails() }
@@ -192,6 +208,9 @@ export default class ProductCard extends PureComponent {
                         </div>
                     </>
                 )) }
+                <div block="ProductCard" elem="AdditionalContent">
+                    { children }
+                </div>
             </li>
         );
     }

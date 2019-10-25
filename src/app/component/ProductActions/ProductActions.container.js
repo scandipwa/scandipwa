@@ -37,7 +37,7 @@ export class ProductActionsContainer extends PureComponent {
     };
 
     setQuantity(value) {
-        this.setState({ quantity: value });
+        this.setState({ quantity: +value });
     }
 
     // TODO: make key=>value based

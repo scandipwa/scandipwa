@@ -165,6 +165,7 @@ export class MyAccountOverlayContainer extends PureComponent {
 
     onCreateAccountSuccess(fields) {
         const { createAccount } = this.props;
+
         const {
             password,
             email,
@@ -183,12 +184,12 @@ export class MyAccountOverlayContainer extends PureComponent {
             password
         };
 
-        createAccount(customerData);
+        createAccount(customerData).then(this.stopLoading, this.stopLoading);
     }
 
     onForgotPasswordSuccess(fields) {
         const { forgotPassword } = this.props;
-        forgotPassword(fields);
+        forgotPassword(fields).then(this.stopLoading, this.stopLoading);
     }
 
     onForgotPasswordAttempt() {
@@ -198,6 +199,8 @@ export class MyAccountOverlayContainer extends PureComponent {
     onFormError() {
         this.setState({ isLoading: false });
     }
+
+    stopLoading = () => this.setState({ isLoading: false });
 
     handleForgotPassword(e) {
         const { setHeaderState } = this.props;
