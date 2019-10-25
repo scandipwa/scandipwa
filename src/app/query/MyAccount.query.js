@@ -42,12 +42,12 @@ export class MyAccountQuery {
      */
     getSignInMutation(options) {
         const { email, password } = options;
-        const guestCartId = BrowserDatabase.getItem(GUEST_QUOTE_ID);
+        const guestQuoteId = BrowserDatabase.getItem(GUEST_QUOTE_ID);
 
         return new Field('generateCustomerToken')
             .addArgument('email', 'String!', email)
             .addArgument('password', 'String!', password)
-            .addArgument('guest_quote_token', 'String!', guestCartId)
+            .addArgument('guest_quote_id', 'String!', guestQuoteId)
             .addField('token');
     }
 
