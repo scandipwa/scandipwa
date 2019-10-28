@@ -17,13 +17,13 @@ import { CartDispatcher } from 'Store/Cart';
 import { fetchMutation } from 'Util/Request';
 import { CheckoutQuery, PayPalQuery } from 'Query';
 import { showNotification } from 'Store/Notification';
-import { DETAILS_STEP } from 'Route/Checkout/Checkout.component';
 import PayPal from './PayPal.component';
 
 export const PAYPAL_SCRIPT = 'PAYPAL_SCRIPT';
 
 export const mapStateToProps = state => ({
-    cartTotals: state.CartReducer.cartTotals
+    cartTotals: state.CartReducer.cartTotals,
+    isSandboxEnabled: state.ConfigReducer.storeConfig.paypal_sandbox_flag
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -32,9 +32,14 @@ export const mapDispatchToProps = dispatch => ({
 
 export class PayPalContainer extends PureComponent {
     static propTypes = {
+        isSandboxEnabled: PropTypes.bool,
         setLoading: PropTypes.func.isRequired,
         setDetailsStep: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired
+    };
+
+    static defaultProps = {
+        isSandboxEnabled: false
     };
 
     componentDidMount() {
@@ -104,8 +109,8 @@ export class PayPalContainer extends PureComponent {
     };
 
     getEnvironment = () => {
-        const { PAYPAL_SANDBOX_STATUS } = process.env;
-        return PAYPAL_SANDBOX_STATUS === 'ENABLED' ? 'sandbox' : 'production';
+        const { isSandboxEnabled } = this.props;
+        return isSandboxEnabled ? 'sandbox' : 'production';
     };
 
     createOrder = async () => {
