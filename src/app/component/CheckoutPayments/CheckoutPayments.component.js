@@ -13,10 +13,10 @@ import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import CheckoutPayment from 'Component/CheckoutPayment';
-
-import './CheckoutPayments.style';
 import { paymentMethodsType } from 'Type/Checkout';
 import Braintree from 'Component/Braintree';
+
+import './CheckoutPayments.style';
 
 export const BRAINTREE = 'braintree';
 export const CHECK_MONEY = 'checkmo';

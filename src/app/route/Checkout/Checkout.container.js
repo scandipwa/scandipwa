@@ -25,8 +25,8 @@ import { TotalsType } from 'Type/MiniCart';
 import { HistoryType } from 'Type/Common';
 import { CART_TOTALS } from 'Store/Cart/Cart.reducer';
 
-import { BRAINTREE } from 'Component/CheckoutPayments/CheckoutPayments.component';
 import { isSignedIn } from 'Util/Auth';
+import { BRAINTREE } from 'Component/CheckoutPayments/CheckoutPayments.component';
 import Checkout, { SHIPPING_STEP, BILLING_STEP, DETAILS_STEP } from './Checkout.component';
 
 export const PAYMENT_TOTALS = 'PAYMENT_TOTALS';
@@ -204,12 +204,12 @@ export class CheckoutContainer extends PureComponent {
         const { paymentMethod: { method } } = paymentInformation;
         this.setState({ isLoading: true });
 
-        if (!this.customPaymentMethods.includes(method)) {
-            this.savePaymentInformationAndPlaceOrder(paymentInformation);
+        if (this.customPaymentMethods.includes(method)) {
+            this.savePaymentMethodAndPlaceOrder(paymentInformation);
             return;
         }
 
-        this.savePaymentMethodAndPlaceOrder(paymentInformation);
+        this.savePaymentInformationAndPlaceOrder(paymentInformation);
     }
 
     async savePaymentMethodAndPlaceOrder(paymentInformation) {
