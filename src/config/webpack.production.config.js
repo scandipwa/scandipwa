@@ -27,15 +27,17 @@ const autoprefixer = require('autoprefixer');
 
 const { InjectManifest } = require('workbox-webpack-plugin');
 
-const webmanifestConfig = require('./webmanifest.config');
-const BabelConfig = require('./babel.config');
-const FallbackPlugin = require('./FallbackPlugin');
-const { I18nPlugin, mapTranslationsToConfig } = require('./I18nPlugin');
-
 const projectRoot = path.resolve(__dirname, '..', '..');
 const magentoRoot = path.resolve(projectRoot, '..', '..', '..', '..', '..');
 const publicRoot = path.resolve(magentoRoot, 'pub');
 const fallbackRoot = path.resolve(magentoRoot, 'vendor', 'scandipwa', 'source');
+
+const dotenv = require('dotenv').config({ path: path.resolve(projectRoot, '.env') });
+
+const webmanifestConfig = require('./webmanifest.config');
+const BabelConfig = require('./babel.config');
+const FallbackPlugin = require('./FallbackPlugin');
+const { I18nPlugin, mapTranslationsToConfig } = require('./I18nPlugin');
 
 const staticVersion = Date.now();
 const publicPath = `/static/version${staticVersion}/frontend/Scandiweb/pwa/en_US/Magento_Theme/`;
@@ -147,7 +149,8 @@ const webpackConfig = ([lang, translation]) => ({
             'process.env': {
                 REBEM_MOD_DELIM: JSON.stringify('_'),
                 REBEM_ELEM_DELIM: JSON.stringify('-'),
-                MAGENTO_STATIC_VERSION: staticVersion
+                MAGENTO_STATIC_VERSION: staticVersion,
+                config: JSON.stringify(dotenv.parsed)
             }
         }),
 

@@ -12,7 +12,7 @@
         "OSL-3.0"
     ],
     "require": {
-        "magento/magento2-base": "2.3.2",
+        "magento/magento2-base": "^2.3.3",
         "scandipwa/menu-organizer": "^1.1.1",
         "scandipwa/persisted-query": "^2.0",
         "scandipwa/slider-graphql": "^1.0",
@@ -23,7 +23,8 @@
         "scandipwa/quote-graphql": "^2.6.0",
         "scandipwa/wishlist-graphql": "^1.2.0",
         "scandipwa/urlrewrite-graphql": "^1.0",
-        "scandipwa/reviews-graphql": "^1.0"
+        "scandipwa/reviews-graphql": "^1.0",
+        "scandipwa/paypal-graphql": "*"
     },
     "support": {
         "source": "https://bitbucket.org/scandiweb/scandipwa-base-theme",

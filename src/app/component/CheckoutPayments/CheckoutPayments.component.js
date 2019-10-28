@@ -12,24 +12,45 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
+import { paymentMethodsType } from 'Type/Checkout';
 import CheckoutPayment from 'Component/CheckoutPayment';
+import PayPal from 'Component/PayPal';
 
 import './CheckoutPayments.style';
-import { paymentMethodsType } from 'Type/Checkout';
 
 export const CHECK_MONEY = 'checkmo';
+export const PAYPAL_EXPRESS = 'paypal_express';
 
 class CheckoutPayments extends PureComponent {
     static propTypes = {
+        setLoading: PropTypes.func.isRequired,
+        setDetailsStep: PropTypes.func.isRequired,
         selectPaymentMethod: PropTypes.func.isRequired,
         paymentMethods: paymentMethodsType.isRequired,
+        setOrderButtonVisibility: PropTypes.func.isRequired,
         selectedPaymentCode: PropTypes.oneOf([
-            CHECK_MONEY
+            CHECK_MONEY,
+            PAYPAL_EXPRESS
         ]).isRequired
     };
 
     paymentRenderMap = {
     };
+
+    componentDidUpdate(prevProps) {
+        const { selectedPaymentCode, setOrderButtonVisibility } = this.props;
+        const { selectedPaymentCode: prevSelectedPaymentCode } = prevProps;
+
+        if (selectedPaymentCode !== prevSelectedPaymentCode) {
+            if (selectedPaymentCode === PAYPAL_EXPRESS) {
+                setOrderButtonVisibility(false);
+            }
+
+            if (prevSelectedPaymentCode === PAYPAL_EXPRESS) {
+                setOrderButtonVisibility(true);
+            }
+        }
+    }
 
     renderPayment = (method) => {
         const {
@@ -70,6 +91,18 @@ class CheckoutPayments extends PureComponent {
         );
     }
 
+    renderPayPal() {
+        const { selectedPaymentCode, setLoading, setDetailsStep } = this.props;
+
+        return (
+            <PayPal
+              setLoading={ setLoading }
+              setDetailsStep={ setDetailsStep }
+              isDisabled={ selectedPaymentCode !== PAYPAL_EXPRESS }
+            />
+        );
+    }
+
     render() {
         return (
             <div block="CheckoutPayments">
@@ -78,6 +111,7 @@ class CheckoutPayments extends PureComponent {
                     { this.renderPayments() }
                 </ul>
                 { this.renderSelectedPayment() }
+                { this.renderPayPal() }
             </div>
         );
     }

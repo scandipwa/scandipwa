@@ -25,7 +25,8 @@ export class ConfigQuery {
                 'base_currency_code',
                 'default_keywords',
                 'default_title',
-                'secure_base_media_url'
+                'secure_base_media_url',
+                'paypal_sandbox_flag'
             ]);
     }
 }

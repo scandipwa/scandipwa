@@ -1,0 +1,102 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+import React, { PureComponent } from 'react';
+import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
+import Html from 'Component/Html';
+
+import './PayPal.style';
+
+
+export const PAYPAL_SCRIPT = 'PAYPAL_SCRIPT';
+
+/**
+ * *Note*
+ * This component currently can be rendered only once
+ * Please try to have no more than 1 component per page and use isDisabled to hide it.
+*/
+export default class PayPal extends PureComponent {
+    static propTypes = {
+        isDisabled: PropTypes.bool,
+        paypal: PropTypes.any.isRequired,
+        clientId: PropTypes.string.isRequired,
+        cartTotals: PropTypes.shape({}).isRequired,
+        onError: PropTypes.func.isRequired,
+        onCancel: PropTypes.func.isRequired,
+        onApprove: PropTypes.func.isRequired,
+        createOrder: PropTypes.func.isRequired,
+        environment: PropTypes.oneOf([
+            'production',
+            'sandbox'
+        ]).isRequired
+    };
+
+    static defaultProps = {
+        isDisabled: false
+    };
+
+    getPayPalScript = () => {
+        const {
+            clientId,
+            cartTotals: { base_currency_code: currency }
+        } = this.props;
+
+        const params = {
+            currency,
+            intent: 'authorize',
+            'client-id': clientId
+        };
+
+        const paramsString = (Object.entries(params).map(([key, value]) => `${key}=${value}`)).join('&');
+
+        return `<script id="${PAYPAL_SCRIPT}" src="https://www.paypal.com/sdk/js?${paramsString}"></script>`;
+    };
+
+    renderButtons() {
+        const {
+            paypal,
+            onError,
+            onCancel,
+            onApprove,
+            createOrder,
+            environment
+        } = this.props;
+
+        if (!paypal) return null;
+
+        const PayPalButton = paypal && paypal.Buttons.driver('react', { React, ReactDOM });
+
+        return (
+            <PayPalButton
+              env={ environment }
+              onError={ onError }
+              onCancel={ onCancel }
+              onApprove={ onApprove }
+              createOrder={ createOrder }
+              style={ { layout: 'horizontal', label: 'pay' } }
+            />
+        );
+    }
+
+    render() {
+        const { isDisabled } = this.props;
+
+        const paypalScript = this.getPayPalScript();
+
+        return (
+            <div block="PayPal" mods={ { isDisabled } }>
+                <Html content={ paypalScript } />
+                { this.renderButtons() }
+            </div>
+        );
+    }
+}
