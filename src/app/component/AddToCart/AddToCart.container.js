@@ -76,7 +76,7 @@ export class AddToCartContainer extends PureComponent {
 
         if (isLoading) return true;
 
-        if (!type_id === 'configurable') {
+        if (type_id !== 'configurable') {
             const { stock_status } = product;
             return stock_status !== 'IN_STOCK';
         }
