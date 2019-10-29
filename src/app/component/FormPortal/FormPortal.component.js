@@ -11,7 +11,7 @@
 
 import Form from 'Component/Form/Form.component';
 
-class FormPortal extends Form {
+export default class FormPortal extends Form {
     componentDidUpdate(prevProps) {
         const { id: prevId } = prevProps;
         const { id } = this.props;
@@ -50,5 +50,3 @@ class FormPortal extends Form {
         return children;
     }
 }
-
-export default FormPortal;

@@ -19,7 +19,7 @@ import { shippingMethodsType, shippingMethodType } from 'Type/Checkout';
 import Loader from 'Component/Loader';
 import Form from 'Component/Form';
 
-class CheckoutShipping extends PureComponent {
+export default class CheckoutShipping extends PureComponent {
     static propTypes = {
         onShippingSuccess: PropTypes.func.isRequired,
         onShippingError: PropTypes.func.isRequired,
@@ -102,5 +102,3 @@ class CheckoutShipping extends PureComponent {
         );
     }
 }
-
-export default CheckoutShipping;

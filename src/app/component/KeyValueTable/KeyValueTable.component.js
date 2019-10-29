@@ -13,7 +13,7 @@ import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import './KeyValueTable.style';
 
-class KeyValueTable extends PureComponent {
+export default class KeyValueTable extends PureComponent {
     static propTypes = {
         title: PropTypes.string
     };
@@ -89,5 +89,3 @@ class KeyValueTable extends PureComponent {
         return this.renderTable();
     }
 }
-
-export default KeyValueTable;

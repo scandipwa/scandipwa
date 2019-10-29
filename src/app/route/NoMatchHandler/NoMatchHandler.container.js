@@ -14,11 +14,11 @@ import { withRouter } from 'react-router-dom';
 import { NoMatchDispatcher } from 'Store/NoMatch';
 import NoMatchHandler from './NoMatchHandler.component';
 
-const mapStateToProps = state => ({
+export const mapStateToProps = state => ({
     noMatch: state.NoMatchReducer.noMatch
 });
 
-const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = dispatch => ({
     updateNoMatch: (options) => {
         NoMatchDispatcher.updateNoMatch(dispatch, options);
     }

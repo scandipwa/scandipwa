@@ -18,7 +18,7 @@ import { TotalsType } from 'Type/MiniCart';
 import './CheckoutDeliveryOption.style';
 import { formatCurrency } from 'Util/Price';
 
-class CheckoutDeliveryOption extends PureComponent {
+export default class CheckoutDeliveryOption extends PureComponent {
     static propTypes = {
         option: shippingMethodType.isRequired,
         onClick: PropTypes.func.isRequired,
@@ -83,5 +83,3 @@ class CheckoutDeliveryOption extends PureComponent {
         );
     }
 }
-
-export default CheckoutDeliveryOption;

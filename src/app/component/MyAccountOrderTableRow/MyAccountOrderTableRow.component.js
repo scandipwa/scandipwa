@@ -16,7 +16,7 @@ import './MyAccountOrderTableRow.style';
 
 import { baseOrderInfoType } from 'Type/Account';
 
-class MyAccountOrderTableRow extends PureComponent {
+export default class MyAccountOrderTableRow extends PureComponent {
     static propTypes = {
         currency_code: PropTypes.string.isRequired,
         base_order_info: baseOrderInfoType.isRequired,
@@ -48,5 +48,3 @@ class MyAccountOrderTableRow extends PureComponent {
         );
     }
 }
-
-export default MyAccountOrderTableRow;

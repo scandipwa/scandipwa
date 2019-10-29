@@ -17,7 +17,7 @@ import FieldForm from 'Component/FieldForm';
 
 export const DEFAULT_COUNTRY_ID = 'US';
 
-class MyAccountAddressForm extends FieldForm {
+export default class MyAccountAddressForm extends FieldForm {
     static propTypes = {
         address: addressType.isRequired,
         countries: countriesType.isRequired,
@@ -173,5 +173,3 @@ class MyAccountAddressForm extends FieldForm {
         );
     }
 }
-
-export default MyAccountAddressForm;

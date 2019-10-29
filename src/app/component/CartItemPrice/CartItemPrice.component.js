@@ -14,7 +14,7 @@ import { formatCurrency, roundPrice } from 'Util/Price';
 import { MixType } from 'Type/Common';
 import PropTypes from 'prop-types';
 
-class CartItemPrice extends Component {
+export default class CartItemPrice extends Component {
     static propTypes = {
         row_total: PropTypes.number.isRequired,
         currency_code: PropTypes.string.isRequired,
@@ -34,5 +34,3 @@ class CartItemPrice extends Component {
         );
     }
 }
-
-export default CartItemPrice;

@@ -22,7 +22,7 @@ import Field from 'Component/Field';
 
 import './CheckoutBilling.style';
 
-class CheckoutBilling extends PureComponent {
+export default class CheckoutBilling extends PureComponent {
     static propTypes = {
         isSameAsShipping: PropTypes.bool.isRequired,
         onSameAsShippingChange: PropTypes.func.isRequired,
@@ -113,5 +113,3 @@ class CheckoutBilling extends PureComponent {
         );
     }
 }
-
-export default CheckoutBilling;

@@ -14,7 +14,7 @@ import MyAccountAddressTable from 'Component/MyAccountAddressTable/MyAccountAddr
 import Loader from 'Component/Loader';
 import './CheckoutAddressTable.style';
 
-class CheckoutAddressTable extends MyAccountAddressTable {
+export default class CheckoutAddressTable extends MyAccountAddressTable {
     static propTypes = {
         ...MyAccountAddressTable.propTypes,
         isSelected: PropTypes.bool,
@@ -58,5 +58,3 @@ class CheckoutAddressTable extends MyAccountAddressTable {
         );
     }
 }
-
-export default CheckoutAddressTable;

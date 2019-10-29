@@ -32,7 +32,7 @@ export const SHIPPING_STEP = 'SHIPPING_STEP';
 export const BILLING_STEP = 'BILLING_STEP';
 export const DETAILS_STEP = 'DETAILS_STEP';
 
-class Checkout extends PureComponent {
+export default class Checkout extends PureComponent {
     static propTypes = {
         shippingMethods: shippingMethodsType.isRequired,
         onShippingEstimationFieldsChange: PropTypes.func.isRequired,
@@ -212,5 +212,3 @@ class Checkout extends PureComponent {
         );
     }
 }
-
-export default Checkout;

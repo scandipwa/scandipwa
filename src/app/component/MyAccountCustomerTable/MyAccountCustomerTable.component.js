@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import KeyValueTable from 'Component/KeyValueTable';
 import './MyAccountCustomerTable.style';
 
-class MyAccountCustomerTable extends KeyValueTable {
+export default class MyAccountCustomerTable extends KeyValueTable {
     static propTypes = {
         customer: customerType.isRequired,
         showEditPopup: PropTypes.func.isRequired,
@@ -74,5 +74,3 @@ class MyAccountCustomerTable extends KeyValueTable {
         );
     }
 }
-
-export default MyAccountCustomerTable;

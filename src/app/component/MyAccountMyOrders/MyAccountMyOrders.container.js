@@ -24,7 +24,7 @@ export const mapDispatchToProps = dispatch => ({
     getOrderList: () => OrderDispatcher.requestOrders(dispatch)
 });
 
-class MyAccountMyOrdersContainer extends PureComponent {
+export class MyAccountMyOrdersContainer extends PureComponent {
     static propTypes = {
         getOrderList: PropTypes.func.isRequired
     };

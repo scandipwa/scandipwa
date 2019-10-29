@@ -21,7 +21,7 @@ export const mapDispatchToProps = dispatch => ({
     showPopup: payload => dispatch(showPopup(REVIEW_POPUP_ID, payload))
 });
 
-class ProductReviewsContainer extends PureComponent {
+export class ProductReviewsContainer extends PureComponent {
     static propTypes = {
         showPopup: PropTypes.func.isRequired
     };

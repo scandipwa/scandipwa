@@ -20,7 +20,7 @@ export const mapDispatchToProps = dispatch => ({
     removeCouponFromCart: () => CartDispatcher.removeCouponFromCart(dispatch)
 });
 
-class CartCouponContainer extends PureComponent {
+export class CartCouponContainer extends PureComponent {
     static propTypes = {
         couponCode: PropTypes.string,
         applyCouponToCart: PropTypes.func.isRequired,

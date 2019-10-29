@@ -30,7 +30,7 @@ import {
 
 import './MyAccount.style';
 
-class MyAccount extends PureComponent {
+export default class MyAccount extends PureComponent {
     static propTypes = {
         activeTab: activeTabType.isRequired,
         tabMap: tabMapType.isRequired,
@@ -70,5 +70,3 @@ class MyAccount extends PureComponent {
         );
     }
 }
-
-export default MyAccount;

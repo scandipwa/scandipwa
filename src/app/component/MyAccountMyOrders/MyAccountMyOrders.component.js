@@ -19,7 +19,7 @@ import MyAccountOrderTableRow from 'Component/MyAccountOrderTableRow';
 
 import './MyAccountMyOrders.style';
 
-class MyAccountMyOrders extends PureComponent {
+export default class MyAccountMyOrders extends PureComponent {
     static propTypes = {
         orderList: ordersType.isRequired,
         isLoading: PropTypes.bool.isRequired
@@ -93,5 +93,3 @@ class MyAccountMyOrders extends PureComponent {
         );
     }
 }
-
-export default MyAccountMyOrders;

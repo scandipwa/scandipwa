@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import { tabType } from 'Type/Account';
 import './MyAccountTabListItem.style';
 
-class MyAccountTabListItem extends PureComponent {
+export default class MyAccountTabListItem extends PureComponent {
     static propTypes = {
         tabEntry: PropTypes.arrayOf(
             PropTypes.oneOfType([
@@ -55,5 +55,3 @@ class MyAccountTabListItem extends PureComponent {
         );
     }
 }
-
-export default MyAccountTabListItem;

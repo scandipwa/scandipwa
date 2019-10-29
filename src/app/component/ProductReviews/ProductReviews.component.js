@@ -24,7 +24,7 @@ import ContentWrapper from 'Component/ContentWrapper';
 
 export const REVIEW_POPUP_ID = 'REVIEW_POPUP_ID';
 
-class ProductReviews extends PureComponent {
+export default class ProductReviews extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         showPopup: PropTypes.func.isRequired
@@ -143,5 +143,3 @@ class ProductReviews extends PureComponent {
         );
     }
 }
-
-export default ProductReviews;
