@@ -35,8 +35,14 @@ export class MenuReducer {
         };
     }
 
+    /**
+     * Given an array of menu items, returns a copy of the array, sorted by their parent ID, then by their sort order (position)
+     *
+     * @param unsortedItems an array of items to be sorted
+     * @returns {array} the sorted array
+     */
     getSortedItems(unsortedItems) {
-        return unsortedItems.sort((
+        return Array.from(unsortedItems).sort((
             { parent_id: PID, position: P },
             { parent_id: prevPID, position: prevP }
         ) => (PID - prevPID) || (P - prevP));
