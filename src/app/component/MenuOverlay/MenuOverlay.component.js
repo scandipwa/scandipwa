@@ -15,7 +15,7 @@ import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import media from 'Util/Media';
-import menu from 'Util/Menu';
+import { getSortedItems } from 'Util/Menu';
 import Link from 'Component/Link';
 import Image from 'Component/Image';
 import { MenuType } from 'Type/Menu';
@@ -95,7 +95,7 @@ export default class MenuOverlay extends PureComponent {
     renderSubLevel(category) {
         const { activeMenuItemsStack } = this.state;
         const { item_id, children } = category;
-        const childrenArray = menu.getSortedItems(Object.values(children));
+        const childrenArray = getSortedItems(Object.values(children));
         const isVisible = activeMenuItemsStack.includes(item_id);
         const subcategoryMods = { type: 'subcategory' };
 
@@ -138,7 +138,7 @@ export default class MenuOverlay extends PureComponent {
     }
 
     renderFirstLevel(itemList, itemMods) {
-        const childrenArray = menu.getSortedItems(Object.values(itemList));
+        const childrenArray = getSortedItems(Object.values(itemList));
 
         return childrenArray.map((item) => {
             const { item_id, children, url } = item;
