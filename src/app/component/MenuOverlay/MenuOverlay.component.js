@@ -71,9 +71,10 @@ export default class MenuOverlay extends PureComponent {
     renderItemContent(item, mods = {}) {
         const { title, icon, item_class } = item;
         const itemMods = item_class === 'MenuOverlay-ItemFigure_type_banner' ? { type: 'banner' } : mods;
+        const itemModsClass = item_class ? { ...itemMods, [item_class]: true } : itemMods;
 
         return (
-            <figure block="MenuOverlay" elem="ItemFigure" mods={ itemMods }>
+            <figure block="MenuOverlay" elem="ItemFigure" mods={ itemModsClass }>
                 <Image
                   mix={ { block: 'MenuOverlay', elem: 'Image', mods: itemMods } }
                   src={ icon && media(icon) }
