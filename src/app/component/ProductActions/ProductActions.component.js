@@ -36,6 +36,8 @@ import ProductReviewRating from 'Component/ProductReviewRating';
 export default class ProductActions extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
+        minQuantity: PropTypes.number.isRequired,
+        maxQuantity: PropTypes.number.isRequired,
         configurableVariantIndex: PropTypes.number,
         showOnlyIfLoaded: PropTypes.func.isRequired,
         quantity: PropTypes.number.isRequired,
@@ -171,15 +173,21 @@ export default class ProductActions extends PureComponent {
     }
 
     renderQuantityInput() {
-        const { quantity, setQuantity } = this.props;
+        const {
+            quantity,
+            maxQuantity,
+            minQuantity,
+            setQuantity
+        } = this.props;
 
         return (
             <Field
               id="item_qty"
               name="item_qty"
               type="number"
-              min={ 1 }
               value={ quantity }
+              max={ maxQuantity }
+              min={ minQuantity }
               mix={ { block: 'ProductActions', elem: 'Qty' } }
               onChange={ setQuantity }
             />

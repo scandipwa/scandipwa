@@ -19,6 +19,8 @@ export const mapStateToProps = state => ({
     groupedProductQuantity: state.ProductReducer.groupedProductQuantity
 });
 
+export const DEFAULT_MAX_PRODUCTS = 99;
+
 export class ProductActionsContainer extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
@@ -36,8 +38,40 @@ export class ProductActionsContainer extends PureComponent {
         getIsConfigurableAttributeAvailable: this.getIsConfigurableAttributeAvailable.bind(this)
     };
 
+    componentDidUpdate() {
+        this.checkQuantity();
+    }
+
     setQuantity(value) {
         this.setState({ quantity: +value });
+    }
+
+    getMinQuantity() {
+        const {
+            product: { stock_item: { min_sale_qty } = {}, variants } = {},
+            configurableVariantIndex
+        } = this.props;
+
+        if (!min_sale_qty) return 1;
+        if (!configurableVariantIndex && !variants) return min_sale_qty;
+
+        const { stock_item: { min_sale_qty: minVariantQty } = {} } = variants[configurableVariantIndex] || {};
+
+        return minVariantQty || min_sale_qty;
+    }
+
+    getMaxQuantity() {
+        const {
+            product: { stock_item: { max_sale_qty } = {}, variants } = {},
+            configurableVariantIndex
+        } = this.props;
+
+        if (!max_sale_qty) return DEFAULT_MAX_PRODUCTS;
+        if (!configurableVariantIndex && !variants) return max_sale_qty;
+
+        const { stock_item: { max_sale_qty: maxVariantQty } = {} } = variants[configurableVariantIndex] || {};
+
+        return maxVariantQty || max_sale_qty;
     }
 
     // TODO: make key=>value based
@@ -76,6 +110,21 @@ export class ProductActionsContainer extends PureComponent {
             });
     }
 
+    containerProps = () => ({
+        minQuantity: this.getMinQuantity(),
+        maxQuantity: this.getMaxQuantity()
+    });
+
+    checkQuantity() {
+        const { quantity } = this.state;
+        const minQty = this.getMinQuantity();
+        const maxQty = this.getMaxQuantity();
+
+
+        if (quantity < minQty) this.setState({ quantity: minQty });
+        if (quantity > maxQty) this.setState({ quantity: maxQty });
+    }
+
     showOnlyIfLoaded(expression, content, placeholder = content) {
         const { areDetailsLoaded } = this.props;
 
@@ -89,6 +138,7 @@ export class ProductActionsContainer extends PureComponent {
             <ProductActions
               { ...this.props }
               { ...this.state }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );

@@ -128,6 +128,7 @@ export class ProductListQuery {
             'type_id',
             this._getPriceField(),
             this._getThumbnailField(),
+            this._getStockItemField(),
             this._getShortDescriptionField(),
             this._getAttributesField(isVariant),
             ...(!isVariant
@@ -145,7 +146,6 @@ export class ProductListQuery {
                     'meta_keyword',
                     'canonical_url',
                     'meta_description',
-                    this._getStockItemField(),
                     this._getDescriptionField(),
                     this._getMediaGalleryField(),
                     ...(!isVariant
