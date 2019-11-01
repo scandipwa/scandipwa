@@ -20,9 +20,10 @@ import CartItem from 'Component/CartItem';
 import { TotalsType } from 'Type/MiniCart';
 import CartCoupon from 'Component/CartCoupon';
 import ContentWrapper from 'Component/ContentWrapper';
+import CartCrossSell from 'Component/CartCrossSell';
 import { formatCurrency, roundPrice } from 'Util/Price';
-import ExpandableContent from 'Component/ExpandableContent';
 
+import ExpandableContent from 'Component/ExpandableContent';
 import './CartPage.style';
 
 export default class CartPage extends Component {
@@ -155,6 +156,13 @@ export default class CartPage extends Component {
         );
     }
 
+    renderCrossSellProducts() {
+        const { totals: { items } } = this.props;
+        return (
+            <CartCrossSell products={ items } />
+        );
+    }
+
     renderPaymentMethods() {
         return (
             <img
@@ -201,6 +209,7 @@ export default class CartPage extends Component {
                         <h2 block="CartPage" elem="Heading">{ __('Shopping cart') }</h2>
                         { this.renderCartItems() }
                         { this.renderDiscountCode() }
+                        { this.renderCrossSellProducts() }
                     </div>
                     <div block="CartPage" elem="Floating">
                         { this.renderPaymentMethods() }
