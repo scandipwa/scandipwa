@@ -43,9 +43,29 @@
         height: var(--option-size);
         width: var(--option-size);
         margin: var(--option-margin);
+        padding: var(--option-padding);
+    }
+
+    &-Image {
+        padding: 0;
+        border-radius: 50%;
+        position: relative;
+    }
+
+    &-Image-Overlay {
+        --option-check-mark-background: white;
+        position: absolute;
+        top: 0;
+        left: 0;
+        margin: .5rem;
+
+        @include after-mobile {
+            margin: 0;
+        }
     }
 
     &-Color,
+<<<<<<< HEAD
     &-String {
         padding: var(--option-padding);
     }
@@ -63,6 +83,8 @@
     }
 
     &-Color,
+=======
+>>>>>>> 7a947da4233964daf60dfab37fc4f6706c77e18a
     &-Image-Overlay {
         border-radius: 50%;
         font-size: 0;
