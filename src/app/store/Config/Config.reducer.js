@@ -46,7 +46,8 @@ export const getLogoSize = (
 };
 
 export const filterStoreConfig = config => Object.entries(config).reduce(
-    (acc, [key, value]) => (value ? { ...acc, [key]: value } : acc), {}
+    (acc, [key, value]) => (value ? { ...acc, [key]: value } : acc),
+    {}
 );
 
 const { countries, reviewRatings, storeConfig } = BrowserDatabase.getItem('config') || {
