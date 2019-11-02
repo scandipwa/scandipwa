@@ -65,26 +65,6 @@
     }
 
     &-Color,
-<<<<<<< HEAD
-    &-String {
-        padding: var(--option-padding);
-    }
-
-    &-Image {
-        border-radius: 50%;
-        position: relative;
-    }
-
-    &-Image-Overlay {
-        --option-check-mark-background: white;
-        position: absolute;
-        top:0;
-        left:0;
-    }
-
-    &-Color,
-=======
->>>>>>> 7a947da4233964daf60dfab37fc4f6706c77e18a
     &-Image-Overlay {
         border-radius: 50%;
         font-size: 0;
