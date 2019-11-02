@@ -88,14 +88,15 @@ export default class Header extends PureComponent {
         logoSize: PropTypes.shape({
             width: PropTypes.number,
             height: PropTypes.number
-        }).isRequired,
+        }),
         isLoading: PropTypes.bool
     };
 
     static defaultProps = {
         logo_alt: 'ScandiPWA logo',
         header_logo_src: '',
-        isLoading: true
+        isLoading: true,
+        logoSize: {}
     };
 
     stateMap = {
