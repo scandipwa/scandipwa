@@ -41,6 +41,7 @@ import { ConfigDispatcher } from 'Store/Config';
 import { CartDispatcher } from 'Store/Cart';
 import { WishlistDispatcher } from 'Store/Wishlist';
 import SomethingWentWrong from './SomethingWentWrong';
+import ConfirmAccountPage from './ConfirmAccountPage';
 
 export const BEFORE_ITEMS_TYPE = 'BEFORE_ITEMS_TYPE';
 export const SWITCH_ITEMS_TYPE = 'SWITCH_ITEMS_TYPE';
@@ -96,6 +97,10 @@ class AppRouter extends PureComponent {
         {
             component: <Route path="/:account*/createPassword/" component={ PasswordChangePage } />,
             position: 60
+        },
+        {
+            component: <Route path="/:account*/confirm" component={ ConfirmAccountPage } />,
+            position: 65
         },
         {
             component: <Route path="/my-account/:tab?" component={ MyAccount } />,
