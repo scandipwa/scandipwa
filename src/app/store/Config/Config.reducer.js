@@ -12,13 +12,11 @@
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { UPDATE_CONFIG } from './Config.action';
 
-export const MAX_WIDTH = 200;
-export const MAX_HEIGHT = 50;
-export const DEFAULT_LOGO_WIDTH = 183;
-export const DEFAULT_LOGO_HEIGHT = 46;
+export const MAX_WIDTH = 150;
+export const MAX_HEIGHT = 40;
 
 export const getLogoSize = (
-    logo_height = DEFAULT_LOGO_HEIGHT, logo_width = DEFAULT_LOGO_WIDTH, header_logo_src
+    logo_height = MAX_HEIGHT, logo_width = MAX_WIDTH, header_logo_src
 ) => {
     if (!header_logo_src) return {};
 
