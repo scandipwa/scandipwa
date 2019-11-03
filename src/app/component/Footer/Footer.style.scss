@@ -20,6 +20,32 @@
     align-items: center;
     justify-content: center;
 
+    &-CopyrightContainer {
+        margin: 0 1rem 0 1rem;
+        display: flex;
+        justify-items: center;
+        justify-content: center;
+        padding-top: 5px;
+        align-items: center;
+        flex-direction: column;
+
+        @include after-mobile {
+            align-items: start;
+            flex-direction: row;
+        }
+    }
+
+    &-Logo {
+        margin-top: 5px;
+        order: 2;
+
+        @include after-mobile {
+            margin: 0 10px 0 0;
+            order: 0;
+            flex-direction: row;
+        }
+    }
+
     &-Link,
     &-Copyright {
         font-size: 11px;
