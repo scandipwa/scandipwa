@@ -18,6 +18,7 @@ export class ConfigQuery {
                 'cms_home_page',
                 'cms_no_route',
                 'copyright',
+                'timezone',
                 'header_logo_src',
                 'timezone',
                 'title_prefix',
@@ -25,7 +26,10 @@ export class ConfigQuery {
                 'base_currency_code',
                 'default_keywords',
                 'default_title',
-                'secure_base_media_url'
+                'secure_base_media_url',
+                'logo_alt',
+                'logo_height',
+                'logo_width'
             ]);
     }
 }
