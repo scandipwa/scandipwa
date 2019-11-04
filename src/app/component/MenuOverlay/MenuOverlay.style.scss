@@ -290,6 +290,25 @@
             &_banner {
                 margin-top: 1rem;
             }
+
+            &_noImage {
+                min-height: 3.2rem;
+                grid-column: 2;
+            }
+        }
+
+        &_defaultBanner {
+            background-color: var(--menu-overlay-item-figure-background);
+            grid-column: unset;
+            min-height: 6.1rem;
+
+            + figcaption {
+                color: $black;
+
+                &:hover {
+                    color: var(--menu-overlay-item-hover-color);
+                }
+            }
         }
     }
 
