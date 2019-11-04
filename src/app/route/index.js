@@ -25,6 +25,7 @@ import CmsPage from 'Route/CmsPage';
 import CartPage from 'Route/CartPage';
 import MyAccount from 'Route/MyAccount';
 import PasswordChangePage from 'Route/PasswordChangePage';
+import WishlistShared from 'Route/WishlistSharedPage';
 import NoMatchHandler from 'Route/NoMatchHandler';
 import UrlRewrites from 'Route/UrlRewrites';
 import Checkout from 'Route/Checkout';
@@ -100,6 +101,10 @@ class AppRouter extends PureComponent {
         {
             component: <Route path="/my-account/:tab?" component={ MyAccount } />,
             position: 70
+        },
+        {
+            component: <Route path="/wishlist/shared/:code" component={ WishlistShared } />,
+            position: 80
         },
         {
             component: <Route component={ UrlRewrites } />,
