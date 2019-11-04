@@ -42,10 +42,29 @@ export default class MyAccountMyWishlist extends PureComponent {
         return Object.entries(wishlistItems).map(this.renderProduct);
     }
 
-    renderActionLine() {
+    renderClearWishlist() {
         const {
             isWishlistLoading,
             removeAll,
+            isWishlistEmpty
+        } = this.props;
+
+        const disabled = isWishlistLoading || isWishlistEmpty;
+
+        return (
+            <button
+              block="Button"
+              onClick={ removeAll }
+              disabled={ disabled }
+            >
+                { __('Clear Wishlist') }
+            </button>
+        );
+    }
+
+    renderAddAllToCart() {
+        const {
+            isWishlistLoading,
             addAllToCart,
             isWishlistEmpty
         } = this.props;
@@ -53,21 +72,21 @@ export default class MyAccountMyWishlist extends PureComponent {
         const disabled = isWishlistLoading || isWishlistEmpty;
 
         return (
+            <button
+              block="Button"
+              onClick={ addAllToCart }
+              disabled={ disabled }
+            >
+              { __('Add All to Cart') }
+            </button>
+        );
+    }
+
+    renderActionLine() {
+        return (
             <div block="MyAccountMyWishlist" elem="ActionBar">
-                <button
-                  block="Button"
-                  onClick={ removeAll }
-                  disabled={ disabled }
-                >
-                    { __('Clear Wishlist') }
-                </button>
-                <button
-                  block="Button"
-                  onClick={ addAllToCart }
-                  disabled={ disabled }
-                >
-                    { __('Add All to Cart') }
-                </button>
+                { this.renderClearWishlist() }
+                { this.renderAddAllToCart() }
             </div>
         );
     }
