@@ -30,18 +30,12 @@ class CartCrossSell extends PureComponent {
      * @returns {*}
      */
     renderProductCard(product) {
-        const { variants } = product;
-        const modifiedProduct = {
-            ...product,
-            variants: variants.map(({ product }) => product)
-        };
-
         return (
             <ProductCard
               block="CartCrossSellProducts"
               elem="Card"
-              product={ modifiedProduct }
-              key={ modifiedProduct.id }
+              product={ product }
+              key={ product.id }
               showName
             />
         );

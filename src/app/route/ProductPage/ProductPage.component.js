@@ -21,7 +21,7 @@ import ContentWrapper from 'Component/ContentWrapper';
 import ProductReviews from 'Component/ProductReviews';
 import RelatedProducts from 'Component/RelatedProducts';
 import ProductInformation from 'Component/ProductInformation';
-
+import UpsellProducts from 'Component/UpsellProducts';
 import './ProductPage.style';
 
 export default class ProductPage extends Component {
@@ -73,6 +73,7 @@ export default class ProductPage extends Component {
                   areDetailsLoaded={ areDetailsLoaded }
                 />
                 <ProductReviews product={ dataSource } />
+                <UpsellProducts products={ [dataSource] } label={ __('Worth Looking Into') } />
                 <RelatedProducts
                   product={ dataSource }
                   areDetailsLoaded={ areDetailsLoaded }

@@ -11,6 +11,7 @@
 
 /* eslint-disable no-param-reassign */
 
+import { getIndexedProducts } from 'Util/Product';
 import {
     UPDATE_LINKED_PRODUCTS
 } from './LinkedProducts.action';
@@ -28,17 +29,16 @@ const LinkedProductsReducer = (state = initialState, action) => {
         const { linkedProducts } = action;
         Object.values(linkedProducts).forEach((item) => {
             if (item && item.items) {
-                item.items.forEach(({ attributes }, i) => {
-                    attributes.forEach(({ attribute_code, attribute_value }) => {
-                        item.items[i][attribute_code] = attribute_value;
-                    });
-                });
+                item.items = getIndexedProducts(item.items);
             }
         });
 
         return {
-            ...state,
-            linkedProducts
+            linkedProducts: {
+                upsell: { ...state.linkedProducts.upsell, ...linkedProducts.upsell },
+                related: { ...state.linkedProducts.related, ...linkedProducts.related },
+                crossSell: { ...state.linkedProducts.crossSell, ...linkedProducts.crossSell }
+            }
         };
     }
 

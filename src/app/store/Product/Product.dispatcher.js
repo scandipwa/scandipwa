@@ -14,6 +14,7 @@ import { ProductListQuery } from 'Query';
 import { updateProductDetails, updateGroupedProductQuantity, clearGroupedProductQuantity } from 'Store/Product';
 import { updateNoMatch } from 'Store/NoMatch';
 import { RelatedProductsDispatcher } from 'Store/RelatedProducts';
+import { LinkedProductsDispatcher } from 'Store/LinkedProducts';
 
 /**
  * Product List Dispatcher
@@ -33,6 +34,25 @@ export class ProductDispatcher extends QueryDispatcher {
         const [productItem] = items;
         const product = productItem.type_id === 'grouped'
             ? this._prepareGroupedProduct(productItem) : productItem;
+
+        if (items.length > 0) {
+            const product_links = items.reduce((links, product) => {
+                const { product_links } = product;
+                if (product_links) {
+                    Object.values(product_links).forEach((item) => {
+                        if (item.link_type === 'upsell') {
+                            links.push(item);
+                        }
+                    });
+                }
+
+                return links;
+            }, []);
+
+            if (product_links.length !== 0) {
+                LinkedProductsDispatcher.handleData(dispatch, product_links);
+            }
+        }
 
         // TODO: make one request per description & related in this.prepareRequest
         if (productItem && productItem.product_links && Object.keys(productItem.product_links).length > 0) {
