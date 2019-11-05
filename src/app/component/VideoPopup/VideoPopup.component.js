@@ -83,7 +83,7 @@ export default class VideoPopup extends PureComponent {
 
     render() {
         return (
-            <Popup id={ VIDEO_POPUP_ID }>
+            <Popup id={ VIDEO_POPUP_ID } mix={ { block: 'VideoPopup' } }>
                 <div block="VideoPopup" elem="VideoPlayer">
                     <div block="VideoPopup" elem="PlayerContent">
                         { this._renderVideoContent() }
