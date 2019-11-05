@@ -13,6 +13,7 @@
 
 import { PureComponent } from 'react';
 import Vimeo from 'react-vimeo';
+import YouTube from 'react-youtube';
 import './VideoPopup.style';
 import Popup from 'Component/Popup';
 import { MediaItemType } from 'Type/ProductList';
@@ -24,6 +25,8 @@ export const VIDEO_POPUP_ID = 'VIDEO_POPUP_ID';
  * @type {RegExp}
  */
 const VIMEO_FORMAT = new RegExp('(?:https?//)?vimeo.com[\\w/]*/(\\d+)$');
+
+const YOUTUBE_FORMAT = new RegExp('(?:https?//)?www.youtube.com/watch\\?v=(\\w+)');
 
 /**
  * VideoThumbnail player component
@@ -39,6 +42,18 @@ export default class VideoPopup extends PureComponent {
             <Vimeo
               videoId={ videoId }
               autoplay
+            />
+        );
+    }
+
+    _renderYoutubeVideo(videoId) {
+        return (
+            <YouTube
+              videoId={ videoId }
+              containerClassName="VideoPopup-YouTubeContainer"
+              // eslint-disable-next-line react/forbid-component-props
+              className="VideoPopup-YouTube"
+              opts={ { playerVars: { autoplay: 1 } } }
             />
         );
     }
@@ -59,6 +74,9 @@ export default class VideoPopup extends PureComponent {
 
         const [, vimeoId] = VIMEO_FORMAT.exec(video_url) || [];
         if (vimeoId) return this._renderVimeoVideo(vimeoId);
+
+        const [, youtubeId] = YOUTUBE_FORMAT.exec(video_url);
+        if (youtubeId) return this._renderYoutubeVideo(youtubeId);
 
         return null;
     }
