@@ -34,6 +34,12 @@ export class VideoThumbnailContainer extends PureComponent {
         onPlayClick: this._onPlayClick.bind(this)
     };
 
+    /**
+     * Handles events that occur when the user clicks or taps on a video thumbnail.
+     * Displays a popup with the corresponding video.
+     * @param event
+     * @private
+     */
     _onPlayClick(event) {
         const {
             media,

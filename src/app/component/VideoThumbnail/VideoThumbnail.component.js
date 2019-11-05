@@ -18,7 +18,7 @@ import './VideoThumbnail.style';
 import Image from 'Component/Image/Image.container';
 
 /**
- * VideoThumbnail player component
+ * VideoThumbnail component
  * @class VideoThumbnail
  */
 export default class VideoThumbnail extends PureComponent {
@@ -27,6 +27,9 @@ export default class VideoThumbnail extends PureComponent {
         onPlayClick: PropTypes.func.isRequired
     };
 
+    /**
+     * Renders an icon indicating that the video can be played
+     */
     renderPlayIcon() {
         return (
             <div block="VideoThumbnail" elem="IconContainer">
@@ -46,8 +49,6 @@ export default class VideoThumbnail extends PureComponent {
             },
             onPlayClick
         } = this.props;
-
-        console.log(this.props);
 
         return (
             <button block="VideoThumbnail" elem="PlayButton" onClick={ onPlayClick }>

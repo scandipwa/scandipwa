@@ -60,6 +60,13 @@ export default class ProductGallery extends PureComponent {
         this.setState({ activeImage });
     }
 
+    /**
+     * Renders a product image to be displayed in the gallery
+     * @param mediaData
+     * @param index
+     * @returns {*}
+     * @private
+     */
     _renderImageItem(mediaData, index) {
         const {
             label,
@@ -92,6 +99,13 @@ export default class ProductGallery extends PureComponent {
         );
     }
 
+    /**
+     * Renders a video thumbnail which opens popup player on click/tap
+     * @param media
+     * @param index
+     * @returns {*}
+     * @private
+     */
     _renderVideoItem(media, index) {
         return <VideoThumbnail key={ index } media={ media } />;
     }
@@ -131,8 +145,13 @@ export default class ProductGallery extends PureComponent {
         );
     }
 
+    /**
+     * Checks for the type of the slide and renders it accordingly
+     * @param media
+     * @param index
+     * @returns {null|*}
+     */
     renderSlide(media, index) {
-        console.log(media);
         const { media_type } = media;
 
         switch (media_type) {

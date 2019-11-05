@@ -70,6 +70,10 @@ export class ProductGalleryContainer extends PureComponent {
         productName: this._getProductName()
     });
 
+    /**
+     * Returns the name of the product this gallery if for
+     * @private
+     */
     _getProductName() {
         const { product: { name } } = this.props;
         return name;

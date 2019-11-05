@@ -29,7 +29,7 @@ const VIMEO_FORMAT = new RegExp('(?:https?//)?vimeo.com[\\w/]*/(\\d+)$');
 const YOUTUBE_FORMAT = new RegExp('(?:https?//)?www.youtube.com/watch\\?v=(\\w+)');
 
 /**
- * VideoThumbnail player component
+ * A popup capable of displaying a video
  * @class VideoPopup
  */
 export default class VideoPopup extends PureComponent {
@@ -37,6 +37,12 @@ export default class VideoPopup extends PureComponent {
         payload: MediaItemType.isRequired
     };
 
+    /**
+     * Renders a video provided by Vimeo
+     * @param videoId
+     * @returns {*}
+     * @private
+     */
     _renderVimeoVideo(videoId) {
         return (
             <Vimeo
@@ -46,6 +52,12 @@ export default class VideoPopup extends PureComponent {
         );
     }
 
+    /**
+     * Renders a video provided by Youtube
+     * @param videoId
+     * @returns {*}
+     * @private
+     */
     _renderYoutubeVideo(videoId) {
         return (
             <YouTube
@@ -58,6 +70,11 @@ export default class VideoPopup extends PureComponent {
         );
     }
 
+    /**
+     * Parses the video URL and renders the video accordingly
+     * @returns {null|*}
+     * @private
+     */
     _renderVideoContent() {
         const {
             payload: {
@@ -68,9 +85,6 @@ export default class VideoPopup extends PureComponent {
         } = this.props;
 
         if (!video_url) return null;
-
-        console.log(this.props);
-
 
         const [, vimeoId] = VIMEO_FORMAT.exec(video_url) || [];
         if (vimeoId) return this._renderVimeoVideo(vimeoId);
