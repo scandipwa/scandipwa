@@ -13,9 +13,12 @@ import { Field } from 'Util/Query';
 import { ProductListQuery } from 'Query';
 
 export class Wishlist {
-    getWishlistQuery() {
-        return new Field('wishlist')
+    getWishlistQuery(sharingCode) {
+        const field = new Field('wishlist')
             .addFieldList(this._getWishlistFields());
+
+        if (sharingCode) field.addArgument('sharing_code', 'String', sharingCode);
+        return field;
     }
 
     getSaveWishlistItemMutation(wishlistItem) {
