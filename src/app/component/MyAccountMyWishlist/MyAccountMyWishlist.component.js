@@ -14,9 +14,10 @@ import PropTypes from 'prop-types';
 import { ProductType } from 'Type/ProductList';
 import ProductCard from 'Component/ProductCard';
 import WishlistItem from 'Component/WishlistItem';
-import './MyAccountMyWishlist.style';
 import Loader from 'Component/Loader';
 import Link from 'Component/Link';
+
+import './MyAccountMyWishlist.style';
 
 export default class MyAccountMyWishlist extends PureComponent {
     static propTypes = {

@@ -42,8 +42,9 @@ export class Wishlist {
 
     _getWishlistFields() {
         return [
-            'items_count',
             'updated_at',
+            'items_count',
+            'creators_name',
             this._getItemsField()
         ];
     }
