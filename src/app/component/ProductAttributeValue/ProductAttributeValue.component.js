@@ -15,6 +15,7 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { AttributeType } from 'Type/ProductList';
 import { MixType } from 'Type/Common';
+import Field from 'Component/Field/Field.component';
 import './ProductAttributeValue.style';
 
 export default class ProductAttributeValue extends Component {
@@ -158,15 +159,32 @@ export default class ProductAttributeValue extends Component {
         );
     }
 
-    renderStringValue(value, label) {
+    renderDropdown(value) {
         const { isSelected } = this.props;
+        return (
+            <Field
+              id={ value }
+              name={ value }
+              type="checkbox"
+              label={ value }
+              value={ value }
+              mix={ { block: 'ProductAttributeValue', elem: 'Text', mods: { isSelected } } }
+              checked={ isSelected }
+            />
+        );
+    }
 
+    renderStringValue(value, label) {
+        const isNotSwatch = !label;
+        if (isNotSwatch) return this.renderDropdown(value);
+
+        const { isSelected } = this.props;
         return (
             <span
               block="ProductAttributeValue"
-              elem="String"
+              elem={ isNotSwatch ? 'Text' : 'String' }
               mods={ { isSelected } }
-              title={ label || value }
+              title={ label }
             >
                 { value }
             </span>
