@@ -9,8 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import SourceWishlist from 'Component/MyAccountMyWishlist/MyAccountMyWishlist.component';
-
-export default class WishlistShared extends SourceWishlist {
-
-}
+export { default } from './SharedWishlistItem.container';

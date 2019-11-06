@@ -9,4 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default } from './WishlistShared.container';
+export { default } from './WishlistSharedPage.container';
