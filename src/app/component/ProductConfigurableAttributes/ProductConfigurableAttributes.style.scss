@@ -23,22 +23,21 @@
     &-AttributesList,
     &-AttributesVerticalList {
         text-align: center;
+
+        @include after-mobile {
+            --option-size: 33px;
+        }
+    }
+
+    &-AttributesList {
         display: flex;
         flex-wrap: wrap;
         justify-content: var(--product-configurable-attributes-direction);
         align-items: center;
-
-        @include after-mobile {
-            --option-size: 33px;
-
-            display: flex;
-            flex-wrap: wrap;
-        }
     }
 
     &-AttributesVerticalList {
-        flex-direction: column;
-        align-items: start;
+        width: 100%;
     }
 
     &-Expandable {
