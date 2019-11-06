@@ -15,34 +15,6 @@ import { UPDATE_CONFIG } from './Config.action';
 export const MAX_WIDTH = 150;
 export const MAX_HEIGHT = 40;
 
-export const getLogoSize = (
-    logo_height = MAX_HEIGHT, logo_width = MAX_WIDTH, header_logo_src
-) => {
-    if (!header_logo_src) return {};
-
-    if (logo_height > MAX_HEIGHT) {
-        const newWidth = Math.round(logo_width / (logo_height / MAX_HEIGHT));
-
-        if (newWidth > MAX_WIDTH) {
-            const newHeight = Math.round(MAX_HEIGHT / (newWidth / MAX_WIDTH));
-
-            return { height: newHeight, width: MAX_WIDTH };
-        }
-
-        return { height: MAX_HEIGHT, width: newWidth };
-    }
-
-    if (logo_width > MAX_WIDTH) {
-        const newHeight = Math.round(logo_height / (logo_width / MAX_WIDTH));
-        return { height: newHeight, width: MAX_WIDTH };
-    }
-
-    return {
-        height: logo_height,
-        width: logo_width
-    };
-};
-
 export const filterStoreConfig = config => Object.entries(config).reduce(
     (acc, [key, value]) => (value ? { ...acc, [key]: value } : acc),
     {}
@@ -59,7 +31,6 @@ export const initialState = {
     countries,
     reviewRatings,
     title_prefix: 'ScandiPWA |',
-    logo_size: {},
     isLoading: true
 };
 
@@ -69,14 +40,13 @@ const ConfigReducer = (state = initialState, action) => {
     switch (type) {
     case UPDATE_CONFIG:
         const filteredStoreConfig = filterStoreConfig(storeConfig);
-        const { logo_height, logo_width, header_logo_src } = filteredStoreConfig;
+        const { header_logo_src } = filteredStoreConfig;
 
         return {
             ...state,
             countries,
             reviewRatings,
             ...filteredStoreConfig,
-            logoSize: getLogoSize(logo_height, logo_width, header_logo_src),
             // Should be updated manually as filteredStoreConfig does not contain header_logo_src when it is null
             // and header_logo_src takes old value
             header_logo_src,

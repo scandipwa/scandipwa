@@ -27,9 +27,7 @@ export class ConfigQuery {
                 'default_keywords',
                 'default_title',
                 'secure_base_media_url',
-                'logo_alt',
-                'logo_height',
-                'logo_width'
+                'logo_alt'
             ]);
     }
 }

@@ -1,4 +1,5 @@
 /* eslint-disable react/no-did-update-set-state */
+
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
