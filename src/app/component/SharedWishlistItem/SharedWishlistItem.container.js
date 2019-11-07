@@ -30,29 +30,22 @@ export class SharedWishlistItemContainer extends WishlistItemContainer {
 
     };
 
-    addItemToCart() {
-        const { product: item, addProductToCart, showNotification } = this.props;
-        const { quantity } = this.state;
-
-        const {
-            type_id,
-            variants,
-            wishlist: { sku }
-        } = item;
-
-        const configurableVariantIndex = this.getConfigurableVariantIndex(sku, variants);
-        const product = type_id === 'configurable'
-            ? { ...item, configurableVariantIndex }
-            : item;
-
-        this.setState({ isLoading: true });
-
-        return addProductToCart({ product, quantity })
-            .then(() => {
-                this.setState({ isLoading: false });
-                showNotification('success', __('Product Added To Cart'));
-            });
+    _getConfigurableVariantIndex() {
+        const { product: { wishlist: { sku }, variants } } = this.props;
+        return +this.getConfigurableVariantIndex(sku, variants);
     }
+
+    containerProps = () => {
+        const { isLoading } = this.state;
+
+        return {
+            changeQuantity: this.changeQuantity,
+            changeDescription: this.changeDescription,
+            configurableVariantIndex: this._getConfigurableVariantIndex(),
+            parameters: this._getParameters(),
+            isLoading
+        };
+    };
 
     changeQuantity = (quantity) => {
         this.setState({ quantity });

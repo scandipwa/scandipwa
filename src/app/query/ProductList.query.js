@@ -150,6 +150,7 @@ export class ProductListQuery {
             'sku',
             'name',
             'type_id',
+            'stock_status',
             this._getPriceField(),
             this._getProductThumbnailField(),
             this._getProductSmallField(),
