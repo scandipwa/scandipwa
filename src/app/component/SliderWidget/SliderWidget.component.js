@@ -62,7 +62,7 @@ export default class SliderWidget extends PureComponent {
                 <Image
                   mix={ { block: 'SliderWidget', elem: 'FigureImage' } }
                   ratio="custom"
-                  src={ image }
+                  src={ `/${image}` }
                   isPlaceholder={ isPlaceholder }
                 />
                 <figcaption
@@ -74,7 +74,7 @@ export default class SliderWidget extends PureComponent {
                 </figcaption>
             </figure>
         );
-    }
+    };
 
     render() {
         const { activeImage } = this.state;
