@@ -11,13 +11,16 @@
 
 import { Field } from 'Util/Query';
 import { ProductListQuery } from 'Query';
+import { isSignedIn } from 'Util/Auth';
+import BrowserDatabase from 'Util/BrowserDatabase';
+import { GUEST_QUOTE_ID } from 'Store/Cart';
 
 export class Wishlist {
     getWishlistQuery(sharingCode) {
         const field = new Field('wishlist')
             .addFieldList(this._getWishlistFields());
 
-        if (sharingCode) field.addArgument('sharing_code', 'String', sharingCode);
+        if (sharingCode) field.addArgument('sharing_code', 'ID', sharingCode);
         return field;
     }
 
@@ -31,8 +34,19 @@ export class Wishlist {
         return new Field('clearWishlist');
     }
 
-    getMoveWishlistToCart() {
-        return new Field('moveWishlistToCart');
+    getMoveWishlistToCart(sharingCode) {
+        const field = new Field('moveWishlistToCart');
+
+        if (sharingCode) {
+            field.addArgument('sharingCode', 'ID', sharingCode);
+
+            if (!isSignedIn()) {
+                const guestQuoteId = BrowserDatabase.getItem(GUEST_QUOTE_ID);
+                field.addArgument('guestCartId', 'ID', guestQuoteId);
+            }
+        }
+
+        return field;
     }
 
     getRemoveProductFromWishlistMutation(item_id) {

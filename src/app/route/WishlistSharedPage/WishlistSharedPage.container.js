@@ -21,14 +21,14 @@ import { prepareQuery } from 'Util/Query';
 import { WishlistQuery } from 'Query';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import { FIVE_MINUTES_IN_SECONDS } from 'Util/Request/QueryDispatcher';
-import { getIndexedParameteredProducts } from 'Util/Product';
+import { getIndexedParameteredProducts, getIndexedProduct } from 'Util/Product';
 import { updateNoMatch } from 'Store/NoMatch';
 
 import WishlistShared from './WishlistSharedPage.component';
 
 export const mapDispatchToProps = dispatch => ({
     clearWishlist: () => WishlistDispatcher.clearWishlist(dispatch),
-    moveWishlistToCart: () => WishlistDispatcher.moveWishlistToCart(dispatch),
+    moveWishlistToCart: sharingCode => WishlistDispatcher.moveWishlistToCart(dispatch, sharingCode),
     showNotification: message => dispatch(showNotification('success', message)),
     showError: message => dispatch(showNotification('error', message)),
     showNoMatch: () => dispatch(updateNoMatch(true)),
@@ -67,13 +67,14 @@ export class WishlistSharedContainer extends MyAccountMyWishlistContainer {
     }
 
     addAllToCart = () => {
-        const { moveWishlistToCart } = this.props;
+        const { showError, moveWishlistToCart } = this.props;
+        const sharingCode = this.getCode();
 
         this.setState({ isLoading: true });
 
-        // TODO! Add wishlist sharing code and support for guest cart after BE
-        return moveWishlistToCart().then(
-            () => this.showNotificationAndRemoveLoading('Wishlist moved to cart')
+        return moveWishlistToCart(sharingCode).then(
+            () => this.showNotificationAndRemoveLoading('Wishlist moved to cart'),
+            ([{ message }]) => showError(message)
         );
     };
 
@@ -93,31 +94,32 @@ export class WishlistSharedContainer extends MyAccountMyWishlistContainer {
                     return;
                 }
 
-                const wishlistItems = getIndexedParameteredProducts(
-                    wishlist.items.reduce((prev, wishlistItem) => {
-                        const {
-                            id,
-                            sku,
-                            product,
-                            description,
-                            qty: quantity
-                        } = wishlistItem;
+                const wishlistItems = wishlist.items.reduce((prev, wishlistItem) => {
+                    const {
+                        id,
+                        sku,
+                        product,
+                        description,
+                        qty: quantity
+                    } = wishlistItem;
 
-                        return {
-                            ...prev,
-                            [id]: {
-                                ...product,
+                    const indexedProduct = getIndexedProduct(product);
+
+                    return {
+                        ...prev,
+                        [id]: {
+                            quantity,
+                            wishlist: {
+                                id,
+                                sku,
                                 quantity,
-                                wishlist: {
-                                    id,
-                                    sku,
-                                    quantity,
-                                    description
-                                }
-                            }
-                        };
-                    }, {})
-                );
+                                description
+                            },
+                            ...indexedProduct
+                        }
+                    };
+                }, {});
+
 
                 updateBreadcrumbs([
                     { name: creatorsName, url: `/wishlist/shared/${code}` },

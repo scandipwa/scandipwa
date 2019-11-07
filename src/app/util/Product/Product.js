@@ -119,13 +119,13 @@ export const getExtensionAttributes = (product) => {
 
         const configurable_item_options = Object.values(configurable_options)
             .reduce((prev, { attribute_id, attribute_code }) => {
-                const { attribute_value } = attributes[attribute_code];
+                const { attribute_value, attribute_id: attrId } = attributes[attribute_code];
 
                 if (attribute_value) {
                     return [
                         ...prev,
                         {
-                            option_id: attribute_id,
+                            option_id: attribute_id || attrId,
                             option_value: attribute_value
                         }
                     ];
