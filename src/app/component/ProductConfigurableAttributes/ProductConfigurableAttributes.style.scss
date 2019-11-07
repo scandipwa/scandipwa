@@ -20,8 +20,8 @@
 }
 
 .ProductConfigurableAttributes {
-    &-AttributesList,
-    &-AttributesVerticalList {
+    &-SwatchList,
+    &-DropDownList {
         text-align: center;
 
         @include after-mobile {
@@ -29,14 +29,14 @@
         }
     }
 
-    &-AttributesList {
+    &-SwatchList {
         display: flex;
         flex-wrap: wrap;
         justify-content: var(--product-configurable-attributes-direction);
         align-items: center;
     }
 
-    &-AttributesVerticalList {
+    &-DropDownList {
         width: 100%;
     }
 

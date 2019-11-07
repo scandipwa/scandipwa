@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import Overlay from 'Component/Overlay';
 import RangeSelector from 'Component/RangeSelector';
 import ExpandableContent from 'Component/ExpandableContent';
-import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
+import CategoryConfigurableAttributes from 'Component/CategoryConfigurableAttributes';
 import './CategoryFilterOverlay.style';
 
 export default class CategoryFilterOverlay extends PureComponent {
@@ -74,7 +74,7 @@ export default class CategoryFilterOverlay extends PureComponent {
         const isLoaded = availableFilters && !!Object.keys(availableFilters).length;
 
         return (
-            <ProductConfigurableAttributes
+            <CategoryConfigurableAttributes
               mix={ { block: 'CategoryFilterOverlay', elem: 'Attributes' } }
               isReady={ isLoaded }
               configurable_options={ availableFilters }

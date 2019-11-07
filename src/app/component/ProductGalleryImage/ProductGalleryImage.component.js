@@ -22,8 +22,13 @@ export default class ProductGalleryImage extends PureComponent {
             image: PropTypes.string,
             isPlaceholder: PropTypes.bool
         }).isRequired,
+        isAdditional: PropTypes.bool,
         index: PropTypes.number.isRequired,
         onActiveImageChange: PropTypes.func.isRequired
+    };
+
+    static defaultProps = {
+        isAdditional: false
     };
 
     onActiveImageChange = () => {
@@ -33,6 +38,7 @@ export default class ProductGalleryImage extends PureComponent {
 
     render() {
         const {
+            isAdditional,
             media: {
                 alt,
                 type,
@@ -44,7 +50,7 @@ export default class ProductGalleryImage extends PureComponent {
         return (
             <button
               block="ProductGalleryImage"
-              mods={ { type } }
+              mods={ { type, isAdditional } }
               onClick={ this.onActiveImageChange }
             >
                 <Image
@@ -52,7 +58,7 @@ export default class ProductGalleryImage extends PureComponent {
                   alt={ alt }
                   ratio="custom"
                   isPlaceholder={ isPlaceholder }
-                  mix={ { block: 'ProductGalleryImage' } }
+                  mix={ { block: 'ProductGalleryImage', mods: { isAdditional } } }
                 />
             </button>
         );
