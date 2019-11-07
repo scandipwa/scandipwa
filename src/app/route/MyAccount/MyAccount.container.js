@@ -133,7 +133,7 @@ export class MyAccountContainer extends PureComponent {
 
         updateBreadcrumbs([
             { url: `${ MY_ACCOUNT_URL }${ url }`, name },
-            { name: __('My Account'), url: `${ MY_ACCOUNT_URL }${ DASHBOARD }` }
+            { name: __('My Account'), url: `${ MY_ACCOUNT_URL }/${ DASHBOARD }` }
         ]);
     }
 
