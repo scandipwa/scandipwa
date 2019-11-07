@@ -112,8 +112,15 @@ export default class MenuOverlay extends PureComponent {
               mods={ { ...subcategoryMods, isVisible } }
             >
                 { childrenArray.map((item) => {
-                    const { url, item_id, children } = item;
+                    const {
+                        url,
+                        item_id,
+                        children,
+                        cms_page_identifier
+                    } = item;
                     const childrenArray = Object.values(children);
+
+                    const path = cms_page_identifier ? `/${ cms_page_identifier}` : url;
 
                     return (childrenArray.length
                         ? (
@@ -129,7 +136,7 @@ export default class MenuOverlay extends PureComponent {
                         ) : (
                             <Link
                               key={ item_id }
-                              to={ url }
+                              to={ path }
                               onClick={ this.closeMenuOverlay }
                               block="MenuOverlay"
                               elem="Link"
