@@ -40,15 +40,12 @@ export default class SliderWidget extends PureComponent {
 
     state = { activeImage: 0 };
 
-    renderSlide = this.renderSlide.bind(this);
 
-    onActiveImageChange = this.onActiveImageChange.bind(this);
-
-    onActiveImageChange(activeImage) {
+    onActiveImageChange = (activeImage) => {
         this.setState({ activeImage });
-    }
+    };
 
-    renderSlide(slide, i) {
+    renderSlide = (slide, i) => {
         const {
             image,
             slide_text,
