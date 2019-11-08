@@ -184,10 +184,10 @@ export class AddToCartContainer extends PureComponent {
     render() {
         return (
             <AddToCart
-                { ...this.props }
-                { ...this.state }
-                { ...this.containerFunctions }
-                { ...this.containerProps() }
+              { ...this.props }
+              { ...this.state }
+              { ...this.containerFunctions }
+              { ...this.containerProps() }
             />
         );
     }
