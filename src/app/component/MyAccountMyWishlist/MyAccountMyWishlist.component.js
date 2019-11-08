@@ -16,6 +16,7 @@ import ProductCard from 'Component/ProductCard';
 import WishlistItem from 'Component/WishlistItem';
 import Loader from 'Component/Loader';
 import Link from 'Component/Link';
+import ShareWishlistPopup from 'Component/ShareWishlistPopup';
 
 import './MyAccountMyWishlist.style';
 
@@ -25,6 +26,7 @@ export default class MyAccountMyWishlist extends PureComponent {
         isWishlistLoading: PropTypes.bool.isRequired,
         removeAll: PropTypes.func.isRequired,
         addAllToCart: PropTypes.func.isRequired,
+        shareWishlist: PropTypes.func.isRequired,
         isWishlistEmpty: PropTypes.bool.isRequired,
         wishlistItems: PropTypes.objectOf(ProductType).isRequired
     };
@@ -91,9 +93,30 @@ export default class MyAccountMyWishlist extends PureComponent {
         );
     }
 
+    renderShareWishlistButton() {
+        const {
+            isWishlistLoading,
+            shareWishlist,
+            isWishlistEmpty
+        } = this.props;
+
+        const disabled = isWishlistLoading || isWishlistEmpty;
+
+        return (
+            <button
+              block="Button"
+              onClick={ shareWishlist }
+              disabled={ disabled }
+            >
+                { __('Share Wishlist') }
+            </button>
+        );
+    }
+
     renderActionLine() {
         return (
             <div block="MyAccountMyWishlist" elem="ActionBar">
+                { this.renderShareWishlistButton() }
                 { this.renderClearWishlist() }
                 { this.renderAddAllToCart() }
             </div>
@@ -102,6 +125,10 @@ export default class MyAccountMyWishlist extends PureComponent {
 
     renderPlaceholders() {
         return Array.from({ length: 2 }, (_, i) => <ProductCard key={ i } />);
+    }
+
+    renderShareWishlist() {
+        return <ShareWishlistPopup />;
     }
 
     renderContent() {
@@ -127,6 +154,7 @@ export default class MyAccountMyWishlist extends PureComponent {
     render() {
         return (
             <div block="MyAccountMyWishlist">
+                { this.renderShareWishlist() }
                 { this.renderActionLine() }
                 { this.renderContent() }
             </div>

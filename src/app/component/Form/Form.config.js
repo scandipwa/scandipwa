@@ -12,21 +12,31 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+const validateEmail = ({ value }) => value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+const validateEmails = ({ value }) => value.split(',').every(email => validateEmail({ value: email.trim() }));
+const validatePassword = ({ value }) => value.match(/^((?=.*[A-Z])(?=.*[a-z])(?=.*\d)|(?=.*[a-z])(?=.*\d)(?=.*[\$\%\&])|(?=.*[A-Z])(?=.*\d)(?=.*[\$\%\&])|(?=.*[A-Z])(?=.*[a-z])(?=.*[\$\%\&])).{8,16}$/);
+const validateTelephone = ({ value }) => value.length > 0 && value.match(/^\+(?:[0-9-] ?){6,14}[0-9]$/);
+const isNotEmpty = ({ value }) => value.length > 0;
+
 export default {
     email: {
-        validate: ({ value }) => value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i),
+        validate: validateEmail,
         message: __('Email is invalid.')
     },
+    emails: {
+        validate: validateEmails,
+        message: __('Email addresses are not valid')
+    },
     password: {
-        validate: ({ value }) => value.match(/^((?=.*[A-Z])(?=.*[a-z])(?=.*\d)|(?=.*[a-z])(?=.*\d)(?=.*[\$\%\&])|(?=.*[A-Z])(?=.*\d)(?=.*[\$\%\&])|(?=.*[A-Z])(?=.*[a-z])(?=.*[\$\%\&])).{8,16}$/),
+        validate: validatePassword,
         message: __('Password should be at least 8 characters long, include at least on upper case letter, number and symbol!')
     },
     telephone: {
-        validate: ({ value }) => value.length > 0 && value.match(/^\+(?:[0-9-] ?){6,14}[0-9]$/),
+        validate: validateTelephone,
         message: __('Phone number is invalid!')
     },
     notEmpty: {
-        validate: ({ value }) => value.length > 0,
+        validate: isNotEmpty,
         message: __('This field is required!')
     }
 };
