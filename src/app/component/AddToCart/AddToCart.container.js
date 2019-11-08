@@ -49,7 +49,8 @@ export class AddToCartContainer extends PureComponent {
     static defaultProps = {
         quantity: 1,
         configurableVariantIndex: 0,
-        setQuantityToDefault: () => {},
+        setQuantityToDefault: () => {
+        },
         isLoading: false
     };
 
@@ -66,10 +67,12 @@ export class AddToCartContainer extends PureComponent {
     _getIsDisabled() {
         const {
             configurableVariantIndex,
+            groupedProductQuantity,
             product,
             product: {
                 type_id,
-                variants = []
+                variants = [],
+                items
             }
         } = this.props;
 
@@ -86,7 +89,9 @@ export class AddToCartContainer extends PureComponent {
         }
 
         if (type_id === GROUPED) {
-            return false;
+            return items.every(
+                ({ product: { id } }) => !groupedProductQuantity[id]
+            );
         }
 
         const { stock_status } = product;
@@ -174,10 +179,10 @@ export class AddToCartContainer extends PureComponent {
     render() {
         return (
             <AddToCart
-              { ...this.props }
-              { ...this.state }
-              { ...this.containerFunctions }
-              { ...this.containerProps() }
+                { ...this.props }
+                { ...this.state }
+                { ...this.containerFunctions }
+                { ...this.containerProps() }
             />
         );
     }
