@@ -61,6 +61,7 @@ export default class GroupedProductsItem extends PureComponent {
                       name="HeaderInput"
                       onChange={ changeCount }
                       value={ itemCount }
+                      min={ 0 }
                     />
                 </div>
             </li>

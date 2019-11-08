@@ -111,10 +111,12 @@ export class AddToCartContainer extends PureComponent {
                 const { product: groupedProductItem } = item;
 
                 groupedProductItem.parent = product;
+                const quantity = groupedProductQuantity[groupedProductItem.id];
+                if (!quantity) return Promise.resolve();
 
                 return addProduct({
                     product: groupedProductItem,
-                    quantity: groupedProductQuantity[groupedProductItem.id]
+                    quantity
                 });
             })).then(() => this._afterAdded());
         }
