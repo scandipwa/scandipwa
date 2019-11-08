@@ -49,7 +49,8 @@ export class AddToCartContainer extends PureComponent {
     static defaultProps = {
         quantity: 1,
         configurableVariantIndex: 0,
-        setQuantityToDefault: () => {},
+        setQuantityToDefault: () => {
+        },
         isLoading: false
     };
 
@@ -183,10 +184,10 @@ export class AddToCartContainer extends PureComponent {
     render() {
         return (
             <AddToCart
-              { ...this.props }
-              { ...this.state }
-              { ...this.containerFunctions }
-              { ...this.containerProps() }
+                { ...this.props }
+                { ...this.state }
+                { ...this.containerFunctions }
+                { ...this.containerProps() }
             />
         );
     }
