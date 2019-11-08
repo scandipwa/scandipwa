@@ -13,14 +13,16 @@ import { connect } from 'react-redux';
 import { RelatedProductsDispatcher } from 'Store/RelatedProducts';
 import RelatedProducts from './RelatedProducts.component';
 
-export const mapStateToProps = state => ({
+const mapStateToProps = state => ({
     relatedProducts: state.RelatedProductsReducer.relatedProducts
 });
 
-export const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = dispatch => ({
     clearRelatedProducts: () => {
         RelatedProductsDispatcher.clearRelatedProducts(dispatch);
     }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(RelatedProducts);
+const RelatedProductsContainer = connect(mapStateToProps, mapDispatchToProps)(RelatedProducts);
+
+export default RelatedProductsContainer;
