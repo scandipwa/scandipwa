@@ -15,7 +15,7 @@ import Link from 'Component/Link';
 import ContentWrapper from 'Component/ContentWrapper';
 import './SomethingWentWrong.style';
 
-export default class SomethingWentWrong extends PureComponent {
+class SomethingWentWrong extends PureComponent {
     static propTypes = {
         onClick: PropTypes.func.isRequired,
         errorDetails: PropTypes.shape({
@@ -66,3 +66,5 @@ export default class SomethingWentWrong extends PureComponent {
         );
     }
 }
+
+export default SomethingWentWrong;

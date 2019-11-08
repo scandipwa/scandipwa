@@ -14,7 +14,7 @@ import './CheckoutGuestForm.style';
 import FormPortal from 'Component/FormPortal';
 import FieldForm from 'Component/FieldForm/FieldForm.component';
 
-export default class CheckoutGuestForm extends FieldForm {
+class CheckoutGuestForm extends FieldForm {
     static propTypes = {
         formId: PropTypes.string.isRequired,
         handleEmailInput: PropTypes.func.isRequired
@@ -57,3 +57,5 @@ export default class CheckoutGuestForm extends FieldForm {
         );
     }
 }
+
+export default CheckoutGuestForm;

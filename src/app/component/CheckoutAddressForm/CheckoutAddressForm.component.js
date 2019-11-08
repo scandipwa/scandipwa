@@ -17,7 +17,7 @@ import './CheckoutAddressForm.style';
 
 export const UPDATE_STATE_FREQUENCY = 1000; // (ms)
 
-export default class CheckoutAddressForm extends MyAccountAddressForm {
+class CheckoutAddressForm extends MyAccountAddressForm {
     static propTypes = {
         ...MyAccountAddressForm.propTypes,
         id: PropTypes.string.isRequired,
@@ -149,3 +149,5 @@ export default class CheckoutAddressForm extends MyAccountAddressForm {
         );
     }
 }
+
+export default CheckoutAddressForm;

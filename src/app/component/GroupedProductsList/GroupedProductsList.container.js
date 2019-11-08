@@ -13,8 +13,10 @@ import { connect } from 'react-redux';
 import { ProductDispatcher } from 'Store/Product';
 import GroupedProductsList from './GroupedProductsList.component';
 
-export const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = dispatch => ({
     clearGroupedProductQuantity: () => ProductDispatcher.clearGroupedProductQuantity(dispatch)
 });
 
-export default connect(null, mapDispatchToProps)(GroupedProductsList);
+const GroupedProductsListContainer = connect(null, mapDispatchToProps)(GroupedProductsList);
+
+export default GroupedProductsListContainer;

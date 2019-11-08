@@ -19,11 +19,11 @@ import { showNotification } from 'Store/Notification';
 import { getIndexedProducts } from 'Util/Product';
 import NewProducts from './NewProducts.component';
 
-export const mapStateToProps = state => ({
+const mapStateToProps = state => ({
     timezone: state.ConfigReducer.timezone
 });
 
-export const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = dispatch => ({
     showNotification: (type, title, error) => dispatch(showNotification(type, title, error))
 });
 

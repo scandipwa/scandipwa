@@ -22,7 +22,7 @@ import { MY_ACCOUNT_URL } from 'Route/MyAccount/MyAccount.container';
 import './MyAccountDashboard.style';
 import MyAccountCustomerPopup from 'Component/MyAccountCustomerPopup';
 
-export default class MyAccountDashboard extends PureComponent {
+class MyAccountDashboard extends PureComponent {
     static propTypes = {
         customer: customerType.isRequired,
         getDefaultAddress: PropTypes.func.isRequired
@@ -121,3 +121,5 @@ export default class MyAccountDashboard extends PureComponent {
         );
     }
 }
+
+export default MyAccountDashboard;

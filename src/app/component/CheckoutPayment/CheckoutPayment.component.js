@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import { paymentMethodType } from 'Type/Checkout';
 import './CheckoutPayment.style';
 
-export default class CheckoutPayment extends PureComponent {
+class CheckoutPayment extends PureComponent {
     static propTypes = {
         method: paymentMethodType.isRequired,
         onClick: PropTypes.func.isRequired,
@@ -55,3 +55,5 @@ export default class CheckoutPayment extends PureComponent {
         );
     }
 }
+
+export default CheckoutPayment;

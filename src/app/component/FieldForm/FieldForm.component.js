@@ -16,7 +16,7 @@ import Field from 'Component/Field';
 
 import './FieldForm.style';
 
-export default class FieldForm extends PureComponent {
+class FieldForm extends PureComponent {
     onFormSuccess() {
         // TODO: implement
     }
@@ -78,3 +78,5 @@ export default class FieldForm extends PureComponent {
         );
     }
 }
+
+export default FieldForm;

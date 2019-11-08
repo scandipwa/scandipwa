@@ -16,4 +16,6 @@ export const mapStateToProps = state => ({
     customer: state.MyAccountReducer.customer
 });
 
-export default connect(mapStateToProps, null)(Field);
+const FieldContainer = connect(mapStateToProps, null)(Field);
+
+export default FieldContainer;

@@ -26,7 +26,7 @@ export const STATE_FORGOT_PASSWORD_SUCCESS = 'forgotPasswordSuccess';
 export const STATE_CREATE_ACCOUNT = 'createAccount';
 export const STATE_LOGGED_IN = 'loggedIn';
 
-export class MyAccountOverlay extends PureComponent {
+class MyAccountOverlay extends PureComponent {
     static propTypes = {
         // eslint-disable-next-line react/no-unused-prop-types
         isOverlayVisible: PropTypes.bool.isRequired,

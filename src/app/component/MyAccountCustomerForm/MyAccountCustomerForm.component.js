@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import { customerType } from 'Type/Account';
 import FieldForm from 'Component/FieldForm';
 
-export default class MyAccountCustomerForm extends FieldForm {
+class MyAccountCustomerForm extends FieldForm {
     static propTypes = {
         customer: customerType.isRequired,
         onSave: PropTypes.func.isRequired
@@ -56,3 +56,5 @@ export default class MyAccountCustomerForm extends FieldForm {
         );
     }
 }
+
+export default MyAccountCustomerForm;

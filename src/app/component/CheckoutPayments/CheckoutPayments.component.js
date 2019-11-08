@@ -19,7 +19,7 @@ import { paymentMethodsType } from 'Type/Checkout';
 
 export const CHECK_MONEY = 'checkmo';
 
-export default class CheckoutPayments extends PureComponent {
+class CheckoutPayments extends PureComponent {
     static propTypes = {
         selectPaymentMethod: PropTypes.func.isRequired,
         paymentMethods: paymentMethodsType.isRequired,
@@ -82,3 +82,5 @@ export default class CheckoutPayments extends PureComponent {
         );
     }
 }
+
+export default CheckoutPayments;

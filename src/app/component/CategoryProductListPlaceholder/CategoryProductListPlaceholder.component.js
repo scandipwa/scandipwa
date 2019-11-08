@@ -21,7 +21,7 @@ export const DEFAULT_PLACEHOLDER_COUNT = 4;
  * Placeholder for List of category product
  * @class CategoryProductListPlaceholder
  */
-export class CategoryProductListPlaceholder extends PureComponent {
+class CategoryProductListPlaceholder extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         isVisible: PropTypes.bool.isRequired,

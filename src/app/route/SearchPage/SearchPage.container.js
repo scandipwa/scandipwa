@@ -17,7 +17,7 @@ import { ProductListInfoDispatcher, updateInfoLoadStatus } from 'Store/ProductLi
 import { CategoryDispatcher } from 'Store/Category';
 import SearchPage from './SearchPage.component';
 
-export const mapStateToProps = state => ({
+const mapStateToProps = state => ({
     isSearchPage: true,
     category: state.CategoryReducer.category,
     pages: state.ProductListReducer.pages,
@@ -30,7 +30,7 @@ export const mapStateToProps = state => ({
     isInfoLoading: state.ProductListInfoReducer.isLoading
 });
 
-export const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = dispatch => ({
     makeSearchRequest: options => SearchBarDispatcher.handleData(dispatch, options),
     requestCategory: (options) => {
         CategoryDispatcher.handleData(dispatch, options);

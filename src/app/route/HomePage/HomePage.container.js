@@ -12,7 +12,7 @@
 import { connect } from 'react-redux';
 import CmsPage from 'Route/CmsPage';
 
-export const mapStateToProps = state => ({
+const mapStateToProps = state => ({
     urlKey: state.ConfigReducer.cms_home_page
 });
 

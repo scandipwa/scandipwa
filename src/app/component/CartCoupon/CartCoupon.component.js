@@ -15,7 +15,7 @@ import Loader from 'Component/Loader';
 import PropTypes from 'prop-types';
 import './CartCoupon.style';
 
-export default class CartCoupon extends PureComponent {
+class CartCoupon extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         couponCode: PropTypes.string,
@@ -118,3 +118,5 @@ export default class CartCoupon extends PureComponent {
         );
     }
 }
+
+export default CartCoupon;

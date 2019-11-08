@@ -17,7 +17,7 @@ import CheckoutDeliveryOption from 'Component/CheckoutDeliveryOption';
 
 import './CheckoutDeliveryOptions.style';
 
-export default class CheckoutDeliveryOptions extends PureComponent {
+class CheckoutDeliveryOptions extends PureComponent {
     static propTypes = {
         shippingMethods: shippingMethodsType.isRequired,
         selectShippingMethod: PropTypes.func.isRequired,
@@ -90,3 +90,5 @@ export default class CheckoutDeliveryOptions extends PureComponent {
         );
     }
 }
+
+export default CheckoutDeliveryOptions;

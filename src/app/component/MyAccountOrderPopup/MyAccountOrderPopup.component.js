@@ -23,7 +23,7 @@ import './MyAccountOrderPopup.style';
 
 export const ORDER_POPUP_ID = 'MyAccountOrderPopup';
 
-export default class MyAccountOrderPopup extends PureComponent {
+class MyAccountOrderPopup extends PureComponent {
     static propTypes = {
         order: orderType.isRequired,
         isLoading: PropTypes.bool.isRequired,
@@ -223,3 +223,5 @@ export default class MyAccountOrderPopup extends PureComponent {
         );
     }
 }
+
+export default MyAccountOrderPopup;

@@ -20,7 +20,7 @@ import CheckoutAddressForm from 'Component/CheckoutAddressForm';
 import './CheckoutAddressBook.style';
 import { BILLING_STEP, SHIPPING_STEP } from 'Route/Checkout/Checkout.component';
 
-export default class CheckoutAddressBook extends PureComponent {
+class CheckoutAddressBook extends PureComponent {
     static propTypes = {
         customer: customerType.isRequired,
         onAddressSelect: PropTypes.func.isRequired,
@@ -164,3 +164,5 @@ export default class CheckoutAddressBook extends PureComponent {
         );
     }
 }
+
+export default CheckoutAddressBook;

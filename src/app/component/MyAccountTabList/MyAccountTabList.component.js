@@ -16,7 +16,7 @@ import MyAccountTabListItem from 'Component/MyAccountTabListItem';
 import './MyAccountTabList.style';
 import ExpandableContent from 'Component/ExpandableContent';
 
-export default class MyAccountTabList extends PureComponent {
+class MyAccountTabList extends PureComponent {
     static propTypes = {
         tabMap: tabMapType.isRequired,
         activeTab: activeTabType.isRequired,
@@ -97,3 +97,5 @@ export default class MyAccountTabList extends PureComponent {
         );
     }
 }
+
+export default MyAccountTabList;
