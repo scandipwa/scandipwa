@@ -32,10 +32,11 @@ export default class GroupedProductList extends PureComponent {
     renderProductList(items) {
         return (
             <ul>
-                { items.map(item => (
+                { items.map(({ product, product: { id }, qty }) => (
                     <GroupedProductsItem
-                      key={ item.product.id }
-                      product={ item.product }
+                      key={ id }
+                      product={ product }
+                      defaultQuantity={ qty }
                     />
                 )) }
             </ul>
@@ -48,11 +49,8 @@ export default class GroupedProductList extends PureComponent {
         } = this.props;
 
         if (type_id !== 'grouped') return null;
+        if (!items) return null;
 
-        return (
-            <>
-                { items && this.renderProductList(items) }
-            </>
-        );
+        return this.renderProductList(items);
     }
 }

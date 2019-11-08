@@ -70,12 +70,17 @@ export class ProductDispatcher extends QueryDispatcher {
 
     _prepareGroupedProduct(groupProduct) {
         const { items } = groupProduct;
-        const newItems = items.map(item => ({
-            product: {
-                ...item.product,
-                url_key: groupProduct.url_key
-            }
-        }));
+        const newItems = items.map((item) => {
+            const { product, order, qty } = item;
+            return {
+                product: {
+                    ...product,
+                    url_key: groupProduct.url_key
+                },
+                order,
+                qty
+            };
+        }).sort(({ order }, { order: order2 }) => order - order2);
 
         return {
             ...groupProduct,
