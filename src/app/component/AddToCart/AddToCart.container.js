@@ -49,8 +49,7 @@ export class AddToCartContainer extends PureComponent {
     static defaultProps = {
         quantity: 1,
         configurableVariantIndex: 0,
-        setQuantityToDefault: () => {
-        },
+        setQuantityToDefault: () => {},
         isLoading: false
     };
 
@@ -90,6 +89,17 @@ export class AddToCartContainer extends PureComponent {
             const { stock_status } = product;
             return stock_status !== 'IN_STOCK';
         }
+
+        if (!variants[configurableVariantIndex]) {
+            return true;
+        }
+
+        const productData = type_id === 'configurable'
+            ? variants[configurableVariantIndex]
+            : product;
+
+        const { stock_status } = productData;
+        return stock_status !== 'IN_STOCK';
     }
 
     buttonClick() {
