@@ -160,7 +160,7 @@ export default class CartPage extends Component {
             <img
               block="CartPage"
               elem="PaymentMethods"
-              src={ media(`${ WYSIWYG_MEDIA }etc/payment-methods.jpg`) }
+              src={ media('etc/payment-methods.jpg', WYSIWYG_MEDIA) }
               alt="Shipping car icon"
             />
         );
@@ -175,7 +175,7 @@ export default class CartPage extends Component {
                 <img
                   block="CartPage"
                   elem="PromoImage"
-                  src={ media(`${ WYSIWYG_MEDIA }etc/shipping-car.svg`) }
+                  src={ media('etc/shipping-car.svg', WYSIWYG_MEDIA) }
                   alt="Shipping car icon"
                 />
                 <figcaption block="CartPage" elem="PromoText">

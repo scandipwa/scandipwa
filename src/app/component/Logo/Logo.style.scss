@@ -9,4 +9,19 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default, getSortedItems } from './Menu';
+.Logo {
+    --placeholder-image: none;
+    --placeholder-animation: none;
+    --image-default-background: #fff;
+
+    height: 100%;
+
+    &-Placeholder {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        margin: auto;
+    }
+}

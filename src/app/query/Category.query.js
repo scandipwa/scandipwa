@@ -65,6 +65,7 @@ export class CategoryQuery {
             'description',
             'canonical_url',
             'product_count',
+            'meta_keywords',
             'meta_description',
             this._getBreadcrumbsField()
         ];

@@ -55,7 +55,7 @@ export class ProductGalleryContainer extends PureComponent {
                     ...acc,
                     [key]: {
                         id: isThumbnail ? THUMBNAIL_KEY : id,
-                        image: media(`${ PRODUCT_MEDIA }${ file }`),
+                        image: media(file, PRODUCT_MEDIA),
                         alt: label || __('%s - Picture #%s', name, i),
                         type: media_type
                     }
@@ -68,7 +68,7 @@ export class ProductGalleryContainer extends PureComponent {
         }
 
         return [{
-            image: path && media(`${ PRODUCT_MEDIA }${ path }`),
+            image: path && media(path, PRODUCT_MEDIA),
             id: THUMBNAIL_KEY,
             alt: name,
             type: 'image'

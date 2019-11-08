@@ -40,7 +40,7 @@ export default class ProductInformation extends PureComponent {
 
     renderImage() {
         const { product: { thumbnail: { path = '' } = {} } } = this.props;
-        const imageUrl = path && media(`${ PRODUCT_MEDIA }${ path }`);
+        const imageUrl = path && media(path, PRODUCT_MEDIA);
 
         return (
           <Image

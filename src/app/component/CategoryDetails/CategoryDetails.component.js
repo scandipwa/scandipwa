@@ -66,7 +66,7 @@ export default class CategoryDetails extends PureComponent {
 
         if (!image) return this.renderCategoryImagePlaceholder();
 
-        const src = image ? media(`${ CATEGORY_MEDIA }${image}`) : '';
+        const src = image ? media(image, CATEGORY_MEDIA) : '';
 
         return (
             <Image

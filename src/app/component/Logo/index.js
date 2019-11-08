@@ -9,4 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default, getSortedItems } from './Menu';
+export { default } from './Logo.container';

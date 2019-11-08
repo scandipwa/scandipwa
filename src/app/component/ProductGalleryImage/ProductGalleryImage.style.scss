@@ -12,6 +12,9 @@
 .ProductGalleryImage {
     @include after-mobile {
         display: block;
+    }
+
+    &_isAdditional {
         height: 100%;
     }
 
