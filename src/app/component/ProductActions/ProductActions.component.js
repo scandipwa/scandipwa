@@ -28,6 +28,8 @@ import { isSignedIn } from 'Util/Auth';
 
 import './ProductActions.style';
 import ProductReviewRating from 'Component/ProductReviewRating';
+import GroupedProductList from 'Component/GroupedProductsList';
+import { GROUPED } from 'Util/Product';
 
 /**
  * Product actions
@@ -171,7 +173,9 @@ export default class ProductActions extends PureComponent {
     }
 
     renderQuantityInput() {
-        const { quantity, setQuantity } = this.props;
+        const { quantity, setQuantity, product: { type_id } } = this.props;
+
+        if (type_id === GROUPED) return null;
 
         return (
             <Field
@@ -200,7 +204,9 @@ export default class ProductActions extends PureComponent {
     }
 
     renderPrice() {
-        const { product: { price, variants }, configurableVariantIndex } = this.props;
+        const { product: { price, variants, type_id }, configurableVariantIndex } = this.props;
+
+        if (type_id === GROUPED) return null;
 
         // Product in props is updated before ConfigurableVariantIndex in props, when page is opened by clicking CartItem
         // As a result, we have new product, but old configurableVariantIndex, which may be out of range for variants
@@ -273,6 +279,17 @@ export default class ProductActions extends PureComponent {
         );
     }
 
+    renderGroupedItems() {
+        const { product } = this.props;
+        return (
+            <div block="ProductActions" elem="GroupedItems">
+                <GroupedProductList
+                  product={ product }
+                />
+            </div>
+        );
+    }
+
     render() {
         return (
             <article block="ProductActions">
@@ -284,6 +301,7 @@ export default class ProductActions extends PureComponent {
                 { this.renderReviews() }
                 { this.renderAdditionalButtons() }
                 { this.renderNameAndBrand() }
+                { this.renderGroupedItems() }
                 { this.renderSkuAndStock() }
                 { this.renderConfigurableAttributes() }
                 { this.renderShortDescription() }

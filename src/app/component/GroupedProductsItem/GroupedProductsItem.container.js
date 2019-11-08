@@ -27,7 +27,7 @@ export const mapDispatchToProps = dispatch => ({
 export class GroupedProductsItemContainer extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
-        groupedProductQuantity: PropTypes.number.isRequired,
+        groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired,
         updateGroupedProductQuantity: PropTypes.func
     };
 

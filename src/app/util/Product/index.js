@@ -10,3 +10,4 @@
  */
 
 export * from './Product';
+export * from './Types';
