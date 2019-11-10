@@ -90,8 +90,6 @@
     }
 
     &-Filter {
-        order: 50;
-
         @include after-mobile {
             margin-bottom: 1rem;
         }

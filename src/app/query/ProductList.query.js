@@ -105,6 +105,7 @@ export class ProductListQuery {
             return [
                 'min_price',
                 'max_price',
+                'price_on_top',
                 this._getSortField(),
                 this._getFiltersField()
             ];

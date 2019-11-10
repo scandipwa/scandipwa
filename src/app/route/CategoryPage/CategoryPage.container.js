@@ -42,6 +42,7 @@ export const mapStateToProps = state => ({
     sortFields: state.ProductListInfoReducer.sortFields,
     minPriceRange: state.ProductListInfoReducer.minPrice,
     maxPriceRange: state.ProductListInfoReducer.maxPrice,
+    priceOnTop: state.ProductListInfoReducer.price_on_top,
     isInfoLoading: state.ProductListInfoReducer.isLoading
 });
 
