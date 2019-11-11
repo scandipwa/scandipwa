@@ -19,6 +19,7 @@ import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import { history } from 'Route';
 import { PDP } from 'Component/Header';
 import { getVariantIndex } from 'Util/Product';
+import BrowserDatabase from 'Util/BrowserDatabase';
 import {
     getUrlParam,
     convertQueryStringToKeyValuePairs,
@@ -26,6 +27,11 @@ import {
     removeQueryParamWithoutHistory,
     objectToUri
 } from 'Util/Url';
+import {
+    NUMBER_OF_RECENT_PRODUCTS,
+    RECENTLY_VIEWED_PRODUCTS
+} from 'Component/RecentlyViewedProducts/RecentlyViewedProducts.component';
+import { updateRecentlyViewedProducts } from 'Store/RecentlyViewedProducts';
 
 import { ProductType } from 'Type/ProductList';
 import { LocationType, HistoryType, MatchType } from 'Type/Common';
@@ -40,7 +46,8 @@ export const mapDispatchToProps = dispatch => ({
     changeHeaderState: state => dispatch(changeHeaderState(state)),
     requestProduct: options => ProductDispatcher.handleData(dispatch, options),
     updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.updateWithProduct(breadcrumbs, dispatch),
-    clearGroupedProductQuantity: () => ProductDispatcher.clearGroupedProductQuantity(dispatch)
+    clearGroupedProductQuantity: () => ProductDispatcher.clearGroupedProductQuantity(dispatch),
+    updateRecentlyViewedProducts: products => dispatch(updateRecentlyViewedProducts(products))
 });
 
 export class ProductPageContainer extends PureComponent {
@@ -48,6 +55,7 @@ export class ProductPageContainer extends PureComponent {
         location: LocationType,
         isOnlyPlaceholder: PropTypes.bool,
         changeHeaderState: PropTypes.func.isRequired,
+        updateRecentlyViewedProducts: PropTypes.func.isRequired,
         updateBreadcrumbs: PropTypes.func.isRequired,
         requestProduct: PropTypes.func.isRequired,
         product: ProductType.isRequired,
@@ -73,6 +81,7 @@ export class ProductPageContainer extends PureComponent {
     };
 
     componentDidMount() {
+        // this._addToRecentlyViewedProducts();
         const { isOnlyPlaceholder } = this.props;
         if (!isOnlyPlaceholder) this._requestProduct();
         this._onProductUpdate();
@@ -81,12 +90,15 @@ export class ProductPageContainer extends PureComponent {
     componentDidUpdate({ location: { pathname: prevPathname } }) {
         const { location: { pathname } } = this.props;
 
-        if (pathname !== prevPathname) this._requestProduct();
+        if (pathname !== prevPathname) {
+            this._requestProduct();
+            this._addToRecentlyViewedProducts();
+        }
         this._onProductUpdate();
     }
 
-
     componentWillUnmount() {
+        this._addToRecentlyViewedProducts();
         const { product: { type_id }, clearGroupedProductQuantity } = this.props;
 
         if (type_id === 'grouped') return clearGroupedProductQuantity();
@@ -199,6 +211,23 @@ export class ProductPageContainer extends PureComponent {
             this._updateBreadcrumbs(dataSource);
             this._updateHeaderState(dataSource);
         }
+    }
+
+    _addToRecentlyViewedProducts() {
+        const {
+            product, product: { sku: newSku },
+            updateRecentlyViewedProducts
+        } = this.props;
+        const recentProducts = BrowserDatabase.getItem(RECENTLY_VIEWED_PRODUCTS) || [];
+
+        if (recentProducts.some(({ sku }) => sku === newSku)) return;
+
+        if (recentProducts.length === NUMBER_OF_RECENT_PRODUCTS) {
+            recentProducts.pop();
+        }
+
+        recentProducts.unshift(product);
+        updateRecentlyViewedProducts(recentProducts);
     }
 
     _getAreDetailsLoaded() {

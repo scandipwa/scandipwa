@@ -21,6 +21,7 @@ import ContentWrapper from 'Component/ContentWrapper';
 import ProductReviews from 'Component/ProductReviews';
 import RelatedProducts from 'Component/RelatedProducts';
 import ProductInformation from 'Component/ProductInformation';
+import RecentlyViewedProducts from 'Component/RecentlyViewedProducts';
 
 import './ProductPage.style';
 
@@ -78,6 +79,9 @@ export default class ProductPage extends Component {
                   areDetailsLoaded={ areDetailsLoaded }
                   label="ScandiPWA recommends"
                   itemType=""
+                />
+                <RecentlyViewedProducts
+                  label="Recently viewed products"
                 />
             </>
         );
