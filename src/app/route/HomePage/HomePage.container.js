@@ -12,10 +12,10 @@
 import { connect } from 'react-redux';
 import CmsPage from 'Route/CmsPage';
 
-const mapStateToProps = state => ({
+export const mapStateToProps = state => ({
     urlKey: state.ConfigReducer.cms_home_page
 });
 
-const HomePageContainer = props => <CmsPage { ...props } isBreadcrumbsActive={ false } />;
+export const HomePageContainer = props => <CmsPage { ...props } isBreadcrumbsActive={ false } />;
 
 export default connect(mapStateToProps)(HomePageContainer);
