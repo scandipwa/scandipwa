@@ -30,6 +30,11 @@ export class Wishlist {
             .addFieldList(this._getItemsFields());
     }
 
+    getShareWishlistMutation(input) {
+        return new Field('shareWishlist')
+            .addArgument('input', 'ShareWishlistInput!', input);
+    }
+
     getClearWishlist() {
         return new Field('clearWishlist');
     }
