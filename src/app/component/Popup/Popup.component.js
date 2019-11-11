@@ -12,6 +12,7 @@
  */
 
 import { createRef } from 'react';
+import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import Overlay from 'Component/Overlay/Overlay.component';
 import ClickOutside from 'Component/ClickOutside';
@@ -108,7 +109,7 @@ export default class Popup extends Overlay {
         const { mix, areOtherOverlaysOpen } = this.props;
         const isVisible = this.getIsVisible();
 
-        return (
+        return createPortal(
             <div
               ref={ this.popupRef }
               block="Popup"
@@ -116,7 +117,8 @@ export default class Popup extends Overlay {
               mix={ { ...mix, mods: { ...mix.mods, isVisible } } }
             >
                 { this.renderContent() }
-            </div>
+            </div>,
+            document.body
         );
     }
 }
