@@ -10,10 +10,10 @@
  */
 import PropTypes from 'prop-types';
 import SourceWishlist from 'Component/MyAccountMyWishlist/MyAccountMyWishlist.component';
+import SharedWishlistItem from 'Component/SharedWishlistItem';
 import Loader from 'Component/Loader';
 
 import './WishlistSharedPage.style';
-import SharedWishlistItem from 'Component/SharedWishlistItem';
 
 export default class WishlistSharedPage extends SourceWishlist {
     static propTypes = {
