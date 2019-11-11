@@ -205,12 +205,10 @@ export default class MenuOverlay extends PureComponent {
         if (!categoryArray.length) return null;
 
         const {
-            0: { children: mainCategories, title: mainCategoriesTitle },
-            1: { children: trendingCategories, title: trendingCategoriesTitle }
+            0: { children: mainCategories, title: mainCategoriesTitle }
         } = categoryArray;
 
         const mainMods = { type: 'main' };
-        const trendingMods = { type: 'trending' };
 
         return (
             <div block="MenuOverlay" elem="Menu">
@@ -221,17 +219,6 @@ export default class MenuOverlay extends PureComponent {
                   aria-label={ mainCategoriesTitle }
                 >
                     { this.renderFirstLevel(mainCategories, mainMods) }
-                </ul>
-                <ul
-                  block="MenuOverlay"
-                  elem="ItemList"
-                  mods={ trendingMods }
-                  aria-label={ trendingCategoriesTitle }
-                >
-                    <li block="MenuOverlay" elem="ItemListHeading">
-                        { trendingCategoriesTitle }
-                    </li>
-                    { this.renderFirstLevel(trendingCategories, trendingMods) }
                 </ul>
                 { this.renderAdditionalInformation() }
             </div>
