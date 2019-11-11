@@ -129,7 +129,7 @@ export default class CartPage extends Component {
                   elem="ContinueShopping"
                   to="/"
                 >
-                    { __('Continue Shopping') }
+                    { __('Continue shopping') }
                 </Link>
             </article>
         );
