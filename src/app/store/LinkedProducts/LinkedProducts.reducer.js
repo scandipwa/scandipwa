@@ -10,13 +10,12 @@
  */
 
 /* eslint-disable no-param-reassign */
-
-import {
-    UPDATE_LINKED_PRODUCTS
-} from './LinkedProducts.action';
+import BrowserDatabase from 'Util/BrowserDatabase';
+import { UPDATE_LINKED_PRODUCTS } from './LinkedProducts.action';
+import { LINKED_PRODUCTS } from './LinkedProducts.dispatcher';
 
 const initialState = {
-    linkedProducts: {
+    linkedProducts: BrowserDatabase.getItem(LINKED_PRODUCTS) || {
         upsell: {},
         related: {},
         crossSell: {}
@@ -24,18 +23,9 @@ const initialState = {
 };
 
 const LinkedProductsReducer = (state = initialState, action) => {
-    if (action.type === UPDATE_LINKED_PRODUCTS) {
-        const { linkedProducts } = action;
-        Object.values(linkedProducts).forEach((item) => {
-            if (item && item.items) {
-                item.items.forEach(({ attributes }, i) => {
-                    attributes.forEach(({ attribute_code, attribute_value }) => {
-                        item.items[i][attribute_code] = attribute_value;
-                    });
-                });
-            }
-        });
+    const { type, linkedProducts = {} } = action;
 
+    if (type === UPDATE_LINKED_PRODUCTS) {
         return {
             ...state,
             linkedProducts

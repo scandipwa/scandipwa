@@ -15,7 +15,9 @@
     }
 
     &_isAdditional {
-        height: 100%;
+        @include after-mobile {
+            height: 100%;
+        }
     }
 
     &_type_single {

@@ -9,13 +9,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { QueryDispatcher } from 'Util/Request';
-import { showNotification } from 'Store/Notification';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
-import {
-    updateLinkedProducts
-} from 'Store/LinkedProducts';
+import { updateLinkedProducts } from 'Store/LinkedProducts';
+import { showNotification } from 'Store/Notification';
+import BrowserDatabase from 'Util/BrowserDatabase';
+import { getIndexedProducts } from 'Util/Product';
+import { QueryDispatcher } from 'Util/Request';
 import { ProductListQuery } from 'Query';
+
+export const LINKED_PRODUCTS = 'LINKED_PRODUCTS';
 
 /**
  * Define array slice params to determine the number of products to show
@@ -34,8 +36,19 @@ export class LinkedProductsDispatcher extends QueryDispatcher {
         super('LinkedProducts', ONE_MONTH_IN_SECONDS);
     }
 
-    onSuccess({ upsell, related, crossSell }, dispatch) {
-        dispatch(updateLinkedProducts({ upsell, related, crossSell }));
+    onSuccess({ upsell = {}, related = {}, crossSell = {} }, dispatch) {
+        const { items: upsellItems = [] } = upsell;
+        const { items: relatedItems = [] } = related;
+        const { items: crossSellItems = [] } = crossSell;
+
+        const linkedProducts = {
+            upsell: { ...upsell, items: getIndexedProducts(upsellItems) },
+            related: { ...related, items: getIndexedProducts(relatedItems) },
+            crossSell: { ...crossSell, items: getIndexedProducts(crossSellItems) }
+        };
+
+        BrowserDatabase.setItem(linkedProducts, LINKED_PRODUCTS);
+        dispatch(updateLinkedProducts(linkedProducts));
     }
 
     onError(error, dispatch) {
