@@ -38,6 +38,7 @@ export class MyAccountNewsletterSubscription extends FieldForm {
 
     get fieldMap() {
         const { customer: { is_subscribed } } = this.props;
+
         return {
             is_subscribed: {
                 type: 'checkbox',
@@ -53,7 +54,7 @@ export class MyAccountNewsletterSubscription extends FieldForm {
             <div
               block="FieldForm"
               elem="Fields"
-              mix={ { block: 'MyAccountNewsletterSubscription', elem: 'FieldWrapper' } }
+              mix={ { block: 'MyAccountNewsletterSubscription' } }
             >
                 { Object.entries(this.fieldMap).map(this.renderField) }
             </div>
@@ -62,7 +63,11 @@ export class MyAccountNewsletterSubscription extends FieldForm {
 
     renderActions() {
         return (
-            <button type="submit" block="Button">
+            <button
+              type="submit"
+              block="Button"
+              mix={ { block: 'MyAccountNewsletterSubscription', elem: 'Button' } }
+            >
                 { __('Save changes') }
             </button>
         );

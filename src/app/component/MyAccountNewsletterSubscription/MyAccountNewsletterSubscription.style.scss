@@ -10,9 +10,23 @@
  */
 
 .MyAccountNewsletterSubscription {
-    &-FieldWrapper {
-        input[type='checkbox'] {
-            width: unset;
+    @include after-mobile {
+        display: inline-block;
+    }
+
+    &-Button {
+        @include after-mobile {
+            position: absolute;
+            top: -55px;
+            right: 0;
+        }
+    }
+
+    .Field {
+        @include mobile {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0;
         }
     }
 }

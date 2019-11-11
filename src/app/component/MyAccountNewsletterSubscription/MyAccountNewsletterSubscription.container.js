@@ -11,18 +11,18 @@
 
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-
-import { customerType } from 'Type/Account';
-import { MyAccountQuery } from 'Query';
-import { updateCustomerDetails } from 'Store/MyAccount';
 import PropTypes from 'prop-types';
+
+import Loader from 'Component/Loader';
+import { MyAccountQuery } from 'Query';
+import { customerType } from 'Type/Account';
 import { fetchMutation } from 'Util/Request';
-import BrowserDatabase from 'Util/BrowserDatabase/BrowserDatabase';
-import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
-import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 import { showNotification } from 'Store/Notification';
-import MyAccountNewsletterSubscription
-    from './MyAccountNewsletterSubscription.component';
+import { updateCustomerDetails } from 'Store/MyAccount';
+import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
+import BrowserDatabase from 'Util/BrowserDatabase/BrowserDatabase';
+import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
+import MyAccountNewsletterSubscription from './MyAccountNewsletterSubscription.component';
 
 export const mapStateToProps = state => ({
     customer: state.MyAccountReducer.customer
@@ -46,31 +46,48 @@ export class MyAccountNewsletterSubscriptionContainer extends PureComponent {
         onCustomerSave: this.onCustomerSave.bind(this)
     };
 
+    state = {
+        isLoading: false
+    };
+
     onError = () => {
         const { showErrorNotification } = this.props;
-        showErrorNotification(__('We are experiencing issues, please try again later'));
+
+        this.setState({ isLoading: false }, () => {
+            showErrorNotification(__('We are experiencing issues, please try again later'));
+        });
     };
 
     onCustomerSave(customer) {
         const { updateCustomer, showSuccessNotification } = this.props;
         const mutation = MyAccountQuery.getUpdateInformationMutation(customer);
 
+        this.setState({ isLoading: true });
+
         return fetchMutation(mutation).then(
             ({ updateCustomer: { customer } }) => {
                 BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS);
-                updateCustomer(customer);
-                showSuccessNotification(__('Subscription settings successfully updated'));
+
+                this.setState({ isLoading: false }, () => {
+                    updateCustomer(customer);
+                    showSuccessNotification(__('Subscription settings successfully updated'));
+                });
             },
             this.onError
         );
     }
 
     render() {
+        const { isLoading } = this.state;
+
         return (
-            <MyAccountNewsletterSubscription
-              { ...this.props }
-              { ...this.containerFunctions }
-            />
+            <>
+                <Loader isLoading={ isLoading } />
+                <MyAccountNewsletterSubscription
+                  { ...this.props }
+                  { ...this.containerFunctions }
+                />
+            </>
         );
     }
 }
