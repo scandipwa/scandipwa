@@ -17,7 +17,10 @@
         display: block;
         opacity: 1;
         transform: translateY(0);
-        transition: all .25s;
+        transition-property: transform, opacity;
+        will-change: transform, opacity;
+        transition-timing-function: ease-in;
+        transition-duration: .25s;
 
         &:last-child {
             width: 100%;
@@ -35,6 +38,7 @@
         background-image: var(--placeholder-image);
         background-size: var(--placeholder-size);
         animation: var(--placeholder-animation);
+        will-change: background-position;
     }
 
     &_isLoading {

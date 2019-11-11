@@ -16,7 +16,7 @@
  * @param {{ attribute_code: string }[]} options
  * @returns {boolean}
  */
-const checkEveryOption = (attributes, options) => Object.keys(options)
+export const checkEveryOption = (attributes, options) => Object.keys(options)
     .every((option) => {
         if (!attributes[option]) return false;
 
@@ -28,21 +28,39 @@ const checkEveryOption = (attributes, options) => Object.keys(options)
         return options[option].includes(attribute_value);
     });
 
-const getIndexedAttributes = attributes => attributes.reduce((indexedAttributes, attribute) => {
+export const getIndexedAttributeOption = (option) => {
+    const { swatch_data: defaultSwatchData } = option;
+    if (!defaultSwatchData) return option;
+
+    const { type } = defaultSwatchData;
+    const swatch_data = type ? defaultSwatchData : null;
+
+    return {
+        ...option,
+        swatch_data
+    };
+};
+
+export const getIndexedAttributes = attributes => attributes.reduce((indexedAttributes, attribute) => {
     const { attribute_code, attribute_options = [] } = attribute;
 
     return {
         ...indexedAttributes,
         [attribute_code]: {
             ...attribute,
-            attribute_options: attribute_options.reduce((indexedAttributeOptions, option) => (
-                { ...indexedAttributeOptions, [option.value]: option }
-            ), {})
+            attribute_options: attribute_options.reduce((acc, option) => {
+                const { value } = option;
+
+                return {
+                    ...acc,
+                    [value]: getIndexedAttributeOption(option)
+                };
+            }, {})
         }
     };
 }, {});
 
-const getIndexedConfigurableOptions = (configurableOptions, indexedAttributes) => (
+export const getIndexedConfigurableOptions = (configurableOptions, indexedAttributes) => (
     configurableOptions.reduce((indexedConfigurableOptions, configurableOption) => {
         const { values, attribute_code } = configurableOption;
 
@@ -57,7 +75,7 @@ const getIndexedConfigurableOptions = (configurableOptions, indexedAttributes) =
     }, {})
 );
 
-const getIndexedVariants = variants => variants.map(({ product }) => {
+export const getIndexedVariants = variants => variants.map(({ product }) => {
     const { attributes } = product;
     return {
         ...product,

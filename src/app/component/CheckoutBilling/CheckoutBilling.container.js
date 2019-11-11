@@ -107,7 +107,7 @@ export class CheckoutBillingContainer extends PureComponent {
         const { showErrorNotification } = this.props;
 
         if (error) {
-            const { message = __('Something went wrong') } = error;
+            const { message = __('Something went wrong!') } = error;
             showErrorNotification(message);
         }
     }

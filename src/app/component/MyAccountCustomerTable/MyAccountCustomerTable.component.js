@@ -59,7 +59,7 @@ class MyAccountCustomerTable extends KeyValueTable {
                   mods={ { isHollow: true } }
                   onClick={ showChangePasswordPopup }
                 >
-                    { __('Change Password') }
+                    { __('Change password') }
                 </button>
             </>
         );

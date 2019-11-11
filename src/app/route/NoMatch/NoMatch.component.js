@@ -46,7 +46,7 @@ export default class NoMatch extends Component {
 
     render() {
         return (
-            <main block="NoMatch" aria-label={ __('Page Not Found') }>
+            <main block="NoMatch" aria-label={ __('Page not found') }>
                 <ContentWrapper
                   mix={ { block: 'NoMatch' } }
                   wrapperMix={ { block: 'NoMatch', elem: 'Wrapper' } }

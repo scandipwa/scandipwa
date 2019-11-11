@@ -31,9 +31,9 @@ class MyAccountMyOrders extends PureComponent {
 
     renderNoOrders() {
         return (
-            <div block="MyAccountMyOrders" elem="NoOrders">
-                <p>{ __('You have no orders.') }</p>
-            </div>
+            <tr block="MyAccountMyOrders" elem="NoOrders">
+                <td colSpan="4">{ __('You have no orders.') }</td>
+            </tr>
         );
     }
 
@@ -69,7 +69,9 @@ class MyAccountMyOrders extends PureComponent {
     renderOrdersList() {
         const { orderList, isLoading } = this.props;
 
-        const orders = (!isLoading && orderList.length)
+        if (!isLoading && !orderList.length) return this.renderNoOrders();
+
+        const orders = orderList.length
             ? orderList
             : Array.from({ length: 10 }, (_, id) => ({ base_order_info: { id } }));
 

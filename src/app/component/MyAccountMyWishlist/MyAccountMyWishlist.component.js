@@ -11,12 +11,12 @@
 
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { ProductType } from 'Type/ProductList';
-import ProductCard from 'Component/ProductCard';
+
 import WishlistItem from 'Component/WishlistItem';
 import Loader from 'Component/Loader';
-import Link from 'Component/Link';
 import ShareWishlistPopup from 'Component/ShareWishlistPopup';
+import ProductCard from 'Component/ProductCard';
+import { ProductType } from 'Type/ProductList';
 
 import './MyAccountMyWishlist.style';
 
@@ -34,15 +34,6 @@ export default class MyAccountMyWishlist extends PureComponent {
     renderNoProductsFound = () => (
         <div>
             <p>{ __('Wishlist is empty!') }</p>
-            <Link
-              to="/"
-              mix={ {
-                  block: 'Button',
-                  mix: { block: 'MyAccountMyWishlist', elem: 'NoProductsButton' }
-              } }
-            >
-                { __('Continue shopping') }
-            </Link>
         </div>
     );
 
