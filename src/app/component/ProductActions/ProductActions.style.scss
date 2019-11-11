@@ -223,6 +223,7 @@
                 color: var(--product-actions-option-border-color);
                 padding-top: 0;
                 padding-bottom: 0;
+                margin-bottom: 1rem;
 
                 @include mobile {
                     display: none;
