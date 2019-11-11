@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { WishlistItemContainer } from 'Component/WishlistItem/WishlistItem.container';
 import { CartDispatcher } from 'Store/Cart';
@@ -24,10 +23,6 @@ export const mapDispatchToProps = dispatch => ({
 export class SharedWishlistItemContainer extends WishlistItemContainer {
     state = {
         quantity: 1
-    };
-
-    static propTypes = {
-
     };
 
     _getConfigurableVariantIndex() {
