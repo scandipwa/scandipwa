@@ -86,12 +86,14 @@ export const DASHBOARD = 'dashboard';
 export const MY_ORDERS = 'my-orders';
 export const MY_WISHLIST = 'my-wishlist';
 export const ADDRESS_BOOK = 'address-book';
+export const NEWSLETTER_SUBSCRIPTION = 'newsletter-subscription';
 
 export const activeTabType = PropTypes.oneOf([
     DASHBOARD,
     MY_ORDERS,
     MY_WISHLIST,
-    ADDRESS_BOOK
+    ADDRESS_BOOK,
+    NEWSLETTER_SUBSCRIPTION
 ]);
 
 export const tabType = PropTypes.shape({
