@@ -22,8 +22,8 @@
     --header-desktop-button-color: #f26323;
     --header-height: 50px;
     --header-nav-height: 50px;
-    --header-logo-height: calc(var(--header-height) - 35px);
     --header-logo-width: 200px;
+    --header-logo-height: calc(var(--header-height) - 30px);
 
     @include tablet {
         --header-desktop-search-bar-width: 200px;
@@ -32,6 +32,7 @@
     @include after-mobile {
         --header-height: 60px;
         --header-nav-height: 60px;
+        --header-logo-height: calc(var(--header-height) - 35px);
     }
 }
 
