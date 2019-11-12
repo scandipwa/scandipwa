@@ -9,15 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-/* eslint-disable no-param-reassign */
-
-import { getIndexedProducts } from 'Util/Product';
-import {
-    UPDATE_LINKED_PRODUCTS
-} from './LinkedProducts.action';
+import BrowserDatabase from 'Util/BrowserDatabase';
+import { UPDATE_LINKED_PRODUCTS } from './LinkedProducts.action';
+import { LINKED_PRODUCTS } from './LinkedProducts.dispatcher';
 
 const initialState = {
-    linkedProducts: {
+    linkedProducts: BrowserDatabase.getItem(LINKED_PRODUCTS) || {
         upsell: {},
         related: {},
         crossSell: {}
@@ -25,19 +22,26 @@ const initialState = {
 };
 
 const LinkedProductsReducer = (state = initialState, action) => {
-    if (action.type === UPDATE_LINKED_PRODUCTS) {
-        const { linkedProducts } = action;
-        Object.values(linkedProducts).forEach((item) => {
-            if (item && item.items) {
-                item.items = getIndexedProducts(item.items);
-            }
-        });
+    const { type, linkedProducts = {} } = action;
 
+    if (type === UPDATE_LINKED_PRODUCTS) {
         return {
             linkedProducts: {
-                upsell: { ...state.linkedProducts.upsell, ...linkedProducts.upsell },
-                related: { ...state.linkedProducts.related, ...linkedProducts.related },
-                crossSell: { ...state.linkedProducts.crossSell, ...linkedProducts.crossSell }
+                upsell: {
+                    ...state.linkedProducts.upsell,
+                    ...linkedProducts.upsell,
+                    items: Object.values({ ...state.linkedProducts.upsell.items, ...linkedProducts.upsell.items })
+                },
+                related: {
+                    ...state.linkedProducts.related,
+                    ...linkedProducts.related,
+                    items: Object.values({ ...state.linkedProducts.related.items, ...linkedProducts.related.items })
+                },
+                crossSell: {
+                    ...state.linkedProducts.related,
+                    ...linkedProducts.related,
+                    items: Object.values({ ...state.linkedProducts.crossSell.items, ...linkedProducts.crossSell.items })
+                }
             }
         };
     }

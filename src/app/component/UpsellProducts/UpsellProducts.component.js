@@ -13,7 +13,6 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import ContentWrapper from 'Component/ContentWrapper';
 import ProductCard from 'Component/ProductCard';
-import TextPlaceholder from 'Component/TextPlaceholder';
 import { ProductType } from 'Type/ProductList';
 import './UpsellProducts.style';
 
@@ -24,88 +23,58 @@ export const NUMBER_OF_DISPLAYED_PRODUCTS = 4;
  * @class WorthLookingInto
  */
 export class UpsellProducts extends PureComponent {
-    /**
-     * Render individual product card
-     * @param product
-     * @returns {*}
-     */
-    renderProductCard(product) {
+    static propTypes = {
+        linkedProducts: PropTypes.objectOf(ProductType).isRequired
+    };
+
+    renderProductCard(product, i) {
+        const { id = i } = product;
+
         return (
             <ProductCard
               block="UpsellProducts"
               elem="Card"
               product={ product }
-              key={ product.id }
-              showName
+              key={ id }
             />
         );
     }
 
-    /**
-     * Render placeholder card when products are loading
-     * @param i
-     * @returns {*}
-     */
-    renderPlaceholderCard(i) {
+    renderItems() {
+        const { linkedProducts: { upsell: { items } } } = this.props;
+
+        if (!items) {
+            return Array.from(
+                { length: NUMBER_OF_DISPLAYED_PRODUCTS },
+                (_, i) => this.renderProductCard({}, i)
+            );
+        }
+
+        return items.map(this.renderProductCard);
+    }
+
+    renderHeading() {
         return (
-            <ProductCard
-              block="UpsellProducts"
-              elem="Card"
-              key={ i }
-              product={ {} }
-            />
+            <h2 block="UpsellProducts" elem="Title">
+                { __('Worth looking into') }
+            </h2>
         );
     }
 
     render() {
-        const {
-            linkedProducts: { upsell: { items, total_count } },
-            products,
-            label
-        } = this.props;
-        const productIsLoaded = products.length !== 0;
-
-        if (!productIsLoaded || !products[0].product_links) return null;
-
-        const hasUpSells = products.some(passedProduct => (
-            passedProduct.product_links
-            && passedProduct.product_links.some(({ link_type }) => link_type === 'upsell')
-        ));
-
-        if (!hasUpSells) return null;
         return (
             <ContentWrapper
               mix={ { block: 'UpsellProducts' } }
               wrapperMix={ { block: 'UpsellProducts', elem: 'Wrapper' } }
-              label={ __('WorthLookingInto products') }
+              label={ __('Upsell products') }
             >
-                <h4 block="UpsellProducts" elem="Title">
-                    <TextPlaceholder
-                      content={ total_count > 0 ? label : '' }
-                    />
-                </h4>
+                { this.renderHeading() }
                 <ul block="UpsellProducts" elem="List">
-                    { items
-                        ? items.map(product => (
-                            this.renderProductCard(product)
-                        ))
-                        : Array(NUMBER_OF_DISPLAYED_PRODUCTS).fill().map((_, i) => (
-                            this.renderPlaceholderCard(i)
-                        )) }
+                    { this.renderItems() }
                 </ul>
             </ContentWrapper>
         );
     }
 }
-
-UpsellProducts.propTypes = {
-    products: PropTypes.array,
-    linkedProducts: PropTypes.objectOf(ProductType).isRequired,
-    label: PropTypes.string.isRequired
-};
-
-UpsellProducts.defaultProps = {
-    products: []
-};
 
 export default UpsellProducts;

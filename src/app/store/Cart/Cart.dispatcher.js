@@ -137,8 +137,8 @@ export class CartDispatcher {
 
     _updateCartData(cartData, dispatch) {
         dispatch(updateTotals(cartData));
+        const { items = [] } = cartData;
 
-        const { items } = cartData;
         if (items.length > 0) {
             const product_links = items.reduce((links, product) => {
                 const { product: { product_links } } = product;

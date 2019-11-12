@@ -15,6 +15,17 @@ export const TYPE_CUSTOM_URL = 0;
 export const TYPE_CMS_PAGE = 1;
 export const TYPE_CATEGORY = 2;
 
+/**
+ * Given an array of menu items, returns a copy of the array, sorted by their parent ID, then by their sort order (position)
+ *
+ * @param unsortedItems an array of items to be sorted
+ * @returns {array} the sorted array
+ */
+export const getSortedItems = unsortedItems => Array.from(unsortedItems).sort((
+    { parent_id: PID, position: P },
+    { parent_id: prevPID, position: prevP }
+) => (PID - prevPID) || (P - prevP));
+
 export class MenuReducer {
     getMenuUrl(url_type, url) {
         switch (url_type) {
@@ -33,13 +44,6 @@ export class MenuReducer {
             url: this.getMenuUrl(url_type, url),
             children: {}
         };
-    }
-
-    getSortedItems(unsortedItems) {
-        return unsortedItems.sort((
-            { parent_id: PID, position: P },
-            { parent_id: prevPID, position: prevP }
-        ) => (PID - prevPID) || (P - prevP));
     }
 
     setToValue(obj, path, value) {
@@ -75,7 +79,7 @@ export class MenuReducer {
         this.menu = {};
         this.menuPositionReference = {};
 
-        this.getSortedItems(unsortedItems).forEach((realMenuItem) => {
+        getSortedItems(unsortedItems).forEach((realMenuItem) => {
             this.createItem(realMenuItem);
         });
 

@@ -79,7 +79,7 @@ export default class WishlistItem extends PureComponent {
                   mix={ { block: 'WishlistItem', elem: 'AddToCart' } }
                   onClick={ addToCart }
                 >
-                    { __('Add to Cart') }
+                    { __('Add to cart') }
                 </button>
             </div>
         );

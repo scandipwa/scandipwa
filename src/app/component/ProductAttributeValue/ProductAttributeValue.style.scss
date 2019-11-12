@@ -32,9 +32,15 @@
 
     margin-left: 0;
 
+    &:focus,
+    &:hover {
+        text-decoration: none;
+    }
+
     &-Color,
     &-String,
-    &-Image {
+    &-Image,
+    &-Text {
         background-color: var(--option-background-color);
         border-color: var(--option-border-color);
         border-width: 1px;
@@ -117,7 +123,8 @@
         }
     }
 
-    &-String {
+    &-String,
+    &-Text {
         border-style: solid;
         line-height: var(--option-size);
         min-width: calc(1.25 * var(--option-size));
@@ -125,9 +132,64 @@
         text-align: center;
 
         &_isSelected {
-            --option-border-color: var(--color-primary-base);
-            --option-text-color: var(--color-primary-base);
+            --option-border-color: #{$primary-base-color};
+            --option-text-color: #{$primary-base-color};
         }
+    }
+
+    &-Text {
+        display: flex;
+        border: 0;
+        align-items: center;
+        margin: 0;
+        text-transform: uppercase;
+
+        &_isSelected {
+            color: var(--color-primary-base);
+        }
+
+        label {
+            font-weight: 400;
+            cursor: pointer;
+            margin: 0;
+
+            &:last-child {
+                border-color: var(--option-border-color);
+            }
+
+            &:first-of-type {
+                padding-left: 1rem;
+                padding-bottom: 0;
+                order: 1;
+
+                ~ label {
+                    margin: 0;
+                }
+            }
+        }
+
+        &:hover,
+        &:focus {
+            label {
+                @include after-mobile {
+                    border-color: $primary-base-color;
+                }
+
+                &::after {
+                    @include after-mobile {
+                        --checkmark-color: #{$dusty-grey};
+                    }
+                }
+            }
+        }
+
+        @include after-mobile {
+            padding: 0;
+        }
+    }
+
+    &:hover {
+        text-decoration: none;
     }
 
     &_isNotAvailable {

@@ -31,7 +31,7 @@ class MyAccountPasswordForm extends FieldForm {
             },
             newPassword: {
                 type: 'password',
-                label: __('New Password'),
+                label: __('New password'),
                 validation: ['notEmpty']
             }
         };

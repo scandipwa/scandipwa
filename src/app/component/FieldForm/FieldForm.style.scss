@@ -19,6 +19,11 @@
     input {
         width: 100%;
 
+        &[type='checkbox'],
+        &[type='radio'] {
+            width: 0;
+        }
+
         + label {
             min-width: auto;
         }
