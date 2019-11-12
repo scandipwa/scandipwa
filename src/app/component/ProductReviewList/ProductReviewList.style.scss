@@ -9,20 +9,40 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+:root {
+    --product-review-list-border: #{darken($concrete, 10)};
+}
+
 .ProductReviewList {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 2rem;
+    margin-top: 2rem;
+
+    @include mobile {
+        grid-template-columns: 1fr;
+        grid-gap: 1rem;
+    }
+
     &-Item {
-        // border-bottom: 1px solid #e0e0e0;
         display: flex;
         flex-wrap: wrap;
         margin: 0;
-        padding: 3rem 0;
+        padding: 0 0 1rem;
+        border-bottom: 1px solid var(--product-review-list-border);
 
-        @include mobile {
-            padding: 2rem 0;
+        @include after-mobile {
+            padding: 1.5rem 2rem;
+            border: 1px solid var(--product-review-list-border);
         }
 
         &:last-child {
-            border-bottom: 0;
+            margin-bottom: 0;
+
+            @include mobile {
+                padding-bottom: 0;
+                border-bottom: 0;
+            }
         }
 
         &::before {
@@ -45,8 +65,13 @@
     &-RatingSummary {
         line-height: 1;
 
+        @include desktop {
+            min-width: 180px;
+        }
+
         @include mobile {
             margin-bottom: 1rem;
+            width: 100%;
         }
     }
 
@@ -80,8 +105,13 @@
         }
     }
 
+    &-ReviewAuthor {
+        margin-top: .5rem;
+        font-size: .8rem;
+    }
+
     &-ReviewDetails {
-        margin-bottom: 2rem;
+        margin-bottom: 0;
 
         @include mobile {
             margin-bottom: 1rem;
@@ -95,9 +125,5 @@
                 display: block;
             }
         }
-    }
-
-    &-ReviewAuthor {
-        font-size: 1rem;
     }
 }

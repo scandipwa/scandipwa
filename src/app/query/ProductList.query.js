@@ -117,8 +117,8 @@ export class ProductListQuery {
         ];
     }
 
-    _getProductInterfaceFields(isVariant) {
-        const { isSingleProduct } = this.options;
+    _getProductInterfaceFields(isVariant, getLinksFieldFromCart) {
+        const { isSingleProduct = getLinksFieldFromCart } = this.options;
         // TODO: add Grouped product fragment
 
         return [
@@ -126,12 +126,8 @@ export class ProductListQuery {
             'sku',
             'name',
             'type_id',
-            'stock_status',
-            'special_price',
-            'only_x_left_in_stock',
             this._getPriceField(),
             this._getThumbnailField(),
-            this._getCategoriesField(),
             this._getShortDescriptionField(),
             this._getAttributesField(isVariant),
             ...(!isVariant
@@ -144,6 +140,7 @@ export class ProductListQuery {
             ),
             ...(isSingleProduct
                 ? [
+                    'stock_status',
                     'meta_title',
                     'meta_keyword',
                     'canonical_url',
@@ -152,6 +149,7 @@ export class ProductListQuery {
                     this._getMediaGalleryField(),
                     ...(!isVariant
                         ? [
+                            this._getCategoriesField(),
                             this._getReviewsField(),
                             this._getProductLinksField()
                         ]
@@ -257,9 +255,9 @@ export class ProductListQuery {
 
     _getThumbnailFields() {
         return [
-            'url',
-            'path',
-            'label'
+            'path'
+            // 'url',
+            // 'label'
         ];
     }
 

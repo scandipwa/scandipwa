@@ -37,10 +37,6 @@ class MyAccountCustomerForm extends FieldForm {
 
     get fieldMap() {
         return {
-            email: {
-                label: __('Email'),
-                validation: ['notEmpty']
-            },
             firstname: {
                 label: __('First name'),
                 validation: ['notEmpty']

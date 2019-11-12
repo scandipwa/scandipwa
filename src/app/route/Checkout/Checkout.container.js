@@ -14,16 +14,16 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
+import CartDispatcher from 'Store/Cart/Cart.dispatcher';
+import { fetchMutation, fetchQuery } from 'Util/Request';
 import { showNotification } from 'Store/Notification';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { changeHeaderState } from 'Store/Header';
 import CheckoutQuery from 'Query/Checkout.query';
-import { fetchMutation, fetchQuery } from 'Util/Request';
 import { GUEST_QUOTE_ID } from 'Store/Cart';
 import { TotalsType } from 'Type/MiniCart';
 import { HistoryType } from 'Type/Common';
-import { CART_TOTALS } from 'Store/Cart/Cart.reducer';
 
 import Checkout, { SHIPPING_STEP, BILLING_STEP, DETAILS_STEP } from './Checkout.component';
 
@@ -34,6 +34,7 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
+    resetCart: () => CartDispatcher._updateCartData({}, dispatch),
     toggleBreadcrumbs: state => dispatch(toggleBreadcrumbs(state)),
     showErrorNotification: message => dispatch(showNotification('error', message)),
     setHeaderState: stateName => dispatch(changeHeaderState(stateName))
@@ -43,6 +44,7 @@ export class CheckoutContainer extends PureComponent {
     static propTypes = {
         showErrorNotification: PropTypes.func.isRequired,
         toggleBreadcrumbs: PropTypes.func.isRequired,
+        resetCart: PropTypes.func.isRequired,
         totals: TotalsType.isRequired,
         history: HistoryType.isRequired
     };
@@ -143,11 +145,10 @@ export class CheckoutContainer extends PureComponent {
 
     _getCheckoutTotals() {
         const { totals: cartTotals } = this.props;
-        const { items } = cartTotals;
-        const { paymentTotals } = this.state;
+        const { paymentTotals: { shipping_amount } } = this.state;
 
-        return Object.keys(paymentTotals).length
-            ? { ...cartTotals, ...paymentTotals, items }
+        return shipping_amount
+            ? { ...cartTotals, shipping_amount }
             : cartTotals;
     }
 
@@ -184,6 +185,7 @@ export class CheckoutContainer extends PureComponent {
     }
 
     savePaymentInformation(paymentInformation) {
+        const { resetCart } = this.props;
         this.setState({ isLoading: true });
 
         fetchMutation(CheckoutQuery.getSavePaymentInformationAndPlaceOrder(
@@ -194,10 +196,11 @@ export class CheckoutContainer extends PureComponent {
                 const { orderID } = data;
 
                 BrowserDatabase.deleteItem(PAYMENT_TOTALS);
-                BrowserDatabase.deleteItem(CART_TOTALS);
+                resetCart();
 
                 this.setState({
                     isLoading: false,
+                    paymentTotals: {},
                     checkoutStep: DETAILS_STEP,
                     orderID
                 });

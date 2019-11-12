@@ -65,15 +65,25 @@ export class AddToCartContainer extends PureComponent {
     _getIsDisabled() {
         const {
             configurableVariantIndex,
-            product: { type_id, stock_status, variants = [] }
+            product,
+            product: {
+                type_id,
+                variants = []
+            }
         } = this.props;
 
         const { isLoading } = this.state;
+        if (isLoading) return true;
 
-        const isNotAvailable = stock_status !== 'IN_STOCK';
-        const isNotVariantAvailable = type_id === 'configurable' && !variants[configurableVariantIndex];
-
-        return isNotAvailable || isNotVariantAvailable || isLoading;
+        switch (type_id) {
+        case 'configurable':
+            if (!variants[configurableVariantIndex]) return true;
+            const { stock_status: configurableStock } = variants[configurableVariantIndex];
+            return configurableStock !== 'IN_STOCK';
+        default:
+            const { stock_status } = product;
+            return stock_status !== 'IN_STOCK';
+        }
     }
 
     buttonClick() {

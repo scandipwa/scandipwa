@@ -15,6 +15,7 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { AttributeType } from 'Type/ProductList';
 import { MixType } from 'Type/Common';
+import Field from 'Component/Field/Field.component';
 import './ProductAttributeValue.style';
 
 export default class ProductAttributeValue extends Component {
@@ -135,18 +136,54 @@ export default class ProductAttributeValue extends Component {
     }
 
     renderImageValue(img, label) {
+        const { isSelected } = this.props;
+
         return (
-            <img
-              block="ProductAttributeValue"
-              elem="Image"
-              src={ img }
-              alt={ label }
+            <>
+                <img
+                  block="ProductAttributeValue"
+                  elem="Image"
+                  src={ `/media/attribute/swatch${img}` }
+                  alt={ label }
+                />
+                <data
+                  block="ProductAttributeValue"
+                  elem="Image-Overlay"
+                  value={ label }
+                  title={ label }
+                  style={ {
+                      '--option-is-selected': +isSelected
+                  } }
+                />
+            </>
+        );
+    }
+
+    renderDropdown(value) {
+        const { isSelected } = this.props;
+
+        return (
+            <Field
+              id={ value }
+              name={ value }
+              type="checkbox"
+              label={ value }
+              value={ value }
+              mix={ {
+                  block: 'ProductAttributeValue',
+                  elem: 'Text',
+                  mods: { isSelected }
+              } }
+              checked={ isSelected }
             />
         );
     }
 
     renderStringValue(value, label) {
         const { isSelected } = this.props;
+        const isSwatch = label;
+
+        if (!isSwatch) return this.renderDropdown(value);
 
         return (
             <span

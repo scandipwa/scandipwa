@@ -11,10 +11,12 @@
 
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import './ReviewStar.style';
 
 export default class ReviewStar extends PureComponent {
     static propTypes = {
-        value: PropTypes.string.isRequired,
+        value: PropTypes.number.isRequired,
+        name: PropTypes.number.isRequired,
         title: PropTypes.string.isRequired,
         isChecked: PropTypes.bool.isRequired,
         option_id: PropTypes.number.isRequired,
@@ -33,17 +35,23 @@ export default class ReviewStar extends PureComponent {
     };
 
     render() {
-        const { value, title, isChecked } = this.props;
+        const {
+            value,
+            title,
+            isChecked,
+            name
+        } = this.props;
 
         return (
             <input
               block="ReviewStar"
               type="radio"
-              name="raiting"
+              id={ name }
+              name={ name }
               value={ value }
               title={ title }
-              defaultChecked={ isChecked }
-              onClick={ this.onStarRatingClick }
+              checked={ isChecked }
+              onChange={ this.onStarRatingClick }
             />
         );
     }

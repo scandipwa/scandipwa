@@ -10,19 +10,22 @@
  */
 
 import { PureComponent } from 'react';
-import ExpandableContent from 'Component/ExpandableContent';
+import PropTypes from 'prop-types';
+
+import media, { PRODUCT_MEDIA } from 'Util/Media';
 import Html from 'Component/Html';
-import ContentWrapper from 'Component/ContentWrapper';
 import Image from 'Component/Image';
 import { ProductType } from 'Type/ProductList';
-import './ProductInformation.style';
+import ContentWrapper from 'Component/ContentWrapper';
 import TextPlaceholder from 'Component/TextPlaceholder';
+import ExpandableContent from 'Component/ExpandableContent';
 
-export const PRODUCT_IMAGE_PATH = '/media/catalog/product';
+import './ProductInformation.style';
 
 export default class ProductInformation extends PureComponent {
     static propTypes = {
-        product: ProductType.isRequired
+        product: ProductType.isRequired,
+        areDetailsLoaded: PropTypes.bool.isRequired
     };
 
     renderContentPlaceholder() {
@@ -37,7 +40,7 @@ export default class ProductInformation extends PureComponent {
 
     renderImage() {
         const { product: { thumbnail: { path = '' } = {} } } = this.props;
-        const imageUrl = path && `${PRODUCT_IMAGE_PATH}${ path }`;
+        const imageUrl = path && media(path, PRODUCT_MEDIA);
 
         return (
           <Image
@@ -62,8 +65,15 @@ export default class ProductInformation extends PureComponent {
     }
 
     render() {
-        const { product: { id, description: { html } = {} } } = this.props;
-        if (!html && id) return null;
+        const {
+            product: {
+                id,
+                description: { html } = {}
+            },
+            areDetailsLoaded
+        } = this.props;
+
+        if (!html && id && areDetailsLoaded) return null;
 
         return (
             <ContentWrapper

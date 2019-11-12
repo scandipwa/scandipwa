@@ -131,11 +131,10 @@
         order: 4;
         display: block;
         max-width: 80%;
-        height: 50px;
+        max-height: 50px;
         margin: 1rem auto;
 
         @include mobile {
-            margin: 3rem auto 1rem;
             max-width: 60%;
         }
 
@@ -250,5 +249,9 @@
             content: ':';
             font-weight: normal;
         }
+    }
+
+    &-ExpandableContentContent {
+        margin-top: 0;
     }
 }

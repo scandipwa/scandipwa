@@ -34,6 +34,7 @@ import { HeaderReducer } from 'Store/Header';
 import { OverlayReducer } from 'Store/Overlay';
 import { PopupReducer } from 'Store/Popup';
 import { ConfigReducer } from 'Store/Config';
+import { LinkedProductsReducer } from 'Store/LinkedProducts';
 
 export const reducers = {
     CmsBlocksAndSliderReducer,
@@ -56,7 +57,8 @@ export const reducers = {
     OverlayReducer,
     PopupReducer,
     UrlRewritesReducer,
-    ConfigReducer
+    ConfigReducer,
+    LinkedProductsReducer
 };
 
 const store = createStore(

@@ -26,7 +26,8 @@ export const ORDER_POPUP_ID = 'MyAccountOrderPopup';
 class MyAccountOrderPopup extends PureComponent {
     static propTypes = {
         order: orderType.isRequired,
-        isLoading: PropTypes.bool.isRequired
+        isLoading: PropTypes.bool.isRequired,
+        currency_code: PropTypes.string.isRequired
     };
 
     renderBaseInfo() {
@@ -74,7 +75,7 @@ class MyAccountOrderPopup extends PureComponent {
     }
 
     renderShipping() {
-        const { order: { shipping_info } } = this.props;
+        const { order: { shipping_info }, currency_code } = this.props;
 
         const {
             shipping_description,
@@ -95,7 +96,7 @@ class MyAccountOrderPopup extends PureComponent {
                     <dt>{ __('Price: ') }</dt>
                     <dd>
                         { shipping_amount }
-                        { formatCurrency() }
+                        { formatCurrency(currency_code) }
                     </dd>
                 </dl>
                 { this.renderShippingAddressTable() }
@@ -104,7 +105,7 @@ class MyAccountOrderPopup extends PureComponent {
     }
 
     renderItems() {
-        const { order: { order_products = [] } } = this.props;
+        const { order: { order_products = [] }, currency_code } = this.props;
 
         return order_products.map((product, i) => {
             const {
@@ -136,7 +137,7 @@ class MyAccountOrderPopup extends PureComponent {
                     <td>{ qty }</td>
                     <td>
                         { row_total }
-                        { formatCurrency() }
+                        { formatCurrency(currency_code) }
                     </td>
                 </tr>
             );
@@ -168,7 +169,7 @@ class MyAccountOrderPopup extends PureComponent {
     }
 
     renderTotals() {
-        const { order: { base_order_info } } = this.props;
+        const { order: { base_order_info }, currency_code } = this.props;
         const { grand_total, sub_total } = base_order_info || {};
 
         return (
@@ -178,12 +179,12 @@ class MyAccountOrderPopup extends PureComponent {
                     <dt>{ __('Subtotal: ') }</dt>
                     <dd>
                         { sub_total }
-                        { formatCurrency() }
+                        { formatCurrency(currency_code) }
                     </dd>
                     <dt>{ __('Grand total: ') }</dt>
                     <dd>
                         { grand_total }
-                        { formatCurrency() }
+                        { formatCurrency(currency_code) }
                     </dd>
                 </dl>
             </div>

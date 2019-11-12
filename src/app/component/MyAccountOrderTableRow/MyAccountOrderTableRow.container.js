@@ -17,6 +17,10 @@ import { ORDER_POPUP_ID } from 'Component/MyAccountOrderPopup/MyAccountOrderPopu
 import { orderType } from 'Type/Account';
 import MyAccountOrderTableRow from './MyAccountOrderTableRow.component';
 
+export const mapStateToProps = state => ({
+    currency_code: state.ConfigReducer.base_currency_code
+});
+
 export const mapDispatchToProps = dispatch => ({
     showPopup: payload => dispatch(showPopup(ORDER_POPUP_ID, payload))
 });
@@ -24,7 +28,12 @@ export const mapDispatchToProps = dispatch => ({
 export class MyAccountOrderTableRowContainer extends PureComponent {
     static propTypes = {
         showPopup: PropTypes.func.isRequired,
+        currency_code: PropTypes.string,
         order: orderType.isRequired
+    };
+
+    static defaultProps = {
+        currency_code: ''
     };
 
     containerFunctions = {
@@ -43,8 +52,8 @@ export class MyAccountOrderTableRowContainer extends PureComponent {
     }
 
     containerProps = () => {
-        const { order: { base_order_info } } = this.props;
-        return { base_order_info };
+        const { order: { base_order_info }, currency_code } = this.props;
+        return { base_order_info, currency_code };
     };
 
     render() {
@@ -57,4 +66,4 @@ export class MyAccountOrderTableRowContainer extends PureComponent {
     }
 }
 
-export default connect(null, mapDispatchToProps)(MyAccountOrderTableRowContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(MyAccountOrderTableRowContainer);

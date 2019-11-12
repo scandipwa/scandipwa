@@ -40,24 +40,19 @@ export default class ProductGallery extends PureComponent {
 
     state = { activeImage: 0 };
 
-    renderAdditionalPicture = this.renderAdditionalPicture.bind(this);
-
-    onActiveImageChange = this.onActiveImageChange.bind(this);
-
-    onActiveImageChange(activeImage) {
+    onActiveImageChange = (activeImage) => {
         this.setState({ activeImage });
-    }
+    };
 
-    renderAdditionalPicture(media, index = 0) {
-        return (
-            <ProductGalleryImage
-              key={ index }
-              media={ media }
-              index={ index }
-              onActiveImageChange={ this.onActiveImageChange }
-            />
-        );
-    }
+    renderAdditionalPicture = (media, index = 0) => (
+        <ProductGalleryImage
+          isAdditional
+          key={ index }
+          media={ media }
+          index={ index }
+          onActiveImageChange={ this.onActiveImageChange }
+        />
+    );
 
     renderAdditionalPictures() {
         const { gallery } = this.props;
@@ -75,7 +70,6 @@ export default class ProductGallery extends PureComponent {
             image = '',
             isPlaceholder
         } = media;
-        const fullImageUrl = `//${window.location.hostname}${image}`;
 
         switch (type) {
         case 'image':
@@ -95,7 +89,7 @@ export default class ProductGallery extends PureComponent {
                     <img
                       style={ { display: 'none' } }
                       alt={ name }
-                      src={ fullImageUrl }
+                      src={ image }
                       itemProp="image"
                     />
                 </Fragment>

@@ -146,9 +146,10 @@ export default class Field extends PureComponent {
         super(props);
 
         const { checked } = props;
+        const value = this._getInitialPropsValue();
 
         this.state = {
-            value: this._getInitialPropsValue(),
+            value,
             valueIndex: -1,
             checked,
             searchString: 'a',
@@ -530,38 +531,6 @@ export default class Field extends PureComponent {
                 <label htmlFor={ id } />
                 { label }
             </label>
-        );
-    }
-
-    static renderMultipleRadioButtons(radioOptions, fieldSetId, fieldSetName = null) {
-        const name = fieldSetName || fieldSetId;
-
-        return (
-            <fieldset id={ fieldSetId } name={ name }>
-                { radioOptions.map((radioButton) => {
-                    const {
-                        id,
-                        name,
-                        value,
-                        isDisabled,
-                        checked,
-                        label
-                    } = radioButton;
-
-                    return (
-                        <Field
-                          key={ id }
-                          type={ RADIO_TYPE }
-                          id={ id }
-                          name={ name }
-                          value={ value }
-                          disabled={ isDisabled }
-                          checked={ checked }
-                          label={ label }
-                        />
-                    );
-                }) }
-            </fieldset>
         );
     }
 

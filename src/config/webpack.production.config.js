@@ -37,7 +37,8 @@ const magentoRoot = path.resolve(projectRoot, '..', '..', '..', '..', '..');
 const publicRoot = path.resolve(magentoRoot, 'pub');
 const fallbackRoot = path.resolve(magentoRoot, 'vendor', 'scandipwa', 'source');
 
-const publicPath = '/static/frontend/Scandiweb/pwa/en_US/Magento_Theme/';
+const staticVersion = Date.now();
+const publicPath = `/static/version${staticVersion}/frontend/Scandiweb/pwa/en_US/Magento_Theme/`;
 
 const webpackConfig = ([lang, translation]) => ({
     resolve: {
@@ -146,7 +147,7 @@ const webpackConfig = ([lang, translation]) => ({
             'process.env': {
                 REBEM_MOD_DELIM: JSON.stringify('_'),
                 REBEM_ELEM_DELIM: JSON.stringify('-'),
-                MAGENTO_VERSION: JSON.stringify('2.3.1')
+                MAGENTO_STATIC_VERSION: staticVersion
             }
         }),
 

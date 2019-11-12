@@ -33,11 +33,6 @@
     @include mobile {
         display: grid;
         align-items: center;
-
-        &-Colors,
-        &-Price {
-            margin: 1.5rem 1rem 0 1rem;
-        }
     }
 
     &-Colors {
@@ -53,6 +48,29 @@
             justify-content: flex-start;
             align-items: flex-start;
             padding: .5rem calc(1rem - 5px);
+        }
+    }
+
+    &-Reviews {
+        order: 2;
+        margin-bottom: .5rem;
+
+        @include mobile {
+            display: none;
+        }
+    }
+
+    &-ReviewLabel {
+        display: inline-block;
+        font-weight: 600;
+        margin-left: .5rem;
+
+        span {
+            font-weight: normal;
+
+            &::before {
+                content: ' / ';
+            }
         }
     }
 
@@ -73,6 +91,12 @@
         font-size: 25px;
         align-items: center;
         justify-content: center;
+
+        @include mobile {
+            order: -2;
+            text-align: center;
+            padding-top: .5rem;
+        }
 
         &:last-of-type {
             @include after-mobile {
@@ -103,37 +127,39 @@
         margin-left: 10px;
 
         @include mobile {
-            margin: 1.8rem 1rem 1rem;
+            margin: 1rem 1rem;
             width: calc(100% - 2rem);
         }
     }
 
     &-AddToCartWrapper {
-        order: 22;
+        order: -2;
 
         @include after-mobile {
+            order: 22;
             margin-right: 1rem;
         }
     }
 
     &-AdditionalButtons {
         order: 25;
-        margin: 1rem 0 1.5rem;
+        margin: 2rem 0 1rem;
         flex-basis: 100%;
 
         @include mobile {
-            margin-top: 0;
+            margin: 0 0 1rem;
         }
 
-        :first-child {
+        &:first-child {
             margin-top: 0;
         }
 
         > * {
             margin-right: 1rem;
+            margin-top: 1rem;
 
             @include mobile {
-                margin: 1rem 1rem 0 1rem;
+                margin: 1rem 1rem 0;
                 width: calc(100% - 2rem);
                 text-align: center;
             }
@@ -183,8 +209,9 @@
 
             &_short {
                 @include mobile {
-                    border-top: 0;
                     border-bottom: 1px solid var(--expandable-content-divider-color);
+                    border-top: 1px solid var(--expandable-content-divider-color);
+                    top: -1px;
                 }
 
                 @include after-mobile {
@@ -201,6 +228,7 @@
                 color: var(--product-actions-option-border-color);
                 padding-top: 0;
                 padding-bottom: 0;
+                margin-bottom: 1rem;
 
                 @include mobile {
                     display: none;
