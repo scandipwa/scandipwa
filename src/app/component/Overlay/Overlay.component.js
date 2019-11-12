@@ -11,9 +11,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
+import { createRef, PureComponent } from 'react';
 import PropTypes from 'prop-types';
+
+import isMobile from 'Util/Mobile';
 import { MixType, ChildrenType } from 'Type/Common';
+
 import './Overlay.style';
 
 export default class Overlay extends PureComponent {
@@ -34,6 +37,8 @@ export default class Overlay extends PureComponent {
         onHide: () => {}
     };
 
+    overlayRef = createRef();
+
     componentDidUpdate(prevProps) {
         const prevWasVisible = this.getIsVisible(prevProps);
         const isVisible = this.getIsVisible();
@@ -43,17 +48,32 @@ export default class Overlay extends PureComponent {
 
     onVisible() {
         const { onVisible } = this.props;
+        if (isMobile.any()) this.freezeScroll();
+        this.overlayRef.current.focus();
         onVisible();
     }
 
     onHide() {
         const { onHide } = this.props;
+        if (isMobile.any()) this.unfreezeScroll();
         onHide();
     }
 
     getIsVisible(props = this.props) {
         const { id, activeOverlay } = props;
         return id === activeOverlay;
+    }
+
+    freezeScroll() {
+        this.YoffsetWhenScrollDisabled = window.pageYOffset || document.documentElement.scrollTop;
+        document.body.classList.add('scrollDisabled');
+        document.body.style.marginTop = `${-this.YoffsetWhenScrollDisabled}px`;
+    }
+
+    unfreezeScroll() {
+        document.body.classList.remove('scrollDisabled');
+        document.body.style.marginTop = 0;
+        window.scrollTo(0, this.YoffsetWhenScrollDisabled);
     }
 
     render() {
@@ -63,6 +83,7 @@ export default class Overlay extends PureComponent {
         return (
             <div
               block="Overlay"
+              ref={ this.overlayRef }
               mods={ { isVisible, isInstant: areOtherOverlaysOpen } }
               mix={ { ...mix, mods: { ...mix.mods, isVisible } } }
             >
