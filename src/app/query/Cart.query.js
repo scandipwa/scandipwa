@@ -112,7 +112,7 @@ export class CartQuery {
 
     _getProductField() {
         return new Field('product')
-            .addFieldList(ProductListQuery._getProductInterfaceFields());
+            .addFieldList(ProductListQuery._getProductInterfaceFields(false, true));
     }
 
     _getCartItemsField() {

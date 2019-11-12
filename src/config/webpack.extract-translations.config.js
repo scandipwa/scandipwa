@@ -78,7 +78,7 @@ module.exports = {
         }),
 
         new webpack.ProvidePlugin({
-            __: path.resolve(path.join(__dirname, 'MockTranslations'))
+            __: path.resolve(path.join(__dirname, 'TranslationFunction'))
         }),
 
         new CleanWebpackPlugin([], {

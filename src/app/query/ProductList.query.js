@@ -117,8 +117,8 @@ export class ProductListQuery {
         ];
     }
 
-    _getProductInterfaceFields(isVariant) {
-        const { isSingleProduct } = this.options;
+    _getProductInterfaceFields(isVariant, getLinksFieldFromCart) {
+        const { isSingleProduct = getLinksFieldFromCart } = this.options;
         // TODO: add Grouped product fragment
 
         return [

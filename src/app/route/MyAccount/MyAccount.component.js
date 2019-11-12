@@ -25,8 +25,10 @@ import {
     DASHBOARD,
     MY_ORDERS,
     MY_WISHLIST,
-    ADDRESS_BOOK
+    ADDRESS_BOOK,
+    NEWSLETTER_SUBSCRIPTION
 } from 'Type/Account';
+import MyAccountNewsletterSubscription from 'Component/MyAccountNewsletterSubscription';
 
 import './MyAccount.style';
 
@@ -41,7 +43,8 @@ class MyAccount extends PureComponent {
         [DASHBOARD]: MyAccountDashboard,
         [MY_ORDERS]: MyAccountMyOrders,
         [MY_WISHLIST]: MyAccountMyWishlist,
-        [ADDRESS_BOOK]: MyAccountAddressBook
+        [ADDRESS_BOOK]: MyAccountAddressBook,
+        [NEWSLETTER_SUBSCRIPTION]: MyAccountNewsletterSubscription
     };
 
     render() {

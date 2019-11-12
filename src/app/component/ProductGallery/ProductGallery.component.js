@@ -52,12 +52,44 @@ export default class ProductGallery extends PureComponent {
         this.renderSlide = this.renderSlide.bind(this);
     }
 
-    renderAdditionalPicture = this.renderAdditionalPicture.bind(this);
-
-    onActiveImageChange = this.onActiveImageChange.bind(this);
-
-    onActiveImageChange(activeImage) {
+    onActiveImageChange = (activeImage) => {
         this.setState({ activeImage });
+    };
+
+    renderAdditionalPicture = (media, index = 0) => (
+        <ProductGalleryImage
+          isAdditional
+          key={ index }
+          media={ media }
+          index={ index }
+          onActiveImageChange={ this.onActiveImageChange }
+        />
+    );
+
+    /**
+     * Renders a video thumbnail which opens popup player on click/tap
+     * @param media
+     * @param index
+     * @returns {*}
+     * @private
+     */
+    _renderVideoItem(media, index) {
+        return <VideoThumbnail key={ index } media={ media } />;
+    }
+
+    _renderPlaceholderItem(index) {
+        return (
+            <Image
+              key={ index }
+              ratio="custom"
+              mix={ {
+                  block: 'ProductGallery',
+                  elem: 'SliderImage',
+                  mods: { isPlaceholder: true }
+              } }
+              isPlaceholder
+            />
+        );
     }
 
     /**
@@ -100,52 +132,6 @@ export default class ProductGallery extends PureComponent {
     }
 
     /**
-     * Renders a video thumbnail which opens popup player on click/tap
-     * @param media
-     * @param index
-     * @returns {*}
-     * @private
-     */
-    _renderVideoItem(media, index) {
-        return <VideoThumbnail key={ index } media={ media } />;
-    }
-
-    _renderPlaceholderItem(index) {
-        return (
-            <Image
-              key={ index }
-              ratio="custom"
-              mix={ {
-                  block: 'ProductGallery',
-                  elem: 'SliderImage',
-                  mods: { isPlaceholder: true }
-              } }
-              isPlaceholder
-            />
-        );
-    }
-
-    renderAdditionalPictures() {
-        const { gallery } = this.props;
-        const galleryLength = gallery.length;
-
-        return galleryLength < GALLERY_LENGTH_BEFORE_COLLAPSE
-            ? this.renderAdditionalPicture({ ...gallery[galleryLength - 1], type: 'single' })
-            : gallery.slice(0, GALLERY_LENGTH_BEFORE_COLLAPSE).map(this.renderAdditionalPicture);
-    }
-
-    renderAdditionalPicture(media, index = 0) {
-        return (
-            <ProductGalleryImage
-              key={ index }
-              media={ media }
-              index={ index }
-              onActiveImageChange={ this.onActiveImageChange }
-            />
-        );
-    }
-
-    /**
      * Checks for the type of the slide and renders it accordingly
      * @param media
      * @param index
@@ -164,6 +150,15 @@ export default class ProductGallery extends PureComponent {
         default:
             return null;
         }
+    }
+
+    renderAdditionalPictures() {
+        const { gallery } = this.props;
+        const galleryLength = gallery.length;
+
+        return galleryLength < GALLERY_LENGTH_BEFORE_COLLAPSE
+            ? this.renderAdditionalPicture({ ...gallery[galleryLength - 1], type: 'single' })
+            : gallery.slice(0, GALLERY_LENGTH_BEFORE_COLLAPSE).map(this.renderAdditionalPicture);
     }
 
     render() {
