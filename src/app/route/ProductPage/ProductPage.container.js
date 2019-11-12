@@ -128,7 +128,7 @@ export class ProductPageContainer extends PureComponent {
             }, {});
 
         if (Object.keys(parameters).length !== Object.keys(configurable_options).length) {
-            return { parameters };
+            return { parameters, configurableVariantIndex: -1 };
         }
 
         const configurableVariantIndex = getVariantIndex(variants, parameters);
