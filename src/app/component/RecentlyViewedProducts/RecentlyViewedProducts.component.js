@@ -38,6 +38,7 @@ export default class RecentlyViewedProducts extends PureComponent {
 
         return products.slice(0, NUMBER_OF_RECENT_PRODUCTS).map(product => (
             <ProductCard
+              selectedFilters={ product.selectedFilters }
               product={ product }
               key={ product.id }
             />

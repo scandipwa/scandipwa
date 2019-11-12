@@ -81,24 +81,25 @@ export class ProductPageContainer extends PureComponent {
     };
 
     componentDidMount() {
-        // this._addToRecentlyViewedProducts();
         const { isOnlyPlaceholder } = this.props;
         if (!isOnlyPlaceholder) this._requestProduct();
         this._onProductUpdate();
     }
 
-    componentDidUpdate({ location: { pathname: prevPathname } }) {
+    componentDidUpdate({ location: { pathname: prevPathname } }, { parameters }) {
         const { location: { pathname } } = this.props;
 
         if (pathname !== prevPathname) {
             this._requestProduct();
-            this._addToRecentlyViewedProducts();
+            this._addToRecentlyViewedProducts(parameters);
         }
         this._onProductUpdate();
     }
 
     componentWillUnmount() {
-        this._addToRecentlyViewedProducts();
+        const { parameters } = this.state;
+        this._addToRecentlyViewedProducts(parameters);
+
         const { product: { type_id }, clearGroupedProductQuantity } = this.props;
 
         if (type_id === 'grouped') return clearGroupedProductQuantity();
@@ -170,6 +171,12 @@ export class ProductPageContainer extends PureComponent {
         areDetailsLoaded: this._getAreDetailsLoaded()
     });
 
+    _formatParametersToFitPropTypes = parameters => (
+        Object.entries(parameters).reduce(
+            (acc, [param, val]) => ({ ...acc, [param]: [val] }), {}
+        )
+    );
+
     updateConfigurableVariant(key, value) {
         const parameters = this.getNewParameters(key, value);
         this.setState({ parameters });
@@ -213,7 +220,7 @@ export class ProductPageContainer extends PureComponent {
         }
     }
 
-    _addToRecentlyViewedProducts() {
+    _addToRecentlyViewedProducts(parameters = {}) {
         const {
             product, product: { sku: newSku },
             updateRecentlyViewedProducts
@@ -226,7 +233,9 @@ export class ProductPageContainer extends PureComponent {
             recentProducts.pop();
         }
 
-        recentProducts.unshift(product);
+        const formattedParameters = this._formatParametersToFitPropTypes(parameters);
+        const productToAdd = { ...product, selectedFilters: formattedParameters };
+        recentProducts.unshift(productToAdd);
         updateRecentlyViewedProducts(recentProducts);
     }
 
