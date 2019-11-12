@@ -318,7 +318,9 @@ export class ProductListQuery {
             'position',
             'disabled',
             'media_type',
-            'types'
+            'types',
+            this._getVideoContentField(),
+            this._getMediaThumbnailField()
         ];
     }
 
@@ -350,9 +352,7 @@ export class ProductListQuery {
 
     _getMediaGalleryField() {
         return new Field('media_gallery_entries')
-            .addFieldList(this._getMediaGalleryFields())
-            .addField(this._getVideoContentField())
-            .addField(this._getMediaThumbnailField());
+            .addFieldList(this._getMediaGalleryFields());
     }
 
     _getProductLinksField() {
