@@ -34,15 +34,23 @@ export default class RecentlyViewedProducts extends PureComponent {
     };
 
     renderProducts(products) {
-        if (!products.length) return null;
+        if (!products.length) {
+            return (
+                <p block="RecentlyViewedProducts" elem="EmptyList">No recently viewed products.</p>
+            );
+        }
 
-        return products.slice(0, NUMBER_OF_RECENT_PRODUCTS).map(product => (
-            <ProductCard
-              selectedFilters={ product.selectedFilters }
-              product={ product }
-              key={ product.id }
-            />
-        ));
+        return (
+            <ul block="RecentlyViewedProducts" elem="List">
+            { products.slice(0, NUMBER_OF_RECENT_PRODUCTS).map(product => (
+                <ProductCard
+                  selectedFilters={ product.selectedFilters }
+                  product={ product }
+                  key={ product.id }
+                />
+            )) }
+            </ul>
+        );
     }
 
     render() {
@@ -55,9 +63,7 @@ export default class RecentlyViewedProducts extends PureComponent {
               wrapperMix={ { block: 'RecentlyViewedProducts', elem: 'Wrapper' } }
             >
                 { label && <h4 block="RecentlyViewedProducts" elem="Label">{ label }</h4> }
-                <ul block="RecentlyViewedProducts" elem="List">
                     { this.renderProducts(products) }
-                </ul>
             </ContentWrapper>
         );
     }
