@@ -25,7 +25,6 @@ import {
     convertQueryStringToKeyValuePairs,
     updateQueryParamWithoutHistory,
     removeQueryParamWithoutHistory,
-    convertKeyValuesToQueryString,
     objectToUri
 } from 'Util/Url';
 import {
@@ -88,20 +87,22 @@ export class ProductPageContainer extends PureComponent {
     }
 
     componentDidUpdate(
-        { location: { pathname: prevPathname } }, { parameters, configurableVariantIndex }
+        { location: { pathname: prevPathname, search: prevParametersString } },
+        { parameters: prevParameters }
     ) {
         const { location: { pathname } } = this.props;
 
         if (pathname !== prevPathname) {
             this._requestProduct();
-            this._addToRecentlyViewedProducts(parameters, configurableVariantIndex);
+            this._addToRecentlyViewedProducts(prevParameters, prevParametersString);
         }
         this._onProductUpdate();
     }
 
     componentWillUnmount() {
-        const { parameters, configurableVariantIndex } = this.state;
-        this._addToRecentlyViewedProducts(parameters, configurableVariantIndex);
+        const { location: { search: parametersString } } = this.props;
+        const { parameters } = this.state;
+        this._addToRecentlyViewedProducts(parameters, parametersString);
 
         const { product: { type_id }, clearGroupedProductQuantity } = this.props;
 
@@ -223,13 +224,7 @@ export class ProductPageContainer extends PureComponent {
         }
     }
 
-    _parametersAreTheSame(paramsA, paramsB) {
-        const paramStrA = convertKeyValuesToQueryString(paramsA);
-        const paramStrB = convertKeyValuesToQueryString(paramsB);
-        return paramStrA === paramStrB;
-    }
-
-    _addToRecentlyViewedProducts(newParameters = {}, newConfigurableVariantIndex) {
+    _addToRecentlyViewedProducts(newParameters = {}, newParametersString) {
         const {
             product, product: { sku: newSku, type_id },
             updateRecentlyViewedProducts
@@ -240,23 +235,16 @@ export class ProductPageContainer extends PureComponent {
 
         const recentProducts = BrowserDatabase.getItem(RECENTLY_VIEWED_PRODUCTS) || [];
 
-        const similarProduct = recentProducts.find((similarProduct) => {
-            const { sku, configurableVariantIndex } = similarProduct;
-            if (sku === newSku) {
-                if (type_id === 'simple') return true;
+        const SIMPLE_PRODUCT = 'simple';
+        const similarProductExists = recentProducts.some(({ sku, parametersString }) => (
+            newSku === sku
+            && (
+                type_id === SIMPLE_PRODUCT
+                || newParametersString === parametersString
+            )
+        ));
 
-                if (newConfigurableVariantIndex !== configurableVariantIndex) return false;
-
-                if (newConfigurableVariantIndex !== -1) return true;
-
-                const { selectedFilters: parameters } = similarProduct;
-                if (this._parametersAreTheSame(parameters, newParameters)) return true;
-            }
-
-            return false;
-        });
-
-        if (similarProduct) return;
+        if (similarProductExists) return;
 
         if (recentProducts.length === NUMBER_OF_RECENT_PRODUCTS) {
             recentProducts.pop();
@@ -266,7 +254,7 @@ export class ProductPageContainer extends PureComponent {
         const productToAdd = {
             ...product,
             selectedFilters: formattedParameters,
-            configurableVariantIndex: newConfigurableVariantIndex
+            parametersString: newParametersString
         };
 
         recentProducts.unshift(productToAdd);
