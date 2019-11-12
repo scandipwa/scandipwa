@@ -12,8 +12,6 @@
  */
 
 import { PureComponent } from 'react';
-import Vimeo from 'react-vimeo';
-import YouTube from 'react-youtube';
 import './VideoPopup.style';
 import Popup from 'Component/Popup';
 import { MediaItemType } from 'Type/ProductList';
@@ -37,6 +35,14 @@ export default class VideoPopup extends PureComponent {
         payload: MediaItemType.isRequired
     };
 
+    componentDidMount() {
+        this.loadVimeoLibrary()
+            .then(() => this.forceUpdate());
+
+        this.loadYoutubeLibrary()
+            .then(() => this.forceUpdate());
+    }
+
     /**
      * Renders a video provided by Vimeo
      * @param videoId
@@ -44,6 +50,10 @@ export default class VideoPopup extends PureComponent {
      * @private
      */
     _renderVimeoVideo(videoId) {
+        const { vimeoComponent: { default: Vimeo } = {} } = this;
+
+        if (!Vimeo) return null;
+
         return (
             <Vimeo
               videoId={ videoId }
@@ -59,6 +69,10 @@ export default class VideoPopup extends PureComponent {
      * @private
      */
     _renderYoutubeVideo(videoId) {
+        const { youtubeComponent: { default: YouTube } = {} } = this;
+
+        if (!YouTube) return null;
+
         return (
             <YouTube
               videoId={ videoId }
@@ -68,6 +82,14 @@ export default class VideoPopup extends PureComponent {
               opts={ { playerVars: { autoplay: 1 } } }
             />
         );
+    }
+
+    async loadVimeoLibrary() {
+        this.vimeoComponent = await import('react-vimeo');
+    }
+
+    async loadYoutubeLibrary() {
+        this.youtubeComponent = await import('react-youtube');
     }
 
     /**
