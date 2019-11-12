@@ -198,6 +198,7 @@ export {
     generateQuery,
     setQueryParams,
     clearQueriesFromUrl,
+    convertKeyValuesToQueryString,
     updateQueryParamWithoutHistory,
     removeQueryParamWithoutHistory,
     convertQueryStringToKeyValuePairs,

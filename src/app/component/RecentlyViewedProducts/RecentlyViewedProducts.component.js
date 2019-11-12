@@ -17,7 +17,7 @@ import { ItemsType } from 'Type/ProductList';
 import './RecentlyViewedProducts.style';
 
 export const RECENTLY_VIEWED_PRODUCTS = 'recentlyViewedProducts';
-export const NUMBER_OF_RECENT_PRODUCTS = 4;
+export const NUMBER_OF_RECENT_PRODUCTS = 6;
 
 /**
  * RecentlyViewed products block
@@ -42,11 +42,12 @@ export default class RecentlyViewedProducts extends PureComponent {
 
         return (
             <ul block="RecentlyViewedProducts" elem="List">
-            { products.slice(0, NUMBER_OF_RECENT_PRODUCTS).map(product => (
+            { products.slice(0, NUMBER_OF_RECENT_PRODUCTS).map((product, i) => (
                 <ProductCard
                   selectedFilters={ product.selectedFilters }
                   product={ product }
-                  key={ product.id }
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={ `${product.id}_${i}` }
                 />
             )) }
             </ul>

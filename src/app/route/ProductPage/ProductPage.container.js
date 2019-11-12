@@ -25,6 +25,7 @@ import {
     convertQueryStringToKeyValuePairs,
     updateQueryParamWithoutHistory,
     removeQueryParamWithoutHistory,
+    convertKeyValuesToQueryString,
     objectToUri
 } from 'Util/Url';
 import {
@@ -86,19 +87,21 @@ export class ProductPageContainer extends PureComponent {
         this._onProductUpdate();
     }
 
-    componentDidUpdate({ location: { pathname: prevPathname } }, { parameters }) {
+    componentDidUpdate(
+        { location: { pathname: prevPathname } }, { parameters, configurableVariantIndex }
+    ) {
         const { location: { pathname } } = this.props;
 
         if (pathname !== prevPathname) {
             this._requestProduct();
-            this._addToRecentlyViewedProducts(parameters);
+            this._addToRecentlyViewedProducts(parameters, configurableVariantIndex);
         }
         this._onProductUpdate();
     }
 
     componentWillUnmount() {
-        const { parameters } = this.state;
-        this._addToRecentlyViewedProducts(parameters);
+        const { parameters, configurableVariantIndex } = this.state;
+        this._addToRecentlyViewedProducts(parameters, configurableVariantIndex);
 
         const { product: { type_id }, clearGroupedProductQuantity } = this.props;
 
@@ -220,21 +223,52 @@ export class ProductPageContainer extends PureComponent {
         }
     }
 
-    _addToRecentlyViewedProducts(parameters = {}) {
+    _parametersAreTheSame(paramsA, paramsB) {
+        const paramStrA = convertKeyValuesToQueryString(paramsA);
+        const paramStrB = convertKeyValuesToQueryString(paramsB);
+        return paramStrA === paramStrB;
+    }
+
+    _addToRecentlyViewedProducts(newParameters = {}, newConfigurableVariantIndex) {
         const {
-            product, product: { sku: newSku },
+            product, product: { sku: newSku, type_id },
             updateRecentlyViewedProducts
         } = this.props;
+
+        // necessary for skipping not loaded products
+        if (!newSku) return;
+
         const recentProducts = BrowserDatabase.getItem(RECENTLY_VIEWED_PRODUCTS) || [];
 
-        if (recentProducts.some(({ sku }) => sku === newSku)) return;
+        const similarProduct = recentProducts.find((similarProduct) => {
+            const { sku, configurableVariantIndex } = similarProduct;
+            if (sku === newSku) {
+                if (type_id === 'simple') return true;
+
+                if (newConfigurableVariantIndex !== configurableVariantIndex) return false;
+
+                if (newConfigurableVariantIndex !== -1) return true;
+
+                const { selectedFilters: parameters } = similarProduct;
+                if (this._parametersAreTheSame(parameters, newParameters)) return true;
+            }
+
+            return false;
+        });
+
+        if (similarProduct) return;
 
         if (recentProducts.length === NUMBER_OF_RECENT_PRODUCTS) {
             recentProducts.pop();
         }
 
-        const formattedParameters = this._formatParametersToFitPropTypes(parameters);
-        const productToAdd = { ...product, selectedFilters: formattedParameters };
+        const formattedParameters = this._formatParametersToFitPropTypes(newParameters);
+        const productToAdd = {
+            ...product,
+            selectedFilters: formattedParameters,
+            configurableVariantIndex: newConfigurableVariantIndex
+        };
+
         recentProducts.unshift(productToAdd);
         updateRecentlyViewedProducts(recentProducts);
     }
