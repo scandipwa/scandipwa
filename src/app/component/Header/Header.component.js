@@ -314,8 +314,6 @@ export default class Header extends PureComponent {
             logo_alt
         } = this.props;
 
-        if (!header_logo_src) return null;
-
         return (
             <Logo
               src={ media(header_logo_src, LOGO_MEDIA) }
