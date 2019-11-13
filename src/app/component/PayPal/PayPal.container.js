@@ -23,8 +23,8 @@ export const PAYPAL_SCRIPT = 'PAYPAL_SCRIPT';
 
 export const mapStateToProps = state => ({
     cartTotals: state.CartReducer.cartTotals,
-    clientId: state.ConfigReducer.storeConfig.paypal_client_id,
-    isSandboxEnabled: state.ConfigReducer.storeConfig.paypal_sandbox_flag
+    clientId: state.ConfigReducer.paypal_client_id,
+    isSandboxEnabled: state.ConfigReducer.paypal_sandbox_flag
 });
 
 export const mapDispatchToProps = dispatch => ({
