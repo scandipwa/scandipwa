@@ -15,8 +15,15 @@ import Slider from 'Component/Slider';
 import Image from 'Component/Image';
 import './ProductGallery.style';
 import ProductGalleryImage from 'Component/ProductGalleryImage';
+import VideoThumbnail from 'Component/VideoThumbnail';
+import VideoPopup from 'Component/VideoPopup';
+import media, { PRODUCT_MEDIA } from 'Util/Media/Media';
 
 export const GALLERY_LENGTH_BEFORE_COLLAPSE = 4;
+
+export const IMAGE_TYPE = 'image';
+export const VIDEO_TYPE = 'external-video';
+export const PLACEHOLDER_TYPE = 'placeholder';
 
 /**
  * Product gallery
@@ -40,6 +47,11 @@ export default class ProductGallery extends PureComponent {
 
     state = { activeImage: 0 };
 
+    constructor(props, context) {
+        super(props, context);
+        this.renderSlide = this.renderSlide.bind(this);
+    }
+
     onActiveImageChange = (activeImage) => {
         this.setState({ activeImage });
     };
@@ -54,6 +66,92 @@ export default class ProductGallery extends PureComponent {
         />
     );
 
+    /**
+     * Renders a video thumbnail which opens popup player on click/tap
+     * @param media
+     * @param index
+     * @returns {*}
+     * @private
+     */
+    _renderVideoItem(media, index) {
+        return <VideoThumbnail key={ index } media={ media } />;
+    }
+
+    _renderPlaceholderItem(index) {
+        return (
+            <Image
+              key={ index }
+              ratio="custom"
+              mix={ {
+                  block: 'ProductGallery',
+                  elem: 'SliderImage',
+                  mods: { isPlaceholder: true }
+              } }
+              isPlaceholder
+            />
+        );
+    }
+
+    /**
+     * Renders a product image to be displayed in the gallery
+     * @param mediaData
+     * @param index
+     * @returns {*}
+     * @private
+     */
+    _renderImageItem(mediaData, index) {
+        const {
+            label,
+            file
+        } = mediaData;
+
+        const alt = label || __('%s - Picture #%s', name, index);
+        const src = media(`${ PRODUCT_MEDIA }${ file }`);
+
+        return (
+            <Fragment key={ index }>
+                <Image
+                  src={ src }
+                  ratio="custom"
+                  mix={ {
+                      block: 'ProductGallery',
+                      elem: 'SliderImage',
+                      mods: { isPlaceholder: !src }
+                  } }
+                  isPlaceholder={ !src }
+                  alt={ alt }
+                />
+                <img
+                  style={ { display: 'none' } }
+                  alt={ alt }
+                  src={ src }
+                  itemProp="image"
+                />
+            </Fragment>
+        );
+    }
+
+    /**
+     * Checks for the type of the slide and renders it accordingly
+     * @param media
+     * @param index
+     * @returns {null|*}
+     */
+    renderSlide(media, index) {
+        const { media_type } = media;
+
+        switch (media_type) {
+        case IMAGE_TYPE:
+            return this._renderImageItem(media, index);
+        case VIDEO_TYPE:
+            return this._renderVideoItem(media, index);
+        case PLACEHOLDER_TYPE:
+            return this._renderPlaceholderItem(index);
+        default:
+            return null;
+        }
+    }
+
     renderAdditionalPictures() {
         const { gallery } = this.props;
         const galleryLength = gallery.length;
@@ -61,42 +159,6 @@ export default class ProductGallery extends PureComponent {
         return galleryLength < GALLERY_LENGTH_BEFORE_COLLAPSE
             ? this.renderAdditionalPicture({ ...gallery[galleryLength - 1], type: 'single' })
             : gallery.slice(0, GALLERY_LENGTH_BEFORE_COLLAPSE).map(this.renderAdditionalPicture);
-    }
-
-    renderSlide(media, index) {
-        const {
-            alt,
-            type,
-            image = '',
-            isPlaceholder
-        } = media;
-
-        switch (type) {
-        case 'image':
-            return (
-                <Fragment key={ index }>
-                    <Image
-                      src={ image }
-                      ratio="custom"
-                      mix={ {
-                          block: 'ProductGallery',
-                          elem: 'SliderImage',
-                          mods: { isPlaceholder: !image }
-                      } }
-                      isPlaceholder={ isPlaceholder }
-                      alt={ alt }
-                    />
-                    <img
-                      style={ { display: 'none' } }
-                      alt={ name }
-                      src={ image }
-                      itemProp="image"
-                    />
-                </Fragment>
-            );
-        default:
-            return null;
-        }
     }
 
     render() {
@@ -113,6 +175,7 @@ export default class ProductGallery extends PureComponent {
                 >
                     { gallery.map(this.renderSlide) }
                 </Slider>
+                <VideoPopup />
             </div>
         );
     }
