@@ -31,12 +31,10 @@ export default class Popup extends Overlay {
         title: ''
     };
 
-    popupRef = createRef();
-
     onVisible() {
         const { onVisible } = this.props;
         this.freezeScroll();
-        this.popupRef.current.focus();
+        this.overlayRef.current.focus();
         onVisible();
     }
 
@@ -57,18 +55,6 @@ export default class Popup extends Overlay {
         if (!clickOutside) return;
         this.hidePopUp();
     };
-
-    freezeScroll() {
-        this.YoffsetWhenScrollDisabled = window.pageYOffset || document.documentElement.scrollTop;
-        document.body.classList.add('scrollDisabled');
-        document.body.style.marginTop = `${-this.YoffsetWhenScrollDisabled}px`;
-    }
-
-    unfreezeScroll() {
-        document.body.classList.remove('scrollDisabled');
-        document.body.style.marginTop = 0;
-        window.scrollTo(0, this.YoffsetWhenScrollDisabled);
-    }
 
     renderTitle() {
         const { title } = this.props;
@@ -111,7 +97,7 @@ export default class Popup extends Overlay {
 
         return createPortal(
             <div
-              ref={ this.popupRef }
+              ref={ this.overlayRef }
               block="Popup"
               mods={ { isVisible, isInstant: areOtherOverlaysOpen } }
               mix={ { ...mix, mods: { ...mix.mods, isVisible } } }

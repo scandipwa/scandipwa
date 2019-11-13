@@ -143,8 +143,12 @@
 
     &-AdditionalButtons {
         order: 25;
-        margin: 1rem 0;
+        margin: 2rem 0 1rem;
         flex-basis: 100%;
+
+        @include mobile {
+            margin: 0 0 1rem;
+        }
 
         &:first-child {
             margin-top: 0;
@@ -152,9 +156,10 @@
 
         > * {
             margin-right: 1rem;
+            margin-top: 1rem;
 
             @include mobile {
-                margin: 0 1rem;
+                margin: 1rem 1rem 0;
                 width: calc(100% - 2rem);
                 text-align: center;
             }
