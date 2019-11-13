@@ -18,6 +18,7 @@ export class ConfigQuery {
                 'cms_home_page',
                 'cms_no_route',
                 'copyright',
+                'timezone',
                 'header_logo_src',
                 'timezone',
                 'title_prefix',
@@ -26,7 +27,8 @@ export class ConfigQuery {
                 'default_keywords',
                 'default_title',
                 'secure_base_media_url',
-                'paypal_sandbox_flag'
+                'paypal_sandbox_flag',
+                'logo_alt'
             ]);
     }
 }

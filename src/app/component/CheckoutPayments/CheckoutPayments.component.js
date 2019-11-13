@@ -12,12 +12,14 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import { paymentMethodsType } from 'Type/Checkout';
 import CheckoutPayment from 'Component/CheckoutPayment';
+import { paymentMethodsType } from 'Type/Checkout';
+import Braintree from 'Component/Braintree';
 import PayPal from 'Component/PayPal';
 
 import './CheckoutPayments.style';
 
+export const BRAINTREE = 'braintree';
 export const CHECK_MONEY = 'checkmo';
 export const PAYPAL_EXPRESS = 'paypal_express';
 
@@ -26,15 +28,18 @@ class CheckoutPayments extends PureComponent {
         setLoading: PropTypes.func.isRequired,
         setDetailsStep: PropTypes.func.isRequired,
         selectPaymentMethod: PropTypes.func.isRequired,
+        initBraintree: PropTypes.func.isRequired,
         paymentMethods: paymentMethodsType.isRequired,
         setOrderButtonVisibility: PropTypes.func.isRequired,
         selectedPaymentCode: PropTypes.oneOf([
             CHECK_MONEY,
+            BRAINTREE,
             PAYPAL_EXPRESS
         ]).isRequired
     };
 
     paymentRenderMap = {
+        [BRAINTREE]: this.renderBrainTreePayment.bind(this)
     };
 
     componentDidUpdate(prevProps) {
@@ -50,6 +55,11 @@ class CheckoutPayments extends PureComponent {
                 setOrderButtonVisibility(true);
             }
         }
+    }
+
+    renderBrainTreePayment() {
+        const { initBraintree } = this.props;
+        return <Braintree init={ initBraintree } />;
     }
 
     renderPayment = (method) => {

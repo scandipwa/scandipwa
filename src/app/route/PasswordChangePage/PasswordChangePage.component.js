@@ -83,7 +83,7 @@ export default class PasswordChangePage extends Component {
         const breadcrumbs = [
             {
                 url: '/createPassword',
-                name: __('Change Password')
+                name: __('Change password')
             },
             {
                 url: '/',

@@ -15,19 +15,20 @@
 
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { ProductType } from 'Type/ProductList';
-import Field from 'Component/Field';
+
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
 import ProductWishlistButton from 'Component/ProductWishlistButton';
+import ProductReviewRating from 'Component/ProductReviewRating';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import ProductPrice from 'Component/ProductPrice';
+import { ProductType } from 'Type/ProductList';
 import AddToCart from 'Component/AddToCart';
+import { isSignedIn } from 'Util/Auth';
+import Field from 'Component/Field';
 import Html from 'Component/Html';
 import Link from 'Component/Link';
-import { isSignedIn } from 'Util/Auth';
 
 import './ProductActions.style';
-import ProductReviewRating from 'Component/ProductReviewRating';
 
 /**
  * Product actions

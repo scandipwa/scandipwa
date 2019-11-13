@@ -170,7 +170,7 @@ export class CartItemContainer extends PureComponent {
         const { thumbnail: { path: thumbnail } = {} } = product;
 
         if (!thumbnail) return '';
-        return media(`${ PRODUCT_MEDIA }${ thumbnail }`);
+        return media(thumbnail, PRODUCT_MEDIA);
     }
 
     render() {
