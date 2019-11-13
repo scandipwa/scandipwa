@@ -26,7 +26,8 @@ export class ConfigQuery {
                 'default_keywords',
                 'default_title',
                 'secure_base_media_url',
-                'paypal_sandbox_flag'
+                'paypal_sandbox_flag',
+                'paypal_client_id'
             ]);
     }
 }
