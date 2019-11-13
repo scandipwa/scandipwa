@@ -25,6 +25,8 @@ import { GUEST_QUOTE_ID } from 'Store/Cart';
 import { TotalsType } from 'Type/MiniCart';
 import { HistoryType } from 'Type/Common';
 
+import { isSignedIn } from 'Util/Auth';
+import { BRAINTREE } from 'Component/CheckoutPayments/CheckoutPayments.component';
 import Checkout, { SHIPPING_STEP, BILLING_STEP, DETAILS_STEP } from './Checkout.component';
 
 export const PAYMENT_TOTALS = 'PAYMENT_TOTALS';
@@ -54,6 +56,10 @@ export class CheckoutContainer extends PureComponent {
         savePaymentInformation: this.savePaymentInformation.bind(this),
         saveAddressInformation: this.saveAddressInformation.bind(this)
     };
+
+    customPaymentMethods = [
+        BRAINTREE
+    ];
 
     constructor(props) {
         super(props);
@@ -113,6 +119,20 @@ export class CheckoutContainer extends PureComponent {
             },
             this._handleError
         );
+    }
+
+    setDetailsStep(orderID) {
+        const { resetCart } = this.props;
+
+        BrowserDatabase.deleteItem(PAYMENT_TOTALS);
+        resetCart();
+
+        this.setState({
+            isLoading: false,
+            paymentTotals: {},
+            checkoutStep: DETAILS_STEP,
+            orderID
+        });
     }
 
     containerProps = () => ({
@@ -185,25 +205,46 @@ export class CheckoutContainer extends PureComponent {
     }
 
     savePaymentInformation(paymentInformation) {
-        const { resetCart } = this.props;
+        const { paymentMethod: { method } } = paymentInformation;
         this.setState({ isLoading: true });
 
+        if (this.customPaymentMethods.includes(method)) {
+            this.savePaymentMethodAndPlaceOrder(paymentInformation);
+            return;
+        }
+
+        this.savePaymentInformationAndPlaceOrder(paymentInformation);
+    }
+
+    async savePaymentMethodAndPlaceOrder(paymentInformation) {
+        const { paymentMethod: { method: code, additional_data } } = paymentInformation;
+        const guest_cart_id = !isSignedIn() ? this._getGuestCartId() : '';
+
+        try {
+            await fetchMutation(CheckoutQuery.getSetPaymentMethodOnCartMutation({
+                guest_cart_id,
+                payment_method: {
+                    code, [code]: additional_data
+                }
+            }));
+
+            const orderData = await fetchMutation(CheckoutQuery.getPlaceOrderMutation(guest_cart_id));
+            const { placeOrder: { order: { order_id } } } = orderData;
+
+            this.setDetailsStep(order_id);
+        } catch (e) {
+            this._handleError(e);
+        }
+    }
+
+    savePaymentInformationAndPlaceOrder(paymentInformation) {
         fetchMutation(CheckoutQuery.getSavePaymentInformationAndPlaceOrder(
             paymentInformation,
             this._getGuestCartId()
         )).then(
             ({ savePaymentInformationAndPlaceOrder: data }) => {
                 const { orderID } = data;
-
-                BrowserDatabase.deleteItem(PAYMENT_TOTALS);
-                resetCart();
-
-                this.setState({
-                    isLoading: false,
-                    paymentTotals: {},
-                    checkoutStep: DETAILS_STEP,
-                    orderID
-                });
+                this.setDetailsStep(orderID);
             },
             this._handleError
         );

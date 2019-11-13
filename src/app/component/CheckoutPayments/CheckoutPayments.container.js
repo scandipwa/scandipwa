@@ -12,10 +12,12 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
+import BraintreeDropIn from 'Util/Braintree';
 import { paymentMethodsType } from 'Type/Checkout';
 
 import { BILLING_STEP } from 'Route/Checkout/Checkout.component';
-import CheckoutPayments from './CheckoutPayments.component';
+import { BRAINTREE_CONTAINER_ID } from 'Component/Braintree/Braintree.component';
+import CheckoutPayments, { BRAINTREE } from './CheckoutPayments.component';
 
 export class CheckoutPaymentsContainer extends PureComponent {
     static propTypes = {
@@ -24,10 +26,14 @@ export class CheckoutPaymentsContainer extends PureComponent {
     };
 
     containerFunctions = {
+        initBraintree: this.initBraintree.bind(this),
         selectPaymentMethod: this.selectPaymentMethod.bind(this)
     };
 
+    braintree = new BraintreeDropIn(BRAINTREE_CONTAINER_ID);
+
     dataMap = {
+        [BRAINTREE]: this.getBraintreeData.bind(this)
     };
 
     constructor(props) {
@@ -52,12 +58,20 @@ export class CheckoutPaymentsContainer extends PureComponent {
         }
     }
 
+    getBraintreeData() {
+        return { asyncData: this.braintree.requestPaymentNonce() };
+    }
+
     collectAdditionalData = () => {
         const { selectedPaymentCode } = this.state;
         const additionalDataGetter = this.dataMap[selectedPaymentCode];
         if (!additionalDataGetter) return {};
         return additionalDataGetter();
     };
+
+    initBraintree() {
+        return this.braintree.create();
+    }
 
     selectPaymentMethod(paymentMethod) {
         const { onPaymentMethodSelect } = this.props;

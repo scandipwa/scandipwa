@@ -13,23 +13,33 @@ import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import CheckoutPayment from 'Component/CheckoutPayment';
+import { paymentMethodsType } from 'Type/Checkout';
+import Braintree from 'Component/Braintree';
 
 import './CheckoutPayments.style';
-import { paymentMethodsType } from 'Type/Checkout';
 
+export const BRAINTREE = 'braintree';
 export const CHECK_MONEY = 'checkmo';
 
 class CheckoutPayments extends PureComponent {
     static propTypes = {
-        selectPaymentMethod: PropTypes.func.isRequired,
+        initBraintree: PropTypes.func.isRequired,
         paymentMethods: paymentMethodsType.isRequired,
+        selectPaymentMethod: PropTypes.func.isRequired,
         selectedPaymentCode: PropTypes.oneOf([
+            BRAINTREE,
             CHECK_MONEY
         ]).isRequired
     };
 
     paymentRenderMap = {
+        [BRAINTREE]: this.renderBrainTreePayment.bind(this)
     };
+
+    renderBrainTreePayment() {
+        const { initBraintree } = this.props;
+        return <Braintree init={ initBraintree } />;
+    }
 
     renderPayment = (method) => {
         const {
