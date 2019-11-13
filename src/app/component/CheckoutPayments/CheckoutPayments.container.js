@@ -48,13 +48,13 @@ export class CheckoutPaymentsContainer extends PureComponent {
 
     componentDidMount() {
         if (window.formPortalCollector) {
-            window.formPortalCollector.subscribe(BILLING_STEP, this.collectAdditionalData);
+            window.formPortalCollector.subscribe(BILLING_STEP, this.collectAdditionalData, 'CheckoutPaymentsContainer');
         }
     }
 
     componentWillUnmount() {
         if (window.formPortalCollector) {
-            window.formPortalCollector.unsubscribe(BILLING_STEP, this.collectAdditionalData);
+            window.formPortalCollector.unsubscribe(BILLING_STEP, 'CheckoutPaymentsContainer');
         }
     }
 

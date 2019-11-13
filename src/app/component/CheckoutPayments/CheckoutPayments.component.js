@@ -22,6 +22,7 @@ import './CheckoutPayments.style';
 export const BRAINTREE = 'braintree';
 export const CHECK_MONEY = 'checkmo';
 export const PAYPAL_EXPRESS = 'paypal_express';
+export const PAYPAL_EXPRESS_CREDIT = 'paypal_express_bml';
 
 class CheckoutPayments extends PureComponent {
     static propTypes = {
@@ -34,7 +35,8 @@ class CheckoutPayments extends PureComponent {
         selectedPaymentCode: PropTypes.oneOf([
             CHECK_MONEY,
             BRAINTREE,
-            PAYPAL_EXPRESS
+            PAYPAL_EXPRESS,
+            PAYPAL_EXPRESS_CREDIT
         ]).isRequired
     };
 
@@ -108,7 +110,7 @@ class CheckoutPayments extends PureComponent {
             <PayPal
               setLoading={ setLoading }
               setDetailsStep={ setDetailsStep }
-              isDisabled={ selectedPaymentCode !== PAYPAL_EXPRESS }
+              selectedPaymentCode={ selectedPaymentCode }
             />
         );
     }
