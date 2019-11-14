@@ -18,6 +18,7 @@ import CartItemPrice from 'Component/CartItemPrice';
 import Loader from 'Component/Loader';
 import { CartItemType } from 'Type/MiniCart';
 import './CartItem.style';
+import { calculateRegularTotal } from 'Util/Price';
 
 /**
  * Cart and CartOverlay item
@@ -109,6 +110,7 @@ export default class CartItem extends PureComponent {
         const {
             isLikeTable,
             currency_code,
+            item,
             item: {
                 row_total,
                 product: {
@@ -116,6 +118,8 @@ export default class CartItem extends PureComponent {
                 }
             }
         } = this.props;
+
+        const regularTotal = calculateRegularTotal(item);
 
         return (
             <>
@@ -129,6 +133,7 @@ export default class CartItem extends PureComponent {
                 { this.renderConfiguration() }
                 <CartItemPrice
                   row_total={ row_total }
+                  regular_total={ regularTotal }
                   currency_code={ currency_code }
                   mix={ {
                       block: 'CartItem',

@@ -14,19 +14,29 @@
     --price-discount-color: #000;
 }
 
-.ProductPrice {
-    color: var(--price-color);
-    font-weight: 700;
-    line-height: 1;
-    vertical-align: middle;
-
+.Price {
     @include mobile {
         font-size: 18px;
     }
 
-    &-Placeholder {
-        &::after {
-            content: 'aaaaa';
+    &-FinalPrice {
+        color: var(--price-color);
+        font-weight: 700;
+        line-height: 1;
+        padding: 0;
+        text-decoration: none;
+    }
+
+    &-OldPrice {
+        padding-left: .1em;
+        color: var(---price-discount-color);
+        display: none;
+        font-size: .7em;
+        font-weight: 500;
+        opacity: .5;
+
+        &_isVisible {
+            display: block;
         }
     }
 }

@@ -17,6 +17,7 @@ import Link from 'Component/Link';
 import Image from 'Component/Image';
 import Loader from 'Component/Loader';
 import { ProductType } from 'Type/ProductList';
+import { MixType } from 'Type/Common';
 import ProductPrice from 'Component/ProductPrice';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import ProductReviewRating from 'Component/ProductReviewRating';
@@ -40,7 +41,7 @@ export default class ProductCard extends PureComponent {
         getAttribute: PropTypes.func.isRequired,
         children: PropTypes.element,
         isLoading: PropTypes.bool,
-        mix: PropTypes.shape({})
+        mix: MixType
     };
 
     static defaultProps = {

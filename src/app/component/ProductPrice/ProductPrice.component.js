@@ -19,6 +19,7 @@ import {
 } from 'Util/Price';
 import { PriceType } from 'Type/ProductList';
 import { MixType } from 'Type/Common';
+import Price from 'Component/Price';
 
 import './ProductPrice.style';
 
@@ -60,9 +61,6 @@ export default class ProductPrice extends PureComponent {
         const formatedCurrency = roundPrice(finalPrice);
         const currency = formatCurrency(priceCurrency);
 
-        // Use <ins></ins> <del></del> to represent new price and the old (deleted) one
-        const PriceSemanticElementName = discountPercentage > 0 ? 'ins' : 'span';
-
         return (
             <p
               block="ProductPrice"
@@ -72,26 +70,7 @@ export default class ProductPrice extends PureComponent {
               itemScope
               itemType="https://schema.org/AggregateOffer"
             >
-                <PriceSemanticElementName>
-                    <data
-                      value={ formatedCurrency }
-                    >
-                        <span itemProp="lowPrice">{ formatedCurrency }</span>
-                        <span>{ currency }</span>
-                    </data>
-                </PriceSemanticElementName>
-
-                <del
-                  block="ProductPrice"
-                  elem="HighPrice"
-                  mods={ { isVisible: discountPercentage > 0 } }
-                  aria-label={ __('Old product price') }
-                  itemProp="highPrice"
-                >
-                    { roundedRegularPrice }
-                </del>
-
-                <meta itemProp="priceCurrency" content={ priceCurrency } />
+                <Price currency={ priceCurrency } oldPrice={ roundedRegularPrice } finalPrice={ finalPrice } />
             </p>
         );
     }

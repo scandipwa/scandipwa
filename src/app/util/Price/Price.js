@@ -42,3 +42,12 @@ export const calculateFinalPrice = (discount, min, reg) => (discount ? min : reg
  * @return {Number} price rounded to 2 digits
  */
 export const roundPrice = price => parseFloat(price).toFixed(2);
+
+export const calculateRegularTotal = (cartItem) => {
+    const {
+        qty,
+        product: { price: { regularPrice: { amount: { value } } } }
+    } = cartItem;
+
+    return qty * value;
+};
