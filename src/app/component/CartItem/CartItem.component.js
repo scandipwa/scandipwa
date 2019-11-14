@@ -14,10 +14,10 @@ import PropTypes from 'prop-types';
 import Link from 'Component/Link';
 import Image from 'Component/Image';
 import Field from 'Component/Field';
+import CartItemPrice from 'Component/CartItemPrice';
 import Loader from 'Component/Loader';
 import { CartItemType } from 'Type/MiniCart';
 import './CartItem.style';
-import ProductPrice from 'Component/ProductPrice/ProductPrice.container';
 
 /**
  * Cart and CartOverlay item
@@ -27,6 +27,7 @@ export default class CartItem extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         item: CartItemType.isRequired,
+        currency_code: PropTypes.string.isRequired,
         isEditing: PropTypes.bool,
         isLikeTable: PropTypes.bool,
         handleRemoveItem: PropTypes.func.isRequired,
@@ -107,10 +108,11 @@ export default class CartItem extends PureComponent {
     renderProductDetails() {
         const {
             isLikeTable,
+            currency_code,
             item: {
+                row_total,
                 product: {
-                    name,
-                    price
+                    name
                 }
             }
         } = this.props;
@@ -125,8 +127,9 @@ export default class CartItem extends PureComponent {
                     { name }
                 </p>
                 { this.renderConfiguration() }
-                <ProductPrice
-                  price={ price }
+                <CartItemPrice
+                  row_total={ row_total }
+                  currency_code={ currency_code }
                   mix={ {
                       block: 'CartItem',
                       elem: 'Price',
