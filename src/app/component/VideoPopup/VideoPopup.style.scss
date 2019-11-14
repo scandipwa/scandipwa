@@ -11,6 +11,7 @@
 
 .VideoPopup {
     --popup-min-width: none;
+    --popup-content-padding: 0;
 
     @include mobile {
         --popup-content-padding: 0;
@@ -51,5 +52,9 @@
     &-YouTubeContainer {
         height: 100%;
         width: 100%;
+    }
+
+    .Popup-Header {
+        display: none;
     }
 }

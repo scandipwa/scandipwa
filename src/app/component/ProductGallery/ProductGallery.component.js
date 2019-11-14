@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import Slider from 'Component/Slider';
 import Image from 'Component/Image';
 import './ProductGallery.style';
-import ProductGalleryImage from 'Component/ProductGalleryImage';
+import ProductGalleryAdditionalMedia from 'Component/ProductGalleryAdditionalMedia';
 import VideoThumbnail from 'Component/VideoThumbnail';
 import VideoPopup from 'Component/VideoPopup';
 import media, { PRODUCT_MEDIA } from 'Util/Media/Media';
@@ -57,8 +57,7 @@ export default class ProductGallery extends PureComponent {
     };
 
     renderAdditionalPicture = (media, index = 0) => (
-        <ProductGalleryImage
-          isAdditional
+        <ProductGalleryAdditionalMedia
           key={ index }
           media={ media }
           index={ index }
@@ -74,7 +73,12 @@ export default class ProductGallery extends PureComponent {
      * @private
      */
     _renderVideoItem(media, index) {
-        return <VideoThumbnail key={ index } media={ media } />;
+        return (
+            <VideoThumbnail
+              key={ index }
+              media={ media }
+            />
+        );
     }
 
     _renderPlaceholderItem(index) {
@@ -100,13 +104,9 @@ export default class ProductGallery extends PureComponent {
      * @private
      */
     _renderImageItem(mediaData, index) {
-        const {
-            label,
-            file
-        } = mediaData;
-
+        const { label, file } = mediaData;
         const alt = label || __('%s - Picture #%s', name, index);
-        const src = media(`${ PRODUCT_MEDIA }${ file }`);
+        const src = media(file, PRODUCT_MEDIA);
 
         return (
             <Fragment key={ index }>
@@ -154,11 +154,12 @@ export default class ProductGallery extends PureComponent {
 
     renderAdditionalPictures() {
         const { gallery } = this.props;
-        const galleryLength = gallery.length;
 
-        return galleryLength < GALLERY_LENGTH_BEFORE_COLLAPSE
-            ? this.renderAdditionalPicture({ ...gallery[galleryLength - 1], type: 'single' })
-            : gallery.slice(0, GALLERY_LENGTH_BEFORE_COLLAPSE).map(this.renderAdditionalPicture);
+        return (
+            <div block="ProductGallery" elem="Additional">
+                { gallery.slice(0, GALLERY_LENGTH_BEFORE_COLLAPSE).map(this.renderAdditionalPicture) }
+            </div>
+        );
     }
 
     render() {

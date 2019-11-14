@@ -32,9 +32,9 @@ export default class VideoThumbnail extends PureComponent {
      */
     renderPlayIcon() {
         return (
-            <div block="VideoThumbnail" elem="IconContainer">
-                <span block="VideoThumbnail" elem="PlayIcon" />
-            </div>
+            <span block="VideoThumbnail" elem="PlayIcon">
+                { __('Play video') }
+            </span>
         );
     }
 
@@ -48,20 +48,27 @@ export default class VideoThumbnail extends PureComponent {
         } = this.props;
 
         return (
-            <button block="VideoThumbnail" elem="PlayButton" onClick={ onPlayClick }>
-                <Image
-                  src={ url }
-                  ratio="16x9"
-                  mix={ {
-                      block: 'Video',
-                      elem: 'Thumbnail',
-                      mods: { isPlaceholder: !url }
-                  } }
-                  isPlaceholder={ !url }
-                  alt={ video_title }
-                />
-                { this.renderPlayIcon() }
-            </button>
+            <div block="VideoThumbnail">
+                <button
+                  block="VideoThumbnail"
+                  elem="Button"
+                  onClick={ onPlayClick }
+                  title={ __('Play video %s', video_title) }
+                >
+                    <Image
+                      src={ url }
+                      ratio="custom"
+                      mix={ {
+                          block: 'VideoThumbnail',
+                          elem: 'Thumbnail',
+                          mods: { isPlaceholder: !url }
+                      } }
+                      isPlaceholder={ !url }
+                      alt={ video_title }
+                    />
+                    { this.renderPlayIcon() }
+                </button>
+            </div>
         );
     }
 }

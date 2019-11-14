@@ -10,35 +10,43 @@
  */
 
 :root {
+    --video-play-background: #000;
     --video-play-icon-fill: #{$white};
-    --video-play-icon-hover-fill: #{$primary-light-color};
+    --video-play-icon-transform: scale(1);
 }
 
 .VideoThumbnail {
-    &-PlayButton {
-        :active,
-        :hover {
-            --video-play-icon-fill: var(--video-play-icon-hover-fill);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &-Button {
+        width: 100%;
+
+        &:active,
+        &:hover {
+            --video-play-icon-transform: scale(1.2);
         }
     }
 
-    &-IconContainer {
+    &-Thumbnail {
+        padding-bottom: 75%;
+    }
+
+    &-PlayIcon {
         position: absolute;
         top: 0;
         right: 0;
         bottom: 0;
         left: 0;
-        display: flex;
-
-        align-items: center;
-        justify-content: center;
-    }
-
-    &-PlayIcon {
+        margin: auto;
         width: 0;
         height: 0;
         border-top: 30px solid transparent;
         border-left: 60px solid var(--video-play-icon-fill);
         border-bottom: 30px solid transparent;
+        transform: var(--video-play-icon-transform);
+        transition: transform 150ms ease-in;
+        overflow: hidden;
     }
 }
