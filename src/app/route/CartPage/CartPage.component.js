@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Component } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import media, { WYSIWYG_MEDIA } from 'Util/Media';
@@ -26,7 +26,7 @@ import { formatCurrency, roundPrice } from 'Util/Price';
 import ExpandableContent from 'Component/ExpandableContent';
 import './CartPage.style';
 
-export default class CartPage extends Component {
+export default class CartPage extends PureComponent {
     static propTypes = {
         isEditing: PropTypes.bool.isRequired,
         totals: TotalsType.isRequired
