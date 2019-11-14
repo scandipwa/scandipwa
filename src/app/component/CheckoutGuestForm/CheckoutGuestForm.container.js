@@ -54,7 +54,11 @@ export class CheckoutGuestFormContainer extends PureComponent {
         const { isSignedIn } = this.props;
 
         if (window.formPortalCollector && !isSignedIn) {
-            window.formPortalCollector.subscribe(this._getFormPortalId(), this.applyEmailTyped);
+            window.formPortalCollector.subscribe(
+                this._getFormPortalId(),
+                this.applyEmailTyped,
+                'CheckoutGuestFormContainer'
+            );
         }
     }
 
@@ -72,14 +76,17 @@ export class CheckoutGuestFormContainer extends PureComponent {
     };
 
     _setEmailAsSubmitted = () => {
-        this.setState({ isSubmitted: true });
+        this.setState({ isSubmitted: true }, this.unsubscribeFromForm);
     };
 
-    unsubscribeFromForm() {
+    unsubscribeFromForm = () => {
         if (window.formPortalCollector) {
-            window.formPortalCollector.unsubscribe(this._getFormPortalId(), this.applyEmailTyped);
+            window.formPortalCollector.unsubscribe(
+                this._getFormPortalId(),
+                'CheckoutGuestFormContainer'
+            );
         }
-    }
+    };
 
     handleEmailInput(email) {
         this.setState({ email });
@@ -93,7 +100,10 @@ export class CheckoutGuestFormContainer extends PureComponent {
         const guestCartId = BrowserDatabase.getItem(GUEST_QUOTE_ID);
         const mutation = CheckoutQuery.getSaveGuestEmailMutation(email, guestCartId);
 
-        return fetchMutation(mutation).then(this._setEmailAsSubmitted());
+        return fetchMutation(mutation).then(
+            this._setEmailAsSubmitted(),
+            () => this.setState({ isSubmitted: false })
+        );
     }
 
     _getFormPortalId() {

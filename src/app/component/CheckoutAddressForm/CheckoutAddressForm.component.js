@@ -138,7 +138,10 @@ class CheckoutAddressForm extends MyAccountAddressForm {
         const { id } = this.props;
 
         return (
-            <FormPortal id={ id }>
+            <FormPortal
+              id={ id }
+              name="CheckoutAddressForm"
+            >
                 <div
                   block="FieldForm"
                   mix={ { block: 'CheckoutAddressForm' } }

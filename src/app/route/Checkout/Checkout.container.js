@@ -52,9 +52,11 @@ export class CheckoutContainer extends PureComponent {
     };
 
     containerFunctions = {
-        onShippingEstimationFieldsChange: this.onShippingEstimationFieldsChange.bind(this),
+        setLoading: this.setLoading.bind(this),
+        setDetailsStep: this.setDetailsStep.bind(this),
         savePaymentInformation: this.savePaymentInformation.bind(this),
-        saveAddressInformation: this.saveAddressInformation.bind(this)
+        saveAddressInformation: this.saveAddressInformation.bind(this),
+        onShippingEstimationFieldsChange: this.onShippingEstimationFieldsChange.bind(this)
     };
 
     customPaymentMethods = [
@@ -133,6 +135,10 @@ export class CheckoutContainer extends PureComponent {
             checkoutStep: DETAILS_STEP,
             orderID
         });
+    }
+
+    setLoading(isLoading = true) {
+        this.setState({ isLoading });
     }
 
     containerProps = () => ({
