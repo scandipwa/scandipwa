@@ -28,6 +28,7 @@
 
     &-Slider {
         min-height: 40rem;
+        height: var(--slider-height);
 
         @include mobile {
             min-height: 30rem;

@@ -147,6 +147,7 @@
         flex-basis: 100%;
 
         @include mobile {
+            border-top: 1px solid var(--expandable-content-divider-color);
             margin: 0 0 1rem;
         }
 
@@ -209,7 +210,6 @@
 
             &_short {
                 @include mobile {
-                    border-bottom: 1px solid var(--expandable-content-divider-color);
                     border-top: 1px solid var(--expandable-content-divider-color);
                     top: -1px;
                 }
