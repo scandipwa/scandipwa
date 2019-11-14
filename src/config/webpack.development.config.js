@@ -22,15 +22,13 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const autoprefixer = require('autoprefixer');
 
-const projectRoot = path.resolve(__dirname, '..', '..');
-const magentoRoot = path.resolve(projectRoot, '..', '..', '..', '..', '..');
-const fallbackRoot = path.resolve(magentoRoot, 'vendor', 'scandipwa', 'source');
-
-const dotenv = require('dotenv').config({ path: path.resolve(projectRoot, '.env') });
-
 const webmanifestConfig = require('./webmanifest.config');
 const BabelConfig = require('./babel.config');
 const FallbackPlugin = require('./FallbackPlugin');
+
+const projectRoot = path.resolve(__dirname, '..', '..');
+const magentoRoot = path.resolve(projectRoot, '..', '..', '..', '..', '..');
+const fallbackRoot = path.resolve(magentoRoot, 'vendor', 'scandipwa', 'source');
 
 module.exports = {
     resolve: {
@@ -152,8 +150,7 @@ module.exports = {
             'process.env': {
                 REBEM_MOD_DELIM: JSON.stringify('_'),
                 REBEM_ELEM_DELIM: JSON.stringify('-'),
-                MAGENTO_VERSION: JSON.stringify('2.3.1'),
-                config: JSON.stringify(dotenv.parsed)
+                MAGENTO_VERSION: JSON.stringify('2.3.1')
             }
         }),
 

@@ -30,6 +30,7 @@ export const PAYPAL_SCRIPT = 'PAYPAL_SCRIPT';
 
 export const mapStateToProps = state => ({
     cartTotals: state.CartReducer.cartTotals,
+    clientId: state.ConfigReducer.paypal_client_id,
     isSandboxEnabled: state.ConfigReducer.paypal_sandbox_flag
 });
 
@@ -39,6 +40,7 @@ export const mapDispatchToProps = dispatch => ({
 
 export class PayPalContainer extends PureComponent {
     static propTypes = {
+        clientId: PropTypes.string,
         isSandboxEnabled: PropTypes.bool,
         setLoading: PropTypes.func.isRequired,
         setDetailsStep: PropTypes.func.isRequired,
@@ -47,6 +49,7 @@ export class PayPalContainer extends PureComponent {
     };
 
     static defaultProps = {
+        clientId: 'sb',
         isSandboxEnabled: false
     };
 
@@ -129,11 +132,6 @@ export class PayPalContainer extends PureComponent {
     getPayPal = () => {
         const { paypal } = window;
         return paypal || false;
-    };
-
-    getClientID = () => {
-        const { PAYPAL_CLIENT_ID } = process.env;
-        return PAYPAL_CLIENT_ID || 'sb';
     };
 
     getEnvironment = () => {

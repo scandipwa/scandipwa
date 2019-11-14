@@ -79,7 +79,6 @@
     "copy-webpack-plugin": "^4.6.0",
     "css-hot-loader": "^1.4.3",
     "css-loader": "^2.0.1",
-    "dotenv": "^8.2.0",
     "enzyme": "^3.8.0",
     "enzyme-adapter-react-16": "^1.7.1",
     "eslint": "^5.16.0",
