@@ -44,16 +44,17 @@ export const ThumbnailType = PropTypes.shape({
     width: PropTypes.string
 });
 
-export const MediaType = PropTypes.arrayOf(
-    PropTypes.shape({
-        thumbnail: ThumbnailType,
-        content: PropTypes.any,
-        video_content: PropTypes.any,
-        id: PropTypes.number,
-        media_type: PropTypes.string,
-        label: PropTypes.string
-    })
-);
+export const MediaItemType = PropTypes.shape({
+    thumbnail: ThumbnailType,
+    file: PropTypes.string,
+    content: PropTypes.any,
+    video_content: PropTypes.any,
+    id: PropTypes.number,
+    media_type: PropTypes.string,
+    label: PropTypes.string
+});
+
+export const MediaType = PropTypes.arrayOf(MediaItemType);
 
 export const PriceVariantType = PropTypes.shape({
     amount: PropTypes.shape({
