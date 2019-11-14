@@ -132,8 +132,8 @@
         text-align: center;
 
         &_isSelected {
-            --option-border-color: var(--color-primary-base);
-            --option-text-color: var(--color-primary-base);
+            --option-border-color: #{$primary-base-color};
+            --option-text-color: #{$primary-base-color};
         }
     }
 

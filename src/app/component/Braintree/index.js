@@ -9,11 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { connect } from 'react-redux';
-import Field from './Field.component';
-
-export const mapStateToProps = state => ({
-    customer: state.MyAccountReducer.customer
-});
-
-export default connect(mapStateToProps)(Field);
+export { default } from './Braintree.component';

@@ -9,13 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Component } from 'react';
+import { PureComponent } from 'react';
 import { roundPrice } from 'Util/Price';
 import { MixType } from 'Type/Common';
 import PropTypes from 'prop-types';
 import Price from 'Component/Price';
 
-class CartItemPrice extends Component {
+class CartItemPrice extends PureComponent {
     static propTypes = {
         row_total: PropTypes.number.isRequired,
         regular_total: PropTypes.number.isRequired,

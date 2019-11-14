@@ -9,11 +9,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { connect } from 'react-redux';
-import Field from './Field.component';
+.Braintree {
+    margin-top: 2rem;
 
-export const mapStateToProps = state => ({
-    customer: state.MyAccountReducer.customer
-});
+    &-Form {
+        min-height: 200px;
+        border-radius: 5px;
+    }
 
-export default connect(mapStateToProps)(Field);
+    .braintree-placeholder {
+        display: none;
+    }
+}

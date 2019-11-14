@@ -27,9 +27,11 @@ const sortObject = obj => Object.keys(obj).sort()
 const appendTranslations = (filename, content, translations) => {
     const initialTranslations = content ? JSON.parse(content) : {};
     const objectToWrite = { ...translations, ...initialTranslations };
+    const SPACE_COUNT = 4;
+
     fs.writeFileSync(
         filename,
-        JSON.stringify(sortObject(objectToWrite), null, 4)
+        JSON.stringify(sortObject(objectToWrite), null, SPACE_COUNT)
     );
 };
 
