@@ -16,6 +16,7 @@ import { CartQuery } from 'Query';
 import { showNotification } from 'Store/Notification';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { getExtensionAttributes } from 'Util/Product';
+import { LinkedProductsDispatcher } from 'Store/LinkedProducts';
 
 export const GUEST_QUOTE_ID = 'guest_quote_id';
 
@@ -136,6 +137,26 @@ export class CartDispatcher {
 
     _updateCartData(cartData, dispatch) {
         dispatch(updateTotals(cartData));
+        const { items = [] } = cartData;
+
+        if (items.length > 0) {
+            const product_links = items.reduce((links, product) => {
+                const { product: { product_links } } = product;
+                if (product_links) {
+                    Object.values(product_links).forEach((item) => {
+                        if (item.link_type === 'crosssell') {
+                            links.push(item);
+                        }
+                    });
+                }
+
+                return links;
+            }, []);
+
+            if (product_links.length !== 0) {
+                LinkedProductsDispatcher.handleData(dispatch, product_links);
+            }
+        }
     }
 
     _getGuestQuoteId() {

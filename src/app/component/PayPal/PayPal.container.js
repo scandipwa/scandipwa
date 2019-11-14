@@ -12,11 +12,18 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+
 import { isSignedIn } from 'Util/Auth';
 import { CartDispatcher } from 'Store/Cart';
 import { fetchMutation } from 'Util/Request';
 import { CheckoutQuery, PayPalQuery } from 'Query';
 import { showNotification } from 'Store/Notification';
+
+import {
+    PAYPAL_EXPRESS,
+    PAYPAL_EXPRESS_CREDIT
+} from 'Component/CheckoutPayments/CheckoutPayments.component';
+
 import PayPal from './PayPal.component';
 
 export const PAYPAL_SCRIPT = 'PAYPAL_SCRIPT';
@@ -37,7 +44,8 @@ export class PayPalContainer extends PureComponent {
         isSandboxEnabled: PropTypes.bool,
         setLoading: PropTypes.func.isRequired,
         setDetailsStep: PropTypes.func.isRequired,
-        showNotification: PropTypes.func.isRequired
+        showNotification: PropTypes.func.isRequired,
+        selectedPaymentCode: PropTypes.string.isRequired
     };
 
     static defaultProps = {
@@ -52,8 +60,29 @@ export class PayPalContainer extends PureComponent {
 
     containerProps = () => ({
         paypal: this.getPayPal(),
-        environment: this.getEnvironment()
+        clientId: this.getClientID(),
+        environment: this.getEnvironment(),
+        isDisabled: this.getIsDisabled(),
+        isCredit: this.getIsCredit()
     });
+
+    getIsDisabled = () => {
+        const { selectedPaymentCode } = this.props;
+
+        if (
+            selectedPaymentCode === PAYPAL_EXPRESS
+            || selectedPaymentCode === PAYPAL_EXPRESS_CREDIT
+        ) {
+            return false;
+        }
+
+        return true;
+    };
+
+    getIsCredit = () => {
+        const { selectedPaymentCode } = this.props;
+        return selectedPaymentCode === PAYPAL_EXPRESS_CREDIT;
+    };
 
     containerFunctions = () => ({
         onError: this.onError,
@@ -111,7 +140,7 @@ export class PayPalContainer extends PureComponent {
     };
 
     createOrder = async () => {
-        const { setLoading } = this.props;
+        const { setLoading, selectedPaymentCode } = this.props;
         const guest_cart_id = this._getGuestQuoteId();
 
         setLoading(true);
@@ -121,7 +150,8 @@ export class PayPalContainer extends PureComponent {
         } = await fetchMutation(PayPalQuery.getCreatePaypalExpressTokenMutation({
             guest_cart_id,
             express_button: false,
-            code: 'paypal_express',
+            code: selectedPaymentCode,
+            use_paypal_credit: this.getIsCredit(),
             urls: {
                 cancel_url: 'www.paypal.com/checkoutnow/error',
                 return_url: 'www.paypal.com/checkoutnow/error'

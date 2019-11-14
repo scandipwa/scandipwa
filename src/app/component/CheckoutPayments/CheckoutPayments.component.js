@@ -12,29 +12,36 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import { paymentMethodsType } from 'Type/Checkout';
 import CheckoutPayment from 'Component/CheckoutPayment';
+import { paymentMethodsType } from 'Type/Checkout';
+import Braintree from 'Component/Braintree';
 import PayPal from 'Component/PayPal';
 
 import './CheckoutPayments.style';
 
+export const BRAINTREE = 'braintree';
 export const CHECK_MONEY = 'checkmo';
 export const PAYPAL_EXPRESS = 'paypal_express';
+export const PAYPAL_EXPRESS_CREDIT = 'paypal_express_bml';
 
 class CheckoutPayments extends PureComponent {
     static propTypes = {
         setLoading: PropTypes.func.isRequired,
         setDetailsStep: PropTypes.func.isRequired,
         selectPaymentMethod: PropTypes.func.isRequired,
+        initBraintree: PropTypes.func.isRequired,
         paymentMethods: paymentMethodsType.isRequired,
         setOrderButtonVisibility: PropTypes.func.isRequired,
         selectedPaymentCode: PropTypes.oneOf([
             CHECK_MONEY,
-            PAYPAL_EXPRESS
+            BRAINTREE,
+            PAYPAL_EXPRESS,
+            PAYPAL_EXPRESS_CREDIT
         ]).isRequired
     };
 
     paymentRenderMap = {
+        [BRAINTREE]: this.renderBrainTreePayment.bind(this)
     };
 
     componentDidUpdate(prevProps) {
@@ -50,6 +57,11 @@ class CheckoutPayments extends PureComponent {
                 setOrderButtonVisibility(true);
             }
         }
+    }
+
+    renderBrainTreePayment() {
+        const { initBraintree } = this.props;
+        return <Braintree init={ initBraintree } />;
     }
 
     renderPayment = (method) => {
@@ -98,7 +110,7 @@ class CheckoutPayments extends PureComponent {
             <PayPal
               setLoading={ setLoading }
               setDetailsStep={ setDetailsStep }
-              isDisabled={ selectedPaymentCode !== PAYPAL_EXPRESS }
+              selectedPaymentCode={ selectedPaymentCode }
             />
         );
     }

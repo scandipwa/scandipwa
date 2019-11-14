@@ -76,7 +76,7 @@ export default class CategorySort extends PureComponent {
               id="category-sort"
               name="category-sort"
               type="select"
-              label="SORT"
+              label={ __('SORT') }
               mix={ { block: 'CategorySort', elem: 'Select' } }
               selectOptions={ selectOptions }
               value={ `${sortDirection} ${sortKey}` }

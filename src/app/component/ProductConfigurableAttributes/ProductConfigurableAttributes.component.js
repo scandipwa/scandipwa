@@ -9,25 +9,31 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Component } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import ExpandableContent from 'Component/ExpandableContent';
+
+import ProductConfigurableAttributeDropdown from 'Component/ProductConfigurableAttributeDropdown';
 import ProductAttributeValue from 'Component/ProductAttributeValue';
+import ExpandableContent from 'Component/ExpandableContent';
 import { AttributeType } from 'Type/ProductList';
 import { MixType } from 'Type/Common';
+
 import './ProductConfigurableAttributes.style';
 
-export default class ProductConfigurableAttributes extends Component {
+export default class ProductConfigurableAttributes extends PureComponent {
     static propTypes = {
         isContentExpanded: PropTypes.bool,
         numberOfPlaceholders: PropTypes.arrayOf(PropTypes.number),
         configurable_options: PropTypes.objectOf(AttributeType).isRequired,
-        getLink: PropTypes.func.isRequired,
         parameters: PropTypes.shape({}).isRequired,
         updateConfigurableVariant: PropTypes.func.isRequired,
         isReady: PropTypes.bool,
         mix: MixType,
-        getIsConfigurableAttributeAvailable: PropTypes.func
+        getIsConfigurableAttributeAvailable: PropTypes.func,
+        handleOptionClick: PropTypes.func.isRequired,
+        getSubHeading: PropTypes.func.isRequired,
+        isSelected: PropTypes.func.isRequired,
+        getLink: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -39,65 +45,56 @@ export default class ProductConfigurableAttributes extends Component {
         getIsConfigurableAttributeAvailable: () => true
     };
 
-    /**
-     * Get URL link for attribute
-     *
-     * @param {{ attribute_code: String, attribute_value: String }} { attribute_code, attribute_value }
-     * @returns {String}
-     * @memberof ProductConfigurableAttributes
-     */
-    getLink = ({ attribute_code, attribute_value }) => {
-        const { getLink } = this.props;
-        return getLink(attribute_code, attribute_value);
-    };
-
-    getSubHeading({ attribute_values, attribute_code, attribute_options }) {
-        return attribute_values.reduce((acc, attribute_value) => (
-            this.isSelected({ attribute_code, attribute_value })
-                ? [...acc, attribute_options[attribute_value].label]
-                : acc
-        ), []).join(', ');
-    }
-
-    /**
-     * Updates URL on click
-     *
-     * @param {{ attribute_code: String, attribute_value: String }} { attribute_code, attribute_value }
-     * @memberof ProductConfigurableAttributes
-     */
-    handleOptionClick = ({ attribute_code, attribute_value }) => {
-        const { updateConfigurableVariant } = this.props;
-        updateConfigurableVariant(attribute_code, attribute_value);
-    };
-
-    /**
-     * Checks whether provided attribute were selected
-     *
-     * @param {{ attribute_code: String, attribute_value: String }} { attribute_code, attribute_value }
-     * @returns {bool}
-     * @memberof ProductConfigurableAttributes
-     */
-    isSelected({ attribute_code, attribute_value }) {
-        const { parameters = {} } = this.props;
-        const parameter = parameters[attribute_code];
-
-        if (parameter === undefined) return false;
-        if (parameter.length !== undefined) return parameter.includes(attribute_value);
-        return parameter === attribute_value;
-    }
-
     renderConfigurableAttributeValue(attribute) {
-        const { getIsConfigurableAttributeAvailable } = this.props;
+        const {
+            getIsConfigurableAttributeAvailable,
+            handleOptionClick,
+            getLink,
+            isSelected
+        } = this.props;
+
         const { attribute_value } = attribute;
 
         return (
             <ProductAttributeValue
               key={ attribute_value }
               attribute={ attribute }
-              isSelected={ this.isSelected(attribute) }
+              isSelected={ isSelected(attribute) }
               isAvailable={ getIsConfigurableAttributeAvailable(attribute) }
-              onClick={ this.handleOptionClick }
-              getLink={ this.getLink }
+              onClick={ handleOptionClick }
+              getLink={ getLink }
+            />
+        );
+    }
+
+    renderSwatch(option) {
+        const { attribute_values } = option;
+
+        return (
+            <div
+              block="ProductConfigurableAttributes"
+              elem="SwatchList"
+            >
+                { attribute_values.map(attribute_value => (
+                    this.renderConfigurableAttributeValue({ ...option, attribute_value })
+                )) }
+            </div>
+        );
+    }
+
+    renderDropdown(option) {
+        const {
+            updateConfigurableVariant,
+            getIsConfigurableAttributeAvailable,
+            parameters
+        } = this.props;
+
+        return (
+            <ProductConfigurableAttributeDropdown
+              option={ option }
+              updateConfigurableVariant={ updateConfigurableVariant }
+              getIsConfigurableAttributeAvailable={ getIsConfigurableAttributeAvailable }
+              parameters={ parameters }
             />
         );
     }
@@ -116,7 +113,7 @@ export default class ProductConfigurableAttributes extends Component {
                   // eslint-disable-next-line react/no-array-index-key
                   key={ i }
                   block="ProductConfigurableAttributes"
-                  elem="AttributesList"
+                  elem="SwatchList"
                 >
                     { Array.from({ length }, (_, i) => (
                         <div
@@ -132,24 +129,34 @@ export default class ProductConfigurableAttributes extends Component {
     }
 
     renderConfigurableAttributes() {
-        const { configurable_options, isContentExpanded } = this.props;
+        const {
+            configurable_options,
+            isContentExpanded,
+            getSubHeading
+        } = this.props;
 
         return Object.values(configurable_options).map((option) => {
-            const { attribute_values, attribute_label, attribute_code } = option;
+            const {
+                attribute_label,
+                attribute_code,
+                attribute_options
+            } = option;
+
+            const [{ swatch_data }] = Object.values(attribute_options) || [{}];
+            const isSwatch = !!swatch_data;
 
             return (
                 <ExpandableContent
                   key={ attribute_code }
                   heading={ attribute_label }
-                  subHeading={ this.getSubHeading(option) }
-                  mix={ { block: 'ProductConfigurableAttributes', elem: 'Expandable' } }
+                  subHeading={ getSubHeading(option) }
+                  mix={ {
+                      block: 'ProductConfigurableAttributes',
+                      elem: 'Expandable'
+                  } }
                   isContentExpanded={ isContentExpanded }
                 >
-                    <div block="ProductConfigurableAttributes" elem="AttributesList">
-                        { attribute_values.map(attribute_value => (
-                            this.renderConfigurableAttributeValue({ ...option, attribute_value })
-                        )) }
-                    </div>
+                    { isSwatch ? this.renderSwatch(option) : this.renderDropdown(option) }
                 </ExpandableContent>
             );
         });

@@ -15,6 +15,7 @@ import PropTypes from 'prop-types';
 import Html from 'Component/Html';
 
 import './PayPal.style';
+import Loader from 'Component/Loader';
 
 
 export const PAYPAL_SCRIPT = 'PAYPAL_SCRIPT';
@@ -26,6 +27,7 @@ export const PAYPAL_SCRIPT = 'PAYPAL_SCRIPT';
 */
 export default class PayPal extends PureComponent {
     static propTypes = {
+        // isCredit: PropTypes.bool,
         isDisabled: PropTypes.bool,
         paypal: PropTypes.any.isRequired,
         clientId: PropTypes.string.isRequired,
@@ -42,6 +44,7 @@ export default class PayPal extends PureComponent {
 
     static defaultProps = {
         isDisabled: false
+        // isCredit: false
     };
 
     getPayPalScript = () => {
@@ -69,11 +72,15 @@ export default class PayPal extends PureComponent {
             onApprove,
             createOrder,
             environment
+            // isCredit
         } = this.props;
 
-        if (!paypal) return null;
+        if (!paypal) {
+            return <Loader isLoading />;
+        }
 
         const PayPalButton = paypal && paypal.Buttons.driver('react', { React, ReactDOM });
+        // TODO: investigate PayPal credit support
 
         return (
             <PayPalButton
@@ -82,7 +89,10 @@ export default class PayPal extends PureComponent {
               onCancel={ onCancel }
               onApprove={ onApprove }
               createOrder={ createOrder }
-              style={ { layout: 'horizontal', label: 'pay' } }
+              style={ {
+                  layout: 'horizontal',
+                  label: 'pay'
+              } }
             />
         );
     }

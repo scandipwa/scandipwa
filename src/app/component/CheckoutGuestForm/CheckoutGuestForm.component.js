@@ -50,7 +50,10 @@ class CheckoutGuestForm extends FieldForm {
               mix={ { block: 'FieldForm' } }
             >
                 { this.renderHeading() }
-                <FormPortal id={ formId }>
+                <FormPortal
+                  id={ formId }
+                  name="CheckoutGuestForm"
+                >
                     { this.renderFields() }
                 </FormPortal>
             </div>
