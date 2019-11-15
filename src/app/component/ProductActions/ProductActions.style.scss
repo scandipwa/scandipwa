@@ -125,7 +125,14 @@
 
     &-GroupedItems {
         order: 3;
-        margin-top: 2.5rem;
+
+        @include before-desktop {
+            padding: 1rem;
+        }
+
+        @include desktop {
+            margin-top: 2.5rem;
+        }
     }
 
     &-AddToCart {
@@ -247,12 +254,6 @@
 
                 @include mobile {
                     display: none;
-                }
-            }
-
-            &_grouped {
-                @include after-mobile {
-                    margin-bottom: 1.5rem;
                 }
             }
         }
