@@ -93,7 +93,10 @@ export class CartDispatcher {
                 productToAdd, !isSignedIn() && this._getGuestQuoteId()
             )).then(
                 ({ saveCartItem: { cartData } }) => this._updateCartData(cartData, dispatch),
-                error => dispatch(showNotification('error', error[0].message))
+                ([{ message }]) => {
+                    dispatch(showNotification('error', message));
+                    return Promise.reject();
+                }
             );
         }
 
