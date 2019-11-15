@@ -30,7 +30,6 @@ export default class GroupedProductsItemContainer extends PureComponent {
         super(props);
 
         const { defaultQuantity } = this.props;
-        console.log(this.props);
         this.changeCount(defaultQuantity);
     }
 
