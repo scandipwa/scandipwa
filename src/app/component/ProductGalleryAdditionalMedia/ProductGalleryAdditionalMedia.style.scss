@@ -9,4 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default } from './ProductGalleryImage.component';
+.ProductGalleryAdditionalMedia {
+    @include after-mobile {
+        display: block;
+        height: 100%;
+    }
+
+    img {
+        object-fit: cover;
+    }
+}

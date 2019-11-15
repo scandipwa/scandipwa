@@ -9,21 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-.ProductGalleryImage {
-    @include after-mobile {
-        display: block;
-    }
+import { connect } from 'react-redux';
+import VideoPopup, { VIDEO_POPUP_ID } from './VideoPopup.component';
 
-    &_isAdditional {
-        height: 100%;
-    }
+export const mapStateToProps = state => ({
+    payload: state.PopupReducer.popupPayload[VIDEO_POPUP_ID] || {}
+});
 
-    &_type_single {
-        grid-row: 1/3;
-        grid-column: 1/3;
-    }
-
-    img {
-        object-fit: cover;
-    }
-}
+export default connect(mapStateToProps, null)(VideoPopup);

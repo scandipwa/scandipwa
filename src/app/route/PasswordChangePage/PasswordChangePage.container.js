@@ -15,11 +15,11 @@ import { MyAccountDispatcher } from 'Store/MyAccount';
 import { showNotification } from 'Store/Notification';
 import PasswordChangePage from './PasswordChangePage.component';
 
-const mapStateToProps = state => ({
+export const mapStateToProps = state => ({
     passwordResetStatus: state.MyAccountReducer.passwordResetStatus
 });
 
-const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = dispatch => ({
     updateBreadcrumbs: (breadcrumbs) => {
         BreadcrumbsDispatcher.update(breadcrumbs, dispatch);
     },
@@ -34,6 +34,4 @@ const mapDispatchToProps = dispatch => ({
     }
 });
 
-const PasswordChangePageContainer = connect(mapStateToProps, mapDispatchToProps)(PasswordChangePage);
-
-export default PasswordChangePageContainer;
+export default connect(mapStateToProps, mapDispatchToProps)(PasswordChangePage);

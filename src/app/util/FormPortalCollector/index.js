@@ -12,23 +12,23 @@
 export default class FormPortalCollector {
     portalsObservers = {};
 
-    subscribe(id, f) {
+    subscribe(id, f, name) {
         if (this.portalsObservers[id]) {
-            this.portalsObservers[id].push(f);
+            this.portalsObservers[id][name] = f;
             return;
         }
 
-        this.portalsObservers[id] = [f];
+        this.portalsObservers[id] = { [name]: f };
     }
 
-    unsubscribe(id, f) {
-        const portalObservers = this.portalsObservers[id];
-        if (!portalObservers) return;
-        this.portalsObservers = this.portalsObservers[id].filter(portal => portal !== f);
+    unsubscribe(id, name) {
+        if (!this.portalsObservers[id]) return;
+        // eslint-disable-next-line fp/no-delete
+        delete this.portalsObservers[id][name];
     }
 
     collect(id) {
-        const portals = this.portalsObservers[id] || [];
-        return portals.map(portal => portal());
+        const portals = this.portalsObservers[id] || {};
+        return Object.values(portals).map(portal => portal());
     }
 }

@@ -77,25 +77,19 @@ export class AddToCartContainer extends PureComponent {
         } = this.props;
 
         const { isLoading } = this.state;
-
         if (isLoading) return true;
 
-        if (type_id === CONFIGURABLE) {
-            const variant = variants[configurableVariantIndex];
-            if (!variant) return true;
-
-            const { stock_status } = variant;
+        switch (type_id) {
+        case CONFIGURABLE:
+            if (!variants[configurableVariantIndex]) return true;
+            const { stock_status: configurableStock } = variants[configurableVariantIndex];
+            return configurableStock !== 'IN_STOCK';
+        case GROUPED:
+            return items.every(({ product: { id } }) => !groupedProductQuantity[id]);
+        default:
+            const { stock_status } = product;
             return stock_status !== 'IN_STOCK';
         }
-
-        if (type_id === GROUPED) {
-            return items.every(
-                ({ product: { id } }) => !groupedProductQuantity[id]
-            );
-        }
-
-        const { stock_status } = product;
-        return stock_status !== 'IN_STOCK';
     }
 
     buttonClick() {

@@ -15,21 +15,23 @@
 
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { ProductType } from 'Type/ProductList';
-import Field from 'Component/Field';
+
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
 import ProductWishlistButton from 'Component/ProductWishlistButton';
-import TextPlaceholder from 'Component/TextPlaceholder';
-import ProductPrice from 'Component/ProductPrice';
-import AddToCart from 'Component/AddToCart';
-import Html from 'Component/Html';
-import Link from 'Component/Link';
-import { isSignedIn } from 'Util/Auth';
-
-import './ProductActions.style';
 import ProductReviewRating from 'Component/ProductReviewRating';
 import GroupedProductList from 'Component/GroupedProductsList';
+import TextPlaceholder from 'Component/TextPlaceholder';
+import ProductPrice from 'Component/ProductPrice';
+import { ProductType } from 'Type/ProductList';
+import AddToCart from 'Component/AddToCart';
 import { GROUPED } from 'Util/Product';
+import { isSignedIn } from 'Util/Auth';
+import Field from 'Component/Field';
+import isMobile from 'Util/Mobile';
+import Html from 'Component/Html';
+import Link from 'Component/Link';
+
+import './ProductActions.style';
 
 /**
  * Product actions
@@ -120,12 +122,26 @@ export default class ProductActions extends PureComponent {
         );
     }
 
+    renderShortDescriptionContent() {
+        const { product: { short_description, id } } = this.props;
+        const { html } = short_description || {};
+
+        if (!html && id) return null;
+
+        const htmlWithItemProp = `<div itemProp="description">${html}</div>`;
+
+        return (
+            <div block="ProductActions" elem="ShortDescription">
+                { html ? <Html content={ htmlWithItemProp } /> : <p><TextPlaceholder length="long" /></p> }
+            </div>
+        );
+    }
+
     renderShortDescription() {
         const { product: { short_description, id } } = this.props;
         const { html } = short_description || {};
-        const htmlWithItemProp = `<div itemProp="description">${html}</div>`;
 
-        if (!html && id) return null;
+        if (!html && id && isMobile.any()) return null;
 
         return (
             <section
@@ -134,9 +150,7 @@ export default class ProductActions extends PureComponent {
               mods={ { type: 'short' } }
               aria-label="Product short description"
             >
-                <div block="ProductActions" elem="ShortDescription">
-                    { html ? <Html content={ htmlWithItemProp } /> : <p><TextPlaceholder length="long" /></p> }
-                </div>
+                { this.renderShortDescriptionContent() }
             </section>
         );
     }

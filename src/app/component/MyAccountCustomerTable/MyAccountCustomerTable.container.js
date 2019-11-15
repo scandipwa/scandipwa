@@ -52,7 +52,7 @@ export class MyAccountCustomerTableContainer extends PureComponent {
         showPopup({
             action: CHANGE_PASSWORD,
             customer,
-            title: __('Change Password')
+            title: __('Change password')
         });
     }
 
