@@ -11,29 +11,15 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { connect } from 'react-redux';
-import { ProductDispatcher } from 'Store/Product';
 import { ProductType } from 'Type/ProductList';
 import GroupedProductsItem from './GroupedProductsItem.component';
 
-export const mapStateToProps = state => ({
-    groupedProductQuantity: state.ProductReducer.groupedProductQuantity
-});
-
-export const mapDispatchToProps = dispatch => ({
-    updateGroupedProductQuantity: options => ProductDispatcher.updateGroupedProductQuantity(dispatch, options)
-});
-
-export class GroupedProductsItemContainer extends PureComponent {
+export default class GroupedProductsItemContainer extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired,
-        updateGroupedProductQuantity: PropTypes.func,
+        setGroupedProductQuantity: PropTypes.func.isRequired,
         defaultQuantity: PropTypes.number.isRequired
-    };
-
-    static defaultProps = {
-        updateGroupedProductQuantity: () => {}
     };
 
     containerFunctions = {
@@ -43,8 +29,9 @@ export class GroupedProductsItemContainer extends PureComponent {
     constructor(props) {
         super(props);
 
-        const { updateGroupedProductQuantity, product, defaultQuantity } = this.props;
-        updateGroupedProductQuantity({ product, quantity: defaultQuantity });
+        const { defaultQuantity } = this.props;
+        console.log(this.props);
+        this.changeCount(defaultQuantity);
     }
 
     containerProps = () => ({
@@ -61,15 +48,13 @@ export class GroupedProductsItemContainer extends PureComponent {
             groupedProductQuantity
         } = this.props;
 
-        return groupedProductQuantity[id];
+        return groupedProductQuantity[id] || 0;
     }
 
     changeCount(itemCount) {
-        const { updateGroupedProductQuantity, product } = this.props;
-
-        updateGroupedProductQuantity({ product, quantity: itemCount });
+        const { setGroupedProductQuantity, product: { id } } = this.props;
+        setGroupedProductQuantity(id, itemCount);
     }
-
 
     render() {
         return (
@@ -81,5 +66,3 @@ export class GroupedProductsItemContainer extends PureComponent {
         );
     }
 }
-
-export default connect(mapStateToProps, mapDispatchToProps)(GroupedProductsItemContainer);
