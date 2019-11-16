@@ -25,7 +25,8 @@ import './ProductInformation.style';
 export default class ProductInformation extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
-        areDetailsLoaded: PropTypes.bool.isRequired
+        areDetailsLoaded: PropTypes.bool.isRequired,
+        attributesWithValues: PropTypes.objectOf(PropTypes.string).isRequired
     };
 
     renderContentPlaceholder() {
@@ -51,6 +52,22 @@ export default class ProductInformation extends PureComponent {
         );
     }
 
+    renderAttributeInfo = ([key, value]) => (
+        <Html key={ key } content={ `<strong>${key}:</strong> ${value}<br>` } />
+    );
+
+    renderConfigurableAttributesInfo() {
+        const { attributesWithValues } = this.props;
+
+        if (!Object.keys(attributesWithValues).length) return null;
+
+        return (
+            <p>
+                { Object.entries(attributesWithValues).map(this.renderAttributeInfo) }
+            </p>
+        );
+    }
+
     renderContent() {
         const { product: { description: { html } = {} } } = this.props;
 
@@ -60,6 +77,7 @@ export default class ProductInformation extends PureComponent {
               mix={ { block: 'ProductInformation', elem: 'Content' } }
             >
                 { html ? <Html content={ html } /> : this.renderContentPlaceholder() }
+                { this.renderConfigurableAttributesInfo() }
             </ExpandableContent>
         );
     }
