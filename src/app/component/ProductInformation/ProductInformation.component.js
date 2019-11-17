@@ -57,9 +57,12 @@ export default class ProductInformation extends PureComponent {
     );
 
     renderConfigurableAttributesInfo() {
-        const { attributesWithValues } = this.props;
+        const {
+            attributesWithValues,
+            product: { description: { html } = {} }
+        } = this.props;
 
-        if (!Object.keys(attributesWithValues).length) return null;
+        if (!html || !Object.keys(attributesWithValues).length) return null;
 
         return (
             <p>
