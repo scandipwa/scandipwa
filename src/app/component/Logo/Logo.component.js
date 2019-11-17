@@ -15,16 +15,33 @@ import Image, {
     IMAGE_NOT_FOUND,
     IMAGE_NOT_SPECIFIED
 } from 'Component/Image/Image.component';
+import PropTypes from 'prop-types';
 
 import './Logo.style';
 
 class Logo extends Image {
+    static propTypes = {
+        ...Image.propTypes,
+        footerLogo: PropTypes.bool
+    };
+
+    static defaultProps = {
+        ...Image.defaultProps,
+        footerLogo: false
+    };
+
     renderPlaceholderLogo() {
+        const { footerLogo } = this.props;
+        const size = footerLogo
+            ? {
+                width: 116, height: 10, viewBox: '0 0 116 17'
+            }
+            : { width: 116, height: 17 };
+
         return (
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="116"
-              height="17"
+              { ...size }
               block="Logo"
               elem="Placeholder"
             >

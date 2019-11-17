@@ -12,6 +12,9 @@ import { connect } from 'react-redux';
 import Footer from './Footer.component';
 
 export const mapStateToProps = state => ({
+    header_logo_src: state.ConfigReducer.header_logo_src,
+    logo_alt: state.ConfigReducer.logo_alt,
+    isLoading: state.ConfigReducer.isLoading,
     copyright: state.ConfigReducer.copyright
 });
 

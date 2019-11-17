@@ -11,6 +11,8 @@
 
 :root {
     --footer-height: 150px;
+    --footer-logo-width: 200px;
+    --footer-logo-height: calc(var(--footer-height) - 135px);
 }
 
 .Footer {
@@ -36,5 +38,21 @@
 
     &-Copyright {
         display: block;
+    }
+
+    &-Wrapper {
+        top: -10px;
+    }
+
+    &-LogoWrapper {
+        position: absolute;
+        height: var(--footer-logo-height);
+        width: var(--footer-logo-width);
+        max-width: 100%;
+        left: 0;
+        right: 0;
+        margin: auto;
+        margin-top: 5px;
+        overflow: hidden;
     }
 }
