@@ -16,9 +16,11 @@ import CheckoutPayment from 'Component/CheckoutPayment';
 import { paymentMethodsType } from 'Type/Checkout';
 import Braintree from 'Component/Braintree';
 import PayPal from 'Component/PayPal';
+import Klarna from 'Component/Klarna';
 
 import './CheckoutPayments.style';
 
+export const KLARNA = 'klarna_kp';
 export const BRAINTREE = 'braintree';
 export const CHECK_MONEY = 'checkmo';
 export const PAYPAL_EXPRESS = 'paypal_express';
@@ -33,14 +35,16 @@ class CheckoutPayments extends PureComponent {
         paymentMethods: paymentMethodsType.isRequired,
         setOrderButtonVisibility: PropTypes.func.isRequired,
         selectedPaymentCode: PropTypes.oneOf([
-            CHECK_MONEY,
+            KLARNA,
             BRAINTREE,
+            CHECK_MONEY,
             PAYPAL_EXPRESS,
             PAYPAL_EXPRESS_CREDIT
         ]).isRequired
     };
 
     paymentRenderMap = {
+        [KLARNA]: this.renderKlarnaPayment.bind(this),
         [BRAINTREE]: this.renderBrainTreePayment.bind(this)
     };
 
@@ -62,6 +66,10 @@ class CheckoutPayments extends PureComponent {
     renderBrainTreePayment() {
         const { initBraintree } = this.props;
         return <Braintree init={ initBraintree } />;
+    }
+
+    renderKlarnaPayment() {
+        return <Klarna />;
     }
 
     renderPayment = (method) => {
