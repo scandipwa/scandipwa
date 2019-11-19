@@ -41,7 +41,8 @@ export const mapStateToProps = state => ({
     cartTotals: state.CartReducer.cartTotals,
     header_logo_src: state.ConfigReducer.header_logo_src,
     logo_alt: state.ConfigReducer.logo_alt,
-    isLoading: state.ConfigReducer.isLoading
+    isLoading: state.ConfigReducer.isLoading,
+    comparedProducts: state.CompareReducer.comparedProducts
 });
 
 export const mapDispatchToProps = dispatch => ({

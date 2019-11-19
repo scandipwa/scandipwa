@@ -1,0 +1,125 @@
+
+.Compare {
+    &-Products {
+        display: grid;
+        list-style-type: none;
+        grid-column-gap: 1rem;
+        grid-auto-flow: column;
+    }
+
+    &-ProductAttributes {
+        display: grid;
+        padding-top: 10px;
+        list-style-type: none;
+        border-top: 1px solid grey;
+        grid-column-gap: 1rem;
+    }
+
+    &-AttributeRow {
+        margin-bottom: 0;
+        padding: 5px 0;
+
+        &::before {
+            content: none;
+        }
+
+        &:nth-child(2n) {
+            background: var(--breadcrumbs-background);
+        }
+    }
+
+    &-AttributeWrapper {
+        display: block;
+        margin-top: 10px;
+    }
+
+    &-AttributeValueWrapper {
+        display: grid;
+        grid-auto-flow: column;
+        grid-column-gap: 1rem;
+    }
+
+    &-AttributeName {
+        min-width: 310px;
+        max-width: 310px;
+        padding-left: 10px;
+
+        @include mobile {
+            min-width: 120px;
+            max-width: 120px;
+        }
+    }
+
+    &-AttributeValue {
+        min-width: 310px;
+        max-width: 310px;
+        text-transform: capitalize;
+    }
+
+    &-ClearAll {
+        display: inline-block;
+    }
+
+    &-ProductWrapper {
+        display: flex;
+        overflow: auto;
+        overflow-x: visible;
+
+        &::-webkit-scrollbar {
+            display: block;
+            -webkit-appearance: none;
+        }
+
+        &::-webkit-scrollbar:vertical {
+            width: 11px;
+        }
+
+        &::-webkit-scrollbar:horizontal {
+            height: 11px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            border: 2px solid #fff;
+            border-radius: 8px;
+            background-color: rgba(0, 0, 0, .5);
+        }
+
+        &::-webkit-scrollbar-track {
+            border-radius: 8px;
+            background-color: #fff;
+        }
+    }
+
+    &-ListsWrapper {
+        display: block;
+        width: fit-content;
+    }
+
+    &-Attributes {
+        font-size: 14px;
+        display: block;
+    }
+
+    &-ClearAllWrapper {
+        width: 100%;
+        height: 100%;
+    }
+
+    &-ClearButtonWrapper {
+        top: 50%;
+        display: flex;
+        width: fit-content;
+        margin: auto;
+    }
+
+    &-Section {
+        overflow: visible;
+        overflow-x: auto;
+        overflow-y: hidden;
+        width: 100%;
+
+        ::-webkit-scrollbar {
+            display: block;
+        }
+    }
+}

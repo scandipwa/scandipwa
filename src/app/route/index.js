@@ -28,6 +28,7 @@ import PasswordChangePage from 'Route/PasswordChangePage';
 import NoMatchHandler from 'Route/NoMatchHandler';
 import UrlRewrites from 'Route/UrlRewrites';
 import Checkout from 'Route/Checkout';
+import Compare from 'Route/Compare';
 
 import Header from 'Component/Header';
 import Footer from 'Component/Footer';
@@ -100,6 +101,10 @@ class AppRouter extends PureComponent {
         {
             component: <Route path="/my-account/:tab?" component={ MyAccount } />,
             position: 70
+        },
+        {
+            component: <Route path="/compare" exact component={ Compare } />,
+            position: 80
         },
         {
             component: <Route component={ UrlRewrites } />,

@@ -26,7 +26,7 @@
     --header-logo-width: 200px;
 
     @include tablet {
-        --header-desktop-search-bar-width: 200px;
+        --header-desktop-search-bar-width: 170px;
     }
 
     @include after-mobile {
@@ -93,10 +93,10 @@
 
 .Header {
     position: fixed;
+    z-index: 100;
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 100;
     background-color: var(--header-background);
 
     @include mobile {
@@ -265,6 +265,20 @@
                 }
             }
         }
+    }
+
+    &-CompareLink {
+        min-width: 24px;
+    }
+
+    &-CompareItems {
+        display: inline-flex;
+        top: 5px;
+        color: var(--header-color);
+    }
+
+    &-CompareIcon {
+        @include compare-button;
     }
 
     &-SearchWrapper {

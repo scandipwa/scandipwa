@@ -19,6 +19,7 @@ import { ProductType } from 'Type/ProductList';
 import Field from 'Component/Field';
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
 import ProductWishlistButton from 'Component/ProductWishlistButton';
+import ProductCompareButton from 'Component/ProductCompareButton';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import ProductPrice from 'Component/ProductPrice';
 import AddToCart from 'Component/AddToCart';
@@ -28,6 +29,7 @@ import { isSignedIn } from 'Util/Auth';
 
 import './ProductActions.style';
 import ProductReviewRating from 'Component/ProductReviewRating';
+import { isCompareEnabled } from 'Route/Compare/Compare.container';
 
 /**
  * Product actions
@@ -245,10 +247,29 @@ export default class ProductActions extends PureComponent {
         );
     }
 
+    renderProductCompareButton() {
+        if (!isCompareEnabled) return false;
+        const {
+            product,
+            quantity,
+            configurableVariantIndex
+        } = this.props;
+
+        return (
+            <ProductCompareButton
+              product={ product }
+              quantity={ quantity }
+              configurableVariantIndex={ configurableVariantIndex }
+              { ...this.props }
+            />
+        );
+    }
+
     renderAdditionalButtons() {
         return (
             <div block="ProductActions" elem="AdditionalButtons">
                 { this.renderProductWishlistButton() }
+                { this.renderProductCompareButton() }
                 { this.renderGoToWishlist() }
             </div>
         );

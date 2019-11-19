@@ -1,0 +1,62 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+.ProductCompareCard {
+    &-Wrapper {
+        min-width: 310px;
+        max-width: 310px;
+        padding-left: 0;
+
+        &::before {
+            content: none;
+        }
+    }
+
+    &-Name {
+        min-height: 46px;
+    }
+
+    &-DetailWrapper {
+        min-height: 410px;
+    }
+
+    &-Price {
+        @include after-mobile {
+            font-size: 20px;
+            padding-bottom: 10px;
+        }
+    }
+
+    &-RemoveButton {
+        width: 100%;
+    }
+
+    &-Link {
+        color: inherit;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: none;
+        }
+    }
+
+    &-ProductImage {
+        max-width: 300px;
+        max-height: 300px;
+    }
+
+    &-ClearAllCard {
+        @include mobile {
+            min-width: 120px;
+            max-width: 120px;
+        }
+    }
+}

@@ -24,3 +24,5 @@ export { default as ReviewQuery } from 'Query/Review.query';
 export { default as UrlRewritesQuery } from 'Query/UrlRewrites.query';
 export { default as ConfigQuery } from 'Query/Config.query';
 export { default as OrderQuery } from 'Query/Order.query';
+export { default as Compare } from 'Query/ProductCompare.query';
+export { default as CompareProduct } from 'Query/CompareProduct.query';

@@ -22,10 +22,14 @@ import CartOverlay from 'Component/CartOverlay';
 import ClickOutside from 'Component/ClickOutside';
 import SearchOverlay from 'Component/SearchOverlay';
 import MyAccountOverlay from 'Component/MyAccountOverlay';
+import BrowserDatabase from 'Util/BrowserDatabase';
 
 import './Header.style';
 import media from 'Util/Media';
 import { LOGO_MEDIA } from 'Util/Media/Media';
+import { PRODUCTS_IN_COMPARE } from 'Store/Compare';
+import { ProductType } from 'Type/ProductList';
+import { isCompareEnabled } from 'Route/Compare/Compare.container';
 
 export const PDP = 'pdp';
 export const POPUP = 'popup';
@@ -87,6 +91,7 @@ export default class Header extends PureComponent {
         onMinicartOutsideClick: PropTypes.func.isRequired,
         isClearEnabled: PropTypes.bool.isRequired,
         searchCriteria: PropTypes.string.isRequired,
+        comparedProducts: PropTypes.arrayOf(ProductType).isRequired,
         header_logo_src: PropTypes.string,
         logo_alt: PropTypes.string,
         isLoading: PropTypes.bool
@@ -178,7 +183,8 @@ export default class Header extends PureComponent {
         minicart: this.renderMinicartButton.bind(this),
         clear: this.renderClearButton.bind(this),
         edit: this.renderEditButton.bind(this),
-        ok: this.renderOkButton.bind(this)
+        ok: this.renderOkButton.bind(this),
+        compare: this.renderCompare.bind(this)
     };
 
     searchBarRef = createRef();
@@ -364,6 +370,32 @@ export default class Header extends PureComponent {
                     <MyAccountOverlay />
                 </div>
             </ClickOutside>
+        );
+    }
+
+    renderCompare() {
+        const { isLoading, comparedProducts = [] } = this.props;
+        const comparedProductsLength = comparedProducts.length;
+        const compareProductsInLocalStorage = BrowserDatabase.getItem(PRODUCTS_IN_COMPARE) || [];
+
+        if (isLoading || !isCompareEnabled) return null;
+        return (
+            <div mix={ { block: 'Header', elem: 'ComapareWrapper' } } key="compare">
+            <Link
+              to="/compare"
+              block="Header"
+              elem="CompareLink"
+            >
+                <span
+                  block="Header"
+                  elem="CompareItems"
+                  aria-label="Items in compare"
+                >
+                    { comparedProductsLength || compareProductsInLocalStorage.length }
+                </span>
+                <span block="Header" elem="CompareIcon" mods={ { type: 'compare' } } />
+            </Link>
+            </div>
         );
     }
 
