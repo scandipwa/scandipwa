@@ -66,7 +66,6 @@ export class MyAccountOverlayContainer extends PureComponent {
         onForgotPasswordAttempt: this.onForgotPasswordAttempt.bind(this),
         onFormError: this.onFormError.bind(this),
         handleForgotPassword: this.handleForgotPassword.bind(this),
-        handleForgotPasswordSuccess: this.handleForgotPasswordSuccess.bind(this),
         handleSignIn: this.handleSignIn.bind(this),
         handleCreateAccount: this.handleCreateAccount.bind(this)
     };
@@ -189,7 +188,10 @@ export class MyAccountOverlayContainer extends PureComponent {
 
     onForgotPasswordSuccess(fields) {
         const { forgotPassword } = this.props;
-        forgotPassword(fields).then(this.stopLoading, this.stopLoading);
+        forgotPassword(fields).then(() => {
+            this.setState({ state: STATE_FORGOT_PASSWORD_SUCCESS });
+            this.stopLoading();
+        }, this.stopLoading);
     }
 
     onForgotPasswordAttempt() {
@@ -208,10 +210,6 @@ export class MyAccountOverlayContainer extends PureComponent {
         e.nativeEvent.stopImmediatePropagation();
         this.setState({ state: STATE_FORGOT_PASSWORD });
         setHeaderState({ name: CUSTOMER_ACCOUNT, title: 'Forgot password' });
-    }
-
-    handleForgotPasswordSuccess() {
-        this.setState({ state: STATE_FORGOT_PASSWORD_SUCCESS });
     }
 
     handleSignIn(e) {
