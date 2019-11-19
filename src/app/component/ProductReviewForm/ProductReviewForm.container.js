@@ -19,6 +19,7 @@ import { ProductType } from 'Type/ProductList';
 import { ReviewDispatcher } from 'Store/Review';
 import { hideActiveOverlay } from 'Store/Overlay';
 import { showNotification } from 'Store/Notification';
+import { goToPreviousHeaderState } from 'Store/Header';
 
 import ProductReviewForm from './ProductReviewForm.component';
 
@@ -31,12 +32,14 @@ export const mapStateToProps = state => ({
 export const mapDispatchToProps = dispatch => ({
     addReview: options => ReviewDispatcher.submitProductReview(dispatch, options),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    hideActiveOverlay: () => dispatch(hideActiveOverlay())
+    hideActiveOverlay: () => dispatch(hideActiveOverlay()),
+    goToPreviousHeaderState: () => dispatch(goToPreviousHeaderState())
 });
 
 export class ProductReviewFormContainer extends PureComponent {
     static propTypes = {
         showNotification: PropTypes.func.isRequired,
+        goToPreviousHeaderState: PropTypes.func.isRequired,
         hideActiveOverlay: PropTypes.func.isRequired,
         reviewRatings: RatingItemsType.isRequired,
         product: ProductType.isRequired,
@@ -86,10 +89,21 @@ export class ProductReviewFormContainer extends PureComponent {
     }
 
     _onReviewSubmitSuccess(fields) {
-        const { product, addReview, hideActiveOverlay } = this.props;
+        const {
+            product,
+            addReview,
+            hideActiveOverlay,
+            goToPreviousHeaderState
+        } = this.props;
+
         const { ratingData: rating_data } = this.state;
 
-        const { nickname, title, detail } = fields;
+        const {
+            nickname,
+            title,
+            detail
+        } = fields;
+
         const { sku: product_sku } = product;
 
         if (Object.keys(rating_data).length) {
@@ -107,6 +121,7 @@ export class ProductReviewFormContainer extends PureComponent {
                         isLoading: false
                     });
 
+                    goToPreviousHeaderState();
                     hideActiveOverlay();
 
                     return;

@@ -34,6 +34,7 @@ import { HeaderReducer } from 'Store/Header';
 import { OverlayReducer } from 'Store/Overlay';
 import { PopupReducer } from 'Store/Popup';
 import { ConfigReducer } from 'Store/Config';
+import { LinkedProductsReducer } from 'Store/LinkedProducts';
 import { CompareReducer } from 'Store/Compare';
 
 export const reducers = {
@@ -58,6 +59,7 @@ export const reducers = {
     PopupReducer,
     UrlRewritesReducer,
     ConfigReducer,
+    LinkedProductsReducer,
     CompareReducer
 };
 

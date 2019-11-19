@@ -320,8 +320,6 @@ export default class Header extends PureComponent {
             logo_alt
         } = this.props;
 
-        if (!header_logo_src) return null;
-
         return (
             <Logo
               src={ media(header_logo_src, LOGO_MEDIA) }
@@ -374,11 +372,11 @@ export default class Header extends PureComponent {
     }
 
     renderCompare() {
-        const { isLoading, comparedProducts = [] } = this.props;
+        const { comparedProducts = [] } = this.props;
         const comparedProductsLength = comparedProducts.length;
         const compareProductsInLocalStorage = BrowserDatabase.getItem(PRODUCTS_IN_COMPARE) || [];
 
-        if (isLoading || !isCompareEnabled) return null;
+        if (!isCompareEnabled) return null;
         return (
             <div mix={ { block: 'Header', elem: 'ComapareWrapper' } } key="compare">
             <Link

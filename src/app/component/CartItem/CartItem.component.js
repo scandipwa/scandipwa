@@ -79,7 +79,7 @@ export default class CartItem extends PureComponent {
                           block="CartItem"
                           elem="Option"
                         >
-                            { configurable_options[attribute_code].attribute_options[attribute_value].label }
+                            {/* { configurable_options[attribute_code].attribute_options[attribute_value].label } */}
                         </li>
                     ))) }
             </ul>

@@ -119,4 +119,10 @@
             }
         }
     }
+
+    .ProductAttributeValue-Image-Overlay {
+        @include mobile {
+            margin: .5rem;
+        }
+    }
 }

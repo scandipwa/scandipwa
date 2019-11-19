@@ -21,7 +21,11 @@
     }
 
     &-Name {
-        min-height: 46px;
+        max-height: 23px;
+        width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
 
     &-DetailWrapper {

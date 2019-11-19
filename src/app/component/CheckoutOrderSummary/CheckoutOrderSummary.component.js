@@ -123,7 +123,7 @@ export default class CheckoutOrderSummary extends PureComponent {
                     { this.renderPriceLine(subtotal, __('Cart Subtotal')) }
                     { this.renderCouponCode() }
                     { this.renderPriceLine(tax_amount, __('Tax')) }
-                    { this.renderPriceLine(grand_total, __('Order Total')) }
+                    { this.renderPriceLine(grand_total, __('Order total')) }
                 </ul>
             </div>
         );

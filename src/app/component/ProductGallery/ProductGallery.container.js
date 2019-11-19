@@ -11,10 +11,9 @@
 
 import { PureComponent } from 'react';
 
-import media, { PRODUCT_MEDIA } from 'Util/Media';
 import { ProductType } from 'Type/ProductList';
 
-import ProductGallery from './ProductGallery.component';
+import ProductGallery, { IMAGE_TYPE } from './ProductGallery.component';
 
 export const THUMBNAIL_KEY = 'thumbnail';
 export const AMOUNT_OF_PLACEHOLDERS = 3;
@@ -36,13 +35,9 @@ export class ProductGalleryContainer extends PureComponent {
         if (mediaGallery.length) {
             return Object.values(mediaGallery.reduce((acc, srcMedia, i) => {
                 const {
-                    id,
-                    file,
                     types,
-                    label,
                     position,
-                    disabled,
-                    media_type
+                    disabled
                 } = srcMedia;
 
                 const canBeShown = !disabled;
@@ -53,12 +48,7 @@ export class ProductGalleryContainer extends PureComponent {
 
                 return {
                     ...acc,
-                    [key]: {
-                        id: isThumbnail ? THUMBNAIL_KEY : id,
-                        image: media(file, PRODUCT_MEDIA),
-                        alt: label || __('%s - Picture #%s', name, i),
-                        type: media_type
-                    }
+                    [key]: srcMedia
                 };
             }, {}));
         }
@@ -68,16 +58,26 @@ export class ProductGalleryContainer extends PureComponent {
         }
 
         return [{
-            image: path && media(path, PRODUCT_MEDIA),
+            file: path,
             id: THUMBNAIL_KEY,
-            alt: name,
-            type: 'image'
-        }, ...Array(AMOUNT_OF_PLACEHOLDERS).fill({ type: 'image', isPlaceholder: true })];
+            label: name,
+            media_type: IMAGE_TYPE
+        }, ...Array(AMOUNT_OF_PLACEHOLDERS).fill({ media_type: 'placeholder' })];
     }
 
     containerProps = () => ({
-        gallery: this.getGalleryPictures()
+        gallery: this.getGalleryPictures(),
+        productName: this._getProductName()
     });
+
+    /**
+     * Returns the name of the product this gallery if for
+     * @private
+     */
+    _getProductName() {
+        const { product: { name } } = this.props;
+        return name;
+    }
 
     render() {
         return (
