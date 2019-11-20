@@ -12,14 +12,20 @@
 
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { KlarnaQuery } from 'Query';
 import Html from 'Component/Html';
+import { fetchMutation } from 'Util/Request';
 
 export default class KlarnaComponent extends PureComponent {
     static propTypes = {};
 
     static isFirstLoad = true;
 
-    initiateKlarna() {
+    async initiateKlarna() {
+        const token = await fetchMutation(KlarnaQuery.getCreateKlarnaTokenMutation({}));
+
+        console.log('Klarna TOKEN:', token);
+
         // TODO? get client token first
     }
 
