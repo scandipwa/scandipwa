@@ -19,18 +19,29 @@ import './CheckoutPayments.style';
 import { paymentMethodsType } from 'Type/Checkout';
 import { StripeProvider, Elements } from 'react-stripe-elements';
 import InjectedStripeCheckoutForm from 'Component/InjectedStripeCheckoutForm';
+import PayPal from 'Component/PayPal';
+
+import './CheckoutPayments.style';
 
 export const BRAINTREE = 'braintree';
 export const CHECK_MONEY = 'checkmo';
+export const PAYPAL_EXPRESS = 'paypal_express';
+export const PAYPAL_EXPRESS_CREDIT = 'paypal_express_bml';
 export const STRIPE = 'stripe_payments';
 
 class CheckoutPayments extends PureComponent {
     static propTypes = {
+        setLoading: PropTypes.func.isRequired,
+        setDetailsStep: PropTypes.func.isRequired,
         selectPaymentMethod: PropTypes.func.isRequired,
-        paymentMethods: paymentMethodsType.isRequired,
         initBraintree: PropTypes.func.isRequired,
+        paymentMethods: paymentMethodsType.isRequired,
+        setOrderButtonVisibility: PropTypes.func.isRequired,
         selectedPaymentCode: PropTypes.oneOf([
+            CHECK_MONEY,
             BRAINTREE,
+            PAYPAL_EXPRESS,
+            PAYPAL_EXPRESS_CREDIT,
             CHECK_MONEY,
             STRIPE
         ]).isRequired
@@ -40,6 +51,26 @@ class CheckoutPayments extends PureComponent {
         [BRAINTREE]: this.renderBrainTreePayment.bind(this),
         [STRIPE]: this.renderStripePayment.bind(this)
     };
+
+    componentDidUpdate(prevProps) {
+        const { selectedPaymentCode, setOrderButtonVisibility } = this.props;
+        const { selectedPaymentCode: prevSelectedPaymentCode } = prevProps;
+
+        if (selectedPaymentCode !== prevSelectedPaymentCode) {
+            if (selectedPaymentCode === PAYPAL_EXPRESS) {
+                setOrderButtonVisibility(false);
+            }
+
+            if (prevSelectedPaymentCode === PAYPAL_EXPRESS) {
+                setOrderButtonVisibility(true);
+            }
+        }
+    }
+
+    renderBrainTreePayment() {
+        const { initBraintree } = this.props;
+        return <Braintree init={ initBraintree } />;
+    }
 
     /**
      * Render braintree
@@ -120,6 +151,18 @@ class CheckoutPayments extends PureComponent {
         );
     }
 
+    renderPayPal() {
+        const { selectedPaymentCode, setLoading, setDetailsStep } = this.props;
+
+        return (
+            <PayPal
+              setLoading={ setLoading }
+              setDetailsStep={ setDetailsStep }
+              selectedPaymentCode={ selectedPaymentCode }
+            />
+        );
+    }
+
     render() {
         return (
             <div block="CheckoutPayments">
@@ -128,6 +171,7 @@ class CheckoutPayments extends PureComponent {
                     { this.renderPayments() }
                 </ul>
                 { this.renderSelectedPayment() }
+                { this.renderPayPal() }
             </div>
         );
     }

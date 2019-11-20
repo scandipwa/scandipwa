@@ -15,16 +15,19 @@
 
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { ProductType } from 'Type/ProductList';
-import Field from 'Component/Field';
+
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
 import ProductWishlistButton from 'Component/ProductWishlistButton';
+import ProductReviewRating from 'Component/ProductReviewRating';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import ProductPrice from 'Component/ProductPrice';
+import { ProductType } from 'Type/ProductList';
 import AddToCart from 'Component/AddToCart';
+import { isSignedIn } from 'Util/Auth';
+import Field from 'Component/Field';
+import isMobile from 'Util/Mobile';
 import Html from 'Component/Html';
 import Link from 'Component/Link';
-import { isSignedIn } from 'Util/Auth';
 
 import './ProductActions.style';
 
@@ -51,7 +54,18 @@ export default class ProductActions extends PureComponent {
     };
 
     renderSkuAndStock() {
-        const { product: { sku }, showOnlyIfLoaded } = this.props;
+        const {
+            product,
+            product: { variants },
+            configurableVariantIndex,
+            showOnlyIfLoaded
+        } = this.props;
+
+        const productOrVariant = variants && variants[configurableVariantIndex] !== undefined
+            ? variants[configurableVariantIndex]
+            : product;
+
+        const { sku, stock_status } = productOrVariant;
 
         return (
             <section
@@ -64,8 +78,12 @@ export default class ProductActions extends PureComponent {
                     sku,
                     (
                         <>
-                            <span block="ProductActions" elem="Sku" itemProp="sku">{ `SKU: ${ sku }` }</span>
-                            <span block="ProductActions" elem="Stock">{ __('In Stock') }</span>
+                            <span block="ProductActions" elem="Sku" itemProp="sku">
+                                { `SKU: ${ sku }` }
+                            </span>
+                            <span block="ProductActions" elem="Stock">
+                                { (stock_status === 'OUT_OF_STOCK') ? __('Out of stock') : __('In stock') }
+                            </span>
                         </>
                     ),
                     <TextPlaceholder />
@@ -102,12 +120,26 @@ export default class ProductActions extends PureComponent {
         );
     }
 
+    renderShortDescriptionContent() {
+        const { product: { short_description, id } } = this.props;
+        const { html } = short_description || {};
+
+        if (!html && id) return null;
+
+        const htmlWithItemProp = `<div itemProp="description">${html}</div>`;
+
+        return (
+            <div block="ProductActions" elem="ShortDescription">
+                { html ? <Html content={ htmlWithItemProp } /> : <p><TextPlaceholder length="long" /></p> }
+            </div>
+        );
+    }
+
     renderShortDescription() {
         const { product: { short_description, id } } = this.props;
         const { html } = short_description || {};
-        const htmlWithItemProp = `<div itemProp="description">${html}</div>`;
 
-        if (!html && id) return null;
+        if (!html && id && isMobile.any()) return null;
 
         return (
             <section
@@ -116,9 +148,7 @@ export default class ProductActions extends PureComponent {
               mods={ { type: 'short' } }
               aria-label="Product short description"
             >
-                <div block="ProductActions" elem="ShortDescription">
-                    { html ? <Html content={ htmlWithItemProp } /> : <p><TextPlaceholder length="long" /></p> }
-                </div>
+                { this.renderShortDescriptionContent() }
             </section>
         );
     }
@@ -238,6 +268,25 @@ export default class ProductActions extends PureComponent {
         );
     }
 
+    renderReviews() {
+        const { product: { review_summary: { rating_summary, review_count } = {} } } = this.props;
+
+        if (!rating_summary) return null;
+
+        const ONE_FIFTH_OF_A_HUNDRED = 20;
+        const rating = parseFloat(rating_summary / ONE_FIFTH_OF_A_HUNDRED).toFixed(2);
+
+        return (
+            <div block="ProductActions" elem="Reviews">
+                <ProductReviewRating summary={ rating_summary || 0 } />
+                <p block="ProductActions" elem="ReviewLabel">
+                    { rating }
+                    <span>{ __('%s reviews', review_count) }</span>
+                </p>
+            </div>
+        );
+    }
+
     render() {
         return (
             <article block="ProductActions">
@@ -246,6 +295,7 @@ export default class ProductActions extends PureComponent {
                     { this.renderQuantityInput() }
                     { this.renderAddToCart() }
                 </div>
+                { this.renderReviews() }
                 { this.renderAdditionalButtons() }
                 { this.renderNameAndBrand() }
                 { this.renderSkuAndStock() }

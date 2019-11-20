@@ -201,7 +201,6 @@ export default class ProductList extends PureComponent {
                       product={ product }
                       key={ product.id }
                       selectedFilters={ selectedFilters }
-                      arePlaceholdersShown
                     />
                 )) }
             </ul>

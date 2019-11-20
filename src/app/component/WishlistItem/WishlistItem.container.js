@@ -22,7 +22,7 @@ import WishlistItem from './WishlistItem.component';
 export const UPDATE_WISHLIST_FREQUENCY = 1000; // (ms)
 
 export const mapDispatchToProps = dispatch => ({
-    showNotification: (type, message) => dispatch(showNotification(type, __(message))),
+    showNotification: (type, message) => dispatch(showNotification(type, message)),
     addProductToCart: options => CartDispatcher.addProductToCart(dispatch, options),
     updateWishlistItem: options => WishlistDispatcher.updateWishlistItem(dispatch, options),
     removeFromWishlist: options => WishlistDispatcher.removeItemFromWishlist(dispatch, options)
@@ -118,10 +118,10 @@ export class WishlistItemContainer extends PureComponent {
         return addProductToCart({ product, quantity })
             .then(
                 () => this.removeItem(id),
-                () => this.showNotification('error', 'Error Adding Product To Cart')
+                () => this.showNotification('error', __('Error Adding Product To Cart'))
             )
-            .then(() => showNotification('success', 'Product Added To Cart'))
-            .catch(() => this.showNotification('error', 'Error cleaning wishlist'));
+            .then(() => showNotification('success', __('Product Added To Cart')))
+            .catch(() => this.showNotification('error', __('Error cleaning wishlist')));
     }
 
     showNotification(...args) {

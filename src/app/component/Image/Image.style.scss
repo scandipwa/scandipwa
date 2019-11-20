@@ -35,6 +35,10 @@
         }
     }
 
+    &_hasSrc {
+        background: none;
+    }
+
     &_imageStatus_0,
     &_isPlaceholder {
         background-image: var(--placeholder-image);

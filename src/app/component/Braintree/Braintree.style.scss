@@ -9,11 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-/**
- * @TODO - remove Braintree from Americapass, once PWA core is updated to include it
- */
 .Braintree {
     margin-top: 2rem;
+
+    &-Form {
+        min-height: 200px;
+        border-radius: 5px;
+    }
 
     .braintree-placeholder {
         display: none;

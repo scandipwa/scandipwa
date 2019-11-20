@@ -9,8 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-/**
- * @TODO - remove Braintree from Americapass, once PWA core is updated to include it
- */
-
 export { default } from './Braintree.component';

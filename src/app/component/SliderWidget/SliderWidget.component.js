@@ -40,15 +40,12 @@ export default class SliderWidget extends PureComponent {
 
     state = { activeImage: 0 };
 
-    renderSlide = this.renderSlide.bind(this);
 
-    onActiveImageChange = this.onActiveImageChange.bind(this);
-
-    onActiveImageChange(activeImage) {
+    onActiveImageChange = (activeImage) => {
         this.setState({ activeImage });
-    }
+    };
 
-    renderSlide(slide, i) {
+    renderSlide = (slide, i) => {
         const {
             image,
             slide_text,
@@ -65,7 +62,7 @@ export default class SliderWidget extends PureComponent {
                 <Image
                   mix={ { block: 'SliderWidget', elem: 'FigureImage' } }
                   ratio="custom"
-                  src={ image }
+                  src={ `/${image}` }
                   isPlaceholder={ isPlaceholder }
                 />
                 <figcaption
@@ -77,7 +74,7 @@ export default class SliderWidget extends PureComponent {
                 </figcaption>
             </figure>
         );
-    }
+    };
 
     render() {
         const { activeImage } = this.state;

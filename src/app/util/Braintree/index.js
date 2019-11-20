@@ -9,25 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-/**
- * @TODO - remove Braintree from Americapass, once PWA core is updated to include it
- */
-
-class Braintree {
-    constructor(containerId) {
-        this.containerId = containerId;
-    }
-
-    async create() {
-        const { default: dropIn } = await import('braintree-web-drop-in');
-
-        this.braintreeDropIn = await dropIn.create({
-            authorization: 'sandbox_csvqffwm_dbd54pj8pd35czhb',
-            container: `#${ this.containerId }`
-        });
-    }
-
-    requestPaymentNonce = () => this.braintreeDropIn.requestPaymentMethod();
-}
-
-export default Braintree;
+export { default } from './Braintree';

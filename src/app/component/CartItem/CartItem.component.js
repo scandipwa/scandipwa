@@ -79,7 +79,7 @@ export default class CartItem extends PureComponent {
                           block="CartItem"
                           elem="Option"
                         >
-                            { configurable_options[attribute_code].attribute_options[attribute_value].label }
+                            {/* { configurable_options[attribute_code].attribute_options[attribute_value].label } */}
                         </li>
                     ))) }
             </ul>
@@ -180,7 +180,6 @@ export default class CartItem extends PureComponent {
 
     renderImage() {
         const { item: { product: { name } }, thumbnail } = this.props;
-        const fullImageUrl = `//${window.location.hostname}${thumbnail}`;
 
         return (
             <>
@@ -196,7 +195,7 @@ export default class CartItem extends PureComponent {
                 <img
                   style={ { display: 'none' } }
                   alt={ name }
-                  src={ fullImageUrl }
+                  src={ thumbnail }
                   itemProp="image"
                 />
             </>

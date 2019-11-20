@@ -18,6 +18,7 @@ import { paymentMethodsType } from 'Type/Checkout';
 import { BRAINTREE_CONTAINER_ID } from 'Component/Braintree/Braintree.component';
 import { BILLING_STEP } from 'Route/Checkout/Checkout.component';
 import CheckoutPayments, { BRAINTREE, STRIPE } from './CheckoutPayments.component';
+import { BRAINTREE_CONTAINER_ID } from 'Component/Braintree/Braintree.component';
 
 export class CheckoutPaymentsContainer extends PureComponent {
     static propTypes = {
@@ -26,12 +27,14 @@ export class CheckoutPaymentsContainer extends PureComponent {
     };
 
     containerFunctions = {
+        initBraintree: this.initBraintree.bind(this),
         setStripeRef: this.setStripeRef.bind(this),
         selectPaymentMethod: this.selectPaymentMethod.bind(this),
         getBraintreeData: this.getBraintreeData.bind(this),
         getStripeData: this.getStripeData.bind(this),
-        initBraintree: this.initBraintree.bind(this)
     };
+
+    braintree = new BraintreeDropIn(BRAINTREE_CONTAINER_ID);
 
     braintree = new BraintreeDropIn(BRAINTREE_CONTAINER_ID);
 
@@ -50,14 +53,18 @@ export class CheckoutPaymentsContainer extends PureComponent {
 
     componentDidMount() {
         if (window.formPortalCollector) {
-            window.formPortalCollector.subscribe(BILLING_STEP, this.collectAdditionalData);
+            window.formPortalCollector.subscribe(BILLING_STEP, this.collectAdditionalData, 'CheckoutPaymentsContainer');
         }
     }
 
     componentWillUnmount() {
         if (window.formPortalCollector) {
-            window.formPortalCollector.unsubscribe(BILLING_STEP, this.collectAdditionalData);
+            window.formPortalCollector.unsubscribe(BILLING_STEP, 'CheckoutPaymentsContainer');
         }
+    }
+
+    getBraintreeData() {
+        return { asyncData: this.braintree.requestPaymentNonce() };
     }
 
     /**
@@ -91,10 +98,6 @@ export class CheckoutPaymentsContainer extends PureComponent {
         return additionalDataGetter();
     };
 
-    /**
-     * Init Braintree
-     * @returns {Promise<void>}
-     */
     initBraintree() {
         return this.braintree.create();
     }

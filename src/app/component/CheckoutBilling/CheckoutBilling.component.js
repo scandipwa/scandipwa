@@ -23,7 +23,13 @@ import Field from 'Component/Field';
 import './CheckoutBilling.style';
 
 class CheckoutBilling extends PureComponent {
+    state = {
+        isOrderButtonVisible: true
+    };
+
     static propTypes = {
+        setLoading: PropTypes.func.isRequired,
+        setDetailsStep: PropTypes.func.isRequired,
         isSameAsShipping: PropTypes.bool.isRequired,
         onSameAsShippingChange: PropTypes.func.isRequired,
         onPaymentMethodSelect: PropTypes.func.isRequired,
@@ -34,7 +40,15 @@ class CheckoutBilling extends PureComponent {
         totals: TotalsType.isRequired
     };
 
+    setOrderButtonVisibility = (isOrderButtonVisible) => {
+        this.setState({ isOrderButtonVisible });
+    };
+
     renderActions() {
+        const { isOrderButtonVisible } = this.state;
+
+        if (!isOrderButtonVisible) return null;
+
         return (
             <button
               type="submit"
@@ -87,14 +101,21 @@ class CheckoutBilling extends PureComponent {
         const {
             paymentMethods,
             onPaymentMethodSelect,
+            setLoading,
+            setDetailsStep,
             shippingAddress,
             email
         } = this.props;
 
+        if (!paymentMethods.length) return null;
+
         return (
             <CheckoutPayments
+              setLoading={ setLoading }
+              setDetailsStep={ setDetailsStep }
               paymentMethods={ paymentMethods }
               onPaymentMethodSelect={ onPaymentMethodSelect }
+              setOrderButtonVisibility={ this.setOrderButtonVisibility }
               billingAddress={ shippingAddress }
               email={ email }
             />

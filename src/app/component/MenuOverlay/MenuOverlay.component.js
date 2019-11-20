@@ -13,12 +13,16 @@
 
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+
+import media from 'Util/Media';
+import { getSortedItems } from 'Util/Menu';
 import Link from 'Component/Link';
 import Image from 'Component/Image';
+import { MenuType } from 'Type/Menu';
 import Overlay from 'Component/Overlay';
 import CmsBlock from 'Component/CmsBlock';
 import { MENU_SUBCATEGORY } from 'Component/Header';
-import { MenuType } from 'Type/Menu';
+
 import './MenuOverlay.style';
 
 export default class MenuOverlay extends PureComponent {
@@ -70,12 +74,17 @@ export default class MenuOverlay extends PureComponent {
         const itemMods = item_class === 'MenuOverlay-ItemFigure_type_banner' ? { type: 'banner' } : mods;
 
         return (
-            <figure block="MenuOverlay" elem="ItemFigure" mods={ itemMods }>
+            <figure
+              block="MenuOverlay"
+              elem="ItemFigure"
+              mods={ itemMods }
+              // eslint-disable-next-line react/forbid-dom-props
+              className={ item_class }
+            >
                 <Image
                   mix={ { block: 'MenuOverlay', elem: 'Image', mods: itemMods } }
-                  src={ icon && `/media/${icon}` }
+                  src={ icon && media(icon) }
                   ratio="16x9"
-                  arePlaceholdersShown
                 />
                 <figcaption
                   block="MenuOverlay"
@@ -91,7 +100,7 @@ export default class MenuOverlay extends PureComponent {
     renderSubLevel(category) {
         const { activeMenuItemsStack } = this.state;
         const { item_id, children } = category;
-        const childrenArray = Object.values(children);
+        const childrenArray = getSortedItems(Object.values(children));
         const isVisible = activeMenuItemsStack.includes(item_id);
         const subcategoryMods = { type: 'subcategory' };
 
@@ -102,8 +111,15 @@ export default class MenuOverlay extends PureComponent {
               mods={ { ...subcategoryMods, isVisible } }
             >
                 { childrenArray.map((item) => {
-                    const { url, item_id, children } = item;
+                    const {
+                        url,
+                        item_id,
+                        children,
+                        cms_page_identifier
+                    } = item;
                     const childrenArray = Object.values(children);
+
+                    const path = cms_page_identifier ? `/${ cms_page_identifier}` : url;
 
                     return (childrenArray.length
                         ? (
@@ -119,7 +135,7 @@ export default class MenuOverlay extends PureComponent {
                         ) : (
                             <Link
                               key={ item_id }
-                              to={ url }
+                              to={ path }
                               onClick={ this.closeMenuOverlay }
                               block="MenuOverlay"
                               elem="Link"
@@ -134,7 +150,9 @@ export default class MenuOverlay extends PureComponent {
     }
 
     renderFirstLevel(itemList, itemMods) {
-        return Object.values(itemList).map((item) => {
+        const childrenArray = getSortedItems(Object.values(itemList));
+
+        return childrenArray.map((item) => {
             const { item_id, children, url } = item;
             const childrenArray = Object.values(children);
 
@@ -202,12 +220,10 @@ export default class MenuOverlay extends PureComponent {
         if (!categoryArray.length) return null;
 
         const {
-            0: { children: mainCategories, title: mainCategoriesTitle },
-            1: { children: trendingCategories, title: trendingCategoriesTitle }
+            0: { children: mainCategories, title: mainCategoriesTitle }
         } = categoryArray;
 
         const mainMods = { type: 'main' };
-        const trendingMods = { type: 'trending' };
 
         return (
             <div block="MenuOverlay" elem="Menu">
@@ -218,17 +234,6 @@ export default class MenuOverlay extends PureComponent {
                   aria-label={ mainCategoriesTitle }
                 >
                     { this.renderFirstLevel(mainCategories, mainMods) }
-                </ul>
-                <ul
-                  block="MenuOverlay"
-                  elem="ItemList"
-                  mods={ trendingMods }
-                  aria-label={ trendingCategoriesTitle }
-                >
-                    <li block="MenuOverlay" elem="ItemListHeading">
-                        { trendingCategoriesTitle }
-                    </li>
-                    { this.renderFirstLevel(trendingCategories, trendingMods) }
                 </ul>
                 { this.renderAdditionalInformation() }
             </div>

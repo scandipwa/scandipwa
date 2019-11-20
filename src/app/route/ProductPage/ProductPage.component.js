@@ -7,21 +7,24 @@
  *
  * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
  * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-ProductReviewListtheme
  */
 
-import { Component } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import ProductGallery from 'Component/ProductGallery';
-import ContentWrapper from 'Component/ContentWrapper';
-import ProductInformation from 'Component/ProductInformation';
+
 import Meta from 'Component/Meta';
-import ProductActions from 'Component/ProductActions';
 import { ProductType } from 'Type/ProductList';
+import ProductGallery from 'Component/ProductGallery';
+import ProductActions from 'Component/ProductActions';
+import ContentWrapper from 'Component/ContentWrapper';
+import ProductReviews from 'Component/ProductReviews';
 import RelatedProducts from 'Component/RelatedProducts';
+import ProductInformation from 'Component/ProductInformation';
+
 import './ProductPage.style';
 
-export default class ProductPage extends Component {
+export default class ProductPage extends PureComponent {
     static propTypes = {
         configurableVariantIndex: PropTypes.number.isRequired,
         productOrVariant: ProductType.isRequired,
@@ -65,7 +68,11 @@ export default class ProductPage extends Component {
 
         return (
             <>
-                <ProductInformation product={ dataSource } type="block" />
+                <ProductInformation
+                  product={ dataSource }
+                  areDetailsLoaded={ areDetailsLoaded }
+                />
+                <ProductReviews product={ dataSource } />
                 <RelatedProducts
                   product={ dataSource }
                   areDetailsLoaded={ areDetailsLoaded }

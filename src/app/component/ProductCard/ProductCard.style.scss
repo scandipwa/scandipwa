@@ -82,21 +82,9 @@
         top: 0;
     }
 
-    &-PictureLabel {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        font-size: 12px;
-        font-weight: bold;
-        text-align: center;
-        text-transform: uppercase;
-        line-height: 3rem;
-        background: var(--product-cart-picture-label-background);
-
-        @include mobile {
-            line-height: 2.5rem;
-        }
+    &-Reviews {
+        // --product-rating-size: 12px;
+        display: none;
     }
 
     &-ConfigurableOptions {
@@ -128,8 +116,14 @@
         }
     }
 
+    &-Figure {
+        flex-grow: 1;
+    }
+
     &-Link {
         color: inherit;
+        display: flex;
+        flex-direction: column;
 
         &:hover,
         &:focus {

@@ -18,8 +18,18 @@ export class ConfigQuery {
                 'cms_home_page',
                 'cms_no_route',
                 'copyright',
+                'timezone',
                 'header_logo_src',
-                'timezone'
+                'timezone',
+                'title_prefix',
+                'title_suffix',
+                'base_currency_code',
+                'default_keywords',
+                'default_title',
+                'secure_base_media_url',
+                'paypal_sandbox_flag',
+                'paypal_client_id',
+                'logo_alt'
             ]);
     }
 }

@@ -9,13 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Component } from 'react';
+import { PureComponent } from 'react';
 import Link from 'Component/Link';
 import PropTypes from 'prop-types';
 import ContentWrapper from 'Component/ContentWrapper';
 import './NoMatch.style';
 
-export default class NoMatch extends Component {
+export default class NoMatch extends PureComponent {
     static propTypes = {
         updateBreadcrumbs: PropTypes.func.isRequired
     };
@@ -46,7 +46,7 @@ export default class NoMatch extends Component {
 
     render() {
         return (
-            <main block="NoMatch" aria-label={ __('Page Not Found') }>
+            <main block="NoMatch" aria-label={ __('Page not found') }>
                 <ContentWrapper
                   mix={ { block: 'NoMatch' } }
                   wrapperMix={ { block: 'NoMatch', elem: 'Wrapper' } }

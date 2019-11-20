@@ -20,6 +20,7 @@ import { trimCustomerAddress, trimAddressFields } from 'Util/Address';
 import { TotalsType } from 'Type/MiniCart';
 import { BRAINTREE, STRIPE } from 'Component/CheckoutPayments/CheckoutPayments.component';
 
+import { BRAINTREE } from 'Component/CheckoutPayments/CheckoutPayments.component';
 import CheckoutBilling from './CheckoutBilling.component';
 
 export const mapStateToProps = state => ({
@@ -108,11 +109,12 @@ export class CheckoutBillingContainer extends PureComponent {
         const { showErrorNotification } = this.props;
 
         if (error) {
-            const { message = __('Something went wrong') } = error;
+            const { message = __('Something went wrong!') } = error;
             showErrorNotification(message);
         }
     }
 
+    // eslint-disable-next-line no-unused-vars
     _getPaymentData(asyncData) {
         const { paymentMethod: method } = this.state;
 
@@ -123,7 +125,8 @@ export class CheckoutBillingContainer extends PureComponent {
             return {
                 method,
                 additional_data: {
-                    payment_method_nonce: nonce
+                    payment_method_nonce: nonce,
+                    is_active_payment_token_enabler: false
                 }
             };
         case STRIPE:

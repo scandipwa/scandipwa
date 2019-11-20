@@ -12,6 +12,13 @@
 :root {
     --popup-background: #0003;
     --popup-content-background: #{$white};
+    --popup-min-width: 100%;
+    --popup-content-padding: 1rem;
+
+    @include after-mobile {
+        --popup-min-width: 490px;
+        --popup-content-padding: 2rem;
+    }
 }
 
 .Popup {
@@ -58,15 +65,13 @@
     &-Content {
         background-color: var(--popup-content-background);
         border-radius: 5px;
-        padding: 2rem;
-        min-width: 490px;
+        padding: var(--popup-content-padding);
+        min-width: var(--popup-min-width);
         max-height: 80%;
         overflow-y: scroll;
 
         @include mobile {
-            min-width: 100%;
             border-radius: 0;
-            padding: 1rem;
             max-height: 100%;
         }
     }

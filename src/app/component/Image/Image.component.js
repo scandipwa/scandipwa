@@ -1,4 +1,5 @@
 /* eslint-disable react/no-did-update-set-state */
+
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -136,7 +137,8 @@ export default class Image extends PureComponent {
             ratio,
             mix,
             isPlaceholder,
-            wrapperSize
+            wrapperSize,
+            src
         } = this.props;
 
         const { imageStatus } = this.state;
@@ -144,7 +146,12 @@ export default class Image extends PureComponent {
         return (
             <div
               block="Image"
-              mods={ { ratio, imageStatus, isPlaceholder } }
+              mods={ {
+                  ratio,
+                  imageStatus,
+                  isPlaceholder,
+                  hasSrc: !!src
+              } }
               mix={ mix }
               style={ wrapperSize }
             >

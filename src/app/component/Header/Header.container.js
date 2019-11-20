@@ -38,7 +38,10 @@ import Header, {
 
 export const mapStateToProps = state => ({
     headerState: state.HeaderReducer.headerState,
-    cartTotals: state.CartReducer.cartTotals
+    cartTotals: state.CartReducer.cartTotals,
+    header_logo_src: state.ConfigReducer.header_logo_src,
+    logo_alt: state.ConfigReducer.logo_alt,
+    isLoading: state.ConfigReducer.isLoading
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -77,7 +80,12 @@ export class HeaderContainer extends PureComponent {
             onEditClick: PropTypes.func,
             onOkClick: PropTypes.func,
             onCancelClick: PropTypes.func
-        }).isRequired
+        }).isRequired,
+        header_logo_src: PropTypes.string
+    };
+
+    static defaultProps = {
+        header_logo_src: ''
     };
 
     state = {
