@@ -9,13 +9,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
+import BraintreeDropIn from 'Util/Braintree';
 import { paymentMethodsType } from 'Type/Checkout';
 
+import { BRAINTREE_CONTAINER_ID } from 'Component/Braintree/Braintree.component';
 import { BILLING_STEP } from 'Route/Checkout/Checkout.component';
-import CheckoutPayments from './CheckoutPayments.component';
+import CheckoutPayments, { BRAINTREE, STRIPE } from './CheckoutPayments.component';
 
 export class CheckoutPaymentsContainer extends PureComponent {
     static propTypes = {
@@ -24,19 +26,25 @@ export class CheckoutPaymentsContainer extends PureComponent {
     };
 
     containerFunctions = {
-        selectPaymentMethod: this.selectPaymentMethod.bind(this)
+        setStripeRef: this.setStripeRef.bind(this),
+        selectPaymentMethod: this.selectPaymentMethod.bind(this),
+        getBraintreeData: this.getBraintreeData.bind(this),
+        getStripeData: this.getStripeData.bind(this),
+        initBraintree: this.initBraintree.bind(this)
     };
 
+    braintree = new BraintreeDropIn(BRAINTREE_CONTAINER_ID);
+
     dataMap = {
+        [BRAINTREE]: this.getBraintreeData.bind(this),
+        [STRIPE]: this.getStripeData.bind(this)
     };
 
     constructor(props) {
         super(props);
 
         const { paymentMethods } = props;
-        const [method] = paymentMethods;
-        const { code } = method || {};
-
+        const [{ code }] = paymentMethods;
         this.state = { selectedPaymentCode: code };
     }
 
@@ -52,12 +60,53 @@ export class CheckoutPaymentsContainer extends PureComponent {
         }
     }
 
+    /**
+     * Set Ref for stripe
+     * @param ref
+     */
+    setStripeRef(ref) {
+        this.stripeRef = ref;
+    }
+
+    /**
+     * Get Braintree data
+     * @returns {{asyncData: *}}
+     */
+    getBraintreeData() {
+        return { asyncData: this.braintree.requestPaymentNonce() };
+    }
+
+    /**
+     * Get Stripe data
+     * @returns {{asyncData: *}}
+     */
+    getStripeData() {
+        return { asyncData: this.stripeRef.submit() };
+    }
+
     collectAdditionalData = () => {
         const { selectedPaymentCode } = this.state;
         const additionalDataGetter = this.dataMap[selectedPaymentCode];
         if (!additionalDataGetter) return {};
         return additionalDataGetter();
     };
+
+    /**
+     * Init Braintree
+     * @returns {Promise<void>}
+     */
+    initBraintree() {
+        return this.braintree.create();
+    }
+
+    /**
+     * Request stripe token
+     * @param token
+     * @returns {Promise<{token: *}>}
+     */
+    async requestStripeToken(token) {
+        return { token };
+    }
 
     selectPaymentMethod(paymentMethod) {
         const { onPaymentMethodSelect } = this.props;

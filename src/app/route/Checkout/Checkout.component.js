@@ -26,7 +26,6 @@ import Loader from 'Component/Loader';
 import Meta from 'Component/Meta';
 
 import './Checkout.style';
-import Link from 'Component/Link';
 
 export const SHIPPING_STEP = 'SHIPPING_STEP';
 export const BILLING_STEP = 'BILLING_STEP';
@@ -139,11 +138,13 @@ class Checkout extends PureComponent {
         const {
             paymentMethods = [],
             shippingAddress,
-            savePaymentInformation
+            savePaymentInformation,
+            customer
         } = this.props;
 
         return (
             <CheckoutBilling
+              customer={ customer }
               paymentMethods={ paymentMethods }
               shippingAddress={ shippingAddress }
               savePaymentInformation={ savePaymentInformation }

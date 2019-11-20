@@ -84,14 +84,19 @@ class CheckoutBilling extends PureComponent {
     }
 
     renderPayments() {
-        const { paymentMethods, onPaymentMethodSelect } = this.props;
-
-        if (!paymentMethods.length) return null;
+        const {
+            paymentMethods,
+            onPaymentMethodSelect,
+            shippingAddress,
+            email
+        } = this.props;
 
         return (
             <CheckoutPayments
               paymentMethods={ paymentMethods }
               onPaymentMethodSelect={ onPaymentMethodSelect }
+              billingAddress={ shippingAddress }
+              email={ email }
             />
         );
     }

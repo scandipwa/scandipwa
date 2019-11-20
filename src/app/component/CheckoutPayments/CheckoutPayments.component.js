@@ -13,24 +13,74 @@ import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import CheckoutPayment from 'Component/CheckoutPayment';
+import Braintree from 'Component/Braintree';
 
 import './CheckoutPayments.style';
 import { paymentMethodsType } from 'Type/Checkout';
+import { StripeProvider, Elements } from 'react-stripe-elements';
+import InjectedStripeCheckoutForm from 'Component/InjectedStripeCheckoutForm';
 
+export const BRAINTREE = 'braintree';
 export const CHECK_MONEY = 'checkmo';
+export const STRIPE = 'stripe_payments';
 
 class CheckoutPayments extends PureComponent {
     static propTypes = {
         selectPaymentMethod: PropTypes.func.isRequired,
         paymentMethods: paymentMethodsType.isRequired,
+        initBraintree: PropTypes.func.isRequired,
         selectedPaymentCode: PropTypes.oneOf([
-            CHECK_MONEY
+            BRAINTREE,
+            CHECK_MONEY,
+            STRIPE
         ]).isRequired
     };
 
     paymentRenderMap = {
+        [BRAINTREE]: this.renderBrainTreePayment.bind(this),
+        [STRIPE]: this.renderStripePayment.bind(this)
     };
 
+    /**
+     * Render braintree
+     * @returns {*}
+     */
+    renderBrainTreePayment() {
+        const { initBraintree } = this.props;
+
+        return (
+            <Braintree init={ initBraintree } />
+        );
+    }
+
+    /**
+     * Render stripe
+     * Change API KEYS to your own KEYS
+     * @returns {*}
+     */
+    renderStripePayment() {
+        const { setStripeRef, billingAddress, email } = this.props;
+
+        return (
+            <div>
+                <StripeProvider apiKey="pk_test_5EMxhkHI30WSlLuscegpXbOI00qBxzii9Z">
+                    <Elements>
+                        <InjectedStripeCheckoutForm
+                          onRef={ ref => setStripeRef(ref) }
+                          billingAddress={ billingAddress }
+                          email={ email }
+                        />
+                    </Elements>
+                </StripeProvider>
+            </div>
+        );
+    }
+
+    /**
+     * Render payment
+     * @param method
+     * @returns {*}
+     */
     renderPayment = (method) => {
         const {
             selectPaymentMethod,
@@ -82,5 +132,36 @@ class CheckoutPayments extends PureComponent {
         );
     }
 }
+
+CheckoutPayments.propTypes = {
+    setStripeRef: PropTypes.func.isRequired,
+    billingAddress: PropTypes.shape({
+        city: PropTypes.string,
+        company: PropTypes.string,
+        country_id: PropTypes.string,
+        email: PropTypes.string,
+        firstname: PropTypes.string,
+        lastname: PropTypes.string,
+        postcode: PropTypes.string,
+        region_id: PropTypes.oneOfType([
+            PropTypes.number,
+            PropTypes.string
+        ]),
+        region: PropTypes.oneOfType([
+            PropTypes.object,
+            PropTypes.string
+        ]),
+        street: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.array
+        ]),
+        telephone: PropTypes.string
+    }).isRequired,
+    email: PropTypes.string
+};
+
+CheckoutPayments.defaultProps = {
+    email: null
+};
 
 export default CheckoutPayments;
