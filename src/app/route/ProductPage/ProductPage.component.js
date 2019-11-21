@@ -64,12 +64,12 @@ export default class ProductPage extends PureComponent {
     }
 
     renderAdditionalSections() {
-        const { dataSource, areDetailsLoaded } = this.props;
+        const { dataSource, parameters, areDetailsLoaded } = this.props;
 
         return (
             <>
                 <ProductInformation
-                  product={ dataSource }
+                  product={ { ...dataSource, parameters } }
                   areDetailsLoaded={ areDetailsLoaded }
                 />
                 <ProductReviews product={ dataSource } />

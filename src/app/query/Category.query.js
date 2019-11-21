@@ -67,6 +67,7 @@ export class CategoryQuery {
             'product_count',
             'meta_keywords',
             'meta_description',
+            'default_sort_by',
             this._getBreadcrumbsField()
         ];
     }
