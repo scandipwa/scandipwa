@@ -22,11 +22,15 @@ export default class KlarnaComponent extends PureComponent {
     static isFirstLoad = true;
 
     async initiateKlarna() {
-        const token = await fetchMutation(KlarnaQuery.getCreateKlarnaTokenMutation({}));
+        const { klarnaToken: client_token } = await fetchMutation(KlarnaQuery.getCreateKlarnaTokenMutation({}));
 
-        console.log('Klarna TOKEN:', token);
-
-        // TODO? get client token first
+        Klarna.Payments.init({ client_token });
+        Klarna.Payments.load({
+            container: '#klarna-payments-container',
+            payment_method_category: 'pay_later'
+        }, (res) => {
+            console.debug(res);
+        });
     }
 
     renderScript() {
@@ -46,6 +50,7 @@ export default class KlarnaComponent extends PureComponent {
         return (
             <>
                 { this.renderScript() }
+                <div id="klarna-payments-container" />
             </>
         );
     }
