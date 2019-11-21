@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
+import { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 import media, { PRODUCT_MEDIA } from 'Util/Media';
@@ -52,35 +52,42 @@ export default class ProductInformation extends PureComponent {
         );
     }
 
-    renderAttributeInfo = ([key, value]) => (
-        <Html key={ key } content={ `<strong>${key}:</strong> ${value}<br>` } />
+    renderAttributeInfo = ([attributeLabel, valueLabel]) => (
+        <Fragment key={ attributeLabel }>
+            <dt block="ProductInformation" elem="AttributeLabel">
+                { attributeLabel }
+            </dt>
+            <dd block="ProductInformation" elem="ValueLabel">
+                { valueLabel }
+            </dd>
+        </Fragment>
     );
 
-    renderConfigurableAttributesInfo() {
-        const {
-            attributesWithValues,
-            product: { description: { html } = {} }
-        } = this.props;
-
-        if (!html || !Object.keys(attributesWithValues).length) return null;
+    renderAttributesInfo() {
+        const { attributesWithValues } = this.props;
+        if (!Object.keys(attributesWithValues).length) return null;
 
         return (
-            <p>
+            <dl block="ProductInformation" elem="Attributes">
                 { Object.entries(attributesWithValues).map(this.renderAttributeInfo) }
-            </p>
+            </dl>
         );
     }
 
     renderContent() {
         const { product: { description: { html } = {} } } = this.props;
+        if (!html) return this.renderContentPlaceholder();
+        return <Html content={ html } />;
+    }
 
+    renderContentWrapper() {
         return (
             <ExpandableContent
               heading="Product information"
               mix={ { block: 'ProductInformation', elem: 'Content' } }
             >
-                { html ? <Html content={ html } /> : this.renderContentPlaceholder() }
-                { this.renderConfigurableAttributesInfo() }
+                { this.renderContent() }
+                { this.renderAttributesInfo() }
             </ExpandableContent>
         );
     }
@@ -103,7 +110,7 @@ export default class ProductInformation extends PureComponent {
               wrapperMix={ { block: 'ProductInformation', elem: 'Wrapper' } }
             >
                 { this.renderImage() }
-                { this.renderContent() }
+                { this.renderContentWrapper() }
             </ContentWrapper>
         );
     }
