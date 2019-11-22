@@ -68,7 +68,7 @@ export class LinkedProductsDispatcher extends QueryDispatcher {
 
             return {
                 ...types,
-                [link_type]: [...links, `"n${ linked_product_sku }"`]
+                [link_type]: [...links, `"${ linked_product_sku.replace(/ /g, '%20') }"`]
             };
         }, {});
 
