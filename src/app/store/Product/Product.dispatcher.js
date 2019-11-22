@@ -37,7 +37,8 @@ export class ProductDispatcher extends QueryDispatcher {
         // TODO: make one request per description & related in this.prepareRequest
         if (productItem && productItem.product_links && Object.keys(productItem.product_links).length > 0) {
             const { product_links } = productItem;
-            const productsSkuArray = product_links.map(item => `"${item.linked_product_sku}"`);
+            const productsSkuArray = product_links.filter(({ link_type }) => link_type === 'related')
+                .map(item => `"${item.linked_product_sku}"`);
 
             RelatedProductsDispatcher.handleData(
                 dispatch,

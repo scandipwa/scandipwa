@@ -12,10 +12,12 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
+import BraintreeDropIn from 'Util/Braintree';
 import { paymentMethodsType } from 'Type/Checkout';
 
 import { BILLING_STEP } from 'Route/Checkout/Checkout.component';
-import CheckoutPayments from './CheckoutPayments.component';
+import { BRAINTREE_CONTAINER_ID } from 'Component/Braintree/Braintree.component';
+import CheckoutPayments, { BRAINTREE } from './CheckoutPayments.component';
 
 export class CheckoutPaymentsContainer extends PureComponent {
     static propTypes = {
@@ -24,10 +26,14 @@ export class CheckoutPaymentsContainer extends PureComponent {
     };
 
     containerFunctions = {
+        initBraintree: this.initBraintree.bind(this),
         selectPaymentMethod: this.selectPaymentMethod.bind(this)
     };
 
+    braintree = new BraintreeDropIn(BRAINTREE_CONTAINER_ID);
+
     dataMap = {
+        [BRAINTREE]: this.getBraintreeData.bind(this)
     };
 
     constructor(props) {
@@ -42,14 +48,18 @@ export class CheckoutPaymentsContainer extends PureComponent {
 
     componentDidMount() {
         if (window.formPortalCollector) {
-            window.formPortalCollector.subscribe(BILLING_STEP, this.collectAdditionalData);
+            window.formPortalCollector.subscribe(BILLING_STEP, this.collectAdditionalData, 'CheckoutPaymentsContainer');
         }
     }
 
     componentWillUnmount() {
         if (window.formPortalCollector) {
-            window.formPortalCollector.unsubscribe(BILLING_STEP, this.collectAdditionalData);
+            window.formPortalCollector.unsubscribe(BILLING_STEP, 'CheckoutPaymentsContainer');
         }
+    }
+
+    getBraintreeData() {
+        return { asyncData: this.braintree.requestPaymentNonce() };
     }
 
     collectAdditionalData = () => {
@@ -58,6 +68,10 @@ export class CheckoutPaymentsContainer extends PureComponent {
         if (!additionalDataGetter) return {};
         return additionalDataGetter();
     };
+
+    initBraintree() {
+        return this.braintree.create();
+    }
 
     selectPaymentMethod(paymentMethod) {
         const { onPaymentMethodSelect } = this.props;

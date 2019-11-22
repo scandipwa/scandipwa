@@ -10,7 +10,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Component } from 'react';
+import { PureComponent } from 'react';
 import { Provider } from 'react-redux';
 import AppRouter from 'Route';
 import store from 'Store';
@@ -32,7 +32,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 
-class App extends Component {
+class App extends PureComponent {
     render() {
         return (
             <Provider store={ store }>

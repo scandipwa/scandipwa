@@ -95,7 +95,7 @@
         @include mobile {
             order: -2;
             text-align: center;
-            padding-top: .5rem;
+            padding-top: 1rem;
         }
 
         &:last-of-type {
@@ -147,6 +147,7 @@
         flex-basis: 100%;
 
         @include mobile {
+            border-top: 1px solid var(--expandable-content-divider-color);
             margin: 0 0 1rem;
         }
 
@@ -209,7 +210,6 @@
 
             &_short {
                 @include mobile {
-                    border-bottom: 1px solid var(--expandable-content-divider-color);
                     border-top: 1px solid var(--expandable-content-divider-color);
                     top: -1px;
                 }
@@ -228,7 +228,7 @@
                 color: var(--product-actions-option-border-color);
                 padding-top: 0;
                 padding-bottom: 0;
-                margin-bottom: 1rem;
+                margin-bottom: 0;
 
                 @include mobile {
                     display: none;

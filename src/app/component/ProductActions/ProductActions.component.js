@@ -25,6 +25,7 @@ import { ProductType } from 'Type/ProductList';
 import AddToCart from 'Component/AddToCart';
 import { isSignedIn } from 'Util/Auth';
 import Field from 'Component/Field';
+import isMobile from 'Util/Mobile';
 import Html from 'Component/Html';
 import Link from 'Component/Link';
 
@@ -119,12 +120,26 @@ export default class ProductActions extends PureComponent {
         );
     }
 
+    renderShortDescriptionContent() {
+        const { product: { short_description, id } } = this.props;
+        const { html } = short_description || {};
+
+        if (!html && id) return null;
+
+        const htmlWithItemProp = `<div itemProp="description">${html}</div>`;
+
+        return (
+            <div block="ProductActions" elem="ShortDescription">
+                { html ? <Html content={ htmlWithItemProp } /> : <p><TextPlaceholder length="long" /></p> }
+            </div>
+        );
+    }
+
     renderShortDescription() {
         const { product: { short_description, id } } = this.props;
         const { html } = short_description || {};
-        const htmlWithItemProp = `<div itemProp="description">${html}</div>`;
 
-        if (!html && id) return null;
+        if (!html && id && isMobile.any()) return null;
 
         return (
             <section
@@ -133,9 +148,7 @@ export default class ProductActions extends PureComponent {
               mods={ { type: 'short' } }
               aria-label="Product short description"
             >
-                <div block="ProductActions" elem="ShortDescription">
-                    { html ? <Html content={ htmlWithItemProp } /> : <p><TextPlaceholder length="long" /></p> }
-                </div>
+                { this.renderShortDescriptionContent() }
             </section>
         );
     }
