@@ -15,11 +15,12 @@ import PropTypes from 'prop-types';
 import { KlarnaQuery } from 'Query';
 import Html from 'Component/Html';
 import { fetchMutation } from 'Util/Request';
+import { COMPLETE_ORDER_BTN_ID } from 'Component/CheckoutBilling/CheckoutBilling.component';
+
+export const KLARNA_SCRIPT_ID = 'klarna_script';
 
 export default class KlarnaComponent extends PureComponent {
     static propTypes = {};
-
-    static isFirstLoad = true;
 
     async initiateKlarna() {
         const { klarnaToken: client_token } = await fetchMutation(KlarnaQuery.getCreateKlarnaTokenMutation({}));
@@ -28,20 +29,35 @@ export default class KlarnaComponent extends PureComponent {
         Klarna.Payments.load({
             container: '#klarna-payments-container',
             payment_method_category: 'pay_later'
-        }, (res) => {
-            console.debug(res);
-        });
+        }, console.debug);
+
+        const completeButton = document.getElementById(COMPLETE_ORDER_BTN_ID);
+
+        /**
+         * TODO: authorize payment and send auth_token
+         * to sever via setPaymentMethodOnCart and placeOrder afterwards
+         */
+        completeButton.onclick = function completeOnClick(e) {
+            e.preventDefault();
+        };
     }
 
     renderScript() {
-        if (!KlarnaComponent.isFirstLoad) return null;
+        window.klarnaAsyncCallback = this.initiateKlarna.bind(this);
 
-        KlarnaComponent.isFirstLoad = false;
-        window.klarnaAsyncCallback = this.initiateKlarna;
+        const script = document.getElementById(KLARNA_SCRIPT_ID);
+
+        if (script) {
+            script.parentNode.removeChild(script);
+        }
 
         return (
             <Html
-              content="<script src='https://x.klarnacdn.net/kp/lib/v1/api.js' async></script>"
+              content={ `<script
+                      async
+                      id=${ KLARNA_SCRIPT_ID }
+                      src='https://x.klarnacdn.net/kp/lib/v1/api.js'
+                ></script>` }
             />
         );
     }

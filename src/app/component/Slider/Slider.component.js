@@ -84,6 +84,8 @@ export default class Slider extends PureComponent {
         const sliderWidth = this.draggableRef.current.offsetWidth;
         this.sliderWidth = sliderWidth;
 
+        if (!sliderChildren[0]) return null;
+
         sliderChildren[0].onload = () => {
             CSS.setVariable(this.sliderRef, 'slider-height', `${sliderChildren[0].offsetHeight}px`);
         };
