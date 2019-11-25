@@ -60,7 +60,6 @@ export class PayPalContainer extends PureComponent {
 
     containerProps = () => ({
         paypal: this.getPayPal(),
-        clientId: this.getClientID(),
         environment: this.getEnvironment(),
         isDisabled: this.getIsDisabled(),
         isCredit: this.getIsCredit()

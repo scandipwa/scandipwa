@@ -54,6 +54,32 @@
         }
     }
 
+    &-Attributes {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 1.5rem;
+    }
+
+    &-ValueLabel,
+    &-AttributeLabel {
+        flex: 0 0 50%;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+    &-ValueLabel {
+        padding-left: .5rem;
+        margin-bottom: 1rem;
+    }
+
+    &-AttributeLabel {
+        font-weight: bold;
+
+        &::after {
+            content: ':';
+        }
+    }
+
     &-Image {
         padding-bottom: 40%;
         mix-blend-mode: multiply;
