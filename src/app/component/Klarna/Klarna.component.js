@@ -15,11 +15,15 @@ import PropTypes from 'prop-types';
 import { KlarnaQuery } from 'Query';
 import Html from 'Component/Html';
 import { fetchMutation } from 'Util/Request';
-import { COMPLETE_ORDER_BTN_ID } from 'Component/CheckoutBilling/CheckoutBilling.component';
+import Loader from 'Component/Loader';
 
 export const KLARNA_SCRIPT_ID = 'klarna_script';
 
 export default class KlarnaComponent extends PureComponent {
+    state = {
+        isLoading: true
+    };
+
     static propTypes = {};
 
     async initiateKlarna() {
@@ -31,15 +35,7 @@ export default class KlarnaComponent extends PureComponent {
             payment_method_category: 'pay_later'
         }, console.debug);
 
-        const completeButton = document.getElementById(COMPLETE_ORDER_BTN_ID);
-
-        /**
-         * TODO: authorize payment and send auth_token
-         * to sever via setPaymentMethodOnCart and placeOrder afterwards
-         */
-        completeButton.onclick = function completeOnClick(e) {
-            e.preventDefault();
-        };
+        this.setState({ isLoading: false });
     }
 
     renderScript() {
@@ -63,11 +59,14 @@ export default class KlarnaComponent extends PureComponent {
     }
 
     render() {
+        const { isLoading } = this.state;
+
         return (
-            <>
+            <div block="Klarna">
                 { this.renderScript() }
+                <Loader isLoading={ isLoading } />
                 <div id="klarna-payments-container" />
-            </>
+            </div>
         );
     }
 }

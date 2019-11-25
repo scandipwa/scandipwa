@@ -26,7 +26,7 @@ import { TotalsType } from 'Type/MiniCart';
 import { HistoryType } from 'Type/Common';
 
 import { isSignedIn } from 'Util/Auth';
-import { BRAINTREE } from 'Component/CheckoutPayments/CheckoutPayments.component';
+import { BRAINTREE, KLARNA } from 'Component/CheckoutPayments/CheckoutPayments.component';
 import Checkout, { SHIPPING_STEP, BILLING_STEP, DETAILS_STEP } from './Checkout.component';
 
 export const PAYMENT_TOTALS = 'PAYMENT_TOTALS';
@@ -60,6 +60,7 @@ export class CheckoutContainer extends PureComponent {
     };
 
     customPaymentMethods = [
+        KLARNA,
         BRAINTREE
     ];
 
@@ -234,10 +235,11 @@ export class CheckoutContainer extends PureComponent {
                 }
             }));
 
-            const orderData = await fetchMutation(CheckoutQuery.getPlaceOrderMutation(guest_cart_id));
-            const { placeOrder: { order: { order_id } } } = orderData;
+            // TODO! revert comments when tested
+            // const orderData = await fetchMutation(CheckoutQuery.getPlaceOrderMutation(guest_cart_id));
+            // const { placeOrder: { order: { order_id } } } = orderData;
 
-            this.setDetailsStep(order_id);
+            // this.setDetailsStep(order_id);
         } catch (e) {
             this._handleError(e);
         }

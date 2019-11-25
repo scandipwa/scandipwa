@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -11,15 +12,34 @@
 
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import Klarna from './Klarna.component';
+import KlarnaComponent from './Klarna.component';
 
 export class KlarnaContainer extends PureComponent {
     static propTypes = {
 
     };
 
+    static sendAuthorizeRequest() {
+        return new Promise((resolve, reject) => {
+            Klarna.Payments.authorize(
+                { payment_method_category: 'pay_later' },
+                {},
+                (res) => {
+                    const { error, approved, authorization_token } = res;
+                    if (!approved) reject(error);
+
+                    resolve({ authorization_token });
+                }
+            );
+        });
+    }
+
+    static authorize() {
+        return KlarnaContainer.sendAuthorizeRequest();
+    }
+
     render() {
-        return <Klarna />;
+        return <KlarnaComponent />;
     }
 }
 

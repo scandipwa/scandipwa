@@ -17,7 +17,8 @@ import { paymentMethodsType } from 'Type/Checkout';
 
 import { BILLING_STEP } from 'Route/Checkout/Checkout.component';
 import { BRAINTREE_CONTAINER_ID } from 'Component/Braintree/Braintree.component';
-import CheckoutPayments, { BRAINTREE } from './CheckoutPayments.component';
+import { KlarnaContainer } from 'Component/Klarna/Klarna.container';
+import CheckoutPayments, { BRAINTREE, KLARNA } from './CheckoutPayments.component';
 
 export class CheckoutPaymentsContainer extends PureComponent {
     static propTypes = {
@@ -33,7 +34,8 @@ export class CheckoutPaymentsContainer extends PureComponent {
     braintree = new BraintreeDropIn(BRAINTREE_CONTAINER_ID);
 
     dataMap = {
-        [BRAINTREE]: this.getBraintreeData.bind(this)
+        [BRAINTREE]: this.getBraintreeData.bind(this),
+        [KLARNA]: this.getKlarnaData.bind(this)
     };
 
     constructor(props) {
@@ -56,6 +58,10 @@ export class CheckoutPaymentsContainer extends PureComponent {
         if (window.formPortalCollector) {
             window.formPortalCollector.unsubscribe(BILLING_STEP, 'CheckoutPaymentsContainer');
         }
+    }
+
+    getKlarnaData() {
+        return { asyncData: KlarnaContainer.authorize() };
     }
 
     getBraintreeData() {
