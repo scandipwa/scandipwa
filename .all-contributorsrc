@@ -268,6 +268,17 @@
       "contributions": [
         "projectManagement"
       ]
+    },
+    {
+      "login": "lianastaskevica",
+      "name": "Liana ",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/52198221?v=4",
+      "profile": "https://github.com/lianastaskevica",
+      "contributions": [
+        "projectManagement",
+        "bug",
+        "userTesting"
+      ]
     }
   ],
   "contributorsPerLine": 7,
