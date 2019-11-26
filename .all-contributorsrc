@@ -119,6 +119,22 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "eli-l",
+      "name": "Ilja Lapkovskis",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/7448649?v=4",
+      "profile": "https://github.com/eli-l",
+      "contributions": [
+        "code",
+        "infra",
+        "maintenance",
+        "ideas",
+        "bug",
+        "projectManagement",
+        "review",
+        "content"
+      ]
     }
   ],
   "contributorsPerLine": 7,
