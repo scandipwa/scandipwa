@@ -221,6 +221,44 @@
         "code",
         "bug"
       ]
+    },
+    {
+      "login": "teodormoq",
+      "name": "Teodor Moquist",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/8639654?v=4",
+      "profile": "http://teomedia.dk",
+      "contributions": [
+        "bug"
+      ]
+    },
+    {
+      "login": "alfredsgenkins",
+      "name": "Alfreds Genkins",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/29531824?v=4",
+      "profile": "https://github.com/alfredsgenkins",
+      "contributions": [
+        "code",
+        "bug",
+        "question",
+        "maintenance",
+        "projectManagement",
+        "tool",
+        "review",
+        "content",
+        "doc",
+        "design",
+        "video",
+        "talk"
+      ]
+    },
+    {
+      "login": "Chevskis",
+      "name": "Klāvs Kačevskis",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/15198469?v=4",
+      "profile": "https://github.com/Chevskis",
+      "contributions": [
+        "projectManagement"
+      ]
     }
   ],
   "contributorsPerLine": 7,
