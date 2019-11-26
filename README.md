@@ -1,5 +1,5 @@
 # ScandiPWA Theme
-[![All Contributors](https://img.shields.io/badge/all_contributors-18-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-19-orange.svg?style=flat-square)](#contributors)
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/839cbb593b36432faecd5da0c3844ca8)](https://www.codacy.com/app/ScandiPWA/base-theme?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=scandipwa/base-theme&amp;utm_campaign=Badge_Grade)
 
@@ -75,6 +75,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/mageprincess"><img src="https://avatars2.githubusercontent.com/u/17780518?v=4" width="100px;" alt="mageprincess"/><br /><sub><b>mageprincess</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=mageprincess" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/IndarsL"><img src="https://avatars1.githubusercontent.com/u/25637231?v=4" width="100px;" alt="Indars Lejins"/><br /><sub><b>Indars Lejins</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=IndarsL" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/robertsbriedis"><img src="https://avatars1.githubusercontent.com/u/51077929?v=4" width="100px;" alt="Roberts"/><br /><sub><b>Roberts</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=robertsbriedis" title="Code">💻</a></td>
+    <td align="center"><a href="https://www.rltsquare.com/"><img src="https://avatars0.githubusercontent.com/u/32421711?v=4" width="100px;" alt="Malik Ahmad"/><br /><sub><b>Malik Ahmad</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=malikahmed1996" title="Code">💻</a> <a href="https://github.com/scandipwa/base-theme/issues?q=author%3Amalikahmed1996" title="Bug reports">🐛</a> <a href="#question-malikahmed1996" title="Answering Questions">💬</a></td>
   </tr>
 </table>
 
