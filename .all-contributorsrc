@@ -173,6 +173,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "robertsbriedis",
+      "name": "Roberts",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/51077929?v=4",
+      "profile": "https://github.com/robertsbriedis",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
