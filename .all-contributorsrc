@@ -211,6 +211,26 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "alfredsgenkins",
+      "name": "Alfreds Genkins",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/29531824?v=4",
+      "profile": "https://github.com/alfredsgenkins",
+      "contributions": [
+        "code",
+        "bug",
+        "question",
+        "maintenance",
+        "projectManagement",
+        "tool",
+        "review",
+        "content",
+        "doc",
+        "design",
+        "video",
+        "talk"
+      ]
     }
   ],
   "contributorsPerLine": 7,
