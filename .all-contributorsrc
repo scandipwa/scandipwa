@@ -100,6 +100,16 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "ybutrameev",
+      "name": "Yefim",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/38831994?v=4",
+      "profile": "https://github.com/ybutrameev",
+      "contributions": [
+        "code",
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
