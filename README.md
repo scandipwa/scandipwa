@@ -1,5 +1,6 @@
 # ScandiPWA Theme
-[![All Contributors](https://img.shields.io/badge/all_contributors-22-orange.svg?style=flat-square)](#contributors)
+
+[![All Contributors](https://img.shields.io/badge/all_contributors-23-orange.svg?style=flat-square)](#contributors)
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/839cbb593b36432faecd5da0c3844ca8)](https://www.codacy.com/app/ScandiPWA/base-theme?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=scandipwa/base-theme&amp;utm_campaign=Badge_Grade)
 
@@ -81,6 +82,8 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   </tr>
   <tr>
     <td align="center"><a href="http://teomedia.dk"><img src="https://avatars2.githubusercontent.com/u/8639654?v=4" width="100px;" alt="Teodor Moquist"/><br /><sub><b>Teodor Moquist</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/issues?q=author%3Ateodormoq" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://github.com/alfredsgenkins"><img src="https://avatars1.githubusercontent.com/u/29531824?v=4" width="100px;" alt="Alfreds Genkins"/><br /><sub><b>Alfreds Genkins</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=alfredsgenkins" title="Code">💻</a> <a href="https://github.com/scandipwa/base-theme/issues?q=author%3Aalfredsgenkins" title="Bug reports">🐛</a> <a href="#question-alfredsgenkins" title="Answering Questions">💬</a> <a href="#maintenance-alfredsgenkins" title="Maintenance">🚧</a> <a href="#projectManagement-alfredsgenkins" title="Project Management">📆</a> <a href="#tool-alfredsgenkins" title="Tools">🔧</a> <a href="#review-alfredsgenkins" title="Reviewed Pull Requests">👀</a> <a href="#content-alfredsgenkins" title="Content">🖋</a> <a href="https://github.com/scandipwa/base-theme/commits?author=alfredsgenkins" title="Documentation">📖</a> <a href="#design-alfredsgenkins" title="Design">🎨</a> <a href="#video-alfredsgenkins" title="Videos">📹</a> <a href="#talk-alfredsgenkins" title="Talks">📢</a></td>
+    <td align="center"><a href="https://github.com/Chevskis"><img src="https://avatars2.githubusercontent.com/u/15198469?v=4" width="100px;" alt="Klāvs Kačevskis"/><br /><sub><b>Klāvs Kačevskis</b></sub></a><br /><a href="#projectManagement-Chevskis" title="Project Management">📆</a></td>
   </tr>
 </table>
 
