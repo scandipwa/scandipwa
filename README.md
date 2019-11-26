@@ -1,5 +1,5 @@
 # ScandiPWA Theme
-[![All Contributors](https://img.shields.io/badge/all_contributors-14-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-15-orange.svg?style=flat-square)](#contributors)
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/839cbb593b36432faecd5da0c3844ca8)](https://www.codacy.com/app/ScandiPWA/base-theme?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=scandipwa/base-theme&amp;utm_campaign=Badge_Grade)
 
@@ -69,6 +69,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/atachh"><img src="https://avatars1.githubusercontent.com/u/13818833?v=4" width="100px;" alt="Dmitry Asanov"/><br /><sub><b>Dmitry Asanov</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=atachh" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/eli-l"><img src="https://avatars2.githubusercontent.com/u/7448649?v=4" width="100px;" alt="Ilja Lapkovskis"/><br /><sub><b>Ilja Lapkovskis</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=eli-l" title="Code">💻</a> <a href="#infra-eli-l" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#maintenance-eli-l" title="Maintenance">🚧</a> <a href="#ideas-eli-l" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/scandipwa/base-theme/issues?q=author%3Aeli-l" title="Bug reports">🐛</a> <a href="#projectManagement-eli-l" title="Project Management">📆</a> <a href="#review-eli-l" title="Reviewed Pull Requests">👀</a> <a href="#content-eli-l" title="Content">🖋</a></td>
     <td align="center"><a href="https://twitter.com/RaivisDejus"><img src="https://avatars0.githubusercontent.com/u/5319134?v=4" width="100px;" alt="Raivis Dejus"/><br /><sub><b>Raivis Dejus</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=raivisdejus" title="Code">💻</a> <a href="https://github.com/scandipwa/base-theme/issues?q=author%3Araivisdejus" title="Bug reports">🐛</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="http://kandrejevs.com"><img src="https://avatars1.githubusercontent.com/u/4084128?v=4" width="100px;" alt="Krišs"/><br /><sub><b>Krišs</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=kandrejevs" title="Code">💻</a> <a href="https://github.com/scandipwa/base-theme/issues?q=author%3Akandrejevs" title="Bug reports">🐛</a></td>
   </tr>
 </table>
 
