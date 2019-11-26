@@ -1,5 +1,5 @@
 # ScandiPWA Theme
-[![All Contributors](https://img.shields.io/badge/all_contributors-21-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-22-orange.svg?style=flat-square)](#contributors)
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/839cbb593b36432faecd5da0c3844ca8)](https://www.codacy.com/app/ScandiPWA/base-theme?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=scandipwa/base-theme&amp;utm_campaign=Badge_Grade)
 
@@ -78,6 +78,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://www.rltsquare.com/"><img src="https://avatars0.githubusercontent.com/u/32421711?v=4" width="100px;" alt="Malik Ahmad"/><br /><sub><b>Malik Ahmad</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=malikahmed1996" title="Code">💻</a> <a href="https://github.com/scandipwa/base-theme/issues?q=author%3Amalikahmed1996" title="Bug reports">🐛</a> <a href="#question-malikahmed1996" title="Answering Questions">💬</a></td>
     <td align="center"><a href="https://github.com/artursgailis"><img src="https://avatars2.githubusercontent.com/u/40202738?v=4" width="100px;" alt="artursgailis"/><br /><sub><b>artursgailis</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=artursgailis" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/mihailspopovs4"><img src="https://avatars3.githubusercontent.com/u/54805724?v=4" width="100px;" alt="mihailspopovs4"/><br /><sub><b>mihailspopovs4</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=mihailspopovs4" title="Code">💻</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/Animimar"><img src="https://avatars2.githubusercontent.com/u/32173359?v=4" width="100px;" alt="Tanunuki"/><br /><sub><b>Tanunuki</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=Animimar" title="Code">💻</a> <a href="https://github.com/scandipwa/base-theme/issues?q=author%3AAnimimar" title="Bug reports">🐛</a></td>
   </tr>
 </table>
 
