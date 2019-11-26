@@ -142,7 +142,11 @@
         "bug",
         "projectManagement",
         "review",
-        "content"
+        "content",
+        "doc",
+        "question",
+        "talk",
+        "video"
       ]
     },
     {
