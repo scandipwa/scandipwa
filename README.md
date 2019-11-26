@@ -1,5 +1,5 @@
 # ScandiPWA Theme
-[![All Contributors](https://img.shields.io/badge/all_contributors-16-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-17-orange.svg?style=flat-square)](#contributors)
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/839cbb593b36432faecd5da0c3844ca8)](https://www.codacy.com/app/ScandiPWA/base-theme?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=scandipwa/base-theme&amp;utm_campaign=Badge_Grade)
 
@@ -73,6 +73,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tr>
     <td align="center"><a href="http://kandrejevs.com"><img src="https://avatars1.githubusercontent.com/u/4084128?v=4" width="100px;" alt="Krišs"/><br /><sub><b>Krišs</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=kandrejevs" title="Code">💻</a> <a href="https://github.com/scandipwa/base-theme/issues?q=author%3Akandrejevs" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://github.com/mageprincess"><img src="https://avatars2.githubusercontent.com/u/17780518?v=4" width="100px;" alt="mageprincess"/><br /><sub><b>mageprincess</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=mageprincess" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/IndarsL"><img src="https://avatars1.githubusercontent.com/u/25637231?v=4" width="100px;" alt="Indars Lejins"/><br /><sub><b>Indars Lejins</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=IndarsL" title="Code">💻</a></td>
   </tr>
 </table>
 
