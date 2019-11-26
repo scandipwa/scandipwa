@@ -1,5 +1,5 @@
 # ScandiPWA Theme
-[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors)
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/839cbb593b36432faecd5da0c3844ca8)](https://www.codacy.com/app/ScandiPWA/base-theme?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=scandipwa/base-theme&amp;utm_campaign=Badge_Grade)
 
@@ -56,6 +56,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/alujane"><img src="https://avatars3.githubusercontent.com/u/12761386?v=4" width="100px;" alt="alujane"/><br /><sub><b>alujane</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=alujane" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/dmitrijs-voronovs"><img src="https://avatars2.githubusercontent.com/u/53301511?v=4" width="100px;" alt="Dmitrijs Voronovs"/><br /><sub><b>Dmitrijs Voronovs</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=dmitrijs-voronovs" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/edgars1337"><img src="https://avatars1.githubusercontent.com/u/53514184?v=4" width="100px;" alt="edgars1337"/><br /><sub><b>edgars1337</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=edgars1337" title="Code">💻</a></td>
+    <td align="center"><a href="https://www.linkedin.com/in/reinis-mazeiks/"><img src="https://avatars0.githubusercontent.com/u/11248241?v=4" width="100px;" alt="Reinis Mazeiks"/><br /><sub><b>Reinis Mazeiks</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=rMazeiks" title="Code">💻</a></td>
   </tr>
 </table>
 
