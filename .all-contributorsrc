@@ -51,6 +51,18 @@
         "business",
         "translation"
       ]
+    },
+    {
+      "login": "atravkovs",
+      "name": "Artjoms Travkovs",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/12703177?v=4",
+      "profile": "https://github.com/atravkovs",
+      "contributions": [
+        "code",
+        "ideas",
+        "review",
+        "question"
+      ]
     }
   ],
   "contributorsPerLine": 7,
