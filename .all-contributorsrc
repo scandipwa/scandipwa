@@ -135,6 +135,16 @@
         "review",
         "content"
       ]
+    },
+    {
+      "login": "raivisdejus",
+      "name": "Raivis Dejus",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/5319134?v=4",
+      "profile": "https://twitter.com/RaivisDejus",
+      "contributions": [
+        "code",
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
