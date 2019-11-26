@@ -182,6 +182,17 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "malikahmed1996",
+      "name": "Malik Ahmad",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/32421711?v=4",
+      "profile": "https://www.rltsquare.com/",
+      "contributions": [
+        "code",
+        "bug",
+        "question"
+      ]
     }
   ],
   "contributorsPerLine": 7,
