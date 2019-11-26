@@ -211,6 +211,16 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "Animimar",
+      "name": "Tanunuki",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/32173359?v=4",
+      "profile": "https://github.com/Animimar",
+      "contributions": [
+        "code",
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
