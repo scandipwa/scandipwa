@@ -54,6 +54,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tr>
     <td align="center"><a href="https://github.com/alujane"><img src="https://avatars3.githubusercontent.com/u/12761386?v=4" width="100px;" alt="alujane"/><br /><sub><b>alujane</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=alujane" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/dmitrijs-voronovs"><img src="https://avatars2.githubusercontent.com/u/53301511?v=4" width="100px;" alt="Dmitrijs Voronovs"/><br /><sub><b>Dmitrijs Voronovs</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=dmitrijs-voronovs" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/edgars1337"><img src="https://avatars1.githubusercontent.com/u/53514184?v=4" width="100px;" alt="edgars1337"/><br /><sub><b>edgars1337</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=edgars1337" title="Code">💻</a></td>
   </tr>
 </table>
