@@ -145,6 +145,16 @@
         "code",
         "bug"
       ]
+    },
+    {
+      "login": "kandrejevs",
+      "name": "Krišs",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/4084128?v=4",
+      "profile": "http://kandrejevs.com",
+      "contributions": [
+        "code",
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
