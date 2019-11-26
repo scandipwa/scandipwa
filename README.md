@@ -1,5 +1,5 @@
 # ScandiPWA Theme
-[![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square)](#contributors)
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/839cbb593b36432faecd5da0c3844ca8)](https://www.codacy.com/app/ScandiPWA/base-theme?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=scandipwa/base-theme&amp;utm_campaign=Badge_Grade)
 
@@ -58,6 +58,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/edgars1337"><img src="https://avatars1.githubusercontent.com/u/53514184?v=4" width="100px;" alt="edgars1337"/><br /><sub><b>edgars1337</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=edgars1337" title="Code">💻</a></td>
     <td align="center"><a href="https://www.linkedin.com/in/reinis-mazeiks/"><img src="https://avatars0.githubusercontent.com/u/11248241?v=4" width="100px;" alt="Reinis Mazeiks"/><br /><sub><b>Reinis Mazeiks</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=rMazeiks" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/aleksandrsho"><img src="https://avatars3.githubusercontent.com/u/33932820?v=4" width="100px;" alt="aleksandrsho"/><br /><sub><b>aleksandrsho</b></sub></a><br /><a href="#content-aleksandrsho" title="Content">🖋</a> <a href="#business-aleksandrsho" title="Business development">💼</a> <a href="#translation-aleksandrsho" title="Translation">🌍</a></td>
+    <td align="center"><a href="https://github.com/atravkovs"><img src="https://avatars0.githubusercontent.com/u/12703177?v=4" width="100px;" alt="Artjoms Travkovs"/><br /><sub><b>Artjoms Travkovs</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=atravkovs" title="Code">💻</a> <a href="#ideas-atravkovs" title="Ideas, Planning, & Feedback">🤔</a> <a href="#review-atravkovs" title="Reviewed Pull Requests">👀</a> <a href="#question-atravkovs" title="Answering Questions">💬</a></td>
   </tr>
 </table>
 
