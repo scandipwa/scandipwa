@@ -14,8 +14,6 @@ import PropTypes from 'prop-types';
 
 import CheckoutPayment from 'Component/CheckoutPayment';
 import Braintree from 'Component/Braintree';
-
-import './CheckoutPayments.style';
 import { paymentMethodsType } from 'Type/Checkout';
 import { StripeProvider, Elements } from 'react-stripe-elements';
 import InjectedStripeCheckoutForm from 'Component/InjectedStripeCheckoutForm';
@@ -44,7 +42,35 @@ class CheckoutPayments extends PureComponent {
             PAYPAL_EXPRESS_CREDIT,
             CHECK_MONEY,
             STRIPE
-        ]).isRequired
+        ]).isRequired,
+        setStripeRef: PropTypes.func.isRequired,
+        billingAddress: PropTypes.shape({
+            city: PropTypes.string,
+            company: PropTypes.string,
+            country_id: PropTypes.string,
+            email: PropTypes.string,
+            firstname: PropTypes.string,
+            lastname: PropTypes.string,
+            postcode: PropTypes.string,
+            region_id: PropTypes.oneOfType([
+                PropTypes.number,
+                PropTypes.string
+            ]),
+            region: PropTypes.oneOfType([
+                PropTypes.object,
+                PropTypes.string
+            ]),
+            street: PropTypes.oneOfType([
+                PropTypes.string,
+                PropTypes.array
+            ]),
+            telephone: PropTypes.string
+        }).isRequired,
+        email: PropTypes.string
+    };
+
+    static defaultProps = {
+        email: null
     };
 
     paymentRenderMap = {
@@ -72,32 +98,16 @@ class CheckoutPayments extends PureComponent {
         return <Braintree init={ initBraintree } />;
     }
 
-    /**
-     * Render braintree
-     * @returns {*}
-     */
-    renderBrainTreePayment() {
-        const { initBraintree } = this.props;
-
-        return (
-            <Braintree init={ initBraintree } />
-        );
-    }
-
-    /**
-     * Render stripe
-     * Change API KEYS to your own KEYS
-     * @returns {*}
-     */
     renderStripePayment() {
         const { setStripeRef, billingAddress, email } = this.props;
 
+        // todo apiKey hardcoded?
         return (
             <div>
-                <StripeProvider apiKey="pk_test_5EMxhkHI30WSlLuscegpXbOI00qBxzii9Z">
+                <StripeProvider apiKey="pk_test_fMNl5K1HNF3oiM5NrezxX26I00cUkUom8Y">
                     <Elements>
                         <InjectedStripeCheckoutForm
-                          onRef={ ref => setStripeRef(ref) }
+                          onRef={ setStripeRef }
                           billingAddress={ billingAddress }
                           email={ email }
                         />
@@ -107,11 +117,6 @@ class CheckoutPayments extends PureComponent {
         );
     }
 
-    /**
-     * Render payment
-     * @param method
-     * @returns {*}
-     */
     renderPayment = (method) => {
         const {
             selectPaymentMethod,
@@ -176,36 +181,5 @@ class CheckoutPayments extends PureComponent {
         );
     }
 }
-
-CheckoutPayments.propTypes = {
-    setStripeRef: PropTypes.func.isRequired,
-    billingAddress: PropTypes.shape({
-        city: PropTypes.string,
-        company: PropTypes.string,
-        country_id: PropTypes.string,
-        email: PropTypes.string,
-        firstname: PropTypes.string,
-        lastname: PropTypes.string,
-        postcode: PropTypes.string,
-        region_id: PropTypes.oneOfType([
-            PropTypes.number,
-            PropTypes.string
-        ]),
-        region: PropTypes.oneOfType([
-            PropTypes.object,
-            PropTypes.string
-        ]),
-        street: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.array
-        ]),
-        telephone: PropTypes.string
-    }).isRequired,
-    email: PropTypes.string
-};
-
-CheckoutPayments.defaultProps = {
-    email: null
-};
 
 export default CheckoutPayments;

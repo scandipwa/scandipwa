@@ -21,6 +21,7 @@ import { TotalsType } from 'Type/MiniCart';
 import Field from 'Component/Field';
 
 import './CheckoutBilling.style';
+import { addressType } from 'Type/Account';
 
 class CheckoutBilling extends PureComponent {
     state = {
@@ -37,7 +38,13 @@ class CheckoutBilling extends PureComponent {
         onBillingError: PropTypes.func.isRequired,
         onAddressSelect: PropTypes.func.isRequired,
         paymentMethods: paymentMethodsType.isRequired,
-        totals: TotalsType.isRequired
+        totals: TotalsType.isRequired,
+        shippingAddress: addressType.isRequired,
+        email: PropTypes.string
+    };
+
+    static defaultProps= {
+        email: null
     };
 
     setOrderButtonVisibility = (isOrderButtonVisible) => {

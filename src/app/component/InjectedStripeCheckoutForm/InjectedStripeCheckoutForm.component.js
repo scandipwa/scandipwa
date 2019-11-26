@@ -17,6 +17,42 @@ import PropTypes from 'prop-types';
  * @class InjectedStripeCheckoutForm
  */
 class InjectedStripeCheckoutForm extends PureComponent {
+     static propTypes = {
+         stripe: PropTypes.oneOfType([
+             PropTypes.object,
+             PropTypes.func
+         ]).isRequired,
+         email: PropTypes.string,
+         billingAddress: PropTypes.shape({
+             city: PropTypes.string,
+             company: PropTypes.string,
+             country_id: PropTypes.string,
+             email: PropTypes.string,
+             firstname: PropTypes.string,
+             lastname: PropTypes.string,
+             postcode: PropTypes.string,
+             region_id: PropTypes.oneOfType([
+                 PropTypes.number,
+                 PropTypes.string
+             ]),
+             region: PropTypes.oneOfType([
+                 PropTypes.object,
+                 PropTypes.string
+             ]),
+             street: PropTypes.oneOfType([
+                 PropTypes.string,
+                 PropTypes.array
+             ]),
+             telephone: PropTypes.string
+         }).isRequired,
+         showNotification: PropTypes.func.isRequired,
+         onRef: PropTypes.func.isRequired
+     };
+
+    static defaultProps = {
+        email: null
+    };
+
     constructor(props) {
         super(props);
 
@@ -25,17 +61,11 @@ class InjectedStripeCheckoutForm extends PureComponent {
         this.handleAuthorization = this.handleAuthorization.bind(this);
     }
 
-    /**
-     * componentDidMount
-     */
     componentDidMount() {
         const { onRef } = this.props;
         onRef(this);
     }
 
-    /**
-     * componentWillUnmount
-     */
     componentWillUnmount() {
         const { onRef } = this.props;
         onRef(undefined);
@@ -57,6 +87,7 @@ class InjectedStripeCheckoutForm extends PureComponent {
         // 500 server side errors
         if (typeof message === 'undefined') return false;
 
+        // todo refactor
         const clientSecret = message.indexOf('Authentication Required: ') === 0
             ? message.substring('Authentication Required: '.length).split(',')[0]
             : null;
@@ -153,41 +184,5 @@ class InjectedStripeCheckoutForm extends PureComponent {
         );
     }
 }
-
-InjectedStripeCheckoutForm.propTypes = {
-    stripe: PropTypes.oneOfType([
-        PropTypes.object,
-        PropTypes.func
-    ]).isRequired,
-    email: PropTypes.string,
-    billingAddress: PropTypes.shape({
-        city: PropTypes.string,
-        company: PropTypes.string,
-        country_id: PropTypes.string,
-        email: PropTypes.string,
-        firstname: PropTypes.string,
-        lastname: PropTypes.string,
-        postcode: PropTypes.string,
-        region_id: PropTypes.oneOfType([
-            PropTypes.number,
-            PropTypes.string
-        ]),
-        region: PropTypes.oneOfType([
-            PropTypes.object,
-            PropTypes.string
-        ]),
-        street: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.array
-        ]),
-        telephone: PropTypes.string
-    }).isRequired,
-    showNotification: PropTypes.func.isRequired,
-    onRef: PropTypes.func.isRequired
-};
-
-InjectedStripeCheckoutForm.defaultProps = {
-    email: null
-};
 
 export default injectStripe(InjectedStripeCheckoutForm);

@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import BraintreeDropIn from 'Util/Braintree';
@@ -18,7 +18,6 @@ import { paymentMethodsType } from 'Type/Checkout';
 import { BRAINTREE_CONTAINER_ID } from 'Component/Braintree/Braintree.component';
 import { BILLING_STEP } from 'Route/Checkout/Checkout.component';
 import CheckoutPayments, { BRAINTREE, STRIPE } from './CheckoutPayments.component';
-import { BRAINTREE_CONTAINER_ID } from 'Component/Braintree/Braintree.component';
 
 export class CheckoutPaymentsContainer extends PureComponent {
     static propTypes = {
@@ -31,10 +30,8 @@ export class CheckoutPaymentsContainer extends PureComponent {
         setStripeRef: this.setStripeRef.bind(this),
         selectPaymentMethod: this.selectPaymentMethod.bind(this),
         getBraintreeData: this.getBraintreeData.bind(this),
-        getStripeData: this.getStripeData.bind(this),
+        getStripeData: this.getStripeData.bind(this)
     };
-
-    braintree = new BraintreeDropIn(BRAINTREE_CONTAINER_ID);
 
     braintree = new BraintreeDropIn(BRAINTREE_CONTAINER_ID);
 
@@ -47,7 +44,7 @@ export class CheckoutPaymentsContainer extends PureComponent {
         super(props);
 
         const { paymentMethods } = props;
-        const [{ code }] = paymentMethods;
+        const [{ code } = {}] = paymentMethods;
         this.state = { selectedPaymentCode: code };
     }
 
@@ -63,30 +60,18 @@ export class CheckoutPaymentsContainer extends PureComponent {
         }
     }
 
-    getBraintreeData() {
-        return { asyncData: this.braintree.requestPaymentNonce() };
-    }
-
     /**
-     * Set Ref for stripe
+     * Setter for stripe component reference
      * @param ref
      */
     setStripeRef(ref) {
         this.stripeRef = ref;
     }
 
-    /**
-     * Get Braintree data
-     * @returns {{asyncData: *}}
-     */
     getBraintreeData() {
         return { asyncData: this.braintree.requestPaymentNonce() };
     }
 
-    /**
-     * Get Stripe data
-     * @returns {{asyncData: *}}
-     */
     getStripeData() {
         return { asyncData: this.stripeRef.submit() };
     }
@@ -100,15 +85,6 @@ export class CheckoutPaymentsContainer extends PureComponent {
 
     initBraintree() {
         return this.braintree.create();
-    }
-
-    /**
-     * Request stripe token
-     * @param token
-     * @returns {Promise<{token: *}>}
-     */
-    async requestStripeToken(token) {
-        return { token };
     }
 
     selectPaymentMethod(paymentMethod) {

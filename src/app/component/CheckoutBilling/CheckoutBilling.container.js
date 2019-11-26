@@ -20,7 +20,6 @@ import { trimCustomerAddress, trimAddressFields } from 'Util/Address';
 import { TotalsType } from 'Type/MiniCart';
 import { BRAINTREE, STRIPE } from 'Component/CheckoutPayments/CheckoutPayments.component';
 
-import { BRAINTREE } from 'Component/CheckoutPayments/CheckoutPayments.component';
 import CheckoutBilling from './CheckoutBilling.component';
 
 export const mapStateToProps = state => ({
@@ -114,7 +113,6 @@ export class CheckoutBillingContainer extends PureComponent {
         }
     }
 
-    // eslint-disable-next-line no-unused-vars
     _getPaymentData(asyncData) {
         const { paymentMethod: method } = this.state;
 
@@ -135,7 +133,6 @@ export class CheckoutBillingContainer extends PureComponent {
             if (token === null) {
                 return false;
             }
-
 
             return {
                 method,
