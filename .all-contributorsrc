@@ -81,6 +81,16 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "ainarssondors",
+      "name": "ainarssondors",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/48548028?v=4",
+      "profile": "https://github.com/ainarssondors",
+      "contributions": [
+        "code",
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
