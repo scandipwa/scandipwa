@@ -235,11 +235,10 @@ export class CheckoutContainer extends PureComponent {
                 }
             }));
 
-            // TODO! revert comments when tested
-            // const orderData = await fetchMutation(CheckoutQuery.getPlaceOrderMutation(guest_cart_id));
-            // const { placeOrder: { order: { order_id } } } = orderData;
+            const orderData = await fetchMutation(CheckoutQuery.getPlaceOrderMutation(guest_cart_id));
+            const { placeOrder: { order: { order_id } } } = orderData;
 
-            // this.setDetailsStep(order_id);
+            this.setDetailsStep(order_id);
         } catch (e) {
             this._handleError(e);
         }
