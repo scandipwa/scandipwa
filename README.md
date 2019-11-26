@@ -1,5 +1,5 @@
 # ScandiPWA Theme
-[![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-9-orange.svg?style=flat-square)](#contributors)
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/839cbb593b36432faecd5da0c3844ca8)](https://www.codacy.com/app/ScandiPWA/base-theme?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=scandipwa/base-theme&amp;utm_campaign=Badge_Grade)
 
@@ -63,6 +63,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   </tr>
   <tr>
     <td align="center"><a href="https://github.com/mgmanoj"><img src="https://avatars3.githubusercontent.com/u/13735397?v=4" width="100px;" alt="Manoj MG"/><br /><sub><b>Manoj MG</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=mgmanoj" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/ainarssondors"><img src="https://avatars1.githubusercontent.com/u/48548028?v=4" width="100px;" alt="ainarssondors"/><br /><sub><b>ainarssondors</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=ainarssondors" title="Code">💻</a> <a href="https://github.com/scandipwa/base-theme/issues?q=author%3Aainarssondors" title="Bug reports">🐛</a></td>
   </tr>
 </table>
 
