@@ -11,7 +11,6 @@
  */
 
 import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import { KlarnaQuery } from 'Query';
 import Html from 'Component/Html';
 import { fetchMutation } from 'Util/Request';
@@ -24,8 +23,6 @@ export default class KlarnaComponent extends PureComponent {
         isLoading: true
     };
 
-    static propTypes = {};
-
     async initiateKlarna() {
         const { klarnaToken: client_token } = await fetchMutation(KlarnaQuery.getCreateKlarnaTokenMutation({}));
 
@@ -33,14 +30,13 @@ export default class KlarnaComponent extends PureComponent {
         Klarna.Payments.load({
             container: '#klarna-payments-container',
             payment_method_category: 'pay_later'
-        }, console.debug);
+        });
 
         this.setState({ isLoading: false });
     }
 
     renderScript() {
         window.klarnaAsyncCallback = this.initiateKlarna.bind(this);
-
         const script = document.getElementById(KLARNA_SCRIPT_ID);
 
         if (script) {

@@ -11,15 +11,10 @@
  */
 
 import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import KlarnaComponent from './Klarna.component';
 
 export class KlarnaContainer extends PureComponent {
-    static propTypes = {
-
-    };
-
-    static sendAuthorizeRequest() {
+    static authorize() {
         return new Promise((resolve, reject) => {
             Klarna.Payments.authorize(
                 { payment_method_category: 'pay_later' },
@@ -32,10 +27,6 @@ export class KlarnaContainer extends PureComponent {
                 }
             );
         });
-    }
-
-    static authorize() {
-        return KlarnaContainer.sendAuthorizeRequest();
     }
 
     render() {
