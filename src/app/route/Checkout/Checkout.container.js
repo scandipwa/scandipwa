@@ -145,15 +145,29 @@ export class CheckoutContainer extends PureComponent {
         checkoutTotals: this._getCheckoutTotals()
     });
 
-    _handleError = (error) => {
+    _handleError = (error, paymentInformation) => {
+        console.log({ error, paymentInformation }); // todo remove
         const { showErrorNotification } = this.props;
+        const [{ debugMessage }] = error;
+        const { paymentMethod: { callback } } = paymentInformation;
 
         this.setState({
             isDeliveryOptionsLoading: false,
             isLoading: false
         }, () => {
-            showErrorNotification(error[0].message);
+            if (debugMessage.indexOf('Authentication Required: ') !== 0) { // todo looks bad
+                showErrorNotification('error', debugMessage);
+            }
         });
+
+        console.log({ callback }); // todo remove
+        if (callback) {
+            callback(
+                paymentInformation,
+                debugMessage,
+                paymentInformation => this.savePaymentInformation(paymentInformation)
+            );
+        }
     };
 
     _getGuestCartId = () => BrowserDatabase.getItem(GUEST_QUOTE_ID);
@@ -252,7 +266,9 @@ export class CheckoutContainer extends PureComponent {
                 const { orderID } = data;
                 this.setDetailsStep(orderID);
             },
-            this._handleError
+            (error) => {
+                this._handleError(error, paymentInformation);
+            }
         );
     }
 

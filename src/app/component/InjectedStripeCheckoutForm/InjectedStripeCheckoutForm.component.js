@@ -136,35 +136,34 @@ class InjectedStripeCheckoutForm extends PureComponent {
     async submit() {
         const {
             stripe: { createPaymentMethod },
-            billingAddress,
+            billingAddress: {
+                firstname,
+                lastname,
+                telephone: phone,
+                city,
+                country_id: country,
+                street,
+                region: state
+            },
             email
         } = this.props;
-        const {
-            firstname,
-            lastname,
-            telephone: phone,
-            city,
-            country_id: country,
-            street,
-            region: state
-        } = billingAddress;
+
         const billingName = `${ firstname } ${ lastname }`;
 
         const { paymentMethod } = await createPaymentMethod(
             'card',
             {
-                billing_details:
-                    {
-                        name: billingName,
-                        email,
-                        phone,
-                        address: {
-                            city,
-                            country,
-                            line1: street[0],
-                            state
-                        }
+                billing_details: {
+                    name: billingName,
+                    email,
+                    phone,
+                    address: {
+                        city,
+                        country,
+                        line1: street[0],
+                        state
                     }
+                }
             }
         );
 
