@@ -16,6 +16,8 @@ import Html from 'Component/Html';
 import { fetchMutation } from 'Util/Request';
 import Loader from 'Component/Loader';
 
+import './Klarna.style';
+
 export const KLARNA_SCRIPT_ID = 'klarna_script';
 
 export default class KlarnaComponent extends PureComponent {

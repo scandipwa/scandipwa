@@ -22,8 +22,6 @@ import Field from 'Component/Field';
 
 import './CheckoutBilling.style';
 
-export const COMPLETE_ORDER_BTN_ID = 'complete_order';
-
 class CheckoutBilling extends PureComponent {
     state = {
         isOrderButtonVisible: true
@@ -53,7 +51,6 @@ class CheckoutBilling extends PureComponent {
 
         return (
             <button
-              id={ COMPLETE_ORDER_BTN_ID }
               type="submit"
               block="Button"
               mix={ { block: 'CheckoutBilling', elem: 'Button' } }
