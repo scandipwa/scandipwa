@@ -33,6 +33,7 @@ class CheckoutPayments extends PureComponent {
         setDetailsStep: PropTypes.func.isRequired,
         selectPaymentMethod: PropTypes.func.isRequired,
         initBraintree: PropTypes.func.isRequired,
+        stripeKey: PropTypes.string.isRequired,
         paymentMethods: paymentMethodsType.isRequired,
         setOrderButtonVisibility: PropTypes.func.isRequired,
         selectedPaymentCode: PropTypes.oneOf([
@@ -99,12 +100,16 @@ class CheckoutPayments extends PureComponent {
     }
 
     renderStripePayment() {
-        const { setStripeRef, billingAddress, email } = this.props;
+        const {
+            setStripeRef,
+            billingAddress,
+            email,
+            stripeKey
+        } = this.props;
 
-        // todo apiKey hardcoded?
         return (
             <div>
-                <StripeProvider apiKey="pk_test_fMNl5K1HNF3oiM5NrezxX26I00cUkUom8Y">
+                <StripeProvider apiKey={ stripeKey }>
                     <Elements>
                         <InjectedStripeCheckoutForm
                           onRef={ setStripeRef }

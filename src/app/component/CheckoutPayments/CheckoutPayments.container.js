@@ -10,6 +10,7 @@
  */
 
 import { PureComponent } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import BraintreeDropIn from 'Util/Braintree';
@@ -19,18 +20,34 @@ import { BRAINTREE_CONTAINER_ID } from 'Component/Braintree/Braintree.component'
 import { BILLING_STEP } from 'Route/Checkout/Checkout.component';
 import CheckoutPayments, { BRAINTREE, STRIPE } from './CheckoutPayments.component';
 
+export const STRIPE_MODE_TEST = 'test';
+
+export const mapStateToProps = state => ({
+    stripe_mode: state.ConfigReducer.stripe_mode,
+    stripe_live_pk: state.ConfigReducer.stripe_live_pk,
+    stripe_test_pk: state.ConfigReducer.stripe_test_pk
+});
+
 export class CheckoutPaymentsContainer extends PureComponent {
     static propTypes = {
         onPaymentMethodSelect: PropTypes.func.isRequired,
-        paymentMethods: paymentMethodsType.isRequired
+        paymentMethods: paymentMethodsType.isRequired,
+        stripe_mode: PropTypes.string.isRequired,
+        stripe_live_pk: PropTypes.string,
+        stripe_test_pk: PropTypes.string
+    };
+
+    static defaultProps = {
+        stripe_live_pk: '',
+        stripe_test_pk: ''
     };
 
     containerFunctions = {
         initBraintree: this.initBraintree.bind(this),
         setStripeRef: this.setStripeRef.bind(this),
         selectPaymentMethod: this.selectPaymentMethod.bind(this),
-        getBraintreeData: this.getBraintreeData.bind(this),
-        getStripeData: this.getStripeData.bind(this)
+        getBraintreeData: this.getBraintreeData.bind(this), // todo unused?
+        getStripeData: this.getStripeData.bind(this) // todo unused?
     };
 
     braintree = new BraintreeDropIn(BRAINTREE_CONTAINER_ID);
@@ -76,6 +93,26 @@ export class CheckoutPaymentsContainer extends PureComponent {
         return { asyncData: this.stripeRef.submit() };
     }
 
+    /**
+     * Returns the Publishable Stripe API key that should be used
+     * for the current Stripe mode (test or live)
+     */
+    getStripeKey() {
+        const {
+            stripe_mode,
+            stripe_live_pk,
+            stripe_test_pk
+        } = this.props;
+
+        return stripe_mode === STRIPE_MODE_TEST
+            ? stripe_test_pk
+            : stripe_live_pk;
+    }
+
+    containerProps = () => ({
+        stripeKey: this.getStripeKey()
+    });
+
     collectAdditionalData = () => {
         const { selectedPaymentCode } = this.state;
         const additionalDataGetter = this.dataMap[selectedPaymentCode];
@@ -99,10 +136,11 @@ export class CheckoutPaymentsContainer extends PureComponent {
             <CheckoutPayments
               { ...this.props }
               { ...this.containerFunctions }
+              { ...this.containerProps() }
               { ...this.state }
             />
         );
     }
 }
 
-export default CheckoutPaymentsContainer;
+export default connect(mapStateToProps)(CheckoutPaymentsContainer);
