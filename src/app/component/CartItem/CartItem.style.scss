@@ -116,18 +116,6 @@
 
     &-Picture {
         padding-bottom: 120%;
-
-        &::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            left: 0;
-            bottom: 0;
-            background-color: var(--product-card-picture-mask-color);
-            mix-blend-mode: multiply;
-            pointer-events: none;
-        }
     }
 
     &-Price {

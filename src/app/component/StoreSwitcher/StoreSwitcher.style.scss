@@ -1,0 +1,7 @@
+.StoreSwitcher {
+    padding: 1rem;
+
+    @include after-mobile {
+        padding: 1rem 2rem;
+    }
+}

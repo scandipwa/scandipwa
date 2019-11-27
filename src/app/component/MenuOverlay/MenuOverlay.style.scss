@@ -71,8 +71,16 @@
             padding: 1rem 2rem;
         }
 
-        li:last-child {
-            margin-bottom: 0;
+        li {
+            padding-left: 0;
+
+            &::before {
+                content: none;
+            }
+
+            &:last-child {
+                margin-bottom: 0;
+            }
         }
     }
 
@@ -387,14 +395,6 @@
 
     &-Link + &-Link {
         margin-left: 0;
-    }
-
-    li {
-        padding-left: 0;
-
-        &::before {
-            content: none;
-        }
     }
 
     .Image {
