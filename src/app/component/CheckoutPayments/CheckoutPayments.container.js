@@ -10,15 +10,21 @@
  */
 
 import { PureComponent } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import BraintreeDropIn from 'Util/Braintree';
 import { paymentMethodsType } from 'Type/Checkout';
+import { showNotification } from 'Store/Notification';
 
 import { BILLING_STEP } from 'Route/Checkout/Checkout.component';
-import { BRAINTREE_CONTAINER_ID } from 'Component/Braintree/Braintree.component';
 import { KlarnaContainer } from 'Component/Klarna/Klarna.container';
+import { BRAINTREE_CONTAINER_ID } from 'Component/Braintree/Braintree.component';
 import CheckoutPayments, { BRAINTREE, KLARNA } from './CheckoutPayments.component';
+
+export const mapDispatchToProps = dispatch => ({
+    showError: message => dispatch(showNotification('error', __(message)))
+});
 
 export class CheckoutPaymentsContainer extends PureComponent {
     static propTypes = {
@@ -97,4 +103,4 @@ export class CheckoutPaymentsContainer extends PureComponent {
     }
 }
 
-export default CheckoutPaymentsContainer;
+export default connect(null, mapDispatchToProps)(CheckoutPaymentsContainer);

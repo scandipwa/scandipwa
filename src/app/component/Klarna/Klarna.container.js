@@ -11,7 +11,13 @@
  */
 
 import { PureComponent } from 'react';
+import { connect } from 'react-redux';
+import { showNotification } from 'Store/Notification';
 import KlarnaComponent from './Klarna.component';
+
+export const mapDispatchToProps = dispatch => ({
+    showError: message => dispatch(showNotification('error', __(message)))
+});
 
 export class KlarnaContainer extends PureComponent {
     static authorize() {
@@ -30,8 +36,8 @@ export class KlarnaContainer extends PureComponent {
     }
 
     render() {
-        return <KlarnaComponent />;
+        return <KlarnaComponent { ...this.props } />;
     }
 }
 
-export default KlarnaContainer;
+export default connect(null, mapDispatchToProps)(KlarnaContainer);

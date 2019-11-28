@@ -11,6 +11,7 @@
  */
 
 import { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { KlarnaQuery } from 'Query';
 import Html from 'Component/Html';
 import { fetchMutation } from 'Util/Request';
@@ -21,23 +22,39 @@ import { isSignedIn } from 'Util/Auth';
 import './Klarna.style';
 
 export const KLARNA_SCRIPT_ID = 'klarna_script';
+export const KLARNA_PAYMENTS_CONTAINER_ID = 'klarna-payments-container';
 
 export default class KlarnaComponent extends PureComponent {
+    static propTypes = {
+        showError: PropTypes.func.isRequired,
+        setOrderButtonEnableStatus: PropTypes.func.isRequired
+    };
+
     state = {
         isLoading: true
     };
 
     async initiateKlarna() {
+        const { showError, setOrderButtonEnableStatus } = this.props;
         const guest_cart_id = CartDispatcher._getGuestQuoteId();
-        const { klarnaToken: client_token } = await fetchMutation(KlarnaQuery.getCreateKlarnaTokenMutation(
-            !isSignedIn() ? { guest_cart_id } : {}
-        ));
 
-        Klarna.Payments.init({ client_token });
-        Klarna.Payments.load({
-            container: '#klarna-payments-container',
-            payment_method_category: 'pay_later'
-        });
+        try {
+            setOrderButtonEnableStatus(false);
+
+            const { klarnaToken: client_token } = await fetchMutation(KlarnaQuery.getCreateKlarnaTokenMutation(
+                !isSignedIn() ? { guest_cart_id } : {}
+            ));
+
+            Klarna.Payments.init({ client_token });
+            Klarna.Payments.load({
+                container: `#${KLARNA_PAYMENTS_CONTAINER_ID}`,
+                payment_method_category: 'pay_later'
+            });
+
+            setOrderButtonEnableStatus(true);
+        } catch ([{ message }]) {
+            showError(message);
+        }
 
         this.setState({ isLoading: false });
     }
@@ -68,7 +85,7 @@ export default class KlarnaComponent extends PureComponent {
             <div block="Klarna">
                 { this.renderScript() }
                 <Loader isLoading={ isLoading } />
-                <div id="klarna-payments-container" />
+                <div id={ KLARNA_PAYMENTS_CONTAINER_ID } />
             </div>
         );
     }

@@ -28,12 +28,14 @@ export const PAYPAL_EXPRESS_CREDIT = 'paypal_express_bml';
 
 class CheckoutPayments extends PureComponent {
     static propTypes = {
+        showError: PropTypes.func.isRequired,
         setLoading: PropTypes.func.isRequired,
         setDetailsStep: PropTypes.func.isRequired,
         selectPaymentMethod: PropTypes.func.isRequired,
         initBraintree: PropTypes.func.isRequired,
         paymentMethods: paymentMethodsType.isRequired,
         setOrderButtonVisibility: PropTypes.func.isRequired,
+        setOrderButtonEnableStatus: PropTypes.func.isRequired,
         selectedPaymentCode: PropTypes.oneOf([
             KLARNA,
             BRAINTREE,
@@ -63,13 +65,21 @@ class CheckoutPayments extends PureComponent {
         }
     }
 
+    componentDidCatch(error, info) {
+        const { showError } = this.props;
+        // eslint-disable-next-line no-console
+        console.error(error, info);
+        showError(`${error} Please try again later`);
+    }
+
     renderBrainTreePayment() {
         const { initBraintree } = this.props;
         return <Braintree init={ initBraintree } />;
     }
 
     renderKlarnaPayment() {
-        return <Klarna />;
+        const { setOrderButtonEnableStatus } = this.props;
+        return <Klarna setOrderButtonEnableStatus={ setOrderButtonEnableStatus } />;
     }
 
     renderPayment = (method) => {
