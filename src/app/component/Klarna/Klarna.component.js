@@ -15,6 +15,8 @@ import { KlarnaQuery } from 'Query';
 import Html from 'Component/Html';
 import { fetchMutation } from 'Util/Request';
 import Loader from 'Component/Loader';
+import { CartDispatcher } from 'Store/Cart';
+import { isSignedIn } from 'Util/Auth';
 
 import './Klarna.style';
 
@@ -26,7 +28,10 @@ export default class KlarnaComponent extends PureComponent {
     };
 
     async initiateKlarna() {
-        const { klarnaToken: client_token } = await fetchMutation(KlarnaQuery.getCreateKlarnaTokenMutation({}));
+        const guest_cart_id = CartDispatcher._getGuestQuoteId();
+        const { klarnaToken: client_token } = await fetchMutation(KlarnaQuery.getCreateKlarnaTokenMutation(
+            !isSignedIn() ? { guest_cart_id } : {}
+        ));
 
         Klarna.Payments.init({ client_token });
         Klarna.Payments.load({
