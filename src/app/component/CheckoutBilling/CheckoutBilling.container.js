@@ -128,8 +128,7 @@ export class CheckoutBillingContainer extends PureComponent {
                 }
             };
         case STRIPE:
-            const [{ token, callback }] = asyncData;
-
+            const [{ token, handleAuthorization }] = asyncData;
             if (token === null) {
                 return false;
             }
@@ -140,7 +139,7 @@ export class CheckoutBillingContainer extends PureComponent {
                     cc_stripejs_token: token,
                     cc_save: false
                 },
-                callback
+                handleAuthorization
             };
         default:
             return { method };

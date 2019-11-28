@@ -72,66 +72,55 @@ class InjectedStripeCheckoutForm extends PureComponent {
     }
 
     /**
-     * If card required 3ds authorization - handle it and place order if success
-     * @param paymentInformation
-     * @param message
+     * Handles the response from a card action or a card payment after authorization is complete
+     * @param response the API response
      * @param savePaymentInformation
-     * @returns {null|boolean}
+     * @param paymentInformation
+     * @returns {boolean} true on success, false otherwise
      */
-    handleAuthorization(paymentInformation, message, savePaymentInformation) {
-        const {
-            stripe: { retrievePaymentIntent, handleCardAction, handleCardPayment },
-            showNotification
-        } = this.props;
+    handlePostAuthorization(response, savePaymentInformation, paymentInformation) {
+        const { showNotification } = this.props;
 
-        // 500 server side errors
-        if (typeof message === 'undefined') return false;
-
-        // todo refactor
-        const clientSecret = message.indexOf('Authentication Required: ') === 0
-            ? message.substring('Authentication Required: '.length).split(',')[0]
-            : null;
-
-
-        if (!clientSecret) {
-            showNotification('error', __('Error during card authentication'));
-            return null;
+        if (response.error) {
+            showNotification('error', response.error.message);
+            return false;
         }
 
-        retrievePaymentIntent(clientSecret).then((result) => {
-            if (result.paymentIntent.status === 'requires_action'
-                || result.paymentIntent.status === 'requires_source_action'
-            ) {
-                if (result.paymentIntent.confirmation_method === 'manual') {
-                    handleCardAction(clientSecret).then((cardActionResponse) => {
-                        if (cardActionResponse.error) {
-                            showNotification('error', cardActionResponse.error.message);
-                            return false;
-                        }
+        savePaymentInformation(paymentInformation);
+        return true;
+    }
 
-                        savePaymentInformation(paymentInformation);
-                        return true;
-                    });
+    /**
+     * If card required 3ds authorization - handle it and place order if success
+     * @param paymentInformation
+     * @param secret
+     * @param savePaymentInformation
+     */
+    handleAuthorization(paymentInformation, secret, savePaymentInformation) {
+        const {
+            stripe: { retrievePaymentIntent, handleCardAction, handleCardPayment }
+        } = this.props;
+
+        retrievePaymentIntent(secret).then((result) => {
+            const { paymentIntent: { status, confirmation_method } } = result;
+
+            if (['requires_action', 'requires_source_action'].includes(status)) {
+                if (confirmation_method === 'manual') {
+                    handleCardAction(secret).then(
+                        response => this.handlePostAuthorization(response, savePaymentInformation, paymentInformation)
+                    );
                 } else {
-                    handleCardPayment(clientSecret).then((cardPaymentResponse) => {
-                        if (cardPaymentResponse.error) {
-                            showNotification('error', cardPaymentResponse.error.message);
-                            return false;
-                        }
-
-                        savePaymentInformation(paymentInformation);
-                        return true;
-                    });
+                    handleCardPayment(secret).then(
+                        response => this.handlePostAuthorization(response, savePaymentInformation, paymentInformation)
+                    );
                 }
             }
         });
-
-        return false;
     }
 
     /**
      * Submit order information and create token
-     * @returns {Promise<{callback: InjectedStripeCheckoutForm.handleAuthorization, token: string}|{callback: null, token: null}>}
+     * @returns {Promise<{handleAuthorization: InjectedStripeCheckoutForm.handleAuthorization, token: string}|{handleAuthorization: null, token: null}>}
      */
     async submit() {
         const {
@@ -168,12 +157,12 @@ class InjectedStripeCheckoutForm extends PureComponent {
         );
 
         if (!paymentMethod) {
-            return { token: null, callback: null };
+            return { token: null, handleAuthorization: null };
         }
 
         return {
             token: `${paymentMethod.id}:${paymentMethod.card.brand}:${paymentMethod.card.last4}`,
-            callback: this.handleAuthorization
+            handleAuthorization: this.handleAuthorization
         };
     }
 

@@ -11,11 +11,11 @@
 
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { StripeProvider, Elements } from 'react-stripe-elements';
 
 import CheckoutPayment from 'Component/CheckoutPayment';
 import Braintree from 'Component/Braintree';
 import { paymentMethodsType } from 'Type/Checkout';
-import { StripeProvider, Elements } from 'react-stripe-elements';
 import InjectedStripeCheckoutForm from 'Component/InjectedStripeCheckoutForm';
 import PayPal from 'Component/PayPal';
 

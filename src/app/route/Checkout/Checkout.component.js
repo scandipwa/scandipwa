@@ -142,13 +142,11 @@ class Checkout extends PureComponent {
             setDetailsStep,
             shippingAddress,
             paymentMethods = [],
-            savePaymentInformation,
-            customer
+            savePaymentInformation
         } = this.props;
 
         return (
             <CheckoutBilling
-              customer={ customer }
               setLoading={ setLoading }
               paymentMethods={ paymentMethods }
               setDetailsStep={ setDetailsStep }

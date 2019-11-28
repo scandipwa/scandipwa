@@ -45,9 +45,7 @@ export class CheckoutPaymentsContainer extends PureComponent {
     containerFunctions = {
         initBraintree: this.initBraintree.bind(this),
         setStripeRef: this.setStripeRef.bind(this),
-        selectPaymentMethod: this.selectPaymentMethod.bind(this),
-        getBraintreeData: this.getBraintreeData.bind(this), // todo unused?
-        getStripeData: this.getStripeData.bind(this) // todo unused?
+        selectPaymentMethod: this.selectPaymentMethod.bind(this)
     };
 
     braintree = new BraintreeDropIn(BRAINTREE_CONTAINER_ID);

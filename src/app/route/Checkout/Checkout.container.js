@@ -30,6 +30,7 @@ import { BRAINTREE } from 'Component/CheckoutPayments/CheckoutPayments.component
 import Checkout, { SHIPPING_STEP, BILLING_STEP, DETAILS_STEP } from './Checkout.component';
 
 export const PAYMENT_TOTALS = 'PAYMENT_TOTALS';
+export const STRIPE_AUTH_REQUIRED = 'Authentication Required: ';
 
 export const mapStateToProps = state => ({
     totals: state.CartReducer.cartTotals
@@ -146,27 +147,25 @@ export class CheckoutContainer extends PureComponent {
     });
 
     _handleError = (error, paymentInformation) => {
-        console.log({ error, paymentInformation }); // todo remove
         const { showErrorNotification } = this.props;
-        const [{ debugMessage }] = error;
-        const { paymentMethod: { callback } } = paymentInformation;
+        const [{ debugMessage: message }] = error;
+        const { paymentMethod: { handleAuthorization } } = paymentInformation;
 
         this.setState({
             isDeliveryOptionsLoading: false,
             isLoading: false
-        }, () => {
-            if (debugMessage.indexOf('Authentication Required: ') !== 0) { // todo looks bad
-                showErrorNotification('error', debugMessage);
-            }
         });
 
-        console.log({ callback }); // todo remove
-        if (callback) {
-            callback(
+        if (handleAuthorization && message.startsWith(STRIPE_AUTH_REQUIRED)) {
+            const secret = message.substring(STRIPE_AUTH_REQUIRED.length);
+
+            handleAuthorization(
                 paymentInformation,
-                debugMessage,
+                secret,
                 paymentInformation => this.savePaymentInformation(paymentInformation)
             );
+        } else {
+            showErrorNotification('error', message);
         }
     };
 
