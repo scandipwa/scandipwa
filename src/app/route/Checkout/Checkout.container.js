@@ -146,15 +146,21 @@ export class CheckoutContainer extends PureComponent {
         checkoutTotals: this._getCheckoutTotals()
     });
 
-    _handleError = (error, paymentInformation) => {
+    _handleError = (error) => {
         const { showErrorNotification } = this.props;
-        const [{ debugMessage: message }] = error;
-        const { paymentMethod: { handleAuthorization } } = paymentInformation;
+        const [{ message, debugMessage }] = error;
 
         this.setState({
             isDeliveryOptionsLoading: false,
             isLoading: false
+        }, () => {
+            showErrorNotification(debugMessage || message);
         });
+    };
+
+    _handlePaymentError = (error, paymentInformation) => {
+        const [{ debugMessage: message = '' }] = error;
+        const { paymentMethod: { handleAuthorization } } = paymentInformation;
 
         if (handleAuthorization && message.startsWith(STRIPE_AUTH_REQUIRED)) {
             const secret = message.substring(STRIPE_AUTH_REQUIRED.length);
@@ -165,7 +171,7 @@ export class CheckoutContainer extends PureComponent {
                 paymentInformation => this.savePaymentInformation(paymentInformation)
             );
         } else {
-            showErrorNotification('error', message);
+            this._handleError(error);
         }
     };
 
@@ -266,7 +272,7 @@ export class CheckoutContainer extends PureComponent {
                 this.setDetailsStep(orderID);
             },
             (error) => {
-                this._handleError(error, paymentInformation);
+                this._handlePaymentError(error, paymentInformation);
             }
         );
     }
@@ -274,10 +280,10 @@ export class CheckoutContainer extends PureComponent {
     render() {
         return (
             <Checkout
-              { ...this.props }
-              { ...this.state }
-              { ...this.containerFunctions }
-              { ...this.containerProps() }
+                { ...this.props }
+                { ...this.state }
+                { ...this.containerFunctions }
+                { ...this.containerProps() }
             />
         );
     }
