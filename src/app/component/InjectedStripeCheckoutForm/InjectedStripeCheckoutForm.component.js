@@ -12,6 +12,7 @@
 import React, { PureComponent } from 'react';
 import { CardElement, injectStripe } from 'react-stripe-elements';
 import PropTypes from 'prop-types';
+import './InjectedStripeCheckoutForm.style';
 
 /**
  * @class InjectedStripeCheckoutForm
@@ -168,7 +169,9 @@ class InjectedStripeCheckoutForm extends PureComponent {
 
     render() {
         return (
-            <CardElement hidePostalCode />
+            <div block="InjectedStripeCheckoutForm">
+                <CardElement hidePostalCode />
+            </div>
         );
     }
 }
