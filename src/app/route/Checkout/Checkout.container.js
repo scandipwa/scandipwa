@@ -26,7 +26,7 @@ import { TotalsType } from 'Type/MiniCart';
 import { HistoryType } from 'Type/Common';
 
 import { isSignedIn } from 'Util/Auth';
-import { BRAINTREE } from 'Component/CheckoutPayments/CheckoutPayments.component';
+import { BRAINTREE, KLARNA } from 'Component/CheckoutPayments/CheckoutPayments.component';
 import Checkout, { SHIPPING_STEP, BILLING_STEP, DETAILS_STEP } from './Checkout.component';
 
 export const PAYMENT_TOTALS = 'PAYMENT_TOTALS';
@@ -61,6 +61,7 @@ export class CheckoutContainer extends PureComponent {
     };
 
     customPaymentMethods = [
+        KLARNA,
         BRAINTREE
     ];
 

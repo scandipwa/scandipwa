@@ -18,7 +18,7 @@ import { paymentMethodsType } from 'Type/Checkout';
 import { customerType, addressType } from 'Type/Account';
 import { trimCustomerAddress, trimAddressFields } from 'Util/Address';
 import { TotalsType } from 'Type/MiniCart';
-import { BRAINTREE, STRIPE } from 'Component/CheckoutPayments/CheckoutPayments.component';
+import { BRAINTREE, STRIPE, KLARNA } from 'Component/CheckoutPayments/CheckoutPayments.component';
 
 import CheckoutBilling from './CheckoutBilling.component';
 
@@ -140,6 +140,14 @@ export class CheckoutBillingContainer extends PureComponent {
                     cc_save: false
                 },
                 handleAuthorization
+            };
+        case KLARNA:
+            const [{ authorization_token }] = asyncData;
+            return {
+                method,
+                additional_data: {
+                    authorization_token
+                }
             };
         default:
             return { method };

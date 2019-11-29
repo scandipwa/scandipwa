@@ -22,6 +22,7 @@ import { MenuType } from 'Type/Menu';
 import Overlay from 'Component/Overlay';
 import CmsBlock from 'Component/CmsBlock';
 import { MENU_SUBCATEGORY } from 'Component/Header';
+import StoreSwitcher from 'Component/StoreSwitcher';
 
 import './MenuOverlay.style';
 
@@ -240,12 +241,19 @@ export default class MenuOverlay extends PureComponent {
         );
     }
 
+    renderStoreSwitcher() {
+        return (
+            <StoreSwitcher />
+        );
+    }
+
     render() {
         return (
             <Overlay
               id="menu"
               mix={ { block: 'MenuOverlay' } }
             >
+                { this.renderStoreSwitcher() }
                 { this.renderTopLevel() }
             </Overlay>
         );

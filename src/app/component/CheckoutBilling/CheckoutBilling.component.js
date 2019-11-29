@@ -25,7 +25,8 @@ import { addressType } from 'Type/Account';
 
 class CheckoutBilling extends PureComponent {
     state = {
-        isOrderButtonVisible: true
+        isOrderButtonVisible: true,
+        isOrderButtonEnabled: true
     };
 
     static propTypes = {
@@ -51,8 +52,12 @@ class CheckoutBilling extends PureComponent {
         this.setState({ isOrderButtonVisible });
     };
 
+    setOrderButtonEnableStatus = (isOrderButtonEnabled) => {
+        this.setState({ isOrderButtonEnabled });
+    };
+
     renderActions() {
-        const { isOrderButtonVisible } = this.state;
+        const { isOrderButtonVisible, isOrderButtonEnabled } = this.state;
 
         if (!isOrderButtonVisible) return null;
 
@@ -60,6 +65,7 @@ class CheckoutBilling extends PureComponent {
             <button
               type="submit"
               block="Button"
+              disabled={ !isOrderButtonEnabled }
               mix={ { block: 'CheckoutBilling', elem: 'Button' } }
             >
                 { __('Complete order') }
@@ -125,6 +131,7 @@ class CheckoutBilling extends PureComponent {
               setOrderButtonVisibility={ this.setOrderButtonVisibility }
               billingAddress={ shippingAddress }
               email={ email }
+              setOrderButtonEnableStatus={ this.setOrderButtonEnableStatus }
             />
         );
     }

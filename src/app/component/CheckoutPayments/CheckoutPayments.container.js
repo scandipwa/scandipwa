@@ -15,10 +15,11 @@ import PropTypes from 'prop-types';
 
 import BraintreeDropIn from 'Util/Braintree';
 import { paymentMethodsType } from 'Type/Checkout';
-
-import { BRAINTREE_CONTAINER_ID } from 'Component/Braintree/Braintree.component';
+import { showNotification } from 'Store/Notification';
 import { BILLING_STEP } from 'Route/Checkout/Checkout.component';
-import CheckoutPayments, { BRAINTREE, STRIPE } from './CheckoutPayments.component';
+import { KlarnaContainer } from 'Component/Klarna/Klarna.container';
+import { BRAINTREE_CONTAINER_ID } from 'Component/Braintree/Braintree.component';
+import CheckoutPayments, { BRAINTREE, STRIPE, KLARNA } from './CheckoutPayments.component';
 
 export const STRIPE_MODE_TEST = 'test';
 
@@ -26,6 +27,10 @@ export const mapStateToProps = state => ({
     stripe_mode: state.ConfigReducer.stripe_mode,
     stripe_live_pk: state.ConfigReducer.stripe_live_pk,
     stripe_test_pk: state.ConfigReducer.stripe_test_pk
+});
+
+export const mapDispatchToProps = dispatch => ({
+    showError: message => dispatch(showNotification('error', __(message)))
 });
 
 export class CheckoutPaymentsContainer extends PureComponent {
@@ -52,7 +57,8 @@ export class CheckoutPaymentsContainer extends PureComponent {
 
     dataMap = {
         [BRAINTREE]: this.getBraintreeData.bind(this),
-        [STRIPE]: this.getStripeData.bind(this)
+        [STRIPE]: this.getStripeData.bind(this),
+        [KLARNA]: this.getKlarnaData.bind(this)
     };
 
     constructor(props) {
@@ -81,6 +87,10 @@ export class CheckoutPaymentsContainer extends PureComponent {
      */
     setStripeRef(ref) {
         this.stripeRef = ref;
+    }
+
+    getKlarnaData() {
+        return { asyncData: KlarnaContainer.authorize() };
     }
 
     getBraintreeData() {
@@ -141,4 +151,4 @@ export class CheckoutPaymentsContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps)(CheckoutPaymentsContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(CheckoutPaymentsContainer);

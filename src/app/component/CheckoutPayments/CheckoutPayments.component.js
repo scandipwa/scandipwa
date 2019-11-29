@@ -18,9 +18,11 @@ import Braintree from 'Component/Braintree';
 import { paymentMethodsType } from 'Type/Checkout';
 import InjectedStripeCheckoutForm from 'Component/InjectedStripeCheckoutForm';
 import PayPal from 'Component/PayPal';
+import Klarna from 'Component/Klarna';
 
 import './CheckoutPayments.style';
 
+export const KLARNA = 'klarna_kp';
 export const BRAINTREE = 'braintree';
 export const CHECK_MONEY = 'checkmo';
 export const PAYPAL_EXPRESS = 'paypal_express';
@@ -29,6 +31,7 @@ export const STRIPE = 'stripe_payments';
 
 class CheckoutPayments extends PureComponent {
     static propTypes = {
+        showError: PropTypes.func.isRequired,
         setLoading: PropTypes.func.isRequired,
         setDetailsStep: PropTypes.func.isRequired,
         selectPaymentMethod: PropTypes.func.isRequired,
@@ -36,9 +39,11 @@ class CheckoutPayments extends PureComponent {
         stripeKey: PropTypes.string.isRequired,
         paymentMethods: paymentMethodsType.isRequired,
         setOrderButtonVisibility: PropTypes.func.isRequired,
+        setOrderButtonEnableStatus: PropTypes.func.isRequired,
         selectedPaymentCode: PropTypes.oneOf([
-            CHECK_MONEY,
+            KLARNA,
             BRAINTREE,
+            CHECK_MONEY,
             PAYPAL_EXPRESS,
             PAYPAL_EXPRESS_CREDIT,
             CHECK_MONEY,
@@ -76,7 +81,8 @@ class CheckoutPayments extends PureComponent {
 
     paymentRenderMap = {
         [BRAINTREE]: this.renderBrainTreePayment.bind(this),
-        [STRIPE]: this.renderStripePayment.bind(this)
+        [STRIPE]: this.renderStripePayment.bind(this),
+        [KLARNA]: this.renderKlarnaPayment.bind(this)
     };
 
     componentDidUpdate(prevProps) {
@@ -92,6 +98,13 @@ class CheckoutPayments extends PureComponent {
                 setOrderButtonVisibility(true);
             }
         }
+    }
+
+    componentDidCatch(error, info) {
+        const { showError } = this.props;
+        // eslint-disable-next-line no-console
+        console.error(error, info);
+        showError(`${error} Please try again later`);
     }
 
     renderBrainTreePayment() {
@@ -120,6 +133,11 @@ class CheckoutPayments extends PureComponent {
                 </StripeProvider>
             </div>
         );
+    }
+
+    renderKlarnaPayment() {
+        const { setOrderButtonEnableStatus } = this.props;
+        return <Klarna setOrderButtonEnableStatus={ setOrderButtonEnableStatus } />;
     }
 
     renderPayment = (method) => {

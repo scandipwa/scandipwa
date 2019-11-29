@@ -47,10 +47,6 @@ export class MyAccountOrderPopupContainer extends PureComponent {
         currency_code: PropTypes.string.isRequired
     };
 
-    static defaultProps = {
-        currency_code: ''
-    };
-
     state = {
         order: {},
         prevOrderId: 0,
