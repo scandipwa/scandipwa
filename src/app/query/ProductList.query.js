@@ -119,6 +119,7 @@ export class ProductListQuery {
 
     _getProductInterfaceFields(isVariant, getLinksFieldFromCart) {
         const { isSingleProduct = getLinksFieldFromCart } = this.options;
+        if (getLinksFieldFromCart) this.options = { ...this.options, getLinksFieldFromCart };
         // TODO: add Grouped product fragment
 
         return [
@@ -130,6 +131,12 @@ export class ProductListQuery {
             this._getProductThumbnailField(),
             this._getShortDescriptionField(),
             this._getAttributesField(isVariant),
+            ...(isVariant && getLinksFieldFromCart
+                ? [
+                    this._getProductLinksField()
+                ]
+                : []
+            ),
             ...(!isVariant
                 ? [
                     'url_key',
@@ -167,8 +174,9 @@ export class ProductListQuery {
     }
 
     _getProductField() {
+        const { getLinksFieldFromCart } = this.options;
         return new Field('product')
-            .addFieldList(this._getProductInterfaceFields(true));
+            .addFieldList(this._getProductInterfaceFields(true, getLinksFieldFromCart));
     }
 
     _getShortDescriptionFields() {
