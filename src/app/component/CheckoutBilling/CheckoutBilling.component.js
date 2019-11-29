@@ -23,7 +23,14 @@ import Field from 'Component/Field';
 import './CheckoutBilling.style';
 
 class CheckoutBilling extends PureComponent {
+    state = {
+        isOrderButtonVisible: true,
+        isOrderButtonEnabled: true
+    };
+
     static propTypes = {
+        setLoading: PropTypes.func.isRequired,
+        setDetailsStep: PropTypes.func.isRequired,
         isSameAsShipping: PropTypes.bool.isRequired,
         onSameAsShippingChange: PropTypes.func.isRequired,
         onPaymentMethodSelect: PropTypes.func.isRequired,
@@ -34,11 +41,24 @@ class CheckoutBilling extends PureComponent {
         totals: TotalsType.isRequired
     };
 
+    setOrderButtonVisibility = (isOrderButtonVisible) => {
+        this.setState({ isOrderButtonVisible });
+    };
+
+    setOrderButtonEnableStatus = (isOrderButtonEnabled) => {
+        this.setState({ isOrderButtonEnabled });
+    };
+
     renderActions() {
+        const { isOrderButtonVisible, isOrderButtonEnabled } = this.state;
+
+        if (!isOrderButtonVisible) return null;
+
         return (
             <button
               type="submit"
               block="Button"
+              disabled={ !isOrderButtonEnabled }
               mix={ { block: 'CheckoutBilling', elem: 'Button' } }
             >
                 { __('Complete order') }
@@ -84,14 +104,20 @@ class CheckoutBilling extends PureComponent {
     }
 
     renderPayments() {
-        const { paymentMethods, onPaymentMethodSelect } = this.props;
+        const {
+            paymentMethods, onPaymentMethodSelect, setLoading, setDetailsStep
+        } = this.props;
 
         if (!paymentMethods.length) return null;
 
         return (
             <CheckoutPayments
+              setLoading={ setLoading }
+              setDetailsStep={ setDetailsStep }
               paymentMethods={ paymentMethods }
               onPaymentMethodSelect={ onPaymentMethodSelect }
+              setOrderButtonVisibility={ this.setOrderButtonVisibility }
+              setOrderButtonEnableStatus={ this.setOrderButtonEnableStatus }
             />
         );
     }

@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Component } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import media, { WYSIWYG_MEDIA } from 'Util/Media';
@@ -20,12 +20,13 @@ import CartItem from 'Component/CartItem';
 import { TotalsType } from 'Type/MiniCart';
 import CartCoupon from 'Component/CartCoupon';
 import ContentWrapper from 'Component/ContentWrapper';
+import CartCrossSell from 'Component/CartCrossSell';
 import { formatCurrency, roundPrice } from 'Util/Price';
-import ExpandableContent from 'Component/ExpandableContent';
 
+import ExpandableContent from 'Component/ExpandableContent';
 import './CartPage.style';
 
-export default class CartPage extends Component {
+export default class CartPage extends PureComponent {
     static propTypes = {
         isEditing: PropTypes.bool.isRequired,
         totals: TotalsType.isRequired
@@ -128,7 +129,7 @@ export default class CartPage extends Component {
                   elem="ContinueShopping"
                   to="/"
                 >
-                    { __('Continue Shopping') }
+                    { __('Continue shopping') }
                 </Link>
             </article>
         );
@@ -155,12 +156,19 @@ export default class CartPage extends Component {
         );
     }
 
+    renderCrossSellProducts() {
+        const { totals: { items } } = this.props;
+        return (
+            <CartCrossSell products={ items } />
+        );
+    }
+
     renderPaymentMethods() {
         return (
             <img
               block="CartPage"
               elem="PaymentMethods"
-              src={ media(`${ WYSIWYG_MEDIA }etc/payment-methods.jpg`) }
+              src={ media('etc/payment-methods.jpg', WYSIWYG_MEDIA) }
               alt="Shipping car icon"
             />
         );
@@ -175,7 +183,7 @@ export default class CartPage extends Component {
                 <img
                   block="CartPage"
                   elem="PromoImage"
-                  src={ media(`${ WYSIWYG_MEDIA }etc/shipping-car.svg`) }
+                  src={ media('etc/shipping-car.svg', WYSIWYG_MEDIA) }
                   alt="Shipping car icon"
                 />
                 <figcaption block="CartPage" elem="PromoText">
@@ -201,6 +209,7 @@ export default class CartPage extends Component {
                         <h2 block="CartPage" elem="Heading">{ __('Shopping cart') }</h2>
                         { this.renderCartItems() }
                         { this.renderDiscountCode() }
+                        { this.renderCrossSellProducts() }
                     </div>
                     <div block="CartPage" elem="Floating">
                         { this.renderPaymentMethods() }

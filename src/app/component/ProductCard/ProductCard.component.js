@@ -83,7 +83,7 @@ export default class ProductCard extends PureComponent {
 
     renderPicture() {
         const { product: { id, name }, thumbnail } = this.props;
-        const imageUrl = thumbnail && media(`${ PRODUCT_MEDIA }${ thumbnail }`);
+        const imageUrl = thumbnail && media(thumbnail, PRODUCT_MEDIA);
 
         return (
             <>

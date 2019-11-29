@@ -22,7 +22,8 @@ import {
     DASHBOARD,
     MY_ORDERS,
     MY_WISHLIST,
-    ADDRESS_BOOK
+    ADDRESS_BOOK,
+    NEWSLETTER_SUBSCRIPTION
 } from 'Type/Account';
 
 import MyAccount from './MyAccount.component';
@@ -83,6 +84,10 @@ export class MyAccountContainer extends PureComponent {
         [MY_WISHLIST]: {
             url: '/my-wishlist',
             name: __('My wishlist')
+        },
+        [NEWSLETTER_SUBSCRIPTION]: {
+            url: '/newsletter-subscription',
+            name: __('Newsletter Subscription')
         }
     };
 
@@ -133,7 +138,7 @@ export class MyAccountContainer extends PureComponent {
 
         updateBreadcrumbs([
             { url: `${ MY_ACCOUNT_URL }${ url }`, name },
-            { name: __('My Account'), url: `${ MY_ACCOUNT_URL }${ DASHBOARD }` }
+            { name: __('My Account'), url: `${ MY_ACCOUNT_URL }/${ DASHBOARD }` }
         ]);
     }
 

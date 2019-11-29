@@ -117,8 +117,8 @@ export class ProductListQuery {
         ];
     }
 
-    _getProductInterfaceFields(isVariant) {
-        const { isSingleProduct } = this.options;
+    _getProductInterfaceFields(isVariant, getLinksFieldFromCart) {
+        const { isSingleProduct = getLinksFieldFromCart } = this.options;
         // TODO: add Grouped product fragment
 
         return [
@@ -127,8 +127,8 @@ export class ProductListQuery {
             'name',
             'type_id',
             this._getPriceField(),
-            this._getThumbnailField(),
             this._getStockItemField(),
+            this._getProductThumbnailField(),
             this._getShortDescriptionField(),
             this._getAttributesField(isVariant),
             ...(!isVariant
@@ -266,7 +266,11 @@ export class ProductListQuery {
             .addFieldList(this._getPriceFields());
     }
 
-    _getThumbnailFields() {
+    /**
+     * @returns {[string]} an array representing the subfields of the product thumbnail
+     * @private
+     */
+    _getProductThumbnailFields() {
         return [
             'path'
             // 'url',
@@ -274,9 +278,15 @@ export class ProductListQuery {
         ];
     }
 
-    _getThumbnailField() {
+    /**
+     * Returns the field for fetching the thumbnail of a product.
+     * Not to be confused with the media thumbnail field, which has the same name but is a subfield of media_gallery_entries
+     * @returns {Field}
+     * @private
+     */
+    _getProductThumbnailField() {
         return new Field('thumbnail')
-            .addFieldList(this._getThumbnailFields());
+            .addFieldList(this._getProductThumbnailFields());
     }
 
     _getAttributeOptionField() {
@@ -321,8 +331,36 @@ export class ProductListQuery {
             'position',
             'disabled',
             'media_type',
-            'types'
+            'types',
+            this._getVideoContentField(),
+            this._getMediaThumbnailField()
         ];
+    }
+
+    /**
+     * Returns a field querying video-specific data for a media gallery entry.
+     * @returns {Field} the video_content field
+     * @private
+     */
+    _getVideoContentField() {
+        return new Field('video_content').addFieldList([
+            'media_type',
+            'video_description',
+            'video_metadata',
+            'video_provider',
+            'video_title',
+            'video_url'
+        ]);
+    }
+
+    /**
+     * Returns a field querying the thumbnail of a media gallery entry.
+     * Not to be confused with the product thumbnail field, which has the same name but is a direct subfield of the product
+     * @returns {Field}
+     * @private
+     */
+    _getMediaThumbnailField() {
+        return new Field('thumbnail').addField('url');
     }
 
     _getMediaGalleryField() {

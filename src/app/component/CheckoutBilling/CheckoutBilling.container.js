@@ -19,6 +19,7 @@ import { customerType, addressType } from 'Type/Account';
 import { trimCustomerAddress, trimAddressFields } from 'Util/Address';
 import { TotalsType } from 'Type/MiniCart';
 
+import { BRAINTREE, KLARNA } from 'Component/CheckoutPayments/CheckoutPayments.component';
 import CheckoutBilling from './CheckoutBilling.component';
 
 export const mapStateToProps = state => ({
@@ -107,7 +108,7 @@ export class CheckoutBillingContainer extends PureComponent {
         const { showErrorNotification } = this.props;
 
         if (error) {
-            const { message = __('Something went wrong') } = error;
+            const { message = __('Something went wrong!') } = error;
             showErrorNotification(message);
         }
     }
@@ -117,6 +118,24 @@ export class CheckoutBillingContainer extends PureComponent {
         const { paymentMethod: method } = this.state;
 
         switch (method) {
+        case BRAINTREE:
+            const [{ nonce }] = asyncData;
+
+            return {
+                method,
+                additional_data: {
+                    payment_method_nonce: nonce,
+                    is_active_payment_token_enabler: false
+                }
+            };
+        case KLARNA:
+            const [{ authorization_token }] = asyncData;
+            return {
+                method,
+                additional_data: {
+                    authorization_token
+                }
+            };
         default:
             return { method };
         }

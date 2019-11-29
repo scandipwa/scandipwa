@@ -19,7 +19,7 @@ import { showNotification } from 'Store/Notification';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 import SliderWidget from './SliderWidget.component';
 
-const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = dispatch => ({
     showNotification: (type, title, error) => dispatch(showNotification(type, title, error))
 });
 

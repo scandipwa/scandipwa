@@ -33,7 +33,7 @@ export class CategoryQuery {
         const { categoryUrlPath, categoryIds } = this.options;
         if (categoryUrlPath) return ['url_path', 'String!', categoryUrlPath];
         if (categoryIds) return ['id', 'Int!', categoryIds];
-        throw new Error(__('Can not query category without ID/URL_PATH not specified.'));
+        throw new Error(__('There was an error requesting the category'));
     }
 
     _getChildrenFields() {
@@ -65,7 +65,9 @@ export class CategoryQuery {
             'description',
             'canonical_url',
             'product_count',
+            'meta_keywords',
             'meta_description',
+            'default_sort_by',
             this._getBreadcrumbsField()
         ];
     }

@@ -38,7 +38,10 @@ export default class ProductReviewList extends PureComponent {
               elem="RatingSummaryItem"
             >
                 <p>{ rating_code }</p>
-                { <ProductReviewRating summary={ percent } code={ rating_code } /> }
+                <ProductReviewRating
+                  summary={ percent }
+                  code={ rating_code }
+                />
             </div>
         );
     };
