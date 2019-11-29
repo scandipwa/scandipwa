@@ -41,9 +41,11 @@ export default class KlarnaComponent extends PureComponent {
         try {
             setOrderButtonEnableStatus(false);
 
-            const { klarnaToken: client_token } = await fetchMutation(KlarnaQuery.getCreateKlarnaTokenMutation(
-                !isSignedIn() ? { guest_cart_id } : {}
-            ));
+            const { klarnaToken: client_token } = await fetchMutation(
+                KlarnaQuery.getCreateKlarnaTokenMutation(
+                    !isSignedIn() ? { guest_cart_id } : {}
+                )
+            );
 
             Klarna.Payments.init({ client_token });
             Klarna.Payments.load({
@@ -53,7 +55,7 @@ export default class KlarnaComponent extends PureComponent {
 
             setOrderButtonEnableStatus(true);
         } catch ([{ message }]) {
-            showError(message);
+            showError(__('Error initializing Klarna payment method.'));
         }
 
         this.setState({ isLoading: false });
