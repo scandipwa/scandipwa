@@ -21,14 +21,6 @@ import { KlarnaContainer } from 'Component/Klarna/Klarna.container';
 import { BRAINTREE_CONTAINER_ID } from 'Component/Braintree/Braintree.component';
 import CheckoutPayments, { BRAINTREE, STRIPE, KLARNA } from './CheckoutPayments.component';
 
-export const STRIPE_MODE_TEST = 'test';
-
-export const mapStateToProps = state => ({
-    stripe_mode: state.ConfigReducer.stripe_mode,
-    stripe_live_pk: state.ConfigReducer.stripe_live_pk,
-    stripe_test_pk: state.ConfigReducer.stripe_test_pk
-});
-
 export const mapDispatchToProps = dispatch => ({
     showError: message => dispatch(showNotification('error', __(message)))
 });
@@ -36,15 +28,7 @@ export const mapDispatchToProps = dispatch => ({
 export class CheckoutPaymentsContainer extends PureComponent {
     static propTypes = {
         onPaymentMethodSelect: PropTypes.func.isRequired,
-        paymentMethods: paymentMethodsType.isRequired,
-        stripe_mode: PropTypes.string.isRequired,
-        stripe_live_pk: PropTypes.string,
-        stripe_test_pk: PropTypes.string
-    };
-
-    static defaultProps = {
-        stripe_live_pk: '',
-        stripe_test_pk: ''
+        paymentMethods: paymentMethodsType.isRequired
     };
 
     containerFunctions = {
@@ -81,10 +65,6 @@ export class CheckoutPaymentsContainer extends PureComponent {
         }
     }
 
-    /**
-     * Setter for stripe component reference
-     * @param ref
-     */
     setStripeRef(ref) {
         this.stripeRef = ref;
     }
@@ -100,26 +80,6 @@ export class CheckoutPaymentsContainer extends PureComponent {
     getStripeData() {
         return { asyncData: this.stripeRef.submit() };
     }
-
-    /**
-     * Returns the Publishable Stripe API key that should be used
-     * for the current Stripe mode (test or live)
-     */
-    getStripeKey() {
-        const {
-            stripe_mode,
-            stripe_live_pk,
-            stripe_test_pk
-        } = this.props;
-
-        return stripe_mode === STRIPE_MODE_TEST
-            ? stripe_test_pk
-            : stripe_live_pk;
-    }
-
-    containerProps = () => ({
-        stripeKey: this.getStripeKey()
-    });
 
     collectAdditionalData = () => {
         const { selectedPaymentCode } = this.state;
@@ -144,11 +104,10 @@ export class CheckoutPaymentsContainer extends PureComponent {
             <CheckoutPayments
               { ...this.props }
               { ...this.containerFunctions }
-              { ...this.containerProps() }
               { ...this.state }
             />
         );
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CheckoutPaymentsContainer);
+export default connect(null, mapDispatchToProps)(CheckoutPaymentsContainer);

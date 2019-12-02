@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -11,14 +12,13 @@
 
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { StripeProvider, Elements } from 'react-stripe-elements';
 
 import CheckoutPayment from 'Component/CheckoutPayment';
 import Braintree from 'Component/Braintree';
 import { paymentMethodsType } from 'Type/Checkout';
-import InjectedStripeCheckoutForm from 'Component/InjectedStripeCheckoutForm';
 import PayPal from 'Component/PayPal';
 import Klarna from 'Component/Klarna';
+import Stripe from 'Component/Stripe';
 
 import './CheckoutPayments.style';
 
@@ -36,9 +36,9 @@ class CheckoutPayments extends PureComponent {
         setDetailsStep: PropTypes.func.isRequired,
         selectPaymentMethod: PropTypes.func.isRequired,
         initBraintree: PropTypes.func.isRequired,
-        stripeKey: PropTypes.string.isRequired,
         paymentMethods: paymentMethodsType.isRequired,
         setOrderButtonVisibility: PropTypes.func.isRequired,
+        setStripeRef: PropTypes.func.isRequired,
         setOrderButtonEnableStatus: PropTypes.func.isRequired,
         selectedPaymentCode: PropTypes.oneOf([
             KLARNA,
@@ -49,7 +49,6 @@ class CheckoutPayments extends PureComponent {
             CHECK_MONEY,
             STRIPE
         ]).isRequired,
-        setStripeRef: PropTypes.func.isRequired,
         billingAddress: PropTypes.shape({
             city: PropTypes.string,
             company: PropTypes.string,
@@ -71,18 +70,17 @@ class CheckoutPayments extends PureComponent {
                 PropTypes.array
             ]),
             telephone: PropTypes.string
-        }).isRequired,
-        email: PropTypes.string
-    };
-
-    static defaultProps = {
-        email: null
+        }).isRequired
     };
 
     paymentRenderMap = {
         [BRAINTREE]: this.renderBrainTreePayment.bind(this),
         [STRIPE]: this.renderStripePayment.bind(this),
         [KLARNA]: this.renderKlarnaPayment.bind(this)
+    };
+
+    state = {
+        hasError: false
     };
 
     componentDidUpdate(prevProps) {
@@ -101,10 +99,19 @@ class CheckoutPayments extends PureComponent {
     }
 
     componentDidCatch(error, info) {
-        const { showError } = this.props;
-        // eslint-disable-next-line no-console
-        console.error(error, info);
-        showError(`${error} Please try again later`);
+        const { showError, setOrderButtonEnableStatus } = this.props;
+
+        console.groupCollapsed('Suppressed error log:');
+        console.error(error.toString(), info.toString());
+        console.groupEnd();
+
+        this.setState(
+            { hasError: true },
+            () => {
+                setOrderButtonEnableStatus(false);
+                showError(`${error} Please try again later`);
+            }
+        );
     }
 
     renderBrainTreePayment() {
@@ -114,24 +121,15 @@ class CheckoutPayments extends PureComponent {
 
     renderStripePayment() {
         const {
-            setStripeRef,
             billingAddress,
-            email,
-            stripeKey
+            setStripeRef
         } = this.props;
 
         return (
-            <div>
-                <StripeProvider apiKey={ stripeKey }>
-                    <Elements>
-                        <InjectedStripeCheckoutForm
-                          onRef={ setStripeRef }
-                          billingAddress={ billingAddress }
-                          email={ email }
-                        />
-                    </Elements>
-                </StripeProvider>
-            </div>
+            <Stripe
+              billingAddress={ billingAddress }
+              setStripeRef={ setStripeRef }
+            />
         );
     }
 
@@ -191,15 +189,31 @@ class CheckoutPayments extends PureComponent {
         );
     }
 
-    render() {
+    renderContent() {
+        const { hasError } = this.state;
+
+        if (hasError) {
+            return (
+                <p>{ __('The error occurred during initializing payment methods. Please try again later!') }</p>
+            );
+        }
+
         return (
-            <div block="CheckoutPayments">
+            <>
                 { this.renderHeading() }
                 <ul block="CheckoutPayments" elem="Methods">
                     { this.renderPayments() }
                 </ul>
                 { this.renderSelectedPayment() }
                 { this.renderPayPal() }
+            </>
+        );
+    }
+
+    render() {
+        return (
+            <div block="CheckoutPayments">
+                { this.renderContent() }
             </div>
         );
     }
