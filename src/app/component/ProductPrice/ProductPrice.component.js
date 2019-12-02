@@ -10,18 +10,11 @@
  */
 
 import { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import TextPlaceholder from 'Component/TextPlaceholder';
-import {
-    formatCurrency,
-    calculateDiscountPercentage,
-    calculateFinalPrice,
-    roundPrice
-} from 'Util/Price';
 import { PriceType } from 'Type/ProductList';
 import { MixType } from 'Type/Common';
 import Price from 'Component/Price';
-
-import './ProductPrice.style';
 
 /**
  * Product price
@@ -29,49 +22,55 @@ import './ProductPrice.style';
  */
 export default class ProductPrice extends PureComponent {
     static propTypes = {
+        mix: MixType,
         price: PriceType,
-        mix: MixType
+        isLoading: PropTypes.bool,
+        finalPrice: PropTypes.number
     };
 
     static defaultProps = {
         mix: {},
-        price: {}
+        price: {},
+        finalPrice: 0,
+        isLoading: false
     };
+
+    renderPlaceholder() {
+        const { mix } = this.props;
+
+        return (
+            <p block="ProductPrice" aria-label="Product Price" mix={ mix }>
+                <TextPlaceholder mix={ { block: 'ProductPrice', elem: 'Placeholder' } } length="custom" />
+            </p>
+        );
+    }
 
     render() {
         const {
-            price: { minimalPrice, regularPrice },
-            mix
+            mix,
+            isLoading,
+            finalPrice,
+            price: { regularPrice }
         } = this.props;
 
-        if (!minimalPrice || !regularPrice) {
-            return (
-                <p block="ProductPrice" aria-label="Product Price" mix={ mix }>
-                    <TextPlaceholder mix={ { block: 'ProductPrice', elem: 'Placeholder' } } length="custom" />
-                </p>
-            );
-        }
+        if (isLoading) return this.renderPlaceholder();
 
-        const minimalPriceValue = minimalPrice.amount.value;
-        const regularPriceValue = regularPrice.amount.value;
-        const roundedRegularPrice = roundPrice(regularPriceValue);
-        const priceCurrency = regularPrice.amount.currency;
-        const discountPercentage = calculateDiscountPercentage(minimalPriceValue, regularPriceValue);
-        const finalPrice = calculateFinalPrice(discountPercentage, minimalPriceValue, regularPriceValue);
-        const formatedCurrency = roundPrice(finalPrice);
-        const currency = formatCurrency(priceCurrency);
+        const schemaFields = {
+            itemScope: true,
+            itemProp: 'offers',
+            itemType: 'https://schema.org/AggregateOffer'
+        };
+
+        const { amount: { value: regularPriceValue, currency: priceCurrency } } = regularPrice;
 
         return (
-            <p
-              block="ProductPrice"
+            <Price
               mix={ mix }
-              aria-label={ `Product price: ${ formatedCurrency }${ currency }` }
-              itemProp="offers"
-              itemScope
-              itemType="https://schema.org/AggregateOffer"
-            >
-                <Price currency={ priceCurrency } oldPrice={ roundedRegularPrice } finalPrice={ finalPrice } />
-            </p>
+              finalPrice={ finalPrice }
+              currency={ priceCurrency }
+              schemaFields={ schemaFields }
+              oldPrice={ regularPriceValue }
+            />
         );
     }
 }

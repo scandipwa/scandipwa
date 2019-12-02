@@ -12,7 +12,13 @@
 import { PureComponent } from 'react';
 import { PriceType } from 'Type/ProductList';
 import { MixType } from 'Type/Common';
+import {
+    calculateFinalPrice,
+    calculateDiscountPercentage
+} from 'Util/Price';
+
 import ProductPrice from './ProductPrice.component';
+
 /**
  * Product price
  * @class ProductPrice
@@ -28,10 +34,36 @@ class ProductPriceContainer extends PureComponent {
         price: {}
     };
 
+    containerProps = () => ({
+        isLoading: this._getIsLoading(),
+        finalPrice: this._getFinalPrice()
+    });
+
+    _getIsLoading() {
+        const { price: { minimalPrice, regularPrice } } = this.props;
+        return !(minimalPrice && regularPrice);
+    }
+
+    _getFinalPrice() {
+        if (this._getIsLoading()) return 0;
+
+        const {
+            price: {
+                minimalPrice: { amount: { value: minimalPriceValue } },
+                regularPrice: { amount: { value: regularPriceValue } }
+            }
+        } = this.props;
+
+        const discountPercentage = calculateDiscountPercentage(minimalPriceValue, regularPriceValue);
+
+        return calculateFinalPrice(discountPercentage, minimalPriceValue, regularPriceValue);
+    }
+
     render() {
         return (
             <ProductPrice
               { ...this.props }
+              { ...this.containerProps() }
             />
         );
     }

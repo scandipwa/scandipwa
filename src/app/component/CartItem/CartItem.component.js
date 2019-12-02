@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import Link from 'Component/Link';
 import Image from 'Component/Image';
 import Field from 'Component/Field';
-import CartItemPrice from 'Component/CartItemPrice';
+import Price from 'Component/Price';
 import Loader from 'Component/Loader';
 import { CartItemType } from 'Type/MiniCart';
 import './CartItem.style';
@@ -106,20 +106,29 @@ export default class CartItem extends PureComponent {
         );
     }
 
-    renderProductDetails() {
+    renderCartItemPrice() {
         const {
-            isLikeTable,
-            currency_code,
-            item,
-            item: {
-                row_total,
-                product: {
-                    name
-                }
-            }
+            isLikeTable, currency_code, item, item: { row_total }
         } = this.props;
 
         const regularTotal = calculateRegularTotal(item);
+
+        return (
+            <Price
+              finalPrice={ row_total }
+              oldPrice={ regularTotal }
+              currency={ currency_code }
+              mix={ {
+                  block: 'CartItem',
+                  elem: 'Price',
+                  mods: { isLikeTable }
+              } }
+            />
+        );
+    }
+
+    renderProductDetails() {
+        const { item: { product: { name } } } = this.props;
 
         return (
             <>
@@ -131,16 +140,7 @@ export default class CartItem extends PureComponent {
                     { name }
                 </p>
                 { this.renderConfiguration() }
-                <CartItemPrice
-                  row_total={ row_total }
-                  regular_total={ regularTotal }
-                  currency_code={ currency_code }
-                  mix={ {
-                      block: 'CartItem',
-                      elem: 'Price',
-                      mods: { isLikeTable }
-                  } }
-                />
+                { this.renderCartItemPrice() }
             </>
         );
     }

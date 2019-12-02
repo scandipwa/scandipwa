@@ -11,63 +11,90 @@
 
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import {
-    formatCurrency,
-    roundPrice
-} from 'Util/Price';
+import { MixType } from 'Type/Common';
+import { formatCurrency, roundPrice } from 'Util/Price';
 
 import './Price.style';
 
 /**
  * Product price
- * @class ProductPrice
+ * @class Price
  */
 export default class Price extends PureComponent {
     static propTypes = {
-        finalPrice: PropTypes.number.isRequired,
+        mix: MixType,
+        schemaFields: PropTypes.shape({}),
         oldPrice: PropTypes.number.isRequired,
-        currency: PropTypes.string.isRequired
+        currency: PropTypes.string.isRequired,
+        finalPrice: PropTypes.number.isRequired
     };
 
-    render() {
-        const {
-            finalPrice,
-            oldPrice,
-            currency
-        } = this.props;
+    static defaultProps = {
+        mix: {},
+        schemaFields: {}
+    };
 
-        const roundedOldPrice = roundPrice(oldPrice);
-        const roundedFinalPrice = roundPrice(finalPrice);
+    renderRegular() {
+        const { finalPrice, currency } = this.props;
         const formattedCurrency = formatCurrency(currency);
 
-        const hasDiscount = roundedOldPrice > roundedFinalPrice;
+        return (
+            <span block="Price" elem="FinalPrice">
+                <data value={ formattedCurrency }>
+                    <span itemProp="price">{ roundPrice(finalPrice) }</span>
+                    <span>{ formattedCurrency }</span>
+                </data>
+            </span>
+        );
+    }
 
-        // Use <ins></ins> <del></del> to represent new price and the old (deleted) one
-        const PriceSemanticElementName = hasDiscount ? 'ins' : 'span';
+    renderDiscounted() {
+        const { finalPrice, oldPrice, currency } = this.props;
+        const formattedCurrency = formatCurrency(currency);
 
         return (
             <>
-                <PriceSemanticElementName block="Price" elem="FinalPrice">
-                    <data
-                      value={ formattedCurrency }
-                    >
-                        <span itemProp="lowPrice">{ roundedFinalPrice }</span>
+                <ins block="Price" elem="FinalPrice">
+                    <data value={ formattedCurrency }>
+                        <span itemProp="lowPrice">{ roundPrice(finalPrice) }</span>
                         <span>{ formattedCurrency }</span>
                     </data>
-                </PriceSemanticElementName>
-
+                </ins>
                 <del
                   block="Price"
                   elem="OldPrice"
-                  mods={ { isVisible: hasDiscount } }
-                  aria-label={ __('Old price') }
+                  aria-label={ __('Old Price') }
                   itemProp="highPrice"
                 >
-                    { roundedOldPrice }
+                    { roundPrice(oldPrice) }
                 </del>
-
-                <meta itemProp="priceCurrency" content={ currency } />
             </>
+        );
+    }
+
+    render() {
+        const {
+            mix,
+            oldPrice,
+            currency,
+            finalPrice,
+            schemaFields
+        } = this.props;
+
+        const hasDiscount = finalPrice < oldPrice;
+        const formattedCurrency = formatCurrency(currency);
+        const formattedFinalPrice = roundPrice(finalPrice);
+
+        return (
+            <p
+              block="Price"
+              aria-label={ __('Product price: %s%s', formattedFinalPrice, formattedCurrency) }
+              mix={ mix }
+              { ...schemaFields }
+            >
+                { hasDiscount ? this.renderDiscounted() : this.renderRegular() }
+                <meta itemProp="priceCurrency" content={ currency } />
+            </p>
         );
     }
 }
