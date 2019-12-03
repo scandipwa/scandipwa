@@ -39,7 +39,7 @@ export class ConfigQuery {
                 'timezone',
                 'title_prefix',
                 'title_suffix',
-                'base_currency_code',
+                'default_display_currency_code',
                 'default_keywords',
                 'default_title',
                 'secure_base_media_url',

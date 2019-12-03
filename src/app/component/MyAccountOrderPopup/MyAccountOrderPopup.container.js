@@ -28,7 +28,7 @@ export const ONE_DAY_IN_SECONDS = 86400;
 export const mapStateToProps = state => ({
     order: state.OrderReducer.order,
     payload: state.PopupReducer.popupPayload[ORDER_POPUP_ID] || {},
-    currency_code: state.ConfigReducer.base_currency_code
+    currency_code: state.ConfigReducer.default_display_currency_code
 });
 
 export const mapDispatchToProps = dispatch => ({

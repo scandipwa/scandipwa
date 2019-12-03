@@ -20,7 +20,6 @@ import { trimCustomerAddress, trimAddressFields } from 'Util/Address';
 import { TotalsType } from 'Type/MiniCart';
 import { BRAINTREE, STRIPE, KLARNA } from 'Component/CheckoutPayments/CheckoutPayments.component';
 
-import { BRAINTREE } from 'Component/CheckoutPayments/CheckoutPayments.component';
 import CheckoutBilling from './CheckoutBilling.component';
 
 export const mapStateToProps = state => ({
