@@ -50,7 +50,7 @@ export default class PayPal extends PureComponent {
     getPayPalScript = () => {
         const {
             clientId,
-            cartTotals: { base_currency_code: currency }
+            cartTotals: { quote_currency_code: currency }
         } = this.props;
 
         const params = {

@@ -46,7 +46,6 @@ class MyAccountOverlay extends PureComponent {
         onForgotPasswordAttempt: PropTypes.func.isRequired,
         onFormError: PropTypes.func.isRequired,
         handleForgotPassword: PropTypes.func.isRequired,
-        handleForgotPasswordSuccess: PropTypes.func.isRequired,
         handleSignIn: PropTypes.func.isRequired,
         handleCreateAccount: PropTypes.func.isRequired
     };
@@ -90,7 +89,6 @@ class MyAccountOverlay extends PureComponent {
             onForgotPasswordAttempt,
             onForgotPasswordSuccess,
             onFormError,
-            handleForgotPasswordSuccess,
             handleSignIn,
             handleCreateAccount
         } = this.props;
@@ -105,7 +103,7 @@ class MyAccountOverlay extends PureComponent {
                 >
                     <Field type="text" id="email" name="email" label="Email" validation={ ['notEmpty', 'email'] } />
                     <div block="MyAccountOverlay" elem="Buttons">
-                        <button block="Button" type="submit" onClick={ handleForgotPasswordSuccess }>
+                        <button block="Button" type="submit">
                             { __('Send reset link') }
                         </button>
                     </div>

@@ -12,9 +12,25 @@
 import { Field } from 'Util/Query';
 
 export class ConfigQuery {
+    getStoreListField() {
+        return new Field('storeList')
+            .addFieldList(this._getStoreListFields());
+    }
+
+    _getStoreListFields() {
+        return [
+            'name',
+            'is_active',
+            'base_url',
+            'code'
+        ];
+    }
+
     getQuery() {
         return new Field('storeConfig')
             .addFieldList([
+                'code',
+                'is_active',
                 'cms_home_page',
                 'cms_no_route',
                 'copyright',
@@ -23,7 +39,7 @@ export class ConfigQuery {
                 'timezone',
                 'title_prefix',
                 'title_suffix',
-                'base_currency_code',
+                'default_display_currency_code',
                 'default_keywords',
                 'default_title',
                 'secure_base_media_url',
