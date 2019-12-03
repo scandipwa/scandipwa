@@ -30,6 +30,7 @@ import { BRAINTREE, KLARNA } from 'Component/CheckoutPayments/CheckoutPayments.c
 import Checkout, { SHIPPING_STEP, BILLING_STEP, DETAILS_STEP } from './Checkout.component';
 
 export const PAYMENT_TOTALS = 'PAYMENT_TOTALS';
+export const STRIPE_AUTH_REQUIRED = 'Authentication Required: ';
 
 export const mapStateToProps = state => ({
     totals: state.CartReducer.cartTotals
@@ -148,13 +149,31 @@ export class CheckoutContainer extends PureComponent {
 
     _handleError = (error) => {
         const { showErrorNotification } = this.props;
+        const [{ message, debugMessage }] = error;
 
         this.setState({
             isDeliveryOptionsLoading: false,
             isLoading: false
         }, () => {
-            showErrorNotification(error[0].message);
+            showErrorNotification(debugMessage || message);
         });
+    };
+
+    _handlePaymentError = (error, paymentInformation) => {
+        const [{ debugMessage: message = '' }] = error;
+        const { paymentMethod: { handleAuthorization } } = paymentInformation;
+
+        if (handleAuthorization && message.startsWith(STRIPE_AUTH_REQUIRED)) {
+            const secret = message.substring(STRIPE_AUTH_REQUIRED.length);
+
+            handleAuthorization(
+                paymentInformation,
+                secret,
+                paymentInformation => this.savePaymentInformation(paymentInformation)
+            );
+        } else {
+            this._handleError(error);
+        }
     };
 
     _getGuestCartId = () => BrowserDatabase.getItem(GUEST_QUOTE_ID);
@@ -253,17 +272,19 @@ export class CheckoutContainer extends PureComponent {
                 const { orderID } = data;
                 this.setDetailsStep(orderID);
             },
-            this._handleError
+            (error) => {
+                this._handlePaymentError(error, paymentInformation);
+            }
         );
     }
 
     render() {
         return (
             <Checkout
-              { ...this.props }
-              { ...this.state }
-              { ...this.containerFunctions }
-              { ...this.containerProps() }
+                { ...this.props }
+                { ...this.state }
+                { ...this.containerFunctions }
+                { ...this.containerProps() }
             />
         );
     }
