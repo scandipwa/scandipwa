@@ -26,7 +26,8 @@
         "scandipwa/reviews-graphql": "^1.0",
         "scandipwa/paypal-graphql": "^1.0",
         "scandipwa/klarna-graphql": "^1.1",
-        "scandipwa/store-graphql": "^1.0"
+        "scandipwa/store-graphql": "^1.0",
+        "scandipwa/cache": "^1.0"
     },
     "support": {
         "source": "https://bitbucket.org/scandiweb/scandipwa-base-theme",
