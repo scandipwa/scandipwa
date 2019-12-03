@@ -56,7 +56,7 @@ export default class KlarnaComponent extends PureComponent {
             setOrderButtonEnableStatus(true);
         } catch (err) {
             console.groupCollapsed('Suppressed error log:');
-            console.error(err.toString());
+            console.error(err);
             console.groupEnd();
 
             showError(__('Error initializing Klarna payment method.'));
