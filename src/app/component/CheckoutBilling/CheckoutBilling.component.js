@@ -40,12 +40,7 @@ class CheckoutBilling extends PureComponent {
         onAddressSelect: PropTypes.func.isRequired,
         paymentMethods: paymentMethodsType.isRequired,
         totals: TotalsType.isRequired,
-        shippingAddress: addressType.isRequired,
-        email: PropTypes.string
-    };
-
-    static defaultProps= {
-        email: null
+        shippingAddress: addressType.isRequired
     };
 
     setOrderButtonVisibility = (isOrderButtonVisible) => {
@@ -54,6 +49,10 @@ class CheckoutBilling extends PureComponent {
 
     setOrderButtonEnableStatus = (isOrderButtonEnabled) => {
         this.setState({ isOrderButtonEnabled });
+    };
+
+    setOrderButtonVisibility = (isOrderButtonVisible) => {
+        this.setState({ isOrderButtonVisible });
     };
 
     renderActions() {
@@ -116,8 +115,7 @@ class CheckoutBilling extends PureComponent {
             onPaymentMethodSelect,
             setLoading,
             setDetailsStep,
-            shippingAddress,
-            email
+            shippingAddress
         } = this.props;
 
         if (!paymentMethods.length) return null;
@@ -130,7 +128,6 @@ class CheckoutBilling extends PureComponent {
               onPaymentMethodSelect={ onPaymentMethodSelect }
               setOrderButtonVisibility={ this.setOrderButtonVisibility }
               billingAddress={ shippingAddress }
-              email={ email }
               setOrderButtonEnableStatus={ this.setOrderButtonEnableStatus }
             />
         );
