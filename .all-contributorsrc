@@ -294,11 +294,22 @@
         "doc",
         "ideas"
       ]
+    },
+    {
+      "login": "joy-codilar",
+      "name": "Jayanka Ghosh",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/46239833?v=4",
+      "profile": "https://github.com/joy-codilar",
+      "contributions": [
+        "code",
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
   "projectName": "base-theme",
   "projectOwner": "scandipwa",
   "repoType": "github",
-  "repoHost": "https://github.com"
+  "repoHost": "https://github.com",
+  "skipCi": true
 }
