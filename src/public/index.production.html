@@ -5,30 +5,31 @@
 
         <script>
             if ('serviceWorker' in navigator) {
-                window.addEventListener('load', () => {
+                window.addEventListener('load', function() {
                     navigator.serviceWorker.register('/sw.js');
                 });
             }
-            const actionName = {
-                    type: `<?php echo $this->getAction(); ?>`
-                };
-            window.actionName = actionName;
+
+            window.actionName = {
+                type: `<?= $this->getAction(); ?>`
+            };
         </script>
-        <script src="https://js.stripe.com/v3/"></script>
+
+        <script src="https://js.stripe.com/v3/" async></script>
 
         <!-- TODO: Find or implement helper to generate fonts related code -->
-        <link rel="preload" href="<%= htmlWebpackPlugin.options.publicPath %>assets/font/MuliLight.woff2" as="font" type="font/woff2" crossorigin="">
-        <link rel="preload" href="<%= htmlWebpackPlugin.options.publicPath %>assets/font/MuliRegular.woff2" as="font" type="font/woff2" crossorigin="">
-        <link rel="preload" href="<%= htmlWebpackPlugin.options.publicPath %>assets/font/MuliSemiBold.woff2" as="font" type="font/woff2" crossorigin="">
-        <link rel="preload" href="<%= htmlWebpackPlugin.options.publicPath %>assets/font/MuliBold.woff2" as="font" type="font/woff2" crossorigin="">
-        <link rel="preload" href="<%= htmlWebpackPlugin.options.publicPath %>assets/font/MuliExtraBold.woff2" as="font" type="font/woff2" crossorigin="">
+        <link rel="preload" href="<?= $this->getStaticFile("assets/font/MuliLight.woff2"); ?>" as="font" type="font/woff2" crossorigin="">
+        <link rel="preload" href="<?= $this->getStaticFile("assets/font/MuliRegular.woff2"); ?>" as="font" type="font/woff2" crossorigin="">
+        <link rel="preload" href="<?= $this->getStaticFile("assets/font/MuliSemiBold.woff2"); ?>" as="font" type="font/woff2" crossorigin="">
+        <link rel="preload" href="<?= $this->getStaticFile("assets/font/MuliBold.woff2"); ?>" as="font" type="font/woff2" crossorigin="">
+        <link rel="preload" href="<?= $this->getStaticFile("assets/font/MuliExtraBold.woff2"); ?>" as="font" type="font/woff2" crossorigin="">
 
         <style>
             @font-face {
                 font-family: 'Muli';
                 font-style: normal;
                 font-weight: 300;
-                src: local('Muli Light'), local('Muli-Light'), url(<%= htmlWebpackPlugin.options.publicPath %>assets/font/MuliLight.woff2) format('woff2');
+                src: local('Muli Light'), local('Muli-Light'), url(<?= $this->getStaticFile("assets/font/MuliLight.woff2"); ?>) format('woff2');
                 unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
             }
 
@@ -36,7 +37,7 @@
                 font-family: 'Muli';
                 font-style: normal;
                 font-weight: 400;
-                src: local('Muli Regular'), local('Muli-Regular'), url(<%= htmlWebpackPlugin.options.publicPath %>assets/font/MuliRegular.woff2) format('woff2');
+                src: local('Muli Regular'), local('Muli-Regular'), url(<?= $this->getStaticFile("assets/font/MuliRegular.woff2"); ?>) format('woff2');
                 unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
             }
 
@@ -44,7 +45,7 @@
                 font-family: 'Muli';
                 font-style: normal;
                 font-weight: 600;
-                src: local('Muli SemiBold'), local('Muli-SemiBold'), url(<%= htmlWebpackPlugin.options.publicPath %>assets/font/MuliSemiBold.woff2) format('woff2');
+                src: local('Muli SemiBold'), local('Muli-SemiBold'), url(<?= $this->getStaticFile("assets/font/MuliSemiBold.woff2"); ?>) format('woff2');
                 unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
             }
 
@@ -52,30 +53,30 @@
                 font-family: 'Muli';
                 font-style: normal;
                 font-weight: 700;
-                src: local('Muli Bold'), local('Muli-Bold'), url(<%= htmlWebpackPlugin.options.publicPath %>assets/font/MuliBold.woff2) format('woff2');
+                src: local('Muli Bold'), local('Muli-Bold'), url(<?= $this->getStaticFile("assets/font/MuliBold.woff2"); ?>) format('woff2');
                 unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
             }
 
-            @font-face {
+            @font-face {php echo
                 font-family: 'Muli';
                 font-style: normal;
                 font-weight: 800;
-                src: local('Muli ExtraBold'), local('Muli-ExtraBold'), url(<%= htmlWebpackPlugin.options.publicPath %>assets/font/MuliExtraBold.woff2) format('woff2');
+                src: local('Muli ExtraBold'), local('Muli-ExtraBold'), url(<?= $this->getStaticFile("assets/font/MuliExtraBold.woff2"); ?>) format('woff2');
                 unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
             }
         </style>
 
         <title>ScandiPWA | ...</title>
 
-        <link rel="stylesheet" href="<%= htmlWebpackPlugin.files.css[0] %>">
+        <link rel="stylesheet" href="<?= $this->getStaticFile("<%= htmlWebpackPlugin.files.css[0] %>"); ?>">
 
-        <link rel="shortcut icon" href="<%= htmlWebpackPlugin.options.publicPath %>assets/favicon/favicon.ico">
+        <link rel="shortcut icon" href="<?= $this->getStaticFile("<%= htmlWebpackPlugin.options.publicPath %>"); ?>">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     </head>
 
     <body>
         <noscript> You need to enable JavaScript to run this app. </noscript>
         <div id="root"></div>
-        <script src="<%= htmlWebpackPlugin.files.js[0] %>"></script>
+        <script src="<?= $this->getStaticBundleFile() ?>"></script>
     </body>
 </html>

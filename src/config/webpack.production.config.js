@@ -38,7 +38,6 @@ const publicRoot = path.resolve(magentoRoot, 'pub');
 const fallbackRoot = path.resolve(magentoRoot, 'vendor', 'scandipwa', 'source');
 
 const staticVersion = Date.now();
-const publicPath = `/static/version${staticVersion}/frontend/Scandiweb/pwa/en_US/Magento_Theme/`;
 
 const webpackConfig = ([lang, translation]) => ({
     resolve: {
@@ -112,8 +111,7 @@ const webpackConfig = ([lang, translation]) => ({
     output: {
         filename: `${lang}.bundle.js`,
         path: path.resolve(projectRoot, 'Magento_Theme', 'web'),
-        pathinfo: true,
-        publicPath
+        pathinfo: true
     },
 
     plugins: [
@@ -128,7 +126,6 @@ const webpackConfig = ([lang, translation]) => ({
             filename: '../templates/root.phtml',
             inject: false,
             hash: true,
-            publicPath,
             minify: {
                 collapseWhitespace: true,
                 removeComments: true,
