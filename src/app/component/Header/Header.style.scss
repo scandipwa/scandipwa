@@ -377,21 +377,26 @@
             }
         }
     }
-    &-CurrencySwitcher{
-        .currency{
+
+    &-CurrencySwitcher {
+        .currency {
             min-width: 80px;
             margin-right: 5px;
-            .Field{
+
+            .Field {
                 margin-top: 0;
             }
         }
-        select{
+
+        select {
             padding: 10px;
             margin-right: 5px;
         }
+
         @include mobile {
             width: 0;
             opacity: 0;
+
             &_isVisible {
                 opacity: 1;
                 width: auto;
