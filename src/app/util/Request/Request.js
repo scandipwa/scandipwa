@@ -11,22 +11,33 @@
  */
 
 import { getAuthorizationToken } from 'Util/Auth';
+import { getCurrency } from 'Util/Currency/Current';
 import { hash } from './Hash';
 
+const currencyCode = getCurrency();
 const GRAPHQL_URI = '/graphql';
 
 /**
- * Append authorization token to header object
+ * Append authorization token and Customer specific data to header object if sendSessionData is true
  * @param {Object} headers
- * @returns {Object} Headers with appended authorization
+ * @param {boolean} sendSessionData
+ * @returns {Object} Headers with appended Session Data (token and Currency Code)
  */
-const appendTokenToHeaders = (headers) => {
+const appendSessionDataToHeaders = (headers, sendSessionData) => {
     const token = getAuthorizationToken();
 
-    return {
+    const headerData = {
         ...headers,
         Authorization: token ? `Bearer ${token}` : ''
     };
+
+    if (sendSessionData) {
+        if (currencyCode !== '') {
+            headerData['Content-Currency'] = currencyCode;
+        }
+    }
+
+    return headerData;
 };
 
 /**
@@ -39,7 +50,7 @@ const appendTokenToHeaders = (headers) => {
 const formatURI = (query, variables, url) => {
     const stringifyVariables = Object.keys(variables).reduce(
         (acc, variable) => [...acc, `${ variable }=${ variables[ variable ] }`],
-        [`?hash=${ hash(query) }`]
+        [`?hash=${ hash(query + currencyCode) }`]
     );
 
     return `${ url }${ stringifyVariables.join('&') }`.replace(/ /g, '');
@@ -51,14 +62,14 @@ const formatURI = (query, variables, url) => {
  * @param {String} name
  * @returns {Promise<Response>}
  */
-const getFetch = (uri, name) => fetch(uri,
+const getFetch = (uri, name, sendSessionData) => fetch(uri,
     {
         method: 'GET',
-        headers: appendTokenToHeaders({
+        headers: appendSessionDataToHeaders({
             'Content-Type': 'application/json',
             'Application-Model': name,
             Accept: 'application/json'
-        })
+        }, sendSessionData)
     });
 
 /**
@@ -67,7 +78,7 @@ const getFetch = (uri, name) => fetch(uri,
  * @param {{}} query Request body
  * @param {Int} cacheTTL
  */
-const putPersistedQuery = (graphQlURI, query, cacheTTL) => fetch(`${ graphQlURI }?hash=${ hash(query) }`,
+const putPersistedQuery = (graphQlURI, query, cacheTTL) => fetch(`${ graphQlURI }?hash=${ hash(query + currencyCode) }`,
     {
         method: 'PUT',
         body: JSON.stringify(query),
@@ -88,7 +99,7 @@ const postFetch = (graphQlURI, query, variables) => fetch(graphQlURI,
     {
         method: 'POST',
         body: JSON.stringify({ query, variables }),
-        headers: appendTokenToHeaders({
+        headers: appendSessionDataToHeaders({
             'Content-Type': 'application/json',
             Accept: 'application/json'
         })
@@ -131,21 +142,23 @@ export const HTTP_201_CREATED = 201;
 
 /**
  * Make GET request to endpoint (via ServiceWorker)
+ * Pass sendSessionData as false to not to send Customer Specific Data
  * @param  {{}} queryObject prepared with `prepareDocument()` from `Util/Query` request body object
  * @param  {String} name Name of model for ServiceWorker to send BroadCasts updates to
  * @param  {Number} cacheTTL Cache TTL (in seconds) for ServiceWorker to cache responses
+ * @param {boolean} sendSessionData
  * @return {Promise<Request>} Fetch promise to GraphQL endpoint
  */
-export const executeGet = (queryObject, name, cacheTTL) => {
+export const executeGet = (queryObject, name, cacheTTL, sendSessionData = true) => {
     const { query, variables } = queryObject;
     const uri = formatURI(query, variables, GRAPHQL_URI);
 
     return parseResponse(new Promise((resolve) => {
-        getFetch(uri, name).then((res) => {
+        getFetch(uri, name, sendSessionData).then((res) => {
             if (res.status === HTTP_410_GONE) {
                 putPersistedQuery(GRAPHQL_URI, query, cacheTTL).then((putResponse) => {
                     if (putResponse.status === HTTP_201_CREATED) {
-                        getFetch(uri, name).then(res => resolve(res));
+                        getFetch(uri, name, sendSessionData).then(res => resolve(res));
                     }
                 });
             } else {

@@ -35,6 +35,7 @@ import { OverlayReducer } from 'Store/Overlay';
 import { PopupReducer } from 'Store/Popup';
 import { ConfigReducer } from 'Store/Config';
 import { LinkedProductsReducer } from 'Store/LinkedProducts';
+import { CurrencyReducer } from 'Store/Currency';
 
 export const reducers = {
     CmsBlocksAndSliderReducer,
@@ -58,7 +59,8 @@ export const reducers = {
     PopupReducer,
     UrlRewritesReducer,
     ConfigReducer,
-    LinkedProductsReducer
+    LinkedProductsReducer,
+    CurrencyReducer
 };
 
 const store = createStore(

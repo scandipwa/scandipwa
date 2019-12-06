@@ -11,7 +11,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent, Fragment, createRef } from 'react';
+import React, { PureComponent, Fragment, createRef } from 'react';
 import PropTypes from 'prop-types';
 
 import Link from 'Component/Link';
@@ -22,6 +22,7 @@ import CartOverlay from 'Component/CartOverlay';
 import ClickOutside from 'Component/ClickOutside';
 import SearchOverlay from 'Component/SearchOverlay';
 import MyAccountOverlay from 'Component/MyAccountOverlay';
+import CurrencySwitcher from 'Component/CurrencySwitcher';
 
 import './Header.style';
 import media from 'Util/Media';
@@ -106,13 +107,15 @@ export default class Header extends PureComponent {
         [PDP]: {
             back: true,
             title: true,
-            minicart: true
+            minicart: true,
+            currency_switcher: true
         },
         [CATEGORY]: {
             back: true,
             menu: true,
             title: true,
-            minicart: true
+            minicart: true,
+            currency_switcher: true
         },
         [CUSTOMER_ACCOUNT]: {
             close: true,
@@ -127,6 +130,7 @@ export default class Header extends PureComponent {
             title: true,
             account: true,
             minicart: true,
+            currency_switcher: true,
             logo: true
         },
         [MENU]: {
@@ -174,6 +178,7 @@ export default class Header extends PureComponent {
         search: this.renderSearchField.bind(this),
         title: this.renderTitle.bind(this),
         logo: this.renderLogo.bind(this),
+        currency_switcher: this.renderCurrencySwitcher.bind(this),
         account: this.renderAccountButton.bind(this),
         minicart: this.renderMinicartButton.bind(this),
         clear: this.renderClearButton.bind(this),
@@ -225,6 +230,25 @@ export default class Header extends PureComponent {
         );
     }
 
+    /**
+     *
+     * @returns {CurrencySwitcher}
+     */
+    renderCurrencySwitcher(isVisible = false) {
+        return (
+            <div
+              block="Header"
+              elem="CurrencySwitcher"
+              key="currency-switcher"
+              mods={ { isVisible, type: 'currency-switcher' } }
+              aria-label="Currency Switcher"
+            >
+                <CurrencySwitcher />
+            </div>
+
+        );
+    }
+
     renderMenuButton(isVisible = false) {
         const { onMenuOutsideClick, onMenuButtonClick } = this.props;
 
@@ -260,23 +284,23 @@ export default class Header extends PureComponent {
                       elem="SearchWrapper"
                       aria-label="Search"
                     >
-                            <input
-                              id="search-field"
-                              ref={ this.searchBarRef }
-                              placeholder="Type a new search"
-                              block="Header"
-                              elem="SearchField"
-                              onClick={ onSearchBarClick }
-                              onChange={ onSearchBarChange }
-                              value={ searchCriteria }
-                              mods={ {
-                                  isVisible: isSearchVisible,
-                                  type: 'searchField'
-                              } }
-                            />
-                            <SearchOverlay
-                              searchCriteria={ searchCriteria }
-                            />
+                        <input
+                          id="search-field"
+                          ref={ this.searchBarRef }
+                          placeholder="Type a new search"
+                          block="Header"
+                          elem="SearchField"
+                          onClick={ onSearchBarClick }
+                          onChange={ onSearchBarChange }
+                          value={ searchCriteria }
+                          mods={ {
+                              isVisible: isSearchVisible,
+                              type: 'searchField'
+                          } }
+                        />
+                        <SearchOverlay
+                          searchCriteria={ searchCriteria }
+                        />
                     </div>
                 </ClickOutside>
                 <button
@@ -313,6 +337,8 @@ export default class Header extends PureComponent {
             header_logo_src,
             logo_alt
         } = this.props;
+
+        if (!header_logo_src) return null;
 
         return (
             <Logo
