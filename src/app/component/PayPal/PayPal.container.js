@@ -35,7 +35,7 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-    showNotification: (type, message, e) => dispatch(showNotification(type, __(message), e))
+    showNotification: (type, message, e) => dispatch(showNotification(type, message, e))
 });
 
 export class PayPalContainer extends PureComponent {
