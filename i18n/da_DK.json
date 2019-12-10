@@ -1,6 +1,6 @@
 {
     "%s - Picture #%s": "%s - Billed(er) #%s",
-    "%s Item(s) In Cart"": "%s Produkt(er) i kurven",
+    "%s Item(s) In Cart": "%s Produkt(er) i kurven",
     "%s Items": "%s Produkter",
     "%s items found": "%s produkter fundet",
     "%s reviews": "%s anmeldelser",
@@ -90,7 +90,7 @@
     "Forgot password?": "Glemt kodeord?",
     "General subscription": "Generelt abonnement",
     "Go To Wishlist": "Gå til ønskeliste",
-    "Go to \"Address Book\", to configure them!"": "Gå til \"Adressebog\", for at konfigurere dem!"",
+    "Go to \"Address Book\", to configure them!": "Gå til \"Adressebog\", for at konfigurere dem!",
     "Go to Address Book to configure them!": "Gå til adressebog for at konfigurere dem!",
     "Good": "God",
     "Got it": "Forstået",
