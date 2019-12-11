@@ -53,18 +53,18 @@ class MyAccountOverlay extends PureComponent {
     renderMap = {
         [STATE_SIGN_IN]: {
             render: () => this.renderSignIn(),
-            title: 'Sign in to your account'
+            title: __('Sign in to your account')
         },
         [STATE_FORGOT_PASSWORD]: {
             render: () => this.renderForgotPassword(),
-            title: 'Get password link'
+            title: __('Get password link')
         },
         [STATE_FORGOT_PASSWORD_SUCCESS]: {
             render: () => this.renderForgotPasswordSuccess()
         },
         [STATE_CREATE_ACCOUNT]: {
             render: () => this.renderCreateAccount(),
-            title: 'Create new account'
+            title: __('Create new account')
         },
         [STATE_LOGGED_IN]: {
             render: () => {}
@@ -178,14 +178,14 @@ class MyAccountOverlay extends PureComponent {
                         <legend>{ __('Personal Information') }</legend>
                         <Field
                           type="text"
-                          label="First Name"
+                          label={ __('First Name') }
                           id="firstname"
                           name="firstname"
                           validation={ ['notEmpty'] }
                         />
                         <Field
                           type="text"
-                          label="Last Name"
+                          label={ __('Last Name') }
                           id="lastname"
                           name="lastname"
                           validation={ ['notEmpty'] }

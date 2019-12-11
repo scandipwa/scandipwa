@@ -147,10 +147,7 @@ export default class CartOverlay extends PureComponent {
               block="CartOverlay"
               elem="Promo"
             >
-                <strong>Free shipping</strong>
-                on orders
-                <strong>49$</strong>
-                and more.
+                { __('Free shipping on order 49$ and more.') }
             </p>
         );
     }
