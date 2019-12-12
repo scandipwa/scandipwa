@@ -218,7 +218,8 @@
       "avatar_url": "https://avatars2.githubusercontent.com/u/8639654?v=4",
       "profile": "http://teomedia.dk",
       "contributions": [
-        "bug"
+        "bug",
+        "translation"
       ]
     },
     {
@@ -255,5 +256,6 @@
   "projectName": "base-theme",
   "projectOwner": "scandipwa",
   "repoType": "github",
-  "repoHost": "https://github.com"
+  "repoHost": "https://github.com",
+  "skipCi": true
 }
