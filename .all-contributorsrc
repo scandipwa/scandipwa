@@ -74,6 +74,15 @@
       ]
     },
     {
+      "login": "kirilsscerba",
+      "name": "Kirils Scerba",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/56016827?v=4",
+      "profile": "http://scandiweb.com",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
       "login": "mgmanoj",
       "name": "Manoj MG",
       "avatar_url": "https://avatars3.githubusercontent.com/u/13735397?v=4",
@@ -133,7 +142,11 @@
         "bug",
         "projectManagement",
         "review",
-        "content"
+        "content",
+        "doc",
+        "question",
+        "talk",
+        "video"
       ]
     },
     {
@@ -213,6 +226,16 @@
       ]
     },
     {
+      "login": "Animimar",
+      "name": "Tanunuki",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/32173359?v=4",
+      "profile": "https://github.com/Animimar",
+      "contributions": [
+        "code",
+        "bug"
+      ]
+    },
+    {
       "login": "teodormoq",
       "name": "Teodor Moquist",
       "avatar_url": "https://avatars2.githubusercontent.com/u/8639654?v=4",
@@ -249,6 +272,57 @@
       "profile": "https://github.com/Chevskis",
       "contributions": [
         "projectManagement"
+      ]
+    },
+    {
+      "login": "lianastaskevica",
+      "name": "Liana ",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/52198221?v=4",
+      "profile": "https://github.com/lianastaskevica",
+      "contributions": [
+        "projectManagement",
+        "bug",
+        "userTesting"
+      ]
+    },
+    {
+      "login": "Danpiel",
+      "name": "Yuri Egorov",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/367141?v=4",
+      "profile": "http://danpiel.net",
+      "contributions": [
+        "infra",
+        "doc",
+        "ideas"
+      ]
+    },
+    {
+      "login": "joy-codilar",
+      "name": "Jayanka Ghosh",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/46239833?v=4",
+      "profile": "https://github.com/joy-codilar",
+      "contributions": [
+        "code",
+        "bug"
+      ]
+    },
+    {
+      "login": "kiran-codilar",
+      "name": "Kiran",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/16700298?v=4",
+      "profile": "https://github.com/kiran-codilar",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "krystian15",
+      "name": "krystian15",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/31726767?v=4",
+      "profile": "https://github.com/krystian15",
+      "contributions": [
+        "bug",
+        "code"
       ]
     }
   ],

@@ -41,12 +41,14 @@ export default class CategoryFilterOverlay extends PureComponent {
             maxPriceValue
         } = this.props;
 
-        const { min, max } = priceValue;
+        const { min: minValue, max: maxValue } = priceValue;
+        const min = minValue || minPriceValue;
+        const max = maxValue || maxPriceValue;
 
         return (
             <ExpandableContent
-              heading="Price"
-              subHeading={ `From: ${min || minPriceValue} to ${max || maxPriceValue}` }
+              heading={ __('Price') }
+              subHeading={ __('From: %s to %s', min, max) }
               mix={ {
                   block: 'CategoryFilterOverlay',
                   elem: 'Filter',

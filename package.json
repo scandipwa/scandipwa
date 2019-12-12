@@ -50,6 +50,7 @@
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-router-hash-link": "^1.2.1",
+    "react-stripe-elements": "^6.0.1",
     "react-vimeo": "^2.0.0",
     "react-youtube": "^7.9.0",
     "rebem-classname": "^0.4.0",

@@ -42,12 +42,12 @@ class CheckoutDeliveryOption extends PureComponent {
     renderPrice() {
         const {
             option: { price_incl_tax },
-            totals: { base_currency_code }
+            totals: { quote_currency_code }
         } = this.props;
 
         return (
             <strong>
-                { ` - ${price_incl_tax}${formatCurrency(base_currency_code)}` }
+                { ` - ${price_incl_tax}${formatCurrency(quote_currency_code)}` }
             </strong>
         );
     }
