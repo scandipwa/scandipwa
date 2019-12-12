@@ -10,7 +10,6 @@
 
 This repository contains ScandiPWA Theme sources. Read full application documentation [here](https://docs.scandipwa.com/#/theme/01-Project).
 
-
 ## Local development
 
 The [docker environment](https://github.com/scandipwa/scandipwa-base) is prepared to deploy and develop theme. We strictly recommend using it!
@@ -91,4 +90,3 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 ## License
 
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fscandipwa%2Fbase-theme.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fscandipwa%2Fbase-theme?ref=badge_large)
-
