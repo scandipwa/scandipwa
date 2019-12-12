@@ -11,7 +11,7 @@
 
 import { QueryDispatcher } from 'Util/Request';
 import { ProductListQuery } from 'Query';
-import { updateProductDetails, updateGroupedProductQuantity, clearGroupedProductQuantity } from 'Store/Product';
+import { updateProductDetails } from 'Store/Product';
 import { updateNoMatch } from 'Store/NoMatch';
 import { RelatedProductsDispatcher } from 'Store/RelatedProducts';
 
@@ -56,16 +56,6 @@ export class ProductDispatcher extends QueryDispatcher {
 
     prepareRequest(options) {
         return ProductListQuery.getQuery(options);
-    }
-
-    updateGroupedProductQuantity(dispatch, options) {
-        const { product, quantity } = options;
-
-        return dispatch(updateGroupedProductQuantity(product, quantity));
-    }
-
-    clearGroupedProductQuantity(dispatch) {
-        return dispatch(clearGroupedProductQuantity());
     }
 
     _prepareGroupedProduct(groupProduct) {

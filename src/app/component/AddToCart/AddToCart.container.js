@@ -22,8 +22,7 @@ import { WishlistDispatcher } from 'Store/Wishlist';
 import AddToCart from './AddToCart.component';
 
 export const mapStateToProps = state => ({
-    wishlistItems: state.WishlistReducer.productsInWishlist,
-    groupedProductQuantity: state.ProductReducer.groupedProductQuantity
+    wishlistItems: state.WishlistReducer.productsInWishlist
 });
 
 export const mapDispatchToProps = dispatch => ({

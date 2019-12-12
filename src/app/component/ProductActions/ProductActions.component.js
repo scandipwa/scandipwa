@@ -48,7 +48,10 @@ export default class ProductActions extends PureComponent {
         setQuantity: PropTypes.func.isRequired,
         updateConfigurableVariant: PropTypes.func.isRequired,
         parameters: PropTypes.objectOf(PropTypes.string).isRequired,
-        getIsConfigurableAttributeAvailable: PropTypes.func.isRequired
+        getIsConfigurableAttributeAvailable: PropTypes.func.isRequired,
+        groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired,
+        clearGroupedProductQuantity: PropTypes.func.isRequired,
+        setGroupedProductQuantity: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -108,7 +111,7 @@ export default class ProductActions extends PureComponent {
 
         return (
             <ProductConfigurableAttributes
-              // eslint-disable-next-line no-magic-numbers
+                // eslint-disable-next-line no-magic-numbers
               numberOfPlaceholders={ [2, 4] }
               mix={ { block: 'ProductActions', elem: 'Attributes' } }
               isReady={ areDetailsLoaded }
@@ -128,7 +131,7 @@ export default class ProductActions extends PureComponent {
 
         if (!html && id) return null;
 
-        const htmlWithItemProp = `<div itemProp="description">${html}</div>`;
+        const htmlWithItemProp = `<div itemProp="description">${ html }</div>`;
 
         return (
             <div block="ProductActions" elem="ShortDescription">
@@ -158,10 +161,10 @@ export default class ProductActions extends PureComponent {
     renderNameAndBrand() {
         const {
             product:
-            {
-                name,
-                attributes: { brand: { attribute_value: brand } = {} } = {}
-            },
+                {
+                    name,
+                    attributes: { brand: { attribute_value: brand } = {} } = {}
+                },
             showOnlyIfLoaded
         } = this.props;
 
@@ -205,7 +208,12 @@ export default class ProductActions extends PureComponent {
     }
 
     renderAddToCart() {
-        const { configurableVariantIndex, product, quantity } = this.props;
+        const {
+            configurableVariantIndex,
+            product,
+            quantity,
+            groupedProductQuantity
+        } = this.props;
 
         return (
             <AddToCart
@@ -213,6 +221,7 @@ export default class ProductActions extends PureComponent {
               configurableVariantIndex={ configurableVariantIndex }
               mix={ { block: 'ProductActions', elem: 'AddToCart' } }
               quantity={ quantity }
+              groupedProductQuantity={ groupedProductQuantity }
             />
         );
     }
@@ -294,11 +303,20 @@ export default class ProductActions extends PureComponent {
     }
 
     renderGroupedItems() {
-        const { product } = this.props;
+        const {
+            product,
+            groupedProductQuantity,
+            setGroupedProductQuantity,
+            clearGroupedProductQuantity
+        } = this.props;
+
         return (
             <div block="ProductActions" elem="GroupedItems">
                 <GroupedProductList
                   product={ product }
+                  clearGroupedProductQuantity={ clearGroupedProductQuantity }
+                  groupedProductQuantity={ groupedProductQuantity }
+                  setGroupedProductQuantity={ setGroupedProductQuantity }
                 />
             </div>
         );

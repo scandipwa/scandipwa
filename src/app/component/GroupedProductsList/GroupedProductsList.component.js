@@ -21,7 +21,9 @@ import { ProductType } from 'Type/ProductList';
 export default class GroupedProductList extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
-        clearGroupedProductQuantity: PropTypes.func.isRequired
+        groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired,
+        clearGroupedProductQuantity: PropTypes.func.isRequired,
+        setGroupedProductQuantity: PropTypes.func.isRequired
     };
 
     componentWillUnmount() {
@@ -30,6 +32,11 @@ export default class GroupedProductList extends PureComponent {
     }
 
     renderProductList(items) {
+        const {
+            groupedProductQuantity,
+            setGroupedProductQuantity
+        } = this.props;
+
         return (
             <ul>
                 { items.map(({ product, product: { id }, qty }) => (
@@ -37,6 +44,8 @@ export default class GroupedProductList extends PureComponent {
                       key={ id }
                       product={ product }
                       defaultQuantity={ qty }
+                      groupedProductQuantity={ groupedProductQuantity }
+                      setGroupedProductQuantity={ setGroupedProductQuantity }
                     />
                 )) }
             </ul>

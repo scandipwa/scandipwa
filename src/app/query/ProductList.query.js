@@ -160,6 +160,11 @@ export class ProductListQuery {
         ];
     }
 
+    /**
+     * For grouped products, returns the subfields of the elements of the `items` field
+     * @returns {*[]}
+     * @private
+     */
     _getGroupedProductItemFields() {
         return [
             this._getProductField(),
@@ -168,6 +173,11 @@ export class ProductListQuery {
         ];
     }
 
+    /**
+     * A GroupedProduct-specific field that queries the products that are grouped under this product
+     * @returns {Field}
+     * @private
+     */
     _getGroupedProductItems() {
         return new Fragment('GroupedProduct').addField(
             new Field('items')

@@ -27,12 +27,17 @@ export class ProductActionsContainer extends PureComponent {
         parameters: PropTypes.objectOf(PropTypes.string).isRequired
     };
 
-    state = { quantity: 1 };
+    state = {
+        quantity: 1,
+        groupedProductQuantity: {}
+    };
 
     containerFunctions = {
         showOnlyIfLoaded: this.showOnlyIfLoaded.bind(this),
         getIsOptionInCurrentVariant: this.getIsOptionInCurrentVariant.bind(this),
         setQuantity: this.setQuantity.bind(this),
+        setGroupedProductQuantity: this._setGroupedProductQuantity.bind(this),
+        clearGroupedProductQuantity: this._clearGroupedProductQuantity.bind(this),
         getIsConfigurableAttributeAvailable: this.getIsConfigurableAttributeAvailable.bind(this)
     };
 
@@ -76,6 +81,28 @@ export class ProductActionsContainer extends PureComponent {
             });
     }
 
+    containerProps = () => ({
+        groupedProductQuantity: this._getGroupedProductQuantity()
+    });
+
+    _getGroupedProductQuantity() {
+        const { groupedProductQuantity } = this.state;
+        return groupedProductQuantity;
+    }
+
+    _setGroupedProductQuantity(id, value) {
+        this.setState(({ groupedProductQuantity }) => ({
+            groupedProductQuantity: {
+                ...groupedProductQuantity,
+                [id]: value
+            }
+        }));
+    }
+
+    _clearGroupedProductQuantity() {
+        this.setState({ groupedProductQuantity: {} });
+    }
+
     showOnlyIfLoaded(expression, content, placeholder = content) {
         const { areDetailsLoaded } = this.props;
 
@@ -90,6 +117,7 @@ export class ProductActionsContainer extends PureComponent {
               { ...this.props }
               { ...this.state }
               { ...this.containerFunctions }
+              { ...this.containerProps() }
             />
         );
     }
