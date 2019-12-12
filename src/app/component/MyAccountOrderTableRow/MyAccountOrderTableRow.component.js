@@ -42,7 +42,7 @@ class MyAccountOrderTableRow extends PureComponent {
                 <td>{ status_label }</td>
                 <td block="hidden-mobile">
                     { /* TODO: get currency symbol */ }
-                    { grand_total ? `${grand_total}${formatCurrency(currency_code)}` : '' }
+                    { grand_total ? `${formatCurrency(currency_code)}${grand_total}` : '' }
                 </td>
             </tr>
         );

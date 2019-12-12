@@ -39,7 +39,7 @@ export default class CheckoutOrderSummary extends PureComponent {
                     { name }
                 </strong>
                 <strong block="CheckoutOrderSummary" elem="Text">
-                    { `${roundPrice(price)}${priceString}` }
+                    { `${priceString}${roundPrice(price)}` }
                 </strong>
             </li>
         );
