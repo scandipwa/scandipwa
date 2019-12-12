@@ -103,7 +103,7 @@ export default class CartPage extends PureComponent {
         return (
             <article block="CartPage" elem="Summary">
                 <h4 block="CartPage" elem="SummaryHeading">{ __('Summary') }</h4>
-                <dl block="CartPage" elem="TotalDetails" aria-label="Order total details">
+                <dl block="CartPage" elem="TotalDetails" aria-label={ __('Order total details') }>
                     <dt>{ __('Subtotal:') }</dt>
                     <dd>{ this.renderPriceLine(subtotal) }</dd>
                     { this.renderDiscount() }
@@ -187,10 +187,7 @@ export default class CartPage extends PureComponent {
                   alt="Shipping car icon"
                 />
                 <figcaption block="CartPage" elem="PromoText">
-                    <strong>Free shipping</strong>
-                    on orders
-                    <strong>49$</strong>
-                    and more.
+                { __('Free shipping on order 49$ and more.') }
                 </figcaption>
             </figure>
         );
