@@ -253,6 +253,7 @@
     "This field is required!": "Это поле обязательно!",
     "This is default Billing Address": "Это адрес для выставления счета по умолчанию",
     "This is default Shipping Address": "Это адрес доставки по умолчанию",
+    "This payment method is not supported yet.": null,
     "This store can not be opened!": "Этот магазин не может быть открыт!",
     "Total": "Всего",
     "Type a new search": null,

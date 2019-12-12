@@ -253,6 +253,7 @@
     "This field is required!": "Este é um campo obrigatório!",
     "This is default Billing Address": "Endereço de cobrança padrão",
     "This is default Shipping Address": "Endereço de entrega padrão",
+    "This payment method is not supported yet.": null,
     "This store can not be opened!": "Esta loja não pode ser aberta!",
     "Total": "Total",
     "Type a new search": null,

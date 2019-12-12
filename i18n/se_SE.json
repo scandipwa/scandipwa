@@ -253,6 +253,7 @@
     "This field is required!": "Detta är ett obligatoriskt fält!",
     "This is default Billing Address": "Förvald faktureringsadress",
     "This is default Shipping Address": "Förvald leveransadress",
+    "This payment method is not supported yet.": null,
     "This store can not be opened!": "Denna butik kan inte öppnas!",
     "Total": "Summa",
     "Type a new search": null,

@@ -253,6 +253,7 @@
     "This field is required!": "Dette felt er påkrævet!",
     "This is default Billing Address": "Dette er standard faktureringsadresse",
     "This is default Shipping Address": "Dette er standard leveringsadresse",
+    "This payment method is not supported yet.": null,
     "This store can not be opened!": "Denne butik kan ikke åbnes!",
     "Total": "Total",
     "Type a new search": null,

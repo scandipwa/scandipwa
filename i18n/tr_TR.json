@@ -253,6 +253,7 @@
     "This field is required!": "Bu gerekli bir alandır!",
     "This is default Billing Address": "Varsayılan Fatura Adresi",
     "This is default Shipping Address": "Varsayılan Teslimat Adresi",
+    "This payment method is not supported yet.": null,
     "This store can not be opened!": "Bu mağaza açılamaz!",
     "Total": "Toplam",
     "Type a new search": null,

@@ -253,6 +253,7 @@
     "This field is required!": "Dit is een verplicht veld!",
     "This is default Billing Address": "Standaard factuuradres",
     "This is default Shipping Address": "Standaard verzendadres",
+    "This payment method is not supported yet.": null,
     "This store can not be opened!": "Deze winkel kan niet worden geopend!",
     "Total": "Totaal",
     "Type a new search": null,

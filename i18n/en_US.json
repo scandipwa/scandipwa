@@ -241,6 +241,7 @@
     "This field is required!": null,
     "This is default Billing Address": null,
     "This is default Shipping Address": null,
+    "This payment method is not supported yet.": null,
     "This store can not be opened!": null,
     "Total": null,
     "Type a new search": null,

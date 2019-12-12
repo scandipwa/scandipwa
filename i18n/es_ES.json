@@ -253,6 +253,7 @@
     "This field is required!": "Campo obligatorio!",
     "This is default Billing Address": "Dirección de facturación por defecto",
     "This is default Shipping Address": "Dirección de envío predeterminada",
+    "This payment method is not supported yet.": null,
     "This store can not be opened!": "¡Esta tienda no se puede abrir!",
     "Total": "Total",
     "Type a new search": null,
