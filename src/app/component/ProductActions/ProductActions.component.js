@@ -333,10 +333,10 @@ export default class ProductActions extends PureComponent {
                 { this.renderReviews() }
                 { this.renderAdditionalButtons() }
                 { this.renderNameAndBrand() }
-                { this.renderGroupedItems() }
                 { this.renderSkuAndStock() }
                 { this.renderConfigurableAttributes() }
                 { this.renderShortDescription() }
+                { this.renderGroupedItems() }
             </article>
         );
     }
