@@ -19,10 +19,7 @@ import { fetchMutation } from 'Util/Request';
 import { CheckoutQuery, PayPalQuery } from 'Query';
 import { showNotification } from 'Store/Notification';
 
-import {
-    PAYPAL_EXPRESS,
-    PAYPAL_EXPRESS_CREDIT
-} from 'Component/CheckoutPayments/CheckoutPayments.component';
+import { PAYPAL_EXPRESS } from 'Component/CheckoutPayments/CheckoutPayments.component';
 
 import PayPal from './PayPal.component';
 
@@ -61,26 +58,12 @@ export class PayPalContainer extends PureComponent {
     containerProps = () => ({
         paypal: this.getPayPal(),
         environment: this.getEnvironment(),
-        isDisabled: this.getIsDisabled(),
-        isCredit: this.getIsCredit()
+        isDisabled: this.getIsDisabled()
     });
 
     getIsDisabled = () => {
         const { selectedPaymentCode } = this.props;
-
-        if (
-            selectedPaymentCode === PAYPAL_EXPRESS
-            || selectedPaymentCode === PAYPAL_EXPRESS_CREDIT
-        ) {
-            return false;
-        }
-
-        return true;
-    };
-
-    getIsCredit = () => {
-        const { selectedPaymentCode } = this.props;
-        return selectedPaymentCode === PAYPAL_EXPRESS_CREDIT;
+        return selectedPaymentCode !== PAYPAL_EXPRESS;
     };
 
     containerFunctions = () => ({

@@ -28,6 +28,7 @@ export const mapDispatchToProps = dispatch => ({
 export class CheckoutPaymentsContainer extends PureComponent {
     static propTypes = {
         onPaymentMethodSelect: PropTypes.func.isRequired,
+        setOrderButtonEnableStatus: PropTypes.func.isRequired,
         paymentMethods: paymentMethodsType.isRequired
     };
 
@@ -92,11 +93,18 @@ export class CheckoutPaymentsContainer extends PureComponent {
         return this.braintree.create();
     }
 
-    selectPaymentMethod(paymentMethod) {
-        const { onPaymentMethodSelect } = this.props;
-        const { code } = paymentMethod;
-        this.setState({ selectedPaymentCode: code });
+    selectPaymentMethod({ code }) {
+        const {
+            onPaymentMethodSelect,
+            setOrderButtonEnableStatus
+        } = this.props;
+
+        this.setState({
+            selectedPaymentCode: code
+        });
+
         onPaymentMethodSelect(code);
+        setOrderButtonEnableStatus(true);
     }
 
     render() {
