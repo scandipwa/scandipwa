@@ -44,7 +44,6 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/aleksandrsho"><img src="https://avatars3.githubusercontent.com/u/33932820?v=4" width="100px;" alt=""/><br /><sub><b>aleksandrsho</b></sub></a><br /><a href="#content-aleksandrsho" title="Content">🖋</a> <a href="#business-aleksandrsho" title="Business development">💼</a> <a href="#translation-aleksandrsho" title="Translation">🌍</a></td>
     <td align="center"><a href="https://github.com/atravkovs"><img src="https://avatars0.githubusercontent.com/u/12703177?v=4" width="100px;" alt=""/><br /><sub><b>Artjoms Travkovs</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=atravkovs" title="Code">💻</a> <a href="#ideas-atravkovs" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/scandipwa/base-theme/pulls?q=is%3Apr+reviewed-by%3Aatravkovs" title="Reviewed Pull Requests">👀</a> <a href="#question-atravkovs" title="Answering Questions">💬</a></td>
     <td align="center"><a href="https://github.com/ErnestsVerins"><img src="https://avatars1.githubusercontent.com/u/57095300?v=4" width="100px;" alt=""/><br /><sub><b>ErnestsVerins</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=ErnestsVerins" title="Code">💻</a></td>
-  </tr>
   <tr>
     <td align="center"><a href="http://scandiweb.com"><img src="https://avatars3.githubusercontent.com/u/56016827?v=4" width="100px;" alt=""/><br /><sub><b>Kirils Scerba</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=kirilsscerba" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/mgmanoj"><img src="https://avatars3.githubusercontent.com/u/13735397?v=4" width="100px;" alt=""/><br /><sub><b>Manoj MG</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=mgmanoj" title="Code">💻</a></td>
@@ -72,17 +71,3 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/lianastaskevica"><img src="https://avatars3.githubusercontent.com/u/52198221?v=4" width="100px;" alt=""/><br /><sub><b>Liana </b></sub></a><br /><a href="#projectManagement-lianastaskevica" title="Project Management">📆</a> <a href="https://github.com/scandipwa/base-theme/issues?q=author%3Alianastaskevica" title="Bug reports">🐛</a> <a href="#userTesting-lianastaskevica" title="User Testing">📓</a></td>
     <td align="center"><a href="http://danpiel.net"><img src="https://avatars1.githubusercontent.com/u/367141?v=4" width="100px;" alt=""/><br /><sub><b>Yuri Egorov</b></sub></a><br /><a href="#infra-Danpiel" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/scandipwa/base-theme/commits?author=Danpiel" title="Documentation">📖</a> <a href="#ideas-Danpiel" title="Ideas, Planning, & Feedback">🤔</a></td>
   </tr>
-  <tr>
-    <td align="center"><a href="https://github.com/joy-codilar"><img src="https://avatars2.githubusercontent.com/u/46239833?v=4" width="100px;" alt=""/><br /><sub><b>Jayanka Ghosh</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=joy-codilar" title="Code">💻</a> <a href="https://github.com/scandipwa/base-theme/issues?q=author%3Ajoy-codilar" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="https://github.com/kiran-codilar"><img src="https://avatars1.githubusercontent.com/u/16700298?v=4" width="100px;" alt=""/><br /><sub><b>Kiran</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=kiran-codilar" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/krystian15"><img src="https://avatars3.githubusercontent.com/u/31726767?v=4" width="100px;" alt=""/><br /><sub><b>krystian15</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/issues?q=author%3Akrystian15" title="Bug reports">🐛</a> <a href="https://github.com/scandipwa/base-theme/commits?author=krystian15" title="Code">💻</a><a href="#translation-krystian15" title="Translation">🌍</a></td>
-  </tr>
-</table>
-
-<!-- markdownlint-enable -->
-<!-- prettier-ignore-end -->
-<!-- ALL-CONTRIBUTORS-LIST:END -->
-
-## License
-
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fscandipwa%2Fbase-theme.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fscandipwa%2Fbase-theme?ref=badge_large)
