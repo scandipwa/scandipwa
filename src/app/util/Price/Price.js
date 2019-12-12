@@ -10,13 +10,9 @@
  */
 
 /* eslint-disable import/prefer-default-export */
+import currencyMap from './Price.config';
 
-import getSymbolFromCurrency from 'currency-symbol-map';
-
-export const formatCurrency = (currency = 'USD') => {
-    const symbol = getSymbolFromCurrency(currency);
-    return symbol;
-};
+export const formatCurrency = (currency = 'USD') => currencyMap[currency];
 
 /**
  * Calculate discount percentage

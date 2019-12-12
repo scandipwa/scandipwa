@@ -21,7 +21,9 @@ import { ProductType } from 'Type/ProductList';
 export default class GroupedProductList extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
-        clearGroupedProductQuantity: PropTypes.func.isRequired
+        groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired,
+        clearGroupedProductQuantity: PropTypes.func.isRequired,
+        setGroupedProductQuantity: PropTypes.func.isRequired
     };
 
     componentWillUnmount() {
@@ -30,12 +32,20 @@ export default class GroupedProductList extends PureComponent {
     }
 
     renderProductList(items) {
+        const {
+            groupedProductQuantity,
+            setGroupedProductQuantity
+        } = this.props;
+
         return (
             <ul>
-                { items.map(item => (
+                { items.map(({ product, product: { id }, qty }) => (
                     <GroupedProductsItem
-                      key={ item.product.id }
-                      product={ item.product }
+                      key={ id }
+                      product={ product }
+                      defaultQuantity={ qty }
+                      groupedProductQuantity={ groupedProductQuantity }
+                      setGroupedProductQuantity={ setGroupedProductQuantity }
                     />
                 )) }
             </ul>
@@ -48,11 +58,8 @@ export default class GroupedProductList extends PureComponent {
         } = this.props;
 
         if (type_id !== 'grouped') return null;
+        if (!items) return null;
 
-        return (
-            <>
-                { items && this.renderProductList(items) }
-            </>
-        );
+        return this.renderProductList(items);
     }
 }

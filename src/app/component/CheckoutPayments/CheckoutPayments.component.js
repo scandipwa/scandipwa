@@ -13,12 +13,13 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import CheckoutPayment from 'Component/CheckoutPayment';
-import Braintree from 'Component/Braintree';
-import { paymentMethodsType } from 'Type/Checkout';
 import PayPal from 'Component/PayPal';
 import Klarna from 'Component/Klarna';
 import Stripe from 'Component/Stripe';
+import Braintree from 'Component/Braintree';
+import { paymentMethodsType } from 'Type/Checkout';
+import CheckoutPayment from 'Component/CheckoutPayment';
+import NotSupportedPayment from 'Component/NotSupportedPayment';
 
 import './CheckoutPayments.style';
 
@@ -76,7 +77,8 @@ class CheckoutPayments extends PureComponent {
     paymentRenderMap = {
         [BRAINTREE]: this.renderBrainTreePayment.bind(this),
         [STRIPE]: this.renderStripePayment.bind(this),
-        [KLARNA]: this.renderKlarnaPayment.bind(this)
+        [KLARNA]: this.renderKlarnaPayment.bind(this),
+        [PAYPAL_EXPRESS_CREDIT]: this.renderNotSupported.bind(this)
     };
 
     state = {
@@ -138,6 +140,11 @@ class CheckoutPayments extends PureComponent {
         return <Klarna setOrderButtonEnableStatus={ setOrderButtonEnableStatus } />;
     }
 
+    renderNotSupported() {
+        const { setOrderButtonEnableStatus } = this.props;
+        return <NotSupportedPayment disableButton={ setOrderButtonEnableStatus } />;
+    }
+
     renderPayment = (method) => {
         const {
             selectPaymentMethod,
@@ -178,7 +185,11 @@ class CheckoutPayments extends PureComponent {
     }
 
     renderPayPal() {
-        const { selectedPaymentCode, setLoading, setDetailsStep } = this.props;
+        const {
+            selectedPaymentCode,
+            setLoading,
+            setDetailsStep
+        } = this.props;
 
         return (
             <PayPal
