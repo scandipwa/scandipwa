@@ -1,45 +1,39 @@
 :root {
-	--cookiepopup-bg: #{$white};
+    --cookiepopup-bg: #{$white};
 }
 
 .CookiePopup {
-	display: flex;
-	width: 100vw;
-	position: fixed;
-	left: 0;
-	bottom: 0;
-	align-items: center;
-	justify-content: space-between;
-	padding: 40px 60px;
-	background-color: var(--cookiepopup-bg);
-	z-index: 300;
+    display: flex;
+    width: 100vw;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    align-items: center;
+    justify-content: space-between;
+    padding: 40px 60px;
+    background-color: var(--cookiepopup-bg);
+    z-index: 300;
 
     @include mobile {
         display: block;
-		padding: 25px 40px;
+        padding: 25px 40px;
     }
-
-	&_isAccepted {
-		display: none;
-	}
 
     &-Content {
         padding-right: 15px;
     }
 
-	p {
-		max-width: 780px;
-	}
+    p {
+        max-width: 780px;
+    }
 
-	&-CTA {
-		margin-left: 0;
+    &-CTA {
+        @include mobile {
+            margin-top: 20px;
 
-		@include mobile {
-			margin-top: 20px;
-
-			button {
-				width: 100%;
-			}
-		}
-	}
+            button {
+                width: 100%;
+            }
+        }
+    }
 }
