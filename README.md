@@ -77,10 +77,6 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/kiran-codilar"><img src="https://avatars1.githubusercontent.com/u/16700298?v=4" width="100px;" alt=""/><br /><sub><b>Kiran</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=kiran-codilar" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/krystian15"><img src="https://avatars3.githubusercontent.com/u/31726767?v=4" width="100px;" alt=""/><br /><sub><b>krystian15</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/issues?q=author%3Akrystian15" title="Bug reports">🐛</a> <a href="https://github.com/scandipwa/base-theme/commits?author=krystian15" title="Code">💻</a><a href="#translation-krystian15" title="Translation">🌍</a></td>
   </tr>
-  <tr>
-    <td align="center"><a href="https://github.com/joy-codilar"><img src="https://avatars2.githubusercontent.com/u/46239833?v=4" width="100px;" alt="Jayanka Ghosh"/><br /><sub><b>Jayanka Ghosh</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=joy-codilar" title="Code">💻</a> <a href="https://github.com/scandipwa/base-theme/issues?q=author%3Ajoy-codilar" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="https://github.com/kiran-codilar"><img src="https://avatars1.githubusercontent.com/u/16700298?v=4" width="100px;" alt="Kiran"/><br /><sub><b>Kiran</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=kiran-codilar" title="Code">💻</a></td>
-  </tr>
 </table>
 
 <!-- markdownlint-enable -->
