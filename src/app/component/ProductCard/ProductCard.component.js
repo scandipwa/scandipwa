@@ -83,12 +83,11 @@ export default class ProductCard extends PureComponent {
 
     renderPicture() {
         const { product: { id, name }, thumbnail } = this.props;
-        const imageUrl = thumbnail && media(thumbnail, PRODUCT_MEDIA);
 
         return (
             <>
                 <Image
-                  src={ imageUrl }
+                  src={ thumbnail }
                   alt={ name }
                   ratio="custom"
                   mix={ { block: 'ProductCard', elem: 'Picture' } }
@@ -97,7 +96,7 @@ export default class ProductCard extends PureComponent {
                 <img
                   style={ { display: 'none' } }
                   alt={ name }
-                  src={ imageUrl }
+                  src={ thumbnail }
                   itemProp="image"
                 />
             </>
