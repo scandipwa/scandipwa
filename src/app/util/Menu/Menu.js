@@ -28,8 +28,6 @@ export const getSortedItems = unsortedItems => Array.from(unsortedItems).sort((
 
 export class MenuReducer {
     getMenuUrl({cms_page_identifier, url_type, url}) {
-        console.log(url);
-
         switch (url_type) {
         case TYPE_CATEGORY:
             return `/category${url}`;
