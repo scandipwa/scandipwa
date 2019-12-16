@@ -10,39 +10,47 @@
  */
 
 import { PureComponent } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import BraintreeDropIn from 'Util/Braintree';
 import { paymentMethodsType } from 'Type/Checkout';
-
+import { showNotification } from 'Store/Notification';
 import { BILLING_STEP } from 'Route/Checkout/Checkout.component';
+import { KlarnaContainer } from 'Component/Klarna/Klarna.container';
 import { BRAINTREE_CONTAINER_ID } from 'Component/Braintree/Braintree.component';
-import CheckoutPayments, { BRAINTREE } from './CheckoutPayments.component';
+import CheckoutPayments, { BRAINTREE, STRIPE, KLARNA } from './CheckoutPayments.component';
+
+export const mapDispatchToProps = dispatch => ({
+    showError: message => dispatch(showNotification('error', message))
+});
 
 export class CheckoutPaymentsContainer extends PureComponent {
     static propTypes = {
         onPaymentMethodSelect: PropTypes.func.isRequired,
+        setOrderButtonEnableStatus: PropTypes.func.isRequired,
         paymentMethods: paymentMethodsType.isRequired
     };
 
     containerFunctions = {
         initBraintree: this.initBraintree.bind(this),
+        setStripeRef: this.setStripeRef.bind(this),
         selectPaymentMethod: this.selectPaymentMethod.bind(this)
     };
 
     braintree = new BraintreeDropIn(BRAINTREE_CONTAINER_ID);
 
     dataMap = {
-        [BRAINTREE]: this.getBraintreeData.bind(this)
+        [BRAINTREE]: this.getBraintreeData.bind(this),
+        [STRIPE]: this.getStripeData.bind(this),
+        [KLARNA]: this.getKlarnaData.bind(this)
     };
 
     constructor(props) {
         super(props);
 
         const { paymentMethods } = props;
-        const [method] = paymentMethods;
-        const { code } = method || {};
-
+        const [{ code } = {}] = paymentMethods;
         this.state = { selectedPaymentCode: code };
     }
 
@@ -58,8 +66,20 @@ export class CheckoutPaymentsContainer extends PureComponent {
         }
     }
 
+    setStripeRef(ref) {
+        this.stripeRef = ref;
+    }
+
+    getKlarnaData() {
+        return { asyncData: KlarnaContainer.authorize() };
+    }
+
     getBraintreeData() {
         return { asyncData: this.braintree.requestPaymentNonce() };
+    }
+
+    getStripeData() {
+        return { asyncData: this.stripeRef.submit() };
     }
 
     collectAdditionalData = () => {
@@ -73,11 +93,18 @@ export class CheckoutPaymentsContainer extends PureComponent {
         return this.braintree.create();
     }
 
-    selectPaymentMethod(paymentMethod) {
-        const { onPaymentMethodSelect } = this.props;
-        const { code } = paymentMethod;
-        this.setState({ selectedPaymentCode: code });
+    selectPaymentMethod({ code }) {
+        const {
+            onPaymentMethodSelect,
+            setOrderButtonEnableStatus
+        } = this.props;
+
+        this.setState({
+            selectedPaymentCode: code
+        });
+
         onPaymentMethodSelect(code);
+        setOrderButtonEnableStatus(true);
     }
 
     render() {
@@ -91,4 +118,4 @@ export class CheckoutPaymentsContainer extends PureComponent {
     }
 }
 
-export default CheckoutPaymentsContainer;
+export default connect(null, mapDispatchToProps)(CheckoutPaymentsContainer);

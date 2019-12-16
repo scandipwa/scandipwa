@@ -39,8 +39,7 @@ export const mapStateToProps = state => ({
 export const mapDispatchToProps = dispatch => ({
     changeHeaderState: state => dispatch(changeHeaderState(state)),
     requestProduct: options => ProductDispatcher.handleData(dispatch, options),
-    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.updateWithProduct(breadcrumbs, dispatch),
-    clearGroupedProductQuantity: () => ProductDispatcher.clearGroupedProductQuantity(dispatch)
+    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.updateWithProduct(breadcrumbs, dispatch)
 });
 
 export class ProductPageContainer extends PureComponent {
@@ -51,7 +50,6 @@ export class ProductPageContainer extends PureComponent {
         updateBreadcrumbs: PropTypes.func.isRequired,
         requestProduct: PropTypes.func.isRequired,
         product: ProductType.isRequired,
-        clearGroupedProductQuantity: PropTypes.func.isRequired,
         history: HistoryType.isRequired,
         match: MatchType.isRequired
     };
@@ -83,15 +81,6 @@ export class ProductPageContainer extends PureComponent {
 
         if (pathname !== prevPathname) this._requestProduct();
         this._onProductUpdate();
-    }
-
-
-    componentWillUnmount() {
-        const { product: { type_id }, clearGroupedProductQuantity } = this.props;
-
-        if (type_id === 'grouped') return clearGroupedProductQuantity();
-
-        return null;
     }
 
     static getDerivedStateFromProps(props) {

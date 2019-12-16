@@ -95,8 +95,8 @@ class MyAccountOrderPopup extends PureComponent {
                     </dd>
                     <dt>{ __('Price: ') }</dt>
                     <dd>
-                        { shipping_amount }
                         { formatCurrency(currency_code) }
+                        { shipping_amount }
                     </dd>
                 </dl>
                 { this.renderShippingAddressTable() }
@@ -136,8 +136,8 @@ class MyAccountOrderPopup extends PureComponent {
                     <td>{ name }</td>
                     <td>{ qty }</td>
                     <td>
-                        { row_total }
                         { formatCurrency(currency_code) }
+                        { row_total }
                     </td>
                 </tr>
             );
@@ -178,13 +178,13 @@ class MyAccountOrderPopup extends PureComponent {
                 <dl>
                     <dt>{ __('Subtotal: ') }</dt>
                     <dd>
-                        { sub_total }
                         { formatCurrency(currency_code) }
+                        { sub_total }
                     </dd>
                     <dt>{ __('Grand total: ') }</dt>
                     <dd>
-                        { grand_total }
                         { formatCurrency(currency_code) }
+                        { grand_total }
                     </dd>
                 </dl>
             </div>

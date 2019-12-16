@@ -142,7 +142,11 @@
         "bug",
         "projectManagement",
         "review",
-        "content"
+        "content",
+        "doc",
+        "question",
+        "talk",
+        "video"
       ]
     },
     {
@@ -237,7 +241,8 @@
       "avatar_url": "https://avatars2.githubusercontent.com/u/8639654?v=4",
       "profile": "http://teomedia.dk",
       "contributions": [
-        "bug"
+        "bug",
+        "translation"
       ]
     },
     {
@@ -290,11 +295,42 @@
         "doc",
         "ideas"
       ]
+    },
+    {
+      "login": "joy-codilar",
+      "name": "Jayanka Ghosh",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/46239833?v=4",
+      "profile": "https://github.com/joy-codilar",
+      "contributions": [
+        "code",
+        "bug"
+      ]
+    },
+    {
+      "login": "kiran-codilar",
+      "name": "Kiran",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/16700298?v=4",
+      "profile": "https://github.com/kiran-codilar",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "krystian15",
+      "name": "krystian15",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/31726767?v=4",
+      "profile": "https://github.com/krystian15",
+      "contributions": [
+        "bug",
+        "code",
+        "translation"
+      ]
     }
   ],
   "contributorsPerLine": 7,
   "projectName": "base-theme",
   "projectOwner": "scandipwa",
   "repoType": "github",
-  "repoHost": "https://github.com"
+  "repoHost": "https://github.com",
+  "skipCi": true
 }
