@@ -126,9 +126,11 @@ class AppRouter extends PureComponent {
     }
 
     getHeaderAndFooterOptions() {
+        const { header_content: { header_cms } = {} } = window.contentConfiguration;
+
         return {
             menu: { identifier: 'new-main-menu' },
-            footer: { identifiers: ['social-links'] }
+            footer: { identifiers: [header_cms || 'social-links'] }
         };
     }
 

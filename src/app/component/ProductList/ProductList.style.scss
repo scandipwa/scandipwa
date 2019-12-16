@@ -10,7 +10,7 @@
  */
 
 :root {
-    --category-product-list-load-button-background: #{$concrete};
+    --category-product-list-load-button-background: var(--secondary-base-color);
 }
 
 .CategoryProductList {
