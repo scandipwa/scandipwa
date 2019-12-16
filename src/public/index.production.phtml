@@ -1,5 +1,6 @@
 <?php
     $colorConfig = $this->getThemeConfiguration('color_customization');
+    $contentConfig = $this->getThemeConfiguration('content_customization');
 ?>
 
 <!DOCTYPE html>
@@ -17,6 +18,8 @@
             window.actionName = {
                 type: `<?= $this->getAction(); ?>`
             };
+
+            window.contentConfiguration = <?= json_encode($contentConfig) ?> || {};
         </script>
         <script src="https://js.stripe.com/v3/" async></script>
 
