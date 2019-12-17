@@ -76,7 +76,7 @@ export default class ProductPage extends PureComponent {
                 <RelatedProducts
                   product={ dataSource }
                   areDetailsLoaded={ areDetailsLoaded }
-                  label={ __('ScandiPWA recommends') }
+                  label={ __('We recommend') }
                   itemType=""
                 />
             </>

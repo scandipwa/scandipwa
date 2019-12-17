@@ -10,9 +10,9 @@
  */
 
 :root {
-    --checkout-payment-check-mark-color: #{$primary-base-color};
-    --checkout-payment-check-mark-hover-color: #{darken($concrete, 20)};
-    --checkout-payment-border-color: #{$concrete};
+    --checkout-payment-check-mark-color: var(--primary-base-color);
+    --checkout-payment-check-mark-hover-color: var(--secondary-dark-color);
+    --checkout-payment-border-color: var(--secondary-base-color);
 }
 
 .CheckoutPayment {

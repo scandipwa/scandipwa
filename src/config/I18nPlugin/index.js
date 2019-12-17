@@ -175,7 +175,7 @@ class I18nPlugin {
                             return true;
                         }
 
-                        console.log(`No translations generated for string: '${paramString}' \n`);
+                        // console.log(`No translations generated for string: '${paramString}' \n`);
 
                         return false;
                     });

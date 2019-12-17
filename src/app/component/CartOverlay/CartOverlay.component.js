@@ -18,6 +18,7 @@ import Overlay from 'Component/Overlay';
 import CartItem from 'Component/CartItem';
 import { TotalsType } from 'Type/MiniCart';
 import { formatCurrency } from 'Util/Price';
+import CmsBlock from 'Component/CmsBlock';
 
 import './CartOverlay.style';
 
@@ -142,6 +143,12 @@ export default class CartOverlay extends PureComponent {
     }
 
     renderPromo() {
+        const { minicart_content: { minicart_cms } = {} } = window.contentConfiguration;
+
+        if (minicart_cms) {
+            return <CmsBlock identifiers={ [minicart_cms] } />;
+        }
+
         return (
             <p
               block="CartOverlay"

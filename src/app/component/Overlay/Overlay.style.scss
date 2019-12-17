@@ -12,7 +12,7 @@
 :root {
     --overlay-background: #fff;
     --overlay-divider-color: #000;
-    --overlay-desktop-border-color: #{$primary-light-color};
+    --overlay-desktop-border-color: var(--primary-light-color);
 }
 
 .Overlay {
