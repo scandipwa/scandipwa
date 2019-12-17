@@ -36,7 +36,7 @@ export default class Footer extends PureComponent {
         }
 
         return (
-            <>
+            <div>
                 <Link
                   block="Footer"
                   elem="Link"
@@ -51,7 +51,7 @@ export default class Footer extends PureComponent {
                 >
                     { __('Shopping terms and conditions') }
                 </Link>
-            </>
+            </div>
         )
     }
 
