@@ -377,11 +377,12 @@ export default class Field extends PureComponent {
             autocomplete,
             formRef,
             isDisabled,
-            skipValue
+            skipValue,
+            form
         } = this.props;
 
         const { value } = this.state;
-
+        console.log(this.props);
         return (
             <input
               data-skip-value={ skipValue }
@@ -391,6 +392,7 @@ export default class Field extends PureComponent {
               name={ name }
               value={ value }
               disabled={ isDisabled }
+              form={ form }
               onChange={ (this.onChange) }
               onFocus={ this.onFocus }
               onClick={ this.onClick }
