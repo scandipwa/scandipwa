@@ -226,7 +226,7 @@ export default class Form extends PureComponent {
     };
 
     render() {
-        const { mix } = this.props;
+        const { mix, id } = this.props;
         const { children, fieldsAreValid } = this.state;
 
         return (
@@ -235,6 +235,7 @@ export default class Form extends PureComponent {
               mix={ mix }
               mods={ { isInvalid: !fieldsAreValid } }
               ref={ (ref) => { this.form = ref; } }
+              id={ id }
               onSubmit={ this.handleFormSubmit }
             >
                 { children }
