@@ -146,7 +146,7 @@ export default class CartOverlay extends PureComponent {
         const { minicart_content: { minicart_cms } = {} } = window.contentConfiguration;
 
         if (minicart_cms) {
-            return <CmsBlock identifier={ [minicart_cms] } />;
+            return <CmsBlock identifiers={ [minicart_cms] } />;
         }
 
         return (

@@ -129,7 +129,7 @@ class AppRouter extends PureComponent {
         const blocks = Object.values(window.contentConfiguration).reduce(
             (acc, config) => [
                 ...acc,
-                Object.entries(config).reduce(
+                ...Object.entries(config).reduce(
                     (acc, [key, identifier]) => ((key.indexOf('cms') === -1)
                         ? acc
                         : [...acc, identifier]
@@ -138,7 +138,9 @@ class AppRouter extends PureComponent {
                 )
             ],
             []
-        );
+        ).filter((value, index, self) => self.indexOf(value) === index);
+
+        console.log(blocks);
 
         return blocks.length ? blocks : ['social-links'];
     }

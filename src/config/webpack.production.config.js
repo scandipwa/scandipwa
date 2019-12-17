@@ -163,7 +163,7 @@ const webpackConfig = ([lang, translation]) => ({
         ]),
 
         new MinifyPlugin({
-            removeConsole: true,
+            removeConsole: false,
             removeDebugger: true
         }, {
             comments: false

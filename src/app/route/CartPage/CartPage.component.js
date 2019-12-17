@@ -179,7 +179,7 @@ export default class CartPage extends PureComponent {
         const { cart_content: { cart_cms } = {} } = window.contentConfiguration;
 
         if (cart_cms) {
-            return <CmsBlock identifier={ [cart_cms] } />;
+            return <CmsBlock identifiers={ [cart_cms] } />;
         }
 
         return (

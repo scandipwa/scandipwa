@@ -38,19 +38,19 @@ export default class Footer extends PureComponent {
         return (
             <>
                 <Link
-                      block="Footer"
-                      elem="Link"
-                      to="/page/privacy-policy-cookie-restriction-mode"
-                    >
-                        { __('Privacy policy') }
-                    </Link>
-                    <Link
-                      block="Footer"
-                      elem="Link"
-                      to="/page/terms-and-conditions"
-                    >
-                        { __('Shopping terms and conditions') }
-                    </Link>
+                  block="Footer"
+                  elem="Link"
+                  to="/page/privacy-policy-cookie-restriction-mode"
+                >
+                    { __('Privacy policy') }
+                </Link>
+                <Link
+                  block="Footer"
+                  elem="Link"
+                  to="/page/terms-and-conditions"
+                >
+                    { __('Shopping terms and conditions') }
+                </Link>
             </>
         )
     }
