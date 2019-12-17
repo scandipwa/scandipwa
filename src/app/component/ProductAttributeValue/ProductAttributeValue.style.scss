@@ -132,8 +132,8 @@
         text-align: center;
 
         &_isSelected {
-            --option-border-color: #{$primary-base-color};
-            --option-text-color: #{$primary-base-color};
+            --option-border-color: var(--primary-base-color);
+            --option-text-color: var(--primary-base-color);
         }
     }
 
@@ -145,7 +145,7 @@
         text-transform: uppercase;
 
         &_isSelected {
-            color: var(--color-primary-base);
+            color: var(--primary-base-color);
         }
 
         label {
@@ -172,12 +172,12 @@
         &:focus {
             label {
                 @include after-mobile {
-                    border-color: $primary-base-color;
+                    border-color: var(--primary-base-color);
                 }
 
                 &::after {
                     @include after-mobile {
-                        --checkmark-color: #{$dusty-grey};
+                        --checkmark-color: var(--secondary-dark-color);
                     }
                 }
             }

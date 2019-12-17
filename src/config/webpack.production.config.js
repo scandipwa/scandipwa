@@ -124,21 +124,11 @@ const webpackConfig = ([lang, translation]) => ({
         }),
 
         new HtmlWebpackPlugin({
-            template: path.resolve(projectRoot, 'src', 'public', 'index.production.html'),
+            template: path.resolve(projectRoot, 'src', 'public', 'index.production.phtml'),
             filename: '../templates/root.phtml',
             inject: false,
             hash: true,
-            publicPath,
-            minify: {
-                collapseWhitespace: true,
-                removeComments: true,
-                removeRedundantAttributes: true,
-                removeScriptTypeAttributes: true,
-                removeStyleLinkTypeAttributes: true,
-                useShortDoctype: true,
-                minifyCSS: true,
-                minifyJS: true
-            }
+            publicPath
         }),
 
         new WebpackPwaManifest(webmanifestConfig(projectRoot)),
@@ -173,7 +163,7 @@ const webpackConfig = ([lang, translation]) => ({
         ]),
 
         new MinifyPlugin({
-            removeConsole: true,
+            removeConsole: false,
             removeDebugger: true
         }, {
             comments: false

@@ -9,16 +9,18 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-table {
-    --table-secondary-color: #{transparentize($concrete, .4)};
+:root {
+    --table-secondary-color: var(--secondary-light-color);
+}
 
+table {
     tr:nth-child(even),
     thead tr {
         background-color: var(--table-secondary-color);
     }
 
     thead tr {
-        border-bottom: 1px solid #{transparentize($black, .5)};
+        border-bottom: 1px solid var(--secondary-dark-color);
     }
 
     td,

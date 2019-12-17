@@ -127,7 +127,8 @@ export default class ProductCard extends PureComponent {
 
     renderAdditionalProductDetails() {
         const { product: { sku }, getAttribute } = this.props;
-        const { attribute_value: brand } = getAttribute('brand') || {};
+        const { product_list_content: { attribute_to_display } = {} } = window.contentConfiguration;
+        const { attribute_value: brand } = getAttribute(attribute_to_display || 'brand') || {};
 
         if (sku && !brand) return null;
 

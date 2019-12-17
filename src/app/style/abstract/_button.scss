@@ -57,10 +57,10 @@
     &_likeLink {
         --button-border: transparent;
         --button-background: transparent;
-        --button-color: #{$primary-base-color};
+        --button-color: var(--primary-base-color);
         --button-hover-border: transparent;
         --button-hover-background: transparent;
-        --button-hover-color: #{$primary-base-color};
+        --button-hover-color: var(--primary-base-color);
 
         text-transform: none;
         margin: 0;

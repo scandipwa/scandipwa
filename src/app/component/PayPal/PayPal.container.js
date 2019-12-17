@@ -133,7 +133,7 @@ export class PayPalContainer extends PureComponent {
             guest_cart_id,
             express_button: false,
             code: selectedPaymentCode,
-            use_paypal_credit: this.getIsCredit(),
+            // use_paypal_credit: this.getIsCredit(),
             urls: {
                 cancel_url: 'www.paypal.com/checkoutnow/error',
                 return_url: 'www.paypal.com/checkoutnow/error'
