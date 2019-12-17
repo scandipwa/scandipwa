@@ -16,14 +16,15 @@ import media, { WYSIWYG_MEDIA } from 'Util/Media';
 import Link from 'Component/Link';
 import Meta from 'Component/Meta';
 import isMobile from 'Util/Mobile';
+import CmsBlock from 'Component/CmsBlock';
 import CartItem from 'Component/CartItem';
 import { TotalsType } from 'Type/MiniCart';
 import CartCoupon from 'Component/CartCoupon';
-import ContentWrapper from 'Component/ContentWrapper';
 import CartCrossSell from 'Component/CartCrossSell';
+import ContentWrapper from 'Component/ContentWrapper';
 import { formatCurrency, roundPrice } from 'Util/Price';
-
 import ExpandableContent from 'Component/ExpandableContent';
+
 import './CartPage.style';
 
 export default class CartPage extends PureComponent {
@@ -175,21 +176,30 @@ export default class CartPage extends PureComponent {
     }
 
     renderPromo() {
+        const { cart_content: { cart_cms } = {} } = window.contentConfiguration;
+
+        if (cart_cms) {
+            return <CmsBlock identifier={ [cart_cms] } />;
+        }
+
         return (
-            <figure
-              block="CartPage"
-              elem="Promo"
-            >
-                <img
+            <>
+                <figure
                   block="CartPage"
-                  elem="PromoImage"
-                  src={ media('etc/shipping-car.svg', WYSIWYG_MEDIA) }
-                  alt="Shipping car icon"
-                />
-                <figcaption block="CartPage" elem="PromoText">
-                { __('Free shipping on order 49$ and more.') }
-                </figcaption>
-            </figure>
+                  elem="Promo"
+                >
+                    <img
+                      block="CartPage"
+                      elem="PromoImage"
+                      src={ media('etc/shipping-car.svg', WYSIWYG_MEDIA) }
+                      alt="Shipping car icon"
+                    />
+                    <figcaption block="CartPage" elem="PromoText">
+                    { __('Free shipping on order 49$ and more.') }
+                    </figcaption>
+                </figure>
+                { this.renderPaymentMethods() }
+            </>
         );
     }
 
@@ -209,7 +219,6 @@ export default class CartPage extends PureComponent {
                         { this.renderCrossSellProducts() }
                     </div>
                     <div block="CartPage" elem="Floating">
-                        { this.renderPaymentMethods() }
                         { this.renderPromo() }
                         { this.renderTotals() }
                     </div>

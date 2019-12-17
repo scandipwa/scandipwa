@@ -125,12 +125,30 @@ class AppRouter extends PureComponent {
         this.dispatchActions();
     }
 
+    getCmsBlocksToRequest() {
+        const blocks = Object.values(window.contentConfiguration).reduce(
+            (acc, config) => [
+                ...acc,
+                Object.entries(config).reduce(
+                    (acc, [key, identifier]) => ((key.indexOf('cms') === -1)
+                        ? acc
+                        : [...acc, identifier]
+                    ),
+                    []
+                )
+            ],
+            []
+        );
+
+        return blocks.length ? blocks : ['social-links'];
+    }
+
     getHeaderAndFooterOptions() {
-        const { header_content: { header_cms } = {} } = window.contentConfiguration;
+        const { header_content: { header_menu } = {} } = window.contentConfiguration;
 
         return {
-            menu: { identifier: 'new-main-menu' },
-            footer: { identifiers: [header_cms || 'social-links'] }
+            menu: { identifier: [header_menu || 'new-main-menu'] },
+            footer: { identifiers: this.getCmsBlocksToRequest() }
         };
     }
 
