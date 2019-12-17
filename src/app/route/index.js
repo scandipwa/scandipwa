@@ -138,7 +138,7 @@ class AppRouter extends PureComponent {
                 )
             ],
             []
-        ).filter((value, index, self) => self.indexOf(value) === index);
+        ).filter((value, index, self) => value && self.indexOf(value) === index);
 
         console.log(blocks);
 
