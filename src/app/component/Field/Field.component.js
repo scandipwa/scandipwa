@@ -382,7 +382,6 @@ export default class Field extends PureComponent {
         } = this.props;
 
         const { value } = this.state;
-        console.log(this.props);
         return (
             <input
               data-skip-value={ skipValue }
