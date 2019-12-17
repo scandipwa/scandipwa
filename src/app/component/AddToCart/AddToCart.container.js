@@ -56,7 +56,8 @@ export class AddToCartContainer extends PureComponent {
     state = { isLoading: false };
 
     containerFunctions = {
-        buttonClick: this.buttonClick.bind(this)
+        buttonClick: this.buttonClick.bind(this),
+        disabledButtonClick: this.disabledButtonClick.bind(this)
     };
 
     containerProps = () => ({
@@ -130,6 +131,11 @@ export class AddToCartContainer extends PureComponent {
             product: productToAdd,
             quantity
         }).then(() => this._afterAdded());
+    }
+
+    disabledButtonClick(event){
+        const { showNotification } = this.props;
+        showNotification('success', 'Please, choose desired item properties');
     }
 
     removeProductFromWishlist() {
