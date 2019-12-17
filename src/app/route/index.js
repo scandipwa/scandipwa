@@ -140,8 +140,6 @@ class AppRouter extends PureComponent {
             []
         ).filter((value, index, self) => value && self.indexOf(value) === index);
 
-        console.log(blocks);
-
         return blocks.length ? blocks : ['social-links'];
     }
 

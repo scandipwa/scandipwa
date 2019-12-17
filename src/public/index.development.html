@@ -10,7 +10,9 @@
                 });
             }
 
-            window.contentConfiguration = {};
+            window.contentConfiguration = JSON.parse(
+                '{"footer_content":{"footer_cms":"social-links"},"minicart_content":{"minicart_cms":"social-links"},"cart_content":{"cart_cms":"social-links"},"checkout_content":{"checkout_shipping_cms":"social-links","checkout_billing_cms":"social-links"},"header_content":{"header_menu":null,"header_cms":"social-links"},"product_list_content":{"attribute_to_display":"brand"}}'
+            );
         </script>
         <script src="https://js.stripe.com/v3/" async></script>
 
