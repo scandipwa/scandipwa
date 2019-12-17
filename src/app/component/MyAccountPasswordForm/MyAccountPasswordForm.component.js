@@ -11,6 +11,7 @@
 
 import PropTypes from 'prop-types';
 import FieldForm from 'Component/FieldForm';
+import './MyAccountPasswordForm.style';
 
 class MyAccountPasswordForm extends FieldForm {
     static propTypes = {
@@ -39,9 +40,12 @@ class MyAccountPasswordForm extends FieldForm {
 
     renderActions() {
         return (
+        <div block="MyAccountPasswordForm" elem="Wrapper">
             <button block="Button">
                 { __('Change password') }
             </button>
+        </div>
+            
         );
     }
 }
