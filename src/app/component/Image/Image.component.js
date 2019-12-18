@@ -48,7 +48,8 @@ export default class Image extends PureComponent {
         wrapperSize: PropTypes.shape({
             height: PropTypes.string
         }),
-        mix: MixType
+        mix: MixType,
+        onErrorShow: PropTypes.bool
     };
 
     static defaultProps = {
@@ -57,6 +58,7 @@ export default class Image extends PureComponent {
         ratio: 'square',
         mix: {},
         isPlaceholder: false,
+        onErrorShow: true,
         wrapperSize: {},
         style: {}
     };
@@ -138,25 +140,33 @@ export default class Image extends PureComponent {
             mix,
             isPlaceholder,
             wrapperSize,
-            src
+            src,
+            onErrorShow
         } = this.props;
 
         const { imageStatus } = this.state;
 
-        return (
-            <div
-              block="Image"
-              mods={ {
-                  ratio,
-                  imageStatus,
-                  isPlaceholder,
-                  hasSrc: !!src
-              } }
-              mix={ mix }
-              style={ wrapperSize }
-            >
-                { this.renderImage() }
-            </div>
-        );
+        switch (!onErrorShow && imageStatus) {
+        case IMAGE_NOT_FOUND:
+            return null;
+        case IMAGE_NOT_SPECIFIED:
+            return null;
+        default:
+            return (
+                <div
+                  block="Image"
+                  mods={ {
+                      ratio,
+                      imageStatus,
+                      isPlaceholder,
+                      hasSrc: !!src
+                  } }
+                  mix={ mix }
+                  style={ wrapperSize }
+                >
+                    { this.renderImage() }
+                </div>
+            );
+        }
     }
 }
