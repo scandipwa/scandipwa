@@ -19,6 +19,7 @@ import { CartDispatcher } from 'Store/Cart';
 import { CartItemType } from 'Type/MiniCart';
 import { makeCancelable } from 'Util/Promise';
 
+import { DEFAULT_MAX_PRODUCTS } from 'Component/ProductActions/ProductActions.container';
 import CartItem from './CartItem.component';
 
 export const mapDispatchToProps = dispatch => ({
@@ -63,13 +64,26 @@ export class CartItemContainer extends PureComponent {
             : product.variants[variantIndex];
     }
 
+    getMinQuantity() {
+        const { stock_item: { min_sale_qty } = {} } = this.getCurrentProduct() || {};
+        return min_sale_qty || 1;
+    }
+
+    getMaxQuantity() {
+        const { stock_item: { max_sale_qty } = {} } = this.getCurrentProduct() || {};
+
+        return max_sale_qty || DEFAULT_MAX_PRODUCTS;
+    }
+
     setStateNotLoading() {
         this.setState({ isLoading: false });
     }
 
     containerProps = () => ({
+        linkTo: this._getProductLinkTo(),
         thumbnail: this._getProductThumbnail(),
-        linkTo: this._getProductLinkTo()
+        minSaleQuantity: this.getMinQuantity(),
+        maxSaleQuantity: this.getMaxQuantity()
     });
 
     /**
