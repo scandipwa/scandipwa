@@ -167,7 +167,7 @@
                 ~ label {
                     margin: 0;
                     min-width: 1.5rem;
-                    top: 0.3rem;
+                    top: .3rem;
                 }
             }
         }
@@ -188,7 +188,7 @@
         }
 
         @include after-mobile {
-            padding: 0.5rem 0;
+            padding: .5rem 0;
         }
     }
 
