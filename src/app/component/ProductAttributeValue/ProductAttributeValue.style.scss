@@ -46,7 +46,7 @@
         border-width: 1px;
         color: var(--option-text-color);
         display: inline-block;
-        min-height: var(--option-size);
+        height: var(--option-size);
         width: var(--option-size);
         margin: var(--option-margin);
         padding: var(--option-padding);
@@ -140,9 +140,8 @@
     &-Text {
         display: flex;
         border: 0;
-        align-items: baseline;
+        align-items: center;
         margin: 0;
-        line-height: 1.4;
         text-transform: uppercase;
 
         &_isSelected {
@@ -162,12 +161,9 @@
                 padding-left: 1rem;
                 padding-bottom: 0;
                 order: 1;
-                text-align: left;
 
                 ~ label {
                     margin: 0;
-                    min-width: 1.5rem;
-                    top: 0.3rem;
                 }
             }
         }
@@ -188,7 +184,7 @@
         }
 
         @include after-mobile {
-            padding: 0.5rem 0;
+            padding: 0;
         }
     }
 
