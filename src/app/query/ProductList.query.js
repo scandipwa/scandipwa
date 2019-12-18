@@ -117,9 +117,8 @@ export class ProductListQuery {
         ];
     }
 
-    _getProductInterfaceFields(isVariant, getLinksFieldFromCart) {
-        const { isSingleProduct = getLinksFieldFromCart } = this.options;
-        // TODO: add Grouped product fragment
+    _getProductInterfaceFields(isVariant) {
+        const { isSingleProduct } = this.options;
 
         return [
             'id',
@@ -129,6 +128,7 @@ export class ProductListQuery {
             this._getPriceField(),
             this._getStockItemField(),
             this._getProductThumbnailField(),
+            this._getProductSmallField(),
             this._getShortDescriptionField(),
             this._getAttributesField(isVariant),
             ...(!isVariant
@@ -162,9 +162,35 @@ export class ProductListQuery {
         ];
     }
 
+    /**
+     * For grouped products, returns the subfields of the elements of the `items` field
+     * @returns {*[]}
+     * @private
+     */
+    _getGroupedProductItemFields() {
+        return [
+            this._getProductField(),
+            'position',
+            'qty'
+        ];
+    }
+
+    /**
+     * A GroupedProduct-specific field that queries the products that are grouped under this product
+     * @returns {Field}
+     * @private
+     */
+    _getGroupedProductItems() {
+        return new Fragment('GroupedProduct').addField(
+            new Field('items')
+                .addFieldList(this._getGroupedProductItemFields())
+        );
+    }
+
     _getItemsField() {
         return new Field('items')
-            .addFieldList(this._getProductInterfaceFields());
+            .addFieldList(this._getProductInterfaceFields())
+            .addField(this._getGroupedProductItems());
     }
 
     _getProductField() {
@@ -272,10 +298,14 @@ export class ProductListQuery {
      */
     _getProductThumbnailFields() {
         return [
-            'path'
-            // 'url',
+            'path',
+            'url'
             // 'label'
         ];
+    }
+
+    _getProductSmallFields() {
+        return this._getProductThumbnailFields();
     }
 
     /**
@@ -287,6 +317,11 @@ export class ProductListQuery {
     _getProductThumbnailField() {
         return new Field('thumbnail')
             .addFieldList(this._getProductThumbnailFields());
+    }
+
+    _getProductSmallField() {
+        return new Field('small_image')
+            .addFieldList(this._getProductSmallFields());
     }
 
     _getAttributeOptionField() {
@@ -333,7 +368,8 @@ export class ProductListQuery {
             'media_type',
             'types',
             this._getVideoContentField(),
-            this._getMediaThumbnailField()
+            this._getMediaThumbnailField(),
+            this._getMediaBaseField()
         ];
     }
 
@@ -361,6 +397,10 @@ export class ProductListQuery {
      */
     _getMediaThumbnailField() {
         return new Field('thumbnail').addField('url');
+    }
+
+    _getMediaBaseField() {
+        return new Field('base').addField('url');
     }
 
     _getMediaGalleryField() {

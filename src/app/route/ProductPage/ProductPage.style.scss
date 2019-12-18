@@ -15,7 +15,7 @@
     }
 
     > section:nth-child(even) {
-        background-color: #{$concrete};
+        background-color: var(--secondary-base-color);
     }
 
     &-Wrapper {

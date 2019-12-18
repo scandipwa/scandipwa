@@ -10,7 +10,7 @@
  */
 
 :root {
-    --menu-overlay-item-figure-background: #{$concrete};
+    --menu-overlay-item-figure-background: var(--secondary-base-color);
     --menu-desktop-subitem-arrow-color: #000;
     --menu-overlay-item-banner-color: #fff;
     --menu-overlay-additional-information-divider-color: #dedede;
@@ -395,6 +395,10 @@
 
     &-Link + &-Link {
         margin-left: 0;
+    }
+
+    .Image {
+        background: none;
     }
 
     .Image {

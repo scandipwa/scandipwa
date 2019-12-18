@@ -154,7 +154,7 @@ export class CheckoutQuery {
             'shipping_amount',
             'subtotal_incl_tax',
             'shipping_incl_tax',
-            'base_currency_code',
+            'quote_currency_code',
             'shipping_tax_amount',
             'subtotal_with_discount',
             'shipping_discount_amount',

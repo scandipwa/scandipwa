@@ -18,7 +18,7 @@ import { orderType } from 'Type/Account';
 import MyAccountOrderTableRow from './MyAccountOrderTableRow.component';
 
 export const mapStateToProps = state => ({
-    currency_code: state.ConfigReducer.base_currency_code
+    currency_code: state.ConfigReducer.default_display_currency_code
 });
 
 export const mapDispatchToProps = dispatch => ({

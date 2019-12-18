@@ -118,8 +118,8 @@ export class MyAccountOverlayContainer extends PureComponent {
         if (isPasswordForgotSend !== currentIsPasswordForgotSend) {
             stateToBeUpdated.isLoading = false;
             stateToBeUpdated.isPasswordForgotSend = isPasswordForgotSend;
-            showNotification('success', __(`If there is an account associated with the
-            provided address you will receive an email with a link to reset your password.`));
+            // eslint-disable-next-line max-len
+            showNotification('success', __('If there is an account associated with the provided address you will receive an email with a link to reset your password.'));
             stateToBeUpdated.state = STATE_SIGN_IN;
         }
 

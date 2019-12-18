@@ -11,7 +11,7 @@
 
 :root {
     --breadcrumbs-height: 40px;
-    --breadcrumbs-background: #{$concrete};
+    --breadcrumbs-background: var(--secondary-base-color);
     --breadcrumbs-active-color: #888;
     --breadcrumbs-color: #404040;
 }

@@ -29,12 +29,17 @@ export class ProductActionsContainer extends PureComponent {
         parameters: PropTypes.objectOf(PropTypes.string).isRequired
     };
 
-    state = { quantity: 1 };
+    state = {
+        quantity: 1,
+        groupedProductQuantity: {}
+    };
 
     containerFunctions = {
         showOnlyIfLoaded: this.showOnlyIfLoaded.bind(this),
         getIsOptionInCurrentVariant: this.getIsOptionInCurrentVariant.bind(this),
         setQuantity: this.setQuantity.bind(this),
+        setGroupedProductQuantity: this._setGroupedProductQuantity.bind(this),
+        clearGroupedProductQuantity: this._clearGroupedProductQuantity.bind(this),
         getIsConfigurableAttributeAvailable: this.getIsConfigurableAttributeAvailable.bind(this)
     };
 
@@ -112,7 +117,8 @@ export class ProductActionsContainer extends PureComponent {
 
     containerProps = () => ({
         minQuantity: this.getMinQuantity(),
-        maxQuantity: this.getMaxQuantity()
+        maxQuantity: this.getMaxQuantity(),
+        groupedProductQuantity: this._getGroupedProductQuantity()
     });
 
     checkQuantity() {
@@ -123,6 +129,24 @@ export class ProductActionsContainer extends PureComponent {
 
         if (quantity < minQty) this.setState({ quantity: minQty });
         if (quantity > maxQty) this.setState({ quantity: maxQty });
+    }
+
+    _getGroupedProductQuantity() {
+        const { groupedProductQuantity } = this.state;
+        return groupedProductQuantity;
+    }
+
+    _setGroupedProductQuantity(id, value) {
+        this.setState(({ groupedProductQuantity }) => ({
+            groupedProductQuantity: {
+                ...groupedProductQuantity,
+                [id]: value
+            }
+        }));
+    }
+
+    _clearGroupedProductQuantity() {
+        this.setState({ groupedProductQuantity: {} });
     }
 
     showOnlyIfLoaded(expression, content, placeholder = content) {
@@ -140,6 +164,7 @@ export class ProductActionsContainer extends PureComponent {
               { ...this.state }
               { ...this.containerProps() }
               { ...this.containerFunctions }
+              { ...this.containerProps() }
             />
         );
     }

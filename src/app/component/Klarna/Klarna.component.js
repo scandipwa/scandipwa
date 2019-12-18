@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* eslint-disable no-undef, no-console */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -54,7 +54,11 @@ export default class KlarnaComponent extends PureComponent {
             });
 
             setOrderButtonEnableStatus(true);
-        } catch ([{ message }]) {
+        } catch (err) {
+            console.groupCollapsed('Suppressed error log:');
+            console.error(err);
+            console.groupEnd();
+
             showError(__('Error initializing Klarna payment method.'));
         }
 

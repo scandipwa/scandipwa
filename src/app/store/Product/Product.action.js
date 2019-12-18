@@ -10,8 +10,6 @@
  */
 
 export const UPDATE_PRODUCT_DETAILS = 'UPDATE_PRODUCT_DETAILS';
-export const UPDATE_GROUPED_PRODUCT_QUANTITY = 'UPDATE_GROUPED_PRODUCT_QUANTITY';
-export const CLEAR_GROUPED_PRODUCT_QUANTITY = 'CLEAR_GROUPED_PRODUCT_QUANTITY';
 
 /**
  * Update product list with new list (rewrite if already exists).
@@ -22,23 +20,4 @@ export const CLEAR_GROUPED_PRODUCT_QUANTITY = 'CLEAR_GROUPED_PRODUCT_QUANTITY';
 export const updateProductDetails = product => ({
     type: UPDATE_PRODUCT_DETAILS,
     product
-});
-/**
- * Update quantity of grouped product
- * @param  {Object} product
- * @param  {Number} quantity new product quantity
- * @return {void}
- */
-export const updateGroupedProductQuantity = (product, quantity) => ({
-    type: UPDATE_GROUPED_PRODUCT_QUANTITY,
-    product,
-    quantity
-});
-
-/**
- * Clear quantity of grouped product
- * @return {void}
- */
-export const clearGroupedProductQuantity = () => ({
-    type: CLEAR_GROUPED_PRODUCT_QUANTITY
 });
