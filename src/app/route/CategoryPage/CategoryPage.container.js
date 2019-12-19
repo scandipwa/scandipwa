@@ -57,7 +57,7 @@ export const mapDispatchToProps = dispatch => ({
     updateLoadStatus: isLoading => dispatch(updateInfoLoadStatus(isLoading))
 });
 
-export const UPDATE_FILTERS_FREQUENCY = 250;
+export const UPDATE_FILTERS_FREQUENCY = 0;
 
 export class CategoryPageContainer extends PureComponent {
     static propTypes = {

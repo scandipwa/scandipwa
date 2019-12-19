@@ -209,7 +209,6 @@ export default class ProductList extends PureComponent {
 
     renderCategoryPlaceholder() {
         const {
-            mix,
             loadPage,
             isLoading,
             isVisible,
@@ -220,18 +219,12 @@ export default class ProductList extends PureComponent {
         if (!isInfiniteLoaderEnabled && !isLoading) return null;
 
         return (
-            <div
-              block="CategoryProductList"
-              elem="Page"
-              mix={ { ...mix, elem: 'Page' } }
-            >
-                <CategoryProductListPlaceholder
-                  isLoading={ isLoading }
-                  isVisible={ isVisible }
-                  updatePages={ loadPage }
-                  numberOfPlaceholders={ numberOfPlaceholders }
-                />
-            </div>
+            <CategoryProductListPlaceholder
+              isLoading={ isLoading }
+              isVisible={ isVisible }
+              updatePages={ loadPage }
+              numberOfPlaceholders={ numberOfPlaceholders }
+            />
         );
     }
 
