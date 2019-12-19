@@ -12,6 +12,7 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { MixType } from 'Type/Common';
+import './ResetButton.style';
 
 export default class ResetButton extends PureComponent {
     static propTypes = {
