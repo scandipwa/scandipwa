@@ -162,7 +162,7 @@ export default class Html extends PureComponent {
      */
     wrapTable({ attribs, children }) {
         return (
-            <div className="TableWrapper">
+            <div block="Table" elem="Wrapper">
                 <table { ...attributesToProps(attribs) }>
                     { domToReact(children, this.parserOptions) }
                 </table>

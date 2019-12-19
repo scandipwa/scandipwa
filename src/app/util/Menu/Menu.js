@@ -61,7 +61,7 @@ export class MenuReducer {
         if (parent_id === 0) {
             this.menuPositionReference[item_id] = [];
             this.menu[item_id] = this.getMenuData(data);
-        } else {
+        } else if (this.menuPositionReference[parent_id] !== undefined) {
             this.menuPositionReference[item_id] = [
                 ...this.menuPositionReference[parent_id],
                 parent_id
