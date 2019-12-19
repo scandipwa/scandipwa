@@ -16,7 +16,7 @@
         "scandipwa/menu-organizer": "^1.1.1",
         "scandipwa/persisted-query": "^2.0",
         "scandipwa/slider-graphql": "^1.0",
-        "scandipwa/cms-graphql": "^1.2.3",
+        "scandipwa/cms-graphql": "^1.3",
         "scandipwa/catalog-graphql": "^2.5",
         "scandipwa/route717": "^1.3",
         "scandipwa/customer-graph-ql": "^2.1",
