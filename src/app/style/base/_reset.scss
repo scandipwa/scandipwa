@@ -130,7 +130,8 @@ h3 {
 
 h4,
 p,
-li {
+li,
+dl {
     font-size: 14px;
 }
 
@@ -183,7 +184,6 @@ textarea {
 }
 
 mark {
-    background-color: transparentize($primary-base-color, .75);
     margin-right: 5px;
 }
 

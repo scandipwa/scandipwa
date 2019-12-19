@@ -10,7 +10,7 @@
  */
 
 :root {
-    --category-details-background: #{$concrete};
+    --category-details-background: var(--secondary-base-color);
 }
 
 .CategoryDetails {

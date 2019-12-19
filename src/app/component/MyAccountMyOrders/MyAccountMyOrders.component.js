@@ -42,10 +42,10 @@ class MyAccountMyOrders extends PureComponent {
             <table>
                 <thead>
                     <tr>
-                        <th>Order</th>
-                        <th>Date</th>
-                        <th>Status</th>
-                        <th block="hidden-mobile">Total</th>
+                        <th>{ __('Order') }</th>
+                        <th>{ __('Date') }</th>
+                        <th>{ __('Status') }</th>
+                        <th block="hidden-mobile">{ __('Total') }</th>
                     </tr>
                 </thead>
                 <tbody>

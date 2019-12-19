@@ -31,6 +31,8 @@ export default class CartItem extends PureComponent {
         isEditing: PropTypes.bool,
         isLikeTable: PropTypes.bool,
         handleRemoveItem: PropTypes.func.isRequired,
+        minSaleQuantity: PropTypes.number.isRequired,
+        maxSaleQuantity: PropTypes.number.isRequired,
         handleChangeQuantity: PropTypes.func.isRequired,
         getCurrentProduct: PropTypes.func.isRequired,
         linkTo: PropTypes.oneOfType([
@@ -79,7 +81,7 @@ export default class CartItem extends PureComponent {
                           block="CartItem"
                           elem="Option"
                         >
-                            {/* { configurable_options[attribute_code].attribute_options[attribute_value].label } */}
+                            { configurable_options[attribute_code].attribute_options[attribute_value].label }
                         </li>
                     ))) }
             </ul>
@@ -145,6 +147,8 @@ export default class CartItem extends PureComponent {
             isEditing,
             isLikeTable,
             item: { qty },
+            minSaleQuantity,
+            maxSaleQuantity,
             handleRemoveItem,
             handleChangeQuantity
         } = this.props;
@@ -169,7 +173,8 @@ export default class CartItem extends PureComponent {
                   id="item_qty"
                   name="item_qty"
                   type="number"
-                  min={ 1 }
+                  min={ minSaleQuantity }
+                  max={ maxSaleQuantity }
                   mix={ { block: 'CartItem', elem: 'Qty' } }
                   value={ qty }
                   onChange={ handleChangeQuantity }

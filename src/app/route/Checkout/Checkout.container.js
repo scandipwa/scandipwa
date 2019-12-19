@@ -26,17 +26,18 @@ import { TotalsType } from 'Type/MiniCart';
 import { HistoryType } from 'Type/Common';
 
 import { isSignedIn } from 'Util/Auth';
-import { BRAINTREE } from 'Component/CheckoutPayments/CheckoutPayments.component';
+import { BRAINTREE, KLARNA } from 'Component/CheckoutPayments/CheckoutPayments.component';
 import Checkout, { SHIPPING_STEP, BILLING_STEP, DETAILS_STEP } from './Checkout.component';
 
 export const PAYMENT_TOTALS = 'PAYMENT_TOTALS';
+export const STRIPE_AUTH_REQUIRED = 'Authentication Required: ';
 
 export const mapStateToProps = state => ({
     totals: state.CartReducer.cartTotals
 });
 
 export const mapDispatchToProps = dispatch => ({
-    resetCart: () => CartDispatcher._updateCartData({}, dispatch),
+    resetCart: () => CartDispatcher.updateInitialCartData(dispatch),
     toggleBreadcrumbs: state => dispatch(toggleBreadcrumbs(state)),
     showErrorNotification: message => dispatch(showNotification('error', message)),
     setHeaderState: stateName => dispatch(changeHeaderState(stateName))
@@ -60,6 +61,7 @@ export class CheckoutContainer extends PureComponent {
     };
 
     customPaymentMethods = [
+        KLARNA,
         BRAINTREE
     ];
 
@@ -147,13 +149,31 @@ export class CheckoutContainer extends PureComponent {
 
     _handleError = (error) => {
         const { showErrorNotification } = this.props;
+        const [{ message, debugMessage }] = error;
 
         this.setState({
             isDeliveryOptionsLoading: false,
             isLoading: false
         }, () => {
-            showErrorNotification(error[0].message);
+            showErrorNotification(debugMessage || message);
         });
+    };
+
+    _handlePaymentError = (error, paymentInformation) => {
+        const [{ debugMessage: message = '' }] = error;
+        const { paymentMethod: { handleAuthorization } } = paymentInformation;
+
+        if (handleAuthorization && message.startsWith(STRIPE_AUTH_REQUIRED)) {
+            const secret = message.substring(STRIPE_AUTH_REQUIRED.length);
+
+            handleAuthorization(
+                paymentInformation,
+                secret,
+                paymentInformation => this.savePaymentInformation(paymentInformation)
+            );
+        } else {
+            this._handleError(error);
+        }
     };
 
     _getGuestCartId = () => BrowserDatabase.getItem(GUEST_QUOTE_ID);
@@ -252,7 +272,9 @@ export class CheckoutContainer extends PureComponent {
                 const { orderID } = data;
                 this.setDetailsStep(orderID);
             },
-            this._handleError
+            (error) => {
+                this._handlePaymentError(error, paymentInformation);
+            }
         );
     }
 

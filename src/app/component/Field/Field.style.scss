@@ -33,7 +33,7 @@ $select-arrow-width: 6px !default;
         margin-bottom: -.1em;
         font-size: 1.05rem;
         font-weight: 600;
-        color: $primary-dark-color;
+        color: var(--primary-dark-color);
     }
 
     &-Note {
@@ -99,7 +99,7 @@ $select-arrow-width: 6px !default;
             width: 100%;
             top: 100%;
             left: 0;
-            z-index: 20;
+            z-index: 40;
             border-width: 0 1px 1px;
             border-style: solid;
             border-color: transparent;
@@ -149,7 +149,7 @@ $select-arrow-width: 6px !default;
     &_hasError {
         input,
         textarea {
-            border: 1px solid $primary-dark-color;
+            border: 1px solid var(--primary-dark-color);
         }
     }
 
@@ -222,13 +222,13 @@ $select-arrow-width: 6px !default;
 
             &:hover {
                 @include after-mobile {
-                    --box-color: #{transparentize($concrete, .4)};
-                    border-color: $primary-base-color;
+                    --box-color: var(--secondary-light-color);
+                    border-color: var(--primary-base-color);
                 }
 
                 &::after {
                     @include after-mobile {
-                        --checkmark-color: #{$dusty-grey};
+                        --checkmark-color: var(--secondary-dark-color);
                     }
                 }
             }
@@ -240,8 +240,8 @@ $select-arrow-width: 6px !default;
         }
 
         &:checked + label {
-            background-color: $primary-base-color;
-            border-color: $primary-base-color;
+            background-color: var(--primary-base-color);
+            border-color: var(--primary-base-color);
 
             &::after {
                 --checkmark-color: #{$white};
@@ -273,7 +273,7 @@ $select-arrow-width: 6px !default;
             &:hover {
                 + label {
                     @include after-mobile {
-                        background-color: #{$primary-base-color};
+                        background-color: var(--primary-base-color);
                     }
                 }
             }
@@ -299,9 +299,9 @@ $select-arrow-width: 6px !default;
         }
 
         &:focus + label {
-            --box-color: #{transparentize($concrete, .4)};
+            --box-color: var(--secondary-light-color);
 
-            border-color: $primary-base-color;
+            border-color: var(--primary-base-color);
 
             &::after {
                 --checkmark-color: #{$white};

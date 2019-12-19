@@ -104,9 +104,9 @@ export default class ProductGallery extends PureComponent {
      * @private
      */
     _renderImageItem(mediaData, index) {
-        const { label, file } = mediaData;
+        const { label, file, base: { url } = {} } = mediaData;
         const alt = label || __('%s - Picture #%s', name, index);
-        const src = media(file, PRODUCT_MEDIA);
+        const src = url || file;
 
         return (
             <Fragment key={ index }>

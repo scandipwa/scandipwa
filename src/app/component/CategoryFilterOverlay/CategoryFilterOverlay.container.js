@@ -16,6 +16,10 @@ import { goToPreviousHeaderState } from 'Store/Header';
 import { hideActiveOverlay } from 'Store/Overlay';
 import CategoryFilterOverlay from './CategoryFilterOverlay.component';
 
+export const mapStateToProps = state => ({
+    isInfoLoading: state.ProductListInfoReducer.isLoading
+});
+
 export const mapDispatchToProps = dispatch => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     goToPreviousHeaderState: () => dispatch(goToPreviousHeaderState())
@@ -97,4 +101,4 @@ export class CategoryFilterOverlayContainer extends PureComponent {
     }
 }
 
-export default connect(null, mapDispatchToProps)(CategoryFilterOverlayContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(CategoryFilterOverlayContainer);

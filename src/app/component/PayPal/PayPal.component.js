@@ -17,7 +17,6 @@ import Html from 'Component/Html';
 import './PayPal.style';
 import Loader from 'Component/Loader';
 
-
 export const PAYPAL_SCRIPT = 'PAYPAL_SCRIPT';
 
 /**
@@ -27,7 +26,6 @@ export const PAYPAL_SCRIPT = 'PAYPAL_SCRIPT';
 */
 export default class PayPal extends PureComponent {
     static propTypes = {
-        // isCredit: PropTypes.bool,
         isDisabled: PropTypes.bool,
         paypal: PropTypes.any.isRequired,
         clientId: PropTypes.string.isRequired,
@@ -44,13 +42,12 @@ export default class PayPal extends PureComponent {
 
     static defaultProps = {
         isDisabled: false
-        // isCredit: false
     };
 
     getPayPalScript = () => {
         const {
             clientId,
-            cartTotals: { base_currency_code: currency }
+            cartTotals: { quote_currency_code: currency }
         } = this.props;
 
         const params = {
@@ -72,7 +69,6 @@ export default class PayPal extends PureComponent {
             onApprove,
             createOrder,
             environment
-            // isCredit
         } = this.props;
 
         if (!paypal) {
@@ -80,7 +76,6 @@ export default class PayPal extends PureComponent {
         }
 
         const PayPalButton = paypal && paypal.Buttons.driver('react', { React, ReactDOM });
-        // TODO: investigate PayPal credit support
 
         return (
             <PayPalButton
@@ -100,11 +95,9 @@ export default class PayPal extends PureComponent {
     render() {
         const { isDisabled } = this.props;
 
-        const paypalScript = this.getPayPalScript();
-
         return (
             <div block="PayPal" mods={ { isDisabled } }>
-                <Html content={ paypalScript } />
+                <Html content={ this.getPayPalScript() } />
                 { this.renderButtons() }
             </div>
         );

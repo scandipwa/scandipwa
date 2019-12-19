@@ -18,8 +18,8 @@ import { paymentMethodsType } from 'Type/Checkout';
 import { customerType, addressType } from 'Type/Account';
 import { trimCustomerAddress, trimAddressFields } from 'Util/Address';
 import { TotalsType } from 'Type/MiniCart';
+import { BRAINTREE, STRIPE, KLARNA } from 'Component/CheckoutPayments/CheckoutPayments.component';
 
-import { BRAINTREE } from 'Component/CheckoutPayments/CheckoutPayments.component';
 import CheckoutBilling from './CheckoutBilling.component';
 
 export const mapStateToProps = state => ({
@@ -113,7 +113,6 @@ export class CheckoutBillingContainer extends PureComponent {
         }
     }
 
-    // eslint-disable-next-line no-unused-vars
     _getPaymentData(asyncData) {
         const { paymentMethod: method } = this.state;
 
@@ -126,6 +125,28 @@ export class CheckoutBillingContainer extends PureComponent {
                 additional_data: {
                     payment_method_nonce: nonce,
                     is_active_payment_token_enabler: false
+                }
+            };
+        case STRIPE:
+            const [{ token, handleAuthorization }] = asyncData;
+            if (token === null) {
+                return false;
+            }
+
+            return {
+                method,
+                additional_data: {
+                    cc_stripejs_token: token,
+                    cc_save: false
+                },
+                handleAuthorization
+            };
+        case KLARNA:
+            const [{ authorization_token }] = asyncData;
+            return {
+                method,
+                additional_data: {
+                    authorization_token
                 }
             };
         default:

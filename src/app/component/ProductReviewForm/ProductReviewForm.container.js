@@ -96,7 +96,7 @@ export class ProductReviewFormContainer extends PureComponent {
             goToPreviousHeaderState
         } = this.props;
 
-        const { ratingData: rating_data } = this.state;
+        const { ratingData: rating_data, isLoading } = this.state;
 
         const {
             nickname,
@@ -106,7 +106,7 @@ export class ProductReviewFormContainer extends PureComponent {
 
         const { sku: product_sku } = product;
 
-        if (Object.keys(rating_data).length) {
+        if (Object.keys(rating_data).length && isLoading) {
             addReview({
                 nickname,
                 title,

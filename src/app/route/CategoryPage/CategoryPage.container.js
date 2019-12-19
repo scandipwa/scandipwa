@@ -18,6 +18,7 @@ import { toggleOverlayByKey } from 'Store/Overlay';
 import { changeHeaderState } from 'Store/Header';
 import { CategoryTreeType } from 'Type/Category';
 import { CATEGORY } from 'Component/Header';
+import { debounce } from 'Util/Request';
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
 
 import {
@@ -55,6 +56,8 @@ export const mapDispatchToProps = dispatch => ({
     requestProductListInfo: options => ProductListInfoDispatcher.handleData(dispatch, options),
     updateLoadStatus: isLoading => dispatch(updateInfoLoadStatus(isLoading))
 });
+
+export const UPDATE_FILTERS_FREQUENCY = 0;
 
 export class CategoryPageContainer extends PureComponent {
     static propTypes = {
@@ -99,6 +102,11 @@ export class CategoryPageContainer extends PureComponent {
         updatePriceRange: this.updatePriceRange.bind(this)
     };
 
+    _debounceRequestCategoryProductsInfo = debounce(
+        () => this._requestCategoryProductsInfo(),
+        UPDATE_FILTERS_FREQUENCY
+    );
+
     componentDidMount() {
         const { updateBreadcrumbs, isOnlyPlaceholder, updateLoadStatus } = this.props;
 
@@ -114,17 +122,13 @@ export class CategoryPageContainer extends PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        const { category: { id }, categoryIds, location } = this.props;
-        const { category: { id: prevId }, categoryIds: prevCategoryIds } = prevProps;
+        const { category: { id } } = this.props;
+        const { category: { id: prevId } } = prevProps;
 
         // update breadcrumbs only if category has changed
         if (id !== prevId) this._onCategoryUpdate();
 
-        // ComponentDidUpdate fires multiple times, to prevent getting same data we check that url has changed
-        // getIsNewCategory prevents getting Category data, when sort or filter options have changed
-        if ((this._urlHasChanged(location, prevProps) && this.getIsNewCategory()) || categoryIds !== prevCategoryIds) {
-            this._requestCategoryWithPageList();
-        }
+        this._updateData(prevProps);
     }
 
     onSortChange(sortDirection, sortKey) {
@@ -136,7 +140,7 @@ export class CategoryPageContainer extends PureComponent {
 
     getFilterUrl(filterName, filterArray, isFull = true) {
         const { location: { pathname } } = this.props;
-        const selectedFilters = this._getNewSelectedFilters(filterName, filterArray);
+        const selectedFilters = this._getNewSelectedFiltersString(filterName, filterArray);
         return `${isFull ? `${pathname}?` : ''}${this._formatSelectedFiltersString(selectedFilters)}`;
     }
 
@@ -181,16 +185,40 @@ export class CategoryPageContainer extends PureComponent {
         }, location, history);
     }
 
-    _getNewSelectedFilters(filterName, filterArray) {
+    _updateData(prevProps) {
+        const { categoryIds, location: { search } } = this.props;
+        const { categoryIds: prevCategoryIds, location: { search: prevSearch } } = prevProps;
+
+        // ComponentDidUpdate fires multiple times, to prevent getting same data we check that url has changed
+        // getIsNewCategory prevents getting Category data, when sort or filter options have changed
+        if (this._urlHasChanged(location, prevProps) && this.getIsNewCategory()) {
+            this._requestCategoryWithPageList();
+            return;
+        }
+
+        if (categoryIds !== prevCategoryIds) {
+            this._requestCategoryWithPageList();
+            return;
+        }
+
+        if (!this._compareQueriesByFilters(search, prevSearch)) {
+            this._debounceRequestCategoryProductsInfo();
+        }
+    }
+
+    _getNewSelectedFiltersString(filterName, filterArray) {
         const prevCustomFilters = this._getSelectedFiltersFromUrl();
-        prevCustomFilters[filterName] = filterArray;
+        const customFilers = {
+            ...prevCustomFilters,
+            [filterName]: filterArray
+        };
 
-        return Object.keys(prevCustomFilters)
-            .reduce((accumulator, prevFilterName) => {
-                if (prevCustomFilters[prevFilterName].length) {
-                    const filterValues = prevCustomFilters[prevFilterName].sort().join(',');
+        return Object.entries(customFilers)
+            .reduce((accumulator, [filterKey, filterValue]) => {
+                if (filterValue.length) {
+                    const filterValues = filterValue.sort().join(',');
 
-                    accumulator.push(`${prevFilterName}:${filterValues}`);
+                    accumulator.push(`${filterKey}:${filterValues}`);
                 }
 
                 return accumulator;
@@ -244,9 +272,10 @@ export class CategoryPageContainer extends PureComponent {
     }
 
     _getSelectedSortFromUrl() {
-        const { location } = this.props;
-        const { sortKey: defaultSortKey, sortDirection: defaultSortDirection } = this.config;
+        const { location, category: { default_sort_by } } = this.props;
+        const { sortKey: globalDefaultSortKey, sortDirection: defaultSortDirection } = this.config;
         const sortDirection = getQueryParam('sortDirection', location) || defaultSortDirection;
+        const defaultSortKey = default_sort_by || globalDefaultSortKey;
         const sortKey = getQueryParam('sortKey', location) || defaultSortKey;
         return { sortDirection, sortKey };
     }
@@ -274,12 +303,14 @@ export class CategoryPageContainer extends PureComponent {
     _getProductListOptions(currentPage) {
         const { categoryIds } = this.props;
         const categoryUrlPath = !categoryIds ? this._getCategoryUrlPath() : null;
+        const customFilters = this._getSelectedFiltersFromUrl();
 
         return {
             args: {
                 filter: {
                     categoryUrlPath,
-                    categoryIds
+                    categoryIds,
+                    customFilters
                 }
             },
             currentPage
@@ -308,7 +339,7 @@ export class CategoryPageContainer extends PureComponent {
 
     _requestCategoryProductsInfo() {
         const { requestProductListInfo } = this.props;
-        requestProductListInfo(this._getProductListOptions(1, false, true));
+        requestProductListInfo(this._getProductListOptions(1));
     }
 
     _requestCategory() {
@@ -336,6 +367,12 @@ export class CategoryPageContainer extends PureComponent {
     _compareQueriesWithoutPage(search, prevSearch) {
         return this._compareQueriesWithFilter(
             search, prevSearch, ({ page, ...filteredParams }) => filteredParams
+        );
+    }
+
+    _compareQueriesByFilters(search, prevSearch) {
+        return this._compareQueriesWithFilter(
+            search, prevSearch, ({ customFilters }) => customFilters
         );
     }
 

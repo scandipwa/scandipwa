@@ -46,7 +46,6 @@ class MyAccountOverlay extends PureComponent {
         onForgotPasswordAttempt: PropTypes.func.isRequired,
         onFormError: PropTypes.func.isRequired,
         handleForgotPassword: PropTypes.func.isRequired,
-        handleForgotPasswordSuccess: PropTypes.func.isRequired,
         handleSignIn: PropTypes.func.isRequired,
         handleCreateAccount: PropTypes.func.isRequired
     };
@@ -54,18 +53,18 @@ class MyAccountOverlay extends PureComponent {
     renderMap = {
         [STATE_SIGN_IN]: {
             render: () => this.renderSignIn(),
-            title: 'Sign in to your account'
+            title: __('Sign in to your account')
         },
         [STATE_FORGOT_PASSWORD]: {
             render: () => this.renderForgotPassword(),
-            title: 'Get password link'
+            title: __('Get password link')
         },
         [STATE_FORGOT_PASSWORD_SUCCESS]: {
             render: () => this.renderForgotPasswordSuccess()
         },
         [STATE_CREATE_ACCOUNT]: {
             render: () => this.renderCreateAccount(),
-            title: 'Create new account'
+            title: __('Create new account')
         },
         [STATE_LOGGED_IN]: {
             render: () => {}
@@ -90,7 +89,6 @@ class MyAccountOverlay extends PureComponent {
             onForgotPasswordAttempt,
             onForgotPasswordSuccess,
             onFormError,
-            handleForgotPasswordSuccess,
             handleSignIn,
             handleCreateAccount
         } = this.props;
@@ -105,7 +103,7 @@ class MyAccountOverlay extends PureComponent {
                 >
                     <Field type="text" id="email" name="email" label="Email" validation={ ['notEmpty', 'email'] } />
                     <div block="MyAccountOverlay" elem="Buttons">
-                        <button block="Button" type="submit" onClick={ handleForgotPasswordSuccess }>
+                        <button block="Button" type="submit">
                             { __('Send reset link') }
                         </button>
                     </div>
@@ -180,14 +178,14 @@ class MyAccountOverlay extends PureComponent {
                         <legend>{ __('Personal Information') }</legend>
                         <Field
                           type="text"
-                          label="First Name"
+                          label={ __('First Name') }
                           id="firstname"
                           name="firstname"
                           validation={ ['notEmpty'] }
                         />
                         <Field
                           type="text"
-                          label="Last Name"
+                          label={ __('Last Name') }
                           id="lastname"
                           name="lastname"
                           validation={ ['notEmpty'] }
@@ -195,7 +193,7 @@ class MyAccountOverlay extends PureComponent {
                         <Field
                           type="checkbox"
                           value="is_subscribed"
-                          label={ __('Subscribe to ScandiPWA newsletter') }
+                          label={ __('Subscribe to newsletter') }
                           id="is_subscribed"
                           mix={ { block: 'MyAccountOverlay', elem: 'Checkbox' } }
                           name="is_subscribed"
@@ -284,7 +282,7 @@ class MyAccountOverlay extends PureComponent {
                 </Form>
                 <article block="MyAccountOverlay" elem="Additional" mods={ { state } }>
                     <section>
-                        <h4 id="forgot-password-label">{ __('New to ScandiPWA?') }</h4>
+                        <h4 id="forgot-password-label">{ __('Don`t have an account?') }</h4>
                         <button
                           block="Button"
                           onClick={ handleCreateAccount }

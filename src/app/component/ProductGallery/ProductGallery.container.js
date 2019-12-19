@@ -15,7 +15,7 @@ import { ProductType } from 'Type/ProductList';
 
 import ProductGallery, { IMAGE_TYPE } from './ProductGallery.component';
 
-export const THUMBNAIL_KEY = 'thumbnail';
+export const THUMBNAIL_KEY = 'small_image';
 export const AMOUNT_OF_PLACEHOLDERS = 3;
 
 export class ProductGalleryContainer extends PureComponent {
@@ -27,7 +27,7 @@ export class ProductGalleryContainer extends PureComponent {
         const {
             product: {
                 media_gallery_entries: mediaGallery = [],
-                thumbnail: { path } = {},
+                [THUMBNAIL_KEY]: { url } = {},
                 name
             }
         } = this.props;
@@ -53,12 +53,12 @@ export class ProductGalleryContainer extends PureComponent {
             }, {}));
         }
 
-        if (!path) {
+        if (!url) {
             return [{ type: 'image' }];
         }
 
         return [{
-            file: path,
+            file: url,
             id: THUMBNAIL_KEY,
             label: name,
             media_type: IMAGE_TYPE

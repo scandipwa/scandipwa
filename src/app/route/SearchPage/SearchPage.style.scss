@@ -12,7 +12,7 @@
 .SearchPage {
     &-Heading {
         span {
-            color: $primary-base-color;
+            color: var(--primary-base-color);
         }
     }
 }

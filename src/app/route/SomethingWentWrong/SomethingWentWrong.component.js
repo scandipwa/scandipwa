@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -30,13 +32,18 @@ class SomethingWentWrong extends PureComponent {
 
     renderErrorDetails() {
         const { errorDetails: { err, info: { componentStack } = {} } } = this.props;
+        const errorString =  err.toString();
+
+        console.groupCollapsed('Suppressed error log:');
+        console.error(errorString);
+        console.groupEnd();
 
         if (process.env.NODE_ENV === 'production') return null;
 
         return (
             <>
                 <div block="SomethingWentWrong" elem="Debug">
-                    { err.toString() }
+                    { errorString }
                     { componentStack }
                 </div>
             </>

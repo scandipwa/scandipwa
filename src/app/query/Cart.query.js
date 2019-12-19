@@ -86,7 +86,7 @@ export class CartQuery {
             'tax_amount',
             'grand_total',
             'discount_amount',
-            'base_currency_code',
+            'quote_currency_code',
             'subtotal_with_discount',
             'coupon_code',
             'shipping_amount',
