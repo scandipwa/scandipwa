@@ -19,6 +19,7 @@
     text-align: center;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
 
     &-Link,
     &-Copyright {
@@ -36,5 +37,6 @@
 
     &-Copyright {
         display: block;
+        margin-top: 2rem;
     }
 }

@@ -30,8 +30,8 @@ export default class CheckoutOrderSummary extends PureComponent {
     renderPriceLine(price, name, mods) {
         if (!price) return null;
 
-        const { totals: { base_currency_code } } = this.props;
-        const priceString = formatCurrency(base_currency_code);
+        const { totals: { quote_currency_code } } = this.props;
+        const priceString = formatCurrency(quote_currency_code);
 
         return (
             <li block="CheckoutOrderSummary" elem="SummaryItem" mods={ mods }>
@@ -39,7 +39,7 @@ export default class CheckoutOrderSummary extends PureComponent {
                     { name }
                 </strong>
                 <strong block="CheckoutOrderSummary" elem="Text">
-                    { `${roundPrice(price)}${priceString}` }
+                    { `${priceString}${roundPrice(price)}` }
                 </strong>
             </li>
         );
@@ -48,7 +48,7 @@ export default class CheckoutOrderSummary extends PureComponent {
     renderItem = (item) => {
         const {
             totals: {
-                base_currency_code
+                quote_currency_code
             }
         } = this.props;
 
@@ -58,7 +58,7 @@ export default class CheckoutOrderSummary extends PureComponent {
             <CartItem
               key={ item_id }
               item={ item }
-              currency_code={ base_currency_code }
+              currency_code={ quote_currency_code }
             />
         );
     };
@@ -123,7 +123,7 @@ export default class CheckoutOrderSummary extends PureComponent {
                     { this.renderPriceLine(subtotal, __('Cart Subtotal')) }
                     { this.renderCouponCode() }
                     { this.renderPriceLine(tax_amount, __('Tax')) }
-                    { this.renderPriceLine(grand_total, __('Order Total')) }
+                    { this.renderPriceLine(grand_total, __('Order total')) }
                 </ul>
             </div>
         );

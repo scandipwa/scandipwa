@@ -13,6 +13,8 @@ import { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ProductCard from 'Component/ProductCard';
+import { MixType } from 'Type/Common';
+
 import './CategoryProductListPlaceholder.style';
 
 export const DEFAULT_PLACEHOLDER_COUNT = 4;
@@ -21,16 +23,18 @@ export const DEFAULT_PLACEHOLDER_COUNT = 4;
  * Placeholder for List of category product
  * @class CategoryProductListPlaceholder
  */
-class CategoryProductListPlaceholder extends PureComponent {
+export class CategoryProductListPlaceholder extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         isVisible: PropTypes.bool.isRequired,
         updatePages: PropTypes.func.isRequired,
-        numberOfPlaceholders: PropTypes.number
+        numberOfPlaceholders: PropTypes.number,
+        mix: MixType
     };
 
     static defaultProps = {
-        numberOfPlaceholders: DEFAULT_PLACEHOLDER_COUNT
+        numberOfPlaceholders: DEFAULT_PLACEHOLDER_COUNT,
+        mix: {}
     };
 
     componentDidMount() {
@@ -89,13 +93,22 @@ class CategoryProductListPlaceholder extends PureComponent {
     }
 
     render() {
-        const { isLoading, isVisible } = this.props;
+        const {
+            isLoading,
+            isVisible,
+            mix
+        } = this.props;
 
         if (!isLoading && !isVisible) return null;
 
         return (
             <div
-              block="CategoryProductListPlaceholder"
+              block="CategoryProductList"
+              elem="Page"
+              mix={ {
+                  block: 'CategoryProductListPlaceholder',
+                  mix: { ...mix, elem: 'Page' }
+              } }
               ref={ isVisible ? (node) => { this.node = node; } : undefined }
             >
                 { this.renderPlaceholders() }

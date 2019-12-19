@@ -59,10 +59,23 @@ export default class Notification extends PureComponent {
         }, ANIMATION_DURATION);
     };
 
+    renderDebug() {
+        const { notification: { msgDebug } } = this.props;
+
+        if (!msgDebug) return null;
+        if (process.env.NODE_ENV === 'production') return null;
+
+        return (
+            <pre block="Notification" elem="Debug">
+                { JSON.stringify(msgDebug) }
+            </pre>
+        );
+    }
+
     render() {
         const { notification } = this.props;
         const { isNotificationVisible } = this.state;
-        const { msgText, msgType, msgDebug } = notification;
+        const { msgText, msgType } = notification;
 
         const mods = {
             type: msgType.toLowerCase(),
@@ -73,11 +86,7 @@ export default class Notification extends PureComponent {
             <div block="Notification" mods={ mods } ref={ this.notification }>
                 <button block="Notification" elem="Button" onClick={ this.hideNotification }>Close</button>
                 <p block="Notification" elem="Text">{ msgText }</p>
-                { msgDebug && (
-                    <pre block="Notification" elem="Debug">
-                        { JSON.stringify(msgDebug) }
-                    </pre>
-                ) }
+                { this.renderDebug() }
             </div>
         );
     }

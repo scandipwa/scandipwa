@@ -21,12 +21,10 @@ export const regionType = PropTypes.oneOfType([
 
 export const addressType = PropTypes.shape({
     city: PropTypes.string,
-    company: PropTypes.string,
     country_id: PropTypes.string,
     customer_id: PropTypes.number,
     default_billing: PropTypes.bool,
     default_shipping: PropTypes.bool,
-    fax: PropTypes.string,
     firstname: PropTypes.string,
     id: PropTypes.number,
     lastname: PropTypes.string,
@@ -40,7 +38,6 @@ export const addressType = PropTypes.shape({
     ]),
     suffix: PropTypes.string,
     telephone: PropTypes.string,
-    vat_id: PropTypes.string
 });
 
 export const addressesType = PropTypes.arrayOf(addressType);
@@ -86,12 +83,14 @@ export const DASHBOARD = 'dashboard';
 export const MY_ORDERS = 'my-orders';
 export const MY_WISHLIST = 'my-wishlist';
 export const ADDRESS_BOOK = 'address-book';
+export const NEWSLETTER_SUBSCRIPTION = 'newsletter-subscription';
 
 export const activeTabType = PropTypes.oneOf([
     DASHBOARD,
     MY_ORDERS,
     MY_WISHLIST,
-    ADDRESS_BOOK
+    ADDRESS_BOOK,
+    NEWSLETTER_SUBSCRIPTION
 ]);
 
 export const tabType = PropTypes.shape({

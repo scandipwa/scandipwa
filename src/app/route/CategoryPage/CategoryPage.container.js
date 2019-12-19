@@ -57,7 +57,7 @@ export const mapDispatchToProps = dispatch => ({
     updateLoadStatus: isLoading => dispatch(updateInfoLoadStatus(isLoading))
 });
 
-export const UPDATE_FILTERS_FREQUENCY = 1000;
+export const UPDATE_FILTERS_FREQUENCY = 0;
 
 export class CategoryPageContainer extends PureComponent {
     static propTypes = {
@@ -272,9 +272,10 @@ export class CategoryPageContainer extends PureComponent {
     }
 
     _getSelectedSortFromUrl() {
-        const { location } = this.props;
-        const { sortKey: defaultSortKey, sortDirection: defaultSortDirection } = this.config;
+        const { location, category: { default_sort_by } } = this.props;
+        const { sortKey: globalDefaultSortKey, sortDirection: defaultSortDirection } = this.config;
         const sortDirection = getQueryParam('sortDirection', location) || defaultSortDirection;
+        const defaultSortKey = default_sort_by || globalDefaultSortKey;
         const sortKey = getQueryParam('sortKey', location) || defaultSortKey;
         return { sortDirection, sortKey };
     }

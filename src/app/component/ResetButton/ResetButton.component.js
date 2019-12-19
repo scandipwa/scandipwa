@@ -33,8 +33,12 @@ export default class ResetButton extends PureComponent {
         return (
             <button
               onClick={ resetFilters }
-              block="ResetButton Button"
-              mix={ mix }
+              block="ResetButton"
+              mix={ {
+                  block: 'Button',
+                  mods: { isHollow: true },
+                  mix
+              } }
             >
                 { __('Reset') }
             </button>

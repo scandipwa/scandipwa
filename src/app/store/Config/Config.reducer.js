@@ -12,6 +12,9 @@
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { UPDATE_CONFIG } from './Config.action';
 
+export const MAX_WIDTH = 150;
+export const MAX_HEIGHT = 40;
+
 export const filterStoreConfig = config => Object.entries(config).reduce(
     (acc, [key, value]) => (value ? { ...acc, [key]: value } : acc),
     {}
@@ -27,7 +30,8 @@ export const initialState = {
     ...filterStoreConfig(storeConfig),
     countries,
     reviewRatings,
-    title_prefix: 'ScandiPWA |'
+    title_prefix: 'ScandiPWA |',
+    isLoading: true
 };
 
 const ConfigReducer = (state = initialState, action) => {
@@ -35,11 +39,18 @@ const ConfigReducer = (state = initialState, action) => {
 
     switch (type) {
     case UPDATE_CONFIG:
+        const filteredStoreConfig = filterStoreConfig(storeConfig);
+        const { header_logo_src } = filteredStoreConfig;
+
         return {
             ...state,
             countries,
             reviewRatings,
-            ...filterStoreConfig(storeConfig)
+            ...filteredStoreConfig,
+            // Should be updated manually as filteredStoreConfig does not contain header_logo_src when it is null
+            // and header_logo_src takes old value
+            header_logo_src,
+            isLoading: false
         };
 
     default:

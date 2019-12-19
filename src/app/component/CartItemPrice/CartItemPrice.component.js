@@ -9,12 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Component } from 'react';
+import { PureComponent } from 'react';
 import { formatCurrency, roundPrice } from 'Util/Price';
 import { MixType } from 'Type/Common';
 import PropTypes from 'prop-types';
 
-class CartItemPrice extends Component {
+class CartItemPrice extends PureComponent {
     static propTypes = {
         row_total: PropTypes.number.isRequired,
         currency_code: PropTypes.string.isRequired,
@@ -28,7 +28,7 @@ class CartItemPrice extends Component {
         return (
             <p block="ProductPrice" aria-label={ __('Product Price') } mix={ mix }>
                 <span aria-label={ __('Current product price') }>
-                    <data value={ price }>{ `${price}${formatCurrency(currency_code)}` }</data>
+                    <data value={ price }>{ `${formatCurrency(currency_code)}${price}` }</data>
                 </span>
             </p>
         );

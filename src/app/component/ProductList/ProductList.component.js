@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import debounceRender from 'react-debounce-render';
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import CategoryProductListPlaceholder from 'Component/CategoryProductListPlaceholder';
@@ -20,11 +21,13 @@ import './ProductList.style';
 
 export const observerThreshold = 10;
 
+export const RENDER_PAGE_FREQUENCY = 150; // (ms)
+
 /**
  * List of category products
  * @class CategoryProductList
  */
-export default class ProductList extends PureComponent {
+export class ProductList extends PureComponent {
     static propTypes = {
         title: PropTypes.string,
         pages: PagesType.isRequired,
@@ -201,7 +204,6 @@ export default class ProductList extends PureComponent {
                       product={ product }
                       key={ product.id }
                       selectedFilters={ selectedFilters }
-                      arePlaceholdersShown
                     />
                 )) }
             </ul>
@@ -210,7 +212,6 @@ export default class ProductList extends PureComponent {
 
     renderCategoryPlaceholder() {
         const {
-            mix,
             loadPage,
             isLoading,
             isVisible,
@@ -221,18 +222,12 @@ export default class ProductList extends PureComponent {
         if (!isInfiniteLoaderEnabled && !isLoading) return null;
 
         return (
-            <div
-              block="CategoryProductList"
-              elem="Page"
-              mix={ { ...mix, elem: 'Page' } }
-            >
-                <CategoryProductListPlaceholder
-                  isLoading={ isLoading }
-                  isVisible={ isVisible }
-                  updatePages={ loadPage }
-                  numberOfPlaceholders={ numberOfPlaceholders }
-                />
-            </div>
+            <CategoryProductListPlaceholder
+              isLoading={ isLoading }
+              isVisible={ isVisible }
+              updatePages={ loadPage }
+              numberOfPlaceholders={ numberOfPlaceholders }
+            />
         );
     }
 
@@ -282,3 +277,5 @@ export default class ProductList extends PureComponent {
         );
     }
 }
+
+export default debounceRender(ProductList, RENDER_PAGE_FREQUENCY, { leading: false });

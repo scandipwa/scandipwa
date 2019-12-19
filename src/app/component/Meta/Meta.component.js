@@ -46,8 +46,9 @@ export default class Meta extends PureComponent {
                 name,
                 title,
                 meta_title,
-                meta_description,
                 meta_keyword,
+                meta_keywords,
+                meta_description,
                 canonical_url
             },
             title_prefix = '',
@@ -63,7 +64,7 @@ export default class Meta extends PureComponent {
               meta={ [
                   { name: 'title', content: meta_title || default_title },
                   { name: 'description', content: meta_description || default_description },
-                  { name: 'keywords', content: meta_keyword || default_keywords }
+                  { name: 'keywords', content: meta_keyword || meta_keywords || default_keywords }
               ] }
               link={ [
                   { ...(canonical_url && { rel: 'canonical', href: canonical_url }) }

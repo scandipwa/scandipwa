@@ -9,40 +9,46 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import Form from 'Component/Form/Form.component';
 
 class FormPortal extends Form {
+    static propTypes = {
+        ...Form.propTypes,
+        name: PropTypes.string.isRequired
+    };
+
     componentDidUpdate(prevProps) {
         const { id: prevId } = prevProps;
-        const { id } = this.props;
+        const { id, name } = this.props;
 
         if (id !== prevId) {
-            this.unsubscribeToFormPortalCollector(prevId);
-            this.subscribeToFormPortalCollector(id);
+            this.unsubscribeToFormPortalCollector(prevId, name);
+            this.subscribeToFormPortalCollector(id, name);
         }
     }
 
-    subscribeToFormPortalCollector(id) {
+    subscribeToFormPortalCollector(id, name) {
         if (window.formPortalCollector) {
-            window.formPortalCollector.subscribe(id, this.collectFieldsInformation);
+            window.formPortalCollector.subscribe(id, this.collectFieldsInformation, name);
         }
     }
 
-    unsubscribeToFormPortalCollector(id) {
+    unsubscribeToFormPortalCollector(id, name) {
         if (window.formPortalCollector) {
-            window.formPortalCollector.unsubscribe(id, this.collectFieldsInformation);
+            window.formPortalCollector.unsubscribe(id, name);
         }
     }
 
     componentWillUnmount() {
-        const { id } = this.props;
-        this.unsubscribeToFormPortalCollector(id);
+        const { id, name } = this.props;
+        this.unsubscribeToFormPortalCollector(id, name);
     }
 
     componentDidMount() {
-        const { id } = this.props;
+        const { id, name } = this.props;
         if (!id) throw new Error('Can not create a FormPortal without assignment to the Form ID!');
-        this.subscribeToFormPortalCollector(id);
+        this.subscribeToFormPortalCollector(id, name);
     }
 
     render() {

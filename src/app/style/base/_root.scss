@@ -11,15 +11,14 @@
 
 :root {
     --input-type-number-width: 80px;
-    --button-padding: 13px 22px;
-    --button-color: #{$white};
-    --button-background: #{$primary-base-color};
-    --button-border: #{$primary-base-color};
-    --button-hover-background: #{$primary-dark-color};
-    --button-hover-color: #{$white};
-    --button-hover-border: #{$primary-base-color};
-    --button-border-width: 1px;
-    --placeholder-image: linear-gradient(to right, rgba(0, 0, 0, .08) 0, rgba(0, 0, 0, .15) 15%, rgba(0, 0, 0, .08) 30%);
+    --placeholder-image: linear-gradient(to right, #ebebeb 0, #d9d9d9 15%, #ebebeb 30%);
     --placeholder-size: 1200px 100%;
     --placeholder-animation: placeholderAnimation 2s linear infinite;
+    // Declare imported primary colors to change the theme's colors
+    --primary-base-color: var(--imported_primary_base_color, #{$default-primary-base-color});
+    --primary-dark-color: var(--imported_primary_dark_color, #{$default-primary-dark-color});
+    --primary-light-color: var(--imported_primary_light_color, #{$default-primary-light-color});
+    --secondary-base-color: var(--imported_secondary_base_color, #{$default-secondary-base-color});
+    --secondary-dark-color: var(--imported_secondary_dark_color, #{$default-secondary-dark-color});
+    --secondary-light-color: var(--imported_secondary_light_color, #{$default-secondary-light-color});
 }

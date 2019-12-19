@@ -8,13 +8,8 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-
-:root {
-    --reset-button-background: #{$dusty-grey};
-}
-
 .ResetButton {
-    --button-background: var(--reset-button-background);
-    --button-border: var(--reset-button-background);
-    --button-hover-background: var(--button-hover-border);
+    @include mobile {
+        display: none;
+    }
 }

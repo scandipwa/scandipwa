@@ -75,7 +75,7 @@ export default class SearchOverlay extends PureComponent {
             attributes: { brand: { attribute_value: brand } = {} } = {}
         } = product;
 
-        const imageSrc = path ? media(`${ PRODUCT_MEDIA }${ path }`) : undefined;
+        const imageSrc = path ? media(path, PRODUCT_MEDIA) : undefined;
 
         return (
             <li
@@ -135,8 +135,8 @@ export default class SearchOverlay extends PureComponent {
     renderSearchResults() {
         const { searchCriteria, searchResults, isLoading } = this.props;
 
-        if (!searchCriteria) this.renderNoSearchCriteria();
-        if (!searchResults.length && !isLoading && !this.timeout) this.renderNoResults();
+        if (!searchCriteria) return this.renderNoSearchCriteria();
+        if (!searchResults.length && !isLoading && !this.timeout) return this.renderNoResults();
         const resultsToRender = (isLoading || this.timeout) ? Array(AMOUNT_OF_PLACEHOLDERS).fill({}) : searchResults;
 
         return (
