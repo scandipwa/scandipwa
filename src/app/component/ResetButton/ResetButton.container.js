@@ -44,7 +44,7 @@ export class ResetButtonContainer extends PureComponent {
 
     urlStringToObject() {
         const { location: { search } } = this.props;
-        return search.split('&').reduce((acc, part) => {
+        return search.substr(1).split('&').reduce((acc, part) => {
             const [key, value] = part.split('=');
             return { ...acc, [key]: value };
         }, {});
