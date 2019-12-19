@@ -83,12 +83,11 @@ export default class ProductCard extends PureComponent {
 
     renderPicture() {
         const { product: { id, name }, thumbnail } = this.props;
-        const imageUrl = thumbnail && media(`${ PRODUCT_MEDIA }${ thumbnail }`);
 
         return (
             <>
                 <Image
-                  src={ imageUrl }
+                  src={ thumbnail }
                   alt={ name }
                   ratio="custom"
                   mix={ { block: 'ProductCard', elem: 'Picture' } }
@@ -97,7 +96,7 @@ export default class ProductCard extends PureComponent {
                 <img
                   style={ { display: 'none' } }
                   alt={ name }
-                  src={ imageUrl }
+                  src={ thumbnail }
                   itemProp="image"
                 />
             </>
@@ -128,7 +127,8 @@ export default class ProductCard extends PureComponent {
 
     renderAdditionalProductDetails() {
         const { product: { sku }, getAttribute } = this.props;
-        const { attribute_value: brand } = getAttribute('brand') || {};
+        const { product_list_content: { attribute_to_display } = {} } = window.contentConfiguration;
+        const { attribute_value: brand } = getAttribute(attribute_to_display || 'brand') || {};
 
         if (sku && !brand) return null;
 

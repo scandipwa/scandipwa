@@ -18,6 +18,7 @@ import Overlay from 'Component/Overlay';
 import CartItem from 'Component/CartItem';
 import { TotalsType } from 'Type/MiniCart';
 import { formatCurrency } from 'Util/Price';
+import CmsBlock from 'Component/CmsBlock';
 
 import './CartOverlay.style';
 
@@ -29,12 +30,12 @@ export default class CartOverlay extends PureComponent {
     };
 
     renderPriceLine(price) {
-        const { totals: { base_currency_code } } = this.props;
-        return `${formatCurrency(base_currency_code)}${parseFloat(price).toFixed(2)}`;
+        const { totals: { quote_currency_code } } = this.props;
+        return `${formatCurrency(quote_currency_code)}${parseFloat(price).toFixed(2)}`;
     }
 
     renderCartItems() {
-        const { isEditing, totals: { items, base_currency_code } } = this.props;
+        const { isEditing, totals: { items, quote_currency_code } } = this.props;
 
         if (!items || items.length < 1) return this.renderNoCartItems();
 
@@ -44,7 +45,7 @@ export default class CartOverlay extends PureComponent {
                     <CartItem
                       key={ item.item_id }
                       item={ item }
-                      currency_code={ base_currency_code }
+                      currency_code={ quote_currency_code }
                       isEditing={ !isMobile.any() || isEditing }
                     />
                 )) }
@@ -142,15 +143,18 @@ export default class CartOverlay extends PureComponent {
     }
 
     renderPromo() {
+        const { minicart_content: { minicart_cms } = {} } = window.contentConfiguration;
+
+        if (minicart_cms) {
+            return <CmsBlock identifiers={ [minicart_cms] } />;
+        }
+
         return (
             <p
               block="CartOverlay"
               elem="Promo"
             >
-                <strong>Free shipping</strong>
-                on orders
-                <strong>49$</strong>
-                and more.
+                { __('Free shipping on order 49$ and more.') }
             </p>
         );
     }

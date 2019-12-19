@@ -11,7 +11,7 @@
 
 :root {
     --color-pagination-link-text: #{$black};
-    --color-pagination-link-active-text: #{$primary-base-color};
+    --color-pagination-link-active-text: var(--primary-base-color);
 }
 
 .CategoryPaginationLink {

@@ -15,13 +15,14 @@ import Overlay from 'Component/Overlay';
 import ResetButton from 'Component/ResetButton';
 import RangeSelector from 'Component/RangeSelector';
 import ExpandableContent from 'Component/ExpandableContent';
-import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
+import CategoryConfigurableAttributes from 'Component/CategoryConfigurableAttributes';
 import './CategoryFilterOverlay.style';
 
 export default class CategoryFilterOverlay extends PureComponent {
     static propTypes = {
         availableFilters: PropTypes.objectOf(PropTypes.shape).isRequired,
         updatePriceRange: PropTypes.func.isRequired,
+        isInfoLoading: PropTypes.bool.isRequired,
         priceValue: PropTypes.shape({
             min: PropTypes.number,
             max: PropTypes.number
@@ -42,12 +43,14 @@ export default class CategoryFilterOverlay extends PureComponent {
             maxPriceValue
         } = this.props;
 
-        const { min, max } = priceValue;
+        const { min: minValue, max: maxValue } = priceValue;
+        const min = minValue || minPriceValue;
+        const max = maxValue || maxPriceValue;
 
         return (
             <ExpandableContent
-              heading="Price"
-              subHeading={ `From: ${min || minPriceValue} to ${max || maxPriceValue}` }
+              heading={ __('Price') }
+              subHeading={ __('From: %s to %s', min, max) }
               mix={ {
                   block: 'CategoryFilterOverlay',
                   elem: 'Filter',
@@ -75,7 +78,7 @@ export default class CategoryFilterOverlay extends PureComponent {
         const isLoaded = availableFilters && !!Object.keys(availableFilters).length;
 
         return (
-            <ProductConfigurableAttributes
+            <CategoryConfigurableAttributes
               mix={ { block: 'CategoryFilterOverlay', elem: 'Attributes' } }
               isReady={ isLoaded }
               configurable_options={ availableFilters }
@@ -114,6 +117,18 @@ export default class CategoryFilterOverlay extends PureComponent {
     }
 
     render() {
+        const { isInfoLoading, availableFilters } = this.props;
+
+        if (
+            !isInfoLoading
+            && (
+                !availableFilters
+                || !Object.keys(availableFilters).length
+            )
+        ) {
+            return <div block="CategoryFilterOverlay" />;
+        }
+
         return (
             <Overlay mix={ { block: 'CategoryFilterOverlay' } } id="category-filter">
                 { this.renderHeading() }

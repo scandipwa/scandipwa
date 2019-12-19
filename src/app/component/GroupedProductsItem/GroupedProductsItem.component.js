@@ -47,7 +47,7 @@ export default class GroupedProductsItem extends PureComponent {
             <li block="GroupedProductsItem" aria-label="Product Item">
                 <Image
                   mix={ { block: 'GroupedProductsItem', elem: 'Image' } }
-                  src={ thumb_url && media(`${ PRODUCT_MEDIA }${ thumb_url }`) }
+                  src={ thumb_url && media(thumb_url, PRODUCT_MEDIA) }
                   alt="Product Thumbnail"
                 />
                 <div block="GroupedProductsItem" elem="Title">
@@ -61,6 +61,7 @@ export default class GroupedProductsItem extends PureComponent {
                       name="HeaderInput"
                       onChange={ changeCount }
                       value={ itemCount }
+                      min={ 0 }
                     />
                 </div>
             </li>

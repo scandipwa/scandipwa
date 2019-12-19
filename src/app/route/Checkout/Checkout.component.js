@@ -22,11 +22,12 @@ import { CHECKOUT } from 'Component/Header';
 import { addressType } from 'Type/Account';
 import { TotalsType } from 'Type/MiniCart';
 import { HistoryType } from 'Type/Common';
+import CmsBlock from 'Component/CmsBlock';
 import Loader from 'Component/Loader';
 import Meta from 'Component/Meta';
+import Link from 'Component/Link';
 
 import './Checkout.style';
-import Link from 'Component/Link';
 
 export const SHIPPING_STEP = 'SHIPPING_STEP';
 export const BILLING_STEP = 'BILLING_STEP';
@@ -34,6 +35,8 @@ export const DETAILS_STEP = 'DETAILS_STEP';
 
 class Checkout extends PureComponent {
     static propTypes = {
+        setLoading: PropTypes.func.isRequired,
+        setDetailsStep: PropTypes.func.isRequired,
         shippingMethods: shippingMethodsType.isRequired,
         onShippingEstimationFieldsChange: PropTypes.func.isRequired,
         setHeaderState: PropTypes.func.isRequired,
@@ -137,14 +140,18 @@ class Checkout extends PureComponent {
 
     renderBillingStep() {
         const {
-            paymentMethods = [],
+            setLoading,
+            setDetailsStep,
             shippingAddress,
+            paymentMethods = [],
             savePaymentInformation
         } = this.props;
 
         return (
             <CheckoutBilling
+              setLoading={ setLoading }
               paymentMethods={ paymentMethods }
+              setDetailsStep={ setDetailsStep }
               shippingAddress={ shippingAddress }
               savePaymentInformation={ savePaymentInformation }
             />
@@ -158,13 +165,13 @@ class Checkout extends PureComponent {
             <div block="Checkout" elem="Success">
                 <p>{ __('Your order # is: %s', orderID) }</p>
                 <p>{ __('We`ll email you an order confirmation with details and tracking info.') }</p>
-                <a
+                <Link
                   block="Button"
                   mix={ { block: 'Checkout', elem: 'ContinueButton' } }
-                  href="/"
+                  to="/"
                 >
                     { __('Continue shopping') }
-                </a>
+                </Link>
             </div>
         );
     }
@@ -192,6 +199,21 @@ class Checkout extends PureComponent {
         );
     }
 
+    renderPromo() {
+        const { checkoutStep } = this.props;
+        const isBilling = checkoutStep === BILLING_STEP;
+
+        const {
+            checkout_content: {
+                [isBilling ? 'checkout_billing_cms' : 'checkout_shipping_cms']: promo
+            } = {}
+        } = window.contentConfiguration;
+
+        if (!promo) return null;
+
+        return <CmsBlock identifiers={ [promo] } />;
+    }
+
     render() {
         return (
             <main block="Checkout">
@@ -206,7 +228,10 @@ class Checkout extends PureComponent {
                         { this.renderStep() }
                         { this.renderLoader() }
                     </div>
-                    { this.renderSummary() }
+                    <div>
+                        { this.renderSummary() }
+                        { this.renderPromo() }
+                    </div>
                 </ContentWrapper>
             </main>
         );

@@ -11,28 +11,15 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { connect } from 'react-redux';
-import { ProductDispatcher } from 'Store/Product';
 import { ProductType } from 'Type/ProductList';
 import GroupedProductsItem from './GroupedProductsItem.component';
 
-export const mapStateToProps = state => ({
-    groupedProductQuantity: state.ProductReducer.groupedProductQuantity
-});
-
-export const mapDispatchToProps = dispatch => ({
-    updateGroupedProductQuantity: options => ProductDispatcher.updateGroupedProductQuantity(dispatch, options)
-});
-
-export class GroupedProductsItemContainer extends PureComponent {
+export default class GroupedProductsItemContainer extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
-        groupedProductQuantity: PropTypes.number.isRequired,
-        updateGroupedProductQuantity: PropTypes.func
-    };
-
-    static defaultProps = {
-        updateGroupedProductQuantity: () => {}
+        groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired,
+        setGroupedProductQuantity: PropTypes.func.isRequired,
+        defaultQuantity: PropTypes.number.isRequired
     };
 
     containerFunctions = {
@@ -42,8 +29,8 @@ export class GroupedProductsItemContainer extends PureComponent {
     constructor(props) {
         super(props);
 
-        const { updateGroupedProductQuantity, product } = this.props;
-        updateGroupedProductQuantity({ product, quantity: 1 });
+        const { defaultQuantity } = this.props;
+        this.changeCount(defaultQuantity);
     }
 
     containerProps = () => ({
@@ -51,9 +38,7 @@ export class GroupedProductsItemContainer extends PureComponent {
     });
 
     /**
-     * Get quantity of grouped product
-     * @param {Number} id Product id
-     * @param {Object} groupedProductQuantity list of grouped products with quantities
+     * Get the selected quantity of grouped product
      * @return {Number} product quantity
      */
     _getCurrentQuantity() {
@@ -62,15 +47,13 @@ export class GroupedProductsItemContainer extends PureComponent {
             groupedProductQuantity
         } = this.props;
 
-        return groupedProductQuantity[id] || 1;
+        return groupedProductQuantity[id] || 0;
     }
 
     changeCount(itemCount) {
-        const { updateGroupedProductQuantity, product } = this.props;
-
-        updateGroupedProductQuantity({ product, quantity: itemCount });
+        const { setGroupedProductQuantity, product: { id } } = this.props;
+        setGroupedProductQuantity(id, itemCount);
     }
-
 
     render() {
         return (
@@ -82,5 +65,3 @@ export class GroupedProductsItemContainer extends PureComponent {
         );
     }
 }
-
-export default connect(mapStateToProps, mapDispatchToProps)(GroupedProductsItemContainer);

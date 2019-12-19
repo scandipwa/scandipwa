@@ -10,13 +10,12 @@
  */
 
 import { connect } from 'react-redux';
-import { ProductDispatcher } from 'Store/Product';
-import GroupedProductsList from './GroupedProductsList.component';
+import { injectStripe } from 'react-stripe-elements';
+import { showNotification } from 'Store/Notification';
+import InjectedStripeCheckoutForm from './InjectedStripeCheckoutForm.component';
 
 const mapDispatchToProps = dispatch => ({
-    clearGroupedProductQuantity: () => ProductDispatcher.clearGroupedProductQuantity(dispatch)
+    showNotification: (type, message) => dispatch(showNotification(type, message))
 });
 
-const GroupedProductsListContainer = connect(null, mapDispatchToProps)(GroupedProductsList);
-
-export default GroupedProductsListContainer;
+export default connect(null, mapDispatchToProps)(injectStripe(InjectedStripeCheckoutForm));

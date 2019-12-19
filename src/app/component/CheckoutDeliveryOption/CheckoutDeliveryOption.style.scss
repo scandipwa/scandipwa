@@ -10,9 +10,9 @@
  */
 
 :root {
-    --checkout-delivery-option-check-mark-color: #{$primary-base-color};
-    --checkout-delivery-option-check-mark-hover-color: #{darken($concrete, 20)};
-    --checkout-delivery-option-border-color: #{$concrete};
+    --checkout-delivery-option-check-mark-color: var(--primary-base-color);
+    --checkout-delivery-option-check-mark-hover-color: var(--secondary-dark-color);
+    --checkout-delivery-option-border-color: var(--secondary-base-color);
 }
 
 .CheckoutDeliveryOption {

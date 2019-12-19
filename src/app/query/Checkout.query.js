@@ -61,8 +61,30 @@ export class CheckoutQuery {
         return mutation;
     }
 
+    getSetPaymentMethodOnCartMutation(input) {
+        return new Field('s_setPaymentMethodOnCart')
+            .addArgument('input', 'S_SetPaymentMethodOnCartInput!', input)
+            .addField(this._getCartField())
+            .setAlias('paymentMethod');
+    }
+
+    getPlaceOrderMutation(guestCartId) {
+        const mutation = new Field('s_placeOrder')
+            .setAlias('placeOrder')
+            .addField(this._getOrderField());
+
+        if (!isSignedIn()) mutation.addArgument('guestCartId', 'String', guestCartId);
+
+        return mutation;
+    }
+
     _addGuestCartId(guestCartId, mutation) {
         if (guestCartId && !isSignedIn()) mutation.addArgument('guestCartId', 'String!', guestCartId);
+    }
+
+    _getOrderField() {
+        return new Field('order')
+            .addFieldList(['order_id']);
     }
 
     _getSavePaymentInformationAndPlaceOrderFields() {
@@ -132,7 +154,7 @@ export class CheckoutQuery {
             'shipping_amount',
             'subtotal_incl_tax',
             'shipping_incl_tax',
-            'base_currency_code',
+            'quote_currency_code',
             'shipping_tax_amount',
             'subtotal_with_discount',
             'shipping_discount_amount',
@@ -143,6 +165,39 @@ export class CheckoutQuery {
     _getTotalsField() {
         return new Field('totals')
             .addFieldList(this._getTotalsFields());
+    }
+
+    _getCartField() {
+        return new Field('cart')
+            .addFieldList(this._getCartFieldList());
+    }
+
+    _getCartFieldList() {
+        return [
+            this._getSelectedPaymentMethodField()
+        ];
+    }
+
+    _getSelectedPaymentMethodField() {
+        return new Field('selected_payment_method')
+            .addFieldList([
+                'code',
+                'title',
+                'purchase_order_number'
+            ]);
+    }
+
+    _getAvailablePaymentMethodsField() {
+        return new Field('available_payment_methods')
+            .addFieldList([
+                'code',
+                'title'
+            ]);
+    }
+
+    _getAppliedCouponField() {
+        return new Field('applied_coupon')
+            .addField('code');
     }
 }
 

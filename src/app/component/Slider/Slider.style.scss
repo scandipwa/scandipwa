@@ -11,6 +11,7 @@
 
 :root {
     --slider-crumb-color: #fff;
+    --slider-crumb-background: #000;
 }
 
 .Slider {
@@ -27,6 +28,7 @@
     &-Wrapper {
         display: flex;
         align-items: flex-start;
+        height: 100%;
 
         will-change: transform;
         transition: transform var(--animation-speed);
@@ -36,6 +38,7 @@
             flex-grow: 1;
             flex-shrink: 0;
             width: 100%;
+            height: 100%;
         }
     }
 
@@ -55,12 +58,13 @@
         width: 7px;
         height: 7px;
         border-radius: 50%;
-        background-color: transparent;
+        background-color: var(--slider-crumb-background);
         border: 1px solid var(--slider-crumb-color);
         transition: background-color 300ms;
 
         &_isActive {
             background-color: var(--slider-crumb-color);
+            border-color: var(--slider-crumb-background);
         }
     }
 }

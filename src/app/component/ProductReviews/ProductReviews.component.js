@@ -112,8 +112,6 @@ class ProductReviews extends PureComponent {
     renderList() {
         const { product } = this.props;
 
-        // return null;
-
         return (
             <ProductReviewList
               product={ product }

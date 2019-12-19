@@ -11,14 +11,11 @@
 import { getIndexedProduct } from 'Util/Product';
 import {
     UPDATE_PRODUCT_DETAILS,
-    UPDATE_GROUPED_PRODUCT_QUANTITY,
-    CLEAR_GROUPED_PRODUCT_QUANTITY
 } from './Product.action';
 
 export const initialState = {
     product: {},
-    formattedConfigurableOptions: {},
-    groupedProductQuantity: {}
+    formattedConfigurableOptions: {}
 };
 
 export const formatConfigurableOptions = configurable_options => configurable_options
@@ -46,26 +43,6 @@ const ProductReducer = (state = initialState, action) => {
         return {
             ...state,
             product: getIndexedProduct(product)
-        };
-
-    case UPDATE_GROUPED_PRODUCT_QUANTITY:
-        const newQuantity = {};
-        const { product: { id }, quantity } = action;
-
-        newQuantity[id] = quantity;
-
-        return {
-            ...state,
-            groupedProductQuantity: {
-                ...state.groupedProductQuantity,
-                ...newQuantity
-            }
-        };
-
-    case CLEAR_GROUPED_PRODUCT_QUANTITY:
-        return {
-            ...state,
-            groupedProductQuantity: {}
         };
 
     default:

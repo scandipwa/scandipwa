@@ -11,13 +11,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Component } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { AttributeType } from 'Type/ProductList';
 import { MixType } from 'Type/Common';
+import Field from 'Component/Field/Field.component';
 import './ProductAttributeValue.style';
 
-export default class ProductAttributeValue extends Component {
+export default class ProductAttributeValue extends PureComponent {
     static propTypes = {
         getLink: PropTypes.func.isRequired,
         onClick: PropTypes.func.isRequired,
@@ -158,15 +159,38 @@ export default class ProductAttributeValue extends Component {
         );
     }
 
+    renderDropdown(value) {
+        const { isSelected } = this.props;
+
+        return (
+            <Field
+              id={ value }
+              name={ value }
+              type="checkbox"
+              label={ value }
+              value={ value }
+              mix={ {
+                  block: 'ProductAttributeValue',
+                  elem: 'Text',
+                  mods: { isSelected }
+              } }
+              checked={ isSelected }
+            />
+        );
+    }
+
     renderStringValue(value, label) {
         const { isSelected } = this.props;
+        const isSwatch = label;
+
+        if (!isSwatch) return this.renderDropdown(value);
 
         return (
             <span
               block="ProductAttributeValue"
               elem="String"
               mods={ { isSelected } }
-              title={ label || value }
+              title={ label }
             >
                 { value }
             </span>
