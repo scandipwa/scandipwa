@@ -8,6 +8,5 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-.CategoryProductListPlaceholder {
-    animation: appear 200ms 200ms forwards;
-}
+
+export { default } from './ResetButton.container';
