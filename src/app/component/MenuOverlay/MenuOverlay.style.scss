@@ -233,7 +233,7 @@
 
     &-ItemCaption {
         font-size: 1.5rem;
-        line-height: 3.2rem;
+        line-height: 1.4rem;
         font-weight: bold;
         text-transform: uppercase;
         text-align: left;
@@ -293,6 +293,7 @@
 
             &_subcategory {
                 display: flex;
+                min-height: 3.2rem;
             }
 
             &_banner {

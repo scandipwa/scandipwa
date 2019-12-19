@@ -70,6 +70,18 @@ export default class MenuOverlay extends PureComponent {
         hideActiveOverlay();
     }
 
+    renderItemContentImage(icon, itemMods) {
+        if (!icon) return null;
+
+        return (
+            <Image
+              mix={ { block: 'MenuOverlay', elem: 'Image', mods: itemMods } }
+              src={ icon && media(icon) }
+              ratio="16x9"
+            />
+        );
+    }
+
     renderItemContent(item, mods = {}) {
         const { title, icon, item_class } = item;
         const itemMods = item_class === 'MenuOverlay-ItemFigure_type_banner' ? { type: 'banner' } : mods;
@@ -82,13 +94,7 @@ export default class MenuOverlay extends PureComponent {
               // eslint-disable-next-line react/forbid-dom-props
               className={ item_class }
             >
-                { icon && (
-                    <Image
-                      mix={ { block: 'MenuOverlay', elem: 'Image', mods: itemMods } }
-                      src={ icon && media(icon) }
-                      ratio="16x9"
-                    />
-                ) }
+                { this.renderItemContentImage(icon, itemMods) }
                 <figcaption
                   block="MenuOverlay"
                   elem="ItemCaption"
