@@ -11,7 +11,7 @@
 
 :root {
     --input-type-number-width: 80px;
-    --placeholder-image: linear-gradient(to right, rgba(0, 0, 0, .08) 0, rgba(0, 0, 0, .15) 15%, rgba(0, 0, 0, .08) 30%);
+    --placeholder-image: linear-gradient(to right, #ebebeb 0, #d9d9d9 15%, #ebebeb 30%);
     --placeholder-size: 1200px 100%;
     --placeholder-animation: placeholderAnimation 2s linear infinite;
     // Declare imported primary colors to change the theme's colors

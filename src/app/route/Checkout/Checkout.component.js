@@ -25,6 +25,7 @@ import { HistoryType } from 'Type/Common';
 import CmsBlock from 'Component/CmsBlock';
 import Loader from 'Component/Loader';
 import Meta from 'Component/Meta';
+import Link from 'Component/Link';
 
 import './Checkout.style';
 
@@ -164,13 +165,13 @@ class Checkout extends PureComponent {
             <div block="Checkout" elem="Success">
                 <p>{ __('Your order # is: %s', orderID) }</p>
                 <p>{ __('We`ll email you an order confirmation with details and tracking info.') }</p>
-                <a
+                <Link
                   block="Button"
                   mix={ { block: 'Checkout', elem: 'ContinueButton' } }
-                  href="/"
+                  to="/"
                 >
                     { __('Continue shopping') }
-                </a>
+                </Link>
             </div>
         );
     }

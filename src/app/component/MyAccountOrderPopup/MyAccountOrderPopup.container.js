@@ -17,13 +17,10 @@ import { orderType } from 'Type/Account';
 import { OrderDispatcher } from 'Store/Order';
 import { showNotification } from 'Store/Notification';
 import { getIndexedProducts } from 'Util/Product';
-import { executeGet } from 'Util/Request';
-import { prepareQuery } from 'Util/Query';
+import { fetchQuery } from 'Util/Request';
 import { OrderQuery } from 'Query';
 
 import MyAccountOrderPopup, { ORDER_POPUP_ID } from './MyAccountOrderPopup.component';
-
-export const ONE_DAY_IN_SECONDS = 86400;
 
 export const mapStateToProps = state => ({
     order: state.OrderReducer.order,
@@ -86,9 +83,8 @@ export class MyAccountOrderPopupContainer extends PureComponent {
 
     requestOrderDetails() {
         const { payload: { order: { base_order_info: { id } } } } = this.props;
-        const query = prepareQuery([OrderQuery.getOrderByIdQuery(id)]);
 
-        executeGet(query, 'Order', ONE_DAY_IN_SECONDS).then(
+        fetchQuery(OrderQuery.getOrderByIdQuery(id)).then(
             ({ getOrderById: rawOrder }) => {
                 const { order_products = [] } = rawOrder;
                 const indexedProducts = getIndexedProducts(order_products);

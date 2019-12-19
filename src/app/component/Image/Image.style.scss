@@ -35,10 +35,6 @@
         }
     }
 
-    &_hasSrc {
-        background: none;
-    }
-
     &_imageStatus_0,
     &_isPlaceholder {
         background-image: var(--placeholder-image);
@@ -46,6 +42,7 @@
         animation: var(--placeholder-animation);
     }
 
+    &_hasSrc,
     &_imageStatus_1 {
         background: none;
     }
