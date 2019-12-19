@@ -50,6 +50,10 @@ export default class Html extends PureComponent {
         {
             query: { name: ['script'] },
             replace: this.replaceScript
+        },
+        {
+            query: { name: ['table'] },
+            replace: this.wrapTable
         }
     ];
 
@@ -147,6 +151,23 @@ export default class Html extends PureComponent {
      */
     replaceInput({ attribs }) {
         return <input { ...attributesToProps(attribs) } />;
+    }
+
+    /**
+     * Wrap table in container
+     *
+     * @param attribs
+     * @param children
+     * @returns {*}
+     */
+    wrapTable({ attribs, children }) {
+        return (
+            <div className="TableWrapper">
+                <table { ...attributesToProps(attribs) }>
+                    { domToReact(children, this.parserOptions) }
+                </table>
+            </div>
+        );
     }
 
     /**
