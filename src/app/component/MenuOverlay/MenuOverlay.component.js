@@ -82,11 +82,13 @@ export default class MenuOverlay extends PureComponent {
               // eslint-disable-next-line react/forbid-dom-props
               className={ item_class }
             >
-                <Image
-                  mix={ { block: 'MenuOverlay', elem: 'Image', mods: itemMods } }
-                  src={ icon && media(icon) }
-                  ratio="16x9"
-                />
+                { icon && (
+                    <Image
+                      mix={ { block: 'MenuOverlay', elem: 'Image', mods: itemMods } }
+                      src={ icon && media(icon) }
+                      ratio="16x9"
+                    />
+                ) }
                 <figcaption
                   block="MenuOverlay"
                   elem="ItemCaption"
