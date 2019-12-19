@@ -212,6 +212,7 @@ export class ProductList extends PureComponent {
 
     renderCategoryPlaceholder() {
         const {
+            mix,
             loadPage,
             isLoading,
             isVisible,
@@ -227,6 +228,7 @@ export class ProductList extends PureComponent {
               isVisible={ isVisible }
               updatePages={ loadPage }
               numberOfPlaceholders={ numberOfPlaceholders }
+              mix={ mix }
             />
         );
     }
