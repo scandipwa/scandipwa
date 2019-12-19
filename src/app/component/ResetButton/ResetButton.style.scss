@@ -10,7 +10,7 @@
  */
 
 :root {
-    --reset-button-background: #{$dusty-grey};
+    --reset-button-background: var(--secondary-base-color);
 }
 
 .ResetButton {
