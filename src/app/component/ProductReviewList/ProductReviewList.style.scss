@@ -10,7 +10,7 @@
  */
 
 :root {
-    --product-review-list-border: #{darken($concrete, 10)};
+    --product-review-list-border: var(--secondary-dark-color);
 }
 
 .ProductReviewList {

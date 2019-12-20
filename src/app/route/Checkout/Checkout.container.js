@@ -37,7 +37,7 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-    resetCart: () => CartDispatcher._updateCartData({}, dispatch),
+    resetCart: () => CartDispatcher.updateInitialCartData(dispatch),
     toggleBreadcrumbs: state => dispatch(toggleBreadcrumbs(state)),
     showErrorNotification: message => dispatch(showNotification('error', message)),
     setHeaderState: stateName => dispatch(changeHeaderState(stateName))
@@ -281,10 +281,10 @@ export class CheckoutContainer extends PureComponent {
     render() {
         return (
             <Checkout
-                { ...this.props }
-                { ...this.state }
-                { ...this.containerFunctions }
-                { ...this.containerProps() }
+              { ...this.props }
+              { ...this.state }
+              { ...this.containerFunctions }
+              { ...this.containerProps() }
             />
         );
     }

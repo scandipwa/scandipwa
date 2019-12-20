@@ -81,11 +81,12 @@ export default class ProductGalleryAdditionalMedia extends PureComponent {
         const {
             media: {
                 label: alt,
-                file
+                file,
+                thumbnail: { url } = {}
             }
         } = this.props;
 
-        const src = media(file, PRODUCT_MEDIA);
+        const src = url || file;
 
         return (
             <Image

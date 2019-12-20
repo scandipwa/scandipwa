@@ -70,6 +70,18 @@ export default class MenuOverlay extends PureComponent {
         hideActiveOverlay();
     }
 
+    renderItemContentImage(icon, itemMods) {
+        if (!icon) return null;
+
+        return (
+            <Image
+              mix={ { block: 'MenuOverlay', elem: 'Image', mods: itemMods } }
+              src={ icon && media(icon) }
+              ratio="16x9"
+            />
+        );
+    }
+
     renderItemContent(item, mods = {}) {
         const { title, icon, item_class } = item;
         const itemMods = item_class === 'MenuOverlay-ItemFigure_type_banner' ? { type: 'banner' } : mods;
@@ -82,11 +94,7 @@ export default class MenuOverlay extends PureComponent {
               // eslint-disable-next-line react/forbid-dom-props
               className={ item_class }
             >
-                <Image
-                  mix={ { block: 'MenuOverlay', elem: 'Image', mods: itemMods } }
-                  src={ icon && media(icon) }
-                  ratio="16x9"
-                />
+                { this.renderItemContentImage(icon, itemMods) }
                 <figcaption
                   block="MenuOverlay"
                   elem="ItemCaption"
@@ -184,9 +192,15 @@ export default class MenuOverlay extends PureComponent {
         });
     }
 
-    renderAdditionalInformation() {
+    renderPromotionCms() {
+        const { header_content: { header_cms } = {} } = window.contentConfiguration;
+
+        if (header_cms) {
+            return <CmsBlock identifiers={ [header_cms] } />;
+        }
+
         return (
-            <aside block="MenuOverlay" elem="AdditionalInformation">
+            <>
                 <h3 block="MenuOverlay" elem="PageLink">
                     <Link
                       to="/page/about-us"
@@ -210,6 +224,14 @@ export default class MenuOverlay extends PureComponent {
                 <div block="MenuOverlay" elem="Social">
                     <CmsBlock identifiers={ ['social-links'] } />
                 </div>
+            </>
+        );
+    }
+
+    renderAdditionalInformation() {
+        return (
+            <aside block="MenuOverlay" elem="AdditionalInformation">
+                { this.renderPromotionCms() }
             </aside>
         );
     }

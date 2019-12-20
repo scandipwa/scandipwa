@@ -4,12 +4,11 @@
 
 # ScandiPWA Theme
 
-[![All Contributors](https://img.shields.io/badge/all_contributors-31-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-33-orange.svg?style=flat-square)](#contributors)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/839cbb593b36432faecd5da0c3844ca8)](https://www.codacy.com/app/ScandiPWA/base-theme?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=scandipwa/base-theme&amp;utm_campaign=Badge_Grade)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fscandipwa%2Fbase-theme.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fscandipwa%2Fbase-theme?ref=badge_shield)
 
 This repository contains ScandiPWA Theme sources. Read full application documentation [here](https://docs.scandipwa.com/#/theme/01-Project).
-
 
 ## Local development
 
@@ -76,7 +75,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tr>
     <td align="center"><a href="https://github.com/joy-codilar"><img src="https://avatars2.githubusercontent.com/u/46239833?v=4" width="100px;" alt=""/><br /><sub><b>Jayanka Ghosh</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=joy-codilar" title="Code">💻</a> <a href="https://github.com/scandipwa/base-theme/issues?q=author%3Ajoy-codilar" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://github.com/kiran-codilar"><img src="https://avatars1.githubusercontent.com/u/16700298?v=4" width="100px;" alt=""/><br /><sub><b>Kiran</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=kiran-codilar" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/krystian15"><img src="https://avatars3.githubusercontent.com/u/31726767?v=4" width="100px;" alt=""/><br /><sub><b>krystian15</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/issues?q=author%3Akrystian15" title="Bug reports">🐛</a> <a href="https://github.com/scandipwa/base-theme/commits?author=krystian15" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/krystian15"><img src="https://avatars3.githubusercontent.com/u/31726767?v=4" width="100px;" alt=""/><br /><sub><b>krystian15</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/issues?q=author%3Akrystian15" title="Bug reports">🐛</a> <a href="https://github.com/scandipwa/base-theme/commits?author=krystian15" title="Code">💻</a> <a href="#translation-krystian15" title="Translation">🌍</a></td>
+    <td align="center"><a href="https://github.com/negzu"><img src="https://avatars3.githubusercontent.com/u/46347627?v=4" width="100px;" alt=""/><br /><sub><b>Yegor Batov</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=negzu" title="Code">💻</a></td>
+    <td align="center"><a href="https://aarhof.eu"><img src="https://avatars3.githubusercontent.com/u/20708?v=4" width="100px;" alt=""/><br /><sub><b>Martin Århof</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=lsv" title="Code">💻</a></td>
   </tr>
 </table>
 
@@ -87,4 +88,3 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 ## License
 
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fscandipwa%2Fbase-theme.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fscandipwa%2Fbase-theme?ref=badge_large)
-

@@ -193,7 +193,7 @@ class MyAccountOverlay extends PureComponent {
                         <Field
                           type="checkbox"
                           value="is_subscribed"
-                          label={ __('Subscribe to ScandiPWA newsletter') }
+                          label={ __('Subscribe to newsletter') }
                           id="is_subscribed"
                           mix={ { block: 'MyAccountOverlay', elem: 'Checkbox' } }
                           name="is_subscribed"
@@ -282,7 +282,7 @@ class MyAccountOverlay extends PureComponent {
                 </Form>
                 <article block="MyAccountOverlay" elem="Additional" mods={ { state } }>
                     <section>
-                        <h4 id="forgot-password-label">{ __('New to ScandiPWA?') }</h4>
+                        <h4 id="forgot-password-label">{ __('Don`t have an account?') }</h4>
                         <button
                           block="Button"
                           onClick={ handleCreateAccount }

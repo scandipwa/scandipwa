@@ -322,6 +322,25 @@
       "profile": "https://github.com/krystian15",
       "contributions": [
         "bug",
+        "code",
+        "translation"
+      ]
+    },
+    {
+      "login": "negzu",
+      "name": "Yegor Batov",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/46347627?v=4",
+      "profile": "https://github.com/negzu",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "lsv",
+      "name": "Martin Århof",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/20708?v=4",
+      "profile": "https://aarhof.eu",
+      "contributions": [
         "code"
       ]
     }

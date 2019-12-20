@@ -40,6 +40,8 @@ import './ProductActions.style';
 export default class ProductActions extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
+        minQuantity: PropTypes.number.isRequired,
+        maxQuantity: PropTypes.number.isRequired,
         configurableVariantIndex: PropTypes.number,
         showOnlyIfLoaded: PropTypes.func.isRequired,
         quantity: PropTypes.number.isRequired,
@@ -190,7 +192,13 @@ export default class ProductActions extends PureComponent {
     }
 
     renderQuantityInput() {
-        const { quantity, setQuantity, product: { type_id } } = this.props;
+        const {
+            quantity,
+            maxQuantity,
+            minQuantity,
+            setQuantity,
+            product: { type_id }
+        } = this.props;
 
         if (type_id === GROUPED) return null;
 
@@ -199,8 +207,9 @@ export default class ProductActions extends PureComponent {
               id="item_qty"
               name="item_qty"
               type="number"
-              min={ 1 }
               value={ quantity }
+              max={ maxQuantity }
+              min={ minQuantity }
               mix={ { block: 'ProductActions', elem: 'Qty' } }
               onChange={ setQuantity }
             />

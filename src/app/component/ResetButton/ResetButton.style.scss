@@ -8,16 +8,8 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-
-:root {
-    --color-pagination-link-text: #{$black};
-    --color-pagination-link-active-text: var(--primary-base-color);
-}
-
-.CategoryPaginationLink {
-    color: var(--color-pagination-link-text);
-
-    &_isCurrent {
-        --color-pagination-link-text: var(--color-pagination-link-active-text);
+.ResetButton {
+    @include mobile {
+        display: none;
     }
 }

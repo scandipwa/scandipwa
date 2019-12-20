@@ -12,11 +12,11 @@
 :root {
     --header-background: #fff;
     --header-color: #000;
-    --header-search-field-background: #{$concrete};
+    --header-search-field-background: var(--secondary-base-color);
     --header-search-field-visible-background: #fff;
     --header-search-field-color: #6e6e6e;
     --header-search-clear-background: #838383;
-    --header-search-field-border-color: #f26323;
+    --header-search-field-border-color: var(--primary-light-color);
     --header-desktop-search-bar-width: 270px;
     --header-desktop-search-bar-max-width: 450px;
     --header-desktop-button-color: #f26323;
@@ -162,7 +162,7 @@
     }
 
     &-Banner {
-        background: $primary-base-color;
+        background: var(--primary-base-color);
         color: $white;
         height: 50px;
         line-height: 50px;

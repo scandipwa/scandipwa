@@ -126,7 +126,9 @@ export class ProductListQuery {
             'name',
             'type_id',
             this._getPriceField(),
+            this._getStockItemField(),
             this._getProductThumbnailField(),
+            this._getProductSmallField(),
             this._getShortDescriptionField(),
             this._getAttributesField(isVariant),
             ...(!isVariant
@@ -207,6 +209,18 @@ export class ProductListQuery {
             .addFieldList(this._getShortDescriptionFields());
     }
 
+    _getStockItemField() {
+        return new Field('stock_item')
+            .addFieldList(this._getStockItemFields());
+    }
+
+    _getStockItemFields() {
+        return [
+            'min_sale_qty',
+            'max_sale_qty'
+        ];
+    }
+
     _getBreadcrumbFields() {
         return [
             'category_name',
@@ -284,10 +298,14 @@ export class ProductListQuery {
      */
     _getProductThumbnailFields() {
         return [
-            'path'
-            // 'url',
+            'path',
+            'url'
             // 'label'
         ];
+    }
+
+    _getProductSmallFields() {
+        return this._getProductThumbnailFields();
     }
 
     /**
@@ -299,6 +317,11 @@ export class ProductListQuery {
     _getProductThumbnailField() {
         return new Field('thumbnail')
             .addFieldList(this._getProductThumbnailFields());
+    }
+
+    _getProductSmallField() {
+        return new Field('small_image')
+            .addFieldList(this._getProductSmallFields());
     }
 
     _getAttributeOptionField() {
@@ -345,7 +368,8 @@ export class ProductListQuery {
             'media_type',
             'types',
             this._getVideoContentField(),
-            this._getMediaThumbnailField()
+            this._getMediaThumbnailField(),
+            this._getMediaBaseField()
         ];
     }
 
@@ -373,6 +397,10 @@ export class ProductListQuery {
      */
     _getMediaThumbnailField() {
         return new Field('thumbnail').addField('url');
+    }
+
+    _getMediaBaseField() {
+        return new Field('base').addField('url');
     }
 
     _getMediaGalleryField() {
