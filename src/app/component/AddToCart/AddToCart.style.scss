@@ -64,6 +64,10 @@
         }
     }
 
+    &_isDisabled {
+        @include button-disabled();
+    }
+
     &-ButtonWrapper{
         display:inline;
     }

@@ -8,6 +8,10 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+@mixin button-disabled {
+    opacity: .25;
+    cursor: not-allowed;
+}
 
 @mixin button {
     text-decoration: none; // because we never need underlines in buttons
@@ -44,8 +48,7 @@
     }
 
     &[disabled] {
-        opacity: .25;
-        cursor: not-allowed;
+        @include button-disabled();
     }
 
     &_isHollow {

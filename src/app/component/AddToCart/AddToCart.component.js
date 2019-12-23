@@ -52,25 +52,21 @@ export default class AddToCart extends PureComponent {
             product: { type_id },
             isLoading,
             buttonClick,
-            disabledButtonClick,
             isDisabled
         } = this.props;
 
         if (!type_id) this.renderPlaceholder();
 
         return (
-        <div block="ProductActions-AddToCart AddToCart" elem="ButtonWrapper" onClick={isDisabled ? disabledButtonClick : () => {}}>
             <button
-              onClick={ isDisabled ? disabledButtonClick : buttonClick }
+              onClick={ buttonClick }
               block="Button AddToCart"
               mix={ mix }
-              mods={ { isLoading } }
-              disabled={ isDisabled }
+              mods={ { isLoading, isDisabled } }
             >
                 <span>{ __('Add to cart') }</span>
                 <span>{ __('Adding...') }</span>
             </button>
-        </div>
         );
     }
 }

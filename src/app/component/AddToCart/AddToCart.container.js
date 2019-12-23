@@ -56,8 +56,7 @@ export class AddToCartContainer extends PureComponent {
     state = { isLoading: false };
 
     containerFunctions = {
-        buttonClick: this.buttonClick.bind(this),
-        disabledButtonClick: this.disabledButtonClick.bind(this)
+        buttonClick: this.buttonClick.bind(this)
     };
 
     containerProps = () => ({
@@ -98,9 +97,16 @@ export class AddToCartContainer extends PureComponent {
             configurableVariantIndex,
             groupedProductQuantity,
             quantity,
-            addProduct
+            addProduct,
+            //
+            showNotification
         } = this.props;
         const { variants, type_id } = product;
+
+        if(configurableVariantIndex < 0) {
+            showNotification('error', 'Please, choose desired item properties');
+            return;
+        }
 
         this.setState({ isLoading: true });
 
@@ -131,11 +137,6 @@ export class AddToCartContainer extends PureComponent {
             product: productToAdd,
             quantity
         }).then(() => this._afterAdded());
-    }
-
-    disabledButtonClick(event){
-        const { showNotification } = this.props;
-        showNotification('success', 'Please, choose desired item properties');
     }
 
     removeProductFromWishlist() {
