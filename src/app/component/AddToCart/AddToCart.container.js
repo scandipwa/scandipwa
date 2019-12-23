@@ -104,7 +104,7 @@ export class AddToCartContainer extends PureComponent {
         const { variants, type_id } = product;
 
         if(configurableVariantIndex < 0) {
-            showNotification('error', __('Please, choose desired item properties'));
+            showNotification('error', __('Product options are not configured!'));
             return;
         }
 
