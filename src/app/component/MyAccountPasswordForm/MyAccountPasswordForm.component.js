@@ -40,12 +40,12 @@ class MyAccountPasswordForm extends FieldForm {
 
     renderActions() {
         return (
-        <div block="MyAccountPasswordForm" elem="Wrapper">
-            <button block="Button">
+            <button 
+                block="Button"
+                mix={{block: "MyAccountPasswordForm", elem:"Button"}}
+            >
                 { __('Change password') }
             </button>
-        </div>
-            
         );
     }
 }
