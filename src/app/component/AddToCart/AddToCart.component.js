@@ -63,6 +63,7 @@ export default class AddToCart extends PureComponent {
               block="Button AddToCart"
               mix={ mix }
               mods={ { isLoading, isDisabled } }
+              disabled={ isLoading }
             >
                 <span>{ __('Add to cart') }</span>
                 <span>{ __('Adding...') }</span>
