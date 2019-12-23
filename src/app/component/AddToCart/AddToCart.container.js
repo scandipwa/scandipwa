@@ -104,7 +104,7 @@ export class AddToCartContainer extends PureComponent {
         const { variants, type_id } = product;
 
         if(configurableVariantIndex < 0) {
-            showNotification('error', 'Please, choose desired item properties');
+            showNotification('error', __('Please, choose desired item properties'));
             return;
         }
 
@@ -169,7 +169,7 @@ export class AddToCartContainer extends PureComponent {
             setQuantityToDefault
         } = this.props;
 
-        showNotification('success', 'Product added to cart!');
+        showNotification('success', __('Product added to cart!'));
         setQuantityToDefault();
 
         this.removeProductFromWishlist();
