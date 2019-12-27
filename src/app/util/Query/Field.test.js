@@ -13,7 +13,7 @@
 import Field from 'Util/Query/Field';
 
 describe('Field can be properly initialized', () => {
-    it('Check if Field constructor was called', () => {
+    test('Check if Field constructor was called', () => {
         const query = new Field('name');
         expect(query).toBeInstanceOf(Field);
     });
@@ -141,7 +141,7 @@ describe('Subfields are added correctly', () => {
     })
 })
 
-describe.only('Build method and underlying private methods', () => {
+describe('Build method and underlying private methods', () => {
     test('check _getVariableName()', () => {
         const [varName, varValue] = ['price', '124'];
         const field = new Field('new-field')
