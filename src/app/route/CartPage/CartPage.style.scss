@@ -94,23 +94,25 @@
     }
 
     &-Promo {
-        padding: 2rem 1rem;
-        text-align: center;
-        background: var(--cart-page-promo-background);
         order: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: 1px solid var(--cart-page-divider-background);
-
-        @include mobile {
-            padding: 1rem;
-            border-left: 0;
-            border-right: 0;
-        }
+        background: var(--cart-page-promo-background);
 
         @include after-mobile {
             margin-top: 2rem;
+        }
+
+        &Block {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--cart-page-divider-background);
+            padding: 2rem 1rem;
+
+            @include mobile {
+                padding: 1rem;
+                border-left: 0;
+                border-right: 0;
+            }
         }
 
         &Image {
