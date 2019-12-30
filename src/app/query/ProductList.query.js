@@ -216,6 +216,7 @@ export class ProductListQuery {
 
     _getStockItemFields() {
         return [
+            'qty',
             'min_sale_qty',
             'max_sale_qty'
         ];

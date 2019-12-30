@@ -126,10 +126,18 @@ export class AddToCartContainer extends PureComponent {
             }
             : product;
 
-        return addProduct({
-            product: productToAdd,
-            quantity
-        }).then(() => this._afterAdded());
+        return (
+            addProduct({
+                product: productToAdd,
+                quantity
+            })
+                .then(() => this._afterAdded())
+                .catch(() => this.resetLoading())
+        );
+    }
+
+    resetLoading() {
+        this.setState({ isLoading: false });
     }
 
     removeProductFromWishlist() {
