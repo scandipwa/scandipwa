@@ -144,7 +144,8 @@ export class CheckoutContainer extends PureComponent {
     }
 
     containerProps = () => ({
-        checkoutTotals: this._getCheckoutTotals()
+        checkoutTotals: this._getCheckoutTotals(),
+        paymentTotals: this.state.paymentTotals
     });
 
     _handleError = (error) => {
@@ -190,12 +191,11 @@ export class CheckoutContainer extends PureComponent {
     }
 
     _getCheckoutTotals() {
-        const { totals: cartTotals } = this.props;
-        const { paymentTotals: { shipping_amount } } = this.state;
-
-        return shipping_amount
-            ? { ...cartTotals, shipping_amount }
-            : cartTotals;
+        const { totals: { items } } = this.props;
+        //const { totals: { grand_total } } = this.props;
+        const { paymentTotals } = this.state;
+        
+        return { ...paymentTotals, items };
     }
 
     saveAddressInformation(addressInformation) {

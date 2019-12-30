@@ -119,8 +119,8 @@ export default class CheckoutOrderSummary extends PureComponent {
         return (
             <div block="CheckoutOrderSummary" elem="OrderTotals">
                 <ul>
-                    { this.renderPriceLine(shipping_amount, __('Shipping'), { divider: true }) }
                     { this.renderPriceLine(subtotal, __('Cart Subtotal')) }
+                    { this.renderPriceLine(shipping_amount, __('Shipping'), { divider: true }) }
                     { this.renderCouponCode() }
                     { this.renderPriceLine(tax_amount, __('Tax')) }
                     { this.renderPriceLine(grand_total, __('Order total')) }
