@@ -11,12 +11,26 @@
 
 .CheckoutBilling {
     &-Checkbox {
+        display: inline-block;
         margin-bottom: 2rem;
+        margin-left: 1rem;
     }
 
     &-Button {
         @include mobile {
             width: 100%;
         }
+    }
+
+    &-Link {
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
+
+.Button.CheckoutBilling {
+    &-Button {
+        display: block;
     }
 }
