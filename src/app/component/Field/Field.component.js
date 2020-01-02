@@ -19,6 +19,7 @@ import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { MixType } from 'Type/Common';
 import ClickOutside from 'Component/ClickOutside';
+import { default as Input } from 'Component/Input'
 import './Field.style';
 
 export const TEXT_TYPE = 'text';
@@ -383,20 +384,19 @@ export default class Field extends PureComponent {
 
         const { value } = this.state;
         return (
-            <input
+            <Input
               data-skip-value={ skipValue }
               ref={ formRef }
               type="text"
-              id={ id }
-              name={ name }
+              name={name }
               value={ value }
-              disabled={ isDisabled }
               form={ form }
               onChange={ (this.onChange) }
               onFocus={ this.onFocus }
               onClick={ this.onClick }
               placeholder={ placeholder }
               autoComplete={ autocomplete }
+              { ...this.props }
             />
         );
     }
@@ -419,7 +419,6 @@ export default class Field extends PureComponent {
               ref={ formRef }
               type="password"
               autoComplete="current-password"
-              id={ id }
               name={ name }
               value={ value }
               disabled={ isDisabled }
@@ -449,7 +448,6 @@ export default class Field extends PureComponent {
                   data-skip-value={ skipValue }
                   ref={ formRef }
                   type="number"
-                  id={ id }
                   name={ name }
                   value={ value }
                   disabled={ isDisabled }
@@ -490,7 +488,6 @@ export default class Field extends PureComponent {
                 <input
                   data-skip-value={ skipValue }
                   ref={ formRef }
-                  id={ id }
                   name={ name }
                   type="checkbox"
                   value={ value }
@@ -521,7 +518,6 @@ export default class Field extends PureComponent {
                   data-skip-value={ skipValue }
                   ref={ formRef }
                   type="radio"
-                  id={ id }
                   name={ name }
                   checked={ checked }
                   value={ value }
