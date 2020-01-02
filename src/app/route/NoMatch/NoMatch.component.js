@@ -60,7 +60,7 @@ export default class NoMatch extends PureComponent {
                     </p>
                     <p>
                         { /* eslint-disable-next-line max-len */ }
-                        { __('Sorry, we can`t find the page you are looking for! Please press a big orange button to come back to homepage.') }
+                        { __('Sorry, we can`t find the page you are looking for! Please press a button below to go back to homepage.') }
                     </p>
                     <Link
                       to="/"
