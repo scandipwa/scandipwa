@@ -536,7 +536,7 @@ export default class Field extends PureComponent {
 
     renderSelectWithOptions() {
         const {
-            name, id, selectOptions, formRef, placeholder, value
+            name, id, selectOptions, formRef, placeholder, value, isDisabled
         } = this.props;
 
         const { isSelectExpanded: isExpanded } = this.state;
@@ -562,6 +562,7 @@ export default class Field extends PureComponent {
                       ref={ formRef }
                       name={ name }
                       id={ id }
+                      disabled={ isDisabled }
                       tabIndex="0"
                       value={ value || '' }
                       onChange={ this.onChange }
