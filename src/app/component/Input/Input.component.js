@@ -4,18 +4,23 @@ import './Input.style';
 
 class Input extends PureComponent {
     static propTypes = {
-        // TODO: implement prop-types
+        formRef: PropTypes.func
     };
 
-    constructor(props){
-        super(props);
+    static defaultProps = {
+        formRef: () => {}
     }
 
     render() {
-        console.log(this.props.value);
+        const {
+            formRef,
+            ...validProps
+        } = this.props;
+
         return (
             <input
-                { ...this.props }
+              ref={ formRef }
+              { ...validProps }
             />
         );
     }

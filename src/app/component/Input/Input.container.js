@@ -1,38 +1,67 @@
 import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-
-import { default as Input } from './Input.component';
+import { PropTypes } from 'prop-types';
+import Input from './Input.component';
 import './Input.style';
 
 class InputContainer extends PureComponent {
     static propTypes = {
-        // TODO: implement prop-types
+        dispatch: PropTypes.func,
+        selectOptions: PropTypes.arrayOf(PropTypes.shape({
+            id: PropTypes.oneOfType([
+                PropTypes.string,
+                PropTypes.number
+            ]),
+            value: PropTypes.oneOfType([
+                PropTypes.string,
+                PropTypes.number
+            ]),
+            disabled: PropTypes.bool,
+            label: PropTypes.string
+        })),
+        isDisabled: PropTypes.bool,
+        autocomplete: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.bool
+        ]),
+        skipValue: PropTypes.bool,
+        value: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number,
+            PropTypes.bool
+        ])
+    };
+
+    static defaultProps = {
+        value: '',
+        autocomplete: 'off',
+        isDisabled: false,
+        skipValue: false,
+        selectOptions: [],
+        dispatch: () => {}
     };
 
     containerProps = () => {
         const {
             // Invalid props
             dispatch,
-            skipValue,
             selectOptions,
+            
             // Props to be transformed
-            autoComplete,
-            autocomplete,
-            isDisabled,
-            formRef,
-            value,
+            isDisabled: disabled,
+            autocomplete: autoComplete,
+            skipValue,
+
             // Props that are passed correctly from the beginning
             ...validProps
         } = this.props;
-        
+
         return {
             ...validProps,
-            autoComplete: autoComplete || autocomplete,
-            disabled: isDisabled || false,
-            ref: formRef,
-            value: value || ""
+            disabled,
+            'data-skip-value': skipValue,
+            autoComplete
         };
-    }
+    };
 
     render() {
         return (
