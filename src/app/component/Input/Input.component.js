@@ -1,6 +1,5 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import './Input.style';
 
 class Input extends PureComponent {
     static propTypes = {

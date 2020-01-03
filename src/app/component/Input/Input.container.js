@@ -1,7 +1,6 @@
 import { PureComponent } from 'react';
 import { PropTypes } from 'prop-types';
 import Input from './Input.component';
-import './Input.style';
 
 class InputContainer extends PureComponent {
     static propTypes = {
@@ -45,7 +44,7 @@ class InputContainer extends PureComponent {
             // Invalid props
             dispatch,
             selectOptions,
-            
+
             // Props to be transformed
             isDisabled: disabled,
             autocomplete: autoComplete,
