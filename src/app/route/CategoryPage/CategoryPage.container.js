@@ -127,14 +127,12 @@ export class CategoryPageContainer extends PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        const { category: { id }, category, updateNoMatch } = this.props;
+        const { category: { id } } = this.props;
         const { category: { id: prevId } } = prevProps;
-        const { is_active, isLoading } = category;
 
         // update breadcrumbs only if category has changed
         if (id !== prevId) {
             this._onCategoryUpdate();
-            if (!isLoading && !is_active) updateNoMatch({ noMatch: true });
         }
 
         this._updateData(prevProps);
@@ -327,8 +325,15 @@ export class CategoryPageContainer extends PureComponent {
     }
 
     _onCategoryUpdate() {
-        this._updateBreadcrumbs();
-        this._updateHeaderState();
+        const { category, updateNoMatch } = this.props;
+        const { is_active, isLoading } = category;
+
+        if (!isLoading && !is_active) {
+            updateNoMatch({ noMatch: true });
+        } else {
+            this._updateBreadcrumbs();
+            this._updateHeaderState();
+        }
     }
 
     _updateBreadcrumbs() {
