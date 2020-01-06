@@ -45,9 +45,8 @@ const ConfigReducer = (state = initialState, action) => {
     case UPDATE_CONFIG:
         const filteredStoreConfig = filterStoreConfig(storeConfig);
         const { header_logo_src } = filteredStoreConfig;
-        const { showWelcomeMessage } = state;
 
-        const result = {
+        return {
             ...state,
             countries,
             reviewRatings,
@@ -57,20 +56,6 @@ const ConfigReducer = (state = initialState, action) => {
             header_logo_src,
             isLoading: false
         };
-
-        if (!showWelcomeMessage) {
-            const { welcome: oldWelcome } = state;
-            const { welcome: newWelcome } = storeConfig;
-
-            if (oldWelcome !== newWelcome) {
-                return {
-                    ...result,
-                    showWelcomeMessage: true
-                };
-            }
-        }
-
-        return result;
 
     case UPDATE_SINGLE_CONFIG_PROPERTY:
         const { property } = action;

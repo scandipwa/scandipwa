@@ -23,8 +23,32 @@ export class ConfigDispatcher extends QueryDispatcher {
 
     onSuccess(data, dispatch) {
         if (data) {
-            BrowserDatabase.setItem(data, 'config', ONE_MONTH_IN_SECONDS);
-            dispatch(updateConfig(data));
+            const config = BrowserDatabase.getItem('config') || {};
+            const { storeConfig = {} } = config;
+            const { showWelcomeMessage = true } = storeConfig;
+            const { storeConfig: newStoreConfig } = data;
+            const override = {};
+
+            if (!showWelcomeMessage) {
+                const { welcome: oldWelcome } = storeConfig;
+                const { welcome: newWelcome } = newStoreConfig;
+
+                if (oldWelcome !== newWelcome) {
+                    override.showWelcomeMessage = true;
+                }
+            }
+
+            const result = {
+                ...data,
+                storeConfig: {
+                    ...newStoreConfig,
+                    showWelcomeMessage,
+                    ...override
+                }
+            };
+
+            BrowserDatabase.setItem(result, 'config', ONE_MONTH_IN_SECONDS);
+            dispatch(updateConfig(result));
         }
     }
 
