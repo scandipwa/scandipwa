@@ -22,6 +22,7 @@ import CartOverlay from 'Component/CartOverlay';
 import ClickOutside from 'Component/ClickOutside';
 import SearchOverlay from 'Component/SearchOverlay';
 import MyAccountOverlay from 'Component/MyAccountOverlay';
+import WelcomeMessage from 'Component/WelcomeMessage';
 
 import './Header.style';
 import media from 'Util/Media';
@@ -475,6 +476,7 @@ export default class Header extends PureComponent {
 
         return (
             <header block="Header" mods={ { name } }>
+                <WelcomeMessage />
                 <nav block="Header" elem="Nav">
                     { this.renderHeaderState() }
                 </nav>

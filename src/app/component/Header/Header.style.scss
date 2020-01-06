@@ -20,7 +20,8 @@
     --header-desktop-search-bar-width: 270px;
     --header-desktop-search-bar-max-width: 450px;
     --header-desktop-button-color: #f26323;
-    --header-height: 50px;
+    // --header-height: 50px;
+    --header-height: calc(50px + var(--welcome-message-height));
     --header-nav-height: 50px;
     --header-logo-width: 200px;
     --header-logo-height: calc(var(--header-height) - 30px);
@@ -30,7 +31,8 @@
     }
 
     @include after-mobile {
-        --header-height: 60px;
+        // --header-height: 60px;
+        --header-height: calc(60px + var(--welcome-message-height));
         --header-nav-height: 60px;
         --header-logo-height: calc(var(--header-height) - 35px);
     }
@@ -94,6 +96,8 @@
 
 .Header {
     position: fixed;
+    transition-property: top;
+    transition-duration: 1000ms;
     top: 0;
     left: 0;
     width: 100%;
@@ -183,6 +187,8 @@
         z-index: 20;
         max-width: var(--content-wrapper-width);
         margin: auto;
+        // position: absolute;
+        // margin-top: var(--welcome-message-height);
     }
 
     &-Button {

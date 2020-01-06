@@ -20,6 +20,9 @@
     background-color: var(--breadcrumbs-background);
     margin-top: var(--header-height);
 
+    transition-property: margin-top;
+    transition-duration: 500ms;
+
     $crumb-padding: 20px;
     $arrow-size: 4px;
 
