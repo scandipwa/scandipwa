@@ -40,7 +40,7 @@ class WelcomeMessage extends PureComponent {
 
         return (
             <div block="WelcomeMessage">
-                { __(welcomeMessage) }
+                <p block="WelcomeMessage" elem="Message">{ __(welcomeMessage) }</p>
                 <button
                   onClick={ this.handleClick }
                   block="WelcomeMessage"

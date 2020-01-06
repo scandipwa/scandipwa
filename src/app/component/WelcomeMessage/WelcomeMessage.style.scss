@@ -22,13 +22,18 @@
     transition-property: height;
     transition-duration: 500ms;
     height: var(--welcome-message-height);
-    // background: var(--primary-base-color);
-    background: orange;
+    background: var(--primary-base-color);
+    // color: var(--secondary-base-color);
     text-align: center;
-    // padding-top: 1.2rem;
 
     &-CloseButton {
         @include button;
         height: var(--welcome-message-height);
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    &-Message {
+        display: inline-block;
     }
 }

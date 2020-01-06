@@ -36,7 +36,7 @@ export class WelcomeMessageContainer extends PureComponent {
 
     static defaultProps = {
         welcome: '',
-        showWelcomeMessage: true
+        showWelcomeMessage: false
     };
 
     containerProps = () => ({
@@ -47,7 +47,7 @@ export class WelcomeMessageContainer extends PureComponent {
         const { isSignedIn } = this.props;
         if (!isSignedIn) return '';
 
-        const { firstname, lastname } = BrowserDatabase.getItem(CUSTOMER);
+        const { firstname = '', lastname = '' } = BrowserDatabase.getItem(CUSTOMER) || {};
         const fullname = `${firstname} ${lastname}`;
         return fullname.length === 1
             ? ''

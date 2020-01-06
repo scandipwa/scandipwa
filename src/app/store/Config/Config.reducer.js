@@ -27,15 +27,12 @@ const { countries, reviewRatings, storeConfig = {} } = BrowserDatabase.getItem('
     storeConfig: {}
 };
 
-const { showWelcomeMessage: initialShowWelcomeMessage = true } = storeConfig || {};
-
 export const initialState = {
     ...filterStoreConfig(storeConfig),
     countries,
     reviewRatings,
     title_prefix: 'ScandiPWA |',
-    isLoading: true,
-    showWelcomeMessage: initialShowWelcomeMessage
+    isLoading: true
 };
 
 const ConfigReducer = (state = initialState, action) => {
