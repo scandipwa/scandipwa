@@ -10,7 +10,8 @@
  */
 
 import BrowserDatabase from 'Util/BrowserDatabase';
-import { UPDATE_CONFIG } from './Config.action';
+import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
+import { UPDATE_CONFIG, UPDATE_SINGLE_CONFIG_PROPERTY } from './Config.action';
 
 export const MAX_WIDTH = 150;
 export const MAX_HEIGHT = 40;
@@ -20,18 +21,21 @@ export const filterStoreConfig = config => Object.entries(config).reduce(
     {}
 );
 
-const { countries, reviewRatings, storeConfig } = BrowserDatabase.getItem('config') || {
+const { countries, reviewRatings, storeConfig = {} } = BrowserDatabase.getItem('config') || {
     countries: [],
     reviewRatings: [],
     storeConfig: {}
 };
+
+const { showWelcomeMessage: initialShowWelcomeMessage = true } = storeConfig || {};
 
 export const initialState = {
     ...filterStoreConfig(storeConfig),
     countries,
     reviewRatings,
     title_prefix: 'ScandiPWA |',
-    isLoading: true
+    isLoading: true,
+    showWelcomeMessage: initialShowWelcomeMessage
 };
 
 const ConfigReducer = (state = initialState, action) => {
@@ -41,8 +45,9 @@ const ConfigReducer = (state = initialState, action) => {
     case UPDATE_CONFIG:
         const filteredStoreConfig = filterStoreConfig(storeConfig);
         const { header_logo_src } = filteredStoreConfig;
+        const { showWelcomeMessage } = state;
 
-        return {
+        const result = {
             ...state,
             countries,
             reviewRatings,
@@ -52,6 +57,35 @@ const ConfigReducer = (state = initialState, action) => {
             header_logo_src,
             isLoading: false
         };
+
+        if (!showWelcomeMessage) {
+            const { welcome: oldWelcome } = state;
+            const { welcome: newWelcome } = storeConfig;
+
+            if (oldWelcome !== newWelcome) {
+                return {
+                    ...result,
+                    showWelcomeMessage: true
+                };
+            }
+        }
+
+        return result;
+
+    case UPDATE_SINGLE_CONFIG_PROPERTY:
+        const { property } = action;
+        const config = BrowserDatabase.getItem('config');
+        const { storeConfig: localStoreConfig } = config;
+        const result2 = {
+            ...config,
+            storeConfig: {
+                ...localStoreConfig,
+                ...property
+            }
+        };
+
+        BrowserDatabase.setItem(result2, 'config', ONE_MONTH_IN_SECONDS);
+        return { ...state, ...property };
 
     default:
         return state;

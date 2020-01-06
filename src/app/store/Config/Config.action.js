@@ -9,8 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 export const UPDATE_CONFIG = 'UPDATE_CONFIG';
+export const UPDATE_SINGLE_CONFIG_PROPERTY = 'UPDATE_SINGLE_CONFIG_PROPERTY';
 
 export const updateConfig = config => ({
     type: UPDATE_CONFIG,
     config
+});
+
+export const updateSingleConfigProperty = property => ({
+    type: UPDATE_SINGLE_CONFIG_PROPERTY,
+    property
 });
