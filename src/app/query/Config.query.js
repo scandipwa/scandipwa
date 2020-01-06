@@ -46,7 +46,8 @@ export class ConfigQuery {
                 'secure_base_media_url',
                 'paypal_sandbox_flag',
                 'paypal_client_id',
-                'logo_alt'
+                'logo_alt',
+                'welcome'
             ]);
     }
 }
