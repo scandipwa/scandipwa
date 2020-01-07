@@ -137,7 +137,7 @@
 
     &-AddToCart {
         @include mobile {
-            margin: 1rem 1rem;
+            margin: 1rem .25rem;
             width: calc(100% - 2rem);
         }
     }

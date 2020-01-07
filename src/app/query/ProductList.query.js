@@ -126,6 +126,7 @@ export class ProductListQuery {
             'name',
             'type_id',
             this._getPriceField(),
+            this._getStockItemField(),
             this._getProductThumbnailField(),
             this._getProductSmallField(),
             this._getShortDescriptionField(),
@@ -206,6 +207,18 @@ export class ProductListQuery {
     _getShortDescriptionField() {
         return new Field('short_description')
             .addFieldList(this._getShortDescriptionFields());
+    }
+
+    _getStockItemField() {
+        return new Field('stock_item')
+            .addFieldList(this._getStockItemFields());
+    }
+
+    _getStockItemFields() {
+        return [
+            'min_sale_qty',
+            'max_sale_qty'
+        ];
     }
 
     _getBreadcrumbFields() {

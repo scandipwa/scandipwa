@@ -1,5 +1,5 @@
 .ReviewStar {
-    --star-outline-color: #{$dusty-grey};
+    --star-outline-color: var(--secondary-dark-color);
 
     // reset from input default styles
     display: inline;
@@ -32,9 +32,9 @@
     &:checked ~ input,
     &:hover ~ input,
     &[checked] ~ input {
-        --star-outline-color: #{$primary-base-color};
+        --star-outline-color: var(--primary-base-color);
 
-        color: $primary-base-color;
+        color: var(--primary-base-color);
     }
 
     &:focus {
