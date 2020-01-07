@@ -63,8 +63,4 @@
             }
         }
     }
-
-    &_isDisabled {
-        @include button-disabled();
-    }
 }
