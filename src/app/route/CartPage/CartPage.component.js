@@ -175,7 +175,7 @@ export default class CartPage extends PureComponent {
         );
     }
 
-    renderPromo() {
+    renderPromoContent() {
         const { cart_content: { cart_cms } = {} } = window.contentConfiguration;
 
         if (cart_cms) {
@@ -186,7 +186,7 @@ export default class CartPage extends PureComponent {
             <>
                 <figure
                   block="CartPage"
-                  elem="Promo"
+                  elem="PromoBlock"
                 >
                     <img
                       block="CartPage"
@@ -200,6 +200,17 @@ export default class CartPage extends PureComponent {
                 </figure>
                 { this.renderPaymentMethods() }
             </>
+        );
+    }
+
+    renderPromo() {
+        return (
+            <div
+              block="CartPage"
+              elem="Promo"
+            >
+                { this.renderPromoContent() }
+            </div>
         );
     }
 
