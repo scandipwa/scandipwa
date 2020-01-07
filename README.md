@@ -4,7 +4,7 @@
 
 # ScandiPWA Theme
 
-[![All Contributors](https://img.shields.io/badge/all_contributors-34-orange.svg?style=flat-square)](#contributors
+[![All Contributors](https://img.shields.io/badge/all_contributors-34-orange.svg?style=flat-square)](#contributors)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/839cbb593b36432faecd5da0c3844ca8)](https://www.codacy.com/app/ScandiPWA/base-theme?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=scandipwa/base-theme&amp;utm_campaign=Badge_Grade)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fscandipwa%2Fbase-theme.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fscandipwa%2Fbase-theme?ref=badge_shield)
 
@@ -44,6 +44,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/aleksandrsho"><img src="https://avatars3.githubusercontent.com/u/33932820?v=4" width="100px;" alt=""/><br /><sub><b>aleksandrsho</b></sub></a><br /><a href="#content-aleksandrsho" title="Content">🖋</a> <a href="#business-aleksandrsho" title="Business development">💼</a> <a href="#translation-aleksandrsho" title="Translation">🌍</a></td>
     <td align="center"><a href="https://github.com/atravkovs"><img src="https://avatars0.githubusercontent.com/u/12703177?v=4" width="100px;" alt=""/><br /><sub><b>Artjoms Travkovs</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=atravkovs" title="Code">💻</a> <a href="#ideas-atravkovs" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/scandipwa/base-theme/pulls?q=is%3Apr+reviewed-by%3Aatravkovs" title="Reviewed Pull Requests">👀</a> <a href="#question-atravkovs" title="Answering Questions">💬</a></td>
     <td align="center"><a href="https://github.com/ErnestsVerins"><img src="https://avatars1.githubusercontent.com/u/57095300?v=4" width="100px;" alt=""/><br /><sub><b>ErnestsVerins</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=ErnestsVerins" title="Code">💻</a></td>
+  </tr>
   <tr>
     <td align="center"><a href="http://scandiweb.com"><img src="https://avatars3.githubusercontent.com/u/56016827?v=4" width="100px;" alt=""/><br /><sub><b>Kirils Scerba</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=kirilsscerba" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/mgmanoj"><img src="https://avatars3.githubusercontent.com/u/13735397?v=4" width="100px;" alt=""/><br /><sub><b>Manoj MG</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=mgmanoj" title="Code">💻</a></td>
