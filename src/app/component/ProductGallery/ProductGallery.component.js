@@ -17,7 +17,6 @@ import './ProductGallery.style';
 import ProductGalleryAdditionalMedia from 'Component/ProductGalleryAdditionalMedia';
 import VideoThumbnail from 'Component/VideoThumbnail';
 import VideoPopup from 'Component/VideoPopup';
-import media, { PRODUCT_MEDIA } from 'Util/Media/Media';
 
 export const GALLERY_LENGTH_BEFORE_COLLAPSE = 4;
 
