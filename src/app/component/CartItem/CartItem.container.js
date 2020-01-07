@@ -134,7 +134,7 @@ export class CartItemContainer extends PureComponent {
         const {
             item: {
                 sku: itemSku,
-                product: { variants = [] } = []
+                product: { variants = [] } = {}
             }
         } = this.props;
 
