@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 
 class Input extends PureComponent {
     static propTypes = {
-        formRef: PropTypes.func
+        formRef: PropTypes.oneOfType([
+            PropTypes.func,
+            PropTypes.shape({})
+        ])
     };
 
     static defaultProps = {
