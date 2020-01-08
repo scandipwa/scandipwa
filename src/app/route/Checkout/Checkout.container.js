@@ -144,7 +144,8 @@ export class CheckoutContainer extends PureComponent {
     }
 
     containerProps = () => ({
-        checkoutTotals: this._getCheckoutTotals()
+        checkoutTotals: this._getCheckoutTotals(),
+        paymentTotals: this.state.paymentTotals
     });
 
     _handleError = (error) => {

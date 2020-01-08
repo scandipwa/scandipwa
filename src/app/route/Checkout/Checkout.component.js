@@ -189,13 +189,13 @@ class Checkout extends PureComponent {
     }
 
     renderSummary() {
-        const { checkoutTotals, checkoutStep } = this.props;
+        const { checkoutTotals, checkoutStep, paymentTotals } = this.props;
         const { areTotalsVisible } = this.stepMap[checkoutStep];
 
         if (!areTotalsVisible) return null;
 
         return (
-            <CheckoutOrderSummary totals={ checkoutTotals } />
+            <CheckoutOrderSummary totals={ checkoutTotals } paymentTotals={ paymentTotals } />
         );
     }
 

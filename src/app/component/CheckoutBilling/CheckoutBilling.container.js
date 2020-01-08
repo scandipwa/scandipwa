@@ -166,7 +166,7 @@ export class CheckoutBillingContainer extends PureComponent {
         if (!selectedCustomerAddressId) return trimAddressFields(fields);
 
         const { customer: { addresses } } = this.props;
-        const address = addresses.find(({ id }) => id !== selectedCustomerAddressId);
+        const address = addresses.find(({ id }) => id === selectedCustomerAddressId);
 
         return trimCustomerAddress(address);
     }
