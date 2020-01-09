@@ -9,17 +9,19 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent, Fragment } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { TransformWrapper } from 'react-zoom-pan-pinch';
+import ProductGalleryAdditionalMedia from 'Component/ProductGalleryAdditionalMedia';
+import ProductGalleryImage from 'Component/ProductGalleryImage';
+import VideoThumbnail from 'Component/VideoThumbnail';
+import VideoPopup from 'Component/VideoPopup';
 import Slider from 'Component/Slider';
 import Image from 'Component/Image';
 import './ProductGallery.style';
-import ProductGalleryAdditionalMedia from 'Component/ProductGalleryAdditionalMedia';
-import VideoThumbnail from 'Component/VideoThumbnail';
-import VideoPopup from 'Component/VideoPopup';
-import media, { PRODUCT_MEDIA } from 'Util/Media/Media';
 
 export const GALLERY_LENGTH_BEFORE_COLLAPSE = 4;
+export const MAX_ZOOM_SCALE = 8;
 
 export const IMAGE_TYPE = 'image';
 export const VIDEO_TYPE = 'external-video';
@@ -45,7 +47,12 @@ export default class ProductGallery extends PureComponent {
         ).isRequired
     };
 
-    state = { activeImage: 0 };
+    maxScale = MAX_ZOOM_SCALE;
+
+    state = {
+        activeImage: 0,
+        isZoomEnabled: false
+    };
 
     constructor(props, context) {
         super(props, context);
@@ -53,7 +60,10 @@ export default class ProductGallery extends PureComponent {
     }
 
     onActiveImageChange = (activeImage) => {
-        this.setState({ activeImage });
+        this.setState({
+            activeImage,
+            isZoomEnabled: false
+        });
     };
 
     renderAdditionalPicture = (media, index = 0) => (
@@ -65,6 +75,25 @@ export default class ProductGallery extends PureComponent {
         />
     );
 
+    handleZoomStart = () => {
+        const { isZoomEnabled } = this.state;
+        if (isZoomEnabled) return;
+
+        document.body.classList.add('overscrollPrevented');
+        this.setState({ isZoomEnabled: true });
+    };
+
+    disableZoom = () => {
+        document.body.classList.remove('overscrollPrevented');
+        this.setState({ isZoomEnabled: false });
+    };
+
+    handleZoomChange = (args) => {
+        if (args.scale > 1) {
+            this.handleZoomStart();
+        }
+    };
+
     /**
      * Renders a video thumbnail which opens popup player on click/tap
      * @param media
@@ -72,7 +101,7 @@ export default class ProductGallery extends PureComponent {
      * @returns {*}
      * @private
      */
-    _renderVideoItem(media, index) {
+    renderVideo(media, index) {
         return (
             <VideoThumbnail
               key={ index }
@@ -81,7 +110,7 @@ export default class ProductGallery extends PureComponent {
         );
     }
 
-    _renderPlaceholderItem(index) {
+    renderPlaceholder(index) {
         return (
             <Image
               key={ index }
@@ -103,31 +132,42 @@ export default class ProductGallery extends PureComponent {
      * @returns {*}
      * @private
      */
-    _renderImageItem(mediaData, index) {
-        const { label, file, base: { url } = {} } = mediaData;
-        const alt = label || __('%s - Picture #%s', name, index);
-        const src = url || file;
+    renderImage(mediaData, index) {
+        const { isZoomEnabled } = this.state;
 
         return (
-            <Fragment key={ index }>
-                <Image
-                  src={ src }
-                  ratio="custom"
-                  mix={ {
-                      block: 'ProductGallery',
-                      elem: 'SliderImage',
-                      mods: { isPlaceholder: !src }
-                  } }
-                  isPlaceholder={ !src }
-                  alt={ alt }
-                />
-                <img
-                  style={ { display: 'none' } }
-                  alt={ alt }
-                  src={ src }
-                  itemProp="image"
-                />
-            </Fragment>
+            <TransformWrapper
+              key={ index }
+              onWheelStart={ this.handleZoomStart }
+              onPinchingStart={ this.handleZoomStart }
+              onZoomChange={ this.handleZoomChange }
+              pan={ {
+                  disabled: !isZoomEnabled,
+                  limitToWrapperBounds: true,
+                  velocity: false
+              } }
+              options={ {
+                  limitToBounds: true,
+                  minScale: 1
+              } }
+            >
+                { ({ scale, previousScale, resetTransform }) => {
+                    if (scale === 1 && previousScale !== 1) {
+                        resetTransform();
+                    }
+
+                    return (
+                        <ProductGalleryImage
+                          index={ index }
+                          mediaData={ mediaData }
+                          scale={ scale }
+                          previousScale={ previousScale }
+                          disableZoom={ this.disableZoom }
+                          isZoomEnabled={ isZoomEnabled }
+                        />
+                    );
+                } }
+            </TransformWrapper>
         );
     }
 
@@ -142,11 +182,11 @@ export default class ProductGallery extends PureComponent {
 
         switch (media_type) {
         case IMAGE_TYPE:
-            return this._renderImageItem(media, index);
+            return this.renderImage(media, index);
         case VIDEO_TYPE:
-            return this._renderVideoItem(media, index);
+            return this.renderVideo(media, index);
         case PLACEHOLDER_TYPE:
-            return this._renderPlaceholderItem(index);
+            return this.renderPlaceholder(index);
         default:
             return null;
         }
@@ -162,20 +202,39 @@ export default class ProductGallery extends PureComponent {
         );
     }
 
-    render() {
-        const { gallery } = this.props;
-        const { activeImage } = this.state;
+    renderGalleryNotice() {
         return (
-            <div block="ProductGallery">
-                { this.renderAdditionalPictures() }
+            <p block="ProductGallery" elem="Notice">
+                { __('Scroll over image to zoom in') }
+            </p>
+        );
+    }
+
+    renderSlider() {
+        const { gallery } = this.props;
+        const { activeImage, isZoomEnabled } = this.state;
+
+        return (
+            <div>
                 <Slider
                   mix={ { block: 'ProductGallery', elem: 'Slider' } }
                   showCrumbs
                   activeImage={ activeImage }
                   onActiveImageChange={ this.onActiveImageChange }
+                  isDisabled={ isZoomEnabled }
                 >
                     { gallery.map(this.renderSlide) }
                 </Slider>
+                { this.renderGalleryNotice() }
+            </div>
+        );
+    }
+
+    render() {
+        return (
+            <div block="ProductGallery">
+                { this.renderAdditionalPictures() }
+                { this.renderSlider() }
                 <VideoPopup />
             </div>
         );

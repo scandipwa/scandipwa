@@ -49,9 +49,30 @@
         }
     }
 
+    .react-transform-component,
+    .react-transform-element,
+    &-SliderImage {
+        height: 100%;
+        width: 100%;
+    }
+
     &-SliderImage {
         &:not(.ProductGallery-SliderImage_isPlaceholder) {
             background: none;
         }
     }
+
+    &-Notice {
+        color: var(--secondary-dark-color);
+        font-size: .9rem;
+        text-align: center;
+
+        @include mobile {
+            display: none;
+        }
+    }
+}
+
+.overscrollPrevented {
+    overscroll-behavior: contain;
 }

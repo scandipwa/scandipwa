@@ -58,7 +58,8 @@ export class ProductGalleryContainer extends PureComponent {
         }
 
         return [{
-            file: url,
+            thumbnail: { url },
+            base: { url },
             id: THUMBNAIL_KEY,
             label: name,
             media_type: IMAGE_TYPE

@@ -31,13 +31,15 @@ export default class Slider extends PureComponent {
         activeImage: PropTypes.number,
         onActiveImageChange: PropTypes.func,
         mix: MixType,
-        children: ChildrenType.isRequired
+        children: ChildrenType.isRequired,
+        isDisabled: PropTypes.bool
     };
 
     static defaultProps = {
         activeImage: 0,
         onActiveImageChange: () => {},
         showCrumbs: false,
+        isDisabled: false,
         mix: {}
     };
 
@@ -49,14 +51,13 @@ export default class Slider extends PureComponent {
 
     sliderRef = createRef();
 
-    handleDragStart = this.handleDragStart.bind(this);
+    handleDragStart = this.handleInteraction.bind(this, this.handleInteraction);
 
-    handleDrag = this.handleDrag.bind(this);
+    handleDrag = this.handleInteraction.bind(this, this.handleDrag);
 
-    handleDragEnd = this.handleDragEnd.bind(this);
+    handleDragEnd = this.handleInteraction.bind(this, this.handleDragEnd);
 
     renderCrumb = this.renderCrumb.bind(this);
-
 
     constructor(props) {
         super(props);
@@ -234,6 +235,14 @@ export default class Slider extends PureComponent {
         });
     }
 
+    handleInteraction(callback, ...args) {
+        const { isDisabled } = this.props;
+
+        if (isDisabled || !callback) return;
+
+        callback.call(this, ...args);
+    }
+
     changeActiveImage(activeImage) {
         const { onActiveImageChange } = this.props;
         onActiveImageChange(activeImage);
@@ -274,7 +283,10 @@ export default class Slider extends PureComponent {
 
     render() {
         const {
-            showCrumbs, mix, activeImage, children
+            showCrumbs,
+            mix,
+            activeImage,
+            children
         } = this.props;
 
         return (
