@@ -75,7 +75,7 @@ export class AddToCartContainer extends PureComponent {
         switch (type_id) {
         case CONFIGURABLE:
             if (configurableVariantIndex < 0 || !variants[configurableVariantIndex]) {
-                showNotification('error', __('Please configure product options!'));
+                showNotification('error', __('Please select product options!'));
                 return false;
             }
 
