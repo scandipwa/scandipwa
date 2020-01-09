@@ -15,7 +15,11 @@ import { PureComponent } from 'react';
 import Slider from 'Component/Slider';
 import Image from 'Component/Image';
 import Html from 'Component/Html';
+import Link from 'Component/Link';
 import './SliderWidget.style';
+
+export const TABLET_WIDTH = 768;
+export const DESKTOP_WIDTH = 1201;
 
 /**
  * Homepage slider
@@ -38,7 +42,50 @@ export default class SliderWidget extends PureComponent {
         slider: [{}]
     };
 
-    state = { activeImage: 0 };
+    state = { activeImage: 0, slideWidth: 100 };
+
+    componentDidMount() {
+        this.updateWindowDimensions();
+        window.addEventListener('resize', this.updateWindowDimensions);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.updateWindowDimensions);
+    }
+
+    componentDidUpdate(prevProps) {
+        const {
+            slider: {
+                slides_to_display,
+                slides_to_display_tablet
+            }
+        } = this.props;
+        const {
+            slider: {
+                slides_to_display: prev_slides_to_display,
+                slides_to_display_tablet: prev_slides_to_display_tablet
+            }
+        } = prevProps;
+
+        if (prev_slides_to_display !== slides_to_display
+            && prev_slides_to_display_tablet !== slides_to_display_tablet) {
+            this.updateWindowDimensions();
+        }
+    }
+
+    updateWindowDimensions = () => {
+        const { slider: { slides_to_display, slides_to_display_tablet, slides_to_display_mobile } } = this.props;
+        if (window.innerWidth >= DESKTOP_WIDTH) {
+            const slidesQtyPerPage = slides_to_display || 1;
+            this.setState({ slideWidth: 100 / slidesQtyPerPage });
+        } else if (window.innerWidth >= TABLET_WIDTH) {
+            const slidesQtyPerPage = slides_to_display_tablet || 1;
+            this.setState({ slideWidth: 100 / slidesQtyPerPage });
+        } else {
+            const slidesQtyPerPage = slides_to_display_mobile || 1;
+            this.setState({ slideWidth: 100 / slidesQtyPerPage });
+        }
+    };
 
 
     onActiveImageChange = (activeImage) => {
@@ -58,6 +105,7 @@ export default class SliderWidget extends PureComponent {
               block="SliderWidget"
               elem="Figure"
               key={ i }
+              style={ { width: `${this.state.slideWidth}%` } }
             >
                 <Image
                   mix={ { block: 'SliderWidget', elem: 'FigureImage' } }
@@ -78,7 +126,11 @@ export default class SliderWidget extends PureComponent {
 
     render() {
         const { activeImage } = this.state;
-        const { slider: { slides, title: block } } = this.props;
+        const { slider: { slides, title: block, slides_to_display, slides_to_display_tablet, slides_to_display_mobile } } = this.props;
+
+        if (slides_to_display === undefined || slides_to_display_tablet === undefined || slides_to_display_mobile === undefined) {
+            return null;
+        }
 
         return (
             <Slider
@@ -86,6 +138,9 @@ export default class SliderWidget extends PureComponent {
               showCrumbs
               activeImage={ activeImage }
               onActiveImageChange={ this.onActiveImageChange }
+              slidesOnDesktop={ slides_to_display }
+              slidesOnTablet={ slides_to_display_tablet }
+              slidesOnMobile={ slides_to_display_mobile }
             >
                 { slides.map(this.renderSlide) }
             </Slider>

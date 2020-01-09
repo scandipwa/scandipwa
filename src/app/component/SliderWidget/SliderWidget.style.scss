@@ -9,6 +9,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+:root {
+    --figcaption-color: #fff;
+}
+
 .SliderWidget {
     &-Figcaption {
         position: absolute;
@@ -16,21 +20,29 @@
         left: 0;
         width: 100%;
         transform: translateY(-50%);
+        color: var(--figcaption-color);
+        text-align: center;
     }
 
     &-FigureImage {
-        padding-bottom: 40%;
-
-        @include mobile {
-            padding-bottom: 100%;
-        }
+        padding-bottom: 100%;
 
         img {
             object-fit: cover;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
 
             @include mobile {
                 object-position: center;
             }
         }
     }
+
+    &-SliderLink {
+        display: inline-flex;
+        width: 100%;
+        height: 100%;
+    }
 }
+
