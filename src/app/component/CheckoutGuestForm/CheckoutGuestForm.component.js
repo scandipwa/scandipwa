@@ -21,10 +21,11 @@ class CheckoutGuestForm extends FieldForm {
     };
 
     get fieldMap() {
-        const { handleEmailInput } = this.props;
+        const { handleEmailInput, formId } = this.props;
 
         return {
             guest_email: {
+                form: formId,
                 label: __('Email'),
                 validation: ['notEmpty', 'email'],
                 onChange: handleEmailInput,

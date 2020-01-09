@@ -33,7 +33,7 @@ export class ProductGalleryContainer extends PureComponent {
         } = this.props;
 
         if (mediaGallery.length) {
-            return Object.values(mediaGallery.reduce((acc, srcMedia, i) => {
+            return Object.values(mediaGallery.reduce((acc, srcMedia) => {
                 const {
                     types,
                     position,
@@ -44,7 +44,7 @@ export class ProductGalleryContainer extends PureComponent {
                 if (!canBeShown) return acc;
 
                 const isThumbnail = types.includes(THUMBNAIL_KEY);
-                const key = isThumbnail ? 0 : (position + i);
+                const key = isThumbnail ? 0 : position + 1;
 
                 return {
                     ...acc,

@@ -12,14 +12,13 @@
 .ProductGallery {
     @include desktop {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 150px 1fr;
         grid-gap: 1.5rem;
         max-height: 40rem;
     }
 
     &-Additional {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
         grid-gap: 1.5rem;
 
         @include before-desktop {
