@@ -105,14 +105,11 @@ export default class Header extends PureComponent {
         },
         [PDP]: {
             back: true,
-            title: true,
-            minicart: true
+            title: true
         },
         [CATEGORY]: {
             back: true,
-            menu: true,
-            title: true,
-            minicart: true
+            title: true
         },
         [CUSTOMER_ACCOUNT]: {
             close: true,
@@ -123,10 +120,7 @@ export default class Header extends PureComponent {
             title: true
         },
         [HOME_PAGE]: {
-            menu: true,
             title: true,
-            account: true,
-            minicart: true,
             logo: true
         },
         [MENU]: {

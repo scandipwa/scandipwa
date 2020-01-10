@@ -92,7 +92,7 @@
     }
 }
 
-.hidden-header {
+.hidden-header-mobile {
     @include mobile {
         --header-height: 0;
     }

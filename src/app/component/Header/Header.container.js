@@ -143,9 +143,9 @@ export class HeaderContainer extends PureComponent {
 
     componentDidUpdate(prevProps) {
         const { headerState: { isHiddenForMobile } } = this.props;
-        const { headerState: { isHiddenForMobile: previsHiddenForMobile } } = prevProps;
+        const { headerState: { isHiddenForMobile: prevIsHiddenForMobile } } = prevProps;
 
-        if (isHiddenForMobile !== previsHiddenForMobile) {
+        if (isHiddenForMobile !== prevIsHiddenForMobile) {
             this.handleHeaderVisibilityChange();
         }
     }
@@ -349,7 +349,7 @@ export class HeaderContainer extends PureComponent {
         const { headerState: { isHiddenForMobile } } = this.props;
         const { classList } = document.body;
 
-        return isHiddenForMobile ? classList.add('hidden-header') : classList.remove('hidden-header');
+        return isHiddenForMobile ? classList.add('hidden-header-mobile') : classList.remove('hidden-header-mobile');
     }
 
     render() {
