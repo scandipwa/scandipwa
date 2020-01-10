@@ -92,6 +92,12 @@
     }
 }
 
+.hidden-header {
+    @include mobile {
+        --header-height: 0;
+    }
+}
+
 .Header {
     position: fixed;
     top: 0;
@@ -102,6 +108,12 @@
 
     @include mobile {
         border-bottom: 1px solid #0003;
+    }
+
+    &_isHiddenForMobile {
+        @include mobile {
+            display: none;
+        }
     }
 
     &_name {

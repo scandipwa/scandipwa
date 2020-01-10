@@ -81,11 +81,13 @@ export class HeaderContainer extends PureComponent {
             onOkClick: PropTypes.func,
             onCancelClick: PropTypes.func
         }).isRequired,
-        header_logo_src: PropTypes.string
+        header_logo_src: PropTypes.string,
+        isHiddenForMobile: PropTypes.bool
     };
 
     static defaultProps = {
-        header_logo_src: ''
+        header_logo_src: '',
+        isHiddenForMobile: false
     };
 
     state = {
@@ -95,7 +97,7 @@ export class HeaderContainer extends PureComponent {
     };
 
     routeMap = {
-        '/': { name: HOME_PAGE },
+        '/': { name: HOME_PAGE, isHiddenForMobile: true },
         '/category': { name: CATEGORY, onBackClick: () => history.push('/') },
         '/my-account': { name: CUSTOMER_ACCOUNT_PAGE, onBackClick: () => history.push('/') },
         '/product': { name: PDP, onBackClick: () => history.goBack() },
@@ -129,10 +131,23 @@ export class HeaderContainer extends PureComponent {
             ...this.state,
             ...this.onRouteChanged(history.location, true)
         };
+
+        if (!props.isHiddenForMobile) {
+            this.handleHeaderVisibilityChange();
+        }
     }
 
     componentDidMount() {
         history.listen(history => this.setState(this.onRouteChanged(history)));
+    }
+
+    componentDidUpdate(prevProps) {
+        const { headerState: { isHiddenForMobile } } = this.props;
+        const { headerState: { isHiddenForMobile: previsHiddenForMobile } } = prevProps;
+
+        if (isHiddenForMobile !== previsHiddenForMobile) {
+            this.handleHeaderVisibilityChange();
+        }
     }
 
     onRouteChanged(history, isPrevPathnameNotRelevant = false) {
@@ -328,6 +343,13 @@ export class HeaderContainer extends PureComponent {
 
         if (onCancelClick) onCancelClick();
         goToPreviousHeaderState();
+    }
+
+    handleHeaderVisibilityChange() {
+        const { headerState: { isHiddenForMobile } } = this.props;
+        const { classList } = document.body;
+
+        return isHiddenForMobile ? classList.add('hidden-header') : classList.remove('hidden-header');
     }
 
     render() {

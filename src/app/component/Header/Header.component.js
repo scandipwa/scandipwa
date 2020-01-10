@@ -471,10 +471,10 @@ export default class Header extends PureComponent {
     }
 
     render() {
-        const { headerState: { name } } = this.props;
+        const { headerState: { name, isHiddenForMobile } } = this.props;
 
         return (
-            <header block="Header" mods={ { name } }>
+            <header block="Header" mods={ { name, isHiddenForMobile } }>
                 <nav block="Header" elem="Nav">
                     { this.renderHeaderState() }
                 </nav>
