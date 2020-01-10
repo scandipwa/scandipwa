@@ -14,13 +14,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { BRAINTREE, KLARNA } from 'Component/CheckoutPayments/CheckoutPayments.component';
+import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 import CartDispatcher from 'Store/Cart/Cart.dispatcher';
 import { fetchMutation, fetchQuery } from 'Util/Request';
 import { showNotification } from 'Store/Notification';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs';
 import BrowserDatabase from 'Util/BrowserDatabase';
-import { changeHeaderState } from 'Store/Header';
+import { changeNavigationState } from 'Store/Navigation';
 import CheckoutQuery from 'Query/Checkout.query';
 import { GUEST_QUOTE_ID } from 'Store/Cart';
 import { TotalsType } from 'Type/MiniCart';
@@ -40,7 +41,7 @@ export const mapDispatchToProps = dispatch => ({
     resetCart: () => CartDispatcher.updateInitialCartData(dispatch),
     toggleBreadcrumbs: state => dispatch(toggleBreadcrumbs(state)),
     showErrorNotification: message => dispatch(showNotification('error', message)),
-    setHeaderState: stateName => dispatch(changeHeaderState(stateName))
+    setHeaderState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName))
 });
 
 export class CheckoutContainer extends PureComponent {

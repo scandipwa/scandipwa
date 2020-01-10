@@ -11,7 +11,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent, Fragment, createRef } from 'react';
+import { Fragment, createRef } from 'react';
 import PropTypes from 'prop-types';
 
 import Link from 'Component/Link';
@@ -22,6 +22,7 @@ import CartOverlay from 'Component/CartOverlay';
 import ClickOutside from 'Component/ClickOutside';
 import SearchOverlay from 'Component/SearchOverlay';
 import MyAccountOverlay from 'Component/MyAccountOverlay';
+import NavigationAbstract, { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.component';
 
 import './Header.style';
 import media from 'Util/Media';
@@ -42,32 +43,9 @@ export const CART_EDITING = 'cart_editing';
 export const CHECKOUT = 'checkout';
 export const CMS_PAGE = 'cms-page';
 
-export default class Header extends PureComponent {
+export default class Header extends NavigationAbstract {
     static propTypes = {
-        headerState: PropTypes.shape({
-            name: PropTypes.oneOf([
-                PDP,
-                CATEGORY,
-                CUSTOMER_ACCOUNT,
-                CUSTOMER_ACCOUNT_PAGE,
-                HOME_PAGE,
-                MENU,
-                MENU_SUBCATEGORY,
-                SEARCH,
-                FILTER,
-                CART,
-                CART_EDITING,
-                CHECKOUT,
-                CMS_PAGE,
-                POPUP
-            ]),
-            title: PropTypes.string,
-            onBackClick: PropTypes.func,
-            onCloseClick: PropTypes.func,
-            onEditClick: PropTypes.func,
-            onOkClick: PropTypes.func,
-            onCancelClick: PropTypes.func
-        }).isRequired,
+        navigationState: PropTypes.object.isRequired,
         cartTotals: TotalsType.isRequired,
         onBackButtonClick: PropTypes.func.isRequired,
         onCloseButtonClick: PropTypes.func.isRequired,
@@ -99,6 +77,10 @@ export default class Header extends PureComponent {
     };
 
     stateMap = {
+        [DEFAULT_STATE_NAME]: {
+            title: true,
+            logo: true
+        },
         [POPUP]: {
             title: true,
             close: true
@@ -118,10 +100,6 @@ export default class Header extends PureComponent {
         [CUSTOMER_ACCOUNT_PAGE]: {
             back: true,
             title: true
-        },
-        [HOME_PAGE]: {
-            title: true,
-            logo: true
         },
         [MENU]: {
             close: true,
@@ -288,7 +266,7 @@ export default class Header extends PureComponent {
     }
 
     renderTitle(isVisible = false) {
-        const { headerState: { title } } = this.props;
+        const { navigationState: { title } } = this.props;
 
         return (
             <h2
@@ -452,25 +430,13 @@ export default class Header extends PureComponent {
         );
     }
 
-    renderHeaderState() {
-        const { headerState: { name } } = this.props;
-
-        const source = this.stateMap[name]
-            ? this.stateMap[name]
-            : this.stateMap[HOME_PAGE];
-
-        return Object.entries(this.renderMap).map(
-            ([key, renderFunction]) => renderFunction(source[key])
-        );
-    }
-
     render() {
-        const { headerState: { name } } = this.props;
+        const { navigationState: { name } } = this.props;
 
         return (
             <header block="Header" mods={ { name } }>
                 <nav block="Header" elem="Nav">
-                    { this.renderHeaderState() }
+                    { this.renderNavigationState() }
                 </nav>
             </header>
         );

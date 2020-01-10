@@ -9,5 +9,5 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export * from './Header.action';
-export { default as HeaderReducer } from './Header.reducer';
+export * from './Navigation.action';
+export { default as NavigationReducer } from './Navigation.reducer';

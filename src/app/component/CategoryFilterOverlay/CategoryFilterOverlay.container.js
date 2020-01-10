@@ -12,8 +12,9 @@
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { goToPreviousHeaderState } from 'Store/Header';
+import { goToPreviousNavigationState } from 'Store/Navigation';
 import { hideActiveOverlay } from 'Store/Overlay';
+import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import CategoryFilterOverlay from './CategoryFilterOverlay.component';
 
 export const mapStateToProps = state => ({
@@ -22,7 +23,7 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    goToPreviousHeaderState: () => dispatch(goToPreviousHeaderState())
+    goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))
 });
 
 export class CategoryFilterOverlayContainer extends PureComponent {

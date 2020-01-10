@@ -13,10 +13,11 @@ import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { MyAccountDispatcher } from 'Store/MyAccount';
+import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import { CUSTOMER_ACCOUNT_PAGE } from 'Component/Header';
-import { changeHeaderState } from 'Store/Header';
+import { changeNavigationState } from 'Store/Navigation';
+import { MyAccountDispatcher } from 'Store/MyAccount';
 import { MatchType, HistoryType } from 'Type/Common';
 import {
     DASHBOARD,
@@ -36,7 +37,7 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
     updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.update(breadcrumbs, dispatch),
-    changeHeaderState: state => dispatch(changeHeaderState(state)),
+    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
     requestCustomerData: () => MyAccountDispatcher.requestCustomerData(dispatch)
 });
 

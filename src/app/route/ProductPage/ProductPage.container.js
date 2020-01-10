@@ -13,12 +13,16 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { ProductDispatcher } from 'Store/Product';
-import { changeHeaderState } from 'Store/Header';
-import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
+
 import { history } from 'Route';
 import { PDP } from 'Component/Header';
 import { getVariantIndex } from 'Util/Product';
+import { ProductType } from 'Type/ProductList';
+import { ProductDispatcher } from 'Store/Product';
+import { changeNavigationState } from 'Store/Navigation';
+import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
+import { LocationType, HistoryType, MatchType } from 'Type/Common';
+import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import {
     getUrlParam,
     convertQueryStringToKeyValuePairs,
@@ -27,9 +31,6 @@ import {
     objectToUri
 } from 'Util/Url';
 
-import { ProductType } from 'Type/ProductList';
-import { LocationType, HistoryType, MatchType } from 'Type/Common';
-
 import ProductPage from './ProductPage.component';
 
 export const mapStateToProps = state => ({
@@ -37,7 +38,7 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-    changeHeaderState: state => dispatch(changeHeaderState(state)),
+    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
     requestProduct: options => ProductDispatcher.handleData(dispatch, options),
     updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.updateWithProduct(breadcrumbs, dispatch)
 });

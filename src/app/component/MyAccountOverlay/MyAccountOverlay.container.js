@@ -13,7 +13,8 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { changeHeaderState } from 'Store/Header';
+import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { changeNavigationState } from 'Store/Navigation';
 import { MyAccountDispatcher } from 'Store/MyAccount';
 import { CUSTOMER_ACCOUNT } from 'Component/Header';
 import { showNotification } from 'Store/Notification';
@@ -42,7 +43,7 @@ export const mapDispatchToProps = dispatch => ({
     signIn: options => MyAccountDispatcher.signIn(options, dispatch),
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    setHeaderState: headerState => dispatch(changeHeaderState(headerState))
+    setHeaderState: headerState => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, headerState))
 });
 
 export class MyAccountOverlayContainer extends PureComponent {

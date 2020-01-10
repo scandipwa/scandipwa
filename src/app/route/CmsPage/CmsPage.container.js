@@ -13,14 +13,15 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { history } from 'Route';
-import { getUrlParam } from 'Util/Url';
-import { BlockListType } from 'Type/CMS';
-import { CMS_PAGE } from 'Component/Header';
-import { changeHeaderState } from 'Store/Header';
-import { LocationType, MatchType } from 'Type/Common';
-import { CmsPageDispatcher, updateCmsPage } from 'Store/CmsPage';
 import { toggleBreadcrumbs, BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
+import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { CmsPageDispatcher, updateCmsPage } from 'Store/CmsPage';
+import { changeNavigationState } from 'Store/Navigation';
+import { LocationType, MatchType } from 'Type/Common';
+import { CMS_PAGE } from 'Component/Header';
+import { BlockListType } from 'Type/CMS';
+import { getUrlParam } from 'Util/Url';
+import { history } from 'Route';
 
 import CmsPage from './CmsPage.component';
 
@@ -32,7 +33,7 @@ export const mapStateToProps = state => ({
 export const mapDispatchToProps = dispatch => ({
     requestPage: options => CmsPageDispatcher.handleData(dispatch, options),
     updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.updateWithCmsPage(breadcrumbs, dispatch),
-    setHeaderState: stateName => dispatch(changeHeaderState(stateName)),
+    setHeaderState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
     updateCmsPage: (...[cmsPage, isLoading]) => dispatch(updateCmsPage(cmsPage, isLoading)),
     toggleBreadcrumbs: (isActive) => {
         BreadcrumbsDispatcher.update([], dispatch);

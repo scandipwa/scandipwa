@@ -30,7 +30,7 @@ import { RelatedProductsReducer } from 'Store/RelatedProducts';
 import { SearchBarReducer } from 'Store/SearchBar';
 import { UrlRewritesReducer } from 'Store/UrlRewrites';
 import { MyAccountReducer } from 'Store/MyAccount';
-import { HeaderReducer } from 'Store/Header';
+import { NavigationReducer } from 'Store/Navigation';
 import { OverlayReducer } from 'Store/Overlay';
 import { PopupReducer } from 'Store/Popup';
 import { ConfigReducer } from 'Store/Config';
@@ -53,7 +53,7 @@ export const reducers = {
     RelatedProductsReducer,
     SearchBarReducer,
     MyAccountReducer,
-    HeaderReducer,
+    NavigationReducer,
     OverlayReducer,
     PopupReducer,
     UrlRewritesReducer,
