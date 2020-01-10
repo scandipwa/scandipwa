@@ -88,7 +88,7 @@ export class AddToCartContainer extends PureComponent {
 
             break;
         case GROUPED:
-            const isAllItemsAvailable = items.every(({ product: { id } }) => !groupedProductQuantity[id]);
+            const isAllItemsAvailable = items.every(({ product: { id } }) => groupedProductQuantity[id]);
 
             if (!isAllItemsAvailable) {
                 showNotification('error', __('Sorry! Child product quantities are invalid!'));
