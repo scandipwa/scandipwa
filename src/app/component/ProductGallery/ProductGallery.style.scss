@@ -55,12 +55,6 @@
         width: 100%;
     }
 
-    &-SliderImage {
-        &:not(.ProductGallery-SliderImage_isPlaceholder) {
-            background: none;
-        }
-    }
-
     &-Notice {
         color: var(--secondary-dark-color);
         font-size: .9rem;

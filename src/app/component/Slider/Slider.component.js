@@ -32,14 +32,14 @@ export default class Slider extends PureComponent {
         onActiveImageChange: PropTypes.func,
         mix: MixType,
         children: ChildrenType.isRequired,
-        isDisabled: PropTypes.bool
+        isInteractionDisabled: PropTypes.bool
     };
 
     static defaultProps = {
         activeImage: 0,
         onActiveImageChange: () => {},
         showCrumbs: false,
-        isDisabled: false,
+        isInteractionDisabled: false,
         mix: {}
     };
 
@@ -236,9 +236,9 @@ export default class Slider extends PureComponent {
     }
 
     handleInteraction(callback, ...args) {
-        const { isDisabled } = this.props;
+        const { isInteractionDisabled } = this.props;
 
-        if (isDisabled || !callback) return;
+        if (isInteractionDisabled || !callback) return;
 
         callback.call(this, ...args);
     }

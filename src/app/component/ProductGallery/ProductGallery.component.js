@@ -138,8 +138,6 @@ export default class ProductGallery extends PureComponent {
         return (
             <TransformWrapper
               key={ index }
-              onWheelStart={ this.handleZoomStart }
-              onPinchingStart={ this.handleZoomStart }
               onZoomChange={ this.handleZoomChange }
               pan={ {
                   disabled: !isZoomEnabled,
@@ -221,7 +219,7 @@ export default class ProductGallery extends PureComponent {
                   showCrumbs
                   activeImage={ activeImage }
                   onActiveImageChange={ this.onActiveImageChange }
-                  isDisabled={ isZoomEnabled }
+                  isInteractionDisabled={ isZoomEnabled }
                 >
                     { gallery.map(this.renderSlide) }
                 </Slider>

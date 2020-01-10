@@ -13,7 +13,6 @@ import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { TransformComponent } from 'react-zoom-pan-pinch';
 import Image from 'Component/Image';
-import './ProductGalleryImage.style';
 
 class ProductGalleryImage extends PureComponent {
     static propTypes = {
