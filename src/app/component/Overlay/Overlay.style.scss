@@ -26,7 +26,6 @@
     @include mobile {
         -webkit-overflow-scrolling: touch;
 
-        border-top: 1px solid var(--overlay-divider-color);
         position: fixed;
         top: var(--header-height);
         left: 0;
