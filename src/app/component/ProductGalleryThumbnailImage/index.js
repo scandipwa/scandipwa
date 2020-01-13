@@ -9,4 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default } from './ProductGalleryAdditionalMedia.component';
+export { default } from './ProductGalleryThumbnailImage.component';

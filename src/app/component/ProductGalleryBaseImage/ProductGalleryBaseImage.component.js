@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import { TransformComponent } from 'react-zoom-pan-pinch';
 import Image from 'Component/Image';
 
-class ProductGalleryImage extends PureComponent {
+class ProductGalleryBaseImage extends PureComponent {
     static propTypes = {
         src: PropTypes.string.isRequired,
         alt: PropTypes.string.isRequired
@@ -47,4 +47,4 @@ class ProductGalleryImage extends PureComponent {
     }
 }
 
-export default ProductGalleryImage;
+export default ProductGalleryBaseImage;

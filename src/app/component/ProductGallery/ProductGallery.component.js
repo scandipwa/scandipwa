@@ -12,8 +12,8 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { TransformWrapper } from 'react-zoom-pan-pinch';
-import ProductGalleryAdditionalMedia from 'Component/ProductGalleryAdditionalMedia';
-import ProductGalleryImage from 'Component/ProductGalleryImage';
+import ProductGalleryThumbnailImage from 'Component/ProductGalleryThumbnailImage';
+import ProductGalleryBaseImage from 'Component/ProductGalleryBaseImage';
 import VideoThumbnail from 'Component/VideoThumbnail';
 import VideoPopup from 'Component/VideoPopup';
 import Slider from 'Component/Slider';
@@ -44,54 +44,32 @@ export default class ProductGallery extends PureComponent {
                 alt: PropTypes.string,
                 type: PropTypes.string
             })
-        ).isRequired
+        ).isRequired,
+        isZoomEnabled: PropTypes.bool.isRequired,
+        activeImage: PropTypes.number.isRequired,
+        onActiveImageChange: PropTypes.func.isRequired,
+        handleZoomChange: PropTypes.func.isRequired,
+        disableZoom: PropTypes.func.isRequired
     };
 
     maxScale = MAX_ZOOM_SCALE;
-
-    state = {
-        activeImage: 0,
-        isZoomEnabled: false
-    };
 
     constructor(props, context) {
         super(props, context);
         this.renderSlide = this.renderSlide.bind(this);
     }
 
-    onActiveImageChange = (activeImage) => {
-        this.setState({
-            activeImage,
-            isZoomEnabled: false
-        });
-    };
+    renderAdditionalPicture = (media, index = 0) => {
+        const { onActiveImageChange } = this.props;
 
-    renderAdditionalPicture = (media, index = 0) => (
-        <ProductGalleryAdditionalMedia
-          key={ index }
-          media={ media }
-          index={ index }
-          onActiveImageChange={ this.onActiveImageChange }
-        />
-    );
-
-    handleZoomStart = () => {
-        const { isZoomEnabled } = this.state;
-        if (isZoomEnabled) return;
-
-        document.body.classList.add('overscrollPrevented');
-        this.setState({ isZoomEnabled: true });
-    };
-
-    disableZoom = () => {
-        document.body.classList.remove('overscrollPrevented');
-        this.setState({ isZoomEnabled: false });
-    };
-
-    handleZoomChange = (args) => {
-        if (args.scale > 1) {
-            this.handleZoomStart();
-        }
+        return (
+            <ProductGalleryThumbnailImage
+              key={ index }
+              media={ media }
+              index={ index }
+              onActiveImageChange={ onActiveImageChange }
+            />
+        );
     };
 
     /**
@@ -133,12 +111,12 @@ export default class ProductGallery extends PureComponent {
      * @private
      */
     renderImage(mediaData, index) {
-        const { isZoomEnabled } = this.state;
+        const { isZoomEnabled, handleZoomChange, disableZoom } = this.props;
 
         return (
             <TransformWrapper
               key={ index }
-              onZoomChange={ this.handleZoomChange }
+              onZoomChange={ handleZoomChange }
               pan={ {
                   disabled: !isZoomEnabled,
                   limitToWrapperBounds: true,
@@ -155,12 +133,12 @@ export default class ProductGallery extends PureComponent {
                     }
 
                     return (
-                        <ProductGalleryImage
+                        <ProductGalleryBaseImage
                           index={ index }
                           mediaData={ mediaData }
                           scale={ scale }
                           previousScale={ previousScale }
-                          disableZoom={ this.disableZoom }
+                          disableZoom={ disableZoom }
                           isZoomEnabled={ isZoomEnabled }
                         />
                     );
@@ -209,8 +187,12 @@ export default class ProductGallery extends PureComponent {
     }
 
     renderSlider() {
-        const { gallery } = this.props;
-        const { activeImage, isZoomEnabled } = this.state;
+        const {
+            gallery,
+            activeImage,
+            isZoomEnabled,
+            onActiveImageChange
+        } = this.props;
 
         return (
             <div>
@@ -218,7 +200,7 @@ export default class ProductGallery extends PureComponent {
                   mix={ { block: 'ProductGallery', elem: 'Slider' } }
                   showCrumbs
                   activeImage={ activeImage }
-                  onActiveImageChange={ this.onActiveImageChange }
+                  onActiveImageChange={ onActiveImageChange }
                   isInteractionDisabled={ isZoomEnabled }
                 >
                     { gallery.map(this.renderSlide) }

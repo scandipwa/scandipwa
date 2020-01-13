@@ -11,14 +11,13 @@
 
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-
 import { IMAGE_TYPE, VIDEO_TYPE, PLACEHOLDER_TYPE } from 'Component/ProductGallery/ProductGallery.component';
 import media, { PRODUCT_MEDIA } from 'Util/Media';
 import Image from 'Component/Image';
 
-import './ProductGalleryAdditionalMedia.style';
+import './ProductGalleryThumbnailImage.style';
 
-export default class ProductGalleryAdditionalMedia extends PureComponent {
+export default class ProductGalleryThumbnailImage extends PureComponent {
     static propTypes = {
         media: PropTypes.shape({
             label: PropTypes.string,
@@ -53,7 +52,7 @@ export default class ProductGalleryAdditionalMedia extends PureComponent {
         return (
             <Image
               ratio="custom"
-              mix={ { block: 'ProductGalleryAdditionalMedia' } }
+              mix={ { block: 'ProductGalleryThumbnailImage' } }
               isPlaceholder
             />
         );
@@ -72,7 +71,7 @@ export default class ProductGalleryAdditionalMedia extends PureComponent {
               ratio="custom"
               src={ url }
               alt={ label }
-              mix={ { block: 'ProductGalleryAdditionalMedia' } }
+              mix={ { block: 'ProductGalleryThumbnailImage' } }
             />
         );
     }
@@ -93,7 +92,7 @@ export default class ProductGalleryAdditionalMedia extends PureComponent {
               src={ src }
               alt={ alt }
               ratio="custom"
-              mix={ { block: 'ProductGalleryAdditionalMedia' } }
+              mix={ { block: 'ProductGalleryThumbnailImage' } }
             />
         );
     }
@@ -101,7 +100,7 @@ export default class ProductGalleryAdditionalMedia extends PureComponent {
     render() {
         return (
             <button
-              block="ProductGalleryAdditionalMedia"
+              block="ProductGalleryThumbnailImage"
               onClick={ this.onActiveImageChange }
             >
                 { this.renderMedia() }

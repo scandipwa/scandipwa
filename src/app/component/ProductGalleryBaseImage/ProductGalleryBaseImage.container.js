@@ -12,9 +12,9 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import media, { PRODUCT_MEDIA } from 'Util/Media/Media';
-import ProductGallery from './ProductGalleryImage.component';
+import ProductGallery from './ProductGalleryBaseImage.component';
 
-export class ProductGalleryImageContainer extends PureComponent {
+export class ProductGalleryBaseImageContainer extends PureComponent {
     static propTypes = {
         disableZoom: PropTypes.func.isRequired,
         scale: PropTypes.number.isRequired,
@@ -71,4 +71,4 @@ export class ProductGalleryImageContainer extends PureComponent {
     }
 }
 
-export default ProductGalleryImageContainer;
+export default ProductGalleryBaseImageContainer;
