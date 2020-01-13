@@ -17,14 +17,13 @@ import CSS from 'Util/CSS';
 import { MixType, ChildrenType } from 'Type/Common';
 import Draggable from 'Component/Draggable';
 import './Slider.style';
-
-export const ANIMATION_DURATION = 300;
-export const ACTIVE_SLIDE_PERCENT = 0.1;
-
 import {
     TABLET_WIDTH,
     DESKTOP_WIDTH
 } from 'Component/SliderWidget/SliderWidget.component';
+
+export const ANIMATION_DURATION = 300;
+export const ACTIVE_SLIDE_PERCENT = 0.1;
 
 
 /**
@@ -47,7 +46,10 @@ export default class Slider extends PureComponent {
         activeImage: 0,
         onActiveImageChange: () => {},
         showCrumbs: false,
-        mix: {}
+        mix: {},
+        slidesOnDesktop: 1,
+        slidesOnTablet: 1,
+        slidesOnMobile: 1
     };
 
     sliderWidth = 0;
@@ -118,7 +120,9 @@ export default class Slider extends PureComponent {
 
     componentDidUpdate(prevProps) {
         const { activeImage: prevActiveImage } = prevProps;
-        const { activeImage } = this.props;
+        const { activeImage, children } = this.props;
+
+        this.slidesQty = children.length;
 
         if (activeImage !== prevActiveImage) {
             const newTranslate = Math.max(-activeImage * this.slideWidth, -this.getDraggableAreaWidth());
@@ -141,6 +145,7 @@ export default class Slider extends PureComponent {
         const { slidesOnDesktop, slidesOnTablet, slidesOnMobile } = this.props;
         const { offsetWidth: sliderWidth = 0 } = this.draggableRef.current || {};
         this.sliderWidth = sliderWidth;
+
         if (window.innerWidth >= DESKTOP_WIDTH) {
             const slidesQtyPerPage = slidesOnDesktop || 1;
             this.setState({ slidesQtyPerPage });
@@ -154,6 +159,7 @@ export default class Slider extends PureComponent {
             this.setState({ slidesQtyPerPage });
             this.slideWidth = sliderWidth / slidesQtyPerPage;
         }
+
         this.changeActiveImage(0);
     };
 
@@ -326,8 +332,6 @@ export default class Slider extends PureComponent {
         const {
             showCrumbs, mix, activeImage, children
         } = this.props;
-
-        this.slidesQty = this.props.children.length;
 
         return (
             <div
