@@ -113,17 +113,20 @@ export default class CheckoutOrderSummary extends PureComponent {
                 tax_amount,
                 grand_total,
                 shipping_amount
+            },
+            paymentTotals: {
+                base_grand_total
             }
         } = this.props;
 
         return (
             <div block="CheckoutOrderSummary" elem="OrderTotals">
                 <ul>
-                    { this.renderPriceLine(shipping_amount, __('Shipping'), { divider: true }) }
                     { this.renderPriceLine(subtotal, __('Cart Subtotal')) }
+                    { this.renderPriceLine(shipping_amount, __('Shipping'), { divider: true }) }
                     { this.renderCouponCode() }
                     { this.renderPriceLine(tax_amount, __('Tax')) }
-                    { this.renderPriceLine(grand_total, __('Order total')) }
+                    { this.renderPriceLine(base_grand_total || grand_total, __('Order total')) }
                 </ul>
             </div>
         );

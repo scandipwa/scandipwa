@@ -13,6 +13,7 @@ import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import { BRAINTREE, KLARNA } from 'Component/CheckoutPayments/CheckoutPayments.component';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 import CartDispatcher from 'Store/Cart/Cart.dispatcher';
 import { fetchMutation, fetchQuery } from 'Util/Request';
@@ -24,9 +25,8 @@ import CheckoutQuery from 'Query/Checkout.query';
 import { GUEST_QUOTE_ID } from 'Store/Cart';
 import { TotalsType } from 'Type/MiniCart';
 import { HistoryType } from 'Type/Common';
-
 import { isSignedIn } from 'Util/Auth';
-import { BRAINTREE, KLARNA } from 'Component/CheckoutPayments/CheckoutPayments.component';
+
 import Checkout, { SHIPPING_STEP, BILLING_STEP, DETAILS_STEP } from './Checkout.component';
 
 export const PAYMENT_TOTALS = 'PAYMENT_TOTALS';
@@ -127,6 +127,11 @@ export class CheckoutContainer extends PureComponent {
 
     setDetailsStep(orderID) {
         const { resetCart } = this.props;
+
+        // For some reason not logged in user cart preserves qty in it
+        if (!isSignedIn()) {
+            BrowserDatabase.deleteItem(GUEST_QUOTE_ID);
+        }
 
         BrowserDatabase.deleteItem(PAYMENT_TOTALS);
         resetCart();

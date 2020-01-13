@@ -59,14 +59,11 @@ export class AddToCartContainer extends PureComponent {
         buttonClick: this.buttonClick.bind(this)
     };
 
-    containerProps = () => ({
-        isDisabled: this._getIsDisabled()
-    });
-
-    _getIsDisabled() {
+    _validateAddToCart() {
         const {
             configurableVariantIndex,
             groupedProductQuantity,
+            showNotification,
             product,
             product: {
                 type_id,
@@ -75,20 +72,40 @@ export class AddToCartContainer extends PureComponent {
             }
         } = this.props;
 
-        const { isLoading } = this.state;
-        if (isLoading) return true;
-
         switch (type_id) {
         case CONFIGURABLE:
-            if (!variants[configurableVariantIndex]) return true;
+            if (configurableVariantIndex < 0 || !variants[configurableVariantIndex]) {
+                showNotification('error', __('Please select product options!'));
+                return false;
+            }
+
             const { stock_status: configurableStock } = variants[configurableVariantIndex];
-            return configurableStock !== 'IN_STOCK';
+
+            if (configurableStock !== 'IN_STOCK') {
+                showNotification('error', __('Sorry! The selected product option is out of stock!'));
+                return false;
+            }
+
+            break;
         case GROUPED:
-            return items.every(({ product: { id } }) => !groupedProductQuantity[id]);
+            const isAllItemsAvailable = items.every(({ product: { id } }) => groupedProductQuantity[id]);
+
+            if (!isAllItemsAvailable) {
+                showNotification('error', __('Sorry! Child product quantities are invalid!'));
+                return false;
+            }
+
+            break;
         default:
             const { stock_status } = product;
-            return stock_status !== 'IN_STOCK';
+
+            if (stock_status !== 'IN_STOCK') {
+                showNotification('error', __('Sorry! The product is out of stock!'));
+                return false;
+            }
         }
+
+        return true;
     }
 
     buttonClick() {
@@ -99,13 +116,17 @@ export class AddToCartContainer extends PureComponent {
             quantity,
             addProduct
         } = this.props;
+
         const { variants, type_id } = product;
+
+        if (!this._validateAddToCart()) return;
 
         this.setState({ isLoading: true });
 
         if (type_id === 'grouped') {
             const { items } = product;
-            return Promise.all(items.map((item) => {
+
+            Promise.all(items.map((item) => {
                 const { product: groupedProductItem } = item;
 
                 groupedProductItem.parent = product;
@@ -117,6 +138,8 @@ export class AddToCartContainer extends PureComponent {
                     quantity
                 });
             })).then(() => this._afterAdded());
+
+            return;
         }
 
         const productToAdd = variants
@@ -126,7 +149,7 @@ export class AddToCartContainer extends PureComponent {
             }
             : product;
 
-        return addProduct({
+        addProduct({
             product: productToAdd,
             quantity
         }).then(() => this._afterAdded());
@@ -144,15 +167,15 @@ export class AddToCartContainer extends PureComponent {
 
         const { sku } = variants[configurableVariantIndex];
 
-        const wishilistItemKey = Object.keys(wishlistItems)
+        const wishlistItemKey = Object.keys(wishlistItems)
             .find((key) => {
                 const { wishlist: { sku: wSku } } = wishlistItems[key];
                 return wSku === sku;
             });
 
-        if (!isSignedIn() || wishilistItemKey === undefined) return;
+        if (!isSignedIn() || wishlistItemKey === undefined) return;
 
-        const { wishlist: { id: item_id } } = wishlistItems[wishilistItemKey];
+        const { wishlist: { id: item_id } } = wishlistItems[wishlistItemKey];
         removeFromWishlist({ item_id, sku, noMessage: true });
     }
 
@@ -162,7 +185,7 @@ export class AddToCartContainer extends PureComponent {
             setQuantityToDefault
         } = this.props;
 
-        showNotification('success', 'Product added to cart!');
+        showNotification('success', __('Product added to cart!'));
         setQuantityToDefault();
 
         this.removeProductFromWishlist();
@@ -175,7 +198,6 @@ export class AddToCartContainer extends PureComponent {
               { ...this.props }
               { ...this.state }
               { ...this.containerFunctions }
-              { ...this.containerProps() }
             />
         );
     }
