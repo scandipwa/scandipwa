@@ -97,7 +97,7 @@ module.exports = {
                     {
                         loader: 'sass-resources-loader',
                         options: {
-                            resources: path.resolve(fallbackRoot, 'src', 'app', 'style', 'abstract', '_abstract.scss')
+                            resources: 'src/app/style/abstract/_abstract.scss'
                         }
                     }
                 ]

@@ -10,10 +10,10 @@
  */
 
 :root {
-    --checkout-address-table-border: #{$concrete};
-    --checkout-address-table-hover-border: #{transparentize($dusty-grey, .6)};
-    --checkout-address-table-check-mark-hover-color: #{darken(transparentize($dusty-grey, .6), 50)};
-    --checkout-address-selected-color: #{$primary-base-color};
+    --checkout-address-table-border: var(--secondary-base-color);
+    --checkout-address-table-hover-border: var(--secondary-base-color);
+    --checkout-address-table-check-mark-hover-color: var(--secondary-dark-color);
+    --checkout-address-selected-color: var(--primary-base-color);
     --checkout-address-table-check-mark-selected-color: var(--checkout-address-table-border);
 }
 

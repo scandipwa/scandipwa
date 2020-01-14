@@ -129,7 +129,7 @@ export default class ProductReviewForm extends PureComponent {
                 >
                     <Field
                       type="text"
-                      label="Nickname"
+                      label={ __('Nickname') }
                       id="nickname"
                       name="nickname"
                       validation={ ['notEmpty'] }
@@ -138,7 +138,7 @@ export default class ProductReviewForm extends PureComponent {
                     />
                     <Field
                       type="text"
-                      label="Summary"
+                      label={ __('Summary') }
                       id="title"
                       name="title"
                       validation={ ['notEmpty'] }
@@ -147,7 +147,7 @@ export default class ProductReviewForm extends PureComponent {
                     />
                     <Field
                       type="textarea"
-                      label="Review"
+                      label={ __('Review') }
                       id="detail"
                       name="detail"
                       validation={ ['notEmpty'] }

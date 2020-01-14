@@ -146,9 +146,7 @@ export class MyAccountQuery {
             'customer_id',
             'country_id',
             'street',
-            'company',
             'telephone',
-            'fax',
             'postcode',
             'city',
             'firstname',
@@ -156,7 +154,6 @@ export class MyAccountQuery {
             'middlename',
             'prefix',
             'suffix',
-            'vat_id',
             'default_shipping',
             'default_billing',
             this._getRegionField()

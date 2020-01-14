@@ -28,7 +28,7 @@ class CartItemPrice extends PureComponent {
         return (
             <p block="ProductPrice" aria-label={ __('Product Price') } mix={ mix }>
                 <span aria-label={ __('Current product price') }>
-                    <data value={ price }>{ `${price}${formatCurrency(currency_code)}` }</data>
+                    <data value={ price }>{ `${formatCurrency(currency_code)}${price}` }</data>
                 </span>
             </p>
         );

@@ -149,6 +149,7 @@ export class CheckoutQuery {
         return [
             'subtotal',
             'tax_amount',
+            'base_grand_total',
             'grand_total',
             'discount_amount',
             'shipping_amount',

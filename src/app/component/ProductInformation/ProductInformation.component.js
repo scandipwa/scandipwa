@@ -83,7 +83,7 @@ export default class ProductInformation extends PureComponent {
     renderContentWrapper() {
         return (
             <ExpandableContent
-              heading="Product information"
+              heading={ __('Product information') }
               mix={ { block: 'ProductInformation', elem: 'Content' } }
             >
                 { this.renderContent() }

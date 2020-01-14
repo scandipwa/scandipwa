@@ -101,7 +101,7 @@ export class CheckoutGuestFormContainer extends PureComponent {
         const mutation = CheckoutQuery.getSaveGuestEmailMutation(email, guestCartId);
 
         return fetchMutation(mutation).then(
-            this._setEmailAsSubmitted(),
+            this._setEmailAsSubmitted,
             () => this.setState({ isSubmitted: false })
         );
     }

@@ -10,8 +10,8 @@
  */
 
 a {
-    --link-color: #{$primary-base-color};
-    --link-hover: #{$primary-dark-color};
+    --link-color: var(--primary-base-color);
+    --link-hover: var(--primary-dark-color);
 
     color: var(--link-color);
 

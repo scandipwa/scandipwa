@@ -27,17 +27,17 @@ class MyAccountCustomerTable extends KeyValueTable {
         return [
             {
                 key: 'firstname',
-                label: 'First name',
+                label: __('First name'),
                 source: customer
             },
             {
                 key: 'lastname',
-                label: 'Last name',
+                label: __('Last name'),
                 source: customer
             },
             {
                 key: 'email',
-                label: 'Email',
+                label: __('Email'),
                 source: customer
             }
         ];

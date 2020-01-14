@@ -10,7 +10,7 @@
  */
 
 :root {
-    --search-criteria-background: #{$concrete};
+    --search-criteria-background: var(--secondary-base-color);
     --search-criteria-label-color: rgba(10, 10, 10, .44);
     --search-criteria-search-term-color: #0a0a0a;
     --search-item-divider-color: #eee;

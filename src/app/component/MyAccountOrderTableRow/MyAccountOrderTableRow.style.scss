@@ -10,7 +10,7 @@
  */
 
 :root {
-    --my-account-order-table-row-hover-background: #{$concrete};
+    --my-account-order-table-row-hover-background: var(--secondary-base-color);
 }
 
 .MyAccountOrderTableRow {
