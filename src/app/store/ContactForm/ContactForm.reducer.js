@@ -12,8 +12,8 @@
 import { UPDATE_CONTACT_FORM } from './ContactForm.action';
 
 export const initialState = {
-    success  : false,
-    error  : false,
+    success: false,
+    error: false
 };
 
 const ContactFormReducer = (state = initialState, action) => {
@@ -23,9 +23,9 @@ const ContactFormReducer = (state = initialState, action) => {
     } = action;
 
     switch (type) {
-        case UPDATE_CONTACT_FORM:
+    case UPDATE_CONTACT_FORM:
 
-        return {...state, ...data};
+        return { ...state, ...data };
 
     default:
         return state;
