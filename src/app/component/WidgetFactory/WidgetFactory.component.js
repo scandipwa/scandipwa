@@ -13,10 +13,12 @@ import PropTypes from 'prop-types';
 import HomeSlider from 'Component/SliderWidget';
 import NewProducts from 'Component/NewProducts';
 import ProductListWidget from 'Component/ProductListWidget';
+import ContactForm from 'Component/ContactForm';
 
 export const SLIDER = 'Slider';
 export const NEW_PRODUCTS = 'NewProducts';
 export const CATALOG_PRODUCT_LIST = 'CatalogProductList';
+export const CONTACT_FORM = 'ContactForm';
 
 export default class WidgetFactory extends PureComponent {
     static propTypes = {
@@ -32,6 +34,9 @@ export default class WidgetFactory extends PureComponent {
         },
         [CATALOG_PRODUCT_LIST]: {
             component: ProductListWidget
+        },
+        [CONTACT_FORM]: {
+            component: ContactForm
         }
     };
 
