@@ -29,7 +29,10 @@ export class Slider {
         return [
             this._getSlidesField(),
             'slider_id',
-            'title'
+            'title',
+            'slides_to_display',
+            'slides_to_display_tablet',
+            'slides_to_display_mobile'
         ];
     }
 
