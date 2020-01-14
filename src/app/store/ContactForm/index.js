@@ -11,4 +11,6 @@
 
 export * from './ContactForm.action';
 export { default as ContactFormReducer } from './ContactForm.reducer';
-export { default as ContactFormDispatcher, ContactFormDispatcher as ContactFormDispatcherClass } from './ContactForm.dispatcher';
+export {
+    default as ContactFormDispatcher, ContactFormDispatcher as ContactFormDispatcherClass
+} from './ContactForm.dispatcher';
