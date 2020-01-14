@@ -244,5 +244,7 @@
     "item": "element",
     "qty": "Ilość",
     "shipping": "wysyłki",
-    "subtotal": "Podsuma"
+    "subtotal": "Podsuma",
+    "Send message": "Wyślij wiadomość",
+    "Message": "Wiadomość"
 }
