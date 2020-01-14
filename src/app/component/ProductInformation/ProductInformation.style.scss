@@ -10,7 +10,7 @@
  */
 
 :root {
-    --product-information-background: #{$concrete};
+    --product-information-background: var(--secondary-base-color);
 }
 
 .ProductInformation {

@@ -8,14 +8,8 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-
-.ProductGalleryAdditionalMedia {
-    @include after-mobile {
-        display: block;
-        height: 100%;
-    }
-
-    img {
-        object-fit: cover;
+.ResetButton {
+    @include mobile {
+        display: none;
     }
 }

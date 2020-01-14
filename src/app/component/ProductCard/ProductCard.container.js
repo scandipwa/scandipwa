@@ -93,11 +93,12 @@ export class ProductCardContainer extends PureComponent {
 
     _getThumbnail() {
         const product = this._getProductOrVariant();
-        const { thumbnail: { path } = {} } = product;
-        if (this._isThumbnailAvailable(path)) return path;
+        const { small_image: { url } = {} } = product;
+        if (this._isThumbnailAvailable(url)) return url;
+
         // If thumbnail is, missing we try to get image from parent
-        const { product: { thumbnail: { path: parentPath } = {} } } = this.props;
-        if (this._isThumbnailAvailable(parentPath)) return parentPath;
+        const { product: { small_image: { url: parentUrl } = {} } } = this.props;
+        if (this._isThumbnailAvailable(parentUrl)) return parentUrl;
 
         return '';
     }

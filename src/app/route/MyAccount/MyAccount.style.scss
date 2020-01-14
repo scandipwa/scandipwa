@@ -13,7 +13,7 @@
     --my-account-content-background: #{$white};
 
     @include after-mobile {
-        --my-account-background: #{$concrete};
+        --my-account-background: var(--secondary-base-color);
     }
 }
 

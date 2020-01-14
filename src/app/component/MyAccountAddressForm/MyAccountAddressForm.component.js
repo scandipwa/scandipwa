@@ -142,16 +142,11 @@ class MyAccountAddressForm extends FieldForm {
                 label: __('Street address'),
                 value: street[0],
                 validation: ['notEmpty']
-            },
-            fax: {
-                label: __('Fax')
-            },
-            company: {
-                label: __('Company')
-            },
-            vat_id: {
-                label: __('VAT number')
             }
+            // Will be back with B2B update
+            // company: {
+            //     label: __('Company')
+            // }
         };
     }
 

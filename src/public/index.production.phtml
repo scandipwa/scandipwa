@@ -1,3 +1,8 @@
+<?php
+    $colorConfig = $this->getThemeConfiguration('color_customization');
+    $contentConfig = $this->getThemeConfiguration('content_customization');
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -13,9 +18,9 @@
             window.actionName = {
                 type: `<?= $this->getAction(); ?>`
             };
-        </script>
-        <script src="https://js.stripe.com/v3/"></script>
 
+            window.contentConfiguration = <?= json_encode($contentConfig) ?> || {};
+        </script>
         <script src="https://js.stripe.com/v3/" async></script>
 
         <!-- TODO: Find or implement helper to generate fonts related code -->
@@ -25,7 +30,21 @@
         <link rel="preload" href="<?= $this->getStaticFile("assets/font/MuliBold.woff2"); ?>" as="font" type="font/woff2" crossorigin="">
         <link rel="preload" href="<?= $this->getStaticFile("assets/font/MuliExtraBold.woff2"); ?>" as="font" type="font/woff2" crossorigin="">
 
+        <!-- TEST if this works -->
+        <link rel="preload" href="<?= $this->getStaticFile("main.css"); ?>" as="style">
+
         <style>
+            <?php if ($colorConfig['enable_color_customization']['enable_custom_colors'] !== "0"): ?>
+                <?php $colorArray = $colorConfig['primary_colors'] + $colorConfig['secondary_colors']; ?>
+                :root {
+                    <?php foreach ($colorArray as $code => $color): ?>
+                        <?php if (strpos($code, 'color') !== false): ?>
+                            <?= sprintf('--imported_%s: #%s;', $code, $color); ?>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                }
+            <?php endif; ?>
+
             @font-face {
                 font-family: 'Muli';
                 font-style: normal;

@@ -263,7 +263,7 @@ export default class Header extends PureComponent {
                             <input
                               id="search-field"
                               ref={ this.searchBarRef }
-                              placeholder="Type a new search"
+                              placeholder={ __('Type a new search') }
                               block="Header"
                               elem="SearchField"
                               onClick={ onSearchBarClick }

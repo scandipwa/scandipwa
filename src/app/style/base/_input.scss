@@ -18,7 +18,7 @@
 input,
 textarea,
 select {
-    --input-color: #{$primary-base-color};
+    --input-color: var(--primary-base-color);
 
     border: 1px solid var(--input-border-color);
     background-color: var(--input-background-color);

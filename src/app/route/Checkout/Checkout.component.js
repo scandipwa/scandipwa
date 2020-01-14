@@ -22,8 +22,10 @@ import { CHECKOUT } from 'Component/Header';
 import { addressType } from 'Type/Account';
 import { TotalsType } from 'Type/MiniCart';
 import { HistoryType } from 'Type/Common';
+import CmsBlock from 'Component/CmsBlock';
 import Loader from 'Component/Loader';
 import Meta from 'Component/Meta';
+import Link from 'Component/Link';
 
 import './Checkout.style';
 
@@ -163,13 +165,13 @@ class Checkout extends PureComponent {
             <div block="Checkout" elem="Success">
                 <p>{ __('Your order # is: %s', orderID) }</p>
                 <p>{ __('We`ll email you an order confirmation with details and tracking info.') }</p>
-                <a
+                <Link
                   block="Button"
                   mix={ { block: 'Checkout', elem: 'ContinueButton' } }
-                  href="/"
+                  to="/"
                 >
                     { __('Continue shopping') }
-                </a>
+                </Link>
             </div>
         );
     }
@@ -187,14 +189,29 @@ class Checkout extends PureComponent {
     }
 
     renderSummary() {
-        const { checkoutTotals, checkoutStep } = this.props;
+        const { checkoutTotals, checkoutStep, paymentTotals } = this.props;
         const { areTotalsVisible } = this.stepMap[checkoutStep];
 
         if (!areTotalsVisible) return null;
 
         return (
-            <CheckoutOrderSummary totals={ checkoutTotals } />
+            <CheckoutOrderSummary totals={ checkoutTotals } paymentTotals={ paymentTotals } />
         );
+    }
+
+    renderPromo() {
+        const { checkoutStep } = this.props;
+        const isBilling = checkoutStep === BILLING_STEP;
+
+        const {
+            checkout_content: {
+                [isBilling ? 'checkout_billing_cms' : 'checkout_shipping_cms']: promo
+            } = {}
+        } = window.contentConfiguration;
+
+        if (!promo) return null;
+
+        return <CmsBlock identifiers={ [promo] } />;
     }
 
     render() {
@@ -211,7 +228,10 @@ class Checkout extends PureComponent {
                         { this.renderStep() }
                         { this.renderLoader() }
                     </div>
-                    { this.renderSummary() }
+                    <div>
+                        { this.renderSummary() }
+                        { this.renderPromo() }
+                    </div>
                 </ContentWrapper>
             </main>
         );

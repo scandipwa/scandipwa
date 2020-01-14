@@ -123,11 +123,21 @@
         color: var(--product-actions-option-border-color);
     }
 
-    &-AddToCart {
-        margin-left: 10px;
+    &-GroupedItems {
+        order: 3;
 
+        @include before-desktop {
+            padding: 1rem;
+        }
+
+        @include desktop {
+            margin-bottom: 2.5rem;
+        }
+    }
+
+    &-AddToCart {
         @include mobile {
-            margin: 1rem 1rem;
+            margin: 1rem .25rem;
             width: calc(100% - 2rem);
         }
     }
@@ -246,12 +256,6 @@
                     display: none;
                 }
             }
-
-            &_grouped {
-                @include after-mobile {
-                    margin-bottom: 1.5rem;
-                }
-            }
         }
     }
 
@@ -309,6 +313,10 @@
         margin-top: 0;
         display: inline-block;
         vertical-align: middle;
+
+        + .ProductActions-AddToCart {
+            margin-left: 10px;
+        }
 
         @include mobile {
             display: none;

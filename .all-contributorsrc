@@ -241,7 +241,8 @@
       "avatar_url": "https://avatars2.githubusercontent.com/u/8639654?v=4",
       "profile": "http://teomedia.dk",
       "contributions": [
-        "bug"
+        "bug",
+        "translation"
       ]
     },
     {
@@ -312,6 +313,44 @@
       "profile": "https://github.com/kiran-codilar",
       "contributions": [
         "code"
+      ]
+    },
+    {
+      "login": "krystian15",
+      "name": "krystian15",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/31726767?v=4",
+      "profile": "https://github.com/krystian15",
+      "contributions": [
+        "bug",
+        "code",
+        "translation"
+      ]
+    },
+    {
+      "login": "negzu",
+      "name": "Yegor Batov",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/46347627?v=4",
+      "profile": "https://github.com/negzu",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "lsv",
+      "name": "Martin Århof",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/20708?v=4",
+      "profile": "https://aarhof.eu",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "yashkumarsharma",
+      "name": "yashkumarsharma",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/386162?v=4",
+      "profile": "https://github.com/yashkumarsharma",
+      "contributions": [
+        "bug"
       ]
     }
   ],

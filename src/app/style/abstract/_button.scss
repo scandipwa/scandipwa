@@ -8,6 +8,10 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+@mixin button-disabled {
+    opacity: .25;
+    cursor: not-allowed;
+}
 
 @mixin button {
     text-decoration: none; // because we never need underlines in buttons
@@ -44,8 +48,7 @@
     }
 
     &[disabled] {
-        opacity: .25;
-        cursor: not-allowed;
+        @include button-disabled();
     }
 
     &_isHollow {
@@ -57,10 +60,10 @@
     &_likeLink {
         --button-border: transparent;
         --button-background: transparent;
-        --button-color: #{$primary-base-color};
+        --button-color: var(--primary-base-color);
         --button-hover-border: transparent;
         --button-hover-background: transparent;
-        --button-hover-color: #{$primary-base-color};
+        --button-hover-color: var(--primary-base-color);
 
         text-transform: none;
         margin: 0;
