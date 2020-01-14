@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
+import { PureComponent, createRef } from 'react';
 
 import Form from 'Component/Form';
 import Field from 'Component/Field';
@@ -17,6 +17,12 @@ import Field from 'Component/Field';
 import './FieldForm.style';
 
 class FieldForm extends PureComponent {
+
+    constructor(props) {
+        super(props);
+        this.fieldForm = createRef();
+    }
+
     onFormSuccess() {
         // TODO: implement
     }
@@ -67,9 +73,13 @@ class FieldForm extends PureComponent {
     }
 
     render() {
+        const { formKey } = this.state || {};
+
         return (
             <Form
+              key={formKey}
               onSubmitSuccess={ this.onFormSuccess }
+              ref={this.fieldForm}
               mix={ { block: 'FieldForm' } }
             >
                 { this.renderFields() }
