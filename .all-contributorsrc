@@ -352,6 +352,15 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "pwalus",
+      "name": "Patryk Waluś",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/22379159?v=4",
+      "profile": "https://github.com/pwalus",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
