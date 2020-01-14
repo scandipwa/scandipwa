@@ -39,20 +39,13 @@ export class NavigationAbstractContainer extends PureComponent {
         prevPathname: ''
     };
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            ...this.state,
-            ...this.onRouteChanged(history.location, true)
-        };
-    }
-
     componentDidMount() {
+        const { setNavigationState } = this.props;
+        setNavigationState(this.getNavigationState(location.pathname));
         history.listen(history => this.setState(this.onRouteChanged(history)));
     }
 
-    onRouteChanged(history, isPrevPathnameNotRelevant = false) {
+    onRouteChanged(history) {
         const { prevPathname } = this.state;
         const { pathname } = history;
 
@@ -60,11 +53,18 @@ export class NavigationAbstractContainer extends PureComponent {
             return this.handleDesktopRouteChange(history);
         }
 
-        if (!isPrevPathnameNotRelevant && prevPathname === pathname) {
+        if (prevPathname === pathname) {
             return {};
         }
 
         return this.handleMobileRouteChange(history);
+    }
+
+    getNavigationState(pathname) {
+        const activeRoute = Object.keys(this.routeMap)
+            .find(route => pathname.includes(route));
+
+        return this.routeMap[activeRoute] || this.default_state;
     }
 
     handleMobileRouteChange(history) {
@@ -76,12 +76,8 @@ export class NavigationAbstractContainer extends PureComponent {
 
         const { pathname } = history;
 
-        // Find which route is now active
-        const activeRoute = Object.keys(this.routeMap)
-            .find(route => pathname.includes(route));
-
         // Find the new state name
-        const newNavigationState = this.routeMap[activeRoute] || this.default_state;
+        const newNavigationState = this.getNavigationState(pathname);
 
         // Update the state if new name is set
         if (name !== newNavigationState.name) {

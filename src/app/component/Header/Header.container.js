@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -26,7 +25,6 @@ import Header, {
     PDP,
     CATEGORY,
     CUSTOMER_ACCOUNT,
-    HOME_PAGE,
     MENU,
     MENU_SUBCATEGORY,
     SEARCH,
@@ -69,12 +67,12 @@ export class HeaderContainer extends NavigationAbstractContainer {
     };
 
     routeMap = {
-        '/': DEFAULT_STATE,
         '/category': { name: CATEGORY, onBackClick: () => history.push('/') },
         '/my-account': { name: CUSTOMER_ACCOUNT_PAGE, onBackClick: () => history.push('/') },
         '/product': { name: PDP, onBackClick: () => history.goBack() },
         '/cart': { name: CART },
-        '/page': { name: CMS_PAGE, onBackClick: () => history.goBack() }
+        '/page': { name: CMS_PAGE, onBackClick: () => history.goBack() },
+        '/': DEFAULT_STATE
     };
 
     containerFunctions = {
@@ -132,7 +130,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
 
         return {
             isClearEnabled,
-            ...super.handleMobileRouteChange()
+            ...super.handleMobileRouteChange(history)
         };
     }
 
@@ -325,4 +323,4 @@ export class HeaderContainer extends NavigationAbstractContainer {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(HeaderContainer));
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderContainer);

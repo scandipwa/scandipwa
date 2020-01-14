@@ -120,6 +120,7 @@ export class ProductListWidgetContainer extends PureComponent {
         if (!isNext) this.updateLoadStatus(true);
 
         const query = [ProductListQuery.getQuery(options)];
+
         executeGet(prepareQuery(query), 'ProductList', ONE_MONTH_IN_SECONDS)
             .then(isNext ? this.appendPage : this.updateProductListItems)
             .catch(this.onError);
