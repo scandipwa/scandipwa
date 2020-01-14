@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,15 +10,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import {PureComponent} from "react";
-import {connect} from "react-redux";
-import ContactForm from "./ContactForm.component";
-import {sendMessage} from "Store/ContactForm";
-import {ContactFormDispatcher} from 'Store/ContactForm';
+import { PureComponent } from 'react';
+import { connect } from 'react-redux';
+import { sendMessage, ContactFormDispatcher } from 'Store/ContactForm';
+
+import ContactForm from './ContactForm.component';
 
 export const mapStateToProps = state => ({
-    isLoading : state.ContactFormReducer.isLoading,
-    formSent : state.ContactFormReducer.formSent,
+    isLoading: state.ContactFormReducer.isLoading,
+    formSent: state.ContactFormReducer.formSent
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -28,10 +29,10 @@ class ContactFormContainer extends PureComponent {
     render() {
         return (
             <ContactForm
-                {...this.props}
-                {...this.containerFunctions}
+              { ...this.props }
+              { ...this.containerFunctions }
             />
-        )
+        );
     }
 }
 
