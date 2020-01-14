@@ -11,67 +11,63 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from "prop-types";
-import FieldForm from "Component/FieldForm";
+import './ContactForm.style';
+import PropTypes from 'prop-types';
+import FieldForm from 'Component/FieldForm';
 import Loader from 'Component/Loader';
 
 export default class ContactForm extends FieldForm {
-
     state = {
-        formKey : 0
+        formKey: 0
     };
 
     static propTypes = {
         sendMessage: PropTypes.func.isRequired,
-        isLoading : PropTypes.bool
+        isLoading: PropTypes.bool
     };
 
     static defaultProps = {
-        isLoading : false
+        isLoading: false
     };
 
     componentDidUpdate(prevProps) {
-
         if (!prevProps.formSent && this.props.formSent) {
             this.clearForm();
         }
     }
 
     clearForm() {
-        this.setState({
-            formKey : this.state.formKey + 1
-        });
+        this.setState(prevState => ({ formKey: prevState.formKey + 1 }));
     }
 
-    onFormSuccess = fields => {
+    onFormSuccess = (fields) => {
         const { sendMessage } = this.props;
         sendMessage(fields);
     };
 
     get fieldMap() {
-
         return {
             firstname: {
-                label: __("First name"),
-                validation: ["notEmpty"],
+                label: __('First name'),
+                validation: ['notEmpty']
             },
             lastname: {
-                label: __("Last name"),
-                validation: ["notEmpty"],
+                label: __('Last name'),
+                validation: ['notEmpty']
             },
             telephone: {
-                label: __("Phone number"),
-                validation: ["notEmpty"],
+                label: __('Phone number'),
+                validation: ['notEmpty']
             },
             email: {
-                label: __("Email"),
-                validation: ["notEmpty"],
+                label: __('Email'),
+                validation: ['notEmpty']
             },
             message: {
-                type: "textarea",
-                label: __("Message"),
-                validation: ["notEmpty"],
-            },
+                type: 'textarea',
+                label: __('Message'),
+                validation: ['notEmpty']
+            }
         };
     }
 
@@ -80,9 +76,9 @@ export default class ContactForm extends FieldForm {
 
         return (
             <>
-                <Loader isLoading={isLoading} />
+                <Loader isLoading={ isLoading } />
                 <button type="submit" block="Button">
-                    {__("Send message")}
+                    { __('Send message') }
                 </button>
             </>
         );
