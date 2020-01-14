@@ -266,5 +266,7 @@
     "item": null,
     "qty": null,
     "shipping": null,
-    "subtotal": null
+    "subtotal": null,
+    "Send message": null,
+    "Message": null,
 }
