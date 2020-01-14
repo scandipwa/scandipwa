@@ -9,10 +9,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import {fetchMutation, QueryDispatcher} from "Util/Request";
-import {ContactFormQuery} from "Query";
-import {showNotification} from "Store/Notification";
-import {updateContactForm} from './ContactForm.action';
+import { fetchMutation } from 'Util/Request';
+import { ContactFormQuery } from 'Query';
+import { showNotification } from 'Store/Notification';
+import { updateContactForm } from './ContactForm.action';
 
 /**
  * ContactForm Dispatcher
@@ -20,35 +20,35 @@ import {updateContactForm} from './ContactForm.action';
  * @extends QueryDispatcher
  */
 export class ContactFormDispatcher {
-
     prepareRequest(options, dispatch) {
         dispatch(updateContactForm({
             isLoading: true,
             success: false,
             error: false,
-            formSent : false
+            formSent: false
         }));
 
         return fetchMutation(
             ContactFormQuery.getSendContactFormMutation(options)
-        ).then(
-            data => {
-                dispatch(showNotification("success", data.contactForm.message));
-                dispatch(updateContactForm({
-                    success: true,
-                    isLoading: false,
-                    formSent : true
+        )
+            .then(
+                (data) => {
+                    dispatch(showNotification('success', data.contactForm.message));
+                    dispatch(updateContactForm({
+                        success: true,
+                        isLoading: false,
+                        formSent: true
 
-                }));
-            },
-            error => {
-                dispatch(showNotification("error", error[0].message));
-                dispatch(updateContactForm({
-                    error: true,
-                    isLoading: false
-                }));
-            }
-        );
+                    }));
+                },
+                (error) => {
+                    dispatch(showNotification('error', error[0].message));
+                    dispatch(updateContactForm({
+                        error: true,
+                        isLoading: false
+                    }));
+                }
+            );
     }
 }
 
