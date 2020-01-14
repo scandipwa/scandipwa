@@ -11,7 +11,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import "./ContactForm.style";
 import PropTypes from "prop-types";
 import FieldForm from "Component/FieldForm";
 import Loader from 'Component/Loader';
