@@ -27,3 +27,4 @@ export { default as PayPalQuery } from 'Query/PayPal.query';
 export { default as KlarnaQuery } from 'Query/Klarna.query';
 export { default as CheckoutQuery } from 'Query/Checkout.query';
 export { default as OrderQuery } from 'Query/Order.query';
+export { default as ContactFormQuery } from 'Query/ContactForm.query';
