@@ -17,29 +17,28 @@ import { Router } from 'react-router';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { createBrowserHistory } from 'history';
 
-import HomePage from 'Route/HomePage';
-import CategoryPage from 'Route/CategoryPage';
-import SearchPage from 'Route/SearchPage';
-import ProductPage from 'Route/ProductPage';
-import CmsPage from 'Route/CmsPage';
-import CartPage from 'Route/CartPage';
-import MyAccount from 'Route/MyAccount';
+import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
 import PasswordChangePage from 'Route/PasswordChangePage';
+import NotificationList from 'Component/NotificationList';
+import NavigationTabs from 'Component/NavigationTabs';
+import { WishlistDispatcher } from 'Store/Wishlist';
 import NoMatchHandler from 'Route/NoMatchHandler';
+import Breadcrumbs from 'Component/Breadcrumbs';
+import { ConfigDispatcher } from 'Store/Config';
+import CategoryPage from 'Route/CategoryPage';
 import UrlRewrites from 'Route/UrlRewrites';
+import { CartDispatcher } from 'Store/Cart';
+import ProductPage from 'Route/ProductPage';
+import SearchPage from 'Route/SearchPage';
+import MyAccount from 'Route/MyAccount';
 import Checkout from 'Route/Checkout';
-
+import HomePage from 'Route/HomePage';
 import Header from 'Component/Header';
 import Footer from 'Component/Footer';
-import Breadcrumbs from 'Component/Breadcrumbs';
-import NotificationList from 'Component/NotificationList';
-
+import CartPage from 'Route/CartPage';
+import CmsPage from 'Route/CmsPage';
 import Store from 'Store';
 
-import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
-import { ConfigDispatcher } from 'Store/Config';
-import { CartDispatcher } from 'Store/Cart';
-import { WishlistDispatcher } from 'Store/Wishlist';
 import SomethingWentWrong from './SomethingWentWrong';
 
 export const BEFORE_ITEMS_TYPE = 'BEFORE_ITEMS_TYPE';
@@ -57,6 +56,10 @@ class AppRouter extends PureComponent {
         {
             component: <Header />,
             position: 20
+        },
+        {
+            component: <NavigationTabs />,
+            position: 25
         },
         {
             component: <Breadcrumbs />,

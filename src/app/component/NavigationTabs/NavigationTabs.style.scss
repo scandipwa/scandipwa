@@ -1,0 +1,31 @@
+:root {
+    --navigation-tabs-height: 50px;
+}
+
+.NavigationTabs {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    background-color: var(--header-background);
+
+    @include mobile {
+        border-top: 1px solid var(--primary-divider-color);
+    }
+
+    @include after-mobile {
+        display: none;
+    }
+
+    &-Nav {
+        height: var(--header-nav-height);
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        padding: 0 1rem;
+        z-index: 20;
+        max-width: var(--content-wrapper-width);
+        margin: auto;
+    }
+}

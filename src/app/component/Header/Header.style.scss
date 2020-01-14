@@ -101,7 +101,7 @@
     background-color: var(--header-background);
 
     @include mobile {
-        border-bottom: 1px solid #0003;
+        border-bottom: 1px solid var(--primary-divider-color);
     }
 
     &_name {

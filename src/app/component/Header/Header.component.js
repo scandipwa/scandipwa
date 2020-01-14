@@ -232,23 +232,23 @@ export default class Header extends NavigationAbstract {
                       elem="SearchWrapper"
                       aria-label="Search"
                     >
-                            <input
-                              id="search-field"
-                              ref={ this.searchBarRef }
-                              placeholder={ __('Type a new search') }
-                              block="Header"
-                              elem="SearchField"
-                              onClick={ onSearchBarClick }
-                              onChange={ onSearchBarChange }
-                              value={ searchCriteria }
-                              mods={ {
-                                  isVisible: isSearchVisible,
-                                  type: 'searchField'
-                              } }
-                            />
-                            <SearchOverlay
-                              searchCriteria={ searchCriteria }
-                            />
+                        <input
+                          id="search-field"
+                          ref={ this.searchBarRef }
+                          placeholder={ __('Type a new search') }
+                          block="Header"
+                          elem="SearchField"
+                          onClick={ onSearchBarClick }
+                          onChange={ onSearchBarChange }
+                          value={ searchCriteria }
+                          mods={ {
+                              isVisible: isSearchVisible,
+                              type: 'searchField'
+                          } }
+                        />
+                        <SearchOverlay
+                          searchCriteria={ searchCriteria }
+                        />
                     </div>
                 </ClickOutside>
                 <button
