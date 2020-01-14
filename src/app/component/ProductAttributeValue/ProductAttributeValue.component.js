@@ -244,7 +244,6 @@ export default class ProductAttributeValue extends PureComponent {
             return (
                 <div
                   block="ProductAttributeValue"
-                  aria-hidden={ isNotAvailable }
                   mix={ mix }
                 >
                     { this.renderAttributeByType() }
