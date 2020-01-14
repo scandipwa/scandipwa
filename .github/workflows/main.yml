@@ -1,9 +1,9 @@
 name: CI
 
 on:
-  pull_request:
-    branches:
-    - redesing-navigation
+  push:
+    branches: 
+      - redesing-navigation
 
 jobs:
   build:
