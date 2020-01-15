@@ -1,4 +1,4 @@
-name: CI
+name: Lint
 
 on:
   push:
@@ -6,9 +6,8 @@ on:
       - redesing-navigation
 
 jobs:
-  build:
+  eslint:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - name: ESLint Action
-      uses: hallee/eslint-action@1.0.1
+      - uses: actions/checkout@v1
+      - uses: stefanoeb/eslint-action@1.0.2
