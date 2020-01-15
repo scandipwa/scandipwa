@@ -32,8 +32,6 @@
 }
 
 .MenuOverlay {
-    z-index: -1;
-
     @include after-mobile {
         top: var(--header-height);
         left: 0;
@@ -43,6 +41,7 @@
         transition-property: opacity, transform;
         transform: translateX(-100%);
         will-change: transform;
+        z-index: -1;
     }
 
     &_isVisible {

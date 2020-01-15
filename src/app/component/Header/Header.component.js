@@ -220,8 +220,10 @@ export default class Header extends NavigationAbstract {
 
     renderSearchField(isSearchVisible = false) {
         const {
-            searchCriteria, onSearchOutsideClick,
-            onSearchBarClick, onSearchBarChange
+            searchCriteria,
+            onSearchOutsideClick,
+            onSearchBarClick,
+            onSearchBarChange
         } = this.props;
 
         return (
@@ -431,10 +433,10 @@ export default class Header extends NavigationAbstract {
     }
 
     render() {
-        const { navigationState: { name } } = this.props;
+        const { navigationState: { name, isHiddenOnMobile } } = this.props;
 
         return (
-            <header block="Header" mods={ { name } }>
+            <header block="Header" mods={ { name, isHiddenOnMobile } }>
                 <nav block="Header" elem="Nav">
                     { this.renderNavigationState() }
                 </nav>

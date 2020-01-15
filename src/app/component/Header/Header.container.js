@@ -15,7 +15,8 @@ import PropTypes from 'prop-types';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { toggleOverlayByKey, hideActiveOverlay } from 'Store/Overlay';
-import { NavigationAbstractContainer, DEFAULT_STATE } from 'Component/NavigationAbstract/NavigationAbstract.container';
+import { NavigationAbstractContainer } from 'Component/NavigationAbstract/NavigationAbstract.container';
+import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.component';
 import { setQueryParams } from 'Util/Url';
 import { isSignedIn } from 'Util/Auth';
 import isMobile from 'Util/Mobile';
@@ -66,13 +67,18 @@ export class HeaderContainer extends NavigationAbstractContainer {
         isClearEnabled: false
     };
 
+    default_state = {
+        name: DEFAULT_STATE_NAME,
+        isHiddenOnMobile: true
+    };
+
     routeMap = {
         '/category': { name: CATEGORY, onBackClick: () => history.push('/') },
         '/my-account': { name: CUSTOMER_ACCOUNT_PAGE, onBackClick: () => history.push('/') },
         '/product': { name: PDP, onBackClick: () => history.goBack() },
         '/cart': { name: CART },
         '/page': { name: CMS_PAGE, onBackClick: () => history.goBack() },
-        '/': DEFAULT_STATE
+        '/': this.default_state
     };
 
     containerFunctions = {
@@ -118,6 +124,26 @@ export class HeaderContainer extends NavigationAbstractContainer {
             searchCriteria
         };
     };
+
+    componentDidMount() {
+        this.handleHeaderVisibility();
+        super.componentDidMount();
+    }
+
+    componentDidUpdate() {
+        this.handleHeaderVisibility();
+    }
+
+    handleHeaderVisibility() {
+        const { navigationState: { isHiddenOnMobile } } = this.props;
+
+        if (isHiddenOnMobile) {
+            document.body.classList.add('hiddenHeader');
+            return;
+        }
+
+        document.body.classList.remove('hiddenHeader');
+    }
 
     handleMobileRouteChange(history) {
         const { search } = history;

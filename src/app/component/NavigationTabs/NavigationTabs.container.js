@@ -1,20 +1,20 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation';
-import { TOP_NAVIGATION_TYPE, BOTTOM_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { toggleOverlayByKey, hideActiveOverlay } from 'Store/Overlay';
 import { NavigationAbstractContainer } from 'Component/NavigationAbstract/NavigationAbstract.container';
+import { TOP_NAVIGATION_TYPE, BOTTOM_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation';
+import { toggleOverlayByKey, hideActiveOverlay } from 'Store/Overlay';
+import { MENU, CUSTOMER_ACCOUNT, CART } from 'Component/Header';
 import { isSignedIn } from 'Util/Auth';
 import isMobile from 'Util/Mobile';
 import { history } from 'Route';
-// import { setQueryParams } from 'Util/Url';
 
 import NavigationTabs from './NavigationTabs.component';
-import { MENU, CUSTOMER_ACCOUNT } from 'Component/Header';
 
 export const mapStateToProps = state => ({
     navigationState: state.NavigationReducer[BOTTOM_NAVIGATION_TYPE].navigationState,
+    headerState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
     cartTotals: state.CartReducer.cartTotals,
     header_logo_src: state.ConfigReducer.header_logo_src,
     logo_alt: state.ConfigReducer.logo_alt,
@@ -26,6 +26,7 @@ export const mapDispatchToProps = dispatch => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     setNavigationState: stateName => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, stateName)),
     setHeaderState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
+    goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE)),
     goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(BOTTOM_NAVIGATION_TYPE))
 });
 
@@ -37,7 +38,8 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
     containerFunctions = {
         onMenuButtonClick: this.onMenuButtonClick.bind(this),
         onMyAccountButtonClick: this.onMyAccountButtonClick.bind(this),
-        onMinicartButtonClick: this.onMinicartButtonClick.bind(this)
+        onMinicartButtonClick: this.onMinicartButtonClick.bind(this),
+        onHomeButtonClick: this.onHomeButtonClick.bind(this)
     };
 
     containerProps = () => {
@@ -47,11 +49,14 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
     onMenuButtonClick() {
         const {
             showOverlay,
-            setHeaderState
+            setHeaderState,
+            headerState: { name }
         } = this.props;
 
-        showOverlay(MENU);
-        setHeaderState({ name: MENU });
+        if (name !== MENU) {
+            showOverlay(MENU);
+            setHeaderState({ name: MENU });
+        }
     }
 
     onMinicartButtonClick() {
@@ -64,7 +69,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         const {
             showOverlay,
             setHeaderState,
-            navigationState: { name }
+            headerState: { name }
         } = this.props;
 
         if (isSignedIn()) {
@@ -72,8 +77,25 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
             return;
         }
 
-        showOverlay(CUSTOMER_ACCOUNT);
-        setHeaderState({ name: CUSTOMER_ACCOUNT, title: 'Sign in' });
+        if (name !== CUSTOMER_ACCOUNT) {
+            showOverlay(CUSTOMER_ACCOUNT);
+            setHeaderState({ name: CUSTOMER_ACCOUNT, title: 'Sign in' });
+        }
+    }
+
+    onHomeButtonClick() {
+        const { hideActiveOverlay } = this.props;
+        const { pathname } = location;
+
+        history.push('/');
+        hideActiveOverlay();
+
+        if (pathname === '/') {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
     }
 
     render() {

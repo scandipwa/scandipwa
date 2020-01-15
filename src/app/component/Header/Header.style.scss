@@ -100,8 +100,14 @@
     z-index: 100;
     background-color: var(--header-background);
 
-    @include mobile {
-        border-bottom: 1px solid var(--primary-divider-color);
+    &_isHiddenOnMobile {
+        @include mobile {
+            display: none;
+        }
+
+        @at-root .hiddenHeader {
+            --header-height: 0;
+        }
     }
 
     &_name {
@@ -183,6 +189,10 @@
         z-index: 20;
         max-width: var(--content-wrapper-width);
         margin: auto;
+
+        @include mobile {
+            border-bottom: 1px solid var(--primary-divider-color);
+        }
     }
 
     &-Button {
@@ -235,10 +245,6 @@
             &_minicart {
                 @include minicart-button;
 
-                &.Header-Button_isVisible {
-                    width: 100%;
-                }
-
                 @include after-mobile {
                     width: 100%;
                 }
@@ -254,6 +260,10 @@
 
             &_edit {
                 @include edit-button;
+            }
+
+            &_home {
+                @include home-icon;
             }
 
             &_ok,

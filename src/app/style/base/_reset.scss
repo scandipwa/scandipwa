@@ -49,6 +49,7 @@ main {
     @include mobile {
         min-height: calc(100vh - var(--header-height) - var(--footer-height));
         margin-top: var(--header-height);
+        margin-bottom: var(--navigation-tabs-height);
     }
 }
 

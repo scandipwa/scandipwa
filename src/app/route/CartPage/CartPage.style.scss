@@ -109,8 +109,8 @@
 
             @include mobile {
                 padding: 1rem;
-                border-left: 0;
-                border-right: 0;
+                border: 0;
+                border-bottom: 1px solid var(--primary-divider-color)
             }
         }
 

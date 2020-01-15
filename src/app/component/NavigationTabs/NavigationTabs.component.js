@@ -28,74 +28,71 @@ class NavigationTabs extends NavigationAbstract {
     };
 
     renderHomeButton(isVisible = false) {
-        return <div></div>;
+        const { onHomeButtonClick } = this.props;
+
+        return (
+            <button
+              key="home"
+              block="Header"
+              elem="Button"
+              mods={ { isVisible, type: 'home' } }
+              aria-label="Home"
+              aria-hidden={ !isVisible }
+              tabIndex={ isVisible ? 0 : -1 }
+              onClick={ onHomeButtonClick }
+            />
+        );
     }
 
     renderMenuButton(isVisible = false) {
-        const {
-            onMenuOutsideClick,
-            onMenuButtonClick
-        } = this.props;
+        const { onMenuButtonClick } = this.props;
 
         return (
-            <ClickOutside onClick={ onMenuOutsideClick } key="menu">
-                <div>
-                    <button
-                      block="Header"
-                      elem="Button"
-                      mods={ { isVisible, type: 'menu' } }
-                      aria-label="Go to menu and search"
-                      aria-hidden={ !isVisible }
-                      tabIndex={ isVisible ? 0 : -1 }
-                      onClick={ onMenuButtonClick }
-                    />
-                </div>
-            </ClickOutside>
+            <button
+              key="menu"
+              block="Header"
+              elem="Button"
+              mods={ { isVisible, type: 'menu' } }
+              aria-label="Go to menu and search"
+              aria-hidden={ !isVisible }
+              tabIndex={ isVisible ? 0 : -1 }
+              onClick={ onMenuButtonClick }
+            />
         );
     }
 
     renderAccountButton(isVisible = false) {
-        const {
-            onMyAccountOutsideClick,
-            onMyAccountButtonClick
-        } = this.props;
+        const { onMyAccountButtonClick } = this.props;
 
         return (
-            <ClickOutside onClick={ onMyAccountOutsideClick } key="account">
-                <div aria-label="My account">
-                    <button
-                      block="Header"
-                      elem="Button"
-                      mods={ { isVisible, type: 'account' } }
-                      onClick={ onMyAccountButtonClick }
-                      aria-label="Open my account"
-                    />
-                </div>
-            </ClickOutside>
+            <button
+              key="account"
+              block="Header"
+              elem="Button"
+              mods={ { isVisible, type: 'account' } }
+              onClick={ onMyAccountButtonClick }
+              aria-label="Open my account"
+            />
         );
     }
 
     renderMinicartButton(isVisible = false) {
         const {
             cartTotals: { items_qty },
-            onMinicartOutsideClick,
             onMinicartButtonClick
         } = this.props;
 
         return (
-            <ClickOutside onClick={ onMinicartOutsideClick } key="minicart">
-                <div>
-                    <button
-                      block="Header"
-                      elem="Button"
-                      mods={ { isVisible, type: 'minicart' } }
-                      onClick={ onMinicartButtonClick }
-                      aria-label="Minicart"
-                    >
-                        <span aria-label="Items in cart">{ items_qty || '0' }</span>
-                    </button>
-                </div>
-            </ClickOutside>
+            <button
+              key="minicart"
+              block="Header"
+              elem="Button"
+              mods={ { isVisible, type: 'minicart' } }
+              onClick={ onMinicartButtonClick }
+              aria-label="Minicart"
+            >
+                <span aria-label="Items in cart">{ items_qty || '0' }</span>
+            </button>
         );
     }
 

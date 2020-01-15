@@ -11,6 +11,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { createPortal } from 'react-dom';
 import { createRef, PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
@@ -76,11 +77,19 @@ export default class Overlay extends PureComponent {
         window.scrollTo(0, this.YoffsetWhenScrollDisabled);
     }
 
+    renderInMobilePortal(content) {
+        if (isMobile.any()) {
+            return createPortal(content, document.body);
+        }
+
+        return content;
+    }
+
     render() {
         const { children, mix, areOtherOverlaysOpen } = this.props;
         const isVisible = this.getIsVisible();
 
-        return (
+        return this.renderInMobilePortal(
             <div
               block="Overlay"
               ref={ this.overlayRef }

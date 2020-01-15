@@ -31,6 +31,7 @@
         left: 0;
         width: 100%;
         height: calc(100% - var(--header-height));
+        padding-bottom: var(--navigation-tabs-height);
         overflow: scroll;
         overflow-x: hidden;
         max-width: 100%;
@@ -47,6 +48,7 @@
         pointer-events: all;
         touch-action: pan-y;
         opacity: 1;
+        z-index: 90;
 
         @include after-mobile {
             height: auto;
