@@ -79,6 +79,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/negzu"><img src="https://avatars3.githubusercontent.com/u/46347627?v=4" width="100px;" alt=""/><br /><sub><b>Yegor Batov</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=negzu" title="Code">💻</a></td>
     <td align="center"><a href="https://aarhof.eu"><img src="https://avatars3.githubusercontent.com/u/20708?v=4" width="100px;" alt=""/><br /><sub><b>Martin Århof</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=lsv" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/yashkumarsharma"><img src="https://avatars2.githubusercontent.com/u/386162?v=4" width="100px;" alt=""/><br /><sub><b>yashkumarsharma</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/issues?q=author%3Ayashkumarsharma" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://github.com/pwalus"><img src="https://avatars1.githubusercontent.com/u/22379159?v=4" width="100px;" alt=""/><br /><sub><b>Patryk Waluś</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=pwalus" title="Code">💻</a></td>
   </tr>
 </table>
 

@@ -10,9 +10,7 @@
  */
 
 import { PureComponent } from 'react';
-
 import { ProductType } from 'Type/ProductList';
-
 import ProductGallery, { IMAGE_TYPE } from './ProductGallery.component';
 
 export const THUMBNAIL_KEY = 'small_image';
@@ -22,6 +20,24 @@ export class ProductGalleryContainer extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired
     };
+
+    state = {
+        activeImage: 0,
+        isZoomEnabled: false
+    };
+
+    containerFunctions = {
+        onActiveImageChange: this.onActiveImageChange.bind(this),
+        handleZoomChange: this.handleZoomChange.bind(this),
+        disableZoom: this.disableZoom.bind(this)
+    };
+
+    onActiveImageChange(activeImage) {
+        this.setState({
+            activeImage,
+            isZoomEnabled: false
+        });
+    }
 
     getGalleryPictures() {
         const {
@@ -58,17 +74,24 @@ export class ProductGalleryContainer extends PureComponent {
         }
 
         return [{
-            file: url,
+            thumbnail: { url },
+            base: { url },
             id: THUMBNAIL_KEY,
             label: name,
             media_type: IMAGE_TYPE
         }, ...Array(AMOUNT_OF_PLACEHOLDERS).fill({ media_type: 'placeholder' })];
     }
 
-    containerProps = () => ({
-        gallery: this.getGalleryPictures(),
-        productName: this._getProductName()
-    });
+    containerProps = () => {
+        const { activeImage, isZoomEnabled } = this.state;
+        
+        return {
+            gallery: this.getGalleryPictures(),
+            productName: this._getProductName(),
+            activeImage,
+            isZoomEnabled
+        };
+    };
 
     /**
      * Returns the name of the product this gallery if for
@@ -79,10 +102,30 @@ export class ProductGalleryContainer extends PureComponent {
         return name;
     }
 
+    handleZoomStart() {
+        const { isZoomEnabled } = this.state;
+        if (isZoomEnabled) return;
+
+        document.body.classList.add('overscrollPrevented');
+        this.setState({ isZoomEnabled: true });
+    }
+
+    disableZoom() {
+        document.body.classList.remove('overscrollPrevented');
+        this.setState({ isZoomEnabled: false });
+    }
+
+    handleZoomChange(args) {
+        if (args.scale > 1) {
+            this.handleZoomStart();
+        }
+    }
+
     render() {
         return (
             <ProductGallery
               { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }
