@@ -72,7 +72,6 @@ export default class Overlay extends PureComponent {
     freezeScroll() {
         const { isFreezeEnabled } = this.props;
         if (!isFreezeEnabled) return;
-        console.log(isFreezeEnabled);
         this.YoffsetWhenScrollDisabled = window.pageYOffset || document.documentElement.scrollTop;
         document.body.classList.add('scrollDisabled');
         document.body.style.marginTop = `${-this.YoffsetWhenScrollDisabled}px`;
