@@ -1,24 +1,34 @@
-import PropTypes from 'prop-types';
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
 import { connect } from 'react-redux';
 
 import { NavigationAbstractContainer } from 'Component/NavigationAbstract/NavigationAbstract.container';
-import { TOP_NAVIGATION_TYPE, BOTTOM_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation';
-import { toggleOverlayByKey, hideActiveOverlay } from 'Store/Overlay';
-import { MENU, CUSTOMER_ACCOUNT, CART } from 'Component/Header';
-import { isSignedIn } from 'Util/Auth';
-import isMobile from 'Util/Mobile';
+import { DEFAULT_HEADER_STATE } from 'Component/Header/Header.container';
+import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay';
 import { history } from 'Route';
 
-import NavigationTabs from './NavigationTabs.component';
+import NavigationTabs, {
+    ACCOUNT_TAB,
+    CART_TAB,
+    HOME_TAB,
+    MENU_TAB
+} from './NavigationTabs.component';
 
 export const mapStateToProps = state => ({
     navigationState: state.NavigationReducer[BOTTOM_NAVIGATION_TYPE].navigationState,
     headerState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
-    cartTotals: state.CartReducer.cartTotals,
-    header_logo_src: state.ConfigReducer.header_logo_src,
-    logo_alt: state.ConfigReducer.logo_alt,
-    isLoading: state.ConfigReducer.isLoading
+    cartTotals: state.CartReducer.cartTotals
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -31,8 +41,12 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 export class NavigationTabsContainer extends NavigationAbstractContainer {
-    static propTypes = {
-        // TODO: implement prop-types
+    default_state = { name: MENU_TAB };
+
+    routeMap = {
+        '/my-account': { name: ACCOUNT_TAB },
+        '/cart': { name: CART_TAB },
+        '/': { name: HOME_TAB }
     };
 
     containerFunctions = {
@@ -42,49 +56,25 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         onHomeButtonClick: this.onHomeButtonClick.bind(this)
     };
 
-    containerProps = () => {
-        // isDisabled: this._getIsDisabled()
-    };
-
     onMenuButtonClick() {
-        const {
-            showOverlay,
-            setHeaderState,
-            headerState: { name }
-        } = this.props;
-
-        if (name !== MENU) {
-            showOverlay(MENU);
-            setHeaderState({ name: MENU });
-        }
+        history.push('/menu');
     }
 
     onMinicartButtonClick() {
-        const { showOverlay } = this.props;
-        if (!isMobile.any()) return showOverlay(CART);
-        return history.push('/cart');
+        history.push('/cart');
     }
 
     onMyAccountButtonClick() {
-        const {
-            showOverlay,
-            setHeaderState,
-            headerState: { name }
-        } = this.props;
-
-        if (isSignedIn()) {
-            history.push({ pathname: '/my-account/dashboard' });
-            return;
-        }
-
-        if (name !== CUSTOMER_ACCOUNT) {
-            showOverlay(CUSTOMER_ACCOUNT);
-            setHeaderState({ name: CUSTOMER_ACCOUNT, title: 'Sign in' });
-        }
+        history.push('/my-account');
     }
 
     onHomeButtonClick() {
-        const { hideActiveOverlay } = this.props;
+        const {
+            hideActiveOverlay,
+            setHeaderState,
+            setNavigationState
+        } = this.props;
+
         const { pathname } = location;
 
         history.push('/');
@@ -96,6 +86,11 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
                 behavior: 'smooth'
             });
         }
+
+        if (name !== DEFAULT_HEADER_STATE) {
+            setHeaderState(DEFAULT_HEADER_STATE);
+            setNavigationState({ name: HOME_TAB });
+        }
     }
 
     render() {
@@ -103,7 +98,6 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
             <NavigationTabs
               { ...this.props }
               { ...this.containerFunctions }
-              { ...this.containerProps() }
             />
         );
     }

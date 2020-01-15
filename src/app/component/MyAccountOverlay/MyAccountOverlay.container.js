@@ -16,10 +16,11 @@ import PropTypes from 'prop-types';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { changeNavigationState } from 'Store/Navigation';
 import { MyAccountDispatcher } from 'Store/MyAccount';
-import { CUSTOMER_ACCOUNT } from 'Component/Header';
+import { CUSTOMER_ACCOUNT, CUSTOMER_SUB_ACCOUNT } from 'Component/Header';
 import { showNotification } from 'Store/Notification';
 import { hideActiveOverlay } from 'Store/Overlay';
 import { isSignedIn } from 'Util/Auth';
+import isMobile from 'Util/Mobile';
 import { history } from 'Route';
 
 import MyAccountOverlay, {
@@ -55,7 +56,12 @@ export class MyAccountOverlayContainer extends PureComponent {
         createAccount: PropTypes.func.isRequired,
         // eslint-disable-next-line react/no-unused-prop-types
         isOverlayVisible: PropTypes.bool.isRequired,
-        setHeaderState: PropTypes.func.isRequired
+        setHeaderState: PropTypes.func.isRequired,
+        onSignIn: PropTypes.func
+    };
+
+    static defaultProps = {
+        onSignIn: () => {}
     };
 
     containerFunctions = {
@@ -68,7 +74,8 @@ export class MyAccountOverlayContainer extends PureComponent {
         onFormError: this.onFormError.bind(this),
         handleForgotPassword: this.handleForgotPassword.bind(this),
         handleSignIn: this.handleSignIn.bind(this),
-        handleCreateAccount: this.handleCreateAccount.bind(this)
+        handleCreateAccount: this.handleCreateAccount.bind(this),
+        onVisible: this.onVisible.bind(this)
     };
 
     constructor(props) {
@@ -139,13 +146,26 @@ export class MyAccountOverlayContainer extends PureComponent {
     }
 
     async onSignInSuccess(fields) {
-        const { signIn, showNotification } = this.props;
+        const {
+            signIn,
+            showNotification,
+            onSignIn
+        } = this.props;
 
         try {
             await signIn(fields);
+            onSignIn();
         } catch (e) {
             this.setState({ isLoading: false });
             showNotification('error', e.message);
+        }
+    }
+
+    onVisible() {
+        const { setHeaderState } = this.props;
+
+        if (isMobile.any()) {
+            setHeaderState({ name: CUSTOMER_ACCOUNT, title: 'Sign in' });
         }
     }
 
@@ -164,7 +184,10 @@ export class MyAccountOverlayContainer extends PureComponent {
     }
 
     onCreateAccountSuccess(fields) {
-        const { createAccount } = this.props;
+        const {
+            createAccount,
+            onSignIn
+        } = this.props;
 
         const {
             password,
@@ -184,7 +207,13 @@ export class MyAccountOverlayContainer extends PureComponent {
             password
         };
 
-        createAccount(customerData).then(this.stopLoading, this.stopLoading);
+        createAccount(customerData).then(
+            () => {
+                onSignIn();
+                this.stopLoading();
+            },
+            this.stopLoading
+        );
     }
 
     onForgotPasswordSuccess(fields) {
@@ -210,7 +239,12 @@ export class MyAccountOverlayContainer extends PureComponent {
         e.preventDefault();
         e.nativeEvent.stopImmediatePropagation();
         this.setState({ state: STATE_FORGOT_PASSWORD });
-        setHeaderState({ name: CUSTOMER_ACCOUNT, title: 'Forgot password' });
+
+        setHeaderState({
+            name: CUSTOMER_SUB_ACCOUNT,
+            title: 'Forgot password',
+            onBackClick: () => this.handleSignIn(e)
+        });
     }
 
     handleSignIn(e) {
@@ -218,7 +252,11 @@ export class MyAccountOverlayContainer extends PureComponent {
         e.preventDefault();
         e.nativeEvent.stopImmediatePropagation();
         this.setState({ state: STATE_SIGN_IN });
-        setHeaderState({ name: CUSTOMER_ACCOUNT, title: 'Sign in' });
+
+        setHeaderState({
+            name: CUSTOMER_ACCOUNT,
+            title: 'Sign in'
+        });
     }
 
     handleCreateAccount(e) {
@@ -226,7 +264,12 @@ export class MyAccountOverlayContainer extends PureComponent {
         e.preventDefault();
         e.nativeEvent.stopImmediatePropagation();
         this.setState({ state: STATE_CREATE_ACCOUNT });
-        setHeaderState({ name: CUSTOMER_ACCOUNT, title: 'Create account' });
+
+        setHeaderState({
+            name: CUSTOMER_SUB_ACCOUNT,
+            title: 'Create account',
+            onBackClick: () => this.handleSignIn(e)
+        });
     }
 
     render() {

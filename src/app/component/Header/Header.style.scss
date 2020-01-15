@@ -12,6 +12,7 @@
 :root {
     --header-background: #fff;
     --header-color: #000;
+    --header-icon-stroke-width: 1px;
     --header-search-field-background: var(--secondary-base-color);
     --header-search-field-visible-background: #fff;
     --header-search-field-color: #6e6e6e;
@@ -106,7 +107,9 @@
         }
 
         @at-root .hiddenHeader {
-            --header-height: 0;
+            @include mobile {
+                --header-height: 0;
+            }
         }
     }
 
@@ -240,6 +243,10 @@
 
             &_account {
                 @include account-button;
+
+                &.Header-Button_isVisible {
+                    overflow: hidden;
+                }
             }
 
             &_minicart {
@@ -280,7 +287,6 @@
 
     &-SearchWrapper {
         flex-grow: 1;
-        margin-left: 5px;
 
         @include after-mobile {
             @include search-icon-input;

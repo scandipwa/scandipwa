@@ -1,5 +1,16 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
 :root {
-    --navigation-tabs-height: 50px;
+    --navigation-tabs-height: calc(50px + env(safe-area-inset-bottom));
 }
 
 .NavigationTabs {
@@ -9,6 +20,7 @@
     width: 100%;
     z-index: 100;
     background-color: var(--header-background);
+    padding-bottom: env(safe-area-inset-bottom);
 
     @include mobile {
         border-top: 1px solid var(--primary-divider-color);
@@ -27,5 +39,11 @@
         z-index: 20;
         max-width: var(--content-wrapper-width);
         margin: auto;
+    }
+
+    &-Button {
+        &_isActive {
+            --header-color: var(--primary-base-color);
+        }
     }
 }

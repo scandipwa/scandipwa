@@ -329,12 +329,16 @@ export class CategoryPageContainer extends PureComponent {
     }
 
     _updateHeaderState() {
-        const { changeHeaderState, category: { name }, history } = this.props;
+        const {
+            changeHeaderState,
+            category: { name },
+            history
+        } = this.props;
 
         changeHeaderState({
             name: CATEGORY,
             title: name,
-            onBackClick: () => history.push('/')
+            onBackClick: () => history.push('/menu')
         });
     }
 

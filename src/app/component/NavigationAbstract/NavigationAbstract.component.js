@@ -22,6 +22,8 @@ class NavigationAbstract extends PureComponent {
         navigationState: PropTypes.object.isRequired
     };
 
+    defaultStateName = DEFAULT_STATE_NAME;
+
     stateMap = {
         [DEFAULT_STATE_NAME]: {}
     };
@@ -33,7 +35,7 @@ class NavigationAbstract extends PureComponent {
 
         const source = this.stateMap[name]
             ? this.stateMap[name]
-            : this.stateMap[DEFAULT_STATE_NAME];
+            : this.stateMap[this.defaultStateName];
 
         return Object.entries(this.renderMap).map(
             ([key, renderFunction]) => renderFunction(source[key])

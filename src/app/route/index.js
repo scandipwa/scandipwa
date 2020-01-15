@@ -36,6 +36,7 @@ import HomePage from 'Route/HomePage';
 import Header from 'Component/Header';
 import Footer from 'Component/Footer';
 import CartPage from 'Route/CartPage';
+import MenuPage from 'Route/MenuPage';
 import CmsPage from 'Route/CmsPage';
 import Store from 'Store';
 
@@ -103,6 +104,10 @@ class AppRouter extends PureComponent {
         {
             component: <Route path="/my-account/:tab?" component={ MyAccount } />,
             position: 70
+        },
+        {
+            component: <Route path="/menu" component={ MenuPage } />,
+            position: 80
         },
         {
             component: <Route component={ UrlRewrites } />,

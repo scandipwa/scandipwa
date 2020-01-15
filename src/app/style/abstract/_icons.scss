@@ -107,7 +107,7 @@
 
     &::after {
         width: 7px;
-        height: 1px;
+        height: var(--header-icon-stroke-width);
         top: 12px;
         left: 8px;
         background-color: var(--header-color);
@@ -129,9 +129,9 @@
 
     &::before {
         @include mobile {
-            width: 10px;
-            height: 10px;
-            border: 1px solid var(--header-color);
+            width: calc(12px - var(--header-icon-stroke-width) * 2);
+            height: calc(12px - var(--header-icon-stroke-width) * 2);
+            border: var(--header-icon-stroke-width) solid var(--header-color);
             border-radius: 50%;
             top: 10px;
             right: 4px;
@@ -162,24 +162,24 @@
     }
 
     &::before {
-        width: 7px;
-        height: 7px;
-        border: 1px solid var(--header-color);
+        width: calc(8px - var(--header-icon-stroke-width) * 2);
+        height: calc(8px - var(--header-icon-stroke-width) * 2);
+        border: var(--header-icon-stroke-width) solid var(--header-color);
         border-radius: 50%;
         top: 9px;
         right: 0;
         left: 0;
         margin: auto;
         box-shadow:
-            0 14px 0 3px var(--header-background),
-            0 14px 0 4px var(--header-color);
+            0 calc(13px + var(--header-icon-stroke-width)) 0 3px var(--header-background),
+            0 calc(13px + var(--header-icon-stroke-width)) 0 calc(var(--header-icon-stroke-width) + 3px) var(--header-color);
     }
 
     &::after {
         background-color: var(--header-background);
         bottom: -1px;
         left: 0;
-        height: 10px;
+        height: calc(11px - var(--header-icon-stroke-width));;
         width: 100%;
     }
 }
@@ -192,24 +192,24 @@
     }
 
     &::before {
-        border: 1px solid var(--header-color);
+        border: var(--header-icon-stroke-width) solid var(--header-color);
         border-radius: 1px;
-        width: 10px;
-        height: 13px;
+        width: calc(12px - var(--header-icon-stroke-width) * 2);
+        height: calc(15px - var(--header-icon-stroke-width) * 2);
         top: 12px;
         right: 10px;
         z-index: 1;
     }
 
     &::after {
-        width: 6px;
+        width: calc(6px - var(--header-icon-stroke-width));
         height: 5px;
         right: 12px;
         top: 8px;
         border: {
-            top: 1px solid var(--header-color);
-            left: 1px solid var(--header-color);
-            right: 1px solid var(--header-color);
+            top: var(--header-icon-stroke-width) solid var(--header-color);
+            left: var(--header-icon-stroke-width) solid var(--header-color);
+            right: var(--header-icon-stroke-width) solid var(--header-color);
             top-right-radius: 2px;
             top-left-radius: 2px;
         };
@@ -342,10 +342,10 @@
     }
 
     &::before {
-        border: 1px solid var(--header-color);
+        border: var(--header-icon-stroke-width) solid var(--header-color);
         border-top: 0;
         border-radius: 1px;
-        width: 12px;
+        width: calc(14px - var(--header-icon-stroke-width) * 2);
         height: 10px;
         top: 16px;
         right: 0;
@@ -356,8 +356,8 @@
 
     &::after {
         transform: rotate(45deg);
-        border-top: 1px solid var(--header-color);
-        border-left: 1px solid var(--header-color);
+        border-top: var(--header-icon-stroke-width) solid var(--header-color);
+        border-left: var(--header-icon-stroke-width) solid var(--header-color);
         width: 13px;
         height: 13px;
         top: 12px;

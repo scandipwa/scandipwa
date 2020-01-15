@@ -12,11 +12,12 @@
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import { NavigationAbstractContainer } from 'Component/NavigationAbstract/NavigationAbstract.container';
+import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.component';
+import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.component';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { toggleOverlayByKey, hideActiveOverlay } from 'Store/Overlay';
-import { NavigationAbstractContainer } from 'Component/NavigationAbstract/NavigationAbstract.container';
-import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.component';
 import { setQueryParams } from 'Util/Url';
 import { isSignedIn } from 'Util/Auth';
 import isMobile from 'Util/Mobile';
@@ -49,6 +50,11 @@ export const mapDispatchToProps = dispatch => ({
     goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))
 });
 
+export const DEFAULT_HEADER_STATE = {
+    name: DEFAULT_STATE_NAME,
+    isHiddenOnMobile: true
+};
+
 export class HeaderContainer extends NavigationAbstractContainer {
     static propTypes = {
         showOverlay: PropTypes.func.isRequired,
@@ -67,16 +73,14 @@ export class HeaderContainer extends NavigationAbstractContainer {
         isClearEnabled: false
     };
 
-    default_state = {
-        name: DEFAULT_STATE_NAME,
-        isHiddenOnMobile: true
-    };
+    default_state = DEFAULT_HEADER_STATE;
 
     routeMap = {
-        '/category': { name: CATEGORY, onBackClick: () => history.push('/') },
+        '/category': { name: CATEGORY, onBackClick: this.onMenuButtonClick },
         '/my-account': { name: CUSTOMER_ACCOUNT_PAGE, onBackClick: () => history.push('/') },
         '/product': { name: PDP, onBackClick: () => history.goBack() },
         '/cart': { name: CART },
+        '/menu': { name: MENU },
         '/page': { name: CMS_PAGE, onBackClick: () => history.goBack() },
         '/': this.default_state
     };
@@ -269,7 +273,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
         }
 
         if (name !== CUSTOMER_ACCOUNT) {
-            showOverlay(CUSTOMER_ACCOUNT);
+            showOverlay(CUSTOMER_ACCOUNT_OVERLAY_KEY);
             setNavigationState({ name: CUSTOMER_ACCOUNT, title: 'Sign in' });
         }
     }

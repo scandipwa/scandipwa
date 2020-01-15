@@ -14,24 +14,26 @@
 import { Fragment, createRef } from 'react';
 import PropTypes from 'prop-types';
 
+import NavigationAbstract, { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.component';
+import MyAccountOverlay from 'Component/MyAccountOverlay';
+import SearchOverlay from 'Component/SearchOverlay';
+import ClickOutside from 'Component/ClickOutside';
+import CartOverlay from 'Component/CartOverlay';
+import MenuOverlay from 'Component/MenuOverlay';
+import { LOGO_MEDIA } from 'Util/Media/Media';
+import { TotalsType } from 'Type/MiniCart';
+import isMobile from 'Util/Mobile';
 import Link from 'Component/Link';
 import Logo from 'Component/Logo';
-import { TotalsType } from 'Type/MiniCart';
-import MenuOverlay from 'Component/MenuOverlay';
-import CartOverlay from 'Component/CartOverlay';
-import ClickOutside from 'Component/ClickOutside';
-import SearchOverlay from 'Component/SearchOverlay';
-import MyAccountOverlay from 'Component/MyAccountOverlay';
-import NavigationAbstract, { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.component';
+import media from 'Util/Media';
 
 import './Header.style';
-import media from 'Util/Media';
-import { LOGO_MEDIA } from 'Util/Media/Media';
 
 export const PDP = 'pdp';
 export const POPUP = 'popup';
 export const CATEGORY = 'category';
 export const CUSTOMER_ACCOUNT = 'customer_account';
+export const CUSTOMER_SUB_ACCOUNT = 'CUSTOMER_SUB_ACCOUNT';
 export const CUSTOMER_ACCOUNT_PAGE = 'customer_account_page';
 export const HOME_PAGE = 'home';
 export const MENU = 'menu';
@@ -94,15 +96,16 @@ export default class Header extends NavigationAbstract {
             title: true
         },
         [CUSTOMER_ACCOUNT]: {
-            close: true,
             title: true
         },
+        [CUSTOMER_SUB_ACCOUNT]: {
+            title: true,
+            back: true
+        },
         [CUSTOMER_ACCOUNT_PAGE]: {
-            back: true,
             title: true
         },
         [MENU]: {
-            close: true,
             search: true
         },
         [MENU_SUBCATEGORY]: {
@@ -114,7 +117,6 @@ export default class Header extends NavigationAbstract {
             search: true
         },
         [CART]: {
-            close: true,
             title: true,
             edit: true
         },
@@ -199,6 +201,8 @@ export default class Header extends NavigationAbstract {
 
     renderMenuButton(isVisible = false) {
         const { onMenuOutsideClick, onMenuButtonClick } = this.props;
+
+        if (isMobile.any()) return null;
 
         return (
             <ClickOutside onClick={ onMenuOutsideClick } key="menu">
@@ -300,6 +304,7 @@ export default class Header extends NavigationAbstract {
         const { isLoading } = this.props;
 
         if (isLoading) return null;
+
         return (
             <Link
               to="/"
@@ -323,6 +328,8 @@ export default class Header extends NavigationAbstract {
     renderAccountButton(isVisible = false) {
         const { onMyAccountOutsideClick, onMyAccountButtonClick } = this.props;
 
+        if (isMobile.any()) return null;
+
         return (
             <ClickOutside onClick={ onMyAccountOutsideClick } key="account">
                 <div aria-label="My account">
@@ -341,6 +348,8 @@ export default class Header extends NavigationAbstract {
 
     renderMinicartButton(isVisible = false) {
         const { cartTotals: { items_qty }, onMinicartOutsideClick, onMinicartButtonClick } = this.props;
+
+        if (isMobile.any()) return null;
 
         return (
             <ClickOutside onClick={ onMinicartOutsideClick } key="minicart">
@@ -433,7 +442,7 @@ export default class Header extends NavigationAbstract {
     }
 
     render() {
-        const { navigationState: { name, isHiddenOnMobile } } = this.props;
+        const { navigationState: { name, isHiddenOnMobile = false } } = this.props;
 
         return (
             <header block="Header" mods={ { name, isHiddenOnMobile } }>

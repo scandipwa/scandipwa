@@ -62,7 +62,7 @@ export class NavigationAbstractContainer extends PureComponent {
 
     getNavigationState(pathname) {
         const activeRoute = Object.keys(this.routeMap)
-            .find(route => pathname.includes(route));
+            .find(route => (route !== '/' || pathname === '/') && pathname.includes(route));
 
         return this.routeMap[activeRoute] || this.default_state;
     }

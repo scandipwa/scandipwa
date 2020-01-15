@@ -15,16 +15,19 @@ import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import media from 'Util/Media';
-import { getSortedItems } from 'Util/Menu';
 import Link from 'Component/Link';
+import isMobile from 'Util/Mobile';
 import Image from 'Component/Image';
 import { MenuType } from 'Type/Menu';
 import Overlay from 'Component/Overlay';
 import CmsBlock from 'Component/CmsBlock';
-import { MENU_SUBCATEGORY } from 'Component/Header';
+import { getSortedItems } from 'Util/Menu';
+import { MENU_SUBCATEGORY, MENU } from 'Component/Header';
 import StoreSwitcher from 'Component/StoreSwitcher';
 
 import './MenuOverlay.style';
+
+export const MENU_OVERLAY_KEY = 'menu';
 
 export default class MenuOverlay extends PureComponent {
     static propTypes = {
@@ -38,7 +41,12 @@ export default class MenuOverlay extends PureComponent {
 
     closeMenuOverlay = this.closeMenuOverlay.bind(this);
 
-    showSubCategory(e, activeSubcategory) {
+    onVisible = () => {
+        const { changeHeaderState } = this.props;
+        changeHeaderState({ name: MENU });
+    };
+
+    handleSubcategoryClick(e, activeSubcategory) {
         const { activeMenuItemsStack } = this.state;
         const { changeHeaderState, goToPreviousHeaderState } = this.props;
         const { item_id, title } = activeSubcategory;
@@ -134,7 +142,7 @@ export default class MenuOverlay extends PureComponent {
                         ? (
                             <div
                               key={ item_id }
-                              onClick={ e => this.showSubCategory(e, item) }
+                              onClick={ e => this.handleSubcategoryClick(e, item) }
                               tabIndex="0"
                               role="button"
                             >
@@ -170,7 +178,7 @@ export default class MenuOverlay extends PureComponent {
                     { childrenArray.length
                         ? (
                             <div
-                              onClick={ e => this.showSubCategory(e, item) }
+                              onClick={ e => this.handleSubcategoryClick(e, item) }
                               tabIndex="0"
                               role="button"
                             >
@@ -272,8 +280,10 @@ export default class MenuOverlay extends PureComponent {
     render() {
         return (
             <Overlay
-              id="menu"
+              id={ MENU_OVERLAY_KEY }
               mix={ { block: 'MenuOverlay' } }
+              onVisible={ this.onVisible }
+              isFreezeEnabled={ !isMobile.any() }
             >
                 { this.renderStoreSwitcher() }
                 { this.renderTopLevel() }

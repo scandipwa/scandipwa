@@ -28,6 +28,8 @@ export default class Overlay extends PureComponent {
         onHide: PropTypes.func,
         activeOverlay: PropTypes.string.isRequired,
         areOtherOverlaysOpen: PropTypes.bool.isRequired,
+        renderInPortal: PropTypes.bool,
+        isFreezeEnabled: PropTypes.bool,
         children: ChildrenType
     };
 
@@ -35,6 +37,8 @@ export default class Overlay extends PureComponent {
         mix: {},
         children: [],
         onVisible: () => {},
+        renderInPortal: true,
+        isFreezeEnabled: true,
         onHide: () => {}
     };
 
@@ -66,19 +70,26 @@ export default class Overlay extends PureComponent {
     }
 
     freezeScroll() {
+        const { isFreezeEnabled } = this.props;
+        if (!isFreezeEnabled) return;
+        console.log(isFreezeEnabled);
         this.YoffsetWhenScrollDisabled = window.pageYOffset || document.documentElement.scrollTop;
         document.body.classList.add('scrollDisabled');
         document.body.style.marginTop = `${-this.YoffsetWhenScrollDisabled}px`;
     }
 
     unfreezeScroll() {
+        const { isFreezeEnabled } = this.props;
+        if (!isFreezeEnabled) return;
         document.body.classList.remove('scrollDisabled');
         document.body.style.marginTop = 0;
         window.scrollTo(0, this.YoffsetWhenScrollDisabled);
     }
 
     renderInMobilePortal(content) {
-        if (isMobile.any()) {
+        const { renderInPortal } = this.props;
+
+        if (renderInPortal && isMobile.any()) {
             return createPortal(content, document.body);
         }
 
@@ -86,7 +97,12 @@ export default class Overlay extends PureComponent {
     }
 
     render() {
-        const { children, mix, areOtherOverlaysOpen } = this.props;
+        const {
+            children,
+            mix,
+            areOtherOverlaysOpen
+        } = this.props;
+
         const isVisible = this.getIsVisible();
 
         return this.renderInMobilePortal(

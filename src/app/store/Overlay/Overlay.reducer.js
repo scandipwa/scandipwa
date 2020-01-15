@@ -11,6 +11,7 @@
 
 import { SHOW_POPUP } from 'Store/Popup';
 
+import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import {
     TOGGLE_OVERLAY,
     HIDE_ACTIVE_OVERLAY
@@ -22,11 +23,14 @@ export const initialState = {
 };
 
 export const OverlayReducer = (state = initialState, action) => {
+    const { overlayKey } = action;
+    const {
+        activeOverlay: prevActiveOverlay
+    } = state;
+
     switch (action.type) {
     case TOGGLE_OVERLAY:
     case SHOW_POPUP:
-        const { overlayKey } = action;
-        const { activeOverlay: prevActiveOverlay } = state;
         const activeOverlay = prevActiveOverlay === overlayKey ? '' : overlayKey;
         const areOtherOverlaysOpen = prevActiveOverlay !== '';
 
