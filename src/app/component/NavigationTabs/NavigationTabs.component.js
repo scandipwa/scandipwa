@@ -48,13 +48,18 @@ class NavigationTabs extends NavigationAbstract {
         return (
             <button
               key="home"
-              block="Header"
+              block="NavigationTabs"
               elem="Button"
-              mix={ { block: 'NavigationTabs', elem: 'Button', mods: { isActive } } }
-              mods={ { type: 'home', isVisible: true } }
               aria-label="Home"
               onClick={ onHomeButtonClick }
-            />
+            >
+                <div
+                  block="Header"
+                  elem="Button"
+                  mix={ { block: 'NavigationTabs', elem: 'Icon', mods: { isActive } } }
+                  mods={ { type: 'home', isVisible: true } }
+                />
+            </button>
         );
     }
 
@@ -64,13 +69,18 @@ class NavigationTabs extends NavigationAbstract {
         return (
             <button
               key="menu"
-              block="Header"
+              block="NavigationTabs"
               elem="Button"
-              mix={ { block: 'NavigationTabs', elem: 'Button', mods: { isActive } } }
-              mods={ { isVisible: true, type: 'menu' } }
               aria-label="Go to menu and search"
               onClick={ onMenuButtonClick }
-            />
+            >
+                <div
+                  block="Header"
+                  elem="Button"
+                  mix={ { block: 'NavigationTabs', elem: 'Icon', mods: { isActive } } }
+                  mods={ { isVisible: true, type: 'menu' } }
+                />
+            </button>
         );
     }
 
@@ -80,13 +90,18 @@ class NavigationTabs extends NavigationAbstract {
         return (
             <button
               key="account"
-              block="Header"
+              block="NavigationTabs"
               elem="Button"
-              mix={ { block: 'NavigationTabs', elem: 'Button', mods: { isActive } } }
-              mods={ { isVisible: true, type: 'account' } }
               onClick={ onMyAccountButtonClick }
               aria-label="Open my account"
-            />
+            >
+                <div
+                  block="Header"
+                  elem="Button"
+                  mix={ { block: 'NavigationTabs', elem: 'Icon', mods: { isActive } } }
+                  mods={ { isVisible: true, type: 'account' } }
+                />
+            </button>
         );
     }
 
@@ -98,15 +113,20 @@ class NavigationTabs extends NavigationAbstract {
 
         return (
             <button
-              key="minicart"
-              block="Header"
+              key="mincart"
+              block="NavigationTabs"
               elem="Button"
-              mix={ { block: 'NavigationTabs', elem: 'Button', mods: { isActive } } }
-              mods={ { isVisible: true, type: 'minicart' } }
               onClick={ onMinicartButtonClick }
               aria-label="Minicart"
             >
-                <span aria-label="Items in cart">{ items_qty || '0' }</span>
+                <div
+                  block="Header"
+                  elem="Button"
+                  mix={ { block: 'NavigationTabs', elem: 'Icon', mods: { isActive } } }
+                  mods={ { isVisible: true, type: 'minicart' } }
+                >
+                    { items_qty ? (<span aria-label="Items in cart">{ items_qty }</span>) : null }
+                </div>
             </button>
         );
     }

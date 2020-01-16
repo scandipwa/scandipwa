@@ -222,6 +222,10 @@
     &-Item {
         margin-top: .5rem;
 
+        &:first-child {
+            margin-top: 0;
+        }
+
         button {
             width: 100%;
         }

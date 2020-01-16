@@ -10,9 +10,26 @@
  */
 
 .StoreSwitcher {
-    padding: 1rem;
-
     @include after-mobile {
         padding: 1rem 2rem;
+    }
+
+    @include mobile {
+        --input-padding: 1rem;
+        border-bottom: 1px solid var(--primary-divider-color);
+    }
+
+    select,
+    select:hover,
+    select:focus {
+        @include mobile {
+            border: 0;
+        }
+    }
+
+    .Field {
+        @include mobile {
+            margin-top: 0;
+        }
     }
 }

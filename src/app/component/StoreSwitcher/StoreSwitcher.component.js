@@ -40,7 +40,6 @@ class StoreSwitcher extends PureComponent {
                   id="StoreSwitcher"
                   name="StoreSwitcher"
                   type="select"
-                  label={ __('Current store:') }
                   placeholder={ __('Select store') }
                   selectOptions={ storeList }
                   value={ currentStoreCode }

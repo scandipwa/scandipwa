@@ -14,6 +14,10 @@
 }
 
 .NavigationTabs {
+    --header-background: var(--secondary-light-color);;
+    --header-color: var(--secondary-dark-color);
+    --header-icon-stroke-width: 2px;
+
     position: fixed;
     bottom: 0;
     left: 0;
@@ -42,8 +46,18 @@
     }
 
     &-Button {
+        flex-grow: 1;
+        height: 100%;
+        display: inherit;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &-Icon {
+        font-weight: bold;
+
         &_isActive {
-            --header-color: var(--primary-base-color);
+            --header-color: #000;
         }
     }
 }

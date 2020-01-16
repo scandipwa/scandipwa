@@ -361,7 +361,7 @@ export default class Header extends NavigationAbstract {
                       onClick={ onMinicartButtonClick }
                       aria-label="Minicart"
                     >
-                        <span aria-label="Items in cart">{ items_qty || '0' }</span>
+                        { items_qty ? (<span aria-label="Items in cart">{ items_qty }</span>) : null }
                     </button>
                     <CartOverlay />
                 </div>

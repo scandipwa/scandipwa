@@ -38,7 +38,7 @@ class NavigationAbstract extends PureComponent {
             : this.stateMap[this.defaultStateName];
 
         return Object.entries(this.renderMap).map(
-            ([key, renderFunction]) => renderFunction(source[key])
+            ([key, renderFunction]) => renderFunction(source[key], key)
         );
     }
 

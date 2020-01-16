@@ -44,8 +44,7 @@ export class StoreSwitcherContainer extends DataContainer {
         handleStoreSelect: this._handleStoreSelect.bind(this)
     };
 
-    constructor(props) {
-        super(props);
+    componentDidMount() {
         this._getStoreList();
     }
 
