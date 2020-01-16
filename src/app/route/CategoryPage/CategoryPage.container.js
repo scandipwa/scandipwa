@@ -56,9 +56,7 @@ export const mapDispatchToProps = dispatch => ({
         : BreadcrumbsDispatcher.update([], dispatch)),
     requestProductListInfo: options => ProductListInfoDispatcher.handleData(dispatch, options),
     updateLoadStatus: isLoading => dispatch(updateInfoLoadStatus(isLoading)),
-    updateNoMatch: (options) => {
-        NoMatchDispatcher.updateNoMatch(dispatch, options);
-    }
+    updateNoMatch: options => NoMatchDispatcher.updateNoMatch(dispatch, options)
 });
 
 export const UPDATE_FILTERS_FREQUENCY = 0;
