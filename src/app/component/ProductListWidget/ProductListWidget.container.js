@@ -9,17 +9,16 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+
 import ProductList from 'Component/ProductList';
+import DataContainer from 'Util/Request/DataContainer';
 import { ProductListQuery } from 'Query';
 import { getIndexedProducts } from 'Util/Product';
-import { executeGet } from 'Util/Request';
-import { prepareQuery } from 'Util/Query';
 import { showNotification } from 'Store/Notification';
 import { updateNoMatch } from 'Store/NoMatch';
-import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
+
 import './ProductListWidget.style';
 
 export const mapDispatchToProps = {
@@ -27,7 +26,7 @@ export const mapDispatchToProps = {
     showNotification
 };
 
-export class ProductListWidgetContainer extends PureComponent {
+export class ProductListWidgetContainer extends DataContainer {
     static propTypes = {
         showPager: PropTypes.number,
         productsCount: PropTypes.number,
@@ -119,11 +118,11 @@ export class ProductListWidgetContainer extends PureComponent {
 
         if (!isNext) this.updateLoadStatus(true);
 
-        const query = [ProductListQuery.getQuery(options)];
-
-        executeGet(prepareQuery(query), 'ProductList', ONE_MONTH_IN_SECONDS)
-            .then(isNext ? this.appendPage : this.updateProductListItems)
-            .catch(this.onError);
+        this.fetchData(
+            [ProductListQuery.getQuery(options)],
+            isNext ? this.appendPage : this.updateProductListItems,
+            this.onError
+        );
     }
 
     adaptProps() {

@@ -9,48 +9,37 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { toggleBreadcrumbs, BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { CmsPageDispatcher, updateCmsPage } from 'Store/CmsPage';
 import { changeNavigationState } from 'Store/Navigation';
+import DataContainer from 'Util/Request/DataContainer';
 import { LocationType, MatchType } from 'Type/Common';
+import { CmsPageQuery } from 'Query';
 import { CMS_PAGE } from 'Component/Header';
-import { BlockListType } from 'Type/CMS';
 import { getUrlParam } from 'Util/Url';
 import { history } from 'Route';
 
 import CmsPage from './CmsPage.component';
 
-export const mapStateToProps = state => ({
-    page: state.CmsPageReducer.page,
-    isLoading: state.CmsPageReducer.isLoading
-});
-
 export const mapDispatchToProps = dispatch => ({
-    requestPage: options => CmsPageDispatcher.handleData(dispatch, options),
     updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.updateWithCmsPage(breadcrumbs, dispatch),
     setHeaderState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
-    updateCmsPage: (...[cmsPage, isLoading]) => dispatch(updateCmsPage(cmsPage, isLoading)),
     toggleBreadcrumbs: (isActive) => {
         BreadcrumbsDispatcher.update([], dispatch);
         dispatch(toggleBreadcrumbs(isActive));
     }
 });
 
-export class CmsPageContainer extends PureComponent {
+export class CmsPageContainer extends DataContainer {
     static propTypes = {
-        requestPage: PropTypes.func.isRequired,
         match: MatchType.isRequired,
-        page: BlockListType.isRequired,
         setHeaderState: PropTypes.func.isRequired,
         updateBreadcrumbs: PropTypes.func.isRequired,
         location: LocationType.isRequired,
         toggleBreadcrumbs: PropTypes.func.isRequired,
-        updateCmsPage: PropTypes.func.isRequired,
         urlKey: PropTypes.string,
         isOnlyPlaceholder: PropTypes.bool,
         isBreadcrumbsActive: PropTypes.bool
@@ -62,49 +51,43 @@ export class CmsPageContainer extends PureComponent {
         isBreadcrumbsActive: true
     };
 
+    state = {
+        page: {},
+        isLoading: true
+    };
+
     componentDidMount() {
         const {
-            requestPage,
             location,
             match,
             toggleBreadcrumbs,
             urlKey,
             isOnlyPlaceholder,
-            isBreadcrumbsActive,
-            updateCmsPage
+            isBreadcrumbsActive
         } = this.props;
 
         const urlParam = getUrlParam(match, location);
 
-        updateCmsPage({}, true);
+        this.setState({ page: {} });
 
         if (
             !isOnlyPlaceholder
             && (urlKey || urlParam)
         ) {
-            requestPage({ id: urlKey || urlParam });
+            this.requestPage(urlKey || urlParam);
         }
 
         toggleBreadcrumbs(isBreadcrumbsActive);
     }
 
-    componentDidUpdate(prevProps) {
+    onPageLoad = ({ cmsPage: page }) => {
         const {
-            page: { content_heading },
             location: { pathname },
-            updateBreadcrumbs,
             setHeaderState,
-            requestPage,
-            location,
-            urlKey,
-            match,
-            page
+            updateBreadcrumbs
         } = this.props;
 
-        const {
-            location: { pathname: prevPathname },
-            urlKey: prevUrlKey
-        } = prevProps;
+        const { content_heading } = page;
 
         updateBreadcrumbs(page);
 
@@ -116,9 +99,34 @@ export class CmsPageContainer extends PureComponent {
             });
         }
 
+        this.setState({ page, isLoading: false });
+    };
+
+    requestPage(id) {
+        this.setState({ isLoading: true });
+
+        this.fetchData(
+            [CmsPageQuery.getQuery({ id })],
+            this.onPageLoad
+        );
+    }
+
+    componentDidUpdate(prevProps) {
+        const {
+            location: { pathname },
+            location,
+            urlKey,
+            match
+        } = this.props;
+
+        const {
+            location: { pathname: prevPathname },
+            urlKey: prevUrlKey
+        } = prevProps;
+
         if (pathname !== prevPathname || urlKey !== prevUrlKey) {
             const urlParam = getUrlParam(match, location);
-            requestPage({ id: urlKey || urlParam });
+            this.requestPage(urlKey || urlParam);
         }
     }
 
@@ -126,9 +134,10 @@ export class CmsPageContainer extends PureComponent {
         return (
             <CmsPage
               { ...this.props }
+              { ...this.state }
             />
         );
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CmsPageContainer);
+export default connect(null, mapDispatchToProps)(CmsPageContainer);

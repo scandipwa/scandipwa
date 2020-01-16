@@ -14,7 +14,6 @@ import {
 } from 'redux';
 
 import { CmsBlocksAndSliderReducer } from 'Store/CmsBlocksAndSlider';
-import { CmsPageReducer } from 'Store/CmsPage';
 import { CategoryReducer } from 'Store/Category';
 import { NotificationReducer } from 'Store/Notification';
 import { BreadcrumbsReducer } from 'Store/Breadcrumbs';
@@ -38,7 +37,6 @@ import { LinkedProductsReducer } from 'Store/LinkedProducts';
 
 export const reducers = {
     CmsBlocksAndSliderReducer,
-    CmsPageReducer,
     CategoryReducer,
     NotificationReducer,
     BreadcrumbsReducer,
