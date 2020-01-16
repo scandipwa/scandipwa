@@ -12,12 +12,14 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { TransformWrapper } from 'react-zoom-pan-pinch';
+
 import ProductGalleryThumbnailImage from 'Component/ProductGalleryThumbnailImage';
 import ProductGalleryBaseImage from 'Component/ProductGalleryBaseImage';
 import VideoThumbnail from 'Component/VideoThumbnail';
 import VideoPopup from 'Component/VideoPopup';
 import Slider from 'Component/Slider';
 import Image from 'Component/Image';
+
 import './ProductGallery.style';
 
 export const GALLERY_LENGTH_BEFORE_COLLAPSE = 4;
@@ -117,6 +119,7 @@ export default class ProductGallery extends PureComponent {
             <TransformWrapper
               key={ index }
               onZoomChange={ handleZoomChange }
+              doubleClick={ { mode: 'reset' } }
               pan={ {
                   disabled: !isZoomEnabled,
                   limitToWrapperBounds: true,

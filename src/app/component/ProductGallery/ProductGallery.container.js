@@ -84,7 +84,7 @@ export class ProductGalleryContainer extends PureComponent {
 
     containerProps = () => {
         const { activeImage, isZoomEnabled } = this.state;
-        
+
         return {
             gallery: this.getGalleryPictures(),
             productName: this._getProductName(),
@@ -102,22 +102,18 @@ export class ProductGalleryContainer extends PureComponent {
         return name;
     }
 
-    handleZoomStart() {
-        const { isZoomEnabled } = this.state;
-        if (isZoomEnabled) return;
-
-        document.body.classList.add('overscrollPrevented');
-        this.setState({ isZoomEnabled: true });
-    }
-
     disableZoom() {
         document.body.classList.remove('overscrollPrevented');
         this.setState({ isZoomEnabled: false });
     }
 
     handleZoomChange(args) {
-        if (args.scale > 1) {
-            this.handleZoomStart();
+        const { isZoomEnabled } = this.state;
+
+        if (args.scale !== 1) {
+            if (isZoomEnabled) return;
+            document.body.classList.add('overscrollPrevented');
+            this.setState({ isZoomEnabled: true });
         }
     }
 

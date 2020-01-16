@@ -237,6 +237,8 @@ export default class MenuOverlay extends PureComponent {
     }
 
     renderAdditionalInformation() {
+        return null;
+
         return (
             <aside block="MenuOverlay" elem="AdditionalInformation">
                 { this.renderPromotionCms() }

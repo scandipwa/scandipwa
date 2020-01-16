@@ -1,0 +1,118 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+@mixin search-icon-input {
+    &::before {
+        content: '';
+        position: absolute;
+        z-index: 1;
+        width: 10px;
+        height: 10px;
+        border: 1px solid var(--header-search-field-color);
+        border-radius: 50%;
+        top: 7px;
+        right: 17px;
+        box-shadow:
+            4px 4px 0 -5px var(--header-search-field-color),
+            5px 5px 0 -5px var(--header-search-field-color),
+            6px 6px 0 -5px var(--header-search-field-color),
+            7px 7px 0 -5px var(--header-search-field-color),
+            8px 8px 0 -5px var(--header-search-field-color);
+    }
+}
+
+.SearchField {
+    flex-grow: 1;
+    opacity: 0;
+    pointer-events: none;
+
+    @include after-mobile {
+        @include search-icon-input;
+
+        text-align: right;
+        margin-right: 1rem;
+    }
+
+    &_isVisible {
+        opacity: 1;
+        pointer-events: all;
+    }
+
+    &-Input {
+        background-color: var(--header-search-field-background);
+        font-size: 16px;
+        border-radius: 15px;
+
+        width: 100%;
+        max-width: 0;
+        min-width: 0;
+        transition-property: opacity, background-color;
+        transition-duration: 200ms;
+        opacity: 1;
+        border-color: transparent;
+        border-width: 1px;
+        padding: {
+            top: 4px;
+            bottom: 5px;
+            left: 10px;
+        };
+
+        @include mobile {
+            max-width: 100%;
+        }
+
+        @include after-mobile {
+            transition-property: opacity, width, border;
+            width: var(--header-desktop-search-bar-width);
+            max-width: var(--header-desktop-search-bar-max-width);
+            font-size: 14px;
+            border-radius: 0;
+        }
+    }
+
+    &-Placeholder {
+        visibility: hidden;
+        position: absolute;
+        top: 5px;
+        left: calc(50% - 5px);
+        transform: translate3d(-50%, 0, 0);
+        width: min-content;
+        height: min-content;
+        pointer-events: none;
+        padding-left: 20px;
+        font-size: 16px;
+
+        @include search-icon;
+
+        &::before {
+            left: 0;
+            top: 0;
+            bottom: 0;
+            transform: translateY(-2px);
+            margin: auto;
+        }
+
+        &_isActive {
+            left: 0;
+            transform: translate3d(10px, 0, 0);
+            padding-left: 0;
+            opacity: .7;
+
+            &::before {
+                opacity: 0;
+            }
+        }
+
+        &_isPlaceholderVisible {
+            visibility: visible;
+        }
+    }
+}

@@ -53,44 +53,9 @@
     overflow: visible;
 }
 
-@mixin search-bar-visible {
-    opacity: 1;
-    border-color: transparent;
-    border-width: 1px;
-    padding: {
-        top: 4px;
-        bottom: 5px;
-        left: 10px;
-    };
-
-    @include mobile {
-        max-width: 100%;
-    }
-}
-
 @mixin logo-visible {
     opacity: 1;
     max-width: 100%;
-}
-
-@mixin search-icon-input {
-    &::before {
-        content: '';
-        position: absolute;
-        z-index: 1;
-        width: 10px;
-        height: 10px;
-        border: 1px solid var(--header-search-field-color);
-        border-radius: 50%;
-        top: 7px;
-        right: 17px;
-        box-shadow:
-            4px 4px 0 -5px var(--header-search-field-color),
-            5px 5px 0 -5px var(--header-search-field-color),
-            6px 6px 0 -5px var(--header-search-field-color),
-            7px 7px 0 -5px var(--header-search-field-color),
-            8px 8px 0 -5px var(--header-search-field-color);
-    }
 }
 
 .Header {
@@ -282,47 +247,6 @@
                     width: 70px;
                 }
             }
-        }
-    }
-
-    &-SearchWrapper {
-        flex-grow: 1;
-
-        @include after-mobile {
-            @include search-icon-input;
-
-            text-align: right;
-            margin-right: 1rem;
-        }
-    }
-
-    &-SearchField {
-        background-color: var(--header-search-field-background);
-        font-size: 16px;
-        border-radius: 4px;
-
-        border-width: 0;
-        width: 100%;
-        max-width: 0;
-        min-width: 0;
-        opacity: 0;
-        padding: 0;
-        transition-property: opacity, background-color;
-        transition-duration: 200ms;
-        will-change: max-width, width, opacity, padding, border, background-color;
-
-        @include after-mobile {
-            @include search-bar-visible;
-
-            transition-property: opacity, width, border;
-            width: var(--header-desktop-search-bar-width);
-            max-width: var(--header-desktop-search-bar-max-width);
-            font-size: 14px;
-            border-radius: 0;
-        }
-
-        &_isVisible {
-            @include search-bar-visible;
         }
     }
 

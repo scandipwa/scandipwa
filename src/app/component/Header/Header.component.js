@@ -11,12 +11,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Fragment, createRef } from 'react';
 import PropTypes from 'prop-types';
 
 import NavigationAbstract, { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.component';
+import SearchField from 'Component/SearchField';
 import MyAccountOverlay from 'Component/MyAccountOverlay';
-import SearchOverlay from 'Component/SearchOverlay';
 import ClickOutside from 'Component/ClickOutside';
 import CartOverlay from 'Component/CartOverlay';
 import MenuOverlay from 'Component/MenuOverlay';
@@ -155,16 +154,6 @@ export default class Header extends NavigationAbstract {
         ok: this.renderOkButton.bind(this)
     };
 
-    searchBarRef = createRef();
-
-    onClearSearchButtonClick = this.onClearSearchButtonClick.bind(this);
-
-    onClearSearchButtonClick() {
-        const { onClearSearchButtonClick } = this.props;
-        this.searchBarRef.current.focus();
-        onClearSearchButtonClick();
-    }
-
     renderBackButton(isVisible = false) {
         const { onBackButtonClick } = this.props;
 
@@ -227,47 +216,22 @@ export default class Header extends NavigationAbstract {
             searchCriteria,
             onSearchOutsideClick,
             onSearchBarClick,
-            onSearchBarChange
+            onSearchBarChange,
+            onClearSearchButtonClick,
+            navigationState: { name }
         } = this.props;
 
         return (
-            <Fragment key="search">
-                <ClickOutside onClick={ onSearchOutsideClick }>
-                    <div
-                      block="Header"
-                      elem="SearchWrapper"
-                      aria-label="Search"
-                    >
-                        <input
-                          id="search-field"
-                          ref={ this.searchBarRef }
-                          placeholder={ __('Type a new search') }
-                          block="Header"
-                          elem="SearchField"
-                          onClick={ onSearchBarClick }
-                          onChange={ onSearchBarChange }
-                          value={ searchCriteria }
-                          mods={ {
-                              isVisible: isSearchVisible,
-                              type: 'searchField'
-                          } }
-                        />
-                        <SearchOverlay
-                          searchCriteria={ searchCriteria }
-                        />
-                    </div>
-                </ClickOutside>
-                <button
-                  block="Header"
-                  elem="Button"
-                  onClick={ this.onClearSearchButtonClick }
-                  mods={ {
-                      type: 'searchClear',
-                      isVisible: isSearchVisible
-                  } }
-                  aria-label="Clear search"
-                />
-            </Fragment>
+            <SearchField
+              key="search"
+              searchCriteria={ searchCriteria }
+              onSearchOutsideClick={ onSearchOutsideClick }
+              onSearchBarClick={ onSearchBarClick }
+              onSearchBarChange={ onSearchBarChange }
+              onClearSearchButtonClick={ onClearSearchButtonClick }
+              isVisible={ isSearchVisible }
+              isActive={ name === SEARCH }
+            />
         );
     }
 

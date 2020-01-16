@@ -59,7 +59,7 @@ export class ProductGalleryBaseImageContainer extends PureComponent {
         } = this.props;
 
         if (!isZoomEnabled) return baseUrl || media(file, PRODUCT_MEDIA);
-        return media(file, PRODUCT_MEDIA);
+        return file ? media(file, PRODUCT_MEDIA) : baseUrl;
     }
 
     render() {
