@@ -26,7 +26,7 @@ export default class ProductAttributeValue extends PureComponent {
         isSelected: PropTypes.bool,
         isAvailable: PropTypes.bool,
         mix: MixType,
-        formatAsText: PropTypes.bool
+        isFormattedAsText: PropTypes.bool
     };
 
     static defaultProps = {
@@ -35,7 +35,7 @@ export default class ProductAttributeValue extends PureComponent {
         getLink: () => {},
         mix: {},
         isAvailable: true,
-        formatAsText: false
+        isFormattedAsText: false
     };
 
     clickHandler = this.clickHandler.bind(this);
@@ -121,10 +121,10 @@ export default class ProductAttributeValue extends PureComponent {
     }
 
     renderColorValue(color, label) {
-        const { formatAsText, isSelected } = this.props;
+        const { isFormattedAsText, isSelected } = this.props;
         const isLight = this.getIsColorLight(color);
 
-        if (formatAsText) return label || __('N/A');
+        if (isFormattedAsText) return label || __('N/A');
 
         return (
             <data
@@ -143,9 +143,9 @@ export default class ProductAttributeValue extends PureComponent {
     }
 
     renderImageValue(img, label) {
-        const { formatAsText, isSelected } = this.props;
+        const { isFormattedAsText, isSelected } = this.props;
 
-        if (formatAsText) return label || __('N/A');
+        if (isFormattedAsText) return label || __('N/A');
         return (
             <>
                 <img
@@ -188,10 +188,10 @@ export default class ProductAttributeValue extends PureComponent {
     }
 
     renderStringValue(value, label) {
-        const { formatAsText, isSelected } = this.props;
+        const { isFormattedAsText, isSelected } = this.props;
         const isSwatch = label;
 
-        if (formatAsText) return label || value || __('N/A');
+        if (isFormattedAsText) return label || value || __('N/A');
 
         if (!isSwatch) return this.renderDropdown(value);
 
@@ -231,7 +231,7 @@ export default class ProductAttributeValue extends PureComponent {
             isAvailable,
             attribute: { attribute_code, attribute_value },
             mix,
-            formatAsText
+            isFormattedAsText
         } = this.props;
 
         if (attribute_code && !attribute_value) return null;
@@ -240,7 +240,7 @@ export default class ProductAttributeValue extends PureComponent {
         // Invert to apply css rule without using not()
         const isNotAvailable = !isAvailable;
 
-        if (formatAsText) {
+        if (isFormattedAsText) {
             return (
                 <div
                   block="ProductAttributeValue"

@@ -62,7 +62,7 @@ export default class ProductInformation extends PureComponent {
                 <ProductAttributeValue
                   key={ attributeLabel }
                   attribute={ valueLabel }
-                  formatAsText
+                  isFormattedAsText
                 />
             </dd>
         </Fragment>

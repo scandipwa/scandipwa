@@ -141,7 +141,7 @@ export default class ProductCard extends PureComponent {
             >
                 <ProductAttributeValue
                   attribute={ brand }
-                  formatAsText
+                  isFormattedAsText
                 />
             </div>
         );
