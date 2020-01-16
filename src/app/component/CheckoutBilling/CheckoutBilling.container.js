@@ -35,7 +35,7 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
     showErrorNotification: message => dispatch(showNotification('error', message)),
-    showNewPopup: payload => dispatch(showPopup(TERMS_AND_CONDITIONS_POPUP_ID, payload))
+    showPopup: payload => dispatch(showPopup(TERMS_AND_CONDITIONS_POPUP_ID, payload))
 });
 
 export class CheckoutBillingContainer extends PureComponent {
@@ -43,7 +43,7 @@ export class CheckoutBillingContainer extends PureComponent {
         showErrorNotification: PropTypes.func.isRequired,
         paymentMethods: paymentMethodsType.isRequired,
         savePaymentInformation: PropTypes.func.isRequired,
-        showNewPopup: PropTypes.func.isRequired,
+        showPopup: PropTypes.func.isRequired,
         shippingAddress: addressType.isRequired,
         customer: customerType.isRequired,
         totals: TotalsType.isRequired,
@@ -127,13 +127,13 @@ export class CheckoutBillingContainer extends PureComponent {
     }
 
     showPopup() {
-        const { showNewPopup, termsAndConditions } = this.props;
+        const { showPopup, termsAndConditions } = this.props;
         const {
-            checkbox_text: title = 'Terms and Conditions',
-            content: text = 'There are no Terms and Conditions configured.'
+            checkbox_text: title = __('Terms and Conditions'),
+            content: text = __('There are no Terms and Conditions configured.')
         } = termsAndConditions[0] || {};
 
-        return showNewPopup({
+        return showPopup({
             title, text
         });
     }

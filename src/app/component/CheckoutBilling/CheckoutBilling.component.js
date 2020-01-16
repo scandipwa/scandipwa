@@ -12,17 +12,16 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import Form from 'Component/Form';
-import CheckoutPayments from 'Component/CheckoutPayments';
-import CheckoutAddressBook from 'Component/CheckoutAddressBook';
+import CheckoutTermsAndConditionsPopup from 'Component/CheckoutTermsAndConditionsPopup';
 import { BILLING_STEP } from 'Route/Checkout/Checkout.component';
+import CheckoutAddressBook from 'Component/CheckoutAddressBook';
+import CheckoutPayments from 'Component/CheckoutPayments';
 import { paymentMethodsType } from 'Type/Checkout';
 import { TotalsType } from 'Type/MiniCart';
-import Field from 'Component/Field';
-
-import './CheckoutBilling.style';
 import { addressType } from 'Type/Account';
-import CheckoutTermsAndConditionsPopup from 'Component/CheckoutTermsAndConditionsPopup';
+import Field from 'Component/Field';
+import Form from 'Component/Form';
+import './CheckoutBilling.style';
 
 class CheckoutBilling extends PureComponent {
     state = {

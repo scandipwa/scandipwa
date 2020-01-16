@@ -37,7 +37,10 @@ export const initialState = {
 const ConfigReducer = (state = initialState, action) => {
     const {
         config: {
-            countries, reviewRatings, checkoutAgreements, storeConfig = {}
+            countries,
+            reviewRatings,
+            checkoutAgreements,
+            storeConfig = {}
         } = {}, type
     } = action;
 
