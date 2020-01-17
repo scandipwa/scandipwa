@@ -92,10 +92,18 @@
         align-items: center;
         justify-content: center;
 
+        + .ProductActions-Section_type_short {
+            @include mobile {
+                margin-top: -1rem;
+            }
+        }
+
         @include mobile {
             order: -2;
-            text-align: center;
-            padding-top: 1rem;
+            padding-left: 1rem;
+            padding-top: 1.5rem;
+            padding-bottom: 1.5rem;
+            // border-top: 1px solid var(--expandable-content-divider-color);
         }
 
         &:last-of-type {
@@ -196,7 +204,9 @@
             // --product-configurable-attributes-direction: center;
             --option-margin: 0 .5rem 1rem;
 
+            // display: grid;
             border-top: 1px solid var(--expandable-content-divider-color);
+            // grid-template-columns: repeat(auto-fit, minmax(50%, 1fr));
         }
 
         @include after-mobile {
@@ -233,8 +243,11 @@
 
             &_short {
                 @include mobile {
-                    border-top: 1px solid var(--expandable-content-divider-color);
-                    top: -1px;
+                    border-top: 0;
+                    padding-top: 0;
+                    // padding-top: .5rem;
+                    bottom: -1px;
+                    border-bottom: 1px solid var(--expandable-content-divider-color);
                 }
 
                 @include after-mobile {

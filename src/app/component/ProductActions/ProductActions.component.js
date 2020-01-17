@@ -25,7 +25,6 @@ import ProductPrice from 'Component/ProductPrice';
 import { ProductType } from 'Type/ProductList';
 import AddToCart from 'Component/AddToCart';
 import { GROUPED } from 'Util/Product';
-import { isSignedIn } from 'Util/Auth';
 import Field from 'Component/Field';
 import isMobile from 'Util/Mobile';
 import Html from 'Component/Html';
@@ -291,10 +290,13 @@ export default class ProductActions extends PureComponent {
     renderGroupedItems() {
         const {
             product,
+            product: { type_id },
             groupedProductQuantity,
             setGroupedProductQuantity,
             clearGroupedProductQuantity
         } = this.props;
+
+        if (type_id !== GROUPED) return null;
 
         return (
             <div block="ProductActions" elem="GroupedItems">
@@ -312,6 +314,7 @@ export default class ProductActions extends PureComponent {
         return (
             <article block="ProductActions">
                 { this.renderPrice() }
+                { this.renderShortDescription() }
                 <div block="ProductActions" elem="AddToCartWrapper">
                     { this.renderQuantityInput() }
                     { this.renderAddToCart() }
@@ -321,7 +324,6 @@ export default class ProductActions extends PureComponent {
                 { this.renderNameAndBrand() }
                 { this.renderSkuAndStock() }
                 { this.renderConfigurableAttributes() }
-                { this.renderShortDescription() }
                 { this.renderGroupedItems() }
             </article>
         );

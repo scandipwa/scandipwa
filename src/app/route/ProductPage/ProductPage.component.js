@@ -76,8 +76,6 @@ export default class ProductPage extends PureComponent {
                 <RelatedProducts
                   product={ dataSource }
                   areDetailsLoaded={ areDetailsLoaded }
-                  label={ __('We recommend') }
-                  itemType=""
                 />
             </>
         );
