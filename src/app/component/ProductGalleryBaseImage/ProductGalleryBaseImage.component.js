@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
+import { PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
 import { TransformComponent } from 'react-zoom-pan-pinch';
 import Image from 'Component/Image';
@@ -17,8 +17,25 @@ import Image from 'Component/Image';
 class ProductGalleryBaseImage extends PureComponent {
     static propTypes = {
         src: PropTypes.string.isRequired,
-        alt: PropTypes.string.isRequired
+        alt: PropTypes.string.isRequired,
+        registerSharedElementDestination: PropTypes.func.isRequired,
+        index: PropTypes.number.isRequired
     };
+
+    imageRef = createRef();
+
+    componentDidMount() {
+        this.updateSharedDestinationElement();
+    }
+
+    componentWillUpdate() {
+        this.updateSharedDestinationElement();
+    }
+
+    updateSharedDestinationElement() {
+        const { index, registerSharedElementDestination } = this.props;
+        if (index === 0) registerSharedElementDestination(this.imageRef);
+    }
 
     render() {
         const { src, alt } = this.props;
@@ -33,6 +50,7 @@ class ProductGalleryBaseImage extends PureComponent {
                       elem: 'SliderImage',
                       mods: { isPlaceholder: !src }
                   } }
+                  imageRef={ this.imageRef }
                   isPlaceholder={ !src }
                   alt={ alt }
                 />

@@ -76,7 +76,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
     default_state = DEFAULT_HEADER_STATE;
 
     routeMap = {
-        '/category': { name: CATEGORY, onBackClick: this.onMenuButtonClick },
+        '/category': { name: CATEGORY, onBackClick: this.onMenuButtonClick.bind(this) },
         '/my-account': { name: CUSTOMER_ACCOUNT_PAGE, onBackClick: () => history.push('/') },
         '/product': { name: PDP, onBackClick: () => history.goBack() },
         '/cart': { name: CART },

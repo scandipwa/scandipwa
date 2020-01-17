@@ -21,16 +21,30 @@ export class ProductGalleryContainer extends PureComponent {
         product: ProductType.isRequired
     };
 
-    state = {
-        activeImage: 0,
-        isZoomEnabled: false
-    };
-
     containerFunctions = {
         onActiveImageChange: this.onActiveImageChange.bind(this),
         handleZoomChange: this.handleZoomChange.bind(this),
         disableZoom: this.disableZoom.bind(this)
     };
+
+    constructor(props) {
+        super(props);
+
+        const { product: { id } } = props;
+
+        this.state = {
+            activeImage: 0,
+            isZoomEnabled: false,
+            prevProdId: id
+        };
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        const { product: { id } } = props;
+        const { prevProdId } = state;
+        if (prevProdId === id) return null;
+        return { prevProdId: id, activeImage: 0 };
+    }
 
     onActiveImageChange(activeImage) {
         this.setState({

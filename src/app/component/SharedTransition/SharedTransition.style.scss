@@ -1,0 +1,40 @@
+.SharedTransition {
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    position: fixed;
+    z-index: 90;
+    pointer-events: none;
+    opacity: 0;
+
+    &::after {
+        content: '';
+        position: absolute;
+        display: block;
+        height: calc(100vh - var(--header-height) - var(--navigation-tabs-height));
+        width: 100%;
+        top: var(--header-height);
+        left: 0;
+    }
+
+    &_isVisible {
+        pointer-events: all;
+        opacity: 1;
+        background: #fff;
+    }
+
+    > * {
+        padding: 0 !important;
+        margin: 0 !important;
+        width: var(--shared-element-width, 0);
+        height: var(--shared-element-height, 0);
+        top: var(--shared-element-top, 0);
+        left: var(--shared-element-left, 0);
+        transition-property: width, height, top, left;
+        will-change: width, height, top, left;
+        transition-timing-function: ease-in-out;
+        transition-duration: var(--shared-element-animation-speed, 150ms);
+        transform: translate3d(0, 0, 0);
+    }
+}

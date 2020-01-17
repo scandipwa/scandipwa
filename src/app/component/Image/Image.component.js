@@ -138,7 +138,8 @@ export default class Image extends PureComponent {
             mix,
             isPlaceholder,
             wrapperSize,
-            src
+            src,
+            imageRef
         } = this.props;
 
         const { imageStatus } = this.state;
@@ -146,6 +147,7 @@ export default class Image extends PureComponent {
         return (
             <div
               block="Image"
+              ref={ imageRef }
               mods={ {
                   ratio,
                   imageStatus,

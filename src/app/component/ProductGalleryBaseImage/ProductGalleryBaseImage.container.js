@@ -9,9 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { Subscribe } from 'unstated';
+import { PureComponent } from 'react';
+
 import media, { PRODUCT_MEDIA } from 'Util/Media/Media';
+import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
+
 import ProductGallery from './ProductGalleryBaseImage.component';
 
 export class ProductGalleryBaseImageContainer extends PureComponent {
@@ -63,10 +67,18 @@ export class ProductGalleryBaseImageContainer extends PureComponent {
     }
 
     render() {
+        const { index } = this.props;
+
         return (
-            <ProductGallery
-              { ...this.containerProps() }
-            />
+            <Subscribe to={ [SharedTransitionContainer] }>
+                { ({ registerSharedElementDestination }) => (
+                    <ProductGallery
+                      { ...this.containerProps() }
+                      registerSharedElementDestination={ registerSharedElementDestination }
+                      index={ index }
+                    />
+                ) }
+            </Subscribe>
         );
     }
 }

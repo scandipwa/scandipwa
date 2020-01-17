@@ -9,10 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
+import { PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
 
-import media, { PRODUCT_MEDIA } from 'Util/Media';
 import Link from 'Component/Link';
 import Image from 'Component/Image';
 import Loader from 'Component/Loader';
@@ -38,6 +37,7 @@ export default class ProductCard extends PureComponent {
             value: PropTypes.string
         })).isRequired,
         getAttribute: PropTypes.func.isRequired,
+        registerSharedElement: PropTypes.func.isRequired,
         children: PropTypes.element,
         isLoading: PropTypes.bool,
         mix: PropTypes.shape({})
@@ -49,6 +49,13 @@ export default class ProductCard extends PureComponent {
         children: null,
         isLoading: false,
         mix: {}
+    };
+
+    imageRef = createRef();
+
+    registerSharedElement = () => {
+        const { registerSharedElement } = this.props;
+        registerSharedElement(this.imageRef);
     };
 
     renderProductPrice() {
@@ -84,15 +91,20 @@ export default class ProductCard extends PureComponent {
     renderPicture() {
         const { product: { id, name }, thumbnail } = this.props;
 
+        this.sharedComponent = (
+            <Image
+              imageRef={ this.imageRef }
+              src={ thumbnail }
+              alt={ name }
+              ratio="custom"
+              mix={ { block: 'ProductCard', elem: 'Picture' } }
+              isPlaceholder={ !id }
+            />
+        );
+
         return (
             <>
-                <Image
-                  src={ thumbnail }
-                  alt={ name }
-                  ratio="custom"
-                  mix={ { block: 'ProductCard', elem: 'Picture' } }
-                  isPlaceholder={ !id }
-                />
+                { this.sharedComponent }
                 <img
                   style={ { display: 'none' } }
                   alt={ name }
@@ -171,6 +183,7 @@ export default class ProductCard extends PureComponent {
               block="ProductCard"
               elem="Link"
               to={ linkTo }
+              onClick={ this.registerSharedElement }
             >
               { children }
             </Link>
