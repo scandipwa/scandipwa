@@ -8,11 +8,12 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-
-a {
+:root {
     --link-color: var(--primary-base-color);
     --link-hover: var(--primary-dark-color);
+}
 
+a {
     color: var(--link-color);
 
     &:hover {

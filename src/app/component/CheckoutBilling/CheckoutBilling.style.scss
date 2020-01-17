@@ -13,7 +13,6 @@
     &-Checkbox {
         display: inline-block;
         margin-bottom: 2rem;
-        margin-left: 1rem;
     }
 
     &-Button {
@@ -22,15 +21,29 @@
         }
     }
 
+    &-TermsAndConditions {
+        font-weight: 700;
+        font-size: 1.05rem;
+        margin: 0;
+        margin-bottom: 2rem;
+        display: flex;
+        align-items: center;
+
+        &-Checkbox {
+            margin: 0;
+            margin-left: 1rem;
+        }
+    }
+
     &-Link {
+        color: var(--link-color);
+
         &:hover {
             text-decoration: underline;
         }
-    }
-}
 
-.Button.CheckoutBilling {
-    &-Button {
-        display: block;
+        &:focus {
+            text-decoration: underline;
+        }
     }
 }
