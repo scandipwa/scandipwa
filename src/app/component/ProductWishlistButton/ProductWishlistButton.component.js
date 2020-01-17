@@ -73,8 +73,8 @@ export default class ProductWishlistButton extends PureComponent {
         return (
             <button
               block="ProductWishlistButton"
+              mods={ { isInWishlist, isDisabled } }
               mix={ mix }
-              disabled={ isDisabled, isInWishlist }
               title={ this.getTitle() }
               onClick={ this.onClick }
             />
