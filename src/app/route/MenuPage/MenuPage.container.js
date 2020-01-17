@@ -34,7 +34,9 @@ export class MenuPageContainer extends PureComponent {
 
     render() {
         return (
-            <MenuOverlay />
+            <main>
+                <MenuOverlay />
+            </main>
         );
     }
 }

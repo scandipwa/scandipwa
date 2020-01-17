@@ -21,7 +21,7 @@
     --header-desktop-search-bar-width: 270px;
     --header-desktop-search-bar-max-width: 450px;
     --header-desktop-button-color: #f26323;
-    --header-height: 50px;
+    --header-height: calc(50px + env(safe-area-inset-top));
     --header-nav-height: 50px;
     --header-logo-width: 200px;
     --header-logo-height: calc(var(--header-height) - 30px);
@@ -65,15 +65,17 @@
     width: 100%;
     z-index: 100;
     background-color: var(--header-background);
+    padding-top: env(safe-area-inset-top, 0);
 
     &_isHiddenOnMobile {
         @include mobile {
-            display: none;
+            pointer-events: none;
+            opacity: 0;
         }
 
         @at-root .hiddenHeader {
             @include mobile {
-                --header-height: 0;
+                --header-height: env(safe-area-inset-top);
             }
         }
     }

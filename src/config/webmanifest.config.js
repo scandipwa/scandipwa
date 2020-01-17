@@ -25,8 +25,9 @@ module.exports = (projectRoot) => {
         start_url: '/',
         crossorigin: null,
         ios: {
+            'apple-mobile-web-app-capable': 'yes',
             'apple-mobile-web-app-title': 'ScandiPWA',
-            'apple-mobile-web-app-status-bar-style': 'black-translucent'
+            'apple-mobile-web-app-status-bar-style': 'default'
         },
         inject: true,
         orientation: 'portrait',
