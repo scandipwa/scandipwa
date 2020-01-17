@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -25,7 +26,7 @@ module.exports = (projectRoot) => {
         crossorigin: null,
         ios: {
             'apple-mobile-web-app-title': 'ScandiPWA',
-            'apple-mobile-web-app-status-bar-style': 'black'
+            'apple-mobile-web-app-status-bar-style': 'black-translucent'
         },
         inject: true,
         orientation: 'portrait',

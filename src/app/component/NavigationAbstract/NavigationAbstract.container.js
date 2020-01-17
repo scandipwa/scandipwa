@@ -69,7 +69,7 @@ export class NavigationAbstractContainer extends PureComponent {
 
     handleMobileRouteChange(history) {
         const {
-            hideActiveOverlay,
+            // hideActiveOverlay,
             setNavigationState,
             navigationState: { name }
         } = this.props;
@@ -84,7 +84,7 @@ export class NavigationAbstractContainer extends PureComponent {
             setNavigationState(newNavigationState);
         }
 
-        hideActiveOverlay();
+        // hideActiveOverlay();
 
         return { prevPathname: pathname };
     }

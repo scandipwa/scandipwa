@@ -4,7 +4,7 @@ export const sharedTransitionInitialState = {
     sharedElementDestination: null,
     sharedElement: null,
     destinationPosition: {},
-    statringPosition: {}
+    startingPosition: {}
 };
 
 export class SharedTransitionContainer extends Container {
@@ -35,7 +35,7 @@ export class SharedTransitionContainer extends Container {
 
             this.setState({
                 sharedElement: clone,
-                statringPosition: this._parseRectangle(current.getBoundingClientRect())
+                startingPosition: this._parseRectangle(current.getBoundingClientRect())
             });
         }
     };

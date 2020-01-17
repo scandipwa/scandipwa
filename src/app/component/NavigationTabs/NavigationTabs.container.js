@@ -16,7 +16,7 @@ import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Na
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation';
 import { DEFAULT_HEADER_STATE } from 'Component/Header/Header.container';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay';
-import { history } from 'Route';
+import { history as browserHistory } from 'Route';
 
 import NavigationTabs, {
     ACCOUNT_TAB,
@@ -56,17 +56,69 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         onHomeButtonClick: this.onHomeButtonClick.bind(this)
     };
 
+    lastSeenMenu = 0;
+
     onMenuButtonClick() {
-        history.push('/menu');
+        if (this.lastSeenMenu === 0) {
+            browserHistory.push('/menu');
+        } else {
+            browserHistory.go(-this.lastSeenMenu);
+            this.lastSeenMenu = 0;
+        }
     }
 
     onMinicartButtonClick() {
-        history.push('/cart');
+        browserHistory.push('/cart');
     }
 
     onMyAccountButtonClick() {
-        history.push('/my-account');
+        browserHistory.push('/my-account');
     }
+
+    handleMobileRouteChange(history) {
+        const {
+            // hideActiveOverlay,
+            setNavigationState,
+            navigationState: { name }
+        } = this.props;
+
+        const { pathname } = history;
+
+        // Find the new state name
+        const newNavigationState = this.getNavigationState(pathname);
+        const { name: newName } = newNavigationState;
+
+        // Update the state if new name is set
+        if (name !== newName) {
+            setNavigationState(newNavigationState);
+        }
+
+        if (newName !== MENU_TAB) {
+            this.lastSeenMenu++;
+        }
+
+        if (newName === MENU_TAB && name === MENU_TAB) {
+            this.lastSeenMenu = 0;
+        }
+
+        // hideActiveOverlay();
+
+        return { prevPathname: pathname };
+    }
+
+    // handleMobileRouteChange(history) {
+    //     const {
+    //         navigationState: { name }
+    //     } = this.props;
+
+    //     if (name === MENU_TAB) {
+    //         this.lastSeenMenu = 0;
+    //     } else {
+    //         this.lastSeenMenu += 1;
+    //     }
+
+    //     super.handleMobileRouteChange(history);
+    // }
 
     onHomeButtonClick() {
         const {
@@ -77,7 +129,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
 
         const { pathname } = location;
 
-        history.push('/');
+        browserHistory.push('/');
         hideActiveOverlay();
 
         if (pathname === '/') {

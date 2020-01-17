@@ -27,9 +27,7 @@ export class MenuPageContainer extends PureComponent {
         showOverlay: PropTypes.func.isRequired
     };
 
-    constructor(props) {
-        super(props);
-
+    componentDidMount() {
         const { showOverlay } = this.props;
         showOverlay(MENU_OVERLAY_KEY);
     }

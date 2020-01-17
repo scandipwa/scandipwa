@@ -1,1 +1,1 @@
-export { default } from './SharedTransition.component';
+export { default } from './SharedTransition.container';

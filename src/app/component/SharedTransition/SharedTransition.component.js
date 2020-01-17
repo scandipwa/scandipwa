@@ -1,76 +1,83 @@
 import { PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
-import { Subscribe } from 'unstated';
-import SharedTransitionContainer from './SharedTransition.unstated';
-
 import './SharedTransition.style';
-import CSS from 'Util/CSS';
+
+export const SHARED_ELEMENT_TRANSITION = 250;
 
 class SharedTransition extends PureComponent {
     static propTypes = {
-        // TODO: implement prop-types
+        state: PropTypes.shape({
+            startingPosition: PropTypes.shape({
+                width: PropTypes.number,
+                height: PropTypes.number,
+                left: PropTypes.number,
+                top: PropTypes.number
+            }),
+            destinationPosition: PropTypes.shape({
+                width: PropTypes.number,
+                height: PropTypes.number,
+                left: PropTypes.number,
+                top: PropTypes.number
+            }),
+            sharedElementDestination: PropTypes.object,
+            sharedElement: PropTypes.object
+        }).isRequired,
+        cleanUpTransition: PropTypes.func.isRequired
     };
 
     sharedContainer = createRef();
 
-    setAnimationSpeed() {
-        // { top, height }, { top: dTop, height: dHeight }
-        // const ms = Math.abs(top + height - dTop - dHeight) / screen.height * 300;
-        const ms = 150;
+    animationSpeed = SHARED_ELEMENT_TRANSITION;
 
-        CSS.setVariable(
-            this.sharedContainer,
-            'shared-element-animation-speed',
-            `${ ms }ms`
-        );
+    setDestinationTransform = this.setTransform.bind(this, 'destinationPosition');
 
-        return ms;
+    setStartingTransform = this.setTransform.bind(this, 'startingPosition');
+
+    componentDidUpdate() {
+        if (this.transitionInAction) return;
+        this.updateSharedElement();
     }
 
-    setPositionToElement(position) {
+    setTransform(key) {
         const {
-            width,
-            height,
-            left,
-            top
-        } = position;
+            state: {
+                [key]: {
+                    width,
+                    height,
+                    left,
+                    top
+                }
+            }
+        } = this.props;
 
-        CSS.setVariable(this.sharedContainer, 'shared-element-width', `${width}px`);
-        CSS.setVariable(this.sharedContainer, 'shared-element-height', `${height}px`);
-        CSS.setVariable(this.sharedContainer, 'shared-element-left', `${left}px`);
-        CSS.setVariable(this.sharedContainer, 'shared-element-top', `${top}px`);
+        this.sharedContainer.current.style.cssText = `
+            --shared-element-width: ${width}px;
+            --shared-element-height: ${height}px;
+            --shared-element-top: ${top}px;
+            --shared-element-left: ${left}px;
+            --shared-element-animation-speed: ${this.animationSpeed}ms;
+        `;
     }
 
-    handleSharedTransition = ({ state, cleanUpTransition }) => {
-        const { sharedElement } = state;
-        console.log(state);
-
-        this.renderCloneElement(state, cleanUpTransition);
-
-        return (
-            <div
-              block="SharedTransition"
-              mods={ { isVisible: !!sharedElement } }
-              ref={ this.sharedContainer }
-            />
-        );
-    };
-
-    cleanUpTransition = (cleanUpTransition) => {
+    cleanUpTransition = () => {
         const { current: wrapper } = this.sharedContainer;
+        const { cleanUpTransition } = this.props;
+
         const range = document.createRange();
         range.selectNodeContents(wrapper);
         range.deleteContents();
+
+        this.transitionInAction = false;
         cleanUpTransition();
     };
 
-    renderCloneElement(state, cleanUpTransition) {
+    updateSharedElement() {
         const {
-            sharedElementDestination,
-            sharedElement,
-            statringPosition,
-            destinationPosition
-        } = state;
+            state: {
+                sharedElementDestination,
+                sharedElement
+            }
+        } = this.props;
 
         const { current: wrapper } = this.sharedContainer;
 
@@ -80,18 +87,22 @@ class SharedTransition extends PureComponent {
             || !wrapper
         ) return;
 
-        const duration = this.setAnimationSpeed(statringPosition, destinationPosition);
-        this.setPositionToElement(statringPosition);
+        this.transitionInAction = true;
+        this.setStartingTransform();
         wrapper.appendChild(sharedElement);
-        setTimeout(() => this.setPositionToElement(destinationPosition), 0);
-        setTimeout(() => this.cleanUpTransition(cleanUpTransition), duration);
+        setTimeout(this.setDestinationTransform, 0);
+        setTimeout(this.cleanUpTransition, this.animationSpeed);
     }
 
     render() {
+        const { state: { sharedElement } } = this.props;
+
         return (
-            <Subscribe to={ [SharedTransitionContainer] }>
-                { this.handleSharedTransition }
-            </Subscribe>
+            <div
+              block="SharedTransition"
+              mods={ { isVisible: !!sharedElement } }
+              ref={ this.sharedContainer }
+            />
         );
     }
 }
