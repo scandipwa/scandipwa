@@ -77,26 +77,32 @@ class CheckoutBilling extends PureComponent {
         const { termsAndConditionsAccepted } = this.state;
 
         if (!termsAreEnabled) return null;
+        const spaceSymbol = '\u00A0';
 
         return (
-            <>
-                <button
+            <div
+              block="CheckoutBilling"
+              elem="TermsAndConditions"
+            >
+                { `${__('I agree to') }${ spaceSymbol }` }
+                <label
+                  htmlFor="CheckoutBilling"
                   block="CheckoutBilling"
                   elem="Link"
                   onClick={ this.handleShowPopup }
                 >
-                    { __('I agree to terms and conditions.') }
-                </button>
+                    { __('terms and conditions.') }
+                </label>
                 <Field
                   id="termsAndConditions"
                   name="termsAndConditions"
                   type="checkbox"
                   value="termsAndConditions"
-                  mix={ { block: 'CheckoutBilling', elem: 'Checkbox' } }
+                  mix={ { block: 'CheckoutBilling', elem: 'TermsAndConditions-Checkbox' } }
                   checked={ termsAndConditionsAccepted }
                   onChange={ this.setTermsAndConfitionsAccepted }
                 />
-            </>
+            </div>
         );
     }
 
