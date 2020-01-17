@@ -49,6 +49,7 @@ class Checkout extends PureComponent {
         checkoutTotals: TotalsType.isRequired,
         orderID: PropTypes.string.isRequired,
         history: HistoryType.isRequired,
+        paymentTotals: TotalsType.isRequired,
         checkoutStep: PropTypes.oneOf([
             SHIPPING_STEP,
             BILLING_STEP,

@@ -37,7 +37,7 @@ export const addressType = PropTypes.shape({
         PropTypes.arrayOf(PropTypes.string)
     ]),
     suffix: PropTypes.string,
-    telephone: PropTypes.string,
+    telephone: PropTypes.string
 });
 
 export const addressesType = PropTypes.arrayOf(addressType);

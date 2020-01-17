@@ -137,13 +137,26 @@
 
     &-AddToCart {
         @include mobile {
-            margin: 1rem .25rem;
-            width: calc(100% - 2rem);
+            flex-grow: 1;
         }
     }
 
     &-AddToCartWrapper {
         order: -2;
+
+        @include mobile {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            z-index: 105;
+            bottom: var(--navigation-tabs-height);
+            left: 0;
+            width: 100%;
+            background: var(--header-background);
+            border-top: 1px solid var(--primary-divider-color);
+            padding: 1rem;
+        }
 
         @include after-mobile {
             order: 22;
@@ -315,7 +328,9 @@
         vertical-align: middle;
 
         + .ProductActions-AddToCart {
-            margin-left: 10px;
+            @include after-mobile {
+                margin-left: 10px;
+            }
         }
 
         @include mobile {

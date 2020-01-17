@@ -29,7 +29,6 @@ import { isSignedIn } from 'Util/Auth';
 import Field from 'Component/Field';
 import isMobile from 'Util/Mobile';
 import Html from 'Component/Html';
-import Link from 'Component/Link';
 
 import './ProductActions.style';
 
@@ -254,19 +253,6 @@ export default class ProductActions extends PureComponent {
         );
     }
 
-    renderGoToWishlist() {
-        if (!isSignedIn()) return null;
-
-        return (
-            <Link
-              to="/my-account/my-wishlist"
-              mix={ { block: 'Button', mods: { isHollow: true } } }
-            >
-                { __('Go To Wishlist') }
-            </Link>
-        );
-    }
-
     renderProductWishlistButton() {
         const {
             product,
@@ -280,15 +266,6 @@ export default class ProductActions extends PureComponent {
               quantity={ quantity }
               configurableVariantIndex={ configurableVariantIndex }
             />
-        );
-    }
-
-    renderAdditionalButtons() {
-        return (
-            <div block="ProductActions" elem="AdditionalButtons">
-                { this.renderProductWishlistButton() }
-                { this.renderGoToWishlist() }
-            </div>
         );
     }
 
@@ -338,9 +315,9 @@ export default class ProductActions extends PureComponent {
                 <div block="ProductActions" elem="AddToCartWrapper">
                     { this.renderQuantityInput() }
                     { this.renderAddToCart() }
+                    { this.renderProductWishlistButton() }
                 </div>
                 { this.renderReviews() }
-                { this.renderAdditionalButtons() }
                 { this.renderNameAndBrand() }
                 { this.renderSkuAndStock() }
                 { this.renderConfigurableAttributes() }

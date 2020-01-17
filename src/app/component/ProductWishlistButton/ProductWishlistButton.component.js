@@ -15,6 +15,7 @@ import PropTypes from 'prop-types';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { ProductType } from 'Type/ProductList';
 import { isSignedIn } from 'Util/Auth';
+import './ProductWishlistButton.style';
 
 export default class ProductWishlistButton extends PureComponent {
     static propTypes = {
@@ -29,11 +30,7 @@ export default class ProductWishlistButton extends PureComponent {
     };
 
     static defaultProps = {
-        mix: {
-            block: '',
-            elem: '',
-            mod: ''
-        },
+        mix: {},
         quantity: 1,
         isReady: true,
         isDisabled: false,
@@ -75,14 +72,12 @@ export default class ProductWishlistButton extends PureComponent {
 
         return (
             <button
-              block="Button"
+              block="ProductWishlistButton"
               mix={ mix }
-              disabled={ isDisabled }
+              disabled={ isDisabled, isInWishlist }
               title={ this.getTitle() }
               onClick={ this.onClick }
-            >
-               { !isInWishlist ? __('Add to Wishlist') : __('Remove from Wishlist') }
-            </button>
+            />
         );
     }
 

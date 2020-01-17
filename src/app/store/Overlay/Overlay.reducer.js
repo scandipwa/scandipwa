@@ -11,7 +11,6 @@
 
 import { SHOW_POPUP } from 'Store/Popup';
 
-import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import {
     TOGGLE_OVERLAY,
     HIDE_ACTIVE_OVERLAY

@@ -11,11 +11,13 @@
 
 :root {
     --navigation-tabs-height: calc(50px + env(safe-area-inset-bottom));
+    --navigation-tabs-background: var(--secondary-light-color);
+    --navigation-tabs-color: var(--secondary-dark-color);
 }
 
 .NavigationTabs {
-    --header-background: var(--secondary-light-color);;
-    --header-color: var(--secondary-dark-color);
+    --header-background: var(--navigation-tabs-background);
+    --header-color: var(--navigation-tabs-color);
     --header-icon-stroke-width: 2px;
 
     position: fixed;

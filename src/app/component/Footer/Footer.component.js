@@ -52,7 +52,7 @@ export default class Footer extends PureComponent {
                     { __('Shopping terms and conditions') }
                 </Link>
             </div>
-        )
+        );
     }
 
     render() {
