@@ -13,7 +13,22 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
-import { CART, CART_EDITING, PDP, CATEGORY,CHECKOUT, CMS_PAGE, CUSTOMER_ACCOUNT, CUSTOMER_ACCOUNT_PAGE, HOME_PAGE, MENU, MENU_SUBCATEGORY, SEARCH, FILTER, POPUP,  } from 'Component/Header';
+import {
+    PDP,
+    CATEGORY,
+    CUSTOMER_ACCOUNT,
+    HOME_PAGE,
+    MENU,
+    MENU_SUBCATEGORY,
+    SEARCH,
+    CART,
+    CMS_PAGE,
+    FILTER,
+    CART_EDITING,
+    CHECKOUT,
+    CUSTOMER_ACCOUNT_PAGE,
+    POPUP
+} from 'Component/Header/Header.component';
 import { changeHeaderState } from 'Store/Header';
 import { TotalsType } from 'Type/MiniCart';
 import { history } from 'Route';
