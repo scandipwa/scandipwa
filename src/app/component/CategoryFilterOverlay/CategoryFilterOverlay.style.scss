@@ -97,9 +97,16 @@
         }
     }
 
-    &-SeeResults.Button {
-        margin: 2rem 1rem;
-        width: calc(100% - 2rem);
+    &-SeeResults {
+        position: fixed;
+        bottom: var(--navigation-tabs-height);
+        padding: 1rem;
+        width: 100%;
+        left: 0;
+    }
+
+    &-Button.Button {
+        width: 100%;
 
         @include after-mobile {
             display: none;

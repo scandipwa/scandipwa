@@ -124,44 +124,51 @@ export default class MenuOverlay extends PureComponent {
         return (
             <div
               block="MenuOverlay"
-              elem="ItemList"
-              mods={ { ...subcategoryMods, isVisible } }
+              elem="SubMenu"
+              mods={ { isVisible } }
             >
-                { childrenArray.map((item) => {
-                    const {
-                        url,
-                        item_id,
-                        children,
-                        cms_page_identifier
-                    } = item;
-                    const childrenArray = Object.values(children);
+                <div
+                  block="MenuOverlay"
+                  elem="ItemList"
+                  mods={ { ...subcategoryMods } }
+                >
+                    { childrenArray.map((item) => {
+                        const {
+                            url,
+                            item_id,
+                            children,
+                            cms_page_identifier
+                        } = item;
 
-                    const path = cms_page_identifier ? `/${ cms_page_identifier}` : url;
+                        const childrenArray = Object.values(children);
 
-                    return (childrenArray.length
-                        ? (
-                            <div
-                              key={ item_id }
-                              onClick={ e => this.handleSubcategoryClick(e, item) }
-                              tabIndex="0"
-                              role="button"
-                            >
-                                { this.renderItemContent(item, subcategoryMods) }
-                                { this.renderSubLevel(item) }
-                            </div>
-                        ) : (
-                            <Link
-                              key={ item_id }
-                              to={ path }
-                              onClick={ this.closeMenuOverlay }
-                              block="MenuOverlay"
-                              elem="Link"
-                            >
-                                { this.renderItemContent(item, subcategoryMods) }
-                            </Link>
-                        )
-                    );
-                }) }
+                        const path = cms_page_identifier ? `/${ cms_page_identifier}` : url;
+
+                        return (childrenArray.length
+                            ? (
+                                <div
+                                  key={ item_id }
+                                  onClick={ e => this.handleSubcategoryClick(e, item) }
+                                  tabIndex="0"
+                                  role="button"
+                                >
+                                    { this.renderItemContent(item, subcategoryMods) }
+                                    { this.renderSubLevel(item) }
+                                </div>
+                            ) : (
+                                <Link
+                                  key={ item_id }
+                                  to={ path }
+                                  onClick={ this.closeMenuOverlay }
+                                  block="MenuOverlay"
+                                  elem="Link"
+                                >
+                                    { this.renderItemContent(item, subcategoryMods) }
+                                </Link>
+                            )
+                        );
+                    }) }
+                </div>
             </div>
         );
     }
@@ -285,7 +292,7 @@ export default class MenuOverlay extends PureComponent {
               id={ MENU_OVERLAY_KEY }
               mix={ { block: 'MenuOverlay' } }
               onVisible={ this.onVisible }
-              isFreezeEnabled={ !isMobile.any() }
+              isStatic={ !!isMobile.any() }
             >
                 { this.renderStoreSwitcher() }
                 { this.renderTopLevel() }

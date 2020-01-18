@@ -93,14 +93,19 @@ export default class CategoryFilterOverlay extends PureComponent {
         const { onSeeResultsClick } = this.props;
 
         return (
-            <button
+            <div
               block="CategoryFilterOverlay"
               elem="SeeResults"
-              mix={ { block: 'Button' } }
-              onClick={ onSeeResultsClick }
             >
-                { __('SEE RESULTS') }
-            </button>
+                <button
+                  block="CategoryFilterOverlay"
+                  elem="Button"
+                  mix={ { block: 'Button' } }
+                  onClick={ onSeeResultsClick }
+                >
+                    { __('SEE RESULTS') }
+                </button>
+            </div>
         );
     }
 

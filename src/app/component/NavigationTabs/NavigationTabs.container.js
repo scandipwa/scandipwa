@@ -56,10 +56,14 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         onHomeButtonClick: this.onHomeButtonClick.bind(this)
     };
 
-    lastSeenMenu = 0;
+    constructor(props) {
+        super(props);
+        const { name } = this.getNavigationState(location.pathname);
+        this.lastSeenMenu = name === MENU_TAB ? 0 : -1;
+    }
 
     onMenuButtonClick() {
-        if (this.lastSeenMenu === 0) {
+        if (this.lastSeenMenu <= 0) {
             browserHistory.push('/menu');
         } else {
             browserHistory.go(-this.lastSeenMenu);
@@ -73,6 +77,20 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
 
     onMyAccountButtonClick() {
         browserHistory.push('/my-account');
+    }
+
+    preserveState(name, newName) {
+        if (this.lastSeenMenu === -1) {
+            return;
+        }
+
+        if (newName !== MENU_TAB) {
+            this.lastSeenMenu++;
+        }
+
+        if (newName === MENU_TAB && name === MENU_TAB) {
+            this.lastSeenMenu = 0;
+        }
     }
 
     handleMobileRouteChange(history) {
@@ -93,32 +111,10 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
             setNavigationState(newNavigationState);
         }
 
-        if (newName !== MENU_TAB) {
-            this.lastSeenMenu++;
-        }
-
-        if (newName === MENU_TAB && name === MENU_TAB) {
-            this.lastSeenMenu = 0;
-        }
-
-        // hideActiveOverlay();
+        this.preserveState(name, newName);
 
         return { prevPathname: pathname };
     }
-
-    // handleMobileRouteChange(history) {
-    //     const {
-    //         navigationState: { name }
-    //     } = this.props;
-
-    //     if (name === MENU_TAB) {
-    //         this.lastSeenMenu = 0;
-    //     } else {
-    //         this.lastSeenMenu += 1;
-    //     }
-
-    //     super.handleMobileRouteChange(history);
-    // }
 
     onHomeButtonClick() {
         const {

@@ -15,6 +15,8 @@
 }
 
 .MyAccountOverlay {
+    --overlay-background: var(--overlay-content-background);
+
     justify-self: flex-end;
     grid-column: 3;
     right: 0;

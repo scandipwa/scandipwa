@@ -195,3 +195,12 @@ mark {
 iframe {
     max-width: 100%;
 }
+
+a,
+input,
+button,
+textarea,
+select,
+details {
+    touch-action: manipulation;
+}

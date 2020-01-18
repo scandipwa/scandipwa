@@ -28,8 +28,7 @@ export default class Overlay extends PureComponent {
         onHide: PropTypes.func,
         activeOverlay: PropTypes.string.isRequired,
         areOtherOverlaysOpen: PropTypes.bool.isRequired,
-        renderInPortal: PropTypes.bool,
-        isFreezeEnabled: PropTypes.bool,
+        isStatic: PropTypes.bool,
         children: ChildrenType
     };
 
@@ -37,8 +36,7 @@ export default class Overlay extends PureComponent {
         mix: {},
         children: [],
         onVisible: () => {},
-        renderInPortal: true,
-        isFreezeEnabled: true,
+        isStatic: false,
         onHide: () => {}
     };
 
@@ -52,43 +50,41 @@ export default class Overlay extends PureComponent {
     }
 
     onVisible() {
-        const { onVisible } = this.props;
+        const { onVisible, isStatic } = this.props;
+        if (isStatic) return;
         if (isMobile.any()) this.freezeScroll();
         this.overlayRef.current.focus();
         onVisible();
     }
 
     onHide() {
-        const { onHide } = this.props;
+        const { onHide, isStatic } = this.props;
+        if (isStatic) return;
         if (isMobile.any()) this.unfreezeScroll();
         onHide();
     }
 
     getIsVisible(props = this.props) {
-        const { id, activeOverlay } = props;
-        return id === activeOverlay;
+        const { id, activeOverlay, isStatic } = props;
+        return isStatic || id === activeOverlay;
     }
 
     freezeScroll() {
-        const { isFreezeEnabled } = this.props;
-        if (!isFreezeEnabled) return;
         this.YoffsetWhenScrollDisabled = window.pageYOffset || document.documentElement.scrollTop;
         document.body.classList.add('scrollDisabled');
         document.body.style.marginTop = `${-this.YoffsetWhenScrollDisabled}px`;
     }
 
     unfreezeScroll() {
-        const { isFreezeEnabled } = this.props;
-        if (!isFreezeEnabled) return;
         document.body.classList.remove('scrollDisabled');
         document.body.style.marginTop = 0;
         window.scrollTo(0, this.YoffsetWhenScrollDisabled);
     }
 
     renderInMobilePortal(content) {
-        const { renderInPortal } = this.props;
+        const { isStatic } = this.props;
 
-        if (renderInPortal && isMobile.any()) {
+        if (!isStatic && isMobile.any()) {
             return createPortal(content, document.body);
         }
 
@@ -99,7 +95,8 @@ export default class Overlay extends PureComponent {
         const {
             children,
             mix,
-            areOtherOverlaysOpen
+            areOtherOverlaysOpen,
+            isStatic
         } = this.props;
 
         const isVisible = this.getIsVisible();
@@ -108,7 +105,7 @@ export default class Overlay extends PureComponent {
             <div
               block="Overlay"
               ref={ this.overlayRef }
-              mods={ { isVisible, isInstant: areOtherOverlaysOpen } }
+              mods={ { isVisible, isStatic, isInstant: areOtherOverlaysOpen } }
               mix={ { ...mix, mods: { ...mix.mods, isVisible } } }
             >
                 { children && children }

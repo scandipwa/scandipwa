@@ -289,6 +289,7 @@ class MyAccountOverlay extends PureComponent {
                         <h4 id="forgot-password-label">{ __('Don`t have an account?') }</h4>
                         <button
                           block="Button"
+                          mods={ { isHollow: true } }
                           onClick={ handleCreateAccount }
                         >
                             { __('Create an account') }
@@ -307,8 +308,7 @@ class MyAccountOverlay extends PureComponent {
               id={ CUSTOMER_ACCOUNT_OVERLAY_KEY }
               mix={ { block: 'MyAccountOverlay' } }
               onVisible={ onVisible }
-              isFreezeEnabled={ !isMobile.any() }
-              renderInPortal={ false }
+              isStatic={ !!isMobile.any() }
             >
                 <Loader isLoading={ isLoading } />
                 { this.renderMyAccount() }
