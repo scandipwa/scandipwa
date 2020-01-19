@@ -37,8 +37,23 @@ export class ProductCardContainer extends PureComponent {
     };
 
     getAttribute(code) {
-        const { product: { attributes = {} } } = this.props;
-        return attributes[code];
+        const { selectedFilters } = this.props;
+
+        if (!Object.keys(selectedFilters).length) {
+            const { product: { attributes = {} } } = this.props;
+            return attributes[code];
+        }
+
+        const currentVariantIndex = this._getCurrentVariantIndex();
+        const { product, product: { variants = [] } } = this.props;
+        const { attributes: parentAttributes = {} } = product;
+        const { attributes = parentAttributes } = variants[currentVariantIndex] || product;
+        const { attribute_options = {} } = parentAttributes[code] || {};
+
+        return {
+            ...attributes[code],
+            attribute_options
+        };
     }
 
     containerProps = () => ({
