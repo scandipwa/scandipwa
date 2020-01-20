@@ -36,6 +36,14 @@
         display: none;
     }
 
+    &_isHidden {
+        display: none;
+
+        @at-root .hiddenNavigationTabs {
+            --navigation-tabs-height: env(safe-area-inset-bottom);
+        }
+    }
+
     &-Nav {
         height: var(--header-nav-height);
         display: flex;
@@ -59,7 +67,7 @@
         font-weight: bold;
 
         &_isActive {
-            --header-color: #000;
+            --header-color: var(--primary-base-color);
         }
     }
 }

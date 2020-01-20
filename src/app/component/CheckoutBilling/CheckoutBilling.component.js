@@ -61,14 +61,16 @@ class CheckoutBilling extends PureComponent {
         if (!isOrderButtonVisible) return null;
 
         return (
-            <button
-              type="submit"
-              block="Button"
-              disabled={ !isOrderButtonEnabled }
-              mix={ { block: 'CheckoutBilling', elem: 'Button' } }
-            >
-                { __('Complete order') }
-            </button>
+            <div block="Checkout" elem="StickyButtonWrapper">
+                <button
+                  type="submit"
+                  block="Button"
+                  disabled={ !isOrderButtonEnabled }
+                  mix={ { block: 'CheckoutBilling', elem: 'Button' } }
+                >
+                    { __('Complete order') }
+                </button>
+            </div>
         );
     }
 

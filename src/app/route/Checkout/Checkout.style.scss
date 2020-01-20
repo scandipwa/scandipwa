@@ -18,12 +18,29 @@
         margin-top: var(--header-height);
     }
 
+    @include mobile {
+        padding-bottom: calc(var(--navigation-tabs-height) + 100px);
+    }
+
     &::before {
         @include after-mobile {
             content: '';
             background: var(--breadcrumbs-background);
             min-height: var(--breadcrumbs-height);
             display: block;
+        }
+    }
+
+    &-StickyButtonWrapper {
+        @include mobile {
+            border-top: 1px solid var(--primary-divider-color);
+            background-color: #fff;
+            position: fixed;
+            padding: 1rem 1rem calc(env(safe-area-inset-bottom) + 1rem);
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            z-index: 85;
         }
     }
 

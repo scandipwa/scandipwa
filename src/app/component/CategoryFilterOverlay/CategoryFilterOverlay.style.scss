@@ -30,7 +30,8 @@
 
     @include mobile {
         transition: transform 200ms ease-in-out;
-        transform: translateY(+100%);
+        transform: translateY(100%);
+        will-change: transform;
     }
 
     &_isVisible {

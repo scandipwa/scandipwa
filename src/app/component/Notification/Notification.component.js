@@ -17,7 +17,7 @@ import './Notification.style';
 
 // controls CSS animation speed
 export const ANIMATION_DURATION = 400;
-export const NOTIFICATION_LIFETIME = 5000;
+export const NOTIFICATION_LIFETIME = 1500;
 
 /**
  * Notification block

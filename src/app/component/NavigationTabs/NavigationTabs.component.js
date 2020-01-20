@@ -16,6 +16,7 @@ export const HOME_TAB = 'HOME_TAB';
 export const MENU_TAB = 'MENU_TAB';
 export const ACCOUNT_TAB = 'ACCOUNT_TAB';
 export const CART_TAB = 'CART_TAB';
+export const CHECKOUT_TAB = 'CHECKOUT_TAB';
 
 class NavigationTabs extends NavigationAbstract {
     defaultStateName = MENU_TAB;
@@ -132,8 +133,10 @@ class NavigationTabs extends NavigationAbstract {
     }
 
     render() {
+        const { navigationState: { isHidden } } = this.props;
+
         return (
-            <footer block="NavigationTabs">
+            <footer block="NavigationTabs" mods={ { isHidden } }>
                 <nav block="NavigationTabs" elem="Nav">
                     { this.renderNavigationState() }
                 </nav>

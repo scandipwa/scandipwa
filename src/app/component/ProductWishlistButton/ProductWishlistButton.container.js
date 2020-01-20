@@ -72,14 +72,14 @@ export class ProductWishlistButtonContainer extends PureComponent {
         } = this.props;
 
         if (!isSignedIn()) {
-            return showNotification('error', __('You must login or register to add items to your wishlist.'));
+            return showNotification('info', __('You must login or register to add items to your wishlist.'));
         }
 
         if (isLoading) return null;
 
         const product = this._getProductVariant();
         if (product === ERROR_CONFIGURABLE_NOT_PROVIDED) {
-            return showNotification('error', __('Please, select desireable variant first!'));
+            return showNotification('info', __('Please, select desireable option first!'));
         }
 
         const { sku: variantSku, product_option } = product;

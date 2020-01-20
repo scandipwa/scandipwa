@@ -83,7 +83,7 @@ export class ProductReviewFormContainer extends PureComponent {
             || !reviewRatings.every(({ rating_id }) => ratingData[rating_id]);
 
         if (reviewsAreNotValid) {
-            showNotification('error', 'Incorrect data! Please check review fields.');
+            showNotification('info', 'Incorrect data! Please check review fields.');
         }
 
         this.setState({ isLoading: !reviewsAreNotValid });

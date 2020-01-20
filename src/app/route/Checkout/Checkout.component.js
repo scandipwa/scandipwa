@@ -75,9 +75,7 @@ class Checkout extends PureComponent {
         }
     };
 
-    constructor(props) {
-        super(props);
-
+    componentDidMount() {
         this.updateHeader();
     }
 

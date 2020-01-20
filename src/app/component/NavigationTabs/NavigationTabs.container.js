@@ -22,7 +22,8 @@ import NavigationTabs, {
     ACCOUNT_TAB,
     CART_TAB,
     HOME_TAB,
-    MENU_TAB
+    MENU_TAB,
+    CHECKOUT_TAB
 } from './NavigationTabs.component';
 
 export const mapStateToProps = state => ({
@@ -40,11 +41,14 @@ export const mapDispatchToProps = dispatch => ({
     goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(BOTTOM_NAVIGATION_TYPE))
 });
 
+export const DEFAULT_NAVIGATION_TABS_STATE = { name: MENU_TAB };
+
 export class NavigationTabsContainer extends NavigationAbstractContainer {
-    default_state = { name: MENU_TAB };
+    default_state = DEFAULT_NAVIGATION_TABS_STATE;
 
     routeMap = {
         '/my-account': { name: ACCOUNT_TAB },
+        '/checkout': { name: CHECKOUT_TAB, isHidden: true },
         '/cart': { name: CART_TAB },
         '/': { name: HOME_TAB }
     };
@@ -56,10 +60,28 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         onHomeButtonClick: this.onHomeButtonClick.bind(this)
     };
 
-    constructor(props) {
-        super(props);
+    componentDidMount() {
+        this.handleNavVisibility();
+
         const { name } = this.getNavigationState(location.pathname);
         this.lastSeenMenu = name === MENU_TAB ? 0 : -1;
+
+        super.componentDidMount();
+    }
+
+    componentDidUpdate() {
+        this.handleNavVisibility();
+    }
+
+    handleNavVisibility() {
+        const { navigationState: { isHidden } } = this.props;
+
+        if (isHidden) {
+            document.body.classList.add('hiddenNavigationTabs');
+            return;
+        }
+
+        document.body.classList.remove('hiddenNavigationTabs');
     }
 
     onMenuButtonClick() {
@@ -105,6 +127,8 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         // Find the new state name
         const newNavigationState = this.getNavigationState(pathname);
         const { name: newName } = newNavigationState;
+
+        console.log(newName, name);
 
         // Update the state if new name is set
         if (name !== newName) {

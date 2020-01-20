@@ -119,7 +119,7 @@ export default class ProductGallery extends PureComponent {
             <TransformWrapper
               key={ index }
               onZoomChange={ handleZoomChange }
-              doubleClick={ { mode: 'reset' } }
+            //   doubleClick={ { mode: 'reset' } }
               pan={ {
                   disabled: !isZoomEnabled,
                   limitToWrapperBounds: true,

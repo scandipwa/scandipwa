@@ -42,8 +42,8 @@
         transition-timing-function: cubic-bezier(.215, .61, .355, 1);
         transition-duration: var(--shared-element-animation-speed, 150ms);
 
-        -webkit-backface-visibility: hidden;
-        -webkit-perspective: 1000;
+        backface-visibility: hidden;
         transform: translate3d(0, 0, 0);
+        perspective: 1000px;
     }
 }

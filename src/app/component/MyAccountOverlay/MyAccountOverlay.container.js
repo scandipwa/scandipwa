@@ -177,7 +177,7 @@ export class MyAccountOverlayContainer extends PureComponent {
         const { showNotification } = this.props;
 
         if (invalidFields) {
-            showNotification('error', __('Incorrect data! Please resolve all field validation errors.'));
+            showNotification('info', __('Incorrect data! Please resolve all field validation errors.'));
         }
 
         this.setState({ isLoading: !invalidFields });

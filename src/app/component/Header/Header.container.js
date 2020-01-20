@@ -32,7 +32,8 @@ import Header, {
     SEARCH,
     CART,
     CMS_PAGE,
-    CUSTOMER_ACCOUNT_PAGE
+    CUSTOMER_ACCOUNT_PAGE,
+    CHECKOUT
 } from './Header.component';
 
 export const mapStateToProps = state => ({
@@ -77,6 +78,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
 
     routeMap = {
         '/category': { name: CATEGORY, onBackClick: this.onMenuButtonClick.bind(this) },
+        '/checkout': { name: CHECKOUT, onBackClick: () => history.push('/cart') },
         '/my-account': { name: CUSTOMER_ACCOUNT_PAGE, onBackClick: () => history.push('/') },
         '/product': { name: PDP, onBackClick: () => history.goBack() },
         '/cart': { name: CART },

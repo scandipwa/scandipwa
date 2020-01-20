@@ -14,7 +14,7 @@
     --menu-desktop-subitem-arrow-color: #000;
     --menu-overlay-item-banner-color: #fff;
     --menu-overlay-additional-information-divider-color: #dedede;
-    --menu-overlay-item-hover-color: #f26323;
+    --menu-overlay-item-hover-color: var(--primary-base-color);
 }
 
 @mixin subcategory-visible {

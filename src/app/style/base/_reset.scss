@@ -75,6 +75,7 @@ html {
 body {
     font-family: $font-muli;
     color: $black;
+    scroll-behavior: smooth;
     background-color: #fff;
 }
 
@@ -132,7 +133,8 @@ h3 {
 h4,
 p,
 li,
-dl {
+dl,
+button {
     font-size: 14px;
 }
 
@@ -203,4 +205,8 @@ textarea,
 select,
 details {
     touch-action: manipulation;
+}
+
+input {
+    border-radius: 0;
 }
