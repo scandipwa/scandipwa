@@ -11,11 +11,12 @@
 
 import { PureComponent } from 'react';
 import MenuOverlay from 'Component/MenuOverlay';
+import './MenuPage.style';
 
 export class MenuPageContainer extends PureComponent {
     render() {
         return (
-            <main>
+            <main block="MenuPage">
                 <MenuOverlay />
             </main>
         );

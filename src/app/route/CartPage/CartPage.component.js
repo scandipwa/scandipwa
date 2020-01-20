@@ -115,23 +115,25 @@ export default class CartPage extends PureComponent {
                     <dt>{ __('Order total:') }</dt>
                     <dd>{ this.renderPriceLine(grand_total) }</dd>
                 </dl>
-                <Link
-                  block="CartPage"
-                  elem="CheckoutButton"
-                  mix={ { block: 'Button' } }
-                  to="/checkout"
-                  { ...props }
-                >
-                    <span />
-                    { __('Secure checkout') }
-                </Link>
-                <Link
-                  block="CartPage"
-                  elem="ContinueShopping"
-                  to="/"
-                >
-                    { __('Continue shopping') }
-                </Link>
+                <div block="CartPage" elem="CheckoutButtons">
+                    <Link
+                      block="CartPage"
+                      elem="CheckoutButton"
+                      mix={ { block: 'Button' } }
+                      to="/checkout"
+                      { ...props }
+                    >
+                        <span />
+                        { __('Secure checkout') }
+                    </Link>
+                    <Link
+                      block="CartPage"
+                      elem="ContinueShopping"
+                      to="/"
+                    >
+                        { __('Continue shopping') }
+                    </Link>
+                </div>
             </article>
         );
     }

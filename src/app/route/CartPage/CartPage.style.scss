@@ -43,6 +43,13 @@
     &-Summary {
         background: var(--cart-page-totals-background);
 
+        @include mobile {
+            position: fixed;
+            bottom: var(--navigation-tabs-height);
+            left: 0;
+            width: 100%;
+        }
+
         @include after-mobile {
             padding: 2rem;
         }
@@ -57,6 +64,10 @@
         @include mobile {
             display: none;
         }
+    }
+
+    &-CheckoutButtons {
+        padding: 1rem;
     }
 
     &-CheckoutButton {
