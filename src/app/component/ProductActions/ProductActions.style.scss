@@ -324,7 +324,14 @@
     }
 
     &-TierPrices {
-        margin-top: 3%;
-        order: 24;
+        @include after-mobile {
+            order: 24;
+            margin-top: 3%;
+        }
+        @include mobile {
+            order: -1;
+            margin-left: 10px;
+            margin: auto;
+        }
     }
 }

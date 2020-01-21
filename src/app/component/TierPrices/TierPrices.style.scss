@@ -1,7 +1,12 @@
 .TierPrices {
-
     &-Item {
-        padding-left: 5px;
+        @include after-mobile {
+            padding-left: 5px;
+        }
+
+        @include mobile {
+            padding-left: 0;
+        }
 
         &:last-child {
             padding-bottom: 0;
