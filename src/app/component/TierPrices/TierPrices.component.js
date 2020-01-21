@@ -8,23 +8,7 @@ class TierPrices extends PureComponent {
         product: ProductType.isRequired
     };
 
-    calculateDiscountRatio(discountedPriceAmount) {
-        const {
-            product: {
-                price: {
-                    regularPrice: {
-                        amount: { value: regularPriceAmount }
-                    }
-                }
-            }
-        } = this.props;
-
-        // eslint-disable-next-line no-magic-numbers
-        return Math.round(((regularPriceAmount - discountedPriceAmount) / regularPriceAmount) * 100);
-    }
-
-    renderTierPrice = (tierPrice) => {
-        const { quantity, value } = tierPrice;
+    renderTierPrice = ({ quantity, value, ratio }) => {
         const {
             product: {
                 price: {
@@ -38,7 +22,7 @@ class TierPrices extends PureComponent {
         return (
             <li block="TierPrices" elem="Item">
                 { __(
-                    'Buy %s for %s%s and ',
+                    'Buy %s for %s%s each and ',
                     quantity,
                     formatCurrency(currency),
                     roundPrice(value)
@@ -46,7 +30,7 @@ class TierPrices extends PureComponent {
                 <strong>
                     { __(
                         'save %s%',
-                        this.calculateDiscountRatio(value)
+                        ratio
                     ) }
                 </strong>
             </li>

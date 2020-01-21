@@ -536,7 +536,8 @@ export class ProductListQuery {
     _getTierPricesFields() {
         return [
             'value',
-            'quantity'
+            'quantity',
+            'ratio'
         ];
     }
 
