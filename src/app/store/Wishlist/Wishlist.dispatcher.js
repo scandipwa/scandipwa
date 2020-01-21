@@ -77,13 +77,14 @@ export class WishlistDispatcher {
 
     addItemToWishlist(dispatch, wishlistItem) {
         dispatch(updateIsLoading(true));
+        dispatch(showNotification('success', __('Product added to wish-list!')));
 
         return fetchMutation(WishlistQuery.getSaveWishlistItemMutation(wishlistItem)).then(
-            () => this._syncWishlistWithBE(dispatch).then(
-                () => dispatch(showNotification('success', __('Product has been added to your Wish List!')))
-            ),
-            // eslint-disable-next-line no-console
-            error => dispatch(showNotification('error', __('Error updating wish list!'))) && console.log(error)
+            () => this._syncWishlistWithBE(dispatch),
+            (error) => {
+                dispatch(showNotification('error', __('Error updating wish list!')));
+                console.log(error);
+            }
         );
     }
 
@@ -113,17 +114,14 @@ export class WishlistDispatcher {
 
         if (noMessages) {
             return fetchMutation(WishlistQuery.getRemoveProductFromWishlistMutation(item_id)).then(
-                () => {
-                    dispatch(removeItemFromWishlist(item_id));
-                }
+                () => dispatch(removeItemFromWishlist(item_id))
             );
         }
 
+        dispatch(showNotification('info', __('Product has been removed from your Wish List!')));
+
         return fetchMutation(WishlistQuery.getRemoveProductFromWishlistMutation(item_id)).then(
-            () => {
-                dispatch(removeItemFromWishlist(item_id));
-                dispatch(showNotification('success', __('Product has been removed from your Wish List!')));
-            },
+            () => dispatch(removeItemFromWishlist(item_id)),
             (error) => {
                 dispatch(showNotification('error', __('Error updating wish list!')));
                 // eslint-disable-next-line no-console

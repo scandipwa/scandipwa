@@ -12,9 +12,10 @@
 
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import TextPlaceholder from 'Component/TextPlaceholder';
+
 import { ProductType } from 'Type/ProductList';
 import { isSignedIn } from 'Util/Auth';
+
 import './ProductWishlistButton.style';
 
 export default class ProductWishlistButton extends PureComponent {
@@ -63,10 +64,6 @@ export default class ProductWishlistButton extends PureComponent {
         return removeFromWishlist(product, quantity);
     };
 
-    renderPlaceholder() {
-        return <TextPlaceholder length="short" />;
-    }
-
     renderButton() {
         const { isInWishlist, isDisabled, mix } = this.props;
 
@@ -74,20 +71,25 @@ export default class ProductWishlistButton extends PureComponent {
             <button
               block="ProductWishlistButton"
               mods={ { isInWishlist, isDisabled } }
-              mix={ mix }
+              mix={ { block: 'Button', mods: { isHollow: !isInWishlist }, mix } }
               title={ this.getTitle() }
               onClick={ this.onClick }
-            />
+            >
+                <div
+                  block="ProductWishlistButton"
+                  elem="Heart"
+                />
+            </button>
         );
     }
 
     render() {
         const { product: { id } = {} } = this.props;
 
-        return (
-            id !== -1
-                ? this.renderButton()
-                : this.renderPlaceholder()
-        );
+        if (id !== -1) {
+            return this.renderButton();
+        }
+
+        return null;
     }
 }
