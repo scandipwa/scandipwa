@@ -50,7 +50,11 @@ class MyAccountCustomerForm extends FieldForm {
 
     renderActions() {
         return (
-            <button type="submit" block="Button">
+            <button
+              type="submit"
+              block="Button"
+              mix={ { block: 'MyAccount', elem: 'Button' } }
+            >
                 { __('Save customer') }
             </button>
         );

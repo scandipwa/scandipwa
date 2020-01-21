@@ -1,3 +1,3 @@
 .MenuPage {
-    background: var(--secondary-base-color);
+    @include grey-page-bg;
 }

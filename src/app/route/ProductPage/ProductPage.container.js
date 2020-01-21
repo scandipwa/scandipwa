@@ -22,7 +22,8 @@ import { ProductDispatcher } from 'Store/Product';
 import { changeNavigationState } from 'Store/Navigation';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import { LocationType, HistoryType, MatchType } from 'Type/Common';
-import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.component';
+import { TOP_NAVIGATION_TYPE, BOTTOM_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import {
     getUrlParam,
     convertQueryStringToKeyValuePairs,
@@ -39,6 +40,7 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
     changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
+    changeNavigationState: state => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
     requestProduct: options => ProductDispatcher.handleData(dispatch, options),
     updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.updateWithProduct(breadcrumbs, dispatch)
 });
@@ -48,6 +50,7 @@ export class ProductPageContainer extends PureComponent {
         location: LocationType,
         isOnlyPlaceholder: PropTypes.bool,
         changeHeaderState: PropTypes.func.isRequired,
+        changeNavigationState: PropTypes.func.isRequired,
         updateBreadcrumbs: PropTypes.func.isRequired,
         requestProduct: PropTypes.func.isRequired,
         product: ProductType.isRequired,
@@ -188,6 +191,7 @@ export class ProductPageContainer extends PureComponent {
         if (Object.keys(dataSource).length) {
             this._updateBreadcrumbs(dataSource);
             this._updateHeaderState(dataSource);
+            this._updateNavigationState();
         }
     }
 
@@ -244,6 +248,11 @@ export class ProductPageContainer extends PureComponent {
 
         this.setState({ isConfigurationInitialized: false });
         requestProduct(options);
+    }
+
+    _updateNavigationState() {
+        const { changeNavigationState } = this.props;
+        changeNavigationState({ name: MENU_TAB });
     }
 
     _updateHeaderState({ name: title }) {

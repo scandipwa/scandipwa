@@ -13,7 +13,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { PureComponent } from 'react';
 
-import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { TOP_NAVIGATION_TYPE, BOTTOM_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.component';
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import { changeNavigationState } from 'Store/Navigation';
@@ -50,6 +51,7 @@ export const mapStateToProps = state => ({
 export const mapDispatchToProps = dispatch => ({
     toggleOverlayByKey: key => dispatch(toggleOverlayByKey(key)),
     changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
+    changeNavigationState: state => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
     requestCategory: options => CategoryDispatcher.handleData(dispatch, options),
     updateBreadcrumbs: breadcrumbs => ((Object.keys(breadcrumbs).length)
         ? BreadcrumbsDispatcher.updateWithCategory(breadcrumbs, dispatch)
@@ -70,6 +72,7 @@ export class CategoryPageContainer extends PureComponent {
         match: MatchType.isRequired,
         requestCategory: PropTypes.func.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
+        changeNavigationState: PropTypes.func.isRequired,
         requestProductListInfo: PropTypes.func.isRequired,
         updateBreadcrumbs: PropTypes.func.isRequired,
         updateLoadStatus: PropTypes.func.isRequired,
@@ -321,11 +324,21 @@ export class CategoryPageContainer extends PureComponent {
     _onCategoryUpdate() {
         this._updateBreadcrumbs();
         this._updateHeaderState();
+        this._updateNavigationState();
     }
 
     _updateBreadcrumbs() {
         const { category = {}, updateBreadcrumbs } = this.props;
         updateBreadcrumbs(category);
+    }
+
+    _updateNavigationState() {
+        const { changeNavigationState } = this.props;
+
+        changeNavigationState({
+            name: MENU_TAB,
+            isVisibleOnScroll: true
+        });
     }
 
     _updateHeaderState() {

@@ -106,10 +106,12 @@ export class MyAccountOverlayContainer extends PureComponent {
 
         const stateToBeUpdated = {};
 
-        if (!isOverlayVisible && !isSignedIn) {
-            stateToBeUpdated.state = STATE_SIGN_IN;
-        } else if (!isOverlayVisible && isSignedIn) {
-            stateToBeUpdated.state = STATE_LOGGED_IN;
+        if (!isMobile.any()) {
+            if (!isOverlayVisible && !isSignedIn) {
+                stateToBeUpdated.state = STATE_SIGN_IN;
+            } else if (!isOverlayVisible && isSignedIn) {
+                stateToBeUpdated.state = STATE_LOGGED_IN;
+            }
         }
 
         if (myAccountState !== STATE_LOGGED_IN && isSignedIn) {
@@ -134,7 +136,7 @@ export class MyAccountOverlayContainer extends PureComponent {
         return Object.keys(stateToBeUpdated).length ? stateToBeUpdated : null;
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(_, prevState) {
         const { state: oldMyAccountState } = prevState;
         const { state: newMyAccountState } = this.state;
 

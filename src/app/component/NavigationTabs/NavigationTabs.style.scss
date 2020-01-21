@@ -27,6 +27,12 @@
     z-index: 100;
     background-color: var(--header-background);
     padding-bottom: env(safe-area-inset-bottom);
+    transform: translateY(0);
+    transition: transform 200ms cubic-bezier(.47, 0, .745, .715);
+
+    .hideOnScroll & {
+        transform: translateY(100%);
+    }
 
     @include mobile {
         border-top: 1px solid var(--primary-divider-color);

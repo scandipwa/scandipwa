@@ -48,7 +48,6 @@ export default class CategoryPage extends PureComponent {
         updateFilter: PropTypes.func.isRequired,
         updatePriceRange: PropTypes.func.isRequired,
         toggleOverlayByKey: PropTypes.func.isRequired,
-        changeHeaderState: PropTypes.func.isRequired,
         selectedFilters: FilterType.isRequired,
         filter: FilterInputType.isRequired,
         search: PropTypes.string.isRequired
@@ -57,10 +56,8 @@ export default class CategoryPage extends PureComponent {
     onFilterButtonClick = this.onFilterButtonClick.bind(this);
 
     onFilterButtonClick() {
-        const { toggleOverlayByKey, changeHeaderState } = this.props;
-
+        const { toggleOverlayByKey } = this.props;
         toggleOverlayByKey('category-filter');
-        changeHeaderState({ name: 'filter', title: __('Filters') });
     }
 
     renderCategoryDetails() {
@@ -137,13 +134,16 @@ export default class CategoryPage extends PureComponent {
         } = this.props;
 
         return (
-            <CategoryProductList
-              filter={ filter }
-              search={ search }
-              sort={ selectedSort }
-              selectedFilters={ selectedFilters }
-              getIsNewCategory={ getIsNewCategory }
-            />
+            <div block="CategoryPage" elem="ProductListWrapper">
+                <CategoryItemsCount />
+                <CategoryProductList
+                  filter={ filter }
+                  search={ search }
+                  sort={ selectedSort }
+                  selectedFilters={ selectedFilters }
+                  getIsNewCategory={ getIsNewCategory }
+                />
+            </div>
         );
     }
 
@@ -160,7 +160,6 @@ export default class CategoryPage extends PureComponent {
                     { this.renderFilterOverlay() }
                     { this.renderCategoryDetails() }
                     <aside block="CategoryPage" elem="Miscellaneous">
-                        <CategoryItemsCount />
                         { this.renderCategorySort() }
                         { this.renderFilterButton() }
                     </aside>

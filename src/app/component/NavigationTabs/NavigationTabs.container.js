@@ -17,6 +17,7 @@ import { changeNavigationState, goToPreviousNavigationState } from 'Store/Naviga
 import { DEFAULT_HEADER_STATE } from 'Component/Header/Header.container';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay';
 import { history as browserHistory } from 'Route';
+import { debounce } from 'Util/Request';
 
 import NavigationTabs, {
     ACCOUNT_TAB,
@@ -46,6 +47,8 @@ export const DEFAULT_NAVIGATION_TABS_STATE = { name: MENU_TAB };
 export class NavigationTabsContainer extends NavigationAbstractContainer {
     default_state = DEFAULT_NAVIGATION_TABS_STATE;
 
+    scrollPosition = 0;
+
     routeMap = {
         '/my-account': { name: ACCOUNT_TAB },
         '/checkout': { name: CHECKOUT_TAB, isHidden: true },
@@ -63,14 +66,17 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
     componentDidMount() {
         this.handleNavVisibility();
 
+        const SCROLL_DEBOUNCE_DELAY = 10;
         const { name } = this.getNavigationState(location.pathname);
         this.lastSeenMenu = name === MENU_TAB ? 0 : -1;
+        window.addEventListener('scroll', debounce(this.handleScroll, SCROLL_DEBOUNCE_DELAY));
 
         super.componentDidMount();
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps) {
         this.handleNavVisibility();
+        this.handleVisibleOnScrollChange(prevProps);
     }
 
     handleNavVisibility() {
@@ -83,6 +89,60 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
 
         document.body.classList.remove('hiddenNavigationTabs');
     }
+
+    handleVisibleOnScrollChange(prevProps) {
+        const { navigationState: { isVisibleOnScroll } } = this.props;
+        const { navigationState: { isVisibleOnScroll: prevIsVisible } } = prevProps;
+
+        if (isVisibleOnScroll !== prevIsVisible) {
+            this.scrollPosition = window.scrollY;
+            document.body.classList.remove('hideOnScroll');
+        }
+    }
+
+    handleNavVisibilityOnScroll(windowY) {
+        const ERROR_OFFSET = 10;
+        const TOP_MIN_OFFSET = 100;
+        const BOTTOM_MIN_OFFSET = 100;
+
+        const doc = document.documentElement;
+        const offset = doc.scrollTop + window.innerHeight;
+        const height = doc.offsetHeight;
+
+        if (windowY < TOP_MIN_OFFSET) {
+            // We are on top
+            document.body.classList.remove('hideOnScroll');
+            return;
+        }
+
+        if (offset >= height - BOTTOM_MIN_OFFSET) {
+            // We are on the bottom
+            document.body.classList.remove('hideOnScroll');
+            return;
+        }
+
+        // Scroll is less then min offset
+        if (Math.abs(windowY - this.scrollPosition) < ERROR_OFFSET) {
+            return;
+        }
+
+        if (windowY < this.scrollPosition) {
+            // Scrolling UP
+            document.body.classList.remove('hideOnScroll');
+        } else {
+            // Scrolling DOWN
+            document.body.classList.add('hideOnScroll');
+        }
+    }
+
+    handleScroll = () => {
+        const { navigationState: { isVisibleOnScroll } } = this.props;
+        if (!isVisibleOnScroll) return;
+
+        const windowY = window.scrollY;
+        this.handleNavVisibilityOnScroll(windowY);
+        this.scrollPosition = windowY;
+    };
 
     onMenuButtonClick() {
         if (this.lastSeenMenu <= 0) {
@@ -127,8 +187,6 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         // Find the new state name
         const newNavigationState = this.getNavigationState(pathname);
         const { name: newName } = newNavigationState;
-
-        console.log(newName, name);
 
         // Update the state if new name is set
         if (name !== newName) {
