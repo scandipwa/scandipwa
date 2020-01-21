@@ -1,0 +1,14 @@
+.TierPrices {
+
+    &-Item {
+        padding-left: 5px;
+
+        &:last-child {
+            padding-bottom: 0;
+        }
+
+        &::before {
+            content: none;
+        }
+    }
+}

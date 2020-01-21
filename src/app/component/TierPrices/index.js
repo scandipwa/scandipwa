@@ -1,1 +1,1 @@
-export { default } from './TierPrices.container';
+export { default } from './TierPrices.component';

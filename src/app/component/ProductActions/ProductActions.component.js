@@ -346,7 +346,6 @@ export default class ProductActions extends PureComponent {
         return (
             <article block="ProductActions">
                 { this.renderPrice() }
-                { this.renderTierPrices() }
                 <div block="ProductActions" elem="AddToCartWrapper">
                     { this.renderQuantityInput() }
                     { this.renderAddToCart() }
@@ -358,6 +357,7 @@ export default class ProductActions extends PureComponent {
                 { this.renderConfigurableAttributes() }
                 { this.renderShortDescription() }
                 { this.renderGroupedItems() }
+                { this.renderTierPrices() }
             </article>
         );
     }
