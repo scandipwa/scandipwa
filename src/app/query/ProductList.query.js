@@ -135,7 +135,7 @@ export class ProductListQuery {
                 ? [
                     'url_key',
                     this._getReviewSummaryField(),
-                    this._getConfigurableProductFragment()
+                    this._getConfigurableProductFragment(),
                 ]
                 : []
             ),
@@ -148,11 +148,13 @@ export class ProductListQuery {
                     'meta_description',
                     this._getDescriptionField(),
                     this._getMediaGalleryField(),
+                    this._getSimpleProductFragment(),
                     ...(!isVariant
                         ? [
                             this._getCategoriesField(),
                             this._getReviewsField(),
-                            this._getProductLinksField()
+                            this._getProductLinksField(),
+                            this._getVirtualProductFragment()
                         ]
                         : []
                     )
@@ -514,9 +516,43 @@ export class ProductListQuery {
         ];
     }
 
+    _getSimpleProductFragmentFields() {
+        return [
+            this._getTierPricesField()
+        ];
+    }
+
+    _getVirtualProductFragmentFields() {
+        return [
+            this._getTierPricesField()
+        ];
+    }
+
+    _getTierPricesField() {
+        return new Field('tier_prices')
+            .addFieldList(this._getTierPricesFields());
+    }
+
+    _getTierPricesFields() {
+        return [
+            'value',
+            'quantity'
+        ];
+    }
+
     _getConfigurableProductFragment() {
         return new Fragment('ConfigurableProduct')
             .addFieldList(this._getConfigurableProductFragmentFields());
+    }
+
+    _getSimpleProductFragment() {
+        return new Fragment('SimpleProduct')
+            .addFieldList(this._getSimpleProductFragmentFields());
+    }
+
+    _getVirtualProductFragment() {
+        return new Fragment('VirtualProduct')
+            .addFieldList(this._getVirtualProductFragmentFields());
     }
 
     _getSortOptionFields() {

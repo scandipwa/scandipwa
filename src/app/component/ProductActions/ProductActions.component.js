@@ -32,6 +32,7 @@ import Html from 'Component/Html';
 import Link from 'Component/Link';
 
 import './ProductActions.style';
+import TierPrices from 'Component/TierPrices';
 
 /**
  * Product actions
@@ -40,6 +41,7 @@ import './ProductActions.style';
 export default class ProductActions extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
+        productOrVariant: PropTypes.isRequired,
         minQuantity: PropTypes.number.isRequired,
         maxQuantity: PropTypes.number.isRequired,
         configurableVariantIndex: PropTypes.number,
@@ -331,10 +333,20 @@ export default class ProductActions extends PureComponent {
         );
     }
 
+    renderTierPrices() {
+        const { productOrVariant } = this.props;
+        return (
+            <div block="ProductActions" elem="TierPrices">
+                <TierPrices product={ productOrVariant } />
+            </div>
+        );
+    }
+
     render() {
         return (
             <article block="ProductActions">
                 { this.renderPrice() }
+                { this.renderTierPrices() }
                 <div block="ProductActions" elem="AddToCartWrapper">
                     { this.renderQuantityInput() }
                     { this.renderAddToCart() }
