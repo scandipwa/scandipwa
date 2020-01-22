@@ -12,14 +12,16 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+export const MIN_PASSWORD_LENGTH = 8;
+
 export default {
     email: {
         validate: ({ value }) => value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i),
         message: __('Email is invalid.')
     },
     password: {
-        validate: ({ value }) => value.match(/^((?=.*[A-Z])(?=.*[a-z])(?=.*\d)|(?=.*[a-z])(?=.*\d)(?=.*[\$\%\&])|(?=.*[A-Z])(?=.*\d)(?=.*[\$\%\&])|(?=.*[A-Z])(?=.*[a-z])(?=.*[\$\%\&])).{8,16}$/),
-        message: __('Password should be at least 8 characters long, include at least on upper case letter, number and symbol!')
+        validate: ({ value }) => value.length > MIN_PASSWORD_LENGTH,
+        message: __('Password should be at least 8 characters long')
     },
     telephone: {
         validate: ({ value }) => value.length > 0 && value.match(/^\+(?:[0-9-] ?){6,14}[0-9]$/),

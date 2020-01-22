@@ -41,11 +41,13 @@ export class ProductWishlistButtonContainer extends PureComponent {
         showNotification: PropTypes.func.isRequired,
         productsInWishlist: PropTypes.objectOf(ProductType).isRequired,
         addProductToWishlist: PropTypes.func.isRequired,
+        onProductValidationError: PropTypes.func,
         removeProductFromWishlist: PropTypes.func.isRequired
     };
 
     static defaultProps = {
         quantity: 1,
+        onProductValidationError: () => {},
         configurableVariantIndex: -2
     };
 
@@ -62,12 +64,13 @@ export class ProductWishlistButtonContainer extends PureComponent {
 
     toggleProductInWishlist = (add = true) => {
         const {
-            product: { sku },
+            product: { sku, type_id },
             quantity,
             isLoading,
             showNotification,
             productsInWishlist,
             addProductToWishlist,
+            onProductValidationError,
             removeProductFromWishlist
         } = this.props;
 
@@ -79,6 +82,7 @@ export class ProductWishlistButtonContainer extends PureComponent {
 
         const product = this._getProductVariant();
         if (product === ERROR_CONFIGURABLE_NOT_PROVIDED) {
+            onProductValidationError(type_id);
             return showNotification('info', __('Please, select desireable option first!'));
         }
 

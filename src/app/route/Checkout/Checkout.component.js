@@ -162,15 +162,17 @@ class Checkout extends PureComponent {
 
         return (
             <div block="Checkout" elem="Success">
-                <p>{ __('Your order # is: %s', orderID) }</p>
+                <h3>{ __('Your order # is: %s', orderID) }</h3>
                 <p>{ __('We`ll email you an order confirmation with details and tracking info.') }</p>
-                <Link
-                  block="Button"
-                  mix={ { block: 'Checkout', elem: 'ContinueButton' } }
-                  to="/"
-                >
-                    { __('Continue shopping') }
-                </Link>
+                <div block="Checkout" elem="ButtonWrapper">
+                    <Link
+                      block="Button"
+                      mix={ { block: 'Checkout', elem: 'ContinueButton' } }
+                      to="/"
+                    >
+                        { __('Continue shopping') }
+                    </Link>
+                </div>
             </div>
         );
     }

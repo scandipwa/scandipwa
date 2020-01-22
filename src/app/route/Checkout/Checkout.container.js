@@ -14,7 +14,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { BRAINTREE, KLARNA } from 'Component/CheckoutPayments/CheckoutPayments.component';
-import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { CART_TAB } from 'Component/NavigationTabs/NavigationTabs.component';
+import { TOP_NAVIGATION_TYPE, BOTTOM_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 import CartDispatcher from 'Store/Cart/Cart.dispatcher';
 import { fetchMutation, fetchQuery } from 'Util/Request';
@@ -41,13 +42,15 @@ export const mapDispatchToProps = dispatch => ({
     resetCart: () => CartDispatcher.updateInitialCartData(dispatch),
     toggleBreadcrumbs: state => dispatch(toggleBreadcrumbs(state)),
     showErrorNotification: message => dispatch(showNotification('error', message)),
-    setHeaderState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName))
+    setHeaderState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
+    setNavigationState: stateName => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, stateName))
 });
 
 export class CheckoutContainer extends PureComponent {
     static propTypes = {
         showErrorNotification: PropTypes.func.isRequired,
         toggleBreadcrumbs: PropTypes.func.isRequired,
+        setNavigationState: PropTypes.func.isRequired,
         resetCart: PropTypes.func.isRequired,
         totals: TotalsType.isRequired,
         history: HistoryType.isRequired
@@ -72,7 +75,10 @@ export class CheckoutContainer extends PureComponent {
         const {
             toggleBreadcrumbs,
             history,
-            totals: { items = [], is_virtual }
+            totals: {
+                items = [],
+                is_virtual
+            }
         } = props;
 
         toggleBreadcrumbs(false);
@@ -127,7 +133,7 @@ export class CheckoutContainer extends PureComponent {
     }
 
     setDetailsStep(orderID) {
-        const { resetCart } = this.props;
+        const { resetCart, setNavigationState } = this.props;
 
         // For some reason not logged in user cart preserves qty in it
         if (!isSignedIn()) {
@@ -142,6 +148,10 @@ export class CheckoutContainer extends PureComponent {
             paymentTotals: {},
             checkoutStep: DETAILS_STEP,
             orderID
+        });
+
+        setNavigationState({
+            name: CART_TAB
         });
     }
 

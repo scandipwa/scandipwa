@@ -307,6 +307,7 @@ export default class ProductActions extends PureComponent {
               product={ product }
               quantity={ quantity }
               configurableVariantIndex={ configurableVariantIndex }
+              onProductValidationError={ this.onProductValidationError }
             />
         );
     }

@@ -84,12 +84,34 @@ export default class CartPage extends PureComponent {
         return `${formatCurrency(quote_currency_code)}${roundPrice(price)}`;
     }
 
+    renderTotalDetails(isMobile = false) {
+        const {
+            totals: {
+                subtotal = 0,
+                tax_amount = 0
+            }
+        } = this.props;
+
+        return (
+            <dl
+              block="CartPage"
+              elem="TotalDetails"
+              aria-label={ __('Order total details') }
+              mods={ { isMobile } }
+            >
+                <dt>{ __('Subtotal:') }</dt>
+                <dd>{ this.renderPriceLine(subtotal) }</dd>
+                { this.renderDiscount() }
+                <dt>{ __('Tax:') }</dt>
+                <dd>{ this.renderPriceLine(tax_amount) }</dd>
+            </dl>
+        );
+    }
+
     renderTotals() {
         const {
             totals: {
                 grand_total = 0,
-                subtotal = 0,
-                tax_amount = 0,
                 items
             }
         } = this.props;
@@ -104,13 +126,7 @@ export default class CartPage extends PureComponent {
         return (
             <article block="CartPage" elem="Summary">
                 <h4 block="CartPage" elem="SummaryHeading">{ __('Summary') }</h4>
-                <dl block="CartPage" elem="TotalDetails" aria-label={ __('Order total details') }>
-                    <dt>{ __('Subtotal:') }</dt>
-                    <dd>{ this.renderPriceLine(subtotal) }</dd>
-                    { this.renderDiscount() }
-                    <dt>{ __('Tax:') }</dt>
-                    <dd>{ this.renderPriceLine(tax_amount) }</dd>
-                </dl>
+                { this.renderTotalDetails() }
                 <dl block="CartPage" elem="Total" aria-label="Complete order total">
                     <dt>{ __('Order total:') }</dt>
                     <dd>{ this.renderPriceLine(grand_total) }</dd>
@@ -221,13 +237,13 @@ export default class CartPage extends PureComponent {
             <main block="CartPage" aria-label="Cart Page">
                 <Meta metaObject={ { title: 'Cart' } } />
                 <ContentWrapper
-                  mix={ { block: 'CartPage' } }
                   wrapperMix={ { block: 'CartPage', elem: 'Wrapper' } }
                   label="Cart page details"
                 >
                     <div block="CartPage" elem="Static">
                         <h2 block="CartPage" elem="Heading">{ __('Shopping cart') }</h2>
                         { this.renderCartItems() }
+                        { this.renderTotalDetails(true) }
                         { this.renderDiscountCode() }
                         { this.renderCrossSellProducts() }
                     </div>
