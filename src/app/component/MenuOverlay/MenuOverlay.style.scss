@@ -144,6 +144,13 @@
             transform: translateX(-20%);
         }
 
+        &:hover {
+            @include after-mobile {
+                @include subcategory-visible;
+                @include subcategory-desktop-visible;
+            }
+        }
+
         &_isVisible {
             @include mobile {
                 @include subcategory-visible;
@@ -188,13 +195,6 @@
                         @include after-mobile {
                             top: 25px;
                         }
-                    }
-                }
-
-                &:hover {
-                    @include after-mobile {
-                        @include subcategory-visible;
-                        @include subcategory-desktop-visible;
                     }
                 }
             }
@@ -258,7 +258,6 @@
         &:hover {
             @include after-mobile {
                 --menu-overlay-item-banner-color: var(--menu-overlay-item-hover-color);
-
                 color: var(--menu-overlay-item-hover-color);
             }
 
@@ -287,10 +286,6 @@
                 display: flex;
                 min-height: 3.2rem;
             }
-
-            // &_banner {
-            //     margin-top: 1rem;
-            // }
         }
     }
 

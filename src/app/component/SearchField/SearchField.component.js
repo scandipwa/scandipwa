@@ -96,10 +96,8 @@ class SearchField extends PureComponent {
                   onClick={ onSearchBarClick }
                   onChange={ this.handleChange }
                   value={ searchCriteria }
-                  mods={ {
-                      isActive,
-                      type: 'searchField'
-                  } }
+                  mods={ { isActive } }
+                  autoComplete="off"
                 />
                 <div
                   block="SearchField"
@@ -119,16 +117,19 @@ class SearchField extends PureComponent {
         const {
             onSearchOutsideClick,
             searchCriteria,
-            isVisible
+            isVisible,
+            isActive
         } = this.props;
 
         return (
-            <ClickOutside onClick={ onSearchOutsideClick }>
-                <div block="SearchField" mods={ { isVisible } }>
-                    { this.renderContent() }
-                    <SearchOverlay searchCriteria={ searchCriteria } />
-                </div>
-            </ClickOutside>
+            <div block="SearchField" mods={ { isVisible, isActive } }>
+                <ClickOutside onClick={ onSearchOutsideClick }>
+                    <div block="SearchField" elem="Wrapper">
+                        { this.renderContent() }
+                        <SearchOverlay searchCriteria={ searchCriteria } />
+                    </div>
+                </ClickOutside>
+            </div>
         );
     }
 }

@@ -310,22 +310,43 @@ export default class Header extends NavigationAbstract {
         );
     }
 
+    renderMinicartItemsQty() {
+        const { cartTotals: { items_qty } } = this.props;
+
+        if (!items_qty) {
+            return null;
+        }
+
+        return (
+            <span
+              aria-label="Items in cart"
+              block="Header"
+              elem="MinicartItemCount"
+            >
+                { items_qty }
+            </span>
+        );
+    }
+
     renderMinicartButton(isVisible = false) {
-        const { cartTotals: { items_qty }, onMinicartOutsideClick, onMinicartButtonClick } = this.props;
+        const { onMinicartOutsideClick, onMinicartButtonClick } = this.props;
 
         if (isMobile.any()) return null;
 
         return (
             <ClickOutside onClick={ onMinicartOutsideClick } key="minicart">
-                <div>
+                <div
+                  block="Header"
+                  elem="Button"
+                  mods={ { isVisible, type: 'minicart' } }
+                >
                     <button
-                      block="Header"
-                      elem="Button"
-                      mods={ { isVisible, type: 'minicart' } }
                       onClick={ onMinicartButtonClick }
                       aria-label="Minicart"
+                      block="Header"
+                      elem="MinicartButton"
                     >
-                        { items_qty ? (<span aria-label="Items in cart">{ items_qty }</span>) : null }
+                        { this.renderMinicartItemsQty() }
                     </button>
                     <CartOverlay />
                 </div>

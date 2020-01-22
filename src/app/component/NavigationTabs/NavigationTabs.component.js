@@ -11,6 +11,7 @@
 
 import NavigationAbstract from 'Component/NavigationAbstract/NavigationAbstract.component';
 import './NavigationTabs.style';
+import isMobile from 'Util/Mobile';
 
 export const HOME_TAB = 'HOME_TAB';
 export const MENU_TAB = 'MENU_TAB';
@@ -106,11 +107,26 @@ class NavigationTabs extends NavigationAbstract {
         );
     }
 
+    renderMinicartItemsQty() {
+        const { cartTotals: { items_qty } } = this.props;
+
+        if (!items_qty) {
+            return null;
+        }
+
+        return (
+            <span
+              aria-label="Items in cart"
+              block="Header"
+              elem="MinicartItemCount"
+            >
+                { items_qty }
+            </span>
+        );
+    }
+
     renderMinicartButton(isActive = false) {
-        const {
-            cartTotals: { items_qty },
-            onMinicartButtonClick
-        } = this.props;
+        const { onMinicartButtonClick } = this.props;
 
         return (
             <button
@@ -126,7 +142,7 @@ class NavigationTabs extends NavigationAbstract {
                   mix={ { block: 'NavigationTabs', elem: 'Icon', mods: { isActive } } }
                   mods={ { isVisible: true, type: 'minicart' } }
                 >
-                    { items_qty ? (<span aria-label="Items in cart">{ items_qty }</span>) : null }
+                    { this.renderMinicartItemsQty() }
                 </div>
             </button>
         );
@@ -134,6 +150,10 @@ class NavigationTabs extends NavigationAbstract {
 
     render() {
         const { navigationState: { isHidden } } = this.props;
+
+        if (!isMobile.any()) {
+            return null;
+        }
 
         return (
             <footer block="NavigationTabs" mods={ { isHidden } }>

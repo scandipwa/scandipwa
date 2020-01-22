@@ -13,22 +13,12 @@
     --header-background: #fff;
     --header-color: #000;
     --header-icon-stroke-width: 1px;
-    --header-search-field-background: var(--secondary-base-color);
-    --header-search-field-visible-background: #fff;
-    --header-search-field-color: #6e6e6e;
     --header-search-clear-background: #838383;
-    --header-search-field-border-color: var(--primary-light-color);
-    --header-desktop-search-bar-width: 270px;
-    --header-desktop-search-bar-max-width: 450px;
     --header-desktop-button-color: #f26323;
     --header-height: calc(50px + env(safe-area-inset-top));
     --header-nav-height: 50px;
     --header-logo-width: 200px;
     --header-logo-height: calc(var(--header-height) - 30px);
-
-    @include tablet {
-        --header-desktop-search-bar-width: 200px;
-    }
 
     @include after-mobile {
         --header-height: 60px;
@@ -85,19 +75,6 @@
             .Header-Button_type_minicart {
                 @include after-mobile {
                     --header-color: var(--header-desktop-button-color);
-                }
-            }
-        }
-
-        &_search {
-            @include after-mobile {
-                --header-desktop-search-bar-width: calc(50% - 100px);
-            }
-
-            .Header-SearchBar {
-                @include after-mobile {
-                    border: 1px solid var(--header-search-field-border-color);
-                    background-color: var(--header-search-field-visible-background);
                 }
             }
         }
@@ -218,10 +195,6 @@
 
             &_minicart {
                 @include minicart-button;
-
-                @include after-mobile {
-                    width: 100%;
-                }
             }
 
             &_searchClear {
@@ -250,6 +223,31 @@
                 }
             }
         }
+    }
+
+    &-MinicartButton {
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        z-index: 1;
+        left: 0;
+        top: 0;
+    }
+
+    &-MinicartItemCount {
+        position: absolute;
+        color: var(--header-background);
+        background: var(--primary-base-color);
+        display: inline-block;
+        border-radius: 7px;
+        z-index: 2;
+        min-width: 14px;
+        line-height: 13px;
+        font-size: 12px;
+        top: 18px;
+        transform: translateX(3px);
+        padding: 0 4px 1px;
+        left: 50%;
     }
 
     &-LogoWrapper {

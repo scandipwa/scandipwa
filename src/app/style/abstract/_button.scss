@@ -35,11 +35,14 @@
         color: var(--button-border);
     }
 
+    &:hover,
+    &:focus {
+        text-decoration: none;
+    }
+
     &:not([disabled]) {
         &:hover,
         &:focus {
-            text-decoration: none;
-
             @include after-mobile {
                 border-color: var(--button-hover-border);
                 background-color: var(--button-hover-background);

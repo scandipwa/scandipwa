@@ -221,6 +221,10 @@
         backface-visibility: hidden;
         perspective: 1000px;
 
+        @include after-mobile {
+            order: 10;
+        }
+
         &.animate {
             animation: shake 820ms .5ms cubic-bezier(.36,.07,.19,.97) both;
         }
@@ -241,7 +245,6 @@
             --product-configurable-attributes-margin: 0 2rem 0 0;
             --option-margin: 0 1rem 1rem 0;
 
-            order: 10;
             display: flex;
             flex-wrap: wrap;
             flex-basis: 100%;

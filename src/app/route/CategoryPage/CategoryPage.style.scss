@@ -32,17 +32,18 @@
     }
 
     &-ProductListWrapper {
-        padding-top: 56px;
+        @include mobile {
+            padding-top: 56px;
+        }
     }
 
     &-ItemsCount {
-        padding-top: .3rem;
-        padding-bottom: 1rem;
+        padding: 0;
 
         @include mobile {
             order: 1;
             font-size: .9rem;
-            padding-left: 1rem;
+            padding: .3rem 1rem 1rem 0;
             text-align: center;
             grid-column: span 2;
         }
@@ -101,16 +102,21 @@
         min-height: 56px;
         transform: translateY(0);
         transition: transform 200ms cubic-bezier(.47, 0, .745, .715);
-        position: fixed;
-        top: var(--header-height);
-        left: 0;
-        width: 100%;
-        z-index: 90;
-        background: #fff;
-        border-bottom: 1px solid var(--primary-divider-color);
+
+        @include mobile {
+            position: fixed;
+            top: var(--header-height);
+            left: 0;
+            width: 100%;
+            z-index: 90;
+            background: #fff;
+            border-bottom: 1px solid var(--primary-divider-color);
+        }
 
         .hideOnScroll & {
-            transform: translateY(-100%);
+            @include mobile {
+                transform: translateY(-100%);
+            }
         }
 
         > * {

@@ -213,30 +213,13 @@
         border-top-right-radius: 5px;
         border-top-left-radius: 5px;
     }
-
-    span {
-        position: absolute;
-        padding: 0 6px;
-        color: var(--header-background);
-        background: var(--primary-base-color);
-        display: inline-block;
-        border-radius: 7px;
-        z-index: 2;
-        min-width: 14px;
-        line-height: 13px;
-        font-size: 12px;
-        top: 18px;
-        transform: translateX(3px);
-        padding: 0 4px 1px;
-        left: 50%;
-    }
 }
 
 @mixin clear-search-button {
     @include close-button;
 
     border-radius: 50%;
-    background-color: var(--header-search-clear-background);
+    background-color: var(--search-clear-background);
 
     height: 15px;
     width: 15px;

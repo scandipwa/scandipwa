@@ -113,22 +113,18 @@
         padding: 1rem;
         width: 100%;
         left: 0;
-    }
-
-    &-Button.Button {
-        width: 100%;
 
         @include after-mobile {
             display: none;
         }
     }
 
+    &-Button.Button {
+        width: 100%;
+    }
+
     &-ResetButton {
         margin-bottom: 1rem;
-
-        @include mobile {
-            display: none !important;
-        }
     }
 
     li {
