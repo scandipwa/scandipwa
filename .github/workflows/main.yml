@@ -1,9 +1,6 @@
-name: Lint
+name: ESLint (using custom rules)
 
-on:
-  push:
-    branches: 
-      - redesing-navigation
+on: pull_request
 
 jobs:
   eslint:
