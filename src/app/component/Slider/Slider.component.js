@@ -250,6 +250,7 @@ export default class Slider extends PureComponent {
 
     renderCrumbs() {
         const { children } = this.props;
+        if (children.length <= 1) return null;
 
         return (
             <div
