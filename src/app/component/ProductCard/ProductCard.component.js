@@ -12,7 +12,6 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import media, { PRODUCT_MEDIA } from 'Util/Media';
 import Link from 'Component/Link';
 import Image from 'Component/Image';
 import Loader from 'Component/Loader';
@@ -20,6 +19,7 @@ import { ProductType } from 'Type/ProductList';
 import ProductPrice from 'Component/ProductPrice';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import ProductReviewRating from 'Component/ProductReviewRating';
+import ProductAttributeValue from 'Component/ProductAttributeValue';
 
 import './ProductCard.style';
 
@@ -128,19 +128,22 @@ export default class ProductCard extends PureComponent {
     renderAdditionalProductDetails() {
         const { product: { sku }, getAttribute } = this.props;
         const { product_list_content: { attribute_to_display } = {} } = window.contentConfiguration;
-        const { attribute_value: brand } = getAttribute(attribute_to_display || 'brand') || {};
+        const brand = getAttribute(attribute_to_display || 'brand') || {};
 
         if (sku && !brand) return null;
 
         return (
-            <p
+            <div
               block="ProductCard"
               elem="Brand"
               mods={ { isLoaded: !!brand } }
               itemProp="brand"
             >
-                { brand }
-            </p>
+                <ProductAttributeValue
+                  attribute={ brand }
+                  isFormattedAsText
+                />
+            </div>
         );
     }
 
