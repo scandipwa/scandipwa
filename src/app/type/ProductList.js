@@ -118,7 +118,11 @@ export const ProductType = PropTypes.shape({
     special_price: PropTypes.number,
     thumbnail: PropTypes.shape({ url: PropTypes.string }),
     thumbnail_label: PropTypes.shape({ label: PropTypes.string }),
-    tier_prices: PropTypes.string,
+    tier_prices: PropTypes.arrayOf(PropTypes.shape({
+        value: PropTypes.number.isRequired,
+        quantity: PropTypes.number.isRequired,
+        ratio: PropTypes.number.isRequired
+    })),
     url_key: PropTypes.string,
     quantity: PropTypes.number,
     review_summary: ReviewSummaryType,
