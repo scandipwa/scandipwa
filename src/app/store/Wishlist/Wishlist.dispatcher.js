@@ -83,6 +83,7 @@ export class WishlistDispatcher {
             () => this._syncWishlistWithBE(dispatch),
             (error) => {
                 dispatch(showNotification('error', __('Error updating wish list!')));
+                // eslint-disable-next-line no-console
                 console.log(error);
             }
         );
