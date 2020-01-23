@@ -10,7 +10,9 @@
  */
 
 import { PureComponent } from 'react';
+import { Subscribe } from 'unstated';
 import { ProductType } from 'Type/ProductList';
+import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
 import ProductGallery, { IMAGE_TYPE } from './ProductGallery.component';
 
 export const THUMBNAIL_KEY = 'small_image';
@@ -98,12 +100,14 @@ export class ProductGalleryContainer extends PureComponent {
 
     containerProps = () => {
         const { activeImage, isZoomEnabled } = this.state;
+        const { product: { id } } = this.props;
 
         return {
             gallery: this.getGalleryPictures(),
             productName: this._getProductName(),
             activeImage,
-            isZoomEnabled
+            isZoomEnabled,
+            productId: id
         };
     };
 
@@ -133,10 +137,15 @@ export class ProductGalleryContainer extends PureComponent {
 
     render() {
         return (
-            <ProductGallery
-              { ...this.containerProps() }
-              { ...this.containerFunctions }
-            />
+            <Subscribe to={ [SharedTransitionContainer] }>
+                { ({ registerSharedElementDestination }) => (
+                    <ProductGallery
+                      registerSharedElementDestination={ registerSharedElementDestination }
+                      { ...this.containerProps() }
+                      { ...this.containerFunctions }
+                    />
+                ) }
+            </Subscribe>
         );
     }
 }

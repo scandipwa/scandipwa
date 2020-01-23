@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
+import { PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
 import { TransformWrapper } from 'react-zoom-pan-pinch';
 
@@ -47,18 +47,40 @@ export default class ProductGallery extends PureComponent {
                 type: PropTypes.string
             })
         ).isRequired,
+        productId: PropTypes.number.isRequired,
         isZoomEnabled: PropTypes.bool.isRequired,
         activeImage: PropTypes.number.isRequired,
         onActiveImageChange: PropTypes.func.isRequired,
         handleZoomChange: PropTypes.func.isRequired,
+        registerSharedElementDestination: PropTypes.func.isRequired,
         disableZoom: PropTypes.func.isRequired
     };
 
     maxScale = MAX_ZOOM_SCALE;
 
+    imageRef = createRef();
+
     constructor(props, context) {
         super(props, context);
         this.renderSlide = this.renderSlide.bind(this);
+    }
+
+    componentDidMount() {
+        this.updateSharedDestinationElement();
+    }
+
+    componentDidUpdate(prevProps) {
+        const { productId } = this.props;
+        const { productId: prevProductId } = prevProps;
+
+        if (productId !== prevProductId) {
+            this.updateSharedDestinationElement();
+        }
+    }
+
+    updateSharedDestinationElement() {
+        const { registerSharedElementDestination } = this.props;
+        registerSharedElementDestination(this.imageRef);
     }
 
     renderAdditionalPicture = (media, index = 0) => {
@@ -198,7 +220,7 @@ export default class ProductGallery extends PureComponent {
         } = this.props;
 
         return (
-            <div>
+            <div ref={ this.imageRef }>
                 <Slider
                   mix={ { block: 'ProductGallery', elem: 'Slider' } }
                   showCrumbs
