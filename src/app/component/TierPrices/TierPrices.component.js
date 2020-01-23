@@ -20,7 +20,7 @@ class TierPrices extends PureComponent {
         } = this.props;
 
         return (
-            <li block="TierPrices" elem="Item">
+            <li block="TierPrices" elem="Item" key={ quantity }>
                 { __(
                     'Buy %s for %s%s each and ',
                     quantity,

@@ -41,7 +41,7 @@ import TierPrices from 'Component/TierPrices';
 export default class ProductActions extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
-        productOrVariant: PropTypes.isRequired,
+        productOrVariant: ProductType.isRequired,
         minQuantity: PropTypes.number.isRequired,
         maxQuantity: PropTypes.number.isRequired,
         configurableVariantIndex: PropTypes.number,
