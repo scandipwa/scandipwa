@@ -88,7 +88,6 @@ export class CartQuery {
             'discount_amount',
             'quote_currency_code',
             'subtotal_with_discount',
-            'subtotal_incl_tax',
             'coupon_code',
             'shipping_amount',
             'is_virtual',
