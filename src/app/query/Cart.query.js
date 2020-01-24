@@ -82,6 +82,7 @@ export class CartQuery {
     _getCartTotalsFields() {
         return [
             'subtotal',
+            'subtotal_incl_tax',
             'items_qty',
             'tax_amount',
             'grand_total',
