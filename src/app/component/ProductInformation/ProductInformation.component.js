@@ -15,10 +15,11 @@ import PropTypes from 'prop-types';
 import media, { PRODUCT_MEDIA } from 'Util/Media';
 import Html from 'Component/Html';
 import Image from 'Component/Image';
-import { ProductType } from 'Type/ProductList';
+import { ProductType, AttributeType } from 'Type/ProductList';
 import ContentWrapper from 'Component/ContentWrapper';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import ExpandableContent from 'Component/ExpandableContent';
+import ProductAttributeValue from 'Component/ProductAttributeValue';
 
 import './ProductInformation.style';
 
@@ -26,7 +27,7 @@ export default class ProductInformation extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         areDetailsLoaded: PropTypes.bool.isRequired,
-        attributesWithValues: PropTypes.objectOf(PropTypes.string).isRequired
+        attributesWithValues: AttributeType.isRequired
     };
 
     renderContentPlaceholder() {
@@ -58,7 +59,11 @@ export default class ProductInformation extends PureComponent {
                 { attributeLabel }
             </dt>
             <dd block="ProductInformation" elem="ValueLabel">
-                { valueLabel }
+                <ProductAttributeValue
+                  key={ attributeLabel }
+                  attribute={ valueLabel }
+                  isFormattedAsText
+                />
             </dd>
         </Fragment>
     );

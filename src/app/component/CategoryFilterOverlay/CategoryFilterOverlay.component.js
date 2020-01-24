@@ -48,6 +48,8 @@ export default class CategoryFilterOverlay extends PureComponent {
         const min = minValue || minPriceValue;
         const max = maxValue || maxPriceValue;
 
+        if (maxPriceValue - minPriceValue === 0) return null;
+
         return (
             <ExpandableContent
               heading={ __('Price') }
@@ -136,7 +138,11 @@ export default class CategoryFilterOverlay extends PureComponent {
                 || !Object.keys(availableFilters).length
             )
         ) {
-            return <div block="CategoryFilterOverlay" />;
+            return (
+                <Overlay mix={ { block: 'CategoryFilterOverlay' } } id="category-filter">
+                    { this.renderPriceRange() }
+                </Overlay>
+            );
         }
 
         return (
