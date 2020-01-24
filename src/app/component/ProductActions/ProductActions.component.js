@@ -30,9 +30,9 @@ import Field from 'Component/Field';
 import isMobile from 'Util/Mobile';
 import Html from 'Component/Html';
 import Link from 'Component/Link';
+import TierPrices from 'Component/TierPrices';
 
 import './ProductActions.style';
-import TierPrices from 'Component/TierPrices';
 
 /**
  * Product actions
@@ -335,6 +335,7 @@ export default class ProductActions extends PureComponent {
 
     renderTierPrices() {
         const { productOrVariant } = this.props;
+
         return (
             <div block="ProductActions" elem="TierPrices">
                 <TierPrices product={ productOrVariant } />
