@@ -125,6 +125,12 @@
 
     &-ResetButton {
         margin-bottom: 1rem;
+
+        &.Button {
+            @include mobile {
+                display: none;
+            }
+        }
     }
 
     li {
