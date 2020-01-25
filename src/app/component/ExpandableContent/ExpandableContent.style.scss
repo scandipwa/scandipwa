@@ -96,6 +96,7 @@
         text-transform: uppercase;
 
         @include after-mobile {
+            cursor: auto;
             font-size: 14px;
             font-weight: bold;
             text-transform: none;
