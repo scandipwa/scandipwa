@@ -54,12 +54,21 @@ export default class SearchOverlay extends PureComponent {
         }
     }
 
+    renderSearchItemAdditionalContent(brand) {
+        const { isLoading } = this.props;
+        if (!isLoading && !brand) return null;
+
+        return (
+            <p block="SearchOverlay" elem="Brand">
+                <TextPlaceholder content={ brand } />
+            </p>
+        );
+    }
+
     renderSearchItemContent(name, brand) {
         return (
             <>
-                <p block="SearchOverlay" elem="Brand">
-                    <TextPlaceholder content={ brand } />
-                </p>
+                { this.renderSearchItemAdditionalContent(brand) }
                 <h4 block="SearchOverlay" elem="Title" mods={ { isLoaded: !!name } }>
                     <TextPlaceholder content={ name } length="long" />
                 </h4>
