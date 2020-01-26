@@ -145,7 +145,6 @@ export class MyAccountContainer extends PureComponent {
     onSignIn() {
         const {
             requestCustomerData,
-            toggleOverlayByKey,
             changeHeaderState,
             isSignedIn,
             history
@@ -153,7 +152,6 @@ export class MyAccountContainer extends PureComponent {
 
         if (isSignedIn) {
             requestCustomerData();
-            toggleOverlayByKey(CUSTOMER_ACCOUNT);
         }
 
         changeHeaderState({
