@@ -28,7 +28,7 @@ export class DataContainer extends PureComponent {
     fetchData(rawQueries, onSucces = () => {}, onError = () => {}) {
         const preparedQuery = prepareQuery(rawQueries);
         const { query, variables } = preparedQuery;
-        const queryHash = hash(query + variables);
+        const queryHash = hash(query + JSON.stringify(variables));
 
         if (!window.dataCache) {
             window.dataCache = {};
