@@ -222,6 +222,7 @@
         perspective: 1000px;
 
         @include after-mobile {
+            width: 100%;
             order: 10;
         }
 
