@@ -77,6 +77,7 @@ export class AddToCartContainer extends PureComponent {
         case CONFIGURABLE:
             if (configurableVariantIndex < 0 || !variants[configurableVariantIndex]) {
                 showNotification('info', __('Please select product options!'));
+                showNotification('error', __('Please select product options!'));
                 return false;
             }
 
