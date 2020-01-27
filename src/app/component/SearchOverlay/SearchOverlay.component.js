@@ -55,6 +55,13 @@ export default class SearchOverlay extends PureComponent {
         }
     }
 
+    handleItemClick = () => {
+        const { clearSearch, hideActiveOverlay } = this.props;
+
+        clearSearch();
+        hideActiveOverlay();
+    };
+
     renderSearchItemAdditionalContent(brand) {
         const { isLoading } = this.props;
         if (!isLoading && !brand) return null;
@@ -65,13 +72,6 @@ export default class SearchOverlay extends PureComponent {
             </p>
         );
     }
-
-    handleItemClick = () => {
-        const { clearSearch, hideActiveOverlay } = this.props;
-
-        clearSearch();
-        hideActiveOverlay();
-    };
 
     renderSearchItemContent(name, brand) {
         return (
