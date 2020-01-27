@@ -10,7 +10,9 @@
  */
 
 .RelatedProducts {
-    margin-top: 1rem;
+    @include mobile {
+        margin-top: 1rem;
+    }
 
     @include desktop {
         grid-column: 1 / span 2;
@@ -19,6 +21,7 @@
 
     &-Wrapper {
         padding-bottom: 5rem;
+        padding-top: 5rem;
 
         @include mobile {
             padding: 0;
