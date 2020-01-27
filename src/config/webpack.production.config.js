@@ -128,7 +128,8 @@ const webpackConfig = ([lang, translation]) => ({
             filename: '../templates/root.phtml',
             inject: false,
             hash: true,
-            publicPath
+            publicPath,
+            chunksSortMode: 'none'
         }),
 
         new WebpackPwaManifest(webmanifestConfig(projectRoot)),

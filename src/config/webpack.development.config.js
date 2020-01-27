@@ -163,7 +163,8 @@ module.exports = {
             template: path.resolve(projectRoot, 'src', 'public', 'index.development.html'),
             filename: 'index.html',
             inject: false,
-            publicPath: '/'
+            publicPath: '/',
+            chunksSortMode: 'none'
         }),
 
         new WebpackPwaManifest(webmanifestConfig(projectRoot)),
