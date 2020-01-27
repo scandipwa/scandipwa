@@ -208,7 +208,9 @@ button,
 textarea,
 select,
 details {
-    touch-action: manipulation;
+    @include mobile  {
+        touch-action: manipulation;
+    }
 }
 
 input {
