@@ -1,0 +1,9 @@
+.SuspenseFallback {
+    @include mobile {
+        height: calc(100vh - var(--footer-height));
+    }
+
+    @include after-mobile {
+        height: calc(100vh - var(--header-height) - var(--breadcrumbs-height) - var(--footer-height));
+    }
+}
