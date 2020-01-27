@@ -108,8 +108,7 @@
     }
 
     &-SeeResults {
-        position: fixed;
-        bottom: var(--navigation-tabs-height);
+        position: sticky;
         padding: 1rem;
         width: 100%;
         left: 0;
