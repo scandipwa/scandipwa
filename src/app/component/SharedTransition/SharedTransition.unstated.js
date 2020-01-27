@@ -18,8 +18,6 @@ export class SharedTransitionContainer extends Container {
 
     registerSharedElementDestination = ({ current }) => {
         if (current) {
-            console.log('to');
-
             this.setState(({ sharedElementDestination }) => {
                 if (sharedElementDestination) return {};
 
@@ -33,7 +31,6 @@ export class SharedTransitionContainer extends Container {
 
     registerSharedElement = ({ current }) => {
         if (current) {
-            console.log('from');
             const clone = current.cloneNode(true);
 
             this.setState({
