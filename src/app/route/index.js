@@ -10,29 +10,17 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent, cloneElement } from 'react';
+import { PureComponent, cloneElement, lazy, Suspense } from 'react';
 
 import { Route, Switch } from 'react-router-dom';
 import { Router } from 'react-router';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { createBrowserHistory } from 'history';
 
-import HomePage from 'Route/HomePage';
-import CategoryPage from 'Route/CategoryPage';
-import SearchPage from 'Route/SearchPage';
-import ProductPage from 'Route/ProductPage';
-import CmsPage from 'Route/CmsPage';
-import CartPage from 'Route/CartPage';
-import MyAccount from 'Route/MyAccount';
-import PasswordChangePage from 'Route/PasswordChangePage';
-import NoMatchHandler from 'Route/NoMatchHandler';
-import UrlRewrites from 'Route/UrlRewrites';
-import Checkout from 'Route/Checkout';
-
-import Header from 'Component/Header';
-import Footer from 'Component/Footer';
 import Breadcrumbs from 'Component/Breadcrumbs';
-import NotificationList from 'Component/NotificationList';
+import Footer from 'Component/Footer';
+import Header from 'Component/Header';
+import SuspenseFallback from 'Component/SuspenseFallback';
 
 import Store from 'Store';
 
@@ -40,7 +28,20 @@ import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
 import { ConfigDispatcher } from 'Store/Config';
 import { CartDispatcher } from 'Store/Cart';
 import { WishlistDispatcher } from 'Store/Wishlist';
-import SomethingWentWrong from './SomethingWentWrong';
+
+const CartPage = lazy(() => import('Route/CartPage'));
+const CategoryPage = lazy(() => import('Route/CategoryPage'));
+const Checkout = lazy(() => import('Route/Checkout'));
+const CmsPage = lazy(() => import('Route/CmsPage'));
+const HomePage = lazy(() => import('Route/HomePage'));
+const MyAccount = lazy(() => import('Route/MyAccount'));
+const NoMatchHandler = lazy(() => import('Route/NoMatchHandler'));
+const NotificationList = lazy(() => import('Component/NotificationList'));
+const PasswordChangePage = lazy(() => import('Route/PasswordChangePage'));
+const ProductPage = lazy(() => import('Route/ProductPage'));
+const SearchPage = lazy(() => import('Route/SearchPage'));
+const SomethingWentWrong = lazy(() => import('Route/SomethingWentWrong'));
+const UrlRewrites = lazy(() => import('Route/UrlRewrites'));
 
 export const BEFORE_ITEMS_TYPE = 'BEFORE_ITEMS_TYPE';
 export const SWITCH_ITEMS_TYPE = 'SWITCH_ITEMS_TYPE';
@@ -205,16 +206,22 @@ class AppRouter extends PureComponent {
         );
     }
 
+    renderSuspenseFallback() {
+        return <SuspenseFallback />;
+    }
+
     renderDefaultRouterContent() {
         return (
             <>
-                { this.renderItemsOfType(BEFORE_ITEMS_TYPE) }
-                <NoMatchHandler>
-                    <Switch>
-                        { this.renderItemsOfType(SWITCH_ITEMS_TYPE) }
-                    </Switch>
-                </NoMatchHandler>
-                { this.renderItemsOfType(AFTER_ITEMS_TYPE) }
+                <Suspense fallback={ this.renderSuspenseFallback() }>
+                    { this.renderItemsOfType(BEFORE_ITEMS_TYPE) }
+                    <NoMatchHandler>
+                        <Switch>
+                            { this.renderItemsOfType(SWITCH_ITEMS_TYPE) }
+                        </Switch>
+                    </NoMatchHandler>
+                    { this.renderItemsOfType(AFTER_ITEMS_TYPE) }
+                </Suspense>
             </>
         );
     }
