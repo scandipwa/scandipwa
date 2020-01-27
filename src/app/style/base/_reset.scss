@@ -179,8 +179,11 @@ select {
 }
 
 button {
-    user-select: none;
     cursor: pointer;
+
+    @include mobile {
+        user-select: none;
+    }
 }
 
 textarea {

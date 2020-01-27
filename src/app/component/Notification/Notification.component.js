@@ -38,9 +38,14 @@ export default class Notification extends PureComponent {
 
     componentDidMount() {
         const { notification: { msgType } } = this.props;
-        this.hideTimeout = msgType.toLowerCase() === ERROR_TYPE
-            ? setTimeout(() => this.hideNotification(), ERROR_NOTIFICATION_LIFETIME)
-            : setTimeout(() => this.hideNotification(), NOTIFICATION_LIFETIME);
+
+        // Make sure error notification stays a little longer
+        if (msgType.toLowerCase() === ERROR_TYPE) {
+            this.hideTimeout = setTimeout(() => this.hideNotification(), ERROR_NOTIFICATION_LIFETIME);
+        } else {
+            this.hideTimeout = setTimeout(() => this.hideNotification(), NOTIFICATION_LIFETIME);
+        }
+
         CSS.setVariable(this.notification, 'animation-duration', `${ANIMATION_DURATION}ms`);
     }
 
