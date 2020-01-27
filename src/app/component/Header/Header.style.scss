@@ -107,7 +107,8 @@
 
         &_checkout {
             .Header-Button,
-            .Header-SearchWrapper {
+            .Header-SearchWrapper,
+            .SearchField {
                 @include after-mobile {
                     display: none;
                 }
