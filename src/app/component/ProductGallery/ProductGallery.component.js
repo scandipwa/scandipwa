@@ -47,13 +47,17 @@ export default class ProductGallery extends PureComponent {
                 type: PropTypes.string
             })
         ).isRequired,
-        productId: PropTypes.number.isRequired,
+        productId: PropTypes.number,
         isZoomEnabled: PropTypes.bool.isRequired,
         activeImage: PropTypes.number.isRequired,
         onActiveImageChange: PropTypes.func.isRequired,
         handleZoomChange: PropTypes.func.isRequired,
         registerSharedElementDestination: PropTypes.func.isRequired,
         disableZoom: PropTypes.func.isRequired
+    };
+
+    static defaultProps = {
+        productId: 0
     };
 
     maxScale = MAX_ZOOM_SCALE;
