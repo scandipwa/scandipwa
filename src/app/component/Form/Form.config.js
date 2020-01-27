@@ -20,7 +20,7 @@ export default {
         message: __('Email is invalid.')
     },
     password: {
-        validate: ({ value }) => value.length > MIN_PASSWORD_LENGTH,
+        validate: ({ value }) => value.length >= MIN_PASSWORD_LENGTH,
         message: __('Password should be at least 8 characters long')
     },
     telephone: {

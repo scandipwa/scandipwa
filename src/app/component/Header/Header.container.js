@@ -27,6 +27,7 @@ import Header, {
     PDP,
     CATEGORY,
     CUSTOMER_ACCOUNT,
+    CUSTOMER_SUB_ACCOUNT,
     MENU,
     MENU_SUBCATEGORY,
     SEARCH,
@@ -287,8 +288,11 @@ export class HeaderContainer extends NavigationAbstractContainer {
             navigationState: { name }
         } = this.props;
 
-        if (isMobile.any() || name !== CUSTOMER_ACCOUNT) return;
-
+        if (
+            isMobile.any()
+            || !(name === CUSTOMER_ACCOUNT || name === CUSTOMER_SUB_ACCOUNT)
+        ) return;
+        if (name === CUSTOMER_SUB_ACCOUNT) goToPreviousNavigationState();
         goToPreviousNavigationState();
         hideActiveOverlay();
     }

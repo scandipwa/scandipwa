@@ -18,6 +18,8 @@ import './Notification.style';
 // controls CSS animation speed
 export const ANIMATION_DURATION = 400;
 export const NOTIFICATION_LIFETIME = 1500;
+export const ERROR_NOTIFICATION_LIFETIME = 2500;
+export const ERROR_TYPE = 'error';
 
 /**
  * Notification block
@@ -35,7 +37,15 @@ export default class Notification extends PureComponent {
     notification = createRef();
 
     componentDidMount() {
-        this.hideTimeout = setTimeout(() => this.hideNotification(), NOTIFICATION_LIFETIME);
+        const { notification: { msgType } } = this.props;
+
+        // Make sure error notification stays a little longer
+        if (msgType.toLowerCase() === ERROR_TYPE) {
+            this.hideTimeout = setTimeout(() => this.hideNotification(), ERROR_NOTIFICATION_LIFETIME);
+        } else {
+            this.hideTimeout = setTimeout(() => this.hideNotification(), NOTIFICATION_LIFETIME);
+        }
+
         CSS.setVariable(this.notification, 'animation-duration', `${ANIMATION_DURATION}ms`);
     }
 

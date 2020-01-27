@@ -46,9 +46,9 @@ class SearchField extends PureComponent {
         return { isPlaceholderVisible: true };
     }
 
-    onClearSearchButtonClick() {
+    onClearSearchButtonClick(isFocusOnSearchBar = true) {
         const { onClearSearchButtonClick } = this.props;
-        this.searchBarRef.current.focus();
+        if (isFocusOnSearchBar) this.searchBarRef.current.focus();
         onClearSearchButtonClick();
     }
 
@@ -58,6 +58,10 @@ class SearchField extends PureComponent {
         onSearchBarChange(e);
 
         this.setState({ isPlaceholderVisible: value === '' });
+    };
+
+    clearSearch = () => {
+        this.onClearSearchButtonClick(false);
     };
 
     renderClearSearch() {
@@ -126,7 +130,7 @@ class SearchField extends PureComponent {
                 <ClickOutside onClick={ onSearchOutsideClick }>
                     <div block="SearchField" elem="Wrapper">
                         { this.renderContent() }
-                        <SearchOverlay searchCriteria={ searchCriteria } />
+                        <SearchOverlay clearSearch={ this.clearSearch } searchCriteria={ searchCriteria } />
                     </div>
                 </ClickOutside>
             </div>

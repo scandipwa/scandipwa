@@ -96,7 +96,8 @@
             }
         }
 
-        &_customer_account {
+        &_customer_account,
+        &_customer_sub_account {
             .Header-Button_type_account {
                 @include after-mobile {
                     --header-color: var(--header-desktop-button-color);

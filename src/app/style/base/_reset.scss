@@ -179,8 +179,11 @@ select {
 }
 
 button {
-    user-select: none;
     cursor: pointer;
+
+    @include mobile {
+        user-select: none;
+    }
 }
 
 textarea {
@@ -205,7 +208,9 @@ button,
 textarea,
 select,
 details {
-    touch-action: manipulation;
+    @include mobile  {
+        touch-action: manipulation;
+    }
 }
 
 input {
