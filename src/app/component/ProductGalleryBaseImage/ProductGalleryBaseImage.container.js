@@ -9,9 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
 import media, { PRODUCT_MEDIA } from 'Util/Media/Media';
+
 import ProductGallery from './ProductGalleryBaseImage.component';
 
 export class ProductGalleryBaseImageContainer extends PureComponent {
@@ -59,7 +61,7 @@ export class ProductGalleryBaseImageContainer extends PureComponent {
         } = this.props;
 
         if (!isZoomEnabled) return baseUrl || media(file, PRODUCT_MEDIA);
-        return media(file, PRODUCT_MEDIA);
+        return file ? media(file, PRODUCT_MEDIA) : baseUrl;
     }
 
     render() {

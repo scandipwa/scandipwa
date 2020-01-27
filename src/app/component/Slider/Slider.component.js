@@ -13,9 +13,12 @@
 
 import { PureComponent, Children, createRef } from 'react';
 import PropTypes from 'prop-types';
-import CSS from 'Util/CSS';
+
 import { MixType, ChildrenType } from 'Type/Common';
 import Draggable from 'Component/Draggable';
+import isMobile from 'Util/Mobile';
+import CSS from 'Util/CSS';
+
 import './Slider.style';
 
 export const ANIMATION_DURATION = 300;
@@ -128,6 +131,10 @@ export default class Slider extends PureComponent {
         const sliderPossition = -prevActiveSlider;
         const realElementPossitionInDOM = elementPossitionInDOM - lastTranslate;
         const mousePossitionInElement = originalX - realElementPossitionInDOM;
+
+        if (isMobile.any()) {
+            return sliderPossition;
+        }
 
         if (slideSize / 2 < mousePossitionInElement && -fullSliderPoss < sliderPossition) {
             const activeSlide = sliderPossition - 1;

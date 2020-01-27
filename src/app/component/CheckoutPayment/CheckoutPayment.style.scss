@@ -12,7 +12,7 @@
 :root {
     --checkout-payment-check-mark-color: var(--primary-base-color);
     --checkout-payment-check-mark-hover-color: var(--secondary-dark-color);
-    --checkout-payment-border-color: var(--secondary-base-color);
+    --checkout-payment-border-color: var(--primary-divider-color);
 }
 
 .CheckoutPayment {
@@ -20,7 +20,7 @@
     margin-bottom: 0;
     display: flex;
     align-items: center;
-    border-top: 2px solid var(--checkout-payment-border-color);
+    border-top: 1px solid var(--checkout-payment-border-color);
 
     &::before {
         content: none;
@@ -28,14 +28,14 @@
 
     &:last-child {
         margin-bottom: 0;
-        border-bottom: 2px solid var(--checkout-payment-border-color);
+        border-bottom: 1px solid var(--checkout-payment-border-color);
     }
 
     &-Button {
         --check-mark-opacity: 0;
 
         width: 100%;
-        padding: 1rem 4rem 1rem;
+        padding: 1rem 3rem 1rem;
         text-align: left;
 
         &::after {
@@ -47,7 +47,7 @@
             top: 0;
             bottom: 0;
             margin: auto;
-            left: 16px;
+            left: 8px;
             width: 12px;
             height: 6px;
             transform: rotate(135deg) translateX(-5px);

@@ -1,13 +1,17 @@
-name: Lint
+name: ESLint (using custom rules)
 
-on:
-  push:
-    branches: 
-      - redesing-navigation
+on: pull_request
 
 jobs:
   eslint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - uses: stefanoeb/eslint-action@1.0.2
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '10.x'
+      - name: Install Dependencies
+        run: npm ci
+      - name: Lint the project
+        run: npm run eslint

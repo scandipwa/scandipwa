@@ -11,10 +11,14 @@
 
 import { connect } from 'react-redux';
 import { PureComponent } from 'react';
+import { Subscribe } from 'unstated';
+
+import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
 import { ProductType, FilterType } from 'Type/ProductList';
-import { CartDispatcher } from 'Store/Cart';
 import { getVariantsIndexes } from 'Util/Product';
+import { CartDispatcher } from 'Store/Cart';
 import { objectToUri } from 'Util/Url';
+
 import ProductCard from './ProductCard.component';
 
 export const mapDispatchToProps = dispatch => ({
@@ -158,11 +162,15 @@ export class ProductCardContainer extends PureComponent {
 
     render() {
         return (
-            <ProductCard
-              { ...this.props }
-              { ...this.containerFunctions }
-              { ...this.containerProps() }
-            />
+            <Subscribe to={ [SharedTransitionContainer] }>
+                { ({ registerSharedElement }) => (
+                    <ProductCard
+                      { ...{ ...this.props, registerSharedElement } }
+                      { ...this.containerFunctions }
+                      { ...this.containerProps() }
+                    />
+                ) }
+            </Subscribe>
         );
     }
 }

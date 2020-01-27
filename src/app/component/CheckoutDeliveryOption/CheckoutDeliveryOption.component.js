@@ -74,8 +74,9 @@ class CheckoutDeliveryOption extends PureComponent {
                             { __('Carrier method: ') }
                             <strong>{ carrier_title }</strong>
                         </span>
+                        <br />
                         <span>
-                            { __(', rate: ') }
+                            { __('Rate: ') }
                             <strong>{ method_title }</strong>
                         </span>
                         { this.renderPrice() }

@@ -12,15 +12,18 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { PureComponent } from 'react';
+
+import { TOP_NAVIGATION_TYPE, BOTTOM_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.component';
+import { HistoryType, LocationType, MatchType } from 'Type/Common';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
+import { changeNavigationState } from 'Store/Navigation';
 import { CategoryDispatcher } from 'Store/Category';
 import { toggleOverlayByKey } from 'Store/Overlay';
 import { NoMatchDispatcher } from 'Store/NoMatch';
-import { changeHeaderState } from 'Store/Header';
 import { CategoryTreeType } from 'Type/Category';
 import { CATEGORY } from 'Component/Header';
 import { debounce } from 'Util/Request';
-import { HistoryType, LocationType, MatchType } from 'Type/Common';
 
 import {
     ProductListInfoDispatcher,
@@ -35,7 +38,6 @@ import {
     convertQueryStringToKeyValuePairs
 } from 'Util/Url';
 
-
 import CategoryPage from './CategoryPage.component';
 
 export const mapStateToProps = state => ({
@@ -49,7 +51,8 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
     toggleOverlayByKey: key => dispatch(toggleOverlayByKey(key)),
-    changeHeaderState: state => dispatch(changeHeaderState(state)),
+    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
+    changeNavigationState: state => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
     requestCategory: options => CategoryDispatcher.handleData(dispatch, options),
     updateBreadcrumbs: breadcrumbs => ((Object.keys(breadcrumbs).length)
         ? BreadcrumbsDispatcher.updateWithCategory(breadcrumbs, dispatch)
@@ -71,6 +74,7 @@ export class CategoryPageContainer extends PureComponent {
         match: MatchType.isRequired,
         requestCategory: PropTypes.func.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
+        changeNavigationState: PropTypes.func.isRequired,
         requestProductListInfo: PropTypes.func.isRequired,
         updateBreadcrumbs: PropTypes.func.isRequired,
         updateLoadStatus: PropTypes.func.isRequired,
@@ -331,6 +335,7 @@ export class CategoryPageContainer extends PureComponent {
         } else {
             this._updateBreadcrumbs();
             this._updateHeaderState();
+            this._updateNavigationState();
         }
     }
 
@@ -339,13 +344,26 @@ export class CategoryPageContainer extends PureComponent {
         updateBreadcrumbs(category);
     }
 
+    _updateNavigationState() {
+        const { changeNavigationState } = this.props;
+
+        changeNavigationState({
+            name: MENU_TAB,
+            isVisibleOnScroll: true
+        });
+    }
+
     _updateHeaderState() {
-        const { changeHeaderState, category: { name }, history } = this.props;
+        const {
+            changeHeaderState,
+            category: { name },
+            history
+        } = this.props;
 
         changeHeaderState({
             name: CATEGORY,
             title: name,
-            onBackClick: () => history.push('/')
+            onBackClick: () => history.push('/menu')
         });
     }
 

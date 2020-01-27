@@ -21,7 +21,27 @@ export default class Link extends PureComponent {
             PropTypes.string,
             PropTypes.object
         ]).isRequired,
-        children: ChildrenType.isRequired
+        children: ChildrenType.isRequired,
+        onClick: PropTypes.func
+    };
+
+    static defaultProps = {
+        onClick: () => {}
+    };
+
+    scrollToElement = (e) => {
+        const { to: cssIdentifier, onClick } = this.props;
+        const elem = document.querySelector(cssIdentifier);
+        event.preventDefault();
+
+        window.scrollTo({
+            top: elem.offsetTop,
+            behavior: 'smooth'
+        });
+
+        elem.focus();
+
+        onClick(e);
     };
 
     render() {
@@ -39,9 +59,22 @@ export default class Link extends PureComponent {
             );
         }
 
+        if (/^#/.test(to)) {
+            return (
+                // eslint-disable-next-line jsx-a11y/click-events-have-key-events
+                <a
+                  { ...props }
+                  onClick={ this.scrollToElement }
+                  href={ to }
+                >
+                    { children }
+                </a>
+            );
+        }
+
         if (/^https?:\/\//.test(to)) {
             return (
-                <a href={ to } { ...props }>
+                <a { ...props } href={ to }>
                     { children }
                 </a>
             );
@@ -49,11 +82,10 @@ export default class Link extends PureComponent {
 
         return (
             <RouterLink
-              to={ to }
               { ...props }
+              to={ to }
               // eslint-disable-next-line react/forbid-component-props
               className={ stringify(this.props) }
-              { ...props }
             >
                 { children }
             </RouterLink>

@@ -93,6 +93,7 @@
         padding: 1rem;
         text-align: center;
         background: var(--cart-overlay-promo-background);
+        margin-bottom: 0;
 
         @include mobile {
             border-bottom: 1px solid var(--cart-overlay-divider-background);

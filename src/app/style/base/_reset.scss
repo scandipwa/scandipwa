@@ -47,8 +47,10 @@ main {
     max-width: 100vw;
 
     @include mobile {
-        min-height: calc(100vh - var(--header-height) - var(--footer-height));
+        // min-height: calc(100vh - var(--header-height) - var(--navigation-tabs-height));
+        min-height: 0;
         margin-top: var(--header-height);
+        margin-bottom: var(--navigation-tabs-height);
     }
 }
 
@@ -73,8 +75,9 @@ html {
 
 body {
     font-family: $font-muli;
-    letter-spacing: .02rem;
     color: $black;
+    scroll-behavior: smooth;
+    background-color: #fff;
 }
 
 a {
@@ -131,7 +134,8 @@ h3 {
 h4,
 p,
 li,
-dl {
+dl,
+button {
     font-size: 14px;
 }
 
@@ -175,8 +179,11 @@ select {
 }
 
 button {
-    user-select: none;
     cursor: pointer;
+
+    @include mobile {
+        user-select: none;
+    }
 }
 
 textarea {
@@ -193,4 +200,19 @@ mark {
 
 iframe {
     max-width: 100%;
+}
+
+a,
+input,
+button,
+textarea,
+select,
+details {
+    @include mobile  {
+        touch-action: manipulation;
+    }
+}
+
+input {
+    border-radius: 0;
 }

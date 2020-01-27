@@ -21,6 +21,10 @@
     justify-content: center;
     flex-direction: column;
 
+    @include mobile {
+        display: none;
+    }
+
     &-Link,
     &-Copyright {
         font-size: 11px;

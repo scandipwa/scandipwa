@@ -14,6 +14,15 @@
     --placeholder-image: linear-gradient(to right, #ebebeb 0, #d9d9d9 15%, #ebebeb 30%);
     --placeholder-size: 1200px 100%;
     --placeholder-animation: placeholderAnimation 2s linear infinite;
+    --primary-divider-color: #f0f0f0;
+
+    --secondary-error-color: #fff;
+    --primary-error-color: #dc6d6d;
+    --secondary-success-color: #fff;
+    --primary-success-color: #7fcd91;
+    --secondary-info-color: #79632e;
+    --primary-info-color: #ffd166;
+
     // Declare imported primary colors to change the theme's colors
     --primary-base-color: var(--imported_primary_base_color, #{$default-primary-base-color});
     --primary-dark-color: var(--imported_primary_dark_color, #{$default-primary-dark-color});

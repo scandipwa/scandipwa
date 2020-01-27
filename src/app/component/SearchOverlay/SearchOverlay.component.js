@@ -30,6 +30,7 @@ export default class SearchOverlay extends PureComponent {
         searchCriteria: PropTypes.string,
         searchResults: ItemsType.isRequired,
         isLoading: PropTypes.bool.isRequired,
+        clearSearch: PropTypes.func.isRequired,
         getProductLinkTo: PropTypes.func.isRequired,
         makeSearchRequest: PropTypes.func.isRequired,
         clearSearchResults: PropTypes.func.isRequired
@@ -65,6 +66,13 @@ export default class SearchOverlay extends PureComponent {
         );
     }
 
+    handleItemClick = () => {
+        const { clearSearch, hideActiveOverlay } = this.props;
+
+        clearSearch();
+        hideActiveOverlay();
+    };
+
     renderSearchItemContent(name, brand) {
         return (
             <>
@@ -77,7 +85,7 @@ export default class SearchOverlay extends PureComponent {
     }
 
     renderSearchItem(product, i) {
-        const { hideActiveOverlay, getProductLinkTo } = this.props;
+        const { getProductLinkTo } = this.props;
         const {
             name,
             thumbnail: { path } = {},
@@ -96,7 +104,7 @@ export default class SearchOverlay extends PureComponent {
                   block="SearchOverlay"
                   elem="Link"
                   to={ getProductLinkTo(product) }
-                  onClick={ hideActiveOverlay }
+                  onClick={ this.handleItemClick }
                 >
                     <figure
                       block="SearchOverlay"
