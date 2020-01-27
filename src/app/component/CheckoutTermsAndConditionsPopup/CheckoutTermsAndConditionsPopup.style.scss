@@ -8,23 +8,9 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-:root {
-    --link-color: var(--primary-base-color);
-    --link-hover: var(--primary-dark-color);
-}
 
-a {
-    color: var(--link-color);
-
-    &:hover {
-        text-decoration: underline;
-    }
-
-    &:focus {
-        text-decoration: underline;
-    }
-
-    + a {
-        margin-left: 1rem;
+.CheckoutTermsAndConditionsPopup {
+    &-Address {
+        margin: 1rem 0;
     }
 }
