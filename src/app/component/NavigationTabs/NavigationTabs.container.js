@@ -149,8 +149,9 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
             browserHistory.push('/menu');
         } else {
             browserHistory.go(-this.lastSeenMenu);
-            this.lastSeenMenu = 0;
         }
+
+        this.lastSeenMenu = 0;
     }
 
     onMinicartButtonClick() {
