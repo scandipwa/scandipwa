@@ -133,7 +133,14 @@ export default class CategoryFilterOverlay extends PureComponent {
             onVisible
         } = this.props;
 
-        if (totalPages === 0) return <Overlay mix={ { block: 'CategoryFilterOverlay' } } id="category-filter" />;
+        if (totalPages === 0) {
+            return (
+                <Overlay
+                  mix={ { block: 'CategoryFilterOverlay' } }
+                  id="category-filter"
+                />
+            );
+        }
 
         if (
             !isInfoLoading
