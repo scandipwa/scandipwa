@@ -43,19 +43,26 @@ export class ProductActionsContainer extends PureComponent {
         getIsConfigurableAttributeAvailable: this.getIsConfigurableAttributeAvailable.bind(this)
     };
 
-    componentDidUpdate() {
-        this.checkQuantity();
+    static getDerivedStateFromProps(props, state) {
+        const { quantity } = state;
+        const minQty = ProductActionsContainer.getMinQuantity(props);
+        const maxQty = ProductActionsContainer.getMaxQuantity(props);
+
+        if (quantity < minQty) return { quantity: minQty };
+        if (quantity > maxQty) return { quantity: maxQty };
+
+        return null;
     }
 
     setQuantity(value) {
         this.setState({ quantity: +value });
     }
 
-    getMinQuantity() {
+    static getMinQuantity(props) {
         const {
             product: { stock_item: { min_sale_qty } = {}, variants } = {},
             configurableVariantIndex
-        } = this.props;
+        } = props;
 
         if (!min_sale_qty) return 1;
         if (!configurableVariantIndex && !variants) return min_sale_qty;
@@ -65,7 +72,7 @@ export class ProductActionsContainer extends PureComponent {
         return minVariantQty || min_sale_qty;
     }
 
-    getMaxQuantity() {
+    static getMaxQuantity(props) {
         const {
             product: {
                 stock_item: {
@@ -75,9 +82,9 @@ export class ProductActionsContainer extends PureComponent {
                 variants
             } = {},
             configurableVariantIndex
-        } = this.props;
+        } = props;
 
-        const qty = stockQty - this.getMinQuantity();
+        const qty = stockQty - ProductActionsContainer.getMinQuantity(props);
         const maxQty = Math.min(qty, max_sale_qty);
 
         if (!max_sale_qty) {
@@ -140,20 +147,10 @@ export class ProductActionsContainer extends PureComponent {
     }
 
     containerProps = () => ({
-        minQuantity: this.getMinQuantity(),
-        maxQuantity: this.getMaxQuantity(),
+        minQuantity: ProductActionsContainer.getMinQuantity(this.props),
+        maxQuantity: ProductActionsContainer.getMaxQuantity(this.props),
         groupedProductQuantity: this._getGroupedProductQuantity()
     });
-
-    checkQuantity() {
-        const { quantity } = this.state;
-        const minQty = this.getMinQuantity();
-        const maxQty = this.getMaxQuantity();
-
-
-        if (quantity < minQty) this.setState({ quantity: minQty });
-        if (quantity > maxQty) this.setState({ quantity: maxQty });
-    }
 
     _getGroupedProductQuantity() {
         const { groupedProductQuantity } = this.state;
