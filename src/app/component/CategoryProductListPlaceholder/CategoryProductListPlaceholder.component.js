@@ -102,17 +102,23 @@ export class CategoryProductListPlaceholder extends PureComponent {
         if (!isLoading && !isVisible) return null;
 
         return (
-            <div
-              block="CategoryProductList"
-              elem="Page"
-              mix={ {
-                  block: 'CategoryProductListPlaceholder',
-                  mix: { ...mix, elem: 'Page' }
-              } }
-              ref={ isVisible ? (node) => { this.node = node; } : undefined }
-            >
-                { this.renderPlaceholders() }
-            </div>
+            <>
+                <div
+                  block="CategoryProductListPlaceholder"
+                  elem="Offset"
+                  ref={ isVisible ? (node) => { this.node = node; } : undefined }
+                />
+                <ul
+                  block="CategoryProductList"
+                  elem="Page"
+                  mix={ {
+                      block: 'CategoryProductListPlaceholder',
+                      mix: { ...mix, elem: 'Page' }
+                  } }
+                >
+                    { this.renderPlaceholders() }
+                </ul>
+            </>
         );
     }
 }

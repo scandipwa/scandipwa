@@ -11,26 +11,28 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent, Fragment, createRef } from 'react';
 import PropTypes from 'prop-types';
 
+import NavigationAbstract, { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.component';
+import SearchField from 'Component/SearchField';
+import MyAccountOverlay from 'Component/MyAccountOverlay';
+import ClickOutside from 'Component/ClickOutside';
+import CartOverlay from 'Component/CartOverlay';
+import MenuOverlay from 'Component/MenuOverlay';
+import { LOGO_MEDIA } from 'Util/Media/Media';
+import { TotalsType } from 'Type/MiniCart';
+import isMobile from 'Util/Mobile';
 import Link from 'Component/Link';
 import Logo from 'Component/Logo';
-import { TotalsType } from 'Type/MiniCart';
-import MenuOverlay from 'Component/MenuOverlay';
-import CartOverlay from 'Component/CartOverlay';
-import ClickOutside from 'Component/ClickOutside';
-import SearchOverlay from 'Component/SearchOverlay';
-import MyAccountOverlay from 'Component/MyAccountOverlay';
+import media from 'Util/Media';
 
 import './Header.style';
-import media from 'Util/Media';
-import { LOGO_MEDIA } from 'Util/Media/Media';
 
 export const PDP = 'pdp';
 export const POPUP = 'popup';
 export const CATEGORY = 'category';
 export const CUSTOMER_ACCOUNT = 'customer_account';
+export const CUSTOMER_SUB_ACCOUNT = 'customer_sub_account';
 export const CUSTOMER_ACCOUNT_PAGE = 'customer_account_page';
 export const HOME_PAGE = 'home';
 export const MENU = 'menu';
@@ -42,32 +44,9 @@ export const CART_EDITING = 'cart_editing';
 export const CHECKOUT = 'checkout';
 export const CMS_PAGE = 'cms-page';
 
-export default class Header extends PureComponent {
+export default class Header extends NavigationAbstract {
     static propTypes = {
-        headerState: PropTypes.shape({
-            name: PropTypes.oneOf([
-                PDP,
-                CATEGORY,
-                CUSTOMER_ACCOUNT,
-                CUSTOMER_ACCOUNT_PAGE,
-                HOME_PAGE,
-                MENU,
-                MENU_SUBCATEGORY,
-                SEARCH,
-                FILTER,
-                CART,
-                CART_EDITING,
-                CHECKOUT,
-                CMS_PAGE,
-                POPUP
-            ]),
-            title: PropTypes.string,
-            onBackClick: PropTypes.func,
-            onCloseClick: PropTypes.func,
-            onEditClick: PropTypes.func,
-            onOkClick: PropTypes.func,
-            onCancelClick: PropTypes.func
-        }).isRequired,
+        navigationState: PropTypes.object.isRequired,
         cartTotals: TotalsType.isRequired,
         onBackButtonClick: PropTypes.func.isRequired,
         onCloseButtonClick: PropTypes.func.isRequired,
@@ -99,38 +78,33 @@ export default class Header extends PureComponent {
     };
 
     stateMap = {
+        [DEFAULT_STATE_NAME]: {
+            title: true,
+            logo: true
+        },
         [POPUP]: {
             title: true,
             close: true
         },
         [PDP]: {
             back: true,
-            title: true,
-            minicart: true
+            title: true
         },
         [CATEGORY]: {
             back: true,
-            menu: true,
-            title: true,
-            minicart: true
+            title: true
         },
         [CUSTOMER_ACCOUNT]: {
-            close: true,
             title: true
+        },
+        [CUSTOMER_SUB_ACCOUNT]: {
+            title: true,
+            back: true
         },
         [CUSTOMER_ACCOUNT_PAGE]: {
-            back: true,
             title: true
         },
-        [HOME_PAGE]: {
-            menu: true,
-            title: true,
-            account: true,
-            minicart: true,
-            logo: true
-        },
         [MENU]: {
-            close: true,
             search: true
         },
         [MENU_SUBCATEGORY]: {
@@ -142,7 +116,6 @@ export default class Header extends PureComponent {
             search: true
         },
         [CART]: {
-            close: true,
             title: true,
             edit: true
         },
@@ -181,16 +154,6 @@ export default class Header extends PureComponent {
         ok: this.renderOkButton.bind(this)
     };
 
-    searchBarRef = createRef();
-
-    onClearSearchButtonClick = this.onClearSearchButtonClick.bind(this);
-
-    onClearSearchButtonClick() {
-        const { onClearSearchButtonClick } = this.props;
-        this.searchBarRef.current.focus();
-        onClearSearchButtonClick();
-    }
-
     renderBackButton(isVisible = false) {
         const { onBackButtonClick } = this.props;
 
@@ -228,6 +191,8 @@ export default class Header extends PureComponent {
     renderMenuButton(isVisible = false) {
         const { onMenuOutsideClick, onMenuButtonClick } = this.props;
 
+        if (isMobile.any()) return null;
+
         return (
             <ClickOutside onClick={ onMenuOutsideClick } key="menu">
                 <div>
@@ -248,53 +213,30 @@ export default class Header extends PureComponent {
 
     renderSearchField(isSearchVisible = false) {
         const {
-            searchCriteria, onSearchOutsideClick,
-            onSearchBarClick, onSearchBarChange
+            searchCriteria,
+            onSearchOutsideClick,
+            onSearchBarClick,
+            onSearchBarChange,
+            onClearSearchButtonClick,
+            navigationState: { name }
         } = this.props;
 
         return (
-            <Fragment key="search">
-                <ClickOutside onClick={ onSearchOutsideClick }>
-                    <div
-                      block="Header"
-                      elem="SearchWrapper"
-                      aria-label="Search"
-                    >
-                            <input
-                              id="search-field"
-                              ref={ this.searchBarRef }
-                              placeholder={ __('Type a new search') }
-                              block="Header"
-                              elem="SearchField"
-                              onClick={ onSearchBarClick }
-                              onChange={ onSearchBarChange }
-                              value={ searchCriteria }
-                              mods={ {
-                                  isVisible: isSearchVisible,
-                                  type: 'searchField'
-                              } }
-                            />
-                            <SearchOverlay
-                              searchCriteria={ searchCriteria }
-                            />
-                    </div>
-                </ClickOutside>
-                <button
-                  block="Header"
-                  elem="Button"
-                  onClick={ this.onClearSearchButtonClick }
-                  mods={ {
-                      type: 'searchClear',
-                      isVisible: isSearchVisible
-                  } }
-                  aria-label="Clear search"
-                />
-            </Fragment>
+            <SearchField
+              key="search"
+              searchCriteria={ searchCriteria }
+              onSearchOutsideClick={ onSearchOutsideClick }
+              onSearchBarClick={ onSearchBarClick }
+              onSearchBarChange={ onSearchBarChange }
+              onClearSearchButtonClick={ onClearSearchButtonClick }
+              isVisible={ isSearchVisible }
+              isActive={ name === SEARCH }
+            />
         );
     }
 
     renderTitle(isVisible = false) {
-        const { headerState: { title } } = this.props;
+        const { navigationState: { title } } = this.props;
 
         return (
             <h2
@@ -326,6 +268,7 @@ export default class Header extends PureComponent {
         const { isLoading } = this.props;
 
         if (isLoading) return null;
+
         return (
             <Link
               to="/"
@@ -349,6 +292,8 @@ export default class Header extends PureComponent {
     renderAccountButton(isVisible = false) {
         const { onMyAccountOutsideClick, onMyAccountButtonClick } = this.props;
 
+        if (isMobile.any()) return null;
+
         return (
             <ClickOutside onClick={ onMyAccountOutsideClick } key="account">
                 <div aria-label="My account">
@@ -365,20 +310,43 @@ export default class Header extends PureComponent {
         );
     }
 
+    renderMinicartItemsQty() {
+        const { cartTotals: { items_qty } } = this.props;
+
+        if (!items_qty) {
+            return null;
+        }
+
+        return (
+            <span
+              aria-label="Items in cart"
+              block="Header"
+              elem="MinicartItemCount"
+            >
+                { items_qty }
+            </span>
+        );
+    }
+
     renderMinicartButton(isVisible = false) {
-        const { cartTotals: { items_qty }, onMinicartOutsideClick, onMinicartButtonClick } = this.props;
+        const { onMinicartOutsideClick, onMinicartButtonClick } = this.props;
+
+        if (isMobile.any()) return null;
 
         return (
             <ClickOutside onClick={ onMinicartOutsideClick } key="minicart">
-                <div>
+                <div
+                  block="Header"
+                  elem="Button"
+                  mods={ { isVisible, type: 'minicart' } }
+                >
                     <button
-                      block="Header"
-                      elem="Button"
-                      mods={ { isVisible, type: 'minicart' } }
                       onClick={ onMinicartButtonClick }
                       aria-label="Minicart"
+                      block="Header"
+                      elem="MinicartButton"
                     >
-                        <span aria-label="Items in cart">{ items_qty || '0' }</span>
+                        { this.renderMinicartItemsQty() }
                     </button>
                     <CartOverlay />
                 </div>
@@ -458,25 +426,13 @@ export default class Header extends PureComponent {
         );
     }
 
-    renderHeaderState() {
-        const { headerState: { name } } = this.props;
-
-        const source = this.stateMap[name]
-            ? this.stateMap[name]
-            : this.stateMap[HOME_PAGE];
-
-        return Object.entries(this.renderMap).map(
-            ([key, renderFunction]) => renderFunction(source[key])
-        );
-    }
-
     render() {
-        const { headerState: { name } } = this.props;
+        const { navigationState: { name, isHiddenOnMobile = false } } = this.props;
 
         return (
-            <header block="Header" mods={ { name } }>
+            <header block="Header" mods={ { name, isHiddenOnMobile } }>
                 <nav block="Header" elem="Nav">
-                    { this.renderHeaderState() }
+                    { this.renderNavigationState() }
                 </nav>
             </header>
         );

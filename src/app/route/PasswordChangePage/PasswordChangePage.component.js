@@ -52,7 +52,7 @@ export default class PasswordChangePage extends PureComponent {
                 showNotification('success', __('Password has been successfully updated!'));
                 break;
             case STATUS_PASSOWORD_MISSMATCH:
-                showNotification('error', __('Your password and confirmation password do not match.'));
+                showNotification('info', __('Your password and confirmation password do not match.'));
                 break;
             default:
                 showNotification('error', __('Error! Something went wrong'));

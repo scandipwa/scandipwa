@@ -16,7 +16,7 @@ import { shippingMethodType } from 'Type/Checkout';
 import { TotalsType } from 'Type/MiniCart';
 
 import './CheckoutDeliveryOption.style';
-import { formatCurrency } from 'Util/Price';
+import { formatCurrency, roundPrice } from 'Util/Price';
 
 class CheckoutDeliveryOption extends PureComponent {
     static propTypes = {
@@ -45,9 +45,11 @@ class CheckoutDeliveryOption extends PureComponent {
             totals: { quote_currency_code }
         } = this.props;
 
+        const roundedUpPrice = roundPrice(price_incl_tax);
+
         return (
             <strong>
-                { ` - ${price_incl_tax}${formatCurrency(quote_currency_code)}` }
+                { ` - ${roundedUpPrice}${formatCurrency(quote_currency_code)}` }
             </strong>
         );
     }
@@ -72,8 +74,9 @@ class CheckoutDeliveryOption extends PureComponent {
                             { __('Carrier method: ') }
                             <strong>{ carrier_title }</strong>
                         </span>
+                        <br />
                         <span>
-                            { __(', rate: ') }
+                            { __('Rate: ') }
                             <strong>{ method_title }</strong>
                         </span>
                         { this.renderPrice() }

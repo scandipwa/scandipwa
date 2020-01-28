@@ -22,11 +22,14 @@ export const initialState = {
 };
 
 export const OverlayReducer = (state = initialState, action) => {
+    const { overlayKey } = action;
+    const {
+        activeOverlay: prevActiveOverlay
+    } = state;
+
     switch (action.type) {
     case TOGGLE_OVERLAY:
     case SHOW_POPUP:
-        const { overlayKey } = action;
-        const { activeOverlay: prevActiveOverlay } = state;
         const activeOverlay = prevActiveOverlay === overlayKey ? '' : overlayKey;
         const areOtherOverlaysOpen = prevActiveOverlay !== '';
 

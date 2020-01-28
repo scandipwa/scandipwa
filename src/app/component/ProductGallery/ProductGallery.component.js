@@ -9,15 +9,17 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
+import { PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
 import { TransformWrapper } from 'react-zoom-pan-pinch';
+
 import ProductGalleryThumbnailImage from 'Component/ProductGalleryThumbnailImage';
 import ProductGalleryBaseImage from 'Component/ProductGalleryBaseImage';
 import VideoThumbnail from 'Component/VideoThumbnail';
 import VideoPopup from 'Component/VideoPopup';
 import Slider from 'Component/Slider';
 import Image from 'Component/Image';
+
 import './ProductGallery.style';
 
 export const GALLERY_LENGTH_BEFORE_COLLAPSE = 4;
@@ -45,18 +47,44 @@ export default class ProductGallery extends PureComponent {
                 type: PropTypes.string
             })
         ).isRequired,
+        productId: PropTypes.number,
         isZoomEnabled: PropTypes.bool.isRequired,
         activeImage: PropTypes.number.isRequired,
         onActiveImageChange: PropTypes.func.isRequired,
         handleZoomChange: PropTypes.func.isRequired,
+        registerSharedElementDestination: PropTypes.func.isRequired,
         disableZoom: PropTypes.func.isRequired
+    };
+
+    static defaultProps = {
+        productId: 0
     };
 
     maxScale = MAX_ZOOM_SCALE;
 
+    imageRef = createRef();
+
     constructor(props, context) {
         super(props, context);
         this.renderSlide = this.renderSlide.bind(this);
+    }
+
+    componentDidMount() {
+        this.updateSharedDestinationElement();
+    }
+
+    componentDidUpdate(prevProps) {
+        const { productId } = this.props;
+        const { productId: prevProductId } = prevProps;
+
+        if (productId !== prevProductId) {
+            this.updateSharedDestinationElement();
+        }
+    }
+
+    updateSharedDestinationElement() {
+        const { registerSharedElementDestination } = this.props;
+        registerSharedElementDestination(this.imageRef);
     }
 
     renderAdditionalPicture = (media, index = 0) => {
@@ -117,6 +145,7 @@ export default class ProductGallery extends PureComponent {
             <TransformWrapper
               key={ index }
               onZoomChange={ handleZoomChange }
+            //   doubleClick={ { mode: 'reset' } }
               pan={ {
                   disabled: !isZoomEnabled,
                   limitToWrapperBounds: true,
@@ -195,7 +224,7 @@ export default class ProductGallery extends PureComponent {
         } = this.props;
 
         return (
-            <div>
+            <div ref={ this.imageRef }>
                 <Slider
                   mix={ { block: 'ProductGallery', elem: 'Slider' } }
                   showCrumbs

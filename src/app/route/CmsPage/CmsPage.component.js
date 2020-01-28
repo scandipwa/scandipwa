@@ -9,8 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { BlockListType } from 'Type/CMS';
