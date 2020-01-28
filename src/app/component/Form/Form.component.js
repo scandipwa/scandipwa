@@ -219,6 +219,15 @@ export default class Form extends PureComponent {
             return inputValues;
         }, {});
 
+        if (invalidFields.length) {
+            const { current } = refMap[invalidFields[0]];
+
+            current.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+            });
+        }
+
         return {
             inputValues,
             invalidFields

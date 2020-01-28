@@ -9,5 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export * from './Header.action';
-export { default as HeaderReducer } from './Header.reducer';
+export { default } from './SearchField.component';

@@ -17,6 +17,24 @@ export class ConfigQuery {
             .addFieldList(this._getStoreListFields());
     }
 
+    getCheckoutAgreements() {
+        return new Field('checkoutAgreements')
+            .addFieldList(this._getCheckoutAgreementFields());
+    }
+
+    _getCheckoutAgreementFields() {
+        return [
+            'agreement_id',
+            'checkbox_text',
+            'content',
+            'content_height',
+            'is_html',
+            'mode',
+            'name'
+        ];
+    }
+
+
     _getStoreListFields() {
         return [
             'name',
@@ -48,7 +66,8 @@ export class ConfigQuery {
                 'paypal_client_id',
                 'logo_alt',
                 'cookie_text',
-                'cookie_link'
+                'cookie_link',
+                'terms_are_enabled'
             ]);
     }
 }

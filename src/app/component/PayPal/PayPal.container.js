@@ -102,7 +102,7 @@ export class PayPalContainer extends PureComponent {
     onCancel = (data) => {
         const { showNotification, setLoading } = this.props;
         setLoading(false);
-        showNotification('error', 'Your payment has been canceled', data);
+        showNotification('info', 'Your payment has been canceled', data);
     };
 
     onError = (err) => {

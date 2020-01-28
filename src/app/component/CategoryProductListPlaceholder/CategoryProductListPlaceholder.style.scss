@@ -10,4 +10,13 @@
  */
 .CategoryProductListPlaceholder {
     animation: appear 200ms 200ms forwards;
+
+    &-Offset {
+        height: 1px;
+        pointer-events: none;
+
+        @include mobile {
+            top: -100vh;
+        }
+    }
 }

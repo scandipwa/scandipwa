@@ -107,7 +107,7 @@
 
     &::after {
         width: 7px;
-        height: 1px;
+        height: var(--header-icon-stroke-width);
         top: 12px;
         left: 8px;
         background-color: var(--header-color);
@@ -129,9 +129,9 @@
 
     &::before {
         @include mobile {
-            width: 10px;
-            height: 10px;
-            border: 1px solid var(--header-color);
+            width: calc(12px - var(--header-icon-stroke-width) * 2);
+            height: calc(12px - var(--header-icon-stroke-width) * 2);
+            border: var(--header-icon-stroke-width) solid var(--header-color);
             border-radius: 50%;
             top: 10px;
             right: 4px;
@@ -162,24 +162,24 @@
     }
 
     &::before {
-        width: 7px;
-        height: 7px;
-        border: 1px solid var(--header-color);
+        width: calc(8px - var(--header-icon-stroke-width) * 2);
+        height: calc(8px - var(--header-icon-stroke-width) * 2);
+        border: var(--header-icon-stroke-width) solid var(--header-color);
         border-radius: 50%;
         top: 9px;
         right: 0;
         left: 0;
         margin: auto;
         box-shadow:
-            0 14px 0 3px var(--header-background),
-            0 14px 0 4px var(--header-color);
+            0 calc(13px + var(--header-icon-stroke-width)) 0 3px var(--header-background),
+            0 calc(13px + var(--header-icon-stroke-width)) 0 calc(var(--header-icon-stroke-width) + 3px) var(--header-color);
     }
 
     &::after {
         background-color: var(--header-background);
         bottom: -1px;
         left: 0;
-        height: 10px;
+        height: calc(11px - var(--header-icon-stroke-width));;
         width: 100%;
     }
 }
@@ -189,37 +189,29 @@
     &::after {
         content: '';
         position: absolute;
+        left: 0;
+        right: 0;
+        margin: auto;
     }
 
     &::before {
-        border: 1px solid var(--header-color);
+        border: var(--header-icon-stroke-width) solid var(--header-color);
         border-radius: 1px;
-        width: 10px;
-        height: 14px;
-        top: 11px;
-        right: 10px;
+        width: calc(16px - var(--header-icon-stroke-width) * 2);
+        height: calc(14px - var(--header-icon-stroke-width) * 2);
+        top: 13px;
         z-index: 1;
     }
 
     &::after {
-        width: 6px;
+        width: calc(8px - var(--header-icon-stroke-width));
         height: 5px;
-        right: 12px;
-        top: 8px;
-        border: {
-            top: 1px solid var(--header-color);
-            left: 1px solid var(--header-color);
-            right: 1px solid var(--header-color);
-            top-right-radius: 2px;
-            top-left-radius: 2px;
-        };
-    }
-
-    span {
-        left: -14px;
-        padding: 0 6px;
-        color: var(--header-color);
-        background: var(--header-background);
+        top: 7px;
+        border-top: var(--header-icon-stroke-width) solid var(--header-color);
+        border-left: var(--header-icon-stroke-width) solid var(--header-color);
+        border-right: var(--header-icon-stroke-width) solid var(--header-color);
+        border-top-right-radius: 5px;
+        border-top-left-radius: 5px;
     }
 }
 
@@ -227,12 +219,12 @@
     @include close-button;
 
     border-radius: 50%;
-    background-color: var(--header-search-clear-background);
+    background-color: var(--search-clear-background);
 
     height: 15px;
     width: 15px;
     position: absolute;
-    right: 3rem;
+    right: 2rem;
 
     &::before,
     &::after {
@@ -331,5 +323,57 @@
         border: 1px solid currentColor;
         width: 6px;
         height: 6px;
+    }
+}
+
+@mixin home-icon {
+    &::before,
+    &::after {
+        content: '';
+        position: absolute;
+    }
+
+    &::before {
+        border: var(--header-icon-stroke-width) solid var(--header-color);
+        border-top: 0;
+        border-radius: 1px;
+        width: calc(14px - var(--header-icon-stroke-width) * 2);
+        height: 10px;
+        top: 16px;
+        right: 0;
+        left: 0;
+        z-index: 1;
+        margin: auto;
+    }
+
+    &::after {
+        transform: rotate(45deg);
+        border-top: var(--header-icon-stroke-width) solid var(--header-color);
+        border-left: var(--header-icon-stroke-width) solid var(--header-color);
+        width: 13px;
+        height: 13px;
+        top: 12px;
+        left: 0;
+        right: 0;
+        margin: auto;
+    }
+}
+
+@mixin search-icon {
+    &::before {
+        content: '';
+        position: absolute;
+    }
+
+    &::before {
+        width: calc(10px - var(--header-icon-stroke-width) * 2);
+        height: calc(10px - var(--header-icon-stroke-width) * 2);
+        border: var(--header-icon-stroke-width) solid var(--header-color);
+        border-radius: 50%;
+        box-shadow:
+            4px 4px 0 -4px var(--header-color),
+            5px 5px 0 -4px var(--header-color),
+            6px 6px 0 -4px var(--header-color),
+            7px 7px 0 -4px var(--header-color);
     }
 }

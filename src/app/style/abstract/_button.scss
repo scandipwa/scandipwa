@@ -24,7 +24,8 @@
     padding: var(--button-padding);
     color: var(--button-color);
     background-color: var(--button-background);
-    transition-property: background-color, color;
+    transition-property: background-color, color, border;
+    will-change: background-color, color, border;
     transition-timing-function: ease-out;
     transition-duration: .25s;
     cursor: pointer;
@@ -34,11 +35,14 @@
         color: var(--button-border);
     }
 
+    &:hover,
+    &:focus {
+        text-decoration: none;
+    }
+
     &:not([disabled]) {
         &:hover,
         &:focus {
-            text-decoration: none;
-
             @include after-mobile {
                 border-color: var(--button-hover-border);
                 background-color: var(--button-hover-background);

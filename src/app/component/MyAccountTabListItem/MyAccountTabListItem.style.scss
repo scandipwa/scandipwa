@@ -51,6 +51,7 @@
         text-align: left;
         text-shadow: var(--text-shadow);
         letter-spacing: .03ex;
+        font-size: 14px;
 
         @include after-mobile {
             padding: 10px 2rem;

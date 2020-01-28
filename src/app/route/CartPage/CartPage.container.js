@@ -12,9 +12,11 @@
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+
+import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
+import { changeNavigationState } from 'Store/Navigation';
 import { CART, CART_EDITING } from 'Component/Header';
-import { changeHeaderState } from 'Store/Header';
 import { TotalsType } from 'Type/MiniCart';
 import { history } from 'Route';
 
@@ -25,7 +27,7 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-    changeHeaderState: state => dispatch(changeHeaderState(state)),
+    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
     updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.update(breadcrumbs, dispatch)
 });
 
