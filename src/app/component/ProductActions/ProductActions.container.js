@@ -67,25 +67,40 @@ export class ProductActionsContainer extends PureComponent {
 
     getMaxQuantity() {
         const {
-            product: { stock_item: { stockQty, max_sale_qty } = {}, variants } = {},
+            product: {
+                stock_item: {
+                    qty: stockQty,
+                    max_sale_qty
+                } = {},
+                variants
+            } = {},
             configurableVariantIndex
         } = this.props;
 
         const qty = stockQty - this.getMinQuantity();
         const maxQty = Math.min(qty, max_sale_qty);
 
-        if (!max_sale_qty) return DEFAULT_MAX_PRODUCTS;
-        if (!configurableVariantIndex && !variants) return qty !== null ? maxQty : max_sale_qty;
+        if (!max_sale_qty) {
+            return DEFAULT_MAX_PRODUCTS;
+        }
+
+        if (configurableVariantIndex === -1 || !Object.keys(variants).length) {
+            return qty !== null ? maxQty : max_sale_qty;
+        }
 
         const {
-            stock_item: { qty: variantQty, max_sale_qty: maxVariantSaleQty } = {}
+            stock_item: {
+                qty: variantQty,
+                max_sale_qty: maxVariantSaleQty
+            } = {}
         } = variants[configurableVariantIndex] || {};
 
-        if (variantQty === null) return qty !== null ? maxQty : max_sale_qty;
+        if (variantQty === null) {
+            return qty !== null ? maxQty : max_sale_qty;
+        }
 
-        const maxVariantQty = Math.min(variantQty, maxVariantSaleQty);
-
-        return maxVariantQty;
+        // Max variant qty
+        return Math.min(variantQty, maxVariantSaleQty);
     }
 
     // TODO: make key=>value based
