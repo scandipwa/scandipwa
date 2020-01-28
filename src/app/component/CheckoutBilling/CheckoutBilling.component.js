@@ -80,19 +80,19 @@ class CheckoutBilling extends PureComponent {
         const spaceSymbol = '\u00A0';
 
         return (
-            <div
+            <label
               block="CheckoutBilling"
               elem="TermsAndConditions"
+              htmlFor="termsAndConditions"
             >
                 { `${__('I agree to') }${ spaceSymbol }` }
-                <label
-                  htmlFor="CheckoutBilling"
+                <button
                   block="CheckoutBilling"
                   elem="Link"
                   onClick={ this.handleShowPopup }
                 >
                     { __('terms and conditions.') }
-                </label>
+                </button>
                 <Field
                   id="termsAndConditions"
                   name="termsAndConditions"
@@ -102,7 +102,7 @@ class CheckoutBilling extends PureComponent {
                   checked={ termsAndConditionsAccepted }
                   onChange={ this.setTermsAndConfitionsAccepted }
                 />
-            </div>
+            </label>
         );
     }
 

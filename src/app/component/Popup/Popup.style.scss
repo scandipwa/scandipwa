@@ -67,6 +67,7 @@
         border-radius: 5px;
         padding: var(--popup-content-padding);
         min-width: var(--popup-min-width);
+        max-width: calc(var(--content-wrapper-width) * .8);
         max-height: 80%;
         overflow-y: scroll;
 
