@@ -35,8 +35,6 @@ import Checkout from 'Route/Checkout';
 import HomePage from 'Route/HomePage';
 import Header from 'Component/Header';
 import Footer from 'Component/Footer';
-import Breadcrumbs from 'Component/Breadcrumbs';
-import NotificationList from 'Component/NotificationList';
 import CookiePopup from 'Component/CookiePopup';
 import CartPage from 'Route/CartPage';
 import MenuPage from 'Route/MenuPage';
