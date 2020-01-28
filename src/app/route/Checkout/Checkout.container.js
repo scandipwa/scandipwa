@@ -159,10 +159,14 @@ export class CheckoutContainer extends PureComponent {
         this.setState({ isLoading });
     }
 
-    containerProps = () => ({
-        checkoutTotals: this._getCheckoutTotals(),
-        paymentTotals: this.state.paymentTotals
-    });
+    containerProps = () => {
+        const { paymentTotals } = this.state;
+
+        return {
+            checkoutTotals: this._getCheckoutTotals(),
+            paymentTotals
+        };
+    };
 
     _handleError = (error) => {
         const { showErrorNotification } = this.props;

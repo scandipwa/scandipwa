@@ -179,7 +179,7 @@
         background-color: var(--header-background);
         bottom: -1px;
         left: 0;
-        height: calc(11px - var(--header-icon-stroke-width));;
+        height: calc(11px - var(--header-icon-stroke-width));
         width: 100%;
     }
 }
@@ -363,9 +363,6 @@
     &::before {
         content: '';
         position: absolute;
-    }
-
-    &::before {
         width: calc(10px - var(--header-icon-stroke-width) * 2);
         height: calc(10px - var(--header-icon-stroke-width) * 2);
         border: var(--header-icon-stroke-width) solid var(--header-color);

@@ -13,5 +13,7 @@ jobs:
           node-version: '10.x'
       - name: Install Dependencies
         run: npm ci
-      - name: Lint the project
+      - name: Lint JS
         run: npm run eslint
+      - name: Lint SCSS
+        run: npm run stylelint
