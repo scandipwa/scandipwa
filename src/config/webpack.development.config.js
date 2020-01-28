@@ -97,7 +97,7 @@ module.exports = {
                     {
                         loader: 'sass-resources-loader',
                         options: {
-                            resources: path.resolve(fallbackRoot, 'src', 'app', 'style', 'abstract', '_abstract.scss')
+                            resources: './src/app/style/abstract/_abstract.scss'
                         }
                     }
                 ]
@@ -135,7 +135,12 @@ module.exports = {
         public: 'scandipwa.local',
         allowedHosts: [
             '.local'
-        ]
+        ],
+        proxy: [{
+			context: ['/graphql', '/static', '/media', '/pub'],
+			target: 'https://magento.pwademo.dk.magento2x2.scandesigns.dk',
+			changeOrigin: true
+		}]
     },
 
     watchOptions: {

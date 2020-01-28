@@ -33,6 +33,7 @@ import Header from 'Component/Header';
 import Footer from 'Component/Footer';
 import Breadcrumbs from 'Component/Breadcrumbs';
 import NotificationList from 'Component/NotificationList';
+import CookiePopup from 'Component/CookiePopup';
 
 import Store from 'Store';
 
@@ -111,6 +112,10 @@ class AppRouter extends PureComponent {
         {
             component: <Footer />,
             position: 10
+        },
+        {
+            component: <CookiePopup />,
+            position: 20
         }
     ];
 

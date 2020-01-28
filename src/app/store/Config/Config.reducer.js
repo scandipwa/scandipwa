@@ -31,7 +31,9 @@ export const initialState = {
     countries,
     reviewRatings,
     title_prefix: 'ScandiPWA |',
-    isLoading: true
+    isLoading: true,
+    cookie_text: null,
+    cookie_link: null
 };
 
 const ConfigReducer = (state = initialState, action) => {
