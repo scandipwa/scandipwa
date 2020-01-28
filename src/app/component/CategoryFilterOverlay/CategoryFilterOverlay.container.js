@@ -21,7 +21,8 @@ import { FILTER } from 'Component/Header';
 import CategoryFilterOverlay from './CategoryFilterOverlay.component';
 
 export const mapStateToProps = state => ({
-    isInfoLoading: state.ProductListInfoReducer.isLoading
+    isInfoLoading: state.ProductListInfoReducer.isLoading,
+    totalPages: state.ProductListReducer.totalPages
 });
 
 export const mapDispatchToProps = dispatch => ({

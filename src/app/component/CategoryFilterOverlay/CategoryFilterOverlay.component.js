@@ -33,7 +33,8 @@ export default class CategoryFilterOverlay extends PureComponent {
         onVisible: PropTypes.func.isRequired,
         customFiltersValues: PropTypes.objectOf(PropTypes.array).isRequired,
         toggleCustomFilter: PropTypes.func.isRequired,
-        getFilterUrl: PropTypes.func.isRequired
+        getFilterUrl: PropTypes.func.isRequired,
+        totalPages: PropTypes.number.isRequired
     };
 
     renderPriceRange() {
@@ -48,7 +49,7 @@ export default class CategoryFilterOverlay extends PureComponent {
         const min = minValue || minPriceValue;
         const max = maxValue || maxPriceValue;
 
-        if (maxPriceValue - minPriceValue === 0) return null;
+        if (maxPriceValue - minPriceValue <= 1) return null;
 
         return (
             <ExpandableContent
@@ -128,8 +129,11 @@ export default class CategoryFilterOverlay extends PureComponent {
         const {
             isInfoLoading,
             availableFilters,
+            totalPages,
             onVisible
         } = this.props;
+
+        if (totalPages === 0) return null;
 
         if (
             !isInfoLoading
