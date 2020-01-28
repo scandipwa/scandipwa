@@ -43,7 +43,10 @@ class CheckoutBilling extends PureComponent {
         showPopup: PropTypes.func.isRequired,
         paymentMethods: paymentMethodsType.isRequired,
         totals: TotalsType.isRequired,
-        shippingAddress: addressType.isRequired
+        shippingAddress: addressType.isRequired,
+        termsAndConditions: PropTypes.arrayOf(PropTypes.shape({
+            checkbox_text: PropTypes.string
+        })).isRequired
     };
 
     componentDidMount() {
@@ -73,25 +76,26 @@ class CheckoutBilling extends PureComponent {
     };
 
     renderTermsAndConditions() {
-        const { termsAreEnabled } = this.props;
+        const { termsAreEnabled, termsAndConditions } = this.props;
+        const {
+            checkbox_text = __('I agree to terms and conditions')
+        } = termsAndConditions[0] || {};
         const { termsAndConditionsAccepted } = this.state;
 
         if (!termsAreEnabled) return null;
-        const spaceSymbol = '\u00A0';
 
         return (
             <div
               block="CheckoutBilling"
               elem="TermsAndConditions"
             >
-                { `${__('I agree to') }${ spaceSymbol }` }
                 <label
                   htmlFor="CheckoutBilling"
                   block="CheckoutBilling"
                   elem="Link"
                   onClick={ this.handleShowPopup }
                 >
-                    { __('terms and conditions.') }
+                    { checkbox_text }
                 </label>
                 <Field
                   id="termsAndConditions"
