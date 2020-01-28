@@ -11,6 +11,9 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+import {
+    CATEGORY_FILTER_OVERLAY_ID
+} from 'Component/CategoryFilterOverlay/CategoryFilterOverlay.component';
 import CategoryFilterOverlay from 'Component/CategoryFilterOverlay';
 import CategoryProductList from 'Component/CategoryProductList';
 import CategoryItemsCount from 'Component/CategoryItemsCount';
@@ -58,7 +61,7 @@ export default class CategoryPage extends PureComponent {
 
     onFilterButtonClick() {
         const { toggleOverlayByKey } = this.props;
-        toggleOverlayByKey('category-filter');
+        toggleOverlayByKey(CATEGORY_FILTER_OVERLAY_ID);
     }
 
     renderCategoryDetails() {

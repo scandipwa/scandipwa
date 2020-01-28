@@ -18,6 +18,8 @@ import ExpandableContent from 'Component/ExpandableContent';
 import CategoryConfigurableAttributes from 'Component/CategoryConfigurableAttributes';
 import './CategoryFilterOverlay.style';
 
+export const CATEGORY_FILTER_OVERLAY_ID = 'category-filter';
+
 export default class CategoryFilterOverlay extends PureComponent {
     static propTypes = {
         availableFilters: PropTypes.objectOf(PropTypes.shape).isRequired,
@@ -137,7 +139,7 @@ export default class CategoryFilterOverlay extends PureComponent {
             return (
                 <Overlay
                   mix={ { block: 'CategoryFilterOverlay' } }
-                  id="category-filter"
+                  id={ CATEGORY_FILTER_OVERLAY_ID }
                 />
             );
         }
@@ -150,7 +152,7 @@ export default class CategoryFilterOverlay extends PureComponent {
             )
         ) {
             return (
-                <Overlay mix={ { block: 'CategoryFilterOverlay' } } id="category-filter">
+                <Overlay mix={ { block: 'CategoryFilterOverlay' } } id={ CATEGORY_FILTER_OVERLAY_ID }>
                     { this.renderPriceRange() }
                 </Overlay>
             );
@@ -160,7 +162,7 @@ export default class CategoryFilterOverlay extends PureComponent {
             <Overlay
               onVisible={ onVisible }
               mix={ { block: 'CategoryFilterOverlay' } }
-              id="category-filter"
+              id={ CATEGORY_FILTER_OVERLAY_ID }
             >
                 { this.renderHeading() }
                 { this.renderResetButton() }
