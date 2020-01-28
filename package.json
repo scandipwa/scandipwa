@@ -6,7 +6,7 @@
   "license": "OSL-3.0",
   "engineStrict": true,
   "engines": {
-    "node": ">=10.0.0"
+    "node": "^10"
   },
   "scripts": {
     "watch-core": "webpack-dev-server --config ./src/config/webpack.core.config.js",
