@@ -10,9 +10,9 @@
  */
 
 import { PureComponent } from 'react';
-
+import { Subscribe } from 'unstated';
 import { ProductType } from 'Type/ProductList';
-
+import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
 import ProductGallery, { IMAGE_TYPE } from './ProductGallery.component';
 
 export const THUMBNAIL_KEY = 'small_image';
@@ -22,6 +22,38 @@ export class ProductGalleryContainer extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired
     };
+
+    containerFunctions = {
+        onActiveImageChange: this.onActiveImageChange.bind(this),
+        handleZoomChange: this.handleZoomChange.bind(this),
+        disableZoom: this.disableZoom.bind(this)
+    };
+
+    constructor(props) {
+        super(props);
+
+        const { product: { id } } = props;
+
+        this.state = {
+            activeImage: 0,
+            isZoomEnabled: false,
+            prevProdId: id
+        };
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        const { product: { id } } = props;
+        const { prevProdId } = state;
+        if (prevProdId === id) return null;
+        return { prevProdId: id, activeImage: 0 };
+    }
+
+    onActiveImageChange(activeImage) {
+        this.setState({
+            activeImage,
+            isZoomEnabled: false
+        });
+    }
 
     getGalleryPictures() {
         const {
@@ -58,17 +90,26 @@ export class ProductGalleryContainer extends PureComponent {
         }
 
         return [{
-            file: url,
+            thumbnail: { url },
+            base: { url },
             id: THUMBNAIL_KEY,
             label: name,
             media_type: IMAGE_TYPE
         }, ...Array(AMOUNT_OF_PLACEHOLDERS).fill({ media_type: 'placeholder' })];
     }
 
-    containerProps = () => ({
-        gallery: this.getGalleryPictures(),
-        productName: this._getProductName()
-    });
+    containerProps = () => {
+        const { activeImage, isZoomEnabled } = this.state;
+        const { product: { id } } = this.props;
+
+        return {
+            gallery: this.getGalleryPictures(),
+            productName: this._getProductName(),
+            activeImage,
+            isZoomEnabled,
+            productId: id
+        };
+    };
 
     /**
      * Returns the name of the product this gallery if for
@@ -79,11 +120,32 @@ export class ProductGalleryContainer extends PureComponent {
         return name;
     }
 
+    disableZoom() {
+        document.body.classList.remove('overscrollPrevented');
+        this.setState({ isZoomEnabled: false });
+    }
+
+    handleZoomChange(args) {
+        const { isZoomEnabled } = this.state;
+
+        if (args.scale !== 1) {
+            if (isZoomEnabled) return;
+            document.body.classList.add('overscrollPrevented');
+            this.setState({ isZoomEnabled: true });
+        }
+    }
+
     render() {
         return (
-            <ProductGallery
-              { ...this.containerProps() }
-            />
+            <Subscribe to={ [SharedTransitionContainer] }>
+                { ({ registerSharedElementDestination }) => (
+                    <ProductGallery
+                      registerSharedElementDestination={ registerSharedElementDestination }
+                      { ...this.containerProps() }
+                      { ...this.containerFunctions }
+                    />
+                ) }
+            </Subscribe>
         );
     }
 }

@@ -12,36 +12,44 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import Form from 'Component/Form';
-import CheckoutPayments from 'Component/CheckoutPayments';
-import CheckoutAddressBook from 'Component/CheckoutAddressBook';
+import CheckoutTermsAndConditionsPopup from 'Component/CheckoutTermsAndConditionsPopup';
 import { BILLING_STEP } from 'Route/Checkout/Checkout.component';
+import CheckoutAddressBook from 'Component/CheckoutAddressBook';
+import CheckoutPayments from 'Component/CheckoutPayments';
 import { paymentMethodsType } from 'Type/Checkout';
 import { TotalsType } from 'Type/MiniCart';
-import Field from 'Component/Field';
-
-import './CheckoutBilling.style';
 import { addressType } from 'Type/Account';
+import Field from 'Component/Field';
+import Form from 'Component/Form';
+import './CheckoutBilling.style';
 
 class CheckoutBilling extends PureComponent {
     state = {
         isOrderButtonVisible: true,
-        isOrderButtonEnabled: true
+        isOrderButtonEnabled: false,
+        termsAndConditionsAccepted: false
     };
 
     static propTypes = {
         setLoading: PropTypes.func.isRequired,
         setDetailsStep: PropTypes.func.isRequired,
         isSameAsShipping: PropTypes.bool.isRequired,
+        termsAreEnabled: PropTypes.bool.isRequired,
         onSameAsShippingChange: PropTypes.func.isRequired,
         onPaymentMethodSelect: PropTypes.func.isRequired,
         onBillingSuccess: PropTypes.func.isRequired,
         onBillingError: PropTypes.func.isRequired,
         onAddressSelect: PropTypes.func.isRequired,
+        showPopup: PropTypes.func.isRequired,
         paymentMethods: paymentMethodsType.isRequired,
         totals: TotalsType.isRequired,
         shippingAddress: addressType.isRequired
     };
+
+    componentDidMount() {
+        const { termsAreEnabled } = this.props;
+        if (!termsAreEnabled) this.setState({ isOrderButtonEnabled: true });
+    }
 
     setOrderButtonVisibility = (isOrderButtonVisible) => {
         this.setState({ isOrderButtonVisible });
@@ -51,9 +59,52 @@ class CheckoutBilling extends PureComponent {
         this.setState({ isOrderButtonEnabled });
     };
 
-    setOrderButtonVisibility = (isOrderButtonVisible) => {
-        this.setState({ isOrderButtonVisible });
+    setTermsAndConfitionsAccepted = () => {
+        this.setState(({ termsAndConditionsAccepted: oldTermsAndConfitionsAccepted }) => ({
+            termsAndConditionsAccepted: !oldTermsAndConfitionsAccepted,
+            isOrderButtonEnabled: !oldTermsAndConfitionsAccepted
+        }));
     };
+
+    handleShowPopup = (e) => {
+        const { showPopup } = this.props;
+        e.preventDefault();
+        showPopup();
+    };
+
+    renderTermsAndConditions() {
+        const { termsAreEnabled } = this.props;
+        const { termsAndConditionsAccepted } = this.state;
+
+        if (!termsAreEnabled) return null;
+        const spaceSymbol = '\u00A0';
+
+        return (
+            <label
+              block="CheckoutBilling"
+              elem="TermsAndConditions"
+              htmlFor="termsAndConditions"
+            >
+                { `${__('I agree to') }${ spaceSymbol }` }
+                <button
+                  block="CheckoutBilling"
+                  elem="Link"
+                  onClick={ this.handleShowPopup }
+                >
+                    { __('terms and conditions.') }
+                </button>
+                <Field
+                  id="termsAndConditions"
+                  name="termsAndConditions"
+                  type="checkbox"
+                  value="termsAndConditions"
+                  mix={ { block: 'CheckoutBilling', elem: 'TermsAndConditions-Checkbox' } }
+                  checked={ termsAndConditionsAccepted }
+                  onChange={ this.setTermsAndConfitionsAccepted }
+                />
+            </label>
+        );
+    }
 
     renderActions() {
         const { isOrderButtonVisible, isOrderButtonEnabled } = this.state;
@@ -61,14 +112,16 @@ class CheckoutBilling extends PureComponent {
         if (!isOrderButtonVisible) return null;
 
         return (
-            <button
-              type="submit"
-              block="Button"
-              disabled={ !isOrderButtonEnabled }
-              mix={ { block: 'CheckoutBilling', elem: 'Button' } }
-            >
-                { __('Complete order') }
-            </button>
+            <div block="Checkout" elem="StickyButtonWrapper">
+                <button
+                  type="submit"
+                  block="Button"
+                  disabled={ !isOrderButtonEnabled }
+                  mix={ { block: 'CheckoutBilling', elem: 'Button' } }
+                >
+                    { __('Complete order') }
+                </button>
+            </div>
         );
     }
 
@@ -133,6 +186,10 @@ class CheckoutBilling extends PureComponent {
         );
     }
 
+    renderPopup() {
+        return <CheckoutTermsAndConditionsPopup />;
+    }
+
     render() {
         const { onBillingSuccess, onBillingError } = this.props;
 
@@ -145,7 +202,9 @@ class CheckoutBilling extends PureComponent {
             >
                 { this.renderAddresses() }
                 { this.renderPayments() }
+                { this.renderTermsAndConditions() }
                 { this.renderActions() }
+                { this.renderPopup() }
             </Form>
         );
     }

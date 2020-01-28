@@ -76,8 +76,6 @@ export default class ProductPage extends PureComponent {
                 <RelatedProducts
                   product={ dataSource }
                   areDetailsLoaded={ areDetailsLoaded }
-                  label={ __('We recommend') }
-                  itemType=""
                 />
             </>
         );
@@ -94,12 +92,12 @@ export default class ProductPage extends PureComponent {
                       itemScope
                       itemType="http://schema.org/Product"
                     >
-                    <ContentWrapper
-                      wrapperMix={ { block: 'ProductPage', elem: 'Wrapper' } }
-                      label={ __('Main product details') }
-                    >
-                        { this.renderProductPageContent() }
-                    </ContentWrapper>
+                        <ContentWrapper
+                          wrapperMix={ { block: 'ProductPage', elem: 'Wrapper' } }
+                          label={ __('Main product details') }
+                        >
+                            { this.renderProductPageContent() }
+                        </ContentWrapper>
                     </div>
                     { this.renderAdditionalSections() }
                 </main>

@@ -35,7 +35,6 @@ export class ProductListContainer extends PureComponent {
         selectedFilters: PropTypes.objectOf(PropTypes.shape),
         isInfiniteLoaderEnabled: PropTypes.bool,
         isPaginationEnabled: PropTypes.bool,
-
         filter: FilterInputType,
         search: PropTypes.string,
         sort: PropTypes.objectOf(PropTypes.string)

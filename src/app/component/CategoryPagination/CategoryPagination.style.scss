@@ -19,6 +19,7 @@
 
     @include mobile {
         padding-bottom: 0;
+        display: none;
     }
 
     &-ListItem {

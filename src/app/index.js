@@ -12,9 +12,11 @@
 
 import { PureComponent } from 'react';
 import { Provider } from 'react-redux';
+import { Provider as UnstatedProvider } from 'unstated';
 import AppRouter from 'Route';
 import store from 'Store';
 import ReactDOM from 'react-dom';
+import SharedTransition from 'Component/SharedTransition';
 import 'Style/main';
 
 // Disable react dev tools in production
@@ -31,12 +33,14 @@ if (process.env.NODE_ENV === 'development') {
     });
 }
 
-
 class App extends PureComponent {
     render() {
         return (
             <Provider store={ store }>
-                <AppRouter />
+                <UnstatedProvider>
+                    <AppRouter />
+                    <SharedTransition />
+                </UnstatedProvider>
             </Provider>
         );
     }

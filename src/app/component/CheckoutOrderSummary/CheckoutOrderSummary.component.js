@@ -20,11 +20,13 @@ import './CheckoutOrderSummary.style';
  */
 export default class CheckoutOrderSummary extends PureComponent {
     static propTypes = {
-        totals: TotalsType
+        totals: TotalsType,
+        paymentTotals: TotalsType
     };
 
     static defaultProps = {
-        totals: {}
+        totals: {},
+        paymentTotals: {}
     };
 
     renderPriceLine(price, name, mods) {

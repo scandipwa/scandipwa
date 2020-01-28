@@ -26,13 +26,12 @@ export default class ProductInformationContainer extends PureComponent {
         const { product: { attributes = {}, parameters = {} } } = this.props;
 
         const allAttribsWithValues = Object.entries(attributes).reduce((acc, [key, val]) => {
-            const { attribute_label, attribute_options, attribute_value } = val;
-            if (attribute_value) return { ...acc, [attribute_label]: attribute_value };
+            const { attribute_label, attribute_value } = val;
+            if (attribute_value) return { ...acc, [attribute_label]: val };
 
             const valueIndexFromParameter = parameters[key];
             if (valueIndexFromParameter) {
-                const { label } = attribute_options[valueIndexFromParameter];
-                return { ...acc, [attribute_label]: label };
+                return { ...acc, [attribute_label]: { ...val, attribute_value: valueIndexFromParameter } };
             }
 
             return acc;

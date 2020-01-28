@@ -33,7 +33,7 @@ $select-arrow-width: 6px !default;
         margin-bottom: -.1em;
         font-size: 1.05rem;
         font-weight: 600;
-        color: var(--primary-dark-color);
+        color: var(--primary-error-color);
     }
 
     &-Note {
@@ -149,7 +149,7 @@ $select-arrow-width: 6px !default;
     &_hasError {
         input,
         textarea {
-            border: 1px solid var(--primary-dark-color);
+            border: 1px solid var(--primary-error-color);
         }
     }
 

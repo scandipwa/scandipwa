@@ -9,6 +9,5 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-.MyAccountCustomerTable {
-    
-}
+export * from './Navigation.action';
+export { default as NavigationReducer } from './Navigation.reducer';

@@ -20,7 +20,7 @@ class MyAccountTabList extends PureComponent {
     static propTypes = {
         tabMap: tabMapType.isRequired,
         activeTab: activeTabType.isRequired,
-        logout: PropTypes.func.isRequired,
+        handleLogout: PropTypes.func.isRequired,
         changeActiveTab: PropTypes.func.isRequired
     };
 
@@ -53,7 +53,7 @@ class MyAccountTabList extends PureComponent {
     };
 
     renderLogoutTab() {
-        const { logout } = this.props;
+        const { handleLogout } = this.props;
 
         return (
             <li
@@ -63,7 +63,7 @@ class MyAccountTabList extends PureComponent {
                 <button
                   block="MyAccountTabListItem"
                   elem="Button"
-                  onClick={ logout }
+                  onClick={ handleLogout }
                   role="link"
                 >
                     { __('Logout') }

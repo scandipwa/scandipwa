@@ -1,0 +1,136 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+:root {
+    --search-field-background: var(--secondary-base-color);
+    --search-field-visible-background: #fff;
+    --search-field-color: var(--secondary-base-color);
+    --search-field-border-color: var(--primary-divider-color);
+    --search-clear-background: var(--secondary-base-color);
+    --search-bar-width: 270px;
+    --search-bar-max-width: 450px;
+}
+
+.SearchField {
+    flex-grow: 1;
+
+    @include mobile {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    @include after-mobile {
+        text-align: right;
+    }
+
+    &_isVisible {
+        opacity: 1;
+        pointer-events: all;
+    }
+
+    &_isActive {
+        --search-bar-width: 450px;
+        --search-field-border-color: var(--primary-light-color);
+
+        @include tablet {
+            --search-bar-width: 270px;
+        }
+    }
+
+    &-Wrapper {
+        @include after-mobile {
+            margin-right: 1rem;
+            display: inline-block;
+            border: 1px solid var(--search-field-border-color);
+            background-color: var(--search-field-visible-background);
+        }
+    }
+
+    &-Input {
+        transition-property: opacity, background-color;
+        transition-duration: 200ms;
+
+        background-color: var(--search-field-background);
+        font-size: 16px;
+        border-radius: 15px;
+        width: 100%;
+        max-width: 0;
+        min-width: 0;
+        opacity: 1;
+        border-color: transparent;
+        border-width: 1px;
+        padding: {
+            top: 4px;
+            bottom: 5px;
+            left: 10px;
+        };
+
+        &:focus,
+        &:active {
+            --input-color: var(--search-field-color);
+        }
+
+        @include mobile {
+            max-width: 100%;
+        }
+
+        @include after-mobile {
+            transition-property: opacity, width, border;
+            width: var(--search-bar-width);
+            max-width: var(--search-bar-max-width);
+            font-size: 14px;
+            border-radius: 0;
+        }
+    }
+
+    &-Placeholder {
+        visibility: hidden;
+        position: absolute;
+        top: 5px;
+        left: calc(50% - 5px);
+        transform: translate3d(-50%, 0, 0);
+        width: min-content;
+        height: min-content;
+        pointer-events: none;
+        padding-left: 20px;
+        font-size: 16px;
+
+        @include search-icon;
+
+        @include after-mobile {
+            left: 1rem;
+            transform: none;
+        }
+
+        &::before {
+            left: 0;
+            top: 0;
+            bottom: 0;
+            transform: translateY(-2px);
+            margin: auto;
+        }
+
+        &_isActive {
+            left: 0;
+            transform: translate3d(10px, 0, 0);
+            padding-left: 0;
+            opacity: .7;
+
+            &::before {
+                opacity: 0;
+            }
+        }
+
+        &_isPlaceholderVisible {
+            visibility: visible;
+        }
+    }
+}

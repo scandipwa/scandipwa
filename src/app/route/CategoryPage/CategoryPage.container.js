@@ -12,14 +12,18 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { PureComponent } from 'react';
+
+import { TOP_NAVIGATION_TYPE, BOTTOM_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.component';
+import { HistoryType, LocationType, MatchType } from 'Type/Common';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
+import { changeNavigationState } from 'Store/Navigation';
 import { CategoryDispatcher } from 'Store/Category';
 import { toggleOverlayByKey } from 'Store/Overlay';
-import { changeHeaderState } from 'Store/Header';
+import { NoMatchDispatcher } from 'Store/NoMatch';
 import { CategoryTreeType } from 'Type/Category';
 import { CATEGORY } from 'Component/Header';
 import { debounce } from 'Util/Request';
-import { HistoryType, LocationType, MatchType } from 'Type/Common';
 
 import {
     ProductListInfoDispatcher,
@@ -34,7 +38,6 @@ import {
     convertQueryStringToKeyValuePairs
 } from 'Util/Url';
 
-
 import CategoryPage from './CategoryPage.component';
 
 export const mapStateToProps = state => ({
@@ -48,13 +51,15 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
     toggleOverlayByKey: key => dispatch(toggleOverlayByKey(key)),
-    changeHeaderState: state => dispatch(changeHeaderState(state)),
+    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
+    changeNavigationState: state => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
     requestCategory: options => CategoryDispatcher.handleData(dispatch, options),
     updateBreadcrumbs: breadcrumbs => ((Object.keys(breadcrumbs).length)
         ? BreadcrumbsDispatcher.updateWithCategory(breadcrumbs, dispatch)
         : BreadcrumbsDispatcher.update([], dispatch)),
     requestProductListInfo: options => ProductListInfoDispatcher.handleData(dispatch, options),
-    updateLoadStatus: isLoading => dispatch(updateInfoLoadStatus(isLoading))
+    updateLoadStatus: isLoading => dispatch(updateInfoLoadStatus(isLoading)),
+    updateNoMatch: options => NoMatchDispatcher.updateNoMatch(dispatch, options)
 });
 
 export const UPDATE_FILTERS_FREQUENCY = 0;
@@ -69,9 +74,11 @@ export class CategoryPageContainer extends PureComponent {
         match: MatchType.isRequired,
         requestCategory: PropTypes.func.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
+        changeNavigationState: PropTypes.func.isRequired,
         requestProductListInfo: PropTypes.func.isRequired,
         updateBreadcrumbs: PropTypes.func.isRequired,
         updateLoadStatus: PropTypes.func.isRequired,
+        updateNoMatch: PropTypes.func.isRequired,
         filters: PropTypes.objectOf(PropTypes.shape).isRequired,
         sortFields: PropTypes.shape({
             options: PropTypes.array
@@ -126,7 +133,9 @@ export class CategoryPageContainer extends PureComponent {
         const { category: { id: prevId } } = prevProps;
 
         // update breadcrumbs only if category has changed
-        if (id !== prevId) this._onCategoryUpdate();
+        if (id !== prevId) {
+            this._onCategoryUpdate();
+        }
 
         this._updateData(prevProps);
     }
@@ -318,8 +327,16 @@ export class CategoryPageContainer extends PureComponent {
     }
 
     _onCategoryUpdate() {
-        this._updateBreadcrumbs();
-        this._updateHeaderState();
+        const { category, updateNoMatch } = this.props;
+        const { is_active, isLoading } = category;
+
+        if (!isLoading && !is_active) {
+            updateNoMatch({ noMatch: true });
+        } else {
+            this._updateBreadcrumbs();
+            this._updateHeaderState();
+            this._updateNavigationState();
+        }
     }
 
     _updateBreadcrumbs() {
@@ -327,13 +344,26 @@ export class CategoryPageContainer extends PureComponent {
         updateBreadcrumbs(category);
     }
 
+    _updateNavigationState() {
+        const { changeNavigationState } = this.props;
+
+        changeNavigationState({
+            name: MENU_TAB,
+            isVisibleOnScroll: true
+        });
+    }
+
     _updateHeaderState() {
-        const { changeHeaderState, category: { name }, history } = this.props;
+        const {
+            changeHeaderState,
+            category: { name },
+            history
+        } = this.props;
 
         changeHeaderState({
             name: CATEGORY,
             title: name,
-            onBackClick: () => history.push('/')
+            onBackClick: () => history.push('/menu')
         });
     }
 

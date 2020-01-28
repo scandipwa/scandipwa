@@ -9,16 +9,21 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent, Fragment } from 'react';
+import { PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
-import Slider from 'Component/Slider';
-import Image from 'Component/Image';
-import './ProductGallery.style';
-import ProductGalleryAdditionalMedia from 'Component/ProductGalleryAdditionalMedia';
+import { TransformWrapper } from 'react-zoom-pan-pinch';
+
+import ProductGalleryThumbnailImage from 'Component/ProductGalleryThumbnailImage';
+import ProductGalleryBaseImage from 'Component/ProductGalleryBaseImage';
 import VideoThumbnail from 'Component/VideoThumbnail';
 import VideoPopup from 'Component/VideoPopup';
+import Slider from 'Component/Slider';
+import Image from 'Component/Image';
+
+import './ProductGallery.style';
 
 export const GALLERY_LENGTH_BEFORE_COLLAPSE = 4;
+export const MAX_ZOOM_SCALE = 8;
 
 export const IMAGE_TYPE = 'image';
 export const VIDEO_TYPE = 'external-video';
@@ -41,28 +46,59 @@ export default class ProductGallery extends PureComponent {
                 alt: PropTypes.string,
                 type: PropTypes.string
             })
-        ).isRequired
+        ).isRequired,
+        productId: PropTypes.number,
+        isZoomEnabled: PropTypes.bool.isRequired,
+        activeImage: PropTypes.number.isRequired,
+        onActiveImageChange: PropTypes.func.isRequired,
+        handleZoomChange: PropTypes.func.isRequired,
+        registerSharedElementDestination: PropTypes.func.isRequired,
+        disableZoom: PropTypes.func.isRequired
     };
 
-    state = { activeImage: 0 };
+    static defaultProps = {
+        productId: 0
+    };
+
+    maxScale = MAX_ZOOM_SCALE;
+
+    imageRef = createRef();
 
     constructor(props, context) {
         super(props, context);
         this.renderSlide = this.renderSlide.bind(this);
     }
 
-    onActiveImageChange = (activeImage) => {
-        this.setState({ activeImage });
-    };
+    componentDidMount() {
+        this.updateSharedDestinationElement();
+    }
 
-    renderAdditionalPicture = (media, index = 0) => (
-        <ProductGalleryAdditionalMedia
-          key={ index }
-          media={ media }
-          index={ index }
-          onActiveImageChange={ this.onActiveImageChange }
-        />
-    );
+    componentDidUpdate(prevProps) {
+        const { productId } = this.props;
+        const { productId: prevProductId } = prevProps;
+
+        if (productId !== prevProductId) {
+            this.updateSharedDestinationElement();
+        }
+    }
+
+    updateSharedDestinationElement() {
+        const { registerSharedElementDestination } = this.props;
+        registerSharedElementDestination(this.imageRef);
+    }
+
+    renderAdditionalPicture = (media, index = 0) => {
+        const { onActiveImageChange } = this.props;
+
+        return (
+            <ProductGalleryThumbnailImage
+              key={ index }
+              media={ media }
+              index={ index }
+              onActiveImageChange={ onActiveImageChange }
+            />
+        );
+    };
 
     /**
      * Renders a video thumbnail which opens popup player on click/tap
@@ -71,7 +107,7 @@ export default class ProductGallery extends PureComponent {
      * @returns {*}
      * @private
      */
-    _renderVideoItem(media, index) {
+    renderVideo(media, index) {
         return (
             <VideoThumbnail
               key={ index }
@@ -80,7 +116,7 @@ export default class ProductGallery extends PureComponent {
         );
     }
 
-    _renderPlaceholderItem(index) {
+    renderPlaceholder(index) {
         return (
             <Image
               key={ index }
@@ -102,31 +138,41 @@ export default class ProductGallery extends PureComponent {
      * @returns {*}
      * @private
      */
-    _renderImageItem(mediaData, index) {
-        const { label, file, base: { url } = {} } = mediaData;
-        const alt = label || __('%s - Picture #%s', name, index);
-        const src = url || file;
+    renderImage(mediaData, index) {
+        const { isZoomEnabled, handleZoomChange, disableZoom } = this.props;
 
         return (
-            <Fragment key={ index }>
-                <Image
-                  src={ src }
-                  ratio="custom"
-                  mix={ {
-                      block: 'ProductGallery',
-                      elem: 'SliderImage',
-                      mods: { isPlaceholder: !src }
-                  } }
-                  isPlaceholder={ !src }
-                  alt={ alt }
-                />
-                <img
-                  style={ { display: 'none' } }
-                  alt={ alt }
-                  src={ src }
-                  itemProp="image"
-                />
-            </Fragment>
+            <TransformWrapper
+              key={ index }
+              onZoomChange={ handleZoomChange }
+            //   doubleClick={ { mode: 'reset' } }
+              pan={ {
+                  disabled: !isZoomEnabled,
+                  limitToWrapperBounds: true,
+                  velocity: false
+              } }
+              options={ {
+                  limitToBounds: true,
+                  minScale: 1
+              } }
+            >
+                { ({ scale, previousScale, resetTransform }) => {
+                    if (scale === 1 && previousScale !== 1) {
+                        resetTransform();
+                    }
+
+                    return (
+                        <ProductGalleryBaseImage
+                          index={ index }
+                          mediaData={ mediaData }
+                          scale={ scale }
+                          previousScale={ previousScale }
+                          disableZoom={ disableZoom }
+                          isZoomEnabled={ isZoomEnabled }
+                        />
+                    );
+                } }
+            </TransformWrapper>
         );
     }
 
@@ -141,11 +187,11 @@ export default class ProductGallery extends PureComponent {
 
         switch (media_type) {
         case IMAGE_TYPE:
-            return this._renderImageItem(media, index);
+            return this.renderImage(media, index);
         case VIDEO_TYPE:
-            return this._renderVideoItem(media, index);
+            return this.renderVideo(media, index);
         case PLACEHOLDER_TYPE:
-            return this._renderPlaceholderItem(index);
+            return this.renderPlaceholder(index);
         default:
             return null;
         }
@@ -161,20 +207,43 @@ export default class ProductGallery extends PureComponent {
         );
     }
 
-    render() {
-        const { gallery } = this.props;
-        const { activeImage } = this.state;
+    renderGalleryNotice() {
         return (
-            <div block="ProductGallery">
-                { this.renderAdditionalPictures() }
+            <p block="ProductGallery" elem="Notice">
+                { __('Scroll over image to zoom in') }
+            </p>
+        );
+    }
+
+    renderSlider() {
+        const {
+            gallery,
+            activeImage,
+            isZoomEnabled,
+            onActiveImageChange
+        } = this.props;
+
+        return (
+            <div ref={ this.imageRef }>
                 <Slider
                   mix={ { block: 'ProductGallery', elem: 'Slider' } }
                   showCrumbs
                   activeImage={ activeImage }
-                  onActiveImageChange={ this.onActiveImageChange }
+                  onActiveImageChange={ onActiveImageChange }
+                  isInteractionDisabled={ isZoomEnabled }
                 >
                     { gallery.map(this.renderSlide) }
                 </Slider>
+                { this.renderGalleryNotice() }
+            </div>
+        );
+    }
+
+    render() {
+        return (
+            <div block="ProductGallery">
+                { this.renderAdditionalPictures() }
+                { this.renderSlider() }
                 <VideoPopup />
             </div>
         );

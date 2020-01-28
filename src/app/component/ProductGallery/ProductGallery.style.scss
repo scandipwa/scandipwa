@@ -48,9 +48,24 @@
         }
     }
 
+    .react-transform-component,
+    .react-transform-element,
     &-SliderImage {
-        &:not(.ProductGallery-SliderImage_isPlaceholder) {
-            background: none;
+        height: 100%;
+        width: 100%;
+    }
+
+    &-Notice {
+        color: var(--secondary-dark-color);
+        font-size: .9rem;
+        text-align: center;
+
+        @include mobile {
+            display: none;
         }
     }
+}
+
+.overscrollPrevented {
+    overscroll-behavior: contain;
 }

@@ -24,6 +24,7 @@ select {
     background-color: var(--input-background-color);
     padding: var(--input-padding);
     appearance: none;
+    caret-color: var(--primary-base-color);
 
     &:focus {
         border: 1px solid var(--input-color);

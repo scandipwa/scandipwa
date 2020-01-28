@@ -9,13 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-.ProductGalleryAdditionalMedia {
-    @include after-mobile {
-        display: block;
-        height: 100%;
-    }
-
-    img {
-        background-color: $white;
-    }
-}
+export { default } from './ProductGalleryThumbnailImage.component';

@@ -11,12 +11,40 @@
 
 .CheckoutBilling {
     &-Checkbox {
+        display: inline-block;
         margin-bottom: 2rem;
     }
 
     &-Button {
         @include mobile {
             width: 100%;
+        }
+    }
+
+    &-TermsAndConditions {
+        font-weight: 700;
+        font-size: 1.05rem;
+        margin: 0;
+        margin-bottom: 2rem;
+
+        &-Checkbox {
+            margin: 0;
+            margin-left: 1rem;
+            display: inline-block;
+        }
+    }
+
+    &-Link {
+        color: var(--link-color);
+        font-weight: bold;
+        font-size: inherit;
+
+        &:hover {
+            text-decoration: underline;
+        }
+
+        &:focus {
+            text-decoration: underline;
         }
     }
 }

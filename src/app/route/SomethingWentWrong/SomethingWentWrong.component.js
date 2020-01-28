@@ -32,7 +32,7 @@ class SomethingWentWrong extends PureComponent {
 
     renderErrorDetails() {
         const { errorDetails: { err, info: { componentStack } = {} } } = this.props;
-        const errorString =  err.toString();
+        const errorString = err.toString();
 
         console.groupCollapsed('Suppressed error log:');
         console.error(errorString);

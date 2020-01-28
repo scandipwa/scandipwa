@@ -9,6 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export * from './CmsPage.action';
-export { default as CmsPageReducer } from './CmsPage.reducer';
-export { default as CmsPageDispatcher, CmsPageDispatcher as CmsPageDispatcherClass } from './CmsPage.dispatcher';
+.CheckoutTermsAndConditionsPopup {
+    &-Address {
+        margin: 1rem 0;
+    }
+
+    .Popup-Content {
+        max-width: calc(var(--checkout-max-width) * .8);
+    }
+}
