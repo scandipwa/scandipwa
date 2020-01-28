@@ -67,16 +67,40 @@ export class ProductActionsContainer extends PureComponent {
 
     getMaxQuantity() {
         const {
-            product: { stock_item: { max_sale_qty } = {}, variants } = {},
+            product: {
+                stock_item: {
+                    qty: stockQty,
+                    max_sale_qty
+                } = {},
+                variants
+            } = {},
             configurableVariantIndex
         } = this.props;
 
-        if (!max_sale_qty) return DEFAULT_MAX_PRODUCTS;
-        if (!configurableVariantIndex && !variants) return max_sale_qty;
+        const qty = stockQty - this.getMinQuantity();
+        const maxQty = Math.min(qty, max_sale_qty);
 
-        const { stock_item: { max_sale_qty: maxVariantQty } = {} } = variants[configurableVariantIndex] || {};
+        if (!max_sale_qty) {
+            return DEFAULT_MAX_PRODUCTS;
+        }
 
-        return maxVariantQty || max_sale_qty;
+        if (configurableVariantIndex === -1 || !Object.keys(variants).length) {
+            return qty !== null ? maxQty : max_sale_qty;
+        }
+
+        const {
+            stock_item: {
+                qty: variantQty,
+                max_sale_qty: maxVariantSaleQty
+            } = {}
+        } = variants[configurableVariantIndex] || {};
+
+        if (variantQty === null) {
+            return qty !== null ? maxQty : max_sale_qty;
+        }
+
+        // Max variant qty
+        return Math.min(variantQty, maxVariantSaleQty);
     }
 
     // TODO: make key=>value based
