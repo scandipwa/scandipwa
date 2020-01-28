@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-.MyAccountCustomerTable {
-    
-}
+export { default } from './SearchField.component';

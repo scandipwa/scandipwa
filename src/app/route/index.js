@@ -21,6 +21,7 @@ import Breadcrumbs from 'Component/Breadcrumbs';
 import Footer from 'Component/Footer';
 import Header from 'Component/Header';
 import SuspenseFallback from 'Component/SuspenseFallback';
+import NavigationTabs from 'Component/NavigationTabs';
 
 import Store from 'Store';
 
@@ -42,6 +43,7 @@ const ProductPage = lazy(() => import('Route/ProductPage'));
 const SearchPage = lazy(() => import('Route/SearchPage'));
 const SomethingWentWrong = lazy(() => import('Route/SomethingWentWrong'));
 const UrlRewrites = lazy(() => import('Route/UrlRewrites'));
+const MenuPage = lazy(() => import('Route/MenuPage'))
 
 export const BEFORE_ITEMS_TYPE = 'BEFORE_ITEMS_TYPE';
 export const SWITCH_ITEMS_TYPE = 'SWITCH_ITEMS_TYPE';
@@ -58,6 +60,10 @@ class AppRouter extends PureComponent {
         {
             component: <Header />,
             position: 20
+        },
+        {
+            component: <NavigationTabs />,
+            position: 25
         },
         {
             component: <Breadcrumbs />,
@@ -101,6 +107,10 @@ class AppRouter extends PureComponent {
         {
             component: <Route path="/my-account/:tab?" component={ MyAccount } />,
             position: 70
+        },
+        {
+            component: <Route path="/menu" component={ MenuPage } />,
+            position: 80
         },
         {
             component: <Route component={ UrlRewrites } />,

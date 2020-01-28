@@ -9,6 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+:root {
+    --notification-color: var(--secondary-info-color);
+    --notification-background: var(--primary-info-color);
+}
+
 .Notification {
     --animation-duration: 0; /* to sync CSS animation and JS callback */
 
@@ -20,6 +25,8 @@
     padding: 12px 1rem;
     margin-bottom: 5px;
     top: 0;
+    color: var(--notification-color);
+    background: var(--notification-background);
 
     @include after-mobile {
         display: inline-block;
@@ -74,7 +81,7 @@
             content: ' ';
             height: 15px;
             width: 2px;
-            background-color: #fff;
+            background-color: var(--notification-color);
         }
 
         &::before {
@@ -88,23 +95,28 @@
 
     &_is {
         &_opening {
-            animation: fadeInLeft var(--animation-duration) ease-in-out forwards;
+            animation: fadeInLeft var(--animation-duration) cubic-bezier(.645, .045, .355, 1) forwards;
         }
 
         &_closing {
-            animation: fadeOutLeft var(--animation-duration) ease-in-out forwards;
+            animation: fadeOutLeft var(--animation-duration) cubic-bezier(.645, .045, .355, 1) forwards;
         }
     }
 
     &_type {
         &_error {
-            color: white;
-            background: #dc6d6d;
+            --notification-color: var(--secondary-error-color);
+            --notification-background: var(--primary-error-color);
         }
 
         &_success {
-            color: white;
-            background: #6ee06e;
+            --notification-color: var(--secondary-success-color);
+            --notification-background: var(--primary-success-color);
+        }
+
+        &_info {
+            --notification-color: var(--secondary-info-color);
+            --notification-background: var(--primary-info-color);
         }
     }
 

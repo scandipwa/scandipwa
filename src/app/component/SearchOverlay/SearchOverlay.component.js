@@ -30,6 +30,7 @@ export default class SearchOverlay extends PureComponent {
         searchCriteria: PropTypes.string,
         searchResults: ItemsType.isRequired,
         isLoading: PropTypes.bool.isRequired,
+        clearSearch: PropTypes.func.isRequired,
         getProductLinkTo: PropTypes.func.isRequired,
         makeSearchRequest: PropTypes.func.isRequired,
         clearSearchResults: PropTypes.func.isRequired
@@ -54,12 +55,28 @@ export default class SearchOverlay extends PureComponent {
         }
     }
 
+    handleItemClick = () => {
+        const { clearSearch, hideActiveOverlay } = this.props;
+
+        clearSearch();
+        hideActiveOverlay();
+    };
+
+    renderSearchItemAdditionalContent(brand) {
+        const { isLoading } = this.props;
+        if (!isLoading && !brand) return null;
+
+        return (
+            <p block="SearchOverlay" elem="Brand">
+                <TextPlaceholder content={ brand } />
+            </p>
+        );
+    }
+
     renderSearchItemContent(name, brand) {
         return (
             <>
-                <p block="SearchOverlay" elem="Brand">
-                    <TextPlaceholder content={ brand } />
-                </p>
+                { this.renderSearchItemAdditionalContent(brand) }
                 <h4 block="SearchOverlay" elem="Title" mods={ { isLoaded: !!name } }>
                     <TextPlaceholder content={ name } length="long" />
                 </h4>
@@ -68,7 +85,7 @@ export default class SearchOverlay extends PureComponent {
     }
 
     renderSearchItem(product, i) {
-        const { hideActiveOverlay, getProductLinkTo } = this.props;
+        const { getProductLinkTo } = this.props;
         const {
             name,
             thumbnail: { path } = {},
@@ -87,7 +104,7 @@ export default class SearchOverlay extends PureComponent {
                   block="SearchOverlay"
                   elem="Link"
                   to={ getProductLinkTo(product) }
-                  onClick={ hideActiveOverlay }
+                  onClick={ this.handleItemClick }
                 >
                     <figure
                       block="SearchOverlay"

@@ -19,6 +19,7 @@ import Link from 'Component/Link';
 import PropTypes from 'prop-types';
 import Image from 'Component/Image';
 import WidgetFactory from 'Component/WidgetFactory';
+import { hash } from 'Util/Request/Hash';
 
 /**
  * Html content parser
@@ -93,6 +94,21 @@ export default class Html extends PureComponent {
             }
         }
     };
+
+    getCachedHtml() {
+        const { content } = this.props;
+        const contentHash = hash(content);
+
+        if (!window.cachedHtml) {
+            window.cachedHtml = {};
+        }
+
+        if (!window.cachedHtml[contentHash]) {
+            window.cachedHtml[contentHash] = parser(content, this.parserOptions);
+        }
+
+        return window.cachedHtml[contentHash];
+    }
 
     attributesToProps(attribs) {
         const toCamelCase = string => string.replace(/_[a-z]/g, match => match.substr(1).toUpperCase());
@@ -190,7 +206,6 @@ export default class Html extends PureComponent {
     }
 
     render() {
-        const { content } = this.props;
-        return parser(content, this.parserOptions);
+        return this.getCachedHtml();
     }
 }

@@ -11,7 +11,7 @@ class Input extends PureComponent {
 
     static defaultProps = {
         formRef: () => {}
-    }
+    };
 
     render() {
         const {

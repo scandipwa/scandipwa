@@ -39,14 +39,16 @@ class CheckoutShipping extends PureComponent {
         const { selectedShippingMethod } = this.props;
 
         return (
-            <button
-              type="submit"
-              block="Button"
-              disabled={ !selectedShippingMethod }
-              mix={ { block: 'CheckoutShipping', elem: 'Button' } }
-            >
-                { __('Proceed to billing') }
-            </button>
+            <div block="Checkout" elem="StickyButtonWrapper">
+                <button
+                  type="submit"
+                  block="Button"
+                  disabled={ !selectedShippingMethod }
+                  mix={ { block: 'CheckoutShipping', elem: 'Button' } }
+                >
+                    { __('Proceed to billing') }
+                </button>
+            </div>
         );
     }
 

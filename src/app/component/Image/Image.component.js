@@ -48,7 +48,11 @@ export default class Image extends PureComponent {
         wrapperSize: PropTypes.shape({
             height: PropTypes.string
         }),
-        mix: MixType
+        mix: MixType,
+        imageRef: PropTypes.oneOfType([
+            PropTypes.func,
+            PropTypes.shape({ current: PropTypes.instanceOf(Element) })
+        ])
     };
 
     static defaultProps = {
@@ -58,7 +62,8 @@ export default class Image extends PureComponent {
         mix: {},
         isPlaceholder: false,
         wrapperSize: {},
-        style: {}
+        style: {},
+        imageRef: () => {}
     };
 
     image = createRef();
@@ -138,7 +143,8 @@ export default class Image extends PureComponent {
             mix,
             isPlaceholder,
             wrapperSize,
-            src
+            src,
+            imageRef
         } = this.props;
 
         const { imageStatus } = this.state;
@@ -146,6 +152,7 @@ export default class Image extends PureComponent {
         return (
             <div
               block="Image"
+              ref={ imageRef }
               mods={ {
                   ratio,
                   imageStatus,

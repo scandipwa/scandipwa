@@ -1,11 +1,19 @@
-import { PureComponent } from 'react';
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
+import DataContainer from 'Util/Request/DataContainer';
 import { showNotification } from 'Store/Notification';
-import { executeGet } from 'Util/Request';
-import { prepareQuery } from 'Util/Query';
 import ConfigQuery from 'Query/Config.query';
 
 import StoreSwitcher from './StoreSwitcher.component';
@@ -18,7 +26,7 @@ export const mapDispatchToProps = dispatch => ({
     showErrorNotification: message => dispatch(showNotification('error', message))
 });
 
-export class StoreSwitcherContainer extends PureComponent {
+export class StoreSwitcherContainer extends DataContainer {
     static propTypes = {
         showErrorNotification: PropTypes.func.isRequired,
         currentStoreCode: PropTypes.string
@@ -36,8 +44,7 @@ export class StoreSwitcherContainer extends PureComponent {
         handleStoreSelect: this._handleStoreSelect.bind(this)
     };
 
-    constructor(props) {
-        super(props);
+    componentDidMount() {
         this._getStoreList();
     }
 
@@ -47,14 +54,18 @@ export class StoreSwitcherContainer extends PureComponent {
     };
 
     _getStoreList() {
-        const query = prepareQuery([ConfigQuery.getStoreListField()]);
-        executeGet(query, 'StoreList', ONE_MONTH_IN_SECONDS).then(
-            ({ storeList }) => this.setState({ storeList: this._formatStoreList(storeList) })
+        this.fetchData(
+            [ConfigQuery.getStoreListField()],
+            ({ storeList }) => this.setState({
+                storeList: this._formatStoreList(storeList)
+            })
         );
     }
 
     _formatStoreList(storeList) {
-        return storeList.reduce((acc, { name, code, is_active, base_url }) => {
+        return storeList.reduce((acc, {
+            name, code, is_active, base_url
+        }) => {
             if (!is_active) return acc;
 
             return [

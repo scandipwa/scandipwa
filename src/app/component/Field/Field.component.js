@@ -19,7 +19,7 @@ import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { MixType } from 'Type/Common';
 import ClickOutside from 'Component/ClickOutside';
-import { default as Input } from 'Component/Input'
+import Input from 'Component/Input';
 import './Field.style';
 
 export const TEXT_TYPE = 'text';
@@ -413,10 +413,11 @@ export default class Field extends PureComponent {
                 <Input
                   { ...this.props }
                   type="number"
+                  // eslint-disable-next-line react/jsx-no-bind
                   onChange={ e => this.handleChange(e.target.value, false) }
                   onKeyDown={ this.onKeyEnterDown }
                   onBlur={ this.onChange }
-                  onClick={ e => this.onClick(e, true) }
+                  onClick={ this.onClick }
                   value={ value }
                 />
                 <button

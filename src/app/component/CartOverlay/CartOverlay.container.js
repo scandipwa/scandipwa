@@ -12,7 +12,9 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { PureComponent } from 'react';
-import { changeHeaderState, goToPreviousHeaderState } from 'Store/Header';
+
+import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation';
+import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { CART, CART_EDITING } from 'Component/Header';
 import { hideActiveOverlay } from 'Store/Overlay';
 import { CartDispatcher } from 'Store/Cart';
@@ -26,8 +28,8 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    goToPreviousHeaderState: () => dispatch(goToPreviousHeaderState()),
-    changeHeaderState: state => dispatch(changeHeaderState(state)),
+    goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE)),
+    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
     updateTotals: options => CartDispatcher.updateTotals(dispatch, options)
 });
 

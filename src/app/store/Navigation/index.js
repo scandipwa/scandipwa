@@ -9,14 +9,5 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export const UPDATE_CMS_PAGE = 'UPDATE_CMS_PAGE';
-
-/**
- * Update CMS Page information
- * @param {String} urlKey URL Key of the page that must be returned
- */
-export const updateCmsPage = (page, isLoading) => ({
-    type: UPDATE_CMS_PAGE,
-    page,
-    isLoading
-});
+export * from './Navigation.action';
+export { default as NavigationReducer } from './Navigation.reducer';

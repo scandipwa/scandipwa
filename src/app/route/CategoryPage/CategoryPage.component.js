@@ -21,6 +21,7 @@ import { CategoryTreeType } from 'Type/Category';
 import { FilterType, FilterInputType } from 'Type/ProductList';
 import Meta from 'Component/Meta';
 import './CategoryPage.style';
+import isMobile from 'Util/Mobile';
 
 export default class CategoryPage extends PureComponent {
     static propTypes = {
@@ -48,7 +49,6 @@ export default class CategoryPage extends PureComponent {
         updateFilter: PropTypes.func.isRequired,
         updatePriceRange: PropTypes.func.isRequired,
         toggleOverlayByKey: PropTypes.func.isRequired,
-        changeHeaderState: PropTypes.func.isRequired,
         selectedFilters: FilterType.isRequired,
         filter: FilterInputType.isRequired,
         search: PropTypes.string.isRequired
@@ -57,10 +57,8 @@ export default class CategoryPage extends PureComponent {
     onFilterButtonClick = this.onFilterButtonClick.bind(this);
 
     onFilterButtonClick() {
-        const { toggleOverlayByKey, changeHeaderState } = this.props;
-
+        const { toggleOverlayByKey } = this.props;
         toggleOverlayByKey('category-filter');
-        changeHeaderState({ name: 'filter', title: __('Filters') });
     }
 
     renderCategoryDetails() {
@@ -127,6 +125,18 @@ export default class CategoryPage extends PureComponent {
         );
     }
 
+    renderItemsCount(isVisibleOnMobile = false) {
+        if (isVisibleOnMobile && !isMobile.any()) {
+            return null;
+        }
+
+        if (!isVisibleOnMobile && isMobile.any()) {
+            return null;
+        }
+
+        return <CategoryItemsCount />;
+    }
+
     renderCategoryProductList() {
         const {
             filter,
@@ -137,13 +147,16 @@ export default class CategoryPage extends PureComponent {
         } = this.props;
 
         return (
-            <CategoryProductList
-              filter={ filter }
-              search={ search }
-              sort={ selectedSort }
-              selectedFilters={ selectedFilters }
-              getIsNewCategory={ getIsNewCategory }
-            />
+            <div block="CategoryPage" elem="ProductListWrapper">
+                { this.renderItemsCount(true) }
+                <CategoryProductList
+                  filter={ filter }
+                  search={ search }
+                  sort={ selectedSort }
+                  selectedFilters={ selectedFilters }
+                  getIsNewCategory={ getIsNewCategory }
+                />
+            </div>
         );
     }
 
@@ -160,7 +173,7 @@ export default class CategoryPage extends PureComponent {
                     { this.renderFilterOverlay() }
                     { this.renderCategoryDetails() }
                     <aside block="CategoryPage" elem="Miscellaneous">
-                        <CategoryItemsCount />
+                        { this.renderItemsCount() }
                         { this.renderCategorySort() }
                         { this.renderFilterButton() }
                     </aside>
