@@ -4,6 +4,9 @@
   "private": true,
   "author": "Scandiweb info@scandiweb.com",
   "license": "OSL-3.0",
+  "engines": {
+    "node": ">=10.0.0"
+  },
   "scripts": {
     "watch-core": "webpack-dev-server --config ./src/config/webpack.core.config.js",
     "watch": "webpack-dev-server --config ./src/config/webpack.development.config.js",
