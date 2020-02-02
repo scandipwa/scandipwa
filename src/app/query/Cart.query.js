@@ -113,12 +113,21 @@ export class CartQuery {
 
     _getProductField() {
         return new Field('product')
-            .addFieldList(ProductListQuery._getProductInterfaceFields(false, true));
+            .addFieldList([
+                ...ProductListQuery._getProductInterfaceFields(false, true),
+                this._getProductCategoryFields(),
+                'stock_status'
+            ]);
     }
 
     _getCartItemsField() {
         return new Field('items')
             .addFieldList(this._getCartItemFields());
+    }
+
+    _getProductCategoryFields() {
+        return new Field('categories')
+            .addField('url_path');
     }
 }
 

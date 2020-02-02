@@ -48,6 +48,7 @@ export class ConfigQuery {
         return new Field('storeConfig')
             .addFieldList([
                 'code',
+                'locale',
                 'is_active',
                 'cms_home_page',
                 'cms_no_route',

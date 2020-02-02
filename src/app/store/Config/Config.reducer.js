@@ -20,14 +20,21 @@ export const filterStoreConfig = config => Object.entries(config).reduce(
     {}
 );
 
-const { countries, reviewRatings, storeConfig } = BrowserDatabase.getItem('config') || {
+const {
+    countries,
+    reviewRatings,
+    storeConfig,
+    gtm
+} = BrowserDatabase.getItem('config') || {
     countries: [],
     reviewRatings: [],
-    storeConfig: {}
+    storeConfig: {},
+    gtm: {}
 };
 
 export const initialState = {
     ...filterStoreConfig(storeConfig),
+    gtm,
     countries,
     reviewRatings,
     title_prefix: 'ScandiPWA |',
@@ -37,6 +44,7 @@ export const initialState = {
 const ConfigReducer = (state = initialState, action) => {
     const {
         config: {
+            gtm,
             countries,
             reviewRatings,
             checkoutAgreements,
@@ -51,6 +59,7 @@ const ConfigReducer = (state = initialState, action) => {
 
         return {
             ...state,
+            gtm,
             countries,
             reviewRatings,
             checkoutAgreements,

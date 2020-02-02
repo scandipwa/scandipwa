@@ -43,6 +43,8 @@ export const CART = 'cart';
 export const CART_EDITING = 'cart_editing';
 export const CHECKOUT = 'checkout';
 export const CMS_PAGE = 'cms-page';
+export const URL_REWRITE = 'cms-page';
+export const PASSWORD_CHANGE = 'cms-page';
 
 export default class Header extends NavigationAbstract {
     static propTypes = {

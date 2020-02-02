@@ -201,5 +201,6 @@ export {
     updateQueryParamWithoutHistory,
     removeQueryParamWithoutHistory,
     convertQueryStringToKeyValuePairs,
+    convertKeyValuesToQueryString,
     objectToUri
 };
