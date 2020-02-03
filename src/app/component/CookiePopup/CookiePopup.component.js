@@ -1,17 +1,18 @@
 /**
-* ScandiPWA - Progressive Web App for Magento
-*
-* Copyright © Scandiweb, Inc. All rights reserved.
-* See LICENSE for license details.
-*
-* @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
-* @package scandipwa/base-theme
-* @link https://github.com/scandipwa/base-theme
-*/
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
 
 import { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 
-import BrowserCookie from 'Util/BrowserCookie';
+import BrowserDatabase from 'Util/BrowserDatabase';
 import Link from 'Component/Link';
 
 import './CookiePopup.style';
@@ -19,14 +20,20 @@ import './CookiePopup.style';
 export const COOKIE_POPUP = 'cookie_popup';
 
 class CookiePopup extends PureComponent {
-    state = { isAccepted: BrowserCookie.getItem(COOKIE_POPUP) || false };
+    static propTypes = {
+        cookieText: PropTypes.string.isRequired,
+        cookieLink: PropTypes.string.isRequired
+    };
+
+    state = { isAccepted: BrowserDatabase.getItem(COOKIE_POPUP) || false };
 
     acceptCookies = this.acceptCookies.bind(this);
 
-    acceptCookies() {
-		BrowserCookie.setItem(true, COOKIE_POPUP, 2592000);
-		this.setState({ isAccepted: true });
-	}
+    acceptCookies = () => {
+        /* eslint no-magic-numbers: ["error", { "ignore": [2592000] }] */
+        BrowserDatabase.setItem(true, COOKIE_POPUP, 2592000); // 2592000 === 1 month
+        this.setState({ isAccepted: true });
+    };
 
     render() {
         const { cookieText, cookieLink } = this.props;

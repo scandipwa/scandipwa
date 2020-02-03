@@ -8,15 +8,14 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+
 import { connect } from 'react-redux';
 
 import CookiePopup from './CookiePopup.component';
 
 export const mapStateToProps = state => ({
     cookieText: state.ConfigReducer.cookie_text,
-    cookieLink: state.ConfigReducer.cookie_link,
+    cookieLink: state.ConfigReducer.cookie_link
 });
 
 export default connect(mapStateToProps)(CookiePopup);
