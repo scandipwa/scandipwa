@@ -121,7 +121,7 @@ class Product {
         const keyValueAttributes = Object.keys(configurable_options).reduce((acc, key) => {
             if (attributes && key in attributes) {
                 const { attribute_value = '' } = attributes[key];
-                return { ...acc, [key]: attribute_value };
+                if (attribute_value) return { ...acc, [key]: attribute_value };
             }
 
             return acc;
@@ -176,11 +176,11 @@ class Product {
             price: {
                 regularPrice: {
                     amount: {
-                        value,
-                        currency
-                    }
-                }
-            }
+                        value = null,
+                        currency = null
+                    } = {}
+                } = {}
+            } = {}
         } = selectedVariant;
 
         return {

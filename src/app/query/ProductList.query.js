@@ -125,6 +125,7 @@ export class ProductListQuery {
             'sku',
             'name',
             'type_id',
+            'stock_status',
             this._getPriceField(),
             this._getStockItemField(),
             this._getProductThumbnailField(),
@@ -145,7 +146,6 @@ export class ProductListQuery {
             ),
             ...(isSingleProduct
                 ? [
-                    'stock_status',
                     'meta_title',
                     'meta_keyword',
                     'canonical_url',

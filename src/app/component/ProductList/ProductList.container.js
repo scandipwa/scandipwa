@@ -12,8 +12,9 @@
 import { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { Event, EVENT_GTM_IMPRESSIONS_PLP } from 'Util/Event';
 import { getQueryParam, setQueryParams } from 'Util/Url';
-import { PagesType, FilterInputType } from 'Type/ProductList';
+import { PagesType, FilterInputType, FilterType } from 'Type/ProductList';
 import { HistoryType } from 'Type/Common';
 import { debounce } from 'Util/Request';
 import ProductList from './ProductList.component';
@@ -32,7 +33,7 @@ export class ProductListContainer extends PureComponent {
         isLoading: PropTypes.bool.isRequired,
         totalItems: PropTypes.number.isRequired,
         requestProductList: PropTypes.func.isRequired,
-        selectedFilters: PropTypes.objectOf(PropTypes.shape),
+        selectedFilters: FilterType,
         isInfiniteLoaderEnabled: PropTypes.bool,
         isPaginationEnabled: PropTypes.bool,
         filter: FilterInputType,
@@ -105,7 +106,10 @@ export class ProductListContainer extends PureComponent {
         if (search !== prevSearch
             || JSON.stringify(sort) !== JSON.stringify(prevSort)
             || JSON.stringify(filter) !== JSON.stringify(prevFilter)
-        ) this.requestPage(this._getPageFromUrl());
+        ) {
+            this.requestPage(this._getPageFromUrl());
+        }
+        this._updateImpressions(prevProps);
     }
 
     static getDerivedStateFromProps(props) {
@@ -120,6 +124,23 @@ export class ProductListContainer extends PureComponent {
         isVisible: this._isVisible(),
         requestPage: this.requestPage
     });
+
+    /**
+     * Update Impressions
+     */
+    _updateImpressions(prevProps) {
+        const { pages, isLoading, selectedFilters: filters } = this.props;
+        const { isLoading: prevIsLoading } = prevProps;
+        const currentPage = getQueryParam('page', location) || 1;
+
+        if (!Object.keys(pages || {}).length
+            || !Object.keys(pages[currentPage] || {}).length
+            || isLoading || isLoading === prevIsLoading
+        ) return;
+
+        Event.dispatch(EVENT_GTM_IMPRESSIONS_PLP, { items: pages[currentPage], filters });
+    }
+
 
     _getPageFromUrl() {
         const { location } = this.props;

@@ -10,6 +10,7 @@
  */
 
 import { PureComponent } from 'react';
+import { Event, EVENT_GTM_IMPRESSIONS_LINKED } from 'Util/Event';
 import ContentWrapper from 'Component/ContentWrapper';
 import ProductCard from 'Component/ProductCard';
 import PropTypes from 'prop-types';
@@ -45,8 +46,15 @@ export default class RelatedProducts extends PureComponent {
         this.clearRelatedProducts();
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps) {
         this.clearRelatedProducts();
+
+        const { relatedProducts: { items = [] } } = this.props;
+        const { relatedProducts: { items: prevItems = [] } } = prevProps;
+
+        if (items.length && items.length !== prevItems.length) {
+            Event.dispatch(EVENT_GTM_IMPRESSIONS_LINKED, { items });
+        }
     }
 
     /**

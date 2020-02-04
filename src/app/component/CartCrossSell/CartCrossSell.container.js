@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { ProductType } from 'Type/ProductList';
-
+import { Event, EVENT_GTM_IMPRESSIONS_CROSS_SELL } from 'Util/Event';
 import CartCrossSell from './CartCrossSell.component';
 
 export const mapStateToProps = state => ({
@@ -32,6 +32,11 @@ export class CartCrossSellContainer extends PureComponent {
     static defaultProps = {
         products: []
     };
+
+    componentDidMount() {
+        const { products, linkedProducts: { crossSell: { items = [] } } } = this.props;
+        if (products.length) Event.dispatch(EVENT_GTM_IMPRESSIONS_CROSS_SELL, { items });
+    }
 
     render() {
         const {

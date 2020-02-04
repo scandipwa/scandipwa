@@ -19,7 +19,6 @@ export const EVENT_GTM_CHECKOUT = 'gtm_checkout';
 export const EVENT_GTM_CHECKOUT_OPTION = 'gtm_checkout_option';
 export const EVENT_GTM_IMPRESSIONS_PLP = 'gtm_impressions_plp';
 export const EVENT_GTM_IMPRESSIONS_CROSS_SELL = 'gtm_impressions_cross_sell';
-export const EVENT_GTM_IMPRESSIONS_ACCESSORIES = 'gtm_impressions_accessories';
 export const EVENT_GTM_IMPRESSIONS_UP_SELL = 'gtm_impressions_up_sell';
 export const EVENT_GTM_IMPRESSIONS_WISHLIST = 'gtm_impressions_wishlist';
 export const EVENT_GTM_IMPRESSIONS_HOME_NEW = 'gtm_impressions_home_new';
