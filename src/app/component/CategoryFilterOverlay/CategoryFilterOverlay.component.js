@@ -18,6 +18,8 @@ import ExpandableContent from 'Component/ExpandableContent';
 import CategoryConfigurableAttributes from 'Component/CategoryConfigurableAttributes';
 import './CategoryFilterOverlay.style';
 
+export const CATEGORY_FILTER_OVERLAY_ID = 'category-filter';
+
 export default class CategoryFilterOverlay extends PureComponent {
     static propTypes = {
         availableFilters: PropTypes.objectOf(PropTypes.shape).isRequired,
@@ -33,7 +35,8 @@ export default class CategoryFilterOverlay extends PureComponent {
         onVisible: PropTypes.func.isRequired,
         customFiltersValues: PropTypes.objectOf(PropTypes.array).isRequired,
         toggleCustomFilter: PropTypes.func.isRequired,
-        getFilterUrl: PropTypes.func.isRequired
+        getFilterUrl: PropTypes.func.isRequired,
+        totalPages: PropTypes.number.isRequired
     };
 
     renderPriceRange() {
@@ -128,8 +131,18 @@ export default class CategoryFilterOverlay extends PureComponent {
         const {
             isInfoLoading,
             availableFilters,
+            totalPages,
             onVisible
         } = this.props;
+
+        if (totalPages === 0) {
+            return (
+                <Overlay
+                  mix={ { block: 'CategoryFilterOverlay' } }
+                  id={ CATEGORY_FILTER_OVERLAY_ID }
+                />
+            );
+        }
 
         if (
             !isInfoLoading
@@ -139,7 +152,7 @@ export default class CategoryFilterOverlay extends PureComponent {
             )
         ) {
             return (
-                <Overlay mix={ { block: 'CategoryFilterOverlay' } } id="category-filter">
+                <Overlay mix={ { block: 'CategoryFilterOverlay' } } id={ CATEGORY_FILTER_OVERLAY_ID }>
                     { this.renderPriceRange() }
                 </Overlay>
             );
@@ -149,7 +162,7 @@ export default class CategoryFilterOverlay extends PureComponent {
             <Overlay
               onVisible={ onVisible }
               mix={ { block: 'CategoryFilterOverlay' } }
-              id="category-filter"
+              id={ CATEGORY_FILTER_OVERLAY_ID }
             >
                 { this.renderHeading() }
                 { this.renderResetButton() }
