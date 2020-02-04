@@ -10,9 +10,11 @@
  */
 
 import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
-import { MyAccountDispatcher } from 'Store/MyAccount';
-import { ROUTE_URL_REWRITE } from 'Util/Routes';
+import { roundPrice } from 'Util/Price';
+import { URL_REWRITE } from 'Component/Header';
 import BrowserDatabase from 'Util/BrowserDatabase';
+import { MyAccountDispatcher } from 'Store/MyAccount';
+import { Product as ProductHelper } from 'Component/GoogleTagManager/utils';
 
 export const DATA_RECHECK_TIMEOUT = 1500;
 export const EVENT_HANDLE_DELAY = 1500;
@@ -244,7 +246,7 @@ class BaseEvent {
      * @return {string}
      */
     getCurrencyCode() {
-        return this.getAppState().ConfigReducer.configs.base_currency_code;
+        return this.getAppState().ConfigReducer.default_display_currency_code;
     }
 
     /**
@@ -255,7 +257,7 @@ class BaseEvent {
     getPageType() {
         const { urlRewrite, currentRouteName } = window;
 
-        if (currentRouteName === ROUTE_URL_REWRITE) {
+        if (currentRouteName === URL_REWRITE) {
             if (typeof urlRewrite === 'undefined') {
                 return '';
             }
@@ -306,6 +308,42 @@ class BaseEvent {
      */
     setStorage(data, event = this.eventName) {
         this.getGTM().setEventStorage(event, data);
+    }
+
+
+    /**
+     * Prepare cart data
+     *
+     * @return {{quantity: number, price: number, name: string, variant: string, id: string, availability: boolean, category: string, brand: string}[]}
+     */
+    prepareCartData() {
+        const {
+            subtotal, tax_amount, items_qty,
+            items = [],
+            quote_currency_code
+        } = this.getCartProductData();
+
+        const itemsData = items
+            .map(item => ({
+                ...ProductHelper.getItemData(item),
+                quantity: ProductHelper.getQuantity(item)
+            }));
+
+        return {
+            items_qty,
+            total: roundPrice(subtotal + tax_amount),
+            currency: quote_currency_code,
+            itemsData
+        };
+    }
+
+    /**
+     * Get cart products
+     *
+     * @return {initialState.productsInCart|{}}
+     */
+    getCartProductData() {
+        return this.getAppState().CartReducer.cartTotals;
     }
 }
 

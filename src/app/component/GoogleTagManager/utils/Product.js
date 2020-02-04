@@ -67,13 +67,23 @@ class Product {
     }
 
     /**
+     * Get product Quantity from product object
+     *
+     * @param product
+     * @return {number|null}
+     */
+    static getQuantity({ qty }) {
+        return parseInt(qty, 10) || null;
+    }
+
+    /**
      * Get product brand from product object
      *
      * @param product
      * @return {string|null}
      */
     static getBrand(selectedVariant) {
-        const { attributes } = selectedVariant;
+        const { attributes = {} } = selectedVariant;
         const { brand: { attribute_value = '' } = {} } = attributes;
         return attribute_value;
     }
@@ -105,12 +115,12 @@ class Product {
      * @return {string|null}
      */
     static getUrl(product, selectedVariant) {
-        const { url_key, configurable_options } = product;
-        const { attributes } = selectedVariant;
+        const { url_key = '', configurable_options = {} } = product;
+        const { attributes = {} } = selectedVariant;
 
         const keyValueAttributes = Object.keys(configurable_options).reduce((acc, key) => {
-            if (key in attributes) {
-                const { attribute_value } = attributes[key];
+            if (attributes && key in attributes) {
+                const { attribute_value = '' } = attributes[key];
                 return { ...acc, [key]: attribute_value };
             }
 
@@ -122,9 +132,14 @@ class Product {
         return `/${ url_key }${queryString.length === 1 ? '' : queryString }`;
     }
 
-    static getSelectedVariant(item) {
-        const { sku, product: { variants } } = item;
+    static getSelectedVariant(product) {
+        const { sku, variants } = product;
         return variants.find(({ sku: variantSku }) => sku === variantSku);
+    }
+
+    static getSelectedVariantIndex(product, sku) {
+        const { variants = [] } = product;
+        return variants.findIndex(({ sku: variantSku = '' }) => sku === variantSku);
     }
 
     /**
@@ -134,31 +149,50 @@ class Product {
      *
      * @return {{quantity: number, price: number, name: string, variant: string, id: string, availability: boolean, list: string, category: string, brand: string}}
      */
-    static getProductData(item) {
+    static getItemData(item) {
         if (item && Object.values(item).length) {
-            const {
-                qty, row_total,
-                tax_amount, product
-            } = item;
-            const { sku } = product;
+            const { product = {}, sku = '' } = item;
+            const configurableVariantIndex = this.getSelectedVariantIndex(product, sku);
 
-            const selectedVariant = this.getSelectedVariant(item) || product;
-            const { name, sku: variantSku } = selectedVariant;
-
-            return {
-                id: sku,
-                url: this.getUrl(product, selectedVariant),
-                name,
-                price: roundPrice(row_total + tax_amount),
-                brand: this.getBrand(selectedVariant),
-                variant: variantSku,
-                category: this.getCategory(product),
-                quantity: qty,
-                availability: this.getAvailability(product)
-            };
+            return this.getProductData({ ...product, configurableVariantIndex });
         }
 
         return {};
+    }
+
+    /**
+     * Get product data as object
+     *
+     * @param product
+     *
+     * @return {{quantity: number, price: number, name: string, variant: string, id: string, availability: boolean, list: string, category: string, brand: string}}
+     */
+    static getProductData(product) {
+        const { sku, variants = [], configurableVariantIndex = this.getSelectedVariantIndex(product, sku) } = product;
+        const selectedVariant = variants[configurableVariantIndex] || product;
+        const {
+            name,
+            sku: variantSku,
+            price: {
+                regularPrice: {
+                    amount: {
+                        value,
+                        currency
+                    }
+                }
+            }
+        } = selectedVariant;
+
+        return {
+            id: sku,
+            url: this.getUrl(product, selectedVariant),
+            name,
+            price: roundPrice(value),
+            brand: this.getBrand(selectedVariant),
+            variant: variantSku,
+            currency,
+            availability: this.getAvailability(product)
+        };
     }
 }
 

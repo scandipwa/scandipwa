@@ -10,10 +10,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { roundPrice } from 'Util/Price';
 import { Event, EVENT_GTM_META_UPDATE, EVENT_GTM_GENERAL_INIT } from 'Util/Event';
 import BaseEvent from 'Component/GoogleTagManager/events/BaseEvent.event';
-import { Product as ProductHelper } from 'Component/GoogleTagManager/utils';
 
 export const GENERAL_EVENT_DELAY = 500;
 
@@ -95,37 +93,20 @@ class General extends BaseEvent {
     }
 
     /**
-     * Prepare cart data
-     *
-     * @return {{quantity: number, price: number, name: string, variant: string, id: string, availability: boolean, category: string, brand: string}[]}
-     */
-    prepareCartData() {
-        const {
-            subtotal, tax_amount, items_qty,
-            items = [],
-            quote_currency_code
-        } = this.getCartProductData();
-
-        const itemsData = items
-            .map(item => ({
-                ...ProductHelper.getProductData(item)
-            }));
-
-        return {
-            items_qty,
-            total: roundPrice(subtotal + tax_amount),
-            currency: quote_currency_code,
-            itemsData
-        };
-    }
-
-    /**
      * Get current store view
      *
      * @return {string}
      */
     getStoreView() {
         return this.getAppState().ConfigReducer.code || '';
+    }
+
+    /**
+     *
+     * @param {} item
+     */
+    getQuantity({ qty }) {
+        return qty;
     }
 
     /**
@@ -153,15 +134,6 @@ class General extends BaseEvent {
      */
     getCountryName() {
         return this.getAppState().ConfigReducer.default_country;
-    }
-
-    /**
-     * Get cart products
-     *
-     * @return {initialState.productsInCart|{}}
-     */
-    getCartProductData() {
-        return this.getAppState().CartReducer.cartTotals;
     }
 
     /**
