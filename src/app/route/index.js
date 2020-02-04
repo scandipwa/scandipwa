@@ -18,6 +18,7 @@ import {
     Suspense
 } from 'react';
 
+import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 import { Router } from 'react-router';
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -27,6 +28,7 @@ import Breadcrumbs from 'Component/Breadcrumbs';
 import Footer from 'Component/Footer';
 import Header from 'Component/Header';
 import NavigationTabs from 'Component/NavigationTabs';
+import NotificationList from 'Component/NotificationList';
 
 import Store from 'Store';
 
@@ -35,20 +37,28 @@ import { ConfigDispatcher } from 'Store/Config';
 import { CartDispatcher } from 'Store/Cart';
 import { WishlistDispatcher } from 'Store/Wishlist';
 
-const CartPage = lazy(() => import(/* webpackMode: "lazy-once", webpackPrefetch: true */ 'Route/CartPage'));
-const CategoryPage = lazy(() => import(/* webpackMode: "lazy-once", webpackPrefetch: true */ 'Route/CategoryPage'));
-const Checkout = lazy(() => import(/* webpackMode: "lazy-once", webpackPrefetch: true */ 'Route/Checkout'));
-const CmsPage = lazy(() => import(/* webpackMode: "lazy-once", webpackPrefetch: true */ 'Route/CmsPage'));
-const HomePage = lazy(() => import(/* webpackMode: "lazy-once", webpackPrefetch: true */ 'Route/HomePage'));
-const MyAccount = lazy(() => import(/* webpackMode: "lazy-once", webpackPrefetch: true */ 'Route/MyAccount'));
-const NoMatchHandler = lazy(() => import(/* webpackMode: "lazy-once", webpackPrefetch: true */ 'Route/NoMatchHandler'));
-const NotificationList = lazy(() => import(/* webpackMode: "lazy-once", webpackPrefetch: true */ 'Component/NotificationList'));
-const PasswordChangePage = lazy(() => (/* webpackMode: "lazy-once", webpackPrefetch: true */ 'Route/PasswordChangePage'));
-const ProductPage = lazy(() => import(/* webpackMode: "lazy-once", webpackPrefetch: true */ 'Route/ProductPage'));
-const SearchPage = lazy(() => import(/* webpackMode: "lazy-once", webpackPrefetch: true */ 'Route/SearchPage'));
-const SomethingWentWrong = lazy(() => (/* webpackMode: "lazy-once", webpackPrefetch: true */ 'Route/SomethingWentWrong'));
-const UrlRewrites = lazy(() => import(/* webpackMode: "lazy-once", webpackPrefetch: true */ 'Route/UrlRewrites'));
-const MenuPage = lazy(() => import(/* webpackMode: "lazy-once", webpackPrefetch: true */ 'Route/MenuPage'));
+// suppress prop-types warning on Route component when using with React.lazy
+// until react-router-dom@4.4.0 or higher version released
+/* eslint-disable react/forbid-foreign-prop-types */
+Route.propTypes.component = PropTypes.oneOfType([
+    Route.propTypes.component,
+    PropTypes.object
+]);
+/* eslint-enable react/forbid-foreign-prop-types */
+
+const CartPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/CartPage'));
+const CategoryPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/CategoryPage'));
+const Checkout = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/Checkout'));
+const CmsPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/CmsPage'));
+const HomePage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/HomePage'));
+const MyAccount = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/MyAccount'));
+const NoMatchHandler = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/NoMatchHandler'));
+const PasswordChangePage = lazy(() => (/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/PasswordChangePage'));
+const ProductPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/ProductPage'));
+const SearchPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/SearchPage'));
+const SomethingWentWrong = lazy(() => (/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/SomethingWentWrong'));
+const UrlRewrites = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/UrlRewrites'));
+const MenuPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/MenuPage'));
 
 export const BEFORE_ITEMS_TYPE = 'BEFORE_ITEMS_TYPE';
 export const SWITCH_ITEMS_TYPE = 'SWITCH_ITEMS_TYPE';
@@ -221,18 +231,24 @@ class AppRouter extends PureComponent {
         );
     }
 
+    renderFallbackPage() {
+        return (
+            <main />
+        );
+    }
+
     renderDefaultRouterContent() {
         return (
             <>
-                <Suspense fallback={ null }>
-                    { this.renderItemsOfType(BEFORE_ITEMS_TYPE) }
+                { this.renderItemsOfType(BEFORE_ITEMS_TYPE) }
+                <Suspense fallback={ this.renderFallbackPage() }>
                     <NoMatchHandler>
                         <Switch>
                             { this.renderItemsOfType(SWITCH_ITEMS_TYPE) }
                         </Switch>
                     </NoMatchHandler>
-                    { this.renderItemsOfType(AFTER_ITEMS_TYPE) }
                 </Suspense>
+                { this.renderItemsOfType(AFTER_ITEMS_TYPE) }
             </>
         );
     }
