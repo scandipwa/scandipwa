@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable no-console */
 /**
  * ScandiPWA - Progressive Web App for Magento
@@ -10,37 +11,54 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent, cloneElement } from 'react';
+import {
+    PureComponent,
+    cloneElement,
+    lazy,
+    Suspense
+} from 'react';
 
+import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 import { Router } from 'react-router';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { createBrowserHistory } from 'history';
 
-import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
-import PasswordChangePage from 'Route/PasswordChangePage';
-import NotificationList from 'Component/NotificationList';
-import NavigationTabs from 'Component/NavigationTabs';
-import { WishlistDispatcher } from 'Store/Wishlist';
-import NoMatchHandler from 'Route/NoMatchHandler';
 import Breadcrumbs from 'Component/Breadcrumbs';
-import { ConfigDispatcher } from 'Store/Config';
-import CategoryPage from 'Route/CategoryPage';
-import UrlRewrites from 'Route/UrlRewrites';
-import { CartDispatcher } from 'Store/Cart';
-import ProductPage from 'Route/ProductPage';
-import SearchPage from 'Route/SearchPage';
-import MyAccount from 'Route/MyAccount';
-import Checkout from 'Route/Checkout';
-import HomePage from 'Route/HomePage';
-import Header from 'Component/Header';
 import Footer from 'Component/Footer';
-import CartPage from 'Route/CartPage';
-import MenuPage from 'Route/MenuPage';
-import CmsPage from 'Route/CmsPage';
+import Header from 'Component/Header';
+import NavigationTabs from 'Component/NavigationTabs';
+import NotificationList from 'Component/NotificationList';
+
 import Store from 'Store';
 
-import SomethingWentWrong from './SomethingWentWrong';
+import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
+import { ConfigDispatcher } from 'Store/Config';
+import { CartDispatcher } from 'Store/Cart';
+import { WishlistDispatcher } from 'Store/Wishlist';
+
+// suppress prop-types warning on Route component when using with React.lazy
+// until react-router-dom@4.4.0 or higher version released
+/* eslint-disable react/forbid-foreign-prop-types */
+Route.propTypes.component = PropTypes.oneOfType([
+    Route.propTypes.component,
+    PropTypes.object
+]);
+/* eslint-enable react/forbid-foreign-prop-types */
+
+export const CartPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/CartPage'));
+export const CategoryPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/CategoryPage'));
+export const Checkout = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/Checkout'));
+export const CmsPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/CmsPage'));
+export const HomePage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/HomePage'));
+export const MyAccount = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/MyAccount'));
+export const NoMatchHandler = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/NoMatchHandler'));
+export const PasswordChangePage = lazy(() => (/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/PasswordChangePage'));
+export const ProductPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/ProductPage'));
+export const SearchPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/SearchPage'));
+export const SomethingWentWrong = lazy(() => (/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/SomethingWentWrong'));
+export const UrlRewrites = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/UrlRewrites'));
+export const MenuPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/MenuPage'));
 
 export const BEFORE_ITEMS_TYPE = 'BEFORE_ITEMS_TYPE';
 export const SWITCH_ITEMS_TYPE = 'SWITCH_ITEMS_TYPE';
@@ -213,15 +231,23 @@ class AppRouter extends PureComponent {
         );
     }
 
+    renderFallbackPage() {
+        return (
+            <main />
+        );
+    }
+
     renderDefaultRouterContent() {
         return (
             <>
                 { this.renderItemsOfType(BEFORE_ITEMS_TYPE) }
-                <NoMatchHandler>
-                    <Switch>
-                        { this.renderItemsOfType(SWITCH_ITEMS_TYPE) }
-                    </Switch>
-                </NoMatchHandler>
+                <Suspense fallback={ this.renderFallbackPage() }>
+                    <NoMatchHandler>
+                        <Switch>
+                            { this.renderItemsOfType(SWITCH_ITEMS_TYPE) }
+                        </Switch>
+                    </NoMatchHandler>
+                </Suspense>
                 { this.renderItemsOfType(AFTER_ITEMS_TYPE) }
             </>
         );
