@@ -49,7 +49,8 @@ export class CheckoutBillingContainer extends PureComponent {
         totals: TotalsType.isRequired,
         termsAndConditions: PropTypes.arrayOf(PropTypes.shape({
             checkbox_text: PropTypes.string,
-            content: PropTypes.string
+            content: PropTypes.string,
+            name: PropTypes.string
         })).isRequired
     };
 
@@ -129,7 +130,7 @@ export class CheckoutBillingContainer extends PureComponent {
     showPopup() {
         const { showPopup, termsAndConditions } = this.props;
         const {
-            checkbox_text: title = __('Terms and Conditions'),
+            name: title = __('Terms and Conditions'),
             content: text = __('There are no Terms and Conditions configured.')
         } = termsAndConditions[0] || {};
 
