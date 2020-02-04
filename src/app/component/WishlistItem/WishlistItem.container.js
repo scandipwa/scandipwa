@@ -17,6 +17,7 @@ import { CartDispatcher } from 'Store/Cart';
 import { ProductType } from 'Type/ProductList';
 import { WishlistDispatcher } from 'Store/Wishlist';
 import { showNotification } from 'Store/Notification';
+import { Event, EVENT_GTM_PRODUCT_ADD_TO_CART } from 'Util/Event';
 import WishlistItem from './WishlistItem.component';
 
 export const UPDATE_WISHLIST_FREQUENCY = 1000; // (ms)
@@ -117,7 +118,13 @@ export class WishlistItemContainer extends PureComponent {
 
         return addProductToCart({ product, quantity })
             .then(
-                () => this.removeItem(id),
+                () => {
+                    this.removeItem(id);
+                    Event.dispatch(EVENT_GTM_PRODUCT_ADD_TO_CART, {
+                        product: { ...product, sku },
+                        quantity
+                    });
+                },
                 () => this.showNotification('error', __('Error Adding Product To Cart'))
             )
             .then(() => showNotification('success', __('Product Added To Cart')))

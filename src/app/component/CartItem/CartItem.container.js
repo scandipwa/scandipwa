@@ -17,6 +17,7 @@ import { objectToUri } from 'Util/Url';
 import { CartDispatcher } from 'Store/Cart';
 import { CartItemType } from 'Type/MiniCart';
 import { makeCancelable } from 'Util/Promise';
+import { Event, EVENT_GTM_PRODUCT_ADD_TO_CART } from 'Util/Event';
 
 import { DEFAULT_MAX_PRODUCTS } from 'Component/ProductActions/ProductActions.container';
 import CartItem from './CartItem.component';
@@ -90,6 +91,12 @@ export class CartItemContainer extends PureComponent {
      * @return {void}
      */
     handleChangeQuantity(quantity) {
+        const { item: { sku, product } } = this.props;
+        Event.dispatch(EVENT_GTM_PRODUCT_ADD_TO_CART, {
+            product: { ...product, sku },
+            quantity
+        });
+
         this.setState({ isLoading: true }, () => {
             const { changeItemQty, item: { item_id, sku } } = this.props;
             this.hideLoaderAfterPromise(changeItemQty({ item_id, quantity, sku }));

@@ -17,6 +17,7 @@ import { CONFIGURABLE, GROUPED } from 'Util/Product';
 import { CartDispatcher } from 'Store/Cart';
 import { ProductType } from 'Type/ProductList';
 import { showNotification } from 'Store/Notification';
+import { Event, EVENT_GTM_PRODUCT_ADD_TO_CART } from 'Util/Event';
 
 import { WishlistDispatcher } from 'Store/Wishlist';
 import AddToCart from './AddToCart.component';
@@ -119,12 +120,35 @@ export class AddToCartContainer extends PureComponent {
             addProduct
         } = this.props;
 
-        const { variants, type_id } = product;
+        const { variants, type_id, configurable_options = {} } = product;
 
         if (!this._validateAddToCart()) {
             onProductValidationError(type_id);
             return;
         }
+
+        const { attributes = [] } = configurableVariantIndex >= 0 && variants.length
+            ? variants[configurableVariantIndex]
+            : {};
+
+        const parameters = Object.values(attributes).reduce(
+            (parameters, { attribute_code, attribute_value }) => {
+                const option = Object.values(configurable_options)
+                    .find(({ attribute_code: code }) => code === attribute_code);
+
+                if (option) return { ...parameters, [attribute_code]: attribute_value };
+
+                return parameters;
+            }, {}
+        );
+
+
+        Event.dispatch(EVENT_GTM_PRODUCT_ADD_TO_CART, {
+            product,
+            quantity: 1,
+            configurableVariantIndex,
+            parameters
+        });
 
         this.setState({ isLoading: true });
 
