@@ -28,7 +28,10 @@ const LinkedProductsReducer = (state = initialState, action) => {
     if (type === UPDATE_LINKED_PRODUCTS) {
         return {
             ...state,
-            linkedProducts
+            linkedProducts: {
+                ...state.linkedProducts,
+                ...linkedProducts
+            }
         };
     }
 

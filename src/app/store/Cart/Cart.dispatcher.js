@@ -16,7 +16,7 @@ import { CartQuery } from 'Query';
 import { showNotification } from 'Store/Notification';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { getExtensionAttributes } from 'Util/Product';
-import { LinkedProductsDispatcher } from 'Store/LinkedProducts';
+import { LinkedProductsDispatcher, updateLinkedProducts } from 'Store/LinkedProducts';
 
 export const GUEST_QUOTE_ID = 'guest_quote_id';
 
@@ -159,6 +159,8 @@ export class CartDispatcher {
             if (product_links.length !== 0) {
                 LinkedProductsDispatcher.handleData(dispatch, product_links);
             }
+        } else {
+            dispatch(updateLinkedProducts({ crossSell: { items: [] } }));
         }
     }
 
