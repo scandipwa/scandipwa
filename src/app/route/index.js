@@ -233,7 +233,7 @@ class AppRouter extends PureComponent {
 
     renderFallbackPage() {
         return (
-            <main />
+            <main style={ { height: '100vh' } } />
         );
     }
 
