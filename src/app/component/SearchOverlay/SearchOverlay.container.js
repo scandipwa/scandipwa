@@ -12,8 +12,11 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { PureComponent } from 'react';
-import { SearchBarDispatcher } from 'Store/SearchBar';
+import { ItemsType } from 'Type/ProductList';
 import { hideActiveOverlay } from 'Store/Overlay';
+import { SearchBarDispatcher } from 'Store/SearchBar';
+import { Event, EVENT_GTM_IMPRESSIONS_SEARCH } from 'Util/Event';
+
 import SearchOverlay from './SearchOverlay.component';
 
 export const mapStateToProps = state => ({
@@ -29,15 +32,24 @@ export const mapDispatchToProps = dispatch => ({
 
 export class SearchOverlayContainer extends PureComponent {
     static propTypes = {
+        searchResults: ItemsType.isRequired,
+        isLoading: PropTypes.bool.isRequired,
+        searchCriteria: PropTypes.string.isRequired,
         makeSearchRequest: PropTypes.func.isRequired,
-        clearSearchResults: PropTypes.func.isRequired,
-        searchCriteria: PropTypes.string.isRequired
+        clearSearchResults: PropTypes.func.isRequired
     };
 
     containerFunctions = {
         getProductLinkTo: this.getProductLinkTo.bind(this),
         makeSearchRequest: this.makeSearchRequest.bind(this)
     };
+
+    componentDidUpdate() {
+        const { searchResults: items, isLoading, searchCriteria } = this.props;
+        if (!isLoading && searchCriteria && items.length) {
+            Event.dispatch(EVENT_GTM_IMPRESSIONS_SEARCH, { items });
+        }
+    }
 
     getProductLinkTo(product) {
         const { url_key } = product;

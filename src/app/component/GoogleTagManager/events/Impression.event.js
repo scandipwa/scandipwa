@@ -12,10 +12,9 @@
 
 import {
     Event,
-    EVENT_GTM_IMPRESSIONS_PDP_RECENTLY, EVENT_GTM_IMPRESSIONS_SEARCH,
-    EVENT_GTM_IMPRESSIONS_CROSS_SELL, EVENT_GTM_IMPRESSIONS_HOME_NEW, EVENT_GTM_IMPRESSIONS_HOME_MORE,
-    EVENT_GTM_IMPRESSIONS_PLP, EVENT_GTM_IMPRESSIONS_UP_SELL, EVENT_GTM_IMPRESSIONS_WISHLIST,
-    EVENT_GTM_IMPRESSIONS_LINKED, EVENT_GTM_GENERAL_INIT
+    EVENT_GTM_IMPRESSIONS_SEARCH, EVENT_GTM_IMPRESSIONS_HOME, EVENT_GTM_IMPRESSIONS_CROSS_SELL,
+    EVENT_GTM_IMPRESSIONS_PLP, EVENT_GTM_IMPRESSIONS_WISHLIST, EVENT_GTM_IMPRESSIONS_LINKED,
+    EVENT_GTM_GENERAL_INIT
 } from 'Util/Event';
 import BaseEvent from 'Component/GoogleTagManager/events/BaseEvent.event';
 // eslint-disable-next-line import/no-cycle
@@ -29,14 +28,10 @@ import { getVariantsIndexes } from 'Util/Product';
  */
 export const PLP_IMPRESSIONS = 'catalog';
 export const HOME_IMPRESSIONS = 'home';
-export const HOME_MORE_IMPRESSIONS = 'home_more';
 export const WISHLIST_IMPRESSIONS = 'wishlist';
-export const PDP_CROSS_SELL_IMPRESSIONS = 'pdp_cross_sell';
 export const CHECKOUT_CROSS_SELL_IMPRESSIONS = 'checkout_cross_sell';
-export const UP_SELL_IMPRESSIONS = 'up_sell';
 export const SEARCH_IMPRESSIONS = 'search';
 export const RECOMMENDED_IMPRESSIONS = 'recommended';
-export const PDP_RECENTLY = 'pdp_recently';
 
 /**
  * Constants
@@ -66,9 +61,14 @@ class Impression extends BaseEvent {
      * Bind PWA event handling
      */
     bindEvent() {
-        // PLP product render
+        // PLP
         Event.observer(EVENT_GTM_IMPRESSIONS_PLP, ({ items, filters }) => {
             this.handle(PLP_IMPRESSIONS, items, filters);
+        });
+
+        // Home
+        Event.observer(EVENT_GTM_IMPRESSIONS_HOME, ({ items, filters }) => {
+            this.handle(HOME_IMPRESSIONS, items, filters);
         });
 
         // Checkout Cross-sell
@@ -76,35 +76,15 @@ class Impression extends BaseEvent {
             this.handle(CHECKOUT_CROSS_SELL_IMPRESSIONS, items);
         });
 
-        // // Up-sell
-        // Event.observer(EVENT_GTM_IMPRESSIONS_UP_SELL, ({ items }) => {
-        //     this.handle(UP_SELL_IMPRESSIONS, items);
-        // });
+        // Wishlist
+        Event.observer(EVENT_GTM_IMPRESSIONS_WISHLIST, ({ items }) => {
+            this.handle(WISHLIST_IMPRESSIONS, items);
+        });
 
-        // // Wishlist
-        // Event.observer(EVENT_GTM_IMPRESSIONS_WISHLIST, ({ wishlistItems: items }) => {
-        //     this.handle(WISHLIST_IMPRESSIONS, items);
-        // });
-
-        // // Home
-        // Event.observer(EVENT_GTM_IMPRESSIONS_HOME_NEW, ({ products }) => {
-        //     this.handle(HOME_IMPRESSIONS, { items: products });
-        // });
-
-        // // Home more
-        // Event.observer(EVENT_GTM_IMPRESSIONS_HOME_MORE, ({ products }) => {
-        //     this.handle(HOME_MORE_IMPRESSIONS, { items: products });
-        // });
-
-        // // PDP recently
-        // Event.observer(EVENT_GTM_IMPRESSIONS_PDP_RECENTLY, ({ products }) => {
-        //     this.handle(PDP_RECENTLY, { items: products });
-        // });
-
-        // // Search
-        // Event.observer(EVENT_GTM_IMPRESSIONS_SEARCH, ({ items }) => {
-        //     this.handle(SEARCH_IMPRESSIONS, items);
-        // });
+        // Search
+        Event.observer(EVENT_GTM_IMPRESSIONS_SEARCH, ({ items }) => {
+            this.handle(SEARCH_IMPRESSIONS, items);
+        });
 
         // Recomended
         Event.observer(EVENT_GTM_IMPRESSIONS_LINKED, ({ items }) => {
@@ -120,7 +100,7 @@ class Impression extends BaseEvent {
     // check if ProductCard does not break if configurable index is -1, but no 0 as it is there now.
 
     _getCurrentVariantIndex(product = {}, selectedFilters = {}) {
-        if (!Object.keys(selectedFilters).length) return -1;
+        if (!Object.keys(selectedFilters).length) return undefined;
         const { index } = this._getConfigurableParameters(product, selectedFilters);
         return index >= 0 ? index : -1;
     }
@@ -154,13 +134,9 @@ class Impression extends BaseEvent {
      * @param filters Category filters
      */
     handler(productCollectionType = PLP_IMPRESSIONS, products = [], filters = {}) {
-        // console.log(products[0], filters);
-        // return console.log(this._getCurrentVariantIndex(products[0], filters));
         const impressions = this.getImpressions(productCollectionType, products, filters);
-        console.log('impressions:', impressions);
         const storage = this.getStorage();
         const impressionUID = this.getImpressionUID(impressions);
-        console.log('impressionUID:', impressionUID);
 
         if (!impressions
             || Object.values(impressions).length === 0
@@ -228,14 +204,10 @@ class Impression extends BaseEvent {
         switch (productCollectionType) {
         case PLP_IMPRESSIONS:
         case WISHLIST_IMPRESSIONS:
-        case PDP_CROSS_SELL_IMPRESSIONS:
         case HOME_IMPRESSIONS:
-        case HOME_MORE_IMPRESSIONS:
         case SEARCH_IMPRESSIONS:
-        case PDP_RECENTLY:
         case RECOMMENDED_IMPRESSIONS:
         case CHECKOUT_CROSS_SELL_IMPRESSIONS:
-        case UP_SELL_IMPRESSIONS:
             return products || [];
         default:
             return [];
@@ -252,18 +224,18 @@ class Impression extends BaseEvent {
      */
     getProductCollectionList(productCollectionType = PLP_IMPRESSIONS, product) {
         switch (productCollectionType) {
-        case PDP_RECENTLY:
-            return 'Вы недавно смотрели'; // Should be hardcoded
         case HOME_IMPRESSIONS:
-            return 'Новинки'; // Should be hardcoded
-        case HOME_MORE_IMPRESSIONS:
-            return 'Больше товаров'; // Should be hardcoded
+            return 'Homepage';
         case RECOMMENDED_IMPRESSIONS:
-            return 'Pекомендованные товары';
-        case PDP_CROSS_SELL_IMPRESSIONS:
-            return 'Аксессуары';
+            return 'Recommended';
         case SEARCH_IMPRESSIONS:
-            return 'Результаты поиска';
+            return 'Search results';
+        case WISHLIST_IMPRESSIONS:
+            return 'wishlist';
+        case CHECKOUT_CROSS_SELL_IMPRESSIONS:
+            return 'Cross sell impressions';
+        case PLP_IMPRESSIONS:
+            return 'PLP';
         default:
             return ProductHelper.getList(product);
         }

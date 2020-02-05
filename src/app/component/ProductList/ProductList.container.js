@@ -12,11 +12,12 @@
 import { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Event, EVENT_GTM_IMPRESSIONS_PLP } from 'Util/Event';
+import { Event, EVENT_GTM_IMPRESSIONS_PLP, EVENT_GTM_IMPRESSIONS_HOME } from 'Util/Event';
 import { getQueryParam, setQueryParams } from 'Util/Url';
 import { PagesType, FilterInputType, FilterType } from 'Type/ProductList';
 import { HistoryType } from 'Type/Common';
 import { debounce } from 'Util/Request';
+import { HOME_PAGE } from 'Component/Header';
 import ProductList from './ProductList.component';
 
 export const UPDATE_PAGE_FREQUENCY = 0; // (ms)
@@ -125,9 +126,6 @@ export class ProductListContainer extends PureComponent {
         requestPage: this.requestPage
     });
 
-    /**
-     * Update Impressions
-     */
     _updateImpressions(prevProps) {
         const { pages, isLoading, selectedFilters: filters } = this.props;
         const { isLoading: prevIsLoading } = prevProps;
@@ -138,7 +136,13 @@ export class ProductListContainer extends PureComponent {
             || isLoading || isLoading === prevIsLoading
         ) return;
 
-        Event.dispatch(EVENT_GTM_IMPRESSIONS_PLP, { items: pages[currentPage], filters });
+        const { currentRouteName } = window;
+
+        if (currentRouteName === HOME_PAGE) {
+            Event.dispatch(EVENT_GTM_IMPRESSIONS_HOME, { items: pages[currentPage], filters });
+        } else {
+            Event.dispatch(EVENT_GTM_IMPRESSIONS_PLP, { items: pages[currentPage], filters });
+        }
     }
 
 
