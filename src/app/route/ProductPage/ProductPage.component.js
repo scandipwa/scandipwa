@@ -14,12 +14,14 @@ import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import Meta from 'Component/Meta';
+import { LocationType } from 'Type/Common';
 import { ProductType } from 'Type/ProductList';
 import ProductGallery from 'Component/ProductGallery';
 import ProductActions from 'Component/ProductActions';
 import ContentWrapper from 'Component/ContentWrapper';
 import ProductReviews from 'Component/ProductReviews';
 import RelatedProducts from 'Component/RelatedProducts';
+import { Event, EVENT_GTM_PRODUCT_DETAIL } from 'Util/Event';
 import ProductInformation from 'Component/ProductInformation';
 
 import './ProductPage.style';
@@ -29,11 +31,36 @@ export default class ProductPage extends PureComponent {
         configurableVariantIndex: PropTypes.number.isRequired,
         productOrVariant: ProductType.isRequired,
         getLink: PropTypes.func.isRequired,
+        location: LocationType.isRequired,
+        product: ProductType.isRequired,
         parameters: PropTypes.objectOf(PropTypes.string).isRequired,
         updateConfigurableVariant: PropTypes.func.isRequired,
         dataSource: ProductType.isRequired,
         areDetailsLoaded: PropTypes.bool.isRequired
     };
+
+    componentDidUpdate(prevProps) {
+        const { areDetailsLoaded, location: { pathname } } = this.props;
+        const { areDetailsLoaded: prevAreDetailsLoaded, location: { pathname: prevPathname } } = prevProps;
+
+        if (
+            (areDetailsLoaded && areDetailsLoaded !== prevAreDetailsLoaded)
+            || (areDetailsLoaded && pathname !== prevPathname)
+        ) {
+            this._gtmProductDetail();
+        }
+    }
+
+    _gtmProductDetail() {
+        const { product, location: { pathname }, configurableVariantIndex } = this.props;
+
+        if (product && product.price && product.attributes) {
+            Event.dispatch(EVENT_GTM_PRODUCT_DETAIL, {
+                product: { ...product, configurableVariantIndex },
+                pathname
+            });
+        }
+    }
 
     renderProductPageContent() {
         const {
