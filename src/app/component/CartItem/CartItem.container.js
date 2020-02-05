@@ -17,7 +17,9 @@ import { objectToUri } from 'Util/Url';
 import { CartDispatcher } from 'Store/Cart';
 import { CartItemType } from 'Type/MiniCart';
 import { makeCancelable } from 'Util/Promise';
-import { Event, EVENT_GTM_PRODUCT_ADD_TO_CART } from 'Util/Event';
+import {
+    Event, EVENT_GTM_PRODUCT_ADD_TO_CART, EVENT_GTM_PRODUCT_REMOVE_FROM_CART
+} from 'Util/Event';
 
 import { DEFAULT_MAX_PRODUCTS } from 'Component/ProductActions/ProductActions.container';
 import CartItem from './CartItem.component';
@@ -91,12 +93,19 @@ export class CartItemContainer extends PureComponent {
      * @return {void}
      */
     handleChangeQuantity(quantity) {
-        const { item: { sku, product } } = this.props;
-        Event.dispatch(EVENT_GTM_PRODUCT_ADD_TO_CART, {
-            product: { ...product, sku },
-            quantity
-        });
+        const { item, item: { sku, product, qty } } = this.props;
 
+        if (qty < quantity) {
+            Event.dispatch(EVENT_GTM_PRODUCT_ADD_TO_CART, {
+                product: { ...product, sku },
+                quantity
+            });
+        } else {
+            Event.dispatch(EVENT_GTM_PRODUCT_REMOVE_FROM_CART, {
+                item,
+                quantity
+            });
+        }
         this.setState({ isLoading: true }, () => {
             const { changeItemQty, item: { item_id, sku } } = this.props;
             this.hideLoaderAfterPromise(changeItemQty({ item_id, quantity, sku }));
@@ -108,8 +117,14 @@ export class CartItemContainer extends PureComponent {
      */
     handleRemoveItem() {
         this.setState({ isLoading: true }, () => {
-            const { removeProduct, item: { item_id } } = this.props;
+            const { removeProduct, item } = this.props;
+            const { item_id, qty: quantity } = item;
+
             this.hideLoaderAfterPromise(removeProduct(item_id));
+            Event.dispatch(EVENT_GTM_PRODUCT_REMOVE_FROM_CART, {
+                item,
+                quantity
+            });
         });
     }
 

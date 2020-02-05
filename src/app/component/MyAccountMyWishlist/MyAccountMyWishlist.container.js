@@ -93,9 +93,7 @@ export class MyAccountMyWishlistContainer extends PureComponent {
                 return [...acc, { ...item, sku: variantSku, quantity }];
             }, []);
 
-            // setTimeout(() => {
             Event.dispatch(EVENT_GTM_IMPRESSIONS_WISHLIST, { items });
-            // }, 1500);
         }
     }
 
