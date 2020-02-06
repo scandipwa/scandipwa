@@ -16,10 +16,10 @@ import { connect } from 'react-redux';
 import { BRAINTREE, KLARNA } from 'Component/CheckoutPayments/CheckoutPayments.component';
 import { CART_TAB } from 'Component/NavigationTabs/NavigationTabs.component';
 import { TOP_NAVIGATION_TYPE, BOTTOM_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { Event, EVENT_GTM_CHECKOUT, EVENT_GTM_PURCHASE } from 'Util/Event';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 import CartDispatcher from 'Store/Cart/Cart.dispatcher';
 import { fetchMutation, fetchQuery } from 'Util/Request';
-import { Event, EVENT_GTM_CHECKOUT } from 'Util/Event';
 import { showNotification } from 'Store/Notification';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs';
 import BrowserDatabase from 'Util/BrowserDatabase';
@@ -157,7 +157,11 @@ export class CheckoutContainer extends PureComponent {
     }
 
     setDetailsStep(orderID) {
-        const { resetCart, setNavigationState } = this.props;
+        const {
+            resetCart,
+            setNavigationState,
+            totals: { items = [] }
+        } = this.props;
 
         // For some reason not logged in user cart preserves qty in it
         if (!isSignedIn()) {
@@ -166,6 +170,12 @@ export class CheckoutContainer extends PureComponent {
 
         BrowserDatabase.deleteItem(PAYMENT_TOTALS);
         resetCart();
+
+        const { paymentTotals: totals } = this.state;
+        Event.dispatch(
+            EVENT_GTM_PURCHASE,
+            { orderID, totals: { ...totals, items } }
+        );
 
         this.setState({
             isLoading: false,
