@@ -12,18 +12,20 @@
 import PropTypes from 'prop-types';
 import './CheckoutGuestForm.style';
 import FormPortal from 'Component/FormPortal';
+import Field from 'Component/Field';
 import FieldForm from 'Component/FieldForm/FieldForm.component';
 
 class CheckoutGuestForm extends FieldForm {
     static propTypes = {
         formId: PropTypes.string.isRequired,
-        handleEmailInput: PropTypes.func.isRequired
+        handleEmailInput: PropTypes.func.isRequired,
+        handleCreateUser: PropTypes.func.isRequired
     };
 
     get fieldMap() {
-        const { handleEmailInput, formId } = this.props;
+        const { handleEmailInput, handlePasswordInput, formId, createUser } = this.props;
 
-        return {
+        const fields = {
             guest_email: {
                 form: formId,
                 label: __('Email'),
@@ -32,6 +34,19 @@ class CheckoutGuestForm extends FieldForm {
                 skipValue: true
             }
         };
+
+        if (createUser) {
+            fields['guest_password'] = {
+                form: formId,
+                label: __('Create Password'),
+                onChange: handlePasswordInput,
+                validation: ['notEmpty', 'passsword'],
+                type: 'password',
+                skipValue: true
+            }
+        }
+
+        return fields;
     }
 
     renderHeading() {
@@ -43,7 +58,7 @@ class CheckoutGuestForm extends FieldForm {
     }
 
     render() {
-        const { formId } = this.props;
+        const { formId, createUser, handleCreateUser } = this.props;
 
         return (
             <div
@@ -56,6 +71,16 @@ class CheckoutGuestForm extends FieldForm {
                   name="CheckoutGuestForm"
                 >
                     { this.renderFields() }
+                    <Field
+                      type="checkbox"
+                      label={ __('Create free account and keep track of your orders') }
+                      id="guest_create_user"
+                      name="guest_create_user"
+                      value={ createUser }
+                      skipValue={ true }
+                      onChange={ handleCreateUser }
+                    />
+
                 </FormPortal>
             </div>
         );

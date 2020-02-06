@@ -18,12 +18,14 @@ import { CART_TAB } from 'Component/NavigationTabs/NavigationTabs.component';
 import { TOP_NAVIGATION_TYPE, BOTTOM_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 import CartDispatcher from 'Store/Cart/Cart.dispatcher';
+import { MyAccountDispatcher } from 'Store/MyAccount';
 import { fetchMutation, fetchQuery } from 'Util/Request';
 import { showNotification } from 'Store/Notification';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { changeNavigationState } from 'Store/Navigation';
 import CheckoutQuery from 'Query/Checkout.query';
+import MyAccountQuery from 'Query/MyAccount.query';
 import { GUEST_QUOTE_ID } from 'Store/Cart';
 import { TotalsType } from 'Type/MiniCart';
 import { HistoryType } from 'Type/Common';
@@ -43,7 +45,8 @@ export const mapDispatchToProps = dispatch => ({
     toggleBreadcrumbs: state => dispatch(toggleBreadcrumbs(state)),
     showErrorNotification: message => dispatch(showNotification('error', message)),
     setHeaderState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
-    setNavigationState: stateName => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, stateName))
+    setNavigationState: stateName => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, stateName)),
+    createAccount: options => MyAccountDispatcher.createAccount(options, dispatch)
 });
 
 export class CheckoutContainer extends PureComponent {
@@ -62,7 +65,9 @@ export class CheckoutContainer extends PureComponent {
         savePaymentInformation: this.savePaymentInformation.bind(this),
         saveAddressInformation: this.saveAddressInformation.bind(this),
         onShippingEstimationFieldsChange: this.onShippingEstimationFieldsChange.bind(this),
-        onEmailChange: this.onEmailChange.bind(this)
+        onEmailChange: this.onEmailChange.bind(this),
+        onCreateUserChange: this.onCreateUserChange.bind(this),
+        onPasswordChange: this.onPasswordChange.bind(this)
     };
 
     customPaymentMethods = [
@@ -97,6 +102,7 @@ export class CheckoutContainer extends PureComponent {
             orderID: '',
             paymentTotals: BrowserDatabase.getItem(PAYMENT_TOTALS) || {},
             email: '',
+            createUser: false,
             isGuestEmailSaved: false
         };
 
@@ -112,6 +118,15 @@ export class CheckoutContainer extends PureComponent {
 
     onEmailChange(email) {
         this.setState({ email });
+    }
+
+    onCreateUserChange() {
+        const { createUser } = this.state;
+        this.setState({ createUser: !createUser });
+    }
+
+    onPasswordChange(password) {
+        this.setState({ password });
     }
 
     onShippingEstimationFieldsChange(address) {
@@ -241,6 +256,33 @@ export class CheckoutContainer extends PureComponent {
         );
     }
 
+    createUser() {
+        const { createAccount } = this.props;
+        const { email, password, createUser, shippingAddress: { firstname, lastname } } = this.state;
+
+        if (!createUser && !password) return false;
+
+        const options = {
+            customer: {
+                email,
+                firstname,
+                lastname
+            },
+            password
+        };
+
+        createAccount(options).then(() => {
+            this.setShippingAddress();
+        });
+    }
+
+    setShippingAddress() {
+        const { shippingAddress } = this.state;
+
+        const mutation = MyAccountQuery.getCreateAddressMutation(shippingAddress);
+        fetchMutation(mutation);
+    }
+
     async saveAddressInformation(addressInformation) {
         const { shipping_address } = addressInformation;
 
@@ -251,6 +293,7 @@ export class CheckoutContainer extends PureComponent {
 
         if (!isSignedIn()) {
             await this.saveGuestEmail();
+            await this.createUser();
         }
 
         fetchMutation(CheckoutQuery.getSaveAddressInformation(
@@ -284,6 +327,7 @@ export class CheckoutContainer extends PureComponent {
 
         if (!isSignedIn() && !isGuestEmailSaved) {
             await this.saveGuestEmail();
+            await this.createUser();
         }
 
         if (this.customPaymentMethods.includes(method)) {

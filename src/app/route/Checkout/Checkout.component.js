@@ -111,13 +111,16 @@ class Checkout extends PureComponent {
     }
 
     renderGuestForm() {
-        const { checkoutStep, onEmailChange, isGuestEmailSaved } = this.props;
+        const { checkoutStep, createUser, onEmailChange, onCreateUserChange, onPasswordChange, isGuestEmailSaved } = this.props;
         const isBilling = checkoutStep === BILLING_STEP;
 
         return (
             <CheckoutGuestForm
               isBilling={ isBilling }
+              createUser={ createUser }
               onEmailChange={ onEmailChange }
+              onCreateUserChange={ onCreateUserChange }
+              onPasswordChange={ onPasswordChange }
               isGuestEmailSaved={ isGuestEmailSaved }
             />
         );
