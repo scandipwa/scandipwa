@@ -18,25 +18,6 @@ import GoogleTagManager, { EVENT_GENERAL } from 'Component/GoogleTagManager/Goog
  */
 class Product {
     /**
-     * Get product variant product
-     *
-     * @param type_id
-     * @param variants
-     * @param configurableVariantIndex
-     * @return {{}}
-     */
-    static getVariantObject({ type_id, variants, configurableVariantIndex } = {}) {
-        if (type_id === 'configurable' && variants) {
-            return variants && variants[configurableVariantIndex]
-            && typeof variants[configurableVariantIndex].product !== 'undefined'
-                ? variants[configurableVariantIndex].product
-                : variants[configurableVariantIndex];
-        }
-
-        return null;
-    }
-
-    /**
      * Get product listing category string
      *
      * @param product
@@ -49,21 +30,6 @@ class Product {
         return meta.name
             || meta.title
             || document.title.split('|').pop();
-    }
-
-    /**
-     * Get Product category from product object
-     *
-     * @param categories
-     * @return {string|null}
-     */
-    static getCategory({ categories } = {}) {
-        if (!categories) return '';
-
-        const lastCategory = categories.slice(-1).pop();
-        const { url_path = '' } = lastCategory;
-
-        return url_path;
     }
 
     /**
@@ -86,16 +52,6 @@ class Product {
         const { attributes = {} } = selectedVariant;
         const { brand: { attribute_value = '' } = {} } = attributes;
         return attribute_value;
-    }
-
-    /**
-     * Get product name from product object
-     *
-     * @param product
-     * @return {string|null}
-     */
-    static getName({ name }) {
-        return name || '';
     }
 
     /**
@@ -142,6 +98,12 @@ class Product {
         return variants.findIndex(({ sku: variantSku = '' }) => sku === variantSku);
     }
 
+    /**
+     * Get product sku
+     *
+     * @param product
+     * @return {string|null}
+     */
     static getSku(product) {
         const { variants = [], configurableVariantIndex = -1 } = product;
         const { sku } = variants[configurableVariantIndex] || product;
@@ -149,7 +111,7 @@ class Product {
     }
 
     /**
-     * Get product data as object
+     * Get item data as object
      *
      * @param product
      *
@@ -174,7 +136,11 @@ class Product {
      * @return {{quantity: number, price: number, name: string, variant: string, id: string, availability: boolean, list: string, category: string, brand: string}}
      */
     static getProductData(product) {
-        const { sku, variants = [], configurableVariantIndex = this.getSelectedVariantIndex(product, sku) } = product;
+        const {
+            sku,
+            variants = [],
+            configurableVariantIndex = this.getSelectedVariantIndex(product, sku)
+        } = product;
         const selectedVariant = variants[configurableVariantIndex] || product;
         const {
             name,
