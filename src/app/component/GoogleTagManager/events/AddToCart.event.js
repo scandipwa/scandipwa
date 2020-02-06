@@ -11,7 +11,7 @@
  */
 
 import Event, { EVENT_GTM_PRODUCT_ADD_TO_CART } from 'Util/Event';
-import { Product as ProductHelper } from 'Component/GoogleTagManager/utils';
+import ProductHelper from 'Component/GoogleTagManager/utils';
 import BaseEvent from 'Component/GoogleTagManager/events/BaseEvent.event';
 
 export const SPAM_PROTECTION_DELAY = 2000;

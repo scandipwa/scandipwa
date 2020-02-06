@@ -11,7 +11,7 @@
  */
 
 import Event, { EVENT_GTM_CHECKOUT } from 'Util/Event';
-import { Product as ProductHelper } from 'Component/GoogleTagManager/utils';
+import ProductHelper from 'Component/GoogleTagManager/utils';
 import BaseEvent from 'Component/GoogleTagManager/events/BaseEvent.event';
 
 export const CHECKOUT_EVENT_DELAY = 500;

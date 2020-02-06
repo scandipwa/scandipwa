@@ -10,9 +10,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import Product from './Product';
-
-export {
-    // eslint-disable-next-line import/prefer-default-export
-    Product
-};
+export { default } from './Product';

@@ -16,7 +16,7 @@ import Event, {
 } from 'Util/Event';
 import BaseEvent from 'Component/GoogleTagManager/events/BaseEvent.event';
 import { getCurrentVariantIndexFromFilters } from 'Util/Product';
-import { Product as ProductHelper } from 'Component/GoogleTagManager/utils';
+import ProductHelper from 'Component/GoogleTagManager/utils';
 
 /**
  * Website places, from where was received event data

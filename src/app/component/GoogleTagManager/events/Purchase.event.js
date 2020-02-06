@@ -13,7 +13,7 @@
 import Event, { EVENT_GTM_PURCHASE } from 'Util/Event';
 import BaseEvent from 'Component/GoogleTagManager/events/BaseEvent.event';
 import { roundPrice } from 'Util/Price';
-import { Product as ProductHelper } from 'Component/GoogleTagManager/utils';
+import ProductHelper from 'Component/GoogleTagManager/utils';
 
 export const PURCHASE_EVENT_HANDLE_DELAY = 700;
 export const SPAM_PROTECTION_DELAY = 10000;

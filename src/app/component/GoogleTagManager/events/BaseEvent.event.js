@@ -14,7 +14,7 @@ import { roundPrice } from 'Util/Price';
 import { URL_REWRITE } from 'Component/Header';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { MyAccountDispatcher } from 'Store/MyAccount';
-import { Product as ProductHelper } from 'Component/GoogleTagManager/utils';
+import ProductHelper from 'Component/GoogleTagManager/utils';
 
 export const DATA_RECHECK_TIMEOUT = 1500;
 export const EVENT_HANDLE_DELAY = 1500;
