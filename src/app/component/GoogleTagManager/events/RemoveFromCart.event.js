@@ -10,7 +10,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Event, EVENT_GTM_PRODUCT_REMOVE_FROM_CART } from 'Util/Event';
+import Event, { EVENT_GTM_PRODUCT_REMOVE_FROM_CART } from 'Util/Event';
 import { Product as ProductHelper } from 'Component/GoogleTagManager/utils';
 import BaseEvent from 'Component/GoogleTagManager/events/BaseEvent.event';
 

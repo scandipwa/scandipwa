@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 import { WishlistDispatcher } from 'Store/Wishlist';
 import { showNotification } from 'Store/Notification';
 import { ProductType } from 'Type/ProductList';
-import { Event, EVENT_GTM_IMPRESSIONS_WISHLIST } from 'Util/Event';
+import Event, { EVENT_GTM_IMPRESSIONS_WISHLIST } from 'Util/Event';
 import MyAccountMyWishlist from './MyAccountMyWishlist.component';
 
 export const mapStateToProps = state => ({

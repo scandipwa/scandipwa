@@ -10,7 +10,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Event, EVENT_GTM_META_UPDATE, EVENT_GTM_GENERAL_INIT } from 'Util/Event';
+import Event, { EVENT_GTM_META_UPDATE, EVENT_GTM_GENERAL_INIT } from 'Util/Event';
 import BaseEvent from 'Component/GoogleTagManager/events/BaseEvent.event';
 
 export const GENERAL_EVENT_DELAY = 500;

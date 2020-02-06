@@ -18,7 +18,7 @@ import Image from 'Component/Image';
 import Overlay from 'Component/Overlay';
 import { ItemsType } from 'Type/ProductList';
 import TextPlaceholder from 'Component/TextPlaceholder';
-import { Event, EVENT_GTM_PRODUCT_CLICK } from 'Util/Event';
+import Event, { EVENT_GTM_PRODUCT_CLICK } from 'Util/Event';
 
 import './SearchOverlay.style';
 

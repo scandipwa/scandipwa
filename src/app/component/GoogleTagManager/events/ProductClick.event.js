@@ -10,7 +10,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Event, EVENT_GTM_PRODUCT_CLICK } from 'Util/Event';
+import Event, { EVENT_GTM_PRODUCT_CLICK } from 'Util/Event';
 import BaseEvent from 'Component/GoogleTagManager/events/BaseEvent.event';
 import { Product as ProductHelper } from 'Component/GoogleTagManager/utils';
 import { EVENT_IMPRESSION } from 'Component/GoogleTagManager/GoogleTagManager.component';

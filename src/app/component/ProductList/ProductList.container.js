@@ -12,7 +12,7 @@
 import { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Event, EVENT_GTM_IMPRESSIONS_PLP, EVENT_GTM_IMPRESSIONS_HOME } from 'Util/Event';
+import Event, { EVENT_GTM_IMPRESSIONS_PLP, EVENT_GTM_IMPRESSIONS_HOME } from 'Util/Event';
 import { getQueryParam, setQueryParams } from 'Util/Url';
 import { PagesType, FilterInputType, FilterType } from 'Type/ProductList';
 import { HistoryType } from 'Type/Common';

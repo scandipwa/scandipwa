@@ -18,7 +18,7 @@ import Loader from 'Component/Loader';
 import { ProductType } from 'Type/ProductList';
 import ProductPrice from 'Component/ProductPrice';
 import TextPlaceholder from 'Component/TextPlaceholder';
-import { Event, EVENT_GTM_PRODUCT_CLICK } from 'Util/Event';
+import Event, { EVENT_GTM_PRODUCT_CLICK } from 'Util/Event';
 import ProductReviewRating from 'Component/ProductReviewRating';
 import ProductAttributeValue from 'Component/ProductAttributeValue';
 

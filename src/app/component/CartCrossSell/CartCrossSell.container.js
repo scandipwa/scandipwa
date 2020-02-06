@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { ProductType } from 'Type/ProductList';
-import { Event, EVENT_GTM_IMPRESSIONS_CROSS_SELL } from 'Util/Event';
+import Event, { EVENT_GTM_IMPRESSIONS_CROSS_SELL } from 'Util/Event';
 import CartCrossSell from './CartCrossSell.component';
 
 export const mapStateToProps = state => ({

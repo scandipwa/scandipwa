@@ -33,7 +33,6 @@ class Event {
     /**
      * Event observer
      * Returns callback wrapper as observer identity
-     * https://developer.mozilla.org/ru/docs/Web/API/EventTarget/addEventListener
      *
      * @param name Event name
      * @param callback Observer callback
@@ -57,7 +56,6 @@ class Event {
      *
      * @param name Event name
      * @param listener Callback used for observer (function)
-     * https://developer.mozilla.org/ru/docs/Web/API/EventTarget/removeEventListener
      *
      * @return {boolean}
      */

@@ -21,7 +21,7 @@ import ProductActions from 'Component/ProductActions';
 import ContentWrapper from 'Component/ContentWrapper';
 import ProductReviews from 'Component/ProductReviews';
 import RelatedProducts from 'Component/RelatedProducts';
-import { Event, EVENT_GTM_PRODUCT_DETAIL } from 'Util/Event';
+import Event, { EVENT_GTM_PRODUCT_DETAIL } from 'Util/Event';
 import ProductInformation from 'Component/ProductInformation';
 
 import './ProductPage.style';

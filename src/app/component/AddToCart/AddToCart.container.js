@@ -17,7 +17,7 @@ import { CONFIGURABLE, GROUPED } from 'Util/Product';
 import { CartDispatcher } from 'Store/Cart';
 import { ProductType } from 'Type/ProductList';
 import { showNotification } from 'Store/Notification';
-import { Event, EVENT_GTM_PRODUCT_ADD_TO_CART } from 'Util/Event';
+import Event, { EVENT_GTM_PRODUCT_ADD_TO_CART } from 'Util/Event';
 
 import { WishlistDispatcher } from 'Store/Wishlist';
 import AddToCart from './AddToCart.component';

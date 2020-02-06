@@ -17,8 +17,8 @@ import { objectToUri } from 'Util/Url';
 import { CartDispatcher } from 'Store/Cart';
 import { CartItemType } from 'Type/MiniCart';
 import { makeCancelable } from 'Util/Promise';
-import {
-    Event, EVENT_GTM_PRODUCT_ADD_TO_CART, EVENT_GTM_PRODUCT_REMOVE_FROM_CART
+import Event, {
+    EVENT_GTM_PRODUCT_ADD_TO_CART, EVENT_GTM_PRODUCT_REMOVE_FROM_CART
 } from 'Util/Event';
 
 import { DEFAULT_MAX_PRODUCTS } from 'Component/ProductActions/ProductActions.container';

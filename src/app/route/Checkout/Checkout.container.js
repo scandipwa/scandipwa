@@ -16,7 +16,7 @@ import { connect } from 'react-redux';
 import { BRAINTREE, KLARNA } from 'Component/CheckoutPayments/CheckoutPayments.component';
 import { CART_TAB } from 'Component/NavigationTabs/NavigationTabs.component';
 import { TOP_NAVIGATION_TYPE, BOTTOM_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { Event, EVENT_GTM_CHECKOUT, EVENT_GTM_PURCHASE } from 'Util/Event';
+import Event, { EVENT_GTM_CHECKOUT, EVENT_GTM_PURCHASE } from 'Util/Event';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 import CartDispatcher from 'Store/Cart/Cart.dispatcher';
 import { fetchMutation, fetchQuery } from 'Util/Request';

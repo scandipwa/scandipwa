@@ -15,7 +15,7 @@ import { PureComponent } from 'react';
 import { ItemsType } from 'Type/ProductList';
 import { hideActiveOverlay } from 'Store/Overlay';
 import { SearchBarDispatcher } from 'Store/SearchBar';
-import { Event, EVENT_GTM_IMPRESSIONS_SEARCH } from 'Util/Event';
+import Event, { EVENT_GTM_IMPRESSIONS_SEARCH } from 'Util/Event';
 
 import SearchOverlay from './SearchOverlay.component';
 

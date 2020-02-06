@@ -10,7 +10,7 @@
  */
 
 import { PureComponent } from 'react';
-import { Event, EVENT_GTM_IMPRESSIONS_LINKED } from 'Util/Event';
+import Event, { EVENT_GTM_IMPRESSIONS_LINKED } from 'Util/Event';
 import ContentWrapper from 'Component/ContentWrapper';
 import ProductCard from 'Component/ProductCard';
 import PropTypes from 'prop-types';

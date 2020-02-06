@@ -17,7 +17,7 @@ import { CartDispatcher } from 'Store/Cart';
 import { ProductType } from 'Type/ProductList';
 import { WishlistDispatcher } from 'Store/Wishlist';
 import { showNotification } from 'Store/Notification';
-import { Event, EVENT_GTM_PRODUCT_ADD_TO_CART } from 'Util/Event';
+import Event, { EVENT_GTM_PRODUCT_ADD_TO_CART } from 'Util/Event';
 import WishlistItem from './WishlistItem.component';
 
 export const UPDATE_WISHLIST_FREQUENCY = 1000; // (ms)
