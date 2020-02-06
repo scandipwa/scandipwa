@@ -130,11 +130,9 @@ class BaseEvent {
      * Process event logic
      */
     handle(...args) {
-        console.log('handling ', this.eventName);
         if (!this.checkDataExists(...args)) {
             return;
         }
-        console.log('succesfully passed check for ', this.eventName);
 
         // Set little delay on event fire. make it async, to do not block main code
         setTimeout(() => {
