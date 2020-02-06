@@ -81,8 +81,11 @@ export class ProductCardContainer extends PureComponent {
     }
 
     _getCurrentVariantIndex() {
+        const { selectedFilters = {} } = this.props;
+        if (!Object.keys(selectedFilters).length) return -1;
+
         const { index } = this._getConfigurableParameters();
-        return index >= 0 ? index : 0;
+        return index >= 0 ? index : -1;
     }
 
     _getConfigurableParameters() {
@@ -125,7 +128,7 @@ export class ProductCardContainer extends PureComponent {
     _getProductOrVariant() {
         const { product: { type_id, variants }, product } = this.props;
         return (type_id === 'configurable' && variants !== undefined
-            ? variants[this._getCurrentVariantIndex()]
+            ? variants[this._getCurrentVariantIndex()] || product
             : product
         ) || {};
     }

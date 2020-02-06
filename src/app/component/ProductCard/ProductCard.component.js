@@ -18,6 +18,7 @@ import Loader from 'Component/Loader';
 import { ProductType } from 'Type/ProductList';
 import ProductPrice from 'Component/ProductPrice';
 import TextPlaceholder from 'Component/TextPlaceholder';
+import { Event, EVENT_GTM_PRODUCT_CLICK } from 'Util/Event';
 import ProductReviewRating from 'Component/ProductReviewRating';
 import ProductAttributeValue from 'Component/ProductAttributeValue';
 
@@ -39,6 +40,7 @@ export default class ProductCard extends PureComponent {
         })).isRequired,
         getAttribute: PropTypes.func.isRequired,
         registerSharedElement: PropTypes.func.isRequired,
+        currentVariantIndex: PropTypes.number,
         children: PropTypes.element,
         isLoading: PropTypes.bool,
         mix: PropTypes.shape({})
@@ -49,10 +51,18 @@ export default class ProductCard extends PureComponent {
         linkTo: {},
         children: null,
         isLoading: false,
-        mix: {}
+        mix: {},
+        currentVariantIndex: -1
     };
 
     imageRef = createRef();
+
+    handleClick = () => {
+        const { product, currentVariantIndex: configurableVariantIndex } = this.props;
+        Event.dispatch(EVENT_GTM_PRODUCT_CLICK, { ...product, configurableVariantIndex });
+
+        this.registerSharedElement();
+    };
 
     registerSharedElement = () => {
         const { registerSharedElement } = this.props;
@@ -187,7 +197,7 @@ export default class ProductCard extends PureComponent {
               block="ProductCard"
               elem="Link"
               to={ linkTo }
-              onClick={ this.registerSharedElement }
+              onClick={ this.handleClick }
             >
               { children }
             </Link>

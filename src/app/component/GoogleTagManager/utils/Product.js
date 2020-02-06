@@ -142,6 +142,12 @@ class Product {
         return variants.findIndex(({ sku: variantSku = '' }) => sku === variantSku);
     }
 
+    static getSku(product) {
+        const { variants = [], configurableVariantIndex = -1 } = product;
+        const { sku } = variants[configurableVariantIndex] || product;
+        return sku;
+    }
+
     /**
      * Get product data as object
      *

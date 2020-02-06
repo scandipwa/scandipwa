@@ -18,6 +18,7 @@ import Image from 'Component/Image';
 import Overlay from 'Component/Overlay';
 import { ItemsType } from 'Type/ProductList';
 import TextPlaceholder from 'Component/TextPlaceholder';
+import { Event, EVENT_GTM_PRODUCT_CLICK } from 'Util/Event';
 
 import './SearchOverlay.style';
 
@@ -55,11 +56,12 @@ export default class SearchOverlay extends PureComponent {
         }
     }
 
-    handleItemClick = () => {
+    handleItemClick = (product) => {
         const { clearSearch, hideActiveOverlay } = this.props;
 
         clearSearch();
         hideActiveOverlay();
+        Event.dispatch(EVENT_GTM_PRODUCT_CLICK, product);
     };
 
     renderSearchItemAdditionalContent(brand) {
@@ -104,7 +106,8 @@ export default class SearchOverlay extends PureComponent {
                   block="SearchOverlay"
                   elem="Link"
                   to={ getProductLinkTo(product) }
-                  onClick={ this.handleItemClick }
+                  // eslint-disable-next-line react/jsx-no-bind
+                  onClick={ this.handleItemClick.bind(this, product) }
                 >
                     <figure
                       block="SearchOverlay"
