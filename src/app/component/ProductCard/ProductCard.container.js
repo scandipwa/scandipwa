@@ -13,9 +13,11 @@ import { connect } from 'react-redux';
 import { PureComponent } from 'react';
 import { Subscribe } from 'unstated';
 
+import {
+    getCurrentVariantIndexFromFilters, getConfigurableParametersFromFilters
+} from 'Util/Product';
 import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
 import { ProductType, FilterType } from 'Type/ProductList';
-import { getVariantsIndexes } from 'Util/Product';
 import { CartDispatcher } from 'Store/Cart';
 import { objectToUri } from 'Util/Url';
 
@@ -69,10 +71,10 @@ export class ProductCardContainer extends PureComponent {
     });
 
     _getLinkTo() {
-        const { product: { url_key }, product } = this.props;
+        const { product: { url_key }, product, selectedFilters } = this.props;
 
         if (!url_key) return undefined;
-        const { parameters } = this._getConfigurableParameters();
+        const { parameters } = getConfigurableParametersFromFilters(product, selectedFilters);
         return {
             pathname: `/product/${ url_key }`,
             state: { product },
@@ -81,32 +83,8 @@ export class ProductCardContainer extends PureComponent {
     }
 
     _getCurrentVariantIndex() {
-        const { selectedFilters = {} } = this.props;
-        if (!Object.keys(selectedFilters).length) return -1;
-
-        const { index } = this._getConfigurableParameters();
-        return index >= 0 ? index : -1;
-    }
-
-    _getConfigurableParameters() {
-        const { product: { variants = [] }, selectedFilters = {} } = this.props;
-        const filterKeys = Object.keys(selectedFilters);
-
-        if (filterKeys.length < 0) return { indexes: [], parameters: {} };
-
-        const indexes = getVariantsIndexes(variants, selectedFilters);
-        const [index] = indexes;
-
-        if (!variants[index]) return { indexes: [], parameters: {} };
-        const { attributes } = variants[index];
-
-        const parameters = Object.entries(attributes)
-            .reduce((parameters, [key, { attribute_value }]) => {
-                if (filterKeys.includes(key)) return { ...parameters, [key]: attribute_value };
-                return parameters;
-            }, {});
-
-        return { indexes, index, parameters };
+        const { product, selectedFilters = {} } = this.props;
+        return getCurrentVariantIndexFromFilters(product, selectedFilters);
     }
 
     _isThumbnailAvailable(path) {

@@ -1,4 +1,3 @@
-/* eslint-disable import/no-cycle */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -17,9 +16,8 @@ import {
     EVENT_GTM_GENERAL_INIT
 } from 'Util/Event';
 import BaseEvent from 'Component/GoogleTagManager/events/BaseEvent.event';
-// eslint-disable-next-line import/no-cycle
+import { getCurrentVariantIndexFromFilters } from 'Util/Product';
 import { Product as ProductHelper } from 'Component/GoogleTagManager/utils';
-import { getVariantsIndexes } from 'Util/Product';
 
 /**
  * Website places, from where was received event data
@@ -96,36 +94,6 @@ class Impression extends BaseEvent {
         });
     }
 
-    // TODO: move to Product utils. Also use it in ProductCard
-    // check if ProductCard does not break if configurable index is -1, but no 0 as it is there now.
-
-    _getCurrentVariantIndex(product = {}, selectedFilters = {}) {
-        if (!Object.keys(selectedFilters).length) return undefined;
-        const { index } = this._getConfigurableParameters(product, selectedFilters);
-        return index >= 0 ? index : -1;
-    }
-
-    _getConfigurableParameters(product = {}, selectedFilters = {}) {
-        const { variants = [] } = product;
-        const filterKeys = Object.keys(selectedFilters);
-
-        if (filterKeys.length < 0) return { indexes: [], parameters: {} };
-
-        const indexes = getVariantsIndexes(variants, selectedFilters);
-        const [index] = indexes;
-
-        if (!variants[index]) return { indexes: [], parameters: {} };
-        const { attributes } = variants[index];
-
-        const parameters = Object.entries(attributes)
-            .reduce((parameters, [key, { attribute_value }]) => {
-                if (filterKeys.includes(key)) return { ...parameters, [key]: attribute_value };
-                return parameters;
-            }, {});
-
-        return { indexes, index, parameters };
-    }
-
     /**
      * Handle Impressions
      *
@@ -183,7 +151,7 @@ class Impression extends BaseEvent {
             .slice(-PRODUCT_IMPRESSION_COUNT) // Last from list
             .filter(product => Object.values(product).length)
             .map((product, index) => {
-                const configurableVariantIndex = this._getCurrentVariantIndex(product, filters);
+                const configurableVariantIndex = getCurrentVariantIndexFromFilters(product, filters);
                 return {
                     ...ProductHelper.getProductData({ ...product, configurableVariantIndex }),
                     position: offset + index + 1,
