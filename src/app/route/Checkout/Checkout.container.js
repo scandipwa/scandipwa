@@ -19,6 +19,7 @@ import { TOP_NAVIGATION_TYPE, BOTTOM_NAVIGATION_TYPE } from 'Store/Navigation/Na
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 import CartDispatcher from 'Store/Cart/Cart.dispatcher';
 import { fetchMutation, fetchQuery } from 'Util/Request';
+import { Event, EVENT_GTM_CHECKOUT } from 'Util/Event';
 import { showNotification } from 'Store/Notification';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs';
 import BrowserDatabase from 'Util/BrowserDatabase';
@@ -33,6 +34,7 @@ import Checkout, { SHIPPING_STEP, BILLING_STEP, DETAILS_STEP } from './Checkout.
 
 export const PAYMENT_TOTALS = 'PAYMENT_TOTALS';
 export const STRIPE_AUTH_REQUIRED = 'Authentication Required: ';
+export const CHECKOUT_EVENT_DELAY = 500;
 
 export const mapStateToProps = state => ({
     totals: state.CartReducer.cartTotals
@@ -99,6 +101,28 @@ export class CheckoutContainer extends PureComponent {
 
         if (is_virtual) {
             this._getPaymentMethods();
+        }
+    }
+
+    componentDidMount() {
+        const { totals = {} } = this.props;
+        setTimeout(
+            () => Event.dispatch(EVENT_GTM_CHECKOUT, { totals, step: 1 }),
+            CHECKOUT_EVENT_DELAY
+        );
+    }
+
+    componentDidUpdate(_, prevState) {
+        const { checkoutStep, isLoading } = this.state;
+        const { checkoutStep: prevCheckoutStep } = prevState;
+
+        if (!isLoading && checkoutStep !== prevCheckoutStep) {
+            const { totals } = this.props;
+            if (checkoutStep === BILLING_STEP) {
+                Event.dispatch(EVENT_GTM_CHECKOUT, { totals, step: 2 });
+            } else {
+                Event.dispatch(EVENT_GTM_CHECKOUT, { totals, step: 3 });
+            }
         }
     }
 
