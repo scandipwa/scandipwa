@@ -40,7 +40,7 @@ export default class ProductCard extends PureComponent {
         })).isRequired,
         getAttribute: PropTypes.func.isRequired,
         registerSharedElement: PropTypes.func.isRequired,
-        currentVariantIndex: PropTypes.number,
+        currentVariantIndex: PropTypes.number.isRequired,
         children: PropTypes.element,
         isLoading: PropTypes.bool,
         mix: PropTypes.shape({})
@@ -51,8 +51,7 @@ export default class ProductCard extends PureComponent {
         linkTo: {},
         children: null,
         isLoading: false,
-        mix: {},
-        currentVariantIndex: -1
+        mix: {}
     };
 
     imageRef = createRef();
