@@ -20,16 +20,7 @@ import AddToCartEvent from 'Component/GoogleTagManager/events/AddToCart.event';
 import RemoveFromCartEvent from 'Component/GoogleTagManager/events/RemoveFromCart.event';
 import ProductDetailEvent from 'Component/GoogleTagManager/events/ProductDetail.event';
 import PurchaseEvent from 'Component/GoogleTagManager/events/Purchase.event';
-import OrderDataEvent from 'Component/GoogleTagManager/events/OrderData.event';
 import CheckoutEvent from 'Component/GoogleTagManager/events/Checkout.event';
-import CheckoutOptionEvent from 'Component/GoogleTagManager/events/CheckoutOption.event';
-import PromotionViewEvent from 'Component/GoogleTagManager/events/PromotionView.event';
-import PromotionClickEvent from 'Component/GoogleTagManager/events/PromotionClick.event';
-import SupplementalUserLogin from 'Component/GoogleTagManager/events/Supplemental/UserLogin.event';
-import SupplementalUserRegister from 'Component/GoogleTagManager/events/Supplemental/UserRegister.event';
-import SupplementalAddToWishlist from 'Component/GoogleTagManager/events/Supplemental/AddToWishlist.event';
-import SupplementalUserCheckoutData from 'Component/GoogleTagManager/events/Supplemental/UserCheckoutData.event';
-import HoverEvent from 'Component/GoogleTagManager/events/Hover.event';
 
 /**
  * Event list
@@ -41,16 +32,7 @@ export const EVENT_ADD_TO_CART = 'addToCart';
 export const EVENT_REMOVE_FROM_CART = 'removeFromCart';
 export const EVENT_PRODUCT_DETAIL = 'productDetail';
 export const EVENT_PURCHASE = 'purchase';
-export const EVENT_ORDER_DATA = 'orderData';
 export const EVENT_CHECKOUT = 'checkout';
-export const EVENT_CHECKOUT_OPTION = 'checkoutOption';
-export const EVENT_PROMOTION_CLICK = 'promoClick';
-export const EVENT_PROMOTION_VIEW = 'promoView';
-export const EVENT_SUPPLEMENTAL_USER_LOGIN = 'userLogin';
-export const EVENT_SUPPLEMENTAL_USER_REGISTER = 'userRegister';
-export const EVENT_SUPPLEMENTAL_USER_ADD_TO_WISHLIST = 'addToWishlist';
-export const EVENT_SUPPLEMENTAL_USER_USER_CHECKOUT_DATA = 'userCheckoutData';
-export const EVENT_HOVER = 'hover';
 
 /**
  * Const
@@ -87,23 +69,14 @@ class GoogleTagManager extends PureComponent {
      * @type {{[p: string]: General|Purchase|CheckoutEvent|OrderData|Impression|AddToCartEvent|ProductClickEvent|ProductDetail|CheckoutOptionEvent|RemoveFromCartEvent}}
      */
     static eventList = {
-        [EVENT_HOVER]: HoverEvent,
         [EVENT_GENERAL]: General,
         [EVENT_PURCHASE]: PurchaseEvent,
         [EVENT_CHECKOUT]: CheckoutEvent,
-        [EVENT_ORDER_DATA]: OrderDataEvent,
         [EVENT_IMPRESSION]: Impression,
         [EVENT_ADD_TO_CART]: AddToCartEvent,
         [EVENT_PRODUCT_CLICK]: ProductClickEvent,
         [EVENT_PRODUCT_DETAIL]: ProductDetailEvent,
-        [EVENT_PROMOTION_VIEW]: PromotionViewEvent,
-        [EVENT_CHECKOUT_OPTION]: CheckoutOptionEvent,
-        [EVENT_PROMOTION_CLICK]: PromotionClickEvent,
-        [EVENT_REMOVE_FROM_CART]: RemoveFromCartEvent,
-        [EVENT_SUPPLEMENTAL_USER_LOGIN]: SupplementalUserLogin,
-        [EVENT_SUPPLEMENTAL_USER_REGISTER]: SupplementalUserRegister,
-        [EVENT_SUPPLEMENTAL_USER_ADD_TO_WISHLIST]: SupplementalAddToWishlist,
-        [EVENT_SUPPLEMENTAL_USER_USER_CHECKOUT_DATA]: SupplementalUserCheckoutData
+        [EVENT_REMOVE_FROM_CART]: RemoveFromCartEvent
     };
 
     /**
@@ -355,7 +328,7 @@ class GoogleTagManager extends PureComponent {
 
         const script = document.createElement('script');
         script.innerHTML = Scripts.getScript(
-            { id, dataLayerName: this.currentDataLayerName, events: {} }
+            { id, dataLayerName: this.currentDataLayerName }
         );
 
         setTimeout(() => {
