@@ -21,7 +21,7 @@ class Product {
      * Get product listing category string
      *
      * @param product
-     * @return {string|null}
+     * @return {string|string}
      */
     // eslint-disable-next-line no-unused-vars
     static getList(product) {
@@ -29,24 +29,25 @@ class Product {
 
         return meta.name
             || meta.title
-            || document.title.split('|').pop();
+            || document.title.split('|').pop()
+            || '';
     }
 
     /**
      * Get product Quantity from product object
      *
      * @param product
-     * @return {number|null}
+     * @return {number|string}
      */
     static getQuantity({ qty }) {
-        return parseInt(qty, 10) || null;
+        return parseInt(qty, 10) || '';
     }
 
     /**
      * Get product brand from product object
      *
      * @param product
-     * @return {string|null}
+     * @return {string|string}
      */
     static getBrand(selectedVariant) {
         const { attributes = {} } = selectedVariant;
@@ -68,7 +69,7 @@ class Product {
      * Get product url
      *
      * @param item
-     * @return {string|null}
+     * @return {string}
      */
     static getUrl(product, selectedVariant) {
         const { url_key = '', configurable_options = {} } = product;
@@ -102,11 +103,11 @@ class Product {
      * Get product sku
      *
      * @param product
-     * @return {string|null}
+     * @return {string}
      */
     static getSku(product) {
         const { variants = [], configurableVariantIndex = -1 } = product;
-        const { sku } = variants[configurableVariantIndex] || product;
+        const { sku = '' } = variants[configurableVariantIndex] || product;
         return sku;
     }
 
@@ -148,8 +149,8 @@ class Product {
             price: {
                 regularPrice: {
                     amount: {
-                        value = null,
-                        currency = null
+                        value = '',
+                        currency = ''
                     } = {}
                 } = {}
             } = {}
@@ -157,10 +158,10 @@ class Product {
 
         return {
             id: sku,
-            url: this.getUrl(product, selectedVariant),
+            url: this.getUrl(product, selectedVariant) || '',
             name,
-            price: roundPrice(value),
-            brand: this.getBrand(selectedVariant),
+            price: roundPrice(value) || '',
+            brand: this.getBrand(selectedVariant) || '',
             variant: variantSku,
             currency,
             availability: this.getAvailability(product)
