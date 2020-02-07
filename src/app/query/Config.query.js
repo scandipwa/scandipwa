@@ -34,6 +34,18 @@ export class ConfigQuery {
         ];
     }
 
+    getGTMConfiguration() {
+        return new Field('getGtm')
+            .setAlias('gtm')
+            .addFieldList(this._getGTMConfigurationFileds());
+    }
+
+    _getGTMConfigurationFileds() {
+        return [
+            'enabled',
+            'gtm_id'
+        ];
+    }
 
     _getStoreListFields() {
         return [

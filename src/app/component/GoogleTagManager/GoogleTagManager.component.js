@@ -55,7 +55,7 @@ class GoogleTagManager extends PureComponent {
 
     static defaultProps = {
         gtm: {
-            enabled: true,
+            enabled: false,
             gtm_id: ''
         },
         state: {},
@@ -138,13 +138,6 @@ class GoogleTagManager extends PureComponent {
      * @type {boolean}
      */
     enabled = false;
-
-    /**
-     * If debug is enabled
-     *
-     * @type {boolean}
-     */
-    debug = false;
 
     /**
      * Prepared Data Layer
@@ -306,14 +299,13 @@ class GoogleTagManager extends PureComponent {
      * Initialize GTM
      */
     initialize() {
-        const { gtm: { enabled, gtm_debug: debug } } = this.props;
+        const { gtm: { enabled } } = this.props;
 
         if (this.enabled || !enabled || GoogleTagManager.getInstance()) {
             return;
         }
 
         this.enabled = true;
-        this.debug = debug;
         GoogleTagManager.instance = this;
 
         this.injectGTMScripts();
