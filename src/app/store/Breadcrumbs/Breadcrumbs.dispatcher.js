@@ -106,32 +106,31 @@ export class BreadcrumbsDispatcher {
      */
     _getProductBreadcrumbs(product) {
         const { categories, url_key, name } = product;
-        const breadcrumbsList = [];
 
-        if (categories && categories.length) {
-            const { breadcrumbsCategory = {} } = categories.reduce((acc, category) => {
-                const { longestBreadcrumbsLength } = acc;
-                const { breadcrumbs } = category;
-                const breadcrumbsLength = (breadcrumbs || []).length;
-
-                if (!breadcrumbsLength && longestBreadcrumbsLength !== 0) return acc;
-
-                if (longestBreadcrumbsLength === 0) return { ...acc, breadcrumbsCategory: category };
-
-                if (breadcrumbsLength <= longestBreadcrumbsLength) return acc;
-
-                return {
-                    breadcrumbsCategory: category,
-                    longestBreadcrumbsLength: breadcrumbsLength
-                };
-            }, { breadcrumbsCategory: {}, longestBreadcrumbsLength: 0 });
-
-            breadcrumbsList.push(...this._getCategoryBreadcrumbs(breadcrumbsCategory));
+        if (!categories || !categories.length) {
+            return [];
         }
+
+        const { breadcrumbsCategory = {} } = categories.reduce((acc, category) => {
+            const { longestBreadcrumbsLength } = acc;
+            const { breadcrumbs } = category;
+            const breadcrumbsLength = (breadcrumbs || []).length;
+
+            if (!breadcrumbsLength && longestBreadcrumbsLength !== 0) return acc;
+
+            if (longestBreadcrumbsLength === 0) return { ...acc, breadcrumbsCategory: category };
+
+            if (breadcrumbsLength <= longestBreadcrumbsLength) return acc;
+
+            return {
+                breadcrumbsCategory: category,
+                longestBreadcrumbsLength: breadcrumbsLength
+            };
+        }, { breadcrumbsCategory: {}, longestBreadcrumbsLength: 0 });
 
         return [
             { url: `/product/${url_key}`, name },
-            ...breadcrumbsList
+            ...this._getCategoryBreadcrumbs(breadcrumbsCategory)
         ];
     }
 }

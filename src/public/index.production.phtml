@@ -22,6 +22,7 @@
             window.contentConfiguration = <?= json_encode($contentConfig) ?> || {};
         </script>
         <script src="https://js.stripe.com/v3/" async></script>
+        <script async src="<?= $this->getStaticFile("assets/pwacompat.min.js"); ?>"></script>
 
         <!-- TODO: Find or implement helper to generate fonts related code -->
         <link rel="preload" href="<?= $this->getStaticFile("assets/font/MuliLight.woff2"); ?>" as="font" type="font/woff2" crossorigin="">
@@ -29,9 +30,6 @@
         <link rel="preload" href="<?= $this->getStaticFile("assets/font/MuliSemiBold.woff2"); ?>" as="font" type="font/woff2" crossorigin="">
         <link rel="preload" href="<?= $this->getStaticFile("assets/font/MuliBold.woff2"); ?>" as="font" type="font/woff2" crossorigin="">
         <link rel="preload" href="<?= $this->getStaticFile("assets/font/MuliExtraBold.woff2"); ?>" as="font" type="font/woff2" crossorigin="">
-
-        <!-- TEST if this works -->
-        <link rel="preload" href="<?= $this->getStaticFile("main.css"); ?>" as="style">
 
         <style>
             <?php if ($colorConfig['enable_color_customization']['enable_custom_colors'] !== "0"): ?>
@@ -46,6 +44,7 @@
             <?php endif; ?>
 
             @font-face {
+                font-display: fallback;
                 font-family: 'Muli';
                 font-style: normal;
                 font-weight: 300;
@@ -54,6 +53,7 @@
             }
 
             @font-face {
+                font-display: fallback;
                 font-family: 'Muli';
                 font-style: normal;
                 font-weight: 400;
@@ -62,6 +62,7 @@
             }
 
             @font-face {
+                font-display: fallback;
                 font-family: 'Muli';
                 font-style: normal;
                 font-weight: 600;
@@ -70,6 +71,7 @@
             }
 
             @font-face {
+                font-display: fallback;
                 font-family: 'Muli';
                 font-style: normal;
                 font-weight: 700;
@@ -78,6 +80,7 @@
             }
 
             @font-face {
+                font-display: fallback;
                 font-family: 'Muli';
                 font-style: normal;
                 font-weight: 800;
@@ -88,7 +91,6 @@
 
         <title>ScandiPWA | ...</title>
 
-        <link rel="stylesheet" href="<?= $this->getStaticFile("main.css"); ?>">
         <link rel="shortcut icon" href="<?= $this->getStaticFile("assets/favicon/favicon.ico"); ?>">
 
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover">
