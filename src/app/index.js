@@ -19,6 +19,9 @@ import ReactDOM from 'react-dom';
 import SharedTransition from 'Component/SharedTransition';
 import 'Style/main';
 
+const pluginConfig = require.context('../../@scandipwa/', true, /\.plugin\.js$/);
+pluginConfig.keys().foreach(filename => )
+
 // Disable react dev tools in production
 if (process.env.NODE_ENV === 'production'
     && window.__REACT_DEVTOOLS_GLOBAL_HOOK__
