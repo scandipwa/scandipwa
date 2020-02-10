@@ -9,15 +9,16 @@ const pluggable = (namespace) => {
     return function (Class) {
         return (...args) => {
             // First optional chaining operator usage in ScandiPWA
-            const methodsPlugins = window.plugins?.[namespace]?.[Class.prototype.constructor.name];
+            // const methodsPlugins = window.plugins?.[namespace]?.[Class.prototype.constructor.name];
+            const methodsPlugins = window.plugins?.[namespace];
             const instance = new Class(...args);
-
             // Handle no plugins declared
             if (!methodsPlugins) {
                 return instance;
             }
 
             return new Proxy(instance, {
+                // Move to 'construct'
                 get(target, methodName) {
                     const origMethod = target[methodName];
                     const methodPlugins = methodsPlugins[methodName];
@@ -41,7 +42,7 @@ const pluggable = (namespace) => {
                             },
                             (...originalArgs) => {
                                 const args = originalArgs.length ? originalArgs : newArguments;
-                                return origMethod(...args)
+                                return origMethod(...args);
                             }
                         );
 
@@ -55,7 +56,7 @@ const pluggable = (namespace) => {
                 }
             });
         };
-    }
-}
+    };
+};
 
-export default pluggable;
+module.exports = pluggable;

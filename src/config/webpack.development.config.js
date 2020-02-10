@@ -156,7 +156,7 @@ module.exports = {
 
         new webpack.ProvidePlugin({
             __: path.resolve(path.join(__dirname, 'TranslationFunction')),
-            pluggable: path.resolve(path.join(__dirname, 'Pluggable')),
+            $_: path.resolve(path.join(__dirname, 'Pluggable')),
             React: 'react'
         }),
 

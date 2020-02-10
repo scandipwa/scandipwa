@@ -25,6 +25,7 @@ const plugins = [
     '@babel/plugin-proposal-class-properties',
     '@babel/plugin-transform-runtime',
     '@babel/plugin-syntax-dynamic-import',
+    '@babel/plugin-proposal-optional-chaining',
     [
         'module-resolver', {
             root: './',
@@ -55,5 +56,6 @@ const plugins = [
 
 module.exports = {
     presets,
-    plugins
+    plugins,
+    sourceType: 'unambiguous'
 };

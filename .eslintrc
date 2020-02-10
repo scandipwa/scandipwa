@@ -13,7 +13,7 @@
     "sessionStorage": true,
     "localStorage": true,
     "jest": true,
-    "__": true,
+    "$_": true,
     "workbox": true,
     "importScripts": true
   },

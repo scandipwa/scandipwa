@@ -19,8 +19,38 @@ import ReactDOM from 'react-dom';
 import SharedTransition from 'Component/SharedTransition';
 import 'Style/main';
 
-const pluginConfig = require.context('../../@scandipwa/', true, /\.plugin\.js$/);
-pluginConfig.keys().foreach(filename => )
+const extensionConfig = [];
+const importAll = (request) => {
+    // eslint-disable-next-line no-return-assign
+    request.keys().forEach(key => extensionConfig.push(request(key).default));
+};
+
+importAll(require.context('../../@scandipwa/', true, /\.plugin\.js$/));
+
+window.plugins = extensionConfig.reduce(
+    (config, extension) => {
+        // Retrieve plugin config as in file that exports it
+        const singleExtensionConfig = Object.entries(extension);
+        singleExtensionConfig.forEach(([namespace, classConfig]) => {
+            if (!config[namespace]) {
+                config[namespace] = {};
+            }
+            Object.entries(classConfig).forEach(([methodName, methodPlugins]) => {
+                if (!config[namespace][methodName]) {
+                    config[namespace][methodName] = {};
+                }
+                Object.entries(methodPlugins).forEach(([pluginType, [plugin]]) => {
+                    if (!config[namespace][methodName][pluginType]) {
+                        config[namespace][methodName][pluginType] = [];
+                    }
+                    config[namespace][methodName][pluginType].push(plugin);
+                });
+            });
+        });
+
+        return config;
+    }, {}
+);
 
 // Disable react dev tools in production
 if (process.env.NODE_ENV === 'production'
