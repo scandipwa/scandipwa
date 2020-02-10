@@ -54,6 +54,7 @@ export class CheckoutContainer extends PureComponent {
         showErrorNotification: PropTypes.func.isRequired,
         toggleBreadcrumbs: PropTypes.func.isRequired,
         setNavigationState: PropTypes.func.isRequired,
+        createAccount: PropTypes.func.isRequired,
         resetCart: PropTypes.func.isRequired,
         totals: TotalsType.isRequired,
         history: HistoryType.isRequired
@@ -181,6 +182,13 @@ export class CheckoutContainer extends PureComponent {
         this.setState({ isLoading });
     }
 
+    setShippingAddress() {
+        const { shippingAddress } = this.state;
+
+        const mutation = MyAccountQuery.getCreateAddressMutation(shippingAddress);
+        fetchMutation(mutation);
+    }
+
     containerProps = () => {
         const { paymentTotals } = this.state;
 
@@ -258,7 +266,15 @@ export class CheckoutContainer extends PureComponent {
 
     createUser() {
         const { createAccount } = this.props;
-        const { email, password, createUser, shippingAddress: { firstname, lastname } } = this.state;
+        const {
+            email,
+            password,
+            createUser,
+            shippingAddress: {
+                firstname,
+                lastname
+            }
+        } = this.state;
 
         if (!createUser && !password) return false;
 
@@ -271,16 +287,9 @@ export class CheckoutContainer extends PureComponent {
             password
         };
 
-        createAccount(options).then(() => {
+        return createAccount(options).then(() => {
             this.setShippingAddress();
         });
-    }
-
-    setShippingAddress() {
-        const { shippingAddress } = this.state;
-
-        const mutation = MyAccountQuery.getCreateAddressMutation(shippingAddress);
-        fetchMutation(mutation);
     }
 
     async saveAddressInformation(addressInformation) {

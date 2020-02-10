@@ -54,7 +54,12 @@ class Checkout extends PureComponent {
             SHIPPING_STEP,
             BILLING_STEP,
             DETAILS_STEP
-        ]).isRequired
+        ]).isRequired,
+        createUser: PropTypes.bool.isRequired,
+        onEmailChange: PropTypes.func.isRequired,
+        onCreateUserChange: PropTypes.func.isRequired,
+        onPasswordChange: PropTypes.func.isRequired,
+        isGuestEmailSaved: PropTypes.bool.isRequired
     };
 
     stepMap = {
@@ -111,7 +116,14 @@ class Checkout extends PureComponent {
     }
 
     renderGuestForm() {
-        const { checkoutStep, createUser, onEmailChange, onCreateUserChange, onPasswordChange, isGuestEmailSaved } = this.props;
+        const {
+            checkoutStep,
+            createUser,
+            onEmailChange,
+            onCreateUserChange,
+            onPasswordChange,
+            isGuestEmailSaved
+        } = this.props;
         const isBilling = checkoutStep === BILLING_STEP;
 
         return (

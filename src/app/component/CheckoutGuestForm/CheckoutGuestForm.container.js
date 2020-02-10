@@ -29,7 +29,7 @@ export const mapDispatchToProps = dispatch => ({
 export class CheckoutGuestFormContainer extends PureComponent {
     static propTypes = {
         isBilling: PropTypes.bool,
-        createUser: PropTypes.bool,
+        createUser: PropTypes.bool.isRequired,
         isGuestEmailSaved: PropTypes.bool,
         isSignedIn: PropTypes.bool.isRequired,
         showErrorNotification: PropTypes.func.isRequired,

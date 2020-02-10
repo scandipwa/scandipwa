@@ -23,7 +23,12 @@ class CheckoutGuestForm extends FieldForm {
     };
 
     get fieldMap() {
-        const { handleEmailInput, handlePasswordInput, formId, createUser } = this.props;
+        const {
+            handleEmailInput,
+            handlePasswordInput,
+            formId,
+            createUser
+        } = this.props;
 
         const fields = {
             guest_email: {
@@ -36,14 +41,14 @@ class CheckoutGuestForm extends FieldForm {
         };
 
         if (createUser) {
-            fields['guest_password'] = {
+            fields.guest_password = {
                 form: formId,
                 label: __('Create Password'),
                 onChange: handlePasswordInput,
                 validation: ['notEmpty', 'passsword'],
                 type: 'password',
                 skipValue: true
-            }
+            };
         }
 
         return fields;
@@ -77,10 +82,9 @@ class CheckoutGuestForm extends FieldForm {
                       id="guest_create_user"
                       name="guest_create_user"
                       value={ createUser }
-                      skipValue={ true }
+                      skipValue
                       onChange={ handleCreateUser }
                     />
-
                 </FormPortal>
             </div>
         );

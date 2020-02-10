@@ -141,8 +141,6 @@ export class MyAccountOverlayContainer extends PureComponent {
         const { state: newMyAccountState } = this.state;
         const currentPage = window.location.pathname;
 
-        console.log(currentPage);
-
         if (oldMyAccountState === newMyAccountState) return;
 
         if (currentPage !== '/checkout' && newMyAccountState === STATE_LOGGED_IN) {
