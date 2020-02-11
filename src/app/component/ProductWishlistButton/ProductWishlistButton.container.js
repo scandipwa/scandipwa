@@ -158,4 +158,6 @@ export class ProductWishlistButtonContainer extends PureComponent {
 // it works
 // export default connect(mapStateToProps, mapDispatchToProps)(ProductWishlistButtonContainer);
 // it does not
-export default connect(mapStateToProps, mapDispatchToProps)($_('Component/ProductWishlistButton/Container')(ProductWishlistButtonContainer));
+export default connect(mapStateToProps, mapDispatchToProps)(
+    $_('Component/ProductWishlistButton/Container')(ProductWishlistButtonContainer)
+);

@@ -1,4 +1,4 @@
-import ProductWishlistButton from 'Component/ProductWishlistButton';
+import { ProductWishlistButtonContainer } from 'Component/ProductWishlistButton/ProductWishlistButton.container';
 
 class NoWishListPlugin {
     static newRender() {
@@ -8,7 +8,7 @@ class NoWishListPlugin {
 
 const config = {
     'Component/ProductWishlistButton/Container': {
-        [ProductWishlistButton.prototype.render.name]: {
+        [ProductWishlistButtonContainer.prototype.render.name]: {
             around: [
                 NoWishListPlugin.newRender
             ]

@@ -1,3 +1,4 @@
+/* eslint-disable arrow-body-style */
 /* eslint-disable func-names */
 /**
  * @param {String} namespace
@@ -12,6 +13,7 @@ const pluggable = (namespace) => {
             // const methodsPlugins = window.plugins?.[namespace]?.[Class.prototype.constructor.name];
             const methodsPlugins = window.plugins?.[namespace];
             const instance = new Class(...args);
+
             // Handle no plugins declared
             if (!methodsPlugins) {
                 return instance;
@@ -20,6 +22,14 @@ const pluggable = (namespace) => {
             return new Proxy(instance, {
                 // Move to 'construct'
                 get(target, methodName) {
+                    if (methodName === Symbol.iterator) {
+                        return target[Symbol.iterator].bind(target);
+                    }
+
+                    if (typeof target[methodName] !== 'function') {
+                        return target[methodName];
+                    }
+
                     const origMethod = target[methodName];
                     const methodPlugins = methodsPlugins[methodName];
 
