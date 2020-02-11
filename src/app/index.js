@@ -29,22 +29,18 @@ importAll(require.context('../../@scandipwa/', true, /\.plugin\.js$/));
 
 window.plugins = extensionConfig.reduce(
     (config, extension) => {
-        // Retrieve plugin config as in file that exports it
         const singleExtensionConfig = Object.entries(extension);
-        singleExtensionConfig.forEach(([namespace, classConfig]) => {
+        singleExtensionConfig.forEach(([namespace, methodsPlugins]) => {
             if (!config[namespace]) {
+                // eslint-disable-next-line no-param-reassign
                 config[namespace] = {};
             }
-            Object.entries(classConfig).forEach(([methodName, methodPlugins]) => {
+            Object.entries(methodsPlugins).forEach(([methodName, methodPlugins]) => {
                 if (!config[namespace][methodName]) {
-                    config[namespace][methodName] = {};
+                    // eslint-disable-next-line no-param-reassign
+                    config[namespace][methodName] = [];
                 }
-                Object.entries(methodPlugins).forEach(([pluginType, [plugin]]) => {
-                    if (!config[namespace][methodName][pluginType]) {
-                        config[namespace][methodName][pluginType] = [];
-                    }
-                    config[namespace][methodName][pluginType].push(plugin);
-                });
+                config[namespace][methodName].push(...methodPlugins);
             });
         });
 

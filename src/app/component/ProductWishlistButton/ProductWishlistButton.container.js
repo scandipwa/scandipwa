@@ -154,10 +154,6 @@ export class ProductWishlistButtonContainer extends PureComponent {
     }
 }
 
-// eslint-disable-next-line max-len
-// it works
-// export default connect(mapStateToProps, mapDispatchToProps)(ProductWishlistButtonContainer);
-// it does not
 export default connect(mapStateToProps, mapDispatchToProps)(
-    $_('Component/ProductWishlistButton/Container')(ProductWishlistButtonContainer)
+    middleware('Component/ProductWishlistButton/Container')(ProductWishlistButtonContainer)
 );
