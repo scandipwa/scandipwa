@@ -49,6 +49,8 @@ class Checkout extends PureComponent {
         checkoutTotals: TotalsType.isRequired,
         orderID: PropTypes.string.isRequired,
         history: HistoryType.isRequired,
+        onEmailChange: PropTypes.func.isRequired,
+        isGuestEmailSaved: PropTypes.bool.isRequired,
         paymentTotals: TotalsType.isRequired,
         checkoutStep: PropTypes.oneOf([
             SHIPPING_STEP,
@@ -111,11 +113,15 @@ class Checkout extends PureComponent {
     }
 
     renderGuestForm() {
-        const { checkoutStep } = this.props;
+        const { checkoutStep, onEmailChange, isGuestEmailSaved } = this.props;
         const isBilling = checkoutStep === BILLING_STEP;
 
         return (
-            <CheckoutGuestForm isBilling={ isBilling } />
+            <CheckoutGuestForm
+              isBilling={ isBilling }
+              onEmailChange={ onEmailChange }
+              isGuestEmailSaved={ isGuestEmailSaved }
+            />
         );
     }
 
