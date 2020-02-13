@@ -266,4 +266,3 @@ export class ProductGallery extends PureComponent {
 }
 
 export default withRouter(ProductGallery);
-
