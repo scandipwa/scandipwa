@@ -163,6 +163,7 @@ export default class ProductGallery extends PureComponent {
 
                     return (
                         <ProductGalleryBaseImage
+                          resetTransform={ resetTransform }
                           index={ index }
                           mediaData={ mediaData }
                           scale={ scale }

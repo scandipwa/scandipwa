@@ -11,10 +11,14 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+import { withRouter } from 'react-router';
+import { LocationType } from 'Type/Common';
 
 import media, { PRODUCT_MEDIA } from 'Util/Media/Media';
 
 import ProductGallery from './ProductGalleryBaseImage.component';
+
+export const RESET_TRANSFORMATION_INTERVAL = 200;
 
 export class ProductGalleryBaseImageContainer extends PureComponent {
     static propTypes = {
@@ -29,15 +33,34 @@ export class ProductGalleryBaseImageContainer extends PureComponent {
                 url: PropTypes.string
             })
         }).isRequired,
-        isZoomEnabled: PropTypes.bool.isRequired
+        resetTransform: PropTypes.func.isRequired,
+        isZoomEnabled: PropTypes.bool.isRequired,
+        location: LocationType.isRequired
     };
 
-    componentDidUpdate() {
+    constructor(props) {
+        super(props);
+        this.interval = null;
+    }
+
+    componentDidUpdate(prevProps) {
         const {
             scale,
             previousScale,
-            disableZoom
+            disableZoom,
+            location: { pathname },
+            resetTransform
         } = this.props;
+        const { location: { pathname: prevPathname } } = prevProps;
+
+        if (pathname !== prevPathname && scale !== 1) {
+            this.interval = setInterval(resetTransform, RESET_TRANSFORMATION_INTERVAL);
+        }
+
+        if (scale === 1 && this.interval) {
+            clearInterval(this.interval);
+            this.interval = null;
+        }
 
         if (scale === 1 && previousScale !== 1) {
             disableZoom();
@@ -73,4 +96,4 @@ export class ProductGalleryBaseImageContainer extends PureComponent {
     }
 }
 
-export default ProductGalleryBaseImageContainer;
+export default withRouter(ProductGalleryBaseImageContainer);
