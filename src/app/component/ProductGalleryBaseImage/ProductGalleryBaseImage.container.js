@@ -18,7 +18,7 @@ import media, { PRODUCT_MEDIA } from 'Util/Media/Media';
 
 import ProductGallery from './ProductGalleryBaseImage.component';
 
-export const TRANSFORMATION_INTERVAL = 0;
+export const TRANSFORMATION_DELAY = 0;
 export const TRANSFORMATION_SPEED = 0;
 export const INITIAL_SCALE = 1;
 
@@ -40,11 +40,6 @@ export class ProductGalleryBaseImageContainer extends Component {
         location: LocationType.isRequired
     };
 
-    constructor(props) {
-        super(props);
-        this.interval = null;
-    }
-
     shouldComponentUpdate(nextProps) {
         const { scale, mediaData: { id } } = this.props;
         const { scale: nextScale, mediaData: { id: nextId } } = nextProps;
@@ -64,15 +59,10 @@ export class ProductGalleryBaseImageContainer extends Component {
         } = this.props;
         const { location: { pathname: prevPathname } } = prevProps;
 
-        if (scale === 1 && this.interval) {
-            clearInterval(this.interval);
-            this.interval = null;
-        }
-
         if (pathname !== prevPathname && scale !== INITIAL_SCALE) {
             setTimeout(
                 () => setTransform(null, null, INITIAL_SCALE, TRANSFORMATION_SPEED),
-                TRANSFORMATION_INTERVAL
+                TRANSFORMATION_DELAY
             );
         }
 
