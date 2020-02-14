@@ -156,14 +156,19 @@ export default class ProductGallery extends PureComponent {
                   minScale: 1
               } }
             >
-                { ({ scale, previousScale, resetTransform }) => {
+                { ({
+                    scale,
+                    previousScale,
+                    resetTransform,
+                    setTransform
+                }) => {
                     if (scale === 1 && previousScale !== 1) {
                         resetTransform();
                     }
 
                     return (
                         <ProductGalleryBaseImage
-                          resetTransform={ resetTransform }
+                          setTransform={ setTransform }
                           index={ index }
                           mediaData={ mediaData }
                           scale={ scale }

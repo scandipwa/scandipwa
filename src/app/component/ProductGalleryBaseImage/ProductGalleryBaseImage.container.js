@@ -10,7 +10,7 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { Component } from 'react';
 import { withRouter } from 'react-router';
 import { LocationType } from 'Type/Common';
 
@@ -18,9 +18,11 @@ import media, { PRODUCT_MEDIA } from 'Util/Media/Media';
 
 import ProductGallery from './ProductGalleryBaseImage.component';
 
-export const RESET_TRANSFORMATION_INTERVAL = 200;
+export const TRANSFORMATION_INTERVAL = 0;
+export const TRANSFORMATION_SPEED = 0;
+export const INITIAL_SCALE = 1;
 
-export class ProductGalleryBaseImageContainer extends PureComponent {
+export class ProductGalleryBaseImageContainer extends Component {
     static propTypes = {
         disableZoom: PropTypes.func.isRequired,
         scale: PropTypes.number.isRequired,
@@ -33,8 +35,8 @@ export class ProductGalleryBaseImageContainer extends PureComponent {
                 url: PropTypes.string
             })
         }).isRequired,
-        resetTransform: PropTypes.func.isRequired,
         isZoomEnabled: PropTypes.bool.isRequired,
+        setTransform: PropTypes.func.isRequired,
         location: LocationType.isRequired
     };
 
@@ -43,23 +45,35 @@ export class ProductGalleryBaseImageContainer extends PureComponent {
         this.interval = null;
     }
 
+    shouldComponentUpdate(nextProps) {
+        const { scale, mediaData: { id } } = this.props;
+        const { scale: nextScale, mediaData: { id: nextId } } = nextProps;
+
+        if (scale !== nextScale || id !== nextId) return true;
+
+        return false;
+    }
+
     componentDidUpdate(prevProps) {
         const {
             scale,
             previousScale,
             disableZoom,
             location: { pathname },
-            resetTransform
+            setTransform
         } = this.props;
         const { location: { pathname: prevPathname } } = prevProps;
-
-        if (pathname !== prevPathname && scale !== 1) {
-            this.interval = setInterval(resetTransform, RESET_TRANSFORMATION_INTERVAL);
-        }
 
         if (scale === 1 && this.interval) {
             clearInterval(this.interval);
             this.interval = null;
+        }
+
+        if (pathname !== prevPathname && scale !== INITIAL_SCALE) {
+            setTimeout(
+                () => setTransform(null, null, INITIAL_SCALE, TRANSFORMATION_SPEED),
+                TRANSFORMATION_INTERVAL
+            );
         }
 
         if (scale === 1 && previousScale !== 1) {
