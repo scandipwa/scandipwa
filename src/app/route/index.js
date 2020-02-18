@@ -25,6 +25,7 @@ import { Router } from 'react-router';
 import { createBrowserHistory } from 'history';
 
 import Breadcrumbs from 'Component/Breadcrumbs';
+import Meta from 'Component/Meta';
 import Footer from 'Component/Footer';
 import Header from 'Component/Header';
 import NavigationTabs from 'Component/NavigationTabs';
@@ -261,9 +262,12 @@ class AppRouter extends PureComponent {
 
     render() {
         return (
-            <Router history={ history }>
-                { this.renderRouterContent() }
-            </Router>
+            <>
+                <Meta />
+                <Router history={ history }>
+                    { this.renderRouterContent() }
+                </Router>
+            </>
         );
     }
 }

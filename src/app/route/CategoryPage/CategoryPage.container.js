@@ -22,6 +22,7 @@ import { CategoryDispatcher } from 'Store/Category';
 import { toggleOverlayByKey } from 'Store/Overlay';
 import { NoMatchDispatcher } from 'Store/NoMatch';
 import { CategoryTreeType } from 'Type/Category';
+import { PagesType } from 'Type/ProductList';
 import { CATEGORY } from 'Component/Header';
 import { debounce } from 'Util/Request';
 
@@ -46,7 +47,8 @@ export const mapStateToProps = state => ({
     sortFields: state.ProductListInfoReducer.sortFields,
     minPriceRange: state.ProductListInfoReducer.minPrice,
     maxPriceRange: state.ProductListInfoReducer.maxPrice,
-    isInfoLoading: state.ProductListInfoReducer.isLoading
+    isInfoLoading: state.ProductListInfoReducer.isLoading,
+    pages: state.ProductListReducer.pages
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -86,7 +88,8 @@ export class CategoryPageContainer extends PureComponent {
         isInfoLoading: PropTypes.bool.isRequired,
         categoryIds: PropTypes.number,
         isOnlyPlaceholder: PropTypes.bool,
-        isSearchPage: PropTypes.bool
+        isSearchPage: PropTypes.bool,
+        pages: PagesType.isRequired
     };
 
     static defaultProps = {
@@ -161,9 +164,10 @@ export class CategoryPageContainer extends PureComponent {
     containerProps = () => ({
         filter: this._getFilter(),
         search: this._getSearchParam(),
+        firstImageUrl: this._getFirstImageUrl(),
         selectedSort: this._getSelectedSortFromUrl(),
         selectedFilters: this._getSelectedFiltersFromUrl(),
-        selectedPriceRange: this._getPriceRangeForSlider()
+        selectedPriceRange: this._getPriceRangeForSlider(),
     });
 
     updateSearch(value) {
@@ -324,6 +328,15 @@ export class CategoryPageContainer extends PureComponent {
             },
             currentPage
         };
+    }
+
+    _getFirstImageUrl() {
+        const { pages } = this.props;
+        const page = pages[0 || Object.keys(pages)[0]] || {};
+        const product = page[0] || {};
+        const { small_image: { url = '' } = {} } = product;
+
+        return url;
     }
 
     _onCategoryUpdate() {

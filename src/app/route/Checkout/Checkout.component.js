@@ -219,10 +219,25 @@ class Checkout extends PureComponent {
         return <CmsBlock identifiers={ [promo] } />;
     }
 
+    renderMeta() {
+        const {
+            history: { location: { pathname = '' } }
+        } = this.props;
+
+        return (
+            <Meta
+              metaObject={ {
+                  meta_title: 'Checkout',
+                  pathname
+              } }
+            />
+        );
+    }
+
     render() {
         return (
             <main block="Checkout">
-                <Meta metaObject={ { title: 'Checkout' } } />
+                { this.renderMeta() }
                 <ContentWrapper
                   wrapperMix={ { block: 'Checkout', elem: 'Wrapper' } }
                   label={ __('Checkout page') }

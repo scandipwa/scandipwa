@@ -21,10 +21,14 @@ import CategoryDetails from 'Component/CategoryDetails';
 import ContentWrapper from 'Component/ContentWrapper';
 import CategorySort from 'Component/CategorySort';
 import { CategoryTreeType } from 'Type/Category';
+import { LocationType } from 'Type/Common';
 import { FilterType, FilterInputType } from 'Type/ProductList';
 import Meta from 'Component/Meta';
 import './CategoryPage.style';
 import isMobile from 'Util/Mobile';
+
+const PLP_IMAGE_WIDTH = 248;
+const PLP_IMAGE_HEIGHT = 297;
 
 export default class CategoryPage extends PureComponent {
     static propTypes = {
@@ -50,11 +54,13 @@ export default class CategoryPage extends PureComponent {
         getFilterUrl: PropTypes.func.isRequired,
         onSortChange: PropTypes.func.isRequired,
         updateFilter: PropTypes.func.isRequired,
+        firstImageUrl: PropTypes.string.isRequired,
         updatePriceRange: PropTypes.func.isRequired,
         toggleOverlayByKey: PropTypes.func.isRequired,
         selectedFilters: FilterType.isRequired,
+        search: PropTypes.string.isRequired,
         filter: FilterInputType.isRequired,
-        search: PropTypes.string.isRequired
+        location: LocationType.isRequired
     };
 
     onFilterButtonClick = this.onFilterButtonClick.bind(this);
@@ -163,16 +169,34 @@ export default class CategoryPage extends PureComponent {
         );
     }
 
-    render() {
-        const { category } = this.props;
+    renderMeta() {
+        const {
+            location: { pathname = '' },
+            firstImageUrl: imageSrc,
+            category
+        } = this.props;
 
+        return (
+            <Meta
+              metaObject={ {
+                  ...category,
+                  imageHeight: PLP_IMAGE_HEIGHT,
+                  imageWidth: PLP_IMAGE_WIDTH,
+                  pathname,
+                  imageSrc
+              } }
+            />
+        );
+    }
+
+    render() {
         return (
             <main block="CategoryPage">
                 <ContentWrapper
                   wrapperMix={ { block: 'CategoryPage', elem: 'Wrapper' } }
                   label="Category page"
                 >
-                    <Meta metaObject={ category } />
+                    { this.renderMeta() }
                     { this.renderFilterOverlay() }
                     { this.renderCategoryDetails() }
                     <aside block="CategoryPage" elem="Miscellaneous">
