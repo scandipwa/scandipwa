@@ -69,10 +69,8 @@ export class CartItemContainer extends PureComponent {
     }
 
     getMaxQuantity() {
-        const { stock_item: { qty, max_sale_qty } = {} } = this.getCurrentProduct() || {};
-        const max = qty !== null ? Math.min(qty, max_sale_qty) : max_sale_qty;
-
-        return max || DEFAULT_MAX_PRODUCTS;
+        const { stock_item: { max_sale_qty } = {} } = this.getCurrentProduct() || {};
+        return max_sale_qty || DEFAULT_MAX_PRODUCTS;
     }
 
     setStateNotLoading() {

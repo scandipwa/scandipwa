@@ -13,4 +13,8 @@
     &-Address {
         margin: 1rem 0;
     }
+
+    .Popup-Content {
+        max-width: calc(var(--checkout-max-width) * .8);
+    }
 }

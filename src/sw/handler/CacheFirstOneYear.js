@@ -10,6 +10,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+const ONE_YEAR_IN_SECONDS = 2630000;
+
 /**
  *
  * @param time
@@ -28,7 +30,7 @@ const cacheFirst = time => new workbox.strategies.CacheFirst({
  * @param event
  * @returns {void|*}
  */
-const cacheFirstOneDay = event => cacheFirst(24 * 60 * 60).handle(event); // one day cache
+const CacheFirstOneYear = event => cacheFirst(ONE_YEAR_IN_SECONDS).handle(event); // one day cache
 
-export default cacheFirstOneDay;
+export default CacheFirstOneYear;
 export { cacheFirst };

@@ -61,7 +61,8 @@ export class CheckoutContainer extends PureComponent {
         setDetailsStep: this.setDetailsStep.bind(this),
         savePaymentInformation: this.savePaymentInformation.bind(this),
         saveAddressInformation: this.saveAddressInformation.bind(this),
-        onShippingEstimationFieldsChange: this.onShippingEstimationFieldsChange.bind(this)
+        onShippingEstimationFieldsChange: this.onShippingEstimationFieldsChange.bind(this),
+        onEmailChange: this.onEmailChange.bind(this)
     };
 
     customPaymentMethods = [
@@ -94,7 +95,9 @@ export class CheckoutContainer extends PureComponent {
             shippingAddress: {},
             checkoutStep: is_virtual ? BILLING_STEP : SHIPPING_STEP,
             orderID: '',
-            paymentTotals: BrowserDatabase.getItem(PAYMENT_TOTALS) || {}
+            paymentTotals: BrowserDatabase.getItem(PAYMENT_TOTALS) || {},
+            email: '',
+            isGuestEmailSaved: false
         };
 
         if (is_virtual) {
@@ -105,6 +108,10 @@ export class CheckoutContainer extends PureComponent {
     componentWillUnmount() {
         const { toggleBreadcrumbs } = this.props;
         toggleBreadcrumbs(true);
+    }
+
+    onEmailChange(email) {
+        this.setState({ email });
     }
 
     onShippingEstimationFieldsChange(address) {
@@ -159,9 +166,14 @@ export class CheckoutContainer extends PureComponent {
         this.setState({ isLoading });
     }
 
-    containerProps = () => ({
-        checkoutTotals: this._getCheckoutTotals()
-    });
+    containerProps = () => {
+        const { paymentTotals } = this.state;
+
+        return {
+            checkoutTotals: this._getCheckoutTotals(),
+            paymentTotals
+        };
+    };
 
     _handleError = (error) => {
         const { showErrorNotification } = this.props;
@@ -214,13 +226,32 @@ export class CheckoutContainer extends PureComponent {
             : cartTotals;
     }
 
-    saveAddressInformation(addressInformation) {
+    saveGuestEmail() {
+        const { email } = this.state;
+        const guestCartId = BrowserDatabase.getItem(GUEST_QUOTE_ID);
+        const mutation = CheckoutQuery.getSaveGuestEmailMutation(email, guestCartId);
+
+        return fetchMutation(mutation).then(
+            ({ setGuestEmailOnCart: data }) => {
+                if (data) {
+                    this.setState({ isGuestEmailSaved: true });
+                }
+            },
+            this._handleError
+        );
+    }
+
+    async saveAddressInformation(addressInformation) {
         const { shipping_address } = addressInformation;
 
         this.setState({
             isLoading: true,
             shippingAddress: shipping_address
         });
+
+        if (!isSignedIn()) {
+            await this.saveGuestEmail();
+        }
 
         fetchMutation(CheckoutQuery.getSaveAddressInformation(
             addressInformation,
@@ -246,9 +277,14 @@ export class CheckoutContainer extends PureComponent {
         );
     }
 
-    savePaymentInformation(paymentInformation) {
+    async savePaymentInformation(paymentInformation) {
         const { paymentMethod: { method } } = paymentInformation;
+        const { isGuestEmailSaved } = this.state;
         this.setState({ isLoading: true });
+
+        if (!isSignedIn() && !isGuestEmailSaved) {
+            await this.saveGuestEmail();
+        }
 
         if (this.customPaymentMethods.includes(method)) {
             this.savePaymentMethodAndPlaceOrder(paymentInformation);
