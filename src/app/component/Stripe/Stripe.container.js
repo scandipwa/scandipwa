@@ -12,8 +12,19 @@ export class StripeContainer extends PureComponent {
         storeConfig: {}
     };
 
-    componentDidMount() {
-        this._requestStripeData();
+    constructor(props) {
+        super(props);
+
+        if (window.Stripe) {
+            this._requestStripeData();
+        } else {
+            const script = document.createElement('script');
+            script.src = 'https://js.stripe.com/v3/';
+            document.head.appendChild(script);
+            script.addEventListener('load', () => {
+                this._requestStripeData();
+            }, false);
+        }
     }
 
     containerProps = () => ({
