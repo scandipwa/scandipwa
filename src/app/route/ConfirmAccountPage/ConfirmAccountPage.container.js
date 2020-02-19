@@ -87,7 +87,7 @@ class ConfirmAccountPageContainer extends PureComponent {
         const { updateBreadcrumbs } = this.props;
         const breadcrumbs = [
             {
-                url: '/accout/confirmAccount',
+                url: '/account/confirmAccount',
                 name: __('Confirm Account')
             },
             {
