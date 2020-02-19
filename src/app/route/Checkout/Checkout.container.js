@@ -182,12 +182,12 @@ export class CheckoutContainer extends PureComponent {
         this.setState({ isLoading });
     }
 
-    setShippingAddress() {
+    setShippingAddress = () => {
         const { shippingAddress } = this.state;
 
         const mutation = MyAccountQuery.getCreateAddressMutation(shippingAddress);
         fetchMutation(mutation);
-    }
+    };
 
     containerProps = () => {
         const { paymentTotals } = this.state;
@@ -276,7 +276,9 @@ export class CheckoutContainer extends PureComponent {
             }
         } = this.state;
 
-        if (!createUser && !password) return false;
+        if (!createUser && !password) {
+            return Promise.resolve();
+        }
 
         const options = {
             customer: {
@@ -287,9 +289,7 @@ export class CheckoutContainer extends PureComponent {
             password
         };
 
-        return createAccount(options).then(() => {
-            this.setShippingAddress();
-        });
+        return createAccount(options).then(this.setShippingAddress);
     }
 
     async saveAddressInformation(addressInformation) {

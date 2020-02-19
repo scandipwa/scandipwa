@@ -58,10 +58,8 @@ class Checkout extends PureComponent {
             DETAILS_STEP
         ]).isRequired,
         createUser: PropTypes.bool.isRequired,
-        onEmailChange: PropTypes.func.isRequired,
         onCreateUserChange: PropTypes.func.isRequired,
-        onPasswordChange: PropTypes.func.isRequired,
-        isGuestEmailSaved: PropTypes.bool.isRequired
+        onPasswordChange: PropTypes.func.isRequired
     };
 
     stepMap = {
