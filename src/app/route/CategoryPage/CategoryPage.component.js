@@ -27,8 +27,8 @@ import Meta from 'Component/Meta';
 import './CategoryPage.style';
 import isMobile from 'Util/Mobile';
 
-const PLP_IMAGE_WIDTH = 248;
-const PLP_IMAGE_HEIGHT = 297;
+export const PLP_IMAGE_WIDTH = 248;
+export const PLP_IMAGE_HEIGHT = 297;
 
 export default class CategoryPage extends PureComponent {
     static propTypes = {
@@ -176,12 +176,15 @@ export default class CategoryPage extends PureComponent {
             category
         } = this.props;
 
+        const { name } = category;
+
         return (
             <Meta
               metaObject={ {
                   ...category,
                   imageHeight: PLP_IMAGE_HEIGHT,
                   imageWidth: PLP_IMAGE_WIDTH,
+                  imageAlt: name,
                   pathname,
                   imageSrc
               } }

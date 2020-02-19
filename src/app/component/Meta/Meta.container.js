@@ -95,21 +95,33 @@ export class MetaContainer extends PureComponent {
         return this._generateMetaFromMetadata(metadata);
     }
 
+    _getUrl() {
+        const { base_url, canonical_url, pathname } = this.props;
+
+        return canonical_url || `${ base_url }${ pathname }`;
+    }
+
+    _getImageSrc() {
+        const { header_logo_src, metaObject: { imageSrc } } = this.props;
+
+        if (imageSrc) return imageSrc;
+
+        return header_logo_src
+            ? media(header_logo_src, LOGO_MEDIA)
+            : SWPWA_LOGO_URL;
+    }
+
     _getOgMetadata() {
         const {
-            base_url,
-            pathname,
             metaObject,
             default_description,
             default_keywords,
             default_title,
-            canonical_url = base_url,
-            header_logo_src,
             logo_alt,
             metaObject: {
-                imageSrc,
                 imageHeight,
-                imageWidth
+                imageWidth,
+                imageAlt
             }
         } = this.props;
 
@@ -120,22 +132,16 @@ export class MetaContainer extends PureComponent {
             meta_description = default_description
         } = metaObject;
 
-        const finalImageSrc = header_logo_src
-            ? media(header_logo_src, LOGO_MEDIA)
-            : SWPWA_LOGO_URL;
-
-        const finalUrl = canonical_url || `${ base_url }${ pathname }`;
-
         const ogMetadata = {
             'og:title': meta_title,
             'og:keywords': meta_keyword,
             'og:description': meta_description,
-            'og:url': finalUrl,
+            'og:url': this._getUrl(),
             'og:type': 'website',
-            'og:image': imageSrc || finalImageSrc,
+            'og:image': this._getImageSrc(),
             'og:image:width': imageWidth,
             'og:image:height': imageHeight,
-            'og:image:alt': logo_alt
+            'og:image:alt': imageAlt || logo_alt
         };
 
         return this._generateMetaFromMetadata(ogMetadata, 'property');

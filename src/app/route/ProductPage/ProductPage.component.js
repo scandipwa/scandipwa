@@ -25,8 +25,8 @@ import ProductInformation from 'Component/ProductInformation';
 
 import './ProductPage.style';
 
-const PDP_IMAGE_HEIGHT = 650;
-const PDP_IMAGE_WIDTH = 533;
+export const PDP_IMAGE_HEIGHT = 650;
+export const PDP_IMAGE_WIDTH = 533;
 
 export default class ProductPage extends PureComponent {
     static propTypes = {
@@ -91,7 +91,7 @@ export default class ProductPage extends PureComponent {
             location: { pathname },
             dataSource
         } = this.props;
-        const { media_gallery_entries = {} } = dataSource;
+        const { media_gallery_entries = {}, name } = dataSource;
 
         const {
             base: { url: imageSrc = '' } = {}
@@ -103,6 +103,7 @@ export default class ProductPage extends PureComponent {
                   ...dataSource,
                   imageHeight: PDP_IMAGE_HEIGHT,
                   imageWidth: PDP_IMAGE_WIDTH,
+                  imageAlt: name,
                   imageSrc,
                   pathname
               } }
