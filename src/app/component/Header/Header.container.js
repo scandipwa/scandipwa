@@ -20,6 +20,7 @@ import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { toggleOverlayByKey, hideActiveOverlay } from 'Store/Overlay';
 import { setQueryParams } from 'Util/Url';
 import { isSignedIn } from 'Util/Auth';
+import withOnline from 'Util/OnlineHOC';
 import isMobile from 'Util/Mobile';
 import { history } from 'Route';
 
@@ -137,8 +138,18 @@ export class HeaderContainer extends NavigationAbstractContainer {
         super.componentDidMount();
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps) {
         this.handleHeaderVisibility();
+        const { online } = this.props;
+        const { online: prevOnline } = prevProps;
+
+        if (online !== prevOnline) {
+            if (online) {
+                document.body.classList.remove('offline');
+            } else {
+                document.body.classList.add('offline');
+            }
+        }
     }
 
     handleHeaderVisibility() {
@@ -359,4 +370,4 @@ export class HeaderContainer extends NavigationAbstractContainer {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(HeaderContainer);
+export default withOnline(connect(mapStateToProps, mapDispatchToProps)(HeaderContainer));

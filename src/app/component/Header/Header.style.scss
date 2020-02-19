@@ -57,6 +57,10 @@
     background-color: var(--header-background);
     padding-top: env(safe-area-inset-top, 0);
 
+    @at-root .offline {
+        --placeholder-animation: none;
+    }
+
     &_isHiddenOnMobile {
         @include mobile {
             pointer-events: none;
