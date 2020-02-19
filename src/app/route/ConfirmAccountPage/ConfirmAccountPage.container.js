@@ -33,7 +33,7 @@ export const mapDispatchToProps = dispatch => ({
     signIn: options => MyAccountDispatcher.signIn(options, dispatch)
 });
 
-class ConfirmAccountPageContainer extends PureComponent {
+export class ConfirmAccountPageContainer extends PureComponent {
     static propTypes = {
         location: LocationType.isRequired,
         signIn: PropTypes.func.isRequired,
