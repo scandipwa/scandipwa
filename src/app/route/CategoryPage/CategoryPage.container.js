@@ -167,7 +167,7 @@ export class CategoryPageContainer extends PureComponent {
         firstImageUrl: this._getFirstImageUrl(),
         selectedSort: this._getSelectedSortFromUrl(),
         selectedFilters: this._getSelectedFiltersFromUrl(),
-        selectedPriceRange: this._getPriceRangeForSlider(),
+        selectedPriceRange: this._getPriceRangeForSlider()
     });
 
     updateSearch(value) {
