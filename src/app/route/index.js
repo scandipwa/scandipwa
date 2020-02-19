@@ -57,7 +57,7 @@ export const PasswordChangePage = lazy(() => (/* webpackMode: "lazy", webpackPre
 export const ProductPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/ProductPage'));
 export const SearchPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/SearchPage'));
 export const SomethingWentWrong = lazy(() => (/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/SomethingWentWrong'));
-export const ConfirmAccountPage = lazy(() => (/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/ConfirmAccountPage'));
+export const ConfirmAccountPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/ConfirmAccountPage'));
 export const UrlRewrites = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/UrlRewrites'));
 export const MenuPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/MenuPage'));
 
