@@ -20,19 +20,24 @@
 }
 
 .ProductConfigurableAttributes {
-    &-AttributesList {
+    &-SwatchList,
+    &-DropDownList {
         text-align: center;
+
+        @include after-mobile {
+            --option-size: 33px;
+        }
+    }
+
+    &-SwatchList {
         display: flex;
         flex-wrap: wrap;
         justify-content: var(--product-configurable-attributes-direction);
         align-items: center;
+    }
 
-        @include after-mobile {
-            --option-size: 33px;
-
-            display: flex;
-            flex-wrap: wrap;
-        }
+    &-DropDownList {
+        width: 100%;
     }
 
     &-Expandable {

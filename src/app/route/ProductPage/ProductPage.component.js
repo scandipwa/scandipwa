@@ -10,7 +10,7 @@
  * @link https://github.com/scandipwa/base-ProductReviewListtheme
  */
 
-import { Component } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import Meta from 'Component/Meta';
@@ -24,7 +24,7 @@ import ProductInformation from 'Component/ProductInformation';
 
 import './ProductPage.style';
 
-export default class ProductPage extends Component {
+export default class ProductPage extends PureComponent {
     static propTypes = {
         configurableVariantIndex: PropTypes.number.isRequired,
         productOrVariant: ProductType.isRequired,
@@ -64,20 +64,18 @@ export default class ProductPage extends Component {
     }
 
     renderAdditionalSections() {
-        const { dataSource, areDetailsLoaded } = this.props;
+        const { dataSource, parameters, areDetailsLoaded } = this.props;
 
         return (
             <>
                 <ProductInformation
-                  product={ dataSource }
+                  product={ { ...dataSource, parameters } }
                   areDetailsLoaded={ areDetailsLoaded }
                 />
                 <ProductReviews product={ dataSource } />
                 <RelatedProducts
                   product={ dataSource }
                   areDetailsLoaded={ areDetailsLoaded }
-                  label="ScandiPWA recommends"
-                  itemType=""
                 />
             </>
         );
@@ -94,12 +92,12 @@ export default class ProductPage extends Component {
                       itemScope
                       itemType="http://schema.org/Product"
                     >
-                    <ContentWrapper
-                      wrapperMix={ { block: 'ProductPage', elem: 'Wrapper' } }
-                      label={ __('Main product details') }
-                    >
-                        { this.renderProductPageContent() }
-                    </ContentWrapper>
+                        <ContentWrapper
+                          wrapperMix={ { block: 'ProductPage', elem: 'Wrapper' } }
+                          label={ __('Main product details') }
+                        >
+                            { this.renderProductPageContent() }
+                        </ContentWrapper>
                     </div>
                     { this.renderAdditionalSections() }
                 </main>

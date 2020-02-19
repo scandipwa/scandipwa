@@ -11,25 +11,31 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Component } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { AttributeType } from 'Type/ProductList';
 import { MixType } from 'Type/Common';
+import Field from 'Component/Field/Field.component';
 import './ProductAttributeValue.style';
 
-export default class ProductAttributeValue extends Component {
+export default class ProductAttributeValue extends PureComponent {
     static propTypes = {
-        getLink: PropTypes.func.isRequired,
-        onClick: PropTypes.func.isRequired,
+        getLink: PropTypes.func,
+        onClick: PropTypes.func,
         attribute: AttributeType.isRequired,
         isSelected: PropTypes.bool,
-        isAvailable: PropTypes.bool.isRequired,
-        mix: MixType
+        isAvailable: PropTypes.bool,
+        mix: MixType,
+        isFormattedAsText: PropTypes.bool
     };
 
     static defaultProps = {
         isSelected: false,
-        mix: {}
+        onClick: () => {},
+        getLink: () => {},
+        mix: {},
+        isAvailable: true,
+        isFormattedAsText: false
     };
 
     clickHandler = this.clickHandler.bind(this);
@@ -115,8 +121,10 @@ export default class ProductAttributeValue extends Component {
     }
 
     renderColorValue(color, label) {
-        const { isSelected } = this.props;
+        const { isFormattedAsText, isSelected } = this.props;
         const isLight = this.getIsColorLight(color);
+
+        if (isFormattedAsText) return label || __('N/A');
 
         return (
             <data
@@ -135,8 +143,9 @@ export default class ProductAttributeValue extends Component {
     }
 
     renderImageValue(img, label) {
-        const { isSelected } = this.props;
+        const { isFormattedAsText, isSelected } = this.props;
 
+        if (isFormattedAsText) return label || __('N/A');
         return (
             <>
                 <img
@@ -158,15 +167,40 @@ export default class ProductAttributeValue extends Component {
         );
     }
 
-    renderStringValue(value, label) {
+    renderDropdown(value) {
         const { isSelected } = this.props;
+
+        return (
+            <Field
+              id={ value }
+              name={ value }
+              type="checkbox"
+              label={ value }
+              value={ value }
+              mix={ {
+                  block: 'ProductAttributeValue',
+                  elem: 'Text',
+                  mods: { isSelected }
+              } }
+              checked={ isSelected }
+            />
+        );
+    }
+
+    renderStringValue(value, label) {
+        const { isFormattedAsText, isSelected } = this.props;
+        const isSwatch = label;
+
+        if (isFormattedAsText) return label || value || __('N/A');
+
+        if (!isSwatch) return this.renderDropdown(value);
 
         return (
             <span
               block="ProductAttributeValue"
               elem="String"
               mods={ { isSelected } }
-              title={ label || value }
+              title={ label }
             >
                 { value }
             </span>
@@ -196,7 +230,8 @@ export default class ProductAttributeValue extends Component {
             attribute,
             isAvailable,
             attribute: { attribute_code, attribute_value },
-            mix
+            mix,
+            isFormattedAsText
         } = this.props;
 
         if (attribute_code && !attribute_value) return null;
@@ -204,6 +239,17 @@ export default class ProductAttributeValue extends Component {
         const href = getLink(attribute);
         // Invert to apply css rule without using not()
         const isNotAvailable = !isAvailable;
+
+        if (isFormattedAsText) {
+            return (
+                <div
+                  block="ProductAttributeValue"
+                  mix={ mix }
+                >
+                    { this.renderAttributeByType() }
+                </div>
+            );
+        }
 
         return (
             <a

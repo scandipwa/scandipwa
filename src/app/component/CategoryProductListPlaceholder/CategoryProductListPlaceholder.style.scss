@@ -9,12 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 .CategoryProductListPlaceholder {
-    display: grid;
-    grid-template-columns: inherit;
-    grid-gap: inherit;
-    grid-column: 1/-1;
+    animation: appear 200ms 200ms forwards;
 
-    @include mobile {
-        grid-column: span 2;
+    &-Offset {
+        height: 1px;
+        pointer-events: none;
+
+        @include mobile {
+            top: -100vh;
+        }
     }
 }

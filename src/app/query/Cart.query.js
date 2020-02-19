@@ -82,11 +82,12 @@ export class CartQuery {
     _getCartTotalsFields() {
         return [
             'subtotal',
+            'subtotal_incl_tax',
             'items_qty',
             'tax_amount',
             'grand_total',
             'discount_amount',
-            'base_currency_code',
+            'quote_currency_code',
             'subtotal_with_discount',
             'coupon_code',
             'shipping_amount',
@@ -112,7 +113,7 @@ export class CartQuery {
 
     _getProductField() {
         return new Field('product')
-            .addFieldList(ProductListQuery._getProductInterfaceFields());
+            .addFieldList(ProductListQuery._getProductInterfaceFields(false, true));
     }
 
     _getCartItemsField() {

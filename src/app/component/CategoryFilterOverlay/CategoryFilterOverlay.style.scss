@@ -11,8 +11,8 @@
 
 :root {
     --category-filter-overlay-desktop-color: #979797;
-    --category-filter-overlay-selected-color: #{$primary-base-color};
-    --category-filter-overlay-hover-color: #{$primary-light-color};
+    --category-filter-overlay-selected-color: var(--primary-base-color);
+    --category-filter-overlay-hover-color: var(--primary-light-color);
 }
 
 .CategoryFilterOverlay {
@@ -26,6 +26,16 @@
         flex-direction: column;
         height: auto;
         overflow: visible;
+    }
+
+    @include mobile {
+        transition: transform 200ms ease-in-out;
+        transform: translateY(100%);
+        will-change: transform;
+    }
+
+    &_isVisible {
+        transform: translateY(0%);
     }
 
     &-Heading {
@@ -97,12 +107,28 @@
         }
     }
 
-    &-SeeResults.Button {
-        margin: 2rem 1rem;
-        width: calc(100% - 2rem);
+    &-SeeResults {
+        position: sticky;
+        padding: 1rem;
+        width: 100%;
+        left: 0;
 
         @include after-mobile {
             display: none;
+        }
+    }
+
+    &-Button.Button {
+        width: 100%;
+    }
+
+    &-ResetButton {
+        margin-bottom: 1rem;
+
+        &.Button {
+            @include mobile {
+                display: none;
+            }
         }
     }
 
@@ -117,6 +143,12 @@
             @include mobile {
                 margin-bottom: .6rem;
             }
+        }
+    }
+
+    .ProductAttributeValue-Image-Overlay {
+        @include mobile {
+            margin: .5rem;
         }
     }
 }

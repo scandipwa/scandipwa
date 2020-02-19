@@ -14,7 +14,7 @@
     --cart-item-subheading-color: #888;
     --cart-item-option-color: #adadad;
     --cart-item-background: #fff;
-    --cart-item-actions-background: #{$concrete};
+    --cart-item-actions-background: var(--secondary-base-color);
     --cart-item-action-border: #d8d8d8;
     --cart-item-actions-color: #000;
     --cart-item-divider-color: var(--expandable-content-divider-color);
@@ -116,18 +116,6 @@
 
     &-Picture {
         padding-bottom: 120%;
-
-        &::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            left: 0;
-            bottom: 0;
-            background-color: var(--product-card-picture-mask-color);
-            mix-blend-mode: multiply;
-            pointer-events: none;
-        }
     }
 
     &-Price {

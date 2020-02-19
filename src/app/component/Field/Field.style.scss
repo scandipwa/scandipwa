@@ -33,7 +33,7 @@ $select-arrow-width: 6px !default;
         margin-bottom: -.1em;
         font-size: 1.05rem;
         font-weight: 600;
-        color: $primary-dark-color;
+        color: var(--primary-error-color);
     }
 
     &-Note {
@@ -44,6 +44,7 @@ $select-arrow-width: 6px !default;
         opacity: 0;
         height: 0;
         transition: height .1s ease-in, opacity .1s linear;
+        will-change: height, opacity;
 
         &::before {
             content: '* ';
@@ -51,7 +52,9 @@ $select-arrow-width: 6px !default;
     }
 
     &-Select {
+        width: 100%;
         min-width: 100%;
+        padding-right: 40px;
 
         @include after-mobile {
             pointer-events: none;
@@ -69,12 +72,14 @@ $select-arrow-width: 6px !default;
                 display: block;
                 width: $select-arrow-width;
                 height: $select-arrow-height;
-                transform: rotate(45deg);
+                transform: translateY(-2px) rotate(45deg);
                 pointer-events: none;
 
                 position: absolute;
                 right: 20px;
-                bottom: 20px;
+                bottom: 0;
+                top: 0;
+                margin: auto;
 
                 border-style: solid;
                 border-color: #000;
@@ -84,7 +89,7 @@ $select-arrow-width: 6px !default;
             &_isExpanded::after {
                 @include after-mobile {
                     bottom: $select-arrow-height * 3/2;
-                    transform: rotate(-135deg);
+                    transform: translateY(-2px) rotate(-135deg);
                 }
             }
         }
@@ -94,7 +99,7 @@ $select-arrow-width: 6px !default;
             width: 100%;
             top: 100%;
             left: 0;
-            z-index: 20;
+            z-index: 40;
             border-width: 0 1px 1px;
             border-style: solid;
             border-color: transparent;
@@ -118,6 +123,7 @@ $select-arrow-width: 6px !default;
             margin: 0;
             z-index: 1;
             transition: 100ms max-height ease-in;
+            will-change: max-height;
             max-height: $select-option-height;
             line-height: 3rem;
             padding-left: 1.5rem;
@@ -143,7 +149,7 @@ $select-arrow-width: 6px !default;
     &_hasError {
         input,
         textarea {
-            border: 1px solid $primary-dark-color;
+            border: 1px solid var(--primary-error-color);
         }
     }
 
@@ -199,6 +205,7 @@ $select-arrow-width: 6px !default;
             transition-property: background-color, border-color;
             transition-duration: .25s;
             transition-timing-function: ease-in;
+            will-change: background-color, border-color;
 
             &::after {
                 --checkmark-color: transparent;
@@ -210,17 +217,18 @@ $select-arrow-width: 6px !default;
                 transition-duration: .25s;
                 transition-timing-function: ease-in;
                 transition-property: background-color;
+                will-change: background-color;
             }
 
             &:hover {
                 @include after-mobile {
-                    --box-color: #{transparentize($concrete, .4)};
-                    border-color: $primary-base-color;
+                    --box-color: var(--secondary-light-color);
+                    border-color: var(--primary-base-color);
                 }
 
                 &::after {
                     @include after-mobile {
-                        --checkmark-color: #{$dusty-grey};
+                        --checkmark-color: var(--secondary-dark-color);
                     }
                 }
             }
@@ -232,8 +240,8 @@ $select-arrow-width: 6px !default;
         }
 
         &:checked + label {
-            background-color: $primary-base-color;
-            border-color: $primary-base-color;
+            background-color: var(--primary-base-color);
+            border-color: var(--primary-base-color);
 
             &::after {
                 --checkmark-color: #{$white};
@@ -257,6 +265,7 @@ $select-arrow-width: 6px !default;
                     4px -8px 0 var(--checkmark-color);
                 transform: rotate(45deg);
                 transition-property: background-color, box-shadow;
+                will-change: background-color, box-shadow;
             }
         }
 
@@ -264,7 +273,7 @@ $select-arrow-width: 6px !default;
             &:hover {
                 + label {
                     @include after-mobile {
-                        background-color: #{$primary-base-color};
+                        background-color: var(--primary-base-color);
                     }
                 }
             }
@@ -285,13 +294,14 @@ $select-arrow-width: 6px !default;
                 height: .5rem;
                 border-radius: 50%;
                 transition-property: background-color, box-shadow;
+                will-change: background-color, box-shadow;
             }
         }
 
         &:focus + label {
-            --box-color: #{transparentize($concrete, .4)};
+            --box-color: var(--secondary-light-color);
 
-            border-color: $primary-base-color;
+            border-color: var(--primary-base-color);
 
             &::after {
                 --checkmark-color: #{$white};

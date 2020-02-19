@@ -9,21 +9,20 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { executeGet } from 'Util/Request';
-import { prepareQuery } from 'Util/Query';
-import { SliderQuery } from 'Query';
+
+import DataContainer from 'Util/Request/DataContainer';
 import { showNotification } from 'Store/Notification';
-import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
+import { SliderQuery } from 'Query';
+
 import SliderWidget from './SliderWidget.component';
 
-const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = dispatch => ({
     showNotification: (type, title, error) => dispatch(showNotification(type, title, error))
 });
 
-export class SliderWidgetContainer extends PureComponent {
+export class SliderWidgetContainer extends DataContainer {
     static propTypes = {
         sliderId: PropTypes.number.isRequired,
         showNotification: PropTypes.func.isRequired
@@ -48,10 +47,12 @@ export class SliderWidgetContainer extends PureComponent {
 
     requestSlider() {
         const { sliderId, showNotification } = this.props;
-        const query = [SliderQuery.getQuery({ sliderId })];
-        executeGet(prepareQuery(query), 'Slider', ONE_MONTH_IN_SECONDS)
-            .then(({ slider }) => this.setState({ slider }))
-            .catch(e => showNotification('error', 'Error fetching Slider!', e));
+
+        this.fetchData(
+            [SliderQuery.getQuery({ sliderId })],
+            ({ slider }) => this.setState({ slider }),
+            e => showNotification('error', 'Error fetching Slider!', e)
+        );
     }
 
     _getGalleryPictures() {

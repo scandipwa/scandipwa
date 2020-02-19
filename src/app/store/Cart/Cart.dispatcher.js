@@ -16,6 +16,7 @@ import { CartQuery } from 'Query';
 import { showNotification } from 'Store/Notification';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { getExtensionAttributes } from 'Util/Product';
+import { LinkedProductsDispatcher } from 'Store/LinkedProducts';
 
 export const GUEST_QUOTE_ID = 'guest_quote_id';
 
@@ -65,15 +66,33 @@ export class CartDispatcher {
         );
     }
 
-    changeItemQty(dispatch, options) {
+    changeItemQty(dispatch, options, tries = 0) {
         const { item_id, quantity, sku } = options;
+
+        if (tries > 2) {
+            dispatch(showNotification('error', __('Internal server error. Can not add to cart.')));
+            return Promise.reject();
+        }
 
         return fetchMutation(CartQuery.getSaveCartItemMutation(
             { sku, item_id, qty: quantity },
             !isSignedIn() && this._getGuestQuoteId()
         )).then(
             ({ saveCartItem: { cartData } }) => this._updateCartData(cartData, dispatch),
-            error => dispatch(showNotification('error', error[0].message))
+            (error) => {
+                const [{ debugMessage = '' }] = error || [{}];
+
+                if (debugMessage.match('No such entity with cartId ')) {
+                    return this._createEmptyCart(dispatch).then((data) => {
+                        BrowserDatabase.setItem(data, GUEST_QUOTE_ID);
+                        this._updateCartData({}, dispatch);
+                        return this.changeItemQty(dispatch, options, tries + 1);
+                    });
+                }
+
+                dispatch(showNotification('error', error[0].message));
+                return Promise.reject();
+            }
         );
     }
 
@@ -93,7 +112,10 @@ export class CartDispatcher {
                 productToAdd, !isSignedIn() && this._getGuestQuoteId()
             )).then(
                 ({ saveCartItem: { cartData } }) => this._updateCartData(cartData, dispatch),
-                error => dispatch(showNotification('error', error[0].message))
+                ([{ message }]) => {
+                    dispatch(showNotification('error', message));
+                    return Promise.reject();
+                }
             );
         }
 
@@ -136,6 +158,26 @@ export class CartDispatcher {
 
     _updateCartData(cartData, dispatch) {
         dispatch(updateTotals(cartData));
+        const { items = [] } = cartData;
+
+        if (items.length > 0) {
+            const product_links = items.reduce((links, product) => {
+                const { product: { product_links } } = product;
+                if (product_links) {
+                    Object.values(product_links).forEach((item) => {
+                        if (item.link_type === 'crosssell') {
+                            links.push(item);
+                        }
+                    });
+                }
+
+                return links;
+            }, []);
+
+            if (product_links.length !== 0) {
+                LinkedProductsDispatcher.handleData(dispatch, product_links);
+            }
+        }
     }
 
     _getGuestQuoteId() {

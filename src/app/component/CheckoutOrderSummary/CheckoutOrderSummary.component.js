@@ -20,18 +20,20 @@ import './CheckoutOrderSummary.style';
  */
 export default class CheckoutOrderSummary extends PureComponent {
     static propTypes = {
-        totals: TotalsType
+        totals: TotalsType,
+        paymentTotals: TotalsType
     };
 
     static defaultProps = {
-        totals: {}
+        totals: {},
+        paymentTotals: {}
     };
 
     renderPriceLine(price, name, mods) {
         if (!price) return null;
 
-        const { totals: { base_currency_code } } = this.props;
-        const priceString = formatCurrency(base_currency_code);
+        const { totals: { quote_currency_code } } = this.props;
+        const priceString = formatCurrency(quote_currency_code);
 
         return (
             <li block="CheckoutOrderSummary" elem="SummaryItem" mods={ mods }>
@@ -39,7 +41,7 @@ export default class CheckoutOrderSummary extends PureComponent {
                     { name }
                 </strong>
                 <strong block="CheckoutOrderSummary" elem="Text">
-                    { `${roundPrice(price)}${priceString}` }
+                    { `${priceString}${roundPrice(price)}` }
                 </strong>
             </li>
         );
@@ -48,7 +50,7 @@ export default class CheckoutOrderSummary extends PureComponent {
     renderItem = (item) => {
         const {
             totals: {
-                base_currency_code
+                quote_currency_code
             }
         } = this.props;
 
@@ -58,7 +60,7 @@ export default class CheckoutOrderSummary extends PureComponent {
             <CartItem
               key={ item_id }
               item={ item }
-              currency_code={ base_currency_code }
+              currency_code={ quote_currency_code }
             />
         );
     };
@@ -113,17 +115,20 @@ export default class CheckoutOrderSummary extends PureComponent {
                 tax_amount,
                 grand_total,
                 shipping_amount
+            },
+            paymentTotals: {
+                grand_total: payment_grand_total
             }
         } = this.props;
 
         return (
             <div block="CheckoutOrderSummary" elem="OrderTotals">
                 <ul>
-                    { this.renderPriceLine(shipping_amount, __('Shipping'), { divider: true }) }
                     { this.renderPriceLine(subtotal, __('Cart Subtotal')) }
+                    { this.renderPriceLine(shipping_amount, __('Shipping'), { divider: true }) }
                     { this.renderCouponCode() }
                     { this.renderPriceLine(tax_amount, __('Tax')) }
-                    { this.renderPriceLine(grand_total, __('Order Total')) }
+                    { this.renderPriceLine(payment_grand_total || grand_total, __('Order total')) }
                 </ul>
             </div>
         );

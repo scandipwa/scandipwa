@@ -15,7 +15,10 @@ import PropTypes from 'prop-types';
 import { getQueryParam, setQueryParams } from 'Util/Url';
 import { PagesType, FilterInputType } from 'Type/ProductList';
 import { HistoryType } from 'Type/Common';
+import { debounce } from 'Util/Request';
 import ProductList from './ProductList.component';
+
+export const UPDATE_PAGE_FREQUENCY = 0; // (ms)
 
 export class ProductListContainer extends PureComponent {
     static propTypes = {
@@ -32,7 +35,6 @@ export class ProductListContainer extends PureComponent {
         selectedFilters: PropTypes.objectOf(PropTypes.shape),
         isInfiniteLoaderEnabled: PropTypes.bool,
         isPaginationEnabled: PropTypes.bool,
-
         filter: FilterInputType,
         search: PropTypes.string,
         sort: PropTypes.objectOf(PropTypes.string)
@@ -53,9 +55,33 @@ export class ProductListContainer extends PureComponent {
     containerFunctions = {
         loadPrevPage: this.loadPage.bind(this, false),
         loadPage: this.loadPage.bind(this),
-        updatePage: this.updatePage.bind(this),
-        requestPage: this.requestPage.bind(this)
+        updatePage: this.updatePage.bind(this)
     };
+
+    requestPage = debounce((currentPage = 1, isNext = false) => {
+        const {
+            sort,
+            search,
+            filter,
+            pageSize,
+            requestProductList
+        } = this.props;
+
+        if (!isNext) window.scrollTo(0, 0);
+
+        const options = {
+            isNext,
+            args: {
+                sort,
+                filter,
+                search,
+                pageSize,
+                currentPage
+            }
+        };
+
+        requestProductList(options);
+    }, UPDATE_PAGE_FREQUENCY);
 
     componentDidMount() {
         const { pages, getIsNewCategory } = this.props;
@@ -91,7 +117,8 @@ export class ProductListContainer extends PureComponent {
     containerProps = () => ({
         currentPage: this._getPageFromUrl(),
         isShowLoading: this._isShowLoading(),
-        isVisible: this._isVisible()
+        isVisible: this._isVisible(),
+        requestPage: this.requestPage
     });
 
     _getPageFromUrl() {
@@ -147,31 +174,6 @@ export class ProductListContainer extends PureComponent {
         setQueryParams({
             page: pageNumber === 1 ? '' : pageNumber
         }, location, history);
-    }
-
-    requestPage(currentPage = 1, isNext = false) {
-        const {
-            sort,
-            search,
-            filter,
-            pageSize,
-            requestProductList
-        } = this.props;
-
-        if (!isNext) window.scrollTo(0, 0);
-
-        const options = {
-            isNext,
-            args: {
-                sort,
-                filter,
-                search,
-                pageSize,
-                currentPage
-            }
-        };
-
-        requestProductList(options);
     }
 
     render() {

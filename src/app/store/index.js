@@ -14,7 +14,6 @@ import {
 } from 'redux';
 
 import { CmsBlocksAndSliderReducer } from 'Store/CmsBlocksAndSlider';
-import { CmsPageReducer } from 'Store/CmsPage';
 import { CategoryReducer } from 'Store/Category';
 import { NotificationReducer } from 'Store/Notification';
 import { BreadcrumbsReducer } from 'Store/Breadcrumbs';
@@ -30,14 +29,14 @@ import { RelatedProductsReducer } from 'Store/RelatedProducts';
 import { SearchBarReducer } from 'Store/SearchBar';
 import { UrlRewritesReducer } from 'Store/UrlRewrites';
 import { MyAccountReducer } from 'Store/MyAccount';
-import { HeaderReducer } from 'Store/Header';
+import { NavigationReducer } from 'Store/Navigation';
 import { OverlayReducer } from 'Store/Overlay';
 import { PopupReducer } from 'Store/Popup';
 import { ConfigReducer } from 'Store/Config';
+import { LinkedProductsReducer } from 'Store/LinkedProducts';
 
 export const reducers = {
     CmsBlocksAndSliderReducer,
-    CmsPageReducer,
     CategoryReducer,
     NotificationReducer,
     BreadcrumbsReducer,
@@ -52,11 +51,12 @@ export const reducers = {
     RelatedProductsReducer,
     SearchBarReducer,
     MyAccountReducer,
-    HeaderReducer,
+    NavigationReducer,
     OverlayReducer,
     PopupReducer,
     UrlRewritesReducer,
-    ConfigReducer
+    ConfigReducer,
+    LinkedProductsReducer
 };
 
 const store = createStore(

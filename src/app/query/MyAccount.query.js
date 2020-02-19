@@ -10,6 +10,8 @@
  */
 
 import { Field } from 'Util/Query';
+import BrowserDatabase from 'Util/BrowserDatabase';
+import { GUEST_QUOTE_ID } from 'Store/Cart';
 
 /**
  * MyAccount Mutations
@@ -40,10 +42,12 @@ export class MyAccountQuery {
      */
     getSignInMutation(options) {
         const { email, password } = options;
+        const guestQuoteId = BrowserDatabase.getItem(GUEST_QUOTE_ID);
 
         return new Field('generateCustomerToken')
             .addArgument('email', 'String!', email)
             .addArgument('password', 'String!', password)
+            .addArgument('guest_quote_id', 'String!', guestQuoteId)
             .addField('token');
     }
 
@@ -161,9 +165,7 @@ export class MyAccountQuery {
             'customer_id',
             'country_id',
             'street',
-            'company',
             'telephone',
-            'fax',
             'postcode',
             'city',
             'firstname',
@@ -171,7 +173,6 @@ export class MyAccountQuery {
             'middlename',
             'prefix',
             'suffix',
-            'vat_id',
             'default_shipping',
             'default_billing',
             this._getRegionField()

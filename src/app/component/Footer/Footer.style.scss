@@ -19,6 +19,11 @@
     text-align: center;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+
+    @include mobile {
+        display: none;
+    }
 
     &-Link,
     &-Copyright {
@@ -36,5 +41,6 @@
 
     &-Copyright {
         display: block;
+        margin-top: 2rem;
     }
 }

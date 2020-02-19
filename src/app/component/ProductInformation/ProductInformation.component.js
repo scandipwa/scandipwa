@@ -9,23 +9,25 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
+import { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 import media, { PRODUCT_MEDIA } from 'Util/Media';
 import Html from 'Component/Html';
 import Image from 'Component/Image';
-import { ProductType } from 'Type/ProductList';
+import { ProductType, AttributeType } from 'Type/ProductList';
 import ContentWrapper from 'Component/ContentWrapper';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import ExpandableContent from 'Component/ExpandableContent';
+import ProductAttributeValue from 'Component/ProductAttributeValue';
 
 import './ProductInformation.style';
 
 export default class ProductInformation extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
-        areDetailsLoaded: PropTypes.bool.isRequired
+        areDetailsLoaded: PropTypes.bool.isRequired,
+        attributesWithValues: AttributeType.isRequired
     };
 
     renderContentPlaceholder() {
@@ -40,7 +42,7 @@ export default class ProductInformation extends PureComponent {
 
     renderImage() {
         const { product: { thumbnail: { path = '' } = {} } } = this.props;
-        const imageUrl = path && media(`${ PRODUCT_MEDIA }${ path }`);
+        const imageUrl = path && media(path, PRODUCT_MEDIA);
 
         return (
           <Image
@@ -51,15 +53,46 @@ export default class ProductInformation extends PureComponent {
         );
     }
 
-    renderContent() {
-        const { product: { description: { html } = {} } } = this.props;
+    renderAttributeInfo = ([attributeLabel, valueLabel]) => (
+        <Fragment key={ attributeLabel }>
+            <dt block="ProductInformation" elem="AttributeLabel">
+                { attributeLabel }
+            </dt>
+            <dd block="ProductInformation" elem="ValueLabel">
+                <ProductAttributeValue
+                  key={ attributeLabel }
+                  attribute={ valueLabel }
+                  isFormattedAsText
+                />
+            </dd>
+        </Fragment>
+    );
+
+    renderAttributesInfo() {
+        const { attributesWithValues } = this.props;
+        if (!Object.keys(attributesWithValues).length) return null;
 
         return (
+            <dl block="ProductInformation" elem="Attributes">
+                { Object.entries(attributesWithValues).map(this.renderAttributeInfo) }
+            </dl>
+        );
+    }
+
+    renderContent() {
+        const { product: { description: { html } = {} } } = this.props;
+        if (!html) return this.renderContentPlaceholder();
+        return <Html content={ html } />;
+    }
+
+    renderContentWrapper() {
+        return (
             <ExpandableContent
-              heading="Product information"
+              heading={ __('Product information') }
               mix={ { block: 'ProductInformation', elem: 'Content' } }
             >
-                { html ? <Html content={ html } /> : this.renderContentPlaceholder() }
+                { this.renderContent() }
+                { this.renderAttributesInfo() }
             </ExpandableContent>
         );
     }
@@ -82,7 +115,7 @@ export default class ProductInformation extends PureComponent {
               wrapperMix={ { block: 'ProductInformation', elem: 'Wrapper' } }
             >
                 { this.renderImage() }
-                { this.renderContent() }
+                { this.renderContentWrapper() }
             </ContentWrapper>
         );
     }

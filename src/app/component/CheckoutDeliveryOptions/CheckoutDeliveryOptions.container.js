@@ -53,7 +53,7 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
 
     componentDidMount() {
         if (window.formPortalCollector) {
-            window.formPortalCollector.subscribe(SHIPPING_STEP, this.collectAdditionalData);
+            window.formPortalCollector.subscribe(SHIPPING_STEP, this.collectAdditionalData, 'CheckoutDeliveryOptions');
         }
     }
 
@@ -89,7 +89,7 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
 
     componentWillUnmount() {
         if (window.formPortalCollector) {
-            window.formPortalCollector.unsubscribe(SHIPPING_STEP, this.collectAdditionalData);
+            window.formPortalCollector.unsubscribe(SHIPPING_STEP, 'CheckoutDeliveryOptions');
         }
     }
 

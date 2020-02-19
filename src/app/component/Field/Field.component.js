@@ -19,6 +19,7 @@ import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { MixType } from 'Type/Common';
 import ClickOutside from 'Component/ClickOutside';
+import Input from 'Component/Input';
 import './Field.style';
 
 export const TEXT_TYPE = 'text';
@@ -343,10 +344,10 @@ export default class Field extends PureComponent {
             id,
             name,
             rows,
-            autocomplete,
             formRef,
             isDisabled
         } = this.props;
+
         const { value } = this.state;
 
         return (
@@ -360,7 +361,6 @@ export default class Field extends PureComponent {
               onChange={ this.onChange }
               onFocus={ this.onFocus }
               onClick={ this.onClick }
-              autoComplete={ autocomplete }
             />
         );
     }
@@ -370,92 +370,55 @@ export default class Field extends PureComponent {
      * handleToUpdate used to pass child data to parent
      */
     renderTypeText() {
-        const {
-            id,
-            name,
-            placeholder,
-            autocomplete,
-            formRef,
-            isDisabled,
-            skipValue
-        } = this.props;
-
         const { value } = this.state;
 
         return (
-            <input
-              data-skip-value={ skipValue }
-              ref={ formRef }
+            <Input
+              { ...this.props }
               type="text"
-              id={ id }
-              name={ name }
-              value={ value }
-              disabled={ isDisabled }
-              onChange={ (this.onChange) }
+              onChange={ this.onChange }
               onFocus={ this.onFocus }
               onClick={ this.onClick }
-              placeholder={ placeholder }
-              autoComplete={ autocomplete }
+              value={ value }
             />
         );
     }
 
     renderTypePassword() {
-        const {
-            id,
-            name,
-            placeholder,
-            formRef,
-            isDisabled,
-            skipValue
-        } = this.props;
-
         const { value } = this.state;
 
         return (
-            <input
-              data-skip-value={ skipValue }
-              ref={ formRef }
+            <Input
+              { ...this.props }
               type="password"
-              autoComplete="current-password"
-              id={ id }
-              name={ name }
-              value={ value }
-              disabled={ isDisabled }
+              autocomplete="current-password"
               onChange={ this.onChange }
               onFocus={ this.onFocus }
               onClick={ this.onClick }
-              placeholder={ placeholder }
+              value={ value }
             />
         );
     }
 
     renderTypeNumber() {
         const {
-            id,
-            name,
-            formRef,
             min,
-            max,
-            isDisabled,
-            skipValue
+            max
         } = this.props;
+
         const { value } = this.state;
 
         return (
             <>
-                <input
-                  data-skip-value={ skipValue }
-                  ref={ formRef }
+                <Input
+                  { ...this.props }
                   type="number"
-                  id={ id }
-                  name={ name }
-                  value={ value }
-                  disabled={ isDisabled }
+                  // eslint-disable-next-line react/jsx-no-bind
                   onChange={ e => this.handleChange(e.target.value, false) }
                   onKeyDown={ this.onKeyEnterDown }
                   onBlur={ this.onChange }
-                  onClick={ e => this.onClick(e, true) }
+                  onClick={ this.onClick }
+                  value={ value }
                 />
                 <button
                   disabled={ +value === max }
@@ -475,26 +438,16 @@ export default class Field extends PureComponent {
 
     renderCheckbox() {
         const {
-            id,
-            name,
-            formRef,
-            isDisabled,
-            value,
-            skipValue
+            id
         } = this.props;
         const { checked } = this.state;
 
         return (
             <>
-                <input
-                  data-skip-value={ skipValue }
-                  ref={ formRef }
-                  id={ id }
-                  name={ name }
+                <Input
+                  { ...this.props }
                   type="checkbox"
-                  value={ value }
                   checked={ checked }
-                  disabled={ isDisabled }
                   onChange={ this.onChangeCheckbox }
                 />
                 <label htmlFor={ id } />
@@ -504,27 +457,17 @@ export default class Field extends PureComponent {
 
     renderRadioButton() {
         const {
-            formRef,
             id,
-            name,
-            value,
-            isDisabled,
             label,
-            checked,
-            skipValue
+            checked
         } = this.props;
 
         return (
             <label htmlFor={ id }>
-                <input
-                  data-skip-value={ skipValue }
-                  ref={ formRef }
+                <Input
+                  { ...this.props }
                   type="radio"
-                  id={ id }
-                  name={ name }
                   checked={ checked }
-                  value={ value }
-                  disabled={ isDisabled }
                   onChange={ this.onClick }
                   onKeyPress={ this.onKeyPress }
                 />
@@ -536,7 +479,7 @@ export default class Field extends PureComponent {
 
     renderSelectWithOptions() {
         const {
-            name, id, selectOptions, formRef, placeholder, value
+            name, id, selectOptions, formRef, placeholder, value, isDisabled
         } = this.props;
 
         const { isSelectExpanded: isExpanded } = this.state;
@@ -562,6 +505,7 @@ export default class Field extends PureComponent {
                       ref={ formRef }
                       name={ name }
                       id={ id }
+                      disabled={ isDisabled }
                       tabIndex="0"
                       value={ value || '' }
                       onChange={ this.onChange }

@@ -11,7 +11,7 @@
 
 :root {
     --expandable-content-color: #000;
-    --expandable-content-divider-color: #0003;
+    --expandable-content-divider-color: var(--primary-divider-color);
 }
 
 @mixin expanded-content {
@@ -96,6 +96,7 @@
         text-transform: uppercase;
 
         @include after-mobile {
+            cursor: auto;
             font-size: 14px;
             font-weight: bold;
             text-transform: none;

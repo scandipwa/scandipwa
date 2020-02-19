@@ -9,8 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Component } from 'react';
 
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { BlockListType } from 'Type/CMS';
@@ -19,7 +19,7 @@ import Meta from 'Component/Meta';
 
 import './CmsPage.style';
 
-export default class CmsPage extends Component {
+export default class CmsPage extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         isBreadcrumbsActive: PropTypes.bool,

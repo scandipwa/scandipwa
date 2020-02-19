@@ -32,15 +32,21 @@
 
     margin-left: 0;
 
+    &:focus,
+    &:hover {
+        text-decoration: none;
+    }
+
     &-Color,
     &-String,
-    &-Image {
+    &-Image,
+    &-Text {
         background-color: var(--option-background-color);
         border-color: var(--option-border-color);
         border-width: 1px;
         color: var(--option-text-color);
         display: inline-block;
-        height: var(--option-size);
+        min-height: var(--option-size);
         width: var(--option-size);
         margin: var(--option-margin);
         padding: var(--option-padding);
@@ -57,7 +63,7 @@
         position: absolute;
         top: 0;
         left: 0;
-        margin: .5rem;
+        margin-left: .5rem;
 
         @include after-mobile {
             margin: 0;
@@ -117,7 +123,8 @@
         }
     }
 
-    &-String {
+    &-String,
+    &-Text {
         border-style: solid;
         line-height: var(--option-size);
         min-width: calc(1.25 * var(--option-size));
@@ -125,9 +132,68 @@
         text-align: center;
 
         &_isSelected {
-            --option-border-color: var(--color-primary-base);
-            --option-text-color: var(--color-primary-base);
+            --option-border-color: var(--primary-base-color);
+            --option-text-color: var(--primary-base-color);
         }
+    }
+
+    &-Text {
+        display: flex;
+        border: 0;
+        align-items: baseline;
+        margin: 0;
+        line-height: 1.4;
+        text-transform: uppercase;
+
+        &_isSelected {
+            color: var(--primary-base-color);
+        }
+
+        label {
+            font-weight: 400;
+            cursor: pointer;
+            margin: 0;
+
+            &:last-child {
+                border-color: var(--option-border-color);
+            }
+
+            &:first-of-type {
+                padding-left: 1rem;
+                padding-bottom: 0;
+                order: 1;
+                text-align: left;
+
+                ~ label {
+                    margin: 0;
+                    min-width: 1.5rem;
+                    top: .3rem;
+                }
+            }
+        }
+
+        &:hover,
+        &:focus {
+            label {
+                @include after-mobile {
+                    border-color: var(--primary-base-color);
+                }
+
+                &::after {
+                    @include after-mobile {
+                        --checkmark-color: var(--secondary-dark-color);
+                    }
+                }
+            }
+        }
+
+        @include after-mobile {
+            padding: .5rem 0;
+        }
+    }
+
+    &:hover {
+        text-decoration: none;
     }
 
     &_isNotAvailable {

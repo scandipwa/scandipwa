@@ -8,7 +8,7 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import { Component } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import HomeSlider from 'Component/SliderWidget';
 import NewProducts from 'Component/NewProducts';
@@ -18,7 +18,7 @@ export const SLIDER = 'Slider';
 export const NEW_PRODUCTS = 'NewProducts';
 export const CATALOG_PRODUCT_LIST = 'CatalogProductList';
 
-export default class WidgetFactory extends Component {
+export default class WidgetFactory extends PureComponent {
     static propTypes = {
         type: PropTypes.string.isRequired
     };

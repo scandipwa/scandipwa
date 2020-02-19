@@ -19,6 +19,8 @@ import { ProductType } from 'Type/ProductList';
 import { ReviewDispatcher } from 'Store/Review';
 import { hideActiveOverlay } from 'Store/Overlay';
 import { showNotification } from 'Store/Notification';
+import { goToPreviousNavigationState } from 'Store/Navigation';
+import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 
 import ProductReviewForm from './ProductReviewForm.component';
 
@@ -31,12 +33,14 @@ export const mapStateToProps = state => ({
 export const mapDispatchToProps = dispatch => ({
     addReview: options => ReviewDispatcher.submitProductReview(dispatch, options),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    hideActiveOverlay: () => dispatch(hideActiveOverlay())
+    hideActiveOverlay: () => dispatch(hideActiveOverlay()),
+    goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))
 });
 
 export class ProductReviewFormContainer extends PureComponent {
     static propTypes = {
         showNotification: PropTypes.func.isRequired,
+        goToPreviousHeaderState: PropTypes.func.isRequired,
         hideActiveOverlay: PropTypes.func.isRequired,
         reviewRatings: RatingItemsType.isRequired,
         product: ProductType.isRequired,
@@ -79,20 +83,31 @@ export class ProductReviewFormContainer extends PureComponent {
             || !reviewRatings.every(({ rating_id }) => ratingData[rating_id]);
 
         if (reviewsAreNotValid) {
-            showNotification('error', 'Incorrect data! Please check review fields.');
+            showNotification('info', 'Incorrect data! Please check review fields.');
         }
 
         this.setState({ isLoading: !reviewsAreNotValid });
     }
 
     _onReviewSubmitSuccess(fields) {
-        const { product, addReview, hideActiveOverlay } = this.props;
-        const { ratingData: rating_data } = this.state;
+        const {
+            product,
+            addReview,
+            hideActiveOverlay,
+            goToPreviousHeaderState
+        } = this.props;
 
-        const { nickname, title, detail } = fields;
+        const { ratingData: rating_data, isLoading } = this.state;
+
+        const {
+            nickname,
+            title,
+            detail
+        } = fields;
+
         const { sku: product_sku } = product;
 
-        if (Object.keys(rating_data).length) {
+        if (Object.keys(rating_data).length && isLoading) {
             addReview({
                 nickname,
                 title,
@@ -107,6 +122,7 @@ export class ProductReviewFormContainer extends PureComponent {
                         isLoading: false
                     });
 
+                    goToPreviousHeaderState();
                     hideActiveOverlay();
 
                     return;

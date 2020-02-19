@@ -27,7 +27,7 @@ export class CmsPageQuery {
         const items = this._getPageFields();
 
         return new Field('cmsPage')
-            .addArgument('url_key', 'String!', id)
+            .addArgument('identifier', 'String!', id)
             .addFieldList(items);
     }
 

@@ -13,9 +13,12 @@
 
 import { PureComponent, Children, createRef } from 'react';
 import PropTypes from 'prop-types';
-import CSS from 'Util/CSS';
+
 import { MixType, ChildrenType } from 'Type/Common';
 import Draggable from 'Component/Draggable';
+import isMobile from 'Util/Mobile';
+import CSS from 'Util/CSS';
+
 import './Slider.style';
 
 export const ANIMATION_DURATION = 300;
@@ -31,13 +34,15 @@ export default class Slider extends PureComponent {
         activeImage: PropTypes.number,
         onActiveImageChange: PropTypes.func,
         mix: MixType,
-        children: ChildrenType.isRequired
+        children: ChildrenType.isRequired,
+        isInteractionDisabled: PropTypes.bool
     };
 
     static defaultProps = {
         activeImage: 0,
         onActiveImageChange: () => {},
         showCrumbs: false,
+        isInteractionDisabled: false,
         mix: {}
     };
 
@@ -49,14 +54,13 @@ export default class Slider extends PureComponent {
 
     sliderRef = createRef();
 
-    handleDragStart = this.handleDragStart.bind(this);
+    handleDragStart = this.handleInteraction.bind(this, this.handleInteraction);
 
-    handleDrag = this.handleDrag.bind(this);
+    handleDrag = this.handleInteraction.bind(this, this.handleDrag);
 
-    handleDragEnd = this.handleDragEnd.bind(this);
+    handleDragEnd = this.handleInteraction.bind(this, this.handleDragEnd);
 
     renderCrumb = this.renderCrumb.bind(this);
-
 
     constructor(props) {
         super(props);
@@ -83,6 +87,8 @@ export default class Slider extends PureComponent {
         const sliderChildren = this.draggableRef.current.children;
         const sliderWidth = this.draggableRef.current.offsetWidth;
         this.sliderWidth = sliderWidth;
+
+        if (!sliderChildren || !sliderChildren[0]) return;
 
         sliderChildren[0].onload = () => {
             CSS.setVariable(this.sliderRef, 'slider-height', `${sliderChildren[0].offsetHeight}px`);
@@ -125,6 +131,10 @@ export default class Slider extends PureComponent {
         const sliderPossition = -prevActiveSlider;
         const realElementPossitionInDOM = elementPossitionInDOM - lastTranslate;
         const mousePossitionInElement = originalX - realElementPossitionInDOM;
+
+        if (isMobile.any()) {
+            return sliderPossition;
+        }
 
         if (slideSize / 2 < mousePossitionInElement && -fullSliderPoss < sliderPossition) {
             const activeSlide = sliderPossition - 1;
@@ -232,6 +242,14 @@ export default class Slider extends PureComponent {
         });
     }
 
+    handleInteraction(callback, ...args) {
+        const { isInteractionDisabled } = this.props;
+
+        if (isInteractionDisabled || !callback) return;
+
+        callback.call(this, ...args);
+    }
+
     changeActiveImage(activeImage) {
         const { onActiveImageChange } = this.props;
         onActiveImageChange(activeImage);
@@ -239,6 +257,7 @@ export default class Slider extends PureComponent {
 
     renderCrumbs() {
         const { children } = this.props;
+        if (children.length <= 1) return null;
 
         return (
             <div
@@ -272,7 +291,10 @@ export default class Slider extends PureComponent {
 
     render() {
         const {
-            showCrumbs, mix, activeImage, children
+            showCrumbs,
+            mix,
+            activeImage,
+            children
         } = this.props;
 
         return (

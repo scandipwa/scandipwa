@@ -13,12 +13,14 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { changeHeaderState } from 'Store/Header';
+import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { changeNavigationState } from 'Store/Navigation';
 import { MyAccountDispatcher } from 'Store/MyAccount';
-import { CUSTOMER_ACCOUNT } from 'Component/Header';
+import { CUSTOMER_ACCOUNT, CUSTOMER_SUB_ACCOUNT } from 'Component/Header';
 import { showNotification } from 'Store/Notification';
 import { hideActiveOverlay } from 'Store/Overlay';
 import { isSignedIn } from 'Util/Auth';
+import isMobile from 'Util/Mobile';
 import { history } from 'Route';
 
 import MyAccountOverlay, {
@@ -42,7 +44,7 @@ export const mapDispatchToProps = dispatch => ({
     signIn: options => MyAccountDispatcher.signIn(options, dispatch),
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    setHeaderState: headerState => dispatch(changeHeaderState(headerState))
+    setHeaderState: headerState => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, headerState))
 });
 
 export class MyAccountOverlayContainer extends PureComponent {
@@ -55,7 +57,12 @@ export class MyAccountOverlayContainer extends PureComponent {
         // eslint-disable-next-line react/no-unused-prop-types
         isOverlayVisible: PropTypes.bool.isRequired,
         setHeaderState: PropTypes.func.isRequired,
-        hideActiveOverlay: PropTypes.func.isRequired
+        hideActiveOverlay: PropTypes.func.isRequired,
+        onSignIn: PropTypes.func
+    };
+
+    static defaultProps = {
+        onSignIn: () => {}
     };
 
     containerFunctions = {
@@ -67,9 +74,9 @@ export class MyAccountOverlayContainer extends PureComponent {
         onForgotPasswordAttempt: this.onForgotPasswordAttempt.bind(this),
         onFormError: this.onFormError.bind(this),
         handleForgotPassword: this.handleForgotPassword.bind(this),
-        handleForgotPasswordSuccess: this.handleForgotPasswordSuccess.bind(this),
         handleSignIn: this.handleSignIn.bind(this),
-        handleCreateAccount: this.handleCreateAccount.bind(this)
+        handleCreateAccount: this.handleCreateAccount.bind(this),
+        onVisible: this.onVisible.bind(this)
     };
 
     constructor(props) {
@@ -100,10 +107,12 @@ export class MyAccountOverlayContainer extends PureComponent {
 
         const stateToBeUpdated = {};
 
-        if (!isOverlayVisible && !isSignedIn) {
-            stateToBeUpdated.state = STATE_SIGN_IN;
-        } else if (!isOverlayVisible && isSignedIn) {
-            stateToBeUpdated.state = STATE_LOGGED_IN;
+        if (!isMobile.any()) {
+            if (!isOverlayVisible && !isSignedIn) {
+                stateToBeUpdated.state = STATE_SIGN_IN;
+            } else if (!isOverlayVisible && isSignedIn) {
+                stateToBeUpdated.state = STATE_LOGGED_IN;
+            }
         }
 
         if (myAccountState !== STATE_LOGGED_IN && isSignedIn) {
@@ -120,33 +129,47 @@ export class MyAccountOverlayContainer extends PureComponent {
         if (isPasswordForgotSend !== currentIsPasswordForgotSend) {
             stateToBeUpdated.isLoading = false;
             stateToBeUpdated.isPasswordForgotSend = isPasswordForgotSend;
-            showNotification('success', __(`If there is an account associated with the
-            provided address you will receive an email with a link to reset your password.`));
+            // eslint-disable-next-line max-len
+            showNotification('success', __('If there is an account associated with the provided address you will receive an email with a link to reset your password.'));
             stateToBeUpdated.state = STATE_SIGN_IN;
         }
 
         return Object.keys(stateToBeUpdated).length ? stateToBeUpdated : null;
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(_, prevState) {
         const { state: oldMyAccountState } = prevState;
         const { state: newMyAccountState } = this.state;
+        const currentPage = window.location.pathname;
 
         if (oldMyAccountState === newMyAccountState) return;
 
-        if (newMyAccountState === STATE_LOGGED_IN) {
+        if (currentPage !== '/checkout' && newMyAccountState === STATE_LOGGED_IN) {
             history.push({ pathname: '/my-account/dashboard' });
         }
     }
 
     async onSignInSuccess(fields) {
-        const { signIn, showNotification } = this.props;
+        const {
+            signIn,
+            showNotification,
+            onSignIn
+        } = this.props;
 
         try {
             await signIn(fields);
+            onSignIn();
         } catch (e) {
             this.setState({ isLoading: false });
             showNotification('error', e.message);
+        }
+    }
+
+    onVisible() {
+        const { setHeaderState } = this.props;
+
+        if (isMobile.any()) {
+            setHeaderState({ name: CUSTOMER_ACCOUNT, title: 'Sign in' });
         }
     }
 
@@ -158,14 +181,17 @@ export class MyAccountOverlayContainer extends PureComponent {
         const { showNotification } = this.props;
 
         if (invalidFields) {
-            showNotification('error', __('Incorrect data! Please resolve all field validation errors.'));
+            showNotification('info', __('Incorrect data! Please resolve all field validation errors.'));
         }
 
         this.setState({ isLoading: !invalidFields });
     }
 
     onCreateAccountSuccess(fields) {
-        const { createAccount } = this.props;
+        const {
+            createAccount,
+            onSignIn
+        } = this.props;
 
         const {
             password,
@@ -185,13 +211,21 @@ export class MyAccountOverlayContainer extends PureComponent {
             password
         };
 
-        createAccount(customerData)
-            .then(this.stopLoadingAndHideOverlay, this.stopLoadingAndHideOverlay);
+        createAccount(customerData).then(
+            () => {
+                onSignIn();
+                this.stopLoadingAndHideOverlay();
+            },
+            this.stopLoadingAndHideOverlay()
+        );
     }
 
     onForgotPasswordSuccess(fields) {
         const { forgotPassword } = this.props;
-        forgotPassword(fields).then(this.stopLoading, this.stopLoading);
+        forgotPassword(fields).then(() => {
+            this.setState({ state: STATE_FORGOT_PASSWORD_SUCCESS });
+            this.stopLoading();
+        }, this.stopLoading);
     }
 
     onForgotPasswordAttempt() {
@@ -215,11 +249,12 @@ export class MyAccountOverlayContainer extends PureComponent {
         e.preventDefault();
         e.nativeEvent.stopImmediatePropagation();
         this.setState({ state: STATE_FORGOT_PASSWORD });
-        setHeaderState({ name: CUSTOMER_ACCOUNT, title: 'Forgot password' });
-    }
 
-    handleForgotPasswordSuccess() {
-        this.setState({ state: STATE_FORGOT_PASSWORD_SUCCESS });
+        setHeaderState({
+            name: CUSTOMER_SUB_ACCOUNT,
+            title: 'Forgot password',
+            onBackClick: () => this.handleSignIn(e)
+        });
     }
 
     handleSignIn(e) {
@@ -227,7 +262,11 @@ export class MyAccountOverlayContainer extends PureComponent {
         e.preventDefault();
         e.nativeEvent.stopImmediatePropagation();
         this.setState({ state: STATE_SIGN_IN });
-        setHeaderState({ name: CUSTOMER_ACCOUNT, title: 'Sign in' });
+
+        setHeaderState({
+            name: CUSTOMER_ACCOUNT,
+            title: 'Sign in'
+        });
     }
 
     handleCreateAccount(e) {
@@ -235,7 +274,12 @@ export class MyAccountOverlayContainer extends PureComponent {
         e.preventDefault();
         e.nativeEvent.stopImmediatePropagation();
         this.setState({ state: STATE_CREATE_ACCOUNT });
-        setHeaderState({ name: CUSTOMER_ACCOUNT, title: 'Create account' });
+
+        setHeaderState({
+            name: CUSTOMER_SUB_ACCOUNT,
+            title: 'Create account',
+            onBackClick: () => this.handleSignIn(e)
+        });
     }
 
     render() {

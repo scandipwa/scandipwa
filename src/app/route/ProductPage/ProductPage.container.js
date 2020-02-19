@@ -13,12 +13,17 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { ProductDispatcher } from 'Store/Product';
-import { changeHeaderState } from 'Store/Header';
-import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
+
 import { history } from 'Route';
 import { PDP } from 'Component/Header';
 import { getVariantIndex } from 'Util/Product';
+import { ProductType } from 'Type/ProductList';
+import { ProductDispatcher } from 'Store/Product';
+import { changeNavigationState } from 'Store/Navigation';
+import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
+import { LocationType, HistoryType, MatchType } from 'Type/Common';
+import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.component';
+import { TOP_NAVIGATION_TYPE, BOTTOM_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import {
     getUrlParam,
     convertQueryStringToKeyValuePairs,
@@ -27,9 +32,6 @@ import {
     objectToUri
 } from 'Util/Url';
 
-import { ProductType } from 'Type/ProductList';
-import { LocationType, HistoryType, MatchType } from 'Type/Common';
-
 import ProductPage from './ProductPage.component';
 
 export const mapStateToProps = state => ({
@@ -37,10 +39,10 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-    changeHeaderState: state => dispatch(changeHeaderState(state)),
+    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
+    changeNavigationState: state => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
     requestProduct: options => ProductDispatcher.handleData(dispatch, options),
-    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.updateWithProduct(breadcrumbs, dispatch),
-    clearGroupedProductQuantity: () => ProductDispatcher.clearGroupedProductQuantity(dispatch)
+    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.updateWithProduct(breadcrumbs, dispatch)
 });
 
 export class ProductPageContainer extends PureComponent {
@@ -48,10 +50,10 @@ export class ProductPageContainer extends PureComponent {
         location: LocationType,
         isOnlyPlaceholder: PropTypes.bool,
         changeHeaderState: PropTypes.func.isRequired,
+        changeNavigationState: PropTypes.func.isRequired,
         updateBreadcrumbs: PropTypes.func.isRequired,
         requestProduct: PropTypes.func.isRequired,
         product: ProductType.isRequired,
-        clearGroupedProductQuantity: PropTypes.func.isRequired,
         history: HistoryType.isRequired,
         match: MatchType.isRequired
     };
@@ -83,15 +85,6 @@ export class ProductPageContainer extends PureComponent {
 
         if (pathname !== prevPathname) this._requestProduct();
         this._onProductUpdate();
-    }
-
-
-    componentWillUnmount() {
-        const { product: { type_id }, clearGroupedProductQuantity } = this.props;
-
-        if (type_id === 'grouped') return clearGroupedProductQuantity();
-
-        return null;
     }
 
     static getDerivedStateFromProps(props) {
@@ -198,6 +191,7 @@ export class ProductPageContainer extends PureComponent {
         if (Object.keys(dataSource).length) {
             this._updateBreadcrumbs(dataSource);
             this._updateHeaderState(dataSource);
+            this._updateNavigationState();
         }
     }
 
@@ -254,6 +248,11 @@ export class ProductPageContainer extends PureComponent {
 
         this.setState({ isConfigurationInitialized: false });
         requestProduct(options);
+    }
+
+    _updateNavigationState() {
+        const { changeNavigationState } = this.props;
+        changeNavigationState({ name: MENU_TAB });
     }
 
     _updateHeaderState({ name: title }) {

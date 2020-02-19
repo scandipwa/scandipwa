@@ -31,7 +31,7 @@ class MyAccountPasswordForm extends FieldForm {
             },
             newPassword: {
                 type: 'password',
-                label: __('New Password'),
+                label: __('New password'),
                 validation: ['notEmpty']
             }
         };
@@ -39,7 +39,7 @@ class MyAccountPasswordForm extends FieldForm {
 
     renderActions() {
         return (
-            <button block="Button">
+            <button block="Button" mix={ { block: 'MyAccount', elem: 'Button' } }>
                 { __('Change password') }
             </button>
         );

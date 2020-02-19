@@ -12,10 +12,11 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import MyAccountOrderTableRow from 'Component/MyAccountOrderTableRow';
+import MyAccountOrderPopup from 'Component/MyAccountOrderPopup';
 import { ordersType } from 'Type/Account';
 import Loader from 'Component/Loader';
-import MyAccountOrderPopup from 'Component/MyAccountOrderPopup';
-import MyAccountOrderTableRow from 'Component/MyAccountOrderTableRow';
+import isMobile from 'Util/Mobile';
 
 import './MyAccountMyOrders.style';
 
@@ -31,21 +32,22 @@ class MyAccountMyOrders extends PureComponent {
 
     renderNoOrders() {
         return (
-            <div block="MyAccountMyOrders" elem="NoOrders">
-                <p>{ __('You have no orders.') }</p>
-            </div>
+            <tr block="MyAccountMyOrders" elem="NoOrders">
+                { /* eslint-disable-next-line no-magic-numbers */ }
+                <td colSpan={ isMobile.any() ? 3 : 4 }>{ __('You have no orders.') }</td>
+            </tr>
         );
     }
 
     renderTable() {
         return (
-            <table>
+            <table block="MyAccountMyOrders" elem="Table">
                 <thead>
                     <tr>
-                        <th>Order</th>
-                        <th>Date</th>
-                        <th>Status</th>
-                        <th block="hidden-mobile">Total</th>
+                        <th>{ __('Order') }</th>
+                        <th>{ __('Date') }</th>
+                        <th>{ __('Status') }</th>
+                        <th block="hidden-mobile">{ __('Total') }</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -69,7 +71,9 @@ class MyAccountMyOrders extends PureComponent {
     renderOrdersList() {
         const { orderList, isLoading } = this.props;
 
-        const orders = (!isLoading && orderList.length)
+        if (!isLoading && !orderList.length) return this.renderNoOrders();
+
+        const orders = orderList.length
             ? orderList
             : Array.from({ length: 10 }, (_, id) => ({ base_order_info: { id } }));
 

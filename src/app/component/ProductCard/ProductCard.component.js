@@ -9,10 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
+import { PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
 
-import media, { PRODUCT_MEDIA } from 'Util/Media';
 import Link from 'Component/Link';
 import Image from 'Component/Image';
 import Loader from 'Component/Loader';
@@ -20,6 +19,7 @@ import { ProductType } from 'Type/ProductList';
 import ProductPrice from 'Component/ProductPrice';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import ProductReviewRating from 'Component/ProductReviewRating';
+import ProductAttributeValue from 'Component/ProductAttributeValue';
 
 import './ProductCard.style';
 
@@ -38,6 +38,7 @@ export default class ProductCard extends PureComponent {
             value: PropTypes.string
         })).isRequired,
         getAttribute: PropTypes.func.isRequired,
+        registerSharedElement: PropTypes.func.isRequired,
         children: PropTypes.element,
         isLoading: PropTypes.bool,
         mix: PropTypes.shape({})
@@ -49,6 +50,13 @@ export default class ProductCard extends PureComponent {
         children: null,
         isLoading: false,
         mix: {}
+    };
+
+    imageRef = createRef();
+
+    registerSharedElement = () => {
+        const { registerSharedElement } = this.props;
+        registerSharedElement(this.imageRef);
     };
 
     renderProductPrice() {
@@ -83,21 +91,25 @@ export default class ProductCard extends PureComponent {
 
     renderPicture() {
         const { product: { id, name }, thumbnail } = this.props;
-        const imageUrl = thumbnail && media(`${ PRODUCT_MEDIA }${ thumbnail }`);
+
+        this.sharedComponent = (
+            <Image
+              imageRef={ this.imageRef }
+              src={ thumbnail }
+              alt={ name }
+              ratio="custom"
+              mix={ { block: 'ProductCard', elem: 'Picture' } }
+              isPlaceholder={ !id }
+            />
+        );
 
         return (
             <>
-                <Image
-                  src={ imageUrl }
-                  alt={ name }
-                  ratio="custom"
-                  mix={ { block: 'ProductCard', elem: 'Picture' } }
-                  isPlaceholder={ !id }
-                />
+                { this.sharedComponent }
                 <img
                   style={ { display: 'none' } }
                   alt={ name }
-                  src={ imageUrl }
+                  src={ thumbnail }
                   itemProp="image"
                 />
             </>
@@ -128,19 +140,23 @@ export default class ProductCard extends PureComponent {
 
     renderAdditionalProductDetails() {
         const { product: { sku }, getAttribute } = this.props;
-        const { attribute_value: brand } = getAttribute('brand') || {};
+        const { product_list_content: { attribute_to_display } = {} } = window.contentConfiguration;
+        const brand = getAttribute(attribute_to_display || 'brand') || {};
 
         if (sku && !brand) return null;
 
         return (
-            <p
+            <div
               block="ProductCard"
               elem="Brand"
               mods={ { isLoaded: !!brand } }
               itemProp="brand"
             >
-                { brand }
-            </p>
+                <ProductAttributeValue
+                  attribute={ brand }
+                  isFormattedAsText
+                />
+            </div>
         );
     }
 
@@ -171,6 +187,7 @@ export default class ProductCard extends PureComponent {
               block="ProductCard"
               elem="Link"
               to={ linkTo }
+              onClick={ this.registerSharedElement }
             >
               { children }
             </Link>

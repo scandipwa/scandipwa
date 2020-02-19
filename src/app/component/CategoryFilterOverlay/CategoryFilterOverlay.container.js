@@ -12,13 +12,25 @@
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { goToPreviousHeaderState } from 'Store/Header';
+
+import { TOP_NAVIGATION_TYPE, BOTTOM_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { goToPreviousNavigationState, changeNavigationState } from 'Store/Navigation';
 import { hideActiveOverlay } from 'Store/Overlay';
+import { FILTER } from 'Component/Header';
+
 import CategoryFilterOverlay from './CategoryFilterOverlay.component';
+
+export const mapStateToProps = state => ({
+    isInfoLoading: state.ProductListInfoReducer.isLoading,
+    totalPages: state.ProductListReducer.totalPages
+});
 
 export const mapDispatchToProps = dispatch => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    goToPreviousHeaderState: () => dispatch(goToPreviousHeaderState())
+    goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE)),
+    goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(BOTTOM_NAVIGATION_TYPE)),
+    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
+    changeNavigationState: state => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state))
 });
 
 export class CategoryFilterOverlayContainer extends PureComponent {
@@ -26,6 +38,9 @@ export class CategoryFilterOverlayContainer extends PureComponent {
         customFiltersValues: PropTypes.objectOf(PropTypes.array).isRequired,
         hideActiveOverlay: PropTypes.func.isRequired,
         goToPreviousHeaderState: PropTypes.func.isRequired,
+        goToPreviousNavigationState: PropTypes.func.isRequired,
+        changeHeaderState: PropTypes.func.isRequired,
+        changeNavigationState: PropTypes.func.isRequired,
         updateFilter: PropTypes.func.isRequired,
         getFilterUrl: PropTypes.func.isRequired
     };
@@ -33,14 +48,39 @@ export class CategoryFilterOverlayContainer extends PureComponent {
     containerFunctions = {
         onSeeResultsClick: this.onSeeResultsClick.bind(this),
         toggleCustomFilter: this.toggleCustomFilter.bind(this),
-        getFilterUrl: this.getFilterUrl.bind(this)
+        getFilterUrl: this.getFilterUrl.bind(this),
+        onVisible: this.onVisible.bind(this)
     };
 
     onSeeResultsClick() {
-        const { hideActiveOverlay, goToPreviousHeaderState } = this.props;
+        const {
+            hideActiveOverlay,
+            goToPreviousHeaderState,
+            goToPreviousNavigationState
+        } = this.props;
 
         hideActiveOverlay();
         goToPreviousHeaderState();
+        goToPreviousNavigationState();
+    }
+
+    onVisible() {
+        const {
+            changeHeaderState,
+            changeNavigationState,
+            goToPreviousNavigationState
+        } = this.props;
+
+        changeHeaderState({
+            name: FILTER,
+            title: __('Filters'),
+            onCloseClick: () => goToPreviousNavigationState()
+        });
+
+        changeNavigationState({
+            name: FILTER,
+            isHidden: true
+        });
     }
 
     /**
@@ -97,4 +137,4 @@ export class CategoryFilterOverlayContainer extends PureComponent {
     }
 }
 
-export default connect(null, mapDispatchToProps)(CategoryFilterOverlayContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(CategoryFilterOverlayContainer);
