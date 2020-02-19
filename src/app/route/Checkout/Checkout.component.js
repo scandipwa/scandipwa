@@ -47,6 +47,7 @@ class Checkout extends PureComponent {
         isDeliveryOptionsLoading: PropTypes.bool.isRequired,
         shippingAddress: addressType.isRequired,
         checkoutTotals: TotalsType.isRequired,
+        paymentTotals: TotalsType,
         orderID: PropTypes.string.isRequired,
         history: HistoryType.isRequired,
         onEmailChange: PropTypes.func.isRequired,
@@ -60,6 +61,10 @@ class Checkout extends PureComponent {
         createUser: PropTypes.bool.isRequired,
         onCreateUserChange: PropTypes.func.isRequired,
         onPasswordChange: PropTypes.func.isRequired
+    };
+
+    static defaultProps = {
+        paymentTotals: {}
     };
 
     stepMap = {
@@ -215,7 +220,10 @@ class Checkout extends PureComponent {
         if (!areTotalsVisible) return null;
 
         return (
-            <CheckoutOrderSummary totals={ checkoutTotals } paymentTotals={ paymentTotals } />
+            <CheckoutOrderSummary
+              totals={ checkoutTotals }
+              paymentTotals={ paymentTotals }
+            />
         );
     }
 
