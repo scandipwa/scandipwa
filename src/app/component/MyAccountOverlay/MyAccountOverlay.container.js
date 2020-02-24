@@ -149,8 +149,7 @@ export class MyAccountOverlayContainer extends PureComponent {
             showOverlay(CUSTOMER_ACCOUNT_OVERLAY_KEY);
             setHeaderState({
                 name: CUSTOMER_SUB_ACCOUNT,
-                title: 'Forgot password',
-                onBackClick: () => this.handleSignIn(e)
+                title: 'Forgot password'
             });
         }
     }
