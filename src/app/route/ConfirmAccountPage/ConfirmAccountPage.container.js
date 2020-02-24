@@ -76,7 +76,7 @@ export class ConfirmAccountPageContainer extends PureComponent {
         confirmAccount({ ...options, password })
             .then(() => signIn({ email, password }))
             .then(() => this.setState({ redirect: true }))
-            .catch(() => this.setState({ isLoading: false, redirect: true }));
+            .catch(() => this.setState({ isLoading: false }));
     }
 
     onFormError() {

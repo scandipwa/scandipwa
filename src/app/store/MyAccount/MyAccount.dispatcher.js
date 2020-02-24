@@ -121,8 +121,8 @@ export class MyAccountDispatcher {
         const mutation = MyAccountQuery.getConfirmAccountMutation(options);
 
         return fetchMutation(mutation).then(
-            () => dispatch(showNotification('success', 'Your account is confirmed!')),
-            () => dispatch(showNotification('success', 'Your account is confirmed!'))
+            () => dispatch(showNotification('success', __('Your account is confirmed!'))),
+            () => dispatch(showNotification('error', __('Something went wrong! Please, try again!')))
         );
     }
 
