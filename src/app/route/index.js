@@ -124,6 +124,10 @@ class AppRouter extends PureComponent {
             position: 70
         },
         {
+            component: <Route path="/forgot-password" component={ HomePage } />,
+            position: 71
+        },
+        {
             component: <Route path="/menu" component={ MenuPage } />,
             position: 80
         },

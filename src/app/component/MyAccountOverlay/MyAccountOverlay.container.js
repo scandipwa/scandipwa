@@ -18,11 +18,12 @@ import { changeNavigationState } from 'Store/Navigation';
 import { MyAccountDispatcher } from 'Store/MyAccount';
 import { CUSTOMER_ACCOUNT, CUSTOMER_SUB_ACCOUNT } from 'Component/Header';
 import { showNotification } from 'Store/Notification';
-import { hideActiveOverlay } from 'Store/Overlay';
+import { toggleOverlayByKey, hideActiveOverlay } from 'Store/Overlay';
 import { isSignedIn } from 'Util/Auth';
 import isMobile from 'Util/Mobile';
 import { history } from 'Route';
 
+import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from './MyAccountOverlay.component';
 import MyAccountOverlay, {
     STATE_SIGN_IN,
     STATE_FORGOT_PASSWORD,
@@ -44,6 +45,7 @@ export const mapDispatchToProps = dispatch => ({
     signIn: options => MyAccountDispatcher.signIn(options, dispatch),
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
+    showOverlay: overlayKey => dispatch(toggleOverlayByKey(overlayKey)),
     setHeaderState: headerState => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, headerState))
 });
 
@@ -56,6 +58,7 @@ export class MyAccountOverlayContainer extends PureComponent {
         createAccount: PropTypes.func.isRequired,
         // eslint-disable-next-line react/no-unused-prop-types
         isOverlayVisible: PropTypes.bool.isRequired,
+        showOverlay: PropTypes.func.isRequired,
         setHeaderState: PropTypes.func.isRequired,
         onSignIn: PropTypes.func
     };
@@ -134,6 +137,22 @@ export class MyAccountOverlayContainer extends PureComponent {
         }
 
         return Object.keys(stateToBeUpdated).length ? stateToBeUpdated : null;
+    }
+
+    componentDidMount() {
+        const { showOverlay, setHeaderState } = this.props;
+        const currentPage = window.location.pathname;
+
+        if (currentPage === '/forgot-password') {
+            this.setState({ state: STATE_FORGOT_PASSWORD });
+
+            showOverlay(CUSTOMER_ACCOUNT_OVERLAY_KEY);
+            setHeaderState({
+                name: CUSTOMER_SUB_ACCOUNT,
+                title: 'Forgot password',
+                onBackClick: () => this.handleSignIn(e)
+            });
+        }
     }
 
     componentDidUpdate(_, prevState) {
