@@ -23,13 +23,13 @@ import { isSignedIn } from 'Util/Auth';
 import isMobile from 'Util/Mobile';
 import { history } from 'Route';
 
-import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from './MyAccountOverlay.component';
 import MyAccountOverlay, {
     STATE_SIGN_IN,
     STATE_FORGOT_PASSWORD,
     STATE_FORGOT_PASSWORD_SUCCESS,
     STATE_CREATE_ACCOUNT,
-    STATE_LOGGED_IN
+    STATE_LOGGED_IN,
+    CUSTOMER_ACCOUNT_OVERLAY_KEY
 } from './MyAccountOverlay.component';
 
 export const mapStateToProps = state => ({
