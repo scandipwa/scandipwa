@@ -14,8 +14,14 @@
         padding-top: 1rem;
     }
 
+    @include mobile {
+        padding-bottom: 75px;
+    }
+
     > section:nth-child(even) {
-        background-color: var(--secondary-base-color);
+        @include after-mobile {
+            background-color: var(--secondary-base-color);
+        }
     }
 
     &-Wrapper {

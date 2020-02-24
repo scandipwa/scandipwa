@@ -28,6 +28,16 @@
         overflow: visible;
     }
 
+    @include mobile {
+        transition: transform 200ms ease-in-out;
+        transform: translateY(100%);
+        will-change: transform;
+    }
+
+    &_isVisible {
+        transform: translateY(0%);
+    }
+
     &-Heading {
         font-size: 18px;
         font-weight: bold;
@@ -97,20 +107,28 @@
         }
     }
 
-    &-SeeResults.Button {
-        margin: 2rem 1rem;
-        width: calc(100% - 2rem);
+    &-SeeResults {
+        position: sticky;
+        padding: 1rem;
+        width: 100%;
+        left: 0;
 
         @include after-mobile {
             display: none;
         }
     }
 
+    &-Button.Button {
+        width: 100%;
+    }
+
     &-ResetButton {
         margin-bottom: 1rem;
 
-        @include mobile {
-            display: none !important;
+        &.Button {
+            @include mobile {
+                display: none;
+            }
         }
     }
 

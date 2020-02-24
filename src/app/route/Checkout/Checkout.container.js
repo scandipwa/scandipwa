@@ -14,13 +14,15 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { BRAINTREE, KLARNA } from 'Component/CheckoutPayments/CheckoutPayments.component';
+import { CART_TAB } from 'Component/NavigationTabs/NavigationTabs.component';
+import { TOP_NAVIGATION_TYPE, BOTTOM_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 import CartDispatcher from 'Store/Cart/Cart.dispatcher';
 import { fetchMutation, fetchQuery } from 'Util/Request';
 import { showNotification } from 'Store/Notification';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs';
 import BrowserDatabase from 'Util/BrowserDatabase';
-import { changeHeaderState } from 'Store/Header';
+import { changeNavigationState } from 'Store/Navigation';
 import CheckoutQuery from 'Query/Checkout.query';
 import { GUEST_QUOTE_ID } from 'Store/Cart';
 import { TotalsType } from 'Type/MiniCart';
@@ -40,13 +42,15 @@ export const mapDispatchToProps = dispatch => ({
     resetCart: () => CartDispatcher.updateInitialCartData(dispatch),
     toggleBreadcrumbs: state => dispatch(toggleBreadcrumbs(state)),
     showErrorNotification: message => dispatch(showNotification('error', message)),
-    setHeaderState: stateName => dispatch(changeHeaderState(stateName))
+    setHeaderState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
+    setNavigationState: stateName => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, stateName))
 });
 
 export class CheckoutContainer extends PureComponent {
     static propTypes = {
         showErrorNotification: PropTypes.func.isRequired,
         toggleBreadcrumbs: PropTypes.func.isRequired,
+        setNavigationState: PropTypes.func.isRequired,
         resetCart: PropTypes.func.isRequired,
         totals: TotalsType.isRequired,
         history: HistoryType.isRequired
@@ -57,7 +61,8 @@ export class CheckoutContainer extends PureComponent {
         setDetailsStep: this.setDetailsStep.bind(this),
         savePaymentInformation: this.savePaymentInformation.bind(this),
         saveAddressInformation: this.saveAddressInformation.bind(this),
-        onShippingEstimationFieldsChange: this.onShippingEstimationFieldsChange.bind(this)
+        onShippingEstimationFieldsChange: this.onShippingEstimationFieldsChange.bind(this),
+        onEmailChange: this.onEmailChange.bind(this)
     };
 
     customPaymentMethods = [
@@ -71,7 +76,10 @@ export class CheckoutContainer extends PureComponent {
         const {
             toggleBreadcrumbs,
             history,
-            totals: { items = [], is_virtual }
+            totals: {
+                items = [],
+                is_virtual
+            }
         } = props;
 
         toggleBreadcrumbs(false);
@@ -87,7 +95,9 @@ export class CheckoutContainer extends PureComponent {
             shippingAddress: {},
             checkoutStep: is_virtual ? BILLING_STEP : SHIPPING_STEP,
             orderID: '',
-            paymentTotals: BrowserDatabase.getItem(PAYMENT_TOTALS) || {}
+            paymentTotals: BrowserDatabase.getItem(PAYMENT_TOTALS) || {},
+            email: '',
+            isGuestEmailSaved: false
         };
 
         if (is_virtual) {
@@ -98,6 +108,10 @@ export class CheckoutContainer extends PureComponent {
     componentWillUnmount() {
         const { toggleBreadcrumbs } = this.props;
         toggleBreadcrumbs(true);
+    }
+
+    onEmailChange(email) {
+        this.setState({ email });
     }
 
     onShippingEstimationFieldsChange(address) {
@@ -126,7 +140,7 @@ export class CheckoutContainer extends PureComponent {
     }
 
     setDetailsStep(orderID) {
-        const { resetCart } = this.props;
+        const { resetCart, setNavigationState } = this.props;
 
         // For some reason not logged in user cart preserves qty in it
         if (!isSignedIn()) {
@@ -142,15 +156,24 @@ export class CheckoutContainer extends PureComponent {
             checkoutStep: DETAILS_STEP,
             orderID
         });
+
+        setNavigationState({
+            name: CART_TAB
+        });
     }
 
     setLoading(isLoading = true) {
         this.setState({ isLoading });
     }
 
-    containerProps = () => ({
-        checkoutTotals: this._getCheckoutTotals()
-    });
+    containerProps = () => {
+        const { paymentTotals } = this.state;
+
+        return {
+            checkoutTotals: this._getCheckoutTotals(),
+            paymentTotals
+        };
+    };
 
     _handleError = (error) => {
         const { showErrorNotification } = this.props;
@@ -203,13 +226,32 @@ export class CheckoutContainer extends PureComponent {
             : cartTotals;
     }
 
-    saveAddressInformation(addressInformation) {
+    saveGuestEmail() {
+        const { email } = this.state;
+        const guestCartId = BrowserDatabase.getItem(GUEST_QUOTE_ID);
+        const mutation = CheckoutQuery.getSaveGuestEmailMutation(email, guestCartId);
+
+        return fetchMutation(mutation).then(
+            ({ setGuestEmailOnCart: data }) => {
+                if (data) {
+                    this.setState({ isGuestEmailSaved: true });
+                }
+            },
+            this._handleError
+        );
+    }
+
+    async saveAddressInformation(addressInformation) {
         const { shipping_address } = addressInformation;
 
         this.setState({
             isLoading: true,
             shippingAddress: shipping_address
         });
+
+        if (!isSignedIn()) {
+            await this.saveGuestEmail();
+        }
 
         fetchMutation(CheckoutQuery.getSaveAddressInformation(
             addressInformation,
@@ -235,9 +277,14 @@ export class CheckoutContainer extends PureComponent {
         );
     }
 
-    savePaymentInformation(paymentInformation) {
+    async savePaymentInformation(paymentInformation) {
         const { paymentMethod: { method } } = paymentInformation;
+        const { isGuestEmailSaved } = this.state;
         this.setState({ isLoading: true });
+
+        if (!isSignedIn() && !isGuestEmailSaved) {
+            await this.saveGuestEmail();
+        }
 
         if (this.customPaymentMethods.includes(method)) {
             this.savePaymentMethodAndPlaceOrder(paymentInformation);

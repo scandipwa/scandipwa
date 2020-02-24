@@ -18,6 +18,8 @@ import ExpandableContent from 'Component/ExpandableContent';
 import CategoryConfigurableAttributes from 'Component/CategoryConfigurableAttributes';
 import './CategoryFilterOverlay.style';
 
+export const CATEGORY_FILTER_OVERLAY_ID = 'category-filter';
+
 export default class CategoryFilterOverlay extends PureComponent {
     static propTypes = {
         availableFilters: PropTypes.objectOf(PropTypes.shape).isRequired,
@@ -30,9 +32,11 @@ export default class CategoryFilterOverlay extends PureComponent {
         minPriceValue: PropTypes.number.isRequired,
         maxPriceValue: PropTypes.number.isRequired,
         onSeeResultsClick: PropTypes.func.isRequired,
+        onVisible: PropTypes.func.isRequired,
         customFiltersValues: PropTypes.objectOf(PropTypes.array).isRequired,
         toggleCustomFilter: PropTypes.func.isRequired,
-        getFilterUrl: PropTypes.func.isRequired
+        getFilterUrl: PropTypes.func.isRequired,
+        totalPages: PropTypes.number.isRequired
     };
 
     renderPriceRange() {
@@ -46,6 +50,8 @@ export default class CategoryFilterOverlay extends PureComponent {
         const { min: minValue, max: maxValue } = priceValue;
         const min = minValue || minPriceValue;
         const max = maxValue || maxPriceValue;
+
+        if (maxPriceValue - minPriceValue === 0) return null;
 
         return (
             <ExpandableContent
@@ -93,14 +99,19 @@ export default class CategoryFilterOverlay extends PureComponent {
         const { onSeeResultsClick } = this.props;
 
         return (
-            <button
+            <div
               block="CategoryFilterOverlay"
               elem="SeeResults"
-              mix={ { block: 'Button' } }
-              onClick={ onSeeResultsClick }
             >
-                { __('SEE RESULTS') }
-            </button>
+                <button
+                  block="CategoryFilterOverlay"
+                  elem="Button"
+                  mix={ { block: 'Button' } }
+                  onClick={ onSeeResultsClick }
+                >
+                    { __('SEE RESULTS') }
+                </button>
+            </div>
         );
     }
 
@@ -117,7 +128,21 @@ export default class CategoryFilterOverlay extends PureComponent {
     }
 
     render() {
-        const { isInfoLoading, availableFilters } = this.props;
+        const {
+            isInfoLoading,
+            availableFilters,
+            totalPages,
+            onVisible
+        } = this.props;
+
+        if (totalPages === 0) {
+            return (
+                <Overlay
+                  mix={ { block: 'CategoryFilterOverlay' } }
+                  id={ CATEGORY_FILTER_OVERLAY_ID }
+                />
+            );
+        }
 
         if (
             !isInfoLoading
@@ -126,11 +151,19 @@ export default class CategoryFilterOverlay extends PureComponent {
                 || !Object.keys(availableFilters).length
             )
         ) {
-            return <div block="CategoryFilterOverlay" />;
+            return (
+                <Overlay mix={ { block: 'CategoryFilterOverlay' } } id={ CATEGORY_FILTER_OVERLAY_ID }>
+                    { this.renderPriceRange() }
+                </Overlay>
+            );
         }
 
         return (
-            <Overlay mix={ { block: 'CategoryFilterOverlay' } } id="category-filter">
+            <Overlay
+              onVisible={ onVisible }
+              mix={ { block: 'CategoryFilterOverlay' } }
+              id={ CATEGORY_FILTER_OVERLAY_ID }
+            >
                 { this.renderHeading() }
                 { this.renderResetButton() }
                 { this.renderFilters() }

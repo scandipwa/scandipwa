@@ -11,7 +11,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { createRef } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import Overlay from 'Component/Overlay/Overlay.component';

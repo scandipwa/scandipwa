@@ -42,14 +42,15 @@ export class AddToCartContainer extends PureComponent {
         setQuantityToDefault: PropTypes.func,
         addProduct: PropTypes.func.isRequired,
         removeFromWishlist: PropTypes.func.isRequired,
-        wishlistItems: PropTypes.objectOf(ProductType).isRequired
+        wishlistItems: PropTypes.objectOf(ProductType).isRequired,
+        onProductValidationError: PropTypes.func
     };
 
     static defaultProps = {
         quantity: 1,
         configurableVariantIndex: 0,
-        setQuantityToDefault: () => {
-        },
+        setQuantityToDefault: () => {},
+        onProductValidationError: () => {},
         isLoading: false
     };
 
@@ -75,14 +76,14 @@ export class AddToCartContainer extends PureComponent {
         switch (type_id) {
         case CONFIGURABLE:
             if (configurableVariantIndex < 0 || !variants[configurableVariantIndex]) {
-                showNotification('error', __('Please select product options!'));
+                showNotification('info', __('Please select product options!'));
                 return false;
             }
 
             const { stock_status: configurableStock } = variants[configurableVariantIndex];
 
             if (configurableStock !== 'IN_STOCK') {
-                showNotification('error', __('Sorry! The selected product option is out of stock!'));
+                showNotification('info', __('Sorry! The selected product option is out of stock!'));
                 return false;
             }
 
@@ -91,7 +92,7 @@ export class AddToCartContainer extends PureComponent {
             const isAllItemsAvailable = items.every(({ product: { id } }) => groupedProductQuantity[id]);
 
             if (!isAllItemsAvailable) {
-                showNotification('error', __('Sorry! Child product quantities are invalid!'));
+                showNotification('info', __('Sorry! Child product quantities are invalid!'));
                 return false;
             }
 
@@ -100,7 +101,7 @@ export class AddToCartContainer extends PureComponent {
             const { stock_status } = product;
 
             if (stock_status !== 'IN_STOCK') {
-                showNotification('error', __('Sorry! The product is out of stock!'));
+                showNotification('info', __('Sorry! The product is out of stock!'));
                 return false;
             }
         }
@@ -111,6 +112,7 @@ export class AddToCartContainer extends PureComponent {
     buttonClick() {
         const {
             product,
+            onProductValidationError,
             configurableVariantIndex,
             groupedProductQuantity,
             quantity,
@@ -119,7 +121,10 @@ export class AddToCartContainer extends PureComponent {
 
         const { variants, type_id } = product;
 
-        if (!this._validateAddToCart()) return;
+        if (!this._validateAddToCart()) {
+            onProductValidationError(type_id);
+            return;
+        }
 
         this.setState({ isLoading: true });
 
@@ -152,7 +157,15 @@ export class AddToCartContainer extends PureComponent {
         addProduct({
             product: productToAdd,
             quantity
-        }).then(() => this._afterAdded());
+        }).then(
+            () => this._afterAdded()
+        ).catch(
+            () => this.resetLoading()
+        );
+    }
+
+    resetLoading() {
+        this.setState({ isLoading: false });
     }
 
     removeProductFromWishlist() {

@@ -17,6 +17,11 @@
 }
 
 .CartPage {
+    @include mobile {
+        padding-bottom: calc(var(--navigation-tabs-height) + 120px);
+        margin-bottom: 0;
+    }
+
     &-Wrapper {
         @include desktop {
             display: grid;
@@ -30,7 +35,6 @@
 
         @include mobile {
             padding: 0;
-            border-top: 1px solid var(--overlay-divider-color);
         }
     }
 
@@ -43,6 +47,14 @@
 
     &-Summary {
         background: var(--cart-page-totals-background);
+
+        @include mobile {
+            position: fixed;
+            bottom: var(--navigation-tabs-height);
+            left: 0;
+            width: 100%;
+            border-top: 1px solid var(--primary-divider-color);
+        }
 
         @include after-mobile {
             padding: 2rem;
@@ -58,6 +70,10 @@
         @include mobile {
             display: none;
         }
+    }
+
+    &-CheckoutButtons {
+        padding: 1rem;
     }
 
     &-CheckoutButton {
@@ -91,6 +107,10 @@
     &-Promo,
     &-Total {
         min-height: 4rem;
+
+        @include mobile {
+            min-height: 0;
+        }
     }
 
     &-Promo {
@@ -110,8 +130,8 @@
 
             @include mobile {
                 padding: 1rem;
-                border-left: 0;
-                border-right: 0;
+                border: 0;
+                border-bottom: 1px solid var(--primary-divider-color);
             }
         }
 
@@ -153,13 +173,16 @@
         padding: 1rem;
         font-size: 18px;
         font-weight: bold;
+
+        @include mobile {
+            padding-bottom: 0;
+        }
     }
 
     &-TotalDetails {
         border-bottom: 1px solid var(--cart-page-divider-background);
         border-top: 1px solid var(--cart-page-divider-background);
         padding: 1.5rem 0;
-        display: grid;
         grid-template-columns: 50% 50%;
         grid-row-gap: 1.5rem;
         justify-content: space-between;
@@ -167,13 +190,27 @@
         font-size: 14px;
         font-weight: 600;
         margin-top: 1.5rem;
+        display: none;
+
+        @include mobile {
+            padding: 1rem;
+            margin-top: 0;
+            border: 0;
+            border-bottom: 1px solid var(--primary-divider-color);
+        }
+
+        @include after-mobile {
+            display: grid;
+        }
 
         dd {
             text-align: right;
         }
 
-        @include mobile {
-            display: none;
+        &_isMobile {
+            @include mobile {
+                display: grid;
+            }
         }
     }
 

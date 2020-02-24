@@ -10,10 +10,6 @@
  */
 
 .CmsPage {
-    @include mobile {
-        border-top: 1px solid var(--overlay-divider-color);
-    }
-
     &_isBreadcrumbsHidden {
         margin-top: var(--header-height);
     }

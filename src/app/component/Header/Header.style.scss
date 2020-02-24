@@ -12,22 +12,13 @@
 :root {
     --header-background: #fff;
     --header-color: #000;
-    --header-search-field-background: var(--secondary-base-color);
-    --header-search-field-visible-background: #fff;
-    --header-search-field-color: #6e6e6e;
+    --header-icon-stroke-width: 1px;
     --header-search-clear-background: #838383;
-    --header-search-field-border-color: var(--primary-light-color);
-    --header-desktop-search-bar-width: 270px;
-    --header-desktop-search-bar-max-width: 450px;
     --header-desktop-button-color: #f26323;
-    --header-height: 50px;
+    --header-height: calc(50px + env(safe-area-inset-top));
     --header-nav-height: 50px;
     --header-logo-width: 200px;
     --header-logo-height: calc(var(--header-height) - 30px);
-
-    @include tablet {
-        --header-desktop-search-bar-width: 200px;
-    }
 
     @include after-mobile {
         --header-height: 60px;
@@ -52,44 +43,9 @@
     overflow: visible;
 }
 
-@mixin search-bar-visible {
-    opacity: 1;
-    border-color: transparent;
-    border-width: 1px;
-    padding: {
-        top: 4px;
-        bottom: 5px;
-        left: 10px;
-    };
-
-    @include mobile {
-        max-width: 100%;
-    }
-}
-
 @mixin logo-visible {
     opacity: 1;
     max-width: 100%;
-}
-
-@mixin search-icon-input {
-    &::before {
-        content: '';
-        position: absolute;
-        z-index: 1;
-        width: 10px;
-        height: 10px;
-        border: 1px solid var(--header-search-field-color);
-        border-radius: 50%;
-        top: 7px;
-        right: 17px;
-        box-shadow:
-            4px 4px 0 -5px var(--header-search-field-color),
-            5px 5px 0 -5px var(--header-search-field-color),
-            6px 6px 0 -5px var(--header-search-field-color),
-            7px 7px 0 -5px var(--header-search-field-color),
-            8px 8px 0 -5px var(--header-search-field-color);
-    }
 }
 
 .Header {
@@ -99,9 +55,19 @@
     width: 100%;
     z-index: 100;
     background-color: var(--header-background);
+    padding-top: env(safe-area-inset-top, 0);
 
-    @include mobile {
-        border-bottom: 1px solid #0003;
+    &_isHiddenOnMobile {
+        @include mobile {
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        @at-root .hiddenHeader {
+            @include mobile {
+                --header-height: env(safe-area-inset-top);
+            }
+        }
     }
 
     &_name {
@@ -109,19 +75,6 @@
             .Header-Button_type_minicart {
                 @include after-mobile {
                     --header-color: var(--header-desktop-button-color);
-                }
-            }
-        }
-
-        &_search {
-            @include after-mobile {
-                --header-desktop-search-bar-width: calc(50% - 100px);
-            }
-
-            .Header-SearchBar {
-                @include after-mobile {
-                    border: 1px solid var(--header-search-field-border-color);
-                    background-color: var(--header-search-field-visible-background);
                 }
             }
         }
@@ -143,7 +96,8 @@
             }
         }
 
-        &_customer_account {
+        &_customer_account,
+        &_customer_sub_account {
             .Header-Button_type_account {
                 @include after-mobile {
                     --header-color: var(--header-desktop-button-color);
@@ -153,7 +107,8 @@
 
         &_checkout {
             .Header-Button,
-            .Header-SearchWrapper {
+            .Header-SearchWrapper,
+            .SearchField {
                 @include after-mobile {
                     display: none;
                 }
@@ -183,6 +138,10 @@
         z-index: 20;
         max-width: var(--content-wrapper-width);
         margin: auto;
+
+        @include mobile {
+            border-bottom: 1px solid var(--primary-divider-color);
+        }
     }
 
     &-Button {
@@ -230,18 +189,14 @@
 
             &_account {
                 @include account-button;
+
+                &.Header-Button_isVisible {
+                    overflow: hidden;
+                }
             }
 
             &_minicart {
                 @include minicart-button;
-
-                &.Header-Button_isVisible {
-                    width: 100%;
-                }
-
-                @include after-mobile {
-                    width: 100%;
-                }
             }
 
             &_searchClear {
@@ -256,6 +211,10 @@
                 @include edit-button;
             }
 
+            &_home {
+                @include home-icon;
+            }
+
             &_ok,
             &_cancel {
                 font-size: 14px;
@@ -268,46 +227,29 @@
         }
     }
 
-    &-SearchWrapper {
-        flex-grow: 1;
-        margin-left: 5px;
-
-        @include after-mobile {
-            @include search-icon-input;
-
-            text-align: right;
-            margin-right: 1rem;
-        }
+    &-MinicartButton {
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        z-index: 1;
+        left: 0;
+        top: 0;
     }
 
-    &-SearchField {
-        background-color: var(--header-search-field-background);
-        font-size: 16px;
-        border-radius: 4px;
-
-        border-width: 0;
-        width: 100%;
-        max-width: 0;
-        min-width: 0;
-        opacity: 0;
-        padding: 0;
-        transition-property: opacity, background-color;
-        transition-duration: 200ms;
-        will-change: max-width, width, opacity, padding, border, background-color;
-
-        @include after-mobile {
-            @include search-bar-visible;
-
-            transition-property: opacity, width, border;
-            width: var(--header-desktop-search-bar-width);
-            max-width: var(--header-desktop-search-bar-max-width);
-            font-size: 14px;
-            border-radius: 0;
-        }
-
-        &_isVisible {
-            @include search-bar-visible;
-        }
+    &-MinicartItemCount {
+        position: absolute;
+        color: var(--header-background);
+        background: var(--primary-base-color);
+        display: inline-block;
+        border-radius: 7px;
+        z-index: 2;
+        min-width: 14px;
+        line-height: 13px;
+        font-size: 12px;
+        top: 18px;
+        transform: translateX(3px);
+        padding: 0 4px 1px;
+        left: 50%;
     }
 
     &-LogoWrapper {

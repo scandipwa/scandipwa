@@ -117,7 +117,7 @@ export class ProductListQuery {
         ];
     }
 
-    _getProductInterfaceFields(isVariant) {
+    _getProductInterfaceFields(isVariant, isForLinkedProducts = false) {
         const { isSingleProduct } = this.options;
 
         return [
@@ -139,6 +139,10 @@ export class ProductListQuery {
                 ]
                 : []
             ),
+            ...(isForLinkedProducts
+                ? [this._getProductLinksField()]
+                : []
+            ),
             ...(isSingleProduct
                 ? [
                     'stock_status',
@@ -151,6 +155,7 @@ export class ProductListQuery {
                     this._getSimpleProductFragment(),
                     ...(!isVariant
                         ? [
+                            this._getProductLinksField(),
                             this._getCategoriesField(),
                             this._getReviewsField(),
                             this._getProductLinksField(),

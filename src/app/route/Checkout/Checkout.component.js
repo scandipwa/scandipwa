@@ -49,6 +49,7 @@ class Checkout extends PureComponent {
         checkoutTotals: TotalsType.isRequired,
         orderID: PropTypes.string.isRequired,
         history: HistoryType.isRequired,
+        paymentTotals: TotalsType.isRequired,
         checkoutStep: PropTypes.oneOf([
             SHIPPING_STEP,
             BILLING_STEP,
@@ -74,9 +75,7 @@ class Checkout extends PureComponent {
         }
     };
 
-    constructor(props) {
-        super(props);
-
+    componentDidMount() {
         this.updateHeader();
     }
 
@@ -112,11 +111,15 @@ class Checkout extends PureComponent {
     }
 
     renderGuestForm() {
-        const { checkoutStep } = this.props;
+        const { checkoutStep, onEmailChange, isGuestEmailSaved } = this.props;
         const isBilling = checkoutStep === BILLING_STEP;
 
         return (
-            <CheckoutGuestForm isBilling={ isBilling } />
+            <CheckoutGuestForm
+              isBilling={ isBilling }
+              onEmailChange={ onEmailChange }
+              isGuestEmailSaved={ isGuestEmailSaved }
+            />
         );
     }
 
@@ -163,15 +166,17 @@ class Checkout extends PureComponent {
 
         return (
             <div block="Checkout" elem="Success">
-                <p>{ __('Your order # is: %s', orderID) }</p>
+                <h3>{ __('Your order # is: %s', orderID) }</h3>
                 <p>{ __('We`ll email you an order confirmation with details and tracking info.') }</p>
-                <Link
-                  block="Button"
-                  mix={ { block: 'Checkout', elem: 'ContinueButton' } }
-                  to="/"
-                >
-                    { __('Continue shopping') }
-                </Link>
+                <div block="Checkout" elem="ButtonWrapper">
+                    <Link
+                      block="Button"
+                      mix={ { block: 'Checkout', elem: 'ContinueButton' } }
+                      to="/"
+                    >
+                        { __('Continue shopping') }
+                    </Link>
+                </div>
             </div>
         );
     }
