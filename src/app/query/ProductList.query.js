@@ -135,7 +135,7 @@ export class ProductListQuery {
                 ? [
                     'url_key',
                     this._getReviewSummaryField(),
-                    this._getConfigurableProductFragment(),
+                    this._getConfigurableProductFragment()
                 ]
                 : []
             ),
@@ -535,9 +535,9 @@ export class ProductListQuery {
 
     _getTierPricesFields() {
         return [
+            'qty',
             'value',
-            'quantity',
-            'ratio'
+            'percentage_value'
         ];
     }
 

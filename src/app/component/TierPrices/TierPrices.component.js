@@ -8,29 +8,36 @@ class TierPrices extends PureComponent {
         product: ProductType.isRequired
     };
 
-    renderTierPrice = ({ quantity, value, ratio }) => {
+    renderTierPrice = ({ qty, value, percentage_value }) => {
         const {
             product: {
                 price: {
                     regularPrice: {
-                        amount: { currency }
+                        amount: { currency, value: startingValue }
                     }
                 }
             }
         } = this.props;
 
+        // TODO: fix Magento not retrieving percentage value on BE
+        if (!percentage_value) {
+            // eslint-disable-next-line no-param-reassign
+            percentage_value = 1 - (value / startingValue);
+        }
+
         return (
-            <li block="TierPrices" elem="Item" key={ quantity }>
+            <li block="TierPrices" elem="Item" key={ qty }>
                 { __(
                     'Buy %s for %s%s each and ',
-                    quantity,
+                    qty,
                     formatCurrency(currency),
                     roundPrice(value)
                 ) }
                 <strong>
                     { __(
                         'save %s%',
-                        ratio
+                        // eslint-disable-next-line no-magic-numbers
+                        Math.round(percentage_value * 100)
                     ) }
                 </strong>
             </li>
