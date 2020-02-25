@@ -29,7 +29,7 @@ const { plugins } = extensionsConfig;
 const pendingPluginConfigParts = [];
 Object.entries(plugins).forEach(([, configFilePathList]) => {
     configFilePathList.forEach(configFilePath => pendingPluginConfigParts.push(
-        import(`../../vendor/${configFilePath}.plugin.js`)
+        import(`../../../vendor/${configFilePath}.plugin.js`)
     ));
 });
 
