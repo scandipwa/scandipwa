@@ -25,17 +25,14 @@ class FallbackPlugin {
     // Default plugin entry-point function
     apply(resolver) {
         resolver.getHook('resolve').tapAsync('FallbackPlugin', (request, resolveContext, callback) => {
-            // Determine if request is coming from core file
-            let pathIsCore = false;
-            if (request.path.match(/vendor/)) pathIsCore = true;
+            // Determine if request is coming from core file, exclude requests coming from plugins (which are also in vendor folder)
+            const pathIsCore = !!(request.path.match(/vendor/) && !request.path.match(/--plugin/));
 
             // Determine if the request is child-of-a-child node_module request
-            let pathIsNode = false;
-            if (request.path.match(/node_modules/)) pathIsNode = true;
+            const pathIsNode = !!(request.path.match(/node_modules/));
 
             // Determine if request is coming to custom file
-            let requestIsCustom = false;
-            if (request.request.match(/app\/design\/frontend/)) requestIsCustom = true;
+            const requestIsCustom = !!(request.request.match(/app\/design\/frontend/));
 
             // Check if request can be handled
             if (!request.path || !request.request) return callback();
@@ -134,6 +131,7 @@ class FallbackPlugin {
                 if (pathIsCore && !pathIsNode) {
                     return proceed('core-to-node');
                 }
+
                 return callback();
             }
 
