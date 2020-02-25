@@ -1,0 +1,7 @@
+{
+    "plugins": {
+        "NoWishlist": [
+            "scandipwa/NoWishlist--plugin/src/plugin/ProductWishlistButtonContainer/NoWishlist"
+        ]
+    }
+}

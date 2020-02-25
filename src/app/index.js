@@ -1,4 +1,7 @@
+/* eslint-disable no-console */
 /* eslint-disable func-names */
+/* eslint-disable no-param-reassign */
+
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -17,35 +20,44 @@ import AppRouter from 'Route';
 import store from 'Store';
 import ReactDOM from 'react-dom';
 import SharedTransition from 'Component/SharedTransition';
+
 import 'Style/main';
+import extensionsConfig from './pluginconfig.json';
 
-const extensionConfig = [];
-const importAll = (request) => {
-    // eslint-disable-next-line no-return-assign
-    request.keys().forEach(key => extensionConfig.push(request(key).default));
-};
+const { plugins } = extensionsConfig;
 
-importAll(require.context('../../@scandipwa/', true, /\.plugin\.js$/));
+const pendingPluginConfigParts = [];
+Object.entries(plugins).forEach(([, configFilePathList]) => {
+    configFilePathList.forEach(configFilePath => pendingPluginConfigParts.push(
+        import(`../../vendor/${configFilePath}.plugin.js`)
+    ));
+});
 
-window.plugins = extensionConfig.reduce(
-    (config, extension) => {
-        const singleExtensionConfig = Object.entries(extension);
-        singleExtensionConfig.forEach(([namespace, methodsPlugins]) => {
-            if (!config[namespace]) {
-                // eslint-disable-next-line no-param-reassign
-                config[namespace] = {};
-            }
-            Object.entries(methodsPlugins).forEach(([methodName, methodPlugins]) => {
-                if (!config[namespace][methodName]) {
-                    // eslint-disable-next-line no-param-reassign
-                    config[namespace][methodName] = [];
-                }
-                config[namespace][methodName].push(...methodPlugins);
-            });
-        });
+Promise.all(pendingPluginConfigParts).then(
+    (modules) => {
+        window.plugins = modules.map(singleModule => singleModule.default).reduce(
+            (config, extension) => {
+                const singleExtensionConfig = Object.entries(extension);
+                singleExtensionConfig.forEach(
+                    ([namespace, methodsPlugins]) => {
+                        if (!config[namespace]) {
+                            config[namespace] = {};
+                        }
+                        Object.entries(methodsPlugins).forEach(
+                            ([methodName, methodPlugins]) => {
+                                if (!config[namespace][methodName]) {
+                                    config[namespace][methodName] = [];
+                                }
+                                config[namespace][methodName].push(...methodPlugins);
+                            }
+                        );
+                    }
+                );
 
-        return config;
-    }, {}
+                return config;
+            }, {}
+        );
+    }
 );
 
 // Disable react dev tools in production
