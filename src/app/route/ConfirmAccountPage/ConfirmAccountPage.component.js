@@ -67,7 +67,7 @@ export default class ConfirmAccountPage extends PureComponent {
                           type="password"
                           label={ __('Password') }
                           id="confirmPassword"
-                          name="password"
+                          name="confirmPassword"
                           validation={ ['notEmpty', 'password'] }
                         />
                         <div block="ConfirmAccountPage" elem="Button">
