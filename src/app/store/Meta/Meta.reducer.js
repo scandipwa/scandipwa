@@ -13,7 +13,7 @@ import {
     UPDATE_META, UPDATE_META_FROM_COTEGORY, UPDATE_META_FROM_PRODUCT
 } from './Meta.action';
 
-const updateEveryTime = [
+export const updateEveryTime = [
     'title',
     'description',
     'keywords',
@@ -31,7 +31,7 @@ export const PDP_IMAGE_WIDTH = 533;
 export const PLP_IMAGE_WIDTH = 248;
 export const PLP_IMAGE_HEIGHT = 297;
 
-const getProductMeta = (product) => {
+export const getProductMeta = (product) => {
     const {
         media_gallery_entries = {}, name, canonical_url,
         meta_title, meta_keyword, meta_description
@@ -53,7 +53,7 @@ const getProductMeta = (product) => {
     };
 };
 
-const getCategoryMeta = (category) => {
+export const getCategoryMeta = (category) => {
     const {
         description,
         name, canonical_url, imageSrc,
@@ -72,7 +72,7 @@ const getCategoryMeta = (category) => {
     };
 };
 
-const filterData = (data) => {
+export const filterData = (data) => {
     const updated = updateEveryTime.reduce((acc, key) => (
         key in data
             ? { ...acc, [key]: data[key] }
