@@ -68,6 +68,7 @@ export class ProductPageContainer extends PureComponent {
 
     state = {
         configurableVariantIndex: -1,
+        isConfigurationInitialized: false,
         parameters: {}
     };
 
@@ -263,6 +264,7 @@ export class ProductPageContainer extends PureComponent {
             }
         };
 
+        this.setState({ isConfigurationInitialized: false });
         requestProduct(options);
     }
 
