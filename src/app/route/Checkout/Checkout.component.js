@@ -47,12 +47,11 @@ class Checkout extends PureComponent {
         isDeliveryOptionsLoading: PropTypes.bool.isRequired,
         shippingAddress: addressType.isRequired,
         checkoutTotals: TotalsType.isRequired,
-        paymentTotals: TotalsType,
         orderID: PropTypes.string.isRequired,
         history: HistoryType.isRequired,
         onEmailChange: PropTypes.func.isRequired,
         isGuestEmailSaved: PropTypes.bool.isRequired,
-        paymentTotals: TotalsType.isRequired,
+        paymentTotals: TotalsType,
         checkoutStep: PropTypes.oneOf([
             SHIPPING_STEP,
             BILLING_STEP,
