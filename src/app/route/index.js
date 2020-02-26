@@ -21,6 +21,8 @@ import {
 import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 import { Router } from 'react-router';
+import { connect } from 'react-redux';
+import { updateMeta } from 'Store/Meta';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { createBrowserHistory } from 'history';
 
@@ -65,9 +67,54 @@ export const BEFORE_ITEMS_TYPE = 'BEFORE_ITEMS_TYPE';
 export const SWITCH_ITEMS_TYPE = 'SWITCH_ITEMS_TYPE';
 export const AFTER_ITEMS_TYPE = 'AFTER_ITEMS_TYPE';
 
+export const SWPWA_LOGO_WIDTH = 350;
+export const SWPWA_LOGO_HEIGHT = 210;
+export const SWPWA_LOGO_URL = 'https://scandiweb.com/assets/images/services/scandipwa/ScandiPWA-logo.png';
+
 export const history = createBrowserHistory({ basename: '/' });
 
-class AppRouter extends PureComponent {
+export const mapStateToProps = state => ({
+    isLoading: state.ConfigReducer.isLoading,
+    default_description: state.ConfigReducer.default_description,
+    default_keywords: state.ConfigReducer.default_keywords,
+    default_title: state.ConfigReducer.default_title,
+    title_prefix: state.ConfigReducer.title_prefix,
+    title_suffix: state.ConfigReducer.title_suffix,
+    header_logo_src: state.ConfigReducer.header_logo_src,
+    logo_alt: state.ConfigReducer.logo_alt,
+    base_url: state.ConfigReducer.base_url
+});
+
+export const mapDispatchToProps = dispatch => ({
+    updateMeta: meta => dispatch(updateMeta(meta))
+});
+
+export class AppRouter extends PureComponent {
+    static propTypes = {
+        updateMeta: PropTypes.func.isRequired,
+        default_description: PropTypes.string,
+        default_keywords: PropTypes.string,
+        header_logo_src: PropTypes.string,
+        default_title: PropTypes.string,
+        title_prefix: PropTypes.string,
+        title_suffix: PropTypes.string,
+        logo_alt: PropTypes.string,
+        base_url: PropTypes.string,
+        isLoading: PropTypes.bool
+    };
+
+    static defaultProps = {
+        default_description: '',
+        default_keywords: '',
+        header_logo_src: '',
+        default_title: '',
+        title_prefix: '',
+        title_suffix: '',
+        logo_alt: '',
+        base_url: '',
+        isLoading: true
+    };
+
     [BEFORE_ITEMS_TYPE] = [
         {
             component: <NotificationList />,
@@ -150,6 +197,38 @@ class AppRouter extends PureComponent {
         super(props);
 
         this.dispatchActions();
+    }
+
+    componentDidUpdate(prevProps) {
+        const { isLoading, updateMeta } = this.props;
+        const { isLoading: prevIsLoading } = prevProps;
+
+        if (!isLoading && isLoading !== prevIsLoading) {
+            const {
+                header_logo_src,
+                default_description,
+                default_keywords,
+                default_title,
+                title_prefix,
+                title_suffix,
+                logo_alt,
+                base_url
+            } = this.props;
+
+            updateMeta({
+                default_title,
+                title: default_title,
+                default_description,
+                description: default_description,
+                default_keywords,
+                keywords: default_keywords,
+                header_logo_src,
+                title_prefix,
+                title_suffix,
+                logo_alt,
+                base_url
+            });
+        }
     }
 
     getCmsBlocksToRequest() {
@@ -272,4 +351,4 @@ class AppRouter extends PureComponent {
     }
 }
 
-export default AppRouter;
+export default connect(mapStateToProps, mapDispatchToProps)(AppRouter);
