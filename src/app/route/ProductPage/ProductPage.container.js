@@ -16,10 +16,10 @@ import { withRouter } from 'react-router';
 
 import { history } from 'Route';
 import { PDP } from 'Component/Header';
+import { MetaDispatcher } from 'Store/Meta';
 import { getVariantIndex } from 'Util/Product';
 import { ProductType } from 'Type/ProductList';
 import { ProductDispatcher } from 'Store/Product';
-import { updateMetaFromProduct } from 'Store/Meta';
 import { changeNavigationState } from 'Store/Navigation';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import { LocationType, HistoryType, MatchType } from 'Type/Common';
@@ -44,7 +44,7 @@ export const mapDispatchToProps = dispatch => ({
     changeNavigationState: state => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
     requestProduct: options => ProductDispatcher.handleData(dispatch, options),
     updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.updateWithProduct(breadcrumbs, dispatch),
-    updateMetaFromProduct: product => dispatch(updateMetaFromProduct(product))
+    updateMetaFromProduct: product => MetaDispatcher.updateWithProduct(product, dispatch)
 });
 
 export class ProductPageContainer extends PureComponent {

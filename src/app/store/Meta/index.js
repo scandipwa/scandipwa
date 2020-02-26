@@ -11,3 +11,4 @@
 
 export * from './Meta.action';
 export { default as MetaReducer } from './Meta.reducer';
+export { default as MetaDispatcher } from './Meta.dispatcher';

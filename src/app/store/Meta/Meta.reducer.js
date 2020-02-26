@@ -9,9 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import {
-    UPDATE_META, UPDATE_META_FROM_COTEGORY, UPDATE_META_FROM_PRODUCT
-} from './Meta.action';
+import { UPDATE_META } from './Meta.action';
 
 export const updateEveryTime = [
     'title',
@@ -20,40 +18,11 @@ export const updateEveryTime = [
     'canonical_url'
 ];
 
-export const getProductMeta = (product) => {
-    const {
-        meta_title, meta_keyword, meta_description,
-        canonical_url
-    } = product;
-
-    return {
-        description: meta_description,
-        keywords: meta_keyword,
-        title: meta_title,
-        canonical_url
-    };
-};
-
-export const getCategoryMeta = (category) => {
-    const {
-        description, name, canonical_url,
-        meta_title, meta_keyword, meta_description
-    } = category;
-
-    return {
-        description: meta_description || description,
-        title: meta_title || name,
-        keywords: meta_keyword,
-        canonical_url
-    };
-};
-
 export const filterData = (data) => {
-    const updated = updateEveryTime.reduce((acc, key) => (
-        key in data
-            ? { ...acc, [key]: data[key] }
-            : { ...acc, [key]: undefined }
-    ), {});
+    const updated = updateEveryTime.reduce((acc, key) => {
+        acc[key] = data[key];
+        return acc;
+    }, {});
 
     return { ...data, ...updated };
 };
@@ -78,22 +47,7 @@ export const MetaReducer = (state = initialState, action) => {
             ...state,
             ...filteredData
         };
-    case UPDATE_META_FROM_PRODUCT:
-        const productMeta = getProductMeta(payload);
-        const filteredProductMeta = filterData(productMeta);
 
-        return {
-            ...state,
-            ...filteredProductMeta
-        };
-    case UPDATE_META_FROM_COTEGORY:
-        const categoryMeta = getCategoryMeta(payload);
-        const filteredCategoryMeta = filterData(categoryMeta);
-
-        return {
-            ...state,
-            ...filteredCategoryMeta
-        };
     default:
         return state;
     }

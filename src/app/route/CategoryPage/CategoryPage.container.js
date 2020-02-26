@@ -18,12 +18,12 @@ import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.component';
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import { changeNavigationState } from 'Store/Navigation';
-import { updateMetaFromCategory } from 'Store/Meta';
 import { CategoryDispatcher } from 'Store/Category';
 import { toggleOverlayByKey } from 'Store/Overlay';
 import { NoMatchDispatcher } from 'Store/NoMatch';
 import { CategoryTreeType } from 'Type/Category';
 import { PagesType } from 'Type/ProductList';
+import { MetaDispatcher } from 'Store/Meta';
 import { CATEGORY } from 'Component/Header';
 import { debounce } from 'Util/Request';
 
@@ -63,7 +63,7 @@ export const mapDispatchToProps = dispatch => ({
     requestProductListInfo: options => ProductListInfoDispatcher.handleData(dispatch, options),
     updateLoadStatus: isLoading => dispatch(updateInfoLoadStatus(isLoading)),
     updateNoMatch: options => NoMatchDispatcher.updateNoMatch(dispatch, options),
-    updateMetaFromCategory: category => dispatch(updateMetaFromCategory(category))
+    updateMetaFromCategory: category => MetaDispatcher.updateWithCategory(category, dispatch)
 });
 
 export const UPDATE_FILTERS_FREQUENCY = 0;
