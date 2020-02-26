@@ -30,7 +30,7 @@ export const PAYPAL_EXPRESS = 'paypal_express';
 export const PAYPAL_EXPRESS_CREDIT = 'paypal_express_bml';
 export const STRIPE = 'stripe_payments';
 
-class CheckoutPayments extends PureComponent {
+export class CheckoutPayments extends PureComponent {
     static propTypes = {
         showError: PropTypes.func.isRequired,
         setLoading: PropTypes.func.isRequired,
@@ -197,6 +197,7 @@ class CheckoutPayments extends PureComponent {
               setDetailsStep={ setDetailsStep }
               selectedPaymentCode={ selectedPaymentCode }
             />
+
         );
     }
 
@@ -230,4 +231,4 @@ class CheckoutPayments extends PureComponent {
     }
 }
 
-export default CheckoutPayments;
+export default middleware('Component/CheckoutPayments/Component')(CheckoutPayments);
