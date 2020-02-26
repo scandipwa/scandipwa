@@ -93,7 +93,6 @@ class MyAccount extends PureComponent {
     render() {
         return (
             <main block="MyAccount">
-                { this.renderMeta() }
                 { this.renderContent() }
             </main>
         );

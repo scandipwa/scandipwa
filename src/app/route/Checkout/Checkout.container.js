@@ -116,6 +116,7 @@ export class CheckoutContainer extends PureComponent {
     }
 
     componentDidMount() {
+        const { updateMeta } = this.props;
         updateMeta({ title: __('Checkout') });
     }
 

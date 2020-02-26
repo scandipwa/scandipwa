@@ -82,7 +82,7 @@ export class MetaContainer extends PureComponent {
     }
 
     _getMeta() {
-        this._getMetadata();
+        return this._getMetadata();
     }
 
     render() {
