@@ -36,25 +36,22 @@ Object.entries(plugins).forEach(([, configFilePathList]) => {
 Promise.all(pendingPluginConfigParts).then(
     (modules) => {
         window.plugins = modules.map(singleModule => singleModule.default).reduce(
-            (config, extension) => {
-                const singleExtensionConfig = Object.entries(extension);
+            (overallConfig, singleExtensionExDf) => {
+                const singleExtensionConfig = Object.entries(singleExtensionExDf);
                 singleExtensionConfig.forEach(
                     ([namespace, methodsPlugins]) => {
-                        if (!config[namespace]) {
-                            config[namespace] = {};
-                        }
-                        Object.entries(methodsPlugins).forEach(
+                        if (!overallConfig[namespace]) overallConfig[namespace] = {};
+                        const namedMethodPlugins = Object.entries(methodsPlugins);
+                        namedMethodPlugins.forEach(
                             ([methodName, methodPlugins]) => {
-                                if (!config[namespace][methodName]) {
-                                    config[namespace][methodName] = [];
-                                }
-                                config[namespace][methodName].push(...methodPlugins);
+                                if (!overallConfig[namespace][methodName]) overallConfig[namespace][methodName] = [];
+                                overallConfig[namespace][methodName].push(...methodPlugins);
                             }
                         );
                     }
                 );
 
-                return config;
+                return overallConfig;
             }, {}
         );
     }
