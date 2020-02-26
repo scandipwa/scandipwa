@@ -76,7 +76,6 @@ export class MetaDispatcher {
             canonical_url
         };
     }
-
 }
 
 export default new MetaDispatcher();
