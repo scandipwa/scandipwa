@@ -29,10 +29,10 @@ class FallbackPlugin {
             const pathIsCore = !!(request.path.match(/vendor/) && !request.path.match(/--plugin/));
 
             // Determine if the request is child-of-a-child node_module request
-            const pathIsNode = !!(request.path.match(/node_modules/));
+            const pathIsNode = !!request.path.match(/node_modules/);
 
             // Determine if request is coming to custom file
-            const requestIsCustom = !!(request.request.match(/app\/design\/frontend/));
+            const requestIsCustom = !!request.request.match(/app\/design\/frontend/);
 
             // Check if request can be handled
             if (!request.path || !request.request) return callback();
