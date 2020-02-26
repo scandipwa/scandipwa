@@ -24,7 +24,6 @@ import { TotalsType } from 'Type/MiniCart';
 import { HistoryType } from 'Type/Common';
 import CmsBlock from 'Component/CmsBlock';
 import Loader from 'Component/Loader';
-import Meta from 'Component/Meta';
 import Link from 'Component/Link';
 
 import './Checkout.style';
@@ -217,21 +216,6 @@ class Checkout extends PureComponent {
         if (!promo) return null;
 
         return <CmsBlock identifiers={ [promo] } />;
-    }
-
-    renderMeta() {
-        const {
-            history: { location: { pathname = '' } }
-        } = this.props;
-
-        return (
-            <Meta
-              metaObject={ {
-                  meta_title: 'Checkout',
-                  pathname
-              } }
-            />
-        );
     }
 
     render() {

@@ -18,6 +18,7 @@ import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.component';
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import { changeNavigationState } from 'Store/Navigation';
+import { updateMetaFromCategory } from 'Store/Meta';
 import { CategoryDispatcher } from 'Store/Category';
 import { toggleOverlayByKey } from 'Store/Overlay';
 import { NoMatchDispatcher } from 'Store/NoMatch';
@@ -61,7 +62,8 @@ export const mapDispatchToProps = dispatch => ({
         : BreadcrumbsDispatcher.update([], dispatch)),
     requestProductListInfo: options => ProductListInfoDispatcher.handleData(dispatch, options),
     updateLoadStatus: isLoading => dispatch(updateInfoLoadStatus(isLoading)),
-    updateNoMatch: options => NoMatchDispatcher.updateNoMatch(dispatch, options)
+    updateNoMatch: options => NoMatchDispatcher.updateNoMatch(dispatch, options),
+    updateMetaFromCategory: category => dispatch(updateMetaFromCategory(category))
 });
 
 export const UPDATE_FILTERS_FREQUENCY = 0;
@@ -78,6 +80,7 @@ export class CategoryPageContainer extends PureComponent {
         changeHeaderState: PropTypes.func.isRequired,
         changeNavigationState: PropTypes.func.isRequired,
         requestProductListInfo: PropTypes.func.isRequired,
+        updateMetaFromCategory: PropTypes.func.isRequired,
         updateBreadcrumbs: PropTypes.func.isRequired,
         updateLoadStatus: PropTypes.func.isRequired,
         updateNoMatch: PropTypes.func.isRequired,
@@ -164,7 +167,6 @@ export class CategoryPageContainer extends PureComponent {
     containerProps = () => ({
         filter: this._getFilter(),
         search: this._getSearchParam(),
-        firstImageUrl: this._getFirstImageUrl(),
         selectedSort: this._getSelectedSortFromUrl(),
         selectedFilters: this._getSelectedFiltersFromUrl(),
         selectedPriceRange: this._getPriceRangeForSlider()
@@ -217,6 +219,15 @@ export class CategoryPageContainer extends PureComponent {
         if (!this._compareQueriesByFilters(search, prevSearch)) {
             this._debounceRequestCategoryProductsInfo();
         }
+    }
+
+    _getFirstImageUrl() {
+        const { pages } = this.props;
+        const page = pages[0 || Object.keys(pages)[0]] || {};
+        const product = page[0] || {};
+        const { small_image: { url = '' } = {} } = product;
+
+        return url;
     }
 
     _getNewSelectedFiltersString(filterName, filterArray) {
@@ -330,15 +341,6 @@ export class CategoryPageContainer extends PureComponent {
         };
     }
 
-    _getFirstImageUrl() {
-        const { pages } = this.props;
-        const page = pages[0 || Object.keys(pages)[0]] || {};
-        const product = page[0] || {};
-        const { small_image: { url = '' } = {} } = product;
-
-        return url;
-    }
-
     _onCategoryUpdate() {
         const { category, updateNoMatch } = this.props;
         const { is_active, isLoading } = category;
@@ -346,6 +348,10 @@ export class CategoryPageContainer extends PureComponent {
         if (!isLoading && !is_active) {
             updateNoMatch({ noMatch: true });
         } else {
+            const { updateMetaFromCategory, category } = this.props;
+            const imageSrc = this._getFirstImageUrl();
+
+            updateMetaFromCategory({ ...category, imageSrc });
             this._updateBreadcrumbs();
             this._updateHeaderState();
             this._updateNavigationState();

@@ -14,12 +14,10 @@ import PropTypes from 'prop-types';
 
 import media, { WYSIWYG_MEDIA } from 'Util/Media';
 import Link from 'Component/Link';
-import Meta from 'Component/Meta';
 import isMobile from 'Util/Mobile';
 import CmsBlock from 'Component/CmsBlock';
 import CartItem from 'Component/CartItem';
 import { TotalsType } from 'Type/MiniCart';
-import { LocationType } from 'Type/Common';
 import CartCoupon from 'Component/CartCoupon';
 import CartCrossSell from 'Component/CartCrossSell';
 import ContentWrapper from 'Component/ContentWrapper';
@@ -31,7 +29,6 @@ import './CartPage.style';
 export default class CartPage extends PureComponent {
     static propTypes = {
         isEditing: PropTypes.bool.isRequired,
-        location: LocationType.isRequired,
         totals: TotalsType.isRequired
     };
 
@@ -234,23 +231,9 @@ export default class CartPage extends PureComponent {
         );
     }
 
-    renderMeta() {
-        const { location: { pathname = '' } } = this.props;
-
-        return (
-            <Meta
-              metaObject={ {
-                  meta_title: 'Cart',
-                  pathname
-              } }
-            />
-        );
-    }
-
     render() {
         return (
             <main block="CartPage" aria-label="Cart Page">
-                { this.renderMeta() }
                 <ContentWrapper
                   wrapperMix={ { block: 'CartPage', elem: 'Wrapper' } }
                   label="Cart page details"

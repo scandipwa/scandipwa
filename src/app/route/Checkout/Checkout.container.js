@@ -23,10 +23,11 @@ import { showNotification } from 'Store/Notification';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { changeNavigationState } from 'Store/Navigation';
+import { HistoryType, LocationType } from 'Type/Common';
 import CheckoutQuery from 'Query/Checkout.query';
 import { GUEST_QUOTE_ID } from 'Store/Cart';
 import { TotalsType } from 'Type/MiniCart';
-import { HistoryType } from 'Type/Common';
+import { updateMeta } from 'Store/Meta';
 import { isSignedIn } from 'Util/Auth';
 
 import Checkout, { SHIPPING_STEP, BILLING_STEP, DETAILS_STEP } from './Checkout.component';
@@ -39,6 +40,7 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
+    updateMeta: meta => dispatch(updateMeta(meta)),
     resetCart: () => CartDispatcher.updateInitialCartData(dispatch),
     toggleBreadcrumbs: state => dispatch(toggleBreadcrumbs(state)),
     showErrorNotification: message => dispatch(showNotification('error', message)),
@@ -51,7 +53,9 @@ export class CheckoutContainer extends PureComponent {
         showErrorNotification: PropTypes.func.isRequired,
         toggleBreadcrumbs: PropTypes.func.isRequired,
         setNavigationState: PropTypes.func.isRequired,
+        updateMeta: PropTypes.func.isRequired,
         resetCart: PropTypes.func.isRequired,
+        location: LocationType.isRequired,
         totals: TotalsType.isRequired,
         history: HistoryType.isRequired
     };
@@ -103,6 +107,15 @@ export class CheckoutContainer extends PureComponent {
         if (is_virtual) {
             this._getPaymentMethods();
         }
+    }
+
+    componentDidMount() {
+        const { updateMeta, location: { pathname } } = this.props;
+
+        updateMeta({
+            title: __('Checkout'),
+            pathname
+        });
     }
 
     componentWillUnmount() {

@@ -19,39 +19,35 @@ import Helmet from 'react-helmet';
  */
 export default class Meta extends PureComponent {
     static propTypes = {
-        meta: PropTypes.arrayOf(
-            PropTypes.objectOf(PropTypes.string)
+        metadata: PropTypes.arrayOf(
+            PropTypes.shape({
+                name: PropTypes.string,
+                property: PropTypes.string,
+                content: PropTypes.oneOfType([
+                    PropTypes.string,
+                    PropTypes.number
+                ])
+            })
         ).isRequired,
+        canonical_url: PropTypes.string.isRequired,
         title_prefix: PropTypes.string.isRequired,
         title_suffix: PropTypes.string.isRequired,
-        metaObject: PropTypes.shape({
-            name: PropTypes.string,
-            meta_title: PropTypes.string,
-            meta_description: PropTypes.string,
-            meta_keyword: PropTypes.string
-        }).isRequired
+        title: PropTypes.string.isRequired
     };
-
 
     render() {
         const {
-            metaObject,
+            canonical_url,
             title_prefix,
             title_suffix,
-            meta
+            metadata,
+            title
         } = this.props;
-
-        const {
-            url,
-            name,
-            title,
-            canonical_url = url
-        } = metaObject;
 
         return (
             <Helmet
-              title={ `${ title_prefix } ${ name || title || '...' } ${ title_suffix }` }
-              meta={ meta }
+              title={ `${ title_prefix } ${ title } ${ title_suffix }` }
+              meta={ metadata }
               link={ [
                   { ...(canonical_url && { rel: 'canonical', href: canonical_url }) }
               ] }

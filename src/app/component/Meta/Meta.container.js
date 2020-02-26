@@ -1,6 +1,6 @@
 import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import { LOGO_MEDIA } from 'Util/Media/Media';
 import media from 'Util/Media';
@@ -8,59 +8,71 @@ import media from 'Util/Media';
 import Meta from './Meta.component';
 
 export const mapStateToProps = state => ({
-    title_prefix: state.ConfigReducer.title_prefix,
-    title_suffix: state.ConfigReducer.title_suffix,
-    default_description: state.ConfigReducer.default_description,
-    default_keywords: state.ConfigReducer.default_keywords,
-    default_title: state.ConfigReducer.default_title,
-    base_url: state.ConfigReducer.base_url
+    default_description: state.MetaReducer.default_description,
+    default_keywords: state.MetaReducer.default_keywords,
+    header_logo_src: state.MetaReducer.header_logo_src,
+    default_title: state.MetaReducer.default_title,
+    canonical_url: state.MetaReducer.canonical_url,
+    title_prefix: state.MetaReducer.title_prefix,
+    title_suffix: state.MetaReducer.title_suffix,
+    description: state.MetaReducer.description,
+    imageHeight: state.MetaReducer.imageHeight,
+    imageWidth: state.MetaReducer.imageWidth,
+    keywords: state.MetaReducer.keywords,
+    imageSrc: state.MetaReducer.imageSrc,
+    imageAlt: state.MetaReducer.imageAlt,
+    base_url: state.MetaReducer.base_url,
+    pathname: state.MetaReducer.pathname,
+    title: state.MetaReducer.title
 });
 
-const SWPWA_LOGO_WIDTH = 350;
-const SWPWA_LOGO_HEIGHT = 210;
-const SWPWA_LOGO_URL = 'https://scandiweb.com/assets/images/services/scandipwa/ScandiPWA-logo.png';
+export const SWPWA_LOGO_WIDTH = 350;
+export const SWPWA_LOGO_HEIGHT = 210;
+export const SWPWA_LOGO_URL = 'https://scandiweb.com/assets/images/services/scandipwa/ScandiPWA-logo.png';
 
 export class MetaContainer extends PureComponent {
     static propTypes = {
-        pathname: PropTypes.string,
-        base_url: PropTypes.string,
-        title_prefix: PropTypes.string,
-        title_suffix: PropTypes.string,
         default_description: PropTypes.string,
         default_keywords: PropTypes.string,
-        default_title: PropTypes.string,
-        metaObject: PropTypes.shape({
-            name: PropTypes.string,
-            meta_title: PropTypes.string,
-            meta_description: PropTypes.string,
-            meta_keyword: PropTypes.string,
-            imageWidth: PropTypes.number,
-            imageHeight: PropTypes.number
-        }),
-        canonical_url: PropTypes.string,
         header_logo_src: PropTypes.string,
-        logo_alt: PropTypes.string
+        default_title: PropTypes.string,
+        canonical_url: PropTypes.string,
+        title_prefix: PropTypes.string,
+        title_suffix: PropTypes.string,
+        description: PropTypes.string,
+        imageHeight: PropTypes.number,
+        imageWidth: PropTypes.number,
+        keywords: PropTypes.string,
+        imageSrc: PropTypes.string,
+        imageAlt: PropTypes.string,
+        base_url: PropTypes.string,
+        pathname: PropTypes.string,
+        logo_alt: PropTypes.string,
+        title: PropTypes.string
     };
 
     static defaultProps = {
-        pathname: '',
-        base_url: '',
-        title_prefix: '',
-        title_suffix: '',
+        imageHeight: SWPWA_LOGO_HEIGHT,
+        imageWidth: SWPWA_LOGO_WIDTH,
         default_description: '',
         default_keywords: '',
+        header_logo_src: '',
         default_title: '',
         canonical_url: '',
-        header_logo_src: '',
+        title_prefix: '',
+        title_suffix: '',
+        description: '',
+        keywords: '',
+        imageSrc: '',
+        imageAlt: '',
+        base_url: '',
+        pathname: '',
         logo_alt: '',
-        metaObject: {
-            imageWidth: SWPWA_LOGO_WIDTH,
-            imageHeight: SWPWA_LOGO_HEIGHT
-        }
+        title: ''
     };
 
     containerProps = () => ({
-        meta: this._getMeta()
+        metadata: this._getMeta()
     });
 
     _generateMetaFromMetadata(metadata, param = 'name') {
@@ -71,80 +83,84 @@ export class MetaContainer extends PureComponent {
         ), []);
     }
 
-    _getMetadata() {
-        const {
-            metaObject,
-            default_description,
-            default_keywords,
-            default_title
-        } = this.props;
+    _getTitle() {
+        const { title, default_title } = this.props;
 
-        const {
-            meta_title = default_title,
-            meta_keywords = default_keywords,
-            meta_keyword = meta_keywords,
-            meta_description = default_description
-        } = metaObject;
+        return title || default_title;
+    }
 
-        const metadata = {
-            title: meta_title,
-            keywords: meta_keyword,
-            description: meta_description
+    _getDescription() {
+        const { description, default_description } = this.props;
+
+        return description || default_description;
+    }
+
+    _getKeywords() {
+        const { keywords, default_keywords } = this.props;
+
+        return keywords || default_keywords;
+    }
+
+    _getImageOgObject(imageSrc, imageAlt, imageWidth = null, imageHeight = null) {
+        const baseMeta = {
+            'og:image': imageSrc,
+            'og:image:alt': imageAlt
         };
 
-        return this._generateMetaFromMetadata(metadata);
+        if (!imageWidth || !imageHeight) return baseMeta;
+
+        return {
+            ...baseMeta,
+            'og:image:width': imageWidth,
+            'og:image:height': imageHeight
+        };
+    }
+
+    _getImageOgTags() {
+        const {
+            header_logo_src,
+            imageHeight,
+            imageWidth,
+            imageSrc,
+            logo_alt,
+            imageAlt
+        } = this.props;
+
+        const alt = imageAlt || logo_alt;
+
+        if (imageSrc) return this._getImageOgObject(imageSrc, alt, imageWidth, imageHeight);
+
+        return header_logo_src
+            ? this._getImageOgObject(media(header_logo_src, LOGO_MEDIA), logo_alt, null, null)
+            : this._getImageOgObject(SWPWA_LOGO_URL, alt, SWPWA_LOGO_WIDTH, SWPWA_LOGO_HEIGHT);
     }
 
     _getUrl() {
         const { base_url, canonical_url, pathname } = this.props;
 
-        return canonical_url || `${ base_url }${ pathname }`;
+        return canonical_url || `${ base_url }${ pathname ? pathname.substr(1) : '' }`;
     }
 
-    _getImageSrc() {
-        const { header_logo_src, metaObject: { imageSrc } } = this.props;
+    _getMetadata() {
+        const meta = {
+            title: this._getTitle(),
+            description: this._getDescription(),
+            keywords: this._getKeywords()
+        };
 
-        if (imageSrc) return imageSrc;
-
-        return header_logo_src
-            ? media(header_logo_src, LOGO_MEDIA)
-            : SWPWA_LOGO_URL;
+        return this._generateMetaFromMetadata(meta);
     }
 
     _getOgMetadata() {
-        const {
-            metaObject,
-            default_description,
-            default_keywords,
-            default_title,
-            logo_alt,
-            metaObject: {
-                imageHeight,
-                imageWidth,
-                imageAlt
-            }
-        } = this.props;
-
-        const {
-            meta_title = default_title,
-            meta_keywords = default_keywords,
-            meta_keyword = meta_keywords,
-            meta_description = default_description
-        } = metaObject;
-
-        const ogMetadata = {
-            'og:title': meta_title,
-            'og:keywords': meta_keyword,
-            'og:description': meta_description,
-            'og:url': this._getUrl(),
+        const ogMeta = {
             'og:type': 'website',
-            'og:image': this._getImageSrc(),
-            'og:image:width': imageWidth,
-            'og:image:height': imageHeight,
-            'og:image:alt': imageAlt || logo_alt
+            'og:title': this._getTitle(),
+            'og:description': this._getDescription(),
+            'og:url': this._getUrl(),
+            ...this._getImageOgTags()
         };
 
-        return this._generateMetaFromMetadata(ogMetadata, 'property');
+        return this._generateMetaFromMetadata(ogMeta, 'property');
     }
 
     _getMeta() {

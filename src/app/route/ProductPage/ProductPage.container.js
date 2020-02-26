@@ -19,6 +19,7 @@ import { PDP } from 'Component/Header';
 import { getVariantIndex } from 'Util/Product';
 import { ProductType } from 'Type/ProductList';
 import { ProductDispatcher } from 'Store/Product';
+import { updateMetaFromProduct } from 'Store/Meta';
 import { changeNavigationState } from 'Store/Navigation';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import { LocationType, HistoryType, MatchType } from 'Type/Common';
@@ -42,7 +43,8 @@ export const mapDispatchToProps = dispatch => ({
     changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
     changeNavigationState: state => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
     requestProduct: options => ProductDispatcher.handleData(dispatch, options),
-    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.updateWithProduct(breadcrumbs, dispatch)
+    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.updateWithProduct(breadcrumbs, dispatch),
+    updateMetaFromProduct: (product, pathname) => dispatch(updateMetaFromProduct(product, pathname))
 });
 
 export class ProductPageContainer extends PureComponent {
@@ -51,6 +53,7 @@ export class ProductPageContainer extends PureComponent {
         isOnlyPlaceholder: PropTypes.bool,
         changeHeaderState: PropTypes.func.isRequired,
         changeNavigationState: PropTypes.func.isRequired,
+        updateMetaFromProduct: PropTypes.func.isRequired,
         updateBreadcrumbs: PropTypes.func.isRequired,
         requestProduct: PropTypes.func.isRequired,
         product: ProductType.isRequired,
@@ -65,7 +68,6 @@ export class ProductPageContainer extends PureComponent {
 
     state = {
         configurableVariantIndex: -1,
-        isConfigurationInitialized: false,
         parameters: {}
     };
 
@@ -80,10 +82,25 @@ export class ProductPageContainer extends PureComponent {
         this._onProductUpdate();
     }
 
-    componentDidUpdate({ location: { pathname: prevPathname } }) {
-        const { location: { pathname } } = this.props;
+    componentDidUpdate(prevProps) {
+        const {
+            location: { pathname },
+            product: { id }
+        } = this.props;
+        const {
+            location: { pathname: prevPathname },
+            product: { id: prevId }
+        } = prevProps;
 
         if (pathname !== prevPathname) this._requestProduct();
+
+        if (id !== prevId) {
+            const dataSource = this._getDataSource();
+            const { updateMetaFromProduct, location: { pathname } } = this.props;
+
+            updateMetaFromProduct(dataSource, pathname);
+        }
+
         this._onProductUpdate();
     }
 
@@ -246,7 +263,6 @@ export class ProductPageContainer extends PureComponent {
             }
         };
 
-        this.setState({ isConfigurationInitialized: false });
         requestProduct(options);
     }
 

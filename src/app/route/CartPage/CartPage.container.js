@@ -17,7 +17,9 @@ import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import { changeNavigationState } from 'Store/Navigation';
 import { CART, CART_EDITING } from 'Component/Header';
+import { LocationType } from 'Type/Common';
 import { TotalsType } from 'Type/MiniCart';
+import { updateMeta } from 'Store/Meta';
 import { history } from 'Route';
 
 import CartPage from './CartPage.component';
@@ -28,19 +30,29 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
     changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
-    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.update(breadcrumbs, dispatch)
+    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.update(breadcrumbs, dispatch),
+    updateMeta: meta => dispatch(updateMeta(meta))
 });
 
 export class CartPageContainer extends PureComponent {
     static propTypes = {
         updateBreadcrumbs: PropTypes.func.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
+        updateMeta: PropTypes.func.isRequired,
+        location: LocationType.isRequired,
         totals: TotalsType.isRequired
     };
 
     state = { isEditing: false };
 
     componentDidMount() {
+        const { updateMeta, location: { pathname = '' } } = this.props;
+
+        updateMeta({
+            title: __('Cart'),
+            pathname
+        });
+
         this._updateBreadcrumbs();
         this._changeHeaderState();
     }

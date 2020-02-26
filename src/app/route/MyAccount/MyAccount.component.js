@@ -20,8 +20,6 @@ import MyAccountDashboard from 'Component/MyAccountDashboard';
 import MyAccountMyOrders from 'Component/MyAccountMyOrders';
 import MyAccountTabList from 'Component/MyAccountTabList';
 import ContentWrapper from 'Component/ContentWrapper';
-import { LocationType } from 'Type/Common';
-import Meta from 'Component/Meta';
 import {
     activeTabType,
     tabMapType,
@@ -39,7 +37,6 @@ class MyAccount extends PureComponent {
         activeTab: activeTabType.isRequired,
         tabMap: tabMapType.isRequired,
         changeActiveTab: PropTypes.func.isRequired,
-        location: LocationType.isRequired,
         onSignIn: PropTypes.func.isRequired,
         onSignOut: PropTypes.func.isRequired,
         isSignedIn: PropTypes.bool.isRequired
@@ -90,19 +87,6 @@ class MyAccount extends PureComponent {
                     <TabContent />
                 </div>
             </ContentWrapper>
-        );
-    }
-
-    renderMeta() {
-        const { location: { pathname } } = this.props;
-
-        return (
-            <Meta
-              metaObject={ {
-                  meta_title: 'My Account',
-                  pathname
-              } }
-            />
         );
     }
 

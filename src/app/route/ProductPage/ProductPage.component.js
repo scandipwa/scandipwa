@@ -13,8 +13,6 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import Meta from 'Component/Meta';
-import { LocationType } from 'Type/Common';
 import { ProductType } from 'Type/ProductList';
 import ProductGallery from 'Component/ProductGallery';
 import ProductActions from 'Component/ProductActions';
@@ -25,15 +23,11 @@ import ProductInformation from 'Component/ProductInformation';
 
 import './ProductPage.style';
 
-export const PDP_IMAGE_HEIGHT = 650;
-export const PDP_IMAGE_WIDTH = 533;
-
 export default class ProductPage extends PureComponent {
     static propTypes = {
         configurableVariantIndex: PropTypes.number.isRequired,
         productOrVariant: ProductType.isRequired,
         getLink: PropTypes.func.isRequired,
-        location: LocationType.isRequired,
         parameters: PropTypes.objectOf(PropTypes.string).isRequired,
         updateConfigurableVariant: PropTypes.func.isRequired,
         dataSource: ProductType.isRequired,
@@ -86,35 +80,9 @@ export default class ProductPage extends PureComponent {
         );
     }
 
-    renderMeta() {
-        const {
-            location: { pathname },
-            dataSource
-        } = this.props;
-        const { media_gallery_entries = {}, name } = dataSource;
-
-        const {
-            base: { url: imageSrc = '' } = {}
-        } = media_gallery_entries[0] || {};
-
-        return (
-            <Meta
-              metaObject={ {
-                  ...dataSource,
-                  imageHeight: PDP_IMAGE_HEIGHT,
-                  imageWidth: PDP_IMAGE_WIDTH,
-                  imageAlt: name,
-                  imageSrc,
-                  pathname
-              } }
-            />
-        );
-    }
-
     render() {
         return (
             <>
-                { this.renderMeta() }
                 <main block="ProductPage" aria-label="Product page">
                     <div
                       itemScope

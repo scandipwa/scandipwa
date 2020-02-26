@@ -13,10 +13,8 @@ import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import TextPlaceholder from 'Component/TextPlaceholder';
-import { LocationType } from 'Type/Common';
 import { BlockListType } from 'Type/CMS';
 import Html from 'Component/Html';
-import Meta from 'Component/Meta';
 
 import './CmsPage.style';
 
@@ -24,7 +22,6 @@ export default class CmsPage extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         isBreadcrumbsActive: PropTypes.bool,
-        location: LocationType.isRequired,
         page: BlockListType.isRequired
     };
 
@@ -62,24 +59,6 @@ export default class CmsPage extends PureComponent {
         return <Html content={ content } />;
     }
 
-    renderMeta() {
-        const {
-            location: { pathname },
-            page
-        } = this.props;
-        const { title, meta_title } = page;
-
-        return (
-            <Meta
-              metaObject={ {
-                  ...page,
-                  meta_title: meta_title || title,
-                  pathname
-              } }
-            />
-        );
-    }
-
     render() {
         const { page, isBreadcrumbsActive } = this.props;
         const { page_width } = page;
@@ -90,7 +69,6 @@ export default class CmsPage extends PureComponent {
               mods={ { isBreadcrumbsHidden: !isBreadcrumbsActive } }
             >
                 <div block="CmsPage" elem="Wrapper" mods={ { page_width } }>
-                    { this.renderMeta() }
                     { this.renderHeading() }
                     <div block="CmsPage" elem="Content">
                         { this.renderContent() }
