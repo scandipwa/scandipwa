@@ -243,7 +243,6 @@ class Checkout extends PureComponent {
     render() {
         return (
             <main block="Checkout">
-                { this.renderMeta() }
                 <ContentWrapper
                   wrapperMix={ { block: 'Checkout', elem: 'Wrapper' } }
                   label={ __('Checkout page') }
