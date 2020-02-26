@@ -9,7 +9,6 @@ const middleware = (namespace) => {
      */
     return function (Class) {
         return (...args) => {
-            // First optional chaining operator usage in ScandiPWA
             const classPlugins = window.plugins?.[namespace];
             const instance = new Class(...args);
 
@@ -23,14 +22,18 @@ const middleware = (namespace) => {
                     if (methodName === Symbol.iterator) {
                         return target[Symbol.iterator].bind(target);
                     }
-                    if (typeof target[methodName] !== 'function') {
-                        return target[methodName];
-                    }
 
                     const origMethod = target[methodName];
-                    const middleware = classPlugins[methodName];
+                    if (typeof target[methodName] !== 'function') {
+                        return origMethod;
+                    }
 
-                    middleware.sort((a, b) => {
+                    const middlewares = classPlugins[methodName];
+                    if (!middlewares) {
+                        return origMethod;
+                    }
+
+                    middlewares.sort((a, b) => {
                         if (a.position > b.position) return -1;
                         if (a.position < b.position) return 1;
                         throw new Error(
@@ -40,16 +43,16 @@ const middleware = (namespace) => {
                     });
 
                     return function (...args) {
-                        const newMethod = middleware.reduce(
+                        const newMethod = middlewares.reduce(
                             (acc, curr) => () => {
-                                return curr.implementation(args, acc, target);
+                                return curr.implementation.call(target, args, acc, target);
                             },
                             (...originalArgs) => {
-                                return origMethod(...originalArgs);
+                                return origMethod.call(target, ...originalArgs);
                             }
                         );
 
-                        return newMethod();
+                        return newMethod(args);
                     };
                 }
             });
