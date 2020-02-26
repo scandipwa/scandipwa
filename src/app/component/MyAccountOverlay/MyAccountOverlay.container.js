@@ -139,10 +139,11 @@ export class MyAccountOverlayContainer extends PureComponent {
     componentDidUpdate(_, prevState) {
         const { state: oldMyAccountState } = prevState;
         const { state: newMyAccountState } = this.state;
+        const currentPage = window.location.pathname;
 
         if (oldMyAccountState === newMyAccountState) return;
 
-        if (newMyAccountState === STATE_LOGGED_IN) {
+        if (currentPage !== '/checkout' && newMyAccountState === STATE_LOGGED_IN) {
             history.push({ pathname: '/my-account/dashboard' });
         }
     }

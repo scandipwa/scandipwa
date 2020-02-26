@@ -46,14 +46,24 @@ class Checkout extends PureComponent {
         isDeliveryOptionsLoading: PropTypes.bool.isRequired,
         shippingAddress: addressType.isRequired,
         checkoutTotals: TotalsType.isRequired,
+        paymentTotals: TotalsType,
         orderID: PropTypes.string.isRequired,
         history: HistoryType.isRequired,
+        onEmailChange: PropTypes.func.isRequired,
+        isGuestEmailSaved: PropTypes.bool.isRequired,
         paymentTotals: TotalsType.isRequired,
         checkoutStep: PropTypes.oneOf([
             SHIPPING_STEP,
             BILLING_STEP,
             DETAILS_STEP
-        ]).isRequired
+        ]).isRequired,
+        createUser: PropTypes.bool.isRequired,
+        onCreateUserChange: PropTypes.func.isRequired,
+        onPasswordChange: PropTypes.func.isRequired
+    };
+
+    static defaultProps = {
+        paymentTotals: {}
     };
 
     stepMap = {
@@ -110,13 +120,23 @@ class Checkout extends PureComponent {
     }
 
     renderGuestForm() {
-        const { checkoutStep, onEmailChange, isGuestEmailSaved } = this.props;
+        const {
+            checkoutStep,
+            createUser,
+            onEmailChange,
+            onCreateUserChange,
+            onPasswordChange,
+            isGuestEmailSaved
+        } = this.props;
         const isBilling = checkoutStep === BILLING_STEP;
 
         return (
             <CheckoutGuestForm
               isBilling={ isBilling }
+              createUser={ createUser }
               onEmailChange={ onEmailChange }
+              onCreateUserChange={ onCreateUserChange }
+              onPasswordChange={ onPasswordChange }
               isGuestEmailSaved={ isGuestEmailSaved }
             />
         );
@@ -199,7 +219,10 @@ class Checkout extends PureComponent {
         if (!areTotalsVisible) return null;
 
         return (
-            <CheckoutOrderSummary totals={ checkoutTotals } paymentTotals={ paymentTotals } />
+            <CheckoutOrderSummary
+              totals={ checkoutTotals }
+              paymentTotals={ paymentTotals }
+            />
         );
     }
 
