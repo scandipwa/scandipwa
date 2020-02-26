@@ -221,15 +221,6 @@ export class CategoryPageContainer extends PureComponent {
         }
     }
 
-    _getFirstImageUrl() {
-        const { pages } = this.props;
-        const page = pages[0 || Object.keys(pages)[0]] || {};
-        const product = page[0] || {};
-        const { small_image: { url = '' } = {} } = product;
-
-        return url;
-    }
-
     _getNewSelectedFiltersString(filterName, filterArray) {
         const prevCustomFilters = this._getSelectedFiltersFromUrl();
         const customFilers = {
@@ -349,9 +340,8 @@ export class CategoryPageContainer extends PureComponent {
             updateNoMatch({ noMatch: true });
         } else {
             const { updateMetaFromCategory, category } = this.props;
-            const imageSrc = this._getFirstImageUrl();
 
-            updateMetaFromCategory({ ...category, imageSrc });
+            updateMetaFromCategory(category);
             this._updateBreadcrumbs();
             this._updateHeaderState();
             this._updateNavigationState();

@@ -16,7 +16,7 @@ import { connect } from 'react-redux';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import { CUSTOMER_ACCOUNT_PAGE, CUSTOMER_ACCOUNT } from 'Component/Header';
-import { HistoryType, MatchType, LocationType } from 'Type/Common';
+import { HistoryType, MatchType } from 'Type/Common';
 import { changeNavigationState } from 'Store/Navigation';
 import { MyAccountDispatcher } from 'Store/MyAccount';
 import { toggleOverlayByKey } from 'Store/Overlay';
@@ -55,7 +55,6 @@ export class MyAccountContainer extends PureComponent {
         toggleOverlayByKey: PropTypes.func.isRequired,
         updateMeta: PropTypes.func.isRequired,
         isSignedIn: PropTypes.bool.isRequired,
-        location: LocationType.isRequired,
         match: MatchType.isRequired,
         history: HistoryType.isRequired
     };
@@ -117,18 +116,14 @@ export class MyAccountContainer extends PureComponent {
         const {
             isSignedIn,
             updateMeta,
-            toggleOverlayByKey,
-            location: { pathname }
+            toggleOverlayByKey
         } = this.props;
 
         if (!isSignedIn) {
             toggleOverlayByKey(CUSTOMER_ACCOUNT);
         }
 
-        updateMeta({
-            title: __('My account'),
-            pathname
-        });
+        updateMeta({ title: __('My account') });
         this.redirectIfNotSignedIn();
         this.onSignIn();
         this.updateBreadcrumbs();

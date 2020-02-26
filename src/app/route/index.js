@@ -67,10 +67,6 @@ export const BEFORE_ITEMS_TYPE = 'BEFORE_ITEMS_TYPE';
 export const SWITCH_ITEMS_TYPE = 'SWITCH_ITEMS_TYPE';
 export const AFTER_ITEMS_TYPE = 'AFTER_ITEMS_TYPE';
 
-export const SWPWA_LOGO_WIDTH = 350;
-export const SWPWA_LOGO_HEIGHT = 210;
-export const SWPWA_LOGO_URL = 'https://scandiweb.com/assets/images/services/scandipwa/ScandiPWA-logo.png';
-
 export const history = createBrowserHistory({ basename: '/' });
 
 export const mapStateToProps = state => ({
@@ -79,10 +75,7 @@ export const mapStateToProps = state => ({
     default_keywords: state.ConfigReducer.default_keywords,
     default_title: state.ConfigReducer.default_title,
     title_prefix: state.ConfigReducer.title_prefix,
-    title_suffix: state.ConfigReducer.title_suffix,
-    header_logo_src: state.ConfigReducer.header_logo_src,
-    logo_alt: state.ConfigReducer.logo_alt,
-    base_url: state.ConfigReducer.base_url
+    title_suffix: state.ConfigReducer.title_suffix
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -94,24 +87,18 @@ export class AppRouter extends PureComponent {
         updateMeta: PropTypes.func.isRequired,
         default_description: PropTypes.string,
         default_keywords: PropTypes.string,
-        header_logo_src: PropTypes.string,
         default_title: PropTypes.string,
         title_prefix: PropTypes.string,
         title_suffix: PropTypes.string,
-        logo_alt: PropTypes.string,
-        base_url: PropTypes.string,
         isLoading: PropTypes.bool
     };
 
     static defaultProps = {
         default_description: '',
         default_keywords: '',
-        header_logo_src: '',
         default_title: '',
         title_prefix: '',
         title_suffix: '',
-        logo_alt: '',
-        base_url: '',
         isLoading: true
     };
 
@@ -205,14 +192,11 @@ export class AppRouter extends PureComponent {
 
         if (!isLoading && isLoading !== prevIsLoading) {
             const {
-                header_logo_src,
                 default_description,
                 default_keywords,
                 default_title,
                 title_prefix,
-                title_suffix,
-                logo_alt,
-                base_url
+                title_suffix
             } = this.props;
 
             updateMeta({
@@ -222,11 +206,8 @@ export class AppRouter extends PureComponent {
                 description: default_description,
                 default_keywords,
                 keywords: default_keywords,
-                header_logo_src,
                 title_prefix,
-                title_suffix,
-                logo_alt,
-                base_url
+                title_suffix
             });
         }
     }

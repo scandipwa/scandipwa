@@ -17,58 +17,34 @@ export const updateEveryTime = [
     'title',
     'description',
     'keywords',
-    'imageSrc',
-    'imageWidth',
-    'imageHeight',
-    'imageAlt',
-    'canonical_url',
-    'pathname'
+    'canonical_url'
 ];
-
-export const PDP_IMAGE_HEIGHT = 650;
-export const PDP_IMAGE_WIDTH = 533;
-
-export const PLP_IMAGE_WIDTH = 248;
-export const PLP_IMAGE_HEIGHT = 297;
 
 export const getProductMeta = (product) => {
     const {
-        media_gallery_entries = {}, name, canonical_url,
-        meta_title, meta_keyword, meta_description
+        meta_title, meta_keyword, meta_description,
+        canonical_url
     } = product;
-
-    const {
-        base: { url: imageSrc = '' } = {}
-    } = media_gallery_entries[0] || {};
 
     return {
         description: meta_description,
-        imageHeight: PDP_IMAGE_HEIGHT,
-        imageWidth: PDP_IMAGE_WIDTH,
         keywords: meta_keyword,
         title: meta_title,
-        imageAlt: name,
-        canonical_url,
-        imageSrc
+        canonical_url
     };
 };
 
 export const getCategoryMeta = (category) => {
     const {
-        description,
-        name, canonical_url, imageSrc,
+        description, name, canonical_url,
         meta_title, meta_keyword, meta_description
     } = category;
 
     return {
         description: meta_description || description,
-        imageHeight: PLP_IMAGE_HEIGHT,
-        imageWidth: PLP_IMAGE_WIDTH,
         title: meta_title || name,
         keywords: meta_keyword,
-        imageAlt: name,
-        canonical_url,
-        imageSrc
+        canonical_url
     };
 };
 
@@ -88,12 +64,7 @@ export const initialState = {
     title_suffix: '',
     description: '',
     keywords: '',
-    imageSrc: '',
-    imageWidth: 0,
-    imageHeight: 0,
-    imageAlt: '',
-    canonical_url: '',
-    pathname: ''
+    canonical_url: ''
 };
 
 export const MetaReducer = (state = initialState, action) => {

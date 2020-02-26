@@ -44,7 +44,7 @@ export const mapDispatchToProps = dispatch => ({
     changeNavigationState: state => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
     requestProduct: options => ProductDispatcher.handleData(dispatch, options),
     updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.updateWithProduct(breadcrumbs, dispatch),
-    updateMetaFromProduct: (product, pathname) => dispatch(updateMetaFromProduct(product, pathname))
+    updateMetaFromProduct: product => dispatch(updateMetaFromProduct(product))
 });
 
 export class ProductPageContainer extends PureComponent {
@@ -96,9 +96,9 @@ export class ProductPageContainer extends PureComponent {
 
         if (id !== prevId) {
             const dataSource = this._getDataSource();
-            const { updateMetaFromProduct, location: { pathname } } = this.props;
+            const { updateMetaFromProduct } = this.props;
 
-            updateMetaFromProduct(dataSource, pathname);
+            updateMetaFromProduct(dataSource);
         }
 
         this._onProductUpdate();
