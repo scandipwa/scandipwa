@@ -361,6 +361,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "grumpy-pirate",
+      "name": "grumpy-pirate",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/7815525?v=4",
+      "profile": "https://github.com/grumpy-pirate",
+      "contributions": [
+        "translation"
+      ]
     }
   ],
   "contributorsPerLine": 7,
