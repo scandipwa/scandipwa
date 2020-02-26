@@ -9,9 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { createPortal } from 'react-dom';
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import Helmet from 'react-helmet';
 
 /**
  * Page Meta data
@@ -35,23 +35,45 @@ export default class Meta extends PureComponent {
         title: PropTypes.string.isRequired
     };
 
-    render() {
+    renderTitle() {
         const {
-            canonical_url,
             title_prefix,
             title_suffix,
-            metadata,
             title
         } = this.props;
 
         return (
-            <Helmet
-              title={ `${ title_prefix } ${ title } ${ title_suffix }` }
-              meta={ metadata }
-              link={ [
-                  { ...(canonical_url && { rel: 'canonical', href: canonical_url }) }
-              ] }
-            />
+            <title>
+                { `${ title_prefix } ${ title } ${ title_suffix }` }
+            </title>
+        );
+    }
+
+    renderCanonical() {
+        const { canonical_url } = this.props;
+
+        if (!canonical_url) return null;
+
+        return (
+            <link rel="canonical" href={ canonical_url } />
+        );
+    }
+
+    renderMeta() {
+        const { metadata } = this.props;
+        return (
+            <>
+            { this.renderTitle() }
+            { this.renderCanonical() }
+            { metadata.map(tag => <meta { ...tag } />) }
+            </>
+        );
+    }
+
+    render() {
+        return createPortal(
+            { ...this.renderMeta() },
+            document.head
         );
     }
 }
