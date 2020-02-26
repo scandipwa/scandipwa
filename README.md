@@ -83,6 +83,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   </tr>
   <tr>
     <td align="center"><a href="https://github.com/grumpy-pirate"><img src="https://avatars3.githubusercontent.com/u/7815525?v=4" width="100px;" alt=""/><br /><sub><b>grumpy-pirate</b></sub></a><br /><a href="#translation-grumpy-pirate" title="Translation">🌍</a></td>
+    <td align="center"><a href="http://www.magonex.com"><img src="https://avatars1.githubusercontent.com/u/18647834?v=4" width="100px;" alt=""/><br /><sub><b>Bahram Davoodi</b></sub></a><br /><a href="#translation-bahramdavodi" title="Translation">🌍</a></td>
   </tr>
 </table>
 
