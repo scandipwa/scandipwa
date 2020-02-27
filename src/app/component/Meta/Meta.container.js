@@ -42,7 +42,7 @@ export class MetaContainer extends PureComponent {
     };
 
     containerProps = () => ({
-        metadata: this._getMeta()
+        metadata: this._getMetadata()
     });
 
     _generateMetaFromMetadata(metadata, param = 'name') {
@@ -79,10 +79,6 @@ export class MetaContainer extends PureComponent {
         };
 
         return this._generateMetaFromMetadata(meta);
-    }
-
-    _getMeta() {
-        return this._getMetadata();
     }
 
     render() {
