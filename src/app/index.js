@@ -20,6 +20,7 @@ import AppRouter from 'Route';
 import store from 'Store';
 import ReactDOM from 'react-dom';
 import SharedTransition from 'Component/SharedTransition';
+import importExtensions from 'Util/Extension';
 
 import 'Style/main';
 
@@ -28,30 +29,7 @@ import 'Style/main';
 // It fills the array declared right below with promises returned from import() function.
 const pendingPluginConfigParts = [];
 // * ScandiPWA extension importing magic comment! */
-
-Promise.all(pendingPluginConfigParts).then(
-    (modules) => {
-        window.plugins = modules.map(singleModule => singleModule.default).reduce(
-            (overallConfig, singleExtensionExDf) => {
-                const singleExtensionConfig = Object.entries(singleExtensionExDf);
-                singleExtensionConfig.forEach(
-                    ([namespace, methodsPlugins]) => {
-                        if (!overallConfig[namespace]) overallConfig[namespace] = {};
-                        const namedMethodPlugins = Object.entries(methodsPlugins);
-                        namedMethodPlugins.forEach(
-                            ([methodName, methodPlugins]) => {
-                                if (!overallConfig[namespace][methodName]) overallConfig[namespace][methodName] = [];
-                                overallConfig[namespace][methodName].push(...methodPlugins);
-                            }
-                        );
-                    }
-                );
-
-                return overallConfig;
-            }, {}
-        );
-    }
-);
+importExtensions(pendingPluginConfigParts);
 
 // Disable react dev tools in production
 if (process.env.NODE_ENV === 'production'
