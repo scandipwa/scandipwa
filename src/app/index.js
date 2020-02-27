@@ -22,16 +22,12 @@ import ReactDOM from 'react-dom';
 import SharedTransition from 'Component/SharedTransition';
 
 import 'Style/main';
-import extensionsConfig from './pluginconfig.json';
 
-const { plugins } = extensionsConfig;
-
+// The following line is a hook for extension-import-injector loader.
+// It replaces this magic comment with all the necessary imports for extensions
+// It fills the array declared right below with promises returned from import() function.
 const pendingPluginConfigParts = [];
-Object.entries(plugins).forEach(([, configFilePathList]) => {
-    configFilePathList.forEach(configFilePath => pendingPluginConfigParts.push(
-        import(`../../../../vendor/${configFilePath}.plugin.js`)
-    ));
-});
+// * ScandiPWA extension importing magic comment! */
 
 Promise.all(pendingPluginConfigParts).then(
     (modules) => {
