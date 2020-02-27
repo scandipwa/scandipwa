@@ -15,6 +15,11 @@ export const updateEveryTime = [
     'title',
     'description',
     'keywords',
+    'imageSrc',
+    'pathname',
+    'imageAlt',
+    'imageWidth',
+    'imageHeight',
     'canonical_url'
 ];
 
@@ -29,10 +34,15 @@ export const filterData = (data) => {
 
 export const initialState = {
     title: '',
+    pathname: '',
+    imageSrc: '',
+    imageAlt: '',
+    keywords: '',
+    imageWidth: 0,
+    imageHeight: 0,
+    description: '',
     title_prefix: '',
     title_suffix: '',
-    description: '',
-    keywords: '',
     canonical_url: ''
 };
 

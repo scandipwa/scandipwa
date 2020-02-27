@@ -135,12 +135,19 @@ export class CategoryPageContainer extends PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        const { category: { id } } = this.props;
-        const { category: { id: prevId } } = prevProps;
+        const { category: { id }, pages } = this.props;
+        const { category: { id: prevId }, pages: prevPages } = prevProps;
 
         // update breadcrumbs only if category has changed
         if (id !== prevId) {
             this._onCategoryUpdate();
+        }
+
+        const { sku } = this._getFirstProduct(pages);
+        const { sku: prevSku } = this._getFirstProduct(prevPages);
+
+        if (sku !== prevSku) {
+            this.updateMeta();
         }
 
         this._updateData(prevProps);
@@ -171,6 +178,13 @@ export class CategoryPageContainer extends PureComponent {
         selectedFilters: this._getSelectedFiltersFromUrl(),
         selectedPriceRange: this._getPriceRangeForSlider()
     });
+
+    updateMeta() {
+        const { updateMetaFromCategory, category } = this.props;
+        const imageSrc = this._getFirstImageUrl();
+
+        updateMetaFromCategory({ ...category, imageSrc });
+    }
 
     updateSearch(value) {
         const { location, history } = this.props;
@@ -219,6 +233,20 @@ export class CategoryPageContainer extends PureComponent {
         if (!this._compareQueriesByFilters(search, prevSearch)) {
             this._debounceRequestCategoryProductsInfo();
         }
+    }
+
+    _getFirstProduct(customPages = null) {
+        const { pages: pagesFromProps } = this.props;
+        const pages = customPages || pagesFromProps;
+        const page = pages[1 || Object.keys(pages)[0]] || {};
+        return page[0] || {};
+    }
+
+    _getFirstImageUrl() {
+        const product = this._getFirstProduct();
+        const { small_image: { url = '' } = {} } = product;
+
+        return url;
     }
 
     _getNewSelectedFiltersString(filterName, filterArray) {
@@ -339,9 +367,6 @@ export class CategoryPageContainer extends PureComponent {
         if (!isLoading && !is_active) {
             updateNoMatch({ noMatch: true });
         } else {
-            const { updateMetaFromCategory, category } = this.props;
-
-            updateMetaFromCategory(category);
             this._updateBreadcrumbs();
             this._updateHeaderState();
             this._updateNavigationState();

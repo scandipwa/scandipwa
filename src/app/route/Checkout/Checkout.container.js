@@ -24,7 +24,7 @@ import { showNotification } from 'Store/Notification';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { changeNavigationState } from 'Store/Navigation';
-import { HistoryType } from 'Type/Common';
+import { HistoryType, LocationType } from 'Type/Common';
 import CheckoutQuery from 'Query/Checkout.query';
 import MyAccountQuery from 'Query/MyAccount.query';
 import { GUEST_QUOTE_ID } from 'Store/Cart';
@@ -59,6 +59,7 @@ export class CheckoutContainer extends PureComponent {
         createAccount: PropTypes.func.isRequired,
         updateMeta: PropTypes.func.isRequired,
         resetCart: PropTypes.func.isRequired,
+        location: LocationType.isRequired,
         totals: TotalsType.isRequired,
         history: HistoryType.isRequired
     };
@@ -116,8 +117,12 @@ export class CheckoutContainer extends PureComponent {
     }
 
     componentDidMount() {
-        const { updateMeta } = this.props;
-        updateMeta({ title: __('Checkout') });
+        const { updateMeta, location: { pathname } } = this.props;
+
+        updateMeta({
+            title: __('Checkout'),
+            pathname
+        });
     }
 
     componentWillUnmount() {

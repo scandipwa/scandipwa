@@ -93,7 +93,10 @@ export class CmsPageContainer extends DataContainer {
         const { content_heading, meta_title, title } = page;
 
         updateBreadcrumbs(page);
-        updateMeta({ title: meta_title || title });
+        updateMeta({
+            title: meta_title || title,
+            pathname
+        });
 
         if (pathname !== '/') {
             setHeaderState({
