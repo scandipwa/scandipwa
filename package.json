@@ -42,6 +42,7 @@
     "braintree-web-drop-in": "^1.20.4",
     "html-react-parser": "^0.6.1",
     "ignore-loader": "^0.1.2",
+    "loader-utils": "^1.4.0",
     "prop-types": "^15.6.2",
     "react": "^16.6.3",
     "react-debounce-render": "^5.0.0",
