@@ -45,6 +45,13 @@ module.exports = {
         ]
     },
 
+    resolveLoader: {
+        modules: [
+            'node_modules',
+            path.resolve(__dirname, 'loaders')
+        ]
+    },
+
     mode: 'development',
 
     devtool: 'source-map',
@@ -67,6 +74,22 @@ module.exports = {
                     {
                         loader: 'babel-loader',
                         options: BabelConfig
+                    }
+                ]
+            },
+            {
+                test: path.resolve(projectRoot, 'src', 'app', 'index.js'),
+                use: [
+                    {
+                        loader: 'extension-import-injector',
+                        options: {
+                            // Relative location from app entry point to vendor folder
+                            vendor: path.resolve(
+                                path.join(projectRoot, 'app', 'index.js'),
+                                path.join(magentoRoot, 'vendor')
+                            ),
+                            importAggregator: 'pendingPluginConfigParts'
+                        }
                     }
                 ]
             },
@@ -156,7 +179,7 @@ module.exports = {
 
         new webpack.ProvidePlugin({
             __: path.resolve(path.join(__dirname, 'TranslationFunction')),
-            $_: path.resolve(path.join(__dirname, 'Pluggable')),
+            middleware: path.resolve(path.join(__dirname, 'Middleware')),
             React: 'react'
         }),
 
