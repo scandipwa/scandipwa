@@ -30,6 +30,7 @@ export default class Meta extends PureComponent {
             })
         ).isRequired,
         canonical_url: PropTypes.string.isRequired,
+        default_title: PropTypes.string.isRequired,
         title_prefix: PropTypes.string.isRequired,
         title_suffix: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired
@@ -37,6 +38,7 @@ export default class Meta extends PureComponent {
 
     renderTitle() {
         const {
+            default_title,
             title_prefix,
             title_suffix,
             title
@@ -44,7 +46,7 @@ export default class Meta extends PureComponent {
 
         return (
             <title>
-                { `${ title_prefix } ${ title } ${ title_suffix }` }
+                { `${ title_prefix } ${ title || default_title } ${ title_suffix }` }
             </title>
         );
     }
