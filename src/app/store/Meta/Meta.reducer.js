@@ -9,91 +9,41 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import {
-    UPDATE_META, UPDATE_META_FROM_COTEGORY, UPDATE_META_FROM_PRODUCT
-} from './Meta.action';
+import { UPDATE_META } from './Meta.action';
 
 export const updateEveryTime = [
     'title',
     'description',
     'keywords',
     'imageSrc',
+    'pathname',
+    'imageAlt',
     'imageWidth',
     'imageHeight',
-    'imageAlt',
-    'canonical_url',
-    'pathname'
+    'canonical_url'
 ];
 
-export const PDP_IMAGE_HEIGHT = 650;
-export const PDP_IMAGE_WIDTH = 533;
-
-export const PLP_IMAGE_WIDTH = 248;
-export const PLP_IMAGE_HEIGHT = 297;
-
-export const getProductMeta = (product) => {
-    const {
-        media_gallery_entries = {}, name, canonical_url,
-        meta_title, meta_keyword, meta_description
-    } = product;
-
-    const {
-        base: { url: imageSrc = '' } = {}
-    } = media_gallery_entries[0] || {};
-
-    return {
-        description: meta_description,
-        imageHeight: PDP_IMAGE_HEIGHT,
-        imageWidth: PDP_IMAGE_WIDTH,
-        keywords: meta_keyword,
-        title: meta_title,
-        imageAlt: name,
-        canonical_url,
-        imageSrc
-    };
-};
-
-export const getCategoryMeta = (category) => {
-    const {
-        description,
-        name, canonical_url, imageSrc,
-        meta_title, meta_keyword, meta_description
-    } = category;
-
-    return {
-        description: meta_description || description,
-        imageHeight: PLP_IMAGE_HEIGHT,
-        imageWidth: PLP_IMAGE_WIDTH,
-        title: meta_title || name,
-        keywords: meta_keyword,
-        imageAlt: name,
-        canonical_url,
-        imageSrc
-    };
-};
-
 export const filterData = (data) => {
-    const updated = updateEveryTime.reduce((acc, key) => (
-        key in data
-            ? { ...acc, [key]: data[key] }
-            : { ...acc, [key]: undefined }
-    ), {});
+    const updated = updateEveryTime.reduce((acc, key) => {
+        acc[key] = data[key];
+        return acc;
+    }, {});
 
     return { ...data, ...updated };
 };
 
 export const initialState = {
     title: '',
-    title_prefix: '',
-    title_suffix: '',
-    description: '',
-    keywords: '',
+    pathname: '',
     imageSrc: '',
+    imageAlt: '',
+    keywords: '',
     imageWidth: 0,
     imageHeight: 0,
-    imageAlt: '',
-    canonical_url: '',
-    pathname: ''
+    description: '',
+    title_prefix: '',
+    title_suffix: '',
+    canonical_url: ''
 };
 
 export const MetaReducer = (state = initialState, action) => {
@@ -107,22 +57,7 @@ export const MetaReducer = (state = initialState, action) => {
             ...state,
             ...filteredData
         };
-    case UPDATE_META_FROM_PRODUCT:
-        const productMeta = getProductMeta(payload);
-        const filteredProductMeta = filterData(productMeta);
 
-        return {
-            ...state,
-            ...filteredProductMeta
-        };
-    case UPDATE_META_FROM_COTEGORY:
-        const categoryMeta = getCategoryMeta(payload);
-        const filteredCategoryMeta = filterData(categoryMeta);
-
-        return {
-            ...state,
-            ...filteredCategoryMeta
-        };
     default:
         return state;
     }

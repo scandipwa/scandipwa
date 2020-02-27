@@ -18,12 +18,12 @@ import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.component';
 import { HistoryType, LocationType, MatchType } from 'Type/Common';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import { changeNavigationState } from 'Store/Navigation';
-import { updateMetaFromCategory } from 'Store/Meta';
 import { CategoryDispatcher } from 'Store/Category';
 import { toggleOverlayByKey } from 'Store/Overlay';
 import { NoMatchDispatcher } from 'Store/NoMatch';
 import { CategoryTreeType } from 'Type/Category';
 import { PagesType } from 'Type/ProductList';
+import { MetaDispatcher } from 'Store/Meta';
 import { CATEGORY } from 'Component/Header';
 import { debounce } from 'Util/Request';
 
@@ -63,7 +63,7 @@ export const mapDispatchToProps = dispatch => ({
     requestProductListInfo: options => ProductListInfoDispatcher.handleData(dispatch, options),
     updateLoadStatus: isLoading => dispatch(updateInfoLoadStatus(isLoading)),
     updateNoMatch: options => NoMatchDispatcher.updateNoMatch(dispatch, options),
-    updateMetaFromCategory: category => dispatch(updateMetaFromCategory(category))
+    updateMetaFromCategory: category => MetaDispatcher.updateWithCategory(category, dispatch)
 });
 
 export const UPDATE_FILTERS_FREQUENCY = 0;
@@ -135,12 +135,19 @@ export class CategoryPageContainer extends PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        const { category: { id } } = this.props;
-        const { category: { id: prevId } } = prevProps;
+        const { category: { id }, pages } = this.props;
+        const { category: { id: prevId }, pages: prevPages } = prevProps;
 
         // update breadcrumbs only if category has changed
         if (id !== prevId) {
             this._onCategoryUpdate();
+        }
+
+        const { sku } = this._getFirstProduct(pages);
+        const { sku: prevSku } = this._getFirstProduct(prevPages);
+
+        if (sku !== prevSku) {
+            this.updateMeta();
         }
 
         this._updateData(prevProps);
@@ -171,6 +178,13 @@ export class CategoryPageContainer extends PureComponent {
         selectedFilters: this._getSelectedFiltersFromUrl(),
         selectedPriceRange: this._getPriceRangeForSlider()
     });
+
+    updateMeta() {
+        const { updateMetaFromCategory, category } = this.props;
+        const imageSrc = this._getFirstImageUrl();
+
+        updateMetaFromCategory({ ...category, imageSrc });
+    }
 
     updateSearch(value) {
         const { location, history } = this.props;
@@ -221,10 +235,15 @@ export class CategoryPageContainer extends PureComponent {
         }
     }
 
+    _getFirstProduct(customPages = null) {
+        const { pages: pagesFromProps } = this.props;
+        const pages = customPages || pagesFromProps;
+        const page = pages[1 || Object.keys(pages)[0]] || {};
+        return page[0] || {};
+    }
+
     _getFirstImageUrl() {
-        const { pages } = this.props;
-        const page = pages[0 || Object.keys(pages)[0]] || {};
-        const product = page[0] || {};
+        const product = this._getFirstProduct();
         const { small_image: { url = '' } = {} } = product;
 
         return url;
@@ -348,10 +367,6 @@ export class CategoryPageContainer extends PureComponent {
         if (!isLoading && !is_active) {
             updateNoMatch({ noMatch: true });
         } else {
-            const { updateMetaFromCategory, category } = this.props;
-            const imageSrc = this._getFirstImageUrl();
-
-            updateMetaFromCategory({ ...category, imageSrc });
             this._updateBreadcrumbs();
             this._updateHeaderState();
             this._updateNavigationState();

@@ -1,7 +1,6 @@
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-
 import { LOGO_MEDIA } from 'Util/Media/Media';
 import media from 'Util/Media';
 
@@ -42,12 +41,12 @@ export class MetaContainer extends PureComponent {
         description: PropTypes.string,
         imageHeight: PropTypes.number,
         imageWidth: PropTypes.number,
-        keywords: PropTypes.string,
         imageSrc: PropTypes.string,
         imageAlt: PropTypes.string,
         base_url: PropTypes.string,
         pathname: PropTypes.string,
         logo_alt: PropTypes.string,
+        keywords: PropTypes.string,
         title: PropTypes.string
     };
 
@@ -140,6 +139,7 @@ export class MetaContainer extends PureComponent {
 
         return canonical_url || `${ base_url }${ pathname ? pathname.substr(1) : '' }`;
     }
+
 
     _getMetadata() {
         const meta = {

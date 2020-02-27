@@ -67,10 +67,6 @@ export const BEFORE_ITEMS_TYPE = 'BEFORE_ITEMS_TYPE';
 export const SWITCH_ITEMS_TYPE = 'SWITCH_ITEMS_TYPE';
 export const AFTER_ITEMS_TYPE = 'AFTER_ITEMS_TYPE';
 
-export const SWPWA_LOGO_WIDTH = 350;
-export const SWPWA_LOGO_HEIGHT = 210;
-export const SWPWA_LOGO_URL = 'https://scandiweb.com/assets/images/services/scandipwa/ScandiPWA-logo.png';
-
 export const history = createBrowserHistory({ basename: '/' });
 
 export const mapStateToProps = state => ({
@@ -88,6 +84,10 @@ export const mapStateToProps = state => ({
 export const mapDispatchToProps = dispatch => ({
     updateMeta: meta => dispatch(updateMeta(meta))
 });
+
+export const SWPWA_LOGO_WIDTH = 350;
+export const SWPWA_LOGO_HEIGHT = 210;
+export const SWPWA_LOGO_URL = 'https://scandiweb.com/assets/images/services/scandipwa/ScandiPWA-logo.png';
 
 export class AppRouter extends PureComponent {
     static propTypes = {
@@ -205,9 +205,9 @@ export class AppRouter extends PureComponent {
 
         if (!isLoading && isLoading !== prevIsLoading) {
             const {
-                header_logo_src,
                 default_description,
                 default_keywords,
+                header_logo_src,
                 default_title,
                 title_prefix,
                 title_suffix,
