@@ -5,7 +5,7 @@
 # ScandiPWA Theme
 
 [![The dev branch - 2.x-dev](https://img.shields.io/badge/dev%20branch-2.x--dev-blue)](https://github.com/scandipwa/base-theme/tree/2.x-dev)
-[![The dev branch - 2.x-stable](https://img.shields.io/badge/dev%20branch-2.x--stable-blue)](https://github.com/scandipwa/base-theme/tree/2.x-stable)
+[![The stable branch - 2.x-stable](https://img.shields.io/badge/stable%20branch-2.x--stable-blue)](https://github.com/scandipwa/base-theme/tree/2.x-stable)
 [![Join community Slack](https://img.shields.io/badge/join-community%20slack-brightgreen)](https://join.slack.com/t/scandipwa/shared_invite/enQtNzE2Mjg1Nzg3MTg5LTQwM2E2NmQ0NmQ2MzliMjVjYjQ1MTFiYWU5ODAyYTYyMGQzNWM3MDhkYzkyZGMxYTJlZWI1N2ExY2Q1MDMwMTk)
 [![All Contributors](https://img.shields.io/badge/all_contributors-38-orange.svg)](#contributors)
 <!--
