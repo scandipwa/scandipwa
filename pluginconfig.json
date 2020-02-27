@@ -2,6 +2,9 @@
     "plugins": {
         "NoWishlist": [
             "scandipwa/NoWishlist--plugin/src/plugin/ProductWishlistButtonContainer/NoWishlist"
+        ],
+        "PayPal": [
+            "yeegor/scandipwa-paypal--plugin/src/plugin/PayPal"
         ]
     }
 }
