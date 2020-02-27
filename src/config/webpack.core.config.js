@@ -27,7 +27,7 @@ const BabelConfig = require('./babel.config');
 const FallbackPlugin = require('./FallbackPlugin');
 
 const projectRoot = path.resolve(__dirname, '..', '..');
-const magentoRoot = path.resolve(projectRoot, '..', '..', '..', '..', '..');
+const magentoRoot = path.resolve(projectRoot, '..', '..');
 const fallbackRoot = path.resolve(magentoRoot, 'vendor', 'scandipwa', 'source');
 
 module.exports = {
@@ -42,6 +42,13 @@ module.exports = {
             new FallbackPlugin({
                 fallbackRoot, projectRoot
             })
+        ]
+    },
+
+    resolveLoader: {
+        modules: [
+            'node_modules',
+            path.resolve(__dirname, 'loaders')
         ]
     },
 
@@ -67,6 +74,22 @@ module.exports = {
                     {
                         loader: 'babel-loader',
                         options: BabelConfig
+                    }
+                ]
+            },
+            {
+                test: path.resolve(projectRoot, 'src', 'app', 'index.js'),
+                use: [
+                    {
+                        loader: 'extension-import-injector',
+                        options: {
+                            // Relative location from app entry point to vendor folder
+                            vendor: path.resolve(
+                                path.join(projectRoot, 'app', 'index.js'),
+                                path.join(magentoRoot, 'vendor')
+                            ),
+                            importAggregator: 'pendingPluginConfigParts'
+                        }
                     }
                 ]
             },

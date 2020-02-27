@@ -53,6 +53,13 @@ const webpackConfig = ([lang, translation]) => ({
         ]
     },
 
+    resolveLoader: {
+        modules: [
+            'node_modules',
+            path.resolve(__dirname, 'loaders')
+        ]
+    },
+
     cache: false,
 
     stats: {
@@ -72,6 +79,22 @@ const webpackConfig = ([lang, translation]) => ({
                     {
                         loader: 'babel-loader',
                         options: BabelConfig
+                    }
+                ]
+            },
+            {
+                test: path.resolve(projectRoot, 'src', 'app', 'index.js'),
+                use: [
+                    {
+                        loader: 'extension-import-injector',
+                        options: {
+                            // Relative location from app entry point to vendor folder
+                            vendor: path.resolve(
+                                path.join(projectRoot, 'app', 'index.js'),
+                                path.join(magentoRoot, 'vendor')
+                            ),
+                            importAggregator: 'pendingPluginConfigParts'
+                        }
                     }
                 ]
             },
