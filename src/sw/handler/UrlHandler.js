@@ -12,6 +12,11 @@ const BUYPASS_CACHE_HOSTS = [
     '(?!^.*graphql)', // GraphQL
     '(?!^.*sockjs)', // Local socket for webpack hot-reload
     '(?!^.*maildev)', // Mail-dev (could be unused, legacy)
+    // Payment endpoints
+    '(?!^.*paypal)', // PayPal
+    '(?!^.*stripe)', // Stripe
+    '(?!^.*braintree)', // Braintree
+    '(?!^.*klarna)', // Klarna
     // GTM endpoints
     '(?!^.*googletagmanager\\.com)',
     '(?!^.*onthe\\.io)',
