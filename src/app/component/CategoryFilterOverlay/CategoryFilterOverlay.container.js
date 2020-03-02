@@ -42,6 +42,8 @@ export class CategoryFilterOverlayContainer extends PureComponent {
         changeHeaderState: PropTypes.func.isRequired,
         changeNavigationState: PropTypes.func.isRequired,
         updateFilter: PropTypes.func.isRequired,
+        availableFilters: PropTypes.objectOf(PropTypes.shape).isRequired,
+        isInfoLoading: PropTypes.bool.isRequired,
         getFilterUrl: PropTypes.func.isRequired
     };
 
@@ -97,6 +99,19 @@ export class CategoryFilterOverlayContainer extends PureComponent {
         return getFilterUrl(filterKey, this._getNewFilterArray(filterKey, value));
     }
 
+    getAreFiltersEmpty() {
+        const { isInfoLoading, availableFilters } = this.props;
+
+        return !isInfoLoading && (
+            !availableFilters
+            || !Object.keys(availableFilters).length
+        );
+    }
+
+    containerProps = () => ({
+        areFiltersEmpty: this.getAreFiltersEmpty()
+    });
+
     toggleCustomFilter(requestVar, value) {
         const { updateFilter } = this.props;
 
@@ -132,6 +147,7 @@ export class CategoryFilterOverlayContainer extends PureComponent {
             <CategoryFilterOverlay
               { ...this.props }
               { ...this.containerFunctions }
+              { ...this.containerProps() }
             />
         );
     }
