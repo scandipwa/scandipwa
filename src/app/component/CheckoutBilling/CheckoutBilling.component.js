@@ -26,7 +26,7 @@ import './CheckoutBilling.style';
 class CheckoutBilling extends PureComponent {
     state = {
         isOrderButtonVisible: true,
-        isOrderButtonEnabled: false,
+        isOrderButtonEnabled: true,
         isTermsAndConditionsAccepted: false
     };
 
@@ -98,13 +98,13 @@ class CheckoutBilling extends PureComponent {
                 <label
                   block="CheckoutBilling"
                   elem="TACLabel"
-                  htmlFor="CheckoutBilling"
-                  onClick={ this.handleShowPopup }
+                  htmlFor="termsAndConditions"
                 >
                     { checkbox_text }
                     <button
                       block="CheckoutBilling"
                       elem="TACLink"
+                      onClick={ this.handleShowPopup }
                     >
                         { __('read more') }
                     </button>
