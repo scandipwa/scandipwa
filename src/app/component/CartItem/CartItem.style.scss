@@ -21,6 +21,8 @@
 }
 
 .CartItem {
+    --header-color: var(--cart-item-actions-color);
+
     border-bottom: 1px solid var(--cart-item-divider-color);
 
     &-Link {
