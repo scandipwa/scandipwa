@@ -33,6 +33,10 @@ if (process.env.NODE_ENV === 'development') {
     });
 }
 
+// Inject ScandiPWA comment into code (do not remove!)
+const comment = document.createComment('Powered by ScandiPWA (scandipwa.com)');
+document.querySelector('html').appendChild(comment);
+
 class App extends PureComponent {
     render() {
         return (

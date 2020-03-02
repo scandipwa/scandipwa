@@ -61,7 +61,10 @@ export default class Footer extends PureComponent {
         return (
             <footer block="Footer" aria-label="Footer">
                 { this.renderContent() }
-                <span block="Footer" elem="Copyright">{ copyright }</span>
+                <span block="Footer" elem="Copyright">
+                    { copyright }
+                    { ' Powered by ScandiPWA' }
+                </span>
             </footer>
         );
     }
