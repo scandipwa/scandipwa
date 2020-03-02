@@ -76,7 +76,8 @@ export default class Footer extends PureComponent {
                 { this.renderContent() }
                 <span block="Footer" elem="Copyright">
                     { copyright }
-                    { ' Powered by ScandiPWA' }
+                    { ' Powered by ' }
+                    <a href="scandipwa.com">ScandiPWA</a>
                 </span>
             </footer>
         );
