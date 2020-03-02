@@ -11,8 +11,11 @@
 
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import Link from 'Component/Link';
+
 import CmsBlock from 'Component/CmsBlock';
+import isMobile from 'Util/Mobile';
+import Link from 'Component/Link';
+
 import './Footer.style';
 
 /**
@@ -21,11 +24,13 @@ import './Footer.style';
  */
 export default class Footer extends PureComponent {
     static propTypes = {
-        copyright: PropTypes.string
+        copyright: PropTypes.string,
+        isVisibleOnMobile: PropTypes.bool
     };
 
     static defaultProps = {
-        copyright: ''
+        copyright: '',
+        isVisibleOnMobile: false
     };
 
     renderContent() {
@@ -56,7 +61,15 @@ export default class Footer extends PureComponent {
     }
 
     render() {
-        const { copyright } = this.props;
+        const { copyright, isVisibleOnMobile } = this.props;
+
+        if (!isVisibleOnMobile && isMobile.any()) {
+            return null;
+        }
+
+        if (isVisibleOnMobile && !isMobile.any()) {
+            return null;
+        }
 
         return (
             <footer block="Footer" aria-label="Footer">

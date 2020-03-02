@@ -11,11 +11,17 @@
 
 import { connect } from 'react-redux';
 import CmsPage from 'Route/CmsPage';
+import Footer from 'Component/Footer';
 
 export const mapStateToProps = state => ({
     urlKey: state.ConfigReducer.cms_home_page
 });
 
-export const HomePageContainer = props => <CmsPage { ...props } isBreadcrumbsActive={ false } />;
+export const HomePageContainer = props => (
+    <>
+        <CmsPage { ...props } isBreadcrumbsActive={ false } />
+        <Footer isVisibleOnMobile />
+    </>
+);
 
 export default connect(mapStateToProps)(HomePageContainer);
