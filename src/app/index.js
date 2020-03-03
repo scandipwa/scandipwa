@@ -11,12 +11,15 @@
  */
 
 import { PureComponent } from 'react';
-import { Provider } from 'react-redux';
 import { Provider as UnstatedProvider } from 'unstated';
+import { Provider } from 'react-redux';
+import ReactDOM from 'react-dom';
+
+import SharedTransition from 'Component/SharedTransition';
 import AppRouter from 'Route';
 import store from 'Store';
-import ReactDOM from 'react-dom';
-import SharedTransition from 'Component/SharedTransition';
+
+import 'Util/Polyfill';
 import 'Style/main';
 
 // Disable react dev tools in production
