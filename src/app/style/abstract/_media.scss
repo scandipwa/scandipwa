@@ -38,3 +38,9 @@
         @content;
     }
 }
+
+@mixin standalone {
+    @media all and (display-mode: standalone) {
+        @content;
+    }
+}
