@@ -169,6 +169,8 @@ $select-arrow-width: 6px !default;
             label {
                 &:first-of-type {
                     display: inline-block;
+                    max-width: calc(100vw - 2rem - 45px);
+                    vertical-align: middle;
 
                     ~ label {
                         margin-left: 1rem;
