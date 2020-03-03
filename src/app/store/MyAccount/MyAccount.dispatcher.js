@@ -58,7 +58,8 @@ export class MyAccountDispatcher {
         CartDispatcher.updateInitialCartData(dispatch);
         WishlistDispatcher.updateInitialWishlistData(dispatch);
         BrowserDatabase.deleteItem(ORDERS);
-        // TODO: logout in BE
+        BrowserDatabase.deleteItem(CUSTOMER);
+        dispatch(updateCustomerDetails({}));
     }
 
     /**
