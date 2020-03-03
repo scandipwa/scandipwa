@@ -77,7 +77,9 @@ export default class Footer extends PureComponent {
                 <span block="Footer" elem="Copyright">
                     { copyright }
                     { ' Powered by ' }
-                    <a href="scandipwa.com">ScandiPWA</a>
+                    <a href="https://scandipwa.com">
+                        ScandiPWA
+                    </a>
                 </span>
             </footer>
         );
