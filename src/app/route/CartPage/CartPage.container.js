@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -36,8 +37,7 @@ export class CartPageContainer extends PureComponent {
     static propTypes = {
         updateBreadcrumbs: PropTypes.func.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
-        totals: TotalsType.isRequired,
-        headerState: PropTypes.shape.isRequired
+        totals: TotalsType.isRequired
     };
 
     state = { isEditing: false };

@@ -84,6 +84,7 @@ export class MyAccountDispatcher {
      */
     resetPassword(options = {}, dispatch) {
         const mutation = MyAccountQuery.getResetPasswordMutation(options);
+
         return fetchMutation(mutation).then(
             ({ resetPassword: { status } }) => dispatch(updateCustomerPasswordResetStatus(status)),
             () => dispatch(updateCustomerPasswordResetStatus('error'))
@@ -101,7 +102,10 @@ export class MyAccountDispatcher {
 
         return fetchMutation(mutation).then(
             () => this.signIn({ email, password }, dispatch),
-            error => dispatch(showNotification('error', error[0].message))
+            (error) => {
+                dispatch(showNotification('error', error[0].message));
+                return false;
+            }
         );
     }
 
@@ -121,6 +125,8 @@ export class MyAccountDispatcher {
             dispatch(updateCustomerSignInStatus(true));
             CartDispatcher.updateInitialCartData(dispatch);
             WishlistDispatcher.updateInitialWishlistData(dispatch);
+
+            return true;
         } catch ([e]) {
             throw e;
         }
