@@ -21,6 +21,7 @@ import { ProductType } from 'Type/ProductList';
 import { ProductDispatcher } from 'Store/Product';
 import { changeNavigationState } from 'Store/Navigation';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
+import { setBigOfflineNotice } from 'Store/Offline';
 import { LocationType, HistoryType, MatchType } from 'Type/Common';
 import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.component';
 import { TOP_NAVIGATION_TYPE, BOTTOM_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
@@ -35,6 +36,7 @@ import {
 import ProductPage from './ProductPage.component';
 
 export const mapStateToProps = state => ({
+    isOffline: state.OfflineReducer.isOffline,
     product: state.ProductReducer.product
 });
 
@@ -42,6 +44,7 @@ export const mapDispatchToProps = dispatch => ({
     changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
     changeNavigationState: state => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
     requestProduct: options => ProductDispatcher.handleData(dispatch, options),
+    setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig)),
     updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.updateWithProduct(breadcrumbs, dispatch)
 });
 
@@ -51,8 +54,10 @@ export class ProductPageContainer extends PureComponent {
         isOnlyPlaceholder: PropTypes.bool,
         changeHeaderState: PropTypes.func.isRequired,
         changeNavigationState: PropTypes.func.isRequired,
+        setBigOfflineNotice: PropTypes.func.isRequired,
         updateBreadcrumbs: PropTypes.func.isRequired,
         requestProduct: PropTypes.func.isRequired,
+        isOffline: PropTypes.bool.isRequired,
         product: ProductType.isRequired,
         history: HistoryType.isRequired,
         match: MatchType.isRequired
@@ -186,13 +191,15 @@ export class ProductPageContainer extends PureComponent {
     }
 
     _onProductUpdate() {
+        const { isOffline, setBigOfflineNotice } = this.props;
         const dataSource = this._getDataSource();
 
         if (Object.keys(dataSource).length) {
             this._updateBreadcrumbs(dataSource);
             this._updateHeaderState(dataSource);
             this._updateNavigationState();
-        }
+            if (isOffline) setBigOfflineNotice(false);
+        } else if (isOffline) setBigOfflineNotice(true);
     }
 
     _getAreDetailsLoaded() {
