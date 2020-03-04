@@ -44,8 +44,8 @@ const middleware = (namespace) => {
 
                     return function (...args) {
                         const newMethod = middlewares.reduce(
-                            (acc, curr) => () => {
-                                return curr.implementation.call(target, args, acc, target);
+                            (acc, { implementation }) => () => {
+                                return implementation(args, acc, target);
                             },
                             (...originalArgs) => {
                                 return origMethod.call(target, ...originalArgs);
