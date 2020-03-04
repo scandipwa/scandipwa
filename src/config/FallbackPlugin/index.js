@@ -25,8 +25,8 @@ class FallbackPlugin {
     // Default plugin entry-point function
     apply(resolver) {
         resolver.getHook('resolve').tapAsync('FallbackPlugin', (request, resolveContext, callback) => {
-            // Determine if request is coming from core file, exclude requests coming from plugins (which are also in vendor folder)
-            const pathIsCore = !!(request.path.match(/vendor/) && !request.path.match(/--plugin/));
+            // Determine if request is coming from core file
+            const pathIsCore = !!request.path.match(/vendor/);
 
             // Determine if the request is child-of-a-child node_module request
             const pathIsNode = !!request.path.match(/node_modules/);
