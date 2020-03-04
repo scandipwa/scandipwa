@@ -66,7 +66,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 export const UPDATE_FILTERS_FREQUENCY = 0;
-export const LOADING_TIME = 1500;
+export const LOADING_TIME = 500;
 
 export class CategoryPageContainer extends PureComponent {
     static propTypes = {
@@ -139,16 +139,12 @@ export class CategoryPageContainer extends PureComponent {
 
     componentDidUpdate(prevProps) {
         const {
-            category: { id }, isInfoLoading, isOffline
+            category: { id }, isOffline
         } = this.props;
         const { category: { id: prevId } } = prevProps;
 
-        if (isOffline && id !== prevId) {
-            if (isInfoLoading) {
-                debounce(this.setOfflineNoticeSize, LOADING_TIME)();
-            } else {
-                debounce(this.setOfflineNoticeSize, LOADING_TIME)();
-            }
+        if (isOffline) {
+            debounce(this.setOfflineNoticeSize, LOADING_TIME)();
         }
 
         // update breadcrumbs only if category has changed
@@ -168,7 +164,7 @@ export class CategoryPageContainer extends PureComponent {
 
     setOfflineNoticeSize = () => {
         const { setBigOfflineNotice, isInfoLoading } = this.props;
-
+        console.log('im setSize, isInfoL', isInfoLoading);
         if (isInfoLoading) setBigOfflineNotice(true);
         else setBigOfflineNotice(false);
     };
