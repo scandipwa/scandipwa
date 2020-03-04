@@ -21,6 +21,7 @@ import {
 import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 import { Router } from 'react-router';
+import { connect } from 'react-redux';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { createBrowserHistory } from 'history';
 
@@ -32,6 +33,7 @@ import NotificationList from 'Component/NotificationList';
 
 import Store from 'Store';
 
+import OfflineNotice from 'Component/OfflineNotice';
 import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
 import { ConfigDispatcher } from 'Store/Config';
 import { CartDispatcher } from 'Store/Cart';
@@ -66,7 +68,12 @@ export const AFTER_ITEMS_TYPE = 'AFTER_ITEMS_TYPE';
 
 export const history = createBrowserHistory({ basename: '/' });
 
-class AppRouter extends PureComponent {
+export const mapStateToProps = state => ({
+    isOffline: state.OfflineReducer.isOffline,
+    isBig: state.OfflineReducer.isBig
+});
+
+export class AppRouter extends PureComponent {
     [BEFORE_ITEMS_TYPE] = [
         {
             component: <NotificationList />,
@@ -145,6 +152,11 @@ class AppRouter extends PureComponent {
         errorDetails: {}
     };
 
+    static propTypes = {
+        isOffline: PropTypes.bool.isRequired,
+        isBig: PropTypes.bool.isRequired
+    };
+
     constructor(props) {
         super(props);
 
@@ -220,6 +232,24 @@ class AppRouter extends PureComponent {
         );
     }
 
+    renderMainItems() {
+        const { isOffline, isBig } = this.props;
+
+        if (isOffline && isBig) {
+            return <OfflineNotice isPage />;
+        }
+
+        return (
+            <Suspense fallback={ this.renderFallbackPage() }>
+                <NoMatchHandler>
+                    <Switch>
+                        { this.renderItemsOfType(SWITCH_ITEMS_TYPE) }
+                    </Switch>
+                </NoMatchHandler>
+            </Suspense>
+        );
+    }
+
     renderErrorRouterContent() {
         const { errorDetails } = this.state;
 
@@ -241,13 +271,7 @@ class AppRouter extends PureComponent {
         return (
             <>
                 { this.renderItemsOfType(BEFORE_ITEMS_TYPE) }
-                <Suspense fallback={ this.renderFallbackPage() }>
-                    <NoMatchHandler>
-                        <Switch>
-                            { this.renderItemsOfType(SWITCH_ITEMS_TYPE) }
-                        </Switch>
-                    </NoMatchHandler>
-                </Suspense>
+                { this.renderMainItems() }
                 { this.renderItemsOfType(AFTER_ITEMS_TYPE) }
             </>
         );
@@ -268,4 +292,4 @@ class AppRouter extends PureComponent {
     }
 }
 
-export default AppRouter;
+export default connect(mapStateToProps)(AppRouter);
