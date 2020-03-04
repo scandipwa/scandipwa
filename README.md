@@ -91,6 +91,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/grumpy-pirate"><img src="https://avatars3.githubusercontent.com/u/7815525?v=4" width="100px;" alt=""/><br /><sub><b>grumpy-pirate</b></sub></a><br /><a href="#translation-grumpy-pirate" title="Translation">🌍</a></td>
     <td align="center"><a href="http://www.magonex.com"><img src="https://avatars1.githubusercontent.com/u/18647834?v=4" width="100px;" alt=""/><br /><sub><b>Bahram Davoodi</b></sub></a><br /><a href="#translation-bahramdavodi" title="Translation">🌍</a></td>
     <td align="center"><a href="http://jdlms.com"><img src="https://avatars0.githubusercontent.com/u/24616413?v=4" width="100px;" alt=""/><br /><sub><b>Megazoor</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=megazoor" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/joostm020"><img src="https://avatars1.githubusercontent.com/u/26708268?v=4" width="100px;" alt=""/><br /><sub><b>Joost Meijer</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=joostm020" title="Code">💻</a></td>
   </tr>
 </table>
 
