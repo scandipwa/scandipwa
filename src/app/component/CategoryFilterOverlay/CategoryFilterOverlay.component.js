@@ -25,6 +25,7 @@ export default class CategoryFilterOverlay extends PureComponent {
         availableFilters: PropTypes.objectOf(PropTypes.shape).isRequired,
         updatePriceRange: PropTypes.func.isRequired,
         areFiltersEmpty: PropTypes.bool.isRequired,
+        isContentFiltered: PropTypes.bool.isRequired,
         isProductsLoading: PropTypes.bool.isRequired,
         priceValue: PropTypes.shape({
             min: PropTypes.number,
@@ -187,8 +188,15 @@ export default class CategoryFilterOverlay extends PureComponent {
         const {
             totalPages,
             areFiltersEmpty,
-            isProductsLoading
+            isProductsLoading,
+            isContentFiltered
         } = this.props;
+
+        if (!isProductsLoading && totalPages === 0 && !isContentFiltered) {
+            return (
+                <div block="CategoryFilterOverlay" />
+            );
+        }
 
         if (!isProductsLoading && totalPages === 0) {
             return this.renderEmptyFilters();

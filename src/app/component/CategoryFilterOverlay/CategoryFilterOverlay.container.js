@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { withRouter } from 'react-router';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -36,6 +37,9 @@ export const mapDispatchToProps = dispatch => ({
 
 export class CategoryFilterOverlayContainer extends PureComponent {
     static propTypes = {
+        location: PropTypes.shape({
+            pathname: PropTypes.string.isRequired
+        }).isRequired,
         customFiltersValues: PropTypes.objectOf(PropTypes.array).isRequired,
         hideActiveOverlay: PropTypes.func.isRequired,
         goToPreviousHeaderState: PropTypes.func.isRequired,
@@ -110,8 +114,22 @@ export class CategoryFilterOverlayContainer extends PureComponent {
     }
 
     containerProps = () => ({
-        areFiltersEmpty: this.getAreFiltersEmpty()
+        areFiltersEmpty: this.getAreFiltersEmpty(),
+        isContentFiltered: this.isContentFiltered()
     });
+
+    isContentFiltered() {
+        const { customFilters, priceMin, priceMax } = this.urlStringToObject();
+        return !!(customFilters || priceMin || priceMax);
+    }
+
+    urlStringToObject() {
+        const { location: { search } } = this.props;
+        return search.substr(1).split('&').reduce((acc, part) => {
+            const [key, value] = part.split('=');
+            return { ...acc, [key]: value };
+        }, {});
+    }
 
     toggleCustomFilter(requestVar, value) {
         const { updateFilter } = this.props;
@@ -154,4 +172,4 @@ export class CategoryFilterOverlayContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CategoryFilterOverlayContainer);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CategoryFilterOverlayContainer));
