@@ -268,12 +268,14 @@
         transition-property: opacity;
         transition-duration: 200ms;
 
-        @include after-mobile {
+        @include desktop {
             @include logo-visible;
         }
 
         &_isVisible {
-            @include logo-visible;
+            @include desktop {
+                @include logo-visible;
+            }
         }
     }
 

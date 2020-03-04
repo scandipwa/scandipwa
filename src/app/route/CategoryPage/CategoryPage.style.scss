@@ -22,7 +22,7 @@
         }
 
         @include tablet {
-            grid-template-columns: minmax(150px, 200px) auto;
+            grid-template-columns: minmax(200px, 270px) auto;
             grid-column-gap: 2rem;
         }
 
