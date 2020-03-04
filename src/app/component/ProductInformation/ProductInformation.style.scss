@@ -23,7 +23,11 @@
     }
 
     &-Wrapper {
-        padding: 3rem 1rem;
+        padding: 0;
+
+        @include after-mobile {
+            padding: 3rem 1rem;
+        }
     }
 
     &-ExpandableContentHeading {
@@ -34,8 +38,10 @@
     }
 
     &-ExpandableContentContent {
-        @include mobile {
-            padding: 0;
+        &_isContentExpanded {
+            @include mobile {
+                padding: 0 1rem;
+            }
         }
 
         @include after-mobile {
@@ -64,6 +70,10 @@
     &-Attributes {
         display: flex;
         flex-wrap: wrap;
+
+        @include mobile {
+            margin-top: 2rem;
+        }
     }
 
     &-ValueLabel,
