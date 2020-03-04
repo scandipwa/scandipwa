@@ -73,27 +73,20 @@ module.exports = {
             {
                 test: /\.(sa|sc|c)ss$/,
                 use: [
-                    'css-hot-loader',
-                    MiniCssExtractPlugin.loader,
-                    {
-                        loader: 'css-loader',
-                        options: {
-                            sourceMap: true
-                        }
-                    },
+                    'style-loader',
+                    'css-loader',
                     {
                         loader: 'postcss-loader',
                         options: {
-                            sourceMap: true,
-                            plugins: () => [autoprefixer]
+                            plugins: () => [
+                                autoprefixer,
+                                // cssnano({
+                                //     preset: ['default', { discardComments: { removeAll: true } }]
+                                // })
+                            ]
                         }
                     },
-                    {
-                        loader: 'sass-loader',
-                        options: {
-                            sourceMap: true
-                        }
-                    },
+                    'sass-loader',
                     {
                         loader: 'sass-resources-loader',
                         options: {
@@ -173,6 +166,6 @@ module.exports = {
             { from: path.resolve(projectRoot, 'src', 'public', 'assets'), to: './assets' }
         ]),
 
-        new MiniCssExtractPlugin()
+        // new MiniCssExtractPlugin()
     ]
 };

@@ -17,10 +17,10 @@ import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccou
 import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.component';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { showOfflineNotice, setBigOfflineNotice } from 'Store/Offline';
 import { toggleOverlayByKey, hideActiveOverlay } from 'Store/Overlay';
 import { setQueryParams } from 'Util/Url';
 import { isSignedIn } from 'Util/Auth';
-import withOnline from 'Util/OnlineHOC';
 import isMobile from 'Util/Mobile';
 import { history } from 'Route';
 
@@ -42,6 +42,7 @@ export const mapStateToProps = state => ({
     navigationState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
     cartTotals: state.CartReducer.cartTotals,
     header_logo_src: state.ConfigReducer.header_logo_src,
+    isOffline: state.OfflineReducer.isOffline,
     logo_alt: state.ConfigReducer.logo_alt,
     isLoading: state.ConfigReducer.isLoading
 });
@@ -50,7 +51,9 @@ export const mapDispatchToProps = dispatch => ({
     showOverlay: overlayKey => dispatch(toggleOverlayByKey(overlayKey)),
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     setNavigationState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
-    goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))
+    goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE)),
+    showOfflineNotice: isOffline => dispatch(showOfflineNotice(isOffline)),
+    setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig))
 });
 
 export const DEFAULT_HEADER_STATE = {
@@ -134,22 +137,13 @@ export class HeaderContainer extends NavigationAbstractContainer {
     };
 
     componentDidMount() {
+        // document.body.classList.add('offline');
         this.handleHeaderVisibility();
         super.componentDidMount();
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate() {
         this.handleHeaderVisibility();
-        const { online } = this.props;
-        const { online: prevOnline } = prevProps;
-
-        if (online !== prevOnline) {
-            if (online) {
-                document.body.classList.remove('offline');
-            } else {
-                document.body.classList.add('offline');
-            }
-        }
     }
 
     handleHeaderVisibility() {
@@ -370,4 +364,4 @@ export class HeaderContainer extends NavigationAbstractContainer {
     }
 }
 
-export default withOnline(connect(mapStateToProps, mapDispatchToProps)(HeaderContainer));
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderContainer);
