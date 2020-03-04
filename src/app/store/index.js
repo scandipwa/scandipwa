@@ -31,6 +31,7 @@ import { UrlRewritesReducer } from 'Store/UrlRewrites';
 import { MyAccountReducer } from 'Store/MyAccount';
 import { NavigationReducer } from 'Store/Navigation';
 import { OverlayReducer } from 'Store/Overlay';
+import { OfflineReducer } from 'Store/Offline';
 import { PopupReducer } from 'Store/Popup';
 import { ConfigReducer } from 'Store/Config';
 import { LinkedProductsReducer } from 'Store/LinkedProducts';
@@ -53,6 +54,7 @@ export const reducers = {
     MyAccountReducer,
     NavigationReducer,
     OverlayReducer,
+    OfflineReducer,
     PopupReducer,
     UrlRewritesReducer,
     ConfigReducer,
