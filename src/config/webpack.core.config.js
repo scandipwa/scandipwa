@@ -42,6 +42,10 @@ module.exports = {
             new FallbackPlugin({
                 fallbackRoot, projectRoot
             })
+        ],
+        modules: [
+            path.resolve(projectRoot, 'node_modules'),
+            'node_modules'
         ]
     },
 
