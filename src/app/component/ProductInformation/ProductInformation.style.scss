@@ -22,6 +22,10 @@
         background-color: var(--product-information-background);
     }
 
+    &-Wrapper {
+        padding: 3rem 1rem;
+    }
+
     &-ExpandableContentHeading {
         @include after-mobile {
             font-size: 20px;
@@ -29,23 +33,17 @@
         }
     }
 
-    &-Content {
-        width: 100%;
-    }
-
-    &-Wrapper {
-        max-width: 1000px;
-
+    &-ExpandableContentContent {
         @include mobile {
             padding: 0;
         }
 
         @include after-mobile {
-            // margin-top: 3rem;
-            padding: 3rem 1rem;
-            display: flex;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 4rem;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
         }
     }
 
@@ -58,10 +56,14 @@
         }
     }
 
+    &-Description,
+    &-Attributes {
+        width: 100%;
+    }
+
     &-Attributes {
         display: flex;
         flex-wrap: wrap;
-        margin-top: 1.5rem;
     }
 
     &-ValueLabel,

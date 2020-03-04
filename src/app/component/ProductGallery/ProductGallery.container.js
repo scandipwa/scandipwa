@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { Subscribe } from 'unstated';
 import { ProductType } from 'Type/ProductList';
@@ -20,7 +21,12 @@ export const AMOUNT_OF_PLACEHOLDERS = 3;
 
 export class ProductGalleryContainer extends PureComponent {
     static propTypes = {
-        product: ProductType.isRequired
+        product: ProductType.isRequired,
+        areDetailsLoaded: PropTypes.bool
+    };
+
+    static defaultProps = {
+        areDetailsLoaded: false
     };
 
     containerFunctions = {
@@ -57,6 +63,7 @@ export class ProductGalleryContainer extends PureComponent {
 
     getGalleryPictures() {
         const {
+            areDetailsLoaded,
             product: {
                 media_gallery_entries: mediaGallery = [],
                 [THUMBNAIL_KEY]: { url } = {},
@@ -86,16 +93,22 @@ export class ProductGalleryContainer extends PureComponent {
         }
 
         if (!url) {
-            return [{ type: 'image' }];
+            return Array(AMOUNT_OF_PLACEHOLDERS + 1).fill({ media_type: 'placeholder' });
         }
 
-        return [{
-            thumbnail: { url },
-            base: { url },
-            id: THUMBNAIL_KEY,
-            label: name,
-            media_type: IMAGE_TYPE
-        }, ...Array(AMOUNT_OF_PLACEHOLDERS).fill({ media_type: 'placeholder' })];
+        const placeholders = !areDetailsLoaded
+            ? Array(AMOUNT_OF_PLACEHOLDERS).fill({ media_type: 'placeholder' }) : [];
+
+        return [
+            {
+                thumbnail: { url },
+                base: { url },
+                id: THUMBNAIL_KEY,
+                label: name,
+                media_type: IMAGE_TYPE
+            },
+            ...placeholders
+        ];
     }
 
     containerProps = () => {
