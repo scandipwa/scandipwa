@@ -20,7 +20,7 @@ import './SearchField.style';
 class SearchField extends PureComponent {
     static propTypes = {
         searchCriteria: PropTypes.string,
-        onSearchBarClick: PropTypes.func.isRequired,
+        onSearchBarFocus: PropTypes.func.isRequired,
         onSearchBarChange: PropTypes.func.isRequired,
         onSearchOutsideClick: PropTypes.func.isRequired,
         onClearSearchButtonClick: PropTypes.func.isRequired,
@@ -84,7 +84,7 @@ class SearchField extends PureComponent {
     renderContent() {
         const {
             searchCriteria,
-            onSearchBarClick,
+            onSearchBarFocus,
             isActive
         } = this.props;
 
@@ -97,7 +97,7 @@ class SearchField extends PureComponent {
                   ref={ this.searchBarRef }
                   block="SearchField"
                   elem="Input"
-                  onClick={ onSearchBarClick }
+                  onFocus={ onSearchBarFocus }
                   onChange={ this.handleChange }
                   value={ searchCriteria }
                   mods={ { isActive } }

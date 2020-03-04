@@ -85,7 +85,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
     containerFunctions = {
         onBackButtonClick: this.onBackButtonClick.bind(this),
         onCloseButtonClick: this.onCloseButtonClick.bind(this),
-        onSearchBarClick: this.onSearchBarClick.bind(this),
+        onSearchBarFocus: this.onSearchBarFocus.bind(this),
         onMenuButtonClick: this.onMenuButtonClick.bind(this),
         onClearSearchButtonClick: this.onClearSearchButtonClick.bind(this),
         onMyAccountButtonClick: this.onMyAccountButtonClick.bind(this),
@@ -216,7 +216,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
         }
     }
 
-    onSearchBarClick() {
+    onSearchBarFocus() {
         const {
             setNavigationState,
             goToPreviousNavigationState,
