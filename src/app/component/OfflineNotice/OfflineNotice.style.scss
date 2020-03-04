@@ -139,7 +139,7 @@
     }
 
     @at-root .offline {
-        --placeholder-image: none;
+        --placeholder-image: linear-gradient(var(--placeholder-gradient-color), var(--placeholder-gradient-color));
         --placeholder-animation: none;
         --offline-notice-height: calc(var(--header-nav-height) / 2);
         --offline-notice-display: flex;
