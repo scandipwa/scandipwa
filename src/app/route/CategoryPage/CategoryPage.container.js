@@ -164,7 +164,7 @@ export class CategoryPageContainer extends PureComponent {
 
     setOfflineNoticeSize = () => {
         const { setBigOfflineNotice, isInfoLoading } = this.props;
-        console.log('im setSize, isInfoL', isInfoLoading);
+
         if (isInfoLoading) setBigOfflineNotice(true);
         else setBigOfflineNotice(false);
     };

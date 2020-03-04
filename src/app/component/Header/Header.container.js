@@ -17,7 +17,6 @@ import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccou
 import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.component';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { showOfflineNotice, setBigOfflineNotice } from 'Store/Offline';
 import { toggleOverlayByKey, hideActiveOverlay } from 'Store/Overlay';
 import { setQueryParams } from 'Util/Url';
 import { isSignedIn } from 'Util/Auth';
@@ -51,9 +50,7 @@ export const mapDispatchToProps = dispatch => ({
     showOverlay: overlayKey => dispatch(toggleOverlayByKey(overlayKey)),
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     setNavigationState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
-    goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE)),
-    showOfflineNotice: isOffline => dispatch(showOfflineNotice(isOffline)),
-    setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig))
+    goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))
 });
 
 export const DEFAULT_HEADER_STATE = {
@@ -137,7 +134,6 @@ export class HeaderContainer extends NavigationAbstractContainer {
     };
 
     componentDidMount() {
-        // document.body.classList.add('offline');
         this.handleHeaderVisibility();
         super.componentDidMount();
     }

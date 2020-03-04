@@ -119,6 +119,7 @@ export class CmsPageContainer extends DataContainer {
     setOfflineNoticeSize = () => {
         const { setBigOfflineNotice } = this.props;
         const { isLoading } = this.state;
+
         if (isLoading) setBigOfflineNotice(true);
         else setBigOfflineNotice(false);
     };
