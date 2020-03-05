@@ -17,6 +17,8 @@ import { PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
 
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
+import ProductGiftCardAttributes from 'Component/ProductGiftCardAttributes';
+import ProductGiftCardFields from 'Component/ProductGiftCardFields';
 import ProductWishlistButton from 'Component/ProductWishlistButton';
 import ProductReviewRating from 'Component/ProductReviewRating';
 import GroupedProductList from 'Component/GroupedProductsList';
@@ -24,7 +26,7 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import ProductPrice from 'Component/ProductPrice';
 import { ProductType } from 'Type/ProductList';
 import AddToCart from 'Component/AddToCart';
-import { GROUPED, CONFIGURABLE } from 'Util/Product';
+import { GROUPED, CONFIGURABLE, GIFTCARD } from 'Util/Product';
 import Field from 'Component/Field';
 import isMobile from 'Util/Mobile';
 import Html from 'Component/Html';
@@ -51,7 +53,16 @@ export default class ProductActions extends PureComponent {
         getIsConfigurableAttributeAvailable: PropTypes.func.isRequired,
         groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired,
         clearGroupedProductQuantity: PropTypes.func.isRequired,
-        setGroupedProductQuantity: PropTypes.func.isRequired
+        setGroupedProductQuantity: PropTypes.func.isRequired,
+        updateGiftCardAmount: PropTypes.func.isRequired,
+        giftCardPrice: PropTypes.number.isRequired,
+        giftCardVariantIndex: PropTypes.number.isRequired,
+        handleGiftCardSenderEmail: PropTypes.func.isRequired,
+        handleGiftCardSenderName: PropTypes.func.isRequired,
+        handleGiftCardRecipientEmail: PropTypes.func.isRequired,
+        handleGiftCardRecipientName: PropTypes.func.isRequired,
+        handleGiftCardMessage: PropTypes.func.isRequired,
+        giftCardData: PropTypes.object.isRequired
     };
 
     static defaultProps = {
@@ -60,9 +71,17 @@ export default class ProductActions extends PureComponent {
 
     configurableOptionsRef = createRef();
 
+    giftCardOptionsRef = createRef();
+
+    giftCardFieldsRef = createRef();
+
     groupedProductsRef = createRef();
 
     onConfigurableProductError = this.onProductError.bind(this, this.configurableOptionsRef);
+
+    onGiftCardProductError = this.onProductError.bind(this, this.giftCardOptionsRef);
+
+    onGiftCardFieldError = this.onProductError.bind(this, this.giftCardFieldsRef);
 
     onGroupedProductError = this.onProductError.bind(this, this.groupedProductsRef);
 
@@ -88,6 +107,10 @@ export default class ProductActions extends PureComponent {
             break;
         case GROUPED:
             this.onGroupedProductError();
+            break;
+        case GIFTCARD:
+            this.onGiftCardProductError();
+            this.onGiftCardFieldError();
             break;
         default:
             break;
@@ -133,6 +156,83 @@ export default class ProductActions extends PureComponent {
         );
     }
 
+    renderGiftCardFields() {
+        const {
+            areDetailsLoaded,
+            product: { type_id, allow_message, message_max_length },
+            handleGiftCardSenderEmail,
+            handleGiftCardSenderName,
+            handleGiftCardRecipientEmail,
+            handleGiftCardRecipientName,
+            handleGiftCardMessage,
+            giftCardData
+        } = this.props;
+
+        if (type_id !== GIFTCARD) return null;
+
+        return (
+            <div
+              ref={ this.giftCardFieldsRef }
+              block="ProductActions"
+              elem="AttributesWrapper"
+            >
+                <div block="ProductActions" elem="GiftCardFields">
+                    <ProductGiftCardFields
+                      /* eslint-disable-next-line no-magic-numbers */
+                      numberOfPlaceholders={ [5] }
+                      isReady={ areDetailsLoaded }
+                      handleGiftCardSenderEmail={ handleGiftCardSenderEmail }
+                      handleGiftCardSenderName={ handleGiftCardSenderName }
+                      handleGiftCardRecipientEmail={ handleGiftCardRecipientEmail }
+                      handleGiftCardRecipientName={ handleGiftCardRecipientName }
+                      handleGiftCardMessage={ handleGiftCardMessage }
+                      giftCardData={ giftCardData }
+                      allow_message={ allow_message }
+                      message_max_length={ message_max_length }
+                    />
+                </div>
+            </div>
+        );
+    }
+
+    renderGiftCardAttributes() {
+        const {
+            areDetailsLoaded,
+            product: {
+                giftcard_amounts,
+                allow_open_amount,
+                type_id,
+                stock_status,
+                open_amount_min,
+                open_amount_max
+            },
+            updateGiftCardAmount,
+            giftCardPrice
+        } = this.props;
+
+        if (type_id !== GIFTCARD) return null;
+
+        return (
+            <div
+              ref={ this.giftCardOptionsRef }
+              block="ProductActions"
+              elem="AttributesWrapper"
+            >
+                <ProductGiftCardAttributes
+                  /* eslint-disable-next-line no-magic-numbers */
+                  numberOfPlaceholders={ [4] }
+                  mix={ { block: 'ProductActions', elem: 'Attributes' } }
+                  mods={ { isNotAvailable: stock_status !== 'IN_STOCK' } }
+                  isReady={ areDetailsLoaded }
+                  updateGiftCardAmount={ updateGiftCardAmount }
+                  giftCardAmount={ giftCardPrice }
+                  giftcard_amounts={ giftcard_amounts }
+                  openAmountValues={ allow_open_amount ? { open_amount_min, open_amount_max } : {} }
+                />
+            </div>
+        );
+    }
+
     renderConfigurableAttributes() {
         const {
             getLink,
@@ -143,7 +243,7 @@ export default class ProductActions extends PureComponent {
             getIsConfigurableAttributeAvailable
         } = this.props;
 
-        if (type_id !== 'configurable') return null;
+        if (type_id !== CONFIGURABLE) return null;
 
         return (
             <div
@@ -261,7 +361,10 @@ export default class ProductActions extends PureComponent {
             configurableVariantIndex,
             product,
             quantity,
-            groupedProductQuantity
+            groupedProductQuantity,
+            giftCardVariantIndex,
+            giftCardPrice,
+            giftCardData
         } = this.props;
 
         return (
@@ -271,15 +374,36 @@ export default class ProductActions extends PureComponent {
               mix={ { block: 'ProductActions', elem: 'AddToCart' } }
               quantity={ quantity }
               groupedProductQuantity={ groupedProductQuantity }
+              giftCardAmount={ giftCardPrice }
+              giftCardVariantIndex={ giftCardVariantIndex }
+              giftCardData={ giftCardData }
               onProductValidationError={ this.onProductValidationError }
             />
         );
     }
 
     renderPrice() {
-        const { product: { price, variants, type_id }, configurableVariantIndex } = this.props;
+        const {
+            product: {
+                price, variants, type_id
+            },
+            configurableVariantIndex,
+            giftCardPrice
+        } = this.props;
 
         if (type_id === GROUPED) return null;
+
+        if (type_id === GIFTCARD) {
+            const productOrVariantPrice = { price_min: giftCardPrice };
+
+            return (
+                <ProductPrice
+                  price={ productOrVariantPrice }
+                  mix={ { block: 'ProductActions', elem: 'Price' } }
+                  isGiftCard
+                />
+            );
+        }
 
         // Product in props is updated before ConfigurableVariantIndex in props, when page is opened by clicking CartItem
         // As a result, we have new product, but old configurableVariantIndex, which may be out of range for variants
@@ -299,13 +423,17 @@ export default class ProductActions extends PureComponent {
         const {
             product,
             quantity,
-            configurableVariantIndex
+            configurableVariantIndex,
+            giftCardPrice,
+            giftCardData
         } = this.props;
 
         return (
             <ProductWishlistButton
               product={ product }
               quantity={ quantity }
+              giftCardAmount={ giftCardPrice }
+              giftCardData={ giftCardData }
               configurableVariantIndex={ configurableVariantIndex }
               onProductValidationError={ this.onProductValidationError }
             />
@@ -372,6 +500,8 @@ export default class ProductActions extends PureComponent {
                 { this.renderNameAndBrand() }
                 { this.renderSkuAndStock() }
                 { this.renderConfigurableAttributes() }
+                { this.renderGiftCardFields() }
+                { this.renderGiftCardAttributes() }
                 { this.renderGroupedItems() }
             </article>
         );

@@ -80,13 +80,13 @@ export class CartDispatcher {
 
     addProductToCart(dispatch, options) {
         const { product, quantity } = options;
-        const { sku, type_id: product_type } = product;
-
+        const { sku, type_id: product_type, giftCardFieldData } = product;
         const productToAdd = {
             sku,
             product_type,
             qty: parseInt(quantity, 10),
-            product_option: { extension_attributes: getExtensionAttributes(product) }
+            product_option: { extension_attributes: getExtensionAttributes(product) },
+            giftcard_options: giftCardFieldData
         };
 
         if (this._canBeAdded(options)) {
@@ -136,6 +136,81 @@ export class CartDispatcher {
             },
             error => dispatch(showNotification('error', error[0].message))
         );
+    }
+
+    async applyGiftCardToCart(dispatch, giftCardCode) {
+        try {
+            const result = await fetchMutation(CartQuery.getApplyGiftCardMutation(
+                giftCardCode, !isSignedIn() && this._getGuestQuoteId()
+            ));
+            const { cartData } = result.applyGiftCard;
+
+            if (cartData) {
+                this._updateCartData(cartData, dispatch);
+                dispatch(showNotification('success', __('Gift card was applied!')));
+            }
+        } catch (error) {
+            if (error.length) {
+                dispatch(showNotification('error', error[0].message));
+            }
+        }
+    }
+
+    async removeGiftCardFromCart(dispatch, giftCardCode, showNotification = true) {
+        try {
+            const result = await fetchMutation(CartQuery.getRemoveGiftCardFromCartMutation(
+                giftCardCode, !isSignedIn() && this._getGuestQuoteId()
+            ));
+            const { cartData } = result.removeGiftCard;
+
+            if (cartData) {
+                this._updateCartData(cartData, dispatch);
+
+                if (showNotification) dispatch(showNotification('success', __('Gift card was removed!')));
+            }
+        } catch (error) {
+            if (error.length) {
+                dispatch(showNotification('error', error[0].message));
+            }
+        }
+    }
+
+    async applyStoreCreditToCart(dispatch) {
+        try {
+            const result = await fetchMutation(CartQuery.getApplyStoreCreditMutation(
+                !isSignedIn() && this._getGuestQuoteId()
+            ));
+
+            const { cartData } = result.applyStoreCredit;
+
+            if (cartData) {
+                this._updateCartData(cartData, dispatch);
+                dispatch(showNotification('success', __('Store credit was applied!')));
+            }
+        } catch (error) {
+            if (error.length) {
+                dispatch(showNotification('error', error[0].message));
+            }
+        }
+    }
+
+    async removeStoreCreditFromCart(dispatch) {
+        try {
+            const result = await fetchMutation(CartQuery.getRemoveStoreCreditMutation(
+                !isSignedIn() && this._getGuestQuoteId()
+            ));
+
+            const { cartData } = result.removeStoreCredit;
+
+            if (cartData) {
+                this._updateCartData(cartData, dispatch);
+                dispatch(showNotification('success', __('Store credit was removed!')));
+            }
+        } catch (error) {
+            if (error.length) {
+                dispatch(showNotification('error', error[0].message));
+            }
+        }
     }
 
     _updateCartData(cartData, dispatch) {

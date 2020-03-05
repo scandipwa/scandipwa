@@ -23,7 +23,8 @@ import { history } from 'Route';
 import CartPage from './CartPage.component';
 
 export const mapStateToProps = state => ({
-    totals: state.CartReducer.cartTotals
+    totals: state.CartReducer.cartTotals,
+    isSignedIn: state.MyAccountReducer.isSignedIn
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -38,11 +39,23 @@ export class CartPageContainer extends PureComponent {
         totals: TotalsType.isRequired
     };
 
-    state = { isEditing: false };
+    state = {
+        isEditing: false,
+        isLoading: false
+    };
+
+    containerFunctions = {
+        handleIsLoading: this.handleIsLoading.bind(this)
+    };
+
 
     componentDidMount() {
         this._updateBreadcrumbs();
         this._changeHeaderState();
+    }
+
+    handleIsLoading(value) {
+        this.setState({ isLoading: value });
     }
 
     _updateBreadcrumbs() {

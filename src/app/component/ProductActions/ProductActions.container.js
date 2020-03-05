@@ -13,10 +13,19 @@ import PropTypes from 'prop-types';
 import { ProductType } from 'Type/ProductList';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { MyAccountDispatcher } from 'Store/MyAccount';
+import { customerType } from 'Type/Account';
+import { GIFTCARD } from 'Util/Product';
 import ProductActions from './ProductActions.component';
 
 export const mapStateToProps = state => ({
-    groupedProductQuantity: state.ProductReducer.groupedProductQuantity
+    groupedProductQuantity: state.ProductReducer.groupedProductQuantity,
+    customer: state.MyAccountReducer.customer,
+    isSignedIn: state.MyAccountReducer.isSignedIn
+});
+
+export const mapDispatchToProps = dispatch => ({
+    requestCustomerData: () => MyAccountDispatcher.requestCustomerData(dispatch)
 });
 
 export const DEFAULT_MAX_PRODUCTS = 99;
@@ -26,12 +35,19 @@ export class ProductActionsContainer extends PureComponent {
         product: ProductType.isRequired,
         configurableVariantIndex: PropTypes.number.isRequired,
         areDetailsLoaded: PropTypes.bool.isRequired,
-        parameters: PropTypes.objectOf(PropTypes.string).isRequired
+        parameters: PropTypes.objectOf(PropTypes.string).isRequired,
+        isSignedIn: PropTypes.bool.isRequired,
+        requestCustomerData: PropTypes.func.isRequired,
+        customer: customerType.isRequired,
+        wishlistData: PropTypes.object.isRequired
     };
 
     state = {
         quantity: 1,
-        groupedProductQuantity: {}
+        groupedProductQuantity: {},
+        giftCardData: {},
+        giftCardPrice: 0,
+        giftCardVariantIndex: -2
     };
 
     containerFunctions = {
@@ -40,8 +56,87 @@ export class ProductActionsContainer extends PureComponent {
         setQuantity: this.setQuantity.bind(this),
         setGroupedProductQuantity: this._setGroupedProductQuantity.bind(this),
         clearGroupedProductQuantity: this._clearGroupedProductQuantity.bind(this),
-        getIsConfigurableAttributeAvailable: this.getIsConfigurableAttributeAvailable.bind(this)
+        getIsConfigurableAttributeAvailable: this.getIsConfigurableAttributeAvailable.bind(this),
+        updateGiftCardAmount: this.updateGiftCardAmount.bind(this),
+        handleGiftCardSenderEmail: this._handleUpdateGiftCardData.bind(this, 'giftcard_sender_email'),
+        handleGiftCardSenderName: this._handleUpdateGiftCardData.bind(this, 'giftcard_sender_name'),
+        handleGiftCardRecipientEmail: this._handleUpdateGiftCardData.bind(this, 'giftcard_recipient_email'),
+        handleGiftCardRecipientName: this._handleUpdateGiftCardData.bind(this, 'giftcard_recipient_name'),
+        handleGiftCardMessage: this._handleUpdateGiftCardData.bind(this, 'giftcard_message')
     };
+
+    constructor(props) {
+        super(props);
+
+        const { requestCustomerData, customer: { id }, isSignedIn } = props;
+
+        if (isSignedIn && !id) requestCustomerData();
+    }
+
+    componentDidUpdate(prevProps) {
+        const {
+            customer, product, product: { type_id }, wishlistData
+        } = this.props;
+        const { product: prevProduct } = prevProps;
+
+        if (product !== prevProduct && type_id === GIFTCARD) {
+            if (Object.keys(customer).length) {
+                const { firstname, lastname, email } = customer;
+                this.setDefaultGiftCardValues(firstname, lastname, email);
+            } else {
+                this.setDefaultGiftCardValues();
+            }
+        }
+
+        if (Object.keys(wishlistData).length && product !== prevProduct && type_id === GIFTCARD) {
+            const { options } = wishlistData;
+            this.getUsersGiftCardData(options);
+        }
+    }
+
+    setDefaultGiftCardValues(firstname = '', lastname = '', email = '') {
+        const { product: { allow_open_amount, open_amount_min, giftcard_amounts } } = this.props;
+        const name = firstname && lastname ? `${ firstname } ${ lastname }` : '';
+        const giftCardAmount = allow_open_amount ? open_amount_min : giftcard_amounts[0].value;
+
+        this.setState({
+            giftCardData: {
+                ...giftCardAmount,
+                giftcard_message: '',
+                giftcard_recipient_email: email,
+                giftcard_recipient_name: name,
+                giftcard_sender_email: email,
+                giftcard_sender_name: name
+            },
+            giftCardPrice: allow_open_amount ? open_amount_min : giftcard_amounts[0].value
+        });
+    }
+
+    getUsersGiftCardData(userData) {
+        const giftCardData = JSON.parse(userData);
+        const {
+            custom_giftcard_amount,
+            giftcard_amount,
+            giftcard_sender_email,
+            giftcard_sender_name,
+            giftcard_recipient_email,
+            giftcard_recipient_name,
+            giftcard_message
+        } = giftCardData;
+        const giftCardAmount = custom_giftcard_amount ? { custom_giftcard_amount } : { giftcard_amount };
+
+        this.setState({
+            giftCardData: {
+                ...giftCardAmount,
+                giftcard_message,
+                giftcard_recipient_email,
+                giftcard_recipient_name,
+                giftcard_sender_email,
+                giftcard_sender_name
+            },
+            giftCardPrice: custom_giftcard_amount || giftcard_amount
+        });
+    }
 
     static getDerivedStateFromProps(props, state) {
         const { quantity } = state;
@@ -142,6 +237,19 @@ export class ProductActionsContainer extends PureComponent {
         groupedProductQuantity: this._getGroupedProductQuantity()
     });
 
+    _handleUpdateGiftCardData(fieldName, value) {
+        this.setState(prevState => ({
+            giftCardData: {
+                ...prevState.giftCardData,
+                [fieldName]: value
+            }
+        }));
+    }
+
+    updateGiftCardAmount(giftCardPrice, giftCardVariantIndex = -1) {
+        this.setState({ giftCardPrice, giftCardVariantIndex });
+    }
+
     _getGroupedProductQuantity() {
         const { groupedProductQuantity } = this.state;
         return groupedProductQuantity;
@@ -181,4 +289,4 @@ export class ProductActionsContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps)(ProductActionsContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(ProductActionsContainer);

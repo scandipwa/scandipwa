@@ -81,6 +81,32 @@ export default class CheckoutOrderSummary extends PureComponent {
         );
     }
 
+    renderGiftCardCodes() {
+        const { totals: { applied_gift_cards } } = this.props;
+
+        if (!applied_gift_cards) return null;
+
+        return (
+            applied_gift_cards.map(({ code, applied_balance: { value } }) => (
+                <div key={ code }>
+                    { this.renderPriceLine(-Math.abs(value), __('Gift Card %s:', code.toUpperCase())) }
+                </div>
+            ))
+        );
+    }
+
+    renderStoreCredit() {
+        const { totals: { applied_store_credit } } = this.props;
+
+        if (!applied_store_credit) return null;
+
+        const { applied_balance: { value } } = applied_store_credit;
+
+        if (value === 0) return null;
+
+        return this.renderPriceLine(-Math.abs(value), __('Store Credit:'));
+    }
+
     renderItems() {
         const { totals: { items = [] } } = this.props;
 
@@ -127,6 +153,8 @@ export default class CheckoutOrderSummary extends PureComponent {
                     { this.renderPriceLine(subtotal, __('Cart Subtotal')) }
                     { this.renderPriceLine(shipping_amount, __('Shipping'), { divider: true }) }
                     { this.renderCouponCode() }
+                    { this.renderGiftCardCodes() }
+                    { this.renderStoreCredit() }
                     { this.renderPriceLine(tax_amount, __('Tax')) }
                     { this.renderPriceLine(base_grand_total || grand_total, __('Order total')) }
                 </ul>

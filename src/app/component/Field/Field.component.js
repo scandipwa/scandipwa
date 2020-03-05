@@ -97,7 +97,8 @@ export default class Field extends PureComponent {
         autocomplete: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.bool
-        ])
+        ]),
+        maxLength: PropTypes.number
     };
 
     static defaultProps = {
@@ -120,7 +121,8 @@ export default class Field extends PureComponent {
         placeholder: '',
         autocomplete: 'off',
         validation: [],
-        skipValue: false
+        skipValue: false,
+        maxLength: null
     };
 
     onChange = this.onChange.bind(this);
@@ -345,7 +347,9 @@ export default class Field extends PureComponent {
             name,
             rows,
             formRef,
-            isDisabled
+            placeholder,
+            isDisabled,
+            maxLength
         } = this.props;
 
         const { value } = this.state;
@@ -355,8 +359,10 @@ export default class Field extends PureComponent {
               ref={ formRef }
               id={ id }
               name={ name }
+              placeholder={ placeholder }
               rows={ rows }
               value={ value }
+              maxLength={ maxLength }
               disabled={ isDisabled }
               onChange={ this.onChange }
               onFocus={ this.onFocus }

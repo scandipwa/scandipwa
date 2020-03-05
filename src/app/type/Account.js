@@ -81,6 +81,8 @@ export const ordersType = PropTypes.arrayOf(orderType);
 
 export const DASHBOARD = 'dashboard';
 export const MY_ORDERS = 'my-orders';
+export const MY_GIFTCARDS = 'my-giftcards';
+export const STORE_CREDIT = 'store-credit';
 export const MY_WISHLIST = 'my-wishlist';
 export const ADDRESS_BOOK = 'address-book';
 export const NEWSLETTER_SUBSCRIPTION = 'newsletter-subscription';
@@ -88,6 +90,8 @@ export const NEWSLETTER_SUBSCRIPTION = 'newsletter-subscription';
 export const activeTabType = PropTypes.oneOf([
     DASHBOARD,
     MY_ORDERS,
+    MY_GIFTCARDS,
+    STORE_CREDIT,
     MY_WISHLIST,
     ADDRESS_BOOK,
     NEWSLETTER_SUBSCRIPTION

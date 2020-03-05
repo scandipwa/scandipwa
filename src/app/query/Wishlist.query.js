@@ -51,6 +51,7 @@ export class Wishlist {
             'sku',
             'qty',
             'description',
+            'options',
             this._getProductField()
         ];
     }

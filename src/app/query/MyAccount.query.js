@@ -90,19 +90,39 @@ export class MyAccountQuery {
 
         return new Field('createCustomer')
             .addArgument('input', 'CustomerInput!', { ...customer, password })
-            .addField(this._getCustomerField());
+            .addField(this._getCustomerField(true));
     }
 
     getCustomerQuery() {
         return this._getCustomerField();
     }
 
-    _getCustomerField() {
+    _getCustomerField(ignoreStoreCredit = false) {
         return new Field('customer')
-            .addFieldList(this._getCustomerFields());
+            .addFieldList(this._getCustomerFields(ignoreStoreCredit));
     }
 
-    _getCustomerFields() {
+    _getCustomerFields(ignoreStoreCredit) {
+        if (ignoreStoreCredit) {
+            return [
+                'created_at',
+                'group_id',
+                'prefix',
+                'firstname',
+                'middlename',
+                'lastname',
+                'suffix',
+                'email',
+                'default_billing',
+                'default_shipping',
+                'dob',
+                'taxvat',
+                'id',
+                'is_subscribed',
+                this._getAddressesField()
+            ];
+        }
+
         return [
             'created_at',
             'group_id',
@@ -118,8 +138,64 @@ export class MyAccountQuery {
             'taxvat',
             'id',
             'is_subscribed',
-            this._getAddressesField()
+            this._getAddressesField(),
+            this._getStoreCredit()
         ];
+    }
+
+    _getStoreCredit() {
+        return new Field('store_credit')
+            .addFieldList(this._getStoreCreditFields());
+    }
+
+    _getStoreCreditFields() {
+        return [
+            'enabled',
+            this._getCurrentBalance(),
+            this._getBalanceHistory()
+        ];
+    }
+
+    _getBalanceHistory() {
+        return new Field('balance_history')
+            .addFieldList([
+                this._getStoreCreditItems(),
+                'total_count'
+            ]);
+    }
+
+    _getStoreCreditItems() {
+        return new Field('items')
+            .addFieldList([
+                'action',
+                this._getBalanceChange(),
+                this._getActualBalance(),
+                'date_time_changed'
+            ]);
+    }
+
+    _getBalanceChange() {
+        return new Field('balance_change')
+            .addFieldList([
+                'value',
+                'currency'
+            ]);
+    }
+
+    _getActualBalance() {
+        return new Field('actual_balance')
+            .addFieldList([
+                'value',
+                'currency'
+            ]);
+    }
+
+    _getCurrentBalance() {
+        return new Field('current_balance')
+            .addFieldList([
+                'value',
+                'currency'
+            ]);
     }
 
     _getAddressesField() {

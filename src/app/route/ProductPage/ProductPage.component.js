@@ -32,7 +32,8 @@ export default class ProductPage extends PureComponent {
         parameters: PropTypes.objectOf(PropTypes.string).isRequired,
         updateConfigurableVariant: PropTypes.func.isRequired,
         dataSource: ProductType.isRequired,
-        areDetailsLoaded: PropTypes.bool.isRequired
+        areDetailsLoaded: PropTypes.bool.isRequired,
+        wishlistData: PropTypes.object.isRequired
     };
 
     renderProductPageContent() {
@@ -43,7 +44,8 @@ export default class ProductPage extends PureComponent {
             dataSource,
             updateConfigurableVariant,
             productOrVariant,
-            areDetailsLoaded
+            areDetailsLoaded,
+            wishlistData
         } = this.props;
 
         return (
@@ -57,6 +59,7 @@ export default class ProductPage extends PureComponent {
                   product={ dataSource }
                   parameters={ parameters }
                   areDetailsLoaded={ areDetailsLoaded }
+                  wishlistData={ wishlistData }
                   configurableVariantIndex={ configurableVariantIndex }
                 />
             </>

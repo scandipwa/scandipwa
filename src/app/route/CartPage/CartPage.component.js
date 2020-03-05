@@ -19,7 +19,10 @@ import isMobile from 'Util/Mobile';
 import CmsBlock from 'Component/CmsBlock';
 import CartItem from 'Component/CartItem';
 import { TotalsType } from 'Type/MiniCart';
+import Loader from 'Component/Loader';
 import CartCoupon from 'Component/CartCoupon';
+import CartGiftCard from 'Component/CartGiftCard';
+import CartStoreCredit from 'Component/CartStoreCredit';
 import CartCrossSell from 'Component/CartCrossSell';
 import ContentWrapper from 'Component/ContentWrapper';
 import { formatCurrency, roundPrice } from 'Util/Price';
@@ -30,7 +33,10 @@ import './CartPage.style';
 export default class CartPage extends PureComponent {
     static propTypes = {
         isEditing: PropTypes.bool.isRequired,
-        totals: TotalsType.isRequired
+        isLoading: PropTypes.bool.isRequired,
+        totals: TotalsType.isRequired,
+        isSignedIn: PropTypes.bool.isRequired,
+        handleIsLoading: PropTypes.func.isRequired
     };
 
     renderCartItems() {
@@ -66,7 +72,13 @@ export default class CartPage extends PureComponent {
 
     renderDiscountCode() {
         const {
-            totals: { coupon_code }
+            totals: {
+                coupon_code,
+                applied_store_credit,
+                applied_gift_cards
+            },
+            handleIsLoading,
+            isSignedIn
         } = this.props;
 
         return (
@@ -75,6 +87,18 @@ export default class CartPage extends PureComponent {
               mix={ { block: 'CartPage', elem: 'Discount' } }
             >
                 <CartCoupon couponCode={ coupon_code } />
+                { applied_gift_cards && (
+                    <CartGiftCard
+                      handleIsLoading={ handleIsLoading }
+                      appliedGiftCards={ applied_gift_cards }
+                    />
+                ) }
+                { isSignedIn && applied_store_credit && applied_store_credit.enabled && (
+                    <CartStoreCredit
+                      handleIsLoading={ handleIsLoading }
+                      appliedStoreCredit={ applied_store_credit }
+                    />
+                ) }
             </ExpandableContent>
         );
     }
@@ -88,8 +112,9 @@ export default class CartPage extends PureComponent {
         const {
             totals: {
                 subtotal = 0,
-                tax_amount = 0
-            }
+                tax_amount = 0,
+                applied_gift_cards
+            },
         } = this.props;
 
         return (
@@ -99,11 +124,21 @@ export default class CartPage extends PureComponent {
               aria-label={ __('Order total details') }
               mods={ { isMobile } }
             >
-                <dt>{ __('Subtotal:') }</dt>
-                <dd>{ this.renderPriceLine(subtotal) }</dd>
-                { this.renderDiscount() }
-                <dt>{ __('Tax:') }</dt>
-                <dd>{ this.renderPriceLine(tax_amount) }</dd>
+                <div>
+                    <dt>{ __('Subtotal:') }</dt>
+                    <dd>{ this.renderPriceLine(subtotal) }</dd>
+                </div>
+                <div>
+                    { this.renderDiscount() }
+                </div>
+                { applied_gift_cards && (
+                    this.renderAppliedGiftCards()
+                ) }
+                { this.renderAppliedStoreCredit() }
+                <div>
+                    <dt>{ __('Tax:') }</dt>
+                    <dd>{ this.renderPriceLine(tax_amount) }</dd>
+                </div>
             </dl>
         );
     }
@@ -113,7 +148,8 @@ export default class CartPage extends PureComponent {
             totals: {
                 grand_total = 0,
                 items
-            }
+            },
+            isLoading
         } = this.props;
 
         const props = !items || items.length < 1
@@ -126,6 +162,7 @@ export default class CartPage extends PureComponent {
         return (
             <article block="CartPage" elem="Summary">
                 <h4 block="CartPage" elem="SummaryHeading">{ __('Summary') }</h4>
+                <Loader isLoading={ isLoading } />
                 { this.renderTotalDetails() }
                 <dl block="CartPage" elem="Total" aria-label="Complete order total">
                     <dt>{ __('Order total:') }</dt>
@@ -151,6 +188,41 @@ export default class CartPage extends PureComponent {
                     </Link>
                 </div>
             </article>
+        );
+    }
+
+    renderAppliedGiftCards() {
+        const { totals: { applied_gift_cards } } = this.props;
+
+        return (
+            applied_gift_cards.map(({ code, applied_balance: { value } }) => (
+                <div key={ code }>
+                    <dt>
+                        { __('Gift Card ') }
+                        <strong block="CartPage" elem="DiscountCoupon">{ code }</strong>
+                    </dt>
+                    <dd>{ `-${ this.renderPriceLine(Math.abs(value)) }` }</dd>
+                </div>
+            ))
+        );
+    }
+
+    renderAppliedStoreCredit() {
+        const { totals: { applied_store_credit } } = this.props;
+
+        if (!applied_store_credit) return null;
+
+        const { applied_balance: { value } } = applied_store_credit;
+
+        if (value === 0) return null;
+
+        return (
+            <div>
+                <dt>
+                    { __('Store Credit: ') }
+                </dt>
+                <dd>{ `-${this.renderPriceLine(Math.abs(value))}` }</dd>
+            </div>
         );
     }
 
@@ -233,6 +305,8 @@ export default class CartPage extends PureComponent {
     }
 
     render() {
+        const { isLoading } = this.props;
+
         return (
             <main block="CartPage" aria-label="Cart Page">
                 <Meta metaObject={ { title: 'Cart' } } />
@@ -244,6 +318,7 @@ export default class CartPage extends PureComponent {
                         <h2 block="CartPage" elem="Heading">{ __('Shopping cart') }</h2>
                         { this.renderCartItems() }
                         { this.renderTotalDetails(true) }
+                        <Loader isLoading={ isLoading } />
                         { this.renderDiscountCode() }
                         { this.renderCrossSellProducts() }
                     </div>

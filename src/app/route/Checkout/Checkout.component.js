@@ -194,13 +194,20 @@ class Checkout extends PureComponent {
     }
 
     renderSummary() {
-        const { checkoutTotals, checkoutStep, paymentTotals } = this.props;
+        const {
+            checkoutTotals, checkoutStep, paymentTotals, checkoutTotals: { applied_gift_cards, applied_store_credit }
+        } = this.props;
         const { areTotalsVisible } = this.stepMap[checkoutStep];
 
         if (!areTotalsVisible) return null;
 
         return (
-            <CheckoutOrderSummary totals={ checkoutTotals } paymentTotals={ paymentTotals } />
+            <CheckoutOrderSummary
+              appliedGiftCards={ applied_gift_cards }
+              appliedStoreCredit={ applied_store_credit }
+              totals={ checkoutTotals }
+              paymentTotals={ paymentTotals }
+            />
         );
     }
 

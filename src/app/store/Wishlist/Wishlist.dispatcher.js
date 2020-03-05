@@ -47,7 +47,8 @@ export class WishlistDispatcher {
                             sku,
                             product,
                             description,
-                            qty: quantity
+                            qty: quantity,
+                            options
                         } = wishlistItem;
 
                         return {
@@ -59,7 +60,8 @@ export class WishlistDispatcher {
                                     id,
                                     sku,
                                     quantity,
-                                    description
+                                    description,
+                                    options
                                 }
                             }
                         };

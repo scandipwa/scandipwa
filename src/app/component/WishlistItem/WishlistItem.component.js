@@ -108,6 +108,7 @@ export default class WishlistItem extends PureComponent {
               selectedFilters={ parameters }
               mix={ { block: 'WishlistItem' } }
               isLoading={ isLoading }
+              isWishlist
             >
                 <>
                     { this.renderDescription() }

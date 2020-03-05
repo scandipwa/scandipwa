@@ -19,6 +19,7 @@ import {
 } from 'Util/Price';
 import { PriceType } from 'Type/ProductList';
 import { MixType } from 'Type/Common';
+import PropTypes from 'prop-types';
 
 import './ProductPrice.style';
 
@@ -29,15 +30,17 @@ import './ProductPrice.style';
 export default class ProductPrice extends PureComponent {
     static propTypes = {
         price: PriceType,
-        mix: MixType
+        mix: MixType,
+        isGiftCard: PropTypes.bool
     };
 
     static defaultProps = {
         mix: {},
-        price: {}
+        price: {},
+        isGiftCard: false
     };
 
-    render() {
+    renderPrice() {
         const {
             price: { minimalPrice, regularPrice },
             mix
@@ -73,9 +76,7 @@ export default class ProductPrice extends PureComponent {
               itemType="https://schema.org/AggregateOffer"
             >
                 <PriceSemanticElementName>
-                    <data
-                      value={ formatedCurrency }
-                    >
+                    <data value={ formatedCurrency }>
                         <span>{ currency }</span>
                         <span itemProp="lowPrice">{ formatedCurrency }</span>
                     </data>
@@ -94,5 +95,54 @@ export default class ProductPrice extends PureComponent {
                 <meta itemProp="priceCurrency" content={ priceCurrency } />
             </p>
         );
+    }
+
+    renderGiftCardPrice() {
+        const { price: { price_min, price_max }, mix } = this.props;
+        const priceFrom = roundPrice(price_min);
+        const priceTo = roundPrice(price_max);
+        const currency = formatCurrency();
+
+        if (!price_min) return null;
+
+        return (
+            <p
+              block="ProductPrice"
+              mix={ mix }
+              aria-label={ price_max
+                  ? `Product price: ${ priceFrom }-${ priceTo }${ currency }`
+                  : `Product price: ${ priceFrom }${ currency }`
+              }
+              itemProp="offers"
+              itemScope
+              itemType="https://schema.org/AggregateOffer"
+            >
+                <span>
+                    <data value={ priceFrom }>
+                        <span>{ currency }</span>
+                        <span itemProp="lowPrice">{ priceFrom }</span>
+                    </data>
+                </span>
+                { price_max && (
+                    <>
+                        -
+                        <span>
+                            <data value={ priceTo }>
+                                <span>{ currency }</span>
+                                <span itemProp="lowPrice">{ priceTo }</span>
+                            </data>
+                        </span>
+                    </>
+                ) }
+
+                <meta itemProp="priceCurrency" content="USD" />
+            </p>
+        );
+    }
+
+    render() {
+        const { isGiftCard } = this.props;
+
+        return isGiftCard ? this.renderGiftCardPrice() : this.renderPrice();
     }
 }

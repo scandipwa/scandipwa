@@ -18,6 +18,8 @@ import MyAccountAddressBook from 'Component/MyAccountAddressBook';
 import MyAccountMyWishlist from 'Component/MyAccountMyWishlist';
 import MyAccountDashboard from 'Component/MyAccountDashboard';
 import MyAccountMyOrders from 'Component/MyAccountMyOrders';
+import MyAccountMyGiftCards from 'Component/MyAccountMyGiftCards';
+import MyAccountStoreCredit from 'Component/MyAccountStoreCredit';
 import MyAccountTabList from 'Component/MyAccountTabList';
 import ContentWrapper from 'Component/ContentWrapper';
 import Meta from 'Component/Meta';
@@ -26,6 +28,8 @@ import {
     tabMapType,
     DASHBOARD,
     MY_ORDERS,
+    MY_GIFTCARDS,
+    STORE_CREDIT,
     MY_WISHLIST,
     ADDRESS_BOOK,
     NEWSLETTER_SUBSCRIPTION
@@ -46,6 +50,8 @@ class MyAccount extends PureComponent {
     renderMap = {
         [DASHBOARD]: MyAccountDashboard,
         [MY_ORDERS]: MyAccountMyOrders,
+        [MY_GIFTCARDS]: MyAccountMyGiftCards,
+        [STORE_CREDIT]: MyAccountStoreCredit,
         [MY_WISHLIST]: MyAccountMyWishlist,
         [ADDRESS_BOOK]: MyAccountAddressBook,
         [NEWSLETTER_SUBSCRIPTION]: MyAccountNewsletterSubscription

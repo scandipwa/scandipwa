@@ -13,7 +13,7 @@ import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { isSignedIn } from 'Util/Auth';
-import { CONFIGURABLE, GROUPED } from 'Util/Product';
+import { CONFIGURABLE, GIFTCARD, GROUPED } from 'Util/Product';
 import { CartDispatcher } from 'Store/Cart';
 import { ProductType } from 'Type/ProductList';
 import { showNotification } from 'Store/Notification';
@@ -43,6 +43,10 @@ export class AddToCartContainer extends PureComponent {
         addProduct: PropTypes.func.isRequired,
         removeFromWishlist: PropTypes.func.isRequired,
         wishlistItems: PropTypes.objectOf(ProductType).isRequired,
+        giftCardVariantIndex: PropTypes.number.isRequired,
+        giftCardAmount: PropTypes.number.isRequired,
+        giftcard_amounts: PropTypes.object,
+        giftCardData: PropTypes.object,
         onProductValidationError: PropTypes.func
     };
 
@@ -51,7 +55,9 @@ export class AddToCartContainer extends PureComponent {
         configurableVariantIndex: 0,
         setQuantityToDefault: () => {},
         onProductValidationError: () => {},
-        isLoading: false
+        isLoading: false,
+        giftcard_amounts: {},
+        giftCardData: {}
     };
 
     state = { isLoading: false };
@@ -63,13 +69,27 @@ export class AddToCartContainer extends PureComponent {
     _validateAddToCart() {
         const {
             configurableVariantIndex,
+            giftCardVariantIndex,
+            giftCardAmount,
             groupedProductQuantity,
             showNotification,
             product,
             product: {
                 type_id,
                 variants = [],
-                items
+                items,
+                giftcard_amounts,
+                allow_open_amount,
+                open_amount_min,
+                open_amount_max,
+                message_max_length
+            },
+            giftCardData: {
+                giftcard_sender_email,
+                giftcard_sender_name,
+                giftcard_recipient_email,
+                giftcard_recipient_name,
+                giftcard_message
             }
         } = this.props;
 
@@ -84,6 +104,43 @@ export class AddToCartContainer extends PureComponent {
 
             if (configurableStock !== 'IN_STOCK') {
                 showNotification('info', __('Sorry! The selected product option is out of stock!'));
+                return false;
+            }
+
+            break;
+        case GIFTCARD:
+            if (!allow_open_amount && (giftCardVariantIndex < 0 || !giftcard_amounts[giftCardVariantIndex])) {
+                showNotification('info', __('Please select product options!'));
+
+                return false;
+            }
+
+            if (!giftcard_sender_email
+                || !giftcard_sender_name
+                || !giftcard_recipient_email
+                || !giftcard_recipient_name
+            ) {
+                showNotification('info', __('Please fill in all the fields!'));
+
+                return false;
+            }
+
+            if (giftcard_message.length > message_max_length) {
+                showNotification('info', __('Entered message is too long!'));
+
+                return false;
+            }
+
+            if (allow_open_amount
+                && (open_amount_min > giftCardAmount || open_amount_max < giftCardAmount)) {
+                showNotification('info', __('Please choose correct amount'));
+
+                return false;
+            }
+
+            if (!this.isValidEmail(giftcard_sender_email) || !this.isValidEmail(giftcard_recipient_email)) {
+                showNotification('info', __('Please enter valid email address!'));
+
                 return false;
             }
 
@@ -109,6 +166,10 @@ export class AddToCartContainer extends PureComponent {
         return true;
     }
 
+    isValidEmail(address) {
+        return address.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+    }
+
     buttonClick() {
         const {
             product,
@@ -116,8 +177,13 @@ export class AddToCartContainer extends PureComponent {
             configurableVariantIndex,
             groupedProductQuantity,
             quantity,
-            addProduct
+            addProduct,
+            giftCardVariantIndex,
+            giftCardData,
+            giftCardAmount
         } = this.props;
+        // eslint-disable-next-line fp/no-let
+        let giftCardFieldData = {};
 
         const { variants, type_id } = product;
 
@@ -147,10 +213,37 @@ export class AddToCartContainer extends PureComponent {
             return;
         }
 
+        if (type_id === GIFTCARD) {
+            const { giftcard_amounts, allow_open_amount } = product;
+            const {
+                giftcard_sender_email,
+                giftcard_sender_name,
+                giftcard_recipient_email,
+                giftcard_recipient_name,
+                giftcard_message
+            } = giftCardData;
+
+            if (allow_open_amount) {
+                giftCardFieldData = { custom_giftcard_amount: giftCardAmount };
+            } else {
+                giftCardFieldData = { giftcard_amount: giftcard_amounts[giftCardVariantIndex].value };
+            }
+
+            giftCardFieldData = {
+                ...giftCardFieldData,
+                giftcard_message,
+                giftcard_recipient_email,
+                giftcard_recipient_name,
+                giftcard_sender_email,
+                giftcard_sender_name
+            };
+        }
+
         const productToAdd = variants
             ? {
                 ...product,
-                configurableVariantIndex
+                configurableVariantIndex,
+                giftCardFieldData
             }
             : product;
 
@@ -173,10 +266,27 @@ export class AddToCartContainer extends PureComponent {
             wishlistItems,
             removeFromWishlist,
             configurableVariantIndex,
-            product: { type_id, variants = {} } = {}
+            product: { type_id, variants = {} } = {},
+            giftCardData
         } = this.props;
 
-        if (type_id !== 'configurable') return;
+        if (type_id !== CONFIGURABLE && type_id !== GIFTCARD) return;
+
+        if (type_id === GIFTCARD) {
+            const { product: { sku } } = this.props;
+            const wishlistItemKey = Object.keys(wishlistItems)
+                .find((key) => {
+                    const { wishlist: { sku: wSku, options } } = wishlistItems[key];
+                    return wSku === sku && options === JSON.stringify(giftCardData);
+                });
+
+            if (!isSignedIn() || wishlistItemKey === undefined) return;
+
+            const { wishlist: { id: item_id } } = wishlistItems[wishlistItemKey];
+            removeFromWishlist({ item_id, giftCardData, noMessage: true });
+
+            return;
+        }
 
         const { sku } = variants[configurableVariantIndex];
 

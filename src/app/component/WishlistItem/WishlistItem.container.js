@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 import { debounce } from 'Util/Request';
 import { CartDispatcher } from 'Store/Cart';
 import { ProductType } from 'Type/ProductList';
+import { CONFIGURABLE, GIFTCARD } from 'Util/Product';
 import { WishlistDispatcher } from 'Store/Wishlist';
 import { showNotification } from 'Store/Notification';
 import WishlistItem from './WishlistItem.component';
@@ -104,14 +105,22 @@ export class WishlistItemContainer extends PureComponent {
             type_id,
             variants,
             wishlist: {
-                id, sku, quantity
+                id, sku, quantity, options
             }
         } = item;
 
         const configurableVariantIndex = this.getConfigurableVariantIndex(sku, variants);
-        const product = type_id === 'configurable'
-            ? { ...item, configurableVariantIndex }
-            : item;
+        // eslint-disable-next-line fp/no-let
+        let product;
+
+        if (type_id === CONFIGURABLE) {
+            product = { ...item, configurableVariantIndex };
+        } else if (type_id === GIFTCARD) {
+            const giftCardData = JSON.parse(options);
+            product = { ...item, giftCardData };
+        } else {
+            product = item;
+        }
 
         this.setState({ isLoading: true });
 

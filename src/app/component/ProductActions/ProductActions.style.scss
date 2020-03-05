@@ -258,6 +258,11 @@
         }
     }
 
+    &-GiftCardFields {
+        order: 9;
+        width: 100%;
+    }
+
     &-Section {
         padding: 1.5rem calc(1rem - 5px);
         display: flex;

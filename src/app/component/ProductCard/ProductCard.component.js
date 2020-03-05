@@ -16,6 +16,7 @@ import Link from 'Component/Link';
 import Image from 'Component/Image';
 import Loader from 'Component/Loader';
 import { ProductType } from 'Type/ProductList';
+import { GIFTCARD } from 'Util/Product';
 import ProductPrice from 'Component/ProductPrice';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import ProductReviewRating from 'Component/ProductReviewRating';
@@ -41,7 +42,8 @@ export default class ProductCard extends PureComponent {
         registerSharedElement: PropTypes.func.isRequired,
         children: PropTypes.element,
         isLoading: PropTypes.bool,
-        mix: PropTypes.shape({})
+        mix: PropTypes.shape({}),
+        isWishlist: PropTypes.bool
     };
 
     static defaultProps = {
@@ -49,6 +51,7 @@ export default class ProductCard extends PureComponent {
         linkTo: {},
         children: null,
         isLoading: false,
+        isWishlist: false,
         mix: {}
     };
 
@@ -60,7 +63,61 @@ export default class ProductCard extends PureComponent {
     };
 
     renderProductPrice() {
-        const { productOrVariant: { price } } = this.props;
+        const { productOrVariant: { type_id, price } } = this.props;
+
+        if (type_id === GIFTCARD) {
+            const {
+                productOrVariant: {
+                    wishlist,
+                    allow_open_amount,
+                    open_amount_min,
+                    open_amount_max,
+                    giftcard_amounts
+                },
+                isWishlist
+            } = this.props;
+
+            if (isWishlist) {
+                const { options } = wishlist;
+                const selectedItemOptions = JSON.parse(options);
+                const { custom_giftcard_amount, giftcard_amount } = selectedItemOptions;
+                const price = { price_min: custom_giftcard_amount || giftcard_amount };
+
+                return (
+                    <ProductPrice
+                      price={ price }
+                      isGiftCard
+                      mix={ { block: 'ProductCard', elem: 'Price' } }
+                    />
+                );
+            }
+
+            if (allow_open_amount) {
+                const price = { price_min: open_amount_min, price_max: open_amount_max };
+
+                return (
+                    <ProductPrice
+                      price={ price }
+                      isGiftCard
+                      mix={ { block: 'ProductCard', elem: 'Price' } }
+                    />
+                );
+            }
+
+            const price = {
+                price_min: giftcard_amounts[0].value,
+                price_max: giftcard_amounts[giftcard_amounts.length - 1].value
+            };
+
+            return (
+                <ProductPrice
+                  price={ price }
+                  isGiftCard
+                  mix={ { block: 'ProductCard', elem: 'Price' } }
+                />
+            );
+        }
+
         if (!price) return <TextPlaceholder />;
 
         return (

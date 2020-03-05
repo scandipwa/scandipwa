@@ -16,7 +16,7 @@ import { isSignedIn } from 'Util/Auth';
 export class CartQuery {
     getCartQuery(quoteId) {
         const query = new Field('getCartForCustomer')
-            .addFieldList(this._getCartTotalsFields())
+            .addFieldList(this._getCartTotalsFields(quoteId))
             .setAlias('cartData');
 
         if (!isSignedIn()) query.addArgument('guestCartId', 'String', quoteId);
@@ -67,6 +67,44 @@ export class CartQuery {
         return mutation;
     }
 
+    getApplyGiftCardMutation(giftCardCode, quoteId) {
+        const mutation = new Field('applyGiftCard')
+            .addArgument('gift_card_code', 'String!', giftCardCode)
+            .addField(this.getCartQuery(quoteId));
+
+        if (!isSignedIn()) mutation.addArgument('guestCartId', 'String', quoteId);
+
+        return mutation;
+    }
+
+    getRemoveGiftCardFromCartMutation(giftCardCode, quoteId) {
+        const mutation = new Field('removeGiftCard')
+            .addArgument('gift_card_code', 'String!', giftCardCode)
+            .addField(this.getCartQuery(quoteId));
+
+        if (!isSignedIn()) mutation.addArgument('guestCartId', 'String', quoteId);
+
+        return mutation;
+    }
+
+    getApplyStoreCreditMutation(quoteId) {
+        const mutation = new Field('applyStoreCredit')
+            .addField(this.getCartQuery(quoteId));
+
+        if (!isSignedIn()) mutation.addArgument('guestCartId', 'String', quoteId);
+
+        return mutation;
+    }
+
+    getRemoveStoreCreditMutation(quoteId) {
+        const mutation = new Field('removeStoreCredit')
+            .addField(this.getCartQuery(quoteId));
+
+        if (!isSignedIn()) mutation.addArgument('guestCartId', 'String', quoteId);
+
+        return mutation;
+    }
+
     _getSaveCartItemFields(quoteId) {
         return [
             this.getCartQuery(quoteId)
@@ -79,7 +117,7 @@ export class CartQuery {
         ];
     }
 
-    _getCartTotalsFields() {
+    _getCartTotalsFields(quoteId) {
         return [
             'subtotal',
             'items_qty',
@@ -92,8 +130,49 @@ export class CartQuery {
             'coupon_code',
             'shipping_amount',
             'is_virtual',
+            this._getAppliedGiftCards(quoteId),
+            this._getAppliedStoreCredit(),
             this._getCartItemsField()
         ];
+    }
+
+    _getAppliedGiftCards(quoteId) {
+        const mutation = new Field('applied_gift_cards')
+            .addFieldList([
+                'code',
+                'expiration_date',
+                this._getCurrentBalance(),
+                this._getAppliedBalance()
+            ]);
+
+        if (!isSignedIn()) mutation.addArgument('guestCartId', 'String', quoteId);
+
+        return mutation;
+    }
+
+    _getAppliedStoreCredit() {
+        return new Field('applied_store_credit')
+            .addFieldList([
+                'enabled',
+                this._getCurrentBalance(),
+                this._getAppliedBalance()
+            ]);
+    }
+
+    _getCurrentBalance() {
+        return new Field('current_balance')
+            .addFieldList([
+                'value',
+                'currency'
+            ]);
+    }
+
+    _getAppliedBalance() {
+        return new Field('applied_balance')
+            .addFieldList([
+                'value',
+                'currency'
+            ]);
     }
 
     _getCartItemFields() {

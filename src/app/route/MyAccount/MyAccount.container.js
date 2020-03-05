@@ -26,6 +26,8 @@ import {
     ADDRESS_BOOK,
     DASHBOARD,
     MY_ORDERS,
+    MY_GIFTCARDS,
+    STORE_CREDIT,
     MY_WISHLIST,
     NEWSLETTER_SUBSCRIPTION
 } from 'Type/Account';
@@ -86,6 +88,14 @@ export class MyAccountContainer extends PureComponent {
         [MY_ORDERS]: {
             url: '/my-orders',
             name: __('My orders')
+        },
+        [MY_GIFTCARDS]: {
+            url: '/my-giftcards',
+            name: __('My gift cards')
+        },
+        [STORE_CREDIT]: {
+            url: '/store-credit',
+            name: __('My store credit history')
         },
         [MY_WISHLIST]: {
             url: '/my-wishlist',

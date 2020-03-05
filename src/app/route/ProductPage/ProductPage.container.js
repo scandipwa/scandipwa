@@ -66,7 +66,8 @@ export class ProductPageContainer extends PureComponent {
     state = {
         configurableVariantIndex: -1,
         isConfigurationInitialized: false,
-        parameters: {}
+        parameters: {},
+        wishlistData: {}
     };
 
     containerFunctions = {
@@ -189,10 +190,22 @@ export class ProductPageContainer extends PureComponent {
         const dataSource = this._getDataSource();
 
         if (Object.keys(dataSource).length) {
+            this._getWishlistData();
             this._updateBreadcrumbs(dataSource);
             this._updateHeaderState(dataSource);
             this._updateNavigationState();
         }
+    }
+
+    _getWishlistData() {
+        const { location: { state } } = this.props;
+        const { wishlistData } = this.state;
+
+        if (state && state.product.wishlist && (!wishlistData || state.product.wishlist !== wishlistData)) {
+            return this.setState({ wishlistData: state.product.wishlist });
+        }
+
+        return {};
     }
 
     _getAreDetailsLoaded() {

@@ -16,7 +16,7 @@ import { isSignedIn } from 'Util/Auth';
 import { showNotification } from 'Store/Notification';
 import { WishlistDispatcher } from 'Store/Wishlist';
 import { ProductType } from 'Type/ProductList';
-import { getExtensionAttributes } from 'Util/Product';
+import { CONFIGURABLE, getExtensionAttributes, GIFTCARD } from 'Util/Product';
 import ProductWishlistButton from './ProductWishlistButton.component';
 
 export const mapStateToProps = state => ({
@@ -31,6 +31,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 export const ERROR_CONFIGURABLE_NOT_PROVIDED = 'ERROR_CONFIGURABLE_NOT_PROVIDED';
+export const ERROR_GIFTCARD_NOT_PROVIDED = 'ERROR_GIFTCARD_NOT_PROVIDED';
 
 export class ProductWishlistButtonContainer extends PureComponent {
     static propTypes = {
@@ -42,7 +43,9 @@ export class ProductWishlistButtonContainer extends PureComponent {
         productsInWishlist: PropTypes.objectOf(ProductType).isRequired,
         addProductToWishlist: PropTypes.func.isRequired,
         onProductValidationError: PropTypes.func,
-        removeProductFromWishlist: PropTypes.func.isRequired
+        removeProductFromWishlist: PropTypes.func.isRequired,
+        giftCardAmount: PropTypes.number.isRequired,
+        giftCardData: PropTypes.object.isRequired
     };
 
     static defaultProps = {
@@ -86,8 +89,17 @@ export class ProductWishlistButtonContainer extends PureComponent {
             return showNotification('info', __('Please, select desireable option first!'));
         }
 
-        const { sku: variantSku, product_option } = product;
-        if (add) return addProductToWishlist({ sku, product_option, quantity });
+        if (product === ERROR_GIFTCARD_NOT_PROVIDED) {
+            onProductValidationError(type_id);
+            return showNotification('info', __('Please, select value and fill all the fields first!'));
+        }
+
+        const { sku: variantSku, product_option, giftcard_options } = product;
+        if (add) {
+            return addProductToWishlist({
+                sku, product_option, giftcard_options, quantity
+            });
+        }
 
         const { wishlist: { id: item_id } } = Object.values(productsInWishlist).find(
             ({ wishlist: { sku } }) => sku === variantSku
@@ -100,7 +112,7 @@ export class ProductWishlistButtonContainer extends PureComponent {
         const { isLoading } = this.props;
         const product = this._getProductVariant();
 
-        if (product === ERROR_CONFIGURABLE_NOT_PROVIDED) return true;
+        if (product === ERROR_CONFIGURABLE_NOT_PROVIDED || product === ERROR_GIFTCARD_NOT_PROVIDED) return true;
         return isLoading || !isSignedIn();
     };
 
@@ -108,36 +120,79 @@ export class ProductWishlistButtonContainer extends PureComponent {
         const { productsInWishlist } = this.props;
         const product = this._getProductVariant();
 
-        if (product === ERROR_CONFIGURABLE_NOT_PROVIDED) return false;
+        if (product === ERROR_CONFIGURABLE_NOT_PROVIDED || product === ERROR_GIFTCARD_NOT_PROVIDED) return false;
 
-        const { sku: productSku } = product;
+        const { sku: productSku, type_id } = product;
+
+        if (type_id === GIFTCARD) {
+            const { giftcard_options } = product;
+            // eslint-disable-next-line max-len
+            return Object.values(productsInWishlist).findIndex(({ wishlist: { sku, options } }) => sku === productSku && options === JSON.stringify(giftcard_options)) >= 0;
+        }
+
         return Object.values(productsInWishlist).findIndex(({ wishlist: { sku } }) => sku === productSku) >= 0;
     };
 
     _getIsProductReady() {
         const { product: { type_id }, configurableVariantIndex } = this.props;
 
-        if (type_id === 'configurable' && configurableVariantIndex < 0) {
-            return false;
-        }
-
-        return true;
+        return !(type_id === CONFIGURABLE && configurableVariantIndex < 0);
     }
 
     _getProductVariant() {
         const {
             product,
-            product: { type_id },
-            configurableVariantIndex
+            product: { type_id, allow_open_amount },
+            configurableVariantIndex,
+            giftCardAmount,
+            giftCardData
         } = this.props;
 
-        if (type_id === 'configurable') {
+        if (type_id === CONFIGURABLE) {
             if (configurableVariantIndex < 0) return ERROR_CONFIGURABLE_NOT_PROVIDED;
 
             const extension_attributes = getExtensionAttributes({ ...product, configurableVariantIndex });
             const variant = product.variants[configurableVariantIndex];
 
             return { ...variant, product_option: { extension_attributes } };
+        }
+
+        if (type_id === GIFTCARD) {
+            const {
+                giftcard_sender_email,
+                giftcard_sender_name,
+                giftcard_recipient_email,
+                giftcard_recipient_name,
+                giftcard_message
+            } = giftCardData;
+            // eslint-disable-next-line fp/no-let
+            let giftcard_options;
+
+            if (!giftcard_sender_email
+                || !giftcard_sender_name
+                || !giftcard_recipient_email
+                || !giftcard_recipient_name) {
+                return ERROR_GIFTCARD_NOT_PROVIDED;
+            }
+
+            if (giftCardAmount < 0) return ERROR_GIFTCARD_NOT_PROVIDED;
+
+            if (allow_open_amount) {
+                giftcard_options = { custom_giftcard_amount: giftCardAmount };
+            } else {
+                giftcard_options = { giftcard_amount: giftCardAmount };
+            }
+
+            giftcard_options = {
+                ...giftcard_options,
+                giftcard_message,
+                giftcard_recipient_email,
+                giftcard_recipient_name,
+                giftcard_sender_email,
+                giftcard_sender_name
+            };
+
+            return { ...product, giftcard_options };
         }
 
         return product;

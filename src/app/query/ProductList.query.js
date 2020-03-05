@@ -135,7 +135,8 @@ export class ProductListQuery {
                 ? [
                     'url_key',
                     this._getReviewSummaryField(),
-                    this._getConfigurableProductFragment()
+                    this._getConfigurableProductFragment(),
+                    this._getGiftCardProductFragment()
                 ]
                 : []
             ),
@@ -521,6 +522,38 @@ export class ProductListQuery {
     _getConfigurableProductFragment() {
         return new Fragment('ConfigurableProduct')
             .addFieldList(this._getConfigurableProductFragmentFields());
+    }
+
+    _getGiftCardAmountsFields() {
+        return [
+            'value_id',
+            'value'
+        ];
+    }
+
+    _getGiftCardAmountsField() {
+        return new Field('giftcard_amounts')
+            .addFieldList(this._getGiftCardAmountsFields());
+    }
+
+    _getGiftCardProductFragmentFields() {
+        // TODO: add 'giftcard_type' - have to adjust for wishlist - https://github.com/scandipwa/performance - otherwise breaks page
+
+        return [
+            this._getGiftCardAmountsField(),
+            'allow_open_amount',
+            'open_amount_min',
+            'open_amount_max',
+            'lifetime',
+            'is_redeemable',
+            'allow_message',
+            'message_max_length'
+        ];
+    }
+
+    _getGiftCardProductFragment() {
+        return new Fragment('GiftCardProduct')
+            .addFieldList(this._getGiftCardProductFragmentFields());
     }
 
     _getSortOptionFields() {

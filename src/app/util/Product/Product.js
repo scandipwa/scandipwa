@@ -92,6 +92,17 @@ export const getIndexedVariants = variants => variants.map(({ product }) => {
 export const getVariantIndex = (variants, options) => variants
     .findIndex(variant => checkEveryOption(variant.attributes, options));
 
+export const getGiftCardIndex = (value, arr, prop) => {
+    // eslint-disable-next-line fp/no-loops,fp/no-let
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i][prop] === value) {
+            return i;
+        }
+    }
+
+    return -1;
+};
+
 export const getVariantsIndexes = (variants, options) => Object.entries(variants)
     .reduce((indexes, [index, variant]) => {
         if (checkEveryOption(variant.attributes, options)) indexes.push(+index);
