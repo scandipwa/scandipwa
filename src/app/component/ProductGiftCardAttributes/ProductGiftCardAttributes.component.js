@@ -61,7 +61,7 @@ export default class ProductGiftCardAttributes extends PureComponent {
         const giftCardIndex = getGiftCardIndex(value, giftcard_amounts, 'value');
         const id = giftcard_amounts[giftCardIndex].value_id;
 
-        this.setState({ selected: id, setActiveOption: false }, () => {
+        return this.setState({ selected: id, setActiveOption: false }, () => {
             updateGiftCardAmount(value, giftCardIndex);
         });
     }

@@ -111,8 +111,7 @@ export default class ProductPrice extends PureComponent {
               mix={ mix }
               aria-label={ price_max
                   ? `Product price: ${ priceFrom }-${ priceTo }${ currency }`
-                  : `Product price: ${ priceFrom }${ currency }`
-              }
+                  : `Product price: ${ priceFrom }${ currency }` }
               itemProp="offers"
               itemScope
               itemType="https://schema.org/AggregateOffer"

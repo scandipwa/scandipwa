@@ -114,7 +114,7 @@ export default class CartPage extends PureComponent {
                 subtotal = 0,
                 tax_amount = 0,
                 applied_gift_cards
-            },
+            }
         } = this.props;
 
         return (
