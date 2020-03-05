@@ -18,12 +18,12 @@ const middleware = (namespace) => {
             }
 
             return new Proxy(instance, {
-                get(target, methodName) {
+                get(target, methodName, rec) {
                     if (methodName === Symbol.iterator) {
                         return target[Symbol.iterator].bind(target);
                     }
 
-                    const origMethod = target[methodName];
+                    const origMethod = Reflect.get(target, methodName, rec);
                     if (typeof target[methodName] !== 'function') {
                         return origMethod;
                     }
@@ -47,8 +47,9 @@ const middleware = (namespace) => {
                             (acc, { implementation }) => () => {
                                 return implementation(args, acc, target);
                             },
+                            // eslint-disable-next-line prefer-arrow-callback
                             (...originalArgs) => {
-                                return origMethod.call(target, ...originalArgs);
+                                return origMethod.apply(this, originalArgs);
                             }
                         );
 
