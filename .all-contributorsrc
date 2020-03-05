@@ -397,6 +397,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "yousefcisco",
+      "name": "Yousef Cisco",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/734823?v=4",
+      "profile": "http://yousef.io",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
