@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -24,6 +25,7 @@ import CartPage from './CartPage.component';
 
 export const mapStateToProps = state => ({
     totals: state.CartReducer.cartTotals,
+    headerState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
     isSignedIn: state.MyAccountReducer.isSignedIn
 });
 
@@ -52,6 +54,34 @@ export class CartPageContainer extends PureComponent {
     componentDidMount() {
         this._updateBreadcrumbs();
         this._changeHeaderState();
+    }
+
+    componentDidUpdate(prevProps) {
+        const {
+            changeHeaderState,
+            totals: { items_qty },
+            headerState,
+            headerState: { name }
+        } = this.props;
+
+        const {
+            totals: { items_qty: prevItemsQty },
+            headerState: { name: prevName }
+        } = prevProps;
+
+        if (name !== prevName) {
+            if (name === CART) {
+                this._changeHeaderState();
+            }
+        }
+
+        if (items_qty !== prevItemsQty) {
+            const title = `${ items_qty || '0' } Items`;
+            changeHeaderState({
+                ...headerState,
+                title
+            });
+        }
     }
 
     handleIsLoading(value) {

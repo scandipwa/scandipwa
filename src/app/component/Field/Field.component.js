@@ -44,6 +44,7 @@ const a_KEY_CODE = 97;
 export default class Field extends PureComponent {
     static propTypes = {
         skipValue: PropTypes.bool,
+        isControlled: PropTypes.bool,
         id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
         type: PropTypes.oneOf([
@@ -107,6 +108,7 @@ export default class Field extends PureComponent {
         max: 99,
         isDisabled: false,
         checked: false,
+        isControlled: false,
         mix: {},
         selectOptions: [],
         label: '',
@@ -218,7 +220,11 @@ export default class Field extends PureComponent {
 
     handleChange(value, shouldUpdate = true) {
         const {
-            onChange, type, min, max
+            isControlled,
+            onChange,
+            type,
+            min,
+            max
         } = this.props;
 
         switch (type) {
@@ -226,11 +232,11 @@ export default class Field extends PureComponent {
             const isValueNaN = Number.isNaN(parseInt(value, 10));
             if (min > value || value > max || isValueNaN) break;
             if (onChange && shouldUpdate) onChange(value);
-            this.setState({ value });
+            if (!isControlled) this.setState({ value });
             break;
         default:
             if (onChange) onChange(value);
-            this.setState({ value });
+            if (!isControlled) this.setState({ value });
         }
     }
 

@@ -36,6 +36,7 @@ const flushCache = (request) => {
             cache.delete(resource);
         });
     }
+
     return true;
 };
 
@@ -47,7 +48,8 @@ const flushCache = (request) => {
 const flushCacheHandler = (event) => {
     console.log('flush cache handler', event);
     if (flushCache(event.event.request)) return generateCustomResponse('ok');
-    return generateCustomResponse('', 502, 'Cache flush request is missing or has wrong Cache-purge header');
+    const ERROR_CODE_502 = 502;
+    return generateCustomResponse('', ERROR_CODE_502, 'Cache flush request is missing or has wrong Cache-purge header');
 };
 
 export default flushCacheHandler;

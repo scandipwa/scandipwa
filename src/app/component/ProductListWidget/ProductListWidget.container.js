@@ -62,6 +62,8 @@ export class ProductListWidgetContainer extends DataContainer {
 
     updateProductListItems = this.updateProductListItems.bind(this);
 
+    dataModelName = 'ProductListWidget';
+
     onError(error) {
         const { showNotification, updateNoMatch } = this.props;
         showNotification('error', 'Error fetching Product List!', error);
@@ -73,6 +75,7 @@ export class ProductListWidgetContainer extends DataContainer {
     }
 
     appendPage(data) {
+        const { showPager } = this.props;
         const { pages } = this.state;
         const {
             products: {
@@ -80,6 +83,10 @@ export class ProductListWidgetContainer extends DataContainer {
                 page_info: { current_page } = {}
             } = {}
         } = data;
+
+        if (showPager === 0) {
+            return;
+        }
 
         this.setState({
             pages: {

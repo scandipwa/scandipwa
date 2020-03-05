@@ -189,6 +189,10 @@ button {
 
 textarea {
     resize: none;
+
+    @include mobile {
+        font-size: 16px;
+    }
 }
 
 mark {

@@ -143,7 +143,7 @@ export default class CheckoutOrderSummary extends PureComponent {
                 shipping_amount
             },
             paymentTotals: {
-                base_grand_total
+                grand_total: payment_grand_total
             }
         } = this.props;
 
@@ -156,7 +156,7 @@ export default class CheckoutOrderSummary extends PureComponent {
                     { this.renderGiftCardCodes() }
                     { this.renderStoreCredit() }
                     { this.renderPriceLine(tax_amount, __('Tax')) }
-                    { this.renderPriceLine(base_grand_total || grand_total, __('Order total')) }
+                    { this.renderPriceLine(payment_grand_total || grand_total, __('Order total')) }
                 </ul>
             </div>
         );

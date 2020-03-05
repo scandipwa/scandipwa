@@ -5,7 +5,7 @@ class Input extends PureComponent {
     static propTypes = {
         formRef: PropTypes.oneOfType([
             PropTypes.func,
-            PropTypes.shape({})
+            PropTypes.shape({ current: PropTypes.instanceOf(Element) })
         ])
     };
 

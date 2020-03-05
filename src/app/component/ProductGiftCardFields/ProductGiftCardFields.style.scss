@@ -1,0 +1,57 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+:root {
+    --giftcard-input-description-height: 84px;
+    --giftcard-input-height: 42px;
+}
+
+.ProductGiftCardFields {
+    &-Placeholder {
+        animation: var(--placeholder-animation);
+        background-image: var(--placeholder-image);
+        background-size: var(--placeholder-size);
+        height: var(--giftcard-input-height);
+        margin: 10px 15px 0 0;
+        width: 100%;
+
+        @include after-mobile {
+            max-width: 400px;
+            padding: 0;
+        }
+
+        &:last-child {
+            height: var(--giftcard-input-description-height);
+        }
+    }
+
+    .Field {
+        padding: 0 15px;
+
+        @include after-mobile {
+            max-width: 400px;
+            padding: 0;
+        }
+    }
+
+    input,
+    textarea {
+        width: 100%;
+    }
+
+    input {
+        height: var(--giftcard-input-height);
+    }
+
+    textarea {
+        height: var(--giftcard-input-description-height);
+    }
+}

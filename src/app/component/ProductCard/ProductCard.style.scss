@@ -62,7 +62,8 @@
         opacity: .5;
 
         @include mobile {
-            display: none;
+            line-height: 1;
+            font-size: 12px;
         }
     }
 

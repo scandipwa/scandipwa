@@ -1,0 +1,40 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+.MyAccountMyGiftCards {
+    &Form {
+        display: flex;
+        margin-top: 20px;
+    }
+
+    &-Input {
+        margin-top: 0;
+    }
+
+    &-Button {
+        height: 44px;
+        margin-left: 15px;
+    }
+
+    &-CardDataWrapper {
+        font-size: 14px;
+        margin-top: 15px;
+
+        div {
+            margin-top: 10px;
+        }
+
+        .Button {
+            margin-left: 0;
+            margin-top: 20px;
+        }
+    }
+}

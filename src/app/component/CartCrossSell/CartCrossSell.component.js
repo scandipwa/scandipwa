@@ -52,7 +52,8 @@ class CartCrossSell extends PureComponent {
             );
         }
 
-        return items.map(this.renderProductCard);
+        return items.map(this.renderProductCard)
+            .slice(0, NUMBER_OF_DISPLAYED_PRODUCTS);
     }
 
     renderHeading() {

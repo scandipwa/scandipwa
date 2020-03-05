@@ -361,6 +361,51 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "grumpy-pirate",
+      "name": "grumpy-pirate",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/7815525?v=4",
+      "profile": "https://github.com/grumpy-pirate",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "bahramdavodi",
+      "name": "Bahram Davoodi",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/18647834?v=4",
+      "profile": "http://www.magonex.com",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "megazoor",
+      "name": "Megazoor",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/24616413?v=4",
+      "profile": "http://jdlms.com",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "joostm020",
+      "name": "Joost Meijer",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/26708268?v=4",
+      "profile": "https://github.com/joostm020",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "yousefcisco",
+      "name": "Yousef Cisco",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/734823?v=4",
+      "profile": "http://yousef.io",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,

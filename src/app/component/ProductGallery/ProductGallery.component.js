@@ -10,6 +10,7 @@
  */
 
 import { PureComponent, createRef } from 'react';
+import CSS from 'Util/CSS';
 import PropTypes from 'prop-types';
 import { TransformWrapper } from 'react-zoom-pan-pinch';
 
@@ -17,6 +18,8 @@ import ProductGalleryThumbnailImage from 'Component/ProductGalleryThumbnailImage
 import ProductGalleryBaseImage from 'Component/ProductGalleryBaseImage';
 import VideoThumbnail from 'Component/VideoThumbnail';
 import VideoPopup from 'Component/VideoPopup';
+import { LocationType } from 'Type/Common';
+import { withRouter } from 'react-router';
 import Slider from 'Component/Slider';
 import Image from 'Component/Image';
 
@@ -33,7 +36,7 @@ export const PLACEHOLDER_TYPE = 'placeholder';
  * Product gallery
  * @class ProductGallery
  */
-export default class ProductGallery extends PureComponent {
+export class ProductGallery extends PureComponent {
     static propTypes = {
         gallery: PropTypes.arrayOf(
             PropTypes.shape({
@@ -53,7 +56,8 @@ export default class ProductGallery extends PureComponent {
         onActiveImageChange: PropTypes.func.isRequired,
         handleZoomChange: PropTypes.func.isRequired,
         registerSharedElementDestination: PropTypes.func.isRequired,
-        disableZoom: PropTypes.func.isRequired
+        disableZoom: PropTypes.func.isRequired,
+        location: LocationType.isRequired
     };
 
     static defaultProps = {
@@ -63,6 +67,8 @@ export default class ProductGallery extends PureComponent {
     maxScale = MAX_ZOOM_SCALE;
 
     imageRef = createRef();
+
+    sliderRef = createRef();
 
     constructor(props, context) {
         super(props, context);
@@ -74,11 +80,19 @@ export default class ProductGallery extends PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        const { productId } = this.props;
-        const { productId: prevProductId } = prevProps;
+        const { productId, location: { pathname } } = this.props;
+        const { productId: prevProductId, location: { pathname: prevPathname } } = prevProps;
 
         if (productId !== prevProductId) {
             this.updateSharedDestinationElement();
+        }
+
+        if (this.sliderRef && pathname !== prevPathname) {
+            CSS.setVariable(
+                this.sliderRef.current.draggableRef,
+                'animation-speed',
+                0
+            );
         }
     }
 
@@ -156,13 +170,19 @@ export default class ProductGallery extends PureComponent {
                   minScale: 1
               } }
             >
-                { ({ scale, previousScale, resetTransform }) => {
+                { ({
+                    scale,
+                    previousScale,
+                    resetTransform,
+                    setTransform
+                }) => {
                     if (scale === 1 && previousScale !== 1) {
                         resetTransform();
                     }
 
                     return (
                         <ProductGalleryBaseImage
+                          setTransform={ setTransform }
                           index={ index }
                           mediaData={ mediaData }
                           scale={ scale }
@@ -226,6 +246,7 @@ export default class ProductGallery extends PureComponent {
         return (
             <div ref={ this.imageRef }>
                 <Slider
+                  ref={ this.sliderRef }
                   mix={ { block: 'ProductGallery', elem: 'Slider' } }
                   showCrumbs
                   activeImage={ activeImage }
@@ -249,3 +270,5 @@ export default class ProductGallery extends PureComponent {
         );
     }
 }
+
+export default withRouter(ProductGallery);

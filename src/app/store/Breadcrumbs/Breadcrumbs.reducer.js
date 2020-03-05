@@ -13,7 +13,7 @@ import { UPDATE_BREADCRUMBS, TOGGLE_BREADCRUMBS } from './Breadcrumbs.action';
 
 export const initialState = {
     breadcrumbs: [],
-    areBreadcrumbsVisible: false
+    areBreadcrumbsVisible: true
 };
 
 const BreadcrumbsReducer = (state = initialState, action) => {
