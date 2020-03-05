@@ -23,5 +23,8 @@ export default function importExtensions(pendingPluginConfigParts) {
                 return overallConfig;
             }, {}
         );
+    }).catch((error) => {
+        // TODO: die here
+        console.error(error);
     });
 }
