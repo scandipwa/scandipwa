@@ -120,8 +120,11 @@ export class CmsPageContainer extends DataContainer {
         const { setBigOfflineNotice } = this.props;
         const { isLoading } = this.state;
 
-        if (isLoading) setBigOfflineNotice(true);
-        else setBigOfflineNotice(false);
+        if (isLoading) {
+            setBigOfflineNotice(true);
+        } else {
+            setBigOfflineNotice(false);
+        }
     };
 
     onPageLoad = ({ cmsPage: page }) => {

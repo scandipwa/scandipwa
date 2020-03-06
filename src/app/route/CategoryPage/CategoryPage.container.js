@@ -141,6 +141,7 @@ export class CategoryPageContainer extends PureComponent {
         const {
             category: { id }, isOffline
         } = this.props;
+
         const { category: { id: prevId } } = prevProps;
 
         if (isOffline) {
@@ -165,8 +166,11 @@ export class CategoryPageContainer extends PureComponent {
     setOfflineNoticeSize = () => {
         const { setBigOfflineNotice, isInfoLoading } = this.props;
 
-        if (isInfoLoading) setBigOfflineNotice(true);
-        else setBigOfflineNotice(false);
+        if (isInfoLoading) {
+            setBigOfflineNotice(true);
+        } else {
+            setBigOfflineNotice(false);
+        }
     };
 
     getFilterUrl(filterName, filterArray, isFull = true) {

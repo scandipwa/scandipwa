@@ -199,7 +199,9 @@ export class ProductPageContainer extends PureComponent {
             this._updateHeaderState(dataSource);
             this._updateNavigationState();
             if (isOffline) setBigOfflineNotice(false);
-        } else if (isOffline) setBigOfflineNotice(true);
+        } else if (isOffline) {
+            setBigOfflineNotice(true);
+        }
     }
 
     _getAreDetailsLoaded() {

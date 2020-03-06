@@ -12,9 +12,9 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { showOfflineNotice, setBigOfflineNotice } from 'Store/Offline';
 import { withRouter } from 'react-router';
 import { LocationType } from 'Type/Common';
+import { showOfflineNotice, setBigOfflineNotice } from 'Store/Offline';
 import OfflineNotice from './OfflineNotice.component';
 
 export const mapStateToProps = state => ({
@@ -71,7 +71,9 @@ class OfflineNoticeContainer extends PureComponent {
 
     handleNetworkChange = () => {
         const {
-            isBig, showOfflineNotice, setBigOfflineNotice
+            isBig,
+            showOfflineNotice,
+            setBigOfflineNotice
         } = this.props;
 
         if (navigator.onLine) {

@@ -18,6 +18,7 @@
 .OfflineNotice {
     --fill-color: var(--primary-info-color);
     --line-color: black;
+
     display: var(--offline-notice-display);
     height: var(--offline-notice-height);
     background: var(--fill-color);
