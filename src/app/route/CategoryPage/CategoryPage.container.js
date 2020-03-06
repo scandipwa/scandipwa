@@ -151,7 +151,7 @@ export class CategoryPageContainer extends PureComponent {
     getFilterUrl(filterName, filterArray, isFull = true) {
         const { location: { pathname } } = this.props;
         const selectedFilters = this._getNewSelectedFiltersString(filterName, filterArray);
-        return `${isFull ? `${pathname}?` : ''}${this._formatSelectedFiltersString(selectedFilters)}`;
+        return `${isFull ? `${pathname}?customFilters=` : ''}${this._formatSelectedFiltersString(selectedFilters)}`;
     }
 
     getIsNewCategory() {
