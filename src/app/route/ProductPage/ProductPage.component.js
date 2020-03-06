@@ -56,6 +56,7 @@ export default class ProductPage extends PureComponent {
                   getLink={ getLink }
                   updateConfigurableVariant={ updateConfigurableVariant }
                   product={ dataSource }
+                  productOrVariant={ productOrVariant }
                   parameters={ parameters }
                   areDetailsLoaded={ areDetailsLoaded }
                   configurableVariantIndex={ configurableVariantIndex }

@@ -117,7 +117,7 @@
 
         + .ProductActions-Section_type_short {
             @include mobile {
-                margin-top: -1rem;
+                margin-top: -.5rem;
             }
         }
 
@@ -126,7 +126,6 @@
             padding-left: 1rem;
             padding-top: 1.5rem;
             padding-bottom: 1.5rem;
-            // border-top: 1px solid var(--expandable-content-divider-color);
         }
 
         &:last-of-type {
@@ -385,6 +384,17 @@
 
         @include mobile {
             display: none;
+        }
+    }
+
+    &-TierPrices {
+        order: 11;
+        width: 100%;
+
+        @include mobile {
+            order: -1;
+            padding: 0 1rem;
+            top: -1rem;
         }
     }
 }
