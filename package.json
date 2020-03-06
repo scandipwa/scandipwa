@@ -26,7 +26,10 @@
     "stylelint:fix": "npm run stylelint -- --fix"
   },
   "browserslist": [
-    "safari >= 10"
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
   ],
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>/src/config/tests.config.js",
