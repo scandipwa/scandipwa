@@ -49,11 +49,13 @@ export default class ProductPage extends PureComponent {
             <>
                 <ProductGallery
                   product={ productOrVariant }
+                  areDetailsLoaded={ areDetailsLoaded }
                 />
                 <ProductActions
                   getLink={ getLink }
                   updateConfigurableVariant={ updateConfigurableVariant }
                   product={ dataSource }
+                  productOrVariant={ productOrVariant }
                   parameters={ parameters }
                   areDetailsLoaded={ areDetailsLoaded }
                   configurableVariantIndex={ configurableVariantIndex }
@@ -71,7 +73,10 @@ export default class ProductPage extends PureComponent {
                   product={ { ...dataSource, parameters } }
                   areDetailsLoaded={ areDetailsLoaded }
                 />
-                <ProductReviews product={ dataSource } />
+                <ProductReviews
+                  product={ dataSource }
+                  areDetailsLoaded={ areDetailsLoaded }
+                />
                 <RelatedProducts
                   product={ dataSource }
                   areDetailsLoaded={ areDetailsLoaded }

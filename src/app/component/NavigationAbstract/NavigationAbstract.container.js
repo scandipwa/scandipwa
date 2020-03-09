@@ -46,18 +46,11 @@ export class NavigationAbstractContainer extends PureComponent {
     }
 
     onRouteChanged(history) {
-        const { prevPathname } = this.state;
-        const { pathname } = history;
-
         if (!isMobile.any()) {
             return this.handleDesktopRouteChange(history);
         }
 
-        if (prevPathname === pathname) {
-            return {};
-        }
-
-        return this.handleMobileRouteChange(history);
+        return this.handleMobileUrlChange(history);
     }
 
     getNavigationState(pathname) {
@@ -65,6 +58,17 @@ export class NavigationAbstractContainer extends PureComponent {
             .find(route => (route !== '/' || pathname === '/') && pathname.includes(route));
 
         return this.routeMap[activeRoute] || this.default_state;
+    }
+
+    handleMobileUrlChange(history) {
+        const { prevPathname } = this.state;
+        const { pathname } = history;
+
+        if (prevPathname === pathname) {
+            return {};
+        }
+
+        return this.handleMobileRouteChange(history);
     }
 
     handleMobileRouteChange(history) {

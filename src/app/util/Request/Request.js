@@ -13,14 +13,14 @@
 import { getAuthorizationToken } from 'Util/Auth';
 import { hash } from './Hash';
 
-const GRAPHQL_URI = '/graphql';
+export const GRAPHQL_URI = '/graphql';
 
 /**
  * Append authorization token to header object
  * @param {Object} headers
  * @returns {Object} Headers with appended authorization
  */
-const appendTokenToHeaders = (headers) => {
+export const appendTokenToHeaders = (headers) => {
     const token = getAuthorizationToken();
 
     return {
@@ -36,7 +36,7 @@ const appendTokenToHeaders = (headers) => {
  * @param {String} url GraphQL url
  * @returns {*}
  */
-const formatURI = (query, variables, url) => {
+export const formatURI = (query, variables, url) => {
     const stringifyVariables = Object.keys(variables).reduce(
         (acc, variable) => [...acc, `${ variable }=${ variables[ variable ] }`],
         [`?hash=${ hash(query) }`]
@@ -51,7 +51,7 @@ const formatURI = (query, variables, url) => {
  * @param {String} name
  * @returns {Promise<Response>}
  */
-const getFetch = (uri, name) => fetch(uri,
+export const getFetch = (uri, name) => fetch(uri,
     {
         method: 'GET',
         headers: appendTokenToHeaders({
@@ -67,7 +67,7 @@ const getFetch = (uri, name) => fetch(uri,
  * @param {{}} query Request body
  * @param {Int} cacheTTL
  */
-const putPersistedQuery = (graphQlURI, query, cacheTTL) => fetch(`${ graphQlURI }?hash=${ hash(query) }`,
+export const putPersistedQuery = (graphQlURI, query, cacheTTL) => fetch(`${ graphQlURI }?hash=${ hash(query) }`,
     {
         method: 'PUT',
         body: JSON.stringify(query),
@@ -84,7 +84,7 @@ const putPersistedQuery = (graphQlURI, query, cacheTTL) => fetch(`${ graphQlURI 
  * @param {String} name
  * @returns {Promise<Response>}
  */
-const postFetch = (graphQlURI, query, variables) => fetch(graphQlURI,
+export const postFetch = (graphQlURI, query, variables) => fetch(graphQlURI,
     {
         method: 'POST',
         body: JSON.stringify({ query, variables }),
@@ -99,7 +99,7 @@ const postFetch = (graphQlURI, query, variables) => fetch(graphQlURI,
  * @param  {Object} res Response from GraphQL endpoint
  * @return {Promise<Object>} Handled GraphqlQL results promise
  */
-const checkForErrors = res => new Promise((resolve, reject) => {
+export const checkForErrors = res => new Promise((resolve, reject) => {
     const { errors, data } = res;
     return errors ? reject(errors) : resolve(data);
 });
@@ -109,14 +109,14 @@ const checkForErrors = res => new Promise((resolve, reject) => {
  * @param  {any} err Error from fetch
  * @return {void} Simply console error
  */
-const handleConnectionError = err => console.error(err); // TODO: Add to logs pool
+export const handleConnectionError = err => console.error(err); // TODO: Add to logs pool
 
 /**
  * Parse response and check wether it contains errors
  * @param  {{}} queryObject prepared with `prepareDocument()` from `Util/Query` request body object
  * @return {Promise<Request>} Fetch promise to GraphQL endpoint
  */
-const parseResponse = promise => new Promise((resolve, reject) => {
+export const parseResponse = promise => new Promise((resolve, reject) => {
     promise.then(
         res => res.json().then(
             res => resolve(checkForErrors(res)),

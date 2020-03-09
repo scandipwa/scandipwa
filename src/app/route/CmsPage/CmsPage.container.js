@@ -58,19 +58,32 @@ export class CmsPageContainer extends DataContainer {
         isLoading: true
     };
 
+    constructor(props) {
+        super(props);
+
+        this.updateBreadcrumbs();
+    }
+
+    updateBreadcrumbs() {
+        const {
+            toggleBreadcrumbs,
+            isBreadcrumbsActive
+        } = this.props;
+
+        toggleBreadcrumbs(isBreadcrumbsActive);
+    }
+
     componentDidMount() {
         const {
             location,
             match,
-            toggleBreadcrumbs,
             urlKey,
-            isOnlyPlaceholder,
-            isBreadcrumbsActive
+            isOnlyPlaceholder
         } = this.props;
 
         const urlParam = getUrlParam(match, location);
 
-        this.setState({ page: {} });
+        // this.setState({ page: {} });
 
         if (
             !isOnlyPlaceholder
@@ -78,8 +91,6 @@ export class CmsPageContainer extends DataContainer {
         ) {
             this.requestPage(urlKey || urlParam);
         }
-
-        toggleBreadcrumbs(isBreadcrumbsActive);
     }
 
     onPageLoad = ({ cmsPage: page }) => {

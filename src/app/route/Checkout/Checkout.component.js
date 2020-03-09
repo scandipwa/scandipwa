@@ -56,7 +56,7 @@ class Checkout extends PureComponent {
             BILLING_STEP,
             DETAILS_STEP
         ]).isRequired,
-        createUser: PropTypes.bool.isRequired,
+        isCreateUser: PropTypes.bool.isRequired,
         onCreateUserChange: PropTypes.func.isRequired,
         onPasswordChange: PropTypes.func.isRequired
     };
@@ -121,7 +121,7 @@ class Checkout extends PureComponent {
     renderGuestForm() {
         const {
             checkoutStep,
-            createUser,
+            isCreateUser,
             onEmailChange,
             onCreateUserChange,
             onPasswordChange,
@@ -132,7 +132,7 @@ class Checkout extends PureComponent {
         return (
             <CheckoutGuestForm
               isBilling={ isBilling }
-              createUser={ createUser }
+              isCreateUser={ isCreateUser }
               onEmailChange={ onEmailChange }
               onCreateUserChange={ onCreateUserChange }
               onPasswordChange={ onPasswordChange }

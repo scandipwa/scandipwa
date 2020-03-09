@@ -73,7 +73,11 @@
     }
 
     &-CheckoutButtons {
-        padding: 1rem;
+        padding: 1rem 0;
+
+        @include mobile {
+            padding: 1rem;
+        }
     }
 
     &-CheckoutButton {
@@ -170,12 +174,12 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 1rem;
         font-size: 18px;
         font-weight: bold;
+        padding: 1rem 0;
 
         @include mobile {
-            padding-bottom: 0;
+            padding: 1rem 0 0;
         }
     }
 
@@ -208,6 +212,8 @@
         }
 
         &_isMobile {
+            display: none;
+
             @include mobile {
                 display: grid;
             }
