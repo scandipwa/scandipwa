@@ -26,8 +26,8 @@ import './CheckoutBilling.style';
 class CheckoutBilling extends PureComponent {
     state = {
         isOrderButtonVisible: true,
-        isOrderButtonEnabled: false,
-        termsAndConditionsAccepted: false
+        isOrderButtonEnabled: true,
+        isTermsAndConditionsAccepted: false
     };
 
     static propTypes = {
@@ -62,10 +62,9 @@ class CheckoutBilling extends PureComponent {
         this.setState({ isOrderButtonEnabled });
     };
 
-    setTermsAndConfitionsAccepted = () => {
-        this.setState(({ termsAndConditionsAccepted: oldTermsAndConfitionsAccepted }) => ({
-            termsAndConditionsAccepted: !oldTermsAndConfitionsAccepted,
-            isOrderButtonEnabled: !oldTermsAndConfitionsAccepted
+    setTACAccepted = () => {
+        this.setState(({ isTermsAndConditionsAccepted: oldIsTACAccepted }) => ({
+            isTermsAndConditionsAccepted: !oldIsTACAccepted
         }));
     };
 
@@ -76,13 +75,20 @@ class CheckoutBilling extends PureComponent {
     };
 
     renderTermsAndConditions() {
-        const { termsAreEnabled, termsAndConditions } = this.props;
+        const {
+            termsAreEnabled,
+            termsAndConditions
+        } = this.props;
+
         const {
             checkbox_text = __('I agree to terms and conditions')
         } = termsAndConditions[0] || {};
-        const { termsAndConditionsAccepted } = this.state;
 
-        if (!termsAreEnabled) return null;
+        const { isTermsAndConditionsAccepted } = this.state;
+
+        if (!termsAreEnabled) {
+            return null;
+        }
 
         return (
             <div
@@ -90,12 +96,18 @@ class CheckoutBilling extends PureComponent {
               elem="TermsAndConditions"
             >
                 <label
-                  htmlFor="CheckoutBilling"
                   block="CheckoutBilling"
-                  elem="Link"
-                  onClick={ this.handleShowPopup }
+                  elem="TACLabel"
+                  htmlFor="termsAndConditions"
                 >
                     { checkbox_text }
+                    <button
+                      block="CheckoutBilling"
+                      elem="TACLink"
+                      onClick={ this.handleShowPopup }
+                    >
+                        { __('read more') }
+                    </button>
                 </label>
                 <Field
                   id="termsAndConditions"
@@ -103,24 +115,35 @@ class CheckoutBilling extends PureComponent {
                   type="checkbox"
                   value="termsAndConditions"
                   mix={ { block: 'CheckoutBilling', elem: 'TermsAndConditions-Checkbox' } }
-                  checked={ termsAndConditionsAccepted }
-                  onChange={ this.setTermsAndConfitionsAccepted }
+                  checked={ isTermsAndConditionsAccepted }
+                  onChange={ this.setTACAccepted }
                 />
             </div>
         );
     }
 
     renderActions() {
-        const { isOrderButtonVisible, isOrderButtonEnabled } = this.state;
+        const {
+            isOrderButtonVisible,
+            isOrderButtonEnabled,
+            isTermsAndConditionsAccepted
+        } = this.state;
+
+        const { termsAreEnabled } = this.props;
 
         if (!isOrderButtonVisible) return null;
+
+        // if terms and conditions are enabled, validate for acceptance
+        const isDisabled = termsAreEnabled
+            ? !isOrderButtonEnabled || !isTermsAndConditionsAccepted
+            : !isOrderButtonEnabled;
 
         return (
             <div block="Checkout" elem="StickyButtonWrapper">
                 <button
                   type="submit"
                   block="Button"
-                  disabled={ !isOrderButtonEnabled }
+                  disabled={ isDisabled }
                   mix={ { block: 'CheckoutBilling', elem: 'Button' } }
                 >
                     { __('Complete order') }

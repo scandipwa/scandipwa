@@ -8,10 +8,19 @@ import { RESPONSE_OK } from './StaleWhileRevalidateHandler';
  * @type {Array}
  */
 const BUYPASS_CACHE_HOSTS = [
+    // Project specific
     '(?!^.*admin)', // Magento Admin
     '(?!^.*graphql)', // GraphQL
     '(?!^.*sockjs)', // Local socket for webpack hot-reload
     '(?!^.*maildev)', // Mail-dev (could be unused, legacy)
+    // Miscellaneous
+    '(?!^.*youtube)',
+    '(?!^.*vimeo)',
+    // Payment endpoints
+    '(?!^.*paypal)', // PayPal
+    '(?!^.*stripe)', // Stripe
+    '(?!^.*braintree)', // Braintree
+    '(?!^.*klarna)', // Klarna
     // GTM endpoints
     '(?!^.*googletagmanager\\.com)',
     '(?!^.*onthe\\.io)',

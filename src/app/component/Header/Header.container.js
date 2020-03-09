@@ -70,12 +70,6 @@ export class HeaderContainer extends NavigationAbstractContainer {
         header_logo_src: ''
     };
 
-    state = {
-        prevPathname: '',
-        searchCriteria: '',
-        isClearEnabled: false
-    };
-
     default_state = DEFAULT_HEADER_STATE;
 
     routeMap = {
@@ -92,7 +86,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
     containerFunctions = {
         onBackButtonClick: this.onBackButtonClick.bind(this),
         onCloseButtonClick: this.onCloseButtonClick.bind(this),
-        onSearchBarClick: this.onSearchBarClick.bind(this),
+        onSearchBarFocus: this.onSearchBarFocus.bind(this),
         onMenuButtonClick: this.onMenuButtonClick.bind(this),
         onClearSearchButtonClick: this.onClearSearchButtonClick.bind(this),
         onMyAccountButtonClick: this.onMyAccountButtonClick.bind(this),
@@ -133,6 +127,16 @@ export class HeaderContainer extends NavigationAbstractContainer {
         };
     };
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            prevPathname: '',
+            searchCriteria: '',
+            isClearEnabled: this.getIsClearEnabled()
+        };
+    }
+
     componentDidMount() {
         this.handleHeaderVisibility();
         super.componentDidMount();
@@ -153,19 +157,29 @@ export class HeaderContainer extends NavigationAbstractContainer {
         document.body.classList.remove('hiddenHeader');
     }
 
-    handleMobileRouteChange(history) {
-        const { search } = history;
+    handleMobileUrlChange(history) {
+        const { prevPathname } = this.state;
+        const { pathname } = history;
+        const isClearEnabled = this.getIsClearEnabled();
 
-        const isClearEnabled = new RegExp([
+        if (prevPathname === pathname) {
+            return { isClearEnabled };
+        }
+
+        return {
+            isClearEnabled,
+            ...this.handleMobileRouteChange(history)
+        };
+    }
+
+    getIsClearEnabled() {
+        const { location: { search } } = history;
+
+        return new RegExp([
             'customFilters',
             'priceMax',
             'priceMin'
         ].join('|')).test(search);
-
-        return {
-            isClearEnabled,
-            ...super.handleMobileRouteChange(history)
-        };
     }
 
     onBackButtonClick() {
@@ -203,7 +217,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
         }
     }
 
-    onSearchBarClick() {
+    onSearchBarFocus() {
         const {
             setNavigationState,
             goToPreviousNavigationState,

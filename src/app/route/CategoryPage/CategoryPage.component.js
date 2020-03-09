@@ -54,7 +54,14 @@ export default class CategoryPage extends PureComponent {
         toggleOverlayByKey: PropTypes.func.isRequired,
         selectedFilters: FilterType.isRequired,
         filter: FilterInputType.isRequired,
-        search: PropTypes.string.isRequired
+        search: PropTypes.string.isRequired,
+        isContentFiltered: PropTypes.bool,
+        totalPages: PropTypes.number
+    };
+
+    static defaultProps = {
+        isContentFiltered: true,
+        totalPages: 1
     };
 
     onFilterButtonClick = this.onFilterButtonClick.bind(this);
@@ -75,6 +82,12 @@ export default class CategoryPage extends PureComponent {
     }
 
     renderFilterButton() {
+        const { isContentFiltered, totalPages } = this.props;
+
+        if (!isContentFiltered && totalPages === 0) {
+            return null;
+        }
+
         return (
             <button
               block="CategoryPage"

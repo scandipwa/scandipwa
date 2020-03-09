@@ -1,0 +1,18 @@
+.TierPrices {
+    &-Item {
+        font-size: 15px;
+        padding-left: 0;
+
+        @include after-mobile {
+            padding-left: 5px;
+        }
+
+        &:last-child {
+            margin-bottom: 1rem;
+        }
+
+        &::before {
+            content: none;
+        }
+    }
+}

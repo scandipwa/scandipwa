@@ -57,6 +57,8 @@ class Field {
      */
     addField(field) {
         if (typeof field === 'object') {
+            if (!field.name) throw new Error('Argument does not have `name` property');
+
             this._fieldList[ field.name ] = field;
         } else if (typeof field === 'string') {
             this._fieldList[ field ] = new Field(field);
@@ -75,6 +77,8 @@ class Field {
      * @memberof Query
      */
     addFieldList(fieldList) {
+        if (!Array.isArray(fieldList)) throw new Error('Argument must be array');
+
         fieldList.forEach(field => this.addField(field));
         return this;
     }
@@ -89,6 +93,9 @@ class Field {
      * @memberof Field
      */
     addArgument(argumentName, type, value) {
+        if (!argumentName || typeof argumentName !== 'string') throw new Error('Argument must be non-empty string');
+        if (!type || typeof type !== 'string') throw new Error('Argument `type` must be non-empty string');
+
         this._argumentList[ argumentName ] = {
             value,
             type
@@ -105,6 +112,7 @@ class Field {
      * @memberof Query
      */
     set alias(alias) {
+        if (typeof alias !== 'string') throw new Error('Argument is not a string');
         this._alias = alias;
         return this;
     }
@@ -117,6 +125,7 @@ class Field {
      * @memberof Query
      */
     setAlias(alias) {
+        if (typeof alias !== 'string') throw new Error('Argument is not a string');
         this.alias = alias;
         return this;
     }
@@ -128,6 +137,7 @@ class Field {
      * @memberof Query
      */
     setComponentType(component) {
+        if (!component || typeof component !== 'string') throw new Error('Argument must be non-empty string');
         this._component = component;
         return this;
     }
@@ -244,7 +254,7 @@ class Field {
      * Formats query selection elements as a string
      * NOTE: this only return query selection, not request body!
      *
-     * @return {String} One line query, format: `{_alias: queryName (attr: $value) { field1, field2 }`
+     * @return {String} One line query, format: `_alias: queryName (attr: $value) { field1, field2 }`
      * @memberof Query
      */
     toString() {

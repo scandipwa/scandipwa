@@ -51,7 +51,7 @@ export default class Header extends NavigationAbstract {
         cartTotals: TotalsType.isRequired,
         onBackButtonClick: PropTypes.func.isRequired,
         onCloseButtonClick: PropTypes.func.isRequired,
-        onSearchBarClick: PropTypes.func.isRequired,
+        onSearchBarFocus: PropTypes.func.isRequired,
         onMenuButtonClick: PropTypes.func.isRequired,
         onClearSearchButtonClick: PropTypes.func.isRequired,
         onMyAccountButtonClick: PropTypes.func.isRequired,
@@ -216,7 +216,7 @@ export default class Header extends NavigationAbstract {
         const {
             searchCriteria,
             onSearchOutsideClick,
-            onSearchBarClick,
+            onSearchBarFocus,
             onSearchBarChange,
             onClearSearchButtonClick,
             navigationState: { name }
@@ -227,7 +227,7 @@ export default class Header extends NavigationAbstract {
               key="search"
               searchCriteria={ searchCriteria }
               onSearchOutsideClick={ onSearchOutsideClick }
-              onSearchBarClick={ onSearchBarClick }
+              onSearchBarFocus={ onSearchBarFocus }
               onSearchBarChange={ onSearchBarChange }
               onClearSearchButtonClick={ onClearSearchButtonClick }
               isVisible={ isSearchVisible }

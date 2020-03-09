@@ -47,18 +47,17 @@ class Checkout extends PureComponent {
         isDeliveryOptionsLoading: PropTypes.bool.isRequired,
         shippingAddress: addressType.isRequired,
         checkoutTotals: TotalsType.isRequired,
-        paymentTotals: TotalsType,
         orderID: PropTypes.string.isRequired,
         history: HistoryType.isRequired,
         onEmailChange: PropTypes.func.isRequired,
         isGuestEmailSaved: PropTypes.bool.isRequired,
-        paymentTotals: TotalsType.isRequired,
+        paymentTotals: TotalsType,
         checkoutStep: PropTypes.oneOf([
             SHIPPING_STEP,
             BILLING_STEP,
             DETAILS_STEP
         ]).isRequired,
-        createUser: PropTypes.bool.isRequired,
+        isCreateUser: PropTypes.bool.isRequired,
         onCreateUserChange: PropTypes.func.isRequired,
         onPasswordChange: PropTypes.func.isRequired
     };
@@ -123,7 +122,7 @@ class Checkout extends PureComponent {
     renderGuestForm() {
         const {
             checkoutStep,
-            createUser,
+            isCreateUser,
             onEmailChange,
             onCreateUserChange,
             onPasswordChange,
@@ -134,7 +133,7 @@ class Checkout extends PureComponent {
         return (
             <CheckoutGuestForm
               isBilling={ isBilling }
-              createUser={ createUser }
+              isCreateUser={ isCreateUser }
               onEmailChange={ onEmailChange }
               onCreateUserChange={ onCreateUserChange }
               onPasswordChange={ onPasswordChange }

@@ -48,7 +48,8 @@ export const mapStateToProps = state => ({
     sortFields: state.ProductListInfoReducer.sortFields,
     minPriceRange: state.ProductListInfoReducer.minPrice,
     maxPriceRange: state.ProductListInfoReducer.maxPrice,
-    isInfoLoading: state.ProductListInfoReducer.isLoading
+    isInfoLoading: state.ProductListInfoReducer.isLoading,
+    totalPages: state.ProductListReducer.totalPages
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -176,7 +177,7 @@ export class CategoryPageContainer extends PureComponent {
     getFilterUrl(filterName, filterArray, isFull = true) {
         const { location: { pathname } } = this.props;
         const selectedFilters = this._getNewSelectedFiltersString(filterName, filterArray);
-        return `${isFull ? `${pathname}?` : ''}${this._formatSelectedFiltersString(selectedFilters)}`;
+        return `${isFull ? `${pathname}?customFilters=` : ''}${this._formatSelectedFiltersString(selectedFilters)}`;
     }
 
     getIsNewCategory() {
@@ -189,8 +190,22 @@ export class CategoryPageContainer extends PureComponent {
         search: this._getSearchParam(),
         selectedSort: this._getSelectedSortFromUrl(),
         selectedFilters: this._getSelectedFiltersFromUrl(),
-        selectedPriceRange: this._getPriceRangeForSlider()
+        selectedPriceRange: this._getPriceRangeForSlider(),
+        isContentFiltered: this.isContentFiltered()
     });
+
+    isContentFiltered() {
+        const { customFilters, priceMin, priceMax } = this.urlStringToObject();
+        return !!(customFilters || priceMin || priceMax);
+    }
+
+    urlStringToObject() {
+        const { location: { search } } = this.props;
+        return search.substr(1).split('&').reduce((acc, part) => {
+            const [key, value] = part.split('=');
+            return { ...acc, [key]: value };
+        }, {});
+    }
 
     updateSearch(value) {
         const { location, history } = this.props;

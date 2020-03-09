@@ -24,7 +24,9 @@ export default class CategoryFilterOverlay extends PureComponent {
     static propTypes = {
         availableFilters: PropTypes.objectOf(PropTypes.shape).isRequired,
         updatePriceRange: PropTypes.func.isRequired,
-        isInfoLoading: PropTypes.bool.isRequired,
+        areFiltersEmpty: PropTypes.bool.isRequired,
+        isContentFiltered: PropTypes.bool.isRequired,
+        isProductsLoading: PropTypes.bool.isRequired,
         priceValue: PropTypes.shape({
             min: PropTypes.number,
             max: PropTypes.number
@@ -116,7 +118,14 @@ export default class CategoryFilterOverlay extends PureComponent {
     }
 
     renderResetButton() {
-        return <ResetButton mix={ { block: 'CategoryFilterOverlay', elem: 'ResetButton' } } />;
+        const { onSeeResultsClick } = this.props;
+
+        return (
+            <ResetButton
+              onClick={ onSeeResultsClick }
+              mix={ { block: 'CategoryFilterOverlay', elem: 'ResetButton' } }
+            />
+        );
     }
 
     renderHeading() {
@@ -127,36 +136,38 @@ export default class CategoryFilterOverlay extends PureComponent {
         );
     }
 
-    render() {
-        const {
-            isInfoLoading,
-            availableFilters,
-            totalPages,
-            onVisible
-        } = this.props;
+    renderNoResults() {
+        return (
+            <p block="CategoryFilterOverlay" elem="NoResults">
+                { __(`The selected filter combination returned no results.
+                Please try again, using a different set of filters.`) }
+            </p>
+        );
+    }
 
-        if (totalPages === 0) {
-            return (
-                <Overlay
-                  mix={ { block: 'CategoryFilterOverlay' } }
-                  id={ CATEGORY_FILTER_OVERLAY_ID }
-                />
-            );
-        }
+    renderEmptyFilters() {
+        return (
+            <Overlay
+              mix={ { block: 'CategoryFilterOverlay' } }
+              id={ CATEGORY_FILTER_OVERLAY_ID }
+            >
+                { this.renderNoResults() }
+                { this.renderResetButton() }
+                { this.renderSeeResults() }
+            </Overlay>
+        );
+    }
 
-        if (
-            !isInfoLoading
-            && (
-                !availableFilters
-                || !Object.keys(availableFilters).length
-            )
-        ) {
-            return (
-                <Overlay mix={ { block: 'CategoryFilterOverlay' } } id={ CATEGORY_FILTER_OVERLAY_ID }>
-                    { this.renderPriceRange() }
-                </Overlay>
-            );
-        }
+    renderMinimalFilters() {
+        return (
+            <Overlay mix={ { block: 'CategoryFilterOverlay' } } id={ CATEGORY_FILTER_OVERLAY_ID }>
+                { this.renderPriceRange() }
+            </Overlay>
+        );
+    }
+
+    renderDefaultFilters() {
+        const { onVisible } = this.props;
 
         return (
             <Overlay
@@ -171,5 +182,30 @@ export default class CategoryFilterOverlay extends PureComponent {
                 { this.renderSeeResults() }
             </Overlay>
         );
+    }
+
+    render() {
+        const {
+            totalPages,
+            areFiltersEmpty,
+            isProductsLoading,
+            isContentFiltered
+        } = this.props;
+
+        if (!isProductsLoading && totalPages === 0 && !isContentFiltered) {
+            return (
+                <div block="CategoryFilterOverlay" />
+            );
+        }
+
+        if (!isProductsLoading && totalPages === 0) {
+            return this.renderEmptyFilters();
+        }
+
+        if (areFiltersEmpty) {
+            return this.renderMinimalFilters();
+        }
+
+        return this.renderDefaultFilters();
     }
 }
