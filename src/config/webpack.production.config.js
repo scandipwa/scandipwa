@@ -50,6 +50,10 @@ const webpackConfig = ([lang, translation]) => ({
             new FallbackPlugin({
                 fallbackRoot, projectRoot
             })
+        ],
+        modules: [
+            path.resolve(projectRoot, 'node_modules'),
+            'node_modules'
         ]
     },
 
@@ -168,6 +172,7 @@ const webpackConfig = ([lang, translation]) => ({
         }),
 
         new webpack.ProvidePlugin({
+            middleware: path.join(__dirname, 'Middleware'),
             React: 'react'
         }),
 
