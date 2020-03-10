@@ -65,7 +65,11 @@ export class ConfigQuery {
                 'paypal_sandbox_flag',
                 'paypal_client_id',
                 'logo_alt',
-                'terms_are_enabled'
+                'terms_are_enabled',
+                'pagination_frame',
+                'pagination_frame_skip',
+                'anchor_text_for_previous',
+                'anchor_text_for_next'
             ]);
     }
 }
