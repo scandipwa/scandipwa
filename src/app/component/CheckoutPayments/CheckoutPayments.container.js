@@ -118,8 +118,6 @@ export class CheckoutPaymentsContainer extends ExtensiblePureComponent {
     }
 }
 
-CheckoutPaymentsContainer.prototype.__namespace__ = 'Component/CheckoutPayments/Container';
-
 export default connect(null, mapDispatchToProps)(
-    middleware(CheckoutPaymentsContainer)
+    middleware(CheckoutPaymentsContainer, 'Component/CheckoutPayments/Container')
 );

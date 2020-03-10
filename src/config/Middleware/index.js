@@ -1,14 +1,9 @@
-// Middleware function to proxy class.
-
 /* eslint-disable arrow-body-style */
 /* eslint-disable func-names */
-
-/**
- * @param {String} namespace
- */
-function middleware(Class) {
-    const { __namespace__ } = Class.prototype;
-    const namespacePlugins = window.plugins?.[__namespace__]?.pluginsForStatic;
+function middleware(Class, namespace) {
+    // eslint-disable-next-line no-param-reassign
+    Class.prototype.__namespace__ = namespace;
+    const namespacePlugins = window.plugins?.[namespace]?.pluginsForStatic;
     // Handle no plugins declared
     if (!namespacePlugins) {
         return Class;
@@ -20,7 +15,6 @@ function middleware(Class) {
                 return target[Symbol.iterator].bind(target);
             }
 
-            // if (__namespace__ === 'Component/CheckoutPayments/Component') console.log(`Get ${memberName}`);
             const origMember = Reflect.get(target, memberName, rec);
 
             const pluginsForCalledMember = namespacePlugins[memberName];
@@ -34,7 +28,7 @@ function middleware(Class) {
                 if (a.position < b.position) return 1;
                 throw new Error(
                     `Cannot have equal position on different plugins of the same ${memberName} method
-                    on ${Object.getPrototypeOf(target).constructor.name} class in ${__namespace__} namespace!`
+                    on ${Object.getPrototypeOf(target).constructor.name} class in ${namespace} namespace!`
                 );
             });
 

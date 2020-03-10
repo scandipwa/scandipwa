@@ -187,6 +187,4 @@ export class CheckoutPayments extends ExtensiblePureComponent {
     }
 }
 
-CheckoutPayments.prototype.__namespace__ = 'Component/CheckoutPayments/Component';
-
-export default middleware(CheckoutPayments);
+export default middleware(CheckoutPayments, 'Component/CheckoutPayments/Component');
