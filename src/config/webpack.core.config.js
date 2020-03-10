@@ -182,8 +182,8 @@ module.exports = {
         }),
 
         new webpack.ProvidePlugin({
-            __: path.resolve(path.join(__dirname, 'TranslationFunction')),
-            middleware: path.resolve(path.join(__dirname, 'Middleware')),
+            __: path.join(__dirname, 'TranslationFunction'),
+            middleware: path.join(__dirname, 'Middleware'),
             React: 'react'
         }),
 
