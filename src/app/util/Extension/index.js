@@ -4,19 +4,23 @@ export default function importExtensions(pendingPluginConfigParts) {
     Promise.all(pendingPluginConfigParts).then((modules) => {
         window.plugins = modules.reduce(
             (overallConfig, pluginModule) => {
-                const singleExtensionConfig = Object.entries(pluginModule.default);
-
-                singleExtensionConfig.forEach(([namespace, methodsPlugins]) => {
+                const extension = pluginModule.default;
+                Object.entries(extension).forEach(([namespace, plugins]) => {
                     if (!overallConfig[namespace]) {
                         overallConfig[namespace] = {};
                     }
-                    const namedMethodPlugins = Object.entries(methodsPlugins);
-
-                    namedMethodPlugins.forEach(([methodName, methodPlugins]) => {
-                        if (!overallConfig[namespace][methodName]) {
-                            overallConfig[namespace][methodName] = [];
+                    Object.entries(plugins).forEach(([pluginType, methodsPlugins]) => {
+                        if (!overallConfig[namespace][pluginType]) {
+                            overallConfig[namespace][pluginType] = {};
                         }
-                        overallConfig[namespace][methodName].push(...methodPlugins);
+                        Object.entries(methodsPlugins).forEach(([memberName, memberPlugins]) => {
+                            if (!overallConfig[namespace][pluginType][memberName]) {
+                                overallConfig[namespace][pluginType][memberName] = [];
+                            }
+                            memberPlugins.forEach((memberPlugin) => {
+                                overallConfig[namespace][pluginType][memberName].push(memberPlugin);
+                            });
+                        });
                     });
                 });
 
@@ -28,3 +32,4 @@ export default function importExtensions(pendingPluginConfigParts) {
         console.error(error);
     });
 }
+
