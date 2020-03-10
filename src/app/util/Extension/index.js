@@ -9,16 +9,32 @@ export default function importExtensions(pendingPluginConfigParts) {
                     if (!overallConfig[namespace]) {
                         overallConfig[namespace] = {};
                     }
-                    Object.entries(plugins).forEach(([pluginType, methodsPlugins]) => {
-                        if (!overallConfig[namespace][pluginType]) {
-                            overallConfig[namespace][pluginType] = {};
+                    Object.entries(plugins).forEach(([targetType, handlerPlugins]) => {
+                        // Validate target type
+                        if (!(targetType === 'instance' || targetType === 'class')) {
+                            throw Error(`Expected plugin target type 'instance' or 'class', got ${targetType}`);
                         }
-                        Object.entries(methodsPlugins).forEach(([memberName, memberPlugins]) => {
-                            if (!overallConfig[namespace][pluginType][memberName]) {
-                                overallConfig[namespace][pluginType][memberName] = [];
+                        if (!overallConfig[namespace][targetType]) {
+                            overallConfig[namespace][targetType] = {};
+                        }
+                        Object.entries(handlerPlugins).forEach(([handlerType, membersPlugins]) => {
+                            // Validate handler type
+                            if (!(handlerType === 'get' || handlerType === 'construct')) {
+                                throw Error(`Expected plugin handler type 'get' or 'construct', got ${handlerType}`);
                             }
-                            memberPlugins.forEach((memberPlugin) => {
-                                overallConfig[namespace][pluginType][memberName].push(memberPlugin);
+                            if (targetType === 'instance' && handlerType !== 'get') {
+                                throw Error(`Expected handler type 'get' on target type 'instance', got ${handlerType}`)
+                            }
+                            if (!overallConfig[namespace][targetType][handlerType]) {
+                                overallConfig[namespace][targetType][handlerType] = {};
+                            }
+                            Object.entries(membersPlugins).forEach(([memberName, memberPlugins]) => {
+                                if (!overallConfig[namespace][targetType][handlerType][memberName]) {
+                                    overallConfig[namespace][targetType][handlerType][memberName] = [];
+                                }
+                                memberPlugins.forEach((memberPlugin) => {
+                                    overallConfig[namespace][targetType][handlerType][memberName].push(memberPlugin);
+                                });
                             });
                         });
                     });
@@ -32,4 +48,3 @@ export default function importExtensions(pendingPluginConfigParts) {
         console.error(error);
     });
 }
-

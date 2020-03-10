@@ -12,7 +12,7 @@ class ExtensiblePureComponent extends PureComponent {
     constructor(props) {
         super(props);
         const { __namespace__ } = Object.getPrototypeOf(this);
-        const namespacePlugins = window.plugins?.[__namespace__]?.pluginsForInstance;
+        const namespacePlugins = window.plugins?.[__namespace__]?.['instance']?.['get'];
         if (!namespacePlugins) {
             return;
         }
@@ -47,7 +47,7 @@ class ExtensiblePureComponent extends PureComponent {
                         : origMember;
 
                     const newMember = pluginsForCalledMember.reduce(
-                        (acc, { implementation }) => (/** Should more args be here */) => {
+                        (acc, { implementation }) => () => {
                             return typeof origMember === 'object'
                                 ? implementation(acc, target)
                                 : implementation(args, acc, target);
