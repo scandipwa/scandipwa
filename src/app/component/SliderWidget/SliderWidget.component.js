@@ -26,7 +26,8 @@ export default class SliderWidget extends PureComponent {
         slider: PropTypes.shape({
             slides: PropTypes.arrayOf(
                 PropTypes.shape({
-                    image: PropTypes.string,
+                    desktop_image: PropTypes.string,
+                    mobile_image: PropTypes.string,
                     slide_text: PropTypes.string,
                     isPlaceholder: PropTypes.bool
                 })
@@ -38,7 +39,28 @@ export default class SliderWidget extends PureComponent {
         slider: [{}]
     };
 
-    state = { activeImage: 0 };
+    state = {
+        activeImage: 0,
+        isMobile: false
+    };
+
+    componentDidMount() {
+        window.addEventListener('resize', this.onResize.bind(this));
+        this.onResize();
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.onResize);
+    }
+
+    onResize() {
+        const { isMobileState } = this.state;
+        const isMobile = window.innerWidth < 768;
+
+        if (isMobile !== isMobileState) {
+            this.setState({ isMobile });
+        }
+    }
 
 
     onActiveImageChange = (activeImage) => {
@@ -47,11 +69,14 @@ export default class SliderWidget extends PureComponent {
 
     renderSlide = (slide, i) => {
         const {
-            image,
+            desktop_image,
+            mobile_image,
             slide_text,
             isPlaceholder,
             title: block
         } = slide;
+        const { isMobile } = this.state;
+        const image = isMobile ? mobile_image : desktop_image;
 
         return (
             <figure
@@ -79,6 +104,9 @@ export default class SliderWidget extends PureComponent {
     render() {
         const { activeImage } = this.state;
         const { slider: { slides, title: block } } = this.props;
+
+        console.log(activeImage);
+        console.log(slides);
 
         return (
             <Slider
