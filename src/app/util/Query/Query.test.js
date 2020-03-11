@@ -10,7 +10,7 @@
  */
 
 /* eslint-disable */
-import Field from './Query';
+import Field from '.';
 
 it('We check if Field constructor was called', () => {
     const query = new Field('name');
