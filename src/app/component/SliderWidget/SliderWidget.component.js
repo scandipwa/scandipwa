@@ -105,9 +105,6 @@ export default class SliderWidget extends PureComponent {
         const { activeImage } = this.state;
         const { slider: { slides, title: block } } = this.props;
 
-        console.log(activeImage);
-        console.log(slides);
-
         return (
             <Slider
               mix={ { block: 'SliderWidget', mix: { block } } }
