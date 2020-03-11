@@ -279,4 +279,7 @@ export class ProductList extends ExtensiblePureComponent {
     }
 }
 
-export default debounceRender(ProductList, RENDER_PAGE_FREQUENCY, { leading: false });
+export default debounceRender(
+    middleware(ProductList, 'Component/ProductList/Component'),
+    RENDER_PAGE_FREQUENCY, { leading: false }
+);

@@ -60,4 +60,6 @@ export class ResetButtonContainer extends ExtensiblePureComponent {
     }
 }
 
-export default withRouter(ResetButtonContainer);
+export default withRouter(
+    middleware(ResetButtonContainer, 'Component/ResetButton/Container')
+);

@@ -122,4 +122,6 @@ export class CategoryProductListPlaceholder extends ExtensiblePureComponent {
     }
 }
 
-export default withRouter(CategoryProductListPlaceholder);
+export default withRouter(
+    middleware(CategoryProductListPlaceholder, 'Component/CategoryProductListPlaceholder/Component')
+);

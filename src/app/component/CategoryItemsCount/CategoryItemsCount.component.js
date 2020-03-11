@@ -36,4 +36,7 @@ export class CategoryItemsCount extends ExtensiblePureComponent {
     }
 }
 
-export default debounceRender(CategoryItemsCount, RENDER_PAGE_FREQUENCY, { leading: false });
+export default debounceRender(
+    middleware(CategoryItemsCount, 'Component/CategoryItemsCount/Component'),
+    RENDER_PAGE_FREQUENCY, { leading: false }
+);

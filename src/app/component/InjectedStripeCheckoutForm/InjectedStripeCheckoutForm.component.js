@@ -176,4 +176,6 @@ class InjectedStripeCheckoutForm extends ExtensiblePureComponent {
     }
 }
 
-export default injectStripe(InjectedStripeCheckoutForm);
+export default injectStripe(
+    middleware(InjectedStripeCheckoutForm, 'Component/InjectedStripeCheckoutForm/Component')
+);

@@ -316,4 +316,6 @@ class MyAccountOverlay extends ExtensiblePureComponent {
     }
 }
 
-export default withRouter(MyAccountOverlay);
+export default withRouter(
+    middleware(MyAccountOverlay, 'Component/MyAccountOverlay/Component')
+);

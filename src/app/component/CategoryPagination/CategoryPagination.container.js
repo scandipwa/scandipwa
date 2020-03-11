@@ -66,4 +66,6 @@ export class CategoryPaginationContainer extends ExtensiblePureComponent {
     }
 }
 
-export default withRouter(CategoryPaginationContainer);
+export default withRouter(
+    middleware(CategoryPaginationContainer, 'Component/CategoryPagination/Container')
+);

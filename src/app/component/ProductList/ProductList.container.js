@@ -186,4 +186,6 @@ export class ProductListContainer extends ExtensiblePureComponent {
     }
 }
 
-export default withRouter(ProductListContainer);
+export default withRouter(
+    middleware(ProductListContainer, 'Component/ProductList/Container')
+);
