@@ -1,6 +1,6 @@
 const { getOptions } = require('loader-utils');
 const { join } = require('path');
-const { extensions } = require('../../../extensionsConfig.json');
+const { extensions } = require('../../../extensions.json');
 
 module.exports = function injectImports(source) {
     const { vendor, importAggregator } = getOptions(this);
