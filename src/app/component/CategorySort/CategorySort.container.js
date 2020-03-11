@@ -9,11 +9,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import CategorySort from './CategorySort.component';
 
-export class CategorySortContainer extends PureComponent {
+export class CategorySortContainer extends ExtensiblePureComponent {
     static propTypes = {
         sortFields: PropTypes.oneOfType([
             PropTypes.bool,
@@ -99,4 +98,4 @@ export class CategorySortContainer extends PureComponent {
     }
 }
 
-export default CategorySortContainer;
+export default middleware(CategorySortContainer, 'Component/CategorySort/Container');

@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { customerType } from 'Type/Account';
@@ -20,7 +19,7 @@ export const mapStateToProps = state => ({
     customer: state.MyAccountReducer.customer
 });
 
-export class MyAccountDashboardContainer extends PureComponent {
+export class MyAccountDashboardContainer extends ExtensiblePureComponent {
     static propTypes = {
         customer: customerType.isRequired
     };
@@ -45,4 +44,6 @@ export class MyAccountDashboardContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, null)(MyAccountDashboardContainer);
+export default connect(mapStateToProps, null)(
+    middleware(MyAccountDashboardContainer, 'Component/MyAccountDashboard/Container')
+);

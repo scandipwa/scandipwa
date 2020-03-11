@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import {
     formatCurrency,
@@ -26,7 +25,7 @@ import './ProductPrice.style';
  * Product price
  * @class ProductPrice
  */
-export default class ProductPrice extends PureComponent {
+export class ProductPrice extends ExtensiblePureComponent {
     static propTypes = {
         price: PriceType,
         mix: MixType
@@ -96,3 +95,5 @@ export default class ProductPrice extends PureComponent {
         );
     }
 }
+
+export default middleware(ProductPrice, 'Component/ProductPrice/Component');

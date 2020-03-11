@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import ContentWrapper from 'Component/ContentWrapper';
 import ProductCard from 'Component/ProductCard';
 import PropTypes from 'prop-types';
@@ -22,7 +21,7 @@ export const MAX_NUMBER_OF_PRODUCTS_TO_RENDER = 4;
  * Related products block
  * @class RelatedProducts
  */
-export default class RelatedProducts extends PureComponent {
+export class RelatedProducts extends ExtensiblePureComponent {
     static propTypes = {
         relatedProducts: PropTypes.shape({
             items: ItemsType,
@@ -115,3 +114,5 @@ export default class RelatedProducts extends PureComponent {
         );
     }
 }
+
+export default middleware(RelatedProducts, 'Component/RelatedProducts/Component');

@@ -11,7 +11,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import isMobile from 'Util/Mobile';
@@ -21,7 +20,7 @@ import { DEFAULT_STATE_NAME } from './NavigationAbstract.component';
 
 export const DEFAULT_STATE = { name: DEFAULT_STATE_NAME };
 
-export class NavigationAbstractContainer extends PureComponent {
+export class NavigationAbstractContainer extends ExtensiblePureComponent {
     static propTypes = {
         setNavigationState: PropTypes.func.isRequired,
         hideActiveOverlay: PropTypes.func.isRequired,
@@ -106,4 +105,4 @@ export class NavigationAbstractContainer extends PureComponent {
     }
 }
 
-export default NavigationAbstractContainer;
+export default middleware(NavigationAbstractContainer, 'Component/NavigationAbstract/Container');

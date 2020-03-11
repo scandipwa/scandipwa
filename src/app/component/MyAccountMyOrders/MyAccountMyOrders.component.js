@@ -10,7 +10,6 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
 
 import MyAccountOrderTableRow from 'Component/MyAccountOrderTableRow';
 import MyAccountOrderPopup from 'Component/MyAccountOrderPopup';
@@ -20,7 +19,7 @@ import isMobile from 'Util/Mobile';
 
 import './MyAccountMyOrders.style';
 
-class MyAccountMyOrders extends PureComponent {
+class MyAccountMyOrders extends ExtensiblePureComponent {
     static propTypes = {
         orderList: ordersType.isRequired,
         isLoading: PropTypes.bool.isRequired
@@ -98,4 +97,4 @@ class MyAccountMyOrders extends PureComponent {
     }
 }
 
-export default MyAccountMyOrders;
+export default middleware(MyAccountMyOrders, 'Component/MyAccountMyOrders/Component');

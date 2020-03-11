@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -33,7 +32,7 @@ export const mapDispatchToProps = dispatch => ({
     changeNavigationState: state => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state))
 });
 
-export class CategoryFilterOverlayContainer extends PureComponent {
+export class CategoryFilterOverlayContainer extends ExtensiblePureComponent {
     static propTypes = {
         customFiltersValues: PropTypes.objectOf(PropTypes.array).isRequired,
         hideActiveOverlay: PropTypes.func.isRequired,
@@ -137,4 +136,6 @@ export class CategoryFilterOverlayContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CategoryFilterOverlayContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    middleware(CategoryFilterOverlayContainer, 'Component/CategoryFilterOverlay/Container')
+);

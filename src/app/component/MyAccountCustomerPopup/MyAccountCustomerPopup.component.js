@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import Popup from 'Component/Popup';
@@ -23,7 +22,7 @@ export const CUSTOMER_POPUP_ID = 'MyAccountCustomerPopup';
 export const CHANGE_PASSWORD = 'CHANGE_PASSWORD';
 export const EDIT_CUSTOMER = 'EDIT_CUSTOMER';
 
-class MyAccountCustomerPopup extends PureComponent {
+class MyAccountCustomerPopup extends ExtensiblePureComponent {
     static propTypes = {
         onCustomerSave: PropTypes.func.isRequired,
         onPasswordChange: PropTypes.func.isRequired,
@@ -87,4 +86,4 @@ class MyAccountCustomerPopup extends PureComponent {
     }
 }
 
-export default MyAccountCustomerPopup;
+export default middleware(MyAccountCustomerPopup, 'Component/MyAccountCustomerPopup/Component');

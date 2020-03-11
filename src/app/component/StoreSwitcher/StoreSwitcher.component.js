@@ -9,12 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Field from 'Component/Field';
 import './StoreSwitcher.style';
 
-class StoreSwitcher extends PureComponent {
+class StoreSwitcher extends ExtensiblePureComponent {
     static propTypes = {
         storeList: PropTypes.arrayOf(
             PropTypes.objectOf(
@@ -50,4 +49,4 @@ class StoreSwitcher extends PureComponent {
     }
 }
 
-export default StoreSwitcher;
+export default middleware(StoreSwitcher, 'Component/StoreSwitcher/Component');

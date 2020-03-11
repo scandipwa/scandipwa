@@ -10,13 +10,12 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
 import { formatCurrency } from 'Util/Price';
 import './MyAccountOrderTableRow.style';
 
 import { baseOrderInfoType } from 'Type/Account';
 
-class MyAccountOrderTableRow extends PureComponent {
+class MyAccountOrderTableRow extends ExtensiblePureComponent {
     static propTypes = {
         currency_code: PropTypes.string.isRequired,
         base_order_info: baseOrderInfoType.isRequired,
@@ -49,4 +48,4 @@ class MyAccountOrderTableRow extends PureComponent {
     }
 }
 
-export default MyAccountOrderTableRow;
+export default middleware(MyAccountOrderTableRow, 'Component/MyAccountOrderTableRow/Component');

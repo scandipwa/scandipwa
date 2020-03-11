@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { getQueryParam, setQueryParams } from 'Util/Url';
@@ -20,7 +19,7 @@ import ProductList from './ProductList.component';
 
 export const UPDATE_PAGE_FREQUENCY = 0; // (ms)
 
-export class ProductListContainer extends PureComponent {
+export class ProductListContainer extends ExtensiblePureComponent {
     static propTypes = {
         history: HistoryType.isRequired,
         location: PropTypes.shape({

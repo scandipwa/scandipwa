@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { customerType, ADDRESS_BOOK } from 'Type/Account';
 import { MY_ACCOUNT_URL } from 'Route/MyAccount/MyAccount.container';
@@ -20,7 +19,7 @@ import CheckoutAddressForm from 'Component/CheckoutAddressForm';
 import './CheckoutAddressBook.style';
 import { BILLING_STEP, SHIPPING_STEP } from 'Route/Checkout/Checkout.component';
 
-class CheckoutAddressBook extends PureComponent {
+class CheckoutAddressBook extends ExtensiblePureComponent {
     static propTypes = {
         customer: customerType.isRequired,
         onAddressSelect: PropTypes.func.isRequired,
@@ -165,4 +164,4 @@ class CheckoutAddressBook extends PureComponent {
     }
 }
 
-export default CheckoutAddressBook;
+export default middleware(CheckoutAddressBook, 'Component/CheckoutAddressBook/Component');

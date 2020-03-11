@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent, createRef } from 'react';
+import { createRef } from 'react';
 import PropTypes from 'prop-types';
 
 import CSS from 'Util/CSS';
@@ -18,7 +18,7 @@ import ProductCard from 'Component/ProductCard';
 
 import './NewProducts.style';
 
-export class NewProducts extends PureComponent {
+export class NewProducts extends ExtensiblePureComponent {
     static propTypes = {
         products: PropTypes.arrayOf(ProductType),
         productsPerPage: PropTypes.number
@@ -62,4 +62,4 @@ export class NewProducts extends PureComponent {
     }
 }
 
-export default NewProducts;
+export default middleware(NewProducts, 'Component/NewProducts/Component');

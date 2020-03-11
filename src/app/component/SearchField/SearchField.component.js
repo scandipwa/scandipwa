@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent, createRef } from 'react';
+import { createRef } from 'react';
 import PropTypes from 'prop-types';
 
 import ClickOutside from 'Component/ClickOutside';
@@ -17,7 +17,7 @@ import SearchOverlay from 'Component/SearchOverlay';
 
 import './SearchField.style';
 
-class SearchField extends PureComponent {
+class SearchField extends ExtensiblePureComponent {
     static propTypes = {
         searchCriteria: PropTypes.string,
         onSearchBarClick: PropTypes.func.isRequired,
@@ -138,4 +138,4 @@ class SearchField extends PureComponent {
     }
 }
 
-export default SearchField;
+export default middleware(SearchField, 'Component/SearchField/Component');

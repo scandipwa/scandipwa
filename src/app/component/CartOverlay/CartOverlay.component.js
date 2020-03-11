@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import Link from 'Component/Link';
@@ -22,7 +21,7 @@ import CmsBlock from 'Component/CmsBlock';
 
 import './CartOverlay.style';
 
-export default class CartOverlay extends PureComponent {
+export class CartOverlay extends ExtensiblePureComponent {
     static propTypes = {
         totals: TotalsType.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
@@ -178,3 +177,5 @@ export default class CartOverlay extends PureComponent {
         );
     }
 }
+
+export default middleware(CartOverlay, 'Component/CartOverlay/Component');

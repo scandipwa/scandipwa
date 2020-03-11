@@ -9,12 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { tabType } from 'Type/Account';
 import './MyAccountTabListItem.style';
 
-class MyAccountTabListItem extends PureComponent {
+class MyAccountTabListItem extends ExtensiblePureComponent {
     static propTypes = {
         tabEntry: PropTypes.arrayOf(
             PropTypes.oneOfType([
@@ -56,4 +55,4 @@ class MyAccountTabListItem extends PureComponent {
     }
 }
 
-export default MyAccountTabListItem;
+export default middleware(MyAccountTabListItem, 'Component/MyAccountTabListItem/Component');

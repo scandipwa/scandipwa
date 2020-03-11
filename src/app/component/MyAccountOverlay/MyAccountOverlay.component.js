@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
@@ -29,7 +28,7 @@ export const STATE_LOGGED_IN = 'loggedIn';
 
 export const CUSTOMER_ACCOUNT_OVERLAY_KEY = 'customer_account';
 
-class MyAccountOverlay extends PureComponent {
+class MyAccountOverlay extends ExtensiblePureComponent {
     static propTypes = {
         // eslint-disable-next-line react/no-unused-prop-types
         isOverlayVisible: PropTypes.bool.isRequired,

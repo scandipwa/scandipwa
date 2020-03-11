@@ -11,7 +11,6 @@
 
 import PropTypes from 'prop-types';
 import { ProductType } from 'Type/ProductList';
-import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import ProductActions from './ProductActions.component';
 
@@ -21,7 +20,7 @@ export const mapStateToProps = state => ({
 
 export const DEFAULT_MAX_PRODUCTS = 99;
 
-export class ProductActionsContainer extends PureComponent {
+export class ProductActionsContainer extends ExtensiblePureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         configurableVariantIndex: PropTypes.number.isRequired,
@@ -181,4 +180,6 @@ export class ProductActionsContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps)(ProductActionsContainer);
+export default connect(mapStateToProps)(
+    middleware(ProductActionsContainer, 'Component/ProductActions/Container')
+);

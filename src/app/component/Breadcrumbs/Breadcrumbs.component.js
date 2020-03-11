@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import TextPlaceholder from 'Component/TextPlaceholder';
@@ -23,7 +22,7 @@ import './Breadcrumbs.style';
  * Breadcrumbs
  * @class Breadcrumbs
  */
-export default class Breadcrumbs extends PureComponent {
+export class Breadcrumbs extends ExtensiblePureComponent {
     static propTypes = {
         breadcrumbs: BreadcrumbsType.isRequired,
         areBreadcrumbsVisible: PropTypes.bool.isRequired
@@ -89,3 +88,5 @@ export default class Breadcrumbs extends PureComponent {
         );
     }
 }
+
+export default middleware(Breadcrumbs, 'Component/Breadcrumbs/Component');

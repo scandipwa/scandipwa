@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import { Subscribe } from 'unstated';
 import { ProductType } from 'Type/ProductList';
 import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
@@ -18,7 +17,7 @@ import ProductGallery, { IMAGE_TYPE } from './ProductGallery.component';
 export const THUMBNAIL_KEY = 'small_image';
 export const AMOUNT_OF_PLACEHOLDERS = 3;
 
-export class ProductGalleryContainer extends PureComponent {
+export class ProductGalleryContainer extends ExtensiblePureComponent {
     static propTypes = {
         product: ProductType.isRequired
     };
@@ -150,4 +149,4 @@ export class ProductGalleryContainer extends PureComponent {
     }
 }
 
-export default ProductGalleryContainer;
+export default middleware(ProductGalleryContainer, 'Component/ProductGallery/Container');

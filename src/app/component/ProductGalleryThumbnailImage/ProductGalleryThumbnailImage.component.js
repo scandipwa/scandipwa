@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { IMAGE_TYPE, VIDEO_TYPE, PLACEHOLDER_TYPE } from 'Component/ProductGallery/ProductGallery.component';
 import media, { PRODUCT_MEDIA } from 'Util/Media';
@@ -17,7 +16,7 @@ import Image from 'Component/Image';
 
 import './ProductGalleryThumbnailImage.style';
 
-export default class ProductGalleryThumbnailImage extends PureComponent {
+export class ProductGalleryThumbnailImage extends ExtensiblePureComponent {
     static propTypes = {
         media: PropTypes.shape({
             label: PropTypes.string,
@@ -108,3 +107,5 @@ export default class ProductGalleryThumbnailImage extends PureComponent {
         );
     }
 }
+
+export default middleware(ProductGalleryThumbnailImage, 'Component/ProductGalleryThumbnailImage/Component');

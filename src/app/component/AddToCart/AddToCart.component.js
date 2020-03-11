@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { MixType } from 'Type/Common';
 import { ProductType } from 'Type/ProductList';
@@ -19,7 +18,7 @@ import './AddToCart.style';
  * Button for adding product to Cart
  * @class AddToCart
  */
-export default class AddToCart extends PureComponent {
+export class AddToCart extends ExtensiblePureComponent {
     static propTypes = {
         isLoading: PropTypes.bool,
         product: ProductType,
@@ -68,3 +67,5 @@ export default class AddToCart extends PureComponent {
         );
     }
 }
+
+export default middleware(AddToCart, 'Component/AddToCart/Component');

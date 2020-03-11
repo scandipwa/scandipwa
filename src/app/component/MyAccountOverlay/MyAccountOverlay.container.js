@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -47,7 +46,7 @@ export const mapDispatchToProps = dispatch => ({
     setHeaderState: headerState => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, headerState))
 });
 
-export class MyAccountOverlayContainer extends PureComponent {
+export class MyAccountOverlayContainer extends ExtensiblePureComponent {
     static propTypes = {
         forgotPassword: PropTypes.func.isRequired,
         signIn: PropTypes.func.isRequired,
@@ -285,4 +284,6 @@ export class MyAccountOverlayContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyAccountOverlayContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    middleware(MyAccountOverlayContainer, 'Component/MyAccountOverlay/Container')
+);

@@ -9,14 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import './CategorySearch.style';
 
 export const CATEGORY_SEARCH_TIMEOUT = 500;
 
 // TODO: add to template
-export default class CategorySearch extends PureComponent {
+export class CategorySearch extends ExtensiblePureComponent {
     static propTypes = {
         value: PropTypes.oneOfType([
             PropTypes.string,
@@ -59,3 +58,5 @@ export default class CategorySearch extends PureComponent {
         );
     }
 }
+
+export default middleware(CategorySearch, 'Component/CategorySearch/Component');

@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import CheckoutTermsAndConditionsPopup from 'Component/CheckoutTermsAndConditionsPopup';
@@ -23,7 +22,7 @@ import Field from 'Component/Field';
 import Form from 'Component/Form';
 import './CheckoutBilling.style';
 
-class CheckoutBilling extends PureComponent {
+class CheckoutBilling extends ExtensiblePureComponent {
     state = {
         isOrderButtonVisible: true,
         isOrderButtonEnabled: false,
@@ -214,4 +213,4 @@ class CheckoutBilling extends PureComponent {
     }
 }
 
-export default CheckoutBilling;
+export default middleware(CheckoutBilling, 'Component/CheckoutBilling/Component');

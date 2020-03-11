@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import ContentWrapper from 'Component/ContentWrapper';
@@ -24,7 +23,7 @@ const NUMBER_OF_DISPLAYED_PRODUCTS = 5;
  * CartCrossSell component
  * @class CartCrossSell
  */
-class CartCrossSell extends PureComponent {
+class CartCrossSell extends ExtensiblePureComponent {
     static propTypes = {
         linkedProducts: PropTypes.objectOf(ProductType).isRequired
     };
@@ -79,4 +78,4 @@ class CartCrossSell extends PureComponent {
     }
 }
 
-export default CartCrossSell;
+export default middleware(CartCrossSell, 'Component/CartCrossSell/Component');

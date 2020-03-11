@@ -1,8 +1,7 @@
-import { PureComponent } from 'react';
 import { PropTypes } from 'prop-types';
 import Input from './Input.component';
 
-class InputContainer extends PureComponent {
+class InputContainer extends ExtensiblePureComponent {
     static propTypes = {
         dispatch: PropTypes.func,
         selectOptions: PropTypes.arrayOf(PropTypes.shape({
@@ -69,4 +68,4 @@ class InputContainer extends PureComponent {
     }
 }
 
-export default InputContainer;
+export default middleware(InputContainer, 'Component/Input/Container');

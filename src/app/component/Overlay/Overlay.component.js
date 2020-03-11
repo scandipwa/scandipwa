@@ -12,7 +12,7 @@
  */
 
 import { createPortal } from 'react-dom';
-import { createRef, PureComponent } from 'react';
+import { createRef, } from 'react';
 import PropTypes from 'prop-types';
 
 import isMobile from 'Util/Mobile';
@@ -20,7 +20,7 @@ import { MixType, ChildrenType } from 'Type/Common';
 
 import './Overlay.style';
 
-export default class Overlay extends PureComponent {
+export class Overlay extends ExtensiblePureComponent {
     static propTypes = {
         mix: MixType,
         id: PropTypes.string.isRequired,
@@ -113,3 +113,5 @@ export default class Overlay extends PureComponent {
         );
     }
 }
+
+export default middleware(Overlay, 'Component/Overlay/Component');

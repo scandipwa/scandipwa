@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import { customerType, ADDRESS_BOOK } from 'Type/Account';
@@ -22,7 +21,7 @@ import { MY_ACCOUNT_URL } from 'Route/MyAccount/MyAccount.container';
 import './MyAccountDashboard.style';
 import MyAccountCustomerPopup from 'Component/MyAccountCustomerPopup';
 
-class MyAccountDashboard extends PureComponent {
+class MyAccountDashboard extends ExtensiblePureComponent {
     static propTypes = {
         customer: customerType.isRequired,
         getDefaultAddress: PropTypes.func.isRequired
@@ -122,4 +121,4 @@ class MyAccountDashboard extends PureComponent {
     }
 }
 
-export default MyAccountDashboard;
+export default middleware(MyAccountDashboard, 'Component/MyAccountDashboard/Component');

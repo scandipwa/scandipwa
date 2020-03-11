@@ -9,14 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 
 import Form from 'Component/Form';
 import Field from 'Component/Field';
 
 import './FieldForm.style';
 
-class FieldForm extends PureComponent {
+class FieldForm extends ExtensiblePureComponent {
     onFormSuccess() {
         // TODO: implement
     }
@@ -79,4 +78,4 @@ class FieldForm extends PureComponent {
     }
 }
 
-export default FieldForm;
+export default middleware(FieldForm, 'Component/FieldForm/Component');

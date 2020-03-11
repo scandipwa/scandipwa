@@ -10,7 +10,6 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import { generateQuery, getQueryParam } from 'Util/Url';
@@ -19,7 +18,7 @@ import { LocationType } from 'Type/Router';
 
 import CategoryPagination from './CategoryPagination.component';
 
-export class CategoryPaginationContainer extends PureComponent {
+export class CategoryPaginationContainer extends ExtensiblePureComponent {
     static propTypes = {
         isLoading: PropTypes.bool,
         onPageSelect: PropTypes.func,

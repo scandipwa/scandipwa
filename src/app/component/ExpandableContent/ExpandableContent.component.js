@@ -9,13 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { MixType, ChildrenType } from 'Type/Common';
 import './ExpandableContent.style';
 
-export default class ExpandableContent extends PureComponent {
+export class ExpandableContent extends ExtensiblePureComponent {
     static propTypes = {
         isContentExpanded: PropTypes.bool,
         heading: PropTypes.string,
@@ -129,3 +128,5 @@ export default class ExpandableContent extends PureComponent {
         );
     }
 }
+
+export default middleware(ExpandableContent, 'Component/ExpandableContent/Component');

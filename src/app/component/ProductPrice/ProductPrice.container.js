@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import { PriceType } from 'Type/ProductList';
 import { MixType } from 'Type/Common';
 import ProductPrice from './ProductPrice.component';
@@ -17,7 +16,7 @@ import ProductPrice from './ProductPrice.component';
  * Product price
  * @class ProductPrice
  */
-class ProductPriceContainer extends PureComponent {
+class ProductPriceContainer extends ExtensiblePureComponent {
     static propTypes = {
         price: PriceType,
         mix: MixType
@@ -38,4 +37,4 @@ class ProductPriceContainer extends PureComponent {
 }
 
 
-export default ProductPriceContainer;
+export default middleware(ProductPriceContainer, 'Component/ProductPrice/Container');

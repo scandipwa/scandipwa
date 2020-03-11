@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 
@@ -17,7 +16,7 @@ import Helmet from 'react-helmet';
  * Page Meta data
  * @class Meta
  */
-export default class Meta extends PureComponent {
+export class Meta extends ExtensiblePureComponent {
     static propTypes = {
         title_prefix: PropTypes.string,
         title_suffix: PropTypes.string,
@@ -73,3 +72,5 @@ export default class Meta extends PureComponent {
         );
     }
 }
+
+export default middleware(Meta, 'Component/Meta/Component');

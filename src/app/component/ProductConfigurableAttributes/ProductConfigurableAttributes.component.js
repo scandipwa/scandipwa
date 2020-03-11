@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import ProductConfigurableAttributeDropdown from 'Component/ProductConfigurableAttributeDropdown';
@@ -20,7 +19,7 @@ import { MixType } from 'Type/Common';
 
 import './ProductConfigurableAttributes.style';
 
-export default class ProductConfigurableAttributes extends PureComponent {
+export class ProductConfigurableAttributes extends ExtensiblePureComponent {
     static propTypes = {
         isContentExpanded: PropTypes.bool,
         numberOfPlaceholders: PropTypes.arrayOf(PropTypes.number),
@@ -172,3 +171,5 @@ export default class ProductConfigurableAttributes extends PureComponent {
         );
     }
 }
+
+export default middleware(ProductConfigurableAttributes, 'Component/ProductConfigurableAttributes/Component');

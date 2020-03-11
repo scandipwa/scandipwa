@@ -11,7 +11,6 @@
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { PureComponent } from 'react';
 
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
@@ -33,7 +32,7 @@ export const mapDispatchToProps = dispatch => ({
     updateTotals: options => CartDispatcher.updateTotals(dispatch, options)
 });
 
-export class CartOverlayContainer extends PureComponent {
+export class CartOverlayContainer extends ExtensiblePureComponent {
     static propTypes = {
         totals: TotalsType.isRequired,
         changeHeaderState: PropTypes.func.isRequired
@@ -76,4 +75,6 @@ export class CartOverlayContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CartOverlayContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    middleware(CartOverlayContainer, 'Component/CartOverlay/Container')
+);

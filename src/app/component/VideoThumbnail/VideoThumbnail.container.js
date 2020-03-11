@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { showPopup } from 'Store/Popup';
 import { VIDEO_POPUP_ID } from 'Component/VideoPopup';
@@ -24,7 +23,7 @@ export const mapDispatchToProps = dispatch => ({
 /**
  * @class VideoThumbnailContainer
  */
-export class VideoThumbnailContainer extends PureComponent {
+export class VideoThumbnailContainer extends ExtensiblePureComponent {
     static propTypes = {
         media: MediaItemType.isRequired,
         showPopup: PropTypes.func.isRequired
@@ -69,4 +68,6 @@ export class VideoThumbnailContainer extends PureComponent {
     }
 }
 
-export default connect(null, mapDispatchToProps)(VideoThumbnailContainer);
+export default connect(null, mapDispatchToProps)(
+    middleware(VideoThumbnailContainer, 'Component/VideoThumbnail/Container')
+);

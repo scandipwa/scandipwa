@@ -10,7 +10,6 @@
  */
 
 import {
-    PureComponent,
     Children,
     createRef,
     cloneElement
@@ -21,7 +20,7 @@ import FormPortalCollector from 'Util/FormPortalCollector';
 import { MixType, ChildrenType } from 'Type/Common';
 import validationConfig from './Form.config';
 
-export default class Form extends PureComponent {
+export class Form extends ExtensiblePureComponent {
     static propTypes = {
         onSubmitSuccess: PropTypes.func,
         onSubmitError: PropTypes.func,
@@ -252,3 +251,5 @@ export default class Form extends PureComponent {
         );
     }
 }
+
+export default middleware(Form, 'Component/Form/Component');

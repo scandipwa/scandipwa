@@ -1,9 +1,8 @@
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Field from 'Component/Field';
 import './ProductConfigurableAttributeDropdown.style';
 
-class ProductConfigurableAttributeDropdown extends PureComponent {
+class ProductConfigurableAttributeDropdown extends ExtensiblePureComponent {
     static propTypes = {
         onChange: PropTypes.func.isRequired,
         selectOptions: PropTypes.arrayOf(PropTypes.shape({
@@ -44,4 +43,4 @@ class ProductConfigurableAttributeDropdown extends PureComponent {
     }
 }
 
-export default ProductConfigurableAttributeDropdown;
+export default middleware(ProductConfigurableAttributeDropdown, 'Component/ProductConfigurableAttributeDropdown/Component');

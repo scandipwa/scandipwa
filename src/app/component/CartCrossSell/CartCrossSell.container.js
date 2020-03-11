@@ -10,7 +10,6 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { ProductType } from 'Type/ProductList';
@@ -23,7 +22,7 @@ export const mapStateToProps = state => ({
 
 export const CROSSSELL = 'crosssell';
 
-export class CartCrossSellContainer extends PureComponent {
+export class CartCrossSellContainer extends ExtensiblePureComponent {
     static propTypes = {
         products: PropTypes.array,
         linkedProducts: PropTypes.objectOf(ProductType).isRequired
@@ -60,4 +59,6 @@ export class CartCrossSellContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps)(CartCrossSellContainer);
+export default connect(mapStateToProps)(
+    middleware(CartCrossSellContainer, 'Component/CartCrossSell/Container')
+);

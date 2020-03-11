@@ -13,7 +13,7 @@
 /* eslint-disable react/no-array-index-key */
 // Disabled due placeholder needs
 
-import { PureComponent, createRef } from 'react';
+import { createRef } from 'react';
 import PropTypes from 'prop-types';
 
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
@@ -35,7 +35,7 @@ import './ProductActions.style';
  * Product actions
  * @class ProductActions
  */
-export default class ProductActions extends PureComponent {
+export class ProductActions extends ExtensiblePureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         minQuantity: PropTypes.number.isRequired,
@@ -377,3 +377,5 @@ export default class ProductActions extends PureComponent {
         );
     }
 }
+
+export default middleware(ProductActions, 'Component/ProductActions/Component');

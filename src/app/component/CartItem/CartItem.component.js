@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Link from 'Component/Link';
 import Image from 'Component/Image';
@@ -23,7 +22,7 @@ import './CartItem.style';
  * Cart and CartOverlay item
  * @class CartItem
  */
-export default class CartItem extends PureComponent {
+export class CartItem extends ExtensiblePureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         item: CartItemType.isRequired,
@@ -223,3 +222,5 @@ export default class CartItem extends PureComponent {
         );
     }
 }
+
+export default middleware(CartItem, 'Component/CartItem/Component');

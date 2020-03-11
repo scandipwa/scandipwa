@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent, createRef } from 'react';
+import { createRef } from 'react';
 import PropTypes from 'prop-types';
 import { TransformWrapper } from 'react-zoom-pan-pinch';
 
@@ -33,7 +33,7 @@ export const PLACEHOLDER_TYPE = 'placeholder';
  * Product gallery
  * @class ProductGallery
  */
-export default class ProductGallery extends PureComponent {
+export class ProductGallery extends ExtensiblePureComponent {
     static propTypes = {
         gallery: PropTypes.arrayOf(
             PropTypes.shape({
@@ -249,3 +249,5 @@ export default class ProductGallery extends PureComponent {
         );
     }
 }
+
+export default middleware(ProductGallery, 'Component/ProductGallery/Component');

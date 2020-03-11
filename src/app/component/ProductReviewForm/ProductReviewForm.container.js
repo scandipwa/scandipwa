@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -37,7 +36,7 @@ export const mapDispatchToProps = dispatch => ({
     goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))
 });
 
-export class ProductReviewFormContainer extends PureComponent {
+export class ProductReviewFormContainer extends ExtensiblePureComponent {
     static propTypes = {
         showNotification: PropTypes.func.isRequired,
         goToPreviousHeaderState: PropTypes.func.isRequired,
@@ -156,4 +155,6 @@ export class ProductReviewFormContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProductReviewFormContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    middleware(ProductReviewFormContainer, 'Component/ProductReviewForm/Container')
+);

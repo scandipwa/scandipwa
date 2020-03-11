@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { showPopup } from 'Store/Popup';
@@ -28,7 +27,7 @@ export const mapDispatchToProps = dispatch => ({
     showEditPopup: payload => dispatch(showPopup(ADDRESS_POPUP_ID, payload))
 });
 
-export class MyAccountAddressTableContainer extends PureComponent {
+export class MyAccountAddressTableContainer extends ExtensiblePureComponent {
     static propTypes = {
         address: addressType.isRequired,
         showEditPopup: PropTypes.func.isRequired,
@@ -88,4 +87,6 @@ export class MyAccountAddressTableContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyAccountAddressTableContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    middleware(MyAccountAddressTableContainer, 'Component/MyAccountAddressTable/Container')
+);
