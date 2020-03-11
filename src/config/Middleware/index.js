@@ -64,7 +64,6 @@ function middleware(Class, namespace) {
         Object.entries(pluginsForConstruct).forEach(([memberName, memberPluginsConstruct]) => {
             const origMember = instance[memberName];
             memberPluginsConstruct.sort((a, b) => {
-                // TODO figure out sorting sequence
                 if (a.position > b.position) return 1;
                 if (a.position < b.position) return -1;
                 throw new Error(

@@ -40,18 +40,17 @@ class ExtensiblePureComponent extends PureComponent {
                     );
                 });
 
-
                 const middlewaredFunction = function (...args) {
-                    const starter = typeof origMember === 'function'
-                        ? (...originalArgs) => origMember.apply(this, originalArgs)
-                        : origMember;
-
                     const newMember = pluginsForCalledMember.reduce(
                         (acc, { implementation }) => () => {
-                            return typeof origMember === 'object'
-                                ? implementation(acc, target)
-                                : implementation(args, acc, target);
-                        }, starter
+                            if (typeof origMember === 'object') {
+                                return implementation(acc, rec);
+                            }
+
+                            return implementation(args, acc, rec);
+                        }, typeof origMember === 'function'
+                            ? (...originalArgs) => origMember.apply(rec, originalArgs)
+                            : origMember
                     );
 
                     return newMember(args);
