@@ -42,7 +42,7 @@ function middleware(Class, namespace) {
                 : origMember;
 
             const newMember = memberPluginsGet.reduce(
-                (acc, { implementation }) => (/** Should more args be here */) => {
+                (acc, { implementation }) => () => {
                     return typeof origMember === 'object'
                         ? implementation(acc, target)
                         : implementation(args, acc, target);
