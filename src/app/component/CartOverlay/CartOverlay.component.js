@@ -61,7 +61,7 @@ export class CartOverlay extends ExtensiblePureComponent {
     }
 
     renderTotals() {
-        const { totals: { grand_total = 0 } } = this.props;
+        const { totals: { subtotal_incl_tax = 0 } } = this.props;
 
         return (
             <dl
@@ -69,7 +69,7 @@ export class CartOverlay extends ExtensiblePureComponent {
               elem="Total"
             >
                 <dt>{ __('Order total:') }</dt>
-                <dd>{ this.renderPriceLine(grand_total) }</dd>
+                <dd>{ this.renderPriceLine(subtotal_incl_tax) }</dd>
             </dl>
         );
     }

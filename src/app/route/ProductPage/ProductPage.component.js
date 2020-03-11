@@ -49,11 +49,13 @@ export class ProductPage extends ExtensiblePureComponent {
             <>
                 <ProductGallery
                   product={ productOrVariant }
+                  areDetailsLoaded={ areDetailsLoaded }
                 />
                 <ProductActions
                   getLink={ getLink }
                   updateConfigurableVariant={ updateConfigurableVariant }
                   product={ dataSource }
+                  productOrVariant={ productOrVariant }
                   parameters={ parameters }
                   areDetailsLoaded={ areDetailsLoaded }
                   configurableVariantIndex={ configurableVariantIndex }
@@ -71,7 +73,10 @@ export class ProductPage extends ExtensiblePureComponent {
                   product={ { ...dataSource, parameters } }
                   areDetailsLoaded={ areDetailsLoaded }
                 />
-                <ProductReviews product={ dataSource } />
+                <ProductReviews
+                  product={ dataSource }
+                  areDetailsLoaded={ areDetailsLoaded }
+                />
                 <RelatedProducts
                   product={ dataSource }
                   areDetailsLoaded={ areDetailsLoaded }

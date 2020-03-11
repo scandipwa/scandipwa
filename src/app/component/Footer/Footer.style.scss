@@ -10,20 +10,17 @@
  */
 
 :root {
-    --footer-height: 150px;
+    --footer-height: 70px;
 }
 
 .Footer {
-    height: var(--footer-height);
+    min-height: var(--footer-height);
     display: flex;
     text-align: center;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-
-    @include mobile {
-        display: none;
-    }
+    margin-bottom: calc(var(--navigation-tabs-height) + 1rem);
 
     &-Link,
     &-Copyright {
@@ -41,6 +38,10 @@
 
     &-Copyright {
         display: block;
-        margin-top: 2rem;
+        margin-top: 1rem;
+
+        a {
+            color: inherit;
+        }
     }
 }

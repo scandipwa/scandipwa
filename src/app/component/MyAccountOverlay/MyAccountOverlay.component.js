@@ -217,7 +217,7 @@ class MyAccountOverlay extends ExtensiblePureComponent {
                           label={ __('Confirm password') }
                           id="confirm_password"
                           name="confirm_password"
-                          validation={ ['notEmpty', 'password'] }
+                          validation={ ['notEmpty', 'password', 'password_match'] }
                         />
                     </fieldset>
                     <div block="MyAccountOverlay" elem="Buttons">

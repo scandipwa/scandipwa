@@ -4,9 +4,15 @@
 
 # ScandiPWA Theme
 
-[![All Contributors](https://img.shields.io/badge/all_contributors-34-orange.svg?style=flat-square)](#contributors)
+[![The dev branch - 2.x-dev](https://img.shields.io/badge/dev%20branch-2.x--dev-blue)](https://github.com/scandipwa/base-theme/tree/2.x-dev)
+[![The stable branch - 2.x-stable](https://img.shields.io/badge/stable%20branch-2.x--stable-blue)](https://github.com/scandipwa/base-theme/tree/2.x-stable)
+[![Join community Slack](https://img.shields.io/badge/join-community%20slack-brightgreen)](https://join.slack.com/t/scandipwa/shared_invite/enQtNzE2Mjg1Nzg3MTg5LTQwM2E2NmQ0NmQ2MzliMjVjYjQ1MTFiYWU5ODAyYTYyMGQzNWM3MDhkYzkyZGMxYTJlZWI1N2ExY2Q1MDMwMTk)
+[![All Contributors](https://img.shields.io/badge/all_contributors-38-orange.svg)](#contributors)
+<!--
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/839cbb593b36432faecd5da0c3844ca8)](https://www.codacy.com/app/ScandiPWA/base-theme?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=scandipwa/base-theme&amp;utm_campaign=Badge_Grade)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fscandipwa%2Fbase-theme.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fscandipwa%2Fbase-theme?ref=badge_shield)
+-->
+
 
 This repository contains ScandiPWA Theme sources. Read full application documentation [here](https://docs.scandipwa.com/#/theme/01-Project).
 
@@ -80,6 +86,13 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://aarhof.eu"><img src="https://avatars3.githubusercontent.com/u/20708?v=4" width="100px;" alt=""/><br /><sub><b>Martin Århof</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=lsv" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/yashkumarsharma"><img src="https://avatars2.githubusercontent.com/u/386162?v=4" width="100px;" alt=""/><br /><sub><b>yashkumarsharma</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/issues?q=author%3Ayashkumarsharma" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://github.com/pwalus"><img src="https://avatars1.githubusercontent.com/u/22379159?v=4" width="100px;" alt=""/><br /><sub><b>Patryk Waluś</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=pwalus" title="Code">💻</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/grumpy-pirate"><img src="https://avatars3.githubusercontent.com/u/7815525?v=4" width="100px;" alt=""/><br /><sub><b>grumpy-pirate</b></sub></a><br /><a href="#translation-grumpy-pirate" title="Translation">🌍</a></td>
+    <td align="center"><a href="http://www.magonex.com"><img src="https://avatars1.githubusercontent.com/u/18647834?v=4" width="100px;" alt=""/><br /><sub><b>Bahram Davoodi</b></sub></a><br /><a href="#translation-bahramdavodi" title="Translation">🌍</a></td>
+    <td align="center"><a href="http://jdlms.com"><img src="https://avatars0.githubusercontent.com/u/24616413?v=4" width="100px;" alt=""/><br /><sub><b>Megazoor</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=megazoor" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/joostm020"><img src="https://avatars1.githubusercontent.com/u/26708268?v=4" width="100px;" alt=""/><br /><sub><b>Joost Meijer</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=joostm020" title="Code">💻</a></td>
+    <td align="center"><a href="http://yousef.io"><img src="https://avatars1.githubusercontent.com/u/734823?v=4" width="100px;" alt=""/><br /><sub><b>Yousef Cisco</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=yousefcisco" title="Documentation">📖</a></td>
   </tr>
 </table>
 

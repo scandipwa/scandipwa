@@ -28,6 +28,7 @@ import { GROUPED, CONFIGURABLE } from 'Util/Product';
 import Field from 'Component/Field';
 import isMobile from 'Util/Mobile';
 import Html from 'Component/Html';
+import TierPrices from 'Component/TierPrices';
 
 import './ProductActions.style';
 
@@ -38,6 +39,7 @@ import './ProductActions.style';
 export class ProductActions extends ExtensiblePureComponent {
     static propTypes = {
         product: ProductType.isRequired,
+        productOrVariant: ProductType.isRequired,
         minQuantity: PropTypes.number.isRequired,
         maxQuantity: PropTypes.number.isRequired,
         configurableVariantIndex: PropTypes.number,
@@ -358,6 +360,16 @@ export class ProductActions extends ExtensiblePureComponent {
         );
     }
 
+    renderTierPrices() {
+        const { productOrVariant } = this.props;
+
+        return (
+            <div block="ProductActions" elem="TierPrices">
+                <TierPrices product={ productOrVariant } />
+            </div>
+        );
+    }
+
     render() {
         return (
             <article block="ProductActions">
@@ -373,6 +385,7 @@ export class ProductActions extends ExtensiblePureComponent {
                 { this.renderSkuAndStock() }
                 { this.renderConfigurableAttributes() }
                 { this.renderGroupedItems() }
+                { this.renderTierPrices() }
             </article>
         );
     }

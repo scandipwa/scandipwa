@@ -110,7 +110,7 @@ export class CartPage extends ExtensiblePureComponent {
     renderTotals() {
         const {
             totals: {
-                grand_total = 0,
+                subtotal_incl_tax = 0,
                 items
             }
         } = this.props;
@@ -128,7 +128,7 @@ export class CartPage extends ExtensiblePureComponent {
                 { this.renderTotalDetails() }
                 <dl block="CartPage" elem="Total" aria-label="Complete order total">
                     <dt>{ __('Order total:') }</dt>
-                    <dd>{ this.renderPriceLine(grand_total) }</dd>
+                    <dd>{ this.renderPriceLine(subtotal_incl_tax) }</dd>
                 </dl>
                 <div block="CartPage" elem="CheckoutButtons">
                     <Link

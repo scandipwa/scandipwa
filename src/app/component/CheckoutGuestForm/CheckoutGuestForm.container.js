@@ -28,10 +28,13 @@ export const mapDispatchToProps = dispatch => ({
 export class CheckoutGuestFormContainer extends ExtensiblePureComponent {
     static propTypes = {
         isBilling: PropTypes.bool,
+        isCreateUser: PropTypes.bool.isRequired,
         isGuestEmailSaved: PropTypes.bool,
         isSignedIn: PropTypes.bool.isRequired,
         showErrorNotification: PropTypes.func.isRequired,
-        onEmailChange: PropTypes.func.isRequired
+        onEmailChange: PropTypes.func.isRequired,
+        onCreateUserChange: PropTypes.func.isRequired,
+        onPasswordChange: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -40,7 +43,9 @@ export class CheckoutGuestFormContainer extends ExtensiblePureComponent {
     };
 
     containerFunctions = {
-        handleEmailInput: this.handleEmailInput.bind(this)
+        handleEmailInput: this.handleEmailInput.bind(this),
+        handleCreateUser: this.handleCreateUser.bind(this),
+        handlePasswordInput: this.handlePasswordInput.bind(this)
     };
 
     componentDidMount() {
@@ -85,6 +90,16 @@ export class CheckoutGuestFormContainer extends ExtensiblePureComponent {
     handleEmailInput(email) {
         const { onEmailChange } = this.props;
         onEmailChange(email);
+    }
+
+    handleCreateUser() {
+        const { onCreateUserChange } = this.props;
+        onCreateUserChange();
+    }
+
+    handlePasswordInput(password) {
+        const { onPasswordChange } = this.props;
+        onPasswordChange(password);
     }
 
     _getFormPortalId() {

@@ -13,10 +13,14 @@ import { createRef } from 'react';
 import PropTypes from 'prop-types';
 import { TransformWrapper } from 'react-zoom-pan-pinch';
 
+
+import CSS from 'Util/CSS';
 import ProductGalleryThumbnailImage from 'Component/ProductGalleryThumbnailImage';
 import ProductGalleryBaseImage from 'Component/ProductGalleryBaseImage';
 import VideoThumbnail from 'Component/VideoThumbnail';
 import VideoPopup from 'Component/VideoPopup';
+import { LocationType } from 'Type/Common';
+import { withRouter } from 'react-router';
 import Slider from 'Component/Slider';
 import Image from 'Component/Image';
 
@@ -53,7 +57,8 @@ export class ProductGallery extends ExtensiblePureComponent {
         onActiveImageChange: PropTypes.func.isRequired,
         handleZoomChange: PropTypes.func.isRequired,
         registerSharedElementDestination: PropTypes.func.isRequired,
-        disableZoom: PropTypes.func.isRequired
+        disableZoom: PropTypes.func.isRequired,
+        location: LocationType.isRequired
     };
 
     static defaultProps = {
@@ -63,6 +68,8 @@ export class ProductGallery extends ExtensiblePureComponent {
     maxScale = MAX_ZOOM_SCALE;
 
     imageRef = createRef();
+
+    sliderRef = createRef();
 
     constructor(props, context) {
         super(props, context);
@@ -74,11 +81,19 @@ export class ProductGallery extends ExtensiblePureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        const { productId } = this.props;
-        const { productId: prevProductId } = prevProps;
+        const { productId, location: { pathname } } = this.props;
+        const { productId: prevProductId, location: { pathname: prevPathname } } = prevProps;
 
         if (productId !== prevProductId) {
             this.updateSharedDestinationElement();
+        }
+
+        if (this.sliderRef && pathname !== prevPathname) {
+            CSS.setVariable(
+                this.sliderRef.current.draggableRef,
+                'animation-speed',
+                0
+            );
         }
     }
 
@@ -156,13 +171,19 @@ export class ProductGallery extends ExtensiblePureComponent {
                   minScale: 1
               } }
             >
-                { ({ scale, previousScale, resetTransform }) => {
+                { ({
+                    scale,
+                    previousScale,
+                    resetTransform,
+                    setTransform
+                }) => {
                     if (scale === 1 && previousScale !== 1) {
                         resetTransform();
                     }
 
                     return (
                         <ProductGalleryBaseImage
+                          setTransform={ setTransform }
                           index={ index }
                           mediaData={ mediaData }
                           scale={ scale }
@@ -226,6 +247,7 @@ export class ProductGallery extends ExtensiblePureComponent {
         return (
             <div ref={ this.imageRef }>
                 <Slider
+                  ref={ this.sliderRef }
                   mix={ { block: 'ProductGallery', elem: 'Slider' } }
                   showCrumbs
                   activeImage={ activeImage }
@@ -250,4 +272,4 @@ export class ProductGallery extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(ProductGallery, 'Component/ProductGallery/Component');
+export default withRouter(middleware(ProductGallery, 'Component/ProductGallery/Component'));

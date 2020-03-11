@@ -26,7 +26,12 @@ export const REVIEW_POPUP_ID = 'REVIEW_POPUP_ID';
 class ProductReviews extends ExtensiblePureComponent {
     static propTypes = {
         product: ProductType.isRequired,
-        showPopup: PropTypes.func.isRequired
+        showPopup: PropTypes.func.isRequired,
+        areDetailsLoaded: PropTypes.bool
+    };
+
+    static defaultProps = {
+        areDetailsLoaded: false
     };
 
     renderPopup() {
@@ -119,8 +124,18 @@ class ProductReviews extends ExtensiblePureComponent {
     }
 
     render() {
-        const { product } = this.props;
-        const { review_summary: { review_count } = {} } = product;
+        const {
+            product,
+            areDetailsLoaded
+        } = this.props;
+
+        const {
+            review_summary: { review_count } = {}
+        } = product;
+
+        if (!areDetailsLoaded) {
+            return null;
+        }
 
         return (
             <ContentWrapper

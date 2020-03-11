@@ -131,8 +131,13 @@ export class PasswordChangePage extends ExtensiblePureComponent {
                               validation={ ['notEmpty', 'password'] }
                             />
                             <div block="MyAccount" elem="Buttons">
-                                <button type="submit">
-                                    { __('Submit') }
+                                <button
+                                  type="submit"
+                                  block="PasswordChangePage"
+                                  elem="Button"
+                                  mix={ { block: 'Button' } }
+                                >
+                                    { __('Update Password') }
                                 </button>
                             </div>
                         </Form>

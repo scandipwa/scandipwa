@@ -17,6 +17,7 @@ class InputContainer extends ExtensiblePureComponent {
             label: PropTypes.string
         })),
         isDisabled: PropTypes.bool,
+        isControlled: PropTypes.bool,
         autocomplete: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.bool
@@ -33,6 +34,7 @@ class InputContainer extends ExtensiblePureComponent {
         value: '',
         autocomplete: 'off',
         isDisabled: false,
+        isControlled: false,
         skipValue: false,
         selectOptions: [],
         dispatch: () => {}
@@ -43,6 +45,7 @@ class InputContainer extends ExtensiblePureComponent {
             // Invalid props
             dispatch,
             selectOptions,
+            isControlled,
 
             // Props to be transformed
             isDisabled: disabled,

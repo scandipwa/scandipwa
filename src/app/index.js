@@ -14,14 +14,17 @@
  */
 
 import { PureComponent } from 'react';
-import { Provider } from 'react-redux';
 import { Provider as UnstatedProvider } from 'unstated';
-import AppRouter from 'Route';
-import store from 'Store';
+import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom';
+
 import SharedTransition from 'Component/SharedTransition';
 import importExtensions from 'Util/Extension';
 
+import AppRouter from 'Route';
+import store from 'Store';
+
+import 'Util/Polyfill';
 import 'Style/main';
 
 // The following line is a hook for extension-import-injector loader.
@@ -44,6 +47,10 @@ if (process.env.NODE_ENV === 'development') {
         ReactDOM.render(<NextRootContainer />, document.getElementById('root'));
     });
 }
+
+// Inject ScandiPWA comment into code (do not remove!)
+const comment = document.createComment('Powered by ScandiPWA (scandipwa.com)');
+document.querySelector('html').appendChild(comment);
 
 class App extends PureComponent {
     render() {

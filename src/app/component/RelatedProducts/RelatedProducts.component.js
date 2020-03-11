@@ -86,19 +86,14 @@ export class RelatedProducts extends ExtensiblePureComponent {
 
     render() {
         const {
-            relatedProducts: {
-                items,
-                total_count
-            },
-            product,
+            relatedProducts: { items },
             label,
             areDetailsLoaded
         } = this.props;
 
-        const hasRelatedProducts = product.product_links && Object.keys(product.product_links).length > 0;
-        const relatedProductsLoaded = typeof items === 'object';
-
-        if (areDetailsLoaded && (!hasRelatedProducts || (relatedProductsLoaded && total_count === 0))) return null;
+        if (!areDetailsLoaded) {
+            return null;
+        }
 
         return (
             <ContentWrapper

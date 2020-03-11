@@ -23,6 +23,7 @@ export const DEFAULT_MAX_PRODUCTS = 99;
 export class ProductActionsContainer extends ExtensiblePureComponent {
     static propTypes = {
         product: ProductType.isRequired,
+        productOrVariant: PropTypes.object.isRequired,
         configurableVariantIndex: PropTypes.number.isRequired,
         areDetailsLoaded: PropTypes.bool.isRequired,
         parameters: PropTypes.objectOf(PropTypes.string).isRequired
@@ -174,7 +175,6 @@ export class ProductActionsContainer extends ExtensiblePureComponent {
               { ...this.state }
               { ...this.containerProps() }
               { ...this.containerFunctions }
-              { ...this.containerProps() }
             />
         );
     }

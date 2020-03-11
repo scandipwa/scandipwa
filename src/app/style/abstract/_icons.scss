@@ -159,28 +159,24 @@
     &::after {
         content: '';
         position: absolute;
+        border-radius: 50%;
+        right: 0;
+        left: 0;
+        margin: auto;
+        border: var(--header-icon-stroke-width) solid var(--header-color);
     }
 
     &::before {
         width: calc(8px - var(--header-icon-stroke-width) * 2);
         height: calc(8px - var(--header-icon-stroke-width) * 2);
-        border: var(--header-icon-stroke-width) solid var(--header-color);
-        border-radius: 50%;
         top: 9px;
-        right: 0;
-        left: 0;
-        margin: auto;
-        box-shadow:
-            0 calc(13px + var(--header-icon-stroke-width)) 0 3px var(--header-background),
-            0 calc(13px + var(--header-icon-stroke-width)) 0 calc(var(--header-icon-stroke-width) + 3px) var(--header-color);
     }
 
     &::after {
-        background-color: var(--header-background);
-        bottom: -1px;
-        left: 0;
-        height: calc(11px - var(--header-icon-stroke-width));
-        width: 100%;
+        top: 19px;
+        width: calc(16px - var(--header-icon-stroke-width) * 2);
+        height: calc(16px - var(--header-icon-stroke-width) * 2);
+        clip-path: polygon(0 0, 0 50%, 100% 50%, 100% 0);
     }
 }
 

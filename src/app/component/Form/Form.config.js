@@ -24,11 +24,18 @@ export default {
         message: __('Password should be at least 8 characters long')
     },
     telephone: {
-        validate: ({ value }) => value.length > 0 && value.match(/^\+(?:[0-9-] ?){6,14}[0-9]$/),
+        validate: ({ value }) => value.match(/^\+(?:[0-9-] ?){6,14}[0-9]$/),
         message: __('Phone number is invalid!')
     },
     notEmpty: {
         validate: ({ value }) => value.length > 0,
         message: __('This field is required!')
+    },
+    password_match: {
+        validate: ({ value }, { password }) => {
+            const { current: { value: passwordValue } } = password || { current: {} };
+            return value === passwordValue;
+        },
+        message: __('Password does not match.')
     }
 };

@@ -17,6 +17,7 @@ export class ResetButton extends ExtensiblePureComponent {
     static propTypes = {
         mix: MixType,
         resetFilters: PropTypes.func.isRequired,
+        onClick: PropTypes.func.isRequired,
         isContentFiltered: PropTypes.bool.isRequired
     };
 
@@ -24,23 +25,35 @@ export class ResetButton extends ExtensiblePureComponent {
         mix: {}
     };
 
+    onClick = () => {
+        const { onClick, resetFilters } = this.props;
+
+        onClick();
+        resetFilters();
+    };
+
     render() {
-        const { mix, isContentFiltered, resetFilters } = this.props;
+        const { mix, isContentFiltered } = this.props;
 
         if (!isContentFiltered) return null;
 
         return (
-            <button
-              onClick={ resetFilters }
+            <div
               block="ResetButton"
-              mix={ {
-                  block: 'Button',
-                  mods: { isHollow: true },
-                  mix
-              } }
+              mix={ mix }
             >
-                { __('Reset') }
-            </button>
+                <button
+                  onClick={ this.onClick }
+                  block="ResetButton"
+                  elem="Button"
+                  mix={ {
+                      block: 'Button',
+                      mods: { isHollow: true }
+                  } }
+                >
+                    { __('Reset') }
+                </button>
+            </div>
         );
     }
 }

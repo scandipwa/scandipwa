@@ -28,7 +28,11 @@ export class CategoryDetails extends ExtensiblePureComponent {
     };
 
     renderCategoryName() {
-        const { category: { name } } = this.props;
+        const { category: { name, id } } = this.props;
+
+        if (id && !name) {
+            return null;
+        }
 
         return (
             <h1 block="CategoryDetails" elem="Heading">
@@ -38,15 +42,25 @@ export class CategoryDetails extends ExtensiblePureComponent {
     }
 
     renderCategoryDescription() {
-        const { category: { description } } = this.props;
+        const { category: { description, id } } = this.props;
 
-        if (!description) return this.renderCategoryDescriptionPlaceholder();
+        if (!id) {
+            return this.renderCategoryDescriptionPlaceholder();
+        }
+
+        if (!description) {
+            return null;
+        }
 
         return <Html content={ description } />;
     }
 
     renderCategoryDescriptionPlaceholder() {
-        return <p><TextPlaceholder length="long" /></p>;
+        return (
+            <p>
+                <TextPlaceholder length="long" />
+            </p>
+        );
     }
 
     renderCategoryImagePlaceholder() {
@@ -61,9 +75,15 @@ export class CategoryDetails extends ExtensiblePureComponent {
     }
 
     renderCategoryImage() {
-        const { category: { image } } = this.props;
+        const { category: { image, id } } = this.props;
 
-        if (!image) return this.renderCategoryImagePlaceholder();
+        if (!id) {
+            return this.renderCategoryImagePlaceholder();
+        }
+
+        if (!image) {
+            return null;
+        }
 
         const src = image ? media(image, CATEGORY_MEDIA) : '';
 

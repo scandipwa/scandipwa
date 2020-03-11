@@ -43,6 +43,7 @@ const a_KEY_CODE = 97;
 export class Field extends ExtensiblePureComponent {
     static propTypes = {
         skipValue: PropTypes.bool,
+        isControlled: PropTypes.bool,
         id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
         type: PropTypes.oneOf([
@@ -105,6 +106,7 @@ export class Field extends ExtensiblePureComponent {
         max: 99,
         isDisabled: false,
         checked: false,
+        isControlled: false,
         mix: {},
         selectOptions: [],
         label: '',
@@ -215,7 +217,11 @@ export class Field extends ExtensiblePureComponent {
 
     handleChange(value, shouldUpdate = true) {
         const {
-            onChange, type, min, max
+            isControlled,
+            onChange,
+            type,
+            min,
+            max
         } = this.props;
 
         switch (type) {
@@ -223,11 +229,11 @@ export class Field extends ExtensiblePureComponent {
             const isValueNaN = Number.isNaN(parseInt(value, 10));
             if (min > value || value > max || isValueNaN) break;
             if (onChange && shouldUpdate) onChange(value);
-            this.setState({ value });
+            if (!isControlled) this.setState({ value });
             break;
         default:
             if (onChange) onChange(value);
-            this.setState({ value });
+            if (!isControlled) this.setState({ value });
         }
     }
 
@@ -412,11 +418,10 @@ export class Field extends ExtensiblePureComponent {
                 <Input
                   { ...this.props }
                   type="number"
+                  readOnly
                   // eslint-disable-next-line react/jsx-no-bind
                   onChange={ e => this.handleChange(e.target.value, false) }
                   onKeyDown={ this.onKeyEnterDown }
-                  onBlur={ this.onChange }
-                  onClick={ this.onClick }
                   value={ value }
                 />
                 <button
