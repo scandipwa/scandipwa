@@ -10,7 +10,6 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
@@ -45,7 +44,7 @@ export const mapDispatchToProps = dispatch => ({
     updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.updateWithProduct(breadcrumbs, dispatch)
 });
 
-export class ProductPageContainer extends PureComponent {
+export class ProductPageContainer extends ExtensiblePureComponent {
     static propTypes = {
         location: LocationType,
         isOnlyPlaceholder: PropTypes.bool,
@@ -282,5 +281,8 @@ export class ProductPageContainer extends PureComponent {
     }
 }
 
-const ProductPageContainerWrapper = connect(mapStateToProps, mapDispatchToProps)(ProductPageContainer);
+const ProductPageContainerWrapper = connect(mapStateToProps, mapDispatchToProps)(
+    middleware(ProductPageContainer, 'Route/ProductPage/Container')
+);
+
 export default withRouter(ProductPageContainerWrapper);

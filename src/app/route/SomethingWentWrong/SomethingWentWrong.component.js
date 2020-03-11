@@ -11,13 +11,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Link from 'Component/Link';
 import ContentWrapper from 'Component/ContentWrapper';
 import './SomethingWentWrong.style';
 
-class SomethingWentWrong extends PureComponent {
+class SomethingWentWrong extends ExtensiblePureComponent {
     static propTypes = {
         onClick: PropTypes.func.isRequired,
         errorDetails: PropTypes.shape({
@@ -74,4 +73,4 @@ class SomethingWentWrong extends PureComponent {
     }
 }
 
-export default SomethingWentWrong;
+export default middleware(SomethingWentWrong, 'Route/SomethingWentWrong/Component');

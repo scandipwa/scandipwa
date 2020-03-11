@@ -10,7 +10,6 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
@@ -45,7 +44,7 @@ export const mapDispatchToProps = dispatch => ({
     toggleOverlayByKey: key => dispatch(toggleOverlayByKey(key))
 });
 
-export class MyAccountContainer extends PureComponent {
+export class MyAccountContainer extends ExtensiblePureComponent {
     static propTypes = {
         changeHeaderState: PropTypes.func.isRequired,
         requestCustomerData: PropTypes.func.isRequired,
@@ -203,4 +202,6 @@ export class MyAccountContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyAccountContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    middleware(MyAccountContainer, 'Route/MyAccount/Container')
+);

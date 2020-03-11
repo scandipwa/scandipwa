@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -46,7 +45,7 @@ export const mapDispatchToProps = dispatch => ({
     setNavigationState: stateName => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, stateName))
 });
 
-export class CheckoutContainer extends PureComponent {
+export class CheckoutContainer extends ExtensiblePureComponent {
     static propTypes = {
         showErrorNotification: PropTypes.func.isRequired,
         toggleBreadcrumbs: PropTypes.func.isRequired,
@@ -342,4 +341,6 @@ export class CheckoutContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CheckoutContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    middleware(CheckoutContainer, 'Route/Checkout/Container')
+);

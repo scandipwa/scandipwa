@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import { paymentMethodsType, shippingMethodsType } from 'Type/Checkout';
@@ -33,7 +32,7 @@ export const SHIPPING_STEP = 'SHIPPING_STEP';
 export const BILLING_STEP = 'BILLING_STEP';
 export const DETAILS_STEP = 'DETAILS_STEP';
 
-class Checkout extends PureComponent {
+class Checkout extends ExtensiblePureComponent {
     static propTypes = {
         setLoading: PropTypes.func.isRequired,
         setDetailsStep: PropTypes.func.isRequired,
@@ -243,4 +242,4 @@ class Checkout extends PureComponent {
     }
 }
 
-export default Checkout;
+export default middleware(Checkout, 'Route/Checkout/Component');

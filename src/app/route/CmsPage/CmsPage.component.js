@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import TextPlaceholder from 'Component/TextPlaceholder';
@@ -19,7 +18,7 @@ import Meta from 'Component/Meta';
 
 import './CmsPage.style';
 
-export default class CmsPage extends PureComponent {
+export class CmsPage extends ExtensiblePureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         isBreadcrumbsActive: PropTypes.bool,
@@ -80,3 +79,5 @@ export default class CmsPage extends PureComponent {
         );
     }
 }
+
+export default middleware(CmsPage, 'Route/CmsPage/Component');

@@ -9,11 +9,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import MenuOverlay from 'Component/MenuOverlay';
 import './MenuPage.style';
 
-export class MenuPageContainer extends PureComponent {
+export class MenuPageContainer extends ExtensiblePureComponent {
     render() {
         return (
             <main block="MenuPage">
@@ -23,4 +22,4 @@ export class MenuPageContainer extends PureComponent {
     }
 }
 
-export default MenuPageContainer;
+export default middleware(MenuPageContainer, 'Route/MenuPage/Container');
