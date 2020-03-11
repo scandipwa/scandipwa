@@ -23,7 +23,9 @@ export default function importExtensions(pendingPluginConfigParts) {
                                 throw Error(`Expected plugin handler type 'get' or 'construct', got ${handlerType}`);
                             }
                             if (targetType === 'instance' && handlerType !== 'get') {
-                                throw Error(`Expected handler type 'get' on target type 'instance', got ${handlerType}`);
+                                throw Error(
+                                    `Expected handler type 'get' on target type 'instance', got ${handlerType}`
+                                );
                             }
                             if (!overallConfig[namespace][targetType][handlerType]) {
                                 overallConfig[namespace][targetType][handlerType] = {};
