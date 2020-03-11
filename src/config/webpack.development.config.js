@@ -83,11 +83,7 @@ module.exports = {
                     {
                         loader: 'extension-import-injector',
                         options: {
-                            // Relative location from app entry point to vendor folder
-                            vendor: path.resolve(
-                                path.join(projectRoot, 'app', 'index.js'),
-                                path.join(magentoRoot, 'vendor')
-                            ),
+                            magentoRoot,
                             importAggregator: 'pendingPluginConfigParts'
                         }
                     }

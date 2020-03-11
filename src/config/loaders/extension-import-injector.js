@@ -1,9 +1,9 @@
 const { getOptions } = require('loader-utils');
-const { join } = require('path');
+const path = require('path');
 const { extensions } = require('../../../extensions.json');
 
 module.exports = function injectImports(source) {
-    const { vendor, importAggregator } = getOptions(this);
+    const { magentoRoot, importAggregator } = getOptions(this);
 
     const extensionConfigImports = Object.entries(extensions).reduce(
         (importChain, extension) => {
@@ -11,7 +11,7 @@ module.exports = function injectImports(source) {
 
             return importChain + singlePluginConfigPathList.reduce(
                 (singlePluginImportChain, singlePluginConfigPath) => {
-                    const pathToConfigFile = join(vendor, singlePluginConfigPath);
+                    const pathToConfigFile = path.join(magentoRoot, singlePluginConfigPath);
 
                     return `${singlePluginImportChain}${importAggregator}.push(import('${pathToConfigFile}'));\n`;
                 }, ''
