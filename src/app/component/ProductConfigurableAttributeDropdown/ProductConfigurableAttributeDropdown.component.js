@@ -43,4 +43,6 @@ class ProductConfigurableAttributeDropdown extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(ProductConfigurableAttributeDropdown, 'Component/ProductConfigurableAttributeDropdown/Component');
+export default middleware(
+    ProductConfigurableAttributeDropdown, 'Component/ProductConfigurableAttributeDropdown/Component'
+);

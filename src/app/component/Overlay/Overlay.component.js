@@ -12,7 +12,7 @@
  */
 
 import { createPortal } from 'react-dom';
-import { createRef, } from 'react';
+import { createRef } from 'react';
 import PropTypes from 'prop-types';
 
 import isMobile from 'Util/Mobile';
