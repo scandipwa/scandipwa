@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import ExtensiblePureComponent from 'Component/ExtensiblePureComponent';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 

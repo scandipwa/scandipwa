@@ -1,14 +1,14 @@
 /* eslint-disable arrow-body-style */
 /* eslint-disable func-names */
 /* eslint-disable consistent-return */
-import { PureComponent } from 'react';
+const { PureComponent } = require('react');
 
 /**
  * This component allows ScandiPWA extension functionality.
  * If the class has plugins meant for its instances
  * its instance is being proxied at the moment of instantiation.
  */
-class ExtensiblePureComponent extends PureComponent {
+module.exports = class ExtensiblePureComponent extends PureComponent {
     constructor(props) {
         super(props);
         const { __namespace__ } = Object.getPrototypeOf(this);
@@ -64,6 +64,4 @@ class ExtensiblePureComponent extends PureComponent {
             }
         });
     }
-}
-
-export default ExtensiblePureComponent;
+};

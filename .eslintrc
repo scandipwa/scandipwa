@@ -13,6 +13,7 @@
     "sessionStorage": true,
     "localStorage": true,
     "jest": true,
+    "ExtensiblePureComponent": true,
     "middleware": true,
     "__": true,
     "workbox": true,

@@ -11,7 +11,6 @@
  */
 
 import PropTypes from 'prop-types';
-import ExtensiblePureComponent from 'Component/ExtensiblePureComponent';
 
 import Klarna from 'Component/Klarna';
 import Stripe from 'Component/Stripe';
@@ -38,7 +37,6 @@ export class CheckoutPayments extends ExtensiblePureComponent {
         setOrderButtonVisibility: PropTypes.func.isRequired,
         setStripeRef: PropTypes.func.isRequired,
         setOrderButtonEnableStatus: PropTypes.func.isRequired,
-        // TODO separate array passed to oneOf to class property call to which can be intercepted.
         selectedPaymentCode: PropTypes.string.isRequired,
         billingAddress: PropTypes.shape({
             city: PropTypes.string,

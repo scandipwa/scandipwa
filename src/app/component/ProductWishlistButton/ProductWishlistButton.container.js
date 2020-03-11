@@ -155,5 +155,5 @@ export class ProductWishlistButtonContainer extends PureComponent {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(
-    middleware('Component/ProductWishlistButton/Container')(ProductWishlistButtonContainer)
+    middleware(ProductWishlistButtonContainer, 'Component/ProductWishlistButton/Container')
 );
