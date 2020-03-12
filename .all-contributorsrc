@@ -2,7 +2,7 @@
   "files": [
     "README.md"
   ],
-  "imageSize": 50,
+  "imageSize": 100,
   "commit": false,
   "contributors": [
     {
@@ -408,12 +408,11 @@
       ]
     }
   ],
-  "contributorsPerLine": 1,
+  "contributorsPerLine": 6,
   "projectName": "base-theme",
   "projectOwner": "scandipwa",
   "repoType": "github",
   "repoHost": "https://github.com",
   "skipCi": true,
-  "contributorTemplate": "<a href=\"<%= contributor.profile %>\"><table><tr><td><img src=\"<%= contributor.avatar_url %>\" width=\"<%= options.imageSize %>px;\" alt=\"\"/></td></td><td><sub><b><%= contributor.login %></b></sub></td></tr></table></a>",
   "commitConvention": "none"
 }
