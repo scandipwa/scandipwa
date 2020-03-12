@@ -1,40 +1,64 @@
-<a href="https://demo.scandipwa.com">
-  <img src="https://repository-images.githubusercontent.com/174561264/283d7880-15e6-11ea-894e-5b04d2a1ad5c" alt="Banner stating: ScandiPWA - the first Open Source PWA Theme for Magento">
-</a>
+![ScandiPWA](https://user-images.githubusercontent.com/52198221/76542214-57893e80-648d-11ea-9f2e-2f60aa25d261.png)
 
-# ScandiPWA Theme
+# ScandiPWA Theme 
 
 [![The dev branch - 2.x-dev](https://img.shields.io/badge/dev%20branch-2.x--dev-blue)](https://github.com/scandipwa/base-theme/tree/2.x-dev)
 [![The stable branch - 2.x-stable](https://img.shields.io/badge/stable%20branch-2.x--stable-blue)](https://github.com/scandipwa/base-theme/tree/2.x-stable)
 [![Join community Slack](https://img.shields.io/badge/join-community%20slack-brightgreen)](https://join.slack.com/t/scandipwa/shared_invite/enQtNzE2Mjg1Nzg3MTg5LTQwM2E2NmQ0NmQ2MzliMjVjYjQ1MTFiYWU5ODAyYTYyMGQzNWM3MDhkYzkyZGMxYTJlZWI1N2ExY2Q1MDMwMTk)
-[![All Contributors](https://img.shields.io/badge/all_contributors-38-orange.svg)](#contributors)
-<!--
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/839cbb593b36432faecd5da0c3844ca8)](https://www.codacy.com/app/ScandiPWA/base-theme?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=scandipwa/base-theme&amp;utm_campaign=Badge_Grade)
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fscandipwa%2Fbase-theme.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fscandipwa%2Fbase-theme?ref=badge_shield)
--->
+
+ScandiPWA is a single page application theme for Magento with advanced PWA capabilities.
+
+**How?**
+
+ScandiPWA can be installed as a regular Magento theme, however, the usual layout/template system is not utilized. 
+Instead, we are using **React** components to render the application and utilize **GraphQL API** of Magento 2.3.
+
+> Sounds interesting? Make sure to :star: scandipwa base-theme repository so you can keep up to date with the latest releases! 
 
 
-This repository contains ScandiPWA Theme sources. Read full application documentation [here](https://docs.scandipwa.com/#/theme/01-Project).
+## Demo
 
-## Local development
+Not yet convinced? Check out our [ScandiPWA demo](https://demo.scandipwa.com/)!
 
-The [docker environment](https://github.com/scandipwa/scandipwa-base) is prepared to deploy and develop theme. We strictly recommend using it!
+![demo_store](https://user-images.githubusercontent.com/52198221/76536523-2278ee00-6485-11ea-982d-7c1ff9b32b57.gif)
 
-## Important notes
+## What do we support? 
 
-### Prefer composer installation
+ScandiPWA covers 300+ default Magento features including:
+- [x] Multistore support
+- [x] Multiple languages and currencies 
+- [x] Customer registation and My Account
+- [x] Payment methods such as Stripe, Paypal, and more
+- [x] Shipping methods such as UPS and FedEx 
 
-Unless you are trying to contribute, use composer to install this package: `composer install scandipwa/installer` - see more details [here](https://github.com/scandipwa/installer). Make sure your server root is `/pub`. Read more how to do this in [official Magento 2 docs](https://devdocs.magento.com/guides/v2.3/install-gde/tutorials/change-docroot-to-pub.html).
+>**Want to learn more?** 
+See the FULL list of supported features in our [roadmap](https://scandipwa.com/).
 
-### Environment & Stack
 
-ScandiPWA theme is based on React and Redux. It is built with Webpack v4, therefore **you will need NodeJS environment support** on your CI/CD server or local machine in order to build it. Once theme is built it is a valid Magento 2 theme with no additional requirements.
+## Ready to try?
 
-### Caching
+To install the ScandiPWA theme, please visit our [scandipwa-base](https://github.com/scandipwa/scandipwa-base) repository. 
 
-For better performance Varnish cache is required. You must ensure Varnish is caching static (javascript and CSS) in order to have the best performance for the app shell loading.
+Available setup options:
+- [x] Docker on Linux
+- [x] Existing Magento
+- [x] With remote server 
+- [ ] Docker on Mac
 
-## Contributors ✨
+> **Quick start** → [Demo Setup on Magento](https://www.youtube.com/watch?v=eWLB6c2FOrY)
+
+## Need help?
+
+ScandiPWA core team is here to make your life easier and coding process more delightful. See what we have for you:
+  -  [Video Guides & Weekly Webinars](https://www.youtube.com/channel/UCvnxo7rh5NRwvMHtJga9fww)
+  -  [ScandiPWA User Guide](https://scandiweb.atlassian.net/wiki/spaces/SUG/overview)
+  -  [ScandiPWA Documentation](https://docs.scandipwa.com/#/)
+
+**Still feeling lost?**
+
+Join our community [Slack channel](https://join.slack.com/t/scandipwa/shared_invite/enQtNzE2Mjg1Nzg3MTg5LTQwM2E2NmQ0NmQ2MzliMjVjYjQ1MTFiYWU5ODAyYTYyMGQzNWM3MDhkYzkyZGMxYTJlZWI1N2ExY2Q1MDMwMTk) and ask the core team directly! 
+
+## Contributors 🤝
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
@@ -99,6 +123,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
 <!-- ALL-CONTRIBUTORS-LIST:END -->
+
+### Want to join the list? 
+Here is how you can do it - [How to contribute]()
 
 ## License
 
