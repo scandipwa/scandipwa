@@ -1,6 +1,4 @@
-/* eslint-disable no-var */
-/* eslint-disable fp/no-loops */
-/* eslint-disable no-restricted-syntax */
+/* eslint-disable */
 
 var exDfShouldBeMiddlewared;
 
@@ -30,6 +28,10 @@ function checkExDfCall(context, callee) {
     }
 
     return false;
+}
+
+function capitalize(word) {
+    return word.charAt(0).toUpperCase() + word.slice(1);
 }
 
 module.exports = {
@@ -66,13 +68,8 @@ module.exports = {
                 Program() {
                     exDfShouldBeMiddlewared = false;
                 },
-                ClassDeclaration(node) {
-                    const { superClass } = node;
-                    const { name } = superClass || {};
-
-                    if (name === 'ExtensibleComponent' || !name) {
-                        exDfShouldBeMiddlewared = true;
-                    }
+                ClassDeclaration() {
+                    exDfShouldBeMiddlewared = true;
                 },
                 ExportDefaultDeclaration(node) {
                     if (!exDfShouldBeMiddlewared) {
@@ -84,11 +81,27 @@ module.exports = {
                         context.report({ node, message: 'Use middleware function when exporting extensible class' });
                     }
                     if (type === 'NewExpression') {
+                        context.report({ node, message: 'Use middleware function when exporting extensible instance' });
+                    }
+                    if (type === 'Identifier') {
                         context.report({
                             node,
-                            message: 'Use middleware function when exporting extensible instance',
+                            message: 'Use middleware function when exporting class',
                             fix: (fixer) => {
-                                console.log(fixer);
+                                const { declaration } = node;
+                                const exploded = context.getFilename().split('/');
+                                const fileName = exploded[exploded.length - 1];
+                                const fileType = exploded[exploded.length - 2];
+                                const [resName, filePostfix] = fileName.split('.');
+                                // eslint-disable-next-line prefer-template
+                                const namespace = capitalize(fileType)
+                                                    + '/' + capitalize(resName)
+                                                    + '/' + capitalize(filePostfix);
+
+                                return [
+                                    fixer.insertTextBefore(declaration, 'middleware('),
+                                    fixer.insertTextAfter(declaration, `, ${namespace})`)
+                                ];
                             }
                         });
                     }
