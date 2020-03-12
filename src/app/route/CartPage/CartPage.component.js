@@ -241,7 +241,7 @@ export default class CartPage extends PureComponent {
                   label="Cart page details"
                 >
                     <div block="CartPage" elem="Static">
-                        <h2 block="CartPage" elem="Heading">{ __('Shopping cart') }</h2>
+                        <h1 block="CartPage" elem="Heading">{ __('Shopping cart') }</h1>
                         { this.renderCartItems() }
                         { this.renderTotalDetails(true) }
                         { this.renderDiscountCode() }
