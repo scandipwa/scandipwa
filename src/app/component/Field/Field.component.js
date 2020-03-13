@@ -425,11 +425,10 @@ export default class Field extends PureComponent {
                 <Input
                   { ...this.props }
                   type="number"
+                  readOnly
                   // eslint-disable-next-line react/jsx-no-bind
                   onChange={ e => this.handleChange(e.target.value, false) }
                   onKeyDown={ this.onKeyEnterDown }
-                  onBlur={ this.onChange }
-                  onClick={ this.onClick }
                   value={ value }
                 />
                 <button

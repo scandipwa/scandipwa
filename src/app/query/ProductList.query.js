@@ -153,11 +153,14 @@ export class ProductListQuery {
                     'meta_description',
                     this._getDescriptionField(),
                     this._getMediaGalleryField(),
+                    this._getSimpleProductFragment(),
                     ...(!isVariant
                         ? [
                             this._getProductLinksField(),
                             this._getCategoriesField(),
-                            this._getReviewsField()
+                            this._getReviewsField(),
+                            this._getProductLinksField(),
+                            this._getVirtualProductFragment()
                         ]
                         : []
                     )
@@ -519,6 +522,31 @@ export class ProductListQuery {
         ];
     }
 
+    _getSimpleProductFragmentFields() {
+        return [
+            this._getTierPricesField()
+        ];
+    }
+
+    _getVirtualProductFragmentFields() {
+        return [
+            this._getTierPricesField()
+        ];
+    }
+
+    _getTierPricesField() {
+        return new Field('tier_prices')
+            .addFieldList(this._getTierPricesFields());
+    }
+
+    _getTierPricesFields() {
+        return [
+            'qty',
+            'value',
+            'percentage_value'
+        ];
+    }
+
     _getConfigurableProductFragment() {
         return new Fragment('ConfigurableProduct')
             .addFieldList(this._getConfigurableProductFragmentFields());
@@ -554,6 +582,16 @@ export class ProductListQuery {
     _getGiftCardProductFragment() {
         return new Fragment('GiftCardProduct')
             .addFieldList(this._getGiftCardProductFragmentFields());
+    }
+
+    _getSimpleProductFragment() {
+        return new Fragment('SimpleProduct')
+            .addFieldList(this._getSimpleProductFragmentFields());
+    }
+
+    _getVirtualProductFragment() {
+        return new Fragment('VirtualProduct')
+            .addFieldList(this._getVirtualProductFragmentFields());
     }
 
     _getSortOptionFields() {

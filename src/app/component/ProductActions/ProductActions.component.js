@@ -30,6 +30,7 @@ import { GROUPED, CONFIGURABLE, GIFTCARD } from 'Util/Product';
 import Field from 'Component/Field';
 import isMobile from 'Util/Mobile';
 import Html from 'Component/Html';
+import TierPrices from 'Component/TierPrices';
 
 import './ProductActions.style';
 
@@ -40,6 +41,7 @@ import './ProductActions.style';
 export default class ProductActions extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
+        productOrVariant: ProductType.isRequired,
         minQuantity: PropTypes.number.isRequired,
         maxQuantity: PropTypes.number.isRequired,
         configurableVariantIndex: PropTypes.number,
@@ -324,9 +326,9 @@ export default class ProductActions extends PureComponent {
                         </h4>
                     )
                 ) }
-                <p block="ProductActions" elem="Title" itemProp="name">
+                <h1 block="ProductActions" elem="Title" itemProp="name">
                     <TextPlaceholder content={ name } length="medium" />
-                </p>
+                </h1>
             </section>
         );
     }
@@ -486,6 +488,16 @@ export default class ProductActions extends PureComponent {
         );
     }
 
+    renderTierPrices() {
+        const { productOrVariant } = this.props;
+
+        return (
+            <div block="ProductActions" elem="TierPrices">
+                <TierPrices product={ productOrVariant } />
+            </div>
+        );
+    }
+
     render() {
         return (
             <article block="ProductActions">
@@ -503,6 +515,7 @@ export default class ProductActions extends PureComponent {
                 { this.renderGiftCardFields() }
                 { this.renderGiftCardAttributes() }
                 { this.renderGroupedItems() }
+                { this.renderTierPrices() }
             </article>
         );
     }
