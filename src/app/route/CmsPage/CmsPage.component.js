@@ -23,11 +23,13 @@ export default class CmsPage extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         isBreadcrumbsActive: PropTypes.bool,
+        demoNotice: PropTypes.bool,
         page: BlockListType.isRequired
     };
 
     static defaultProps = {
-        isBreadcrumbsActive: true
+        isBreadcrumbsActive: true,
+        demoNotice: false
     };
 
     renderHeading() {
@@ -61,13 +63,13 @@ export default class CmsPage extends PureComponent {
     }
 
     render() {
-        const { page, isBreadcrumbsActive } = this.props;
+        const { page, isBreadcrumbsActive, demoNotice } = this.props;
         const { page_width } = page;
 
         return (
             <main
               block="CmsPage"
-              mods={ { isBreadcrumbsHidden: !isBreadcrumbsActive } }
+              mods={ { isBreadcrumbsHidden: !isBreadcrumbsActive, isDemoNotice: demoNotice } }
             >
                 <div block="CmsPage" elem="Wrapper" mods={ { page_width } }>
                     <Meta metaObject={ page } />

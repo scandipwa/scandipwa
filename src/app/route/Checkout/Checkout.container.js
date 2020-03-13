@@ -37,7 +37,8 @@ export const PAYMENT_TOTALS = 'PAYMENT_TOTALS';
 export const STRIPE_AUTH_REQUIRED = 'Authentication Required: ';
 
 export const mapStateToProps = state => ({
-    totals: state.CartReducer.cartTotals
+    totals: state.CartReducer.cartTotals,
+    demoNotice: state.ConfigReducer.demo_notice
 });
 
 export const mapDispatchToProps = dispatch => ({

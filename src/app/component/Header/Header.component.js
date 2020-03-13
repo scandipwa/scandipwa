@@ -68,13 +68,15 @@ export default class Header extends NavigationAbstract {
         searchCriteria: PropTypes.string.isRequired,
         header_logo_src: PropTypes.string,
         logo_alt: PropTypes.string,
-        isLoading: PropTypes.bool
+        isLoading: PropTypes.bool,
+        demoNotice: PropTypes.bool
     };
 
     static defaultProps = {
         logo_alt: 'ScandiPWA logo',
         header_logo_src: '',
-        isLoading: true
+        isLoading: true,
+        demoNotice: false
     };
 
     stateMap = {
@@ -427,10 +429,10 @@ export default class Header extends NavigationAbstract {
     }
 
     render() {
-        const { navigationState: { name, isHiddenOnMobile = false } } = this.props;
+        const { navigationState: { name, isHiddenOnMobile = false }, demoNotice } = this.props;
 
         return (
-            <header block="Header" mods={ { name, isHiddenOnMobile } }>
+            <header block="Header" mods={ { name, isHiddenOnMobile, demoNotice } }>
                 <nav block="Header" elem="Nav">
                     { this.renderNavigationState() }
                 </nav>

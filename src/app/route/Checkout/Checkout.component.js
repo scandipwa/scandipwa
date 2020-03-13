@@ -59,10 +59,12 @@ class Checkout extends PureComponent {
         ]).isRequired,
         isCreateUser: PropTypes.bool.isRequired,
         onCreateUserChange: PropTypes.func.isRequired,
-        onPasswordChange: PropTypes.func.isRequired
+        onPasswordChange: PropTypes.func.isRequired,
+        demoNotice: PropTypes.bool
     };
 
     static defaultProps = {
+        demoNotice: false,
         paymentTotals: {}
     };
 
@@ -242,8 +244,10 @@ class Checkout extends PureComponent {
     }
 
     render() {
+        const { demoNotice } = this.props;
+
         return (
-            <main block="Checkout">
+            <main block="Checkout" mods={ { isDemoNotice: demoNotice } }>
                 <Meta metaObject={ { title: 'Checkout' } } />
                 <ContentWrapper
                   wrapperMix={ { block: 'Checkout', elem: 'Wrapper' } }

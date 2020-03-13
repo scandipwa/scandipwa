@@ -42,7 +42,8 @@ export const mapStateToProps = state => ({
     cartTotals: state.CartReducer.cartTotals,
     header_logo_src: state.ConfigReducer.header_logo_src,
     logo_alt: state.ConfigReducer.logo_alt,
-    isLoading: state.ConfigReducer.isLoading
+    isLoading: state.ConfigReducer.isLoading,
+    demoNotice: state.ConfigReducer.demo_notice
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -62,11 +63,13 @@ export class HeaderContainer extends NavigationAbstractContainer {
         showOverlay: PropTypes.func.isRequired,
         goToPreviousNavigationState: PropTypes.func.isRequired,
         hideActiveOverlay: PropTypes.func.isRequired,
-        header_logo_src: PropTypes.string
+        header_logo_src: PropTypes.string,
+        demoNotice: PropTypes.bool
     };
 
     static defaultProps = {
-        header_logo_src: ''
+        header_logo_src: '',
+        demoNotice: false
     };
 
     default_state = DEFAULT_HEADER_STATE;
@@ -107,7 +110,8 @@ export class HeaderContainer extends NavigationAbstractContainer {
             cartTotals,
             header_logo_src,
             logo_alt,
-            isLoading
+            isLoading,
+            demoNotice
         } = this.props;
 
         const {
@@ -121,6 +125,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
             header_logo_src,
             logo_alt,
             isLoading,
+            demoNotice,
             isClearEnabled,
             searchCriteria
         };

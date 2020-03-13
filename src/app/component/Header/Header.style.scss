@@ -116,6 +116,10 @@
         }
     }
 
+    &_demoNotice {
+        top: var(--demo-notice-height);
+    }
+
     &-Banner {
         background: var(--primary-base-color);
         color: $white;

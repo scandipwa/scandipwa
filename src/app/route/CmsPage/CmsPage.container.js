@@ -24,6 +24,10 @@ import { history } from 'Route';
 
 import CmsPage from './CmsPage.component';
 
+export const mapStateToProps = state => ({
+    demoNotice: state.ConfigReducer.demo_notice
+});
+
 export const mapDispatchToProps = dispatch => ({
     updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.updateWithCmsPage(breadcrumbs, dispatch),
     setHeaderState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
@@ -151,4 +155,4 @@ export class CmsPageContainer extends DataContainer {
     }
 }
 
-export default connect(null, mapDispatchToProps)(CmsPageContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(CmsPageContainer);

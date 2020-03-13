@@ -35,7 +35,8 @@ import MyAccount from './MyAccount.component';
 export const MY_ACCOUNT_URL = '/my-account';
 
 export const mapStateToProps = state => ({
-    isSignedIn: state.MyAccountReducer.isSignedIn
+    isSignedIn: state.MyAccountReducer.isSignedIn,
+    demoNotice: state.ConfigReducer.demo_notice
 });
 
 export const mapDispatchToProps = dispatch => ({

@@ -26,7 +26,12 @@ import './Breadcrumbs.style';
 export default class Breadcrumbs extends PureComponent {
     static propTypes = {
         breadcrumbs: BreadcrumbsType.isRequired,
-        areBreadcrumbsVisible: PropTypes.bool.isRequired
+        areBreadcrumbsVisible: PropTypes.bool.isRequired,
+        demoNotice: PropTypes.bool
+    };
+
+    static defaultProps = {
+        demoNotice: false
     };
 
     renderBreadcrumb({ url, name }, i) {
@@ -65,14 +70,17 @@ export default class Breadcrumbs extends PureComponent {
     }
 
     render() {
-        const { breadcrumbs, areBreadcrumbsVisible } = this.props;
+        const { breadcrumbs, areBreadcrumbsVisible, demoNotice } = this.props;
 
         if (!areBreadcrumbsVisible || location.pathname === '/') {
             return null;
         }
 
         return (
-            <ContentWrapper mix={ { block: 'Breadcrumbs' } } label={ __('Breadcrumbs (current location)...') }>
+            <ContentWrapper
+              mix={ { block: 'Breadcrumbs', mods: { isDemoNotice: demoNotice } } }
+              label={ __('Breadcrumbs (current location)...') }
+            >
                 <nav aria-label="Breadcrumbs navigation">
                     <ul
                       block="Breadcrumbs"

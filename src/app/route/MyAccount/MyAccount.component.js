@@ -40,7 +40,12 @@ class MyAccount extends PureComponent {
         changeActiveTab: PropTypes.func.isRequired,
         onSignIn: PropTypes.func.isRequired,
         onSignOut: PropTypes.func.isRequired,
-        isSignedIn: PropTypes.bool.isRequired
+        isSignedIn: PropTypes.bool.isRequired,
+        demoNotice: PropTypes.bool
+    };
+
+    static defaultProps = {
+        demoNotice: false
     };
 
     renderMap = {
@@ -92,8 +97,10 @@ class MyAccount extends PureComponent {
     }
 
     render() {
+        const { demoNotice } = this.props;
+
         return (
-            <main block="MyAccount">
+            <main block="MyAccount" mods={ { isDemoNotice: demoNotice } }>
                 <Meta metaObject={ { title: 'My Account' } } />
                 { this.renderContent() }
             </main>

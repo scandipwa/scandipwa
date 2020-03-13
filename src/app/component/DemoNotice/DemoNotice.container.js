@@ -10,12 +10,10 @@
  */
 
 import { connect } from 'react-redux';
-import Breadcrumbs from './Breadcrumbs.component';
+import DemoNotice from './DemoNotice.component';
 
 export const mapStateToProps = state => ({
-    breadcrumbs: state.BreadcrumbsReducer.breadcrumbs,
-    areBreadcrumbsVisible: state.BreadcrumbsReducer.areBreadcrumbsVisible,
     demoNotice: state.ConfigReducer.demo_notice
 });
 
-export default connect(mapStateToProps)(Breadcrumbs);
+export default connect(mapStateToProps)(DemoNotice);

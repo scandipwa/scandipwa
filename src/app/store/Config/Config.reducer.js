@@ -47,7 +47,7 @@ const ConfigReducer = (state = initialState, action) => {
     switch (type) {
     case UPDATE_CONFIG:
         const filteredStoreConfig = filterStoreConfig(storeConfig);
-        const { header_logo_src, terms_are_enabled = false } = filteredStoreConfig;
+        const { header_logo_src, demo_notice, terms_are_enabled = false } = filteredStoreConfig;
 
         return {
             ...state,
@@ -59,6 +59,7 @@ const ConfigReducer = (state = initialState, action) => {
             // and header_logo_src takes old value
             header_logo_src,
             terms_are_enabled,
+            demo_notice,
             isLoading: false
         };
 

@@ -29,6 +29,7 @@ import Footer from 'Component/Footer';
 import Header from 'Component/Header';
 import NavigationTabs from 'Component/NavigationTabs';
 import NotificationList from 'Component/NotificationList';
+import DemoNotice from 'Component/DemoNotice';
 
 import Store from 'Store';
 
@@ -71,6 +72,10 @@ class AppRouter extends PureComponent {
         {
             component: <NotificationList />,
             position: 10
+        },
+        {
+            component: <DemoNotice />,
+            position: 15
         },
         {
             component: <Header />,
