@@ -66,6 +66,7 @@ export class ConfigQuery {
                 'paypal_client_id',
                 'logo_alt',
                 'terms_are_enabled',
+                'base_url',
                 'demo_notice'
             ]);
     }

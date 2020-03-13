@@ -9,4 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default } from './SomethingWentWrong.container';
+export const UPDATE_META = 'UPDATE_META';
+
+export const updateMeta = metadata => ({
+    type: UPDATE_META,
+    payload: metadata
+});
