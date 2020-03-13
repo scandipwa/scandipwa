@@ -9,4 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default } from './SomethingWentWrong.container';
+export * from './Meta.action';
+export { default as MetaReducer } from './Meta.reducer';
+export { default as MetaDispatcher } from './Meta.dispatcher';
