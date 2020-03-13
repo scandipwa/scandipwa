@@ -14,6 +14,7 @@
     "localStorage": true,
     "jest": true,
     "ExtensiblePureComponent": true,
+    "ExtensibleClass": true,
     "middleware": true,
     "__": true,
     "workbox": true,
@@ -28,7 +29,8 @@
     "scandipwa-extensibility"
   ],
   "rules": {
-    "scandipwa-extensibility/no-pure-component": "error",
+    "scandipwa-extensibility/no-importing-pure-component": "error",
+    "scandipwa-extensibility/no-extending-pure-component": "error",
     "scandipwa-extensibility/use-middleware": "error",
     "fp/no-let": "error",
     "fp/no-arguments": "error",
