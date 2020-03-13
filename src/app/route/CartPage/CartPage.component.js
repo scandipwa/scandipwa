@@ -14,7 +14,6 @@ import PropTypes from 'prop-types';
 
 import media, { WYSIWYG_MEDIA } from 'Util/Media';
 import Link from 'Component/Link';
-import Meta from 'Component/Meta';
 import isMobile from 'Util/Mobile';
 import CmsBlock from 'Component/CmsBlock';
 import CartItem from 'Component/CartItem';
@@ -235,7 +234,6 @@ export default class CartPage extends PureComponent {
     render() {
         return (
             <main block="CartPage" aria-label="Cart Page">
-                <Meta metaObject={ { title: 'Cart' } } />
                 <ContentWrapper
                   wrapperMix={ { block: 'CartPage', elem: 'Wrapper' } }
                   label="Cart page details"

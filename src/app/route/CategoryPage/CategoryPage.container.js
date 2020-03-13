@@ -22,6 +22,7 @@ import { CategoryDispatcher } from 'Store/Category';
 import { toggleOverlayByKey } from 'Store/Overlay';
 import { NoMatchDispatcher } from 'Store/NoMatch';
 import { CategoryTreeType } from 'Type/Category';
+import { MetaDispatcher } from 'Store/Meta';
 import { CATEGORY } from 'Component/Header';
 import { debounce } from 'Util/Request';
 
@@ -60,7 +61,8 @@ export const mapDispatchToProps = dispatch => ({
         : BreadcrumbsDispatcher.update([], dispatch)),
     requestProductListInfo: options => ProductListInfoDispatcher.handleData(dispatch, options),
     updateLoadStatus: isLoading => dispatch(updateInfoLoadStatus(isLoading)),
-    updateNoMatch: options => NoMatchDispatcher.updateNoMatch(dispatch, options)
+    updateNoMatch: options => NoMatchDispatcher.updateNoMatch(dispatch, options),
+    updateMetaFromCategory: category => MetaDispatcher.updateWithCategory(category, dispatch)
 });
 
 export const UPDATE_FILTERS_FREQUENCY = 0;
@@ -77,6 +79,7 @@ export class CategoryPageContainer extends PureComponent {
         changeHeaderState: PropTypes.func.isRequired,
         changeNavigationState: PropTypes.func.isRequired,
         requestProductListInfo: PropTypes.func.isRequired,
+        updateMetaFromCategory: PropTypes.func.isRequired,
         updateBreadcrumbs: PropTypes.func.isRequired,
         updateLoadStatus: PropTypes.func.isRequired,
         updateNoMatch: PropTypes.func.isRequired,
@@ -359,6 +362,9 @@ export class CategoryPageContainer extends PureComponent {
         if (!isLoading && !is_active) {
             updateNoMatch({ noMatch: true });
         } else {
+            const { updateMetaFromCategory, category } = this.props;
+
+            updateMetaFromCategory(category);
             this._updateBreadcrumbs();
             this._updateHeaderState();
             this._updateNavigationState();
