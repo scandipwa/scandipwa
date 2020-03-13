@@ -1,27 +1,18 @@
 /* eslint-disable */
 
-var exDfShouldBeMiddlewared;
-
-function reportPureComponent(context, node) {
-    context.report({
-        node,
-        message: "PureComponent is not allowed. Use 'ExtensiblePureComponent' instead"
-    });
-}
-
-function checkExDfCall(context, callee) {
+function checkCall(context, callee) {
     const { type, name } = callee;
     if (type === 'Identifier' && name === 'middleware') {
         return true;
     }
     if (type === 'CallExpression') {
         const { callee: nextCallee, arguments: args } = callee;
-        if (checkExDfCall(context, nextCallee)) {
+        if (checkCall(context, nextCallee)) {
             return true;
         }
 
         for (const arg of args) {
-            if (checkExDfCall(context, arg)) {
+            if (checkCall(context, arg)) {
                 return true;
             }
         }
@@ -34,31 +25,46 @@ function capitalize(word) {
     return word.charAt(0).toUpperCase() + word.slice(1);
 }
 
+function constructNamespace(filePath) {
+    const exploded = filePath.split('/');
+    const fileName = exploded[exploded.length - 1];
+    const fileDirectory = exploded[exploded.length - 2];
+    const [resName] = fileName.split('.');
+    const oneMoreDirectoryUp = exploded[exploded.length - 3];
+
+    return capitalize(oneMoreDirectoryUp) + '/' + capitalize(fileDirectory) + '/' + capitalize(resName);
+}
+
+let classCount;
+
 module.exports = {
     rules: {
-        'no-pure-component': {
+        'no-importing-pure-component': {
             create: context => ({
-                ImportDefaultSpecifier(node) {
-                    const {
-                        local: { name }
-                    } = node;
-
-                    if (name === 'PureComponent') {
-                        reportPureComponent(context, node);
-                    }
-                },
                 ImportSpecifier(node) {
                     const { imported } = node;
                     const { name } = imported || {};
                     if (name === 'PureComponent') {
-                        reportPureComponent(context, node);
+                        context.report({
+                            node,
+                            message: "PureComponent is not allowed. Use 'ExtensiblePureComponent' instead",
+                            fix: fixer => fixer.remove(node)
+                        });
                     }
-                },
+                }
+            })
+        },
+        'no-extending-pure-component': {
+            create: context => ({
                 ClassDeclaration(node) {
                     const { superClass } = node;
                     const { name } = superClass || {};
-                    if (name === 'PureComponent') {
-                        reportPureComponent(context, node);
+                    if (name === 'PureComponent' || name === 'Component') {
+                        context.report({
+                            node,
+                            message: "PureComponent is not allowed. Use 'ExtensiblePureComponent' instead",
+                            fix: fixer => fixer.replaceText(superClass, 'ExtensiblePureComponent')
+                        });
                     }
                 }
             })
@@ -66,22 +72,35 @@ module.exports = {
         'use-middleware': {
             create: context => ({
                 Program() {
-                    exDfShouldBeMiddlewared = false;
+                    classCount = 0;
                 },
-                ClassDeclaration() {
-                    exDfShouldBeMiddlewared = true;
+                ClassDeclaration(node) {
+                    classCount += 1;
+                    if (classCount > 1) {
+                        context.report({
+                            node,
+                            message: 'Only one class per file is allowed',
+                        });
+                    }
+                    const { superClass } = node;
+                    const { name } = superClass || {};
+                    const { id: declaration } = node;
+                    const { loc } = declaration;
+                    if (!name) {
+                        context.report({
+                            loc,
+                            message: 'Extend ExtensibleClass with this class to make it extensible',
+                            fix: fixer => fixer.insertTextAfter(declaration, ' extends ExtensibleClass')
+                        });
+                    }
                 },
                 ExportDefaultDeclaration(node) {
-                    if (!exDfShouldBeMiddlewared) {
+                    if (!classCount) {
                         return;
                     }
-
                     const { declaration: { type } } = node;
                     if (type === 'ClassDeclaration') {
-                        context.report({ node, message: 'Use middleware function when exporting extensible class' });
-                    }
-                    if (type === 'NewExpression') {
-                        context.report({ node, message: 'Use middleware function when exporting extensible instance' });
+                        context.report({ node, message: 'Use middleware function when exporting extensible class. Declare it separately.' });
                     }
                     if (type === 'Identifier') {
                         context.report({
@@ -89,25 +108,18 @@ module.exports = {
                             message: 'Use middleware function when exporting class',
                             fix: (fixer) => {
                                 const { declaration } = node;
-                                const exploded = context.getFilename().split('/');
-                                const fileName = exploded[exploded.length - 1];
-                                const fileType = exploded[exploded.length - 2];
-                                const [resName, filePostfix] = fileName.split('.');
-                                // eslint-disable-next-line prefer-template
-                                const namespace = capitalize(fileType)
-                                                    + '/' + capitalize(resName)
-                                                    + '/' + capitalize(filePostfix);
+                                const namespace = constructNamespace(context.getFilename());
 
                                 return [
                                     fixer.insertTextBefore(declaration, 'middleware('),
-                                    fixer.insertTextAfter(declaration, `, ${namespace})`)
+                                    fixer.insertTextAfter(declaration, `, '${namespace}')`)
                                 ];
                             }
                         });
                     }
                     if (type === 'CallExpression') {
                         const { declaration } = node;
-                        if (!checkExDfCall(context, declaration)) {
+                        if (!checkCall(context, declaration)) {
                             context.report({
                                 node,
                                 message: 'Use middleware function when wrapping exporting value in other functions'
