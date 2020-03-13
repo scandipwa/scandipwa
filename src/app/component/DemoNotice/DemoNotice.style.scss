@@ -10,7 +10,8 @@
  */
 
 :root {
-    --demo-notice-height: 40px;
+    --demo-notice-height-desktop: calc(var(--header-height) / 2);
+    --demo-notice-height-mobile: calc(var(--header-nav-height) / 2);
 }
 
 .DemoNotice {
@@ -19,10 +20,15 @@
     color: $white;
     display: flex;
     font-size: 14px;
-    height: var(--demo-notice-height);
+    font-weight: bold;
+    height: var(--demo-notice-height-desktop);
     justify-content: center;
     position: fixed;
     top: 0;
     width: 100%;
     z-index: 100;
+
+    @include mobile {
+        height: var(--demo-notice-height-mobile);
+    }
 }

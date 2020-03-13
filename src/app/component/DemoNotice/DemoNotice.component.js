@@ -11,6 +11,7 @@
 
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import isMobile from 'Util/Mobile';
 import './DemoNotice.style';
 
 /**
@@ -32,7 +33,9 @@ export default class DemoNotice extends PureComponent {
         if (demoNotice) {
             return (
                 <div block="DemoNotice">
-                    { __('This is a demo store. No orders will be fulfilled.') }
+                    { isMobile.any()
+                        ? __('This is a demo store')
+                        : __('This is a demo store. No orders will be fulfilled.') }
                 </div>
             );
         }

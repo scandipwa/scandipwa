@@ -14,10 +14,10 @@
         margin-top: var(--header-height);
 
         &.CmsPage_isDemoNotice {
-            margin-top: calc(var(--header-height) + var(--demo-notice-height));
+            margin-top: calc(var(--header-height) + var(--demo-notice-height-desktop));
 
             @include mobile {
-                margin-top: var(--demo-notice-height);
+                margin-top: var(--demo-notice-height-mobile);
             }
         }
     }

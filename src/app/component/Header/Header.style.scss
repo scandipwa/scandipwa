@@ -117,7 +117,11 @@
     }
 
     &_demoNotice {
-        top: var(--demo-notice-height);
+        top: var(--demo-notice-height-desktop);
+
+        @include mobile {
+            top: var(--demo-notice-height-mobile);
+        }
     }
 
     &-Banner {
