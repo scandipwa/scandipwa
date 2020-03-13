@@ -137,16 +137,7 @@
       "contributions": [
         "code",
         "infra",
-        "maintenance",
-        "ideas",
-        "bug",
-        "projectManagement",
-        "review",
-        "content",
-        "doc",
-        "question",
-        "talk",
-        "video"
+        "maintenance"
       ]
     },
     {
@@ -252,17 +243,8 @@
       "profile": "https://github.com/alfredsgenkins",
       "contributions": [
         "code",
-        "bug",
-        "question",
-        "maintenance",
         "projectManagement",
-        "tool",
-        "review",
-        "content",
-        "doc",
-        "design",
-        "video",
-        "talk"
+        "content"
       ]
     },
     {
@@ -413,5 +395,6 @@
   "projectOwner": "scandipwa",
   "repoType": "github",
   "repoHost": "https://github.com",
-  "skipCi": true
+  "skipCi": true,
+  "commitConvention": "none"
 }

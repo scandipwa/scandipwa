@@ -9,9 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { PureComponent } from 'react';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import { MyAccountDispatcher } from 'Store/MyAccount';
+import { updateMeta } from 'Store/Meta';
 import { showNotification } from 'Store/Notification';
 import PasswordChangePage from './PasswordChangePage.component';
 
@@ -20,6 +23,7 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
+    updateMeta: meta => dispatch(updateMeta(meta)),
     updateBreadcrumbs: (breadcrumbs) => {
         BreadcrumbsDispatcher.update(breadcrumbs, dispatch);
     },
@@ -34,4 +38,24 @@ export const mapDispatchToProps = dispatch => ({
     }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(PasswordChangePage);
+export class PasswordChangePageContainer extends PureComponent {
+    static propTypes = {
+        updateMeta: PropTypes.func.isRequired
+    };
+
+    componentDidMount() {
+        const { updateMeta } = this.props;
+
+        updateMeta({ title: __('Password Change Page') });
+    }
+
+    render() {
+        return (
+            <PasswordChangePage
+              { ...this.props }
+            />
+        );
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PasswordChangePageContainer);
