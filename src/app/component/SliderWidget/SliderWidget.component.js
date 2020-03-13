@@ -15,6 +15,7 @@ import { PureComponent } from 'react';
 import Slider from 'Component/Slider';
 import Image from 'Component/Image';
 import Html from 'Component/Html';
+import isMobile from 'Util/Mobile';
 import './SliderWidget.style';
 
 /**
@@ -39,28 +40,7 @@ export default class SliderWidget extends PureComponent {
         slider: [{}]
     };
 
-    state = {
-        activeImage: 0,
-        isMobile: false
-    };
-
-    componentDidMount() {
-        window.addEventListener('resize', this.onResize.bind(this));
-        this.onResize();
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('resize', this.onResize);
-    }
-
-    onResize() {
-        const { isMobileState } = this.state;
-        const isMobile = window.innerWidth < 768;
-
-        if (isMobile !== isMobileState) {
-            this.setState({ isMobile });
-        }
-    }
+    state = { activeImage: 0 };
 
 
     onActiveImageChange = (activeImage) => {
@@ -75,8 +55,7 @@ export default class SliderWidget extends PureComponent {
             isPlaceholder,
             title: block
         } = slide;
-        const { isMobile } = this.state;
-        const image = isMobile ? mobile_image : desktop_image;
+        const image = isMobile.any() ? mobile_image : desktop_image;
 
         return (
             <figure
