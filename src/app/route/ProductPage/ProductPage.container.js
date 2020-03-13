@@ -77,7 +77,17 @@ export class ProductPageContainer extends PureComponent {
     };
 
     componentDidMount() {
-        const { isOnlyPlaceholder } = this.props;
+        const {
+            location: { pathname },
+            isOnlyPlaceholder,
+            history
+        } = this.props;
+
+        if (pathname === '/product' || pathname === '/product/') {
+            history.push('/');
+            return;
+        }
+
         if (!isOnlyPlaceholder) this._requestProduct();
         this._onProductUpdate();
     }
