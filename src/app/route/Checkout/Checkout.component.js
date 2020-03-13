@@ -24,7 +24,6 @@ import { TotalsType } from 'Type/MiniCart';
 import { HistoryType } from 'Type/Common';
 import CmsBlock from 'Component/CmsBlock';
 import Loader from 'Component/Loader';
-import Meta from 'Component/Meta';
 import Link from 'Component/Link';
 
 import './Checkout.style';
@@ -51,12 +50,19 @@ class Checkout extends PureComponent {
         history: HistoryType.isRequired,
         onEmailChange: PropTypes.func.isRequired,
         isGuestEmailSaved: PropTypes.bool.isRequired,
-        paymentTotals: TotalsType.isRequired,
+        paymentTotals: TotalsType,
         checkoutStep: PropTypes.oneOf([
             SHIPPING_STEP,
             BILLING_STEP,
             DETAILS_STEP
-        ]).isRequired
+        ]).isRequired,
+        isCreateUser: PropTypes.bool.isRequired,
+        onCreateUserChange: PropTypes.func.isRequired,
+        onPasswordChange: PropTypes.func.isRequired
+    };
+
+    static defaultProps = {
+        paymentTotals: {}
     };
 
     stepMap = {
@@ -113,13 +119,23 @@ class Checkout extends PureComponent {
     }
 
     renderGuestForm() {
-        const { checkoutStep, onEmailChange, isGuestEmailSaved } = this.props;
+        const {
+            checkoutStep,
+            isCreateUser,
+            onEmailChange,
+            onCreateUserChange,
+            onPasswordChange,
+            isGuestEmailSaved
+        } = this.props;
         const isBilling = checkoutStep === BILLING_STEP;
 
         return (
             <CheckoutGuestForm
               isBilling={ isBilling }
+              isCreateUser={ isCreateUser }
               onEmailChange={ onEmailChange }
+              onCreateUserChange={ onCreateUserChange }
+              onPasswordChange={ onPasswordChange }
               isGuestEmailSaved={ isGuestEmailSaved }
             />
         );
@@ -202,7 +218,10 @@ class Checkout extends PureComponent {
         if (!areTotalsVisible) return null;
 
         return (
-            <CheckoutOrderSummary totals={ checkoutTotals } paymentTotals={ paymentTotals } />
+            <CheckoutOrderSummary
+              totals={ checkoutTotals }
+              paymentTotals={ paymentTotals }
+            />
         );
     }
 
@@ -224,7 +243,6 @@ class Checkout extends PureComponent {
     render() {
         return (
             <main block="Checkout">
-                <Meta metaObject={ { title: 'Checkout' } } />
                 <ContentWrapper
                   wrapperMix={ { block: 'Checkout', elem: 'Wrapper' } }
                   label={ __('Checkout page') }

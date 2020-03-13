@@ -22,6 +22,7 @@ import { CategoryDispatcher } from 'Store/Category';
 import { toggleOverlayByKey } from 'Store/Overlay';
 import { NoMatchDispatcher } from 'Store/NoMatch';
 import { CategoryTreeType } from 'Type/Category';
+import { MetaDispatcher } from 'Store/Meta';
 import { CATEGORY } from 'Component/Header';
 import { debounce } from 'Util/Request';
 
@@ -46,7 +47,8 @@ export const mapStateToProps = state => ({
     sortFields: state.ProductListInfoReducer.sortFields,
     minPriceRange: state.ProductListInfoReducer.minPrice,
     maxPriceRange: state.ProductListInfoReducer.maxPrice,
-    isInfoLoading: state.ProductListInfoReducer.isLoading
+    isInfoLoading: state.ProductListInfoReducer.isLoading,
+    totalPages: state.ProductListReducer.totalPages
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -59,7 +61,8 @@ export const mapDispatchToProps = dispatch => ({
         : BreadcrumbsDispatcher.update([], dispatch)),
     requestProductListInfo: options => ProductListInfoDispatcher.handleData(dispatch, options),
     updateLoadStatus: isLoading => dispatch(updateInfoLoadStatus(isLoading)),
-    updateNoMatch: options => NoMatchDispatcher.updateNoMatch(dispatch, options)
+    updateNoMatch: options => NoMatchDispatcher.updateNoMatch(dispatch, options),
+    updateMetaFromCategory: category => MetaDispatcher.updateWithCategory(category, dispatch)
 });
 
 export const UPDATE_FILTERS_FREQUENCY = 0;
@@ -76,6 +79,7 @@ export class CategoryPageContainer extends PureComponent {
         changeHeaderState: PropTypes.func.isRequired,
         changeNavigationState: PropTypes.func.isRequired,
         requestProductListInfo: PropTypes.func.isRequired,
+        updateMetaFromCategory: PropTypes.func.isRequired,
         updateBreadcrumbs: PropTypes.func.isRequired,
         updateLoadStatus: PropTypes.func.isRequired,
         updateNoMatch: PropTypes.func.isRequired,
@@ -115,9 +119,20 @@ export class CategoryPageContainer extends PureComponent {
     );
 
     componentDidMount() {
-        const { updateBreadcrumbs, isOnlyPlaceholder, updateLoadStatus } = this.props;
+        const {
+            location: { pathname },
+            updateBreadcrumbs,
+            isOnlyPlaceholder,
+            updateLoadStatus,
+            history
+        } = this.props;
 
         if (isOnlyPlaceholder) updateLoadStatus(true);
+
+        if (pathname === '/category' || pathname === '/category/') {
+            history.push('/');
+            return;
+        }
 
         // request data only if URL does not match loaded category
         if (this.getIsNewCategory()) {
@@ -150,7 +165,7 @@ export class CategoryPageContainer extends PureComponent {
     getFilterUrl(filterName, filterArray, isFull = true) {
         const { location: { pathname } } = this.props;
         const selectedFilters = this._getNewSelectedFiltersString(filterName, filterArray);
-        return `${isFull ? `${pathname}?` : ''}${this._formatSelectedFiltersString(selectedFilters)}`;
+        return `${isFull ? `${pathname}?customFilters=` : ''}${this._formatSelectedFiltersString(selectedFilters)}`;
     }
 
     getIsNewCategory() {
@@ -163,8 +178,22 @@ export class CategoryPageContainer extends PureComponent {
         search: this._getSearchParam(),
         selectedSort: this._getSelectedSortFromUrl(),
         selectedFilters: this._getSelectedFiltersFromUrl(),
-        selectedPriceRange: this._getPriceRangeForSlider()
+        selectedPriceRange: this._getPriceRangeForSlider(),
+        isContentFiltered: this.isContentFiltered()
     });
+
+    isContentFiltered() {
+        const { customFilters, priceMin, priceMax } = this.urlStringToObject();
+        return !!(customFilters || priceMin || priceMax);
+    }
+
+    urlStringToObject() {
+        const { location: { search } } = this.props;
+        return search.substr(1).split('&').reduce((acc, part) => {
+            const [key, value] = part.split('=');
+            return { ...acc, [key]: value };
+        }, {});
+    }
 
     updateSearch(value) {
         const { location, history } = this.props;
@@ -333,6 +362,9 @@ export class CategoryPageContainer extends PureComponent {
         if (!isLoading && !is_active) {
             updateNoMatch({ noMatch: true });
         } else {
+            const { updateMetaFromCategory, category } = this.props;
+
+            updateMetaFromCategory(category);
             this._updateBreadcrumbs();
             this._updateHeaderState();
             this._updateNavigationState();

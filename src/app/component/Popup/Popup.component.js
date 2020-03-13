@@ -17,6 +17,8 @@ import Overlay from 'Component/Overlay/Overlay.component';
 import ClickOutside from 'Component/ClickOutside';
 import './Popup.style';
 
+export const ESCAPE_KEY = 27;
+
 export default class Popup extends Overlay {
     static propTypes = {
         ...Overlay.propTypes,
@@ -29,6 +31,14 @@ export default class Popup extends Overlay {
         clickOutside: true,
         title: ''
     };
+
+    componentDidMount() {
+        document.addEventListener('keydown', this.handleKeyDown);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.handleKeyDown);
+    }
 
     onVisible() {
         const { onVisible } = this.props;
@@ -53,6 +63,16 @@ export default class Popup extends Overlay {
         const { clickOutside } = this.props;
         if (!clickOutside) return;
         this.hidePopUp();
+    };
+
+    handleKeyDown = (e) => {
+        switch (e.keyCode) {
+        case ESCAPE_KEY:
+            this.hidePopUp();
+            break;
+        default:
+            break;
+        }
     };
 
     renderTitle() {

@@ -108,7 +108,7 @@ export default class Form extends PureComponent {
             const rule = validation.find((rule) => {
                 if (!validationConfig[rule]) return false;
                 const validationRules = validationConfig[rule];
-                const isValid = validationRules.validate(inputNode);
+                const isValid = validationRules.validate(inputNode, refMap);
                 return !isValid;
             });
 

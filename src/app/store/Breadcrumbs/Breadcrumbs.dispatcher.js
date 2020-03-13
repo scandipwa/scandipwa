@@ -85,16 +85,24 @@ export class BreadcrumbsDispatcher {
         const breadcrumbsList = [];
 
         if (breadcrumbs) {
-            breadcrumbs.sort((a, b) => b.category_level - a.category_level)
-                .map(({ category_name, category_url_key }) => breadcrumbsList.push({
-                    url: `/category/${category_url_key}`,
-                    name: category_name
-                }));
+            breadcrumbs
+                .sort((a, b) => a.category_level > b.category_level)
+                .reduce((prev, crumb) => {
+                    const { category_url_key, category_name } = crumb;
+                    const url = `${prev}/${category_url_key}`;
+
+                    breadcrumbsList.push({
+                        name: category_name,
+                        url
+                    });
+
+                    return url;
+                }, '/category');
         }
 
         return [
             { url: `/category/${url_path}`, name },
-            ...breadcrumbsList
+            ...breadcrumbsList.reverse()
         ];
     }
 

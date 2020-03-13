@@ -82,13 +82,13 @@ export class CartQuery {
     _getCartTotalsFields() {
         return [
             'subtotal',
+            'subtotal_incl_tax',
             'items_qty',
             'tax_amount',
             'grand_total',
             'discount_amount',
             'quote_currency_code',
             'subtotal_with_discount',
-            'subtotal_incl_tax',
             'coupon_code',
             'shipping_amount',
             'is_virtual',
