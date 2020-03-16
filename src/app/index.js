@@ -19,20 +19,13 @@ import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom';
 
 import SharedTransition from 'Component/SharedTransition';
-import importExtensions from 'Util/Extension';
 
 import AppRouter from 'Route';
 import store from 'Store';
 
+import 'Util/Extensions';
 import 'Util/Polyfill';
 import 'Style/main';
-
-// The following line is a hook for extension-import-injector loader.
-// It replaces this magic comment with all the necessary imports for extensions
-// It fills the array declared right below with promises returned from import() function.
-const pendingPluginConfigParts = [];
-// * ScandiPWA extension importing magic comment! */
-importExtensions(pendingPluginConfigParts);
 
 // Disable react dev tools in production
 if (process.env.NODE_ENV === 'production'
