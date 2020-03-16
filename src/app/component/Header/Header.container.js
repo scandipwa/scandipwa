@@ -98,7 +98,9 @@ export class HeaderContainer extends NavigationAbstractContainer {
         onSearchOutsideClick: this.onSearchOutsideClick.bind(this),
         onMenuOutsideClick: this.onMenuOutsideClick.bind(this),
         onMyAccountOutsideClick: this.onMyAccountOutsideClick.bind(this),
-        onMinicartOutsideClick: this.onMinicartOutsideClick.bind(this)
+        onMinicartOutsideClick: this.onMinicartOutsideClick.bind(this),
+        closeOverlay: this.closeOverlay.bind(this),
+        onSignIn: this.onSignIn.bind(this)
     };
 
     containerProps = () => {
@@ -154,15 +156,9 @@ export class HeaderContainer extends NavigationAbstractContainer {
     }
 
     checkIsCheckout() {
-        const { hideActiveOverlay, navigationState: { name } } = this.props;
         const { location: { pathname } } = history;
 
         if (pathname === '/checkout') {
-            if (isSignedIn() && name === CUSTOMER_ACCOUNT) {
-                hideActiveOverlay();
-                this.setState({ showMyAccountLogin: false });
-            }
-
             return this.setState({ isCheckout: true });
         }
 
@@ -313,11 +309,12 @@ export class HeaderContainer extends NavigationAbstractContainer {
             return;
         }
 
-        if (name !== CUSTOMER_ACCOUNT) {
+        if (!isMobile.any() && name !== CUSTOMER_ACCOUNT) {
             showOverlay(CUSTOMER_ACCOUNT_OVERLAY_KEY);
             setNavigationState({ name: CUSTOMER_ACCOUNT, title: 'Sign in' });
-            this.setState({ showMyAccountLogin: true });
         }
+
+        this.setState({ showMyAccountLogin: true });
     }
 
     onMyAccountOutsideClick() {
@@ -334,6 +331,33 @@ export class HeaderContainer extends NavigationAbstractContainer {
         if (name === CUSTOMER_SUB_ACCOUNT) goToPreviousNavigationState();
         goToPreviousNavigationState();
         hideActiveOverlay();
+    }
+
+    closeOverlay() {
+        const {
+            navigationState: { name, title },
+            goToPreviousNavigationState,
+            setNavigationState
+        } = this.props;
+        const { location: { pathname } } = history;
+
+        if (pathname === '/checkout') {
+            if (name === CUSTOMER_SUB_ACCOUNT) {
+                goToPreviousNavigationState();
+            } else {
+                setNavigationState({ name: CHECKOUT, title });
+            }
+
+            this.setState({ showMyAccountLogin: false });
+        }
+    }
+
+    onSignIn() {
+        const { location: { pathname } } = history;
+
+        if (pathname === '/checkout') {
+            this.setState({ showMyAccountLogin: false });
+        }
     }
 
     onClearButtonClick() {
@@ -391,8 +415,8 @@ export class HeaderContainer extends NavigationAbstractContainer {
     render() {
         return (
             <Header
-              { ...this.containerProps() }
-              { ...this.containerFunctions }
+                { ...this.containerProps() }
+                { ...this.containerFunctions }
             />
         );
     }

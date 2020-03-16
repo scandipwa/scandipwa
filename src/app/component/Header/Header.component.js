@@ -70,7 +70,9 @@ export default class Header extends NavigationAbstract {
         logo_alt: PropTypes.string,
         isLoading: PropTypes.bool,
         isCheckout: PropTypes.bool.isRequired,
-        showMyAccountLogin: PropTypes.bool.isRequired
+        showMyAccountLogin: PropTypes.bool.isRequired,
+        closeOverlay: PropTypes.func.isRequired,
+        onSignIn: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -300,7 +302,9 @@ export default class Header extends NavigationAbstract {
             onMyAccountOutsideClick,
             onMyAccountButtonClick,
             isCheckout,
-            showMyAccountLogin
+            showMyAccountLogin,
+            closeOverlay,
+            onSignIn
         } = this.props;
 
         if (isMobile.any() && !isCheckout) return null;
@@ -320,7 +324,11 @@ export default class Header extends NavigationAbstract {
                       aria-label="Open my account"
                     />
                     { ((isMobile.any() && showMyAccountLogin) || !isMobile.any()) && (
-                        <MyAccountOverlay isCheckout={ isCheckout } />
+                        <MyAccountOverlay
+                          onSignIn={ onSignIn }
+                          closeOverlay={ closeOverlay }
+                          isCheckout={ isCheckout }
+                        />
                     ) }
                 </div>
             </ClickOutside>

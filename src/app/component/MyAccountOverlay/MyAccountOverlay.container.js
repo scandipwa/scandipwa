@@ -57,7 +57,8 @@ export class MyAccountOverlayContainer extends PureComponent {
         // eslint-disable-next-line react/no-unused-prop-types
         isOverlayVisible: PropTypes.bool.isRequired,
         setHeaderState: PropTypes.func.isRequired,
-        onSignIn: PropTypes.func
+        onSignIn: PropTypes.func,
+        hideActiveOverlay: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -139,9 +140,12 @@ export class MyAccountOverlayContainer extends PureComponent {
     componentDidUpdate(_, prevState) {
         const { state: oldMyAccountState } = prevState;
         const { state: newMyAccountState } = this.state;
+        const { hideActiveOverlay } = this.props;
         const currentPage = window.location.pathname;
 
         if (oldMyAccountState === newMyAccountState) return;
+
+        if (isSignedIn()) hideActiveOverlay();
 
         if (currentPage !== '/checkout' && newMyAccountState === STATE_LOGGED_IN) {
             history.push({ pathname: '/my-account/dashboard' });

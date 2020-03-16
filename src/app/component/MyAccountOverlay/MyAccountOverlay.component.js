@@ -52,11 +52,13 @@ class MyAccountOverlay extends PureComponent {
         handleForgotPassword: PropTypes.func.isRequired,
         handleSignIn: PropTypes.func.isRequired,
         handleCreateAccount: PropTypes.func.isRequired,
+        closeOverlay: PropTypes.func,
         isCheckout: PropTypes.bool
     };
 
     static defaultProps = {
-        isCheckout: false
+        isCheckout: false,
+        closeOverlay: () => {}
     };
 
     renderMap = {
@@ -81,12 +83,19 @@ class MyAccountOverlay extends PureComponent {
     };
 
     renderMyAccount() {
-        const { state } = this.props;
+        const { state, closeOverlay, isCheckout } = this.props;
         const { render, title } = this.renderMap[state];
 
         return (
             <div block="MyAccountOverlay" elem="Action" mods={ { state } }>
                 <p block="MyAccountOverlay" elem="Heading">{ title }</p>
+                { isCheckout && isMobile.any() && (
+                    <button
+                      block="MyAccountOverlay"
+                      elem="CloseButton"
+                      onClick={ closeOverlay }
+                    />
+                ) }
                 { render() }
             </div>
         );
@@ -282,15 +291,13 @@ class MyAccountOverlay extends PureComponent {
                     <div block="MyAccountOverlay" elem="Buttons">
                         <button block="Button">{ __('Sign in') }</button>
                     </div>
-                    { !isCheckout && (
-                        <button
-                          block="Button"
-                          mods={ { likeLink: true } }
-                          onClick={ handleForgotPassword }
-                        >
-                            { __('Forgot password?') }
-                        </button>
-                    ) }
+                    <button
+                      block="Button"
+                      mods={ { likeLink: true } }
+                      onClick={ handleForgotPassword }
+                    >
+                        { __('Forgot password?') }
+                    </button>
                 </Form>
                 { !isCheckout && (
                     <article block="MyAccountOverlay" elem="Additional" mods={ { state } }>
