@@ -112,7 +112,9 @@ export class HeaderContainer extends NavigationAbstractContainer {
 
         const {
             isClearEnabled,
-            searchCriteria
+            searchCriteria,
+            isCheckout,
+            showMyAccountLogin
         } = this.state;
 
         return {
@@ -122,7 +124,9 @@ export class HeaderContainer extends NavigationAbstractContainer {
             logo_alt,
             isLoading,
             isClearEnabled,
-            searchCriteria
+            searchCriteria,
+            isCheckout,
+            showMyAccountLogin
         };
     };
 
@@ -132,17 +136,37 @@ export class HeaderContainer extends NavigationAbstractContainer {
         this.state = {
             prevPathname: '',
             searchCriteria: '',
-            isClearEnabled: this.getIsClearEnabled()
+            isClearEnabled: this.getIsClearEnabled(),
+            isCheckout: false,
+            showMyAccountLogin: false
         };
     }
 
     componentDidMount() {
         this.handleHeaderVisibility();
+        this.checkIsCheckout();
         super.componentDidMount();
     }
 
     componentDidUpdate() {
         this.handleHeaderVisibility();
+        this.checkIsCheckout();
+    }
+
+    checkIsCheckout() {
+        const { hideActiveOverlay, navigationState: { name } } = this.props;
+        const { location: { pathname } } = history;
+
+        if (pathname === '/checkout') {
+            if (isSignedIn() && name === CUSTOMER_ACCOUNT) {
+                hideActiveOverlay();
+                this.setState({ showMyAccountLogin: false });
+            }
+
+            return this.setState({ isCheckout: true });
+        }
+
+        return this.setState({ isCheckout: false });
     }
 
     handleHeaderVisibility() {
@@ -292,6 +316,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
         if (name !== CUSTOMER_ACCOUNT) {
             showOverlay(CUSTOMER_ACCOUNT_OVERLAY_KEY);
             setNavigationState({ name: CUSTOMER_ACCOUNT, title: 'Sign in' });
+            this.setState({ showMyAccountLogin: true });
         }
     }
 
