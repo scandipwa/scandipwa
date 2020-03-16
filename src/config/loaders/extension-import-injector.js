@@ -13,7 +13,7 @@ module.exports = function injectImports(source) {
                 (singlePluginImportChain, singlePluginConfigPath) => {
                     const pathToConfigFile = path.join(magentoRoot, singlePluginConfigPath);
 
-                    return `${singlePluginImportChain}${importAggregator}.push(import('${pathToConfigFile}'));\n`;
+                    return `${singlePluginImportChain}${importAggregator}.push(require('${pathToConfigFile}'));\n`;
                 }, ''
             );
         }, ''
