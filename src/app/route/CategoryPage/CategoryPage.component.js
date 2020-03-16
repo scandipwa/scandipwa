@@ -22,7 +22,6 @@ import ContentWrapper from 'Component/ContentWrapper';
 import CategorySort from 'Component/CategorySort';
 import { CategoryTreeType } from 'Type/Category';
 import { FilterType, FilterInputType } from 'Type/ProductList';
-import Meta from 'Component/Meta';
 import './CategoryPage.style';
 import isMobile from 'Util/Mobile';
 
@@ -177,15 +176,12 @@ export default class CategoryPage extends PureComponent {
     }
 
     render() {
-        const { category } = this.props;
-
         return (
             <main block="CategoryPage">
                 <ContentWrapper
                   wrapperMix={ { block: 'CategoryPage', elem: 'Wrapper' } }
                   label="Category page"
                 >
-                    <Meta metaObject={ category } />
                     { this.renderFilterOverlay() }
                     { this.renderCategoryDetails() }
                     <aside block="CategoryPage" elem="Miscellaneous">

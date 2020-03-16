@@ -111,7 +111,8 @@
     }
 
     &-Content {
-        will-change: max-height, padding, opacity;
+        // Disabled as it prevents z-index use inside
+        // will-change: max-height, padding, opacity;
         transition-property: opacity;
         transition-duration: 200ms;
 
