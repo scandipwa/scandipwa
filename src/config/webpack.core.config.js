@@ -66,7 +66,8 @@ module.exports = {
 
     entry: {
         bundle: path.resolve(projectRoot, 'src', 'app', 'index.js'),
-        sw: path.resolve(projectRoot, 'src', 'sw', 'index.js')
+        sw: path.resolve(projectRoot, 'src', 'sw', 'index.js'),
+        extensions: path.resolve(projectRoot, 'src', 'app', 'util', 'Extensions', 'index.js')
     },
 
     module: {
@@ -82,13 +83,13 @@ module.exports = {
                 ]
             },
             {
-                test: path.resolve(projectRoot, 'src', 'app', 'index.js'),
+                test: path.resolve(projectRoot, 'src', 'app', 'util', 'Extensions', 'index.js'),
                 use: [
                     {
                         loader: 'extension-import-injector',
                         options: {
                             magentoRoot,
-                            importAggregator: 'pendingPluginConfigParts'
+                            importAggregator: 'extensions'
                         }
                     }
                 ]
