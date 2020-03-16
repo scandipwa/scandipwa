@@ -66,8 +66,7 @@ module.exports = {
 
     entry: {
         bundle: path.resolve(projectRoot, 'src', 'app', 'index.js'),
-        sw: path.resolve(projectRoot, 'src', 'sw', 'index.js'),
-        extensions: path.resolve(projectRoot, 'src', 'app', 'util', 'Extensions', 'index.js')
+        sw: path.resolve(projectRoot, 'src', 'sw', 'index.js')
     },
 
     module: {
