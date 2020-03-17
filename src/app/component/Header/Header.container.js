@@ -415,8 +415,8 @@ export class HeaderContainer extends NavigationAbstractContainer {
     render() {
         return (
             <Header
-                { ...this.containerProps() }
-                { ...this.containerFunctions }
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
             />
         );
     }
