@@ -130,7 +130,6 @@ export class CheckoutContainer extends PureComponent {
         if (isSignedIn()
             && (addresses && addresses.length === 0)
             && shippingMethods.length) {
-            console.log("xxxx");
             this.resetShippingMethods();
         }
     }
