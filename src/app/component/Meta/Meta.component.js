@@ -68,9 +68,9 @@ export default class Meta extends PureComponent {
         const { metadata } = this.props;
         return (
             <>
-            { this.renderTitle() }
-            { this.renderCanonical() }
-            { metadata.map(tag => <meta key={ tag.name || tag.property } { ...tag } />) }
+                { this.renderTitle() }
+                { this.renderCanonical() }
+                { metadata.map(tag => <meta key={ tag.name || tag.property } { ...tag } />) }
             </>
         );
     }
