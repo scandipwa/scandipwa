@@ -540,9 +540,9 @@ export class ProductListQuery {
 
     _getTierPricesFields() {
         return [
-            // 'qty',
+            'qty',
             'value',
-            // 'percentage_value'
+            'percentage_value'
         ];
     }
 
