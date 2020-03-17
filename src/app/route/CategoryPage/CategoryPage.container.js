@@ -119,9 +119,20 @@ export class CategoryPageContainer extends PureComponent {
     );
 
     componentDidMount() {
-        const { updateBreadcrumbs, isOnlyPlaceholder, updateLoadStatus } = this.props;
+        const {
+            location: { pathname },
+            updateBreadcrumbs,
+            isOnlyPlaceholder,
+            updateLoadStatus,
+            history
+        } = this.props;
 
         if (isOnlyPlaceholder) updateLoadStatus(true);
+
+        if (pathname === '/category' || pathname === '/category/') {
+            history.push('/');
+            return;
+        }
 
         // request data only if URL does not match loaded category
         if (this.getIsNewCategory()) {
