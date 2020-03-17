@@ -21,6 +21,7 @@ import { setBigOfflineNotice } from 'Store/Offline';
 import { CmsPageQuery } from 'Query';
 import { CMS_PAGE } from 'Component/Header';
 import { debounce } from 'Util/Request';
+import { updateMeta } from 'Store/Meta';
 import { getUrlParam } from 'Util/Url';
 import { history } from 'Route';
 
@@ -34,6 +35,7 @@ export const mapDispatchToProps = dispatch => ({
     updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.updateWithCmsPage(breadcrumbs, dispatch),
     setHeaderState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
     setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig)),
+    updateMeta: meta => dispatch(updateMeta(meta)),
     toggleBreadcrumbs: (isActive) => {
         BreadcrumbsDispatcher.update([], dispatch);
         dispatch(toggleBreadcrumbs(isActive));
@@ -141,15 +143,17 @@ export class CmsPageContainer extends DataContainer {
     onPageLoad = ({ cmsPage: page }) => {
         const {
             location: { pathname },
+            updateMeta,
             setHeaderState,
             updateBreadcrumbs
         } = this.props;
 
-        const { content_heading } = page;
+        const { content_heading, meta_title, title } = page;
 
         debounce(this.setOfflineNoticeSize, LOADING_TIME)();
 
         updateBreadcrumbs(page);
+        updateMeta({ title: meta_title || title });
 
         if (pathname !== '/') {
             setHeaderState({

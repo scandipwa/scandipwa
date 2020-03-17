@@ -23,6 +23,7 @@ import { setBigOfflineNotice } from 'Store/Offline';
 import { toggleOverlayByKey } from 'Store/Overlay';
 import { NoMatchDispatcher } from 'Store/NoMatch';
 import { CategoryTreeType } from 'Type/Category';
+import { MetaDispatcher } from 'Store/Meta';
 import { CATEGORY } from 'Component/Header';
 import { debounce } from 'Util/Request';
 
@@ -63,7 +64,8 @@ export const mapDispatchToProps = dispatch => ({
     requestProductListInfo: options => ProductListInfoDispatcher.handleData(dispatch, options),
     updateLoadStatus: isLoading => dispatch(updateInfoLoadStatus(isLoading)),
     updateNoMatch: options => NoMatchDispatcher.updateNoMatch(dispatch, options),
-    setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig))
+    setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig)),
+    updateMetaFromCategory: category => MetaDispatcher.updateWithCategory(category, dispatch)
 });
 
 export const UPDATE_FILTERS_FREQUENCY = 0;
@@ -82,6 +84,7 @@ export class CategoryPageContainer extends PureComponent {
         changeNavigationState: PropTypes.func.isRequired,
         requestProductListInfo: PropTypes.func.isRequired,
         setBigOfflineNotice: PropTypes.func.isRequired,
+        updateMetaFromCategory: PropTypes.func.isRequired,
         updateBreadcrumbs: PropTypes.func.isRequired,
         updateLoadStatus: PropTypes.func.isRequired,
         updateNoMatch: PropTypes.func.isRequired,
@@ -123,10 +126,19 @@ export class CategoryPageContainer extends PureComponent {
 
     componentDidMount() {
         const {
-            updateBreadcrumbs, isOnlyPlaceholder, updateLoadStatus
+            location: { pathname },
+            updateBreadcrumbs,
+            isOnlyPlaceholder,
+            updateLoadStatus,
+            history
         } = this.props;
 
         if (isOnlyPlaceholder) updateLoadStatus(true);
+
+        if (pathname === '/category' || pathname === '/category/') {
+            history.push('/');
+            return;
+        }
 
         // request data only if URL does not match loaded category
         if (this.getIsNewCategory()) {
@@ -374,6 +386,9 @@ export class CategoryPageContainer extends PureComponent {
         if (!isLoading && !is_active) {
             updateNoMatch({ noMatch: true });
         } else {
+            const { updateMetaFromCategory, category } = this.props;
+
+            updateMetaFromCategory(category);
             this._updateBreadcrumbs();
             this._updateHeaderState();
             this._updateNavigationState();

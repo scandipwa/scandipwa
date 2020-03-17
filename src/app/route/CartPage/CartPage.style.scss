@@ -179,7 +179,7 @@
         padding: 1rem 0;
 
         @include mobile {
-            padding: 1rem 0 0;
+            padding: 1rem 1rem 0;
         }
     }
 
@@ -276,6 +276,7 @@
     &-Heading {
         height: 3rem;
         margin-top: 2rem;
+        font-size: 2rem;
 
         @include mobile {
             display: none;

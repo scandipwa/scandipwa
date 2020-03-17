@@ -16,6 +16,7 @@ import { withRouter } from 'react-router';
 
 import { history } from 'Route';
 import { PDP } from 'Component/Header';
+import { MetaDispatcher } from 'Store/Meta';
 import { getVariantIndex } from 'Util/Product';
 import { ProductType } from 'Type/ProductList';
 import { ProductDispatcher } from 'Store/Product';
@@ -45,7 +46,8 @@ export const mapDispatchToProps = dispatch => ({
     changeNavigationState: state => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
     requestProduct: options => ProductDispatcher.handleData(dispatch, options),
     setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig)),
-    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.updateWithProduct(breadcrumbs, dispatch)
+    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.updateWithProduct(breadcrumbs, dispatch),
+    updateMetaFromProduct: product => MetaDispatcher.updateWithProduct(product, dispatch)
 });
 
 export class ProductPageContainer extends PureComponent {
@@ -53,8 +55,9 @@ export class ProductPageContainer extends PureComponent {
         location: LocationType,
         isOnlyPlaceholder: PropTypes.bool,
         changeHeaderState: PropTypes.func.isRequired,
-        changeNavigationState: PropTypes.func.isRequired,
         setBigOfflineNotice: PropTypes.func.isRequired,
+        changeNavigationState: PropTypes.func.isRequired,
+        updateMetaFromProduct: PropTypes.func.isRequired,
         updateBreadcrumbs: PropTypes.func.isRequired,
         requestProduct: PropTypes.func.isRequired,
         isOffline: PropTypes.bool.isRequired,
@@ -79,15 +82,40 @@ export class ProductPageContainer extends PureComponent {
     };
 
     componentDidMount() {
-        const { isOnlyPlaceholder } = this.props;
+        const {
+            location: { pathname },
+            isOnlyPlaceholder,
+            history
+        } = this.props;
+
+        if (pathname === '/product' || pathname === '/product/') {
+            history.push('/');
+            return;
+        }
+
         if (!isOnlyPlaceholder) this._requestProduct();
         this._onProductUpdate();
     }
 
-    componentDidUpdate({ location: { pathname: prevPathname } }) {
-        const { location: { pathname } } = this.props;
+    componentDidUpdate(prevProps) {
+        const {
+            location: { pathname },
+            product: { id }
+        } = this.props;
+        const {
+            location: { pathname: prevPathname },
+            product: { id: prevId }
+        } = prevProps;
 
         if (pathname !== prevPathname) this._requestProduct();
+
+        if (id !== prevId) {
+            const dataSource = this._getDataSource();
+            const { updateMetaFromProduct } = this.props;
+
+            updateMetaFromProduct(dataSource);
+        }
+
         this._onProductUpdate();
     }
 

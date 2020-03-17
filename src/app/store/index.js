@@ -34,6 +34,7 @@ import { OverlayReducer } from 'Store/Overlay';
 import { OfflineReducer } from 'Store/Offline';
 import { PopupReducer } from 'Store/Popup';
 import { ConfigReducer } from 'Store/Config';
+import { MetaReducer } from 'Store/Meta';
 import { LinkedProductsReducer } from 'Store/LinkedProducts';
 
 export const reducers = {
@@ -58,6 +59,7 @@ export const reducers = {
     PopupReducer,
     UrlRewritesReducer,
     ConfigReducer,
+    MetaReducer,
     LinkedProductsReducer
 };
 

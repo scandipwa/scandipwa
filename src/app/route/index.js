@@ -22,10 +22,12 @@ import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 import { Router } from 'react-router';
 import { connect } from 'react-redux';
+import { updateMeta } from 'Store/Meta';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { createBrowserHistory } from 'history';
 
 import Breadcrumbs from 'Component/Breadcrumbs';
+import Meta from 'Component/Meta';
 import Footer from 'Component/Footer';
 import Header from 'Component/Header';
 import NavigationTabs from 'Component/NavigationTabs';
@@ -69,11 +71,40 @@ export const AFTER_ITEMS_TYPE = 'AFTER_ITEMS_TYPE';
 export const history = createBrowserHistory({ basename: '/' });
 
 export const mapStateToProps = state => ({
+    isLoading: state.ConfigReducer.isLoading,
+    default_description: state.ConfigReducer.default_description,
+    default_keywords: state.ConfigReducer.default_keywords,
+    default_title: state.ConfigReducer.default_title,
+    title_prefix: state.ConfigReducer.title_prefix,
+    title_suffix: state.ConfigReducer.title_suffix,
     isOffline: state.OfflineReducer.isOffline,
     isBig: state.OfflineReducer.isBig
 });
 
+export const mapDispatchToProps = dispatch => ({
+    updateMeta: meta => dispatch(updateMeta(meta))
+});
+
 export class AppRouter extends PureComponent {
+    static propTypes = {
+        updateMeta: PropTypes.func.isRequired,
+        default_description: PropTypes.string,
+        default_keywords: PropTypes.string,
+        default_title: PropTypes.string,
+        title_prefix: PropTypes.string,
+        title_suffix: PropTypes.string,
+        isLoading: PropTypes.bool
+    };
+
+    static defaultProps = {
+        default_description: '',
+        default_keywords: '',
+        default_title: '',
+        title_prefix: '',
+        title_suffix: '',
+        isLoading: true
+    };
+
     [BEFORE_ITEMS_TYPE] = [
         {
             component: <NotificationList />,
@@ -161,6 +192,32 @@ export class AppRouter extends PureComponent {
         super(props);
 
         this.dispatchActions();
+    }
+
+    componentDidUpdate(prevProps) {
+        const { isLoading, updateMeta } = this.props;
+        const { isLoading: prevIsLoading } = prevProps;
+
+        if (!isLoading && isLoading !== prevIsLoading) {
+            const {
+                default_description,
+                default_keywords,
+                default_title,
+                title_prefix,
+                title_suffix
+            } = this.props;
+
+            updateMeta({
+                default_title,
+                title: default_title,
+                default_description,
+                description: default_description,
+                default_keywords,
+                keywords: default_keywords,
+                title_prefix,
+                title_suffix
+            });
+        }
     }
 
     getCmsBlocksToRequest() {
@@ -285,11 +342,14 @@ export class AppRouter extends PureComponent {
 
     render() {
         return (
-            <Router history={ history }>
-                { this.renderRouterContent() }
-            </Router>
+            <>
+                <Meta />
+                <Router history={ history }>
+                    { this.renderRouterContent() }
+                </Router>
+            </>
         );
     }
 }
 
-export default connect(mapStateToProps)(AppRouter);
+export default connect(mapStateToProps, mapDispatchToProps)(AppRouter);

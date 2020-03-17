@@ -1,40 +1,71 @@
-<a href="https://demo.scandipwa.com">
-  <img src="https://repository-images.githubusercontent.com/174561264/283d7880-15e6-11ea-894e-5b04d2a1ad5c" alt="Banner stating: ScandiPWA - the first Open Source PWA Theme for Magento">
-</a>
+![ScandiPWA](https://user-images.githubusercontent.com/52198221/76542214-57893e80-648d-11ea-9f2e-2f60aa25d261.png)
 
 # ScandiPWA Theme
 
 [![The dev branch - 2.x-dev](https://img.shields.io/badge/dev%20branch-2.x--dev-blue)](https://github.com/scandipwa/base-theme/tree/2.x-dev)
 [![The stable branch - 2.x-stable](https://img.shields.io/badge/stable%20branch-2.x--stable-blue)](https://github.com/scandipwa/base-theme/tree/2.x-stable)
 [![Join community Slack](https://img.shields.io/badge/join-community%20slack-brightgreen)](https://join.slack.com/t/scandipwa/shared_invite/enQtNzE2Mjg1Nzg3MTg5LTQwM2E2NmQ0NmQ2MzliMjVjYjQ1MTFiYWU5ODAyYTYyMGQzNWM3MDhkYzkyZGMxYTJlZWI1N2ExY2Q1MDMwMTk)
-[![All Contributors](https://img.shields.io/badge/all_contributors-38-orange.svg)](#contributors)
-<!--
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/839cbb593b36432faecd5da0c3844ca8)](https://www.codacy.com/app/ScandiPWA/base-theme?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=scandipwa/base-theme&amp;utm_campaign=Badge_Grade)
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fscandipwa%2Fbase-theme.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fscandipwa%2Fbase-theme?ref=badge_shield)
--->
 
+ScandiPWA is a single page application theme for Magento with advanced PWA capabilities.
 
-This repository contains ScandiPWA Theme sources. Read full application documentation [here](https://docs.scandipwa.com/#/theme/01-Project).
+**How?**
 
-## Local development
+ScandiPWA can be installed as a regular Magento theme, however, the usual layout/template system is not utilized. 
+Instead, we are using **React** components to render the application and utilize **GraphQL API** of Magento 2.3.
 
-The [docker environment](https://github.com/scandipwa/scandipwa-base) is prepared to deploy and develop theme. We strictly recommend using it!
+> Sounds interesting? Make sure to :star: scandipwa base-theme repository so you can keep up to date with the latest releases! 
 
-## Important notes
+## Demo
 
-### Prefer composer installation
+Not yet convinced? Check out our [ScandiPWA demo](https://demo.scandipwa.com/)!
 
-Unless you are trying to contribute, use composer to install this package: `composer install scandipwa/installer` - see more details [here](https://github.com/scandipwa/installer). Make sure your server root is `/pub`. Read more how to do this in [official Magento 2 docs](https://devdocs.magento.com/guides/v2.3/install-gde/tutorials/change-docroot-to-pub.html).
+![demo_store](https://user-images.githubusercontent.com/52198221/76536523-2278ee00-6485-11ea-982d-7c1ff9b32b57.gif)
 
-### Environment & Stack
+## What do we support?
 
-ScandiPWA theme is based on React and Redux. It is built with Webpack v4, therefore **you will need NodeJS environment support** on your CI/CD server or local machine in order to build it. Once theme is built it is a valid Magento 2 theme with no additional requirements.
+ScandiPWA covers 300+ default Magento features including:
 
-### Caching
+- [x] Multistore support
+- [x] Multiple languages and currencies
+- [x] Customer registation and My Account
+- [x] Payment methods such as Stripe, Paypal, and more
+- [x] Shipping methods such as UPS and FedEx
 
-For better performance Varnish cache is required. You must ensure Varnish is caching static (javascript and CSS) in order to have the best performance for the app shell loading.
+> **Want to learn more?**
+See the FULL list of supported features in our [roadmap](https://scandipwa.com/).
 
-## Contributors ✨
+## Ready to try?
+
+To install the ScandiPWA theme, please visit our [scandipwa-base](https://github.com/scandipwa/scandipwa-base) repository. 
+
+Available setup options:
+
+- [x] Docker on Linux
+- [x] Existing Magento
+- [x] With remote server
+- [ ] Docker on Mac
+
+> **Quick start** → [Demo Setup on Magento](https://www.youtube.com/watch?v=eWLB6c2FOrY)
+
+## Need help?
+
+ScandiPWA core team is here to make your life easier and coding process more delightful. See what we have for you:
+
+- [Video Guides & Weekly Webinars](https://www.youtube.com/channel/UCvnxo7rh5NRwvMHtJga9fww)
+- [ScandiPWA User Guide](https://scandiweb.atlassian.net/wiki/spaces/SUG/overview)
+- [ScandiPWA Documentation](https://docs.scandipwa.com/#/)
+
+**Still feeling lost?**
+
+Join our community [Slack channel](https://join.slack.com/t/scandipwa/shared_invite/enQtNzE2Mjg1Nzg3MTg5LTQwM2E2NmQ0NmQ2MzliMjVjYjQ1MTFiYWU5ODAyYTYyMGQzNWM3MDhkYzkyZGMxYTJlZWI1N2ExY2Q1MDMwMTk) and ask the core team directly!
+
+## Important note - theme update
+
+Unless you are trying to contribute, use composer to install the package: `composer install scandipwa/installer`. See more details [here](https://github.com/scandipwa/installer).
+
+Also, make sure your server root is `/pub`. Read more how to do this in [official Magento 2 docs](https://devdocs.magento.com/guides/v2.3/install-gde/tutorials/change-docroot-to-pub.html).
+
+## Contributors 🤝
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
@@ -58,7 +89,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/vladimirsm"><img src="https://avatars2.githubusercontent.com/u/28219370?v=4" width="100px;" alt=""/><br /><sub><b>Vladimirs Mihnovics</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=vladimirsm" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/ybutrameev"><img src="https://avatars1.githubusercontent.com/u/38831994?v=4" width="100px;" alt=""/><br /><sub><b>Yefim</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=ybutrameev" title="Code">💻</a> <a href="https://github.com/scandipwa/base-theme/issues?q=author%3Aybutrameev" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://github.com/atachh"><img src="https://avatars1.githubusercontent.com/u/13818833?v=4" width="100px;" alt=""/><br /><sub><b>Dmitry Asanov</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=atachh" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/eli-l"><img src="https://avatars2.githubusercontent.com/u/7448649?v=4" width="100px;" alt=""/><br /><sub><b>Ilja Lapkovskis</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=eli-l" title="Code">💻</a> <a href="#infra-eli-l" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#maintenance-eli-l" title="Maintenance">🚧</a> <a href="#ideas-eli-l" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/scandipwa/base-theme/issues?q=author%3Aeli-l" title="Bug reports">🐛</a> <a href="#projectManagement-eli-l" title="Project Management">📆</a> <a href="https://github.com/scandipwa/base-theme/pulls?q=is%3Apr+reviewed-by%3Aeli-l" title="Reviewed Pull Requests">👀</a> <a href="#content-eli-l" title="Content">🖋</a> <a href="https://github.com/scandipwa/base-theme/commits?author=eli-l" title="Documentation">📖</a> <a href="#question-eli-l" title="Answering Questions">💬</a> <a href="#talk-eli-l" title="Talks">📢</a> <a href="#video-eli-l" title="Videos">📹</a></td>
+    <td align="center"><a href="https://github.com/eli-l"><img src="https://avatars2.githubusercontent.com/u/7448649?v=4" width="100px;" alt=""/><br /><sub><b>Ilja Lapkovskis</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=eli-l" title="Code">💻</a> <a href="#infra-eli-l" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#maintenance-eli-l" title="Maintenance">🚧</a></td>
   </tr>
   <tr>
     <td align="center"><a href="https://twitter.com/RaivisDejus"><img src="https://avatars0.githubusercontent.com/u/5319134?v=4" width="100px;" alt=""/><br /><sub><b>Raivis Dejus</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=raivisdejus" title="Code">💻</a> <a href="https://github.com/scandipwa/base-theme/issues?q=author%3Araivisdejus" title="Bug reports">🐛</a></td>
@@ -73,7 +104,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/mihailspopovs4"><img src="https://avatars3.githubusercontent.com/u/54805724?v=4" width="100px;" alt=""/><br /><sub><b>mihailspopovs4</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=mihailspopovs4" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/Animimar"><img src="https://avatars2.githubusercontent.com/u/32173359?v=4" width="100px;" alt=""/><br /><sub><b>Tanunuki</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=Animimar" title="Code">💻</a> <a href="https://github.com/scandipwa/base-theme/issues?q=author%3AAnimimar" title="Bug reports">🐛</a></td>
     <td align="center"><a href="http://teomedia.dk"><img src="https://avatars2.githubusercontent.com/u/8639654?v=4" width="100px;" alt=""/><br /><sub><b>Teodor Moquist</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/issues?q=author%3Ateodormoq" title="Bug reports">🐛</a> <a href="#translation-teodormoq" title="Translation">🌍</a></td>
-    <td align="center"><a href="https://github.com/alfredsgenkins"><img src="https://avatars1.githubusercontent.com/u/29531824?v=4" width="100px;" alt=""/><br /><sub><b>Alfreds Genkins</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=alfredsgenkins" title="Code">💻</a> <a href="https://github.com/scandipwa/base-theme/issues?q=author%3Aalfredsgenkins" title="Bug reports">🐛</a> <a href="#question-alfredsgenkins" title="Answering Questions">💬</a> <a href="#maintenance-alfredsgenkins" title="Maintenance">🚧</a> <a href="#projectManagement-alfredsgenkins" title="Project Management">📆</a> <a href="#tool-alfredsgenkins" title="Tools">🔧</a> <a href="https://github.com/scandipwa/base-theme/pulls?q=is%3Apr+reviewed-by%3Aalfredsgenkins" title="Reviewed Pull Requests">👀</a> <a href="#content-alfredsgenkins" title="Content">🖋</a> <a href="https://github.com/scandipwa/base-theme/commits?author=alfredsgenkins" title="Documentation">📖</a> <a href="#design-alfredsgenkins" title="Design">🎨</a> <a href="#video-alfredsgenkins" title="Videos">📹</a> <a href="#talk-alfredsgenkins" title="Talks">📢</a></td>
+    <td align="center"><a href="https://github.com/alfredsgenkins"><img src="https://avatars1.githubusercontent.com/u/29531824?v=4" width="100px;" alt=""/><br /><sub><b>Alfreds Genkins</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=alfredsgenkins" title="Code">💻</a> <a href="#projectManagement-alfredsgenkins" title="Project Management">📆</a> <a href="#content-alfredsgenkins" title="Content">🖋</a></td>
     <td align="center"><a href="https://github.com/Chevskis"><img src="https://avatars2.githubusercontent.com/u/15198469?v=4" width="100px;" alt=""/><br /><sub><b>Klāvs Kačevskis</b></sub></a><br /><a href="#projectManagement-Chevskis" title="Project Management">📆</a></td>
     <td align="center"><a href="https://github.com/lianastaskevica"><img src="https://avatars3.githubusercontent.com/u/52198221?v=4" width="100px;" alt=""/><br /><sub><b>Liana </b></sub></a><br /><a href="#projectManagement-lianastaskevica" title="Project Management">📆</a> <a href="https://github.com/scandipwa/base-theme/issues?q=author%3Alianastaskevica" title="Bug reports">🐛</a> <a href="#userTesting-lianastaskevica" title="User Testing">📓</a></td>
     <td align="center"><a href="http://danpiel.net"><img src="https://avatars1.githubusercontent.com/u/367141?v=4" width="100px;" alt=""/><br /><sub><b>Yuri Egorov</b></sub></a><br /><a href="#infra-Danpiel" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/scandipwa/base-theme/commits?author=Danpiel" title="Documentation">📖</a> <a href="#ideas-Danpiel" title="Ideas, Planning, & Feedback">🤔</a></td>
@@ -99,6 +130,10 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
 <!-- ALL-CONTRIBUTORS-LIST:END -->
+
+### Want to join the list?
+
+Here is how you can do it - [How to contribute]()
 
 ## License
 
