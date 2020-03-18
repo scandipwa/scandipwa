@@ -70,7 +70,7 @@ export default class ProductPrice extends PureComponent {
               aria-label={ `Product price: ${ formatedCurrency }${ currency }` }
               itemProp="offers"
               itemScope
-              itemType="https://schema.org/AggregateOffer"
+              itemType="http://schema.org/AggregateOffer"
             >
                 <PriceSemanticElementName>
                     <data

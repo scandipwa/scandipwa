@@ -129,7 +129,7 @@ export default class ProductCard extends PureComponent {
               elem="Reviews"
               itemProp="aggregateRating"
               itemScope
-              itemType="https://schema.org/AggregateRating"
+              itemType="http://schema.org/AggregateRating"
             >
                 <meta itemProp="ratingValue" content={ rating || 0 } />
                 <meta itemProp="ratingCount" content={ review_count || 0 } />
@@ -206,7 +206,7 @@ export default class ProductCard extends PureComponent {
             <li
               block="ProductCard"
               itemScope
-              itemType={ sku && 'https://schema.org/Product' }
+              itemType={ sku && 'http://schema.org/Product' }
               mix={ mix }
             >
                 <Loader isLoading={ isLoading } />
