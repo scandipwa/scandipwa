@@ -20,7 +20,7 @@ import VideoThumbnail from 'Component/VideoThumbnail';
 import VideoPopup from 'Component/VideoPopup';
 import { LocationType } from 'Type/Common';
 import { withRouter } from 'react-router';
-import SliderVertical from 'Component/SliderVertical';
+import Slider from 'Component/Slider';
 import Image from 'Component/Image';
 
 import './ProductGallery.style';
@@ -245,7 +245,7 @@ export class ProductGallery extends PureComponent {
 
         return (
             <div ref={ this.imageRef }>
-                <SliderVertical
+                <Slider
                   ref={ this.sliderRef }
                   mix={ { block: 'ProductGallery', elem: 'Slider' } }
                   showCrumbs
@@ -254,7 +254,7 @@ export class ProductGallery extends PureComponent {
                   isInteractionDisabled={ isZoomEnabled }
                 >
                     { gallery.map(this.renderSlide) }
-                </SliderVertical>
+                </Slider>
                 { this.renderGalleryNotice() }
             </div>
         );
