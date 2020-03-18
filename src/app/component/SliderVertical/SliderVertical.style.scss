@@ -10,9 +10,6 @@
  */
 
 .Slider {
-    --translateY: 0;
-    --slider-height: 0;
-
     &-Wrapper {
         &_isVertical {
             flex-direction: column;
