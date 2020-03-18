@@ -71,6 +71,17 @@ class ProductReviews extends PureComponent {
         );
     }
 
+    renderRatingSchema(percent, reviewCount) {
+        return (
+            <>
+                <meta itemProp="ratingValue" content={ percent } />
+                <meta itemProp="worstRating" content={ 0 } />
+                <meta itemProp="bestRating" content={ 100 } />
+                <meta itemProp="reviewCount" content={ reviewCount } />
+            </>
+        );
+    }
+
     renderRatingData() {
         const {
             product: {
@@ -86,10 +97,11 @@ class ProductReviews extends PureComponent {
 
         const percent = parseFloat(STARS_COUNT * (rating_summary || 0) / PERCENT).toFixed(2);
 
-        if (!rating_summary) return this.renderNoRating();
+        if (rating_summary !== 0 && !rating_summary) return this.renderNoRating();
 
         return (
             <>
+                { this.renderRatingSchema(percent, review_count) }
                 <ProductReviewRating
                   mix={ { block: 'ProductReviews', elem: 'SummaryRating' } }
                   summary={ rating_summary }
@@ -104,7 +116,13 @@ class ProductReviews extends PureComponent {
 
     renderSummary() {
         return (
-            <div block="ProductReviews" elem="Summary">
+            <div
+              block="ProductReviews"
+              elem="Summary"
+              itemType="http://schema.org/AggregateRating"
+              itemProp="aggregateRating"
+              itemScope
+            >
                 <h3 block="ProductReviews" elem="Title">
                     { __('Customer reviews') }
                 </h3>

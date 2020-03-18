@@ -110,7 +110,9 @@ export default class ProductPrice extends PureComponent {
         const { isSchemaRequired, priceCurrency } = this.props;
 
         if (isSchemaRequired) {
-            return <meta itemProp="priceCurrency" content={ priceCurrency } />;
+            return (
+                <meta itemProp="priceCurrency" content={ priceCurrency } />
+            );
         }
 
         return null;
@@ -119,7 +121,6 @@ export default class ProductPrice extends PureComponent {
     render() {
         const {
             price: { minimalPrice, regularPrice },
-            isSchemaRequired,
             formatedCurrency,
             currency,
             mix
@@ -129,19 +130,11 @@ export default class ProductPrice extends PureComponent {
             return this.renderPlaceholder();
         }
 
-        const schemaObject = isSchemaRequired
-            ? {
-                itemType: 'https://schema.org/AggregateOffer',
-                itemProp: 'offers',
-                itemScope: true
-            } : {};
-
         return (
             <p
               block="ProductPrice"
               mix={ mix }
               aria-label={ `Product price: ${ formatedCurrency }${ currency }` }
-              { ...schemaObject }
             >
                 { this.renderCurrentPrice() }
                 { this.renderOldPrice() }

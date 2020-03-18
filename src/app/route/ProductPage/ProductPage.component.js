@@ -88,18 +88,18 @@ export default class ProductPage extends PureComponent {
     render() {
         return (
             <>
-                <main block="ProductPage" aria-label="Product page">
-                    <div
-                      itemScope
-                      itemType="http://schema.org/Product"
+                <main
+                  block="ProductPage"
+                  aria-label="Product page"
+                  itemScope
+                  itemType="http://schema.org/Product"
+                >
+                    <ContentWrapper
+                      wrapperMix={ { block: 'ProductPage', elem: 'Wrapper' } }
+                      label={ __('Main product details') }
                     >
-                        <ContentWrapper
-                          wrapperMix={ { block: 'ProductPage', elem: 'Wrapper' } }
-                          label={ __('Main product details') }
-                        >
-                            { this.renderProductPageContent() }
-                        </ContentWrapper>
-                    </div>
+                        { this.renderProductPageContent() }
+                    </ContentWrapper>
                     { this.renderAdditionalSections() }
                 </main>
             </>
