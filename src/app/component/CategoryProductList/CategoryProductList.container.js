@@ -8,7 +8,10 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
 import ProductList from 'Component/ProductList';
 import { ProductListDispatcher, updateLoadStatus } from 'Store/ProductList';
 
@@ -24,4 +27,29 @@ export const mapDispatchToProps = dispatch => ({
     updateLoadStatus: isLoading => dispatch(updateLoadStatus(isLoading))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProductList);
+export class CategoryProductListContainer extends PureComponent {
+    static propTypes = {
+        getIsNewCategory: PropTypes.func.isRequired,
+        isLoading: PropTypes.bool.isRequired
+    };
+
+    getIsLoading() {
+        const { getIsNewCategory, isLoading } = this.props;
+        return isLoading || getIsNewCategory();
+    }
+
+    containerProps = () => ({
+        isLoading: this.getIsLoading()
+    });
+
+    render() {
+        return (
+            <ProductList
+              { ...this.props }
+              { ...this.containerProps() }
+            />
+        );
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CategoryProductListContainer);

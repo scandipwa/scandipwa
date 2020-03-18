@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable no-console */
 /**
  * ScandiPWA - Progressive Web App for Magento
@@ -10,28 +11,26 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent, cloneElement } from 'react';
+import {
+    PureComponent,
+    cloneElement,
+    lazy,
+    Suspense
+} from 'react';
 
+import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 import { Router } from 'react-router';
+import { connect } from 'react-redux';
+import { updateMeta } from 'Store/Meta';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { createBrowserHistory } from 'history';
 
-import HomePage from 'Route/HomePage';
-import CategoryPage from 'Route/CategoryPage';
-import SearchPage from 'Route/SearchPage';
-import ProductPage from 'Route/ProductPage';
-import CmsPage from 'Route/CmsPage';
-import CartPage from 'Route/CartPage';
-import MyAccount from 'Route/MyAccount';
-import PasswordChangePage from 'Route/PasswordChangePage';
-import NoMatchHandler from 'Route/NoMatchHandler';
-import UrlRewrites from 'Route/UrlRewrites';
-import Checkout from 'Route/Checkout';
-
-import Header from 'Component/Header';
-import Footer from 'Component/Footer';
 import Breadcrumbs from 'Component/Breadcrumbs';
+import Meta from 'Component/Meta';
+import Footer from 'Component/Footer';
+import Header from 'Component/Header';
+import NavigationTabs from 'Component/NavigationTabs';
 import NotificationList from 'Component/NotificationList';
 
 import Store from 'Store';
@@ -40,7 +39,29 @@ import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
 import { ConfigDispatcher } from 'Store/Config';
 import { CartDispatcher } from 'Store/Cart';
 import { WishlistDispatcher } from 'Store/Wishlist';
-import SomethingWentWrong from './SomethingWentWrong';
+
+// suppress prop-types warning on Route component when using with React.lazy
+// until react-router-dom@4.4.0 or higher version released
+/* eslint-disable react/forbid-foreign-prop-types */
+Route.propTypes.component = PropTypes.oneOfType([
+    Route.propTypes.component,
+    PropTypes.object
+]);
+/* eslint-enable react/forbid-foreign-prop-types */
+
+export const CartPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/CartPage'));
+export const CategoryPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/CategoryPage'));
+export const Checkout = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/Checkout'));
+export const CmsPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/CmsPage'));
+export const HomePage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/HomePage'));
+export const MyAccount = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/MyAccount'));
+export const NoMatchHandler = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/NoMatchHandler'));
+export const PasswordChangePage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/PasswordChangePage'));
+export const ProductPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/ProductPage'));
+export const SearchPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/SearchPage'));
+export const SomethingWentWrong = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/SomethingWentWrong'));
+export const UrlRewrites = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/UrlRewrites'));
+export const MenuPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/MenuPage'));
 
 export const BEFORE_ITEMS_TYPE = 'BEFORE_ITEMS_TYPE';
 export const SWITCH_ITEMS_TYPE = 'SWITCH_ITEMS_TYPE';
@@ -48,7 +69,39 @@ export const AFTER_ITEMS_TYPE = 'AFTER_ITEMS_TYPE';
 
 export const history = createBrowserHistory({ basename: '/' });
 
-class AppRouter extends PureComponent {
+export const mapStateToProps = state => ({
+    isLoading: state.ConfigReducer.isLoading,
+    default_description: state.ConfigReducer.default_description,
+    default_keywords: state.ConfigReducer.default_keywords,
+    default_title: state.ConfigReducer.default_title,
+    title_prefix: state.ConfigReducer.title_prefix,
+    title_suffix: state.ConfigReducer.title_suffix
+});
+
+export const mapDispatchToProps = dispatch => ({
+    updateMeta: meta => dispatch(updateMeta(meta))
+});
+
+export class AppRouter extends PureComponent {
+    static propTypes = {
+        updateMeta: PropTypes.func.isRequired,
+        default_description: PropTypes.string,
+        default_keywords: PropTypes.string,
+        default_title: PropTypes.string,
+        title_prefix: PropTypes.string,
+        title_suffix: PropTypes.string,
+        isLoading: PropTypes.bool
+    };
+
+    static defaultProps = {
+        default_description: '',
+        default_keywords: '',
+        default_title: '',
+        title_prefix: '',
+        title_suffix: '',
+        isLoading: true
+    };
+
     [BEFORE_ITEMS_TYPE] = [
         {
             component: <NotificationList />,
@@ -57,6 +110,10 @@ class AppRouter extends PureComponent {
         {
             component: <Header />,
             position: 20
+        },
+        {
+            component: <NavigationTabs />,
+            position: 25
         },
         {
             component: <Breadcrumbs />,
@@ -102,6 +159,10 @@ class AppRouter extends PureComponent {
             position: 70
         },
         {
+            component: <Route path="/menu" component={ MenuPage } />,
+            position: 80
+        },
+        {
             component: <Route component={ UrlRewrites } />,
             position: 1000
         }
@@ -123,6 +184,32 @@ class AppRouter extends PureComponent {
         super(props);
 
         this.dispatchActions();
+    }
+
+    componentDidUpdate(prevProps) {
+        const { isLoading, updateMeta } = this.props;
+        const { isLoading: prevIsLoading } = prevProps;
+
+        if (!isLoading && isLoading !== prevIsLoading) {
+            const {
+                default_description,
+                default_keywords,
+                default_title,
+                title_prefix,
+                title_suffix
+            } = this.props;
+
+            updateMeta({
+                default_title,
+                title: default_title,
+                default_description,
+                description: default_description,
+                default_keywords,
+                keywords: default_keywords,
+                title_prefix,
+                title_suffix
+            });
+        }
     }
 
     getCmsBlocksToRequest() {
@@ -205,15 +292,23 @@ class AppRouter extends PureComponent {
         );
     }
 
+    renderFallbackPage() {
+        return (
+            <main style={ { height: '100vh' } } />
+        );
+    }
+
     renderDefaultRouterContent() {
         return (
             <>
                 { this.renderItemsOfType(BEFORE_ITEMS_TYPE) }
-                <NoMatchHandler>
-                    <Switch>
-                        { this.renderItemsOfType(SWITCH_ITEMS_TYPE) }
-                    </Switch>
-                </NoMatchHandler>
+                <Suspense fallback={ this.renderFallbackPage() }>
+                    <NoMatchHandler>
+                        <Switch>
+                            { this.renderItemsOfType(SWITCH_ITEMS_TYPE) }
+                        </Switch>
+                    </NoMatchHandler>
+                </Suspense>
                 { this.renderItemsOfType(AFTER_ITEMS_TYPE) }
             </>
         );
@@ -227,11 +322,14 @@ class AppRouter extends PureComponent {
 
     render() {
         return (
-            <Router history={ history }>
-                { this.renderRouterContent() }
-            </Router>
+            <>
+                <Meta />
+                <Router history={ history }>
+                    { this.renderRouterContent() }
+                </Router>
+            </>
         );
     }
 }
 
-export default AppRouter;
+export default connect(mapStateToProps, mapDispatchToProps)(AppRouter);

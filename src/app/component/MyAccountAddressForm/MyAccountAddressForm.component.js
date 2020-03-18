@@ -40,7 +40,7 @@ class MyAccountAddressForm extends FieldForm {
         const country = countries.find(({ id }) => id === countryId);
         const { available_regions: availableRegions } = country || {};
         const regions = availableRegions || [{}];
-        const regionId = regions[0].id || region_id;
+        const regionId = region_id || regions[0].id;
 
         this.state = {
             countryId,
@@ -162,7 +162,11 @@ class MyAccountAddressForm extends FieldForm {
 
     renderActions() {
         return (
-            <button type="submit" block="Button">
+            <button
+              type="submit"
+              block="Button"
+              mix={ { block: 'MyAccount', elem: 'Button' } }
+            >
                 { __('Save address') }
             </button>
         );

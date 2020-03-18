@@ -85,16 +85,24 @@ export class BreadcrumbsDispatcher {
         const breadcrumbsList = [];
 
         if (breadcrumbs) {
-            breadcrumbs.sort((a, b) => b.category_level - a.category_level)
-                .map(({ category_name, category_url_key }) => breadcrumbsList.push({
-                    url: `/category/${category_url_key}`,
-                    name: category_name
-                }));
+            breadcrumbs
+                .sort((a, b) => a.category_level > b.category_level)
+                .reduce((prev, crumb) => {
+                    const { category_url_key, category_name } = crumb;
+                    const url = `${prev}/${category_url_key}`;
+
+                    breadcrumbsList.push({
+                        name: category_name,
+                        url
+                    });
+
+                    return url;
+                }, '/category');
         }
 
         return [
             { url: `/category/${url_path}`, name },
-            ...breadcrumbsList
+            ...breadcrumbsList.reverse()
         ];
     }
 
@@ -106,32 +114,31 @@ export class BreadcrumbsDispatcher {
      */
     _getProductBreadcrumbs(product) {
         const { categories, url_key, name } = product;
-        const breadcrumbsList = [];
 
-        if (categories && categories.length) {
-            const { breadcrumbsCategory = {} } = categories.reduce((acc, category) => {
-                const { longestBreadcrumbsLength } = acc;
-                const { breadcrumbs } = category;
-                const breadcrumbsLength = (breadcrumbs || []).length;
-
-                if (!breadcrumbsLength && longestBreadcrumbsLength !== 0) return acc;
-
-                if (longestBreadcrumbsLength === 0) return { ...acc, breadcrumbsCategory: category };
-
-                if (breadcrumbsLength <= longestBreadcrumbsLength) return acc;
-
-                return {
-                    breadcrumbsCategory: category,
-                    longestBreadcrumbsLength: breadcrumbsLength
-                };
-            }, { breadcrumbsCategory: {}, longestBreadcrumbsLength: 0 });
-
-            breadcrumbsList.push(...this._getCategoryBreadcrumbs(breadcrumbsCategory));
+        if (!categories || !categories.length) {
+            return [];
         }
+
+        const { breadcrumbsCategory = {} } = categories.reduce((acc, category) => {
+            const { longestBreadcrumbsLength } = acc;
+            const { breadcrumbs } = category;
+            const breadcrumbsLength = (breadcrumbs || []).length;
+
+            if (!breadcrumbsLength && longestBreadcrumbsLength !== 0) return acc;
+
+            if (longestBreadcrumbsLength === 0) return { ...acc, breadcrumbsCategory: category };
+
+            if (breadcrumbsLength <= longestBreadcrumbsLength) return acc;
+
+            return {
+                breadcrumbsCategory: category,
+                longestBreadcrumbsLength: breadcrumbsLength
+            };
+        }, { breadcrumbsCategory: {}, longestBreadcrumbsLength: 0 });
 
         return [
             { url: `/product/${url_key}`, name },
-            ...breadcrumbsList
+            ...this._getCategoryBreadcrumbs(breadcrumbsCategory)
         ];
     }
 }

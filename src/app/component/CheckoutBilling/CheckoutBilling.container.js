@@ -13,22 +13,29 @@ import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import { showPopup } from 'Store/Popup';
 import { showNotification } from 'Store/Notification';
 import { paymentMethodsType } from 'Type/Checkout';
 import { customerType, addressType } from 'Type/Account';
 import { trimCustomerAddress, trimAddressFields } from 'Util/Address';
 import { TotalsType } from 'Type/MiniCart';
 import { BRAINTREE, STRIPE, KLARNA } from 'Component/CheckoutPayments/CheckoutPayments.component';
+import {
+    TERMS_AND_CONDITIONS_POPUP_ID
+} from 'Component/CheckoutTermsAndConditionsPopup/CheckoutTermsAndConditionsPopup.component';
 
 import CheckoutBilling from './CheckoutBilling.component';
 
 export const mapStateToProps = state => ({
     customer: state.MyAccountReducer.customer,
-    totals: state.CartReducer.cartTotals
+    totals: state.CartReducer.cartTotals,
+    termsAreEnabled: state.ConfigReducer.terms_are_enabled,
+    termsAndConditions: state.ConfigReducer.checkoutAgreements
 });
 
 export const mapDispatchToProps = dispatch => ({
-    showErrorNotification: message => dispatch(showNotification('error', message))
+    showErrorNotification: message => dispatch(showNotification('error', message)),
+    showPopup: payload => dispatch(showPopup(TERMS_AND_CONDITIONS_POPUP_ID, payload))
 });
 
 export class CheckoutBillingContainer extends PureComponent {
@@ -36,9 +43,15 @@ export class CheckoutBillingContainer extends PureComponent {
         showErrorNotification: PropTypes.func.isRequired,
         paymentMethods: paymentMethodsType.isRequired,
         savePaymentInformation: PropTypes.func.isRequired,
+        showPopup: PropTypes.func.isRequired,
         shippingAddress: addressType.isRequired,
         customer: customerType.isRequired,
-        totals: TotalsType.isRequired
+        totals: TotalsType.isRequired,
+        termsAndConditions: PropTypes.arrayOf(PropTypes.shape({
+            checkbox_text: PropTypes.string,
+            content: PropTypes.string,
+            name: PropTypes.string
+        })).isRequired
     };
 
     static getDerivedStateFromProps(props, state) {
@@ -63,7 +76,8 @@ export class CheckoutBillingContainer extends PureComponent {
         onBillingError: this.onBillingError.bind(this),
         onAddressSelect: this.onAddressSelect.bind(this),
         onSameAsShippingChange: this.onSameAsShippingChange.bind(this),
-        onPaymentMethodSelect: this.onPaymentMethodSelect.bind(this)
+        onPaymentMethodSelect: this.onPaymentMethodSelect.bind(this),
+        showPopup: this.showPopup.bind(this)
     };
 
     constructor(props) {
@@ -111,6 +125,18 @@ export class CheckoutBillingContainer extends PureComponent {
             const { message = __('Something went wrong!') } = error;
             showErrorNotification(message);
         }
+    }
+
+    showPopup() {
+        const { showPopup, termsAndConditions } = this.props;
+        const {
+            name: title = __('Terms and Conditions'),
+            content: text = __('There are no Terms and Conditions configured.')
+        } = termsAndConditions[0] || {};
+
+        return showPopup({
+            title, text
+        });
     }
 
     _getPaymentData(asyncData) {
@@ -166,7 +192,7 @@ export class CheckoutBillingContainer extends PureComponent {
         if (!selectedCustomerAddressId) return trimAddressFields(fields);
 
         const { customer: { addresses } } = this.props;
-        const address = addresses.find(({ id }) => id !== selectedCustomerAddressId);
+        const address = addresses.find(({ id }) => id === selectedCustomerAddressId);
 
         return trimCustomerAddress(address);
     }

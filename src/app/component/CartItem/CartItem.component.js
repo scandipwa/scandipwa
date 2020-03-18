@@ -173,6 +173,7 @@ export default class CartItem extends PureComponent {
                   id="item_qty"
                   name="item_qty"
                   type="number"
+                  isControlled
                   min={ minSaleQuantity }
                   max={ maxSaleQuantity }
                   mix={ { block: 'CartItem', elem: 'Qty' } }

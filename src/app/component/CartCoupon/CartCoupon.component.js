@@ -56,6 +56,18 @@ class CartCoupon extends PureComponent {
         });
     };
 
+    handleFormSubmit = (e) => {
+        const { couponCode } = this.props;
+        e.preventDefault();
+
+        if (couponCode) {
+            this.handleRemoveCoupon();
+            return;
+        }
+
+        this.handleApplyCoupon();
+    };
+
     renderApplyCoupon() {
         const { enteredCouponCode } = this.state;
 
@@ -73,6 +85,7 @@ class CartCoupon extends PureComponent {
                 <button
                   block="CartCoupon"
                   elem="Button"
+                  type="button"
                   mix={ { block: 'Button' } }
                   disabled={ !enteredCouponCode }
                   onClick={ this.handleApplyCoupon }
@@ -95,6 +108,7 @@ class CartCoupon extends PureComponent {
                 <button
                   block="CartCoupon"
                   elem="Button"
+                  type="button"
                   mix={ { block: 'Button' } }
                   onClick={ this.handleRemoveCoupon }
                 >
@@ -108,13 +122,13 @@ class CartCoupon extends PureComponent {
         const { isLoading, couponCode } = this.props;
 
         return (
-            <div block="CartCoupon">
+            <form block="CartCoupon" onSubmit={ this.handleFormSubmit }>
                 <Loader isLoading={ isLoading } />
                 { (couponCode
                     ? this.renderRemoveCoupon()
                     : this.renderApplyCoupon()
                 ) }
-            </div>
+            </form>
         );
     }
 }

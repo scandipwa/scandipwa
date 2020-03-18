@@ -9,35 +9,36 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
-import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { history } from 'Route';
-import { changeHeaderState, goToPreviousHeaderState } from 'Store/Header';
+
+import { NavigationAbstractContainer } from 'Component/NavigationAbstract/NavigationAbstract.container';
+import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.component';
+import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.component';
+import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation';
+import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { toggleOverlayByKey, hideActiveOverlay } from 'Store/Overlay';
 import { setQueryParams } from 'Util/Url';
 import { isSignedIn } from 'Util/Auth';
 import isMobile from 'Util/Mobile';
+import { history } from 'Route';
+
 import Header, {
     PDP,
     CATEGORY,
     CUSTOMER_ACCOUNT,
-    HOME_PAGE,
+    CUSTOMER_SUB_ACCOUNT,
     MENU,
     MENU_SUBCATEGORY,
     SEARCH,
     CART,
     CMS_PAGE,
-    FILTER,
-    CART_EDITING,
-    CHECKOUT,
     CUSTOMER_ACCOUNT_PAGE,
-    POPUP
+    CHECKOUT
 } from './Header.component';
 
 export const mapStateToProps = state => ({
-    headerState: state.HeaderReducer.headerState,
+    navigationState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
     cartTotals: state.CartReducer.cartTotals,
     header_logo_src: state.ConfigReducer.header_logo_src,
     logo_alt: state.ConfigReducer.logo_alt,
@@ -47,40 +48,20 @@ export const mapStateToProps = state => ({
 export const mapDispatchToProps = dispatch => ({
     showOverlay: overlayKey => dispatch(toggleOverlayByKey(overlayKey)),
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    setHeaderState: stateName => dispatch(changeHeaderState(stateName)),
-    goToPreviousHeaderState: () => dispatch(goToPreviousHeaderState())
+    setNavigationState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
+    goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))
 });
 
-export class HeaderContainer extends PureComponent {
+export const DEFAULT_HEADER_STATE = {
+    name: DEFAULT_STATE_NAME,
+    isHiddenOnMobile: true
+};
+
+export class HeaderContainer extends NavigationAbstractContainer {
     static propTypes = {
         showOverlay: PropTypes.func.isRequired,
-        goToPreviousHeaderState: PropTypes.func.isRequired,
+        goToPreviousNavigationState: PropTypes.func.isRequired,
         hideActiveOverlay: PropTypes.func.isRequired,
-        setHeaderState: PropTypes.func.isRequired,
-        headerState: PropTypes.shape({
-            name: PropTypes.oneOf([
-                PDP,
-                CATEGORY,
-                CUSTOMER_ACCOUNT,
-                CUSTOMER_ACCOUNT_PAGE,
-                HOME_PAGE,
-                MENU,
-                MENU_SUBCATEGORY,
-                SEARCH,
-                FILTER,
-                CART,
-                CART_EDITING,
-                CHECKOUT,
-                CMS_PAGE,
-                POPUP
-            ]),
-            title: PropTypes.string,
-            onBackClick: PropTypes.func,
-            onCloseClick: PropTypes.func,
-            onEditClick: PropTypes.func,
-            onOkClick: PropTypes.func,
-            onCancelClick: PropTypes.func
-        }).isRequired,
         header_logo_src: PropTypes.string
     };
 
@@ -88,25 +69,23 @@ export class HeaderContainer extends PureComponent {
         header_logo_src: ''
     };
 
-    state = {
-        prevPathname: '',
-        searchCriteria: '',
-        isClearEnabled: false
-    };
+    default_state = DEFAULT_HEADER_STATE;
 
     routeMap = {
-        '/': { name: HOME_PAGE },
-        '/category': { name: CATEGORY, onBackClick: () => history.push('/') },
+        '/category': { name: CATEGORY, onBackClick: this.onMenuButtonClick.bind(this) },
+        '/checkout': { name: CHECKOUT, onBackClick: () => history.push('/cart') },
         '/my-account': { name: CUSTOMER_ACCOUNT_PAGE, onBackClick: () => history.push('/') },
         '/product': { name: PDP, onBackClick: () => history.goBack() },
         '/cart': { name: CART },
-        '/page': { name: CMS_PAGE, onBackClick: () => history.goBack() }
+        '/menu': { name: MENU },
+        '/page': { name: CMS_PAGE, onBackClick: () => history.goBack() },
+        '/': this.default_state
     };
 
     containerFunctions = {
         onBackButtonClick: this.onBackButtonClick.bind(this),
         onCloseButtonClick: this.onCloseButtonClick.bind(this),
-        onSearchBarClick: this.onSearchBarClick.bind(this),
+        onSearchBarFocus: this.onSearchBarFocus.bind(this),
         onMenuButtonClick: this.onMenuButtonClick.bind(this),
         onClearSearchButtonClick: this.onClearSearchButtonClick.bind(this),
         onMyAccountButtonClick: this.onMyAccountButtonClick.bind(this),
@@ -122,65 +101,88 @@ export class HeaderContainer extends PureComponent {
         onMinicartOutsideClick: this.onMinicartOutsideClick.bind(this)
     };
 
+    containerProps = () => {
+        const {
+            navigationState,
+            cartTotals,
+            header_logo_src,
+            logo_alt,
+            isLoading
+        } = this.props;
+
+        const {
+            isClearEnabled,
+            searchCriteria
+        } = this.state;
+
+        return {
+            navigationState,
+            cartTotals,
+            header_logo_src,
+            logo_alt,
+            isLoading,
+            isClearEnabled,
+            searchCriteria
+        };
+    };
+
     constructor(props) {
         super(props);
 
         this.state = {
-            ...this.state,
-            ...this.onRouteChanged(history.location, true)
+            prevPathname: '',
+            searchCriteria: '',
+            isClearEnabled: this.getIsClearEnabled()
         };
     }
 
     componentDidMount() {
-        history.listen(history => this.setState(this.onRouteChanged(history)));
+        this.handleHeaderVisibility();
+        super.componentDidMount();
     }
 
-    onRouteChanged(history, isPrevPathnameNotRelevant = false) {
-        const newState = {};
+    componentDidUpdate() {
+        this.handleHeaderVisibility();
+    }
 
-        const {
-            prevPathname
-        } = this.state;
+    handleHeaderVisibility() {
+        const { navigationState: { isHiddenOnMobile } } = this.props;
 
-        const {
-            hideActiveOverlay,
-            setHeaderState,
-            headerState: { name }
-        } = this.props;
-
-        const { pathname, search } = history;
-
-        if (!isMobile.any()) {
-            setHeaderState(this.routeMap['/']);
-            hideActiveOverlay();
-
-            return {};
+        if (isHiddenOnMobile) {
+            document.body.classList.add('hiddenHeader');
+            return;
         }
 
-        newState.isClearEnabled = new RegExp(['customFilters', 'priceMax', 'priceMin'].join('|')).test(search);
+        document.body.classList.remove('hiddenHeader');
+    }
 
-        if ((isPrevPathnameNotRelevant || prevPathname !== pathname)) {
-            const newHeaderState = Object.keys(this.routeMap).reduce(
-                (state, route) => ((pathname.includes(route))
-                    ? this.routeMap[route]
-                    : state
-                ), { name: HOME_PAGE }
-            );
+    handleMobileUrlChange(history) {
+        const { prevPathname } = this.state;
+        const { pathname } = history;
+        const isClearEnabled = this.getIsClearEnabled();
 
-            if (name !== newHeaderState.name) {
-                setHeaderState(newHeaderState);
-            }
-
-            hideActiveOverlay();
-
-            newState.prevPathname = pathname;
+        if (prevPathname === pathname) {
+            return { isClearEnabled };
         }
 
-        return newState;
+        return {
+            isClearEnabled,
+            ...this.handleMobileRouteChange(history)
+        };
+    }
+
+    getIsClearEnabled() {
+        const { location: { search } } = history;
+
+        return new RegExp([
+            'customFilters',
+            'priceMax',
+            'priceMin'
+        ].join('|')).test(search);
     }
 
     onBackButtonClick() {
-        const { headerState: { onBackClick } } = this.props;
+        const { navigationState: { onBackClick } } = this.props;
 
         this.setState({ searchCriteria: '' });
 
@@ -188,34 +190,38 @@ export class HeaderContainer extends PureComponent {
     }
 
     onCloseButtonClick() {
-        const { hideActiveOverlay, goToPreviousHeaderState } = this.props;
-        const { headerState: { onCloseClick } } = this.props;
+        const { hideActiveOverlay, goToPreviousNavigationState } = this.props;
+        const { navigationState: { onCloseClick } } = this.props;
 
         this.setState({ searchCriteria: '' });
 
         if (onCloseClick) onCloseClick();
 
         hideActiveOverlay();
-        goToPreviousHeaderState();
+        goToPreviousNavigationState();
     }
 
     onSearchOutsideClick() {
-        const { goToPreviousHeaderState, hideActiveOverlay, headerState: { name } } = this.props;
+        const {
+            goToPreviousNavigationState,
+            hideActiveOverlay,
+            navigationState: { name }
+        } = this.props;
 
         if (!isMobile.any() && name === SEARCH) {
             this.setState({ searchCriteria: '' });
 
             hideActiveOverlay();
-            goToPreviousHeaderState();
+            goToPreviousNavigationState();
         }
     }
 
-    onSearchBarClick() {
+    onSearchBarFocus() {
         const {
-            setHeaderState,
-            goToPreviousHeaderState,
+            setNavigationState,
+            goToPreviousNavigationState,
             showOverlay,
-            headerState: { name }
+            navigationState: { name }
         } = this.props;
 
         if (
@@ -225,11 +231,11 @@ export class HeaderContainer extends PureComponent {
 
         showOverlay(SEARCH);
 
-        setHeaderState({
+        setNavigationState({
             name: SEARCH,
             onBackClick: () => {
                 showOverlay(MENU);
-                goToPreviousHeaderState();
+                goToPreviousNavigationState();
             }
         });
     }
@@ -243,29 +249,39 @@ export class HeaderContainer extends PureComponent {
     }
 
     onMenuButtonClick() {
-        const { showOverlay, setHeaderState, headerState: { name } } = this.props;
+        const {
+            showOverlay,
+            setNavigationState,
+            navigationState: { name }
+        } = this.props;
 
         if (name !== MENU) {
             showOverlay(MENU);
-            setHeaderState({ name: MENU });
+            setNavigationState({ name: MENU });
         }
     }
 
     onMenuOutsideClick() {
-        const { goToPreviousHeaderState, hideActiveOverlay, headerState: { name } } = this.props;
+        const {
+            goToPreviousNavigationState,
+            hideActiveOverlay,
+            navigationState: { name }
+        } = this.props;
 
         if (isMobile.any()) return;
 
         if (name === MENU || name === MENU_SUBCATEGORY) {
-            if (name === MENU_SUBCATEGORY) goToPreviousHeaderState();
-            goToPreviousHeaderState();
+            if (name === MENU_SUBCATEGORY) goToPreviousNavigationState();
+            goToPreviousNavigationState();
             hideActiveOverlay();
         }
     }
 
     onMyAccountButtonClick() {
         const {
-            showOverlay, setHeaderState, headerState: { name }
+            showOverlay,
+            setNavigationState,
+            navigationState: { name }
         } = this.props;
 
         if (isSignedIn()) {
@@ -274,17 +290,24 @@ export class HeaderContainer extends PureComponent {
         }
 
         if (name !== CUSTOMER_ACCOUNT) {
-            showOverlay(CUSTOMER_ACCOUNT);
-            setHeaderState({ name: CUSTOMER_ACCOUNT, title: 'Sign in' });
+            showOverlay(CUSTOMER_ACCOUNT_OVERLAY_KEY);
+            setNavigationState({ name: CUSTOMER_ACCOUNT, title: 'Sign in' });
         }
     }
 
     onMyAccountOutsideClick() {
-        const { goToPreviousHeaderState, hideActiveOverlay, headerState: { name } } = this.props;
+        const {
+            goToPreviousNavigationState,
+            hideActiveOverlay,
+            navigationState: { name }
+        } = this.props;
 
-        if (isMobile.any() || name !== CUSTOMER_ACCOUNT) return;
-
-        goToPreviousHeaderState();
+        if (
+            isMobile.any()
+            || !(name === CUSTOMER_ACCOUNT || name === CUSTOMER_SUB_ACCOUNT)
+        ) return;
+        if (name === CUSTOMER_SUB_ACCOUNT) goToPreviousNavigationState();
+        goToPreviousNavigationState();
         hideActiveOverlay();
     }
 
@@ -302,43 +325,52 @@ export class HeaderContainer extends PureComponent {
     }
 
     onMinicartOutsideClick() {
-        const { goToPreviousHeaderState, hideActiveOverlay, headerState: { name } } = this.props;
+        const {
+            goToPreviousNavigationState,
+            hideActiveOverlay,
+            navigationState: { name }
+        } = this.props;
 
         if (isMobile.any() || name !== CART) return;
 
-        goToPreviousHeaderState();
+        goToPreviousNavigationState();
         hideActiveOverlay();
     }
 
     onEditButtonClick() {
-        const { headerState: { onEditClick } } = this.props;
+        const { navigationState: { onEditClick } } = this.props;
 
         if (onEditClick) onEditClick();
     }
 
     onOkButtonClick() {
-        const { headerState: { onOkClick }, goToPreviousHeaderState } = this.props;
+        const {
+            navigationState: { onOkClick },
+            goToPreviousNavigationState
+        } = this.props;
 
         if (onOkClick) onOkClick();
-        goToPreviousHeaderState();
+        goToPreviousNavigationState();
     }
 
     onCancelButtonClick() {
-        const { headerState: { onCancelClick }, goToPreviousHeaderState } = this.props;
+        const {
+            navigationState: { onCancelClick },
+            goToPreviousNavigationState
+        } = this.props;
 
         if (onCancelClick) onCancelClick();
-        goToPreviousHeaderState();
+        goToPreviousNavigationState();
     }
 
     render() {
         return (
             <Header
-              { ...this.props }
-              { ...this.state }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(HeaderContainer));
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderContainer);

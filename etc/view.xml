@@ -13,10 +13,10 @@
     <media>
         <images module="Magento_Catalog">
             <image id="scandipwa_media_thumbnail" type="image">
-                <width>250</width>
+                <width>150</width>
             </image>
             <image id="scandipwa_media_base" type="image">
-                <width>500</width>
+                <width>650</width>
             </image>
             <image id="scandipwa_thumbnail" type="image">
                 <width>100</width>

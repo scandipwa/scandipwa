@@ -18,11 +18,15 @@ import ExpandableContent from 'Component/ExpandableContent';
 import CategoryConfigurableAttributes from 'Component/CategoryConfigurableAttributes';
 import './CategoryFilterOverlay.style';
 
+export const CATEGORY_FILTER_OVERLAY_ID = 'category-filter';
+
 export default class CategoryFilterOverlay extends PureComponent {
     static propTypes = {
         availableFilters: PropTypes.objectOf(PropTypes.shape).isRequired,
         updatePriceRange: PropTypes.func.isRequired,
-        isInfoLoading: PropTypes.bool.isRequired,
+        areFiltersEmpty: PropTypes.bool.isRequired,
+        isContentFiltered: PropTypes.bool.isRequired,
+        isProductsLoading: PropTypes.bool.isRequired,
         priceValue: PropTypes.shape({
             min: PropTypes.number,
             max: PropTypes.number
@@ -30,9 +34,11 @@ export default class CategoryFilterOverlay extends PureComponent {
         minPriceValue: PropTypes.number.isRequired,
         maxPriceValue: PropTypes.number.isRequired,
         onSeeResultsClick: PropTypes.func.isRequired,
+        onVisible: PropTypes.func.isRequired,
         customFiltersValues: PropTypes.objectOf(PropTypes.array).isRequired,
         toggleCustomFilter: PropTypes.func.isRequired,
-        getFilterUrl: PropTypes.func.isRequired
+        getFilterUrl: PropTypes.func.isRequired,
+        totalPages: PropTypes.number.isRequired
     };
 
     renderPriceRange() {
@@ -46,6 +52,8 @@ export default class CategoryFilterOverlay extends PureComponent {
         const { min: minValue, max: maxValue } = priceValue;
         const min = minValue || minPriceValue;
         const max = maxValue || maxPriceValue;
+
+        if (maxPriceValue - minPriceValue === 0) return null;
 
         return (
             <ExpandableContent
@@ -93,19 +101,31 @@ export default class CategoryFilterOverlay extends PureComponent {
         const { onSeeResultsClick } = this.props;
 
         return (
-            <button
+            <div
               block="CategoryFilterOverlay"
               elem="SeeResults"
-              mix={ { block: 'Button' } }
-              onClick={ onSeeResultsClick }
             >
-                { __('SEE RESULTS') }
-            </button>
+                <button
+                  block="CategoryFilterOverlay"
+                  elem="Button"
+                  mix={ { block: 'Button' } }
+                  onClick={ onSeeResultsClick }
+                >
+                    { __('SEE RESULTS') }
+                </button>
+            </div>
         );
     }
 
     renderResetButton() {
-        return <ResetButton mix={ { block: 'CategoryFilterOverlay', elem: 'ResetButton' } } />;
+        const { onSeeResultsClick } = this.props;
+
+        return (
+            <ResetButton
+              onClick={ onSeeResultsClick }
+              mix={ { block: 'CategoryFilterOverlay', elem: 'ResetButton' } }
+            />
+        );
     }
 
     renderHeading() {
@@ -116,21 +136,45 @@ export default class CategoryFilterOverlay extends PureComponent {
         );
     }
 
-    render() {
-        const { isInfoLoading, availableFilters } = this.props;
+    renderNoResults() {
+        return (
+            <p block="CategoryFilterOverlay" elem="NoResults">
+                { __(`The selected filter combination returned no results.
+                Please try again, using a different set of filters.`) }
+            </p>
+        );
+    }
 
-        if (
-            !isInfoLoading
-            && (
-                !availableFilters
-                || !Object.keys(availableFilters).length
-            )
-        ) {
-            return <div block="CategoryFilterOverlay" />;
-        }
+    renderEmptyFilters() {
+        return (
+            <Overlay
+              mix={ { block: 'CategoryFilterOverlay' } }
+              id={ CATEGORY_FILTER_OVERLAY_ID }
+            >
+                { this.renderNoResults() }
+                { this.renderResetButton() }
+                { this.renderSeeResults() }
+            </Overlay>
+        );
+    }
+
+    renderMinimalFilters() {
+        return (
+            <Overlay mix={ { block: 'CategoryFilterOverlay' } } id={ CATEGORY_FILTER_OVERLAY_ID }>
+                { this.renderPriceRange() }
+            </Overlay>
+        );
+    }
+
+    renderDefaultFilters() {
+        const { onVisible } = this.props;
 
         return (
-            <Overlay mix={ { block: 'CategoryFilterOverlay' } } id="category-filter">
+            <Overlay
+              onVisible={ onVisible }
+              mix={ { block: 'CategoryFilterOverlay' } }
+              id={ CATEGORY_FILTER_OVERLAY_ID }
+            >
                 { this.renderHeading() }
                 { this.renderResetButton() }
                 { this.renderFilters() }
@@ -138,5 +182,30 @@ export default class CategoryFilterOverlay extends PureComponent {
                 { this.renderSeeResults() }
             </Overlay>
         );
+    }
+
+    render() {
+        const {
+            totalPages,
+            areFiltersEmpty,
+            isProductsLoading,
+            isContentFiltered
+        } = this.props;
+
+        if (!isProductsLoading && totalPages === 0 && !isContentFiltered) {
+            return (
+                <div block="CategoryFilterOverlay" />
+            );
+        }
+
+        if (!isProductsLoading && totalPages === 0) {
+            return this.renderEmptyFilters();
+        }
+
+        if (areFiltersEmpty) {
+            return this.renderMinimalFilters();
+        }
+
+        return this.renderDefaultFilters();
     }
 }

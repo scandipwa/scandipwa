@@ -13,7 +13,7 @@
 /* eslint-disable react/no-array-index-key */
 // Disabled due placeholder needs
 
-import { PureComponent } from 'react';
+import { PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
 
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
@@ -24,12 +24,11 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import ProductPrice from 'Component/ProductPrice';
 import { ProductType } from 'Type/ProductList';
 import AddToCart from 'Component/AddToCart';
-import { GROUPED } from 'Util/Product';
-import { isSignedIn } from 'Util/Auth';
+import { GROUPED, CONFIGURABLE } from 'Util/Product';
 import Field from 'Component/Field';
 import isMobile from 'Util/Mobile';
 import Html from 'Component/Html';
-import Link from 'Component/Link';
+import TierPrices from 'Component/TierPrices';
 
 import './ProductActions.style';
 
@@ -40,6 +39,7 @@ import './ProductActions.style';
 export default class ProductActions extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
+        productOrVariant: ProductType.isRequired,
         minQuantity: PropTypes.number.isRequired,
         maxQuantity: PropTypes.number.isRequired,
         configurableVariantIndex: PropTypes.number,
@@ -58,6 +58,42 @@ export default class ProductActions extends PureComponent {
 
     static defaultProps = {
         configurableVariantIndex: 0
+    };
+
+    configurableOptionsRef = createRef();
+
+    groupedProductsRef = createRef();
+
+    onConfigurableProductError = this.onProductError.bind(this, this.configurableOptionsRef);
+
+    onGroupedProductError = this.onProductError.bind(this, this.groupedProductsRef);
+
+    onProductError(ref) {
+        if (!ref) return;
+        const { current } = ref;
+
+        current.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+        });
+
+        current.classList.remove('animate');
+        // eslint-disable-next-line no-unused-expressions
+        current.offsetWidth; // trigger a DOM reflow
+        current.classList.add('animate');
+    }
+
+    onProductValidationError = (type) => {
+        switch (type) {
+        case CONFIGURABLE:
+            this.onConfigurableProductError();
+            break;
+        case GROUPED:
+            this.onGroupedProductError();
+            break;
+        default:
+            break;
+        }
     };
 
     renderSkuAndStock() {
@@ -112,18 +148,24 @@ export default class ProductActions extends PureComponent {
         if (type_id !== 'configurable') return null;
 
         return (
-            <ProductConfigurableAttributes
-                // eslint-disable-next-line no-magic-numbers
-              numberOfPlaceholders={ [2, 4] }
-              mix={ { block: 'ProductActions', elem: 'Attributes' } }
-              isReady={ areDetailsLoaded }
-              getLink={ getLink }
-              parameters={ parameters }
-              updateConfigurableVariant={ updateConfigurableVariant }
-              configurable_options={ configurable_options }
-              getIsConfigurableAttributeAvailable={ getIsConfigurableAttributeAvailable }
-              isContentExpanded
-            />
+            <div
+              ref={ this.configurableOptionsRef }
+              block="ProductActions"
+              elem="AttributesWrapper"
+            >
+                <ProductConfigurableAttributes
+                    // eslint-disable-next-line no-magic-numbers
+                  numberOfPlaceholders={ [2, 4] }
+                  mix={ { block: 'ProductActions', elem: 'Attributes' } }
+                  isReady={ areDetailsLoaded }
+                  getLink={ getLink }
+                  parameters={ parameters }
+                  updateConfigurableVariant={ updateConfigurableVariant }
+                  configurable_options={ configurable_options }
+                  getIsConfigurableAttributeAvailable={ getIsConfigurableAttributeAvailable }
+                  isContentExpanded
+                />
+            </div>
         );
     }
 
@@ -184,9 +226,9 @@ export default class ProductActions extends PureComponent {
                         </h4>
                     )
                 ) }
-                <p block="ProductActions" elem="Title" itemProp="name">
+                <h1 block="ProductActions" elem="Title" itemProp="name">
                     <TextPlaceholder content={ name } length="medium" />
-                </p>
+                </h1>
             </section>
         );
     }
@@ -231,6 +273,7 @@ export default class ProductActions extends PureComponent {
               mix={ { block: 'ProductActions', elem: 'AddToCart' } }
               quantity={ quantity }
               groupedProductQuantity={ groupedProductQuantity }
+              onProductValidationError={ this.onProductValidationError }
             />
         );
     }
@@ -254,19 +297,6 @@ export default class ProductActions extends PureComponent {
         );
     }
 
-    renderGoToWishlist() {
-        if (!isSignedIn()) return null;
-
-        return (
-            <Link
-              to="/my-account/my-wishlist"
-              mix={ { block: 'Button', mods: { isHollow: true } } }
-            >
-                { __('Go To Wishlist') }
-            </Link>
-        );
-    }
-
     renderProductWishlistButton() {
         const {
             product,
@@ -279,16 +309,8 @@ export default class ProductActions extends PureComponent {
               product={ product }
               quantity={ quantity }
               configurableVariantIndex={ configurableVariantIndex }
+              onProductValidationError={ this.onProductValidationError }
             />
-        );
-    }
-
-    renderAdditionalButtons() {
-        return (
-            <div block="ProductActions" elem="AdditionalButtons">
-                { this.renderProductWishlistButton() }
-                { this.renderGoToWishlist() }
-            </div>
         );
     }
 
@@ -314,13 +336,20 @@ export default class ProductActions extends PureComponent {
     renderGroupedItems() {
         const {
             product,
+            product: { type_id },
             groupedProductQuantity,
             setGroupedProductQuantity,
             clearGroupedProductQuantity
         } = this.props;
 
+        if (type_id !== GROUPED) return null;
+
         return (
-            <div block="ProductActions" elem="GroupedItems">
+            <div
+              block="ProductActions"
+              elem="GroupedItems"
+              ref={ this.groupedProductsRef }
+            >
                 <GroupedProductList
                   product={ product }
                   clearGroupedProductQuantity={ clearGroupedProductQuantity }
@@ -331,21 +360,32 @@ export default class ProductActions extends PureComponent {
         );
     }
 
+    renderTierPrices() {
+        const { productOrVariant } = this.props;
+
+        return (
+            <div block="ProductActions" elem="TierPrices">
+                <TierPrices product={ productOrVariant } />
+            </div>
+        );
+    }
+
     render() {
         return (
             <article block="ProductActions">
                 { this.renderPrice() }
+                { this.renderShortDescription() }
                 <div block="ProductActions" elem="AddToCartWrapper">
                     { this.renderQuantityInput() }
                     { this.renderAddToCart() }
+                    { this.renderProductWishlistButton() }
                 </div>
                 { this.renderReviews() }
-                { this.renderAdditionalButtons() }
                 { this.renderNameAndBrand() }
                 { this.renderSkuAndStock() }
                 { this.renderConfigurableAttributes() }
-                { this.renderShortDescription() }
                 { this.renderGroupedItems() }
+                { this.renderTierPrices() }
             </article>
         );
     }

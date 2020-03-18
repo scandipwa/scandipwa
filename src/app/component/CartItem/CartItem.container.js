@@ -13,7 +13,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { PureComponent } from 'react';
 
-import media, { PRODUCT_MEDIA } from 'Util/Media';
 import { objectToUri } from 'Util/Url';
 import { CartDispatcher } from 'Store/Cart';
 import { CartItemType } from 'Type/MiniCart';
@@ -71,7 +70,6 @@ export class CartItemContainer extends PureComponent {
 
     getMaxQuantity() {
         const { stock_item: { max_sale_qty } = {} } = this.getCurrentProduct() || {};
-
         return max_sale_qty || DEFAULT_MAX_PRODUCTS;
     }
 
@@ -134,7 +132,7 @@ export class CartItemContainer extends PureComponent {
         const {
             item: {
                 sku: itemSku,
-                product: { variants = [] }
+                product: { variants = [] } = {}
             }
         } = this.props;
 

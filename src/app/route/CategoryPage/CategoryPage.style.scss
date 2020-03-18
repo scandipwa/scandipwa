@@ -22,7 +22,7 @@
         }
 
         @include tablet {
-            grid-template-columns: minmax(150px, 200px) auto;
+            grid-template-columns: minmax(200px, 270px) auto;
             grid-column-gap: 2rem;
         }
 
@@ -31,16 +31,21 @@
         }
     }
 
+    &-ProductListWrapper {
+        @include mobile {
+            padding-top: 56px;
+        }
+    }
+
     &-ItemsCount {
-        padding-top: .3rem;
+        padding: 0;
 
         @include mobile {
             order: 1;
             font-size: .9rem;
-            padding-left: 1rem;
+            padding: .3rem 1rem 1rem 0;
             text-align: center;
             grid-column: span 2;
-            border-top: 1px solid var(--expandable-content-divider-color);
         }
     }
 
@@ -91,11 +96,29 @@
     }
 
     &-Miscellaneous {
+        z-index: 1;
         display: grid;
         grid-template-columns: 50% 50%;
         align-items: center;
-        padding-bottom: 1rem;
         min-height: 56px;
+        transform: translateY(0);
+        transition: transform 200ms cubic-bezier(.47, 0, .745, .715);
+
+        @include mobile {
+            position: fixed;
+            top: var(--header-height);
+            left: 0;
+            width: 100%;
+            z-index: 90;
+            background: #fff;
+            border-bottom: 1px solid var(--primary-divider-color);
+        }
+
+        .hideOnScroll & {
+            @include mobile {
+                transform: translateY(-100%);
+            }
+        }
 
         > * {
             @include mobile {
