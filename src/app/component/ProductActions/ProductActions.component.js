@@ -291,6 +291,7 @@ export default class ProductActions extends PureComponent {
 
         return (
             <ProductPrice
+              isSchemaRequired
               price={ productOrVariantPrice }
               mix={ { block: 'ProductActions', elem: 'Price' } }
             />
