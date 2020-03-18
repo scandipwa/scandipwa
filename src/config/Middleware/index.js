@@ -1,27 +1,15 @@
 /* eslint-disable arrow-body-style */
 /* eslint-disable func-names */
 function middleware(Class, namespace) {
-    // eslint-disable-next-line no-param-reassign
     Class.prototype.__namespace__ = namespace;
-    const namespacePlugins = window.plugins?.[namespace]?.['class'];
-    // Handle no plugins declared
-    if (!namespacePlugins) {
-        return Class;
-    }
 
-    const {
-        get: pluginsForGet,
-        construct: pluginsForConstruct
-    } = namespacePlugins;
-
-    const getHandler = function get(target, memberName, rec) {
+    const getHandler = function(target, memberName, rec) {
         if (memberName === 'Symbol.iterator') {
             return target[Symbol.iterator].bind(target);
         }
-
         const origMember = Reflect.get(target, memberName, rec);
 
-        const memberPluginsGet = pluginsForGet[memberName];
+        const memberPluginsGet = window.plugins?.[namespace]?.['class']?.['get']?.[memberName];
         if (!memberPluginsGet) {
             return origMember;
         }
@@ -59,9 +47,11 @@ function middleware(Class, namespace) {
         return middlewaredFunction;
     };
 
-    const constructHandler = function construct(TargetClass, args) {
+    const constructHandler = function(TargetClass, args) {
         const instance = new TargetClass(...args);
-        Object.entries(pluginsForConstruct).forEach(([memberName, memberPluginsConstruct]) => {
+        const namespacePluginsConstruct = window.plugins?.[namespace]?.['class']?.['construct'];
+
+        Object.entries(namespacePluginsConstruct || {}).forEach(([memberName, memberPluginsConstruct]) => {
             const origMember = instance[memberName];
             memberPluginsConstruct.sort((a, b) => {
                 if (a.position > b.position) return 1;
@@ -82,17 +72,10 @@ function middleware(Class, namespace) {
         return instance;
     };
 
-    const handler = {};
-    if (namespacePlugins.construct) {
-        Object.defineProperty(handler, 'construct', {
-            value: constructHandler
-        });
-    }
-    if (namespacePlugins.get) {
-        Object.defineProperty(handler, 'get', {
-            value: getHandler
-        });
-    }
+    const handler = {
+        get: getHandler,
+        construct: constructHandler
+    };
 
     return new Proxy(Class, handler);
 }
