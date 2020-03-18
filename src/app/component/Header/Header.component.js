@@ -279,11 +279,7 @@ export default class Header extends NavigationAbstract {
               elem="LogoWrapper"
               mods={ { isVisible } }
               key="logo"
-              itemScope
-              itemType="http://schema.org/Organization"
             >
-                <meta itemProp="legalName" content="ScandiPWA" />
-                <meta itemProp="parentOrganization" content="Scandiweb" />
                 { this.renderLogoImage() }
             </Link>
         );
