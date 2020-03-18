@@ -19,6 +19,7 @@ import DataContainer from 'Util/Request/DataContainer';
 import { LocationType, MatchType } from 'Type/Common';
 import { CmsPageQuery } from 'Query';
 import { CMS_PAGE } from 'Component/Header';
+import { updateMeta } from 'Store/Meta';
 import { getUrlParam } from 'Util/Url';
 import { history } from 'Route';
 
@@ -27,6 +28,7 @@ import CmsPage from './CmsPage.component';
 export const mapDispatchToProps = dispatch => ({
     updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.updateWithCmsPage(breadcrumbs, dispatch),
     setHeaderState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
+    updateMeta: meta => dispatch(updateMeta(meta)),
     toggleBreadcrumbs: (isActive) => {
         BreadcrumbsDispatcher.update([], dispatch);
         dispatch(toggleBreadcrumbs(isActive));
@@ -56,19 +58,32 @@ export class CmsPageContainer extends DataContainer {
         isLoading: true
     };
 
+    constructor(props) {
+        super(props);
+
+        this.updateBreadcrumbs();
+    }
+
+    updateBreadcrumbs() {
+        const {
+            toggleBreadcrumbs,
+            isBreadcrumbsActive
+        } = this.props;
+
+        toggleBreadcrumbs(isBreadcrumbsActive);
+    }
+
     componentDidMount() {
         const {
             location,
             match,
-            toggleBreadcrumbs,
             urlKey,
-            isOnlyPlaceholder,
-            isBreadcrumbsActive
+            isOnlyPlaceholder
         } = this.props;
 
         const urlParam = getUrlParam(match, location);
 
-        this.setState({ page: {} });
+        // this.setState({ page: {} });
 
         if (
             !isOnlyPlaceholder
@@ -76,20 +91,20 @@ export class CmsPageContainer extends DataContainer {
         ) {
             this.requestPage(urlKey || urlParam);
         }
-
-        toggleBreadcrumbs(isBreadcrumbsActive);
     }
 
     onPageLoad = ({ cmsPage: page }) => {
         const {
             location: { pathname },
+            updateMeta,
             setHeaderState,
             updateBreadcrumbs
         } = this.props;
 
-        const { content_heading } = page;
+        const { content_heading, meta_title, title } = page;
 
         updateBreadcrumbs(page);
+        updateMeta({ title: meta_title || title });
 
         if (pathname !== '/') {
             setHeaderState({

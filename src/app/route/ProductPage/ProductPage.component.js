@@ -13,7 +13,6 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import Meta from 'Component/Meta';
 import { ProductType } from 'Type/ProductList';
 import ProductGallery from 'Component/ProductGallery';
 import ProductActions from 'Component/ProductActions';
@@ -50,11 +49,13 @@ export default class ProductPage extends PureComponent {
             <>
                 <ProductGallery
                   product={ productOrVariant }
+                  areDetailsLoaded={ areDetailsLoaded }
                 />
                 <ProductActions
                   getLink={ getLink }
                   updateConfigurableVariant={ updateConfigurableVariant }
                   product={ dataSource }
+                  productOrVariant={ productOrVariant }
                   parameters={ parameters }
                   areDetailsLoaded={ areDetailsLoaded }
                   configurableVariantIndex={ configurableVariantIndex }
@@ -72,7 +73,10 @@ export default class ProductPage extends PureComponent {
                   product={ { ...dataSource, parameters } }
                   areDetailsLoaded={ areDetailsLoaded }
                 />
-                <ProductReviews product={ dataSource } />
+                <ProductReviews
+                  product={ dataSource }
+                  areDetailsLoaded={ areDetailsLoaded }
+                />
                 <RelatedProducts
                   product={ dataSource }
                   areDetailsLoaded={ areDetailsLoaded }
@@ -82,11 +86,8 @@ export default class ProductPage extends PureComponent {
     }
 
     render() {
-        const { dataSource } = this.props;
-
         return (
             <>
-                <Meta metaObject={ dataSource } />
                 <main block="ProductPage" aria-label="Product page">
                     <div
                       itemScope

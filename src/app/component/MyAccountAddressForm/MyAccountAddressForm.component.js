@@ -40,7 +40,7 @@ class MyAccountAddressForm extends FieldForm {
         const country = countries.find(({ id }) => id === countryId);
         const { available_regions: availableRegions } = country || {};
         const regions = availableRegions || [{}];
-        const regionId = regions[0].id || region_id;
+        const regionId = region_id || regions[0].id;
 
         this.state = {
             countryId,

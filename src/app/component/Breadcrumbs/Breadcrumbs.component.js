@@ -67,7 +67,9 @@ export default class Breadcrumbs extends PureComponent {
     render() {
         const { breadcrumbs, areBreadcrumbsVisible } = this.props;
 
-        if (!areBreadcrumbsVisible) return null;
+        if (!areBreadcrumbsVisible || location.pathname === '/') {
+            return null;
+        }
 
         return (
             <ContentWrapper mix={ { block: 'Breadcrumbs' } } label={ __('Breadcrumbs (current location)...') }>

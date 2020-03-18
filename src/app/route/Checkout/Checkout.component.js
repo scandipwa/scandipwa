@@ -24,7 +24,6 @@ import { TotalsType } from 'Type/MiniCart';
 import { HistoryType } from 'Type/Common';
 import CmsBlock from 'Component/CmsBlock';
 import Loader from 'Component/Loader';
-import Meta from 'Component/Meta';
 import Link from 'Component/Link';
 
 import './Checkout.style';
@@ -57,7 +56,7 @@ class Checkout extends PureComponent {
             BILLING_STEP,
             DETAILS_STEP
         ]).isRequired,
-        createUser: PropTypes.bool.isRequired,
+        isCreateUser: PropTypes.bool.isRequired,
         onCreateUserChange: PropTypes.func.isRequired,
         onPasswordChange: PropTypes.func.isRequired
     };
@@ -122,7 +121,7 @@ class Checkout extends PureComponent {
     renderGuestForm() {
         const {
             checkoutStep,
-            createUser,
+            isCreateUser,
             onEmailChange,
             onCreateUserChange,
             onPasswordChange,
@@ -133,7 +132,7 @@ class Checkout extends PureComponent {
         return (
             <CheckoutGuestForm
               isBilling={ isBilling }
-              createUser={ createUser }
+              isCreateUser={ isCreateUser }
               onEmailChange={ onEmailChange }
               onCreateUserChange={ onCreateUserChange }
               onPasswordChange={ onPasswordChange }
@@ -244,7 +243,6 @@ class Checkout extends PureComponent {
     render() {
         return (
             <main block="Checkout">
-                <Meta metaObject={ { title: 'Checkout' } } />
                 <ContentWrapper
                   wrapperMix={ { block: 'Checkout', elem: 'Wrapper' } }
                   label={ __('Checkout page') }

@@ -27,7 +27,7 @@ class CheckoutGuestForm extends FieldForm {
             handleEmailInput,
             handlePasswordInput,
             formId,
-            createUser
+            isCreateUser
         } = this.props;
 
         const fields = {
@@ -40,12 +40,12 @@ class CheckoutGuestForm extends FieldForm {
             }
         };
 
-        if (createUser) {
+        if (isCreateUser) {
             fields.guest_password = {
                 form: formId,
                 label: __('Create Password'),
                 onChange: handlePasswordInput,
-                validation: ['notEmpty', 'passsword'],
+                validation: ['notEmpty', 'password'],
                 type: 'password',
                 skipValue: true
             };
@@ -63,7 +63,7 @@ class CheckoutGuestForm extends FieldForm {
     }
 
     render() {
-        const { formId, createUser, handleCreateUser } = this.props;
+        const { formId, isCreateUser, handleCreateUser } = this.props;
 
         return (
             <div
@@ -81,7 +81,7 @@ class CheckoutGuestForm extends FieldForm {
                       label={ __('Create free account and keep track of your orders') }
                       id="guest_create_user"
                       name="guest_create_user"
-                      value={ createUser }
+                      value={ isCreateUser }
                       skipValue
                       onChange={ handleCreateUser }
                     />
