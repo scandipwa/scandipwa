@@ -367,7 +367,7 @@ export default class ProductActions extends PureComponent {
     renderReviews() {
         const { product: { review_summary: { rating_summary, review_count } = {} } } = this.props;
 
-        if (!rating_summary) return 'null';
+        if (!rating_summary) return null;
 
         const ONE_FIFTH_OF_A_HUNDRED = 20;
         const rating = parseFloat(rating_summary / ONE_FIFTH_OF_A_HUNDRED).toFixed(2);
