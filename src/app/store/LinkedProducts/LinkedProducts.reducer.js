@@ -15,29 +15,30 @@ import { LINKED_PRODUCTS } from './LinkedProducts.dispatcher';
 
 export const UPSELL = 'upsell';
 export const RELATED = 'related';
-export const CROSS_SELL = 'crossSell';
+export const CROSS_SELL = 'crosssell';
 
 const initialState = {
     linkedProducts: BrowserDatabase.getItem(LINKED_PRODUCTS) || {
         upsell: {},
         related: {},
-        crossSell: {}
+        crosssell: {}
     }
 };
 
 const LinkedProductsReducer = (state = initialState, action) => {
-    const {
-        type,
-        linkedProducts: {
-            [UPSELL]: upsell,
-            [RELATED]: related,
-            [CROSS_SELL]: crossSell
-        }
-    } = action;
+    const { type } = action;
 
     if (type !== UPDATE_LINKED_PRODUCTS) {
         return state;
     }
+
+    const {
+        linkedProducts: {
+            [UPSELL]: upsell,
+            [RELATED]: related,
+            [CROSS_SELL]: crosssell
+        }
+    } = action;
 
     const {
         linkedProducts: {
@@ -70,7 +71,7 @@ const LinkedProductsReducer = (state = initialState, action) => {
                 ...related,
                 items: Object.values({
                     ...prevCrossSell.items,
-                    ...crossSell.items
+                    ...crosssell.items
                 })
             }
         }

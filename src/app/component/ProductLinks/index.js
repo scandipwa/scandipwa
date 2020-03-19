@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import CartCrossSell from './CartCrossSell.container';
-
-export default CartCrossSell;
+export { default } from './ProductLinks.container';

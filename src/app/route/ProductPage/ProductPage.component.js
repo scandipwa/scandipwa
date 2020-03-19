@@ -14,13 +14,14 @@ import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import { ProductType } from 'Type/ProductList';
+import ProductLinks from 'Component/ProductLinks';
 import ProductGallery from 'Component/ProductGallery';
 import ProductActions from 'Component/ProductActions';
 import ContentWrapper from 'Component/ContentWrapper';
 import ProductReviews from 'Component/ProductReviews';
-import RelatedProducts from 'Component/RelatedProducts';
 import ProductInformation from 'Component/ProductInformation';
-import UpsellProducts from 'Component/UpsellProducts';
+import { RELATED, UPSELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
+
 import './ProductPage.style';
 
 export default class ProductPage extends PureComponent {
@@ -75,6 +76,16 @@ export default class ProductPage extends PureComponent {
                 />
                 <ProductReviews
                   product={ dataSource }
+                  areDetailsLoaded={ areDetailsLoaded }
+                />
+                <ProductLinks
+                  linkType={ RELATED }
+                  title={ __('Recommended for you') }
+                  areDetailsLoaded={ areDetailsLoaded }
+                />
+                <ProductLinks
+                  linkType={ UPSELL }
+                  title={ __('You might also like') }
                   areDetailsLoaded={ areDetailsLoaded }
                 />
             </>

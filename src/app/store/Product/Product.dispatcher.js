@@ -37,11 +37,10 @@ export class ProductDispatcher extends QueryDispatcher {
         if (items.length > 0) {
             const product_links = items.reduce((links, product) => {
                 const { product_links } = product;
+
                 if (product_links) {
                     Object.values(product_links).forEach((item) => {
-                        if (item.link_type === 'upsell') {
-                            links.push(item);
-                        }
+                        links.push(item);
                     });
                 }
 
