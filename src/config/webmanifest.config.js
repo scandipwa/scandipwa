@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -24,22 +25,23 @@ module.exports = (projectRoot) => {
         start_url: '/',
         crossorigin: null,
         ios: {
+            'apple-mobile-web-app-capable': 'yes',
             'apple-mobile-web-app-title': 'ScandiPWA',
-            'apple-mobile-web-app-status-bar-style': 'black'
+            'apple-mobile-web-app-status-bar-style': 'default'
         },
         inject: true,
         orientation: 'portrait',
         display: 'standalone',
         icons: [
             {
-                src: path.resolve(pathToFaviconDir, 'scandipwa_startup_ios.png'),
+                src: path.resolve(pathToFaviconDir, 'scandipwa_favicon.png'),
                 sizes: [120, 152, 167, 180, 1024],
                 destination: path.join('icons', 'ios'),
                 ios: true
             },
             {
                 src: path.resolve(pathToFaviconDir, 'scandipwa_favicon.png'),
-                size: 1024,
+                size: ['2048x2732', '1668x2224', '1536x2048', '1125x2436', '1242x2208', '750x1334', '640x1136'],
                 destination: path.join('icons', 'ios'),
                 ios: 'startup'
             },

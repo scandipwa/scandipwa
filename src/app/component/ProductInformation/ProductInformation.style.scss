@@ -1,3 +1,4 @@
+
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -10,12 +11,23 @@
  */
 
 :root {
-    --product-information-background: #{$concrete};
+    --product-information-background: var(--secondary-base-color);
 }
 
 .ProductInformation {
+    top: -1px;
+    border-top: 1px solid var(--expandable-content-divider-color);
+
     @include after-mobile {
         background-color: var(--product-information-background);
+    }
+
+    &-Wrapper {
+        padding: 0;
+
+        @include after-mobile {
+            padding: 3rem 1rem;
+        }
     }
 
     &-ExpandableContentHeading {
@@ -25,23 +37,19 @@
         }
     }
 
-    &-Content {
-        width: 100%;
-    }
-
-    &-Wrapper {
-        max-width: 1000px;
-
-        @include mobile {
-            padding: 0;
+    &-ExpandableContentContent {
+        &_isContentExpanded {
+            @include mobile {
+                padding: 0 1rem;
+            }
         }
 
         @include after-mobile {
-            // margin-top: 3rem;
-            padding: 3rem 1rem;
-            display: flex;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 4rem;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
         }
     }
 
@@ -54,10 +62,18 @@
         }
     }
 
+    &-Description,
+    &-Attributes {
+        width: 100%;
+    }
+
     &-Attributes {
         display: flex;
         flex-wrap: wrap;
-        margin-top: 1.5rem;
+
+        @include mobile {
+            margin-top: 2rem;
+        }
     }
 
     &-ValueLabel,

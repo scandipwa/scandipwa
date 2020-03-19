@@ -22,8 +22,9 @@ import { CHECKOUT } from 'Component/Header';
 import { addressType } from 'Type/Account';
 import { TotalsType } from 'Type/MiniCart';
 import { HistoryType } from 'Type/Common';
+import CmsBlock from 'Component/CmsBlock';
 import Loader from 'Component/Loader';
-import Meta from 'Component/Meta';
+import Link from 'Component/Link';
 
 import './Checkout.style';
 
@@ -47,11 +48,21 @@ class Checkout extends PureComponent {
         checkoutTotals: TotalsType.isRequired,
         orderID: PropTypes.string.isRequired,
         history: HistoryType.isRequired,
+        onEmailChange: PropTypes.func.isRequired,
+        isGuestEmailSaved: PropTypes.bool.isRequired,
+        paymentTotals: TotalsType,
         checkoutStep: PropTypes.oneOf([
             SHIPPING_STEP,
             BILLING_STEP,
             DETAILS_STEP
-        ]).isRequired
+        ]).isRequired,
+        isCreateUser: PropTypes.bool.isRequired,
+        onCreateUserChange: PropTypes.func.isRequired,
+        onPasswordChange: PropTypes.func.isRequired
+    };
+
+    static defaultProps = {
+        paymentTotals: {}
     };
 
     stepMap = {
@@ -72,9 +83,7 @@ class Checkout extends PureComponent {
         }
     };
 
-    constructor(props) {
-        super(props);
-
+    componentDidMount() {
         this.updateHeader();
     }
 
@@ -110,11 +119,25 @@ class Checkout extends PureComponent {
     }
 
     renderGuestForm() {
-        const { checkoutStep } = this.props;
+        const {
+            checkoutStep,
+            isCreateUser,
+            onEmailChange,
+            onCreateUserChange,
+            onPasswordChange,
+            isGuestEmailSaved
+        } = this.props;
         const isBilling = checkoutStep === BILLING_STEP;
 
         return (
-            <CheckoutGuestForm isBilling={ isBilling } />
+            <CheckoutGuestForm
+              isBilling={ isBilling }
+              isCreateUser={ isCreateUser }
+              onEmailChange={ onEmailChange }
+              onCreateUserChange={ onCreateUserChange }
+              onPasswordChange={ onPasswordChange }
+              isGuestEmailSaved={ isGuestEmailSaved }
+            />
         );
     }
 
@@ -161,15 +184,17 @@ class Checkout extends PureComponent {
 
         return (
             <div block="Checkout" elem="Success">
-                <p>{ __('Your order # is: %s', orderID) }</p>
+                <h3>{ __('Your order # is: %s', orderID) }</h3>
                 <p>{ __('We`ll email you an order confirmation with details and tracking info.') }</p>
-                <a
-                  block="Button"
-                  mix={ { block: 'Checkout', elem: 'ContinueButton' } }
-                  href="/"
-                >
-                    { __('Continue shopping') }
-                </a>
+                <div block="Checkout" elem="ButtonWrapper">
+                    <Link
+                      block="Button"
+                      mix={ { block: 'Checkout', elem: 'ContinueButton' } }
+                      to="/"
+                    >
+                        { __('Continue shopping') }
+                    </Link>
+                </div>
             </div>
         );
     }
@@ -187,20 +212,37 @@ class Checkout extends PureComponent {
     }
 
     renderSummary() {
-        const { checkoutTotals, checkoutStep } = this.props;
+        const { checkoutTotals, checkoutStep, paymentTotals } = this.props;
         const { areTotalsVisible } = this.stepMap[checkoutStep];
 
         if (!areTotalsVisible) return null;
 
         return (
-            <CheckoutOrderSummary totals={ checkoutTotals } />
+            <CheckoutOrderSummary
+              totals={ checkoutTotals }
+              paymentTotals={ paymentTotals }
+            />
         );
+    }
+
+    renderPromo() {
+        const { checkoutStep } = this.props;
+        const isBilling = checkoutStep === BILLING_STEP;
+
+        const {
+            checkout_content: {
+                [isBilling ? 'checkout_billing_cms' : 'checkout_shipping_cms']: promo
+            } = {}
+        } = window.contentConfiguration;
+
+        if (!promo) return null;
+
+        return <CmsBlock identifiers={ [promo] } />;
     }
 
     render() {
         return (
             <main block="Checkout">
-                <Meta metaObject={ { title: 'Checkout' } } />
                 <ContentWrapper
                   wrapperMix={ { block: 'Checkout', elem: 'Wrapper' } }
                   label={ __('Checkout page') }
@@ -211,7 +253,10 @@ class Checkout extends PureComponent {
                         { this.renderStep() }
                         { this.renderLoader() }
                     </div>
-                    { this.renderSummary() }
+                    <div>
+                        { this.renderSummary() }
+                        { this.renderPromo() }
+                    </div>
                 </ContentWrapper>
             </main>
         );

@@ -11,11 +11,13 @@
 
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import Link from 'Component/Link';
+
+import TextPlaceholder from 'Component/TextPlaceholder';
 import ContentWrapper from 'Component/ContentWrapper';
 import { BreadcrumbsType } from 'Type/Breadcrumbs';
+import Link from 'Component/Link';
+
 import './Breadcrumbs.style';
-import TextPlaceholder from 'Component/TextPlaceholder';
 
 /**
  * Breadcrumbs
@@ -65,7 +67,9 @@ export default class Breadcrumbs extends PureComponent {
     render() {
         const { breadcrumbs, areBreadcrumbsVisible } = this.props;
 
-        if (!areBreadcrumbsVisible) return null;
+        if (!areBreadcrumbsVisible || location.pathname === '/') {
+            return null;
+        }
 
         return (
             <ContentWrapper mix={ { block: 'Breadcrumbs' } } label={ __('Breadcrumbs (current location)...') }>
@@ -76,9 +80,11 @@ export default class Breadcrumbs extends PureComponent {
                       itemScope
                       itemType="https://schema.org/BreadcrumbList"
                     >
-                        { breadcrumbs.length
-                            ? this.renderBreadcrumbList(breadcrumbs)
-                            : this.renderBreadcrumb({}, 0) }
+                        { (
+                            breadcrumbs.length
+                                ? this.renderBreadcrumbList(breadcrumbs)
+                                : this.renderBreadcrumb({}, 0)
+                        ) }
                     </ul>
                 </nav>
             </ContentWrapper>

@@ -14,8 +14,14 @@
         padding-top: 1rem;
     }
 
+    @include mobile {
+        padding-bottom: 75px;
+    }
+
     > section:nth-child(even) {
-        background-color: #{$concrete};
+        @include after-mobile {
+            background-color: var(--secondary-base-color);
+        }
     }
 
     &-Wrapper {
@@ -27,7 +33,7 @@
 
         @include after-mobile {
             grid-column-gap: 4rem;
-            padding-bottom: 3rem;
+            padding-bottom: 6rem;
         }
 
         @include mobile {

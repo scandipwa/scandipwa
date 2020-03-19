@@ -14,17 +14,18 @@ import PropTypes from 'prop-types';
 
 import media, { WYSIWYG_MEDIA } from 'Util/Media';
 import Link from 'Component/Link';
-import Meta from 'Component/Meta';
 import isMobile from 'Util/Mobile';
+import CmsBlock from 'Component/CmsBlock';
 import CartItem from 'Component/CartItem';
 import { TotalsType } from 'Type/MiniCart';
 import CartCoupon from 'Component/CartCoupon';
+import ProductLinks from 'Component/ProductLinks';
 import ContentWrapper from 'Component/ContentWrapper';
-import CartCrossSell from 'Component/CartCrossSell';
 import { formatCurrency, roundPrice } from 'Util/Price';
-
 import ExpandableContent from 'Component/ExpandableContent';
+
 import './CartPage.style';
+import { CROSS_SELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
 
 export default class CartPage extends PureComponent {
     static propTypes = {
@@ -33,7 +34,7 @@ export default class CartPage extends PureComponent {
     };
 
     renderCartItems() {
-        const { isEditing, totals: { items, base_currency_code } } = this.props;
+        const { isEditing, totals: { items, quote_currency_code } } = this.props;
 
         if (!items || items.length < 1) {
             return (
@@ -53,7 +54,7 @@ export default class CartPage extends PureComponent {
                         <CartItem
                           key={ item.item_id }
                           item={ item }
-                          currency_code={ base_currency_code }
+                          currency_code={ quote_currency_code }
                           isEditing={ !isMobile.any() || isEditing }
                           isLikeTable
                         />
@@ -79,16 +80,38 @@ export default class CartPage extends PureComponent {
     }
 
     renderPriceLine(price) {
-        const { totals: { base_currency_code } } = this.props;
-        return `${formatCurrency(base_currency_code)}${roundPrice(price)}`;
+        const { totals: { quote_currency_code } } = this.props;
+        return `${formatCurrency(quote_currency_code)}${roundPrice(price)}`;
+    }
+
+    renderTotalDetails(isMobile = false) {
+        const {
+            totals: {
+                subtotal = 0,
+                tax_amount = 0
+            }
+        } = this.props;
+
+        return (
+            <dl
+              block="CartPage"
+              elem="TotalDetails"
+              aria-label={ __('Order total details') }
+              mods={ { isMobile } }
+            >
+                <dt>{ __('Subtotal:') }</dt>
+                <dd>{ this.renderPriceLine(subtotal) }</dd>
+                { this.renderDiscount() }
+                <dt>{ __('Tax:') }</dt>
+                <dd>{ this.renderPriceLine(tax_amount) }</dd>
+            </dl>
+        );
     }
 
     renderTotals() {
         const {
             totals: {
-                grand_total = 0,
-                subtotal = 0,
-                tax_amount = 0,
+                subtotal_incl_tax = 0,
                 items
             }
         } = this.props;
@@ -103,34 +126,30 @@ export default class CartPage extends PureComponent {
         return (
             <article block="CartPage" elem="Summary">
                 <h4 block="CartPage" elem="SummaryHeading">{ __('Summary') }</h4>
-                <dl block="CartPage" elem="TotalDetails" aria-label="Order total details">
-                    <dt>{ __('Subtotal:') }</dt>
-                    <dd>{ this.renderPriceLine(subtotal) }</dd>
-                    { this.renderDiscount() }
-                    <dt>{ __('Tax:') }</dt>
-                    <dd>{ this.renderPriceLine(tax_amount) }</dd>
-                </dl>
+                { this.renderTotalDetails() }
                 <dl block="CartPage" elem="Total" aria-label="Complete order total">
                     <dt>{ __('Order total:') }</dt>
-                    <dd>{ this.renderPriceLine(grand_total) }</dd>
+                    <dd>{ this.renderPriceLine(subtotal_incl_tax) }</dd>
                 </dl>
-                <Link
-                  block="CartPage"
-                  elem="CheckoutButton"
-                  mix={ { block: 'Button' } }
-                  to="/checkout"
-                  { ...props }
-                >
-                    <span />
-                    { __('Secure checkout') }
-                </Link>
-                <Link
-                  block="CartPage"
-                  elem="ContinueShopping"
-                  to="/"
-                >
-                    { __('Continue shopping') }
-                </Link>
+                <div block="CartPage" elem="CheckoutButtons">
+                    <Link
+                      block="CartPage"
+                      elem="CheckoutButton"
+                      mix={ { block: 'Button' } }
+                      to="/checkout"
+                      { ...props }
+                    >
+                        <span />
+                        { __('Secure checkout') }
+                    </Link>
+                    <Link
+                      block="CartPage"
+                      elem="ContinueShopping"
+                      to="/"
+                    >
+                        { __('Continue shopping') }
+                    </Link>
+                </div>
             </article>
         );
     }
@@ -157,9 +176,11 @@ export default class CartPage extends PureComponent {
     }
 
     renderCrossSellProducts() {
-        const { totals: { items } } = this.props;
         return (
-            <CartCrossSell products={ items } />
+            <ProductLinks
+              linkType={ CROSS_SELL }
+              title={ __('Frequently bought together') }
+            />
         );
     }
 
@@ -174,45 +195,60 @@ export default class CartPage extends PureComponent {
         );
     }
 
+    renderPromoContent() {
+        const { cart_content: { cart_cms } = {} } = window.contentConfiguration;
+
+        if (cart_cms) {
+            return <CmsBlock identifiers={ [cart_cms] } />;
+        }
+
+        return (
+            <>
+                <figure
+                  block="CartPage"
+                  elem="PromoBlock"
+                >
+                    <img
+                      block="CartPage"
+                      elem="PromoImage"
+                      src={ media('etc/shipping-car.svg', WYSIWYG_MEDIA) }
+                      alt="Shipping car icon"
+                    />
+                    <figcaption block="CartPage" elem="PromoText">
+                    { __('Free shipping on order 49$ and more.') }
+                    </figcaption>
+                </figure>
+                { this.renderPaymentMethods() }
+            </>
+        );
+    }
+
     renderPromo() {
         return (
-            <figure
+            <div
               block="CartPage"
               elem="Promo"
             >
-                <img
-                  block="CartPage"
-                  elem="PromoImage"
-                  src={ media('etc/shipping-car.svg', WYSIWYG_MEDIA) }
-                  alt="Shipping car icon"
-                />
-                <figcaption block="CartPage" elem="PromoText">
-                    <strong>Free shipping</strong>
-                    on orders
-                    <strong>49$</strong>
-                    and more.
-                </figcaption>
-            </figure>
+                { this.renderPromoContent() }
+            </div>
         );
     }
 
     render() {
         return (
             <main block="CartPage" aria-label="Cart Page">
-                <Meta metaObject={ { title: 'Cart' } } />
                 <ContentWrapper
-                  mix={ { block: 'CartPage' } }
                   wrapperMix={ { block: 'CartPage', elem: 'Wrapper' } }
                   label="Cart page details"
                 >
                     <div block="CartPage" elem="Static">
-                        <h2 block="CartPage" elem="Heading">{ __('Shopping cart') }</h2>
+                        <h1 block="CartPage" elem="Heading">{ __('Shopping cart') }</h1>
                         { this.renderCartItems() }
+                        { this.renderTotalDetails(true) }
                         { this.renderDiscountCode() }
                         { this.renderCrossSellProducts() }
                     </div>
                     <div block="CartPage" elem="Floating">
-                        { this.renderPaymentMethods() }
                         { this.renderPromo() }
                         { this.renderTotals() }
                     </div>

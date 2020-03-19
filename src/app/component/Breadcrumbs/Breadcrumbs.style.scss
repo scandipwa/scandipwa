@@ -11,7 +11,7 @@
 
 :root {
     --breadcrumbs-height: 40px;
-    --breadcrumbs-background: #{$concrete};
+    --breadcrumbs-background: var(--secondary-base-color);
     --breadcrumbs-active-color: #888;
     --breadcrumbs-color: #404040;
 }
@@ -32,7 +32,7 @@
     &-List {
         list-style: none;
         padding: 10px 0;
-        min-height: 40px;
+        height: 40px;
     }
 
     &-Link {

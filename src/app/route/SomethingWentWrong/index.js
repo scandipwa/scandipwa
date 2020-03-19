@@ -9,4 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default } from './SomethingWentWrong.component';
+export { default } from './SomethingWentWrong.container';

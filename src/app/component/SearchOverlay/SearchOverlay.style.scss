@@ -10,7 +10,7 @@
  */
 
 :root {
-    --search-criteria-background: #{$concrete};
+    --search-criteria-background: var(--secondary-base-color);
     --search-criteria-label-color: rgba(10, 10, 10, .44);
     --search-criteria-search-term-color: #0a0a0a;
     --search-item-divider-color: #eee;
@@ -26,11 +26,11 @@
         transform-origin: 0 0;
         transform: scaleY(0);
         will-change: width, transform, border;
-        width: var(--header-desktop-search-bar-width);
-        max-width: var(--header-desktop-search-bar-max-width);
+        width: var(--search-bar-width);
+        max-width: calc(var(--search-bar-max-width) + 2px);
         text-align: left;
         top: calc(100% - 1px);
-        right: 0;
+        right: -1px;
         border-width: 0 1px 1px;
         border-style: solid;
         border-color: transparent;
@@ -41,7 +41,8 @@
     &_isVisible {
         @include after-mobile {
             transform: scaleY(1);
-            border-color: var(--header-search-field-border-color);
+            border-color: var(--search-field-border-color);
+            width: calc(var(--search-bar-max-width) + 2px);
         }
     }
 

@@ -12,13 +12,13 @@
 .ProductGallery {
     @include desktop {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 150px 1fr;
         grid-gap: 1.5rem;
+        max-height: 40rem;
     }
 
     &-Additional {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
         grid-gap: 1.5rem;
 
         @include before-desktop {
@@ -48,9 +48,24 @@
         }
     }
 
+    .react-transform-component,
+    .react-transform-element,
     &-SliderImage {
-        &:not(.ProductGallery-SliderImage_isPlaceholder) {
-            background: none;
+        height: 100%;
+        width: 100%;
+    }
+
+    &-Notice {
+        color: var(--secondary-dark-color);
+        font-size: .9rem;
+        text-align: center;
+
+        @include mobile {
+            display: none;
         }
     }
+}
+
+.overscrollPrevented {
+    overscroll-behavior: contain;
 }

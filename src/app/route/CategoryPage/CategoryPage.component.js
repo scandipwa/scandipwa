@@ -11,6 +11,9 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+import {
+    CATEGORY_FILTER_OVERLAY_ID
+} from 'Component/CategoryFilterOverlay/CategoryFilterOverlay.component';
 import CategoryFilterOverlay from 'Component/CategoryFilterOverlay';
 import CategoryProductList from 'Component/CategoryProductList';
 import CategoryItemsCount from 'Component/CategoryItemsCount';
@@ -19,8 +22,8 @@ import ContentWrapper from 'Component/ContentWrapper';
 import CategorySort from 'Component/CategorySort';
 import { CategoryTreeType } from 'Type/Category';
 import { FilterType, FilterInputType } from 'Type/ProductList';
-import Meta from 'Component/Meta';
 import './CategoryPage.style';
+import isMobile from 'Util/Mobile';
 
 export default class CategoryPage extends PureComponent {
     static propTypes = {
@@ -48,19 +51,23 @@ export default class CategoryPage extends PureComponent {
         updateFilter: PropTypes.func.isRequired,
         updatePriceRange: PropTypes.func.isRequired,
         toggleOverlayByKey: PropTypes.func.isRequired,
-        changeHeaderState: PropTypes.func.isRequired,
         selectedFilters: FilterType.isRequired,
         filter: FilterInputType.isRequired,
-        search: PropTypes.string.isRequired
+        search: PropTypes.string.isRequired,
+        isContentFiltered: PropTypes.bool,
+        totalPages: PropTypes.number
+    };
+
+    static defaultProps = {
+        isContentFiltered: true,
+        totalPages: 1
     };
 
     onFilterButtonClick = this.onFilterButtonClick.bind(this);
 
     onFilterButtonClick() {
-        const { toggleOverlayByKey, changeHeaderState } = this.props;
-
-        toggleOverlayByKey('category-filter');
-        changeHeaderState({ name: 'filter', title: __('Filters') });
+        const { toggleOverlayByKey } = this.props;
+        toggleOverlayByKey(CATEGORY_FILTER_OVERLAY_ID);
     }
 
     renderCategoryDetails() {
@@ -74,6 +81,12 @@ export default class CategoryPage extends PureComponent {
     }
 
     renderFilterButton() {
+        const { isContentFiltered, totalPages } = this.props;
+
+        if (!isContentFiltered && totalPages === 0) {
+            return null;
+        }
+
         return (
             <button
               block="CategoryPage"
@@ -127,6 +140,18 @@ export default class CategoryPage extends PureComponent {
         );
     }
 
+    renderItemsCount(isVisibleOnMobile = false) {
+        if (isVisibleOnMobile && !isMobile.any()) {
+            return null;
+        }
+
+        if (!isVisibleOnMobile && isMobile.any()) {
+            return null;
+        }
+
+        return <CategoryItemsCount />;
+    }
+
     renderCategoryProductList() {
         const {
             filter,
@@ -137,30 +162,30 @@ export default class CategoryPage extends PureComponent {
         } = this.props;
 
         return (
-            <CategoryProductList
-              filter={ filter }
-              search={ search }
-              sort={ selectedSort }
-              selectedFilters={ selectedFilters }
-              getIsNewCategory={ getIsNewCategory }
-            />
+            <div block="CategoryPage" elem="ProductListWrapper">
+                { this.renderItemsCount(true) }
+                <CategoryProductList
+                  filter={ filter }
+                  search={ search }
+                  sort={ selectedSort }
+                  selectedFilters={ selectedFilters }
+                  getIsNewCategory={ getIsNewCategory }
+                />
+            </div>
         );
     }
 
     render() {
-        const { category } = this.props;
-
         return (
             <main block="CategoryPage">
                 <ContentWrapper
                   wrapperMix={ { block: 'CategoryPage', elem: 'Wrapper' } }
                   label="Category page"
                 >
-                    <Meta metaObject={ category } />
                     { this.renderFilterOverlay() }
                     { this.renderCategoryDetails() }
                     <aside block="CategoryPage" elem="Miscellaneous">
-                        <CategoryItemsCount />
+                        { this.renderItemsCount() }
                         { this.renderCategorySort() }
                         { this.renderFilterButton() }
                     </aside>

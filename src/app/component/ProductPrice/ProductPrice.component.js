@@ -76,8 +76,8 @@ export default class ProductPrice extends PureComponent {
                     <data
                       value={ formatedCurrency }
                     >
-                        <span itemProp="lowPrice">{ formatedCurrency }</span>
                         <span>{ currency }</span>
+                        <span itemProp="lowPrice">{ formatedCurrency }</span>
                     </data>
                 </PriceSemanticElementName>
 

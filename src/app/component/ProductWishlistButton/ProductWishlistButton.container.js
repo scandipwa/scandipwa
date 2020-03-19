@@ -41,11 +41,13 @@ export class ProductWishlistButtonContainer extends PureComponent {
         showNotification: PropTypes.func.isRequired,
         productsInWishlist: PropTypes.objectOf(ProductType).isRequired,
         addProductToWishlist: PropTypes.func.isRequired,
+        onProductValidationError: PropTypes.func,
         removeProductFromWishlist: PropTypes.func.isRequired
     };
 
     static defaultProps = {
         quantity: 1,
+        onProductValidationError: () => {},
         configurableVariantIndex: -2
     };
 
@@ -62,24 +64,26 @@ export class ProductWishlistButtonContainer extends PureComponent {
 
     toggleProductInWishlist = (add = true) => {
         const {
-            product: { sku },
+            product: { sku, type_id },
             quantity,
             isLoading,
             showNotification,
             productsInWishlist,
             addProductToWishlist,
+            onProductValidationError,
             removeProductFromWishlist
         } = this.props;
 
         if (!isSignedIn()) {
-            return showNotification('error', __('You must login or register to add items to your wishlist.'));
+            return showNotification('info', __('You must login or register to add items to your wishlist.'));
         }
 
         if (isLoading) return null;
 
         const product = this._getProductVariant();
         if (product === ERROR_CONFIGURABLE_NOT_PROVIDED) {
-            return showNotification('error', __('Please, select desireable variant first!'));
+            onProductValidationError(type_id);
+            return showNotification('info', __('Please, select desireable option first!'));
         }
 
         const { sku: variantSku, product_option } = product;

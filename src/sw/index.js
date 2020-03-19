@@ -13,35 +13,20 @@
 
 import workbox from './util/Workbox';
 import { flushCache } from './handler/FlushCache';
-import cacheFirstOneDay, { cacheFirst } from './handler/CacheFirstOneDay';
-import StaleWhileRevalidateHandler from './handler/StaleWhileRevalidateHandler';
+import cacheFirstOneYear from './handler/CacheFirstOneYear';
+import { cacheUrlHandler, getCacheUrlMatchRegex } from './handler/UrlHandler';
+import staleWhileRevalidateHandler from './handler/StaleWhileRevalidateHandler';
 
-// ====== Register routes ======
+// ====== Register SW ======
 
-self.CACHE_NAME = 'app-runtime-static';
+if (self.__precacheManifest) {
+    self.__precacheManifest.push({
+        revision: new Date().getTime(),
+        url: '/'
+    });
 
-self.addEventListener('fetch', (event) => {
-    const { request: { url } } = event;
-
-    const { hostname } = new URL(url);
-    if (hostname !== self.location.hostname) return;
-
-    if (url.match(new RegExp(/(?=^.*[^.]{6}$)(?!^.*sockjs)(?!^.*graphql)(?!^.*admin).*/))) {
-        event.respondWith(caches.open(self.CACHE_NAME)
-            .then(cache => cache.match('/')
-                .then(r => (!r
-                    ? fetch('/').then((r) => {
-                        if (r.status === 200) cache.put('/', r.clone()); // if status 200 – cache
-                        return r; // return true response
-                    }) // if does not, fetch
-                    : r // if response exists, return
-                ))));
-    }
-
-    if (url.match(new RegExp(/\/graphql/))) {
-        StaleWhileRevalidateHandler(event);
-    }
-});
+    workbox.precaching.precacheAndRoute(self.__precacheManifest);
+}
 
 self.addEventListener('install', () => {
     self.skipWaiting();
@@ -59,15 +44,27 @@ self.addEventListener('install', () => {
     flushCacheByHeader('Cache-purge', precache);
 });
 
-workbox.routing.registerRoute(new RegExp(/\/assets/), event => cacheFirst(60 * 60 * 24 * 30).handle(event));
-workbox.routing.registerRoute(new RegExp(/\.css/), cacheFirstOneDay);
-workbox.routing.registerRoute(new RegExp(/\.js/), cacheFirstOneDay);
+// ====== Register routes ======
 
-if (self.__precacheManifest) {
-    self.__precacheManifest.push({
-        revision: new Date().getTime(),
-        url: '/'
-    });
+self.CACHE_NAME = 'app-runtime-static';
 
-    workbox.precaching.precacheAndRoute(self.__precacheManifest);
-}
+/**
+ * Handle URLs (not assets)
+ *
+ * @return {void}
+ */
+workbox.routing.registerRoute(getCacheUrlMatchRegex(), cacheUrlHandler);
+
+/**
+ * Handle GraphQL responses
+ *
+ * @return {void}
+ */
+workbox.routing.registerRoute(new RegExp(/\/graphql/), staleWhileRevalidateHandler);
+
+/**
+ * Handle static assets responses
+ *
+ * @return {void}
+ */
+workbox.routing.registerRoute(new RegExp(/(\/assets|\.css|\.js)/), cacheFirstOneYear);

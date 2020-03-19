@@ -52,7 +52,7 @@ export default class PasswordChangePage extends PureComponent {
                 showNotification('success', __('Password has been successfully updated!'));
                 break;
             case STATUS_PASSOWORD_MISSMATCH:
-                showNotification('error', __('Your password and confirmation password do not match.'));
+                showNotification('info', __('Your password and confirmation password do not match.'));
                 break;
             default:
                 showNotification('error', __('Error! Something went wrong'));
@@ -132,8 +132,13 @@ export default class PasswordChangePage extends PureComponent {
                               validation={ ['notEmpty', 'password'] }
                             />
                             <div block="MyAccount" elem="Buttons">
-                                <button type="submit">
-                                    { __('Submit') }
+                                <button
+                                  type="submit"
+                                  block="PasswordChangePage"
+                                  elem="Button"
+                                  mix={ { block: 'Button' } }
+                                >
+                                    { __('Update Password') }
                                 </button>
                             </div>
                         </Form>

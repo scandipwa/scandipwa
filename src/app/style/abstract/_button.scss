@@ -8,6 +8,10 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+@mixin button-disabled {
+    opacity: .25;
+    cursor: not-allowed;
+}
 
 @mixin button {
     text-decoration: none; // because we never need underlines in buttons
@@ -20,7 +24,8 @@
     padding: var(--button-padding);
     color: var(--button-color);
     background-color: var(--button-background);
-    transition-property: background-color, color;
+    transition-property: background-color, color, border;
+    will-change: background-color, color, border;
     transition-timing-function: ease-out;
     transition-duration: .25s;
     cursor: pointer;
@@ -30,11 +35,14 @@
         color: var(--button-border);
     }
 
+    &:hover,
+    &:focus {
+        text-decoration: none;
+    }
+
     &:not([disabled]) {
         &:hover,
         &:focus {
-            text-decoration: none;
-
             @include after-mobile {
                 border-color: var(--button-hover-border);
                 background-color: var(--button-hover-background);
@@ -44,8 +52,7 @@
     }
 
     &[disabled] {
-        opacity: .25;
-        cursor: not-allowed;
+        @include button-disabled();
     }
 
     &_isHollow {
@@ -57,10 +64,10 @@
     &_likeLink {
         --button-border: transparent;
         --button-background: transparent;
-        --button-color: #{$primary-base-color};
+        --button-color: var(--primary-base-color);
         --button-hover-border: transparent;
         --button-hover-background: transparent;
-        --button-hover-color: #{$primary-base-color};
+        --button-hover-color: var(--primary-base-color);
 
         text-transform: none;
         margin: 0;

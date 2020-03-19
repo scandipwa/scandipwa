@@ -13,7 +13,8 @@ import { connect } from 'react-redux';
 import MyAccountAddressForm from './MyAccountAddressForm.component';
 
 export const mapStateToProps = state => ({
-    countries: state.ConfigReducer.countries
+    countries: state.ConfigReducer.countries,
+    default_country: state.ConfigReducer.default_country
 });
 
 export default connect(mapStateToProps)(MyAccountAddressForm);

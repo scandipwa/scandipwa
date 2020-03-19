@@ -21,7 +21,6 @@ import './AddToCart.style';
  */
 export default class AddToCart extends PureComponent {
     static propTypes = {
-        isDisabled: PropTypes.bool.isRequired,
         isLoading: PropTypes.bool,
         product: ProductType,
         mix: MixType,
@@ -51,8 +50,7 @@ export default class AddToCart extends PureComponent {
             mix,
             product: { type_id },
             isLoading,
-            buttonClick,
-            isDisabled
+            buttonClick
         } = this.props;
 
         if (!type_id) this.renderPlaceholder();
@@ -63,7 +61,6 @@ export default class AddToCart extends PureComponent {
               block="Button AddToCart"
               mix={ mix }
               mods={ { isLoading } }
-              disabled={ isDisabled }
             >
                 <span>{ __('Add to cart') }</span>
                 <span>{ __('Adding...') }</span>

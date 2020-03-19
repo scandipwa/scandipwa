@@ -15,12 +15,11 @@ import { addressType } from 'Type/Account';
 import { countriesType } from 'Type/Config';
 import FieldForm from 'Component/FieldForm';
 
-export const DEFAULT_COUNTRY_ID = 'US';
-
 class MyAccountAddressForm extends FieldForm {
     static propTypes = {
         address: addressType.isRequired,
         countries: countriesType.isRequired,
+        default_country: PropTypes.string.isRequired,
         onSave: PropTypes.func
     };
 
@@ -33,14 +32,15 @@ class MyAccountAddressForm extends FieldForm {
 
         const {
             countries,
+            default_country,
             address: { country_id, region: { region_id } = {} }
         } = props;
 
-        const countryId = country_id || DEFAULT_COUNTRY_ID;
+        const countryId = country_id || default_country;
         const country = countries.find(({ id }) => id === countryId);
-        const { available_regions: availableRegions } = country;
+        const { available_regions: availableRegions } = country || {};
         const regions = availableRegions || [{}];
-        const regionId = regions[0].id || region_id;
+        const regionId = region_id || regions[0].id;
 
         this.state = {
             countryId,
@@ -142,16 +142,11 @@ class MyAccountAddressForm extends FieldForm {
                 label: __('Street address'),
                 value: street[0],
                 validation: ['notEmpty']
-            },
-            fax: {
-                label: __('Fax')
-            },
-            company: {
-                label: __('Company')
-            },
-            vat_id: {
-                label: __('VAT number')
             }
+            // Will be back with B2B update
+            // company: {
+            //     label: __('Company')
+            // }
         };
     }
 
@@ -167,7 +162,11 @@ class MyAccountAddressForm extends FieldForm {
 
     renderActions() {
         return (
-            <button type="submit" block="Button">
+            <button
+              type="submit"
+              block="Button"
+              mix={ { block: 'MyAccount', elem: 'Button' } }
+            >
                 { __('Save address') }
             </button>
         );

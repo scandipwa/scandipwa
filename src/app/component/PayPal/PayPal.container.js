@@ -19,10 +19,7 @@ import { fetchMutation } from 'Util/Request';
 import { CheckoutQuery, PayPalQuery } from 'Query';
 import { showNotification } from 'Store/Notification';
 
-import {
-    PAYPAL_EXPRESS,
-    PAYPAL_EXPRESS_CREDIT
-} from 'Component/CheckoutPayments/CheckoutPayments.component';
+import { PAYPAL_EXPRESS } from 'Component/CheckoutPayments/CheckoutPayments.component';
 
 import PayPal from './PayPal.component';
 
@@ -35,7 +32,7 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-    showNotification: (type, message, e) => dispatch(showNotification(type, __(message), e))
+    showNotification: (type, message, e) => dispatch(showNotification(type, message, e))
 });
 
 export class PayPalContainer extends PureComponent {
@@ -61,26 +58,12 @@ export class PayPalContainer extends PureComponent {
     containerProps = () => ({
         paypal: this.getPayPal(),
         environment: this.getEnvironment(),
-        isDisabled: this.getIsDisabled(),
-        isCredit: this.getIsCredit()
+        isDisabled: this.getIsDisabled()
     });
 
     getIsDisabled = () => {
         const { selectedPaymentCode } = this.props;
-
-        if (
-            selectedPaymentCode === PAYPAL_EXPRESS
-            || selectedPaymentCode === PAYPAL_EXPRESS_CREDIT
-        ) {
-            return false;
-        }
-
-        return true;
-    };
-
-    getIsCredit = () => {
-        const { selectedPaymentCode } = this.props;
-        return selectedPaymentCode === PAYPAL_EXPRESS_CREDIT;
+        return selectedPaymentCode !== PAYPAL_EXPRESS;
     };
 
     containerFunctions = () => ({
@@ -119,7 +102,7 @@ export class PayPalContainer extends PureComponent {
     onCancel = (data) => {
         const { showNotification, setLoading } = this.props;
         setLoading(false);
-        showNotification('error', 'Your payment has been canceled', data);
+        showNotification('info', 'Your payment has been canceled', data);
     };
 
     onError = (err) => {
@@ -150,7 +133,7 @@ export class PayPalContainer extends PureComponent {
             guest_cart_id,
             express_button: false,
             code: selectedPaymentCode,
-            use_paypal_credit: this.getIsCredit(),
+            // use_paypal_credit: this.getIsCredit(),
             urls: {
                 cancel_url: 'www.paypal.com/checkoutnow/error',
                 return_url: 'www.paypal.com/checkoutnow/error'

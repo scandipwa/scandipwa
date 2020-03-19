@@ -9,13 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { BlockListType } from 'Type/CMS';
 import Html from 'Component/Html';
-import Meta from 'Component/Meta';
 
 import './CmsPage.style';
 
@@ -70,7 +69,6 @@ export default class CmsPage extends PureComponent {
               mods={ { isBreadcrumbsHidden: !isBreadcrumbsActive } }
             >
                 <div block="CmsPage" elem="Wrapper" mods={ { page_width } }>
-                    <Meta metaObject={ page } />
                     { this.renderHeading() }
                     <div block="CmsPage" elem="Content">
                         { this.renderContent() }

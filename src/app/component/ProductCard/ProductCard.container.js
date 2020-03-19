@@ -11,10 +11,14 @@
 
 import { connect } from 'react-redux';
 import { PureComponent } from 'react';
+import { Subscribe } from 'unstated';
+
+import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
 import { ProductType, FilterType } from 'Type/ProductList';
-import { CartDispatcher } from 'Store/Cart';
 import { getVariantsIndexes } from 'Util/Product';
+import { CartDispatcher } from 'Store/Cart';
 import { objectToUri } from 'Util/Url';
+
 import ProductCard from './ProductCard.component';
 
 export const mapDispatchToProps = dispatch => ({
@@ -37,8 +41,23 @@ export class ProductCardContainer extends PureComponent {
     };
 
     getAttribute(code) {
-        const { product: { attributes = [] } } = this.props;
-        return attributes[code];
+        const { selectedFilters } = this.props;
+
+        if (!Object.keys(selectedFilters).length) {
+            const { product: { attributes = {} } } = this.props;
+            return attributes[code];
+        }
+
+        const currentVariantIndex = this._getCurrentVariantIndex();
+        const { product, product: { variants = [] } } = this.props;
+        const { attributes: parentAttributes = {} } = product;
+        const { attributes = parentAttributes } = variants[currentVariantIndex] || product;
+        const { attribute_options = {} } = parentAttributes[code] || {};
+
+        return {
+            ...attributes[code],
+            attribute_options
+        };
     }
 
     containerProps = () => ({
@@ -93,11 +112,12 @@ export class ProductCardContainer extends PureComponent {
 
     _getThumbnail() {
         const product = this._getProductOrVariant();
-        const { thumbnail: { path } = {} } = product;
-        if (this._isThumbnailAvailable(path)) return path;
+        const { small_image: { url } = {} } = product;
+        if (this._isThumbnailAvailable(url)) return url;
+
         // If thumbnail is, missing we try to get image from parent
-        const { product: { thumbnail: { path: parentPath } = {} } } = this.props;
-        if (this._isThumbnailAvailable(parentPath)) return parentPath;
+        const { product: { small_image: { url: parentUrl } = {} } } = this.props;
+        if (this._isThumbnailAvailable(parentUrl)) return parentUrl;
 
         return '';
     }
@@ -142,11 +162,15 @@ export class ProductCardContainer extends PureComponent {
 
     render() {
         return (
-            <ProductCard
-              { ...this.props }
-              { ...this.containerFunctions }
-              { ...this.containerProps() }
-            />
+            <Subscribe to={ [SharedTransitionContainer] }>
+                { ({ registerSharedElement }) => (
+                    <ProductCard
+                      { ...{ ...this.props, registerSharedElement } }
+                      { ...this.containerFunctions }
+                      { ...this.containerProps() }
+                    />
+                ) }
+            </Subscribe>
         );
     }
 }

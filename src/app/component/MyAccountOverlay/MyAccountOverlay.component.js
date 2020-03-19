@@ -14,6 +14,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
 import Form from 'Component/Form';
+import isMobile from 'Util/Mobile';
 import Field from 'Component/Field';
 import Loader from 'Component/Loader';
 import Overlay from 'Component/Overlay';
@@ -25,6 +26,8 @@ export const STATE_FORGOT_PASSWORD = 'forgotPassword';
 export const STATE_FORGOT_PASSWORD_SUCCESS = 'forgotPasswordSuccess';
 export const STATE_CREATE_ACCOUNT = 'createAccount';
 export const STATE_LOGGED_IN = 'loggedIn';
+
+export const CUSTOMER_ACCOUNT_OVERLAY_KEY = 'customer_account';
 
 class MyAccountOverlay extends PureComponent {
     static propTypes = {
@@ -38,6 +41,7 @@ class MyAccountOverlay extends PureComponent {
             STATE_CREATE_ACCOUNT,
             STATE_LOGGED_IN
         ]).isRequired,
+        onVisible: PropTypes.func.isRequired,
         onSignInSuccess: PropTypes.func.isRequired,
         onSignInAttempt: PropTypes.func.isRequired,
         onCreateAccountAttempt: PropTypes.func.isRequired,
@@ -46,7 +50,6 @@ class MyAccountOverlay extends PureComponent {
         onForgotPasswordAttempt: PropTypes.func.isRequired,
         onFormError: PropTypes.func.isRequired,
         handleForgotPassword: PropTypes.func.isRequired,
-        handleForgotPasswordSuccess: PropTypes.func.isRequired,
         handleSignIn: PropTypes.func.isRequired,
         handleCreateAccount: PropTypes.func.isRequired
     };
@@ -54,18 +57,18 @@ class MyAccountOverlay extends PureComponent {
     renderMap = {
         [STATE_SIGN_IN]: {
             render: () => this.renderSignIn(),
-            title: 'Sign in to your account'
+            title: __('Sign in to your account')
         },
         [STATE_FORGOT_PASSWORD]: {
             render: () => this.renderForgotPassword(),
-            title: 'Get password link'
+            title: __('Get password link')
         },
         [STATE_FORGOT_PASSWORD_SUCCESS]: {
             render: () => this.renderForgotPasswordSuccess()
         },
         [STATE_CREATE_ACCOUNT]: {
             render: () => this.renderCreateAccount(),
-            title: 'Create new account'
+            title: __('Create new account')
         },
         [STATE_LOGGED_IN]: {
             render: () => {}
@@ -90,7 +93,6 @@ class MyAccountOverlay extends PureComponent {
             onForgotPasswordAttempt,
             onForgotPasswordSuccess,
             onFormError,
-            handleForgotPasswordSuccess,
             handleSignIn,
             handleCreateAccount
         } = this.props;
@@ -105,7 +107,7 @@ class MyAccountOverlay extends PureComponent {
                 >
                     <Field type="text" id="email" name="email" label="Email" validation={ ['notEmpty', 'email'] } />
                     <div block="MyAccountOverlay" elem="Buttons">
-                        <button block="Button" type="submit" onClick={ handleForgotPasswordSuccess }>
+                        <button block="Button" type="submit">
                             { __('Send reset link') }
                         </button>
                     </div>
@@ -180,14 +182,14 @@ class MyAccountOverlay extends PureComponent {
                         <legend>{ __('Personal Information') }</legend>
                         <Field
                           type="text"
-                          label="First Name"
+                          label={ __('First Name') }
                           id="firstname"
                           name="firstname"
                           validation={ ['notEmpty'] }
                         />
                         <Field
                           type="text"
-                          label="Last Name"
+                          label={ __('Last Name') }
                           id="lastname"
                           name="lastname"
                           validation={ ['notEmpty'] }
@@ -195,7 +197,7 @@ class MyAccountOverlay extends PureComponent {
                         <Field
                           type="checkbox"
                           value="is_subscribed"
-                          label={ __('Subscribe to ScandiPWA newsletter') }
+                          label={ __('Subscribe to newsletter') }
                           id="is_subscribed"
                           mix={ { block: 'MyAccountOverlay', elem: 'Checkbox' } }
                           name="is_subscribed"
@@ -216,7 +218,7 @@ class MyAccountOverlay extends PureComponent {
                           label={ __('Confirm password') }
                           id="confirm_password"
                           name="confirm_password"
-                          validation={ ['notEmpty', 'password'] }
+                          validation={ ['notEmpty', 'password', 'password_match'] }
                         />
                     </fieldset>
                     <div block="MyAccountOverlay" elem="Buttons">
@@ -284,9 +286,10 @@ class MyAccountOverlay extends PureComponent {
                 </Form>
                 <article block="MyAccountOverlay" elem="Additional" mods={ { state } }>
                     <section>
-                        <h4 id="forgot-password-label">{ __('New to ScandiPWA?') }</h4>
+                        <h4 id="forgot-password-label">{ __('Don`t have an account?') }</h4>
                         <button
                           block="Button"
+                          mods={ { isHollow: true } }
                           onClick={ handleCreateAccount }
                         >
                             { __('Create an account') }
@@ -298,12 +301,14 @@ class MyAccountOverlay extends PureComponent {
     }
 
     render() {
-        const { isLoading } = this.props;
+        const { isLoading, onVisible } = this.props;
 
         return (
             <Overlay
-              id="customer_account"
+              id={ CUSTOMER_ACCOUNT_OVERLAY_KEY }
               mix={ { block: 'MyAccountOverlay' } }
+              onVisible={ onVisible }
+              isStatic={ !!isMobile.any() }
             >
                 <Loader isLoading={ isLoading } />
                 { this.renderMyAccount() }
