@@ -61,11 +61,13 @@ export class CategoryQuery {
             'image',
             'url_key',
             'url_path',
+            'is_active',
             'meta_title',
             'description',
             'canonical_url',
             'product_count',
             'meta_keywords',
+            'default_sort_by',
             'meta_description',
             this._getBreadcrumbsField()
         ];

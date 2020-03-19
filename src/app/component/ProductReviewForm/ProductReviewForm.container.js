@@ -19,7 +19,8 @@ import { ProductType } from 'Type/ProductList';
 import { ReviewDispatcher } from 'Store/Review';
 import { hideActiveOverlay } from 'Store/Overlay';
 import { showNotification } from 'Store/Notification';
-import { goToPreviousHeaderState } from 'Store/Header';
+import { goToPreviousNavigationState } from 'Store/Navigation';
+import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 
 import ProductReviewForm from './ProductReviewForm.component';
 
@@ -33,7 +34,7 @@ export const mapDispatchToProps = dispatch => ({
     addReview: options => ReviewDispatcher.submitProductReview(dispatch, options),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    goToPreviousHeaderState: () => dispatch(goToPreviousHeaderState())
+    goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))
 });
 
 export class ProductReviewFormContainer extends PureComponent {
@@ -82,7 +83,7 @@ export class ProductReviewFormContainer extends PureComponent {
             || !reviewRatings.every(({ rating_id }) => ratingData[rating_id]);
 
         if (reviewsAreNotValid) {
-            showNotification('error', 'Incorrect data! Please check review fields.');
+            showNotification('info', 'Incorrect data! Please check review fields.');
         }
 
         this.setState({ isLoading: !reviewsAreNotValid });
@@ -96,7 +97,7 @@ export class ProductReviewFormContainer extends PureComponent {
             goToPreviousHeaderState
         } = this.props;
 
-        const { ratingData: rating_data } = this.state;
+        const { ratingData: rating_data, isLoading } = this.state;
 
         const {
             nickname,
@@ -106,7 +107,7 @@ export class ProductReviewFormContainer extends PureComponent {
 
         const { sku: product_sku } = product;
 
-        if (Object.keys(rating_data).length) {
+        if (Object.keys(rating_data).length && isLoading) {
             addReview({
                 nickname,
                 title,

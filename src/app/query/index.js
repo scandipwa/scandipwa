@@ -23,4 +23,7 @@ export { default as CheckEmailQuery } from 'Query/CheckEmail.query';
 export { default as ReviewQuery } from 'Query/Review.query';
 export { default as UrlRewritesQuery } from 'Query/UrlRewrites.query';
 export { default as ConfigQuery } from 'Query/Config.query';
+export { default as PayPalQuery } from 'Query/PayPal.query';
+export { default as KlarnaQuery } from 'Query/Klarna.query';
+export { default as CheckoutQuery } from 'Query/Checkout.query';
 export { default as OrderQuery } from 'Query/Order.query';

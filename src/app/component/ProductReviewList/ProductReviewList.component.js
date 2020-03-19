@@ -24,6 +24,13 @@ export default class ProductReviewList extends PureComponent {
         product: ProductType.isRequired
     };
 
+    getFormattedDate(created_at) {
+        // Safari bug
+        const fixedDate = created_at.replace(/-/g, '/');
+        const date = new Date(fixedDate);
+        return date ? date.toDateString() : created_at;
+    }
+
     renderReviewListItemRating = (ratingVoteItem) => {
         const {
             vote_id,
@@ -47,16 +54,13 @@ export default class ProductReviewList extends PureComponent {
     };
 
     renderAuthor(reviewItem) {
-        const {
-            nickname,
-            created_at
-        } = reviewItem;
+        const { nickname, created_at } = reviewItem;
 
         return (
             <p block="ProductReviewList" elem="ReviewAuthor">
                 { __('Written by ') }
                 <strong>{ nickname }</strong>
-                { __(', written at %s', new Date(created_at).toDateString()) }
+                { __(', written at %s', this.getFormattedDate(created_at)) }
             </p>
         );
     }

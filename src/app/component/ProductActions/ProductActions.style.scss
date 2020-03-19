@@ -19,6 +19,29 @@
     }
 }
 
+@keyframes shake {
+    10%,
+    90% {
+        transform: translate3d(-1px, 0, 0);
+    }
+
+    20%,
+    80% {
+        transform: translate3d(2px, 0, 0);
+    }
+
+    30%,
+    50%,
+    70% {
+        transform: translate3d(-4px, 0, 0);
+    }
+
+    40%,
+    60% {
+        transform: translate3d(4px, 0, 0);
+    }
+}
+
 .ProductActions {
     --swatch-type-size: 40px;
 
@@ -92,10 +115,17 @@
         align-items: center;
         justify-content: center;
 
+        + .ProductActions-Section_type_short {
+            @include mobile {
+                margin-top: -.5rem;
+            }
+        }
+
         @include mobile {
             order: -2;
-            text-align: center;
-            padding-top: .5rem;
+            padding-left: 1rem;
+            padding-top: 1.5rem;
+            padding-bottom: 1.5rem;
         }
 
         &:last-of-type {
@@ -123,17 +153,40 @@
         color: var(--product-actions-option-border-color);
     }
 
-    &-AddToCart {
-        margin-left: 10px;
+    &-GroupedItems {
+        order: 3;
 
+        @include before-desktop {
+            padding: 1rem;
+        }
+
+        @include desktop {
+            margin-bottom: 2.5rem;
+        }
+    }
+
+    &-AddToCart {
         @include mobile {
-            margin: 1rem 1rem;
-            width: calc(100% - 2rem);
+            flex-grow: 1;
         }
     }
 
     &-AddToCartWrapper {
         order: -2;
+
+        @include mobile {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            z-index: 85;
+            bottom: var(--navigation-tabs-height);
+            left: 0;
+            width: 100%;
+            background: var(--header-background);
+            border-top: 1px solid var(--primary-divider-color);
+            padding: 1rem;
+        }
 
         @include after-mobile {
             order: 22;
@@ -147,6 +200,7 @@
         flex-basis: 100%;
 
         @include mobile {
+            border-top: 1px solid var(--expandable-content-divider-color);
             margin: 0 0 1rem;
         }
 
@@ -166,20 +220,36 @@
         }
     }
 
+    &-AttributesWrapper {
+        transform: translate3d(0, 0, 0);
+        backface-visibility: hidden;
+        perspective: 1000px;
+
+        @include after-mobile {
+            width: 100%;
+            order: 10;
+        }
+
+        &.animate {
+            animation: shake 820ms .5ms cubic-bezier(.36, .07, .19, .97) both;
+        }
+    }
+
     &-Attributes {
         @include mobile {
             --product-configurable-attributes-content-padding: .5rem;
             // --product-configurable-attributes-direction: center;
             --option-margin: 0 .5rem 1rem;
 
+            // display: grid;
             border-top: 1px solid var(--expandable-content-divider-color);
+            // grid-template-columns: repeat(auto-fit, minmax(50%, 1fr));
         }
 
         @include after-mobile {
             --product-configurable-attributes-margin: 0 2rem 0 0;
             --option-margin: 0 1rem 1rem 0;
 
-            order: 10;
             display: flex;
             flex-wrap: wrap;
             flex-basis: 100%;
@@ -209,9 +279,11 @@
 
             &_short {
                 @include mobile {
+                    border-top: 0;
+                    padding-top: 0;
+                    // padding-top: .5rem;
+                    bottom: -1px;
                     border-bottom: 1px solid var(--expandable-content-divider-color);
-                    border-top: 1px solid var(--expandable-content-divider-color);
-                    top: -1px;
                 }
 
                 @include after-mobile {
@@ -228,7 +300,7 @@
                 color: var(--product-actions-option-border-color);
                 padding-top: 0;
                 padding-bottom: 0;
-                margin-bottom: 1rem;
+                margin-bottom: 0;
 
                 @include mobile {
                     display: none;
@@ -244,12 +316,6 @@
 
                 @include mobile {
                     display: none;
-                }
-            }
-
-            &_grouped {
-                @include after-mobile {
-                    margin-bottom: 1.5rem;
                 }
             }
         }
@@ -310,8 +376,25 @@
         display: inline-block;
         vertical-align: middle;
 
+        + .ProductActions-AddToCart {
+            @include after-mobile {
+                margin-left: 10px;
+            }
+        }
+
         @include mobile {
             display: none;
+        }
+    }
+
+    &-TierPrices {
+        order: 11;
+        width: 100%;
+
+        @include mobile {
+            order: -1;
+            padding: 0 1rem;
+            top: -1rem;
         }
     }
 }

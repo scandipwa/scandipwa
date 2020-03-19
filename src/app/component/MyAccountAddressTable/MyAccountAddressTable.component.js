@@ -67,22 +67,13 @@ class MyAccountAddressTable extends KeyValueTable {
                 key: 'city',
                 label: __('City'),
                 source: address
-            },
-            {
-                key: 'company',
-                label: __('Company'),
-                source: address
-            },
-            {
-                key: 'vat_id',
-                label: __('VAT ID'),
-                source: address
-            },
-            {
-                key: 'fax',
-                label: __('Fax'),
-                source: address
             }
+            // Will be back with B2B update
+            // {
+            //     key: 'company',
+            //     label: __('Company'),
+            //     source: address
+            // }
         ];
 
         return [

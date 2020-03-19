@@ -57,13 +57,8 @@ export class CheckoutShippingContainer extends PureComponent {
         this.setState({ selectedShippingMethod: method });
     }
 
-    onShippingError(fields, invalidFields, asyncData) {
-        const {
-            selectedCustomerAddressId,
-            selectedShippingMethod
-        } = this.state;
-
-        console.log(fields, invalidFields, asyncData, selectedCustomerAddressId, selectedShippingMethod);
+    onShippingError() {
+        // TODO: implement notification if some data in Form can not display error
     }
 
     onShippingSuccess(fields) {

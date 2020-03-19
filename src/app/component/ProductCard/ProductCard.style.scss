@@ -62,13 +62,12 @@
         opacity: .5;
 
         @include mobile {
-            display: none;
+            line-height: 1;
+            font-size: 12px;
         }
     }
 
     &-Picture {
-        --placeholder-image: linear-gradient(to right, rgba(0, 0, 0, .04) 0, rgba(0, 0, 0, .08) 15%, rgba(0, 0, 0, .04) 30%);
-
         padding-bottom: 120%;
     }
 

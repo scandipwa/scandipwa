@@ -36,17 +36,19 @@ export default class ReviewStar extends PureComponent {
 
     render() {
         const {
+            name,
             value,
             title,
             isChecked,
-            name
+            rating_id,
+            option_id
         } = this.props;
 
         return (
             <input
               block="ReviewStar"
               type="radio"
-              id={ name }
+              id={ option_id + rating_id }
               name={ name }
               value={ value }
               title={ title }

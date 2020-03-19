@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Component } from 'react';
+import { PureComponent } from 'react';
 import { Redirect } from 'react-router';
 import PropTypes from 'prop-types';
 import ContentWrapper from 'Component/ContentWrapper';
@@ -23,7 +23,7 @@ import './PasswordChangePage.style';
 const STATUS_PASSOWORD_UPDATED = 'password_updated';
 const STATUS_PASSOWORD_MISSMATCH = 'passwords_miss_match';
 
-export default class PasswordChangePage extends Component {
+export default class PasswordChangePage extends PureComponent {
     static propTypes = {
         updateBreadcrumbs: PropTypes.func.isRequired,
         resetPassword: PropTypes.func.isRequired,
@@ -52,7 +52,7 @@ export default class PasswordChangePage extends Component {
                 showNotification('success', __('Password has been successfully updated!'));
                 break;
             case STATUS_PASSOWORD_MISSMATCH:
-                showNotification('error', __('Your password and confirmation password do not match.'));
+                showNotification('info', __('Your password and confirmation password do not match.'));
                 break;
             default:
                 showNotification('error', __('Error! Something went wrong'));
@@ -132,8 +132,13 @@ export default class PasswordChangePage extends Component {
                               validation={ ['notEmpty', 'password'] }
                             />
                             <div block="MyAccount" elem="Buttons">
-                                <button type="submit">
-                                    { __('Submit') }
+                                <button
+                                  type="submit"
+                                  block="PasswordChangePage"
+                                  elem="Button"
+                                  mix={ { block: 'Button' } }
+                                >
+                                    { __('Update Password') }
                                 </button>
                             </div>
                         </Form>

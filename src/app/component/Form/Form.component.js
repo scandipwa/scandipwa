@@ -108,7 +108,7 @@ export default class Form extends PureComponent {
             const rule = validation.find((rule) => {
                 if (!validationConfig[rule]) return false;
                 const validationRules = validationConfig[rule];
-                const isValid = validationRules.validate(inputNode);
+                const isValid = validationRules.validate(inputNode, refMap);
                 return !isValid;
             });
 
@@ -219,6 +219,15 @@ export default class Form extends PureComponent {
             return inputValues;
         }, {});
 
+        if (invalidFields.length) {
+            const { current } = refMap[invalidFields[0]];
+
+            current.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+            });
+        }
+
         return {
             inputValues,
             invalidFields
@@ -226,7 +235,7 @@ export default class Form extends PureComponent {
     };
 
     render() {
-        const { mix } = this.props;
+        const { mix, id } = this.props;
         const { children, fieldsAreValid } = this.state;
 
         return (
@@ -235,6 +244,7 @@ export default class Form extends PureComponent {
               mix={ mix }
               mods={ { isInvalid: !fieldsAreValid } }
               ref={ (ref) => { this.form = ref; } }
+              id={ id }
               onSubmit={ this.handleFormSubmit }
             >
                 { children }

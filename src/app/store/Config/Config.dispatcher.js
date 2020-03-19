@@ -36,7 +36,8 @@ export class ConfigDispatcher extends QueryDispatcher {
         return [
             RegionQuery.getCountriesQuery(),
             ReviewQuery.getRatingQuery(),
-            ConfigQuery.getQuery()
+            ConfigQuery.getQuery(),
+            ConfigQuery.getCheckoutAgreements()
         ];
     }
 }

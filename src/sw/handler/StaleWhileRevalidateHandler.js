@@ -12,8 +12,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+export const RESPONSE_OK = 200;
+
 const makeRequestAndUpdateCache = (request, cache) => fetch(request).then((response) => {
-    const isValid = response.status === 200;
+    const isValid = response.status === RESPONSE_OK;
     const responseToCache = response.clone();
     if (isValid) cache.put(request.url, responseToCache);
     return response;
@@ -35,14 +37,22 @@ const shouldBeRevalidated = (request, cache) => {
     return true;
 };
 
-const StaleWhileRevalidateHandler = (event) => {
+const staleWhileRevalidate = async (event) => {
     const { request, request: url } = event;
-    event.respondWith(caches.open(self.CACHE_NAME)
-        .then(cache => cache.match(url)
-            .then(cachedResponse => (!cachedResponse
-                ? makeRequestAndUpdateCache(request, cache)
-                : shouldBeRevalidated(request, cache) && cachedResponse
-            ))));
+    const cache = await caches.open(self.CACHE_NAME);
+    const response = await cache.match(url);
+
+    if (response) {
+        shouldBeRevalidated(request, cache);
+        return response;
+    }
+
+    return makeRequestAndUpdateCache(request, cache);
 };
 
-export default StaleWhileRevalidateHandler;
+const staleWhileRevalidateHandler = (workboxEvent) => {
+    const { event } = workboxEvent;
+    event.respondWith(staleWhileRevalidate(event));
+};
+
+export default staleWhileRevalidateHandler;

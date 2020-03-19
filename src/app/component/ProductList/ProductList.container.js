@@ -18,7 +18,7 @@ import { HistoryType } from 'Type/Common';
 import { debounce } from 'Util/Request';
 import ProductList from './ProductList.component';
 
-export const UPDATE_PAGE_FREQUENCY = 500; // (ms)
+export const UPDATE_PAGE_FREQUENCY = 0; // (ms)
 
 export class ProductListContainer extends PureComponent {
     static propTypes = {
@@ -35,7 +35,6 @@ export class ProductListContainer extends PureComponent {
         selectedFilters: PropTypes.objectOf(PropTypes.shape),
         isInfiniteLoaderEnabled: PropTypes.bool,
         isPaginationEnabled: PropTypes.bool,
-
         filter: FilterInputType,
         search: PropTypes.string,
         sort: PropTypes.objectOf(PropTypes.string)

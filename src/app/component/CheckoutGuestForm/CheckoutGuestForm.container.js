@@ -15,10 +15,6 @@ import PropTypes from 'prop-types';
 
 import { BILLING_STEP, SHIPPING_STEP } from 'Route/Checkout/Checkout.component';
 import { showNotification } from 'Store/Notification';
-import BrowserDatabase from 'Util/BrowserDatabase';
-import CheckoutQuery from 'Query/Checkout.query';
-import { GUEST_QUOTE_ID } from 'Store/Cart';
-import { fetchMutation } from 'Util/Request';
 
 import CheckoutGuestForm from './CheckoutGuestForm.component';
 
@@ -33,28 +29,35 @@ export const mapDispatchToProps = dispatch => ({
 export class CheckoutGuestFormContainer extends PureComponent {
     static propTypes = {
         isBilling: PropTypes.bool,
+        isCreateUser: PropTypes.bool.isRequired,
+        isGuestEmailSaved: PropTypes.bool,
         isSignedIn: PropTypes.bool.isRequired,
-        showErrorNotification: PropTypes.func.isRequired
+        showErrorNotification: PropTypes.func.isRequired,
+        onEmailChange: PropTypes.func.isRequired,
+        onCreateUserChange: PropTypes.func.isRequired,
+        onPasswordChange: PropTypes.func.isRequired
     };
 
     static defaultProps = {
-        isBilling: false
-    };
-
-    state = {
-        email: '',
-        isSubmitted: false
+        isBilling: false,
+        isGuestEmailSaved: false
     };
 
     containerFunctions = {
-        handleEmailInput: this.handleEmailInput.bind(this)
+        handleEmailInput: this.handleEmailInput.bind(this),
+        handleCreateUser: this.handleCreateUser.bind(this),
+        handlePasswordInput: this.handlePasswordInput.bind(this)
     };
 
     componentDidMount() {
         const { isSignedIn } = this.props;
 
         if (window.formPortalCollector && !isSignedIn) {
-            window.formPortalCollector.subscribe(this._getFormPortalId(), this.applyEmailTyped);
+            window.formPortalCollector.subscribe(
+                this._getFormPortalId(),
+                this.applyEmailTyped,
+                'CheckoutGuestFormContainer'
+            );
         }
     }
 
@@ -67,33 +70,37 @@ export class CheckoutGuestFormContainer extends PureComponent {
     });
 
     applyEmailTyped = () => {
-        this.saveGuestEmail();
+        const { isGuestEmailSaved } = this.props;
+
+        if (isGuestEmailSaved) {
+            this.unsubscribeFromForm();
+        }
+
         return {};
     };
 
-    _setEmailAsSubmitted = () => {
-        this.setState({ isSubmitted: true });
+    unsubscribeFromForm = () => {
+        if (window.formPortalCollector) {
+            window.formPortalCollector.unsubscribe(
+                this._getFormPortalId(),
+                'CheckoutGuestFormContainer'
+            );
+        }
     };
 
-    unsubscribeFromForm() {
-        if (window.formPortalCollector) {
-            window.formPortalCollector.unsubscribe(this._getFormPortalId(), this.applyEmailTyped);
-        }
-    }
-
     handleEmailInput(email) {
-        this.setState({ email });
+        const { onEmailChange } = this.props;
+        onEmailChange(email);
     }
 
-    saveGuestEmail() {
-        const { email } = this.state;
+    handleCreateUser() {
+        const { onCreateUserChange } = this.props;
+        onCreateUserChange();
+    }
 
-        if (!email) return Promise.resolve();
-
-        const guestCartId = BrowserDatabase.getItem(GUEST_QUOTE_ID);
-        const mutation = CheckoutQuery.getSaveGuestEmailMutation(email, guestCartId);
-
-        return fetchMutation(mutation).then(this._setEmailAsSubmitted());
+    handlePasswordInput(password) {
+        const { onPasswordChange } = this.props;
+        onPasswordChange(password);
     }
 
     _getFormPortalId() {
@@ -102,10 +109,8 @@ export class CheckoutGuestFormContainer extends PureComponent {
     }
 
     render() {
-        const { isSubmitted } = this.state;
-        const { isSignedIn } = this.props;
-
-        if (isSignedIn || isSubmitted) return null;
+        const { isSignedIn, isGuestEmailSaved } = this.props;
+        if (isSignedIn || isGuestEmailSaved) return null;
 
         return (
             <CheckoutGuestForm

@@ -9,20 +9,25 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { MyAccountDispatcher } from 'Store/MyAccount';
+import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
-import { CUSTOMER_ACCOUNT_PAGE } from 'Component/Header';
-import { changeHeaderState } from 'Store/Header';
-import { MatchType, HistoryType } from 'Type/Common';
+import { CUSTOMER_ACCOUNT_PAGE, CUSTOMER_ACCOUNT } from 'Component/Header';
+import { HistoryType, MatchType } from 'Type/Common';
+import { changeNavigationState } from 'Store/Navigation';
+import { MyAccountDispatcher } from 'Store/MyAccount';
+import { toggleOverlayByKey } from 'Store/Overlay';
+import { updateMeta } from 'Store/Meta';
+import isMobile from 'Util/Mobile';
+
 import {
+    ADDRESS_BOOK,
     DASHBOARD,
     MY_ORDERS,
     MY_WISHLIST,
-    ADDRESS_BOOK,
     NEWSLETTER_SUBSCRIPTION
 } from 'Type/Account';
 
@@ -36,8 +41,10 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
     updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.update(breadcrumbs, dispatch),
-    changeHeaderState: state => dispatch(changeHeaderState(state)),
-    requestCustomerData: () => MyAccountDispatcher.requestCustomerData(dispatch)
+    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
+    requestCustomerData: () => MyAccountDispatcher.requestCustomerData(dispatch),
+    toggleOverlayByKey: key => dispatch(toggleOverlayByKey(key)),
+    updateMeta: meta => dispatch(updateMeta(meta))
 });
 
 export class MyAccountContainer extends PureComponent {
@@ -45,6 +52,8 @@ export class MyAccountContainer extends PureComponent {
         changeHeaderState: PropTypes.func.isRequired,
         requestCustomerData: PropTypes.func.isRequired,
         updateBreadcrumbs: PropTypes.func.isRequired,
+        toggleOverlayByKey: PropTypes.func.isRequired,
+        updateMeta: PropTypes.func.isRequired,
         isSignedIn: PropTypes.bool.isRequired,
         match: MatchType.isRequired,
         history: HistoryType.isRequired
@@ -92,25 +101,32 @@ export class MyAccountContainer extends PureComponent {
     };
 
     containerFunctions = {
-        changeActiveTab: this.changeActiveTab.bind(this)
+        changeActiveTab: this.changeActiveTab.bind(this),
+        onSignIn: this.onSignIn.bind(this),
+        onSignOut: this.onSignOut.bind(this)
     };
 
     constructor(props) {
         super(props);
 
-        const { changeHeaderState, requestCustomerData, history } = props;
         this.state = MyAccountContainer.navigateToSelectedTab(this.props) || {};
+    }
 
-        changeHeaderState({
-            title: 'My account',
-            name: CUSTOMER_ACCOUNT_PAGE,
-            onBackClick: () => history.push('/')
-        });
+    componentDidMount() {
+        const {
+            isSignedIn,
+            updateMeta,
+            toggleOverlayByKey
+        } = this.props;
 
-        requestCustomerData();
+        if (!isSignedIn) {
+            toggleOverlayByKey(CUSTOMER_ACCOUNT);
+        }
 
-        this.updateBreadcrumbs();
+        updateMeta({ title: __('My account') });
         this.redirectIfNotSignedIn();
+        this.onSignIn();
+        this.updateBreadcrumbs();
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -123,6 +139,31 @@ export class MyAccountContainer extends PureComponent {
 
         this.redirectIfNotSignedIn();
         if (prevActiveTab !== activeTab) this.updateBreadcrumbs();
+    }
+
+    onSignOut() {
+        const { toggleOverlayByKey } = this.props;
+        this.setState({ activeTab: DASHBOARD });
+        toggleOverlayByKey(CUSTOMER_ACCOUNT);
+    }
+
+    onSignIn() {
+        const {
+            requestCustomerData,
+            changeHeaderState,
+            isSignedIn,
+            history
+        } = this.props;
+
+        if (isSignedIn) {
+            requestCustomerData();
+        }
+
+        changeHeaderState({
+            title: 'My account',
+            name: CUSTOMER_ACCOUNT_PAGE,
+            onBackClick: () => history.push('/')
+        });
     }
 
     changeActiveTab(activeTab) {
@@ -143,8 +184,16 @@ export class MyAccountContainer extends PureComponent {
     }
 
     redirectIfNotSignedIn() {
-        const { isSignedIn, history } = this.props;
-        if (!isSignedIn) history.push('/');
+        const {
+            isSignedIn,
+            history
+        } = this.props;
+
+        if (isSignedIn) return;
+
+        if (!isMobile.any()) {
+            history.push('/');
+        }
     }
 
     render() {

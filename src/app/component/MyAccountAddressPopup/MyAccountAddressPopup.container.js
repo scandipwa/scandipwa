@@ -19,6 +19,8 @@ import { fetchMutation } from 'Util/Request';
 import { addressType } from 'Type/Account';
 import { showNotification } from 'Store/Notification';
 import { MyAccountDispatcher } from 'Store/MyAccount';
+import { goToPreviousNavigationState } from 'Store/Navigation';
+import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 
 import MyAccountAddressPopup, { ADDRESS_POPUP_ID } from './MyAccountAddressPopup.component';
 
@@ -30,7 +32,8 @@ export const mapDispatchToProps = dispatch => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     showErrorNotification: error => dispatch(showNotification('error', error[0].message)),
     showSuccessNotification: message => dispatch(showNotification('success', message)),
-    updateCustomerDetails: () => MyAccountDispatcher.requestCustomerData(dispatch)
+    updateCustomerDetails: () => MyAccountDispatcher.requestCustomerData(dispatch),
+    goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))
 });
 
 export class MyAccountAddressPopupContainer extends PureComponent {
@@ -38,6 +41,7 @@ export class MyAccountAddressPopupContainer extends PureComponent {
         showErrorNotification: PropTypes.func.isRequired,
         updateCustomerDetails: PropTypes.func.isRequired,
         hideActiveOverlay: PropTypes.func.isRequired,
+        goToPreviousHeaderState: PropTypes.func.isRequired,
         payload: PropTypes.shape({
             address: addressType
         }).isRequired
@@ -56,11 +60,15 @@ export class MyAccountAddressPopupContainer extends PureComponent {
         const {
             hideActiveOverlay,
             updateCustomerDetails,
-            showErrorNotification
+            showErrorNotification,
+            goToPreviousHeaderState
         } = this.props;
 
         updateCustomerDetails().then(() => {
-            this.setState({ isLoading: false }, () => hideActiveOverlay());
+            this.setState({ isLoading: false }, () => {
+                hideActiveOverlay();
+                goToPreviousHeaderState();
+            });
         }, showErrorNotification);
     };
 

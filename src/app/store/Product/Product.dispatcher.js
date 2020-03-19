@@ -11,7 +11,7 @@
 
 import { QueryDispatcher } from 'Util/Request';
 import { ProductListQuery } from 'Query';
-import { updateProductDetails, updateGroupedProductQuantity, clearGroupedProductQuantity } from 'Store/Product';
+import { updateProductDetails } from 'Store/Product';
 import { updateNoMatch } from 'Store/NoMatch';
 import { RelatedProductsDispatcher } from 'Store/RelatedProducts';
 import { LinkedProductsDispatcher } from 'Store/LinkedProducts';
@@ -57,7 +57,8 @@ export class ProductDispatcher extends QueryDispatcher {
         // TODO: make one request per description & related in this.prepareRequest
         if (productItem && productItem.product_links && Object.keys(productItem.product_links).length > 0) {
             const { product_links } = productItem;
-            const productsSkuArray = product_links.map(item => `"${item.linked_product_sku}"`);
+            const productsSkuArray = product_links.filter(({ link_type }) => link_type === 'related')
+                .map(item => `"${item.linked_product_sku}"`);
 
             RelatedProductsDispatcher.handleData(
                 dispatch,
@@ -78,24 +79,19 @@ export class ProductDispatcher extends QueryDispatcher {
         return ProductListQuery.getQuery(options);
     }
 
-    updateGroupedProductQuantity(dispatch, options) {
-        const { product, quantity } = options;
-
-        return dispatch(updateGroupedProductQuantity(product, quantity));
-    }
-
-    clearGroupedProductQuantity(dispatch) {
-        return dispatch(clearGroupedProductQuantity());
-    }
-
     _prepareGroupedProduct(groupProduct) {
         const { items } = groupProduct;
-        const newItems = items.map(item => ({
-            product: {
-                ...item.product,
-                url_key: groupProduct.url_key
-            }
-        }));
+        const newItems = items.map((item) => {
+            const { product, order, qty } = item;
+            return {
+                product: {
+                    ...product,
+                    url_key: groupProduct.url_key
+                },
+                order,
+                qty
+            };
+        }).sort(({ order }, { order: order2 }) => order - order2);
 
         return {
             ...groupProduct,

@@ -46,7 +46,7 @@
         border-width: 1px;
         color: var(--option-text-color);
         display: inline-block;
-        height: var(--option-size);
+        min-height: var(--option-size);
         width: var(--option-size);
         margin: var(--option-margin);
         padding: var(--option-padding);
@@ -63,7 +63,7 @@
         position: absolute;
         top: 0;
         left: 0;
-        margin: .5rem;
+        margin-left: .5rem;
 
         @include after-mobile {
             margin: 0;
@@ -132,20 +132,21 @@
         text-align: center;
 
         &_isSelected {
-            --option-border-color: #{$primary-base-color};
-            --option-text-color: #{$primary-base-color};
+            --option-border-color: var(--primary-base-color);
+            --option-text-color: var(--primary-base-color);
         }
     }
 
     &-Text {
         display: flex;
         border: 0;
-        align-items: center;
+        align-items: baseline;
         margin: 0;
+        line-height: 1.4;
         text-transform: uppercase;
 
         &_isSelected {
-            color: var(--color-primary-base);
+            color: var(--primary-base-color);
         }
 
         label {
@@ -161,9 +162,12 @@
                 padding-left: 1rem;
                 padding-bottom: 0;
                 order: 1;
+                text-align: left;
 
                 ~ label {
                     margin: 0;
+                    min-width: 1.5rem;
+                    top: .3rem;
                 }
             }
         }
@@ -172,19 +176,19 @@
         &:focus {
             label {
                 @include after-mobile {
-                    border-color: $primary-base-color;
+                    border-color: var(--primary-base-color);
                 }
 
                 &::after {
                     @include after-mobile {
-                        --checkmark-color: #{$dusty-grey};
+                        --checkmark-color: var(--secondary-dark-color);
                     }
                 }
             }
         }
 
         @include after-mobile {
-            padding: 0;
+            padding: .5rem 0;
         }
     }
 

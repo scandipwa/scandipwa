@@ -9,13 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Component } from 'react';
+import { PureComponent } from 'react';
 import Link from 'Component/Link';
 import PropTypes from 'prop-types';
 import ContentWrapper from 'Component/ContentWrapper';
 import './NoMatch.style';
 
-export default class NoMatch extends Component {
+export default class NoMatch extends PureComponent {
     static propTypes = {
         updateBreadcrumbs: PropTypes.func.isRequired
     };
@@ -60,7 +60,7 @@ export default class NoMatch extends Component {
                     </p>
                     <p>
                         { /* eslint-disable-next-line max-len */ }
-                        { __('Sorry, we can`t find the page you are looking for! Please press a big orange button to come back to homepage.') }
+                        { __('Sorry, we can`t find the page you are looking for! Please press a button below to go back to homepage.') }
                     </p>
                     <Link
                       to="/"

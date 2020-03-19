@@ -10,11 +10,16 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Component } from 'react';
+import { PureComponent } from 'react';
+import { Provider as UnstatedProvider } from 'unstated';
 import { Provider } from 'react-redux';
+import ReactDOM from 'react-dom';
+
+import SharedTransition from 'Component/SharedTransition';
 import AppRouter from 'Route';
 import store from 'Store';
-import ReactDOM from 'react-dom';
+
+import 'Util/Polyfill';
 import 'Style/main';
 
 // Disable react dev tools in production
@@ -31,12 +36,18 @@ if (process.env.NODE_ENV === 'development') {
     });
 }
 
+// Inject ScandiPWA comment into code (do not remove!)
+const comment = document.createComment('Powered by ScandiPWA (scandipwa.com)');
+document.querySelector('html').appendChild(comment);
 
-class App extends Component {
+class App extends PureComponent {
     render() {
         return (
             <Provider store={ store }>
-                <AppRouter />
+                <UnstatedProvider>
+                    <AppRouter />
+                    <SharedTransition />
+                </UnstatedProvider>
             </Provider>
         );
     }

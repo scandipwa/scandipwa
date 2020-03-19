@@ -1,0 +1,101 @@
+<?php
+    $colorConfig = $this->getThemeConfiguration('color_customization');
+    $contentConfig = $this->getThemeConfiguration('content_customization');
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+
+        <script>
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function() {
+                    navigator.serviceWorker.register('/sw.js');
+                });
+            }
+
+            window.actionName = {
+                type: `<?= $this->getAction(); ?>`
+            };
+
+            window.contentConfiguration = <?= json_encode($contentConfig) ?> || {};
+        </script>
+        <script async src="<?= $this->getStaticFile("assets/pwacompat.min.js"); ?>"></script>
+
+        <!-- TODO: Find or implement helper to generate fonts related code -->
+        <link rel="preload" href="<?= $this->getStaticFile("assets/font/MuliLight.woff2"); ?>" as="font" type="font/woff2" crossorigin="">
+        <link rel="preload" href="<?= $this->getStaticFile("assets/font/MuliRegular.woff2"); ?>" as="font" type="font/woff2" crossorigin="">
+        <link rel="preload" href="<?= $this->getStaticFile("assets/font/MuliSemiBold.woff2"); ?>" as="font" type="font/woff2" crossorigin="">
+        <link rel="preload" href="<?= $this->getStaticFile("assets/font/MuliBold.woff2"); ?>" as="font" type="font/woff2" crossorigin="">
+        <link rel="preload" href="<?= $this->getStaticFile("assets/font/MuliExtraBold.woff2"); ?>" as="font" type="font/woff2" crossorigin="">
+
+        <style>
+            <?php if ($colorConfig['enable_color_customization']['enable_custom_colors'] !== "0"): ?>
+                <?php $colorArray = $colorConfig['primary_colors'] + $colorConfig['secondary_colors']; ?>
+                :root {
+                    <?php foreach ($colorArray as $code => $color): ?>
+                        <?php if (strpos($code, 'color') !== false): ?>
+                            <?= sprintf('--imported_%s: #%s;', $code, $color); ?>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                }
+            <?php endif; ?>
+
+            @font-face {
+                font-display: fallback;
+                font-family: 'Muli';
+                font-style: normal;
+                font-weight: 300;
+                src: local('Muli Light'), local('Muli-Light'), url(<?= $this->getStaticFile("assets/font/MuliLight.woff2"); ?>) format('woff2');
+                unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+            }
+
+            @font-face {
+                font-display: fallback;
+                font-family: 'Muli';
+                font-style: normal;
+                font-weight: 400;
+                src: local('Muli Regular'), local('Muli-Regular'), url(<?= $this->getStaticFile("assets/font/MuliRegular.woff2"); ?>) format('woff2');
+                unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+            }
+
+            @font-face {
+                font-display: fallback;
+                font-family: 'Muli';
+                font-style: normal;
+                font-weight: 600;
+                src: local('Muli SemiBold'), local('Muli-SemiBold'), url(<?= $this->getStaticFile("assets/font/MuliSemiBold.woff2"); ?>) format('woff2');
+                unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+            }
+
+            @font-face {
+                font-display: fallback;
+                font-family: 'Muli';
+                font-style: normal;
+                font-weight: 700;
+                src: local('Muli Bold'), local('Muli-Bold'), url(<?= $this->getStaticFile("assets/font/MuliBold.woff2"); ?>) format('woff2');
+                unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+            }
+
+            @font-face {
+                font-display: fallback;
+                font-family: 'Muli';
+                font-style: normal;
+                font-weight: 800;
+                src: local('Muli ExtraBold'), local('Muli-ExtraBold'), url(<?= $this->getStaticFile("assets/font/MuliExtraBold.woff2"); ?>) format('woff2');
+                unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+            }
+        </style>
+
+        <link rel="shortcut icon" href="<?= $this->getStaticFile("assets/favicon/favicon.ico"); ?>">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover">
+    </head>
+
+    <body>
+        <noscript> You need to enable JavaScript to run this app. </noscript>
+        <div id="root"></div>
+        <script src="<?= $this->getStaticBundleFile() ?>"></script>
+    </body>
+</html>

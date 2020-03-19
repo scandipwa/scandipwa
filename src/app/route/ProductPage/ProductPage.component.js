@@ -10,10 +10,9 @@
  * @link https://github.com/scandipwa/base-ProductReviewListtheme
  */
 
-import { Component } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import Meta from 'Component/Meta';
 import { ProductType } from 'Type/ProductList';
 import ProductGallery from 'Component/ProductGallery';
 import ProductActions from 'Component/ProductActions';
@@ -24,7 +23,7 @@ import ProductInformation from 'Component/ProductInformation';
 import UpsellProducts from 'Component/UpsellProducts';
 import './ProductPage.style';
 
-export default class ProductPage extends Component {
+export default class ProductPage extends PureComponent {
     static propTypes = {
         configurableVariantIndex: PropTypes.number.isRequired,
         productOrVariant: ProductType.isRequired,
@@ -50,11 +49,13 @@ export default class ProductPage extends Component {
             <>
                 <ProductGallery
                   product={ productOrVariant }
+                  areDetailsLoaded={ areDetailsLoaded }
                 />
                 <ProductActions
                   getLink={ getLink }
                   updateConfigurableVariant={ updateConfigurableVariant }
                   product={ dataSource }
+                  productOrVariant={ productOrVariant }
                   parameters={ parameters }
                   areDetailsLoaded={ areDetailsLoaded }
                   configurableVariantIndex={ configurableVariantIndex }
@@ -64,43 +65,44 @@ export default class ProductPage extends Component {
     }
 
     renderAdditionalSections() {
-        const { dataSource, areDetailsLoaded } = this.props;
+        const { dataSource, parameters, areDetailsLoaded } = this.props;
 
         return (
             <>
                 <ProductInformation
+                  product={ { ...dataSource, parameters } }
+                  areDetailsLoaded={ areDetailsLoaded }
+                />
+                <ProductReviews
                   product={ dataSource }
                   areDetailsLoaded={ areDetailsLoaded }
                 />
-                <ProductReviews product={ dataSource } />
-                <UpsellProducts products={ [dataSource] } label={ __('Worth Looking Into') } />
+                <UpsellProducts
+                  products={ [dataSource] }
+                  label={ __('Worth Looking Into') }
+                />
                 <RelatedProducts
                   product={ dataSource }
                   areDetailsLoaded={ areDetailsLoaded }
-                  label="ScandiPWA recommends"
-                  itemType=""
                 />
             </>
         );
     }
 
     render() {
-        const { dataSource } = this.props;
-
         return (
             <>
-                <Meta metaObject={ dataSource } />
                 <main block="ProductPage" aria-label="Product page">
                     <div
                       itemScope
                       itemType="http://schema.org/Product"
                     >
-                    <ContentWrapper
-                      wrapperMix={ { block: 'ProductPage', elem: 'Wrapper' } }
-                      label={ __('Main product details') }
-                    >
-                        { this.renderProductPageContent() }
-                    </ContentWrapper>
+                        <ContentWrapper
+                          wrapperMix={ { block: 'ProductPage', elem: 'Wrapper' } }
+                          label={ __('Main product details') }
+                        >
+                            { this.renderProductPageContent() }
+                        </ContentWrapper>
                     </div>
                     { this.renderAdditionalSections() }
                 </main>

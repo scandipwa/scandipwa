@@ -19,25 +19,86 @@ export const mapStateToProps = state => ({
     groupedProductQuantity: state.ProductReducer.groupedProductQuantity
 });
 
+export const DEFAULT_MAX_PRODUCTS = 99;
+
 export class ProductActionsContainer extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
+        productOrVariant: PropTypes.object.isRequired,
         configurableVariantIndex: PropTypes.number.isRequired,
         areDetailsLoaded: PropTypes.bool.isRequired,
         parameters: PropTypes.objectOf(PropTypes.string).isRequired
     };
 
-    state = { quantity: 1 };
+    state = {
+        quantity: 1,
+        groupedProductQuantity: {}
+    };
 
     containerFunctions = {
         showOnlyIfLoaded: this.showOnlyIfLoaded.bind(this),
         getIsOptionInCurrentVariant: this.getIsOptionInCurrentVariant.bind(this),
         setQuantity: this.setQuantity.bind(this),
+        setGroupedProductQuantity: this._setGroupedProductQuantity.bind(this),
+        clearGroupedProductQuantity: this._clearGroupedProductQuantity.bind(this),
         getIsConfigurableAttributeAvailable: this.getIsConfigurableAttributeAvailable.bind(this)
     };
 
+    static getDerivedStateFromProps(props, state) {
+        const { quantity } = state;
+        const minQty = ProductActionsContainer.getMinQuantity(props);
+        const maxQty = ProductActionsContainer.getMaxQuantity(props);
+
+        if (quantity < minQty) return { quantity: minQty };
+        if (quantity > maxQty) return { quantity: maxQty };
+
+        return null;
+    }
+
     setQuantity(value) {
         this.setState({ quantity: +value });
+    }
+
+    static getMinQuantity(props) {
+        const {
+            product: { stock_item: { min_sale_qty } = {}, variants } = {},
+            configurableVariantIndex
+        } = props;
+
+        if (!min_sale_qty) return 1;
+        if (!configurableVariantIndex && !variants) return min_sale_qty;
+
+        const { stock_item: { min_sale_qty: minVariantQty } = {} } = variants[configurableVariantIndex] || {};
+
+        return minVariantQty || min_sale_qty;
+    }
+
+    static getMaxQuantity(props) {
+        const {
+            product: {
+                stock_item: {
+                    max_sale_qty
+                } = {},
+                variants
+            } = {},
+            configurableVariantIndex
+        } = props;
+
+        if (!max_sale_qty) {
+            return DEFAULT_MAX_PRODUCTS;
+        }
+
+        if (configurableVariantIndex === -1 || !Object.keys(variants).length) {
+            return max_sale_qty;
+        }
+
+        const {
+            stock_item: {
+                max_sale_qty: maxVariantQty
+            } = {}
+        } = variants[configurableVariantIndex] || {};
+
+        return maxVariantQty || max_sale_qty;
     }
 
     // TODO: make key=>value based
@@ -76,6 +137,30 @@ export class ProductActionsContainer extends PureComponent {
             });
     }
 
+    containerProps = () => ({
+        minQuantity: ProductActionsContainer.getMinQuantity(this.props),
+        maxQuantity: ProductActionsContainer.getMaxQuantity(this.props),
+        groupedProductQuantity: this._getGroupedProductQuantity()
+    });
+
+    _getGroupedProductQuantity() {
+        const { groupedProductQuantity } = this.state;
+        return groupedProductQuantity;
+    }
+
+    _setGroupedProductQuantity(id, value) {
+        this.setState(({ groupedProductQuantity }) => ({
+            groupedProductQuantity: {
+                ...groupedProductQuantity,
+                [id]: value
+            }
+        }));
+    }
+
+    _clearGroupedProductQuantity() {
+        this.setState({ groupedProductQuantity: {} });
+    }
+
     showOnlyIfLoaded(expression, content, placeholder = content) {
         const { areDetailsLoaded } = this.props;
 
@@ -89,6 +174,7 @@ export class ProductActionsContainer extends PureComponent {
             <ProductActions
               { ...this.props }
               { ...this.state }
+              { ...this.containerProps() }
               { ...this.containerFunctions }
             />
         );

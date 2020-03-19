@@ -17,14 +17,12 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const MinifyPlugin = require('babel-minify-webpack-plugin');
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const autoprefixer = require('autoprefixer');
-
+const cssnano = require('cssnano');
 const { InjectManifest } = require('workbox-webpack-plugin');
 
 const webmanifestConfig = require('./webmanifest.config');
@@ -80,13 +78,17 @@ const webpackConfig = ([lang, translation]) => ({
             {
                 test: /\.(sa|sc|c)ss$/,
                 use: [
-                    'css-hot-loader',
-                    MiniCssExtractPlugin.loader,
+                    'style-loader',
                     'css-loader',
                     {
                         loader: 'postcss-loader',
                         options: {
-                            plugins: () => [autoprefixer]
+                            plugins: () => [
+                                autoprefixer,
+                                cssnano({
+                                    preset: ['default', { discardComments: { removeAll: true } }]
+                                })
+                            ]
                         }
                     },
                     'sass-loader',
@@ -124,21 +126,12 @@ const webpackConfig = ([lang, translation]) => ({
         }),
 
         new HtmlWebpackPlugin({
-            template: path.resolve(projectRoot, 'src', 'public', 'index.production.html'),
+            template: path.resolve(projectRoot, 'src', 'public', 'index.production.phtml'),
             filename: '../templates/root.phtml',
             inject: false,
             hash: true,
             publicPath,
-            minify: {
-                collapseWhitespace: true,
-                removeComments: true,
-                removeRedundantAttributes: true,
-                removeScriptTypeAttributes: true,
-                removeStyleLinkTypeAttributes: true,
-                useShortDoctype: true,
-                minifyCSS: true,
-                minifyJS: true
-            }
+            chunksSortMode: 'none'
         }),
 
         new WebpackPwaManifest(webmanifestConfig(projectRoot)),
@@ -164,16 +157,12 @@ const webpackConfig = ([lang, translation]) => ({
             path.resolve('Magento_Theme', 'web')
         ], { root: projectRoot }),
 
-        new MiniCssExtractPlugin(),
-
-        new OptimizeCssAssetsPlugin(),
-
         new CopyWebpackPlugin([
             { from: path.resolve(projectRoot, 'src', 'public', 'assets'), to: './assets' }
         ]),
 
         new MinifyPlugin({
-            removeConsole: true,
+            removeConsole: false,
             removeDebugger: true
         }, {
             comments: false

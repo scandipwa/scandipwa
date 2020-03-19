@@ -9,6 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { MyAccountDispatcher } from 'Store/MyAccount';
 import MyAccountTabList from './MyAccountTabList.component';
@@ -17,4 +19,35 @@ export const mapDispatchToProps = dispatch => ({
     logout: () => MyAccountDispatcher.logout(null, dispatch)
 });
 
-export default connect(null, mapDispatchToProps)(MyAccountTabList);
+export class MyAccountTabListContainer extends PureComponent {
+    static propTypes = {
+        onSignOut: PropTypes.func,
+        logout: PropTypes.func.isRequired
+    };
+
+    static defaultProps = {
+        onSignOut: () => {}
+    };
+
+    containerFunctions = {
+        handleLogout: this.handleLogout.bind(this)
+    };
+
+    handleLogout() {
+        const { onSignOut, logout } = this.props;
+
+        logout();
+        onSignOut();
+    }
+
+    render() {
+        return (
+            <MyAccountTabList
+              { ...this.props }
+              { ...this.containerFunctions }
+            />
+        );
+    }
+}
+
+export default connect(null, mapDispatchToProps)(MyAccountTabListContainer);
