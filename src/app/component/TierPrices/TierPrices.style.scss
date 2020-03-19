@@ -14,5 +14,20 @@
         &::before {
             content: none;
         }
+
+        &_isLowest {
+            display: inline-block;
+            margin-top: 2px;
+            padding: 0;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    &-ItemPrice {
+        color: var(--primary-base-color);
+        font-weight: bold;
     }
 }

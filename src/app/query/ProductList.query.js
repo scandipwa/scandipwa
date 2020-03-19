@@ -131,6 +131,7 @@ export class ProductListQuery {
             this._getProductSmallField(),
             this._getShortDescriptionField(),
             this._getAttributesField(isVariant),
+            this._getTierPricesField(),
             ...(!isVariant
                 ? [
                     'url_key',

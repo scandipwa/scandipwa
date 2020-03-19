@@ -20,6 +20,7 @@ import ProductPrice from 'Component/ProductPrice';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import ProductReviewRating from 'Component/ProductReviewRating';
 import ProductAttributeValue from 'Component/ProductAttributeValue';
+import TierPrices from 'Component/TierPrices';
 
 import './ProductCard.style';
 
@@ -67,6 +68,17 @@ export default class ProductCard extends PureComponent {
             <ProductPrice
               price={ price }
               mix={ { block: 'ProductCard', elem: 'Price' } }
+            />
+        );
+    }
+
+    renderTierPrice() {
+        const { productOrVariant } = this.props;
+
+        return (
+            <TierPrices
+              product={ productOrVariant }
+              isLowestPrice
             />
         );
     }
@@ -220,6 +232,7 @@ export default class ProductCard extends PureComponent {
                             { this.renderReviews() }
                             { this.renderProductPrice() }
                             { this.renderVisualConfigurableOptions() }
+                            { this.renderTierPrice() }
                             { this.renderMainDetails() }
                             { this.renderAdditionalProductDetails() }
                         </div>
