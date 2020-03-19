@@ -24,12 +24,9 @@ import './ProductPrice.style';
 export default class ProductPrice extends PureComponent {
     static propTypes = {
         isSchemaRequired: PropTypes.bool.isRequired,
-        minimalPriceValue: PropTypes.number,
-        regularPriceValue: PropTypes.number,
         roundedRegularPrice: PropTypes.string,
         priceCurrency: PropTypes.string,
         discountPercentage: PropTypes.number,
-        finalPrice: PropTypes.number,
         formatedCurrency: PropTypes.string,
         currency: PropTypes.string,
         price: PriceType,
@@ -37,12 +34,9 @@ export default class ProductPrice extends PureComponent {
     };
 
     static defaultProps = {
-        minimalPriceValue: 0,
-        regularPriceValue: 0,
         roundedRegularPrice: '0',
         priceCurrency: 'USD',
         discountPercentage: 0,
-        finalPrice: 0,
         formatedCurrency: '0',
         currency: '$',
         mix: {},

@@ -285,10 +285,11 @@ export default class ProductActions extends PureComponent {
     }
 
     renderSchema(name, stockStatus) {
-        const { getLink } = this.props;
+        const { getLink, product: { variants } } = this.props;
+
         return (
             <>
-                <meta itemProp="offerCount" content={ 1 } />
+                <meta itemProp="offerCount" content={ variants.length } />
                 <meta itemProp="availability" content={ this.renderStock(stockStatus) } />
                 <a
                   block="ProductActions"
