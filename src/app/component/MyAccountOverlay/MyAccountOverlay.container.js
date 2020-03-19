@@ -57,6 +57,7 @@ export class MyAccountOverlayContainer extends PureComponent {
         // eslint-disable-next-line react/no-unused-prop-types
         isOverlayVisible: PropTypes.bool.isRequired,
         setHeaderState: PropTypes.func.isRequired,
+        hideActiveOverlay: PropTypes.func.isRequired,
         onSignIn: PropTypes.func
     };
 
@@ -213,9 +214,9 @@ export class MyAccountOverlayContainer extends PureComponent {
         createAccount(customerData).then(
             () => {
                 onSignIn();
-                this.stopLoading();
+                this.stopLoadingAndHideOverlay();
             },
-            this.stopLoading
+            this.stopLoadingAndHideOverlay()
         );
     }
 
@@ -236,6 +237,12 @@ export class MyAccountOverlayContainer extends PureComponent {
     }
 
     stopLoading = () => this.setState({ isLoading: false });
+
+    stopLoadingAndHideOverlay = () => {
+        const { hideActiveOverlay } = this.props;
+        this.stopLoading();
+        hideActiveOverlay();
+    };
 
     handleForgotPassword(e) {
         const { setHeaderState } = this.props;

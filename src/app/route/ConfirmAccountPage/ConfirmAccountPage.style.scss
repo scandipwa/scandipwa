@@ -8,7 +8,8 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-.PasswordChangePage {
+
+.ConfirmAccountPage {
     &-Wrapper {
         padding: 2rem 0;
         max-width: 600px;
@@ -21,22 +22,20 @@
             }
         }
 
-        input {
-            width: 100%;
-            height: 100%;
+        .Field {
+            &_type_text {
+                display: none;
+            }
+
+            input {
+                width: 100%;
+                height: 100%;
+            }
         }
 
         button {
             @include button;
             margin-top: 1rem;
-        }
-    }
-
-    &-Button {
-        margin-top: 1rem;
-
-        @include mobile {
-            width: 100%;
         }
     }
 }
