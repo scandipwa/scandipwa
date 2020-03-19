@@ -70,4 +70,4 @@ export class ConfigQuery extends ExtensibleClass {
     }
 }
 
-export default new middleware(ConfigQuery, 'Query/Config')();
+export default new (middleware(ConfigQuery, 'Query/Config'))();

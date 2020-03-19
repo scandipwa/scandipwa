@@ -19,4 +19,4 @@ export class KlarnaQuery extends ExtensibleClass {
     }
 }
 
-export default new middleware(KlarnaQuery, 'Query/Klarna')();
+export default new (middleware(KlarnaQuery, 'Query/Klarna'))();

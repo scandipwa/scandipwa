@@ -132,4 +132,4 @@ export class WishlistDispatcher extends ExtensibleClass {
     }
 }
 
-export default new middleware(WishlistDispatcher, 'Store/Wishlist/Dispatcher')();
+export default new (middleware(WishlistDispatcher, 'Store/Wishlist/Dispatcher'))();

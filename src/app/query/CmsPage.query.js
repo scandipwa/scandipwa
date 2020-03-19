@@ -44,4 +44,4 @@ export class CmsPageQuery extends ExtensibleClass {
     }
 }
 
-export default new middleware(CmsPageQuery, 'Query/CmsPage')();
+export default new (middleware(CmsPageQuery, 'Query/CmsPage'))();

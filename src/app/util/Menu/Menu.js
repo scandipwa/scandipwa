@@ -89,4 +89,4 @@ export class MenuReducer extends ExtensibleClass {
     }
 }
 
-export default new middleware(MenuReducer, 'Util/Menu')();
+export default new (middleware(MenuReducer, 'Util/Menu'))();

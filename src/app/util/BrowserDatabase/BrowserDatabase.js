@@ -65,4 +65,4 @@ class BrowserDatabase extends ExtensibleClass {
     }
 }
 
-export default new middleware(BrowserDatabase, 'Util/BrowserDatabase')();
+export default new (middleware(BrowserDatabase, 'Util/BrowserDatabase'))();

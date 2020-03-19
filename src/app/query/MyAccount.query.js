@@ -175,4 +175,4 @@ export class MyAccountQuery extends ExtensibleClass {
     }
 }
 
-export default new middleware(MyAccountQuery, 'Query/MyAccount')();
+export default new (middleware(MyAccountQuery, 'Query/MyAccount'))();

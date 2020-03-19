@@ -75,4 +75,4 @@ export class CategoryQuery extends ExtensibleClass {
     }
 }
 
-export default new middleware(CategoryQuery, 'Query/Category')();
+export default new (middleware(CategoryQuery, 'Query/Category'))();

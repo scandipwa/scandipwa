@@ -31,4 +31,4 @@ export class UrlRewritesQuery extends ExtensibleClass {
     }
 }
 
-export default new middleware(UrlRewritesQuery, 'Query/UrlRewrites')();
+export default new (middleware(UrlRewritesQuery, 'Query/UrlRewrites'))();

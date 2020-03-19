@@ -143,4 +143,4 @@ export class BreadcrumbsDispatcher extends ExtensibleClass {
     }
 }
 
-export default new middleware(BreadcrumbsDispatcher, 'Store/Breadcrumbs/Dispatcher')();
+export default new (middleware(BreadcrumbsDispatcher, 'Store/Breadcrumbs/Dispatcher'))();

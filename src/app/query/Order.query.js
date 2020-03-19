@@ -236,4 +236,4 @@ export class OrderQuery extends ExtensibleClass {
     }
 }
 
-export default new middleware(OrderQuery, 'Query/Order')();
+export default new (middleware(OrderQuery, 'Query/Order'))();

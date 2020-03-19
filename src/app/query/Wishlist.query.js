@@ -66,4 +66,4 @@ export class WishlistQuery extends ExtensibleClass {
     }
 }
 
-export default new middleware(WishlistQuery, 'Query/Wishlist')();
+export default new (middleware(WishlistQuery, 'Query/Wishlist'))();

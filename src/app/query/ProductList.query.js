@@ -642,4 +642,4 @@ export class ProductListQuery extends ExtensibleClass {
     }
 }
 
-export default new middleware(ProductListQuery, 'Query/ProductList')();
+export default new (middleware(ProductListQuery, 'Query/ProductList'))();

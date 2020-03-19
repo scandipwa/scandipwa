@@ -46,4 +46,4 @@ export class CmsBlockQuery extends ExtensibleClass {
     }
 }
 
-export default new middleware(CmsBlockQuery, 'Query/CmsBlock')();
+export default new (middleware(CmsBlockQuery, 'Query/CmsBlock'))();

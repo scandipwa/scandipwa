@@ -122,4 +122,4 @@ export class CartQuery extends ExtensibleClass {
     }
 }
 
-export default new middleware(CartQuery, 'Query/Cart')();
+export default new (middleware(CartQuery, 'Query/Cart'))();

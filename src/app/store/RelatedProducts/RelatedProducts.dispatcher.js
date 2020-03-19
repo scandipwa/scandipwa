@@ -53,4 +53,4 @@ export class RelatedProductsDispatcher extends QueryDispatcher {
     }
 }
 
-export default new middleware(RelatedProductsDispatcher, 'Store/RelatedProducts/Dispatcher')();
+export default new (middleware(RelatedProductsDispatcher, 'Store/RelatedProducts/Dispatcher'))();

@@ -44,4 +44,4 @@ export class ReviewDispatcher extends ExtensibleClass {
     }
 }
 
-export default new middleware(ReviewDispatcher, 'Store/Review/Dispatcher')();
+export default new (middleware(ReviewDispatcher, 'Store/Review/Dispatcher'))();

@@ -56,4 +56,4 @@ export class MenuQuery extends ExtensibleClass {
     }
 }
 
-export default new middleware(MenuQuery, 'Query/Menu')();
+export default new (middleware(MenuQuery, 'Query/Menu'))();

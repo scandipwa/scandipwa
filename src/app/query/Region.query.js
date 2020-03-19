@@ -43,4 +43,4 @@ export class RegionQuery extends ExtensibleClass {
     }
 }
 
-export default new middleware(RegionQuery, 'Query/Region')();
+export default new (middleware(RegionQuery, 'Query/Region'))();

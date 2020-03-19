@@ -133,4 +133,4 @@ export class MyAccountDispatcher extends ExtensibleClass {
     }
 }
 
-export default new middleware(MyAccountDispatcher, 'Store/MyAccount/Dispatcher')();
+export default new (middleware(MyAccountDispatcher, 'Store/MyAccount/Dispatcher'))();

@@ -214,4 +214,4 @@ export class CartDispatcher extends ExtensibleClass {
     }
 }
 
-export default new middleware(CartDispatcher, 'Store/Cart/Dispatcher')();
+export default new (middleware(CartDispatcher, 'Store/Cart/Dispatcher'))();

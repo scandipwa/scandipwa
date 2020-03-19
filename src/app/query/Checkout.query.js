@@ -202,4 +202,4 @@ export class CheckoutQuery extends ExtensibleClass {
     }
 }
 
-export default new middleware(CheckoutQuery, 'Query/Checkout')();
+export default new (middleware(CheckoutQuery, 'Query/Checkout'))();

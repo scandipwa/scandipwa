@@ -51,4 +51,4 @@ export class ReviewQuery extends ExtensibleClass {
     }
 }
 
-export default new middleware(ReviewQuery, 'Query/Review')();
+export default new (middleware(ReviewQuery, 'Query/Review'))();

@@ -49,4 +49,4 @@ export class SliderQuery extends ExtensibleClass {
     }
 }
 
-export default new middleware(SliderQuery, 'Query/Slider')();
+export default new (middleware(SliderQuery, 'Query/Slider'))();

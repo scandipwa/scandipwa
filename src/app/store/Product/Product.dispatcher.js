@@ -80,4 +80,4 @@ export class ProductDispatcher extends QueryDispatcher {
     }
 }
 
-export default new middleware(ProductDispatcher, 'Store/Product/Dispatcher')();
+export default new (middleware(ProductDispatcher, 'Store/Product/Dispatcher'))();

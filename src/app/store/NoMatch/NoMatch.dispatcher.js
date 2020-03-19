@@ -21,4 +21,4 @@ export class NoMatchDispatcher extends ExtensibleClass {
     }
 }
 
-export default new middleware(NoMatchDispatcher, 'Store/NoMatch/Dispatcher')();
+export default new (middleware(NoMatchDispatcher, 'Store/NoMatch/Dispatcher'))();

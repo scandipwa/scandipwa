@@ -25,4 +25,4 @@ export class OrderDispatcher extends ExtensibleClass {
     }
 }
 
-export default new middleware(OrderDispatcher, 'Store/Order/Dispatcher')();
+export default new (middleware(OrderDispatcher, 'Store/Order/Dispatcher'))();

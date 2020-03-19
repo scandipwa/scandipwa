@@ -25,4 +25,4 @@ export class CheckEmailQuery extends ExtensibleClass {
     }
 }
 
-export default new middleware(CheckEmailQuery, 'Query/CheckEmail')();
+export default new (middleware(CheckEmailQuery, 'Query/CheckEmail'))();

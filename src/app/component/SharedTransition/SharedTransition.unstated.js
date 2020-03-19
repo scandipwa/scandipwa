@@ -43,4 +43,4 @@ export class SharedTransitionUnstated extends ExtensibleUnstatedContainer {
     };
 }
 
-export default new middleware(SharedTransitionUnstated, 'Component/SharedTransition/Unstated')();
+export default new (middleware(SharedTransitionUnstated, 'Component/SharedTransition/Unstated'))();

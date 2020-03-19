@@ -42,4 +42,4 @@ export class ConfigDispatcher extends QueryDispatcher {
     }
 }
 
-export default new middleware(ConfigDispatcher, 'Store/Config/Dispatcher')();
+export default new (middleware(ConfigDispatcher, 'Store/Config/Dispatcher'))();
