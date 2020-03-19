@@ -1,9 +1,8 @@
-import { PureComponent } from 'react';
 import { formatCurrency, roundPrice } from 'Util/Price';
 import { ProductType } from 'Type/ProductList';
 import './TierPrices.style';
 
-class TierPrices extends PureComponent {
+class TierPrices extends ExtensiblePureComponent {
     static propTypes = {
         product: ProductType.isRequired
     };
@@ -66,4 +65,4 @@ class TierPrices extends PureComponent {
     }
 }
 
-export default TierPrices;
+export default middleware(TierPrices, 'Component/TierPrices/Component');

@@ -12,7 +12,6 @@
  */
 
 import {
-    PureComponent,
     cloneElement,
     lazy,
     Suspense
@@ -66,7 +65,7 @@ export const AFTER_ITEMS_TYPE = 'AFTER_ITEMS_TYPE';
 
 export const history = createBrowserHistory({ basename: '/' });
 
-class AppRouter extends PureComponent {
+class AppRouter extends ExtensiblePureComponent {
     [BEFORE_ITEMS_TYPE] = [
         {
             component: <NotificationList />,
@@ -268,4 +267,4 @@ class AppRouter extends PureComponent {
     }
 }
 
-export default AppRouter;
+export default middleware(AppRouter, 'Route/AppRouter');

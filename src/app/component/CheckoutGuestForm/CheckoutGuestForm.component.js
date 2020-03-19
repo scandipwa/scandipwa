@@ -91,4 +91,4 @@ class CheckoutGuestForm extends FieldForm {
     }
 }
 
-export default CheckoutGuestForm;
+export default middleware(CheckoutGuestForm, 'Component/CheckoutGuestForm/Component');

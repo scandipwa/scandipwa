@@ -181,7 +181,9 @@ module.exports = {
             __: path.join(__dirname, 'TranslationFunction'),
             middleware: path.join(__dirname, 'Middleware'),
             ExtensiblePureComponent: path.join(__dirname, 'ExtensibleClasses', 'ExtensiblePureComponent'),
+            ExtensibleComponent: path.join(__dirname, 'ExtensibleClasses', 'ExtensibleComponent'),
             ExtensibleClass: path.join(__dirname, 'ExtensibleClasses', 'ExtensibleClass'),
+            ExtensibleUnstatedContainer: path.join(__dirname, 'ExtensibleClasses', 'ExtensibleUnstatedContainer'),
             React: 'react'
         }),
 

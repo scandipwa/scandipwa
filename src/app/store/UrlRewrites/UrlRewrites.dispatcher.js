@@ -52,4 +52,4 @@ export class UrlRewritesDispatcher extends QueryDispatcher {
     }
 }
 
-export default new UrlRewritesDispatcher();
+export default new middleware(UrlRewritesDispatcher, 'Store/UrlRewrites/Dispatcher')();

@@ -29,4 +29,4 @@ class CategoryConfigurableAttributes extends ProductConfigurableAttributes {
     }
 }
 
-export default CategoryConfigurableAttributes;
+export default middleware(CategoryConfigurableAttributes, 'Component/CategoryConfigurableAttributes/Component');

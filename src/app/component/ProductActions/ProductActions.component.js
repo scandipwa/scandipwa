@@ -19,7 +19,7 @@ import PropTypes from 'prop-types';
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
 import ProductWishlistButton from 'Component/ProductWishlistButton';
 import ProductReviewRating from 'Component/ProductReviewRating';
-import GroupedProductList from 'Component/GroupedProductsList';
+import GroupedProductList from 'Component/GroupedProductList';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import ProductPrice from 'Component/ProductPrice';
 import { ProductType } from 'Type/ProductList';

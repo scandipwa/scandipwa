@@ -173,4 +173,4 @@ class MyAccountAddressForm extends FieldForm {
     }
 }
 
-export default MyAccountAddressForm;
+export default middleware(MyAccountAddressForm, 'Component/MyAccountAddressForm/Component');

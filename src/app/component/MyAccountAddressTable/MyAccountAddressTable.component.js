@@ -152,4 +152,4 @@ class MyAccountAddressTable extends KeyValueTable {
     }
 }
 
-export default MyAccountAddressTable;
+export default middleware(MyAccountAddressTable, 'Component/MyAccountAddressTable/Component');

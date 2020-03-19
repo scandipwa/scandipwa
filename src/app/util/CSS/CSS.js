@@ -13,7 +13,7 @@
  * Set of helpers related to CSS
  * @class CSS
  */
-class CSS {
+class CSS extends ExtensibleClass {
     /**
      * Change CSS custom property in referenced node scope
      * @static
@@ -28,4 +28,4 @@ class CSS {
     }
 }
 
-export default CSS;
+export default middleware(CSS, 'Util/CSS');

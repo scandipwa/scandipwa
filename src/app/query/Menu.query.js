@@ -14,7 +14,7 @@ import { Field } from 'Util/Query';
  * Menu Query
  * @class MenuQuery
  */
-export class MenuQuery {
+export class MenuQuery extends ExtensibleClass {
     /**
      * get Menu query
      * @param  {{identifier: String}} options A object containing different aspects of query, each item can be omitted
@@ -56,4 +56,4 @@ export class MenuQuery {
     }
 }
 
-export default new MenuQuery();
+export default new middleware(MenuQuery, 'Query/Menu')();

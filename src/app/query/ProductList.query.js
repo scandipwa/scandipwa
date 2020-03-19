@@ -15,8 +15,9 @@ import { Field, Fragment } from 'Util/Query';
  * Product List Query
  * @class ProductListQuery
  */
-export class ProductListQuery {
+export class ProductListQuery extends ExtensibleClass {
     constructor() {
+        super();
         this.options = {};
     }
 
@@ -641,4 +642,4 @@ export class ProductListQuery {
     }
 }
 
-export default new ProductListQuery();
+export default new middleware(ProductListQuery, 'Query/ProductList')();

@@ -234,4 +234,6 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(NavigationTabsContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    middleware(NavigationTabsContainer, 'Component/NavigationTabsContainer/Container')
+);

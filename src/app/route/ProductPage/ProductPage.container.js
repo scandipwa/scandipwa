@@ -283,4 +283,6 @@ const ProductPageContainerWrapper = connect(mapStateToProps, mapDispatchToProps)
     middleware(ProductPageContainer, 'Route/ProductPage/Container')
 );
 
-export default withRouter(ProductPageContainerWrapper);
+export default withRouter(
+    middleware(ProductPageContainerWrapper, 'Route/ProductPage/Container')
+);

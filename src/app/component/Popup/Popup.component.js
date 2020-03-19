@@ -17,7 +17,7 @@ import Overlay from 'Component/Overlay/Overlay.component';
 import ClickOutside from 'Component/ClickOutside';
 import './Popup.style';
 
-export default class Popup extends Overlay {
+export class Popup extends Overlay {
     static propTypes = {
         ...Overlay.propTypes,
         clickOutside: PropTypes.bool,
@@ -107,3 +107,5 @@ export default class Popup extends Overlay {
         );
     }
 }
+
+export default middleware(Popup, 'Component/Popup/Component');

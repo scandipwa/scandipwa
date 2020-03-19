@@ -164,4 +164,6 @@ export class ProductListWidgetContainer extends DataContainer {
     }
 }
 
-export default connect(null, mapDispatchToProps)(ProductListWidgetContainer);
+export default connect(null, mapDispatchToProps)(
+    middleware(ProductListWidgetContainer, 'Component/ProductListWidget/Container')
+);

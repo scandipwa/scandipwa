@@ -26,7 +26,7 @@ export const getSortedItems = unsortedItems => Array.from(unsortedItems).sort((
     { parent_id: prevPID, position: prevP }
 ) => (PID - prevPID) || (P - prevP));
 
-export class MenuReducer {
+export class MenuReducer extends ExtensibleClass {
     getMenuUrl({ cms_page_identifier, url_type, url }) {
         switch (url_type) {
         case TYPE_CATEGORY:
@@ -89,4 +89,4 @@ export class MenuReducer {
     }
 }
 
-export default new MenuReducer();
+export default new middleware(MenuReducer, 'Util/Menu')();

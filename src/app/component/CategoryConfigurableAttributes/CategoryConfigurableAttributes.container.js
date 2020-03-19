@@ -24,4 +24,6 @@ class CategoryConfigurableAttributesContainer extends ProductConfigurableAttribu
     }
 }
 
-export default CategoryConfigurableAttributesContainer;
+export default middleware(
+    CategoryConfigurableAttributesContainer, 'Component/CategoryConfigurableAttributes/Container'
+);

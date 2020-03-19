@@ -36,7 +36,7 @@ const ONE_MONTH_IN_SECONDS = 2628000;
  * My account actions
  * @class MyAccount
  */
-export class MyAccountDispatcher {
+export class MyAccountDispatcher extends ExtensibleClass {
     requestCustomerData(dispatch) {
         const query = MyAccountQuery.getCustomerQuery();
 
@@ -133,4 +133,4 @@ export class MyAccountDispatcher {
     }
 }
 
-export default new MyAccountDispatcher();
+export default new middleware(MyAccountDispatcher, 'Store/MyAccount/Dispatcher')();

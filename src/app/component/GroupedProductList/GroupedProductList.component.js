@@ -63,4 +63,4 @@ export class GroupedProductList extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(GroupedProductList, 'Component/GroupedProductsList/Component');
+export default middleware(GroupedProductList, 'Component/GroupedProductList/Component');

@@ -106,4 +106,4 @@ export class LinkedProductsDispatcher extends QueryDispatcher {
     }
 }
 
-export default new LinkedProductsDispatcher();
+export default new middleware(LinkedProductsDispatcher, 'Store/LinkedProducts/Dispatcher')();

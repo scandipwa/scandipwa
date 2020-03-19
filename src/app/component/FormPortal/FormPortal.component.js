@@ -57,4 +57,4 @@ class FormPortal extends Form {
     }
 }
 
-export default FormPortal;
+export default middleware(FormPortal, 'Component/FormPortal/Component');

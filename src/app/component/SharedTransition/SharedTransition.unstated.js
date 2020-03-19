@@ -1,4 +1,4 @@
-import { Container } from 'unstated';
+/* eslint-disable scandipwa-extensibility/file-structure */
 
 export const sharedTransitionInitialState = {
     sharedElementDestination: null,
@@ -7,7 +7,7 @@ export const sharedTransitionInitialState = {
     startingPosition: {}
 };
 
-export class SharedTransitionContainer extends Container {
+export class SharedTransitionUnstated extends ExtensibleUnstatedContainer {
     state = sharedTransitionInitialState;
 
     _parseRectangle = val => JSON.parse(JSON.stringify(val));
@@ -43,4 +43,4 @@ export class SharedTransitionContainer extends Container {
     };
 }
 
-export default new SharedTransitionContainer();
+export default new middleware(SharedTransitionUnstated, 'Component/SharedTransition/Unstated')();

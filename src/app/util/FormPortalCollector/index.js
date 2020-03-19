@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export default class FormPortalCollector {
+export class FormPortalCollector extends ExtensibleClass {
     portalsObservers = {};
 
     subscribe(id, f, name) {
@@ -32,3 +32,5 @@ export default class FormPortalCollector {
         return Object.values(portals).map(portal => portal());
     }
 }
+
+export default middleware(FormPortalCollector, 'Util/FormPortalCollector');

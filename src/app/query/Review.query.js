@@ -11,7 +11,7 @@
 
 import { Field } from 'Util/Query';
 
-export class ReviewQuery {
+export class ReviewQuery extends ExtensibleClass {
     getAddProductReviewMutation(reviewItem) {
         return new Field('addProductReview')
             .addArgument('productReviewItem', 'ProductReviewInput!', reviewItem)
@@ -51,4 +51,4 @@ export class ReviewQuery {
     }
 }
 
-export default new ReviewQuery();
+export default new middleware(ReviewQuery, 'Query/Review')();

@@ -17,7 +17,7 @@ import { ReviewQuery } from 'Query';
  * Product Review Dispatcher
  * @class WishlistDispatcher
  */
-export class ReviewDispatcher {
+export class ReviewDispatcher extends ExtensibleClass {
     prepareRatingData(reviewItem) {
         const { rating_data } = reviewItem;
 
@@ -44,4 +44,4 @@ export class ReviewDispatcher {
     }
 }
 
-export default new ReviewDispatcher();
+export default new middleware(ReviewDispatcher, 'Store/Review/Dispatcher')();

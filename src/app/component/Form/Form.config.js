@@ -1,5 +1,5 @@
-/* eslint-disable no-useless-escape */
 /* eslint-disable max-len */
+/* eslint-disable scandipwa-extensibility/file-structure */
 
 /**
  * ScandiPWA - Progressive Web App for Magento

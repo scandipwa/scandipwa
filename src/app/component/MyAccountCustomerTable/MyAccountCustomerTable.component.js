@@ -74,4 +74,4 @@ class MyAccountCustomerTable extends KeyValueTable {
     }
 }
 
-export default MyAccountCustomerTable;
+export default middleware(MyAccountCustomerTable, 'Component/MyAccountCustomerForm/Component');

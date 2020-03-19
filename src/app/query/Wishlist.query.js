@@ -12,7 +12,7 @@
 import { Field } from 'Util/Query';
 import { ProductListQuery } from 'Query';
 
-export class Wishlist {
+export class WishlistQuery extends ExtensibleClass {
     getWishlistQuery() {
         return new Field('wishlist')
             .addFieldList(this._getWishlistFields());
@@ -66,4 +66,4 @@ export class Wishlist {
     }
 }
 
-export default new Wishlist();
+export default new middleware(WishlistQuery, 'Query/Wishlist')();

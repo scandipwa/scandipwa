@@ -46,4 +46,4 @@ export class HeaderAndFooterDispatcher extends QueryDispatcher {
     }
 }
 
-export default new HeaderAndFooterDispatcher();
+export default new middleware(HeaderAndFooterDispatcher, 'Store/HeaderAndFooter/Dispatcher')();

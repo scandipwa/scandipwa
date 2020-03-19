@@ -13,7 +13,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import { Provider as UnstatedProvider } from 'unstated';
 import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom';
@@ -45,7 +44,7 @@ if (process.env.NODE_ENV === 'development') {
 const comment = document.createComment('Powered by ScandiPWA (scandipwa.com)');
 document.querySelector('html').appendChild(comment);
 
-class App extends PureComponent {
+class App extends ExtensiblePureComponent {
     render() {
         return (
             <Provider store={ store }>

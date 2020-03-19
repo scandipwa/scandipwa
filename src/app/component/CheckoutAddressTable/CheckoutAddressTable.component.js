@@ -59,4 +59,4 @@ class CheckoutAddressTable extends MyAccountAddressTable {
     }
 }
 
-export default CheckoutAddressTable;
+export default middleware(CheckoutAddressTable, 'Component/CheckoutAddressTable/Component');

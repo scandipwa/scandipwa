@@ -63,4 +63,4 @@ class Logo extends Image {
     }
 }
 
-export default Logo;
+export default middleware(Logo, 'Component/Logo/Component');

@@ -151,4 +151,6 @@ export class CmsPageContainer extends DataContainer {
     }
 }
 
-export default connect(null, mapDispatchToProps)(CmsPageContainer);
+export default connect(null, mapDispatchToProps)(
+    middleware(CmsPageContainer, 'Route/CmsPage/Container')
+);
