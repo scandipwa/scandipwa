@@ -18,7 +18,6 @@ import { changeNavigationState } from 'Store/Navigation';
 import { MyAccountDispatcher } from 'Store/MyAccount';
 import { CUSTOMER_ACCOUNT, CUSTOMER_SUB_ACCOUNT } from 'Component/Header';
 import { showNotification } from 'Store/Notification';
-import { hideActiveOverlay } from 'Store/Overlay';
 import { isSignedIn } from 'Util/Auth';
 import isMobile from 'Util/Mobile';
 import { history } from 'Route';
@@ -28,7 +27,8 @@ import MyAccountOverlay, {
     STATE_FORGOT_PASSWORD,
     STATE_FORGOT_PASSWORD_SUCCESS,
     STATE_CREATE_ACCOUNT,
-    STATE_LOGGED_IN
+    STATE_LOGGED_IN,
+    STATE_CONFIRM_EMAIL
 } from './MyAccountOverlay.component';
 
 export const mapStateToProps = state => ({
@@ -42,7 +42,6 @@ export const mapDispatchToProps = dispatch => ({
     forgotPassword: options => MyAccountDispatcher.forgotPassword(options, dispatch),
     createAccount: options => MyAccountDispatcher.createAccount(options, dispatch),
     signIn: options => MyAccountDispatcher.signIn(options, dispatch),
-    hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     setHeaderState: headerState => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, headerState))
 });
@@ -57,7 +56,6 @@ export class MyAccountOverlayContainer extends PureComponent {
         // eslint-disable-next-line react/no-unused-prop-types
         isOverlayVisible: PropTypes.bool.isRequired,
         setHeaderState: PropTypes.func.isRequired,
-        hideActiveOverlay: PropTypes.func.isRequired,
         onSignIn: PropTypes.func
     };
 
@@ -212,16 +210,23 @@ export class MyAccountOverlayContainer extends PureComponent {
         };
 
         createAccount(customerData).then(
-            () => {
-                onSignIn();
-                this.stopLoadingAndHideOverlay();
+            (code) => {
+                // if user needs confirmation
+                if (code === 2) {
+                    this.setState({ state: STATE_CONFIRM_EMAIL });
+                } else {
+                    onSignIn();
+                }
+
+                this.stopLoading();
             },
-            this.stopLoadingAndHideOverlay()
+            this.stopLoading
         );
     }
 
     onForgotPasswordSuccess(fields) {
         const { forgotPassword } = this.props;
+
         forgotPassword(fields).then(() => {
             this.setState({ state: STATE_FORGOT_PASSWORD_SUCCESS });
             this.stopLoading();

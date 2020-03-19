@@ -104,13 +104,17 @@ export class MyAccountDispatcher {
             (data) => {
                 const { createCustomer: { customer } } = data;
                 const { confirmation_required } = customer;
+
                 if (confirmation_required) {
-                    dispatch(showNotification('success', __('Please, confirm your account via email!')));
-                } else {
-                    this.signIn({ email, password }, dispatch);
+                    return 2;
                 }
+
+                return this.signIn({ email, password }, dispatch);
             },
-            error => dispatch(showNotification('error', error[0].message))
+            (error) => {
+                dispatch(showNotification('error', error[0].message));
+                return Promise.reject();
+            }
         );
     }
 

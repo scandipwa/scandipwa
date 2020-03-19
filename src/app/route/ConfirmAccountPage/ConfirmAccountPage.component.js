@@ -46,8 +46,11 @@ export default class ConfirmAccountPage extends PureComponent {
                   label={ __('Confirm Account Action') }
                 >
                     <Loader isLoading={ isLoading } />
-                    <h1>Please, confirm your account</h1>
+                    <h1 block="ConfirmAccountPage" elem="Heading">
+                        { __('Confirm your account') }
+                    </h1>
                     <Form
+                      mix={ { block: 'ConfirmAccountPage', elem: 'Form' } }
                       key="confirm-account"
                       onSubmit={ onConfirmAttempt }
                       onSubmitSuccess={ onConfirmSuccess }
@@ -60,20 +63,24 @@ export default class ConfirmAccountPage extends PureComponent {
                         <Field
                           type="text"
                           label={ __('Email') }
-                          id="uemail"
-                          name="uemail"
+                          id="confirm-email"
+                          name="email"
+                          mix={ { block: 'ConfirmAccountPage', elem: 'EmailInput' } }
                         />
                         <Field
                           type="password"
                           label={ __('Password') }
-                          id="confirmPassword"
-                          name="confirmPassword"
+                          id="confirm-password"
+                          name="password"
                           validation={ ['notEmpty', 'password'] }
                         />
-                        <div block="ConfirmAccountPage" elem="Button">
-                            <button block="Button">{ __('Confirm') }</button>
-                        </div>
-
+                        <button
+                          type="submit"
+                          block="Button"
+                          mix={ { block: 'ConfirmAccountPage', elem: 'Button' } }
+                        >
+                            { __('Confirm your account') }
+                        </button>
                     </Form>
                 </ContentWrapper>
             </main>

@@ -72,6 +72,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
     default_state = DEFAULT_HEADER_STATE;
 
     routeMap = {
+        '/account/confirm': { name: CMS_PAGE, title: __('Confirm account'), onBackClick: () => history.push('/') },
         '/category': { name: CATEGORY, onBackClick: this.onMenuButtonClick.bind(this) },
         '/checkout': { name: CHECKOUT, onBackClick: () => history.push('/cart') },
         '/my-account': { name: CUSTOMER_ACCOUNT_PAGE, onBackClick: () => history.push('/') },
