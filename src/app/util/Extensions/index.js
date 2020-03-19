@@ -47,6 +47,3 @@ window.plugins = extensions.reduce(
         return overallConfig;
     }, {}
 );
-
-console.log('Extension config imported');
-console.log(window.plugins);

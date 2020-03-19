@@ -11,7 +11,7 @@ function checkCall(context, callee) {
     if (type === 'Identifier' && name === 'middleware') {
         return true;
     }
-    if (type === 'CallExpression') {
+    if (type === 'CallExpression' || type === 'NewExpression') {
         const { callee: nextCallee, arguments: args } = callee;
         if (checkCall(context, nextCallee)) {
             return true;
@@ -28,41 +28,32 @@ function checkCall(context, callee) {
     return false;
 }
 
-function constructNamespace(filePath) {
-    const exploded = filePath.split('/');
-    const fileName = exploded[exploded.length - 1];
-    const fileDirectory = exploded[exploded.length - 2];
-    const [resName] = fileName.split('.');
-    const oneMoreDirectoryUp = exploded[exploded.length - 3];
-
-    return `${capitalize(oneMoreDirectoryUp)}/${capitalize(fileDirectory)}/${capitalize(resName)}`;
-}
-
 function keepOrDeleteNode(context, node) {
-    if (node.specifiers[0].local.name === 'PureComponent') {
+    const { name } = node.specifiers[0].local;
+    if (name === 'PureComponent' || name === 'Component') {
         context.report({
             node,
-            message: "PureComponent is not allowed. Use 'ExtensiblePureComponent' instead",
+            message: `${name} is not allowed. Use 'Extensible${name}' instead`,
             fix: fixer => fixer.remove(node)
         });
     }
 }
 
 function keepOrDelete(context, specifier, isCommaBeforeSpecifier) {
-    if (specifier.local.name === 'PureComponent') {
+    const { name } = specifier.local;
+    if (name === 'PureComponent' || name === 'Component') {
         const { loc } = specifier;
-
         context.report({
             loc,
-            message: "PureComponent is not allowed. Use 'ExtensiblePureComponent' instead",
+            message: `${name} is not allowed. Use 'Extensible${name}' instead`,
             fix: (fixer) => {
                 const sourceCode = context.getSourceCode();
-                const index = sourceCode.text.indexOf('PureComponent');
-                const afterPureComponent = index + 'PureComponent'.length + 2;
+                const index = sourceCode.text.indexOf(name);
+                const afterPureComponent = index + name.length + 2;
                 const beforePureComponent = index - 2;
 
                 if (isCommaBeforeSpecifier) {
-                    return fixer.removeRange([beforePureComponent, index + 'PureComponent'.length]);
+                    return fixer.removeRange([beforePureComponent, index + name.length]);
                 }
 
                 return fixer.removeRange([index, afterPureComponent]);
@@ -160,7 +151,7 @@ let classExists = false;
 
 module.exports = {
     rules: {
-        'no-pure-component': {
+        'no-non-extensible-components': {
             create: context => ({
                 ImportDeclaration(node) {
                     if (node.specifiers.length === 1) {
@@ -180,8 +171,8 @@ module.exports = {
                     if (name === 'PureComponent' || name === 'Component') {
                         context.report({
                             loc,
-                            message: "PureComponent is not allowed. Use 'ExtensiblePureComponent' instead",
-                            fix: fixer => fixer.replaceText(superClass, 'ExtensiblePureComponent')
+                            message: `${name} is not allowed. Use 'Extensible${name}' instead`,
+                            fix: fixer => fixer.replaceText(superClass, `Extensible${name}`)
                         });
                     }
                 }
@@ -204,8 +195,9 @@ module.exports = {
                     const actualClassName = node.id.name;
 
                     if (expectedClassName !== actualClassName) {
+                        const { id: { loc } } = node;
                         context.report({
-                            node,
+                            loc,
                             message: 'Class name must be derived from the file name, using postfix.',
                             fix: fixer => fixer.replaceText(node.id, expectedClassName)
                         });
@@ -301,7 +293,7 @@ module.exports = {
                     classExists = true;
                 },
                 ExportDefaultDeclaration(node) {
-                    if (!classExists) {
+                    if (!classExists && node.declaration.type !== 'ClassDeclaration') {
                         return;
                     }
 
@@ -317,16 +309,15 @@ module.exports = {
                             message: 'Use middleware function when exporting class',
                             fix: (fixer) => {
                                 const { declaration } = node;
-                                const namespace = constructNamespace(context.getFilename());
 
                                 return [
                                     fixer.insertTextBefore(declaration, 'middleware('),
-                                    fixer.insertTextAfter(declaration, `, '${namespace}')`)
+                                    fixer.insertTextAfter(declaration, ", 'NAMESPACE')")
                                 ];
                             }
                         });
                     }
-                    if (node.declaration.type === 'CallExpression') {
+                    if (node.declaration.type === 'CallExpression' || node.declaration.type === 'NewExpression') {
                         const { declaration } = node;
                         if (!checkCall(context, declaration)) {
                             context.report({

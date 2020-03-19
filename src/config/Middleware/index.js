@@ -1,9 +1,10 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable arrow-body-style */
 /* eslint-disable func-names */
 function middleware(Class, namespace) {
     Class.prototype.__namespace__ = namespace;
 
-    const getHandler = function(target, memberName, rec) {
+    const getHandler = function (target, memberName, rec) {
         if (memberName === 'Symbol.iterator') {
             return target[Symbol.iterator].bind(target);
         }
@@ -47,7 +48,7 @@ function middleware(Class, namespace) {
         return middlewaredFunction;
     };
 
-    const constructHandler = function(TargetClass, args) {
+    const constructHandler = function (TargetClass, args) {
         const instance = new TargetClass(...args);
         const namespacePluginsConstruct = window.plugins?.[namespace]?.['class']?.['construct'];
 
