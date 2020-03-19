@@ -29,8 +29,9 @@
     "scandipwa-extensibility"
   ],
   "rules": {
-    "scandipwa-extensibility/no-importing-pure-component": "error",
-    "scandipwa-extensibility/no-extending-pure-component": "error",
+    "scandipwa-extensibility/no-pure-component": "error",
+    "scandipwa-extensibility/only-one-class": "error",
+    "scandipwa-extensibility/use-extensible-base": "error",
     "scandipwa-extensibility/use-middleware": "error",
     "fp/no-let": "error",
     "fp/no-arguments": "error",

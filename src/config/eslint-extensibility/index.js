@@ -1,4 +1,9 @@
-/* eslint-disable */
+/* eslint-disable fp/no-let */
+/* eslint-disable no-magic-numbers */
+
+function capitalize(word) {
+    return word.charAt(0).toUpperCase() + word.slice(1);
+}
 
 function checkCall(context, callee) {
     const { type, name } = callee;
@@ -11,6 +16,7 @@ function checkCall(context, callee) {
             return true;
         }
 
+        // eslint-disable-next-line fp/no-loops, no-restricted-syntax
         for (const arg of args) {
             if (checkCall(context, arg)) {
                 return true;
@@ -21,10 +27,6 @@ function checkCall(context, callee) {
     return false;
 }
 
-function capitalize(word) {
-    return word.charAt(0).toUpperCase() + word.slice(1);
-}
-
 function constructNamespace(filePath) {
     const exploded = filePath.split('/');
     const fileName = exploded[exploded.length - 1];
@@ -32,36 +34,67 @@ function constructNamespace(filePath) {
     const [resName] = fileName.split('.');
     const oneMoreDirectoryUp = exploded[exploded.length - 3];
 
-    return capitalize(oneMoreDirectoryUp) + '/' + capitalize(fileDirectory) + '/' + capitalize(resName);
+    return `${capitalize(oneMoreDirectoryUp)}/${capitalize(fileDirectory)}/${capitalize(resName)}`;
+}
+
+function keepOrDeleteNode(context, node) {
+    if (node.specifiers[0].local.name === 'PureComponent') {
+        context.report({
+            node,
+            message: "PureComponent is not allowed. Use 'ExtensiblePureComponent' instead",
+            fix: fixer => fixer.remove(node)
+        });
+    }
+}
+
+function keepOrDelete(context, specifier, isCommaBeforeSpecifier) {
+    if (specifier.local.name === 'PureComponent') {
+        const { loc } = specifier;
+
+        context.report({
+            loc,
+            message: "PureComponent is not allowed. Use 'ExtensiblePureComponent' instead",
+            fix: (fixer) => {
+                const sourceCode = context.getSourceCode();
+                const index = sourceCode.text.indexOf('PureComponent');
+                const afterPureComponent = index + 'PureComponent'.length + 2;
+                const beforePureComponent = index - 2;
+
+                if (isCommaBeforeSpecifier) {
+                    return fixer.removeRange([beforePureComponent, index + 'PureComponent'.length]);
+                }
+
+                return fixer.removeRange([index, afterPureComponent]);
+            }
+        });
+    }
 }
 
 let classCount;
+let classExists = false;
 
 module.exports = {
     rules: {
-        'no-importing-pure-component': {
+        'no-pure-component': {
             create: context => ({
-                ImportSpecifier(node) {
-                    const { imported } = node;
-                    const { name } = imported || {};
-                    if (name === 'PureComponent') {
-                        context.report({
-                            node,
-                            message: "PureComponent is not allowed. Use 'ExtensiblePureComponent' instead",
-                            fix: fixer => fixer.remove(node)
-                        });
+                ImportDeclaration(node) {
+                    if (node.specifiers.length === 1) {
+                        keepOrDeleteNode(context, node);
+                    } else {
+                        node.specifiers.forEach(
+                            (specifier, index, { length }) => {
+                                const isCommaBeforeSpecifier = index === length - 1;
+                                keepOrDelete(context, specifier, isCommaBeforeSpecifier);
+                            }
+                        );
                     }
-                }
-            })
-        },
-        'no-extending-pure-component': {
-            create: context => ({
+                },
                 ClassDeclaration(node) {
                     const { superClass } = node;
-                    const { name } = superClass || {};
+                    const { name, loc } = superClass || {};
                     if (name === 'PureComponent' || name === 'Component') {
                         context.report({
-                            node,
+                            loc,
                             message: "PureComponent is not allowed. Use 'ExtensiblePureComponent' instead",
                             fix: fixer => fixer.replaceText(superClass, 'ExtensiblePureComponent')
                         });
@@ -69,7 +102,7 @@ module.exports = {
                 }
             })
         },
-        'use-middleware': {
+        'only-one-class': {
             create: context => ({
                 Program() {
                     classCount = 0;
@@ -80,8 +113,15 @@ module.exports = {
                         context.report({
                             node,
                             message: 'Only one class per file is allowed',
+                            fix: fixer => fixer.remove(node)
                         });
                     }
+                }
+            })
+        },
+        'use-extensible-base': {
+            create: context => ({
+                ClassDeclaration(node) {
                     const { superClass } = node;
                     const { name } = superClass || {};
                     const { id: declaration } = node;
@@ -93,16 +133,29 @@ module.exports = {
                             fix: fixer => fixer.insertTextAfter(declaration, ' extends ExtensibleClass')
                         });
                     }
+                }
+            })
+        },
+        'use-middleware': {
+            create: context => ({
+                Program() {
+                    classExists = false;
+                },
+                ClassDeclaration() {
+                    classExists = true;
                 },
                 ExportDefaultDeclaration(node) {
-                    if (!classCount) {
+                    if (!classExists) {
                         return;
                     }
-                    const { declaration: { type } } = node;
-                    if (type === 'ClassDeclaration') {
-                        context.report({ node, message: 'Use middleware function when exporting extensible class. Declare it separately.' });
+
+                    if (node.declaration.type === 'ClassDeclaration') {
+                        context.report({
+                            node,
+                            message: 'Use middleware function when exporting extensible class. Declare it separately.'
+                        });
                     }
-                    if (type === 'Identifier') {
+                    if (node.declaration.type === 'Identifier') {
                         context.report({
                             node,
                             message: 'Use middleware function when exporting class',
@@ -117,7 +170,7 @@ module.exports = {
                             }
                         });
                     }
-                    if (type === 'CallExpression') {
+                    if (node.declaration.type === 'CallExpression') {
                         const { declaration } = node;
                         if (!checkCall(context, declaration)) {
                             context.report({
