@@ -135,7 +135,7 @@ export class ProductListQuery {
                 ? [
                     'url_key',
                     this._getReviewSummaryField(),
-                    this._getConfigurableProductFragment()
+                    this._getConfigurableProductFragment(),
                 ]
                 : []
             ),
@@ -153,12 +153,11 @@ export class ProductListQuery {
                     this._getDescriptionField(),
                     this._getMediaGalleryField(),
                     this._getSimpleProductFragment(),
+                    this._getProductLinksField(),
                     ...(!isVariant
                         ? [
-                            this._getProductLinksField(),
                             this._getCategoriesField(),
                             this._getReviewsField(),
-                            this._getProductLinksField(),
                             this._getVirtualProductFragment()
                         ]
                         : []
@@ -201,8 +200,10 @@ export class ProductListQuery {
     }
 
     _getProductField() {
+        const { isForLinkedProducts } = this.options;
+
         return new Field('product')
-            .addFieldList(this._getProductInterfaceFields(true));
+            .addFieldList(this._getProductInterfaceFields(true, isForLinkedProducts));
     }
 
     _getShortDescriptionFields() {
