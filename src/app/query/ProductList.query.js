@@ -131,17 +131,11 @@ export class ProductListQuery {
             this._getProductSmallField(),
             this._getShortDescriptionField(),
             this._getAttributesField(isVariant),
-            ...(isVariant && getLinksFieldFromCart
-                ? [
-                    this._getProductLinksField()
-                ]
-                : []
-            ),
             ...(!isVariant
                 ? [
                     'url_key',
                     this._getReviewSummaryField(),
-                    this._getConfigurableProductFragment()
+                    this._getConfigurableProductFragment(),
                 ]
                 : []
             ),
@@ -159,12 +153,11 @@ export class ProductListQuery {
                     this._getDescriptionField(),
                     this._getMediaGalleryField(),
                     this._getSimpleProductFragment(),
+                    this._getProductLinksField(),
                     ...(!isVariant
                         ? [
-                            this._getProductLinksField(),
                             this._getCategoriesField(),
                             this._getReviewsField(),
-                            this._getProductLinksField(),
                             this._getVirtualProductFragment()
                         ]
                         : []
@@ -207,9 +200,10 @@ export class ProductListQuery {
     }
 
     _getProductField() {
-        const { getLinksFieldFromCart } = this.options;
+        const { isForLinkedProducts } = this.options;
+
         return new Field('product')
-            .addFieldList(this._getProductInterfaceFields(true, getLinksFieldFromCart));
+            .addFieldList(this._getProductInterfaceFields(true, isForLinkedProducts));
     }
 
     _getShortDescriptionFields() {
