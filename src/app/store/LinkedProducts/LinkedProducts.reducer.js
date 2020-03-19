@@ -13,6 +13,10 @@ import BrowserDatabase from 'Util/BrowserDatabase';
 import { UPDATE_LINKED_PRODUCTS } from './LinkedProducts.action';
 import { LINKED_PRODUCTS } from './LinkedProducts.dispatcher';
 
+export const UPSELL = 'upsell';
+export const RELATED = 'related';
+export const CROSS_SELL = 'crossSell';
+
 const initialState = {
     linkedProducts: BrowserDatabase.getItem(LINKED_PRODUCTS) || {
         upsell: {},
@@ -22,31 +26,55 @@ const initialState = {
 };
 
 const LinkedProductsReducer = (state = initialState, action) => {
-    const { type, linkedProducts = {} } = action;
+    const {
+        type,
+        linkedProducts: {
+            [UPSELL]: upsell,
+            [RELATED]: related,
+            [CROSS_SELL]: crossSell
+        }
+    } = action;
 
-    if (type === UPDATE_LINKED_PRODUCTS) {
-        return {
-            linkedProducts: {
-                upsell: {
-                    ...state.linkedProducts.upsell,
-                    ...linkedProducts.upsell,
-                    items: Object.values({ ...state.linkedProducts.upsell.items, ...linkedProducts.upsell.items })
-                },
-                related: {
-                    ...state.linkedProducts.related,
-                    ...linkedProducts.related,
-                    items: Object.values({ ...state.linkedProducts.related.items, ...linkedProducts.related.items })
-                },
-                crossSell: {
-                    ...state.linkedProducts.related,
-                    ...linkedProducts.related,
-                    items: Object.values({ ...state.linkedProducts.crossSell.items, ...linkedProducts.crossSell.items })
-                }
-            }
-        };
+    if (type !== UPDATE_LINKED_PRODUCTS) {
+        return state;
     }
 
-    return state;
+    const {
+        linkedProducts: {
+            [UPSELL]: prevUpSell,
+            [RELATED]: prevRelated,
+            [CROSS_SELL]: prevCrossSell
+        }
+    } = state;
+
+    return {
+        linkedProducts: {
+            [UPSELL]: {
+                ...prevUpSell,
+                ...upsell,
+                items: Object.values({
+                    ...prevUpSell.items,
+                    ...upsell.items
+                })
+            },
+            [RELATED]: {
+                ...prevRelated,
+                ...related,
+                items: Object.values({
+                    ...prevRelated.items,
+                    ...related.items
+                })
+            },
+            [CROSS_SELL]: {
+                ...prevCrossSell,
+                ...related,
+                items: Object.values({
+                    ...prevCrossSell.items,
+                    ...crossSell.items
+                })
+            }
+        }
+    };
 };
 
 export default LinkedProductsReducer;

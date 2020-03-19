@@ -13,7 +13,6 @@ import { QueryDispatcher } from 'Util/Request';
 import { ProductListQuery } from 'Query';
 import { updateProductDetails } from 'Store/Product';
 import { updateNoMatch } from 'Store/NoMatch';
-import { RelatedProductsDispatcher } from 'Store/RelatedProducts';
 import { LinkedProductsDispatcher } from 'Store/LinkedProducts';
 
 /**
@@ -52,20 +51,6 @@ export class ProductDispatcher extends QueryDispatcher {
             if (product_links.length !== 0) {
                 LinkedProductsDispatcher.handleData(dispatch, product_links);
             }
-        }
-
-        // TODO: make one request per description & related in this.prepareRequest
-        if (productItem && productItem.product_links && Object.keys(productItem.product_links).length > 0) {
-            const { product_links } = productItem;
-            const productsSkuArray = product_links.filter(({ link_type }) => link_type === 'related')
-                .map(item => `"${item.linked_product_sku}"`);
-
-            RelatedProductsDispatcher.handleData(
-                dispatch,
-                { args: { filter: { productsSkuArray } } }
-            );
-        } else {
-            RelatedProductsDispatcher.clearRelatedProducts(dispatch);
         }
 
         return dispatch(updateProductDetails(product));

@@ -77,14 +77,6 @@ export default class ProductPage extends PureComponent {
                   product={ dataSource }
                   areDetailsLoaded={ areDetailsLoaded }
                 />
-                <UpsellProducts
-                  products={ [dataSource] }
-                  label={ __('Worth Looking Into') }
-                />
-                <RelatedProducts
-                  product={ dataSource }
-                  areDetailsLoaded={ areDetailsLoaded }
-                />
             </>
         );
     }
