@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export * from './RelatedProducts.action';
-export { default as RelatedProductsReducer } from './RelatedProducts.reducer';
-export { default as RelatedProductsDispatcher } from './RelatedProducts.dispatcher';
+export { default } from './ProductLinks.container';

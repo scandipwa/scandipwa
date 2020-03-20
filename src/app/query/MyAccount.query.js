@@ -93,8 +93,26 @@ export class MyAccountQuery {
             .addField(this._getCustomerField());
     }
 
+    getConfirmAccountMutation(options) {
+        const { key, email, password } = options;
+
+        return new Field('confirmCustomerEmail')
+            .addArgument('key', 'String!', key)
+            .addArgument('email', 'String!', email)
+            .addArgument('password', 'String!', password)
+            .addFieldList(this._getConfirmAccountFields());
+    }
+
     getCustomerQuery() {
         return this._getCustomerField();
+    }
+
+    _getConfirmAccountFields() {
+        return [
+            'status',
+            'token',
+            this._getCustomerField()
+        ];
     }
 
     _getCustomerField() {
@@ -105,6 +123,7 @@ export class MyAccountQuery {
     _getCustomerFields() {
         return [
             'created_at',
+            'confirmation_required',
             'group_id',
             'prefix',
             'firstname',

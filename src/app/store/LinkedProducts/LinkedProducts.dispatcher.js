@@ -36,15 +36,15 @@ export class LinkedProductsDispatcher extends QueryDispatcher {
         super('LinkedProducts', ONE_MONTH_IN_SECONDS);
     }
 
-    onSuccess({ upsell = {}, related = {}, crossSell = {} }, dispatch) {
+    onSuccess({ upsell = {}, related = {}, crosssell = {} }, dispatch) {
         const { items: upsellItems = [] } = upsell;
         const { items: relatedItems = [] } = related;
-        const { items: crossSellItems = [] } = crossSell;
+        const { items: crosssellItems = [] } = crosssell;
 
         const linkedProducts = {
             upsell: { ...upsell, items: getIndexedProducts(upsellItems) },
             related: { ...related, items: getIndexedProducts(relatedItems) },
-            crossSell: { ...crossSell, items: getIndexedProducts(crossSellItems) }
+            crosssell: { ...crosssell, items: getIndexedProducts(crosssellItems) }
         };
 
         BrowserDatabase.setItem(linkedProducts, LINKED_PRODUCTS);
@@ -62,7 +62,7 @@ export class LinkedProductsDispatcher extends QueryDispatcher {
      * @param product_links
      */
     prepareRequest(product_links) {
-        const { upsell, related, crosssell } = product_links.reduce((types, link) => {
+        const { upsell, related, crosssell: crosssell } = product_links.reduce((types, link) => {
             const { linked_product_sku, link_type } = link;
             const { [link_type]: links = [] } = types;
 
@@ -85,11 +85,13 @@ export class LinkedProductsDispatcher extends QueryDispatcher {
         if (upsell) {
             queries.push(query(upsell).setAlias('upsell'));
         }
+
         if (related) {
             queries.push(query(related).setAlias('related'));
         }
+
         if (crosssell) {
-            queries.push(query(crosssell).setAlias('crossSell'));
+            queries.push(query(crosssell).setAlias('crosssell'));
         }
 
         return queries;
@@ -102,7 +104,7 @@ export class LinkedProductsDispatcher extends QueryDispatcher {
      * @memberof LinkedProductsDispatcher
      */
     clearLinkedProducts(dispatch) {
-        dispatch(updateLinkedProducts({ linkedProducts: { upsell: {}, related: {}, crossSell: {} } }));
+        dispatch(updateLinkedProducts({ linkedProducts: { upsell: {}, related: {}, crosssell: {} } }));
     }
 }
 
