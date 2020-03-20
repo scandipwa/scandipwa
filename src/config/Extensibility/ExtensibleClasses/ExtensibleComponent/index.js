@@ -1,14 +1,14 @@
 /* eslint-disable arrow-body-style */
 /* eslint-disable consistent-return */
-const { Container } = require('unstated');
-const proxyInstance = require('../ProxyInstance');
+const { Component } = require('react');
+const proxyContext = require('../ProxyContext');
 
 /**
  * This component allows ScandiPWA extension functionality.
  * If the class has plugins meant for its instances
  * its instance is being proxied at the moment of instantiation.
  */
-module.exports = class ExtensibleUnstatedContainer extends Container {
+module.exports = class ExtensibleComponent extends Component {
     constructor(props) {
         super(props);
         const { __namespace__ } = Object.getPrototypeOf(this);
@@ -17,6 +17,6 @@ module.exports = class ExtensibleUnstatedContainer extends Container {
             return;
         }
 
-        return proxyInstance(this, namespacePlugins, __namespace__);
+        return proxyContext(this, namespacePlugins, __namespace__);
     }
 };

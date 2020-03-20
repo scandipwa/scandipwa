@@ -1,6 +1,6 @@
 /* eslint-disable func-names */
 
-module.exports = function proxyInstance(context, namespacePlugins, namespace) {
+module.exports = function proxyContext(context, namespacePlugins, namespace) {
     return new Proxy(context, {
         get(target, memberName, rec) {
             if (memberName === 'Symbol.iterator') {

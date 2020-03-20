@@ -52,7 +52,7 @@ module.exports = {
     resolveLoader: {
         modules: [
             'node_modules',
-            path.resolve(__dirname, 'loaders')
+            path.resolve(__dirname, 'Extensibility')
         ]
     },
 
@@ -179,11 +179,15 @@ module.exports = {
 
         new webpack.ProvidePlugin({
             __: path.join(__dirname, 'TranslationFunction'),
-            middleware: path.join(__dirname, 'Middleware'),
-            ExtensiblePureComponent: path.join(__dirname, 'ExtensibleClasses', 'ExtensiblePureComponent'),
-            ExtensibleComponent: path.join(__dirname, 'ExtensibleClasses', 'ExtensibleComponent'),
-            ExtensibleClass: path.join(__dirname, 'ExtensibleClasses', 'ExtensibleClass'),
-            ExtensibleUnstatedContainer: path.join(__dirname, 'ExtensibleClasses', 'ExtensibleUnstatedContainer'),
+            middleware: path.join(__dirname, 'Extensibility', 'Middleware'),
+            ExtensiblePureComponent: path.join(
+                __dirname, 'Extensibility', 'ExtensibleClasses', 'ExtensiblePureComponent'
+            ),
+            ExtensibleComponent: path.join(__dirname, 'Extensibility', 'ExtensibleClasses', 'ExtensibleComponent'),
+            ExtensibleClass: path.join(__dirname, 'Extensibility', 'ExtensibleClasses', 'ExtensibleClass'),
+            ExtensibleUnstatedContainer: path.join(
+                __dirname, 'Extensibility', 'ExtensibleClasses', 'ExtensibleUnstatedContainer'
+            ),
             React: 'react'
         }),
 
