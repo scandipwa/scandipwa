@@ -96,4 +96,4 @@ export class Klarna extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(KlarnaComponent, 'Component/Klarna/Component');
+export default middleware(Klarna, 'Component/Klarna/Component');
