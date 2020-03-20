@@ -15,10 +15,11 @@ import { connect } from 'react-redux';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import { CUSTOMER_ACCOUNT_PAGE, CUSTOMER_ACCOUNT } from 'Component/Header';
+import { HistoryType, MatchType } from 'Type/Common';
 import { changeNavigationState } from 'Store/Navigation';
 import { MyAccountDispatcher } from 'Store/MyAccount';
-import { HistoryType, MatchType } from 'Type/Common';
 import { toggleOverlayByKey } from 'Store/Overlay';
+import { updateMeta } from 'Store/Meta';
 import isMobile from 'Util/Mobile';
 
 import {
@@ -41,7 +42,8 @@ export const mapDispatchToProps = dispatch => ({
     updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.update(breadcrumbs, dispatch),
     changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
     requestCustomerData: () => MyAccountDispatcher.requestCustomerData(dispatch),
-    toggleOverlayByKey: key => dispatch(toggleOverlayByKey(key))
+    toggleOverlayByKey: key => dispatch(toggleOverlayByKey(key)),
+    updateMeta: meta => dispatch(updateMeta(meta))
 });
 
 export class MyAccountContainer extends ExtensiblePureComponent {
@@ -50,6 +52,7 @@ export class MyAccountContainer extends ExtensiblePureComponent {
         requestCustomerData: PropTypes.func.isRequired,
         updateBreadcrumbs: PropTypes.func.isRequired,
         toggleOverlayByKey: PropTypes.func.isRequired,
+        updateMeta: PropTypes.func.isRequired,
         isSignedIn: PropTypes.bool.isRequired,
         match: MatchType.isRequired,
         history: HistoryType.isRequired
@@ -111,6 +114,7 @@ export class MyAccountContainer extends ExtensiblePureComponent {
     componentDidMount() {
         const {
             isSignedIn,
+            updateMeta,
             toggleOverlayByKey
         } = this.props;
 
@@ -118,6 +122,7 @@ export class MyAccountContainer extends ExtensiblePureComponent {
             toggleOverlayByKey(CUSTOMER_ACCOUNT);
         }
 
+        updateMeta({ title: __('My account') });
         this.redirectIfNotSignedIn();
         this.onSignIn();
         this.updateBreadcrumbs();

@@ -10,10 +10,9 @@
  */
 
 import PropTypes from 'prop-types';
-
 import { withRouter } from 'react-router';
-import { LocationType } from 'Type/Common';
 
+import { LocationType } from 'Type/Common';
 import media, { PRODUCT_MEDIA } from 'Util/Media/Media';
 
 import ProductGallery from './ProductGalleryBaseImage.component';

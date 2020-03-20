@@ -13,8 +13,6 @@ import { createRef } from 'react';
 import PropTypes from 'prop-types';
 import { TransformWrapper } from 'react-zoom-pan-pinch';
 
-
-import CSS from 'Util/CSS';
 import ProductGalleryThumbnailImage from 'Component/ProductGalleryThumbnailImage';
 import ProductGalleryBaseImage from 'Component/ProductGalleryBaseImage';
 import VideoThumbnail from 'Component/VideoThumbnail';
@@ -23,6 +21,7 @@ import { LocationType } from 'Type/Common';
 import { withRouter } from 'react-router';
 import Slider from 'Component/Slider';
 import Image from 'Component/Image';
+import CSS from 'Util/CSS';
 
 import './ProductGallery.style';
 

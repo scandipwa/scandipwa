@@ -12,7 +12,6 @@
 
 import PropTypes from 'prop-types';
 
-import Meta from 'Component/Meta';
 import { ProductType } from 'Type/ProductList';
 import ProductGallery from 'Component/ProductGallery';
 import ProductActions from 'Component/ProductActions';
@@ -86,11 +85,8 @@ export class ProductPage extends ExtensiblePureComponent {
     }
 
     render() {
-        const { dataSource } = this.props;
-
         return (
             <>
-                <Meta metaObject={ dataSource } />
                 <main block="ProductPage" aria-label="Product page">
                     <div
                       itemScope

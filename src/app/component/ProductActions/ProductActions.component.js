@@ -226,9 +226,9 @@ export class ProductActions extends ExtensiblePureComponent {
                         </h4>
                     )
                 ) }
-                <p block="ProductActions" elem="Title" itemProp="name">
+                <h1 block="ProductActions" elem="Title" itemProp="name">
                     <TextPlaceholder content={ name } length="medium" />
-                </p>
+                </h1>
             </section>
         );
     }

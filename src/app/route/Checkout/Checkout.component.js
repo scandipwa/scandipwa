@@ -23,7 +23,6 @@ import { TotalsType } from 'Type/MiniCart';
 import { HistoryType } from 'Type/Common';
 import CmsBlock from 'Component/CmsBlock';
 import Loader from 'Component/Loader';
-import Meta from 'Component/Meta';
 import Link from 'Component/Link';
 
 import './Checkout.style';
@@ -243,7 +242,6 @@ class Checkout extends ExtensiblePureComponent {
     render() {
         return (
             <main block="Checkout">
-                <Meta metaObject={ { title: 'Checkout' } } />
                 <ContentWrapper
                   wrapperMix={ { block: 'Checkout', elem: 'Wrapper' } }
                   label={ __('Checkout page') }

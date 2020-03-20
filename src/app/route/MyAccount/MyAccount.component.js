@@ -19,7 +19,6 @@ import MyAccountDashboard from 'Component/MyAccountDashboard';
 import MyAccountMyOrders from 'Component/MyAccountMyOrders';
 import MyAccountTabList from 'Component/MyAccountTabList';
 import ContentWrapper from 'Component/ContentWrapper';
-import Meta from 'Component/Meta';
 import {
     activeTabType,
     tabMapType,
@@ -93,7 +92,6 @@ class MyAccount extends ExtensiblePureComponent {
     render() {
         return (
             <main block="MyAccount">
-                <Meta metaObject={ { title: 'My Account' } } />
                 { this.renderContent() }
             </main>
         );
