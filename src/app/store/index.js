@@ -25,7 +25,6 @@ import { CartReducer } from 'Store/Cart';
 import { OrderReducer } from 'Store/Order';
 import { WishlistReducer } from 'Store/Wishlist';
 import { NoMatchReducer } from 'Store/NoMatch';
-import { RelatedProductsReducer } from 'Store/RelatedProducts';
 import { SearchBarReducer } from 'Store/SearchBar';
 import { UrlRewritesReducer } from 'Store/UrlRewrites';
 import { MyAccountReducer } from 'Store/MyAccount';
@@ -49,7 +48,6 @@ export const reducers = {
     OrderReducer,
     WishlistReducer,
     NoMatchReducer,
-    RelatedProductsReducer,
     SearchBarReducer,
     MyAccountReducer,
     NavigationReducer,

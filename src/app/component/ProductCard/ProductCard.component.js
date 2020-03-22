@@ -110,7 +110,6 @@ export default class ProductCard extends PureComponent {
                   style={ { display: 'none' } }
                   alt={ name }
                   src={ thumbnail }
-                  itemProp="image"
                 />
             </>
         );
@@ -127,12 +126,7 @@ export default class ProductCard extends PureComponent {
             <div
               block="ProductCard"
               elem="Reviews"
-              itemProp="aggregateRating"
-              itemScope
-              itemType="http://schema.org/AggregateRating"
             >
-                <meta itemProp="ratingValue" content={ rating || 0 } />
-                <meta itemProp="ratingCount" content={ review_count || 0 } />
                 <ProductReviewRating summary={ rating_summary || 0 } />
             </div>
         );
@@ -150,7 +144,6 @@ export default class ProductCard extends PureComponent {
               block="ProductCard"
               elem="Brand"
               mods={ { isLoaded: !!brand } }
-              itemProp="brand"
             >
                 <ProductAttributeValue
                   attribute={ brand }
@@ -168,7 +161,6 @@ export default class ProductCard extends PureComponent {
               block="ProductCard"
               elem="Name"
               mods={ { isLoaded: !!name } }
-              itemProp="name"
             >
                 <TextPlaceholder content={ name } length="medium" />
             </p>
@@ -205,12 +197,9 @@ export default class ProductCard extends PureComponent {
         return (
             <li
               block="ProductCard"
-              itemScope
-              itemType={ sku && 'http://schema.org/Product' }
               mix={ mix }
             >
                 <Loader isLoading={ isLoading } />
-                <meta itemProp="sku" content={ sku } />
                 { this.renderCardWrapper((
                     <>
                         <figure block="ProductCard" elem="Figure">

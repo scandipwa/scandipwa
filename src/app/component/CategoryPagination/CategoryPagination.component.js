@@ -1,3 +1,4 @@
+/* eslint-disable fp/no-let, fp/no-loops */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -22,27 +23,68 @@ export default class CategoryPagination extends PureComponent {
         onPageSelect: PropTypes.func.isRequired,
         totalPages: PropTypes.number.isRequired,
         currentPage: PropTypes.number.isRequired,
-        getSearchQuery: PropTypes.func.isRequired
+        getSearchQuery: PropTypes.func.isRequired,
+        paginationFrame: PropTypes.number,
+        paginationFrameSkip: PropTypes.number,
+        anchorTextPrevious: PropTypes.string,
+        anchorTextNext: PropTypes.string
     };
 
     static defaultProps = {
-        isLoading: false
+        isLoading: false,
+        paginationFrame: 5,
+        paginationFrameSkip: 4,
+        anchorTextPrevious: '',
+        anchorTextNext: ''
     };
 
     renderPreviousPageLink(page) {
-        return this.renderPageLink(page, __('Previous page'), false, '◄');
+        const { anchorTextPrevious } = this.props;
+
+        return this.renderPageLink(page, __('Previous page'), false, anchorTextPrevious || '◄');
     }
 
     renderPageLinks() {
-        const { totalPages: length, currentPage } = this.props;
+        const {
+            totalPages,
+            paginationFrame,
+            paginationFrameSkip,
+            currentPage
+        } = this.props;
+        let pages = [];
+        let i;
 
-        return Array.from({ length }, (_, i) => (
-            this.renderPageLink(i + 1, __('Page %s', i + 1), (i + 1) === currentPage, (i + 1).toString())
-        ));
+        // Render next pagination links
+        for (i = currentPage; i <= currentPage + paginationFrame; i++) {
+            if (i <= totalPages && pages.length <= paginationFrameSkip) {
+                pages.push(this.renderPageLink(i, __('Page %s', i), i === currentPage, i.toString()));
+            }
+        }
+
+        // Render previous pagination links if necessary
+        for (i = 1; i < currentPage; i++) {
+            if (pages.length < paginationFrame) {
+                const id = currentPage - i;
+                const pageData = this.renderPageLink(id, __('Page %s', id), false, id.toString());
+
+                pages = [pageData, ...pages];
+            }
+        }
+
+        // Edge case for rendering correct count of next links when current page is 1
+        if (currentPage === 1 && pages.length < totalPages) {
+            for (i = pages.length + 1; i <= paginationFrame; i++) {
+                pages.push(this.renderPageLink(i, __('Page %s', i), false, i.toString()));
+            }
+        }
+
+        return pages;
     }
 
     renderNextPageLink(page) {
-        return this.renderPageLink(page, __('Next page'), false, '►');
+        const { anchorTextNext } = this.props;
+
+        return this.renderPageLink(page, __('Next page'), false, anchorTextNext || '►');
     }
 
     renderPageLink(pageNumber, label, isCurrent, text) {
