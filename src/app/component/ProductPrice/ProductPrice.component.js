@@ -23,7 +23,7 @@ import './ProductPrice.style';
  */
 export default class ProductPrice extends PureComponent {
     static propTypes = {
-        isSchemaRequired: PropTypes.bool.isRequired,
+        isSchemaRequired: PropTypes.bool,
         roundedRegularPrice: PropTypes.string,
         priceCurrency: PropTypes.string,
         discountPercentage: PropTypes.number,
@@ -34,6 +34,7 @@ export default class ProductPrice extends PureComponent {
     };
 
     static defaultProps = {
+        isSchemaRequired: false,
         roundedRegularPrice: '0',
         priceCurrency: 'USD',
         discountPercentage: 0,
