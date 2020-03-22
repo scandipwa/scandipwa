@@ -109,8 +109,15 @@
         }
     }
 
-    &-Price {
+    &-Schema {
         order: 21;
+
+        &-Url {
+            display: none;
+        }
+    }
+
+    &-Price {
         font-size: 25px;
         align-items: center;
         justify-content: center;
