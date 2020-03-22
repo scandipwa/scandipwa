@@ -23,13 +23,10 @@ import './ProductPrice.style';
  */
 export default class ProductPrice extends PureComponent {
     static propTypes = {
-        isSchemaRequired: PropTypes.bool.isRequired,
-        minimalPriceValue: PropTypes.number,
-        regularPriceValue: PropTypes.number,
+        isSchemaRequired: PropTypes.bool,
         roundedRegularPrice: PropTypes.string,
         priceCurrency: PropTypes.string,
         discountPercentage: PropTypes.number,
-        finalPrice: PropTypes.number,
         formatedCurrency: PropTypes.string,
         currency: PropTypes.string,
         price: PriceType,
@@ -37,12 +34,10 @@ export default class ProductPrice extends PureComponent {
     };
 
     static defaultProps = {
-        minimalPriceValue: 0,
-        regularPriceValue: 0,
+        isSchemaRequired: false,
         roundedRegularPrice: '0',
         priceCurrency: 'USD',
         discountPercentage: 0,
-        finalPrice: 0,
         formatedCurrency: '0',
         currency: '$',
         mix: {},
@@ -110,7 +105,9 @@ export default class ProductPrice extends PureComponent {
         const { isSchemaRequired, priceCurrency } = this.props;
 
         if (isSchemaRequired) {
-            return <meta itemProp="priceCurrency" content={ priceCurrency } />;
+            return (
+                <meta itemProp="priceCurrency" content={ priceCurrency } />
+            );
         }
 
         return null;
@@ -119,7 +116,6 @@ export default class ProductPrice extends PureComponent {
     render() {
         const {
             price: { minimalPrice, regularPrice },
-            isSchemaRequired,
             formatedCurrency,
             currency,
             mix
@@ -129,19 +125,11 @@ export default class ProductPrice extends PureComponent {
             return this.renderPlaceholder();
         }
 
-        const schemaObject = isSchemaRequired
-            ? {
-                itemType: 'https://schema.org/AggregateOffer',
-                itemProp: 'offers',
-                itemScope: true
-            } : {};
-
         return (
             <p
               block="ProductPrice"
               mix={ mix }
               aria-label={ `Product price: ${ formatedCurrency }${ currency }` }
-              { ...schemaObject }
             >
                 { this.renderCurrentPrice() }
                 { this.renderOldPrice() }

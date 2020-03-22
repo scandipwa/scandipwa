@@ -54,12 +54,9 @@ class ProductPriceContainer extends PureComponent {
         const currency = formatCurrency(priceCurrency);
 
         return {
-            minimalPriceValue,
-            regularPriceValue,
             roundedRegularPrice,
             priceCurrency,
             discountPercentage,
-            finalPrice,
             formatedCurrency,
             currency
         };

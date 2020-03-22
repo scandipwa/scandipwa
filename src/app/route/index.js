@@ -60,6 +60,7 @@ export const PasswordChangePage = lazy(() => import(/* webpackMode: "lazy", webp
 export const ProductPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/ProductPage'));
 export const SearchPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/SearchPage'));
 export const SomethingWentWrong = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/SomethingWentWrong'));
+export const ConfirmAccountPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/ConfirmAccountPage'));
 export const UrlRewrites = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/UrlRewrites'));
 export const MenuPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/MenuPage'));
 
@@ -153,6 +154,10 @@ export class AppRouter extends PureComponent {
         {
             component: <Route path="/:account*/createPassword/" component={ PasswordChangePage } />,
             position: 60
+        },
+        {
+            component: <Route path="/:account*/confirm" component={ ConfirmAccountPage } />,
+            position: 65
         },
         {
             component: <Route path="/my-account/:tab?" component={ MyAccount } />,

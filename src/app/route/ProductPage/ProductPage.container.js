@@ -144,10 +144,13 @@ export class ProductPageContainer extends PureComponent {
 
     getLink(key, value) {
         const { location: { search, pathname } } = this.props;
-        const query = objectToUri({
-            ...convertQueryStringToKeyValuePairs(search),
-            [key]: value
-        });
+        const obj = {
+            ...convertQueryStringToKeyValuePairs(search)
+        };
+
+        if (key) obj[key] = value;
+
+        const query = objectToUri(obj);
 
         return `${pathname}${query}`;
     }

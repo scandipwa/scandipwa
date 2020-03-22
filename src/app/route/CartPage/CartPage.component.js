@@ -19,12 +19,13 @@ import CmsBlock from 'Component/CmsBlock';
 import CartItem from 'Component/CartItem';
 import { TotalsType } from 'Type/MiniCart';
 import CartCoupon from 'Component/CartCoupon';
-import CartCrossSell from 'Component/CartCrossSell';
+import ProductLinks from 'Component/ProductLinks';
 import ContentWrapper from 'Component/ContentWrapper';
 import { formatCurrency, roundPrice } from 'Util/Price';
 import ExpandableContent from 'Component/ExpandableContent';
 
 import './CartPage.style';
+import { CROSS_SELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
 
 export default class CartPage extends PureComponent {
     static propTypes = {
@@ -175,9 +176,11 @@ export default class CartPage extends PureComponent {
     }
 
     renderCrossSellProducts() {
-        const { totals: { items } } = this.props;
         return (
-            <CartCrossSell products={ items } />
+            <ProductLinks
+              linkType={ CROSS_SELL }
+              title={ __('Frequently bought together') }
+            />
         );
     }
 
