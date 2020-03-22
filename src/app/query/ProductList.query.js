@@ -130,6 +130,8 @@ export class ProductListQuery {
             this._getProductThumbnailField(),
             this._getProductSmallField(),
             this._getShortDescriptionField(),
+            'special_from_date',
+            'special_to_date',
             this._getAttributesField(isVariant),
             ...(!isVariant
                 ? [
