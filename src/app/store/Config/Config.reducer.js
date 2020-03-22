@@ -30,7 +30,6 @@ export const initialState = {
     ...filterStoreConfig(storeConfig),
     countries,
     reviewRatings,
-    title_prefix: 'ScandiPWA |',
     isLoading: true
 };
 
