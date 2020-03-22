@@ -21,12 +21,12 @@ export class ProductLinksContainer extends PureComponent {
             linkType,
             linkedProducts: {
                 [linkType]: {
-                    total_count
+                    items
                 }
             }
         } = this.props;
 
-        if (total_count === 0) {
+        if (items.length === 0) {
             return null;
         }
 

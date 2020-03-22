@@ -257,6 +257,11 @@ export class HeaderContainer extends NavigationAbstractContainer {
             navigationState: { name }
         } = this.props;
 
+        if (isMobile.any()) {
+            history.goBack();
+            return;
+        }
+
         if (name !== MENU) {
             showOverlay(MENU);
             setNavigationState({ name: MENU });

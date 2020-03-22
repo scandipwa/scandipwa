@@ -82,7 +82,9 @@ class TierPrices extends PureComponent {
     renderTierPrice() {
         const { isLowestPrice } = this.props;
 
-        if (isLowestPrice) return this.renderLowestTierPrice();
+        if (isLowestPrice) {
+            return this.renderLowestTierPrice();
+        }
 
         return this.renderDetailedTierPriceList();
     }
@@ -93,8 +95,6 @@ class TierPrices extends PureComponent {
         if (!tier_prices) {
             return null;
         }
-
-        // TODO: make price and currency render order region-dependent
 
         return (
             <ul block="TierPrices">

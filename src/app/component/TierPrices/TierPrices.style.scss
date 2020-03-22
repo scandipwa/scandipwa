@@ -1,4 +1,6 @@
 .TierPrices {
+    width: 100%;
+
     &-Item {
         font-size: 15px;
         padding-left: 0;
@@ -16,7 +18,7 @@
         }
 
         &_isLowest {
-            display: inline-block;
+            font-size: 13px;
             margin-top: 2px;
             padding: 0;
 
