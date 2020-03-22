@@ -11,7 +11,7 @@
 
 .CmsPage {
     &_isBreadcrumbsHidden {
-        margin-top: var(--header-height);
+        margin-top: calc(var(--header-height) + var(--offline-notice-height));
     }
 
     &-Wrapper {
@@ -22,8 +22,8 @@
             right: 1rem;
         };
         margin: {
-            top: 1rem;
-            bottom: 1.8rem;
+            top: calc(var(--offline-notice-height) + 1rem);
+            bottom: var(--header-nav-height);
             left: auto;
             right: auto;
         };
