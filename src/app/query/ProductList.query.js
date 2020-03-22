@@ -133,6 +133,7 @@ export class ProductListQuery {
             'special_from_date',
             'special_to_date',
             this._getAttributesField(isVariant),
+            this._getTierPricesField(),
             ...(!isVariant
                 ? [
                     'url_key',
