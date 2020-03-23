@@ -38,6 +38,7 @@ import Breadcrumbs from 'Component/Breadcrumbs';
 import { WishlistDispatcher } from 'Store/Wishlist';
 import OfflineNotice from 'Component/OfflineNotice';
 import NavigationTabs from 'Component/NavigationTabs';
+import SomethingWentWrong from 'Route/SomethingWentWrong';
 import NotificationList from 'Component/NotificationList';
 import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
 
@@ -60,7 +61,6 @@ export const NoMatchHandler = lazy(() => import(/* webpackMode: "lazy", webpackP
 export const PasswordChangePage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/PasswordChangePage'));
 export const ProductPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/ProductPage'));
 export const SearchPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/SearchPage'));
-export const SomethingWentWrong = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/SomethingWentWrong'));
 export const ConfirmAccountPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/ConfirmAccountPage'));
 export const UrlRewrites = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/UrlRewrites'));
 export const MenuPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/MenuPage'));
@@ -345,7 +345,11 @@ export class AppRouter extends PureComponent {
 
     renderRouterContent() {
         const { hasError } = this.state;
-        if (hasError) return this.renderErrorRouterContent();
+
+        if (hasError) {
+            return this.renderErrorRouterContent();
+        }
+
         return this.renderDefaultRouterContent();
     }
 
