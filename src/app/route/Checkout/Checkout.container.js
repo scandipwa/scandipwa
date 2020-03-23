@@ -31,6 +31,7 @@ import { GUEST_QUOTE_ID } from 'Store/Cart';
 import { TotalsType } from 'Type/MiniCart';
 import { updateMeta } from 'Store/Meta';
 import { isSignedIn } from 'Util/Auth';
+import { customerType } from 'Type/Account';
 
 import Checkout, { SHIPPING_STEP, BILLING_STEP, DETAILS_STEP } from './Checkout.component';
 
@@ -38,7 +39,8 @@ export const PAYMENT_TOTALS = 'PAYMENT_TOTALS';
 export const STRIPE_AUTH_REQUIRED = 'Authentication Required: ';
 
 export const mapStateToProps = state => ({
-    totals: state.CartReducer.cartTotals
+    totals: state.CartReducer.cartTotals,
+    customer: state.MyAccountReducer.customer
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -60,7 +62,8 @@ export class CheckoutContainer extends PureComponent {
         updateMeta: PropTypes.func.isRequired,
         resetCart: PropTypes.func.isRequired,
         totals: TotalsType.isRequired,
-        history: HistoryType.isRequired
+        history: HistoryType.isRequired,
+        customer: customerType.isRequired
     };
 
     containerFunctions = {
@@ -118,6 +121,17 @@ export class CheckoutContainer extends PureComponent {
     componentDidMount() {
         const { updateMeta } = this.props;
         updateMeta({ title: __('Checkout') });
+    }
+
+    componentDidUpdate() {
+        const { customer: { addresses } } = this.props;
+        const { shippingMethods } = this.state;
+
+        if (isSignedIn()
+            && (addresses && addresses.length === 0)
+            && shippingMethods.length) {
+            this.resetShippingMethods();
+        }
     }
 
     componentWillUnmount() {
@@ -244,6 +258,10 @@ export class CheckoutContainer extends PureComponent {
     };
 
     _getGuestCartId = () => BrowserDatabase.getItem(GUEST_QUOTE_ID);
+
+    resetShippingMethods() {
+        this.setState({ shippingMethods: [] });
+    }
 
     _getPaymentMethods() {
         fetchQuery(CheckoutQuery.getPaymentMethodsQuery(

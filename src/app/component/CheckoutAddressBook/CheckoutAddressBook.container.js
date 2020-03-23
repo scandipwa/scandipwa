@@ -81,9 +81,18 @@ export class CheckoutAddressBookContainer extends PureComponent {
     }
 
     componentDidUpdate(_, prevState) {
-        const { onAddressSelect } = this.props;
+        const {
+            onAddressSelect,
+            requestCustomerData,
+            isSignedIn,
+            customer: { id }
+        } = this.props;
         const { selectedAddressId: prevSelectedAddressId } = prevState;
         const { selectedAddressId } = this.state;
+
+        if (isSignedIn && !id) {
+            requestCustomerData();
+        }
 
         if (selectedAddressId !== prevSelectedAddressId) {
             onAddressSelect(selectedAddressId);

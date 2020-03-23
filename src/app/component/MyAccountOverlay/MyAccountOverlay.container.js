@@ -18,6 +18,7 @@ import { changeNavigationState } from 'Store/Navigation';
 import { MyAccountDispatcher } from 'Store/MyAccount';
 import { CUSTOMER_ACCOUNT, CUSTOMER_SUB_ACCOUNT } from 'Component/Header';
 import { showNotification } from 'Store/Notification';
+import { hideActiveOverlay } from 'Store/Overlay';
 import { isSignedIn } from 'Util/Auth';
 import isMobile from 'Util/Mobile';
 import { history } from 'Route';
@@ -39,6 +40,7 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
+    hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     forgotPassword: options => MyAccountDispatcher.forgotPassword(options, dispatch),
     createAccount: options => MyAccountDispatcher.createAccount(options, dispatch),
     signIn: options => MyAccountDispatcher.signIn(options, dispatch),
@@ -56,7 +58,8 @@ export class MyAccountOverlayContainer extends PureComponent {
         // eslint-disable-next-line react/no-unused-prop-types
         isOverlayVisible: PropTypes.bool.isRequired,
         setHeaderState: PropTypes.func.isRequired,
-        onSignIn: PropTypes.func
+        onSignIn: PropTypes.func,
+        hideActiveOverlay: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -138,9 +141,12 @@ export class MyAccountOverlayContainer extends PureComponent {
     componentDidUpdate(_, prevState) {
         const { state: oldMyAccountState } = prevState;
         const { state: newMyAccountState } = this.state;
+        const { hideActiveOverlay } = this.props;
         const currentPage = window.location.pathname;
 
         if (oldMyAccountState === newMyAccountState) return;
+
+        if (isSignedIn()) hideActiveOverlay();
 
         if (currentPage !== '/checkout' && newMyAccountState === STATE_LOGGED_IN) {
             history.push({ pathname: '/my-account/dashboard' });

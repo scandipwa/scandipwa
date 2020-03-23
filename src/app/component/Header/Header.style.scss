@@ -116,6 +116,39 @@
         }
     }
 
+    &_isCheckout {
+        .Header {
+            &-Button_type_account {
+                display: block;
+            }
+
+            &-Nav {
+                padding-right: 47px;
+
+                @include after-mobile {
+                    justify-content: flex-end;
+                }
+            }
+
+            &-MyAccount {
+                @include mobile {
+                    position: absolute;
+                    right: 10px;
+                    width: auto;
+                }
+            }
+        }
+
+        .MyAccountOverlay {
+            @include mobile {
+                height: 100vh;
+                position: absolute;
+                right: -10px;
+                width: 100vw;
+            }
+        }
+    }
+
     &-Banner {
         background: var(--primary-base-color);
         color: $white;

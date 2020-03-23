@@ -100,7 +100,9 @@ export class HeaderContainer extends NavigationAbstractContainer {
         onSearchOutsideClick: this.onSearchOutsideClick.bind(this),
         onMenuOutsideClick: this.onMenuOutsideClick.bind(this),
         onMyAccountOutsideClick: this.onMyAccountOutsideClick.bind(this),
-        onMinicartOutsideClick: this.onMinicartOutsideClick.bind(this)
+        onMinicartOutsideClick: this.onMinicartOutsideClick.bind(this),
+        closeOverlay: this.closeOverlay.bind(this),
+        onSignIn: this.onSignIn.bind(this)
     };
 
     containerProps = () => {
@@ -114,7 +116,9 @@ export class HeaderContainer extends NavigationAbstractContainer {
 
         const {
             isClearEnabled,
-            searchCriteria
+            searchCriteria,
+            isCheckout,
+            showMyAccountLogin
         } = this.state;
 
         return {
@@ -124,7 +128,9 @@ export class HeaderContainer extends NavigationAbstractContainer {
             logo_alt,
             isLoading,
             isClearEnabled,
-            searchCriteria
+            searchCriteria,
+            isCheckout,
+            showMyAccountLogin
         };
     };
 
@@ -134,17 +140,31 @@ export class HeaderContainer extends NavigationAbstractContainer {
         this.state = {
             prevPathname: '',
             searchCriteria: '',
-            isClearEnabled: this.getIsClearEnabled()
+            isClearEnabled: this.getIsClearEnabled(),
+            isCheckout: false,
+            showMyAccountLogin: false
         };
     }
 
     componentDidMount() {
         this.handleHeaderVisibility();
+        this.checkIsCheckout();
         super.componentDidMount();
     }
 
     componentDidUpdate() {
         this.handleHeaderVisibility();
+        this.checkIsCheckout();
+    }
+
+    checkIsCheckout() {
+        const { location: { pathname } } = history;
+
+        if (pathname === '/checkout') {
+            return this.setState({ isCheckout: true });
+        }
+
+        return this.setState({ isCheckout: false });
     }
 
     handleHeaderVisibility() {
@@ -296,10 +316,12 @@ export class HeaderContainer extends NavigationAbstractContainer {
             return;
         }
 
-        if (name !== CUSTOMER_ACCOUNT) {
+        if (!isMobile.any() && name !== CUSTOMER_ACCOUNT) {
             showOverlay(CUSTOMER_ACCOUNT_OVERLAY_KEY);
             setNavigationState({ name: CUSTOMER_ACCOUNT, title: 'Sign in' });
         }
+
+        this.setState({ showMyAccountLogin: true });
     }
 
     onMyAccountOutsideClick() {
@@ -316,6 +338,33 @@ export class HeaderContainer extends NavigationAbstractContainer {
         if (name === CUSTOMER_SUB_ACCOUNT) goToPreviousNavigationState();
         goToPreviousNavigationState();
         hideActiveOverlay();
+    }
+
+    closeOverlay() {
+        const {
+            navigationState: { name, title },
+            goToPreviousNavigationState,
+            setNavigationState
+        } = this.props;
+        const { location: { pathname } } = history;
+
+        if (pathname === '/checkout') {
+            if (name === CUSTOMER_SUB_ACCOUNT) {
+                goToPreviousNavigationState();
+            } else {
+                setNavigationState({ name: CHECKOUT, title });
+            }
+
+            this.setState({ showMyAccountLogin: false });
+        }
+    }
+
+    onSignIn() {
+        const { location: { pathname } } = history;
+
+        if (pathname === '/checkout') {
+            this.setState({ showMyAccountLogin: false });
+        }
     }
 
     onClearButtonClick() {

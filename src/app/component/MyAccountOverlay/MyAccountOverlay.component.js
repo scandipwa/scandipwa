@@ -53,7 +53,14 @@ class MyAccountOverlay extends PureComponent {
         onFormError: PropTypes.func.isRequired,
         handleForgotPassword: PropTypes.func.isRequired,
         handleSignIn: PropTypes.func.isRequired,
-        handleCreateAccount: PropTypes.func.isRequired
+        handleCreateAccount: PropTypes.func.isRequired,
+        closeOverlay: PropTypes.func,
+        isCheckout: PropTypes.bool
+    };
+
+    static defaultProps = {
+        isCheckout: false,
+        closeOverlay: () => {}
     };
 
     renderMap = {
@@ -82,12 +89,19 @@ class MyAccountOverlay extends PureComponent {
     };
 
     renderMyAccount() {
-        const { state } = this.props;
+        const { state, closeOverlay, isCheckout } = this.props;
         const { render, title } = this.renderMap[state];
 
         return (
             <div block="MyAccountOverlay" elem="Action" mods={ { state } }>
                 <p block="MyAccountOverlay" elem="Heading">{ title }</p>
+                { isCheckout && isMobile.any() && (
+                    <button
+                      block="MyAccountOverlay"
+                      elem="CloseButton"
+                      onClick={ closeOverlay }
+                    />
+                ) }
                 { render() }
             </div>
         );
@@ -124,7 +138,8 @@ class MyAccountOverlay extends PureComponent {
             onForgotPasswordSuccess,
             onFormError,
             handleSignIn,
-            handleCreateAccount
+            handleCreateAccount,
+            isCheckout
         } = this.props;
 
         return (
@@ -153,16 +168,18 @@ class MyAccountOverlay extends PureComponent {
                             { __('Sign in here') }
                         </button>
                     </section>
-                    <section aria-labelledby="create-account-label">
-                        <h4 id="create-account-label">{ __('Don`t have an account?') }</h4>
-                        <button
-                          block="Button"
-                          mods={ { likeLink: true } }
-                          onClick={ handleCreateAccount }
-                        >
-                            { __('Create an account') }
-                        </button>
-                    </section>
+                    { !isCheckout && (
+                        <section aria-labelledby="create-account-label">
+                            <h4 id="create-account-label">{ __('Don`t have an account?') }</h4>
+                            <button
+                              block="Button"
+                              mods={ { likeLink: true } }
+                              onClick={ handleCreateAccount }
+                            >
+                                { __('Create an account') }
+                            </button>
+                        </section>
+                    ) }
                 </article>
             </>
         );
@@ -283,7 +300,8 @@ class MyAccountOverlay extends PureComponent {
             onSignInSuccess,
             onFormError,
             handleForgotPassword,
-            handleCreateAccount
+            handleCreateAccount,
+            isCheckout
         } = this.props;
 
         return (
@@ -319,18 +337,20 @@ class MyAccountOverlay extends PureComponent {
                         { __('Forgot password?') }
                     </button>
                 </Form>
-                <article block="MyAccountOverlay" elem="Additional" mods={ { state } }>
-                    <section>
-                        <h4 id="forgot-password-label">{ __('Don`t have an account?') }</h4>
-                        <button
-                          block="Button"
-                          mods={ { isHollow: true } }
-                          onClick={ handleCreateAccount }
-                        >
-                            { __('Create an account') }
-                        </button>
-                    </section>
-                </article>
+                { !isCheckout && (
+                    <article block="MyAccountOverlay" elem="Additional" mods={ { state } }>
+                        <section>
+                            <h4 id="forgot-password-label">{ __('Don`t have an account?') }</h4>
+                            <button
+                              block="Button"
+                              mods={ { isHollow: true } }
+                              onClick={ handleCreateAccount }
+                            >
+                                { __('Create an account') }
+                            </button>
+                        </section>
+                    </article>
+                ) }
             </>
         );
     }
