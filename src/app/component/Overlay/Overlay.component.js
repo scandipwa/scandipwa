@@ -71,13 +71,13 @@ export default class Overlay extends PureComponent {
 
     freezeScroll() {
         this.YoffsetWhenScrollDisabled = window.pageYOffset || document.documentElement.scrollTop;
-        document.body.classList.add('scrollDisabled');
-        document.body.style.marginTop = `${-this.YoffsetWhenScrollDisabled}px`;
+        document.documentElement.classList.add('scrollDisabled');
+        document.documentElement.style.marginTop = `${-this.YoffsetWhenScrollDisabled}px`;
     }
 
     unfreezeScroll() {
-        document.body.classList.remove('scrollDisabled');
-        document.body.style.marginTop = 0;
+        document.documentElement.classList.remove('scrollDisabled');
+        document.documentElement.style.marginTop = 0;
         window.scrollTo(0, this.YoffsetWhenScrollDisabled);
     }
 
@@ -85,7 +85,7 @@ export default class Overlay extends PureComponent {
         const { isStatic } = this.props;
 
         if (!isStatic && isMobile.any()) {
-            return createPortal(content, document.body);
+            return createPortal(content, document.documentElement);
         }
 
         return content;

@@ -123,7 +123,7 @@ export default class Popup extends Overlay {
             >
                 { this.renderContent() }
             </div>,
-            document.body
+            document.documentElement
         );
     }
 }

@@ -171,11 +171,11 @@ export class HeaderContainer extends NavigationAbstractContainer {
         const { navigationState: { isHiddenOnMobile } } = this.props;
 
         if (isHiddenOnMobile) {
-            document.body.classList.add('hiddenHeader');
+            document.documentElement.classList.add('hiddenHeader');
             return;
         }
 
-        document.body.classList.remove('hiddenHeader');
+        document.documentElement.classList.remove('hiddenHeader');
     }
 
     handleMobileUrlChange(history) {

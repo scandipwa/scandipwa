@@ -28,7 +28,7 @@
     flex-direction: row;
     position: fixed;
     z-index: 99;
-    top: var(--header-height);
+    top: calc(var(--header-total-height) - var(--offline-notice-height));
     bottom: 0;
     right: 0;
     left: 0;
@@ -37,7 +37,6 @@
         --line-color: var(--primary-info-color);
         --fill-color: white;
         --diameter: 16;
-        --offline-notice-height: calc(100% - var(--header-height) - var(--header-nav-height));
 
         flex-direction: column;
         text-align: center;
@@ -138,6 +137,10 @@
                 left: calc(-1px * var(--diameter));
             }
         }
+    }
+
+    @at-root .bigOffline {
+        --offline-notice-height: calc(100% - var(--header-total-height));
     }
 
     @at-root .offline {

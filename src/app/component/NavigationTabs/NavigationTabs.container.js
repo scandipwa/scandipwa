@@ -83,11 +83,11 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         const { navigationState: { isHidden } } = this.props;
 
         if (isHidden) {
-            document.body.classList.add('hiddenNavigationTabs');
+            document.documentElement.classList.add('hiddenNavigationTabs');
             return;
         }
 
-        document.body.classList.remove('hiddenNavigationTabs');
+        document.documentElement.classList.remove('hiddenNavigationTabs');
     }
 
     handleVisibleOnScrollChange(prevProps) {
@@ -96,7 +96,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
 
         if (isVisibleOnScroll !== prevIsVisible) {
             this.scrollPosition = window.scrollY;
-            document.body.classList.remove('hideOnScroll');
+            document.documentElement.classList.remove('hideOnScroll');
         }
     }
 
@@ -111,13 +111,13 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
 
         if (windowY < TOP_MIN_OFFSET) {
             // We are on top
-            document.body.classList.remove('hideOnScroll');
+            document.documentElement.classList.remove('hideOnScroll');
             return;
         }
 
         if (offset >= height - BOTTOM_MIN_OFFSET) {
             // We are on the bottom
-            document.body.classList.remove('hideOnScroll');
+            document.documentElement.classList.remove('hideOnScroll');
             return;
         }
 
@@ -128,10 +128,10 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
 
         if (windowY < this.scrollPosition) {
             // Scrolling UP
-            document.body.classList.remove('hideOnScroll');
+            document.documentElement.classList.remove('hideOnScroll');
         } else {
             // Scrolling DOWN
-            document.body.classList.add('hideOnScroll');
+            document.documentElement.classList.add('hideOnScroll');
         }
     }
 

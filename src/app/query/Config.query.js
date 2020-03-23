@@ -70,7 +70,8 @@ export class ConfigQuery {
                 'pagination_frame',
                 'pagination_frame_skip',
                 'anchor_text_for_previous',
-                'anchor_text_for_next'
+                'anchor_text_for_next',
+                'demo_notice'
             ]);
     }
 }

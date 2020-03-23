@@ -51,12 +51,29 @@ class OfflineNoticeContainer extends PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        const { location: { pathname } } = this.props;
-        const { location: { pathname: prevPathname } } = prevProps;
+        const {
+            location: { pathname },
+            isBig,
+            setBigOfflineNotice
+        } = this.props;
+
+        const {
+            isBig: prevIsBig,
+            location: { pathname: prevPathname }
+        } = prevProps;
+
+        if (isBig !== prevIsBig && !navigator.onLine) {
+            if (isBig) {
+                document.documentElement.classList.add('bigOffline');
+            } else {
+                document.documentElement.classList.remove('bigOffline');
+            }
+        }
 
         if (pathname !== prevPathname) {
-            const { isBig, setBigOfflineNotice } = this.props;
-            if (isBig) setBigOfflineNotice(false);
+            if (isBig) {
+                setBigOfflineNotice(false);
+            }
         }
     }
 
@@ -77,10 +94,10 @@ class OfflineNoticeContainer extends PureComponent {
         } = this.props;
 
         if (navigator.onLine) {
-            document.body.classList.remove('offline');
+            document.documentElement.classList.remove('offline');
             showOfflineNotice(false);
         } else {
-            document.body.classList.add('offline');
+            document.documentElement.classList.add('offline');
             showOfflineNotice(true);
             if (isBig) setBigOfflineNotice(false);
         }

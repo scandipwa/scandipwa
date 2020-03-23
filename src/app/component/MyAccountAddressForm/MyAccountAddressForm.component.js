@@ -19,11 +19,12 @@ class MyAccountAddressForm extends FieldForm {
     static propTypes = {
         address: addressType.isRequired,
         countries: countriesType.isRequired,
-        default_country: PropTypes.string.isRequired,
+        default_country: PropTypes.string,
         onSave: PropTypes.func
     };
 
     static defaultProps = {
+        default_country: 'US',
         onSave: () => {}
     };
 

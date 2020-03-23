@@ -23,23 +23,23 @@ import { Route, Switch } from 'react-router-dom';
 import { Router } from 'react-router';
 import { connect } from 'react-redux';
 import { updateMeta } from 'Store/Meta';
+
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { createBrowserHistory } from 'history';
 
-import Breadcrumbs from 'Component/Breadcrumbs';
+import Store from 'Store';
 import Meta from 'Component/Meta';
 import Footer from 'Component/Footer';
 import Header from 'Component/Header';
+import { CartDispatcher } from 'Store/Cart';
+import DemoNotice from 'Component/DemoNotice';
+import { ConfigDispatcher } from 'Store/Config';
+import Breadcrumbs from 'Component/Breadcrumbs';
+import { WishlistDispatcher } from 'Store/Wishlist';
+import OfflineNotice from 'Component/OfflineNotice';
 import NavigationTabs from 'Component/NavigationTabs';
 import NotificationList from 'Component/NotificationList';
-
-import Store from 'Store';
-
-import OfflineNotice from 'Component/OfflineNotice';
 import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
-import { ConfigDispatcher } from 'Store/Config';
-import { CartDispatcher } from 'Store/Cart';
-import { WishlistDispatcher } from 'Store/Wishlist';
 
 // suppress prop-types warning on Route component when using with React.lazy
 // until react-router-dom@4.4.0 or higher version released
@@ -110,6 +110,10 @@ export class AppRouter extends PureComponent {
         {
             component: <NotificationList />,
             position: 10
+        },
+        {
+            component: <DemoNotice />,
+            position: 15
         },
         {
             component: <Header />,

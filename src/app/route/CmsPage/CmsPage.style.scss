@@ -11,18 +11,20 @@
 
 .CmsPage {
     &_isBreadcrumbsHidden {
-        margin-top: calc(var(--header-height) + var(--offline-notice-height));
+        margin-top: calc(var(--header-total-height) + 1rem);
     }
 
     &-Wrapper {
         grid-template-columns: auto;
         max-width: var(--content-wrapper-width);
+
         padding: {
             left: 1rem;
             right: 1rem;
         };
+
         margin: {
-            top: calc(var(--offline-notice-height) + 1rem);
+            top: var(--header-total-height);
             bottom: var(--header-nav-height);
             left: auto;
             right: auto;
