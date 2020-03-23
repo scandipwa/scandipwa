@@ -1,4 +1,6 @@
 .TierPrices {
+    width: 100%;
+
     &-Item {
         font-size: 15px;
         padding-left: 0;
@@ -14,5 +16,19 @@
         &::before {
             content: none;
         }
+
+        &_isLowest {
+            font-size: 12px;
+            margin-top: 2px;
+            padding: 0;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    &-ItemPrice {
+        font-weight: bold;
     }
 }

@@ -40,7 +40,7 @@ export default class Breadcrumbs extends PureComponent {
               key={ i }
               itemProp="itemListElement"
               itemScope
-              itemType="https://schema.org/ListItem"
+              itemType="http://schema.org/ListItem"
             >
                 <Link
                   block="Breadcrumbs"
@@ -78,7 +78,7 @@ export default class Breadcrumbs extends PureComponent {
                       block="Breadcrumbs"
                       elem="List"
                       itemScope
-                      itemType="https://schema.org/BreadcrumbList"
+                      itemType="http://schema.org/BreadcrumbList"
                     >
                         { (
                             breadcrumbs.length

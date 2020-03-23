@@ -26,6 +26,7 @@ export const STATE_FORGOT_PASSWORD = 'forgotPassword';
 export const STATE_FORGOT_PASSWORD_SUCCESS = 'forgotPasswordSuccess';
 export const STATE_CREATE_ACCOUNT = 'createAccount';
 export const STATE_LOGGED_IN = 'loggedIn';
+export const STATE_CONFIRM_EMAIL = 'confirmEmail';
 
 export const CUSTOMER_ACCOUNT_OVERLAY_KEY = 'customer_account';
 
@@ -39,7 +40,8 @@ class MyAccountOverlay extends PureComponent {
             STATE_FORGOT_PASSWORD,
             STATE_FORGOT_PASSWORD_SUCCESS,
             STATE_CREATE_ACCOUNT,
-            STATE_LOGGED_IN
+            STATE_LOGGED_IN,
+            STATE_CONFIRM_EMAIL
         ]).isRequired,
         onVisible: PropTypes.func.isRequired,
         onSignInSuccess: PropTypes.func.isRequired,
@@ -51,7 +53,14 @@ class MyAccountOverlay extends PureComponent {
         onFormError: PropTypes.func.isRequired,
         handleForgotPassword: PropTypes.func.isRequired,
         handleSignIn: PropTypes.func.isRequired,
-        handleCreateAccount: PropTypes.func.isRequired
+        handleCreateAccount: PropTypes.func.isRequired,
+        closeOverlay: PropTypes.func,
+        isCheckout: PropTypes.bool
+    };
+
+    static defaultProps = {
+        isCheckout: false,
+        closeOverlay: () => {}
     };
 
     renderMap = {
@@ -72,18 +81,53 @@ class MyAccountOverlay extends PureComponent {
         },
         [STATE_LOGGED_IN]: {
             render: () => {}
+        },
+        [STATE_CONFIRM_EMAIL]: {
+            render: () => this.renderConfirmEmail(),
+            title: __('Confirm the email')
         }
     };
 
     renderMyAccount() {
-        const { state } = this.props;
+        const { state, closeOverlay, isCheckout } = this.props;
         const { render, title } = this.renderMap[state];
 
         return (
             <div block="MyAccountOverlay" elem="Action" mods={ { state } }>
                 <p block="MyAccountOverlay" elem="Heading">{ title }</p>
+                { isCheckout && isMobile.any() && (
+                    <button
+                      block="MyAccountOverlay"
+                      elem="CloseButton"
+                      onClick={ closeOverlay }
+                    />
+                ) }
                 { render() }
             </div>
+        );
+    }
+
+    renderConfirmEmail() {
+        const { state, handleSignIn } = this.props;
+
+        return (
+            <article
+              aria-labelledby="confirm-email-notice"
+              block="MyAccountOverlay"
+              elem="Additional"
+              mods={ { state } }
+            >
+                <p id="confirm-email-notice">
+                    { /* eslint-disable-next-line max-len */ }
+                    { __('The email confirmation link has been sent to your email. Please confirm your account to proceed.') }
+                </p>
+                <button
+                  block="Button"
+                  onClick={ handleSignIn }
+                >
+                    { __('Got it') }
+                </button>
+            </article>
         );
     }
 
@@ -94,7 +138,8 @@ class MyAccountOverlay extends PureComponent {
             onForgotPasswordSuccess,
             onFormError,
             handleSignIn,
-            handleCreateAccount
+            handleCreateAccount,
+            isCheckout
         } = this.props;
 
         return (
@@ -123,16 +168,18 @@ class MyAccountOverlay extends PureComponent {
                             { __('Sign in here') }
                         </button>
                     </section>
-                    <section aria-labelledby="create-account-label">
-                        <h4 id="create-account-label">{ __('Don`t have an account?') }</h4>
-                        <button
-                          block="Button"
-                          mods={ { likeLink: true } }
-                          onClick={ handleCreateAccount }
-                        >
-                            { __('Create an account') }
-                        </button>
-                    </section>
+                    { !isCheckout && (
+                        <section aria-labelledby="create-account-label">
+                            <h4 id="create-account-label">{ __('Don`t have an account?') }</h4>
+                            <button
+                              block="Button"
+                              mods={ { likeLink: true } }
+                              onClick={ handleCreateAccount }
+                            >
+                                { __('Create an account') }
+                            </button>
+                        </section>
+                    ) }
                 </article>
             </>
         );
@@ -148,10 +195,10 @@ class MyAccountOverlay extends PureComponent {
               elem="Additional"
               mods={ { state } }
             >
-                <h4 id="forgot-password-success">
+                <p id="forgot-password-success">
                     { // eslint-disable-next-line max-len
                     __('If there is an account associated with the provided address you will receive an email with a link to reset your password') }
-                </h4>
+                </p>
                 <button
                   block="Button"
                   onClick={ handleSignIn }
@@ -222,7 +269,12 @@ class MyAccountOverlay extends PureComponent {
                         />
                     </fieldset>
                     <div block="MyAccountOverlay" elem="Buttons">
-                        <button block="Button" type="submit">{ __('Sign up') }</button>
+                        <button
+                          block="Button"
+                          type="submit"
+                        >
+                            { __('Sign up') }
+                        </button>
                     </div>
                 </Form>
                 <article block="MyAccountOverlay" elem="Additional" mods={ { state } }>
@@ -248,7 +300,8 @@ class MyAccountOverlay extends PureComponent {
             onSignInSuccess,
             onFormError,
             handleForgotPassword,
-            handleCreateAccount
+            handleCreateAccount,
+            isCheckout
         } = this.props;
 
         return (
@@ -284,18 +337,20 @@ class MyAccountOverlay extends PureComponent {
                         { __('Forgot password?') }
                     </button>
                 </Form>
-                <article block="MyAccountOverlay" elem="Additional" mods={ { state } }>
-                    <section>
-                        <h4 id="forgot-password-label">{ __('Don`t have an account?') }</h4>
-                        <button
-                          block="Button"
-                          mods={ { isHollow: true } }
-                          onClick={ handleCreateAccount }
-                        >
-                            { __('Create an account') }
-                        </button>
-                    </section>
-                </article>
+                { !isCheckout && (
+                    <article block="MyAccountOverlay" elem="Additional" mods={ { state } }>
+                        <section>
+                            <h4 id="forgot-password-label">{ __('Don`t have an account?') }</h4>
+                            <button
+                              block="Button"
+                              mods={ { isHollow: true } }
+                              onClick={ handleCreateAccount }
+                            >
+                                { __('Create an account') }
+                            </button>
+                        </section>
+                    </article>
+                ) }
             </>
         );
     }

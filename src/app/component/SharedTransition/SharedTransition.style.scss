@@ -14,7 +14,7 @@
         display: block;
         height: calc(100vh - var(--header-height) - var(--navigation-tabs-height));
         width: 100%;
-        top: var(--header-height);
+        top: var(--header-total-height);
         left: 0;
     }
 

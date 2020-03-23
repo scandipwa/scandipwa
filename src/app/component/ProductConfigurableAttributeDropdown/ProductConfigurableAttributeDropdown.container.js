@@ -45,6 +45,12 @@ class ProductConfigurableAttributeDropdownContainer extends PureComponent {
             getIsConfigurableAttributeAvailable
         } = this.props;
 
+        if (!attribute_options) {
+            // eslint-disable-next-line no-console
+            console.warn(`Please make sure "${ attribute_code }" is visible on Storefront.`);
+            return [];
+        }
+
         return Object.values(attribute_options)
             .reduce((acc, option) => {
                 const { value } = option;

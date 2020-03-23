@@ -142,7 +142,7 @@ export default class ProductConfigurableAttributes extends PureComponent {
                 attribute_options
             } = option;
 
-            const [{ swatch_data }] = Object.values(attribute_options) || [{}];
+            const [{ swatch_data }] = attribute_options ? Object.values(attribute_options) : [{}];
             const isSwatch = !!swatch_data;
 
             return (

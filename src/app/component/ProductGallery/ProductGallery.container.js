@@ -134,7 +134,7 @@ export class ProductGalleryContainer extends PureComponent {
     }
 
     disableZoom() {
-        document.body.classList.remove('overscrollPrevented');
+        document.documentElement.classList.remove('overscrollPrevented');
         this.setState({ isZoomEnabled: false });
     }
 
@@ -143,7 +143,7 @@ export class ProductGalleryContainer extends PureComponent {
 
         if (args.scale !== 1) {
             if (isZoomEnabled) return;
-            document.body.classList.add('overscrollPrevented');
+            document.documentElement.classList.add('overscrollPrevented');
             this.setState({ isZoomEnabled: true });
         }
     }
