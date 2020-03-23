@@ -18,7 +18,7 @@
         }
 
         &_isLowest {
-            font-size: 13px;
+            font-size: 12px;
             margin-top: 2px;
             padding: 0;
 
@@ -29,7 +29,6 @@
     }
 
     &-ItemPrice {
-        color: var(--primary-base-color);
         font-weight: bold;
     }
 }

@@ -200,7 +200,7 @@ export default class Html extends PureComponent {
     replaceScript({ attribs }) {
         const script = document.createElement('script');
         Object.entries(attribs).forEach(([attr, value]) => script.setAttribute(attr, value));
-        document.documentElement.appendChild(script);
+        document.body.appendChild(script);
 
         return <></>;
     }

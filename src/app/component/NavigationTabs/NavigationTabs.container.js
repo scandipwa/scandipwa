@@ -105,7 +105,7 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
         const TOP_MIN_OFFSET = 100;
         const BOTTOM_MIN_OFFSET = 100;
 
-        const doc = document.documentElement;
+        const doc = document.body;
         const offset = doc.scrollTop + window.innerHeight;
         const height = doc.offsetHeight;
 
