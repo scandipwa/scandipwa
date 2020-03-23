@@ -35,6 +35,7 @@ import NotificationList from 'Component/NotificationList';
 
 import Store from 'Store';
 
+import OfflineNotice from 'Component/OfflineNotice';
 import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
 import { ConfigDispatcher } from 'Store/Config';
 import { CartDispatcher } from 'Store/Cart';
@@ -60,6 +61,7 @@ export const PasswordChangePage = lazy(() => import(/* webpackMode: "lazy", webp
 export const ProductPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/ProductPage'));
 export const SearchPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/SearchPage'));
 export const SomethingWentWrong = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/SomethingWentWrong'));
+export const ConfirmAccountPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/ConfirmAccountPage'));
 export const UrlRewrites = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/UrlRewrites'));
 export const MenuPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/MenuPage'));
 
@@ -75,7 +77,9 @@ export const mapStateToProps = state => ({
     default_keywords: state.ConfigReducer.default_keywords,
     default_title: state.ConfigReducer.default_title,
     title_prefix: state.ConfigReducer.title_prefix,
-    title_suffix: state.ConfigReducer.title_suffix
+    title_suffix: state.ConfigReducer.title_suffix,
+    isOffline: state.OfflineReducer.isOffline,
+    isBig: state.OfflineReducer.isBig
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -155,6 +159,10 @@ export class AppRouter extends PureComponent {
             position: 60
         },
         {
+            component: <Route path="/:account*/confirm" component={ ConfirmAccountPage } />,
+            position: 65
+        },
+        {
             component: <Route path="/my-account/:tab?" component={ MyAccount } />,
             position: 70
         },
@@ -178,6 +186,11 @@ export class AppRouter extends PureComponent {
     state = {
         hasError: false,
         errorDetails: {}
+    };
+
+    static propTypes = {
+        isOffline: PropTypes.bool.isRequired,
+        isBig: PropTypes.bool.isRequired
     };
 
     constructor(props) {
@@ -281,6 +294,24 @@ export class AppRouter extends PureComponent {
         );
     }
 
+    renderMainItems() {
+        const { isOffline, isBig } = this.props;
+
+        if (isOffline && isBig) {
+            return <OfflineNotice isPage />;
+        }
+
+        return (
+            <Suspense fallback={ this.renderFallbackPage() }>
+                <NoMatchHandler>
+                    <Switch>
+                        { this.renderItemsOfType(SWITCH_ITEMS_TYPE) }
+                    </Switch>
+                </NoMatchHandler>
+            </Suspense>
+        );
+    }
+
     renderErrorRouterContent() {
         const { errorDetails } = this.state;
 
@@ -302,13 +333,7 @@ export class AppRouter extends PureComponent {
         return (
             <>
                 { this.renderItemsOfType(BEFORE_ITEMS_TYPE) }
-                <Suspense fallback={ this.renderFallbackPage() }>
-                    <NoMatchHandler>
-                        <Switch>
-                            { this.renderItemsOfType(SWITCH_ITEMS_TYPE) }
-                        </Switch>
-                    </NoMatchHandler>
-                </Suspense>
+                { this.renderMainItems() }
                 { this.renderItemsOfType(AFTER_ITEMS_TYPE) }
             </>
         );

@@ -18,7 +18,6 @@ import { changeNavigationState } from 'Store/Navigation';
 import { MyAccountDispatcher } from 'Store/MyAccount';
 import { CUSTOMER_ACCOUNT, CUSTOMER_SUB_ACCOUNT } from 'Component/Header';
 import { showNotification } from 'Store/Notification';
-import { hideActiveOverlay } from 'Store/Overlay';
 import { isSignedIn } from 'Util/Auth';
 import isMobile from 'Util/Mobile';
 import { history } from 'Route';
@@ -28,7 +27,8 @@ import MyAccountOverlay, {
     STATE_FORGOT_PASSWORD,
     STATE_FORGOT_PASSWORD_SUCCESS,
     STATE_CREATE_ACCOUNT,
-    STATE_LOGGED_IN
+    STATE_LOGGED_IN,
+    STATE_CONFIRM_EMAIL
 } from './MyAccountOverlay.component';
 
 export const mapStateToProps = state => ({
@@ -42,7 +42,6 @@ export const mapDispatchToProps = dispatch => ({
     forgotPassword: options => MyAccountDispatcher.forgotPassword(options, dispatch),
     createAccount: options => MyAccountDispatcher.createAccount(options, dispatch),
     signIn: options => MyAccountDispatcher.signIn(options, dispatch),
-    hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     setHeaderState: headerState => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, headerState))
 });
@@ -215,8 +214,14 @@ export class MyAccountOverlayContainer extends PureComponent {
         };
 
         createAccount(customerData).then(
-            () => {
-                onSignIn();
+            (code) => {
+                // if user needs confirmation
+                if (code === 2) {
+                    this.setState({ state: STATE_CONFIRM_EMAIL });
+                } else {
+                    onSignIn();
+                }
+
                 this.stopLoading();
             },
             this.stopLoading
@@ -225,6 +230,7 @@ export class MyAccountOverlayContainer extends PureComponent {
 
     onForgotPasswordSuccess(fields) {
         const { forgotPassword } = this.props;
+
         forgotPassword(fields).then(() => {
             this.setState({ state: STATE_FORGOT_PASSWORD_SUCCESS });
             this.stopLoading();
@@ -240,6 +246,12 @@ export class MyAccountOverlayContainer extends PureComponent {
     }
 
     stopLoading = () => this.setState({ isLoading: false });
+
+    stopLoadingAndHideOverlay = () => {
+        const { hideActiveOverlay } = this.props;
+        this.stopLoading();
+        hideActiveOverlay();
+    };
 
     handleForgotPassword(e) {
         const { setHeaderState } = this.props;

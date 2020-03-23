@@ -19,6 +19,7 @@ import { HistoryType, LocationType, MatchType } from 'Type/Common';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import { changeNavigationState } from 'Store/Navigation';
 import { CategoryDispatcher } from 'Store/Category';
+import { setBigOfflineNotice } from 'Store/Offline';
 import { toggleOverlayByKey } from 'Store/Overlay';
 import { NoMatchDispatcher } from 'Store/NoMatch';
 import { CategoryTreeType } from 'Type/Category';
@@ -43,6 +44,7 @@ import CategoryPage from './CategoryPage.component';
 
 export const mapStateToProps = state => ({
     category: state.CategoryReducer.category,
+    isOffline: state.OfflineReducer.isOffline,
     filters: state.ProductListInfoReducer.filters,
     sortFields: state.ProductListInfoReducer.sortFields,
     minPriceRange: state.ProductListInfoReducer.minPrice,
@@ -62,10 +64,12 @@ export const mapDispatchToProps = dispatch => ({
     requestProductListInfo: options => ProductListInfoDispatcher.handleData(dispatch, options),
     updateLoadStatus: isLoading => dispatch(updateInfoLoadStatus(isLoading)),
     updateNoMatch: options => NoMatchDispatcher.updateNoMatch(dispatch, options),
+    setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig)),
     updateMetaFromCategory: category => MetaDispatcher.updateWithCategory(category, dispatch)
 });
 
 export const UPDATE_FILTERS_FREQUENCY = 0;
+export const LOADING_TIME = 500;
 
 export class CategoryPageContainer extends PureComponent {
     static propTypes = {
@@ -79,6 +83,7 @@ export class CategoryPageContainer extends PureComponent {
         changeHeaderState: PropTypes.func.isRequired,
         changeNavigationState: PropTypes.func.isRequired,
         requestProductListInfo: PropTypes.func.isRequired,
+        setBigOfflineNotice: PropTypes.func.isRequired,
         updateMetaFromCategory: PropTypes.func.isRequired,
         updateBreadcrumbs: PropTypes.func.isRequired,
         updateLoadStatus: PropTypes.func.isRequired,
@@ -88,6 +93,7 @@ export class CategoryPageContainer extends PureComponent {
             options: PropTypes.array
         }).isRequired,
         isInfoLoading: PropTypes.bool.isRequired,
+        isOffline: PropTypes.bool.isRequired,
         categoryIds: PropTypes.number,
         isOnlyPlaceholder: PropTypes.bool,
         isSearchPage: PropTypes.bool
@@ -138,14 +144,22 @@ export class CategoryPageContainer extends PureComponent {
         if (this.getIsNewCategory()) {
             this._requestCategoryWithPageList();
             updateBreadcrumbs({});
+            debounce(this.setOfflineNoticeSize, LOADING_TIME)();
         } else {
             this._onCategoryUpdate();
         }
     }
 
     componentDidUpdate(prevProps) {
-        const { category: { id } } = this.props;
+        const {
+            category: { id }, isOffline
+        } = this.props;
+
         const { category: { id: prevId } } = prevProps;
+
+        if (isOffline) {
+            debounce(this.setOfflineNoticeSize, LOADING_TIME)();
+        }
 
         // update breadcrumbs only if category has changed
         if (id !== prevId) {
@@ -161,6 +175,16 @@ export class CategoryPageContainer extends PureComponent {
         setQueryParams({ sortKey }, location, history);
         setQueryParams({ sortDirection }, location, history);
     }
+
+    setOfflineNoticeSize = () => {
+        const { setBigOfflineNotice, isInfoLoading } = this.props;
+
+        if (isInfoLoading) {
+            setBigOfflineNotice(true);
+        } else {
+            setBigOfflineNotice(false);
+        }
+    };
 
     getFilterUrl(filterName, filterArray, isFull = true) {
         const { location: { pathname } } = this.props;

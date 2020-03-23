@@ -101,11 +101,34 @@ export class MyAccountDispatcher {
         const mutation = MyAccountQuery.getCreateAccountMutation(options);
 
         return fetchMutation(mutation).then(
-            () => this.signIn({ email, password }, dispatch),
+            (data) => {
+                const { createCustomer: { customer } } = data;
+                const { confirmation_required } = customer;
+
+                if (confirmation_required) {
+                    return 2;
+                }
+
+                return this.signIn({ email, password }, dispatch);
+            },
             (error) => {
                 dispatch(showNotification('error', error[0].message));
-                return false;
+                return Promise.reject();
             }
+        );
+    }
+
+    /**
+     * Confirm account action
+     * @param {{key: String, email: String, password: String}} [options={}]
+     * @memberof MyAccountDispatcher
+     */
+    confirmAccount(options = {}, dispatch) {
+        const mutation = MyAccountQuery.getConfirmAccountMutation(options);
+
+        return fetchMutation(mutation).then(
+            () => dispatch(showNotification('success', __('Your account is confirmed!'))),
+            () => dispatch(showNotification('error', __('Something went wrong! Please, try again!')))
         );
     }
 

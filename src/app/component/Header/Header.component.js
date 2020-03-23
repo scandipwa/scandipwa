@@ -16,6 +16,7 @@ import PropTypes from 'prop-types';
 import NavigationAbstract, { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.component';
 import SearchField from 'Component/SearchField';
 import MyAccountOverlay from 'Component/MyAccountOverlay';
+import OfflineNotice from 'Component/OfflineNotice';
 import ClickOutside from 'Component/ClickOutside';
 import CartOverlay from 'Component/CartOverlay';
 import MenuOverlay from 'Component/MenuOverlay';
@@ -287,11 +288,7 @@ export default class Header extends NavigationAbstract {
               elem="LogoWrapper"
               mods={ { isVisible } }
               key="logo"
-              itemScope
-              itemType="http://schema.org/Organization"
             >
-                <meta itemProp="legalName" content="ScandiPWA" />
-                <meta itemProp="parentOrganization" content="Scandiweb" />
                 { this.renderLogoImage() }
             </Link>
         );

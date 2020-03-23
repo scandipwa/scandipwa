@@ -237,6 +237,10 @@
                 }
             }
 
+            &_confirmEmail {
+                padding-top: 0;
+            }
+
             &_forgotPassword {
                 padding-top: 2.8rem;
                 padding-left: 2.1rem;
@@ -267,7 +271,7 @@
             }
 
             &_forgotPasswordSuccess {
-                padding-top: 4.3rem;
+                padding-top: 0;
 
                 h4 {
                     font-size: 1rem;

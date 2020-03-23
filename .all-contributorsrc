@@ -389,6 +389,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "gabunia-nick",
+      "name": "Nick",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/39187887?v=4",
+      "profile": "https://github.com/gabunia-nick",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,

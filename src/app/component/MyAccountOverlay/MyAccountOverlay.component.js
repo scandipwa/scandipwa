@@ -26,6 +26,7 @@ export const STATE_FORGOT_PASSWORD = 'forgotPassword';
 export const STATE_FORGOT_PASSWORD_SUCCESS = 'forgotPasswordSuccess';
 export const STATE_CREATE_ACCOUNT = 'createAccount';
 export const STATE_LOGGED_IN = 'loggedIn';
+export const STATE_CONFIRM_EMAIL = 'confirmEmail';
 
 export const CUSTOMER_ACCOUNT_OVERLAY_KEY = 'customer_account';
 
@@ -39,7 +40,8 @@ class MyAccountOverlay extends PureComponent {
             STATE_FORGOT_PASSWORD,
             STATE_FORGOT_PASSWORD_SUCCESS,
             STATE_CREATE_ACCOUNT,
-            STATE_LOGGED_IN
+            STATE_LOGGED_IN,
+            STATE_CONFIRM_EMAIL
         ]).isRequired,
         onVisible: PropTypes.func.isRequired,
         onSignInSuccess: PropTypes.func.isRequired,
@@ -79,6 +81,10 @@ class MyAccountOverlay extends PureComponent {
         },
         [STATE_LOGGED_IN]: {
             render: () => {}
+        },
+        [STATE_CONFIRM_EMAIL]: {
+            render: () => this.renderConfirmEmail(),
+            title: __('Confirm the email')
         }
     };
 
@@ -98,6 +104,30 @@ class MyAccountOverlay extends PureComponent {
                 ) }
                 { render() }
             </div>
+        );
+    }
+
+    renderConfirmEmail() {
+        const { state, handleSignIn } = this.props;
+
+        return (
+            <article
+              aria-labelledby="confirm-email-notice"
+              block="MyAccountOverlay"
+              elem="Additional"
+              mods={ { state } }
+            >
+                <p id="confirm-email-notice">
+                    { /* eslint-disable-next-line max-len */ }
+                    { __('The email confirmation link has been sent to your email. Please confirm your account to proceed.') }
+                </p>
+                <button
+                  block="Button"
+                  onClick={ handleSignIn }
+                >
+                    { __('Got it') }
+                </button>
+            </article>
         );
     }
 
@@ -162,10 +192,10 @@ class MyAccountOverlay extends PureComponent {
               elem="Additional"
               mods={ { state } }
             >
-                <h4 id="forgot-password-success">
+                <p id="forgot-password-success">
                     { // eslint-disable-next-line max-len
                     __('If there is an account associated with the provided address you will receive an email with a link to reset your password') }
-                </h4>
+                </p>
                 <button
                   block="Button"
                   onClick={ handleSignIn }
@@ -236,7 +266,12 @@ class MyAccountOverlay extends PureComponent {
                         />
                     </fieldset>
                     <div block="MyAccountOverlay" elem="Buttons">
-                        <button block="Button" type="submit">{ __('Sign up') }</button>
+                        <button
+                          block="Button"
+                          type="submit"
+                        >
+                            { __('Sign up') }
+                        </button>
                     </div>
                 </Form>
                 <article block="MyAccountOverlay" elem="Additional" mods={ { state } }>

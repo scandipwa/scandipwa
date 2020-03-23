@@ -20,6 +20,7 @@ import ProductPrice from 'Component/ProductPrice';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import ProductReviewRating from 'Component/ProductReviewRating';
 import ProductAttributeValue from 'Component/ProductAttributeValue';
+import TierPrices from 'Component/TierPrices';
 
 import './ProductCard.style';
 
@@ -71,6 +72,17 @@ export default class ProductCard extends PureComponent {
         );
     }
 
+    renderTierPrice() {
+        const { productOrVariant } = this.props;
+
+        return (
+            <TierPrices
+              product={ productOrVariant }
+              isLowestPrice
+            />
+        );
+    }
+
     renderVisualConfigurableOptions() {
         const { availableVisualOptions } = this.props;
 
@@ -110,7 +122,6 @@ export default class ProductCard extends PureComponent {
                   style={ { display: 'none' } }
                   alt={ name }
                   src={ thumbnail }
-                  itemProp="image"
                 />
             </>
         );
@@ -127,12 +138,7 @@ export default class ProductCard extends PureComponent {
             <div
               block="ProductCard"
               elem="Reviews"
-              itemProp="aggregateRating"
-              itemScope
-              itemType="https://schema.org/AggregateRating"
             >
-                <meta itemProp="ratingValue" content={ rating || 0 } />
-                <meta itemProp="ratingCount" content={ review_count || 0 } />
                 <ProductReviewRating summary={ rating_summary || 0 } />
             </div>
         );
@@ -150,7 +156,6 @@ export default class ProductCard extends PureComponent {
               block="ProductCard"
               elem="Brand"
               mods={ { isLoaded: !!brand } }
-              itemProp="brand"
             >
                 <ProductAttributeValue
                   attribute={ brand }
@@ -168,7 +173,6 @@ export default class ProductCard extends PureComponent {
               block="ProductCard"
               elem="Name"
               mods={ { isLoaded: !!name } }
-              itemProp="name"
             >
                 <TextPlaceholder content={ name } length="medium" />
             </p>
@@ -205,12 +209,9 @@ export default class ProductCard extends PureComponent {
         return (
             <li
               block="ProductCard"
-              itemScope
-              itemType={ sku && 'https://schema.org/Product' }
               mix={ mix }
             >
                 <Loader isLoading={ isLoading } />
-                <meta itemProp="sku" content={ sku } />
                 { this.renderCardWrapper((
                     <>
                         <figure block="ProductCard" elem="Figure">
@@ -220,6 +221,7 @@ export default class ProductCard extends PureComponent {
                             { this.renderReviews() }
                             { this.renderProductPrice() }
                             { this.renderVisualConfigurableOptions() }
+                            { this.renderTierPrice() }
                             { this.renderMainDetails() }
                             { this.renderAdditionalProductDetails() }
                         </div>

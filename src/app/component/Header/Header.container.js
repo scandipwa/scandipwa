@@ -41,6 +41,7 @@ export const mapStateToProps = state => ({
     navigationState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
     cartTotals: state.CartReducer.cartTotals,
     header_logo_src: state.ConfigReducer.header_logo_src,
+    isOffline: state.OfflineReducer.isOffline,
     logo_alt: state.ConfigReducer.logo_alt,
     isLoading: state.ConfigReducer.isLoading
 });
@@ -72,6 +73,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
     default_state = DEFAULT_HEADER_STATE;
 
     routeMap = {
+        '/account/confirm': { name: CMS_PAGE, title: __('Confirm account'), onBackClick: () => history.push('/') },
         '/category': { name: CATEGORY, onBackClick: this.onMenuButtonClick.bind(this) },
         '/checkout': { name: CHECKOUT, onBackClick: () => history.push('/cart') },
         '/my-account': { name: CUSTOMER_ACCOUNT_PAGE, onBackClick: () => history.push('/') },
@@ -274,6 +276,11 @@ export class HeaderContainer extends NavigationAbstractContainer {
             setNavigationState,
             navigationState: { name }
         } = this.props;
+
+        if (isMobile.any()) {
+            history.goBack();
+            return;
+        }
 
         if (name !== MENU) {
             showOverlay(MENU);
