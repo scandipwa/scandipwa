@@ -138,7 +138,8 @@ class MyAccountOverlay extends PureComponent {
             onForgotPasswordSuccess,
             onFormError,
             handleSignIn,
-            handleCreateAccount
+            handleCreateAccount,
+            isCheckout
         } = this.props;
 
         return (
@@ -167,16 +168,18 @@ class MyAccountOverlay extends PureComponent {
                             { __('Sign in here') }
                         </button>
                     </section>
-                    <section aria-labelledby="create-account-label">
-                        <h4 id="create-account-label">{ __('Don`t have an account?') }</h4>
-                        <button
-                          block="Button"
-                          mods={ { likeLink: true } }
-                          onClick={ handleCreateAccount }
-                        >
-                            { __('Create an account') }
-                        </button>
-                    </section>
+                    { !isCheckout && (
+                        <section aria-labelledby="create-account-label">
+                            <h4 id="create-account-label">{ __('Don`t have an account?') }</h4>
+                            <button
+                              block="Button"
+                              mods={ { likeLink: true } }
+                              onClick={ handleCreateAccount }
+                            >
+                                { __('Create an account') }
+                            </button>
+                        </section>
+                    ) }
                 </article>
             </>
         );

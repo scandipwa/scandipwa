@@ -21,8 +21,8 @@ export class ProductLinksContainer extends PureComponent {
             linkType,
             linkedProducts: {
                 [linkType]: {
-                    items
-                }
+                    items = []
+                } = {}
             }
         } = this.props;
 

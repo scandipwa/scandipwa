@@ -18,6 +18,7 @@ import { changeNavigationState } from 'Store/Navigation';
 import { MyAccountDispatcher } from 'Store/MyAccount';
 import { CUSTOMER_ACCOUNT, CUSTOMER_SUB_ACCOUNT } from 'Component/Header';
 import { showNotification } from 'Store/Notification';
+import { hideActiveOverlay } from 'Store/Overlay';
 import { isSignedIn } from 'Util/Auth';
 import isMobile from 'Util/Mobile';
 import { history } from 'Route';
@@ -39,6 +40,7 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
+    hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     forgotPassword: options => MyAccountDispatcher.forgotPassword(options, dispatch),
     createAccount: options => MyAccountDispatcher.createAccount(options, dispatch),
     signIn: options => MyAccountDispatcher.signIn(options, dispatch),

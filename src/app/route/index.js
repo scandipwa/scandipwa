@@ -295,9 +295,9 @@ export class AppRouter extends PureComponent {
     }
 
     renderMainItems() {
-        const { isOffline, isBig } = this.props;
+        const { isBig } = this.props;
 
-        if (isOffline && isBig) {
+        if (!navigator.onLine && isBig) {
             return <OfflineNotice isPage />;
         }
 
