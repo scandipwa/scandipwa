@@ -40,7 +40,7 @@ export class ProductListQuery {
     _getFilterArgumentMap() {
         return {
             categoryIds: id => [`category_id: { eq: ${id} }`],
-            categoryUrlPath: url => [`category_url_path: { eq: ${url} }`],
+            //categoryUrlPath: url => [`category_url_path: { eq: ${url} }`],
             priceRange: ({ min, max }) => {
                 const filters = [];
                 if (min) filters.push(`min_price: { gteq: ${min} }`);
@@ -52,7 +52,7 @@ export class ProductListQuery {
             customFilters: (filters = {}) => Object.entries(filters).reduce((acc, [key, attribute]) => (
                 attribute.length ? [...acc, `${key}: { in: [ ${attribute.join(',')} ] } `] : acc
             ), []),
-            newToDate: date => [`news_to_date: { gteq: ${date} }`],
+            newToDate: date => [`new_to_date: { gteq: ${date} }`],
             conditions: conditions => [`conditions: { eq: ${conditions} }`]
         };
     }
@@ -72,11 +72,11 @@ export class ProductListQuery {
                 handler: option => encodeURIComponent(option)
             },
             sort: {
-                type: 'ProductSortInput!',
+                type: 'ProductAttributeSortInput!',
                 handler: ({ sortKey, sortDirection }) => `{${sortKey}: ${sortDirection || 'ASC'}}`
             },
             filter: {
-                type: 'ProductFilterInput!',
+                type: 'ProductAttributeFilterInput!',
                 handler: (options = {}) => `{${ Object.entries(options).reduce(
                     (acc, [key, option]) => ((option && filterArgumentMap[key])
                         ? [...acc, ...filterArgumentMap[key](option)]

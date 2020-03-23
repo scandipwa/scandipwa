@@ -60,12 +60,12 @@ export class CheckoutAddressBookContainer extends PureComponent {
 
         const {
             requestCustomerData,
-            customer: { id },
+            customer,
             onAddressSelect,
             isSignedIn
         } = props;
 
-        if (isSignedIn && !id) requestCustomerData();
+        if (isSignedIn && !Object.keys(customer)) requestCustomerData();
 
         const defaultAddressId = CheckoutAddressBookContainer._getDefaultAddressId(props);
 
