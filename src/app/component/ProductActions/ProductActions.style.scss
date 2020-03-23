@@ -112,8 +112,18 @@
     &-Schema {
         order: 21;
 
+        @include mobile {
+            order: -2;
+        }
+
         &-Url {
             display: none;
+        }
+
+        + .ProductActions-Section_type_short {
+            @include mobile {
+                margin-top: -.5rem;
+            }
         }
     }
 
@@ -122,14 +132,7 @@
         align-items: center;
         justify-content: center;
 
-        + .ProductActions-Section_type_short {
-            @include mobile {
-                margin-top: -.5rem;
-            }
-        }
-
         @include mobile {
-            order: -2;
             padding-left: 1rem;
             padding-top: 1.5rem;
             padding-bottom: 1.5rem;
