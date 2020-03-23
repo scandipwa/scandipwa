@@ -62,7 +62,7 @@ export class LinkedProductsDispatcher extends QueryDispatcher {
      * @param product_links
      */
     prepareRequest(product_links) {
-        const { upsell, related, crosssell: crosssell } = product_links.reduce((types, link) => {
+        const { upsell, related, crosssell } = product_links.reduce((types, link) => {
             const { linked_product_sku, link_type } = link;
             const { [link_type]: links = [] } = types;
 

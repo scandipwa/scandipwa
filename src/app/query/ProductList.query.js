@@ -138,7 +138,7 @@ export class ProductListQuery {
                 ? [
                     'url_key',
                     this._getReviewSummaryField(),
-                    this._getConfigurableProductFragment(),
+                    this._getConfigurableProductFragment()
                 ]
                 : []
             ),

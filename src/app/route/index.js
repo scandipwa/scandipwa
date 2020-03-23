@@ -79,7 +79,7 @@ export const mapStateToProps = state => ({
     title_prefix: state.ConfigReducer.title_prefix,
     title_suffix: state.ConfigReducer.title_suffix,
     isOffline: state.OfflineReducer.isOffline,
-    isBig: state.OfflineReducer.isBig
+    isBigOffline: state.OfflineReducer.isBig
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -94,7 +94,8 @@ export class AppRouter extends PureComponent {
         default_title: PropTypes.string,
         title_prefix: PropTypes.string,
         title_suffix: PropTypes.string,
-        isLoading: PropTypes.bool
+        isLoading: PropTypes.bool,
+        isBigOffline: PropTypes.bool
     };
 
     static defaultProps = {
@@ -103,7 +104,8 @@ export class AppRouter extends PureComponent {
         default_title: '',
         title_prefix: '',
         title_suffix: '',
-        isLoading: true
+        isLoading: true,
+        isBigOffline: false
     };
 
     [BEFORE_ITEMS_TYPE] = [
@@ -190,11 +192,6 @@ export class AppRouter extends PureComponent {
     state = {
         hasError: false,
         errorDetails: {}
-    };
-
-    static propTypes = {
-        isOffline: PropTypes.bool.isRequired,
-        isBig: PropTypes.bool.isRequired
     };
 
     constructor(props) {
@@ -299,9 +296,9 @@ export class AppRouter extends PureComponent {
     }
 
     renderMainItems() {
-        const { isBig } = this.props;
+        const { isBigOffline } = this.props;
 
-        if (!navigator.onLine && isBig) {
+        if (!navigator.onLine && isBigOffline) {
             return <OfflineNotice isPage />;
         }
 
