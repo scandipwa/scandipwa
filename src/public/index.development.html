@@ -15,38 +15,38 @@
         <script src="<%= htmlWebpackPlugin.options.publicPath %>assets/pwacompat.min.js" async></script>
 
         <!-- TODO: Find or implement helper to generate fonts related code -->
-        <link rel="preload" href="<%= htmlWebpackPlugin.options.publicPath %>assets/font/MuliLight.woff2" as="font" type="font/woff2" crossorigin="">
-        <link rel="preload" href="<%= htmlWebpackPlugin.options.publicPath %>assets/font/MuliRegular.woff2" as="font" type="font/woff2" crossorigin="">
-        <link rel="preload" href="<%= htmlWebpackPlugin.options.publicPath %>assets/font/MuliSemiBold.woff2" as="font" type="font/woff2" crossorigin="">
-        <link rel="preload" href="<%= htmlWebpackPlugin.options.publicPath %>assets/font/MuliBold.woff2" as="font" type="font/woff2" crossorigin="">
+        <link rel="preload" href="<%= htmlWebpackPlugin.options.publicPath %>assets/font/Muli-Light.ttf" as="font" type="font/ttf" crossorigin="">
+        <link rel="preload" href="<%= htmlWebpackPlugin.options.publicPath %>assets/font/Muli-Regular.ttf" as="font" type="font/ttf" crossorigin="">
+        <link rel="preload" href="<%= htmlWebpackPlugin.options.publicPath %>assets/font/Muli-SemiBold.ttf" as="font" type="font/ttf" crossorigin="">
+        <link rel="preload" href="<%= htmlWebpackPlugin.options.publicPath %>assets/font/Muli-Bold.ttf" as="font" type="font/ttf" crossorigin="">
 
         <style>
             @font-face {
                 font-family: 'Muli';
                 font-weight: 300;
                 font-display: fallback;
-                src: local('Muli Light'), local('Muli-Light'), url(<%= htmlWebpackPlugin.options.publicPath %>assets/font/MuliLight.woff2) format('woff2');
+                src: local('Muli Light'), local('Muli-Light'), url(<%= htmlWebpackPlugin.options.publicPath %>assets/font/Muli-Light.ttf) format('truetype');
             }
 
             @font-face {
                 font-family: 'Muli';
                 font-weight: normal;
                 font-display: fallback;
-                src: local('Muli Regular'), local('Muli-Regular'), url(<%= htmlWebpackPlugin.options.publicPath %>assets/font/MuliRegular.woff2) format('woff2');
+                src: local('Muli Regular'), local('Muli-Regular'), url(<%= htmlWebpackPlugin.options.publicPath %>assets/font/Muli-Regular.ttf) format('truetype');
             }
 
             @font-face {
                 font-family: 'Muli';
                 font-weight: 600;
                 font-display: fallback;
-                src: local('Muli SemiBold'), local('Muli-SemiBold'), url(<%= htmlWebpackPlugin.options.publicPath %>assets/font/MuliSemiBold.woff2) format('woff2');
+                src: local('Muli SemiBold'), local('Muli-SemiBold'), url(<%= htmlWebpackPlugin.options.publicPath %>assets/font/Muli-SemiBold.ttf) format('truetype');
             }
 
             @font-face {
                 font-family: 'Muli';
                 font-weight: bold;
                 font-display: fallback;
-                src: local('Muli Bold'), local('Muli-Bold'), url(<%= htmlWebpackPlugin.options.publicPath %>assets/font/MuliBold.woff2) format('woff2');
+                src: local('Muli Bold'), local('Muli-Bold'), url(<%= htmlWebpackPlugin.options.publicPath %>assets/font/Muli-Bold.ttf) format('truetype');
             }
         </style>
 
