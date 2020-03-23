@@ -47,15 +47,29 @@ export default class SliderWidget extends PureComponent {
         this.setState({ activeImage });
     };
 
-    renderSlide = (slide, i) => {
+    getSlideImage(slide) {
         const {
             desktop_image,
-            mobile_image,
+            mobile_image
+        } = slide;
+
+        if (isMobile.any() && mobile_image) {
+            return mobile_image;
+        }
+
+        if (!desktop_image) {
+            return '';
+        }
+
+        return `/${desktop_image}`;
+    }
+
+    renderSlide = (slide, i) => {
+        const {
             slide_text,
             isPlaceholder,
             title: block
         } = slide;
-        const image = isMobile.any() ? mobile_image : desktop_image;
 
         return (
             <figure
@@ -66,7 +80,7 @@ export default class SliderWidget extends PureComponent {
                 <Image
                   mix={ { block: 'SliderWidget', elem: 'FigureImage' } }
                   ratio="custom"
-                  src={ image ? `/${image}` : '' }
+                  src={ this.getSlideImage(slide) }
                   isPlaceholder={ isPlaceholder }
                 />
                 <figcaption
