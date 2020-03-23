@@ -93,6 +93,8 @@ class OfflineNoticeContainer extends PureComponent {
             setBigOfflineNotice
         } = this.props;
 
+        console.log(23);
+
         if (navigator.onLine) {
             document.documentElement.classList.remove('offline');
             showOfflineNotice(false);

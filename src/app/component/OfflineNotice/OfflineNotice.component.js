@@ -56,7 +56,10 @@ export default class OfflineNotice extends PureComponent {
 
     render() {
         const { isPage, isBig } = this.props;
-        if (!isBig && isPage) return null;
+
+        if (!isBig && isPage) {
+            return null;
+        }
 
         return (
             <div block="OfflineNotice" mods={ { isBig } }>
