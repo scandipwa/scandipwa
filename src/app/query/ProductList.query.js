@@ -130,7 +130,10 @@ export class ProductListQuery {
             this._getProductThumbnailField(),
             this._getProductSmallField(),
             this._getShortDescriptionField(),
+            'special_from_date',
+            'special_to_date',
             this._getAttributesField(isVariant),
+            this._getTierPricesField(),
             ...(!isVariant
                 ? [
                     'url_key',
@@ -152,11 +155,13 @@ export class ProductListQuery {
                     'meta_description',
                     this._getDescriptionField(),
                     this._getMediaGalleryField(),
+                    this._getSimpleProductFragment(),
+                    this._getProductLinksField(),
                     ...(!isVariant
                         ? [
-                            this._getProductLinksField(),
                             this._getCategoriesField(),
-                            this._getReviewsField()
+                            this._getReviewsField(),
+                            this._getVirtualProductFragment()
                         ]
                         : []
                     )
@@ -198,8 +203,10 @@ export class ProductListQuery {
     }
 
     _getProductField() {
+        const { isForLinkedProducts } = this.options;
+
         return new Field('product')
-            .addFieldList(this._getProductInterfaceFields(true));
+            .addFieldList(this._getProductInterfaceFields(true, isForLinkedProducts));
     }
 
     _getShortDescriptionFields() {
@@ -518,9 +525,44 @@ export class ProductListQuery {
         ];
     }
 
+    _getSimpleProductFragmentFields() {
+        return [
+            this._getTierPricesField()
+        ];
+    }
+
+    _getVirtualProductFragmentFields() {
+        return [
+            this._getTierPricesField()
+        ];
+    }
+
+    _getTierPricesField() {
+        return new Field('tier_prices')
+            .addFieldList(this._getTierPricesFields());
+    }
+
+    _getTierPricesFields() {
+        return [
+            'qty',
+            'value',
+            'percentage_value'
+        ];
+    }
+
     _getConfigurableProductFragment() {
         return new Fragment('ConfigurableProduct')
             .addFieldList(this._getConfigurableProductFragmentFields());
+    }
+
+    _getSimpleProductFragment() {
+        return new Fragment('SimpleProduct')
+            .addFieldList(this._getSimpleProductFragmentFields());
+    }
+
+    _getVirtualProductFragment() {
+        return new Fragment('VirtualProduct')
+            .addFieldList(this._getVirtualProductFragmentFields());
     }
 
     _getSortOptionFields() {

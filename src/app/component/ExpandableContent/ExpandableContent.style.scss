@@ -94,6 +94,7 @@
         font-weight: 600;
         line-height: 1.4;
         text-transform: uppercase;
+        word-break: break-all;
 
         @include after-mobile {
             cursor: auto;
@@ -110,7 +111,8 @@
     }
 
     &-Content {
-        will-change: max-height, padding, opacity;
+        // Disabled as it prevents z-index use inside
+        // will-change: max-height, padding, opacity;
         transition-property: opacity;
         transition-duration: 200ms;
 

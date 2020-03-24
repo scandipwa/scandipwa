@@ -162,13 +162,18 @@ export class CartDispatcher {
 
         if (items.length > 0) {
             const product_links = items.reduce((links, product) => {
-                const { product: { product_links } } = product;
+                const { product: { product_links, variants = [] }, sku: variantSku } = product;
+
+                const { product_links: childProductLinks } = variants.find(({ sku }) => sku === variantSku) || {};
+
+                if (childProductLinks) {
+                    Object.values(childProductLinks).filter(({ link_type }) => link_type === 'crosssell')
+                        .map(item => links.push(item));
+                }
+
                 if (product_links) {
-                    Object.values(product_links).forEach((item) => {
-                        if (item.link_type === 'crosssell') {
-                            links.push(item);
-                        }
-                    });
+                    Object.values(product_links).filter(({ link_type }) => link_type === 'crosssell')
+                        .map(item => links.push(item));
                 }
 
                 return links;

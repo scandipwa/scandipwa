@@ -17,6 +17,8 @@
     background: var(--secondary-base-color);
     min-height: 100vh;
     margin-top: 0;
+    padding: 1rem;
+    margin-bottom: 0;
 
     &-Debug {
         text-align: left;
@@ -26,5 +28,7 @@
         background-color: $black;
         color: $white;
         padding: 1rem;
+        overflow: scroll;
+        max-width: calc(100vw - 2rem);
     }
 }

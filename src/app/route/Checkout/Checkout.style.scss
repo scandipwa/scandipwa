@@ -15,7 +15,7 @@
 
 .Checkout {
     @include after-mobile {
-        margin-top: var(--header-height);
+        margin-top: var(--header-total-height);
     }
 
     @include mobile {

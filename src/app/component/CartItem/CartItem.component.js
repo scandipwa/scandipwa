@@ -173,6 +173,7 @@ export default class CartItem extends PureComponent {
                   id="item_qty"
                   name="item_qty"
                   type="number"
+                  isControlled
                   min={ minSaleQuantity }
                   max={ maxSaleQuantity }
                   mix={ { block: 'CartItem', elem: 'Qty' } }
@@ -214,7 +215,7 @@ export default class CartItem extends PureComponent {
             <li
               block="CartItem"
               itemScope
-              itemType="https://schema.org/Product"
+              itemType="http://schema.org/Product"
             >
                 <Loader isLoading={ isLoading } />
                 { this.renderContent() }

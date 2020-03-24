@@ -35,7 +35,11 @@
         }
     }
 
-    &-Link {
+    &-TACLabel {
+        display: inline;
+    }
+
+    &-TACLink {
         color: var(--link-color);
         cursor: pointer;
 

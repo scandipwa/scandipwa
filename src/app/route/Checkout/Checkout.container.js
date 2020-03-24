@@ -24,12 +24,14 @@ import { showNotification } from 'Store/Notification';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { changeNavigationState } from 'Store/Navigation';
+import { HistoryType } from 'Type/Common';
 import CheckoutQuery from 'Query/Checkout.query';
 import MyAccountQuery from 'Query/MyAccount.query';
 import { GUEST_QUOTE_ID } from 'Store/Cart';
 import { TotalsType } from 'Type/MiniCart';
-import { HistoryType } from 'Type/Common';
+import { updateMeta } from 'Store/Meta';
 import { isSignedIn } from 'Util/Auth';
+import { customerType } from 'Type/Account';
 
 import Checkout, { SHIPPING_STEP, BILLING_STEP, DETAILS_STEP } from './Checkout.component';
 
@@ -37,10 +39,12 @@ export const PAYMENT_TOTALS = 'PAYMENT_TOTALS';
 export const STRIPE_AUTH_REQUIRED = 'Authentication Required: ';
 
 export const mapStateToProps = state => ({
-    totals: state.CartReducer.cartTotals
+    totals: state.CartReducer.cartTotals,
+    customer: state.MyAccountReducer.customer
 });
 
 export const mapDispatchToProps = dispatch => ({
+    updateMeta: meta => dispatch(updateMeta(meta)),
     resetCart: () => CartDispatcher.updateInitialCartData(dispatch),
     toggleBreadcrumbs: state => dispatch(toggleBreadcrumbs(state)),
     showErrorNotification: message => dispatch(showNotification('error', message)),
@@ -55,9 +59,11 @@ export class CheckoutContainer extends PureComponent {
         toggleBreadcrumbs: PropTypes.func.isRequired,
         setNavigationState: PropTypes.func.isRequired,
         createAccount: PropTypes.func.isRequired,
+        updateMeta: PropTypes.func.isRequired,
         resetCart: PropTypes.func.isRequired,
         totals: TotalsType.isRequired,
-        history: HistoryType.isRequired
+        history: HistoryType.isRequired,
+        customer: customerType.isRequired
     };
 
     containerFunctions = {
@@ -103,12 +109,28 @@ export class CheckoutContainer extends PureComponent {
             orderID: '',
             paymentTotals: BrowserDatabase.getItem(PAYMENT_TOTALS) || {},
             email: '',
-            createUser: false,
+            isCreateUser: false,
             isGuestEmailSaved: false
         };
 
         if (is_virtual) {
             this._getPaymentMethods();
+        }
+    }
+
+    componentDidMount() {
+        const { updateMeta } = this.props;
+        updateMeta({ title: __('Checkout') });
+    }
+
+    componentDidUpdate() {
+        const { customer: { addresses } } = this.props;
+        const { shippingMethods } = this.state;
+
+        if (isSignedIn()
+            && (addresses && addresses.length === 0)
+            && shippingMethods.length) {
+            this.resetShippingMethods();
         }
     }
 
@@ -122,8 +144,8 @@ export class CheckoutContainer extends PureComponent {
     }
 
     onCreateUserChange() {
-        const { createUser } = this.state;
-        this.setState({ createUser: !createUser });
+        const { isCreateUser } = this.state;
+        this.setState({ isCreateUser: !isCreateUser });
     }
 
     onPasswordChange(password) {
@@ -182,11 +204,17 @@ export class CheckoutContainer extends PureComponent {
         this.setState({ isLoading });
     }
 
-    setShippingAddress = () => {
+    setShippingAddress = async () => {
         const { shippingAddress } = this.state;
+        const { region, region_id, ...address } = shippingAddress;
 
-        const mutation = MyAccountQuery.getCreateAddressMutation(shippingAddress);
-        fetchMutation(mutation);
+        const mutation = MyAccountQuery.getCreateAddressMutation({
+            ...address, region: { region, region_id }
+        });
+
+        await fetchMutation(mutation);
+
+        return true;
     };
 
     containerProps = () => {
@@ -208,6 +236,8 @@ export class CheckoutContainer extends PureComponent {
         }, () => {
             showErrorNotification(debugMessage || message);
         });
+
+        return false;
     };
 
     _handlePaymentError = (error, paymentInformation) => {
@@ -228,6 +258,10 @@ export class CheckoutContainer extends PureComponent {
     };
 
     _getGuestCartId = () => BrowserDatabase.getItem(GUEST_QUOTE_ID);
+
+    resetShippingMethods() {
+        this.setState({ shippingMethods: [] });
+    }
 
     _getPaymentMethods() {
         fetchQuery(CheckoutQuery.getPaymentMethodsQuery(
@@ -259,25 +293,31 @@ export class CheckoutContainer extends PureComponent {
                 if (data) {
                     this.setState({ isGuestEmailSaved: true });
                 }
+
+                return true;
             },
             this._handleError
         );
     }
 
-    createUser() {
-        const { createAccount } = this.props;
+    async createUserOrSaveGuest() {
+        const {
+            createAccount,
+            totals: { is_virtual }
+        } = this.props;
+
         const {
             email,
             password,
-            createUser,
+            isCreateUser,
             shippingAddress: {
                 firstname,
                 lastname
             }
         } = this.state;
 
-        if (!createUser && !password) {
-            return Promise.resolve();
+        if (!isCreateUser) {
+            return this.saveGuestEmail();
         }
 
         const options = {
@@ -289,7 +329,17 @@ export class CheckoutContainer extends PureComponent {
             password
         };
 
-        return createAccount(options).then(this.setShippingAddress);
+        const creation = await createAccount(options);
+
+        if (!creation) {
+            return creation;
+        }
+
+        if (!is_virtual) {
+            return this.setShippingAddress();
+        }
+
+        return true;
     }
 
     async saveAddressInformation(addressInformation) {
@@ -301,8 +351,10 @@ export class CheckoutContainer extends PureComponent {
         });
 
         if (!isSignedIn()) {
-            await this.saveGuestEmail();
-            await this.createUser();
+            if (!await this.createUserOrSaveGuest()) {
+                this.setState({ isLoading: false });
+                return;
+            }
         }
 
         fetchMutation(CheckoutQuery.getSaveAddressInformation(
@@ -335,8 +387,10 @@ export class CheckoutContainer extends PureComponent {
         this.setState({ isLoading: true });
 
         if (!isSignedIn() && !isGuestEmailSaved) {
-            await this.saveGuestEmail();
-            await this.createUser();
+            if (!await this.createUserOrSaveGuest()) {
+                this.setState({ isLoading: false });
+                return;
+            }
         }
 
         if (this.customPaymentMethods.includes(method)) {

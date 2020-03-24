@@ -112,8 +112,14 @@ export class CartQuery {
     }
 
     _getProductField() {
-        return new Field('product')
+        ProductListQuery.options.isForLinkedProducts = true;
+
+        const productQuery = new Field('product')
             .addFieldList(ProductListQuery._getProductInterfaceFields(false, true));
+
+        ProductListQuery.options.isForLinkedProducts = false;
+
+        return productQuery;
     }
 
     _getCartItemsField() {

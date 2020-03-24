@@ -22,7 +22,7 @@
         }
 
         @include tablet {
-            grid-template-columns: minmax(150px, 200px) auto;
+            grid-template-columns: minmax(200px, 270px) auto;
             grid-column-gap: 2rem;
         }
 
@@ -106,7 +106,7 @@
 
         @include mobile {
             position: fixed;
-            top: var(--header-height);
+            top: var(--header-total-height);
             left: 0;
             width: 100%;
             z-index: 90;

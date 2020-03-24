@@ -45,7 +45,7 @@
         height: 100vh;
 
         @include mobile {
-            height: calc(100% - var(--header-height));
+            height: calc(100% - var(--header-total-height));
         }
     }
 

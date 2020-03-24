@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 .ResetButton {
-    @include mobile {
-        display: none;
+    &-Button {
+        width: 100%;
     }
 }

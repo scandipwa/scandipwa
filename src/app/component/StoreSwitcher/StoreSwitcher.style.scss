@@ -19,6 +19,10 @@
         border-bottom: 1px solid var(--primary-divider-color);
     }
 
+    @include standalone {
+        display: none;
+    }
+
     select,
     select:hover,
     select:focus {

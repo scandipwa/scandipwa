@@ -109,24 +109,33 @@
         }
     }
 
-    &-Price {
+    &-Schema {
         order: 21;
+
+        @include mobile {
+            order: -2;
+        }
+
+        &-Url {
+            display: none;
+        }
+
+        + .ProductActions-Section_type_short {
+            @include mobile {
+                margin-top: -.5rem;
+            }
+        }
+    }
+
+    &-Price {
         font-size: 25px;
         align-items: center;
         justify-content: center;
 
-        + .ProductActions-Section_type_short {
-            @include mobile {
-                margin-top: -1rem;
-            }
-        }
-
         @include mobile {
-            order: -2;
             padding-left: 1rem;
             padding-top: 1.5rem;
             padding-bottom: 1.5rem;
-            // border-top: 1px solid var(--expandable-content-divider-color);
         }
 
         &:last-of-type {
@@ -385,6 +394,17 @@
 
         @include mobile {
             display: none;
+        }
+    }
+
+    &-TierPrices {
+        order: 11;
+        width: 100%;
+
+        @include mobile {
+            order: -1;
+            padding: 0 1rem;
+            top: -1rem;
         }
     }
 }

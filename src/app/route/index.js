@@ -21,21 +21,26 @@ import {
 import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 import { Router } from 'react-router';
+import { connect } from 'react-redux';
+import { updateMeta } from 'Store/Meta';
+
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { createBrowserHistory } from 'history';
 
-import Breadcrumbs from 'Component/Breadcrumbs';
+import Store from 'Store';
+import Meta from 'Component/Meta';
 import Footer from 'Component/Footer';
 import Header from 'Component/Header';
-import NavigationTabs from 'Component/NavigationTabs';
-import NotificationList from 'Component/NotificationList';
-
-import Store from 'Store';
-
-import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
-import { ConfigDispatcher } from 'Store/Config';
 import { CartDispatcher } from 'Store/Cart';
+import DemoNotice from 'Component/DemoNotice';
+import { ConfigDispatcher } from 'Store/Config';
+import Breadcrumbs from 'Component/Breadcrumbs';
 import { WishlistDispatcher } from 'Store/Wishlist';
+import OfflineNotice from 'Component/OfflineNotice';
+import NavigationTabs from 'Component/NavigationTabs';
+import SomethingWentWrong from 'Route/SomethingWentWrong';
+import NotificationList from 'Component/NotificationList';
+import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
 
 // suppress prop-types warning on Route component when using with React.lazy
 // until react-router-dom@4.4.0 or higher version released
@@ -56,7 +61,7 @@ export const NoMatchHandler = lazy(() => import(/* webpackMode: "lazy", webpackP
 export const PasswordChangePage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/PasswordChangePage'));
 export const ProductPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/ProductPage'));
 export const SearchPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/SearchPage'));
-export const SomethingWentWrong = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/SomethingWentWrong'));
+export const ConfirmAccountPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/ConfirmAccountPage'));
 export const UrlRewrites = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/UrlRewrites'));
 export const MenuPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/MenuPage'));
 
@@ -66,11 +71,51 @@ export const AFTER_ITEMS_TYPE = 'AFTER_ITEMS_TYPE';
 
 export const history = createBrowserHistory({ basename: '/' });
 
-class AppRouter extends PureComponent {
+export const mapStateToProps = state => ({
+    isLoading: state.ConfigReducer.isLoading,
+    default_description: state.ConfigReducer.default_description,
+    default_keywords: state.ConfigReducer.default_keywords,
+    default_title: state.ConfigReducer.default_title,
+    title_prefix: state.ConfigReducer.title_prefix,
+    title_suffix: state.ConfigReducer.title_suffix,
+    isOffline: state.OfflineReducer.isOffline,
+    isBigOffline: state.OfflineReducer.isBig
+});
+
+export const mapDispatchToProps = dispatch => ({
+    updateMeta: meta => dispatch(updateMeta(meta))
+});
+
+export class AppRouter extends PureComponent {
+    static propTypes = {
+        updateMeta: PropTypes.func.isRequired,
+        default_description: PropTypes.string,
+        default_keywords: PropTypes.string,
+        default_title: PropTypes.string,
+        title_prefix: PropTypes.string,
+        title_suffix: PropTypes.string,
+        isLoading: PropTypes.bool,
+        isBigOffline: PropTypes.bool
+    };
+
+    static defaultProps = {
+        default_description: '',
+        default_keywords: '',
+        default_title: '',
+        title_prefix: '',
+        title_suffix: '',
+        isLoading: true,
+        isBigOffline: false
+    };
+
     [BEFORE_ITEMS_TYPE] = [
         {
             component: <NotificationList />,
             position: 10
+        },
+        {
+            component: <DemoNotice />,
+            position: 15
         },
         {
             component: <Header />,
@@ -120,6 +165,10 @@ class AppRouter extends PureComponent {
             position: 60
         },
         {
+            component: <Route path="/:account*/confirm" component={ ConfirmAccountPage } />,
+            position: 65
+        },
+        {
             component: <Route path="/my-account/:tab?" component={ MyAccount } />,
             position: 70
         },
@@ -153,6 +202,32 @@ class AppRouter extends PureComponent {
         super(props);
 
         this.dispatchActions();
+    }
+
+    componentDidUpdate(prevProps) {
+        const { isLoading, updateMeta } = this.props;
+        const { isLoading: prevIsLoading } = prevProps;
+
+        if (!isLoading && isLoading !== prevIsLoading) {
+            const {
+                default_description,
+                default_keywords,
+                default_title,
+                title_prefix,
+                title_suffix
+            } = this.props;
+
+            updateMeta({
+                default_title,
+                title: default_title,
+                default_description,
+                description: default_description,
+                default_keywords,
+                keywords: default_keywords,
+                title_prefix,
+                title_suffix
+            });
+        }
     }
 
     getCmsBlocksToRequest() {
@@ -224,6 +299,24 @@ class AppRouter extends PureComponent {
         );
     }
 
+    renderMainItems() {
+        const { isBigOffline } = this.props;
+
+        if (!navigator.onLine && isBigOffline) {
+            return <OfflineNotice isPage />;
+        }
+
+        return (
+            <Suspense fallback={ this.renderFallbackPage() }>
+                <NoMatchHandler>
+                    <Switch>
+                        { this.renderItemsOfType(SWITCH_ITEMS_TYPE) }
+                    </Switch>
+                </NoMatchHandler>
+            </Suspense>
+        );
+    }
+
     renderErrorRouterContent() {
         const { errorDetails } = this.state;
 
@@ -245,13 +338,7 @@ class AppRouter extends PureComponent {
         return (
             <>
                 { this.renderItemsOfType(BEFORE_ITEMS_TYPE) }
-                <Suspense fallback={ this.renderFallbackPage() }>
-                    <NoMatchHandler>
-                        <Switch>
-                            { this.renderItemsOfType(SWITCH_ITEMS_TYPE) }
-                        </Switch>
-                    </NoMatchHandler>
-                </Suspense>
+                { this.renderMainItems() }
                 { this.renderItemsOfType(AFTER_ITEMS_TYPE) }
             </>
         );
@@ -259,17 +346,24 @@ class AppRouter extends PureComponent {
 
     renderRouterContent() {
         const { hasError } = this.state;
-        if (hasError) return this.renderErrorRouterContent();
+
+        if (hasError) {
+            return this.renderErrorRouterContent();
+        }
+
         return this.renderDefaultRouterContent();
     }
 
     render() {
         return (
-            <Router history={ history }>
-                { this.renderRouterContent() }
-            </Router>
+            <>
+                <Meta />
+                <Router history={ history }>
+                    { this.renderRouterContent() }
+                </Router>
+            </>
         );
     }
 }
 
-export default AppRouter;
+export default connect(mapStateToProps, mapDispatchToProps)(AppRouter);

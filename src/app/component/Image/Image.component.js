@@ -100,6 +100,16 @@ export default class Image extends PureComponent {
         this.setState({ imageStatus: IMAGE_LOADED });
     }
 
+    renderImageNotFound() {
+        if (navigator.onLine) {
+            return (
+                <span block="Image" elem="Content">{ __('Image not found') }</span>
+            );
+        }
+
+        return <span block="Image" elem="Content" mods={ { isOffline: true } } />;
+    }
+
     renderImage() {
         const {
             alt, src, isPlaceholder, style
@@ -112,9 +122,7 @@ export default class Image extends PureComponent {
 
         switch (imageStatus) {
         case IMAGE_NOT_FOUND:
-            return (
-                <span block="Image" elem="Content">{ __('Image not found') }</span>
-            );
+            return this.renderImageNotFound();
         case IMAGE_NOT_SPECIFIED:
             return (
                 <span block="Image" elem="Content">{ __('Image not specified') }</span>
