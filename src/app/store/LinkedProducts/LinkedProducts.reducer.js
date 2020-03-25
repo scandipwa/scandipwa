@@ -42,30 +42,15 @@ const LinkedProductsReducer = (state = initialState, action) => {
 
     const {
         linkedProducts: {
-            [UPSELL]: prevUpSell,
-            [RELATED]: prevRelated,
             [CROSS_SELL]: prevCrossSell
         }
     } = state;
 
     return {
+        ...state,
         linkedProducts: {
-            [UPSELL]: {
-                ...prevUpSell,
-                ...upsell,
-                items: Object.values({
-                    ...prevUpSell.items,
-                    ...upsell.items
-                })
-            },
-            [RELATED]: {
-                ...prevRelated,
-                ...related,
-                items: Object.values({
-                    ...prevRelated.items,
-                    ...related.items
-                })
-            },
+            [UPSELL]: upsell,
+            [RELATED]: related,
             [CROSS_SELL]: {
                 ...prevCrossSell,
                 ...related,
