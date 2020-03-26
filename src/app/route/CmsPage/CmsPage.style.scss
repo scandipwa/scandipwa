@@ -24,11 +24,15 @@
         };
 
         margin: {
-            top: var(--header-total-height);
+            top: calc(var(--header-total-height) + 1rem);
             bottom: var(--header-nav-height);
             left: auto;
             right: auto;
         };
+
+        @include after-mobile {
+            margin-top: 2rem;
+        }
 
         &_page_width {
             &_full {
