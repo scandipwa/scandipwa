@@ -12,48 +12,84 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
+import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import Link from 'Component/Link';
 
 import './CookiePopup.style';
+import ContentWrapper from 'Component/ContentWrapper';
 
 export const COOKIE_POPUP = 'cookie_popup';
 
 class CookiePopup extends PureComponent {
     static propTypes = {
-        cookieText: PropTypes.string.isRequired,
-        cookieLink: PropTypes.string.isRequired
+        cookieText: PropTypes.string,
+        cookieLink: PropTypes.string
+    };
+
+    static defaultProps = {
+        cookieText: 'This site uses cookies to offer you a better browsing experience.',
+        cookieLink: ''
     };
 
     state = { isAccepted: BrowserDatabase.getItem(COOKIE_POPUP) || false };
 
-    acceptCookies = this.acceptCookies.bind(this);
-
     acceptCookies = () => {
-        /* eslint no-magic-numbers: ["error", { "ignore": [2592000] }] */
-        BrowserDatabase.setItem(true, COOKIE_POPUP, 2592000); // 2592000 === 1 month
+        BrowserDatabase.setItem(true, COOKIE_POPUP, ONE_MONTH_IN_SECONDS);
         this.setState({ isAccepted: true });
     };
 
+    renderCookieLink() {
+        const { cookieLink } = this.props;
+
+        if (!cookieLink) {
+            return null;
+        }
+
+        return (
+            <Link
+              block="CookiePopup"
+              elem="Link"
+              to={ cookieLink }
+            >
+                { __('Read more') }
+            </Link>
+        );
+    }
+
+    renderCookieText() {
+        const { cookieText } = this.props;
+
+        return (
+            <p block="CookiePopup" elem="Content">
+                { cookieText }
+                { this.renderCookieLink() }
+            </p>
+        );
+    }
+
     render() {
-        const { cookieText, cookieLink } = this.props;
+        const { cookieText } = this.props;
         const { isAccepted } = this.state;
 
-        if (!cookieText || isAccepted) return null;
+        if (!cookieText || isAccepted) {
+            return null;
+        }
 
         return (
             <div block="CookiePopup">
-                <div block="CookiePopup" elem="Content">
-                    <p>
-                        { cookieText }
-                        { cookieLink && <Link to={ cookieLink }>{ __('- read more') }</Link> }
-                    </p>
-                </div>
-                <div block="CookiePopup" elem="CTA">
-                    <button block="Button" onClick={ this.acceptCookies }>
-                        { __('Accept') }
-                    </button>
-                </div>
+                <ContentWrapper
+                  label="Cookie popup"
+                  mix={ { block: 'CookiePopup', elem: 'Wrapper' } }
+                  wrapperMix={ { block: 'CookiePopup', elem: 'ContentWrapper' } }
+                >
+                    { this.renderCookieText() }
+                    <div block="CookiePopup" elem="CTA">
+                        <button block="Button" onClick={ this.acceptCookies }>
+                            { __('Accept') }
+                        </button>
+                    </div>
+                </ContentWrapper>
             </div>
         );
     }

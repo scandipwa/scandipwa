@@ -22,31 +22,43 @@
     bottom: 0;
     align-items: center;
     justify-content: space-between;
-    padding: 40px 60px;
+    padding: 1rem 1rem calc(env(safe-area-inset-bottom) + 1rem);
     background-color: var(--cookiepopup-bg);
     border-top: 1px solid var(--cookiepopup-border);
     z-index: 300;
 
-    @include mobile {
-        display: block;
-        padding: 25px 40px;
+    &-ContentWrapper,
+    & {
+        @include after-mobile {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     }
 
     &-Content {
-        padding-right: 15px;
+        font-size: 15px;
+        max-width: 500px;
+
+        @include mobile {
+            padding-bottom: 1rem;
+        }
     }
 
-    p {
-        max-width: 780px;
+    &-Link {
+        display: inline;
+        margin-left: 5px;
     }
 
     &-CTA {
-        @include mobile {
-            margin-top: 20px;
-
-            button {
+        button {
+            @include mobile {
                 width: 100%;
             }
+        }
+
+        @include after-mobile {
+            margin-left: 2rem;
         }
     }
 }
