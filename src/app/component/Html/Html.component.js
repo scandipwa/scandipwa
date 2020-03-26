@@ -31,6 +31,8 @@ export default class Html extends PureComponent {
         content: PropTypes.string.isRequired
     };
 
+    createdOutsideElements = [];
+
     rules = [
         {
             query: { name: ['widget'] },
@@ -53,6 +55,10 @@ export default class Html extends PureComponent {
             replace: this.replaceScript
         },
         {
+            query: { name: ['style'] },
+            replace: this.replaceStyle
+        },
+        {
             query: { name: ['table'] },
             replace: this.wrapTable
         }
@@ -73,16 +79,20 @@ export default class Html extends PureComponent {
                 if (name && domName && name.indexOf(domName) !== -1) {
                     return true;
                 } if (attribs && domAttrs) {
-                    attribs.forEach((attrib) => {
+                    // eslint-disable-next-line fp/no-loops, fp/no-let
+                    for (let i = 0; i < attribs.length; i++) {
+                        const attrib = attribs[i];
+
                         if (typeof attrib === 'object') {
                             const queryAttrib = Object.keys(attrib)[0];
+
                             if (Object.prototype.hasOwnProperty.call(domAttrs, queryAttrib)) {
                                 return domAttrs[queryAttrib].match(Object.values(attrib)[0]);
                             }
                         } else if (Object.prototype.hasOwnProperty.call(domAttrs, attrib)) {
                             return true;
                         }
-                    });
+                    }
                 }
 
                 return false;
@@ -94,6 +104,10 @@ export default class Html extends PureComponent {
             }
         }
     };
+
+    componentWillUnmount() {
+        this.createdOutsideElements.forEach(elem => elem.remove());
+    }
 
     getCachedHtml() {
         const { content } = this.props;
@@ -154,8 +168,10 @@ export default class Html extends PureComponent {
      * @memberof Html
      */
     replaceImages({ attribs }) {
+        const attributes = attributesToProps(attribs);
+
         if (attribs.src) {
-            return <Image { ...attributesToProps(attribs) } />;
+            return <Image { ...attributes } />;
         }
     }
 
@@ -197,11 +213,31 @@ export default class Html extends PureComponent {
         return <WidgetFactory { ...this.attributesToProps(attribs) } />;
     }
 
-    replaceScript({ attribs }) {
-        const script = document.createElement('script');
-        Object.entries(attribs).forEach(([attr, value]) => script.setAttribute(attr, value));
-        document.body.appendChild(script);
+    replaceStyle(elem) {
+        const { children } = elem;
+        const style = document.createElement('style');
 
+        if (children && children[0]) {
+            style.appendChild(document.createTextNode(children[0].data));
+        }
+
+        this.createdOutsideElements.push(style);
+        document.head.appendChild(style);
+        return <></>;
+    }
+
+    replaceScript(elem) {
+        const { attribs, children } = elem;
+        const script = document.createElement('script');
+
+        Object.entries(attribs).forEach(([attr, value]) => script.setAttribute(attr, value));
+
+        if (children && children[0]) {
+            script.appendChild(document.createTextNode(children[0].data));
+        }
+
+        this.createdOutsideElements.push(script);
+        document.head.appendChild(script);
         return <></>;
     }
 

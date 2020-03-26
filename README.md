@@ -125,6 +125,10 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/joostm020"><img src="https://avatars1.githubusercontent.com/u/26708268?v=4" width="100px;" alt=""/><br /><sub><b>Joost Meijer</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=joostm020" title="Code">💻</a></td>
     <td align="center"><a href="http://yousef.io"><img src="https://avatars1.githubusercontent.com/u/734823?v=4" width="100px;" alt=""/><br /><sub><b>Yousef Cisco</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=yousefcisco" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/gabunia-nick"><img src="https://avatars0.githubusercontent.com/u/39187887?v=4" width="100px;" alt=""/><br /><sub><b>Nick</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=gabunia-nick" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/oltseb"><img src="https://avatars1.githubusercontent.com/u/33062679?v=4" width="100px;" alt=""/><br /><sub><b>Oleksii Tsebinoga</b></sub></a><br /><a href="#translation-oltseb" title="Translation">🌍</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/RoboLV"><img src="https://avatars1.githubusercontent.com/u/4116979?v=4" width="100px;" alt=""/><br /><sub><b>RoboLV</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=RoboLV" title="Code">💻</a> <a href="https://github.com/scandipwa/base-theme/issues?q=author%3ARoboLV" title="Bug reports">🐛</a></td>
   </tr>
 </table>
 

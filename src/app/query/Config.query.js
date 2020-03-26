@@ -65,6 +65,8 @@ export class ConfigQuery {
                 'paypal_sandbox_flag',
                 'paypal_client_id',
                 'logo_alt',
+                'cookie_text',
+                'cookie_link',
                 'terms_are_enabled',
                 'base_url',
                 'pagination_frame',

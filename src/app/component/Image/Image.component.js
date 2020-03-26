@@ -39,6 +39,7 @@ export default class Image extends PureComponent {
             height: PropTypes.string
         }),
         alt: PropTypes.string,
+        className: PropTypes.string,
         ratio: PropTypes.oneOf([
             '4x3',
             '16x9',
@@ -56,6 +57,7 @@ export default class Image extends PureComponent {
     };
 
     static defaultProps = {
+        className: '',
         src: '',
         alt: '',
         ratio: 'square',
@@ -152,7 +154,8 @@ export default class Image extends PureComponent {
             isPlaceholder,
             wrapperSize,
             src,
-            imageRef
+            imageRef,
+            className
         } = this.props;
 
         const { imageStatus } = this.state;
@@ -169,6 +172,8 @@ export default class Image extends PureComponent {
               } }
               mix={ mix }
               style={ wrapperSize }
+              // eslint-disable-next-line react/forbid-dom-props
+              className={ className }
             >
                 { this.renderImage() }
             </div>

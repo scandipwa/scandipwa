@@ -30,6 +30,7 @@ import { createBrowserHistory } from 'history';
 import Store from 'Store';
 import Meta from 'Component/Meta';
 import Footer from 'Component/Footer';
+import CookiePopup from 'Component/CookiePopup';
 import Header from 'Component/Header';
 import { CartDispatcher } from 'Store/Cart';
 import DemoNotice from 'Component/DemoNotice';
@@ -186,6 +187,10 @@ export class AppRouter extends PureComponent {
         {
             component: <Footer />,
             position: 10
+        },
+        {
+            component: <CookiePopup />,
+            position: 20
         }
     ];
 
