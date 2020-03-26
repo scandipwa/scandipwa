@@ -30,10 +30,7 @@ export const initialState = {
     ...filterStoreConfig(storeConfig),
     countries,
     reviewRatings,
-    title_prefix: 'ScandiPWA |',
-    isLoading: true,
-    cookie_text: null,
-    cookie_link: null
+    isLoading: true
 };
 
 const ConfigReducer = (state = initialState, action) => {
@@ -49,7 +46,14 @@ const ConfigReducer = (state = initialState, action) => {
     switch (type) {
     case UPDATE_CONFIG:
         const filteredStoreConfig = filterStoreConfig(storeConfig);
-        const { header_logo_src, terms_are_enabled = false } = filteredStoreConfig;
+        const {
+            header_logo_src,
+            terms_are_enabled = false,
+            pagination_frame,
+            pagination_frame_skip,
+            anchor_text_for_previous,
+            anchor_text_for_next
+        } = filteredStoreConfig;
 
         return {
             ...state,
@@ -61,6 +65,10 @@ const ConfigReducer = (state = initialState, action) => {
             // and header_logo_src takes old value
             header_logo_src,
             terms_are_enabled,
+            pagination_frame,
+            pagination_frame_skip,
+            anchor_text_for_previous,
+            anchor_text_for_next,
             isLoading: false
         };
 

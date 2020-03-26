@@ -66,15 +66,33 @@ export class CartDispatcher {
         );
     }
 
-    changeItemQty(dispatch, options) {
+    changeItemQty(dispatch, options, tries = 0) {
         const { item_id, quantity, sku } = options;
+
+        if (tries > 2) {
+            dispatch(showNotification('error', __('Internal server error. Can not add to cart.')));
+            return Promise.reject();
+        }
 
         return fetchMutation(CartQuery.getSaveCartItemMutation(
             { sku, item_id, qty: quantity },
             !isSignedIn() && this._getGuestQuoteId()
         )).then(
             ({ saveCartItem: { cartData } }) => this._updateCartData(cartData, dispatch),
-            error => dispatch(showNotification('error', error[0].message))
+            (error) => {
+                const [{ debugMessage = '' }] = error || [{}];
+
+                if (debugMessage.match('No such entity with cartId ')) {
+                    return this._createEmptyCart(dispatch).then((data) => {
+                        BrowserDatabase.setItem(data, GUEST_QUOTE_ID);
+                        this._updateCartData({}, dispatch);
+                        return this.changeItemQty(dispatch, options, tries + 1);
+                    });
+                }
+
+                dispatch(showNotification('error', error[0].message));
+                return Promise.reject();
+            }
         );
     }
 
@@ -144,13 +162,18 @@ export class CartDispatcher {
 
         if (items.length > 0) {
             const product_links = items.reduce((links, product) => {
-                const { product: { product_links } } = product;
+                const { product: { product_links, variants = [] }, sku: variantSku } = product;
+
+                const { product_links: childProductLinks } = variants.find(({ sku }) => sku === variantSku) || {};
+
+                if (childProductLinks) {
+                    Object.values(childProductLinks).filter(({ link_type }) => link_type === 'crosssell')
+                        .map(item => links.push(item));
+                }
+
                 if (product_links) {
-                    Object.values(product_links).forEach((item) => {
-                        if (item.link_type === 'crosssell') {
-                            links.push(item);
-                        }
-                    });
+                    Object.values(product_links).filter(({ link_type }) => link_type === 'crosssell')
+                        .map(item => links.push(item));
                 }
 
                 return links;

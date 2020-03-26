@@ -25,14 +25,15 @@ import { CartReducer } from 'Store/Cart';
 import { OrderReducer } from 'Store/Order';
 import { WishlistReducer } from 'Store/Wishlist';
 import { NoMatchReducer } from 'Store/NoMatch';
-import { RelatedProductsReducer } from 'Store/RelatedProducts';
 import { SearchBarReducer } from 'Store/SearchBar';
 import { UrlRewritesReducer } from 'Store/UrlRewrites';
 import { MyAccountReducer } from 'Store/MyAccount';
 import { NavigationReducer } from 'Store/Navigation';
 import { OverlayReducer } from 'Store/Overlay';
+import { OfflineReducer } from 'Store/Offline';
 import { PopupReducer } from 'Store/Popup';
 import { ConfigReducer } from 'Store/Config';
+import { MetaReducer } from 'Store/Meta';
 import { LinkedProductsReducer } from 'Store/LinkedProducts';
 
 export const reducers = {
@@ -48,14 +49,15 @@ export const reducers = {
     OrderReducer,
     WishlistReducer,
     NoMatchReducer,
-    RelatedProductsReducer,
     SearchBarReducer,
     MyAccountReducer,
     NavigationReducer,
     OverlayReducer,
+    OfflineReducer,
     PopupReducer,
     UrlRewritesReducer,
     ConfigReducer,
+    MetaReducer,
     LinkedProductsReducer
 };
 

@@ -58,7 +58,8 @@ export class MyAccountDispatcher {
         CartDispatcher.updateInitialCartData(dispatch);
         WishlistDispatcher.updateInitialWishlistData(dispatch);
         BrowserDatabase.deleteItem(ORDERS);
-        // TODO: logout in BE
+        BrowserDatabase.deleteItem(CUSTOMER);
+        dispatch(updateCustomerDetails({}));
     }
 
     /**
@@ -83,6 +84,7 @@ export class MyAccountDispatcher {
      */
     resetPassword(options = {}, dispatch) {
         const mutation = MyAccountQuery.getResetPasswordMutation(options);
+
         return fetchMutation(mutation).then(
             ({ resetPassword: { status } }) => dispatch(updateCustomerPasswordResetStatus(status)),
             () => dispatch(updateCustomerPasswordResetStatus('error'))
@@ -99,8 +101,34 @@ export class MyAccountDispatcher {
         const mutation = MyAccountQuery.getCreateAccountMutation(options);
 
         return fetchMutation(mutation).then(
-            () => this.signIn({ email, password }, dispatch),
-            error => dispatch(showNotification('error', error[0].message))
+            (data) => {
+                const { createCustomer: { customer } } = data;
+                const { confirmation_required } = customer;
+
+                if (confirmation_required) {
+                    return 2;
+                }
+
+                return this.signIn({ email, password }, dispatch);
+            },
+            (error) => {
+                dispatch(showNotification('error', error[0].message));
+                return Promise.reject();
+            }
+        );
+    }
+
+    /**
+     * Confirm account action
+     * @param {{key: String, email: String, password: String}} [options={}]
+     * @memberof MyAccountDispatcher
+     */
+    confirmAccount(options = {}, dispatch) {
+        const mutation = MyAccountQuery.getConfirmAccountMutation(options);
+
+        return fetchMutation(mutation).then(
+            () => dispatch(showNotification('success', __('Your account is confirmed!'))),
+            () => dispatch(showNotification('error', __('Something went wrong! Please, try again!')))
         );
     }
 
@@ -120,6 +148,8 @@ export class MyAccountDispatcher {
             dispatch(updateCustomerSignInStatus(true));
             CartDispatcher.updateInitialCartData(dispatch);
             WishlistDispatcher.updateInitialWishlistData(dispatch);
+
+            return true;
         } catch ([e]) {
             throw e;
         }

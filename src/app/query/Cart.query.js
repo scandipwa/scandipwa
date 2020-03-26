@@ -82,13 +82,13 @@ export class CartQuery {
     _getCartTotalsFields() {
         return [
             'subtotal',
+            'subtotal_incl_tax',
             'items_qty',
             'tax_amount',
             'grand_total',
             'discount_amount',
             'quote_currency_code',
             'subtotal_with_discount',
-            'subtotal_incl_tax',
             'coupon_code',
             'shipping_amount',
             'is_virtual',
@@ -112,8 +112,14 @@ export class CartQuery {
     }
 
     _getProductField() {
-        return new Field('product')
+        ProductListQuery.options.isForLinkedProducts = true;
+
+        const productQuery = new Field('product')
             .addFieldList(ProductListQuery._getProductInterfaceFields(false, true));
+
+        ProductListQuery.options.isForLinkedProducts = false;
+
+        return productQuery;
     }
 
     _getCartItemsField() {

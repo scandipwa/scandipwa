@@ -70,13 +70,13 @@ export default class Overlay extends PureComponent {
     }
 
     freezeScroll() {
-        this.YoffsetWhenScrollDisabled = window.pageYOffset || document.documentElement.scrollTop;
-        document.body.classList.add('scrollDisabled');
+        this.YoffsetWhenScrollDisabled = window.pageYOffset || document.body.scrollTop;
+        document.documentElement.classList.add('scrollDisabled');
         document.body.style.marginTop = `${-this.YoffsetWhenScrollDisabled}px`;
     }
 
     unfreezeScroll() {
-        document.body.classList.remove('scrollDisabled');
+        document.documentElement.classList.remove('scrollDisabled');
         document.body.style.marginTop = 0;
         window.scrollTo(0, this.YoffsetWhenScrollDisabled);
     }

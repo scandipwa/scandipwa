@@ -14,18 +14,18 @@ import PropTypes from 'prop-types';
 
 import media, { WYSIWYG_MEDIA } from 'Util/Media';
 import Link from 'Component/Link';
-import Meta from 'Component/Meta';
 import isMobile from 'Util/Mobile';
 import CmsBlock from 'Component/CmsBlock';
 import CartItem from 'Component/CartItem';
 import { TotalsType } from 'Type/MiniCart';
 import CartCoupon from 'Component/CartCoupon';
-import CartCrossSell from 'Component/CartCrossSell';
+import ProductLinks from 'Component/ProductLinks';
 import ContentWrapper from 'Component/ContentWrapper';
 import { formatCurrency, roundPrice } from 'Util/Price';
 import ExpandableContent from 'Component/ExpandableContent';
 
 import './CartPage.style';
+import { CROSS_SELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
 
 export default class CartPage extends PureComponent {
     static propTypes = {
@@ -111,7 +111,7 @@ export default class CartPage extends PureComponent {
     renderTotals() {
         const {
             totals: {
-                grand_total = 0,
+                subtotal_incl_tax = 0,
                 items
             }
         } = this.props;
@@ -129,7 +129,7 @@ export default class CartPage extends PureComponent {
                 { this.renderTotalDetails() }
                 <dl block="CartPage" elem="Total" aria-label="Complete order total">
                     <dt>{ __('Order total:') }</dt>
-                    <dd>{ this.renderPriceLine(grand_total) }</dd>
+                    <dd>{ this.renderPriceLine(subtotal_incl_tax) }</dd>
                 </dl>
                 <div block="CartPage" elem="CheckoutButtons">
                     <Link
@@ -176,9 +176,11 @@ export default class CartPage extends PureComponent {
     }
 
     renderCrossSellProducts() {
-        const { totals: { items } } = this.props;
         return (
-            <CartCrossSell products={ items } />
+            <ProductLinks
+              linkType={ CROSS_SELL }
+              title={ __('Frequently bought together') }
+            />
         );
     }
 
@@ -235,13 +237,12 @@ export default class CartPage extends PureComponent {
     render() {
         return (
             <main block="CartPage" aria-label="Cart Page">
-                <Meta metaObject={ { title: 'Cart' } } />
                 <ContentWrapper
                   wrapperMix={ { block: 'CartPage', elem: 'Wrapper' } }
                   label="Cart page details"
                 >
                     <div block="CartPage" elem="Static">
-                        <h2 block="CartPage" elem="Heading">{ __('Shopping cart') }</h2>
+                        <h1 block="CartPage" elem="Heading">{ __('Shopping cart') }</h1>
                         { this.renderCartItems() }
                         { this.renderTotalDetails(true) }
                         { this.renderDiscountCode() }

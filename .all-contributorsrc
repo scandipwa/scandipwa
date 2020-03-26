@@ -137,16 +137,7 @@
       "contributions": [
         "code",
         "infra",
-        "maintenance",
-        "ideas",
-        "bug",
-        "projectManagement",
-        "review",
-        "content",
-        "doc",
-        "question",
-        "talk",
-        "video"
+        "maintenance"
       ]
     },
     {
@@ -241,6 +232,7 @@
       "avatar_url": "https://avatars2.githubusercontent.com/u/8639654?v=4",
       "profile": "http://teomedia.dk",
       "contributions": [
+        "code",
         "bug",
         "translation"
       ]
@@ -252,17 +244,8 @@
       "profile": "https://github.com/alfredsgenkins",
       "contributions": [
         "code",
-        "bug",
-        "question",
-        "maintenance",
         "projectManagement",
-        "tool",
-        "review",
-        "content",
-        "doc",
-        "design",
-        "video",
-        "talk"
+        "content"
       ]
     },
     {
@@ -361,6 +344,69 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "grumpy-pirate",
+      "name": "grumpy-pirate",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/7815525?v=4",
+      "profile": "https://github.com/grumpy-pirate",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "bahramdavodi",
+      "name": "Bahram Davoodi",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/18647834?v=4",
+      "profile": "http://www.magonex.com",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "megazoor",
+      "name": "Megazoor",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/24616413?v=4",
+      "profile": "http://jdlms.com",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "joostm020",
+      "name": "Joost Meijer",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/26708268?v=4",
+      "profile": "https://github.com/joostm020",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "yousefcisco",
+      "name": "Yousef Cisco",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/734823?v=4",
+      "profile": "http://yousef.io",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "gabunia-nick",
+      "name": "Nick",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/39187887?v=4",
+      "profile": "https://github.com/gabunia-nick",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "oltseb",
+      "name": "Oleksii Tsebinoga",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/33062679?v=4",
+      "profile": "https://github.com/oltseb",
+      "contributions": [
+        "translation"
+      ]
     }
   ],
   "contributorsPerLine": 7,
@@ -368,5 +414,6 @@
   "projectOwner": "scandipwa",
   "repoType": "github",
   "repoHost": "https://github.com",
-  "skipCi": true
+  "skipCi": true,
+  "commitConvention": "none"
 }

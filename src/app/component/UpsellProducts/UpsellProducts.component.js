@@ -9,22 +9,20 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-
 import ContentWrapper from 'Component/ContentWrapper';
 import ProductCard from 'Component/ProductCard';
 import { ProductType } from 'Type/ProductList';
+import './UpsellProducts.style';
 
-import './CartCrossSell.style';
-
-const NUMBER_OF_DISPLAYED_PRODUCTS = 5;
+export const NUMBER_OF_DISPLAYED_PRODUCTS = 4;
 
 /**
- * CartCrossSell component
- * @class CartCrossSell
+ * WorthLookingInto product feed
+ * @class WorthLookingInto
  */
-class CartCrossSell extends PureComponent {
+export class UpsellProducts extends PureComponent {
     static propTypes = {
         linkedProducts: PropTypes.objectOf(ProductType).isRequired
     };
@@ -34,7 +32,7 @@ class CartCrossSell extends PureComponent {
 
         return (
             <ProductCard
-              block="CartCrossSell"
+              block="UpsellProducts"
               elem="Card"
               product={ product }
               key={ id }
@@ -43,7 +41,7 @@ class CartCrossSell extends PureComponent {
     }
 
     renderItems() {
-        const { linkedProducts: { crossSell: { items } } } = this.props;
+        const { linkedProducts: { upsell: { items } } } = this.props;
 
         if (!items) {
             return Array.from(
@@ -57,8 +55,8 @@ class CartCrossSell extends PureComponent {
 
     renderHeading() {
         return (
-            <h2 block="CartCrossSell" elem="Title">
-                { __('Check our recommended products') }
+            <h2 block="UpsellProducts" elem="Title">
+                { __('Worth looking into') }
             </h2>
         );
     }
@@ -66,12 +64,12 @@ class CartCrossSell extends PureComponent {
     render() {
         return (
             <ContentWrapper
-              mix={ { block: 'CartCrossSell' } }
-              wrapperMix={ { block: 'CartCrossSell', elem: 'Wrapper' } }
-              label={ __('Recommended products') }
+              mix={ { block: 'UpsellProducts' } }
+              wrapperMix={ { block: 'UpsellProducts', elem: 'Wrapper' } }
+              label={ __('Upsell products') }
             >
                 { this.renderHeading() }
-                <ul block="CartCrossSell" elem="List">
+                <ul block="UpsellProducts" elem="List">
                     { this.renderItems() }
                 </ul>
             </ContentWrapper>
@@ -79,4 +77,4 @@ class CartCrossSell extends PureComponent {
     }
 }
 
-export default CartCrossSell;
+export default UpsellProducts;

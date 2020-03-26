@@ -94,6 +94,7 @@ export default class ProductReviewForm extends PureComponent {
             <button
               block="ProductReviewForm"
               elem="Button"
+              type="submit"
               mix={ { block: 'Button' } }
             >
                 { __('Submit Review') }

@@ -17,27 +17,39 @@ import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { changeNavigationState } from 'Store/Navigation';
 import DataContainer from 'Util/Request/DataContainer';
 import { LocationType, MatchType } from 'Type/Common';
+import { setBigOfflineNotice } from 'Store/Offline';
 import { CmsPageQuery } from 'Query';
 import { CMS_PAGE } from 'Component/Header';
+import { debounce } from 'Util/Request';
+import { updateMeta } from 'Store/Meta';
 import { getUrlParam } from 'Util/Url';
 import { history } from 'Route';
 
 import CmsPage from './CmsPage.component';
 
+export const mapStateToProps = state => ({
+    isOffline: state.OfflineReducer.isOffline
+});
+
 export const mapDispatchToProps = dispatch => ({
     updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.updateWithCmsPage(breadcrumbs, dispatch),
     setHeaderState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
+    setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig)),
+    updateMeta: meta => dispatch(updateMeta(meta)),
     toggleBreadcrumbs: (isActive) => {
         BreadcrumbsDispatcher.update([], dispatch);
         dispatch(toggleBreadcrumbs(isActive));
     }
 });
 
+export const LOADING_TIME = 300;
+
 export class CmsPageContainer extends DataContainer {
     static propTypes = {
         match: MatchType.isRequired,
         setHeaderState: PropTypes.func.isRequired,
         updateBreadcrumbs: PropTypes.func.isRequired,
+        setBigOfflineNotice: PropTypes.func.isRequired,
         location: LocationType.isRequired,
         toggleBreadcrumbs: PropTypes.func.isRequired,
         urlKey: PropTypes.string,
@@ -56,19 +68,39 @@ export class CmsPageContainer extends DataContainer {
         isLoading: true
     };
 
+    constructor(props) {
+        super(props);
+
+        this.updateBreadcrumbs();
+    }
+
+    updateBreadcrumbs() {
+        const {
+            toggleBreadcrumbs,
+            isBreadcrumbsActive
+        } = this.props;
+
+        toggleBreadcrumbs(isBreadcrumbsActive);
+    }
+
     componentDidMount() {
         const {
             location,
             match,
-            toggleBreadcrumbs,
             urlKey,
-            isOnlyPlaceholder,
-            isBreadcrumbsActive
+            isOffline,
+            isOnlyPlaceholder
         } = this.props;
+
+        const { isLoading } = this.state;
+
+        if (isOffline && isLoading) {
+            debounce(this.setOfflineNoticeSize, LOADING_TIME)();
+        }
 
         const urlParam = getUrlParam(match, location);
 
-        this.setState({ page: {} });
+        // this.setState({ page: {} });
 
         if (
             !isOnlyPlaceholder
@@ -76,39 +108,6 @@ export class CmsPageContainer extends DataContainer {
         ) {
             this.requestPage(urlKey || urlParam);
         }
-
-        toggleBreadcrumbs(isBreadcrumbsActive);
-    }
-
-    onPageLoad = ({ cmsPage: page }) => {
-        const {
-            location: { pathname },
-            setHeaderState,
-            updateBreadcrumbs
-        } = this.props;
-
-        const { content_heading } = page;
-
-        updateBreadcrumbs(page);
-
-        if (pathname !== '/') {
-            setHeaderState({
-                name: CMS_PAGE,
-                title: content_heading,
-                onBackClick: () => history.goBack()
-            });
-        }
-
-        this.setState({ page, isLoading: false });
-    };
-
-    requestPage(id) {
-        this.setState({ isLoading: true });
-
-        this.fetchData(
-            [CmsPageQuery.getQuery({ id })],
-            this.onPageLoad
-        );
     }
 
     componentDidUpdate(prevProps) {
@@ -130,6 +129,52 @@ export class CmsPageContainer extends DataContainer {
         }
     }
 
+    setOfflineNoticeSize = () => {
+        const { setBigOfflineNotice } = this.props;
+        const { isLoading } = this.state;
+
+        if (isLoading) {
+            setBigOfflineNotice(true);
+        } else {
+            setBigOfflineNotice(false);
+        }
+    };
+
+    onPageLoad = ({ cmsPage: page }) => {
+        const {
+            location: { pathname },
+            updateMeta,
+            setHeaderState,
+            updateBreadcrumbs
+        } = this.props;
+
+        const { content_heading, meta_title, title } = page;
+
+        debounce(this.setOfflineNoticeSize, LOADING_TIME)();
+
+        updateBreadcrumbs(page);
+        updateMeta({ title: meta_title || title });
+
+        if (pathname !== '/') {
+            setHeaderState({
+                name: CMS_PAGE,
+                title: content_heading,
+                onBackClick: () => history.goBack()
+            });
+        }
+
+        this.setState({ page, isLoading: false });
+    };
+
+    requestPage(id) {
+        this.setState({ isLoading: true });
+
+        this.fetchData(
+            [CmsPageQuery.getQuery({ id })],
+            this.onPageLoad
+        );
+    }
+
     render() {
         return (
             <CmsPage
@@ -140,4 +185,4 @@ export class CmsPageContainer extends DataContainer {
     }
 }
 
-export default connect(null, mapDispatchToProps)(CmsPageContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(CmsPageContainer);

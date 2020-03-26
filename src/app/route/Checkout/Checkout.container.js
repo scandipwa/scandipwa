@@ -18,16 +18,20 @@ import { CART_TAB } from 'Component/NavigationTabs/NavigationTabs.component';
 import { TOP_NAVIGATION_TYPE, BOTTOM_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 import CartDispatcher from 'Store/Cart/Cart.dispatcher';
+import { MyAccountDispatcher } from 'Store/MyAccount';
 import { fetchMutation, fetchQuery } from 'Util/Request';
 import { showNotification } from 'Store/Notification';
 import { toggleBreadcrumbs } from 'Store/Breadcrumbs';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { changeNavigationState } from 'Store/Navigation';
+import { HistoryType } from 'Type/Common';
 import CheckoutQuery from 'Query/Checkout.query';
+import MyAccountQuery from 'Query/MyAccount.query';
 import { GUEST_QUOTE_ID } from 'Store/Cart';
 import { TotalsType } from 'Type/MiniCart';
-import { HistoryType } from 'Type/Common';
+import { updateMeta } from 'Store/Meta';
 import { isSignedIn } from 'Util/Auth';
+import { customerType } from 'Type/Account';
 
 import Checkout, { SHIPPING_STEP, BILLING_STEP, DETAILS_STEP } from './Checkout.component';
 
@@ -35,15 +39,18 @@ export const PAYMENT_TOTALS = 'PAYMENT_TOTALS';
 export const STRIPE_AUTH_REQUIRED = 'Authentication Required: ';
 
 export const mapStateToProps = state => ({
-    totals: state.CartReducer.cartTotals
+    totals: state.CartReducer.cartTotals,
+    customer: state.MyAccountReducer.customer
 });
 
 export const mapDispatchToProps = dispatch => ({
+    updateMeta: meta => dispatch(updateMeta(meta)),
     resetCart: () => CartDispatcher.updateInitialCartData(dispatch),
     toggleBreadcrumbs: state => dispatch(toggleBreadcrumbs(state)),
     showErrorNotification: message => dispatch(showNotification('error', message)),
     setHeaderState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
-    setNavigationState: stateName => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, stateName))
+    setNavigationState: stateName => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, stateName)),
+    createAccount: options => MyAccountDispatcher.createAccount(options, dispatch)
 });
 
 export class CheckoutContainer extends PureComponent {
@@ -51,9 +58,12 @@ export class CheckoutContainer extends PureComponent {
         showErrorNotification: PropTypes.func.isRequired,
         toggleBreadcrumbs: PropTypes.func.isRequired,
         setNavigationState: PropTypes.func.isRequired,
+        createAccount: PropTypes.func.isRequired,
+        updateMeta: PropTypes.func.isRequired,
         resetCart: PropTypes.func.isRequired,
         totals: TotalsType.isRequired,
-        history: HistoryType.isRequired
+        history: HistoryType.isRequired,
+        customer: customerType.isRequired
     };
 
     containerFunctions = {
@@ -62,7 +72,9 @@ export class CheckoutContainer extends PureComponent {
         savePaymentInformation: this.savePaymentInformation.bind(this),
         saveAddressInformation: this.saveAddressInformation.bind(this),
         onShippingEstimationFieldsChange: this.onShippingEstimationFieldsChange.bind(this),
-        onEmailChange: this.onEmailChange.bind(this)
+        onEmailChange: this.onEmailChange.bind(this),
+        onCreateUserChange: this.onCreateUserChange.bind(this),
+        onPasswordChange: this.onPasswordChange.bind(this)
     };
 
     customPaymentMethods = [
@@ -97,11 +109,28 @@ export class CheckoutContainer extends PureComponent {
             orderID: '',
             paymentTotals: BrowserDatabase.getItem(PAYMENT_TOTALS) || {},
             email: '',
+            isCreateUser: false,
             isGuestEmailSaved: false
         };
 
         if (is_virtual) {
             this._getPaymentMethods();
+        }
+    }
+
+    componentDidMount() {
+        const { updateMeta } = this.props;
+        updateMeta({ title: __('Checkout') });
+    }
+
+    componentDidUpdate() {
+        const { customer: { addresses } } = this.props;
+        const { shippingMethods } = this.state;
+
+        if (isSignedIn()
+            && (addresses && addresses.length === 0)
+            && shippingMethods.length) {
+            this.resetShippingMethods();
         }
     }
 
@@ -112,6 +141,15 @@ export class CheckoutContainer extends PureComponent {
 
     onEmailChange(email) {
         this.setState({ email });
+    }
+
+    onCreateUserChange() {
+        const { isCreateUser } = this.state;
+        this.setState({ isCreateUser: !isCreateUser });
+    }
+
+    onPasswordChange(password) {
+        this.setState({ password });
     }
 
     onShippingEstimationFieldsChange(address) {
@@ -166,6 +204,19 @@ export class CheckoutContainer extends PureComponent {
         this.setState({ isLoading });
     }
 
+    setShippingAddress = async () => {
+        const { shippingAddress } = this.state;
+        const { region, region_id, ...address } = shippingAddress;
+
+        const mutation = MyAccountQuery.getCreateAddressMutation({
+            ...address, region: { region, region_id }
+        });
+
+        await fetchMutation(mutation);
+
+        return true;
+    };
+
     containerProps = () => {
         const { paymentTotals } = this.state;
 
@@ -185,6 +236,8 @@ export class CheckoutContainer extends PureComponent {
         }, () => {
             showErrorNotification(debugMessage || message);
         });
+
+        return false;
     };
 
     _handlePaymentError = (error, paymentInformation) => {
@@ -205,6 +258,10 @@ export class CheckoutContainer extends PureComponent {
     };
 
     _getGuestCartId = () => BrowserDatabase.getItem(GUEST_QUOTE_ID);
+
+    resetShippingMethods() {
+        this.setState({ shippingMethods: [] });
+    }
 
     _getPaymentMethods() {
         fetchQuery(CheckoutQuery.getPaymentMethodsQuery(
@@ -236,9 +293,53 @@ export class CheckoutContainer extends PureComponent {
                 if (data) {
                     this.setState({ isGuestEmailSaved: true });
                 }
+
+                return true;
             },
             this._handleError
         );
+    }
+
+    async createUserOrSaveGuest() {
+        const {
+            createAccount,
+            totals: { is_virtual }
+        } = this.props;
+
+        const {
+            email,
+            password,
+            isCreateUser,
+            shippingAddress: {
+                firstname,
+                lastname
+            }
+        } = this.state;
+
+        if (!isCreateUser) {
+            return this.saveGuestEmail();
+        }
+
+        const options = {
+            customer: {
+                email,
+                firstname,
+                lastname
+            },
+            password
+        };
+
+        const creation = await createAccount(options);
+
+        if (!creation) {
+            return creation;
+        }
+
+        if (!is_virtual) {
+            return this.setShippingAddress();
+        }
+
+        return true;
     }
 
     async saveAddressInformation(addressInformation) {
@@ -250,7 +351,10 @@ export class CheckoutContainer extends PureComponent {
         });
 
         if (!isSignedIn()) {
-            await this.saveGuestEmail();
+            if (!await this.createUserOrSaveGuest()) {
+                this.setState({ isLoading: false });
+                return;
+            }
         }
 
         fetchMutation(CheckoutQuery.getSaveAddressInformation(
@@ -283,7 +387,10 @@ export class CheckoutContainer extends PureComponent {
         this.setState({ isLoading: true });
 
         if (!isSignedIn() && !isGuestEmailSaved) {
-            await this.saveGuestEmail();
+            if (!await this.createUserOrSaveGuest()) {
+                this.setState({ isLoading: false });
+                return;
+            }
         }
 
         if (this.customPaymentMethods.includes(method)) {

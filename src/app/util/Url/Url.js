@@ -83,7 +83,7 @@ const convertQueryStringToKeyValuePairs = (queryString) => {
         const pair = param.split('=');
         const [keyPair, valuePair] = pair;
 
-        if (keyPair.length > 0 && valuePair.length > 0) keyValuePairs[keyPair] = valuePair;
+        if (keyPair.length > 0 && valuePair.length > 0) keyValuePairs[keyPair] = decodeURIComponent(valuePair);
     });
 
     return keyValuePairs;

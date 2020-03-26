@@ -22,7 +22,6 @@ import ContentWrapper from 'Component/ContentWrapper';
 import CategorySort from 'Component/CategorySort';
 import { CategoryTreeType } from 'Type/Category';
 import { FilterType, FilterInputType } from 'Type/ProductList';
-import Meta from 'Component/Meta';
 import './CategoryPage.style';
 import isMobile from 'Util/Mobile';
 
@@ -54,7 +53,14 @@ export default class CategoryPage extends PureComponent {
         toggleOverlayByKey: PropTypes.func.isRequired,
         selectedFilters: FilterType.isRequired,
         filter: FilterInputType.isRequired,
-        search: PropTypes.string.isRequired
+        search: PropTypes.string.isRequired,
+        isContentFiltered: PropTypes.bool,
+        totalPages: PropTypes.number
+    };
+
+    static defaultProps = {
+        isContentFiltered: true,
+        totalPages: 1
     };
 
     onFilterButtonClick = this.onFilterButtonClick.bind(this);
@@ -75,6 +81,12 @@ export default class CategoryPage extends PureComponent {
     }
 
     renderFilterButton() {
+        const { isContentFiltered, totalPages } = this.props;
+
+        if (!isContentFiltered && totalPages === 0) {
+            return null;
+        }
+
         return (
             <button
               block="CategoryPage"
@@ -164,15 +176,12 @@ export default class CategoryPage extends PureComponent {
     }
 
     render() {
-        const { category } = this.props;
-
         return (
             <main block="CategoryPage">
                 <ContentWrapper
                   wrapperMix={ { block: 'CategoryPage', elem: 'Wrapper' } }
                   label="Category page"
                 >
-                    <Meta metaObject={ category } />
                     { this.renderFilterOverlay() }
                     { this.renderCategoryDetails() }
                     <aside block="CategoryPage" elem="Miscellaneous">

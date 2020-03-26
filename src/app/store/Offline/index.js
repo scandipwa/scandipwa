@@ -9,4 +9,5 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default } from './RelatedProducts.container';
+export * from './Offline.action';
+export { default as OfflineReducer } from './Offline.reducer';

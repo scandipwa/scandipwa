@@ -237,6 +237,10 @@
                 }
             }
 
+            &_confirmEmail {
+                padding-top: 0;
+            }
+
             &_forgotPassword {
                 padding-top: 2.8rem;
                 padding-left: 2.1rem;
@@ -267,7 +271,7 @@
             }
 
             &_forgotPasswordSuccess {
-                padding-top: 4.3rem;
+                padding-top: 0;
 
                 h4 {
                     font-size: 1rem;
@@ -277,6 +281,29 @@
                     letter-spacing: normal;
                 }
             }
+        }
+    }
+
+    &-CloseButton {
+        &::before,
+        &::after {
+            background-color: var(--header-color);
+            content: '';
+            height: 20px;
+            position: absolute;
+            right: 27px;
+            top: -13px;
+            transform-origin: 50% 50%;
+            width: 1px;
+            z-index: 1;
+        }
+
+        &::before {
+            transform: rotate(-45deg);
+        }
+
+        &::after {
+            transform: rotate(45deg);
         }
     }
 

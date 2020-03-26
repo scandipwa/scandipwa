@@ -8,22 +8,19 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-
+import PropTypes from 'prop-types';
 import { ProductType } from 'Type/ProductList';
-
-import CartCrossSell from './CartCrossSell.component';
+import UpsellProducts from './UpsellProducts.component';
 
 export const mapStateToProps = state => ({
     linkedProducts: state.LinkedProductsReducer.linkedProducts
 });
 
-export const CROSSSELL = 'crosssell';
+export const UPSELL = 'upsell';
 
-export class CartCrossSellContainer extends PureComponent {
+export class UpsellProductsContainer extends PureComponent {
     static propTypes = {
         products: PropTypes.array,
         linkedProducts: PropTypes.objectOf(ProductType).isRequired
@@ -36,7 +33,7 @@ export class CartCrossSellContainer extends PureComponent {
     render() {
         const {
             linkedProducts: {
-                crossSell: {
+                upsell: {
                     total_count
                 }
             },
@@ -46,18 +43,18 @@ export class CartCrossSellContainer extends PureComponent {
         const productIsLoaded = products.length !== 0;
         if (!productIsLoaded || total_count === 0) return null;
 
-        const hasCrossSells = products.some(({ product: { product_links } }) => (
-            product_links && product_links.some(({ link_type }) => link_type === CROSSSELL)
+        const hasUpSells = products.some(({ product_links }) => (
+            product_links && product_links.some(({ link_type }) => link_type === UPSELL)
         ));
 
-        if (!hasCrossSells) return null;
+        if (!hasUpSells) return null;
 
         return (
-            <CartCrossSell
+            <UpsellProducts
               { ...this.props }
             />
         );
     }
 }
 
-export default connect(mapStateToProps)(CartCrossSellContainer);
+export default connect(mapStateToProps)(UpsellProductsContainer);

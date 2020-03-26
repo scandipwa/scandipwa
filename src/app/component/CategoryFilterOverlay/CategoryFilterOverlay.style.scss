@@ -38,6 +38,15 @@
         transform: translateY(0%);
     }
 
+    &-NoResults {
+        margin: 0;
+        padding: 1rem 1rem 0;
+
+        @include desktop {
+            padding: 0 0 1rem 0;
+        }
+    }
+
     &-Heading {
         font-size: 18px;
         font-weight: bold;
@@ -107,14 +116,25 @@
         }
     }
 
-    &-SeeResults {
-        position: sticky;
-        padding: 1rem;
-        width: 100%;
-        left: 0;
+    &-SeeResults,
+    &-ResetButton {
+        @include mobile {
+            position: sticky;
+            padding: 1rem;
+            width: 100%;
+            left: 0;
+        }
+    }
 
+    &-SeeResults {
         @include after-mobile {
             display: none;
+        }
+
+        .CategoryFilterOverlay-NoResults ~ & {
+            @include mobile {
+                display: none;
+            }
         }
     }
 
@@ -125,9 +145,13 @@
     &-ResetButton {
         margin-bottom: 1rem;
 
-        &.Button {
+        @include mobile {
+            display: none;
+        }
+
+        .CategoryFilterOverlay-NoResults ~ & {
             @include mobile {
-                display: none;
+                display: block;
             }
         }
     }

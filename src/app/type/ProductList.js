@@ -116,9 +116,15 @@ export const ProductType = PropTypes.shape({
     small_image: PropTypes.shape({ url: PropTypes.string }),
     small_image_label: PropTypes.shape({ label: PropTypes.string }),
     special_price: PropTypes.number,
+    special_from_date: PropTypes.string,
+    special_to_date: PropTypes.string,
     thumbnail: PropTypes.shape({ url: PropTypes.string }),
     thumbnail_label: PropTypes.shape({ label: PropTypes.string }),
-    tier_prices: PropTypes.string,
+    tier_prices: PropTypes.arrayOf(PropTypes.shape({
+        value: PropTypes.number,
+        quantity: PropTypes.number,
+        ratio: PropTypes.number
+    })),
     url_key: PropTypes.string,
     quantity: PropTypes.number,
     review_summary: ReviewSummaryType,

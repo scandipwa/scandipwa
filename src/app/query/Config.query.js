@@ -67,7 +67,13 @@ export class ConfigQuery {
                 'logo_alt',
                 'cookie_text',
                 'cookie_link',
-                'terms_are_enabled'
+                'terms_are_enabled',
+                'base_url',
+                'pagination_frame',
+                'pagination_frame_skip',
+                'anchor_text_for_previous',
+                'anchor_text_for_next',
+                'demo_notice'
             ]);
     }
 }

@@ -24,6 +24,13 @@ export default class ProductReviewList extends PureComponent {
         product: ProductType.isRequired
     };
 
+    getFormattedDate(created_at) {
+        // Safari bug
+        const fixedDate = created_at.replace(/-/g, '/');
+        const date = new Date(fixedDate);
+        return date ? date.toDateString() : created_at;
+    }
+
     renderReviewListItemRating = (ratingVoteItem) => {
         const {
             vote_id,
@@ -36,8 +43,14 @@ export default class ProductReviewList extends PureComponent {
               key={ vote_id }
               block="ProductReviewList"
               elem="RatingSummaryItem"
+              itemType="http://schema.org/Rating"
+              itemScope
+              itemProp="reviewRating"
             >
-                <p>{ rating_code }</p>
+                <p itemProp="name">{ rating_code }</p>
+                <meta itemProp="ratingValue" content={ percent } />
+                <meta itemProp="worstRating" content={ 0 } />
+                <meta itemProp="bestRating" content={ 100 } />
                 <ProductReviewRating
                   summary={ percent }
                   code={ rating_code }
@@ -47,16 +60,14 @@ export default class ProductReviewList extends PureComponent {
     };
 
     renderAuthor(reviewItem) {
-        const {
-            nickname,
-            created_at
-        } = reviewItem;
+        const { nickname, created_at } = reviewItem;
 
         return (
             <p block="ProductReviewList" elem="ReviewAuthor">
                 { __('Written by ') }
-                <strong>{ nickname }</strong>
-                { __(', written at %s', new Date(created_at).toDateString()) }
+                <strong itemProp="author">{ nickname }</strong>
+                <meta itemProp="datePublished" content={ this.getFormattedDate(created_at) } />
+                { __(', written at %s', this.getFormattedDate(created_at)) }
             </p>
         );
     }
@@ -74,15 +85,18 @@ export default class ProductReviewList extends PureComponent {
               key={ review_id }
               block="ProductReviewList"
               elem="Item"
+              itemType="http://schema.org/Review"
+              itemProp="review"
+              itemScope
             >
-                <h4 block="ProductReviewList" elem="ReviewTitle">
+                <h4 block="ProductReviewList" elem="ReviewTitle" itemProp="name">
                     { title }
                 </h4>
                 <div block="ProductReviewList" elem="RatingSummary">
                     { rating_votes.map(this.renderReviewListItemRating) }
                 </div>
                 <div block="ProductReviewList" elem="ReviewContent">
-                    <p block="ProductReviewList" elem="ReviewDetails">
+                    <p block="ProductReviewList" elem="ReviewDetails" itemProp="reviewBody">
                         { detail }
                     </p>
                     { this.renderAuthor(reviewItem) }
