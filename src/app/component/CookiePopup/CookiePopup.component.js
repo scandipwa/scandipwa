@@ -28,7 +28,7 @@ class CookiePopup extends PureComponent {
     };
 
     static defaultProps = {
-        cookieText: 'This site uses cookies to offer you a better browsing experience.',
+        cookieText: '',
         cookieLink: ''
     };
 
