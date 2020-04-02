@@ -22,22 +22,25 @@ import { Route, Switch } from 'react-router-dom';
 import { Router } from 'react-router';
 import { connect } from 'react-redux';
 import { updateMeta } from 'Store/Meta';
+
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { createBrowserHistory } from 'history';
 
-import Breadcrumbs from 'Component/Breadcrumbs';
+import Store from 'Store';
 import Meta from 'Component/Meta';
 import Footer from 'Component/Footer';
+import CookiePopup from 'Component/CookiePopup';
 import Header from 'Component/Header';
-import NavigationTabs from 'Component/NavigationTabs';
-import NotificationList from 'Component/NotificationList';
-
-import Store from 'Store';
-
-import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
-import { ConfigDispatcher } from 'Store/Config';
 import { CartDispatcher } from 'Store/Cart';
+import DemoNotice from 'Component/DemoNotice';
+import { ConfigDispatcher } from 'Store/Config';
+import Breadcrumbs from 'Component/Breadcrumbs';
 import { WishlistDispatcher } from 'Store/Wishlist';
+import OfflineNotice from 'Component/OfflineNotice';
+import NavigationTabs from 'Component/NavigationTabs';
+import SomethingWentWrong from 'Route/SomethingWentWrong';
+import NotificationList from 'Component/NotificationList';
+import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
 
 // suppress prop-types warning on Route component when using with React.lazy
 // until react-router-dom@4.4.0 or higher version released
@@ -58,7 +61,7 @@ export const NoMatchHandler = lazy(() => import(/* webpackMode: "lazy", webpackP
 export const PasswordChangePage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/PasswordChangePage'));
 export const ProductPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/ProductPage'));
 export const SearchPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/SearchPage'));
-export const SomethingWentWrong = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/SomethingWentWrong'));
+export const ConfirmAccountPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/ConfirmAccountPage'));
 export const UrlRewrites = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/UrlRewrites'));
 export const MenuPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/MenuPage'));
 
@@ -74,7 +77,9 @@ export const mapStateToProps = state => ({
     default_keywords: state.ConfigReducer.default_keywords,
     default_title: state.ConfigReducer.default_title,
     title_prefix: state.ConfigReducer.title_prefix,
-    title_suffix: state.ConfigReducer.title_suffix
+    title_suffix: state.ConfigReducer.title_suffix,
+    isOffline: state.OfflineReducer.isOffline,
+    isBigOffline: state.OfflineReducer.isBig
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -89,7 +94,8 @@ class AppRouter extends ExtensiblePureComponent {
         default_title: PropTypes.string,
         title_prefix: PropTypes.string,
         title_suffix: PropTypes.string,
-        isLoading: PropTypes.bool
+        isLoading: PropTypes.bool,
+        isBigOffline: PropTypes.bool
     };
 
     static defaultProps = {
@@ -98,13 +104,18 @@ class AppRouter extends ExtensiblePureComponent {
         default_title: '',
         title_prefix: '',
         title_suffix: '',
-        isLoading: true
+        isLoading: true,
+        isBigOffline: false
     };
 
     [BEFORE_ITEMS_TYPE] = [
         {
             component: <NotificationList />,
             position: 10
+        },
+        {
+            component: <DemoNotice />,
+            position: 15
         },
         {
             component: <Header />,
@@ -154,6 +165,10 @@ class AppRouter extends ExtensiblePureComponent {
             position: 60
         },
         {
+            component: <Route path="/:account*/confirm" component={ ConfirmAccountPage } />,
+            position: 65
+        },
+        {
             component: <Route path="/my-account/:tab?" component={ MyAccount } />,
             position: 70
         },
@@ -171,6 +186,10 @@ class AppRouter extends ExtensiblePureComponent {
         {
             component: <Footer />,
             position: 10
+        },
+        {
+            component: <CookiePopup />,
+            position: 20
         }
     ];
 
@@ -280,6 +299,24 @@ class AppRouter extends ExtensiblePureComponent {
         );
     }
 
+    renderMainItems() {
+        const { isBigOffline } = this.props;
+
+        if (!navigator.onLine && isBigOffline) {
+            return <OfflineNotice isPage />;
+        }
+
+        return (
+            <Suspense fallback={ this.renderFallbackPage() }>
+                <NoMatchHandler>
+                    <Switch>
+                        { this.renderItemsOfType(SWITCH_ITEMS_TYPE) }
+                    </Switch>
+                </NoMatchHandler>
+            </Suspense>
+        );
+    }
+
     renderErrorRouterContent() {
         const { errorDetails } = this.state;
 
@@ -301,13 +338,7 @@ class AppRouter extends ExtensiblePureComponent {
         return (
             <>
                 { this.renderItemsOfType(BEFORE_ITEMS_TYPE) }
-                <Suspense fallback={ this.renderFallbackPage() }>
-                    <NoMatchHandler>
-                        <Switch>
-                            { this.renderItemsOfType(SWITCH_ITEMS_TYPE) }
-                        </Switch>
-                    </NoMatchHandler>
-                </Suspense>
+                { this.renderMainItems() }
                 { this.renderItemsOfType(AFTER_ITEMS_TYPE) }
             </>
         );
@@ -315,7 +346,11 @@ class AppRouter extends ExtensiblePureComponent {
 
     renderRouterContent() {
         const { hasError } = this.state;
-        if (hasError) return this.renderErrorRouterContent();
+
+        if (hasError) {
+            return this.renderErrorRouterContent();
+        }
+
         return this.renderDefaultRouterContent();
     }
 

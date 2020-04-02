@@ -37,7 +37,8 @@ export class SliderQuery extends ExtensibleClass {
         return [
             'slide_text',
             'slide_id',
-            'image',
+            'mobile_image',
+            'desktop_image',
             'title',
             'is_active'
         ];

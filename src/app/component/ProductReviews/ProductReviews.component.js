@@ -70,6 +70,17 @@ class ProductReviews extends ExtensiblePureComponent {
         );
     }
 
+    renderRatingSchema(percent, reviewCount) {
+        return (
+            <>
+                <meta itemProp="ratingValue" content={ percent } />
+                <meta itemProp="worstRating" content={ 0 } />
+                <meta itemProp="bestRating" content={ 100 } />
+                <meta itemProp="reviewCount" content={ reviewCount } />
+            </>
+        );
+    }
+
     renderRatingData() {
         const {
             product: {
@@ -85,10 +96,11 @@ class ProductReviews extends ExtensiblePureComponent {
 
         const percent = parseFloat(STARS_COUNT * (rating_summary || 0) / PERCENT).toFixed(2);
 
-        if (!rating_summary) return this.renderNoRating();
+        if (!review_count) return this.renderNoRating();
 
         return (
             <>
+                { this.renderRatingSchema(percent, review_count) }
                 <ProductReviewRating
                   mix={ { block: 'ProductReviews', elem: 'SummaryRating' } }
                   summary={ rating_summary }
@@ -102,8 +114,27 @@ class ProductReviews extends ExtensiblePureComponent {
     }
 
     renderSummary() {
+        const {
+            product: {
+                review_summary: {
+                    review_count
+                } = {}
+            }
+        } = this.props;
+
+        const reviewSchemaObject = review_count
+            ? {
+                itemType: 'http://schema.org/AggregateRating',
+                itemProp: 'aggregateRating',
+                itemScope: true
+            } : {};
+
         return (
-            <div block="ProductReviews" elem="Summary">
+            <div
+              block="ProductReviews"
+              elem="Summary"
+              { ...reviewSchemaObject }
+            >
                 <h3 block="ProductReviews" elem="Title">
                     { __('Customer reviews') }
                 </h3>

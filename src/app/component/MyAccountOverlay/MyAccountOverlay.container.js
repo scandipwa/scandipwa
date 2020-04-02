@@ -27,7 +27,8 @@ import MyAccountOverlay, {
     STATE_FORGOT_PASSWORD,
     STATE_FORGOT_PASSWORD_SUCCESS,
     STATE_CREATE_ACCOUNT,
-    STATE_LOGGED_IN
+    STATE_LOGGED_IN,
+    STATE_CONFIRM_EMAIL
 } from './MyAccountOverlay.component';
 
 export const mapStateToProps = state => ({
@@ -38,10 +39,10 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
+    hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     forgotPassword: options => MyAccountDispatcher.forgotPassword(options, dispatch),
     createAccount: options => MyAccountDispatcher.createAccount(options, dispatch),
     signIn: options => MyAccountDispatcher.signIn(options, dispatch),
-    hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     showNotification: (type, message) => dispatch(showNotification(type, message)),
     setHeaderState: headerState => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, headerState))
 });
@@ -56,7 +57,8 @@ export class MyAccountOverlayContainer extends ExtensiblePureComponent {
         // eslint-disable-next-line react/no-unused-prop-types
         isOverlayVisible: PropTypes.bool.isRequired,
         setHeaderState: PropTypes.func.isRequired,
-        onSignIn: PropTypes.func
+        onSignIn: PropTypes.func,
+        hideActiveOverlay: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -138,9 +140,12 @@ export class MyAccountOverlayContainer extends ExtensiblePureComponent {
     componentDidUpdate(_, prevState) {
         const { state: oldMyAccountState } = prevState;
         const { state: newMyAccountState } = this.state;
+        const { hideActiveOverlay } = this.props;
         const currentPage = window.location.pathname;
 
         if (oldMyAccountState === newMyAccountState) return;
+
+        if (isSignedIn()) hideActiveOverlay();
 
         if (currentPage !== '/checkout' && newMyAccountState === STATE_LOGGED_IN) {
             history.push({ pathname: '/my-account/dashboard' });
@@ -210,8 +215,14 @@ export class MyAccountOverlayContainer extends ExtensiblePureComponent {
         };
 
         createAccount(customerData).then(
-            () => {
-                onSignIn();
+            (code) => {
+                // if user needs confirmation
+                if (code === 2) {
+                    this.setState({ state: STATE_CONFIRM_EMAIL });
+                } else {
+                    onSignIn();
+                }
+
                 this.stopLoading();
             },
             this.stopLoading
@@ -220,6 +231,7 @@ export class MyAccountOverlayContainer extends ExtensiblePureComponent {
 
     onForgotPasswordSuccess(fields) {
         const { forgotPassword } = this.props;
+
         forgotPassword(fields).then(() => {
             this.setState({ state: STATE_FORGOT_PASSWORD_SUCCESS });
             this.stopLoading();
@@ -235,6 +247,12 @@ export class MyAccountOverlayContainer extends ExtensiblePureComponent {
     }
 
     stopLoading = () => this.setState({ isLoading: false });
+
+    stopLoadingAndHideOverlay = () => {
+        const { hideActiveOverlay } = this.props;
+        this.stopLoading();
+        hideActiveOverlay();
+    };
 
     handleForgotPassword(e) {
         const { setHeaderState } = this.props;

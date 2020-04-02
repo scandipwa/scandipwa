@@ -13,7 +13,7 @@ import { QueryDispatcher } from 'Util/Request';
 import { ProductListQuery } from 'Query';
 import { updateProductDetails } from 'Store/Product';
 import { updateNoMatch } from 'Store/NoMatch';
-import { RelatedProductsDispatcher } from 'Store/RelatedProducts';
+import { LinkedProductsDispatcher } from 'Store/LinkedProducts';
 
 /**
  * Product List Dispatcher
@@ -34,18 +34,22 @@ export class ProductDispatcher extends QueryDispatcher {
         const product = productItem.type_id === 'grouped'
             ? this._prepareGroupedProduct(productItem) : productItem;
 
-        // TODO: make one request per description & related in this.prepareRequest
-        if (productItem && productItem.product_links && Object.keys(productItem.product_links).length > 0) {
-            const { product_links } = productItem;
-            const productsSkuArray = product_links.filter(({ link_type }) => link_type === 'related')
-                .map(item => `"${item.linked_product_sku}"`);
+        if (items.length > 0) {
+            const product_links = items.reduce((links, product) => {
+                const { product_links } = product;
 
-            RelatedProductsDispatcher.handleData(
-                dispatch,
-                { args: { filter: { productsSkuArray } } }
-            );
-        } else {
-            RelatedProductsDispatcher.clearRelatedProducts(dispatch);
+                if (product_links) {
+                    Object.values(product_links).forEach((item) => {
+                        links.push(item);
+                    });
+                }
+
+                return links;
+            }, []);
+
+            if (product_links.length !== 0) {
+                LinkedProductsDispatcher.handleData(dispatch, product_links);
+            }
         }
 
         return dispatch(updateProductDetails(product));

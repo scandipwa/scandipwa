@@ -106,7 +106,7 @@
 
         @include mobile {
             position: fixed;
-            top: var(--header-height);
+            top: var(--header-total-height);
             left: 0;
             width: 100%;
             z-index: 90;

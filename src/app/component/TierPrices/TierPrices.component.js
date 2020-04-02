@@ -9,16 +9,22 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import { formatCurrency, roundPrice } from 'Util/Price';
 import { ProductType } from 'Type/ProductList';
 import './TierPrices.style';
 
 class TierPrices extends ExtensiblePureComponent {
     static propTypes = {
-        product: ProductType.isRequired
+        product: ProductType.isRequired,
+        isLowestPrice: PropTypes.bool
     };
 
-    renderTierPrice = ({ qty, value, percentage_value }) => {
+    static defaultProps = {
+        isLowestPrice: false
+    };
+
+    renderDetailedTierPrice = ({ qty, value, percentage_value }) => {
         const {
             product: {
                 price: {
@@ -54,9 +60,43 @@ class TierPrices extends ExtensiblePureComponent {
         );
     };
 
-    renderTierPriceList() {
+    renderLowestTierPrice() {
+        const {
+            product: {
+                tier_prices,
+                price: {
+                    regularPrice: {
+                        amount: { currency }
+                    }
+                }
+            }
+        } = this.props;
+
+        const lowestValue = tier_prices.reduce((acc, { value }) => (acc < value ? acc : value), tier_prices[0].value);
+
+        return (
+            <span block="TierPrices" elem="Item" mods={ { isLowest: true } }>
+                { __('As low as ') }
+                <span block="TierPrices" elem="ItemPrice">
+                    { `${ formatCurrency(currency) }${ roundPrice(lowestValue) }` }
+                </span>
+            </span>
+        );
+    }
+
+    renderDetailedTierPriceList() {
         const { product: { tier_prices } } = this.props;
-        return tier_prices.map(this.renderTierPrice);
+        return tier_prices.map(this.renderDetailedTierPrice);
+    }
+
+    renderTierPrice() {
+        const { isLowestPrice } = this.props;
+
+        if (isLowestPrice) {
+            return this.renderLowestTierPrice();
+        }
+
+        return this.renderDetailedTierPriceList();
     }
 
     render() {
@@ -66,11 +106,9 @@ class TierPrices extends ExtensiblePureComponent {
             return null;
         }
 
-        // TODO: make price and currency render order region-dependent
-
         return (
             <ul block="TierPrices">
-                { this.renderTierPriceList() }
+                { this.renderTierPrice() }
             </ul>
         );
     }

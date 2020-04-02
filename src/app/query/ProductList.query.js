@@ -131,7 +131,10 @@ export class ProductListQuery extends ExtensibleClass {
             this._getProductThumbnailField(),
             this._getProductSmallField(),
             this._getShortDescriptionField(),
+            'special_from_date',
+            'special_to_date',
             this._getAttributesField(isVariant),
+            this._getTierPricesField(),
             ...(!isVariant
                 ? [
                     'url_key',
@@ -154,12 +157,11 @@ export class ProductListQuery extends ExtensibleClass {
                     this._getDescriptionField(),
                     this._getMediaGalleryField(),
                     this._getSimpleProductFragment(),
+                    this._getProductLinksField(),
                     ...(!isVariant
                         ? [
-                            this._getProductLinksField(),
                             this._getCategoriesField(),
                             this._getReviewsField(),
-                            this._getProductLinksField(),
                             this._getVirtualProductFragment()
                         ]
                         : []
@@ -202,8 +204,10 @@ export class ProductListQuery extends ExtensibleClass {
     }
 
     _getProductField() {
+        const { isForLinkedProducts } = this.options;
+
         return new Field('product')
-            .addFieldList(this._getProductInterfaceFields(true));
+            .addFieldList(this._getProductInterfaceFields(true, isForLinkedProducts));
     }
 
     _getShortDescriptionFields() {

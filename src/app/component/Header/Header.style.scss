@@ -15,10 +15,11 @@
     --header-icon-stroke-width: 1px;
     --header-search-clear-background: #838383;
     --header-desktop-button-color: #f26323;
-    --header-height: calc(50px + env(safe-area-inset-top));
+    --header-height: 50px;
     --header-nav-height: 50px;
     --header-logo-width: 200px;
     --header-logo-height: calc(var(--header-height) - 30px);
+    --header-total-height: calc(var(--header-height) + var(--offline-notice-height) + var(--demo-notice-height));
 
     @include after-mobile {
         --header-height: 60px;
@@ -50,23 +51,24 @@
 
 .Header {
     position: fixed;
-    top: 0;
+    top: var(--demo-notice-height);
     left: 0;
     width: 100%;
     z-index: 100;
     background-color: var(--header-background);
     padding-top: env(safe-area-inset-top, 0);
 
+    @at-root .hiddenHeader {
+        @include mobile {
+            /* stylelint-disable-next-line length-zero-no-unit */
+            --header-height: 0px;
+        }
+    }
+
     &_isHiddenOnMobile {
         @include mobile {
             pointer-events: none;
             opacity: 0;
-        }
-
-        @at-root .hiddenHeader {
-            @include mobile {
-                --header-height: env(safe-area-inset-top);
-            }
         }
     }
 
@@ -112,6 +114,39 @@
                 @include after-mobile {
                     display: none;
                 }
+            }
+        }
+    }
+
+    &_isCheckout {
+        .Header {
+            &-Button_type_account {
+                display: block;
+            }
+
+            &-Nav {
+                padding-right: 47px;
+
+                @include after-mobile {
+                    justify-content: flex-end;
+                }
+            }
+
+            &-MyAccount {
+                @include mobile {
+                    position: absolute;
+                    right: 10px;
+                    width: auto;
+                }
+            }
+        }
+
+        .MyAccountOverlay {
+            @include mobile {
+                height: 100vh;
+                position: absolute;
+                right: -10px;
+                width: 100vw;
             }
         }
     }

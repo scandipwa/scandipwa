@@ -66,7 +66,7 @@ export class BreadcrumbsDispatcher extends ExtensibleClass {
                 },
                 {
                     url: '/',
-                    name: 'Home'
+                    name: __('Home')
                 }
             ]
             : [];

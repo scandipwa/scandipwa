@@ -13,12 +13,13 @@
 import PropTypes from 'prop-types';
 
 import { ProductType } from 'Type/ProductList';
+import ProductLinks from 'Component/ProductLinks';
 import ProductGallery from 'Component/ProductGallery';
 import ProductActions from 'Component/ProductActions';
 import ContentWrapper from 'Component/ContentWrapper';
 import ProductReviews from 'Component/ProductReviews';
-import RelatedProducts from 'Component/RelatedProducts';
 import ProductInformation from 'Component/ProductInformation';
+import { RELATED, UPSELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
 
 import './ProductPage.style';
 
@@ -76,8 +77,14 @@ export class ProductPage extends ExtensiblePureComponent {
                   product={ dataSource }
                   areDetailsLoaded={ areDetailsLoaded }
                 />
-                <RelatedProducts
-                  product={ dataSource }
+                <ProductLinks
+                  linkType={ RELATED }
+                  title={ __('Recommended for you') }
+                  areDetailsLoaded={ areDetailsLoaded }
+                />
+                <ProductLinks
+                  linkType={ UPSELL }
+                  title={ __('You might also like') }
                   areDetailsLoaded={ areDetailsLoaded }
                 />
             </>
@@ -87,18 +94,18 @@ export class ProductPage extends ExtensiblePureComponent {
     render() {
         return (
             <>
-                <main block="ProductPage" aria-label="Product page">
-                    <div
-                      itemScope
-                      itemType="http://schema.org/Product"
+                <main
+                  block="ProductPage"
+                  aria-label="Product page"
+                  itemScope
+                  itemType="http://schema.org/Product"
+                >
+                    <ContentWrapper
+                      wrapperMix={ { block: 'ProductPage', elem: 'Wrapper' } }
+                      label={ __('Main product details') }
                     >
-                        <ContentWrapper
-                          wrapperMix={ { block: 'ProductPage', elem: 'Wrapper' } }
-                          label={ __('Main product details') }
-                        >
-                            { this.renderProductPageContent() }
-                        </ContentWrapper>
-                    </div>
+                        { this.renderProductPageContent() }
+                    </ContentWrapper>
                     { this.renderAdditionalSections() }
                 </main>
             </>

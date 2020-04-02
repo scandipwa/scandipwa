@@ -214,7 +214,7 @@ export class CartItem extends ExtensiblePureComponent {
             <li
               block="CartItem"
               itemScope
-              itemType="https://schema.org/Product"
+              itemType="http://schema.org/Product"
             >
                 <Loader isLoading={ isLoading } />
                 { this.renderContent() }
