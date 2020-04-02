@@ -49,8 +49,7 @@ export class CategorySortContainer extends PureComponent {
             };
         case 'position':
             return {
-                asc: __('%s: Ascending', label),
-                desc: __('%s: Descending', label)
+                asc: __('Best match')
             };
         default:
             return {};
@@ -67,7 +66,7 @@ export class CategorySortContainer extends PureComponent {
             const label = this._getLabel(option);
             const { asc, desc } = label;
 
-            if (!asc || !desc) return acc;
+            if (!asc) return acc;
 
             const ascOption = {
                 id: `ASC ${id}`,
