@@ -146,10 +146,14 @@ export default class CategoryFilterOverlay extends PureComponent {
     }
 
     renderEmptyFilters() {
+        const { onVisible } = this.props;
+
         return (
             <Overlay
+              onVisible={ onVisible }
               mix={ { block: 'CategoryFilterOverlay' } }
               id={ CATEGORY_FILTER_OVERLAY_ID }
+              isRenderInPortal
             >
                 { this.renderNoResults() }
                 { this.renderResetButton() }
@@ -159,8 +163,15 @@ export default class CategoryFilterOverlay extends PureComponent {
     }
 
     renderMinimalFilters() {
+        const { onVisible } = this.props;
+
         return (
-            <Overlay mix={ { block: 'CategoryFilterOverlay' } } id={ CATEGORY_FILTER_OVERLAY_ID }>
+            <Overlay
+              onVisible={ onVisible }
+              mix={ { block: 'CategoryFilterOverlay' } }
+              id={ CATEGORY_FILTER_OVERLAY_ID }
+              isRenderInPortal
+            >
                 { this.renderPriceRange() }
             </Overlay>
         );
@@ -174,6 +185,7 @@ export default class CategoryFilterOverlay extends PureComponent {
               onVisible={ onVisible }
               mix={ { block: 'CategoryFilterOverlay' } }
               id={ CATEGORY_FILTER_OVERLAY_ID }
+              isRenderInPortal
             >
                 { this.renderHeading() }
                 { this.renderResetButton() }
