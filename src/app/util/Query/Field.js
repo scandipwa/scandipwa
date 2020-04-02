@@ -14,7 +14,7 @@
  * @class Query
  * @extends Field
  */
-class Field {
+class Field extends ExtensibleClass {
     /**
      * Class constructor
      *
@@ -22,6 +22,7 @@ class Field {
      * @memberof Query
      */
     constructor(name) {
+        super();
         if (!name || typeof name !== 'string') throw new Error('Field name must be non-empty string');
         this._name = name;
         this._fieldList = {};
@@ -262,4 +263,4 @@ class Field {
     }
 }
 
-export default Field;
+export default middleware(Field, 'Util/Query/Field');

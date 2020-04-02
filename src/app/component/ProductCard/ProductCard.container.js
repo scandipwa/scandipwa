@@ -10,7 +10,6 @@
  */
 
 import { connect } from 'react-redux';
-import { PureComponent } from 'react';
 import { Subscribe } from 'unstated';
 
 import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
@@ -25,7 +24,7 @@ export const mapDispatchToProps = dispatch => ({
     addProduct: options => CartDispatcher.addProductToCart(dispatch, options)
 });
 
-export class ProductCardContainer extends PureComponent {
+export class ProductCardContainer extends ExtensiblePureComponent {
     static propTypes = {
         product: ProductType,
         selectedFilters: FilterType
@@ -176,4 +175,6 @@ export class ProductCardContainer extends PureComponent {
 }
 
 
-export default connect(null, mapDispatchToProps)(ProductCardContainer);
+export default connect(null, mapDispatchToProps)(
+    middleware(ProductCardContainer, 'Component/ProductCard/Container')
+);

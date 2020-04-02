@@ -429,4 +429,6 @@ export class HeaderContainer extends NavigationAbstractContainer {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(HeaderContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    middleware(HeaderContainer, 'Component/Header/Container')
+);

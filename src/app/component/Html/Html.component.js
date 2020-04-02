@@ -11,7 +11,6 @@
 
 /* eslint-disable consistent-return */
 // Disabled due `domToReact` internal logic
-import { PureComponent } from 'react';
 import parser from 'html-react-parser';
 import domToReact from 'html-react-parser/lib/dom-to-react';
 import attributesToProps from 'html-react-parser/lib/attributes-to-props';
@@ -26,7 +25,7 @@ import { hash } from 'Util/Request/Hash';
  * Component converts HTML strings to React components
  * @class Html
  */
-export default class Html extends PureComponent {
+export class Html extends ExtensiblePureComponent {
     static propTypes = {
         content: PropTypes.string.isRequired
     };
@@ -245,3 +244,5 @@ export default class Html extends PureComponent {
         return this.getCachedHtml();
     }
 }
+
+export default middleware(Html, 'Component/Html/Component');

@@ -9,12 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { paymentMethodType } from 'Type/Checkout';
 import './CheckoutPayment.style';
 
-class CheckoutPayment extends PureComponent {
+class CheckoutPayment extends ExtensiblePureComponent {
     static propTypes = {
         method: paymentMethodType.isRequired,
         onClick: PropTypes.func.isRequired,
@@ -56,4 +55,4 @@ class CheckoutPayment extends PureComponent {
     }
 }
 
-export default CheckoutPayment;
+export default middleware(CheckoutPayment, 'Component/CheckoutPayment/Component');

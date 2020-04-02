@@ -10,7 +10,6 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
 import { PriceType } from 'Type/ProductList';
 import { MixType } from 'Type/Common';
 import {
@@ -19,12 +18,14 @@ import {
     calculateFinalPrice,
     roundPrice
 } from 'Util/Price';
+
 import ProductPrice from './ProductPrice.component';
+
 /**
  * Product price
  * @class ProductPrice
  */
-class ProductPriceContainer extends PureComponent {
+class ProductPriceContainer extends ExtensiblePureComponent {
     static propTypes = {
         isSchemaRequired: PropTypes.bool,
         price: PriceType,
@@ -73,4 +74,4 @@ class ProductPriceContainer extends PureComponent {
 }
 
 
-export default ProductPriceContainer;
+export default middleware(ProductPriceContainer, 'Component/ProductPrice/Container');

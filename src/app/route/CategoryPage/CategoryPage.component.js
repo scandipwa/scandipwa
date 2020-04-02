@@ -10,7 +10,6 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
 import {
     CATEGORY_FILTER_OVERLAY_ID
 } from 'Component/CategoryFilterOverlay/CategoryFilterOverlay.component';
@@ -25,7 +24,7 @@ import { FilterType, FilterInputType } from 'Type/ProductList';
 import './CategoryPage.style';
 import isMobile from 'Util/Mobile';
 
-export default class CategoryPage extends PureComponent {
+export class CategoryPage extends ExtensiblePureComponent {
     static propTypes = {
         category: CategoryTreeType.isRequired,
         minPriceRange: PropTypes.number.isRequired,
@@ -195,3 +194,5 @@ export default class CategoryPage extends PureComponent {
         );
     }
 }
+
+export default middleware(CategoryPage, 'Route/CategoryPage/Component');

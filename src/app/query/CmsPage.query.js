@@ -15,7 +15,7 @@ import { Field } from 'Util/Query';
  * CMS Page Query
  * @class CmsPageQuery
  */
-export class CmsPageQuery {
+export class CmsPageQuery extends ExtensibleClass {
     /**
      * get CMS Page query
      * @param  {{url_key: String, title: Int, content: String, content_heading: String, page_layout: String, meta_title: String, meta_description: String, meta_keywords, string}} options A object containing different aspects of query, each item can be omitted
@@ -44,4 +44,4 @@ export class CmsPageQuery {
     }
 }
 
-export default new CmsPageQuery();
+export default new (middleware(CmsPageQuery, 'Query/CmsPage'))();

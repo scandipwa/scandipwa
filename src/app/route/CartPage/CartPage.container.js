@@ -10,7 +10,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -35,7 +34,7 @@ export const mapDispatchToProps = dispatch => ({
     updateMeta: meta => dispatch(updateMeta(meta))
 });
 
-export class CartPageContainer extends PureComponent {
+export class CartPageContainer extends ExtensiblePureComponent {
     static propTypes = {
         updateBreadcrumbs: PropTypes.func.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
@@ -126,4 +125,6 @@ export class CartPageContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CartPageContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    middleware(CartPageContainer, 'Route/CartPage/Container')
+);

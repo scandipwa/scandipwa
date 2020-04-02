@@ -13,13 +13,13 @@
 /* eslint-disable react/no-array-index-key */
 // Disabled due placeholder needs
 
-import { PureComponent, createRef } from 'react';
+import { createRef } from 'react';
 import PropTypes from 'prop-types';
 
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
 import ProductWishlistButton from 'Component/ProductWishlistButton';
 import ProductReviewRating from 'Component/ProductReviewRating';
-import GroupedProductList from 'Component/GroupedProductsList';
+import GroupedProductList from 'Component/GroupedProductList';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import ProductPrice from 'Component/ProductPrice';
 import { ProductType } from 'Type/ProductList';
@@ -36,7 +36,7 @@ import './ProductActions.style';
  * Product actions
  * @class ProductActions
  */
-export default class ProductActions extends PureComponent {
+export class ProductActions extends ExtensiblePureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         productOrVariant: ProductType.isRequired,
@@ -444,3 +444,5 @@ export default class ProductActions extends PureComponent {
         );
     }
 }
+
+export default middleware(ProductActions, 'Component/ProductActions/Component');

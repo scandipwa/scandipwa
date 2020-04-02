@@ -11,7 +11,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import './VideoPopup.style';
 import Popup from 'Component/Popup';
 import { MediaItemType } from 'Type/ProductList';
@@ -30,7 +29,7 @@ const YOUTUBE_FORMAT = new RegExp('(?:https?//)?www.youtube.com/watch\\?v=(\\w+)
  * A popup capable of displaying a video
  * @class VideoPopup
  */
-export default class VideoPopup extends PureComponent {
+export class VideoPopup extends ExtensiblePureComponent {
     static propTypes = {
         payload: MediaItemType.isRequired
     };
@@ -129,3 +128,5 @@ export default class VideoPopup extends PureComponent {
         );
     }
 }
+
+export default middleware(VideoPopup, 'Component/VideoPopup/Component');

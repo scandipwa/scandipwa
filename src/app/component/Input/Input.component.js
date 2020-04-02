@@ -1,7 +1,6 @@
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-class Input extends PureComponent {
+class Input extends ExtensiblePureComponent {
     static propTypes = {
         formRef: PropTypes.oneOfType([
             PropTypes.func,
@@ -28,4 +27,4 @@ class Input extends PureComponent {
     }
 }
 
-export default Input;
+export default middleware(Input, 'Component/Input/Component');

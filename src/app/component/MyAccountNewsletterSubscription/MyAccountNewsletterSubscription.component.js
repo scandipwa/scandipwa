@@ -74,4 +74,4 @@ export class MyAccountNewsletterSubscription extends FieldForm {
     }
 }
 
-export default MyAccountNewsletterSubscription;
+export default middleware(MyAccountNewsletterSubscription, 'Component/MyAccountNewsletterSubscription/Component');

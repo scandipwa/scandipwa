@@ -10,7 +10,6 @@
  */
 
 import { withRouter } from 'react-router';
-import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -35,7 +34,7 @@ export const mapDispatchToProps = dispatch => ({
     changeNavigationState: state => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state))
 });
 
-export class CategoryFilterOverlayContainer extends PureComponent {
+export class CategoryFilterOverlayContainer extends ExtensiblePureComponent {
     static propTypes = {
         location: PropTypes.shape({
             pathname: PropTypes.string.isRequired
@@ -172,4 +171,6 @@ export class CategoryFilterOverlayContainer extends PureComponent {
     }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CategoryFilterOverlayContainer));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(
+    middleware(CategoryFilterOverlayContainer, 'Component/CategoryFilterOverlay/Container')
+));

@@ -10,10 +10,9 @@
  */
 
 import PropTypes from 'prop-types';
-import { Component } from 'react';
 import { withRouter } from 'react-router';
-import { LocationType } from 'Type/Common';
 
+import { LocationType } from 'Type/Common';
 import media, { PRODUCT_MEDIA } from 'Util/Media/Media';
 
 import ProductGallery from './ProductGalleryBaseImage.component';
@@ -22,7 +21,7 @@ export const TRANSFORMATION_DELAY = 0;
 export const TRANSFORMATION_SPEED = 0;
 export const INITIAL_SCALE = 1;
 
-export class ProductGalleryBaseImageContainer extends Component {
+export class ProductGalleryBaseImageContainer extends ExtensibleComponent {
     static propTypes = {
         disableZoom: PropTypes.func.isRequired,
         scale: PropTypes.number.isRequired,
@@ -100,4 +99,6 @@ export class ProductGalleryBaseImageContainer extends Component {
     }
 }
 
-export default withRouter(ProductGalleryBaseImageContainer);
+export default withRouter(
+    middleware(ProductGalleryBaseImageContainer, 'Component/ProductGalleryBaseImage/Container')
+);

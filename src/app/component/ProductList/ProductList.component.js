@@ -10,7 +10,6 @@
  */
 
 import debounceRender from 'react-debounce-render';
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import CategoryProductListPlaceholder from 'Component/CategoryProductListPlaceholder';
 import { PagesType, FilterType } from 'Type/ProductList';
@@ -27,7 +26,7 @@ export const RENDER_PAGE_FREQUENCY = 150; // (ms)
  * List of category products
  * @class CategoryProductList
  */
-export class ProductList extends PureComponent {
+export class ProductList extends ExtensiblePureComponent {
     static propTypes = {
         title: PropTypes.string,
         pages: PagesType.isRequired,
@@ -280,4 +279,7 @@ export class ProductList extends PureComponent {
     }
 }
 
-export default debounceRender(ProductList, RENDER_PAGE_FREQUENCY, { leading: false });
+export default debounceRender(
+    middleware(ProductList, 'Component/ProductList/Component'),
+    RENDER_PAGE_FREQUENCY, { leading: false }
+);

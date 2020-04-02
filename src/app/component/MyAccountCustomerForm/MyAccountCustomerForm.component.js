@@ -61,4 +61,4 @@ class MyAccountCustomerForm extends FieldForm {
     }
 }
 
-export default MyAccountCustomerForm;
+export default middleware(MyAccountCustomerForm, 'Component/MyAccountCustomerForm/Component');

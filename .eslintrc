@@ -13,6 +13,11 @@
     "sessionStorage": true,
     "localStorage": true,
     "jest": true,
+    "ExtensiblePureComponent": true,
+    "ExtensibleComponent": true,
+    "ExtensibleUnstatedContainer": true,
+    "ExtensibleClass": true,
+    "middleware": true,
     "__": true,
     "workbox": true,
     "importScripts": true
@@ -22,9 +27,16 @@
     "import",
     "jest",
     "babel",
-    "fp"
+    "fp",
+    "scandipwa-extensibility"
   ],
   "rules": {
+    "scandipwa-extensibility/file-structure": "error",
+    "scandipwa-extensibility/only-one-class": "error",
+    "scandipwa-extensibility/derived-class-names": "error",
+    "scandipwa-extensibility/no-non-extensible-components": "error",
+    "scandipwa-extensibility/use-extensible-base": "error",
+    "scandipwa-extensibility/use-middleware": "error",
     "fp/no-let": "error",
     "fp/no-arguments": "error",
     "fp/no-loops": "error",
@@ -72,7 +84,7 @@
     "react/forbid-dom-props": [2, {"forbid": ["className"]}],
     "react/no-deprecated": 2,
     "babel/semi": 1,
-    "new-cap": ["error", { "newIsCap": true }],
+    "new-cap": ["error", { "newIsCap": true, "newIsCapExceptions": ["middleware"] }],
     "no-param-reassign": ["error", { "props": true, "ignorePropertyModificationsFor": ["acc", "sum"] }],
     "no-magic-numbers": ["error", { "ignore": [1, 0, 2, -1] }],
     "indent": [

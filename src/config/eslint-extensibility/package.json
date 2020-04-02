@@ -1,0 +1,8 @@
+{
+  "name": "eslint-plugin-scandipwa-extensibility",
+  "version": "1.0.0",
+  "description": "Eslint rules for ScandiPWA",
+  "main": "index.js",
+  "author": "Jegors Batovs (yegor@scandipwa.com)",
+  "license": "ISC"
+}

@@ -11,7 +11,6 @@
 
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
 
 import { showPopup } from 'Store/Popup';
 
@@ -21,7 +20,7 @@ export const mapDispatchToProps = dispatch => ({
     showPopup: payload => dispatch(showPopup(REVIEW_POPUP_ID, payload))
 });
 
-export class ProductReviewsContainer extends PureComponent {
+export class ProductReviewsContainer extends ExtensiblePureComponent {
     static propTypes = {
         showPopup: PropTypes.func.isRequired
     };
@@ -45,4 +44,6 @@ export class ProductReviewsContainer extends PureComponent {
     }
 }
 
-export default connect(null, mapDispatchToProps)(ProductReviewsContainer);
+export default connect(null, mapDispatchToProps)(
+    middleware(ProductReviewsContainer, 'Component/ProductReviews/Container')
+);

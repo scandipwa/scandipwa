@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import CheckoutAddressBook from 'Component/CheckoutAddressBook';
@@ -19,7 +18,7 @@ import { shippingMethodsType, shippingMethodType } from 'Type/Checkout';
 import Loader from 'Component/Loader';
 import Form from 'Component/Form';
 
-class CheckoutShipping extends PureComponent {
+class CheckoutShipping extends ExtensiblePureComponent {
     static propTypes = {
         onShippingSuccess: PropTypes.func.isRequired,
         onShippingError: PropTypes.func.isRequired,
@@ -105,4 +104,4 @@ class CheckoutShipping extends PureComponent {
     }
 }
 
-export default CheckoutShipping;
+export default middleware(CheckoutShipping, 'Component/CheckoutShipping/Component');

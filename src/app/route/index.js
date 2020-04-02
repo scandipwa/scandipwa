@@ -12,7 +12,6 @@
  */
 
 import {
-    PureComponent,
     cloneElement,
     lazy,
     Suspense
@@ -87,7 +86,7 @@ export const mapDispatchToProps = dispatch => ({
     updateMeta: meta => dispatch(updateMeta(meta))
 });
 
-export class AppRouter extends PureComponent {
+class AppRouter extends ExtensiblePureComponent {
     static propTypes = {
         updateMeta: PropTypes.func.isRequired,
         default_description: PropTypes.string,
@@ -367,4 +366,6 @@ export class AppRouter extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AppRouter);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    middleware(AppRouter, 'Route/AppRouter')
+);

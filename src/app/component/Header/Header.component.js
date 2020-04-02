@@ -45,7 +45,7 @@ export const CART_EDITING = 'cart_editing';
 export const CHECKOUT = 'checkout';
 export const CMS_PAGE = 'cms-page';
 
-export default class Header extends NavigationAbstract {
+export class Header extends NavigationAbstract {
     static propTypes = {
         navigationState: PropTypes.object.isRequired,
         cartTotals: TotalsType.isRequired,
@@ -466,3 +466,5 @@ export default class Header extends NavigationAbstract {
         );
     }
 }
+
+export default middleware(Header, 'Component/Header/Component');

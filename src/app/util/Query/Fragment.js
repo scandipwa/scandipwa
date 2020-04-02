@@ -45,4 +45,4 @@ class Fragment extends Field {
     }
 }
 
-export default Fragment;
+export default middleware(Fragment, 'Util/Query/Fragment');

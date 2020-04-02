@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { isSignedIn } from 'Util/Auth';
@@ -32,7 +31,7 @@ export const mapDispatchToProps = dispatch => ({
 
 export const ERROR_CONFIGURABLE_NOT_PROVIDED = 'ERROR_CONFIGURABLE_NOT_PROVIDED';
 
-export class ProductWishlistButtonContainer extends PureComponent {
+export class ProductWishlistButtonContainer extends ExtensiblePureComponent {
     static propTypes = {
         quantity: PropTypes.number,
         product: ProductType.isRequired,
@@ -154,4 +153,6 @@ export class ProductWishlistButtonContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProductWishlistButtonContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    middleware(ProductWishlistButtonContainer, 'Component/ProductWishlistButton/Container')
+);

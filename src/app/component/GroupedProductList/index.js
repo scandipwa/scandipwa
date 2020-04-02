@@ -9,6 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import UpsellProducts from './UpsellProducts.container';
-
-export default UpsellProducts;
+export { default } from './GroupedProductList.component';

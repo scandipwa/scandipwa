@@ -10,7 +10,6 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
 import CategoryPage from 'Route/CategoryPage';
 import ProductPage from 'Route/ProductPage';
 import CmsPage from 'Route/CmsPage';
@@ -28,7 +27,7 @@ export const TYPE_NOTFOUND = 'NOT_FOUND';
  * const TYPE_PWA = 'PWA_ROUTER';
  * const TYPE_CUSTOM = 'CUSTOM';
  */
-export default class UrlRewrites extends PureComponent {
+export class UrlRewrites extends ExtensiblePureComponent {
     static propTypes = {
         location: LocationType.isRequired,
         match: MatchType.isRequired,
@@ -151,3 +150,5 @@ export default class UrlRewrites extends PureComponent {
         return this.renderPlaceholders();
     }
 }
+
+export default middleware(UrlRewrites, 'Route/UrlRewrites/Component');

@@ -107,4 +107,6 @@ export class StoreSwitcherContainer extends DataContainer {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(StoreSwitcherContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    middleware(StoreSwitcherContainer, 'Component/StoreSwitcher/Container')
+);

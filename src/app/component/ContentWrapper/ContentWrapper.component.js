@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { MixType, ChildrenType } from 'Type/Common';
 import './ContentWrapper.style';
@@ -18,7 +17,7 @@ import './ContentWrapper.style';
  * Content Wrapper
  * @class ContentWrapper
  */
-export default class ContentWrapper extends PureComponent {
+export class ContentWrapper extends ExtensiblePureComponent {
     static propTypes = {
         children: ChildrenType,
         mix: MixType,
@@ -49,3 +48,5 @@ export default class ContentWrapper extends PureComponent {
         );
     }
 }
+
+export default middleware(ContentWrapper, 'Component/ContentWrapper/Component');

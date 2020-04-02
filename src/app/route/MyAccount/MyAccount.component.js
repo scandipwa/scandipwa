@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import MyAccountNewsletterSubscription from 'Component/MyAccountNewsletterSubscription';
@@ -32,7 +31,7 @@ import {
 
 import './MyAccount.style';
 
-class MyAccount extends PureComponent {
+class MyAccount extends ExtensiblePureComponent {
     static propTypes = {
         activeTab: activeTabType.isRequired,
         tabMap: tabMapType.isRequired,
@@ -99,4 +98,4 @@ class MyAccount extends PureComponent {
     }
 }
 
-export default MyAccount;
+export default middleware(MyAccount, 'Route/MyAccount/Component');

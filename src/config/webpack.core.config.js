@@ -27,7 +27,7 @@ const BabelConfig = require('./babel.config');
 const FallbackPlugin = require('./FallbackPlugin');
 
 const projectRoot = path.resolve(__dirname, '..', '..');
-const magentoRoot = path.resolve(projectRoot, '..', '..', '..', '..', '..');
+const magentoRoot = path.resolve(projectRoot, '..', '..');
 const fallbackRoot = path.resolve(magentoRoot, 'vendor', 'scandipwa', 'source');
 
 module.exports = {
@@ -42,6 +42,17 @@ module.exports = {
             new FallbackPlugin({
                 fallbackRoot, projectRoot
             })
+        ],
+        modules: [
+            path.resolve(projectRoot, 'node_modules'),
+            'node_modules'
+        ]
+    },
+
+    resolveLoader: {
+        modules: [
+            'node_modules',
+            path.resolve(__dirname, 'loaders')
         ]
     },
 
@@ -67,6 +78,18 @@ module.exports = {
                     {
                         loader: 'babel-loader',
                         options: BabelConfig
+                    }
+                ]
+            },
+            {
+                test: path.resolve(projectRoot, 'src', 'app', 'util', 'Extensions', 'index.js'),
+                use: [
+                    {
+                        loader: 'extension-import-injector',
+                        options: {
+                            magentoRoot,
+                            importAggregator: 'extensions'
+                        }
                     }
                 ]
             },
@@ -155,7 +178,12 @@ module.exports = {
         }),
 
         new webpack.ProvidePlugin({
-            __: path.resolve(path.join(__dirname, 'TranslationFunction')),
+            __: path.join(__dirname, 'TranslationFunction'),
+            middleware: path.join(__dirname, 'Middleware'),
+            ExtensiblePureComponent: path.join(__dirname, 'ExtensibleClasses', 'ExtensiblePureComponent'),
+            ExtensibleComponent: path.join(__dirname, 'ExtensibleClasses', 'ExtensibleComponent'),
+            ExtensibleClass: path.join(__dirname, 'ExtensibleClasses', 'ExtensibleClass'),
+            ExtensibleUnstatedContainer: path.join(__dirname, 'ExtensibleClasses', 'ExtensibleUnstatedContainer'),
             React: 'react'
         }),
 

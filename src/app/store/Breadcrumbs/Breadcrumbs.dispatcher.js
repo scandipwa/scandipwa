@@ -15,7 +15,7 @@ import { updateBreadcrumbs, toggleBreadcrumbs } from 'Store/Breadcrumbs';
  * Breadcrumbs Dispatcher
  * @class BreadcrumbsDispatcher
  */
-export class BreadcrumbsDispatcher {
+export class BreadcrumbsDispatcher extends ExtensibleClass {
     /**
      * Set breadcrumbs
      * @param {Array<Object>} breadcrumbs Breadcrumbs array
@@ -143,4 +143,4 @@ export class BreadcrumbsDispatcher {
     }
 }
 
-export default new BreadcrumbsDispatcher();
+export default new (middleware(BreadcrumbsDispatcher, 'Store/Breadcrumbs/Dispatcher'))();

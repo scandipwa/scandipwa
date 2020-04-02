@@ -1,4 +1,7 @@
+/* eslint-disable no-console */
 /* eslint-disable func-names */
+/* eslint-disable no-param-reassign */
+
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -10,15 +13,16 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import { Provider as UnstatedProvider } from 'unstated';
 import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom';
 
 import SharedTransition from 'Component/SharedTransition';
+
 import AppRouter from 'Route';
 import store from 'Store';
 
+import 'Util/Extensions';
 import 'Util/Polyfill';
 import 'Style/main';
 
@@ -40,7 +44,7 @@ if (process.env.NODE_ENV === 'development') {
 const comment = document.createComment('Powered by ScandiPWA (scandipwa.com)');
 document.querySelector('html').appendChild(comment);
 
-class App extends PureComponent {
+class App extends ExtensiblePureComponent {
     render() {
         return (
             <Provider store={ store }>

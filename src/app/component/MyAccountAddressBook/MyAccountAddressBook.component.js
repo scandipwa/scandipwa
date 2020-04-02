@@ -9,14 +9,13 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { customerType } from 'Type/Account';
 import MyAccountAddressTable from 'Component/MyAccountAddressTable';
 import MyAccountAddressPopup from 'Component/MyAccountAddressPopup';
 import './MyAccountAddressBook.style';
 
-class MyAccountAddressBook extends PureComponent {
+class MyAccountAddressBook extends ExtensiblePureComponent {
     static propTypes = {
         customer: customerType.isRequired,
         getDefaultPostfix: PropTypes.func.isRequired,
@@ -82,4 +81,4 @@ class MyAccountAddressBook extends PureComponent {
     }
 }
 
-export default MyAccountAddressBook;
+export default middleware(MyAccountAddressBook, 'Component/MyAccountAddressBook/Component');

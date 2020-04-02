@@ -14,11 +14,11 @@ import { updateNoMatch } from 'Store/NoMatch';
  * NoMatch Dispatcher
  * @class NoMatchDispatcher
  */
-export class NoMatchDispatcher {
+export class NoMatchDispatcher extends ExtensibleClass {
     updateNoMatch(dispatch, options) {
         const { noMatch } = options;
         dispatch(updateNoMatch(noMatch));
     }
 }
 
-export default new NoMatchDispatcher();
+export default new (middleware(NoMatchDispatcher, 'Store/NoMatch/Dispatcher'))();

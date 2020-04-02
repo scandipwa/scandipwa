@@ -45,4 +45,4 @@ export class SearchBarDispatcher extends QueryDispatcher {
     }
 }
 
-export default new SearchBarDispatcher();
+export default new (middleware(SearchBarDispatcher, 'Store/SearchBar/Dispatcher'))();

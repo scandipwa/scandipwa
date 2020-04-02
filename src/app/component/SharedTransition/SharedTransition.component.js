@@ -1,10 +1,10 @@
-import { PureComponent, createRef } from 'react';
+import { createRef } from 'react';
 import PropTypes from 'prop-types';
 import './SharedTransition.style';
 
 export const SHARED_ELEMENT_TRANSITION = 250;
 
-class SharedTransition extends PureComponent {
+class SharedTransition extends ExtensiblePureComponent {
     static propTypes = {
         state: PropTypes.shape({
             startingPosition: PropTypes.shape({
@@ -107,4 +107,4 @@ class SharedTransition extends PureComponent {
     }
 }
 
-export default SharedTransition;
+export default middleware(SharedTransition, 'Component/SharedTransition/Component');

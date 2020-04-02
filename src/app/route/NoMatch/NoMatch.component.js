@@ -9,13 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import Link from 'Component/Link';
 import PropTypes from 'prop-types';
 import ContentWrapper from 'Component/ContentWrapper';
 import './NoMatch.style';
 
-export default class NoMatch extends PureComponent {
+export class NoMatch extends ExtensiblePureComponent {
     static propTypes = {
         updateBreadcrumbs: PropTypes.func.isRequired
     };
@@ -75,3 +74,5 @@ export default class NoMatch extends PureComponent {
         );
     }
 }
+
+export default middleware(NoMatch, 'Route/NoMatch/Component');

@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { isSignedIn } from 'Util/Auth';
@@ -31,7 +30,7 @@ export const mapDispatchToProps = dispatch => ({
     showNotification: (type, message) => dispatch(showNotification(type, message))
 });
 
-export class AddToCartContainer extends PureComponent {
+export class AddToCartContainer extends ExtensiblePureComponent {
     static propTypes = {
         isLoading: PropTypes.bool,
         product: ProductType.isRequired,
@@ -216,4 +215,6 @@ export class AddToCartContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddToCartContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    middleware(AddToCartContainer, 'Component/AddToCart/Container')
+);

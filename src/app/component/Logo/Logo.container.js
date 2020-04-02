@@ -23,4 +23,4 @@ class LogoContainer extends ImageContainer {
     }
 }
 
-export default LogoContainer;
+export default middleware(LogoContainer, 'Component/Logo/Container');

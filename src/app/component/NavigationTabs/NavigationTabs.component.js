@@ -165,4 +165,4 @@ class NavigationTabs extends NavigationAbstract {
     }
 }
 
-export default NavigationTabs;
+export default middleware(NavigationTabs, 'Component/NavigationTabs/Component');

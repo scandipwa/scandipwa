@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 
 import { ProductType } from 'Type/ProductList';
 import ProductReviewRating from 'Component/ProductReviewRating';
@@ -19,7 +18,7 @@ import './ProductReviewList.style';
 /**
  * @class ProductReviewList
  */
-export default class ProductReviewList extends PureComponent {
+export class ProductReviewList extends ExtensiblePureComponent {
     static propTypes = {
         product: ProductType.isRequired
     };
@@ -122,3 +121,5 @@ export default class ProductReviewList extends PureComponent {
         );
     }
 }
+
+export default middleware(ProductReviewList, 'Component/ProductReviewList/Component');

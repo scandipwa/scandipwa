@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { MyAccountDispatcher } from 'Store/MyAccount';
@@ -25,7 +24,7 @@ export const mapDispatchToProps = dispatch => ({
     requestCustomerData: () => MyAccountDispatcher.requestCustomerData(dispatch)
 });
 
-export class CheckoutAddressBookContainer extends PureComponent {
+export class CheckoutAddressBookContainer extends ExtensiblePureComponent {
     static propTypes = {
         isSignedIn: PropTypes.bool.isRequired,
         requestCustomerData: PropTypes.func.isRequired,
@@ -161,4 +160,6 @@ export class CheckoutAddressBookContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CheckoutAddressBookContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    middleware(CheckoutAddressBookContainer, 'Component/CheckoutAddressBook/Container')
+);

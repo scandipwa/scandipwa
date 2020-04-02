@@ -13,7 +13,7 @@ import { Field } from 'Util/Query';
 import { ProductListQuery } from 'Query';
 import { isSignedIn } from 'Util/Auth';
 
-export class CartQuery {
+export class CartQuery extends ExtensibleClass {
     getCartQuery(quoteId) {
         const query = new Field('getCartForCustomer')
             .addFieldList(this._getCartTotalsFields())
@@ -128,4 +128,4 @@ export class CartQuery {
     }
 }
 
-export default new CartQuery();
+export default new (middleware(CartQuery, 'Query/Cart'))();

@@ -55,4 +55,4 @@ export class ProductListDispatcher extends QueryDispatcher {
     }
 }
 
-export default new ProductListDispatcher();
+export default new (middleware(ProductListDispatcher, 'Store/ProductList/Dispatcher'))();

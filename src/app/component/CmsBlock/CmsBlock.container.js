@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { BlockListType } from 'Type/CMS';
 import CmsBlock from './CmsBlock.component';
@@ -18,7 +17,7 @@ export const mapStateToProps = state => ({
     blocks: state.CmsBlocksAndSliderReducer.blocks
 });
 
-export class CmsBlockContainer extends PureComponent {
+export class CmsBlockContainer extends ExtensiblePureComponent {
     constructor(props) {
         super(props);
 
@@ -51,4 +50,6 @@ CmsBlockContainer.propTypes = {
     blocks: BlockListType.isRequired
 };
 
-export default connect(mapStateToProps)(CmsBlockContainer);
+export default connect(mapStateToProps)(
+    middleware(CmsBlockContainer, 'Component/CmsBlock/Container')
+);

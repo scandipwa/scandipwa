@@ -153,4 +153,4 @@ class CheckoutAddressForm extends MyAccountAddressForm {
     }
 }
 
-export default CheckoutAddressForm;
+export default middleware(CheckoutAddressForm, 'Component/CheckoutAddressForm/Component');

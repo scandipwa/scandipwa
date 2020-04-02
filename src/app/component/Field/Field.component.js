@@ -15,7 +15,6 @@
 
 // todo fix text type
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { MixType } from 'Type/Common';
 import ClickOutside from 'Component/ClickOutside';
@@ -41,7 +40,7 @@ const a_KEY_CODE = 97;
  * Input fields component
  * @class Field
  */
-export default class Field extends PureComponent {
+export class Field extends ExtensiblePureComponent {
     static propTypes = {
         skipValue: PropTypes.bool,
         isControlled: PropTypes.bool,
@@ -625,3 +624,5 @@ export default class Field extends PureComponent {
         );
     }
 }
+
+export default middleware(Field, 'Component/Field/Component');

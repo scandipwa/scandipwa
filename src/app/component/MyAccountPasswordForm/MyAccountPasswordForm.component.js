@@ -46,4 +46,4 @@ class MyAccountPasswordForm extends FieldForm {
     }
 }
 
-export default MyAccountPasswordForm;
+export default middleware(MyAccountPasswordForm, 'Component/MyAccountPasswordForm/Component');
