@@ -10,7 +10,7 @@
  */
 
 .CartCoupon {
-    @include mobile {
+    @include before-desktop {
         width: 100%;
     }
 
@@ -24,12 +24,12 @@
         input {
             width: 200px;
 
-            @include mobile {
+            @include before-desktop {
                 width: 100%;
             }
         }
 
-        @include mobile {
+        @include before-desktop {
             width: 100%;
             margin-top: 0;
         }
@@ -38,7 +38,7 @@
     &-Button {
         margin-left: 2rem;
 
-        @include mobile {
+        @include before-desktop {
             width: 100%;
             margin-left: 0;
             margin-top: 1rem;

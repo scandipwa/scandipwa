@@ -66,23 +66,25 @@ export class CategorySortContainer extends PureComponent {
             const label = this._getLabel(option);
             const { asc, desc } = label;
 
-            if (!asc) return acc;
+            if (asc) {
+                acc.push({
+                    id: `ASC ${id}`,
+                    name: id,
+                    value: `ASC ${id}`,
+                    label: asc
+                });
+            }
 
-            const ascOption = {
-                id: `ASC ${id}`,
-                name: id,
-                value: `ASC ${id}`,
-                label: asc
-            };
+            if (desc) {
+                acc.push({
+                    id: `DESC ${id}`,
+                    name: id,
+                    value: `DESC ${id}`,
+                    label: desc
+                });
+            }
 
-            const descOption = {
-                id: `DESC ${id}`,
-                name: id,
-                value: `DESC ${id}`,
-                label: desc
-            };
-
-            return [...acc, ascOption, descOption];
+            return acc;
         }, []);
 
         return selectOptions;

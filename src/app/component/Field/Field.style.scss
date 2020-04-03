@@ -56,7 +56,7 @@ $select-arrow-width: 6px !default;
         min-width: 100%;
         padding-right: 40px;
 
-        @include after-mobile {
+        @include desktop {
             pointer-events: none;
         }
 
@@ -87,7 +87,7 @@ $select-arrow-width: 6px !default;
             }
 
             &_isExpanded::after {
-                @include after-mobile {
+                @include desktop {
                     bottom: $select-arrow-height * 3/2;
                     transform: translateY(-2px) rotate(-135deg);
                 }
@@ -111,7 +111,7 @@ $select-arrow-width: 6px !default;
             -webkit-overflow-scrolling: touch;
 
             &_isExpanded {
-                @include after-mobile {
+                @include desktop {
                     max-height: 200px;
                     border-color: var(--input-border-color);
                 }
@@ -139,7 +139,7 @@ $select-arrow-width: 6px !default;
 
             &:hover,
             &:focus {
-                @include after-mobile {
+                @include desktop {
                     background: var(--select-option-hover-background);
                 }
             }

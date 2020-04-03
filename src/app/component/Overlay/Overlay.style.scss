@@ -14,7 +14,7 @@
     --overlay-content-background: #fff;
     --overlay-desktop-border-color: var(--primary-light-color);
 
-    @include after-mobile {
+    @include desktop {
         --overlay-background: #fff;
     }
 }
@@ -28,7 +28,7 @@
     background-color: var(--overlay-background);
 
     &:not(.Overlay_isStatic) {
-        @include mobile {
+        @include before-desktop {
             -webkit-overflow-scrolling: touch;
 
             position: fixed;
@@ -43,7 +43,7 @@
         }
     }
 
-    @include after-mobile {
+    @include desktop {
         position: absolute;
         transition: opacity 200ms;
         height: 0;
@@ -56,7 +56,7 @@
         opacity: 1;
         z-index: 90;
 
-        @include after-mobile {
+        @include desktop {
             height: auto;
             overflow: visible;
         }
