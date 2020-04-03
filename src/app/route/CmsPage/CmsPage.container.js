@@ -52,13 +52,15 @@ export class CmsPageContainer extends DataContainer {
         setBigOfflineNotice: PropTypes.func.isRequired,
         location: LocationType.isRequired,
         toggleBreadcrumbs: PropTypes.func.isRequired,
-        urlKey: PropTypes.string,
+        pageIds: PropTypes.number,
+        pageIdentifiers: PropTypes.string,
         isOnlyPlaceholder: PropTypes.bool,
         isBreadcrumbsActive: PropTypes.bool
     };
 
     static defaultProps = {
-        urlKey: '',
+        pageIds: -1,
+        pageIdentifiers: '',
         isOnlyPlaceholder: false,
         isBreadcrumbsActive: true
     };
@@ -85,9 +87,6 @@ export class CmsPageContainer extends DataContainer {
 
     componentDidMount() {
         const {
-            location,
-            match,
-            urlKey,
             isOffline,
             isOnlyPlaceholder
         } = this.props;
@@ -98,34 +97,30 @@ export class CmsPageContainer extends DataContainer {
             debounce(this.setOfflineNoticeSize, LOADING_TIME)();
         }
 
-        const urlParam = getUrlParam(match, location);
-
-        // this.setState({ page: {} });
-
-        if (
-            !isOnlyPlaceholder
-            && (urlKey || urlParam)
-        ) {
-            this.requestPage(urlKey || urlParam);
+        if (!isOnlyPlaceholder) {
+            this.requestPage();
         }
     }
 
     componentDidUpdate(prevProps) {
         const {
             location: { pathname },
-            location,
-            urlKey,
-            match
+            pageIdentifiers,
+            pageIds
         } = this.props;
 
         const {
             location: { pathname: prevPathname },
-            urlKey: prevUrlKey
+            pageIdentifiers: prevPageIdentifiers,
+            pageIds: prevPageIds
         } = prevProps;
 
-        if (pathname !== prevPathname || urlKey !== prevUrlKey) {
-            const urlParam = getUrlParam(match, location);
-            this.requestPage(urlKey || urlParam);
+        if (
+            pathname !== prevPathname
+            || pageIds !== prevPageIds
+            || pageIdentifiers !== prevPageIdentifiers
+        ) {
+            this.requestPage();
         }
     }
 
@@ -166,11 +161,34 @@ export class CmsPageContainer extends DataContainer {
         this.setState({ page, isLoading: false });
     };
 
-    requestPage(id) {
+    getRequestQueryParams() {
+        const {
+            location,
+            match,
+            pageIdentifiers: identifier,
+            pageIds: id
+        } = this.props;
+
+        if (identifier) {
+            return { identifier };
+        }
+
+        if (id !== -1) {
+            return { id };
+        }
+
+        const urlKey = getUrlParam(match, location);
+
+        return {
+            identifier: urlKey
+        };
+    }
+
+    requestPage() {
         this.setState({ isLoading: true });
 
         this.fetchData(
-            [CmsPageQuery.getQuery({ id })],
+            [CmsPageQuery.getQuery(this.getRequestQueryParams())],
             this.onPageLoad
         );
     }

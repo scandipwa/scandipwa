@@ -61,6 +61,7 @@ export class ProductPageContainer extends PureComponent {
         updateBreadcrumbs: PropTypes.func.isRequired,
         requestProduct: PropTypes.func.isRequired,
         isOffline: PropTypes.bool.isRequired,
+        productsIds: PropTypes.number,
         product: ProductType.isRequired,
         history: HistoryType.isRequired,
         match: MatchType.isRequired
@@ -68,7 +69,8 @@ export class ProductPageContainer extends PureComponent {
 
     static defaultProps = {
         location: { state: {} },
-        isOnlyPlaceholder: false
+        isOnlyPlaceholder: false,
+        productsIds: -1
     };
 
     state = {
@@ -93,21 +95,29 @@ export class ProductPageContainer extends PureComponent {
             return;
         }
 
-        if (!isOnlyPlaceholder) this._requestProduct();
+        if (!isOnlyPlaceholder) {
+            this._requestProduct();
+        }
+
         this._onProductUpdate();
     }
 
     componentDidUpdate(prevProps) {
         const {
             location: { pathname },
-            product: { id }
+            product: { id },
+            isOnlyPlaceholder
         } = this.props;
+
         const {
             location: { pathname: prevPathname },
-            product: { id: prevId }
+            product: { id: prevId },
+            isOnlyPlaceholder: prevIsOnlyPlaceholder
         } = prevProps;
 
-        if (pathname !== prevPathname) this._requestProduct();
+        if (pathname !== prevPathname || isOnlyPlaceholder !== prevIsOnlyPlaceholder) {
+            this._requestProduct();
+        }
 
         if (id !== prevId) {
             const dataSource = this._getDataSource();
@@ -274,16 +284,32 @@ export class ProductPageContainer extends PureComponent {
         return useLoadedProduct ? product : state.product;
     }
 
+    _getProductRequestFilter() {
+        const {
+            location,
+            match,
+            productsIds
+        } = this.props;
+
+        if (productsIds !== -1) {
+            return { productsIds };
+        }
+
+        return {
+            productUrlPath: getUrlParam(match, location)
+        };
+    }
+
     _requestProduct() {
-        const { requestProduct, location, match } = this.props;
+        const {
+            requestProduct
+        } = this.props;
+
         const options = {
             isSingleProduct: true,
-            args: {
-                filter: {
-                    productUrlPath: getUrlParam(match, location)
-                }
-            }
+            args: { filter: this._getProductRequestFilter() }
         };
+
 
         requestProduct(options);
     }

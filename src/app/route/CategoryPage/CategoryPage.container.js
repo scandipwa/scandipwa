@@ -133,7 +133,9 @@ export class CategoryPageContainer extends PureComponent {
             history
         } = this.props;
 
-        if (isOnlyPlaceholder) updateLoadStatus(true);
+        if (isOnlyPlaceholder) {
+            updateLoadStatus(true);
+        }
 
         if (pathname === '/category' || pathname === '/category/') {
             history.push('/');

@@ -15,7 +15,7 @@ import Footer from 'Component/Footer';
 import './HomePage.style';
 
 export const mapStateToProps = state => ({
-    urlKey: state.ConfigReducer.cms_home_page
+    pageIdentifiers: state.ConfigReducer.cms_home_page
 });
 
 export const HomePageContainer = props => (
