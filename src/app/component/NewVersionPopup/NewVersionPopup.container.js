@@ -1,3 +1,14 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -29,15 +40,17 @@ export class NewVersionPopupContainer extends PureComponent {
     componentDidMount() {
         const { showPopup, goToPreviousHeaderState } = this.props;
 
-        navigator.serviceWorker.addEventListener('controllerchange', () => {
-            showPopup({
-                title: __('New version available!')
-            });
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.addEventListener('controllerchange', () => {
+                showPopup({
+                    title: __('New version available!')
+                });
 
-            if (isMobile.any()) {
-                goToPreviousHeaderState();
-            }
-        });
+                if (isMobile.any()) {
+                    goToPreviousHeaderState();
+                }
+            });
+        }
     }
 
     toggleNewVersion() {

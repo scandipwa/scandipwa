@@ -185,10 +185,17 @@ export class CmsPageContainer extends DataContainer {
     }
 
     requestPage() {
+        const params = this.getRequestQueryParams()
+        const { id, identifier } = params;
+
+        if (!id && !identifier) {
+            return;
+        }
+
         this.setState({ isLoading: true });
 
         this.fetchData(
-            [CmsPageQuery.getQuery(this.getRequestQueryParams())],
+            [CmsPageQuery.getQuery(params)],
             this.onPageLoad
         );
     }

@@ -10,8 +10,11 @@
  */
 
 import { connect } from 'react-redux';
+
 import CmsPage from 'Route/CmsPage';
 import Footer from 'Component/Footer';
+import InstallPrompt from 'Component/InstallPrompt';
+
 import './HomePage.style';
 
 export const mapStateToProps = state => ({
@@ -20,6 +23,7 @@ export const mapStateToProps = state => ({
 
 export const HomePageContainer = props => (
     <div block="HomePage">
+        <InstallPrompt />
         <CmsPage { ...props } isBreadcrumbsActive={ false } />
         <Footer isVisibleOnMobile />
     </div>

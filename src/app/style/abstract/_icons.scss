@@ -370,3 +370,54 @@
             7px 7px 0 -4px var(--header-color);
     }
 }
+
+@mixin ios-share {
+    $color-dodger-blue: #3b9cfe;
+
+    border: 2px solid $color-dodger-blue;
+    bottom: -3px;
+    height: 18px;
+    margin: 0 4px;
+    width: 18px;
+
+    &::before {
+        content: '';
+        border-left: 2px solid $color-dodger-blue;
+        border-top: 2px solid $color-dodger-blue;
+        display: block;
+        height: 6px;
+        left: 3px;
+        position: relative;
+        top: -9px;
+        transform: rotate(45deg);
+        width: 6px;
+    }
+
+    &::after {
+        border-left: 2px solid $color-dodger-blue;
+        content: '';
+        display: block;
+        height: 16px;
+        left: 6px;
+        position: relative;
+        top: -16px;
+        width: 19px;
+    }
+}
+
+@mixin ios-plus {
+    $color-storm-grey: #7b7b86;
+
+    background:
+        linear-gradient($white, $white),
+        linear-gradient($white, $white),
+        $color-storm-grey;
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 53% 1px, 1px 50%;
+    border-radius: 5px;
+    height: 20px;
+    margin: 0 4px;
+    width: 20px;
+}
