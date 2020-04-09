@@ -26,7 +26,7 @@
         "scandipwa/reviews-graphql": "^1.0",
         "scandipwa/paypal-graphql": "^1.0",
         "scandipwa/klarna-graphql": "^1.1",
-        "scandipwa/store-graphql": "^1.0.4",
+        "scandipwa/store-graphql": "^1.0.5",
         "scandipwa/customization": "^1.0.2",
         "scandipwa/cache": "^1.0",
         "scandipwa/locale": "^1.0"
