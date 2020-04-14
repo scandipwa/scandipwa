@@ -37,22 +37,20 @@ export class CategorySortContainer extends PureComponent {
         const [label] = pureLabel.split(' ');
 
         switch (id) {
-        case 'price':
-            return {
-                asc: __('%s: Low to High', label),
-                desc: __('%s: High to Low', label)
-            };
         case 'name':
             return {
-                asc: __('%s: A to Z', label),
-                desc: __('%s: Z to A', label)
+                asc: __('Name: A to Z', label),
+                desc: __('Name: Z to A', label)
             };
         case 'position':
             return {
                 asc: __('Best match')
             };
         default:
-            return {};
+            return {
+                asc: __('%s: Low to High', label),
+                desc: __('%s: High to Low', label)
+            };
         }
     }
 
