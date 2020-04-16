@@ -32,11 +32,6 @@
 
     margin-left: 0;
 
-    &:focus,
-    &:hover {
-        text-decoration: none;
-    }
-
     &-Color,
     &-String,
     &-Image,
@@ -60,6 +55,7 @@
 
     &-Image-Overlay {
         --option-check-mark-background: white;
+
         position: absolute;
         top: 0;
         left: 0;
@@ -192,7 +188,13 @@
         }
     }
 
-    &:hover {
+    &:hover,
+    &:focus {
+        @include desktop {
+            --option-border-color: #{$black};
+            --option-text-color: #{$black};
+        }
+
         text-decoration: none;
     }
 

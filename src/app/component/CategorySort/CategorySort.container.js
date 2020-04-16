@@ -46,10 +46,15 @@ export class CategorySortContainer extends PureComponent {
             return {
                 asc: __('Best match')
             };
-        default:
+        case 'price':
             return {
                 asc: __('%s: Low to High', label),
                 desc: __('%s: High to Low', label)
+            };
+        default:
+            return {
+                asc: __('%s: Ascending', label),
+                desc: __('%s: Descending', label)
             };
         }
     }

@@ -13,8 +13,6 @@ import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Overlay from 'Component/Overlay';
 import ResetButton from 'Component/ResetButton';
-import RangeSelector from 'Component/RangeSelector';
-import ExpandableContent from 'Component/ExpandableContent';
 import CategoryConfigurableAttributes from 'Component/CategoryConfigurableAttributes';
 import './CategoryFilterOverlay.style';
 
@@ -23,16 +21,9 @@ export const CATEGORY_FILTER_OVERLAY_ID = 'category-filter';
 export default class CategoryFilterOverlay extends PureComponent {
     static propTypes = {
         availableFilters: PropTypes.objectOf(PropTypes.shape).isRequired,
-        updatePriceRange: PropTypes.func.isRequired,
         areFiltersEmpty: PropTypes.bool.isRequired,
         isContentFiltered: PropTypes.bool.isRequired,
         isProductsLoading: PropTypes.bool.isRequired,
-        priceValue: PropTypes.shape({
-            min: PropTypes.number,
-            max: PropTypes.number
-        }).isRequired,
-        minPriceValue: PropTypes.number.isRequired,
-        maxPriceValue: PropTypes.number.isRequired,
         onSeeResultsClick: PropTypes.func.isRequired,
         onVisible: PropTypes.func.isRequired,
         customFiltersValues: PropTypes.objectOf(PropTypes.array).isRequired,
@@ -40,40 +31,6 @@ export default class CategoryFilterOverlay extends PureComponent {
         getFilterUrl: PropTypes.func.isRequired,
         totalPages: PropTypes.number.isRequired
     };
-
-    renderPriceRange() {
-        const {
-            updatePriceRange,
-            priceValue,
-            minPriceValue,
-            maxPriceValue
-        } = this.props;
-
-        const { min: minValue, max: maxValue } = priceValue;
-        const min = minValue || minPriceValue;
-        const max = maxValue || maxPriceValue;
-
-        if (maxPriceValue - minPriceValue === 0) return null;
-
-        return (
-            <ExpandableContent
-              heading={ __('Price') }
-              subHeading={ __('From: %s to %s', min, max) }
-              mix={ {
-                  block: 'CategoryFilterOverlay',
-                  elem: 'Filter',
-                  mods: { type: 'price' }
-              } }
-            >
-                <RangeSelector
-                  value={ priceValue }
-                  minValue={ minPriceValue || min }
-                  maxValue={ maxPriceValue || max }
-                  onChangeComplete={ updatePriceRange }
-                />
-            </ExpandableContent>
-        );
-    }
 
     renderFilters() {
         const {
@@ -172,7 +129,7 @@ export default class CategoryFilterOverlay extends PureComponent {
               id={ CATEGORY_FILTER_OVERLAY_ID }
               isRenderInPortal={ false }
             >
-                { this.renderPriceRange() }
+                { this.renderSeeResults() }
             </Overlay>
         );
     }
@@ -190,7 +147,6 @@ export default class CategoryFilterOverlay extends PureComponent {
                 { this.renderHeading() }
                 { this.renderResetButton() }
                 { this.renderFilters() }
-                { this.renderPriceRange() }
                 { this.renderSeeResults() }
             </Overlay>
         );

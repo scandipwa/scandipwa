@@ -12,10 +12,13 @@
 import { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+
 import { getQueryParam, setQueryParams } from 'Util/Url';
 import { PagesType, FilterInputType } from 'Type/ProductList';
 import { HistoryType } from 'Type/Common';
 import { debounce } from 'Util/Request';
+import { LocationType } from 'Type/Router';
+
 import ProductList from './ProductList.component';
 
 export const UPDATE_PAGE_FREQUENCY = 0; // (ms)
@@ -23,9 +26,7 @@ export const UPDATE_PAGE_FREQUENCY = 0; // (ms)
 export class ProductListContainer extends PureComponent {
     static propTypes = {
         history: HistoryType.isRequired,
-        location: PropTypes.shape({
-            pathname: PropTypes.string.isRequired
-        }).isRequired,
+        location: LocationType.isRequired,
         getIsNewCategory: PropTypes.func.isRequired,
         pages: PagesType.isRequired,
         pageSize: PropTypes.number,

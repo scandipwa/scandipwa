@@ -73,6 +73,7 @@ export class ProductCardContainer extends PureComponent {
 
         if (!url_key) return undefined;
         const { parameters } = this._getConfigurableParameters();
+
         return {
             pathname: `/product/${ url_key }`,
             state: { product },

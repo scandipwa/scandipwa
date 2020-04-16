@@ -25,9 +25,9 @@ class InstallPromptIOS extends PureComponent {
         return (
             <p block="InstallPromptIOS" elem="Content">
                 <span>{ __('Tap:') }</span>
-                <div block="InstallPromptIOS" elem="Share" />
+                <span block="InstallPromptIOS" elem="Share" />
                 <span>{ __(', then') }</span>
-                <div block="InstallPromptIOS" elem="Plus" />
+                <span block="InstallPromptIOS" elem="Plus" />
                 <span>{ __('Add to Home Screen') }</span>
             </p>
         );
