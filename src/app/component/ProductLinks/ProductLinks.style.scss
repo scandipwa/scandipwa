@@ -27,6 +27,10 @@
             grid-gap: 3rem;
             justify-content: center;
         }
+
+        @include tablet {
+            grid-template-columns: repeat(3, 1fr);
+        }
     }
 
     &-Title {

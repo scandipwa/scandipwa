@@ -12,7 +12,6 @@
 /* eslint-disable no-undef */
 
 import workbox from './util/Workbox';
-import { flushCache } from './handler/FlushCache';
 import cacheFirstOneYear from './handler/CacheFirstOneYear';
 import { cacheUrlHandler, getCacheUrlMatchRegex } from './handler/UrlHandler';
 import staleWhileRevalidateHandler from './handler/StaleWhileRevalidateHandler';
@@ -30,19 +29,22 @@ if (self.__precacheManifest) {
 
 self.addEventListener('install', () => {
     self.skipWaiting();
-
-    const flushCacheByHeader = (name, value) => {
-        const headers = new Headers();
-        headers.append(name, value);
-        const r = new Request('/', { headers });
-        flushCache(r);
-    };
-
-    const { core: { cacheNames: { precache } } } = workbox;
-
-    flushCacheByHeader('Cache-purge', self.CACHE_NAME);
-    flushCacheByHeader('Cache-purge', precache);
 });
+
+self.addEventListener('activate', (event) => {
+    event.waitUntil(
+        caches.open(self.CACHE_NAME).then((cache) => {
+            cache.keys().then((keys) => {
+                keys.filter(
+                    ({ url }) => url.match(/.+(.css|.js)$/)
+                ).map(
+                    ({ url }) => cache.delete(url)
+                );
+            });
+        })
+    );
+});
+
 
 // ====== Register routes ======
 

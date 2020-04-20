@@ -197,7 +197,9 @@ export default class Header extends NavigationAbstract {
     renderMenuButton(isVisible = false) {
         const { onMenuOutsideClick, onMenuButtonClick, isCheckout } = this.props;
 
-        if (isMobile.any() || isCheckout) return null;
+        if (isMobile.any() || isCheckout) {
+            return null;
+        }
 
         return (
             <ClickOutside onClick={ onMenuOutsideClick } key="menu">

@@ -28,8 +28,6 @@ import isMobile from 'Util/Mobile';
 export default class CategoryPage extends PureComponent {
     static propTypes = {
         category: CategoryTreeType.isRequired,
-        minPriceRange: PropTypes.number.isRequired,
-        maxPriceRange: PropTypes.number.isRequired,
         getIsNewCategory: PropTypes.func.isRequired,
         filters: PropTypes.objectOf(PropTypes.shape).isRequired,
         sortFields: PropTypes.shape({
@@ -42,14 +40,9 @@ export default class CategoryPage extends PureComponent {
             ]),
             sortKey: PropTypes.string
         }).isRequired,
-        selectedPriceRange: PropTypes.shape({
-            min: PropTypes.number,
-            max: PropTypes.number
-        }).isRequired,
         getFilterUrl: PropTypes.func.isRequired,
         onSortChange: PropTypes.func.isRequired,
         updateFilter: PropTypes.func.isRequired,
-        updatePriceRange: PropTypes.func.isRequired,
         toggleOverlayByKey: PropTypes.func.isRequired,
         selectedFilters: FilterType.isRequired,
         filter: FilterInputType.isRequired,
@@ -100,12 +93,8 @@ export default class CategoryPage extends PureComponent {
 
     renderFilterOverlay() {
         const {
-            minPriceRange,
-            maxPriceRange,
             filters,
             selectedFilters,
-            selectedPriceRange,
-            updatePriceRange,
             updateFilter,
             getFilterUrl
         } = this.props;
@@ -116,10 +105,6 @@ export default class CategoryPage extends PureComponent {
               availableFilters={ filters }
               customFiltersValues={ selectedFilters }
               updateFilter={ updateFilter }
-              updatePriceRange={ updatePriceRange }
-              priceValue={ selectedPriceRange }
-              minPriceValue={ minPriceRange }
-              maxPriceValue={ maxPriceRange }
             />
         );
     }

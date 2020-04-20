@@ -73,6 +73,7 @@ export class ProductCardContainer extends PureComponent {
 
         if (!url_key) return undefined;
         const { parameters } = this._getConfigurableParameters();
+
         return {
             pathname: `/product/${ url_key }`,
             state: { product },
@@ -124,9 +125,15 @@ export class ProductCardContainer extends PureComponent {
 
     _getProductOrVariant() {
         const { product: { type_id, variants }, product } = this.props;
-        return (type_id === 'configurable' && variants !== undefined
-            ? variants[this._getCurrentVariantIndex()]
-            : product
+
+        return (
+            (
+                type_id === 'configurable'
+                && variants !== undefined
+                && variants.length
+            )
+                ? variants[this._getCurrentVariantIndex()]
+                : product
         ) || {};
     }
 
