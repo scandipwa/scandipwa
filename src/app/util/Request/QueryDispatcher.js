@@ -42,6 +42,7 @@ class QueryDispatcher {
      */
     handleData(dispatch, options) {
         const { name, cacheTTL } = this;
+
         const rawQueries = this.prepareRequest(options, dispatch);
 
         if (!rawQueries) {

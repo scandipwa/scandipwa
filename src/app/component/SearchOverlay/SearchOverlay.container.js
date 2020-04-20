@@ -50,10 +50,22 @@ export class SearchOverlayContainer extends PureComponent {
     }
 
     makeSearchRequest() {
-        const { makeSearchRequest, clearSearchResults, searchCriteria } = this.props;
+        const {
+            makeSearchRequest,
+            clearSearchResults,
+            searchCriteria
+        } = this.props;
+
         if (searchCriteria) {
             clearSearchResults();
-            makeSearchRequest({ args: { search: searchCriteria } });
+
+            makeSearchRequest({
+                args: {
+                    search: searchCriteria,
+                    pageSize: 12,
+                    currentPage: 1
+                }
+            });
         }
     }
 
