@@ -185,7 +185,7 @@ export class CmsPageContainer extends DataContainer {
     }
 
     requestPage() {
-        const params = this.getRequestQueryParams()
+        const params = this.getRequestQueryParams();
         const { id, identifier } = params;
 
         if (!id && !identifier) {
