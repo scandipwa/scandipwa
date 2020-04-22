@@ -53,7 +53,7 @@ export class SliderWidget extends ExtensiblePureComponent {
         } = slide;
 
         if (isMobile.any() && mobile_image) {
-            return mobile_image;
+            return `/${mobile_image}`;
         }
 
         if (!desktop_image) {

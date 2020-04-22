@@ -38,6 +38,7 @@ export class SearchBarDispatcher extends QueryDispatcher {
 
     prepareRequest(options, dispatch) {
         dispatch(updateLoadStatus(true));
+
         return ProductListQuery.getQuery({
             ...options,
             notRequireInfo: true

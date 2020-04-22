@@ -74,7 +74,7 @@ export class LinkedProductsDispatcher extends QueryDispatcher {
      */
     prepareRequest(product_links) {
         if (JSON.stringify(this.currentProductLinks) === JSON.stringify(product_links)) {
-            return [];
+            return null;
         }
 
         this.currentProductLinks = product_links;

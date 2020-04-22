@@ -22,12 +22,12 @@
 .SearchField {
     flex-grow: 1;
 
-    @include mobile {
+    @include before-desktop {
         opacity: 0;
         pointer-events: none;
     }
 
-    @include after-mobile {
+    @include desktop {
         text-align: right;
     }
 
@@ -42,7 +42,7 @@
     }
 
     &-Wrapper {
-        @include after-mobile {
+        @include desktop {
             margin-right: 1rem;
             display: inline-block;
             border: 1px solid var(--search-field-border-color);
@@ -74,11 +74,11 @@
             --input-color: var(--search-field-color);
         }
 
-        @include mobile {
+        @include before-desktop {
             max-width: 100%;
         }
 
-        @include after-mobile {
+        @include desktop {
             transition-property: opacity, width, border;
             width: var(--search-bar-width);
             max-width: var(--search-bar-max-width);
@@ -101,7 +101,7 @@
 
         @include search-icon;
 
-        @include after-mobile {
+        @include desktop {
             left: 1rem;
             transform: none;
         }

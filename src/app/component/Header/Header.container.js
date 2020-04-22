@@ -368,8 +368,21 @@ export class HeaderContainer extends NavigationAbstractContainer {
     }
 
     onClearButtonClick() {
-        setQueryParams({ customFilters: '', priceMax: '', priceMin: '' }, history.location, history);
+        const { hideActiveOverlay } = this.props;
+
+        setQueryParams(
+            {
+                customFilters: '',
+                priceMax: '',
+                priceMin: ''
+            },
+            history.location,
+            history
+        );
+
         this.setState({ isClearEnabled: false });
+
+        hideActiveOverlay();
     }
 
     onMinicartButtonClick() {

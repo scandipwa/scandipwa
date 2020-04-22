@@ -11,6 +11,7 @@
 
 import PropTypes from 'prop-types';
 import { IMAGE_TYPE, VIDEO_TYPE, PLACEHOLDER_TYPE } from 'Component/ProductGallery/ProductGallery.component';
+import { THUMBNAIL_KEY } from 'Component/ProductGallery/ProductGallery.container';
 import media, { PRODUCT_MEDIA } from 'Util/Media';
 import Image from 'Component/Image';
 
@@ -80,9 +81,14 @@ export class ProductGalleryThumbnailImage extends ExtensiblePureComponent {
             media: {
                 label: alt,
                 file,
-                thumbnail: { url: thumbnailUrl } = {}
+                thumbnail: { url: thumbnailUrl } = {},
+                id
             }
         } = this.props;
+
+        if (id === THUMBNAIL_KEY) {
+            return this.renderPlaceholder();
+        }
 
         const src = thumbnailUrl || media(file, PRODUCT_MEDIA);
 

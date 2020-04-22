@@ -10,7 +10,7 @@
  */
 
 .CategorySort {
-    @include after-mobile {
+    @include desktop {
         margin-left: auto;
         min-width: 15rem;
     }
@@ -21,7 +21,7 @@
 
     .Field {
         &-Select {
-            @include mobile {
+            @include before-desktop {
                 position: absolute;
                 top: -35px;
                 opacity: 0;
@@ -29,20 +29,20 @@
         }
 
         &-SelectWrapper::after {
-            @include mobile {
+            @include before-desktop {
                 left: 55px;
                 bottom: 22px;
             }
         }
 
         label:first-of-type {
-            @include mobile {
+            @include before-desktop {
                 font-weight: 600;
                 font-size: 16px;
                 padding-bottom: 3px;
             }
 
-            @include after-mobile {
+            @include desktop {
                 display: none;
             }
         }

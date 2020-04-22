@@ -59,9 +59,7 @@ export class UrlRewrites extends ExtensiblePureComponent {
         // Known components
         if (this.knownTypes.indexOf(type) >= 0) {
             this.setState({ placeholderType: type });
-            const { requestUrlRewrite, match, location } = this.props;
-            const urlParam = getUrlParam(match, location);
-            requestUrlRewrite({ urlParam });
+            this.requestRewrite();
             return;
         }
 
@@ -95,45 +93,33 @@ export class UrlRewrites extends ExtensiblePureComponent {
         return <main />;
     }
 
-    renderPage({ type, id, url_key }) {
-        const { props } = this;
-
+    renderPage({ type, id }) {
         switch (type) {
         case TYPE_PRODUCT:
-            const newRoute = {
-                ...props,
-                location: {
-                    ...props.location,
-                    pathname: `/${ url_key }`
-                }
-
-            };
-
-            return <ProductPage { ...newRoute } />;
+            return <ProductPage { ...this.props } productsIds={ id } />;
         case TYPE_CMS_PAGE:
-            return <CmsPage { ...props } urlKey={ url_key } />;
+            return <CmsPage { ...this.props } pageIds={ id } />;
         case TYPE_CATEGORY:
-            return <CategoryPage { ...props } categoryIds={ id } />;
+            return <CategoryPage { ...this.props } categoryIds={ id } />;
         case TYPE_NOTFOUND:
-            return <NoMatch { ...props } />;
+            return <NoMatch { ...this.props } />;
         default:
             return this.renderEmptyPage();
         }
     }
 
     renderPlaceholders() {
-        const { props } = this;
         const { placeholderType } = this.state;
 
         switch (placeholderType) {
         case TYPE_PRODUCT:
-            return <ProductPage { ...props } isOnlyPlaceholder />;
+            return <ProductPage { ...this.props } isOnlyPlaceholder />;
         case TYPE_CMS_PAGE:
-            return <CmsPage { ...props } urlKey="" isOnlyPlaceholder />;
+            return <CmsPage { ...this.props } urlKey="" isOnlyPlaceholder />;
         case TYPE_CATEGORY:
-            return <CategoryPage { ...props } isOnlyPlaceholder />;
+            return <CategoryPage { ...this.props } isOnlyPlaceholder />;
         case TYPE_NOTFOUND:
-            return <NoMatch { ...props } />;
+            return <NoMatch { ...this.props } />;
         default:
             return this.renderEmptyPage();
         }

@@ -21,7 +21,7 @@
 }
 
 .ExpandableContent {
-    @include mobile {
+    @include before-desktop {
         border-top: 1px solid var(--expandable-content-divider-color);
     }
 
@@ -30,7 +30,7 @@
     }
 
     &:last-of-type {
-        @include mobile {
+        @include before-desktop {
             border-bottom: 1px solid var(--expandable-content-divider-color);
         }
     }
@@ -40,7 +40,7 @@
         width: 100%;
         will-change: border-color;
 
-        @include mobile {
+        @include before-desktop {
             min-height: var(--header-nav-height);
             display: flex;
             justify-content: center;
@@ -50,7 +50,7 @@
 
         &::after,
         &::before {
-            @include mobile {
+            @include before-desktop {
                 content: '';
             }
 
@@ -96,7 +96,7 @@
         text-transform: uppercase;
         word-break: break-all;
 
-        @include after-mobile {
+        @include desktop {
             cursor: auto;
             font-size: 14px;
             font-weight: bold;
@@ -116,19 +116,19 @@
         transition-property: opacity;
         transition-duration: 200ms;
 
-        @include mobile {
+        @include before-desktop {
             padding: 0 1rem;
             max-height: 0;
             overflow: hidden;
             opacity: 0;
         }
 
-        @include after-mobile {
+        @include desktop {
             margin-top: 1rem;
         }
 
         &_isContentExpanded {
-            @include mobile {
+            @include before-desktop {
                 @include expanded-content;
             }
         }

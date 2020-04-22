@@ -29,14 +29,17 @@ export const mapDispatchToProps = dispatch => ({
 
 export class CategoryProductListContainer extends ExtensiblePureComponent {
     static propTypes = {
-        getIsNewCategory: PropTypes.func.isRequired,
         isLoading: PropTypes.bool.isRequired
     };
 
     getIsLoading() {
-        const { getIsNewCategory, isLoading } = this.props;
-        if (!navigator.onLine) return false;
-        return isLoading || getIsNewCategory();
+        const { isLoading } = this.props;
+
+        if (!navigator.onLine) {
+            return false;
+        }
+
+        return isLoading;
     }
 
     containerProps = () => ({

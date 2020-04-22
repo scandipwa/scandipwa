@@ -38,6 +38,7 @@ import Breadcrumbs from 'Component/Breadcrumbs';
 import { WishlistDispatcher } from 'Store/Wishlist';
 import OfflineNotice from 'Component/OfflineNotice';
 import NavigationTabs from 'Component/NavigationTabs';
+import NewVersionPopup from 'Component/NewVersionPopup';
 import SomethingWentWrong from 'Route/SomethingWentWrong';
 import NotificationList from 'Component/NotificationList';
 import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
@@ -128,6 +129,10 @@ class AppRouter extends ExtensiblePureComponent {
         {
             component: <Breadcrumbs />,
             position: 30
+        },
+        {
+            component: <NewVersionPopup />,
+            position: 35
         }
     ];
 

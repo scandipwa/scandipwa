@@ -48,6 +48,7 @@ export class ProductListQuery extends ExtensibleClass {
                 if (max) filters.push(`max_price: { lteq: ${max} }`);
                 return filters;
             },
+            productsIds: id => [`id: { eq: ${id} }`],
             productsSkuArray: sku => [`sku: { in: [${sku}] }`],
             productUrlPath: url => [`url_key: { eq: ${url}}`],
             customFilters: (filters = {}) => Object.entries(filters).reduce((acc, [key, attribute]) => (
