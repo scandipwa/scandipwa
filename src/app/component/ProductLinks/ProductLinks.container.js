@@ -1,4 +1,4 @@
-import { PureComponent } from 'react';
+
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -10,7 +10,7 @@ export const mapStateToProps = state => ({
     linkedProducts: state.LinkedProductsReducer.linkedProducts
 });
 
-export class ProductLinksContainer extends PureComponent {
+export class ProductLinksContainer extends ExtensiblePureComponent {
     static propTypes = {
         linkedProducts: PropTypes.objectOf(ProductType).isRequired,
         linkType: PropTypes.string.isRequired
@@ -38,4 +38,6 @@ export class ProductLinksContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps)(ProductLinksContainer);
+export default connect(mapStateToProps)(
+    middleware('Component/ProductLinks/Container')
+);

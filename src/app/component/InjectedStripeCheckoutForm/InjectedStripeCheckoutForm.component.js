@@ -9,7 +9,6 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import React, { } from 'react';
 import { CardElement, injectStripe } from 'react-stripe-elements';
 import PropTypes from 'prop-types';
 import './InjectedStripeCheckoutForm.style';

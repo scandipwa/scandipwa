@@ -10,7 +10,7 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+
 import { connect } from 'react-redux';
 import { updateMeta } from 'Store/Meta';
 import SomethingWentWrong from './SomethingWentWrong.component';
@@ -19,7 +19,7 @@ export const mapDispatchToProps = dispatch => ({
     updateMeta: meta => dispatch(updateMeta(meta))
 });
 
-export class SomethingWentWrongContainer extends PureComponent {
+export class SomethingWentWrongContainer extends ExtensiblePureComponent {
     static propTypes = {
         updateMeta: PropTypes.func.isRequired
     };
@@ -39,4 +39,6 @@ export class SomethingWentWrongContainer extends PureComponent {
     }
 }
 
-export default connect(null, mapDispatchToProps)(SomethingWentWrongContainer);
+export default connect(null, mapDispatchToProps)(
+    middleware(SomethingWentWrongContainer, 'Route/SomethingWentWrong/Container')
+);

@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
+
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -22,7 +22,7 @@ export const mapDispatchToProps = dispatch => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay())
 });
 
-export class CategorySubcategoriesContainer extends PureComponent {
+export class CategorySubcategoriesContainer extends ExtensiblePureComponent {
     static propTypes = {
         hideActiveOverlay: PropTypes.func.isRequired,
         option: PropTypes.shape({
@@ -59,4 +59,6 @@ export class CategorySubcategoriesContainer extends PureComponent {
     }
 }
 
-export default connect(null, mapDispatchToProps)(CategorySubcategoriesContainer);
+export default connect(null, mapDispatchToProps)(
+    middleware(CategorySubcategoriesContainer, 'Component/CategorySubcategories/Container')
+);

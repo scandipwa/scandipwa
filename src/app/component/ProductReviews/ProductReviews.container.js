@@ -81,4 +81,3 @@ export class ProductReviewsContainer extends ExtensiblePureComponent {
 export default connect(mapStateToProps, mapDispatchToProps)(
     middleware(ProductReviewsContainer, 'Component/ProductReviews/Container')
 );
-

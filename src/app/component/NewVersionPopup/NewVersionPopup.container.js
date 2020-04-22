@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
+
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { showPopup } from 'Store/Popup';
@@ -27,7 +27,7 @@ export const mapDispatchToProps = dispatch => ({
     goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))
 });
 
-export class NewVersionPopupContainer extends PureComponent {
+export class NewVersionPopupContainer extends ExtensiblePureComponent {
     static propTypes = {
         showPopup: PropTypes.func.isRequired,
         goToPreviousHeaderState: PropTypes.func.isRequired
@@ -67,4 +67,6 @@ export class NewVersionPopupContainer extends PureComponent {
     }
 }
 
-export default connect(null, mapDispatchToProps)(NewVersionPopupContainer);
+export default connect(null, mapDispatchToProps)(
+    middleware(NewVersionPopupContainer, 'Component/NewVersionPopup/Container')
+);

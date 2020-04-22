@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import { HistoryType, LocationType } from 'Type/Common';
 import { withRouter } from 'react-router-dom';
 import { setQueryParams } from 'Util/Url';
