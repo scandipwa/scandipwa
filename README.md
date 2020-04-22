@@ -16,7 +16,7 @@ Instead, we are using **React** components to render the application and utilize
 
 Check our instroduction to the ScandiPWA tech stack:
 
-[![intro to swpwa](https://i.ibb.co/jHjMM1p/Group-4.png)](https://www.youtube.com/watch?v=xGwvfIAyVrM)
+[![intro to swpwa](https://i.ibb.co/MhvxnTp/Group-4.png)](https://www.youtube.com/watch?v=xGwvfIAyVrM)
 
 > Sounds interesting? Make sure to :star: scandipwa base-theme repository so you can keep up to date with the latest releases!
 
