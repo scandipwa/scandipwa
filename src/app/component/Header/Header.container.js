@@ -21,7 +21,7 @@ import { toggleOverlayByKey, hideActiveOverlay } from 'Store/Overlay';
 import { setQueryParams } from 'Util/Url';
 import { isSignedIn } from 'Util/Auth';
 import isMobile from 'Util/Mobile';
-import { history } from 'Route';
+import { history } from 'Component/App/App.component';
 
 import Header, {
     PDP,

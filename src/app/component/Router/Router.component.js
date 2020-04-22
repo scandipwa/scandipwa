@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-/* eslint-disable no-console */
+
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -19,29 +19,19 @@ import {
 
 import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
-import { Router } from 'react-router';
-import { connect } from 'react-redux';
-import { updateMeta } from 'Store/Meta';
+import { Router as ReactRouter } from 'react-router';
 
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { createBrowserHistory } from 'history';
-
-import Store from 'Store';
 import Meta from 'Component/Meta';
 import Footer from 'Component/Footer';
 import CookiePopup from 'Component/CookiePopup';
 import Header from 'Component/Header';
-import { CartDispatcher } from 'Store/Cart';
 import DemoNotice from 'Component/DemoNotice';
-import { ConfigDispatcher } from 'Store/Config';
 import Breadcrumbs from 'Component/Breadcrumbs';
-import { WishlistDispatcher } from 'Store/Wishlist';
 import OfflineNotice from 'Component/OfflineNotice';
 import NavigationTabs from 'Component/NavigationTabs';
 import NewVersionPopup from 'Component/NewVersionPopup';
-import SomethingWentWrong from 'Route/SomethingWentWrong';
 import NotificationList from 'Component/NotificationList';
-import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
+import { history } from 'Component/App/App.component';
 
 // suppress prop-types warning on Route component when using with React.lazy
 // until react-router-dom@4.4.0 or higher version released
@@ -70,42 +60,12 @@ export const BEFORE_ITEMS_TYPE = 'BEFORE_ITEMS_TYPE';
 export const SWITCH_ITEMS_TYPE = 'SWITCH_ITEMS_TYPE';
 export const AFTER_ITEMS_TYPE = 'AFTER_ITEMS_TYPE';
 
-export const history = createBrowserHistory({ basename: '/' });
-
-export const mapStateToProps = state => ({
-    isLoading: state.ConfigReducer.isLoading,
-    default_description: state.ConfigReducer.default_description,
-    default_keywords: state.ConfigReducer.default_keywords,
-    default_title: state.ConfigReducer.default_title,
-    title_prefix: state.ConfigReducer.title_prefix,
-    title_suffix: state.ConfigReducer.title_suffix,
-    isOffline: state.OfflineReducer.isOffline,
-    isBigOffline: state.OfflineReducer.isBig
-});
-
-export const mapDispatchToProps = dispatch => ({
-    updateMeta: meta => dispatch(updateMeta(meta))
-});
-
-class AppRouter extends ExtensiblePureComponent {
+export class Router extends ExtensiblePureComponent {
     static propTypes = {
-        updateMeta: PropTypes.func.isRequired,
-        default_description: PropTypes.string,
-        default_keywords: PropTypes.string,
-        default_title: PropTypes.string,
-        title_prefix: PropTypes.string,
-        title_suffix: PropTypes.string,
-        isLoading: PropTypes.bool,
         isBigOffline: PropTypes.bool
     };
 
     static defaultProps = {
-        default_description: '',
-        default_keywords: '',
-        default_title: '',
-        title_prefix: '',
-        title_suffix: '',
-        isLoading: true,
         isBigOffline: false
     };
 
@@ -198,109 +158,33 @@ class AppRouter extends ExtensiblePureComponent {
         }
     ];
 
-    state = {
-        hasError: false,
-        errorDetails: {}
-    };
-
-    constructor(props) {
-        super(props);
-
-        this.dispatchActions();
-    }
-
-    componentDidUpdate(prevProps) {
-        const { isLoading, updateMeta } = this.props;
-        const { isLoading: prevIsLoading } = prevProps;
-
-        if (!isLoading && isLoading !== prevIsLoading) {
-            const {
-                default_description,
-                default_keywords,
-                default_title,
-                title_prefix,
-                title_suffix
-            } = this.props;
-
-            updateMeta({
-                default_title,
-                title: default_title,
-                default_description,
-                description: default_description,
-                default_keywords,
-                keywords: default_keywords,
-                title_prefix,
-                title_suffix
-            });
-        }
-    }
-
-    getCmsBlocksToRequest() {
-        const blocks = Object.values(window.contentConfiguration).reduce(
-            (acc, config) => [
-                ...acc,
-                ...Object.entries(config).reduce(
-                    (acc, [key, identifier]) => ((key.indexOf('cms') === -1)
-                        ? acc
-                        : [...acc, identifier]
-                    ),
-                    []
-                )
-            ],
-            []
-        ).filter((value, index, self) => value && self.indexOf(value) === index);
-
-        return blocks.length ? blocks : ['social-links'];
-    }
-
-    getHeaderAndFooterOptions() {
-        const { header_content: { header_menu } = {} } = window.contentConfiguration;
-
-        return {
-            menu: { identifier: [header_menu || 'new-main-menu'] },
-            footer: { identifiers: this.getCmsBlocksToRequest() }
-        };
-    }
-
     getSortedItems(type) {
-        const items = this[type].reduce((acc, { component, position }) => {
+        return this[type].reduce((acc, { component, position }) => {
             if (!component) {
+                // eslint-disable-next-line no-console
                 console.warn('There is an item without a component property declared in main router.');
                 return acc;
             }
 
             if (acc[position]) {
+                // eslint-disable-next-line no-console
                 console.warn(`There is already an item with ${ position } declared in main router.`);
                 return acc;
             }
 
             return { ...acc, [position]: component };
         }, {});
-
-        return items;
-    }
-
-    handleErrorReset = () => {
-        this.setState({ hasError: false });
-    };
-
-    componentDidCatch(err, info) {
-        this.setState({
-            hasError: true,
-            errorDetails: { err, info }
-        });
-    }
-
-    dispatchActions() {
-        WishlistDispatcher.updateInitialWishlistData(Store.dispatch);
-        CartDispatcher.updateInitialCartData(Store.dispatch);
-        ConfigDispatcher.handleData(Store.dispatch);
-        HeaderAndFooterDispatcher.handleData(Store.dispatch, this.getHeaderAndFooterOptions());
     }
 
     renderItemsOfType(type) {
         return Object.entries(this.getSortedItems(type)).map(
             ([key, component]) => cloneElement(component, { key })
+        );
+    }
+
+    renderFallbackPage() {
+        return (
+            <main style={ { height: '100vh' } } />
         );
     }
 
@@ -322,24 +206,7 @@ class AppRouter extends ExtensiblePureComponent {
         );
     }
 
-    renderErrorRouterContent() {
-        const { errorDetails } = this.state;
-
-        return (
-            <SomethingWentWrong
-              onClick={ this.handleErrorReset }
-              errorDetails={ errorDetails }
-            />
-        );
-    }
-
-    renderFallbackPage() {
-        return (
-            <main style={ { height: '100vh' } } />
-        );
-    }
-
-    renderDefaultRouterContent() {
+    renderRouterContent() {
         return (
             <>
                 { this.renderItemsOfType(BEFORE_ITEMS_TYPE) }
@@ -349,28 +216,16 @@ class AppRouter extends ExtensiblePureComponent {
         );
     }
 
-    renderRouterContent() {
-        const { hasError } = this.state;
-
-        if (hasError) {
-            return this.renderErrorRouterContent();
-        }
-
-        return this.renderDefaultRouterContent();
-    }
-
     render() {
         return (
             <>
                 <Meta />
-                <Router history={ history }>
+                <ReactRouter history={ history }>
                     { this.renderRouterContent() }
-                </Router>
+                </ReactRouter>
             </>
         );
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-    middleware(AppRouter, 'Route/AppRouter')
-);
+export default middleware(Router, 'Component/Router/Component');

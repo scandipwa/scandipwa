@@ -23,7 +23,7 @@ import { CMS_PAGE } from 'Component/Header';
 import { debounce } from 'Util/Request';
 import { updateMeta } from 'Store/Meta';
 import { getUrlParam } from 'Util/Url';
-import { history } from 'Route';
+import { history } from 'Component/App/App.component';
 
 import CmsPage from './CmsPage.component';
 

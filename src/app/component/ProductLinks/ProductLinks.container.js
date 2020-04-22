@@ -39,5 +39,5 @@ export class ProductLinksContainer extends ExtensiblePureComponent {
 }
 
 export default connect(mapStateToProps)(
-    middleware('Component/ProductLinks/Container')
+    middleware(ProductLinksContainer, 'Component/ProductLinks/Container')
 );

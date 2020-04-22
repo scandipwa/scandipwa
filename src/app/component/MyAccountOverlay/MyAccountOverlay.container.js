@@ -20,7 +20,7 @@ import { showNotification } from 'Store/Notification';
 import { hideActiveOverlay } from 'Store/Overlay';
 import { isSignedIn } from 'Util/Auth';
 import isMobile from 'Util/Mobile';
-import { history } from 'Route';
+import { history } from 'Component/App/App.component';
 
 import MyAccountOverlay, {
     STATE_SIGN_IN,

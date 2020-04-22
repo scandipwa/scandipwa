@@ -14,7 +14,7 @@
 import PropTypes from 'prop-types';
 
 import isMobile from 'Util/Mobile';
-import { history } from 'Route';
+import { history } from 'Component/App/App.component';
 
 import { DEFAULT_STATE_NAME } from './NavigationAbstract.component';
 
