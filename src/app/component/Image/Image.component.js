@@ -39,6 +39,7 @@ export default class Image extends PureComponent {
             height: PropTypes.string
         }),
         alt: PropTypes.string,
+        className: PropTypes.string,
         ratio: PropTypes.oneOf([
             '4x3',
             '16x9',
@@ -56,6 +57,7 @@ export default class Image extends PureComponent {
     };
 
     static defaultProps = {
+        className: '',
         src: '',
         alt: '',
         ratio: 'square',
@@ -100,6 +102,16 @@ export default class Image extends PureComponent {
         this.setState({ imageStatus: IMAGE_LOADED });
     }
 
+    renderImageNotFound() {
+        if (navigator.onLine) {
+            return (
+                <span block="Image" elem="Content">{ __('Image not found') }</span>
+            );
+        }
+
+        return <span block="Image" elem="Content" mods={ { isOffline: true } } />;
+    }
+
     renderImage() {
         const {
             alt, src, isPlaceholder, style
@@ -112,9 +124,7 @@ export default class Image extends PureComponent {
 
         switch (imageStatus) {
         case IMAGE_NOT_FOUND:
-            return (
-                <span block="Image" elem="Content">{ __('Image not found') }</span>
-            );
+            return this.renderImageNotFound();
         case IMAGE_NOT_SPECIFIED:
             return (
                 <span block="Image" elem="Content">{ __('Image not specified') }</span>
@@ -144,7 +154,8 @@ export default class Image extends PureComponent {
             isPlaceholder,
             wrapperSize,
             src,
-            imageRef
+            imageRef,
+            className
         } = this.props;
 
         const { imageStatus } = this.state;
@@ -161,6 +172,8 @@ export default class Image extends PureComponent {
               } }
               mix={ mix }
               style={ wrapperSize }
+              // eslint-disable-next-line react/forbid-dom-props
+              className={ className }
             >
                 { this.renderImage() }
             </div>

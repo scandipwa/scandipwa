@@ -119,7 +119,7 @@
             6px 12px 0 0 var(--header-color),
             10px 12px 0 0 var(--header-color);
 
-        @include after-mobile {
+        @include desktop {
             width: 20px;
             box-shadow:
                 0 6px 0 0 var(--header-color),
@@ -128,7 +128,7 @@
     }
 
     &::before {
-        @include mobile {
+        @include before-desktop {
             width: calc(12px - var(--header-icon-stroke-width) * 2);
             height: calc(12px - var(--header-icon-stroke-width) * 2);
             border: var(--header-icon-stroke-width) solid var(--header-color);
@@ -143,7 +143,7 @@
                 8px 8px 0 -5px var(--header-color);
         }
 
-        @include after-mobile {
+        @include desktop {
             content: 'menu';
             color: var(--header-color);
             text-transform: uppercase;
@@ -369,4 +369,55 @@
             6px 6px 0 -4px var(--header-color),
             7px 7px 0 -4px var(--header-color);
     }
+}
+
+@mixin ios-share {
+    $color-dodger-blue: #3b9cfe;
+
+    border: 2px solid $color-dodger-blue;
+    bottom: -3px;
+    height: 18px;
+    margin: 0 4px;
+    width: 18px;
+
+    &::before {
+        content: '';
+        border-left: 2px solid $color-dodger-blue;
+        border-top: 2px solid $color-dodger-blue;
+        display: block;
+        height: 6px;
+        left: 3px;
+        position: relative;
+        top: -9px;
+        transform: rotate(45deg);
+        width: 6px;
+    }
+
+    &::after {
+        border-left: 2px solid $color-dodger-blue;
+        content: '';
+        display: block;
+        height: 16px;
+        left: 6px;
+        position: relative;
+        top: -16px;
+        width: 19px;
+    }
+}
+
+@mixin ios-plus {
+    $color-storm-grey: #7b7b86;
+
+    background:
+        linear-gradient($white, $white),
+        linear-gradient($white, $white),
+        $color-storm-grey;
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 53% 1px, 1px 50%;
+    border-radius: 5px;
+    height: 20px;
+    margin: 0 4px;
+    width: 20px;
 }

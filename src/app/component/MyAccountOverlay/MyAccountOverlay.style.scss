@@ -22,7 +22,7 @@
     right: 0;
     padding-top: 1rem;
 
-    @include mobile {
+    @include before-desktop {
         height: auto;
         padding-bottom: 0;
         top: 0;
@@ -30,13 +30,13 @@
     }
 
     &_isVisible {
-        @include after-mobile {
+        @include desktop {
             border: 1px solid var(--overlay-desktop-border-color);
         }
     }
 
     &::before {
-        @include after-mobile {
+        @include desktop {
             content: '';
             position: absolute;
             top: -9px;
@@ -62,11 +62,11 @@
     }
 
     &-Heading {
-
         font-size: 18px;
         font-weight: bold;
         padding: 0 1rem 1rem;
-        @include mobile {
+
+        @include before-desktop {
             display: none;
         }
     }
@@ -110,11 +110,11 @@
                 text-decoration: none;
             }
 
-            @include after-mobile {
+            @include desktop {
                 padding: .5rem;
             }
         }
-        @include after-mobile {
+        @include desktop {
             padding: .5rem;
         }
     }
@@ -147,7 +147,7 @@
                 .Field {
                     margin-top: .7rem;
                 }
-                @include mobile {
+                @include before-desktop {
                     padding-top: 1rem;
                 }
             }
@@ -170,11 +170,11 @@
 
             &_loggedIn {
                 .MyAccountOverlay-Heading {
-                    @include after-mobile {
+                    @include desktop {
                         display: none;
                     }
                 }
-                @include after-mobile {
+                @include desktop {
                     width: 180px;
                     padding: 0;
                 }
@@ -191,7 +191,7 @@
             margin-top: 0;
         }
 
-        @include after-mobile {
+        @include desktop {
             width: 400px;
             padding: 1rem 2rem 2rem;
         }
@@ -214,7 +214,7 @@
             &_createAccount {
                 padding-top: 2rem;
 
-                @include mobile {
+                @include before-desktop {
                     display: none;
                 }
 
@@ -237,11 +237,15 @@
                 }
             }
 
+            &_confirmEmail {
+                padding-top: 0;
+            }
+
             &_forgotPassword {
                 padding-top: 2.8rem;
                 padding-left: 2.1rem;
 
-                @include mobile {
+                @include before-desktop {
                     display: none;
                 }
 
@@ -267,7 +271,7 @@
             }
 
             &_forgotPasswordSuccess {
-                padding-top: 4.3rem;
+                padding-top: 0;
 
                 h4 {
                     font-size: 1rem;
@@ -280,8 +284,31 @@
         }
     }
 
+    &-CloseButton {
+        &::before,
+        &::after {
+            background-color: var(--header-color);
+            content: '';
+            height: 20px;
+            position: absolute;
+            right: 27px;
+            top: -13px;
+            transform-origin: 50% 50%;
+            width: 1px;
+            z-index: 1;
+        }
+
+        &::before {
+            transform: rotate(-45deg);
+        }
+
+        &::after {
+            transform: rotate(45deg);
+        }
+    }
+
     &-ForgotPasswordButton {
-        @include after-mobile {
+        @include desktop {
             display: none;
         }
     }
@@ -334,7 +361,7 @@
         }
     }
 
-    @include after-mobile {
+    @include desktop {
         position: absolute;
         top: var(--header-nav-height);
         right: -40px;

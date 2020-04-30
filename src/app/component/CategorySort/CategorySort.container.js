@@ -37,23 +37,25 @@ export class CategorySortContainer extends PureComponent {
         const [label] = pureLabel.split(' ');
 
         switch (id) {
+        case 'name':
+            return {
+                asc: __('Name: A to Z', label),
+                desc: __('Name: Z to A', label)
+            };
+        case 'position':
+            return {
+                asc: __('Best match')
+            };
         case 'price':
             return {
                 asc: __('%s: Low to High', label),
                 desc: __('%s: High to Low', label)
             };
-        case 'name':
-            return {
-                asc: __('%s: A to Z', label),
-                desc: __('%s: Z to A', label)
-            };
-        case 'position':
+        default:
             return {
                 asc: __('%s: Ascending', label),
                 desc: __('%s: Descending', label)
             };
-        default:
-            return {};
         }
     }
 
@@ -67,23 +69,25 @@ export class CategorySortContainer extends PureComponent {
             const label = this._getLabel(option);
             const { asc, desc } = label;
 
-            if (!asc || !desc) return acc;
+            if (asc) {
+                acc.push({
+                    id: `ASC ${id}`,
+                    name: id,
+                    value: `ASC ${id}`,
+                    label: asc
+                });
+            }
 
-            const ascOption = {
-                id: `ASC ${id}`,
-                name: id,
-                value: `ASC ${id}`,
-                label: asc
-            };
+            if (desc) {
+                acc.push({
+                    id: `DESC ${id}`,
+                    name: id,
+                    value: `DESC ${id}`,
+                    label: desc
+                });
+            }
 
-            const descOption = {
-                id: `DESC ${id}`,
-                name: id,
-                value: `DESC ${id}`,
-                label: desc
-            };
-
-            return [...acc, ascOption, descOption];
+            return acc;
         }, []);
 
         return selectOptions;

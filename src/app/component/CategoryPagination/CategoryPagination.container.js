@@ -12,12 +12,20 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import { generateQuery, getQueryParam } from 'Util/Url';
 import { HistoryType } from 'Type/Common';
 import { LocationType } from 'Type/Router';
 
 import CategoryPagination from './CategoryPagination.component';
+
+export const mapStateToProps = state => ({
+    paginationFrame: state.ConfigReducer.pagination_frame,
+    paginationFrameSkip: state.ConfigReducer.pagination_frame_skip,
+    anchorTextPrevious: state.ConfigReducer.anchor_text_for_previous,
+    anchorTextNext: state.ConfigReducer.anchor_text_for_next
+});
 
 export class CategoryPaginationContainer extends PureComponent {
     static propTypes = {
@@ -67,4 +75,4 @@ export class CategoryPaginationContainer extends PureComponent {
     }
 }
 
-export default withRouter(CategoryPaginationContainer);
+export default withRouter(connect(mapStateToProps)(CategoryPaginationContainer));

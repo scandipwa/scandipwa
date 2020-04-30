@@ -15,6 +15,7 @@ import { PureComponent } from 'react';
 import Slider from 'Component/Slider';
 import Image from 'Component/Image';
 import Html from 'Component/Html';
+import isMobile from 'Util/Mobile';
 import './SliderWidget.style';
 
 /**
@@ -26,7 +27,8 @@ export default class SliderWidget extends PureComponent {
         slider: PropTypes.shape({
             slides: PropTypes.arrayOf(
                 PropTypes.shape({
-                    image: PropTypes.string,
+                    desktop_image: PropTypes.string,
+                    mobile_image: PropTypes.string,
                     slide_text: PropTypes.string,
                     isPlaceholder: PropTypes.bool
                 })
@@ -45,9 +47,25 @@ export default class SliderWidget extends PureComponent {
         this.setState({ activeImage });
     };
 
+    getSlideImage(slide) {
+        const {
+            desktop_image,
+            mobile_image
+        } = slide;
+
+        if (isMobile.any() && mobile_image) {
+            return `/${mobile_image}`;
+        }
+
+        if (!desktop_image) {
+            return '';
+        }
+
+        return `/${desktop_image}`;
+    }
+
     renderSlide = (slide, i) => {
         const {
-            image,
             slide_text,
             isPlaceholder,
             title: block
@@ -62,7 +80,7 @@ export default class SliderWidget extends PureComponent {
                 <Image
                   mix={ { block: 'SliderWidget', elem: 'FigureImage' } }
                   ratio="custom"
-                  src={ image ? `/${image}` : '' }
+                  src={ this.getSlideImage(slide) }
                   isPlaceholder={ isPlaceholder }
                 />
                 <figcaption

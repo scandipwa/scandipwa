@@ -30,13 +30,17 @@ export const mapDispatchToProps = dispatch => ({
 
 export class NoMatchHandlerContainer extends PureComponent {
     static propTypes = {
-        updateMeta: PropTypes.func.isRequired
+        updateMeta: PropTypes.func.isRequired,
+        noMatch: PropTypes.bool.isRequired
     };
 
-    componentDidMount() {
-        const { updateMeta } = this.props;
+    componentDidUpdate(prevProps) {
+        const { noMatch, updateMeta } = this.props;
+        const { noMatch: prevNoMatch } = prevProps;
 
-        updateMeta({ title: __('Page not found') });
+        if (noMatch !== prevNoMatch) {
+            updateMeta({ title: __('Page not found') });
+        }
     }
 
     render() {

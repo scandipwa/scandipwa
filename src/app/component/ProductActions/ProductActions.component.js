@@ -96,6 +96,12 @@ export default class ProductActions extends PureComponent {
         }
     };
 
+    renderStock(stockStatus) {
+        return (
+            (stockStatus === 'OUT_OF_STOCK') ? __('Out of stock') : __('In stock')
+        );
+    }
+
     renderSkuAndStock() {
         const {
             product,
@@ -125,7 +131,7 @@ export default class ProductActions extends PureComponent {
                                 { `SKU: ${ sku }` }
                             </span>
                             <span block="ProductActions" elem="Stock">
-                                { (stock_status === 'OUT_OF_STOCK') ? __('Out of stock') : __('In stock') }
+                                { this.renderStock(stock_status) }
                             </span>
                         </>
                     ),
@@ -278,22 +284,67 @@ export default class ProductActions extends PureComponent {
         );
     }
 
-    renderPrice() {
-        const { product: { price, variants, type_id }, configurableVariantIndex } = this.props;
+    renderSchema(name, stockStatus) {
+        const { getLink, product: { variants = [] } } = this.props;
 
-        if (type_id === GROUPED) return null;
+        return (
+            <>
+                <meta itemProp="offerCount" content={ variants.length || 0 } />
+                <meta itemProp="availability" content={ this.renderStock(stockStatus) } />
+                <a
+                  block="ProductActions"
+                  elem="Schema-Url"
+                  itemProp="url"
+                  href={ getLink() }
+                >
+                    { name }
+                </a>
+            </>
+        );
+    }
+
+    renderPriceWithSchema() {
+        const {
+            product,
+            product: { variants },
+            configurableVariantIndex
+        } = this.props;
 
         // Product in props is updated before ConfigurableVariantIndex in props, when page is opened by clicking CartItem
         // As a result, we have new product, but old configurableVariantIndex, which may be out of range for variants
-        const productOrVariantPrice = variants && variants[configurableVariantIndex] !== undefined
-            ? variants[configurableVariantIndex].price
-            : price;
+        const productOrVariant = variants && variants[configurableVariantIndex] !== undefined
+            ? variants[configurableVariantIndex]
+            : product;
+
+        const { name, price, stock_status } = productOrVariant;
 
         return (
-            <ProductPrice
-              price={ productOrVariantPrice }
-              mix={ { block: 'ProductActions', elem: 'Price' } }
-            />
+            <div>
+                { this.renderSchema(name, stock_status) }
+                <ProductPrice
+                  isSchemaRequired
+                  price={ price }
+                  mix={ { block: 'ProductActions', elem: 'Price' } }
+                />
+            </div>
+        );
+    }
+
+    renderPriceWithGlobalSchema() {
+        const { product: { type_id } } = this.props;
+
+        if (type_id === GROUPED) return null;
+
+        return (
+            <div
+              block="ProductActions"
+              elem="Schema"
+              itemType="https://schema.org/AggregateOffer"
+              itemProp="offers"
+              itemScope
+            >
+                { this.renderPriceWithSchema() }
+            </div>
         );
     }
 
@@ -323,7 +374,10 @@ export default class ProductActions extends PureComponent {
         const rating = parseFloat(rating_summary / ONE_FIFTH_OF_A_HUNDRED).toFixed(2);
 
         return (
-            <div block="ProductActions" elem="Reviews">
+            <div
+              block="ProductActions"
+              elem="Reviews"
+            >
                 <ProductReviewRating summary={ rating_summary || 0 } />
                 <p block="ProductActions" elem="ReviewLabel">
                     { rating }
@@ -373,7 +427,7 @@ export default class ProductActions extends PureComponent {
     render() {
         return (
             <article block="ProductActions">
-                { this.renderPrice() }
+                { this.renderPriceWithGlobalSchema() }
                 { this.renderShortDescription() }
                 <div block="ProductActions" elem="AddToCartWrapper">
                     { this.renderQuantityInput() }

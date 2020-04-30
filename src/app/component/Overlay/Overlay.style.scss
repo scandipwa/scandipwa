@@ -14,7 +14,7 @@
     --overlay-content-background: #fff;
     --overlay-desktop-border-color: var(--primary-light-color);
 
-    @include after-mobile {
+    @include desktop {
         --overlay-background: #fff;
     }
 }
@@ -28,14 +28,14 @@
     background-color: var(--overlay-background);
 
     &:not(.Overlay_isStatic) {
-        @include mobile {
+        @include before-desktop {
             -webkit-overflow-scrolling: touch;
 
             position: fixed;
-            top: var(--header-height);
+            top: var(--header-total-height);
             left: 0;
             width: 100%;
-            height: calc(100% - var(--header-height));
+            height: calc(100% - var(--header-total-height));
             padding-bottom: var(--navigation-tabs-height);
             overflow: scroll;
             overflow-x: hidden;
@@ -43,7 +43,7 @@
         }
     }
 
-    @include after-mobile {
+    @include desktop {
         position: absolute;
         transition: opacity 200ms;
         height: 0;
@@ -54,9 +54,9 @@
         pointer-events: all;
         touch-action: pan-y;
         opacity: 1;
-        z-index: 90;
+        z-index: 100;
 
-        @include after-mobile {
+        @include desktop {
             height: auto;
             overflow: visible;
         }

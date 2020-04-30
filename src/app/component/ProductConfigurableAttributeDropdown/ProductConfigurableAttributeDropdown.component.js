@@ -12,12 +12,13 @@ class ProductConfigurableAttributeDropdown extends PureComponent {
             value: PropTypes.string
         })).isRequired,
         selectValue: PropTypes.string,
-        selectLabel: PropTypes.string.isRequired,
+        selectLabel: PropTypes.string,
         selectName: PropTypes.string.isRequired
     };
 
     static defaultProps = {
-        selectValue: ''
+        selectValue: '',
+        selectLabel: 'attribute'
     };
 
     render() {

@@ -16,6 +16,7 @@ import PropTypes from 'prop-types';
 import NavigationAbstract, { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.component';
 import SearchField from 'Component/SearchField';
 import MyAccountOverlay from 'Component/MyAccountOverlay';
+import OfflineNotice from 'Component/OfflineNotice';
 import ClickOutside from 'Component/ClickOutside';
 import CartOverlay from 'Component/CartOverlay';
 import MenuOverlay from 'Component/MenuOverlay';
@@ -68,7 +69,11 @@ export default class Header extends NavigationAbstract {
         searchCriteria: PropTypes.string.isRequired,
         header_logo_src: PropTypes.string,
         logo_alt: PropTypes.string,
-        isLoading: PropTypes.bool
+        isLoading: PropTypes.bool,
+        isCheckout: PropTypes.bool.isRequired,
+        showMyAccountLogin: PropTypes.bool.isRequired,
+        closeOverlay: PropTypes.func.isRequired,
+        onSignIn: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -131,7 +136,8 @@ export default class Header extends NavigationAbstract {
         },
         [CHECKOUT]: {
             back: true,
-            title: true
+            title: true,
+            account: true
         },
         [CMS_PAGE]: {
             back: true,
@@ -189,9 +195,11 @@ export default class Header extends NavigationAbstract {
     }
 
     renderMenuButton(isVisible = false) {
-        const { onMenuOutsideClick, onMenuButtonClick } = this.props;
+        const { onMenuOutsideClick, onMenuButtonClick, isCheckout } = this.props;
 
-        if (isMobile.any()) return null;
+        if (isMobile.any() || isCheckout) {
+            return null;
+        }
 
         return (
             <ClickOutside onClick={ onMenuOutsideClick } key="menu">
@@ -218,8 +226,11 @@ export default class Header extends NavigationAbstract {
             onSearchBarFocus,
             onSearchBarChange,
             onClearSearchButtonClick,
-            navigationState: { name }
+            navigationState: { name },
+            isCheckout
         } = this.props;
+
+        if (isCheckout) return null;
 
         return (
             <SearchField
@@ -279,24 +290,31 @@ export default class Header extends NavigationAbstract {
               elem="LogoWrapper"
               mods={ { isVisible } }
               key="logo"
-              itemScope
-              itemType="http://schema.org/Organization"
             >
-                <meta itemProp="legalName" content="ScandiPWA" />
-                <meta itemProp="parentOrganization" content="Scandiweb" />
                 { this.renderLogoImage() }
             </Link>
         );
     }
 
     renderAccountButton(isVisible = false) {
-        const { onMyAccountOutsideClick, onMyAccountButtonClick } = this.props;
+        const {
+            onMyAccountOutsideClick,
+            onMyAccountButtonClick,
+            isCheckout,
+            showMyAccountLogin,
+            closeOverlay,
+            onSignIn
+        } = this.props;
 
-        if (isMobile.any()) return null;
+        if (isMobile.any() && !isCheckout) return null;
 
         return (
             <ClickOutside onClick={ onMyAccountOutsideClick } key="account">
-                <div aria-label="My account">
+                <div
+                  aria-label="My account"
+                  block="Header"
+                  elem="MyAccount"
+                >
                     <button
                       block="Header"
                       elem="Button"
@@ -304,7 +322,13 @@ export default class Header extends NavigationAbstract {
                       onClick={ onMyAccountButtonClick }
                       aria-label="Open my account"
                     />
-                    <MyAccountOverlay />
+                    { ((isMobile.any() && showMyAccountLogin) || !isMobile.any()) && (
+                        <MyAccountOverlay
+                          onSignIn={ onSignIn }
+                          closeOverlay={ closeOverlay }
+                          isCheckout={ isCheckout }
+                        />
+                    ) }
                 </div>
             </ClickOutside>
         );
@@ -329,9 +353,9 @@ export default class Header extends NavigationAbstract {
     }
 
     renderMinicartButton(isVisible = false) {
-        const { onMinicartOutsideClick, onMinicartButtonClick } = this.props;
+        const { onMinicartOutsideClick, onMinicartButtonClick, isCheckout } = this.props;
 
-        if (isMobile.any()) return null;
+        if (isMobile.any() || isCheckout) return null;
 
         return (
             <ClickOutside onClick={ onMinicartOutsideClick } key="minicart">
@@ -427,14 +451,20 @@ export default class Header extends NavigationAbstract {
     }
 
     render() {
-        const { navigationState: { name, isHiddenOnMobile = false } } = this.props;
+        const {
+            navigationState: { name, isHiddenOnMobile = false },
+            isCheckout
+        } = this.props;
 
         return (
-            <header block="Header" mods={ { name, isHiddenOnMobile } }>
-                <nav block="Header" elem="Nav">
-                    { this.renderNavigationState() }
-                </nav>
-            </header>
+            <>
+                <header block="Header" mods={ { name, isHiddenOnMobile, isCheckout } }>
+                    <nav block="Header" elem="Nav">
+                        { this.renderNavigationState() }
+                    </nav>
+                </header>
+                <OfflineNotice />
+            </>
         );
     }
 }

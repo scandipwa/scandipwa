@@ -5,15 +5,20 @@
 [![The dev branch - 2.x-dev](https://img.shields.io/badge/dev%20branch-2.x--dev-blue)](https://github.com/scandipwa/base-theme/tree/2.x-dev)
 [![The stable branch - 2.x-stable](https://img.shields.io/badge/stable%20branch-2.x--stable-blue)](https://github.com/scandipwa/base-theme/tree/2.x-stable)
 [![Join community Slack](https://img.shields.io/badge/join-community%20slack-brightgreen)](https://join.slack.com/t/scandipwa/shared_invite/enQtNzE2Mjg1Nzg3MTg5LTQwM2E2NmQ0NmQ2MzliMjVjYjQ1MTFiYWU5ODAyYTYyMGQzNWM3MDhkYzkyZGMxYTJlZWI1N2ExY2Q1MDMwMTk)
+[![Explore documentation](https://img.shields.io/badge/explore-documentation-orange)](https://docs.scandipwa.com/)
 
 ScandiPWA is a single page application theme for Magento with advanced PWA capabilities.
 
 **How?**
 
-ScandiPWA can be installed as a regular Magento theme, however, the usual layout/template system is not utilized. 
+ScandiPWA can be installed as a regular Magento theme, however, the usual layout/template system is not utilized.
 Instead, we are using **React** components to render the application and utilize **GraphQL API** of Magento 2.3.
 
-> Sounds interesting? Make sure to :star: scandipwa base-theme repository so you can keep up to date with the latest releases! 
+Check our instroduction to the ScandiPWA tech stack:
+
+[![intro to swpwa](https://i.ibb.co/MhvxnTp/Group-4.png)](https://www.youtube.com/watch?v=xGwvfIAyVrM)
+
+> Sounds interesting? Make sure to :star: scandipwa base-theme repository so you can keep up to date with the latest releases!
 
 ## Demo
 
@@ -27,12 +32,11 @@ ScandiPWA covers 300+ default Magento features including:
 
 - [x] Multistore support
 - [x] Multiple languages and currencies
-- [x] Customer registation and My Account
+- [x] Customer registration and My Account
 - [x] Payment methods such as Stripe, Paypal, and more
 - [x] Shipping methods such as UPS and FedEx
 
-> **Want to learn more?**
-See the FULL list of supported features in our [roadmap](https://scandipwa.com/).
+> **Want to learn more?** See the FULL list of supported features in our [roadmap](https://scandipwa.com/).
 
 ## Ready to try?
 
@@ -43,17 +47,18 @@ Available setup options:
 - [x] Docker on Linux
 - [x] Existing Magento
 - [x] With remote server
-- [ ] Docker on Mac
+- [ ] Docker on Mac (upcoming)
 
-> **Quick start** → [Demo Setup on Magento](https://www.youtube.com/watch?v=eWLB6c2FOrY)
+> **Quick start** → [Docker Setup on Linux](https://www.youtube.com/watch?v=IOXSBcCBvCw&list=PLy0PoJ53Gjy0VVzmgO_gwoepniP6rQb0K&index=2)
 
 ## Need help?
 
-ScandiPWA core team is here to make your life easier and coding process more delightful. See what we have for you:
+ScandiPWA core team is here to make your life easier and the coding process more delightful. See what we have for you:
 
-- [Video Guides & Weekly Webinars](https://www.youtube.com/channel/UCvnxo7rh5NRwvMHtJga9fww)
+- [Video Tutorials](https://www.youtube.com/playlist?list=PLy0PoJ53Gjy3iHQmsZCD1WAazhyS03l-y)
+- [Weekly webinars](https://www.youtube.com/channel/UCvnxo7rh5NRwvMHtJga9fww/videos)
 - [ScandiPWA User Guide](https://scandiweb.atlassian.net/wiki/spaces/SUG/overview)
-- [ScandiPWA Documentation](https://docs.scandipwa.com/#/)
+- [ScandiPWA Documentation](https://docs.scandipwa.com/)
 
 **Still feeling lost?**
 
@@ -103,7 +108,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tr>
     <td align="center"><a href="https://github.com/mihailspopovs4"><img src="https://avatars3.githubusercontent.com/u/54805724?v=4" width="100px;" alt=""/><br /><sub><b>mihailspopovs4</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=mihailspopovs4" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/Animimar"><img src="https://avatars2.githubusercontent.com/u/32173359?v=4" width="100px;" alt=""/><br /><sub><b>Tanunuki</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=Animimar" title="Code">💻</a> <a href="https://github.com/scandipwa/base-theme/issues?q=author%3AAnimimar" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="http://teomedia.dk"><img src="https://avatars2.githubusercontent.com/u/8639654?v=4" width="100px;" alt=""/><br /><sub><b>Teodor Moquist</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/issues?q=author%3Ateodormoq" title="Bug reports">🐛</a> <a href="#translation-teodormoq" title="Translation">🌍</a></td>
+    <td align="center"><a href="http://teomedia.dk"><img src="https://avatars2.githubusercontent.com/u/8639654?v=4" width="100px;" alt=""/><br /><sub><b>Teodor Moquist</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=teodormoq" title="Code">💻</a> <a href="https://github.com/scandipwa/base-theme/issues?q=author%3Ateodormoq" title="Bug reports">🐛</a> <a href="#translation-teodormoq" title="Translation">🌍</a></td>
     <td align="center"><a href="https://github.com/alfredsgenkins"><img src="https://avatars1.githubusercontent.com/u/29531824?v=4" width="100px;" alt=""/><br /><sub><b>Alfreds Genkins</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=alfredsgenkins" title="Code">💻</a> <a href="#projectManagement-alfredsgenkins" title="Project Management">📆</a> <a href="#content-alfredsgenkins" title="Content">🖋</a></td>
     <td align="center"><a href="https://github.com/Chevskis"><img src="https://avatars2.githubusercontent.com/u/15198469?v=4" width="100px;" alt=""/><br /><sub><b>Klāvs Kačevskis</b></sub></a><br /><a href="#projectManagement-Chevskis" title="Project Management">📆</a></td>
     <td align="center"><a href="https://github.com/lianastaskevica"><img src="https://avatars3.githubusercontent.com/u/52198221?v=4" width="100px;" alt=""/><br /><sub><b>Liana </b></sub></a><br /><a href="#projectManagement-lianastaskevica" title="Project Management">📆</a> <a href="https://github.com/scandipwa/base-theme/issues?q=author%3Alianastaskevica" title="Bug reports">🐛</a> <a href="#userTesting-lianastaskevica" title="User Testing">📓</a></td>
@@ -124,6 +129,12 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="http://jdlms.com"><img src="https://avatars0.githubusercontent.com/u/24616413?v=4" width="100px;" alt=""/><br /><sub><b>Megazoor</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=megazoor" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/joostm020"><img src="https://avatars1.githubusercontent.com/u/26708268?v=4" width="100px;" alt=""/><br /><sub><b>Joost Meijer</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=joostm020" title="Code">💻</a></td>
     <td align="center"><a href="http://yousef.io"><img src="https://avatars1.githubusercontent.com/u/734823?v=4" width="100px;" alt=""/><br /><sub><b>Yousef Cisco</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=yousefcisco" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/gabunia-nick"><img src="https://avatars0.githubusercontent.com/u/39187887?v=4" width="100px;" alt=""/><br /><sub><b>Nick</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=gabunia-nick" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/oltseb"><img src="https://avatars1.githubusercontent.com/u/33062679?v=4" width="100px;" alt=""/><br /><sub><b>Oleksii Tsebinoga</b></sub></a><br /><a href="#translation-oltseb" title="Translation">🌍</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/RoboLV"><img src="https://avatars1.githubusercontent.com/u/4116979?v=4" width="100px;" alt=""/><br /><sub><b>RoboLV</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=RoboLV" title="Code">💻</a> <a href="https://github.com/scandipwa/base-theme/issues?q=author%3ARoboLV" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://github.com/Fitipaldi007"><img src="https://avatars1.githubusercontent.com/u/43096716?v=4" width="100px;" alt=""/><br /><sub><b>Fitipaldi007</b></sub></a><br /><a href="#translation-Fitipaldi007" title="Translation">🌍</a></td>
   </tr>
 </table>
 
