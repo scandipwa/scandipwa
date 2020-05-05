@@ -44,9 +44,8 @@ export default class SearchOverlay extends PureComponent {
         const { searchCriteria: prevSearchCriteria } = prevProps;
         const { searchCriteria, clearSearchResults, makeSearchRequest } = this.props;
 
-        if (this.timeout) clearTimeout(this.timeout);
-
         if (searchCriteria !== prevSearchCriteria) {
+            if (this.timeout) clearTimeout(this.timeout);
             clearSearchResults();
             this.timeout = setTimeout(() => {
                 this.timeout = null;
