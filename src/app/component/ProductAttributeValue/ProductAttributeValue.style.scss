@@ -160,6 +160,13 @@
                 order: 1;
                 text-align: left;
 
+                overflow: hidden;
+                text-overflow: ellipsis;
+
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 3;
+
                 ~ label {
                     margin: 0;
                     min-width: 1.5rem;
