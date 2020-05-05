@@ -11,6 +11,7 @@
 
 import { PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
+import { history } from 'Route';
 
 import ClickOutside from 'Component/ClickOutside';
 import SearchOverlay from 'Component/SearchOverlay';
@@ -25,13 +26,15 @@ class SearchField extends PureComponent {
         onSearchOutsideClick: PropTypes.func.isRequired,
         onClearSearchButtonClick: PropTypes.func.isRequired,
         isVisible: PropTypes.bool,
-        isActive: PropTypes.bool
+        isActive: PropTypes.bool,
+        hideActiveOverlay: PropTypes.func
     };
 
     static defaultProps = {
         isVisible: true,
         isActive: true,
-        searchCriteria: ''
+        searchCriteria: '',
+        hideActiveOverlay: () => {}
     };
 
     searchBarRef = createRef();
@@ -51,6 +54,18 @@ class SearchField extends PureComponent {
         if (isFocusOnSearchBar) this.searchBarRef.current.focus();
         onClearSearchButtonClick();
     }
+
+    onSearchEnterPress = (e) => {
+        if (e.key === 'Enter') {
+            const { searchCriteria, hideActiveOverlay, onSearchBarChange } = this.props;
+            const search = searchCriteria.replace(/\s\s+/g, '%20');
+
+            history.push(`/search/${ search }`);
+            hideActiveOverlay();
+            onSearchBarChange({ target: { value: '' } });
+            this.searchBarRef.current.blur();
+        }
+    };
 
     handleChange = (e) => {
         const { target: { value } } = e;
@@ -99,6 +114,7 @@ class SearchField extends PureComponent {
                   elem="Input"
                   onFocus={ onSearchBarFocus }
                   onChange={ this.handleChange }
+                  onKeyDown={ this.onSearchEnterPress }
                   value={ searchCriteria }
                   mods={ { isActive } }
                   autoComplete="off"
