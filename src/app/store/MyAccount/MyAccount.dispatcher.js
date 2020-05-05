@@ -113,7 +113,9 @@ export class MyAccountDispatcher {
             },
             (error) => {
                 dispatch(showNotification('error', error[0].message));
-                return Promise.reject();
+                Promise.reject();
+
+                return false;
             }
         );
     }
