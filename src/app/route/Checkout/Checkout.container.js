@@ -123,17 +123,6 @@ export class CheckoutContainer extends PureComponent {
         updateMeta({ title: __('Checkout') });
     }
 
-    componentDidUpdate() {
-        const { customer: { addresses } } = this.props;
-        const { shippingMethods } = this.state;
-
-        if (isSignedIn()
-            && (addresses && addresses.length === 0)
-            && shippingMethods.length) {
-            this.resetShippingMethods();
-        }
-    }
-
     componentWillUnmount() {
         const { toggleBreadcrumbs } = this.props;
         toggleBreadcrumbs(true);
@@ -258,10 +247,6 @@ export class CheckoutContainer extends PureComponent {
     };
 
     _getGuestCartId = () => BrowserDatabase.getItem(GUEST_QUOTE_ID);
-
-    resetShippingMethods() {
-        this.setState({ shippingMethods: [] });
-    }
 
     _getPaymentMethods() {
         fetchQuery(CheckoutQuery.getPaymentMethodsQuery(
@@ -440,10 +425,10 @@ export class CheckoutContainer extends PureComponent {
     render() {
         return (
             <Checkout
-              { ...this.props }
-              { ...this.state }
-              { ...this.containerFunctions }
-              { ...this.containerProps() }
+                { ...this.props }
+                { ...this.state }
+                { ...this.containerFunctions }
+                { ...this.containerProps() }
             />
         );
     }
