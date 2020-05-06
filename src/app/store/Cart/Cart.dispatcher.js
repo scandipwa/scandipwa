@@ -17,6 +17,7 @@ import { showNotification } from 'Store/Notification';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { getExtensionAttributes } from 'Util/Product';
 import { LinkedProductsDispatcher } from 'Store/LinkedProducts';
+import GoogleTagManager from 'Component/GoogleTagManager/GoogleTagManager.component';
 
 export const GUEST_QUOTE_ID = 'guest_quote_id';
 
@@ -61,6 +62,7 @@ export class CartDispatcher {
                 this._createEmptyCart(dispatch).then((data) => {
                     BrowserDatabase.setItem(data, GUEST_QUOTE_ID);
                     this._updateCartData({}, dispatch);
+                    GoogleTagManager.getInstance().setGroupedProducts({});
                 });
             }
         );

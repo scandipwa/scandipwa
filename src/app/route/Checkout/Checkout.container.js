@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 import { BRAINTREE, KLARNA } from 'Component/CheckoutPayments/CheckoutPayments.component';
 import { CART_TAB } from 'Component/NavigationTabs/NavigationTabs.component';
 import { TOP_NAVIGATION_TYPE, BOTTOM_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import Event, { EVENT_GTM_CHECKOUT, EVENT_GTM_PURCHASE } from 'Util/Event';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 import CartDispatcher from 'Store/Cart/Cart.dispatcher';
 import { MyAccountDispatcher } from 'Store/MyAccount';
@@ -32,7 +33,7 @@ import { TotalsType } from 'Type/MiniCart';
 import { updateMeta } from 'Store/Meta';
 import { isSignedIn } from 'Util/Auth';
 import { customerType } from 'Type/Account';
-
+import { CHECKOUT_EVENT_DELAY } from 'Component/GoogleTagManager/events/Checkout.event';
 import Checkout, { SHIPPING_STEP, BILLING_STEP, DETAILS_STEP } from './Checkout.component';
 
 export const PAYMENT_TOTALS = 'PAYMENT_TOTALS';
@@ -119,18 +120,33 @@ export class CheckoutContainer extends PureComponent {
     }
 
     componentDidMount() {
-        const { updateMeta } = this.props;
+        const { updateMeta, totals = {} } = this.props;
         updateMeta({ title: __('Checkout') });
+
+        setTimeout(
+            () => Event.dispatch(EVENT_GTM_CHECKOUT, { totals, step: 1 }),
+            CHECKOUT_EVENT_DELAY
+        );
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps, prevState) {
         const { customer: { addresses } } = this.props;
-        const { shippingMethods } = this.state;
+        const { customer: { addresses: prevAddresses = {} } } = prevProps;
+
+        const { shippingMethods, checkoutStep, isLoading } = this.state;
+        const { checkoutStep: prevCheckoutStep } = prevState;
 
         if (isSignedIn()
-            && (addresses && addresses.length === 0)
+            && (addresses && addresses.length === 0 && prevAddresses.length !== 0)
             && shippingMethods.length) {
             this.resetShippingMethods();
+        }
+
+        if (!isLoading && checkoutStep !== prevCheckoutStep) {
+            const { totals } = this.props;
+            if (checkoutStep === BILLING_STEP) {
+                Event.dispatch(EVENT_GTM_CHECKOUT, { totals, step: 2 });
+            }
         }
     }
 
@@ -178,12 +194,23 @@ export class CheckoutContainer extends PureComponent {
     }
 
     setDetailsStep(orderID) {
-        const { resetCart, setNavigationState } = this.props;
+        const {
+            resetCart,
+            setNavigationState,
+            totals: { items = [] }
+        } = this.props;
 
         // For some reason not logged in user cart preserves qty in it
         if (!isSignedIn()) {
             BrowserDatabase.deleteItem(GUEST_QUOTE_ID);
         }
+
+        const { paymentTotals: totals } = this.state;
+
+        Event.dispatch(
+            EVENT_GTM_PURCHASE,
+            { orderID, totals: { ...totals, items } }
+        );
 
         BrowserDatabase.deleteItem(PAYMENT_TOTALS);
         resetCart();

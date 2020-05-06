@@ -141,6 +141,7 @@ export default class CategoryPage extends PureComponent {
         const {
             filter,
             search,
+            category,
             selectedSort,
             selectedFilters,
             getIsNewCategory
@@ -153,6 +154,7 @@ export default class CategoryPage extends PureComponent {
                   filter={ filter }
                   search={ search }
                   sort={ selectedSort }
+                  category={ category }
                   selectedFilters={ selectedFilters }
                   getIsNewCategory={ getIsNewCategory }
                 />

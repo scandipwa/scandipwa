@@ -17,6 +17,7 @@ import { CONFIGURABLE, GROUPED } from 'Util/Product';
 import { CartDispatcher } from 'Store/Cart';
 import { ProductType } from 'Type/ProductList';
 import { showNotification } from 'Store/Notification';
+import Event, { EVENT_GTM_PRODUCT_ADD_TO_CART } from 'Util/Event';
 
 import { WishlistDispatcher } from 'Store/Wishlist';
 import AddToCart from './AddToCart.component';
@@ -142,7 +143,17 @@ export class AddToCartContainer extends PureComponent {
                     product: groupedProductItem,
                     quantity
                 });
-            })).then(() => this._afterAdded());
+            })).then(() => {
+                Event.dispatch(EVENT_GTM_PRODUCT_ADD_TO_CART, {
+                    product: {
+                        ...product,
+                        quantities: groupedProductQuantity
+                    },
+                    isGrouped: true
+                });
+
+                this._afterAdded();
+            });
 
             return;
         }
@@ -158,7 +169,15 @@ export class AddToCartContainer extends PureComponent {
             product: productToAdd,
             quantity
         }).then(
-            () => this._afterAdded()
+            () => {
+                Event.dispatch(EVENT_GTM_PRODUCT_ADD_TO_CART, {
+                    product: productToAdd,
+                    quantity,
+                    configurableVariantIndex
+                });
+
+                this._afterAdded();
+            }
         ).catch(
             () => this.resetLoading()
         );

@@ -13,6 +13,7 @@ import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import { shippingMethodsType } from 'Type/Checkout';
+import Event, { EVENT_GTM_CHECKOUT_OPTION } from 'Util/Event';
 import { SHIPPING_STEP } from 'Route/Checkout/Checkout.component';
 
 import CheckoutDeliveryOptions from './CheckoutDeliveryOptions.component';
@@ -67,6 +68,10 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
                 ({ method_code }) => method_code === selectedShippingMethodCode
             );
 
+            Event.dispatch(
+                EVENT_GTM_CHECKOUT_OPTION,
+                { step: 1, option: selectedShippingMethodCode }
+            );
             onShippingMethodSelect(shippingMethod);
         }
     }

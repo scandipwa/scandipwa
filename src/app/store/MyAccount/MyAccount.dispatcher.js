@@ -27,6 +27,14 @@ import { MyAccountQuery } from 'Query';
 import { prepareQuery } from 'Util/Query';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { ORDERS } from 'Store/Order/Order.reducer';
+import ProductHelper from 'Component/GoogleTagManager/utils';
+import Event, {
+    EVENT_GTM_USER_LOGIN,
+    EVENT_GTM_USER_REGISTER
+} from 'Util/Event';
+import GoogleTagManager, {
+    GROUPED_PRODUCTS_GUEST
+} from 'Component/GoogleTagManager/GoogleTagManager.component';
 
 export const CUSTOMER = 'customer';
 
@@ -47,9 +55,33 @@ export class MyAccountDispatcher {
             ({ customer }) => {
                 dispatch(updateCustomerDetails(customer));
                 BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS);
+                this.transferGroupeProductsData(customer.id);
+                GoogleTagManager.getInstance().updateGroupedProductsStorageName(customer.id);
             },
             error => dispatch(showNotification('error', error[0].message))
         );
+    }
+
+    /**
+     * transfer grouped products data from guest to logged in user
+     *
+     * @param {numbre} id customer id
+     */
+    transferGroupeProductsData(id) {
+        const GTMInstance = GoogleTagManager.getInstance();
+
+        if (GTMInstance.groupedProductsStorageName !== GROUPED_PRODUCTS_GUEST) {
+            return;
+        }
+
+        const guestGroupedProducts = GTMInstance.getGroupedProducts();
+        GTMInstance.setGroupedProducts({});
+        GTMInstance.updateGroupedProductsStorageName(id);
+
+        const userGroupedProducts = GTMInstance.getGroupedProducts();
+        const result = ProductHelper.mergeGroupedProducts(guestGroupedProducts, userGroupedProducts);
+
+        GTMInstance.setGroupedProducts(result);
     }
 
     logout(_, dispatch) {
@@ -109,6 +141,7 @@ export class MyAccountDispatcher {
                     return 2;
                 }
 
+                Event.dispatch(EVENT_GTM_USER_REGISTER);
                 return this.signIn({ email, password }, dispatch);
             },
             (error) => {
@@ -150,6 +183,7 @@ export class MyAccountDispatcher {
             dispatch(updateCustomerSignInStatus(true));
             CartDispatcher.updateInitialCartData(dispatch);
             WishlistDispatcher.updateInitialWishlistData(dispatch);
+            Event.dispatch(EVENT_GTM_USER_LOGIN);
 
             return true;
         } catch ([e]) {

@@ -16,9 +16,11 @@ import PropTypes from 'prop-types';
 import BraintreeDropIn from 'Util/Braintree';
 import { paymentMethodsType } from 'Type/Checkout';
 import { showNotification } from 'Store/Notification';
+import Event, { EVENT_GTM_CHECKOUT_OPTION } from 'Util/Event';
 import { BILLING_STEP } from 'Route/Checkout/Checkout.component';
 import { KlarnaContainer } from 'Component/Klarna/Klarna.container';
 import { BRAINTREE_CONTAINER_ID } from 'Component/Braintree/Braintree.component';
+import { EVENT_TIMEOUT_ON_LOAD } from 'Component/GoogleTagManager/events/CheckoutOption.event';
 import CheckoutPayments, { BRAINTREE, STRIPE, KLARNA } from './CheckoutPayments.component';
 
 export const mapDispatchToProps = dispatch => ({
@@ -58,6 +60,12 @@ export class CheckoutPaymentsContainer extends PureComponent {
         if (window.formPortalCollector) {
             window.formPortalCollector.subscribe(BILLING_STEP, this.collectAdditionalData, 'CheckoutPaymentsContainer');
         }
+
+        const { selectedPaymentCode } = this.state;
+        setTimeout(() => Event.dispatch(
+            EVENT_GTM_CHECKOUT_OPTION,
+            { step: 2, option: selectedPaymentCode }
+        ), EVENT_TIMEOUT_ON_LOAD);
     }
 
     componentWillUnmount() {
@@ -105,6 +113,11 @@ export class CheckoutPaymentsContainer extends PureComponent {
 
         onPaymentMethodSelect(code);
         setOrderButtonEnableStatus(true);
+
+        Event.dispatch(
+            EVENT_GTM_CHECKOUT_OPTION,
+            { step: 2, option: code }
+        );
     }
 
     render() {

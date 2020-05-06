@@ -15,9 +15,10 @@ import PropTypes from 'prop-types';
 import Link from 'Component/Link';
 import Image from 'Component/Image';
 import Loader from 'Component/Loader';
-import { ProductType } from 'Type/ProductList';
 import ProductPrice from 'Component/ProductPrice';
 import TextPlaceholder from 'Component/TextPlaceholder';
+import { ProductType, FilterType } from 'Type/ProductList';
+import Event, { EVENT_GTM_PRODUCT_CLICK } from 'Util/Event';
 import ProductReviewRating from 'Component/ProductReviewRating';
 import ProductAttributeValue from 'Component/ProductAttributeValue';
 import TierPrices from 'Component/TierPrices';
@@ -32,7 +33,9 @@ export default class ProductCard extends PureComponent {
     static propTypes = {
         linkTo: PropTypes.shape({}),
         product: ProductType.isRequired,
+        selectedFilters: FilterType.isRequired,
         productOrVariant: ProductType.isRequired,
+        currentVariantIndex: PropTypes.number.isRequired,
         thumbnail: PropTypes.string,
         availableVisualOptions: PropTypes.arrayOf(PropTypes.shape({
             label: PropTypes.string,
@@ -54,6 +57,22 @@ export default class ProductCard extends PureComponent {
     };
 
     imageRef = createRef();
+
+    handleClick = () => {
+        const {
+            currentVariantIndex: configurableVariantIndex,
+            selectedFilters,
+            product
+        } = this.props;
+
+        const productToPass = Object.keys(selectedFilters).length
+            ? { ...product, configurableVariantIndex }
+            : product;
+
+        Event.dispatch(EVENT_GTM_PRODUCT_CLICK, productToPass);
+
+        this.registerSharedElement();
+    };
 
     registerSharedElement = () => {
         const { registerSharedElement } = this.props;
@@ -188,7 +207,7 @@ export default class ProductCard extends PureComponent {
               block="ProductCard"
               elem="Link"
               to={ linkTo }
-              onClick={ this.registerSharedElement }
+              onClick={ this.handleClick }
             >
               { children }
             </Link>

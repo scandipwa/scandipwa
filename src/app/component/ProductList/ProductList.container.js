@@ -13,11 +13,18 @@ import { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+import { CategoryTreeType } from 'Type/Category';
+import { HOME_PAGE, SEARCH } from 'Component/Header';
 import { getQueryParam, setQueryParams } from 'Util/Url';
 import { PagesType, FilterInputType } from 'Type/ProductList';
 import { HistoryType } from 'Type/Common';
 import { debounce } from 'Util/Request';
 import { LocationType } from 'Type/Router';
+import Event, {
+    EVENT_GTM_IMPRESSIONS_PLP,
+    EVENT_GTM_IMPRESSIONS_HOME,
+    EVENT_GTM_IMPRESSIONS_SEARCH
+} from 'Util/Event';
 
 import ProductList from './ProductList.component';
 
@@ -27,6 +34,7 @@ export class ProductListContainer extends PureComponent {
     static propTypes = {
         history: HistoryType.isRequired,
         location: LocationType.isRequired,
+        category: CategoryTreeType.isRequired,
         getIsNewCategory: PropTypes.func.isRequired,
         pages: PagesType.isRequired,
         pageSize: PropTypes.number,
@@ -107,6 +115,8 @@ export class ProductListContainer extends PureComponent {
             || JSON.stringify(sort) !== JSON.stringify(prevSort)
             || JSON.stringify(filter) !== JSON.stringify(prevFilter)
         ) this.requestPage(this._getPageFromUrl());
+
+        this._updateImpressions(prevProps);
     }
 
     static getDerivedStateFromProps(props) {
@@ -121,6 +131,37 @@ export class ProductListContainer extends PureComponent {
         isVisible: this._isVisible(),
         requestPage: this.requestPage
     });
+
+    _updateImpressions(prevProps) {
+        const {
+            pages, isLoading, selectedFilters: filters,
+            category = {}
+        } = this.props;
+        const { isLoading: prevIsLoading, pages: prevPages } = prevProps;
+        const currentPage = getQueryParam('page', location) || 1;
+
+        if (!Object.keys(pages || {}).length
+            || !Object.keys(pages[currentPage] || {}).length
+            || isLoading
+            || isLoading === prevIsLoading
+        ) return;
+
+        const { currentRouteName } = window;
+
+        if (currentRouteName === HOME_PAGE) {
+            Event.dispatch(EVENT_GTM_IMPRESSIONS_HOME, { items: pages[currentPage], filters });
+        } else if (currentRouteName === SEARCH) {
+            if (JSON.stringify(prevPages) !== JSON.stringify(pages)) {
+                Event.dispatch(EVENT_GTM_IMPRESSIONS_SEARCH, {
+                    items: pages[currentPage], filters
+                });
+            }
+        } else {
+            Event.dispatch(EVENT_GTM_IMPRESSIONS_PLP, {
+                items: pages[currentPage], filters, category
+            });
+        }
+    }
 
     _getPageFromUrl() {
         const { location } = this.props;

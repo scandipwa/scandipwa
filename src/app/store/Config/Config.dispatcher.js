@@ -37,7 +37,8 @@ export class ConfigDispatcher extends QueryDispatcher {
             RegionQuery.getCountriesQuery(),
             ReviewQuery.getRatingQuery(),
             ConfigQuery.getQuery(),
-            ConfigQuery.getCheckoutAgreements()
+            ConfigQuery.getCheckoutAgreements(),
+            ConfigQuery.getGTMConfiguration()
         ];
     }
 }

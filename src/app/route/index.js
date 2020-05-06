@@ -27,11 +27,25 @@ import { updateMeta } from 'Store/Meta';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { createBrowserHistory } from 'history';
 
+import Header, {
+    PDP,
+    CART,
+    MENU,
+    SEARCH,
+    CATEGORY,
+    CHECKOUT,
+    CMS_PAGE,
+    HOME_PAGE,
+    URL_REWRITE,
+    PASSWORD_CHANGE,
+    CONFIRM_ACCOUNT,
+    CUSTOMER_ACCOUNT
+} from 'Component/Header';
+
 import Store from 'Store';
 import Meta from 'Component/Meta';
 import Footer from 'Component/Footer';
 import CookiePopup from 'Component/CookiePopup';
-import Header from 'Component/Header';
 import { CartDispatcher } from 'Store/Cart';
 import DemoNotice from 'Component/DemoNotice';
 import { ConfigDispatcher } from 'Store/Config';
@@ -42,7 +56,10 @@ import NavigationTabs from 'Component/NavigationTabs';
 import NewVersionPopup from 'Component/NewVersionPopup';
 import SomethingWentWrong from 'Route/SomethingWentWrong';
 import NotificationList from 'Component/NotificationList';
+import GoogleTagManager from 'Component/GoogleTagManager';
+import withGTM from 'Component/GoogleTagManager/withGTM.hoc';
 import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
+
 
 // suppress prop-types warning on Route component when using with React.lazy
 // until react-router-dom@4.4.0 or higher version released
@@ -134,56 +151,97 @@ export class AppRouter extends PureComponent {
         {
             component: <NewVersionPopup />,
             position: 35
+        },
+        {
+            component: <GoogleTagManager />,
+            position: 40
         }
     ];
 
     [SWITCH_ITEMS_TYPE] = [
         {
-            component: <Route path="/" exact component={ HomePage } />,
+            component: <Route
+              path="/"
+              exact
+              render={ withGTM(HomePage, HOME_PAGE) }
+            />,
             position: 10
         },
         {
-            component: <Route path="/category" component={ CategoryPage } />,
+            component: <Route
+              path="/category"
+              render={ withGTM(CategoryPage, CATEGORY) }
+            />,
             position: 20
         },
         {
-            component: <Route path="/search/:query/" component={ SearchPage } />,
+            component: <Route
+              path="/search/:query/"
+              render={ withGTM(SearchPage, SEARCH) }
+            />,
             position: 25
         },
         {
-            component: <Route path="/product" component={ ProductPage } />,
+            component: <Route
+              path="/product"
+              render={ withGTM(ProductPage, PDP) }
+            />,
             position: 30
         },
         {
-            component: <Route path="/page" component={ CmsPage } />,
+            component: <Route
+              path="/page"
+              render={ withGTM(CmsPage, CMS_PAGE) }
+            />,
             position: 40
         },
         {
-            component: <Route path="/cart" exact component={ CartPage } />,
+            component: <Route
+              path="/cart"
+              exact
+              render={ withGTM(CartPage, CART) }
+            />,
             position: 50
         },
         {
-            component: <Route path="/checkout/:step?" component={ Checkout } />,
+            component: <Route
+              path="/checkout/:step?"
+              render={ withGTM(Checkout, CHECKOUT) }
+            />,
             position: 55
         },
         {
-            component: <Route path="/:account*/createPassword/" component={ PasswordChangePage } />,
+            component: <Route
+              path="/:account*/createPassword/"
+              render={ withGTM(PasswordChangePage, PASSWORD_CHANGE) }
+            />,
             position: 60
         },
         {
-            component: <Route path="/:account*/confirm" component={ ConfirmAccountPage } />,
+            component: <Route
+              path="/:account*/confirm"
+              render={ withGTM(ConfirmAccountPage, CONFIRM_ACCOUNT) }
+            />,
             position: 65
         },
         {
-            component: <Route path="/my-account/:tab?" component={ MyAccount } />,
+            component: <Route
+              path="/my-account/:tab?"
+              render={ withGTM(MyAccount, CUSTOMER_ACCOUNT) }
+            />,
             position: 70
         },
         {
-            component: <Route path="/menu" component={ MenuPage } />,
+            component: <Route
+              path="/menu"
+              render={ withGTM(MenuPage, MENU) }
+            />,
             position: 80
         },
         {
-            component: <Route component={ UrlRewrites } />,
+            component: <Route
+              render={ withGTM(UrlRewrites, URL_REWRITE) }
+            />,
             position: 1000
         }
     ];

@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 import { WishlistDispatcher } from 'Store/Wishlist';
 import { showNotification } from 'Store/Notification';
 import { ProductType } from 'Type/ProductList';
+import Event, { EVENT_GTM_IMPRESSIONS_WISHLIST } from 'Util/Event';
 import MyAccountMyWishlist from './MyAccountMyWishlist.component';
 
 export const mapStateToProps = state => ({
@@ -33,6 +34,7 @@ export class MyAccountMyWishlistContainer extends PureComponent {
         clearWishlist: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
         moveWishlistToCart: PropTypes.func.isRequired,
+        isWishlistLoading: ProductType.bool.isRequired,
         wishlistItems: PropTypes.objectOf(ProductType).isRequired
     };
 
@@ -80,6 +82,21 @@ export class MyAccountMyWishlistContainer extends PureComponent {
         return Object.entries(wishlistItems).length <= 0;
     };
 
+    _gtmImpressions() {
+        const { wishlistItems, isWishlistLoading } = this.props;
+
+        if (!isWishlistLoading && Object.keys(wishlistItems).length > 0) {
+            const items = Object.values(wishlistItems).reduce((acc, item) => {
+                if (!Object.keys(item).length) return acc;
+
+                const { sku, wishlist: { sku: variantSku = sku } = {} } = item;
+                return [...acc, { product: item, sku: variantSku }];
+            }, []);
+
+            Event.dispatch(EVENT_GTM_IMPRESSIONS_WISHLIST, { items });
+        }
+    }
+
     showNotificationAndRemoveLoading(message) {
         const { showNotification } = this.props;
         this.setState({ isLoading: false });
@@ -87,6 +104,8 @@ export class MyAccountMyWishlistContainer extends PureComponent {
     }
 
     render() {
+        this._gtmImpressions();
+
         return (
             <MyAccountMyWishlist
               { ...this.props }

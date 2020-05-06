@@ -17,6 +17,10 @@ import { objectToUri } from 'Util/Url';
 import { CartDispatcher } from 'Store/Cart';
 import { CartItemType } from 'Type/MiniCart';
 import { makeCancelable } from 'Util/Promise';
+import Event, {
+    EVENT_GTM_PRODUCT_ADD_TO_CART,
+    EVENT_GTM_PRODUCT_REMOVE_FROM_CART
+} from 'Util/Event';
 
 import { DEFAULT_MAX_PRODUCTS } from 'Component/ProductActions/ProductActions.container';
 import CartItem from './CartItem.component';
@@ -90,9 +94,28 @@ export class CartItemContainer extends PureComponent {
      * @return {void}
      */
     handleChangeQuantity(quantity) {
+        const { item, item: { qty } } = this.props;
+
         this.setState({ isLoading: true }, () => {
             const { changeItemQty, item: { item_id, sku } } = this.props;
-            this.hideLoaderAfterPromise(changeItemQty({ item_id, quantity, sku }));
+            this.hideLoaderAfterPromise(
+                changeItemQty({ item_id, quantity, sku })
+                    .then(() => {
+                        if (qty < quantity) {
+                            Event.dispatch(EVENT_GTM_PRODUCT_ADD_TO_CART, {
+                                product: item,
+                                quantity: quantity - qty,
+                                isItem: true,
+                                isFromCart: true
+                            });
+                        } else {
+                            Event.dispatch(EVENT_GTM_PRODUCT_REMOVE_FROM_CART, {
+                                item,
+                                quantity: qty - quantity
+                            });
+                        }
+                    })
+            );
         });
     }
 
@@ -101,8 +124,18 @@ export class CartItemContainer extends PureComponent {
      */
     handleRemoveItem() {
         this.setState({ isLoading: true }, () => {
-            const { removeProduct, item: { item_id } } = this.props;
-            this.hideLoaderAfterPromise(removeProduct(item_id));
+            const { removeProduct, item } = this.props;
+            const { item_id, qty: quantity } = item;
+
+            this.hideLoaderAfterPromise(
+                removeProduct(item_id)
+                    .then(() => {
+                        Event.dispatch(EVENT_GTM_PRODUCT_REMOVE_FROM_CART, {
+                            item,
+                            quantity
+                        });
+                    })
+            );
         });
     }
 
