@@ -425,10 +425,10 @@ export class CheckoutContainer extends PureComponent {
     render() {
         return (
             <Checkout
-                { ...this.props }
-                { ...this.state }
-                { ...this.containerFunctions }
-                { ...this.containerProps() }
+              { ...this.props }
+              { ...this.state }
+              { ...this.containerFunctions }
+              { ...this.containerProps() }
             />
         );
     }
