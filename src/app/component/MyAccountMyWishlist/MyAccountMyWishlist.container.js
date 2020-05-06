@@ -33,8 +33,8 @@ export class MyAccountMyWishlistContainer extends PureComponent {
     static propTypes = {
         clearWishlist: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
+        isWishlistLoading: PropTypes.bool.isRequired,
         moveWishlistToCart: PropTypes.func.isRequired,
-        isWishlistLoading: ProductType.bool.isRequired,
         wishlistItems: PropTypes.objectOf(ProductType).isRequired
     };
 
