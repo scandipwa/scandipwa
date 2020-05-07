@@ -1,6 +1,8 @@
 /* eslint-disable no-param-reassign */
 
-const extensions = [];
+// eslint-disable-next-line import/prefer-default-export
+export const extensions = [];
+
 // The following line is a hook for extension-import-injector loader
 // See config/loaders/extension-import-injector
 // * ScandiPWA extension importing magic comment! */

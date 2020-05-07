@@ -16,7 +16,7 @@ import CheckoutDeliveryOption from 'Component/CheckoutDeliveryOption';
 
 import './CheckoutDeliveryOptions.style';
 
-class CheckoutDeliveryOptions extends ExtensiblePureComponent {
+export class CheckoutDeliveryOptions extends ExtensiblePureComponent {
     static propTypes = {
         shippingMethods: shippingMethodsType.isRequired,
         selectShippingMethod: PropTypes.func.isRequired,

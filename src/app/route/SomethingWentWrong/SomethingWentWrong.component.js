@@ -16,7 +16,7 @@ import Link from 'Component/Link';
 import ContentWrapper from 'Component/ContentWrapper';
 import './SomethingWentWrong.style';
 
-class SomethingWentWrong extends ExtensiblePureComponent {
+export class SomethingWentWrong extends ExtensiblePureComponent {
     static propTypes = {
         onClick: PropTypes.func.isRequired,
         errorDetails: PropTypes.shape({

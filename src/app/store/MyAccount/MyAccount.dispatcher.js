@@ -30,7 +30,7 @@ import { ORDERS } from 'Store/Order/Order.reducer';
 
 export const CUSTOMER = 'customer';
 
-const ONE_MONTH_IN_SECONDS = 2628000;
+export const ONE_MONTH_IN_SECONDS = 2628000;
 
 /**
  * My account actions

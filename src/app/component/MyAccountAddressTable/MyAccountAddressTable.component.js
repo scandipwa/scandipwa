@@ -18,7 +18,7 @@ import { MixType } from 'Type/Common';
 
 import './MyAccountAddressTable.style';
 
-class MyAccountAddressTable extends KeyValueTable {
+export class MyAccountAddressTable extends KeyValueTable {
     static propTypes = {
         mix: MixType,
         getFormatedRegion: PropTypes.func.isRequired,

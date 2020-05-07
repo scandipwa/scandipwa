@@ -12,7 +12,7 @@
 import { fetchMutation } from 'Util/Request';
 import { Field } from 'Util/Query';
 
-class Braintree extends ExtensibleClass {
+export class Braintree extends ExtensibleClass {
     isLoading = false;
 
     constructor(containerId) {

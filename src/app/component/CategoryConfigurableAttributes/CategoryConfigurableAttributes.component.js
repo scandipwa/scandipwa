@@ -17,7 +17,7 @@ import ExpandableContent from 'Component/ExpandableContent';
 
 import './CategoryConfigurableAttributes.style';
 
-class CategoryConfigurableAttributes extends ProductConfigurableAttributes {
+export class CategoryConfigurableAttributes extends ProductConfigurableAttributes {
     renderPriceRange() {
         return (
             <CategoryPriceRange key="price" />

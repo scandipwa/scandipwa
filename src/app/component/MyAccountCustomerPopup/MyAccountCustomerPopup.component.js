@@ -22,7 +22,7 @@ export const CUSTOMER_POPUP_ID = 'MyAccountCustomerPopup';
 export const CHANGE_PASSWORD = 'CHANGE_PASSWORD';
 export const EDIT_CUSTOMER = 'EDIT_CUSTOMER';
 
-class MyAccountCustomerPopup extends ExtensiblePureComponent {
+export class MyAccountCustomerPopup extends ExtensiblePureComponent {
     static propTypes = {
         onCustomerSave: PropTypes.func.isRequired,
         onPasswordChange: PropTypes.func.isRequired,

@@ -4,7 +4,7 @@ import InjectedStripeCheckoutForm from 'Component/InjectedStripeCheckoutForm';
 import Loader from 'Component/Loader';
 import './Stripe.style';
 
-class Stripe extends ExtensiblePureComponent {
+export class Stripe extends ExtensiblePureComponent {
     static propTypes = {
         isLoading: PropTypes.bool,
         stripeKey: PropTypes.string,

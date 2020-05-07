@@ -165,14 +165,41 @@ module.exports = {
                         );
                     }
                 },
-                ClassDeclaration(node) {
-                    const { superClass } = node;
-                    const { name, loc } = superClass || {};
-                    if (name === 'PureComponent' || name === 'Component') {
+                VariableDeclaration(node) {
+                    const { parent, declarations: [{ id: { loc, name } }] } = node;
+                    const { type } = parent || {};
+
+                    if (parent.type !== 'Program') {
+                        return;
+                    }
+
+                    if (type !== 'ExportNamedDeclaration') {
                         context.report({
                             loc,
-                            message: `${name} is not allowed. Use 'Extensible${name}' instead`,
-                            fix: fixer => fixer.replaceText(superClass, `Extensible${name}`)
+                            message: `Variable ${name} must be exported (as non default) to allow proper extension.`,
+                            fix: fixer => fixer.insertTextBefore(node, 'export ')
+                        });
+                    }
+                },
+                ClassDeclaration(node) {
+                    const { superClass } = node;
+                    const { superName, superLoc } = superClass || {};
+
+                    const { parent: { type }, id: { loc, name } } = node;
+
+                    if (type !== 'ExportNamedDeclaration' && type === 'Program') {
+                        context.report({
+                            loc,
+                            message: `Class ${name} must be exported (as non default) to allow proper extension.`,
+                            fix: fixer => fixer.insertTextBefore(node, 'export ')
+                        });
+                    }
+
+                    if (superName === 'PureComponent' || superName === 'Component') {
+                        context.report({
+                            superLoc,
+                            message: `${superName} is not allowed. Use 'Extensible${superName}' instead`,
+                            fix: fixer => fixer.replaceText(superClass, `Extensible${superName}`)
                         });
                     }
                 }

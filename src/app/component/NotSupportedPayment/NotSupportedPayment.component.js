@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import './NotSupportedPayment.style';
 
-class NotSupportedPayment extends ExtensiblePureComponent {
+export class NotSupportedPayment extends ExtensiblePureComponent {
     static propTypes = {
         disableButton: PropTypes.func.isRequired
     };

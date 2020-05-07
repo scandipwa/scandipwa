@@ -15,7 +15,7 @@ import './SharedTransition.style';
 
 export const SHARED_ELEMENT_TRANSITION = 250;
 
-class SharedTransition extends ExtensiblePureComponent {
+export class SharedTransition extends ExtensiblePureComponent {
     static propTypes = {
         state: PropTypes.shape({
             startingPosition: PropTypes.shape({

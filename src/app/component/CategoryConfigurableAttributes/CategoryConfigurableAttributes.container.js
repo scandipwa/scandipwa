@@ -13,7 +13,7 @@
 import ProductConfigurableAttributesContainer from 'Component/ProductConfigurableAttributes/ProductConfigurableAttributes.container';
 import CategoryConfigurableAttributes from './CategoryConfigurableAttributes.component';
 
-class CategoryConfigurableAttributesContainer extends ProductConfigurableAttributesContainer {
+export class CategoryConfigurableAttributesContainer extends ProductConfigurableAttributesContainer {
     render() {
         return (
             <CategoryConfigurableAttributes

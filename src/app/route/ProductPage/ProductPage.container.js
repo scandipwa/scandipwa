@@ -345,7 +345,7 @@ export class ProductPageContainer extends ExtensiblePureComponent {
     }
 }
 
-const ProductPageContainerWrapper = connect(mapStateToProps, mapDispatchToProps)(
+export const ProductPageContainerWrapper = connect(mapStateToProps, mapDispatchToProps)(
     middleware(ProductPageContainer, 'Route/ProductPage/Container')
 );
 

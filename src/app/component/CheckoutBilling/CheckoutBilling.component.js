@@ -22,7 +22,7 @@ import Field from 'Component/Field';
 import Form from 'Component/Form';
 import './CheckoutBilling.style';
 
-class CheckoutBilling extends ExtensiblePureComponent {
+export class CheckoutBilling extends ExtensiblePureComponent {
     state = {
         isOrderButtonVisible: true,
         isOrderButtonEnabled: true,

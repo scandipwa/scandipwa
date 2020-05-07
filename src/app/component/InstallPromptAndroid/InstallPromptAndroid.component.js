@@ -2,7 +2,7 @@
 import PropTypes from 'prop-types';
 import './InstallPromptAndroid.style';
 
-class InstallPromptAndroid extends ExtensiblePureComponent {
+export class InstallPromptAndroid extends ExtensiblePureComponent {
     static propTypes = {
         handleBannerClose: PropTypes.func.isRequired,
         handleAppInstall: PropTypes.func.isRequired

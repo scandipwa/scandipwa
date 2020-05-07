@@ -19,7 +19,7 @@ import isMobile from 'Util/Mobile';
 
 import './MyAccountMyOrders.style';
 
-class MyAccountMyOrders extends ExtensiblePureComponent {
+export class MyAccountMyOrders extends ExtensiblePureComponent {
     static propTypes = {
         orderList: ordersType.isRequired,
         isLoading: PropTypes.bool.isRequired

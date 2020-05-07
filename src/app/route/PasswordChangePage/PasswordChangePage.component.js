@@ -19,8 +19,8 @@ import { getQueryParam } from 'Util/Url';
 import { LocationType } from 'Type/Common';
 import './PasswordChangePage.style';
 
-const STATUS_PASSOWORD_UPDATED = 'password_updated';
-const STATUS_PASSOWORD_MISSMATCH = 'passwords_miss_match';
+export const STATUS_PASSOWORD_UPDATED = 'password_updated';
+export const STATUS_PASSOWORD_MISSMATCH = 'passwords_miss_match';
 
 export class PasswordChangePage extends ExtensiblePureComponent {
     static propTypes = {

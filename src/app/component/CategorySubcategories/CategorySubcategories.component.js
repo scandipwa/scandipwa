@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 
 import './CategorySubcategories.style';
 
-class CategorySubcategories extends ExtensiblePureComponent {
+export class CategorySubcategories extends ExtensiblePureComponent {
     static propTypes = {
         handleCategoryClick: PropTypes.func.isRequired,
         option: PropTypes.shape({

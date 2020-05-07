@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { paymentMethodType } from 'Type/Checkout';
 import './CheckoutPayment.style';
 
-class CheckoutPayment extends ExtensiblePureComponent {
+export class CheckoutPayment extends ExtensiblePureComponent {
     static propTypes = {
         method: paymentMethodType.isRequired,
         onClick: PropTypes.func.isRequired,

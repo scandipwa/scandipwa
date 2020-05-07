@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import Field from 'Component/Field';
 import './ProductConfigurableAttributeDropdown.style';
 
-class ProductConfigurableAttributeDropdown extends ExtensiblePureComponent {
+export class ProductConfigurableAttributeDropdown extends ExtensiblePureComponent {
     static propTypes = {
         onChange: PropTypes.func.isRequired,
         selectOptions: PropTypes.arrayOf(PropTypes.shape({

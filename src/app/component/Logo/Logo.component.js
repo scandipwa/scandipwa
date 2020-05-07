@@ -18,7 +18,7 @@ import Image, {
 
 import './Logo.style';
 
-class Logo extends Image {
+export class Logo extends Image {
     renderPlaceholderLogo() {
         return (
             <svg

@@ -15,7 +15,7 @@ import './Braintree.style';
 
 export const BRAINTREE_CONTAINER_ID = 'BRAINTREE_CONTAINER_ID';
 
-class Braintree extends ExtensiblePureComponent {
+export class Braintree extends ExtensiblePureComponent {
     static propTypes = {
         init: PropTypes.func.isRequired
     };

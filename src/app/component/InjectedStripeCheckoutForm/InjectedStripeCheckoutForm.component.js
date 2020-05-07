@@ -16,7 +16,7 @@ import './InjectedStripeCheckoutForm.style';
 /**
  * @class InjectedStripeCheckoutForm
  */
-class InjectedStripeCheckoutForm extends ExtensiblePureComponent {
+export class InjectedStripeCheckoutForm extends ExtensiblePureComponent {
      static propTypes = {
          stripe: PropTypes.oneOfType([
              PropTypes.object,

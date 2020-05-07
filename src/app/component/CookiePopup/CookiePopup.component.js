@@ -21,7 +21,7 @@ import ContentWrapper from 'Component/ContentWrapper';
 
 export const COOKIE_POPUP = 'cookie_popup';
 
-class CookiePopup extends ExtensiblePureComponent {
+export class CookiePopup extends ExtensiblePureComponent {
     static propTypes = {
         cookieText: PropTypes.string,
         cookieLink: PropTypes.string

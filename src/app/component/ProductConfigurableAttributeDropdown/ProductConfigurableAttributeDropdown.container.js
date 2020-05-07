@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { AttributeType } from 'Type/ProductList';
 import ProductConfigurableAttributeDropdown from './ProductConfigurableAttributeDropdown.component';
 
-class ProductConfigurableAttributeDropdownContainer extends ExtensiblePureComponent {
+export class ProductConfigurableAttributeDropdownContainer extends ExtensiblePureComponent {
     static propTypes = {
         option: AttributeType.isRequired,
         updateConfigurableVariant: PropTypes.func.isRequired,

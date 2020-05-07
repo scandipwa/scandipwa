@@ -31,7 +31,7 @@ import {
 
 import './MyAccount.style';
 
-class MyAccount extends ExtensiblePureComponent {
+export class MyAccount extends ExtensiblePureComponent {
     static propTypes = {
         activeTab: activeTabType.isRequired,
         tabMap: tabMapType.isRequired,

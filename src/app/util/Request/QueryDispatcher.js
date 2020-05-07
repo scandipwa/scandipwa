@@ -21,7 +21,7 @@ export const ONE_MONTH_IN_SECONDS = 2592000;
  * IMPORTANT: it is required to implement `prepareRequest(options)` before using!
  * @class QueryDispatcher
  */
-class QueryDispatcher extends ExtensibleClass {
+export class QueryDispatcher extends ExtensibleClass {
     /**
      * Creates an instance of QueryDispatcher.
      * @param  {String} name Name of model for ServiceWorker to send BroadCasts updates to

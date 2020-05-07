@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 import './KeyValueTable.style';
 
-class KeyValueTable extends ExtensiblePureComponent {
+export class KeyValueTable extends ExtensiblePureComponent {
     static propTypes = {
         title: PropTypes.string
     };

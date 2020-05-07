@@ -18,7 +18,7 @@ import { shippingMethodsType, shippingMethodType } from 'Type/Checkout';
 import Loader from 'Component/Loader';
 import Form from 'Component/Form';
 
-class CheckoutShipping extends ExtensiblePureComponent {
+export class CheckoutShipping extends ExtensiblePureComponent {
     static propTypes = {
         onShippingSuccess: PropTypes.func.isRequired,
         onShippingError: PropTypes.func.isRequired,

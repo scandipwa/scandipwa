@@ -19,7 +19,7 @@ export const ACCOUNT_TAB = 'ACCOUNT_TAB';
 export const CART_TAB = 'CART_TAB';
 export const CHECKOUT_TAB = 'CHECKOUT_TAB';
 
-class NavigationTabs extends NavigationAbstract {
+export class NavigationTabs extends NavigationAbstract {
     defaultStateName = MENU_TAB;
 
     stateMap = {

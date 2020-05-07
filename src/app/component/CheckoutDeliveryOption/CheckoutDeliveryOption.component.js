@@ -17,7 +17,7 @@ import { TotalsType } from 'Type/MiniCart';
 import './CheckoutDeliveryOption.style';
 import { formatCurrency, roundPrice } from 'Util/Price';
 
-class CheckoutDeliveryOption extends ExtensiblePureComponent {
+export class CheckoutDeliveryOption extends ExtensiblePureComponent {
     static propTypes = {
         option: shippingMethodType.isRequired,
         onClick: PropTypes.func.isRequired,

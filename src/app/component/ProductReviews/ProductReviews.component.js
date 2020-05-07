@@ -23,7 +23,7 @@ import ContentWrapper from 'Component/ContentWrapper';
 
 export const REVIEW_POPUP_ID = 'REVIEW_POPUP_ID';
 
-class ProductReviews extends ExtensiblePureComponent {
+export class ProductReviews extends ExtensiblePureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         showPopup: PropTypes.func.isRequired,

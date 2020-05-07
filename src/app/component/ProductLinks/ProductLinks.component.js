@@ -17,7 +17,7 @@ import { ProductType } from 'Type/ProductList';
 
 import './ProductLinks.style';
 
-class ProductLinks extends ExtensiblePureComponent {
+export class ProductLinks extends ExtensiblePureComponent {
     static propTypes = {
         numberOfProductsToDisplay: PropTypes.number,
         areDetailsLoaded: PropTypes.bool,

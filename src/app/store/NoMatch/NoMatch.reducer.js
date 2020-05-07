@@ -17,7 +17,7 @@ export const initialState = {
     noMatch: false
 };
 
-const NoMatchReducer = (state = initialState, action) => {
+export const NoMatchReducer = (state = initialState, action) => {
     switch (action.type) {
     case UPDATE_NOMATCH:
         const { noMatch } = action;

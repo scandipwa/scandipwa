@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-const isMobile = {
+export const isMobile = {
     android: () => navigator.userAgent.match(/Android/i),
     blackBerry: () => navigator.userAgent.match(/BlackBerry/i),
     iOS: () => navigator.userAgent.match(/iPhone|iPod/i),

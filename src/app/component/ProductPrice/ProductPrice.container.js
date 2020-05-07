@@ -25,7 +25,7 @@ import ProductPrice from './ProductPrice.component';
  * Product price
  * @class ProductPrice
  */
-class ProductPriceContainer extends ExtensiblePureComponent {
+export class ProductPriceContainer extends ExtensiblePureComponent {
     static propTypes = {
         isSchemaRequired: PropTypes.bool,
         price: PriceType,

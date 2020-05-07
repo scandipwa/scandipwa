@@ -26,9 +26,9 @@ export const initialState = {
     isLoading: true
 };
 
-const deleteProperty = (key, { [key]: _, ...newObj }) => newObj;
+export const deleteProperty = (key, { [key]: _, ...newObj }) => newObj;
 
-const removeItemFromWishlist = ({ item_id }, { productsInWishlist: initialProducts }) => {
+export const removeItemFromWishlist = ({ item_id }, { productsInWishlist: initialProducts }) => {
     const productsInWishlist = deleteProperty(item_id, initialProducts) || {};
 
     BrowserDatabase.setItem(
@@ -39,14 +39,14 @@ const removeItemFromWishlist = ({ item_id }, { productsInWishlist: initialProduc
     return { productsInWishlist };
 };
 
-const clearWishlist = () => {
+export const clearWishlist = () => {
     const productsInWishlist = {};
 
     BrowserDatabase.setItem(productsInWishlist, PRODUCTS_IN_WISHLIST);
     return { productsInWishlist };
 };
 
-const updateAllProductsInWishlist = (action) => {
+export const updateAllProductsInWishlist = (action) => {
     const { products: initialProducts } = action;
 
     const products = getIndexedParameteredProducts(initialProducts);
@@ -59,7 +59,7 @@ const updateAllProductsInWishlist = (action) => {
     return { productsInWishlist: products, isLoading: false };
 };
 
-const updateItemOptions = (options, { productsInWishlist }) => {
+export const updateItemOptions = (options, { productsInWishlist }) => {
     const { item_id } = options;
     const cleanedOptions = deleteProperty('item_id', options) || {};
 
@@ -82,7 +82,7 @@ const updateItemOptions = (options, { productsInWishlist }) => {
     return { productsInWishlist: products };
 };
 
-const WishlistReducer = (state = initialState, action) => {
+export const WishlistReducer = (state = initialState, action) => {
     const { type, options } = action;
 
     switch (type) {

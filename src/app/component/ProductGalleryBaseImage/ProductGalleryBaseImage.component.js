@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { TransformComponent } from 'react-zoom-pan-pinch';
 import Image from 'Component/Image';
 
-class ProductGalleryBaseImage extends ExtensiblePureComponent {
+export class ProductGalleryBaseImage extends ExtensiblePureComponent {
     static propTypes = {
         src: PropTypes.string.isRequired,
         alt: PropTypes.string.isRequired

@@ -1,7 +1,7 @@
 import { PropTypes } from 'prop-types';
 import Input from './Input.component';
 
-class InputContainer extends ExtensiblePureComponent {
+export class InputContainer extends ExtensiblePureComponent {
     static propTypes = {
         dispatch: PropTypes.func,
         selectOptions: PropTypes.arrayOf(PropTypes.shape({
