@@ -39,7 +39,8 @@ export const STRIPE_AUTH_REQUIRED = 'Authentication Required: ';
 
 export const mapStateToProps = state => ({
     totals: state.CartReducer.cartTotals,
-    customer: state.MyAccountReducer.customer
+    customer: state.MyAccountReducer.customer,
+    guest_checkout: state.ConfigReducer.guest_checkout
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -60,6 +61,7 @@ export class CheckoutContainer extends PureComponent {
         createAccount: PropTypes.func.isRequired,
         updateMeta: PropTypes.func.isRequired,
         resetCart: PropTypes.func.isRequired,
+        guest_checkout: PropTypes.bool.isRequired,
         totals: TotalsType.isRequired,
         history: HistoryType.isRequired,
         customer: customerType.isRequired
@@ -115,7 +117,12 @@ export class CheckoutContainer extends PureComponent {
     }
 
     componentDidMount() {
-        const { updateMeta } = this.props;
+        const { history, guest_checkout, updateMeta } = this.props;
+
+        if (!guest_checkout) {
+            history.push('/');
+        }
+
         updateMeta({ title: __('Checkout') });
     }
 

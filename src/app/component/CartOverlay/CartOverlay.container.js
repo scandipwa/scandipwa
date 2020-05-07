@@ -23,7 +23,8 @@ import { TotalsType } from 'Type/MiniCart';
 import CartOverlay from './CartOverlay.component';
 
 export const mapStateToProps = state => ({
-    totals: state.CartReducer.cartTotals
+    totals: state.CartReducer.cartTotals,
+    guest_checkout: state.ConfigReducer.guest_checkout
 });
 
 export const mapDispatchToProps = dispatch => ({
