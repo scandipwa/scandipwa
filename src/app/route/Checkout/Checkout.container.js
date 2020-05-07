@@ -40,7 +40,8 @@ export const STRIPE_AUTH_REQUIRED = 'Authentication Required: ';
 
 export const mapStateToProps = state => ({
     totals: state.CartReducer.cartTotals,
-    customer: state.MyAccountReducer.customer
+    customer: state.MyAccountReducer.customer,
+    guest_checkout: state.ConfigReducer.guest_checkout
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -119,19 +120,13 @@ export class CheckoutContainer extends PureComponent {
     }
 
     componentDidMount() {
-        const { updateMeta } = this.props;
-        updateMeta({ title: __('Checkout') });
-    }
+        const { history, guest_checkout, UpdateMeta } = this.props;
 
-    componentDidUpdate() {
-        const { customer: { addresses } } = this.props;
-        const { shippingMethods } = this.state;
-
-        if (isSignedIn()
-            && (addresses && addresses.length === 0)
-            && shippingMethods.length) {
-            this.resetShippingMethods();
+        if (!guest_checkout) {
+            history.push('/');
         }
+
+        updateMeta({ title: __('Checkout') });
     }
 
     componentWillUnmount() {
@@ -258,10 +253,6 @@ export class CheckoutContainer extends PureComponent {
     };
 
     _getGuestCartId = () => BrowserDatabase.getItem(GUEST_QUOTE_ID);
-
-    resetShippingMethods() {
-        this.setState({ shippingMethods: [] });
-    }
 
     _getPaymentMethods() {
         fetchQuery(CheckoutQuery.getPaymentMethodsQuery(

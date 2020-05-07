@@ -112,8 +112,9 @@ export default class CartPage extends PureComponent {
         const {
             totals: {
                 subtotal_incl_tax = 0,
-                items
-            }
+                items,
+            },
+            guest_checkout
         } = this.props;
 
         const props = !items || items.length < 1
@@ -122,6 +123,8 @@ export default class CartPage extends PureComponent {
                 disabled: true
             }
             : {};
+
+        const destination = guest_checkout ? '/checkout' : '/my-account';
 
         return (
             <article block="CartPage" elem="Summary">
@@ -136,7 +139,7 @@ export default class CartPage extends PureComponent {
                       block="CartPage"
                       elem="CheckoutButton"
                       mix={ { block: 'Button' } }
-                      to="/checkout"
+                      to={ destination }
                       { ...props }
                     >
                         <span />

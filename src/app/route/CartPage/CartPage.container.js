@@ -26,7 +26,8 @@ import CartPage from './CartPage.component';
 
 export const mapStateToProps = state => ({
     totals: state.CartReducer.cartTotals,
-    headerState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState
+    headerState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
+    guest_checkout: state.ConfigReducer.guest_checkout
 });
 
 export const mapDispatchToProps = dispatch => ({
