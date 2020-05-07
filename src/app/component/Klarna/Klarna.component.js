@@ -1,4 +1,3 @@
-/* eslint-disable no-undef, no-console */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -96,4 +95,4 @@ export class Klarna extends ExtensiblePureComponent {
     }
 }
 
-export default middleware(KlarnaComponent, 'Component/Klarna/Component');
+export default middleware(Klarna, 'Component/Klarna/Component');
