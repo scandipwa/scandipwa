@@ -19,7 +19,6 @@ import CartItem from 'Component/CartItem';
 import { TotalsType } from 'Type/MiniCart';
 import { formatCurrency } from 'Util/Price';
 import CmsBlock from 'Component/CmsBlock';
-import { history } from 'Route';
 
 import './CartOverlay.style';
 
@@ -28,7 +27,7 @@ export default class CartOverlay extends PureComponent {
         totals: TotalsType.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
         isEditing: PropTypes.bool.isRequired,
-        guest_checkout: PropTypes.bool.isRequired
+        handleCheckoutClick: PropTypes.func.isRequired
     };
 
     renderPriceLine(price) {
@@ -111,7 +110,7 @@ export default class CartOverlay extends PureComponent {
     }
 
     renderActions() {
-        const { totals: { items } } = this.props;
+        const { totals: { items }, handleCheckoutClick } = this.props;
 
         const options = !items || items.length < 1
             ? {
@@ -130,26 +129,18 @@ export default class CartOverlay extends PureComponent {
                 >
                     { __('View cart') }
                 </Link>
-                <Link
+                <button
                   block="CartOverlay"
                   elem="CheckoutButton"
                   mix={ { block: 'Button' } }
-                  to="/checkout"
+                  onClick={ handleCheckoutClick }
                   { ...options }
                 >
                     <span />
                     { __('Secure checkout') }
-                </Link>
+                </button>
             </div>
         );
-    }
-
-    handleCheckoutClick() {
-        const { guest_checkout } = this.props;
-
-        if (guest_checkout) {
-            // history.push('/checkout');
-        }
     }
 
     renderPromo() {
