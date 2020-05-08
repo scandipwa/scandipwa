@@ -28,15 +28,15 @@
     "jest",
     "babel",
     "fp",
-    "scandipwa-extensibility"
+    "@scandipwa/scandipwa-guidelines"
   ],
   "rules": {
-    "scandipwa-extensibility/file-structure": "error",
-    "scandipwa-extensibility/only-one-class": "error",
-    "scandipwa-extensibility/derived-class-names": "error",
-    "scandipwa-extensibility/no-non-extensible-components": "error",
-    "scandipwa-extensibility/use-extensible-base": "error",
-    "scandipwa-extensibility/use-middleware": "error",
+    "@scandipwa/scandipwa-guidelines/file-structure": "error",
+    "@scandipwa/scandipwa-guidelines/only-one-class": "error",
+    "@scandipwa/scandipwa-guidelines/derived-class-names": "error",
+    "@scandipwa/scandipwa-guidelines/no-non-extensible-components": "error",
+    "@scandipwa/scandipwa-guidelines/use-extensible-base": "error",
+    "@scandipwa/scandipwa-guidelines/use-middleware": "error",
     "fp/no-let": "error",
     "fp/no-arguments": "error",
     "fp/no-loops": "error",

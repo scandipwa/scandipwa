@@ -1,0 +1,26 @@
+{
+  "name": "@scandipwa/eslint-plugin-scandipwa-guidelines",
+  "version": "1.2.1",
+  "description": "Eslint rules for ScandiPWA",
+  "keywords": [
+    "eslint",
+    "eslintplugin",
+    "eslint-plugin"
+  ],
+  "author": "Jegors Batovs (yegor@scandipwa.com)",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "mocha tests --recursive"
+  },
+  "dependencies": {
+    "requireindex": "~1.1.0"
+  },
+  "devDependencies": {
+    "eslint": "~3.9.1",
+    "mocha": "^3.1.2"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "license": "OSL-3.0"
+}
