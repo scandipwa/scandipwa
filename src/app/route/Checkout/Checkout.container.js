@@ -120,11 +120,7 @@ export class CheckoutContainer extends PureComponent {
     }
 
     componentDidMount() {
-        const { history, guest_checkout, UpdateMeta } = this.props;
-
-        if (!guest_checkout) {
-            history.push('/');
-        }
+        const { UpdateMeta } = this.props;
 
         updateMeta({ title: __('Checkout') });
     }

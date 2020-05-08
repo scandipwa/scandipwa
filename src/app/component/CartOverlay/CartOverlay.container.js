@@ -37,7 +37,8 @@ export const mapDispatchToProps = dispatch => ({
     setNavigationState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
     changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
     updateTotals: options => CartDispatcher.updateTotals(dispatch, options),
-    showOverlay: overlayKey => dispatch(toggleOverlayByKey(overlayKey))
+    showOverlay: overlayKey => dispatch(toggleOverlayByKey(overlayKey)),
+    goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))
 
 });
 
@@ -47,7 +48,9 @@ export class CartOverlayContainer extends PureComponent {
         guest_checkout: PropTypes.bool.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
         hideActiveOverlay: PropTypes.func.isRequired,
-        showOverlay: PropTypes.func.isRequired
+        showOverlay: PropTypes.func.isRequired,
+        navigationState: PropTypes.object.isRequired,
+        goToPreviousNavigationState: PropTypes.func.isRequired
     };
 
     state = { isEditing: false };
@@ -57,21 +60,28 @@ export class CartOverlayContainer extends PureComponent {
         handleCheckoutClick: this.handleCheckoutClick.bind(this)
     };
 
-    handleCheckoutClick() {
-        const { guest_checkout, hideActiveOverlay, showOverlay, setNavigationState, navigationState: { name } } = this.props;
-        if (guest_checkout) {
-            window.location.href = "/checkout";
+    handleCheckoutClick(e) {
+        const {
+            guest_checkout,
+            hideActiveOverlay,
+            showOverlay,
+            goToPreviousNavigationState,
+            changeHeaderState,
+            navigationState: { name }
+        } = this.props;
+
+        e.nativeEvent.stopImmediatePropagation();
+        if (guest_checkout || isSignedIn()) {
+            history.push({ pathname: '/checkout' });
         } else if (!guest_checkout) {
-            if (isSignedIn()) {
-                history.push({ pathname: '/checkout' });
-                return;
-            }
-
+            goToPreviousNavigationState();
             hideActiveOverlay();
-
             if (!isMobile.any() && name !== CUSTOMER_ACCOUNT) {
                 showOverlay(CUSTOMER_ACCOUNT_OVERLAY_KEY);
-                setNavigationState({ name: CUSTOMER_ACCOUNT, title: 'Sign in' });
+                changeHeaderState({
+                    name: CUSTOMER_ACCOUNT,
+                    title: 'sign in'
+                });
             }
         }
     }
