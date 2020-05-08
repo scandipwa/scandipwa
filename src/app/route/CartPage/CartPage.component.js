@@ -15,6 +15,7 @@ import PropTypes from 'prop-types';
 import media, { WYSIWYG_MEDIA } from 'Util/Media';
 import Link from 'Component/Link';
 import isMobile from 'Util/Mobile';
+import { isSignedIn } from 'Util/Auth';
 import CmsBlock from 'Component/CmsBlock';
 import CartItem from 'Component/CartItem';
 import { TotalsType } from 'Type/MiniCart';
@@ -30,7 +31,8 @@ import { CROSS_SELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
 export default class CartPage extends PureComponent {
     static propTypes = {
         isEditing: PropTypes.bool.isRequired,
-        totals: TotalsType.isRequired
+        totals: TotalsType.isRequired,
+        guest_checkout: PropTypes.bool.isRequired
     };
 
     renderCartItems() {
@@ -112,7 +114,7 @@ export default class CartPage extends PureComponent {
         const {
             totals: {
                 subtotal_incl_tax = 0,
-                items,
+                items
             },
             guest_checkout
         } = this.props;
@@ -124,7 +126,7 @@ export default class CartPage extends PureComponent {
             }
             : {};
 
-        const destination = guest_checkout ? '/checkout' : '/my-account';
+        const destination = (guest_checkout || isSignedIn()) ? '/checkout' : '/my-account';
 
         return (
             <article block="CartPage" elem="Summary">
