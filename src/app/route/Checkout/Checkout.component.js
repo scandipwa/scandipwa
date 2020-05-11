@@ -219,6 +219,7 @@ class Checkout extends PureComponent {
 
         return (
             <CheckoutOrderSummary
+              checkoutStep={ checkoutStep }
               totals={ checkoutTotals }
               paymentTotals={ paymentTotals }
             />
