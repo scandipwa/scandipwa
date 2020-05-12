@@ -32,7 +32,9 @@ export default class CmsPage extends PureComponent {
     renderHeading() {
         const { page: { content_heading } } = this.props;
 
-        if (!content_heading) return null;
+        if (!content_heading) {
+            return null;
+        }
 
         return (
             <h1 block="CmsPage" elem="Heading">
@@ -44,7 +46,9 @@ export default class CmsPage extends PureComponent {
     renderContent() {
         const { isLoading, page: { content } } = this.props;
 
-        if (!isLoading && !content) return null;
+        if (!isLoading && !content) {
+            return null;
+        }
 
         if (!content) {
             return (

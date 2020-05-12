@@ -97,7 +97,9 @@ class ProductReviews extends PureComponent {
 
         const percent = parseFloat(STARS_COUNT * (rating_summary || 0) / PERCENT).toFixed(2);
 
-        if (!review_count) return this.renderNoRating();
+        if (!review_count) {
+            return this.renderNoRating();
+        }
 
         return (
             <>

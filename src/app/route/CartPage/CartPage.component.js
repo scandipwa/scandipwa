@@ -162,7 +162,9 @@ export default class CartPage extends PureComponent {
             }
         } = this.props;
 
-        if (!coupon_code) return null;
+        if (!coupon_code) {
+            return null;
+        }
 
         return (
             <>

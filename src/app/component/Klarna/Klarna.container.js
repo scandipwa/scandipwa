@@ -27,7 +27,9 @@ export class KlarnaContainer extends PureComponent {
                 {},
                 (res) => {
                     const { error, approved, authorization_token } = res;
-                    if (!approved) reject(error);
+                    if (!approved) {
+                        reject(error);
+                    }
 
                     resolve({ authorization_token });
                 }

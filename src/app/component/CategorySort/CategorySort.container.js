@@ -34,7 +34,10 @@ export class CategorySortContainer extends PureComponent {
 
     _getLabel(option) {
         const { id, label: pureLabel } = option;
-        const [label] = pureLabel.split(' ');
+
+        // eslint-disable-next-line fp/no-let
+        let [label] = pureLabel.split(' ');
+        label = label.charAt(0).toUpperCase() + label.slice(1);
 
         switch (id) {
         case 'name':
@@ -62,7 +65,9 @@ export class CategorySortContainer extends PureComponent {
     _prepareOptions() {
         const { sortFields } = this.props;
 
-        if (!sortFields) return [];
+        if (!sortFields) {
+            return [];
+        }
 
         const selectOptions = sortFields.reduce((acc, option) => {
             const { id } = option;

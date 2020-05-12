@@ -29,7 +29,9 @@ export default class PayPal extends PureComponent {
         isDisabled: PropTypes.bool,
         paypal: PropTypes.any.isRequired,
         clientId: PropTypes.string.isRequired,
-        cartTotals: PropTypes.shape({}).isRequired,
+        cartTotals: PropTypes.shape({
+            quote_currency_code: PropTypes.string
+        }).isRequired,
         onError: PropTypes.func.isRequired,
         onCancel: PropTypes.func.isRequired,
         onApprove: PropTypes.func.isRequired,

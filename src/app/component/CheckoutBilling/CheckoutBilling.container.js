@@ -188,8 +188,12 @@ export class CheckoutBillingContainer extends PureComponent {
             selectedCustomerAddressId
         } = this.state;
 
-        if (isSameAsShipping) return shippingAddress;
-        if (!selectedCustomerAddressId) return trimAddressFields(fields);
+        if (isSameAsShipping) {
+            return shippingAddress;
+        }
+        if (!selectedCustomerAddressId) {
+            return trimAddressFields(fields);
+        }
 
         const { customer: { addresses } } = this.props;
         const address = addresses.find(({ id }) => id === selectedCustomerAddressId);

@@ -34,7 +34,9 @@ export default class UrlRewrites extends PureComponent {
         match: MatchType.isRequired,
         clearUrlRewrites: PropTypes.func.isRequired,
         requestUrlRewrite: PropTypes.func.isRequired,
-        urlRewrite: PropTypes.shape({}).isRequired
+        urlRewrite: PropTypes.shape({
+            notFound: PropTypes.bool
+        }).isRequired
     };
 
     state = {
@@ -89,7 +91,9 @@ export default class UrlRewrites extends PureComponent {
         const { isNotFound } = this.state;
         const { urlRewrite: { notFound } } = this.props;
 
-        if (isNotFound || notFound) return <NoMatch { ...this.props } />;
+        if (isNotFound || notFound) {
+            return <NoMatch { ...this.props } />;
+        }
 
         return <main />;
     }

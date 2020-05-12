@@ -71,7 +71,9 @@ class MyAccountMyOrders extends PureComponent {
     renderOrdersList() {
         const { orderList, isLoading } = this.props;
 
-        if (!isLoading && !orderList.length) return this.renderNoOrders();
+        if (!isLoading && !orderList.length) {
+            return this.renderNoOrders();
+        }
 
         const orders = orderList.length
             ? orderList
@@ -87,13 +89,11 @@ class MyAccountMyOrders extends PureComponent {
         const { isLoading } = this.props;
 
         return (
-            <>
-                <div block="MyAccountMyOrders">
-                    <Loader isLoading={ isLoading } />
-                    { this.renderTable() }
-                    { this.renderPopup() }
-                </div>
-            </>
+            <div block="MyAccountMyOrders">
+                <Loader isLoading={ isLoading } />
+                { this.renderTable() }
+                { this.renderPopup() }
+            </div>
         );
     }
 }

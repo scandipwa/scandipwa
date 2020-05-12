@@ -43,7 +43,9 @@ class KeyValueTable extends PureComponent {
         const { key, label } = data;
         const value = this.getValueFromSource(data);
 
-        if (!value) return null;
+        if (!value) {
+            return null;
+        }
 
         return (
             <tr key={ key }>
@@ -55,7 +57,9 @@ class KeyValueTable extends PureComponent {
 
     renderHeading() {
         const { title } = this.props;
-        if (!title) return null;
+        if (!title) {
+            return null;
+        }
 
         return (
             <tr>

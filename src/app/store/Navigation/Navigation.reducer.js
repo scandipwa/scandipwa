@@ -65,7 +65,9 @@ const NavigationReducer = (state = initialState, action) => {
         navigationStateHistory.pop();
         const newNavigationState = navigationStateHistory.slice(-1)[0];
 
-        if (!newNavigationState) return state;
+        if (!newNavigationState) {
+            return state;
+        }
 
         return {
             ...state,

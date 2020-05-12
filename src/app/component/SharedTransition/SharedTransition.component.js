@@ -34,7 +34,9 @@ class SharedTransition extends PureComponent {
     setStartingTransform = this.setTransform.bind(this, 'startingPosition');
 
     componentDidUpdate() {
-        if (this.transitionInAction) return;
+        if (this.transitionInAction) {
+            return;
+        }
         this.updateSharedElement();
     }
 
@@ -85,7 +87,9 @@ class SharedTransition extends PureComponent {
             !sharedElement
             || !sharedElementDestination
             || !wrapper
-        ) return;
+        ) {
+            return;
+        }
 
         this.transitionInAction = true;
         this.setStartingTransform();

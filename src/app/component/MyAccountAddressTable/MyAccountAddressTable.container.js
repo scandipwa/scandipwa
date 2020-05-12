@@ -66,7 +66,9 @@ export class MyAccountAddressTableContainer extends PureComponent {
         const { country_id, region: { region_id, region } } = address;
 
         const country = countries.find(({ id }) => id === country_id);
-        if (!country) return {};
+        if (!country) {
+            return {};
+        }
 
         const { label, available_regions } = country;
         const regions = available_regions || [];
