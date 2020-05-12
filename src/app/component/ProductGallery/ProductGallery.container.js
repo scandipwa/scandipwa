@@ -17,7 +17,7 @@ import SharedTransitionContainer from 'Component/SharedTransition/SharedTransiti
 import ProductGallery, { IMAGE_TYPE } from './ProductGallery.component';
 
 export const THUMBNAIL_KEY = 'small_image';
-export const AMOUNT_OF_PLACEHOLDERS = 3;
+export const AMOUNT_OF_PLACEHOLDERS = 0;
 
 export class ProductGalleryContainer extends PureComponent {
     static propTypes = {
