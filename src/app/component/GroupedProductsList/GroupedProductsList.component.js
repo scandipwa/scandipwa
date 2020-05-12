@@ -57,8 +57,12 @@ export default class GroupedProductList extends PureComponent {
             product: { items, type_id }
         } = this.props;
 
-        if (type_id !== 'grouped') return null;
-        if (!items) return null;
+        if (type_id !== 'grouped') {
+            return null;
+        }
+        if (!items) {
+            return null;
+        }
 
         return this.renderProductList(items);
     }

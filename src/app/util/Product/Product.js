@@ -18,7 +18,9 @@
  */
 export const checkEveryOption = (attributes, options) => Object.keys(options)
     .every((option) => {
-        if (!attributes[option]) return false;
+        if (!attributes[option]) {
+            return false;
+        }
 
         const { attribute_value } = attributes[option];
         if (typeof options[option] === 'string') {
@@ -30,7 +32,9 @@ export const checkEveryOption = (attributes, options) => Object.keys(options)
 
 export const getIndexedAttributeOption = (option) => {
     const { swatch_data: defaultSwatchData } = option;
-    if (!defaultSwatchData) return option;
+    if (!defaultSwatchData) {
+        return option;
+    }
 
     const { type } = defaultSwatchData;
     const swatch_data = type ? defaultSwatchData : null;
@@ -94,7 +98,10 @@ export const getVariantIndex = (variants, options) => variants
 
 export const getVariantsIndexes = (variants, options) => Object.entries(variants)
     .reduce((indexes, [index, variant]) => {
-        if (checkEveryOption(variant.attributes, options)) indexes.push(+index);
+        if (checkEveryOption(variant.attributes, options)) {
+            indexes.push(+index);
+        }
+
         return indexes;
     }, []);
 

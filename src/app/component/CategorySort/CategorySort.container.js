@@ -62,7 +62,9 @@ export class CategorySortContainer extends PureComponent {
     _prepareOptions() {
         const { sortFields } = this.props;
 
-        if (!sortFields) return [];
+        if (!sortFields) {
+            return [];
+        }
 
         const selectOptions = sortFields.reduce((acc, option) => {
             const { id } = option;

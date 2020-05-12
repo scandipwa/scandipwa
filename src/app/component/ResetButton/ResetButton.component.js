@@ -36,7 +36,9 @@ export default class ResetButton extends PureComponent {
     render() {
         const { mix, isContentFiltered } = this.props;
 
-        if (!isContentFiltered) return null;
+        if (!isContentFiltered) {
+            return null;
+        }
 
         return (
             <div

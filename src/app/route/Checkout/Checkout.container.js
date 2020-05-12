@@ -96,7 +96,9 @@ export class CheckoutContainer extends PureComponent {
 
         toggleBreadcrumbs(false);
 
-        if (!items.length) history.push('/cart');
+        if (!items.length) {
+            history.push('/cart');
+        }
 
         this.state = {
             isLoading: is_virtual,

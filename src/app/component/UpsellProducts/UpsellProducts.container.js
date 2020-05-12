@@ -41,13 +41,17 @@ export class UpsellProductsContainer extends PureComponent {
         } = this.props;
 
         const productIsLoaded = products.length !== 0;
-        if (!productIsLoaded || total_count === 0) return null;
+        if (!productIsLoaded || total_count === 0) {
+            return null;
+        }
 
         const hasUpSells = products.some(({ product_links }) => (
             product_links && product_links.some(({ link_type }) => link_type === UPSELL)
         ));
 
-        if (!hasUpSells) return null;
+        if (!hasUpSells) {
+            return null;
+        }
 
         return (
             <UpsellProducts

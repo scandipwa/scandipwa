@@ -58,7 +58,9 @@ class MyAccountDashboard extends PureComponent {
         const name = isBilling ? __('billing') : __('shipping');
         const address = getDefaultAddress(isBilling);
 
-        if (!address) return this.renderNoDefaultAddressConfigured(name);
+        if (!address) {
+            return this.renderNoDefaultAddressConfigured(name);
+        }
 
         return (
             <div
@@ -87,7 +89,9 @@ class MyAccountDashboard extends PureComponent {
     renderDefaultAddressTables() {
         const { customer: { addresses = [] } } = this.props;
 
-        if (!addresses.length) return this.renderNoAddresses();
+        if (!addresses.length) {
+            return this.renderNoAddresses();
+        }
 
         return [
             this.renderDefaultAddressTable(),

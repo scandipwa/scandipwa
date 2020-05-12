@@ -73,13 +73,17 @@ export class CheckoutQuery {
             .setAlias('placeOrder')
             .addField(this._getOrderField());
 
-        if (!isSignedIn()) mutation.addArgument('guestCartId', 'String', guestCartId);
+        if (!isSignedIn()) {
+            mutation.addArgument('guestCartId', 'String', guestCartId);
+        }
 
         return mutation;
     }
 
     _addGuestCartId(guestCartId, mutation) {
-        if (guestCartId && !isSignedIn()) mutation.addArgument('guestCartId', 'String!', guestCartId);
+        if (guestCartId && !isSignedIn()) {
+            mutation.addArgument('guestCartId', 'String!', guestCartId);
+        }
     }
 
     _getOrderField() {

@@ -50,7 +50,10 @@ export class ProductGalleryContainer extends PureComponent {
     static getDerivedStateFromProps(props, state) {
         const { product: { id } } = props;
         const { prevProdId } = state;
-        if (prevProdId === id) return null;
+        if (prevProdId === id) {
+            return null;
+        }
+
         return { prevProdId: id, activeImage: 0 };
     }
 
@@ -80,7 +83,9 @@ export class ProductGalleryContainer extends PureComponent {
                 } = srcMedia;
 
                 const canBeShown = !disabled;
-                if (!canBeShown) return acc;
+                if (!canBeShown) {
+                    return acc;
+                }
 
                 const isThumbnail = types.includes(THUMBNAIL_KEY);
                 const key = isThumbnail ? 0 : position + 1;
@@ -142,7 +147,9 @@ export class ProductGalleryContainer extends PureComponent {
         const { isZoomEnabled } = this.state;
 
         if (args.scale !== 1) {
-            if (isZoomEnabled) return;
+            if (isZoomEnabled) {
+                return;
+            }
             document.documentElement.classList.add('overscrollPrevented');
             this.setState({ isZoomEnabled: true });
         }

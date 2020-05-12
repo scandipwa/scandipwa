@@ -25,7 +25,9 @@ import 'Style/main';
 // Disable react dev tools in production
 if (process.env.NODE_ENV === 'production'
     && window.__REACT_DEVTOOLS_GLOBAL_HOOK__
-) window.__REACT_DEVTOOLS_GLOBAL_HOOK__.inject = function () {};
+) {
+    window.__REACT_DEVTOOLS_GLOBAL_HOOK__.inject = function () {};
+}
 
 // Enable React hot reload in development
 if (process.env.NODE_ENV === 'development') {

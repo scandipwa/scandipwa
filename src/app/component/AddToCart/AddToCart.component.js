@@ -53,7 +53,9 @@ export default class AddToCart extends PureComponent {
             buttonClick
         } = this.props;
 
-        if (!type_id) this.renderPlaceholder();
+        if (!type_id) {
+            this.renderPlaceholder();
+        }
 
         return (
             <button

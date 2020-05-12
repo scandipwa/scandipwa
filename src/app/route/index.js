@@ -236,6 +236,13 @@ export class AppRouter extends PureComponent {
         }
     }
 
+    componentDidCatch(err, info) {
+        this.setState({
+            hasError: true,
+            errorDetails: { err, info }
+        });
+    }
+
     getCmsBlocksToRequest() {
         const blocks = Object.values(window.contentConfiguration).reduce(
             (acc, config) => [
@@ -284,13 +291,6 @@ export class AppRouter extends PureComponent {
     handleErrorReset = () => {
         this.setState({ hasError: false });
     };
-
-    componentDidCatch(err, info) {
-        this.setState({
-            hasError: true,
-            errorDetails: { err, info }
-        });
-    }
 
     dispatchActions() {
         WishlistDispatcher.updateInitialWishlistData(Store.dispatch);

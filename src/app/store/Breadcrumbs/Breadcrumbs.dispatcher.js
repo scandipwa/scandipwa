@@ -124,11 +124,17 @@ export class BreadcrumbsDispatcher {
             const { breadcrumbs } = category;
             const breadcrumbsLength = (breadcrumbs || []).length;
 
-            if (!breadcrumbsLength && longestBreadcrumbsLength !== 0) return acc;
+            if (!breadcrumbsLength && longestBreadcrumbsLength !== 0) {
+                return acc;
+            }
 
-            if (longestBreadcrumbsLength === 0) return { ...acc, breadcrumbsCategory: category };
+            if (longestBreadcrumbsLength === 0) {
+                return { ...acc, breadcrumbsCategory: category };
+            }
 
-            if (breadcrumbsLength <= longestBreadcrumbsLength) return acc;
+            if (breadcrumbsLength <= longestBreadcrumbsLength) {
+                return acc;
+            }
 
             return {
                 breadcrumbsCategory: category,
