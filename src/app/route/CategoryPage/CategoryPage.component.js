@@ -179,7 +179,7 @@ export default class CategoryPage extends PureComponent {
             >
                 <Html content={ cms_html } />
             </ContentWrapper>
-        )
+        );
     }
 
     render() {
