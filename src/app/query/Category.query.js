@@ -73,6 +73,8 @@ export class CategoryQuery {
             'meta_keywords',
             'default_sort_by',
             'meta_description',
+            'landing_page',
+            'cms_html',
             this._getBreadcrumbsField()
         ];
     }
