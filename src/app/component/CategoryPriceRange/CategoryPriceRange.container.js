@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
+
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -25,7 +25,7 @@ export const mapStateToProps = state => ({
     maxPriceValue: state.ProductListInfoReducer.maxPrice
 });
 
-export class CategoryPriceRangeContainer extends PureComponent {
+export class CategoryPriceRangeContainer extends ExtensiblePureComponent {
     static propTypes = {
         minPriceValue: PropTypes.number.isRequired,
         maxPriceValue: PropTypes.number.isRequired,
@@ -89,4 +89,6 @@ export class CategoryPriceRangeContainer extends PureComponent {
     }
 }
 
-export default withRouter(connect(mapStateToProps)(CategoryPriceRangeContainer));
+export default withRouter(connect(mapStateToProps)(
+    middleware(CategoryPriceRangeContainer, 'Component/CategoryPriceRange/Container')
+));

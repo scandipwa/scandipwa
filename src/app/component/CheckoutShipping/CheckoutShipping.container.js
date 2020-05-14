@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -23,7 +22,7 @@ export const mapStateToProps = state => ({
     customer: state.MyAccountReducer.customer
 });
 
-export class CheckoutShippingContainer extends PureComponent {
+export class CheckoutShippingContainer extends ExtensiblePureComponent {
     static propTypes = {
         saveAddressInformation: PropTypes.func.isRequired,
         shippingMethods: shippingMethodsType.isRequired,
@@ -106,4 +105,6 @@ export class CheckoutShippingContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps)(CheckoutShippingContainer);
+export default connect(mapStateToProps)(
+    middleware(CheckoutShippingContainer, 'Component/CheckoutShipping/Container')
+);

@@ -11,7 +11,6 @@
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { PureComponent } from 'react';
 
 import { TOP_NAVIGATION_TYPE, BOTTOM_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.component';
@@ -69,7 +68,7 @@ export const mapDispatchToProps = dispatch => ({
 export const UPDATE_FILTERS_FREQUENCY = 0;
 export const LOADING_TIME = 500;
 
-export class CategoryPageContainer extends PureComponent {
+export class CategoryPageContainer extends ExtensiblePureComponent {
     static propTypes = {
         history: HistoryType.isRequired,
         category: CategoryTreeType.isRequired,
@@ -483,4 +482,6 @@ export class CategoryPageContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CategoryPageContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    middleware(CategoryPageContainer, 'Route/CategoryPage/Container')
+);

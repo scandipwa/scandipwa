@@ -12,10 +12,11 @@
 import { fetchMutation } from 'Util/Request';
 import { Field } from 'Util/Query';
 
-class Braintree {
+export class Braintree extends ExtensibleClass {
     isLoading = false;
 
     constructor(containerId) {
+        super();
         this.containerId = containerId;
     }
 
@@ -38,4 +39,4 @@ class Braintree {
     requestPaymentNonce = () => this.braintreeDropIn.requestPaymentMethod();
 }
 
-export default Braintree;
+export default middleware(Braintree, 'Util/Braintree');

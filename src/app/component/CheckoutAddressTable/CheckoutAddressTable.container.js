@@ -30,4 +30,6 @@ export class CheckoutAddressTableContainer extends MyAccountAddressTableContaine
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CheckoutAddressTableContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    middleware(CheckoutAddressTableContainer, 'Component/CheckoutAddressTable/Container')
+);

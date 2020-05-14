@@ -15,7 +15,6 @@
 
 // todo fix text type
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { MixType } from 'Type/Common';
 import ClickOutside from 'Component/ClickOutside';
@@ -30,18 +29,18 @@ export const TEXTAREA_TYPE = 'textarea';
 export const PASSWORD_TYPE = 'password';
 export const SELECT_TYPE = 'select';
 
-const ENTER_KEY_CODE = 13;
-const A_KEY_CODE = 65;
-const z_KEY_CODE = 122;
-const Z_KEY_CODE = 90;
-const a_KEY_CODE = 97;
+export const ENTER_KEY_CODE = 13;
+export const A_KEY_CODE = 65;
+export const z_KEY_CODE = 122;
+export const Z_KEY_CODE = 90;
+export const a_KEY_CODE = 97;
 
 
 /**
  * Input fields component
  * @class Field
  */
-export default class Field extends PureComponent {
+export class Field extends ExtensiblePureComponent {
     static propTypes = {
         skipValue: PropTypes.bool,
         isControlled: PropTypes.bool,
@@ -666,3 +665,5 @@ export default class Field extends PureComponent {
         );
     }
 }
+
+export default middleware(Field, 'Component/Field/Component');

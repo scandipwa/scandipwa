@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import Field from 'Component/Field';
@@ -19,7 +18,7 @@ import './CategorySort.style';
  * Product Sort
  * @class ProductSort
  */
-export default class CategorySort extends PureComponent {
+export class CategorySort extends ExtensiblePureComponent {
     static propTypes = {
         onSortChange: PropTypes.func.isRequired,
         sortKey: PropTypes.string.isRequired,
@@ -95,3 +94,5 @@ export default class CategorySort extends PureComponent {
         );
     }
 }
+
+export default middleware(CategorySort, 'Component/CategorySort/Component');

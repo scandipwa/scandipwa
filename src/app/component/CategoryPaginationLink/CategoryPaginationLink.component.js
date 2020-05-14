@@ -9,12 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Link from 'Component/Link';
 import './CategoryPaginationLink.style';
 
-export default class CategoryPaginationLink extends PureComponent {
+export class CategoryPaginationLink extends ExtensiblePureComponent {
     static propTypes = {
         text: PropTypes.string.isRequired,
         getPage: PropTypes.func.isRequired,
@@ -62,3 +61,5 @@ export default class CategoryPaginationLink extends PureComponent {
         );
     }
 }
+
+export default middleware(CategoryPaginationLink, 'Component/CategoryPaginationLink/Component');

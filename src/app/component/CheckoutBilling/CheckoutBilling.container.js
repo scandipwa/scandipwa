@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -38,7 +37,7 @@ export const mapDispatchToProps = dispatch => ({
     showPopup: payload => dispatch(showPopup(TERMS_AND_CONDITIONS_POPUP_ID, payload))
 });
 
-export class CheckoutBillingContainer extends PureComponent {
+export class CheckoutBillingContainer extends ExtensiblePureComponent {
     static propTypes = {
         showErrorNotification: PropTypes.func.isRequired,
         paymentMethods: paymentMethodsType.isRequired,
@@ -212,4 +211,6 @@ export class CheckoutBillingContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CheckoutBillingContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    middleware(CheckoutBillingContainer, 'Component/CheckoutBilling/Container')
+);

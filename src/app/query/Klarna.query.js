@@ -11,7 +11,7 @@
 
 import { Field } from 'Util/Query';
 
-export class KlarnaQuery {
+export class KlarnaQuery extends ExtensibleClass {
     getCreateKlarnaTokenMutation(input) {
         return new Field('createKlarnaToken')
             .addArgument('input', 'KlarnaTokenInput!', input)
@@ -19,4 +19,4 @@ export class KlarnaQuery {
     }
 }
 
-export default new KlarnaQuery();
+export default new (middleware(KlarnaQuery, 'Query/Klarna'))();

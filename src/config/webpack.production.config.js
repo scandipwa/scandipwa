@@ -50,6 +50,17 @@ const webpackConfig = ([lang, translation]) => ({
             new FallbackPlugin({
                 fallbackRoot, projectRoot
             })
+        ],
+        modules: [
+            path.resolve(projectRoot, 'node_modules'),
+            'node_modules'
+        ]
+    },
+
+    resolveLoader: {
+        modules: [
+            'node_modules',
+            path.resolve(__dirname, 'loaders')
         ]
     },
 
@@ -72,6 +83,18 @@ const webpackConfig = ([lang, translation]) => ({
                     {
                         loader: 'babel-loader',
                         options: BabelConfig
+                    }
+                ]
+            },
+            {
+                test: path.resolve(projectRoot, 'src', 'app', 'index.js'),
+                use: [
+                    {
+                        loader: 'extension-import-injector',
+                        options: {
+                            magentoRoot,
+                            importAggregator: 'pendingPluginConfigParts'
+                        }
                     }
                 ]
             },
@@ -145,6 +168,7 @@ const webpackConfig = ([lang, translation]) => ({
         }),
 
         new webpack.ProvidePlugin({
+            middleware: path.join(__dirname, 'Middleware'),
             React: 'react'
         }),
 

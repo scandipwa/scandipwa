@@ -9,11 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-.PayPal {
-    margin-top: 2rem;
-    min-height: 5rem;
-
-    &_isDisabled {
-        display: none;
-    }
-}
+export { default } from './Router.container';

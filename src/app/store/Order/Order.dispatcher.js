@@ -14,7 +14,7 @@ import { fetchQuery } from 'Util/Request';
 import { showNotification } from 'Store/Notification';
 import { OrderQuery } from 'Query';
 
-export class OrderDispatcher {
+export class OrderDispatcher extends ExtensibleClass {
     requestOrders(dispatch) {
         const query = OrderQuery.getOrderListQuery();
 
@@ -27,4 +27,4 @@ export class OrderDispatcher {
     }
 }
 
-export default new OrderDispatcher();
+export default new (middleware(OrderDispatcher, 'Store/Order/Dispatcher'))();

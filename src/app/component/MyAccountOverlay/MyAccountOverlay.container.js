@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -21,7 +20,7 @@ import { showNotification } from 'Store/Notification';
 import { hideActiveOverlay } from 'Store/Overlay';
 import { isSignedIn } from 'Util/Auth';
 import isMobile from 'Util/Mobile';
-import { history } from 'Route';
+import { history } from 'Component/App/App.component';
 
 import MyAccountOverlay, {
     STATE_SIGN_IN,
@@ -48,7 +47,7 @@ export const mapDispatchToProps = dispatch => ({
     setHeaderState: headerState => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, headerState))
 });
 
-export class MyAccountOverlayContainer extends PureComponent {
+export class MyAccountOverlayContainer extends ExtensiblePureComponent {
     static propTypes = {
         forgotPassword: PropTypes.func.isRequired,
         signIn: PropTypes.func.isRequired,
@@ -308,4 +307,6 @@ export class MyAccountOverlayContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyAccountOverlayContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    middleware(MyAccountOverlayContainer, 'Component/MyAccountOverlay/Container')
+);

@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import media, { PRODUCT_MEDIA } from 'Util/Media';
@@ -24,7 +23,7 @@ import './SearchOverlay.style';
 export const SEARCH_TIMEOUT = 500;
 export const AMOUNT_OF_PLACEHOLDERS = 5;
 
-export default class SearchOverlay extends PureComponent {
+export class SearchOverlay extends ExtensiblePureComponent {
     static propTypes = {
         hideActiveOverlay: PropTypes.func.isRequired,
         searchCriteria: PropTypes.string,
@@ -188,3 +187,5 @@ export default class SearchOverlay extends PureComponent {
         );
     }
 }
+
+export default middleware(SearchOverlay, 'Component/SearchOverlay/Component');

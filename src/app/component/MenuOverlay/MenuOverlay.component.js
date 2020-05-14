@@ -11,7 +11,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import media from 'Util/Media';
@@ -29,7 +28,7 @@ import './MenuOverlay.style';
 
 export const MENU_OVERLAY_KEY = 'menu';
 
-export default class MenuOverlay extends PureComponent {
+export class MenuOverlay extends ExtensiblePureComponent {
     static propTypes = {
         menu: MenuType.isRequired,
         hideActiveOverlay: PropTypes.func.isRequired,
@@ -302,3 +301,5 @@ export default class MenuOverlay extends PureComponent {
         );
     }
 }
+
+export default middleware(MenuOverlay, 'Component/MenuOverlay/Component');

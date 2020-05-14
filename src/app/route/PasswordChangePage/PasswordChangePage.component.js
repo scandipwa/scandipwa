@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import { Redirect } from 'react-router';
 import PropTypes from 'prop-types';
 import ContentWrapper from 'Component/ContentWrapper';
@@ -20,10 +19,10 @@ import { getQueryParam } from 'Util/Url';
 import { LocationType } from 'Type/Common';
 import './PasswordChangePage.style';
 
-const STATUS_PASSOWORD_UPDATED = 'password_updated';
-const STATUS_PASSOWORD_MISSMATCH = 'passwords_miss_match';
+export const STATUS_PASSOWORD_UPDATED = 'password_updated';
+export const STATUS_PASSOWORD_MISSMATCH = 'passwords_miss_match';
 
-export default class PasswordChangePage extends PureComponent {
+export class PasswordChangePage extends ExtensiblePureComponent {
     static propTypes = {
         updateBreadcrumbs: PropTypes.func.isRequired,
         resetPassword: PropTypes.func.isRequired,
@@ -146,3 +145,5 @@ export default class PasswordChangePage extends PureComponent {
         );
     }
 }
+
+export default middleware(PasswordChangePage, 'Route/PasswordChangePage/Component');

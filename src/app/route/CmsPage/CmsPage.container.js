@@ -23,7 +23,7 @@ import { CMS_PAGE } from 'Component/Header';
 import { debounce } from 'Util/Request';
 import { updateMeta } from 'Store/Meta';
 import { getUrlParam } from 'Util/Url';
-import { history } from 'Route';
+import { history } from 'Component/App/App.component';
 
 import CmsPage from './CmsPage.component';
 
@@ -210,4 +210,6 @@ export class CmsPageContainer extends DataContainer {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CmsPageContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    middleware(CmsPageContainer, 'Route/CmsPage/Container')
+);

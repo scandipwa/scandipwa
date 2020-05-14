@@ -12,7 +12,7 @@
 import PropTypes from 'prop-types';
 import Form from 'Component/Form/Form.component';
 
-class FormPortal extends Form {
+export class FormPortal extends Form {
     static propTypes = {
         ...Form.propTypes,
         name: PropTypes.string.isRequired
@@ -59,4 +59,4 @@ class FormPortal extends Form {
     }
 }
 
-export default FormPortal;
+export default middleware(FormPortal, 'Component/FormPortal/Component');

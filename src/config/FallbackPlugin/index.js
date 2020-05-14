@@ -26,16 +26,13 @@ class FallbackPlugin {
     apply(resolver) {
         resolver.getHook('resolve').tapAsync('FallbackPlugin', (request, resolveContext, callback) => {
             // Determine if request is coming from core file
-            let pathIsCore = false;
-            if (request.path.match(/vendor/)) pathIsCore = true;
+            const pathIsCore = !!request.path.match(/vendor/);
 
             // Determine if the request is child-of-a-child node_module request
-            let pathIsNode = false;
-            if (request.path.match(/node_modules/)) pathIsNode = true;
+            const pathIsNode = !!request.path.match(/node_modules/);
 
             // Determine if request is coming to custom file
-            let requestIsCustom = false;
-            if (request.request.match(/app\/design\/frontend/)) requestIsCustom = true;
+            const requestIsCustom = !!request.request.match(/app\/design\/frontend/);
 
             // Check if request can be handled
             if (!request.path || !request.request) return callback();
@@ -81,7 +78,9 @@ class FallbackPlugin {
                     );
 
                     // If string does not start with `/` or `./` then append relative path
-                    if (!newRequest.request.match(/^(.\/|\/)/)) newRequest.request = `./${newRequest.request}`;
+                    if (!newRequest.request.match(/^(.\/|\/)/)) {
+                        newRequest.request = `./${newRequest.request}`;
+                    }
                     break;
 
                 // From core to custom node_modules
@@ -92,12 +91,16 @@ class FallbackPlugin {
                     );
                     break;
 
-                default: return callback();
+                default:
+                    return callback();
                 }
 
                 // If requests are not similar modify request (recursion prevention)
-                if (JSON.stringify(request) === JSON.stringify(newRequest)) return callback();
-                resolver.doResolve(
+                if (JSON.stringify(request) === JSON.stringify(newRequest)) {
+                    return callback();
+                }
+
+                return resolver.doResolve(
                     resolver.hooks.resolve,
                     newRequest,
                     'Resolving with fallback!',
@@ -134,6 +137,7 @@ class FallbackPlugin {
                 if (pathIsCore && !pathIsNode) {
                     return proceed('core-to-node');
                 }
+
                 return callback();
             }
 

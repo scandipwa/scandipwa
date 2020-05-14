@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import Popup from 'Component/Popup';
@@ -23,7 +22,7 @@ import './MyAccountOrderPopup.style';
 
 export const ORDER_POPUP_ID = 'MyAccountOrderPopup';
 
-class MyAccountOrderPopup extends PureComponent {
+export class MyAccountOrderPopup extends ExtensiblePureComponent {
     static propTypes = {
         order: orderType.isRequired,
         isLoading: PropTypes.bool.isRequired,
@@ -228,4 +227,4 @@ class MyAccountOrderPopup extends PureComponent {
     }
 }
 
-export default MyAccountOrderPopup;
+export default middleware(MyAccountOrderPopup, 'Component/MyAccountOrderPopup/Component');

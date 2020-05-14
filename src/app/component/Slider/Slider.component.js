@@ -11,7 +11,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent, Children, createRef } from 'react';
+import { Children, createRef } from 'react';
 import PropTypes from 'prop-types';
 
 import { MixType, ChildrenType } from 'Type/Common';
@@ -28,7 +28,7 @@ export const ACTIVE_SLIDE_PERCENT = 0.1;
  * Slider component
  * @class Slider
  */
-export default class Slider extends PureComponent {
+export class Slider extends ExtensiblePureComponent {
     static propTypes = {
         showCrumbs: PropTypes.bool,
         activeImage: PropTypes.number,
@@ -326,3 +326,5 @@ export default class Slider extends PureComponent {
         );
     }
 }
+
+export default middleware(Slider, 'Component/Slider/Component');

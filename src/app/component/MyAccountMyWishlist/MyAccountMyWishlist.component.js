@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import WishlistItem from 'Component/WishlistItem';
@@ -19,7 +18,7 @@ import Loader from 'Component/Loader';
 
 import './MyAccountMyWishlist.style';
 
-export default class MyAccountMyWishlist extends PureComponent {
+export class MyAccountMyWishlist extends ExtensiblePureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         isWishlistLoading: PropTypes.bool.isRequired,
@@ -107,3 +106,5 @@ export default class MyAccountMyWishlist extends PureComponent {
         );
     }
 }
+
+export default middleware(MyAccountMyWishlist, 'Component/MyAccountMyWishlist/Component');

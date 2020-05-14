@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { debounce } from 'Util/Request';
@@ -28,7 +27,7 @@ export const mapDispatchToProps = dispatch => ({
     removeFromWishlist: options => WishlistDispatcher.removeItemFromWishlist(dispatch, options)
 });
 
-export class WishlistItemContainer extends PureComponent {
+export class WishlistItemContainer extends ExtensiblePureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         addProductToCart: PropTypes.func.isRequired,
@@ -151,4 +150,6 @@ export class WishlistItemContainer extends PureComponent {
     }
 }
 
-export default connect(null, mapDispatchToProps)(WishlistItemContainer);
+export default connect(null, mapDispatchToProps)(
+    middleware(WishlistItemContainer, 'Component/WishlistItem/Container')
+);

@@ -9,13 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import NoMatch from 'Route/NoMatch';
 import { LocationType } from 'Type/Router';
 import { ChildrenType } from 'Type/Common';
 
-export default class NoMatchHandler extends PureComponent {
+export class NoMatchHandler extends ExtensiblePureComponent {
     static propTypes = {
         children: ChildrenType.isRequired,
         noMatch: PropTypes.bool.isRequired,
@@ -69,3 +68,5 @@ export default class NoMatchHandler extends PureComponent {
         return children;
     }
 }
+
+export default middleware(NoMatchHandler, 'Route/NoMatchHandler/Component');

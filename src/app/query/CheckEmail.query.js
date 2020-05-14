@@ -15,7 +15,7 @@ import { Field } from 'Util/Query';
  * Email availability check Query
  * @class CheckEmailQuery
  */
-export class CheckEmailQuery {
+export class CheckEmailQuery extends ExtensibleClass {
     getIsEmailAvailableQuery(email) {
         const query = new Field('isEmailAvailable')
             .addArgument('email', 'String!', email)
@@ -25,4 +25,4 @@ export class CheckEmailQuery {
     }
 }
 
-export default new CheckEmailQuery();
+export default new (middleware(CheckEmailQuery, 'Query/CheckEmail'))();

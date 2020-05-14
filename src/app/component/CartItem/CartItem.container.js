@@ -11,7 +11,6 @@
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { PureComponent } from 'react';
 
 import { objectToUri } from 'Util/Url';
 import { CartDispatcher } from 'Store/Cart';
@@ -27,7 +26,7 @@ export const mapDispatchToProps = dispatch => ({
     removeProduct: options => CartDispatcher.removeProductFromCart(dispatch, options)
 });
 
-export class CartItemContainer extends PureComponent {
+export class CartItemContainer extends ExtensiblePureComponent {
     static propTypes = {
         item: CartItemType.isRequired,
         currency_code: PropTypes.string.isRequired,
@@ -202,4 +201,6 @@ export class CartItemContainer extends PureComponent {
     }
 }
 
-export default connect(null, mapDispatchToProps)(CartItemContainer);
+export default connect(null, mapDispatchToProps)(
+    middleware(CartItemContainer, 'Component/CartItem/Container')
+);

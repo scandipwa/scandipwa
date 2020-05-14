@@ -11,7 +11,6 @@
 
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
 
 import { showNotification } from 'Store/Notification';
 import { showPopup } from 'Store/Popup';
@@ -29,7 +28,7 @@ export const mapDispatchToProps = dispatch => ({
     showInfoNotification: message => dispatch(showNotification('info', message))
 });
 
-export class ProductReviewsContainer extends PureComponent {
+export class ProductReviewsContainer extends ExtensiblePureComponent {
     static propTypes = {
         showInfoNotification: PropTypes.func.isRequired,
         showPopup: PropTypes.func.isRequired,
@@ -79,4 +78,6 @@ export class ProductReviewsContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProductReviewsContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    middleware(ProductReviewsContainer, 'Component/ProductReviews/Container')
+);

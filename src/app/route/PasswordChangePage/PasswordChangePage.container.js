@@ -11,7 +11,7 @@
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { PureComponent } from 'react';
+
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import { MyAccountDispatcher } from 'Store/MyAccount';
 import { updateMeta } from 'Store/Meta';
@@ -38,7 +38,7 @@ export const mapDispatchToProps = dispatch => ({
     }
 });
 
-export class PasswordChangePageContainer extends PureComponent {
+export class PasswordChangePageContainer extends ExtensiblePureComponent {
     static propTypes = {
         updateMeta: PropTypes.func.isRequired
     };
@@ -58,4 +58,6 @@ export class PasswordChangePageContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PasswordChangePageContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    middleware(PasswordChangePageContainer, 'Route/PasswordChangePage/Container')
+);

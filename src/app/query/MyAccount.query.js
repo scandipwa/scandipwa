@@ -17,7 +17,7 @@ import { GUEST_QUOTE_ID } from 'Store/Cart';
  * MyAccount Mutations
  * @class MyAccount
  */
-export class MyAccountQuery {
+export class MyAccountQuery extends ExtensibleClass {
     /**
      * Get ResetPassword mutation
      * @param {{token: String, password: String, password_confirmation: String}} options A object containing different aspects of query, each item can be omitted
@@ -194,4 +194,4 @@ export class MyAccountQuery {
     }
 }
 
-export default new MyAccountQuery();
+export default new (middleware(MyAccountQuery, 'Query/MyAccount'))();

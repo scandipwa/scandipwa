@@ -10,7 +10,6 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
 import { Subscribe } from 'unstated';
 import { ProductType } from 'Type/ProductList';
 import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
@@ -19,7 +18,7 @@ import ProductGallery, { IMAGE_TYPE } from './ProductGallery.component';
 export const THUMBNAIL_KEY = 'small_image';
 export const AMOUNT_OF_PLACEHOLDERS = 0;
 
-export class ProductGalleryContainer extends PureComponent {
+export class ProductGalleryContainer extends ExtensiblePureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         areDetailsLoaded: PropTypes.bool
@@ -170,4 +169,4 @@ export class ProductGalleryContainer extends PureComponent {
     }
 }
 
-export default ProductGalleryContainer;
+export default middleware(ProductGalleryContainer, 'Component/ProductGallery/Container');

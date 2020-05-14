@@ -19,7 +19,7 @@ import './Popup.style';
 
 export const ESCAPE_KEY = 27;
 
-export default class Popup extends Overlay {
+export class Popup extends Overlay {
     static propTypes = {
         ...Overlay.propTypes,
         clickOutside: PropTypes.bool,
@@ -135,3 +135,5 @@ export default class Popup extends Overlay {
         );
     }
 }
+
+export default middleware(Popup, 'Component/Popup/Component');

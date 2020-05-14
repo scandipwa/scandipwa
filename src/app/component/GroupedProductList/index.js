@@ -9,4 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export { default } from './GroupedProductsList.component';
+export { default } from './GroupedProductList.component';

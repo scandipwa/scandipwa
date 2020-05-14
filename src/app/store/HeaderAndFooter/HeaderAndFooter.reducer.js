@@ -20,7 +20,7 @@ export const initialState = {
     isHeaderAndFooterVisible: true
 };
 
-const HeaderAndFooterReducer = (state = initialState, action) => {
+export const HeaderAndFooterReducer = (state = initialState, action) => {
     const { type, isHeaderAndFooterVisible, menu } = action;
 
     switch (type) {

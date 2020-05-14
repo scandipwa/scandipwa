@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
@@ -23,7 +22,7 @@ import ProductList from './ProductList.component';
 
 export const UPDATE_PAGE_FREQUENCY = 0; // (ms)
 
-export class ProductListContainer extends PureComponent {
+export class ProductListContainer extends ExtensiblePureComponent {
     static propTypes = {
         history: HistoryType.isRequired,
         location: LocationType.isRequired,
@@ -195,4 +194,6 @@ export class ProductListContainer extends PureComponent {
     }
 }
 
-export default withRouter(ProductListContainer);
+export default withRouter(
+    middleware(ProductListContainer, 'Component/ProductList/Container')
+);

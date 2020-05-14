@@ -10,7 +10,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { showNotification } from 'Store/Notification';
 import KlarnaComponent from './Klarna.component';
@@ -19,7 +18,7 @@ export const mapDispatchToProps = dispatch => ({
     showError: message => dispatch(showNotification('error', message))
 });
 
-export class KlarnaContainer extends PureComponent {
+export class KlarnaContainer extends ExtensiblePureComponent {
     static authorize() {
         return new Promise((resolve, reject) => {
             Klarna.Payments.authorize(
@@ -42,4 +41,6 @@ export class KlarnaContainer extends PureComponent {
     }
 }
 
-export default connect(null, mapDispatchToProps)(KlarnaContainer);
+export default connect(null, mapDispatchToProps)(
+    middleware(KlarnaContainer, 'Component/Klarna/Container')
+);

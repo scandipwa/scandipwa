@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { prepareQuery } from 'Util/Query';
@@ -19,15 +18,15 @@ import { showNotification } from 'Store/Notification';
 import { getIndexedProducts } from 'Util/Product';
 import NewProducts from './NewProducts.component';
 
-const mapStateToProps = state => ({
+export const mapStateToProps = state => ({
     timezone: state.ConfigReducer.timezone
 });
 
-const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = dispatch => ({
     showNotification: (type, title, error) => dispatch(showNotification(type, title, error))
 });
 
-export class NewProductsContainer extends PureComponent {
+export class NewProductsContainer extends ExtensiblePureComponent {
     static propTypes = {
         category: PropTypes.string,
         cacheLifetime: PropTypes.number,
@@ -130,4 +129,6 @@ export class NewProductsContainer extends PureComponent {
     render = () => <NewProducts { ...this.props } { ...this.state } />;
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewProductsContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    middleware(NewProductsContainer, 'Component/NewProducts/Container')
+);

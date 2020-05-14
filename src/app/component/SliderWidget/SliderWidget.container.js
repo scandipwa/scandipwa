@@ -72,4 +72,6 @@ export class SliderWidgetContainer extends DataContainer {
     }
 }
 
-export default connect(null, mapDispatchToProps)(SliderWidgetContainer);
+export default connect(null, mapDispatchToProps)(
+    middleware(SliderWidgetContainer, 'Component/SliderWidget/Container')
+);

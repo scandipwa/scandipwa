@@ -16,7 +16,7 @@ export const initialState = {
     areBreadcrumbsVisible: true
 };
 
-const BreadcrumbsReducer = (state = initialState, action) => {
+export const BreadcrumbsReducer = (state = initialState, action) => {
     switch (action.type) {
     case UPDATE_BREADCRUMBS:
         const { breadcrumbs } = action;

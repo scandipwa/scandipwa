@@ -10,7 +10,6 @@
  * @link https://github.com/scandipwa/base-ProductReviewListtheme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import { ProductType } from 'Type/ProductList';
@@ -24,7 +23,7 @@ import { RELATED, UPSELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
 
 import './ProductPage.style';
 
-export default class ProductPage extends PureComponent {
+export class ProductPage extends ExtensiblePureComponent {
     static propTypes = {
         configurableVariantIndex: PropTypes.number.isRequired,
         productOrVariant: ProductType.isRequired,
@@ -111,3 +110,5 @@ export default class ProductPage extends PureComponent {
         );
     }
 }
+
+export default middleware(ProductPage, 'Route/ProductPage/Component');

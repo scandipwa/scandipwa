@@ -10,7 +10,6 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { MixType } from 'Type/Common';
 import Image from './Image.component';
@@ -19,7 +18,7 @@ export const mapStateToProps = state => ({
     groupedProductQuantity: state.ProductReducer.groupedProductQuantity
 });
 
-export class ImageContainer extends PureComponent {
+export class ImageContainer extends ExtensiblePureComponent {
     static propTypes = {
         isPlaceholder: PropTypes.bool,
         src: PropTypes.oneOfType([
@@ -112,4 +111,6 @@ export class ImageContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps)(ImageContainer);
+export default connect(mapStateToProps)(
+    middleware(ImageContainer, 'Component/Image/Container')
+);

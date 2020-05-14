@@ -8,7 +8,6 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import HomeSlider from 'Component/SliderWidget';
 import NewProducts from 'Component/NewProducts';
@@ -18,7 +17,7 @@ export const SLIDER = 'Slider';
 export const NEW_PRODUCTS = 'NewProducts';
 export const CATALOG_PRODUCT_LIST = 'CatalogProductList';
 
-export default class WidgetFactory extends PureComponent {
+export class WidgetFactory extends ExtensiblePureComponent {
     static propTypes = {
         type: PropTypes.string.isRequired
     };
@@ -42,3 +41,5 @@ export default class WidgetFactory extends PureComponent {
         return Widget !== undefined ? <Widget { ...this.props } /> : null;
     }
 }
+
+export default middleware(WidgetFactory, 'Component/WidgetFactory/Component');

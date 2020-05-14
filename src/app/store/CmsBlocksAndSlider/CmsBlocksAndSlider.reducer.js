@@ -19,7 +19,7 @@ export const initialState = {
     slider: {}
 };
 
-const CmsBlocksAndSliderReducer = (state = initialState, action) => {
+export const CmsBlocksAndSliderReducer = (state = initialState, action) => {
     switch (action.type) {
     case UPDATE_CMS_BLOCKS:
         const { blocks: { items: blockItems } } = action;

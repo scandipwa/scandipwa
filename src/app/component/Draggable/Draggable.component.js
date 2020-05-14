@@ -11,11 +11,10 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
 import { MixType, ChildrenType } from 'Type/Common';
 import './Draggable.style';
 
-export default class Draggable extends PureComponent {
+export class Draggable extends ExtensiblePureComponent {
     static propTypes = {
         shiftX: PropTypes.number,
         shiftY: PropTypes.number,
@@ -205,3 +204,5 @@ export default class Draggable extends PureComponent {
         );
     }
 }
+
+export default middleware(Draggable, 'Component/Draggable/Component');

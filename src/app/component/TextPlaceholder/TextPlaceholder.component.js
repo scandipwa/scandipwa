@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { MixType } from 'Type/Common';
 import './TextPlaceholder.style';
@@ -18,7 +17,7 @@ import './TextPlaceholder.style';
  * Text placeholder
  * @class TextPlaceholder
  */
-export default class TextPlaceholder extends PureComponent {
+export class TextPlaceholder extends ExtensiblePureComponent {
     static propTypes = {
         content: PropTypes.oneOfType([
             PropTypes.string,
@@ -51,3 +50,5 @@ export default class TextPlaceholder extends PureComponent {
         return <span mix={ mix } block="TextPlaceholder" mods={ { length } } />;
     }
 }
+
+export default middleware(TextPlaceholder, 'Component/TextPlaceholder/Component');

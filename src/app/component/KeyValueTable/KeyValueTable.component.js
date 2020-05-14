@@ -9,11 +9,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import './KeyValueTable.style';
 
-class KeyValueTable extends PureComponent {
+export class KeyValueTable extends ExtensiblePureComponent {
     static propTypes = {
         title: PropTypes.string
     };
@@ -94,4 +93,4 @@ class KeyValueTable extends PureComponent {
     }
 }
 
-export default KeyValueTable;
+export default middleware(KeyValueTable, 'Component/KeyValueTable/Component');

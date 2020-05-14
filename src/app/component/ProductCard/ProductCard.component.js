@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent, createRef } from 'react';
+import { createRef } from 'react';
 import PropTypes from 'prop-types';
 
 import Link from 'Component/Link';
@@ -28,7 +28,7 @@ import './ProductCard.style';
  * Product card
  * @class ProductCard
  */
-export default class ProductCard extends PureComponent {
+export class ProductCard extends ExtensiblePureComponent {
     static propTypes = {
         linkTo: PropTypes.shape({}),
         product: ProductType.isRequired,
@@ -236,3 +236,5 @@ export default class ProductCard extends PureComponent {
         );
     }
 }
+
+export default middleware(ProductCard, 'Component/ProductCard/Component');

@@ -9,11 +9,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import ProductConfigurableAttributes from './ProductConfigurableAttributes.component';
 
-class ProductConfigurableAttributesContainer extends PureComponent {
+export class ProductConfigurableAttributesContainer extends ExtensiblePureComponent {
     static propTypes = {
         getLink: PropTypes.func.isRequired,
         parameters: PropTypes.shape({}).isRequired,
@@ -69,4 +68,4 @@ class ProductConfigurableAttributesContainer extends PureComponent {
     }
 }
 
-export default ProductConfigurableAttributesContainer;
+export default middleware(ProductConfigurableAttributesContainer, 'Component/ProductConfigurableAttributes/Container');

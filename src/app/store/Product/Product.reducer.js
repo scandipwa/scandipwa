@@ -33,7 +33,7 @@ export const formatConfigurableOptions = configurable_options => configurable_op
         };
     }, {});
 
-const ProductReducer = (state = initialState, action) => {
+export const ProductReducer = (state = initialState, action) => {
     switch (action.type) {
     case UPDATE_PRODUCT_DETAILS:
         const { product } = action;

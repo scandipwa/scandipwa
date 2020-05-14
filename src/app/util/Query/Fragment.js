@@ -11,7 +11,7 @@
 
 import Field from 'Util/Query/Field';
 
-class Fragment extends Field {
+export class Fragment extends Field {
     /**
      * Creates an instance of Fragment.
      * @param  {String} name Name of the Fragment
@@ -47,4 +47,4 @@ class Fragment extends Field {
     }
 }
 
-export default Fragment;
+export default middleware(Fragment, 'Util/Query/Fragment');

@@ -86,4 +86,4 @@ export class ProductDispatcher extends QueryDispatcher {
     }
 }
 
-export default new ProductDispatcher();
+export default new (middleware(ProductDispatcher, 'Store/Product/Dispatcher'))();

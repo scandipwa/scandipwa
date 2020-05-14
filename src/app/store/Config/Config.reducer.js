@@ -20,7 +20,7 @@ export const filterStoreConfig = config => Object.entries(config).reduce(
     {}
 );
 
-const { countries, reviewRatings, storeConfig } = BrowserDatabase.getItem('config') || {
+export const { countries, reviewRatings, storeConfig } = BrowserDatabase.getItem('config') || {
     countries: [],
     reviewRatings: [],
     storeConfig: {}
@@ -33,7 +33,7 @@ export const initialState = {
     isLoading: true
 };
 
-const ConfigReducer = (state = initialState, action) => {
+export const ConfigReducer = (state = initialState, action) => {
     const {
         config: {
             countries,

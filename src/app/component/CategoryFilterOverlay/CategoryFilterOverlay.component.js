@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Overlay from 'Component/Overlay';
 import ResetButton from 'Component/ResetButton';
@@ -18,7 +17,7 @@ import './CategoryFilterOverlay.style';
 
 export const CATEGORY_FILTER_OVERLAY_ID = 'category-filter';
 
-export default class CategoryFilterOverlay extends PureComponent {
+export class CategoryFilterOverlay extends ExtensiblePureComponent {
     static propTypes = {
         availableFilters: PropTypes.objectOf(PropTypes.shape).isRequired,
         areFiltersEmpty: PropTypes.bool.isRequired,
@@ -177,3 +176,5 @@ export default class CategoryFilterOverlay extends PureComponent {
         return this.renderDefaultFilters();
     }
 }
+
+export default middleware(CategoryFilterOverlay, 'Component/CategoryFilterOverlay/Component');

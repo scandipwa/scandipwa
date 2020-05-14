@@ -10,7 +10,6 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { PriceType } from 'Type/ProductList';
 import { MixType } from 'Type/Common';
@@ -21,7 +20,7 @@ import './ProductPrice.style';
  * Product price
  * @class ProductPrice
  */
-export default class ProductPrice extends PureComponent {
+export class ProductPrice extends ExtensiblePureComponent {
     static propTypes = {
         isSchemaRequired: PropTypes.bool,
         roundedRegularPrice: PropTypes.string,
@@ -138,3 +137,5 @@ export default class ProductPrice extends PureComponent {
         );
     }
 }
+
+export default middleware(ProductPrice, 'Component/ProductPrice/Component');

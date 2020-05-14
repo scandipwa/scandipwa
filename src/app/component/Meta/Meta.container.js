@@ -1,4 +1,4 @@
-import { PureComponent } from 'react';
+
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -16,7 +16,7 @@ export const mapStateToProps = state => ({
     title: state.MetaReducer.title
 });
 
-export class MetaContainer extends PureComponent {
+export class MetaContainer extends ExtensiblePureComponent {
     static propTypes = {
         default_description: PropTypes.string,
         default_keywords: PropTypes.string,
@@ -91,4 +91,6 @@ export class MetaContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps)(MetaContainer);
+export default connect(mapStateToProps)(
+    middleware(MetaContainer, 'Component/Meta/Container')
+);

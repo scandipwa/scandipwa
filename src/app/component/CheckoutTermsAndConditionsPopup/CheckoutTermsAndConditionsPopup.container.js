@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -21,7 +20,7 @@ export const mapStateToProps = state => ({
     payload: state.PopupReducer.popupPayload[TERMS_AND_CONDITIONS_POPUP_ID] || {}
 });
 
-export class CheckoutTermsAndConditionsPopupContainer extends PureComponent {
+export class CheckoutTermsAndConditionsPopupContainer extends ExtensiblePureComponent {
     static propTypes = {
         payload: PropTypes.shape({
             text: PropTypes.string
@@ -44,4 +43,6 @@ export class CheckoutTermsAndConditionsPopupContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps)(CheckoutTermsAndConditionsPopupContainer);
+export default connect(mapStateToProps)(
+    middleware(CheckoutTermsAndConditionsPopupContainer, 'Component/CheckoutTermsAndConditionsPopup/Container')
+);

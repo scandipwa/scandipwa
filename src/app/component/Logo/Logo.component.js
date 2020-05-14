@@ -18,7 +18,7 @@ import Image, {
 
 import './Logo.style';
 
-class Logo extends Image {
+export class Logo extends Image {
     renderPlaceholderLogo() {
         return (
             <svg
@@ -63,4 +63,4 @@ class Logo extends Image {
     }
 }
 
-export default Logo;
+export default middleware(Logo, 'Component/Logo/Component');

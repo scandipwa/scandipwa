@@ -12,7 +12,7 @@
 import { Field } from 'Util/Query';
 import { isSignedIn } from 'Util/Auth';
 
-export class CheckoutQuery {
+export class CheckoutQuery extends ExtensibleClass {
     getPaymentMethodsQuery(guestCartId) {
         const query = new Field('getPaymentMethods')
             .addFieldList(this._getPaymentMethodFields());
@@ -206,4 +206,4 @@ export class CheckoutQuery {
     }
 }
 
-export default new CheckoutQuery();
+export default new (middleware(CheckoutQuery, 'Query/Checkout'))();

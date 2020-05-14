@@ -11,7 +11,7 @@
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { PureComponent } from 'react';
+
 import { updateMeta } from 'Store/Meta';
 import { withRouter } from 'react-router-dom';
 import { NoMatchDispatcher } from 'Store/NoMatch';
@@ -28,7 +28,7 @@ export const mapDispatchToProps = dispatch => ({
     }
 });
 
-export class NoMatchHandlerContainer extends PureComponent {
+export class NoMatchHandlerContainer extends ExtensiblePureComponent {
     static propTypes = {
         updateMeta: PropTypes.func.isRequired,
         noMatch: PropTypes.bool.isRequired
@@ -52,4 +52,6 @@ export class NoMatchHandlerContainer extends PureComponent {
     }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NoMatchHandlerContainer));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(
+    middleware(NoMatchHandlerContainer, 'Route/NoMatchHandler/Container')
+));

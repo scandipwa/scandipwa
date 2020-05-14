@@ -9,8 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent, createRef } from 'react';
-import CSS from 'Util/CSS';
+import { createRef } from 'react';
 import PropTypes from 'prop-types';
 import { TransformWrapper } from 'react-zoom-pan-pinch';
 
@@ -22,6 +21,7 @@ import { LocationType } from 'Type/Common';
 import { withRouter } from 'react-router';
 import Slider from 'Component/Slider';
 import Image from 'Component/Image';
+import CSS from 'Util/CSS';
 
 import './ProductGallery.style';
 
@@ -36,7 +36,7 @@ export const PLACEHOLDER_TYPE = 'placeholder';
  * Product gallery
  * @class ProductGallery
  */
-export class ProductGallery extends PureComponent {
+export class ProductGallery extends ExtensiblePureComponent {
     static propTypes = {
         gallery: PropTypes.arrayOf(
             PropTypes.shape({
@@ -275,4 +275,4 @@ export class ProductGallery extends PureComponent {
     }
 }
 
-export default withRouter(ProductGallery);
+export default withRouter(middleware(ProductGallery, 'Component/ProductGallery/Component'));
