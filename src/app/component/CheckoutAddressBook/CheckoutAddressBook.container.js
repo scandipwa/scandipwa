@@ -64,7 +64,7 @@ export class CheckoutAddressBookContainer extends ExtensiblePureComponent {
             isSignedIn
         } = props;
 
-        if (isSignedIn && !Object.keys(customer)) {
+        if (isSignedIn && !Object.keys(customer).length) {
             requestCustomerData();
         }
 
@@ -86,12 +86,12 @@ export class CheckoutAddressBookContainer extends ExtensiblePureComponent {
             onAddressSelect,
             requestCustomerData,
             isSignedIn,
-            customer: { id }
+            customer
         } = this.props;
         const { selectedAddressId: prevSelectedAddressId } = prevState;
         const { selectedAddressId } = this.state;
 
-        if (isSignedIn && !id) {
+        if (isSignedIn && !Object.keys(customer).length) {
             requestCustomerData();
         }
 
