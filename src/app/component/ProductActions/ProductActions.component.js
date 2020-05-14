@@ -319,7 +319,7 @@ export default class ProductActions extends PureComponent {
                   block="ProductActions"
                   elem="Schema-Url"
                   itemProp="url"
-                  href= { this.getMetaLink() }
+                  href={ this.getMetaLink() }
                 >
                     { name }
                 </a>
