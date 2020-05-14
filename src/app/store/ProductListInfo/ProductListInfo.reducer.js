@@ -21,16 +21,22 @@ const reduceFilters = filters => filters.reduce((co, item) => {
         filter_items
     } = item;
 
-    // TODO: Remove this hardcoded check, after solving the problem on BE: https://github.com/magento/magento2/blob/89cf888f6f3c7b163702969a8e256f9f0486f6b8/app/code/Magento/Catalog/Model/Layer/FilterList.php#L70
-    if (attribute_code === 'cat') {
-        return co;
-    }
-
-    const { attribute_values, attribute_options } = filter_items.reduce((attribute, option) => {
+    const { attribute_values, attribute_options } = filter_items.reduce((attribute, option, i) => {
         const { value_string } = option;
         const { attribute_values, attribute_options } = attribute;
 
         attribute_values.push(value_string);
+
+        if (attribute_code === 'cat') {
+            return {
+                ...attribute,
+                attribute_options: {
+                    ...attribute_options,
+                    [i]: option
+                }
+            };
+        }
+
         return {
             ...attribute,
             attribute_options: {

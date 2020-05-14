@@ -17,6 +17,7 @@ import { ProductListDispatcher, updateLoadStatus } from 'Store/ProductList';
 
 export const mapStateToProps = state => ({
     pages: state.ProductListReducer.pages,
+    isOffline: state.OfflineReducer.isOffline,
     isLoading: state.ProductListReducer.isLoading,
     totalItems: state.ProductListReducer.totalItems,
     totalPages: state.ProductListReducer.totalPages
@@ -29,13 +30,17 @@ export const mapDispatchToProps = dispatch => ({
 
 export class CategoryProductListContainer extends PureComponent {
     static propTypes = {
-        getIsNewCategory: PropTypes.func.isRequired,
         isLoading: PropTypes.bool.isRequired
     };
 
     getIsLoading() {
-        const { getIsNewCategory, isLoading } = this.props;
-        return isLoading || getIsNewCategory();
+        const { isLoading } = this.props;
+
+        if (!navigator.onLine) {
+            return false;
+        }
+
+        return isLoading;
     }
 
     containerProps = () => ({

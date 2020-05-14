@@ -389,6 +389,43 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "gabunia-nick",
+      "name": "Nick",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/39187887?v=4",
+      "profile": "https://github.com/gabunia-nick",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "oltseb",
+      "name": "Oleksii Tsebinoga",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/33062679?v=4",
+      "profile": "https://github.com/oltseb",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "RoboLV",
+      "name": "RoboLV",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/4116979?v=4",
+      "profile": "https://github.com/RoboLV",
+      "contributions": [
+        "code",
+        "bug"
+      ]
+    },
+    {
+      "login": "Fitipaldi007",
+      "name": "Fitipaldi007",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/43096716?v=4",
+      "profile": "https://github.com/Fitipaldi007",
+      "contributions": [
+        "translation"
+      ]
     }
   ],
   "contributorsPerLine": 7,

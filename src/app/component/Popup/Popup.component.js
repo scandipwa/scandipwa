@@ -56,12 +56,16 @@ export default class Popup extends Overlay {
     hidePopUp = () => {
         const { hideActiveOverlay } = this.props;
         const isVisible = this.getIsVisible();
-        if (isVisible) hideActiveOverlay();
+        if (isVisible) {
+            hideActiveOverlay();
+        }
     };
 
     handleClickOutside = () => {
         const { clickOutside } = this.props;
-        if (!clickOutside) return;
+        if (!clickOutside) {
+            return;
+        }
         this.hidePopUp();
     };
 
@@ -77,7 +81,9 @@ export default class Popup extends Overlay {
 
     renderTitle() {
         const { title } = this.props;
-        if (!title) return null;
+        if (!title) {
+            return null;
+        }
 
         return (
             <h3 block="Popup" elem="Heading">
@@ -90,7 +96,9 @@ export default class Popup extends Overlay {
         const { children } = this.props;
         const isVisible = this.getIsVisible();
 
-        if (!isVisible) return null;
+        if (!isVisible) {
+            return null;
+        }
 
         return (
             <ClickOutside onClick={ this.handleClickOutside }>

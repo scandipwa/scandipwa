@@ -62,7 +62,9 @@ export default class CartItem extends PureComponent {
             getCurrentProduct
         } = this.props;
 
-        if (!variants || !configurable_options) return null;
+        if (!variants || !configurable_options) {
+            return null;
+        }
 
         const product = getCurrentProduct() || {};
         const { attributes = [] } = product;
@@ -215,7 +217,7 @@ export default class CartItem extends PureComponent {
             <li
               block="CartItem"
               itemScope
-              itemType="https://schema.org/Product"
+              itemType="http://schema.org/Product"
             >
                 <Loader isLoading={ isLoading } />
                 { this.renderContent() }

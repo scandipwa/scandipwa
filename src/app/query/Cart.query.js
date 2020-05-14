@@ -19,7 +19,9 @@ export class CartQuery {
             .addFieldList(this._getCartTotalsFields())
             .setAlias('cartData');
 
-        if (!isSignedIn()) query.addArgument('guestCartId', 'String', quoteId);
+        if (!isSignedIn()) {
+            query.addArgument('guestCartId', 'String', quoteId);
+        }
 
         return query;
     }
@@ -33,7 +35,9 @@ export class CartQuery {
             .addArgument('cartItem', 'CartItemInput!', product)
             .addFieldList(this._getSaveCartItemFields(quoteId));
 
-        if (!isSignedIn()) mutation.addArgument('guestCartId', 'String', quoteId);
+        if (!isSignedIn()) {
+            mutation.addArgument('guestCartId', 'String', quoteId);
+        }
 
         return mutation;
     }
@@ -43,7 +47,9 @@ export class CartQuery {
             .addArgument('item_id', 'Int!', item_id)
             .addFieldList(this._getRemoveCartItemFields(quoteId));
 
-        if (!isSignedIn()) mutation.addArgument('guestCartId', 'String', quoteId);
+        if (!isSignedIn()) {
+            mutation.addArgument('guestCartId', 'String', quoteId);
+        }
 
         return mutation;
     }
@@ -53,7 +59,9 @@ export class CartQuery {
             .addArgument('coupon_code', 'String!', couponCode)
             .addField(this.getCartQuery(quoteId));
 
-        if (!isSignedIn()) mutation.addArgument('guestCartId', 'String', quoteId);
+        if (!isSignedIn()) {
+            mutation.addArgument('guestCartId', 'String', quoteId);
+        }
 
         return mutation;
     }
@@ -62,7 +70,9 @@ export class CartQuery {
         const mutation = new Field('removeCoupon')
             .addField(this.getCartQuery(quoteId));
 
-        if (!isSignedIn()) mutation.addArgument('guestCartId', 'String', quoteId);
+        if (!isSignedIn()) {
+            mutation.addArgument('guestCartId', 'String', quoteId);
+        }
 
         return mutation;
     }
@@ -112,8 +122,14 @@ export class CartQuery {
     }
 
     _getProductField() {
-        return new Field('product')
+        ProductListQuery.options.isForLinkedProducts = true;
+
+        const productQuery = new Field('product')
             .addFieldList(ProductListQuery._getProductInterfaceFields(false, true));
+
+        ProductListQuery.options.isForLinkedProducts = false;
+
+        return productQuery;
     }
 
     _getCartItemsField() {

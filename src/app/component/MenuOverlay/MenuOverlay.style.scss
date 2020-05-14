@@ -33,12 +33,12 @@
 }
 
 .MenuOverlay {
-    @include after-mobile {
-        top: var(--header-height);
+    @include desktop {
+        top: var(--header-total-height);
         left: 0;
         position: fixed;
         width: 400px;
-        height: calc(100% - var(--header-height));
+        height: calc(100% - var(--header-total-height));
         transition-property: opacity, transform;
         transform: translateX(-100%);
         will-change: transform;
@@ -46,7 +46,7 @@
     }
 
     &_isVisible {
-        @include after-mobile {
+        @include desktop {
             transform: translateX(0);
         }
     }
@@ -67,7 +67,7 @@
     &-Menu {
         padding: 1rem;
 
-        @include after-mobile {
+        @include desktop {
             padding: 1rem 2rem;
         }
 
@@ -123,16 +123,16 @@
         transform: translateX(100%);
         background-color: var(--overlay-background);
 
-        @include mobile {
+        @include before-desktop {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            padding-top: var(--header-height);
+            padding-top: var(--header-total-height);
         }
 
-        @include after-mobile {
+        @include desktop {
             position: absolute;
             padding: 1rem 1rem 1rem 4rem;
             top: 0;
@@ -145,14 +145,14 @@
         }
 
         &:hover {
-            @include after-mobile {
+            @include desktop {
                 @include subcategory-visible;
                 @include subcategory-desktop-visible;
             }
         }
 
         &_isVisible {
-            @include mobile {
+            @include before-desktop {
                 @include subcategory-visible;
             }
         }
@@ -169,7 +169,7 @@
                 background: #fff;
 
                 &::before {
-                    @include after-mobile {
+                    @include desktop {
                         content: '';
                         position: absolute;
                         width: 10px;
@@ -187,12 +187,12 @@
                 }
 
                 & & {
-                    @include after-mobile {
+                    @include desktop {
                         top: -1rem;
                     }
 
                     &::before {
-                        @include after-mobile {
+                        @include desktop {
                             top: 25px;
                         }
                     }
@@ -225,7 +225,7 @@
 
     &-ItemCaption {
         font-size: 1.5rem;
-        line-height: 1.4rem;
+        line-height: 1.2;
         font-weight: bold;
         text-transform: uppercase;
         text-align: left;
@@ -256,13 +256,13 @@
         align-items: center;
 
         &:hover {
-            @include after-mobile {
+            @include desktop {
                 --menu-overlay-item-banner-color: var(--menu-overlay-item-hover-color);
                 color: var(--menu-overlay-item-hover-color);
             }
 
             + .MenuOverlay-SubMenu {
-                @include after-mobile {
+                @include desktop {
                     @include subcategory-visible;
                     @include subcategory-desktop-visible;
                 }
@@ -277,7 +277,7 @@
                 padding-left: 30px;
                 background-color: var(--menu-overlay-item-figure-background);
 
-                @include after-mobile {
+                @include desktop {
                     z-index: 20;
                 }
             }
@@ -311,7 +311,7 @@
         &_trending {
             padding-bottom: 100%;
 
-            @include after-mobile {
+            @include desktop {
                 padding-bottom: 70%;
             }
 
@@ -334,7 +334,7 @@
         margin: 1.5rem 0;
 
         &:hover {
-            @include after-mobile {
+            @include desktop {
                 color: var(--menu-overlay-item-hover-color);
             }
         }

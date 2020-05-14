@@ -13,17 +13,33 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+import { showNotification } from 'Store/Notification';
 import { showPopup } from 'Store/Popup';
+import { isSignedIn } from 'Util/Auth';
 
 import ProductReviews, { REVIEW_POPUP_ID } from './ProductReviews.component';
 
+export const mapStateToProps = state => ({
+    isEnabled: state.ConfigReducer.reviews_are_enabled,
+    isGuestEnabled: state.ConfigReducer.reviews_allow_guest
+});
+
 export const mapDispatchToProps = dispatch => ({
-    showPopup: payload => dispatch(showPopup(REVIEW_POPUP_ID, payload))
+    showPopup: payload => dispatch(showPopup(REVIEW_POPUP_ID, payload)),
+    showInfoNotification: message => dispatch(showNotification('info', message))
 });
 
 export class ProductReviewsContainer extends PureComponent {
     static propTypes = {
-        showPopup: PropTypes.func.isRequired
+        showInfoNotification: PropTypes.func.isRequired,
+        showPopup: PropTypes.func.isRequired,
+        isGuestEnabled: PropTypes.bool,
+        isEnabled: PropTypes.bool
+    };
+
+    static defaultProps = {
+        isEnabled: true,
+        isGuestEnabled: true
     };
 
     containerFunctions = {
@@ -31,11 +47,29 @@ export class ProductReviewsContainer extends PureComponent {
     };
 
     _showPopup() {
-        const { showPopup } = this.props;
+        const {
+            showPopup,
+            isGuestEnabled,
+            showInfoNotification
+        } = this.props;
+
+        // if not logged in and guest reviews are not enabled
+        if (!isSignedIn() && !isGuestEnabled) {
+            showInfoNotification(__('You must login or register to review products.'));
+
+            return;
+        }
+
         showPopup({ title: __('Write a new review') });
     }
 
     render() {
+        const { isEnabled } = this.props;
+
+        if (!isEnabled) {
+            return null;
+        }
+
         return (
             <ProductReviews
               { ...this.props }
@@ -45,4 +79,4 @@ export class ProductReviewsContainer extends PureComponent {
     }
 }
 
-export default connect(null, mapDispatchToProps)(ProductReviewsContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(ProductReviewsContainer);

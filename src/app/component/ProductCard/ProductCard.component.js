@@ -20,6 +20,7 @@ import ProductPrice from 'Component/ProductPrice';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import ProductReviewRating from 'Component/ProductReviewRating';
 import ProductAttributeValue from 'Component/ProductAttributeValue';
+import TierPrices from 'Component/TierPrices';
 
 import './ProductCard.style';
 
@@ -61,12 +62,25 @@ export default class ProductCard extends PureComponent {
 
     renderProductPrice() {
         const { productOrVariant: { price } } = this.props;
-        if (!price) return <TextPlaceholder />;
+        if (!price) {
+            return <TextPlaceholder />;
+        }
 
         return (
             <ProductPrice
               price={ price }
               mix={ { block: 'ProductCard', elem: 'Price' } }
+            />
+        );
+    }
+
+    renderTierPrice() {
+        const { productOrVariant } = this.props;
+
+        return (
+            <TierPrices
+              product={ productOrVariant }
+              isLowestPrice
             />
         );
     }
@@ -110,29 +124,22 @@ export default class ProductCard extends PureComponent {
                   style={ { display: 'none' } }
                   alt={ name }
                   src={ thumbnail }
-                  itemProp="image"
                 />
             </>
         );
     }
 
     renderReviews() {
-        const { product: { review_summary: { rating_summary, review_count } = {} } } = this.props;
-        if (!rating_summary) return null;
-
-        const ONE_FIFTH_OF_A_HUNDRED = 20;
-        const rating = parseFloat(rating_summary / ONE_FIFTH_OF_A_HUNDRED).toFixed(2);
+        const { product: { review_summary: { rating_summary } = {} } } = this.props;
+        if (!rating_summary) {
+            return null;
+        }
 
         return (
             <div
               block="ProductCard"
               elem="Reviews"
-              itemProp="aggregateRating"
-              itemScope
-              itemType="https://schema.org/AggregateRating"
             >
-                <meta itemProp="ratingValue" content={ rating || 0 } />
-                <meta itemProp="ratingCount" content={ review_count || 0 } />
                 <ProductReviewRating summary={ rating_summary || 0 } />
             </div>
         );
@@ -143,14 +150,15 @@ export default class ProductCard extends PureComponent {
         const { product_list_content: { attribute_to_display } = {} } = window.contentConfiguration;
         const brand = getAttribute(attribute_to_display || 'brand') || {};
 
-        if (sku && !brand) return null;
+        if (sku && !brand) {
+            return null;
+        }
 
         return (
             <div
               block="ProductCard"
               elem="Brand"
               mods={ { isLoaded: !!brand } }
-              itemProp="brand"
             >
                 <ProductAttributeValue
                   attribute={ brand }
@@ -168,7 +176,6 @@ export default class ProductCard extends PureComponent {
               block="ProductCard"
               elem="Name"
               mods={ { isLoaded: !!name } }
-              itemProp="name"
             >
                 <TextPlaceholder content={ name } length="medium" />
             </p>
@@ -196,7 +203,6 @@ export default class ProductCard extends PureComponent {
 
     render() {
         const {
-            product: { sku },
             children,
             mix,
             isLoading
@@ -205,12 +211,9 @@ export default class ProductCard extends PureComponent {
         return (
             <li
               block="ProductCard"
-              itemScope
-              itemType={ sku && 'https://schema.org/Product' }
               mix={ mix }
             >
                 <Loader isLoading={ isLoading } />
-                <meta itemProp="sku" content={ sku } />
                 { this.renderCardWrapper((
                     <>
                         <figure block="ProductCard" elem="Figure">
@@ -220,6 +223,7 @@ export default class ProductCard extends PureComponent {
                             { this.renderReviews() }
                             { this.renderProductPrice() }
                             { this.renderVisualConfigurableOptions() }
+                            { this.renderTierPrice() }
                             { this.renderMainDetails() }
                             { this.renderAdditionalProductDetails() }
                         </div>

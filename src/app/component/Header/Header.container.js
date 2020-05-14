@@ -41,6 +41,7 @@ export const mapStateToProps = state => ({
     navigationState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
     cartTotals: state.CartReducer.cartTotals,
     header_logo_src: state.ConfigReducer.header_logo_src,
+    isOffline: state.OfflineReducer.isOffline,
     logo_alt: state.ConfigReducer.logo_alt,
     isLoading: state.ConfigReducer.isLoading
 });
@@ -72,6 +73,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
     default_state = DEFAULT_HEADER_STATE;
 
     routeMap = {
+        '/account/confirm': { name: CMS_PAGE, title: __('Confirm account'), onBackClick: () => history.push('/') },
         '/category': { name: CATEGORY, onBackClick: this.onMenuButtonClick.bind(this) },
         '/checkout': { name: CHECKOUT, onBackClick: () => history.push('/cart') },
         '/my-account': { name: CUSTOMER_ACCOUNT_PAGE, onBackClick: () => history.push('/') },
@@ -98,7 +100,9 @@ export class HeaderContainer extends NavigationAbstractContainer {
         onSearchOutsideClick: this.onSearchOutsideClick.bind(this),
         onMenuOutsideClick: this.onMenuOutsideClick.bind(this),
         onMyAccountOutsideClick: this.onMyAccountOutsideClick.bind(this),
-        onMinicartOutsideClick: this.onMinicartOutsideClick.bind(this)
+        onMinicartOutsideClick: this.onMinicartOutsideClick.bind(this),
+        closeOverlay: this.closeOverlay.bind(this),
+        onSignIn: this.onSignIn.bind(this)
     };
 
     containerProps = () => {
@@ -112,7 +116,9 @@ export class HeaderContainer extends NavigationAbstractContainer {
 
         const {
             isClearEnabled,
-            searchCriteria
+            searchCriteria,
+            isCheckout,
+            showMyAccountLogin
         } = this.state;
 
         return {
@@ -122,7 +128,9 @@ export class HeaderContainer extends NavigationAbstractContainer {
             logo_alt,
             isLoading,
             isClearEnabled,
-            searchCriteria
+            searchCriteria,
+            isCheckout,
+            showMyAccountLogin
         };
     };
 
@@ -132,28 +140,42 @@ export class HeaderContainer extends NavigationAbstractContainer {
         this.state = {
             prevPathname: '',
             searchCriteria: '',
-            isClearEnabled: this.getIsClearEnabled()
+            isClearEnabled: this.getIsClearEnabled(),
+            isCheckout: false,
+            showMyAccountLogin: false
         };
     }
 
     componentDidMount() {
         this.handleHeaderVisibility();
+        this.checkIsCheckout();
         super.componentDidMount();
     }
 
     componentDidUpdate() {
         this.handleHeaderVisibility();
+        this.checkIsCheckout();
+    }
+
+    checkIsCheckout() {
+        const { location: { pathname } } = history;
+
+        if (pathname === '/checkout') {
+            return this.setState({ isCheckout: true });
+        }
+
+        return this.setState({ isCheckout: false });
     }
 
     handleHeaderVisibility() {
         const { navigationState: { isHiddenOnMobile } } = this.props;
 
         if (isHiddenOnMobile) {
-            document.body.classList.add('hiddenHeader');
+            document.documentElement.classList.add('hiddenHeader');
             return;
         }
 
-        document.body.classList.remove('hiddenHeader');
+        document.documentElement.classList.remove('hiddenHeader');
     }
 
     handleMobileUrlChange(history) {
@@ -186,7 +208,9 @@ export class HeaderContainer extends NavigationAbstractContainer {
 
         this.setState({ searchCriteria: '' });
 
-        if (onBackClick) onBackClick();
+        if (onBackClick) {
+            onBackClick();
+        }
     }
 
     onCloseButtonClick() {
@@ -195,7 +219,9 @@ export class HeaderContainer extends NavigationAbstractContainer {
 
         this.setState({ searchCriteria: '' });
 
-        if (onCloseClick) onCloseClick();
+        if (onCloseClick) {
+            onCloseClick();
+        }
 
         hideActiveOverlay();
         goToPreviousNavigationState();
@@ -227,7 +253,9 @@ export class HeaderContainer extends NavigationAbstractContainer {
         if (
             (!isMobile.any() && name === SEARCH)
             || (isMobile.any() && name !== MENU)
-        ) return;
+        ) {
+            return;
+        }
 
         showOverlay(SEARCH);
 
@@ -255,6 +283,11 @@ export class HeaderContainer extends NavigationAbstractContainer {
             navigationState: { name }
         } = this.props;
 
+        if (isMobile.any()) {
+            history.goBack();
+            return;
+        }
+
         if (name !== MENU) {
             showOverlay(MENU);
             setNavigationState({ name: MENU });
@@ -268,10 +301,14 @@ export class HeaderContainer extends NavigationAbstractContainer {
             navigationState: { name }
         } = this.props;
 
-        if (isMobile.any()) return;
+        if (isMobile.any()) {
+            return;
+        }
 
         if (name === MENU || name === MENU_SUBCATEGORY) {
-            if (name === MENU_SUBCATEGORY) goToPreviousNavigationState();
+            if (name === MENU_SUBCATEGORY) {
+                goToPreviousNavigationState();
+            }
             goToPreviousNavigationState();
             hideActiveOverlay();
         }
@@ -289,10 +326,12 @@ export class HeaderContainer extends NavigationAbstractContainer {
             return;
         }
 
-        if (name !== CUSTOMER_ACCOUNT) {
+        if (!isMobile.any() && name !== CUSTOMER_ACCOUNT) {
             showOverlay(CUSTOMER_ACCOUNT_OVERLAY_KEY);
             setNavigationState({ name: CUSTOMER_ACCOUNT, title: 'Sign in' });
         }
+
+        this.setState({ showMyAccountLogin: true });
     }
 
     onMyAccountOutsideClick() {
@@ -305,21 +344,67 @@ export class HeaderContainer extends NavigationAbstractContainer {
         if (
             isMobile.any()
             || !(name === CUSTOMER_ACCOUNT || name === CUSTOMER_SUB_ACCOUNT)
-        ) return;
-        if (name === CUSTOMER_SUB_ACCOUNT) goToPreviousNavigationState();
+        ) {
+            return;
+        }
+        if (name === CUSTOMER_SUB_ACCOUNT) {
+            goToPreviousNavigationState();
+        }
         goToPreviousNavigationState();
         hideActiveOverlay();
     }
 
+    closeOverlay() {
+        const {
+            navigationState: { name, title },
+            goToPreviousNavigationState,
+            setNavigationState
+        } = this.props;
+        const { location: { pathname } } = history;
+
+        if (pathname === '/checkout') {
+            if (name === CUSTOMER_SUB_ACCOUNT) {
+                goToPreviousNavigationState();
+            } else {
+                setNavigationState({ name: CHECKOUT, title });
+            }
+
+            this.setState({ showMyAccountLogin: false });
+        }
+    }
+
+    onSignIn() {
+        const { location: { pathname } } = history;
+
+        if (pathname === '/checkout') {
+            this.setState({ showMyAccountLogin: false });
+        }
+    }
+
     onClearButtonClick() {
-        setQueryParams({ customFilters: '', priceMax: '', priceMin: '' }, history.location, history);
+        const { hideActiveOverlay } = this.props;
+
+        setQueryParams(
+            {
+                customFilters: '',
+                priceMax: '',
+                priceMin: ''
+            },
+            history.location,
+            history
+        );
+
         this.setState({ isClearEnabled: false });
+
+        hideActiveOverlay();
     }
 
     onMinicartButtonClick() {
         const { showOverlay } = this.props;
 
-        if (!isMobile.any()) return showOverlay(CART);
+        if (!isMobile.any()) {
+            return showOverlay(CART);
+        }
 
         return history.push('/cart');
     }
@@ -331,7 +416,9 @@ export class HeaderContainer extends NavigationAbstractContainer {
             navigationState: { name }
         } = this.props;
 
-        if (isMobile.any() || name !== CART) return;
+        if (isMobile.any() || name !== CART) {
+            return;
+        }
 
         goToPreviousNavigationState();
         hideActiveOverlay();
@@ -340,7 +427,9 @@ export class HeaderContainer extends NavigationAbstractContainer {
     onEditButtonClick() {
         const { navigationState: { onEditClick } } = this.props;
 
-        if (onEditClick) onEditClick();
+        if (onEditClick) {
+            onEditClick();
+        }
     }
 
     onOkButtonClick() {
@@ -349,7 +438,9 @@ export class HeaderContainer extends NavigationAbstractContainer {
             goToPreviousNavigationState
         } = this.props;
 
-        if (onOkClick) onOkClick();
+        if (onOkClick) {
+            onOkClick();
+        }
         goToPreviousNavigationState();
     }
 
@@ -359,7 +450,9 @@ export class HeaderContainer extends NavigationAbstractContainer {
             goToPreviousNavigationState
         } = this.props;
 
-        if (onCancelClick) onCancelClick();
+        if (onCancelClick) {
+            onCancelClick();
+        }
         goToPreviousNavigationState();
     }
 

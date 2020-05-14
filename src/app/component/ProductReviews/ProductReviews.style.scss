@@ -10,7 +10,7 @@
  */
 
 .ProductReviews {
-    @include after-mobile {
+    @include desktop {
         z-index: 1;
     }
 
@@ -18,7 +18,7 @@
         margin: 0 0 .5rem;
         font-size: 2rem;
 
-        @include mobile {
+        @include before-desktop {
             display: none;
         }
     }
@@ -26,7 +26,7 @@
     &-Wrapper {
         padding: 0;
 
-        @include after-mobile {
+        @include desktop {
             padding: 3rem 1rem;
         }
     }
@@ -37,13 +37,13 @@
 
     &-ExpandableContentHeading,
     &-ExpandableContentButton {
-        @include after-mobile {
+        @include desktop {
             display: none;
         }
     }
 
     &-ExpandableContentContent {
-        @include after-mobile {
+        @include desktop {
             margin-top: 0;
         }
 
@@ -60,7 +60,7 @@
         height: max-content;
         margin: auto;
 
-        @include mobile {
+        @include before-desktop {
             position: relative;
             height: auto;
             width: 100%;

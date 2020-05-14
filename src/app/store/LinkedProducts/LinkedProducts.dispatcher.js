@@ -13,18 +13,11 @@ import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 import { updateLinkedProducts } from 'Store/LinkedProducts';
 import { showNotification } from 'Store/Notification';
 import BrowserDatabase from 'Util/BrowserDatabase';
-import { getIndexedProducts } from 'Util/Product';
+import { getIndexedProduct } from 'Util/Product';
 import { QueryDispatcher } from 'Util/Request';
 import { ProductListQuery } from 'Query';
 
 export const LINKED_PRODUCTS = 'LINKED_PRODUCTS';
-
-/**
- * Define array slice params to determine the number of products to show
- * @type {number}
- */
-const ARRAY_START = 0;
-const ARRAY_END = 6;
 
 /**
  * Linked Prodcts List Dispatcher
@@ -36,16 +29,34 @@ export class LinkedProductsDispatcher extends QueryDispatcher {
         super('LinkedProducts', ONE_MONTH_IN_SECONDS);
     }
 
-    onSuccess({ upsell = {}, related = {}, crossSell = {} }, dispatch) {
-        const { items: upsellItems = [] } = upsell;
-        const { items: relatedItems = [] } = related;
-        const { items: crossSellItems = [] } = crossSell;
+    currentProductLinks = [];
 
-        const linkedProducts = {
-            upsell: { ...upsell, items: getIndexedProducts(upsellItems) },
-            related: { ...related, items: getIndexedProducts(relatedItems) },
-            crossSell: { ...crossSell, items: getIndexedProducts(crossSellItems) }
-        };
+    onSuccess(data, dispatch, product_links) {
+        const { products: { items } } = data;
+
+        const indexedBySku = items.reduce((acc, item) => {
+            const { sku } = item;
+            acc[sku] = getIndexedProduct(item);
+            return acc;
+        }, {});
+
+        const linkedProducts = product_links.reduce((acc, link) => {
+            const { linked_product_sku, link_type } = link;
+
+            if (indexedBySku[linked_product_sku]) {
+                acc[link_type].items.push(
+                    indexedBySku[linked_product_sku]
+                );
+
+                acc[link_type].total_count++;
+            }
+
+            return acc;
+        }, {
+            upsell: { total_count: 0, items: [] },
+            related: { total_count: 0, items: [] },
+            crosssell: { total_count: 0, items: [] }
+        });
 
         BrowserDatabase.setItem(linkedProducts, LINKED_PRODUCTS);
         dispatch(updateLinkedProducts(linkedProducts));
@@ -62,37 +73,26 @@ export class LinkedProductsDispatcher extends QueryDispatcher {
      * @param product_links
      */
     prepareRequest(product_links) {
-        const { upsell, related, crosssell } = product_links.reduce((types, link) => {
-            const { linked_product_sku, link_type } = link;
-            const { [link_type]: links = [] } = types;
+        if (JSON.stringify(this.currentProductLinks) === JSON.stringify(product_links)) {
+            return null;
+        }
 
-            return {
-                ...types,
-                [link_type]: [...links, `"${ linked_product_sku.replace(/ /g, '%20') }"`]
-            };
-        }, {});
+        this.currentProductLinks = product_links;
 
-        const queries = [];
+        const relatedSKUs = product_links.reduce((links, link) => {
+            const { linked_product_sku } = link;
+            return [...links, `"${ linked_product_sku.replace(/ /g, '%20') }"`];
+        }, []);
 
-        const query = related_type => ProductListQuery.getQuery({
-            args: {
-                filter: {
-                    productsSkuArray: related_type.slice(ARRAY_START, ARRAY_END)
+        return [
+            ProductListQuery.getQuery({
+                args: {
+                    filter: {
+                        productsSkuArray: relatedSKUs
+                    }
                 }
-            }
-        });
-
-        if (upsell) {
-            queries.push(query(upsell).setAlias('upsell'));
-        }
-        if (related) {
-            queries.push(query(related).setAlias('related'));
-        }
-        if (crosssell) {
-            queries.push(query(crosssell).setAlias('crossSell'));
-        }
-
-        return queries;
+            })
+        ];
     }
 
     /**
@@ -102,7 +102,9 @@ export class LinkedProductsDispatcher extends QueryDispatcher {
      * @memberof LinkedProductsDispatcher
      */
     clearLinkedProducts(dispatch) {
-        dispatch(updateLinkedProducts({ linkedProducts: { upsell: {}, related: {}, crossSell: {} } }));
+        dispatch(updateLinkedProducts({
+            linkedProducts: { upsell: [], related: [], crosssell: [] }
+        }));
     }
 }
 

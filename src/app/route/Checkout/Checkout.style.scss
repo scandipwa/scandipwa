@@ -14,11 +14,11 @@
 }
 
 .Checkout {
-    @include after-mobile {
-        margin-top: var(--header-height);
+    @include desktop {
+        margin-top: var(--header-total-height);
     }
 
-    @include mobile {
+    @include before-desktop {
         padding-bottom: calc(var(--navigation-tabs-height) + 100px);
     }
 
@@ -32,7 +32,7 @@
     }
 
     &-StickyButtonWrapper {
-        @include mobile {
+        @include before-desktop {
             border-top: 1px solid var(--primary-divider-color);
             background-color: #fff;
             position: fixed;
@@ -106,8 +106,9 @@
     }
 
     .Button {
-        @include mobile {
+        @include before-desktop {
             width: 100%;
+            text-align: center;
         }
     }
 }

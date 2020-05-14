@@ -17,7 +17,7 @@
 }
 
 .CartPage {
-    @include mobile {
+    @include before-desktop {
         padding-bottom: calc(var(--navigation-tabs-height) + 120px);
         margin-bottom: 0;
     }
@@ -33,13 +33,13 @@
             grid-template-columns: 1fr;
         }
 
-        @include mobile {
+        @include before-desktop {
             padding: 0;
         }
     }
 
     &-Empty {
-        @include mobile {
+        @include before-desktop {
             padding: 1rem;
             border-bottom: 1px solid var(--expandable-content-divider-color);
         }
@@ -48,7 +48,7 @@
     &-Summary {
         background: var(--cart-page-totals-background);
 
-        @include mobile {
+        @include before-desktop {
             position: fixed;
             bottom: var(--navigation-tabs-height);
             left: 0;
@@ -56,7 +56,7 @@
             border-top: 1px solid var(--primary-divider-color);
         }
 
-        @include after-mobile {
+        @include desktop {
             padding: 2rem;
         }
     }
@@ -67,7 +67,7 @@
         font-size: 1.5rem;
         margin-bottom: 1rem;
 
-        @include mobile {
+        @include before-desktop {
             display: none;
         }
     }
@@ -75,7 +75,7 @@
     &-CheckoutButtons {
         padding: 1rem 0;
 
-        @include mobile {
+        @include before-desktop {
             padding: 1rem;
         }
     }
@@ -85,7 +85,7 @@
         display: block;
         text-align: center;
 
-        @include after-mobile {
+        @include desktop {
             margin-top: 2rem;
         }
 
@@ -103,7 +103,7 @@
         font-size: 1.1rem;
         margin-top: 1.5rem;
 
-        @include mobile {
+        @include before-desktop {
             display: none;
         }
     }
@@ -112,7 +112,7 @@
     &-Total {
         min-height: 4rem;
 
-        @include mobile {
+        @include before-desktop {
             min-height: 0;
         }
     }
@@ -121,7 +121,7 @@
         order: 1;
         background: var(--cart-page-promo-background);
 
-        @include after-mobile {
+        @include desktop {
             margin-top: 2rem;
         }
 
@@ -132,7 +132,7 @@
             border: 1px solid var(--cart-page-divider-background);
             padding: 2rem 1rem;
 
-            @include mobile {
+            @include before-desktop {
                 padding: 1rem;
                 border: 0;
                 border-bottom: 1px solid var(--primary-divider-color);
@@ -143,7 +143,7 @@
             width: 46px;
             margin-right: .5rem;
 
-            @include mobile {
+            @include before-desktop {
                 width: 36px;
             }
         }
@@ -160,7 +160,7 @@
         max-height: 50px;
         margin: 1rem auto;
 
-        @include mobile {
+        @include before-desktop {
             max-width: 60%;
         }
 
@@ -178,7 +178,7 @@
         font-weight: bold;
         padding: 1rem 0;
 
-        @include mobile {
+        @include before-desktop {
             padding: 1rem 1rem 0;
         }
     }
@@ -196,14 +196,14 @@
         margin-top: 1.5rem;
         display: none;
 
-        @include mobile {
+        @include before-desktop {
             padding: 1rem;
             margin-top: 0;
             border: 0;
             border-bottom: 1px solid var(--primary-divider-color);
         }
 
-        @include after-mobile {
+        @include desktop {
             display: grid;
         }
 
@@ -211,10 +211,10 @@
             text-align: right;
         }
 
-        &_isMobile {
+        &_isbefore-desktop {
             display: none;
 
-            @include mobile {
+            @include before-desktop {
                 display: grid;
             }
         }
@@ -231,7 +231,7 @@
         padding: .9rem 1rem;
         margin-bottom: 0;
 
-        @include mobile {
+        @include before-desktop {
             display: none;
         }
 
@@ -249,20 +249,20 @@
     }
 
     &-Discount {
-        @include after-mobile {
+        @include desktop {
             margin-top: 2rem;
         }
     }
 
     &-Static {
-        @include mobile {
+        @include before-desktop {
             overflow: scroll;
             max-height: calc(100% - 12rem);
         }
     }
 
     &-Floating {
-        @include after-mobile {
+        @include desktop {
             display: flex;
             flex-direction: column;
             margin-top: 6.5rem;
@@ -276,9 +276,10 @@
     &-Heading {
         height: 3rem;
         margin-top: 2rem;
+        margin-bottom: 1.5rem;
         font-size: 2rem;
 
-        @include mobile {
+        @include before-desktop {
             display: none;
         }
     }

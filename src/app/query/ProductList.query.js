@@ -21,7 +21,9 @@ export class ProductListQuery {
     }
 
     getQuery(options) {
-        if (!options) throw new Error('Missing argument `options`');
+        if (!options) {
+            throw new Error('Missing argument `options`');
+        }
 
         this.options = options;
 
@@ -43,10 +45,16 @@ export class ProductListQuery {
             //categoryUrlPath: url => [`category_url_path: { eq: ${url} }`],
             priceRange: ({ min, max }) => {
                 const filters = [];
-                if (min) filters.push(`min_price: { gteq: ${min} }`);
-                if (max) filters.push(`max_price: { lteq: ${max} }`);
+                if (min) {
+                    filters.push(`min_price: { gteq: ${min} }`);
+                }
+                if (max) {
+                    filters.push(`max_price: { lteq: ${max} }`);
+                }
+
                 return filters;
             },
+            productsIds: id => [`id: { eq: ${id} }`],
             productsSkuArray: sku => [`sku: { in: [${sku}] }`],
             productUrlPath: url => [`url_key: { eq: ${url}}`],
             customFilters: (filters = {}) => Object.entries(filters).reduce((acc, [key, attribute]) => (
@@ -92,7 +100,9 @@ export class ProductListQuery {
         const argumentMap = this._getArgumentsMap();
 
         return Object.entries(args).reduce((acc, [key, arg]) => {
-            if (!arg) return acc;
+            if (!arg) {
+                return acc;
+            }
             const { type, handler = option => option } = argumentMap[key];
             return [...acc, [key, type, handler(arg)]];
         }, []);
@@ -130,7 +140,10 @@ export class ProductListQuery {
             this._getProductThumbnailField(),
             this._getProductSmallField(),
             this._getShortDescriptionField(),
+            'special_from_date',
+            'special_to_date',
             this._getAttributesField(isVariant),
+            this._getTierPricesField(),
             ...(!isVariant
                 ? [
                     'url_key',
@@ -153,12 +166,11 @@ export class ProductListQuery {
                     this._getDescriptionField(),
                     this._getMediaGalleryField(),
                     this._getSimpleProductFragment(),
+                    this._getProductLinksField(),
                     ...(!isVariant
                         ? [
-                            this._getProductLinksField(),
                             this._getCategoriesField(),
                             this._getReviewsField(),
-                            this._getProductLinksField(),
                             this._getVirtualProductFragment()
                         ]
                         : []
@@ -201,8 +213,10 @@ export class ProductListQuery {
     }
 
     _getProductField() {
+        const { isForLinkedProducts } = this.options;
+
         return new Field('product')
-            .addFieldList(this._getProductInterfaceFields(true));
+            .addFieldList(this._getProductInterfaceFields(true, isForLinkedProducts));
     }
 
     _getShortDescriptionFields() {

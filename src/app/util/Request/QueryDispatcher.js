@@ -42,10 +42,18 @@ class QueryDispatcher {
      */
     handleData(dispatch, options) {
         const { name, cacheTTL } = this;
+
         const rawQueries = this.prepareRequest(options, dispatch);
+
+        if (!rawQueries) {
+            return;
+        }
+
         const queries = rawQueries instanceof Field ? [rawQueries] : rawQueries;
 
-        if (this.promise) this.promise.cancel();
+        if (this.promise) {
+            this.promise.cancel();
+        }
 
         this.promise = makeCancelable(
             new Promise((resolve, reject) => {

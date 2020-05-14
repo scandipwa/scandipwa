@@ -85,7 +85,10 @@ export class CheckoutPaymentsContainer extends PureComponent {
     collectAdditionalData = () => {
         const { selectedPaymentCode } = this.state;
         const additionalDataGetter = this.dataMap[selectedPaymentCode];
-        if (!additionalDataGetter) return {};
+        if (!additionalDataGetter) {
+            return {};
+        }
+
         return additionalDataGetter();
     };
 

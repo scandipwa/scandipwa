@@ -30,7 +30,9 @@ export default class CheckoutOrderSummary extends PureComponent {
     };
 
     renderPriceLine(price, name, mods) {
-        if (!price) return null;
+        if (!price) {
+            return null;
+        }
 
         const { totals: { quote_currency_code } } = this.props;
         const priceString = formatCurrency(quote_currency_code);
@@ -73,7 +75,9 @@ export default class CheckoutOrderSummary extends PureComponent {
             }
         } = this.props;
 
-        if (!coupon_code) return null;
+        if (!coupon_code) {
+            return null;
+        }
 
         return this.renderPriceLine(
             -Math.abs(discount_amount),

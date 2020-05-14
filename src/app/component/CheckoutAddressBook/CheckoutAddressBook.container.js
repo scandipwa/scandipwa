@@ -46,8 +46,13 @@ export class CheckoutAddressBookContainer extends PureComponent {
         const defaultKey = isBilling ? 'default_billing' : 'default_shipping';
         const { [defaultKey]: defaultAddressId, addresses } = customer;
 
-        if (defaultAddressId) return +defaultAddressId;
-        if (addresses && addresses.length) return addresses[0].id;
+        if (defaultAddressId) {
+            return +defaultAddressId;
+        }
+        if (addresses && addresses.length) {
+            return addresses[0].id;
+        }
+
         return 0;
     }
 
@@ -65,7 +70,9 @@ export class CheckoutAddressBookContainer extends PureComponent {
             isSignedIn
         } = props;
 
-        if (isSignedIn && !Object.keys(customer)) requestCustomerData();
+        if (isSignedIn && !Object.keys(customer)) {
+            requestCustomerData();
+        }
 
         const defaultAddressId = CheckoutAddressBookContainer._getDefaultAddressId(props);
 
@@ -78,17 +85,6 @@ export class CheckoutAddressBookContainer extends PureComponent {
             prevDefaultAddressId: defaultAddressId,
             selectedAddressId: defaultAddressId
         };
-    }
-
-    componentDidUpdate(_, prevState) {
-        const { onAddressSelect } = this.props;
-        const { selectedAddressId: prevSelectedAddressId } = prevState;
-        const { selectedAddressId } = this.state;
-
-        if (selectedAddressId !== prevSelectedAddressId) {
-            onAddressSelect(selectedAddressId);
-            this.estimateShipping(selectedAddressId);
-        }
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -105,6 +101,26 @@ export class CheckoutAddressBookContainer extends PureComponent {
         return null;
     }
 
+    componentDidUpdate(_, prevState) {
+        const {
+            onAddressSelect,
+            requestCustomerData,
+            isSignedIn,
+            customer: { id }
+        } = this.props;
+        const { selectedAddressId: prevSelectedAddressId } = prevState;
+        const { selectedAddressId } = this.state;
+
+        if (isSignedIn && !id) {
+            requestCustomerData();
+        }
+
+        if (selectedAddressId !== prevSelectedAddressId) {
+            onAddressSelect(selectedAddressId);
+            this.estimateShipping(selectedAddressId);
+        }
+    }
+
     onAddressSelect(address) {
         const { id = 0 } = address;
         this.setState({ selectedAddressId: id });
@@ -118,7 +134,9 @@ export class CheckoutAddressBookContainer extends PureComponent {
 
         const address = addresses.find(({ id }) => id === addressId);
 
-        if (!address) return;
+        if (!address) {
+            return;
+        }
 
         const {
             city,
@@ -130,7 +148,9 @@ export class CheckoutAddressBookContainer extends PureComponent {
             } = {}
         } = address;
 
-        if (!country_id) return;
+        if (!country_id) {
+            return;
+        }
 
         onShippingEstimationFieldsChange({
             city,

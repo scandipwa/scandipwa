@@ -20,7 +20,7 @@
 .SearchOverlay {
     --placeholder-animation: placeholderAnimation 2s linear infinite;
 
-    @include after-mobile {
+    @include desktop {
         transition-property: width, opacity, transform, border-color;
         transition-duration: 200ms;
         transform-origin: 0 0;
@@ -39,7 +39,7 @@
     }
 
     &_isVisible {
-        @include after-mobile {
+        @include desktop {
             transform: scaleY(1);
             border-color: var(--search-field-border-color);
             width: calc(var(--search-bar-max-width) + 2px);
@@ -142,7 +142,7 @@
             white-space: nowrap;
         }
 
-        @include after-mobile {
+        @include desktop {
             max-width: calc(100% - 7rem);
         }
     }

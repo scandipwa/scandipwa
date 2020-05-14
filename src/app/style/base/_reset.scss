@@ -46,10 +46,10 @@ main {
     min-height: calc(100vh - var(--header-height) - var(--footer-height) - var(--breadcrumbs-height));
     max-width: 100vw;
 
-    @include mobile {
+    @include before-desktop {
         // min-height: calc(100vh - var(--header-height) - var(--navigation-tabs-height));
         min-height: 0;
-        margin-top: var(--header-height);
+        margin-top: var(--header-total-height);
         margin-bottom: var(--navigation-tabs-height);
     }
 }

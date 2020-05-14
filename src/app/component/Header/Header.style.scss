@@ -14,13 +14,14 @@
     --header-color: #000;
     --header-icon-stroke-width: 1px;
     --header-search-clear-background: #838383;
-    --header-desktop-button-color: #f26323;
-    --header-height: calc(50px + env(safe-area-inset-top));
+    --header-desktop-button-color: var(--primary-base-color);
+    --header-height: 50px;
     --header-nav-height: 50px;
     --header-logo-width: 200px;
     --header-logo-height: calc(var(--header-height) - 30px);
+    --header-total-height: calc(var(--header-height) + var(--offline-notice-height) + var(--demo-notice-height));
 
-    @include after-mobile {
+    @include desktop {
         --header-height: 60px;
         --header-nav-height: 60px;
         --header-logo-height: calc(var(--header-height) - 35px);
@@ -50,30 +51,31 @@
 
 .Header {
     position: fixed;
-    top: 0;
+    top: var(--demo-notice-height);
     left: 0;
     width: 100%;
     z-index: 100;
     background-color: var(--header-background);
     padding-top: env(safe-area-inset-top, 0);
 
+    @at-root .hiddenHeader {
+        @include before-desktop {
+            /* stylelint-disable-next-line length-zero-no-unit */
+            --header-height: 0px;
+        }
+    }
+
     &_isHiddenOnMobile {
-        @include mobile {
+        @include before-desktop {
             pointer-events: none;
             opacity: 0;
-        }
-
-        @at-root .hiddenHeader {
-            @include mobile {
-                --header-height: env(safe-area-inset-top);
-            }
         }
     }
 
     &_name {
         &_cart {
             .Header-Button_type_minicart {
-                @include after-mobile {
+                @include desktop {
                     --header-color: var(--header-desktop-button-color);
                 }
             }
@@ -83,13 +85,13 @@
         &_menu_subcategory {
             .Header-Button_type {
                 &_close {
-                    @include after-mobile {
+                    @include desktop {
                         @include button-visible;
                     }
                 }
 
                 &_menu {
-                    @include after-mobile {
+                    @include desktop {
                         @include button-invisible;
                     }
                 }
@@ -99,7 +101,7 @@
         &_customer_account,
         &_customer_sub_account {
             .Header-Button_type_account {
-                @include after-mobile {
+                @include desktop {
                     --header-color: var(--header-desktop-button-color);
                 }
             }
@@ -109,9 +111,42 @@
             .Header-Button,
             .Header-SearchWrapper,
             .SearchField {
-                @include after-mobile {
+                @include desktop {
                     display: none;
                 }
+            }
+        }
+    }
+
+    &_isCheckout {
+        .Header {
+            &-Button_type_account {
+                display: block;
+            }
+
+            &-Nav {
+                padding-right: 47px;
+
+                @include desktop {
+                    justify-content: flex-end;
+                }
+            }
+
+            &-MyAccount {
+                @include before-desktop {
+                    position: absolute;
+                    right: 10px;
+                    width: auto;
+                }
+            }
+        }
+
+        .MyAccountOverlay {
+            @include before-desktop {
+                height: 100vh;
+                position: absolute;
+                right: -10px;
+                width: 100vw;
             }
         }
     }
@@ -139,7 +174,7 @@
         max-width: var(--content-wrapper-width);
         margin: auto;
 
-        @include mobile {
+        @include before-desktop {
             border-bottom: 1px solid var(--primary-divider-color);
         }
     }
@@ -152,7 +187,7 @@
         height: 35px;
 
         &_isVisible {
-            @include mobile {
+            @include before-desktop {
                 @include button-visible;
             }
         }
@@ -166,7 +201,7 @@
             &_menu,
             &_account,
             &_minicart {
-                @include after-mobile {
+                @include desktop {
                     @include button-visible;
                 }
             }
@@ -182,7 +217,7 @@
             &_menu {
                 @include menu-button;
 
-                @include after-mobile {
+                @include desktop {
                     width: 100px;
                 }
             }
@@ -306,7 +341,7 @@
         right: 0;
 
         &_isVisible {
-            @include mobile {
+            @include before-desktop {
                 opacity: 1;
                 max-width: calc(100% - 180px);
             }
@@ -316,7 +351,7 @@
     a {
         &:hover,
         &:focus {
-            @include mobile {
+            @include before-desktop {
                 text-decoration: none;
             }
         }
