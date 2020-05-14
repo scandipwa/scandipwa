@@ -78,7 +78,9 @@ class FallbackPlugin {
                     );
 
                     // If string does not start with `/` or `./` then append relative path
-                    if (!newRequest.request.match(/^(.\/|\/)/)) newRequest.request = `./${newRequest.request}`;
+                    if (!newRequest.request.match(/^(.\/|\/)/)) {
+                        newRequest.request = `./${newRequest.request}`;
+                    }
                     break;
 
                 // From core to custom node_modules
@@ -89,12 +91,16 @@ class FallbackPlugin {
                     );
                     break;
 
-                default: return callback();
+                default:
+                    return callback();
                 }
 
                 // If requests are not similar modify request (recursion prevention)
-                if (JSON.stringify(request) === JSON.stringify(newRequest)) return callback();
-                resolver.doResolve(
+                if (JSON.stringify(request) === JSON.stringify(newRequest)) {
+                    return callback();
+                }
+
+                return resolver.doResolve(
                     resolver.hooks.resolve,
                     newRequest,
                     'Resolving with fallback!',
