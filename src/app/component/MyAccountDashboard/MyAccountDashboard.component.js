@@ -108,11 +108,11 @@ export class MyAccountDashboard extends ExtensiblePureComponent {
     }
 
     render() {
-        const { customer: { id } } = this.props;
+        const { customer } = this.props;
 
         return (
             <div block="MyAccountDashboard">
-                <Loader isLoading={ !id } />
+                <Loader isLoading={ !Object.keys(customer) } />
                 { this.renderCustomerTable() }
                 { this.renderDefaultAddressTables() }
                 { this.renderCustomerPopup() }

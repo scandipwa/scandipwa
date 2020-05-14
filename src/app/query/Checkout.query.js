@@ -51,16 +51,6 @@ export class CheckoutQuery extends ExtensibleClass {
         return mutation;
     }
 
-    getSavePaymentInformationAndPlaceOrder(paymentInformation, guestCartId) {
-        const mutation = new Field('savePaymentInformationAndPlaceOrder')
-            .addArgument('paymentInformation', 'PaymentInformation!', paymentInformation)
-            .addFieldList(this._getSavePaymentInformationAndPlaceOrderFields());
-
-        this._addGuestCartId(guestCartId, mutation);
-
-        return mutation;
-    }
-
     getSetPaymentMethodOnCartMutation(input) {
         return new Field('s_setPaymentMethodOnCart')
             .addArgument('input', 'S_SetPaymentMethodOnCartInput!', input)
@@ -85,12 +75,6 @@ export class CheckoutQuery extends ExtensibleClass {
     _getOrderField() {
         return new Field('order')
             .addFieldList(['order_id']);
-    }
-
-    _getSavePaymentInformationAndPlaceOrderFields() {
-        return [
-            'orderID'
-        ];
     }
 
     _getSaveAddressInformationFields() {

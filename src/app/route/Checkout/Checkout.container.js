@@ -76,11 +76,6 @@ export class CheckoutContainer extends ExtensiblePureComponent {
         onPasswordChange: this.onPasswordChange.bind(this)
     };
 
-    customPaymentMethods = [
-        KLARNA,
-        BRAINTREE
-    ];
-
     constructor(props) {
         super(props);
 
@@ -381,7 +376,6 @@ export class CheckoutContainer extends ExtensiblePureComponent {
     }
 
     async savePaymentInformation(paymentInformation) {
-        const { paymentMethod: { method } } = paymentInformation;
         const { isGuestEmailSaved } = this.state;
         this.setState({ isLoading: true });
 
@@ -392,16 +386,11 @@ export class CheckoutContainer extends ExtensiblePureComponent {
             }
         }
 
-        if (this.customPaymentMethods.includes(method)) {
-            this.savePaymentMethodAndPlaceOrder(paymentInformation);
-            return;
-        }
-
-        this.savePaymentInformationAndPlaceOrder(paymentInformation);
+        this.savePaymentMethodAndPlaceOrder(paymentInformation);
     }
 
     async savePaymentMethodAndPlaceOrder(paymentInformation) {
-        const { paymentMethod: { method: code, additional_data } } = paymentInformation;
+        const { paymentMethod: { code, additional_data } } = paymentInformation;
         const guest_cart_id = !isSignedIn() ? this._getGuestCartId() : '';
 
         try {
@@ -419,21 +408,6 @@ export class CheckoutContainer extends ExtensiblePureComponent {
         } catch (e) {
             this._handleError(e);
         }
-    }
-
-    savePaymentInformationAndPlaceOrder(paymentInformation) {
-        fetchMutation(CheckoutQuery.getSavePaymentInformationAndPlaceOrder(
-            paymentInformation,
-            this._getGuestCartId()
-        )).then(
-            ({ savePaymentInformationAndPlaceOrder: data }) => {
-                const { orderID } = data;
-                this.setDetailsStep(orderID);
-            },
-            (error) => {
-                this._handlePaymentError(error, paymentInformation);
-            }
-        );
     }
 
     render() {

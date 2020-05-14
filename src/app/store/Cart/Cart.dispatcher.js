@@ -103,7 +103,7 @@ export class CartDispatcher extends ExtensibleClass {
         const productToAdd = {
             sku,
             product_type,
-            qty: parseInt(quantity, 10),
+            quantity,
             product_option: { extension_attributes: getExtensionAttributes(product) }
         };
 
