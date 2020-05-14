@@ -104,6 +104,17 @@ export default class ProductActions extends PureComponent {
         );
     }
 
+    renderStockMeta(stockStatus) {
+        return (
+            (stockStatus === 'OUT_OF_STOCK') ? 'https://schema.org/OutOfStock' : 'https://schema.org/InStock'
+        );
+    }
+
+    getMetaLink() {
+        const { getLink } = this.props;
+        return window.location.origin + getLink().replace(/\?.*/, '');
+    }
+
     renderSkuAndStock() {
         const {
             product,
@@ -129,8 +140,11 @@ export default class ProductActions extends PureComponent {
                     sku,
                     (
                         <>
+                            <span block="ProductActions" elem="Sku">
+                                SKU:
+                            </span>
                             <span block="ProductActions" elem="Sku" itemProp="sku">
-                                { `SKU: ${ sku }` }
+                                { `${ sku }` }
                             </span>
                             <span block="ProductActions" elem="Stock">
                                 { this.renderStock(stock_status) }
@@ -295,17 +309,17 @@ export default class ProductActions extends PureComponent {
     }
 
     renderSchema(name, stockStatus) {
-        const { getLink, product: { variants = [] } } = this.props;
+        const { product: { variants = [] } } = this.props;
 
         return (
             <>
                 <meta itemProp="offerCount" content={ variants.length || 0 } />
-                <meta itemProp="availability" content={ this.renderStock(stockStatus) } />
+                <meta itemProp="availability" content={ this.renderStockMeta(stockStatus) } />
                 <a
                   block="ProductActions"
                   elem="Schema-Url"
                   itemProp="url"
-                  href={ getLink() }
+                  href= { this.getMetaLink() }
                 >
                     { name }
                 </a>
