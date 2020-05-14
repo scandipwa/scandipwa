@@ -65,12 +65,12 @@ export class CheckoutAddressBookContainer extends PureComponent {
 
         const {
             requestCustomerData,
-            customer: { id },
+            customer,
             onAddressSelect,
             isSignedIn
         } = props;
 
-        if (isSignedIn && !id) {
+        if (isSignedIn && !Object.keys(customer)) {
             requestCustomerData();
         }
 

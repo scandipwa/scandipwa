@@ -80,11 +80,11 @@ export class ProductListQuery {
                 handler: option => encodeURIComponent(option)
             },
             sort: {
-                type: 'ProductSortInput!',
+                type: 'ProductAttributeSortInput!',
                 handler: ({ sortKey, sortDirection }) => `{${sortKey}: ${sortDirection || 'ASC'}}`
             },
             filter: {
-                type: 'ProductFilterInput!',
+                type: 'ProductAttributeFilterInput!',
                 handler: (options = {}) => `{${ Object.entries(options).reduce(
                     (acc, [key, option]) => ((option && filterArgumentMap[key])
                         ? [...acc, ...filterArgumentMap[key](option)]
