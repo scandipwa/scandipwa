@@ -308,12 +308,24 @@ export default class ProductActions extends PureComponent {
         );
     }
 
+    getOfferCount() {
+        const { product: { variants } } = this.props;
+
+        if (variants) {
+            return (variants.length >= 1 ? variants.length : 0);
+        }
+
+        return 0;
+    }
+
     renderSchema(name, stockStatus) {
-        const { product: { variants = [] } } = this.props;
+        const offerCount = this.getOfferCount();
 
         return (
             <>
-                <meta itemProp="offerCount" content={ variants.length || 0 } />
+            { offerCount > 1
+                ? <meta itemProp="offerCount" content={ offerCount } />
+                : null }
                 <meta itemProp="availability" content={ this.renderStockMeta(stockStatus) } />
                 <a
                   block="ProductActions"
@@ -347,6 +359,7 @@ export default class ProductActions extends PureComponent {
                 { this.renderSchema(name, stock_status) }
                 <ProductPrice
                   isSchemaRequired
+                  variantsCount={ this.getOfferCount() }
                   price={ price }
                   mix={ { block: 'ProductActions', elem: 'Price' } }
                 />
@@ -354,8 +367,18 @@ export default class ProductActions extends PureComponent {
         );
     }
 
+    getOfferType(variants) {
+        if (variants) {
+            return (variants.length >= 1 ? 'https://schema.org/AggregateOffer' : 'https://schema.org/Offer');
+        }
+
+        return 'https://schema.org/Offer';
+    }
+
     renderPriceWithGlobalSchema() {
-        const { product: { type_id } } = this.props;
+        const { product: { type_id, variants } } = this.props;
+
+        const offerType = this.getOfferType(variants);
 
         if (type_id === GROUPED) {
             return null;
@@ -365,7 +388,7 @@ export default class ProductActions extends PureComponent {
             <div
               block="ProductActions"
               elem="Schema"
-              itemType="https://schema.org/AggregateOffer"
+              itemType={ offerType }
               itemProp="offers"
               itemScope
             >
