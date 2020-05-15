@@ -117,7 +117,7 @@ class MyAccountDashboard extends PureComponent {
 
         return (
             <div block="MyAccountDashboard">
-                <Loader isLoading={ !Object.keys(customer) } />
+                <Loader isLoading={ !Object.keys(customer).length } />
                 { this.renderCustomerTable() }
                 { this.renderDefaultAddressTables() }
                 { this.renderCustomerPopup() }
