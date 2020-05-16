@@ -109,7 +109,13 @@ export class ProductListQuery {
     }
 
     _getProductFields() {
-        const { requireInfo } = this.options;
+        const { requireInfo, isSingleProduct, notRequireInfo } = this.options;
+
+        if (isSingleProduct || notRequireInfo) {
+            return [
+                this._getItemsField()
+            ];
+        }
 
         if (requireInfo) {
             return [
