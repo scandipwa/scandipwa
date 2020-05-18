@@ -92,7 +92,7 @@ class TierPrices extends PureComponent {
     render() {
         const { product, product: { tier_prices } } = this.props;
 
-        if (Object.keys(product).length <= 0 || !tier_prices.length) {
+        if (!tier_prices || Object.keys(product).length <= 0 || !tier_prices.length) {
             return null;
         }
 
