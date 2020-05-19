@@ -31,8 +31,12 @@ export class CategoryQuery {
 
     _getConditionalArguments() {
         const { categoryUrlPath, categoryIds } = this.options;
-        if (categoryUrlPath) return ['url_path', 'String!', categoryUrlPath];
-        if (categoryIds) return ['id', 'Int!', categoryIds];
+        if (categoryUrlPath) {
+            return ['url_path', 'String!', categoryUrlPath];
+        }
+        if (categoryIds) {
+            return ['id', 'Int!', categoryIds];
+        }
         throw new Error(__('There was an error requesting the category'));
     }
 
@@ -54,6 +58,20 @@ export class CategoryQuery {
         ];
     }
 
+    _getCmsBlockFields() {
+        return [
+            'content',
+            'disabled',
+            'title',
+            'identifier'
+        ];
+    }
+
+    _getCmsBlockField() {
+        return new Field('cms_block')
+            .addFieldList(this._getCmsBlockFields());
+    }
+
     _getDefaultFields() {
         return [
             'id',
@@ -69,6 +87,8 @@ export class CategoryQuery {
             'meta_keywords',
             'default_sort_by',
             'meta_description',
+            'landing_page',
+            this._getCmsBlockField(),
             this._getBreadcrumbsField()
         ];
     }

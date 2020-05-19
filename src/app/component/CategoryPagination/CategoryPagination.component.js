@@ -128,7 +128,9 @@ export default class CategoryPagination extends PureComponent {
     render() {
         const { totalPages, currentPage, isLoading } = this.props;
 
-        if (isLoading) return this.renderPlaceholder();
+        if (isLoading) {
+            return this.renderPlaceholder();
+        }
 
         return (
             <nav aria-label={ __('Product list navigation') }>

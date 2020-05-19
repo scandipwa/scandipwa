@@ -16,7 +16,7 @@
 }
 
 .CategoryFilterOverlay {
-    @include after-mobile {
+    @include desktop {
         position: relative;
         grid-row: 1/5;
         width: 100%;
@@ -28,7 +28,7 @@
         overflow: visible;
     }
 
-    @include mobile {
+    @include before-desktop {
         transition: transform 200ms ease-in-out;
         transform: translateY(100%);
         will-change: transform;
@@ -53,13 +53,13 @@
         text-transform: none;
         margin-top: 0;
 
-        @include mobile {
+        @include before-desktop {
             display: none;
         }
     }
 
     &-Item {
-        @include after-mobile {
+        @include desktop {
             margin-right: 1rem;
         }
 
@@ -70,7 +70,7 @@
         }
 
         &:not(.Swatch_type_color):not(.Swatch_type_cat) {
-            @include after-mobile {
+            @include desktop {
                 padding: 0 12px;
                 border: 1px solid var(--category-filter-overlay-desktop-color);
                 color: var(--category-filter-overlay-desktop-color);
@@ -78,7 +78,7 @@
             }
 
             &:hover {
-                @include after-mobile {
+                @include desktop {
                     --category-filter-overlay-desktop-color: var(--category-filter-overlay-hover-color);
                 }
             }
@@ -86,7 +86,7 @@
 
         &_type_cat {
             &::before {
-                @include after-mobile {
+                @include desktop {
                     content: '\2022';
 
                     margin-right: 1rem;
@@ -103,7 +103,7 @@
     &-Attributes {
         --option-margin: .5rem;
 
-        @include after-mobile {
+        @include desktop {
             --option-margin: 0 12px 12px 0;
         }
     }
@@ -111,14 +111,14 @@
     &-Filter {
         order: 50;
 
-        @include after-mobile {
+        @include desktop {
             margin-bottom: 1rem;
         }
     }
 
     &-SeeResults,
     &-ResetButton {
-        @include mobile {
+        @include before-desktop {
             position: sticky;
             padding: 1rem;
             width: 100%;
@@ -127,12 +127,12 @@
     }
 
     &-SeeResults {
-        @include after-mobile {
+        @include desktop {
             display: none;
         }
 
         .CategoryFilterOverlay-NoResults ~ & {
-            @include mobile {
+            @include before-desktop {
                 display: none;
             }
         }
@@ -145,12 +145,12 @@
     &-ResetButton {
         margin-bottom: 1rem;
 
-        @include mobile {
+        @include before-desktop {
             display: none;
         }
 
         .CategoryFilterOverlay-NoResults ~ & {
-            @include mobile {
+            @include before-desktop {
                 display: block;
             }
         }
@@ -164,14 +164,14 @@
         }
 
         &:last-child {
-            @include mobile {
+            @include before-desktop {
                 margin-bottom: .6rem;
             }
         }
     }
 
     .ProductAttributeValue-Image-Overlay {
-        @include mobile {
+        @include before-desktop {
             margin: .5rem;
         }
     }

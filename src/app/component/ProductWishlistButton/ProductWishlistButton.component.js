@@ -41,11 +41,17 @@ export default class ProductWishlistButton extends PureComponent {
     getTitle = () => {
         const { isInWishlist, isReady } = this.props;
 
-        if (!isSignedIn()) return __('Please sign in first!');
+        if (!isSignedIn()) {
+            return __('Please sign in first!');
+        }
 
-        if (!isReady) return __('Please select variant first!');
+        if (!isReady) {
+            return __('Please select variant first!');
+        }
 
-        if (isInWishlist) return __('Remove from Wishlist');
+        if (isInWishlist) {
+            return __('Remove from Wishlist');
+        }
 
         return __('Add to Wishlist');
     };
@@ -59,7 +65,9 @@ export default class ProductWishlistButton extends PureComponent {
             removeFromWishlist
         } = this.props;
 
-        if (!isInWishlist) return addToWishlist(product, quantity);
+        if (!isInWishlist) {
+            return addToWishlist(product, quantity);
+        }
 
         return removeFromWishlist(product, quantity);
     };

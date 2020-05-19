@@ -197,7 +197,9 @@ export default class Header extends NavigationAbstract {
     renderMenuButton(isVisible = false) {
         const { onMenuOutsideClick, onMenuButtonClick, isCheckout } = this.props;
 
-        if (isMobile.any() || isCheckout) return null;
+        if (isMobile.any() || isCheckout) {
+            return null;
+        }
 
         return (
             <ClickOutside onClick={ onMenuOutsideClick } key="menu">
@@ -228,7 +230,9 @@ export default class Header extends NavigationAbstract {
             isCheckout
         } = this.props;
 
-        if (isCheckout) return null;
+        if (isCheckout) {
+            return null;
+        }
 
         return (
             <SearchField
@@ -276,7 +280,9 @@ export default class Header extends NavigationAbstract {
     renderLogo(isVisible = false) {
         const { isLoading } = this.props;
 
-        if (isLoading) return null;
+        if (isLoading) {
+            return null;
+        }
 
         return (
             <Link
@@ -304,7 +310,9 @@ export default class Header extends NavigationAbstract {
             onSignIn
         } = this.props;
 
-        if (isMobile.any() && !isCheckout) return null;
+        if (isMobile.any() && !isCheckout) {
+            return null;
+        }
 
         return (
             <ClickOutside onClick={ onMyAccountOutsideClick } key="account">
@@ -353,7 +361,9 @@ export default class Header extends NavigationAbstract {
     renderMinicartButton(isVisible = false) {
         const { onMinicartOutsideClick, onMinicartButtonClick, isCheckout } = this.props;
 
-        if (isMobile.any() || isCheckout) return null;
+        if (isMobile.any() || isCheckout) {
+            return null;
+        }
 
         return (
             <ClickOutside onClick={ onMinicartOutsideClick } key="minicart">

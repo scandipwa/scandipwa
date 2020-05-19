@@ -30,6 +30,7 @@ import { createBrowserHistory } from 'history';
 import Store from 'Store';
 import Meta from 'Component/Meta';
 import Footer from 'Component/Footer';
+import CookiePopup from 'Component/CookiePopup';
 import Header from 'Component/Header';
 import { CartDispatcher } from 'Store/Cart';
 import DemoNotice from 'Component/DemoNotice';
@@ -38,6 +39,7 @@ import Breadcrumbs from 'Component/Breadcrumbs';
 import { WishlistDispatcher } from 'Store/Wishlist';
 import OfflineNotice from 'Component/OfflineNotice';
 import NavigationTabs from 'Component/NavigationTabs';
+import NewVersionPopup from 'Component/NewVersionPopup';
 import SomethingWentWrong from 'Route/SomethingWentWrong';
 import NotificationList from 'Component/NotificationList';
 import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
@@ -128,6 +130,10 @@ export class AppRouter extends PureComponent {
         {
             component: <Breadcrumbs />,
             position: 30
+        },
+        {
+            component: <NewVersionPopup />,
+            position: 35
         }
     ];
 
@@ -190,6 +196,10 @@ export class AppRouter extends PureComponent {
         {
             component: <Footer />,
             position: 10
+        },
+        {
+            component: <CookiePopup />,
+            position: 20
         }
     ];
 
@@ -228,6 +238,13 @@ export class AppRouter extends PureComponent {
                 title_suffix
             });
         }
+    }
+
+    componentDidCatch(err, info) {
+        this.setState({
+            hasError: true,
+            errorDetails: { err, info }
+        });
     }
 
     getCmsBlocksToRequest() {
@@ -278,13 +295,6 @@ export class AppRouter extends PureComponent {
     handleErrorReset = () => {
         this.setState({ hasError: false });
     };
-
-    componentDidCatch(err, info) {
-        this.setState({
-            hasError: true,
-            errorDetails: { err, info }
-        });
-    }
 
     dispatchActions() {
         WishlistDispatcher.updateInitialWishlistData(Store.dispatch);

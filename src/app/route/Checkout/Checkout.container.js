@@ -13,7 +13,6 @@ import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { BRAINTREE, KLARNA } from 'Component/CheckoutPayments/CheckoutPayments.component';
 import { CART_TAB } from 'Component/NavigationTabs/NavigationTabs.component';
 import { TOP_NAVIGATION_TYPE, BOTTOM_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
@@ -61,6 +60,7 @@ export class CheckoutContainer extends PureComponent {
         createAccount: PropTypes.func.isRequired,
         updateMeta: PropTypes.func.isRequired,
         resetCart: PropTypes.func.isRequired,
+        guest_checkout: PropTypes.bool.isRequired,
         totals: TotalsType.isRequired,
         history: HistoryType.isRequired,
         customer: customerType.isRequired
@@ -77,11 +77,6 @@ export class CheckoutContainer extends PureComponent {
         onPasswordChange: this.onPasswordChange.bind(this)
     };
 
-    customPaymentMethods = [
-        KLARNA,
-        BRAINTREE
-    ];
-
     constructor(props) {
         super(props);
 
@@ -96,7 +91,9 @@ export class CheckoutContainer extends PureComponent {
 
         toggleBreadcrumbs(false);
 
-        if (!items.length) history.push('/cart');
+        if (!items.length) {
+            history.push('/cart');
+        }
 
         this.state = {
             isLoading: is_virtual,
@@ -119,7 +116,12 @@ export class CheckoutContainer extends PureComponent {
     }
 
     componentDidMount() {
-        const { updateMeta } = this.props;
+        const { history, guest_checkout, updateMeta } = this.props;
+
+        if (!guest_checkout) {
+            history.push('/');
+        }
+
         updateMeta({ title: __('Checkout') });
     }
 
@@ -382,7 +384,6 @@ export class CheckoutContainer extends PureComponent {
     }
 
     async savePaymentInformation(paymentInformation) {
-        const { paymentMethod: { method } } = paymentInformation;
         const { isGuestEmailSaved } = this.state;
         this.setState({ isLoading: true });
 
@@ -393,16 +394,11 @@ export class CheckoutContainer extends PureComponent {
             }
         }
 
-        if (this.customPaymentMethods.includes(method)) {
-            this.savePaymentMethodAndPlaceOrder(paymentInformation);
-            return;
-        }
-
-        this.savePaymentInformationAndPlaceOrder(paymentInformation);
+        this.savePaymentMethodAndPlaceOrder(paymentInformation);
     }
 
     async savePaymentMethodAndPlaceOrder(paymentInformation) {
-        const { paymentMethod: { method: code, additional_data } } = paymentInformation;
+        const { paymentMethod: { code, additional_data } } = paymentInformation;
         const guest_cart_id = !isSignedIn() ? this._getGuestCartId() : '';
 
         try {
@@ -420,21 +416,6 @@ export class CheckoutContainer extends PureComponent {
         } catch (e) {
             this._handleError(e);
         }
-    }
-
-    savePaymentInformationAndPlaceOrder(paymentInformation) {
-        fetchMutation(CheckoutQuery.getSavePaymentInformationAndPlaceOrder(
-            paymentInformation,
-            this._getGuestCartId()
-        )).then(
-            ({ savePaymentInformationAndPlaceOrder: data }) => {
-                const { orderID } = data;
-                this.setDetailsStep(orderID);
-            },
-            (error) => {
-                this._handlePaymentError(error, paymentInformation);
-            }
-        );
     }
 
     render() {

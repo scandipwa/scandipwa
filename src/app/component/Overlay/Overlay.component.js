@@ -29,6 +29,7 @@ export default class Overlay extends PureComponent {
         activeOverlay: PropTypes.string.isRequired,
         areOtherOverlaysOpen: PropTypes.bool.isRequired,
         isStatic: PropTypes.bool,
+        isRenderInPortal: PropTypes.bool,
         children: ChildrenType
     };
 
@@ -37,7 +38,8 @@ export default class Overlay extends PureComponent {
         children: [],
         onVisible: () => {},
         isStatic: false,
-        onHide: () => {}
+        onHide: () => {},
+        isRenderInPortal: true
     };
 
     overlayRef = createRef();
@@ -45,22 +47,34 @@ export default class Overlay extends PureComponent {
     componentDidUpdate(prevProps) {
         const prevWasVisible = this.getIsVisible(prevProps);
         const isVisible = this.getIsVisible();
-        if (isVisible && !prevWasVisible) this.onVisible();
-        if (!isVisible && prevWasVisible) this.onHide();
+        if (isVisible && !prevWasVisible) {
+            this.onVisible();
+        }
+        if (!isVisible && prevWasVisible) {
+            this.onHide();
+        }
     }
 
     onVisible() {
         const { onVisible, isStatic } = this.props;
-        if (isStatic) return;
-        if (isMobile.any()) this.freezeScroll();
+        if (isStatic) {
+            return;
+        }
+        if (isMobile.any()) {
+            this.freezeScroll();
+        }
         this.overlayRef.current.focus();
         onVisible();
     }
 
     onHide() {
         const { onHide, isStatic } = this.props;
-        if (isStatic) return;
-        if (isMobile.any()) this.unfreezeScroll();
+        if (isStatic) {
+            return;
+        }
+        if (isMobile.any()) {
+            this.unfreezeScroll();
+        }
         onHide();
     }
 
@@ -82,9 +96,9 @@ export default class Overlay extends PureComponent {
     }
 
     renderInMobilePortal(content) {
-        const { isStatic } = this.props;
+        const { isStatic, isRenderInPortal } = this.props;
 
-        if (!isStatic && isMobile.any()) {
+        if (!isStatic && isMobile.any() && isRenderInPortal) {
             return createPortal(content, document.body);
         }
 

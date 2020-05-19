@@ -220,6 +220,10 @@ export class ProductGallery extends PureComponent {
     renderAdditionalPictures() {
         const { gallery } = this.props;
 
+        if (gallery.length === 1) {
+            return <div block="ProductGallery" elem="Additional" />;
+        }
+
         return (
             <div block="ProductGallery" elem="Additional">
                 { gallery.slice(0, GALLERY_LENGTH_BEFORE_COLLAPSE).map(this.renderAdditionalPicture) }

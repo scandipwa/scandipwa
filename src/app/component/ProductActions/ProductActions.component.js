@@ -69,7 +69,9 @@ export default class ProductActions extends PureComponent {
     onGroupedProductError = this.onProductError.bind(this, this.groupedProductsRef);
 
     onProductError(ref) {
-        if (!ref) return;
+        if (!ref) {
+            return;
+        }
         const { current } = ref;
 
         current.scrollIntoView({
@@ -102,6 +104,17 @@ export default class ProductActions extends PureComponent {
         );
     }
 
+    renderStockMeta(stockStatus) {
+        return (
+            (stockStatus === 'OUT_OF_STOCK') ? 'https://schema.org/OutOfStock' : 'https://schema.org/InStock'
+        );
+    }
+
+    getMetaLink() {
+        const { getLink } = this.props;
+        return window.location.origin + getLink().replace(/\?.*/, '');
+    }
+
     renderSkuAndStock() {
         const {
             product,
@@ -127,8 +140,11 @@ export default class ProductActions extends PureComponent {
                     sku,
                     (
                         <>
+                            <span block="ProductActions" elem="Sku">
+                                SKU:
+                            </span>
                             <span block="ProductActions" elem="Sku" itemProp="sku">
-                                { `SKU: ${ sku }` }
+                                { `${ sku }` }
                             </span>
                             <span block="ProductActions" elem="Stock">
                                 { this.renderStock(stock_status) }
@@ -151,7 +167,9 @@ export default class ProductActions extends PureComponent {
             getIsConfigurableAttributeAvailable
         } = this.props;
 
-        if (type_id !== 'configurable') return null;
+        if (type_id !== 'configurable') {
+            return null;
+        }
 
         return (
             <div
@@ -179,7 +197,9 @@ export default class ProductActions extends PureComponent {
         const { product: { short_description, id } } = this.props;
         const { html } = short_description || {};
 
-        if (!html && id) return null;
+        if (!html && id) {
+            return null;
+        }
 
         const htmlWithItemProp = `<div itemProp="description">${ html }</div>`;
 
@@ -194,7 +214,9 @@ export default class ProductActions extends PureComponent {
         const { product: { short_description, id } } = this.props;
         const { html } = short_description || {};
 
-        if (!html && id && isMobile.any()) return null;
+        if (!html && id && isMobile.any()) {
+            return null;
+        }
 
         return (
             <section
@@ -248,7 +270,9 @@ export default class ProductActions extends PureComponent {
             product: { type_id }
         } = this.props;
 
-        if (type_id === GROUPED) return null;
+        if (type_id === GROUPED) {
+            return null;
+        }
 
         return (
             <Field
@@ -284,18 +308,30 @@ export default class ProductActions extends PureComponent {
         );
     }
 
+    getOfferCount() {
+        const { product: { variants } } = this.props;
+
+        if (variants) {
+            return (variants.length >= 1 ? variants.length : 0);
+        }
+
+        return 0;
+    }
+
     renderSchema(name, stockStatus) {
-        const { getLink, product: { variants } } = this.props;
+        const offerCount = this.getOfferCount();
 
         return (
             <>
-                <meta itemProp="offerCount" content={ variants.length } />
-                <meta itemProp="availability" content={ this.renderStock(stockStatus) } />
+            { offerCount > 1
+                ? <meta itemProp="offerCount" content={ offerCount } />
+                : null }
+                <meta itemProp="availability" content={ this.renderStockMeta(stockStatus) } />
                 <a
                   block="ProductActions"
                   elem="Schema-Url"
                   itemProp="url"
-                  href={ getLink() }
+                  href={ this.getMetaLink() }
                 >
                     { name }
                 </a>
@@ -323,6 +359,7 @@ export default class ProductActions extends PureComponent {
                 { this.renderSchema(name, stock_status) }
                 <ProductPrice
                   isSchemaRequired
+                  variantsCount={ this.getOfferCount() }
                   price={ price }
                   mix={ { block: 'ProductActions', elem: 'Price' } }
                 />
@@ -330,16 +367,28 @@ export default class ProductActions extends PureComponent {
         );
     }
 
-    renderPriceWithGlobalSchema() {
-        const { product: { type_id } } = this.props;
+    getOfferType(variants) {
+        if (variants) {
+            return (variants.length >= 1 ? 'https://schema.org/AggregateOffer' : 'https://schema.org/Offer');
+        }
 
-        if (type_id === GROUPED) return null;
+        return 'https://schema.org/Offer';
+    }
+
+    renderPriceWithGlobalSchema() {
+        const { product: { type_id, variants } } = this.props;
+
+        const offerType = this.getOfferType(variants);
+
+        if (type_id === GROUPED) {
+            return null;
+        }
 
         return (
             <div
               block="ProductActions"
               elem="Schema"
-              itemType="https://schema.org/AggregateOffer"
+              itemType={ offerType }
               itemProp="offers"
               itemScope
             >
@@ -368,7 +417,9 @@ export default class ProductActions extends PureComponent {
     renderReviews() {
         const { product: { review_summary: { rating_summary, review_count } = {} } } = this.props;
 
-        if (!rating_summary) return null;
+        if (!rating_summary) {
+            return null;
+        }
 
         const ONE_FIFTH_OF_A_HUNDRED = 20;
         const rating = parseFloat(rating_summary / ONE_FIFTH_OF_A_HUNDRED).toFixed(2);
@@ -396,7 +447,9 @@ export default class ProductActions extends PureComponent {
             clearGroupedProductQuantity
         } = this.props;
 
-        if (type_id !== GROUPED) return null;
+        if (type_id !== GROUPED) {
+            return null;
+        }
 
         return (
             <div

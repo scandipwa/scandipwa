@@ -51,26 +51,6 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 export class ProductPageContainer extends PureComponent {
-    static propTypes = {
-        location: LocationType,
-        isOnlyPlaceholder: PropTypes.bool,
-        changeHeaderState: PropTypes.func.isRequired,
-        setBigOfflineNotice: PropTypes.func.isRequired,
-        changeNavigationState: PropTypes.func.isRequired,
-        updateMetaFromProduct: PropTypes.func.isRequired,
-        updateBreadcrumbs: PropTypes.func.isRequired,
-        requestProduct: PropTypes.func.isRequired,
-        isOffline: PropTypes.bool.isRequired,
-        product: ProductType.isRequired,
-        history: HistoryType.isRequired,
-        match: MatchType.isRequired
-    };
-
-    static defaultProps = {
-        location: { state: {} },
-        isOnlyPlaceholder: false
-    };
-
     state = {
         configurableVariantIndex: -1,
         parameters: {}
@@ -81,43 +61,27 @@ export class ProductPageContainer extends PureComponent {
         getLink: this.getLink.bind(this)
     };
 
-    componentDidMount() {
-        const {
-            location: { pathname },
-            isOnlyPlaceholder,
-            history
-        } = this.props;
+    static propTypes = {
+        location: LocationType,
+        isOnlyPlaceholder: PropTypes.bool,
+        changeHeaderState: PropTypes.func.isRequired,
+        setBigOfflineNotice: PropTypes.func.isRequired,
+        changeNavigationState: PropTypes.func.isRequired,
+        updateMetaFromProduct: PropTypes.func.isRequired,
+        updateBreadcrumbs: PropTypes.func.isRequired,
+        requestProduct: PropTypes.func.isRequired,
+        isOffline: PropTypes.bool.isRequired,
+        productsIds: PropTypes.number,
+        product: ProductType.isRequired,
+        history: HistoryType.isRequired,
+        match: MatchType.isRequired
+    };
 
-        if (pathname === '/product' || pathname === '/product/') {
-            history.push('/');
-            return;
-        }
-
-        if (!isOnlyPlaceholder) this._requestProduct();
-        this._onProductUpdate();
-    }
-
-    componentDidUpdate(prevProps) {
-        const {
-            location: { pathname },
-            product: { id }
-        } = this.props;
-        const {
-            location: { pathname: prevPathname },
-            product: { id: prevId }
-        } = prevProps;
-
-        if (pathname !== prevPathname) this._requestProduct();
-
-        if (id !== prevId) {
-            const dataSource = this._getDataSource();
-            const { updateMetaFromProduct } = this.props;
-
-            updateMetaFromProduct(dataSource);
-        }
-
-        this._onProductUpdate();
-    }
+    static defaultProps = {
+        location: { state: {} },
+        isOnlyPlaceholder: false,
+        productsIds: -1
+    };
 
     static getDerivedStateFromProps(props) {
         const {
@@ -128,7 +92,9 @@ export class ProductPageContainer extends PureComponent {
             location: { search }
         } = props;
 
-        if (!configurable_options && !variants) return null;
+        if (!configurable_options && !variants) {
+            return null;
+        }
 
         const parameters = Object.entries(convertQueryStringToKeyValuePairs(search))
             .reduce((acc, [key, value]) => {
@@ -147,13 +113,61 @@ export class ProductPageContainer extends PureComponent {
         return { parameters, configurableVariantIndex };
     }
 
+    componentDidMount() {
+        const {
+            location: { pathname },
+            isOnlyPlaceholder,
+            history
+        } = this.props;
+
+        if (pathname === '/product' || pathname === '/product/') {
+            history.push('/');
+            return;
+        }
+
+        if (!isOnlyPlaceholder) {
+            this._requestProduct();
+        }
+
+        this._onProductUpdate();
+    }
+
+    componentDidUpdate(prevProps) {
+        const {
+            location: { pathname },
+            product: { id },
+            isOnlyPlaceholder
+        } = this.props;
+
+        const {
+            location: { pathname: prevPathname },
+            product: { id: prevId },
+            isOnlyPlaceholder: prevIsOnlyPlaceholder
+        } = prevProps;
+
+        if (pathname !== prevPathname || isOnlyPlaceholder !== prevIsOnlyPlaceholder) {
+            this._requestProduct();
+        }
+
+        if (id !== prevId) {
+            const dataSource = this._getDataSource();
+            const { updateMetaFromProduct } = this.props;
+
+            updateMetaFromProduct(dataSource);
+        }
+
+        this._onProductUpdate();
+    }
+
     getLink(key, value) {
         const { location: { search, pathname } } = this.props;
         const obj = {
             ...convertQueryStringToKeyValuePairs(search)
         };
 
-        if (key) obj[key] = value;
+        if (key) {
+            obj[key] = value;
+        }
 
         const query = objectToUri(obj);
 
@@ -228,7 +242,9 @@ export class ProductPageContainer extends PureComponent {
             this._updateBreadcrumbs(dataSource);
             this._updateHeaderState(dataSource);
             this._updateNavigationState();
-            if (isOffline) setBigOfflineNotice(false);
+            if (isOffline) {
+                setBigOfflineNotice(false);
+            }
         } else if (isOffline) {
             setBigOfflineNotice(true);
         }
@@ -251,8 +267,12 @@ export class ProductPageContainer extends PureComponent {
     _getConfigurableVariantIndex(variants) {
         const { configurableVariantIndex, parameters } = this.state;
 
-        if (configurableVariantIndex >= 0) return configurableVariantIndex;
-        if (variants) return getVariantIndex(variants, parameters);
+        if (configurableVariantIndex >= 0) {
+            return configurableVariantIndex;
+        }
+        if (variants) {
+            return getVariantIndex(variants, parameters);
+        }
 
         return -1;
     }
@@ -263,7 +283,9 @@ export class ProductPageContainer extends PureComponent {
         const locationStateExists = state && Object.keys(state.product).length > 0;
 
         // return nothing, if no product in url state and no loaded product
-        if (!locationStateExists && !productIsLoaded) return {};
+        if (!locationStateExists && !productIsLoaded) {
+            return {};
+        }
 
         // use product from props, if product is loaded and state does not exist, or state product is equal loaded product
         const useLoadedProduct = productIsLoaded && (
@@ -274,16 +296,32 @@ export class ProductPageContainer extends PureComponent {
         return useLoadedProduct ? product : state.product;
     }
 
+    _getProductRequestFilter() {
+        const {
+            location,
+            match,
+            productsIds
+        } = this.props;
+
+        if (productsIds !== -1) {
+            return { productsIds };
+        }
+
+        return {
+            productUrlPath: getUrlParam(match, location)
+        };
+    }
+
     _requestProduct() {
-        const { requestProduct, location, match } = this.props;
+        const {
+            requestProduct
+        } = this.props;
+
         const options = {
             isSingleProduct: true,
-            args: {
-                filter: {
-                    productUrlPath: getUrlParam(match, location)
-                }
-            }
+            args: { filter: this._getProductRequestFilter() }
         };
+
 
         requestProduct(options);
     }

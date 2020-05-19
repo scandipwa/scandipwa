@@ -32,7 +32,9 @@ class StoreSwitcher extends PureComponent {
             currentStoreCode
         } = this.props;
 
-        if (storeList.length <= 1) return null;
+        if (storeList.length <= 1) {
+            return null;
+        }
 
         return (
             <div block="StoreSwitcher">

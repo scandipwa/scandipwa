@@ -104,7 +104,9 @@ export class NewProductsContainer extends PureComponent {
             showNotification
         } = this.props;
 
-        if (!timezone) return;
+        if (!timezone) {
+            return;
+        }
 
         const newToDate = this.getRequestDate();
 

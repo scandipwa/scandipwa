@@ -116,7 +116,9 @@ class MyAccountAddressTable extends KeyValueTable {
 
         const isDeleteAllowed = default_shipping || default_billing;
 
-        if (!showActions) return null;
+        if (!showActions) {
+            return null;
+        }
 
         return (
             <>

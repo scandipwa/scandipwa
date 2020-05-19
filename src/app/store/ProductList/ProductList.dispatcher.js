@@ -39,7 +39,10 @@ export class ProductListDispatcher extends QueryDispatcher {
         } = data;
         const { args: { currentPage }, isNext } = options;
 
-        if (isNext) return dispatch(appendPage(items, currentPage));
+        if (isNext) {
+            return dispatch(appendPage(items, currentPage));
+        }
+
         return dispatch(updateProductListItems(items, currentPage, total_count, total_pages));
     }
 
@@ -50,7 +53,10 @@ export class ProductListDispatcher extends QueryDispatcher {
 
     prepareRequest(options, dispatch) {
         const { isNext } = options;
-        if (!isNext) dispatch(updateLoadStatus(true));
+        if (!isNext) {
+            dispatch(updateLoadStatus(true));
+        }
+
         return ProductListQuery.getQuery(options);
     }
 }

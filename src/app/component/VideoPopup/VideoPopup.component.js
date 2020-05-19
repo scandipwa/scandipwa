@@ -52,7 +52,9 @@ export default class VideoPopup extends PureComponent {
     _renderVimeoVideo(videoId) {
         const { vimeoComponent: { default: Vimeo } = {} } = this;
 
-        if (!Vimeo) return null;
+        if (!Vimeo) {
+            return null;
+        }
 
         return (
             <Vimeo
@@ -71,7 +73,9 @@ export default class VideoPopup extends PureComponent {
     _renderYoutubeVideo(videoId) {
         const { youtubeComponent: { default: YouTube } = {} } = this;
 
-        if (!YouTube) return null;
+        if (!YouTube) {
+            return null;
+        }
 
         return (
             <YouTube
@@ -106,13 +110,19 @@ export default class VideoPopup extends PureComponent {
             }
         } = this.props;
 
-        if (!video_url) return null;
+        if (!video_url) {
+            return null;
+        }
 
         const [, vimeoId] = VIMEO_FORMAT.exec(video_url) || [];
-        if (vimeoId) return this._renderVimeoVideo(vimeoId);
+        if (vimeoId) {
+            return this._renderVimeoVideo(vimeoId);
+        }
 
         const [, youtubeId] = YOUTUBE_FORMAT.exec(video_url);
-        if (youtubeId) return this._renderYoutubeVideo(youtubeId);
+        if (youtubeId) {
+            return this._renderYoutubeVideo(youtubeId);
+        }
 
         return null;
     }

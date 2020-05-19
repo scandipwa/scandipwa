@@ -34,7 +34,7 @@ class CheckoutBilling extends PureComponent {
         setLoading: PropTypes.func.isRequired,
         setDetailsStep: PropTypes.func.isRequired,
         isSameAsShipping: PropTypes.bool.isRequired,
-        termsAreEnabled: PropTypes.bool.isRequired,
+        termsAreEnabled: PropTypes.bool,
         onSameAsShippingChange: PropTypes.func.isRequired,
         onPaymentMethodSelect: PropTypes.func.isRequired,
         onBillingSuccess: PropTypes.func.isRequired,
@@ -49,9 +49,15 @@ class CheckoutBilling extends PureComponent {
         })).isRequired
     };
 
+    static defaultProps = {
+        termsAreEnabled: false
+    };
+
     componentDidMount() {
         const { termsAreEnabled } = this.props;
-        if (!termsAreEnabled) this.setState({ isOrderButtonEnabled: true });
+        if (!termsAreEnabled) {
+            this.setState({ isOrderButtonEnabled: true });
+        }
     }
 
     setOrderButtonVisibility = (isOrderButtonVisible) => {
@@ -131,7 +137,9 @@ class CheckoutBilling extends PureComponent {
 
         const { termsAreEnabled } = this.props;
 
-        if (!isOrderButtonVisible) return null;
+        if (!isOrderButtonVisible) {
+            return null;
+        }
 
         // if terms and conditions are enabled, validate for acceptance
         const isDisabled = termsAreEnabled
@@ -198,7 +206,9 @@ class CheckoutBilling extends PureComponent {
             shippingAddress
         } = this.props;
 
-        if (!paymentMethods.length) return null;
+        if (!paymentMethods.length) {
+            return null;
+        }
 
         return (
             <CheckoutPayments

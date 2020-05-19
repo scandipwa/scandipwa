@@ -28,7 +28,9 @@ export class ProductDispatcher extends QueryDispatcher {
     onSuccess(data, dispatch) {
         const { products: { items } } = data;
 
-        if (!(items && items.length > 0)) return dispatch(updateNoMatch(true));
+        if (!(items && items.length > 0)) {
+            return dispatch(updateNoMatch(true));
+        }
 
         const [productItem] = items;
         const product = productItem.type_id === 'grouped'

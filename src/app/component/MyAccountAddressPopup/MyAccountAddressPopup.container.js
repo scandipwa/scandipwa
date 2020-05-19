@@ -81,7 +81,10 @@ export class MyAccountAddressPopupContainer extends PureComponent {
     handleAddress(address) {
         const { payload: { address: { id } } } = this.props;
         this.setState({ isLoading: true });
-        if (id) return this.handleEditAddress(address);
+        if (id) {
+            return this.handleEditAddress(address);
+        }
+
         return this.handleCreateAddress(address);
     }
 

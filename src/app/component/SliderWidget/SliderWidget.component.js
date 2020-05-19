@@ -25,6 +25,7 @@ import './SliderWidget.style';
 export default class SliderWidget extends PureComponent {
     static propTypes = {
         slider: PropTypes.shape({
+            title: PropTypes.string,
             slides: PropTypes.arrayOf(
                 PropTypes.shape({
                     desktop_image: PropTypes.string,
@@ -54,7 +55,7 @@ export default class SliderWidget extends PureComponent {
         } = slide;
 
         if (isMobile.any() && mobile_image) {
-            return mobile_image;
+            return `/${mobile_image}`;
         }
 
         if (!desktop_image) {

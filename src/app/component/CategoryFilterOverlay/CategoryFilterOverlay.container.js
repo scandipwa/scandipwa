@@ -18,6 +18,7 @@ import { TOP_NAVIGATION_TYPE, BOTTOM_NAVIGATION_TYPE } from 'Store/Navigation/Na
 import { goToPreviousNavigationState, changeNavigationState } from 'Store/Navigation';
 import { hideActiveOverlay } from 'Store/Overlay';
 import { FILTER } from 'Component/Header';
+import { LocationType } from 'Type/Router';
 
 import CategoryFilterOverlay from './CategoryFilterOverlay.component';
 
@@ -37,9 +38,7 @@ export const mapDispatchToProps = dispatch => ({
 
 export class CategoryFilterOverlayContainer extends PureComponent {
     static propTypes = {
-        location: PropTypes.shape({
-            pathname: PropTypes.string.isRequired
-        }).isRequired,
+        location: LocationType.isRequired,
         customFiltersValues: PropTypes.objectOf(PropTypes.array).isRequired,
         hideActiveOverlay: PropTypes.func.isRequired,
         goToPreviousHeaderState: PropTypes.func.isRequired,

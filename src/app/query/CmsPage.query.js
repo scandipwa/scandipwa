@@ -22,13 +22,21 @@ export class CmsPageQuery {
      * @return {Query} CMS Page query
      * @memberof CmsPageQuery
      */
-    getQuery({ id }) {
-        if (!id) throw new Error('Missing argument `options`');
-        const items = this._getPageFields();
+    getQuery({ id, url_key, identifier }) {
+        if (!id && !url_key && !identifier) {
+            throw new Error('Missing argument `id` or `url_key`!');
+        }
 
-        return new Field('cmsPage')
-            .addArgument('identifier', 'String!', id)
-            .addFieldList(items);
+        const cmsPage = new Field('cmsPage')
+            .addFieldList(this._getPageFields());
+
+        if (identifier) {
+            cmsPage.addArgument('identifier', 'String!', identifier);
+        } else if (id) {
+            cmsPage.addArgument('id', 'Int!', id);
+        }
+
+        return cmsPage;
     }
 
     _getPageFields() {
