@@ -203,24 +203,24 @@ export class HeaderContainer extends NavigationAbstractContainer {
         ].join('|')).test(search);
     }
 
-    onBackButtonClick() {
+    onBackButtonClick(e) {
         const { navigationState: { onBackClick } } = this.props;
 
         this.setState({ searchCriteria: '' });
 
         if (onBackClick) {
-            onBackClick();
+            onBackClick(e);
         }
     }
 
-    onCloseButtonClick() {
+    onCloseButtonClick(e) {
         const { hideActiveOverlay, goToPreviousNavigationState } = this.props;
         const { navigationState: { onCloseClick } } = this.props;
 
         this.setState({ searchCriteria: '' });
 
         if (onCloseClick) {
-            onCloseClick();
+            onCloseClick(e);
         }
 
         hideActiveOverlay();
@@ -424,23 +424,24 @@ export class HeaderContainer extends NavigationAbstractContainer {
         hideActiveOverlay();
     }
 
-    onEditButtonClick() {
+    onEditButtonClick(e) {
         const { navigationState: { onEditClick } } = this.props;
 
         if (onEditClick) {
-            onEditClick();
+            onEditClick(e);
         }
     }
 
-    onOkButtonClick() {
+    onOkButtonClick(e) {
         const {
             navigationState: { onOkClick },
             goToPreviousNavigationState
         } = this.props;
 
         if (onOkClick) {
-            onOkClick();
+            onOkClick(e);
         }
+
         goToPreviousNavigationState();
     }
 

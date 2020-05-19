@@ -179,7 +179,7 @@ export class AppRouter extends PureComponent {
             position: 70
         },
         {
-            component: <Route path="/forgot-password" component={ HomePage } />,
+            component: <Route path="/forgot-password" component={ MyAccount } />,
             position: 71
         },
         {
