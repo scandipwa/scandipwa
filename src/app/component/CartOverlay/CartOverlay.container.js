@@ -13,14 +13,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { PureComponent } from 'react';
 
-import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation';
+import { changeNavigationState } from 'Store/Navigation';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { CART, CART_EDITING, CUSTOMER_ACCOUNT } from 'Component/Header';
+import { CART, CART_EDITING } from 'Component/Header';
 import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.component';
-import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay';
+import { toggleOverlayByKey } from 'Store/Overlay';
+import { showNotification } from 'Store/Notification';
 import { CartDispatcher } from 'Store/Cart';
 import { TotalsType } from 'Type/MiniCart';
-import isMobile from 'Util/Mobile';
 import { isSignedIn } from 'Util/Auth';
 import { history } from 'Route';
 
@@ -28,18 +28,15 @@ import CartOverlay from './CartOverlay.component';
 
 export const mapStateToProps = state => ({
     totals: state.CartReducer.cartTotals,
-    guest_checkout: state.ConfigReducer.guest_checkout,
-    navigationState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState
+    guest_checkout: state.ConfigReducer.guest_checkout
 });
 
 export const mapDispatchToProps = dispatch => ({
-    hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     setNavigationState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
     changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
     updateTotals: options => CartDispatcher.updateTotals(dispatch, options),
     showOverlay: overlayKey => dispatch(toggleOverlayByKey(overlayKey)),
-    goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))
-
+    showNotification: (type, message) => dispatch(showNotification(type, message))
 });
 
 export class CartOverlayContainer extends PureComponent {
@@ -47,10 +44,8 @@ export class CartOverlayContainer extends PureComponent {
         totals: TotalsType.isRequired,
         guest_checkout: PropTypes.bool.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
-        hideActiveOverlay: PropTypes.func.isRequired,
         showOverlay: PropTypes.func.isRequired,
-        navigationState: PropTypes.object.isRequired,
-        goToPreviousNavigationState: PropTypes.func.isRequired
+        showNotification: PropTypes.func.isRequired
     };
 
     state = { isEditing: false };
@@ -63,27 +58,19 @@ export class CartOverlayContainer extends PureComponent {
     handleCheckoutClick(e) {
         const {
             guest_checkout,
-            hideActiveOverlay,
             showOverlay,
-            goToPreviousNavigationState,
-            changeHeaderState,
-            navigationState: { name }
+            showNotification
         } = this.props;
 
         e.nativeEvent.stopImmediatePropagation();
-        if (guest_checkout || isSignedIn()) {
+
+        if (guest_checkout || isSignedIn()) { // if guest-checkout is disabled
             history.push({ pathname: '/checkout' });
-        } else if (!guest_checkout) {
-            goToPreviousNavigationState();
-            hideActiveOverlay();
-            if (!isMobile.any() && name !== CUSTOMER_ACCOUNT) {
-                showOverlay(CUSTOMER_ACCOUNT_OVERLAY_KEY);
-                changeHeaderState({
-                    name: CUSTOMER_ACCOUNT,
-                    title: 'sign in'
-                });
-            }
         }
+
+        // there is no mobile, as cart overlay is not visible here
+        showOverlay(CUSTOMER_ACCOUNT_OVERLAY_KEY);
+        showNotification('info', __('Please sign-in to complete checkout!'));
     }
 
     changeHeaderState() {

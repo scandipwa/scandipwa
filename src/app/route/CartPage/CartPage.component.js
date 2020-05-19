@@ -15,7 +15,6 @@ import PropTypes from 'prop-types';
 import media, { WYSIWYG_MEDIA } from 'Util/Media';
 import Link from 'Component/Link';
 import isMobile from 'Util/Mobile';
-import { isSignedIn } from 'Util/Auth';
 import CmsBlock from 'Component/CmsBlock';
 import CartItem from 'Component/CartItem';
 import { TotalsType } from 'Type/MiniCart';
@@ -24,15 +23,15 @@ import ProductLinks from 'Component/ProductLinks';
 import ContentWrapper from 'Component/ContentWrapper';
 import { formatCurrency, roundPrice } from 'Util/Price';
 import ExpandableContent from 'Component/ExpandableContent';
+import { CROSS_SELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
 
 import './CartPage.style';
-import { CROSS_SELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
 
 export default class CartPage extends PureComponent {
     static propTypes = {
         isEditing: PropTypes.bool.isRequired,
         totals: TotalsType.isRequired,
-        guest_checkout: PropTypes.bool.isRequired
+        onCheckoutButtonClick: PropTypes.func.isRequired
     };
 
     renderCartItems() {
@@ -110,51 +109,53 @@ export default class CartPage extends PureComponent {
         );
     }
 
-    renderTotals() {
+    renderTotal() {
         const {
             totals: {
-                subtotal_incl_tax = 0,
-                items
-            },
-            guest_checkout
+                subtotal_incl_tax = 0
+            }
         } = this.props;
 
-        const props = !items || items.length < 1
-            ? {
-                onClick: e => e.preventDefault(),
-                disabled: true
-            }
-            : {};
+        return (
+            <dl block="CartPage" elem="Total" aria-label="Complete order total">
+                <dt>{ __('Order total:') }</dt>
+                <dd>{ this.renderPriceLine(subtotal_incl_tax) }</dd>
+            </dl>
+        );
+    }
 
-        const destination = (guest_checkout || isSignedIn()) ? '/checkout' : '/my-account';
+    renderButtons() {
+        const { onCheckoutButtonClick } = this.props;
 
+        return (
+            <div block="CartPage" elem="CheckoutButtons">
+                <button
+                  block="CartPage"
+                  elem="CheckoutButton"
+                  mix={ { block: 'Button' } }
+                  onClick={ onCheckoutButtonClick }
+                >
+                    <span />
+                    { __('Secure checkout') }
+                </button>
+                <Link
+                  block="CartPage"
+                  elem="ContinueShopping"
+                  to="/"
+                >
+                    { __('Continue shopping') }
+                </Link>
+            </div>
+        );
+    }
+
+    renderTotals() {
         return (
             <article block="CartPage" elem="Summary">
                 <h4 block="CartPage" elem="SummaryHeading">{ __('Summary') }</h4>
                 { this.renderTotalDetails() }
-                <dl block="CartPage" elem="Total" aria-label="Complete order total">
-                    <dt>{ __('Order total:') }</dt>
-                    <dd>{ this.renderPriceLine(subtotal_incl_tax) }</dd>
-                </dl>
-                <div block="CartPage" elem="CheckoutButtons">
-                    <Link
-                      block="CartPage"
-                      elem="CheckoutButton"
-                      mix={ { block: 'Button' } }
-                      to={ destination }
-                      { ...props }
-                    >
-                        <span />
-                        { __('Secure checkout') }
-                    </Link>
-                    <Link
-                      block="CartPage"
-                      elem="ContinueShopping"
-                      to="/"
-                    >
-                        { __('Continue shopping') }
-                    </Link>
-                </div>
+                { this.renderTotal() }
+                { this.renderButtons() }
             </article>
         );
     }
