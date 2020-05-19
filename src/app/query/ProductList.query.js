@@ -45,11 +45,13 @@ export class ProductListQuery {
             categoryUrlPath: url => [`category_url_path: { eq: ${url} }`],
             priceRange: ({ min, max }) => {
                 const filters = [];
-                if (min) {
-                    filters.push(`min_price: { gteq: ${min} }`);
-                }
-                if (max) {
-                    filters.push(`max_price: { lteq: ${max} }`);
+
+                if (min && !max) {
+                    filters.push(`price: { from: ${min} }`);
+                } else if (!min && max) {
+                    filters.push(`price: { to: ${max} }`);
+                } else if (min && max) {
+                    filters.push(`price: { from: ${min}, to: ${max} }`);
                 }
 
                 return filters;
