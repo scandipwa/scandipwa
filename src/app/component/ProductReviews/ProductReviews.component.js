@@ -103,7 +103,7 @@ class ProductReviews extends PureComponent {
 
         return (
             <>
-                { this.renderRatingSchema(percent, review_count) }
+                { this.renderRatingSchema(rating_summary, review_count) }
                 <ProductReviewRating
                   mix={ { block: 'ProductReviews', elem: 'SummaryRating' } }
                   summary={ rating_summary }
