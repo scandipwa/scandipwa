@@ -74,7 +74,8 @@ export class CheckoutContainer extends PureComponent {
         onShippingEstimationFieldsChange: this.onShippingEstimationFieldsChange.bind(this),
         onEmailChange: this.onEmailChange.bind(this),
         onCreateUserChange: this.onCreateUserChange.bind(this),
-        onPasswordChange: this.onPasswordChange.bind(this)
+        onPasswordChange: this.onPasswordChange.bind(this),
+        goBack: this.goBack.bind(this)
     };
 
     customPaymentMethods = [
@@ -177,6 +178,20 @@ export class CheckoutContainer extends PureComponent {
             },
             this._handleError
         );
+    }
+
+    goBack() {
+        const { checkoutStep } = this.state;
+        const { history } = this.props;
+        if (checkoutStep === BILLING_STEP) {
+            this.setState({
+                isLoading: false,
+                checkoutStep: SHIPPING_STEP
+            });
+            BrowserDatabase.deleteItem(PAYMENT_TOTALS);
+        } else {
+            history.push('/');
+        }
     }
 
     setDetailsStep(orderID) {
