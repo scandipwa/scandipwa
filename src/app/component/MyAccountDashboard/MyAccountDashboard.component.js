@@ -113,11 +113,11 @@ class MyAccountDashboard extends PureComponent {
     }
 
     render() {
-        const { customer: { id } } = this.props;
+        const { customer } = this.props;
 
         return (
             <div block="MyAccountDashboard">
-                <Loader isLoading={ !id } />
+                <Loader isLoading={ !Object.keys(customer).length } />
                 { this.renderCustomerTable() }
                 { this.renderDefaultAddressTables() }
                 { this.renderCustomerPopup() }
