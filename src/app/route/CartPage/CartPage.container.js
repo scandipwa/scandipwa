@@ -16,7 +16,7 @@ import PropTypes from 'prop-types';
 
 import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.component';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { CART, CART_EDITING, CUSTOMER_ACCOUNT } from 'Component/Header';
+import { CART, CART_EDITING } from 'Component/Header';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import { changeNavigationState } from 'Store/Navigation';
 import { showNotification } from 'Store/Notification';
