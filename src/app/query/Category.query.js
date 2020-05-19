@@ -58,6 +58,20 @@ export class CategoryQuery {
         ];
     }
 
+    _getCmsBlockFields() {
+        return [
+            'content',
+            'disabled',
+            'title',
+            'identifier'
+        ];
+    }
+
+    _getCmsBlockField() {
+        return new Field('cms_block')
+            .addFieldList(this._getCmsBlockFields());
+    }
+
     _getDefaultFields() {
         return [
             'id',
@@ -74,7 +88,7 @@ export class CategoryQuery {
             'default_sort_by',
             'meta_description',
             'landing_page',
-            'cms_html',
+            this._getCmsBlockField(),
             this._getBreadcrumbsField()
         ];
     }

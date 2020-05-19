@@ -166,19 +166,25 @@ export default class CategoryPage extends PureComponent {
     }
 
     renderCmsBlock() {
-        const { category: { cms_html } } = this.props;
+        const { category: { cms_block } } = this.props;
 
-        if (!cms_html) {
+        if (!cms_block) {
+            return null;
+        }
+
+        const { content, disabled } = cms_block;
+
+        if (disabled) {
             return null;
         }
 
         return (
-            <ContentWrapper
-              wrapperMix={ { block: 'CategoryPage', elem: 'Content' } }
-              label="Category page Cms Block"
+            <div
+              block="CategoryPage"
+              elem="CMS"
             >
-                <Html content={ cms_html } />
-            </ContentWrapper>
+                <Html content={ content } />
+            </div>
         );
     }
 
@@ -197,8 +203,8 @@ export default class CategoryPage extends PureComponent {
                         { this.renderFilterButton() }
                     </aside>
                     { this.renderCategoryProductList() }
+                    { this.renderCmsBlock() }
                 </ContentWrapper>
-                { this.renderCmsBlock() }
             </main>
         );
     }
