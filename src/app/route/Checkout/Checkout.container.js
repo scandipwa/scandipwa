@@ -183,11 +183,13 @@ export class CheckoutContainer extends PureComponent {
     goBack() {
         const { checkoutStep } = this.state;
         const { history } = this.props;
+
         if (checkoutStep === BILLING_STEP) {
             this.setState({
                 isLoading: false,
                 checkoutStep: SHIPPING_STEP
             });
+
             BrowserDatabase.deleteItem(PAYMENT_TOTALS);
         } else {
             history.push('/');
