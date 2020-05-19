@@ -60,6 +60,7 @@ export class CheckoutContainer extends PureComponent {
         createAccount: PropTypes.func.isRequired,
         updateMeta: PropTypes.func.isRequired,
         resetCart: PropTypes.func.isRequired,
+        guest_checkout: PropTypes.bool.isRequired,
         totals: TotalsType.isRequired,
         history: HistoryType.isRequired,
         customer: customerType.isRequired
@@ -115,8 +116,24 @@ export class CheckoutContainer extends PureComponent {
     }
 
     componentDidMount() {
-        const { updateMeta } = this.props;
+        const { history, guest_checkout, updateMeta } = this.props;
+
+        if (!guest_checkout) {
+            history.push('/');
+        }
+
         updateMeta({ title: __('Checkout') });
+    }
+
+    componentDidUpdate() {
+        const { customer: { addresses } } = this.props;
+        const { shippingMethods } = this.state;
+
+        if (isSignedIn()
+            && (addresses && addresses.length === 0)
+            && shippingMethods.length) {
+            this.resetShippingMethods();
+        }
     }
 
     componentWillUnmount() {
@@ -243,6 +260,10 @@ export class CheckoutContainer extends PureComponent {
     };
 
     _getGuestCartId = () => BrowserDatabase.getItem(GUEST_QUOTE_ID);
+
+    resetShippingMethods() {
+        this.setState({ shippingMethods: [] });
+    }
 
     _getPaymentMethods() {
         fetchQuery(CheckoutQuery.getPaymentMethodsQuery(

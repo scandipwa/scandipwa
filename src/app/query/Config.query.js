@@ -75,7 +75,8 @@ export class ConfigQuery {
                 'anchor_text_for_next',
                 'reviews_are_enabled',
                 'reviews_allow_guest',
-                'demo_notice'
+                'demo_notice',
+                'guest_checkout'
             ]);
     }
 }
