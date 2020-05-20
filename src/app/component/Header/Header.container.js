@@ -102,7 +102,8 @@ export class HeaderContainer extends NavigationAbstractContainer {
         onMyAccountOutsideClick: this.onMyAccountOutsideClick.bind(this),
         onMinicartOutsideClick: this.onMinicartOutsideClick.bind(this),
         closeOverlay: this.closeOverlay.bind(this),
-        onSignIn: this.onSignIn.bind(this)
+        onSignIn: this.onSignIn.bind(this),
+        hideActiveOverlay: this.props.hideActiveOverlay
     };
 
     containerProps = () => {

@@ -73,7 +73,8 @@ export default class Header extends NavigationAbstract {
         isCheckout: PropTypes.bool.isRequired,
         showMyAccountLogin: PropTypes.bool.isRequired,
         closeOverlay: PropTypes.func.isRequired,
-        onSignIn: PropTypes.func.isRequired
+        onSignIn: PropTypes.func.isRequired,
+        hideActiveOverlay: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -227,7 +228,8 @@ export default class Header extends NavigationAbstract {
             onSearchBarChange,
             onClearSearchButtonClick,
             navigationState: { name },
-            isCheckout
+            isCheckout,
+            hideActiveOverlay
         } = this.props;
 
         if (isCheckout) {
@@ -244,6 +246,7 @@ export default class Header extends NavigationAbstract {
               onClearSearchButtonClick={ onClearSearchButtonClick }
               isVisible={ isSearchVisible }
               isActive={ name === SEARCH }
+              hideActiveOverlay={ hideActiveOverlay }
             />
         );
     }
