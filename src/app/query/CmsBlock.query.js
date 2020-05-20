@@ -23,7 +23,9 @@ export class CmsBlockQuery extends ExtensibleClass {
      * @memberof CmsBlocksQuery
      */
     getQuery({ identifiers }) {
-        if (!identifiers) throw new Error('Missing argument `options`');
+        if (!identifiers) {
+            throw new Error('Missing argument `options`');
+        }
 
         return new Field('cmsBlocks')
             .addArgument('identifiers', '[String]', identifiers)

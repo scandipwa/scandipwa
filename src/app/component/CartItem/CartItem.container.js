@@ -47,7 +47,9 @@ export class CartItemContainer extends ExtensiblePureComponent {
     };
 
     componentWillUnmount() {
-        if (this.handlers.length) [].forEach.call(this.handlers, cancelablePromise => cancelablePromise.cancel());
+        if (this.handlers.length) {
+            [].forEach.call(this.handlers, cancelablePromise => cancelablePromise.cancel());
+        }
     }
 
     /**
@@ -157,14 +159,19 @@ export class CartItemContainer extends ExtensiblePureComponent {
             }
         } = this.props;
 
-        if (type_id !== 'configurable') return { pathname: `/product/${ url_key }` };
+        if (type_id !== 'configurable') {
+            return { pathname: `/product/${ url_key }` };
+        }
 
         const variant = variants[this._getVariantIndex()];
         const { attributes } = variant;
 
         const parameters = Object.entries(attributes).reduce(
             (parameters, [code, { attribute_value }]) => {
-                if (Object.keys(configurable_options).includes(code)) return { ...parameters, [code]: attribute_value };
+                if (Object.keys(configurable_options).includes(code)) {
+                    return { ...parameters, [code]: attribute_value };
+                }
+
                 return parameters;
             }, {}
         );

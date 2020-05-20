@@ -112,7 +112,9 @@ export class ProductReviewList extends ExtensiblePureComponent {
     render() {
         const { product } = this.props;
         const hasReviews = product.reviews && Object.keys(product.reviews).length > 0;
-        if (!hasReviews) return null;
+        if (!hasReviews) {
+            return null;
+        }
 
         return (
             <ul block="ProductReviewList">

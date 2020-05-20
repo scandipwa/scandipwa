@@ -161,7 +161,9 @@ export class CartPage extends ExtensiblePureComponent {
             }
         } = this.props;
 
-        if (!coupon_code) return null;
+        if (!coupon_code) {
+            return null;
+        }
 
         return (
             <>

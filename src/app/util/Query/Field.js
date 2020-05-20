@@ -23,7 +23,9 @@ export class Field extends ExtensibleClass {
      */
     constructor(name) {
         super();
-        if (!name || typeof name !== 'string') throw new Error('Field name must be non-empty string');
+        if (!name || typeof name !== 'string') {
+            throw new Error('Field name must be non-empty string');
+        }
         this._name = name;
         this._fieldList = {};
         this._argumentList = {};
@@ -58,7 +60,9 @@ export class Field extends ExtensibleClass {
      */
     addField(field) {
         if (typeof field === 'object') {
-            if (!field.name) throw new Error('Argument does not have `name` property');
+            if (!field.name) {
+                throw new Error('Argument does not have `name` property');
+            }
 
             this._fieldList[ field.name ] = field;
         } else if (typeof field === 'string') {
@@ -78,7 +82,9 @@ export class Field extends ExtensibleClass {
      * @memberof Query
      */
     addFieldList(fieldList) {
-        if (!Array.isArray(fieldList)) throw new Error('Argument must be array');
+        if (!Array.isArray(fieldList)) {
+            throw new Error('Argument must be array');
+        }
 
         fieldList.forEach(field => this.addField(field));
         return this;
@@ -94,8 +100,12 @@ export class Field extends ExtensibleClass {
      * @memberof Field
      */
     addArgument(argumentName, type, value) {
-        if (!argumentName || typeof argumentName !== 'string') throw new Error('Argument must be non-empty string');
-        if (!type || typeof type !== 'string') throw new Error('Argument `type` must be non-empty string');
+        if (!argumentName || typeof argumentName !== 'string') {
+            throw new Error('Argument must be non-empty string');
+        }
+        if (!type || typeof type !== 'string') {
+            throw new Error('Argument `type` must be non-empty string');
+        }
 
         this._argumentList[ argumentName ] = {
             value,
@@ -113,7 +123,9 @@ export class Field extends ExtensibleClass {
      * @memberof Query
      */
     set alias(alias) {
-        if (typeof alias !== 'string') throw new Error('Argument is not a string');
+        if (typeof alias !== 'string') {
+            throw new Error('Argument is not a string');
+        }
         this._alias = alias;
         return this;
     }
@@ -126,7 +138,9 @@ export class Field extends ExtensibleClass {
      * @memberof Query
      */
     setAlias(alias) {
-        if (typeof alias !== 'string') throw new Error('Argument is not a string');
+        if (typeof alias !== 'string') {
+            throw new Error('Argument is not a string');
+        }
         this.alias = alias;
         return this;
     }
@@ -138,7 +152,9 @@ export class Field extends ExtensibleClass {
      * @memberof Query
      */
     setComponentType(component) {
-        if (!component || typeof component !== 'string') throw new Error('Argument must be non-empty string');
+        if (!component || typeof component !== 'string') {
+            throw new Error('Argument must be non-empty string');
+        }
         this._component = component;
         return this;
     }
@@ -189,7 +205,9 @@ export class Field extends ExtensibleClass {
      * @returns {Array}
      */
     get argumentDefinitions() {
-        if (this._argumentDefinitions) return this._argumentDefinitions;
+        if (this._argumentDefinitions) {
+            return this._argumentDefinitions;
+        }
 
         return null;
     }
@@ -219,7 +237,10 @@ export class Field extends ExtensibleClass {
      * @memberof Query
      */
     _argumentsToString() {
-        if (!this.argumentDefinitions.length) return '';
+        if (!this.argumentDefinitions.length) {
+            return '';
+        }
+
         return `(${ this.argumentDefinitions.join(', ') })`;
     }
 
@@ -235,7 +256,10 @@ export class Field extends ExtensibleClass {
         Object.keys(this._fieldList).forEach((property) => {
             body.push(this._fieldList[ property ].toString());
         });
-        if (!body.length) return '';
+        if (!body.length) {
+            return '';
+        }
+
         return `{ ${ body.join(', ') } }`;
     }
 

@@ -78,7 +78,9 @@ export class MenuOverlay extends ExtensiblePureComponent {
     }
 
     renderItemContentImage(icon, itemMods) {
-        if (!icon) return null;
+        if (!icon) {
+            return null;
+        }
 
         return (
             <Image
@@ -254,7 +256,9 @@ export class MenuOverlay extends ExtensiblePureComponent {
         const { menu } = this.props;
         const categoryArray = Object.values(menu);
 
-        if (!categoryArray.length) return null;
+        if (!categoryArray.length) {
+            return null;
+        }
 
         const {
             0: { children: mainCategories, title: mainCategoriesTitle }

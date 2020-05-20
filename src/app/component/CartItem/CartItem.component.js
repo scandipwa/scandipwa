@@ -61,7 +61,9 @@ export class CartItem extends ExtensiblePureComponent {
             getCurrentProduct
         } = this.props;
 
-        if (!variants || !configurable_options) return null;
+        if (!variants || !configurable_options) {
+            return null;
+        }
 
         const product = getCurrentProduct() || {};
         const { attributes = [] } = product;

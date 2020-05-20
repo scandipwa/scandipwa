@@ -39,9 +39,16 @@ export class MyAccountAddressBookContainer extends ExtensiblePureComponent {
 
     getDefaultPostfix(address) {
         const { default_billing, default_shipping } = address;
-        if (!default_billing && !default_shipping) return '';
-        if (default_billing && default_shipping) return ' - default shipping, billing address';
-        if (default_billing) return ' - default billing address';
+        if (!default_billing && !default_shipping) {
+            return '';
+        }
+        if (default_billing && default_shipping) {
+            return ' - default shipping, billing address';
+        }
+        if (default_billing) {
+            return ' - default billing address';
+        }
+
         return ' - default shipping address';
     }
 

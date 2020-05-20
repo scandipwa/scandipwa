@@ -16,7 +16,7 @@ import SharedTransitionContainer from 'Component/SharedTransition/SharedTransiti
 import ProductGallery, { IMAGE_TYPE } from './ProductGallery.component';
 
 export const THUMBNAIL_KEY = 'small_image';
-export const AMOUNT_OF_PLACEHOLDERS = 3;
+export const AMOUNT_OF_PLACEHOLDERS = 0;
 
 export class ProductGalleryContainer extends ExtensiblePureComponent {
     static propTypes = {
@@ -49,7 +49,10 @@ export class ProductGalleryContainer extends ExtensiblePureComponent {
     static getDerivedStateFromProps(props, state) {
         const { product: { id } } = props;
         const { prevProdId } = state;
-        if (prevProdId === id) return null;
+        if (prevProdId === id) {
+            return null;
+        }
+
         return { prevProdId: id, activeImage: 0 };
     }
 
@@ -79,7 +82,9 @@ export class ProductGalleryContainer extends ExtensiblePureComponent {
                 } = srcMedia;
 
                 const canBeShown = !disabled;
-                if (!canBeShown) return acc;
+                if (!canBeShown) {
+                    return acc;
+                }
 
                 const isThumbnail = types.includes(THUMBNAIL_KEY);
                 const key = isThumbnail ? 0 : position + 1;
@@ -141,7 +146,9 @@ export class ProductGalleryContainer extends ExtensiblePureComponent {
         const { isZoomEnabled } = this.state;
 
         if (args.scale !== 1) {
-            if (isZoomEnabled) return;
+            if (isZoomEnabled) {
+                return;
+            }
             document.documentElement.classList.add('overscrollPrevented');
             this.setState({ isZoomEnabled: true });
         }

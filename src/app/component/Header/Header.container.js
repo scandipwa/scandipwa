@@ -208,7 +208,9 @@ export class HeaderContainer extends NavigationAbstractContainer {
 
         this.setState({ searchCriteria: '' });
 
-        if (onBackClick) onBackClick();
+        if (onBackClick) {
+            onBackClick();
+        }
     }
 
     onCloseButtonClick() {
@@ -217,7 +219,9 @@ export class HeaderContainer extends NavigationAbstractContainer {
 
         this.setState({ searchCriteria: '' });
 
-        if (onCloseClick) onCloseClick();
+        if (onCloseClick) {
+            onCloseClick();
+        }
 
         hideActiveOverlay();
         goToPreviousNavigationState();
@@ -249,7 +253,9 @@ export class HeaderContainer extends NavigationAbstractContainer {
         if (
             (!isMobile.any() && name === SEARCH)
             || (isMobile.any() && name !== MENU)
-        ) return;
+        ) {
+            return;
+        }
 
         showOverlay(SEARCH);
 
@@ -295,10 +301,14 @@ export class HeaderContainer extends NavigationAbstractContainer {
             navigationState: { name }
         } = this.props;
 
-        if (isMobile.any()) return;
+        if (isMobile.any()) {
+            return;
+        }
 
         if (name === MENU || name === MENU_SUBCATEGORY) {
-            if (name === MENU_SUBCATEGORY) goToPreviousNavigationState();
+            if (name === MENU_SUBCATEGORY) {
+                goToPreviousNavigationState();
+            }
             goToPreviousNavigationState();
             hideActiveOverlay();
         }
@@ -334,8 +344,12 @@ export class HeaderContainer extends NavigationAbstractContainer {
         if (
             isMobile.any()
             || !(name === CUSTOMER_ACCOUNT || name === CUSTOMER_SUB_ACCOUNT)
-        ) return;
-        if (name === CUSTOMER_SUB_ACCOUNT) goToPreviousNavigationState();
+        ) {
+            return;
+        }
+        if (name === CUSTOMER_SUB_ACCOUNT) {
+            goToPreviousNavigationState();
+        }
         goToPreviousNavigationState();
         hideActiveOverlay();
     }
@@ -388,7 +402,9 @@ export class HeaderContainer extends NavigationAbstractContainer {
     onMinicartButtonClick() {
         const { showOverlay } = this.props;
 
-        if (!isMobile.any()) return showOverlay(CART);
+        if (!isMobile.any()) {
+            return showOverlay(CART);
+        }
 
         return history.push('/cart');
     }
@@ -400,7 +416,9 @@ export class HeaderContainer extends NavigationAbstractContainer {
             navigationState: { name }
         } = this.props;
 
-        if (isMobile.any() || name !== CART) return;
+        if (isMobile.any() || name !== CART) {
+            return;
+        }
 
         goToPreviousNavigationState();
         hideActiveOverlay();
@@ -409,7 +427,9 @@ export class HeaderContainer extends NavigationAbstractContainer {
     onEditButtonClick() {
         const { navigationState: { onEditClick } } = this.props;
 
-        if (onEditClick) onEditClick();
+        if (onEditClick) {
+            onEditClick();
+        }
     }
 
     onOkButtonClick() {
@@ -418,7 +438,9 @@ export class HeaderContainer extends NavigationAbstractContainer {
             goToPreviousNavigationState
         } = this.props;
 
-        if (onOkClick) onOkClick();
+        if (onOkClick) {
+            onOkClick();
+        }
         goToPreviousNavigationState();
     }
 
@@ -428,7 +450,9 @@ export class HeaderContainer extends NavigationAbstractContainer {
             goToPreviousNavigationState
         } = this.props;
 
-        if (onCancelClick) onCancelClick();
+        if (onCancelClick) {
+            onCancelClick();
+        }
         goToPreviousNavigationState();
     }
 

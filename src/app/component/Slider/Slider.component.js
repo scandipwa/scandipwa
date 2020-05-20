@@ -88,7 +88,9 @@ export class Slider extends ExtensiblePureComponent {
         const sliderWidth = this.draggableRef.current.offsetWidth;
         this.sliderWidth = sliderWidth;
 
-        if (!sliderChildren || !sliderChildren[0]) return;
+        if (!sliderChildren || !sliderChildren[0]) {
+            return;
+        }
 
         sliderChildren[0].onload = () => {
             CSS.setVariable(this.sliderRef, 'slider-height', `${sliderChildren[0].offsetHeight}px`);
@@ -171,7 +173,9 @@ export class Slider extends ExtensiblePureComponent {
         const activeSlidePercent = Math.abs(activeSlidePosition % 1);
         const isSlideBack = translate > lastTranslate;
 
-        if (!translate) return this.onClickChangeSlide(state, slideSize, lastTranslate, fullSliderSize);
+        if (!translate) {
+            return this.onClickChangeSlide(state, slideSize, lastTranslate, fullSliderSize);
+        }
 
         if (translate >= 0) {
             onActiveImageChange(0);
@@ -245,7 +249,9 @@ export class Slider extends ExtensiblePureComponent {
     handleInteraction(callback, ...args) {
         const { isInteractionDisabled } = this.props;
 
-        if (isInteractionDisabled || !callback) return;
+        if (isInteractionDisabled || !callback) {
+            return;
+        }
 
         callback.call(this, ...args);
     }
@@ -257,7 +263,9 @@ export class Slider extends ExtensiblePureComponent {
 
     renderCrumbs() {
         const { children } = this.props;
-        if (children.length <= 1) return null;
+        if (children.length <= 1) {
+            return null;
+        }
 
         return (
             <div

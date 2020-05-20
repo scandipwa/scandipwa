@@ -105,13 +105,17 @@ export class Form extends ExtensiblePureComponent {
             const { current: inputNode } = refMap[name];
 
             const rule = validation.find((rule) => {
-                if (!validationConfig[rule]) return false;
+                if (!validationConfig[rule]) {
+                    return false;
+                }
                 const validationRules = validationConfig[rule];
                 const isValid = validationRules.validate(inputNode, refMap);
                 return !isValid;
             });
 
-            if (rule) return validationConfig[rule];
+            if (rule) {
+                return validationConfig[rule];
+            }
         }
 
         return {};
@@ -133,7 +137,10 @@ export class Form extends ExtensiblePureComponent {
     static getDerivedStateFromProps(props, state) {
         const { refMap, fieldsAreValid } = state;
         const { children } = props;
-        if (fieldsAreValid) return Form.updateChildrenRefs(props);
+        if (fieldsAreValid) {
+            return Form.updateChildrenRefs(props);
+        }
+
         return Form.cloneAndValidateChildren(children, refMap);
     }
 
@@ -171,7 +178,10 @@ export class Form extends ExtensiblePureComponent {
         }, this.collectFieldsInformation());
 
         const asyncData = Promise.all(portalData.reduce((acc, { asyncData }) => {
-            if (!asyncData) return acc;
+            if (!asyncData) {
+                return acc;
+            }
+
             return [...acc, asyncData];
         }, []));
 
@@ -205,7 +215,9 @@ export class Form extends ExtensiblePureComponent {
             if (current && current.id && current.value) {
                 const { name, value, checked } = current;
 
-                if (current.dataset.skipValue === 'true') return inputValues;
+                if (current.dataset.skipValue === 'true') {
+                    return inputValues;
+                }
 
                 if (current.type === 'checkbox') {
                     const boolValue = checked;
@@ -242,7 +254,9 @@ export class Form extends ExtensiblePureComponent {
               block="Form"
               mix={ mix }
               mods={ { isInvalid: !fieldsAreValid } }
-              ref={ (ref) => { this.form = ref; } }
+              ref={ (ref) => {
+                  this.form = ref;
+              } }
               id={ id }
               onSubmit={ this.handleFormSubmit }
             >

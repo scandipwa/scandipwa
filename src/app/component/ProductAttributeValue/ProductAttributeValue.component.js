@@ -54,7 +54,9 @@ export class ProductAttributeValue extends ExtensiblePureComponent {
 
         if (attribute_options) {
             const optionValues = attribute_options[value];
-            if (optionValues) return optionValues;
+            if (optionValues) {
+                return optionValues;
+            }
         }
 
         return {};
@@ -82,7 +84,10 @@ export class ProductAttributeValue extends ExtensiblePureComponent {
 
         const labelsArray = attribute_value.split(',').reduce((labels, value) => {
             const { label } = this.getOptionLabel(value);
-            if (label) labels.push(label);
+            if (label) {
+                labels.push(label);
+            }
+
             return labels;
         }, []);
 
@@ -94,7 +99,9 @@ export class ProductAttributeValue extends ExtensiblePureComponent {
         const attributeOption = this.getOptionLabel(attribute_value);
         const { label, swatch_data } = attributeOption;
 
-        if (!swatch_data) return this.renderStringValue(label || __('N/A'));
+        if (!swatch_data) {
+            return this.renderStringValue(label || __('N/A'));
+        }
 
         const { value, type } = swatch_data;
 
@@ -123,7 +130,9 @@ export class ProductAttributeValue extends ExtensiblePureComponent {
         const { isFormattedAsText, isSelected } = this.props;
         const isLight = this.getIsColorLight(color);
 
-        if (isFormattedAsText) return label || __('N/A');
+        if (isFormattedAsText) {
+            return label || __('N/A');
+        }
 
         return (
             <data
@@ -144,7 +153,10 @@ export class ProductAttributeValue extends ExtensiblePureComponent {
     renderImageValue(img, label) {
         const { isFormattedAsText, isSelected } = this.props;
 
-        if (isFormattedAsText) return label || __('N/A');
+        if (isFormattedAsText) {
+            return label || __('N/A');
+        }
+
         return (
             <>
                 <img
@@ -190,9 +202,13 @@ export class ProductAttributeValue extends ExtensiblePureComponent {
         const { isFormattedAsText, isSelected } = this.props;
         const isSwatch = label;
 
-        if (isFormattedAsText) return label || value || __('N/A');
+        if (isFormattedAsText) {
+            return label || value || __('N/A');
+        }
 
-        if (!isSwatch) return this.renderDropdown(value);
+        if (!isSwatch) {
+            return this.renderDropdown(value);
+        }
 
         return (
             <span
@@ -233,7 +249,9 @@ export class ProductAttributeValue extends ExtensiblePureComponent {
             isFormattedAsText
         } = this.props;
 
-        if (attribute_code && !attribute_value) return null;
+        if (attribute_code && !attribute_value) {
+            return null;
+        }
 
         const href = getLink(attribute);
         // Invert to apply css rule without using not()

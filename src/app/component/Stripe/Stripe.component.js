@@ -52,16 +52,14 @@ export class Stripe extends ExtensiblePureComponent {
         } = this.props;
 
         return (
-            <>
-                <StripeProvider apiKey={ stripeKey }>
-                    <Elements>
-                        <InjectedStripeCheckoutForm
-                          onRef={ setStripeRef }
-                          billingAddress={ billingAddress }
-                        />
-                    </Elements>
-                </StripeProvider>
-            </>
+            <StripeProvider apiKey={ stripeKey }>
+                <Elements>
+                    <InjectedStripeCheckoutForm
+                      onRef={ setStripeRef }
+                      billingAddress={ billingAddress }
+                    />
+                </Elements>
+            </StripeProvider>
         );
     }
 

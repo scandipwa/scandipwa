@@ -61,7 +61,10 @@ export class NoMatchHandler extends ExtensiblePureComponent {
 
     render() {
         const { children, noMatch } = this.props;
-        if (noMatch) return <NoMatch />;
+        if (noMatch) {
+            return <NoMatch />;
+        }
+
         return children;
     }
 }

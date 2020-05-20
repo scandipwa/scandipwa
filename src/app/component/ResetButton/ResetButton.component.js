@@ -35,7 +35,9 @@ export class ResetButton extends ExtensiblePureComponent {
     render() {
         const { mix, isContentFiltered } = this.props;
 
-        if (!isContentFiltered) return null;
+        if (!isContentFiltered) {
+            return null;
+        }
 
         return (
             <div

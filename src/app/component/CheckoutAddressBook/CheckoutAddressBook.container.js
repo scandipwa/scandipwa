@@ -45,8 +45,13 @@ export class CheckoutAddressBookContainer extends ExtensiblePureComponent {
         const defaultKey = isBilling ? 'default_billing' : 'default_shipping';
         const { [defaultKey]: defaultAddressId, addresses } = customer;
 
-        if (defaultAddressId) return +defaultAddressId;
-        if (addresses && addresses.length) return addresses[0].id;
+        if (defaultAddressId) {
+            return +defaultAddressId;
+        }
+        if (addresses && addresses.length) {
+            return addresses[0].id;
+        }
+
         return 0;
     }
 
@@ -59,12 +64,14 @@ export class CheckoutAddressBookContainer extends ExtensiblePureComponent {
 
         const {
             requestCustomerData,
-            customer: { id },
+            customer,
             onAddressSelect,
             isSignedIn
         } = props;
 
-        if (isSignedIn && !id) requestCustomerData();
+        if (isSignedIn && !Object.keys(customer).length) {
+            requestCustomerData();
+        }
 
         const defaultAddressId = CheckoutAddressBookContainer._getDefaultAddressId(props);
 
@@ -77,26 +84,6 @@ export class CheckoutAddressBookContainer extends ExtensiblePureComponent {
             prevDefaultAddressId: defaultAddressId,
             selectedAddressId: defaultAddressId
         };
-    }
-
-    componentDidUpdate(_, prevState) {
-        const {
-            onAddressSelect,
-            requestCustomerData,
-            isSignedIn,
-            customer: { id }
-        } = this.props;
-        const { selectedAddressId: prevSelectedAddressId } = prevState;
-        const { selectedAddressId } = this.state;
-
-        if (isSignedIn && !id) {
-            requestCustomerData();
-        }
-
-        if (selectedAddressId !== prevSelectedAddressId) {
-            onAddressSelect(selectedAddressId);
-            this.estimateShipping(selectedAddressId);
-        }
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -113,6 +100,26 @@ export class CheckoutAddressBookContainer extends ExtensiblePureComponent {
         return null;
     }
 
+    componentDidUpdate(_, prevState) {
+        const {
+            onAddressSelect,
+            requestCustomerData,
+            isSignedIn,
+            customer
+        } = this.props;
+        const { selectedAddressId: prevSelectedAddressId } = prevState;
+        const { selectedAddressId } = this.state;
+
+        if (isSignedIn && !Object.keys(customer).length) {
+            requestCustomerData();
+        }
+
+        if (selectedAddressId !== prevSelectedAddressId) {
+            onAddressSelect(selectedAddressId);
+            this.estimateShipping(selectedAddressId);
+        }
+    }
+
     onAddressSelect(address) {
         const { id = 0 } = address;
         this.setState({ selectedAddressId: id });
@@ -126,7 +133,9 @@ export class CheckoutAddressBookContainer extends ExtensiblePureComponent {
 
         const address = addresses.find(({ id }) => id === addressId);
 
-        if (!address) return;
+        if (!address) {
+            return;
+        }
 
         const {
             city,
@@ -138,7 +147,9 @@ export class CheckoutAddressBookContainer extends ExtensiblePureComponent {
             } = {}
         } = address;
 
-        if (!country_id) return;
+        if (!country_id) {
+            return;
+        }
 
         onShippingEstimationFieldsChange({
             city,

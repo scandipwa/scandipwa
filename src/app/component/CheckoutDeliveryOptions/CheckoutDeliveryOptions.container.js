@@ -50,6 +50,22 @@ export class CheckoutDeliveryOptionsContainer extends ExtensiblePureComponent {
         }
     }
 
+    static getDerivedStateFromProps(props, state) {
+        const { shippingMethods } = props;
+        const { prevShippingMethods } = state;
+
+        if (shippingMethods.length !== prevShippingMethods.length) {
+            const selectedShippingMethodCode = CheckoutDeliveryOptionsContainer._getDefaultMethod(props);
+
+            return {
+                selectedShippingMethodCode,
+                prevShippingMethods: shippingMethods
+            };
+        }
+
+        return null;
+    }
+
     componentDidMount() {
         if (window.formPortalCollector) {
             window.formPortalCollector.subscribe(SHIPPING_STEP, this.collectAdditionalData, 'CheckoutDeliveryOptions');
@@ -70,22 +86,6 @@ export class CheckoutDeliveryOptionsContainer extends ExtensiblePureComponent {
         }
     }
 
-    static getDerivedStateFromProps(props, state) {
-        const { shippingMethods } = props;
-        const { prevShippingMethods } = state;
-
-        if (shippingMethods.length !== prevShippingMethods.length) {
-            const selectedShippingMethodCode = CheckoutDeliveryOptionsContainer._getDefaultMethod(props);
-
-            return {
-                selectedShippingMethodCode,
-                prevShippingMethods: shippingMethods
-            };
-        }
-
-        return null;
-    }
-
     componentWillUnmount() {
         if (window.formPortalCollector) {
             window.formPortalCollector.unsubscribe(SHIPPING_STEP, 'CheckoutDeliveryOptions');
@@ -95,7 +95,10 @@ export class CheckoutDeliveryOptionsContainer extends ExtensiblePureComponent {
     collectAdditionalData = () => {
         const { selectedShippingMethodCode } = this.state;
         const additionalDataGetter = this.dataMap[selectedShippingMethodCode];
-        if (!additionalDataGetter) return {};
+        if (!additionalDataGetter) {
+            return {};
+        }
+
         return additionalDataGetter();
     };
 

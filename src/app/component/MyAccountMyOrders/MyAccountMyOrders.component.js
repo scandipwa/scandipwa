@@ -70,7 +70,9 @@ export class MyAccountMyOrders extends ExtensiblePureComponent {
     renderOrdersList() {
         const { orderList, isLoading } = this.props;
 
-        if (!isLoading && !orderList.length) return this.renderNoOrders();
+        if (!isLoading && !orderList.length) {
+            return this.renderNoOrders();
+        }
 
         const orders = orderList.length
             ? orderList
@@ -86,13 +88,11 @@ export class MyAccountMyOrders extends ExtensiblePureComponent {
         const { isLoading } = this.props;
 
         return (
-            <>
-                <div block="MyAccountMyOrders">
-                    <Loader isLoading={ isLoading } />
-                    { this.renderTable() }
-                    { this.renderPopup() }
-                </div>
-            </>
+            <div block="MyAccountMyOrders">
+                <Loader isLoading={ isLoading } />
+                { this.renderTable() }
+                { this.renderPopup() }
+            </div>
         );
     }
 }

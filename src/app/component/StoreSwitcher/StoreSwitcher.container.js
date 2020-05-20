@@ -66,7 +66,9 @@ export class StoreSwitcherContainer extends DataContainer {
         return storeList.reduce((acc, {
             name, code, is_active, base_url
         }) => {
-            if (!is_active) return acc;
+            if (!is_active) {
+                return acc;
+            }
 
             return [
                 ...acc,

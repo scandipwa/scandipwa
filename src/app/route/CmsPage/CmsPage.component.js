@@ -31,7 +31,9 @@ export class CmsPage extends ExtensiblePureComponent {
     renderHeading() {
         const { page: { content_heading } } = this.props;
 
-        if (!content_heading) return null;
+        if (!content_heading) {
+            return null;
+        }
 
         return (
             <h1 block="CmsPage" elem="Heading">
@@ -43,7 +45,9 @@ export class CmsPage extends ExtensiblePureComponent {
     renderContent() {
         const { isLoading, page: { content } } = this.props;
 
-        if (!isLoading && !content) return null;
+        if (!isLoading && !content) {
+            return null;
+        }
 
         if (!content) {
             return (

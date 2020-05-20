@@ -98,14 +98,18 @@ export class CategoryProductListPlaceholder extends ExtensiblePureComponent {
             mix
         } = this.props;
 
-        if (!isLoading && !isVisible) return null;
+        if (!isLoading && !isVisible) {
+            return null;
+        }
 
         return (
             <>
                 <div
                   block="CategoryProductListPlaceholder"
                   elem="Offset"
-                  ref={ isVisible ? (node) => { this.node = node; } : undefined }
+                  ref={ isVisible ? (node) => {
+                      this.node = node;
+                  } : undefined }
                 />
                 <ul
                   block="CategoryProductList"

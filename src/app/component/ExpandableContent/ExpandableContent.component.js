@@ -23,8 +23,12 @@ export class ExpandableContent extends ExtensiblePureComponent {
         mix: MixType.isRequired,
         onClick: (props, propName, componentName) => {
             const propValue = props[propName];
-            if (propValue === null) return;
-            if (typeof propValue === 'function') return;
+            if (propValue === null) {
+                return;
+            }
+            if (typeof propValue === 'function') {
+                return;
+            }
             throw new Error(`${componentName} only accepts null or string`);
         }
     };
@@ -60,7 +64,9 @@ export class ExpandableContent extends ExtensiblePureComponent {
 
     toggleExpand = () => {
         const { onClick } = this.props;
-        if (onClick) { onClick(); return; }
+        if (onClick) {
+            onClick(); return;
+        }
         this.setState(({ isContentExpanded }) => (
             { isContentExpanded: !isContentExpanded }
         ));

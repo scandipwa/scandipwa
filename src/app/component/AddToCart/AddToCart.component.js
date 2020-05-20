@@ -52,7 +52,9 @@ export class AddToCart extends ExtensiblePureComponent {
             buttonClick
         } = this.props;
 
-        if (!type_id) this.renderPlaceholder();
+        if (!type_id) {
+            this.renderPlaceholder();
+        }
 
         return (
             <button

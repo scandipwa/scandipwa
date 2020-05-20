@@ -75,8 +75,12 @@ export class RangeSelector extends ExtensiblePureComponent {
         const { minValue, maxValue } = this.props;
         const newValue = { ...value };
 
-        if (newValue.max > maxValue) newValue.max = maxValue;
-        if (newValue.min < minValue) newValue.min = minValue;
+        if (newValue.max > maxValue) {
+            newValue.max = maxValue;
+        }
+        if (newValue.min < minValue) {
+            newValue.min = minValue;
+        }
 
         return newValue;
     }

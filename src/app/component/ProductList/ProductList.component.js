@@ -72,18 +72,24 @@ export class ProductList extends ExtensiblePureComponent {
 
     componentDidUpdate() {
         const { isInfiniteLoaderEnabled } = this.props;
-        if (isInfiniteLoaderEnabled) this.observePageChange();
+        if (isInfiniteLoaderEnabled) {
+            this.observePageChange();
+        }
     }
 
     componentWillUnmount() {
-        if (this.observer && this.observer.disconnect) this.observer.disconnect();
+        if (this.observer && this.observer.disconnect) {
+            this.observer.disconnect();
+        }
         this.observer = null;
     }
 
     observePageChange() {
         const { updatePage, isLoading } = this.props;
 
-        if (isLoading) this.pagesIntersecting = [];
+        if (isLoading) {
+            this.pagesIntersecting = [];
+        }
 
         if (!this.observer && 'IntersectionObserver' in window) {
             const threshold = this._getThreshold();
@@ -105,7 +111,9 @@ export class ProductList extends ExtensiblePureComponent {
                 });
 
                 const minPage = Math.min(...this.pagesIntersecting);
-                if (minPage < Infinity && minPage !== currentPage) updatePage(minPage);
+                if (minPage < Infinity && minPage !== currentPage) {
+                    updatePage(minPage);
+                }
             }, {
                 rootMargin: '0px',
                 threshold
@@ -118,7 +126,9 @@ export class ProductList extends ExtensiblePureComponent {
     updateObserver() {
         const currentNodes = Object.values(this.nodes);
 
-        if (!this.observer || currentNodes.length <= 0) return;
+        if (!this.observer || currentNodes.length <= 0) {
+            return;
+        }
 
         currentNodes.forEach((node) => {
             if (node && !this.observedNodes.includes(node)) {
@@ -149,7 +159,9 @@ export class ProductList extends ExtensiblePureComponent {
 
     renderLoadButton() {
         const { isShowLoading, isInfiniteLoaderEnabled, loadPrevPage } = this.props;
-        if (!isShowLoading || !isInfiniteLoaderEnabled) return null;
+        if (!isShowLoading || !isInfiniteLoaderEnabled) {
+            return null;
+        }
 
         return (
             <div
@@ -188,7 +200,9 @@ export class ProductList extends ExtensiblePureComponent {
             mix
         } = this.props;
 
-        if (isLoading) return null;
+        if (isLoading) {
+            return null;
+        }
 
         return Object.entries(pages).map(([pageNumber, items = []]) => (
             <ul
@@ -196,7 +210,9 @@ export class ProductList extends ExtensiblePureComponent {
               elem="Page"
               mix={ { ...mix, elem: 'Page' } }
               key={ pageNumber }
-              ref={ (node) => { this.nodes[pageNumber] = node; } }
+              ref={ (node) => {
+                  this.nodes[pageNumber] = node;
+              } }
             >
                 { items.map(product => (
                     <ProductCard
@@ -219,7 +235,9 @@ export class ProductList extends ExtensiblePureComponent {
             isInfiniteLoaderEnabled
         } = this.props;
 
-        if (!isInfiniteLoaderEnabled && !isLoading) return null;
+        if (!isInfiniteLoaderEnabled && !isLoading) {
+            return null;
+        }
 
         return (
             <CategoryProductListPlaceholder
@@ -240,7 +258,9 @@ export class ProductList extends ExtensiblePureComponent {
             isPaginationEnabled
         } = this.props;
 
-        if (!isPaginationEnabled) return null;
+        if (!isPaginationEnabled) {
+            return null;
+        }
 
         return (
             <CategoryPagination
@@ -253,7 +273,9 @@ export class ProductList extends ExtensiblePureComponent {
 
     renderTitle() {
         const { title } = this.props;
-        if (!title) return null;
+        if (!title) {
+            return null;
+        }
 
         return <h2>{ title }</h2>;
     }
@@ -261,7 +283,9 @@ export class ProductList extends ExtensiblePureComponent {
     render() {
         const { totalPages, isLoading, mix } = this.props;
 
-        if (!isLoading && totalPages === 0) return this.renderNoProducts();
+        if (!isLoading && totalPages === 0) {
+            return this.renderNoProducts();
+        }
 
         return (
             <div

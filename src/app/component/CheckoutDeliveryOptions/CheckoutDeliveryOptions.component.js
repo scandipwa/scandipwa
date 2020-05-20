@@ -66,14 +66,20 @@ export class CheckoutDeliveryOptions extends ExtensiblePureComponent {
 
     renderShippingMethods() {
         const { shippingMethods } = this.props;
-        if (!shippingMethods.length) return this.renderNoDeliveryOptions();
+        if (!shippingMethods.length) {
+            return this.renderNoDeliveryOptions();
+        }
+
         return shippingMethods.map(this.renderDeliveryOption);
     }
 
     renderSelectedShippingMethod() {
         const { selectedShippingMethodCode } = this.props;
         const render = this.shippingRenderMap[selectedShippingMethodCode];
-        if (!render) return null;
+        if (!render) {
+            return null;
+        }
+
         return render();
     }
 

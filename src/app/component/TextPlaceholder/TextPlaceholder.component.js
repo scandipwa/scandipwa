@@ -43,7 +43,10 @@ export class TextPlaceholder extends ExtensiblePureComponent {
 
     render() {
         const { content, length, mix } = this.props;
-        if (content) return content;
+        if (content) {
+            return content;
+        }
+
         return <span mix={ mix } block="TextPlaceholder" mods={ { length } } />;
     }
 }

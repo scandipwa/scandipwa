@@ -82,7 +82,9 @@ export class MyAccountOrderPopup extends ExtensiblePureComponent {
             shipping_address
         } = shipping_info || {};
 
-        if (!shipping_address) return null;
+        if (!shipping_address) {
+            return null;
+        }
 
         return (
             <div block="MyAccountOrderPopup" elem="ShippingWrapper">
@@ -193,7 +195,9 @@ export class MyAccountOrderPopup extends ExtensiblePureComponent {
     renderContent() {
         const { order: { order_products } } = this.props;
 
-        if (!order_products) return null;
+        if (!order_products) {
+            return null;
+        }
 
         return (
             <>

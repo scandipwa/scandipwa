@@ -66,7 +66,10 @@ export class MyAccountAddressBook extends ExtensiblePureComponent {
 
     renderAddressList() {
         const { customer: { addresses = [] } } = this.props;
-        if (!addresses.length) return this.renderNoAddresses();
+        if (!addresses.length) {
+            return this.renderNoAddresses();
+        }
+
         return addresses.map(this.renderAddress);
     }
 

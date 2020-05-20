@@ -22,7 +22,11 @@ export class ProductGalleryThumbnailImage extends ExtensiblePureComponent {
         media: PropTypes.shape({
             label: PropTypes.string,
             file: PropTypes.string,
-            media_type: PropTypes.string
+            media_type: PropTypes.string,
+            id: PropTypes.string,
+            thumbnail: PropTypes.shape({
+                url: PropTypes.string
+            })
         }).isRequired,
         index: PropTypes.number.isRequired,
         onActiveImageChange: PropTypes.func.isRequired

@@ -90,7 +90,8 @@ export class LinkedProductsDispatcher extends QueryDispatcher {
                     filter: {
                         productsSkuArray: relatedSKUs
                     }
-                }
+                },
+                notRequireInfo: true
             })
         ];
     }

@@ -48,7 +48,10 @@ export const getUrlParam = (match, location) => {
     const baseUrl = match.path;
     const currentUrl = location.pathname;
 
-    if (baseUrl === '/') return currentUrl.replace(baseUrl, '');
+    if (baseUrl === '/') {
+        return currentUrl.replace(baseUrl, '');
+    }
+
     return currentUrl.replace(baseUrl, '').substring(1);
 };
 
@@ -64,7 +67,9 @@ export const getQueryParam = (variable, location) => {
     // eslint-disable-next-line fp/no-loops
     for (let i = 0; i < vars.length; i++) {
         const pair = vars[i].split('=');
-        if (pair[0] === variable) return pair[1];
+        if (pair[0] === variable) {
+            return pair[1];
+        }
     }
 
     return false;
@@ -83,7 +88,9 @@ export const convertQueryStringToKeyValuePairs = (queryString) => {
         const pair = param.split('=');
         const [keyPair, valuePair] = pair;
 
-        if (keyPair.length > 0 && valuePair.length > 0) keyValuePairs[keyPair] = decodeURIComponent(valuePair);
+        if (keyPair.length > 0 && valuePair.length > 0) {
+            keyValuePairs[keyPair] = decodeURIComponent(valuePair);
+        }
     });
 
     return keyValuePairs;

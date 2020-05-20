@@ -24,6 +24,7 @@ import './SliderWidget.style';
 export class SliderWidget extends ExtensiblePureComponent {
     static propTypes = {
         slider: PropTypes.shape({
+            title: PropTypes.string,
             slides: PropTypes.arrayOf(
                 PropTypes.shape({
                     desktop_image: PropTypes.string,

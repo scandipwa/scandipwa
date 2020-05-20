@@ -52,7 +52,9 @@ export class QueryDispatcher extends ExtensibleClass {
 
         const queries = rawQueries instanceof Field ? [rawQueries] : rawQueries;
 
-        if (this.promise) this.promise.cancel();
+        if (this.promise) {
+            this.promise.cancel();
+        }
 
         this.promise = makeCancelable(
             new Promise((resolve, reject) => {

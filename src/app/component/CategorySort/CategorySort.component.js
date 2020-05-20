@@ -68,7 +68,9 @@ export class CategorySort extends ExtensiblePureComponent {
             sortKey, sortDirection, sortFields, selectOptions
         } = this.props;
 
-        if (!sortFields.length) return this.renderPlaceholder();
+        if (!sortFields.length) {
+            return this.renderPlaceholder();
+        }
 
         return (
             <Field

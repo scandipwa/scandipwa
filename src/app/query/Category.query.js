@@ -32,8 +32,12 @@ export class CategoryQuery extends ExtensibleClass {
 
     _getConditionalArguments() {
         const { categoryUrlPath, categoryIds } = this.options;
-        if (categoryUrlPath) return ['url_path', 'String!', categoryUrlPath];
-        if (categoryIds) return ['id', 'Int!', categoryIds];
+        if (categoryUrlPath) {
+            return ['url_path', 'String!', categoryUrlPath];
+        }
+        if (categoryIds) {
+            return ['id', 'Int!', categoryIds];
+        }
         throw new Error(__('There was an error requesting the category'));
     }
 

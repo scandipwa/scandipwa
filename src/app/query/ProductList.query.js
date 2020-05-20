@@ -22,7 +22,9 @@ export class ProductListQuery extends ExtensibleClass {
     }
 
     getQuery(options) {
-        if (!options) throw new Error('Missing argument `options`');
+        if (!options) {
+            throw new Error('Missing argument `options`');
+        }
 
         this.options = options;
 
@@ -44,8 +46,13 @@ export class ProductListQuery extends ExtensibleClass {
             categoryUrlPath: url => [`category_url_path: { eq: ${url} }`],
             priceRange: ({ min, max }) => {
                 const filters = [];
-                if (min) filters.push(`min_price: { gteq: ${min} }`);
-                if (max) filters.push(`max_price: { lteq: ${max} }`);
+                if (min) {
+                    filters.push(`min_price: { gteq: ${min} }`);
+                }
+                if (max) {
+                    filters.push(`max_price: { lteq: ${max} }`);
+                }
+
                 return filters;
             },
             productsIds: id => [`id: { eq: ${id} }`],
@@ -74,11 +81,11 @@ export class ProductListQuery extends ExtensibleClass {
                 handler: option => encodeURIComponent(option)
             },
             sort: {
-                type: 'ProductSortInput!',
+                type: 'ProductAttributeSortInput!',
                 handler: ({ sortKey, sortDirection }) => `{${sortKey}: ${sortDirection || 'ASC'}}`
             },
             filter: {
-                type: 'ProductFilterInput!',
+                type: 'ProductAttributeFilterInput!',
                 handler: (options = {}) => `{${ Object.entries(options).reduce(
                     (acc, [key, option]) => ((option && filterArgumentMap[key])
                         ? [...acc, ...filterArgumentMap[key](option)]
@@ -94,14 +101,22 @@ export class ProductListQuery extends ExtensibleClass {
         const argumentMap = this._getArgumentsMap();
 
         return Object.entries(args).reduce((acc, [key, arg]) => {
-            if (!arg) return acc;
+            if (!arg) {
+                return acc;
+            }
             const { type, handler = option => option } = argumentMap[key];
             return [...acc, [key, type, handler(arg)]];
         }, []);
     }
 
     _getProductFields() {
-        const { requireInfo } = this.options;
+        const { requireInfo, isSingleProduct, notRequireInfo } = this.options;
+
+        if (isSingleProduct || notRequireInfo) {
+            return [
+                this._getItemsField()
+            ];
+        }
 
         if (requireInfo) {
             return [

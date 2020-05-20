@@ -22,7 +22,9 @@ export class FormPortalCollector extends ExtensibleClass {
     }
 
     unsubscribe(id, name) {
-        if (!this.portalsObservers[id]) return;
+        if (!this.portalsObservers[id]) {
+            return;
+        }
         // eslint-disable-next-line fp/no-delete
         delete this.portalsObservers[id][name];
     }

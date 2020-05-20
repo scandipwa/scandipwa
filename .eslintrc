@@ -67,6 +67,21 @@
     "react/jsx-curly-spacing": [2, {"when": "always", "allowMultiline": false, "children": true} ],
     "import/no-named-as-default": 0,
     "import/no-named-as-default-member": 0,
+    // "react/jsx-max-depth": [2, { "max": 2 }],
+    "react/jsx-no-useless-fragment": [2, { "max": 2 }],
+    "curly": [2, "all"],
+    "brace-style": [2, "1tbs", { "allowSingleLine": false }],
+    "react/sort-comp": [2, {
+        "order": [
+            "type-annotations",
+            "static-variables",
+            "static-methods",
+            "instance-variables",
+            "lifecycle",
+            "everything-else",
+            "render"
+        ]
+    }],
     "react/jsx-filename-extension": 0,
     "react/prefer-stateless-function": 0,
     "react/button-has-type": 0,

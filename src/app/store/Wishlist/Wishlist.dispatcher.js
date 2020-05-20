@@ -110,7 +110,9 @@ export class WishlistDispatcher extends ExtensibleClass {
     }
 
     removeItemFromWishlist(dispatch, { item_id, noMessages }) {
-        if (!item_id) return null;
+        if (!item_id) {
+            return null;
+        }
         dispatch(updateIsLoading(true));
 
         if (noMessages) {

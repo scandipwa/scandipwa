@@ -30,7 +30,9 @@ export class SharedTransitionUnstated extends ExtensibleUnstatedContainer {
     registerSharedElementDestination = ({ current }) => {
         if (current) {
             this.setState(({ sharedElementDestination }) => {
-                if (sharedElementDestination) return {};
+                if (sharedElementDestination) {
+                    return {};
+                }
 
                 return {
                     sharedElementDestination: current,

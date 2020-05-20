@@ -138,6 +138,10 @@ export class Router extends ExtensiblePureComponent {
             position: 70
         },
         {
+            component: <Route path="/forgot-password" component={ MyAccount } />,
+            position: 71
+        },
+        {
             component: <Route path="/menu" component={ MenuPage } />,
             position: 80
         },

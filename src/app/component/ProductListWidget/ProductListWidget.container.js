@@ -123,7 +123,9 @@ export class ProductListWidgetContainer extends DataContainer {
     requestProductList(options) {
         const { isNext } = options;
 
-        if (!isNext) this.updateLoadStatus(true);
+        if (!isNext) {
+            this.updateLoadStatus(true);
+        }
 
         this.fetchData(
             [ProductListQuery.getQuery(options)],

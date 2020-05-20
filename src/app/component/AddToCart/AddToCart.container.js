@@ -135,7 +135,9 @@ export class AddToCartContainer extends ExtensiblePureComponent {
 
                 groupedProductItem.parent = product;
                 const quantity = groupedProductQuantity[groupedProductItem.id];
-                if (!quantity) return Promise.resolve();
+                if (!quantity) {
+                    return Promise.resolve();
+                }
 
                 return addProduct({
                     product: groupedProductItem,
@@ -175,7 +177,9 @@ export class AddToCartContainer extends ExtensiblePureComponent {
             product: { type_id, variants = {} } = {}
         } = this.props;
 
-        if (type_id !== 'configurable') return;
+        if (type_id !== 'configurable') {
+            return;
+        }
 
         const { sku } = variants[configurableVariantIndex];
 
@@ -185,7 +189,9 @@ export class AddToCartContainer extends ExtensiblePureComponent {
                 return wSku === sku;
             });
 
-        if (!isSignedIn() || wishlistItemKey === undefined) return;
+        if (!isSignedIn() || wishlistItemKey === undefined) {
+            return;
+        }
 
         const { wishlist: { id: item_id } } = wishlistItems[wishlistItemKey];
         removeFromWishlist({ item_id, sku, noMessage: true });

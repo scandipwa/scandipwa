@@ -77,7 +77,9 @@ export class ProductWishlistButtonContainer extends ExtensiblePureComponent {
             return showNotification('info', __('You must login or register to add items to your wishlist.'));
         }
 
-        if (isLoading) return null;
+        if (isLoading) {
+            return null;
+        }
 
         const product = this._getProductVariant();
         if (product === ERROR_CONFIGURABLE_NOT_PROVIDED) {
@@ -86,7 +88,9 @@ export class ProductWishlistButtonContainer extends ExtensiblePureComponent {
         }
 
         const { sku: variantSku, product_option } = product;
-        if (add) return addProductToWishlist({ sku, product_option, quantity });
+        if (add) {
+            return addProductToWishlist({ sku, product_option, quantity });
+        }
 
         const { wishlist: { id: item_id } } = Object.values(productsInWishlist).find(
             ({ wishlist: { sku } }) => sku === variantSku
@@ -99,7 +103,10 @@ export class ProductWishlistButtonContainer extends ExtensiblePureComponent {
         const { isLoading } = this.props;
         const product = this._getProductVariant();
 
-        if (product === ERROR_CONFIGURABLE_NOT_PROVIDED) return true;
+        if (product === ERROR_CONFIGURABLE_NOT_PROVIDED) {
+            return true;
+        }
+
         return isLoading || !isSignedIn();
     };
 
@@ -107,7 +114,9 @@ export class ProductWishlistButtonContainer extends ExtensiblePureComponent {
         const { productsInWishlist } = this.props;
         const product = this._getProductVariant();
 
-        if (product === ERROR_CONFIGURABLE_NOT_PROVIDED) return false;
+        if (product === ERROR_CONFIGURABLE_NOT_PROVIDED) {
+            return false;
+        }
 
         const { sku: productSku } = product;
         return Object.values(productsInWishlist).findIndex(({ wishlist: { sku } }) => sku === productSku) >= 0;
@@ -131,7 +140,9 @@ export class ProductWishlistButtonContainer extends ExtensiblePureComponent {
         } = this.props;
 
         if (type_id === 'configurable') {
-            if (configurableVariantIndex < 0) return ERROR_CONFIGURABLE_NOT_PROVIDED;
+            if (configurableVariantIndex < 0) {
+                return ERROR_CONFIGURABLE_NOT_PROVIDED;
+            }
 
             const extension_attributes = getExtensionAttributes({ ...product, configurableVariantIndex });
             const variant = product.variants[configurableVariantIndex];

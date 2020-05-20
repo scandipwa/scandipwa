@@ -83,7 +83,9 @@ export class ProductReviewRating extends ExtensiblePureComponent {
 
         const ariaText = this.getAriaText(summary, code);
 
-        if (placeholder) return this.renderPlaceholder();
+        if (placeholder) {
+            return this.renderPlaceholder();
+        }
 
         return (
             <div

@@ -42,13 +42,18 @@ export class SearchField extends ExtensiblePureComponent {
 
     static getDerivedStateFromProps(props) {
         const { isActive } = props;
-        if (isActive) return null;
+        if (isActive) {
+            return null;
+        }
+
         return { isPlaceholderVisible: true };
     }
 
     onClearSearchButtonClick(isFocusOnSearchBar = true) {
         const { onClearSearchButtonClick } = this.props;
-        if (isFocusOnSearchBar) this.searchBarRef.current.focus();
+        if (isFocusOnSearchBar) {
+            this.searchBarRef.current.focus();
+        }
         onClearSearchButtonClick();
     }
 

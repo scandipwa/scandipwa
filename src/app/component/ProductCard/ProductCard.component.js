@@ -62,7 +62,9 @@ export class ProductCard extends ExtensiblePureComponent {
 
     renderProductPrice() {
         const { productOrVariant: { price } } = this.props;
-        if (!price) return <TextPlaceholder />;
+        if (!price) {
+            return <TextPlaceholder />;
+        }
 
         return (
             <ProductPrice
@@ -129,7 +131,9 @@ export class ProductCard extends ExtensiblePureComponent {
 
     renderReviews() {
         const { product: { review_summary: { rating_summary } = {} } } = this.props;
-        if (!rating_summary) return null;
+        if (!rating_summary) {
+            return null;
+        }
 
         return (
             <div
@@ -146,7 +150,9 @@ export class ProductCard extends ExtensiblePureComponent {
         const { product_list_content: { attribute_to_display } = {} } = window.contentConfiguration;
         const brand = getAttribute(attribute_to_display || 'brand') || {};
 
-        if (sku && !brand) return null;
+        if (sku && !brand) {
+            return null;
+        }
 
         return (
             <div

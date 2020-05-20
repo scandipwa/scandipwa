@@ -42,7 +42,9 @@ export class KeyValueTable extends ExtensiblePureComponent {
         const { key, label } = data;
         const value = this.getValueFromSource(data);
 
-        if (!value) return null;
+        if (!value) {
+            return null;
+        }
 
         return (
             <tr key={ key }>
@@ -54,7 +56,9 @@ export class KeyValueTable extends ExtensiblePureComponent {
 
     renderHeading() {
         const { title } = this.props;
-        if (!title) return null;
+        if (!title) {
+            return null;
+        }
 
         return (
             <tr>

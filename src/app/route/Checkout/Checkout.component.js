@@ -201,7 +201,10 @@ export class Checkout extends ExtensiblePureComponent {
     renderStep() {
         const { checkoutStep } = this.props;
         const { render } = this.stepMap[checkoutStep];
-        if (render) return render();
+        if (render) {
+            return render();
+        }
+
         return null;
     }
 
@@ -214,7 +217,9 @@ export class Checkout extends ExtensiblePureComponent {
         const { checkoutTotals, checkoutStep, paymentTotals } = this.props;
         const { areTotalsVisible } = this.stepMap[checkoutStep];
 
-        if (!areTotalsVisible) return null;
+        if (!areTotalsVisible) {
+            return null;
+        }
 
         return (
             <CheckoutOrderSummary
@@ -234,7 +239,9 @@ export class Checkout extends ExtensiblePureComponent {
             } = {}
         } = window.contentConfiguration;
 
-        if (!promo) return null;
+        if (!promo) {
+            return null;
+        }
 
         return <CmsBlock identifiers={ [promo] } />;
     }

@@ -99,7 +99,9 @@ export class OfflineNoticeContainer extends ExtensiblePureComponent {
         } else {
             document.documentElement.classList.add('offline');
             showOfflineNotice(true);
-            if (isBig) setBigOfflineNotice(false);
+            if (isBig) {
+                setBigOfflineNotice(false);
+            }
         }
     };
 

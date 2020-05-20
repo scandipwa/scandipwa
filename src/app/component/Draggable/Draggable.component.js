@@ -84,7 +84,9 @@ export class Draggable extends ExtensiblePureComponent {
         window.addEventListener('touchmove', this.handleTouchMove);
         window.addEventListener('touchend', this.handleTouchEnd);
 
-        if (touches.length === 1) this._handleDragStart(touches[0]);
+        if (touches.length === 1) {
+            this._handleDragStart(touches[0]);
+        }
     };
 
     handleMouseDown = (event) => {
@@ -96,14 +98,18 @@ export class Draggable extends ExtensiblePureComponent {
     };
 
     handleTouchMove = ({ touches }) => {
-        if (touches.length === 1) this.handleMouseMove(touches[0]);
+        if (touches.length === 1) {
+            this.handleMouseMove(touches[0]);
+        }
     };
 
     handleMouseMove = ({ clientX, clientY }) => {
         const { isDragging } = this.state;
         const { shiftX, shiftY } = this.props;
 
-        if (!isDragging) return;
+        if (!isDragging) {
+            return;
+        }
 
         this.setState(({
             originalX,
@@ -113,7 +119,9 @@ export class Draggable extends ExtensiblePureComponent {
             translateY: clientY - originalY + shiftY
         }), () => {
             const { onDrag } = this.props;
-            if (onDrag) onDrag({ ...this.state, clientX, clientY });
+            if (onDrag) {
+                onDrag({ ...this.state, clientX, clientY });
+            }
         });
     };
 
@@ -137,7 +145,9 @@ export class Draggable extends ExtensiblePureComponent {
     }) {
         const { onDragStart } = this.props;
 
-        if (onDragStart) onDragStart();
+        if (onDragStart) {
+            onDragStart();
+        }
 
         this.setState({
             originalX: clientX,

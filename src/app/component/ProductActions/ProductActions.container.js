@@ -29,43 +29,18 @@ export class ProductActionsContainer extends ExtensiblePureComponent {
         parameters: PropTypes.objectOf(PropTypes.string).isRequired
     };
 
-    state = {
-        quantity: 1,
-        groupedProductQuantity: {}
-    };
-
-    containerFunctions = {
-        showOnlyIfLoaded: this.showOnlyIfLoaded.bind(this),
-        getIsOptionInCurrentVariant: this.getIsOptionInCurrentVariant.bind(this),
-        setQuantity: this.setQuantity.bind(this),
-        setGroupedProductQuantity: this._setGroupedProductQuantity.bind(this),
-        clearGroupedProductQuantity: this._clearGroupedProductQuantity.bind(this),
-        getIsConfigurableAttributeAvailable: this.getIsConfigurableAttributeAvailable.bind(this)
-    };
-
-    static getDerivedStateFromProps(props, state) {
-        const { quantity } = state;
-        const minQty = ProductActionsContainer.getMinQuantity(props);
-        const maxQty = ProductActionsContainer.getMaxQuantity(props);
-
-        if (quantity < minQty) return { quantity: minQty };
-        if (quantity > maxQty) return { quantity: maxQty };
-
-        return null;
-    }
-
-    setQuantity(value) {
-        this.setState({ quantity: +value });
-    }
-
     static getMinQuantity(props) {
         const {
             product: { stock_item: { min_sale_qty } = {}, variants } = {},
             configurableVariantIndex
         } = props;
 
-        if (!min_sale_qty) return 1;
-        if (!configurableVariantIndex && !variants) return min_sale_qty;
+        if (!min_sale_qty) {
+            return 1;
+        }
+        if (!configurableVariantIndex && !variants) {
+            return min_sale_qty;
+        }
 
         const { stock_item: { min_sale_qty: minVariantQty } = {} } = variants[configurableVariantIndex] || {};
 
@@ -100,10 +75,46 @@ export class ProductActionsContainer extends ExtensiblePureComponent {
         return maxVariantQty || max_sale_qty;
     }
 
+    state = {
+        quantity: 1,
+        groupedProductQuantity: {}
+    };
+
+    containerFunctions = {
+        showOnlyIfLoaded: this.showOnlyIfLoaded.bind(this),
+        getIsOptionInCurrentVariant: this.getIsOptionInCurrentVariant.bind(this),
+        setQuantity: this.setQuantity.bind(this),
+        setGroupedProductQuantity: this._setGroupedProductQuantity.bind(this),
+        clearGroupedProductQuantity: this._clearGroupedProductQuantity.bind(this),
+        getIsConfigurableAttributeAvailable: this.getIsConfigurableAttributeAvailable.bind(this)
+    };
+
+    static getDerivedStateFromProps(props, state) {
+        const { quantity } = state;
+        const minQty = ProductActionsContainer.getMinQuantity(props);
+        const maxQty = ProductActionsContainer.getMaxQuantity(props);
+
+        if (quantity < minQty) {
+            return { quantity: minQty };
+        }
+        if (quantity > maxQty) {
+            return { quantity: maxQty };
+        }
+
+        return null;
+    }
+
+    setQuantity(value) {
+        this.setState({ quantity: +value });
+    }
+
     // TODO: make key=>value based
     getIsOptionInCurrentVariant(attribute, value) {
         const { configurableVariantIndex, product: { variants } } = this.props;
-        if (!variants) return false;
+        if (!variants) {
+            return false;
+        }
+
         return variants[configurableVariantIndex].product[attribute] === value;
     }
 
@@ -113,7 +124,9 @@ export class ProductActionsContainer extends ExtensiblePureComponent {
         const isAttributeSelected = Object.hasOwnProperty.call(parameters, attribute_code);
 
         // If value matches current attribute_value, option should be enabled
-        if (isAttributeSelected && parameters[attribute_code] === attribute_value) return true;
+        if (isAttributeSelected && parameters[attribute_code] === attribute_value) {
+            return true;
+        }
 
         const parameterPairs = Object.entries(parameters);
 
@@ -163,8 +176,13 @@ export class ProductActionsContainer extends ExtensiblePureComponent {
     showOnlyIfLoaded(expression, content, placeholder = content) {
         const { areDetailsLoaded } = this.props;
 
-        if (!areDetailsLoaded) return placeholder;
-        if (areDetailsLoaded && !expression) return null;
+        if (!areDetailsLoaded) {
+            return placeholder;
+        }
+        if (areDetailsLoaded && !expression) {
+            return null;
+        }
+
         return content;
     }
 

@@ -109,7 +109,9 @@ export class CheckoutGuestFormContainer extends ExtensiblePureComponent {
 
     render() {
         const { isSignedIn, isGuestEmailSaved } = this.props;
-        if (isSignedIn || isGuestEmailSaved) return null;
+        if (isSignedIn || isGuestEmailSaved) {
+            return null;
+        }
 
         return (
             <CheckoutGuestForm

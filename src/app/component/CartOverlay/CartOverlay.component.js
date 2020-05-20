@@ -36,7 +36,9 @@ export class CartOverlay extends ExtensiblePureComponent {
     renderCartItems() {
         const { isEditing, totals: { items, quote_currency_code } } = this.props;
 
-        if (!items || items.length < 1) return this.renderNoCartItems();
+        if (!items || items.length < 1) {
+            return this.renderNoCartItems();
+        }
 
         return (
             <ul block="CartOverlay" elem="Items" aria-label="List of items in cart">
@@ -91,7 +93,9 @@ export class CartOverlay extends ExtensiblePureComponent {
     renderDiscount() {
         const { totals: { coupon_code, discount_amount = 0 } } = this.props;
 
-        if (!coupon_code) return null;
+        if (!coupon_code) {
+            return null;
+        }
 
         return (
             <dl

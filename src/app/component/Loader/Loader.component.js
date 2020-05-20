@@ -25,7 +25,9 @@ export class Loader extends ExtensiblePureComponent {
     render() {
         const { isLoading } = this.props;
 
-        if (!isLoading) return null;
+        if (!isLoading) {
+            return null;
+        }
 
         return (
             <div block="Loader" elem="LoaderWrapper">

@@ -35,7 +35,10 @@ export class CheckoutAddressBook extends ExtensiblePureComponent {
 
     static getDerivedStateFromProps(props) {
         const { selectedAddressId } = props;
-        if (selectedAddressId === 0) return null;
+        if (selectedAddressId === 0) {
+            return null;
+        }
+
         return { isCustomAddressExpanded: false };
     }
 
@@ -81,8 +84,13 @@ export class CheckoutAddressBook extends ExtensiblePureComponent {
 
     renderAddressList() {
         const { customer: { addresses } } = this.props;
-        if (!addresses) return this.renderLoading();
-        if (!addresses.length) return this.renderNoAddresses();
+        if (!addresses) {
+            return this.renderLoading();
+        }
+        if (!addresses.length) {
+            return this.renderNoAddresses();
+        }
+
         return addresses.map(this.renderAddress);
     }
 
@@ -150,7 +158,10 @@ export class CheckoutAddressBook extends ExtensiblePureComponent {
 
     renderContent() {
         const { isSignedIn } = this.props;
-        if (isSignedIn) return this.renderSignedInContent();
+        if (isSignedIn) {
+            return this.renderSignedInContent();
+        }
+
         return this.renderGuestContent();
     }
 

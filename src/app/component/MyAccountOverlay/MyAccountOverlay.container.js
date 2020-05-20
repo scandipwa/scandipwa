@@ -143,9 +143,13 @@ export class MyAccountOverlayContainer extends ExtensiblePureComponent {
         const { hideActiveOverlay } = this.props;
         const currentPage = window.location.pathname;
 
-        if (oldMyAccountState === newMyAccountState) return;
+        if (oldMyAccountState === newMyAccountState) {
+            return;
+        }
 
-        if (isSignedIn()) hideActiveOverlay();
+        if (isSignedIn()) {
+            hideActiveOverlay();
+        }
 
         if (currentPage !== '/checkout' && newMyAccountState === STATE_LOGGED_IN) {
             history.push({ pathname: '/my-account/dashboard' });

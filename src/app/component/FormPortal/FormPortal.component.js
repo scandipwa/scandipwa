@@ -47,7 +47,9 @@ export class FormPortal extends Form {
 
     componentDidMount() {
         const { id, name } = this.props;
-        if (!id) throw new Error('Can not create a FormPortal without assignment to the Form ID!');
+        if (!id) {
+            throw new Error('Can not create a FormPortal without assignment to the Form ID!');
+        }
         this.subscribeToFormPortalCollector(id, name);
     }
 

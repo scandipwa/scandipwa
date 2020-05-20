@@ -54,7 +54,9 @@ export class CheckoutBilling extends ExtensiblePureComponent {
 
     componentDidMount() {
         const { termsAreEnabled } = this.props;
-        if (!termsAreEnabled) this.setState({ isOrderButtonEnabled: true });
+        if (!termsAreEnabled) {
+            this.setState({ isOrderButtonEnabled: true });
+        }
     }
 
     setOrderButtonVisibility = (isOrderButtonVisible) => {
@@ -134,7 +136,9 @@ export class CheckoutBilling extends ExtensiblePureComponent {
 
         const { termsAreEnabled } = this.props;
 
-        if (!isOrderButtonVisible) return null;
+        if (!isOrderButtonVisible) {
+            return null;
+        }
 
         // if terms and conditions are enabled, validate for acceptance
         const isDisabled = termsAreEnabled
@@ -201,7 +205,9 @@ export class CheckoutBilling extends ExtensiblePureComponent {
             shippingAddress
         } = this.props;
 
-        if (!paymentMethods.length) return null;
+        if (!paymentMethods.length) {
+            return null;
+        }
 
         return (
             <CheckoutPayments

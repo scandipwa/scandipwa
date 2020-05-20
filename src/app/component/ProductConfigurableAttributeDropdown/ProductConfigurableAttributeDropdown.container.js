@@ -59,7 +59,9 @@ export class ProductConfigurableAttributeDropdownContainer extends ExtensiblePur
                     attribute_value: value
                 });
 
-                if (!isAvailable) return acc;
+                if (!isAvailable) {
+                    return acc;
+                }
 
                 return [...acc, {
                     ...option,

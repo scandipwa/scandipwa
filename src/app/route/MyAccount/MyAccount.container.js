@@ -111,6 +111,10 @@ export class MyAccountContainer extends ExtensiblePureComponent {
         this.state = MyAccountContainer.navigateToSelectedTab(this.props) || {};
     }
 
+    static getDerivedStateFromProps(props, state) {
+        return MyAccountContainer.navigateToSelectedTab(props, state);
+    }
+
     componentDidMount() {
         const {
             isSignedIn,
@@ -128,16 +132,14 @@ export class MyAccountContainer extends ExtensiblePureComponent {
         this.updateBreadcrumbs();
     }
 
-    static getDerivedStateFromProps(props, state) {
-        return MyAccountContainer.navigateToSelectedTab(props, state);
-    }
-
     componentDidUpdate(_, prevState) {
         const { prevActiveTab } = prevState;
         const { activeTab } = this.state;
 
         this.redirectIfNotSignedIn();
-        if (prevActiveTab !== activeTab) this.updateBreadcrumbs();
+        if (prevActiveTab !== activeTab) {
+            this.updateBreadcrumbs();
+        }
     }
 
     onSignOut() {
@@ -188,7 +190,9 @@ export class MyAccountContainer extends ExtensiblePureComponent {
             history
         } = this.props;
 
-        if (isSignedIn) return;
+        if (isSignedIn) {
+            return;
+        }
 
         if (!isMobile.any()) {
             history.push('/');

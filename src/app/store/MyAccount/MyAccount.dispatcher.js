@@ -41,7 +41,9 @@ export class MyAccountDispatcher extends ExtensibleClass {
         const query = MyAccountQuery.getCustomerQuery();
 
         const customer = BrowserDatabase.getItem(CUSTOMER) || {};
-        if (customer.id) dispatch(updateCustomerDetails(customer));
+        if (customer.id) {
+            dispatch(updateCustomerDetails(customer));
+        }
 
         return executePost(prepareQuery([query])).then(
             ({ customer }) => {
@@ -113,7 +115,9 @@ export class MyAccountDispatcher extends ExtensibleClass {
             },
             (error) => {
                 dispatch(showNotification('error', error[0].message));
-                return Promise.reject();
+                Promise.reject();
+
+                return false;
             }
         );
     }

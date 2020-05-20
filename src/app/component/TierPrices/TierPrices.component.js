@@ -100,9 +100,9 @@ export class TierPrices extends ExtensiblePureComponent {
     }
 
     render() {
-        const { product: { tier_prices } } = this.props;
+        const { product, product: { tier_prices } } = this.props;
 
-        if (!tier_prices) {
+        if (!tier_prices || Object.keys(product).length <= 0 || !tier_prices.length) {
             return null;
         }
 

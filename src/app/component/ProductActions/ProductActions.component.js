@@ -69,7 +69,9 @@ export class ProductActions extends ExtensiblePureComponent {
     onGroupedProductError = this.onProductError.bind(this, this.groupedProductsRef);
 
     onProductError(ref) {
-        if (!ref) return;
+        if (!ref) {
+            return;
+        }
         const { current } = ref;
 
         current.scrollIntoView({
@@ -151,7 +153,9 @@ export class ProductActions extends ExtensiblePureComponent {
             getIsConfigurableAttributeAvailable
         } = this.props;
 
-        if (type_id !== 'configurable') return null;
+        if (type_id !== 'configurable') {
+            return null;
+        }
 
         return (
             <div
@@ -179,7 +183,9 @@ export class ProductActions extends ExtensiblePureComponent {
         const { product: { short_description, id } } = this.props;
         const { html } = short_description || {};
 
-        if (!html && id) return null;
+        if (!html && id) {
+            return null;
+        }
 
         const htmlWithItemProp = `<div itemProp="description">${ html }</div>`;
 
@@ -194,7 +200,9 @@ export class ProductActions extends ExtensiblePureComponent {
         const { product: { short_description, id } } = this.props;
         const { html } = short_description || {};
 
-        if (!html && id && isMobile.any()) return null;
+        if (!html && id && isMobile.any()) {
+            return null;
+        }
 
         return (
             <section
@@ -248,7 +256,9 @@ export class ProductActions extends ExtensiblePureComponent {
             product: { type_id }
         } = this.props;
 
-        if (type_id === GROUPED) return null;
+        if (type_id === GROUPED) {
+            return null;
+        }
 
         return (
             <Field
@@ -333,7 +343,9 @@ export class ProductActions extends ExtensiblePureComponent {
     renderPriceWithGlobalSchema() {
         const { product: { type_id } } = this.props;
 
-        if (type_id === GROUPED) return null;
+        if (type_id === GROUPED) {
+            return null;
+        }
 
         return (
             <div
@@ -368,7 +380,9 @@ export class ProductActions extends ExtensiblePureComponent {
     renderReviews() {
         const { product: { review_summary: { rating_summary, review_count } = {} } } = this.props;
 
-        if (!rating_summary) return null;
+        if (!rating_summary) {
+            return null;
+        }
 
         const ONE_FIFTH_OF_A_HUNDRED = 20;
         const rating = parseFloat(rating_summary / ONE_FIFTH_OF_A_HUNDRED).toFixed(2);
@@ -396,7 +410,9 @@ export class ProductActions extends ExtensiblePureComponent {
             clearGroupedProductQuantity
         } = this.props;
 
-        if (type_id !== GROUPED) return null;
+        if (type_id !== GROUPED) {
+            return null;
+        }
 
         return (
             <div

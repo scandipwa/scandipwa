@@ -144,7 +144,10 @@ export class CheckoutPayments extends ExtensiblePureComponent {
     renderSelectedPayment() {
         const { selectedPaymentCode } = this.props;
         const render = this.paymentRenderMap[selectedPaymentCode];
-        if (!render) return null;
+        if (!render) {
+            return null;
+        }
+
         return render();
     }
 

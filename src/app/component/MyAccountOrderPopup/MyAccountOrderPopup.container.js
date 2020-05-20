@@ -53,7 +53,10 @@ export class MyAccountOrderPopupContainer extends ExtensiblePureComponent {
         const { payload: { increment_id: id } } = props;
         const { prevOrderId } = state;
 
-        if (prevOrderId === id) return null;
+        if (prevOrderId === id) {
+            return null;
+        }
+
         return { order: {}, isLoading: true, prevOrderId: id };
     }
 
