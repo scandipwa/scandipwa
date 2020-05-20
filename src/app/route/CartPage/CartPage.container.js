@@ -110,8 +110,14 @@ export class CartPageContainer extends PureComponent {
         // to prevent outside-click handler trigger
         e.nativeEvent.stopImmediatePropagation();
 
-        if (guest_checkout && isSignedIn()) { // if guest-checkout is disabled
+        if (!guest_checkout) {
             history.push({ pathname: '/checkout' });
+            return;
+        }
+
+        if (isSignedIn()) {
+            history.push({ pathname: '/checkout' });
+            return;
         }
 
         // fir notification whatever device that is

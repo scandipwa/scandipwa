@@ -22,6 +22,7 @@ import CartOverlay from 'Component/CartOverlay';
 import MenuOverlay from 'Component/MenuOverlay';
 import { LOGO_MEDIA } from 'Util/Media/Media';
 import { TotalsType } from 'Type/MiniCart';
+import { isSignedIn } from 'Util/Auth';
 import isMobile from 'Util/Mobile';
 import Link from 'Component/Link';
 import Logo from 'Component/Logo';
@@ -314,6 +315,10 @@ export default class Header extends NavigationAbstract {
         } = this.props;
 
         if (isMobile.any() && !isCheckout) {
+            return null;
+        }
+
+        if (isCheckout && isSignedIn()) {
             return null;
         }
 

@@ -119,22 +119,12 @@ export class CheckoutContainer extends PureComponent {
     componentDidMount() {
         const { history, guest_checkout, updateMeta } = this.props;
 
-        if (!guest_checkout) {
+        // if guest checkout is disabled and user is not logged in => throw him to homepage
+        if (!guest_checkout && !isSignedIn()) {
             history.push('/');
         }
 
         updateMeta({ title: __('Checkout') });
-    }
-
-    componentDidUpdate() {
-        const { customer: { addresses } } = this.props;
-        const { shippingMethods } = this.state;
-
-        if (isSignedIn()
-            && (addresses && addresses.length === 0)
-            && shippingMethods.length) {
-            this.resetShippingMethods();
-        }
     }
 
     componentWillUnmount() {
@@ -261,10 +251,6 @@ export class CheckoutContainer extends PureComponent {
     };
 
     _getGuestCartId = () => BrowserDatabase.getItem(GUEST_QUOTE_ID);
-
-    resetShippingMethods() {
-        this.setState({ shippingMethods: [] });
-    }
 
     _getPaymentMethods() {
         fetchQuery(CheckoutQuery.getPaymentMethodsQuery(

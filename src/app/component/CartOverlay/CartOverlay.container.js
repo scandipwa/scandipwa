@@ -65,8 +65,14 @@ export class CartOverlayContainer extends PureComponent {
         // to prevent outside-click handler trigger
         e.nativeEvent.stopImmediatePropagation();
 
-        if (guest_checkout && isSignedIn()) { // if guest-checkout is disabled
+        if (!guest_checkout) {
             history.push({ pathname: '/checkout' });
+            return;
+        }
+
+        if (isSignedIn()) {
+            history.push({ pathname: '/checkout' });
+            return;
         }
 
         // there is no mobile, as cart overlay is not visible here
