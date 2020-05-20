@@ -86,12 +86,10 @@ export default class CategoryDetails extends PureComponent {
             return null;
         }
 
-        const src = image ? media(image, CATEGORY_MEDIA) : '';
-
         return (
             <Image
               mix={ { block: 'CategoryDetails', elem: 'Picture' } }
-              src={ src }
+              src={ image || '' }
               ratio="custom"
               objectFit="cover"
             />
