@@ -24,7 +24,7 @@ export const GUEST_QUOTE_ID = 'guest_quote_id';
  * Product Cart Dispatcher
  * @class CartDispatcher
  */
-export class CartDispatcher {
+export class CartDispatcher extends ExtensibleClass {
     updateInitialCartData(dispatch) {
         const guestQuoteId = this._getGuestQuoteId();
 
@@ -103,7 +103,7 @@ export class CartDispatcher {
         const productToAdd = {
             sku,
             product_type,
-            qty: parseInt(quantity, 10),
+            quantity,
             product_option: { extension_attributes: getExtensionAttributes(product) }
         };
 
@@ -219,4 +219,4 @@ export class CartDispatcher {
     }
 }
 
-export default new CartDispatcher();
+export default new (middleware(CartDispatcher, 'Store/Cart/Dispatcher'))();

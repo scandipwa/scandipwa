@@ -9,12 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
+
 import PropTypes from 'prop-types';
 import isMobile from 'Util/Mobile';
 import './DemoNotice.style';
 
-class DemoNotice extends PureComponent {
+export class DemoNotice extends ExtensiblePureComponent {
     static propTypes = {
         isDemoNoticeEnabled: PropTypes.bool
     };
@@ -62,4 +62,4 @@ class DemoNotice extends PureComponent {
     }
 }
 
-export default DemoNotice;
+export default middleware(DemoNotice, 'Component/DemoNotice/Component');

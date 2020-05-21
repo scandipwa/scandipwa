@@ -10,14 +10,14 @@
  */
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router';
-import { PureComponent } from 'react';
+
 import Form from 'Component/Form';
 import Field from 'Component/Field';
 import Loader from 'Component/Loader';
 import ContentWrapper from 'Component/ContentWrapper';
 import './ConfirmAccountPage.style';
 
-export default class ConfirmAccountPage extends PureComponent {
+export class ConfirmAccountPage extends ExtensiblePureComponent {
     static propTypes = {
         redirect: PropTypes.bool.isRequired,
         isLoading: PropTypes.bool.isRequired,
@@ -37,7 +37,9 @@ export default class ConfirmAccountPage extends PureComponent {
             onConfirmAttempt, onConfirmSuccess, onFormError
         } = this.props;
 
-        if (redirect || isSignedIn) return <Redirect to="/my-account/dashboard" />;
+        if (redirect || isSignedIn) {
+            return <Redirect to="/my-account/dashboard" />;
+        }
 
         return (
             <main block="ConfirmAccountPage" aria-label={ __('Confirm Account Page') }>
@@ -87,3 +89,5 @@ export default class ConfirmAccountPage extends PureComponent {
         );
     }
 }
+
+export default middleware(ConfirmAccountPage, 'Route/ConfirmAccountPage/Component');

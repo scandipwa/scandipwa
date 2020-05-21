@@ -9,9 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import {
-    createStore, combineReducers
-} from 'redux';
+import { createStore, combineReducers } from 'redux';
 
 import { CmsBlocksAndSliderReducer } from 'Store/CmsBlocksAndSlider';
 import { CategoryReducer } from 'Store/Category';
@@ -61,7 +59,7 @@ export const reducers = {
     LinkedProductsReducer
 };
 
-const store = createStore(
+export const store = createStore(
     combineReducers(reducers),
     ( // enable Redux dev-tools only in development
         process.env.NODE_ENV === 'development'

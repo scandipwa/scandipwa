@@ -10,10 +10,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import PayPal from 'Component/PayPal';
 import Klarna from 'Component/Klarna';
 import Stripe from 'Component/Stripe';
 import Braintree from 'Component/Braintree';
@@ -26,11 +24,9 @@ import './CheckoutPayments.style';
 export const KLARNA = 'klarna_kp';
 export const BRAINTREE = 'braintree';
 export const CHECK_MONEY = 'checkmo';
-export const PAYPAL_EXPRESS = 'paypal_express';
-export const PAYPAL_EXPRESS_CREDIT = 'paypal_express_bml';
 export const STRIPE = 'stripe_payments';
 
-class CheckoutPayments extends PureComponent {
+export class CheckoutPayments extends ExtensiblePureComponent {
     static propTypes = {
         showError: PropTypes.func.isRequired,
         setLoading: PropTypes.func.isRequired,
@@ -41,15 +37,7 @@ class CheckoutPayments extends PureComponent {
         setOrderButtonVisibility: PropTypes.func.isRequired,
         setStripeRef: PropTypes.func.isRequired,
         setOrderButtonEnableStatus: PropTypes.func.isRequired,
-        selectedPaymentCode: PropTypes.oneOf([
-            KLARNA,
-            BRAINTREE,
-            CHECK_MONEY,
-            PAYPAL_EXPRESS,
-            PAYPAL_EXPRESS_CREDIT,
-            CHECK_MONEY,
-            STRIPE
-        ]).isRequired,
+        selectedPaymentCode: PropTypes.string.isRequired,
         billingAddress: PropTypes.shape({
             city: PropTypes.string,
             company: PropTypes.string,
@@ -77,28 +65,12 @@ class CheckoutPayments extends PureComponent {
     paymentRenderMap = {
         [BRAINTREE]: this.renderBrainTreePayment.bind(this),
         [STRIPE]: this.renderStripePayment.bind(this),
-        [KLARNA]: this.renderKlarnaPayment.bind(this),
-        [PAYPAL_EXPRESS_CREDIT]: this.renderNotSupported.bind(this)
+        [KLARNA]: this.renderKlarnaPayment.bind(this)
     };
 
     state = {
         hasError: false
     };
-
-    componentDidUpdate(prevProps) {
-        const { selectedPaymentCode, setOrderButtonVisibility } = this.props;
-        const { selectedPaymentCode: prevSelectedPaymentCode } = prevProps;
-
-        if (selectedPaymentCode !== prevSelectedPaymentCode) {
-            if (selectedPaymentCode === PAYPAL_EXPRESS) {
-                setOrderButtonVisibility(false);
-            }
-
-            if (prevSelectedPaymentCode === PAYPAL_EXPRESS) {
-                setOrderButtonVisibility(true);
-            }
-        }
-    }
 
     componentDidCatch(error, info) {
         const { showError, setOrderButtonEnableStatus } = this.props;
@@ -172,7 +144,10 @@ class CheckoutPayments extends PureComponent {
     renderSelectedPayment() {
         const { selectedPaymentCode } = this.props;
         const render = this.paymentRenderMap[selectedPaymentCode];
-        if (!render) return null;
+        if (!render) {
+            return null;
+        }
+
         return render();
     }
 
@@ -181,22 +156,6 @@ class CheckoutPayments extends PureComponent {
             <h2 block="Checkout" elem="Heading">
                 { __('Select payment method') }
             </h2>
-        );
-    }
-
-    renderPayPal() {
-        const {
-            selectedPaymentCode,
-            setLoading,
-            setDetailsStep
-        } = this.props;
-
-        return (
-            <PayPal
-              setLoading={ setLoading }
-              setDetailsStep={ setDetailsStep }
-              selectedPaymentCode={ selectedPaymentCode }
-            />
         );
     }
 
@@ -216,7 +175,6 @@ class CheckoutPayments extends PureComponent {
                     { this.renderPayments() }
                 </ul>
                 { this.renderSelectedPayment() }
-                { this.renderPayPal() }
             </>
         );
     }
@@ -230,4 +188,4 @@ class CheckoutPayments extends PureComponent {
     }
 }
 
-export default CheckoutPayments;
+export default middleware(CheckoutPayments, 'Component/CheckoutPayments/Component');

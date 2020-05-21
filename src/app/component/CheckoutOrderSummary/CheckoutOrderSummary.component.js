@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import { TotalsType } from 'Type/MiniCart';
 import CartItem from 'Component/CartItem';
 import { formatCurrency, roundPrice } from 'Util/Price';
@@ -18,7 +17,7 @@ import './CheckoutOrderSummary.style';
 /**
  * Checkout Order Summary component
  */
-export default class CheckoutOrderSummary extends PureComponent {
+export class CheckoutOrderSummary extends ExtensiblePureComponent {
     static propTypes = {
         totals: TotalsType,
         paymentTotals: TotalsType
@@ -30,7 +29,9 @@ export default class CheckoutOrderSummary extends PureComponent {
     };
 
     renderPriceLine(price, name, mods) {
-        if (!price) return null;
+        if (!price) {
+            return null;
+        }
 
         const { totals: { quote_currency_code } } = this.props;
         const priceString = formatCurrency(quote_currency_code);
@@ -73,7 +74,9 @@ export default class CheckoutOrderSummary extends PureComponent {
             }
         } = this.props;
 
-        if (!coupon_code) return null;
+        if (!coupon_code) {
+            return null;
+        }
 
         return this.renderPriceLine(
             -Math.abs(discount_amount),
@@ -144,3 +147,5 @@ export default class CheckoutOrderSummary extends PureComponent {
         );
     }
 }
+
+export default middleware(CheckoutOrderSummary, 'Component/CheckoutOrderSummary/Component');

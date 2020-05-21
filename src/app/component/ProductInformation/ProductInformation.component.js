@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent, Fragment } from 'react';
+import { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 import Html from 'Component/Html';
@@ -20,7 +20,7 @@ import ProductAttributeValue from 'Component/ProductAttributeValue';
 
 import './ProductInformation.style';
 
-export default class ProductInformation extends PureComponent {
+export class ProductInformation extends ExtensiblePureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         areDetailsLoaded: PropTypes.bool.isRequired,
@@ -105,3 +105,5 @@ export default class ProductInformation extends PureComponent {
         );
     }
 }
+
+export default middleware(ProductInformation, 'Component/ProductInformation/Component');

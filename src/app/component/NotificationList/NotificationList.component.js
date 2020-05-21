@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Notification from 'Component/Notification';
 import { NotificationListType } from 'Type/NotificationList';
@@ -19,7 +18,7 @@ import './NotificationList.style';
  * Notification List
  * @class NotificationList
  */
-export default class NotificationList extends PureComponent {
+export class NotificationList extends ExtensiblePureComponent {
     static propTypes = {
         notifications: NotificationListType.isRequired,
         onHideNotification: PropTypes.func.isRequired
@@ -42,3 +41,5 @@ export default class NotificationList extends PureComponent {
         );
     }
 }
+
+export default middleware(NotificationList, 'Component/NotificationList/Component');

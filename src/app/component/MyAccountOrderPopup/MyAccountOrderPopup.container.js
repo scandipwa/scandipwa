@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -33,7 +32,7 @@ export const mapDispatchToProps = dispatch => ({
     getOrder: orderId => OrderDispatcher.getOrderById(dispatch, orderId)
 });
 
-export class MyAccountOrderPopupContainer extends PureComponent {
+export class MyAccountOrderPopupContainer extends ExtensiblePureComponent {
     static propTypes = {
         payload: PropTypes.shape({
             order: orderType,
@@ -54,7 +53,10 @@ export class MyAccountOrderPopupContainer extends PureComponent {
         const { payload: { increment_id: id } } = props;
         const { prevOrderId } = state;
 
-        if (prevOrderId === id) return null;
+        if (prevOrderId === id) {
+            return null;
+        }
+
         return { order: {}, isLoading: true, prevOrderId: id };
     }
 
@@ -107,4 +109,6 @@ export class MyAccountOrderPopupContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyAccountOrderPopupContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    middleware(MyAccountOrderPopupContainer, 'Component/MyAccountOrderPopup/Container')
+);

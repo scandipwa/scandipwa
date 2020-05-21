@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import media, { PRODUCT_MEDIA } from 'Util/Media';
@@ -25,7 +24,7 @@ import './GroupedProductsItem.style';
  * Grouped Product Item
  * @class GroupedProduct
  */
-export default class GroupedProductsItem extends PureComponent {
+export class GroupedProductsItem extends ExtensiblePureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         changeCount: PropTypes.func.isRequired,
@@ -68,3 +67,5 @@ export default class GroupedProductsItem extends PureComponent {
         );
     }
 }
+
+export default middleware(GroupedProductsItem, 'Component/GroupedProductsItem/Component');

@@ -9,12 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { MixType } from 'Type/Common';
 import './ResetButton.style';
 
-export default class ResetButton extends PureComponent {
+export class ResetButton extends ExtensiblePureComponent {
     static propTypes = {
         mix: MixType,
         resetFilters: PropTypes.func.isRequired,
@@ -36,7 +35,9 @@ export default class ResetButton extends PureComponent {
     render() {
         const { mix, isContentFiltered } = this.props;
 
-        if (!isContentFiltered) return null;
+        if (!isContentFiltered) {
+            return null;
+        }
 
         return (
             <div
@@ -58,3 +59,5 @@ export default class ResetButton extends PureComponent {
         );
     }
 }
+
+export default middleware(ResetButton, 'Component/ResetButton/Component');

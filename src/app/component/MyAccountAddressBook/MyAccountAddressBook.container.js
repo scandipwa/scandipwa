@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -27,7 +26,7 @@ export const mapDispatchToProps = dispatch => ({
     showPopup: payload => dispatch(showPopup(ADDRESS_POPUP_ID, payload))
 });
 
-export class MyAccountAddressBookContainer extends PureComponent {
+export class MyAccountAddressBookContainer extends ExtensiblePureComponent {
     static propTypes = {
         customer: customerType.isRequired,
         showPopup: PropTypes.func.isRequired
@@ -40,9 +39,16 @@ export class MyAccountAddressBookContainer extends PureComponent {
 
     getDefaultPostfix(address) {
         const { default_billing, default_shipping } = address;
-        if (!default_billing && !default_shipping) return '';
-        if (default_billing && default_shipping) return ' - default shipping, billing address';
-        if (default_billing) return ' - default billing address';
+        if (!default_billing && !default_shipping) {
+            return '';
+        }
+        if (default_billing && default_shipping) {
+            return ' - default shipping, billing address';
+        }
+        if (default_billing) {
+            return ' - default billing address';
+        }
+
         return ' - default shipping address';
     }
 
@@ -66,4 +72,6 @@ export class MyAccountAddressBookContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyAccountAddressBookContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    middleware(MyAccountAddressBookContainer, 'Component/MyAccountAddressBook/Container')
+);

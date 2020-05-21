@@ -9,11 +9,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import './ReviewStar.style';
 
-export default class ReviewStar extends PureComponent {
+export class ReviewStar extends ExtensiblePureComponent {
     static propTypes = {
         value: PropTypes.number.isRequired,
         name: PropTypes.number.isRequired,
@@ -58,3 +57,5 @@ export default class ReviewStar extends PureComponent {
         );
     }
 }
+
+export default middleware(ReviewStar, 'Component/ReviewStar/Component');

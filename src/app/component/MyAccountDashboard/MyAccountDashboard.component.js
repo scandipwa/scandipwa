@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import { customerType, ADDRESS_BOOK } from 'Type/Account';
@@ -22,7 +21,7 @@ import { MY_ACCOUNT_URL } from 'Route/MyAccount/MyAccount.container';
 import './MyAccountDashboard.style';
 import MyAccountCustomerPopup from 'Component/MyAccountCustomerPopup';
 
-class MyAccountDashboard extends PureComponent {
+export class MyAccountDashboard extends ExtensiblePureComponent {
     static propTypes = {
         customer: customerType.isRequired,
         getDefaultAddress: PropTypes.func.isRequired
@@ -58,7 +57,9 @@ class MyAccountDashboard extends PureComponent {
         const name = isBilling ? __('billing') : __('shipping');
         const address = getDefaultAddress(isBilling);
 
-        if (!address) return this.renderNoDefaultAddressConfigured(name);
+        if (!address) {
+            return this.renderNoDefaultAddressConfigured(name);
+        }
 
         return (
             <div
@@ -87,7 +88,9 @@ class MyAccountDashboard extends PureComponent {
     renderDefaultAddressTables() {
         const { customer: { addresses = [] } } = this.props;
 
-        if (!addresses.length) return this.renderNoAddresses();
+        if (!addresses.length) {
+            return this.renderNoAddresses();
+        }
 
         return [
             this.renderDefaultAddressTable(),
@@ -109,11 +112,11 @@ class MyAccountDashboard extends PureComponent {
     }
 
     render() {
-        const { customer: { id } } = this.props;
+        const { customer } = this.props;
 
         return (
             <div block="MyAccountDashboard">
-                <Loader isLoading={ !id } />
+                <Loader isLoading={ !Object.keys(customer).length } />
                 { this.renderCustomerTable() }
                 { this.renderDefaultAddressTables() }
                 { this.renderCustomerPopup() }
@@ -122,4 +125,4 @@ class MyAccountDashboard extends PureComponent {
     }
 }
 
-export default MyAccountDashboard;
+export default middleware(MyAccountDashboard, 'Component/MyAccountDashboard/Component');

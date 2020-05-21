@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import media, { PRODUCT_MEDIA } from 'Util/Media';
@@ -24,7 +23,7 @@ import './SearchOverlay.style';
 export const SEARCH_TIMEOUT = 500;
 export const AMOUNT_OF_PLACEHOLDERS = 5;
 
-export default class SearchOverlay extends PureComponent {
+export class SearchOverlay extends ExtensiblePureComponent {
     static propTypes = {
         hideActiveOverlay: PropTypes.func.isRequired,
         searchCriteria: PropTypes.string,
@@ -44,9 +43,10 @@ export default class SearchOverlay extends PureComponent {
         const { searchCriteria: prevSearchCriteria } = prevProps;
         const { searchCriteria, clearSearchResults, makeSearchRequest } = this.props;
 
-        if (this.timeout) clearTimeout(this.timeout);
-
         if (searchCriteria !== prevSearchCriteria) {
+            if (this.timeout) {
+                clearTimeout(this.timeout);
+            }
             clearSearchResults();
             this.timeout = setTimeout(() => {
                 this.timeout = null;
@@ -64,7 +64,9 @@ export default class SearchOverlay extends PureComponent {
 
     renderSearchItemAdditionalContent(brand) {
         const { isLoading } = this.props;
-        if (!isLoading && !brand) return null;
+        if (!isLoading && !brand) {
+            return null;
+        }
 
         return (
             <p block="SearchOverlay" elem="Brand">
@@ -152,8 +154,12 @@ export default class SearchOverlay extends PureComponent {
     renderSearchResults() {
         const { searchCriteria, searchResults, isLoading } = this.props;
 
-        if (!searchCriteria) return this.renderNoSearchCriteria();
-        if (!searchResults.length && !isLoading && !this.timeout) return this.renderNoResults();
+        if (!searchCriteria) {
+            return this.renderNoSearchCriteria();
+        }
+        if (!searchResults.length && !isLoading && !this.timeout) {
+            return this.renderNoResults();
+        }
         const resultsToRender = (isLoading || this.timeout) ? Array(AMOUNT_OF_PLACEHOLDERS).fill({}) : searchResults;
 
         return (
@@ -181,3 +187,5 @@ export default class SearchOverlay extends PureComponent {
         );
     }
 }
+
+export default middleware(SearchOverlay, 'Component/SearchOverlay/Component');

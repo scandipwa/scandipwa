@@ -11,11 +11,10 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
 import { MixType, ChildrenType } from 'Type/Common';
 import './Draggable.style';
 
-export default class Draggable extends PureComponent {
+export class Draggable extends ExtensiblePureComponent {
     static propTypes = {
         shiftX: PropTypes.number,
         shiftY: PropTypes.number,
@@ -85,7 +84,9 @@ export default class Draggable extends PureComponent {
         window.addEventListener('touchmove', this.handleTouchMove);
         window.addEventListener('touchend', this.handleTouchEnd);
 
-        if (touches.length === 1) this._handleDragStart(touches[0]);
+        if (touches.length === 1) {
+            this._handleDragStart(touches[0]);
+        }
     };
 
     handleMouseDown = (event) => {
@@ -97,14 +98,18 @@ export default class Draggable extends PureComponent {
     };
 
     handleTouchMove = ({ touches }) => {
-        if (touches.length === 1) this.handleMouseMove(touches[0]);
+        if (touches.length === 1) {
+            this.handleMouseMove(touches[0]);
+        }
     };
 
     handleMouseMove = ({ clientX, clientY }) => {
         const { isDragging } = this.state;
         const { shiftX, shiftY } = this.props;
 
-        if (!isDragging) return;
+        if (!isDragging) {
+            return;
+        }
 
         this.setState(({
             originalX,
@@ -114,7 +119,9 @@ export default class Draggable extends PureComponent {
             translateY: clientY - originalY + shiftY
         }), () => {
             const { onDrag } = this.props;
-            if (onDrag) onDrag({ ...this.state, clientX, clientY });
+            if (onDrag) {
+                onDrag({ ...this.state, clientX, clientY });
+            }
         });
     };
 
@@ -138,7 +145,9 @@ export default class Draggable extends PureComponent {
     }) {
         const { onDragStart } = this.props;
 
-        if (onDragStart) onDragStart();
+        if (onDragStart) {
+            onDragStart();
+        }
 
         this.setState({
             originalX: clientX,
@@ -195,3 +204,5 @@ export default class Draggable extends PureComponent {
         );
     }
 }
+
+export default middleware(Draggable, 'Component/Draggable/Component');

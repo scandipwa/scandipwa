@@ -11,12 +11,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 export const DEFAULT_STATE_NAME = 'default';
 
-class NavigationAbstract extends PureComponent {
+export class NavigationAbstract extends ExtensiblePureComponent {
     static propTypes = {
         // eslint-disable-next-line react/no-unused-prop-types
         navigationState: PropTypes.object.isRequired
@@ -47,4 +46,4 @@ class NavigationAbstract extends PureComponent {
     }
 }
 
-export default NavigationAbstract;
+export default middleware(NavigationAbstract, 'Component/NavigationAbstract/Component');

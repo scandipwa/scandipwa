@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -34,7 +33,7 @@ export const mapDispatchToProps = dispatch => ({
     showSuccessNotification: message => dispatch(showNotification('success', message))
 });
 
-export class MyAccountNewsletterSubscriptionContainer extends PureComponent {
+export class MyAccountNewsletterSubscriptionContainer extends ExtensiblePureComponent {
     static propTypes = {
         customer: customerType.isRequired,
         updateCustomer: PropTypes.func.isRequired,
@@ -92,4 +91,6 @@ export class MyAccountNewsletterSubscriptionContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyAccountNewsletterSubscriptionContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    middleware(MyAccountNewsletterSubscriptionContainer, 'Component/MyAccountNewsletterSubscription/Container')
+);

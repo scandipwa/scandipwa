@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent, createRef } from 'react';
+import { createRef } from 'react';
 import PropTypes from 'prop-types';
 
 import ClickOutside from 'Component/ClickOutside';
@@ -17,7 +17,7 @@ import SearchOverlay from 'Component/SearchOverlay';
 
 import './SearchField.style';
 
-class SearchField extends PureComponent {
+export class SearchField extends ExtensiblePureComponent {
     static propTypes = {
         searchCriteria: PropTypes.string,
         onSearchBarFocus: PropTypes.func.isRequired,
@@ -42,13 +42,18 @@ class SearchField extends PureComponent {
 
     static getDerivedStateFromProps(props) {
         const { isActive } = props;
-        if (isActive) return null;
+        if (isActive) {
+            return null;
+        }
+
         return { isPlaceholderVisible: true };
     }
 
     onClearSearchButtonClick(isFocusOnSearchBar = true) {
         const { onClearSearchButtonClick } = this.props;
-        if (isFocusOnSearchBar) this.searchBarRef.current.focus();
+        if (isFocusOnSearchBar) {
+            this.searchBarRef.current.focus();
+        }
         onClearSearchButtonClick();
     }
 
@@ -138,4 +143,4 @@ class SearchField extends PureComponent {
     }
 }
 
-export default SearchField;
+export default middleware(SearchField, 'Component/SearchField/Component');

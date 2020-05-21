@@ -1,10 +1,20 @@
-import { PureComponent } from 'react';
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
 import PropTypes from 'prop-types';
 import { formatCurrency, roundPrice } from 'Util/Price';
 import { ProductType } from 'Type/ProductList';
 import './TierPrices.style';
 
-class TierPrices extends PureComponent {
+export class TierPrices extends ExtensiblePureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         isLowestPrice: PropTypes.bool
@@ -90,9 +100,9 @@ class TierPrices extends PureComponent {
     }
 
     render() {
-        const { product: { tier_prices } } = this.props;
+        const { product, product: { tier_prices } } = this.props;
 
-        if (!tier_prices) {
+        if (!tier_prices || Object.keys(product).length <= 0 || !tier_prices.length) {
             return null;
         }
 
@@ -104,4 +114,4 @@ class TierPrices extends PureComponent {
     }
 }
 
-export default TierPrices;
+export default middleware(TierPrices, 'Component/TierPrices/Component');

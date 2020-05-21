@@ -11,10 +11,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+
 import './OfflineNotice.style';
 
-export default class OfflineNotice extends PureComponent {
+export class OfflineNotice extends ExtensiblePureComponent {
     static propTypes = {
         isPage: PropTypes.bool.isRequired,
         isBig: PropTypes.bool.isRequired
@@ -69,3 +69,5 @@ export default class OfflineNotice extends PureComponent {
         );
     }
 }
+
+export default middleware(OfflineNotice, 'Component/OfflineNotice/Component');

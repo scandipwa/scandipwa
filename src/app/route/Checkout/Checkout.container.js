@@ -9,11 +9,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { BRAINTREE, KLARNA } from 'Component/CheckoutPayments/CheckoutPayments.component';
 import { CART_TAB } from 'Component/NavigationTabs/NavigationTabs.component';
 import { TOP_NAVIGATION_TYPE, BOTTOM_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
@@ -53,7 +51,7 @@ export const mapDispatchToProps = dispatch => ({
     createAccount: options => MyAccountDispatcher.createAccount(options, dispatch)
 });
 
-export class CheckoutContainer extends PureComponent {
+export class CheckoutContainer extends ExtensiblePureComponent {
     static propTypes = {
         showErrorNotification: PropTypes.func.isRequired,
         toggleBreadcrumbs: PropTypes.func.isRequired,
@@ -77,11 +75,6 @@ export class CheckoutContainer extends PureComponent {
         onPasswordChange: this.onPasswordChange.bind(this)
     };
 
-    customPaymentMethods = [
-        KLARNA,
-        BRAINTREE
-    ];
-
     constructor(props) {
         super(props);
 
@@ -96,7 +89,9 @@ export class CheckoutContainer extends PureComponent {
 
         toggleBreadcrumbs(false);
 
-        if (!items.length) history.push('/cart');
+        if (!items.length) {
+            history.push('/cart');
+        }
 
         this.state = {
             isLoading: is_virtual,
@@ -382,7 +377,6 @@ export class CheckoutContainer extends PureComponent {
     }
 
     async savePaymentInformation(paymentInformation) {
-        const { paymentMethod: { method } } = paymentInformation;
         const { isGuestEmailSaved } = this.state;
         this.setState({ isLoading: true });
 
@@ -393,16 +387,11 @@ export class CheckoutContainer extends PureComponent {
             }
         }
 
-        if (this.customPaymentMethods.includes(method)) {
-            this.savePaymentMethodAndPlaceOrder(paymentInformation);
-            return;
-        }
-
-        this.savePaymentInformationAndPlaceOrder(paymentInformation);
+        this.savePaymentMethodAndPlaceOrder(paymentInformation);
     }
 
     async savePaymentMethodAndPlaceOrder(paymentInformation) {
-        const { paymentMethod: { method: code, additional_data } } = paymentInformation;
+        const { paymentMethod: { code, additional_data } } = paymentInformation;
         const guest_cart_id = !isSignedIn() ? this._getGuestCartId() : '';
 
         try {
@@ -422,21 +411,6 @@ export class CheckoutContainer extends PureComponent {
         }
     }
 
-    savePaymentInformationAndPlaceOrder(paymentInformation) {
-        fetchMutation(CheckoutQuery.getSavePaymentInformationAndPlaceOrder(
-            paymentInformation,
-            this._getGuestCartId()
-        )).then(
-            ({ savePaymentInformationAndPlaceOrder: data }) => {
-                const { orderID } = data;
-                this.setDetailsStep(orderID);
-            },
-            (error) => {
-                this._handlePaymentError(error, paymentInformation);
-            }
-        );
-    }
-
     render() {
         return (
             <Checkout
@@ -449,4 +423,6 @@ export class CheckoutContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CheckoutContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    middleware(CheckoutContainer, 'Route/Checkout/Container')
+);

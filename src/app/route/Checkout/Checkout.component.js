@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import { paymentMethodsType, shippingMethodsType } from 'Type/Checkout';
@@ -32,7 +31,7 @@ export const SHIPPING_STEP = 'SHIPPING_STEP';
 export const BILLING_STEP = 'BILLING_STEP';
 export const DETAILS_STEP = 'DETAILS_STEP';
 
-class Checkout extends PureComponent {
+export class Checkout extends ExtensiblePureComponent {
     static propTypes = {
         setLoading: PropTypes.func.isRequired,
         setDetailsStep: PropTypes.func.isRequired,
@@ -202,7 +201,10 @@ class Checkout extends PureComponent {
     renderStep() {
         const { checkoutStep } = this.props;
         const { render } = this.stepMap[checkoutStep];
-        if (render) return render();
+        if (render) {
+            return render();
+        }
+
         return null;
     }
 
@@ -215,7 +217,9 @@ class Checkout extends PureComponent {
         const { checkoutTotals, checkoutStep, paymentTotals } = this.props;
         const { areTotalsVisible } = this.stepMap[checkoutStep];
 
-        if (!areTotalsVisible) return null;
+        if (!areTotalsVisible) {
+            return null;
+        }
 
         return (
             <CheckoutOrderSummary
@@ -235,7 +239,9 @@ class Checkout extends PureComponent {
             } = {}
         } = window.contentConfiguration;
 
-        if (!promo) return null;
+        if (!promo) {
+            return null;
+        }
 
         return <CmsBlock identifiers={ [promo] } />;
     }
@@ -263,4 +269,4 @@ class Checkout extends PureComponent {
     }
 }
 
-export default Checkout;
+export default middleware(Checkout, 'Route/Checkout/Component');

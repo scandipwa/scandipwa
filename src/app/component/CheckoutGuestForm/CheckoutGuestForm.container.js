@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -26,7 +25,7 @@ export const mapDispatchToProps = dispatch => ({
     showErrorNotification: error => dispatch(showNotification('error', error[0].message))
 });
 
-export class CheckoutGuestFormContainer extends PureComponent {
+export class CheckoutGuestFormContainer extends ExtensiblePureComponent {
     static propTypes = {
         isBilling: PropTypes.bool,
         isCreateUser: PropTypes.bool.isRequired,
@@ -110,7 +109,9 @@ export class CheckoutGuestFormContainer extends PureComponent {
 
     render() {
         const { isSignedIn, isGuestEmailSaved } = this.props;
-        if (isSignedIn || isGuestEmailSaved) return null;
+        if (isSignedIn || isGuestEmailSaved) {
+            return null;
+        }
 
         return (
             <CheckoutGuestForm
@@ -122,4 +123,6 @@ export class CheckoutGuestFormContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CheckoutGuestFormContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    middleware(CheckoutGuestFormContainer, 'Component/CheckoutGuestForm/Container')
+);

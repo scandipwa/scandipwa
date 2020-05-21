@@ -9,19 +9,15 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import { HistoryType } from 'Type/Common';
+import { HistoryType, LocationType } from 'Type/Common';
 import { withRouter } from 'react-router-dom';
 import { setQueryParams } from 'Util/Url';
 import ResetButton from './ResetButton.component';
 
-export class ResetButtonContainer extends PureComponent {
+export class ResetButtonContainer extends ExtensiblePureComponent {
     static propTypes = {
         history: HistoryType.isRequired,
-        location: PropTypes.shape({
-            pathname: PropTypes.string.isRequired
-        }).isRequired
+        location: LocationType.isRequired
     };
 
     containerProps = () => ({
@@ -61,4 +57,6 @@ export class ResetButtonContainer extends PureComponent {
     }
 }
 
-export default withRouter(ResetButtonContainer);
+export default withRouter(
+    middleware(ResetButtonContainer, 'Component/ResetButton/Container')
+);

@@ -10,12 +10,11 @@
  */
 
 import debounceRender from 'react-debounce-render';
-import { PureComponent } from 'react';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import PropTypes from 'prop-types';
 import { RENDER_PAGE_FREQUENCY } from 'Component/ProductList/ProductList.component';
 
-export class CategoryItemsCount extends PureComponent {
+export class CategoryItemsCount extends ExtensiblePureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         totalItems: PropTypes.number.isRequired
@@ -37,4 +36,7 @@ export class CategoryItemsCount extends PureComponent {
     }
 }
 
-export default debounceRender(CategoryItemsCount, RENDER_PAGE_FREQUENCY, { leading: false });
+export default debounceRender(
+    middleware(CategoryItemsCount, 'Component/CategoryItemsCount/Component'),
+    RENDER_PAGE_FREQUENCY, { leading: false }
+);

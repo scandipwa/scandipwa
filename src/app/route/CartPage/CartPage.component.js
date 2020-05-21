@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import media, { WYSIWYG_MEDIA } from 'Util/Media';
@@ -27,7 +26,7 @@ import ExpandableContent from 'Component/ExpandableContent';
 import './CartPage.style';
 import { CROSS_SELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
 
-export default class CartPage extends PureComponent {
+export class CartPage extends ExtensiblePureComponent {
     static propTypes = {
         isEditing: PropTypes.bool.isRequired,
         totals: TotalsType.isRequired
@@ -162,7 +161,9 @@ export default class CartPage extends PureComponent {
             }
         } = this.props;
 
-        if (!coupon_code) return null;
+        if (!coupon_code) {
+            return null;
+        }
 
         return (
             <>
@@ -257,3 +258,5 @@ export default class CartPage extends PureComponent {
         );
     }
 }
+
+export default middleware(CartPage, 'Route/CartPage/Component');

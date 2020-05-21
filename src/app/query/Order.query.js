@@ -15,7 +15,7 @@ import { Field } from 'Util/Query';
  * Order Query
  * @class OrderQuery
  */
-export class OrderQuery {
+export class OrderQuery extends ExtensibleClass {
     getOrderListQuery() {
         return new Field('getOrderList')
             .addFieldList(this._getOrderListFields(true));
@@ -236,4 +236,4 @@ export class OrderQuery {
     }
 }
 
-export default new OrderQuery();
+export default new (middleware(OrderQuery, 'Query/Order'))();

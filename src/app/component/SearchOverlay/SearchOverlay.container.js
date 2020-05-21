@@ -11,7 +11,6 @@
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { PureComponent } from 'react';
 import { SearchBarDispatcher } from 'Store/SearchBar';
 import { hideActiveOverlay } from 'Store/Overlay';
 import SearchOverlay from './SearchOverlay.component';
@@ -27,7 +26,7 @@ export const mapDispatchToProps = dispatch => ({
     clearSearchResults: () => SearchBarDispatcher.clearSearchResults(dispatch)
 });
 
-export class SearchOverlayContainer extends PureComponent {
+export class SearchOverlayContainer extends ExtensiblePureComponent {
     static propTypes = {
         makeSearchRequest: PropTypes.func.isRequired,
         clearSearchResults: PropTypes.func.isRequired,
@@ -42,7 +41,10 @@ export class SearchOverlayContainer extends PureComponent {
     getProductLinkTo(product) {
         const { url_key } = product;
 
-        if (!url_key) return {};
+        if (!url_key) {
+            return {};
+        }
+
         return {
             pathname: `/product/${ url_key }`,
             state: { product }
@@ -50,10 +52,22 @@ export class SearchOverlayContainer extends PureComponent {
     }
 
     makeSearchRequest() {
-        const { makeSearchRequest, clearSearchResults, searchCriteria } = this.props;
+        const {
+            makeSearchRequest,
+            clearSearchResults,
+            searchCriteria
+        } = this.props;
+
         if (searchCriteria) {
             clearSearchResults();
-            makeSearchRequest({ args: { search: searchCriteria } });
+
+            makeSearchRequest({
+                args: {
+                    search: searchCriteria,
+                    pageSize: 12,
+                    currentPage: 1
+                }
+            });
         }
     }
 
@@ -67,4 +81,6 @@ export class SearchOverlayContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchOverlayContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    middleware(SearchOverlayContainer, 'Component/SearchOverlay/Container')
+);

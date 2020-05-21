@@ -25,13 +25,13 @@
     &-Wrapper {
         padding: 0;
 
-        @include after-mobile {
+        @include desktop {
             padding: 3rem 1rem;
         }
     }
 
     &-ExpandableContentHeading {
-        @include after-mobile {
+        @include desktop {
             font-size: 20px;
             text-transform: uppercase;
         }

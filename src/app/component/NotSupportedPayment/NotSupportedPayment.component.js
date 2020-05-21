@@ -1,8 +1,7 @@
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import './NotSupportedPayment.style';
 
-class NotSupportedPayment extends PureComponent {
+export class NotSupportedPayment extends ExtensiblePureComponent {
     static propTypes = {
         disableButton: PropTypes.func.isRequired
     };
@@ -21,4 +20,4 @@ class NotSupportedPayment extends PureComponent {
     }
 }
 
-export default NotSupportedPayment;
+export default middleware(NotSupportedPayment, 'Component/NotSupportedPayment/Component');

@@ -1,4 +1,3 @@
-/* eslint-disable no-undef, no-console */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -10,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { KlarnaQuery } from 'Query';
 import Html from 'Component/Html';
@@ -24,7 +22,7 @@ import './Klarna.style';
 export const KLARNA_SCRIPT_ID = 'klarna_script';
 export const KLARNA_PAYMENTS_CONTAINER_ID = 'klarna-payments-container';
 
-export default class KlarnaComponent extends PureComponent {
+export class Klarna extends ExtensiblePureComponent {
     static propTypes = {
         showError: PropTypes.func.isRequired,
         setOrderButtonEnableStatus: PropTypes.func.isRequired
@@ -96,3 +94,5 @@ export default class KlarnaComponent extends PureComponent {
         );
     }
 }
+
+export default middleware(Klarna, 'Component/Klarna/Component');

@@ -9,11 +9,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import { ProductType } from 'Type/ProductList';
 import ProductInformation from './ProductInformation.component';
 
-export default class ProductInformationContainer extends PureComponent {
+export class ProductInformationContainer extends ExtensiblePureComponent {
     static propTypes = {
         product: ProductType.isRequired
     };
@@ -27,7 +26,9 @@ export default class ProductInformationContainer extends PureComponent {
 
         const allAttribsWithValues = Object.entries(attributes).reduce((acc, [key, val]) => {
             const { attribute_label, attribute_value } = val;
-            if (attribute_value) return { ...acc, [attribute_label]: val };
+            if (attribute_value) {
+                return { ...acc, [attribute_label]: val };
+            }
 
             const valueIndexFromParameter = parameters[key];
             if (valueIndexFromParameter) {
@@ -49,3 +50,5 @@ export default class ProductInformationContainer extends PureComponent {
         );
     }
 }
+
+export default middleware(ProductInformationContainer, 'Component/ProductInformation/Container');

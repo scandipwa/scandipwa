@@ -10,7 +10,6 @@
  */
 
 import { withRouter } from 'react-router';
-import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -18,6 +17,7 @@ import { TOP_NAVIGATION_TYPE, BOTTOM_NAVIGATION_TYPE } from 'Store/Navigation/Na
 import { goToPreviousNavigationState, changeNavigationState } from 'Store/Navigation';
 import { hideActiveOverlay } from 'Store/Overlay';
 import { FILTER } from 'Component/Header';
+import { LocationType } from 'Type/Router';
 
 import CategoryFilterOverlay from './CategoryFilterOverlay.component';
 
@@ -35,11 +35,9 @@ export const mapDispatchToProps = dispatch => ({
     changeNavigationState: state => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state))
 });
 
-export class CategoryFilterOverlayContainer extends PureComponent {
+export class CategoryFilterOverlayContainer extends ExtensiblePureComponent {
     static propTypes = {
-        location: PropTypes.shape({
-            pathname: PropTypes.string.isRequired
-        }).isRequired,
+        location: LocationType.isRequired,
         customFiltersValues: PropTypes.objectOf(PropTypes.array).isRequired,
         hideActiveOverlay: PropTypes.func.isRequired,
         goToPreviousHeaderState: PropTypes.func.isRequired,
@@ -172,4 +170,6 @@ export class CategoryFilterOverlayContainer extends PureComponent {
     }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CategoryFilterOverlayContainer));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(
+    middleware(CategoryFilterOverlayContainer, 'Component/CategoryFilterOverlay/Container')
+));

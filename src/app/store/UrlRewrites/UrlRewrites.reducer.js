@@ -18,7 +18,7 @@ export const initialState = {
     urlRewrite: {}
 };
 
-const UrlRewritesReducer = (state = initialState, action) => {
+export const UrlRewritesReducer = (state = initialState, action) => {
     switch (action.type) {
     case UPDATE_URL_REWRITE:
         const { urlRewrite } = action;

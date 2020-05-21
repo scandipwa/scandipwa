@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,8 +10,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-/* eslint-disable import/no-extraneous-dependencies */
-// Disabled due webpack plugins being dev dependencies
 
 // TODO: merge Webpack config files
 
@@ -22,157 +21,203 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const autoprefixer = require('autoprefixer');
 
-const webmanifestConfig = require('./webmanifest.config');
-const BabelConfig = require('./babel.config');
 const FallbackPlugin = require('./FallbackPlugin');
 
+const webmanifestConfig = require('./webmanifest.config');
+const BabelConfig = require('./babel.config');
+
+const DEVELOPMENT = 'development';
+const CORE = 'core';
+
 const projectRoot = path.resolve(__dirname, '..', '..');
-const magentoRoot = path.resolve(projectRoot, '..', '..', '..', '..', '..');
-const fallbackRoot = path.resolve(magentoRoot, 'vendor', 'scandipwa', 'source');
 
-module.exports = {
-    resolve: {
-        extensions: [
-            '.js',
-            '.jsx',
-            '.scss',
-            '*'
-        ],
-        plugins: [
-            new FallbackPlugin({
-                fallbackRoot, projectRoot
-            })
-        ]
-    },
+const config = (env, argv) => {
+    const magentoRoot = env.BUILD_MODE === DEVELOPMENT
+        ? path.resolve(projectRoot, '..', '..', '..', '..', '..')
+        : path.resolve(projectRoot, '..', '..');
+    const fallbackRoot = path.resolve(magentoRoot, 'vendor', 'scandipwa', 'source');
 
-    mode: 'development',
+    return {
+        resolve: {
+            extensions: [
+                '.js',
+                '.jsx',
+                '.scss',
+                '*'
+            ],
+            plugins: [
+                new FallbackPlugin({
+                    fallbackRoot, projectRoot
+                })
+            ],
 
-    devtool: 'source-map',
+            modules: [
+                path.resolve(projectRoot, 'node_modules'),
+                'node_modules'
+            ]
+        },
 
-    stats: {
-        warnings: false
-    },
+        resolveLoader: {
+            modules: [
+                'node_modules',
+                path.resolve(__dirname, 'loaders')
+            ]
+        },
 
-    entry: {
-        bundle: path.resolve(projectRoot, 'src', 'app', 'index.js'),
-        sw: path.resolve(projectRoot, 'src', 'sw', 'index.js')
-    },
+        mode: 'development',
 
-    module: {
-        rules: [
-            {
-                test: /\.(js|jsx)$/,
-                exclude: /(node_modules)/,
-                use: [
-                    {
-                        loader: 'babel-loader',
-                        options: BabelConfig
-                    }
-                ]
-            },
-            {
-                test: /\.(sa|sc|c)ss$/,
-                use: [
-                    'css-hot-loader',
-                    MiniCssExtractPlugin.loader,
-                    {
-                        loader: 'css-loader',
-                        options: {
-                            sourceMap: true
+        devtool: 'source-map',
+
+        stats: {
+            warnings: false
+        },
+
+        entry: {
+            bundle: path.resolve(projectRoot, 'src', 'app', 'index.js'),
+            sw: path.resolve(projectRoot, 'src', 'sw', 'index.js')
+        },
+
+        module: {
+            rules: [
+                {
+                    test: /\.(js|jsx)$/,
+                    exclude: /(node_modules)/,//\/(?!@scandipwa\/extensibility$))/,
+                    use: [
+                        {
+                            loader: 'babel-loader',
+                            options: BabelConfig
                         }
-                    },
-                    {
-                        loader: 'postcss-loader',
-                        options: {
-                            sourceMap: true,
-                            plugins: () => [autoprefixer]
+                    ]
+                },
+                {
+                    test: path.resolve(projectRoot, 'src', 'app', 'util', 'Extensions', 'index.js'),
+                    use: [
+                        {
+                            loader: 'extension-import-injector',
+                            options: {
+                                magentoRoot,
+                                projectRoot,
+                                importAggregator: 'extensions'
+                            }
                         }
-                    },
-                    {
-                        loader: 'sass-loader',
-                        options: {
-                            sourceMap: true
+                    ]
+                },
+                {
+                    test: /\.(sa|sc|c)ss$/,
+                    use: [
+                        'css-hot-loader',
+                        MiniCssExtractPlugin.loader,
+                        {
+                            loader: 'css-loader',
+                            options: {
+                                sourceMap: true
+                            }
+                        },
+                        {
+                            loader: 'postcss-loader',
+                            options: {
+                                sourceMap: true,
+                                plugins: () => [autoprefixer]
+                            }
+                        },
+                        {
+                            loader: 'sass-loader',
+                            options: {
+                                sourceMap: true
+                            }
+                        },
+                        {
+                            loader: 'sass-resources-loader',
+                            options: {
+                                resources: path.resolve(
+                                    (env.BUILD_MODE === DEVELOPMENT
+                                        ? fallbackRoot
+                                        : projectRoot), 'src', 'app', 'style', 'abstract', '_abstract.scss'
+                                )
+                            }
                         }
-                    },
-                    {
-                        loader: 'sass-resources-loader',
-                        options: {
-                            resources: path.resolve(fallbackRoot, 'src', 'app', 'style', 'abstract', '_abstract.scss')
+                    ]
+                },
+                {
+                    test: /\.(jpe?g|png|gif|svg)$/,
+                    use: [
+                        {
+                            loader: 'url-loader'
                         }
-                    }
-                ]
-            },
-            {
-                test: /\.(jpe?g|png|gif|svg)$/,
-                use: [
-                    {
-                        loader: 'url-loader'
-                    }
-                ]
-            }
-        ]
-    },
+                    ]
+                }
+            ]
+        },
 
-    output: {
-        filename: '[name].js',
-        publicPath: '/',
-        pathinfo: true,
-        globalObject: 'this', // fix for https://github.com/webpack/webpack/issues/6642
-        path: path.resolve(projectRoot, 'Magento_Theme', 'web')
-    },
-
-    devServer: {
-        watchContentBase: true,
-        publicPath: '/',
-        historyApiFallback: true,
-        port: 3003,
-        https: false,
-        overlay: true,
-        compress: true,
-        inline: true,
-        hot: true,
-        host: '0.0.0.0',
-        public: 'scandipwa.local',
-        allowedHosts: [
-            '.local'
-        ]
-    },
-
-    watchOptions: {
-        aggregateTimeout: 300,
-        poll: 1000
-    },
-
-    plugins: [
-        new webpack.HotModuleReplacementPlugin(),
-
-        new webpack.DefinePlugin({
-            'process.env': {
-                REBEM_MOD_DELIM: JSON.stringify('_'),
-                REBEM_ELEM_DELIM: JSON.stringify('-'),
-                MAGENTO_VERSION: JSON.stringify('2.3.1')
-            }
-        }),
-
-        new webpack.ProvidePlugin({
-            __: path.resolve(path.join(__dirname, 'TranslationFunction')),
-            React: 'react'
-        }),
-
-        new HtmlWebpackPlugin({
-            template: path.resolve(projectRoot, 'src', 'public', 'index.development.html'),
-            filename: 'index.html',
-            inject: false,
+        output: {
+            filename: '[name].js',
             publicPath: '/',
-            chunksSortMode: 'none'
-        }),
+            pathinfo: true,
+            globalObject: 'this', // fix for https://github.com/webpack/webpack/issues/6642
+            path: path.resolve(projectRoot, 'Magento_Theme', 'web')
+        },
 
-        new WebpackPwaManifest(webmanifestConfig(projectRoot)),
+        devServer: {
+            watchContentBase: true,
+            publicPath: '/',
+            historyApiFallback: true,
+            port: 3003,
+            https: false,
+            overlay: true,
+            compress: true,
+            inline: true,
+            hot: true,
+            host: '0.0.0.0',
+            public: 'scandipwa.local',
+            allowedHosts: [
+                '.local'
+            ]
+        },
 
-        new CopyWebpackPlugin([
-            { from: path.resolve(projectRoot, 'src', 'public', 'assets'), to: './assets' }
-        ]),
+        watchOptions: {
+            ignored: /node_modules/,
+            aggregateTimeout: 300,
+            poll: 1000
+        },
 
-        new MiniCssExtractPlugin()
-    ]
+        plugins: [
+            new webpack.HotModuleReplacementPlugin(),
+
+            new webpack.DefinePlugin({
+                'process.env': {
+                    REBEM_MOD_DELIM: JSON.stringify('_'),
+                    REBEM_ELEM_DELIM: JSON.stringify('-'),
+                    MAGENTO_VERSION: JSON.stringify('2.3.1')
+                }
+            }),
+
+            new webpack.ProvidePlugin({
+                __: path.join(__dirname, 'TranslationFunction'),
+                middleware: path.join(__dirname, 'Middleware'),
+                ExtensiblePureComponent: path.join(__dirname, 'ExtensibleClasses', 'ExtensiblePureComponent'),
+                ExtensibleComponent: path.join(__dirname, 'ExtensibleClasses', 'ExtensibleComponent'),
+                ExtensibleClass: path.join(__dirname, 'ExtensibleClasses', 'ExtensibleClass'),
+                ExtensibleUnstatedContainer: path.join(__dirname, 'ExtensibleClasses', 'ExtensibleUnstatedContainer'),
+                React: 'react'
+            }),
+
+            new HtmlWebpackPlugin({
+                template: path.resolve(projectRoot, 'src', 'public', 'index.development.html'),
+                filename: 'index.html',
+                inject: false,
+                publicPath: '/',
+                chunksSortMode: 'none'
+            }),
+
+            new WebpackPwaManifest(webmanifestConfig(projectRoot)),
+
+            new CopyWebpackPlugin([
+                { from: path.resolve(projectRoot, 'src', 'public', 'assets'), to: './assets' }
+            ]),
+
+            new MiniCssExtractPlugin()
+        ]
+    };
 };
+
+module.exports = config;

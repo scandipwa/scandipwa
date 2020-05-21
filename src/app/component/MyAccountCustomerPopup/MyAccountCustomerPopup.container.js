@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -38,7 +37,7 @@ export const mapDispatchToProps = dispatch => ({
     hideActiveOverlay: () => dispatch(hideActiveOverlay())
 });
 
-export class MyAccountCustomerPopupContainer extends PureComponent {
+export class MyAccountCustomerPopupContainer extends ExtensiblePureComponent {
     static propTypes = {
         updateCustomer: PropTypes.func.isRequired,
         showErrorNotification: PropTypes.func.isRequired,
@@ -118,4 +117,6 @@ export class MyAccountCustomerPopupContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyAccountCustomerPopupContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    middleware(MyAccountCustomerPopupContainer, 'Component/MyAccountCustomerPopup/Container')
+);

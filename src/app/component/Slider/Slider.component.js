@@ -11,7 +11,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent, Children, createRef } from 'react';
+import { Children, createRef } from 'react';
 import PropTypes from 'prop-types';
 
 import { MixType, ChildrenType } from 'Type/Common';
@@ -28,7 +28,7 @@ export const ACTIVE_SLIDE_PERCENT = 0.1;
  * Slider component
  * @class Slider
  */
-export default class Slider extends PureComponent {
+export class Slider extends ExtensiblePureComponent {
     static propTypes = {
         showCrumbs: PropTypes.bool,
         activeImage: PropTypes.number,
@@ -88,7 +88,9 @@ export default class Slider extends PureComponent {
         const sliderWidth = this.draggableRef.current.offsetWidth;
         this.sliderWidth = sliderWidth;
 
-        if (!sliderChildren || !sliderChildren[0]) return;
+        if (!sliderChildren || !sliderChildren[0]) {
+            return;
+        }
 
         sliderChildren[0].onload = () => {
             CSS.setVariable(this.sliderRef, 'slider-height', `${sliderChildren[0].offsetHeight}px`);
@@ -171,7 +173,9 @@ export default class Slider extends PureComponent {
         const activeSlidePercent = Math.abs(activeSlidePosition % 1);
         const isSlideBack = translate > lastTranslate;
 
-        if (!translate) return this.onClickChangeSlide(state, slideSize, lastTranslate, fullSliderSize);
+        if (!translate) {
+            return this.onClickChangeSlide(state, slideSize, lastTranslate, fullSliderSize);
+        }
 
         if (translate >= 0) {
             onActiveImageChange(0);
@@ -245,7 +249,9 @@ export default class Slider extends PureComponent {
     handleInteraction(callback, ...args) {
         const { isInteractionDisabled } = this.props;
 
-        if (isInteractionDisabled || !callback) return;
+        if (isInteractionDisabled || !callback) {
+            return;
+        }
 
         callback.call(this, ...args);
     }
@@ -257,7 +263,9 @@ export default class Slider extends PureComponent {
 
     renderCrumbs() {
         const { children } = this.props;
-        if (children.length <= 1) return null;
+        if (children.length <= 1) {
+            return null;
+        }
 
         return (
             <div
@@ -318,3 +326,5 @@ export default class Slider extends PureComponent {
         );
     }
 }
+
+export default middleware(Slider, 'Component/Slider/Component');

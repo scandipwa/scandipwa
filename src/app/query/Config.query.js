@@ -11,7 +11,7 @@
 
 import { Field } from 'Util/Query';
 
-export class ConfigQuery {
+export class ConfigQuery extends ExtensibleClass {
     getStoreListField() {
         return new Field('storeList')
             .addFieldList(this._getStoreListFields());
@@ -73,9 +73,11 @@ export class ConfigQuery {
                 'pagination_frame_skip',
                 'anchor_text_for_previous',
                 'anchor_text_for_next',
+                'reviews_are_enabled',
+                'reviews_allow_guest',
                 'demo_notice'
             ]);
     }
 }
 
-export default new ConfigQuery();
+export default new (middleware(ConfigQuery, 'Query/Config'))();

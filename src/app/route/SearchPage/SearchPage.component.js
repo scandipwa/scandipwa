@@ -14,7 +14,7 @@ import CategoryPage from 'Route/CategoryPage/CategoryPage.component';
 import { getUrlParam } from 'Util/Url';
 import './SearchPage.style';
 
-export default class SearchPage extends CategoryPage {
+export class SearchPage extends CategoryPage {
     static propTypes = {
         makeSearchRequest: PropTypes.func.isRequired,
         totalItems: PropTypes.number.isRequired
@@ -85,3 +85,5 @@ export default class SearchPage extends CategoryPage {
         );
     }
 }
+
+export default middleware(SearchPage, 'Route/SearchPage/Component');

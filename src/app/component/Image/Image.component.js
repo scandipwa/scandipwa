@@ -11,7 +11,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent, createRef } from 'react';
+import { createRef } from 'react';
 import PropTypes from 'prop-types';
 import { MixType } from 'Type/Common';
 import './Image.style';
@@ -27,7 +27,7 @@ export const IMAGE_LOADED = 1;
 export const IMAGE_NOT_FOUND = 2;
 export const IMAGE_NOT_SPECIFIED = 3;
 
-export default class Image extends PureComponent {
+export class Image extends ExtensiblePureComponent {
     static propTypes = {
         isPlaceholder: PropTypes.bool,
         src: PropTypes.oneOfType([
@@ -84,13 +84,18 @@ export default class Image extends PureComponent {
         const { src: prevSrc } = prevProps;
         const { src } = this.props;
 
-        if (src !== prevSrc) this.onImageChange();
+        if (src !== prevSrc) {
+            this.onImageChange();
+        }
     }
 
     onImageChange() {
         const { src } = this.props;
 
-        if (!src) return this.setState({ imageStatus: IMAGE_NOT_SPECIFIED });
+        if (!src) {
+            return this.setState({ imageStatus: IMAGE_NOT_SPECIFIED });
+        }
+
         return this.setState({ imageStatus: IMAGE_LOADING });
     }
 
@@ -180,3 +185,5 @@ export default class Image extends PureComponent {
         );
     }
 }
+
+export default middleware(Image, 'Component/Image/Component');

@@ -10,14 +10,13 @@
  */
 
 import { createPortal } from 'react-dom';
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 /**
  * Page Meta data
  * @class Meta
  */
-export default class Meta extends PureComponent {
+export class Meta extends ExtensiblePureComponent {
     static propTypes = {
         metadata: PropTypes.arrayOf(
             PropTypes.shape({
@@ -57,7 +56,9 @@ export default class Meta extends PureComponent {
     renderCanonical() {
         const { canonical_url } = this.props;
 
-        if (!canonical_url) return null;
+        if (!canonical_url) {
+            return null;
+        }
 
         return (
             <link rel="canonical" href={ canonical_url } />
@@ -82,3 +83,5 @@ export default class Meta extends PureComponent {
         );
     }
 }
+
+export default middleware(Meta, 'Component/Meta/Component');

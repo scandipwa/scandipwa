@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ProductCard from 'Component/ProductCard';
@@ -23,7 +22,7 @@ export const DEFAULT_PLACEHOLDER_COUNT = 4;
  * Placeholder for List of category product
  * @class CategoryProductListPlaceholder
  */
-export class CategoryProductListPlaceholder extends PureComponent {
+export class CategoryProductListPlaceholder extends ExtensiblePureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         isVisible: PropTypes.bool.isRequired,
@@ -99,14 +98,18 @@ export class CategoryProductListPlaceholder extends PureComponent {
             mix
         } = this.props;
 
-        if (!isLoading && !isVisible) return null;
+        if (!isLoading && !isVisible) {
+            return null;
+        }
 
         return (
             <>
                 <div
                   block="CategoryProductListPlaceholder"
                   elem="Offset"
-                  ref={ isVisible ? (node) => { this.node = node; } : undefined }
+                  ref={ isVisible ? (node) => {
+                      this.node = node;
+                  } : undefined }
                 />
                 <ul
                   block="CategoryProductList"
@@ -123,4 +126,6 @@ export class CategoryProductListPlaceholder extends PureComponent {
     }
 }
 
-export default withRouter(CategoryProductListPlaceholder);
+export default withRouter(
+    middleware(CategoryProductListPlaceholder, 'Component/CategoryProductListPlaceholder/Component')
+);

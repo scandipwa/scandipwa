@@ -16,7 +16,8 @@ import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Na
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation';
 import { DEFAULT_HEADER_STATE } from 'Component/Header/Header.container';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay';
-import { history as browserHistory } from 'Route';
+import { history as browserHistory } from 'Component/App/App.component';
+
 import { debounce } from 'Util/Request';
 
 import NavigationTabs, {
@@ -137,7 +138,9 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
 
     handleScroll = () => {
         const { navigationState: { isVisibleOnScroll } } = this.props;
-        if (!isVisibleOnScroll) return;
+        if (!isVisibleOnScroll) {
+            return;
+        }
 
         const windowY = window.scrollY;
         this.handleNavVisibilityOnScroll(windowY);
@@ -234,4 +237,6 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(NavigationTabsContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    middleware(NavigationTabsContainer, 'Component/NavigationTabsContainer/Container')
+);

@@ -15,7 +15,7 @@ import { updateBreadcrumbs, toggleBreadcrumbs } from 'Store/Breadcrumbs';
  * Breadcrumbs Dispatcher
  * @class BreadcrumbsDispatcher
  */
-export class BreadcrumbsDispatcher {
+export class BreadcrumbsDispatcher extends ExtensibleClass {
     /**
      * Set breadcrumbs
      * @param {Array<Object>} breadcrumbs Breadcrumbs array
@@ -86,7 +86,7 @@ export class BreadcrumbsDispatcher {
 
         if (breadcrumbs) {
             breadcrumbs
-                .sort((a, b) => a.category_level > b.category_level)
+                .sort((a, b) => a.category_level - b.category_level)
                 .reduce((prev, crumb) => {
                     const { category_url_key, category_name } = crumb;
                     const url = `${prev}/${category_url_key}`;
@@ -124,11 +124,17 @@ export class BreadcrumbsDispatcher {
             const { breadcrumbs } = category;
             const breadcrumbsLength = (breadcrumbs || []).length;
 
-            if (!breadcrumbsLength && longestBreadcrumbsLength !== 0) return acc;
+            if (!breadcrumbsLength && longestBreadcrumbsLength !== 0) {
+                return acc;
+            }
 
-            if (longestBreadcrumbsLength === 0) return { ...acc, breadcrumbsCategory: category };
+            if (longestBreadcrumbsLength === 0) {
+                return { ...acc, breadcrumbsCategory: category };
+            }
 
-            if (breadcrumbsLength <= longestBreadcrumbsLength) return acc;
+            if (breadcrumbsLength <= longestBreadcrumbsLength) {
+                return acc;
+            }
 
             return {
                 breadcrumbsCategory: category,
@@ -143,4 +149,4 @@ export class BreadcrumbsDispatcher {
     }
 }
 
-export default new BreadcrumbsDispatcher();
+export default new (middleware(BreadcrumbsDispatcher, 'Store/Breadcrumbs/Dispatcher'))();

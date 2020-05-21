@@ -1,11 +1,10 @@
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { StripeProvider, Elements } from 'react-stripe-elements';
 import InjectedStripeCheckoutForm from 'Component/InjectedStripeCheckoutForm';
 import Loader from 'Component/Loader';
 import './Stripe.style';
 
-class Stripe extends PureComponent {
+export class Stripe extends ExtensiblePureComponent {
     static propTypes = {
         isLoading: PropTypes.bool,
         stripeKey: PropTypes.string,
@@ -53,16 +52,14 @@ class Stripe extends PureComponent {
         } = this.props;
 
         return (
-            <>
-                <StripeProvider apiKey={ stripeKey }>
-                    <Elements>
-                        <InjectedStripeCheckoutForm
-                          onRef={ setStripeRef }
-                          billingAddress={ billingAddress }
-                        />
-                    </Elements>
-                </StripeProvider>
-            </>
+            <StripeProvider apiKey={ stripeKey }>
+                <Elements>
+                    <InjectedStripeCheckoutForm
+                      onRef={ setStripeRef }
+                      billingAddress={ billingAddress }
+                    />
+                </Elements>
+            </StripeProvider>
         );
     }
 
@@ -92,4 +89,4 @@ class Stripe extends PureComponent {
     }
 }
 
-export default Stripe;
+export default middleware(Stripe, 'Component/Stripe/Component');

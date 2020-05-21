@@ -9,23 +9,23 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+
 import { getQueryParam, setQueryParams } from 'Util/Url';
 import { PagesType, FilterInputType } from 'Type/ProductList';
 import { HistoryType } from 'Type/Common';
 import { debounce } from 'Util/Request';
+import { LocationType } from 'Type/Router';
+
 import ProductList from './ProductList.component';
 
 export const UPDATE_PAGE_FREQUENCY = 0; // (ms)
 
-export class ProductListContainer extends PureComponent {
+export class ProductListContainer extends ExtensiblePureComponent {
     static propTypes = {
         history: HistoryType.isRequired,
-        location: PropTypes.shape({
-            pathname: PropTypes.string.isRequired
-        }).isRequired,
+        location: LocationType.isRequired,
         getIsNewCategory: PropTypes.func.isRequired,
         pages: PagesType.isRequired,
         pageSize: PropTypes.number,
@@ -67,7 +67,9 @@ export class ProductListContainer extends PureComponent {
             requestProductList
         } = this.props;
 
-        if (!isNext) window.scrollTo(0, 0);
+        if (!isNext) {
+            window.scrollTo(0, 0);
+        }
 
         const options = {
             isNext,
@@ -82,6 +84,15 @@ export class ProductListContainer extends PureComponent {
 
         requestProductList(options);
     }, UPDATE_PAGE_FREQUENCY);
+
+    static getDerivedStateFromProps(props) {
+        const { isLoading } = props;
+        if (isLoading) {
+            return { pagesCount: 1 };
+        }
+
+        return null;
+    }
 
     componentDidMount() {
         const { pages, getIsNewCategory } = this.props;
@@ -105,13 +116,9 @@ export class ProductListContainer extends PureComponent {
         if (search !== prevSearch
             || JSON.stringify(sort) !== JSON.stringify(prevSort)
             || JSON.stringify(filter) !== JSON.stringify(prevFilter)
-        ) this.requestPage(this._getPageFromUrl());
-    }
-
-    static getDerivedStateFromProps(props) {
-        const { isLoading } = props;
-        if (isLoading) return { pagesCount: 1 };
-        return null;
+        ) {
+            this.requestPage(this._getPageFromUrl());
+        }
     }
 
     containerProps = () => ({
@@ -187,4 +194,6 @@ export class ProductListContainer extends PureComponent {
     }
 }
 
-export default withRouter(ProductListContainer);
+export default withRouter(
+    middleware(ProductListContainer, 'Component/ProductList/Container')
+);

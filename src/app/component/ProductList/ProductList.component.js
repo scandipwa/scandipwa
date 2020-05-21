@@ -10,7 +10,6 @@
  */
 
 import debounceRender from 'react-debounce-render';
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import CategoryProductListPlaceholder from 'Component/CategoryProductListPlaceholder';
 import { PagesType, FilterType } from 'Type/ProductList';
@@ -27,7 +26,7 @@ export const RENDER_PAGE_FREQUENCY = 150; // (ms)
  * List of category products
  * @class CategoryProductList
  */
-export class ProductList extends PureComponent {
+export class ProductList extends ExtensiblePureComponent {
     static propTypes = {
         title: PropTypes.string,
         pages: PagesType.isRequired,
@@ -73,18 +72,24 @@ export class ProductList extends PureComponent {
 
     componentDidUpdate() {
         const { isInfiniteLoaderEnabled } = this.props;
-        if (isInfiniteLoaderEnabled) this.observePageChange();
+        if (isInfiniteLoaderEnabled) {
+            this.observePageChange();
+        }
     }
 
     componentWillUnmount() {
-        if (this.observer && this.observer.disconnect) this.observer.disconnect();
+        if (this.observer && this.observer.disconnect) {
+            this.observer.disconnect();
+        }
         this.observer = null;
     }
 
     observePageChange() {
         const { updatePage, isLoading } = this.props;
 
-        if (isLoading) this.pagesIntersecting = [];
+        if (isLoading) {
+            this.pagesIntersecting = [];
+        }
 
         if (!this.observer && 'IntersectionObserver' in window) {
             const threshold = this._getThreshold();
@@ -106,7 +111,9 @@ export class ProductList extends PureComponent {
                 });
 
                 const minPage = Math.min(...this.pagesIntersecting);
-                if (minPage < Infinity && minPage !== currentPage) updatePage(minPage);
+                if (minPage < Infinity && minPage !== currentPage) {
+                    updatePage(minPage);
+                }
             }, {
                 rootMargin: '0px',
                 threshold
@@ -119,7 +126,9 @@ export class ProductList extends PureComponent {
     updateObserver() {
         const currentNodes = Object.values(this.nodes);
 
-        if (!this.observer || currentNodes.length <= 0) return;
+        if (!this.observer || currentNodes.length <= 0) {
+            return;
+        }
 
         currentNodes.forEach((node) => {
             if (node && !this.observedNodes.includes(node)) {
@@ -150,7 +159,9 @@ export class ProductList extends PureComponent {
 
     renderLoadButton() {
         const { isShowLoading, isInfiniteLoaderEnabled, loadPrevPage } = this.props;
-        if (!isShowLoading || !isInfiniteLoaderEnabled) return null;
+        if (!isShowLoading || !isInfiniteLoaderEnabled) {
+            return null;
+        }
 
         return (
             <div
@@ -189,7 +200,9 @@ export class ProductList extends PureComponent {
             mix
         } = this.props;
 
-        if (isLoading) return null;
+        if (isLoading) {
+            return null;
+        }
 
         return Object.entries(pages).map(([pageNumber, items = []]) => (
             <ul
@@ -197,7 +210,9 @@ export class ProductList extends PureComponent {
               elem="Page"
               mix={ { ...mix, elem: 'Page' } }
               key={ pageNumber }
-              ref={ (node) => { this.nodes[pageNumber] = node; } }
+              ref={ (node) => {
+                  this.nodes[pageNumber] = node;
+              } }
             >
                 { items.map(product => (
                     <ProductCard
@@ -220,7 +235,9 @@ export class ProductList extends PureComponent {
             isInfiniteLoaderEnabled
         } = this.props;
 
-        if (!isInfiniteLoaderEnabled && !isLoading) return null;
+        if (!isInfiniteLoaderEnabled && !isLoading) {
+            return null;
+        }
 
         return (
             <CategoryProductListPlaceholder
@@ -241,7 +258,9 @@ export class ProductList extends PureComponent {
             isPaginationEnabled
         } = this.props;
 
-        if (!isPaginationEnabled) return null;
+        if (!isPaginationEnabled) {
+            return null;
+        }
 
         return (
             <CategoryPagination
@@ -254,7 +273,9 @@ export class ProductList extends PureComponent {
 
     renderTitle() {
         const { title } = this.props;
-        if (!title) return null;
+        if (!title) {
+            return null;
+        }
 
         return <h2>{ title }</h2>;
     }
@@ -262,7 +283,9 @@ export class ProductList extends PureComponent {
     render() {
         const { totalPages, isLoading, mix } = this.props;
 
-        if (!isLoading && totalPages === 0) return this.renderNoProducts();
+        if (!isLoading && totalPages === 0) {
+            return this.renderNoProducts();
+        }
 
         return (
             <div
@@ -280,4 +303,7 @@ export class ProductList extends PureComponent {
     }
 }
 
-export default debounceRender(ProductList, RENDER_PAGE_FREQUENCY, { leading: false });
+export default debounceRender(
+    middleware(ProductList, 'Component/ProductList/Component'),
+    RENDER_PAGE_FREQUENCY, { leading: false }
+);

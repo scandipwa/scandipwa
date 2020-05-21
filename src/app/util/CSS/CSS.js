@@ -13,7 +13,7 @@
  * Set of helpers related to CSS
  * @class CSS
  */
-class CSS {
+export class CSS extends ExtensibleClass {
     /**
      * Change CSS custom property in referenced node scope
      * @static
@@ -24,8 +24,10 @@ class CSS {
      * @memberof CSS
      */
     static setVariable(ref, name, value) {
-        if (ref.current) ref.current.style.setProperty(`--${name}`, value);
+        if (ref.current) {
+            ref.current.style.setProperty(`--${name}`, value);
+        }
     }
 }
 
-export default CSS;
+export default middleware(CSS, 'Util/CSS');

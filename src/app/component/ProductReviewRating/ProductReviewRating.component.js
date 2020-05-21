@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent, createRef } from 'react';
+import { createRef } from 'react';
 import PropTypes from 'prop-types';
 
 import CSS from 'Util/CSS';
@@ -20,7 +20,7 @@ import './ProductReviewRating.style';
 /**
  * @class ProductReviewRating
  */
-export default class ProductReviewRating extends PureComponent {
+export class ProductReviewRating extends ExtensiblePureComponent {
     static propTypes = {
         summary: PropTypes.number,
         code: PropTypes.string,
@@ -83,7 +83,9 @@ export default class ProductReviewRating extends PureComponent {
 
         const ariaText = this.getAriaText(summary, code);
 
-        if (placeholder) return this.renderPlaceholder();
+        if (placeholder) {
+            return this.renderPlaceholder();
+        }
 
         return (
             <div
@@ -96,3 +98,5 @@ export default class ProductReviewRating extends PureComponent {
         );
     }
 }
+
+export default middleware(ProductReviewRating, 'Component/ProductReviewRating/Component');

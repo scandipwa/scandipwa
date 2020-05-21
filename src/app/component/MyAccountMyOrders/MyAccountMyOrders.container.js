@@ -10,7 +10,6 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { OrderDispatcher } from 'Store/Order';
 import MyAccountMyOrders from './MyAccountMyOrders.component';
@@ -24,7 +23,7 @@ export const mapDispatchToProps = dispatch => ({
     getOrderList: () => OrderDispatcher.requestOrders(dispatch)
 });
 
-class MyAccountMyOrdersContainer extends PureComponent {
+export class MyAccountMyOrdersContainer extends ExtensiblePureComponent {
     static propTypes = {
         getOrderList: PropTypes.func.isRequired
     };
@@ -43,4 +42,6 @@ class MyAccountMyOrdersContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyAccountMyOrdersContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    middleware(MyAccountMyOrdersContainer, 'Component/MyAccountMyOrders/Container')
+);

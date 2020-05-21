@@ -27,7 +27,9 @@ export class CategoryDispatcher extends QueryDispatcher {
 
     onSuccess(data, dispatch, { isSearchPage }) {
         const { category = {}, category: { id } } = data;
-        if (!id && !isSearchPage) dispatch(updateNoMatch(true));
+        if (!id && !isSearchPage) {
+            dispatch(updateNoMatch(true));
+        }
         dispatch(updateCurrentCategory(category));
     }
 
@@ -45,4 +47,4 @@ export class CategoryDispatcher extends QueryDispatcher {
     }
 }
 
-export default new CategoryDispatcher();
+export default new (middleware(CategoryDispatcher, 'Store/Category/Dispatcher'))();

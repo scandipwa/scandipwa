@@ -10,13 +10,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import './CategoryPagination.style';
 import CategoryPaginationLink from 'Component/CategoryPaginationLink';
 import TextPlaceholder from 'Component/TextPlaceholder';
 
-export default class CategoryPagination extends PureComponent {
+export class CategoryPagination extends ExtensiblePureComponent {
     static propTypes = {
         isLoading: PropTypes.bool,
         pathname: PropTypes.string.isRequired,
@@ -128,7 +127,9 @@ export default class CategoryPagination extends PureComponent {
     render() {
         const { totalPages, currentPage, isLoading } = this.props;
 
-        if (isLoading) return this.renderPlaceholder();
+        if (isLoading) {
+            return this.renderPlaceholder();
+        }
 
         return (
             <nav aria-label={ __('Product list navigation') }>
@@ -145,3 +146,5 @@ export default class CategoryPagination extends PureComponent {
         );
     }
 }
+
+export default middleware(CategoryPagination, 'Component/CategoryPagination/Component');

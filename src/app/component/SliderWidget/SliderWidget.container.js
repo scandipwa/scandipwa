@@ -42,7 +42,9 @@ export class SliderWidgetContainer extends DataContainer {
         const { sliderId } = this.props;
         const { sliderId: pSliderId } = prevProps;
 
-        if (sliderId !== pSliderId) this.requestSlider();
+        if (sliderId !== pSliderId) {
+            this.requestSlider();
+        }
     }
 
     requestSlider() {
@@ -70,4 +72,6 @@ export class SliderWidgetContainer extends DataContainer {
     }
 }
 
-export default connect(null, mapDispatchToProps)(SliderWidgetContainer);
+export default connect(null, mapDispatchToProps)(
+    middleware(SliderWidgetContainer, 'Component/SliderWidget/Container')
+);

@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { isSignedIn } from 'Util/Auth';
@@ -31,7 +30,7 @@ export const mapDispatchToProps = dispatch => ({
     showNotification: (type, message) => dispatch(showNotification(type, message))
 });
 
-export class AddToCartContainer extends PureComponent {
+export class AddToCartContainer extends ExtensiblePureComponent {
     static propTypes = {
         isLoading: PropTypes.bool,
         product: ProductType.isRequired,
@@ -136,7 +135,9 @@ export class AddToCartContainer extends PureComponent {
 
                 groupedProductItem.parent = product;
                 const quantity = groupedProductQuantity[groupedProductItem.id];
-                if (!quantity) return Promise.resolve();
+                if (!quantity) {
+                    return Promise.resolve();
+                }
 
                 return addProduct({
                     product: groupedProductItem,
@@ -176,7 +177,9 @@ export class AddToCartContainer extends PureComponent {
             product: { type_id, variants = {} } = {}
         } = this.props;
 
-        if (type_id !== 'configurable') return;
+        if (type_id !== 'configurable') {
+            return;
+        }
 
         const { sku } = variants[configurableVariantIndex];
 
@@ -186,7 +189,9 @@ export class AddToCartContainer extends PureComponent {
                 return wSku === sku;
             });
 
-        if (!isSignedIn() || wishlistItemKey === undefined) return;
+        if (!isSignedIn() || wishlistItemKey === undefined) {
+            return;
+        }
 
         const { wishlist: { id: item_id } } = wishlistItems[wishlistItemKey];
         removeFromWishlist({ item_id, sku, noMessage: true });
@@ -216,4 +221,6 @@ export class AddToCartContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddToCartContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    middleware(AddToCartContainer, 'Component/AddToCart/Container')
+);

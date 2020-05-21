@@ -14,7 +14,7 @@ import { updateMeta } from 'Store/Meta';
  * Meta Dispatcher
  * @class MetaDispatcher
  */
-export class MetaDispatcher {
+export class MetaDispatcher extends ExtensibleClass {
     /**
      * Set meta for category
      * @param {Object} category
@@ -78,4 +78,4 @@ export class MetaDispatcher {
     }
 }
 
-export default new MetaDispatcher();
+export default new (middleware(MetaDispatcher, 'Util/Meta/Dispatcher'))();

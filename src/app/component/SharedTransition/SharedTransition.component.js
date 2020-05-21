@@ -1,10 +1,21 @@
-import { PureComponent, createRef } from 'react';
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+import { createRef } from 'react';
 import PropTypes from 'prop-types';
 import './SharedTransition.style';
 
 export const SHARED_ELEMENT_TRANSITION = 250;
 
-class SharedTransition extends PureComponent {
+export class SharedTransition extends ExtensiblePureComponent {
     static propTypes = {
         state: PropTypes.shape({
             startingPosition: PropTypes.shape({
@@ -34,7 +45,9 @@ class SharedTransition extends PureComponent {
     setStartingTransform = this.setTransform.bind(this, 'startingPosition');
 
     componentDidUpdate() {
-        if (this.transitionInAction) return;
+        if (this.transitionInAction) {
+            return;
+        }
         this.updateSharedElement();
     }
 
@@ -85,7 +98,9 @@ class SharedTransition extends PureComponent {
             !sharedElement
             || !sharedElementDestination
             || !wrapper
-        ) return;
+        ) {
+            return;
+        }
 
         this.transitionInAction = true;
         this.setStartingTransform();
@@ -107,4 +122,4 @@ class SharedTransition extends PureComponent {
     }
 }
 
-export default SharedTransition;
+export default middleware(SharedTransition, 'Component/SharedTransition/Component');

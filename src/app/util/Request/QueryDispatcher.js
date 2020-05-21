@@ -21,7 +21,7 @@ export const ONE_MONTH_IN_SECONDS = 2592000;
  * IMPORTANT: it is required to implement `prepareRequest(options)` before using!
  * @class QueryDispatcher
  */
-class QueryDispatcher {
+export class QueryDispatcher extends ExtensibleClass {
     /**
      * Creates an instance of QueryDispatcher.
      * @param  {String} name Name of model for ServiceWorker to send BroadCasts updates to
@@ -29,6 +29,7 @@ class QueryDispatcher {
      * @memberof QueryDispatcher
      */
     constructor(name, cacheTTL = ONE_MONTH_IN_SECONDS) {
+        super();
         this.name = name;
         this.cacheTTL = cacheTTL;
         this.promise = null;
@@ -42,10 +43,18 @@ class QueryDispatcher {
      */
     handleData(dispatch, options) {
         const { name, cacheTTL } = this;
+
         const rawQueries = this.prepareRequest(options, dispatch);
+
+        if (!rawQueries) {
+            return;
+        }
+
         const queries = rawQueries instanceof Field ? [rawQueries] : rawQueries;
 
-        if (this.promise) this.promise.cancel();
+        if (this.promise) {
+            this.promise.cancel();
+        }
 
         this.promise = makeCancelable(
             new Promise((resolve, reject) => {
@@ -109,4 +118,4 @@ class QueryDispatcher {
     onError(error, dispatch) {}
 }
 
-export default QueryDispatcher;
+export default middleware(QueryDispatcher, 'Util/Request/QueryDispatcher');

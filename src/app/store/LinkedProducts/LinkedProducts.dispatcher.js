@@ -74,7 +74,7 @@ export class LinkedProductsDispatcher extends QueryDispatcher {
      */
     prepareRequest(product_links) {
         if (JSON.stringify(this.currentProductLinks) === JSON.stringify(product_links)) {
-            return [];
+            return null;
         }
 
         this.currentProductLinks = product_links;
@@ -90,7 +90,8 @@ export class LinkedProductsDispatcher extends QueryDispatcher {
                     filter: {
                         productsSkuArray: relatedSKUs
                     }
-                }
+                },
+                notRequireInfo: true
             })
         ];
     }
@@ -108,4 +109,4 @@ export class LinkedProductsDispatcher extends QueryDispatcher {
     }
 }
 
-export default new LinkedProductsDispatcher();
+export default new (middleware(LinkedProductsDispatcher, 'Store/LinkedProducts/Dispatcher'))();

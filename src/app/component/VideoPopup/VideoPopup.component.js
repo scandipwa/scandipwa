@@ -11,7 +11,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import './VideoPopup.style';
 import Popup from 'Component/Popup';
 import { MediaItemType } from 'Type/ProductList';
@@ -22,15 +21,15 @@ export const VIDEO_POPUP_ID = 'VIDEO_POPUP_ID';
  * An expression that checks for vimeo URLs described in https://developer.vimeo.com/api/oembed/videos#table-1 and matches the video id
  * @type {RegExp}
  */
-const VIMEO_FORMAT = new RegExp('(?:https?//)?vimeo.com[\\w/]*/(\\d+)$');
+export const VIMEO_FORMAT = new RegExp('(?:https?//)?vimeo.com[\\w/]*/(\\d+)$');
 
-const YOUTUBE_FORMAT = new RegExp('(?:https?//)?www.youtube.com/watch\\?v=(\\w+)');
+export const YOUTUBE_FORMAT = new RegExp('(?:https?//)?www.youtube.com/watch\\?v=(\\w+)');
 
 /**
  * A popup capable of displaying a video
  * @class VideoPopup
  */
-export default class VideoPopup extends PureComponent {
+export class VideoPopup extends ExtensiblePureComponent {
     static propTypes = {
         payload: MediaItemType.isRequired
     };
@@ -52,7 +51,9 @@ export default class VideoPopup extends PureComponent {
     _renderVimeoVideo(videoId) {
         const { vimeoComponent: { default: Vimeo } = {} } = this;
 
-        if (!Vimeo) return null;
+        if (!Vimeo) {
+            return null;
+        }
 
         return (
             <Vimeo
@@ -71,7 +72,9 @@ export default class VideoPopup extends PureComponent {
     _renderYoutubeVideo(videoId) {
         const { youtubeComponent: { default: YouTube } = {} } = this;
 
-        if (!YouTube) return null;
+        if (!YouTube) {
+            return null;
+        }
 
         return (
             <YouTube
@@ -106,13 +109,19 @@ export default class VideoPopup extends PureComponent {
             }
         } = this.props;
 
-        if (!video_url) return null;
+        if (!video_url) {
+            return null;
+        }
 
         const [, vimeoId] = VIMEO_FORMAT.exec(video_url) || [];
-        if (vimeoId) return this._renderVimeoVideo(vimeoId);
+        if (vimeoId) {
+            return this._renderVimeoVideo(vimeoId);
+        }
 
         const [, youtubeId] = YOUTUBE_FORMAT.exec(video_url);
-        if (youtubeId) return this._renderYoutubeVideo(youtubeId);
+        if (youtubeId) {
+            return this._renderYoutubeVideo(youtubeId);
+        }
 
         return null;
     }
@@ -129,3 +138,5 @@ export default class VideoPopup extends PureComponent {
         );
     }
 }
+
+export default middleware(VideoPopup, 'Component/VideoPopup/Component');

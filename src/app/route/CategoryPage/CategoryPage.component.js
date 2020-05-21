@@ -10,7 +10,6 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
 import {
     CATEGORY_FILTER_OVERLAY_ID
 } from 'Component/CategoryFilterOverlay/CategoryFilterOverlay.component';
@@ -25,11 +24,9 @@ import { FilterType, FilterInputType } from 'Type/ProductList';
 import './CategoryPage.style';
 import isMobile from 'Util/Mobile';
 
-export default class CategoryPage extends PureComponent {
+export class CategoryPage extends ExtensiblePureComponent {
     static propTypes = {
         category: CategoryTreeType.isRequired,
-        minPriceRange: PropTypes.number.isRequired,
-        maxPriceRange: PropTypes.number.isRequired,
         getIsNewCategory: PropTypes.func.isRequired,
         filters: PropTypes.objectOf(PropTypes.shape).isRequired,
         sortFields: PropTypes.shape({
@@ -42,14 +39,9 @@ export default class CategoryPage extends PureComponent {
             ]),
             sortKey: PropTypes.string
         }).isRequired,
-        selectedPriceRange: PropTypes.shape({
-            min: PropTypes.number,
-            max: PropTypes.number
-        }).isRequired,
         getFilterUrl: PropTypes.func.isRequired,
         onSortChange: PropTypes.func.isRequired,
         updateFilter: PropTypes.func.isRequired,
-        updatePriceRange: PropTypes.func.isRequired,
         toggleOverlayByKey: PropTypes.func.isRequired,
         selectedFilters: FilterType.isRequired,
         filter: FilterInputType.isRequired,
@@ -100,12 +92,8 @@ export default class CategoryPage extends PureComponent {
 
     renderFilterOverlay() {
         const {
-            minPriceRange,
-            maxPriceRange,
             filters,
             selectedFilters,
-            selectedPriceRange,
-            updatePriceRange,
             updateFilter,
             getFilterUrl
         } = this.props;
@@ -116,10 +104,6 @@ export default class CategoryPage extends PureComponent {
               availableFilters={ filters }
               customFiltersValues={ selectedFilters }
               updateFilter={ updateFilter }
-              updatePriceRange={ updatePriceRange }
-              priceValue={ selectedPriceRange }
-              minPriceValue={ minPriceRange }
-              maxPriceValue={ maxPriceRange }
             />
         );
     }
@@ -195,3 +179,5 @@ export default class CategoryPage extends PureComponent {
         );
     }
 }
+
+export default middleware(CategoryPage, 'Route/CategoryPage/Component');

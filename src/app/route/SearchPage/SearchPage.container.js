@@ -10,7 +10,7 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+
 import { connect } from 'react-redux';
 import { updateMeta } from 'Store/Meta';
 import { SearchBarDispatcher } from 'Store/SearchBar';
@@ -28,8 +28,6 @@ export const mapStateToProps = state => ({
     filters: state.ProductListInfoReducer.filters,
     totalItems: state.ProductListInfoReducer.totalItems,
     sortFields: state.ProductListInfoReducer.sortFields,
-    minPriceRange: state.ProductListInfoReducer.minPrice,
-    maxPriceRange: state.ProductListInfoReducer.maxPrice,
     isInfoLoading: state.ProductListInfoReducer.isLoading
 });
 
@@ -58,7 +56,7 @@ export const mapDispatchToProps = dispatch => ({
     }
 });
 
-export class SearchPageContainer extends PureComponent {
+export class SearchPageContainer extends ExtensiblePureComponent {
     static propTypes = {
         updateMeta: PropTypes.func.isRequired
     };
@@ -78,4 +76,6 @@ export class SearchPageContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchPageContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    middleware(SearchPageContainer, 'Route/SearchPage/Container')
+);

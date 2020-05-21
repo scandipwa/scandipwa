@@ -9,13 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { MixType, ChildrenType } from 'Type/Common';
 import './ExpandableContent.style';
 
-export default class ExpandableContent extends PureComponent {
+export class ExpandableContent extends ExtensiblePureComponent {
     static propTypes = {
         isContentExpanded: PropTypes.bool,
         heading: PropTypes.string,
@@ -24,8 +23,12 @@ export default class ExpandableContent extends PureComponent {
         mix: MixType.isRequired,
         onClick: (props, propName, componentName) => {
             const propValue = props[propName];
-            if (propValue === null) return;
-            if (typeof propValue === 'function') return;
+            if (propValue === null) {
+                return;
+            }
+            if (typeof propValue === 'function') {
+                return;
+            }
             throw new Error(`${componentName} only accepts null or string`);
         }
     };
@@ -61,7 +64,9 @@ export default class ExpandableContent extends PureComponent {
 
     toggleExpand = () => {
         const { onClick } = this.props;
-        if (onClick) { onClick(); return; }
+        if (onClick) {
+            onClick(); return;
+        }
         this.setState(({ isContentExpanded }) => (
             { isContentExpanded: !isContentExpanded }
         ));
@@ -129,3 +134,5 @@ export default class ExpandableContent extends PureComponent {
         );
     }
 }
+
+export default middleware(ExpandableContent, 'Component/ExpandableContent/Component');

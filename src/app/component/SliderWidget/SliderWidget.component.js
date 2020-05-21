@@ -11,7 +11,6 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
 import Slider from 'Component/Slider';
 import Image from 'Component/Image';
 import Html from 'Component/Html';
@@ -22,9 +21,10 @@ import './SliderWidget.style';
  * Homepage slider
  * @class SliderWidget
  */
-export default class SliderWidget extends PureComponent {
+export class SliderWidget extends ExtensiblePureComponent {
     static propTypes = {
         slider: PropTypes.shape({
+            title: PropTypes.string,
             slides: PropTypes.arrayOf(
                 PropTypes.shape({
                     desktop_image: PropTypes.string,
@@ -54,7 +54,7 @@ export default class SliderWidget extends PureComponent {
         } = slide;
 
         if (isMobile.any() && mobile_image) {
-            return mobile_image;
+            return `/${mobile_image}`;
         }
 
         if (!desktop_image) {
@@ -110,3 +110,5 @@ export default class SliderWidget extends PureComponent {
         );
     }
 }
+
+export default middleware(SliderWidget, 'Component/SliderWidget/Component');

@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { customerType, ADDRESS_BOOK } from 'Type/Account';
 import { MY_ACCOUNT_URL } from 'Route/MyAccount/MyAccount.container';
@@ -20,7 +19,7 @@ import CheckoutAddressForm from 'Component/CheckoutAddressForm';
 import './CheckoutAddressBook.style';
 import { BILLING_STEP, SHIPPING_STEP } from 'Route/Checkout/Checkout.component';
 
-class CheckoutAddressBook extends PureComponent {
+export class CheckoutAddressBook extends ExtensiblePureComponent {
     static propTypes = {
         customer: customerType.isRequired,
         onAddressSelect: PropTypes.func.isRequired,
@@ -36,7 +35,10 @@ class CheckoutAddressBook extends PureComponent {
 
     static getDerivedStateFromProps(props) {
         const { selectedAddressId } = props;
-        if (selectedAddressId === 0) return null;
+        if (selectedAddressId === 0) {
+            return null;
+        }
+
         return { isCustomAddressExpanded: false };
     }
 
@@ -82,8 +84,13 @@ class CheckoutAddressBook extends PureComponent {
 
     renderAddressList() {
         const { customer: { addresses } } = this.props;
-        if (!addresses) return this.renderLoading();
-        if (!addresses.length) return this.renderNoAddresses();
+        if (!addresses) {
+            return this.renderLoading();
+        }
+        if (!addresses.length) {
+            return this.renderNoAddresses();
+        }
+
         return addresses.map(this.renderAddress);
     }
 
@@ -151,7 +158,10 @@ class CheckoutAddressBook extends PureComponent {
 
     renderContent() {
         const { isSignedIn } = this.props;
-        if (isSignedIn) return this.renderSignedInContent();
+        if (isSignedIn) {
+            return this.renderSignedInContent();
+        }
+
         return this.renderGuestContent();
     }
 
@@ -165,4 +175,4 @@ class CheckoutAddressBook extends PureComponent {
     }
 }
 
-export default CheckoutAddressBook;
+export default middleware(CheckoutAddressBook, 'Component/CheckoutAddressBook/Component');

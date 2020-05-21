@@ -13,13 +13,13 @@
 /* eslint-disable react/no-array-index-key */
 // Disabled due placeholder needs
 
-import { PureComponent, createRef } from 'react';
+import { createRef } from 'react';
 import PropTypes from 'prop-types';
 
 import ProductConfigurableAttributes from 'Component/ProductConfigurableAttributes';
 import ProductWishlistButton from 'Component/ProductWishlistButton';
 import ProductReviewRating from 'Component/ProductReviewRating';
-import GroupedProductList from 'Component/GroupedProductsList';
+import GroupedProductList from 'Component/GroupedProductList';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import ProductPrice from 'Component/ProductPrice';
 import { ProductType } from 'Type/ProductList';
@@ -36,7 +36,7 @@ import './ProductActions.style';
  * Product actions
  * @class ProductActions
  */
-export default class ProductActions extends PureComponent {
+export class ProductActions extends ExtensiblePureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         productOrVariant: ProductType.isRequired,
@@ -69,7 +69,9 @@ export default class ProductActions extends PureComponent {
     onGroupedProductError = this.onProductError.bind(this, this.groupedProductsRef);
 
     onProductError(ref) {
-        if (!ref) return;
+        if (!ref) {
+            return;
+        }
         const { current } = ref;
 
         current.scrollIntoView({
@@ -151,7 +153,9 @@ export default class ProductActions extends PureComponent {
             getIsConfigurableAttributeAvailable
         } = this.props;
 
-        if (type_id !== 'configurable') return null;
+        if (type_id !== 'configurable') {
+            return null;
+        }
 
         return (
             <div
@@ -179,7 +183,9 @@ export default class ProductActions extends PureComponent {
         const { product: { short_description, id } } = this.props;
         const { html } = short_description || {};
 
-        if (!html && id) return null;
+        if (!html && id) {
+            return null;
+        }
 
         const htmlWithItemProp = `<div itemProp="description">${ html }</div>`;
 
@@ -194,7 +200,9 @@ export default class ProductActions extends PureComponent {
         const { product: { short_description, id } } = this.props;
         const { html } = short_description || {};
 
-        if (!html && id && isMobile.any()) return null;
+        if (!html && id && isMobile.any()) {
+            return null;
+        }
 
         return (
             <section
@@ -248,7 +256,9 @@ export default class ProductActions extends PureComponent {
             product: { type_id }
         } = this.props;
 
-        if (type_id === GROUPED) return null;
+        if (type_id === GROUPED) {
+            return null;
+        }
 
         return (
             <Field
@@ -333,7 +343,9 @@ export default class ProductActions extends PureComponent {
     renderPriceWithGlobalSchema() {
         const { product: { type_id } } = this.props;
 
-        if (type_id === GROUPED) return null;
+        if (type_id === GROUPED) {
+            return null;
+        }
 
         return (
             <div
@@ -368,7 +380,9 @@ export default class ProductActions extends PureComponent {
     renderReviews() {
         const { product: { review_summary: { rating_summary, review_count } = {} } } = this.props;
 
-        if (!rating_summary) return null;
+        if (!rating_summary) {
+            return null;
+        }
 
         const ONE_FIFTH_OF_A_HUNDRED = 20;
         const rating = parseFloat(rating_summary / ONE_FIFTH_OF_A_HUNDRED).toFixed(2);
@@ -396,7 +410,9 @@ export default class ProductActions extends PureComponent {
             clearGroupedProductQuantity
         } = this.props;
 
-        if (type_id !== GROUPED) return null;
+        if (type_id !== GROUPED) {
+            return null;
+        }
 
         return (
             <div
@@ -444,3 +460,5 @@ export default class ProductActions extends PureComponent {
         );
     }
 }
+
+export default middleware(ProductActions, 'Component/ProductActions/Component');

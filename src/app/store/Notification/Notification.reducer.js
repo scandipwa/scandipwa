@@ -15,7 +15,7 @@ export const initialState = {
     notifications: {}
 };
 
-const NotificationReducer = (state = initialState, action) => {
+export const NotificationReducer = (state = initialState, action) => {
     const notifications = { ...state.notifications };
 
     switch (action.type) {

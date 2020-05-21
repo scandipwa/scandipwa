@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import Popup from 'Component/Popup';
@@ -24,7 +23,7 @@ import ContentWrapper from 'Component/ContentWrapper';
 
 export const REVIEW_POPUP_ID = 'REVIEW_POPUP_ID';
 
-class ProductReviews extends PureComponent {
+export class ProductReviews extends ExtensiblePureComponent {
     static propTypes = {
         product: ProductType.isRequired,
         showPopup: PropTypes.func.isRequired,
@@ -97,7 +96,9 @@ class ProductReviews extends PureComponent {
 
         const percent = parseFloat(STARS_COUNT * (rating_summary || 0) / PERCENT).toFixed(2);
 
-        if (!review_count) return this.renderNoRating();
+        if (!review_count) {
+            return this.renderNoRating();
+        }
 
         return (
             <>
@@ -188,4 +189,4 @@ class ProductReviews extends PureComponent {
     }
 }
 
-export default ProductReviews;
+export default middleware(ProductReviews, 'Component/ProductReviews/Component');

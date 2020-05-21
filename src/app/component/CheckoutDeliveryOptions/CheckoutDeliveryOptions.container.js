@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import { shippingMethodsType } from 'Type/Checkout';
@@ -17,7 +16,7 @@ import { SHIPPING_STEP } from 'Route/Checkout/Checkout.component';
 
 import CheckoutDeliveryOptions from './CheckoutDeliveryOptions.component';
 
-export class CheckoutDeliveryOptionsContainer extends PureComponent {
+export class CheckoutDeliveryOptionsContainer extends ExtensiblePureComponent {
     static propTypes = {
         onShippingMethodSelect: PropTypes.func.isRequired,
         shippingMethods: shippingMethodsType.isRequired
@@ -51,6 +50,22 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
         }
     }
 
+    static getDerivedStateFromProps(props, state) {
+        const { shippingMethods } = props;
+        const { prevShippingMethods } = state;
+
+        if (shippingMethods.length !== prevShippingMethods.length) {
+            const selectedShippingMethodCode = CheckoutDeliveryOptionsContainer._getDefaultMethod(props);
+
+            return {
+                selectedShippingMethodCode,
+                prevShippingMethods: shippingMethods
+            };
+        }
+
+        return null;
+    }
+
     componentDidMount() {
         if (window.formPortalCollector) {
             window.formPortalCollector.subscribe(SHIPPING_STEP, this.collectAdditionalData, 'CheckoutDeliveryOptions');
@@ -71,22 +86,6 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
         }
     }
 
-    static getDerivedStateFromProps(props, state) {
-        const { shippingMethods } = props;
-        const { prevShippingMethods } = state;
-
-        if (shippingMethods.length !== prevShippingMethods.length) {
-            const selectedShippingMethodCode = CheckoutDeliveryOptionsContainer._getDefaultMethod(props);
-
-            return {
-                selectedShippingMethodCode,
-                prevShippingMethods: shippingMethods
-            };
-        }
-
-        return null;
-    }
-
     componentWillUnmount() {
         if (window.formPortalCollector) {
             window.formPortalCollector.unsubscribe(SHIPPING_STEP, 'CheckoutDeliveryOptions');
@@ -96,7 +95,10 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
     collectAdditionalData = () => {
         const { selectedShippingMethodCode } = this.state;
         const additionalDataGetter = this.dataMap[selectedShippingMethodCode];
-        if (!additionalDataGetter) return {};
+        if (!additionalDataGetter) {
+            return {};
+        }
+
         return additionalDataGetter();
     };
 
@@ -118,4 +120,4 @@ export class CheckoutDeliveryOptionsContainer extends PureComponent {
     }
 }
 
-export default CheckoutDeliveryOptionsContainer;
+export default middleware(CheckoutDeliveryOptionsContainer, 'Component/CheckoutDeliveryOptions/Container');

@@ -9,12 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import { formatCurrency, roundPrice } from 'Util/Price';
 import { MixType } from 'Type/Common';
 import PropTypes from 'prop-types';
 
-class CartItemPrice extends PureComponent {
+export class CartItemPrice extends ExtensiblePureComponent {
     static propTypes = {
         row_total: PropTypes.number.isRequired,
         currency_code: PropTypes.string.isRequired,
@@ -35,4 +34,4 @@ class CartItemPrice extends PureComponent {
     }
 }
 
-export default CartItemPrice;
+export default middleware(CartItemPrice, 'Component/CartItemPrice/Component');

@@ -10,7 +10,6 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
@@ -47,7 +46,7 @@ export const mapDispatchToProps = dispatch => ({
     updateMeta: meta => dispatch(updateMeta(meta))
 });
 
-export class MyAccountContainer extends PureComponent {
+export class MyAccountContainer extends ExtensiblePureComponent {
     static propTypes = {
         changeHeaderState: PropTypes.func.isRequired,
         requestCustomerData: PropTypes.func.isRequired,
@@ -112,6 +111,10 @@ export class MyAccountContainer extends PureComponent {
         this.state = MyAccountContainer.navigateToSelectedTab(this.props) || {};
     }
 
+    static getDerivedStateFromProps(props, state) {
+        return MyAccountContainer.navigateToSelectedTab(props, state);
+    }
+
     componentDidMount() {
         const {
             isSignedIn,
@@ -129,16 +132,14 @@ export class MyAccountContainer extends PureComponent {
         this.updateBreadcrumbs();
     }
 
-    static getDerivedStateFromProps(props, state) {
-        return MyAccountContainer.navigateToSelectedTab(props, state);
-    }
-
     componentDidUpdate(_, prevState) {
         const { prevActiveTab } = prevState;
         const { activeTab } = this.state;
 
         this.redirectIfNotSignedIn();
-        if (prevActiveTab !== activeTab) this.updateBreadcrumbs();
+        if (prevActiveTab !== activeTab) {
+            this.updateBreadcrumbs();
+        }
     }
 
     onSignOut() {
@@ -189,7 +190,9 @@ export class MyAccountContainer extends PureComponent {
             history
         } = this.props;
 
-        if (isSignedIn) return;
+        if (isSignedIn) {
+            return;
+        }
 
         if (!isMobile.any()) {
             history.push('/');
@@ -208,4 +211,6 @@ export class MyAccountContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyAccountContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    middleware(MyAccountContainer, 'Route/MyAccount/Container')
+);

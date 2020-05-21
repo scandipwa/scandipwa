@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import { shippingMethodsType } from 'Type/Checkout';
@@ -17,7 +16,7 @@ import CheckoutDeliveryOption from 'Component/CheckoutDeliveryOption';
 
 import './CheckoutDeliveryOptions.style';
 
-class CheckoutDeliveryOptions extends PureComponent {
+export class CheckoutDeliveryOptions extends ExtensiblePureComponent {
     static propTypes = {
         shippingMethods: shippingMethodsType.isRequired,
         selectShippingMethod: PropTypes.func.isRequired,
@@ -67,14 +66,20 @@ class CheckoutDeliveryOptions extends PureComponent {
 
     renderShippingMethods() {
         const { shippingMethods } = this.props;
-        if (!shippingMethods.length) return this.renderNoDeliveryOptions();
+        if (!shippingMethods.length) {
+            return this.renderNoDeliveryOptions();
+        }
+
         return shippingMethods.map(this.renderDeliveryOption);
     }
 
     renderSelectedShippingMethod() {
         const { selectedShippingMethodCode } = this.props;
         const render = this.shippingRenderMap[selectedShippingMethodCode];
-        if (!render) return null;
+        if (!render) {
+            return null;
+        }
+
         return render();
     }
 
@@ -91,4 +96,4 @@ class CheckoutDeliveryOptions extends PureComponent {
     }
 }
 
-export default CheckoutDeliveryOptions;
+export default middleware(CheckoutDeliveryOptions, 'Component/CheckoutDeliveryOptions/Component');

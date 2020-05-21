@@ -10,7 +10,7 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { LocationType } from 'Type/Common';
@@ -27,7 +27,7 @@ export const mapDispatchToProps = dispatch => ({
     setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig))
 });
 
-class OfflineNoticeContainer extends PureComponent {
+export class OfflineNoticeContainer extends ExtensiblePureComponent {
     static propTypes = {
         setBigOfflineNotice: PropTypes.func.isRequired,
         showOfflineNotice: PropTypes.func.isRequired,
@@ -99,7 +99,9 @@ class OfflineNoticeContainer extends PureComponent {
         } else {
             document.documentElement.classList.add('offline');
             showOfflineNotice(true);
-            if (isBig) setBigOfflineNotice(false);
+            if (isBig) {
+                setBigOfflineNotice(false);
+            }
         }
     };
 
@@ -113,4 +115,6 @@ class OfflineNoticeContainer extends PureComponent {
     }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(OfflineNoticeContainer));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(
+    middleware(OfflineNoticeContainer, 'Component/OfflineNotice/Container')
+));

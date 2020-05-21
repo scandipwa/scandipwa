@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import CheckoutTermsAndConditionsPopup from 'Component/CheckoutTermsAndConditionsPopup';
@@ -23,7 +22,7 @@ import Field from 'Component/Field';
 import Form from 'Component/Form';
 import './CheckoutBilling.style';
 
-class CheckoutBilling extends PureComponent {
+export class CheckoutBilling extends ExtensiblePureComponent {
     state = {
         isOrderButtonVisible: true,
         isOrderButtonEnabled: true,
@@ -34,7 +33,7 @@ class CheckoutBilling extends PureComponent {
         setLoading: PropTypes.func.isRequired,
         setDetailsStep: PropTypes.func.isRequired,
         isSameAsShipping: PropTypes.bool.isRequired,
-        termsAreEnabled: PropTypes.bool.isRequired,
+        termsAreEnabled: PropTypes.bool,
         onSameAsShippingChange: PropTypes.func.isRequired,
         onPaymentMethodSelect: PropTypes.func.isRequired,
         onBillingSuccess: PropTypes.func.isRequired,
@@ -49,9 +48,15 @@ class CheckoutBilling extends PureComponent {
         })).isRequired
     };
 
+    static defaultProps = {
+        termsAreEnabled: false
+    };
+
     componentDidMount() {
         const { termsAreEnabled } = this.props;
-        if (!termsAreEnabled) this.setState({ isOrderButtonEnabled: true });
+        if (!termsAreEnabled) {
+            this.setState({ isOrderButtonEnabled: true });
+        }
     }
 
     setOrderButtonVisibility = (isOrderButtonVisible) => {
@@ -131,7 +136,9 @@ class CheckoutBilling extends PureComponent {
 
         const { termsAreEnabled } = this.props;
 
-        if (!isOrderButtonVisible) return null;
+        if (!isOrderButtonVisible) {
+            return null;
+        }
 
         // if terms and conditions are enabled, validate for acceptance
         const isDisabled = termsAreEnabled
@@ -198,7 +205,9 @@ class CheckoutBilling extends PureComponent {
             shippingAddress
         } = this.props;
 
-        if (!paymentMethods.length) return null;
+        if (!paymentMethods.length) {
+            return null;
+        }
 
         return (
             <CheckoutPayments
@@ -237,4 +246,4 @@ class CheckoutBilling extends PureComponent {
     }
 }
 
-export default CheckoutBilling;
+export default middleware(CheckoutBilling, 'Component/CheckoutBilling/Component');

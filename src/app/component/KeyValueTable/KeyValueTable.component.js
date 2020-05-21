@@ -9,11 +9,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import './KeyValueTable.style';
 
-class KeyValueTable extends PureComponent {
+export class KeyValueTable extends ExtensiblePureComponent {
     static propTypes = {
         title: PropTypes.string
     };
@@ -43,7 +42,9 @@ class KeyValueTable extends PureComponent {
         const { key, label } = data;
         const value = this.getValueFromSource(data);
 
-        if (!value) return null;
+        if (!value) {
+            return null;
+        }
 
         return (
             <tr key={ key }>
@@ -55,7 +56,9 @@ class KeyValueTable extends PureComponent {
 
     renderHeading() {
         const { title } = this.props;
-        if (!title) return null;
+        if (!title) {
+            return null;
+        }
 
         return (
             <tr>
@@ -90,4 +93,4 @@ class KeyValueTable extends PureComponent {
     }
 }
 
-export default KeyValueTable;
+export default middleware(KeyValueTable, 'Component/KeyValueTable/Component');

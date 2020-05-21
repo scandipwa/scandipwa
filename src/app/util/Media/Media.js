@@ -6,6 +6,7 @@ export const PRODUCT_MEDIA = 'catalog/product';
 export const LOGO_MEDIA = 'logo/';
 
 export default (src, subPath = '') => {
+    // TODO: remove, takes too long to resolve
     const { ConfigReducer: { secure_base_media_url } } = Store.getState();
     return `${ secure_base_media_url || '/media/' }${ subPath }${ src }`;
 };

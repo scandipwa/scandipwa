@@ -15,7 +15,7 @@ import { addressType } from 'Type/Account';
 import { countriesType } from 'Type/Config';
 import FieldForm from 'Component/FieldForm';
 
-class MyAccountAddressForm extends FieldForm {
+export class MyAccountAddressForm extends FieldForm {
     static propTypes = {
         address: addressType.isRequired,
         countries: countriesType.isRequired,
@@ -174,4 +174,4 @@ class MyAccountAddressForm extends FieldForm {
     }
 }
 
-export default MyAccountAddressForm;
+export default middleware(MyAccountAddressForm, 'Component/MyAccountAddressForm/Component');

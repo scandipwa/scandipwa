@@ -13,6 +13,11 @@
     "sessionStorage": true,
     "localStorage": true,
     "jest": true,
+    "ExtensiblePureComponent": true,
+    "ExtensibleComponent": true,
+    "ExtensibleUnstatedContainer": true,
+    "ExtensibleClass": true,
+    "middleware": true,
     "__": true,
     "workbox": true,
     "importScripts": true
@@ -22,9 +27,16 @@
     "import",
     "jest",
     "babel",
-    "fp"
+    "fp",
+    "@scandipwa/scandipwa-guidelines"
   ],
   "rules": {
+    "@scandipwa/scandipwa-guidelines/file-structure": "error",
+    "@scandipwa/scandipwa-guidelines/only-one-class": "error",
+    "@scandipwa/scandipwa-guidelines/derived-class-names": "error",
+    "@scandipwa/scandipwa-guidelines/no-non-extensible-components": "error",
+    "@scandipwa/scandipwa-guidelines/use-extensible-base": "error",
+    "@scandipwa/scandipwa-guidelines/use-middleware": "error",
     "fp/no-let": "error",
     "fp/no-arguments": "error",
     "fp/no-loops": "error",
@@ -55,6 +67,21 @@
     "react/jsx-curly-spacing": [2, {"when": "always", "allowMultiline": false, "children": true} ],
     "import/no-named-as-default": 0,
     "import/no-named-as-default-member": 0,
+    // "react/jsx-max-depth": [2, { "max": 2 }],
+    "react/jsx-no-useless-fragment": [2, { "max": 2 }],
+    "curly": [2, "all"],
+    "brace-style": [2, "1tbs", { "allowSingleLine": false }],
+    "react/sort-comp": [2, {
+        "order": [
+            "type-annotations",
+            "static-variables",
+            "static-methods",
+            "instance-variables",
+            "lifecycle",
+            "everything-else",
+            "render"
+        ]
+    }],
     "react/jsx-filename-extension": 0,
     "react/prefer-stateless-function": 0,
     "react/button-has-type": 0,
@@ -72,7 +99,7 @@
     "react/forbid-dom-props": [2, {"forbid": ["className"]}],
     "react/no-deprecated": 2,
     "babel/semi": 1,
-    "new-cap": ["error", { "newIsCap": true }],
+    "new-cap": ["error", { "newIsCap": true, "newIsCapExceptions": ["middleware"] }],
     "no-param-reassign": ["error", { "props": true, "ignorePropertyModificationsFor": ["acc", "sum"] }],
     "no-magic-numbers": ["error", { "ignore": [1, 0, 2, -1] }],
     "indent": [

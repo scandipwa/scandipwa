@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export default class FormPortalCollector {
+export class FormPortalCollector extends ExtensibleClass {
     portalsObservers = {};
 
     subscribe(id, f, name) {
@@ -22,7 +22,9 @@ export default class FormPortalCollector {
     }
 
     unsubscribe(id, name) {
-        if (!this.portalsObservers[id]) return;
+        if (!this.portalsObservers[id]) {
+            return;
+        }
         // eslint-disable-next-line fp/no-delete
         delete this.portalsObservers[id][name];
     }
@@ -32,3 +34,5 @@ export default class FormPortalCollector {
         return Object.values(portals).map(portal => portal());
     }
 }
+
+export default middleware(FormPortalCollector, 'Util/FormPortalCollector');

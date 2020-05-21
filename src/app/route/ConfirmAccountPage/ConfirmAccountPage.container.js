@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
+
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { convertQueryStringToKeyValuePairs } from 'Util/Url';
@@ -35,7 +35,7 @@ export const mapDispatchToProps = dispatch => ({
     signIn: options => MyAccountDispatcher.signIn(options, dispatch)
 });
 
-export class ConfirmAccountPageContainer extends PureComponent {
+export class ConfirmAccountPageContainer extends ExtensiblePureComponent {
     static propTypes = {
         location: LocationType.isRequired,
         signIn: PropTypes.func.isRequired,
@@ -121,4 +121,6 @@ export class ConfirmAccountPageContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ConfirmAccountPageContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    middleware(ConfirmAccountPageContainer, 'Route/ConfirmAccountPage/Container')
+);

@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import { Redirect } from 'react-router';
 import PropTypes from 'prop-types';
 import ContentWrapper from 'Component/ContentWrapper';
@@ -20,10 +19,10 @@ import { getQueryParam } from 'Util/Url';
 import { LocationType } from 'Type/Common';
 import './PasswordChangePage.style';
 
-const STATUS_PASSOWORD_UPDATED = 'password_updated';
-const STATUS_PASSOWORD_MISSMATCH = 'passwords_miss_match';
+export const STATUS_PASSOWORD_UPDATED = 'password_updated';
+export const STATUS_PASSOWORD_MISSMATCH = 'passwords_miss_match';
 
-export default class PasswordChangePage extends PureComponent {
+export class PasswordChangePage extends ExtensiblePureComponent {
     static propTypes = {
         updateBreadcrumbs: PropTypes.func.isRequired,
         resetPassword: PropTypes.func.isRequired,
@@ -34,10 +33,6 @@ export default class PasswordChangePage extends PureComponent {
         passwordResetStatus: '',
         isLoading: false
     };
-
-    componentDidMount() {
-        this.updateBreadcrumbs();
-    }
 
     static getDerivedStateFromProps(props) {
         const { passwordResetStatus, showNotification } = props;
@@ -60,6 +55,10 @@ export default class PasswordChangePage extends PureComponent {
         }
 
         return Object.keys(stateToBeUpdated).length ? stateToBeUpdated : null;
+    }
+
+    componentDidMount() {
+        this.updateBreadcrumbs();
     }
 
     onPasswordSuccess = (fields) => {
@@ -102,49 +101,49 @@ export default class PasswordChangePage extends PureComponent {
         }
 
         return (
-            <>
-                <main block="PasswordChangePage" aria-label={ __('Password Change Page') }>
-                    <ContentWrapper
-                      mix={ { block: 'PasswordChangePage' } }
-                      wrapperMix={ { block: 'PasswordChangePage', elem: 'Wrapper' } }
-                      label={ __('Password Change Actions') }
+            <main block="PasswordChangePage" aria-label={ __('Password Change Page') }>
+                <ContentWrapper
+                  mix={ { block: 'PasswordChangePage' } }
+                  wrapperMix={ { block: 'PasswordChangePage', elem: 'Wrapper' } }
+                  label={ __('Password Change Actions') }
+                >
+                    <Loader isLoading={ isLoading } />
+                    <h1>{ __('Change My Password') }</h1>
+                    <Form
+                      key="reset-password"
+                      onSubmit={ this.onPasswordAttempt }
+                      onSubmitSuccess={ this.onPasswordSuccess }
+                      onSubmitError={ this.onError }
                     >
-                        <Loader isLoading={ isLoading } />
-                        <h1>{ __('Change My Password') }</h1>
-                        <Form
-                          key="reset-password"
-                          onSubmit={ this.onPasswordAttempt }
-                          onSubmitSuccess={ this.onPasswordSuccess }
-                          onSubmitError={ this.onError }
-                        >
-                            <Field
-                              type="password"
-                              label={ __('New password') }
-                              id="passwordReset"
-                              name="passwordReset"
-                              validation={ ['notEmpty', 'password'] }
-                            />
-                            <Field
-                              type="password"
-                              label={ __('Confirm password') }
-                              id="passwordResetConfirm"
-                              name="passwordResetConfirm"
-                              validation={ ['notEmpty', 'password'] }
-                            />
-                            <div block="MyAccount" elem="Buttons">
-                                <button
-                                  type="submit"
-                                  block="PasswordChangePage"
-                                  elem="Button"
-                                  mix={ { block: 'Button' } }
-                                >
-                                    { __('Update Password') }
-                                </button>
-                            </div>
-                        </Form>
-                    </ContentWrapper>
-                </main>
-            </>
+                        <Field
+                          type="password"
+                          label={ __('New password') }
+                          id="passwordReset"
+                          name="passwordReset"
+                          validation={ ['notEmpty', 'password'] }
+                        />
+                        <Field
+                          type="password"
+                          label={ __('Confirm password') }
+                          id="passwordResetConfirm"
+                          name="passwordResetConfirm"
+                          validation={ ['notEmpty', 'password'] }
+                        />
+                        <div block="MyAccount" elem="Buttons">
+                            <button
+                              type="submit"
+                              block="PasswordChangePage"
+                              elem="Button"
+                              mix={ { block: 'Button' } }
+                            >
+                                { __('Update Password') }
+                            </button>
+                        </div>
+                    </Form>
+                </ContentWrapper>
+            </main>
         );
     }
 }
+
+export default middleware(PasswordChangePage, 'Route/PasswordChangePage/Component');

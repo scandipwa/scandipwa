@@ -10,10 +10,9 @@
  */
 
 import PropTypes from 'prop-types';
-import { Component } from 'react';
 import { withRouter } from 'react-router';
-import { LocationType } from 'Type/Common';
 
+import { LocationType } from 'Type/Common';
 import media, { PRODUCT_MEDIA } from 'Util/Media/Media';
 
 import ProductGallery from './ProductGalleryBaseImage.component';
@@ -22,13 +21,14 @@ export const TRANSFORMATION_DELAY = 0;
 export const TRANSFORMATION_SPEED = 0;
 export const INITIAL_SCALE = 1;
 
-export class ProductGalleryBaseImageContainer extends Component {
+export class ProductGalleryBaseImageContainer extends ExtensibleComponent {
     static propTypes = {
         disableZoom: PropTypes.func.isRequired,
         scale: PropTypes.number.isRequired,
         previousScale: PropTypes.number.isRequired,
         index: PropTypes.number.isRequired,
         mediaData: PropTypes.shape({
+            id: PropTypes.string,
             label: PropTypes.string,
             file: PropTypes.string,
             base: PropTypes.shape({
@@ -44,7 +44,9 @@ export class ProductGalleryBaseImageContainer extends Component {
         const { scale, mediaData: { id } } = this.props;
         const { scale: nextScale, mediaData: { id: nextId } } = nextProps;
 
-        if (scale !== nextScale || id !== nextId) return true;
+        if (scale !== nextScale || id !== nextId) {
+            return true;
+        }
 
         return false;
     }
@@ -87,7 +89,10 @@ export class ProductGalleryBaseImageContainer extends Component {
             isZoomEnabled
         } = this.props;
 
-        if (!isZoomEnabled) return baseUrl || media(file, PRODUCT_MEDIA);
+        if (!isZoomEnabled) {
+            return baseUrl || media(file, PRODUCT_MEDIA);
+        }
+
         return file ? media(file, PRODUCT_MEDIA) : baseUrl;
     }
 
@@ -100,4 +105,6 @@ export class ProductGalleryBaseImageContainer extends Component {
     }
 }
 
-export default withRouter(ProductGalleryBaseImageContainer);
+export default withRouter(
+    middleware(ProductGalleryBaseImageContainer, 'Component/ProductGalleryBaseImage/Container')
+);

@@ -11,7 +11,6 @@
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { PureComponent } from 'react';
 
 import { TOP_NAVIGATION_TYPE, BOTTOM_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { MENU_TAB } from 'Component/NavigationTabs/NavigationTabs.component';
@@ -47,8 +46,6 @@ export const mapStateToProps = state => ({
     isOffline: state.OfflineReducer.isOffline,
     filters: state.ProductListInfoReducer.filters,
     sortFields: state.ProductListInfoReducer.sortFields,
-    minPriceRange: state.ProductListInfoReducer.minPrice,
-    maxPriceRange: state.ProductListInfoReducer.maxPrice,
     isInfoLoading: state.ProductListInfoReducer.isLoading,
     totalPages: state.ProductListReducer.totalPages
 });
@@ -71,12 +68,10 @@ export const mapDispatchToProps = dispatch => ({
 export const UPDATE_FILTERS_FREQUENCY = 0;
 export const LOADING_TIME = 500;
 
-export class CategoryPageContainer extends PureComponent {
+export class CategoryPageContainer extends ExtensiblePureComponent {
     static propTypes = {
         history: HistoryType.isRequired,
         category: CategoryTreeType.isRequired,
-        minPriceRange: PropTypes.number.isRequired,
-        maxPriceRange: PropTypes.number.isRequired,
         location: LocationType.isRequired,
         match: MatchType.isRequired,
         requestCategory: PropTypes.func.isRequired,
@@ -106,7 +101,6 @@ export class CategoryPageContainer extends PureComponent {
     };
 
     config = {
-        defaultPriceRange: { min: 0, max: 300 },
         sortKey: 'name',
         sortDirection: 'ASC'
     };
@@ -115,8 +109,7 @@ export class CategoryPageContainer extends PureComponent {
         onSortChange: this.onSortChange.bind(this),
         getIsNewCategory: this.getIsNewCategory.bind(this),
         updateFilter: this.updateFilter.bind(this),
-        getFilterUrl: this.getFilterUrl.bind(this),
-        updatePriceRange: this.updatePriceRange.bind(this)
+        getFilterUrl: this.getFilterUrl.bind(this)
     };
 
     _debounceRequestCategoryProductsInfo = debounce(
@@ -133,7 +126,9 @@ export class CategoryPageContainer extends PureComponent {
             history
         } = this.props;
 
-        if (isOnlyPlaceholder) updateLoadStatus(true);
+        if (isOnlyPlaceholder) {
+            updateLoadStatus(true);
+        }
 
         if (pathname === '/category' || pathname === '/category/') {
             history.push('/');
@@ -202,7 +197,6 @@ export class CategoryPageContainer extends PureComponent {
         search: this._getSearchParam(),
         selectedSort: this._getSelectedSortFromUrl(),
         selectedFilters: this._getSelectedFiltersFromUrl(),
-        selectedPriceRange: this._getPriceRangeForSlider(),
         isContentFiltered: this.isContentFiltered()
     });
 
@@ -224,16 +218,6 @@ export class CategoryPageContainer extends PureComponent {
 
         setQueryParams({
             search: value,
-            page: ''
-        }, location, history);
-    }
-
-    updatePriceRange(priceRange) {
-        const { location, history } = this.props;
-
-        setQueryParams({
-            priceMax: priceRange.max,
-            priceMin: priceRange.min,
             page: ''
         }, location, history);
     }
@@ -309,25 +293,13 @@ export class CategoryPageContainer extends PureComponent {
         return search ? decodeURIComponent(search) : '';
     }
 
-    _getSelectedPriceRangeFromUrl() {
-        const { location } = this.props;
-        const min = +getQueryParam('priceMin', location);
-        const max = +getQueryParam('priceMax', location);
-        return { min, max };
-    }
-
-    _getPriceRangeForSlider() {
-        const { minPriceRange, maxPriceRange } = this.props;
-        const { defaultPriceRange: { min: defaultMin, max: defaultMax } } = this.config;
-        const { min, max } = this._getSelectedPriceRangeFromUrl();
-        return { min: min || minPriceRange || defaultMin, max: max || maxPriceRange || defaultMax };
-    }
-
     _getSelectedFiltersFromUrl() {
         const { location } = this.props;
         const selectedFiltersString = (getQueryParam('customFilters', location) || '').split(';');
         return selectedFiltersString.reduce((acc, filter) => {
-            if (!filter) return acc;
+            if (!filter) {
+                return acc;
+            }
             const [key, value] = filter.split(':');
             return { ...acc, [key]: value.split(',') };
         }, {});
@@ -346,6 +318,13 @@ export class CategoryPageContainer extends PureComponent {
         const { location, match } = this.props;
         const path = getUrlParam(match, location);
         return path.indexOf('search') === 0 ? null : path;
+    }
+
+    _getSelectedPriceRangeFromUrl() {
+        const { location } = this.props;
+        const min = +getQueryParam('priceMin', location);
+        const max = +getQueryParam('priceMax', location);
+        return { min, max };
     }
 
     _getFilter() {
@@ -416,10 +395,16 @@ export class CategoryPageContainer extends PureComponent {
             history
         } = this.props;
 
+        const { location: { state: { isFromCategory } = {} } } = history;
+
+        const onBackClick = isFromCategory
+            ? () => history.goBack()
+            : () => history.push('/menu');
+
         changeHeaderState({
             name: CATEGORY,
             title: name,
-            onBackClick: () => history.push('/menu')
+            onBackClick
         });
     }
 
@@ -497,4 +482,6 @@ export class CategoryPageContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CategoryPageContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    middleware(CategoryPageContainer, 'Route/CategoryPage/Container')
+);

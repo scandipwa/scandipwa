@@ -10,12 +10,11 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { stringify } from 'rebem-classname';
 import { ChildrenType } from 'Type/Common';
 
-export default class Link extends PureComponent {
+export class Link extends ExtensiblePureComponent {
     static propTypes = {
         to: PropTypes.oneOfType([
             PropTypes.string,
@@ -92,3 +91,5 @@ export default class Link extends PureComponent {
         );
     }
 }
+
+export default middleware(Link, 'Component/Link/Component');

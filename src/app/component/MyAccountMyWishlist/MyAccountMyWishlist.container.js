@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { WishlistDispatcher } from 'Store/Wishlist';
@@ -28,7 +27,7 @@ export const mapDispatchToProps = dispatch => ({
     showNotification: message => dispatch(showNotification('success', message))
 });
 
-export class MyAccountMyWishlistContainer extends PureComponent {
+export class MyAccountMyWishlistContainer extends ExtensiblePureComponent {
     static propTypes = {
         clearWishlist: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
@@ -97,4 +96,6 @@ export class MyAccountMyWishlistContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyAccountMyWishlistContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    middleware(MyAccountMyWishlistContainer, 'Component/MyAccountMyWishlist/Container')
+);

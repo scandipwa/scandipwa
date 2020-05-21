@@ -10,7 +10,6 @@
  * @link https://github.com/scandipwa/base-ProductReviewListtheme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import { ProductType } from 'Type/ProductList';
@@ -24,7 +23,7 @@ import { RELATED, UPSELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
 
 import './ProductPage.style';
 
-export default class ProductPage extends PureComponent {
+export class ProductPage extends ExtensiblePureComponent {
     static propTypes = {
         configurableVariantIndex: PropTypes.number.isRequired,
         productOrVariant: ProductType.isRequired,
@@ -94,22 +93,22 @@ export default class ProductPage extends PureComponent {
 
     render() {
         return (
-            <>
-                <main
-                  block="ProductPage"
-                  aria-label="Product page"
-                  itemScope
-                  itemType="http://schema.org/Product"
+            <main
+              block="ProductPage"
+              aria-label="Product page"
+              itemScope
+              itemType="http://schema.org/Product"
+            >
+                <ContentWrapper
+                  wrapperMix={ { block: 'ProductPage', elem: 'Wrapper' } }
+                  label={ __('Main product details') }
                 >
-                    <ContentWrapper
-                      wrapperMix={ { block: 'ProductPage', elem: 'Wrapper' } }
-                      label={ __('Main product details') }
-                    >
-                        { this.renderProductPageContent() }
-                    </ContentWrapper>
-                    { this.renderAdditionalSections() }
-                </main>
-            </>
+                    { this.renderProductPageContent() }
+                </ContentWrapper>
+                { this.renderAdditionalSections() }
+            </main>
         );
     }
 }
+
+export default middleware(ProductPage, 'Route/ProductPage/Component');

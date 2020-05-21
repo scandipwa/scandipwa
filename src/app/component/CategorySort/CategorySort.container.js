@@ -9,11 +9,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import CategorySort from './CategorySort.component';
 
-export class CategorySortContainer extends PureComponent {
+export class CategorySortContainer extends ExtensiblePureComponent {
     static propTypes = {
         sortFields: PropTypes.oneOfType([
             PropTypes.bool,
@@ -34,56 +33,65 @@ export class CategorySortContainer extends PureComponent {
 
     _getLabel(option) {
         const { id, label: pureLabel } = option;
-        const [label] = pureLabel.split(' ');
+
+        // eslint-disable-next-line fp/no-let
+        let [label] = pureLabel.split(' ');
+        label = label.charAt(0).toUpperCase() + label.slice(1);
 
         switch (id) {
+        case 'name':
+            return {
+                asc: __('Name: A to Z', label),
+                desc: __('Name: Z to A', label)
+            };
+        case 'position':
+            return {
+                asc: __('Best match')
+            };
         case 'price':
             return {
                 asc: __('%s: Low to High', label),
                 desc: __('%s: High to Low', label)
             };
-        case 'name':
-            return {
-                asc: __('%s: A to Z', label),
-                desc: __('%s: Z to A', label)
-            };
-        case 'position':
+        default:
             return {
                 asc: __('%s: Ascending', label),
                 desc: __('%s: Descending', label)
             };
-        default:
-            return {};
         }
     }
 
     _prepareOptions() {
         const { sortFields } = this.props;
 
-        if (!sortFields) return [];
+        if (!sortFields) {
+            return [];
+        }
 
         const selectOptions = sortFields.reduce((acc, option) => {
             const { id } = option;
             const label = this._getLabel(option);
             const { asc, desc } = label;
 
-            if (!asc || !desc) return acc;
+            if (asc) {
+                acc.push({
+                    id: `ASC ${id}`,
+                    name: id,
+                    value: `ASC ${id}`,
+                    label: asc
+                });
+            }
 
-            const ascOption = {
-                id: `ASC ${id}`,
-                name: id,
-                value: `ASC ${id}`,
-                label: asc
-            };
+            if (desc) {
+                acc.push({
+                    id: `DESC ${id}`,
+                    name: id,
+                    value: `DESC ${id}`,
+                    label: desc
+                });
+            }
 
-            const descOption = {
-                id: `DESC ${id}`,
-                name: id,
-                value: `DESC ${id}`,
-                label: desc
-            };
-
-            return [...acc, ascOption, descOption];
+            return acc;
         }, []);
 
         return selectOptions;
@@ -99,4 +107,4 @@ export class CategorySortContainer extends PureComponent {
     }
 }
 
-export default CategorySortContainer;
+export default middleware(CategorySortContainer, 'Component/CategorySort/Container');

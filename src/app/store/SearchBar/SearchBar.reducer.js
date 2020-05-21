@@ -21,7 +21,7 @@ export const initialState = {
     isLoading: true
 };
 
-const SearchBarReducer = (state = initialState, action) => {
+export const SearchBarReducer = (state = initialState, action) => {
     switch (action.type) {
     case UPDATE_SEARCH_BAR:
         const { result: { products: { items: initialItems } } } = action;

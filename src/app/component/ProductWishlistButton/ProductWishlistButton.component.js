@@ -10,7 +10,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import { ProductType } from 'Type/ProductList';
@@ -18,7 +17,7 @@ import { isSignedIn } from 'Util/Auth';
 
 import './ProductWishlistButton.style';
 
-export default class ProductWishlistButton extends PureComponent {
+export class ProductWishlistButton extends ExtensiblePureComponent {
     static propTypes = {
         isReady: PropTypes.bool,
         quantity: PropTypes.number,
@@ -41,11 +40,17 @@ export default class ProductWishlistButton extends PureComponent {
     getTitle = () => {
         const { isInWishlist, isReady } = this.props;
 
-        if (!isSignedIn()) return __('Please sign in first!');
+        if (!isSignedIn()) {
+            return __('Please sign in first!');
+        }
 
-        if (!isReady) return __('Please select variant first!');
+        if (!isReady) {
+            return __('Please select variant first!');
+        }
 
-        if (isInWishlist) return __('Remove from Wishlist');
+        if (isInWishlist) {
+            return __('Remove from Wishlist');
+        }
 
         return __('Add to Wishlist');
     };
@@ -59,7 +64,9 @@ export default class ProductWishlistButton extends PureComponent {
             removeFromWishlist
         } = this.props;
 
-        if (!isInWishlist) return addToWishlist(product, quantity);
+        if (!isInWishlist) {
+            return addToWishlist(product, quantity);
+        }
 
         return removeFromWishlist(product, quantity);
     };
@@ -93,3 +100,5 @@ export default class ProductWishlistButton extends PureComponent {
         return null;
     }
 }
+
+export default middleware(ProductWishlistButton, 'Component/ProductWishlistButton/Component');

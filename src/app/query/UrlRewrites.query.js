@@ -14,7 +14,7 @@ import { Field } from 'Util/Query';
  * UrlRewrites Query
  * @class UrlRewritesQuery
  */
-export class UrlRewritesQuery {
+export class UrlRewritesQuery extends ExtensibleClass {
     getQuery({ urlParam }) {
         return new Field('urlResolver')
             .addArgument('url', 'String!', urlParam)
@@ -31,4 +31,4 @@ export class UrlRewritesQuery {
     }
 }
 
-export default new UrlRewritesQuery();
+export default new (middleware(UrlRewritesQuery, 'Query/UrlRewrites'))();

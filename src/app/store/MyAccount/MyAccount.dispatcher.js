@@ -30,18 +30,20 @@ import { ORDERS } from 'Store/Order/Order.reducer';
 
 export const CUSTOMER = 'customer';
 
-const ONE_MONTH_IN_SECONDS = 2628000;
+export const ONE_MONTH_IN_SECONDS = 2628000;
 
 /**
  * My account actions
  * @class MyAccount
  */
-export class MyAccountDispatcher {
+export class MyAccountDispatcher extends ExtensibleClass {
     requestCustomerData(dispatch) {
         const query = MyAccountQuery.getCustomerQuery();
 
         const customer = BrowserDatabase.getItem(CUSTOMER) || {};
-        if (customer.id) dispatch(updateCustomerDetails(customer));
+        if (customer.id) {
+            dispatch(updateCustomerDetails(customer));
+        }
 
         return executePost(prepareQuery([query])).then(
             ({ customer }) => {
@@ -113,7 +115,9 @@ export class MyAccountDispatcher {
             },
             (error) => {
                 dispatch(showNotification('error', error[0].message));
-                return Promise.reject();
+                Promise.reject();
+
+                return false;
             }
         );
     }
@@ -156,4 +160,4 @@ export class MyAccountDispatcher {
     }
 }
 
-export default new MyAccountDispatcher();
+export default new (middleware(MyAccountDispatcher, 'Store/MyAccount/Dispatcher'))();

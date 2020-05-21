@@ -26,7 +26,7 @@ import { WishlistQuery } from 'Query';
  * Product Wishlist Dispatcher
  * @class WishlistDispatcher
  */
-export class WishlistDispatcher {
+export class WishlistDispatcher extends ExtensibleClass {
     updateInitialWishlistData(dispatch) {
         if (isSignedIn()) {
             this._syncWishlistWithBE(dispatch);
@@ -110,7 +110,9 @@ export class WishlistDispatcher {
     }
 
     removeItemFromWishlist(dispatch, { item_id, noMessages }) {
-        if (!item_id) return null;
+        if (!item_id) {
+            return null;
+        }
         dispatch(updateIsLoading(true));
 
         if (noMessages) {
@@ -132,4 +134,4 @@ export class WishlistDispatcher {
     }
 }
 
-export default new WishlistDispatcher();
+export default new (middleware(WishlistDispatcher, 'Store/Wishlist/Dispatcher'))();

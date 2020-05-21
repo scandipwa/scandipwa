@@ -22,18 +22,21 @@
     bottom: 0;
     align-items: center;
     justify-content: space-between;
-    padding: 1rem 1rem calc(env(safe-area-inset-bottom) + 1rem);
+    padding: 1rem 0 calc(env(safe-area-inset-bottom) + 1rem);
     background-color: var(--cookiepopup-bg);
     border-top: 1px solid var(--cookiepopup-border);
     z-index: 300;
 
-    &-ContentWrapper,
-    & {
+    &-ContentWrapper {
         @include after-mobile {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
         }
+    }
+
+    &-Wrapper {
+        width: 100%;
     }
 
     &-Content {

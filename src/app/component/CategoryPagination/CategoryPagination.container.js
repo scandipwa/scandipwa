@@ -10,7 +10,6 @@
  */
 
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -27,7 +26,7 @@ export const mapStateToProps = state => ({
     anchorTextNext: state.ConfigReducer.anchor_text_for_next
 });
 
-export class CategoryPaginationContainer extends PureComponent {
+export class CategoryPaginationContainer extends ExtensiblePureComponent {
     static propTypes = {
         isLoading: PropTypes.bool,
         onPageSelect: PropTypes.func,
@@ -75,4 +74,8 @@ export class CategoryPaginationContainer extends PureComponent {
     }
 }
 
-export default withRouter(connect(mapStateToProps)(CategoryPaginationContainer));
+export default withRouter(
+    connect(mapStateToProps)(
+        middleware(CategoryPaginationContainer, 'Component/CategoryPagination/Container')
+    )
+);

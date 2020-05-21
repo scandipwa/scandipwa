@@ -11,7 +11,7 @@
 
 import Field from 'Util/Query/Field';
 
-class Fragment extends Field {
+export class Fragment extends Field {
     /**
      * Creates an instance of Fragment.
      * @param  {String} name Name of the Fragment
@@ -39,10 +39,12 @@ class Fragment extends Field {
      */
     toString() {
         const { fieldList } = this;
-        if (Object.keys(fieldList).length === 0) return this.name;
+        if (Object.keys(fieldList).length === 0) {
+            return this.name;
+        }
         const output = Object.keys(fieldList).map(key => fieldList[key].toString());
         return `${ this._addFragmentSyntax() } { ${ output.join(', ') } }`;
     }
 }
 
-export default Fragment;
+export default middleware(Fragment, 'Util/Query/Fragment');

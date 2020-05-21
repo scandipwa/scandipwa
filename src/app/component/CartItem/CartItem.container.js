@@ -11,7 +11,6 @@
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { PureComponent } from 'react';
 
 import { objectToUri } from 'Util/Url';
 import { CartDispatcher } from 'Store/Cart';
@@ -27,7 +26,7 @@ export const mapDispatchToProps = dispatch => ({
     removeProduct: options => CartDispatcher.removeProductFromCart(dispatch, options)
 });
 
-export class CartItemContainer extends PureComponent {
+export class CartItemContainer extends ExtensiblePureComponent {
     static propTypes = {
         item: CartItemType.isRequired,
         currency_code: PropTypes.string.isRequired,
@@ -48,7 +47,9 @@ export class CartItemContainer extends PureComponent {
     };
 
     componentWillUnmount() {
-        if (this.handlers.length) [].forEach.call(this.handlers, cancelablePromise => cancelablePromise.cancel());
+        if (this.handlers.length) {
+            [].forEach.call(this.handlers, cancelablePromise => cancelablePromise.cancel());
+        }
     }
 
     /**
@@ -158,14 +159,19 @@ export class CartItemContainer extends PureComponent {
             }
         } = this.props;
 
-        if (type_id !== 'configurable') return { pathname: `/product/${ url_key }` };
+        if (type_id !== 'configurable') {
+            return { pathname: `/product/${ url_key }` };
+        }
 
         const variant = variants[this._getVariantIndex()];
         const { attributes } = variant;
 
         const parameters = Object.entries(attributes).reduce(
             (parameters, [code, { attribute_value }]) => {
-                if (Object.keys(configurable_options).includes(code)) return { ...parameters, [code]: attribute_value };
+                if (Object.keys(configurable_options).includes(code)) {
+                    return { ...parameters, [code]: attribute_value };
+                }
+
                 return parameters;
             }, {}
         );
@@ -195,4 +201,6 @@ export class CartItemContainer extends PureComponent {
     }
 }
 
-export default connect(null, mapDispatchToProps)(CartItemContainer);
+export default connect(null, mapDispatchToProps)(
+    middleware(CartItemContainer, 'Component/CartItem/Container')
+);

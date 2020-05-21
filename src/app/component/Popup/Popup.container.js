@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -31,7 +30,7 @@ export const mapDispatchToProps = dispatch => ({
     changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state))
 });
 
-export class PopupContainer extends PureComponent {
+export class PopupContainer extends ExtensiblePureComponent {
     static propTypes = {
         payload: PropTypes.objectOf(
             PropTypes.shape({
@@ -83,4 +82,6 @@ export class PopupContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PopupContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    middleware(PopupContainer, 'Component/Popup/Container')
+);

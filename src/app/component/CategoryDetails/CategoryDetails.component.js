@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 
 import media, { CATEGORY_MEDIA } from 'Util/Media';
 import Html from 'Component/Html';
@@ -23,7 +22,7 @@ import './CategoryDetails.style';
  * Category details
  * @class CategoryDetails
  */
-export default class CategoryDetails extends PureComponent {
+export class CategoryDetails extends ExtensiblePureComponent {
     static propTypes = {
         category: CategoryTreeType.isRequired
     };
@@ -110,3 +109,5 @@ export default class CategoryDetails extends PureComponent {
         );
     }
 }
+
+export default middleware(CategoryDetails, 'Component/CategoryDetails/Component');

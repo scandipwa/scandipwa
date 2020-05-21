@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent, createRef } from 'react';
+import { createRef } from 'react';
 import CSS from 'Util/CSS';
 import PropTypes from 'prop-types';
 import { NotificationType } from 'Type/NotificationList';
@@ -25,7 +25,7 @@ export const ERROR_TYPE = 'error';
  * Notification block
  * @class Notification
  */
-export default class Notification extends PureComponent {
+export class Notification extends ExtensiblePureComponent {
     static propTypes = {
         notificationId: PropTypes.string.isRequired,
         notification: NotificationType.isRequired,
@@ -72,8 +72,12 @@ export default class Notification extends PureComponent {
     renderDebug() {
         const { notification: { msgDebug } } = this.props;
 
-        if (!msgDebug) return null;
-        if (process.env.NODE_ENV === 'production') return null;
+        if (!msgDebug) {
+            return null;
+        }
+        if (process.env.NODE_ENV === 'production') {
+            return null;
+        }
 
         return (
             <pre block="Notification" elem="Debug">
@@ -101,3 +105,5 @@ export default class Notification extends PureComponent {
         );
     }
 }
+
+export default middleware(Notification, 'Component/Notification/Component');

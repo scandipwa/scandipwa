@@ -9,13 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import Field from 'Component/Field';
 import Loader from 'Component/Loader';
 import PropTypes from 'prop-types';
 import './CartCoupon.style';
 
-class CartCoupon extends PureComponent {
+export class CartCoupon extends ExtensiblePureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         couponCode: PropTypes.string,
@@ -133,4 +132,4 @@ class CartCoupon extends PureComponent {
     }
 }
 
-export default CartCoupon;
+export default middleware(CartCoupon, 'Component/CartCoupon/Component');

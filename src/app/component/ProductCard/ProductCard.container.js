@@ -10,7 +10,6 @@
  */
 
 import { connect } from 'react-redux';
-import { PureComponent } from 'react';
 import { Subscribe } from 'unstated';
 
 import SharedTransitionContainer from 'Component/SharedTransition/SharedTransition.unstated';
@@ -25,7 +24,7 @@ export const mapDispatchToProps = dispatch => ({
     addProduct: options => CartDispatcher.addProductToCart(dispatch, options)
 });
 
-export class ProductCardContainer extends PureComponent {
+export class ProductCardContainer extends ExtensiblePureComponent {
     static propTypes = {
         product: ProductType,
         selectedFilters: FilterType
@@ -71,8 +70,11 @@ export class ProductCardContainer extends PureComponent {
     _getLinkTo() {
         const { product: { url_key }, product } = this.props;
 
-        if (!url_key) return undefined;
+        if (!url_key) {
+            return undefined;
+        }
         const { parameters } = this._getConfigurableParameters();
+
         return {
             pathname: `/product/${ url_key }`,
             state: { product },
@@ -89,17 +91,24 @@ export class ProductCardContainer extends PureComponent {
         const { product: { variants = [] }, selectedFilters = {} } = this.props;
         const filterKeys = Object.keys(selectedFilters);
 
-        if (filterKeys.length < 0) return { indexes: [], parameters: {} };
+        if (filterKeys.length < 0) {
+            return { indexes: [], parameters: {} };
+        }
 
         const indexes = getVariantsIndexes(variants, selectedFilters);
         const [index] = indexes;
 
-        if (!variants[index]) return { indexes: [], parameters: {} };
+        if (!variants[index]) {
+            return { indexes: [], parameters: {} };
+        }
         const { attributes } = variants[index];
 
         const parameters = Object.entries(attributes)
             .reduce((parameters, [key, { attribute_value }]) => {
-                if (filterKeys.includes(key)) return { ...parameters, [key]: attribute_value };
+                if (filterKeys.includes(key)) {
+                    return { ...parameters, [key]: attribute_value };
+                }
+
                 return parameters;
             }, {});
 
@@ -113,20 +122,30 @@ export class ProductCardContainer extends PureComponent {
     _getThumbnail() {
         const product = this._getProductOrVariant();
         const { small_image: { url } = {} } = product;
-        if (this._isThumbnailAvailable(url)) return url;
+        if (this._isThumbnailAvailable(url)) {
+            return url;
+        }
 
         // If thumbnail is, missing we try to get image from parent
         const { product: { small_image: { url: parentUrl } = {} } } = this.props;
-        if (this._isThumbnailAvailable(parentUrl)) return parentUrl;
+        if (this._isThumbnailAvailable(parentUrl)) {
+            return parentUrl;
+        }
 
         return '';
     }
 
     _getProductOrVariant() {
         const { product: { type_id, variants }, product } = this.props;
-        return (type_id === 'configurable' && variants !== undefined
-            ? variants[this._getCurrentVariantIndex()]
-            : product
+
+        return (
+            (
+                type_id === 'configurable'
+                && variants !== undefined
+                && variants.length
+            )
+                ? variants[this._getCurrentVariantIndex()]
+                : product
         ) || {};
     }
 
@@ -155,7 +174,10 @@ export class ProductCardContainer extends PureComponent {
                 }, []
             );
 
-            if (visualOptions.length > 0) return [...acc, ...visualOptions];
+            if (visualOptions.length > 0) {
+                return [...acc, ...visualOptions];
+            }
+
             return acc;
         }, []);
     }
@@ -176,4 +198,6 @@ export class ProductCardContainer extends PureComponent {
 }
 
 
-export default connect(null, mapDispatchToProps)(ProductCardContainer);
+export default connect(null, mapDispatchToProps)(
+    middleware(ProductCardContainer, 'Component/ProductCard/Container')
+);

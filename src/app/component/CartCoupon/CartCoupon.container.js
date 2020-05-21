@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { CartDispatcher } from 'Store/Cart';
@@ -20,7 +19,7 @@ export const mapDispatchToProps = dispatch => ({
     removeCouponFromCart: () => CartDispatcher.removeCouponFromCart(dispatch)
 });
 
-export class CartCouponContainer extends PureComponent {
+export class CartCouponContainer extends ExtensiblePureComponent {
     static propTypes = {
         couponCode: PropTypes.string,
         applyCouponToCart: PropTypes.func.isRequired,
@@ -69,4 +68,6 @@ export class CartCouponContainer extends PureComponent {
     }
 }
 
-export default connect(null, mapDispatchToProps)(CartCouponContainer);
+export default connect(null, mapDispatchToProps)(
+    middleware(CartCouponContainer, 'Component/CartCoupon/Container')
+);

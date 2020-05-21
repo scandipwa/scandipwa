@@ -14,15 +14,17 @@ import { fetchQuery } from 'Util/Request';
 import { showNotification } from 'Store/Notification';
 import { OrderQuery } from 'Query';
 
-export class OrderDispatcher {
+export class OrderDispatcher extends ExtensibleClass {
     requestOrders(dispatch) {
         const query = OrderQuery.getOrderListQuery();
 
         return fetchQuery(query).then(
-            ({ getOrderList: orders }) => { dispatch(getOrderList(orders, false)); },
+            ({ getOrderList: orders }) => {
+                dispatch(getOrderList(orders, false));
+            },
             error => dispatch(showNotification('error', error[0].message))
         );
     }
 }
 
-export default new OrderDispatcher();
+export default new (middleware(OrderDispatcher, 'Store/Order/Dispatcher'))();

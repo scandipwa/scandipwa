@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import Link from 'Component/Link';
@@ -22,7 +21,7 @@ import CmsBlock from 'Component/CmsBlock';
 
 import './CartOverlay.style';
 
-export default class CartOverlay extends PureComponent {
+export class CartOverlay extends ExtensiblePureComponent {
     static propTypes = {
         totals: TotalsType.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
@@ -37,7 +36,9 @@ export default class CartOverlay extends PureComponent {
     renderCartItems() {
         const { isEditing, totals: { items, quote_currency_code } } = this.props;
 
-        if (!items || items.length < 1) return this.renderNoCartItems();
+        if (!items || items.length < 1) {
+            return this.renderNoCartItems();
+        }
 
         return (
             <ul block="CartOverlay" elem="Items" aria-label="List of items in cart">
@@ -92,7 +93,9 @@ export default class CartOverlay extends PureComponent {
     renderDiscount() {
         const { totals: { coupon_code, discount_amount = 0 } } = this.props;
 
-        if (!coupon_code) return null;
+        if (!coupon_code) {
+            return null;
+        }
 
         return (
             <dl
@@ -178,3 +181,5 @@ export default class CartOverlay extends PureComponent {
         );
     }
 }
+
+export default middleware(CartOverlay, 'Component/CartOverlay/Component');

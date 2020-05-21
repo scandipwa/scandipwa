@@ -9,7 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { isSignedIn } from 'Util/Auth';
@@ -32,7 +31,7 @@ export const mapDispatchToProps = dispatch => ({
 
 export const ERROR_CONFIGURABLE_NOT_PROVIDED = 'ERROR_CONFIGURABLE_NOT_PROVIDED';
 
-export class ProductWishlistButtonContainer extends PureComponent {
+export class ProductWishlistButtonContainer extends ExtensiblePureComponent {
     static propTypes = {
         quantity: PropTypes.number,
         product: ProductType.isRequired,
@@ -78,7 +77,9 @@ export class ProductWishlistButtonContainer extends PureComponent {
             return showNotification('info', __('You must login or register to add items to your wishlist.'));
         }
 
-        if (isLoading) return null;
+        if (isLoading) {
+            return null;
+        }
 
         const product = this._getProductVariant();
         if (product === ERROR_CONFIGURABLE_NOT_PROVIDED) {
@@ -87,7 +88,9 @@ export class ProductWishlistButtonContainer extends PureComponent {
         }
 
         const { sku: variantSku, product_option } = product;
-        if (add) return addProductToWishlist({ sku, product_option, quantity });
+        if (add) {
+            return addProductToWishlist({ sku, product_option, quantity });
+        }
 
         const { wishlist: { id: item_id } } = Object.values(productsInWishlist).find(
             ({ wishlist: { sku } }) => sku === variantSku
@@ -100,7 +103,10 @@ export class ProductWishlistButtonContainer extends PureComponent {
         const { isLoading } = this.props;
         const product = this._getProductVariant();
 
-        if (product === ERROR_CONFIGURABLE_NOT_PROVIDED) return true;
+        if (product === ERROR_CONFIGURABLE_NOT_PROVIDED) {
+            return true;
+        }
+
         return isLoading || !isSignedIn();
     };
 
@@ -108,7 +114,9 @@ export class ProductWishlistButtonContainer extends PureComponent {
         const { productsInWishlist } = this.props;
         const product = this._getProductVariant();
 
-        if (product === ERROR_CONFIGURABLE_NOT_PROVIDED) return false;
+        if (product === ERROR_CONFIGURABLE_NOT_PROVIDED) {
+            return false;
+        }
 
         const { sku: productSku } = product;
         return Object.values(productsInWishlist).findIndex(({ wishlist: { sku } }) => sku === productSku) >= 0;
@@ -132,7 +140,9 @@ export class ProductWishlistButtonContainer extends PureComponent {
         } = this.props;
 
         if (type_id === 'configurable') {
-            if (configurableVariantIndex < 0) return ERROR_CONFIGURABLE_NOT_PROVIDED;
+            if (configurableVariantIndex < 0) {
+                return ERROR_CONFIGURABLE_NOT_PROVIDED;
+            }
 
             const extension_attributes = getExtensionAttributes({ ...product, configurableVariantIndex });
             const variant = product.variants[configurableVariantIndex];
@@ -154,4 +164,6 @@ export class ProductWishlistButtonContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProductWishlistButtonContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    middleware(ProductWishlistButtonContainer, 'Component/ProductWishlistButton/Container')
+);

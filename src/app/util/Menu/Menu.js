@@ -26,7 +26,7 @@ export const getSortedItems = unsortedItems => Array.from(unsortedItems).sort((
     { parent_id: prevPID, position: prevP }
 ) => (PID - prevPID) || (P - prevP));
 
-export class MenuReducer {
+export class Menu extends ExtensibleClass {
     getMenuUrl({ cms_page_identifier, url_type, url }) {
         switch (url_type) {
         case TYPE_CATEGORY:
@@ -53,7 +53,9 @@ export class MenuReducer {
         let i;
         path = path.split('.');
         // eslint-disable-next-line fp/no-loops
-        for (i = 0; i < path.length - 1; i++) obj = obj[path[i]];
+        for (i = 0; i < path.length - 1; i++) {
+            obj = obj[path[i]];
+        }
         obj[path[i]] = value;
     }
 
@@ -89,4 +91,4 @@ export class MenuReducer {
     }
 }
 
-export default new MenuReducer();
+export default new (middleware(Menu, 'Util/Menu'))();
