@@ -42,10 +42,14 @@ export const mapDispatchToProps = dispatch => ({
 export class CartOverlayContainer extends PureComponent {
     static propTypes = {
         totals: TotalsType.isRequired,
-        guest_checkout: PropTypes.bool.isRequired,
+        guest_checkout: PropTypes.bool,
         changeHeaderState: PropTypes.func.isRequired,
         showOverlay: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired
+    };
+
+    static defaultProps = {
+        guest_checkout: true
     };
 
     state = { isEditing: false };
