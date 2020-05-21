@@ -215,9 +215,16 @@ export class ProductListQuery {
     }
 
     _getItemsField() {
-        return new Field('items')
-            .addFieldList(this._getProductInterfaceFields())
-            .addField(this._getGroupedProductItems());
+        const { isSingleProduct } = this.options;
+
+        const items = new Field('items')
+            .addFieldList(this._getProductInterfaceFields());
+
+        if (isSingleProduct) {
+            items.addField(this._getGroupedProductItems());
+        }
+
+        return items;
     }
 
     _getProductField() {
