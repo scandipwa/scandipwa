@@ -20,6 +20,9 @@ import ProductActions from 'Component/ProductActions';
 import ContentWrapper from 'Component/ContentWrapper';
 import ProductReviews from 'Component/ProductReviews';
 import ProductInformation from 'Component/ProductInformation';
+import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
+import isMobile from 'Util/Mobile';
+import { CONFIGURABLE } from 'Util/Product';
 import { RELATED, UPSELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
 
 import './ProductPage.style';
@@ -32,7 +35,12 @@ export default class ProductPage extends PureComponent {
         parameters: PropTypes.objectOf(PropTypes.string).isRequired,
         updateConfigurableVariant: PropTypes.func.isRequired,
         dataSource: ProductType.isRequired,
-        areDetailsLoaded: PropTypes.bool.isRequired
+        areDetailsLoaded: PropTypes.bool.isRequired,
+        getRequiredCustomizableOptions: PropTypes.func.isRequired,
+        getSelectedCustomizableOptions: PropTypes.func.isRequired,
+        requiredCustomizableOptions: PropTypes.array.isRequired,
+        customizable_options: PropTypes.array.isRequired,
+        customizable_options_multi: PropTypes.array.isRequired
     };
 
     renderProductPageContent() {
@@ -43,7 +51,12 @@ export default class ProductPage extends PureComponent {
             dataSource,
             updateConfigurableVariant,
             productOrVariant,
-            areDetailsLoaded
+            areDetailsLoaded,
+            getRequiredCustomizableOptions,
+            getSelectedCustomizableOptions,
+            requiredCustomizableOptions,
+            customizable_options,
+            customizable_options_multi
         } = this.props;
 
         return (
@@ -60,16 +73,34 @@ export default class ProductPage extends PureComponent {
                   parameters={ parameters }
                   areDetailsLoaded={ areDetailsLoaded }
                   configurableVariantIndex={ configurableVariantIndex }
+                  getRequiredCustomizableOptions={ getRequiredCustomizableOptions }
+                  getSelectedCustomizableOptions={ getSelectedCustomizableOptions }
+                  requiredCustomizableOptions={ requiredCustomizableOptions }
+                  customizable_options={ customizable_options }
+                  customizable_options_multi={ customizable_options_multi }
                 />
             </>
         );
     }
 
     renderAdditionalSections() {
-        const { dataSource, parameters, areDetailsLoaded } = this.props;
+        const {
+            dataSource,
+            parameters,
+            areDetailsLoaded,
+            getRequiredCustomizableOptions,
+            getSelectedCustomizableOptions
+        } = this.props;
 
         return (
             <>
+                { isMobile.any() && dataSource.type_id !== CONFIGURABLE && (
+                    <ProductCustomizableOptions
+                      options={ dataSource.options || [] }
+                      getRequiredCustomizableOptions={ getRequiredCustomizableOptions }
+                      getSelectedCustomizableOptions={ getSelectedCustomizableOptions }
+                    />
+                ) }
                 <ProductInformation
                   product={ { ...dataSource, parameters } }
                   areDetailsLoaded={ areDetailsLoaded }

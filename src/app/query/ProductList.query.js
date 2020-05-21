@@ -80,11 +80,11 @@ export class ProductListQuery {
                 handler: option => encodeURIComponent(option)
             },
             sort: {
-                type: 'ProductSortInput!',
+                type: 'ProductAttributeSortInput!',
                 handler: ({ sortKey, sortDirection }) => `{${sortKey}: ${sortDirection || 'ASC'}}`
             },
             filter: {
-                type: 'ProductFilterInput!',
+                type: 'ProductAttributeFilterInput!',
                 handler: (options = {}) => `{${ Object.entries(options).reduce(
                     (acc, [key, option]) => ((option && filterArgumentMap[key])
                         ? [...acc, ...filterArgumentMap[key](option)]
@@ -144,6 +144,7 @@ export class ProductListQuery {
             'special_to_date',
             this._getAttributesField(isVariant),
             this._getTierPricesField(),
+            this._getCustomizableProductFragment(),
             ...(!isVariant
                 ? [
                     'url_key',
@@ -533,6 +534,97 @@ export class ProductListQuery {
             this._getConfigurableOptionsField(),
             this._getVariantsField()
         ];
+    }
+
+    _getCustomizableFileValueFields() {
+        return new Field('value')
+            .addFieldList([
+                'price',
+                'price_type',
+                'sku',
+                'file_extension',
+                'image_size_x',
+                'image_size_y'
+            ])
+            .setAlias('fileValues');
+    }
+
+    _getCustomizableFileOption() {
+        return new Fragment('CustomizableFileOption')
+            .addFieldList([
+                this._getCustomizableFileValueFields(),
+                'product_sku'
+            ]);
+    }
+
+    _getCustomizableFieldValueFields(alias) {
+        return new Field('value')
+            .addFieldList([
+                'price',
+                'price_type',
+                'sku',
+                'max_characters'
+            ])
+            .setAlias(alias);
+    }
+
+    _getCustomizableAreaOption() {
+        return new Fragment('CustomizableAreaOption')
+            .addFieldList([
+                this._getCustomizableFieldValueFields('areaValues'),
+                'product_sku'
+            ]);
+    }
+
+    _getCustomizableFieldOption() {
+        return new Fragment('CustomizableFieldOption')
+            .addFieldList([
+                this._getCustomizableFieldValueFields('fieldValues'),
+                'product_sku'
+            ]);
+    }
+
+    _getCustomizableSelectionValueFields(alias) {
+        return new Field('value')
+            .addFieldList([
+                'option_type_id',
+                'price',
+                'price_type',
+                'sku',
+                'title',
+                'sort_order'
+            ])
+            .setAlias(alias);
+    }
+
+    _getCustomizableCheckboxOption() {
+        return new Fragment('CustomizableCheckboxOption')
+            .addFieldList([this._getCustomizableSelectionValueFields('checkboxValues')]);
+    }
+
+    _getCustomizableDropdownOption() {
+        return new Fragment('CustomizableDropDownOption')
+            .addFieldList([this._getCustomizableSelectionValueFields('dropdownValues')]);
+    }
+
+    _getCustomizableProductFragmentFields() {
+        return new Field('options')
+            .addFieldList([
+                this._getCustomizableDropdownOption(),
+                this._getCustomizableCheckboxOption(),
+                this._getCustomizableFieldOption(),
+                this._getCustomizableAreaOption(),
+                this._getCustomizableFileOption(),
+                'title',
+                'required',
+                'sort_order',
+                'option_id'
+            ]);
+    }
+
+    _getCustomizableProductFragment() {
+        return new Fragment('CustomizableProductInterface')
+            .addFieldList([this._getCustomizableProductFragmentFields()]);
     }
 
     _getSimpleProductFragmentFields() {

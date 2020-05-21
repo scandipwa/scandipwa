@@ -53,12 +53,17 @@ export const mapDispatchToProps = dispatch => ({
 export class ProductPageContainer extends PureComponent {
     state = {
         configurableVariantIndex: -1,
-        parameters: {}
+        parameters: {},
+        requiredCustomizableOptions: [],
+        customizable_options: [],
+        customizable_options_multi: []
     };
 
     containerFunctions = {
         updateConfigurableVariant: this.updateConfigurableVariant.bind(this),
-        getLink: this.getLink.bind(this)
+        getLink: this.getLink.bind(this),
+        getRequiredCustomizableOptions: this.getRequiredCustomizableOptions.bind(this),
+        getSelectedCustomizableOptions: this.getSelectedCustomizableOptions.bind(this)
     };
 
     static propTypes = {
@@ -172,6 +177,18 @@ export class ProductPageContainer extends PureComponent {
         const query = objectToUri(obj);
 
         return `${pathname}${query}`;
+    }
+
+    getRequiredCustomizableOptions(values) {
+        this.setState({ requiredCustomizableOptions: values });
+    }
+
+    getSelectedCustomizableOptions(values, updateArray = false) {
+        if (updateArray) {
+            this.setState({ customizable_options_multi: values });
+        } else {
+            this.setState({ customizable_options: values });
+        }
     }
 
     getIsConfigurableParameterSelected(parameters, key, value) {

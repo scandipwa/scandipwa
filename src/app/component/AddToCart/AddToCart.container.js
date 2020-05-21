@@ -1,3 +1,4 @@
+/* eslint-disable fp/no-let, fp/no-loops */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -43,7 +44,10 @@ export class AddToCartContainer extends PureComponent {
         addProduct: PropTypes.func.isRequired,
         removeFromWishlist: PropTypes.func.isRequired,
         wishlistItems: PropTypes.objectOf(ProductType).isRequired,
-        onProductValidationError: PropTypes.func
+        onProductValidationError: PropTypes.func,
+        requiredCustomizableOptions: PropTypes.array.isRequired,
+        customizable_options: PropTypes.array.isRequired,
+        customizable_options_multi: PropTypes.array.isRequired
     };
 
     static defaultProps = {
@@ -64,6 +68,9 @@ export class AddToCartContainer extends PureComponent {
         const {
             configurableVariantIndex,
             groupedProductQuantity,
+            requiredCustomizableOptions,
+            customizable_options,
+            customizable_options_multi,
             showNotification,
             product,
             product: {
@@ -104,9 +111,44 @@ export class AddToCartContainer extends PureComponent {
                 showNotification('info', __('Sorry! The product is out of stock!'));
                 return false;
             }
+
+            if (requiredCustomizableOptions.length) {
+                const validateCustomizableOptions = this.validateCustomizableOptions(customizable_options);
+                const validateCustomizableOptionsArray = this.validateCustomizableOptions(customizable_options_multi);
+
+                if (!validateCustomizableOptions || !validateCustomizableOptionsArray) {
+                    showNotification('info', __('Please select required option!'));
+                    return false;
+                }
+            }
         }
 
         return true;
+    }
+
+    validateCustomizableOptions(item) {
+        const { requiredCustomizableOptions } = this.props;
+        let status = true;
+
+        for (let i = 0; i < requiredCustomizableOptions.length; i++) {
+            const { option_id } = requiredCustomizableOptions[i];
+            let counter = 0;
+
+            for (let j = 0; j < item.length; j++) {
+                const { option_id: selectedOption } = item[j];
+
+                if (option_id === selectedOption) {
+                    counter++;
+                }
+            }
+
+            if (counter === 0) {
+                status = false;
+                break;
+            }
+        }
+
+        return status;
     }
 
     buttonClick() {
@@ -116,7 +158,9 @@ export class AddToCartContainer extends PureComponent {
             configurableVariantIndex,
             groupedProductQuantity,
             quantity,
-            addProduct
+            addProduct,
+            customizable_options,
+            customizable_options_multi
         } = this.props;
 
         const { variants, type_id } = product;
@@ -158,7 +202,9 @@ export class AddToCartContainer extends PureComponent {
 
         addProduct({
             product: productToAdd,
-            quantity
+            quantity,
+            customizable_options,
+            customizable_options_multi
         }).then(
             () => this._afterAdded()
         ).catch(

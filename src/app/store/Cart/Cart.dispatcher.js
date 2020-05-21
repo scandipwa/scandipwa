@@ -97,14 +97,23 @@ export class CartDispatcher {
     }
 
     addProductToCart(dispatch, options) {
-        const { product, quantity } = options;
+        const {
+            product,
+            quantity,
+            customizable_options,
+            customizable_options_multi
+        } = options;
         const { sku, type_id: product_type } = product;
 
         const productToAdd = {
             sku,
             product_type,
-            qty: parseInt(quantity, 10),
-            product_option: { extension_attributes: getExtensionAttributes(product) }
+            quantity,
+            product_option: {
+                extension_attributes: getExtensionAttributes(
+                    { ...product, customizable_options, customizable_options_multi }
+                )
+            }
         };
 
         if (this._canBeAdded(options)) {

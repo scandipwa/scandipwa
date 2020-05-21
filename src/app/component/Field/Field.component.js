@@ -98,7 +98,10 @@ export default class Field extends PureComponent {
         autocomplete: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.bool
-        ])
+        ]),
+        renderLabelAfter: PropTypes.bool,
+        labelBold: PropTypes.string,
+        maxLength: PropTypes.number
     };
 
     static defaultProps = {
@@ -122,7 +125,10 @@ export default class Field extends PureComponent {
         placeholder: '',
         autocomplete: 'off',
         validation: [],
-        skipValue: false
+        skipValue: false,
+        renderLabelAfter: false,
+        labelBold: '',
+        maxLength: null
     };
 
     onChange = this.onChange.bind(this);
@@ -386,7 +392,8 @@ export default class Field extends PureComponent {
             name,
             rows,
             formRef,
-            isDisabled
+            isDisabled,
+            maxLength
         } = this.props;
 
         const { value } = this.state;
@@ -402,6 +409,7 @@ export default class Field extends PureComponent {
               onChange={ this.onChange }
               onFocus={ this.onFocus }
               onClick={ this.onClick }
+              maxLength={ maxLength }
             />
         );
     }
@@ -478,7 +486,8 @@ export default class Field extends PureComponent {
 
     renderCheckbox() {
         const {
-            id
+            id,
+            renderLabelAfter
         } = this.props;
         const { checked } = this.state;
 
@@ -491,6 +500,9 @@ export default class Field extends PureComponent {
                   onChange={ this.onChangeCheckbox }
                 />
                 <label htmlFor={ id } />
+                { renderLabelAfter && (
+                    this.renderLabelAfter()
+                ) }
             </>
         );
     }
@@ -554,7 +566,7 @@ export default class Field extends PureComponent {
                     >
                         { placeholder && <option value="" label={ placeholder } /> }
                         { selectOptions.map(({
-                            id, value, disabled, label
+                            id, value, disabled, label, labelBold
                         }) => (
                                 <option
                                   key={ id }
@@ -562,7 +574,11 @@ export default class Field extends PureComponent {
                                   value={ value }
                                   disabled={ disabled }
                                 >
-                                    { label }
+                                    { labelBold ? (
+                                        `${ label }${ labelBold }`
+                                    ) : (
+                                        label
+                                    ) }
                                 </option>
                         )) }
                     </select>
@@ -573,7 +589,7 @@ export default class Field extends PureComponent {
                       mods={ { isExpanded } }
                     >
                         { selectOptions.map((options) => {
-                            const { id, label } = options;
+                            const { id, label, labelBold } = options;
 
                             return (
                                 <li
@@ -589,7 +605,19 @@ export default class Field extends PureComponent {
                                   onKeyPress={ () => this.handleSelectListOptionClick(options) }
                                   tabIndex={ isExpanded ? '0' : '-1' }
                                 >
-                                    { label }
+                                    { labelBold ? (
+                                        <>
+                                            <span>{ label }</span>
+                                            <span
+                                              block="Field"
+                                              elem="SelectOptionBold"
+                                            >
+                                                { labelBold }
+                                            </span>
+                                        </>
+                                    ) : (
+                                        label
+                                    ) }
                                 </li>
                             );
                         }) }
@@ -637,6 +665,37 @@ export default class Field extends PureComponent {
         );
     }
 
+    renderLabelAfter() {
+        const {
+            id,
+            label,
+            validation,
+            labelBold
+        } = this.props;
+        const isRequired = validation.includes('notEmpty');
+
+        if (!label) {
+            return null;
+        }
+
+        return (
+            <label
+              block="Field"
+              elem="Labels"
+              mods={ { isRequired } }
+              htmlFor={ id }
+            >
+                <span>{ `${ label } + ` }</span>
+                <span
+                  block="Field"
+                  elem="SelectOptionBold"
+                >
+                    { labelBold }
+                </span>
+            </label>
+        );
+    }
+
     renderMessage() {
         const { message } = this.props;
         if (!message) {
@@ -651,7 +710,12 @@ export default class Field extends PureComponent {
     }
 
     render() {
-        const { mix, type, message } = this.props;
+        const {
+            mix,
+            type,
+            message,
+            renderLabelAfter
+        } = this.props;
 
         return (
             <div
@@ -659,7 +723,9 @@ export default class Field extends PureComponent {
               mods={ { type, hasError: !!message } }
               mix={ mix }
             >
-                { this.renderLabel() }
+                { !renderLabelAfter && (
+                    this.renderLabel()
+                ) }
                 { this.renderInputOfType(type) }
                 { this.renderMessage() }
             </div>

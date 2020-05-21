@@ -135,6 +135,8 @@ export const getExtensionAttributes = (product) => {
     const {
         configurable_options,
         configurableVariantIndex,
+        customizable_options,
+        customizable_options_multi,
         variants,
         type_id
     } = product;
@@ -160,6 +162,23 @@ export const getExtensionAttributes = (product) => {
             }, []);
 
         return { configurable_item_options };
+    }
+
+    if (type_id !== 'configurable'
+        && (customizable_options.length || customizable_options_multi.length)
+    ) {
+        // eslint-disable-next-line fp/no-let
+        let customizableData = {};
+
+        if (customizable_options.length) {
+            customizableData = { customizable_options };
+        }
+
+        if (customizable_options_multi.length) {
+            customizableData = { ...customizableData, customizable_options_multi };
+        }
+
+        return customizableData;
     }
 
     return {};

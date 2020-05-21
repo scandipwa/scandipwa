@@ -24,6 +24,7 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import ProductPrice from 'Component/ProductPrice';
 import { ProductType } from 'Type/ProductList';
 import AddToCart from 'Component/AddToCart';
+import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
 import { GROUPED, CONFIGURABLE } from 'Util/Product';
 import Field from 'Component/Field';
 import isMobile from 'Util/Mobile';
@@ -53,7 +54,12 @@ export default class ProductActions extends PureComponent {
         getIsConfigurableAttributeAvailable: PropTypes.func.isRequired,
         groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired,
         clearGroupedProductQuantity: PropTypes.func.isRequired,
-        setGroupedProductQuantity: PropTypes.func.isRequired
+        setGroupedProductQuantity: PropTypes.func.isRequired,
+        getRequiredCustomizableOptions: PropTypes.func.isRequired,
+        getSelectedCustomizableOptions: PropTypes.func.isRequired,
+        requiredCustomizableOptions: PropTypes.array.isRequired,
+        customizable_options: PropTypes.array.isRequired,
+        customizable_options_multi: PropTypes.array.isRequired
     };
 
     static defaultProps = {
@@ -247,6 +253,32 @@ export default class ProductActions extends PureComponent {
         );
     }
 
+    renderCustomizableOptions() {
+        const {
+            product: { type_id, options },
+            getRequiredCustomizableOptions,
+            getSelectedCustomizableOptions
+        } = this.props;
+
+        if (type_id === CONFIGURABLE || isMobile.any()) {
+            return null;
+        }
+
+        return (
+            <section
+              block="ProductActions"
+              elem="Section"
+              mods={ { type: 'customizable_options' } }
+            >
+                <ProductCustomizableOptions
+                  options={ options }
+                  getRequiredCustomizableOptions={ getRequiredCustomizableOptions }
+                  getSelectedCustomizableOptions={ getSelectedCustomizableOptions }
+                />
+            </section>
+        );
+    }
+
     renderQuantityInput() {
         const {
             quantity,
@@ -279,7 +311,10 @@ export default class ProductActions extends PureComponent {
             configurableVariantIndex,
             product,
             quantity,
-            groupedProductQuantity
+            groupedProductQuantity,
+            requiredCustomizableOptions,
+            customizable_options,
+            customizable_options_multi
         } = this.props;
 
         return (
@@ -290,6 +325,9 @@ export default class ProductActions extends PureComponent {
               quantity={ quantity }
               groupedProductQuantity={ groupedProductQuantity }
               onProductValidationError={ this.onProductValidationError }
+              requiredCustomizableOptions={ requiredCustomizableOptions }
+              customizable_options={ customizable_options }
+              customizable_options_multi={ customizable_options_multi }
             />
         );
     }
@@ -445,6 +483,7 @@ export default class ProductActions extends PureComponent {
             <article block="ProductActions">
                 { this.renderPriceWithGlobalSchema() }
                 { this.renderShortDescription() }
+                { this.renderCustomizableOptions() }
                 <div block="ProductActions" elem="AddToCartWrapper">
                     { this.renderQuantityInput() }
                     { this.renderAddToCart() }
