@@ -22,6 +22,7 @@ import CartOverlay from 'Component/CartOverlay';
 import MenuOverlay from 'Component/MenuOverlay';
 import { LOGO_MEDIA } from 'Util/Media/Media';
 import { TotalsType } from 'Type/MiniCart';
+import { isSignedIn } from 'Util/Auth';
 import isMobile from 'Util/Mobile';
 import Link from 'Component/Link';
 import Logo from 'Component/Logo';
@@ -73,7 +74,8 @@ export default class Header extends NavigationAbstract {
         isCheckout: PropTypes.bool.isRequired,
         showMyAccountLogin: PropTypes.bool.isRequired,
         closeOverlay: PropTypes.func.isRequired,
-        onSignIn: PropTypes.func.isRequired
+        onSignIn: PropTypes.func.isRequired,
+        hideActiveOverlay: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -227,7 +229,8 @@ export default class Header extends NavigationAbstract {
             onSearchBarChange,
             onClearSearchButtonClick,
             navigationState: { name },
-            isCheckout
+            isCheckout,
+            hideActiveOverlay
         } = this.props;
 
         if (isCheckout) {
@@ -244,6 +247,7 @@ export default class Header extends NavigationAbstract {
               onClearSearchButtonClick={ onClearSearchButtonClick }
               isVisible={ isSearchVisible }
               isActive={ name === SEARCH }
+              hideActiveOverlay={ hideActiveOverlay }
             />
         );
     }
@@ -311,6 +315,10 @@ export default class Header extends NavigationAbstract {
         } = this.props;
 
         if (isMobile.any() && !isCheckout) {
+            return null;
+        }
+
+        if (isCheckout && isSignedIn()) {
             return null;
         }
 

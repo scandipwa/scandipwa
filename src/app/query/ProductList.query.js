@@ -45,11 +45,13 @@ export class ProductListQuery {
             categoryUrlPath: url => [`category_url_path: { eq: ${url} }`],
             priceRange: ({ min, max }) => {
                 const filters = [];
-                if (min) {
-                    filters.push(`min_price: { gteq: ${min} }`);
-                }
-                if (max) {
-                    filters.push(`max_price: { lteq: ${max} }`);
+
+                if (min && !max) {
+                    filters.push(`price: { from: ${min} }`);
+                } else if (!min && max) {
+                    filters.push(`price: { to: ${max} }`);
+                } else if (min && max) {
+                    filters.push(`price: { from: ${min}, to: ${max} }`);
                 }
 
                 return filters;
@@ -109,7 +111,13 @@ export class ProductListQuery {
     }
 
     _getProductFields() {
-        const { requireInfo } = this.options;
+        const { requireInfo, isSingleProduct, notRequireInfo } = this.options;
+
+        if (isSingleProduct || notRequireInfo) {
+            return [
+                this._getItemsField()
+            ];
+        }
 
         if (requireInfo) {
             return [
@@ -136,7 +144,6 @@ export class ProductListQuery {
             'name',
             'type_id',
             this._getPriceField(),
-            this._getStockItemField(),
             this._getProductThumbnailField(),
             this._getProductSmallField(),
             this._getShortDescriptionField(),
@@ -164,6 +171,7 @@ export class ProductListQuery {
                     'meta_keyword',
                     'canonical_url',
                     'meta_description',
+                    this._getStockItemField(),
                     this._getDescriptionField(),
                     this._getMediaGalleryField(),
                     this._getSimpleProductFragment(),
@@ -208,9 +216,16 @@ export class ProductListQuery {
     }
 
     _getItemsField() {
-        return new Field('items')
-            .addFieldList(this._getProductInterfaceFields())
-            .addField(this._getGroupedProductItems());
+        const { isSingleProduct } = this.options;
+
+        const items = new Field('items')
+            .addFieldList(this._getProductInterfaceFields());
+
+        if (isSingleProduct) {
+            items.addField(this._getGroupedProductItems());
+        }
+
+        return items;
     }
 
     _getProductField() {

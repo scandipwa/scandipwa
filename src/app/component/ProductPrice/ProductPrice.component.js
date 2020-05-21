@@ -28,6 +28,7 @@ export default class ProductPrice extends PureComponent {
         priceCurrency: PropTypes.string,
         discountPercentage: PropTypes.number,
         formatedCurrency: PropTypes.string,
+        variantsCount: PropTypes.number,
         currency: PropTypes.string,
         price: PriceType,
         mix: MixType
@@ -39,6 +40,7 @@ export default class ProductPrice extends PureComponent {
         priceCurrency: 'USD',
         discountPercentage: 0,
         formatedCurrency: '0',
+        variantsCount: 0,
         currency: '$',
         mix: {},
         price: {}
@@ -54,15 +56,24 @@ export default class ProductPrice extends PureComponent {
         );
     }
 
+    getCurrentPriceSchema() {
+        const { isSchemaRequired, variantsCount } = this.props;
+
+        if (variantsCount > 1) {
+            return isSchemaRequired ? { itemProp: 'lowPrice' } : {};
+        }
+
+        return isSchemaRequired ? { itemProp: 'price' } : {};
+    }
+
     renderCurrentPrice() {
         const {
             discountPercentage,
-            isSchemaRequired,
             formatedCurrency,
             currency
         } = this.props;
 
-        const schema = isSchemaRequired ? { itemProp: 'lowPrice' } : {};
+        const schema = this.getCurrentPriceSchema();
 
         // Use <ins></ins> <del></del> to represent new price and the old (deleted) one
         const PriceSemanticElementName = discountPercentage > 0 ? 'ins' : 'span';
@@ -83,10 +94,11 @@ export default class ProductPrice extends PureComponent {
         const {
             roundedRegularPrice,
             discountPercentage,
-            isSchemaRequired
+            isSchemaRequired,
+            variantsCount
         } = this.props;
 
-        const schema = isSchemaRequired ? { itemProp: 'highPrice' } : {};
+        const schema = isSchemaRequired && variantsCount > 1 ? { itemProp: 'highPrice' } : {};
 
         return (
             <del
