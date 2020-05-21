@@ -34,17 +34,23 @@ import MyAccount from './MyAccount.component';
 
 export const MY_ACCOUNT_URL = '/my-account';
 
-export const mapStateToProps = state => ({
-    isSignedIn: state.MyAccountReducer.isSignedIn
-});
+export const mapStateToProps = middleware(
+    state => ({
+        isSignedIn: state.MyAccountReducer.isSignedIn
+    }),
+    'Route/MyAccount/Container/mapStateToProps'
+);
 
-export const mapDispatchToProps = dispatch => ({
-    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.update(breadcrumbs, dispatch),
-    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
-    requestCustomerData: () => MyAccountDispatcher.requestCustomerData(dispatch),
-    toggleOverlayByKey: key => dispatch(toggleOverlayByKey(key)),
-    updateMeta: meta => dispatch(updateMeta(meta))
-});
+export const mapDispatchToProps = middleware(
+    dispatch => ({
+        updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.update(breadcrumbs, dispatch),
+        changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
+        requestCustomerData: () => MyAccountDispatcher.requestCustomerData(dispatch),
+        toggleOverlayByKey: key => dispatch(toggleOverlayByKey(key)),
+        updateMeta: meta => dispatch(updateMeta(meta))
+    }),
+    'Route/MyAccount/Container/mapDispatchToProps'
+);
 
 export class MyAccountContainer extends ExtensiblePureComponent {
     static propTypes = {

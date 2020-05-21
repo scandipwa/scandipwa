@@ -41,29 +41,35 @@ import {
 
 import CategoryPage from './CategoryPage.component';
 
-export const mapStateToProps = state => ({
-    category: state.CategoryReducer.category,
-    isOffline: state.OfflineReducer.isOffline,
-    filters: state.ProductListInfoReducer.filters,
-    sortFields: state.ProductListInfoReducer.sortFields,
-    isInfoLoading: state.ProductListInfoReducer.isLoading,
-    totalPages: state.ProductListReducer.totalPages
-});
+export const mapStateToProps = middleware(
+    state => ({
+        category: state.CategoryReducer.category,
+        isOffline: state.OfflineReducer.isOffline,
+        filters: state.ProductListInfoReducer.filters,
+        sortFields: state.ProductListInfoReducer.sortFields,
+        isInfoLoading: state.ProductListInfoReducer.isLoading,
+        totalPages: state.ProductListReducer.totalPages
+    }),
+    'Route/CategoryPage/Container/mapStateToProps'
+);
 
-export const mapDispatchToProps = dispatch => ({
-    toggleOverlayByKey: key => dispatch(toggleOverlayByKey(key)),
-    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
-    changeNavigationState: state => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
-    requestCategory: options => CategoryDispatcher.handleData(dispatch, options),
-    updateBreadcrumbs: breadcrumbs => ((Object.keys(breadcrumbs).length)
-        ? BreadcrumbsDispatcher.updateWithCategory(breadcrumbs, dispatch)
-        : BreadcrumbsDispatcher.update([], dispatch)),
-    requestProductListInfo: options => ProductListInfoDispatcher.handleData(dispatch, options),
-    updateLoadStatus: isLoading => dispatch(updateInfoLoadStatus(isLoading)),
-    updateNoMatch: options => NoMatchDispatcher.updateNoMatch(dispatch, options),
-    setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig)),
-    updateMetaFromCategory: category => MetaDispatcher.updateWithCategory(category, dispatch)
-});
+export const mapDispatchToProps = middleware(
+    dispatch => ({
+        toggleOverlayByKey: key => dispatch(toggleOverlayByKey(key)),
+        changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
+        changeNavigationState: state => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
+        requestCategory: options => CategoryDispatcher.handleData(dispatch, options),
+        updateBreadcrumbs: breadcrumbs => ((Object.keys(breadcrumbs).length)
+            ? BreadcrumbsDispatcher.updateWithCategory(breadcrumbs, dispatch)
+            : BreadcrumbsDispatcher.update([], dispatch)),
+        requestProductListInfo: options => ProductListInfoDispatcher.handleData(dispatch, options),
+        updateLoadStatus: isLoading => dispatch(updateInfoLoadStatus(isLoading)),
+        updateNoMatch: options => NoMatchDispatcher.updateNoMatch(dispatch, options),
+        setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig)),
+        updateMetaFromCategory: category => MetaDispatcher.updateWithCategory(category, dispatch)
+    }),
+    'Route/CategoryPage/Container/mapDispatchToProps'
+);
 
 export const UPDATE_FILTERS_FREQUENCY = 0;
 export const LOADING_TIME = 500;

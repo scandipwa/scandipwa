@@ -17,15 +17,21 @@ import { LocationType } from 'Type/Common';
 import { showOfflineNotice, setBigOfflineNotice } from 'Store/Offline';
 import OfflineNotice from './OfflineNotice.component';
 
-export const mapStateToProps = state => ({
-    isOffline: state.OfflineReducer.isOffline,
-    isBig: state.OfflineReducer.isBig
-});
+export const mapStateToProps = middleware(
+    state => ({
+        isOffline: state.OfflineReducer.isOffline,
+        isBig: state.OfflineReducer.isBig
+    }),
+    'Component/OfflineNotice/Container/mapStateToProps'
+);
 
-export const mapDispatchToProps = dispatch => ({
-    showOfflineNotice: isOffline => dispatch(showOfflineNotice(isOffline)),
-    setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig))
-});
+export const mapDispatchToProps = middleware(
+    dispatch => ({
+        showOfflineNotice: isOffline => dispatch(showOfflineNotice(isOffline)),
+        setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig))
+    }),
+    'Component/OfflineNotice/Container/mapDispatchToProps'
+);
 
 export class OfflineNoticeContainer extends ExtensiblePureComponent {
     static propTypes = {

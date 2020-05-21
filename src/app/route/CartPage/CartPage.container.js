@@ -23,16 +23,22 @@ import { history } from 'Component/App/App.component';
 
 import CartPage from './CartPage.component';
 
-export const mapStateToProps = state => ({
-    totals: state.CartReducer.cartTotals,
-    headerState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState
-});
+export const mapStateToProps = middleware(
+    state => ({
+        totals: state.CartReducer.cartTotals,
+        headerState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState
+    }),
+    'Route/CartPage/Container/mapStateToProps'
+);
 
-export const mapDispatchToProps = dispatch => ({
-    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
-    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.update(breadcrumbs, dispatch),
-    updateMeta: meta => dispatch(updateMeta(meta))
-});
+export const mapDispatchToProps = middleware(
+    dispatch => ({
+        changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
+        updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.update(breadcrumbs, dispatch),
+        updateMeta: meta => dispatch(updateMeta(meta))
+    }),
+    'Route/CartPage/Container/mapDispatchToProps'
+);
 
 export class CartPageContainer extends ExtensiblePureComponent {
     static propTypes = {

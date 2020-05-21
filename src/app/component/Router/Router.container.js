@@ -20,26 +20,32 @@ import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
 
 import Router from './Router.component';
 
-export const mapStateToProps = state => ({
-    isLoading: state.ConfigReducer.isLoading,
-    default_description: state.ConfigReducer.default_description,
-    default_keywords: state.ConfigReducer.default_keywords,
-    default_title: state.ConfigReducer.default_title,
-    title_prefix: state.ConfigReducer.title_prefix,
-    title_suffix: state.ConfigReducer.title_suffix,
-    isOffline: state.OfflineReducer.isOffline,
-    isBigOffline: state.OfflineReducer.isBig
-});
+export const mapStateToProps = middleware(
+    state => ({
+        isLoading: state.ConfigReducer.isLoading,
+        default_description: state.ConfigReducer.default_description,
+        default_keywords: state.ConfigReducer.default_keywords,
+        default_title: state.ConfigReducer.default_title,
+        title_prefix: state.ConfigReducer.title_prefix,
+        title_suffix: state.ConfigReducer.title_suffix,
+        isOffline: state.OfflineReducer.isOffline,
+        isBigOffline: state.OfflineReducer.isBig
+    }),
+    'Component/Router/Container/mapStateToProps'
+);
 
-export const mapDispatchToProps = dispatch => ({
-    updateMeta: meta => dispatch(updateMeta(meta)),
-    init: (options) => {
-        WishlistDispatcher.updateInitialWishlistData(dispatch);
-        CartDispatcher.updateInitialCartData(dispatch);
-        ConfigDispatcher.handleData(dispatch);
-        HeaderAndFooterDispatcher.handleData(dispatch, options);
-    }
-});
+export const mapDispatchToProps = middleware(
+    dispatch => ({
+        updateMeta: meta => dispatch(updateMeta(meta)),
+        init: (options) => {
+            WishlistDispatcher.updateInitialWishlistData(dispatch);
+            CartDispatcher.updateInitialCartData(dispatch);
+            ConfigDispatcher.handleData(dispatch);
+            HeaderAndFooterDispatcher.handleData(dispatch, options);
+        }
+    }),
+    'Component/Router/Container/mapDispatchToProps'
+);
 
 export class RouterContainer extends ExtensiblePureComponent {
     static propTypes = {

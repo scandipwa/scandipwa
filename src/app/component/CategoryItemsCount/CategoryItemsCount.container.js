@@ -12,9 +12,12 @@
 import { connect } from 'react-redux';
 import CategoryItemsCount from './CategoryItemsCount.component';
 
-export const mapStateToProps = state => ({
-    isLoading: state.ProductListReducer.isLoading,
-    totalItems: state.ProductListReducer.totalItems
-});
+export const mapStateToProps = middleware(
+    state => ({
+        isLoading: state.ProductListReducer.isLoading,
+        totalItems: state.ProductListReducer.totalItems
+    }),
+    'Component/CategoryItemsCount/Container/mapStateToProps'
+);
 
 export default connect(mapStateToProps)(CategoryItemsCount);

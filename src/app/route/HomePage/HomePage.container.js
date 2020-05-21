@@ -17,9 +17,12 @@ import InstallPrompt from 'Component/InstallPrompt';
 
 import './HomePage.style';
 
-export const mapStateToProps = state => ({
-    pageIdentifiers: state.ConfigReducer.cms_home_page
-});
+export const mapStateToProps = middleware(
+    state => ({
+        pageIdentifiers: state.ConfigReducer.cms_home_page
+    }),
+    'Route/HomePage/Container/mapStateToProps'
+);
 
 export const HomePageContainer = props => (
     <div block="HomePage">

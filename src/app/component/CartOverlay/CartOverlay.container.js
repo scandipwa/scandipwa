@@ -21,16 +21,22 @@ import { TotalsType } from 'Type/MiniCart';
 
 import CartOverlay from './CartOverlay.component';
 
-export const mapStateToProps = state => ({
-    totals: state.CartReducer.cartTotals
-});
+export const mapStateToProps = middleware(
+    state => ({
+        totals: state.CartReducer.cartTotals
+    }),
+    'Component/CartOverlay/Container/mapStateToProps'
+);
 
-export const mapDispatchToProps = dispatch => ({
-    hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE)),
-    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
-    updateTotals: options => CartDispatcher.updateTotals(dispatch, options)
-});
+export const mapDispatchToProps = middleware(
+    dispatch => ({
+        hideActiveOverlay: () => dispatch(hideActiveOverlay()),
+        goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE)),
+        changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
+        updateTotals: options => CartDispatcher.updateTotals(dispatch, options)
+    }),
+    'Component/CartOverlay/Container/mapDispatchToProps'
+);
 
 export class CartOverlayContainer extends ExtensiblePureComponent {
     static propTypes = {

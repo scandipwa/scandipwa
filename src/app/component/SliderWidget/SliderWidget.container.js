@@ -18,9 +18,12 @@ import { SliderQuery } from 'Query';
 
 import SliderWidget from './SliderWidget.component';
 
-export const mapDispatchToProps = dispatch => ({
-    showNotification: (type, title, error) => dispatch(showNotification(type, title, error))
-});
+export const mapDispatchToProps = middleware(
+    dispatch => ({
+        showNotification: (type, title, error) => dispatch(showNotification(type, title, error))
+    }),
+    'Component/SliderWidget/Container/mapDispatchToProps'
+);
 
 export class SliderWidgetContainer extends DataContainer {
     static propTypes = {

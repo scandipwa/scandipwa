@@ -37,21 +37,27 @@ import Header, {
     CHECKOUT
 } from './Header.component';
 
-export const mapStateToProps = state => ({
-    navigationState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
-    cartTotals: state.CartReducer.cartTotals,
-    header_logo_src: state.ConfigReducer.header_logo_src,
-    isOffline: state.OfflineReducer.isOffline,
-    logo_alt: state.ConfigReducer.logo_alt,
-    isLoading: state.ConfigReducer.isLoading
-});
+export const mapStateToProps = middleware(
+    state => ({
+        navigationState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
+        cartTotals: state.CartReducer.cartTotals,
+        header_logo_src: state.ConfigReducer.header_logo_src,
+        isOffline: state.OfflineReducer.isOffline,
+        logo_alt: state.ConfigReducer.logo_alt,
+        isLoading: state.ConfigReducer.isLoading
+    }),
+    'Component/Header/Container/mapStateToProps'
+);
 
-export const mapDispatchToProps = dispatch => ({
-    showOverlay: overlayKey => dispatch(toggleOverlayByKey(overlayKey)),
-    hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    setNavigationState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
-    goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))
-});
+export const mapDispatchToProps = middleware(
+    dispatch => ({
+        showOverlay: overlayKey => dispatch(toggleOverlayByKey(overlayKey)),
+        hideActiveOverlay: () => dispatch(hideActiveOverlay()),
+        setNavigationState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
+        goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))
+    }),
+    'Component/Header/Container/mapDispatchToProps'
+);
 
 export const DEFAULT_HEADER_STATE = {
     name: DEFAULT_STATE_NAME,

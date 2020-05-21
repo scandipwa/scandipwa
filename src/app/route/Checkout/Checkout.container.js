@@ -36,20 +36,26 @@ import Checkout, { SHIPPING_STEP, BILLING_STEP, DETAILS_STEP } from './Checkout.
 export const PAYMENT_TOTALS = 'PAYMENT_TOTALS';
 export const STRIPE_AUTH_REQUIRED = 'Authentication Required: ';
 
-export const mapStateToProps = state => ({
-    totals: state.CartReducer.cartTotals,
-    customer: state.MyAccountReducer.customer
-});
+export const mapStateToProps = middleware(
+    state => ({
+        totals: state.CartReducer.cartTotals,
+        customer: state.MyAccountReducer.customer
+    }),
+    'Route/Checkout/Container/mapStateToProps'
+);
 
-export const mapDispatchToProps = dispatch => ({
-    updateMeta: meta => dispatch(updateMeta(meta)),
-    resetCart: () => CartDispatcher.updateInitialCartData(dispatch),
-    toggleBreadcrumbs: state => dispatch(toggleBreadcrumbs(state)),
-    showErrorNotification: message => dispatch(showNotification('error', message)),
-    setHeaderState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
-    setNavigationState: stateName => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, stateName)),
-    createAccount: options => MyAccountDispatcher.createAccount(options, dispatch)
-});
+export const mapDispatchToProps = middleware(
+    dispatch => ({
+        updateMeta: meta => dispatch(updateMeta(meta)),
+        resetCart: () => CartDispatcher.updateInitialCartData(dispatch),
+        toggleBreadcrumbs: state => dispatch(toggleBreadcrumbs(state)),
+        showErrorNotification: message => dispatch(showNotification('error', message)),
+        setHeaderState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
+        setNavigationState: stateName => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, stateName)),
+        createAccount: options => MyAccountDispatcher.createAccount(options, dispatch)
+    }),
+    'Route/Checkout/Container/mapDispatchToProps'
+);
 
 export class CheckoutContainer extends ExtensiblePureComponent {
     static propTypes = {

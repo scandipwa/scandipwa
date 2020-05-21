@@ -12,8 +12,11 @@
 import { connect } from 'react-redux';
 import CheckoutDeliveryOption from './CheckoutDeliveryOption.component';
 
-export const mapStateToProps = state => ({
-    totals: state.CartReducer.cartTotals
-});
+export const mapStateToProps = middleware(
+    state => ({
+        totals: state.CartReducer.cartTotals
+    }),
+    'Component/CheckoutDeliveryOption/Container/mapStateToProps'
+);
 
 export default connect(mapStateToProps)(CheckoutDeliveryOption);

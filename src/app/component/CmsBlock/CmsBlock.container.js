@@ -13,9 +13,12 @@ import { connect } from 'react-redux';
 import { BlockListType } from 'Type/CMS';
 import CmsBlock from './CmsBlock.component';
 
-export const mapStateToProps = state => ({
-    blocks: state.CmsBlocksAndSliderReducer.blocks
-});
+export const mapStateToProps = middleware(
+    state => ({
+        blocks: state.CmsBlocksAndSliderReducer.blocks
+    }),
+    'Component/CmsBlock/Container/mapStateToProps'
+);
 
 export class CmsBlockContainer extends ExtensiblePureComponent {
     constructor(props) {

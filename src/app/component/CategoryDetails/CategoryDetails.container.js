@@ -13,12 +13,18 @@ import { connect } from 'react-redux';
 import { CmsBlocksAndSliderDispatcher } from 'Store/CmsBlocksAndSlider';
 import CategoryDetails from './CategoryDetails.component';
 
-export const mapStateToProps = state => ({
-    blocks: state.CmsBlocksAndSliderReducer.blocks
-});
+export const mapStateToProps = middleware(
+    state => ({
+        blocks: state.CmsBlocksAndSliderReducer.blocks
+    }),
+    'Component/CategoryDetails/Container/mapStateToProps'
+);
 
-export const mapDispatchToProps = dispatch => ({
-    requestBlocks: options => CmsBlocksAndSliderDispatcher.handleData(dispatch, options)
-});
+export const mapDispatchToProps = middleware(
+    dispatch => ({
+        requestBlocks: options => CmsBlocksAndSliderDispatcher.handleData(dispatch, options)
+    }),
+    'Component/CategoryDetails/Container/mapDispatchToProps'
+);
 
 export default connect(mapStateToProps, mapDispatchToProps)(CategoryDetails);

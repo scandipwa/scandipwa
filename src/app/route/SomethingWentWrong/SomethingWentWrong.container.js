@@ -15,9 +15,12 @@ import { connect } from 'react-redux';
 import { updateMeta } from 'Store/Meta';
 import SomethingWentWrong from './SomethingWentWrong.component';
 
-export const mapDispatchToProps = dispatch => ({
-    updateMeta: meta => dispatch(updateMeta(meta))
-});
+export const mapDispatchToProps = middleware(
+    dispatch => ({
+        updateMeta: meta => dispatch(updateMeta(meta))
+    }),
+    'Route/SomethingWentWrong/Container/mapDispatchToProps'
+);
 
 export class SomethingWentWrongContainer extends ExtensiblePureComponent {
     static propTypes = {
