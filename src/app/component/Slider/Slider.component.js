@@ -158,7 +158,7 @@ export default class Slider extends PureComponent {
         return fullSliderWidth - this.sliderWidth;
     }
 
-    calculateNextSlide(state, _e) {
+    calculateNextSlide(state) {
         const {
             translateX: translate,
             lastTranslateX: lastTranslate
