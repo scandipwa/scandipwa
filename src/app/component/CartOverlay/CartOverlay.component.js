@@ -27,7 +27,8 @@ export default class CartOverlay extends PureComponent {
         totals: TotalsType.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
         isEditing: PropTypes.bool.isRequired,
-        handleCheckoutClick: PropTypes.func.isRequired
+        handleCheckoutClick: PropTypes.func.isRequired,
+        currencyCode: PropTypes.string
     };
 
     renderPriceLine(price) {
