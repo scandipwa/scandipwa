@@ -39,6 +39,8 @@
     }
 
     &_isVisible {
+        z-index: 100;
+
         @include desktop {
             transform: scaleY(1);
             border-color: var(--search-field-border-color);

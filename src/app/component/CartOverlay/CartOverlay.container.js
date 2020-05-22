@@ -15,7 +15,7 @@ import { PureComponent } from 'react';
 
 import { changeNavigationState } from 'Store/Navigation';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { CART, CART_EDITING } from 'Component/Header';
+import { CART_OVERLAY, CART_EDITING } from 'Component/Header';
 import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.component';
 import { toggleOverlayByKey } from 'Store/Overlay';
 import { showNotification } from 'Store/Notification';
@@ -89,7 +89,7 @@ export class CartOverlayContainer extends PureComponent {
         const title = __('%s Items', count || 0);
 
         changeHeaderState({
-            name: CART,
+            name: CART_OVERLAY,
             title,
             onEditClick: () => {
                 this.setState({ isEditing: true });

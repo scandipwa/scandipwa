@@ -11,18 +11,16 @@
 
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-
-import { NavigationAbstractContainer } from 'Component/NavigationAbstract/NavigationAbstract.container';
-import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.component';
-import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.component';
-import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation';
-import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { toggleOverlayByKey, hideActiveOverlay } from 'Store/Overlay';
+import { history } from 'Route';
 import { setQueryParams } from 'Util/Url';
 import { isSignedIn } from 'Util/Auth';
 import isMobile from 'Util/Mobile';
-import { history } from 'Route';
-
+import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation';
+import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { toggleOverlayByKey, hideActiveOverlay } from 'Store/Overlay';
+import { NavigationAbstractContainer } from 'Component/NavigationAbstract/NavigationAbstract.container';
+import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.component';
+import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.component';
 import Header, {
     PDP,
     CATEGORY,
@@ -32,6 +30,7 @@ import Header, {
     MENU_SUBCATEGORY,
     SEARCH,
     CART,
+    CART_OVERLAY,
     CMS_PAGE,
     CUSTOMER_ACCOUNT_PAGE,
     CHECKOUT
@@ -43,7 +42,8 @@ export const mapStateToProps = state => ({
     header_logo_src: state.ConfigReducer.header_logo_src,
     isOffline: state.OfflineReducer.isOffline,
     logo_alt: state.ConfigReducer.logo_alt,
-    isLoading: state.ConfigReducer.isLoading
+    isLoading: state.ConfigReducer.isLoading,
+    activeOverlay: state.OverlayReducer.activeOverlay
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -153,9 +153,30 @@ export class HeaderContainer extends NavigationAbstractContainer {
         super.componentDidMount();
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps, prevState) {
+        super.componentDidUpdate(prevProps, prevState);
+        this.hideSearchOnStateChange(prevProps);
         this.handleHeaderVisibility();
         this.checkIsCheckout();
+    }
+
+    hideSearchOnStateChange(prevProps) {
+        const { navigationState: { name: prevName } } = prevProps;
+        const { navigationState: { name } } = this.props;
+
+        if (prevName === SEARCH && prevName !== name) {
+            this.hideSearchOverlay();
+        }
+    }
+
+    hideSearchOverlay() {
+        const { hideActiveOverlay, activeOverlay } = this.props;
+
+        this.setState({ searchCriteria: '' });
+
+        document.activeElement.blur();
+
+        if (activeOverlay === SEARCH) hideActiveOverlay();
     }
 
     checkIsCheckout() {
@@ -229,18 +250,19 @@ export class HeaderContainer extends NavigationAbstractContainer {
     }
 
     onSearchOutsideClick() {
-        const {
-            goToPreviousNavigationState,
-            hideActiveOverlay,
-            navigationState: { name }
-        } = this.props;
+        const { goToPreviousNavigationState, navigationState: { name } } = this.props;
 
         if (!isMobile.any() && name === SEARCH) {
-            this.setState({ searchCriteria: '' });
-
-            hideActiveOverlay();
+            this.hideSearchOverlay();
             goToPreviousNavigationState();
         }
+    }
+
+    goToDefaultHeaderState() {
+        const { setNavigationState } = this.props;
+        const state = this.getNavigationState(location.pathname);
+
+        setNavigationState(state);
     }
 
     onSearchBarFocus() {
@@ -313,6 +335,32 @@ export class HeaderContainer extends NavigationAbstractContainer {
             goToPreviousNavigationState();
             hideActiveOverlay();
         }
+    }
+
+    onMyAccountOutsideClick() {
+        const { hideActiveOverlay, navigationState: { name } } = this.props;
+
+        if (isMobile.any() || !(name === CUSTOMER_ACCOUNT || name === CUSTOMER_SUB_ACCOUNT)) return;
+
+        this.goToDefaultHeaderState();
+        hideActiveOverlay();
+    }
+
+    onMinicartButtonClick() {
+        const { showOverlay } = this.props;
+
+        if (!isMobile.any()) return showOverlay(CART_OVERLAY);
+
+        return history.push(`/${ CART }`);
+    }
+
+    onMinicartOutsideClick() {
+        const { hideActiveOverlay, navigationState: { name } } = this.props;
+
+        if (isMobile.any() || name !== CART_OVERLAY) return;
+
+        this.goToDefaultHeaderState();
+        hideActiveOverlay();
     }
 
     onMyAccountButtonClick() {

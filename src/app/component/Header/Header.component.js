@@ -42,6 +42,7 @@ export const MENU_SUBCATEGORY = 'menu_subcategory';
 export const SEARCH = 'search';
 export const FILTER = 'filter';
 export const CART = 'cart';
+export const CART_OVERLAY = 'cart_overlay';
 export const CART_EDITING = 'cart_editing';
 export const CHECKOUT = 'checkout';
 export const CMS_PAGE = 'cms-page';
@@ -123,6 +124,10 @@ export default class Header extends NavigationAbstract {
             search: true
         },
         [CART]: {
+            title: true,
+            edit: true
+        },
+        [CART_OVERLAY]: {
             title: true,
             edit: true
         },
@@ -367,7 +372,7 @@ export default class Header extends NavigationAbstract {
     }
 
     renderMinicartButton(isVisible = false) {
-        const { onMinicartOutsideClick, onMinicartButtonClick, isCheckout } = this.props;
+        const { onMinicartOutsideClick, onMinicartButtonClick, isCheckout, navigationState: { name } } = this.props;
 
         if (isMobile.any() || isCheckout) {
             return null;
@@ -381,7 +386,10 @@ export default class Header extends NavigationAbstract {
                   mods={ { isVisible, type: 'minicart' } }
                 >
                     <button
-                      onClick={ onMinicartButtonClick }
+                      onClick={ () => {
+                        onMinicartButtonClick();
+                        if (name === CART) onMinicartOutsideClick();
+                      } }
                       aria-label="Minicart"
                       block="Header"
                       elem="MinicartButton"
