@@ -14,25 +14,18 @@ import PropTypes from 'prop-types';
 import { formatCurrency } from 'Util/Price';
 import ExpandableContent from 'Component/ExpandableContent';
 import Field from 'Component/Field';
-import { attachmentIcon } from './ProductCustomizableOptions.config';
 
 import './ProductCustomizableOptions.style';
 
 export default class ProductCustomizableOptionsComponent extends PureComponent {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
-        fileFormRef: PropTypes.oneOfType([
-            PropTypes.func,
-            PropTypes.shape({ current: PropTypes.instanceOf(Element) })
-        ]).isRequired,
         options: PropTypes.array,
         setCustomizableOptionFieldValue: PropTypes.func.isRequired,
         setCustomizableOptionAreaValue: PropTypes.func.isRequired,
         setSelectedDropdownValue: PropTypes.func.isRequired,
         getDropdownOptions: PropTypes.func.isRequired,
-        setSelectedCheckboxValues: PropTypes.func.isRequired,
-        handleAttachFile: PropTypes.func.isRequired,
-        handleRemoveFile: PropTypes.func.isRequired
+        setSelectedCheckboxValues: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -106,7 +99,7 @@ export default class ProductCustomizableOptionsComponent extends PureComponent {
                   type="text"
                   maxLength={ max_characters }
                   value={ fieldValue }
-                    /* eslint-disable-next-line react/jsx-no-bind */
+                  /* eslint-disable-next-line react/jsx-no-bind */
                   onChange={ value => this.updateFieldValue(value, id) }
                 />
                 { isRequired && (
@@ -119,73 +112,6 @@ export default class ProductCustomizableOptionsComponent extends PureComponent {
                     { __('Maximum %s characters', max_characters) }
                 </div>
             </>
-        );
-    }
-
-    renderAttachment = (name, index) => {
-        const { handleRemoveFile } = this.props;
-
-        return (
-            <div key={ index }>
-                <span
-                  block="MyAccountReturnDetailsChat"
-                  elem="AttachmentName"
-                >
-                    { name }
-                </span>
-                <button
-                  block="MyAccountOverlay"
-                  elem="CloseButton"
-                  onClick={ () => handleRemoveFile(name) }
-                />
-            </div>
-        );
-    };
-
-    renderAttachments() {
-        const { files } = this.props;
-
-        if (!files.length) {
-            return null;
-        }
-
-        return (
-            <div
-              block="MyAccountReturnDetailsChat"
-              elem="AttachmentWrapper"
-            >
-                { attachmentIcon }
-                <div
-                  block="MyAccountReturnDetailsChat"
-                  elem="Attachment"
-                >
-                    { files.map((file, index) => this.renderAttachment(file.name, index)) }
-                </div>
-            </div>
-        );
-    }
-
-    renderOptionFile(values, option_id, isRequired) {
-        const { handleAttachFile, fileFormRef } = this.props;
-
-        return (
-            <div
-              block="ProductCustomizableOptions"
-              elem="FileAttach"
-            >
-                <input
-                  type="file"
-                  accept=".pdf,.png,.jpg,.jpeg,.gif"
-                  multiple
-                  block="ProductCustomizableOptions"
-                  onChange={ () => handleAttachFile(option_id) }
-                  ref={ fileFormRef }
-                />
-                { isRequired && (
-                    this.renderRequired()
-                ) }
-                { this.renderAttachments() }
-            </div>
         );
     }
 
@@ -202,7 +128,7 @@ export default class ProductCustomizableOptionsComponent extends PureComponent {
               mix={ { block: 'CustomizableOptions', elem: 'Select' } }
               selectOptions={ dropdownOptions }
               value={ selectedDropdownValue }
-                /* eslint-disable-next-line react/jsx-no-bind */
+              /* eslint-disable-next-line react/jsx-no-bind */
               onChange={ value => this.onChange(value, option_id) }
             />
         );
@@ -222,7 +148,7 @@ export default class ProductCustomizableOptionsComponent extends PureComponent {
               name={ `option-${ option_type_id }` }
               value={ price }
               renderLabelAfter
-                /* eslint-disable-next-line react/jsx-no-bind */
+              /* eslint-disable-next-line react/jsx-no-bind */
               onChange={ () => setSelectedCheckboxValues(option_id, option_type_id) }
             />
         );

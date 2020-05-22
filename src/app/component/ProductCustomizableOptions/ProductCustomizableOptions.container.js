@@ -15,22 +15,6 @@ import { connect } from 'react-redux';
 import { formatCurrency } from 'Util/Price';
 import ProductCustomizableOptions from './ProductCustomizableOptions.component';
 
-export const fileToBase64 = file => new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result.split(',')[1]);
-    reader.onerror = error => reject(error);
-});
-
-export const encodeFormFiles = async filesFromForm => Object.values(filesFromForm).reduce(
-    async (previousPromise, file) => {
-        const acc = await previousPromise;
-        acc.push({ encoded_file: await fileToBase64(file) });
-
-        return acc;
-    }, Promise.resolve([])
-);
-
 export class ProductCustomizableOptionsContainer extends PureComponent {
     static propTypes = {
         options: PropTypes.array,
@@ -56,9 +40,7 @@ export class ProductCustomizableOptionsContainer extends PureComponent {
         setCustomizableOptionAreaValue: this.setCustomizableOptionAreaValue.bind(this),
         setSelectedDropdownValue: this.setSelectedDropdownValue.bind(this),
         getDropdownOptions: this.getDropdownOptions.bind(this),
-        setSelectedCheckboxValues: this.setSelectedCheckboxValues.bind(this),
-        handleAttachFile: this.onFileAttach.bind(this),
-        handleRemoveFile: this.handleRemoveFile.bind(this)
+        setSelectedCheckboxValues: this.setSelectedCheckboxValues.bind(this)
     };
 
     constructor(props) {
@@ -245,56 +227,6 @@ export class ProductCustomizableOptionsContainer extends PureComponent {
         });
 
         return data;
-    }
-
-    async onFileAttach(option_id) {
-        const { files } = this.state;
-        const filesFromForm = this.fileFormRef.current.files || [];
-        const { max_file_size, showNotification } = this.props;
-        const oldFiles = [].concat(files);
-
-        const newFiles = Object.values(filesFromForm).reduce(
-            /** @param acc
-             * @param {File} file */
-            (acc, file) => {
-                // Handle file size more than max allowed
-                // But first transform from b to Kb
-                if (file.size / 1024 > max_file_size) {
-                    showNotification('error', __(
-                        'File %s has exceeded the maximum file size limit of %s KB',
-                        file.name,
-                        max_file_size
-                    ));
-
-                    return acc;
-                }
-
-                acc.push(file);
-                return acc;
-            }, oldFiles
-        );
-
-        const tests = await encodeFormFiles(newFiles);
-        const { encoded_file } = tests[0];
-
-        this.setState(() => ({ files: [{ option_id, extension_files: encoded_file }] }));
-        // this.setState(() => ({ files: filesData }));
-    }
-
-    handleRemoveFile(name) {
-        const { files } = this.state;
-
-        const newFiles = files.reduce(
-            (acc, file) => {
-                if (file.name !== name) {
-                    acc.push(file);
-                }
-
-                return acc;
-            }, []
-        );
-
-        this.setState(() => ({ files: newFiles }));
     }
 
     render() {
