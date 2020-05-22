@@ -153,8 +153,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
         super.componentDidMount();
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        super.componentDidUpdate(prevProps, prevState);
+    componentDidUpdate(prevProps) {
         this.hideSearchOnStateChange(prevProps);
         this.handleHeaderVisibility();
         this.checkIsCheckout();
@@ -339,34 +338,6 @@ export class HeaderContainer extends NavigationAbstractContainer {
         }
     }
 
-    onMyAccountOutsideClick() {
-        const { hideActiveOverlay, navigationState: { name } } = this.props;
-
-        if (isMobile.any() || !(name === CUSTOMER_ACCOUNT || name === CUSTOMER_SUB_ACCOUNT)) {
-            return;
-        }
-
-        this.goToDefaultHeaderState();
-        hideActiveOverlay();
-    }
-
-    onMinicartButtonClick() {
-        const { showOverlay } = this.props;
-
-        if (!isMobile.any()) return showOverlay(CART_OVERLAY);
-
-        return history.push(`/${ CART }`);
-    }
-
-    onMinicartOutsideClick() {
-        const { hideActiveOverlay, navigationState: { name } } = this.props;
-
-        if (isMobile.any() || name !== CART_OVERLAY) return;
-
-        this.goToDefaultHeaderState();
-        hideActiveOverlay();
-    }
-
     onMyAccountButtonClick() {
         const {
             showOverlay,
@@ -394,16 +365,15 @@ export class HeaderContainer extends NavigationAbstractContainer {
             navigationState: { name }
         } = this.props;
 
-        if (
-            isMobile.any()
-            || !(name === CUSTOMER_ACCOUNT || name === CUSTOMER_SUB_ACCOUNT)
-        ) {
+        if (isMobile.any() || name !== CART_OVERLAY) {
             return;
         }
+
         if (name === CUSTOMER_SUB_ACCOUNT) {
             goToPreviousNavigationState();
         }
-        goToPreviousNavigationState();
+
+        this.goToDefaultHeaderState();
         hideActiveOverlay();
     }
 
@@ -456,10 +426,10 @@ export class HeaderContainer extends NavigationAbstractContainer {
         const { showOverlay } = this.props;
 
         if (!isMobile.any()) {
-            return showOverlay(CART);
+            return showOverlay(CART_OVERLAY);
         }
 
-        return history.push('/cart');
+        return history.push(`/${ CART }`);
     }
 
     onMinicartOutsideClick() {

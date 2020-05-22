@@ -11,7 +11,6 @@
 
 import { PureComponent } from 'react';
 
-import media, { CATEGORY_MEDIA } from 'Util/Media';
 import Html from 'Component/Html';
 import Image from 'Component/Image';
 import { CategoryTreeType } from 'Type/Category';
