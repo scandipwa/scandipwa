@@ -31,8 +31,8 @@ export default class CartOverlay extends PureComponent {
     };
 
     renderPriceLine(price) {
-        const { totals: { quote_currency_code } } = this.props;
-        return `${formatCurrency(quote_currency_code)}${parseFloat(price).toFixed(2)}`;
+        const { currencyCode } = this.props;
+        return `${parseFloat(price).toFixed(2)}${formatCurrency(currencyCode)}`;
     }
 
     renderCartItems() {

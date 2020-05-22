@@ -28,7 +28,8 @@ import CartOverlay from './CartOverlay.component';
 
 export const mapStateToProps = state => ({
     totals: state.CartReducer.cartTotals,
-    guest_checkout: state.ConfigReducer.guest_checkout
+    guest_checkout: state.ConfigReducer.guest_checkout,
+    currencyCode: state.ConfigReducer.default_display_currency_code
 });
 
 export const mapDispatchToProps = dispatch => ({
