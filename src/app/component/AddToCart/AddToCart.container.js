@@ -116,7 +116,7 @@ export class AddToCartContainer extends PureComponent {
                 const validateCustomizableOptions = this.validateCustomizableOptions(customizable_options);
                 const validateCustomizableOptionsArray = this.validateCustomizableOptions(customizable_options_multi);
 
-                if (!validateCustomizableOptions || !validateCustomizableOptionsArray) {
+                if (!validateCustomizableOptions && !validateCustomizableOptionsArray) {
                     showNotification('info', __('Please select required option!'));
                     return false;
                 }

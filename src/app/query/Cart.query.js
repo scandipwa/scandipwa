@@ -106,6 +106,36 @@ export class CartQuery {
         ];
     }
 
+    _getCustomizableOptionPriceFields() {
+        return new Field('price')
+            .addFieldList([
+                'value',
+                'units',
+                'type'
+            ]);
+    }
+
+    _getCustomizableOptionValueFields() {
+        return new Field('values')
+            .addFieldList([
+                'id',
+                'label',
+                'value',
+                this._getCustomizableOptionPriceFields()
+            ]);
+    }
+
+    _getCustomizableOptionsFields() {
+        return new Field('customizable_options')
+            .addFieldList([
+                'id',
+                'label',
+                'is_required',
+                this._getCustomizableOptionValueFields(),
+                'sort_order'
+            ]);
+    }
+
     _getCartItemFields() {
         return [
             'qty',
@@ -117,6 +147,7 @@ export class CartQuery {
             'tax_percent',
             'discount_amount',
             'discount_percent',
+            this._getCustomizableOptionsFields(),
             this._getProductField()
         ];
     }
