@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -31,17 +32,39 @@ class FallbackPlugin {
             // Determine if the request is child-of-a-child node_module request
             const pathIsNode = !!request.path.match(/node_modules/);
 
+            // Determine if the request is coming from parent file
+            const pathIsParent = !!request.path.match(/pwa_parent/);
+
+            // Determine if the request is coming from custom file
+            const pathIsCustom = !!request.path.match(/app\/design\/frontend\/Scandiweb\/pwa\//);
+
+            // Determine if request is coming to core file
+            const requestIsCore = !!request.request.match(/vendor/);
+
             // Determine if request is coming to custom file
-            const requestIsCustom = !!request.request.match(/app\/design\/frontend/);
+            const requestIsCustom = !!request.request.match(/app\/design\/frontend\/Scandiweb\/pwa\//);
+
+            // Determine if request is coming to parent theme file
+            const requestIsParent = !!request.request.match(/pwa_parent/);
 
             // Check if request can be handled
             if (!request.path || !request.request) return callback();
 
             // Construct expected path to resolved file from any theme root
-            const expected = path.relative(
-                (pathIsCore && !requestIsCustom) ? this.options.fallbackRoot : this.options.projectRoot,
-                path.resolve(request.path, request.request)
-            );
+            // * Get path relative to corresponding root
+            let expectedRoot;
+            if (!pathIsParent) {
+                expectedRoot = (pathIsCore && !requestIsCustom) ? this.options.fallbackRoot : this.options.projectRoot
+            } else {
+                expectedRoot = (pathIsParent && !requestIsCustom) ? this.options.parentRoot : this.options.projectRoot
+            }
+
+            const expected = requestIsCore
+                ? request.request.split('vendor/scandipwa/source/')[1]
+                : path.relative(
+                    expectedRoot,
+                    path.resolve(request.path, request.request)
+                );
 
             // Function which passes request modifying path
             const proceed = (from) => {
@@ -61,6 +84,38 @@ class FallbackPlugin {
                     newRequest.path = path.resolve(
                         this.options.projectRoot,
                         path.relative(this.options.fallbackRoot, request.path)
+                    );
+                    break;
+
+                // From core to parent theme
+                case 'core-to-parent':
+                    newRequest.path = path.resolve(
+                        this.options.parentRoot,
+                        path.relative(this.options.fallbackRoot, request.path)
+                    );
+                    break;
+
+                // From parent theme to core
+                case 'parent-to-core':
+                    newRequest.path = path.resolve(
+                        this.options.fallbackRoot,
+                        path.relative(this.options.parentRoot, request.path)
+                    );
+                    break;
+
+                // From custom to parent theme
+                case 'custom-to-parent':
+                    newRequest.path = path.resolve(
+                        this.options.parentRoot,
+                        path.relative(this.options.projectRoot, request.path)
+                    );
+                    break;
+
+                // From parent theme to custom
+                case 'parent-to-custom':
+                    newRequest.path = path.resolve(
+                        this.options.projectRoot,
+                        path.relative(this.options.parentRoot, request.path)
                     );
                     break;
 
@@ -91,6 +146,17 @@ class FallbackPlugin {
                     );
                     break;
 
+                // Transform request to require file from parent instead of explicitly referenced core
+                case 'req-core-to-parent':
+                    newRequest.request = path.relative(
+                        request.path,
+                        path.resolve(
+                            this.options.parentRoot,
+                            expected
+                        )
+                    );
+                    break;
+
                 default:
                     return callback();
                 }
@@ -112,9 +178,24 @@ class FallbackPlugin {
             const customPath = path.resolve(this.options.projectRoot, expected);
             const customExists = this.fileExists(customPath);
 
+            const parentPath = path.resolve(this.options.parentRoot, expected);
+            const parentExists = this.fileExists(parentPath);
+
+            if (pathIsCustom && requestIsCore && parentExists) {
+                return proceed('req-core-to-parent');
+            }
+
             // If custom exists and initial path is core - replace path, else return as is.
             if (customExists) {
                 if (pathIsCore) return proceed('core-to-custom');
+                if (pathIsParent && !requestIsCore) return proceed('parent-to-custom');
+                return callback();
+            }
+
+            // If parent exists and initial path is core or custom - replace path, else return as is.
+            if (parentExists) {
+                if (pathIsCustom) return proceed('custom-to-parent');
+                if (pathIsCore) return proceed('core-to-parent');
                 return callback();
             }
 
@@ -123,8 +204,9 @@ class FallbackPlugin {
 
             // If core exists and initial path is core - return as is, else replace path.
             if (coreExists) {
-                if (pathIsCore && !requestIsCustom) return callback();
+                if (pathIsCore && !requestIsCustom && !requestIsParent) return callback();
                 if (requestIsCustom) return proceed('core-to-core');
+                if (requestIsParent) return proceed('parent-to-core');
                 return proceed('custom-to-core');
             }
 
@@ -160,7 +242,8 @@ class FallbackPlugin {
 }
 
 FallbackPlugin.defaultOptions = {
-    fallbackRoot: ''
+    fallbackRoot: '',
+    parentRoot: ''
 };
 
 module.exports = FallbackPlugin;
