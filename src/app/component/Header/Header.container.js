@@ -176,7 +176,9 @@ export class HeaderContainer extends NavigationAbstractContainer {
 
         document.activeElement.blur();
 
-        if (activeOverlay === SEARCH) hideActiveOverlay();
+        if (activeOverlay === SEARCH) {
+            hideActiveOverlay();
+        }
     }
 
     checkIsCheckout() {
@@ -340,7 +342,9 @@ export class HeaderContainer extends NavigationAbstractContainer {
     onMyAccountOutsideClick() {
         const { hideActiveOverlay, navigationState: { name } } = this.props;
 
-        if (isMobile.any() || !(name === CUSTOMER_ACCOUNT || name === CUSTOMER_SUB_ACCOUNT)) return;
+        if (isMobile.any() || !(name === CUSTOMER_ACCOUNT || name === CUSTOMER_SUB_ACCOUNT)) {
+            return;
+        }
 
         this.goToDefaultHeaderState();
         hideActiveOverlay();

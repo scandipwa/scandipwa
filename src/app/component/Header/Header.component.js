@@ -372,7 +372,12 @@ export default class Header extends NavigationAbstract {
     }
 
     renderMinicartButton(isVisible = false) {
-        const { onMinicartOutsideClick, onMinicartButtonClick, isCheckout, navigationState: { name } } = this.props;
+        const {
+            onMinicartOutsideClick,
+            onMinicartButtonClick,
+            isCheckout,
+            navigationState: { name }
+        } = this.props;
 
         if (isMobile.any() || isCheckout) {
             return null;
@@ -387,8 +392,10 @@ export default class Header extends NavigationAbstract {
                 >
                     <button
                       onClick={ () => {
-                        onMinicartButtonClick();
-                        if (name === CART) onMinicartOutsideClick();
+                          onMinicartButtonClick();
+                          if (name === CART) {
+                              onMinicartOutsideClick();
+                          }
                       } }
                       aria-label="Minicart"
                       block="Header"
