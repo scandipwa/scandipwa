@@ -30,13 +30,13 @@
 
     &-Required {
         color: var(--required-text-color);
-        margin-top: 5px;
+        margin-top: .5rem;
     }
 
     &-Information {
         color: var(--additional-information-color);
         font-size: 11px;
-        margin-top: 4px;
+        margin-top: .4rem;
     }
 
     &-ExpandableContentContent {
