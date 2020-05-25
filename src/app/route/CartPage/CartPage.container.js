@@ -19,7 +19,7 @@ import { changeNavigationState } from 'Store/Navigation';
 import { CART, CART_EDITING } from 'Component/Header';
 import { TotalsType } from 'Type/MiniCart';
 import { updateMeta } from 'Store/Meta';
-import { history } from 'Component/App/App.component';
+import history from 'Util/History';
 
 import CartPage from './CartPage.component';
 
