@@ -113,11 +113,12 @@ export class AddToCartContainer extends PureComponent {
             }
 
             if (requiredCustomizableOptions.length) {
-                const validateCustomizableOptions = this.validateCustomizableOptions(customizable_options);
-                const validateCustomizableOptionsArray = this.validateCustomizableOptions(customizable_options_multi);
+                const validateCustomizableOptions = this.validateCustomizableOptions(
+                    [...customizable_options, ...customizable_options_multi]
+                );
 
-                if (!validateCustomizableOptions && !validateCustomizableOptionsArray) {
-                    showNotification('info', __('Please select required option!'));
+                if (!validateCustomizableOptions) {
+                    showNotification('info', __('Please select required options!'));
                     return false;
                 }
             }
@@ -126,7 +127,7 @@ export class AddToCartContainer extends PureComponent {
         return true;
     }
 
-    validateCustomizableOptions(item) {
+    validateCustomizableOptions(items) {
         const { requiredCustomizableOptions } = this.props;
         let status = true;
 
@@ -134,8 +135,8 @@ export class AddToCartContainer extends PureComponent {
             const { option_id } = requiredCustomizableOptions[i];
             let counter = 0;
 
-            for (let j = 0; j < item.length; j++) {
-                const { option_id: selectedOption } = item[j];
+            for (let j = 0; j < items.length; j++) {
+                const { option_id: selectedOption } = items[j];
 
                 if (option_id === selectedOption) {
                     counter++;

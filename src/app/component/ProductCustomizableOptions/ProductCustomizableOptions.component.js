@@ -160,7 +160,7 @@ export default class ProductCustomizableOptionsComponent extends PureComponent {
               block="ProductCustomizableOptions"
               elem="Required"
             >
-                { __('This field is required') }
+                { __('This field is required!') }
             </div>
         );
     }
