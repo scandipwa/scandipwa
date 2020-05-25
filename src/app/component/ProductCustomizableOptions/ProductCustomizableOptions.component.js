@@ -208,7 +208,7 @@ export default class ProductCustomizableOptionsComponent extends PureComponent {
                 priceType = price_type === 'PERCENT';
             }
 
-            const additionalTitle = priceType ? `${ optionPrice }%` : `${ formatCurrency }${ optionPrice }`;
+            const additionalTitle = priceType ? `${ optionPrice }%` : `${ formatCurrency() }${ optionPrice }`;
 
             return (
                 <ExpandableContent
