@@ -18,9 +18,12 @@ import { customerType } from 'Type/Account';
 
 import CheckoutShipping from './CheckoutShipping.component';
 
-export const mapStateToProps = state => ({
-    customer: state.MyAccountReducer.customer
-});
+export const mapStateToProps = middleware(
+    state => ({
+        customer: state.MyAccountReducer.customer
+    }),
+    'Component/CheckoutShipping/Container/mapStateToProps'
+);
 
 export class CheckoutShippingContainer extends ExtensiblePureComponent {
     static propTypes = {

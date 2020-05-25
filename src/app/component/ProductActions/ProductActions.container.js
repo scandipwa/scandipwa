@@ -14,9 +14,12 @@ import { ProductType } from 'Type/ProductList';
 import { connect } from 'react-redux';
 import ProductActions from './ProductActions.component';
 
-export const mapStateToProps = state => ({
-    groupedProductQuantity: state.ProductReducer.groupedProductQuantity
-});
+export const mapStateToProps = middleware(
+    state => ({
+        groupedProductQuantity: state.ProductReducer.groupedProductQuantity
+    }),
+    'Component/ProductActions/Container/mapStateToProps'
+);
 
 export const DEFAULT_MAX_PRODUCTS = 99;
 

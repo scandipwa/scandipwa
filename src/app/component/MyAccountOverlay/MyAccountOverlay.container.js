@@ -31,21 +31,27 @@ import MyAccountOverlay, {
     STATE_CONFIRM_EMAIL
 } from './MyAccountOverlay.component';
 
-export const mapStateToProps = state => ({
-    isSignedIn: state.MyAccountReducer.isSignedIn,
-    customer: state.MyAccountReducer.customer,
-    isPasswordForgotSend: state.MyAccountReducer.isPasswordForgotSend,
-    isOverlayVisible: state.OverlayReducer.activeOverlay === CUSTOMER_ACCOUNT
-});
+export const mapStateToProps = middleware(
+    state => ({
+        isSignedIn: state.MyAccountReducer.isSignedIn,
+        customer: state.MyAccountReducer.customer,
+        isPasswordForgotSend: state.MyAccountReducer.isPasswordForgotSend,
+        isOverlayVisible: state.OverlayReducer.activeOverlay === CUSTOMER_ACCOUNT
+    }),
+    'Component/MyAccountOverlay/Container/mapStateToProps'
+);
 
-export const mapDispatchToProps = dispatch => ({
-    hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    forgotPassword: options => MyAccountDispatcher.forgotPassword(options, dispatch),
-    createAccount: options => MyAccountDispatcher.createAccount(options, dispatch),
-    signIn: options => MyAccountDispatcher.signIn(options, dispatch),
-    showNotification: (type, message) => dispatch(showNotification(type, message)),
-    setHeaderState: headerState => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, headerState))
-});
+export const mapDispatchToProps = middleware(
+    dispatch => ({
+        hideActiveOverlay: () => dispatch(hideActiveOverlay()),
+        forgotPassword: options => MyAccountDispatcher.forgotPassword(options, dispatch),
+        createAccount: options => MyAccountDispatcher.createAccount(options, dispatch),
+        signIn: options => MyAccountDispatcher.signIn(options, dispatch),
+        showNotification: (type, message) => dispatch(showNotification(type, message)),
+        setHeaderState: headerState => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, headerState))
+    }),
+    'Component/MyAccountOverlay/Container/mapDispatchToProps'
+);
 
 export class MyAccountOverlayContainer extends ExtensiblePureComponent {
     static propTypes = {

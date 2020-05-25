@@ -14,14 +14,20 @@ import { connect } from 'react-redux';
 import { OrderDispatcher } from 'Store/Order';
 import MyAccountMyOrders from './MyAccountMyOrders.component';
 
-export const mapStateToProps = state => ({
-    orderList: state.OrderReducer.orderList,
-    isLoading: state.OrderReducer.isLoading
-});
+export const mapStateToProps = middleware(
+    state => ({
+        orderList: state.OrderReducer.orderList,
+        isLoading: state.OrderReducer.isLoading
+    }),
+    'Component/MyAccountMyOrders/Container/mapStateToProps'
+);
 
-export const mapDispatchToProps = dispatch => ({
-    getOrderList: () => OrderDispatcher.requestOrders(dispatch)
-});
+export const mapDispatchToProps = middleware(
+    dispatch => ({
+        getOrderList: () => OrderDispatcher.requestOrders(dispatch)
+    }),
+    'Component/MyAccountMyOrders/Container/mapDispatchToProps'
+);
 
 export class MyAccountMyOrdersContainer extends ExtensiblePureComponent {
     static propTypes = {

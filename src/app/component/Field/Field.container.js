@@ -12,8 +12,11 @@
 import { connect } from 'react-redux';
 import Field from './Field.component';
 
-export const mapStateToProps = state => ({
-    customer: state.MyAccountReducer.customer
-});
+export const mapStateToProps = middleware(
+    state => ({
+        customer: state.MyAccountReducer.customer
+    }),
+    'Component/Field/Container/mapStateToProps'
+);
 
 export default connect(mapStateToProps)(Field);

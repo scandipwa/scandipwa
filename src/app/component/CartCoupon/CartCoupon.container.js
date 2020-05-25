@@ -14,10 +14,13 @@ import { connect } from 'react-redux';
 import { CartDispatcher } from 'Store/Cart';
 import CartCoupon from './CartCoupon.component';
 
-export const mapDispatchToProps = dispatch => ({
-    applyCouponToCart: couponCode => CartDispatcher.applyCouponToCart(dispatch, couponCode),
-    removeCouponFromCart: () => CartDispatcher.removeCouponFromCart(dispatch)
-});
+export const mapDispatchToProps = middleware(
+    dispatch => ({
+        applyCouponToCart: couponCode => CartDispatcher.applyCouponToCart(dispatch, couponCode),
+        removeCouponFromCart: () => CartDispatcher.removeCouponFromCart(dispatch)
+    }),
+    'Component/CartCoupon/Container/mapDispatchToProps'
+);
 
 export class CartCouponContainer extends ExtensiblePureComponent {
     static propTypes = {

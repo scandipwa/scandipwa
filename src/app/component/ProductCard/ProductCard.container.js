@@ -20,9 +20,12 @@ import { objectToUri } from 'Util/Url';
 
 import ProductCard from './ProductCard.component';
 
-export const mapDispatchToProps = dispatch => ({
-    addProduct: options => CartDispatcher.addProductToCart(dispatch, options)
-});
+export const mapDispatchToProps = middleware(
+    dispatch => ({
+        addProduct: options => CartDispatcher.addProductToCart(dispatch, options)
+    }),
+    'Component/ProductCard/Container/mapDispatchToProps'
+);
 
 export class ProductCardContainer extends ExtensiblePureComponent {
     static propTypes = {

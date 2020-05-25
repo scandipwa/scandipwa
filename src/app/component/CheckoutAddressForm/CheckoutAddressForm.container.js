@@ -12,9 +12,12 @@
 import { connect } from 'react-redux';
 import CheckoutAddressForm from './CheckoutAddressForm.component';
 
-export const mapStateToProps = state => ({
-    countries: state.ConfigReducer.countries,
-    default_country: state.ConfigReducer.default_country
-});
+export const mapStateToProps = middleware(
+    state => ({
+        countries: state.ConfigReducer.countries,
+        default_country: state.ConfigReducer.default_country
+    }),
+    'Component/CheckoutAddressForm/Container/mapStateToProps'
+);
 
 export default connect(mapStateToProps)(CheckoutAddressForm);

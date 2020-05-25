@@ -18,15 +18,21 @@ import { isSignedIn } from 'Util/Auth';
 
 import ProductReviews, { REVIEW_POPUP_ID } from './ProductReviews.component';
 
-export const mapStateToProps = state => ({
-    isEnabled: state.ConfigReducer.reviews_are_enabled,
-    isGuestEnabled: state.ConfigReducer.reviews_allow_guest
-});
+export const mapStateToProps = middleware(
+    state => ({
+        isEnabled: state.ConfigReducer.reviews_are_enabled,
+        isGuestEnabled: state.ConfigReducer.reviews_allow_guest
+    }),
+    'Component/ProductReviews/Container/mapStateToProps'
+);
 
-export const mapDispatchToProps = dispatch => ({
-    showPopup: payload => dispatch(showPopup(REVIEW_POPUP_ID, payload)),
-    showInfoNotification: message => dispatch(showNotification('info', message))
-});
+export const mapDispatchToProps = middleware(
+    dispatch => ({
+        showPopup: payload => dispatch(showPopup(REVIEW_POPUP_ID, payload)),
+        showInfoNotification: message => dispatch(showNotification('info', message))
+    }),
+    'Component/ProductReviews/Container/mapDispatchToProps'
+);
 
 export class ProductReviewsContainer extends ExtensiblePureComponent {
     static propTypes = {

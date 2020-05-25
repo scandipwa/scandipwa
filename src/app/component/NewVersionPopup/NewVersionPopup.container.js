@@ -22,10 +22,13 @@ import NewVersionPopup, {
     NEW_VERSION_POPUP_ID
 } from './NewVersionPopup.component';
 
-export const mapDispatchToProps = dispatch => ({
-    showPopup: payload => dispatch(showPopup(NEW_VERSION_POPUP_ID, payload)),
-    goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))
-});
+export const mapDispatchToProps = middleware(
+    dispatch => ({
+        showPopup: payload => dispatch(showPopup(NEW_VERSION_POPUP_ID, payload)),
+        goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))
+    }),
+    'Component/NewVersionPopup/Container/mapDispatchToProps'
+);
 
 export class NewVersionPopupContainer extends ExtensiblePureComponent {
     static propTypes = {

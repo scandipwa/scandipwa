@@ -18,16 +18,22 @@ import { ProductType } from 'Type/ProductList';
 import { getExtensionAttributes } from 'Util/Product';
 import ProductWishlistButton from './ProductWishlistButton.component';
 
-export const mapStateToProps = state => ({
-    productsInWishlist: state.WishlistReducer.productsInWishlist,
-    isLoading: state.WishlistReducer.isLoading
-});
+export const mapStateToProps = middleware(
+    state => ({
+        productsInWishlist: state.WishlistReducer.productsInWishlist,
+        isLoading: state.WishlistReducer.isLoading
+    }),
+    'Component/ProductWishlistButton/Container/mapStateToProps'
+);
 
-export const mapDispatchToProps = dispatch => ({
-    addProductToWishlist: wishlistItem => WishlistDispatcher.addItemToWishlist(dispatch, wishlistItem),
-    removeProductFromWishlist: options => WishlistDispatcher.removeItemFromWishlist(dispatch, options),
-    showNotification: (type, message) => dispatch(showNotification(type, message))
-});
+export const mapDispatchToProps = middleware(
+    dispatch => ({
+        addProductToWishlist: wishlistItem => WishlistDispatcher.addItemToWishlist(dispatch, wishlistItem),
+        removeProductFromWishlist: options => WishlistDispatcher.removeItemFromWishlist(dispatch, options),
+        showNotification: (type, message) => dispatch(showNotification(type, message))
+    }),
+    'Component/ProductWishlistButton/Container/mapDispatchToProps'
+);
 
 export const ERROR_CONFIGURABLE_NOT_PROVIDED = 'ERROR_CONFIGURABLE_NOT_PROVIDED';
 

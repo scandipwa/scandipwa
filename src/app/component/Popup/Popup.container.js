@@ -19,16 +19,22 @@ import { POPUP } from 'Component/Header';
 
 import Popup from './Popup.component';
 
-export const mapStateToProps = state => ({
-    activeOverlay: state.OverlayReducer.activeOverlay,
-    areOtherOverlaysOpen: state.OverlayReducer.areOtherOverlaysOpen,
-    payload: state.PopupReducer.popupPayload
-});
+export const mapStateToProps = middleware(
+    state => ({
+        activeOverlay: state.OverlayReducer.activeOverlay,
+        areOtherOverlaysOpen: state.OverlayReducer.areOtherOverlaysOpen,
+        payload: state.PopupReducer.popupPayload
+    }),
+    'Component/Popup/Container/mapStateToProps'
+);
 
-export const mapDispatchToProps = dispatch => ({
-    hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state))
-});
+export const mapDispatchToProps = middleware(
+    dispatch => ({
+        hideActiveOverlay: () => dispatch(hideActiveOverlay()),
+        changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state))
+    }),
+    'Component/Popup/Container/mapDispatchToProps'
+);
 
 export class PopupContainer extends ExtensiblePureComponent {
     static propTypes = {
