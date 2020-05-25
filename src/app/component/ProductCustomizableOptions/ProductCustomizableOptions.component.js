@@ -172,12 +172,11 @@ export default class ProductCustomizableOptionsComponent extends PureComponent {
             dropdownValues,
             fieldValues,
             areaValues,
-            fileValues,
             option_id,
             required
         } = option;
 
-        if (fieldValues || areaValues || fileValues) {
+        if (fieldValues || areaValues) {
             // eslint-disable-next-line fp/no-let
             let optionPrice;
 
@@ -186,9 +185,6 @@ export default class ProductCustomizableOptionsComponent extends PureComponent {
                 optionPrice = price;
             } else if (areaValues) {
                 const { price } = areaValues;
-                optionPrice = price;
-            } else if (fileValues) {
-                const { price } = fileValues;
                 optionPrice = price;
             }
 
@@ -204,9 +200,6 @@ export default class ProductCustomizableOptionsComponent extends PureComponent {
                     ) }
                     { areaValues && (
                         this.renderOptionAreaField(areaValues, option_id, required)
-                    ) }
-                    { fileValues && (
-                        this.renderOptionFile(fileValues, option_id, required)
                     ) }
                 </ExpandableContent>
             );
