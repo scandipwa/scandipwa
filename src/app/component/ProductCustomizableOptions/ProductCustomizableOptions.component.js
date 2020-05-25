@@ -1,3 +1,4 @@
+/* eslint-disable fp/no-let */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -38,11 +39,17 @@ export default class ProductCustomizableOptionsComponent extends PureComponent {
         areaValue: ''
     };
 
-    onChange = (selectedDropdownValue, option_id) => {
+    onChange = (selectedValue, option_id) => {
         const { setSelectedDropdownValue } = this.props;
-        this.setState({ selectedDropdownValue });
+        const { selectedDropdownValue } = this.state;
 
-        setSelectedDropdownValue(selectedDropdownValue, option_id);
+        if (selectedValue === selectedDropdownValue) {
+            this.setState({ selectedDropdownValue: 0 });
+            setSelectedDropdownValue();
+        } else {
+            this.setState({ selectedDropdownValue: selectedValue });
+            setSelectedDropdownValue(selectedValue, option_id);
+        }
     };
 
     updateFieldValue = (value, id) => {
@@ -70,19 +77,21 @@ export default class ProductCustomizableOptionsComponent extends PureComponent {
                   id="customizable-options-area"
                   name="customizable-options-area"
                   value={ areaValue }
-                  maxLength={ max_characters }
-                    /* eslint-disable-next-line react/jsx-no-bind */
+                  maxLength={ max_characters > 0 ? max_characters : null }
+                  /* eslint-disable-next-line react/jsx-no-bind */
                   onChange={ value => this.updateAreaFieldValue(value, id) }
                 />
                 { isRequired && (
                     this.renderRequired()
                 ) }
-                <div
-                  block="ProductCustomizableOptions"
-                  elem="Information"
-                >
-                    { __('Maximum %s characters', max_characters) }
-                </div>
+                { max_characters > 0 && (
+                    <div
+                      block="ProductCustomizableOptions"
+                      elem="Information"
+                    >
+                        { __('Maximum %s characters', max_characters) }
+                    </div>
+                ) }
             </>
         );
     }
@@ -97,7 +106,7 @@ export default class ProductCustomizableOptionsComponent extends PureComponent {
                   id="customizable-options-field"
                   name="customizable-options-field"
                   type="text"
-                  maxLength={ max_characters }
+                  maxLength={ max_characters > 0 ? max_characters : null }
                   value={ fieldValue }
                   /* eslint-disable-next-line react/jsx-no-bind */
                   onChange={ value => this.updateFieldValue(value, id) }
@@ -105,12 +114,14 @@ export default class ProductCustomizableOptionsComponent extends PureComponent {
                 { isRequired && (
                     this.renderRequired()
                 ) }
-                <div
-                  block="ProductCustomizableOptions"
-                  elem="Information"
-                >
-                    { __('Maximum %s characters', max_characters) }
-                </div>
+                { max_characters > 0 && (
+                    <div
+                      block="ProductCustomizableOptions"
+                      elem="Information"
+                    >
+                        { __('Maximum %s characters', max_characters) }
+                    </div>
+                ) }
             </>
         );
     }
@@ -126,6 +137,7 @@ export default class ProductCustomizableOptionsComponent extends PureComponent {
               name="customizable-options-dropdown"
               type="select"
               mix={ { block: 'CustomizableOptions', elem: 'Select' } }
+              placeholder={ __('Choose Option') }
               selectOptions={ dropdownOptions }
               value={ selectedDropdownValue }
               /* eslint-disable-next-line react/jsx-no-bind */
@@ -136,13 +148,19 @@ export default class ProductCustomizableOptionsComponent extends PureComponent {
 
     renderOptionCheckboxValues(value, option_id) {
         const { setSelectedCheckboxValues } = this.props;
-        const { option_type_id, title, price } = value;
+        const {
+            option_type_id,
+            title,
+            price,
+            price_type
+        } = value;
+        const labelBold = price_type === 'PERCENT' ? `${ price }%` : `${ formatCurrency() }${ price }`;
 
         return (
             <Field
               type="checkbox"
               label={ __(title) }
-              labelBold={ `${ formatCurrency() }${ price }` }
+              labelBold={ labelBold }
               key={ option_type_id }
               id={ `option-${ option_type_id }` }
               name={ `option-${ option_type_id }` }
@@ -177,21 +195,25 @@ export default class ProductCustomizableOptionsComponent extends PureComponent {
         } = option;
 
         if (fieldValues || areaValues) {
-            // eslint-disable-next-line fp/no-let
             let optionPrice;
+            let priceType;
 
             if (fieldValues) {
-                const { price } = fieldValues;
+                const { price, price_type } = fieldValues;
                 optionPrice = price;
+                priceType = price_type === 'PERCENT';
             } else if (areaValues) {
-                const { price } = areaValues;
+                const { price, price_type } = areaValues;
                 optionPrice = price;
+                priceType = price_type === 'PERCENT';
             }
+
+            const additionalTitle = priceType ? `${ optionPrice }%` : `${ formatCurrency }${ optionPrice }`;
 
             return (
                 <ExpandableContent
                   heading={ `${ __(title) } + ` }
-                  headingAdditional={ `${ formatCurrency() }${ optionPrice }` }
+                  headingAdditional={ additionalTitle }
                   mix={ { block: 'ProductCustomizableOptions', elem: 'Content' } }
                   key={ option_id }
                 >

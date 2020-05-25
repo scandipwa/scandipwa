@@ -31,8 +31,7 @@ export class ProductCustomizableOptionsContainer extends PureComponent {
         selectedCheckboxValues: [],
         selectedDropdownOptions: [],
         selectedFieldValue: [],
-        selectedAreaValue: [],
-        files: []
+        selectedAreaValue: []
     };
 
     containerFunctions = {
@@ -43,12 +42,6 @@ export class ProductCustomizableOptionsContainer extends PureComponent {
         setSelectedCheckboxValues: this.setSelectedCheckboxValues.bind(this)
     };
 
-    constructor(props) {
-        super(props);
-
-        this.fileFormRef = createRef();
-    }
-
     componentDidUpdate(prevProps, prevState) {
         const { options } = this.props;
         const { options: prevOptions } = prevProps;
@@ -56,15 +49,13 @@ export class ProductCustomizableOptionsContainer extends PureComponent {
             selectedCheckboxValues,
             selectedDropdownOptions,
             selectedFieldValue,
-            selectedAreaValue,
-            files
+            selectedAreaValue
         } = this.state;
         const {
             selectedCheckboxValues: prevSelectedCheckboxValues,
             selectedDropdownOptions: prevSelectedDropdownOptions,
             selectedFieldValue: prevFieldValue,
-            selectedAreaValue: prevAreaValue,
-            files: prevFiles
+            selectedAreaValue: prevAreaValue
         } = prevState;
 
         if (options) {
@@ -81,16 +72,11 @@ export class ProductCustomizableOptionsContainer extends PureComponent {
 
         if (selectedFieldValue !== prevFieldValue
             || selectedAreaValue !== prevAreaValue
-            || files !== prevFiles
             || selectedDropdownOptions !== prevSelectedDropdownOptions
         ) {
             this.updateSelectedOptions();
         }
     }
-
-    containerProps = () => ({
-        fileFormRef: this.fileFormRef
-    });
 
     stopLoading() {
         this.setState({ isLoading: false });
@@ -113,8 +99,7 @@ export class ProductCustomizableOptionsContainer extends PureComponent {
         const {
             selectedDropdownOptions,
             selectedFieldValue,
-            selectedAreaValue,
-            files
+            selectedAreaValue
         } = this.state;
         const customizable_options = [];
 
@@ -128,12 +113,6 @@ export class ProductCustomizableOptionsContainer extends PureComponent {
 
         if (selectedDropdownOptions.length) {
             selectedDropdownOptions.map(item => customizable_options.push(item));
-        }
-
-        if (files.length) {
-            // const tests = await encodeFormFiles(newFiles);
-            // const { encoded_file } = tests[0];
-            files.map(item => customizable_options.push(item));
         }
 
         getSelectedCustomizableOptions(customizable_options);
@@ -185,9 +164,13 @@ export class ProductCustomizableOptionsContainer extends PureComponent {
         }
     }
 
-    setSelectedDropdownValue(value, option_id) {
+    setSelectedDropdownValue(value = null, option_id) {
         const { options } = this.props;
         const optionData = [];
+
+        if (!value) {
+            return this.setState({ selectedDropdownOptions: [] });
+        }
 
         options.map(({ dropdownValues }) => {
             if (dropdownValues) {
@@ -198,31 +181,26 @@ export class ProductCustomizableOptionsContainer extends PureComponent {
 
                     return null;
                 });
-
-                this.setState({ selectedDropdownOptions: optionData });
             }
 
             return null;
         });
+
+        return this.setState({ selectedDropdownOptions: optionData });
     }
 
     getDropdownOptions(values) {
         const data = [];
 
-        data.push({
-            id: 0,
-            name: 'Choose Option',
-            value: 0,
-            label: 'Choose Option'
-        });
-
-        values.map(({ option_type_id, title, price }) => (
+        values.map(({
+            option_type_id, title, price, price_type
+        }) => (
             data.push({
                 id: option_type_id,
                 name: title,
                 value: price,
                 label: `${ title } + `,
-                labelBold: `${ formatCurrency() }${ price }`
+                labelBold: price_type === 'PERCENT' ? `${ price }%` : `${ formatCurrency() }${ price }`
             })
         ));
 

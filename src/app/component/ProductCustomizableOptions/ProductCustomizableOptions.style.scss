@@ -42,7 +42,13 @@
     &-ExpandableContentContent {
         &_isContentExpanded {
             @include before-desktop {
-                padding: 0 1rem 1.5rem;
+                padding: 0 1rem 1rem;
+            }
+
+            .Field {
+                &:first-child {
+                    margin-top: 0;
+                }
             }
         }
     }

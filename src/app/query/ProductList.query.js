@@ -572,7 +572,7 @@ export class ProductListQuery {
             ]);
     }
 
-    _getCustomizableFieldValueFields(alias) {
+    _getCustomizableTextValueFields(alias) {
         return new Field('value')
             .addFieldList([
                 'price',
@@ -586,7 +586,7 @@ export class ProductListQuery {
     _getCustomizableAreaOption() {
         return new Fragment('CustomizableAreaOption')
             .addFieldList([
-                this._getCustomizableFieldValueFields('areaValues'),
+                this._getCustomizableTextValueFields('areaValues'),
                 'product_sku'
             ]);
     }
@@ -594,7 +594,7 @@ export class ProductListQuery {
     _getCustomizableFieldOption() {
         return new Fragment('CustomizableFieldOption')
             .addFieldList([
-                this._getCustomizableFieldValueFields('fieldValues'),
+                this._getCustomizableTextValueFields('fieldValues'),
                 'product_sku'
             ]);
     }
