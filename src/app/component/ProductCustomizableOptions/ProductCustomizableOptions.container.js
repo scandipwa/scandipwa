@@ -216,15 +216,15 @@ export class ProductCustomizableOptionsContainer extends PureComponent {
             label: 'Choose Option'
         });
 
-        values.map(({ option_type_id, title, price }) => {
+        values.map(({ option_type_id, title, price }) => (
             data.push({
                 id: option_type_id,
                 name: title,
                 value: price,
                 label: `${ title } + `,
                 labelBold: `${ formatCurrency() }${ price }`
-            });
-        });
+            })
+        ));
 
         return data;
     }
