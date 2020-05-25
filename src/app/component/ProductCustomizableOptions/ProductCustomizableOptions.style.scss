@@ -39,6 +39,14 @@
         margin-top: 4px;
     }
 
+    &-ExpandableContentContent {
+        &_isContentExpanded {
+            @include before-desktop {
+                padding: 0 1rem 1.5rem;
+            }
+        }
+    }
+
     &-ExpandableContentHeading {
         @include desktop {
             font-weight: normal;
