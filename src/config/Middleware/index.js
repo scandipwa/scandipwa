@@ -58,8 +58,6 @@ function middleware(Class, namespace) {
     Class.prototype.__namespace__ = namespace;
 
     const applyHandler = function (origFunction, thisArg, originalArgs) {
-        const memberName = origFunction.prototype.constructor.name;
-
         const memberPluginsApply = window.plugins?.[namespace]?.['function']?.['apply'];
         if (memberPluginsApply && !Array.isArray(memberPluginsApply)) {
             throw new Error(`Expected Array in function/apply config section for ${namespace}`);
@@ -76,7 +74,7 @@ function middleware(Class, namespace) {
                 getHandlerErrorText(origFunction.prototype.constructor.name, null, namespace)
             ),
             thisArg
-        )();
+        )(...originalArgs);
     };
 
     const getHandler = function (target, memberName, rec) {
