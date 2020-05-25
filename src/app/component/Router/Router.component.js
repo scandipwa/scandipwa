@@ -31,7 +31,7 @@ import OfflineNotice from 'Component/OfflineNotice';
 import NavigationTabs from 'Component/NavigationTabs';
 import NewVersionPopup from 'Component/NewVersionPopup';
 import NotificationList from 'Component/NotificationList';
-import { history } from 'Component/App/App.component';
+import history from 'Util/History';
 
 // suppress prop-types warning on Route component when using with React.lazy
 // until react-router-dom@4.4.0 or higher version released

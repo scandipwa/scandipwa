@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import { history } from 'Component/App/App.component';
+import history from 'Util/History';
 import { PDP } from 'Component/Header';
 import { MetaDispatcher } from 'Store/Meta';
 import { getVariantIndex } from 'Util/Product';

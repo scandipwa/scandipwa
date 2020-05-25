@@ -13,13 +13,10 @@ import { Provider } from 'react-redux';
 import { Provider as UnstatedProvider } from 'unstated';
 
 import store from 'Store';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { createBrowserHistory } from 'history';
 import Router from 'Component/Router';
 import SomethingWentWrong from 'Route/SomethingWentWrong';
 import SharedTransition from 'Component/SharedTransition';
-
-export const history = createBrowserHistory({ basename: '/' });
+export { history } from 'Util/History';
 
 export class App extends ExtensiblePureComponent {
     productionFunctions = [
