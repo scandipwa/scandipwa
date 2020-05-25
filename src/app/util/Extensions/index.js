@@ -1,4 +1,4 @@
-/* eslint-disable no-param-reassign */
+/* eslint-disable */
 
 // eslint-disable-next-line import/prefer-default-export
 export const extensions = [];
@@ -7,6 +7,36 @@ export const extensions = [];
 // See config/loaders/extension-import-injector
 // * ScandiPWA extension importing magic comment! */
 
+const handlerMap = {
+    'class': [ 'get', 'construct' ],
+    'instance': [ 'get' ],
+    'function': [ 'apply' ]
+};
+const handlerTypes = [...new Set(Object.values(handlerMap).flat())];
+const targetTypes = Object.keys(handlerMap);
+
+function validateTargetType(targetType) {
+    if (!targetTypes.includes(targetType)) {
+        throw Error(`Unexpected target type ${targetType}, expected one of [${
+            targetTypes.join(', ')
+        }]`);
+    }
+}
+
+function validateHandlerType(handlerType) {
+    if (!handlerTypes.includes(handlerType)) {
+        throw Error(`Unexpected handler type ${handlerType}, expected one of [${
+            handlerTypes.join(', ')
+        }]`);
+    }
+}
+
+function validateHandlerForTarget(targetType, handlerType) {
+    if (!handlerMap[targetType].includes(handlerType)) {
+        throw Error(`Unexpected handler type ${handlerType} for ${targetType}, expected one of [${handlerMap[targetType].join(', ')}]`);
+    }
+}
+
 window.plugins = extensions.reduce(
     (overallConfig, extension) => {
         Object.entries(extension).forEach(([namespace, plugins]) => {
@@ -14,23 +44,15 @@ window.plugins = extensions.reduce(
                 overallConfig[namespace] = {};
             }
             Object.entries(plugins).forEach(([targetType, handlerPlugins]) => {
-                // Validate target type
-                if (!(targetType === 'instance' || targetType === 'class')) {
-                    throw Error(`Expected plugin target type 'instance' or 'class', got ${targetType}`);
-                }
+                validateTargetType(targetType);
+
                 if (!overallConfig[namespace][targetType]) {
                     overallConfig[namespace][targetType] = {};
                 }
                 Object.entries(handlerPlugins).forEach(([handlerType, membersPlugins]) => {
-                    // Validate handler type
-                    if (!(handlerType === 'get' || handlerType === 'construct')) {
-                        throw Error(`Expected plugin handler type 'get' or 'construct', got ${handlerType}`);
-                    }
-                    if (targetType === 'instance' && handlerType !== 'get') {
-                        throw Error(
-                            `Expected handler type 'get' on target type 'instance', got ${handlerType}`
-                        );
-                    }
+                    validateHandlerType(handlerType);
+                    validateHandlerForTarget(targetType, handlerType);
+
                     if (!overallConfig[namespace][targetType][handlerType]) {
                         overallConfig[namespace][targetType][handlerType] = {};
                     }
