@@ -60,7 +60,11 @@ function middleware(Class, namespace) {
     const applyHandler = function (origFunction, thisArg, originalArgs) {
         const memberName = origFunction.prototype.constructor.name;
 
-        const memberPluginsApply = window.plugins?.[namespace]?.['function']?.['apply']?.[memberName];
+        const memberPluginsApply = window.plugins?.[namespace]?.['function']?.['apply'];
+        if (memberPluginsApply && !Array.isArray(memberPluginsApply)) {
+            throw new Error(`Expected Array in function/apply config section for ${namespace}`);
+        }
+
         if (!memberPluginsApply) {
             return origFunction.apply(thisArg, originalArgs);
         }
@@ -138,20 +142,20 @@ function middleware(Class, namespace) {
         Object.defineProperty(
             handler,
             'apply',
-            applyHandler
+            { value: applyHandler }
         );
     } else {
         // Get handler for members - intercepts `get` calls, meant for class static members
         Object.defineProperty(
             handler,
             'get',
-            getHandler
+            { value: getHandler }
         );
         // Construct handler for classes - intercepts `new` operator calls, changes properties
         Object.defineProperty(
             handler,
             'construct',
-            constructHandler
+            { value: constructHandler }
         );
     }
 

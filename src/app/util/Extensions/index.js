@@ -54,16 +54,30 @@ window.plugins = extensions.reduce(
                     validateHandlerForTarget(targetType, handlerType);
 
                     if (!overallConfig[namespace][targetType][handlerType]) {
-                        overallConfig[namespace][targetType][handlerType] = {};
-                    }
-                    Object.entries(membersPlugins).forEach(([memberName, memberPlugins]) => {
-                        if (!overallConfig[namespace][targetType][handlerType][memberName]) {
-                            overallConfig[namespace][targetType][handlerType][memberName] = [];
+                        switch (handlerType) {
+                        // Handle reduced apply plugin config structure
+                        case 'apply':
+                            overallConfig[namespace][targetType][handlerType] = [];
+                            membersPlugins.forEach((memberPlugin) => {
+                                overallConfig[namespace][targetType][handlerType].push(memberPlugin);
+                            })
+
+                            break;
+                        default:
+                            overallConfig[namespace][targetType][handlerType] = {};
+                            Object.entries(membersPlugins).forEach(([memberName, memberPlugins]) => {
+                                if (!overallConfig[namespace][targetType][handlerType][memberName]) {
+                                    overallConfig[namespace][targetType][handlerType][memberName] = [];
+                                }
+                                memberPlugins.forEach((memberPlugin) => {
+                                    overallConfig[namespace][targetType][handlerType][memberName].push(memberPlugin);
+                                });
+                            });
+
+                            break;
                         }
-                        memberPlugins.forEach((memberPlugin) => {
-                            overallConfig[namespace][targetType][handlerType][memberName].push(memberPlugin);
-                        });
-                    });
+                    }
+
                 });
             });
         });
