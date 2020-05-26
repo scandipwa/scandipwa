@@ -212,6 +212,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
 
         return {
             isClearEnabled,
+            showMyAccountLogin: false,
             ...this.handleMobileRouteChange(history)
         };
     }

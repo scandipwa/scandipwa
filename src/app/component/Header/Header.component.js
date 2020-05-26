@@ -46,6 +46,7 @@ export const CART_OVERLAY = 'cart_overlay';
 export const CART_EDITING = 'cart_editing';
 export const CHECKOUT = 'checkout';
 export const CMS_PAGE = 'cms-page';
+export const MY_ACCOUNT = 'my-account';
 
 export default class Header extends NavigationAbstract {
     static propTypes = {

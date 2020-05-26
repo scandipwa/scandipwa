@@ -22,6 +22,7 @@ const QUERY_TYPE = 'query';
  * @return {String} JSON String, format: `{"query":"{alias: queryName (attr:key) { field1, field2 }}"}`
  */
 const prepareDocument = (queries) => {
+    const args = [];
     const querySelections = [];
     const variableDefinitions = [];
     const variableAssignments = queries.reduce((variableAssignmentMap, querySelection) => {
@@ -30,7 +31,7 @@ const prepareDocument = (queries) => {
             return {};
         }
 
-        querySelection.build();
+        querySelection.build(args);
         querySelections.push(querySelection.toString());
         variableDefinitions.push(...querySelection.variableDefinitions);
 
