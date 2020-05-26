@@ -11,14 +11,28 @@
 
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-
 import Link from 'Component/Link';
+
 import './CheckoutSuccess.style';
 
 export default class CheckoutSuccess extends PureComponent {
     static propTypes = {
         orderID: PropTypes.string.isRequired
     };
+
+    renderButtons() {
+        return (
+            <div block="CheckoutSuccess" elem="ButtonWrapper">
+                <Link
+                  block="Button"
+                  mix={ { block: 'CheckoutSuccess', elem: 'ContinueButton' } }
+                  to="/"
+                >
+                    { __('Continue shopping') }
+                </Link>
+            </div>
+        );
+    }
 
     render() {
         const { orderID } = this.props;
@@ -27,15 +41,7 @@ export default class CheckoutSuccess extends PureComponent {
             <div block="CheckoutSuccess">
                 <h3>{ __('Your order # is: %s', orderID) }</h3>
                 <p>{ __('We`ll email you an order confirmation with details and tracking info.') }</p>
-                <div block="CheckoutSuccess" elem="ButtonWrapper">
-                    <Link
-                      block="Button"
-                      mix={ { block: 'CheckoutSuccess', elem: 'ContinueButton' } }
-                      to="/"
-                    >
-                        { __('Continue shopping') }
-                    </Link>
-                </div>
+                { this.renderButtons() }
             </div>
         );
     }
