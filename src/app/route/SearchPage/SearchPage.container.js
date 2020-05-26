@@ -98,6 +98,10 @@ export class SearchPageContainer extends CategoryPageContainer {
 
         if (query !== prevQuery) {
             this._updateBreadcrumbs();
+        }
+
+        if (query !== prevQuery) {
+            this._updateBreadcrumbs();
 
         }
         this._updateData(prevProps);
