@@ -32,7 +32,7 @@ export const SHIPPING_STEP = 'SHIPPING_STEP';
 export const BILLING_STEP = 'BILLING_STEP';
 export const DETAILS_STEP = 'DETAILS_STEP';
 
-const CHECKOUT_URL = '/checkout';
+export const CHECKOUT_URL = '/checkout';
 
 class Checkout extends PureComponent {
     static propTypes = {
@@ -71,13 +71,13 @@ class Checkout extends PureComponent {
     stepMap = {
         [SHIPPING_STEP]: {
             title: __('Shipping step'),
-            url: '/shipping-step',
+            url: '/shipping',
             render: this.renderShippingStep.bind(this),
             areTotalsVisible: true
         },
         [BILLING_STEP]: {
             title: __('Billing step'),
-            url: '/billing-step',
+            url: '/billing',
             render: this.renderBillingStep.bind(this),
             areTotalsVisible: true
         },
