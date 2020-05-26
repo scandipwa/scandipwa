@@ -18,7 +18,9 @@
     &-Content {
         .Field {
             &-SelectWrapper {
-                max-width: 185px;
+                @include desktop {
+                    max-width: 185px;
+                }
             }
         }
     }

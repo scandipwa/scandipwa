@@ -96,7 +96,7 @@ class ProductCustomizableOptionContainer extends PureComponent {
             this.setState({ selectedDropdownValue: 0 });
         } else {
             setSelectedDropdownValue(value, option);
-            this.setState({ selectedDropdownValue: value });
+            this.setState({ selectedDropdownValue: parseInt(value, 10) });
         }
     }
 

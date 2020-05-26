@@ -11,11 +11,12 @@
 
 import { PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
+import { OptionsType } from 'Type/ProductList';
 import ProductCustomizableOptions from './ProductCustomizableOptions.component';
 
 class ProductCustomizableOptionsContainer extends PureComponent {
     static propTypes = {
-        options: PropTypes.array,
+        options: OptionsType,
         getSelectedCustomizableOptions: PropTypes.func.isRequired
     };
 
