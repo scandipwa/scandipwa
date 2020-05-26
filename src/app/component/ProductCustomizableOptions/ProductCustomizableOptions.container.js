@@ -144,7 +144,8 @@ class ProductCustomizableOptionsContainer extends PureComponent {
             return this.setState({ selectedDropdownOptions: filteredItems.concat(optionData) });
         }
 
-        return this.setState({ selectedDropdownOptions:
+        return this.setState({
+            selectedDropdownOptions:
                 [...selectedDropdownOptions, optionData]
         });
     }
