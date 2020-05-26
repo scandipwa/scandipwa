@@ -207,7 +207,6 @@ export default class Draggable extends PureComponent {
             handleFocus,
             handleKey,
             draggableRef,
-            onClick,
             mix
         } = this.props;
 
