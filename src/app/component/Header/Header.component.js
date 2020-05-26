@@ -392,9 +392,8 @@ export default class Header extends NavigationAbstract {
                 >
                     <button
                       onClick={ () => {
-                          onMinicartButtonClick();
-                          if (name === CART) {
-                              onMinicartOutsideClick();
+                          if (name !== CART_OVERLAY) {
+                            onMinicartButtonClick();
                           }
                       } }
                       aria-label="Minicart"

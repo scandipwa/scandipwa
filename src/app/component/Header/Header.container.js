@@ -259,13 +259,6 @@ export class HeaderContainer extends NavigationAbstractContainer {
         }
     }
 
-    goToDefaultHeaderState() {
-        const { setNavigationState } = this.props;
-        const state = this.getNavigationState(location.pathname);
-
-        setNavigationState(state);
-    }
-
     onSearchBarFocus() {
         const {
             setNavigationState,
@@ -439,7 +432,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
             navigationState: { name }
         } = this.props;
 
-        if (isMobile.any() || name !== CART) {
+        if (isMobile.any() || name !== CART_OVERLAY) {
             return;
         }
 

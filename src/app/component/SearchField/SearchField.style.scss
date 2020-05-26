@@ -37,6 +37,7 @@
     }
 
     &_isActive {
+        --search-bar-width: 30vw;
         --search-field-border-color: var(--primary-light-color);
     }
 
