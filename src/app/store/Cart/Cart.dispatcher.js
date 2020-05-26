@@ -100,10 +100,10 @@ export class CartDispatcher {
         const {
             product,
             quantity,
-            customizable_options,
-            customizable_options_multi
+            customizableOptionsData
         } = options;
         const { sku, type_id: product_type } = product;
+        const { customizableOptions, customizableOptionsMulti } = customizableOptionsData;
 
         const productToAdd = {
             sku,
@@ -111,7 +111,7 @@ export class CartDispatcher {
             quantity,
             product_option: {
                 extension_attributes: getExtensionAttributes(
-                    { ...product, customizable_options, customizable_options_multi }
+                    { ...product, customizableOptions, customizableOptionsMulti }
                 )
             }
         };

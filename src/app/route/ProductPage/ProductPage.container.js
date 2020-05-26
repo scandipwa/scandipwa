@@ -54,15 +54,12 @@ export class ProductPageContainer extends PureComponent {
     state = {
         configurableVariantIndex: -1,
         parameters: {},
-        requiredCustomizableOptions: [],
-        customizable_options: [],
-        customizable_options_multi: []
+        customizableOptionsData: {}
     };
 
     containerFunctions = {
         updateConfigurableVariant: this.updateConfigurableVariant.bind(this),
         getLink: this.getLink.bind(this),
-        getRequiredCustomizableOptions: this.getRequiredCustomizableOptions.bind(this),
         getSelectedCustomizableOptions: this.getSelectedCustomizableOptions.bind(this)
     };
 
@@ -140,18 +137,25 @@ export class ProductPageContainer extends PureComponent {
     componentDidUpdate(prevProps) {
         const {
             location: { pathname },
-            product: { id },
+            product: { id, options },
             isOnlyPlaceholder
         } = this.props;
 
         const {
             location: { pathname: prevPathname },
-            product: { id: prevId },
+            product: {
+                id: prevId,
+                options: prevOptions
+            },
             isOnlyPlaceholder: prevIsOnlyPlaceholder
         } = prevProps;
 
         if (pathname !== prevPathname || isOnlyPlaceholder !== prevIsOnlyPlaceholder) {
             this._requestProduct();
+        }
+
+        if (JSON.stringify(options) !== JSON.stringify(prevOptions)) {
+            this.getRequiredCustomizableOptions(options);
         }
 
         if (id !== prevId) {
@@ -179,15 +183,40 @@ export class ProductPageContainer extends PureComponent {
         return `${pathname}${query}`;
     }
 
-    getRequiredCustomizableOptions(values) {
-        this.setState({ requiredCustomizableOptions: values });
+    getRequiredCustomizableOptions(options) {
+        const { customizableOptionsData } = this.state;
+
+        if (!options) {
+            return [];
+        }
+
+        const requiredCustomizableOptions = options.reduce((acc, { option_id, required }) => {
+            if (required) {
+                acc.push(option_id);
+            }
+
+            return acc;
+        }, []);
+
+        return this.setState({
+            customizableOptionsData:
+                { ...customizableOptionsData, requiredCustomizableOptions }
+        });
     }
 
     getSelectedCustomizableOptions(values, updateArray = false) {
+        const { customizableOptionsData } = this.state;
+
         if (updateArray) {
-            this.setState({ customizable_options_multi: values });
+            this.setState({
+                customizableOptionsData:
+                    { ...customizableOptionsData, customizableOptionsMulti: values }
+            });
         } else {
-            this.setState({ customizable_options: values });
+            this.setState({
+                customizableOptionsData:
+                    { ...customizableOptionsData, customizableOptions: values }
+            });
         }
     }
 

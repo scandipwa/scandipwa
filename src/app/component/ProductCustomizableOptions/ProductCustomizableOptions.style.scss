@@ -10,8 +10,8 @@
  */
 
 :root {
-    --additional-information-color: #2c2c2c;
-    --required-text-color: #dc6d6d;
+    --customizable-options-additional-information-color: #2c2c2c;
+    --customizable-options-required-text-color: #dc6d6d;
 }
 
 .ProductCustomizableOptions {
@@ -21,22 +21,17 @@
                 max-width: 185px;
             }
         }
-
-        input {
-            max-width: 269px;
-            width: 100%;
-        }
     }
 
     &-Required {
-        color: var(--required-text-color);
+        color: var(--customizable-options-required-text-color);
         margin-top: .5rem;
     }
 
     &-Information {
-        color: var(--additional-information-color);
+        color: var(--customizable-options-additional-information-color);
         font-size: 11px;
-        margin-top: .4rem;
+        margin-top: .5rem;
     }
 
     &-ExpandableContentContent {
@@ -59,6 +54,14 @@
         }
 
         .ExpandableContent-HeadingAdditional {
+            font-weight: bold;
+        }
+    }
+
+    &-Heading {
+        font-weight: normal;
+
+        &Bold {
             font-weight: bold;
         }
     }

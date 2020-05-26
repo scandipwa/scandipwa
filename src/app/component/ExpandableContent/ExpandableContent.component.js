@@ -18,8 +18,7 @@ import './ExpandableContent.style';
 export default class ExpandableContent extends PureComponent {
     static propTypes = {
         isContentExpanded: PropTypes.bool,
-        heading: PropTypes.string,
-        headingAdditional: PropTypes.string,
+        heading: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
         subHeading: PropTypes.string,
         children: ChildrenType.isRequired,
         mix: MixType.isRequired,
@@ -38,7 +37,6 @@ export default class ExpandableContent extends PureComponent {
     static defaultProps = {
         subHeading: '',
         heading: '',
-        headingAdditional: '',
         isContentExpanded: false,
         onClick: null
     };
@@ -79,7 +77,6 @@ export default class ExpandableContent extends PureComponent {
         const { isContentExpanded } = this.state;
         const {
             heading,
-            headingAdditional,
             subHeading,
             mix
         } = this.props;
@@ -97,13 +94,11 @@ export default class ExpandableContent extends PureComponent {
                   elem="Heading"
                   mix={ { ...mix, elem: 'ExpandableContentHeading' } }
                 >
-                    <TextPlaceholder content={ heading } />
-                    <span
-                      block="ExpandableContent"
-                      elem="HeadingAdditional"
-                    >
-                        { headingAdditional }
-                    </span>
+                    { typeof heading === 'string' ? (
+                        <TextPlaceholder content={ heading } />
+                    ) : (
+                        heading
+                    ) }
                 </span>
                 <span
                   block="ExpandableContent"

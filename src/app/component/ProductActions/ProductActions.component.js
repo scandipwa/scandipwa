@@ -25,7 +25,7 @@ import ProductPrice from 'Component/ProductPrice';
 import { ProductType } from 'Type/ProductList';
 import AddToCart from 'Component/AddToCart';
 import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
-import { GROUPED, CONFIGURABLE } from 'Util/Product';
+import { GROUPED, CONFIGURABLE, SIMPLE } from 'Util/Product';
 import Field from 'Component/Field';
 import isMobile from 'Util/Mobile';
 import Html from 'Component/Html';
@@ -55,11 +55,8 @@ export default class ProductActions extends PureComponent {
         groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired,
         clearGroupedProductQuantity: PropTypes.func.isRequired,
         setGroupedProductQuantity: PropTypes.func.isRequired,
-        getRequiredCustomizableOptions: PropTypes.func.isRequired,
         getSelectedCustomizableOptions: PropTypes.func.isRequired,
-        requiredCustomizableOptions: PropTypes.array.isRequired,
-        customizable_options: PropTypes.array.isRequired,
-        customizable_options_multi: PropTypes.array.isRequired
+        customizableOptionsData: PropTypes.object.isRequired
     };
 
     static defaultProps = {
@@ -270,11 +267,10 @@ export default class ProductActions extends PureComponent {
     renderCustomizableOptions() {
         const {
             product: { type_id, options },
-            getRequiredCustomizableOptions,
             getSelectedCustomizableOptions
         } = this.props;
 
-        if (type_id === CONFIGURABLE || isMobile.any()) {
+        if (type_id !== SIMPLE || isMobile.any()) {
             return null;
         }
 
@@ -286,7 +282,6 @@ export default class ProductActions extends PureComponent {
             >
                 <ProductCustomizableOptions
                   options={ options }
-                  getRequiredCustomizableOptions={ getRequiredCustomizableOptions }
                   getSelectedCustomizableOptions={ getSelectedCustomizableOptions }
                 />
             </section>
@@ -326,9 +321,7 @@ export default class ProductActions extends PureComponent {
             product,
             quantity,
             groupedProductQuantity,
-            requiredCustomizableOptions,
-            customizable_options,
-            customizable_options_multi
+            customizableOptionsData
         } = this.props;
 
         return (
@@ -339,9 +332,7 @@ export default class ProductActions extends PureComponent {
               quantity={ quantity }
               groupedProductQuantity={ groupedProductQuantity }
               onProductValidationError={ this.onProductValidationError }
-              requiredCustomizableOptions={ requiredCustomizableOptions }
-              customizable_options={ customizable_options }
-              customizable_options_multi={ customizable_options_multi }
+              customizableOptionsData={ customizableOptionsData }
             />
         );
     }
@@ -439,7 +430,8 @@ export default class ProductActions extends PureComponent {
         const {
             product,
             quantity,
-            configurableVariantIndex
+            configurableVariantIndex,
+            customizableOptionsData
         } = this.props;
 
         return (
@@ -448,6 +440,7 @@ export default class ProductActions extends PureComponent {
               quantity={ quantity }
               configurableVariantIndex={ configurableVariantIndex }
               onProductValidationError={ this.onProductValidationError }
+              customizableOptionsData={ customizableOptionsData }
             />
         );
     }

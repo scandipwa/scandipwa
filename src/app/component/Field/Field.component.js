@@ -56,7 +56,7 @@ export default class Field extends PureComponent {
             CHECKBOX_TYPE,
             SELECT_TYPE
         ]).isRequired,
-        label: PropTypes.string,
+        label: PropTypes.oneOfType(PropTypes.string, PropTypes.object),
         message: PropTypes.string,
         placeholder: PropTypes.string,
         value: PropTypes.oneOfType([
@@ -80,7 +80,7 @@ export default class Field extends PureComponent {
                 PropTypes.number
             ]),
             disabled: PropTypes.bool,
-            label: PropTypes.string
+            label: PropTypes.oneOfType(PropTypes.string, PropTypes.object)
         })),
         isDisabled: PropTypes.bool,
         onChange: PropTypes.func,
@@ -100,7 +100,6 @@ export default class Field extends PureComponent {
             PropTypes.bool
         ]),
         renderLabelAfter: PropTypes.bool,
-        labelBold: PropTypes.string,
         maxLength: PropTypes.number
     };
 
@@ -127,7 +126,6 @@ export default class Field extends PureComponent {
         validation: [],
         skipValue: false,
         renderLabelAfter: false,
-        labelBold: '',
         maxLength: null
     };
 
@@ -501,7 +499,7 @@ export default class Field extends PureComponent {
                 />
                 <label htmlFor={ id } />
                 { renderLabelAfter && (
-                    this.renderLabelAfter()
+                    this.renderLabel()
                 ) }
             </>
         );
@@ -566,20 +564,16 @@ export default class Field extends PureComponent {
                     >
                         { placeholder && <option value="" label={ placeholder } /> }
                         { selectOptions.map(({
-                            id, value, disabled, label, labelBold
+                            id, value, disabled, label
                         }) => (
-                                <option
-                                  key={ id }
-                                  id={ id }
-                                  value={ value }
-                                  disabled={ disabled }
-                                >
-                                    { labelBold ? (
-                                        `${ label }${ labelBold }`
-                                    ) : (
-                                        label
-                                    ) }
-                                </option>
+                            <option
+                              key={ id }
+                              id={ id }
+                              value={ value }
+                              disabled={ disabled }
+                            >
+                                { label }
+                            </option>
                         )) }
                     </select>
                     <ul
@@ -589,7 +583,7 @@ export default class Field extends PureComponent {
                       mods={ { isExpanded } }
                     >
                         { selectOptions.map((options) => {
-                            const { id, label, labelBold } = options;
+                            const { id, label } = options;
 
                             return (
                                 <li
@@ -605,19 +599,7 @@ export default class Field extends PureComponent {
                                   onKeyPress={ () => this.handleSelectListOptionClick(options) }
                                   tabIndex={ isExpanded ? '0' : '-1' }
                                 >
-                                    { labelBold ? (
-                                        <>
-                                            <span>{ label }</span>
-                                            <span
-                                              block="Field"
-                                              elem="SelectOptionBold"
-                                            >
-                                                { labelBold }
-                                            </span>
-                                        </>
-                                    ) : (
-                                        label
-                                    ) }
+                                    { label }
                                 </li>
                             );
                         }) }
@@ -661,37 +643,6 @@ export default class Field extends PureComponent {
               htmlFor={ id }
             >
                 { label }
-            </label>
-        );
-    }
-
-    renderLabelAfter() {
-        const {
-            id,
-            label,
-            validation,
-            labelBold
-        } = this.props;
-        const isRequired = validation.includes('notEmpty');
-
-        if (!label) {
-            return null;
-        }
-
-        return (
-            <label
-              block="Field"
-              elem="Labels"
-              mods={ { isRequired } }
-              htmlFor={ id }
-            >
-                <span>{ `${ label } + ` }</span>
-                <span
-                  block="Field"
-                  elem="SelectOptionBold"
-                >
-                    { labelBold }
-                </span>
             </label>
         );
     }
