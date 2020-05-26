@@ -13,14 +13,17 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { history } from 'Component/App/App.component';
+import history from 'Util/History';
 import { hideActiveOverlay } from 'Store/Overlay';
 
 import CategorySubcategories from './CategorySubcategories.component';
 
-export const mapDispatchToProps = dispatch => ({
-    hideActiveOverlay: () => dispatch(hideActiveOverlay())
-});
+export const mapDispatchToProps = middleware(
+    dispatch => ({
+        hideActiveOverlay: () => dispatch(hideActiveOverlay())
+    }),
+    'Component/CategorySubcategories/Container/mapDispatchToProps'
+);
 
 export class CategorySubcategoriesContainer extends ExtensiblePureComponent {
     static propTypes = {

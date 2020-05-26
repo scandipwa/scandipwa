@@ -20,10 +20,13 @@ import { setQueryParams, getQueryParam } from 'Util/Url';
 
 import CategoryPriceRange from './CategoryPriceRange.component';
 
-export const mapStateToProps = state => ({
-    minPriceValue: state.ProductListInfoReducer.minPrice,
-    maxPriceValue: state.ProductListInfoReducer.maxPrice
-});
+export const mapStateToProps = middleware(
+    state => ({
+        minPriceValue: state.ProductListInfoReducer.minPrice,
+        maxPriceValue: state.ProductListInfoReducer.maxPrice
+    }),
+    'Component/CategoryPriceRange/Container/mapStateToProps'
+);
 
 export class CategoryPriceRangeContainer extends ExtensiblePureComponent {
     static propTypes = {

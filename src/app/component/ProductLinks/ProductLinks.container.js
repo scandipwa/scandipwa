@@ -6,9 +6,12 @@ import { ProductType } from 'Type/ProductList';
 
 import ProductLinks from './ProductLinks.component';
 
-export const mapStateToProps = state => ({
-    linkedProducts: state.LinkedProductsReducer.linkedProducts
-});
+export const mapStateToProps = middleware(
+    state => ({
+        linkedProducts: state.LinkedProductsReducer.linkedProducts
+    }),
+    'Component/ProductLinks/Container/mapStateToProps'
+);
 
 export class ProductLinksContainer extends ExtensiblePureComponent {
     static propTypes = {

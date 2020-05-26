@@ -16,13 +16,19 @@ import { ORDER_POPUP_ID } from 'Component/MyAccountOrderPopup/MyAccountOrderPopu
 import { orderType } from 'Type/Account';
 import MyAccountOrderTableRow from './MyAccountOrderTableRow.component';
 
-export const mapStateToProps = state => ({
-    currency_code: state.ConfigReducer.default_display_currency_code
-});
+export const mapStateToProps = middleware(
+    state => ({
+        currency_code: state.ConfigReducer.default_display_currency_code
+    }),
+    'Component/MyAccountOrderTableRow/Container/mapStateToProps'
+);
 
-export const mapDispatchToProps = dispatch => ({
-    showPopup: payload => dispatch(showPopup(ORDER_POPUP_ID, payload))
-});
+export const mapDispatchToProps = middleware(
+    dispatch => ({
+        showPopup: payload => dispatch(showPopup(ORDER_POPUP_ID, payload))
+    }),
+    'Component/MyAccountOrderTableRow/Container/mapDispatchToProps'
+);
 
 export class MyAccountOrderTableRowContainer extends ExtensiblePureComponent {
     static propTypes = {

@@ -20,9 +20,12 @@ import { customerType } from 'Type/Account';
 
 import MyAccountCustomerTable from './MyAccountCustomerTable.component';
 
-export const mapDispatchToProps = dispatch => ({
-    showPopup: payload => dispatch(showPopup(CUSTOMER_POPUP_ID, payload))
-});
+export const mapDispatchToProps = middleware(
+    dispatch => ({
+        showPopup: payload => dispatch(showPopup(CUSTOMER_POPUP_ID, payload))
+    }),
+    'Component/MyAccountCustomerTable/Container/mapDispatchToProps'
+);
 
 export class MyAccountCustomerTableContainer extends ExtensiblePureComponent {
     static propTypes = {

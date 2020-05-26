@@ -21,19 +21,25 @@ import { LocationType } from 'Type/Router';
 
 import CategoryFilterOverlay from './CategoryFilterOverlay.component';
 
-export const mapStateToProps = state => ({
-    isInfoLoading: state.ProductListInfoReducer.isLoading,
-    isProductsLoading: state.ProductListReducer.isLoading,
-    totalPages: state.ProductListReducer.totalPages
-});
+export const mapStateToProps = middleware(
+    state => ({
+        isInfoLoading: state.ProductListInfoReducer.isLoading,
+        isProductsLoading: state.ProductListReducer.isLoading,
+        totalPages: state.ProductListReducer.totalPages
+    }),
+    'Component/CategoryFilterOverlay/Container/mapStateToProps'
+);
 
-export const mapDispatchToProps = dispatch => ({
-    hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE)),
-    goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(BOTTOM_NAVIGATION_TYPE)),
-    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
-    changeNavigationState: state => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state))
-});
+export const mapDispatchToProps = middleware(
+    dispatch => ({
+        hideActiveOverlay: () => dispatch(hideActiveOverlay()),
+        goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE)),
+        goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(BOTTOM_NAVIGATION_TYPE)),
+        changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
+        changeNavigationState: state => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state))
+    }),
+    'Component/CategoryFilterOverlay/Container/mapDispatchToProps'
+);
 
 export class CategoryFilterOverlayContainer extends ExtensiblePureComponent {
     static propTypes = {

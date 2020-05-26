@@ -12,8 +12,11 @@
 import { connect } from 'react-redux';
 import DemoNotice from './DemoNotice.component';
 
-export const mapStateToProps = state => ({
-    isDemoNoticeEnabled: state.ConfigReducer.demo_notice
-});
+export const mapStateToProps = middleware(
+    state => ({
+        isDemoNoticeEnabled: state.ConfigReducer.demo_notice
+    }),
+    'Component/DemoNotice/Container/mapStateToProps'
+);
 
 export default connect(mapStateToProps)(DemoNotice);

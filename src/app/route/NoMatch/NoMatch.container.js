@@ -13,10 +13,13 @@ import { connect } from 'react-redux';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import NoMatch from './NoMatch.component';
 
-export const mapDispatchToProps = dispatch => ({
-    updateBreadcrumbs: (breadcrumbs) => {
-        BreadcrumbsDispatcher.update(breadcrumbs, dispatch);
-    }
-});
+export const mapDispatchToProps = middleware(
+    dispatch => ({
+        updateBreadcrumbs: (breadcrumbs) => {
+            BreadcrumbsDispatcher.update(breadcrumbs, dispatch);
+        }
+    }),
+    'Route/NoMatch/Container/mapDispatchToProps'
+);
 
 export default connect(null, mapDispatchToProps)(NoMatch);

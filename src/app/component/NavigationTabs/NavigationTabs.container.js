@@ -16,7 +16,7 @@ import { BOTTOM_NAVIGATION_TYPE, TOP_NAVIGATION_TYPE } from 'Store/Navigation/Na
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation';
 import { DEFAULT_HEADER_STATE } from 'Component/Header/Header.container';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay';
-import { history as browserHistory } from 'Component/App/App.component';
+import browserHistory from 'Util/History';
 
 import { debounce } from 'Util/Request';
 
@@ -28,20 +28,26 @@ import NavigationTabs, {
     CHECKOUT_TAB
 } from './NavigationTabs.component';
 
-export const mapStateToProps = state => ({
-    navigationState: state.NavigationReducer[BOTTOM_NAVIGATION_TYPE].navigationState,
-    headerState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
-    cartTotals: state.CartReducer.cartTotals
-});
+export const mapStateToProps = middleware(
+    state => ({
+        navigationState: state.NavigationReducer[BOTTOM_NAVIGATION_TYPE].navigationState,
+        headerState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
+        cartTotals: state.CartReducer.cartTotals
+    }),
+    'Component/NavigationTabs/Container/mapStateToProps'
+);
 
-export const mapDispatchToProps = dispatch => ({
-    showOverlay: overlayKey => dispatch(toggleOverlayByKey(overlayKey)),
-    hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    setNavigationState: stateName => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, stateName)),
-    setHeaderState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
-    goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE)),
-    goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(BOTTOM_NAVIGATION_TYPE))
-});
+export const mapDispatchToProps = middleware(
+    dispatch => ({
+        showOverlay: overlayKey => dispatch(toggleOverlayByKey(overlayKey)),
+        hideActiveOverlay: () => dispatch(hideActiveOverlay()),
+        setNavigationState: stateName => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, stateName)),
+        setHeaderState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
+        goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE)),
+        goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(BOTTOM_NAVIGATION_TYPE))
+    }),
+    'Component/NavigationTabs/Container/mapDispatchToProps'
+);
 
 export const DEFAULT_NAVIGATION_TABS_STATE = { name: MENU_TAB };
 

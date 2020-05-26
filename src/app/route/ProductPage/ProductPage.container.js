@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import { history } from 'Component/App/App.component';
+import history from 'Util/History';
 import { PDP } from 'Component/Header';
 import { MetaDispatcher } from 'Store/Meta';
 import { getVariantIndex } from 'Util/Product';
@@ -35,19 +35,25 @@ import {
 
 import ProductPage from './ProductPage.component';
 
-export const mapStateToProps = state => ({
-    isOffline: state.OfflineReducer.isOffline,
-    product: state.ProductReducer.product
-});
+export const mapStateToProps = middleware(
+    state => ({
+        isOffline: state.OfflineReducer.isOffline,
+        product: state.ProductReducer.product
+    }),
+    'Route/ProductPage/Container/mapStateToProps'
+);
 
-export const mapDispatchToProps = dispatch => ({
-    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
-    changeNavigationState: state => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
-    requestProduct: options => ProductDispatcher.handleData(dispatch, options),
-    setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig)),
-    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.updateWithProduct(breadcrumbs, dispatch),
-    updateMetaFromProduct: product => MetaDispatcher.updateWithProduct(product, dispatch)
-});
+export const mapDispatchToProps = middleware(
+    dispatch => ({
+        changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
+        changeNavigationState: state => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
+        requestProduct: options => ProductDispatcher.handleData(dispatch, options),
+        setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig)),
+        updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.updateWithProduct(breadcrumbs, dispatch),
+        updateMetaFromProduct: product => MetaDispatcher.updateWithProduct(product, dispatch)
+    }),
+    'Route/ProductPage/Container/mapDispatchToProps'
+);
 
 export class ProductPageContainer extends ExtensiblePureComponent {
     state = {

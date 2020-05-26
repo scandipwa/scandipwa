@@ -11,8 +11,11 @@
 import { connect } from 'react-redux';
 import Footer from './Footer.component';
 
-export const mapStateToProps = state => ({
-    copyright: state.ConfigReducer.copyright
-});
+export const mapStateToProps = middleware(
+    state => ({
+        copyright: state.ConfigReducer.copyright
+    }),
+    'Component/Footer/Container/mapStateToProps'
+);
 
 export default connect(mapStateToProps)(Footer);

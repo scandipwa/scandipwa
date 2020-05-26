@@ -23,15 +23,21 @@ import BrowserDatabase from 'Util/BrowserDatabase/BrowserDatabase';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 import MyAccountNewsletterSubscription from './MyAccountNewsletterSubscription.component';
 
-export const mapStateToProps = state => ({
-    customer: state.MyAccountReducer.customer
-});
+export const mapStateToProps = middleware(
+    state => ({
+        customer: state.MyAccountReducer.customer
+    }),
+    'Component/MyAccountNewsletterSubscription/Container/mapStateToProps'
+);
 
-export const mapDispatchToProps = dispatch => ({
-    updateCustomer: customer => dispatch(updateCustomerDetails(customer)),
-    showErrorNotification: error => dispatch(showNotification('error', error[0].message)),
-    showSuccessNotification: message => dispatch(showNotification('success', message))
-});
+export const mapDispatchToProps = middleware(
+    dispatch => ({
+        updateCustomer: customer => dispatch(updateCustomerDetails(customer)),
+        showErrorNotification: error => dispatch(showNotification('error', error[0].message)),
+        showSuccessNotification: message => dispatch(showNotification('success', message))
+    }),
+    'Component/MyAccountNewsletterSubscription/Container/mapDispatchToProps'
+);
 
 export class MyAccountNewsletterSubscriptionContainer extends ExtensiblePureComponent {
     static propTypes = {

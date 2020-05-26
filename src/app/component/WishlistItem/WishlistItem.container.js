@@ -20,12 +20,15 @@ import WishlistItem from './WishlistItem.component';
 
 export const UPDATE_WISHLIST_FREQUENCY = 1000; // (ms)
 
-export const mapDispatchToProps = dispatch => ({
-    showNotification: (type, message) => dispatch(showNotification(type, message)),
-    addProductToCart: options => CartDispatcher.addProductToCart(dispatch, options),
-    updateWishlistItem: options => WishlistDispatcher.updateWishlistItem(dispatch, options),
-    removeFromWishlist: options => WishlistDispatcher.removeItemFromWishlist(dispatch, options)
-});
+export const mapDispatchToProps = middleware(
+    dispatch => ({
+        showNotification: (type, message) => dispatch(showNotification(type, message)),
+        addProductToCart: options => CartDispatcher.addProductToCart(dispatch, options),
+        updateWishlistItem: options => WishlistDispatcher.updateWishlistItem(dispatch, options),
+        removeFromWishlist: options => WishlistDispatcher.removeItemFromWishlist(dispatch, options)
+    }),
+    'Component/WishlistItem/Container/mapDispatchToProps'
+);
 
 export class WishlistItemContainer extends ExtensiblePureComponent {
     static propTypes = {

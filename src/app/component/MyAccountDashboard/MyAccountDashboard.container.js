@@ -15,9 +15,12 @@ import { customerType } from 'Type/Account';
 
 import MyAccountDashboard from './MyAccountDashboard.component';
 
-export const mapStateToProps = state => ({
-    customer: state.MyAccountReducer.customer
-});
+export const mapStateToProps = middleware(
+    state => ({
+        customer: state.MyAccountReducer.customer
+    }),
+    'Component/MyAccountDashboard/Container/mapStateToProps'
+);
 
 export class MyAccountDashboardContainer extends ExtensiblePureComponent {
     static propTypes = {

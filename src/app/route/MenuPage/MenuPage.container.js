@@ -20,9 +20,12 @@ import isMobile from 'Util/Mobile';
 
 import './MenuPage.style';
 
-export const mapDispatchToProps = dispatch => ({
-    updateMeta: meta => dispatch(updateMeta(meta))
-});
+export const mapDispatchToProps = middleware(
+    dispatch => ({
+        updateMeta: meta => dispatch(updateMeta(meta))
+    }),
+    'Route/MenuPage/Container/mapDispatchToProps'
+);
 
 export class MenuPageContainer extends ExtensiblePureComponent {
     static propTypes = {
