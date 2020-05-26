@@ -116,14 +116,26 @@ export default class CartItem extends PureComponent {
 
         return (
             <div block="CartItem" elem="CustomizableOptionsWrapper">
-                { customizableOptions.map(({ label, values }) => (
-                    <div block="CartItem" elem="CustomizableOption">
-                        <div block="CartItem" elem="CustomizableOptionLabel">
+                { customizableOptions.map(({ label, values, id }) => (
+                    <div
+                      block="CartItem"
+                      elem="CustomizableOption"
+                      key={ id }
+                    >
+                        <div
+                          block="CartItem"
+                          elem="CustomizableOptionLabel"
+                          key={ `label-${ id }` }
+                        >
                             { `${ label }:` }
                         </div>
                         <div block="CartItem" elem="CustomizableOptionValues">
                             { values.map(({ label, value }) => (
-                                <div block="CartItem" elem="CustomizableOptionValue">
+                                <div
+                                  block="CartItem"
+                                  elem="CustomizableOptionValue"
+                                  key={ label }
+                                >
                                     { label || value }
                                 </div>
                             )) }

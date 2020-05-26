@@ -109,14 +109,14 @@
         display: flex;
 
         &:not(:first-child) {
-            margin-top: 5px;
+            margin-top: .5rem;
         }
     }
 
     &-CustomizableOptionLabel {
         align-self: center;
         font-weight: bold;
-        margin-right: 5px;
+        margin-right: .5rem;
     }
 
     &-Heading,
