@@ -60,6 +60,13 @@ export class NavigationAbstractContainer extends PureComponent {
         return this.routeMap[activeRoute] || this.default_state;
     }
 
+    goToDefaultHeaderState() {
+        const { setNavigationState } = this.props;
+        const state = this.getNavigationState(location.pathname);
+
+        setNavigationState(state);
+    }
+
     handleMobileUrlChange(history) {
         const { prevPathname } = this.state;
         const { pathname } = history;

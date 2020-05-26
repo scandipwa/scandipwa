@@ -19,6 +19,7 @@ import CartItem from 'Component/CartItem';
 import { TotalsType } from 'Type/MiniCart';
 import { formatCurrency } from 'Util/Price';
 import CmsBlock from 'Component/CmsBlock';
+import { CART_OVERLAY } from 'Component/Header';
 
 import './CartOverlay.style';
 
@@ -170,7 +171,7 @@ export default class CartOverlay extends PureComponent {
 
         return (
             <Overlay
-              id="cart"
+              id={ CART_OVERLAY }
               onVisible={ changeHeaderState }
               mix={ { block: 'CartOverlay' } }
             >
