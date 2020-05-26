@@ -554,18 +554,30 @@ export class ProductListQuery {
             this._getTierPricesField()
         ];
     }
-
+1
     _getTierPricesField() {
-        return new Field('tier_prices')
+        return new Field('price_tiers')
             .addFieldList(this._getTierPricesFields());
     }
 
     _getTierPricesFields() {
         return [
-            'qty',
-            'value',
-            'percentage_value'
+            this._getDiscountField(),
+            this._getFinalPriceField(),
+            'quantity'
         ];
+    }
+
+    _getDiscountField() {
+        return new Field('discount')
+            .addField('amount_off')
+            .addField('percent_off');
+    }
+
+    _getFinalPriceField() {
+        return new Field('final_price')
+            .addField('currency')
+            .addField('value');
     }
 
     _getConfigurableProductFragment() {
