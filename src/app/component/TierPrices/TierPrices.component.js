@@ -4,6 +4,8 @@ import { formatCurrency, roundPrice } from 'Util/Price';
 import { ProductType } from 'Type/ProductList';
 import './TierPrices.style';
 
+const TIER_PRICE_QUANTITY_THRESHOLD = 1;
+
 class TierPrices extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
@@ -14,36 +16,30 @@ class TierPrices extends PureComponent {
         isLowestPrice: false
     };
 
-    renderDetailedTierPrice = ({ qty, value, percentage_value }) => {
-        const {
-            product: {
-                price: {
-                    regularPrice: {
-                        amount: { currency, value: startingValue }
-                    }
-                }
-            }
-        } = this.props;
-
-        // TODO: fix Magento not retrieving percentage value on BE
-        if (!percentage_value) {
-            // eslint-disable-next-line no-param-reassign
-            percentage_value = 1 - (value / startingValue);
-        }
+    renderDetailedTierPrice = ({
+        discount: {
+            percent_off
+        },
+        final_price: {
+            value,
+            currency
+        },
+        quantity
+    }) => {
+        if (quantity <= TIER_PRICE_QUANTITY_THRESHOLD) return;
 
         return (
-            <li block="TierPrices" elem="Item" key={ qty }>
+            <li block="TierPrices" elem="Item" key={ quantity }>
                 { __(
                     'Buy %s for %s%s each and ',
-                    qty,
+                    quantity,
                     formatCurrency(currency),
                     roundPrice(value)
                 ) }
                 <strong>
                     { __(
                         'save %s%',
-                        // eslint-disable-next-line no-magic-numbers
-                        Math.round(percentage_value * 100)
+                        Math.round(percent_off)
                     ) }
                 </strong>
             </li>
@@ -53,7 +49,7 @@ class TierPrices extends PureComponent {
     renderLowestTierPrice() {
         const {
             product: {
-                tier_prices,
+                price_tiers,
                 price: {
                     regularPrice: {
                         amount: { currency }
@@ -62,7 +58,8 @@ class TierPrices extends PureComponent {
             }
         } = this.props;
 
-        const lowestValue = tier_prices.reduce((acc, { value }) => (acc < value ? acc : value), tier_prices[0].value);
+        const lowestValue = price_tiers
+            .reduce((acc, { final_price: { value } }) => (acc < value ? acc : value), price_tiers[0].final_price.value);
 
         return (
             <span block="TierPrices" elem="Item" mods={ { isLowest: true } }>
@@ -75,8 +72,9 @@ class TierPrices extends PureComponent {
     }
 
     renderDetailedTierPriceList() {
-        const { product: { tier_prices } } = this.props;
-        return tier_prices.map(this.renderDetailedTierPrice);
+        const { product: { price_tiers } } = this.props;
+
+        return price_tiers.map(this.renderDetailedTierPrice);
     }
 
     renderTierPrice() {
@@ -90,9 +88,11 @@ class TierPrices extends PureComponent {
     }
 
     render() {
-        const { product, product: { tier_prices } } = this.props;
+        const { product, product: { price_tiers = [] } } = this.props;
 
-        if (!tier_prices || Object.keys(product).length <= 0 || !tier_prices.length) {
+        console.log(product)
+
+        if (!price_tiers || Object.keys(product).length <= 0 || !price_tiers.length) {
             return null;
         }
 

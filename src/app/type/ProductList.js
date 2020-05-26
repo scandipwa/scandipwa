@@ -139,10 +139,10 @@ export const ProductType = PropTypes.shape({
     special_to_date: PropTypes.string,
     thumbnail: PropTypes.shape({ url: PropTypes.string }),
     thumbnail_label: PropTypes.shape({ label: PropTypes.string }),
-    tier_prices: PropTypes.arrayOf(PropTypes.shape({
-        value: PropTypes.number,
-        quantity: PropTypes.number,
-        ratio: PropTypes.number
+    price_tiers: PropTypes.arrayOf(PropTypes.shape({
+        discount: PropTypes.shape({ amountOff: PropTypes.number, percent_off: PropTypes.number }),
+        final_price: PropTypes.shape({ currency: PropTypes.string, value: PropTypes.number }),
+        quantity: PropTypes.number
     })),
     url_key: PropTypes.string,
     quantity: PropTypes.number,
