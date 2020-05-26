@@ -16,7 +16,7 @@
     --search-field-border-color: var(--primary-divider-color);
     --search-clear-background: var(--secondary-base-color);
     --search-bar-width: 270px;
-    --search-bar-max-width: 450px;
+    --search-bar-max-width: 27vw;
 }
 
 .SearchField {
@@ -37,7 +37,7 @@
     }
 
     &_isActive {
-        --search-bar-width: 30vw;
+        --search-bar-width: 27vw;
         --search-field-border-color: var(--primary-light-color);
     }
 
