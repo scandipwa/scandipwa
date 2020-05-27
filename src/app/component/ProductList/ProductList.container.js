@@ -38,7 +38,9 @@ export class ProductListContainer extends PureComponent {
         isPaginationEnabled: PropTypes.bool,
         filter: FilterInputType,
         search: PropTypes.string,
-        sort: PropTypes.objectOf(PropTypes.string)
+        sort: PropTypes.objectOf(PropTypes.string),
+        noAttributes: PropTypes.bool,
+        noVariants: PropTypes.bool
     };
 
     static defaultProps = {
@@ -48,7 +50,9 @@ export class ProductListContainer extends PureComponent {
         selectedFilters: {},
         sort: undefined,
         isPaginationEnabled: true,
-        isInfiniteLoaderEnabled: true
+        isInfiniteLoaderEnabled: true,
+        noAttributes: false,
+        noVariants: false
     };
 
     state = { pagesCount: 1 };
@@ -65,13 +69,17 @@ export class ProductListContainer extends PureComponent {
             search,
             filter,
             pageSize,
-            requestProductList
+            requestProductList,
+            noAttributes,
+            noVariants
         } = this.props;
 
         if (!isNext) window.scrollTo(0, 0);
 
         const options = {
             isNext,
+            noAttributes,
+            noVariants,
             args: {
                 sort,
                 filter,

@@ -119,7 +119,12 @@ export class ProductListQuery {
     }
 
     _getProductInterfaceFields(isVariant, isForLinkedProducts = false) {
-        const { isSingleProduct } = this.options;
+        const {
+            isSingleProduct,
+            noAttributes = false,
+            noVariants = false,
+            noVariantAttributes = false
+        } = this.options;
 
         return [
             'id',
@@ -133,13 +138,16 @@ export class ProductListQuery {
             this._getShortDescriptionField(),
             'special_from_date',
             'special_to_date',
-            this._getAttributesField(isVariant),
+            ...((!isVariant && !noAttributes) || (isVariant && !noVariantAttributes && !noVariants)
+                ? [this._getAttributesField(isVariant)]
+                : []
+            ),
             this._getTierPricesField(),
             ...(!isVariant
                 ? [
                     'url_key',
                     this._getReviewSummaryField(),
-                    this._getConfigurableProductFragment()
+                    ...(!noVariants ? [this._getConfigurableProductFragment()] : [])
                 ]
                 : []
             ),
