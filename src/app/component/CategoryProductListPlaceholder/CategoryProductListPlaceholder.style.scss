@@ -23,5 +23,9 @@
         position: absolute;
         left: 0;
         width: 100%;
+
+        &::before {
+            display: none;
+        }
     }
 }
