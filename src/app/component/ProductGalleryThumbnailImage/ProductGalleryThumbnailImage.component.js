@@ -24,7 +24,10 @@ export default class ProductGalleryThumbnailImage extends PureComponent {
             label: PropTypes.string,
             file: PropTypes.string,
             media_type: PropTypes.string,
-            id: PropTypes.string,
+            id: PropTypes.oneOfType([
+                PropTypes.string,
+                PropTypes.number
+            ]),
             thumbnail: PropTypes.shape({
                 url: PropTypes.string
             })

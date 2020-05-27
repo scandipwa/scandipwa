@@ -54,7 +54,7 @@ export default class Slider extends PureComponent {
 
     sliderRef = createRef();
 
-    handleDragStart = this.handleInteraction.bind(this, this.handleInteraction);
+    handleDragStart = this.handleInteraction.bind(this, this.handleDragStart);
 
     handleDrag = this.handleInteraction.bind(this, this.handleDrag);
 
@@ -163,6 +163,7 @@ export default class Slider extends PureComponent {
             translateX: translate,
             lastTranslateX: lastTranslate
         } = state;
+
         const { onActiveImageChange } = this.props;
 
         const slideSize = this.sliderWidth;
@@ -246,6 +247,12 @@ export default class Slider extends PureComponent {
         });
     }
 
+    handleClick = (state, callback, e) => {
+        if (e.type === 'contextmenu') {
+            this.handleDragEnd(state, callback);
+        }
+    };
+
     handleInteraction(callback, ...args) {
         const { isInteractionDisabled } = this.props;
 
@@ -317,6 +324,7 @@ export default class Slider extends PureComponent {
                   onDragStart={ this.handleDragStart }
                   onDragEnd={ this.handleDragEnd }
                   onDrag={ this.handleDrag }
+                  onClick={ this.handleClick }
                   shiftX={ -activeImage * this.sliderWidth }
                 >
                     { children }

@@ -211,7 +211,7 @@
             text-align: right;
         }
 
-        &_isbefore-desktop {
+        &_isMobile {
             display: none;
 
             @include before-desktop {

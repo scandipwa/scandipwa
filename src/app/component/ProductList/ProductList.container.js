@@ -42,7 +42,7 @@ export class ProductListContainer extends PureComponent {
     };
 
     static defaultProps = {
-        pageSize: 12,
+        pageSize: 20,
         filter: {},
         search: '',
         selectedFilters: {},

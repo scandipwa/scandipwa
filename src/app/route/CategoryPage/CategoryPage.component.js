@@ -11,19 +11,24 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+
 import {
     CATEGORY_FILTER_OVERLAY_ID
 } from 'Component/CategoryFilterOverlay/CategoryFilterOverlay.component';
+
 import CategoryFilterOverlay from 'Component/CategoryFilterOverlay';
 import CategoryProductList from 'Component/CategoryProductList';
 import CategoryItemsCount from 'Component/CategoryItemsCount';
 import CategoryDetails from 'Component/CategoryDetails';
 import ContentWrapper from 'Component/ContentWrapper';
 import CategorySort from 'Component/CategorySort';
+import Html from 'Component/Html';
+
 import { CategoryTreeType } from 'Type/Category';
 import { FilterType, FilterInputType } from 'Type/ProductList';
-import './CategoryPage.style';
 import isMobile from 'Util/Mobile';
+
+import './CategoryPage.style';
 
 export default class CategoryPage extends PureComponent {
     static propTypes = {
@@ -160,6 +165,29 @@ export default class CategoryPage extends PureComponent {
         );
     }
 
+    renderCmsBlock() {
+        const { category: { cms_block } } = this.props;
+
+        if (!cms_block) {
+            return null;
+        }
+
+        const { content, disabled } = cms_block;
+
+        if (disabled) {
+            return null;
+        }
+
+        return (
+            <div
+              block="CategoryPage"
+              elem="CMS"
+            >
+                <Html content={ content } />
+            </div>
+        );
+    }
+
     render() {
         return (
             <main block="CategoryPage">
@@ -175,6 +203,7 @@ export default class CategoryPage extends PureComponent {
                         { this.renderFilterButton() }
                     </aside>
                     { this.renderCategoryProductList() }
+                    { this.renderCmsBlock() }
                 </ContentWrapper>
             </main>
         );

@@ -58,6 +58,8 @@
     }
 
     &-CheckoutButton {
+        margin-left: 1rem;
+
         span {
             @include lock-button;
         }

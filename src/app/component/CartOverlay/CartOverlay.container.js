@@ -13,44 +13,84 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { PureComponent } from 'react';
 
-import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation';
+import { changeNavigationState } from 'Store/Navigation';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { CART, CART_EDITING } from 'Component/Header';
-import { hideActiveOverlay } from 'Store/Overlay';
+import { CART_OVERLAY, CART_EDITING } from 'Component/Header';
+import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.component';
+import { toggleOverlayByKey } from 'Store/Overlay';
+import { showNotification } from 'Store/Notification';
 import { CartDispatcher } from 'Store/Cart';
 import { TotalsType } from 'Type/MiniCart';
+import { isSignedIn } from 'Util/Auth';
+import { history } from 'Route';
 
 import CartOverlay from './CartOverlay.component';
 
 export const mapStateToProps = state => ({
-    totals: state.CartReducer.cartTotals
+    totals: state.CartReducer.cartTotals,
+    guest_checkout: state.ConfigReducer.guest_checkout,
+    currencyCode: state.ConfigReducer.default_display_currency_code
 });
 
 export const mapDispatchToProps = dispatch => ({
-    hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-    goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE)),
+    setNavigationState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
     changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
-    updateTotals: options => CartDispatcher.updateTotals(dispatch, options)
+    updateTotals: options => CartDispatcher.updateTotals(dispatch, options),
+    showOverlay: overlayKey => dispatch(toggleOverlayByKey(overlayKey)),
+    showNotification: (type, message) => dispatch(showNotification(type, message))
 });
 
 export class CartOverlayContainer extends PureComponent {
     static propTypes = {
         totals: TotalsType.isRequired,
-        changeHeaderState: PropTypes.func.isRequired
+        guest_checkout: PropTypes.bool,
+        changeHeaderState: PropTypes.func.isRequired,
+        showOverlay: PropTypes.func.isRequired,
+        showNotification: PropTypes.func.isRequired
+    };
+
+    static defaultProps = {
+        guest_checkout: true
     };
 
     state = { isEditing: false };
 
     containerFunctions = {
-        changeHeaderState: this.changeHeaderState.bind(this)
+        changeHeaderState: this.changeHeaderState.bind(this),
+        handleCheckoutClick: this.handleCheckoutClick.bind(this)
     };
+
+    handleCheckoutClick(e) {
+        const {
+            guest_checkout,
+            showOverlay,
+            showNotification
+        } = this.props;
+
+        // to prevent outside-click handler trigger
+        e.nativeEvent.stopImmediatePropagation();
+
+        if (!guest_checkout) {
+            history.push({ pathname: '/checkout' });
+            return;
+        }
+
+        if (isSignedIn()) {
+            history.push({ pathname: '/checkout' });
+            return;
+        }
+
+        // there is no mobile, as cart overlay is not visible here
+        showOverlay(CUSTOMER_ACCOUNT_OVERLAY_KEY);
+        showNotification('info', __('Please sign-in to complete checkout!'));
+    }
 
     changeHeaderState() {
         const { changeHeaderState, totals: { count = 0 } } = this.props;
         const title = __('%s Items', count || 0);
 
         changeHeaderState({
-            name: CART,
+            name: CART_OVERLAY,
             title,
             onEditClick: () => {
                 this.setState({ isEditing: true });
