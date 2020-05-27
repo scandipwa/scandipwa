@@ -128,7 +128,7 @@ class ProductCustomizableOptionsContainer extends PureComponent {
         return this.setState({ textFieldValues: [...textFieldValues, textFieldValue] });
     }
 
-    setSelectedDropdownValue(value = null, option) {
+    setSelectedDropdownValue(value, option) {
         const { selectedDropdownOptions } = this.state;
         const { option_id } = option;
 
