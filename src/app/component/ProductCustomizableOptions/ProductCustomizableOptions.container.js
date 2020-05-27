@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent, createRef } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { OptionsType } from 'Type/ProductList';
 import ProductCustomizableOptions from './ProductCustomizableOptions.component';
@@ -36,12 +36,6 @@ class ProductCustomizableOptionsContainer extends PureComponent {
         setSelectedCheckboxValues: this.setSelectedCheckboxValues.bind(this),
         setCustomizableOptionTextFieldValue: this.setCustomizableOptionTextFieldValue.bind(this)
     };
-
-    constructor(props) {
-        super(props);
-
-        this.fileFormRef = createRef();
-    }
 
     componentDidMount() {
         const { options } = this.props;
@@ -84,7 +78,7 @@ class ProductCustomizableOptionsContainer extends PureComponent {
         this.setState({ isLoading: false });
     }
 
-    async updateSelectedOptionsArray() {
+    updateSelectedOptionsArray() {
         const { getSelectedCustomizableOptions } = this.props;
         const { selectedCheckboxValues } = this.state;
         const customizableOptions = [];
@@ -93,7 +87,7 @@ class ProductCustomizableOptionsContainer extends PureComponent {
         getSelectedCustomizableOptions(customizableOptions, true);
     }
 
-    async updateSelectedOptions() {
+    updateSelectedOptions() {
         const { getSelectedCustomizableOptions } = this.props;
         const {
             selectedDropdownOptions,
