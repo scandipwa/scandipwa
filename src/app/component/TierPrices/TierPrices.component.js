@@ -4,8 +4,6 @@ import { formatCurrency, roundPrice } from 'Util/Price';
 import { ProductType } from 'Type/ProductList';
 import './TierPrices.style';
 
-const TIER_PRICE_QUANTITY_THRESHOLD = 1;
-
 class TierPrices extends PureComponent {
     static propTypes = {
         product: ProductType.isRequired,
@@ -26,7 +24,20 @@ class TierPrices extends PureComponent {
         },
         quantity
     }) => {
-        if (quantity <= TIER_PRICE_QUANTITY_THRESHOLD) return;
+        const {
+            product: {
+                price_range: {
+                    minimum_price: { 
+                        final_price: {
+                            value: minPriceForOneUnit
+                        }
+                    }
+                }
+            }
+        } = this.props;
+
+        // Don't show offers that make no sense
+        if (value >= minPriceForOneUnit) return null;
 
         return (
             <li block="TierPrices" elem="Item" key={ quantity }>
@@ -50,9 +61,11 @@ class TierPrices extends PureComponent {
         const {
             product: {
                 price_tiers,
-                price: {
-                    regularPrice: {
-                        amount: { currency }
+                price_range: {
+                    minimum_price: {
+                        final_price: {
+                            currency
+                        }
                     }
                 }
             }
@@ -89,8 +102,6 @@ class TierPrices extends PureComponent {
 
     render() {
         const { product, product: { price_tiers = [] } } = this.props;
-
-        console.log(product)
 
         if (!price_tiers || Object.keys(product).length <= 0 || !price_tiers.length) {
             return null;
