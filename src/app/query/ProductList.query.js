@@ -630,7 +630,7 @@ export class ProductListQuery {
 
     _getCustomizableProductFragment() {
         return new Fragment('CustomizableProductInterface')
-            .addFieldList([this._getCustomizableProductFragmentOptionsField()])
+            .addFieldList([this._getCustomizableProductFragmentOptionsField()]);
     }
 
     _getSimpleProductFragmentFields() {
