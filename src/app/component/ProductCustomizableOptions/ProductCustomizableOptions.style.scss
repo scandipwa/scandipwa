@@ -17,10 +17,9 @@
 .ProductCustomizableOptions {
     &-Content {
         .Field {
-            &-SelectWrapper {
-                @include desktop {
-                    max-width: 185px;
-                }
+            input,
+            textarea {
+                width: 100%;
             }
         }
     }

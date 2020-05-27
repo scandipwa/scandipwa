@@ -551,95 +551,86 @@ export class ProductListQuery {
         ];
     }
 
-    _getCustomizableFileValueFields() {
-        return new Field('value')
-            .addFieldList([
-                'price',
-                'price_type',
-                'sku',
-                'file_extension',
-                'image_size_x',
-                'image_size_y'
-            ])
-            .setAlias('fileValues');
+    _getCustomizableTextValueFields() {
+        return [
+            'price',
+            'price_type',
+            'sku',
+            'max_characters'
+        ];
     }
 
-    _getCustomizableFileOption() {
-        return new Fragment('CustomizableFileOption')
-            .addFieldList([
-                this._getCustomizableFileValueFields(),
-                'product_sku'
-            ]);
-    }
-
-    _getCustomizableTextValueFields(alias) {
+    _getCustomizableTextValueField(alias) {
         return new Field('value')
-            .addFieldList([
-                'price',
-                'price_type',
-                'sku',
-                'max_characters'
-            ])
+            .addFieldList(this._getCustomizableTextValueFields())
             .setAlias(alias);
+    }
+
+    _getCustomizableTextFields(alias) {
+        return [
+            this._getCustomizableTextValueField(alias),
+            'product_sku'
+        ];
     }
 
     _getCustomizableAreaOption() {
         return new Fragment('CustomizableAreaOption')
-            .addFieldList([
-                this._getCustomizableTextValueFields('areaValues'),
-                'product_sku'
-            ]);
+            .addFieldList(this._getCustomizableTextFields('areaValues'));
     }
 
     _getCustomizableFieldOption() {
         return new Fragment('CustomizableFieldOption')
-            .addFieldList([
-                this._getCustomizableTextValueFields('fieldValues'),
-                'product_sku'
-            ]);
+            .addFieldList(this._getCustomizableTextFields('fieldValues'));
     }
 
-    _getCustomizableSelectionValueFields(alias) {
+    _getCustomizableSelectionValueFields() {
+        return [
+            'option_type_id',
+            'price',
+            'price_type',
+            'sku',
+            'title',
+            'sort_order'
+        ];
+    }
+
+    _getCustomizableSelectionValueField(alias) {
         return new Field('value')
-            .addFieldList([
-                'option_type_id',
-                'price',
-                'price_type',
-                'sku',
-                'title',
-                'sort_order'
-            ])
+            .addFieldList(this._getCustomizableSelectionValueFields())
             .setAlias(alias);
     }
 
     _getCustomizableCheckboxOption() {
         return new Fragment('CustomizableCheckboxOption')
-            .addFieldList([this._getCustomizableSelectionValueFields('checkboxValues')]);
+            .addFieldList([this._getCustomizableSelectionValueField('checkboxValues')]);
     }
 
     _getCustomizableDropdownOption() {
         return new Fragment('CustomizableDropDownOption')
-            .addFieldList([this._getCustomizableSelectionValueFields('dropdownValues')]);
+            .addFieldList([this._getCustomizableSelectionValueField('dropdownValues')]);
     }
 
-    _getCustomizableProductFragmentFields() {
+    _getCustomizableProductFragmentOptionsFields() {
+        return [
+            this._getCustomizableDropdownOption(),
+            this._getCustomizableCheckboxOption(),
+            this._getCustomizableFieldOption(),
+            this._getCustomizableAreaOption(),
+            'title',
+            'required',
+            'sort_order',
+            'option_id'
+        ];
+    }
+
+    _getCustomizableProductFragmentOptionsField() {
         return new Field('options')
-            .addFieldList([
-                this._getCustomizableDropdownOption(),
-                this._getCustomizableCheckboxOption(),
-                this._getCustomizableFieldOption(),
-                this._getCustomizableAreaOption(),
-                this._getCustomizableFileOption(),
-                'title',
-                'required',
-                'sort_order',
-                'option_id'
-            ]);
+            .addFieldList(this._getCustomizableProductFragmentOptionsFields());
     }
 
     _getCustomizableProductFragment() {
         return new Fragment('CustomizableProductInterface')
-            .addFieldList([this._getCustomizableProductFragmentFields()]);
+            .addFieldList([this._getCustomizableProductFragmentOptionsField()])
     }
 
     _getSimpleProductFragmentFields() {

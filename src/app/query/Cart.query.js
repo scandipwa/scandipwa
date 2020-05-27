@@ -107,22 +107,30 @@ export class CartQuery {
     }
 
     _getCustomizableOptionPriceFields() {
+        return [
+            'value',
+            'units',
+            'type'
+        ];
+    }
+
+    _getCustomizableOptionPriceField() {
         return new Field('price')
-            .addFieldList([
-                'value',
-                'units',
-                'type'
-            ]);
+            .addFieldList(this._getCustomizableOptionPriceFields());
     }
 
     _getCustomizableOptionValueFields() {
+        return [
+            'id',
+            'label',
+            'value',
+            this._getCustomizableOptionPriceField()
+        ];
+    }
+
+    _getCustomizableOptionValueField() {
         return new Field('values')
-            .addFieldList([
-                'id',
-                'label',
-                'value',
-                this._getCustomizableOptionPriceFields()
-            ]);
+            .addFieldList(this._getCustomizableOptionValueFields());
     }
 
     _getCustomizableOptionsFields() {
@@ -131,7 +139,7 @@ export class CartQuery {
                 'id',
                 'label',
                 'is_required',
-                this._getCustomizableOptionValueFields(),
+                this._getCustomizableOptionValueField(),
                 'sort_order'
             ]);
     }
