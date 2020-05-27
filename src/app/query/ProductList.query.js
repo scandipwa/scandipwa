@@ -304,27 +304,41 @@ export class ProductListQuery {
             .addFieldList(this._getCategoryFields());
     }
 
-    _getAmountFields() {
-        return [
-            'value',
-            'currency'
-        ];
-    }
-
-    _getAmountField() {
-        return new Field('amount')
-            .addFieldList(this._getAmountFields());
-    }
-
     _getMinimalPriceFields() {
         return [
-            this._getAmountField()
+            this._getDiscountField(),
+            this._getFinalPriceField(),
+            this._getRegularPriceField()
         ];
     }
 
     _getMinimalPriceField() {
-        return new Field('minimalPrice')
+        return new Field('minimum_price')
             .addFieldList(this._getMinimalPriceFields());
+    }
+
+    _getPriceRangeFields() {
+        // Using an array as potentially would want to add maximum price
+        return [
+            this._getMinimalPriceField()
+        ];
+    }
+
+    _getPriceField() {
+        return new Field('price')
+            .addFieldList(this._getPriceFields());
+    }
+
+    _getPriceFields() {
+        return [
+            this._getMinimalPriceField2(),
+            this._getRegularPriceField2()
+        ];
+    }
+
+    _getRegularPriceField2() {
+        return new Field('regularPrice')
+            .addFieldList(this._getRegularPriceFields());
     }
 
     _getRegularPriceFields() {
@@ -333,22 +347,30 @@ export class ProductListQuery {
         ];
     }
 
-    _getRegularPriceField() {
-        return new Field('regularPrice')
-            .addFieldList(this._getRegularPriceFields());
+    _getMinimalPriceField2() {
+        return new Field('minimalPrice')
+            .addFieldList(this._getMinimalPriceFields2());
     }
 
-    _getPriceFields() {
+    _getMinimalPriceFields2() {
         return [
-            this._getMinimalPriceField(),
-            this._getRegularPriceField()
+            this._getAmountField()
         ];
     }
 
-    _getPriceField() {
-        return new Field('price')
-            .addFieldList(this._getPriceFields());
+    _getAmountField() {
+        return new Field('amount')
+            .addFieldList(this._getAmountFields());
     }
+
+    _getAmountFields() {
+        return [
+            'value',
+            'currency'
+        ];
+    }
+
+    // /remove
 
     /**
      * @returns {[string]} an array representing the subfields of the product thumbnail
@@ -665,7 +687,7 @@ export class ProductListQuery {
             this._getTierPricesField()
         ];
     }
-1
+
     _getTierPricesField() {
         return new Field('price_tiers')
             .addFieldList(this._getTierPricesFields());
@@ -687,6 +709,12 @@ export class ProductListQuery {
 
     _getFinalPriceField() {
         return new Field('final_price')
+            .addField('currency')
+            .addField('value');
+    }
+
+    _getRegularPriceField() {
+        return new Field('regular_price')
             .addField('currency')
             .addField('value');
     }
