@@ -1,5 +1,4 @@
 /* eslint-disable */
-
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -21,6 +20,7 @@ const path = require('path');
 const extensionsConfig = require('../../extensions.json');
 
 const capitalize = value => value.charAt(0).toUpperCase() + value.slice(1);
+const pascalCase = word => capitalize(word.replace(/(-\w)/g, m => m[1].toUpperCase()));
 
 const getExtensionsAliases = (projectRoot, magentoRoot) => {
     const extensionsRoots = Object.entries(extensionsConfig.extensions).reduce(
@@ -48,7 +48,7 @@ const getExtensionsAliases = (projectRoot, magentoRoot) => {
             const vendorName = explodedRoot[explodedRoot.length - 2];
             const extensionName = explodedRoot[explodedRoot.length - 1];
 
-            acc[`${vendorName}_${extensionName}`] = path.relative(projectRoot, frontendRoot);
+            acc[`${pascalCase(vendorName)}_${pascalCase(extensionName)}`] = path.relative(projectRoot, frontendRoot);
 
             return acc;
         }, {}
