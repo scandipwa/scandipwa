@@ -1,0 +1,6 @@
+{
+    "parentRoot": "/var/www/public/app/design/frontend/Scandiweb/pwa_parent",
+    "extensions": {
+        "PayPal": ["localmodules/scandipwa/paypal-graphql/src/scandipwa/plugin/PayPal.plugin.js"]
+    }
+}
