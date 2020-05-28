@@ -110,7 +110,7 @@ export class CartPageContainer extends PureComponent {
         // to prevent outside-click handler trigger
         e.nativeEvent.stopImmediatePropagation();
 
-        if (!guest_checkout) {
+        if (guest_checkout) {
             history.push({ pathname: '/checkout' });
             return;
         }
