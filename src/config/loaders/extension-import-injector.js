@@ -1,9 +1,10 @@
+/* eslint-disable */
 const { getOptions } = require('loader-utils');
 const path = require('path');
-const { extensions } = require('../../../extensions.json');
 
 module.exports = function injectImports(source) {
-    const { magentoRoot, importAggregator } = getOptions(this);
+    const { magentoRoot, importAggregator, projectRoot } = getOptions(this);
+    const { extensions } = require(path.resolve(projectRoot, 'extensions.json'));
 
     const extensionConfigImports = Object.entries(extensions).reduce(
         (importChain, extension) => {

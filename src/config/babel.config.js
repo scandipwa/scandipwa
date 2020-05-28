@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -13,13 +14,66 @@
 // This is custom file, which simply exports babel presets and plugins.
 // This file is later used by Webpack `babel-loader` directly.
 // This is a workaround for a babel issue https://github.com/babel/babel/issues/8309.
+// It also has additional functionality in terms of generation additional aliases
 
-const presets = [
+const path = require('path');
+const extensionsConfig = require('../../extensions.json');
+
+const capitalize = value => value.charAt(0).toUpperCase() + value.slice(1);
+const pascalCase = word => capitalize(word.replace(/(-\w)/g, m => m[1].toUpperCase()));
+
+const getExtensionsAliases = (projectRoot, magentoRoot) => {
+    const extensionsRoots = Object.entries(extensionsConfig.extensions).reduce(
+        (acc, [, pluginFilesPaths]) => {
+            const oneOfPaths = pluginFilesPaths[0];
+            const frontendRoot = oneOfPaths.split('/plugin/')[0];
+            const root = oneOfPaths.split('/src/scandipwa/')[0];
+
+            const extensionMeta = {
+                root: path.resolve(magentoRoot, root),
+                frontendRoot: path.resolve(magentoRoot, frontendRoot)
+            };
+
+            if (!acc.some(elem => JSON.stringify(elem) === JSON.stringify(extensionMeta))) {
+                acc.push(extensionMeta);
+            }
+
+            return acc;
+        }, []
+    );
+
+    return extensionsRoots.reduce(
+        (acc, { root, frontendRoot }) => {
+            const explodedRoot = root.split('/');
+            const vendorName = explodedRoot[explodedRoot.length - 2];
+            const extensionName = explodedRoot[explodedRoot.length - 1];
+
+            acc[`${pascalCase(vendorName)}_${pascalCase(extensionName)}`] = path.relative(projectRoot, frontendRoot);
+
+            return acc;
+        }, {}
+    );
+}
+
+const getAliases = (prefix, root, projectRoot) => {
+    return ['style', 'component', 'route', 'store', 'util', 'query', 'type', 'plugin'].reduce(
+        (acc, curr) => {
+            acc[`${capitalize(prefix)}${capitalize(curr)}`] = './' + path.relative(
+                projectRoot,
+                path.resolve(root, `src/app/${curr}/`)
+            );
+
+            return acc;
+        }, {}
+    );
+}
+
+const getPresets = () => ([
     '@babel/preset-env',
     '@babel/preset-react'
-];
+]);
 
-const plugins = [
+const getPlugins = ({ projectRoot, magentoRoot, fallbackRoot, parentRoot }) => ([
     'transform-rebem-jsx',
     '@babel/plugin-proposal-object-rest-spread',
     '@babel/plugin-proposal-class-properties',
@@ -31,20 +85,10 @@ const plugins = [
         'module-resolver', {
             root: './',
             alias: {
-                Style: './src/app/style/',
-                Component: './src/app/component/',
-                Route: './src/app/route/',
-                Store: './src/app/store/',
-                Util: './src/app/util/',
-                Query: './src/app/query/',
-                Type: './src/app/type/',
-                SourceStyle: '../../../../../vendor/scandipwa/source/src/app/style/',
-                SourceComponent: '../../../../../vendor/scandipwa/source/src/app/component/',
-                SourceRoute: '../../../../../vendor/scandipwa/source/src/app/route/',
-                SourceStore: '../../../../../vendor/scandipwa/source/src/app/store/',
-                SourceUtil: '../../../../../vendor/scandipwa/source/src/app/util/',
-                SourceQuery: '../../../../../vendor/scandipwa/source/src/app/query/',
-                SourceType: '../../../../../vendor/scandipwa/source/src/app/type/'
+                ...getAliases('', projectRoot, projectRoot),
+                ...getAliases('Source', fallbackRoot, projectRoot),
+                ...getAliases('Parent', parentRoot, projectRoot),
+                ...getExtensionsAliases(projectRoot, magentoRoot)
             }
         }
     ],
@@ -53,10 +97,14 @@ const plugins = [
             segments: 1
         }
     ]
-];
+]);
+
+const getBabelConfig = options => ({
+    presets: getPresets(),
+    plugins: getPlugins(options),
+    sourceType: 'unambiguous'
+});
 
 module.exports = {
-    presets,
-    plugins,
-    sourceType: 'unambiguous'
+    getBabelConfig
 };

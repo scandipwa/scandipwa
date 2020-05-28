@@ -24,12 +24,13 @@ const autoprefixer = require('autoprefixer');
 const FallbackPlugin = require('./FallbackPlugin');
 
 const webmanifestConfig = require('./webmanifest.config');
-const BabelConfig = require('./babel.config');
+const { getBabelConfig } = require('./babel.config');
 
 const DEVELOPMENT = 'development';
 const CORE = 'core';
 
 const projectRoot = path.resolve(__dirname, '..', '..');
+const parentRoot = path.resolve(projectRoot, '..', 'pwa_parent')
 
 const config = (env, argv) => {
     const magentoRoot = env.BUILD_MODE === DEVELOPMENT
@@ -47,7 +48,7 @@ const config = (env, argv) => {
             ],
             plugins: [
                 new FallbackPlugin({
-                    fallbackRoot, projectRoot
+                    fallbackRoot, projectRoot, parentRoot
                 })
             ],
 
@@ -81,16 +82,16 @@ const config = (env, argv) => {
             rules: [
                 {
                     test: /\.(js|jsx)$/,
-                    exclude: /(node_modules)/,//\/(?!@scandipwa\/extensibility$))/,
+                    exclude: /(node_modules)/,
                     use: [
                         {
                             loader: 'babel-loader',
-                            options: BabelConfig
+                            options: getBabelConfig({ projectRoot, magentoRoot, fallbackRoot, parentRoot })
                         }
                     ]
                 },
                 {
-                    test: path.resolve(projectRoot, 'src', 'app', 'util', 'Extensions', 'index.js'),
+                    test: /util\/Extensions\/index\.js/,
                     use: [
                         {
                             loader: 'extension-import-injector',
