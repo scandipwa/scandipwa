@@ -10,6 +10,8 @@
  */
 
 import { Field, Fragment } from 'Util/Query';
+import BrowserDatabase from 'Util/BrowserDatabase';
+import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
 
 /**
  * Product List Query
@@ -26,6 +28,10 @@ export class ProductListQuery {
         }
 
         this.options = options;
+
+        const { group_id = "0" } = BrowserDatabase.getItem(CUSTOMER) || {};
+
+        this.options.args.filter.customerGroupId = group_id;
 
         return this._getProductsField();
     }
@@ -63,7 +69,8 @@ export class ProductListQuery {
                 attribute.length ? [...acc, `${key}: { in: [ ${attribute.join(',')} ] } `] : acc
             ), []),
             newToDate: date => [`news_to_date: { gteq: ${date} }`],
-            conditions: conditions => [`conditions: { eq: ${conditions} }`]
+            conditions: conditions => [`conditions: { eq: ${conditions} }`],
+            customerGroupId: id => [`customer_group_id: { eq: ${id} }`]
         };
     }
 
@@ -138,15 +145,11 @@ export class ProductListQuery {
     _getProductInterfaceFields(isVariant, isForLinkedProducts = false) {
         const { isSingleProduct } = this.options;
 
-        const x = new Field('price')
-            .addFieldList(this._getPriceFields());
-
         return [
             'id',
             'sku',
             'name',
             'type_id',
-            x,
             this._getPriceField(),
             this._getProductThumbnailField(),
             this._getProductSmallField(),
@@ -299,54 +302,10 @@ export class ProductListQuery {
         ];
     }
 
-    // remove
     _getPriceField() {            
         return new Field('price_range')
             .addFieldList(this._getPriceRangeFields());
     }
-
-    _getPriceFields() {
-        return [
-            this._getMinimalPriceField2(),
-            this._getRegularPriceField2()
-        ];
-    }
-
-    _getRegularPriceField2() {
-        return new Field('regularPrice')
-            .addFieldList(this._getRegularPriceFields());
-    }
-
-    _getRegularPriceFields() {
-        return [
-            this._getAmountField()
-        ];
-    }
-
-    _getMinimalPriceField2() {
-        return new Field('minimalPrice')
-            .addFieldList(this._getMinimalPriceFields2());
-    }
-
-    _getMinimalPriceFields2() {
-        return [
-            this._getAmountField()
-        ];
-    }
-
-    _getAmountField() {
-        return new Field('amount')
-            .addFieldList(this._getAmountFields());
-    }
-
-    _getAmountFields() {
-        return [
-            'value',
-            'currency'
-        ];
-    }
-
-    // /remove
 
     /**
      * @returns {[string]} an array representing the subfields of the product thumbnail
