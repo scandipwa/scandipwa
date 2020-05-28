@@ -21,6 +21,14 @@ const fs = require('fs');
 class FallbackPlugin {
     constructor(options) {
         this.options = Object.assign(FallbackPlugin.defaultOptions, options);
+        this.parentThemeRegExp = this.buildParentThemeRegExp();
+    }
+
+    buildParentThemeRegExp() {
+        const relativeToAdf = this.options.parentRoot.split('app/design/frontend')[1];
+        const [vendor, themeName] = relativeToAdf.split('/');
+
+        return new RegExp(`/${vendor}/${themeName}/`);
     }
 
     // Default plugin entry-point function
@@ -33,7 +41,7 @@ class FallbackPlugin {
             const pathIsNode = !!request.path.match(/node_modules/);
 
             // Determine if the request is coming from parent file
-            const pathIsParent = !!request.path.match(/pwa_parent/);
+            const pathIsParent = !!request.path.match(this.parentThemeRegExp);
 
             // Determine if the request is coming from custom file
             const pathIsCustom = !!request.path.match(/app\/design\/frontend\/Scandiweb\/pwa\//);
@@ -45,7 +53,7 @@ class FallbackPlugin {
             const requestIsCustom = !!request.request.match(/app\/design\/frontend\/Scandiweb\/pwa\//);
 
             // Determine if request is coming to parent theme file
-            const requestIsParent = !!request.request.match(/pwa_parent/);
+            const requestIsParent = !!request.request.match(this.parentThemeRegExp);
 
             // Determine if request is coming to plugin file
             const requestAbsolute = path.resolve(request.path, request.request);

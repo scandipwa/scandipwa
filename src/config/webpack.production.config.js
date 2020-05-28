@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,12 +10,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-/* eslint-disable import/no-extraneous-dependencies */
-// Disabled due webpack plugins being dev dependencies
-
 // TODO: merge Webpack config files
-
 const path = require('path');
+const projectRoot = path.resolve(__dirname, '..', '..');
+
+
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
@@ -26,13 +26,13 @@ const cssnano = require('cssnano');
 const { InjectManifest } = require('workbox-webpack-plugin');
 
 const webmanifestConfig = require('./webmanifest.config');
-const BabelConfig = require('./babel.config');
+const { getBabelConfig } = require('./babel.config');
 const FallbackPlugin = require('./FallbackPlugin');
 const { I18nPlugin, mapTranslationsToConfig } = require('./I18nPlugin');
 
-const projectRoot = path.resolve(__dirname, '..', '..');
 const magentoRoot = path.resolve(projectRoot, '..', '..', '..', '..', '..');
 const publicRoot = path.resolve(magentoRoot, 'pub');
+const { parentRoot } = require(path.resolve(projectRoot, 'scandipwa.json'));
 const fallbackRoot = path.resolve(magentoRoot, 'vendor', 'scandipwa', 'source');
 
 const staticVersion = Date.now();
@@ -48,7 +48,7 @@ const webpackConfig = ([lang, translation]) => ({
         ],
         plugins: [
             new FallbackPlugin({
-                fallbackRoot, projectRoot
+                fallbackRoot, projectRoot, parentRoot
             })
         ],
         modules: [
@@ -82,18 +82,19 @@ const webpackConfig = ([lang, translation]) => ({
                 use: [
                     {
                         loader: 'babel-loader',
-                        options: BabelConfig
+                        options: getBabelConfig({ projectRoot, magentoRoot, fallbackRoot, parentRoot })
                     }
                 ]
             },
             {
-                test: path.resolve(projectRoot, 'src', 'app', 'index.js'),
+                test: /util\/Extensions\/index\.js/,
                 use: [
                     {
                         loader: 'extension-import-injector',
                         options: {
                             magentoRoot,
-                            importAggregator: 'pendingPluginConfigParts'
+                            projectRoot,
+                            importAggregator: 'extensions'
                         }
                     }
                 ]
@@ -168,7 +169,12 @@ const webpackConfig = ([lang, translation]) => ({
         }),
 
         new webpack.ProvidePlugin({
+            __: path.join(__dirname, 'TranslationFunction'),
             middleware: path.join(__dirname, 'Middleware'),
+            ExtensiblePureComponent: path.join(__dirname, 'ExtensibleClasses', 'ExtensiblePureComponent'),
+            ExtensibleComponent: path.join(__dirname, 'ExtensibleClasses', 'ExtensibleComponent'),
+            ExtensibleClass: path.join(__dirname, 'ExtensibleClasses', 'ExtensibleClass'),
+            ExtensibleUnstatedContainer: path.join(__dirname, 'ExtensibleClasses', 'ExtensibleUnstatedContainer'),
             React: 'react'
         }),
 

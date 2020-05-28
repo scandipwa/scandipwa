@@ -4,7 +4,7 @@ const path = require('path');
 
 module.exports = function injectImports(source) {
     const { magentoRoot, importAggregator, projectRoot } = getOptions(this);
-    const { extensions } = require(path.resolve(projectRoot, 'extensions.json'));
+    const { extensions } = require(path.resolve(projectRoot, 'scandipwa.json'));
 
     const extensionConfigImports = Object.entries(extensions).reduce(
         (importChain, extension) => {

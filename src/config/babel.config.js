@@ -17,13 +17,13 @@
 // It also has additional functionality in terms of generation additional aliases
 
 const path = require('path');
-const extensionsConfig = require('../../extensions.json');
+const { extensions } = require('../../scandipwa.json');
 
 const capitalize = value => value.charAt(0).toUpperCase() + value.slice(1);
 const pascalCase = word => capitalize(word.replace(/(-\w)/g, m => m[1].toUpperCase()));
 
 const getExtensionsAliases = (projectRoot, magentoRoot) => {
-    const extensionsRoots = Object.entries(extensionsConfig.extensions).reduce(
+    const extensionsRoots = Object.entries(extensions).reduce(
         (acc, [, pluginFilesPaths]) => {
             const oneOfPaths = pluginFilesPaths[0];
             const frontendRoot = oneOfPaths.split('/plugin/')[0];

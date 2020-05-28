@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,18 +10,16 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-/* eslint-disable import/no-extraneous-dependencies */
-// Disabled due webpack plugins being dev dependencies
-
 // TODO: merge Webpack config files
 
 const path = require('path');
 const MinifyPlugin = require('babel-minify-webpack-plugin');
 
-const BabelConfig = require('./babel.config');
+const { getBabelConfig } = require('./babel.config');
 const FallbackPlugin = require('./FallbackPlugin');
 
 const projectRoot = path.resolve(__dirname, '..', '..');
+const { parentRoot } = require(path.resolve(projectRoot, 'scandipwa.json'));
 const magentoRoot = path.resolve(projectRoot, '..', '..', '..', '..', '..');
 const publicRoot = path.resolve(magentoRoot, 'pub');
 const fallbackRoot = path.resolve(magentoRoot, 'vendor', 'scandipwa', 'source');
@@ -57,7 +56,7 @@ module.exports = (_, options) => {
             ],
             plugins: [
                 new FallbackPlugin({
-                    fallbackRoot, projectRoot
+                    fallbackRoot, projectRoot, parentRoot
                 })
             ]
         },
@@ -80,7 +79,7 @@ module.exports = (_, options) => {
                     use: [
                         {
                             loader: 'babel-loader',
-                            options: BabelConfig
+                            options: getBabelConfig({ projectRoot, magentoRoot, fallbackRoot, parentRoot })
                         }
                     ]
                 }
