@@ -11,7 +11,6 @@
  */
 
 
-const projectRoot = path.resolve(__dirname, '..', '..');
 // TODO: merge Webpack config files
 
 const path = require('path');
@@ -26,6 +25,8 @@ const FallbackPlugin = require('./FallbackPlugin');
 
 const webmanifestConfig = require('./webmanifest.config');
 const { getBabelConfig } = require('./babel.config');
+
+const projectRoot = path.resolve(__dirname, '..', '..');
 const { parentRoot } = require(path.resolve(projectRoot, 'scandipwa.json'));
 
 const DEVELOPMENT = 'development';

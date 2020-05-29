@@ -14,7 +14,6 @@
 const path = require('path');
 const projectRoot = path.resolve(__dirname, '..', '..');
 
-
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
