@@ -135,6 +135,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tr>
     <td align="center"><a href="https://github.com/RoboLV"><img src="https://avatars1.githubusercontent.com/u/4116979?v=4" width="100px;" alt=""/><br /><sub><b>RoboLV</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=RoboLV" title="Code">💻</a> <a href="https://github.com/scandipwa/base-theme/issues?q=author%3ARoboLV" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://github.com/Fitipaldi007"><img src="https://avatars1.githubusercontent.com/u/43096716?v=4" width="100px;" alt=""/><br /><sub><b>Fitipaldi007</b></sub></a><br /><a href="#translation-Fitipaldi007" title="Translation">🌍</a></td>
+    <td align="center"><a href="https://github.com/korbax"><img src="https://avatars2.githubusercontent.com/u/225603?v=4" width="100px;" alt=""/><br /><sub><b>Aleksandr Drobot</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=korbax" title="Code">💻</a></td>
   </tr>
 </table>
 
