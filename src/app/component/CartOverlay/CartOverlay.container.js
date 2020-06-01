@@ -45,7 +45,8 @@ export class CartOverlayContainer extends ExtensiblePureComponent {
         guest_checkout: PropTypes.bool,
         changeHeaderState: PropTypes.func.isRequired,
         showOverlay: PropTypes.func.isRequired,
-        showNotification: PropTypes.func.isRequired
+        showNotification: PropTypes.func.isRequired,
+        setNavigationState: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -63,7 +64,8 @@ export class CartOverlayContainer extends ExtensiblePureComponent {
         const {
             guest_checkout,
             showOverlay,
-            showNotification
+            showNotification,
+            setNavigationState
         } = this.props;
 
         // to prevent outside-click handler trigger
@@ -82,6 +84,7 @@ export class CartOverlayContainer extends ExtensiblePureComponent {
         // there is no mobile, as cart overlay is not visible here
         showOverlay(CUSTOMER_ACCOUNT_OVERLAY_KEY);
         showNotification('info', __('Please sign-in to complete checkout!'));
+        setNavigationState({ name: CUSTOMER_ACCOUNT_OVERLAY_KEY, title: 'Sign in' });
     }
 
     changeHeaderState() {

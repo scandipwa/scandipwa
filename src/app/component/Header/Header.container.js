@@ -29,6 +29,7 @@ import Header, {
     CUSTOMER_SUB_ACCOUNT,
     MENU,
     MENU_SUBCATEGORY,
+    POPUP,
     SEARCH,
     CART,
     CART_OVERLAY,
@@ -360,7 +361,10 @@ export class HeaderContainer extends NavigationAbstractContainer {
             navigationState: { name }
         } = this.props;
 
-        if (isMobile.any() || name === CART_OVERLAY || (!isMobile.any() && name === SEARCH)) {
+        if (isMobile.any()
+            || [CART_OVERLAY, MENU, POPUP].includes(name)
+            || (!isMobile.any() && name === SEARCH)
+        ) {
             return;
         }
 
