@@ -113,6 +113,7 @@ export class ProductList extends PureComponent {
 
                 const minPage = Math.min(...this.pagesIntersecting);
                 if (minPage < Infinity && minPage !== currentPage) {
+                    this.pagesIntersecting = [];
                     updatePage(minPage);
                 }
             }, {
