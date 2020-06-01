@@ -75,7 +75,7 @@ export class CartDispatcher extends ExtensibleClass {
         }
 
         return fetchMutation(CartQuery.getSaveCartItemMutation(
-            { sku, item_id, qty: quantity },
+            { sku, item_id, quantity },
             !isSignedIn() && this._getGuestQuoteId()
         )).then(
             ({ saveCartItem: { cartData } }) => this._updateCartData(cartData, dispatch),

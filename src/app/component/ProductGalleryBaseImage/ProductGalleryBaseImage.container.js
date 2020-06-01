@@ -28,7 +28,10 @@ export class ProductGalleryBaseImageContainer extends ExtensibleComponent {
         previousScale: PropTypes.number.isRequired,
         index: PropTypes.number.isRequired,
         mediaData: PropTypes.shape({
-            id: PropTypes.string,
+            id: PropTypes.oneOfType([
+                PropTypes.string,
+                PropTypes.number
+            ]),
             label: PropTypes.string,
             file: PropTypes.string,
             base: PropTypes.shape({

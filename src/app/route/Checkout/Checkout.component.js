@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 
 import { paymentMethodsType, shippingMethodsType } from 'Type/Checkout';
 import CheckoutOrderSummary from 'Component/CheckoutOrderSummary';
+import CheckoutSuccess from 'Component/CheckoutSuccess';
 import CheckoutGuestForm from 'Component/CheckoutGuestForm';
 import CheckoutShipping from 'Component/CheckoutShipping';
 import CheckoutBilling from 'Component/CheckoutBilling';
@@ -23,13 +24,13 @@ import { TotalsType } from 'Type/MiniCart';
 import { HistoryType } from 'Type/Common';
 import CmsBlock from 'Component/CmsBlock';
 import Loader from 'Component/Loader';
-import Link from 'Component/Link';
 
 import './Checkout.style';
 
 export const SHIPPING_STEP = 'SHIPPING_STEP';
 export const BILLING_STEP = 'BILLING_STEP';
 export const DETAILS_STEP = 'DETAILS_STEP';
+export const CHECKOUT_URL = '/checkout';
 
 export class Checkout extends ExtensiblePureComponent {
     static propTypes = {
@@ -57,7 +58,8 @@ export class Checkout extends ExtensiblePureComponent {
         ]).isRequired,
         isCreateUser: PropTypes.bool.isRequired,
         onCreateUserChange: PropTypes.func.isRequired,
-        onPasswordChange: PropTypes.func.isRequired
+        onPasswordChange: PropTypes.func.isRequired,
+        goBack: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -67,23 +69,35 @@ export class Checkout extends ExtensiblePureComponent {
     stepMap = {
         [SHIPPING_STEP]: {
             title: __('Shipping step'),
+            url: '/shipping',
             render: this.renderShippingStep.bind(this),
             areTotalsVisible: true
         },
         [BILLING_STEP]: {
             title: __('Billing step'),
+            url: '/billing',
             render: this.renderBillingStep.bind(this),
             areTotalsVisible: true
         },
         [DETAILS_STEP]: {
             title: __('Thank you for your purchase!'),
+            url: '/success',
             render: this.renderDetailsStep.bind(this),
             areTotalsVisible: false
         }
     };
 
     componentDidMount() {
+        const { checkoutStep, history, goBack } = this.props;
+        const { url } = this.stepMap[checkoutStep];
+
         this.updateHeader();
+
+        history.replace(`${ CHECKOUT_URL }${ url }`);
+
+        window.onpopstate = () => {
+            goBack();
+        };
     }
 
     componentDidUpdate(prevProps) {
@@ -92,18 +106,26 @@ export class Checkout extends ExtensiblePureComponent {
 
         if (checkoutStep !== prevCheckoutStep) {
             this.updateHeader();
+            this.updateStep();
         }
     }
 
     updateHeader() {
-        const { setHeaderState, checkoutStep, history } = this.props;
+        const { setHeaderState, checkoutStep, goBack } = this.props;
         const { title = '' } = this.stepMap[checkoutStep];
 
         setHeaderState({
             name: CHECKOUT,
             title,
-            onBackClick: () => history.push('/')
+            onBackClick: () => goBack()
         });
+    }
+
+    updateStep() {
+        const { checkoutStep, history } = this.props;
+        const { url } = this.stepMap[checkoutStep];
+
+        history.push(`${ CHECKOUT_URL }${ url }`);
     }
 
     renderTitle() {
@@ -182,19 +204,9 @@ export class Checkout extends ExtensiblePureComponent {
         const { orderID } = this.props;
 
         return (
-            <div block="Checkout" elem="Success">
-                <h3>{ __('Your order # is: %s', orderID) }</h3>
-                <p>{ __('We`ll email you an order confirmation with details and tracking info.') }</p>
-                <div block="Checkout" elem="ButtonWrapper">
-                    <Link
-                      block="Button"
-                      mix={ { block: 'Checkout', elem: 'ContinueButton' } }
-                      to="/"
-                    >
-                        { __('Continue shopping') }
-                    </Link>
-                </div>
-            </div>
+            <CheckoutSuccess
+              orderID={ orderID }
+            />
         );
     }
 
@@ -223,6 +235,7 @@ export class Checkout extends ExtensiblePureComponent {
 
         return (
             <CheckoutOrderSummary
+              checkoutStep={ checkoutStep }
               totals={ checkoutTotals }
               paymentTotals={ paymentTotals }
             />

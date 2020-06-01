@@ -13,11 +13,11 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { CUSTOMER_ACCOUNT, CUSTOMER_SUB_ACCOUNT } from 'Component/Header';
+import { toggleOverlayByKey, hideActiveOverlay } from 'Store/Overlay';
 import { changeNavigationState } from 'Store/Navigation';
 import { MyAccountDispatcher } from 'Store/MyAccount';
-import { CUSTOMER_ACCOUNT, CUSTOMER_SUB_ACCOUNT } from 'Component/Header';
 import { showNotification } from 'Store/Notification';
-import { hideActiveOverlay } from 'Store/Overlay';
 import { isSignedIn } from 'Util/Auth';
 import isMobile from 'Util/Mobile';
 import history from 'Util/History';
@@ -28,6 +28,7 @@ import MyAccountOverlay, {
     STATE_FORGOT_PASSWORD_SUCCESS,
     STATE_CREATE_ACCOUNT,
     STATE_LOGGED_IN,
+    CUSTOMER_ACCOUNT_OVERLAY_KEY,
     STATE_CONFIRM_EMAIL
 } from './MyAccountOverlay.component';
 
@@ -48,6 +49,7 @@ export const mapDispatchToProps = middleware(
         createAccount: options => MyAccountDispatcher.createAccount(options, dispatch),
         signIn: options => MyAccountDispatcher.signIn(options, dispatch),
         showNotification: (type, message) => dispatch(showNotification(type, message)),
+        showOverlay: overlayKey => dispatch(toggleOverlayByKey(overlayKey)),
         setHeaderState: headerState => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, headerState))
     }),
     'Component/MyAccountOverlay/Container/mapDispatchToProps'
@@ -62,6 +64,7 @@ export class MyAccountOverlayContainer extends ExtensiblePureComponent {
         createAccount: PropTypes.func.isRequired,
         // eslint-disable-next-line react/no-unused-prop-types
         isOverlayVisible: PropTypes.bool.isRequired,
+        showOverlay: PropTypes.func.isRequired,
         setHeaderState: PropTypes.func.isRequired,
         onSignIn: PropTypes.func,
         hideActiveOverlay: PropTypes.func.isRequired
@@ -88,14 +91,7 @@ export class MyAccountOverlayContainer extends ExtensiblePureComponent {
     constructor(props) {
         super(props);
 
-        const { isPasswordForgotSend } = props;
-
-        this.state = {
-            state: isSignedIn() ? STATE_LOGGED_IN : STATE_SIGN_IN,
-            // eslint-disable-next-line react/no-unused-state
-            isPasswordForgotSend,
-            isLoading: false
-        };
+        this.state = this.redirectOrGetState(props);
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -111,11 +107,15 @@ export class MyAccountOverlayContainer extends ExtensiblePureComponent {
             state: myAccountState
         } = state;
 
+        const { location: { pathname, state: { isForgotPassword } = {} } } = history;
+
         const stateToBeUpdated = {};
 
         if (!isMobile.any()) {
             if (!isOverlayVisible && !isSignedIn) {
-                stateToBeUpdated.state = STATE_SIGN_IN;
+                if (pathname !== '/forgot-password' && !isForgotPassword) {
+                    stateToBeUpdated.state = STATE_SIGN_IN;
+                }
             } else if (!isOverlayVisible && isSignedIn) {
                 stateToBeUpdated.state = STATE_LOGGED_IN;
             }
@@ -147,7 +147,7 @@ export class MyAccountOverlayContainer extends ExtensiblePureComponent {
         const { state: oldMyAccountState } = prevState;
         const { state: newMyAccountState } = this.state;
         const { hideActiveOverlay } = this.props;
-        const currentPage = window.location.pathname;
+        const { location: { pathname } } = history;
 
         if (oldMyAccountState === newMyAccountState) {
             return;
@@ -157,10 +157,52 @@ export class MyAccountOverlayContainer extends ExtensiblePureComponent {
             hideActiveOverlay();
         }
 
-        if (currentPage !== '/checkout' && newMyAccountState === STATE_LOGGED_IN) {
+        if (pathname !== '/checkout' && newMyAccountState === STATE_LOGGED_IN) {
             history.push({ pathname: '/my-account/dashboard' });
         }
     }
+
+    redirectOrGetState = (props) => {
+        const {
+            showOverlay,
+            setHeaderState,
+            isPasswordForgotSend
+        } = props;
+
+        const { location: { pathname, state: { isForgotPassword } = {} } } = history;
+
+        const state = {
+            state: isSignedIn() ? STATE_LOGGED_IN : STATE_SIGN_IN,
+            // eslint-disable-next-line react/no-unused-state
+            isPasswordForgotSend,
+            isLoading: false
+        };
+
+        // if customer got here from forgot-password
+        if (pathname !== '/forgot-password' && !isForgotPassword) {
+            return state;
+        }
+
+        state.state = STATE_FORGOT_PASSWORD;
+
+        setHeaderState({
+            name: CUSTOMER_SUB_ACCOUNT,
+            title: 'Forgot password',
+            onBackClick: (e) => {
+                history.push({ pathname: '/my-account' });
+                this.handleSignIn(e);
+            }
+        });
+
+        if (isMobile.any()) {
+            history.push({ pathname: '/my-account', state: { isForgotPassword: true } });
+            return state;
+        }
+
+        showOverlay(CUSTOMER_ACCOUNT_OVERLAY_KEY);
+
+        return state;
+    };
 
     async onSignInSuccess(fields) {
         const {

@@ -76,7 +76,15 @@
         &_cart {
             .Header-Button_type_minicart {
                 @include desktop {
-                    --header-color: var(--header-desktop-button-color);
+                    --header-color: var(--primary-base-color);
+                }
+            }
+        }
+
+        &_cart_overlay {
+            .Header-Button_type_minicart {
+                @include after-mobile {
+                    --header-color: var(--primary-base-color);
                 }
             }
         }

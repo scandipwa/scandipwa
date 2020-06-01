@@ -41,7 +41,7 @@ export class ProductListContainer extends ExtensiblePureComponent {
     };
 
     static defaultProps = {
-        pageSize: 12,
+        pageSize: 20,
         filter: {},
         search: '',
         selectedFilters: {},

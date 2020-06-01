@@ -11,18 +11,17 @@
 
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-
-import { NavigationAbstractContainer } from 'Component/NavigationAbstract/NavigationAbstract.container';
-import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.component';
-import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.component';
-import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation';
-import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { toggleOverlayByKey, hideActiveOverlay } from 'Store/Overlay';
 import { setQueryParams } from 'Util/Url';
 import { isSignedIn } from 'Util/Auth';
 import isMobile from 'Util/Mobile';
 import history from 'Util/History';
 
+import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation';
+import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { toggleOverlayByKey, hideActiveOverlay } from 'Store/Overlay';
+import { NavigationAbstractContainer } from 'Component/NavigationAbstract/NavigationAbstract.container';
+import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.component';
+import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.component';
 import Header, {
     PDP,
     CATEGORY,
@@ -32,6 +31,7 @@ import Header, {
     MENU_SUBCATEGORY,
     SEARCH,
     CART,
+    CART_OVERLAY,
     CMS_PAGE,
     CUSTOMER_ACCOUNT_PAGE,
     CHECKOUT
@@ -44,7 +44,8 @@ export const mapStateToProps = middleware(
         header_logo_src: state.ConfigReducer.header_logo_src,
         isOffline: state.OfflineReducer.isOffline,
         logo_alt: state.ConfigReducer.logo_alt,
-        isLoading: state.ConfigReducer.isLoading
+        isLoading: state.ConfigReducer.isLoading,
+        activeOverlay: state.OverlayReducer.activeOverlay
     }),
     'Component/Header/Container/mapStateToProps'
 );
@@ -108,7 +109,8 @@ export class HeaderContainer extends NavigationAbstractContainer {
         onMyAccountOutsideClick: this.onMyAccountOutsideClick.bind(this),
         onMinicartOutsideClick: this.onMinicartOutsideClick.bind(this),
         closeOverlay: this.closeOverlay.bind(this),
-        onSignIn: this.onSignIn.bind(this)
+        onSignIn: this.onSignIn.bind(this),
+        hideActiveOverlay: this.props.hideActiveOverlay
     };
 
     containerProps = () => {
@@ -158,9 +160,31 @@ export class HeaderContainer extends NavigationAbstractContainer {
         super.componentDidMount();
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps) {
+        this.hideSearchOnStateChange(prevProps);
         this.handleHeaderVisibility();
         this.checkIsCheckout();
+    }
+
+    hideSearchOnStateChange(prevProps) {
+        const { navigationState: { name: prevName } } = prevProps;
+        const { navigationState: { name } } = this.props;
+
+        if (prevName === SEARCH && prevName !== name) {
+            this.hideSearchOverlay();
+        }
+    }
+
+    hideSearchOverlay() {
+        const { hideActiveOverlay, activeOverlay } = this.props;
+
+        this.setState({ searchCriteria: '' });
+
+        document.activeElement.blur();
+
+        if (activeOverlay === SEARCH) {
+            hideActiveOverlay();
+        }
     }
 
     checkIsCheckout() {
@@ -195,6 +219,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
 
         return {
             isClearEnabled,
+            showMyAccountLogin: false,
             ...this.handleMobileRouteChange(history)
         };
     }
@@ -209,24 +234,24 @@ export class HeaderContainer extends NavigationAbstractContainer {
         ].join('|')).test(search);
     }
 
-    onBackButtonClick() {
+    onBackButtonClick(e) {
         const { navigationState: { onBackClick } } = this.props;
 
         this.setState({ searchCriteria: '' });
 
         if (onBackClick) {
-            onBackClick();
+            onBackClick(e);
         }
     }
 
-    onCloseButtonClick() {
+    onCloseButtonClick(e) {
         const { hideActiveOverlay, goToPreviousNavigationState } = this.props;
         const { navigationState: { onCloseClick } } = this.props;
 
         this.setState({ searchCriteria: '' });
 
         if (onCloseClick) {
-            onCloseClick();
+            onCloseClick(e);
         }
 
         hideActiveOverlay();
@@ -234,16 +259,10 @@ export class HeaderContainer extends NavigationAbstractContainer {
     }
 
     onSearchOutsideClick() {
-        const {
-            goToPreviousNavigationState,
-            hideActiveOverlay,
-            navigationState: { name }
-        } = this.props;
+        const { goToPreviousNavigationState, navigationState: { name } } = this.props;
 
         if (!isMobile.any() && name === SEARCH) {
-            this.setState({ searchCriteria: '' });
-
-            hideActiveOverlay();
+            this.hideSearchOverlay();
             goToPreviousNavigationState();
         }
     }
@@ -347,16 +366,15 @@ export class HeaderContainer extends NavigationAbstractContainer {
             navigationState: { name }
         } = this.props;
 
-        if (
-            isMobile.any()
-            || !(name === CUSTOMER_ACCOUNT || name === CUSTOMER_SUB_ACCOUNT)
-        ) {
+        if (isMobile.any() || name === CART_OVERLAY || (!isMobile.any() && name === SEARCH)) {
             return;
         }
+
         if (name === CUSTOMER_SUB_ACCOUNT) {
             goToPreviousNavigationState();
         }
-        goToPreviousNavigationState();
+
+        this.goToDefaultHeaderState();
         hideActiveOverlay();
     }
 
@@ -409,10 +427,10 @@ export class HeaderContainer extends NavigationAbstractContainer {
         const { showOverlay } = this.props;
 
         if (!isMobile.any()) {
-            return showOverlay(CART);
+            return showOverlay(CART_OVERLAY);
         }
 
-        return history.push('/cart');
+        return history.push(`/${ CART }`);
     }
 
     onMinicartOutsideClick() {
@@ -422,7 +440,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
             navigationState: { name }
         } = this.props;
 
-        if (isMobile.any() || name !== CART) {
+        if (isMobile.any() || name !== CART_OVERLAY) {
             return;
         }
 
@@ -430,23 +448,24 @@ export class HeaderContainer extends NavigationAbstractContainer {
         hideActiveOverlay();
     }
 
-    onEditButtonClick() {
+    onEditButtonClick(e) {
         const { navigationState: { onEditClick } } = this.props;
 
         if (onEditClick) {
-            onEditClick();
+            onEditClick(e);
         }
     }
 
-    onOkButtonClick() {
+    onOkButtonClick(e) {
         const {
             navigationState: { onOkClick },
             goToPreviousNavigationState
         } = this.props;
 
         if (onOkClick) {
-            onOkClick();
+            onOkClick(e);
         }
+
         goToPreviousNavigationState();
     }
 

@@ -39,7 +39,8 @@ export const STRIPE_AUTH_REQUIRED = 'Authentication Required: ';
 export const mapStateToProps = middleware(
     state => ({
         totals: state.CartReducer.cartTotals,
-        customer: state.MyAccountReducer.customer
+        customer: state.MyAccountReducer.customer,
+        guest_checkout: state.ConfigReducer.guest_checkout
     }),
     'Route/Checkout/Container/mapStateToProps'
 );
@@ -65,6 +66,7 @@ export class CheckoutContainer extends ExtensiblePureComponent {
         createAccount: PropTypes.func.isRequired,
         updateMeta: PropTypes.func.isRequired,
         resetCart: PropTypes.func.isRequired,
+        guest_checkout: PropTypes.bool.isRequired,
         totals: TotalsType.isRequired,
         history: HistoryType.isRequired,
         customer: customerType.isRequired
@@ -78,7 +80,8 @@ export class CheckoutContainer extends ExtensiblePureComponent {
         onShippingEstimationFieldsChange: this.onShippingEstimationFieldsChange.bind(this),
         onEmailChange: this.onEmailChange.bind(this),
         onCreateUserChange: this.onCreateUserChange.bind(this),
-        onPasswordChange: this.onPasswordChange.bind(this)
+        onPasswordChange: this.onPasswordChange.bind(this),
+        goBack: this.goBack.bind(this)
     };
 
     constructor(props) {
@@ -120,19 +123,14 @@ export class CheckoutContainer extends ExtensiblePureComponent {
     }
 
     componentDidMount() {
-        const { updateMeta } = this.props;
-        updateMeta({ title: __('Checkout') });
-    }
+        const { history, guest_checkout, updateMeta } = this.props;
 
-    componentDidUpdate() {
-        const { customer: { addresses } } = this.props;
-        const { shippingMethods } = this.state;
-
-        if (isSignedIn()
-            && (addresses && addresses.length === 0)
-            && shippingMethods.length) {
-            this.resetShippingMethods();
+        // if guest checkout is disabled and user is not logged in => throw him to homepage
+        if (!guest_checkout && !isSignedIn()) {
+            history.push('/');
         }
+
+        updateMeta({ title: __('Checkout') });
     }
 
     componentWillUnmount() {
@@ -176,6 +174,22 @@ export class CheckoutContainer extends ExtensiblePureComponent {
             },
             this._handleError
         );
+    }
+
+    goBack() {
+        const { checkoutStep } = this.state;
+        const { history } = this.props;
+
+        if (checkoutStep === BILLING_STEP) {
+            this.setState({
+                isLoading: false,
+                checkoutStep: SHIPPING_STEP
+            });
+
+            BrowserDatabase.deleteItem(PAYMENT_TOTALS);
+        } else {
+            history.push('/');
+        }
     }
 
     setDetailsStep(orderID) {
@@ -259,10 +273,6 @@ export class CheckoutContainer extends ExtensiblePureComponent {
     };
 
     _getGuestCartId = () => BrowserDatabase.getItem(GUEST_QUOTE_ID);
-
-    resetShippingMethods() {
-        this.setState({ shippingMethods: [] });
-    }
 
     _getPaymentMethods() {
         fetchQuery(CheckoutQuery.getPaymentMethodsQuery(

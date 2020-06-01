@@ -9,15 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-.ProductGalleryThumbnailImage {
-    @include after-mobile {
-        display: block;
-        height: 0;
-        width: 100%;
-        padding-bottom: 70%;
-    }
-
-    img {
-        background-color: $white;
-    }
-}
+export { default } from './CheckoutSuccess.component';

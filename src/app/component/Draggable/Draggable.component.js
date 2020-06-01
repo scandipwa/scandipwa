@@ -19,8 +19,10 @@ export class Draggable extends ExtensiblePureComponent {
         shiftX: PropTypes.number,
         shiftY: PropTypes.number,
         onDragStart: PropTypes.func,
+        onClick: PropTypes.func,
         onDragEnd: PropTypes.func,
         handleFocus: PropTypes.func,
+        handleKey: PropTypes.func,
         onDrag: PropTypes.func,
         children: ChildrenType.isRequired,
         mix: MixType,
@@ -44,8 +46,10 @@ export class Draggable extends ExtensiblePureComponent {
                 shiftY: translateY
             });
         },
+        onClick: () => {},
         onDrag: () => {},
         handleFocus: () => {},
+        handleKey: () => {},
         draggableRef: () => {},
         mix: {}
     };
@@ -139,6 +143,23 @@ export class Draggable extends ExtensiblePureComponent {
         this._handleDragEnd();
     };
 
+    handleClick = (e) => {
+        const { onClick } = this.props;
+
+        if (onClick) {
+            onClick(
+                this.state,
+                newState => this.setState({
+                    ...newState,
+                    isDragging: false,
+                    translateX: 0,
+                    translateY: 0
+                }),
+                e
+            );
+        }
+    };
+
     _handleDragStart({
         clientX,
         clientY
@@ -183,6 +204,7 @@ export class Draggable extends ExtensiblePureComponent {
         const {
             children,
             handleFocus,
+            handleKey,
             draggableRef,
             mix
         } = this.props;
@@ -194,6 +216,9 @@ export class Draggable extends ExtensiblePureComponent {
               ref={ draggableRef }
               onMouseDown={ this.handleMouseDown }
               onTouchStart={ this.handleTouchStart }
+              onClick={ this.handleClick }
+              onContextMenu={ this.handleClick }
+              onKeyDown={ handleKey }
               onFocus={ handleFocus }
               tabIndex={ 0 }
               role="button"

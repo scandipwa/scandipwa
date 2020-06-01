@@ -51,7 +51,7 @@ export class ProductList extends ExtensiblePureComponent {
         title: '',
         isInfiniteLoaderEnabled: false,
         isPaginationEnabled: false,
-        numberOfPlaceholders: 4,
+        numberOfPlaceholders: 8,
         selectedFilters: {},
         isLoading: false,
         updatePage: () => {},
