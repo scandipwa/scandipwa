@@ -18,19 +18,13 @@ import { showPopup } from 'Store/Popup';
 
 import MyAccountAddressBook from './MyAccountAddressBook.component';
 
-export const mapStateToProps = middleware(
-    state => ({
-        customer: state.MyAccountReducer.customer
-    }),
-    'Component/MyAccountAddressBook/Container/mapStateToProps'
-);
+export const mapStateToProps = state => ({
+    customer: state.MyAccountReducer.customer
+});
 
-export const mapDispatchToProps = middleware(
-    dispatch => ({
-        showPopup: payload => dispatch(showPopup(ADDRESS_POPUP_ID, payload))
-    }),
-    'Component/MyAccountAddressBook/Container/mapDispatchToProps'
-);
+export const mapDispatchToProps = dispatch => ({
+    showPopup: payload => dispatch(showPopup(ADDRESS_POPUP_ID, payload))
+});
 
 export class MyAccountAddressBookContainer extends ExtensiblePureComponent {
     static propTypes = {
@@ -78,6 +72,9 @@ export class MyAccountAddressBookContainer extends ExtensiblePureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
+export default connect(
+    middleware(mapStateToProps, 'Component/MyAccountAddressBook/Container/mapStateToProps'),
+    middleware(mapDispatchToProps, 'Component/MyAccountAddressBook/Container/mapDispatchToProps')
+)(
     middleware(MyAccountAddressBookContainer, 'Component/MyAccountAddressBook/Container')
 );

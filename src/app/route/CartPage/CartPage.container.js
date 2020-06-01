@@ -29,25 +29,19 @@ import { isSignedIn } from 'Util/Auth';
 import isMobile from 'Util/Mobile';
 import CartPage from './CartPage.component';
 
-export const mapStateToProps = middleware(
-    state => ({
-        totals: state.CartReducer.cartTotals,
-        headerState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
-        guest_checkout: state.ConfigReducer.guest_checkout
-    }),
-    'Route/CartPage/Container/mapStateToProps'
-);
+export const mapStateToProps = state => ({
+    totals: state.CartReducer.cartTotals,
+    headerState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
+    guest_checkout: state.ConfigReducer.guest_checkout
+});
 
-export const mapDispatchToProps = middleware(
-    dispatch => ({
-        changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
-        updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.update(breadcrumbs, dispatch),
-        showOverlay: overlayKey => dispatch(toggleOverlayByKey(overlayKey)),
-        showNotification: (type, message) => dispatch(showNotification(type, message)),
-        updateMeta: meta => dispatch(updateMeta(meta))
-    }),
-    'Route/CartPage/Container/mapDispatchToProps'
-);
+export const mapDispatchToProps = dispatch => ({
+    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
+    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.update(breadcrumbs, dispatch),
+    showOverlay: overlayKey => dispatch(toggleOverlayByKey(overlayKey)),
+    showNotification: (type, message) => dispatch(showNotification(type, message)),
+    updateMeta: meta => dispatch(updateMeta(meta))
+});
 
 export class CartPageContainer extends ExtensiblePureComponent {
     static propTypes = {
@@ -181,6 +175,9 @@ export class CartPageContainer extends ExtensiblePureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
+export default connect(
+    middleware(mapStateToProps, 'Route/CartPage/Container/mapStateToProps'),
+    middleware(mapDispatchToProps, 'Route/CartPage/Container/mapDispatchToProps')
+)(
     middleware(CartPageContainer, 'Route/CartPage/Container')
 );

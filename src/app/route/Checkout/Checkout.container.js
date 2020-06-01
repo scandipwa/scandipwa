@@ -36,27 +36,21 @@ import Checkout, { SHIPPING_STEP, BILLING_STEP, DETAILS_STEP } from './Checkout.
 export const PAYMENT_TOTALS = 'PAYMENT_TOTALS';
 export const STRIPE_AUTH_REQUIRED = 'Authentication Required: ';
 
-export const mapStateToProps = middleware(
-    state => ({
-        totals: state.CartReducer.cartTotals,
-        customer: state.MyAccountReducer.customer,
-        guest_checkout: state.ConfigReducer.guest_checkout
-    }),
-    'Route/Checkout/Container/mapStateToProps'
-);
+export const mapStateToProps = state => ({
+    totals: state.CartReducer.cartTotals,
+    customer: state.MyAccountReducer.customer,
+    guest_checkout: state.ConfigReducer.guest_checkout
+});
 
-export const mapDispatchToProps = middleware(
-    dispatch => ({
-        updateMeta: meta => dispatch(updateMeta(meta)),
-        resetCart: () => CartDispatcher.updateInitialCartData(dispatch),
-        toggleBreadcrumbs: state => dispatch(toggleBreadcrumbs(state)),
-        showErrorNotification: message => dispatch(showNotification('error', message)),
-        setHeaderState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
-        setNavigationState: stateName => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, stateName)),
-        createAccount: options => MyAccountDispatcher.createAccount(options, dispatch)
-    }),
-    'Route/Checkout/Container/mapDispatchToProps'
-);
+export const mapDispatchToProps = dispatch => ({
+    updateMeta: meta => dispatch(updateMeta(meta)),
+    resetCart: () => CartDispatcher.updateInitialCartData(dispatch),
+    toggleBreadcrumbs: state => dispatch(toggleBreadcrumbs(state)),
+    showErrorNotification: message => dispatch(showNotification('error', message)),
+    setHeaderState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
+    setNavigationState: stateName => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, stateName)),
+    createAccount: options => MyAccountDispatcher.createAccount(options, dispatch)
+});
 
 export class CheckoutContainer extends ExtensiblePureComponent {
     static propTypes = {
@@ -439,6 +433,9 @@ export class CheckoutContainer extends ExtensiblePureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
+export default connect(
+    middleware(mapStateToProps, 'Route/Checkout/Container/mapStateToProps'),
+    middleware(mapDispatchToProps, 'Route/Checkout/Container/mapDispatchToProps')
+)(
     middleware(CheckoutContainer, 'Route/Checkout/Container')
 );

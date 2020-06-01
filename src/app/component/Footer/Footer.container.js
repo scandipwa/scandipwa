@@ -11,11 +11,14 @@
 import { connect } from 'react-redux';
 import Footer from './Footer.component';
 
-export const mapStateToProps = middleware(
-    state => ({
-        copyright: state.ConfigReducer.copyright
-    }),
-    'Component/Footer/Container/mapStateToProps'
-);
+export const mapStateToProps = state => ({
+    copyright: state.ConfigReducer.copyright
+});
 
-export default connect(mapStateToProps)(Footer);
+// eslint-disable-next-line no-unused-vars
+export const mapDispatchToProps = dispatch => ({});
+
+export default connect(
+    middleware(mapStateToProps, 'Component/Footer/Container/mapStateToProps'),
+    middleware(mapDispatchToProps, 'Component/Footer/Container/mapDispatchToProps')
+)(Footer);

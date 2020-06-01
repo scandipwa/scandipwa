@@ -16,12 +16,9 @@ import { MediaItemType } from 'Type/ProductList';
 import { connect } from 'react-redux';
 import VideoThumbnail from './VideoThumbnail.component';
 
-export const mapDispatchToProps = middleware(
-    dispatch => ({
-        showPopup: payload => dispatch(showPopup(VIDEO_POPUP_ID, payload))
-    }),
-    'Component/VideoThumbnail/Container/mapDispatchToProps'
-);
+export const mapDispatchToProps = dispatch => ({
+    showPopup: payload => dispatch(showPopup(VIDEO_POPUP_ID, payload))
+});
 
 /**
  * @class VideoThumbnailContainer
@@ -71,6 +68,12 @@ export class VideoThumbnailContainer extends ExtensiblePureComponent {
     }
 }
 
-export default connect(null, mapDispatchToProps)(
+// eslint-disable-next-line no-unused-vars
+export const mapStateToProps = state => ({});
+
+export default connect(
+    middleware(mapStateToProps, 'Component/VideoThumbnail/Container/mapStateToProps'),
+    middleware(mapDispatchToProps, 'Component/VideoThumbnail/Container/mapDispatchToProps')
+)(
     middleware(VideoThumbnailContainer, 'Component/VideoThumbnail/Container')
 );

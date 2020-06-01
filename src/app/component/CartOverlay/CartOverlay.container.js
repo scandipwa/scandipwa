@@ -25,25 +25,19 @@ import history from 'Util/History';
 
 import CartOverlay from './CartOverlay.component';
 
-export const mapStateToProps = middleware(
-    state => ({
-        totals: state.CartReducer.cartTotals,
-        guest_checkout: state.ConfigReducer.guest_checkout,
-        currencyCode: state.ConfigReducer.default_display_currency_code
-    }),
-    'Component/CartOverlay/Container/mapStateToProps'
-);
+export const mapStateToProps = state => ({
+    totals: state.CartReducer.cartTotals,
+    guest_checkout: state.ConfigReducer.guest_checkout,
+    currencyCode: state.ConfigReducer.default_display_currency_code
+});
 
-export const mapDispatchToProps = middleware(
-    dispatch => ({
-        setNavigationState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
-        changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
-        updateTotals: options => CartDispatcher.updateTotals(dispatch, options),
-        showOverlay: overlayKey => dispatch(toggleOverlayByKey(overlayKey)),
-        showNotification: (type, message) => dispatch(showNotification(type, message))
-    }),
-    'Component/CartOverlay/Container/mapDispatchToProps'
-);
+export const mapDispatchToProps = dispatch => ({
+    setNavigationState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
+    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
+    updateTotals: options => CartDispatcher.updateTotals(dispatch, options),
+    showOverlay: overlayKey => dispatch(toggleOverlayByKey(overlayKey)),
+    showNotification: (type, message) => dispatch(showNotification(type, message))
+});
 
 export class CartOverlayContainer extends ExtensiblePureComponent {
     static propTypes = {
@@ -121,6 +115,9 @@ export class CartOverlayContainer extends ExtensiblePureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
+export default connect(
+    middleware(mapStateToProps, 'Component/CartOverlay/Container/mapStateToProps'),
+    middleware(mapDispatchToProps, 'Component/CartOverlay/Container/mapDispatchToProps')
+)(
     middleware(CartOverlayContainer, 'Component/CartOverlay/Container')
 );

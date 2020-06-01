@@ -22,37 +22,31 @@ import { debounce } from 'Util/Request';
 
 import SearchPage from './SearchPage.component';
 
-export const mapStateToProps = middleware(
-    state => ({
-        category: state.CategoryReducer.category,
-        isOffline: state.OfflineReducer.isOffline,
-        filters: state.ProductListInfoReducer.filters,
-        sortFields: state.ProductListInfoReducer.sortFields,
-        minPriceRange: state.ProductListInfoReducer.minPrice,
-        maxPriceRange: state.ProductListInfoReducer.maxPrice,
-        isInfoLoading: state.ProductListInfoReducer.isLoading,
-        totalPages: state.ProductListReducer.totalPages
-    }),
-    'Route/SearchPage/Container/mapStateToProps'
-);
+export const mapStateToProps = state => ({
+    category: state.CategoryReducer.category,
+    isOffline: state.OfflineReducer.isOffline,
+    filters: state.ProductListInfoReducer.filters,
+    sortFields: state.ProductListInfoReducer.sortFields,
+    minPriceRange: state.ProductListInfoReducer.minPrice,
+    maxPriceRange: state.ProductListInfoReducer.maxPrice,
+    isInfoLoading: state.ProductListInfoReducer.isLoading,
+    totalPages: state.ProductListReducer.totalPages
+});
 
-export const mapDispatchToProps = middleware(
-    dispatch => ({
-        toggleOverlayByKey: key => dispatch(toggleOverlayByKey(key)),
-        changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
-        changeNavigationState: state => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
-        requestCategory: options => CategoryDispatcher.handleData(dispatch, options),
-        updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.update(breadcrumbs, dispatch),
-        requestProductListInfo: options => ProductListInfoDispatcher.handleData(dispatch, options),
-        updateLoadStatus: isLoading => dispatch(updateInfoLoadStatus(isLoading)),
-        updateNoMatch: options => NoMatchDispatcher.updateNoMatch(dispatch, options),
-        setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig)),
-        updateMetaFromCategory: category => MetaDispatcher.updateWithCategory(category, dispatch),
-        updateCurrentCategory: category => dispatch(updateCurrentCategory(category)),
-        updateMeta: meta => dispatch(updateMeta(meta))
-    }),
-    'Route/SearchPage/Container/mapDispatchToProps'
-);
+export const mapDispatchToProps = dispatch => ({
+    toggleOverlayByKey: key => dispatch(toggleOverlayByKey(key)),
+    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
+    changeNavigationState: state => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state)),
+    requestCategory: options => CategoryDispatcher.handleData(dispatch, options),
+    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.update(breadcrumbs, dispatch),
+    requestProductListInfo: options => ProductListInfoDispatcher.handleData(dispatch, options),
+    updateLoadStatus: isLoading => dispatch(updateInfoLoadStatus(isLoading)),
+    updateNoMatch: options => NoMatchDispatcher.updateNoMatch(dispatch, options),
+    setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig)),
+    updateMetaFromCategory: category => MetaDispatcher.updateWithCategory(category, dispatch),
+    updateCurrentCategory: category => dispatch(updateCurrentCategory(category)),
+    updateMeta: meta => dispatch(updateMeta(meta))
+});
 
 export class SearchPageContainer extends CategoryPageContainer {
     static defaultProps = {
@@ -186,6 +180,9 @@ export class SearchPageContainer extends CategoryPageContainer {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
+export default connect(
+    middleware(mapStateToProps, 'Route/SearchPage/Container/mapStateToProps'),
+    middleware(mapDispatchToProps, 'Route/SearchPage/Container/mapDispatchToProps')
+)(
     middleware(SearchPageContainer, 'Route/SearchPage/Container')
 );

@@ -20,12 +20,9 @@ import { KlarnaContainer } from 'Component/Klarna/Klarna.container';
 import { BRAINTREE_CONTAINER_ID } from 'Component/Braintree/Braintree.component';
 import CheckoutPayments, { BRAINTREE, STRIPE, KLARNA } from './CheckoutPayments.component';
 
-export const mapDispatchToProps = middleware(
-    dispatch => ({
-        showError: message => dispatch(showNotification('error', message))
-    }),
-    'Component/CheckoutPayments/Container/mapDispatchToProps'
-);
+export const mapDispatchToProps = dispatch => ({
+    showError: message => dispatch(showNotification('error', message))
+});
 
 export class CheckoutPaymentsContainer extends ExtensiblePureComponent {
     static propTypes = {
@@ -123,6 +120,12 @@ export class CheckoutPaymentsContainer extends ExtensiblePureComponent {
     }
 }
 
-export default connect(null, mapDispatchToProps)(
+// eslint-disable-next-line no-unused-vars
+export const mapStateToProps = state => ({});
+
+export default connect(
+    middleware(mapStateToProps, 'Component/CheckoutPayments/Container/mapStateToProps'),
+    middleware(mapDispatchToProps, 'Component/CheckoutPayments/Container/mapDispatchToProps')
+)(
     middleware(CheckoutPaymentsContainer, 'Component/CheckoutPayments/Container')
 );

@@ -20,12 +20,9 @@ import { customerType } from 'Type/Account';
 
 import MyAccountCustomerTable from './MyAccountCustomerTable.component';
 
-export const mapDispatchToProps = middleware(
-    dispatch => ({
-        showPopup: payload => dispatch(showPopup(CUSTOMER_POPUP_ID, payload))
-    }),
-    'Component/MyAccountCustomerTable/Container/mapDispatchToProps'
-);
+export const mapDispatchToProps = dispatch => ({
+    showPopup: payload => dispatch(showPopup(CUSTOMER_POPUP_ID, payload))
+});
 
 export class MyAccountCustomerTableContainer extends ExtensiblePureComponent {
     static propTypes = {
@@ -68,6 +65,12 @@ export class MyAccountCustomerTableContainer extends ExtensiblePureComponent {
     }
 }
 
-export default connect(null, mapDispatchToProps)(
+// eslint-disable-next-line no-unused-vars
+export const mapStateToProps = state => ({});
+
+export default connect(
+    middleware(mapStateToProps, 'Component/MyAccountCustomerTable/Container/mapStateToProps'),
+    middleware(mapDispatchToProps, 'Component/MyAccountCustomerTable/Container/mapDispatchToProps')
+)(
     middleware(MyAccountCustomerTableContainer, 'Component/MyAccountCustomerTable/Container')
 );

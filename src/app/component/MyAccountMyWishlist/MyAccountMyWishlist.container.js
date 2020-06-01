@@ -16,22 +16,16 @@ import { showNotification } from 'Store/Notification';
 import { ProductType } from 'Type/ProductList';
 import MyAccountMyWishlist from './MyAccountMyWishlist.component';
 
-export const mapStateToProps = middleware(
-    state => ({
-        wishlistItems: state.WishlistReducer.productsInWishlist,
-        isWishlistLoading: state.WishlistReducer.isLoading
-    }),
-    'Component/MyAccountMyWishlist/Container/mapStateToProps'
-);
+export const mapStateToProps = state => ({
+    wishlistItems: state.WishlistReducer.productsInWishlist,
+    isWishlistLoading: state.WishlistReducer.isLoading
+});
 
-export const mapDispatchToProps = middleware(
-    dispatch => ({
-        clearWishlist: () => WishlistDispatcher.clearWishlist(dispatch),
-        moveWishlistToCart: () => WishlistDispatcher.moveWishlistToCart(dispatch),
-        showNotification: message => dispatch(showNotification('success', message))
-    }),
-    'Component/MyAccountMyWishlist/Container/mapDispatchToProps'
-);
+export const mapDispatchToProps = dispatch => ({
+    clearWishlist: () => WishlistDispatcher.clearWishlist(dispatch),
+    moveWishlistToCart: () => WishlistDispatcher.moveWishlistToCart(dispatch),
+    showNotification: message => dispatch(showNotification('success', message))
+});
 
 export class MyAccountMyWishlistContainer extends ExtensiblePureComponent {
     static propTypes = {
@@ -102,6 +96,9 @@ export class MyAccountMyWishlistContainer extends ExtensiblePureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
+export default connect(
+    middleware(mapStateToProps, 'Component/MyAccountMyWishlist/Container/mapStateToProps'),
+    middleware(mapDispatchToProps, 'Component/MyAccountMyWishlist/Container/mapDispatchToProps')
+)(
     middleware(MyAccountMyWishlistContainer, 'Component/MyAccountMyWishlist/Container')
 );

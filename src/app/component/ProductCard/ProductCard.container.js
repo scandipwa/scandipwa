@@ -20,12 +20,9 @@ import { objectToUri } from 'Util/Url';
 
 import ProductCard from './ProductCard.component';
 
-export const mapDispatchToProps = middleware(
-    dispatch => ({
-        addProduct: options => CartDispatcher.addProductToCart(dispatch, options)
-    }),
-    'Component/ProductCard/Container/mapDispatchToProps'
-);
+export const mapDispatchToProps = dispatch => ({
+    addProduct: options => CartDispatcher.addProductToCart(dispatch, options)
+});
 
 export class ProductCardContainer extends ExtensiblePureComponent {
     static propTypes = {
@@ -201,6 +198,12 @@ export class ProductCardContainer extends ExtensiblePureComponent {
 }
 
 
-export default connect(null, mapDispatchToProps)(
+// eslint-disable-next-line no-unused-vars
+export const mapStateToProps = state => ({});
+
+export default connect(
+    middleware(mapStateToProps, 'Component/ProductCard/Container/mapStateToProps'),
+    middleware(mapDispatchToProps, 'Component/ProductCard/Container/mapDispatchToProps')
+)(
     middleware(ProductCardContainer, 'Component/ProductCard/Container')
 );

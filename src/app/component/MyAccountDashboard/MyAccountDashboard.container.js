@@ -15,12 +15,9 @@ import { customerType } from 'Type/Account';
 
 import MyAccountDashboard from './MyAccountDashboard.component';
 
-export const mapStateToProps = middleware(
-    state => ({
-        customer: state.MyAccountReducer.customer
-    }),
-    'Component/MyAccountDashboard/Container/mapStateToProps'
-);
+export const mapStateToProps = state => ({
+    customer: state.MyAccountReducer.customer
+});
 
 export class MyAccountDashboardContainer extends ExtensiblePureComponent {
     static propTypes = {
@@ -47,6 +44,12 @@ export class MyAccountDashboardContainer extends ExtensiblePureComponent {
     }
 }
 
-export default connect(mapStateToProps, null)(
+// eslint-disable-next-line no-unused-vars
+export const mapDispatchToProps = dispatch => ({});
+
+export default connect(
+    middleware(mapStateToProps, 'Component/MyAccountDashboard/Container/mapStateToProps'),
+    middleware(mapDispatchToProps, 'Component/MyAccountDashboard/Container/mapDispatchToProps')
+)(
     middleware(MyAccountDashboardContainer, 'Component/MyAccountDashboard/Container')
 );

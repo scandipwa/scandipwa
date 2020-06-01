@@ -20,21 +20,15 @@ import { showNotification } from 'Store/Notification';
 import { WishlistDispatcher } from 'Store/Wishlist';
 import AddToCart from './AddToCart.component';
 
-export const mapStateToProps = middleware(
-    state => ({
-        wishlistItems: state.WishlistReducer.productsInWishlist
-    }),
-    'Component/AddToCart/Container/mapStateToProps'
-);
+export const mapStateToProps = state => ({
+    wishlistItems: state.WishlistReducer.productsInWishlist
+});
 
-export const mapDispatchToProps = middleware(
-    dispatch => ({
-        addProduct: options => CartDispatcher.addProductToCart(dispatch, options),
-        removeFromWishlist: options => WishlistDispatcher.removeItemFromWishlist(dispatch, options),
-        showNotification: (type, message) => dispatch(showNotification(type, message))
-    }),
-    'Component/AddToCart/Container/mapDispatchToProps'
-);
+export const mapDispatchToProps = dispatch => ({
+    addProduct: options => CartDispatcher.addProductToCart(dispatch, options),
+    removeFromWishlist: options => WishlistDispatcher.removeItemFromWishlist(dispatch, options),
+    showNotification: (type, message) => dispatch(showNotification(type, message))
+});
 
 export class AddToCartContainer extends ExtensiblePureComponent {
     static propTypes = {
@@ -227,6 +221,9 @@ export class AddToCartContainer extends ExtensiblePureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
+export default connect(
+    middleware(mapStateToProps, 'Component/AddToCart/Container/mapStateToProps'),
+    middleware(mapDispatchToProps, 'Component/AddToCart/Container/mapDispatchToProps')
+)(
     middleware(AddToCartContainer, 'Component/AddToCart/Container')
 );

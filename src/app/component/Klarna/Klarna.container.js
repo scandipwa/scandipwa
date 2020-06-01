@@ -14,12 +14,9 @@ import { connect } from 'react-redux';
 import { showNotification } from 'Store/Notification';
 import KlarnaComponent from './Klarna.component';
 
-export const mapDispatchToProps = middleware(
-    dispatch => ({
-        showError: message => dispatch(showNotification('error', message))
-    }),
-    'Component/Klarna/Container/mapDispatchToProps'
-);
+export const mapDispatchToProps = dispatch => ({
+    showError: message => dispatch(showNotification('error', message))
+});
 
 export class KlarnaContainer extends ExtensiblePureComponent {
     static authorize() {
@@ -44,6 +41,12 @@ export class KlarnaContainer extends ExtensiblePureComponent {
     }
 }
 
-export default connect(null, mapDispatchToProps)(
+// eslint-disable-next-line no-unused-vars
+export const mapStateToProps = state => ({});
+
+export default connect(
+    middleware(mapStateToProps, 'Component/Klarna/Container/mapStateToProps'),
+    middleware(mapDispatchToProps, 'Component/Klarna/Container/mapDispatchToProps')
+)(
     middleware(KlarnaContainer, 'Component/Klarna/Container')
 );

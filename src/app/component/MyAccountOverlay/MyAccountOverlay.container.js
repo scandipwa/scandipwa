@@ -32,28 +32,22 @@ import MyAccountOverlay, {
     STATE_CONFIRM_EMAIL
 } from './MyAccountOverlay.component';
 
-export const mapStateToProps = middleware(
-    state => ({
-        isSignedIn: state.MyAccountReducer.isSignedIn,
-        customer: state.MyAccountReducer.customer,
-        isPasswordForgotSend: state.MyAccountReducer.isPasswordForgotSend,
-        isOverlayVisible: state.OverlayReducer.activeOverlay === CUSTOMER_ACCOUNT
-    }),
-    'Component/MyAccountOverlay/Container/mapStateToProps'
-);
+export const mapStateToProps = state => ({
+    isSignedIn: state.MyAccountReducer.isSignedIn,
+    customer: state.MyAccountReducer.customer,
+    isPasswordForgotSend: state.MyAccountReducer.isPasswordForgotSend,
+    isOverlayVisible: state.OverlayReducer.activeOverlay === CUSTOMER_ACCOUNT
+});
 
-export const mapDispatchToProps = middleware(
-    dispatch => ({
-        hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-        forgotPassword: options => MyAccountDispatcher.forgotPassword(options, dispatch),
-        createAccount: options => MyAccountDispatcher.createAccount(options, dispatch),
-        signIn: options => MyAccountDispatcher.signIn(options, dispatch),
-        showNotification: (type, message) => dispatch(showNotification(type, message)),
-        showOverlay: overlayKey => dispatch(toggleOverlayByKey(overlayKey)),
-        setHeaderState: headerState => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, headerState))
-    }),
-    'Component/MyAccountOverlay/Container/mapDispatchToProps'
-);
+export const mapDispatchToProps = dispatch => ({
+    hideActiveOverlay: () => dispatch(hideActiveOverlay()),
+    forgotPassword: options => MyAccountDispatcher.forgotPassword(options, dispatch),
+    createAccount: options => MyAccountDispatcher.createAccount(options, dispatch),
+    signIn: options => MyAccountDispatcher.signIn(options, dispatch),
+    showNotification: (type, message) => dispatch(showNotification(type, message)),
+    showOverlay: overlayKey => dispatch(toggleOverlayByKey(overlayKey)),
+    setHeaderState: headerState => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, headerState))
+});
 
 export class MyAccountOverlayContainer extends ExtensiblePureComponent {
     static propTypes = {
@@ -355,6 +349,9 @@ export class MyAccountOverlayContainer extends ExtensiblePureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
+export default connect(
+    middleware(mapStateToProps, 'Component/MyAccountOverlay/Container/mapStateToProps'),
+    middleware(mapDispatchToProps, 'Component/MyAccountOverlay/Container/mapDispatchToProps')
+)(
     middleware(MyAccountOverlayContainer, 'Component/MyAccountOverlay/Container')
 );

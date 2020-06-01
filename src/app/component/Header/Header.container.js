@@ -37,28 +37,22 @@ import Header, {
     CHECKOUT
 } from './Header.component';
 
-export const mapStateToProps = middleware(
-    state => ({
-        navigationState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
-        cartTotals: state.CartReducer.cartTotals,
-        header_logo_src: state.ConfigReducer.header_logo_src,
-        isOffline: state.OfflineReducer.isOffline,
-        logo_alt: state.ConfigReducer.logo_alt,
-        isLoading: state.ConfigReducer.isLoading,
-        activeOverlay: state.OverlayReducer.activeOverlay
-    }),
-    'Component/Header/Container/mapStateToProps'
-);
+export const mapStateToProps = state => ({
+    navigationState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
+    cartTotals: state.CartReducer.cartTotals,
+    header_logo_src: state.ConfigReducer.header_logo_src,
+    isOffline: state.OfflineReducer.isOffline,
+    logo_alt: state.ConfigReducer.logo_alt,
+    isLoading: state.ConfigReducer.isLoading,
+    activeOverlay: state.OverlayReducer.activeOverlay
+});
 
-export const mapDispatchToProps = middleware(
-    dispatch => ({
-        showOverlay: overlayKey => dispatch(toggleOverlayByKey(overlayKey)),
-        hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-        setNavigationState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
-        goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))
-    }),
-    'Component/Header/Container/mapDispatchToProps'
-);
+export const mapDispatchToProps = dispatch => ({
+    showOverlay: overlayKey => dispatch(toggleOverlayByKey(overlayKey)),
+    hideActiveOverlay: () => dispatch(hideActiveOverlay()),
+    setNavigationState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
+    goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))
+});
 
 export const DEFAULT_HEADER_STATE = {
     name: DEFAULT_STATE_NAME,
@@ -491,6 +485,9 @@ export class HeaderContainer extends NavigationAbstractContainer {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
+export default connect(
+    middleware(mapStateToProps, 'Component/Header/Container/mapStateToProps'),
+    middleware(mapDispatchToProps, 'Component/Header/Container/mapDispatchToProps')
+)(
     middleware(HeaderContainer, 'Component/Header/Container')
 );

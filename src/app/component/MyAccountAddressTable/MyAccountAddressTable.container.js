@@ -19,19 +19,13 @@ import { addressType } from 'Type/Account';
 import { countriesType } from 'Type/Config';
 import MyAccountAddressTable from './MyAccountAddressTable.component';
 
-export const mapStateToProps = middleware(
-    state => ({
-        countries: state.ConfigReducer.countries
-    }),
-    'Component/MyAccountAddressTable/Container/mapStateToProps'
-);
+export const mapStateToProps = state => ({
+    countries: state.ConfigReducer.countries
+});
 
-export const mapDispatchToProps = middleware(
-    dispatch => ({
-        showEditPopup: payload => dispatch(showPopup(ADDRESS_POPUP_ID, payload))
-    }),
-    'Component/MyAccountAddressTable/Container/mapDispatchToProps'
-);
+export const mapDispatchToProps = dispatch => ({
+    showEditPopup: payload => dispatch(showPopup(ADDRESS_POPUP_ID, payload))
+});
 
 export class MyAccountAddressTableContainer extends ExtensiblePureComponent {
     static propTypes = {
@@ -95,6 +89,9 @@ export class MyAccountAddressTableContainer extends ExtensiblePureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
+export default connect(
+    middleware(mapStateToProps, 'Component/MyAccountAddressTable/Container/mapStateToProps'),
+    middleware(mapDispatchToProps, 'Component/MyAccountAddressTable/Container/mapDispatchToProps')
+)(
     middleware(MyAccountAddressTableContainer, 'Component/MyAccountAddressTable/Container')
 );

@@ -6,12 +6,9 @@ import { ProductType } from 'Type/ProductList';
 
 import ProductLinks from './ProductLinks.component';
 
-export const mapStateToProps = middleware(
-    state => ({
-        linkedProducts: state.LinkedProductsReducer.linkedProducts
-    }),
-    'Component/ProductLinks/Container/mapStateToProps'
-);
+export const mapStateToProps = state => ({
+    linkedProducts: state.LinkedProductsReducer.linkedProducts
+});
 
 export class ProductLinksContainer extends ExtensiblePureComponent {
     static propTypes = {
@@ -41,6 +38,12 @@ export class ProductLinksContainer extends ExtensiblePureComponent {
     }
 }
 
-export default connect(mapStateToProps)(
+// eslint-disable-next-line no-unused-vars
+export const mapDispatchToProps = dispatch => ({});
+
+export default connect(
+    middleware(mapStateToProps, 'Component/ProductLinks/Container/mapStateToProps'),
+    middleware(mapDispatchToProps, 'Component/ProductLinks/Container/mapDispatchToProps')
+)(
     middleware(ProductLinksContainer, 'Component/ProductLinks/Container')
 );

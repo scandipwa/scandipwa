@@ -15,22 +15,16 @@ import { SearchBarDispatcher } from 'Store/SearchBar';
 import { hideActiveOverlay } from 'Store/Overlay';
 import SearchOverlay from './SearchOverlay.component';
 
-export const mapStateToProps = middleware(
-    state => ({
-        searchResults: state.SearchBarReducer.productsInSearch,
-        isLoading: state.SearchBarReducer.isLoading
-    }),
-    'Component/SearchOverlay/Container/mapStateToProps'
-);
+export const mapStateToProps = state => ({
+    searchResults: state.SearchBarReducer.productsInSearch,
+    isLoading: state.SearchBarReducer.isLoading
+});
 
-export const mapDispatchToProps = middleware(
-    dispatch => ({
-        hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-        makeSearchRequest: options => SearchBarDispatcher.handleData(dispatch, options),
-        clearSearchResults: () => SearchBarDispatcher.clearSearchResults(dispatch)
-    }),
-    'Component/SearchOverlay/Container/mapDispatchToProps'
-);
+export const mapDispatchToProps = dispatch => ({
+    hideActiveOverlay: () => dispatch(hideActiveOverlay()),
+    makeSearchRequest: options => SearchBarDispatcher.handleData(dispatch, options),
+    clearSearchResults: () => SearchBarDispatcher.clearSearchResults(dispatch)
+});
 
 export class SearchOverlayContainer extends ExtensiblePureComponent {
     static propTypes = {
@@ -87,6 +81,9 @@ export class SearchOverlayContainer extends ExtensiblePureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
+export default connect(
+    middleware(mapStateToProps, 'Component/SearchOverlay/Container/mapStateToProps'),
+    middleware(mapDispatchToProps, 'Component/SearchOverlay/Container/mapDispatchToProps')
+)(
     middleware(SearchOverlayContainer, 'Component/SearchOverlay/Container')
 );
