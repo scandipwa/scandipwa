@@ -360,7 +360,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
             navigationState: { name }
         } = this.props;
 
-        if (isMobile.any() 
+        if (isMobile.any()
             || [CART_OVERLAY, MENU, POPUP].includes(name)
             || (!isMobile.any() && name === SEARCH)
         ) {
