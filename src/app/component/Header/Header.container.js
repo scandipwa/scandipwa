@@ -361,9 +361,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
         } = this.props;
 
         if (isMobile.any()
-            || name === CART_OVERLAY
-            || name === MENU
-            || name === POPUP
+            || [CART_OVERLAY, MENU, POPUP].includes(name)
             || (!isMobile.any() && name === SEARCH)
         ) {
             return;
