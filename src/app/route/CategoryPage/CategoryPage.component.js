@@ -25,6 +25,7 @@ import Html from 'Component/Html';
 import { CategoryTreeType } from 'Type/Category';
 import { FilterType, FilterInputType } from 'Type/ProductList';
 import isMobile from 'Util/Mobile';
+import './CategoryPage.style.scss';
 
 export class CategoryPage extends ExtensiblePureComponent {
     static propTypes = {

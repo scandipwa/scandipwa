@@ -11,7 +11,7 @@
 
 import { createRef } from 'react';
 import PropTypes from 'prop-types';
-import { history } from 'Route';
+import history from 'Util/History';
 
 import ClickOutside from 'Component/ClickOutside';
 import SearchOverlay from 'Component/SearchOverlay';

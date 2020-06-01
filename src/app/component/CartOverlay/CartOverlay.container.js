@@ -21,42 +21,29 @@ import { showNotification } from 'Store/Notification';
 import { CartDispatcher } from 'Store/Cart';
 import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
-import { history } from 'Route';
+import history from 'Util/History';
 
 import CartOverlay from './CartOverlay.component';
 
-<<<<<<< HEAD
 export const mapStateToProps = middleware(
     state => ({
-        totals: state.CartReducer.cartTotals
+        totals: state.CartReducer.cartTotals,
+        guest_checkout: state.ConfigReducer.guest_checkout,
+        currencyCode: state.ConfigReducer.default_display_currency_code
     }),
     'Component/CartOverlay/Container/mapStateToProps'
 );
 
 export const mapDispatchToProps = middleware(
     dispatch => ({
-        hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-        goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE)),
+        setNavigationState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
         changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
-        updateTotals: options => CartDispatcher.updateTotals(dispatch, options)
+        updateTotals: options => CartDispatcher.updateTotals(dispatch, options),
+        showOverlay: overlayKey => dispatch(toggleOverlayByKey(overlayKey)),
+        showNotification: (type, message) => dispatch(showNotification(type, message))
     }),
     'Component/CartOverlay/Container/mapDispatchToProps'
 );
-=======
-export const mapStateToProps = state => ({
-    totals: state.CartReducer.cartTotals,
-    guest_checkout: state.ConfigReducer.guest_checkout,
-    currencyCode: state.ConfigReducer.default_display_currency_code
-});
-
-export const mapDispatchToProps = dispatch => ({
-    setNavigationState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
-    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
-    updateTotals: options => CartDispatcher.updateTotals(dispatch, options),
-    showOverlay: overlayKey => dispatch(toggleOverlayByKey(overlayKey)),
-    showNotification: (type, message) => dispatch(showNotification(type, message))
-});
->>>>>>> 2.x-stable
 
 export class CartOverlayContainer extends ExtensiblePureComponent {
     static propTypes = {
