@@ -109,15 +109,11 @@ export class ProductList extends PureComponent {
                     if (!isIntersecting && index > -1) {
                         this.pagesIntersecting.splice(index, 1);
                     }
-
-                    if (page !== Math.min(...this.pagesIntersecting)) {
-                        this.pagesIntersecting.splice(index, 1);
-                    }
                 });
 
-                const minPage = Math.min(...this.pagesIntersecting);
-                if (minPage < Infinity && minPage !== currentPage) {
-                    updatePage(minPage);
+                const selectedPage = Math.max(...this.pagesIntersecting);
+                if (selectedPage < Infinity && selectedPage !== currentPage) {
+                    updatePage(selectedPage);
                 }
             }, {
                 rootMargin: '0px',
