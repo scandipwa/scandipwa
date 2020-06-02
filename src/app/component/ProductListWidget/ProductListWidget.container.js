@@ -21,8 +21,8 @@ import { updateNoMatch } from 'Store/NoMatch';
 
 import './ProductListWidget.style';
 
-export const mapDispatchToProps = // eslint-disable-next-line no-unused-vars
-dispatch => ({
+// eslint-disable-next-line no-unused-vars
+export const mapDispatchToProps = dispatch => ({
     updateNoMatch,
     showNotification
 });

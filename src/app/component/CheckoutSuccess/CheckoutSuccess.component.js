@@ -9,13 +9,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Link from 'Component/Link';
 
 import './CheckoutSuccess.style';
 
-export default class CheckoutSuccess extends PureComponent {
+export class CheckoutSuccess extends ExtensiblePureComponent {
     static propTypes = {
         orderID: PropTypes.string.isRequired
     };
@@ -46,3 +45,5 @@ export default class CheckoutSuccess extends PureComponent {
         );
     }
 }
+
+export default middleware(CheckoutSuccess, 'Component/CheckoutSuccess/Component');

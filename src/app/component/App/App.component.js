@@ -16,7 +16,6 @@ import store from 'Store';
 import Router from 'Component/Router';
 import SomethingWentWrong from 'Route/SomethingWentWrong';
 import SharedTransition from 'Component/SharedTransition';
-export { history } from 'Util/History';
 
 export class App extends ExtensiblePureComponent {
     productionFunctions = [
