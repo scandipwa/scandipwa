@@ -71,7 +71,7 @@ export class CartOverlayContainer extends ExtensiblePureComponent {
         // to prevent outside-click handler trigger
         e.nativeEvent.stopImmediatePropagation();
 
-        if (!guest_checkout) {
+        if (guest_checkout) {
             history.push({ pathname: '/checkout' });
             return;
         }
