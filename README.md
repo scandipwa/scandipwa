@@ -47,7 +47,7 @@ Available setup options:
 - [x] Docker on Linux
 - [x] Existing Magento
 - [x] With remote server
-- [ ] Docker on Mac (upcoming)
+- [x] Docker on Mac
 
 > **Quick start** → [Docker Setup on Linux](https://www.youtube.com/watch?v=IOXSBcCBvCw&list=PLy0PoJ53Gjy0VVzmgO_gwoepniP6rQb0K&index=2)
 
