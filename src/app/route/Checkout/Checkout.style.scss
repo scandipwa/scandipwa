@@ -42,6 +42,12 @@
             width: 100%;
             z-index: 85;
         }
+
+        .Button {
+            @include mobile {
+                width: 100%;
+            }
+        }
     }
 
     &-Step {
