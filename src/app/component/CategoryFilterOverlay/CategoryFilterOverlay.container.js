@@ -21,25 +21,19 @@ import { LocationType } from 'Type/Router';
 
 import CategoryFilterOverlay from './CategoryFilterOverlay.component';
 
-export const mapStateToProps = middleware(
-    state => ({
-        isInfoLoading: state.ProductListInfoReducer.isLoading,
-        isProductsLoading: state.ProductListReducer.isLoading,
-        totalPages: state.ProductListReducer.totalPages
-    }),
-    'Component/CategoryFilterOverlay/Container/mapStateToProps'
-);
+export const mapStateToProps = state => ({
+    isInfoLoading: state.ProductListInfoReducer.isLoading,
+    isProductsLoading: state.ProductListReducer.isLoading,
+    totalPages: state.ProductListReducer.totalPages
+});
 
-export const mapDispatchToProps = middleware(
-    dispatch => ({
-        hideActiveOverlay: () => dispatch(hideActiveOverlay()),
-        goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE)),
-        goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(BOTTOM_NAVIGATION_TYPE)),
-        changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
-        changeNavigationState: state => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state))
-    }),
-    'Component/CategoryFilterOverlay/Container/mapDispatchToProps'
-);
+export const mapDispatchToProps = dispatch => ({
+    hideActiveOverlay: () => dispatch(hideActiveOverlay()),
+    goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE)),
+    goToPreviousNavigationState: () => dispatch(goToPreviousNavigationState(BOTTOM_NAVIGATION_TYPE)),
+    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
+    changeNavigationState: state => dispatch(changeNavigationState(BOTTOM_NAVIGATION_TYPE, state))
+});
 
 export class CategoryFilterOverlayContainer extends ExtensiblePureComponent {
     static propTypes = {
@@ -176,6 +170,11 @@ export class CategoryFilterOverlayContainer extends ExtensiblePureComponent {
     }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(
-    middleware(CategoryFilterOverlayContainer, 'Component/CategoryFilterOverlay/Container')
-));
+export default withRouter(
+    connect(
+        middleware(mapStateToProps, 'Component/CategoryFilterOverlay/Container/mapStateToProps'),
+        middleware(mapDispatchToProps, 'Component/CategoryFilterOverlay/Container/mapDispatchToProps'),
+    )(
+        middleware(CategoryFilterOverlayContainer, 'Component/CategoryFilterOverlay/Container')
+    )
+);
