@@ -29,6 +29,10 @@
     & &-Button {
         display: block;
 
+        @include before-desktop {
+            width: 100%;
+        }
+
         &_isCustomAddressExpanded {
             display: none;
         }

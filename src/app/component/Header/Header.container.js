@@ -9,12 +9,14 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { history } from 'Route';
 import { setQueryParams } from 'Util/Url';
 import { isSignedIn } from 'Util/Auth';
 import isMobile from 'Util/Mobile';
+import { CHECKOUT_URL } from 'Route/Checkout/Checkout.component';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { toggleOverlayByKey, hideActiveOverlay } from 'Store/Overlay';
@@ -119,9 +121,16 @@ export class HeaderContainer extends NavigationAbstractContainer {
         const {
             isClearEnabled,
             searchCriteria,
-            isCheckout,
             showMyAccountLogin
         } = this.state;
+
+        const {
+            location: {
+                pathname
+            }
+        } = history;
+
+        const isCheckout = pathname.includes(CHECKOUT_URL);
 
         return {
             navigationState,
@@ -143,21 +152,18 @@ export class HeaderContainer extends NavigationAbstractContainer {
             prevPathname: '',
             searchCriteria: '',
             isClearEnabled: this.getIsClearEnabled(),
-            isCheckout: false,
             showMyAccountLogin: false
         };
     }
 
     componentDidMount() {
         this.handleHeaderVisibility();
-        this.checkIsCheckout();
         super.componentDidMount();
     }
 
     componentDidUpdate(prevProps) {
         this.hideSearchOnStateChange(prevProps);
         this.handleHeaderVisibility();
-        this.checkIsCheckout();
     }
 
     hideSearchOnStateChange(prevProps) {
@@ -179,16 +185,6 @@ export class HeaderContainer extends NavigationAbstractContainer {
         if (activeOverlay === SEARCH) {
             hideActiveOverlay();
         }
-    }
-
-    checkIsCheckout() {
-        const { location: { pathname } } = history;
-
-        if (pathname === '/checkout') {
-            return this.setState({ isCheckout: true });
-        }
-
-        return this.setState({ isCheckout: false });
     }
 
     handleHeaderVisibility() {
@@ -383,7 +379,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
         } = this.props;
         const { location: { pathname } } = history;
 
-        if (pathname === '/checkout') {
+        if (pathname.includes(CHECKOUT_URL)) {
             if (name === CUSTOMER_SUB_ACCOUNT) {
                 goToPreviousNavigationState();
             } else {
@@ -397,7 +393,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
     onSignIn() {
         const { location: { pathname } } = history;
 
-        if (pathname === '/checkout') {
+        if (pathname.includes(CHECKOUT_URL)) {
             this.setState({ showMyAccountLogin: false });
         }
     }
@@ -475,6 +471,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
         if (onCancelClick) {
             onCancelClick();
         }
+
         goToPreviousNavigationState();
     }
 
@@ -488,4 +485,4 @@ export class HeaderContainer extends NavigationAbstractContainer {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(HeaderContainer);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HeaderContainer))

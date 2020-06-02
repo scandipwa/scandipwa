@@ -15,12 +15,6 @@
         margin-bottom: 2rem;
     }
 
-    &-Button {
-        @include mobile {
-            width: 100%;
-        }
-    }
-
     &-TermsAndConditions {
         font-weight: 700;
         font-size: 1.05rem;

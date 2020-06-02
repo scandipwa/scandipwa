@@ -16,6 +16,7 @@ import { PureComponent } from 'react';
 import { changeNavigationState } from 'Store/Navigation';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { CART_OVERLAY, CART_EDITING } from 'Component/Header';
+import { CHECKOUT_URL } from 'Route/Checkout/Checkout.component';
 import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.component';
 import { toggleOverlayByKey } from 'Store/Overlay';
 import { showNotification } from 'Store/Notification';
@@ -73,12 +74,12 @@ export class CartOverlayContainer extends PureComponent {
         e.nativeEvent.stopImmediatePropagation();
 
         if (guest_checkout) {
-            history.push({ pathname: '/checkout' });
+            history.push({ pathname: CHECKOUT_URL });
             return;
         }
 
         if (isSignedIn()) {
-            history.push({ pathname: '/checkout' });
+            history.push({ pathname: CHECKOUT_URL });
             return;
         }
 
