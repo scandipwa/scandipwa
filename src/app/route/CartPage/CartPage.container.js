@@ -16,6 +16,7 @@ import PropTypes from 'prop-types';
 
 import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.component';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { CHECKOUT_URL } from 'Route/Checkout/Checkout.component';
 import { CART, CART_EDITING } from 'Component/Header';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import { changeNavigationState } from 'Store/Navigation';
@@ -110,13 +111,13 @@ export class CartPageContainer extends PureComponent {
         // to prevent outside-click handler trigger
         e.nativeEvent.stopImmediatePropagation();
 
-        if (!guest_checkout) {
-            history.push({ pathname: '/checkout' });
+        if (guest_checkout) {
+            history.push({ pathname: CHECKOUT_URL });
             return;
         }
 
         if (isSignedIn()) {
-            history.push({ pathname: '/checkout' });
+            history.push({ pathname: CHECKOUT_URL });
             return;
         }
 

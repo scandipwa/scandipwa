@@ -16,6 +16,7 @@ import { PureComponent } from 'react';
 import { changeNavigationState } from 'Store/Navigation';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { CART_OVERLAY, CART_EDITING } from 'Component/Header';
+import { CHECKOUT_URL } from 'Route/Checkout/Checkout.component';
 import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.component';
 import { toggleOverlayByKey } from 'Store/Overlay';
 import { showNotification } from 'Store/Notification';
@@ -46,7 +47,8 @@ export class CartOverlayContainer extends PureComponent {
         guest_checkout: PropTypes.bool,
         changeHeaderState: PropTypes.func.isRequired,
         showOverlay: PropTypes.func.isRequired,
-        showNotification: PropTypes.func.isRequired
+        showNotification: PropTypes.func.isRequired,
+        setNavigationState: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -64,25 +66,27 @@ export class CartOverlayContainer extends PureComponent {
         const {
             guest_checkout,
             showOverlay,
-            showNotification
+            showNotification,
+            setNavigationState
         } = this.props;
 
         // to prevent outside-click handler trigger
         e.nativeEvent.stopImmediatePropagation();
 
-        if (!guest_checkout) {
-            history.push({ pathname: '/checkout' });
+        if (guest_checkout) {
+            history.push({ pathname: CHECKOUT_URL });
             return;
         }
 
         if (isSignedIn()) {
-            history.push({ pathname: '/checkout' });
+            history.push({ pathname: CHECKOUT_URL });
             return;
         }
 
         // there is no mobile, as cart overlay is not visible here
         showOverlay(CUSTOMER_ACCOUNT_OVERLAY_KEY);
         showNotification('info', __('Please sign-in to complete checkout!'));
+        setNavigationState({ name: CUSTOMER_ACCOUNT_OVERLAY_KEY, title: 'Sign in' });
     }
 
     changeHeaderState() {
