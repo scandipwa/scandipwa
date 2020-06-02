@@ -59,6 +59,20 @@ export class CategoryQuery extends ExtensibleClass {
         ];
     }
 
+    _getCmsBlockFields() {
+        return [
+            'content',
+            'disabled',
+            'title',
+            'identifier'
+        ];
+    }
+
+    _getCmsBlockField() {
+        return new Field('cms_block')
+            .addFieldList(this._getCmsBlockFields());
+    }
+
     _getDefaultFields() {
         return [
             'id',
@@ -74,6 +88,8 @@ export class CategoryQuery extends ExtensibleClass {
             'meta_keywords',
             'default_sort_by',
             'meta_description',
+            'landing_page',
+            this._getCmsBlockField(),
             this._getBreadcrumbsField()
         ];
     }

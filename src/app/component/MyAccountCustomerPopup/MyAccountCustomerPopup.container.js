@@ -25,23 +25,17 @@ import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 
 import MyAccountCustomerPopup, { CUSTOMER_POPUP_ID } from './MyAccountCustomerPopup.component';
 
-export const mapStateToProps = middleware(
-    state => ({
-        payload: state.PopupReducer.popupPayload[CUSTOMER_POPUP_ID] || {}
-    }),
-    'Component/MyAccountCustomerPopup/Container/mapStateToProps'
-);
+export const mapStateToProps = state => ({
+    payload: state.PopupReducer.popupPayload[CUSTOMER_POPUP_ID] || {}
+});
 
-export const mapDispatchToProps = middleware(
-    dispatch => ({
-        updateCustomer: customer => dispatch(updateCustomerDetails(customer)),
-        goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE)),
-        showErrorNotification: error => dispatch(showNotification('error', error[0].message)),
-        showSuccessNotification: message => dispatch(showNotification('success', message)),
-        hideActiveOverlay: () => dispatch(hideActiveOverlay())
-    }),
-    'Component/MyAccountCustomerPopup/Container/mapDispatchToProps'
-);
+export const mapDispatchToProps = dispatch => ({
+    updateCustomer: customer => dispatch(updateCustomerDetails(customer)),
+    goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE)),
+    showErrorNotification: error => dispatch(showNotification('error', error[0].message)),
+    showSuccessNotification: message => dispatch(showNotification('success', message)),
+    hideActiveOverlay: () => dispatch(hideActiveOverlay())
+});
 
 export class MyAccountCustomerPopupContainer extends ExtensiblePureComponent {
     static propTypes = {
@@ -123,6 +117,9 @@ export class MyAccountCustomerPopupContainer extends ExtensiblePureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
+export default connect(
+    middleware(mapStateToProps, 'Component/MyAccountCustomerPopup/Container/mapStateToProps'),
+    middleware(mapDispatchToProps, 'Component/MyAccountCustomerPopup/Container/mapDispatchToProps')
+)(
     middleware(MyAccountCustomerPopupContainer, 'Component/MyAccountCustomerPopup/Container')
 );

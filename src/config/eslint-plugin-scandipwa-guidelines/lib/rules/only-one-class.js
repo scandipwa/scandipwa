@@ -1,11 +1,7 @@
 /**
  * @fileoverview There should be only one class per file
- * @author Alfreds Genkins
+ * @author Jegors Batovs
  */
-
-//------------------------------------------------------------------------------
-// Rule Definition
-//------------------------------------------------------------------------------
 
 // eslint-disable-next-line fp/no-let, scandipwa-extensibility/no-non-extensible-components
 let classCount;

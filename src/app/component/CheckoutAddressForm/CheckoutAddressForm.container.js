@@ -12,12 +12,15 @@
 import { connect } from 'react-redux';
 import CheckoutAddressForm from './CheckoutAddressForm.component';
 
-export const mapStateToProps = middleware(
-    state => ({
-        countries: state.ConfigReducer.countries,
-        default_country: state.ConfigReducer.default_country
-    }),
-    'Component/CheckoutAddressForm/Container/mapStateToProps'
-);
+export const mapStateToProps = state => ({
+    countries: state.ConfigReducer.countries,
+    default_country: state.ConfigReducer.default_country
+});
 
-export default connect(mapStateToProps)(CheckoutAddressForm);
+// eslint-disable-next-line no-unused-vars
+export const mapDispatchToProps = dispatch => ({});
+
+export default connect(
+    middleware(mapStateToProps, 'Component/CheckoutAddressForm/Container/mapStateToProps'),
+    middleware(mapDispatchToProps, 'Component/CheckoutAddressForm/Container/mapDispatchToProps')
+)(CheckoutAddressForm);

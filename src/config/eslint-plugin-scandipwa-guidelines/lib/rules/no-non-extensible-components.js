@@ -1,11 +1,7 @@
 /**
  * @fileoverview Non-extensible components are not allowed.
- * @author Alfreds Genkins
+ * @author Jegors Batovs
  */
-
-//------------------------------------------------------------------------------
-// Rule Definition
-//------------------------------------------------------------------------------
 
 function keepOrDeleteNode(context, node) {
     const { name } = node.specifiers[0].local;
@@ -63,38 +59,6 @@ module.exports = {
                     }
                 );
             }
-        },
-        VariableDeclaration(node) {
-            const { parent, declarations: [{ id: { loc, name } }] } = node;
-            const { type } = parent || {};
-
-            if (parent.type !== 'Program') {
-                return;
-            }
-
-            if (type !== 'ExportNamedDeclaration') {
-                context.report({
-                    loc,
-                    message: `Variable ${name} must be exported (as non default) to allow proper extension.`,
-                    fix: fixer => fixer.insertTextBefore(node, 'export ')
-                });
-            }
-        },
-        ClassDeclaration(node) {
-            const { parent, id: { loc, name } } = node;
-            const { type } = parent || {};
-
-            if (type !== 'ExportNamedDeclaration') {
-                context.report({
-                    loc,
-                    message: `Class ${name} must be exported (as non default) to allow proper extension.`,
-                    fix: fixer => {
-                        if (parent.type === 'Program') {
-                            fixer.insertTextBefore(node, 'export ')
-                        }
-                    }
-                });
-            }
-          }
+        }
     })
 };

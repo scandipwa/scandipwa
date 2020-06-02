@@ -3,7 +3,7 @@
 
 /**
  * @fileoverview Class name must match the name of the file it is declared in.
- * @author Alfreds Genkins
+ * @author Jegors Batovs
  */
 
 //------------------------------------------------------------------------------

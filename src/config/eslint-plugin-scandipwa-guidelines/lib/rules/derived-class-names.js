@@ -1,11 +1,7 @@
 /**
  * @fileoverview Class name must match the name of the file it is declared in.
- * @author Alfreds Genkins
+ * @author Jegors Batovs
  */
-
-//------------------------------------------------------------------------------
-// Rule Definition
-//------------------------------------------------------------------------------
 
 function capitalize(word) {
     return word.charAt(0).toUpperCase() + word.slice(1);

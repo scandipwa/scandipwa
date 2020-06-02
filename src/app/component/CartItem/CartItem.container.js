@@ -20,14 +20,11 @@ import { makeCancelable } from 'Util/Promise';
 import { DEFAULT_MAX_PRODUCTS } from 'Component/ProductActions/ProductActions.container';
 import CartItem from './CartItem.component';
 
-export const mapDispatchToProps = middleware(
-    dispatch => ({
-        addProduct: options => CartDispatcher.addProductToCart(dispatch, options),
-        changeItemQty: options => CartDispatcher.changeItemQty(dispatch, options),
-        removeProduct: options => CartDispatcher.removeProductFromCart(dispatch, options)
-    }),
-    'Component/CartItem/Container/mapDispatchToProps'
-);
+export const mapDispatchToProps = dispatch => ({
+    addProduct: options => CartDispatcher.addProductToCart(dispatch, options),
+    changeItemQty: options => CartDispatcher.changeItemQty(dispatch, options),
+    removeProduct: options => CartDispatcher.removeProductFromCart(dispatch, options)
+});
 
 export class CartItemContainer extends ExtensiblePureComponent {
     static propTypes = {
@@ -204,6 +201,12 @@ export class CartItemContainer extends ExtensiblePureComponent {
     }
 }
 
-export default connect(null, mapDispatchToProps)(
+// eslint-disable-next-line no-unused-vars
+export const mapStateToProps = state => ({});
+
+export default connect(
+    middleware(mapStateToProps, 'Component/CartItem/Container/mapStateToProps'),
+    middleware(mapDispatchToProps, 'Component/CartItem/Container/mapDispatchToProps')
+)(
     middleware(CartItemContainer, 'Component/CartItem/Container')
 );

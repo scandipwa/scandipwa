@@ -16,12 +16,9 @@ import CheckoutTermsAndConditionsPopup, {
     TERMS_AND_CONDITIONS_POPUP_ID
 } from './CheckoutTermsAndConditionsPopup.component';
 
-export const mapStateToProps = middleware(
-    state => ({
-        payload: state.PopupReducer.popupPayload[TERMS_AND_CONDITIONS_POPUP_ID] || {}
-    }),
-    'Component/CheckoutTermsAndConditionsPopup/Container/mapStateToProps'
-);
+export const mapStateToProps = state => ({
+    payload: state.PopupReducer.popupPayload[TERMS_AND_CONDITIONS_POPUP_ID] || {}
+});
 
 export class CheckoutTermsAndConditionsPopupContainer extends ExtensiblePureComponent {
     static propTypes = {
@@ -46,6 +43,12 @@ export class CheckoutTermsAndConditionsPopupContainer extends ExtensiblePureComp
     }
 }
 
-export default connect(mapStateToProps)(
+// eslint-disable-next-line no-unused-vars
+export const mapDispatchToProps = dispatch => ({});
+
+export default connect(
+    middleware(mapStateToProps, 'Component/CheckoutTermsAndConditionsPopup/Container/mapStateToProps'),
+    middleware(mapDispatchToProps, 'Component/CheckoutTermsAndConditionsPopup/Container/mapDispatchToProps')
+)(
     middleware(CheckoutTermsAndConditionsPopupContainer, 'Component/CheckoutTermsAndConditionsPopup/Container')
 );

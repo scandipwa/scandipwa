@@ -1,11 +1,7 @@
 /**
  * @fileoverview File structure must comply to the strict guidelines of ScandiPWA
- * @author Alfreds Genkins
+ * @author Jegors Batovs
  */
-
-//------------------------------------------------------------------------------
-// Rule Definition
-//------------------------------------------------------------------------------
 
 /* eslint-disable max-len */
 /* eslint-disable no-magic-numbers */
@@ -46,7 +42,7 @@ function checkPostfix(exploded) {
     switch (exploded[0]) {
     case 'component':
     case 'route':
-        if (!(['component', 'container', 'style'].includes(postfix))) {
+        if (!(['component', 'container', 'style', 'config', 'unstated'].includes(postfix))) {
             return exploded[0];
         }
         break;

@@ -14,12 +14,9 @@ import { connect } from 'react-redux';
 import { MyAccountDispatcher } from 'Store/MyAccount';
 import MyAccountTabList from './MyAccountTabList.component';
 
-export const mapDispatchToProps = middleware(
-    dispatch => ({
-        logout: () => MyAccountDispatcher.logout(null, dispatch)
-    }),
-    'Component/MyAccountTabList/Container/mapDispatchToProps'
-);
+export const mapDispatchToProps = dispatch => ({
+    logout: () => MyAccountDispatcher.logout(null, dispatch)
+});
 
 export class MyAccountTabListContainer extends ExtensiblePureComponent {
     static propTypes = {
@@ -52,6 +49,12 @@ export class MyAccountTabListContainer extends ExtensiblePureComponent {
     }
 }
 
-export default connect(null, mapDispatchToProps)(
+// eslint-disable-next-line no-unused-vars
+export const mapStateToProps = state => ({});
+
+export default connect(
+    middleware(mapStateToProps, 'Component/MyAccountTabList/Container/mapStateToProps'),
+    middleware(mapDispatchToProps, 'Component/MyAccountTabList/Container/mapDispatchToProps')
+)(
     middleware(MyAccountTabListContainer, 'Component/MyAccountTabList/Container')
 );

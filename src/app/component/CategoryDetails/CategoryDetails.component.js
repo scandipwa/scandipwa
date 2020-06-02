@@ -10,7 +10,6 @@
  */
 
 
-import media, { CATEGORY_MEDIA } from 'Util/Media';
 import Html from 'Component/Html';
 import Image from 'Component/Image';
 import { CategoryTreeType } from 'Type/Category';
@@ -85,12 +84,10 @@ export class CategoryDetails extends ExtensiblePureComponent {
             return null;
         }
 
-        const src = image ? media(image, CATEGORY_MEDIA) : '';
-
         return (
             <Image
               mix={ { block: 'CategoryDetails', elem: 'Picture' } }
-              src={ src }
+              src={ image || '' }
               ratio="custom"
               objectFit="cover"
             />

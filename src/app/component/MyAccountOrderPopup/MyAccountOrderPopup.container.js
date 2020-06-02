@@ -21,22 +21,16 @@ import { OrderQuery } from 'Query';
 
 import MyAccountOrderPopup, { ORDER_POPUP_ID } from './MyAccountOrderPopup.component';
 
-export const mapStateToProps = middleware(
-    state => ({
-        order: state.OrderReducer.order,
-        payload: state.PopupReducer.popupPayload[ORDER_POPUP_ID] || {},
-        currency_code: state.ConfigReducer.default_display_currency_code
-    }),
-    'Component/MyAccountOrderPopup/Container/mapStateToProps'
-);
+export const mapStateToProps = state => ({
+    order: state.OrderReducer.order,
+    payload: state.PopupReducer.popupPayload[ORDER_POPUP_ID] || {},
+    currency_code: state.ConfigReducer.default_display_currency_code
+});
 
-export const mapDispatchToProps = middleware(
-    dispatch => ({
-        showNotification: (type, message) => dispatch(showNotification(type, message)),
-        getOrder: orderId => OrderDispatcher.getOrderById(dispatch, orderId)
-    }),
-    'Component/MyAccountOrderPopup/Container/mapDispatchToProps'
-);
+export const mapDispatchToProps = dispatch => ({
+    showNotification: (type, message) => dispatch(showNotification(type, message)),
+    getOrder: orderId => OrderDispatcher.getOrderById(dispatch, orderId)
+});
 
 export class MyAccountOrderPopupContainer extends ExtensiblePureComponent {
     static propTypes = {
@@ -115,6 +109,9 @@ export class MyAccountOrderPopupContainer extends ExtensiblePureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
+export default connect(
+    middleware(mapStateToProps, 'Component/MyAccountOrderPopup/Container/mapStateToProps'),
+    middleware(mapDispatchToProps, 'Component/MyAccountOrderPopup/Container/mapDispatchToProps')
+)(
     middleware(MyAccountOrderPopupContainer, 'Component/MyAccountOrderPopup/Container')
 );

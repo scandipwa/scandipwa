@@ -18,31 +18,25 @@ import { updateMeta } from 'Store/Meta';
 import { showNotification } from 'Store/Notification';
 import PasswordChangePage from './PasswordChangePage.component';
 
-export const mapStateToProps = middleware(
-    state => ({
-        passwordResetStatus: state.MyAccountReducer.passwordResetStatus
-    }),
-    'Route/PasswordChangePage/Container/mapStateToProps'
-);
+export const mapStateToProps = state => ({
+    passwordResetStatus: state.MyAccountReducer.passwordResetStatus
+});
 
-export const mapDispatchToProps = middleware(
-    dispatch => ({
-        updateMeta: meta => dispatch(updateMeta(meta)),
-        updateBreadcrumbs: (breadcrumbs) => {
-            BreadcrumbsDispatcher.update(breadcrumbs, dispatch);
-        },
-        resetPassword(options) {
-            MyAccountDispatcher.resetPassword(options, dispatch);
-        },
-        updateCustomerPasswordResetStatus(options) {
-            MyAccountDispatcher.updateCustomerPasswordResetStatus(options, dispatch);
-        },
-        showNotification(type, message) {
-            dispatch(showNotification(type, message));
-        }
-    }),
-    'Route/PasswordChangePage/Container/mapDispatchToProps'
-);
+export const mapDispatchToProps = dispatch => ({
+    updateMeta: meta => dispatch(updateMeta(meta)),
+    updateBreadcrumbs: (breadcrumbs) => {
+        BreadcrumbsDispatcher.update(breadcrumbs, dispatch);
+    },
+    resetPassword(options) {
+        MyAccountDispatcher.resetPassword(options, dispatch);
+    },
+    updateCustomerPasswordResetStatus(options) {
+        MyAccountDispatcher.updateCustomerPasswordResetStatus(options, dispatch);
+    },
+    showNotification(type, message) {
+        dispatch(showNotification(type, message));
+    }
+});
 
 export class PasswordChangePageContainer extends ExtensiblePureComponent {
     static propTypes = {
@@ -64,6 +58,9 @@ export class PasswordChangePageContainer extends ExtensiblePureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
+export default connect(
+    middleware(mapStateToProps, 'Route/PasswordChangePage/Container/mapStateToProps'),
+    middleware(mapDispatchToProps, 'Route/PasswordChangePage/Container/mapDispatchToProps')
+)(
     middleware(PasswordChangePageContainer, 'Route/PasswordChangePage/Container')
 );

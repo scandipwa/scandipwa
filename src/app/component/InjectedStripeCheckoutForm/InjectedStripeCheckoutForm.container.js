@@ -14,11 +14,14 @@ import { injectStripe } from 'react-stripe-elements';
 import { showNotification } from 'Store/Notification';
 import InjectedStripeCheckoutForm from './InjectedStripeCheckoutForm.component';
 
-export const mapDispatchToProps = middleware(
-    dispatch => ({
-        showNotification: (type, message) => dispatch(showNotification(type, message))
-    }),
-    'Component/InjectedStripeCheckoutForm/Container/mapDispatchToProps'
-);
+export const mapDispatchToProps = dispatch => ({
+    showNotification: (type, message) => dispatch(showNotification(type, message))
+});
 
-export default connect(null, mapDispatchToProps)(injectStripe(InjectedStripeCheckoutForm));
+// eslint-disable-next-line no-unused-vars
+export const mapStateToProps = state => ({});
+
+export default connect(
+    middleware(mapStateToProps, 'Component/InjectedStripeCheckoutForm/Container/mapStateToProps'),
+    middleware(mapDispatchToProps, 'Component/InjectedStripeCheckoutForm/Container/mapDispatchToProps')
+)(injectStripe(InjectedStripeCheckoutForm));

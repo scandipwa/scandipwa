@@ -1,6 +1,6 @@
 /**
  * @fileoverview File structure must comply to the strict guidelines of ScandiPWA
- * @author Alfreds Genkins
+ * @author Jegors Batovs
  */
 "use strict";
 

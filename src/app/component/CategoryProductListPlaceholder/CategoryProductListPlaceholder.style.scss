@@ -12,11 +12,20 @@
     animation: appear 200ms 200ms forwards;
 
     &-Offset {
-        height: 1px;
-        pointer-events: none;
-
         @include mobile {
-            top: -100vh;
+            height: 150vh;
+            top: -150vh;
+        }
+
+        height: 100vh;
+        pointer-events: none;
+        top: -100vh;
+        position: absolute;
+        left: 0;
+        width: 100%;
+
+        &::before {
+            display: none;
         }
     }
 }

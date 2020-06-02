@@ -4,20 +4,17 @@ import PropTypes from 'prop-types';
 
 import Meta from './Meta.component';
 
-export const mapStateToProps = middleware(
-    state => ({
-        default_description: state.MetaReducer.default_description,
-        default_keywords: state.MetaReducer.default_keywords,
-        default_title: state.MetaReducer.default_title,
-        canonical_url: state.MetaReducer.canonical_url,
-        title_prefix: state.MetaReducer.title_prefix,
-        title_suffix: state.MetaReducer.title_suffix,
-        description: state.MetaReducer.description,
-        keywords: state.MetaReducer.keywords,
-        title: state.MetaReducer.title
-    }),
-    'Component/Meta/Container/mapStateToProps'
-);
+export const mapStateToProps = state => ({
+    default_description: state.MetaReducer.default_description,
+    default_keywords: state.MetaReducer.default_keywords,
+    default_title: state.MetaReducer.default_title,
+    canonical_url: state.MetaReducer.canonical_url,
+    title_prefix: state.MetaReducer.title_prefix,
+    title_suffix: state.MetaReducer.title_suffix,
+    description: state.MetaReducer.description,
+    keywords: state.MetaReducer.keywords,
+    title: state.MetaReducer.title
+});
 
 export class MetaContainer extends ExtensiblePureComponent {
     static propTypes = {
@@ -94,6 +91,12 @@ export class MetaContainer extends ExtensiblePureComponent {
     }
 }
 
-export default connect(mapStateToProps)(
+// eslint-disable-next-line no-unused-vars
+export const mapDispatchToProps = dispatch => ({});
+
+export default connect(
+    middleware(mapStateToProps, 'Component/Meta/Container/mapStateToProps'),
+    middleware(mapDispatchToProps, 'Component/Meta/Container/mapDispatchToProps')
+)(
     middleware(MetaContainer, 'Component/Meta/Container')
 );

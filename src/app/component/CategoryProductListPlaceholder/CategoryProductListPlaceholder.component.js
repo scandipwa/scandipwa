@@ -103,25 +103,23 @@ export class CategoryProductListPlaceholder extends ExtensiblePureComponent {
         }
 
         return (
-            <>
-                <div
+            <ul
+              block="CategoryProductList"
+              elem="Page"
+              mix={ {
+                  block: 'CategoryProductListPlaceholder',
+                  mix: { ...mix, elem: 'Page' }
+              } }
+            >
+                <li
                   block="CategoryProductListPlaceholder"
                   elem="Offset"
                   ref={ isVisible ? (node) => {
                       this.node = node;
                   } : undefined }
                 />
-                <ul
-                  block="CategoryProductList"
-                  elem="Page"
-                  mix={ {
-                      block: 'CategoryProductListPlaceholder',
-                      mix: { ...mix, elem: 'Page' }
-                  } }
-                >
-                    { this.renderPlaceholders() }
-                </ul>
-            </>
+                { this.renderPlaceholders() }
+            </ul>
         );
     }
 }

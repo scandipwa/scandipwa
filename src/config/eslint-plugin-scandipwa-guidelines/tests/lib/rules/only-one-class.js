@@ -1,6 +1,6 @@
 /**
  * @fileoverview There should be only one class per file
- * @author Alfreds Genkins
+ * @author Jegors Batovs
  */
 "use strict";
 

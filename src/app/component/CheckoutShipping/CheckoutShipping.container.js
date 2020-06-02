@@ -18,12 +18,9 @@ import { customerType } from 'Type/Account';
 
 import CheckoutShipping from './CheckoutShipping.component';
 
-export const mapStateToProps = middleware(
-    state => ({
-        customer: state.MyAccountReducer.customer
-    }),
-    'Component/CheckoutShipping/Container/mapStateToProps'
-);
+export const mapStateToProps = state => ({
+    customer: state.MyAccountReducer.customer
+});
 
 export class CheckoutShippingContainer extends ExtensiblePureComponent {
     static propTypes = {
@@ -108,6 +105,12 @@ export class CheckoutShippingContainer extends ExtensiblePureComponent {
     }
 }
 
-export default connect(mapStateToProps)(
+// eslint-disable-next-line no-unused-vars
+export const mapDispatchToProps = dispatch => ({});
+
+export default connect(
+    middleware(mapStateToProps, 'Component/CheckoutShipping/Container/mapStateToProps'),
+    middleware(mapDispatchToProps, 'Component/CheckoutShipping/Container/mapDispatchToProps')
+)(
     middleware(CheckoutShippingContainer, 'Component/CheckoutShipping/Container')
 );

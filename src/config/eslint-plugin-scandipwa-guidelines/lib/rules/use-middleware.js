@@ -1,12 +1,32 @@
 /**
  * @fileoverview Wrap default export classes in middleware function
- * @author Alfreds Genkins
+ * @author Jegors Batovs
  */
 "use strict";
 
-//------------------------------------------------------------------------------
-// Rule Definition
-//------------------------------------------------------------------------------
+function checkCall(context, callee) {
+    const { type, name } = callee;
+    if (type === 'Identifier' && name === 'middleware') {
+        return true;
+    }
+    if (type === 'CallExpression' || type === 'NewExpression') {
+        const { callee: nextCallee, arguments: args } = callee;
+        if (checkCall(context, nextCallee)) {
+            return true;
+        }
+
+        // eslint-disable-next-line fp/no-loops, no-restricted-syntax
+        for (const arg of args) {
+            if (checkCall(context, arg)) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+let classExists = false;
 
 module.exports = {
     meta: {
@@ -15,30 +35,52 @@ module.exports = {
             category: "Fill me in",
             recommended: false
         },
-        fixable: null,  // or "code" or "whitespace"
-        schema: [
-            // fill in your schema
-        ]
+        fixable: 'code',
     },
 
-    create: function(context) {
+    create: context => ({
+        Program() {
+            classExists = false;
+        },
+        ClassDeclaration() {
+            classExists = true;
+        },
+        ExportDefaultDeclaration(node) {
+            if (!classExists && node.declaration.type !== 'ClassDeclaration') {
+                return;
+            }
 
-        // variables should be defined here
+            if (node.declaration.type === 'ClassDeclaration') {
+                context.report({
+                    node,
+                    message: 'Use middleware function when exporting extensible class. Declare it separately.'
+                });
+            }
 
-        //----------------------------------------------------------------------
-        // Helpers
-        //----------------------------------------------------------------------
+            if (node.declaration.type === 'Identifier') {
+                context.report({
+                    node,
+                    message: 'Use middleware function when exporting class',
+                    fix: (fixer) => {
+                        const { declaration } = node;
 
-        // any helper functions should go here or else delete this section
+                        return [
+                            fixer.insertTextBefore(declaration, 'middleware('),
+                            fixer.insertTextAfter(declaration, ", 'NAMESPACE')")
+                        ];
+                    }
+                });
+            }
 
-        //----------------------------------------------------------------------
-        // Public
-        //----------------------------------------------------------------------
-
-        return {
-
-            // give me methods
-
-        };
-    }
+            if (node.declaration.type === 'CallExpression' || node.declaration.type === 'NewExpression') {
+                const { declaration } = node;
+                if (!checkCall(context, declaration)) {
+                    context.report({
+                        node,
+                        message: 'Use middleware function when wrapping exporting value in other functions'
+                    });
+                }
+            }
+        }
+    })
 };

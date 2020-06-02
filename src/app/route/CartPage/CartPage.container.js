@@ -13,42 +13,54 @@
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.component';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { CHECKOUT_URL } from 'Route/Checkout/Checkout.component';
+import { CART, CART_EDITING } from 'Component/Header';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import { changeNavigationState } from 'Store/Navigation';
-import { CART, CART_EDITING } from 'Component/Header';
+import { showNotification } from 'Store/Notification';
+import { toggleOverlayByKey } from 'Store/Overlay';
 import { TotalsType } from 'Type/MiniCart';
+import { HistoryType } from 'Type/Common';
 import { updateMeta } from 'Store/Meta';
 import history from 'Util/History';
 
+import { isSignedIn } from 'Util/Auth';
+import isMobile from 'Util/Mobile';
 import CartPage from './CartPage.component';
 
-export const mapStateToProps = middleware(
-    state => ({
-        totals: state.CartReducer.cartTotals,
-        headerState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState
-    }),
-    'Route/CartPage/Container/mapStateToProps'
-);
+export const mapStateToProps = state => ({
+    totals: state.CartReducer.cartTotals,
+    headerState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
+    guest_checkout: state.ConfigReducer.guest_checkout
+});
 
-export const mapDispatchToProps = middleware(
-    dispatch => ({
-        changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
-        updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.update(breadcrumbs, dispatch),
-        updateMeta: meta => dispatch(updateMeta(meta))
-    }),
-    'Route/CartPage/Container/mapDispatchToProps'
-);
+export const mapDispatchToProps = dispatch => ({
+    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
+    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.update(breadcrumbs, dispatch),
+    showOverlay: overlayKey => dispatch(toggleOverlayByKey(overlayKey)),
+    showNotification: (type, message) => dispatch(showNotification(type, message)),
+    updateMeta: meta => dispatch(updateMeta(meta))
+});
 
 export class CartPageContainer extends ExtensiblePureComponent {
     static propTypes = {
         updateBreadcrumbs: PropTypes.func.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
+        showOverlay: PropTypes.func.isRequired,
+        showNotification: PropTypes.func.isRequired,
         updateMeta: PropTypes.func.isRequired,
+        guest_checkout: PropTypes.bool.isRequired,
+        history: HistoryType.isRequired,
         totals: TotalsType.isRequired
     };
 
     state = { isEditing: false };
+
+    containerFunctions = {
+        onCheckoutButtonClick: this.onCheckoutButtonClick.bind(this)
+    };
 
     componentDidMount() {
         const { updateMeta } = this.props;
@@ -85,6 +97,39 @@ export class CartPageContainer extends ExtensiblePureComponent {
                 title
             });
         }
+    }
+
+    onCheckoutButtonClick(e) {
+        const {
+            history,
+            guest_checkout,
+            showOverlay,
+            showNotification
+        } = this.props;
+
+        // to prevent outside-click handler trigger
+        e.nativeEvent.stopImmediatePropagation();
+
+        if (guest_checkout) {
+            history.push({ pathname: CHECKOUT_URL });
+            return;
+        }
+
+        if (isSignedIn()) {
+            history.push({ pathname: CHECKOUT_URL });
+            return;
+        }
+
+        // fir notification whatever device that is
+        showNotification('info', __('Please sign-in to complete checkout!'));
+
+        if (isMobile.any()) { // for all mobile devices, simply switch route
+            history.push({ pathname: '/my-account' });
+            return;
+        }
+
+        // for desktop, just open customer overlay
+        showOverlay(CUSTOMER_ACCOUNT_OVERLAY_KEY);
     }
 
     _updateBreadcrumbs() {
@@ -131,6 +176,9 @@ export class CartPageContainer extends ExtensiblePureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
+export default connect(
+    middleware(mapStateToProps, 'Route/CartPage/Container/mapStateToProps'),
+    middleware(mapDispatchToProps, 'Route/CartPage/Container/mapDispatchToProps')
+)(
     middleware(CartPageContainer, 'Route/CartPage/Container')
 );

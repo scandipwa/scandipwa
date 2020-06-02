@@ -14,12 +14,9 @@ import { ProductType } from 'Type/ProductList';
 import { connect } from 'react-redux';
 import ProductActions from './ProductActions.component';
 
-export const mapStateToProps = middleware(
-    state => ({
-        groupedProductQuantity: state.ProductReducer.groupedProductQuantity
-    }),
-    'Component/ProductActions/Container/mapStateToProps'
-);
+export const mapStateToProps = state => ({
+    groupedProductQuantity: state.ProductReducer.groupedProductQuantity
+});
 
 export const DEFAULT_MAX_PRODUCTS = 99;
 
@@ -201,6 +198,12 @@ export class ProductActionsContainer extends ExtensiblePureComponent {
     }
 }
 
-export default connect(mapStateToProps)(
+// eslint-disable-next-line no-unused-vars
+export const mapDispatchToProps = dispatch => ({});
+
+export default connect(
+    middleware(mapStateToProps, 'Component/ProductActions/Container/mapStateToProps'),
+    middleware(mapDispatchToProps, 'Component/ProductActions/Container/mapDispatchToProps')
+)(
     middleware(ProductActionsContainer, 'Component/ProductActions/Container')
 );

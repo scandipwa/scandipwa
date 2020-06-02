@@ -13,12 +13,15 @@ import { connect } from 'react-redux';
 
 import CookiePopup from './CookiePopup.component';
 
-export const mapStateToProps = middleware(
-    state => ({
-        cookieText: state.ConfigReducer.cookie_text,
-        cookieLink: state.ConfigReducer.cookie_link
-    }),
-    'Component/CookiePopup/Container/mapStateToProps'
-);
+export const mapStateToProps = state => ({
+    cookieText: state.ConfigReducer.cookie_text,
+    cookieLink: state.ConfigReducer.cookie_link
+});
 
-export default connect(mapStateToProps)(CookiePopup);
+// eslint-disable-next-line no-unused-vars
+export const mapDispatchToProps = dispatch => ({});
+
+export default connect(
+    middleware(mapStateToProps, 'Component/CookiePopup/Container/mapStateToProps'),
+    middleware(mapDispatchToProps, 'Component/CookiePopup/Container/mapDispatchToProps')
+)(CookiePopup);

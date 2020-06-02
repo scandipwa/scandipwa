@@ -12,11 +12,14 @@
 import { connect } from 'react-redux';
 import Field from './Field.component';
 
-export const mapStateToProps = middleware(
-    state => ({
-        customer: state.MyAccountReducer.customer
-    }),
-    'Component/Field/Container/mapStateToProps'
-);
+export const mapStateToProps = state => ({
+    customer: state.MyAccountReducer.customer
+});
 
-export default connect(mapStateToProps)(Field);
+// eslint-disable-next-line no-unused-vars
+export const mapDispatchToProps = dispatch => ({});
+
+export default connect(
+    middleware(mapStateToProps, 'Component/Field/Container/mapStateToProps'),
+    middleware(mapDispatchToProps, 'Component/Field/Container/mapDispatchToProps')
+)(Field);

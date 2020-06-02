@@ -14,13 +14,10 @@ import { connect } from 'react-redux';
 import { CartDispatcher } from 'Store/Cart';
 import CartCoupon from './CartCoupon.component';
 
-export const mapDispatchToProps = middleware(
-    dispatch => ({
-        applyCouponToCart: couponCode => CartDispatcher.applyCouponToCart(dispatch, couponCode),
-        removeCouponFromCart: () => CartDispatcher.removeCouponFromCart(dispatch)
-    }),
-    'Component/CartCoupon/Container/mapDispatchToProps'
-);
+export const mapDispatchToProps = dispatch => ({
+    applyCouponToCart: couponCode => CartDispatcher.applyCouponToCart(dispatch, couponCode),
+    removeCouponFromCart: () => CartDispatcher.removeCouponFromCart(dispatch)
+});
 
 export class CartCouponContainer extends ExtensiblePureComponent {
     static propTypes = {
@@ -71,6 +68,12 @@ export class CartCouponContainer extends ExtensiblePureComponent {
     }
 }
 
-export default connect(null, mapDispatchToProps)(
+// eslint-disable-next-line no-unused-vars
+export const mapStateToProps = state => ({});
+
+export default connect(
+    middleware(mapStateToProps, 'Component/CartCoupon/Container/mapStateToProps'),
+    middleware(mapDispatchToProps, 'Component/CartCoupon/Container/mapDispatchToProps')
+)(
     middleware(CartCouponContainer, 'Component/CartCoupon/Container')
 );
