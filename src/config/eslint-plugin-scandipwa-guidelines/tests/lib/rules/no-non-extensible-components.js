@@ -1,6 +1,6 @@
 /**
  * @fileoverview Non-extensible components are not allowed.
- * @author Alfreds Genkins
+ * @author Jegors Batovs
  */
 "use strict";
 

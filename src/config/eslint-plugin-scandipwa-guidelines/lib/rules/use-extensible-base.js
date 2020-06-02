@@ -1,12 +1,8 @@
 /**
  * @fileoverview All components should be extensible.
- * @author Alfreds Genkins
+ * @author Jegors Batovs
  */
 "use strict";
-
-//------------------------------------------------------------------------------
-// Rule Definition
-//------------------------------------------------------------------------------
 
 module.exports = {
     meta: {
@@ -21,7 +17,7 @@ module.exports = {
     create: context => ({
         ClassDeclaration(node) {
             const { superClass } = node;
-            const { name, loc: superClassLoc } = superClass || {};
+            const { name } = superClass || {};
             const { id: declaration } = node;
             const { loc } = declaration;
 
@@ -35,7 +31,7 @@ module.exports = {
 
             if (name === 'PureComponent' || name === 'Component') {
                 context.report({
-                    superClassLoc,
+                    loc,
                     message: `${name} is not allowed. Use 'Extensible${name}' instead`,
                     fix: fixer => fixer.replaceText(superClass, `Extensible${name}`)
                 });

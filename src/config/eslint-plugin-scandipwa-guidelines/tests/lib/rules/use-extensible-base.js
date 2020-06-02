@@ -1,6 +1,6 @@
 /**
  * @fileoverview All components should be extensible.
- * @author Alfreds Genkins
+ * @author Jegors Batovs
  */
 "use strict";
 

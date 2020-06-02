@@ -1,6 +1,6 @@
 /**
  * @fileoverview Wrap default export classes in middleware function
- * @author Alfreds Genkins
+ * @author Jegors Batovs
  */
 "use strict";
 
