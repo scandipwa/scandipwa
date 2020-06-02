@@ -25,7 +25,7 @@
         "scandipwa/wishlist-graphql": "^1.2",
         "scandipwa/urlrewrite-graphql": "^1.0",
         "scandipwa/reviews-graphql": "^1.0",
-        "scandipwa/paypal-graphql": "^1.0",
+        "scandipwa/paypal-graphql": "^2.0",
         "scandipwa/klarna-graphql": "^1.1",
         "scandipwa/store-graphql": "^1.0.6",
         "scandipwa/customization": "^1.0.2",
