@@ -197,12 +197,8 @@ export default class ProductActions extends PureComponent {
     }
 
     renderShortDescriptionContent() {
-        const { product: { short_description, id } } = this.props;
+        const { product: { short_description } } = this.props;
         const { html } = short_description || {};
-
-        if (!html && id) {
-            return null;
-        }
 
         const htmlWithItemProp = `<div itemProp="description">${ html }</div>`;
 
@@ -217,7 +213,7 @@ export default class ProductActions extends PureComponent {
         const { product: { short_description, id } } = this.props;
         const { html } = short_description || {};
 
-        if (!html && id && isMobile.any()) {
+        if (!html && id) {
             return null;
         }
 

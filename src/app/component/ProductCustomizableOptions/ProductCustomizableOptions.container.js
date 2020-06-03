@@ -45,7 +45,7 @@ class ProductCustomizableOptionsContainer extends PureComponent {
         }
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(_, prevState) {
         const { options } = this.props;
         const {
             selectedCheckboxValues,
@@ -53,6 +53,7 @@ class ProductCustomizableOptionsContainer extends PureComponent {
             textFieldValues,
             isLoading
         } = this.state;
+
         const {
             selectedCheckboxValues: prevSelectedCheckboxValues,
             selectedDropdownOptions: prevSelectedDropdownOptions,
@@ -149,12 +150,16 @@ class ProductCustomizableOptionsContainer extends PureComponent {
         const selectedValue = { option_id, option_value };
 
         if (selectedCheckboxValues.some(({ option_value: val }) => option_value === val)) {
-            return this.setState({
-                selectedCheckboxValues: selectedCheckboxValues.filter(value => value.option_value !== option_value)
+            this.setState({
+                selectedCheckboxValues: selectedCheckboxValues.filter(
+                    value => value.option_value !== option_value
+                ) || []
             });
+
+            return;
         }
 
-        return this.setState({
+        this.setState({
             selectedCheckboxValues: [...selectedCheckboxValues, selectedValue]
         });
     }

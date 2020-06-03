@@ -16,6 +16,8 @@
 
 .ProductCustomizableOptions {
     &-Content {
+        max-width: 400px;
+
         .Field {
             input,
             textarea {

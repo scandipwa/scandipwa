@@ -44,24 +44,26 @@
         margin: var(--product-configurable-attributes-margin);
     }
 
-    &-ExpandableContentButton {
-        @include after-mobile {
-            min-height: 30px;
-        }
-    }
-
-    &-ExpandableContentSubHeading {
-        text-transform: capitalize;
-    }
-
-    &-ExpandableContentContent {
-        @include after-mobile {
-            margin-bottom: 1rem;
+    &-ExpandableContent {
+        &Button {
+            @include after-mobile {
+                min-height: 30px;
+            }
         }
 
-        &_isContentExpanded {
-            @include mobile {
-                padding: var(--product-configurable-attributes-content-padding);
+        &SubHeading {
+            text-transform: capitalize;
+        }
+
+        &Content {
+            @include after-mobile {
+                margin-bottom: 1rem;
+            }
+
+            &_isContentExpanded {
+                @include mobile {
+                    padding: var(--product-configurable-attributes-content-padding);
+                }
             }
         }
     }

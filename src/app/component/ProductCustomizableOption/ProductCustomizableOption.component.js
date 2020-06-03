@@ -18,6 +18,7 @@ class ProductCustomizableOptions extends PureComponent {
     static propTypes = {
         option: PropTypes.object.isRequired,
         textValue: PropTypes.string.isRequired,
+        contentHeading: PropTypes.string.isRequired,
         getSelectedCheckboxValue: PropTypes.func.isRequired,
         renderOptionLabel: PropTypes.func.isRequired,
         updateTextFieldValue: PropTypes.func.isRequired,
@@ -28,7 +29,12 @@ class ProductCustomizableOptions extends PureComponent {
         getDropdownOptions: PropTypes.func.isRequired
     };
 
-    renderRequired() {
+    renderRequired(isRequired) {
+        // skip undefined and false
+        if (isRequired !== true) {
+            return null;
+        }
+
         return (
             <div
               block="ProductCustomizableOptions"
@@ -47,6 +53,7 @@ class ProductCustomizableOptions extends PureComponent {
             price,
             price_type
         } = item;
+
         const priceLabel = renderOptionLabel(price_type, price);
 
         return (
@@ -62,27 +69,6 @@ class ProductCustomizableOptions extends PureComponent {
             />
         );
     };
-
-    renderCheckboxValues() {
-        const { option } = this.props;
-        const {
-            title,
-            option_id,
-            required,
-            checkboxValues
-        } = option;
-
-        return (
-            <ExpandableContent
-              heading={ __(title) }
-              mix={ { block: 'ProductCustomizableOptions', elem: 'Content' } }
-              key={ option_id }
-            >
-                { checkboxValues.map(this.renderOptionCheckboxValue) }
-                { required ? this.renderRequired() : null }
-            </ExpandableContent>
-        );
-    }
 
     renderOptionDropdownValues(values) {
         const { getDropdownOptions, selectedDropdownValue, setDropdownValue } = this.props;
@@ -102,28 +88,7 @@ class ProductCustomizableOptions extends PureComponent {
         );
     }
 
-    renderDropdownValues() {
-        const { option } = this.props;
-        const {
-            title,
-            option_id,
-            required,
-            dropdownValues
-        } = option;
-
-        return (
-            <ExpandableContent
-              heading={ __(title) }
-              mix={ { block: 'ProductCustomizableOptions', elem: 'Content' } }
-              key={ option_id }
-            >
-                { this.renderOptionDropdownValues(dropdownValues) }
-                { required ? this.renderRequired() : null }
-            </ExpandableContent>
-        );
-    }
-
-    renderOptionField(value, id, isRequired) {
+    renderOptionField(value, isRequired) {
         const { updateTextFieldValue, textValue, optionType } = this.props;
         const { max_characters } = value;
         const fieldType = optionType === 'field' ? 'text' : 'textarea';
@@ -138,58 +103,57 @@ class ProductCustomizableOptions extends PureComponent {
                   value={ textValue }
                   onChange={ updateTextFieldValue }
                 />
-                { isRequired ? this.renderRequired() : null }
-                { max_characters > 0 && (
-                    <div
-                      block="ProductCustomizableOptions"
-                      elem="Information"
-                    >
-                        { __('Maximum %s characters', max_characters) }
-                    </div>
-                ) }
+                { this.renderRequired(isRequired) }
+                { this.renderMaxCharacters() }
+            </>
+        );
+    }
+
+    renderMaxCharacters(max_characters) {
+        if (max_characters <= 0) {
+            return null;
+        }
+
+        return (
+            <div
+              block="ProductCustomizableOptions"
+              elem="Information"
+            >
+                { __('Maximum %s characters', max_characters) }
+            </div>
+        );
+    }
+
+    renderCheckboxValues() {
+        const { option: { required, checkboxValues } } = this.props;
+
+        return (
+            <>
+                { checkboxValues.map(this.renderOptionCheckboxValue) }
+                { this.renderRequired(required) }
+            </>
+        );
+    }
+
+    renderDropdownValues() {
+        const { option: { required, dropdownValues } } = this.props;
+
+        return (
+            <>
+                { this.renderOptionDropdownValues(dropdownValues) }
+                { this.renderRequired(required) }
             </>
         );
     }
 
     renderField() {
-        const { option, renderOptionLabel, getHeading } = this.props;
-        const {
-            title,
-            option_id,
-            required,
-            fieldValues
-        } = option;
-        const { price_type, price } = fieldValues;
-        const priceLabel = renderOptionLabel(price_type, price);
-
-        return (
-            <ExpandableContent
-              heading={ getHeading(title, priceLabel) }
-              mix={ { block: 'ProductCustomizableOptions', elem: 'Content' } }
-              key={ option_id }
-            >
-                { this.renderOptionField(fieldValues, required) }
-            </ExpandableContent>
-        );
+        const { option: { required, fieldValues } } = this.props;
+        return this.renderOptionField(fieldValues, required);
     }
 
     renderArea() {
-        const { option, renderOptionLabel, getHeading } = this.props;
-        const {
-            title, option_id, required, areaValues
-        } = option;
-        const { price_type, price } = areaValues;
-        const priceLabel = renderOptionLabel(price_type, price);
-
-        return (
-            <ExpandableContent
-              heading={ getHeading(title, priceLabel) }
-              mix={ { block: 'ProductCustomizableOptions', elem: 'Content' } }
-              key={ option_id }
-            >
-                { this.renderOptionField(areaValues, required) }
-            </ExpandableContent>
-        );
+        const { option: { required, areaValues } } = this.props;
+        return this.renderOptionField(areaValues, required);
     }
 
     renderContent() {
@@ -210,7 +174,23 @@ class ProductCustomizableOptions extends PureComponent {
     }
 
     render() {
-        return this.renderContent();
+        const {
+            contentHeading,
+            option: {
+                option_id
+            }
+        } = this.props;
+
+        return (
+            <ExpandableContent
+              heading={ contentHeading }
+              mix={ { block: 'ProductCustomizableOptions', elem: 'Content' } }
+              key={ option_id }
+              isContentExpanded
+            >
+                { this.renderContent() }
+            </ExpandableContent>
+        );
     }
 }
 

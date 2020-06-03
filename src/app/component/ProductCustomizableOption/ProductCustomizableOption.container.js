@@ -37,9 +37,9 @@ class ProductCustomizableOptionContainer extends PureComponent {
     };
 
     containerProps = () => ({
-        optionType: this.getOptionType()
+        optionType: this.getOptionType(),
+        contentHeading: this.getContentHeading()
     });
-
 
     getOptionType() {
         const { option } = this.props;
@@ -70,6 +70,37 @@ class ProductCustomizableOptionContainer extends PureComponent {
         default:
             return `${ formatCurrency() }${ price }`;
         }
+    }
+
+    getContentHeading() {
+        const type = this.getOptionType();
+
+        const { option } = this.props;
+        const { title } = option;
+
+        switch (type) {
+        case 'checkbox':
+        case 'dropdown':
+            return title;
+        case 'field':
+            return this.getFieldContentHeading();
+        case 'area':
+            return this.getAreaContentHeading();
+        default:
+            return null;
+        }
+    }
+
+    getFieldContentHeading() {
+        const { option: { title, fieldValues: { price_type, price } } } = this.props;
+        const priceLabel = this.renderOptionLabel(price_type, price);
+        return this.getHeading(title, priceLabel);
+    }
+
+    getAreaContentHeading() {
+        const { option: { title, areaValues: { price_type, price } } } = this.props;
+        const priceLabel = this.renderOptionLabel(price_type, price);
+        return this.getHeading(title, priceLabel);
     }
 
     getSelectedCheckboxValue(value) {
