@@ -17,7 +17,7 @@ import Field from 'Component/Field';
 export const CHECKBOX = 'checkbox';
 export const DROPDOWN = 'dropdown';
 export const TEXT_FIELD = 'field';
-export const AREA_FIELD = 'textarea';
+export const AREA_FIELD = 'area';
 
 class ProductCustomizableOptions extends PureComponent {
     static propTypes = {
