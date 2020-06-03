@@ -130,6 +130,47 @@ export const getIndexedParameteredProducts = products => Object.entries(products
         [id]: getIndexedProduct(product)
     }), {});
 
+export const getIndexedCustomOption = (option) => {
+    const {
+        checkboxValues,
+        dropdownValues,
+        fieldValues,
+        areaValues,
+        ...otherFields
+    } = option;
+
+    if (checkboxValues) {
+        return { type: 'checkbox', data: checkboxValues, ...otherFields };
+    }
+
+    if (dropdownValues) {
+        return { type: 'dropdown', data: dropdownValues, ...otherFields };
+    }
+
+    if (fieldValues) {
+        return { type: 'field', data: fieldValues, ...otherFields };
+    }
+
+    if (areaValues) {
+        return { type: 'area', data: areaValues, ...otherFields };
+    }
+
+    // skip unsupported types
+    return null;
+};
+
+export const getIndexedCustomOptions = options => options.reduce(
+    (acc, option) => {
+        const indexedOption = getIndexedCustomOption(option);
+
+        if (indexedOption) {
+            acc.push(indexedOption);
+        }
+
+        return acc;
+    },
+    []
+);
 
 export const getExtensionAttributes = (product) => {
     const {

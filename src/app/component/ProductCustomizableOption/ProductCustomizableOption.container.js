@@ -32,35 +32,18 @@ class ProductCustomizableOptionContainer extends PureComponent {
         getSelectedCheckboxValue: this.getSelectedCheckboxValue.bind(this),
         updateTextFieldValue: this.updateTextFieldValue.bind(this),
         setDropdownValue: this.setDropdownValue.bind(this),
-        renderOptionLabel: this.renderOptionLabel.bind(this),
-        getHeading: this.getHeading.bind(this)
+        renderOptionLabel: this.renderOptionLabel.bind(this)
     };
 
     containerProps = () => ({
-        optionType: this.getOptionType(),
-        contentHeading: this.getContentHeading()
+        optionType: this.getOptionType()
     });
 
     getOptionType() {
         const { option } = this.props;
-        const {
-            checkboxValues,
-            dropdownValues,
-            fieldValues,
-            areaValues
-        } = option;
+        const { type } = option;
 
-        if (checkboxValues) {
-            return 'checkbox';
-        } if (dropdownValues) {
-            return 'dropdown';
-        } if (fieldValues) {
-            return 'field';
-        } if (areaValues) {
-            return 'area';
-        }
-
-        return null;
+        return type;
     }
 
     renderOptionLabel(priceType, price) {
@@ -70,37 +53,6 @@ class ProductCustomizableOptionContainer extends PureComponent {
         default:
             return `${ formatCurrency() }${ price }`;
         }
-    }
-
-    getContentHeading() {
-        const type = this.getOptionType();
-
-        const { option } = this.props;
-        const { title } = option;
-
-        switch (type) {
-        case 'checkbox':
-        case 'dropdown':
-            return title;
-        case 'field':
-            return this.getFieldContentHeading();
-        case 'area':
-            return this.getAreaContentHeading();
-        default:
-            return null;
-        }
-    }
-
-    getFieldContentHeading() {
-        const { option: { title, fieldValues: { price_type, price } } } = this.props;
-        const priceLabel = this.renderOptionLabel(price_type, price);
-        return this.getHeading(title, priceLabel);
-    }
-
-    getAreaContentHeading() {
-        const { option: { title, areaValues: { price_type, price } } } = this.props;
-        const priceLabel = this.renderOptionLabel(price_type, price);
-        return this.getHeading(title, priceLabel);
     }
 
     getSelectedCheckboxValue(value) {
@@ -129,25 +81,6 @@ class ProductCustomizableOptionContainer extends PureComponent {
             setSelectedDropdownValue(value, option);
             this.setState({ selectedDropdownValue: parseInt(value, 10) });
         }
-    }
-
-    getHeading(mainTitle, titleBold) {
-        return (
-            <>
-                <span
-                  block="ProductCustomizableOptions"
-                  elem="Heading"
-                >
-                    { `${ mainTitle } + ` }
-                </span>
-                <span
-                  block="ProductCustomizableOptions"
-                  elem="HeadingBold"
-                >
-                    { titleBold }
-                </span>
-            </>
-        );
     }
 
     getDropdownOptions(values) {

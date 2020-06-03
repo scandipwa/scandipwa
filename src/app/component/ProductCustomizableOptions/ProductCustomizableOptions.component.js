@@ -11,6 +11,7 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import ProductCustomizableOption from 'Component/ProductCustomizableOption';
+import { getIndexedCustomOptions } from 'Util/Product';
 
 import './ProductCustomizableOptions.style';
 
@@ -35,7 +36,9 @@ class ProductCustomizableOptions extends PureComponent {
             setSelectedDropdownValue
         } = this.props;
 
-        return options.map((option, key) => (
+        const customOptions = getIndexedCustomOptions(options);
+
+        return customOptions.map((option, key) => (
             <ProductCustomizableOption
               option={ option }
               /* eslint-disable-next-line react/no-array-index-key */
