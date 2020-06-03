@@ -11,7 +11,6 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import ProductCustomizableOption from 'Component/ProductCustomizableOption';
-import { getIndexedCustomOptions } from 'Util/Product';
 
 import './ProductCustomizableOptions.style';
 
