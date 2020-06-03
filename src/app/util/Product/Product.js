@@ -156,12 +156,13 @@ export const getIndexedProduct = (product) => {
     } = product;
 
     const attributes = getIndexedAttributes(initialAttributes || []);
+    const options = getIndexedCustomOptions(initialOptions || []);
 
     return {
         ...product,
         configurable_options: getIndexedConfigurableOptions(initialConfigurableOptions, attributes),
         variants: getIndexedVariants(initialVariants),
-        options: getIndexedCustomOptions(initialOptions),
+        options,
         attributes
     };
 };
