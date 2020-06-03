@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,7 +10,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-/* eslint-disable no-undef */
 
 import workbox from './util/Workbox';
 import cacheFirstOneYear from './handler/CacheFirstOneYear';
@@ -31,16 +31,20 @@ self.addEventListener('install', () => {
     self.skipWaiting();
 });
 
+const keyFilter = middleware(
+    ({ url }) => url.match(/.+(.css|.js)$/),
+    'SW/keyFilter'
+);
+
+const keyDeleter = middleware(
+    ({ url }) => cache.delete(url),
+    'SW/keyDeleter'
+)
+
 self.addEventListener('activate', (event) => {
     event.waitUntil(
         caches.open(self.CACHE_NAME).then((cache) => {
-            cache.keys().then((keys) => {
-                keys.filter(
-                    ({ url }) => url.match(/.+(.css|.js)$/)
-                ).map(
-                    ({ url }) => cache.delete(url)
-                );
-            });
+            cache.keys().then(keys => keys.filter(keyFilter).map(keyDeleter));
         })
     );
 });
@@ -50,23 +54,16 @@ self.addEventListener('activate', (event) => {
 
 self.CACHE_NAME = 'app-runtime-static';
 
-/**
- * Handle URLs (not assets)
- *
- * @return {void}
- */
-workbox.routing.registerRoute(getCacheUrlMatchRegex(), cacheUrlHandler);
+const registerRoutes = middleware(
+    () => {
+        /** Handle URLs (not assets) */
+        workbox.routing.registerRoute(getCacheUrlMatchRegex(), cacheUrlHandler);
+        /** Handle GraphQL responses */
+        workbox.routing.registerRoute(new RegExp(/\/graphql/), staleWhileRevalidateHandler);
+        /* Handle static assets responses */
+        workbox.routing.registerRoute(new RegExp(/(\/assets|\.css|\.js)/), cacheFirstOneYear);
+    },
+    'SW/registerRoutes'
+);
 
-/**
- * Handle GraphQL responses
- *
- * @return {void}
- */
-workbox.routing.registerRoute(new RegExp(/\/graphql/), staleWhileRevalidateHandler);
-
-/**
- * Handle static assets responses
- *
- * @return {void}
- */
-workbox.routing.registerRoute(new RegExp(/(\/assets|\.css|\.js)/), cacheFirstOneYear);
+registerRoutes();
