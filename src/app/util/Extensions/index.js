@@ -37,7 +37,7 @@ function validateHandlerForTarget(targetType, handlerType) {
     }
 }
 
-window.plugins = extensions.reduce(
+globalThis.plugins = extensions.reduce(
     (overallConfig, extension) => {
         Object.entries(extension).forEach(([namespace, plugins]) => {
             if (!overallConfig[namespace]) {
