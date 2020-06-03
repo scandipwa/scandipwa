@@ -35,7 +35,7 @@ class FallbackPlugin {
     apply(resolver) {
         resolver.getHook('resolve').tapAsync('FallbackPlugin', (request, resolveContext, callback) => {
             // Determine if request is coming from core file
-            const pathIsCore = !!request.path.match(/vendor/);
+            const pathIsCore = !!request.path.match(/vendor\/scandipwa\/source/);
 
             // Determine if the request is child-of-a-child node_module request
             const pathIsNode = !!request.path.match(/node_modules/);
@@ -47,7 +47,7 @@ class FallbackPlugin {
             const pathIsCustom = !!request.path.match(/app\/design\/frontend\/Scandiweb\/pwa\//);
 
             // Determine if request is coming to core file
-            const requestIsCore = !!request.request.match(/vendor/);
+            const requestIsCore = !!request.request.match(/vendor\/scandipwa\/source/);
 
             // Determine if request is coming to custom file
             const requestIsCustom = !!request.request.match(/app\/design\/frontend\/Scandiweb\/pwa\//);
@@ -225,7 +225,7 @@ class FallbackPlugin {
                 const pluginName = exploded[exploded.length - 1];
 
                 // Handle requires like 'babel-plugin-...'
-                if (!root || !vendorName || !pluginName || !expected) {
+                if (!vendorName || !pluginName) {
                     return path.resolve(root, expected);
                 }
                 return path.resolve(root, 'src/app/plugin', vendorName, pluginName, expected);
