@@ -11,12 +11,6 @@ const proxyInstance = require('../ProxyInstance');
 module.exports = class ExtensibleUnstatedContainer extends Container {
     constructor(props) {
         super(props);
-        const { __namespace__ } = Object.getPrototypeOf(this);
-        const namespacePlugins = window.plugins?.[__namespace__]?.['instance']?.['get'];
-        if (!namespacePlugins) {
-            return;
-        }
-
-        return proxyInstance(this, namespacePlugins, __namespace__);
+        return proxyInstance(this);
     }
 };

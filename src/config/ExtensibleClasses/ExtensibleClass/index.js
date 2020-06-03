@@ -9,12 +9,6 @@ const proxyInstance = require('../ProxyInstance');
  */
 module.exports = class ExtensibleClass {
     constructor() {
-        const { __namespace__ } = Object.getPrototypeOf(this);
-        const namespacePlugins = window.plugins?.[__namespace__]?.['instance']?.['get'];
-        if (!namespacePlugins) {
-            return;
-        }
-
-        return proxyInstance(this, namespacePlugins, __namespace__);
+        return proxyInstance(this);
     }
 };
