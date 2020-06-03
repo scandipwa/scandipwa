@@ -36,9 +36,7 @@ class ProductCustomizableOptions extends PureComponent {
             setSelectedDropdownValue
         } = this.props;
 
-        const customOptions = getIndexedCustomOptions(options);
-
-        return customOptions.map((option, key) => (
+        return options.map((option, key) => (
             <ProductCustomizableOption
               option={ option }
               /* eslint-disable-next-line react/no-array-index-key */

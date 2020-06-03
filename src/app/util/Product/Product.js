@@ -105,31 +105,6 @@ export const getVariantsIndexes = (variants, options) => Object.entries(variants
         return indexes;
     }, []);
 
-export const getIndexedProduct = (product) => {
-    const {
-        variants: initialVariants = [],
-        configurable_options: initialConfigurableOptions = [],
-        attributes: initialAttributes = []
-    } = product;
-
-    const attributes = getIndexedAttributes(initialAttributes || []);
-
-    return {
-        ...product,
-        configurable_options: getIndexedConfigurableOptions(initialConfigurableOptions, attributes),
-        variants: getIndexedVariants(initialVariants),
-        attributes
-    };
-};
-
-export const getIndexedProducts = products => products.map(getIndexedProduct);
-
-export const getIndexedParameteredProducts = products => Object.entries(products)
-    .reduce((products, [id, product]) => ({
-        ...products,
-        [id]: getIndexedProduct(product)
-    }), {});
-
 export const getIndexedCustomOption = (option) => {
     const {
         checkboxValues,
@@ -171,6 +146,33 @@ export const getIndexedCustomOptions = options => options.reduce(
     },
     []
 );
+
+export const getIndexedProduct = (product) => {
+    const {
+        variants: initialVariants = [],
+        configurable_options: initialConfigurableOptions = [],
+        attributes: initialAttributes = [],
+        options: initialOptions = []
+    } = product;
+
+    const attributes = getIndexedAttributes(initialAttributes || []);
+
+    return {
+        ...product,
+        configurable_options: getIndexedConfigurableOptions(initialConfigurableOptions, attributes),
+        variants: getIndexedVariants(initialVariants),
+        options: getIndexedCustomOptions(initialOptions),
+        attributes
+    };
+};
+
+export const getIndexedProducts = products => products.map(getIndexedProduct);
+
+export const getIndexedParameteredProducts = products => Object.entries(products)
+    .reduce((products, [id, product]) => ({
+        ...products,
+        [id]: getIndexedProduct(product)
+    }), {});
 
 export const getExtensionAttributes = (product) => {
     const {
