@@ -426,6 +426,24 @@
       "contributions": [
         "translation"
       ]
+    },
+    {
+      "login": "korbax",
+      "name": "Aleksandr Drobot",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/225603?v=4",
+      "profile": "https://github.com/korbax",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "delkant",
+      "name": "RDC",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/1325846?v=4",
+      "profile": "https://github.com/delkant",
+      "contributions": [
+        "translation"
+      ]
     }
   ],
   "contributorsPerLine": 7,

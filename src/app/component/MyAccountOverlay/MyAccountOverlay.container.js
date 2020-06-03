@@ -16,6 +16,7 @@ import PropTypes from 'prop-types';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { CUSTOMER_ACCOUNT, CUSTOMER_SUB_ACCOUNT } from 'Component/Header';
 import { toggleOverlayByKey, hideActiveOverlay } from 'Store/Overlay';
+import { CHECKOUT_URL } from 'Route/Checkout/Checkout.component';
 import { changeNavigationState } from 'Store/Navigation';
 import { MyAccountDispatcher } from 'Store/MyAccount';
 import { showNotification } from 'Store/Notification';
@@ -152,7 +153,7 @@ export class MyAccountOverlayContainer extends PureComponent {
             hideActiveOverlay();
         }
 
-        if (pathname !== '/checkout' && newMyAccountState === STATE_LOGGED_IN) {
+        if (pathname.includes(CHECKOUT_URL) && newMyAccountState === STATE_LOGGED_IN) {
             history.push({ pathname: '/my-account/dashboard' });
         }
     }

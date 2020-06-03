@@ -31,7 +31,11 @@ export default class Link extends PureComponent {
 
     scrollToElement = (e) => {
         const { to: cssIdentifier, onClick } = this.props;
-        const elem = document.querySelector(cssIdentifier);
+
+        const elem = document.querySelector(
+            cssIdentifier !== '#' ? cssIdentifier : 'body'
+        );
+
         event.preventDefault();
 
         window.scrollTo({

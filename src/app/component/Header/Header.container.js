@@ -9,20 +9,20 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-
-import { NavigationAbstractContainer } from 'Component/NavigationAbstract/NavigationAbstract.container';
-import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.component';
-import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.component';
-import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation';
-import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { toggleOverlayByKey, hideActiveOverlay } from 'Store/Overlay';
+import { history } from 'Route';
 import { setQueryParams } from 'Util/Url';
 import { isSignedIn } from 'Util/Auth';
 import isMobile from 'Util/Mobile';
-import { history } from 'Route';
-
+import { CHECKOUT_URL } from 'Route/Checkout/Checkout.component';
+import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation';
+import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { toggleOverlayByKey, hideActiveOverlay } from 'Store/Overlay';
+import { NavigationAbstractContainer } from 'Component/NavigationAbstract/NavigationAbstract.container';
+import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.component';
+import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.component';
 import Header, {
     PDP,
     CATEGORY,
@@ -30,8 +30,10 @@ import Header, {
     CUSTOMER_SUB_ACCOUNT,
     MENU,
     MENU_SUBCATEGORY,
+    POPUP,
     SEARCH,
     CART,
+    CART_OVERLAY,
     CMS_PAGE,
     CUSTOMER_ACCOUNT_PAGE,
     CHECKOUT
@@ -43,7 +45,8 @@ export const mapStateToProps = state => ({
     header_logo_src: state.ConfigReducer.header_logo_src,
     isOffline: state.OfflineReducer.isOffline,
     logo_alt: state.ConfigReducer.logo_alt,
-    isLoading: state.ConfigReducer.isLoading
+    isLoading: state.ConfigReducer.isLoading,
+    activeOverlay: state.OverlayReducer.activeOverlay
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -118,9 +121,16 @@ export class HeaderContainer extends NavigationAbstractContainer {
         const {
             isClearEnabled,
             searchCriteria,
-            isCheckout,
             showMyAccountLogin
         } = this.state;
+
+        const {
+            location: {
+                pathname
+            }
+        } = history;
+
+        const isCheckout = pathname.includes(CHECKOUT_URL);
 
         return {
             navigationState,
@@ -142,30 +152,39 @@ export class HeaderContainer extends NavigationAbstractContainer {
             prevPathname: '',
             searchCriteria: '',
             isClearEnabled: this.getIsClearEnabled(),
-            isCheckout: false,
             showMyAccountLogin: false
         };
     }
 
     componentDidMount() {
         this.handleHeaderVisibility();
-        this.checkIsCheckout();
         super.componentDidMount();
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps) {
+        this.hideSearchOnStateChange(prevProps);
         this.handleHeaderVisibility();
-        this.checkIsCheckout();
     }
 
-    checkIsCheckout() {
-        const { location: { pathname } } = history;
+    hideSearchOnStateChange(prevProps) {
+        const { navigationState: { name: prevName } } = prevProps;
+        const { navigationState: { name } } = this.props;
 
-        if (pathname === '/checkout') {
-            return this.setState({ isCheckout: true });
+        if (prevName === SEARCH && prevName !== name) {
+            this.hideSearchOverlay();
         }
+    }
 
-        return this.setState({ isCheckout: false });
+    hideSearchOverlay() {
+        const { hideActiveOverlay, activeOverlay } = this.props;
+
+        this.setState({ searchCriteria: '' });
+
+        document.activeElement.blur();
+
+        if (activeOverlay === SEARCH) {
+            hideActiveOverlay();
+        }
     }
 
     handleHeaderVisibility() {
@@ -190,6 +209,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
 
         return {
             isClearEnabled,
+            showMyAccountLogin: false,
             ...this.handleMobileRouteChange(history)
         };
     }
@@ -229,16 +249,10 @@ export class HeaderContainer extends NavigationAbstractContainer {
     }
 
     onSearchOutsideClick() {
-        const {
-            goToPreviousNavigationState,
-            hideActiveOverlay,
-            navigationState: { name }
-        } = this.props;
+        const { goToPreviousNavigationState, navigationState: { name } } = this.props;
 
         if (!isMobile.any() && name === SEARCH) {
-            this.setState({ searchCriteria: '' });
-
-            hideActiveOverlay();
+            this.hideSearchOverlay();
             goToPreviousNavigationState();
         }
     }
@@ -342,16 +356,18 @@ export class HeaderContainer extends NavigationAbstractContainer {
             navigationState: { name }
         } = this.props;
 
-        if (
-            isMobile.any()
-            || !(name === CUSTOMER_ACCOUNT || name === CUSTOMER_SUB_ACCOUNT)
+        if (isMobile.any()
+            || [CART_OVERLAY, MENU, POPUP].includes(name)
+            || (!isMobile.any() && name === SEARCH)
         ) {
             return;
         }
+
         if (name === CUSTOMER_SUB_ACCOUNT) {
             goToPreviousNavigationState();
         }
-        goToPreviousNavigationState();
+
+        this.goToDefaultHeaderState();
         hideActiveOverlay();
     }
 
@@ -363,7 +379,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
         } = this.props;
         const { location: { pathname } } = history;
 
-        if (pathname === '/checkout') {
+        if (pathname.includes(CHECKOUT_URL)) {
             if (name === CUSTOMER_SUB_ACCOUNT) {
                 goToPreviousNavigationState();
             } else {
@@ -377,7 +393,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
     onSignIn() {
         const { location: { pathname } } = history;
 
-        if (pathname === '/checkout') {
+        if (pathname.includes(CHECKOUT_URL)) {
             this.setState({ showMyAccountLogin: false });
         }
     }
@@ -404,10 +420,10 @@ export class HeaderContainer extends NavigationAbstractContainer {
         const { showOverlay } = this.props;
 
         if (!isMobile.any()) {
-            return showOverlay(CART);
+            return showOverlay(CART_OVERLAY);
         }
 
-        return history.push('/cart');
+        return history.push(`/${ CART }`);
     }
 
     onMinicartOutsideClick() {
@@ -417,7 +433,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
             navigationState: { name }
         } = this.props;
 
-        if (isMobile.any() || name !== CART) {
+        if (isMobile.any() || name !== CART_OVERLAY) {
             return;
         }
 
@@ -455,6 +471,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
         if (onCancelClick) {
             onCancelClick();
         }
+
         goToPreviousNavigationState();
     }
 
@@ -468,4 +485,4 @@ export class HeaderContainer extends NavigationAbstractContainer {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(HeaderContainer);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HeaderContainer));

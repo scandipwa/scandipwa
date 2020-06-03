@@ -21,6 +21,8 @@ import './ProductList.style';
 
 export const observerThreshold = 10;
 
+export const INTERSECTION_RATIO = 0.5;
+
 export const RENDER_PAGE_FREQUENCY = 150; // (ms)
 
 /**
@@ -52,7 +54,7 @@ export class ProductList extends PureComponent {
         title: '',
         isInfiniteLoaderEnabled: false,
         isPaginationEnabled: false,
-        numberOfPlaceholders: 4,
+        numberOfPlaceholders: 8,
         selectedFilters: {},
         isLoading: false,
         updatePage: () => {},
@@ -86,11 +88,8 @@ export class ProductList extends PureComponent {
     }
 
     observePageChange() {
-        const { updatePage, isLoading } = this.props;
-
-        if (isLoading) {
-            this.pagesIntersecting = [];
-        }
+        const { updatePage } = this.props;
+        this.pagesIntersecting = [];
 
         if (!this.observer && 'IntersectionObserver' in window) {
             const threshold = this._getThreshold();
@@ -98,20 +97,16 @@ export class ProductList extends PureComponent {
             this.observer = new IntersectionObserver((entries) => {
                 const { currentPage } = this.props;
 
-                entries.forEach(({ target, isIntersecting }) => {
+                entries.forEach(({ target, isIntersecting, intersectionRatio }) => {
                     const page = +Object.keys(this.nodes).find(node => this.nodes[node] === target);
                     const index = this.pagesIntersecting.indexOf(page);
 
-                    if (isIntersecting && index === -1) {
+                    if (isIntersecting && intersectionRatio > INTERSECTION_RATIO && index === -1) {
                         this.pagesIntersecting.push(page);
-                    }
-
-                    if (!isIntersecting && index > -1) {
-                        this.pagesIntersecting.splice(index, 1);
                     }
                 });
 
-                const minPage = Math.min(...this.pagesIntersecting);
+                const minPage = this.pagesIntersecting[this.pagesIntersecting.length - 1];
                 if (minPage < Infinity && minPage !== currentPage) {
                     updatePage(minPage);
                 }

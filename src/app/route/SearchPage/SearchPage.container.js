@@ -63,7 +63,9 @@ export class SearchPageContainer extends CategoryPageContainer {
 
         updateMeta({ title: __('Search') });
 
-        if (isOnlyPlaceholder) updateLoadStatus(true);
+        if (isOnlyPlaceholder) {
+            updateLoadStatus(true);
+        }
 
         // request data only if URL does not match loaded category
         if (this.getIsNewCategory()) {
@@ -90,8 +92,13 @@ export class SearchPageContainer extends CategoryPageContainer {
             debounce(this.setOfflineNoticeSize, LOADING_TIME)();
         }
 
-        if (id !== prevId) this._onCategoryUpdate();
-        if (query !== prevQuery) this._updateBreadcrumbs();
+        if (id !== prevId) {
+            this._onCategoryUpdate();
+        }
+
+        if (query !== prevQuery) {
+            this._updateBreadcrumbs();
+        }
 
         this._updateData(prevProps);
     }

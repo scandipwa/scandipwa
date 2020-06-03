@@ -19,6 +19,7 @@ import CartItem from 'Component/CartItem';
 import { TotalsType } from 'Type/MiniCart';
 import { formatCurrency } from 'Util/Price';
 import CmsBlock from 'Component/CmsBlock';
+import { CART_OVERLAY } from 'Component/Header';
 
 import './CartOverlay.style';
 
@@ -27,12 +28,13 @@ export default class CartOverlay extends PureComponent {
         totals: TotalsType.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
         isEditing: PropTypes.bool.isRequired,
-        handleCheckoutClick: PropTypes.func.isRequired
+        handleCheckoutClick: PropTypes.func.isRequired,
+        currencyCode: PropTypes.string.isRequired
     };
 
     renderPriceLine(price) {
-        const { totals: { quote_currency_code } } = this.props;
-        return `${formatCurrency(quote_currency_code)}${parseFloat(price).toFixed(2)}`;
+        const { currencyCode } = this.props;
+        return `${parseFloat(price).toFixed(2)}${formatCurrency(currencyCode)}`;
     }
 
     renderCartItems() {
@@ -169,7 +171,7 @@ export default class CartOverlay extends PureComponent {
 
         return (
             <Overlay
-              id="cart"
+              id={ CART_OVERLAY }
               onVisible={ changeHeaderState }
               mix={ { block: 'CartOverlay' } }
             >
