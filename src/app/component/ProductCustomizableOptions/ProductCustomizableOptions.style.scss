@@ -23,6 +23,23 @@
             textarea {
                 width: 100%;
             }
+
+            &_type_checkbox {
+                display: flex;
+
+                label {
+                    order: 1;
+
+                    &:first-of-type ~ label {
+                        margin-left: 0;
+                    }
+                }
+
+                .Field-Label {
+                    margin-left: 1rem;
+                    order: 2;
+                }
+            }
         }
     }
 

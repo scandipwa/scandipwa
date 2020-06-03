@@ -56,7 +56,7 @@ export default class Field extends PureComponent {
             CHECKBOX_TYPE,
             SELECT_TYPE
         ]).isRequired,
-        label: PropTypes.oneOfType(PropTypes.string, PropTypes.object),
+        label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
         message: PropTypes.string,
         placeholder: PropTypes.string,
         value: PropTypes.oneOfType([
@@ -80,7 +80,7 @@ export default class Field extends PureComponent {
                 PropTypes.number
             ]),
             disabled: PropTypes.bool,
-            label: PropTypes.oneOfType(PropTypes.string, PropTypes.object)
+            label: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
         })),
         isDisabled: PropTypes.bool,
         onChange: PropTypes.func,
@@ -99,7 +99,6 @@ export default class Field extends PureComponent {
             PropTypes.string,
             PropTypes.bool
         ]),
-        renderLabelAfter: PropTypes.bool,
         maxLength: PropTypes.number
     };
 
@@ -125,7 +124,6 @@ export default class Field extends PureComponent {
         autocomplete: 'off',
         validation: [],
         skipValue: false,
-        renderLabelAfter: false,
         maxLength: null
     };
 
@@ -484,8 +482,7 @@ export default class Field extends PureComponent {
 
     renderCheckbox() {
         const {
-            id,
-            renderLabelAfter
+            id
         } = this.props;
         const { checked } = this.state;
 
@@ -498,9 +495,6 @@ export default class Field extends PureComponent {
                   onChange={ this.onChangeCheckbox }
                 />
                 <label htmlFor={ id } />
-                { renderLabelAfter && (
-                    this.renderLabel()
-                ) }
             </>
         );
     }
@@ -664,8 +658,7 @@ export default class Field extends PureComponent {
         const {
             mix,
             type,
-            message,
-            renderLabelAfter
+            message
         } = this.props;
 
         return (
@@ -674,9 +667,7 @@ export default class Field extends PureComponent {
               mods={ { type, hasError: !!message } }
               mix={ mix }
             >
-                { !renderLabelAfter && (
-                    this.renderLabel()
-                ) }
+                { this.renderLabel() }
                 { this.renderInputOfType(type) }
                 { this.renderMessage() }
             </div>

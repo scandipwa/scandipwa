@@ -105,7 +105,6 @@ class ProductCustomizableOptions extends PureComponent {
               id={ `option-${ option_type_id }` }
               name={ `option-${ option_type_id }` }
               value={ option_type_id }
-              renderLabelAfter
               onChange={ getSelectedCheckboxValue }
             />
         );
