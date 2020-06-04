@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+/* eslint-disable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -10,16 +10,29 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+const importExternalScripts = middleware(
+    () => {
+        importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js');
+    },
+    'SW/Util/Workbox/importExternalScripts'
+);
+
+const loadModules = middleware(
+    () => {
+        workbox.loadModule('workbox-core');
+        workbox.loadModule('workbox-routing');
+        workbox.loadModule('workbox-strategies');
+        workbox.loadModule('workbox-cache-expiration');
+    },
+    'SW/Util/Workbox/loadModules'
+);
+
 if (typeof workbox === 'undefined') {
-    importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js');
+    importExternalScripts();
 }
 
 if (workbox) {
-    workbox.loadModule('workbox-core');
-    workbox.loadModule('workbox-routing');
-    workbox.loadModule('workbox-strategies');
-    workbox.loadModule('workbox-cache-expiration');
-
+    loadModules();
     console.log('Yay! Workbox is loaded 🎉');
 } else {
     console.log('Boo! Workbox didn\'t load 😬');

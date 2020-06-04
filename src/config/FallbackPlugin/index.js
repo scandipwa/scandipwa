@@ -228,7 +228,7 @@ class FallbackPlugin {
                 if (!vendorName || !pluginName) {
                     return path.resolve(root, expected);
                 }
-                return path.resolve(root, 'src/app/plugin', vendorName, pluginName, expected);
+                return path.resolve(root, 'src/plugin', vendorName, pluginName, expected);
             }
 
             const customPath = constructPath(this.options.projectRoot);

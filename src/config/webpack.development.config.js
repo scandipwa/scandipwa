@@ -98,7 +98,22 @@ const config = (env, argv) => {
                             options: {
                                 magentoRoot,
                                 projectRoot,
-                                importAggregator: 'extensions'
+                                importAggregator: 'extensions',
+                                pathFilterCondition: path => !!path.match(/\/src\/scandipwa\/app\//)
+                            }
+                        }
+                    ]
+                },
+                {
+                    test: /util\/Extensions\/index-sw\.js/,
+                    use: [
+                        {
+                            loader: 'extension-import-injector',
+                            options: {
+                                magentoRoot,
+                                projectRoot,
+                                importAggregator: 'extensions',
+                                pathFilterCondition: path => !!path.match(/\/src\/scandipwa\/sw\//)
                             }
                         }
                     ]

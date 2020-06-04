@@ -14,6 +14,7 @@
 
 const path = require('path');
 const MinifyPlugin = require('babel-minify-webpack-plugin');
+const webpack = require('webpack');
 
 const { getBabelConfig } = require('./babel.config');
 const FallbackPlugin = require('./FallbackPlugin');
@@ -82,6 +83,20 @@ module.exports = (_, options) => {
                             options: getBabelConfig({ projectRoot, magentoRoot, fallbackRoot, parentRoot })
                         }
                     ]
+                },
+                {
+                    test: /util\/Extensions\/index-sw\.js/,
+                    use: [
+                        {
+                            loader: 'extension-import-injector',
+                            options: {
+                                magentoRoot,
+                                projectRoot,
+                                importAggregator: 'extensions',
+                                pathFilterCondition: path => !!path.match(/\/src\/scandipwa\/sw\//)
+                            }
+                        }
+                    ]
                 }
             ]
         },
@@ -94,6 +109,11 @@ module.exports = (_, options) => {
         },
 
         plugins: [
+            new webpack.ProvidePlugin({
+                middleware: path.join(__dirname, 'Middleware'),
+                ExtensibleClass: path.join(__dirname, 'ExtensibleClasses', 'ExtensibleClass')
+            }),
+
             ...additionalPlugins
         ]
     };

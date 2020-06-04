@@ -1,5 +1,4 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-console */
+/* eslint-disable */
 
 /**
  * ScandiPWA - Progressive Web App for Magento
@@ -15,42 +14,46 @@
 import generateCustomResponse from '../util/CustomResponse';
 
 /**
- *
  * @param {Request} request
  * @returns {boolean}
  */
-const flushCache = (request) => {
-    if (!request.headers.has('Cache-purge') || !request.headers.get('Cache-purge')) return false;
-    const resource = request.headers.get('Cache-purge');
-    if (resource[0] !== '/') {
-        caches.open(resource).then((cache) => {
-            cache.keys().then((elements) => {
-                elements.forEach((element) => {
-                    cache.delete(element);
+const flushCache = middleware(
+    (request) => {
+        if (!request.headers.has('Cache-purge') || !request.headers.get('Cache-purge')) return false;
+        const resource = request.headers.get('Cache-purge');
+        if (resource[0] !== '/') {
+            caches.open(resource).then((cache) => {
+                cache.keys().then((elements) => {
+                    elements.forEach((element) => {
+                        cache.delete(element);
+                    });
                 });
             });
-        });
-    } else {
-        caches.open(CACHE_NAME).then((cache) => {
-            console.log(`Purging cache: ${resource}`);
-            cache.delete(resource);
-        });
-    }
+        } else {
+            caches.open(CACHE_NAME).then((cache) => {
+                console.log(`Purging cache: ${resource}`);
+                cache.delete(resource);
+            });
+        }
 
-    return true;
-};
+        return true;
+    },
+    'SW/Handler/StaleWhileRevalidateHandler/flushCache'
+);
 
 /**
- *
  * @param event
  * @returns {Promise<Response>}
  */
-const flushCacheHandler = (event) => {
-    console.log('flush cache handler', event);
-    if (flushCache(event.event.request)) return generateCustomResponse('ok');
-    const ERROR_CODE_502 = 502;
-    return generateCustomResponse('', ERROR_CODE_502, 'Cache flush request is missing or has wrong Cache-purge header');
-};
+const flushCacheHandler = middleware(
+    (event) => {
+        console.log('flush cache handler', event);
+        if (flushCache(event.event.request)) return generateCustomResponse('ok');
+        const ERROR_CODE_502 = 502;
+        return generateCustomResponse('', ERROR_CODE_502, 'Cache flush request is missing or has wrong Cache-purge header');
+    },
+    'SW/Handler/StaleWhileRevalidateHandler/flushCacheHandler'
+);
 
 export default flushCacheHandler;
 export { flushCache };

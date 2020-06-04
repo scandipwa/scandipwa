@@ -4,7 +4,7 @@ const generateMiddlewaredFunction = require('./generateMiddlewaredFunction');
 
 module.exports = (namespace) => {
     return function (origFunction, thisArg, originalArgs) {
-        const memberPluginsApply = window.plugins?.[namespace]?.['function']?.['apply'];
+        const memberPluginsApply = globalThis.plugins?.[namespace]?.['function']?.['apply'];
         if (memberPluginsApply && !Array.isArray(memberPluginsApply)) {
             throw new Error(`Expected Array in function/apply config section for ${namespace}`);
         }

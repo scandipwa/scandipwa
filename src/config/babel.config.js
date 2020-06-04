@@ -56,7 +56,7 @@ const getExtensionsAliases = (projectRoot, magentoRoot) => {
 }
 
 const getAliases = (prefix, root, projectRoot) => {
-    return ['style', 'component', 'route', 'store', 'util', 'query', 'type', 'plugin'].reduce(
+    const aliases = ['style', 'component', 'route', 'store', 'util', 'query', 'type'].reduce(
         (acc, curr) => {
             acc[`${capitalize(prefix)}${capitalize(curr)}`] = './' + path.relative(
                 projectRoot,
@@ -66,6 +66,13 @@ const getAliases = (prefix, root, projectRoot) => {
             return acc;
         }, {}
     );
+
+    aliases[`${capitalize(prefix)}Plugin`] = './' + path.relative(
+        projectRoot,
+        path.resolve(root, `src/plugin`)
+    );
+
+    return aliases;
 }
 
 const getPresets = () => ([
