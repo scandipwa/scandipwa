@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -16,6 +17,9 @@
  * @param statusText
  * @returns {Promise<any>}
  */
-const generateCustomResponse = (body, status = 200, statusText = 'OK') => new Response(body, { status, statusText });
+const generateCustomResponse = middleware(
+    (body, status = 200, statusText = 'OK') => new Response(body, { status, statusText }),
+    'SW/Handler/StaleWhileRevalidateHandler/generateCustomResponse'
+);
 
 export default generateCustomResponse;

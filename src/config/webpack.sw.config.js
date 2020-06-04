@@ -82,6 +82,20 @@ module.exports = (_, options) => {
                             options: getBabelConfig({ projectRoot, magentoRoot, fallbackRoot, parentRoot })
                         }
                     ]
+                },
+                {
+                    test: /util\/Extensions\/index\.js/,
+                    use: [
+                        {
+                            loader: 'extension-import-injector',
+                            options: {
+                                magentoRoot,
+                                projectRoot,
+                                importAggregator: 'extensions',
+                                pathFilterCondition: path => !!path.match(/\/src\/scandipwa\/sw\//)
+                            }
+                        }
+                    ]
                 }
             ]
         },
@@ -94,6 +108,11 @@ module.exports = (_, options) => {
         },
 
         plugins: [
+            new webpack.ProvidePlugin({
+                middleware: path.join(__dirname, 'Middleware'),
+                ExtensibleClass: path.join(__dirname, 'ExtensibleClasses', 'ExtensibleClass')
+            }),
+
             ...additionalPlugins
         ]
     };

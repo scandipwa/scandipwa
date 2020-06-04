@@ -93,7 +93,8 @@ const webpackConfig = ([lang, translation]) => ({
                         options: {
                             magentoRoot,
                             projectRoot,
-                            importAggregator: 'extensions'
+                            importAggregator: 'extensions',
+                            pathFilterCondition: path => !!path.match(/\/src\/scandipwa\/app\//)
                         }
                     }
                 ]

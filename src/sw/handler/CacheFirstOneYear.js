@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* eslint-disable */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -13,24 +13,29 @@
 const ONE_YEAR_IN_SECONDS = 2630000;
 
 /**
- *
  * @param time
  * @returns {workbox.strategies.CacheFirst}
  */
-const cacheFirst = time => new workbox.strategies.CacheFirst({
-    cacheName: CACHE_NAME,
-    plugins: [
-        new workbox.expiration.Plugin({
-            maxAgeSeconds: time
-        })
-    ]
-});
+const cacheFirst = middleware(
+    time => new workbox.strategies.CacheFirst({
+        cacheName: CACHE_NAME,
+        plugins: [
+            new workbox.expiration.Plugin({
+                maxAgeSeconds: time
+            })
+        ]
+    }),
+    'SW/Handler/StaleWhileRevalidateHandler/cacheFirst'
+);
 
 /**
  * @param event
  * @returns {void|*}
  */
-const CacheFirstOneYear = event => cacheFirst(ONE_YEAR_IN_SECONDS).handle(event); // one day cache
+const CacheFirstOneYear = middleware(
+    event => cacheFirst(ONE_YEAR_IN_SECONDS).handle(event),
+    'SW/Handler/StaleWhileRevalidateHandler/CacheFirstOneYear'
+);
 
 export default CacheFirstOneYear;
 export { cacheFirst };

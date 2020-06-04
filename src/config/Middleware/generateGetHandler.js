@@ -13,7 +13,7 @@ module.exports = (targetType, namespace) => {
         }
         const origMember = Reflect.get(target, memberName, rec);
 
-        const memberPluginsGet = window.plugins?.[namespace]?.[targetType]?.['get']?.[memberName];
+        const memberPluginsGet = globalThis.plugins?.[namespace]?.[targetType]?.['get']?.[memberName];
         if (!memberPluginsGet) {
             return origMember;
         }

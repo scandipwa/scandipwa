@@ -14,6 +14,7 @@ export const determineGlobalContext = () => {
 }
 
 export const extensions = [];
+
 // The following line is a hook for extension-import-injector loader
 // See config/loaders/extension-import-injector
 // * ScandiPWA extension importing magic comment! */
@@ -23,7 +24,6 @@ const handlerMap = {
     'instance': [ 'get' ],
     'function': [ 'apply' ]
 };
-
 const handlerTypes = [...new Set(Object.values(handlerMap).flat())];
 const targetTypes = Object.keys(handlerMap);
 
@@ -59,44 +59,48 @@ globalThis.plugins = extensions.reduce(
             }
             Object.entries(plugins).forEach(([targetType, handlerPlugins]) => {
                 validateTargetType(targetType);
+
                 if (!overallConfig[namespace][targetType]) {
                     overallConfig[namespace][targetType] = {};
                 }
                 Object.entries(handlerPlugins).forEach(([handlerType, membersPlugins]) => {
                     validateHandlerType(handlerType);
                     validateHandlerForTarget(targetType, handlerType);
-                    switch (handlerType) {
-                    // Handle reduced apply plugin config structure
-                    case 'apply':
-                        if (!overallConfig[namespace][targetType][handlerType]) {
+
+                    if (!overallConfig[namespace][targetType][handlerType]) {
+                        switch (handlerType) {
+                        // Handle reduced apply plugin config structure
+                        case 'apply':
                             overallConfig[namespace][targetType][handlerType] = [];
-                        }
-                        membersPlugins.forEach((memberPlugin) => {
-                            overallConfig[namespace][targetType][handlerType].push(memberPlugin);
-                        })
+                            membersPlugins.forEach((memberPlugin) => {
+                                overallConfig[namespace][targetType][handlerType].push(memberPlugin);
+                            })
 
-                        break;
-                    default:
-                        // Ignore all plugins other than 'apply' for service workers.
-                        if (globalContext === SERVICE_WORKER_GLOBAL_CONTEXT) {
-                            throw new Error('Only `function/apply` plugins are allowed for Service Worker');
-                        }
-
-                        overallConfig[namespace][targetType][handlerType] = {};
-                        Object.entries(membersPlugins).forEach(([memberName, memberPlugins]) => {
-                            if (!overallConfig[namespace][targetType][handlerType][memberName]) {
-                                overallConfig[namespace][targetType][handlerType][memberName] = [];
+                            break;
+                        default:
+                            // Ignore all plugins other than 'apply' for service workers.
+                            if (globalContext === SERVICE_WORKER_GLOBAL_CONTEXT) {
+                                throw new Error('Only `function/apply` plugins are allowed for Service Worker');
                             }
-                            memberPlugins.forEach((memberPlugin) => {
-                                overallConfig[namespace][targetType][handlerType][memberName].push(memberPlugin);
-                            });
-                        });
 
-                        break;
+                            overallConfig[namespace][targetType][handlerType] = {};
+                            Object.entries(membersPlugins).forEach(([memberName, memberPlugins]) => {
+                                if (!overallConfig[namespace][targetType][handlerType][memberName]) {
+                                    overallConfig[namespace][targetType][handlerType][memberName] = [];
+                                }
+                                memberPlugins.forEach((memberPlugin) => {
+                                    overallConfig[namespace][targetType][handlerType][memberName].push(memberPlugin);
+                                });
+                            });
+
+                            break;
+                        }
                     }
+
                 });
             });
         });
+
         return overallConfig;
     }, {}
 );
