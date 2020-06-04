@@ -106,8 +106,9 @@ module.exports = {
     create: context => ({
         Program(node) {
             const filePath = context.getFilename();
-            if (filePath.indexOf('src/app') !== -1) {
-                const relativeToApp = filePath.slice(filePath.indexOf('src/app') + 'src/app'.length + 1);
+            if (filePath.indexOf('pwa/src/app') !== -1 || filePath.indexOf('base-theme/src/app') !== -1) {
+                const pathKey = filePath.indexOf('pwa/src/app') !== -1 ? 'pwa/src/app' : 'base-theme/src/app';
+                const relativeToApp = filePath.slice(filePath.indexOf(pathKey) + pathKey.length + 1);
                 const exploded = relativeToApp.split('/');
 
                 if (!([
