@@ -14,6 +14,7 @@
 
 const path = require('path');
 const MinifyPlugin = require('babel-minify-webpack-plugin');
+const webpack = require('webpack');
 
 const { getBabelConfig } = require('./babel.config');
 const FallbackPlugin = require('./FallbackPlugin');
@@ -84,7 +85,7 @@ module.exports = (_, options) => {
                     ]
                 },
                 {
-                    test: /util\/Extensions\/index\.js/,
+                    test: /util\/Extensions\/index-sw\.js/,
                     use: [
                         {
                             loader: 'extension-import-injector',
