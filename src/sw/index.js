@@ -10,7 +10,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-
+import 'Util/Extensions/index-sw.js';
 import workbox from './util/Workbox';
 import cacheFirstOneYear from './handler/CacheFirstOneYear';
 import { cacheUrlHandler, getCacheUrlMatchRegex } from './handler/UrlHandler';
@@ -31,20 +31,21 @@ self.addEventListener('install', () => {
     self.skipWaiting();
 });
 
-const keyFilter = middleware(
-    ({ url }) => url.match(/.+(.css|.js)$/),
-    'SW/keyFilter'
-);
-
-const keyDeleter = middleware(
-    ({ url }) => cache.delete(url),
-    'SW/keyDeleter'
-)
-
 self.addEventListener('activate', (event) => {
     event.waitUntil(
         caches.open(self.CACHE_NAME).then((cache) => {
-            cache.keys().then(keys => keys.filter(keyFilter).map(keyDeleter));
+            cache.keys().
+                then(keys => keys.filter(
+                    middleware(
+                        ({ url }) => url.match(/.+(.css|.js)$/),
+                        'SW/keyFilter'
+                    )
+                ).map(
+                    middleware(
+                        ({ url }) => cache.delete(url),
+                        'SW/keyDeleter'
+                    )
+                ));
         })
     );
 });

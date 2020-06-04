@@ -3,14 +3,14 @@ const { getOptions } = require('loader-utils');
 const path = require('path');
 
 module.exports = function injectImports(source) {
-    const { magentoRoot, importAggregator, projectRoot } = getOptions(this);
+    const { magentoRoot, importAggregator, projectRoot, pathFilterCondition = () => 1 } = getOptions(this);
     const { extensions } = require(path.resolve(projectRoot, 'scandipwa.json'));
 
     const extensionConfigImports = Object.entries(extensions).reduce(
         (importChain, extension) => {
             const [, singlePluginConfigPathList] = extension;
 
-            return importChain + singlePluginConfigPathList.reduce(
+            return importChain + singlePluginConfigPathList.filter(pathFilterCondition).reduce(
                 (singlePluginImportChain, singlePluginConfigPath) => {
                     const pathToConfigFile = path.join(magentoRoot, singlePluginConfigPath);
 
