@@ -27,7 +27,7 @@ const webmanifestConfig = require('./webmanifest.config');
 const { getBabelConfig } = require('./babel.config');
 
 const projectRoot = path.resolve(__dirname, '..', '..');
-const { parentRoot } = require(path.resolve(projectRoot, 'scandipwa.json'));
+const { parentTheme = '' } = require(path.resolve(projectRoot, 'scandipwa.json'));
 
 const DEVELOPMENT = 'development';
 const CORE = 'core';
@@ -36,6 +36,8 @@ const config = (env, argv) => {
     const magentoRoot = env.BUILD_MODE === DEVELOPMENT
         ? path.resolve(projectRoot, '..', '..', '..', '..', '..')
         : path.resolve(projectRoot, '..', '..');
+
+    const parentRoot = path.resolve(magentoRoot, 'app/design/frontend', parentTheme);
     const fallbackRoot = path.resolve(magentoRoot, 'vendor', 'scandipwa', 'source');
 
     return {
