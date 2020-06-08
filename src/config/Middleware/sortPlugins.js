@@ -1,14 +1,8 @@
 /* eslint-disable */
 
 /**
- * Sort plugins by position:
+ * Sort plugins by position so that ones with higher position get executed later
  * @param {Array} plugins
  * @param {string} errorText
  */
-module.exports = plugins => plugins.sort(
-    (a, b) => {
-        if (a.position > b.position) return -1;
-        if (a.position < b.position) return 1;
-        return 0;
-    }
-);
+module.exports = plugins => plugins.sort((a, b) => b - a);
