@@ -15,7 +15,7 @@ import { changeNavigationState, goToPreviousNavigationState } from 'Store/Naviga
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { hideActiveOverlay } from 'Store/Overlay';
 
-import MenuOverlay from './MenuOverlay.component';
+import Menu from './Menu.component';
 
 export const mapStateToProps = state => ({
     menu: state.HeaderAndFooterReducer.menu,
@@ -28,4 +28,4 @@ export const mapDispatchToProps = dispatch => ({
     changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(MenuOverlay);
+export default connect(mapStateToProps, mapDispatchToProps)(Menu);
