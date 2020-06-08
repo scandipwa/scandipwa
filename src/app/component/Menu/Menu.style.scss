@@ -116,6 +116,11 @@
             }
         }
 
+        &_isLogo {
+            font-size: 11px;
+            text-transform: none;
+        }
+
         &_isBanner {
             --button-background: var(--homepage-button-background);
             --button-border: transparent;
