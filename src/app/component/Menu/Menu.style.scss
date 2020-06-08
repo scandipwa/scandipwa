@@ -14,8 +14,8 @@
     --menu-desktop-height: 60px;
     --menu-item-figure-background: var(--secondary-base-color);
     --menu-item-hover-color: var(--primary-base-color);
-    --menu-second-level-color: #ADADAD;
-    --menu-third-level-color: #000000;
+    --menu-second-level-color: #adadad;
+    --menu-third-level-color: #000;
 }
 
 @mixin subcategory-visible {
@@ -232,12 +232,12 @@
         width: 100%;
 
         &::before {
-            content:'';
-            position:absolute;
-            top: calc(var(--header-total-height) * -1);
             bottom: 0;
+            content: '';
             left: 0;
+            position: absolute;
             right: 0;
+            top: calc(var(--header-total-height) * -1);
         }
 
         &_isVisible {
@@ -420,7 +420,7 @@
         }
     }
 
-    &-Image{
+    &-Image {
         &_isBanner {
             @include desktop {
                 padding-bottom: 118%;
