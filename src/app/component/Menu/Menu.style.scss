@@ -170,6 +170,10 @@
 
         &_isLogo {
             display: flex;
+
+            .Image-Image {
+                object-fit: cover;
+            }
         }
     }
 
