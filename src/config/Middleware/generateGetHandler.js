@@ -14,7 +14,7 @@ module.exports = (targetType, namespace) => {
         const origMember = Reflect.get(target, memberName, rec);
 
         const targetSpecifier = targetType === 'class'
-            ? 'static-property'
+            ? 'static-member'
             : 'member-function';
 
         const memberPluginsGet = globalThis.plugins?.[namespace]?.[targetSpecifier]?.[memberName];
