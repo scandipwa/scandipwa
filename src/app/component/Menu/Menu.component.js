@@ -29,7 +29,6 @@ import './Menu.style';
 export default class MenuOverlay extends PureComponent {
     static propTypes = {
         menu: MenuType.isRequired,
-        hideActiveOverlay: PropTypes.func.isRequired,
         goToPreviousHeaderState: PropTypes.func.isRequired,
         changeHeaderState: PropTypes.func.isRequired
     };

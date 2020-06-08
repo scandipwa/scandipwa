@@ -29,7 +29,6 @@ import Header, {
     CUSTOMER_ACCOUNT,
     CUSTOMER_SUB_ACCOUNT,
     MENU,
-    MENU_SUBCATEGORY,
     POPUP,
     SEARCH,
     CART,
@@ -445,4 +444,4 @@ export class HeaderContainer extends NavigationAbstractContainer {
     }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HeaderContainer))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HeaderContainer));
