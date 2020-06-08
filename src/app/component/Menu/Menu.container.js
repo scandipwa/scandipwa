@@ -13,7 +13,6 @@ import { connect } from 'react-redux';
 
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { hideActiveOverlay } from 'Store/Overlay';
 
 import Menu from './Menu.component';
 
@@ -23,7 +22,6 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-    hideActiveOverlay: () => dispatch(hideActiveOverlay()),
     goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE)),
     changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state))
 });
