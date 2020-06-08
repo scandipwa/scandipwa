@@ -13,7 +13,11 @@ module.exports = (targetType, namespace) => {
         }
         const origMember = Reflect.get(target, memberName, rec);
 
-        const memberPluginsGet = globalThis.plugins?.[namespace]?.[targetType]?.['get']?.[memberName];
+        const targetSpecifier = targetType === 'class'
+            ? 'static-member'
+            : 'member-function';
+
+        const memberPluginsGet = globalThis.plugins?.[namespace]?.[targetSpecifier]?.[memberName];
         if (!memberPluginsGet) {
             return origMember;
         }
@@ -21,7 +25,7 @@ module.exports = (targetType, namespace) => {
         const middlewaredFunction = generateMiddlewaredFunction(
             origMember,
             sortPlugins(memberPluginsGet),
-            target
+            rec
         );
 
         if (typeof origMember === 'object') {

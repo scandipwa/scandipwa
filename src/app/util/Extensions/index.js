@@ -1,100 +1,93 @@
 /* eslint-disable */
 
-const SERVICE_WORKER_GLOBAL_CONTEXT = 'sw';
-const APPLICATION_GLOBAL_CONTEXT = 'application';
-
-/* Check if window exists */
-export const determineGlobalContext = () => {
-    try {
-        window;
-        return APPLICATION_GLOBAL_CONTEXT;
-    } catch {
-        return SERVICE_WORKER_GLOBAL_CONTEXT;
-    }
-}
-
 export const extensions = [];
-// The following line is a hook for extension-import-injector loader
 // See config/loaders/extension-import-injector
 // * ScandiPWA extension importing magic comment! */
 
-const handlerMap = {
-    'class': [ 'get', 'construct' ],
-    'instance': [ 'get' ],
-    'function': [ 'apply' ]
-};
+/**
+ * Allowed handler types
+ */
+const handlerTypes = [
+    'member-function',
+    'member-property',
+    'static-property',
+    'function',
+];
 
-const handlerTypes = [...new Set(Object.values(handlerMap).flat())];
-const targetTypes = Object.keys(handlerMap);
+/**
+ * Handlers which don't require member name specification
+ */
+const handlersWithReducedSections = [
+    'function'
+];
 
-function validateTargetType(targetType) {
-    if (!targetTypes.includes(targetType)) {
-        throw Error(`Unexpected target type ${targetType}, expected one of [${
-            targetTypes.join(', ')
-        }]`);
-    }
-}
-
-function validateHandlerType(handlerType) {
+/**
+ * Check if supplied handler type is expected
+ * @param {string} handlerType
+ */
+function validateHandlerType(handlerType, namespace) {
     if (!handlerTypes.includes(handlerType)) {
-        throw Error(`Unexpected handler type ${handlerType}, expected one of [${
+        throw Error(`Unexpected handler type '${handlerType}' for namespace '${namespace}', expected one of [${
             handlerTypes.join(', ')
         }]`);
     }
 }
 
-function validateHandlerForTarget(targetType, handlerType) {
-    if (!handlerMap[targetType].includes(handlerType)) {
-        throw Error(`Unexpected handler type ${handlerType} for ${targetType}, expected one of [${handlerMap[targetType].join(', ')}]`);
+/**
+ * Push at once to handler section, separation by member names not expected
+ * @param {Object} overallConfig
+ * @param {string} namespace
+ * @param {string} handlerType
+ * @param {Array} membersPlugins
+ */
+const handleReducedSection = (overallConfig, namespace, handlerType, membersPlugins) => {
+    if (!overallConfig[namespace][handlerType]) {
+        overallConfig[namespace][handlerType] = [];
     }
+
+    membersPlugins.forEach((memberPlugin) => {
+        overallConfig[namespace][handlerType].push(memberPlugin);
+    })
 }
 
-const globalContext = determineGlobalContext();
+/**
+ * Separate namespace plugins by member names
+ * @param {Object} overallConfig
+ * @param {string} namespace
+ * @param {string} handlerType
+ * @param {Array} membersPlugins
+ */
+const handleRegularSection = (overallConfig, namespace, handlerType, membersPlugins) => {
+    if (!overallConfig[namespace][handlerType]) {
+        overallConfig[namespace][handlerType] = {};
+    }
 
+    Object.entries(membersPlugins).forEach(([memberName, memberPlugins]) => {
+        if (!overallConfig[namespace][handlerType][memberName]) {
+            overallConfig[namespace][handlerType][memberName] = [];
+        }
+        memberPlugins.forEach((memberPlugin) => {
+            overallConfig[namespace][handlerType][memberName].push(memberPlugin);
+        });
+    });
+}
+
+/**
+ * Entry point
+ */
 globalThis.plugins = extensions.reduce(
     (overallConfig, extension) => {
         Object.entries(extension).forEach(([namespace, plugins]) => {
             if (!overallConfig[namespace]) {
                 overallConfig[namespace] = {};
             }
-            Object.entries(plugins).forEach(([targetType, handlerPlugins]) => {
-                validateTargetType(targetType);
-                if (!overallConfig[namespace][targetType]) {
-                    overallConfig[namespace][targetType] = {};
+            Object.entries(plugins).forEach(([handlerType, membersPlugins]) => {
+                validateHandlerType(handlerType, namespace);
+                if (handlersWithReducedSections.includes(handlerType)) {
+                    handleReducedSection(overallConfig, namespace, handlerType, membersPlugins)
+                } else {
+                    handleRegularSection(overallConfig, namespace, handlerType, membersPlugins);
                 }
-                Object.entries(handlerPlugins).forEach(([handlerType, membersPlugins]) => {
-                    validateHandlerType(handlerType);
-                    validateHandlerForTarget(targetType, handlerType);
-                    switch (handlerType) {
-                    // Handle reduced apply plugin config structure
-                    case 'apply':
-                        if (!overallConfig[namespace][targetType][handlerType]) {
-                            overallConfig[namespace][targetType][handlerType] = [];
-                        }
-                        membersPlugins.forEach((memberPlugin) => {
-                            overallConfig[namespace][targetType][handlerType].push(memberPlugin);
-                        })
-
-                        break;
-                    default:
-                        // Ignore all plugins other than 'apply' for service workers.
-                        if (globalContext === SERVICE_WORKER_GLOBAL_CONTEXT) {
-                            throw new Error('Only `function/apply` plugins are allowed for Service Worker');
-                        }
-
-                        overallConfig[namespace][targetType][handlerType] = {};
-                        Object.entries(membersPlugins).forEach(([memberName, memberPlugins]) => {
-                            if (!overallConfig[namespace][targetType][handlerType][memberName]) {
-                                overallConfig[namespace][targetType][handlerType][memberName] = [];
-                            }
-                            memberPlugins.forEach((memberPlugin) => {
-                                overallConfig[namespace][targetType][handlerType][memberName].push(memberPlugin);
-                            });
-                        });
-
-                        break;
-                    }
-                });
             });
         });
         return overallConfig;

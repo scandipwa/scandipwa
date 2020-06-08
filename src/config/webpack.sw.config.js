@@ -20,8 +20,9 @@ const { getBabelConfig } = require('./babel.config');
 const FallbackPlugin = require('./FallbackPlugin');
 
 const projectRoot = path.resolve(__dirname, '..', '..');
-const { parentRoot } = require(path.resolve(projectRoot, 'scandipwa.json'));
+const { parentTheme = '' } = require(path.resolve(projectRoot, 'scandipwa.json'));
 const magentoRoot = path.resolve(projectRoot, '..', '..', '..', '..', '..');
+const parentRoot = path.resolve(magentoRoot, 'app/design/frontend', parentTheme);
 const publicRoot = path.resolve(magentoRoot, 'pub');
 const fallbackRoot = path.resolve(magentoRoot, 'vendor', 'scandipwa', 'source');
 
@@ -59,6 +60,13 @@ module.exports = (_, options) => {
                 new FallbackPlugin({
                     fallbackRoot, projectRoot, parentRoot
                 })
+            ]
+        },
+
+        resolveLoader: {
+            modules: [
+                'node_modules',
+                path.resolve(__dirname, 'loaders')
             ]
         },
 

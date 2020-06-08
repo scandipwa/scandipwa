@@ -4,7 +4,7 @@ const sortPlugins = require('./sortPlugins');
 module.exports = (namespace) => {
     return function (TargetClass, args) {
         const instance = new TargetClass(...args);
-        const namespacePluginsConstruct = globalThis.plugins?.[namespace]?.['class']?.['construct'] || {};
+        const namespacePluginsConstruct = globalThis.plugins?.[namespace]?.['member-property'] || {};
 
         Object.entries(namespacePluginsConstruct).forEach(
             ([memberName, memberPluginsConstruct]) => {

@@ -31,7 +31,8 @@ const { I18nPlugin, mapTranslationsToConfig } = require('./I18nPlugin');
 
 const magentoRoot = path.resolve(projectRoot, '..', '..', '..', '..', '..');
 const publicRoot = path.resolve(magentoRoot, 'pub');
-const { parentRoot } = require(path.resolve(projectRoot, 'scandipwa.json'));
+const { parentTheme = '' } = require(path.resolve(projectRoot, 'scandipwa.json'));
+const parentRoot = path.resolve(magentoRoot, 'app/design/frontend', parentTheme);
 const fallbackRoot = path.resolve(magentoRoot, 'vendor', 'scandipwa', 'source');
 
 const staticVersion = Date.now();
