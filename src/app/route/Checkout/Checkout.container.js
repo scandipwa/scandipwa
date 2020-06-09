@@ -34,7 +34,6 @@ import { customerType } from 'Type/Account';
 import Checkout, { SHIPPING_STEP, BILLING_STEP, DETAILS_STEP } from './Checkout.component';
 
 export const PAYMENT_TOTALS = 'PAYMENT_TOTALS';
-export const STRIPE_AUTH_REQUIRED = 'Authentication Required: ';
 
 export const mapStateToProps = state => ({
     totals: state.CartReducer.cartTotals,
@@ -249,21 +248,9 @@ export class CheckoutContainer extends ExtensiblePureComponent {
         return false;
     };
 
+    // eslint-disable-next-line no-unused-vars
     _handlePaymentError = (error, paymentInformation) => {
-        const [{ debugMessage: message = '' }] = error;
-        const { paymentMethod: { handleAuthorization } } = paymentInformation;
-
-        if (handleAuthorization && message.startsWith(STRIPE_AUTH_REQUIRED)) {
-            const secret = message.substring(STRIPE_AUTH_REQUIRED.length);
-
-            handleAuthorization(
-                paymentInformation,
-                secret,
-                paymentInformation => this.savePaymentInformation(paymentInformation)
-            );
-        } else {
-            this._handleError(error);
-        }
+        this._handleError(error);
     };
 
     _getGuestCartId = () => BrowserDatabase.getItem(GUEST_QUOTE_ID);

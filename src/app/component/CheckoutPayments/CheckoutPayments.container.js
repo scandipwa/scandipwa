@@ -18,7 +18,7 @@ import { showNotification } from 'Store/Notification';
 import { BILLING_STEP } from 'Route/Checkout/Checkout.component';
 import { KlarnaContainer } from 'Component/Klarna/Klarna.container';
 import { BRAINTREE_CONTAINER_ID } from 'Component/Braintree/Braintree.component';
-import CheckoutPayments, { BRAINTREE, STRIPE, KLARNA } from './CheckoutPayments.component';
+import CheckoutPayments, { BRAINTREE, KLARNA } from './CheckoutPayments.component';
 
 export const mapDispatchToProps = dispatch => ({
     showError: message => dispatch(showNotification('error', message))
@@ -33,7 +33,6 @@ export class CheckoutPaymentsContainer extends ExtensiblePureComponent {
 
     containerFunctions = {
         initBraintree: this.initBraintree.bind(this),
-        setStripeRef: this.setStripeRef.bind(this),
         selectPaymentMethod: this.selectPaymentMethod.bind(this)
     };
 
@@ -41,7 +40,6 @@ export class CheckoutPaymentsContainer extends ExtensiblePureComponent {
 
     dataMap = {
         [BRAINTREE]: this.getBraintreeData.bind(this),
-        [STRIPE]: this.getStripeData.bind(this),
         [KLARNA]: this.getKlarnaData.bind(this)
     };
 
@@ -65,20 +63,12 @@ export class CheckoutPaymentsContainer extends ExtensiblePureComponent {
         }
     }
 
-    setStripeRef(ref) {
-        this.stripeRef = ref;
-    }
-
     getKlarnaData() {
         return { asyncData: KlarnaContainer.authorize() };
     }
 
     getBraintreeData() {
         return { asyncData: this.braintree.requestPaymentNonce() };
-    }
-
-    getStripeData() {
-        return { asyncData: this.stripeRef.submit() };
     }
 
     collectAdditionalData = () => {

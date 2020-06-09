@@ -19,7 +19,6 @@ const getBypassCacheHosts = middleware(
         '(?!^.*vimeo)',
         // Payment endpoints
         '(?!^.*paypal)', // PayPal
-        '(?!^.*stripe)', // Stripe
         '(?!^.*braintree)', // Braintree
         '(?!^.*klarna)', // Klarna
         // GTM endpoints

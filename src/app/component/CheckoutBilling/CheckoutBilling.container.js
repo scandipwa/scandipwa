@@ -18,7 +18,7 @@ import { paymentMethodsType } from 'Type/Checkout';
 import { customerType, addressType } from 'Type/Account';
 import { trimCustomerAddress, trimAddressFields } from 'Util/Address';
 import { TotalsType } from 'Type/MiniCart';
-import { BRAINTREE, STRIPE, KLARNA } from 'Component/CheckoutPayments/CheckoutPayments.component';
+import { BRAINTREE, KLARNA } from 'Component/CheckoutPayments/CheckoutPayments.component';
 import {
     TERMS_AND_CONDITIONS_POPUP_ID
 } from 'Component/CheckoutTermsAndConditionsPopup/CheckoutTermsAndConditionsPopup.component';
@@ -152,28 +152,17 @@ export class CheckoutBillingContainer extends ExtensiblePureComponent {
                     is_active_payment_token_enabler: false
                 }
             };
-        case STRIPE:
-            const [{ token, handleAuthorization }] = asyncData;
-            if (token === null) {
-                return false;
-            }
 
-            return {
-                code,
-                additional_data: {
-                    cc_stripejs_token: token,
-                    cc_save: false
-                },
-                handleAuthorization
-            };
         case KLARNA:
             const [{ authorization_token }] = asyncData;
+
             return {
                 code,
                 additional_data: {
                     authorization_token
                 }
             };
+
         default:
             return { code };
         }
