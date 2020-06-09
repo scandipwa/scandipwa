@@ -182,17 +182,17 @@
         padding-left: 1.5rem;
         white-space: nowrap;
 
+        @include desktop {
+            display: block;
+            padding-left: 2rem;
+            padding-right: 2rem;
+        }
+
         &:hover,
         &_isHovered,
         &:focus {
             color: var(--menu-item-hover-color);
             text-decoration: none;
-        }
-
-        @include desktop {
-            display: block;
-            margin-left: 40px;
-            padding-left: 0;
         }
     }
 
@@ -211,12 +211,6 @@
 
         &:first-child {
             margin-top: 0;
-
-            .Menu-Link {
-                @include desktop {
-                    margin-left: 6rem;
-                }
-            }
         }
 
         button {
