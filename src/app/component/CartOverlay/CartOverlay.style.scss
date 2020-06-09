@@ -19,7 +19,7 @@
     @include after-mobile {
         position: absolute;
         top: var(--header-nav-height);
-        right: 0;
+        right: 40px;
         padding: 0;
         width: 400px;
     }

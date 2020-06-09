@@ -1,4 +1,4 @@
-/* eslint-disable max-len */
+/* eslint-disable max-len, jsx-a11y/click-events-have-key-events */
 
 /**
  * ScandiPWA - Progressive Web App for Magento
@@ -158,11 +158,11 @@ export default class Header extends NavigationAbstract {
         back: this.renderBackButton.bind(this),
         close: this.renderCloseButton.bind(this),
         menu: this.renderMenuButton.bind(this),
-        search: this.renderSearchField.bind(this),
         title: this.renderTitle.bind(this),
         logo: this.renderLogo.bind(this),
         account: this.renderAccountButton.bind(this),
         minicart: this.renderMinicartButton.bind(this),
+        search: this.renderSearchField.bind(this),
         clear: this.renderClearButton.bind(this),
         edit: this.renderEditButton.bind(this),
         ok: this.renderOkButton.bind(this)
@@ -335,13 +335,28 @@ export default class Header extends NavigationAbstract {
                   block="Header"
                   elem="MyAccount"
                 >
-                    <button
+                    <div
                       block="Header"
-                      elem="Button"
-                      mods={ { isVisible, type: 'account' } }
+                      elem="MyAccountWrapper"
+                      role="button"
+                      tabIndex="0"
                       onClick={ onMyAccountButtonClick }
-                      aria-label="Open my account"
-                    />
+                    >
+                        <div
+                          block="Header"
+                          elem="MyAccountTitle"
+                        >
+                            { __('Account') }
+                        </div>
+                        <button
+                          block="Header"
+                          elem="Button"
+                          mods={ { isVisible, type: 'account' } }
+                          aria-label="Open my account"
+                          id="myAccount"
+                        />
+                    </div>
+
                     { ((isMobile.any() && showMyAccountLogin) || !isMobile.any()) && (
                         <MyAccountOverlay
                           onSignIn={ onSignIn }
@@ -391,18 +406,30 @@ export default class Header extends NavigationAbstract {
                   elem="Button"
                   mods={ { isVisible, type: 'minicart' } }
                 >
-                    <button
+                    <div
+                      block="Header"
+                      elem="MinicartButtonWrapper"
+                      role="button"
+                      tabIndex="0"
                       onClick={ () => {
                           if (name !== CART_OVERLAY) {
                               onMinicartButtonClick();
                           }
                       } }
-                      aria-label="Minicart"
-                      block="Header"
-                      elem="MinicartButton"
                     >
+                        <span
+                          block="Header"
+                          elem="MinicartTitle"
+                        >
+                            { __('Cart') }
+                        </span>
+                        <span
+                          aria-label="Minicart"
+                          block="Header"
+                          elem="MinicartIcon"
+                        />
                         { this.renderMinicartItemsQty() }
-                    </button>
+                    </div>
                     <CartOverlay />
                 </div>
             </ClickOutside>

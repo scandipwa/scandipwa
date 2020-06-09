@@ -84,11 +84,28 @@
 
     &-Results {
         padding: 1rem;
+
+        @include desktop {
+            max-height: calc(100vh - var(--header-total-height) - 7rem);
+            padding: 1rem 4rem 1rem 2rem;
+            overflow-y: auto;
+        }
+
+        > p {
+            @include desktop {
+                text-align: left;
+                padding-left: 3rem;
+            }
+        }
     }
 
     &-Item {
         padding: .5rem 0;
         margin-bottom: 0;
+
+        @include desktop {
+            overflow: hidden;
+        }
 
         &::before {
             content: none;

@@ -22,6 +22,7 @@
     --header-total-height: calc(var(--header-height) + var(--offline-notice-height) + var(--demo-notice-height));
 
     @include desktop {
+        --header-dots-color: #000;
         --header-height: 60px;
         --header-nav-height: 60px;
         --header-logo-height: calc(var(--header-height) - 35px);
@@ -185,6 +186,10 @@
         @include before-desktop {
             border-bottom: 1px solid var(--primary-divider-color);
         }
+
+        @include desktop {
+            justify-content: flex-end;
+        }
     }
 
     &-Button {
@@ -239,7 +244,16 @@
             }
 
             &_minicart {
-                @include minicart-button;
+                @include before-desktop {
+                    @include minicart-button;
+                }
+
+                @include desktop {
+                    cursor: default;
+                    height: auto;
+                    margin-right: 1.2rem;
+                    width: auto;
+                }
             }
 
             &_searchClear {
@@ -270,29 +284,63 @@
         }
     }
 
-    &-MinicartButton {
-        height: 100%;
-        width: 100%;
-        position: absolute;
-        z-index: 1;
-        left: 0;
-        top: 0;
+    &-MyAccount {
+        &Wrapper {
+            align-items: center;
+            display: flex;
+        }
+
+        &Title {
+            cursor: pointer;
+            padding-right: .4rem;
+            text-transform: uppercase;
+        }
     }
 
-    &-MinicartItemCount {
-        position: absolute;
-        color: var(--header-background);
-        background: var(--primary-base-color);
-        display: inline-block;
-        border-radius: 7px;
-        z-index: 2;
-        min-width: 14px;
-        line-height: 13px;
-        font-size: 12px;
-        top: 18px;
-        transform: translateX(3px);
-        padding: 0 4px 1px;
-        left: 50%;
+    &-Minicart {
+        &ButtonWrapper {
+            align-items: center;
+            border-right: 2px dotted var(--header-dots-color);
+            cursor: pointer;
+            display: flex;
+            height: 23px;
+            margin-left: 2rem;
+            padding-right: 1.8rem;
+        }
+
+        &Title {
+            margin-right: .7rem;
+            text-transform: uppercase;
+        }
+
+        &Icon {
+            @include minicart-button;
+
+            @include desktop {
+                height: 20px;
+                width: 20px;
+            }
+        }
+
+        &ItemCount {
+            line-height: 13px;
+            min-width: 14px;
+            padding-left: 5px;
+
+            @include before-desktop {
+                background: var(--primary-base-color);
+                border-radius: 7px;
+                color: var(--header-background);
+                display: inline-block;
+                font-size: 12px;
+                left: 50%;
+                padding: 0 4px 1px;
+                position: absolute;
+                top: 18px;
+                transform: translateX(3px);
+                z-index: 2;
+            }
+        }
     }
 
     &-LogoWrapper {
