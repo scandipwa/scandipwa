@@ -362,9 +362,7 @@ export default class MenuOverlay extends PureComponent {
             return null;
         }
 
-        const {
-            0: { children, title: mainCategoriesTitle }
-        } = categoryArray;
+        const [{ children, title: mainCategoriesTitle }] = categoryArray;
 
         const childrenArray = getSortedItems(Object.values(children));
 
