@@ -61,8 +61,8 @@
             left: 10px;
             top: 4px;
         };
-        transition-duration: 200ms;
         transition-property: opacity, background-color;
+        transition-duration: 200ms;
         width: 100%;
 
         @include before-desktop {
@@ -145,12 +145,13 @@
         @include search-icon;
 
         &::before {
-            box-shadow: 6px 6px 0 -7px var(--header-color),
-            7px 7px 0 -7px var(--header-color),
-            8px 8px 0 -7px var(--header-color),
-            9px 9px 0 -7px var(--header-color),
-            10px 10px 0 -7px var(--header-color),
-            11px 11px 0 -7px var(--header-color);
+            box-shadow:
+                6px 6px 0 -7px var(--header-color),
+                7px 7px 0 -7px var(--header-color),
+                8px 8px 0 -7px var(--header-color),
+                9px 9px 0 -7px var(--header-color),
+                10px 10px 0 -7px var(--header-color),
+                11px 11px 0 -7px var(--header-color);
             height: calc(16px - var(--header-icon-stroke-width) * 2);
             left: 0;
             top: 2px;
