@@ -11,6 +11,7 @@
 
 :root {
     --menu-background-color: #fff;
+    --menu-desktop-background-color: rgba(122, 122, 122, .44);
     --menu-desktop-height: 60px;
     --menu-item-figure-background: var(--secondary-base-color);
     --menu-item-hover-color: var(--primary-base-color);
@@ -214,7 +215,7 @@
         }
 
         &::after {
-            background-color: rgba(122, 122, 122, .44);
+            background-color: var(--menu-desktop-background-color);
             height: 100vh;
             width: 100%;
         }
@@ -280,6 +281,7 @@
         .Menu-Link {
             @include desktop {
                 margin-left: 0;
+                margin-right: 0;
             }
         }
     }
@@ -356,8 +358,8 @@
 
         @include desktop {
             display: block;
+            margin-right: 4rem;
             padding-left: 0;
-            padding-right: 4rem;
         }
 
         &:hover,

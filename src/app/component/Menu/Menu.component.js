@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-bind */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /**
  * ScandiPWA - Progressive Web App for Magento
@@ -69,7 +70,7 @@ export default class MenuOverlay extends PureComponent {
     }
 
     renderItemContent(item, itemMods = {}) {
-        const { title, icon, item_class } = item;
+        const { title, icon } = item;
         const { isBanner } = itemMods;
 
         return (
@@ -77,8 +78,6 @@ export default class MenuOverlay extends PureComponent {
               block="Menu"
               elem="ItemFigure"
               mods={ itemMods }
-                // eslint-disable-next-line react/forbid-dom-props
-              className={ item_class }
             >
                 { this.renderItemContentImage(icon, itemMods) }
                 <figcaption
@@ -92,8 +91,30 @@ export default class MenuOverlay extends PureComponent {
         );
     }
 
-    renderDesktopSubLevel(category) {
+    renderDesktopSubLevelItems(item, mods) {
         const { closeMenu } = this.props;
+        const {
+            url,
+            item_id,
+            cms_page_identifier
+        } = item;
+
+        const path = cms_page_identifier ? `/${ cms_page_identifier}` : url;
+
+        return (
+            <Link
+              key={ item_id }
+              onClick={ closeMenu }
+              to={ path }
+              block="Menu"
+              elem="Link"
+            >
+                { this.renderItemContent(item, mods) }
+            </Link>
+        );
+    }
+
+    renderDesktopSubLevel(category) {
         const { children, item_class } = category;
         const childrenArray = getSortedItems(Object.values(children));
 
@@ -118,27 +139,7 @@ export default class MenuOverlay extends PureComponent {
                   elem="ItemList"
                   mods={ { ...mods } }
                 >
-                    { childrenArray.map((item) => {
-                        const {
-                            url,
-                            item_id,
-                            cms_page_identifier
-                        } = item;
-
-                        const path = cms_page_identifier ? `/${ cms_page_identifier}` : url;
-
-                        return (
-                            <Link
-                              key={ item_id }
-                              onClick={ closeMenu }
-                              to={ path }
-                              block="Menu"
-                              elem="Link"
-                            >
-                                { this.renderItemContent(item, mods) }
-                            </Link>
-                        );
-                    }) }
+                    { childrenArray.map(item => this.renderDesktopSubLevelItems(item, mods)) }
                 </div>
             </div>
         );
