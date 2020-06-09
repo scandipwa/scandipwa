@@ -58,12 +58,12 @@
         max-width: 0;
         min-width: 0;
         opacity: 1;
+        width: 100%;
         padding: {
             bottom: 5px;
             left: 10px;
             top: 4px;
         };
-        width: 100%;
 
         @include before-desktop {
             max-width: 100%;
