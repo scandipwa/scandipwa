@@ -53,6 +53,12 @@
         }
     }
 
+    &-Overlay {
+        background-color: var(--menu-desktop-background-color);
+        height: 100vh;
+        width: 100%;
+    }
+
     &-MainCategories {
         @include desktop {
             display: inline-block;
@@ -93,17 +99,19 @@
     }
 
     &-ItemCaption {
-        font-size: 1.5rem;
-        font-weight: bold;
-        line-height: 1.2;
-        text-align: left;
-
-        @include desktop {
-            font-size: 12px;
-            font-weight: normal;
-        }
-
         &_type {
+            &_main {
+                font-size: 1.5rem;
+                font-weight: bold;
+                line-height: 1.2;
+                text-align: left;
+
+                @include desktop {
+                    font-size: 12px;
+                    font-weight: normal;
+                }
+            }
+
             &_subcategory {
                 font-size: 1rem;
                 font-weight: normal;
@@ -195,29 +203,18 @@
     }
 
     &-SubCategoriesWrapper {
-        background-color: var(--overlay-background);
         display: none;
         position: absolute;
         top: calc(var(--header-total-height) + 3px);
         width: 100%;
 
-        &::before,
-        &::after {
+        &::before {
             content: '';
             position: absolute;
-        }
-
-        &::before {
             bottom: 0;
             left: 0;
             right: 0;
             top: calc(var(--header-total-height) * -1);
-        }
-
-        &::after {
-            background-color: var(--menu-desktop-background-color);
-            height: 100vh;
-            width: 100%;
         }
 
         &_isVisible {
@@ -226,6 +223,8 @@
     }
 
     &-SubCategoriesWrapperInner {
+        background-color: var(--overlay-background);
+
         @media (min-width: 1024px) and (max-width: 1130px) {
             max-height: calc(80vh - var(--header-total-height));
             overflow-y: auto;
@@ -288,6 +287,7 @@
 
     &-SubItemWrapper {
         > .Menu-Link {
+            display: block;
             font-size: 12px;
 
             @include desktop {

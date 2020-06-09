@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-bind */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /**
  * ScandiPWA - Progressive Web App for Magento
@@ -14,14 +13,13 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import media from 'Util/Media';
 import Link from 'Component/Link';
 import isMobile from 'Util/Mobile';
-import Image from 'Component/Image';
 import { MenuType } from 'Type/Menu';
 import CmsBlock from 'Component/CmsBlock';
 import { getSortedItems } from 'Util/Menu';
 import StoreSwitcher from 'Component/StoreSwitcher';
+import MenuItem from 'Component/MenuItem';
 
 import './Menu.style';
 
@@ -34,88 +32,24 @@ export default class MenuOverlay extends PureComponent {
         onCategoryHover: PropTypes.func.isRequired
     };
 
-    renderItemContentImage(icon, itemMods) {
-        const { isBanner, isLogo, type } = itemMods;
-
-        if (!icon
-            || (!isMobile.any() && !isBanner && !isLogo)
-            || (isMobile && type === 'subcategory')
-        ) {
-            return null;
-        }
+    renderDesktopSubLevelItems(item, mods) {
+        const { item_id } = item;
+        const { closeMenu, activeMenuItemsStack } = this.props;
 
         return (
-            <Image
-              mix={ { block: 'Menu', elem: 'Image', mods: itemMods } }
-              src={ icon && media(icon) }
-              ratio="custom"
+            <MenuItem
+              activeMenuItemsStack={ activeMenuItemsStack }
+              item={ item }
+              itemMods={ mods }
+              closeMenu={ closeMenu }
+              isLink
+              key={ item_id }
             />
         );
     }
 
-    renderItemTitle(isBanner, title) {
-        if (isBanner) {
-            return (
-                <button
-                  block="Menu"
-                  elem="Button"
-                  mix={ { block: 'Button' } }
-                >
-                    { title }
-                </button>
-            );
-        }
-
-        return title;
-    }
-
-    renderItemContent(item, itemMods = {}) {
-        const { title, icon } = item;
-        const { isBanner } = itemMods;
-
-        return (
-            <figure
-              block="Menu"
-              elem="ItemFigure"
-              mods={ itemMods }
-            >
-                { this.renderItemContentImage(icon, itemMods) }
-                <figcaption
-                  block="Menu"
-                  elem="ItemCaption"
-                  mods={ itemMods }
-                >
-                    { this.renderItemTitle(isBanner, title) }
-                </figcaption>
-            </figure>
-        );
-    }
-
-    renderDesktopSubLevelItems(item, mods) {
-        const { closeMenu } = this.props;
-        const {
-            url,
-            item_id,
-            cms_page_identifier
-        } = item;
-
-        const path = cms_page_identifier ? `/${ cms_page_identifier}` : url;
-
-        return (
-            <Link
-              key={ item_id }
-              onClick={ closeMenu }
-              to={ path }
-              block="Menu"
-              elem="Link"
-            >
-                { this.renderItemContent(item, mods) }
-            </Link>
-        );
-    }
-
     renderDesktopSubLevel(category) {
-        const { children, item_class } = category;
+        const { children, item_class, item_id } = category;
         const childrenArray = getSortedItems(Object.values(children));
 
         if (isMobile.any() || !childrenArray.length) {
@@ -133,6 +67,7 @@ export default class MenuOverlay extends PureComponent {
             <div
               block="Menu"
               elem="SubLevelDesktop"
+              key={ item_id }
             >
                 <div
                   block="Menu"
@@ -146,44 +81,49 @@ export default class MenuOverlay extends PureComponent {
     }
 
     renderSubLevelItems = (item) => {
-        const { closeMenu, handleSubcategoryClick } = this.props;
         const {
-            url,
+            handleSubcategoryClick,
+            activeMenuItemsStack,
+            onCategoryHover
+        } = this.props;
+        const {
             item_id,
-            children,
-            cms_page_identifier,
-            title
+            children
         } = item;
 
         const childrenArray = Object.values(children);
-        const path = cms_page_identifier ? `/${ cms_page_identifier}` : url;
         const subcategoryMods = { type: 'subcategory' };
 
-        return childrenArray.length && isMobile.any() ? (
-            <div
-              key={ item_id }
-              onClick={ e => handleSubcategoryClick(e, item) }
-              tabIndex="0"
-              role="button"
-            >
-                { this.renderItemContent(item, subcategoryMods) }
-                { this.renderSubLevel(item) }
-            </div>
-        ) : (
+        if (childrenArray.length && isMobile.any()) {
+            return (
+                <div
+                  key={ item_id }
+                  onClick={ e => handleSubcategoryClick(e, item) }
+                  tabIndex="0"
+                  role="button"
+                >
+                    <MenuItem
+                      activeMenuItemsStack={ activeMenuItemsStack }
+                      item={ item }
+                      itemMods={ subcategoryMods }
+                      onCategoryHover={ onCategoryHover }
+                    />
+                    { this.renderSubLevel(item) }
+                </div>
+            );
+        }
+
+        return (
             <div
               block="Menu"
               elem="SubItemWrapper"
               key={ item_id }
             >
-                <Link
-                  key={ item_id }
-                  onClick={ closeMenu }
-                  to={ path }
-                  block="Menu"
-                  elem="Link"
-                >
-                    { title }
-                </Link>
+                <MenuItem
+                  activeMenuItemsStack={ activeMenuItemsStack }
+                  item={ item }
+                  isLink
+                />
                 { this.renderDesktopSubLevel(item) }
             </div>
         );
@@ -258,7 +198,7 @@ export default class MenuOverlay extends PureComponent {
             return null;
         }
 
-        const { activeMenuItemsStack } = this.props;
+        const { activeMenuItemsStack, closeMenu } = this.props;
         const mods = activeMenuItemsStack.includes(item_id);
 
         return (
@@ -280,6 +220,11 @@ export default class MenuOverlay extends PureComponent {
                     </div>
                     { this.renderAdditionalInformation() }
                 </div>
+                <div
+                  block="Menu"
+                  elem="Overlay"
+                  onMouseEnter={ closeMenu }
+                />
             </div>
         );
     };
@@ -308,10 +253,13 @@ export default class MenuOverlay extends PureComponent {
     }
 
     renderFirstLevelItems(item) {
-        const { activeMenuItemsStack, handleSubcategoryClick, onCategoryHover } = this.props;
-        const { item_id, children, url } = item;
+        const {
+            activeMenuItemsStack,
+            handleSubcategoryClick,
+            onCategoryHover
+        } = this.props;
+        const { children } = item;
         const childrenArray = Object.values(children);
-        const isHovered = activeMenuItemsStack.includes(item_id);
         const itemMods = { type: 'main' };
 
         if (childrenArray.length && isMobile.any()) {
@@ -323,24 +271,25 @@ export default class MenuOverlay extends PureComponent {
                   elem="SubCatLink"
                   role="button"
                 >
-                    { this.renderItemContent(item, itemMods) }
+                    <MenuItem
+                      activeMenuItemsStack={ activeMenuItemsStack }
+                      item={ item }
+                      itemMods={ itemMods }
+                      onCategoryHover={ onCategoryHover }
+                    />
                     { this.renderSubLevel(item) }
-
                 </div>
             );
         }
 
         return (
-            <Link
-              to={ url }
-              block="Menu"
-              elem="Link"
-              id={ item_id }
-              onMouseEnter={ () => onCategoryHover(item) }
-              mods={ { isHovered } }
-            >
-                { this.renderItemContent(item, itemMods) }
-            </Link>
+            <MenuItem
+              activeMenuItemsStack={ activeMenuItemsStack }
+              item={ item }
+              itemMods={ itemMods }
+              onCategoryHover={ onCategoryHover }
+              isLink
+            />
         );
     }
 
@@ -392,6 +341,7 @@ export default class MenuOverlay extends PureComponent {
         const { closeMenu } = this.props;
 
         return (
+
             <div
               block="Menu"
               elem="MenuWrapper"
@@ -399,6 +349,7 @@ export default class MenuOverlay extends PureComponent {
             >
                 { this.renderTopLevel() }
             </div>
+
         );
     }
 }
