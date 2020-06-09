@@ -175,6 +175,7 @@ export class ProductListQuery {
                     this._getMediaGalleryField(),
                     this._getSimpleProductFragment(),
                     this._getProductLinksField(),
+                    this._getCustomizableProductFragment(),
                     ...(!isVariant
                         ? [
                             this._getCategoriesField(),
@@ -548,6 +549,88 @@ export class ProductListQuery {
             this._getConfigurableOptionsField(),
             this._getVariantsField()
         ];
+    }
+
+    _getCustomizableTextValueFields() {
+        return [
+            'price',
+            'price_type',
+            'sku',
+            'max_characters'
+        ];
+    }
+
+    _getCustomizableTextValueField(alias) {
+        return new Field('value')
+            .addFieldList(this._getCustomizableTextValueFields())
+            .setAlias(alias);
+    }
+
+    _getCustomizableTextFields(alias) {
+        return [
+            this._getCustomizableTextValueField(alias),
+            'product_sku'
+        ];
+    }
+
+    _getCustomizableAreaOption() {
+        return new Fragment('CustomizableAreaOption')
+            .addFieldList(this._getCustomizableTextFields('areaValues'));
+    }
+
+    _getCustomizableFieldOption() {
+        return new Fragment('CustomizableFieldOption')
+            .addFieldList(this._getCustomizableTextFields('fieldValues'));
+    }
+
+    _getCustomizableSelectionValueFields() {
+        return [
+            'option_type_id',
+            'price',
+            'price_type',
+            'sku',
+            'title',
+            'sort_order'
+        ];
+    }
+
+    _getCustomizableSelectionValueField(alias) {
+        return new Field('value')
+            .addFieldList(this._getCustomizableSelectionValueFields())
+            .setAlias(alias);
+    }
+
+    _getCustomizableCheckboxOption() {
+        return new Fragment('CustomizableCheckboxOption')
+            .addFieldList([this._getCustomizableSelectionValueField('checkboxValues')]);
+    }
+
+    _getCustomizableDropdownOption() {
+        return new Fragment('CustomizableDropDownOption')
+            .addFieldList([this._getCustomizableSelectionValueField('dropdownValues')]);
+    }
+
+    _getCustomizableProductFragmentOptionsFields() {
+        return [
+            this._getCustomizableDropdownOption(),
+            this._getCustomizableCheckboxOption(),
+            this._getCustomizableFieldOption(),
+            this._getCustomizableAreaOption(),
+            'title',
+            'required',
+            'sort_order',
+            'option_id'
+        ];
+    }
+
+    _getCustomizableProductFragmentOptionsField() {
+        return new Field('options')
+            .addFieldList(this._getCustomizableProductFragmentOptionsFields());
+    }
+
+    _getCustomizableProductFragment() {
+        return new Fragment('CustomizableProductInterface')
+            .addFieldList([this._getCustomizableProductFragmentOptionsField()]);
     }
 
     _getSimpleProductFragmentFields() {

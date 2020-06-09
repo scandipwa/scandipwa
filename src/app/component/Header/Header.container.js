@@ -485,4 +485,4 @@ export class HeaderContainer extends NavigationAbstractContainer {
     }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HeaderContainer))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HeaderContainer));

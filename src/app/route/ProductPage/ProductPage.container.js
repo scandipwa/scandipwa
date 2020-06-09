@@ -53,12 +53,14 @@ export const mapDispatchToProps = dispatch => ({
 export class ProductPageContainer extends PureComponent {
     state = {
         configurableVariantIndex: -1,
-        parameters: {}
+        parameters: {},
+        customizableOptionsData: {}
     };
 
     containerFunctions = {
         updateConfigurableVariant: this.updateConfigurableVariant.bind(this),
-        getLink: this.getLink.bind(this)
+        getLink: this.getLink.bind(this),
+        getSelectedCustomizableOptions: this.getSelectedCustomizableOptions.bind(this)
     };
 
     static propTypes = {
@@ -135,18 +137,25 @@ export class ProductPageContainer extends PureComponent {
     componentDidUpdate(prevProps) {
         const {
             location: { pathname },
-            product: { id },
+            product: { id, options },
             isOnlyPlaceholder
         } = this.props;
 
         const {
             location: { pathname: prevPathname },
-            product: { id: prevId },
+            product: {
+                id: prevId,
+                options: prevOptions
+            },
             isOnlyPlaceholder: prevIsOnlyPlaceholder
         } = prevProps;
 
         if (pathname !== prevPathname || isOnlyPlaceholder !== prevIsOnlyPlaceholder) {
             this._requestProduct();
+        }
+
+        if (JSON.stringify(options) !== JSON.stringify(prevOptions)) {
+            this.getRequiredCustomizableOptions(options);
         }
 
         if (id !== prevId) {
@@ -172,6 +181,43 @@ export class ProductPageContainer extends PureComponent {
         const query = objectToUri(obj);
 
         return `${pathname}${query}`;
+    }
+
+    getRequiredCustomizableOptions(options) {
+        const { customizableOptionsData } = this.state;
+
+        if (!options) {
+            return [];
+        }
+
+        const requiredCustomizableOptions = options.reduce((acc, { option_id, required }) => {
+            if (required) {
+                acc.push(option_id);
+            }
+
+            return acc;
+        }, []);
+
+        return this.setState({
+            customizableOptionsData:
+                { ...customizableOptionsData, requiredCustomizableOptions }
+        });
+    }
+
+    getSelectedCustomizableOptions(values, updateArray = false) {
+        const { customizableOptionsData } = this.state;
+
+        if (updateArray) {
+            this.setState({
+                customizableOptionsData:
+                    { ...customizableOptionsData, customizableOptionsMulti: values }
+            });
+        } else {
+            this.setState({
+                customizableOptionsData:
+                    { ...customizableOptionsData, customizableOptions: values }
+            });
+        }
     }
 
     getIsConfigurableParameterSelected(parameters, key, value) {

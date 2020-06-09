@@ -24,7 +24,8 @@ import TextPlaceholder from 'Component/TextPlaceholder';
 import ProductPrice from 'Component/ProductPrice';
 import { ProductType } from 'Type/ProductList';
 import AddToCart from 'Component/AddToCart';
-import { GROUPED, CONFIGURABLE } from 'Util/Product';
+import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
+import { GROUPED, CONFIGURABLE, SIMPLE } from 'Util/Product';
 import Field from 'Component/Field';
 import isMobile from 'Util/Mobile';
 import Html from 'Component/Html';
@@ -53,7 +54,9 @@ export default class ProductActions extends PureComponent {
         getIsConfigurableAttributeAvailable: PropTypes.func.isRequired,
         groupedProductQuantity: PropTypes.objectOf(PropTypes.number).isRequired,
         clearGroupedProductQuantity: PropTypes.func.isRequired,
-        setGroupedProductQuantity: PropTypes.func.isRequired
+        setGroupedProductQuantity: PropTypes.func.isRequired,
+        getSelectedCustomizableOptions: PropTypes.func.isRequired,
+        customizableOptionsData: PropTypes.object.isRequired
     };
 
     static defaultProps = {
@@ -194,12 +197,8 @@ export default class ProductActions extends PureComponent {
     }
 
     renderShortDescriptionContent() {
-        const { product: { short_description, id } } = this.props;
+        const { product: { short_description } } = this.props;
         const { html } = short_description || {};
-
-        if (!html && id) {
-            return null;
-        }
 
         const htmlWithItemProp = `<div itemProp="description">${ html }</div>`;
 
@@ -214,7 +213,7 @@ export default class ProductActions extends PureComponent {
         const { product: { short_description, id } } = this.props;
         const { html } = short_description || {};
 
-        if (!html && id && isMobile.any()) {
+        if (!html && id) {
             return null;
         }
 
@@ -261,6 +260,30 @@ export default class ProductActions extends PureComponent {
         );
     }
 
+    renderCustomizableOptions() {
+        const {
+            product: { type_id, options },
+            getSelectedCustomizableOptions
+        } = this.props;
+
+        if (type_id !== SIMPLE || isMobile.any()) {
+            return null;
+        }
+
+        return (
+            <section
+              block="ProductActions"
+              elem="Section"
+              mods={ { type: 'customizable_options' } }
+            >
+                <ProductCustomizableOptions
+                  options={ options }
+                  getSelectedCustomizableOptions={ getSelectedCustomizableOptions }
+                />
+            </section>
+        );
+    }
+
     renderQuantityInput() {
         const {
             quantity,
@@ -293,7 +316,8 @@ export default class ProductActions extends PureComponent {
             configurableVariantIndex,
             product,
             quantity,
-            groupedProductQuantity
+            groupedProductQuantity,
+            customizableOptionsData
         } = this.props;
 
         return (
@@ -304,6 +328,7 @@ export default class ProductActions extends PureComponent {
               quantity={ quantity }
               groupedProductQuantity={ groupedProductQuantity }
               onProductValidationError={ this.onProductValidationError }
+              customizableOptionsData={ customizableOptionsData }
             />
         );
     }
@@ -401,7 +426,8 @@ export default class ProductActions extends PureComponent {
         const {
             product,
             quantity,
-            configurableVariantIndex
+            configurableVariantIndex,
+            customizableOptionsData
         } = this.props;
 
         return (
@@ -410,6 +436,7 @@ export default class ProductActions extends PureComponent {
               quantity={ quantity }
               configurableVariantIndex={ configurableVariantIndex }
               onProductValidationError={ this.onProductValidationError }
+              customizableOptionsData={ customizableOptionsData }
             />
         );
     }
@@ -482,6 +509,7 @@ export default class ProductActions extends PureComponent {
             <article block="ProductActions">
                 { this.renderPriceWithGlobalSchema() }
                 { this.renderShortDescription() }
+                { this.renderCustomizableOptions() }
                 <div block="ProductActions" elem="AddToCartWrapper">
                     { this.renderQuantityInput() }
                     { this.renderAddToCart() }
