@@ -48,6 +48,8 @@
     }
 
     &-Input {
+        transition-property: opacity, background-color;
+        transition-duration: 200ms;
         background-color: var(--search-field-background);
         border-color: transparent;
         border-radius: 15px;
@@ -61,8 +63,6 @@
             left: 10px;
             top: 4px;
         };
-        transition-property: opacity, background-color;
-        transition-duration: 200ms;
         width: 100%;
 
         @include before-desktop {
