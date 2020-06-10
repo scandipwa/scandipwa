@@ -36,7 +36,7 @@ class ProductPriceContainer extends PureComponent {
         price: {}
     };
 
-    containerProps = () => {        
+    containerProps = () => {
         const {
             price: {
                 minimum_price: {

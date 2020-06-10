@@ -29,10 +29,6 @@ export class ProductListQuery {
 
         this.options = options;
 
-        const { group_id = "0" } = BrowserDatabase.getItem(CUSTOMER) || {};
-
-        this.options.args.filter.customerGroupId = group_id;
-
         return this._getProductsField();
     }
 
@@ -94,12 +90,25 @@ export class ProductListQuery {
             },
             filter: {
                 type: 'ProductAttributeFilterInput!',
-                handler: (options = {}) => `{${ Object.entries(options).reduce(
-                    (acc, [key, option]) => ((option && filterArgumentMap[key])
-                        ? [...acc, ...filterArgumentMap[key](option)]
-                        : acc
-                    ), []
-                ).join(',') }}`
+                handler: (initialOptions = {}) => {
+                    // add customer group by default to all requests
+                    const { group_id: customerGroupId = '0' } = BrowserDatabase.getItem(CUSTOMER) || {};
+                    const options = { ...initialOptions, customerGroupId };
+
+                    const parsedOptions = Object.entries(options).reduce(
+                        (acc, [key, option]) => {
+                            // if there is no value, or if the key is just not present in options object
+                            if (!option || !filterArgumentMap[key]) {
+                                return acc;
+                            }
+
+                            return [...acc, ...filterArgumentMap[key](option)];
+                        },
+                        []
+                    );
+
+                    return `{${ parsedOptions.join(',') }}`;
+                }
             }
         };
     }
@@ -302,7 +311,7 @@ export class ProductListQuery {
         ];
     }
 
-    _getPriceField() {            
+    _getPriceField() {
         return new Field('price_range')
             .addFieldList(this._getPriceRangeFields());
     }

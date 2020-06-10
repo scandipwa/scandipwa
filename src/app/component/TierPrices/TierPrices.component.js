@@ -27,7 +27,7 @@ class TierPrices extends PureComponent {
         const {
             product: {
                 price_range: {
-                    minimum_price: { 
+                    minimum_price: {
                         final_price: {
                             value: minPriceForOneUnit
                         }
@@ -37,7 +37,9 @@ class TierPrices extends PureComponent {
         } = this.props;
 
         // Don't show offers that make no sense
-        if (value >= minPriceForOneUnit) return null;
+        if (value >= minPriceForOneUnit) {
+            return null;
+        }
 
         return (
             <li block="TierPrices" elem="Item" key={ quantity }>
