@@ -21,7 +21,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const autoprefixer = require('autoprefixer');
 
-const FallbackPlugin = require('./FallbackPlugin');
+const FallbackPlugin = require('./Extensibility/FallbackPlugin');
 
 const webmanifestConfig = require('./webmanifest.config');
 const { getBabelConfig } = require('./babel.config');
@@ -63,7 +63,7 @@ const config = (env, argv) => {
         resolveLoader: {
             modules: [
                 'node_modules',
-                path.resolve(__dirname, 'loaders')
+                path.resolve(__dirname, 'Extensibility', 'loaders')
             ]
         },
 
@@ -211,11 +211,11 @@ const config = (env, argv) => {
 
             new webpack.ProvidePlugin({
                 __: path.join(__dirname, 'TranslationFunction'),
-                middleware: path.join(__dirname, 'Middleware'),
-                ExtensiblePureComponent: path.join(__dirname, 'ExtensibleClasses', 'ExtensiblePureComponent'),
-                ExtensibleComponent: path.join(__dirname, 'ExtensibleClasses', 'ExtensibleComponent'),
-                ExtensibleClass: path.join(__dirname, 'ExtensibleClasses', 'ExtensibleClass'),
-                ExtensibleUnstatedContainer: path.join(__dirname, 'ExtensibleClasses', 'ExtensibleUnstatedContainer'),
+                middleware: path.join(__dirname, 'Extensibility', 'Middleware'),
+                ExtensiblePureComponent: path.join(__dirname, 'Extensibility', 'ExtensibleClasses', 'ExtensiblePureComponent'),
+                ExtensibleComponent: path.join(__dirname, 'Extensibility', 'ExtensibleClasses', 'ExtensibleComponent'),
+                ExtensibleClass: path.join(__dirname, 'Extensibility', 'ExtensibleClasses', 'ExtensibleClass'),
+                ExtensibleUnstatedContainer: path.join(__dirname, 'Extensibility', 'ExtensibleClasses', 'ExtensibleUnstatedContainer'),
                 React: 'react'
             }),
 
