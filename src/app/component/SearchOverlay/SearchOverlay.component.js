@@ -182,7 +182,7 @@ export default class SearchOverlay extends PureComponent {
                   elem="Results"
                   aria-label="Search results"
                 >
-                        { this.renderSearchResults() }
+                    { this.renderSearchResults() }
                 </article>
             );
         }

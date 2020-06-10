@@ -159,6 +159,32 @@ class SearchField extends PureComponent {
         );
     }
 
+    renderSearchIcon() {
+        const { showSearch } = this.state;
+
+        if (showSearch) {
+            return (
+                <div
+                  block="SearchField"
+                  elem="CloseIcon"
+                  role="button"
+                  tabIndex="0"
+                  onClick={ this.closeSearch }
+                />
+            );
+        }
+
+        return (
+            <div
+              block="SearchField"
+              elem="SearchIcon"
+              role="button"
+              tabIndex="0"
+              onClick={ this.openSearch }
+            />
+        );
+    }
+
     renderDesktopContent() {
         const { showSearch } = this.state;
 
@@ -168,23 +194,7 @@ class SearchField extends PureComponent {
 
         return (
             <>
-                { !showSearch ? (
-                    <div
-                      block="SearchField"
-                      elem="SearchIcon"
-                      role="button"
-                      tabIndex="0"
-                      onClick={ this.openSearch }
-                    />
-                ) : (
-                    <div
-                      block="SearchField"
-                      elem="CloseIcon"
-                      role="button"
-                      tabIndex="0"
-                      onClick={ this.closeSearch }
-                    />
-                ) }
+                { this.renderSearchIcon() }
                 <div
                   block="SearchField"
                   elem="SearchWrapper"
@@ -237,7 +247,6 @@ class SearchField extends PureComponent {
             </>
         );
     }
-
 
     render() {
         const {
