@@ -143,7 +143,7 @@ export class MyAccountOverlayContainer extends PureComponent {
         const { state: oldMyAccountState } = prevState;
         const { state: newMyAccountState } = this.state;
         const { hideActiveOverlay } = this.props;
-        const { location: { pathname } } = history;
+        const { location: { pathname } } = window;
 
         if (oldMyAccountState === newMyAccountState) {
             return;
