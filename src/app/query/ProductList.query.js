@@ -92,8 +92,12 @@ export class ProductListQuery {
                 type: 'ProductAttributeFilterInput!',
                 handler: (initialOptions = {}) => {
                     // add customer group by default to all requests
-                    const { group_id: customerGroupId = '0' } = BrowserDatabase.getItem(CUSTOMER) || {};
-                    const options = { ...initialOptions, customerGroupId };
+                    const { group_id } = BrowserDatabase.getItem(CUSTOMER) || {};
+
+                    const options = {
+                        ...initialOptions,
+                        customerGroupId: group_id || '0'
+                    };
 
                     const parsedOptions = Object.entries(options).reduce(
                         (acc, [key, option]) => {
