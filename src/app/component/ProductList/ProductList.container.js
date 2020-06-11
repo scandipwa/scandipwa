@@ -24,39 +24,6 @@ import ProductList from './ProductList.component';
 export const UPDATE_PAGE_FREQUENCY = 0; // (ms)
 
 export class ProductListContainer extends PureComponent {
-    static propTypes = {
-        history: HistoryType.isRequired,
-        location: LocationType.isRequired,
-        getIsNewCategory: PropTypes.func.isRequired,
-        pages: PagesType.isRequired,
-        pageSize: PropTypes.number,
-        isLoading: PropTypes.bool.isRequired,
-        totalItems: PropTypes.number.isRequired,
-        requestProductList: PropTypes.func.isRequired,
-        selectedFilters: PropTypes.objectOf(PropTypes.shape),
-        isInfiniteLoaderEnabled: PropTypes.bool,
-        isPaginationEnabled: PropTypes.bool,
-        filter: FilterInputType,
-        search: PropTypes.string,
-        sort: PropTypes.objectOf(PropTypes.string),
-        noAttributes: PropTypes.bool,
-        noVariants: PropTypes.bool
-    };
-
-    static defaultProps = {
-        pageSize: 12,
-        filter: {},
-        search: '',
-        selectedFilters: {},
-        sort: undefined,
-        isPaginationEnabled: true,
-        isInfiniteLoaderEnabled: true,
-        noAttributes: false,
-        noVariants: false
-    };
-
-    state = { pagesCount: 1 };
-
     containerFunctions = {
         loadPrevPage: this.loadPage.bind(this, false),
         loadPage: this.loadPage.bind(this),
@@ -91,6 +58,39 @@ export class ProductListContainer extends PureComponent {
 
         requestProductList(options);
     }, UPDATE_PAGE_FREQUENCY);
+
+    static propTypes = {
+        history: HistoryType.isRequired,
+        location: LocationType.isRequired,
+        getIsNewCategory: PropTypes.func.isRequired,
+        pages: PagesType.isRequired,
+        pageSize: PropTypes.number,
+        isLoading: PropTypes.bool.isRequired,
+        totalItems: PropTypes.number.isRequired,
+        requestProductList: PropTypes.func.isRequired,
+        selectedFilters: PropTypes.objectOf(PropTypes.shape),
+        isInfiniteLoaderEnabled: PropTypes.bool,
+        isPaginationEnabled: PropTypes.bool,
+        filter: FilterInputType,
+        search: PropTypes.string,
+        sort: PropTypes.objectOf(PropTypes.string),
+        noAttributes: PropTypes.bool,
+        noVariants: PropTypes.bool
+    };
+
+    static defaultProps = {
+        pageSize: 12,
+        filter: {},
+        search: '',
+        selectedFilters: {},
+        sort: undefined,
+        isPaginationEnabled: true,
+        isInfiniteLoaderEnabled: true,
+        noAttributes: false,
+        noVariants: false
+    };
+
+    state = { pagesCount: 1 };
 
     componentDidMount() {
         const { pages, getIsNewCategory } = this.props;
