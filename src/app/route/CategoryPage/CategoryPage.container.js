@@ -298,7 +298,9 @@ export class CategoryPageContainer extends PureComponent {
         const { location } = this.props;
         const selectedFiltersString = (getQueryParam('customFilters', location) || '').split(';');
         return selectedFiltersString.reduce((acc, filter) => {
-            if (!filter) return acc;
+            if (!filter) {
+                return acc;
+            }
             const [key, value] = filter.split(':');
             return { ...acc, [key]: value.split(',') };
         }, {});

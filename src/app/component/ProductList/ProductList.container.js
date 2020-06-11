@@ -41,7 +41,9 @@ export class ProductListContainer extends PureComponent {
             noVariants
         } = this.props;
 
-        if (!isNext) window.scrollTo(0, 0);
+        if (!isNext) {
+            window.scrollTo(0, 0);
+        }
 
         const options = {
             isNext,
@@ -114,13 +116,9 @@ export class ProductListContainer extends PureComponent {
         if (search !== prevSearch
             || JSON.stringify(sort) !== JSON.stringify(prevSort)
             || JSON.stringify(filter) !== JSON.stringify(prevFilter)
-        ) this.requestPage(this._getPageFromUrl());
-    }
-
-    static getDerivedStateFromProps(props) {
-        const { isLoading } = props;
-        if (isLoading) return { pagesCount: 1 };
-        return null;
+        ) {
+            this.requestPage(this._getPageFromUrl());
+        }
     }
 
     containerProps = () => ({

@@ -9,8 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-.CategoryConfigurableAttributes {
-    &-Text {
-        
-    }
-}
+export { default } from './ProductCustomizableOptions.container';

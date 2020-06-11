@@ -57,7 +57,9 @@ export default class Meta extends PureComponent {
     renderCanonical() {
         const { canonical_url } = this.props;
 
-        if (!canonical_url) return null;
+        if (!canonical_url) {
+            return null;
+        }
 
         return (
             <link rel="canonical" href={ canonical_url } />

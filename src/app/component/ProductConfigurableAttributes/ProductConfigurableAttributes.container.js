@@ -49,8 +49,13 @@ class ProductConfigurableAttributesContainer extends PureComponent {
         const { parameters = {} } = this.props;
         const parameter = parameters[attribute_code];
 
-        if (parameter === undefined) return false;
-        if (parameter.length !== undefined) return parameter.includes(attribute_value);
+        if (parameter === undefined) {
+            return false;
+        }
+        if (parameter.length !== undefined) {
+            return parameter.includes(attribute_value);
+        }
+
         return parameter === attribute_value;
     }
 

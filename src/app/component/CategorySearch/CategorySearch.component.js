@@ -34,8 +34,10 @@ export default class CategorySearch extends PureComponent {
         const { value: prevValue } = prevProps;
         const { value } = this.props;
 
-        // eslint-disable-next-line react/no-did-update-set-state
-        if (prevValue !== value) this.setState({ value });
+        if (prevValue !== value) {
+            // eslint-disable-next-line react/no-did-update-set-state
+            this.setState({ value });
+        }
     }
 
     onChange = (e) => {

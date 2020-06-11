@@ -21,7 +21,9 @@ export class ProductListQuery {
     }
 
     getQuery(options) {
-        if (!options) throw new Error('Missing argument `options`');
+        if (!options) {
+            throw new Error('Missing argument `options`');
+        }
 
         this.options = options;
 
@@ -43,8 +45,15 @@ export class ProductListQuery {
             categoryUrlPath: url => [`category_url_path: { eq: ${url} }`],
             priceRange: ({ min, max }) => {
                 const filters = [];
-                if (min) filters.push(`min_price: { gteq: ${min} }`);
-                if (max) filters.push(`max_price: { lteq: ${max} }`);
+
+                if (min && !max) {
+                    filters.push(`price: { from: ${min} }`);
+                } else if (!min && max) {
+                    filters.push(`price: { to: ${max} }`);
+                } else if (min && max) {
+                    filters.push(`price: { from: ${min}, to: ${max} }`);
+                }
+
                 return filters;
             },
             productsIds: id => [`id: { eq: ${id} }`],
@@ -73,11 +82,11 @@ export class ProductListQuery {
                 handler: option => encodeURIComponent(option)
             },
             sort: {
-                type: 'ProductSortInput!',
+                type: 'ProductAttributeSortInput!',
                 handler: ({ sortKey, sortDirection }) => `{${sortKey}: ${sortDirection || 'ASC'}}`
             },
             filter: {
-                type: 'ProductFilterInput!',
+                type: 'ProductAttributeFilterInput!',
                 handler: (options = {}) => `{${ Object.entries(options).reduce(
                     (acc, [key, option]) => ((option && filterArgumentMap[key])
                         ? [...acc, ...filterArgumentMap[key](option)]
@@ -93,14 +102,22 @@ export class ProductListQuery {
         const argumentMap = this._getArgumentsMap();
 
         return Object.entries(args).reduce((acc, [key, arg]) => {
-            if (!arg) return acc;
+            if (!arg) {
+                return acc;
+            }
             const { type, handler = option => option } = argumentMap[key];
             return [...acc, [key, type, handler(arg)]];
         }, []);
     }
 
     _getProductFields() {
-        const { requireInfo } = this.options;
+        const { requireInfo, isSingleProduct, notRequireInfo } = this.options;
+
+        if (isSingleProduct || notRequireInfo) {
+            return [
+                this._getItemsField()
+            ];
+        }
 
         if (requireInfo) {
             return [
@@ -132,7 +149,6 @@ export class ProductListQuery {
             'name',
             'type_id',
             this._getPriceField(),
-            this._getStockItemField(),
             this._getProductThumbnailField(),
             this._getProductSmallField(),
             this._getShortDescriptionField(),
@@ -149,11 +165,15 @@ export class ProductListQuery {
 
         // to all products (non-variants)
         if (!isVariant) {
-            fields.push(...[
+            fields.push(
                 'url_key',
                 this._getReviewSummaryField(),
-                ...(!noVariants ? [this._getConfigurableProductFragment()] : [])
-            ]);
+            );
+
+            // if variants are not needed
+            if (!noVariants) {
+                fields.push(this._getConfigurableProductFragment());
+            }
         }
 
         // prevent linked products from looping
@@ -163,7 +183,7 @@ export class ProductListQuery {
 
         // additional information to PDP loads
         if (isSingleProduct) {
-            fields.push([
+            fields.push(
                 'stock_status',
                 'meta_title',
                 'meta_keyword',
@@ -172,16 +192,17 @@ export class ProductListQuery {
                 this._getDescriptionField(),
                 this._getMediaGalleryField(),
                 this._getSimpleProductFragment(),
-                this._getProductLinksField(),
-                ...(!isVariant
-                    ? [
-                        this._getCategoriesField(),
-                        this._getReviewsField(),
-                        this._getVirtualProductFragment()
-                    ]
-                    : []
-                )
-            ]);
+                this._getProductLinksField()
+            );
+
+            // for variants of PDP requested product
+            if (!isVariant) {
+                fields.push(
+                    this._getCategoriesField(),
+                    this._getReviewsField(),
+                    this._getVirtualProductFragment()
+                );
+            }
         }
 
         return fields;
@@ -213,9 +234,16 @@ export class ProductListQuery {
     }
 
     _getItemsField() {
-        return new Field('items')
-            .addFieldList(this._getProductInterfaceFields())
-            .addField(this._getGroupedProductItems());
+        const { isSingleProduct } = this.options;
+
+        const items = new Field('items')
+            .addFieldList(this._getProductInterfaceFields());
+
+        if (isSingleProduct) {
+            items.addField(this._getGroupedProductItems());
+        }
+
+        return items;
     }
 
     _getProductField() {
@@ -539,6 +567,88 @@ export class ProductListQuery {
             this._getConfigurableOptionsField(),
             this._getVariantsField()
         ];
+    }
+
+    _getCustomizableTextValueFields() {
+        return [
+            'price',
+            'price_type',
+            'sku',
+            'max_characters'
+        ];
+    }
+
+    _getCustomizableTextValueField(alias) {
+        return new Field('value')
+            .addFieldList(this._getCustomizableTextValueFields())
+            .setAlias(alias);
+    }
+
+    _getCustomizableTextFields(alias) {
+        return [
+            this._getCustomizableTextValueField(alias),
+            'product_sku'
+        ];
+    }
+
+    _getCustomizableAreaOption() {
+        return new Fragment('CustomizableAreaOption')
+            .addFieldList(this._getCustomizableTextFields('areaValues'));
+    }
+
+    _getCustomizableFieldOption() {
+        return new Fragment('CustomizableFieldOption')
+            .addFieldList(this._getCustomizableTextFields('fieldValues'));
+    }
+
+    _getCustomizableSelectionValueFields() {
+        return [
+            'option_type_id',
+            'price',
+            'price_type',
+            'sku',
+            'title',
+            'sort_order'
+        ];
+    }
+
+    _getCustomizableSelectionValueField(alias) {
+        return new Field('value')
+            .addFieldList(this._getCustomizableSelectionValueFields())
+            .setAlias(alias);
+    }
+
+    _getCustomizableCheckboxOption() {
+        return new Fragment('CustomizableCheckboxOption')
+            .addFieldList([this._getCustomizableSelectionValueField('checkboxValues')]);
+    }
+
+    _getCustomizableDropdownOption() {
+        return new Fragment('CustomizableDropDownOption')
+            .addFieldList([this._getCustomizableSelectionValueField('dropdownValues')]);
+    }
+
+    _getCustomizableProductFragmentOptionsFields() {
+        return [
+            this._getCustomizableDropdownOption(),
+            this._getCustomizableCheckboxOption(),
+            this._getCustomizableFieldOption(),
+            this._getCustomizableAreaOption(),
+            'title',
+            'required',
+            'sort_order',
+            'option_id'
+        ];
+    }
+
+    _getCustomizableProductFragmentOptionsField() {
+        return new Field('options')
+            .addFieldList(this._getCustomizableProductFragmentOptionsFields());
+    }
+
+    _getCustomizableProductFragment() {
+        return new Fragment('CustomizableProductInterface')
+            .addFieldList([this._getCustomizableProductFragmentOptionsField()]);
     }
 
     _getSimpleProductFragmentFields() {

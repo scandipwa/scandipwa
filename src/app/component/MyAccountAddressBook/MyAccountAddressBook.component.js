@@ -67,7 +67,10 @@ class MyAccountAddressBook extends PureComponent {
 
     renderAddressList() {
         const { customer: { addresses = [] } } = this.props;
-        if (!addresses.length) return this.renderNoAddresses();
+        if (!addresses.length) {
+            return this.renderNoAddresses();
+        }
+
         return addresses.map(this.renderAddress);
     }
 

@@ -179,6 +179,10 @@ export class AppRouter extends PureComponent {
             position: 70
         },
         {
+            component: <Route path="/forgot-password" component={ MyAccount } />,
+            position: 71
+        },
+        {
             component: <Route path="/menu" component={ MenuPage } />,
             position: 80
         },
@@ -236,6 +240,13 @@ export class AppRouter extends PureComponent {
         }
     }
 
+    componentDidCatch(err, info) {
+        this.setState({
+            hasError: true,
+            errorDetails: { err, info }
+        });
+    }
+
     getCmsBlocksToRequest() {
         const blocks = Object.values(window.contentConfiguration).reduce(
             (acc, config) => [
@@ -284,13 +295,6 @@ export class AppRouter extends PureComponent {
     handleErrorReset = () => {
         this.setState({ hasError: false });
     };
-
-    componentDidCatch(err, info) {
-        this.setState({
-            hasError: true,
-            errorDetails: { err, info }
-        });
-    }
 
     dispatchActions() {
         WishlistDispatcher.updateInitialWishlistData(Store.dispatch);

@@ -69,7 +69,9 @@ export default class CategorySort extends PureComponent {
             sortKey, sortDirection, sortFields, selectOptions
         } = this.props;
 
-        if (!sortFields.length) return this.renderPlaceholder();
+        if (!sortFields.length) {
+            return this.renderPlaceholder();
+        }
 
         return (
             <Field

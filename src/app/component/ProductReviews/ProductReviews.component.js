@@ -97,11 +97,13 @@ class ProductReviews extends PureComponent {
 
         const percent = parseFloat(STARS_COUNT * (rating_summary || 0) / PERCENT).toFixed(2);
 
-        if (!review_count) return this.renderNoRating();
+        if (!review_count) {
+            return this.renderNoRating();
+        }
 
         return (
             <>
-                { this.renderRatingSchema(percent, review_count) }
+                { this.renderRatingSchema(rating_summary, review_count) }
                 <ProductReviewRating
                   mix={ { block: 'ProductReviews', elem: 'SummaryRating' } }
                   summary={ rating_summary }

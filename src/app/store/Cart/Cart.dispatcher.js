@@ -75,7 +75,7 @@ export class CartDispatcher {
         }
 
         return fetchMutation(CartQuery.getSaveCartItemMutation(
-            { sku, item_id, qty: quantity },
+            { sku, item_id, quantity },
             !isSignedIn() && this._getGuestQuoteId()
         )).then(
             ({ saveCartItem: { cartData } }) => this._updateCartData(cartData, dispatch),
@@ -97,14 +97,23 @@ export class CartDispatcher {
     }
 
     addProductToCart(dispatch, options) {
-        const { product, quantity } = options;
+        const {
+            product,
+            quantity,
+            customizableOptionsData
+        } = options;
         const { sku, type_id: product_type } = product;
+        const { customizableOptions, customizableOptionsMulti } = customizableOptionsData;
 
         const productToAdd = {
             sku,
             product_type,
-            qty: parseInt(quantity, 10),
-            product_option: { extension_attributes: getExtensionAttributes(product) }
+            quantity,
+            product_option: {
+                extension_attributes: getExtensionAttributes(
+                    { ...product, customizableOptions, customizableOptionsMulti }
+                )
+            }
         };
 
         if (this._canBeAdded(options)) {

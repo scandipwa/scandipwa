@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -130,7 +131,10 @@ export default class Html extends PureComponent {
         const convertPropertiesToValidFormat = properties => Object.entries(properties)
             .reduce((validProps, [key, value]) => {
                 // eslint-disable-next-line no-restricted-globals
-                if (!isNaN(value)) return { ...validProps, [toCamelCase(key)]: +value };
+                if (!isNaN(value)) {
+                    return { ...validProps, [toCamelCase(key)]: +value };
+                }
+
                 return { ...validProps, [toCamelCase(key)]: value };
             }, {});
 

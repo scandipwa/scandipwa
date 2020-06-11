@@ -19,7 +19,9 @@ export class OrderDispatcher {
         const query = OrderQuery.getOrderListQuery();
 
         return fetchQuery(query).then(
-            ({ getOrderList: orders }) => { dispatch(getOrderList(orders, false)); },
+            ({ getOrderList: orders }) => {
+                dispatch(getOrderList(orders, false));
+            },
             error => dispatch(showNotification('error', error[0].message))
         );
     }

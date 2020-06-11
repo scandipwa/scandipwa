@@ -60,7 +60,9 @@ class ProductConfigurableAttributeDropdownContainer extends PureComponent {
                     attribute_value: value
                 });
 
-                if (!isAvailable) return acc;
+                if (!isAvailable) {
+                    return acc;
+                }
 
                 return [...acc, {
                     ...option,

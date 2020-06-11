@@ -26,7 +26,9 @@ export default class Loader extends PureComponent {
     render() {
         const { isLoading } = this.props;
 
-        if (!isLoading) return null;
+        if (!isLoading) {
+            return null;
+        }
 
         return (
             <div block="Loader" elem="LoaderWrapper">

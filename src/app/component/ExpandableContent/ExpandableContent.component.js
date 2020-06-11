@@ -18,14 +18,18 @@ import './ExpandableContent.style';
 export default class ExpandableContent extends PureComponent {
     static propTypes = {
         isContentExpanded: PropTypes.bool,
-        heading: PropTypes.string,
+        heading: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
         subHeading: PropTypes.string,
         children: ChildrenType.isRequired,
         mix: MixType.isRequired,
         onClick: (props, propName, componentName) => {
             const propValue = props[propName];
-            if (propValue === null) return;
-            if (typeof propValue === 'function') return;
+            if (propValue === null) {
+                return;
+            }
+            if (typeof propValue === 'function') {
+                return;
+            }
             throw new Error(`${componentName} only accepts null or string`);
         }
     };
@@ -61,7 +65,9 @@ export default class ExpandableContent extends PureComponent {
 
     toggleExpand = () => {
         const { onClick } = this.props;
-        if (onClick) { onClick(); return; }
+        if (onClick) {
+            onClick(); return;
+        }
         this.setState(({ isContentExpanded }) => (
             { isContentExpanded: !isContentExpanded }
         ));
@@ -69,7 +75,11 @@ export default class ExpandableContent extends PureComponent {
 
     renderButton() {
         const { isContentExpanded } = this.state;
-        const { heading, subHeading, mix } = this.props;
+        const {
+            heading,
+            subHeading,
+            mix
+        } = this.props;
 
         return (
             <button
@@ -84,7 +94,11 @@ export default class ExpandableContent extends PureComponent {
                   elem="Heading"
                   mix={ { ...mix, elem: 'ExpandableContentHeading' } }
                 >
-                    <TextPlaceholder content={ heading } />
+                    { typeof heading === 'string' ? (
+                        <TextPlaceholder content={ heading } />
+                    ) : (
+                        heading
+                    ) }
                 </span>
                 <span
                   block="ExpandableContent"

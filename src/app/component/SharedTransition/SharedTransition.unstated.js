@@ -19,7 +19,9 @@ export class SharedTransitionContainer extends Container {
     registerSharedElementDestination = ({ current }) => {
         if (current) {
             this.setState(({ sharedElementDestination }) => {
-                if (sharedElementDestination) return {};
+                if (sharedElementDestination) {
+                    return {};
+                }
 
                 return {
                     sharedElementDestination: current,

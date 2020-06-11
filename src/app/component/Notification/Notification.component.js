@@ -72,8 +72,12 @@ export default class Notification extends PureComponent {
     renderDebug() {
         const { notification: { msgDebug } } = this.props;
 
-        if (!msgDebug) return null;
-        if (process.env.NODE_ENV === 'production') return null;
+        if (!msgDebug) {
+            return null;
+        }
+        if (process.env.NODE_ENV === 'production') {
+            return null;
+        }
 
         return (
             <pre block="Notification" elem="Debug">
