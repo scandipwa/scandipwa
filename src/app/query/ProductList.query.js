@@ -113,12 +113,14 @@ export class ProductListQuery {
     _getProductFields() {
         const { requireInfo, isSingleProduct, notRequireInfo } = this.options;
 
+        // do not request total count for PDP
         if (isSingleProduct || notRequireInfo) {
             return [
                 this._getItemsField()
             ];
         }
 
+        // for filters only request
         if (requireInfo) {
             return [
                 'min_price',
@@ -136,9 +138,14 @@ export class ProductListQuery {
     }
 
     _getProductInterfaceFields(isVariant, isForLinkedProducts = false) {
-        const { isSingleProduct } = this.options;
+        const {
+            isSingleProduct,
+            noAttributes = false,
+            noVariants = false,
+            noVariantAttributes = false
+        } = this.options;
 
-        return [
+        const fields = [
             'id',
             'sku',
             'name',
@@ -149,45 +156,58 @@ export class ProductListQuery {
             this._getShortDescriptionField(),
             'special_from_date',
             'special_to_date',
-            this._getAttributesField(isVariant),
-            this._getTierPricesField(),
-            ...(!isVariant
-                ? [
-                    'url_key',
-                    this._getReviewSummaryField(),
-                    this._getConfigurableProductFragment()
-                ]
-                : []
-            ),
-            ...(isForLinkedProducts
-                ? [this._getProductLinksField()]
-                : []
-            ),
-            ...(isSingleProduct
-                ? [
-                    'stock_status',
-                    'meta_title',
-                    'meta_keyword',
-                    'canonical_url',
-                    'meta_description',
-                    this._getStockItemField(),
-                    this._getDescriptionField(),
-                    this._getMediaGalleryField(),
-                    this._getSimpleProductFragment(),
-                    this._getProductLinksField(),
-                    this._getCustomizableProductFragment(),
-                    ...(!isVariant
-                        ? [
-                            this._getCategoriesField(),
-                            this._getReviewsField(),
-                            this._getVirtualProductFragment()
-                        ]
-                        : []
-                    )
-                ]
-                : []
-            )
+            this._getTierPricesField()
         ];
+
+        // if it is normal product and we need attributes
+        // or if, it is variant, but we need variant attributes or variants them-self
+        if ((!isVariant && !noAttributes) || (isVariant && !noVariantAttributes && !noVariants)) {
+            fields.push(this._getAttributesField(isVariant));
+        }
+
+        // to all products (non-variants)
+        if (!isVariant) {
+            fields.push(
+                'url_key',
+                this._getReviewSummaryField(),
+            );
+
+            // if variants are not needed
+            if (!noVariants) {
+                fields.push(this._getConfigurableProductFragment());
+            }
+        }
+
+        // prevent linked products from looping
+        if (isForLinkedProducts) {
+            fields.push(this._getProductLinksField());
+        }
+
+        // additional information to PDP loads
+        if (isSingleProduct) {
+            fields.push(
+                'stock_status',
+                'meta_title',
+                'meta_keyword',
+                'canonical_url',
+                'meta_description',
+                this._getDescriptionField(),
+                this._getMediaGalleryField(),
+                this._getSimpleProductFragment(),
+                this._getProductLinksField()
+            );
+
+            // for variants of PDP requested product
+            if (!isVariant) {
+                fields.push(
+                    this._getCategoriesField(),
+                    this._getReviewsField(),
+                    this._getVirtualProductFragment()
+                );
+            }
+        }
+
+        return fields;
     }
 
     /**
