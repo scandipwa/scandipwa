@@ -113,12 +113,14 @@ export class ProductListQuery {
     _getProductFields() {
         const { requireInfo, isSingleProduct, notRequireInfo } = this.options;
 
+        // do not request total count for PDP
         if (isSingleProduct || notRequireInfo) {
             return [
                 this._getItemsField()
             ];
         }
 
+        // for filters only request
         if (requireInfo) {
             return [
                 'min_price',
