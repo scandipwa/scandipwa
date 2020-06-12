@@ -11,8 +11,10 @@
 
 import SourceWishlistItem from 'Component/WishlistItem/WishlistItem.component';
 import ProductCard from 'Component/ProductCard';
-import Field from 'Component/Field';
 import AddToCart from 'Component/AddToCart';
+import Field from 'Component/Field';
+
+import './SharedWishlistItem.style';
 
 export default class SharedWishlistItem extends SourceWishlistItem {
     renderAddToCart() {
@@ -24,7 +26,11 @@ export default class SharedWishlistItem extends SourceWishlistItem {
         } = this.props;
 
         return (
-            <div block="WishlistItem" elem="Row">
+            <div
+              block="WishlistItem"
+              elem="Row"
+              mix={ { block: 'SharedWishlistItem', elem: 'Row' } }
+            >
                 <Field
                   id="item_qty"
                   name="item_qty"
@@ -38,6 +44,7 @@ export default class SharedWishlistItem extends SourceWishlistItem {
                   product={ product }
                   quantity={ quantity }
                   configurableVariantIndex={ configurableVariantIndex }
+                  mix={ { block: 'WishlistItem', elem: 'AddToCart' } }
                 />
             </div>
         );
@@ -53,9 +60,7 @@ export default class SharedWishlistItem extends SourceWishlistItem {
               mix={ { block: 'WishlistItem' } }
               isLoading={ isLoading }
             >
-                <>
-                    { this.renderAddToCart() }
-                </>
+                { this.renderAddToCart() }
             </ProductCard>
         );
     }

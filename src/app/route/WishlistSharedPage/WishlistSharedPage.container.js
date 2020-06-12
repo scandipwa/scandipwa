@@ -21,7 +21,7 @@ import { prepareQuery } from 'Util/Query';
 import { WishlistQuery } from 'Query';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import { FIVE_MINUTES_IN_SECONDS } from 'Util/Request/QueryDispatcher';
-import { getIndexedParameteredProducts, getIndexedProduct } from 'Util/Product';
+import { getIndexedProduct } from 'Util/Product';
 import { updateNoMatch } from 'Store/NoMatch';
 
 import WishlistShared from './WishlistSharedPage.component';

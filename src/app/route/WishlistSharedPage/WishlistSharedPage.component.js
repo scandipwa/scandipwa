@@ -9,9 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 import PropTypes from 'prop-types';
-import SourceWishlist from 'Component/MyAccountMyWishlist/MyAccountMyWishlist.component';
 import SharedWishlistItem from 'Component/SharedWishlistItem';
+import ContentWrapper from 'Component/ContentWrapper';
 import Loader from 'Component/Loader';
+
+import SourceWishlist from 'Component/MyAccountMyWishlist/MyAccountMyWishlist.component';
 
 import './WishlistSharedPage.style';
 
@@ -28,17 +30,21 @@ export default class WishlistSharedPage extends SourceWishlist {
         );
     }
 
-    renderProduct = ([id, product]) => <SharedWishlistItem key={ id } product={ product } />;
+    renderProduct = ([id, product]) => (
+        <SharedWishlistItem
+          key={ id }
+          product={ product }
+        />
+    );
 
     renderCreatorsInfo() {
         const { creatorsName } = this.props;
 
         return (
-            <div block="WishlistSharedPage" elem="CreatorsInfo">
-                <h2>
-                    { __('Wishlist shared by %s', creatorsName) }
-                </h2>
-            </div>
+            <h1 block="WishlistSharedPage" elem="CreatorsInfo">
+                { __('Wishlist shared by ') }
+                <strong>{ creatorsName }</strong>
+            </h1>
         );
     }
 
@@ -49,26 +55,27 @@ export default class WishlistSharedPage extends SourceWishlist {
             isLoading
         } = this.props;
 
-        if (isWishlistEmpty && !isWishlistLoading) return this.renderNoProductsFound();
+        if (isWishlistEmpty && !isWishlistLoading) {
+            return this.renderNoProductsFound();
+        }
 
         return (
             <div block="WishlistSharedPage" elem="Products">
                 <Loader isLoading={ isLoading } />
-                { ((isWishlistLoading && isWishlistEmpty)
-                    ? this.renderPlaceholders()
-                    : this.renderProducts()
-                ) }
+                { this.renderProducts() }
             </div>
         );
     }
 
     render() {
         return (
-            <div block="WishlistSharedPage">
-                { this.renderActionLine() }
-                { this.renderCreatorsInfo() }
-                { this.renderContent() }
-            </div>
+            <main block="WishlistSharedPage">
+                <ContentWrapper>
+                    { this.renderActionLine() }
+                    { this.renderCreatorsInfo() }
+                    { this.renderContent() }
+                </ContentWrapper>
+            </main>
         );
     }
 }

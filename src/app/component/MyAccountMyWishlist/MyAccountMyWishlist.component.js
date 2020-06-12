@@ -37,10 +37,24 @@ export default class MyAccountMyWishlist extends PureComponent {
         </div>
     );
 
-    renderProduct = ([id, product]) => <WishlistItem key={ id } product={ product } />;
+    renderProduct = ([id, product]) => (
+        <WishlistItem
+          key={ id }
+          product={ product }
+        />
+    );
 
     renderProducts() {
-        const { wishlistItems } = this.props;
+        const {
+            isWishlistLoading,
+            isWishlistEmpty,
+            wishlistItems
+        } = this.props;
+
+        if (isWishlistLoading && isWishlistEmpty) {
+            return this.renderPlaceholders();
+        }
+
         return Object.entries(wishlistItems).map(this.renderProduct);
     }
 
@@ -76,6 +90,7 @@ export default class MyAccountMyWishlist extends PureComponent {
         return (
             <button
               block="Button"
+              mix={ { block: 'MyAccountMyWishlist', elem: 'Button' } }
               onClick={ addAllToCart }
               disabled={ disabled }
             >
@@ -136,10 +151,7 @@ export default class MyAccountMyWishlist extends PureComponent {
         return (
             <div block="MyAccountMyWishlist" elem="Products">
                 <Loader isLoading={ isLoading } />
-                { ((isWishlistLoading && isWishlistEmpty)
-                    ? this.renderPlaceholders()
-                    : this.renderProducts()
-                ) }
+                { this.renderProducts() }
             </div>
         );
     }
