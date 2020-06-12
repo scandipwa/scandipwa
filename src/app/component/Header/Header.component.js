@@ -22,6 +22,7 @@ import CartOverlay from 'Component/CartOverlay';
 import MenuOverlay from 'Component/MenuOverlay';
 import { LOGO_MEDIA } from 'Util/Media/Media';
 import { TotalsType } from 'Type/MiniCart';
+import { isSignedIn } from 'Util/Auth';
 import isMobile from 'Util/Mobile';
 import Link from 'Component/Link';
 import Logo from 'Component/Logo';
@@ -41,9 +42,11 @@ export const MENU_SUBCATEGORY = 'menu_subcategory';
 export const SEARCH = 'search';
 export const FILTER = 'filter';
 export const CART = 'cart';
+export const CART_OVERLAY = 'cart_overlay';
 export const CART_EDITING = 'cart_editing';
 export const CHECKOUT = 'checkout';
 export const CMS_PAGE = 'cms-page';
+export const MY_ACCOUNT = 'my-account';
 
 export default class Header extends NavigationAbstract {
     static propTypes = {
@@ -73,7 +76,8 @@ export default class Header extends NavigationAbstract {
         isCheckout: PropTypes.bool.isRequired,
         showMyAccountLogin: PropTypes.bool.isRequired,
         closeOverlay: PropTypes.func.isRequired,
-        onSignIn: PropTypes.func.isRequired
+        onSignIn: PropTypes.func.isRequired,
+        hideActiveOverlay: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -121,6 +125,10 @@ export default class Header extends NavigationAbstract {
             search: true
         },
         [CART]: {
+            title: true,
+            edit: true
+        },
+        [CART_OVERLAY]: {
             title: true,
             edit: true
         },
@@ -227,10 +235,13 @@ export default class Header extends NavigationAbstract {
             onSearchBarChange,
             onClearSearchButtonClick,
             navigationState: { name },
-            isCheckout
+            isCheckout,
+            hideActiveOverlay
         } = this.props;
 
-        if (isCheckout) return null;
+        if (isCheckout) {
+            return null;
+        }
 
         return (
             <SearchField
@@ -242,6 +253,7 @@ export default class Header extends NavigationAbstract {
               onClearSearchButtonClick={ onClearSearchButtonClick }
               isVisible={ isSearchVisible }
               isActive={ name === SEARCH }
+              hideActiveOverlay={ hideActiveOverlay }
             />
         );
     }
@@ -278,7 +290,9 @@ export default class Header extends NavigationAbstract {
     renderLogo(isVisible = false) {
         const { isLoading } = this.props;
 
-        if (isLoading) return null;
+        if (isLoading) {
+            return null;
+        }
 
         return (
             <Link
@@ -306,7 +320,13 @@ export default class Header extends NavigationAbstract {
             onSignIn
         } = this.props;
 
-        if (isMobile.any() && !isCheckout) return null;
+        if (isMobile.any() && !isCheckout) {
+            return null;
+        }
+
+        if (isCheckout && isSignedIn()) {
+            return null;
+        }
 
         return (
             <ClickOutside onClick={ onMyAccountOutsideClick } key="account">
@@ -353,9 +373,16 @@ export default class Header extends NavigationAbstract {
     }
 
     renderMinicartButton(isVisible = false) {
-        const { onMinicartOutsideClick, onMinicartButtonClick, isCheckout } = this.props;
+        const {
+            onMinicartOutsideClick,
+            onMinicartButtonClick,
+            isCheckout,
+            navigationState: { name }
+        } = this.props;
 
-        if (isMobile.any() || isCheckout) return null;
+        if (isMobile.any() || isCheckout) {
+            return null;
+        }
 
         return (
             <ClickOutside onClick={ onMinicartOutsideClick } key="minicart">
@@ -365,7 +392,11 @@ export default class Header extends NavigationAbstract {
                   mods={ { isVisible, type: 'minicart' } }
                 >
                     <button
-                      onClick={ onMinicartButtonClick }
+                      onClick={ () => {
+                          if (name !== CART_OVERLAY) {
+                              onMinicartButtonClick();
+                          }
+                      } }
                       aria-label="Minicart"
                       block="Header"
                       elem="MinicartButton"

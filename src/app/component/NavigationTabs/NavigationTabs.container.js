@@ -18,6 +18,7 @@ import { DEFAULT_HEADER_STATE } from 'Component/Header/Header.container';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay';
 import { history as browserHistory } from 'Route';
 import { debounce } from 'Util/Request';
+import { CART, MY_ACCOUNT } from 'Component/Header/Header.component';
 
 import NavigationTabs, {
     ACCOUNT_TAB,
@@ -137,7 +138,9 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
 
     handleScroll = () => {
         const { navigationState: { isVisibleOnScroll } } = this.props;
-        if (!isVisibleOnScroll) return;
+        if (!isVisibleOnScroll) {
+            return;
+        }
 
         const windowY = window.scrollY;
         this.handleNavVisibilityOnScroll(windowY);
@@ -155,11 +158,19 @@ export class NavigationTabsContainer extends NavigationAbstractContainer {
     }
 
     onMinicartButtonClick() {
-        browserHistory.push('/cart');
+        const { pathname } = location;
+
+        if (pathname !== `/${ CART }`) {
+            browserHistory.push(`/${ CART }`);
+        }
     }
 
     onMyAccountButtonClick() {
-        browserHistory.push('/my-account');
+        const { pathname } = location;
+
+        if (pathname !== `/${ MY_ACCOUNT }`) {
+            browserHistory.push(`/${ MY_ACCOUNT }`);
+        }
     }
 
     preserveState(name, newName) {

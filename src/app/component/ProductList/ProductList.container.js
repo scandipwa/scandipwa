@@ -24,6 +24,43 @@ import ProductList from './ProductList.component';
 export const UPDATE_PAGE_FREQUENCY = 0; // (ms)
 
 export class ProductListContainer extends PureComponent {
+    containerFunctions = {
+        loadPrevPage: this.loadPage.bind(this, false),
+        loadPage: this.loadPage.bind(this),
+        updatePage: this.updatePage.bind(this)
+    };
+
+    requestPage = debounce((currentPage = 1, isNext = false) => {
+        const {
+            sort,
+            search,
+            filter,
+            pageSize,
+            requestProductList,
+            noAttributes,
+            noVariants
+        } = this.props;
+
+        if (!isNext) {
+            window.scrollTo(0, 0);
+        }
+
+        const options = {
+            isNext,
+            noAttributes,
+            noVariants,
+            args: {
+                sort,
+                filter,
+                search,
+                pageSize,
+                currentPage
+            }
+        };
+
+        requestProductList(options);
+    }, UPDATE_PAGE_FREQUENCY);
+
     static propTypes = {
         history: HistoryType.isRequired,
         location: LocationType.isRequired,
@@ -38,7 +75,9 @@ export class ProductListContainer extends PureComponent {
         isPaginationEnabled: PropTypes.bool,
         filter: FilterInputType,
         search: PropTypes.string,
-        sort: PropTypes.objectOf(PropTypes.string)
+        sort: PropTypes.objectOf(PropTypes.string),
+        noAttributes: PropTypes.bool,
+        noVariants: PropTypes.bool
     };
 
     static defaultProps = {
@@ -48,41 +87,12 @@ export class ProductListContainer extends PureComponent {
         selectedFilters: {},
         sort: undefined,
         isPaginationEnabled: true,
-        isInfiniteLoaderEnabled: true
+        isInfiniteLoaderEnabled: true,
+        noAttributes: false,
+        noVariants: false
     };
 
     state = { pagesCount: 1 };
-
-    containerFunctions = {
-        loadPrevPage: this.loadPage.bind(this, false),
-        loadPage: this.loadPage.bind(this),
-        updatePage: this.updatePage.bind(this)
-    };
-
-    requestPage = debounce((currentPage = 1, isNext = false) => {
-        const {
-            sort,
-            search,
-            filter,
-            pageSize,
-            requestProductList
-        } = this.props;
-
-        if (!isNext) window.scrollTo(0, 0);
-
-        const options = {
-            isNext,
-            args: {
-                sort,
-                filter,
-                search,
-                pageSize,
-                currentPage
-            }
-        };
-
-        requestProductList(options);
-    }, UPDATE_PAGE_FREQUENCY);
 
     componentDidMount() {
         const { pages, getIsNewCategory } = this.props;
@@ -106,13 +116,9 @@ export class ProductListContainer extends PureComponent {
         if (search !== prevSearch
             || JSON.stringify(sort) !== JSON.stringify(prevSort)
             || JSON.stringify(filter) !== JSON.stringify(prevFilter)
-        ) this.requestPage(this._getPageFromUrl());
-    }
-
-    static getDerivedStateFromProps(props) {
-        const { isLoading } = props;
-        if (isLoading) return { pagesCount: 1 };
-        return null;
+        ) {
+            this.requestPage(this._getPageFromUrl());
+        }
     }
 
     containerProps = () => ({

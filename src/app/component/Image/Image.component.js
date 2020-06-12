@@ -84,13 +84,18 @@ export default class Image extends PureComponent {
         const { src: prevSrc } = prevProps;
         const { src } = this.props;
 
-        if (src !== prevSrc) this.onImageChange();
+        if (src !== prevSrc) {
+            this.onImageChange();
+        }
     }
 
     onImageChange() {
         const { src } = this.props;
 
-        if (!src) return this.setState({ imageStatus: IMAGE_NOT_SPECIFIED });
+        if (!src) {
+            return this.setState({ imageStatus: IMAGE_NOT_SPECIFIED });
+        }
+
         return this.setState({ imageStatus: IMAGE_LOADING });
     }
 

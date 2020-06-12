@@ -79,14 +79,18 @@ export class WishlistItemContainer extends PureComponent {
             configurable_options
         } = product;
 
-        if (type_id !== 'configurable') return {};
+        if (type_id !== 'configurable') {
+            return {};
+        }
 
         const options = Object.keys(configurable_options) || [];
         const configurableVariantIndex = this.getConfigurableVariantIndex(sku, variants);
 
         const { attributes = {} } = variants[configurableVariantIndex];
         const parameters = Object.entries(attributes).reduce((acc, [code, { attribute_value }]) => {
-            if (!options.includes(code)) return acc;
+            if (!options.includes(code)) {
+                return acc;
+            }
 
             return {
                 ...acc,

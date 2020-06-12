@@ -54,7 +54,7 @@ export default class Slider extends PureComponent {
 
     sliderRef = createRef();
 
-    handleDragStart = this.handleInteraction.bind(this, this.handleInteraction);
+    handleDragStart = this.handleInteraction.bind(this, this.handleDragStart);
 
     handleDrag = this.handleInteraction.bind(this, this.handleDrag);
 
@@ -88,7 +88,9 @@ export default class Slider extends PureComponent {
         const sliderWidth = this.draggableRef.current.offsetWidth;
         this.sliderWidth = sliderWidth;
 
-        if (!sliderChildren || !sliderChildren[0]) return;
+        if (!sliderChildren || !sliderChildren[0]) {
+            return;
+        }
 
         sliderChildren[0].onload = () => {
             CSS.setVariable(this.sliderRef, 'slider-height', `${sliderChildren[0].offsetHeight}px`);
@@ -161,6 +163,7 @@ export default class Slider extends PureComponent {
             translateX: translate,
             lastTranslateX: lastTranslate
         } = state;
+
         const { onActiveImageChange } = this.props;
 
         const slideSize = this.sliderWidth;
@@ -171,7 +174,9 @@ export default class Slider extends PureComponent {
         const activeSlidePercent = Math.abs(activeSlidePosition % 1);
         const isSlideBack = translate > lastTranslate;
 
-        if (!translate) return this.onClickChangeSlide(state, slideSize, lastTranslate, fullSliderSize);
+        if (!translate) {
+            return this.onClickChangeSlide(state, slideSize, lastTranslate, fullSliderSize);
+        }
 
         if (translate >= 0) {
             onActiveImageChange(0);
@@ -242,10 +247,18 @@ export default class Slider extends PureComponent {
         });
     }
 
+    handleClick = (state, callback, e) => {
+        if (e.type === 'contextmenu') {
+            this.handleDragEnd(state, callback);
+        }
+    };
+
     handleInteraction(callback, ...args) {
         const { isInteractionDisabled } = this.props;
 
-        if (isInteractionDisabled || !callback) return;
+        if (isInteractionDisabled || !callback) {
+            return;
+        }
 
         callback.call(this, ...args);
     }
@@ -257,7 +270,9 @@ export default class Slider extends PureComponent {
 
     renderCrumbs() {
         const { children } = this.props;
-        if (children.length <= 1) return null;
+        if (children.length <= 1) {
+            return null;
+        }
 
         return (
             <div
@@ -309,6 +324,7 @@ export default class Slider extends PureComponent {
                   onDragStart={ this.handleDragStart }
                   onDragEnd={ this.handleDragEnd }
                   onDrag={ this.handleDrag }
+                  onClick={ this.handleClick }
                   shiftX={ -activeImage * this.sliderWidth }
                 >
                     { children }

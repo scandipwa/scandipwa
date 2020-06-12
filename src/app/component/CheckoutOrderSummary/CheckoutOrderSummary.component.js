@@ -10,10 +10,14 @@
  */
 
 import { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { TotalsType } from 'Type/MiniCart';
 import CartItem from 'Component/CartItem';
 import { formatCurrency, roundPrice } from 'Util/Price';
 import './CheckoutOrderSummary.style';
+import {
+    SHIPPING_STEP
+} from 'Route/Checkout/Checkout.component';
 
 /**
  * Checkout Order Summary component
@@ -21,7 +25,8 @@ import './CheckoutOrderSummary.style';
 export default class CheckoutOrderSummary extends PureComponent {
     static propTypes = {
         totals: TotalsType,
-        paymentTotals: TotalsType
+        paymentTotals: TotalsType,
+        checkoutStep: PropTypes.string.isRequired
     };
 
     static defaultProps = {
@@ -30,7 +35,9 @@ export default class CheckoutOrderSummary extends PureComponent {
     };
 
     renderPriceLine(price, name, mods) {
-        if (!price) return null;
+        if (!price) {
+            return null;
+        }
 
         const { totals: { quote_currency_code } } = this.props;
         const priceString = formatCurrency(quote_currency_code);
@@ -73,7 +80,9 @@ export default class CheckoutOrderSummary extends PureComponent {
             }
         } = this.props;
 
-        if (!coupon_code) return null;
+        if (!coupon_code) {
+            return null;
+        }
 
         return this.renderPriceLine(
             -Math.abs(discount_amount),
@@ -118,17 +127,21 @@ export default class CheckoutOrderSummary extends PureComponent {
             },
             paymentTotals: {
                 grand_total: payment_grand_total
-            }
+            }, checkoutStep
         } = this.props;
 
         return (
             <div block="CheckoutOrderSummary" elem="OrderTotals">
                 <ul>
                     { this.renderPriceLine(subtotal, __('Cart Subtotal')) }
-                    { this.renderPriceLine(shipping_amount, __('Shipping'), { divider: true }) }
+                    { checkoutStep !== SHIPPING_STEP
+                        ? this.renderPriceLine(shipping_amount, __('Shipping'), { divider: true })
+                        : null }
                     { this.renderCouponCode() }
                     { this.renderPriceLine(tax_amount, __('Tax')) }
-                    { this.renderPriceLine(payment_grand_total || grand_total, __('Order total')) }
+                    { checkoutStep !== SHIPPING_STEP
+                        ? this.renderPriceLine(payment_grand_total || grand_total, __('Order total'))
+                        : this.renderPriceLine(subtotal + tax_amount, __('Order total')) }
                 </ul>
             </div>
         );

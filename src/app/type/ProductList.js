@@ -98,6 +98,25 @@ export const ReviewsType = PropTypes.arrayOf(
     })
 );
 
+export const OptionValueType = PropTypes.shape({
+    option_type_id: PropTypes.number,
+    price: PropTypes.number,
+    price_type: PropTypes.string,
+    sku: PropTypes.string,
+    sort_order: PropTypes.number,
+    title: PropTypes.string
+});
+
+export const OptionsType = PropTypes.arrayOf(
+    PropTypes.shape({
+        option_id: PropTypes.number,
+        required: PropTypes.bool,
+        sort_order: PropTypes.number,
+        title: PropTypes.string,
+        values: PropTypes.arrayOf(OptionValueType)
+    })
+);
+
 export const ProductType = PropTypes.shape({
     canonical_url: PropTypes.string,
     categories: CategoriesType,
@@ -128,6 +147,7 @@ export const ProductType = PropTypes.shape({
     url_key: PropTypes.string,
     quantity: PropTypes.number,
     review_summary: ReviewSummaryType,
+    options: OptionsType,
     reviews: ReviewsType
 });
 

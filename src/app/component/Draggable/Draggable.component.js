@@ -20,8 +20,10 @@ export default class Draggable extends PureComponent {
         shiftX: PropTypes.number,
         shiftY: PropTypes.number,
         onDragStart: PropTypes.func,
+        onClick: PropTypes.func,
         onDragEnd: PropTypes.func,
         handleFocus: PropTypes.func,
+        handleKey: PropTypes.func,
         onDrag: PropTypes.func,
         children: ChildrenType.isRequired,
         mix: MixType,
@@ -45,8 +47,10 @@ export default class Draggable extends PureComponent {
                 shiftY: translateY
             });
         },
+        onClick: () => {},
         onDrag: () => {},
         handleFocus: () => {},
+        handleKey: () => {},
         draggableRef: () => {},
         mix: {}
     };
@@ -85,7 +89,9 @@ export default class Draggable extends PureComponent {
         window.addEventListener('touchmove', this.handleTouchMove);
         window.addEventListener('touchend', this.handleTouchEnd);
 
-        if (touches.length === 1) this._handleDragStart(touches[0]);
+        if (touches.length === 1) {
+            this._handleDragStart(touches[0]);
+        }
     };
 
     handleMouseDown = (event) => {
@@ -97,14 +103,18 @@ export default class Draggable extends PureComponent {
     };
 
     handleTouchMove = ({ touches }) => {
-        if (touches.length === 1) this.handleMouseMove(touches[0]);
+        if (touches.length === 1) {
+            this.handleMouseMove(touches[0]);
+        }
     };
 
     handleMouseMove = ({ clientX, clientY }) => {
         const { isDragging } = this.state;
         const { shiftX, shiftY } = this.props;
 
-        if (!isDragging) return;
+        if (!isDragging) {
+            return;
+        }
 
         this.setState(({
             originalX,
@@ -114,7 +124,9 @@ export default class Draggable extends PureComponent {
             translateY: clientY - originalY + shiftY
         }), () => {
             const { onDrag } = this.props;
-            if (onDrag) onDrag({ ...this.state, clientX, clientY });
+            if (onDrag) {
+                onDrag({ ...this.state, clientX, clientY });
+            }
         });
     };
 
@@ -132,13 +144,32 @@ export default class Draggable extends PureComponent {
         this._handleDragEnd();
     };
 
+    handleClick = (e) => {
+        const { onClick } = this.props;
+
+        if (onClick) {
+            onClick(
+                this.state,
+                newState => this.setState({
+                    ...newState,
+                    isDragging: false,
+                    translateX: 0,
+                    translateY: 0
+                }),
+                e
+            );
+        }
+    };
+
     _handleDragStart({
         clientX,
         clientY
     }) {
         const { onDragStart } = this.props;
 
-        if (onDragStart) onDragStart();
+        if (onDragStart) {
+            onDragStart();
+        }
 
         this.setState({
             originalX: clientX,
@@ -174,6 +205,7 @@ export default class Draggable extends PureComponent {
         const {
             children,
             handleFocus,
+            handleKey,
             draggableRef,
             mix
         } = this.props;
@@ -185,6 +217,9 @@ export default class Draggable extends PureComponent {
               ref={ draggableRef }
               onMouseDown={ this.handleMouseDown }
               onTouchStart={ this.handleTouchStart }
+              onClick={ this.handleClick }
+              onContextMenu={ this.handleClick }
+              onKeyDown={ handleKey }
               onFocus={ handleFocus }
               tabIndex={ 0 }
               role="button"

@@ -16,7 +16,7 @@ import { connect } from 'react-redux';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import { CUSTOMER_ACCOUNT_PAGE, CUSTOMER_ACCOUNT } from 'Component/Header';
-import { HistoryType, MatchType } from 'Type/Common';
+import { HistoryType, MatchType, LocationType } from 'Type/Common';
 import { changeNavigationState } from 'Store/Navigation';
 import { MyAccountDispatcher } from 'Store/MyAccount';
 import { toggleOverlayByKey } from 'Store/Overlay';
@@ -56,6 +56,7 @@ export class MyAccountContainer extends PureComponent {
         updateMeta: PropTypes.func.isRequired,
         isSignedIn: PropTypes.bool.isRequired,
         match: MatchType.isRequired,
+        location: LocationType.isRequired,
         history: HistoryType.isRequired
     };
 
@@ -109,21 +110,20 @@ export class MyAccountContainer extends PureComponent {
     constructor(props) {
         super(props);
 
-        this.state = MyAccountContainer.navigateToSelectedTab(this.props) || {};
-    }
-
-    componentDidMount() {
         const {
             isSignedIn,
             updateMeta,
             toggleOverlayByKey
         } = this.props;
 
+        this.state = MyAccountContainer.navigateToSelectedTab(this.props) || {};
+
         if (!isSignedIn) {
             toggleOverlayByKey(CUSTOMER_ACCOUNT);
         }
 
         updateMeta({ title: __('My account') });
+
         this.redirectIfNotSignedIn();
         this.onSignIn();
         this.updateBreadcrumbs();
@@ -138,7 +138,9 @@ export class MyAccountContainer extends PureComponent {
         const { activeTab } = this.state;
 
         this.redirectIfNotSignedIn();
-        if (prevActiveTab !== activeTab) this.updateBreadcrumbs();
+        if (prevActiveTab !== activeTab) {
+            this.updateBreadcrumbs();
+        }
     }
 
     onSignOut() {
@@ -186,14 +188,24 @@ export class MyAccountContainer extends PureComponent {
     redirectIfNotSignedIn() {
         const {
             isSignedIn,
-            history
+            history,
+            location: { pathname }
         } = this.props;
 
-        if (isSignedIn) return;
-
-        if (!isMobile.any()) {
-            history.push('/');
+        if (isSignedIn) { // do nothing for signed-in users
+            return;
         }
+
+        if (isMobile.any()) { // do not redirect on mobile
+            return;
+        }
+
+        if (pathname === '/forgot-password') { // forward the forgot password state
+            history.push({ pathname: '/', state: { isForgotPassword: true } });
+            return;
+        }
+
+        history.push({ pathname: '/' });
     }
 
     render() {

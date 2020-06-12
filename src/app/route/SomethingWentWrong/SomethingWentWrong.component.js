@@ -38,15 +38,15 @@ class SomethingWentWrong extends PureComponent {
         console.error(errorString);
         console.groupEnd();
 
-        if (process.env.NODE_ENV === 'production') return null;
+        if (process.env.NODE_ENV === 'production') {
+            return null;
+        }
 
         return (
-            <>
-                <div block="SomethingWentWrong" elem="Debug">
-                    { errorString }
-                    { componentStack }
-                </div>
-            </>
+            <div block="SomethingWentWrong" elem="Debug">
+                { errorString }
+                { componentStack }
+            </div>
         );
     }
 

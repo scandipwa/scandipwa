@@ -12,7 +12,9 @@
 .ProductGalleryThumbnailImage {
     @include after-mobile {
         display: block;
-        height: 100%;
+        height: 0;
+        width: 100%;
+        padding-bottom: 70%;
     }
 
     img {

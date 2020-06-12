@@ -103,8 +103,8 @@ export class CheckoutBillingContainer extends PureComponent {
         this.setState(({ isSameAsShipping }) => ({ isSameAsShipping: !isSameAsShipping }));
     }
 
-    onPaymentMethodSelect(method) {
-        this.setState({ paymentMethod: method });
+    onPaymentMethodSelect(code) {
+        this.setState({ paymentMethod: code });
     }
 
     onBillingSuccess(fields, asyncData) {
@@ -140,14 +140,14 @@ export class CheckoutBillingContainer extends PureComponent {
     }
 
     _getPaymentData(asyncData) {
-        const { paymentMethod: method } = this.state;
+        const { paymentMethod: code } = this.state;
 
-        switch (method) {
+        switch (code) {
         case BRAINTREE:
             const [{ nonce }] = asyncData;
 
             return {
-                method,
+                code,
                 additional_data: {
                     payment_method_nonce: nonce,
                     is_active_payment_token_enabler: false
@@ -160,7 +160,7 @@ export class CheckoutBillingContainer extends PureComponent {
             }
 
             return {
-                method,
+                code,
                 additional_data: {
                     cc_stripejs_token: token,
                     cc_save: false
@@ -170,13 +170,13 @@ export class CheckoutBillingContainer extends PureComponent {
         case KLARNA:
             const [{ authorization_token }] = asyncData;
             return {
-                method,
+                code,
                 additional_data: {
                     authorization_token
                 }
             };
         default:
-            return { method };
+            return { code };
         }
     }
 
@@ -188,8 +188,12 @@ export class CheckoutBillingContainer extends PureComponent {
             selectedCustomerAddressId
         } = this.state;
 
-        if (isSameAsShipping) return shippingAddress;
-        if (!selectedCustomerAddressId) return trimAddressFields(fields);
+        if (isSameAsShipping) {
+            return shippingAddress;
+        }
+        if (!selectedCustomerAddressId) {
+            return trimAddressFields(fields);
+        }
 
         const { customer: { addresses } } = this.props;
         const address = addresses.find(({ id }) => id === selectedCustomerAddressId);

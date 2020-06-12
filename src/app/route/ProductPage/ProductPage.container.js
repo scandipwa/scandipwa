@@ -51,6 +51,18 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 export class ProductPageContainer extends PureComponent {
+    state = {
+        configurableVariantIndex: -1,
+        parameters: {},
+        customizableOptionsData: {}
+    };
+
+    containerFunctions = {
+        updateConfigurableVariant: this.updateConfigurableVariant.bind(this),
+        getLink: this.getLink.bind(this),
+        getSelectedCustomizableOptions: this.getSelectedCustomizableOptions.bind(this)
+    };
+
     static propTypes = {
         location: LocationType,
         isOnlyPlaceholder: PropTypes.bool,
@@ -73,15 +85,35 @@ export class ProductPageContainer extends PureComponent {
         productsIds: -1
     };
 
-    state = {
-        configurableVariantIndex: -1,
-        parameters: {}
-    };
+    static getDerivedStateFromProps(props) {
+        const {
+            product: {
+                variants,
+                configurable_options
+            },
+            location: { search }
+        } = props;
 
-    containerFunctions = {
-        updateConfigurableVariant: this.updateConfigurableVariant.bind(this),
-        getLink: this.getLink.bind(this)
-    };
+        if (!configurable_options && !variants) {
+            return null;
+        }
+
+        const parameters = Object.entries(convertQueryStringToKeyValuePairs(search))
+            .reduce((acc, [key, value]) => {
+                if (key in configurable_options) {
+                    return { ...acc, [key]: value };
+                }
+
+                return acc;
+            }, {});
+
+        if (Object.keys(parameters).length !== Object.keys(configurable_options).length) {
+            return { parameters };
+        }
+
+        const configurableVariantIndex = getVariantIndex(variants, parameters);
+        return { parameters, configurableVariantIndex };
+    }
 
     componentDidMount() {
         const {
@@ -105,18 +137,25 @@ export class ProductPageContainer extends PureComponent {
     componentDidUpdate(prevProps) {
         const {
             location: { pathname },
-            product: { id },
+            product: { id, options },
             isOnlyPlaceholder
         } = this.props;
 
         const {
             location: { pathname: prevPathname },
-            product: { id: prevId },
+            product: {
+                id: prevId,
+                options: prevOptions
+            },
             isOnlyPlaceholder: prevIsOnlyPlaceholder
         } = prevProps;
 
         if (pathname !== prevPathname || isOnlyPlaceholder !== prevIsOnlyPlaceholder) {
             this._requestProduct();
+        }
+
+        if (JSON.stringify(options) !== JSON.stringify(prevOptions)) {
+            this.getRequiredCustomizableOptions(options);
         }
 
         if (id !== prevId) {
@@ -129,45 +168,56 @@ export class ProductPageContainer extends PureComponent {
         this._onProductUpdate();
     }
 
-    static getDerivedStateFromProps(props) {
-        const {
-            product: {
-                variants,
-                configurable_options
-            },
-            location: { search }
-        } = props;
-
-        if (!configurable_options && !variants) return null;
-
-        const parameters = Object.entries(convertQueryStringToKeyValuePairs(search))
-            .reduce((acc, [key, value]) => {
-                if (key in configurable_options) {
-                    return { ...acc, [key]: value };
-                }
-
-                return acc;
-            }, {});
-
-        if (Object.keys(parameters).length !== Object.keys(configurable_options).length) {
-            return { parameters };
-        }
-
-        const configurableVariantIndex = getVariantIndex(variants, parameters);
-        return { parameters, configurableVariantIndex };
-    }
-
     getLink(key, value) {
         const { location: { search, pathname } } = this.props;
         const obj = {
             ...convertQueryStringToKeyValuePairs(search)
         };
 
-        if (key) obj[key] = value;
+        if (key) {
+            obj[key] = value;
+        }
 
         const query = objectToUri(obj);
 
         return `${pathname}${query}`;
+    }
+
+    getRequiredCustomizableOptions(options) {
+        const { customizableOptionsData } = this.state;
+
+        if (!options) {
+            return [];
+        }
+
+        const requiredCustomizableOptions = options.reduce((acc, { option_id, required }) => {
+            if (required) {
+                acc.push(option_id);
+            }
+
+            return acc;
+        }, []);
+
+        return this.setState({
+            customizableOptionsData:
+                { ...customizableOptionsData, requiredCustomizableOptions }
+        });
+    }
+
+    getSelectedCustomizableOptions(values, updateArray = false) {
+        const { customizableOptionsData } = this.state;
+
+        if (updateArray) {
+            this.setState({
+                customizableOptionsData:
+                    { ...customizableOptionsData, customizableOptionsMulti: values }
+            });
+        } else {
+            this.setState({
+                customizableOptionsData:
+                    { ...customizableOptionsData, customizableOptions: values }
+            });
+        }
     }
 
     getIsConfigurableParameterSelected(parameters, key, value) {
@@ -238,7 +288,9 @@ export class ProductPageContainer extends PureComponent {
             this._updateBreadcrumbs(dataSource);
             this._updateHeaderState(dataSource);
             this._updateNavigationState();
-            if (isOffline) setBigOfflineNotice(false);
+            if (isOffline) {
+                setBigOfflineNotice(false);
+            }
         } else if (isOffline) {
             setBigOfflineNotice(true);
         }
@@ -261,8 +313,12 @@ export class ProductPageContainer extends PureComponent {
     _getConfigurableVariantIndex(variants) {
         const { configurableVariantIndex, parameters } = this.state;
 
-        if (configurableVariantIndex >= 0) return configurableVariantIndex;
-        if (variants) return getVariantIndex(variants, parameters);
+        if (configurableVariantIndex >= 0) {
+            return configurableVariantIndex;
+        }
+        if (variants) {
+            return getVariantIndex(variants, parameters);
+        }
 
         return -1;
     }
@@ -273,7 +329,9 @@ export class ProductPageContainer extends PureComponent {
         const locationStateExists = state && Object.keys(state.product).length > 0;
 
         // return nothing, if no product in url state and no loaded product
-        if (!locationStateExists && !productIsLoaded) return {};
+        if (!locationStateExists && !productIsLoaded) {
+            return {};
+        }
 
         // use product from props, if product is loaded and state does not exist, or state product is equal loaded product
         const useLoadedProduct = productIsLoaded && (

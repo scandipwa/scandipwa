@@ -42,7 +42,10 @@ export class SearchOverlayContainer extends PureComponent {
     getProductLinkTo(product) {
         const { url_key } = product;
 
-        if (!url_key) return {};
+        if (!url_key) {
+            return {};
+        }
+
         return {
             pathname: `/product/${ url_key }`,
             state: { product }

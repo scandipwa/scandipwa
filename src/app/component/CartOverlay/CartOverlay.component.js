@@ -19,6 +19,7 @@ import CartItem from 'Component/CartItem';
 import { TotalsType } from 'Type/MiniCart';
 import { formatCurrency } from 'Util/Price';
 import CmsBlock from 'Component/CmsBlock';
+import { CART_OVERLAY } from 'Component/Header';
 
 import './CartOverlay.style';
 
@@ -26,18 +27,22 @@ export default class CartOverlay extends PureComponent {
     static propTypes = {
         totals: TotalsType.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
-        isEditing: PropTypes.bool.isRequired
+        isEditing: PropTypes.bool.isRequired,
+        handleCheckoutClick: PropTypes.func.isRequired,
+        currencyCode: PropTypes.string.isRequired
     };
 
     renderPriceLine(price) {
-        const { totals: { quote_currency_code } } = this.props;
-        return `${formatCurrency(quote_currency_code)}${parseFloat(price).toFixed(2)}`;
+        const { currencyCode } = this.props;
+        return `${parseFloat(price).toFixed(2)}${formatCurrency(currencyCode)}`;
     }
 
     renderCartItems() {
         const { isEditing, totals: { items, quote_currency_code } } = this.props;
 
-        if (!items || items.length < 1) return this.renderNoCartItems();
+        if (!items || items.length < 1) {
+            return this.renderNoCartItems();
+        }
 
         return (
             <ul block="CartOverlay" elem="Items" aria-label="List of items in cart">
@@ -92,7 +97,9 @@ export default class CartOverlay extends PureComponent {
     renderDiscount() {
         const { totals: { coupon_code, discount_amount = 0 } } = this.props;
 
-        if (!coupon_code) return null;
+        if (!coupon_code) {
+            return null;
+        }
 
         return (
             <dl
@@ -109,7 +116,7 @@ export default class CartOverlay extends PureComponent {
     }
 
     renderActions() {
-        const { totals: { items } } = this.props;
+        const { totals: { items }, handleCheckoutClick } = this.props;
 
         const options = !items || items.length < 1
             ? {
@@ -128,16 +135,16 @@ export default class CartOverlay extends PureComponent {
                 >
                     { __('View cart') }
                 </Link>
-                <Link
+                <button
                   block="CartOverlay"
                   elem="CheckoutButton"
                   mix={ { block: 'Button' } }
-                  to="/checkout"
+                  onClick={ handleCheckoutClick }
                   { ...options }
                 >
                     <span />
                     { __('Secure checkout') }
-                </Link>
+                </button>
             </div>
         );
     }
@@ -164,7 +171,7 @@ export default class CartOverlay extends PureComponent {
 
         return (
             <Overlay
-              id="cart"
+              id={ CART_OVERLAY }
               onVisible={ changeHeaderState }
               mix={ { block: 'CartOverlay' } }
             >

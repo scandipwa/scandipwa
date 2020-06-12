@@ -83,7 +83,9 @@ export default class MyAccountMyWishlist extends PureComponent {
             isLoading
         } = this.props;
 
-        if (isWishlistEmpty && !isWishlistLoading) return this.renderNoProductsFound();
+        if (isWishlistEmpty && !isWishlistLoading) {
+            return this.renderNoProductsFound();
+        }
 
         return (
             <div block="MyAccountMyWishlist" elem="Products">

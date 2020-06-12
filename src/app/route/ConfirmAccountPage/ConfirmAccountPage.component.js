@@ -37,7 +37,9 @@ export default class ConfirmAccountPage extends PureComponent {
             onConfirmAttempt, onConfirmSuccess, onFormError
         } = this.props;
 
-        if (redirect || isSignedIn) return <Redirect to="/my-account/dashboard" />;
+        if (redirect || isSignedIn) {
+            return <Redirect to="/my-account/dashboard" />;
+        }
 
         return (
             <main block="ConfirmAccountPage" aria-label={ __('Confirm Account Page') }>

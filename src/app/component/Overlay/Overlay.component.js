@@ -47,22 +47,34 @@ export default class Overlay extends PureComponent {
     componentDidUpdate(prevProps) {
         const prevWasVisible = this.getIsVisible(prevProps);
         const isVisible = this.getIsVisible();
-        if (isVisible && !prevWasVisible) this.onVisible();
-        if (!isVisible && prevWasVisible) this.onHide();
+        if (isVisible && !prevWasVisible) {
+            this.onVisible();
+        }
+        if (!isVisible && prevWasVisible) {
+            this.onHide();
+        }
     }
 
     onVisible() {
         const { onVisible, isStatic } = this.props;
-        if (isStatic) return;
-        if (isMobile.any()) this.freezeScroll();
+        if (isStatic) {
+            return;
+        }
+        if (isMobile.any()) {
+            this.freezeScroll();
+        }
         this.overlayRef.current.focus();
         onVisible();
     }
 
     onHide() {
         const { onHide, isStatic } = this.props;
-        if (isStatic) return;
-        if (isMobile.any()) this.unfreezeScroll();
+        if (isStatic) {
+            return;
+        }
+        if (isMobile.any()) {
+            this.unfreezeScroll();
+        }
         onHide();
     }
 

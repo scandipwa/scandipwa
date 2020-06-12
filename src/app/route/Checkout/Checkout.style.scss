@@ -42,6 +42,12 @@
             width: 100%;
             z-index: 85;
         }
+
+        .Button {
+            @include mobile {
+                width: 100%;
+            }
+        }
     }
 
     &-Step {
@@ -74,41 +80,6 @@
 
         @include mobile {
             display: none;
-        }
-    }
-
-    &-ContinueButton {
-        @include mobile {
-            width: 100%;
-        }
-
-        @include after-mobile {
-            margin-top: 2rem;
-        }
-    }
-
-    &-ButtonWrapper {
-        @include mobile {
-            padding: 1rem;
-            position: fixed;
-            left: 0;
-            width: 100%;
-            bottom: var(--navigation-tabs-height);
-            border-top: 1px solid var(--primary-divider-color);
-        }
-    }
-
-    &-Success {
-        @include mobile {
-            margin-top: 2rem;
-            text-align: center;
-        }
-    }
-
-    .Button {
-        @include before-desktop {
-            width: 100%;
-            text-align: center;
         }
     }
 }

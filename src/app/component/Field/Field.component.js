@@ -56,7 +56,7 @@ export default class Field extends PureComponent {
             CHECKBOX_TYPE,
             SELECT_TYPE
         ]).isRequired,
-        label: PropTypes.string,
+        label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
         message: PropTypes.string,
         placeholder: PropTypes.string,
         value: PropTypes.oneOfType([
@@ -80,7 +80,7 @@ export default class Field extends PureComponent {
                 PropTypes.number
             ]),
             disabled: PropTypes.bool,
-            label: PropTypes.string
+            label: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
         })),
         isDisabled: PropTypes.bool,
         onChange: PropTypes.func,
@@ -98,7 +98,8 @@ export default class Field extends PureComponent {
         autocomplete: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.bool
-        ])
+        ]),
+        maxLength: PropTypes.number
     };
 
     static defaultProps = {
@@ -122,7 +123,8 @@ export default class Field extends PureComponent {
         placeholder: '',
         autocomplete: 'off',
         validation: [],
-        skipValue: false
+        skipValue: false,
+        maxLength: null
     };
 
     onChange = this.onChange.bind(this);
@@ -164,8 +166,12 @@ export default class Field extends PureComponent {
         const { value: prevValue, checked: prevChecked } = prevProps;
         const { value: currentValue, checked: currChecked, type } = this.props;
 
-        if (prevValue !== currentValue) this.setState({ value: currentValue });
-        if (type === CHECKBOX_TYPE && currChecked !== prevChecked) this.setState({ checked: currChecked });
+        if (prevValue !== currentValue) {
+            this.setState({ value: currentValue });
+        }
+        if (type === CHECKBOX_TYPE && currChecked !== prevChecked) {
+            this.setState({ checked: currChecked });
+        }
     }
 
     onChange(event) {
@@ -180,26 +186,35 @@ export default class Field extends PureComponent {
         const { onChange } = this.props;
         const { target: { checked, value } } = event;
 
-        if (onChange) onChange(value, checked);
+        if (onChange) {
+            onChange(value, checked);
+        }
+
         return this.setState({ checked });
     }
 
     onFocus(event) {
         const { onFocus } = this.props;
 
-        if (onFocus) onFocus(event);
+        if (onFocus) {
+            onFocus(event);
+        }
     }
 
     onBlur(event) {
         const { onBlur } = this.props;
 
-        if (onBlur) onBlur(event);
+        if (onBlur) {
+            onBlur(event);
+        }
     }
 
     onKeyPress(event) {
         const { onKeyPress } = this.props;
 
-        if (onKeyPress) onKeyPress(event);
+        if (onKeyPress) {
+            onKeyPress(event);
+        }
     }
 
     onKeyEnterDown(event) {
@@ -212,8 +227,12 @@ export default class Field extends PureComponent {
     onClick(event, selectValue = false) {
         const { onClick } = this.props;
 
-        if (selectValue) event.target.select();
-        if (onClick) onClick(event);
+        if (selectValue) {
+            event.target.select();
+        }
+        if (onClick) {
+            onClick(event);
+        }
     }
 
     handleChange(value, shouldUpdate = true) {
@@ -228,13 +247,23 @@ export default class Field extends PureComponent {
         switch (type) {
         case NUMBER_TYPE:
             const isValueNaN = Number.isNaN(parseInt(value, 10));
-            if (min > value || value > max || isValueNaN) break;
-            if (onChange && shouldUpdate) onChange(value);
-            if (!isControlled) this.setState({ value });
+            if (min > value || value > max || isValueNaN) {
+                break;
+            }
+            if (onChange && shouldUpdate) {
+                onChange(value);
+            }
+            if (!isControlled) {
+                this.setState({ value });
+            }
             break;
         default:
-            if (onChange) onChange(value);
-            if (!isControlled) this.setState({ value });
+            if (onChange) {
+                onChange(value);
+            }
+            if (!isControlled) {
+                this.setState({ value });
+            }
         }
     }
 
@@ -245,7 +274,9 @@ export default class Field extends PureComponent {
     handleSelectExpandedExpand() {
         const { isSelectExpanded } = this.state;
 
-        if (isSelectExpanded) this.handleSelectExpand();
+        if (isSelectExpanded) {
+            this.handleSelectExpand();
+        }
     }
 
     handleSelectListOptionClick({ value }) {
@@ -265,7 +296,9 @@ export default class Field extends PureComponent {
     _getInitialPropsValue() {
         const { type, value } = this.props;
 
-        if (value) return value;
+        if (value) {
+            return value;
+        }
 
         switch (type) {
         case NUMBER_TYPE:
@@ -329,12 +362,16 @@ export default class Field extends PureComponent {
             || keyCode < A_KEY_CODE
             || keyCode > z_KEY_CODE
             || (keyCode > Z_KEY_CODE && keyCode < a_KEY_CODE)
-        ) return;
+        ) {
+            return;
+        }
 
         const { searchString, valueIndex } = this._getSelectedValueIndex(keyCode);
 
         // valueIndex can be 0, so !valueIndex === true
-        if (!searchString || valueIndex === null) return;
+        if (!searchString || valueIndex === null) {
+            return;
+        }
 
         this.setState({ searchString, valueIndex }, () => {
             const { id, value } = selectOptions[valueIndex];
@@ -351,7 +388,8 @@ export default class Field extends PureComponent {
             name,
             rows,
             formRef,
-            isDisabled
+            isDisabled,
+            maxLength
         } = this.props;
 
         const { value } = this.state;
@@ -367,6 +405,7 @@ export default class Field extends PureComponent {
               onChange={ this.onChange }
               onFocus={ this.onFocus }
               onClick={ this.onClick }
+              maxLength={ maxLength }
             />
         );
     }
@@ -489,7 +528,9 @@ export default class Field extends PureComponent {
 
         const { isSelectExpanded: isExpanded } = this.state;
 
-        if (!selectOptions) throw new Error('Prop `selectOptions` is required for Field type `select`');
+        if (!selectOptions) {
+            throw new Error('Prop `selectOptions` is required for Field type `select`');
+        }
 
         return (
             <ClickOutside onClick={ this.handleSelectExpandedExpand }>
@@ -519,14 +560,14 @@ export default class Field extends PureComponent {
                         { selectOptions.map(({
                             id, value, disabled, label
                         }) => (
-                                <option
-                                  key={ id }
-                                  id={ id }
-                                  value={ value }
-                                  disabled={ disabled }
-                                >
-                                    { label }
-                                </option>
+                            <option
+                              key={ id }
+                              id={ id }
+                              value={ value }
+                              disabled={ disabled }
+                            >
+                                { label }
+                            </option>
                         )) }
                     </select>
                     <ul
@@ -584,7 +625,9 @@ export default class Field extends PureComponent {
     renderLabel() {
         const { id, label, validation } = this.props;
         const isRequired = validation.includes('notEmpty');
-        if (!label) return null;
+        if (!label) {
+            return null;
+        }
 
         return (
             <label
@@ -600,7 +643,9 @@ export default class Field extends PureComponent {
 
     renderMessage() {
         const { message } = this.props;
-        if (!message) return null;
+        if (!message) {
+            return null;
+        }
 
         return (
             <p block="Field" elem="Message">
@@ -610,7 +655,11 @@ export default class Field extends PureComponent {
     }
 
     render() {
-        const { mix, type, message } = this.props;
+        const {
+            mix,
+            type,
+            message
+        } = this.props;
 
         return (
             <div

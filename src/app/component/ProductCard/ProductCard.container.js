@@ -71,7 +71,9 @@ export class ProductCardContainer extends PureComponent {
     _getLinkTo() {
         const { product: { url_key }, product } = this.props;
 
-        if (!url_key) return undefined;
+        if (!url_key) {
+            return undefined;
+        }
         const { parameters } = this._getConfigurableParameters();
 
         return {
@@ -90,17 +92,24 @@ export class ProductCardContainer extends PureComponent {
         const { product: { variants = [] }, selectedFilters = {} } = this.props;
         const filterKeys = Object.keys(selectedFilters);
 
-        if (filterKeys.length < 0) return { indexes: [], parameters: {} };
+        if (filterKeys.length < 0) {
+            return { indexes: [], parameters: {} };
+        }
 
         const indexes = getVariantsIndexes(variants, selectedFilters);
         const [index] = indexes;
 
-        if (!variants[index]) return { indexes: [], parameters: {} };
+        if (!variants[index]) {
+            return { indexes: [], parameters: {} };
+        }
         const { attributes } = variants[index];
 
         const parameters = Object.entries(attributes)
             .reduce((parameters, [key, { attribute_value }]) => {
-                if (filterKeys.includes(key)) return { ...parameters, [key]: attribute_value };
+                if (filterKeys.includes(key)) {
+                    return { ...parameters, [key]: attribute_value };
+                }
+
                 return parameters;
             }, {});
 
@@ -114,11 +123,15 @@ export class ProductCardContainer extends PureComponent {
     _getThumbnail() {
         const product = this._getProductOrVariant();
         const { small_image: { url } = {} } = product;
-        if (this._isThumbnailAvailable(url)) return url;
+        if (this._isThumbnailAvailable(url)) {
+            return url;
+        }
 
         // If thumbnail is, missing we try to get image from parent
         const { product: { small_image: { url: parentUrl } = {} } } = this.props;
-        if (this._isThumbnailAvailable(parentUrl)) return parentUrl;
+        if (this._isThumbnailAvailable(parentUrl)) {
+            return parentUrl;
+        }
 
         return '';
     }
@@ -162,7 +175,10 @@ export class ProductCardContainer extends PureComponent {
                 }, []
             );
 
-            if (visualOptions.length > 0) return [...acc, ...visualOptions];
+            if (visualOptions.length > 0) {
+                return [...acc, ...visualOptions];
+            }
+
             return acc;
         }, []);
     }

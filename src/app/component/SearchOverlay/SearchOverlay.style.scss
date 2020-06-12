@@ -39,10 +39,12 @@
     }
 
     &_isVisible {
+        z-index: 100;
+
         @include desktop {
             transform: scaleY(1);
             border-color: var(--search-field-border-color);
-            width: calc(var(--search-bar-max-width) + 2px);
+            width: calc(var(--search-bar-width) + 2px);
         }
     }
 

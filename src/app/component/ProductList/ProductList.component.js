@@ -21,6 +21,8 @@ import './ProductList.style';
 
 export const observerThreshold = 10;
 
+export const INTERSECTION_RATIO = 0.5;
+
 export const RENDER_PAGE_FREQUENCY = 150; // (ms)
 
 /**
@@ -52,7 +54,7 @@ export class ProductList extends PureComponent {
         title: '',
         isInfiniteLoaderEnabled: false,
         isPaginationEnabled: false,
-        numberOfPlaceholders: 4,
+        numberOfPlaceholders: 8,
         selectedFilters: {},
         isLoading: false,
         updatePage: () => {},
@@ -73,18 +75,21 @@ export class ProductList extends PureComponent {
 
     componentDidUpdate() {
         const { isInfiniteLoaderEnabled } = this.props;
-        if (isInfiniteLoaderEnabled) this.observePageChange();
+        if (isInfiniteLoaderEnabled) {
+            this.observePageChange();
+        }
     }
 
     componentWillUnmount() {
-        if (this.observer && this.observer.disconnect) this.observer.disconnect();
+        if (this.observer && this.observer.disconnect) {
+            this.observer.disconnect();
+        }
         this.observer = null;
     }
 
     observePageChange() {
-        const { updatePage, isLoading } = this.props;
-
-        if (isLoading) this.pagesIntersecting = [];
+        const { updatePage } = this.props;
+        this.pagesIntersecting = [];
 
         if (!this.observer && 'IntersectionObserver' in window) {
             const threshold = this._getThreshold();
@@ -92,21 +97,19 @@ export class ProductList extends PureComponent {
             this.observer = new IntersectionObserver((entries) => {
                 const { currentPage } = this.props;
 
-                entries.forEach(({ target, isIntersecting }) => {
+                entries.forEach(({ target, isIntersecting, intersectionRatio }) => {
                     const page = +Object.keys(this.nodes).find(node => this.nodes[node] === target);
                     const index = this.pagesIntersecting.indexOf(page);
 
-                    if (isIntersecting && index === -1) {
+                    if (isIntersecting && intersectionRatio > INTERSECTION_RATIO && index === -1) {
                         this.pagesIntersecting.push(page);
-                    }
-
-                    if (!isIntersecting && index > -1) {
-                        this.pagesIntersecting.splice(index, 1);
                     }
                 });
 
-                const minPage = Math.min(...this.pagesIntersecting);
-                if (minPage < Infinity && minPage !== currentPage) updatePage(minPage);
+                const minPage = this.pagesIntersecting[this.pagesIntersecting.length - 1];
+                if (minPage < Infinity && minPage !== currentPage) {
+                    updatePage(minPage);
+                }
             }, {
                 rootMargin: '0px',
                 threshold
@@ -119,7 +122,9 @@ export class ProductList extends PureComponent {
     updateObserver() {
         const currentNodes = Object.values(this.nodes);
 
-        if (!this.observer || currentNodes.length <= 0) return;
+        if (!this.observer || currentNodes.length <= 0) {
+            return;
+        }
 
         currentNodes.forEach((node) => {
             if (node && !this.observedNodes.includes(node)) {
@@ -150,7 +155,9 @@ export class ProductList extends PureComponent {
 
     renderLoadButton() {
         const { isShowLoading, isInfiniteLoaderEnabled, loadPrevPage } = this.props;
-        if (!isShowLoading || !isInfiniteLoaderEnabled) return null;
+        if (!isShowLoading || !isInfiniteLoaderEnabled) {
+            return null;
+        }
 
         return (
             <div
@@ -189,7 +196,9 @@ export class ProductList extends PureComponent {
             mix
         } = this.props;
 
-        if (isLoading) return null;
+        if (isLoading) {
+            return null;
+        }
 
         return Object.entries(pages).map(([pageNumber, items = []]) => (
             <ul
@@ -197,7 +206,9 @@ export class ProductList extends PureComponent {
               elem="Page"
               mix={ { ...mix, elem: 'Page' } }
               key={ pageNumber }
-              ref={ (node) => { this.nodes[pageNumber] = node; } }
+              ref={ (node) => {
+                  this.nodes[pageNumber] = node;
+              } }
             >
                 { items.map(product => (
                     <ProductCard
@@ -220,7 +231,9 @@ export class ProductList extends PureComponent {
             isInfiniteLoaderEnabled
         } = this.props;
 
-        if (!isInfiniteLoaderEnabled && !isLoading) return null;
+        if (!isInfiniteLoaderEnabled && !isLoading) {
+            return null;
+        }
 
         return (
             <CategoryProductListPlaceholder
@@ -241,7 +254,9 @@ export class ProductList extends PureComponent {
             isPaginationEnabled
         } = this.props;
 
-        if (!isPaginationEnabled) return null;
+        if (!isPaginationEnabled) {
+            return null;
+        }
 
         return (
             <CategoryPagination
@@ -254,7 +269,9 @@ export class ProductList extends PureComponent {
 
     renderTitle() {
         const { title } = this.props;
-        if (!title) return null;
+        if (!title) {
+            return null;
+        }
 
         return <h2>{ title }</h2>;
     }
@@ -262,7 +279,9 @@ export class ProductList extends PureComponent {
     render() {
         const { totalPages, isLoading, mix } = this.props;
 
-        if (!isLoading && totalPages === 0) return this.renderNoProducts();
+        if (!isLoading && totalPages === 0) {
+            return this.renderNoProducts();
+        }
 
         return (
             <div

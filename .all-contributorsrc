@@ -426,6 +426,33 @@
       "contributions": [
         "translation"
       ]
+    },
+    {
+      "login": "korbax",
+      "name": "Aleksandr Drobot",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/225603?v=4",
+      "profile": "https://github.com/korbax",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "delkant",
+      "name": "RDC",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/1325846?v=4",
+      "profile": "https://github.com/delkant",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "pgrimaud",
+      "name": "Pierre Grimaud",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/1866496?v=4",
+      "profile": "https://github.com/pgrimaud",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,

@@ -29,6 +29,10 @@ export class ProductGalleryBaseImageContainer extends Component {
         previousScale: PropTypes.number.isRequired,
         index: PropTypes.number.isRequired,
         mediaData: PropTypes.shape({
+            id: PropTypes.oneOfType([
+                PropTypes.string,
+                PropTypes.number
+            ]),
             label: PropTypes.string,
             file: PropTypes.string,
             base: PropTypes.shape({
@@ -44,7 +48,9 @@ export class ProductGalleryBaseImageContainer extends Component {
         const { scale, mediaData: { id } } = this.props;
         const { scale: nextScale, mediaData: { id: nextId } } = nextProps;
 
-        if (scale !== nextScale || id !== nextId) return true;
+        if (scale !== nextScale || id !== nextId) {
+            return true;
+        }
 
         return false;
     }
@@ -87,7 +93,10 @@ export class ProductGalleryBaseImageContainer extends Component {
             isZoomEnabled
         } = this.props;
 
-        if (!isZoomEnabled) return baseUrl || media(file, PRODUCT_MEDIA);
+        if (!isZoomEnabled) {
+            return baseUrl || media(file, PRODUCT_MEDIA);
+        }
+
         return file ? media(file, PRODUCT_MEDIA) : baseUrl;
     }
 
