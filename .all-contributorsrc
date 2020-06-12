@@ -453,6 +453,15 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "bery",
+      "name": "bery",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/1456931?v=4",
+      "profile": "http://beecom.io",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
