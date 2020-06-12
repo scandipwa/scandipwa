@@ -67,8 +67,18 @@
         margin-top: 1rem;
     }
 
-    &-Description input {
-        width: 100%;
+    &-Button {
+        @include mobile {
+            width: 100%;
+        }
+    }
+
+    &-Description {
+        margin-top: 0;
+
+        input {
+            width: 100%;
+        }
     }
 
     .ProductCard {

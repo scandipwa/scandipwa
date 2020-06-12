@@ -66,6 +66,7 @@ export const SearchPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefe
 export const ConfirmAccountPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/ConfirmAccountPage'));
 export const UrlRewrites = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/UrlRewrites'));
 export const MenuPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/MenuPage'));
+export const WishlistShared = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/WishlistSharedPage'))
 
 export const BEFORE_ITEMS_TYPE = 'BEFORE_ITEMS_TYPE';
 export const SWITCH_ITEMS_TYPE = 'SWITCH_ITEMS_TYPE';
@@ -185,6 +186,10 @@ export class AppRouter extends PureComponent {
         {
             component: <Route path="/menu" component={ MenuPage } />,
             position: 80
+        },
+        {
+            component: <Route path="/wishlist/shared/:code" component={ WishlistShared } />,
+            position: 81
         },
         {
             component: <Route component={ UrlRewrites } />,

@@ -15,6 +15,8 @@ import { connect } from 'react-redux';
 import { WishlistDispatcher } from 'Store/Wishlist';
 import { showNotification } from 'Store/Notification';
 import { ProductType } from 'Type/ProductList';
+import { showPopup } from 'Store/Popup';
+import { SHARE_WISHLIST_POPUP_ID } from 'Component/ShareWishlistPopup/ShareWishlistPopup.component';
 import MyAccountMyWishlist from './MyAccountMyWishlist.component';
 
 export const mapStateToProps = state => ({
@@ -25,11 +27,13 @@ export const mapStateToProps = state => ({
 export const mapDispatchToProps = dispatch => ({
     clearWishlist: () => WishlistDispatcher.clearWishlist(dispatch),
     moveWishlistToCart: () => WishlistDispatcher.moveWishlistToCart(dispatch),
+    showPopup: payload => dispatch(showPopup(SHARE_WISHLIST_POPUP_ID, payload)),
     showNotification: message => dispatch(showNotification('success', message))
 });
 
 export class MyAccountMyWishlistContainer extends PureComponent {
     static propTypes = {
+        showPopup: PropTypes.func.isRequired,
         clearWishlist: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
         moveWishlistToCart: PropTypes.func.isRequired,
@@ -51,7 +55,8 @@ export class MyAccountMyWishlistContainer extends PureComponent {
 
     containerFunctions = () => ({
         removeAll: this.removeAll,
-        addAllToCart: this.addAllToCart
+        addAllToCart: this.addAllToCart,
+        shareWishlist: this.shareWishlist
     });
 
     addAllToCart = () => {
@@ -72,6 +77,11 @@ export class MyAccountMyWishlistContainer extends PureComponent {
         return clearWishlist().then(
             () => this.showNotificationAndRemoveLoading('Wishlist cleared')
         );
+    };
+
+    shareWishlist = () => {
+        const { showPopup } = this.props;
+        showPopup({ title: __('Share Wishlist') });
     };
 
     _getIsWishlistEmpty = () => {

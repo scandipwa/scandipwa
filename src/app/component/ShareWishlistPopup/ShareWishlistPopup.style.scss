@@ -9,29 +9,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-.WishlistItem {
-    margin-bottom: 0;
-
-    &-Remove,
-    &-AddToCart {
+.ShareWishlistPopup {
+    textarea {
         width: 100%;
-    }
-
-    &-Row,
-    &-Remove {
-        margin-top: 1rem;
-    }
-
-    &-AddToCart {
-        display: inline-block;
-        margin-top: 0;
-    }
-
-    &-Quantity {
-        margin: 0 .5rem 0 0;
-    }
-
-    &-Row {
-        display: flex;
     }
 }
