@@ -102,8 +102,7 @@ export class CartQuery {
             'coupon_code',
             'shipping_amount',
             'is_virtual',
-            this._getCartItemsField(),
-            'is_email_confirmation_required'
+            this._getCartItemsField()
         ];
     }
 

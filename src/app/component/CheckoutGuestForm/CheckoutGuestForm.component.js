@@ -63,9 +63,18 @@ class CheckoutGuestForm extends FieldForm {
     }
 
     renderCreateUserCheckbox() {
-        const { isCreateUser, handleCreateUser, isEmailConfirmationRequired } = this.props;
+        const {
+            isCreateUser,
+            handleCreateUser,
+            isEmailConfirmationRequired
+        } = this.props;
 
-        if (isEmailConfirmationRequired) return null;
+        // if email confirmation required and user is not logged in
+        // the user is 100% not logged in (we are in the guest form)
+        // do not show the checkbox to create the user account
+        if (isEmailConfirmationRequired) {
+            return null;
+        }
 
         return (
             <Field
