@@ -139,6 +139,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/delkant"><img src="https://avatars3.githubusercontent.com/u/1325846?v=4" width="100px;" alt=""/><br /><sub><b>RDC</b></sub></a><br /><a href="#translation-delkant" title="Translation">🌍</a></td>
     <td align="center"><a href="https://github.com/pgrimaud"><img src="https://avatars1.githubusercontent.com/u/1866496?v=4" width="100px;" alt=""/><br /><sub><b>Pierre Grimaud</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/issues?q=author%3Apgrimaud" title="Bug reports">🐛</a></td>
     <td align="center"><a href="http://beecom.io"><img src="https://avatars0.githubusercontent.com/u/1456931?v=4" width="100px;" alt=""/><br /><sub><b>bery</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=bery" title="Code">💻</a></td>
+    <td align="center"><a href="http://jeffreyhoonakker.nl"><img src="https://avatars0.githubusercontent.com/u/32420530?v=4" width="100px;" alt=""/><br /><sub><b>Jeffrey</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=Jeffrey-H" title="Code">💻</a></td>
   </tr>
 </table>
 
