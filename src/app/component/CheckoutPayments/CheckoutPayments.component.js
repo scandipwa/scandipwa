@@ -13,7 +13,6 @@
 import PropTypes from 'prop-types';
 
 import Klarna from 'Component/Klarna';
-import Stripe from 'Component/Stripe';
 import Braintree from 'Component/Braintree';
 import { paymentMethodsType } from 'Type/Checkout';
 import CheckoutPayment from 'Component/CheckoutPayment';
@@ -24,7 +23,6 @@ import './CheckoutPayments.style';
 export const KLARNA = 'klarna_kp';
 export const BRAINTREE = 'braintree';
 export const CHECK_MONEY = 'checkmo';
-export const STRIPE = 'stripe_payments';
 
 export class CheckoutPayments extends ExtensiblePureComponent {
     static propTypes = {
@@ -35,7 +33,6 @@ export class CheckoutPayments extends ExtensiblePureComponent {
         initBraintree: PropTypes.func.isRequired,
         paymentMethods: paymentMethodsType.isRequired,
         setOrderButtonVisibility: PropTypes.func.isRequired,
-        setStripeRef: PropTypes.func.isRequired,
         setOrderButtonEnableStatus: PropTypes.func.isRequired,
         selectedPaymentCode: PropTypes.string.isRequired,
         billingAddress: PropTypes.shape({
@@ -64,7 +61,6 @@ export class CheckoutPayments extends ExtensiblePureComponent {
 
     paymentRenderMap = {
         [BRAINTREE]: this.renderBrainTreePayment.bind(this),
-        [STRIPE]: this.renderStripePayment.bind(this),
         [KLARNA]: this.renderKlarnaPayment.bind(this)
     };
 
@@ -91,20 +87,6 @@ export class CheckoutPayments extends ExtensiblePureComponent {
     renderBrainTreePayment() {
         const { initBraintree } = this.props;
         return <Braintree init={ initBraintree } />;
-    }
-
-    renderStripePayment() {
-        const {
-            billingAddress,
-            setStripeRef
-        } = this.props;
-
-        return (
-            <Stripe
-              billingAddress={ billingAddress }
-              setStripeRef={ setStripeRef }
-            />
-        );
     }
 
     renderKlarnaPayment() {

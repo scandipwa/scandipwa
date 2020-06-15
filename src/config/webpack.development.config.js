@@ -48,11 +48,13 @@ const config = (env, argv) => {
                 '.scss',
                 '*'
             ],
-            plugins: [
-                new FallbackPlugin({
-                    fallbackRoot, projectRoot, parentRoot
-                })
-            ],
+            plugins: env.BUILD_MODE !== CORE
+                ?   [
+                        new FallbackPlugin({
+                            fallbackRoot, projectRoot, parentRoot
+                        })
+                    ]
+                : [],
 
             modules: [
                 path.resolve(projectRoot, 'node_modules'),
