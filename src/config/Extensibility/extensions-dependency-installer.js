@@ -2,7 +2,6 @@
 const path = require('path');
 const { exec } = require('child_process');
 const util = require('util');
-require('array-flat-polyfill');
 
 const execAsync = util.promisify(exec);
 
@@ -22,19 +21,12 @@ const magentoRoot = (function() {
     )
 })()
 const configuration = require(path.resolve(projectRoot, 'scandipwa.json'));
+const { extensions } = configuration;
 
-const roots = Object.keys(configuration)
-    .filter(key => key.includes('extensions'))
-    .reduce((acc, key) => {
-        const paths = Object.values(configuration[key]).flat(2);
-
-        return acc.concat(paths.map(
-            relative => path.resolve(
-                magentoRoot,
-                relative.split('src/scandipwa')[0]
-            )
-        ));
-    }, []);
+const roots = Object.values(extensions).reduce(
+    (acc, rootPath) => acc.concat(path.resolve(magentoRoot, rootPath)),
+    []
+);
 
 const NO_PACKAGE_JSON = 254;
 const NO_PACKAGE_LOCK = 1;
@@ -42,7 +34,7 @@ const NO_PACKAGE_LOCK = 1;
 const NO_PACKAGE_JSON_NOTIFICATION = 'proceeding: no package.json found'
 
 const logOutput = (target, message) => console.log(
-    `For ${target}:\n${message}`
+    `\n${target} says:\n${message}\n`
 )
 
 const uniqueRoots = [...new Set(roots)];
@@ -60,7 +52,7 @@ uniqueRoots.forEach(
                 // Package.json exists, but no package-lock
                 execAsync('npm i', { cwd })
                     .then(stdout => logOutput(cwd, stdout))
-                    .catch(error => console.error(error));
+                    .catch(error => logOutput(cwd, error.message));
             });
     }
 );
