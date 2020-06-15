@@ -101,7 +101,7 @@ module.exports = (_, options) => {
                                 magentoRoot,
                                 projectRoot,
                                 importAggregator: 'extensions',
-                                pathFilterCondition: path => !!path.match(/\/src\/scandipwa\/sw\//)
+                                pathFilterCondition: path => !!path.match(/\/sw\/plugin\//)
                             }
                         }
                     ]

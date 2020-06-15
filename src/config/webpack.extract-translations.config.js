@@ -70,7 +70,8 @@ module.exports = {
                         options: {
                             magentoRoot,
                             projectRoot,
-                            importAggregator: 'extensions'
+                            importAggregator: 'extensions',
+                            pathFilterCondition: path => true
                         }
                     }
                 ]

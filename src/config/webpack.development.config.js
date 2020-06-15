@@ -101,7 +101,7 @@ const config = (env, argv) => {
                                 magentoRoot,
                                 projectRoot,
                                 importAggregator: 'extensions',
-                                pathFilterCondition: path => !!path.match(/\/src\/scandipwa\/app\//)
+                                pathFilterCondition: path => !!path.match(/\/app\/plugin\//)
                             }
                         }
                     ]

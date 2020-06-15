@@ -8,17 +8,27 @@ module.exports = function injectImports(source) {
 
     const extensionConfigImports = Object.entries(extensions).reduce(
         (importChain, extension) => {
-            const [, singlePluginConfigPathList] = extension;
+            const [/* name */, repositoryRootPath] = extension;
+            const indexPath = path.resolve(magentoRoot, repositoryRootPath, 'src/scandipwa');
+            const singlePluginConfigPathList = require(indexPath);
 
             return importChain + singlePluginConfigPathList.filter(pathFilterCondition).reduce(
-                (singlePluginImportChain, singlePluginConfigPath) => {
-                    const pathToConfigFile = path.join(magentoRoot, singlePluginConfigPath);
+                (singlePluginImportChain, pluginDefinitionPath) => {
+                    const pathToConfigFile = path.resolve(
+                        indexPath,
+                        pluginDefinitionPath
+                    );
 
-                    return `${singlePluginImportChain}${importAggregator}.push(require('${pathToConfigFile}').default);\n`;
+                    return singlePluginImportChain.concat(
+                        `${importAggregator}.push(require('${pathToConfigFile}').default);\n`
+                    );
                 }, ''
             );
         }, ''
     );
 
-    return source.replace(/\/\/ \* ScandiPWA extension importing magic comment! \*\//, extensionConfigImports);
+    return source.replace(
+        /\/\/ \* ScandiPWA extension importing magic comment! \*\//,
+        extensionConfigImports
+    );
 };
