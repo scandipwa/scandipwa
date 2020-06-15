@@ -37,7 +37,15 @@ const logOutput = (target, message) => console.log(
     `\n${target} says:\n${message}\n`
 )
 
+console.log('\x1b[36m%s\x1b[0m', 'Installing extensions\' dependencies');
+
 const uniqueRoots = [...new Set(roots)];
+
+if (!uniqueRoots.length) {
+    console.log('\x1b[36m%s\x1b[0m', 'No extensions found in scandipwa.json, skipping this step');
+    return;
+}
+
 uniqueRoots.forEach(
     (cwd) => {
         execAsync('npm ci', { cwd })
