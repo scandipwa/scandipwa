@@ -22,32 +22,31 @@ const { extensions } = require('../../scandipwa.json');
 const capitalize = value => value.charAt(0).toUpperCase() + value.slice(1);
 const pascalCase = word => capitalize(word.replace(/(-\w)/g, m => m[1].toUpperCase()));
 
+/**
+ * Generate aliases for extensions
+ * @param {string} projectRoot
+ * @param {string} magentoRoot
+ */
 const getExtensionsAliases = (projectRoot, magentoRoot) => {
-    const extensionsRoots = Object.entries(extensions).reduce(
-        (acc, [, pluginFilesPaths]) => {
-            const oneOfPaths = pluginFilesPaths[0];
-            const frontendRoot = oneOfPaths.split('/plugin/')[0];
-            const root = oneOfPaths.split('/src/scandipwa/')[0];
+    const extensionsMeta = Object.values(extensions).reduce(
+        (acc, relativeRoot) => {
+            const frontendRoot = path.join(relativeRoot, 'src/scandipwa');
+            const explodedRoot = relativeRoot.split('/');
 
             const extensionMeta = {
-                root: path.resolve(magentoRoot, root),
-                frontendRoot: path.resolve(magentoRoot, frontendRoot)
+                frontendRoot: path.resolve(magentoRoot, frontendRoot),
+                extensionName: explodedRoot[explodedRoot.length - 1],
+                vendorName: explodedRoot[explodedRoot.length - 2],
             };
 
-            if (!acc.some(elem => JSON.stringify(elem) === JSON.stringify(extensionMeta))) {
-                acc.push(extensionMeta);
-            }
+            acc.push(extensionMeta);
 
             return acc;
         }, []
     );
 
-    return extensionsRoots.reduce(
-        (acc, { root, frontendRoot }) => {
-            const explodedRoot = root.split('/');
-            const vendorName = explodedRoot[explodedRoot.length - 2];
-            const extensionName = explodedRoot[explodedRoot.length - 1];
-
+    return extensionsMeta.reduce(
+        (acc, { frontendRoot, vendorName, extensionName }) => {
             acc[`${pascalCase(vendorName)}_${pascalCase(extensionName)}`] = path.relative(projectRoot, frontendRoot);
 
             return acc;
@@ -55,7 +54,18 @@ const getExtensionsAliases = (projectRoot, magentoRoot) => {
     );
 }
 
+/**
+ * Generate aliases for corresponding directory
+ * @param {string} prefix
+ * @param {string|undefined} root
+ * @param {string} projectRoot
+ * @returns {object}
+ */
 const getAliases = (prefix, root, projectRoot) => {
+    if (!root) {
+        return {};
+    }
+
     const aliases = ['style', 'component', 'route', 'store', 'util', 'query', 'type'].reduce(
         (acc, curr) => {
             acc[`${capitalize(prefix)}${capitalize(curr)}`] = './' + path.relative(
