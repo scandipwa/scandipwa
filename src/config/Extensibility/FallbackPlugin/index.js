@@ -21,19 +21,26 @@ const fs = require('fs');
 class FallbackPlugin {
     constructor(options) {
         this.options = Object.assign(FallbackPlugin.defaultOptions, options);
+        this.customThemeRegExp = this.buildCustomThemeRegExp();
         this.parentThemeRegExp = this.buildParentThemeRegExp();
         this.parentThemeExists = !!this.options.parentRoot;
     }
 
-    buildParentThemeRegExp() {
-        if (!this.options.parentRoot) {
-            return /(?=a)b/; // always false regex
+    buildCustomThemeRegExp() {
+        if (!this.options.fallbackRoot || !this.options.fallbackThemeSpecifier) {
+            throw new Error('Fallback root or theme specifier is not provided!');
         }
 
-        const relativeToAdf = this.options.parentRoot.split('/app/design/frontend/')[1];
-        const [vendor, themeName] = relativeToAdf.split('/');
+        return new RegExp(path.join('app/design/frontend', this.options.fallbackThemeSpecifier));
+    }
 
-        return new RegExp(`/${vendor}/${themeName}/`);
+    buildParentThemeRegExp() {
+        if (!this.options.parentRoot || this.options.parentThemeSpecifier) {
+            // always false regex
+            return /(?=a)b/;
+        }
+
+        return new RegExp(path.join('app/design/frontend', this.options.parentThemeSpecifier));
     }
 
     // Default plugin entry-point function
@@ -49,13 +56,13 @@ class FallbackPlugin {
             const pathIsParent = !!request.path.match(this.parentThemeRegExp);
 
             // Determine if the request is coming from custom file
-            const pathIsCustom = !!request.path.match(/app\/design\/frontend\/Scandiweb\/pwa\//);
+            const pathIsCustom = !!request.path.match(this.customThemeRegExp);
 
             // Determine if request is coming to core file
             const requestIsCore = !!request.request.match(/vendor\/scandipwa\/source/);
 
             // Determine if request is coming to custom file
-            const requestIsCustom = !!request.request.match(/app\/design\/frontend\/Scandiweb\/pwa\//);
+            const requestIsCustom = !!request.request.match(this.customThemeRegExp);
 
             // Determine if request is coming to parent theme file
             const requestIsParent = !!request.request.match(this.parentThemeRegExp);

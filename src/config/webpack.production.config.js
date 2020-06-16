@@ -13,6 +13,7 @@
 // TODO: merge Webpack config files
 const path = require('path');
 const projectRoot = path.resolve(__dirname, '..', '..');
+const fallbackThemeSpecifier = path.relative(path.resolve(projectRoot, '../..'), projectRoot);
 
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -38,7 +39,7 @@ const parentRoot = parentTheme
 const fallbackRoot = path.resolve(magentoRoot, 'vendor', 'scandipwa', 'source');
 
 const staticVersion = Date.now();
-const publicPath = `/static/version${staticVersion}/frontend/Scandiweb/pwa/en_US/Magento_Theme/`;
+const publicPath = `/static/version${staticVersion}/frontend/${fallbackThemeSpecifier}/en_US/Magento_Theme/`;
 
 const webpackConfig = ([lang, translation]) => ({
     resolve: {
@@ -50,7 +51,11 @@ const webpackConfig = ([lang, translation]) => ({
         ],
         plugins: [
             new FallbackPlugin({
-                fallbackRoot, projectRoot, parentRoot
+                projectRoot,
+                fallbackRoot,
+                fallbackThemeSpecifier,
+                parentRoot,
+                parentThemeSpecifier: parentTheme
             })
         ],
         modules: [

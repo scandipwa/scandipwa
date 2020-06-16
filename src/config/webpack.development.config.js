@@ -27,6 +27,7 @@ const webmanifestConfig = require('./webmanifest.config');
 const { getBabelConfig } = require('./babel.config');
 
 const projectRoot = path.resolve(__dirname, '..', '..');
+const fallbackThemeSpecifier = path.relative(path.resolve(projectRoot, '../..'), projectRoot);
 const { parentTheme = '' } = require(path.resolve(projectRoot, 'scandipwa.json'));
 
 const DEVELOPMENT = 'development';
@@ -54,7 +55,11 @@ const config = (env, argv) => {
             plugins: env.BUILD_MODE !== CORE
                 ?   [
                         new FallbackPlugin({
-                            fallbackRoot, projectRoot, parentRoot
+                            projectRoot,
+                            fallbackRoot,
+                            fallbackThemeSpecifier,
+                            parentRoot,
+                            parentThemeSpecifier: parentTheme
                         })
                     ]
                 : [],
