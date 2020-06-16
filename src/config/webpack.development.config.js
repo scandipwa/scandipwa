@@ -37,7 +37,10 @@ const config = (env, argv) => {
         ? path.resolve(projectRoot, '..', '..', '..', '..', '..')
         : path.resolve(projectRoot, '..', '..');
 
-    const parentRoot = path.resolve(magentoRoot, 'app/design/frontend', parentTheme);
+    const parentRoot = parentTheme
+        ? path.resolve(magentoRoot, 'app/design/frontend', parentTheme)
+        : undefined;
+
     const fallbackRoot = path.resolve(magentoRoot, 'vendor', 'scandipwa', 'source');
 
     return {

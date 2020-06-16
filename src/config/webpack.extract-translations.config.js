@@ -20,7 +20,9 @@ const { I18nPlugin } = require('./I18nPlugin');
 const projectRoot = path.resolve(__dirname, '..', '..');
 const { parentTheme = '' } = require(path.resolve(projectRoot, 'scandipwa.json'));
 const magentoRoot = path.resolve(projectRoot, '..', '..', '..', '..', '..');
-const parentRoot = path.resolve(magentoRoot, 'app/design/frontend', parentTheme);
+const parentRoot = parentTheme
+    ? path.resolve(magentoRoot, 'app/design/frontend', parentTheme)
+    : undefined;
 const fallbackRoot = path.resolve(magentoRoot, 'vendor', 'scandipwa', 'source');
 
 module.exports = {

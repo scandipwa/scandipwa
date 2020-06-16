@@ -22,7 +22,9 @@ const FallbackPlugin = require('./Extensibility/FallbackPlugin');
 const projectRoot = path.resolve(__dirname, '..', '..');
 const { parentTheme = '' } = require(path.resolve(projectRoot, 'scandipwa.json'));
 const magentoRoot = path.resolve(projectRoot, '..', '..', '..', '..', '..');
-const parentRoot = path.resolve(magentoRoot, 'app/design/frontend', parentTheme);
+const parentRoot = parentTheme
+    ? path.resolve(magentoRoot, 'app/design/frontend', parentTheme)
+    : undefined;
 const publicRoot = path.resolve(magentoRoot, 'pub');
 const fallbackRoot = path.resolve(magentoRoot, 'vendor', 'scandipwa', 'source');
 
