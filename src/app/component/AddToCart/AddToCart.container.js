@@ -14,7 +14,7 @@ import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { isSignedIn } from 'Util/Auth';
-import { CONFIGURABLE, GROUPED } from 'Util/Product';
+import { CONFIGURABLE, GROUPED, BUNDLE } from 'Util/Product';
 import { CartDispatcher } from 'Store/Cart';
 import { ProductType } from 'Type/ProductList';
 import { showNotification } from 'Store/Notification';
@@ -45,7 +45,7 @@ export class AddToCartContainer extends PureComponent {
         removeFromWishlist: PropTypes.func.isRequired,
         wishlistItems: PropTypes.objectOf(ProductType).isRequired,
         onProductValidationError: PropTypes.func,
-        customizableOptionsData: PropTypes.object.isRequired
+        productOptionsData: PropTypes.object.isRequired
     };
 
     static defaultProps = {
@@ -66,7 +66,7 @@ export class AddToCartContainer extends PureComponent {
         const {
             configurableVariantIndex,
             groupedProductQuantity,
-            customizableOptionsData,
+            productOptionsData,
             showNotification,
             product,
             product: {
@@ -100,6 +100,26 @@ export class AddToCartContainer extends PureComponent {
             }
 
             break;
+        case BUNDLE:
+            const [{ options }] = items;
+
+            options.reduce((acc, { product: { stock_status } }) => {
+                if (stock_status !== 'IN_STOCK') {
+                    showNotification('info', __('Sorry! The product is out of stock!'));
+                    return false;
+                }
+
+                return acc;
+            }, []);
+
+            const validateBundleOptions = this.checkProductOptionsValidation(productOptionsData, true);
+
+            if (!validateBundleOptions) {
+                showNotification('info', __('Please select required option!'));
+                return false;
+            }
+
+            break;
         default:
             const { stock_status } = product;
 
@@ -108,39 +128,54 @@ export class AddToCartContainer extends PureComponent {
                 return false;
             }
 
-            if (customizableOptionsData && customizableOptionsData.requiredCustomizableOptions.length) {
-                const {
-                    customizableOptions,
-                    customizableOptionsMulti,
-                    requiredCustomizableOptions
-                } = customizableOptionsData;
+            const validateCustomizableOptions = this.checkProductOptionsValidation(productOptionsData, true);
 
-                const validateCustomizableOptions = this.validateCustomizableOptions(
-                    [...customizableOptions || [], ...customizableOptionsMulti || []],
-                    requiredCustomizableOptions
-                );
-
-                if (!validateCustomizableOptions) {
-                    showNotification('info', __('Please select required option!'));
-                    return false;
-                }
+            if (!validateCustomizableOptions) {
+                showNotification('info', __('Please select required option!'));
+                return false;
             }
         }
 
         return true;
     }
 
-    validateCustomizableOptions(items, requiredOptions) {
+    checkProductOptionsValidation(productOptionsData, isBundle = false) {
+        if (productOptionsData && productOptionsData.requiredOptions.length) {
+            const {
+                productOptions,
+                productOptionsMulti,
+                requiredOptions
+            } = productOptionsData;
+
+            return this.validateProductOptions(
+                [...productOptions || [], ...productOptionsMulti || []],
+                requiredOptions,
+                isBundle
+            );
+        }
+
+        return true;
+    }
+
+    validateProductOptions(items, requiredOptions, isBundle = false) {
         let status = true;
 
         for (let i = 0; i < requiredOptions.length; i++) {
             let counter = 0;
 
             for (let j = 0; j < items.length; j++) {
-                const { option_id } = items[j];
+                if (isBundle) {
+                    const { id } = items[j];
 
-                if (requiredOptions[i] === option_id) {
-                    counter++;
+                    if (requiredOptions[i] === id) {
+                        counter++;
+                    }
+                } else {
+                    const { option_id } = items[j];
+
+                    if (requiredOptions[i] === option_id) {
+                        counter++;
+                    }
                 }
             }
 
@@ -161,7 +196,7 @@ export class AddToCartContainer extends PureComponent {
             groupedProductQuantity,
             quantity,
             addProduct,
-            customizableOptionsData
+            productOptionsData
         } = this.props;
 
         const { variants, type_id } = product;
@@ -204,7 +239,7 @@ export class AddToCartContainer extends PureComponent {
         addProduct({
             product: productToAdd,
             quantity,
-            customizableOptionsData
+            productOptionsData
         }).then(
             () => this._afterAdded()
         ).catch(

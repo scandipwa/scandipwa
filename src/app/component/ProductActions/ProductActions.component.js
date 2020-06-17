@@ -25,7 +25,10 @@ import ProductPrice from 'Component/ProductPrice';
 import { ProductType } from 'Type/ProductList';
 import AddToCart from 'Component/AddToCart';
 import ProductCustomizableOptions from 'Component/ProductCustomizableOptions';
-import { GROUPED, CONFIGURABLE, SIMPLE } from 'Util/Product';
+import ProductBundleItems from 'Component/ProductBundleItems';
+import {
+    GROUPED, CONFIGURABLE, SIMPLE, BUNDLE
+} from 'Util/Product';
 import Field from 'Component/Field';
 import isMobile from 'Util/Mobile';
 import Html from 'Component/Html';
@@ -56,7 +59,7 @@ export default class ProductActions extends PureComponent {
         clearGroupedProductQuantity: PropTypes.func.isRequired,
         setGroupedProductQuantity: PropTypes.func.isRequired,
         getSelectedCustomizableOptions: PropTypes.func.isRequired,
-        customizableOptionsData: PropTypes.object.isRequired
+        productOptionsData: PropTypes.object.isRequired
     };
 
     static defaultProps = {
@@ -196,6 +199,34 @@ export default class ProductActions extends PureComponent {
         );
     }
 
+    renderBundleItems() {
+        const {
+            product: { items, type_id },
+            maxQuantity,
+            minQuantity,
+            getSelectedCustomizableOptions
+        } = this.props;
+
+        if (type_id !== BUNDLE) {
+            return null;
+        }
+
+        return (
+            <section
+              block="ProductActions"
+              elem="Section"
+              mods={ { type: 'bundle_items' } }
+            >
+                <ProductBundleItems
+                  items={ items }
+                  getSelectedCustomizableOptions={ getSelectedCustomizableOptions }
+                  maxQuantity={ maxQuantity }
+                  minQuantity={ minQuantity }
+                />
+            </section>
+        );
+    }
+
     renderShortDescriptionContent() {
         const { product: { short_description } } = this.props;
         const { html } = short_description || {};
@@ -317,7 +348,7 @@ export default class ProductActions extends PureComponent {
             product,
             quantity,
             groupedProductQuantity,
-            customizableOptionsData
+            productOptionsData
         } = this.props;
 
         return (
@@ -328,7 +359,7 @@ export default class ProductActions extends PureComponent {
               quantity={ quantity }
               groupedProductQuantity={ groupedProductQuantity }
               onProductValidationError={ this.onProductValidationError }
-              customizableOptionsData={ customizableOptionsData }
+              productOptionsData={ productOptionsData }
             />
         );
     }
@@ -426,8 +457,7 @@ export default class ProductActions extends PureComponent {
         const {
             product,
             quantity,
-            configurableVariantIndex,
-            customizableOptionsData
+            configurableVariantIndex
         } = this.props;
 
         return (
@@ -436,7 +466,6 @@ export default class ProductActions extends PureComponent {
               quantity={ quantity }
               configurableVariantIndex={ configurableVariantIndex }
               onProductValidationError={ this.onProductValidationError }
-              customizableOptionsData={ customizableOptionsData }
             />
         );
     }
@@ -519,6 +548,7 @@ export default class ProductActions extends PureComponent {
                 { this.renderNameAndBrand() }
                 { this.renderSkuAndStock() }
                 { this.renderConfigurableAttributes() }
+                { this.renderBundleItems() }
                 { this.renderGroupedItems() }
                 { this.renderTierPrices() }
             </article>

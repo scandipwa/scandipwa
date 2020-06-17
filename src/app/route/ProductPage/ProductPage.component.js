@@ -37,7 +37,7 @@ export default class ProductPage extends PureComponent {
         dataSource: ProductType.isRequired,
         areDetailsLoaded: PropTypes.bool.isRequired,
         getSelectedCustomizableOptions: PropTypes.func.isRequired,
-        customizableOptionsData: PropTypes.object.isRequired
+        productOptionsData: PropTypes.object.isRequired
     };
 
     renderProductPageContent() {
@@ -50,7 +50,7 @@ export default class ProductPage extends PureComponent {
             productOrVariant,
             areDetailsLoaded,
             getSelectedCustomizableOptions,
-            customizableOptionsData
+            productOptionsData
         } = this.props;
 
         return (
@@ -68,7 +68,7 @@ export default class ProductPage extends PureComponent {
                   areDetailsLoaded={ areDetailsLoaded }
                   configurableVariantIndex={ configurableVariantIndex }
                   getSelectedCustomizableOptions={ getSelectedCustomizableOptions }
-                  customizableOptionsData={ customizableOptionsData }
+                  productOptionsData={ productOptionsData }
                 />
             </>
         );
