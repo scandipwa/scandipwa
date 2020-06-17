@@ -258,7 +258,7 @@ class Checkout extends PureComponent {
             return null;
         }
 
-        return <CmsBlock identifiers={ [promo] } />;
+        return <CmsBlock identifier={ promo } />;
     }
 
     render() {

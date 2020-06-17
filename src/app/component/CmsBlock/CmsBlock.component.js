@@ -20,41 +20,49 @@ import { ChildrenType } from 'Type/Common';
  */
 export default class CmsBlock extends PureComponent {
     static propTypes = {
-        cmsBlocks: PropTypes.arrayOf(PropTypes.shape({
+        cmsBlock: PropTypes.shape({
             id: PropTypes.string,
-            content: PropTypes.string
-        })),
+            content: PropTypes.string,
+            disabled: PropTypes.bool
+        }),
         children: ChildrenType
     };
 
     static defaultProps = {
-        children: [],
-        cmsBlocks: []
+        cmsBlock: {},
+        children: []
     };
 
-    renderCmsBlock = this.renderCmsBlock.bind(this);
+    renderPlaceholder() {
+        const {
+            children
+        } = this.props;
 
-    renderCmsBlock(block) {
-        const { id, content } = block;
+        if (children.length) {
+            return children;
+        }
+
+        return null;
+    }
+
+    render() {
+        const { cmsBlock: { id, content, disabled } } = this.props;
+
+        if (disabled) {
+            return null;
+        }
+
+        if (id === undefined) {
+            return this.renderPlaceholder();
+        }
 
         return (
             <div
               block="CmsBlock"
               elem="Wrapper"
-              key={ id }
             >
                 <Html content={ content } />
             </div>
         );
-    }
-
-    render() {
-        const { cmsBlocks, children } = this.props;
-
-        if (cmsBlocks.length) {
-            return cmsBlocks.map(this.renderCmsBlock);
-        }
-
-        return children;
     }
 }

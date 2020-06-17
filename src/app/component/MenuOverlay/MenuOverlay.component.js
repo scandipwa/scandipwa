@@ -213,7 +213,7 @@ export default class MenuOverlay extends PureComponent {
         const { header_content: { header_cms } = {} } = window.contentConfiguration;
 
         if (header_cms) {
-            return <CmsBlock identifiers={ [header_cms] } />;
+            return <CmsBlock identifier={ header_cms } />;
         }
 
         return (
@@ -239,7 +239,7 @@ export default class MenuOverlay extends PureComponent {
                     </Link>
                 </h3>
                 <div block="MenuOverlay" elem="Social">
-                    <CmsBlock identifiers={ ['social-links'] } />
+                    <CmsBlock identifier="social-links" />
                 </div>
             </>
         );

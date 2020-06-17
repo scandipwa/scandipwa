@@ -117,8 +117,6 @@ export class ProductListContainer extends PureComponent {
             || JSON.stringify(sort) !== JSON.stringify(prevSort)
             || JSON.stringify(filter) !== JSON.stringify(prevFilter)
         ) {
-            console.log(prevFilter);
-            console.log(filter);
             this.requestPage(this._getPageFromUrl());
         }
     }
