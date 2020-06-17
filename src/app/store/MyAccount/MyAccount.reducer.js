@@ -60,4 +60,4 @@ export const MyAccountReducer = (state = initialState, action) => {
     }
 };
 
-export default MyAccountReducer;
+export default middleware(MyAccountReducer, 'Store/MyAccount/Reducer');

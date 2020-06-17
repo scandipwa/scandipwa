@@ -53,4 +53,4 @@ export const MetaReducer = (state = initialState, action) => {
     }
 };
 
-export default MetaReducer;
+export default middleware(MetaReducer, 'Store/Meta/Reducer');

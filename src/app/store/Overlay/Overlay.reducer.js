@@ -51,4 +51,4 @@ export const OverlayReducer = (state = initialState, action) => {
     }
 };
 
-export default OverlayReducer;
+export default middleware(OverlayReducer, 'Store/Overlay/Reducer');

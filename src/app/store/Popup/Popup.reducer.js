@@ -26,4 +26,4 @@ export const PopupReducer = (state = initialState, action) => {
     }
 };
 
-export default PopupReducer;
+export default middleware(PopupReducer, 'Store/Popup/Reducer');

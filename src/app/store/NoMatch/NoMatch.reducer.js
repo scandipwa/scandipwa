@@ -29,4 +29,4 @@ export const NoMatchReducer = (state = initialState, action) => {
     }
 };
 
-export default NoMatchReducer;
+export default middleware(NoMatchReducer, 'Store/NoMatch/Reducer');

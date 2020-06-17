@@ -33,4 +33,4 @@ export const CategoryReducer = (state = initialState, { type, category }) => {
     }
 };
 
-export default CategoryReducer;
+export default middleware(CategoryReducer, 'Store/Category/Reducer');

@@ -63,4 +63,4 @@ export const LinkedProductsReducer = (state = initialState, action) => {
     };
 };
 
-export default LinkedProductsReducer;
+export default middleware(LinkedProductsReducer, 'Store/LinkedProducts/Reducer');

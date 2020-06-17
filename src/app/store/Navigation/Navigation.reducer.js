@@ -82,4 +82,4 @@ export const NavigationReducer = (state = initialState, action) => {
     }
 };
 
-export default NavigationReducer;
+export default middleware(NavigationReducer, 'Store/Navigation/Reducer');

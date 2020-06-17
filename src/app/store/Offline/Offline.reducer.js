@@ -40,4 +40,4 @@ export const OfflineReducer = (state = initialState, action) => {
     }
 };
 
-export default OfflineReducer;
+export default middleware(OfflineReducer, 'Store/Offline/Reducer');

@@ -33,4 +33,4 @@ export const HeaderAndFooterReducer = (state = initialState, action) => {
     }
 };
 
-export default HeaderAndFooterReducer;
+export default middleware(HeaderAndFooterReducer, 'Store/HeaderAndFooter/Reducer');

@@ -50,4 +50,4 @@ export const SearchBarReducer = (state = initialState, action) => {
     }
 };
 
-export default SearchBarReducer;
+export default middleware(SearchBarReducer, 'Store/SearchBar/Reducer');

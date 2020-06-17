@@ -41,4 +41,4 @@ export const NotificationReducer = (state = initialState, action) => {
     }
 };
 
-export default NotificationReducer;
+export default middleware(NotificationReducer, 'Store/Notification/Reducer');

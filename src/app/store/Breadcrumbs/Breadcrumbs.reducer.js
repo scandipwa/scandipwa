@@ -39,4 +39,4 @@ export const BreadcrumbsReducer = (state = initialState, action) => {
     }
 };
 
-export default BreadcrumbsReducer;
+export default middleware(BreadcrumbsReducer, 'Store/Breadcrumbs/Reducer');

@@ -53,4 +53,4 @@ export const CartReducer = (state = initialState, action) => {
     }
 };
 
-export default CartReducer;
+export default middleware(CartReducer, 'Store/Cart/Reducer');

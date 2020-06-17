@@ -37,4 +37,4 @@ export const UrlRewritesReducer = (state = initialState, action) => {
     }
 };
 
-export default UrlRewritesReducer;
+export default middleware(UrlRewritesReducer, 'Store/UrlRewrites/Reducer');

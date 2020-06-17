@@ -100,4 +100,4 @@ export const ProductListReducer = (state = initialState, action) => {
     }
 };
 
-export default ProductListReducer;
+export default middleware(ProductListReducer, 'Store/ProductListInfo/Reducer');

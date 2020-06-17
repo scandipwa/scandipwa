@@ -125,4 +125,4 @@ export const WishlistReducer = (state = initialState, action) => {
     }
 };
 
-export default WishlistReducer;
+export default middleware(WishlistReducer, 'Store/Wishlist/Reducer');

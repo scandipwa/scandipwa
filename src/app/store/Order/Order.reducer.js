@@ -77,4 +77,4 @@ export const OrderReducer = (state = initialState, action) => {
     }
 };
 
-export default OrderReducer;
+export default middleware(OrderReducer, 'Store/Order/Reducer');

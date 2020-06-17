@@ -48,4 +48,4 @@ export const ProductReducer = (state = initialState, action) => {
     }
 };
 
-export default ProductReducer;
+export default middleware(ProductReducer, 'Store/Product/Reducer');

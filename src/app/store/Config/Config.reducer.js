@@ -63,4 +63,4 @@ export const ConfigReducer = (state = initialState, action) => {
     }
 };
 
-export default ConfigReducer;
+export default middleware(ConfigReducer, 'Store/Config/Reducer');

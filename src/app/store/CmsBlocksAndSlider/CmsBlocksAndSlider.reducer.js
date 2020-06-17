@@ -69,4 +69,4 @@ export const CmsBlocksAndSliderReducer = (state = initialState, action) => {
     }
 };
 
-export default CmsBlocksAndSliderReducer;
+export default middleware(CmsBlocksAndSliderReducer, 'Store/CmsBlocksAndSlider/Reducer');
