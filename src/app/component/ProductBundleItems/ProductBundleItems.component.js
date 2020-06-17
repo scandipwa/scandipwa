@@ -14,8 +14,6 @@ import PropTypes from 'prop-types';
 import ProductBundleItem from 'Component/ProductBundleItem';
 import ProductCustomizableOptions from 'Component/ProductCustomizableOptions/ProductCustomizableOptions.component';
 
-import './ProductBundleItems.style';
-
 class ProductBundleItems extends ProductCustomizableOptions {
     static propTypes = {
         ...ProductCustomizableOptions.propTypes,
