@@ -21,7 +21,7 @@ import { ChildrenType } from 'Type/Common';
 export default class CmsBlock extends PureComponent {
     static propTypes = {
         cmsBlock: PropTypes.shape({
-            id: PropTypes.string,
+            identifier: PropTypes.string,
             content: PropTypes.string,
             disabled: PropTypes.bool
         }),
@@ -46,13 +46,19 @@ export default class CmsBlock extends PureComponent {
     }
 
     render() {
-        const { cmsBlock: { id, content, disabled } } = this.props;
+        const {
+            cmsBlock: {
+                identifier,
+                content,
+                disabled
+            }
+        } = this.props;
 
         if (disabled) {
             return null;
         }
 
-        if (id === undefined) {
+        if (identifier === undefined) {
             return this.renderPlaceholder();
         }
 

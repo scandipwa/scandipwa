@@ -15,7 +15,7 @@ import { CmsBlockQuery } from 'Query';
 import CmsBlock from './CmsBlock.component';
 
 export class CmsBlockContainer extends DataContainer {
-    propTypes = {
+    static propTypes = {
         identifier: PropTypes.string.isRequired
     };
 
@@ -37,7 +37,13 @@ export class CmsBlockContainer extends DataContainer {
 
         this.fetchData(
             [CmsBlockQuery.getQuery({ identifiers: [identifier] })],
-            ({ cmsBlocks: [cmsBlock] }) => this.setState({ cmsBlock })
+            ({ cmsBlocks: { items } }) => {
+                if (!items.length) {
+                    return;
+                }
+
+                this.setState({ cmsBlock: items[0] });
+            }
         );
     }
 
