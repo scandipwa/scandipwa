@@ -10,6 +10,8 @@
  */
 
 import { Field, Fragment } from 'Util/Query';
+import BrowserDatabase from 'Util/BrowserDatabase';
+import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
 
 /**
  * Product List Query
@@ -63,7 +65,8 @@ export class ProductListQuery {
                 attribute.length ? [...acc, `${key}: { in: [ ${attribute.join(',')} ] } `] : acc
             ), []),
             newToDate: date => [`news_to_date: { gteq: ${date} }`],
-            conditions: conditions => [`conditions: { eq: ${conditions} }`]
+            conditions: conditions => [`conditions: { eq: ${conditions} }`],
+            customerGroupId: id => [`customer_group_id: { eq: ${id} }`]
         };
     }
 
@@ -87,12 +90,29 @@ export class ProductListQuery {
             },
             filter: {
                 type: 'ProductAttributeFilterInput!',
-                handler: (options = {}) => `{${ Object.entries(options).reduce(
-                    (acc, [key, option]) => ((option && filterArgumentMap[key])
-                        ? [...acc, ...filterArgumentMap[key](option)]
-                        : acc
-                    ), []
-                ).join(',') }}`
+                handler: (initialOptions = {}) => {
+                    // add customer group by default to all requests
+                    const { group_id } = BrowserDatabase.getItem(CUSTOMER) || {};
+
+                    const options = {
+                        ...initialOptions,
+                        customerGroupId: group_id || '0'
+                    };
+
+                    const parsedOptions = Object.entries(options).reduce(
+                        (acc, [key, option]) => {
+                            // if there is no value, or if the key is just not present in options object
+                            if (!option || !filterArgumentMap[key]) {
+                                return acc;
+                            }
+
+                            return [...acc, ...filterArgumentMap[key](option)];
+                        },
+                        []
+                    );
+
+                    return `{${ parsedOptions.join(',') }}`;
+                }
             }
         };
     }
@@ -151,7 +171,7 @@ export class ProductListQuery {
             'name',
             'type_id',
             'stock_status',
-            this._getPriceField(),
+            this._getPriceRangeField(),
             this._getProductThumbnailField(),
             this._getProductSmallField(),
             this._getShortDescriptionField(),
@@ -304,50 +324,29 @@ export class ProductListQuery {
             .addFieldList(this._getCategoryFields());
     }
 
-    _getAmountFields() {
-        return [
-            'value',
-            'currency'
-        ];
-    }
-
-    _getAmountField() {
-        return new Field('amount')
-            .addFieldList(this._getAmountFields());
-    }
-
     _getMinimalPriceFields() {
         return [
-            this._getAmountField()
-        ];
-    }
-
-    _getMinimalPriceField() {
-        return new Field('minimalPrice')
-            .addFieldList(this._getMinimalPriceFields());
-    }
-
-    _getRegularPriceFields() {
-        return [
-            this._getAmountField()
-        ];
-    }
-
-    _getRegularPriceField() {
-        return new Field('regularPrice')
-            .addFieldList(this._getRegularPriceFields());
-    }
-
-    _getPriceFields() {
-        return [
-            this._getMinimalPriceField(),
+            this._getDiscountField(),
+            this._getFinalPriceField(),
             this._getRegularPriceField()
         ];
     }
 
-    _getPriceField() {
-        return new Field('price')
-            .addFieldList(this._getPriceFields());
+    _getMinimalPriceField() {
+        return new Field('minimum_price')
+            .addFieldList(this._getMinimalPriceFields());
+    }
+
+    _getPriceRangeFields() {
+        // Using an array as potentially would want to add maximum price
+        return [
+            this._getMinimalPriceField()
+        ];
+    }
+
+    _getPriceRangeField() {
+        return new Field('price_range')
+            .addFieldList(this._getPriceRangeFields());
     }
 
     /**
@@ -667,16 +666,34 @@ export class ProductListQuery {
     }
 
     _getTierPricesField() {
-        return new Field('tier_prices')
+        return new Field('price_tiers')
             .addFieldList(this._getTierPricesFields());
     }
 
     _getTierPricesFields() {
         return [
-            'qty',
-            'value',
-            'percentage_value'
+            this._getDiscountField(),
+            this._getFinalPriceField(),
+            'quantity'
         ];
+    }
+
+    _getDiscountField() {
+        return new Field('discount')
+            .addField('amount_off')
+            .addField('percent_off');
+    }
+
+    _getFinalPriceField() {
+        return new Field('final_price')
+            .addField('currency')
+            .addField('value');
+    }
+
+    _getRegularPriceField() {
+        return new Field('regular_price')
+            .addField('currency')
+            .addField('value');
     }
 
     _getConfigurableProductFragment() {

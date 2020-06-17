@@ -367,17 +367,11 @@ export default class ProductActions extends PureComponent {
     renderPriceWithSchema() {
         const {
             product,
-            product: { variants },
+            product: { variants = [] },
             configurableVariantIndex
         } = this.props;
 
-        // Product in props is updated before ConfigurableVariantIndex in props, when page is opened by clicking CartItem
-        // As a result, we have new product, but old configurableVariantIndex, which may be out of range for variants
-        const productOrVariant = variants && variants[configurableVariantIndex] !== undefined
-            ? variants[configurableVariantIndex]
-            : product;
-
-        const { name, price, stock_status } = productOrVariant;
+        const { name, price_range, stock_status } = variants[configurableVariantIndex] || product;
 
         return (
             <div>
@@ -385,7 +379,7 @@ export default class ProductActions extends PureComponent {
                 <ProductPrice
                   isSchemaRequired
                   variantsCount={ this.getOfferCount() }
-                  price={ price }
+                  price={ price_range }
                   mix={ { block: 'ProductActions', elem: 'Price' } }
                 />
             </div>
