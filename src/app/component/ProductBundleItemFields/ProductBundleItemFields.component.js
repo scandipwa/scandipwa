@@ -34,7 +34,7 @@ class ProductBundleItemFields extends PureComponent {
               type="number"
               value={ quantity }
               max={ maxQuantity }
-              min={ 0 }
+              min={ 1 }
               mix={ { block: 'ProductBundleItems', elem: 'Qty' } }
               onChange={ setQuantity }
             />
