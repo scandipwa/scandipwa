@@ -197,7 +197,7 @@
 
     &-Contacts {
         font-size: 12px;
-        color: --header-contacts-color;
+        color: var(--header-contacts-color);
 
         span:first-child {
             margin-right: 20px;

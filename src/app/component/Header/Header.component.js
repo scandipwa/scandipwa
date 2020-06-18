@@ -22,6 +22,7 @@ import CartOverlay from 'Component/CartOverlay';
 import Menu from 'Component/Menu';
 import { LOGO_MEDIA } from 'Util/Media/Media';
 import StoreSwitcher from 'Component/StoreSwitcher';
+import CmsBlock from 'Component/CmsBlock';
 import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
 import isMobile from 'Util/Mobile';
@@ -499,7 +500,7 @@ export default class Header extends NavigationAbstract {
         return (
             <div block="Header" elem="TopMenu">
                 <div block="Header" elem="Contacts">
-                    qqqqqq
+                    <CmsBlock identifier="contacts-header" />
                 </div>
                 <div block="Header" elem="Switcher">
                     <StoreSwitcher />
