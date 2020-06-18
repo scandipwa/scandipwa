@@ -8,13 +8,15 @@ const handlerTypes = [
     'member-property',
     'static-property',
     'function',
+    'class'
 ];
 
 /**
  * Handlers which don't require member name specification
  */
 const handlersWithReducedSections = [
-    'function'
+    'function',
+    'class'
 ];
 
 /**
