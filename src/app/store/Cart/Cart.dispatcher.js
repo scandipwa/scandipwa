@@ -51,18 +51,25 @@ export class CartDispatcher extends ExtensibleClass {
         );
     }
 
+    handle_syncCartWithBESuccess(dispatch, { cartData }) {
+        this._updateCartData(cartData, dispatch);
+    }
+
+    handle_syncCartWithBEError(dispatch) {
+        return this._createEmptyCart(dispatch)
+            .then((data) => {
+                BrowserDatabase.setItem(data, GUEST_QUOTE_ID);
+                this._updateCartData({}, dispatch);
+            });
+    }
+
     _syncCartWithBE(dispatch) {
         // Need to get current cart from BE, update cart
         fetchQuery(CartQuery.getCartQuery(
             !isSignedIn() && this._getGuestQuoteId()
         )).then(
-            ({ cartData }) => this._updateCartData(cartData, dispatch),
-            () => {
-                this._createEmptyCart(dispatch).then((data) => {
-                    BrowserDatabase.setItem(data, GUEST_QUOTE_ID);
-                    this._updateCartData({}, dispatch);
-                });
-            }
+            result => this.handle_syncCartWithBESuccess(dispatch, result),
+            error => this.handle_syncCartWithBEError(dispatch, error)
         );
     }
 

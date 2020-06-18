@@ -26,14 +26,17 @@ export const { countries, reviewRatings, storeConfig } = BrowserDatabase.getItem
     storeConfig: {}
 };
 
-export const initialState = {
+export const getInitialState = () => ({
     ...filterStoreConfig(storeConfig),
     countries,
     reviewRatings,
     isLoading: true
-};
+});
 
-export const ConfigReducer = (state = initialState, action) => {
+export const ConfigReducer = (
+    state = middleware(getInitialState, 'Store/Config/Reducer/getInitialState')(),
+    action
+) => {
     const {
         config: {
             countries,
