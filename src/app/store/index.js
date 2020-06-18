@@ -34,7 +34,7 @@ import { ConfigReducer } from 'Store/Config';
 import { MetaReducer } from 'Store/Meta';
 import { LinkedProductsReducer } from 'Store/LinkedProducts';
 
-export const reducers = {
+export const getReducers = () => ({
     CmsBlocksAndSliderReducer,
     CategoryReducer,
     NotificationReducer,
@@ -57,10 +57,15 @@ export const reducers = {
     ConfigReducer,
     MetaReducer,
     LinkedProductsReducer
-};
+});
 
 export const store = createStore(
-    combineReducers(reducers),
+    combineReducers(
+        middleware(
+            getReducers,
+            'Store/Index/getReducers'
+        )()
+    ),
     ( // enable Redux dev-tools only in development
         process.env.NODE_ENV === 'development'
         && window.__REDUX_DEVTOOLS_EXTENSION__
