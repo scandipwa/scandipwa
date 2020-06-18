@@ -6,7 +6,7 @@
 const handlerTypes = [
     'member-function',
     'member-property',
-    'static-property',
+    'static-member',
     'function',
     'class'
 ];
