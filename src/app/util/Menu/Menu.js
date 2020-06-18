@@ -27,8 +27,21 @@ export const getSortedItems = unsortedItems => Array.from(unsortedItems).sort((
 ) => (PID - prevPID) || (P - prevP));
 
 export class MenuReducer {
-    getMenuUrl({ url }) {
-        return url;
+    getMenuUrl({ url, url_type }) {
+        switch (url_type) {
+        case TYPE_CATEGORY:
+            return {
+                pathname: url,
+                state: { category: true }
+            };
+        case TYPE_CMS_PAGE:
+            return {
+                pathname: url,
+                state: { page: true }
+            };
+        default:
+            return url;
+        }
     }
 
     getMenuData({
@@ -36,7 +49,7 @@ export class MenuReducer {
     }) {
         return {
             ...item,
-            url: this.getMenuUrl({ url }),
+            url: this.getMenuUrl({ url, url_type }),
             children: {}
         };
     }

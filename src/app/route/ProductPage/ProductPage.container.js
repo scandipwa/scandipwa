@@ -118,7 +118,6 @@ export class ProductPageContainer extends PureComponent {
     componentDidMount() {
         const {
             location: { pathname },
-            isOnlyPlaceholder,
             history
         } = this.props;
 
@@ -127,10 +126,7 @@ export class ProductPageContainer extends PureComponent {
             return;
         }
 
-        if (!isOnlyPlaceholder) {
-            this._requestProduct();
-        }
-
+        this._requestProduct();
         this._onProductUpdate();
     }
 
@@ -138,6 +134,7 @@ export class ProductPageContainer extends PureComponent {
         const {
             location: { pathname },
             product: { id, options },
+            productsIds,
             isOnlyPlaceholder
         } = this.props;
 
@@ -147,10 +144,15 @@ export class ProductPageContainer extends PureComponent {
                 id: prevId,
                 options: prevOptions
             },
+            productsIds: prevProductsIds,
             isOnlyPlaceholder: prevIsOnlyPlaceholder
         } = prevProps;
 
-        if (pathname !== prevPathname || isOnlyPlaceholder !== prevIsOnlyPlaceholder) {
+        if (
+            pathname !== prevPathname
+            || isOnlyPlaceholder !== prevIsOnlyPlaceholder
+            || productsIds !== prevProductsIds
+        ) {
             this._requestProduct();
         }
 
@@ -298,7 +300,8 @@ export class ProductPageContainer extends PureComponent {
 
     _getAreDetailsLoaded() {
         const { product } = this.props;
-        return this._getDataSource() === product;
+        const dataSource = this._getDataSource();
+        return dataSource === product;
     }
 
     _getProductOrVariant() {
@@ -326,7 +329,7 @@ export class ProductPageContainer extends PureComponent {
     _getDataSource() {
         const { product, location: { state } } = this.props;
         const productIsLoaded = Object.keys(product).length > 0;
-        const locationStateExists = state && Object.keys(state.product).length > 0;
+        const locationStateExists = state && state.product && Object.keys(state.product).length > 0;
 
         // return nothing, if no product in url state and no loaded product
         if (!locationStateExists && !productIsLoaded) {
@@ -360,14 +363,18 @@ export class ProductPageContainer extends PureComponent {
 
     _requestProduct() {
         const {
-            requestProduct
+            requestProduct,
+            isOnlyPlaceholder
         } = this.props;
+
+        if (isOnlyPlaceholder) {
+            return; // ignore placeholder requests
+        }
 
         const options = {
             isSingleProduct: true,
             args: { filter: this._getProductRequestFilter() }
         };
-
 
         requestProduct(options);
     }

@@ -11,11 +11,13 @@
 
 import {
     UPDATE_URL_REWRITE,
-    CLEAR_URL_REWRITE
+    CLEAR_URL_REWRITE,
+    IS_LOADING_URL_REWRITE
 } from './UrlRewrites.action';
 
 export const initialState = {
-    urlRewrite: {}
+    urlRewrite: {},
+    isLoading: false
 };
 
 const UrlRewritesReducer = (state = initialState, action) => {
@@ -25,12 +27,20 @@ const UrlRewritesReducer = (state = initialState, action) => {
 
         return {
             ...state,
+            isLoading: false,
             urlRewrite
         };
     case CLEAR_URL_REWRITE:
         return {
             ...state,
             urlRewrite: {}
+        };
+    case IS_LOADING_URL_REWRITE:
+        const { isLoading } = action;
+
+        return {
+            ...state,
+            isLoading
         };
     default:
         return state;

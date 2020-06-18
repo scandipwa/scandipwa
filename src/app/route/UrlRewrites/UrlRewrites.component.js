@@ -28,9 +28,10 @@ export const TYPE_NOTFOUND = 'NOT_FOUND';
  * const TYPE_PWA = 'PWA_ROUTER';
  * const TYPE_CUSTOM = 'CUSTOM';
  */
-export default class UrlRewrites extends PureComponent {
+export class UrlRewrites extends PureComponent {
     static propTypes = {
         location: LocationType.isRequired,
+        isLoading: PropTypes.bool.isRequired,
         match: MatchType.isRequired,
         clearUrlRewrites: PropTypes.func.isRequired,
         requestUrlRewrite: PropTypes.func.isRequired,
@@ -50,8 +51,52 @@ export default class UrlRewrites extends PureComponent {
         TYPE_PRODUCT
     ];
 
-    componentWillMount() {
-        const { type } = window.actionName || '';
+    stateMapping = {
+        category: TYPE_CATEGORY,
+        product: TYPE_PRODUCT,
+        page: TYPE_CMS_PAGE
+    };
+
+    constructor(props) {
+        super(props);
+
+        this.handleUrlRewrite();
+    }
+
+    componentDidUpdate(prevProps) {
+        const { match, location } = prevProps;
+        const { match: prevMatch, location: prevLocation } = this.props;
+
+        const urlParam = getUrlParam(match, location);
+        const prevUrlParam = getUrlParam(prevMatch, prevLocation);
+
+        if (urlParam !== prevUrlParam) {
+            this.handleUrlRewrite();
+        }
+    }
+
+    componentWillUnmount() {
+        const { clearUrlRewrites } = this.props;
+        clearUrlRewrites();
+    }
+
+    getUrlRewriteType() {
+        const {
+            location: { state = {} }
+        } = this.props;
+
+        const { actionName = '' } = window;
+        const typeKey = Object.keys(state).find(key => this.stateMapping[key]);
+
+        if (typeKey) {
+            return this.stateMapping[typeKey];
+        }
+
+        return actionName;
+    }
+
+    handleUrlRewrite() {
+        const type = this.getUrlRewriteType();
 
         // Type is not set
         if (!type) {
@@ -74,11 +119,6 @@ export default class UrlRewrites extends PureComponent {
 
         // Try to resolve unknown rewrite
         this.requestRewrite();
-    }
-
-    componentWillUnmount() {
-        const { clearUrlRewrites } = this.props;
-        clearUrlRewrites();
     }
 
     requestRewrite() {
@@ -120,7 +160,7 @@ export default class UrlRewrites extends PureComponent {
         case TYPE_PRODUCT:
             return <ProductPage { ...this.props } isOnlyPlaceholder />;
         case TYPE_CMS_PAGE:
-            return <CmsPage { ...this.props } urlKey="" isOnlyPlaceholder />;
+            return <CmsPage { ...this.props } isOnlyPlaceholder />;
         case TYPE_CATEGORY:
             return <CategoryPage { ...this.props } isOnlyPlaceholder />;
         case TYPE_NOTFOUND:
@@ -131,13 +171,22 @@ export default class UrlRewrites extends PureComponent {
     }
 
     render() {
-        const { urlRewrite } = this.props;
+        const { urlRewrite, isLoading } = this.props;
         const { isNotFound } = this.state;
 
-        if ((urlRewrite && Object.entries(urlRewrite).length) || isNotFound) {
+        if (isLoading) {
+            return this.renderPlaceholders();
+        }
+
+        if (
+            (urlRewrite && Object.entries(urlRewrite).length)
+            || isNotFound
+        ) {
             return this.renderPage(urlRewrite);
         }
 
         return this.renderPlaceholders();
     }
 }
+
+export default UrlRewrites;

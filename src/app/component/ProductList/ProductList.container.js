@@ -30,37 +30,6 @@ export class ProductListContainer extends PureComponent {
         updatePage: this.updatePage.bind(this)
     };
 
-    requestPage = debounce((currentPage = 1, isNext = false) => {
-        const {
-            sort,
-            search,
-            filter,
-            pageSize,
-            requestProductList,
-            noAttributes,
-            noVariants
-        } = this.props;
-
-        if (!isNext) {
-            window.scrollTo(0, 0);
-        }
-
-        const options = {
-            isNext,
-            noAttributes,
-            noVariants,
-            args: {
-                sort,
-                filter,
-                search,
-                pageSize,
-                currentPage
-            }
-        };
-
-        requestProductList(options);
-    }, UPDATE_PAGE_FREQUENCY);
-
     static propTypes = {
         history: HistoryType.isRequired,
         location: LocationType.isRequired,
@@ -81,7 +50,7 @@ export class ProductListContainer extends PureComponent {
     };
 
     static defaultProps = {
-        pageSize: 12,
+        pageSize: 24,
         filter: {},
         search: '',
         selectedFilters: {},
@@ -113,6 +82,15 @@ export class ProductListContainer extends PureComponent {
         const { sort, search, filter } = this.props;
         const { sort: prevSort, search: prevSearch, filter: prevFilter } = prevProps;
 
+        const { pages } = this.props;
+        const { pagesCount } = this.state;
+        const pagesLength = Object.keys(pages).length;
+
+        if (pagesCount !== pagesLength) {
+            // eslint-disable-next-line react/no-did-update-set-state
+            this.setState({ pagesCount: pagesLength });
+        }
+
         if (search !== prevSearch
             || JSON.stringify(sort) !== JSON.stringify(prevSort)
             || JSON.stringify(filter) !== JSON.stringify(prevFilter)
@@ -120,6 +98,37 @@ export class ProductListContainer extends PureComponent {
             this.requestPage(this._getPageFromUrl());
         }
     }
+
+    requestPage = (currentPage = 1, isNext = false) => {
+        const {
+            sort,
+            search,
+            filter,
+            pageSize,
+            requestProductList,
+            noAttributes,
+            noVariants
+        } = this.props;
+
+        if (!isNext) {
+            window.scrollTo(0, 0);
+        }
+
+        const options = {
+            isNext,
+            noAttributes,
+            noVariants,
+            args: {
+                sort,
+                filter,
+                search,
+                pageSize,
+                currentPage
+            }
+        };
+
+        requestProductList(options);
+    };
 
     containerProps = () => ({
         currentPage: this._getPageFromUrl(),

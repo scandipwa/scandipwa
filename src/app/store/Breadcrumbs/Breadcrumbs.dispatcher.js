@@ -87,16 +87,17 @@ export class BreadcrumbsDispatcher {
         if (breadcrumbs) {
             breadcrumbs
                 .sort((a, b) => a.category_level - b.category_level)
-                .reduce((prev, crumb) => {
+                .forEach((crumb) => {
                     const { category_url_path, category_name } = crumb;
 
                     breadcrumbsList.push({
                         name: category_name,
-                        url: `/${category_url_path}`
+                        url: {
+                            pathname: `/${category_url_path}`,
+                            state: { category: true }
+                        }
                     });
-
-                    return url;
-                }, '');
+                });
         }
 
         return [

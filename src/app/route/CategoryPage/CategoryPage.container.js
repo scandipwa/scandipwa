@@ -238,7 +238,7 @@ export class CategoryPageContainer extends PureComponent {
 
         // ComponentDidUpdate fires multiple times, to prevent getting same data we check that url has changed
         // getIsNewCategory prevents getting Category data, when sort or filter options have changed
-        if (this._urlHasChanged(location, prevProps) && this.getIsNewCategory()) {
+        if (!categoryIds && this._urlHasChanged(location, prevProps) && this.getIsNewCategory()) {
             this._requestCategoryWithPageList();
             return;
         }

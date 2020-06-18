@@ -14,7 +14,8 @@ import { UrlRewritesDispatcher } from 'Store/UrlRewrites';
 import UrlRewrites from './UrlRewrites.component';
 
 export const mapStateToProps = state => ({
-    urlRewrite: state.UrlRewritesReducer.urlRewrite
+    urlRewrite: state.UrlRewritesReducer.urlRewrite,
+    isLoading: state.UrlRewritesReducer.isLoading
 });
 
 export const mapDispatchToProps = dispatch => ({
