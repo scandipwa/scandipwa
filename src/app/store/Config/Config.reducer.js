@@ -46,6 +46,8 @@ export const ConfigReducer = (state = initialState, action) => {
     switch (type) {
     case UPDATE_CONFIG:
         const filteredStoreConfig = filterStoreConfig(storeConfig);
+        const { secure_base_media_url } = filteredStoreConfig;
+        window.secure_base_media_url = secure_base_media_url;
 
         return {
             ...state,
