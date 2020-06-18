@@ -11,6 +11,6 @@ module.exports = plugins => plugins.sort(
         const { position: positionA = DEFAULT_POSITION } = a;
         const { position: positionB = DEFAULT_POSITION } = b;
 
-        return positionB - positionA;
+        return positionA - positionB;
     }
 );
