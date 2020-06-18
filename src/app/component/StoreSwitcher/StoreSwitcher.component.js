@@ -106,7 +106,7 @@ class StoreSwitcher extends PureComponent {
     render() {
         const { storeList } = this.props;
 
-        if (storeList.length < 1) {
+        if (storeList.length <= 1) {
             return null;
         }
 
