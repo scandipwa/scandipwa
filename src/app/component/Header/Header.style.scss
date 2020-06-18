@@ -12,6 +12,7 @@
 :root {
     --header-background: #fff;
     --header-color: #000;
+    --header-contacts-color: #414141;
     --header-icon-stroke-width: 1px;
     --header-search-clear-background: #838383;
     --header-desktop-button-color: var(--primary-base-color);
@@ -23,9 +24,10 @@
 
     @include desktop {
         --header-dots-color: #000;
-        --header-height: 60px;
         --header-nav-height: 60px;
-        --header-logo-height: calc(var(--header-height) - 35px);
+        --header-top-menu-height: 50px;
+        --header-height: calc(var(--header-nav-height) + var(--header-top-menu-height));
+        --header-logo-height: calc(var(--header-nav-height) - 35px);
     }
 }
 
@@ -174,14 +176,39 @@
         }
     }
 
+    &-TopMenu,
     &-Nav {
-        height: var(--header-nav-height);
         display: flex;
+        margin: auto;
+        max-width: var(--content-wrapper-width);
+    }
+
+    &-TopMenu {
+        height: var(--header-top-menu-height);
+        justify-content: space-between;
+        padding: {
+            bottom: 10px;
+            left: 25px;
+            right: 63px;
+            top: 25px;
+        }
+        z-index: 21;
+    }
+
+    &-Contacts {
+        font-size: 12px;
+        color: --header-contacts-color;
+
+        span:first-child {
+            margin-right: 20px;
+        }
+    }
+
+    &-Nav {
         align-items: center;
+        height: var(--header-nav-height);
         padding: 0 1rem;
         z-index: 20;
-        max-width: var(--content-wrapper-width);
-        margin: auto;
 
         @include before-desktop {
             border-bottom: 1px solid var(--primary-divider-color);

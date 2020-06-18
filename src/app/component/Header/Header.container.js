@@ -29,7 +29,6 @@ import Header, {
     CUSTOMER_ACCOUNT,
     CUSTOMER_SUB_ACCOUNT,
     MENU,
-    MENU_SUBCATEGORY,
     POPUP,
     SEARCH,
     CART,
@@ -77,7 +76,7 @@ export class HeaderContainer extends NavigationAbstractContainer {
 
     routeMap = {
         '/account/confirm': { name: CMS_PAGE, title: __('Confirm account'), onBackClick: () => history.push('/') },
-        '/category': { name: CATEGORY, onBackClick: this.onMenuButtonClick.bind(this) },
+        '/category': { name: CATEGORY },
         '/checkout': { name: CHECKOUT, onBackClick: () => history.push('/cart') },
         '/my-account': { name: CUSTOMER_ACCOUNT_PAGE, onBackClick: () => history.push('/') },
         '/product': { name: PDP, onBackClick: () => history.goBack() },
@@ -91,7 +90,6 @@ export class HeaderContainer extends NavigationAbstractContainer {
         onBackButtonClick: this.onBackButtonClick.bind(this),
         onCloseButtonClick: this.onCloseButtonClick.bind(this),
         onSearchBarFocus: this.onSearchBarFocus.bind(this),
-        onMenuButtonClick: this.onMenuButtonClick.bind(this),
         onClearSearchButtonClick: this.onClearSearchButtonClick.bind(this),
         onMyAccountButtonClick: this.onMyAccountButtonClick.bind(this),
         onSearchBarChange: this.onSearchBarChange.bind(this),
@@ -101,7 +99,6 @@ export class HeaderContainer extends NavigationAbstractContainer {
         onOkButtonClick: this.onOkButtonClick.bind(this),
         onCancelButtonClick: this.onCancelButtonClick.bind(this),
         onSearchOutsideClick: this.onSearchOutsideClick.bind(this),
-        onMenuOutsideClick: this.onMenuOutsideClick.bind(this),
         onMyAccountOutsideClick: this.onMyAccountOutsideClick.bind(this),
         onMinicartOutsideClick: this.onMinicartOutsideClick.bind(this),
         closeOverlay: this.closeOverlay.bind(this),
@@ -289,44 +286,6 @@ export class HeaderContainer extends NavigationAbstractContainer {
 
     onClearSearchButtonClick() {
         this.setState({ searchCriteria: '' });
-    }
-
-    onMenuButtonClick() {
-        const {
-            showOverlay,
-            setNavigationState,
-            navigationState: { name }
-        } = this.props;
-
-        if (isMobile.any()) {
-            history.goBack();
-            return;
-        }
-
-        if (name !== MENU) {
-            showOverlay(MENU);
-            setNavigationState({ name: MENU });
-        }
-    }
-
-    onMenuOutsideClick() {
-        const {
-            goToPreviousNavigationState,
-            hideActiveOverlay,
-            navigationState: { name }
-        } = this.props;
-
-        if (isMobile.any()) {
-            return;
-        }
-
-        if (name === MENU || name === MENU_SUBCATEGORY) {
-            if (name === MENU_SUBCATEGORY) {
-                goToPreviousNavigationState();
-            }
-            goToPreviousNavigationState();
-            hideActiveOverlay();
-        }
     }
 
     onMyAccountButtonClick() {
