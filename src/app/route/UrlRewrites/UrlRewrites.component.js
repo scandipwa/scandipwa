@@ -203,8 +203,6 @@ export class UrlRewrites extends PureComponent {
     renderPlaceholders() {
         const { type } = this.state;
 
-        console.log(`placeholder: ${type}`);
-
         switch (type) {
         case TYPE_PRODUCT:
             return <ProductPage { ...this.props } isOnlyPlaceholder />;
