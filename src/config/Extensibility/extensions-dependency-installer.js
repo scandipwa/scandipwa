@@ -6,20 +6,28 @@ const util = require('util');
 const execAsync = util.promisify(exec);
 
 const projectRoot = path.resolve(__dirname, '../../..');
-const magentoRoot = (function() {
-    if (projectRoot.includes('app/design/frontend')) {
-        return path.resolve(projectRoot, '../../../../..');
-    }
 
-    if (projectRoot.includes('localmodules')) {
-        return path.resolve(projectRoot, '../..');
-    }
+try {
+    const magentoRoot = (function() {
+        if (projectRoot.includes('app/design/frontend')) {
+            return path.resolve(projectRoot, '../../../../..');
+        }
 
-    throw new Error(
-        'Cannot locate Magento root automatically!\n'
-        + 'Probably your theme is in some unusual location.\n'
-    )
-})()
+        if (projectRoot.includes('localmodules')) {
+            return path.resolve(projectRoot, '../..');
+        }
+
+        throw new Error(
+            'Cannot locate Magento root automatically!\n'
+            + 'Probably your theme is in some unusual location.\n'
+        )
+    })()
+} catch(err) {
+    console.log('\x1b[36m%s\x1b[0m', err);
+    return;
+}
+
+
 const configuration = require(path.resolve(projectRoot, 'scandipwa.json'));
 const { extensions } = configuration;
 
