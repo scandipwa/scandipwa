@@ -155,6 +155,7 @@ export class ProductList extends PureComponent {
 
     renderLoadButton() {
         const { isShowLoading, isInfiniteLoaderEnabled, loadPrevPage } = this.props;
+
         if (!isShowLoading || !isInfiniteLoaderEnabled) {
             return null;
         }

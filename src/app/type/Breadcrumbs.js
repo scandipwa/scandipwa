@@ -12,7 +12,10 @@
 import PropTypes from 'prop-types';
 
 export const BreadcrumbType = PropTypes.shape({
-    url: PropTypes.string,
+    url: PropTypes.oneOfType([
+        PropTypes.shape({}),
+        PropTypes.string
+    ]),
     name: PropTypes.string
 });
 

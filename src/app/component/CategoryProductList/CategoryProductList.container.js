@@ -30,17 +30,43 @@ export const mapDispatchToProps = dispatch => ({
 
 export class CategoryProductListContainer extends PureComponent {
     static propTypes = {
-        isLoading: PropTypes.bool.isRequired
+        isLoading: PropTypes.bool.isRequired,
+        isOnlyPlaceholder: PropTypes.bool.isRequired,
+        requestProductList: PropTypes.func.isRequired
+    };
+
+    containerFunctions = {
+        requestProductList: this.requestProductList.bind(this)
     };
 
     getIsLoading() {
-        const { isLoading } = this.props;
+        const {
+            isLoading,
+            isOnlyPlaceholder
+        } = this.props;
 
         if (!navigator.onLine) {
             return false;
         }
 
+        if (isOnlyPlaceholder) {
+            return true;
+        }
+
         return isLoading;
+    }
+
+    requestProductList(options) {
+        const {
+            isOnlyPlaceholder,
+            requestProductList
+        } = this.props;
+
+        if (isOnlyPlaceholder) {
+            return;
+        }
+
+        requestProductList(options);
     }
 
     containerProps = () => ({
@@ -51,6 +77,7 @@ export class CategoryProductListContainer extends PureComponent {
         return (
             <ProductList
               { ...this.props }
+              { ...this.containerFunctions }
               { ...this.containerProps() }
             />
         );

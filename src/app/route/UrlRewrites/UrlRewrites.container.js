@@ -19,8 +19,8 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-    requestUrlRewrite: (options) => {
-        UrlRewritesDispatcher.handleData(dispatch, options);
+    requestUrlRewrite: (urlParam) => {
+        UrlRewritesDispatcher.handleData(dispatch, { urlParam });
     },
     clearUrlRewrites: () => {
         UrlRewritesDispatcher.clearUrlRewrites(dispatch);

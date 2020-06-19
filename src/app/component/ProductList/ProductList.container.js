@@ -16,7 +16,6 @@ import PropTypes from 'prop-types';
 import { getQueryParam, setQueryParams } from 'Util/Url';
 import { PagesType, FilterInputType } from 'Type/ProductList';
 import { HistoryType } from 'Type/Common';
-import { debounce } from 'Util/Request';
 import { LocationType } from 'Type/Router';
 
 import ProductList from './ProductList.component';
