@@ -213,7 +213,7 @@ export const getExtensionAttributes = (product) => {
     }
 
     if (type_id === BUNDLE && (productOptions || productOptionsMulti)) {
-        return { bundle_options: [...productOptions || [], ...productOptionsMulti || []] };
+        return { bundle_options: Array.from(productOptions || []) };
     }
 
     if (type_id === SIMPLE && (productOptions || productOptionsMulti)) {

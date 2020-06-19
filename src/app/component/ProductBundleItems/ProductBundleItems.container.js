@@ -54,11 +54,10 @@ class ProductBundleItemsContainer extends ProductCustomizableOptionsContainer {
             this.stopLoading();
         }
 
-        if (selectedCheckboxValues !== prevSelectedCheckboxValues) {
-            this.updateSelectedOptionsArray();
-        }
-
-        if (selectedDropdownOptions !== prevSelectedDropdownOptions) {
+        if (
+            selectedDropdownOptions !== prevSelectedDropdownOptions
+            || selectedCheckboxValues !== prevSelectedCheckboxValues
+        ) {
             this.updateSelectedOptions();
         }
     }
@@ -67,22 +66,14 @@ class ProductBundleItemsContainer extends ProductCustomizableOptionsContainer {
         this.setState({ isLoading: false });
     }
 
-    updateSelectedOptionsArray() {
-        const { getSelectedCustomizableOptions } = this.props;
-        const { selectedCheckboxValues } = this.state;
-        const customizableOptions = [];
-
-        customizableOptions.push(...customizableOptions, ...selectedCheckboxValues);
-        getSelectedCustomizableOptions(customizableOptions, true);
-    }
-
     updateSelectedOptions() {
         const { getSelectedCustomizableOptions } = this.props;
-        const { selectedDropdownOptions } = this.state;
+        const { selectedDropdownOptions, selectedCheckboxValues } = this.state;
         const customizableOptions = [];
 
         customizableOptions.push(
             ...customizableOptions,
+            ...selectedCheckboxValues,
             ...selectedDropdownOptions
         );
 

@@ -61,7 +61,7 @@ class ProductCustomizableOptionContainer extends PureComponent {
             }
         } = this.props;
 
-        if (Object.keys(productOptionsData).length < 1) {
+        if (Object.keys(productOptionsData).length < 1 || !requiredOptions) {
             return true;
         }
 

@@ -109,31 +109,31 @@ export default class CartItem extends PureComponent {
         );
     }
 
-    renderCustomizableOptions(customizableOptions) {
-        if (!customizableOptions.length) {
+    renderItemOptions(itemOptions) {
+        if (!itemOptions.length) {
             return null;
         }
 
         return (
-            <div block="CartItem" elem="CustomizableOptionsWrapper">
-                { customizableOptions.map(({ label, values, id }) => (
+            <div block="CartItem" elem="ItemOptionsWrapper">
+                { itemOptions.map(({ label, values, id }) => (
                     <div
                       block="CartItem"
-                      elem="CustomizableOption"
+                      elem="ItemOption"
                       key={ id }
                     >
                         <div
                           block="CartItem"
-                          elem="CustomizableOptionLabel"
+                          elem="ItemOptionLabel"
                           key={ `label-${ id }` }
                         >
                             { `${ label }:` }
                         </div>
-                        <div block="CartItem" elem="CustomizableOptionValues">
+                        <div block="CartItem" elem="ItemOptionValues">
                             { values.map(({ label, value }) => (
                                 <div
                                   block="CartItem"
-                                  elem="CustomizableOptionValue"
+                                  elem="ItemOptionValue"
                                   key={ label }
                                 >
                                     { label || value }
@@ -155,7 +155,8 @@ export default class CartItem extends PureComponent {
                 product: {
                     name
                 },
-                customizable_options
+                customizable_options,
+                bundle_options
             }
         } = this.props;
 
@@ -168,7 +169,8 @@ export default class CartItem extends PureComponent {
                 >
                     { name }
                 </p>
-                { this.renderCustomizableOptions(customizable_options) }
+                { this.renderItemOptions(customizable_options) }
+                { this.renderItemOptions(bundle_options) }
                 { this.renderConfiguration() }
                 <CartItemPrice
                   row_total={ row_total }

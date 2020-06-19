@@ -11,7 +11,6 @@
 
 import PropTypes from 'prop-types';
 import ProductCustomizableOption from 'Component/ProductCustomizableOption/ProductCustomizableOption.component';
-import ProductBundleItemFields from 'Component/ProductBundleItemFields';
 import Field from 'Component/Field';
 
 import './ProductBundleItem.style';
@@ -89,18 +88,22 @@ class ProductBundleItem extends ProductCustomizableOption {
             maxQuantity
         } = this.props;
         const { id, quantity, can_change_quantity } = item;
-        const itemQty = quantity || 1;
 
         if (id !== selectedDropdownValue || !can_change_quantity) {
             return null;
         }
 
         return (
-            <ProductBundleItemFields
+            <Field
               key={ id }
-              option={ { id: selectedDropdownValue, quantity: itemQty } }
-              setItemQuantity={ setDropdownItemQuantity }
-              maxQuantity={ maxQuantity }
+              id="item_qty"
+              name="item_qty"
+              type="number"
+              value={ quantity }
+              max={ maxQuantity }
+              min={ 1 }
+              mix={ { block: 'ProductBundleItems', elem: 'Qty' } }
+              onChange={ setDropdownItemQuantity }
             />
         );
     };

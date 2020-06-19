@@ -35,15 +35,6 @@ class ProductBundleItemContainer extends ProductCustomizableOptionContainer {
         this.getDefaultValues();
     }
 
-    componentDidUpdate(prevProps) {
-        const { option } = this.props;
-        const { option: prevOption } = prevProps;
-
-        if (option !== prevOption) {
-            this.getDefaultValues();
-        }
-    }
-
     getDefaultValues() {
         const { optionType } = this.containerProps();
 
@@ -62,10 +53,15 @@ class ProductBundleItemContainer extends ProductCustomizableOptionContainer {
     }
 
     setDefaultDropdownValue() {
-        const { option: { options } } = this.props;
+        const {
+            setSelectedDropdownValue,
+            option: { option_id, options }
+        } = this.props;
 
-        return options.reduce(({ is_default, id }) => {
+        return options.reduce(({ is_default, id, quantity }) => {
             if (is_default) {
+                const value = id.toString();
+                setSelectedDropdownValue(option_id, { value, quantity });
                 this.setState({ selectedDropdownValue: id });
             }
 
@@ -78,7 +74,8 @@ class ProductBundleItemContainer extends ProductCustomizableOptionContainer {
 
         return options.reduce(({ is_default, id, quantity }) => {
             if (is_default) {
-                setSelectedCheckboxValues(option_id, { value: id, quantity });
+                const value = id.toString();
+                setSelectedCheckboxValues(option_id, { value, quantity });
             }
 
             return null;
@@ -98,7 +95,7 @@ class ProductBundleItemContainer extends ProductCustomizableOptionContainer {
             }
         } = this.props;
 
-        if (Object.keys(productOptionsData).length < 1) {
+        if (Object.keys(productOptionsData).length < 1 || !requiredOptions) {
             return true;
         }
 
@@ -136,7 +133,7 @@ class ProductBundleItemContainer extends ProductCustomizableOptionContainer {
         setSelectedCheckboxValues(option_id, selectedValue);
     }
 
-    setDropdownItemQuantity(optionId, quantity) {
+    setDropdownItemQuantity(quantity) {
         const { setSelectedDropdownValue, option: { option_id } } = this.props;
         const { selectedDropdownValue } = this.state;
         const value = selectedDropdownValue.toString();

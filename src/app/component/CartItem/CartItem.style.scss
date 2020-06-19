@@ -99,13 +99,13 @@
         margin-right: 5px;
     }
 
-    &-CustomizableOptionsWrapper {
+    &-ItemOptionsWrapper {
         @include after-mobile {
             margin-top: 7px;
         }
     }
 
-    &-CustomizableOption {
+    &-ItemOption {
         display: flex;
 
         &:not(:first-child) {
@@ -113,7 +113,7 @@
         }
     }
 
-    &-CustomizableOptionLabel {
+    &-ItemOptionLabel {
         align-self: center;
         font-weight: bold;
         margin-right: .5rem;
