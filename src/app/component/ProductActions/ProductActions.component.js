@@ -203,8 +203,8 @@ export default class ProductActions extends PureComponent {
         const {
             product: { items, type_id },
             maxQuantity,
-            minQuantity,
-            getSelectedCustomizableOptions
+            getSelectedCustomizableOptions,
+            productOptionsData
         } = this.props;
 
         if (type_id !== BUNDLE) {
@@ -221,7 +221,7 @@ export default class ProductActions extends PureComponent {
                   items={ items }
                   getSelectedCustomizableOptions={ getSelectedCustomizableOptions }
                   maxQuantity={ maxQuantity }
-                  minQuantity={ minQuantity }
+                  productOptionsData={ productOptionsData }
                 />
             </section>
         );
@@ -294,7 +294,8 @@ export default class ProductActions extends PureComponent {
     renderCustomizableOptions() {
         const {
             product: { type_id, options },
-            getSelectedCustomizableOptions
+            getSelectedCustomizableOptions,
+            productOptionsData
         } = this.props;
 
         if (type_id !== SIMPLE || isMobile.any()) {
@@ -310,6 +311,7 @@ export default class ProductActions extends PureComponent {
                 <ProductCustomizableOptions
                   options={ options }
                   getSelectedCustomizableOptions={ getSelectedCustomizableOptions }
+                  productOptionsData={ productOptionsData }
                 />
             </section>
         );

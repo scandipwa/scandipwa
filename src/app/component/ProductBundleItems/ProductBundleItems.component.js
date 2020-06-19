@@ -19,7 +19,6 @@ class ProductBundleItems extends ProductCustomizableOptions {
         ...ProductCustomizableOptions.propTypes,
         items: PropTypes.array,
         maxQuantity: PropTypes.number.isRequired,
-        minQuantity: PropTypes.number.isRequired,
         updateQuantity: PropTypes.func.isRequired
     };
 
@@ -33,8 +32,8 @@ class ProductBundleItems extends ProductCustomizableOptions {
             setSelectedCheckboxValues,
             setSelectedDropdownValue,
             maxQuantity,
-            minQuantity,
-            updateQuantity
+            updateQuantity,
+            productOptionsData
         } = this.props;
 
         return items.map((item, key) => (
@@ -45,8 +44,8 @@ class ProductBundleItems extends ProductCustomizableOptions {
               setSelectedCheckboxValues={ setSelectedCheckboxValues }
               setSelectedDropdownValue={ setSelectedDropdownValue }
               maxQuantity={ maxQuantity }
-              minQuantity={ minQuantity }
               updateQuantity={ updateQuantity }
+              productOptionsData={ productOptionsData }
             />
         ));
     }

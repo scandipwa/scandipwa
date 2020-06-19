@@ -17,6 +17,7 @@ import ProductCustomizableOption from './ProductCustomizableOption.component';
 class ProductCustomizableOptionContainer extends PureComponent {
     static propTypes = {
         option: PropTypes.object.isRequired,
+        productOptionsData: PropTypes.object.isRequired,
         setSelectedCheckboxValues: PropTypes.func.isRequired,
         setCustomizableOptionTextFieldValue: PropTypes.func.isRequired,
         setSelectedDropdownValue: PropTypes.func.isRequired
@@ -36,7 +37,8 @@ class ProductCustomizableOptionContainer extends PureComponent {
     };
 
     containerProps = () => ({
-        optionType: this.getOptionType()
+        optionType: this.getOptionType(),
+        requiredSelected: this.getIsRequiredSelected()
     });
 
     getOptionType() {
@@ -44,6 +46,47 @@ class ProductCustomizableOptionContainer extends PureComponent {
         const { type } = option;
 
         return type;
+    }
+
+    getIsRequiredSelected() {
+        const {
+            productOptionsData,
+            productOptionsData: {
+                requiredOptions,
+                productOptions,
+                productOptionsMulti
+            },
+            option: {
+                option_id
+            }
+        } = this.props;
+
+        if (Object.keys(productOptionsData).length < 1) {
+            return true;
+        }
+
+        const selectedItems = [...productOptions || [], ...productOptionsMulti || []];
+        const isRequired = requiredOptions.reduce((acc, item) => {
+            if (item === option_id) {
+                acc.push(item);
+            }
+
+            return acc;
+        }, []);
+
+        if (!isRequired.length) {
+            return true;
+        }
+
+        const isRequiredSelected = selectedItems.reduce((acc, { option_id }) => {
+            if (isRequired[0] === option_id) {
+                acc.push(option_id);
+            }
+
+            return acc;
+        }, []);
+
+        return !!isRequiredSelected.length;
     }
 
     renderOptionLabel(priceType, price) {

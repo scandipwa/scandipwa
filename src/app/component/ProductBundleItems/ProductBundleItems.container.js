@@ -116,21 +116,20 @@ class ProductBundleItemsContainer extends ProductCustomizableOptionsContainer {
 
         this.setState({
             selectedCheckboxValues: selectedCheckboxValues.map(el => (
-                JSON.stringify(el.value) === JSON.stringify(value) ? {...el, quantity} : el
+                JSON.stringify(el.value) === JSON.stringify(value) ? { ...el, quantity } : el
             ))
         });
     }
 
     setSelectedCheckboxValues(id, optionData) {
         const { selectedCheckboxValues } = this.state;
+        const { value, quantity } = optionData;
+        const selectedValue = { id, quantity, value: [value] };
 
-        const [{ value, quantity }] = optionData;
-        const selectedValue = { id, quantity, value };
-
-        if (selectedCheckboxValues.some(({ value: val }) => JSON.stringify(value) === JSON.stringify(val))) {
+        if (selectedCheckboxValues.some(({ value: val }) => JSON.stringify([value]) === JSON.stringify(val))) {
             this.setState({
                 selectedCheckboxValues: selectedCheckboxValues.filter(
-                    item => JSON.stringify(item.value) !== JSON.stringify(value)
+                    item => JSON.stringify(item.value) !== JSON.stringify([value])
                 ) || []
             });
 
@@ -145,9 +144,9 @@ class ProductBundleItemsContainer extends ProductCustomizableOptionsContainer {
     render() {
         return (
             <ProductBundleItems
-                { ...this.props }
-                { ...this.state }
-                { ...this.containerFunctions }
+              { ...this.props }
+              { ...this.state }
+              { ...this.containerFunctions }
             />
         );
     }

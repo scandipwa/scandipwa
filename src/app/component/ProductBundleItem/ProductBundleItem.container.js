@@ -26,48 +26,114 @@ class ProductBundleItemContainer extends ProductCustomizableOptionContainer {
         setCustomizableOptionTextFieldValue: () => {}
     };
 
-    state = {
-        ...this.state,
-        itemData: [],
-        selectedDropdownValueData: {}
-    };
-
     containerFunctions = {
         ...this.containerFunctions,
-        setCheckboxItemQuantity: this.setCheckboxItemQuantity.bind(this),
         setDropdownItemQuantity: this.setDropdownItemQuantity.bind(this)
     };
 
-    setCheckboxItemQuantity(value, quantity) {
-        const { itemData } = this.state;
-        const selectedValue = { value, quantity };
+    componentDidMount() {
+        this.getDefaultValues();
+    }
 
-        if (itemData.some(({ value: optionId }) => JSON.stringify(optionId) === JSON.stringify(value))) {
-            const { updateQuantity } = this.props;
+    componentDidUpdate(prevProps) {
+        const { option } = this.props;
+        const { option: prevOption } = prevProps;
 
-            updateQuantity(value, quantity);
+        if (option !== prevOption) {
+            this.getDefaultValues();
+        }
+    }
 
-            this.setState({
-                itemData: itemData.map(el => (
-                    JSON.stringify(el.value) === JSON.stringify(value) ? { ...el, quantity } : el
-                ))
-            });
+    getDefaultValues() {
+        const { optionType } = this.containerProps();
 
-            return;
+        switch (optionType) {
+        case 'select':
+            this.setDefaultDropdownValue();
+            break;
+        case 'checkbox':
+            this.setDefaultCheckboxValue();
+            break;
+        default:
+            return null;
         }
 
-        this.setState({ itemData: [...itemData, selectedValue] });
+        return null;
+    }
+
+    setDefaultDropdownValue() {
+        const { option: { options } } = this.props;
+
+        return options.reduce(({ is_default, id }) => {
+            if (is_default) {
+                this.setState({ selectedDropdownValue: id });
+            }
+
+            return null;
+        });
+    }
+
+    setDefaultCheckboxValue() {
+        const { option: { option_id, options }, setSelectedCheckboxValues } = this.props;
+
+        return options.reduce(({ is_default, id, quantity }) => {
+            if (is_default) {
+                setSelectedCheckboxValues(option_id, { value: id, quantity });
+            }
+
+            return null;
+        });
+    }
+
+    getIsRequiredSelected() {
+        const {
+            productOptionsData,
+            productOptionsData: {
+                requiredOptions,
+                productOptions,
+                productOptionsMulti
+            },
+            option: {
+                option_id
+            }
+        } = this.props;
+
+        if (Object.keys(productOptionsData).length < 1) {
+            return true;
+        }
+
+        const selectedItems = [...productOptions || [], ...productOptionsMulti || []];
+        const isRequired = requiredOptions.reduce((acc, item) => {
+            if (item === option_id) {
+                acc.push(item);
+            }
+
+            return acc;
+        }, []);
+
+        if (!isRequired.length) {
+            return true;
+        }
+
+        const isRequiredSelected = selectedItems.reduce((acc, { id }) => {
+            if (isRequired === id) {
+                acc.push(id);
+            }
+
+            return acc;
+        }, []);
+
+        return !!isRequiredSelected.length;
     }
 
     getSelectedCheckboxValue(value) {
-        const { option, setSelectedCheckboxValues } = this.props;
-        const { itemData } = this.state;
-        const { option_id } = option;
-        const selectedItem = itemData.filter(
-            item => JSON.stringify(item.value) === JSON.stringify([value])
-        ) || [];
+        const {
+            option: { option_id },
+            setSelectedCheckboxValues
+        } = this.props;
+        const selectedValue = this.getSelectedOptionData(value);
 
-        setSelectedCheckboxValues(option_id, selectedItem);
+        setSelectedCheckboxValues(option_id, selectedValue);
     }
 
     setDropdownItemQuantity(optionId, quantity) {
@@ -80,7 +146,7 @@ class ProductBundleItemContainer extends ProductCustomizableOptionContainer {
     }
 
     setDropdownValue(value) {
-        const { setSelectedDropdownValue, option } = this.props;
+        const { setSelectedDropdownValue, option, option: { option_id } } = this.props;
         const { selectedDropdownValue } = this.state;
 
         if (selectedDropdownValue === value) {
@@ -88,7 +154,25 @@ class ProductBundleItemContainer extends ProductCustomizableOptionContainer {
             this.setState({ selectedDropdownValue: 0 });
         } else {
             this.setState({ selectedDropdownValue: parseInt(value, 10) });
+            const selectedValue = this.getSelectedOptionData(value.toString());
+            setSelectedDropdownValue(option_id, selectedValue);
         }
+    }
+
+    getSelectedOptionData(optionId) {
+        const { option: { options } } = this.props;
+
+        return options.reduce(
+            (parameters, { id, quantity }) => {
+                const value = id.toString();
+
+                if (optionId === value) {
+                    return { value, quantity };
+                }
+
+                return parameters;
+            }, {}
+        );
     }
 
     getDropdownOptions(values) {

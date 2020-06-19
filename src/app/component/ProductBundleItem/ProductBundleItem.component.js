@@ -14,6 +14,8 @@ import ProductCustomizableOption from 'Component/ProductCustomizableOption/Produ
 import ProductBundleItemFields from 'Component/ProductBundleItemFields';
 import Field from 'Component/Field';
 
+import './ProductBundleItem.style';
+
 export const CHECKBOX = 'checkbox';
 export const SELECT = 'select';
 
@@ -21,7 +23,6 @@ class ProductBundleItem extends ProductCustomizableOption {
     static propTypes = {
         ...ProductCustomizableOption.propTypes,
         maxQuantity: PropTypes.number.isRequired,
-        setCheckboxItemQuantity: PropTypes.func.isRequired,
         setDropdownItemQuantity: PropTypes.func.isRequired
     };
 
@@ -30,18 +31,38 @@ class ProductBundleItem extends ProductCustomizableOption {
         [SELECT]: this.renderDropdownValues.bind(this)
     };
 
+    renderHeading(mainTitle, titleBold, quantity) {
+        return (
+            <>
+                <span
+                  block="ProductBundleItem"
+                  elem="Heading"
+                >
+                    { `${ quantity } x ${ mainTitle } + ` }
+                </span>
+                <span
+                  block="ProductBundleItem"
+                  elem="HeadingBold"
+                >
+                    { titleBold }
+                </span>
+            </>
+        );
+    }
+
     renderOptionCheckboxValue = (item) => {
         const {
             getSelectedCheckboxValue,
-            renderOptionLabel,
-            setCheckboxItemQuantity,
-            maxQuantity
+            renderOptionLabel
         } = this.props;
+
         const {
             id,
             label,
             product: { price: { minimalPrice: { amount: { value } } } },
-            price_type
+            price_type,
+            quantity,
+            is_default
         } = item;
 
         const priceLabel = renderOptionLabel(price_type, value);
@@ -50,16 +71,12 @@ class ProductBundleItem extends ProductCustomizableOption {
             <div key={ id }>
                 <Field
                   type="checkbox"
-                  label={ this.renderHeading(label, priceLabel) }
+                  label={ this.renderHeading(label, priceLabel, quantity) }
                   id={ `option-${ id }` }
                   name={ `option-${ id }` }
                   value={ id }
+                  checked={ is_default }
                   onChange={ getSelectedCheckboxValue }
-                />
-                <ProductBundleItemFields
-                  option={ item }
-                  setItemQuantity={ setCheckboxItemQuantity }
-                  maxQuantity={ maxQuantity }
                 />
             </div>
         );
@@ -67,12 +84,14 @@ class ProductBundleItem extends ProductCustomizableOption {
 
     renderQtyInput = (item) => {
         const {
-            selectedDropdownValue, setDropdownItemQuantity, maxQuantity, minQuantity
+            selectedDropdownValue,
+            setDropdownItemQuantity,
+            maxQuantity
         } = this.props;
-        const { id, quantity } = item;
+        const { id, quantity, can_change_quantity } = item;
         const itemQty = quantity || 1;
 
-        if (id !== selectedDropdownValue) {
+        if (id !== selectedDropdownValue || !can_change_quantity) {
             return null;
         }
 
@@ -82,7 +101,6 @@ class ProductBundleItem extends ProductCustomizableOption {
               option={ { id: selectedDropdownValue, quantity: itemQty } }
               setItemQuantity={ setDropdownItemQuantity }
               maxQuantity={ maxQuantity }
-              minQuantity={ minQuantity }
             />
         );
     };
@@ -97,19 +115,19 @@ class ProductBundleItem extends ProductCustomizableOption {
         const dropdownOptions = getDropdownOptions(values);
 
         return (
-            <>
+            <div block="ProductBundleItem" elem="DropdownWrapper">
                 <Field
-                  id="customizable-options-dropdown"
-                  name="customizable-options-dropdown"
+                  id="bundle-options-dropdown"
+                  name="bundle-options-dropdown"
                   type="select"
-                  mix={ { block: 'CustomizableOptions', elem: 'Select' } }
+                  mix={ { block: 'ProductBundleItem', elem: 'Select' } }
                   placeholder={ __('Choose Option') }
                   selectOptions={ dropdownOptions }
                   value={ selectedDropdownValue }
                   onChange={ setDropdownValue }
                 />
                 { options.map(this.renderQtyInput) }
-            </>
+            </div>
         );
     }
 

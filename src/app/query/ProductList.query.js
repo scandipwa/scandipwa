@@ -198,7 +198,8 @@ export class ProductListQuery {
                 this._getDescriptionField(),
                 this._getMediaGalleryField(),
                 this._getSimpleProductFragment(),
-                this._getProductLinksField()
+                this._getProductLinksField(),
+                this._getCustomizableProductFragment()
             );
 
             // for variants of PDP requested product

@@ -128,7 +128,7 @@ export class AddToCartContainer extends PureComponent {
                 return false;
             }
 
-            const validateCustomizableOptions = this.checkProductOptionsValidation(productOptionsData, true);
+            const validateCustomizableOptions = this.checkProductOptionsValidation(productOptionsData);
 
             if (!validateCustomizableOptions) {
                 showNotification('info', __('Please select required option!'));

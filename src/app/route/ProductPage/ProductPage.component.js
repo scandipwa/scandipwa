@@ -77,7 +77,8 @@ export default class ProductPage extends PureComponent {
     renderCustomizableOptions() {
         const {
             dataSource: { type_id, options },
-            getSelectedCustomizableOptions
+            getSelectedCustomizableOptions,
+            productOptionsData
         } = this.props;
 
         if (!isMobile.any() || type_id !== SIMPLE) {
@@ -88,6 +89,7 @@ export default class ProductPage extends PureComponent {
             <ProductCustomizableOptions
               options={ options || [] }
               getSelectedCustomizableOptions={ getSelectedCustomizableOptions }
+              productOptionsData={ productOptionsData }
             />
         );
     }
