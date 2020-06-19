@@ -86,19 +86,25 @@ class ProductBundleItemsContainer extends ProductCustomizableOptionsContainer {
 
         if (!id) {
             const filteredOptions = selectedDropdownOptions.filter(item => item.id !== option_id);
-            return this.setState({ selectedDropdownOptions: filteredOptions });
+            this.setState({ selectedDropdownOptions: filteredOptions });
+
+            return;
         }
 
         const optionData = { id, quantity, value: [value] };
 
         if (selectedDropdownOptions.some(({ id: val }) => val === id)) {
             const filteredItems = selectedDropdownOptions.filter(item => item.id !== id);
-            return this.setState({ selectedDropdownOptions: filteredItems.concat(optionData) });
+            this.setState({ selectedDropdownOptions: filteredItems.concat(optionData) });
+
+            return;
         }
 
-        return this.setState({
-            selectedDropdownOptions:
-                [...selectedDropdownOptions, optionData]
+        const newItemData = selectedDropdownOptions;
+        newItemData.push(optionData);
+
+        this.setState({
+            selectedDropdownOptions: Array.from(newItemData)
         });
     }
 
@@ -127,8 +133,11 @@ class ProductBundleItemsContainer extends ProductCustomizableOptionsContainer {
             return;
         }
 
+        const newItemData = selectedCheckboxValues;
+        newItemData.push(selectedValue);
+
         this.setState({
-            selectedCheckboxValues: [...selectedCheckboxValues, selectedValue]
+            selectedCheckboxValues: Array.from(newItemData)
         });
     }
 

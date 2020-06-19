@@ -58,28 +58,28 @@ class ProductBundleItemContainer extends ProductCustomizableOptionContainer {
             option: { option_id, options }
         } = this.props;
 
-        return options.reduce(({ is_default, id, quantity }) => {
+        return options.reduce((acc, { is_default, id, quantity }) => {
             if (is_default) {
                 const value = id.toString();
                 setSelectedDropdownValue(option_id, { value, quantity });
                 this.setState({ selectedDropdownValue: id });
             }
 
-            return null;
-        });
+            return acc;
+        }, []);
     }
 
     setDefaultCheckboxValue() {
         const { option: { option_id, options }, setSelectedCheckboxValues } = this.props;
 
-        return options.reduce(({ is_default, id, quantity }) => {
+        return options.reduce((acc, { is_default, id, quantity }) => {
             if (is_default) {
                 const value = id.toString();
                 setSelectedCheckboxValues(option_id, { value, quantity });
             }
 
-            return null;
-        });
+            return acc;
+        }, []);
     }
 
     getIsRequiredSelected() {
@@ -113,7 +113,7 @@ class ProductBundleItemContainer extends ProductCustomizableOptionContainer {
         }
 
         const isRequiredSelected = selectedItems.reduce((acc, { id }) => {
-            if (isRequired === id) {
+            if (isRequired[0] === id) {
                 acc.push(id);
             }
 
@@ -177,13 +177,19 @@ class ProductBundleItemContainer extends ProductCustomizableOptionContainer {
             id,
             label,
             price_type,
+            quantity,
+            can_change_quantity,
             product: { price: { minimalPrice: { amount: { value } } } }
         }) => {
+            const dropdownLabel = !can_change_quantity
+                ? `${ quantity } x ${ label } + ${ this.renderOptionLabel(price_type, value) }`
+                : `${ label } + ${ this.renderOptionLabel(price_type, value) }`;
+
             acc.push({
                 id,
                 name: label,
                 value: id,
-                label: `${ label } + ${ this.renderOptionLabel(price_type, value) }`
+                label: dropdownLabel
             });
 
             return acc;
