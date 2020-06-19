@@ -17,15 +17,18 @@ export const UPSELL = 'upsell';
 export const RELATED = 'related';
 export const CROSS_SELL = 'crosssell';
 
-export const initialState = {
+export const getInitialState = () => ({
     linkedProducts: BrowserDatabase.getItem(LINKED_PRODUCTS) || {
         upsell: {},
         related: {},
         crosssell: {}
     }
-};
+});
 
-export const LinkedProductsReducer = (state = initialState, action) => {
+export const LinkedProductsReducer = (
+    state = middleware(getInitialState, 'Store/LinkedProducts/Reducer/getInitialState')(),
+    action
+) => {
     const { type } = action;
 
     if (type !== UPDATE_LINKED_PRODUCTS) {

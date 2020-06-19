@@ -16,12 +16,15 @@ import {
     CLEAR_SEARCH_RESULTS
 } from './SearchBar.action';
 
-export const initialState = {
+export const getInitialState = () => ({
     productsInSearch: [],
     isLoading: true
-};
+});
 
-export const SearchBarReducer = (state = initialState, action) => {
+export const SearchBarReducer = (
+    state = middleware(getInitialState, 'Store/SearchBar/Reducer/getInitialState')(),
+    action
+) => {
     switch (action.type) {
     case UPDATE_SEARCH_BAR:
         const { result: { products: { items: initialItems } } } = action;
@@ -42,7 +45,7 @@ export const SearchBarReducer = (state = initialState, action) => {
     case CLEAR_SEARCH_RESULTS:
         return {
             ...state,
-            productsInSearch: initialState.productsInSearch
+            productsInSearch: getInitialState().productsInSearch
         };
 
     default:

@@ -11,12 +11,15 @@
 
 import { UPDATE_BREADCRUMBS, TOGGLE_BREADCRUMBS } from './Breadcrumbs.action';
 
-export const initialState = {
+export const getInitialState = () => ({
     breadcrumbs: [],
     areBreadcrumbsVisible: true
-};
+});
 
-export const BreadcrumbsReducer = (state = initialState, action) => {
+export const BreadcrumbsReducer = (
+    state = middleware(getInitialState, 'Store/Breadcrumbs/Reducer/getInitialState')(),
+    action
+) => {
     switch (action.type) {
     case UPDATE_BREADCRUMBS:
         const { breadcrumbs } = action;

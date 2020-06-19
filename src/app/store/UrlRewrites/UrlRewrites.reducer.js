@@ -14,11 +14,14 @@ import {
     CLEAR_URL_REWRITE
 } from './UrlRewrites.action';
 
-export const initialState = {
+export const getInitialState = () => ({
     urlRewrite: {}
-};
+});
 
-export const UrlRewritesReducer = (state = initialState, action) => {
+export const UrlRewritesReducer = (
+    state = middleware(getInitialState, 'Store/UrlRewrites/Reducer/getInitialState')(),
+    action
+) => {
     switch (action.type) {
     case UPDATE_URL_REWRITE:
         const { urlRewrite } = action;

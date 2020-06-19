@@ -37,11 +37,14 @@ export const updateCartTotals = (action) => {
     return { cartTotals };
 };
 
-export const initialState = {
+export const getInitialState = () => ({
     cartTotals: BrowserDatabase.getItem(CART_TOTALS) || {}
-};
+});
 
-export const CartReducer = (state = initialState, action) => {
+export const CartReducer = (
+    state = middleware(getInitialState, 'Store/Cart/Reducer/getInitialState')(),
+    action
+) => {
     const { type } = action;
 
     switch (type) {

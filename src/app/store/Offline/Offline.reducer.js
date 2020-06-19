@@ -14,12 +14,15 @@ import {
     SET_BIG_OFFLINE_NOTICE
 } from './Offline.action';
 
-export const initialState = {
+export const getInitialState = () => ({
     isOffline: true,
     isBig: false
-};
+});
 
-export const OfflineReducer = (state = initialState, action) => {
+export const OfflineReducer = (
+    state = middleware(getInitialState, 'Store/Offline/Reducer/getInitialState')(),
+    action
+) => {
     switch (action.type) {
     case SHOW_OFFLINE_NOTICE:
         const { isOffline } = action;

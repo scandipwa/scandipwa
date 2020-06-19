@@ -11,11 +11,14 @@
 
 import { SHOW_POPUP } from './Popup.action';
 
-export const initialState = {
+export const getInitialState = () => ({
     popupPayload: {}
-};
+});
 
-export const PopupReducer = (state = initialState, action) => {
+export const PopupReducer = (
+    state = middleware(getInitialState, 'Store/Popup/Reducer/getInitialState')(),
+    action
+) => {
     const { payload, type } = action;
 
     switch (type) {
