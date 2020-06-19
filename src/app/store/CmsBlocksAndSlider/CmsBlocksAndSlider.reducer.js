@@ -14,12 +14,15 @@ import {
     UPDATE_SLIDER
 } from './CmsBlocksAndSlider.action';
 
-export const initialState = {
+export const getInitialState = () => ({
     blocks: {},
     slider: {}
-};
+});
 
-export const CmsBlocksAndSliderReducer = (state = initialState, action) => {
+export const CmsBlocksAndSliderReducer = (
+    state = middleware(getInitialState, 'Store/CmsBlocksAndSlider/Reducer/getInitialState')(),
+    action
+) => {
     switch (action.type) {
     case UPDATE_CMS_BLOCKS:
         const { blocks: { items: blockItems } } = action;
@@ -69,4 +72,4 @@ export const CmsBlocksAndSliderReducer = (state = initialState, action) => {
     }
 };
 
-export default CmsBlocksAndSliderReducer;
+export default middleware(CmsBlocksAndSliderReducer, 'Store/CmsBlocksAndSlider/Reducer');

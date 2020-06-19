@@ -21,14 +21,26 @@ const fs = require('fs');
 class FallbackPlugin {
     constructor(options) {
         this.options = Object.assign(FallbackPlugin.defaultOptions, options);
+        this.customThemeRegExp = this.buildCustomThemeRegExp();
         this.parentThemeRegExp = this.buildParentThemeRegExp();
+        this.parentThemeExists = !!this.options.parentRoot;
+    }
+
+    buildCustomThemeRegExp() {
+        if (!this.options.fallbackRoot || !this.options.fallbackThemeSpecifier) {
+            throw new Error('Fallback root or theme specifier is not provided!');
+        }
+
+        return new RegExp(path.join('app/design/frontend', this.options.fallbackThemeSpecifier));
     }
 
     buildParentThemeRegExp() {
-        const relativeToAdf = this.options.parentRoot.split('app/design/frontend')[1];
-        const [vendor, themeName] = relativeToAdf.split('/');
+        if (!this.options.parentRoot || this.options.parentThemeSpecifier) {
+            // always false regex
+            return /(?=a)b/;
+        }
 
-        return new RegExp(`/${vendor}/${themeName}/`);
+        return new RegExp(path.join('app/design/frontend', this.options.parentThemeSpecifier));
     }
 
     // Default plugin entry-point function
@@ -44,13 +56,13 @@ class FallbackPlugin {
             const pathIsParent = !!request.path.match(this.parentThemeRegExp);
 
             // Determine if the request is coming from custom file
-            const pathIsCustom = !!request.path.match(/app\/design\/frontend\/Scandiweb\/pwa\//);
+            const pathIsCustom = !!request.path.match(this.customThemeRegExp);
 
             // Determine if request is coming to core file
             const requestIsCore = !!request.request.match(/vendor\/scandipwa\/source/);
 
             // Determine if request is coming to custom file
-            const requestIsCustom = !!request.request.match(/app\/design\/frontend\/Scandiweb\/pwa\//);
+            const requestIsCustom = !!request.request.match(this.customThemeRegExp);
 
             // Determine if request is coming to parent theme file
             const requestIsParent = !!request.request.match(this.parentThemeRegExp);
@@ -73,11 +85,11 @@ class FallbackPlugin {
                 }
 
                 if (!pathIsParent) {
-                    return (pathIsCore && !requestIsCustom)
+                    return (pathIsCore && !(requestIsCustom || requestIsParent))
                         ? this.options.fallbackRoot
                         : this.options.projectRoot;
                 } else {
-                    return (pathIsParent && !requestIsCustom)
+                    return ((pathIsParent || requestIsParent) && !requestIsCustom)
                         ? this.options.parentRoot
                         : this.options.projectRoot;
                 }
@@ -172,8 +184,8 @@ class FallbackPlugin {
                     );
                     break;
 
-                // Transform request to require file from parent instead of explicitly referenced core
-                case 'req-core-to-parent':
+                // Transform request to require file from parent theme
+                case 'req-to-parent':
                     newRequest.request = path.relative(
                         request.path,
                         path.resolve(
@@ -234,11 +246,9 @@ class FallbackPlugin {
             const customPath = constructPath(this.options.projectRoot);
             const customExists = this.fileExists(customPath);
 
-            const parentPath = constructPath(this.options.parentRoot);
-            const parentExists = this.fileExists(parentPath);
-
-            if (pathIsCustom && requestIsCore && parentExists) {
-                return proceed('req-core-to-parent');
+            if (this.parentThemeExists) {
+                const parentPath = constructPath(this.options.parentRoot);
+                const parentExists = this.fileExists(parentPath);
             }
 
             // If custom exists and initial path is core - replace path, else return as is.
@@ -249,12 +259,15 @@ class FallbackPlugin {
                 return callback();
             }
 
-            // If parent exists and initial path is core or custom - replace path, else return as is.
-            if (parentExists) {
-                if (requestIsPlugin) return proceed('req-plugin-to-parent', { parentPath });
-                if (pathIsCustom) return proceed('custom-to-parent');
-                if (pathIsCore) return proceed('core-to-parent');
-                return callback();
+            if (this.parentThemeExists) {
+                // If parent exists and initial path is core or custom - replace path, else return as is.
+                if (parentExists) {
+                    if (requestIsPlugin) return proceed('req-plugin-to-parent', { parentPath });
+                    if (pathIsCore && requestIsCustom) return proceed('req-to-parent');
+                    if (pathIsCustom) return proceed('custom-to-parent');
+                    if (pathIsCore) return proceed('core-to-parent');
+                    return callback();
+                }
             }
 
             const corePath = path.resolve(this.options.fallbackRoot, expected);

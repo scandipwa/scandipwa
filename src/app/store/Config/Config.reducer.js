@@ -26,14 +26,17 @@ export const { countries, reviewRatings, storeConfig } = BrowserDatabase.getItem
     storeConfig: {}
 };
 
-export const initialState = {
+export const getInitialState = () => ({
     ...filterStoreConfig(storeConfig),
     countries,
     reviewRatings,
     isLoading: true
-};
+});
 
-export const ConfigReducer = (state = initialState, action) => {
+export const ConfigReducer = (
+    state = middleware(getInitialState, 'Store/Config/Reducer/getInitialState')(),
+    action
+) => {
     const {
         config: {
             countries,
@@ -46,6 +49,8 @@ export const ConfigReducer = (state = initialState, action) => {
     switch (type) {
     case UPDATE_CONFIG:
         const filteredStoreConfig = filterStoreConfig(storeConfig);
+        const { secure_base_media_url } = filteredStoreConfig;
+        window.secure_base_media_url = secure_base_media_url;
 
         return {
             ...state,
@@ -63,4 +68,4 @@ export const ConfigReducer = (state = initialState, action) => {
     }
 };
 
-export default ConfigReducer;
+export default middleware(ConfigReducer, 'Store/Config/Reducer');

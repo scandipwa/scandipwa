@@ -16,18 +16,21 @@ import {
 } from 'Store/ProductList';
 import { getIndexedProducts } from 'Util/Product';
 
-export const initialState = {
+export const getInitialState = () => ({
     pages: {},
     totalItems: 0,
     totalPages: 0,
     isLoading: true
-};
+});
 
 export const defaultConfig = {
     itemsPerPageCount: 12
 };
 
-export const ProductListReducer = (state = initialState, action) => {
+export const ProductListReducer = (
+    state = middleware(getInitialState, 'Store/ProductList/Reducer/getInitialState')(),
+    action
+) => {
     const {
         type,
         items: initialItems = [],
@@ -67,4 +70,4 @@ export const ProductListReducer = (state = initialState, action) => {
     }
 };
 
-export default ProductListReducer;
+export default middleware(ProductListReducer, 'Store/ProductList/Reducer');

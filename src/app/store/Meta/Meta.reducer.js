@@ -27,16 +27,19 @@ export const filterData = (data) => {
     return { ...data, ...updated };
 };
 
-export const initialState = {
+export const getInitialState = () => ({
     title: '',
     title_prefix: '',
     title_suffix: '',
     description: '',
     keywords: '',
     canonical_url: ''
-};
+});
 
-export const MetaReducer = (state = initialState, action) => {
+export const MetaReducer = (
+    state = middleware(getInitialState, 'Store/Meta/Reducer/getInitialState')(),
+    action
+) => {
     const { payload = {}, type } = action;
 
     switch (type) {
@@ -53,4 +56,4 @@ export const MetaReducer = (state = initialState, action) => {
     }
 };
 
-export default MetaReducer;
+export default middleware(MetaReducer, 'Store/Meta/Reducer');

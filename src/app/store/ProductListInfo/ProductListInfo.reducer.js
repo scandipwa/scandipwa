@@ -58,15 +58,18 @@ export const reduceFilters = filters => filters.reduce((co, item) => {
     };
 }, {});
 
-export const initialState = {
+export const getInitialState = () => ({
     minPrice: 0,
     maxPrice: 0,
     sortFields: {},
     filters: {},
     isLoading: true
-};
+});
 
-export const ProductListReducer = (state = initialState, action) => {
+export const ProductListReducer = (
+    state = middleware(getInitialState, 'Store/ProductListInfo/Reducer/getInitialState')(),
+    action
+) => {
     const {
         type,
         isLoading,
@@ -100,4 +103,4 @@ export const ProductListReducer = (state = initialState, action) => {
     }
 };
 
-export default ProductListReducer;
+export default middleware(ProductListReducer, 'Store/ProductListInfo/Reducer');

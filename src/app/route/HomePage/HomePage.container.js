@@ -35,4 +35,6 @@ export const mapDispatchToProps = dispatch => ({});
 export default connect(
     middleware(mapStateToProps, 'Route/HomePage/Container/mapStateToProps'),
     middleware(mapDispatchToProps, 'Route/HomePage/Container/mapDispatchToProps')
-)(HomePageContainer);
+)(
+    middleware(HomePageContainer, 'Route/HomePage/Container')
+);

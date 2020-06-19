@@ -11,11 +11,14 @@
 
 import { SHOW_NOTIFICATION, HIDE_NOTIFICATION } from './Notification.action';
 
-export const initialState = {
+export const getInitialState = () => ({
     notifications: {}
-};
+});
 
-export const NotificationReducer = (state = initialState, action) => {
+export const NotificationReducer = (
+    state = middleware(getInitialState, 'Store/Notification/Reducer/getInitialState')(),
+    action
+) => {
     const notifications = { ...state.notifications };
 
     switch (action.type) {
@@ -41,4 +44,4 @@ export const NotificationReducer = (state = initialState, action) => {
     }
 };
 
-export default NotificationReducer;
+export default middleware(NotificationReducer, 'Store/Notification/Reducer');

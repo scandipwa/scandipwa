@@ -21,7 +21,7 @@ import {
 export const TOP_NAVIGATION_TYPE = 'TOP_NAVIGATION_TYPE';
 export const BOTTOM_NAVIGATION_TYPE = 'BOTTOM_NAVIGATION_TYPE';
 
-export const initialState = {
+export const getInitialState = () => ({
     [TOP_NAVIGATION_TYPE]: {
         navigationState: DEFAULT_STATE,
         navigationStateHistory: [DEFAULT_STATE]
@@ -30,9 +30,12 @@ export const initialState = {
         navigationState: DEFAULT_STATE,
         navigationStateHistory: [DEFAULT_STATE]
     }
-};
+});
 
-export const NavigationReducer = (state = initialState, action) => {
+export const NavigationReducer = (
+    state = middleware(getInitialState, 'Store/Navigation/Reducer/getInitialState')(),
+    action
+) => {
     const { navigationType, navigationState } = action;
 
     const {
@@ -82,4 +85,4 @@ export const NavigationReducer = (state = initialState, action) => {
     }
 };
 
-export default NavigationReducer;
+export default middleware(NavigationReducer, 'Store/Navigation/Reducer');

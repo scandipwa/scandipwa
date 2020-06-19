@@ -2,6 +2,8 @@
 const generateGetHandler = require('./generateGetHandler');
 const generateApplyHandler = require('./generateApplyHandler');
 const generateConstructHandler = require('./generateConstructHandler');
+const generateMiddlewaredClass = require('./generateMiddlewaredClass');
+const sortPlugins = require('./sortPlugins');
 
 /**
  * Middleware function is supposed to wrap source classes
@@ -38,7 +40,14 @@ function middleware(Class, namespace) {
         );
     }
 
-    return new Proxy(Class, handler);
+    // Provide an opportunity to wrap proxy with additional functions.
+    const namespacePluginsClass = globalThis.plugins?.[namespace]?.['class'] || [];
+    const MiddlewaredClass = generateMiddlewaredClass(
+        new Proxy(Class, handler),
+        sortPlugins(namespacePluginsClass)
+    );
+
+    return MiddlewaredClass;
 }
 
 module.exports = middleware;

@@ -47,12 +47,15 @@ export const formatOrders = orders => orders.reduce((acc, order) => {
 
 export const orderList = BrowserDatabase.getItem(ORDERS) || [];
 
-export const initialState = {
+export const getInitialState = () => ({
     orderList,
     isLoading: !orderList.length
-};
+});
 
-export const OrderReducer = (state = initialState, action) => {
+export const OrderReducer = (
+    state = middleware(getInitialState, 'Store/Order/Reducer/getInitialState')(),
+    action
+) => {
     const {
         type,
         orderList,
@@ -77,4 +80,4 @@ export const OrderReducer = (state = initialState, action) => {
     }
 };
 
-export default OrderReducer;
+export default middleware(OrderReducer, 'Store/Order/Reducer');

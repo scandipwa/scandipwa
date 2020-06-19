@@ -9,6 +9,7 @@
     "node": "^10"
   },
   "scripts": {
+    "prepare": "node ./src/config/Extensibility/extensions-dependency-installer.js",
     "watch-core": "webpack-dev-server --config ./src/config/webpack.core.config.js",
     "watch": "webpack-dev-server --config ./src/config/webpack.development.config.js",
     "watch-sw": "webpack --config ./src/config/webpack.sw.config.js --mode=development --watch",
@@ -51,7 +52,6 @@
     "react-redux": "^6.0.0",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
-    "react-stripe-elements": "^6.0.1",
     "react-vimeo": "^2.0.0",
     "react-youtube": "^7.9.0",
     "react-zoom-pan-pinch": "^1.5.5",

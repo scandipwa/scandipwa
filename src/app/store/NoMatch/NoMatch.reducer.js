@@ -13,11 +13,14 @@ import {
     UPDATE_NOMATCH
 } from './NoMatch.action';
 
-export const initialState = {
+export const getInitialState = () => ({
     noMatch: false
-};
+});
 
-export const NoMatchReducer = (state = initialState, action) => {
+export const NoMatchReducer = (
+    state = middleware(getInitialState, 'Store/NoMatch/Reducer/getInitialState')(),
+    action
+) => {
     switch (action.type) {
     case UPDATE_NOMATCH:
         const { noMatch } = action;
@@ -29,4 +32,4 @@ export const NoMatchReducer = (state = initialState, action) => {
     }
 };
 
-export default NoMatchReducer;
+export default middleware(NoMatchReducer, 'Store/NoMatch/Reducer');

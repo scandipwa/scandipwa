@@ -13,6 +13,7 @@
 // TODO: merge Webpack config files
 const path = require('path');
 const projectRoot = path.resolve(__dirname, '..', '..');
+const fallbackThemeSpecifier = path.relative(path.resolve(projectRoot, '../..'), projectRoot);
 
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -26,17 +27,19 @@ const { InjectManifest } = require('workbox-webpack-plugin');
 
 const webmanifestConfig = require('./webmanifest.config');
 const { getBabelConfig } = require('./babel.config');
-const FallbackPlugin = require('./FallbackPlugin');
+const FallbackPlugin = require('./Extensibility/FallbackPlugin');
 const { I18nPlugin, mapTranslationsToConfig } = require('./I18nPlugin');
 
 const magentoRoot = path.resolve(projectRoot, '..', '..', '..', '..', '..');
 const publicRoot = path.resolve(magentoRoot, 'pub');
 const { parentTheme = '' } = require(path.resolve(projectRoot, 'scandipwa.json'));
-const parentRoot = path.resolve(magentoRoot, 'app/design/frontend', parentTheme);
+const parentRoot = parentTheme
+    ? path.resolve(magentoRoot, 'app/design/frontend', parentTheme)
+    : undefined;
 const fallbackRoot = path.resolve(magentoRoot, 'vendor', 'scandipwa', 'source');
 
 const staticVersion = Date.now();
-const publicPath = `/static/version${staticVersion}/frontend/Scandiweb/pwa/en_US/Magento_Theme/`;
+const publicPath = `/static/version${staticVersion}/frontend/${fallbackThemeSpecifier}/en_US/Magento_Theme/`;
 
 const webpackConfig = ([lang, translation]) => ({
     resolve: {
@@ -48,7 +51,11 @@ const webpackConfig = ([lang, translation]) => ({
         ],
         plugins: [
             new FallbackPlugin({
-                fallbackRoot, projectRoot, parentRoot
+                projectRoot,
+                fallbackRoot,
+                fallbackThemeSpecifier,
+                parentRoot,
+                parentThemeSpecifier: parentTheme
             })
         ],
         modules: [
@@ -60,7 +67,7 @@ const webpackConfig = ([lang, translation]) => ({
     resolveLoader: {
         modules: [
             'node_modules',
-            path.resolve(__dirname, 'loaders')
+            path.resolve(__dirname, 'Extensibility', 'loaders')
         ]
     },
 
@@ -95,7 +102,7 @@ const webpackConfig = ([lang, translation]) => ({
                             magentoRoot,
                             projectRoot,
                             importAggregator: 'extensions',
-                            pathFilterCondition: path => !!path.match(/\/src\/scandipwa\/app\//)
+                            pathFilterCondition: path => !!path.match(/\/app\/plugin\//)
                         }
                     }
                 ]
@@ -171,11 +178,11 @@ const webpackConfig = ([lang, translation]) => ({
 
         new webpack.ProvidePlugin({
             __: path.join(__dirname, 'TranslationFunction'),
-            middleware: path.join(__dirname, 'Middleware'),
-            ExtensiblePureComponent: path.join(__dirname, 'ExtensibleClasses', 'ExtensiblePureComponent'),
-            ExtensibleComponent: path.join(__dirname, 'ExtensibleClasses', 'ExtensibleComponent'),
-            ExtensibleClass: path.join(__dirname, 'ExtensibleClasses', 'ExtensibleClass'),
-            ExtensibleUnstatedContainer: path.join(__dirname, 'ExtensibleClasses', 'ExtensibleUnstatedContainer'),
+            middleware: path.join(__dirname, 'Extensibility', 'Middleware'),
+            ExtensiblePureComponent: path.join(__dirname, 'Extensibility', 'ExtensibleClasses', 'ExtensiblePureComponent'),
+            ExtensibleComponent: path.join(__dirname, 'Extensibility', 'ExtensibleClasses', 'ExtensibleComponent'),
+            ExtensibleClass: path.join(__dirname, 'Extensibility', 'ExtensibleClasses', 'ExtensibleClass'),
+            ExtensibleUnstatedContainer: path.join(__dirname, 'Extensibility', 'ExtensibleClasses', 'ExtensibleUnstatedContainer'),
             React: 'react'
         }),
 

@@ -16,12 +16,15 @@ import {
     HIDE_ACTIVE_OVERLAY
 } from './Overlay.action';
 
-export const initialState = {
+export const getInitialState = () => ({
     activeOverlay: '',
     areOtherOverlaysOpen: false
-};
+});
 
-export const OverlayReducer = (state = initialState, action) => {
+export const OverlayReducer = (
+    state = middleware(getInitialState, 'Store/Overlay/Reducer/getInitialState')(),
+    action
+) => {
     const { overlayKey } = action;
     const {
         activeOverlay: prevActiveOverlay
@@ -51,4 +54,4 @@ export const OverlayReducer = (state = initialState, action) => {
     }
 };
 
-export default OverlayReducer;
+export default middleware(OverlayReducer, 'Store/Overlay/Reducer');

@@ -17,12 +17,14 @@ const MinifyPlugin = require('babel-minify-webpack-plugin');
 const webpack = require('webpack');
 
 const { getBabelConfig } = require('./babel.config');
-const FallbackPlugin = require('./FallbackPlugin');
+const FallbackPlugin = require('./Extensibility/FallbackPlugin');
 
 const projectRoot = path.resolve(__dirname, '..', '..');
 const { parentTheme = '' } = require(path.resolve(projectRoot, 'scandipwa.json'));
 const magentoRoot = path.resolve(projectRoot, '..', '..', '..', '..', '..');
-const parentRoot = path.resolve(magentoRoot, 'app/design/frontend', parentTheme);
+const parentRoot = parentTheme
+    ? path.resolve(magentoRoot, 'app/design/frontend', parentTheme)
+    : undefined;
 const publicRoot = path.resolve(magentoRoot, 'pub');
 const fallbackRoot = path.resolve(magentoRoot, 'vendor', 'scandipwa', 'source');
 
@@ -66,7 +68,7 @@ module.exports = (_, options) => {
         resolveLoader: {
             modules: [
                 'node_modules',
-                path.resolve(__dirname, 'loaders')
+                path.resolve(__dirname, 'Extensibility', 'loaders')
             ]
         },
 
@@ -101,7 +103,7 @@ module.exports = (_, options) => {
                                 magentoRoot,
                                 projectRoot,
                                 importAggregator: 'extensions',
-                                pathFilterCondition: path => !!path.match(/\/src\/scandipwa\/sw\//)
+                                pathFilterCondition: path => !!path.match(/\/sw\/plugin\//)
                             }
                         }
                     ]
@@ -118,8 +120,8 @@ module.exports = (_, options) => {
 
         plugins: [
             new webpack.ProvidePlugin({
-                middleware: path.join(__dirname, 'Middleware'),
-                ExtensibleClass: path.join(__dirname, 'ExtensibleClasses', 'ExtensibleClass')
+                middleware: path.join(__dirname, 'Extensibility', 'Middleware'),
+                ExtensibleClass: path.join(__dirname, 'Extensibility', 'ExtensibleClasses', 'ExtensibleClass')
             }),
 
             ...additionalPlugins
