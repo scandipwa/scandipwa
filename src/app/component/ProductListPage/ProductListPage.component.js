@@ -13,28 +13,35 @@ import { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ProductCard from 'Component/ProductCard';
-import { MixType } from 'Type/Common';
+import { ProductType, FilterType } from 'Type/ProductList';
 
-import './CategoryProductListPlaceholder.style';
+import './ProductListPage.style';
 
-export const DEFAULT_PLACEHOLDER_COUNT = 4;
+export const DEFAULT_PLACEHOLDER_COUNT = 8;
 
 /**
  * Placeholder for List of category product
- * @class CategoryProductListPlaceholder
+ * @class ProductListPage
  */
-export class CategoryProductListPlaceholder extends PureComponent {
+export class ProductListPage extends PureComponent {
     static propTypes = {
+        isInfiniteLoaderEnabled: PropTypes.bool.isRequired,
         isLoading: PropTypes.bool.isRequired,
         isVisible: PropTypes.bool.isRequired,
         updatePages: PropTypes.func.isRequired,
         numberOfPlaceholders: PropTypes.number,
-        mix: MixType
+        selectedFilters: FilterType,
+        wrapperRef: PropTypes.func,
+        pageNumber: PropTypes.number,
+        items: PropTypes.arrayOf(ProductType)
     };
 
     static defaultProps = {
         numberOfPlaceholders: DEFAULT_PLACEHOLDER_COUNT,
-        mix: {}
+        wrapperRef: () => {},
+        selectedFilters: {},
+        pageNumber: null,
+        items: []
     };
 
     componentDidMount() {
@@ -50,7 +57,15 @@ export class CategoryProductListPlaceholder extends PureComponent {
     }
 
     startObserving() {
-        const { updatePages } = this.props;
+        const {
+            items,
+            updatePages,
+            isInfiniteLoaderEnabled
+        } = this.props;
+
+        if (!isInfiniteLoaderEnabled || items.length) {
+            return;
+        }
 
         if (this.node && !this.observer && 'IntersectionObserver' in window) {
             const options = {
@@ -59,7 +74,10 @@ export class CategoryProductListPlaceholder extends PureComponent {
             };
 
             this.observer = new IntersectionObserver(([{ intersectionRatio }]) => {
-                if (intersectionRatio > 0) {
+                const { items, isLoading } = this.props;
+
+                // must not be a product items list, and must not be loading
+                if (intersectionRatio > 0 && !items.length && !isLoading) {
                     this.stopObserving();
                     updatePages();
                 }
@@ -92,37 +110,73 @@ export class CategoryProductListPlaceholder extends PureComponent {
         );
     }
 
-    render() {
+    getPlaceholderRef() {
+        const { isVisible } = this.props;
+
+        if (!isVisible) {
+            return undefined;
+        }
+
+        return (node) => {
+            this.node = node;
+        };
+    }
+
+    renderPageItems() {
         const {
-            isLoading,
-            isVisible,
-            mix
+            items,
+            selectedFilters
         } = this.props;
 
-        if (!isLoading && !isVisible) {
-            return null;
+        return items.map((product, i) => (
+            <ProductCard
+              product={ product }
+              // eslint-disable-next-line react/no-array-index-key
+              key={ i }
+              selectedFilters={ selectedFilters }
+            />
+        ));
+    }
+
+    renderPlaceholderItems() {
+        return (
+            <>
+                <li
+                  block="ProductListPage"
+                  elem="Offset"
+                  ref={ this.getPlaceholderRef() }
+                />
+                { this.renderPlaceholders() }
+            </>
+        );
+    }
+
+    renderItems() {
+        const { items } = this.props;
+
+        if (!items.length) {
+            return this.renderPlaceholderItems();
         }
+
+        return this.renderPageItems();
+    }
+
+    render() {
+        const {
+            pageNumber,
+            wrapperRef
+        } = this.props;
 
         return (
             <ul
-              block="CategoryProductList"
-              elem="Page"
-              mix={ {
-                  block: 'CategoryProductListPlaceholder',
-                  mix: { ...mix, elem: 'Page' }
-              } }
+              block="ProductListPage"
+              key={ pageNumber }
+              ref={ wrapperRef }
             >
-                <li
-                  block="CategoryProductListPlaceholder"
-                  elem="Offset"
-                  ref={ isVisible ? (node) => {
-                      this.node = node;
-                  } : undefined }
-                />
-                { this.renderPlaceholders() }
+                { this.renderItems() }
             </ul>
         );
     }
 }
 
-export default withRouter(CategoryProductListPlaceholder);
+export default withRouter(ProductListPage);

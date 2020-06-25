@@ -15,6 +15,8 @@ import PropTypes from 'prop-types';
 import ProductList from 'Component/ProductList';
 import { ProductListDispatcher, updateLoadStatus } from 'Store/ProductList';
 
+import './CategoryProductList.style';
+
 export const mapStateToProps = state => ({
     pages: state.ProductListReducer.pages,
     isOffline: state.OfflineReducer.isOffline,
@@ -70,7 +72,8 @@ export class CategoryProductListContainer extends PureComponent {
     }
 
     containerProps = () => ({
-        isLoading: this.getIsLoading()
+        isLoading: this.getIsLoading(),
+        mix: { block: 'CategoryProductList' }
     });
 
     render() {

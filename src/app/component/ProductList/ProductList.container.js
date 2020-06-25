@@ -17,6 +17,7 @@ import { getQueryParam, setQueryParams } from 'Util/Url';
 import { PagesType, FilterInputType } from 'Type/ProductList';
 import { HistoryType } from 'Type/Common';
 import { LocationType } from 'Type/Router';
+import isMobile from 'Util/Mobile';
 
 import ProductList from './ProductList.component';
 
@@ -133,8 +134,19 @@ export class ProductListContainer extends PureComponent {
         currentPage: this._getPageFromUrl(),
         isShowLoading: this._isShowLoading(),
         isVisible: this._isVisible(),
-        requestPage: this.requestPage
+        requestPage: this.requestPage,
+        isInfiniteLoaderEnabled: this._getIsInfiniteLoaderEnabled()
     });
+
+    _getIsInfiniteLoaderEnabled() { // disable infinite scroll on mobile
+        const { isInfiniteLoaderEnabled } = this.props;
+
+        if (isMobile.any()) {
+            return isInfiniteLoaderEnabled;
+        }
+
+        return false;
+    }
 
     _getPageFromUrl() {
         const { location } = this.props;
