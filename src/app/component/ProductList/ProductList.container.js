@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
+import { PureComponent, createRef } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
@@ -61,7 +61,9 @@ export class ProductListContainer extends PureComponent {
         noVariants: false
     };
 
-    state = { pagesCount: 1 };
+    state = {
+        pagesCount: 1
+    };
 
     componentDidMount() {
         const { pages, getIsNewCategory } = this.props;
@@ -111,7 +113,10 @@ export class ProductListContainer extends PureComponent {
         } = this.props;
 
         if (!isNext) {
-            window.scrollTo(0, 0);
+            document.body.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
         }
 
         const options = {

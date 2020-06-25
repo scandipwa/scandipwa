@@ -173,9 +173,10 @@ const generateQuery = (keyValueObject, location, history) => {
  * @param {Object} variable is url flush required
  */
 const setQueryParams = (keyValueObject, location, history) => {
+    const { state } = location;
     const query = generateQuery(keyValueObject, location, history);
 
-    history.push({ search: query });
+    history.push({ search: query, state });
 };
 
 /**

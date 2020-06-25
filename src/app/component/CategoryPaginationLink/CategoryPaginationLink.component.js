@@ -11,9 +11,11 @@
 
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+
 import Link from 'Component/Link';
-import './CategoryPaginationLink.style';
 import { ChildrenType } from 'Type/Common';
+
+import './CategoryPaginationLink.style';
 
 export default class CategoryPaginationLink extends PureComponent {
     static propTypes = {
@@ -54,7 +56,8 @@ export default class CategoryPaginationLink extends PureComponent {
             <Link
               to={ {
                   search,
-                  pathname
+                  pathname,
+                  state: history.state.state
               } }
               aria-label={ label }
               block="CategoryPaginationLink"

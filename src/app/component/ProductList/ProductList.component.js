@@ -294,7 +294,11 @@ export class ProductList extends PureComponent {
     }
 
     render() {
-        const { totalPages, isLoading, mix } = this.props;
+        const {
+            totalPages,
+            isLoading,
+            mix
+        } = this.props;
 
         if (!isLoading && totalPages === 0) {
             return this.renderNoProducts();
