@@ -8,7 +8,7 @@ const execAsync = util.promisify(exec);
 const projectRoot = path.resolve(__dirname, '../../..');
 
 try {
-    const magentoRoot = (function() {
+    var magentoRoot = (function() {
         if (projectRoot.includes('app/design/frontend')) {
             return path.resolve(projectRoot, '../../../../..');
         }
