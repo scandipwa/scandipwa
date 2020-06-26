@@ -99,17 +99,17 @@ export default class MenuItem extends PureComponent {
             handleCategoryHover,
             closeMenu
         } = this.props;
+
         const {
             url,
-            item_id,
-            cms_page_identifier
+            item_id
         } = item;
+
         const isHovered = activeMenuItemsStack.includes(item_id);
-        const path = cms_page_identifier ? `/${ cms_page_identifier}` : url;
 
         return (
             <Link
-              to={ path }
+              to={ url }
               block="Menu"
               elem="Link"
               id={ item_id }

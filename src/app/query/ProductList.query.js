@@ -10,6 +10,8 @@
  */
 
 import { Field, Fragment } from 'Util/Query';
+import BrowserDatabase from 'Util/BrowserDatabase';
+import { CUSTOMER } from 'Store/MyAccount/MyAccount.dispatcher';
 
 /**
  * Product List Query
@@ -63,7 +65,8 @@ export class ProductListQuery {
                 attribute.length ? [...acc, `${key}: { in: [ ${attribute.join(',')} ] } `] : acc
             ), []),
             newToDate: date => [`news_to_date: { gteq: ${date} }`],
-            conditions: conditions => [`conditions: { eq: ${conditions} }`]
+            conditions: conditions => [`conditions: { eq: ${conditions} }`],
+            customerGroupId: id => [`customer_group_id: { eq: ${id} }`]
         };
     }
 
@@ -87,12 +90,29 @@ export class ProductListQuery {
             },
             filter: {
                 type: 'ProductAttributeFilterInput!',
-                handler: (options = {}) => `{${ Object.entries(options).reduce(
-                    (acc, [key, option]) => ((option && filterArgumentMap[key])
-                        ? [...acc, ...filterArgumentMap[key](option)]
-                        : acc
-                    ), []
-                ).join(',') }}`
+                handler: (initialOptions = {}) => {
+                    // add customer group by default to all requests
+                    const { group_id } = BrowserDatabase.getItem(CUSTOMER) || {};
+
+                    const options = {
+                        ...initialOptions,
+                        customerGroupId: group_id || '0'
+                    };
+
+                    const parsedOptions = Object.entries(options).reduce(
+                        (acc, [key, option]) => {
+                            // if there is no value, or if the key is just not present in options object
+                            if (!option || !filterArgumentMap[key]) {
+                                return acc;
+                            }
+
+                            return [...acc, ...filterArgumentMap[key](option)];
+                        },
+                        []
+                    );
+
+                    return `{${ parsedOptions.join(',') }}`;
+                }
             }
         };
     }
@@ -113,12 +133,14 @@ export class ProductListQuery {
     _getProductFields() {
         const { requireInfo, isSingleProduct, notRequireInfo } = this.options;
 
+        // do not request total count for PDP
         if (isSingleProduct || notRequireInfo) {
             return [
                 this._getItemsField()
             ];
         }
 
+        // for filters only request
         if (requireInfo) {
             return [
                 'min_price',
@@ -136,57 +158,77 @@ export class ProductListQuery {
     }
 
     _getProductInterfaceFields(isVariant, isForLinkedProducts = false) {
-        const { isSingleProduct } = this.options;
+        const {
+            isSingleProduct,
+            noAttributes = false,
+            noVariants = false,
+            noVariantAttributes = false
+        } = this.options;
 
-        return [
+        const fields = [
             'id',
             'sku',
             'name',
             'type_id',
-            this._getPriceField(),
+            'stock_status',
+            this._getPriceRangeField(),
             this._getProductThumbnailField(),
             this._getProductSmallField(),
             this._getShortDescriptionField(),
             'special_from_date',
             'special_to_date',
-            this._getAttributesField(isVariant),
-            this._getTierPricesField(),
-            ...(!isVariant
-                ? [
-                    'url_key',
-                    this._getReviewSummaryField(),
-                    this._getConfigurableProductFragment()
-                ]
-                : []
-            ),
-            ...(isForLinkedProducts
-                ? [this._getProductLinksField()]
-                : []
-            ),
-            ...(isSingleProduct
-                ? [
-                    'stock_status',
-                    'meta_title',
-                    'meta_keyword',
-                    'canonical_url',
-                    'meta_description',
-                    this._getStockItemField(),
-                    this._getDescriptionField(),
-                    this._getMediaGalleryField(),
-                    this._getSimpleProductFragment(),
-                    this._getProductLinksField(),
-                    ...(!isVariant
-                        ? [
-                            this._getCategoriesField(),
-                            this._getReviewsField(),
-                            this._getVirtualProductFragment()
-                        ]
-                        : []
-                    )
-                ]
-                : []
-            )
+            this._getTierPricesField()
         ];
+
+        // if it is normal product and we need attributes
+        // or if, it is variant, but we need variant attributes or variants them-self
+        if ((!isVariant && !noAttributes) || (isVariant && !noVariantAttributes && !noVariants)) {
+            fields.push(this._getAttributesField(isVariant));
+        }
+
+        // to all products (non-variants)
+        if (!isVariant) {
+            fields.push(
+                'url',
+                this._getReviewSummaryField(),
+            );
+
+            // if variants are not needed
+            if (!noVariants) {
+                fields.push(this._getConfigurableProductFragment());
+            }
+        }
+
+        // prevent linked products from looping
+        if (isForLinkedProducts) {
+            fields.push(this._getProductLinksField());
+        }
+
+        // additional information to PDP loads
+        if (isSingleProduct) {
+            fields.push(
+                'stock_status',
+                'meta_title',
+                'meta_keyword',
+                'canonical_url',
+                'meta_description',
+                this._getDescriptionField(),
+                this._getMediaGalleryField(),
+                this._getSimpleProductFragment(),
+                this._getProductLinksField()
+            );
+
+            // for variants of PDP requested product
+            if (!isVariant) {
+                fields.push(
+                    this._getCategoriesField(),
+                    this._getReviewsField(),
+                    this._getVirtualProductFragment()
+                );
+            }
+        }
+
+        return fields;
     }
 
     /**
@@ -260,7 +302,7 @@ export class ProductListQuery {
     _getBreadcrumbFields() {
         return [
             'category_name',
-            'category_url_key'
+            'category_url_path'
         ];
     }
 
@@ -272,7 +314,7 @@ export class ProductListQuery {
     _getCategoryFields() {
         return [
             'name',
-            'url_path',
+            'url',
             this._getBreadcrumbsField()
         ];
     }
@@ -282,50 +324,29 @@ export class ProductListQuery {
             .addFieldList(this._getCategoryFields());
     }
 
-    _getAmountFields() {
-        return [
-            'value',
-            'currency'
-        ];
-    }
-
-    _getAmountField() {
-        return new Field('amount')
-            .addFieldList(this._getAmountFields());
-    }
-
     _getMinimalPriceFields() {
         return [
-            this._getAmountField()
-        ];
-    }
-
-    _getMinimalPriceField() {
-        return new Field('minimalPrice')
-            .addFieldList(this._getMinimalPriceFields());
-    }
-
-    _getRegularPriceFields() {
-        return [
-            this._getAmountField()
-        ];
-    }
-
-    _getRegularPriceField() {
-        return new Field('regularPrice')
-            .addFieldList(this._getRegularPriceFields());
-    }
-
-    _getPriceFields() {
-        return [
-            this._getMinimalPriceField(),
+            this._getDiscountField(),
+            this._getFinalPriceField(),
             this._getRegularPriceField()
         ];
     }
 
-    _getPriceField() {
-        return new Field('price')
-            .addFieldList(this._getPriceFields());
+    _getMinimalPriceField() {
+        return new Field('minimum_price')
+            .addFieldList(this._getMinimalPriceFields());
+    }
+
+    _getPriceRangeFields() {
+        // Using an array as potentially would want to add maximum price
+        return [
+            this._getMinimalPriceField()
+        ];
+    }
+
+    _getPriceRangeField() {
+        return new Field('price_range')
+            .addFieldList(this._getPriceRangeFields());
     }
 
     /**
@@ -550,6 +571,88 @@ export class ProductListQuery {
         ];
     }
 
+    _getCustomizableTextValueFields() {
+        return [
+            'price',
+            'price_type',
+            'sku',
+            'max_characters'
+        ];
+    }
+
+    _getCustomizableTextValueField(alias) {
+        return new Field('value')
+            .addFieldList(this._getCustomizableTextValueFields())
+            .setAlias(alias);
+    }
+
+    _getCustomizableTextFields(alias) {
+        return [
+            this._getCustomizableTextValueField(alias),
+            'product_sku'
+        ];
+    }
+
+    _getCustomizableAreaOption() {
+        return new Fragment('CustomizableAreaOption')
+            .addFieldList(this._getCustomizableTextFields('areaValues'));
+    }
+
+    _getCustomizableFieldOption() {
+        return new Fragment('CustomizableFieldOption')
+            .addFieldList(this._getCustomizableTextFields('fieldValues'));
+    }
+
+    _getCustomizableSelectionValueFields() {
+        return [
+            'option_type_id',
+            'price',
+            'price_type',
+            'sku',
+            'title',
+            'sort_order'
+        ];
+    }
+
+    _getCustomizableSelectionValueField(alias) {
+        return new Field('value')
+            .addFieldList(this._getCustomizableSelectionValueFields())
+            .setAlias(alias);
+    }
+
+    _getCustomizableCheckboxOption() {
+        return new Fragment('CustomizableCheckboxOption')
+            .addFieldList([this._getCustomizableSelectionValueField('checkboxValues')]);
+    }
+
+    _getCustomizableDropdownOption() {
+        return new Fragment('CustomizableDropDownOption')
+            .addFieldList([this._getCustomizableSelectionValueField('dropdownValues')]);
+    }
+
+    _getCustomizableProductFragmentOptionsFields() {
+        return [
+            this._getCustomizableDropdownOption(),
+            this._getCustomizableCheckboxOption(),
+            this._getCustomizableFieldOption(),
+            this._getCustomizableAreaOption(),
+            'title',
+            'required',
+            'sort_order',
+            'option_id'
+        ];
+    }
+
+    _getCustomizableProductFragmentOptionsField() {
+        return new Field('options')
+            .addFieldList(this._getCustomizableProductFragmentOptionsFields());
+    }
+
+    _getCustomizableProductFragment() {
+        return new Fragment('CustomizableProductInterface')
+            .addFieldList([this._getCustomizableProductFragmentOptionsField()]);
+    }
+
     _getSimpleProductFragmentFields() {
         return [
             this._getTierPricesField()
@@ -563,16 +666,34 @@ export class ProductListQuery {
     }
 
     _getTierPricesField() {
-        return new Field('tier_prices')
+        return new Field('price_tiers')
             .addFieldList(this._getTierPricesFields());
     }
 
     _getTierPricesFields() {
         return [
-            'qty',
-            'value',
-            'percentage_value'
+            this._getDiscountField(),
+            this._getFinalPriceField(),
+            'quantity'
         ];
+    }
+
+    _getDiscountField() {
+        return new Field('discount')
+            .addField('amount_off')
+            .addField('percent_off');
+    }
+
+    _getFinalPriceField() {
+        return new Field('final_price')
+            .addField('currency')
+            .addField('value');
+    }
+
+    _getRegularPriceField() {
+        return new Field('regular_price')
+            .addField('currency')
+            .addField('value');
     }
 
     _getConfigurableProductFragment() {

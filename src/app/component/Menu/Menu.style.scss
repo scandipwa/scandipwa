@@ -36,12 +36,13 @@
 
         @include desktop {
             margin: calc(var(--header-nav-height) * -1) auto auto;
-            max-width: var(--content-wrapper-width);
             padding: 0;
         }
 
         li {
-            padding-left: 0;
+            @include mobile {
+                padding-left: 0;
+            }
 
             &::before {
                 content: none;
@@ -57,14 +58,22 @@
         background-color: var(--menu-desktop-background-color);
         height: 100vh;
         width: 100%;
+        position: absolute;
+        z-index: -1;
+        top: -3px;
+        left: 0;
     }
 
     &-MainCategories {
         @include desktop {
-            display: inline-block;
-            padding-left: 2rem;
+            display: block;
+            padding-left: 1rem;
             padding-right: 40px;
             z-index: 100;
+            max-width: var(--content-wrapper-width);
+            width: 100%;
+            margin: auto;
+            pointer-events: none;
         }
     }
 
@@ -76,6 +85,13 @@
         }
 
         &_type {
+            &_main {
+                @include desktop {
+                    pointer-events: auto;
+                    width: min-content;
+                }
+            }
+
             &_subcategory {
                 background: var(--menu-background-color);
                 grid-auto-rows: max-content;
@@ -191,10 +207,15 @@
 
         @include desktop {
             margin-bottom: 0;
+            padding: 0 2rem;
         }
 
         &:first-child {
             margin-top: 0;
+
+            @include desktop {
+                padding-left: 0;
+            }
         }
 
         button {
@@ -224,6 +245,7 @@
 
     &-SubCategoriesWrapperInner {
         background-color: var(--overlay-background);
+        margin: auto;
 
         @media (min-width: 1024px) and (max-width: 1130px) {
             max-height: calc(80vh - var(--header-nav-height));
@@ -231,8 +253,14 @@
         }
     }
 
+    &-SubCategories,
+    &-Promotion {
+        max-width: var(--content-wrapper-width);
+        margin: auto;
+    }
+
     &-SubCategories {
-        padding: 40px 55px 60px 2rem;
+        padding: 40px 55px 60px 1rem;
     }
 
     &-SubMenu {
@@ -353,13 +381,12 @@
 
     &-Link {
         color: inherit;
-        padding-left: 1.5rem;
         white-space: nowrap;
+        padding-left: 0;
 
         @include desktop {
             display: block;
-            margin-right: 4rem;
-            padding-left: 0;
+            margin-right: 0;
         }
 
         &:hover,

@@ -153,7 +153,7 @@ export class MyAccountOverlayContainer extends PureComponent {
             hideActiveOverlay();
         }
 
-        if (pathname.includes(CHECKOUT_URL) && newMyAccountState === STATE_LOGGED_IN) {
+        if (!pathname.includes(CHECKOUT_URL) && newMyAccountState === STATE_LOGGED_IN) {
             history.push({ pathname: '/my-account/dashboard' });
         }
     }

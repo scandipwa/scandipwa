@@ -103,7 +103,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/IndarsL"><img src="https://avatars1.githubusercontent.com/u/25637231?v=4" width="100px;" alt=""/><br /><sub><b>Indars Lejins</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=IndarsL" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/robertsbriedis"><img src="https://avatars1.githubusercontent.com/u/51077929?v=4" width="100px;" alt=""/><br /><sub><b>Roberts</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=robertsbriedis" title="Code">💻</a></td>
     <td align="center"><a href="https://www.rltsquare.com/"><img src="https://avatars0.githubusercontent.com/u/32421711?v=4" width="100px;" alt=""/><br /><sub><b>Malik Ahmad</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=malikahmed1996" title="Code">💻</a> <a href="https://github.com/scandipwa/base-theme/issues?q=author%3Amalikahmed1996" title="Bug reports">🐛</a> <a href="#question-malikahmed1996" title="Answering Questions">💬</a></td>
-    <td align="center"><a href="https://github.com/artursgailis"><img src="https://avatars2.githubusercontent.com/u/40202738?v=4" width="100px;" alt=""/><br /><sub><b>artursgailis</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=artursgailis" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/artursgailis"><img src="https://avatars2.githubusercontent.com/u/40202738?v=4" width="100px;" alt=""/><br /><sub><b>artursgailis</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=artursgailis" title="Code">💻</a> <a href="https://github.com/scandipwa/base-theme/issues?q=author%3Aartursgailis" title="Bug reports">🐛</a></td>
   </tr>
   <tr>
     <td align="center"><a href="https://github.com/mihailspopovs4"><img src="https://avatars3.githubusercontent.com/u/54805724?v=4" width="100px;" alt=""/><br /><sub><b>mihailspopovs4</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=mihailspopovs4" title="Code">💻</a></td>
@@ -138,6 +138,12 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/korbax"><img src="https://avatars2.githubusercontent.com/u/225603?v=4" width="100px;" alt=""/><br /><sub><b>Aleksandr Drobot</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=korbax" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/delkant"><img src="https://avatars3.githubusercontent.com/u/1325846?v=4" width="100px;" alt=""/><br /><sub><b>RDC</b></sub></a><br /><a href="#translation-delkant" title="Translation">🌍</a></td>
     <td align="center"><a href="https://github.com/pgrimaud"><img src="https://avatars1.githubusercontent.com/u/1866496?v=4" width="100px;" alt=""/><br /><sub><b>Pierre Grimaud</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/issues?q=author%3Apgrimaud" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="http://beecom.io"><img src="https://avatars0.githubusercontent.com/u/1456931?v=4" width="100px;" alt=""/><br /><sub><b>bery</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=bery" title="Code">💻</a></td>
+    <td align="center"><a href="http://jeffreyhoonakker.nl"><img src="https://avatars0.githubusercontent.com/u/32420530?v=4" width="100px;" alt=""/><br /><sub><b>Jeffrey</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=Jeffrey-H" title="Code">💻</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="http://bigstep.dk"><img src="https://avatars3.githubusercontent.com/u/22077162?v=4" width="100px;" alt=""/><br /><sub><b>Ismail Cam</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/issues?q=author%3Abigstepdenmark" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://github.com/fooman"><img src="https://avatars0.githubusercontent.com/u/455508?v=4" width="100px;" alt=""/><br /><sub><b>Kristof, Fooman</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/issues?q=author%3Afooman" title="Bug reports">🐛</a></td>
   </tr>
 </table>
 

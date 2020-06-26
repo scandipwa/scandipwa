@@ -15,7 +15,17 @@
 }
 
 .CategoryPaginationLink {
+    min-width: 35px;
+    display: block;
+    text-align: center;
+    line-height: 35px;
     color: var(--color-pagination-link-text);
+
+    &:hover,
+    &:focus {
+        text-decoration: none;
+        --color-pagination-link-text: var(--color-pagination-link-active-text);
+    }
 
     &_isCurrent {
         --color-pagination-link-text: var(--color-pagination-link-active-text);

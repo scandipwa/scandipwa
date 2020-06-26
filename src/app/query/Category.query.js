@@ -54,7 +54,7 @@ export class CategoryQuery {
         return [
             'category_name',
             'category_level',
-            'category_url_key'
+            'category_url_path'
         ];
     }
 
@@ -75,6 +75,7 @@ export class CategoryQuery {
     _getDefaultFields() {
         return [
             'id',
+            'url',
             'name',
             'image',
             'url_key',

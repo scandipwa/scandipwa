@@ -9,46 +9,51 @@
  * @link https://github.com/scandipwa/base-theme
  */
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
-import { connect } from 'react-redux';
-import { BlockListType } from 'Type/CMS';
+import DataContainer from 'Util/Request/DataContainer';
+import { CmsBlockQuery } from 'Query';
+
 import CmsBlock from './CmsBlock.component';
 
-export const mapStateToProps = state => ({
-    blocks: state.CmsBlocksAndSliderReducer.blocks
-});
+export class CmsBlockContainer extends DataContainer {
+    static propTypes = {
+        identifier: PropTypes.string.isRequired
+    };
 
-export class CmsBlockContainer extends PureComponent {
-    constructor(props) {
-        super(props);
+    state = {
+        cmsBlock: {}
+    };
 
-        this.containerProps = () => ({
-            cmsBlocks: this._getBlocks()
-        });
+    containerProps = () => {
+        const { cmsBlock } = this.state;
+        return { cmsBlock };
+    };
+
+    componentDidMount() {
+        this._getCmsBlock();
     }
 
-    _getBlocks() {
-        const { identifiers, blocks: { items = {} } } = this.props;
-        return identifiers.reduce((acc, id) => (items[id]
-            ? [...acc, (
-                { id, content: items[id].content }
-            )]
-            : acc), []);
+    _getCmsBlock() {
+        const { identifier } = this.props;
+
+        this.fetchData(
+            [CmsBlockQuery.getQuery({ identifiers: [identifier] })],
+            ({ cmsBlocks: { items } }) => {
+                if (!items.length) {
+                    return;
+                }
+
+                this.setState({ cmsBlock: items[0] });
+            }
+        );
     }
 
     render() {
         return (
             <CmsBlock
               { ...this.containerProps() }
-              { ...this.props }
             />
         );
     }
 }
 
-CmsBlockContainer.propTypes = {
-    identifiers: PropTypes.arrayOf(PropTypes.string).isRequired,
-    blocks: BlockListType.isRequired
-};
-
-export default connect(mapStateToProps)(CmsBlockContainer);
+export default CmsBlockContainer;

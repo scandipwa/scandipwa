@@ -159,7 +159,7 @@ export default class MenuOverlay extends PureComponent {
         const { header_content: { header_cms } = {} } = window.contentConfiguration;
 
         if (header_cms) {
-            return <CmsBlock identifiers={ [header_cms] } />;
+            return <CmsBlock identifier={ header_cms } />;
         }
 
         return (
@@ -185,7 +185,7 @@ export default class MenuOverlay extends PureComponent {
                     </Link>
                 </h3>
                 <div block="Menu" elem="Social">
-                    <CmsBlock identifiers={ ['social-links'] } />
+                    <CmsBlock identifier="social-links" />
                 </div>
             </div>
         );
@@ -258,6 +258,7 @@ export default class MenuOverlay extends PureComponent {
             handleSubcategoryClick,
             onCategoryHover
         } = this.props;
+
         const { children } = item;
         const childrenArray = Object.values(children);
         const itemMods = { type: 'main' };
@@ -312,7 +313,6 @@ export default class MenuOverlay extends PureComponent {
         }
 
         const [{ children, title: mainCategoriesTitle }] = categoryArray;
-
         const childrenArray = getSortedItems(Object.values(children));
 
         return (

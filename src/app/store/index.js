@@ -13,14 +13,12 @@ import {
     createStore, combineReducers
 } from 'redux';
 
-import { CmsBlocksAndSliderReducer } from 'Store/CmsBlocksAndSlider';
 import { CategoryReducer } from 'Store/Category';
 import { NotificationReducer } from 'Store/Notification';
 import { BreadcrumbsReducer } from 'Store/Breadcrumbs';
 import { ProductReducer } from 'Store/Product';
 import { ProductListReducer } from 'Store/ProductList';
 import { ProductListInfoReducer } from 'Store/ProductListInfo';
-import { HeaderAndFooterReducer } from 'Store/HeaderAndFooter';
 import { CartReducer } from 'Store/Cart';
 import { OrderReducer } from 'Store/Order';
 import { WishlistReducer } from 'Store/Wishlist';
@@ -37,14 +35,12 @@ import { MetaReducer } from 'Store/Meta';
 import { LinkedProductsReducer } from 'Store/LinkedProducts';
 
 export const reducers = {
-    CmsBlocksAndSliderReducer,
     CategoryReducer,
     NotificationReducer,
     BreadcrumbsReducer,
     ProductReducer,
     ProductListReducer,
     ProductListInfoReducer,
-    HeaderAndFooterReducer,
     CartReducer,
     OrderReducer,
     WishlistReducer,

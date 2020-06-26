@@ -60,7 +60,7 @@
         &_isLikeTable {
             @include after-mobile {
                 padding-bottom: 0;
-                height: 5rem;
+                min-height: 5rem;
                 align-self: center;
             }
         }
@@ -99,6 +99,26 @@
         margin-right: 5px;
     }
 
+    &-CustomizableOptionsWrapper {
+        @include after-mobile {
+            margin-top: 7px;
+        }
+    }
+
+    &-CustomizableOption {
+        display: flex;
+
+        &:not(:first-child) {
+            margin-top: .5rem;
+        }
+    }
+
+    &-CustomizableOptionLabel {
+        align-self: center;
+        font-weight: bold;
+        margin-right: .5rem;
+    }
+
     &-Heading,
     &-SubHeading {
         font-size: 14px;
@@ -117,6 +137,7 @@
     }
 
     &-Picture {
+        align-self: center;
         padding-bottom: 120%;
     }
 

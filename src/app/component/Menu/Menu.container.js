@@ -9,35 +9,33 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import DataContainer from 'Util/Request/DataContainer';
 import { MENU_SUBCATEGORY } from 'Component/Header';
 import isMobile from 'Util/Mobile';
+import MenuHelper from 'Util/Menu';
+import { MenuQuery } from 'Query';
 
 import Menu from './Menu.component';
-
-export const mapStateToProps = state => ({
-    menu: state.HeaderAndFooterReducer.menu,
-    blocks: state.CmsBlocksAndSliderReducer.blocks
-});
 
 export const mapDispatchToProps = dispatch => ({
     goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE)),
     changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state))
 });
 
-export class MenuContainer extends PureComponent {
+export class MenuContainer extends DataContainer {
     static propTypes = {
         goToPreviousHeaderState: PropTypes.func.isRequired,
         changeHeaderState: PropTypes.func.isRequired
     };
 
     state = {
-        activeMenuItemsStack: []
+        activeMenuItemsStack: [],
+        menu: {}
     };
 
     containerFunctions = {
@@ -46,12 +44,34 @@ export class MenuContainer extends PureComponent {
         onCategoryHover: this.onCategoryHover.bind(this)
     };
 
+    componentDidMount() {
+        this._getMenu();
+    }
+
+    _getMenuOptions() {
+        const { header_content: { header_menu } = {} } = window.contentConfiguration;
+
+        return {
+            identifier: [header_menu || 'new-main-menu']
+        };
+    }
+
+    _getMenu() {
+        this.fetchData(
+            [MenuQuery.getQuery(this._getMenuOptions())],
+            ({ menu }) => this.setState({
+                menu: MenuHelper.reduce(menu)
+            })
+        );
+    }
+
     handleSubcategoryClick(e, activeSubcategory) {
         const { activeMenuItemsStack } = this.state;
         const { changeHeaderState, goToPreviousHeaderState } = this.props;
         const { item_id, title } = activeSubcategory;
 
         e.stopPropagation();
+
         changeHeaderState({
             name: MENU_SUBCATEGORY,
             force: true,
@@ -101,4 +121,4 @@ export class MenuContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MenuContainer);
+export default connect(null, mapDispatchToProps)(MenuContainer);

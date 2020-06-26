@@ -52,7 +52,20 @@ export class PayPalContainer extends PureComponent {
 
     componentDidMount() {
         const script = document.getElementById(PAYPAL_SCRIPT);
-        script.onload = () => this.forceUpdate();
+
+        if (script) {
+            script.onload = () => this.forceUpdate();
+        }
+    }
+
+    componentWillUnmount() {
+        // resetting all pay-pal related properties
+        Object.keys(window).forEach((key) => {
+            if (/paypal|zoid|post_robot/.test(key)) {
+                // eslint-disable-next-line fp/no-delete
+                delete window[key];
+            }
+        });
     }
 
     containerProps = () => ({
