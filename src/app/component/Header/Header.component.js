@@ -19,7 +19,7 @@ import MyAccountOverlay from 'Component/MyAccountOverlay';
 import OfflineNotice from 'Component/OfflineNotice';
 import ClickOutside from 'Component/ClickOutside';
 import CartOverlay from 'Component/CartOverlay';
-import MenuOverlay from 'Component/MenuOverlay';
+import Menu from 'Component/Menu';
 import { LOGO_MEDIA } from 'Util/Media/Media';
 import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
@@ -55,7 +55,6 @@ export default class Header extends NavigationAbstract {
         onBackButtonClick: PropTypes.func.isRequired,
         onCloseButtonClick: PropTypes.func.isRequired,
         onSearchBarFocus: PropTypes.func.isRequired,
-        onMenuButtonClick: PropTypes.func.isRequired,
         onClearSearchButtonClick: PropTypes.func.isRequired,
         onMyAccountButtonClick: PropTypes.func.isRequired,
         onSearchBarChange: PropTypes.func.isRequired,
@@ -65,7 +64,6 @@ export default class Header extends NavigationAbstract {
         onOkButtonClick: PropTypes.func.isRequired,
         onCancelButtonClick: PropTypes.func.isRequired,
         onSearchOutsideClick: PropTypes.func.isRequired,
-        onMenuOutsideClick: PropTypes.func.isRequired,
         onMyAccountOutsideClick: PropTypes.func.isRequired,
         onMinicartOutsideClick: PropTypes.func.isRequired,
         isClearEnabled: PropTypes.bool.isRequired,
@@ -157,7 +155,6 @@ export default class Header extends NavigationAbstract {
         cancel: this.renderCancelButton.bind(this),
         back: this.renderBackButton.bind(this),
         close: this.renderCloseButton.bind(this),
-        menu: this.renderMenuButton.bind(this),
         search: this.renderSearchField.bind(this),
         title: this.renderTitle.bind(this),
         logo: this.renderLogo.bind(this),
@@ -202,29 +199,14 @@ export default class Header extends NavigationAbstract {
         );
     }
 
-    renderMenuButton(isVisible = false) {
-        const { onMenuOutsideClick, onMenuButtonClick, isCheckout } = this.props;
+    renderMenu() {
+        const { isCheckout } = this.props;
 
         if (isMobile.any() || isCheckout) {
             return null;
         }
 
-        return (
-            <ClickOutside onClick={ onMenuOutsideClick } key="menu">
-                <div>
-                    <button
-                      block="Header"
-                      elem="Button"
-                      mods={ { isVisible, type: 'menu' } }
-                      aria-label="Go to menu and search"
-                      aria-hidden={ !isVisible }
-                      tabIndex={ isVisible ? 0 : -1 }
-                      onClick={ onMenuButtonClick }
-                    />
-                    <MenuOverlay />
-                </div>
-            </ClickOutside>
-        );
+        return <Menu />;
     }
 
     renderSearchField(isSearchVisible = false) {
@@ -493,6 +475,7 @@ export default class Header extends NavigationAbstract {
                     <nav block="Header" elem="Nav">
                         { this.renderNavigationState() }
                     </nav>
+                    { this.renderMenu() }
                 </header>
                 <OfflineNotice />
             </>

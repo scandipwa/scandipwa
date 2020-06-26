@@ -9,8 +9,4 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-@import './slider/homepage-slider';
-
-@import './block/homepage-category-preview';
-@import './block/homepage-jeans-preview';
-@import './block/menu-promo-preview';
+export { default } from './Menu.container';
