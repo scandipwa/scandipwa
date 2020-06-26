@@ -199,18 +199,19 @@ export default class MenuOverlay extends PureComponent {
         }
 
         const { activeMenuItemsStack, closeMenu } = this.props;
-        const mods = activeMenuItemsStack.includes(item_id);
+        const isVisible = activeMenuItemsStack.includes(item_id);
 
         return (
             <div
               block="Menu"
               elem="SubCategoriesWrapper"
-              mods={ { isVisible: mods } }
+              mods={ { isVisible } }
               key={ item_id }
             >
                 <div
                   block="Menu"
                   elem="SubCategoriesWrapperInner"
+                  mods={ { isVisible } }
                 >
                     <div
                       block="Menu"
@@ -223,6 +224,7 @@ export default class MenuOverlay extends PureComponent {
                 <div
                   block="Menu"
                   elem="Overlay"
+                  mods={ { isVisible } }
                   onMouseEnter={ closeMenu }
                 />
             </div>

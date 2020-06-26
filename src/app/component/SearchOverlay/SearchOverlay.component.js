@@ -67,6 +67,7 @@ export default class SearchOverlay extends PureComponent {
 
     renderSearchItemAdditionalContent(brand) {
         const { isLoading } = this.props;
+
         if (!isLoading && !brand) {
             return null;
         }

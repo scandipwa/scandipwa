@@ -22,6 +22,13 @@
     right: 0;
     padding-top: 1rem;
 
+    @include desktop {
+        position: absolute;
+        top: calc(var(--header-nav-height) - 10px);
+        right: -40px;
+        padding: 0;
+    }
+
     @include before-desktop {
         height: auto;
         padding-bottom: 0;
@@ -359,12 +366,5 @@
             height: 20px;
             left: 20px;
         }
-    }
-
-    @include desktop {
-        position: absolute;
-        top: var(--header-nav-height);
-        right: -40px;
-        padding: 0;
     }
 }

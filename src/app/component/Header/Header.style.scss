@@ -61,6 +61,10 @@
     background-color: var(--header-background);
     padding-top: env(safe-area-inset-top, 0);
 
+    @include desktop {
+        border-bottom: 1px solid var(--primary-divider-color);
+    }
+
     @at-root .hiddenHeader {
         @include before-desktop {
             /* stylelint-disable-next-line length-zero-no-unit */
@@ -85,7 +89,8 @@
         }
 
         &_cart_overlay {
-            .Header-Button_type_minicart {
+            .Header-Button_type_minicart,
+            .Header-MinicartTitle {
                 @include after-mobile {
                     --header-color: var(--primary-base-color);
                 }
@@ -111,7 +116,8 @@
 
         &_customer_account,
         &_customer_sub_account {
-            .Header-Button_type_account {
+            .Header-Button_type_account,
+            .Header-MyAccountTitle {
                 @include desktop {
                     --header-color: var(--header-desktop-button-color);
                 }
@@ -321,6 +327,7 @@
             cursor: pointer;
             padding-right: .4rem;
             text-transform: uppercase;
+            color: var(--header-color);
         }
     }
 
@@ -330,12 +337,13 @@
             border-right: 2px dotted var(--header-dots-color);
             cursor: pointer;
             display: flex;
-            height: 23px;
+            height: 26px;
             margin-left: 2rem;
             padding-right: 1.8rem;
         }
 
         &Title {
+            color: var(--header-color);
             margin-right: .7rem;
             text-transform: uppercase;
         }
@@ -346,6 +354,7 @@
             @include desktop {
                 height: 20px;
                 width: 20px;
+                top: 1px;
             }
         }
 

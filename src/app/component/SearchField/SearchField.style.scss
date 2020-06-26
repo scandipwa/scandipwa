@@ -43,7 +43,7 @@
 
     &-Wrapper {
         @include desktop {
-            margin-right: 4rem;
+            margin-right: 1rem;
         }
     }
 
@@ -75,11 +75,11 @@
             border-bottom: 1px solid var(--search-input-desktop-border-color);
             border-radius: 0;
             font-size: 14px;
-            margin: 4.2rem 5.2rem 0 0;
+            margin: 4rem 3rem 0 0;
             max-width: 100%;
-            padding-left: 25px;
-            transition-property: opacity, width;
-            width: calc(100% - 8.7rem);
+            padding-left: 3rem;
+            width: calc(100% - 6rem);
+            padding-bottom: 7px;
         }
 
         &:focus,

@@ -189,7 +189,11 @@ export default class CategoryPagination extends PureComponent {
     }
 
     render() {
-        const { isLoading } = this.props;
+        const { isLoading, totalPages } = this.props;
+
+        if (totalPages === 1) { // do not show pagination, if there are less then one page
+            return <ul block="CategoryPagination" />;
+        }
 
         if (isLoading) {
             return this.renderPlaceholder();
