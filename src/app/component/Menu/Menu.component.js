@@ -84,8 +84,10 @@ export default class MenuOverlay extends PureComponent {
         const {
             handleSubcategoryClick,
             activeMenuItemsStack,
-            onCategoryHover
+            onCategoryHover,
+            closeMenu
         } = this.props;
+
         const {
             item_id,
             children
@@ -107,6 +109,7 @@ export default class MenuOverlay extends PureComponent {
                       item={ item }
                       itemMods={ subcategoryMods }
                       onCategoryHover={ onCategoryHover }
+                      closeMenu={ closeMenu }
                     />
                     { this.renderSubLevel(item) }
                 </div>
@@ -122,6 +125,7 @@ export default class MenuOverlay extends PureComponent {
                 <MenuItem
                   activeMenuItemsStack={ activeMenuItemsStack }
                   item={ item }
+                  closeMenu={ closeMenu }
                   isLink
                 />
                 { this.renderDesktopSubLevel(item) }
@@ -199,18 +203,19 @@ export default class MenuOverlay extends PureComponent {
         }
 
         const { activeMenuItemsStack, closeMenu } = this.props;
-        const mods = activeMenuItemsStack.includes(item_id);
+        const isVisible = activeMenuItemsStack.includes(item_id);
 
         return (
             <div
               block="Menu"
               elem="SubCategoriesWrapper"
-              mods={ { isVisible: mods } }
+              mods={ { isVisible } }
               key={ item_id }
             >
                 <div
                   block="Menu"
                   elem="SubCategoriesWrapperInner"
+                  mods={ { isVisible } }
                 >
                     <div
                       block="Menu"
@@ -223,6 +228,7 @@ export default class MenuOverlay extends PureComponent {
                 <div
                   block="Menu"
                   elem="Overlay"
+                  mods={ { isVisible } }
                   onMouseEnter={ closeMenu }
                 />
             </div>
@@ -256,7 +262,8 @@ export default class MenuOverlay extends PureComponent {
         const {
             activeMenuItemsStack,
             handleSubcategoryClick,
-            onCategoryHover
+            onCategoryHover,
+            closeMenu
         } = this.props;
 
         const { children } = item;
@@ -277,6 +284,7 @@ export default class MenuOverlay extends PureComponent {
                       item={ item }
                       itemMods={ itemMods }
                       onCategoryHover={ onCategoryHover }
+                      closeMenu={ closeMenu }
                     />
                     { this.renderSubLevel(item) }
                 </div>
@@ -289,6 +297,7 @@ export default class MenuOverlay extends PureComponent {
               item={ item }
               itemMods={ itemMods }
               onCategoryHover={ onCategoryHover }
+              closeMenu={ closeMenu }
               isLink
             />
         );
@@ -334,6 +343,10 @@ export default class MenuOverlay extends PureComponent {
     }
 
     renderStoreSwitcher() {
+        if (!isMobile.any()) {
+            return null;
+        }
+
         return <StoreSwitcher />;
     }
 

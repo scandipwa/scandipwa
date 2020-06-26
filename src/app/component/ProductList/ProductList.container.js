@@ -113,9 +113,9 @@ export class ProductListContainer extends PureComponent {
         } = this.props;
 
         if (!isNext) {
-            document.body.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
             });
         }
 

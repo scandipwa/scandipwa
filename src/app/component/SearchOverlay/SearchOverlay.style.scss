@@ -84,11 +84,27 @@
 
     &-Results {
         padding: 1rem;
+
+        @include desktop {
+            max-height: calc(100vh - var(--header-total-height) - 7rem);
+            padding: 1rem 3rem 2rem 3rem;
+            overflow-y: auto;
+        }
+
+        > p {
+            @include desktop {
+                text-align: center;
+            }
+        }
     }
 
     &-Item {
         padding: .5rem 0;
         margin-bottom: 0;
+
+        @include desktop {
+            overflow: hidden;
+        }
 
         &::before {
             content: none;
@@ -115,7 +131,7 @@
 
     &-Wrapper {
         display: grid;
-        grid-template-columns: 4rem auto;
+        grid-template-columns: 4rem calc(100% - 5rem);
         grid-column-gap: 1rem;
     }
 
@@ -142,10 +158,6 @@
             text-overflow: ellipsis;
             overflow: hidden;
             white-space: nowrap;
-        }
-
-        @include desktop {
-            max-width: calc(100% - 7rem);
         }
     }
 

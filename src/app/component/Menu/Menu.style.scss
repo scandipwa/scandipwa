@@ -25,17 +25,13 @@
     transform: translateX(0);
 }
 
-@mixin subcategory-desktop-visible {
-    transform: translateX(0);
-    @include subcategory-visible;
-}
-
 .Menu {
     &-MenuWrapper {
         padding: 1rem;
 
         @include desktop {
-            margin: calc(var(--header-total-height) * -1) auto auto;
+            min-height: var(--menu-desktop-height);
+            margin: calc(var(--header-nav-height) * -1) auto auto;
             padding: 0;
         }
 
@@ -62,6 +58,13 @@
         z-index: -1;
         top: -3px;
         left: 0;
+        opacity: 0;
+        transition: opacity 200ms ease-in;
+        will-change: transition;
+
+        &_isVisible {
+            opacity: 1;
+        }
     }
 
     &-MainCategories {
@@ -123,7 +126,7 @@
                 text-align: left;
 
                 @include desktop {
-                    font-size: 12px;
+                    font-size: 14px;
                     font-weight: normal;
                 }
             }
@@ -224,9 +227,9 @@
     }
 
     &-SubCategoriesWrapper {
-        display: none;
         position: absolute;
-        top: calc(var(--header-total-height) + 3px);
+        top: calc(var(--header-nav-height) + 3px);
+        pointer-events: none;
         width: 100%;
 
         &::before {
@@ -235,20 +238,27 @@
             bottom: 0;
             left: 0;
             right: 0;
-            top: calc(var(--header-total-height) * -1);
+            top: calc(var(--header-nav-height) * -1);
         }
 
         &_isVisible {
-            display: block;
+            pointer-events: all;
         }
     }
 
     &-SubCategoriesWrapperInner {
         background-color: var(--overlay-background);
+        transition: clip-path 200ms ease-in;
+        will-change: clip-path;
+        clip-path: inset(0 0 100% 0);
         margin: auto;
 
+        &_isVisible {
+            clip-path: inset(0);
+        }
+
         @media (min-width: 1024px) and (max-width: 1130px) {
-            max-height: calc(80vh - var(--header-total-height));
+            max-height: calc(80vh - var(--header-nav-height));
             overflow-y: auto;
         }
     }
@@ -282,21 +292,13 @@
 
         @include desktop {
             background: transparent;
-            display: none;
             transform: translateX(0);
             transition-duration: 0ms;
             width: 100%;
         }
 
         &_isVisible {
-            @include before-desktop {
-                @include subcategory-visible;
-            }
-
-            @include desktop {
-                display: block;
-                @include subcategory-desktop-visible;
-            }
+            @include subcategory-visible;
 
             .Menu-Link {
                 @include desktop {

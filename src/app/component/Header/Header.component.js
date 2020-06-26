@@ -21,6 +21,8 @@ import ClickOutside from 'Component/ClickOutside';
 import CartOverlay from 'Component/CartOverlay';
 import Menu from 'Component/Menu';
 import { LOGO_MEDIA } from 'Util/Media/Media';
+import StoreSwitcher from 'Component/StoreSwitcher';
+import CmsBlock from 'Component/CmsBlock';
 import { TotalsType } from 'Type/MiniCart';
 import { isSignedIn } from 'Util/Auth';
 import isMobile from 'Util/Mobile';
@@ -155,11 +157,11 @@ export default class Header extends NavigationAbstract {
         cancel: this.renderCancelButton.bind(this),
         back: this.renderBackButton.bind(this),
         close: this.renderCloseButton.bind(this),
-        search: this.renderSearchField.bind(this),
         title: this.renderTitle.bind(this),
         logo: this.renderLogo.bind(this),
         account: this.renderAccountButton.bind(this),
         minicart: this.renderMinicartButton.bind(this),
+        search: this.renderSearchField.bind(this),
         clear: this.renderClearButton.bind(this),
         edit: this.renderEditButton.bind(this),
         ok: this.renderOkButton.bind(this)
@@ -319,11 +321,25 @@ export default class Header extends NavigationAbstract {
                 >
                     <button
                       block="Header"
-                      elem="Button"
-                      mods={ { isVisible, type: 'account' } }
+                      elem="MyAccountWrapper"
+                      tabIndex="0"
                       onClick={ onMyAccountButtonClick }
                       aria-label="Open my account"
-                    />
+                      id="myAccount"
+                    >
+                        <div
+                          block="Header"
+                          elem="MyAccountTitle"
+                        >
+                            { __('Account') }
+                        </div>
+                        <div
+                          block="Header"
+                          elem="Button"
+                          mods={ { isVisible, type: 'account' } }
+                        />
+                    </button>
+
                     { ((isMobile.any() && showMyAccountLogin) || !isMobile.any()) && (
                         <MyAccountOverlay
                           onSignIn={ onSignIn }
@@ -374,15 +390,26 @@ export default class Header extends NavigationAbstract {
                   mods={ { isVisible, type: 'minicart' } }
                 >
                     <button
+                      block="Header"
+                      elem="MinicartButtonWrapper"
+                      tabIndex="0"
                       onClick={ () => {
                           if (name !== CART_OVERLAY) {
                               onMinicartButtonClick();
                           }
                       } }
-                      aria-label="Minicart"
-                      block="Header"
-                      elem="MinicartButton"
                     >
+                        <span
+                          block="Header"
+                          elem="MinicartTitle"
+                        >
+                            { __('Cart') }
+                        </span>
+                        <span
+                          aria-label="Minicart"
+                          block="Header"
+                          elem="MinicartIcon"
+                        />
                         { this.renderMinicartItemsQty() }
                     </button>
                     <CartOverlay />
@@ -463,6 +490,47 @@ export default class Header extends NavigationAbstract {
         );
     }
 
+    renderContacts() {
+        const { footer_content: { contacts_cms } = {} } = window.contentConfiguration;
+
+        if (contacts_cms) {
+            return (
+                <CmsBlock identifier={ contacts_cms } />
+            );
+        }
+
+        // following strings are not translated, use CMS blocks to do it
+        return (
+            <dl block="contacts-wrapper">
+                <dt>Telephone:</dt>
+                <dd>
+                    <a href="tel:983829842">+0 (983) 829842</a>
+                </dd>
+                <dt>Mail:</dt>
+                <dd>
+                    <a href="mailto:info@scandipwa.com">info@scandipwa.com</a>
+                </dd>
+            </dl>
+        );
+    }
+
+    renderTopMenu() {
+        if (isMobile.any()) {
+            return null;
+        }
+
+        return (
+            <div block="Header" elem="TopMenu">
+                <div block="Header" elem="Contacts">
+                    { this.renderContacts() }
+                </div>
+                <div block="Header" elem="Switcher">
+                    <StoreSwitcher />
+                </div>
+            </div>
+        );
+    }
+
     render() {
         const {
             navigationState: { name, isHiddenOnMobile = false },
@@ -472,6 +540,7 @@ export default class Header extends NavigationAbstract {
         return (
             <>
                 <header block="Header" mods={ { name, isHiddenOnMobile, isCheckout } }>
+                    { this.renderTopMenu() }
                     <nav block="Header" elem="Nav">
                         { this.renderNavigationState() }
                     </nav>
