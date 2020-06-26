@@ -92,6 +92,7 @@ const getPresets = () => ([
 
 const getPlugins = ({ projectRoot, magentoRoot, fallbackRoot, parentRoot }) => ([
     'transform-rebem-jsx',
+    './src/config/Extensibility/plugins/middleware-decorator',
     '@babel/plugin-proposal-object-rest-spread',
     '@babel/plugin-proposal-class-properties',
     // TODO: return helpers:true
