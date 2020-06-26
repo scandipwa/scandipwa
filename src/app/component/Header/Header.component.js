@@ -319,12 +319,13 @@ export default class Header extends NavigationAbstract {
                   block="Header"
                   elem="MyAccount"
                 >
-                    <div
+                    <button
                       block="Header"
                       elem="MyAccountWrapper"
-                      role="button"
                       tabIndex="0"
                       onClick={ onMyAccountButtonClick }
+                      aria-label="Open my account"
+                      id="myAccount"
                     >
                         <div
                           block="Header"
@@ -332,14 +333,12 @@ export default class Header extends NavigationAbstract {
                         >
                             { __('Account') }
                         </div>
-                        <button
+                        <div
                           block="Header"
                           elem="Button"
                           mods={ { isVisible, type: 'account' } }
-                          aria-label="Open my account"
-                          id="myAccount"
                         />
-                    </div>
+                    </button>
 
                     { ((isMobile.any() && showMyAccountLogin) || !isMobile.any()) && (
                         <MyAccountOverlay
@@ -390,10 +389,9 @@ export default class Header extends NavigationAbstract {
                   elem="Button"
                   mods={ { isVisible, type: 'minicart' } }
                 >
-                    <div
+                    <button
                       block="Header"
                       elem="MinicartButtonWrapper"
-                      role="button"
                       tabIndex="0"
                       onClick={ () => {
                           if (name !== CART_OVERLAY) {
@@ -413,7 +411,7 @@ export default class Header extends NavigationAbstract {
                           elem="MinicartIcon"
                         />
                         { this.renderMinicartItemsQty() }
-                    </div>
+                    </button>
                     <CartOverlay />
                 </div>
             </ClickOutside>
