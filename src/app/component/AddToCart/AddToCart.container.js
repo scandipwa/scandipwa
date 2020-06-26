@@ -20,19 +20,19 @@ import { showNotification } from 'Store/Notification';
 import { WishlistDispatcher } from 'Store/Wishlist';
 import AddToCart from './AddToCart.component';
 
-/* @middleware Component/AddToCart/Container/mapStateToProps */
+/* @namespace Component/AddToCart/Container/mapStateToProps */
 export const mapStateToProps = state => ({
     wishlistItems: state.WishlistReducer.productsInWishlist
 });
 
-/* @middleware Component/AddToCart/Container/mapDispatchToProps */
+/* @namespace Component/AddToCart/Container/mapDispatchToProps */
 export const mapDispatchToProps = dispatch => ({
     addProduct: options => CartDispatcher.addProductToCart(dispatch, options),
     removeFromWishlist: options => WishlistDispatcher.removeItemFromWishlist(dispatch, options),
     showNotification: (type, message) => dispatch(showNotification(type, message))
 });
 
-/* @middleware Component/AddToCart/Container */
+/* @namespace Component/AddToCart/Container */
 export class AddToCartContainer extends ExtensiblePureComponent {
     static propTypes = {
         isLoading: PropTypes.bool,
@@ -133,20 +133,26 @@ export class AddToCartContainer extends ExtensiblePureComponent {
         if (type_id === 'grouped') {
             const { items } = product;
 
-            Promise.all(items.map((item) => {
-                const { product: groupedProductItem } = item;
+            Promise.all(items.map(
+                // @namespace Component/AddToCart/Container/buttonClick/itemsMap
+                (item) => {
+                    const { product: groupedProductItem } = item;
 
-                groupedProductItem.parent = product;
-                const quantity = groupedProductQuantity[groupedProductItem.id];
-                if (!quantity) {
-                    return Promise.resolve();
+                    groupedProductItem.parent = product;
+                    const quantity = groupedProductQuantity[groupedProductItem.id];
+                    if (!quantity) {
+                        return Promise.resolve();
+                    }
+
+                    return addProduct({
+                        product: groupedProductItem,
+                        quantity
+                    });
                 }
-
-                return addProduct({
-                    product: groupedProductItem,
-                    quantity
-                });
-            })).then(() => this._afterAdded());
+            )).then(
+                // @namespace Component/AddToCart/Container/buttonClick/allItemsMapThen
+                () => this._afterAdded()
+            );
 
             return;
         }

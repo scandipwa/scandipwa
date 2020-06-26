@@ -1,6 +1,6 @@
 /* eslint-disable prefer-destructuring */
 
-const namespaceExtractor = /@middleware +(?<namespace>[^ ]+)/;
+const namespaceExtractor = /@namespace +(?<namespace>[^ ]+)/;
 
 const extractNamespaceFromComments = (comments = []) => comments.reduce(
     (acquired, testable) => {
@@ -17,6 +17,31 @@ const extractNamespaceFromComments = (comments = []) => comments.reduce(
 module.exports = ({ types, traverse }) => ({
     name: 'comment-middlewares',
     visitor: {
+        /* Transform leading comments of anonymous arrow functions */
+        ArrowFunctionExpression: (path) => {
+            const {
+                node,
+                node: { leadingComments }
+            } = path;
+
+            if (!leadingComments) {
+                return;
+            }
+
+            const namespace = extractNamespaceFromComments(leadingComments);
+            if (!namespace) {
+                return;
+            }
+
+            path.replaceWith(
+                types.callExpression(
+                    types.identifier('middleware'),
+                    [node, types.stringLiteral(namespace)]
+                )
+            );
+        },
+
+        /* Transform all encounters of decorated declaree except of declaration itself */
         'VariableDeclaration|FunctionDeclaration|ClassDeclaration|ExportNamedDeclaration': (path, state) => {
             const { node } = path;
             const { leadingComments } = node;
