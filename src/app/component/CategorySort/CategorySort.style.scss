@@ -13,10 +13,15 @@
     @include desktop {
         margin-left: auto;
         min-width: 15rem;
+        grid-column: 3;
     }
 
     &-Select {
         margin-top: 0;
+    }
+
+    &-Placeholder {
+        text-align: right;
     }
 
     .Field {

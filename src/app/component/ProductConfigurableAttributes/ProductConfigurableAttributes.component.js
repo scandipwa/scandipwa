@@ -106,7 +106,10 @@ export default class ProductConfigurableAttributes extends PureComponent {
             <ExpandableContent
               // eslint-disable-next-line react/no-array-index-key
               key={ i }
-              mix={ { block: 'ProductConfigurableAttributes' } }
+              mix={ {
+                  block: 'ProductConfigurableAttributes',
+                  elem: 'Expandable'
+              } }
               isContentExpanded={ isContentExpanded }
             >
                 <div

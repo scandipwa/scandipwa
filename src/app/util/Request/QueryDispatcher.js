@@ -15,6 +15,7 @@ import { prepareQuery, Field } from 'Util/Query';
 import { makeCancelable } from 'Util/Promise';
 
 export const ONE_MONTH_IN_SECONDS = 2592000;
+export const FIVE_MINUTES_IN_SECONDS = 300;
 
 /**
  * Abstract request dispatcher.

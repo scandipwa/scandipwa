@@ -62,8 +62,35 @@ class CheckoutGuestForm extends FieldForm {
         );
     }
 
+    renderCreateUserCheckbox() {
+        const {
+            isCreateUser,
+            handleCreateUser,
+            isEmailConfirmationRequired
+        } = this.props;
+
+        // if email confirmation required and user is not logged in
+        // the user is 100% not logged in (we are in the guest form)
+        // do not show the checkbox to create the user account
+        if (isEmailConfirmationRequired) {
+            return null;
+        }
+
+        return (
+            <Field
+              type="checkbox"
+              label={ __('Create free account and keep track of your orders') }
+              id="guest_create_user"
+              name="guest_create_user"
+              value={ isCreateUser }
+              skipValue
+              onChange={ handleCreateUser }
+            />
+        );
+    }
+
     render() {
-        const { formId, isCreateUser, handleCreateUser } = this.props;
+        const { formId } = this.props;
 
         return (
             <div
@@ -76,15 +103,7 @@ class CheckoutGuestForm extends FieldForm {
                   name="CheckoutGuestForm"
                 >
                     { this.renderFields() }
-                    <Field
-                      type="checkbox"
-                      label={ __('Create free account and keep track of your orders') }
-                      id="guest_create_user"
-                      name="guest_create_user"
-                      value={ isCreateUser }
-                      skipValue
-                      onChange={ handleCreateUser }
-                    />
+                    { this.renderCreateUserCheckbox() }
                 </FormPortal>
             </div>
         );

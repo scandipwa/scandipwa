@@ -53,12 +53,14 @@ export const mapDispatchToProps = dispatch => ({
 export class ProductPageContainer extends PureComponent {
     state = {
         configurableVariantIndex: -1,
-        parameters: {}
+        parameters: {},
+        customizableOptionsData: {}
     };
 
     containerFunctions = {
         updateConfigurableVariant: this.updateConfigurableVariant.bind(this),
-        getLink: this.getLink.bind(this)
+        getLink: this.getLink.bind(this),
+        getSelectedCustomizableOptions: this.getSelectedCustomizableOptions.bind(this)
     };
 
     static propTypes = {
@@ -116,7 +118,6 @@ export class ProductPageContainer extends PureComponent {
     componentDidMount() {
         const {
             location: { pathname },
-            isOnlyPlaceholder,
             history
         } = this.props;
 
@@ -125,28 +126,38 @@ export class ProductPageContainer extends PureComponent {
             return;
         }
 
-        if (!isOnlyPlaceholder) {
-            this._requestProduct();
-        }
-
+        this._requestProduct();
         this._onProductUpdate();
     }
 
     componentDidUpdate(prevProps) {
         const {
             location: { pathname },
-            product: { id },
+            product: { id, options },
+            productsIds,
             isOnlyPlaceholder
         } = this.props;
 
         const {
             location: { pathname: prevPathname },
-            product: { id: prevId },
+            product: {
+                id: prevId,
+                options: prevOptions
+            },
+            productsIds: prevProductsIds,
             isOnlyPlaceholder: prevIsOnlyPlaceholder
         } = prevProps;
 
-        if (pathname !== prevPathname || isOnlyPlaceholder !== prevIsOnlyPlaceholder) {
+        if (
+            pathname !== prevPathname
+            || isOnlyPlaceholder !== prevIsOnlyPlaceholder
+            || productsIds !== prevProductsIds
+        ) {
             this._requestProduct();
+        }
+
+        if (JSON.stringify(options) !== JSON.stringify(prevOptions)) {
+            this.getRequiredCustomizableOptions(options);
         }
 
         if (id !== prevId) {
@@ -172,6 +183,43 @@ export class ProductPageContainer extends PureComponent {
         const query = objectToUri(obj);
 
         return `${pathname}${query}`;
+    }
+
+    getRequiredCustomizableOptions(options) {
+        const { customizableOptionsData } = this.state;
+
+        if (!options) {
+            return [];
+        }
+
+        const requiredCustomizableOptions = options.reduce((acc, { option_id, required }) => {
+            if (required) {
+                acc.push(option_id);
+            }
+
+            return acc;
+        }, []);
+
+        return this.setState({
+            customizableOptionsData:
+                { ...customizableOptionsData, requiredCustomizableOptions }
+        });
+    }
+
+    getSelectedCustomizableOptions(values, updateArray = false) {
+        const { customizableOptionsData } = this.state;
+
+        if (updateArray) {
+            this.setState({
+                customizableOptionsData:
+                    { ...customizableOptionsData, customizableOptionsMulti: values }
+            });
+        } else {
+            this.setState({
+                customizableOptionsData:
+                    { ...customizableOptionsData, customizableOptions: values }
+            });
+        }
     }
 
     getIsConfigurableParameterSelected(parameters, key, value) {
@@ -252,7 +300,8 @@ export class ProductPageContainer extends PureComponent {
 
     _getAreDetailsLoaded() {
         const { product } = this.props;
-        return this._getDataSource() === product;
+        const dataSource = this._getDataSource();
+        return dataSource === product;
     }
 
     _getProductOrVariant() {
@@ -280,7 +329,7 @@ export class ProductPageContainer extends PureComponent {
     _getDataSource() {
         const { product, location: { state } } = this.props;
         const productIsLoaded = Object.keys(product).length > 0;
-        const locationStateExists = state && Object.keys(state.product).length > 0;
+        const locationStateExists = state && state.product && Object.keys(state.product).length > 0;
 
         // return nothing, if no product in url state and no loaded product
         if (!locationStateExists && !productIsLoaded) {
@@ -314,14 +363,18 @@ export class ProductPageContainer extends PureComponent {
 
     _requestProduct() {
         const {
-            requestProduct
+            requestProduct,
+            isOnlyPlaceholder
         } = this.props;
+
+        if (isOnlyPlaceholder) {
+            return; // ignore placeholder requests
+        }
 
         const options = {
             isSingleProduct: true,
             args: { filter: this._getProductRequestFilter() }
         };
-
 
         requestProduct(options);
     }

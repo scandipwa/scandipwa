@@ -37,7 +37,7 @@ export default class Footer extends PureComponent {
         const { footer_content: { footer_cms } = {} } = window.contentConfiguration;
 
         if (footer_cms) {
-            return <CmsBlock identifiers={ [footer_cms] } />;
+            return <CmsBlock identifier={ footer_cms } />;
         }
 
         return (

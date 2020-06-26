@@ -101,8 +101,8 @@ export class WishlistDispatcher {
             .catch(() => dispatch(showNotification('error', __('Error clearing wish list!'))));
     }
 
-    moveWishlistToCart(dispatch) {
-        return fetchMutation(WishlistQuery.getMoveWishlistToCart())
+    moveWishlistToCart(dispatch, sharingCode) {
+        return fetchMutation(WishlistQuery.getMoveWishlistToCart(sharingCode))
             .then(() => {
                 dispatch(clearWishlist());
                 CartDispatcher._syncCartWithBE(dispatch);

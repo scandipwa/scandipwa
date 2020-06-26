@@ -328,6 +328,16 @@
                     display: none;
                 }
             }
+
+            &_customizable_options {
+                display: block;
+
+                article {
+                    &:not(:first-child) {
+                        margin-top: 15px;
+                    }
+                }
+            }
         }
     }
 
