@@ -9,7 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent, createRef } from 'react';
+import { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
@@ -140,6 +140,7 @@ export class ProductListContainer extends PureComponent {
         isShowLoading: this._isShowLoading(),
         isVisible: this._isVisible(),
         requestPage: this.requestPage,
+        // disable this property to enable infinite scroll on desktop
         isInfiniteLoaderEnabled: this._getIsInfiniteLoaderEnabled()
     });
 

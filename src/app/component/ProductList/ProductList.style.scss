@@ -37,4 +37,21 @@
         padding: 1em 0;
         text-align: center;
     }
+
+    // some transition to images, in order to smooth-out the load
+    .Image {
+        transition: opacity 150ms ease-in;
+
+        &_imageStatus {
+            &_0 {
+                opacity: 0;
+            }
+
+            &_1,
+            &_2,
+            &_3 {
+                opacity: 1;
+            }
+        }
+    }
 }

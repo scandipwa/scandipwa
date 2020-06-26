@@ -13,7 +13,6 @@ import debounceRender from 'react-debounce-render';
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { PagesType, FilterType } from 'Type/ProductList';
-import ProductCard from 'Component/ProductCard';
 import CategoryPagination from 'Component/CategoryPagination';
 import ProductListPage from 'Component/ProductListPage';
 import { MixType } from 'Type/Common';
@@ -223,14 +222,31 @@ export class ProductList extends PureComponent {
         return pageRenders;
     }
 
+    _processProps(props) {
+        const { isInfiniteLoaderEnabled } = this.props;
+
+        if (isInfiniteLoaderEnabled) {
+            return props;
+        }
+
+        // there must be no more then one page per screen
+        // if the "isInfiniteLoaderEnabled" is false
+        const { key, ...restProps } = props;
+        restProps.key = 0;
+        return restProps;
+    }
+
     renderPage(props = {}) {
         const {
             isInfiniteLoaderEnabled,
             loadPage,
             isLoading,
             isVisible,
-            currentPage
+            currentPage,
+            mix
         } = this.props;
+
+        const newProps = this._processProps(props);
 
         return (
             <ProductListPage
@@ -239,7 +255,8 @@ export class ProductList extends PureComponent {
               updatePages={ loadPage }
               isLoading={ isLoading }
               isVisible={ isVisible }
-              { ...props }
+              mix={ mix }
+              { ...newProps }
             />
         );
     }

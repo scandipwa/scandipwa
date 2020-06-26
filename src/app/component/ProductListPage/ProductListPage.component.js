@@ -14,6 +14,7 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ProductCard from 'Component/ProductCard';
 import { ProductType, FilterType } from 'Type/ProductList';
+import { MixType } from 'Type/Common';
 
 import './ProductListPage.style';
 
@@ -33,7 +34,8 @@ export class ProductListPage extends PureComponent {
         selectedFilters: FilterType,
         wrapperRef: PropTypes.func,
         pageNumber: PropTypes.number,
-        items: PropTypes.arrayOf(ProductType)
+        items: PropTypes.arrayOf(ProductType),
+        mix: MixType
     };
 
     static defaultProps = {
@@ -41,7 +43,8 @@ export class ProductListPage extends PureComponent {
         wrapperRef: () => {},
         selectedFilters: {},
         pageNumber: null,
-        items: []
+        items: [],
+        mix: {}
     };
 
     componentDidMount() {
@@ -106,7 +109,12 @@ export class ProductListPage extends PureComponent {
 
         return Array.from(
             { length: numberOfPlaceholders },
-            (_, i) => <ProductCard key={ i } product={ {} } />
+            (_, i) => (
+                <ProductCard
+                  key={ i }
+                  product={ {} }
+                />
+            )
         );
     }
 
@@ -164,12 +172,14 @@ export class ProductListPage extends PureComponent {
     render() {
         const {
             pageNumber,
-            wrapperRef
+            wrapperRef,
+            mix
         } = this.props;
 
         return (
             <ul
               block="ProductListPage"
+              mix={ { ...mix, elem: 'Page' } }
               key={ pageNumber }
               ref={ wrapperRef }
             >
