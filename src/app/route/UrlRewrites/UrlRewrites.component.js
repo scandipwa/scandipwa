@@ -57,7 +57,10 @@ export class UrlRewrites extends PureComponent {
             }
         } = props;
 
-        const { actionName = '' } = window;
+        const {
+            actionName: { type: initialType = '' } = {}
+        } = window;
+
         const typeKey = Object.keys(state).find(key => UrlRewrites.stateMapping[key]);
 
         if (typeKey) { // prefer state defined type
@@ -69,7 +72,7 @@ export class UrlRewrites extends PureComponent {
         }
 
         // finally fallback to window property
-        return actionName;
+        return initialType;
     }
 
     knownTypes = [
@@ -90,6 +93,10 @@ export class UrlRewrites extends PureComponent {
             prevId
         } = state;
 
+        const {
+            actionName: { type: initialType = '' } = {}
+        } = window;
+
         if (pathname !== prevPathname) {
             requestUrlRewrite(pathname);
 
@@ -98,7 +105,7 @@ export class UrlRewrites extends PureComponent {
             const stateType = UrlRewrites.stateMapping[typeKey];
 
             return {
-                type: stateType,
+                type: stateType || initialType,
                 prevPathname: pathname,
                 isNotFound: false,
                 id: null // unset id
@@ -106,14 +113,16 @@ export class UrlRewrites extends PureComponent {
         }
 
         if (type === TYPE_NOTFOUND || notFound) {
-            return { isNotFound: true };
+            return {
+                isNotFound: true
+            };
         }
 
         if (id !== prevId) {
             // if url-rewrite is updated, update id and type
             return {
                 id,
-                type,
+                type: type || initialType,
                 prevId: id
             };
         }
@@ -131,11 +140,13 @@ export class UrlRewrites extends PureComponent {
             requestUrlRewrite
         } = props;
 
-        const { actionName } = window;
+        const {
+            actionName: { type } = {}
+        } = window;
 
         this.state = {
             isNotFound: false,
-            type: actionName,
+            type,
             id: null,
             prevId: null,
             prevPathname: pathname
