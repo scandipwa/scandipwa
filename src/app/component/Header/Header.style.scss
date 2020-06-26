@@ -25,7 +25,7 @@
     @include desktop {
         --header-dots-color: #000;
         --header-nav-height: 60px;
-        --header-top-menu-height: 50px;
+        --header-top-menu-height: 30px;
         --header-height: calc(var(--header-nav-height) + var(--header-top-menu-height));
         --header-logo-height: calc(var(--header-nav-height) - 35px);
     }
@@ -193,10 +193,9 @@
         height: var(--header-top-menu-height);
         justify-content: space-between;
         padding: {
-            bottom: 10px;
-            left: 25px;
-            right: 63px;
-            top: 25px;
+            left: 1rem;
+            right: 2rem;
+            top: 1rem;
         }
         z-index: 21;
     }

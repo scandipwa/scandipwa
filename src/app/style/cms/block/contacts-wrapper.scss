@@ -9,9 +9,18 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-@import './slider/homepage-slider';
+.contacts-wrapper {
+    dt,
+    dd {
+        display: inline-block;
+        font-size: 1rem;
+    }
 
-@import './block/homepage-category-preview';
-@import './block/homepage-jeans-preview';
-@import './block/menu-promo-preview';
-@import './block/contacts-wrapper';
+    dt {
+        margin-right: 1rem;
+    }
+
+    dd {
+        margin-right: 2rem;
+    }
+}

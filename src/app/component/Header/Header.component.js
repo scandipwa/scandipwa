@@ -490,6 +490,29 @@ export default class Header extends NavigationAbstract {
         );
     }
 
+    renderContacts() {
+        const { footer_content: { contacts_cms } = {} } = window.contentConfiguration;
+
+        if (contacts_cms) {
+            return (
+                <CmsBlock identifier={ contacts_cms } />
+            );
+        }
+
+        return (
+            <dl block="contacts-wrapper">
+                <dt>Telephone</dt>
+                <dd>
+                    <a href="tel:983829842">+0 983829842</a>
+                </dd>
+                <dt>Mail</dt>
+                <dd>
+                    <a href="mailto:info@scandipwa.com">info@scandipwa.com</a>
+                </dd>
+            </dl>
+        );
+    }
+
     renderTopMenu() {
         if (isMobile.any()) {
             return null;
@@ -498,7 +521,7 @@ export default class Header extends NavigationAbstract {
         return (
             <div block="Header" elem="TopMenu">
                 <div block="Header" elem="Contacts">
-                    <CmsBlock identifier="contacts-header" />
+                    { this.renderContacts() }
                 </div>
                 <div block="Header" elem="Switcher">
                     <StoreSwitcher />

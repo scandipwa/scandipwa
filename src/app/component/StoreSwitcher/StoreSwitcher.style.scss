@@ -37,7 +37,7 @@
     &-Title {
         color: var(--store-switcher-title-color);
         cursor: pointer;
-        font-size: 14px;
+        font-size: 1rem;
 
         &::after {
             content: '';
@@ -63,7 +63,7 @@
 
     &-StoreList {
         background-color: var(--store-switcher-list-background);
-        border: 1px solid var(--secondary-dark-color);
+        border: 1px solid var(--input-border-color);
         display: none;
         right: -20px;
         position: absolute;
