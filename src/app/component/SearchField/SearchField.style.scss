@@ -182,6 +182,7 @@
         transition: transform 300ms ease-in;
         width: 100%;
         will-change: transform;
+        border-left: 1px solid var(--primary-divider-color);
 
         &_isVisible {
             transform: translateX(0);
