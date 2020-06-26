@@ -138,13 +138,10 @@ export default class MenuOverlay extends PureComponent {
                         const {
                             url,
                             item_id,
-                            children,
-                            cms_page_identifier
+                            children
                         } = item;
 
                         const childrenArray = Object.values(children);
-
-                        const path = cms_page_identifier ? `/${ cms_page_identifier}` : url;
 
                         return (childrenArray.length
                             ? (
@@ -160,7 +157,7 @@ export default class MenuOverlay extends PureComponent {
                             ) : (
                                 <Link
                                   key={ item_id }
-                                  to={ path }
+                                  to={ url }
                                   onClick={ this.closeMenuOverlay }
                                   block="MenuOverlay"
                                   elem="Link"

@@ -184,9 +184,9 @@ export default class ProductCard extends PureComponent {
     }
 
     renderCardWrapper(children) {
-        const { linkTo, product: { url_key } } = this.props;
+        const { linkTo, product: { url } } = this.props;
 
-        if (!url_key) {
+        if (!url) {
             return (<div>{ children }</div>);
         }
 

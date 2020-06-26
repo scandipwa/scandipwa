@@ -189,7 +189,7 @@ export class ProductListQuery {
         // to all products (non-variants)
         if (!isVariant) {
             fields.push(
-                'url_key',
+                'url',
                 this._getReviewSummaryField(),
             );
 
@@ -302,7 +302,7 @@ export class ProductListQuery {
     _getBreadcrumbFields() {
         return [
             'category_name',
-            'category_url_key'
+            'category_url_path'
         ];
     }
 
@@ -314,7 +314,7 @@ export class ProductListQuery {
     _getCategoryFields() {
         return [
             'name',
-            'url_path',
+            'url',
             this._getBreadcrumbsField()
         ];
     }

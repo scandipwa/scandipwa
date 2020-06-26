@@ -16,8 +16,8 @@ import PropTypes from 'prop-types';
 import { getQueryParam, setQueryParams } from 'Util/Url';
 import { PagesType, FilterInputType } from 'Type/ProductList';
 import { HistoryType } from 'Type/Common';
-import { debounce } from 'Util/Request';
 import { LocationType } from 'Type/Router';
+import isMobile from 'Util/Mobile';
 
 import ProductList from './ProductList.component';
 
@@ -29,37 +29,6 @@ export class ProductListContainer extends PureComponent {
         loadPage: this.loadPage.bind(this),
         updatePage: this.updatePage.bind(this)
     };
-
-    requestPage = debounce((currentPage = 1, isNext = false) => {
-        const {
-            sort,
-            search,
-            filter,
-            pageSize,
-            requestProductList,
-            noAttributes,
-            noVariants
-        } = this.props;
-
-        if (!isNext) {
-            window.scrollTo(0, 0);
-        }
-
-        const options = {
-            isNext,
-            noAttributes,
-            noVariants,
-            args: {
-                sort,
-                filter,
-                search,
-                pageSize,
-                currentPage
-            }
-        };
-
-        requestProductList(options);
-    }, UPDATE_PAGE_FREQUENCY);
 
     static propTypes = {
         history: HistoryType.isRequired,
@@ -81,7 +50,7 @@ export class ProductListContainer extends PureComponent {
     };
 
     static defaultProps = {
-        pageSize: 12,
+        pageSize: 24,
         filter: {},
         search: '',
         selectedFilters: {},
@@ -92,7 +61,9 @@ export class ProductListContainer extends PureComponent {
         noVariants: false
     };
 
-    state = { pagesCount: 1 };
+    state = {
+        pagesCount: 1
+    };
 
     componentDidMount() {
         const { pages, getIsNewCategory } = this.props;
@@ -113,6 +84,15 @@ export class ProductListContainer extends PureComponent {
         const { sort, search, filter } = this.props;
         const { sort: prevSort, search: prevSearch, filter: prevFilter } = prevProps;
 
+        const { pages } = this.props;
+        const { pagesCount } = this.state;
+        const pagesLength = Object.keys(pages).length;
+
+        if (pagesCount !== pagesLength) {
+            // eslint-disable-next-line react/no-did-update-set-state
+            this.setState({ pagesCount: pagesLength });
+        }
+
         if (search !== prevSearch
             || JSON.stringify(sort) !== JSON.stringify(prevSort)
             || JSON.stringify(filter) !== JSON.stringify(prevFilter)
@@ -121,12 +101,58 @@ export class ProductListContainer extends PureComponent {
         }
     }
 
+    requestPage = (currentPage = 1, isNext = false) => {
+        const {
+            sort,
+            search,
+            filter,
+            pageSize,
+            requestProductList,
+            noAttributes,
+            noVariants
+        } = this.props;
+
+        if (!isNext) {
+            document.body.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        const options = {
+            isNext,
+            noAttributes,
+            noVariants,
+            args: {
+                sort,
+                filter,
+                search,
+                pageSize,
+                currentPage
+            }
+        };
+
+        requestProductList(options);
+    };
+
     containerProps = () => ({
         currentPage: this._getPageFromUrl(),
         isShowLoading: this._isShowLoading(),
         isVisible: this._isVisible(),
-        requestPage: this.requestPage
+        requestPage: this.requestPage,
+        // disable this property to enable infinite scroll on desktop
+        isInfiniteLoaderEnabled: this._getIsInfiniteLoaderEnabled()
     });
+
+    _getIsInfiniteLoaderEnabled() { // disable infinite scroll on mobile
+        const { isInfiniteLoaderEnabled } = this.props;
+
+        if (isMobile.any()) {
+            return isInfiniteLoaderEnabled;
+        }
+
+        return false;
+    }
 
     _getPageFromUrl() {
         const { location } = this.props;

@@ -26,7 +26,8 @@ export const HistoryType = PropTypes.shape({
 });
 
 export const LocationType = PropTypes.shape({
-    pathname: PropTypes.string.isRequired
+    pathname: PropTypes.string.isRequired,
+    state: PropTypes.object
 });
 
 export const MatchType = PropTypes.shape({
