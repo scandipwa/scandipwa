@@ -148,8 +148,6 @@
             }
 
             &-Nav {
-                padding-right: 47px;
-
                 @include desktop {
                     justify-content: flex-end;
                 }
