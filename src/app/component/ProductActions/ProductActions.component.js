@@ -404,18 +404,13 @@ export default class ProductActions extends PureComponent {
     renderPriceWithSchema() {
         const {
             product,
-            product: { variants, type_id },
+            product: { variants = [], type_id },
             configurableVariantIndex,
             selectedBundlePrice
         } = this.props;
 
-        // Product in props is updated before ConfigurableVariantIndex in props, when page is opened by clicking CartItem
-        // As a result, we have new product, but old configurableVariantIndex, which may be out of range for variants
-        const productOrVariant = variants && variants[configurableVariantIndex] !== undefined
-            ? variants[configurableVariantIndex]
-            : product;
+        const { name, price_range, stock_status } = variants[configurableVariantIndex] || product;
 
-        const { name, price, stock_status } = productOrVariant;
         // eslint-disable-next-line fp/no-let
         let productPrice;
 
@@ -429,7 +424,7 @@ export default class ProductActions extends PureComponent {
 
             productPrice = { minimalPrice: priceValue, regularPrice: priceValue };
         } else {
-            productPrice = price;
+            productPrice = price_range;
         }
 
         return (

@@ -33,11 +33,13 @@ export default class SearchOverlay extends PureComponent {
         clearSearch: PropTypes.func.isRequired,
         getProductLinkTo: PropTypes.func.isRequired,
         makeSearchRequest: PropTypes.func.isRequired,
-        clearSearchResults: PropTypes.func.isRequired
+        clearSearchResults: PropTypes.func.isRequired,
+        hideOverlay: PropTypes.bool
     };
 
     static defaultProps = {
-        searchCriteria: ''
+        searchCriteria: '',
+        hideOverlay: false
     };
 
     componentDidUpdate(prevProps) {
@@ -65,6 +67,7 @@ export default class SearchOverlay extends PureComponent {
 
     renderSearchItemAdditionalContent(brand) {
         const { isLoading } = this.props;
+
         if (!isLoading && !brand) {
             return null;
         }
@@ -171,6 +174,20 @@ export default class SearchOverlay extends PureComponent {
     }
 
     render() {
+        const { hideOverlay } = this.props;
+
+        if (hideOverlay) {
+            return (
+                <article
+                  block="SearchOverlay"
+                  elem="Results"
+                  aria-label="Search results"
+                >
+                    { this.renderSearchResults() }
+                </article>
+            );
+        }
+
         return (
             <Overlay
               id="search"

@@ -141,6 +141,10 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="http://beecom.io"><img src="https://avatars0.githubusercontent.com/u/1456931?v=4" width="100px;" alt=""/><br /><sub><b>bery</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=bery" title="Code">💻</a></td>
     <td align="center"><a href="http://jeffreyhoonakker.nl"><img src="https://avatars0.githubusercontent.com/u/32420530?v=4" width="100px;" alt=""/><br /><sub><b>Jeffrey</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/commits?author=Jeffrey-H" title="Code">💻</a></td>
   </tr>
+  <tr>
+    <td align="center"><a href="http://bigstep.dk"><img src="https://avatars3.githubusercontent.com/u/22077162?v=4" width="100px;" alt=""/><br /><sub><b>Ismail Cam</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/issues?q=author%3Abigstepdenmark" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://github.com/fooman"><img src="https://avatars0.githubusercontent.com/u/455508?v=4" width="100px;" alt=""/><br /><sub><b>Kristof, Fooman</b></sub></a><br /><a href="https://github.com/scandipwa/base-theme/issues?q=author%3Afooman" title="Bug reports">🐛</a></td>
+  </tr>
 </table>
 
 <!-- markdownlint-enable -->

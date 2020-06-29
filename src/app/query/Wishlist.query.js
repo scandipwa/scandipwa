@@ -20,7 +20,10 @@ export class Wishlist {
         const field = new Field('wishlist')
             .addFieldList(this._getWishlistFields());
 
-        if (sharingCode) field.addArgument('sharing_code', 'ID', sharingCode);
+        if (sharingCode) {
+            field.addArgument('sharing_code', 'ID', sharingCode);
+        }
+
         return field;
     }
 

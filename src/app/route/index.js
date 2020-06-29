@@ -42,7 +42,6 @@ import NavigationTabs from 'Component/NavigationTabs';
 import NewVersionPopup from 'Component/NewVersionPopup';
 import SomethingWentWrong from 'Route/SomethingWentWrong';
 import NotificationList from 'Component/NotificationList';
-import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
 
 // suppress prop-types warning on Route component when using with React.lazy
 // until react-router-dom@4.4.0 or higher version released
@@ -66,7 +65,7 @@ export const SearchPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefe
 export const ConfirmAccountPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/ConfirmAccountPage'));
 export const UrlRewrites = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/UrlRewrites'));
 export const MenuPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/MenuPage'));
-export const WishlistShared = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/WishlistSharedPage'))
+export const WishlistShared = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/WishlistSharedPage'));
 
 export const BEFORE_ITEMS_TYPE = 'BEFORE_ITEMS_TYPE';
 export const SWITCH_ITEMS_TYPE = 'SWITCH_ITEMS_TYPE';
@@ -252,33 +251,6 @@ export class AppRouter extends PureComponent {
         });
     }
 
-    getCmsBlocksToRequest() {
-        const blocks = Object.values(window.contentConfiguration).reduce(
-            (acc, config) => [
-                ...acc,
-                ...Object.entries(config).reduce(
-                    (acc, [key, identifier]) => ((key.indexOf('cms') === -1)
-                        ? acc
-                        : [...acc, identifier]
-                    ),
-                    []
-                )
-            ],
-            []
-        ).filter((value, index, self) => value && self.indexOf(value) === index);
-
-        return blocks.length ? blocks : ['social-links'];
-    }
-
-    getHeaderAndFooterOptions() {
-        const { header_content: { header_menu } = {} } = window.contentConfiguration;
-
-        return {
-            menu: { identifier: [header_menu || 'new-main-menu'] },
-            footer: { identifiers: this.getCmsBlocksToRequest() }
-        };
-    }
-
     getSortedItems(type) {
         const items = this[type].reduce((acc, { component, position }) => {
             if (!component) {
@@ -305,7 +277,6 @@ export class AppRouter extends PureComponent {
         WishlistDispatcher.updateInitialWishlistData(Store.dispatch);
         CartDispatcher.updateInitialCartData(Store.dispatch);
         ConfigDispatcher.handleData(Store.dispatch);
-        HeaderAndFooterDispatcher.handleData(Store.dispatch, this.getHeaderAndFooterOptions());
     }
 
     renderItemsOfType(type) {

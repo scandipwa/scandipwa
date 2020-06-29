@@ -472,6 +472,24 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "bigstepdenmark",
+      "name": "Ismail Cam",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/22077162?v=4",
+      "profile": "http://bigstep.dk",
+      "contributions": [
+        "bug"
+      ]
+    },
+    {
+      "login": "fooman",
+      "name": "Kristof, Fooman",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/455508?v=4",
+      "profile": "https://github.com/fooman",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
