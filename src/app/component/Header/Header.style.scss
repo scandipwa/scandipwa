@@ -196,12 +196,12 @@
     &-TopMenu {
         height: var(--header-top-menu-height);
         justify-content: space-between;
+        z-index: 21;
         padding: {
             left: 1rem;
             right: 2rem;
             top: 1rem;
         }
-        z-index: 21;
     }
 
     &-Contacts {
